@@ -1,0 +1,157 @@
+<!-- Manage databases: browse, create, rename, delete, and switch between the .db files
+     in the KillerNotes data folder. Same dialog chrome as ConfirmDialog. The caller closes
+     the note store before showing this, so every file (active included) is safe to touch. -->
+<Window x:Class="KillerNotes.DatabasesDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="KillerNotes"
+        Width="440" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        ShowInTaskbar="False">
+
+    <Border x:Name="RootBorder" Opacity="0"
+            Background="{StaticResource SurfaceBrush}"
+            BorderBrush="{StaticResource CardBorderBrush}"
+            BorderThickness="1"
+            CornerRadius="6"
+            Margin="10">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.6"/>
+        </Border.Effect>
+        <Grid>
+            <Border IsHitTestVisible="False" CornerRadius="6"
+                    Opacity="{DynamicResource GrainOpacity}"
+                    Background="{DynamicResource GrainTileBrush}"/>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="36"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Title bar (transparent, wordmark, drag, close) -->
+                <Border Grid.Row="0" Background="Transparent"
+                        MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid Margin="14,0">
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Margin="1,2,0,0"
+                                        Opacity="{DynamicResource IconShadowOpacity}">
+                                <StackPanel.Effect><BlurEffect Radius="3"/></StackPanel.Effect>
+                                <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="#D8000000"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="#D8000000"/></TextBlock>
+                            </StackPanel>
+                            <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"/></TextBlock>
+                        </Grid>
+                        <!-- KillerPDF-style X: just the glyph reddens on hover, no filled block -->
+                        <Button Content="&#x2715;" Click="Close_Click"
+                                HorizontalAlignment="Right"
+                                Width="28" FontSize="10"
+                                Background="Transparent" BorderThickness="0"
+                                Cursor="Hand">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="Transparent">
+                                                    <ContentPresenter x:Name="cp" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Foreground" Value="#E04444"/>
+                                                        <Setter TargetName="cp" Property="Effect">
+                                                            <Setter.Value>
+                                                                <DropShadowEffect Color="#000000" BlurRadius="4" ShadowDepth="1" Direction="270" Opacity="0.5"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Body -->
+                <StackPanel Grid.Row="1" Margin="24,16,24,12">
+                    <TextBlock Text="Databases" Foreground="{StaticResource TextBrush}"
+                               FontFamily="Consolas" FontSize="14" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <Border Background="{DynamicResource PaneBrush}"
+                            BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="4">
+                        <ListBox x:Name="DbList" Height="170" Background="Transparent" BorderThickness="0"
+                                 HorizontalContentAlignment="Stretch" Margin="4"
+                                 MouseDoubleClick="DbList_MouseDoubleClick"
+                                 PreviewMouseRightButtonDown="DbList_PreviewMouseRightButtonDown">
+                            <ListBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Rename" Click="RenameMenu_Click"/>
+                                    <MenuItem Header="Delete" Click="Delete_Click"/>
+                                    <MenuItem Header="Copy file" Click="CopyFileMenu_Click"
+                                              ToolTip="Puts the .db on the clipboard as a file - paste into Explorer, Teams, or an email to share it"/>
+                                    <MenuItem Header="Export as .kndb..." Click="ExportMenu_Click"
+                                              ToolTip="Save a copy coworkers can double-click to open in KillerNotes"/>
+                                    <MenuItem Header="Show in Explorer" Click="RevealMenu_Click"/>
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="8,5"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border x:Name="bg" Background="Transparent" CornerRadius="4"
+                                                        Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="bg" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="bg" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </Border>
+                    <TextBlock x:Name="DlgStatus" Foreground="{DynamicResource DimTextBrush}"
+                               FontSize="10.5" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!-- Buttons: glyphs left (new / delete / explorer; rename is inline via
+                     double-click), Open right -->
+                <Grid Grid.Row="2" Margin="24,0,24,18">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <!-- Padding 0: SurfaceButton's side padding clips glyphs at fixed width -->
+                        <Button x:Name="NewBtn" Content="&#xE710;" Click="New_Click" ToolTip="New database"
+                                Style="{StaticResource SurfaceButton}" FontFamily="Segoe MDL2 Assets"
+                                Width="34" Padding="0" Margin="0,0,6,0"/>
+                        <Button x:Name="DeleteBtn" Content="&#xE711;" Click="Delete_Click" ToolTip="Delete selected database"
+                                Style="{StaticResource SurfaceButton}" FontFamily="Segoe MDL2 Assets"
+                                Width="34" Padding="0" Margin="0,0,6,0"/>
+                        <Button x:Name="ExplorerBtn" Content="&#xE838;" Click="Explorer_Click"
+                                Style="{StaticResource SurfaceButton}" FontFamily="Segoe MDL2 Assets"
+                                Width="34" Padding="0" ToolTip="Open the data folder in File Explorer"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <!-- OutlineButton (family standard): accent outline, fills solid on hover -->
+                        <Button x:Name="OpenBtn" Content="Open" Click="Open_Click"
+                                Style="{StaticResource OutlineButton}" Width="80"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

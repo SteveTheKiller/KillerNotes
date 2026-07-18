@@ -1,0 +1,9 @@
+bin/
+obj/
+.vs/
+publish/
+*.user
+*.suo
+
+# Project artwork sources (icons ship from Resources/, not from here)
+brand/
