@@ -14,12 +14,14 @@
 <meta property="og:url" content="https://killernotes.net/">
 <meta property="og:title" content="KillerNotes - Free, open-source encrypted notepad for techs">
 <meta property="og:description" content="One searchable, encrypted notepad instead of 80 Notepad tabs. Rich text, images, tables, AES-256 protection, tear-off .knote sharing. Built by a field tech, for field techs.">
-<meta property="og:image" content="https://killernotes.net/kn-icon.png">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://killernotes.net/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="KillerNotes - Free, open-source encrypted notepad for techs">
 <meta name="twitter:description" content="One searchable, encrypted notepad instead of 80 Notepad tabs. Rich text, images, tables, AES-256 protection, tear-off .knote sharing.">
-<meta name="twitter:image" content="https://killernotes.net/kn-icon.png">
-<!-- TODO: koya analytics snippet goes here once killernotes.net is added to the Umami instance -->
+<meta name="twitter:image" content="https://killernotes.net/og-image.png">
+<script defer src="https://koya.thekiller.net/script.js" data-website-id="9cbd0ccf-b6de-4fb3-a9fe-a166c151fa3f"></script>
 <link rel="stylesheet" href="kn.css?v=3">
 <style>
 /* ---- Page-specific (landing) ---- */
@@ -34,7 +36,8 @@
 
 .hero-blurbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 980px; margin: 30px auto 0; text-align: left; }
 .blurb h3 { font-family: 'KillerNotes', 'Courier New', monospace; font-size: 15px; font-weight: normal; letter-spacing: .5px; color: var(--accent); margin-bottom: 7px; text-shadow: 0 2px 5px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
-.blurb p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+.blurb p { font-size: 13.5px; color: var(--muted); line-height: 1.55; margin-bottom: 9px; }
+.blurb p:last-child { margin-bottom: 0; }
 .blurb-list { list-style: none; }
 .blurb-list li { font-size: 13.5px; color: var(--muted); line-height: 1.5; padding-left: 16px; position: relative; margin-bottom: 5px; }
 .blurb-list li:last-child { margin-bottom: 0; }
@@ -141,11 +144,9 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <li>Optional whole-database AES-256 encryption (SQLCipher)</li>
 <li>Share single notes as .knote files or whole databases as .kndb - with optional share passwords</li>
 <li>Open .txt, .md, .html, .rtf and images as notes; export notes back out</li>
-<li>Markdown and HTML preview pane</li>
-<li>Six themes with live accent colors</li>
 </ul></div>
-<div class="blurb"><h3 data-i18n="b2_t">Built from scratch</h3><p data-i18n="b2_d">KillerNotes is written in C# and WPF on .NET Framework 4.8. Notes live in a local SQLite database with an FTS5 full-text index, encrypted at rest with SQLCipher when you set a password. Rich content round-trips through the database intact - images and tables included.<br><br>The <a href="technical.html">Technical</a> page has the full breakdown of the storage, search, and encryption design.</p></div>
-<div class="blurb"><h3 data-i18n="b3_t">By a field tech, for field techs</h3><p data-i18n="b3_d">KillerNotes was built to replace a very real pile of 80 open Notepad tabs on a working MSP bench: credentials that belong behind a password, network notes, procedures, and the paste buffer of an entire workday.</p><p data-i18n="b3_d2">Notes save themselves. Nothing is ever lost to a reboot again.</p><p data-i18n="b3_d3">The <a href="https://github.com/SteveTheKiller/KillerNotes/issues" target="_blank" rel="noopener">GitHub issues</a> page is open to anyone.</p><br><p data-i18n="b3_d4">Read the story behind it on the <a href="about.html">About</a> page.</p></div>
+<div class="blurb"><h3 data-i18n="b2_t">Built from scratch</h3><p data-i18n="b2_d">KillerNotes is written in C# and WPF on .NET Framework 4.8. Notes live in a local SQLite database with an FTS5 full-text index, encrypted at rest with SQLCipher when you set a password. Rich content round-trips through the database intact - images and tables included.</p><p data-i18n="b2_d2">The <a href="technical.html">Technical</a> page has the full breakdown of the storage, search, and encryption design.</p></div>
+<div class="blurb"><h3 data-i18n="b3_t">By a field tech, for field techs</h3><p data-i18n="b3_d">KillerNotes is built by a working field tech and used on real client benches every day. Notes save themselves on every pause, every note switch, and every close - nothing is ever lost to a reboot again.</p><p data-i18n="b3_d2">It answers to nobody but you: everything stays on your machine, and the whole thing is GPLv3 open source with the <a href="https://github.com/SteveTheKiller/KillerNotes/issues" target="_blank" rel="noopener">issues page</a> open to anyone.</p><p data-i18n="b3_d3">Read the story behind it on the <a href="about.html">About</a> page.</p></div>
 </div>
 <div class="hero-grid">
 <div class="hero-cta">
