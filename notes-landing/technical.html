@@ -193,6 +193,17 @@
 <p>Everything runs on your machine. Notes never leave your disk unless you export or share them yourself. There is no account, no cloud sync, no telemetry, and no ads. The only network request the app ever makes is a version check against GitHub when you open the About panel.</p>
 </section>
 
+<section class="tech-sec" id="distribution">
+<h2>Distribution</h2>
+<p>KillerNotes ships as a <b>single signed exe</b> - about 4.3 MB with every dependency embedded, including the SQLCipher engine. There is no installer to run and no folder of DLLs: download, double-click, take notes. The exe is Authenticode-signed and timestamped, so Windows shows a verified publisher instead of an unknown-publisher warning, and the About panel shows the certificate thumbprint plus the exe's SHA-256 to check against the release page.</p>
+<ul class="blurb-list">
+<li><b>Portable first</b> - run it from anywhere, including a USB stick. Notes always live in <code>%APPDATA%\KillerNotes</code>, so where the exe sits does not matter.</li>
+<li><b>Optional install</b> - a PORTABLE badge in the status bar offers a one-click per-user install: Start Menu shortcut, optional desktop shortcut, and an Add/Remove Programs entry. No admin rights needed.</li>
+<li><b><code>KillerNotes.exe /silent</code></b> - unattended machine-wide install to Program Files, made for RMM, winget, and Chocolatey deployment. <code>/uninstall</code> reverses it - and your notes are always kept.</li>
+<li><b>Open source</b> - GPLv3. Every release attaches the exact source as <code>KillerNotes-x.y.z-src.zip</code> next to the exe.</li>
+</ul>
+</section>
+
 <section class="tech-sec" id="specs">
 <h2>Specs</h2>
 <table class="spec-table">
@@ -208,6 +219,8 @@
 <tr><td>Import</td><td>.txt, .log, .md, .html, .rtf, png/jpg/gif/bmp images</td></tr>
 <tr><td>Export</td><td>.txt, .rtf, self-contained .html; notes also share as .knote</td></tr>
 <tr><td>Network use</td><td>None, except the About panel's version check (GitHub)</td></tr>
+<tr><td>Distribution</td><td>Single signed exe (~4.3 MB); portable, per-user install, or /silent machine-wide</td></tr>
+<tr><td>License</td><td>GPLv3; source zip attached to every release</td></tr>
 </table>
 </section>
 
@@ -224,6 +237,7 @@
 <a href="#sharing">Sharing formats</a>
 <a href="#formats">Import &amp; export</a>
 <a href="#privacy">Privacy</a>
+<a href="#distribution">Distribution</a>
 <a href="#specs">Specs</a>
 </nav>
 </aside>
