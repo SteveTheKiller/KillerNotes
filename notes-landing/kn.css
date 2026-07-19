@@ -215,7 +215,10 @@ html[data-theme="light"] .tb-nav a { text-shadow: none; }
 .hero-info .row { display: flex; gap: 8px; }
 .hero-info .k { color: var(--accent); min-width: 56px; }
 .hero-info .v { color: var(--text); }
-.hero-info .hash { color: var(--muted); word-break: break-all; min-width: 0; font-size: 11.5px; letter-spacing: -0.2px; }
+/* The hash is split into two 32-char inline-block halves: it breaks exactly at the
+   midpoint when the box is narrow, or sits on one line when there is room - never ragged. */
+.hero-info .hash { color: var(--muted); min-width: 0; font-size: 11.5px; letter-spacing: -0.2px; line-height: 1.5; align-self: center; }
+.hero-info .hash span { display: inline-block; }
 .hero-info .note { margin-top: 11px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; line-height: 1.55; color: var(--muted); }
 
 /* ============ About page ============ */
