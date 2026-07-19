@@ -19,6 +19,7 @@ namespace KillerNotes
             DataObject.AddPastingHandler(Editor, Editor_OnPaste);
             InitTableSizePicker();
             InitFormatBar();
+            InitImageResize();   // click-to-resize handles on note images (ImageResize.cs)
 
             // Drag-and-drop: text drops are native RichTextBox behavior; image files and
             // raw bitmaps need the handlers below.
@@ -72,6 +73,7 @@ namespace KillerNotes
                 MaxWidth = 640,
                 Stretch  = Stretch.Uniform,
             };
+            FixImage(img);   // high-quality (Fant) downscale rendering (ImageResize.cs)
             _ = new InlineUIContainer(img, Editor.CaretPosition);
             MarkDirty();
         }

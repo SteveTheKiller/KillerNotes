@@ -130,6 +130,7 @@ namespace KillerNotes
             _currentId = id;
             TitleBox.Text = meta.Title;
 
+            DeselectImage();   // ImageResize.cs (handles must not outlive the document swap)
             Editor.Document.Blocks.Clear();
             var blob = NoteStore.LoadContent(id);
             if (blob != null)
@@ -139,6 +140,7 @@ namespace KillerNotes
                 range.Load(ms, DataFormats.XamlPackage);
             }
             NormalizeThemeColors(Editor.Document);   // Editor.cs (default text follows the live theme)
+            ApplyImageQuality(Editor.Document);      // ImageResize.cs (Fant scaling on loaded images)
             EnsureEditableTail();   // Editor.cs (rule/table as last block traps the caret)
             _loadingNote = false;
             _dirty = false;
