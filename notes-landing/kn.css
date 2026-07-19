@@ -215,7 +215,7 @@ html[data-theme="light"] .tb-nav a { text-shadow: none; }
 .hero-info .row { display: flex; gap: 8px; }
 .hero-info .k { color: var(--accent); min-width: 56px; }
 .hero-info .v { color: var(--text); }
-.hero-info .hash { color: var(--muted); white-space: nowrap; font-size: 11.5px; letter-spacing: -0.2px; }
+.hero-info .hash { color: var(--muted); word-break: break-all; min-width: 0; font-size: 11.5px; letter-spacing: -0.2px; }
 .hero-info .note { margin-top: 11px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; line-height: 1.55; color: var(--muted); }
 
 /* ============ About page ============ */
