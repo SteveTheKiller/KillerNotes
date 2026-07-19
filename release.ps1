@@ -1,14 +1,20 @@
 # release.ps1 - KillerNotes release workflow
-# Builds, packages, tags, and publishes a GitHub release.
+# Builds, signs (Certum via SimplySign, family convention), tags, and publishes a GitHub release.
 # Compatible with Windows PowerShell 5.1 and PowerShell 7.
 #
 # Usage:
 #   .\release.ps1              # full release for the version in the csproj
 #   .\release.ps1 -DryRun      # everything except tag push and gh release
+#   .\release.ps1 -SkipSign    # local test build only - never release unsigned
 
 [CmdletBinding()]
 param(
-    [switch]$DryRun
+    [switch]$DryRun,
+    # SHA1 thumbprint of the code-signing cert (40 hex chars). Preferred over CertName.
+    [string]$CertThumbprint = "",
+    # Fallback: CN match in the Windows cert store, as in the other Killer release scripts.
+    [string]$CertName = "Open Source Developer Stephen Riley",
+    [switch]$SkipSign
 )
 
 $ErrorActionPreference = 'Stop'
@@ -100,7 +106,80 @@ if ($exeSize -lt 3MB) {
 }
 Write-Host "KillerNotes.exe is $exeMB"
 
-# --- 6. Release notes from CHANGELOG section ---
+# --- 6. Sign (Certum via SimplySign, same flow as the other Killer release scripts) ---
+if ($SkipSign) {
+    Write-Host ""
+    Write-Host 'SkipSign: KillerNotes.exe will be UNSIGNED - do not release this build' -ForegroundColor Red
+} else {
+    Step "Signing KillerNotes.exe"
+    $ssProc = Get-Process -Name 'SimplySignDesktop' -ErrorAction SilentlyContinue
+    if (-not $ssProc) {
+        Write-Warning 'SimplySign Desktop does not appear to be running.'
+        Write-Host 'Start it and wait for Connected, then press Enter to continue (Ctrl+C aborts).'
+        $null = Read-Host
+    }
+
+    # PATH first (covers shells where ProgramFiles(x86) is not in the environment), then the SDK kit dir.
+    $signtool = (Get-Command signtool -ErrorAction SilentlyContinue).Source
+    if (-not $signtool) {
+        $kitBase = "${env:ProgramFiles(x86)}\Windows Kits\10\bin"
+        if (-not (Test-Path $kitBase)) { $kitBase = 'C:\Program Files (x86)\Windows Kits\10\bin' }
+        if (Test-Path $kitBase) {
+            $signtool = Get-ChildItem "$kitBase\*\x64\signtool.exe" -Recurse -ErrorAction SilentlyContinue |
+                        Sort-Object FullName -Descending | Select-Object -First 1 -ExpandProperty FullName
+        }
+    }
+    if (-not $signtool) { Fail 'signtool.exe not found. Install the Windows SDK.' }
+    Write-Host "signtool: $signtool"
+
+    $certArgs = if ($CertThumbprint) { @('/sha1', $CertThumbprint) } else { @('/n', $CertName) }
+
+    # TSA endpoints - tried in order; first success wins.
+    $tsaList = @(
+        'http://timestamp.digicert.com',
+        'http://timestamp.sectigo.com',
+        'http://ts.ssl.com'
+    )
+    $signedOk = $false
+    foreach ($tsa in $tsaList) {
+        Write-Host "Trying TSA: $tsa"
+        & $signtool sign /fd sha256 /tr $tsa /td sha256 @certArgs /d 'KillerNotes' /du 'https://killernotes.net' /v $exe
+        if ($LASTEXITCODE -eq 0) { $signedOk = $true; break }
+        Write-Warning "TSA $tsa failed (exit $LASTEXITCODE). Trying next..."
+        Start-Sleep -Seconds 3
+    }
+    if (-not $signedOk) { Fail 'Signing failed on all TSA endpoints. Is SimplySign Desktop connected?' }
+
+    # Post-sign gate: abort if the chain does not validate to a trusted root.
+    & $signtool verify /pa /v $exe
+    if ($LASTEXITCODE -ne 0) { Fail 'signtool verify FAILED - the signed exe does not pass trust validation. DO NOT RELEASE.' }
+    Write-Host 'Signed, timestamped, and chain-verified' -ForegroundColor Green
+}
+
+# --- 7. Source bundle (GPL3 family convention, same as the other Killer apps) ---
+# Preflight guarantees a clean tree in sync with origin, so tracked files == the tagged source.
+Step "Bundling source"
+$srcZip = Join-Path $outDir "KillerNotes-$Version-src.zip"
+if (Test-Path $srcZip) { Remove-Item $srcZip -Force }
+$staging = Join-Path $env:TEMP "KillerNotes-src-$Version"
+if (Test-Path $staging) { Remove-Item $staging -Recurse -Force }
+New-Item -ItemType Directory -Force -Path $staging | Out-Null
+$srcFiles = @(git ls-files)
+if ($srcFiles.Count -eq 0) { Fail 'git ls-files returned no tracked files' }
+foreach ($f in $srcFiles) {
+    # Tracked but deleted on disk (removed without git rm): skip, do not abort the bundle.
+    if (-not (Test-Path $f)) { Write-Warning "Skipping tracked file missing on disk: $f"; continue }
+    $dst = Join-Path $staging $f
+    $parent = Split-Path $dst -Parent
+    if (-not (Test-Path $parent)) { New-Item -ItemType Directory -Force -Path $parent | Out-Null }
+    Copy-Item $f $dst -Force
+}
+Compress-Archive -Path (Join-Path $staging '*') -DestinationPath $srcZip -Force
+Remove-Item $staging -Recurse -Force
+$srcZipMB = '{0:N1} MB' -f ((Get-Item $srcZip).Length / 1MB)
+Write-Host "Source bundle: $srcZip ($srcZipMB)"
+
+# --- 8. Release notes from CHANGELOG section ---
 Step "Extracting release notes from CHANGELOG.md"
 $lines = Get-Content -Path 'CHANGELOG.md'
 $notes = New-Object System.Collections.Generic.List[string]
@@ -117,19 +196,19 @@ Write-Host "Notes written to $notesFile ($($notes.Count) lines)"
 
 if ($DryRun) {
     Step "DryRun: stopping before tag and release"
-    Write-Host "Would create tag $Tag, push it, and publish release with KillerNotes.exe ($exeMB)"
+    Write-Host "Would create tag $Tag, push it, and publish release with KillerNotes.exe ($exeMB) and $(Split-Path $srcZip -Leaf) ($srcZipMB)"
     exit 0
 }
 
-# --- 7. Tag and push ---
+# --- 9. Tag and push ---
 Step "Tagging $Tag"
 git tag -a $Tag -m "KillerNotes $Tag"
 git push origin $Tag
 if ($LASTEXITCODE -ne 0) { Fail 'Tag push failed' }
 
-# --- 8. GitHub release ---
+# --- 10. GitHub release ---
 Step "Creating GitHub release"
-gh release create $Tag $exe --title "KillerNotes $Tag" --notes-file $notesFile --verify-tag
+gh release create $Tag $exe $srcZip --title "KillerNotes $Tag" --notes-file $notesFile --verify-tag
 if ($LASTEXITCODE -ne 0) { Fail 'gh release create failed' }
 
 Step "Done"
