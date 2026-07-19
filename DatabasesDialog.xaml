@@ -82,7 +82,7 @@
 
                 <!-- Body -->
                 <StackPanel Grid.Row="1" Margin="24,16,24,12">
-                    <TextBlock Text="Databases" Foreground="{StaticResource TextBrush}"
+                    <TextBlock Text="{DynamicResource Str_Db_Title}" Foreground="{StaticResource TextBrush}"
                                FontFamily="Consolas" FontSize="14" FontWeight="Bold" Margin="0,0,0,8"/>
                     <Border Background="{DynamicResource PaneBrush}"
                             BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="4">
@@ -92,13 +92,13 @@
                                  PreviewMouseRightButtonDown="DbList_PreviewMouseRightButtonDown">
                             <ListBox.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Rename" Click="RenameMenu_Click"/>
-                                    <MenuItem Header="Delete" Click="Delete_Click"/>
-                                    <MenuItem Header="Copy file" Click="CopyFileMenu_Click"
-                                              ToolTip="Puts the .db on the clipboard as a file - paste into Explorer, Teams, or an email to share it"/>
-                                    <MenuItem Header="Export as .kndb..." Click="ExportMenu_Click"
-                                              ToolTip="Save a copy coworkers can double-click to open in KillerNotes"/>
-                                    <MenuItem Header="Show in Explorer" Click="RevealMenu_Click"/>
+                                    <MenuItem Header="{DynamicResource Str_Ctx_Rename}" Click="RenameMenu_Click"/>
+                                    <MenuItem Header="{DynamicResource Str_Ctx_Delete}" Click="Delete_Click"/>
+                                    <MenuItem Header="{DynamicResource Str_Ctx_CopyFile}" Click="CopyFileMenu_Click"
+                                              ToolTip="{DynamicResource Str_TT_CopyFile}"/>
+                                    <MenuItem Header="{DynamicResource Str_Ctx_ExportKndb}" Click="ExportMenu_Click"
+                                              ToolTip="{DynamicResource Str_TT_ExportKndb}"/>
+                                    <MenuItem Header="{DynamicResource Str_Ctx_Reveal}" Click="RevealMenu_Click"/>
                                 </ContextMenu>
                             </ListBox.ContextMenu>
                             <ListBox.ItemContainerStyle>
@@ -135,19 +135,19 @@
                 <Grid Grid.Row="2" Margin="24,0,24,18">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <!-- Padding 0: SurfaceButton's side padding clips glyphs at fixed width -->
-                        <Button x:Name="NewBtn" Content="&#xE710;" Click="New_Click" ToolTip="New database"
+                        <Button x:Name="NewBtn" Content="&#xE710;" Click="New_Click" ToolTip="{DynamicResource Str_TT_NewDb}"
                                 Style="{StaticResource SurfaceButton}" FontFamily="Segoe MDL2 Assets"
                                 Width="34" Padding="0" Margin="0,0,6,0"/>
-                        <Button x:Name="DeleteBtn" Content="&#xE711;" Click="Delete_Click" ToolTip="Delete selected database"
+                        <Button x:Name="DeleteBtn" Content="&#xE711;" Click="Delete_Click" ToolTip="{DynamicResource Str_TT_DeleteDb}"
                                 Style="{StaticResource SurfaceButton}" FontFamily="Segoe MDL2 Assets"
                                 Width="34" Padding="0" Margin="0,0,6,0"/>
                         <Button x:Name="ExplorerBtn" Content="&#xE838;" Click="Explorer_Click"
                                 Style="{StaticResource SurfaceButton}" FontFamily="Segoe MDL2 Assets"
-                                Width="34" Padding="0" ToolTip="Open the data folder in File Explorer"/>
+                                Width="34" Padding="0" ToolTip="{DynamicResource Str_TT_Explorer}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <!-- OutlineButton (family standard): accent outline, fills solid on hover -->
-                        <Button x:Name="OpenBtn" Content="Open" Click="Open_Click"
+                        <Button x:Name="OpenBtn" Content="{DynamicResource Str_Btn_Open}" Click="Open_Click"
                                 Style="{StaticResource OutlineButton}" Width="80"/>
                     </StackPanel>
                 </Grid>

@@ -4,7 +4,7 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - Unreleased
+## [1.0.0] - 2026-07-19
 
 ### Added
 - Rich text notes: inline image paste, drag-and-drop for text, image files, and raw bitmaps, real FlowDocument tables, and autosave (2s debounce, note switch, alt-tab, and close) plus Ctrl+S.
@@ -24,5 +24,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Hotkeys with an F1 shortcuts overlay: F2 rename, F3/Ctrl+F search, F4 preview, F6 format bar, F8 export, F9 sidebar, F12 About, Ctrl+N new note, Ctrl+O open files, Delete in the list, Esc closes overlays or clears search.
 - The F1 overlay has LIST and KEYBOARD views (choice remembered) - the keyboard view is KillerPDF's visual board: a full keyboard diagram with category-colored keycaps per layer (BASE / CTRL / CTRL+SHIFT), hover lift with a marquee for cut-off captions, a detail line, live theme repaint, and holding the real Ctrl or Shift previews that layer.
 - The app always opens into a note: launch, database switch, and deleting the open note all land in the newest empty Untitled note (or a fresh one). Clicking the empty editor space starts a new note and typing begins immediately; text or images dropped there start a note carrying them.
+- Theme-adaptive note colors: a saved note bakes the text color it was written under, so a dark-mode note read in a light theme (or shared as a .knote to a light-mode coworker) was unreadable. On load, neutral black/white/gray colors are stripped so default text always follows the live theme - deliberately colored text and highlights are untouched, and code-built notes carry the editor font instead of the FlowDocument serif default.
+- Demo mode for screenshots (KillerScan pattern): launch with --demo to fill a scratch demo-notes.db with fabricated MSP-flavored notes (checklists, config tables, monospace snippets, colored callouts) with staggered dates - the real database is never opened, and the scratch file re-rolls on every demo launch.
 - KillerUI family shell: custom chrome with the KillerPDF red-fill close button and pressed feedback, 6 themes + accent palettes (default Black/Purple), film grain, elevated editor pane with the family drop shadow (carried by a bitmap-cached twin border behind the pane so typing never re-renders the shadow), themed dialogs with OutlineButton primaries and a reddening close X, themed editor context menus and accent-colored text selection, About overlay with update check, window placement persistence, 24px family footer, 25px title-bar icon.
 - App icon (from brand/icon.png, used as-is) as the exe icon and in the About card header, plus dedicated .knote and .kndb file icons (placeholders derived from the app icon until custom art lands in brand/): embedded in the exe, extracted to AppData at startup, and wired to the file associations with a full size ladder (16-256 incl 20/40/96, BMP frames) for crisp Explorer rendering. brand/ artwork folder is gitignored.

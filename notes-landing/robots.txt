@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://killernotes.net/sitemap.xml

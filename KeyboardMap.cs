@@ -30,42 +30,42 @@ namespace KillerNotes
 
         private const string KsViewSetting = "ShortcutView";   // "list" (default) | "keyboard"
 
-        // key id -> (category, caption). Categories map 1:1 to the KnCat* theme brushes.
-        // English-only for now; when i18n lands these become resource keys like KillerPDF's.
+        // key id -> (category, caption resource key). Categories map 1:1 to the KnCat*
+        // theme brushes; captions resolve through Loc() so language switches repaint.
         private static readonly Dictionary<KbLayer, Dictionary<string, (string Cat, string Label)>> KbMap = new()
         {
             [KbLayer.Base] = new()
             {
-                ["F1"] = ("Help", "Keyboard shortcuts"),
-                ["F2"] = ("Note", "Rename the open note"),
-                ["F3"] = ("Search", "Search notes"),
-                ["F4"] = ("View", "Markdown/HTML preview"),
-                ["F6"] = ("View", "Format bar"),
-                ["F8"] = ("File", "Export the open note"),
-                ["F9"] = ("View", "Sidebar"),
-                ["F12"] = ("Help", "About KillerNotes"),
-                ["Del"] = ("Note", "Delete note (in the list)"),
-                ["Esc"] = ("Help", "Close overlay / clear search"),
+                ["F1"] = ("Help", "Str_Kb_Shortcuts"),
+                ["F2"] = ("Note", "Str_KS_Rename"),
+                ["F3"] = ("Search", "Str_KS_Search"),
+                ["F4"] = ("View", "Str_Kb_Preview"),
+                ["F6"] = ("View", "Str_Kb_FormatBar"),
+                ["F8"] = ("File", "Str_Kb_Export"),
+                ["F9"] = ("View", "Str_Kb_Sidebar"),
+                ["F12"] = ("Help", "Str_KS_About"),
+                ["Del"] = ("Note", "Str_Kb_DeleteNote"),
+                ["Esc"] = ("Help", "Str_KS_Esc"),
             },
             [KbLayer.Ctrl] = new()
             {
-                ["N"] = ("Note", "New note"),
-                ["O"] = ("File", "Open files as notes"),
-                ["S"] = ("File", "Save now"),
-                ["F"] = ("Search", "Search notes"),
-                ["B"] = ("Format", "Bold"),
-                ["I"] = ("Format", "Italic"),
-                ["U"] = ("Format", "Underline"),
-                ["V"] = ("Format", "Paste"),
+                ["N"] = ("Note", "Str_KS_NewNote"),
+                ["O"] = ("File", "Str_KS_OpenFiles"),
+                ["S"] = ("File", "Str_Kb_SaveNow"),
+                ["F"] = ("Search", "Str_KS_Search"),
+                ["B"] = ("Format", "Str_Kb_Bold"),
+                ["I"] = ("Format", "Str_Kb_Italic"),
+                ["U"] = ("Format", "Str_Kb_Underline"),
+                ["V"] = ("Format", "Str_Kb_Paste"),
             },
             [KbLayer.CtrlShift] = new()
             {
-                ["S"] = ("Format", "Strikethrough"),
-                ["M"] = ("Format", "Monospace (code)"),
-                ["H"] = ("Format", "Highlight"),
-                ["R"] = ("Format", "Horizontal rule"),
-                ["L"] = ("Format", "Bulleted list"),
-                ["N"] = ("Format", "Numbered list"),
+                ["S"] = ("Format", "Str_KS_Strike"),
+                ["M"] = ("Format", "Str_KS_Mono"),
+                ["H"] = ("Format", "Str_Kb_Highlight"),
+                ["R"] = ("Format", "Str_Kb_Rule"),
+                ["L"] = ("Format", "Str_Kb_Bullets"),
+                ["N"] = ("Format", "Str_Kb_Numbered"),
             },
         };
 
@@ -106,10 +106,10 @@ namespace KillerNotes
             [KbLayer.CtrlShift] = ["Ctrl", "RCtrl", "Shift", "RShift"],
         };
 
-        private static string KbSectionFor(string cat) => cat switch
+        private static string KbSectionKeyFor(string cat) => cat switch
         {
-            "File" => "File", "Note" => "Notes", "Format" => "Formatting",
-            "View" => "View", "Search" => "Search", _ => "Help",
+            "File" => "Str_Sec_File", "Note" => "Str_Sec_Notes", "Format" => "Str_Sec_Format",
+            "View" => "Str_Sec_View", "Search" => "Str_Sec_Search", _ => "Str_Sec_Help",
         };
 
         // ---- View toggle (LIST / KEYBOARD) ----
@@ -181,7 +181,7 @@ namespace KillerNotes
             }
             var hint = new TextBlock
             {
-                Text = "hold Ctrl or Shift to preview that layer",
+                Text = Loc("Str_KS_HoldHint"),
                 FontSize = 11, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(6, 0, 0, 0),
             };
             hint.SetResourceReference(TextBlock.ForegroundProperty, "DimTextBrush");
@@ -277,7 +277,7 @@ namespace KillerNotes
         {
             if (_kbDetail is null) return;
             if (KbMap[_kbLayer].TryGetValue(id, out var b))
-                _kbDetail.Text = $"{KbSectionFor(b.Cat)} :: {b.Label}";
+                _kbDetail.Text = $"{Loc(KbSectionKeyFor(b.Cat))} :: {Loc(b.Label)}";
             else _kbDetail.Text = " ";
         }
 
@@ -347,7 +347,7 @@ namespace KillerNotes
                     vis.Cap.SetResourceReference(Border.BorderBrushProperty, "KnCat" + b.Cat);
                     vis.Bar.SetResourceReference(Shape.FillProperty, "KnCat" + b.Cat);
                     vis.Bar.Visibility = Visibility.Visible;
-                    vis.Act.Text = b.Label;
+                    vis.Act.Text = Loc(b.Label);
                     vis.Act.SetResourceReference(TextBlock.ForegroundProperty, "KnCat" + b.Cat);
                     vis.Act.Visibility = Visibility.Visible;
                 }

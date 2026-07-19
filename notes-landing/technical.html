@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="hc">
+<head>
+<meta charset="utf-8">
+<script>/* Apply saved theme + accent before first paint to avoid a reload flash */(function(){try{var d=document.documentElement,t=localStorage.getItem('knotes-theme');if(t){d.setAttribute('data-theme',t);if({dark:1,light:1,hc:1}[t]){var v=localStorage.getItem('knotes-av');if(v){var s=v.split('|');d.style.setProperty('--accent',s[0]);d.style.setProperty('--btn',s[1]);}}}}catch(e){}})();</script>
+<link rel="preload" href="brand/KillerNotes.ttf" as="font" type="font/ttf" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="darkreader-lock">
+<title>KillerNotes - Technical</title>
+<link rel="canonical" href="https://killernotes.net/technical.html">
+<meta name="description" content="How KillerNotes works under the hood: SQLite storage with FTS5 full-text search, SQLCipher AES-256 encryption, XamlPackage rich content, and the .knote/.kndb sharing formats.">
+<link rel="icon" type="image/x-icon" href="brand/kn-icon.ico">
+<!-- TODO: koya analytics snippet goes here once killernotes.net is added to the Umami instance -->
+<link rel="stylesheet" href="kn.css?v=1">
+<style>
+.page-hero { text-align: center; padding: 44px 16px 8px; }
+.page-hero .wm-logo { font-size: clamp(34px, 5.6vw, 56px); margin: 0 auto 8px; display: block; }
+.page-hero p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+.content-inner { max-width: 880px; margin: 0 auto; padding: 0 28px 56px; }
+.sb-tabs .on { border-bottom: 0; }
+.outline { padding: 8px 0; overflow-y: auto; flex: 1; }
+.outline a { display: block; padding: 8px 16px 8px 18px; font-size: 13px; color: var(--text2); border-left: 2px solid transparent; }
+.outline a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 8%, transparent); filter: none; }
+.outline a.on { color: var(--accent); border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--sidebar)); }
+@media (max-width: 900px) { .outline { display:flex; flex-direction:row; flex-wrap:wrap; padding:8px; gap:4px; } .outline a { border-left:0; border-radius:5px; padding:6px 10px; } .outline a.on { border-left:0; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<a href="index.html" class="tb-home" title="KillerNotes home">
+<img class="tb-icon" src="brand/kn-icon.png" alt="KillerNotes" width="44" height="44">
+<span class="wm-logo tb-wm" style="font-size:22px"><span class="wmk">Killer</span><span class="wms">Notes</span></span>
+</a>
+<a class="tb-dl" href="https://github.com/SteveTheKiller/KillerNotes/releases/latest/download/KillerNotes.exe"><svg viewBox="0 0 24 24"><path d="M11 4h2v7h3l-4 5-4-5h3V4zM5 18h14v2H5z"/></svg><span data-i18n="nav_dl">Download</span></a>
+<span class="tb-spacer"></span>
+<nav class="tb-nav">
+<a href="technical.html" class="on" data-i18n="nav_tech">Technical</a>
+<a href="about.html" data-i18n="nav_about">About</a>
+</nav>
+<div class="tgrp" role="group" aria-label="Theme">
+<button class="swatch sw-dark"     data-theme="dark"     title="Dark"></button>
+<button class="swatch sw-light"    data-theme="light"    title="Light"></button>
+<button class="swatch sw-hc"       data-theme="hc"       title="Black"></button>
+<button class="swatch sw-blood"    data-theme="blood"    title="Blood"></button>
+<button class="swatch sw-greed"    data-theme="greed"    title="Greed"></button>
+<button class="swatch sw-cyanotic" data-theme="cyanotic" title="Cyanotic"></button>
+</div>
+<div class="acc-fly accent-switch" id="accentSwitch">
+<button class="acc-toggle" id="accentToggle" aria-haspopup="true" aria-expanded="false" title="Accent color"></button>
+<div class="acc-pop" id="accentPop" hidden role="group" aria-label="Accent color">
+<span class="acc-pop-label" data-i18n="accent_label">accent:</span>
+<button class="acc" data-accent="red"    style="background:#DD504B;color:#DD504B" title="Red"></button>
+<button class="acc" data-accent="orange" style="background:#E8962C;color:#E8962C" title="Orange"></button>
+<button class="acc" data-accent="green"  style="background:#1EA54C;color:#1EA54C" title="Green"></button>
+<button class="acc" data-accent="teal"   style="background:#1FB8A8;color:#1FB8A8" title="Teal"></button>
+<button class="acc" data-accent="blue"   style="background:#50AEE8;color:#50AEE8" title="Blue"></button>
+<button class="acc" data-accent="purple" style="background:#B982E3;color:#B982E3" title="Purple"></button>
+</div>
+</div>
+<!-- Language switcher returns here with the kn-i18n.js pass (9-language support planned) -->
+</div>
+
+<div class="shell">
+<div class="content">
+<div class="content-scroll">
+<div class="content-inner">
+
+<section class="page-hero">
+<span class="page-title" data-i18n="tech_kicker">Technical</span>
+<span class="wm-logo"><span class="wmk">Killer</span><span class="wms">Notes</span></span>
+<p data-i18n="tech_sub">How the notepad actually works: storage, search, encryption, and the sharing formats.</p>
+</section>
+
+<section class="tech-sec" id="architecture">
+<h2>Architecture</h2>
+<p><b>KillerNotes</b> is a native Windows app written in C# and WPF on .NET Framework 4.8 (x64). There is no web view wrapping a JavaScript app and no runtime to install on Windows 10/11 - it is the same stack as the rest of the KillerTools family, sharing the KillerUI chrome: custom title bar, six live-switchable themes with accent colors, film grain, and the family status bar.</p>
+<p>The editor is a WPF RichTextBox working on a real FlowDocument, which is what makes inline images and true tables first-class citizens rather than attachments. Everything else - search, storage, encryption, sharing - lives underneath it in a SQLite database.</p>
+</section>
+
+<section class="tech-sec" id="storage">
+<h2>Storage</h2>
+<p>Notes live in a single SQLite database per notepad, stored under <code>%APPDATA%\KillerNotes</code>. Each note row keeps three representations of the same content:</p>
+<ul class="blurb-list">
+<li><b>Title and metadata</b> - creation and modification timestamps, used for the sidebar and sorting.</li>
+<li><b>A XamlPackage blob</b> - the full rich content. XamlPackage is WPF's container format for FlowDocuments: formatting, embedded images, and tables all round-trip through the database byte-perfect. Pasted screenshots are re-encoded to PNG on the way in so they serialize reliably.</li>
+<li><b>A plain-text shadow copy</b> - extracted on every save and fed to the search index, so search never has to parse rich content.</li>
+</ul>
+
+<figure class="diagram" id="flowDiagram">
+<svg viewBox="0 0 1060 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow: editor to database to shares">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+<g font-family="Consolas, monospace">
+<!-- Editor -->
+<rect x="10" y="90" width="190" height="120" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="105" y="118" text-anchor="middle" font-size="15" fill="var(--accent)">Editor</text>
+<text x="105" y="144" text-anchor="middle" font-size="12" fill="var(--text)">WPF RichTextBox</text>
+<text x="105" y="164" text-anchor="middle" font-size="12" fill="var(--muted)">FlowDocument</text>
+<text x="105" y="184" text-anchor="middle" font-size="12" fill="var(--muted)">images + tables inline</text>
+<!-- autosave arrow: caption above, trigger list stacked below so nothing
+     runs under the next box -->
+<line x1="200" y1="150" x2="299" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+<text x="250" y="140" text-anchor="middle" font-size="12" fill="var(--accent)">autosave</text>
+<text x="250" y="168" text-anchor="middle" font-size="10.5" fill="var(--muted)">2s pause</text>
+<text x="250" y="183" text-anchor="middle" font-size="10.5" fill="var(--muted)">note switch</text>
+<text x="250" y="198" text-anchor="middle" font-size="10.5" fill="var(--muted)">alt-tab / close</text>
+<!-- One note, three forms -->
+<rect x="305" y="70" width="235" height="160" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="422" y="96" text-anchor="middle" font-size="14" fill="var(--accent)">One note, three forms</text>
+<rect x="320" y="110" width="205" height="30" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="422" y="130" text-anchor="middle" font-size="12" fill="var(--text)">title + timestamps</text>
+<rect x="320" y="146" width="205" height="30" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="422" y="166" text-anchor="middle" font-size="12" fill="var(--text)">XamlPackage blob (rich)</text>
+<rect x="320" y="182" width="205" height="30" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="422" y="202" text-anchor="middle" font-size="12" fill="var(--text)">plain-text shadow copy</text>
+<!-- arrow to db -->
+<line x1="540" y1="150" x2="598" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+<!-- encryption envelope -->
+<rect x="605" y="30" width="280" height="240" rx="10" fill="none" stroke="var(--accent)" stroke-dasharray="6 5"/>
+<text x="745" y="52" text-anchor="middle" font-size="11" fill="var(--accent)">SQLCipher AES-256 (optional)</text>
+<!-- database -->
+<rect x="625" y="66" width="240" height="184" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="745" y="92" text-anchor="middle" font-size="14" fill="var(--accent)">notes.db (SQLite)</text>
+<rect x="643" y="108" width="204" height="34" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="745" y="130" text-anchor="middle" font-size="12" fill="var(--text)">notes table</text>
+<text x="745" y="160" text-anchor="middle" font-size="10" fill="var(--muted)">&#8645; external-content triggers</text>
+<rect x="643" y="172" width="204" height="34" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="745" y="194" text-anchor="middle" font-size="12" fill="var(--text)">FTS5 full-text index</text>
+<text x="745" y="234" text-anchor="middle" font-size="10" fill="var(--muted)">%APPDATA%\KillerNotes</text>
+<!-- share fan-out -->
+<line x1="885" y1="110" x2="938" y2="75" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="885" y1="150" x2="938" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="885" y1="190" x2="938" y2="225" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="942" y="50" width="108" height="46" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="996" y="70" text-anchor="middle" font-size="12" fill="var(--accent)">.knote</text>
+<text x="996" y="87" text-anchor="middle" font-size="10" fill="var(--muted)">one torn-off note</text>
+<rect x="942" y="127" width="108" height="46" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="996" y="147" text-anchor="middle" font-size="12" fill="var(--accent)">.kndb</text>
+<text x="996" y="164" text-anchor="middle" font-size="10" fill="var(--muted)">whole notepad</text>
+<rect x="942" y="204" width="108" height="46" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="996" y="224" text-anchor="middle" font-size="12" fill="var(--accent)">.txt .rtf .html</text>
+<text x="996" y="241" text-anchor="middle" font-size="10" fill="var(--muted)">plain exports</text>
+</g>
+</svg>
+<figcaption>The life of a note: the editor commits every change into one SQLite file, the search index stays in sync by trigger, encryption wraps the whole file, and shares tear off from there.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
+</figure>
+
+<h3>Autosave</h3>
+<p>There is no Save button to forget. A save commits 2 seconds after you stop typing, plus immediately on note switch, on alt-tab away, and on close. Ctrl+S exists for peace of mind, but it is just "commit now" - the same write the timer would have made.</p>
+</section>
+
+<section class="tech-sec" id="search">
+<h2>Search</h2>
+<p>Search is a SQLite <b>FTS5</b> full-text index over the title and the plain-text shadow copy, maintained by external-content triggers so it stays exactly in sync with the notes table without duplicating the rich blobs.</p>
+<p>As you type in the search box, each word is treated as a prefix: typing <code>pass wor</code> finds a note containing "password working notes". The sidebar filters live with every keystroke. Sorting is a separate axis: creation time or title, either direction, one click.</p>
+</section>
+
+<section class="tech-sec" id="encryption">
+<h2>Encryption</h2>
+<p>Password protection is whole-database encryption with <b>SQLCipher</b> (AES-256), not an application-level gate. When a password is set, every byte of the file is encrypted at rest - notes, images, the search index, the metadata, all of it. A KillerNotes database with a password is unreadable in any SQLite tool without the key.</p>
+<p>Setting, changing, or removing the password rebuilds the database through SQLCipher's export path into a fresh file, then atomically swaps it in. There is no plaintext temp copy of an encrypted database left behind.</p>
+<h3>The honest fine print</h3>
+<ul class="blurb-list">
+<li>A database with no password set is a normal SQLite file - encryption is opt-in per database, one click on the title-bar lock.</li>
+<li>There is no recovery back door. If you forget the password, the unlock screen offers a fresh start and archives the locked file (kept on disk, unlockable later if the password comes back to you) - but the encrypted data itself is unrecoverable by design.</li>
+<li>Drag-out shares are unencrypted by design (there is no sane way to prompt for a password mid-drag). Use "Share note..." for a protected copy.</li>
+</ul>
+</section>
+
+<section class="tech-sec" id="sharing">
+<h2>Sharing formats</h2>
+<p>Sharing follows the notepad metaphor: tear off a sheet, or hand over the whole pad.</p>
+<ul class="blurb-list">
+<li><b>.knote</b> - a single shared note. Under the hood it is literally a one-note KillerNotes database, optionally SQLCipher-encrypted with its own share password. The recipient double-clicks it and the note imports into their current notepad (prompting for the password if one was set).</li>
+<li><b>.kndb</b> - a whole database. Its encryption travels with it: if the notepad had a password, the recipient needs it. Double-clicking adds it to the data folder and switches to it; the previous notepad stays available in Manage databases.</li>
+</ul>
+<p>Both extensions register per-user (HKCU only - no admin rights) with their own icons. Dragging a note out of the sidebar uses the standard shell file-drop mechanism, so Teams, Outlook, and Explorer all accept it like a real file, because it is one.</p>
+<p>The deliberately avoided extension: <b>.kdb</b> belongs to KeePass, and a tech's file manager should never confuse the two.</p>
+</section>
+
+<section class="tech-sec" id="formats">
+<h2>Import &amp; export</h2>
+<h3>In</h3>
+<p>Ctrl+O or drop files anywhere sensible: <code>.txt</code> / <code>.log</code> / <code>.md</code> import as text notes, <code>.rtf</code> loads natively with formatting intact, images land inline, and <code>.html</code> imports as source - which the preview pane then renders, same as the markdown story: source in the editor, preview to view. Each file becomes its own note titled by its filename.</p>
+<h3>Out</h3>
+<p>Any note exports as plain text, as <code>.rtf</code> (WordPad/Word-compatible, images included), or as a standalone theme-styled HTML page built by a purpose-built FlowDocument-to-HTML converter: paragraphs, lists, tables, character formatting, colors, and images embedded as base64 data URIs - one self-contained file.</p>
+<h3>Preview</h3>
+<p>Notes that look like markdown or HTML get a preview toggle. Markdown renders through <b>Markdig</b> with raw HTML disabled; HTML notes are defused before display - scripts, event handlers, frames, and javascript: URLs are stripped. The preview is a viewer, never a place where pasted content gets to run.</p>
+</section>
+
+<section class="tech-sec" id="privacy">
+<h2>Privacy</h2>
+<p>Everything runs on your machine. Notes never leave your disk unless you export or share them yourself. There is no account, no cloud sync, no telemetry, and no ads. The only network request the app ever makes is a version check against GitHub when you open the About panel.</p>
+</section>
+
+<section class="tech-sec" id="specs">
+<h2>Specs</h2>
+<table class="spec-table">
+<tr><th>Spec</th><th>Value</th></tr>
+<tr><td>Platform</td><td>Windows 10/11, x64</td></tr>
+<tr><td>Stack</td><td>C# / WPF on .NET Framework 4.8 (no runtime install on Win 10/11)</td></tr>
+<tr><td>Storage</td><td>SQLite via Microsoft.Data.Sqlite; one database file per notepad in %APPDATA%\KillerNotes</td></tr>
+<tr><td>Search</td><td>SQLite FTS5, external-content index, prefix matching as you type</td></tr>
+<tr><td>Encryption</td><td>SQLCipher (AES-256), whole-database, opt-in per database</td></tr>
+<tr><td>Rich content</td><td>WPF FlowDocument stored as XamlPackage blobs (images + tables round-trip)</td></tr>
+<tr><td>Markdown</td><td>Markdig, advanced extensions, raw HTML disabled</td></tr>
+<tr><td>Share formats</td><td>.knote (single note), .kndb (whole database), HKCU file associations</td></tr>
+<tr><td>Import</td><td>.txt, .log, .md, .html, .rtf, png/jpg/gif/bmp images</td></tr>
+<tr><td>Export</td><td>.txt, .rtf, self-contained .html; notes also share as .knote</td></tr>
+<tr><td>Network use</td><td>None, except the About panel's version check (GitHub)</td></tr>
+</table>
+</section>
+
+</div>
+</div>
+</div>
+<aside class="sidebar">
+<div class="sb-tabs"><span class="on" data-i18n="nav_tech">Technical</span></div>
+<nav class="outline">
+<a href="#architecture" class="on">Architecture</a>
+<a href="#storage">Storage</a>
+<a href="#search">Search</a>
+<a href="#encryption">Encryption</a>
+<a href="#sharing">Sharing formats</a>
+<a href="#formats">Import &amp; export</a>
+<a href="#privacy">Privacy</a>
+<a href="#specs">Specs</a>
+</nav>
+</aside>
+</div>
+<footer class="statusbar">
+<span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener">Source on GitHub</a> &middot; Part of <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span>
+<span class="right"><span id="verEgg" title="click me">v1.0.0</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
+</footer>
+<div class="egg-toast" id="eggToast"></div>
+<div class="dlightbox" id="dlightbox" hidden><div class="dlb-inner" id="dlbInner"></div></div>
+<script src="kn.js?v=1"></script>
+<script>
+(function(){
+  // Click a diagram to enlarge it (clone the SVG into the overlay; click anywhere to close).
+  var lb=document.getElementById('dlightbox'), inner=document.getElementById('dlbInner');
+  [].slice.call(document.querySelectorAll('.diagram svg')).forEach(function(svg){
+    svg.addEventListener('click',function(){ inner.innerHTML=''; inner.appendChild(svg.cloneNode(true)); lb.hidden=false; });
+  });
+  lb.addEventListener('click',function(){ lb.hidden=true; });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') lb.hidden=true; });
+})();
+</script>
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.outline a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));}).filter(Boolean);
+  var sc=document.querySelector('.content-scroll');
+  function onScroll(){ var y=(sc?sc.scrollTop:window.scrollY)+100, cur=secs[0]; secs.forEach(function(s){ if(s&&s.offsetTop<=y) cur=s; });
+    links.forEach(function(a){ a.classList.toggle('on', cur && a.getAttribute('href')==='#'+cur.id); }); }
+  (sc||window).addEventListener('scroll',onScroll,{passive:true}); onScroll();
+})();
+</script>
+</body>
+</html>

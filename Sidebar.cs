@@ -51,7 +51,7 @@ namespace KillerNotes
             // Chevron points toward where the panel goes (char casts: literal PUA glyphs
             // do not survive tooling).
             SidebarToggleBtn.Content = ((char)(_sidebarCollapsed ? 0xE76C : 0xE76B)).ToString();
-            SidebarToggleBtn.ToolTip = _sidebarCollapsed ? "Expand sidebar (F9)" : "Collapse sidebar (F9)";
+            SidebarToggleBtn.ToolTip = Loc(_sidebarCollapsed ? "Str_TT_ExpandSidebar" : "Str_TT_CollapseSidebar");
         }
 
         // Both theme buttons (sidebar bottom + collapsed strip) share one flyout:

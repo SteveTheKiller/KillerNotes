@@ -25,7 +25,8 @@ namespace KillerNotes
         private static readonly string[] HtmlExts = [".html", ".htm"];
 
         /// <summary>Set around the sidebar drag-OUT so dropping a note back onto the
-        /// list does not re-import its own temp .knote as a duplicate.</summary>
+        /// list, the editor, or the empty state does not re-import its own temp
+        /// .knote as a duplicate.</summary>
         private bool _noteDragOut;
 
         // ---- Import ----
@@ -44,13 +45,7 @@ namespace KillerNotes
             var dlg = new Microsoft.Win32.OpenFileDialog
             {
                 Multiselect = true,
-                Filter = "All supported|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|" +
-                         "Text (*.txt, *.log, *.md)|*.txt;*.log;*.md|" +
-                         "HTML (*.html, *.htm)|*.html;*.htm|" +
-                         "Rich text (*.rtf)|*.rtf|" +
-                         "Images|*.png;*.jpg;*.jpeg;*.gif;*.bmp|" +
-                         "KillerNotes files (*.knote, *.kndb)|*.knote;*.kndb|" +
-                         "All files (*.*)|*.*",
+                Filter = Loc("Str_Filter_Open"),
             };
             if (dlg.ShowDialog(this) != true) return;
             ImportFiles(dlg.FileNames);
@@ -80,7 +75,8 @@ namespace KillerNotes
                 }
                 catch (Exception ex)
                 {
-                    StatusText.Text = $"Import failed for {Path.GetFileName(path)}: {ex.Message}";
+                    StatusText.Text = string.Format(Loc("Str_St_ImportFailedFile"),
+                        Path.GetFileName(path), ex.Message);
                 }
             }
             if (made == 0) return;
@@ -91,12 +87,18 @@ namespace KillerNotes
             _syncingSelection = true;
             NotesList.SelectedItem = _notes.FirstOrDefault(x => x.Id == lastId);
             _syncingSelection = false;
-            StatusText.Text = made == 1 ? "1 file imported" : $"{made} files imported";
+            StatusText.Text = made == 1
+                ? Loc("Str_St_Imported1")
+                : string.Format(Loc("Str_St_ImportedN"), made);
         }
 
-        /// <summary>Serializes a built document into a brand-new note.</summary>
+        /// <summary>Serializes a built document into a brand-new note. The editor's font
+        /// is stamped on the root so code-built notes (imports, demo data) do not bake
+        /// the FlowDocument default serif into the blob.</summary>
         private static long CreateNoteFromDocument(string title, FlowDocument doc)
         {
+            doc.FontFamily = new FontFamily("Segoe UI");
+            doc.FontSize = 13;
             long id = NoteStore.Create(title);
             var range = new TextRange(doc.ContentStart, doc.ContentEnd);
             using var ms = new MemoryStream();
@@ -204,7 +206,7 @@ namespace KillerNotes
             var dlg = new Microsoft.Win32.SaveFileDialog
             {
                 FileName = SafeFileName(n.Title) + ".txt",
-                Filter = "Text file (*.txt)|*.txt|Rich text (*.rtf)|*.rtf|Web page (*.html)|*.html",
+                Filter = Loc("Str_Filter_Save"),
             };
             if (dlg.ShowDialog(this) != true) return;
 
@@ -225,9 +227,9 @@ namespace KillerNotes
                             new TextRange(doc.ContentStart, doc.ContentEnd).Text, Encoding.UTF8);
                         break;
                 }
-                StatusText.Text = $"Exported to {dlg.FileName}";
+                StatusText.Text = string.Format(Loc("Str_St_ExportedTo"), dlg.FileName);
             }
-            catch (Exception ex) { StatusText.Text = "Export failed: " + ex.Message; }
+            catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_ExportFailed"), ex.Message); }
         }
 
         private static FlowDocument LoadNoteDocument(long id)
@@ -240,6 +242,9 @@ namespace KillerNotes
                 using var ms = new MemoryStream(blob);
                 range.Load(ms, DataFormats.XamlPackage);
             }
+            // Same normalization as the editor load: neutral baked colors drop away so
+            // exports carry only DELIBERATE colors (the HTML shell styles the rest).
+            NormalizeThemeColors(doc);
             return doc;
         }
 
@@ -370,10 +375,13 @@ namespace KillerNotes
                 }
             }
 
+            // Local values only: after NormalizeThemeColors, a color that is still set
+            // was chosen on purpose. Inherited defaults stay unstyled so the page's
+            // theme-shell CSS colors them.
             string style = "";
-            if (r.Foreground is SolidColorBrush f)
+            if (r.ReadLocalValue(TextElement.ForegroundProperty) is SolidColorBrush f)
                 style += $"color:#{f.Color.R:X2}{f.Color.G:X2}{f.Color.B:X2};";
-            if (r.Background is SolidColorBrush b && b.Color.A > 0)
+            if (r.ReadLocalValue(TextElement.BackgroundProperty) is SolidColorBrush b && b.Color.A > 0)
                 style += $"background:#{b.Color.R:X2}{b.Color.G:X2}{b.Color.B:X2};";
 
             if (style.Length > 0) sb.Append("<span style=\"").Append(style).Append("\">");

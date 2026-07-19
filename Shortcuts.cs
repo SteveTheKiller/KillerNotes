@@ -11,30 +11,31 @@ namespace KillerNotes
     // Ctrl+ combos cover the conventions other apps set (Ctrl+N, Ctrl+F, Ctrl+S).
     public partial class MainWindow
     {
-        // (keys, action) pairs - BuildShortcutRows renders these into the F1 overlay,
-        // so this list IS the documentation. Keep it current when adding hotkeys.
+        // (keys, string-resource key) pairs - BuildShortcutRows renders these into the F1
+        // overlay via Loc(), so this list IS the documentation. Keep it current when
+        // adding hotkeys; the English text lives in Strings/en-US.xaml.
         private static readonly (string Keys, string Action)[] ShortcutMap =
         [
-            ("F1",            "Keyboard shortcuts (this list)"),
-            ("F2",            "Rename the open note"),
-            ("F3 / Ctrl+F",   "Search notes"),
-            ("F4",            "Toggle markdown/HTML preview"),
-            ("F6",            "Show / hide the format bar"),
-            ("F8",            "Export the open note (.txt / .rtf / .html)"),
-            ("F9",            "Collapse / expand the sidebar"),
-            ("F12",           "About KillerNotes"),
-            ("Ctrl+N",        "New note"),
-            ("Ctrl+O",        "Open files as new notes"),
-            ("Ctrl+S",        "Save now (autosave runs anyway)"),
-            ("Ctrl+B / I / U","Bold / italic / underline"),
-            ("Ctrl+Shift+S",  "Strikethrough"),
-            ("Ctrl+Shift+M",  "Monospace (code)"),
-            ("Ctrl+Shift+H",  "Highlight selection (yellow)"),
-            ("Ctrl+Shift+R",  "Insert horizontal rule"),
-            ("Ctrl+Shift+L / N", "Bulleted / numbered list"),
-            ("Ctrl+V",        "Paste - text, images, tables"),
-            ("Delete",        "Delete the selected note (in the list)"),
-            ("Esc",           "Close overlay / clear search"),
+            ("F1",            "Str_KS_ThisList"),
+            ("F2",            "Str_KS_Rename"),
+            ("F3 / Ctrl+F",   "Str_KS_Search"),
+            ("F4",            "Str_KS_Preview"),
+            ("F6",            "Str_KS_FormatBar"),
+            ("F8",            "Str_KS_Export"),
+            ("F9",            "Str_KS_Sidebar"),
+            ("F12",           "Str_KS_About"),
+            ("Ctrl+N",        "Str_KS_NewNote"),
+            ("Ctrl+O",        "Str_KS_OpenFiles"),
+            ("Ctrl+S",        "Str_KS_Save"),
+            ("Ctrl+B / I / U","Str_KS_BIU"),
+            ("Ctrl+Shift+S",  "Str_KS_Strike"),
+            ("Ctrl+Shift+M",  "Str_KS_Mono"),
+            ("Ctrl+Shift+H",  "Str_KS_Highlight"),
+            ("Ctrl+Shift+R",  "Str_KS_Rule"),
+            ("Ctrl+Shift+L / N", "Str_KS_Lists"),
+            ("Ctrl+V",        "Str_KS_Paste"),
+            ("Delete",        "Str_KS_Delete"),
+            ("Esc",           "Str_KS_Esc"),
         ];
 
         private void InitShortcuts()
@@ -55,7 +56,7 @@ namespace KillerNotes
                 var key = new TextBlock { Text = keys, FontFamily = new System.Windows.Media.FontFamily("Consolas"), FontSize = 12 };
                 key.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryBrush");
 
-                var desc = new TextBlock { Text = action, FontSize = 12, TextWrapping = TextWrapping.Wrap };
+                var desc = new TextBlock { Text = Loc(action), FontSize = 12, TextWrapping = TextWrapping.Wrap };
                 desc.SetResourceReference(TextBlock.ForegroundProperty, "TextBrush");
                 Grid.SetColumn(desc, 1);
 
@@ -134,8 +135,8 @@ namespace KillerNotes
                     OpenFilesDialog();                   // ImportExport.cs
                     e.Handled = true;
                     break;
-                case Key.Delete when NotesList.IsKeyboardFocusWithin && NotesList.SelectedItem is Note sel:
-                    DeleteNoteWithConfirm(sel);          // Notes.cs
+                case Key.Delete when NotesList.IsKeyboardFocusWithin && NotesList.SelectedItems.Count > 0:
+                    DeleteNotesWithConfirm(NotesList.SelectedItems.Cast<Note>().ToList());   // Notes.cs
                     e.Handled = true;
                     break;
                 case Key.Escape:

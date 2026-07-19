@@ -1,0 +1,244 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- KillerNotes - Türkçe (tr-TR). Layered over en-US.xaml; omitted keys fall back. -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">Veritabanlarını yönet</sys:String>
+    <sys:String x:Key="Str_TT_Lock">Parola koruması</sys:String>
+    <sys:String x:Key="Str_TT_About">KillerNotes hakkında</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">Kenar çubuğunu daralt (F9)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Kenar çubuğunu genişlet (F9)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">Klavye kısayolları (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">Tema</sys:String>
+    <sys:String x:Key="Str_TT_Language">Dil</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Notlarda ara  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ Yeni not</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">Yeni not (Ctrl+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">Oluşturma zamanına göre - önce en eski (tersine çevirmek için yeniden tıklayın)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">Alfabetik (tersine çevirmek için yeniden tıklayın)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">Notu paylaş...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">Bir iş arkadaşına göndermek için .knote dosyası olarak kaydedin (isteğe bağlı parola korumalı)</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">Notu farklı dışa aktar...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">Sıradan bir dosya olarak kopya kaydedin - .txt, .rtf veya .html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">Notu sil</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">Kes</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">Kopyala</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">Yapıştır</sys:String>
+
+    <!-- Theme flyout -->
+    <sys:String x:Key="Str_Lbl_Theme">tema</sys:String>
+    <sys:String x:Key="Str_Lbl_Accent">vurgu</sys:String>
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">Kalın (Ctrl+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">İtalik (Ctrl+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">Altı çizili (Ctrl+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">Üstü çizili (Ctrl+Shift+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">Eş aralıklı (kod, Ctrl+Shift+M)</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">Metin rengi ve vurgulama</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">Madde işaretli liste (Ctrl+Shift+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">Numaralı liste (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">Yatay çizgi (Ctrl+Shift+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">Tablo ekle (boyutu seçmek için sürükleyin)</sys:String>
+    <sys:String x:Key="Str_TT_Preview">Önizleme (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">Biçim çubuğunu gizle (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">Taşımak için sürükleyin - küçültmek için çift tıklayın</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Taşımak için sürükleyin - geri getirmek için çift tıklayın veya F6</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">metin</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">vurgu</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">Vurgu rengi</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">otomatik</sys:String>
+    <sys:String x:Key="Str_TT_Auto">Temanın metin rengine geri dön</sys:String>
+    <sys:String x:Key="Str_Btn_None">yok</sys:String>
+    <sys:String x:Key="Str_TT_None">Vurgulamayı kaldır</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">boyut</sys:String>
+    <sys:String x:Key="Str_TT_Columns">Sütunlar</sys:String>
+    <sys:String x:Key="Str_TT_Rows">Satırlar</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">Ekle</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">1-50 sütun, 1-200 satır</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">Yeni not başlatmak için tıklayın, buraya metin veya resim bırakın ya da soldan bir not seçin.</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">Bir nota yalnızca resim dosyaları bırakılabilir</sys:String>
+    <sys:String x:Key="Str_Untitled">Adsız</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">Kaydedildi</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">{0} not</sys:String>
+    <sys:String x:Key="Str_St_Matches">{0} eşleşme</sys:String>
+    <sys:String x:Key="Str_St_NoteDeleted">Not silindi</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">{0} not silindi</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">Not veritabanı açılamadı: {0}</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">"{0}" silinsin mi?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">{0} not silinsin mi?</sys:String>
+    <sys:String x:Key="Str_Dlg_CannotUndo">Bu işlem geri alınamaz.</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">Sil</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">İptal</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">KillerNotes kilidini aç</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">Yanlış parola - yeniden deneyin</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">"{0}" parola korumalı.</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">Kilidi aç</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Yeni veritabanı...</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">onayla</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">Yeni bir veritabanı başlatılsın mı?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Kilitli veritabanı diskte kalır ve parola bulunursa daha sonra açılabilir.
+Parola olmadan notlarını kurtarmanın bir yolu yoktur.</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">Yeni başlat</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">Yeni veritabanı - kilitli olan {0} olarak saklanıyor</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">Parola belirle</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Tüm not veritabanını şifreler (SQLCipher ile AES-256).
+Kaybetmeyin - kurtarma yolu yoktur.</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">Şifrele</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">Parolayı değiştir veya kaldır</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">Yeni bir parola girin veya korumayı kaldırmak için iki kutuyu da boş bırakın.</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">Uygula</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">Parolalar eşleşmedi - hiçbir şey değişmedi</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">Veritabanı şifrelendi</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">Parola değiştirildi</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">Parola kaldırıldı - veritabanı artık şifreli değil</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">Parola değişikliği başarısız: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">"{0}" veritabanı eklensin mi?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">KillerNotes veri klasörünüze kopyalanır ve açılır.
+Mevcut veritabanınız Veritabanlarını yönet içinde kullanılabilir kalır.</sys:String>
+    <sys:String x:Key="Str_Btn_Add">Ekle</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">Veritabanı ekleme başarısız: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">"{0}" içe aktarılsın mı?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">İçindeki notlar mevcut veritabanınıza eklenir.</sys:String>
+    <sys:String x:Key="Str_Btn_Import">İçe aktar</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">Paylaşılan notun kilidini aç</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">"{0}" bir paylaşım parolasıyla korunuyor.</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">1 not içe aktarıldı</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">{0} not içe aktarıldı</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">İçe aktarma başarısız: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">Paylaşılan not korunsun mu?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">İsteğe bağlı: alıcı, notu açmak için bu parolayı girmelidir.
+Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
+    <sys:String x:Key="Str_Btn_Share">Paylaş</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">Parolalar eşleşmedi - hiçbir şey paylaşılmadı</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">{0} konumuna paylaşıldı</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">Paylaşım başarısız: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote bıraktığınız yerde hazır</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">Sürükleyerek paylaşma başarısız: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">{0} içe aktarılamadı: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">1 dosya içe aktarıldı</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">{0} dosya içe aktarıldı</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">{0} konumuna dışa aktarıldı</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">Dışa aktarma başarısız: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">Desteklenen tümü|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Metin (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Zengin metin (*.rtf)|*.rtf|Resimler|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes dosyaları (*.knote, *.kndb)|*.knote;*.kndb|Tüm dosyalar (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Metin dosyası (*.txt)|*.txt|Zengin metin (*.rtf)|*.rtf|Web sayfası (*.html)|*.html</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">Markdown önizlemesi</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">HTML önizlemesi</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">Önizleme başarısız: {0}</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">Veritabanları</sys:String>
+    <sys:String x:Key="Str_Btn_Open">Aç</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">Yeni veritabanı</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">Seçili veritabanını sil</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">Veri klasörünü Dosya Gezgini'nde aç</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">Yeniden adlandır</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">Sil</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">Dosyayı kopyala</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">.db dosyasını panoya dosya olarak koyar - paylaşmak için Gezgin'e, Teams'e veya bir e-postaya yapıştırın</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">.kndb olarak dışa aktar...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">İş arkadaşlarınızın çift tıklayıp KillerNotes'ta açabileceği bir kopya kaydeder</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">Gezgin'de göster</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">Önce bir veritabanı seçin</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">şifreli</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">etkin</sys:String>
+    <sys:String x:Key="Str_Db_Copied">{0} kopyalandı - Gezgin'e, Teams'e veya bir e-postaya yapıştırın</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">Kopyalama başarısız: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">Bu ad, Windows'un izin vermediği karakterler içeriyor</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} zaten var</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">{0}, {1} olarak yeniden adlandırıldı</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">Yeniden adlandırma başarısız: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">Oluşturma başarısız: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">İçindeki her not kalıcı olarak silinir. Bu işlem geri alınamaz.</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">{0} silindi</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">Silme başarısız: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">KillerNotes veritabanı (*.kndb)|*.kndb</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Version">Sürüm</sys:String>
+    <sys:String x:Key="Str_About_Publisher">Yayımcı</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">Sertifika parmak izi</sys:String>
+    <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Ayak uyduran notlar. GPLv3 lisanslı bir </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve"> aracı.</sys:String>
+    <sys:String x:Key="Str_About_Computing">hesaplanıyor...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">Güncelleme var: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">İndiriliyor...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} indirilip kurulsun mu?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">Uygulama otomatik olarak kapanıp yeniden açılır.</sys:String>
+    <sys:String x:Key="Str_Btn_Update">Güncelle</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">Klavye kısayolları</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">LİSTE</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">KLAVYE</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">o katmanı görmek için Ctrl veya Shift tuşunu basılı tutun</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">Klavye kısayolları (bu liste)</sys:String>
+    <sys:String x:Key="Str_KS_Rename">Açık notu yeniden adlandır</sys:String>
+    <sys:String x:Key="Str_KS_Search">Notlarda ara</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Markdown/HTML önizlemesini aç/kapat</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">Biçim çubuğunu göster / gizle</sys:String>
+    <sys:String x:Key="Str_KS_Export">Açık notu dışa aktar (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">Kenar çubuğunu daralt / genişlet</sys:String>
+    <sys:String x:Key="Str_KS_About">KillerNotes hakkında</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">Yeni not</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">Dosyaları yeni not olarak aç</sys:String>
+    <sys:String x:Key="Str_KS_Save">Şimdi kaydet (otomatik kayıt zaten çalışır)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">Kalın / italik / altı çizili</sys:String>
+    <sys:String x:Key="Str_KS_Strike">Üstü çizili</sys:String>
+    <sys:String x:Key="Str_KS_Mono">Eş aralıklı (kod)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Seçimi vurgula (sarı)</sys:String>
+    <sys:String x:Key="Str_KS_Rule">Yatay çizgi ekle</sys:String>
+    <sys:String x:Key="Str_KS_Lists">Madde işaretli / numaralı liste</sys:String>
+    <sys:String x:Key="Str_KS_Paste">Yapıştır - metin, resim, tablo</sys:String>
+    <sys:String x:Key="Str_KS_Delete">Seçili notu sil (listede)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">Paneli kapat / aramayı temizle</sys:String>
+
+    <!-- Keyboard map (short keycap captions + section names) -->
+    <sys:String x:Key="Str_Kb_Shortcuts">Klavye kısayolları</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">Markdown/HTML önizlemesi</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">Biçim çubuğu</sys:String>
+    <sys:String x:Key="Str_Kb_Export">Açık notu dışa aktar</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">Kenar çubuğu</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">Notu sil (listede)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">Şimdi kaydet</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">Kalın</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">İtalik</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">Altı çizili</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">Yapıştır</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">Vurgula</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">Yatay çizgi</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">Madde işaretli liste</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">Numaralı liste</sys:String>
+    <sys:String x:Key="Str_Sec_File">Dosya</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">Notlar</sys:String>
+    <sys:String x:Key="Str_Sec_Format">Biçimlendirme</sys:String>
+    <sys:String x:Key="Str_Sec_View">Görünüm</sys:String>
+    <sys:String x:Key="Str_Sec_Search">Arama</sys:String>
+    <sys:String x:Key="Str_Sec_Help">Yardım</sys:String>
+
+</ResourceDictionary>

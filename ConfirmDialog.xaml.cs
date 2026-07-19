@@ -16,7 +16,7 @@ namespace KillerNotes
 
         // Configurable variant for reusing the themed dialog beyond the install prompt
         // (e.g. the self-update confirmation). detail may contain newlines for multiple lines.
-        public ConfirmDialog(string heading, string detail, string confirmText, string cancelText = "Cancel")
+        public ConfirmDialog(string heading, string detail, string confirmText, string? cancelText = null)
             : this()
         {
             HeadingText.Text = heading;
@@ -24,7 +24,9 @@ namespace KillerNotes
             DetailText.Text = detail;
             DetailText.Visibility = string.IsNullOrEmpty(detail) ? Visibility.Collapsed : Visibility.Visible;
             OkButton.Content = confirmText;
-            CancelButton.Content = cancelText;
+            // Localized default: callers rarely pass a cancel caption.
+            CancelButton.Content = cancelText
+                ?? Application.Current.TryFindResource("Str_Btn_Cancel") as string ?? "Cancel";
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)

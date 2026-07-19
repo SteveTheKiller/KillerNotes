@@ -25,10 +25,16 @@ namespace KillerNotes.Services
         public static string DbDir  => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KillerNotes");
 
+        /// <summary>Set by --demo (App.OnStartup): overrides the active db with a scratch
+        /// demo file so screenshot sessions never touch real notes. In-memory only - the
+        /// "ActiveDatabase" setting is not written, so the next normal launch is untouched.</summary>
+        public static string? DemoDbFile;
+
         /// <summary>File name of the active database inside DbDir ("ActiveDatabase" setting;
         /// defaults to notes.db). The Manage databases dialog switches and renames these.</summary>
         public static string ActiveDbFile =>
-            App.GetSetting("ActiveDatabase") is string s && !string.IsNullOrWhiteSpace(s) ? s : "notes.db";
+            DemoDbFile ??
+            (App.GetSetting("ActiveDatabase") is string s && !string.IsNullOrWhiteSpace(s) ? s : "notes.db");
 
         public static string DbPath => Path.Combine(DbDir, ActiveDbFile);
 
@@ -205,6 +211,18 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             cmd.ExecuteNonQuery();
         }
 
+        /// <summary>Backdates a note (demo mode only - fabricated screenshot data needs a
+        /// lived-in sidebar). Normal saves always stamp DateTime.Now.</summary>
+        public static void SetTimestamps(long id, DateTime created, DateTime modified)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET created = $c, modified = $m WHERE id = $id";
+            cmd.Parameters.AddWithValue("$c", Ts(created));
+            cmd.Parameters.AddWithValue("$m", Ts(modified));
+            cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
+        }
+
         public static void Delete(long id)
         {
             using var cmd = _db!.CreateCommand();
@@ -330,7 +348,15 @@ WHERE notes_fts MATCH $q ORDER BY rank";
 
         // ---- Helpers ----
 
-        static NoteStore() => SQLitePCL.Batteries_V2.Init();
+        // SqlCipherBootstrap must run first: it extracts and preloads the embedded native
+        // e_sqlcipher.dll. The static provider (not Batteries_V2.Init) is deliberate: the
+        // bundle's dynamic loader probes Assembly.Location, which is empty for Costura
+        // in-memory assemblies and throws. Plain DllImport resolves to the preloaded module.
+        static NoteStore()
+        {
+            SqlCipherBootstrap.EnsureLoaded();
+            SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlcipher());
+        }
 
         private static void Exec(string sql)
         {

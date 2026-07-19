@@ -1,0 +1,244 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- KillerNotes - বাংলা (bn). Layered over en-US.xaml; omitted keys fall back. -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">ডেটাবেস পরিচালনা</sys:String>
+    <sys:String x:Key="Str_TT_Lock">পাসওয়ার্ড সুরক্ষা</sys:String>
+    <sys:String x:Key="Str_TT_About">KillerNotes সম্পর্কে</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">সাইডবার সংকুচিত করুন (F9)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">সাইডবার প্রসারিত করুন (F9)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">কীবোর্ড শর্টকাট (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">থিম</sys:String>
+    <sys:String x:Key="Str_TT_Language">ভাষা</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">নোট খুঁজুন  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ নতুন নোট</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">নতুন নোট (Ctrl+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">তৈরির সময় অনুযায়ী - পুরোনো আগে (উল্টাতে আবার ক্লিক করুন)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">বর্ণানুক্রমিক (উল্টাতে আবার ক্লিক করুন)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">নোট শেয়ার করুন...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">সহকর্মীকে পাঠাতে .knote ফাইল হিসেবে সংরক্ষণ করুন (ঐচ্ছিক পাসওয়ার্ড সুরক্ষাসহ)</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">নোট এক্সপোর্ট করুন...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">সাধারণ ফাইল হিসেবে একটি কপি সংরক্ষণ করুন - .txt, .rtf বা .html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">নোট মুছুন</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">কাট</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">কপি</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">পেস্ট</sys:String>
+
+    <!-- Theme flyout -->
+    <sys:String x:Key="Str_Lbl_Theme">থিম</sys:String>
+    <sys:String x:Key="Str_Lbl_Accent">অ্যাকসেন্ট</sys:String>
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">বোল্ড (Ctrl+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">ইটালিক (Ctrl+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">আন্ডারলাইন (Ctrl+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">স্ট্রাইকথ্রু (Ctrl+Shift+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">মনোস্পেস (কোড, Ctrl+Shift+M)</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">লেখার রং ও হাইলাইট</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">বুলেট তালিকা (Ctrl+Shift+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">সংখ্যায়িত তালিকা (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">অনুভূমিক রেখা (Ctrl+Shift+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">টেবিল যোগ করুন (আকার বাছতে টেনে আনুন)</sys:String>
+    <sys:String x:Key="Str_TT_Preview">প্রিভিউ (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">ফরম্যাট বার লুকান (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">সরাতে টেনে আনুন - ছোট করতে ডাবল ক্লিক করুন</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">সরাতে টেনে আনুন - ফিরিয়ে আনতে ডাবল ক্লিক বা F6</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">লেখা</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">হাইলাইট</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">অ্যাকসেন্ট</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">স্বয়ংক্রিয়</sys:String>
+    <sys:String x:Key="Str_TT_Auto">থিমের লেখার রঙে ফিরে যান</sys:String>
+    <sys:String x:Key="Str_Btn_None">নেই</sys:String>
+    <sys:String x:Key="Str_TT_None">হাইলাইট সরান</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">আকার</sys:String>
+    <sys:String x:Key="Str_TT_Columns">কলাম</sys:String>
+    <sys:String x:Key="Str_TT_Rows">সারি</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">যোগ করুন</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">১-৫০ কলাম, ১-২০০ সারি</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">নতুন নোট শুরু করতে ক্লিক করুন, এখানে লেখা বা ছবি ফেলুন, বা বাঁ দিক থেকে একটি বেছে নিন।</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">নোটে কেবল ছবির ফাইল ফেলা যায়</sys:String>
+    <sys:String x:Key="Str_Untitled">শিরোনামহীন</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">সংরক্ষিত</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">{0}টি নোট</sys:String>
+    <sys:String x:Key="Str_St_Matches">{0}টি মিল</sys:String>
+    <sys:String x:Key="Str_St_NoteDeleted">নোট মুছে ফেলা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">{0}টি নোট মুছে ফেলা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">নোট ডেটাবেস খোলা যায়নি: {0}</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">"{0}" মুছবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">{0}টি নোট মুছবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_CannotUndo">এটি আর ফেরানো যাবে না।</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">মুছুন</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">বাতিল</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">KillerNotes আনলক করুন</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">ভুল পাসওয়ার্ড - আবার চেষ্টা করুন</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">"{0}" পাসওয়ার্ড দিয়ে সুরক্ষিত।</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">আনলক</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">নতুন ডেটাবেস...</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">নিশ্চিত করুন</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">নতুন ডেটাবেস শুরু করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">লক করা ডেটাবেসটি ডিস্কে থেকে যায়; পাসওয়ার্ড পাওয়া গেলে পরে আনলক করা যাবে।
+পাসওয়ার্ড ছাড়া এর নোটগুলো ফিরে পাওয়ার কোনো উপায় নেই।</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">নতুন শুরু করুন</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">নতুন ডেটাবেস - লক করা ডেটাবেসটি {0} নামে রাখা আছে</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">একটি পাসওয়ার্ড দিন</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">পুরো নোট ডেটাবেস এনক্রিপ্ট করে (SQLCipher-এর মাধ্যমে AES-256)।
+হারাবেন না - পুনরুদ্ধারের কোনো উপায় নেই।</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">এনক্রিপ্ট</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">পাসওয়ার্ড বদলান বা সরান</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">নতুন পাসওয়ার্ড লিখুন, বা সুরক্ষা সরাতে দুটি ঘরই খালি রাখুন।</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">প্রয়োগ</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">পাসওয়ার্ড মেলেনি - কিছুই বদলায়নি</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">ডেটাবেস এনক্রিপ্ট করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">পাসওয়ার্ড বদলানো হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">পাসওয়ার্ড সরানো হয়েছে - ডেটাবেস আর এনক্রিপ্ট করা নেই</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">পাসওয়ার্ড বদলানো যায়নি: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">"{0}" ডেটাবেস যোগ করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">এটি আপনার KillerNotes ডেটা ফোল্ডারে কপি হয়ে খুলবে।
+আপনার বর্তমান ডেটাবেস "ডেটাবেস পরিচালনা"-তে পাওয়া যাবে।</sys:String>
+    <sys:String x:Key="Str_Btn_Add">যোগ করুন</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">ডেটাবেস যোগ করা যায়নি: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">"{0}" ইমপোর্ট করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">এর নোটগুলো আপনার বর্তমান ডেটাবেসে যোগ হবে।</sys:String>
+    <sys:String x:Key="Str_Btn_Import">ইমপোর্ট</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">শেয়ার করা নোট আনলক করুন</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">"{0}" একটি শেয়ার পাসওয়ার্ড দিয়ে সুরক্ষিত।</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">১টি নোট ইমপোর্ট হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">{0}টি নোট ইমপোর্ট হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">ইমপোর্ট ব্যর্থ: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">শেয়ার করা নোট সুরক্ষিত করবেন?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">ঐচ্ছিক: প্রাপককে এটি খুলতে এই পাসওয়ার্ড লিখতে হবে।
+পাসওয়ার্ড ছাড়া শেয়ার করতে দুটি ঘরই খালি রাখুন।</sys:String>
+    <sys:String x:Key="Str_Btn_Share">শেয়ার</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">পাসওয়ার্ড মেলেনি - কিছুই শেয়ার হয়নি</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">{0}-এ শেয়ার হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">শেয়ার ব্যর্থ: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote আপনি যেখানে ফেলেছেন সেখানে প্রস্তুত</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">টেনে শেয়ার ব্যর্থ: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">{0} ইমপোর্ট করা যায়নি: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">১টি ফাইল ইমপোর্ট হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">{0}টি ফাইল ইমপোর্ট হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">{0}-এ এক্সপোর্ট হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">এক্সপোর্ট ব্যর্থ: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">সব সমর্থিত|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|টেক্সট (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|রিচ টেক্সট (*.rtf)|*.rtf|ছবি|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes ফাইল (*.knote, *.kndb)|*.knote;*.kndb|সব ফাইল (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">টেক্সট ফাইল (*.txt)|*.txt|রিচ টেক্সট (*.rtf)|*.rtf|ওয়েব পেজ (*.html)|*.html</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">মার্কডাউন প্রিভিউ</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">HTML প্রিভিউ</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">প্রিভিউ ব্যর্থ: {0}</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">ডেটাবেস</sys:String>
+    <sys:String x:Key="Str_Btn_Open">খুলুন</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">নতুন ডেটাবেস</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">নির্বাচিত ডেটাবেস মুছুন</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">ডেটা ফোল্ডারটি File Explorer-এ খুলুন</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">নাম বদলান</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">মুছুন</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">ফাইল কপি করুন</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">.db-টি ফাইল হিসেবে ক্লিপবোর্ডে রাখে - শেয়ার করতে Explorer, Teams বা ইমেইলে পেস্ট করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">.kndb হিসেবে এক্সপোর্ট...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">এমন একটি কপি সংরক্ষণ করে যা সহকর্মীরা ডাবল ক্লিকে KillerNotes-এ খুলতে পারবেন</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">Explorer-এ দেখান</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">আগে একটি ডেটাবেস নির্বাচন করুন</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">এনক্রিপ্ট করা</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">সক্রিয়</sys:String>
+    <sys:String x:Key="Str_Db_Copied">{0} কপি হয়েছে - Explorer, Teams বা ইমেইলে পেস্ট করুন</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">কপি ব্যর্থ: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">এই নামে এমন অক্ষর আছে যা Windows অনুমোদন করে না</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} আগে থেকেই আছে</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">{0}-এর নাম বদলে {1} হয়েছে</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">নাম বদলানো যায়নি: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">তৈরি করা যায়নি: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">এর ভেতরের প্রতিটি নোট স্থায়ীভাবে মুছে যাবে। এটি আর ফেরানো যাবে না।</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">{0} মুছে ফেলা হয়েছে</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">মোছা যায়নি: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">KillerNotes ডেটাবেস (*.kndb)|*.kndb</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Version">সংস্করণ</sys:String>
+    <sys:String x:Key="Str_About_Publisher">প্রকাশক</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">সার্টিফিকেট থাম্বপ্রিন্ট</sys:String>
+    <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">তাল মিলিয়ে চলা নোট। একটি GPLv3 </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve"> ইউটিলিটি।</sys:String>
+    <sys:String x:Key="Str_About_Computing">গণনা চলছে...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">আপডেট আছে: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">ডাউনলোড হচ্ছে...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} ডাউনলোড করে ইনস্টল করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">অ্যাপটি নিজে থেকে বন্ধ হয়ে আবার খুলবে।</sys:String>
+    <sys:String x:Key="Str_Btn_Update">আপডেট</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">কীবোর্ড শর্টকাট</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">তালিকা</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">কীবোর্ড</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">সেই স্তরটি দেখতে Ctrl বা Shift চেপে ধরুন</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">কীবোর্ড শর্টকাট (এই তালিকা)</sys:String>
+    <sys:String x:Key="Str_KS_Rename">খোলা নোটের নাম বদলান</sys:String>
+    <sys:String x:Key="Str_KS_Search">নোট খুঁজুন</sys:String>
+    <sys:String x:Key="Str_KS_Preview">মার্কডাউন/HTML প্রিভিউ টগল করুন</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">ফরম্যাট বার দেখান / লুকান</sys:String>
+    <sys:String x:Key="Str_KS_Export">খোলা নোট এক্সপোর্ট করুন (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">সাইডবার সংকুচিত / প্রসারিত করুন</sys:String>
+    <sys:String x:Key="Str_KS_About">KillerNotes সম্পর্কে</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">নতুন নোট</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">ফাইলগুলো নতুন নোট হিসেবে খুলুন</sys:String>
+    <sys:String x:Key="Str_KS_Save">এখনই সংরক্ষণ করুন (স্বয়ংক্রিয় সংরক্ষণ এমনিতেও চলে)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">বোল্ড / ইটালিক / আন্ডারলাইন</sys:String>
+    <sys:String x:Key="Str_KS_Strike">স্ট্রাইকথ্রু</sys:String>
+    <sys:String x:Key="Str_KS_Mono">মনোস্পেস (কোড)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">নির্বাচিত অংশ হাইলাইট করুন (হলুদ)</sys:String>
+    <sys:String x:Key="Str_KS_Rule">অনুভূমিক রেখা যোগ করুন</sys:String>
+    <sys:String x:Key="Str_KS_Lists">বুলেট / সংখ্যায়িত তালিকা</sys:String>
+    <sys:String x:Key="Str_KS_Paste">পেস্ট - লেখা, ছবি, টেবিল</sys:String>
+    <sys:String x:Key="Str_KS_Delete">নির্বাচিত নোট মুছুন (তালিকায়)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">ওভারলে বন্ধ করুন / সার্চ মুছুন</sys:String>
+
+    <!-- Keyboard map (short keycap captions + section names) -->
+    <sys:String x:Key="Str_Kb_Shortcuts">কীবোর্ড শর্টকাট</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">মার্কডাউন/HTML প্রিভিউ</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">ফরম্যাট বার</sys:String>
+    <sys:String x:Key="Str_Kb_Export">খোলা নোট এক্সপোর্ট করুন</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">সাইডবার</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">নোট মুছুন (তালিকায়)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">এখনই সংরক্ষণ করুন</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">বোল্ড</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">ইটালিক</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">আন্ডারলাইন</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">পেস্ট</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">হাইলাইট</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">অনুভূমিক রেখা</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">বুলেট তালিকা</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">সংখ্যায়িত তালিকা</sys:String>
+    <sys:String x:Key="Str_Sec_File">ফাইল</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">নোট</sys:String>
+    <sys:String x:Key="Str_Sec_Format">ফরম্যাটিং</sys:String>
+    <sys:String x:Key="Str_Sec_View">দেখুন</sys:String>
+    <sys:String x:Key="Str_Sec_Search">সার্চ</sys:String>
+    <sys:String x:Key="Str_Sec_Help">সহায়তা</sys:String>
+
+</ResourceDictionary>

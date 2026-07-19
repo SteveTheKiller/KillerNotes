@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "KillerNotes": {
+      "commandName": "Project"
+    },
+    "KillerNotes (demo)": {
+      "commandName": "Project",
+      "commandLineArgs": "--demo"
+    }
+  }
+}

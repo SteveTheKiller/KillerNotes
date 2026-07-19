@@ -1,0 +1,244 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- KillerNotes - 日本語 (ja-JP). Layered over en-US.xaml; omitted keys fall back. -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">データベースの管理</sys:String>
+    <sys:String x:Key="Str_TT_Lock">パスワード保護</sys:String>
+    <sys:String x:Key="Str_TT_About">KillerNotes について</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">サイドバーを折りたたむ (F9)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">サイドバーを展開 (F9)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">キーボード ショートカット (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">テーマ</sys:String>
+    <sys:String x:Key="Str_TT_Language">言語</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">ノートを検索  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ 新しいノート</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">新しいノート (Ctrl+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">作成日時順 - 古い順 (もう一度クリックで逆順)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">名前順 (もう一度クリックで逆順)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">ノートを共有...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">同僚に送れる .knote ファイルとして保存します (パスワード保護も可能)</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">ノートをエクスポート...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">通常のファイルとしてコピーを保存 - .txt、.rtf、.html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">ノートを削除</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">切り取り</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">コピー</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">貼り付け</sys:String>
+
+    <!-- Theme flyout -->
+    <sys:String x:Key="Str_Lbl_Theme">テーマ</sys:String>
+    <sys:String x:Key="Str_Lbl_Accent">アクセント</sys:String>
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">太字 (Ctrl+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">斜体 (Ctrl+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">下線 (Ctrl+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">取り消し線 (Ctrl+Shift+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">等幅 (コード、Ctrl+Shift+M)</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">文字色と蛍光ペン</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">箇条書き (Ctrl+Shift+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">番号付きリスト (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">水平線 (Ctrl+Shift+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">表を挿入 (ドラッグでサイズを選択)</sys:String>
+    <sys:String x:Key="Str_TT_Preview">プレビュー (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">書式バーを隠す (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">ドラッグで移動 - ダブルクリックで最小化</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">ドラッグで移動 - ダブルクリックまたは F6 で復元</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">文字</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">蛍光ペン</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">アクセント</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">自動</sys:String>
+    <sys:String x:Key="Str_TT_Auto">テーマの文字色に戻す</sys:String>
+    <sys:String x:Key="Str_Btn_None">なし</sys:String>
+    <sys:String x:Key="Str_TT_None">蛍光ペンを解除</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">サイズ</sys:String>
+    <sys:String x:Key="Str_TT_Columns">列</sys:String>
+    <sys:String x:Key="Str_TT_Rows">行</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">挿入</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">列 1-50、行 1-200</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">クリックして新しいノートを開始、ここにテキストや画像をドロップ、または左から選択してください。</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">ノートにドロップできるのは画像ファイルのみです</sys:String>
+    <sys:String x:Key="Str_Untitled">無題</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">保存しました</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">{0} 件のノート</sys:String>
+    <sys:String x:Key="Str_St_Matches">{0} 件が一致</sys:String>
+    <sys:String x:Key="Str_St_NoteDeleted">ノートを削除しました</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">{0} 件のノートを削除しました</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">ノート データベースを開けませんでした: {0}</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">「{0}」を削除しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">{0} 件のノートを削除しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_CannotUndo">この操作は元に戻せません。</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">削除</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">キャンセル</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">KillerNotes のロック解除</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">パスワードが違います - もう一度お試しください</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">「{0}」はパスワードで保護されています。</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">ロック解除</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">新しいデータベース...</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">確認</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">新しいデータベースを開始しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">ロックされたデータベースはディスクに残り、パスワードが見つかれば後で
+ロック解除できます。パスワードなしでノートを復元する方法はありません。</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">新規開始</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">新しいデータベース - ロックされたものは {0} として保持されます</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">パスワードを設定</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">ノート データベース全体を暗号化します (SQLCipher による AES-256)。
+紛失しないでください - 復元はできません。</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">暗号化</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">パスワードの変更または削除</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">新しいパスワードを入力するか、両方を空欄にして保護を解除します。</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">適用</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">パスワードが一致しません - 変更はありません</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">データベースを暗号化しました</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">パスワードを変更しました</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">パスワードを削除しました - データベースは暗号化されていません</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">パスワードの変更に失敗しました: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">データベース「{0}」を追加しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">KillerNotes のデータ フォルダーにコピーされて開きます。
+現在のデータベースはデータベースの管理から引き続き使えます。</sys:String>
+    <sys:String x:Key="Str_Btn_Add">追加</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">データベースの追加に失敗しました: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">「{0}」をインポートしますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">そのノートが現在のデータベースに追加されます。</sys:String>
+    <sys:String x:Key="Str_Btn_Import">インポート</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">共有ノートのロック解除</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">「{0}」は共有パスワードで保護されています。</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">1 件のノートをインポートしました</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">{0} 件のノートをインポートしました</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">インポートに失敗しました: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">共有ノートを保護しますか?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">任意: 受け取った人はこのパスワードを入力しないと開けません。
+パスワードなしで共有するには両方を空欄にしてください。</sys:String>
+    <sys:String x:Key="Str_Btn_Share">共有</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">パスワードが一致しません - 共有されませんでした</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">{0} に共有しました</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">共有に失敗しました: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote をドロップ先に用意しました</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">ドラッグ共有に失敗しました: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">{0} のインポートに失敗しました: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">1 個のファイルをインポートしました</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">{0} 個のファイルをインポートしました</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">{0} にエクスポートしました</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">エクスポートに失敗しました: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">対応するすべての形式|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|テキスト (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|リッチ テキスト (*.rtf)|*.rtf|画像|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes ファイル (*.knote, *.kndb)|*.knote;*.kndb|すべてのファイル (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">テキスト ファイル (*.txt)|*.txt|リッチ テキスト (*.rtf)|*.rtf|Web ページ (*.html)|*.html</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">Markdown プレビュー</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">HTML プレビュー</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">プレビューに失敗しました: {0}</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">データベース</sys:String>
+    <sys:String x:Key="Str_Btn_Open">開く</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">新しいデータベース</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">選択したデータベースを削除</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">データ フォルダーをエクスプローラーで開く</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">名前の変更</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">削除</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">ファイルをコピー</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">.db をファイルとしてクリップボードに置きます - エクスプローラー、Teams、メールに貼り付けて共有できます</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">.kndb としてエクスポート...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">同僚がダブルクリックで KillerNotes で開けるコピーを保存します</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">エクスプローラーで表示</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">先にデータベースを選択してください</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">暗号化済み</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">使用中</sys:String>
+    <sys:String x:Key="Str_Db_Copied">{0} をコピーしました - エクスプローラー、Teams、メールに貼り付けてください</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">コピーに失敗しました: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">その名前には Windows で使えない文字が含まれています</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} は既に存在します</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">{0} を {1} に名前変更しました</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">名前の変更に失敗しました: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">作成に失敗しました: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">中のすべてのノートが完全に削除されます。この操作は元に戻せません。</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">{0} を削除しました</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">削除に失敗しました: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">KillerNotes データベース (*.kndb)|*.kndb</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Version">バージョン</sys:String>
+    <sys:String x:Key="Str_About_Publisher">発行元</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">証明書の拇印</sys:String>
+    <sys:String x:Key="Str_About_Sha">EXE の SHA-256</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">追いつくノート。GPLv3 の </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve"> ユーティリティ。</sys:String>
+    <sys:String x:Key="Str_About_Computing">計算中...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">更新があります: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">ダウンロード中...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} をダウンロードしてインストールしますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">アプリは自動的に終了して再起動します。</sys:String>
+    <sys:String x:Key="Str_Btn_Update">更新</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">キーボード ショートカット</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">リスト</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">キーボード</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">Ctrl または Shift を押すとそのレイヤーを表示します</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">キーボード ショートカット (この一覧)</sys:String>
+    <sys:String x:Key="Str_KS_Rename">開いているノートの名前を変更</sys:String>
+    <sys:String x:Key="Str_KS_Search">ノートを検索</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Markdown/HTML プレビューの切り替え</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">書式バーの表示 / 非表示</sys:String>
+    <sys:String x:Key="Str_KS_Export">開いているノートをエクスポート (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">サイドバーの折りたたみ / 展開</sys:String>
+    <sys:String x:Key="Str_KS_About">KillerNotes について</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">新しいノート</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">ファイルを新しいノートとして開く</sys:String>
+    <sys:String x:Key="Str_KS_Save">今すぐ保存 (自動保存は常に動作します)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">太字 / 斜体 / 下線</sys:String>
+    <sys:String x:Key="Str_KS_Strike">取り消し線</sys:String>
+    <sys:String x:Key="Str_KS_Mono">等幅 (コード)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">選択範囲を蛍光ペン (黄)</sys:String>
+    <sys:String x:Key="Str_KS_Rule">水平線を挿入</sys:String>
+    <sys:String x:Key="Str_KS_Lists">箇条書き / 番号付きリスト</sys:String>
+    <sys:String x:Key="Str_KS_Paste">貼り付け - テキスト、画像、表</sys:String>
+    <sys:String x:Key="Str_KS_Delete">選択したノートを削除 (一覧内)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">オーバーレイを閉じる / 検索をクリア</sys:String>
+
+    <!-- Keyboard map (short keycap captions + section names) -->
+    <sys:String x:Key="Str_Kb_Shortcuts">キーボード ショートカット</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">Markdown/HTML プレビュー</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">書式バー</sys:String>
+    <sys:String x:Key="Str_Kb_Export">開いているノートをエクスポート</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">サイドバー</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">ノートを削除 (一覧内)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">今すぐ保存</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">太字</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">斜体</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">下線</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">貼り付け</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">蛍光ペン</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">水平線</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">箇条書き</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">番号付きリスト</sys:String>
+    <sys:String x:Key="Str_Sec_File">ファイル</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">ノート</sys:String>
+    <sys:String x:Key="Str_Sec_Format">書式</sys:String>
+    <sys:String x:Key="Str_Sec_View">表示</sys:String>
+    <sys:String x:Key="Str_Sec_Search">検索</sys:String>
+    <sys:String x:Key="Str_Sec_Help">ヘルプ</sys:String>
+
+</ResourceDictionary>

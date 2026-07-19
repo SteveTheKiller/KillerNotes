@@ -30,7 +30,7 @@ namespace KillerNotes
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, (_, _) =>
             {
                 SaveCurrentNote();
-                StatusText.Text = "Saved";
+                StatusText.Text = Loc("Str_St_Saved");
             }));
         }
 
@@ -84,6 +84,7 @@ namespace KillerNotes
 
         private void Editor_PreviewDragOver(object sender, DragEventArgs e)
         {
+            if (_noteDragOut) { e.Effects = DragDropEffects.None; e.Handled = true; return; }
             if (e.Data.GetDataPresent(DataFormats.FileDrop) ||
                 (!e.Data.GetDataPresent(DataFormats.Text) && e.Data.GetDataPresent(DataFormats.Bitmap)))
             {
@@ -101,6 +102,7 @@ namespace KillerNotes
         /// empty-state drop target (Notes.cs). Returns true when the drop was consumed.</summary>
         private bool HandleEditorDrop(DragEventArgs e)
         {
+            if (_noteDragOut) return true;   // our own drag-out - swallow it, never self-import
             if (_currentId < 0) return false;
 
             // Land images where the mouse is, not wherever the caret last sat.
@@ -134,7 +136,7 @@ namespace KillerNotes
                     }
                     catch { /* unreadable file - skip it */ }
                 }
-                if (!any) StatusText.Text = "Only image files can be dropped into a note";
+                if (!any) StatusText.Text = Loc("Str_St_OnlyImages");
                 return true;
             }
             if (!e.Data.GetDataPresent(DataFormats.Text) &&
@@ -229,7 +231,7 @@ namespace KillerNotes
                 !int.TryParse(TblRowsBox.Text.Trim(), out int rows) ||
                 cols < 1 || rows < 1 || cols > 50 || rows > 200)
             {
-                TableSizeLabel.Text = "1-50 cols, 1-200 rows";
+                TableSizeLabel.Text = Loc("Str_St_CustomRange");
                 return;
             }
             TableSizePopup.IsOpen = false;
@@ -285,6 +287,77 @@ namespace KillerNotes
         {
             if (Editor.Document.Blocks.LastBlock is not Paragraph p || p.FontSize == 2)
                 Editor.Document.Blocks.Add(new Paragraph());
+        }
+
+        // ---- Theme-adaptive colors ----
+        // A XamlPackage blob bakes the EFFECTIVE colors at save time: a note typed in a
+        // dark theme carries white text, which a light-theme reader (or a .knote
+        // recipient) sees as white-on-white. On every load, neutral (grayscale-ish)
+        // foregrounds/backgrounds are stripped so default text follows the live theme;
+        // deliberately colored text and highlights are left alone.
+
+        /// <summary>True for colors that read as "default text", not a chosen color:
+        /// black, white, and the near-gray theme text tones.</summary>
+        private static bool IsNeutralColor(Color c)
+        {
+            if (c.A == 0) return true;   // fully transparent background
+            int spread = Math.Max(Math.Abs(c.R - c.G), Math.Max(Math.Abs(c.G - c.B), Math.Abs(c.R - c.B)));
+            return spread <= 24;
+        }
+
+        private static void NormalizeThemeColors(FlowDocument doc)
+        {
+            doc.ClearValue(FlowDocument.ForegroundProperty);
+            doc.ClearValue(FlowDocument.BackgroundProperty);
+            foreach (var block in doc.Blocks.ToList()) NormalizeBlock(block);
+        }
+
+        private static void NormalizeBlock(Block block)
+        {
+            NormalizeElement(block);
+            switch (block)
+            {
+                case Paragraph p:
+                    foreach (var i in p.Inlines.ToList()) NormalizeInline(i);
+                    break;
+                case List list:
+                    foreach (var li in list.ListItems.ToList())
+                    {
+                        NormalizeElement(li);
+                        foreach (var b in li.Blocks.ToList()) NormalizeBlock(b);
+                    }
+                    break;
+                case Table t:
+                    foreach (var g in t.RowGroups.ToList())
+                        foreach (var row in g.Rows.ToList())
+                        {
+                            NormalizeElement(row);
+                            foreach (var cell in row.Cells.ToList())
+                            {
+                                NormalizeElement(cell);
+                                foreach (var b in cell.Blocks.ToList()) NormalizeBlock(b);
+                            }
+                        }
+                    break;
+                case Section s:
+                    foreach (var b in s.Blocks.ToList()) NormalizeBlock(b);
+                    break;
+            }
+        }
+
+        private static void NormalizeInline(Inline inline)
+        {
+            NormalizeElement(inline);
+            if (inline is Span sp)
+                foreach (var i in sp.Inlines.ToList()) NormalizeInline(i);
+        }
+
+        private static void NormalizeElement(TextElement te)
+        {
+            if (te.ReadLocalValue(TextElement.ForegroundProperty) is SolidColorBrush f && IsNeutralColor(f.Color))
+                te.ClearValue(TextElement.ForegroundProperty);
+            if (te.ReadLocalValue(TextElement.BackgroundProperty) is SolidColorBrush b && IsNeutralColor(b.Color))
+                te.ClearValue(TextElement.BackgroundProperty);
         }
 
         // ---- Character formatting (color, highlight, strikethrough, monospace) ----

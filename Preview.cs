@@ -49,7 +49,7 @@ namespace KillerNotes
             _docKind = DetectDocKind(text);
             bool detected = _docKind != DocKind.None;
             PreviewBtn.Visibility = detected ? Visibility.Visible : Visibility.Collapsed;
-            PreviewBtn.ToolTip = _docKind == DocKind.Html ? "Preview HTML" : "Preview markdown";
+            PreviewBtn.ToolTip = Loc(_docKind == DocKind.Html ? "Str_TT_PreviewHtml" : "Str_TT_PreviewMd");
             if (!detected && _previewOpen) ClosePreview();
             else if (_previewOpen) RenderPreview(text);
         }
@@ -104,7 +104,7 @@ namespace KillerNotes
                     : StripActiveContent(text);
                 PreviewBrowserLazy().NavigateToString(BuildHtmlShell(body));
             }
-            catch (Exception ex) { StatusText.Text = "Preview failed: " + ex.Message; }
+            catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_PreviewFailed"), ex.Message); }
         }
 
         // Defuse an HTML note before it reaches the IE engine: strip scripts, event-handler

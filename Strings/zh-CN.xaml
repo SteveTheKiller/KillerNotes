@@ -1,0 +1,244 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- KillerNotes - 简体中文 (zh-CN). Layered over en-US.xaml; omitted keys fall back. -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">管理数据库</sys:String>
+    <sys:String x:Key="Str_TT_Lock">密码保护</sys:String>
+    <sys:String x:Key="Str_TT_About">关于 KillerNotes</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">折叠侧边栏 (F9)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">展开侧边栏 (F9)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">键盘快捷键 (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">主题</sys:String>
+    <sys:String x:Key="Str_TT_Language">语言</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">搜索笔记  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ 新建笔记</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">新建笔记 (Ctrl+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">按创建时间 - 最早在前 (再次点击反向排序)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">按字母顺序 (再次点击反向排序)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">分享笔记...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">保存为 .knote 文件 (可选密码保护)，发送给同事</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">导出笔记为...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">保存为普通文件副本 - .txt、.rtf 或 .html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">删除笔记</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">剪切</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">复制</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">粘贴</sys:String>
+
+    <!-- Theme flyout -->
+    <sys:String x:Key="Str_Lbl_Theme">主题</sys:String>
+    <sys:String x:Key="Str_Lbl_Accent">强调色</sys:String>
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">加粗 (Ctrl+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">斜体 (Ctrl+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">下划线 (Ctrl+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">删除线 (Ctrl+Shift+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">等宽字体 (代码，Ctrl+Shift+M)</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">文字颜色和荧光标记</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">项目符号列表 (Ctrl+Shift+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">编号列表 (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">水平分隔线 (Ctrl+Shift+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">插入表格 (拖动选择大小)</sys:String>
+    <sys:String x:Key="Str_TT_Preview">预览 (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">隐藏格式栏 (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">拖动移动 - 双击最小化</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">拖动移动 - 双击或按 F6 还原</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">文字</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">荧光标记</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">强调色</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">自动</sys:String>
+    <sys:String x:Key="Str_TT_Auto">恢复为主题文字颜色</sys:String>
+    <sys:String x:Key="Str_Btn_None">无</sys:String>
+    <sys:String x:Key="Str_TT_None">移除荧光标记</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">大小</sys:String>
+    <sys:String x:Key="Str_TT_Columns">列</sys:String>
+    <sys:String x:Key="Str_TT_Rows">行</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">插入</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">1-50 列，1-200 行</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">点击开始新笔记，将文字或图片拖放到这里，或在左侧选择一条。</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">只能将图片文件拖放到笔记中</sys:String>
+    <sys:String x:Key="Str_Untitled">无标题</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">已保存</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">{0} 条笔记</sys:String>
+    <sys:String x:Key="Str_St_Matches">{0} 个匹配</sys:String>
+    <sys:String x:Key="Str_St_NoteDeleted">笔记已删除</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">已删除 {0} 条笔记</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">无法打开笔记数据库: {0}</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">删除“{0}”?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">删除 {0} 条笔记?</sys:String>
+    <sys:String x:Key="Str_Dlg_CannotUndo">此操作无法撤销。</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">删除</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">取消</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">解锁 KillerNotes</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">密码错误 - 请重试</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">“{0}”受密码保护。</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">解锁</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">新建数据库...</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">确认</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">开始新的数据库?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">锁定的数据库仍保留在磁盘上，若日后找到密码仍可解锁。
+没有密码就无法恢复其中的笔记。</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">开始新建</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">新数据库 - 锁定的数据库保留为 {0}</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">设置密码</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">加密整个笔记数据库 (通过 SQLCipher 的 AES-256)。
+请勿丢失 - 无法恢复。</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">加密</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">更改或移除密码</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">输入新密码，或将两个输入框留空以移除保护。</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">应用</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">两次密码不一致 - 未做任何更改</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">数据库已加密</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">密码已更改</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">密码已移除 - 数据库不再加密</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">密码更改失败: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">添加数据库“{0}”?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">它会被复制到您的 KillerNotes 数据文件夹并打开。
+当前数据库仍可在“管理数据库”中使用。</sys:String>
+    <sys:String x:Key="Str_Btn_Add">添加</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">添加数据库失败: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">导入“{0}”?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">其中的笔记会添加到当前数据库。</sys:String>
+    <sys:String x:Key="Str_Btn_Import">导入</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">解锁共享笔记</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">“{0}”受共享密码保护。</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">已导入 1 条笔记</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">已导入 {0} 条笔记</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">导入失败: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">保护共享笔记?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">可选: 接收者必须输入此密码才能打开。
+两个输入框留空则不加密码直接分享。</sys:String>
+    <sys:String x:Key="Str_Btn_Share">分享</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">两次密码不一致 - 未分享任何内容</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">已分享到 {0}</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">分享失败: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote 已在您放置的位置准备好</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">拖动分享失败: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">导入 {0} 失败: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">已导入 1 个文件</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">已导入 {0} 个文件</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">已导出到 {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">导出失败: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">所有支持的格式|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|文本 (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|富文本 (*.rtf)|*.rtf|图片|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes 文件 (*.knote, *.kndb)|*.knote;*.kndb|所有文件 (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">文本文件 (*.txt)|*.txt|富文本 (*.rtf)|*.rtf|网页 (*.html)|*.html</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">预览 Markdown</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">预览 HTML</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">预览失败: {0}</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">数据库</sys:String>
+    <sys:String x:Key="Str_Btn_Open">打开</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">新建数据库</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">删除所选数据库</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">在文件资源管理器中打开数据文件夹</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">重命名</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">删除</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">复制文件</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">将 .db 作为文件放入剪贴板 - 粘贴到资源管理器、Teams 或电子邮件即可分享</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">导出为 .kndb...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">保存一份同事双击即可在 KillerNotes 中打开的副本</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">在资源管理器中显示</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">请先选择一个数据库</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">已加密</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">使用中</sys:String>
+    <sys:String x:Key="Str_Db_Copied">已复制 {0} - 粘贴到资源管理器、Teams 或电子邮件</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">复制失败: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">该名称包含 Windows 不允许的字符</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} 已存在</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">{0} 已重命名为 {1}</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">重命名失败: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">创建失败: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">其中的所有笔记将被永久删除。此操作无法撤销。</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">已删除 {0}</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">删除失败: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">KillerNotes 数据库 (*.kndb)|*.kndb</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Version">版本</sys:String>
+    <sys:String x:Key="Str_About_Publisher">发布者</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">证书指纹</sys:String>
+    <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">跟得上节奏的笔记。GPLv3 许可的 </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve"> 工具。</sys:String>
+    <sys:String x:Key="Str_About_Computing">计算中...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">有可用更新: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">下载中...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">下载并安装 {0} {1}?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">应用会自动关闭并重新打开。</sys:String>
+    <sys:String x:Key="Str_Btn_Update">更新</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">键盘快捷键</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">列表</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">键盘</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">按住 Ctrl 或 Shift 预览对应层</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">键盘快捷键 (此列表)</sys:String>
+    <sys:String x:Key="Str_KS_Rename">重命名当前笔记</sys:String>
+    <sys:String x:Key="Str_KS_Search">搜索笔记</sys:String>
+    <sys:String x:Key="Str_KS_Preview">切换 Markdown/HTML 预览</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">显示 / 隐藏格式栏</sys:String>
+    <sys:String x:Key="Str_KS_Export">导出当前笔记 (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">折叠 / 展开侧边栏</sys:String>
+    <sys:String x:Key="Str_KS_About">关于 KillerNotes</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">新建笔记</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">将文件作为新笔记打开</sys:String>
+    <sys:String x:Key="Str_KS_Save">立即保存 (自动保存始终有效)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">加粗 / 斜体 / 下划线</sys:String>
+    <sys:String x:Key="Str_KS_Strike">删除线</sys:String>
+    <sys:String x:Key="Str_KS_Mono">等宽字体 (代码)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">荧光标记所选内容 (黄色)</sys:String>
+    <sys:String x:Key="Str_KS_Rule">插入水平分隔线</sys:String>
+    <sys:String x:Key="Str_KS_Lists">项目符号 / 编号列表</sys:String>
+    <sys:String x:Key="Str_KS_Paste">粘贴 - 文字、图片、表格</sys:String>
+    <sys:String x:Key="Str_KS_Delete">删除所选笔记 (在列表中)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">关闭浮层 / 清除搜索</sys:String>
+
+    <!-- Keyboard map (short keycap captions + section names) -->
+    <sys:String x:Key="Str_Kb_Shortcuts">键盘快捷键</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">Markdown/HTML 预览</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">格式栏</sys:String>
+    <sys:String x:Key="Str_Kb_Export">导出当前笔记</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">侧边栏</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">删除笔记 (在列表中)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">立即保存</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">加粗</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">斜体</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">下划线</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">粘贴</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">荧光标记</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">水平分隔线</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">项目符号列表</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">编号列表</sys:String>
+    <sys:String x:Key="Str_Sec_File">文件</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">笔记</sys:String>
+    <sys:String x:Key="Str_Sec_Format">格式</sys:String>
+    <sys:String x:Key="Str_Sec_View">视图</sys:String>
+    <sys:String x:Key="Str_Sec_Search">搜索</sys:String>
+    <sys:String x:Key="Str_Sec_Help">帮助</sys:String>
+
+</ResourceDictionary>

@@ -48,6 +48,7 @@ namespace KillerNotes
                 {
                     OpenDatabase();               // Security.cs (unlock prompt if encrypted)
                     HandlePendingOpenFile();      // Sharing.cs (double-clicked .kndb/.knote)
+                    if (DemoMode) GenerateDemoNotes();   // DemoMode.cs (--demo: screenshot data)
                 }), System.Windows.Threading.DispatcherPriority.Background);
             };
         }

@@ -33,9 +33,9 @@ namespace KillerNotes
         private void AddSharedDatabase(string path)
         {
             var confirm = new ConfirmDialog(
-                $"Add database \"{Path.GetFileName(path)}\"?",
-                "It is copied into your KillerNotes data folder and opened.\nYour current database stays available in Manage databases.",
-                "Add") { Owner = this };
+                string.Format(Loc("Str_Dlg_AddDbHead"), Path.GetFileName(path)),
+                Loc("Str_Dlg_AddDbBody"),
+                Loc("Str_Btn_Add")) { Owner = this };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
@@ -60,7 +60,7 @@ namespace KillerNotes
                     OpenDatabase(exitOnCancel: false);
                 }
             }
-            catch (Exception ex) { StatusText.Text = "Add database failed: " + ex.Message; }
+            catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_AddDbFailed"), ex.Message); }
         }
 
         // .knote: its note(s) are imported into the CURRENT database, prompting for the
@@ -68,9 +68,9 @@ namespace KillerNotes
         private void ImportSharedNote(string path)
         {
             var confirm = new ConfirmDialog(
-                $"Import \"{Path.GetFileName(path)}\"?",
-                "Its notes are added to your current database.",
-                "Import") { Owner = this };
+                string.Format(Loc("Str_Dlg_ImportNoteHead"), Path.GetFileName(path)),
+                Loc("Str_Dlg_ImportNoteBody"),
+                Loc("Str_Btn_Import")) { Owner = this };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
@@ -79,16 +79,16 @@ namespace KillerNotes
                 int count;
                 if (NoteStore.IsEncryptedFile(path))
                 {
-                    string heading = "Unlock shared note";
+                    string heading = Loc("Str_Pw_SharedHead");
                     while (true)
                     {
                         var dlg = new PasswordDialog(heading,
-                            $"\"{Path.GetFileName(path)}\" is protected with a share password.",
-                            "Unlock") { Owner = this };
+                            string.Format(Loc("Str_Pw_SharedBody"), Path.GetFileName(path)),
+                            Loc("Str_Btn_Unlock")) { Owner = this };
                         dlg.ShowDialog();
                         if (!dlg.Confirmed) return;
                         try { count = NoteStore.ImportNotes(path, dlg.Password); break; }
-                        catch (SqliteException) { heading = "Wrong password - try again"; }
+                        catch (SqliteException) { heading = Loc("Str_Pw_WrongPw"); }
                     }
                 }
                 else
@@ -96,9 +96,11 @@ namespace KillerNotes
                     count = NoteStore.ImportNotes(path, null);
                 }
                 RefreshList();
-                StatusText.Text = count == 1 ? "1 note imported" : $"{count} notes imported";
+                StatusText.Text = count == 1
+                    ? Loc("Str_St_NoteImported1")
+                    : string.Format(Loc("Str_St_NoteImportedN"), count);
             }
-            catch (Exception ex) { StatusText.Text = "Import failed: " + ex.Message; }
+            catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_ImportFailed"), ex.Message); }
         }
 
         // ---- Sending: right-click a note > Share note... ----
@@ -125,14 +127,14 @@ namespace KillerNotes
             if (dlg.ShowDialog(this) != true) return;
 
             var pw = new PasswordDialog(
-                "Protect the shared note?",
-                "Optional: the recipient must enter this password to open it.\nLeave both boxes empty to share without one.",
-                "Share", showConfirm: true) { Owner = this };
+                Loc("Str_Pw_ShareHead"),
+                Loc("Str_Pw_ShareBody"),
+                Loc("Str_Btn_Share"), showConfirm: true) { Owner = this };
             pw.ShowDialog();
             if (!pw.Confirmed) return;
             if (pw.Password != pw.PasswordConfirm)
             {
-                StatusText.Text = "Passwords did not match - nothing shared";
+                StatusText.Text = Loc("Str_St_NothingShared");
                 return;
             }
 
@@ -140,9 +142,9 @@ namespace KillerNotes
             {
                 NoteStore.ExportNote(n.Id, dlg.FileName,
                     string.IsNullOrEmpty(pw.Password) ? null : pw.Password);
-                StatusText.Text = $"Shared to {dlg.FileName}";
+                StatusText.Text = string.Format(Loc("Str_St_SharedTo"), dlg.FileName);
             }
-            catch (Exception ex) { StatusText.Text = "Share failed: " + ex.Message; }
+            catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_ShareFailed"), ex.Message); }
         }
 
         // ---- Sending: drag a note straight out of the sidebar ----
@@ -190,11 +192,15 @@ namespace KillerNotes
 
                 var data = new DataObject(DataFormats.FileDrop, new[] { path });
                 _noteDragOut = true;   // keep NotesList_Drop from re-importing our own file
-                try { DragDrop.DoDragDrop(NotesList, data, DragDropEffects.Copy); }
+                DragDropEffects result;
+                try { result = DragDrop.DoDragDrop(NotesList, data, DragDropEffects.Copy); }
                 finally { _noteDragOut = false; }
-                StatusText.Text = $"{SafeFileName(note.Title)}.knote ready wherever you dropped it";
+                // Only announce when a target actually accepted the drop; a canceled drag
+                // (Esc, or released back inside the app) returns None.
+                if (result == DragDropEffects.Copy)
+                    StatusText.Text = string.Format(Loc("Str_St_DragReady"), SafeFileName(note.Title));
             }
-            catch (Exception ex) { StatusText.Text = "Drag share failed: " + ex.Message; }
+            catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_DragFailed"), ex.Message); }
         }
     }
 }

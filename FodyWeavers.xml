@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
+  <!-- Costura embeds every managed dependency into the exe. The SQLCipher native is handled
+       separately: embedded as a resource in the csproj and self-extracted by SqlCipherBootstrap. -->
+  <Costura />
+</Weavers>

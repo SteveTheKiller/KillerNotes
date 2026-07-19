@@ -17,6 +17,20 @@ namespace KillerNotes
         {
             base.OnStartup(e);
 
+            // Screenshot / demo mode: --demo (or /demo) fills a scratch database with
+            // fabricated notes (DemoMode.cs). The real notes.db is never touched.
+            foreach (string a in e.Args)
+            {
+                if (!a.Equals("--demo", StringComparison.OrdinalIgnoreCase) &&
+                    !a.Equals("/demo", StringComparison.OrdinalIgnoreCase)) continue;
+                // Fully qualified: inside App, bare "MainWindow" is the
+                // Application.MainWindow property (a Window), not our class.
+                KillerNotes.MainWindow.DemoMode = true;
+                Services.NoteStore.DemoDbFile = "demo-notes.db";
+                try { File.Delete(Path.Combine(Services.NoteStore.DbDir, "demo-notes.db")); }
+                catch { /* fresh roll is best-effort */ }
+            }
+
             // Double-clicked share file (association registered below).
             if (e.Args.Length > 0 && File.Exists(e.Args[0]))
             {
@@ -36,6 +50,7 @@ namespace KillerNotes
             Services.ThemeManager.GetSetting = GetSetting;
             Services.ThemeManager.SetSetting = SetSetting;
             Services.ThemeManager.Initialize();
+            Services.LocaleManager.Initialize();   // layers Strings/en-US.xaml (+ saved locale)
 
             ShutdownMode = ShutdownMode.OnLastWindowClose;
             new MainWindow().Show();

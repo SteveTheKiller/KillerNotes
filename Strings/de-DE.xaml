@@ -1,0 +1,244 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- KillerNotes - Deutsch (de-DE). Layered over en-US.xaml; omitted keys fall back. -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">Datenbanken verwalten</sys:String>
+    <sys:String x:Key="Str_TT_Lock">Passwortschutz</sys:String>
+    <sys:String x:Key="Str_TT_About">Über KillerNotes</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">Seitenleiste einklappen (F9)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Seitenleiste ausklappen (F9)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">Tastenkürzel (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">Design</sys:String>
+    <sys:String x:Key="Str_TT_Language">Sprache</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Notizen durchsuchen  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ Neue Notiz</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">Neue Notiz (Strg+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">Nach Erstellungszeit - älteste zuerst (erneut klicken zum Umkehren)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">Alphabetisch (erneut klicken zum Umkehren)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">Notiz teilen...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">Als .knote-Datei speichern (optional passwortgeschützt), um sie einem Kollegen zu schicken</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">Notiz exportieren als...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">Eine Kopie als normale Datei speichern - .txt, .rtf oder .html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">Notiz löschen</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">Ausschneiden</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">Kopieren</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">Einfügen</sys:String>
+
+    <!-- Theme flyout -->
+    <sys:String x:Key="Str_Lbl_Theme">Design</sys:String>
+    <sys:String x:Key="Str_Lbl_Accent">Akzent</sys:String>
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">Fett (Strg+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">Kursiv (Strg+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">Unterstrichen (Strg+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">Durchgestrichen (Strg+Umschalt+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">Monospace (Code, Strg+Umschalt+M)</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">Textfarbe und Hervorhebung</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">Aufzählung (Strg+Umschalt+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">Nummerierte Liste (Strg+Umschalt+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">Horizontale Linie (Strg+Umschalt+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">Tabelle einfügen (Größe durch Ziehen wählen)</sys:String>
+    <sys:String x:Key="Str_TT_Preview">Vorschau (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">Formatleiste ausblenden (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">Zum Verschieben ziehen - Doppelklick zum Minimieren</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Zum Verschieben ziehen - Doppelklick oder F6 zum Wiederherstellen</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">Text</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">Hervorhebung</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">Akzent</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">auto</sys:String>
+    <sys:String x:Key="Str_TT_Auto">Zurück zur Textfarbe des Designs</sys:String>
+    <sys:String x:Key="Str_Btn_None">keine</sys:String>
+    <sys:String x:Key="Str_TT_None">Hervorhebung entfernen</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">Größe</sys:String>
+    <sys:String x:Key="Str_TT_Columns">Spalten</sys:String>
+    <sys:String x:Key="Str_TT_Rows">Zeilen</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">Einfügen</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">1-50 Spalten, 1-200 Zeilen</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">Klicken, um eine neue Notiz zu beginnen, Text oder ein Bild hier ablegen, oder links eine auswählen.</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">Nur Bilddateien können in eine Notiz gezogen werden</sys:String>
+    <sys:String x:Key="Str_Untitled">Unbenannt</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">Gespeichert</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">{0} Notizen</sys:String>
+    <sys:String x:Key="Str_St_Matches">{0} Treffer</sys:String>
+    <sys:String x:Key="Str_St_NoteDeleted">Notiz gelöscht</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">{0} Notizen gelöscht</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">Notizdatenbank konnte nicht geöffnet werden: {0}</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">"{0}" löschen?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">{0} Notizen löschen?</sys:String>
+    <sys:String x:Key="Str_Dlg_CannotUndo">Das kann nicht rückgängig gemacht werden.</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">Löschen</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">Abbrechen</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">KillerNotes entsperren</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">Falsches Passwort - bitte erneut versuchen</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">"{0}" ist passwortgeschützt.</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">Entsperren</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Neue Datenbank...</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">bestätigen</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">Neue Datenbank beginnen?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Die gesperrte Datenbank bleibt auf der Festplatte und kann später entsperrt
+werden, falls das Passwort wieder auftaucht. Ohne Passwort sind ihre Notizen nicht wiederherstellbar.</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">Neu beginnen</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">Neue Datenbank - die gesperrte bleibt erhalten als {0}</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">Passwort festlegen</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Verschlüsselt die gesamte Notizdatenbank (AES-256 via SQLCipher).
+Nicht verlieren - es gibt keine Wiederherstellung.</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">Verschlüsseln</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">Passwort ändern oder entfernen</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">Neues Passwort eingeben, oder beide Felder leer lassen, um den Schutz zu entfernen.</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">Übernehmen</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">Passwörter stimmten nicht überein - nichts geändert</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">Datenbank verschlüsselt</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">Passwort geändert</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">Passwort entfernt - Datenbank ist nicht mehr verschlüsselt</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">Passwortänderung fehlgeschlagen: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">Datenbank "{0}" hinzufügen?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">Sie wird in Ihren KillerNotes-Datenordner kopiert und geöffnet.
+Ihre aktuelle Datenbank bleibt unter "Datenbanken verwalten" verfügbar.</sys:String>
+    <sys:String x:Key="Str_Btn_Add">Hinzufügen</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">Datenbank hinzufügen fehlgeschlagen: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">"{0}" importieren?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">Ihre Notizen werden Ihrer aktuellen Datenbank hinzugefügt.</sys:String>
+    <sys:String x:Key="Str_Btn_Import">Importieren</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">Geteilte Notiz entsperren</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">"{0}" ist mit einem Freigabe-Passwort geschützt.</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">1 Notiz importiert</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">{0} Notizen importiert</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">Import fehlgeschlagen: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">Geteilte Notiz schützen?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">Optional: Der Empfänger muss dieses Passwort eingeben, um sie zu öffnen.
+Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
+    <sys:String x:Key="Str_Btn_Share">Teilen</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">Passwörter stimmten nicht überein - nichts geteilt</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">Geteilt nach {0}</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">Teilen fehlgeschlagen: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote liegt bereit, wo Sie sie abgelegt haben</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">Teilen per Ziehen fehlgeschlagen: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">Import fehlgeschlagen für {0}: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">1 Datei importiert</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">{0} Dateien importiert</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">Exportiert nach {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">Export fehlgeschlagen: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">Alle unterstützten|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Text (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Rich Text (*.rtf)|*.rtf|Bilder|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes-Dateien (*.knote, *.kndb)|*.knote;*.kndb|Alle Dateien (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Textdatei (*.txt)|*.txt|Rich Text (*.rtf)|*.rtf|Webseite (*.html)|*.html</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">Markdown-Vorschau</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">HTML-Vorschau</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">Vorschau fehlgeschlagen: {0}</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">Datenbanken</sys:String>
+    <sys:String x:Key="Str_Btn_Open">Öffnen</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">Neue Datenbank</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">Ausgewählte Datenbank löschen</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">Datenordner im Explorer öffnen</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">Umbenennen</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">Löschen</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">Datei kopieren</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">Legt die .db als Datei in die Zwischenablage - in Explorer, Teams oder eine E-Mail einfügen, um sie zu teilen</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">Als .kndb exportieren...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">Eine Kopie speichern, die Kollegen per Doppelklick in KillerNotes öffnen können</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">Im Explorer anzeigen</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">Bitte zuerst eine Datenbank auswählen</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">verschlüsselt</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">aktiv</sys:String>
+    <sys:String x:Key="Str_Db_Copied">{0} kopiert - in Explorer, Teams oder eine E-Mail einfügen</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">Kopieren fehlgeschlagen: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">Dieser Name enthält Zeichen, die Windows nicht erlaubt</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} existiert bereits</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">{0} umbenannt in {1}</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">Umbenennen fehlgeschlagen: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">Erstellen fehlgeschlagen: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">Alle darin enthaltenen Notizen werden endgültig gelöscht. Das kann nicht rückgängig gemacht werden.</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">{0} gelöscht</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">Löschen fehlgeschlagen: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">KillerNotes-Datenbank (*.kndb)|*.kndb</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Version">Version</sys:String>
+    <sys:String x:Key="Str_About_Publisher">Herausgeber</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">Zertifikat-Fingerabdruck</sys:String>
+    <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notizen, die mithalten. Ein GPLv3-Dienstprogramm von </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
+    <sys:String x:Key="Str_About_Computing">wird berechnet...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">Update verfügbar: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">Wird heruntergeladen...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} herunterladen und installieren?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">Die App wird automatisch geschlossen und neu geöffnet.</sys:String>
+    <sys:String x:Key="Str_Btn_Update">Aktualisieren</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">Tastenkürzel</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">LISTE</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">TASTATUR</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">Strg oder Umschalt halten, um die Ebene anzuzeigen</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">Tastenkürzel (diese Liste)</sys:String>
+    <sys:String x:Key="Str_KS_Rename">Offene Notiz umbenennen</sys:String>
+    <sys:String x:Key="Str_KS_Search">Notizen durchsuchen</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Markdown-/HTML-Vorschau umschalten</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">Formatleiste ein-/ausblenden</sys:String>
+    <sys:String x:Key="Str_KS_Export">Offene Notiz exportieren (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">Seitenleiste ein-/ausklappen</sys:String>
+    <sys:String x:Key="Str_KS_About">Über KillerNotes</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">Neue Notiz</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">Dateien als neue Notizen öffnen</sys:String>
+    <sys:String x:Key="Str_KS_Save">Jetzt speichern (Autosave läuft ohnehin)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">Fett / kursiv / unterstrichen</sys:String>
+    <sys:String x:Key="Str_KS_Strike">Durchgestrichen</sys:String>
+    <sys:String x:Key="Str_KS_Mono">Monospace (Code)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Auswahl hervorheben (gelb)</sys:String>
+    <sys:String x:Key="Str_KS_Rule">Horizontale Linie einfügen</sys:String>
+    <sys:String x:Key="Str_KS_Lists">Aufzählung / nummerierte Liste</sys:String>
+    <sys:String x:Key="Str_KS_Paste">Einfügen - Text, Bilder, Tabellen</sys:String>
+    <sys:String x:Key="Str_KS_Delete">Ausgewählte Notiz löschen (in der Liste)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">Overlay schließen / Suche leeren</sys:String>
+
+    <!-- Keyboard map -->
+    <sys:String x:Key="Str_Kb_Shortcuts">Tastenkürzel</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">Markdown-/HTML-Vorschau</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">Formatleiste</sys:String>
+    <sys:String x:Key="Str_Kb_Export">Offene Notiz exportieren</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">Seitenleiste</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">Notiz löschen (in der Liste)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">Jetzt speichern</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">Fett</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">Kursiv</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">Unterstrichen</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">Einfügen</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">Hervorheben</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">Horizontale Linie</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">Aufzählung</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">Nummerierte Liste</sys:String>
+    <sys:String x:Key="Str_Sec_File">Datei</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">Notizen</sys:String>
+    <sys:String x:Key="Str_Sec_Format">Formatierung</sys:String>
+    <sys:String x:Key="Str_Sec_View">Ansicht</sys:String>
+    <sys:String x:Key="Str_Sec_Search">Suche</sys:String>
+    <sys:String x:Key="Str_Sec_Help">Hilfe</sys:String>
+
+</ResourceDictionary>

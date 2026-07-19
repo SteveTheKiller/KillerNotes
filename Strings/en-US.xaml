@@ -1,0 +1,249 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ================================================================
+         KillerNotes  -  English (en-US) strings.
+         x:Key values are looked up at runtime - never change them.
+         Other locales layer over this file; any key they omit falls back here.
+         {0}/{1} placeholders are filled in by the app - keep them.
+         ================================================================ -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">Manage databases</sys:String>
+    <sys:String x:Key="Str_TT_Lock">Password protection</sys:String>
+    <sys:String x:Key="Str_TT_About">About KillerNotes</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">Collapse sidebar (F9)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Expand sidebar (F9)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">Keyboard shortcuts (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">Theme</sys:String>
+    <sys:String x:Key="Str_TT_Language">Language</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Search notes  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ New note</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">New note (Ctrl+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">By creation time - oldest first (click again to reverse)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">Alphabetical (click again to reverse)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">Share note...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">Save as a .knote file (optionally password protected) to send to a coworker</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">Export note as...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">Save a copy as an ordinary file - .txt, .rtf, or .html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">Delete note</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">Cut</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">Copy</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">Paste</sys:String>
+
+    <!-- Theme flyout -->
+    <sys:String x:Key="Str_Lbl_Theme">theme</sys:String>
+    <sys:String x:Key="Str_Lbl_Accent">accent</sys:String>
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">Bold (Ctrl+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">Italic (Ctrl+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">Underline (Ctrl+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">Strikethrough (Ctrl+Shift+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">Monospace (code, Ctrl+Shift+M)</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">Text color and highlight</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">Bulleted list (Ctrl+Shift+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">Numbered list (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">Horizontal rule (Ctrl+Shift+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">Insert table (drag to pick the size)</sys:String>
+    <sys:String x:Key="Str_TT_Preview">Preview (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">Hide format bar (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">Drag to move - double-click to minimize</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Drag to move - double-click or F6 to restore</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">text</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">highlight</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">Accent</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">auto</sys:String>
+    <sys:String x:Key="Str_TT_Auto">Back to the theme text color</sys:String>
+    <sys:String x:Key="Str_Btn_None">none</sys:String>
+    <sys:String x:Key="Str_TT_None">Remove highlight</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">size</sys:String>
+    <sys:String x:Key="Str_TT_Columns">Columns</sys:String>
+    <sys:String x:Key="Str_TT_Rows">Rows</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">Insert</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">1-50 cols, 1-200 rows</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">Click to start a new note, drop text or an image here, or pick one on the left.</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">Only image files can be dropped into a note</sys:String>
+    <sys:String x:Key="Str_Untitled">Untitled</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">Saved</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">{0} notes</sys:String>
+    <sys:String x:Key="Str_St_Matches">{0} matches</sys:String>
+    <sys:String x:Key="Str_St_NoteDeleted">Note deleted</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">{0} notes deleted</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">Could not open the notes database: {0}</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">Delete "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">Delete {0} notes?</sys:String>
+    <sys:String x:Key="Str_Dlg_CannotUndo">This cannot be undone.</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">Delete</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">Cancel</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">Unlock KillerNotes</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">Wrong password - try again</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">"{0}" is password protected.</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">Unlock</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">New database...</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">confirm</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">Start a new database?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">The locked database stays on disk and can still be unlocked later if the
+password turns up. There is no way to recover its notes without it.</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">Start new</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">New database - the locked one is kept as {0}</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">Set a password</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Encrypts the whole notes database (AES-256 via SQLCipher).
+Do not lose it - there is no recovery.</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">Encrypt</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">Change or remove password</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">Enter a new password, or leave both boxes empty to remove protection.</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">Apply</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">Passwords did not match - nothing changed</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">Database encrypted</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">Password changed</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">Password removed - database is no longer encrypted</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">Password change failed: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">Add database "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">It is copied into your KillerNotes data folder and opened.
+Your current database stays available in Manage databases.</sys:String>
+    <sys:String x:Key="Str_Btn_Add">Add</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">Add database failed: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">Import "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">Its notes are added to your current database.</sys:String>
+    <sys:String x:Key="Str_Btn_Import">Import</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">Unlock shared note</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">"{0}" is protected with a share password.</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">1 note imported</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">{0} notes imported</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">Import failed: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">Protect the shared note?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">Optional: the recipient must enter this password to open it.
+Leave both boxes empty to share without one.</sys:String>
+    <sys:String x:Key="Str_Btn_Share">Share</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">Passwords did not match - nothing shared</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">Shared to {0}</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">Share failed: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote ready wherever you dropped it</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">Drag share failed: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">Import failed for {0}: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">1 file imported</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">{0} files imported</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">Exported to {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">Export failed: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">All supported|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Text (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Rich text (*.rtf)|*.rtf|Images|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes files (*.knote, *.kndb)|*.knote;*.kndb|All files (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Text file (*.txt)|*.txt|Rich text (*.rtf)|*.rtf|Web page (*.html)|*.html</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">Preview markdown</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">Preview HTML</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">Preview failed: {0}</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">Databases</sys:String>
+    <sys:String x:Key="Str_Btn_Open">Open</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">New database</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">Delete selected database</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">Open the data folder in File Explorer</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">Rename</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">Delete</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">Copy file</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">Puts the .db on the clipboard as a file - paste into Explorer, Teams, or an email to share it</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">Export as .kndb...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">Save a copy coworkers can double-click to open in KillerNotes</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">Show in Explorer</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">Select a database first</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">encrypted</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">active</sys:String>
+    <sys:String x:Key="Str_Db_Copied">{0} copied - paste it into Explorer, Teams, or an email</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">Copy failed: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">That name has characters Windows does not allow</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} already exists</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">{0} renamed to {1}</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">Rename failed: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">Create failed: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">Every note inside it is permanently deleted. This cannot be undone.</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">{0} deleted</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">Delete failed: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">KillerNotes database (*.kndb)|*.kndb</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Version">Version</sys:String>
+    <sys:String x:Key="Str_About_Publisher">Publisher</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">Certificate thumbprint</sys:String>
+    <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notes that keep up. A GPLv3 </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve"> utility.</sys:String>
+    <sys:String x:Key="Str_About_Computing">computing...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">Update available: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">Downloading...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">Download and install {0} {1}?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">The app will close and reopen automatically.</sys:String>
+    <sys:String x:Key="Str_Btn_Update">Update</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">Keyboard shortcuts</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">LIST</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">KEYBOARD</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">hold Ctrl or Shift to preview that layer</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">Keyboard shortcuts (this list)</sys:String>
+    <sys:String x:Key="Str_KS_Rename">Rename the open note</sys:String>
+    <sys:String x:Key="Str_KS_Search">Search notes</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Toggle markdown/HTML preview</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">Show / hide the format bar</sys:String>
+    <sys:String x:Key="Str_KS_Export">Export the open note (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">Collapse / expand the sidebar</sys:String>
+    <sys:String x:Key="Str_KS_About">About KillerNotes</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">New note</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">Open files as new notes</sys:String>
+    <sys:String x:Key="Str_KS_Save">Save now (autosave runs anyway)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">Bold / italic / underline</sys:String>
+    <sys:String x:Key="Str_KS_Strike">Strikethrough</sys:String>
+    <sys:String x:Key="Str_KS_Mono">Monospace (code)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Highlight selection (yellow)</sys:String>
+    <sys:String x:Key="Str_KS_Rule">Insert horizontal rule</sys:String>
+    <sys:String x:Key="Str_KS_Lists">Bulleted / numbered list</sys:String>
+    <sys:String x:Key="Str_KS_Paste">Paste - text, images, tables</sys:String>
+    <sys:String x:Key="Str_KS_Delete">Delete the selected note (in the list)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">Close overlay / clear search</sys:String>
+
+    <!-- Keyboard map (short keycap captions + section names) -->
+    <sys:String x:Key="Str_Kb_Shortcuts">Keyboard shortcuts</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">Markdown/HTML preview</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">Format bar</sys:String>
+    <sys:String x:Key="Str_Kb_Export">Export the open note</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">Sidebar</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">Delete note (in the list)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">Save now</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">Bold</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">Italic</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">Underline</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">Paste</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">Highlight</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">Horizontal rule</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">Bulleted list</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">Numbered list</sys:String>
+    <sys:String x:Key="Str_Sec_File">File</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">Notes</sys:String>
+    <sys:String x:Key="Str_Sec_Format">Formatting</sys:String>
+    <sys:String x:Key="Str_Sec_View">View</sys:String>
+    <sys:String x:Key="Str_Sec_Search">Search</sys:String>
+    <sys:String x:Key="Str_Sec_Help">Help</sys:String>
+
+</ResourceDictionary>

@@ -1,0 +1,297 @@
+/* KillerNotes site - shared chrome (used by index.html, about.html, technical.html) */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ---- Theme palettes (match the KillerNotes app; default accent is the brand purple) ---- */
+html[data-theme="dark"]     { --bg:#333333; --surface:#2b2b2b; --panel:#3a3a3a; --sidebar:#1c1c1c; --canvas:#3a3a3a; --border:#2e2e2e; --pane-border:#2e2e2e; --dragline:#363636; --tab-edge:var(--sel,var(--btn)); --accent:#B982E3; --accent-text:#ffffff; --text:#ededed; --text2:#bcbcbc; --muted:#a2a2a2; --footer-text:#b4b4b4; --danger:#ef4444; --grain:0.26; --btn:var(--accent); --btn-text:#ffffff; --logo-pdf:var(--accent); --chrome:#222222; --modal:#1e1e1e; --fade:rgba(0,0,0,0.55); }
+html[data-theme="light"]    { --bg:#b8b8b8; --surface:#e8e8e8; --panel:#f3f3f3; --sidebar:#dcdcdc; --canvas:#b8b8b8; --border:#c0c0c0; --pane-border:#a8a8a8; --dragline:#a0a0a0; --tab-edge:var(--sel,var(--btn)); --accent:#5A1690; --accent-text:#ffffff; --text:#1a1a1a; --text2:#555555; --muted:#666666; --footer-text:#555555; --danger:#dc2626; --grain:0.28; --btn:var(--accent); --btn-text:#ffffff; --logo-pdf:var(--accent); --chrome:#dcdcdc; --modal:#ffffff; --fade:rgba(0,0,0,0.22); }
+html[data-theme="hc"]       { --bg:#0d0d0d; --surface:#0a0a0a; --panel:#141414; --sidebar:#000000; --canvas:#0d0d0d; --border:#787878; --pane-border:#333333; --dragline:#373737; --tab-edge:var(--sel,var(--btn)); --accent:#B829FF; --accent-text:#000000; --text:#ffffff; --text2:#cccccc; --muted:#cccccc; --footer-text:#aaaaaa; --danger:#ff4444; --grain:0.08; --btn:var(--accent); --btn-text:#000000; --logo-pdf:var(--accent); --chrome:#000000; --modal:#000000; --fade:rgba(0,0,0,0.75); }
+html[data-theme="blood"]    { --bg:#4a1f20; --surface:#321416; --panel:#321416; --sidebar:#1e0a0b; --canvas:#4a1f20; --border:#361619; --pane-border:#3a1a1d; --dragline:#3e1e21; --tab-edge:rgba(255,255,255,0.27); --accent:#ffffff; --accent-text:#450002; --text:#fffde8; --text2:#b09e9c; --muted:#f8c99e; --footer-text:#b09e9c; --danger:#ff6666; --grain:0.32; --btn:#1ea54c; --btn-text:#ffffff; --logo-pdf:#B982E3; --chrome:#240c0d; --modal:#1e0a0b; --fade:rgba(0,0,0,0.6); }
+html[data-theme="greed"]    { --bg:#0a5234; --surface:#003824; --panel:#003824; --sidebar:#001e13; --canvas:#0a5234; --border:#07371f; --pane-border:#07371f; --dragline:#0b3b23; --tab-edge:rgba(255,255,255,0.27); --accent:#ffffff; --accent-text:#002819; --text:#fffde8; --text2:#a6a99a; --muted:#e0d49a; --footer-text:#a6a99a; --danger:#ff6666; --grain:0.26; --btn:#e6b800; --btn-text:#1a1a1a; --logo-pdf:#B982E3; --chrome:#002115; --modal:#001e13; --fade:rgba(0,0,0,0.6); }
+html[data-theme="cyanotic"] { --bg:#0a4a6e; --surface:#002e48; --panel:#002e48; --sidebar:#001a28; --canvas:#0a4a6e; --border:#093250; --pane-border:#093250; --dragline:#0d3654; --tab-edge:rgba(255,255,255,0.27); --accent:#ffffff; --accent-text:#001e2e; --text:#fffde8; --text2:#9ba3ac; --muted:#e0d49a; --footer-text:#9ba3ac; --danger:#ff6666; --grain:0.26; --btn:#1ea54c; --btn-text:#ffffff; --logo-pdf:#B982E3; --chrome:#001a28; --modal:#001624; --fade:rgba(0,0,0,0.6); }
+:root { --accent-dim: color-mix(in srgb, var(--accent) 16%, transparent); }
+
+html { background: var(--bg); height: 100%; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; height: 100%; overflow: hidden; display: flex; flex-direction: column; position: relative; isolation: isolate; transition: background-color 0.2s, color 0.2s; }
+/* Grain: chrome bars carry their own (fixed); the document-pane grain lives on .content so it scrolls with the content. grain.png is a sparse transparent speckle (matches the app's generated texture) so it composites normally - no blend mode, no lightening. */
+body > * { position: relative; z-index: 1; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { filter: brightness(1.15); }
+
+/* ---- Wordmark (rendered as text in the app's typewriter font: Killer in --text, Notes in --accent) ---- */
+@font-face {
+  font-family: 'KillerNotes';
+  src: url('brand/KillerNotes.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: block;
+}
+.wm-logo { display: inline-block; width: auto; white-space: nowrap; line-height: 1; font-family: 'KillerNotes', 'Courier New', monospace; font-weight: normal; letter-spacing: 1px;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
+.wm-logo .wmk { color: var(--text); }
+.wm-logo .wms { color: var(--accent); font-size: 1.3em; font-weight: bold;
+  /* bevel: light top-left rim + dark bottom-right rim, over the shared drop shadow */
+  text-shadow: -1px -1px 0 rgba(255,255,255,0.5), 1px 1px 0 rgba(0,0,0,0.4), 2px 2px 0 rgba(0,0,0,0.22), 0 3px 8px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
+html[data-theme="light"] .wm-logo { text-shadow: none; }
+html[data-theme="light"] .wm-logo .wms { text-shadow: -1px -1px 0 rgba(255,255,255,0.6), 1px 1px 0 rgba(0,0,0,0.28); }
+/* Blood / Greed / Cyanotic use a white accent; keep the brand purple on the "Notes" wordmark */
+html[data-theme="blood"] .wm-logo .wms,
+html[data-theme="greed"] .wm-logo .wms,
+html[data-theme="cyanotic"] .wm-logo .wms { color: #B982E3; }
+
+/* ---- Page title kicker (sits above the wordmark on sub-pages), same typewriter font ---- */
+.page-title { display: block; text-align: center; font-family: 'KillerNotes', 'Courier New', monospace; font-size: clamp(30px, 5.2vw, 48px); letter-spacing: 1px; color: var(--text); margin: 0 auto 2px; line-height: 1.1;
+  /* white version (dark / colored themes): heavy drop shadow */
+  text-shadow: 0 3px 8px rgba(0,0,0,0.7), 0 1px 2px rgba(0,0,0,0.6); }
+/* black version (light theme): no heavy shadow */
+html[data-theme="light"] .page-title { text-shadow: none; }
+
+/* ---- Top bar (single app-style chrome bar) ---- */
+.topbar { position: relative; flex: 0 0 auto; z-index: 100; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 8px 16px 0; background: var(--sidebar); }
+.topbar::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: url('grain.png?v=2') repeat fixed; background-size: 256px 256px; opacity: 1; }
+.topbar > * { position: relative; z-index: 1; }
+.tb-home { display: inline-flex; align-items: center; gap: 9px; color: var(--text); }
+.tb-home:hover { filter: none; }
+.tb-icon { width: 36px; height: 36px; border-radius: 9px; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.55)); }
+.tb-wm { height: 22px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+.tb-sub { font-size: 12px; color: var(--muted); font-family: Consolas, monospace; }
+.tb-spacer { flex: 1; }
+.help-link { color: var(--accent); font-size: 13px; font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 6px; padding: 4px 12px; }
+.help-link:hover { background: var(--btn); color: var(--btn-text); }
+.tgrp { display: inline-flex; align-items: center; gap: 7px; }
+.tlabel { font-size: 11px; color: var(--muted); font-family: Consolas, monospace; }
+.swatch { width: 19px; height: 19px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.22); padding: 0; position: relative; transition: transform 0.12s, border-color 0.12s; }
+.swatch:hover { transform: scale(1.15); }
+.swatch[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.swatch::after { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--sw-accent); }
+.sw-dark { background:#2b2b2b; --sw-accent:#B982E3; } .sw-light { background:#e8e8e8; --sw-accent:#5A1690; }
+.sw-hc { background:#000; --sw-accent:#B829FF; } .sw-blood { background:#73000e; --sw-accent:#f8c99e; }
+.sw-greed { background:#004d32; --sw-accent:#e0d49a; } .sw-cyanotic { background:#003450; --sw-accent:#e0d49a; }
+.acc { width: 17px; height: 17px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.25); padding: 0; transition: transform 0.12s; }
+.acc:hover { transform: scale(1.18); }
+.acc[aria-pressed="true"] { border-color: #fff; box-shadow: 0 0 0 2px currentColor; }
+.accent-switch[hidden] { display: inline-flex; visibility: hidden; }
+.topbar .accent-switch { order: 1; }
+.topbar .tgrp { order: 2; }
+.topbar .lang-switch { order: 3; }
+.tb-right { margin-left: auto; display: inline-flex; align-items: center; gap: 14px; }
+.icon-link { color: var(--muted); display: inline-flex; }
+.icon-link:hover { color: var(--accent); }
+.icon-link svg { width: 19px; height: 19px; fill: currentColor; display: block; }
+.lang-switch { position: relative; display: inline-flex; align-items: center; }
+.lang-toggle { width: 26px; height: 26px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(255,255,255,0.3); background: none; padding: 0; cursor: pointer; line-height: 0; }
+.lang-toggle svg { width: 100%; height: 100%; display: block; }
+.lang-toggle:hover { border-color: var(--accent); }
+.lang-menu { position: absolute; top: 140%; right: 0; min-width: 168px; background: var(--modal); border: 1px solid var(--border); border-radius: 8px; padding: 5px; box-shadow: 0 12px 28px rgba(0,0,0,0.5); z-index: 110; }
+.lang-menu::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: url('grain.png?v=2') repeat; background-size: 256px 256px; opacity: 1; border-radius: inherit; }
+.lang-menu > * { position: relative; z-index: 1; }
+.lang-menu[hidden] { display: none; }
+.lang-item { display: block; width: 100%; text-align: left; background: none; border: 0; color: var(--text); font: inherit; font-size: 13px; padding: 7px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
+.lang-item:hover { background: var(--accent-dim); }
+.lang-item[aria-pressed="true"] { color: var(--accent); font-weight: 600; }
+
+/* ---- App body: content + right-hand sidebar ---- */
+/* Chrome-toned shell: the gutter around the rounded content pane reads as grained chrome, like the app windows and killertools.net */
+.shell { display: grid; grid-template-columns: 1fr 268px; flex: 1 1 auto; min-height: 0; overflow: hidden; position: relative; background: var(--sidebar); }
+.shell::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: url('grain.png?v=2') repeat fixed; background-size: 256px 256px; opacity: 1; }
+@keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* Inset rounded pane (killertools.net MenuLayout treatment): 8px chrome gutter on the window edges, 2px hugging the sidebar, none above the statusbar.
+   The pane carries its own frame line + outward shadow (z 6: above the sidebar and the statusbar chrome, below the statusbar text at z 7),
+   and clips the inner scroller so the scrollbar lives INSIDE the rounded pane. */
+.content { min-width: 0; min-height: 0; overflow: hidden; position: relative; z-index: 6; margin: 8px 2px 0 8px; border: 1px solid var(--pane-border); border-radius: 14px; box-shadow: 0 0 20px 0 rgba(0,0,0,0.42); background-color: var(--bg); background-image: url('grain.png?v=2'); background-repeat: repeat; background-size: 256px 256px; background-attachment: fixed; animation: pageFadeIn .28s ease both; }
+.content-scroll { height: 100%; overflow-y: auto; scroll-behavior: smooth; }
+
+/* ---- Sidebar (the app's docked pane) ---- */
+.sidebar { position: relative; height: 100%; min-height: 0; background: var(--sidebar); display: flex; flex-direction: column; z-index: 5; }
+.sidebar::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: url('grain.png?v=2') repeat fixed; background-size: 256px 256px; opacity: 1; }
+.sb-thumbs { flex: 1 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 14px; }
+.sb-empty { margin: auto; text-align: center; color: var(--muted); font-family: 'KillerNotes', 'Courier New', monospace; font-size: 14px; letter-spacing: .5px; line-height: 1.5; padding: 20px; }
+.sb-thumb { display: block; width: 100%; padding: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--panel); cursor: zoom-in; box-shadow: 0 2px 6px rgba(0,0,0,0.45); transition: border-color .15s ease, transform .15s ease; }
+.sb-thumb:hover { border-color: var(--accent); transform: translateY(-1px); }
+.sb-thumb img { display: block; width: 100%; height: auto; }
+.sidebar > * { position: relative; z-index: 1; }
+.sb-tabs { display: flex; font-size: 11px; font-family: Consolas, monospace; letter-spacing: 0.5px; color: var(--muted); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.sb-tabs span { flex: 1; text-align: center; padding: 9px 0; }
+.sb-tabs .on { color: var(--accent); border-bottom: 2px solid var(--tab-edge); }
+
+/* ---- Status bar footer (matches the app) ---- */
+.statusbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 3px 16px; background: var(--sidebar); font-family: Consolas, monospace; font-size: 11.5px; color: var(--footer-text); position: relative; flex: 0 0 auto; }
+.statusbar::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: url('grain.png?v=2') repeat fixed; background-size: 256px 256px; opacity: 1; }
+/* Resize-grip dots in the window corner, matching the app chrome (grain owns ::after) */
+.statusbar::before { content: ""; position: absolute; right: 5px; bottom: 5px; width: 2px; height: 2px; background: var(--footer-text); box-shadow: -4px 0 var(--footer-text), -8px 0 var(--footer-text), 0 -4px var(--footer-text), -4px -4px var(--footer-text), 0 -8px var(--footer-text); opacity: .8; pointer-events: none; z-index: 7; }
+.statusbar > * { position: relative; z-index: 7; }
+/* Keep the right-side text clear of the corner grip (family standard spacing) */
+.statusbar .right { padding-right: 10px; }
+.statusbar a { color: var(--footer-text); }
+.statusbar a:hover { color: var(--accent); }
+.statusbar .right b { color: var(--logo-pdf); font-weight: 600; }
+#verEgg { cursor: pointer; }
+
+/* ---- Easter egg (click the version) ---- */
+.drip { position: fixed; top: -60px; width: 6px; border-radius: 0 0 3px 3px; background: #df1d1d; z-index: 300; pointer-events: none; }
+@keyframes dripfall { to { transform: translateY(112vh); } }
+.egg-toast { position: fixed; left: 50%; bottom: 42px; transform: translateX(-50%); background: var(--modal); color: var(--text); border: 1px solid var(--accent); border-radius: 8px; padding: 11px 20px; font-size: 13px; box-shadow: 0 12px 28px rgba(0,0,0,0.5); z-index: 301; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.egg-toast.show { opacity: 1; }
+
+/* ---- Lightbox ---- */
+.lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; padding: 32px; cursor: zoom-out; opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
+.lightbox.show { opacity: 1; visibility: visible; transition: opacity .2s ease; }
+.lightbox[hidden] { display: none; }
+.lightbox img { max-width: 100%; max-height: 100%; border-radius: 6px; box-shadow: 0 24px 60px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); transform: scale(.96); transition: transform .2s ease; }
+.lightbox.show img { transform: scale(1); }
+
+/* Slim scrollbars: transparent track (no opaque band), no arrow buttons, thumb flat to the ends.
+   IMPORTANT: the standard scrollbar-width/scrollbar-color props are scoped to browsers that do
+   NOT support ::-webkit-scrollbar (i.e. Firefox). If they're declared globally, their mere
+   presence makes Chrome/Edge IGNORE the ::-webkit-scrollbar rules below - which is what brought
+   back the opaque track and the arrow buttons on the content area. */
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--accent) 60%, var(--bg)) transparent; }
+}
+::-webkit-scrollbar { width: 8px; height: 8px; background: transparent; }
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece { background: var(--bg) url('grain.png?v=2') repeat; background-size: 256px 256px; }
+::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--accent) 55%, var(--bg)); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+::-webkit-scrollbar-corner { background: transparent; }
+/* Sidebar is darker than --bg, so its scrollbar track must use --sidebar (not the global --bg) or it shows a lighter mismatched band. */
+.sidebar::-webkit-scrollbar-track,
+.sidebar::-webkit-scrollbar-track-piece,
+.sidebar ::-webkit-scrollbar-track,
+.sidebar ::-webkit-scrollbar-track-piece { background: var(--sidebar) url('grain.png?v=2') repeat; background-size: 256px 256px; }
+
+@media (max-width: 900px) {
+  html, body { height: auto; overflow: visible; display: block; }
+  .shell { grid-template-columns: minmax(0, 1fr); overflow: visible; }
+  .content { overflow: visible; min-height: 0; margin: 0; border: 0; border-radius: 0; box-shadow: none; }
+  .content-scroll { height: auto; overflow: visible; }
+  .sidebar { position: static; height: auto; min-width: 0; overflow: hidden; border-left: 0; border-top: 1px solid var(--border); }
+  .topbar { gap: 10px; padding-bottom: 8px; } /* no pane gutter below 900px, so the bar keeps its own bottom air */
+}
+
+/* ---- Phones: reflow the app-chrome topbar into tidy rows + stack the statusbar ---- */
+@media (max-width: 560px) {
+  .topbar { min-height: 0; padding: 8px 12px; gap: 8px 9px; justify-content: center; }
+  .tb-icon { width: 30px; height: 30px; }
+  .tb-wm { height: 18px; }
+  .tb-spacer { display: none; }
+  /* Row 1: home logo on the left, download button pushed to the right */
+  .tb-dl { margin-left: auto; padding: 7px 13px; font-size: 12px; }
+  /* Row 2: section nav on its own full-width centered line */
+  .topbar .tb-nav { order: 1; flex-basis: 100%; justify-content: center; gap: 2px; padding-top: 7px; border-top: 1px solid var(--border); }
+  .tb-nav a { padding: 6px 10px; font-size: 13.5px; }
+  /* Row 3: theme swatches, accent, and language, centered together */
+  .topbar .tgrp { order: 2; }
+  .topbar .accent-switch { order: 3; }
+  .topbar .lang-switch { order: 4; }
+  /* Footer: stack the two status lines and center them */
+  .statusbar { flex-direction: column; gap: 4px; justify-content: center; text-align: center; padding: 9px 12px; }
+}
+
+/* ============ Header nav + appearance flyout (shared) ============ */
+.tb-nav { display: inline-flex; align-items: center; gap: 1px; }
+.tb-nav a { font-family: 'KillerNotes', 'Courier New', monospace; color: var(--text2); font-size: 18px; font-weight: normal; letter-spacing: .3px; line-height: 1.2; padding: 6px 11px; border-radius: 6px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+html[data-theme="light"] .tb-nav a { text-shadow: none; }
+.tb-nav a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 12%, transparent); filter: none; }
+.tb-nav a.on { color: var(--accent); }
+
+/* Header download button */
+.tb-dl { display: inline-flex; align-items: center; gap: 7px; margin-left: 10px; background: var(--btn); color: var(--btn-text); font-size: 13px; font-weight: 700; padding: 7px 15px; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: filter 0.15s, transform 0.1s, box-shadow 0.15s; }
+.tb-dl:hover { filter: brightness(1.1); color: var(--btn-text); transform: translateY(-1px); box-shadow: 0 7px 16px rgba(0,0,0,0.4); }
+.tb-dl:active { transform: translateY(1px); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+.tb-dl svg { width: 14px; height: 14px; fill: currentColor; }
+
+/* Accent flyout: one dot in the header opens a small popup of accents */
+.acc-fly { position: relative; display: inline-flex; align-items: center; }
+.acc-fly[hidden] { display: inline-flex; visibility: hidden; }
+.acc-toggle { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); background: var(--accent); cursor: pointer; padding: 0; transition: transform 0.12s, border-color 0.12s; }
+.acc-toggle:hover { transform: scale(1.12); border-color: var(--accent); }
+.acc-pop { position: absolute; top: 152%; right: 0; background: var(--modal); border: 1px solid var(--border); border-radius: 9px; padding: 9px 11px; box-shadow: 0 12px 28px rgba(0,0,0,0.5); z-index: 110; display: flex; gap: 9px; align-items: center; }
+.acc-pop[hidden] { display: none; }
+.acc-pop .acc-pop-label { font-size: 11px; font-family: Consolas, monospace; color: var(--muted); margin-right: 1px; }
+
+/* ============ Landing hero info block (replaces the terminal) ============ */
+.hero-info { background: color-mix(in srgb, var(--modal) 80%, transparent) url('grain.png?v=2') repeat; background-size: 256px 256px; -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); border: 1px solid var(--pane-border); border-left: 2px solid var(--tab-edge); border-right: 2px solid var(--tab-edge); border-radius: 8px; box-shadow: 0 14px 32px rgba(0,0,0,0.4); padding: 15px 14px; font-family: Consolas, monospace; font-size: 13px; line-height: 1.9; flex: 0 1 360px; min-width: 308px; transition: transform 0.12s, box-shadow 0.15s, border-color 0.12s; }
+.hero-info:hover { border-left-color: var(--accent); border-right-color: var(--accent); }
+.hero-info:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); border-top-color: var(--dragline); border-bottom-color: var(--dragline); }
+.hero-info .row { display: flex; gap: 8px; }
+.hero-info .k { color: var(--accent); min-width: 56px; }
+.hero-info .v { color: var(--text); }
+.hero-info .hash { color: var(--muted); white-space: nowrap; font-size: 11.5px; letter-spacing: -0.2px; }
+.hero-info .note { margin-top: 11px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; line-height: 1.55; color: var(--muted); }
+
+/* ============ About page ============ */
+.about-card { background: var(--modal) url('grain.png?v=2') repeat; background-size: 256px 256px; border: 1px solid var(--pane-border); border-radius: 10px; padding: 22px 24px; margin-bottom: 18px; }
+.about-card h2 { font-size: 19px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+.about-card p { color: var(--muted); font-size: 14.5px; line-height: 1.7; margin-bottom: 11px; }
+.about-card p:last-child { margin-bottom: 0; }
+.about-card b { color: var(--text); }
+.about-card a { color: var(--accent); font-weight: 600; }
+.about-quote { border-left: 3px solid var(--accent); padding: 4px 0 4px 16px; margin: 4px 0 14px; color: var(--text2); font-style: italic; font-size: 15px; }
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr)); gap: 10px; margin-top: 4px; }
+.contact-grid a { display: flex; align-items: center; gap: 10px; background: var(--panel); border: 1px solid var(--dragline); border-radius: 8px; padding: 11px 14px; color: var(--text); font-size: 13.5px; font-weight: 600; transition: border-color 0.15s, transform 0.1s; }
+.contact-grid a:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); transform: translateY(-2px); filter: none; }
+.contact-grid svg { width: 18px; height: 18px; fill: var(--accent); flex-shrink: 0; }
+.contact-grid a > span { min-width: 0; }
+.contact-grid .sub { display: block; font-size: 11px; font-weight: 400; color: var(--muted); font-family: Consolas, monospace; overflow-wrap: break-word; }
+
+/* ============ Technical page ============ */
+.tech-sec { margin-bottom: 30px; scroll-margin-top: 74px; }
+/* Universal content-header style: typewriter wordmark font across all pages */
+.tech-sec h2, .about-card h2 { font-family: 'KillerNotes', 'Courier New', monospace; font-size: 24px; font-weight: normal; letter-spacing: .5px; margin: 6px 0 12px; color: var(--text); }
+.tech-sec h2, .about-card h2, .features h2 { text-shadow: 0 1px 1px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.32); }
+html[data-theme="light"] .tech-sec h2, html[data-theme="light"] .about-card h2, html[data-theme="light"] .features h2 { text-shadow: none; }
+.tech-sec h3 { font-family: 'KillerNotes', 'Courier New', monospace; font-size: 15px; font-weight: normal; letter-spacing: .5px; color: var(--accent); margin: 16px 0 7px;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
+html[data-theme="light"] .tech-sec h3 { text-shadow: none; }
+.tech-sec p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 11px; }
+.tech-sec b { color: var(--text); }
+.tech-sec a { color: var(--accent); font-weight: 600; }
+/* Inline code chips (paths, extensions, sample queries) - without this they render as
+   bare monospace and run into the prose */
+.tech-sec code, .about-card code { background: var(--panel); border: 1px solid var(--pane-border); padding: 1px 6px; border-radius: 4px; font-family: Consolas, monospace; font-size: 12.5px; color: var(--text); white-space: nowrap; }
+.codeblock { background: var(--panel); border: 1px solid var(--pane-border); border-left: 2px solid var(--accent); border-radius: 7px; padding: 13px 16px; margin: 10px 0 14px; font-family: Consolas, monospace; font-size: 12.5px; line-height: 1.7; color: var(--text); white-space: pre-wrap; overflow-x: auto; }
+.codeblock .cm { color: var(--muted); }
+.diagram { margin: 20px 0 6px; padding: 14px 16px; border: 1px solid var(--pane-border); border-radius: 10px; background: var(--modal); }
+.diagram svg { width: 100%; height: auto; display: block; cursor: zoom-in; }
+.diagram figcaption { font-size: 12.5px; line-height: 1.55; color: var(--muted); margin-top: 10px; }
+.diagram .zoom-hint { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
+/* Click-to-enlarge overlay for the flowcharts (tap the diagram, or its enlarged copy, to close) */
+.dlightbox { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 18px; background: var(--fade); cursor: zoom-out; }
+.dlightbox[hidden] { display: none; }
+.dlb-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; box-shadow: 0 22px 60px rgba(0,0,0,0.5); }
+.dlb-inner svg { display: block; width: min(1080px, 94vw); height: auto; max-height: 88vh; }
+/* Arrow-bulleted lists, shared by the hero blurbs and the technical sections */
+.blurb-list { list-style: none; margin-bottom: 11px; }
+.blurb-list li { font-size: 13.5px; color: var(--muted); line-height: 1.55; padding-left: 16px; position: relative; margin-bottom: 6px; }
+.blurb-list li:last-child { margin-bottom: 0; }
+.blurb-list li::before { content: "\203A"; position: absolute; left: 3px; color: var(--accent); font-weight: 700; }
+.blurb-list b { color: var(--text); }
+.spec-table { width: 100%; border-collapse: collapse; margin: 6px 0 14px; font-size: 13px; background: var(--bg); }
+.spec-table th { text-align: left; background: var(--accent); color: var(--accent-text); padding: 7px 12px; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.45); }
+.spec-table td { padding: 7px 12px; border-bottom: 1px solid var(--pane-border); color: var(--muted); overflow-wrap: anywhere; }
+.spec-table td:first-child { color: var(--text); font-weight: 600; width: 42%; }
+.spec-table tr:nth-child(even) td { background: color-mix(in srgb, var(--panel) 50%, transparent); }
+/* Dark themes: the panel tint merges into the page, so use a distinctly darker stripe (like the app's bars) */
+html[data-theme="dark"] .spec-table tr:nth-child(even) td { background: #262626; }
+html[data-theme="hc"]   .spec-table tr:nth-child(even) td { background: #050505; }
+/* RGB themes (accent is white): a full-white header bar is too much, so invert to a dark chrome fill with light text. */
+html[data-theme="blood"] .spec-table th,
+html[data-theme="greed"] .spec-table th,
+html[data-theme="cyanotic"] .spec-table th { background: var(--chrome); color: var(--text); }
+
+@media (max-width: 900px) {
+  .tb-nav a { padding: 6px 8px; font-size: 13px; }
+  .hero-info { flex: 1 1 auto; min-width: 0; }
+}
+
+/* ---- Accent bar: drops down under the toolbar when a base theme is picked (like the app's annotate bars) ---- */
+.accent-bar { position: fixed; left: 0; right: 0; top: 44px; z-index: 102; display: flex; justify-content: center; pointer-events: none; opacity: 0; transform: translateY(-12px); transition: opacity 0.18s ease, transform 0.18s ease; }
+.accent-bar.show { opacity: 1; transform: translateY(0); }
+.accent-bar .pill { position: relative; overflow: hidden; pointer-events: auto; display: inline-flex; align-items: center; gap: 11px; background: var(--surface); border: 1px solid var(--pane-border); border-radius: 3px; padding: 8px 13px; box-shadow: 0 0 18px 1px rgba(0,0,0,0.45), 0 14px 30px rgba(0,0,0,0.5); }
+.accent-bar .pill::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: url('grain.png?v=2') repeat; background-size: 256px 256px; opacity: 1; border-radius: inherit; }
+.accent-bar .pill > * { position: relative; z-index: 1; }
+.accent-bar .pill .grip { width: 9px; height: 18px; background-image: radial-gradient(var(--muted) 1.1px, transparent 1.4px); background-size: 4.5px 6px; background-position: 0 1px; opacity: 0.55; cursor: grab; }
+.accent-bar .pill .grip:active { cursor: grabbing; }
+.accent-bar:not(.show) .pill { pointer-events: none; }
+.accent-bar .pill .x { cursor: pointer; color: var(--muted); font-size: 17px; line-height: 1; background: none; border: 0; appearance: none; -webkit-appearance: none; padding: 0 2px; margin-left: 3px; }
+.accent-bar .pill .x:hover { color: var(--danger); }
+.accent-bar .pill .lbl { font-family: Consolas, monospace; font-size: 12px; color: var(--muted); letter-spa

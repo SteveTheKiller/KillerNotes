@@ -20,12 +20,38 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Single-exe build (family standard, same versions as KillerPDF): Costura embeds every
+         managed dependency into the exe at build time. -->
+    <PackageReference Include="Costura.Fody" Version="5.7.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>compile; runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Fody" Version="6.8.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <!-- Transitive pins: Costura.Fody -> NETStandard.Library 1.6.1 resolves the vulnerable
+         System.Net.Http 4.3.0 / System.Text.RegularExpressions 4.3.0 (GHSA-7jgj-8wvc-jh57,
+         GHSA-cmhx-cq75-c4mj). Costura is build-time only and the app compiles against the net48
+         framework System.Net.Http, so nothing from that graph ships - these pins just move the
+         resolved versions to the patched releases. ExcludeAssets=all keeps them out of compile
+         and output entirely. -->
+    <PackageReference Include="System.Net.Http" Version="4.3.4" ExcludeAssets="all" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" ExcludeAssets="all" />
     <!-- Notes database: SQLite with FTS5 search, encrypted at rest with SQLCipher (AES-256)
-         when a password is set. bundle_e_sqlcipher carries the SQLCipher native build; the
-         .Core ADO.NET wrapper stays managed. Run the vulnerable-package scan (dotnet list
-         package with the vulnerable and include-transitive flags) at every release. -->
+         when a password is set. The static provider (not bundle_e_sqlcipher) is deliberate for
+         the single-exe build: the bundle's Batteries_V2 dynamic loader probes Assembly.Location,
+         which is empty for Costura in-memory assemblies and crashes at startup. The static
+         provider binds via plain DllImport, satisfied by SqlCipherBootstrap's preload. The .Core
+         ADO.NET wrapper stays managed. Run the vulnerable-package scan (dotnet list package with
+         the vulnerable and include-transitive flags) at every release. -->
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.6" />
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.8" />
+    <PackageReference Include="SQLitePCLRaw.provider.e_sqlcipher" Version="2.1.8" />
+    <!-- We embed the x64 SQLCipher native as a resource and self-extract it at runtime
+         (SqlCipherBootstrap), same pattern as KillerPDF's OCR natives. ExcludeAssets stops the
+         loose native copy in the output while GeneratePathProperty exposes the package path for
+         the embed below. Version pinned to match the provider. -->
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlcipher" Version="2.1.8" GeneratePathProperty="true" ExcludeAssets="build;buildTransitive;native;contentFiles" />
     <!-- Markdown to HTML for the optional preview pane (managed, no natives, MIT) -->
     <PackageReference Include="Markdig" Version="0.37.0" />
     <!-- net48 polyfills so the kit's collection expressions / range operators compile -->
@@ -47,6 +73,15 @@
     <Resource Include="Resources\kn-note.ico" />
     <Resource Include="Resources\kn-db.ico" />
     <Resource Include="Fonts\KillerNotes.ttf" />
+  </ItemGroup>
+
+  <!-- SQLCipher native (x64) embedded for the single-exe build; SqlCipherBootstrap extracts it
+       to a per-version cache under %LOCALAPPDATA%\KillerNotes and preloads it before the first
+       database open. PkgSQLitePCLRaw_lib_e_sqlcipher comes from GeneratePathProperty. -->
+  <ItemGroup>
+    <EmbeddedResource Include="$(PkgSQLitePCLRaw_lib_e_sqlcipher)\runtimes\win-x64\native\e_sqlcipher.dll" Condition="'$(PkgSQLitePCLRaw_lib_e_sqlcipher)' != ''">
+      <LogicalName>KillerNotes.SqlCipherNative.e_sqlcipher.dll</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

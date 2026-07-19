@@ -19,6 +19,10 @@ namespace KillerNotes
         /// <summary>File name the user chose to open, or null if they just closed.</summary>
         public string? SelectedDatabase { get; private set; }
 
+        /// <summary>Look up a localized string; falls back to the key name if missing.</summary>
+        private static string Loc(string key) =>
+            Application.Current.TryFindResource(key) as string ?? key;
+
         public DatabasesDialog()
         {
             InitializeComponent();
@@ -45,7 +49,8 @@ namespace KillerNotes
                 var meta = new TextBlock
                 {
                     Text = $"   {fi.Length / 1024:N0} KB   {fi.LastWriteTime:yyyy-MM-dd HH:mm}"
-                         + (enc ? "   [encrypted]" : "") + (active ? "   [active]" : ""),
+                         + (enc ? "   [" + Loc("Str_Db_FlagEncrypted") + "]" : "")
+                         + (active ? "   [" + Loc("Str_Db_FlagActive") + "]" : ""),
                     FontSize = 11,
                     VerticalAlignment = VerticalAlignment.Center,
                 };
@@ -91,34 +96,34 @@ namespace KillerNotes
         // Explorer, Teams, or an email attaches/copies it.
         private void CopyFileMenu_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedFile is not string name) { DlgStatus.Text = "Select a database first"; return; }
+            if (SelectedFile is not string name) { DlgStatus.Text = Loc("Str_Db_SelectFirst"); return; }
             try
             {
                 var files = new System.Collections.Specialized.StringCollection
                     { Path.Combine(NoteStore.DbDir, name) };
                 Clipboard.SetFileDropList(files);
-                DlgStatus.Text = $"{name} copied - paste it into Explorer, Teams, or an email";
+                DlgStatus.Text = string.Format(Loc("Str_Db_Copied"), name);
             }
-            catch (Exception ex) { DlgStatus.Text = "Copy failed: " + ex.Message; }
+            catch (Exception ex) { DlgStatus.Text = string.Format(Loc("Str_Db_CopyFailed"), ex.Message); }
         }
 
         // Share a whole database: a .kndb is the .db verbatim (encryption travels with it);
         // the extension is what makes it double-clickable into KillerNotes on the other end.
         private void ExportMenu_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedFile is not string name) { DlgStatus.Text = "Select a database first"; return; }
+            if (SelectedFile is not string name) { DlgStatus.Text = Loc("Str_Db_SelectFirst"); return; }
             var dlg = new Microsoft.Win32.SaveFileDialog
             {
-                Filter = "KillerNotes database (*.kndb)|*.kndb",
+                Filter = Loc("Str_Filter_Kndb"),
                 FileName = Path.GetFileNameWithoutExtension(name) + ".kndb",
             };
             if (dlg.ShowDialog(this) != true) return;
             try
             {
                 File.Copy(Path.Combine(NoteStore.DbDir, name), dlg.FileName, overwrite: true);
-                DlgStatus.Text = "Exported to " + dlg.FileName;
+                DlgStatus.Text = string.Format(Loc("Str_St_ExportedTo"), dlg.FileName);
             }
-            catch (Exception ex) { DlgStatus.Text = "Export failed: " + ex.Message; }
+            catch (Exception ex) { DlgStatus.Text = string.Format(Loc("Str_St_ExportFailed"), ex.Message); }
         }
 
         private void RevealMenu_Click(object sender, RoutedEventArgs e)
@@ -182,11 +187,11 @@ namespace KillerNotes
             if (string.Equals(oldName, newName, StringComparison.OrdinalIgnoreCase)) return false;
             if (newName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
             {
-                DlgStatus.Text = "That name has characters Windows does not allow";
+                DlgStatus.Text = Loc("Str_Db_BadName");
                 return false;
             }
             string dest = Path.Combine(NoteStore.DbDir, newName);
-            if (File.Exists(dest)) { DlgStatus.Text = $"{newName} already exists"; return false; }
+            if (File.Exists(dest)) { DlgStatus.Text = string.Format(Loc("Str_Db_Exists"), newName); return false; }
             try
             {
                 File.Move(Path.Combine(NoteStore.DbDir, oldName), dest);
@@ -195,10 +200,10 @@ namespace KillerNotes
                 if (string.Equals(oldName, NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase))
                     App.SetSetting("ActiveDatabase", newName);
                 RefreshDbList(newName);
-                DlgStatus.Text = $"{oldName} renamed to {newName}";
+                DlgStatus.Text = string.Format(Loc("Str_Db_Renamed"), oldName, newName);
                 return true;
             }
-            catch (Exception ex) { DlgStatus.Text = "Rename failed: " + ex.Message; return false; }
+            catch (Exception ex) { DlgStatus.Text = string.Format(Loc("Str_Db_RenameFailed"), ex.Message); return false; }
         }
 
         // ---- New (+): auto-named, then straight into inline rename ----
@@ -215,17 +220,17 @@ namespace KillerNotes
                 RefreshDbList(name);
                 if (SelectedItem is ListBoxItem item) BeginRename(item);
             }
-            catch (Exception ex) { DlgStatus.Text = "Create failed: " + ex.Message; }
+            catch (Exception ex) { DlgStatus.Text = string.Format(Loc("Str_Db_CreateFailed"), ex.Message); }
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedFile is not string name) { DlgStatus.Text = "Select a database first"; return; }
+            if (SelectedFile is not string name) { DlgStatus.Text = Loc("Str_Db_SelectFirst"); return; }
 
             var confirm = new ConfirmDialog(
-                $"Delete \"{name}\"?",
-                "Every note inside it is permanently deleted. This cannot be undone.",
-                "Delete") { Owner = this };
+                string.Format(Loc("Str_Dlg_DeleteNoteHead"), name),
+                Loc("Str_Dlg_DeleteDbBody"),
+                Loc("Str_Btn_Delete")) { Owner = this };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
@@ -233,9 +238,9 @@ namespace KillerNotes
             {
                 File.Delete(Path.Combine(NoteStore.DbDir, name));
                 RefreshDbList();
-                DlgStatus.Text = $"{name} deleted";
+                DlgStatus.Text = string.Format(Loc("Str_Db_Deleted"), name);
             }
-            catch (Exception ex) { DlgStatus.Text = "Delete failed: " + ex.Message; }
+            catch (Exception ex) { DlgStatus.Text = string.Format(Loc("Str_Db_DeleteFailed"), ex.Message); }
         }
 
         private void Explorer_Click(object sender, RoutedEventArgs e)
@@ -250,7 +255,7 @@ namespace KillerNotes
 
         private void Open_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedFile is not string name) { DlgStatus.Text = "Select a database first"; return; }
+            if (SelectedFile is not string name) { DlgStatus.Text = Loc("Str_Db_SelectFirst"); return; }
             SelectedDatabase = name;
             Close();
         }

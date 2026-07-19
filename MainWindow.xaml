@@ -78,12 +78,13 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
                         shell:WindowChrome.IsHitTestVisibleInChrome="True">
-                <!-- E8E5 (OpenFile): E8B7 renders as a missing-glyph box on some
-                     Segoe MDL2 / Fluent Icons versions -->
+                <!-- E8F1 (Library, a row of books): reads as "your notepads". E8B7 renders
+                     as a missing-glyph box on some Segoe MDL2 / Fluent Icons versions, and
+                     E8E5 (OpenFile) read as a document, not a database. -->
                 <Button x:Name="DatabasesBtn" Click="ManageDatabases_Click" Style="{StaticResource ChromeButton}"
-                        Content="&#xE8E5;" ToolTip="Manage databases"/>
+                        Content="&#xE8F1;" ToolTip="{DynamicResource Str_TT_Databases}"/>
                 <Button x:Name="LockButton" Click="LockButton_Click" Style="{StaticResource ChromeButton}"
-                        Content="&#xE72E;" ToolTip="Password protection"/>
+                        Content="&#xE72E;" ToolTip="{DynamicResource Str_TT_Lock}"/>
                 <Button x:Name="MinimizeBtn" Click="MinimizeBtn_Click" Style="{StaticResource ChromeButton}" Content="&#xE921;"/>
                 <Button x:Name="MaximizeBtn" Click="MaximizeBtn_Click" Style="{StaticResource ChromeButton}" Content="&#xE922;"/>
                 <Button x:Name="CloseBtn"    Click="CloseBtn_Click"    Style="{StaticResource ChromeCloseButton}" Content="&#xE8BB;"/>
@@ -98,7 +99,7 @@
                         BorderThickness="1" CornerRadius="6" Padding="12,10" Margin="14">
                     <Border.Effect><DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="4" Direction="270" Opacity="0.55"/></Border.Effect>
                     <StackPanel>
-                        <TextBlock Text="theme" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,0,0,4"/>
+                        <TextBlock Text="{DynamicResource Str_Lbl_Theme}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,0,0,4"/>
                         <StackPanel x:Name="ThemeSwatches" Orientation="Horizontal">
                             <Button Style="{StaticResource ThemeSwatch}" Tag="Dark"     Background="#3a3a3a" Click="ThemeSwatch_Click"/>
                             <Button Style="{StaticResource ThemeSwatch}" Tag="Light"    Background="#e8e8e8" Click="ThemeSwatch_Click"/>
@@ -107,7 +108,7 @@
                             <Button Style="{StaticResource ThemeSwatch}" Tag="Greed"    Background="#0a5234" Click="ThemeSwatch_Click"/>
                             <Button Style="{StaticResource ThemeSwatch}" Tag="Cyanotic" Background="#0a4a6e" Click="ThemeSwatch_Click"/>
                         </StackPanel>
-                        <TextBlock x:Name="AccentLabel" Text="accent" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,8,0,4"/>
+                        <TextBlock x:Name="AccentLabel" Text="{DynamicResource Str_Lbl_Accent}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,8,0,4"/>
                         <StackPanel x:Name="AccentSwatches" Orientation="Horizontal">
                             <Button Style="{StaticResource ThemeSwatch}" Tag="Red"    Background="#DD504B" Click="AccentSwatch_Click"/>
                             <Button Style="{StaticResource ThemeSwatch}" Tag="Orange" Background="#E8962C" Click="AccentSwatch_Click"/>
@@ -153,13 +154,20 @@
                     <Button x:Name="SidebarToggleBtn" Style="{StaticResource RailButton}"
                             Content="&#xE76B;" FontSize="12"
                             VerticalAlignment="Top" HorizontalAlignment="Center" Margin="4,10,0,0"
-                            Click="SidebarToggle_Click" ToolTip="Collapse sidebar (F9)"/>
+                            Click="SidebarToggle_Click" ToolTip="{DynamicResource Str_TT_CollapseSidebar}"/>
                     <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="4,0,0,6">
                         <Button Style="{StaticResource RailButton}" Content="?"
                                 FontFamily="Consolas" FontSize="18" Margin="0,0,0,6"
-                                Click="ShortcutHelp_Click" ToolTip="Keyboard shortcuts (F1)"/>
+                                Click="ShortcutHelp_Click" ToolTip="{DynamicResource Str_TT_Shortcuts}"/>
+                        <!-- E774 (Globe): language picker, opens the locale menu upward
+                             (Localization.cs BuildLanguageMenu fills it on click) -->
+                        <Button x:Name="LangButton" Style="{StaticResource RailButton}" Content="&#xE774;"
+                                Margin="0,0,0,6" Click="LangButton_Click"
+                                ToolTip="{DynamicResource Str_TT_Language}">
+                            <Button.ContextMenu><ContextMenu/></Button.ContextMenu>
+                        </Button>
                         <Button x:Name="ThemeButton" Style="{StaticResource RailButton}" Content="&#xE790;"
-                                Click="SidebarThemeBtn_Click" ToolTip="Theme"/>
+                                Click="SidebarThemeBtn_Click" ToolTip="{DynamicResource Str_TT_Theme}"/>
                     </StackPanel>
                 </Grid>
 
@@ -195,7 +203,7 @@
                                     <TextBlock Grid.Column="0" Text="&#xE71C;" FontFamily="Segoe MDL2 Assets" FontSize="11"
                                                Foreground="{DynamicResource DimTextBrush}" Margin="8,0,5,0" VerticalAlignment="Center"/>
                                     <Grid Grid.Column="1">
-                                        <TextBlock Text="Search notes  (F3)" Foreground="{DynamicResource DimTextBrush}"
+                                        <TextBlock Text="{DynamicResource Str_SearchPlaceholder}" Foreground="{DynamicResource DimTextBrush}"
                                                    FontSize="12" VerticalAlignment="Center" IsHitTestVisible="False" Margin="0,0,8,0">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
@@ -223,8 +231,8 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Button x:Name="NewNoteBtn" Grid.Column="0" Style="{StaticResource OutlineButton}"
-                                    Content="+ New note" Click="NewNote_Click" HorizontalAlignment="Left"
-                                    ToolTip="New note (Ctrl+N)"/>
+                                    Content="{DynamicResource Str_Btn_NewNote}" Click="NewNote_Click" HorizontalAlignment="Left"
+                                    ToolTip="{DynamicResource Str_TT_NewNote}"/>
                             <!-- Dedicated sorts: creation time (default, oldest first) and
                                  alphabetical. The active one shows in the accent; clicking it
                                  again reverses its direction (Notes.cs). -->
@@ -234,7 +242,7 @@
                                      (up = ascending) that flips when clicked again (Notes.cs). -->
                                 <Button x:Name="SortTimeBtn" Style="{StaticResource SurfaceButton}"
                                         Margin="8,0,0,0" Click="SortTimeBtn_Click" Width="40" Padding="0"
-                                        ToolTip="By creation time - oldest first (click again to reverse)">
+                                        ToolTip="{DynamicResource Str_TT_SortTime}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Text="&#xE823;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                                    VerticalAlignment="Center"/>
@@ -244,7 +252,7 @@
                                 </Button>
                                 <Button x:Name="SortAlphaBtn" Style="{StaticResource SurfaceButton}"
                                         Margin="6,0,0,0" Click="SortAlphaBtn_Click" Width="40" Padding="0"
-                                        ToolTip="Alphabetical (click again to reverse)">
+                                        ToolTip="{DynamicResource Str_TT_SortAlpha}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Text="AZ" FontFamily="Consolas" FontSize="11"
                                                    VerticalAlignment="Center"/>
@@ -257,7 +265,7 @@
                     </StackPanel>
 
                     <ListBox x:Name="NotesList" Background="Transparent" BorderThickness="0"
-                             HorizontalContentAlignment="Stretch"
+                             HorizontalContentAlignment="Stretch" SelectionMode="Extended"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                              VirtualizingPanel.ScrollUnit="Pixel"
                              SelectionChanged="NotesList_SelectionChanged"
@@ -294,11 +302,11 @@
                              Right-click selects the item under the cursor first (code-behind). -->
                         <ListBox.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Share note..." Click="ShareNote_Click"
-                                          ToolTip="Save as a .knote file (optionally password protected) to send to a coworker"/>
-                                <MenuItem Header="Export note as..." Click="ExportNoteAs_Click"
-                                          ToolTip="Save a copy as an ordinary file - .txt, .rtf, or .html (F8)"/>
-                                <MenuItem Header="Delete note" Click="DeleteNote_Click"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_ShareNote}" Click="ShareNote_Click"
+                                          ToolTip="{DynamicResource Str_TT_ShareNote}"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_ExportNote}" Click="ExportNoteAs_Click"
+                                          ToolTip="{DynamicResource Str_TT_ExportNote}"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_DeleteNote}" Click="DeleteNote_Click"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
                         <ListBox.ItemTemplate>
@@ -366,9 +374,9 @@
                          implicit ContextMenu/MenuItem styles, so it renders unthemed -->
                     <TextBox.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Cut" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
-                            <MenuItem Header="Copy" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
-                            <MenuItem Header="Paste" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
+                            <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
+                            <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
+                            <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
                         </ContextMenu>
                     </TextBox.ContextMenu>
                 </TextBox>
@@ -400,7 +408,7 @@
                     <!-- Peek strip shown while minimized: drag to move, double-click to restore -->
                     <Border x:Name="FmtPeek" Background="Transparent" Cursor="Hand" Height="13"
                             Visibility="Collapsed"
-                            ToolTip="Drag to move - double-click or F6 to restore">
+                            ToolTip="{DynamicResource Str_TT_FmtPeek}">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" IsHitTestVisible="False">
                             <Ellipse Width="3" Height="3" Margin="2,0" Fill="{DynamicResource DimTextBrush}"/>
@@ -416,7 +424,7 @@
                     <!-- Drag grip (double-click minimizes, like KillerPDF) -->
                     <!-- Vertical 3-dot column, exactly like KillerPDF's MakeBarGrip -->
                     <Border x:Name="FmtGrip" Background="Transparent" Cursor="SizeAll" Width="14"
-                            Margin="0,0,2,0" ToolTip="Drag to move - double-click to minimize">
+                            Margin="0,0,2,0" ToolTip="{DynamicResource Str_TT_FmtGrip}">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" IsHitTestVisible="False">
                             <Ellipse Width="3" Height="3" Margin="0,1.5" Fill="{DynamicResource DimTextBrush}"/>
@@ -424,22 +432,22 @@
                             <Ellipse Width="3" Height="3" Margin="0,1.5" Fill="{DynamicResource DimTextBrush}"/>
                         </StackPanel>
                     </Border>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE8DD;" ToolTip="Bold (Ctrl+B)"
+                    <Button Style="{StaticResource FmtButton}" Content="&#xE8DD;" ToolTip="{DynamicResource Str_TT_Bold}"
                             Command="EditingCommands.ToggleBold" CommandTarget="{Binding ElementName=Editor}"/>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE8DB;" ToolTip="Italic (Ctrl+I)"
+                    <Button Style="{StaticResource FmtButton}" Content="&#xE8DB;" ToolTip="{DynamicResource Str_TT_Italic}"
                             Command="EditingCommands.ToggleItalic" CommandTarget="{Binding ElementName=Editor}"/>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE8DC;" ToolTip="Underline (Ctrl+U)"
+                    <Button Style="{StaticResource FmtButton}" Content="&#xE8DC;" ToolTip="{DynamicResource Str_TT_Underline}"
                             Command="EditingCommands.ToggleUnderline" CommandTarget="{Binding ElementName=Editor}"/>
-                    <Button Style="{StaticResource FmtButton}" ToolTip="Strikethrough (Ctrl+Shift+S)" Click="Strike_Click">
+                    <Button Style="{StaticResource FmtButton}" ToolTip="{DynamicResource Str_TT_Strike}" Click="Strike_Click">
                         <TextBlock Text="S" TextDecorations="Strikethrough" FontFamily="Segoe UI"
                                    FontSize="14" FontWeight="SemiBold"/>
                     </Button>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE943;" ToolTip="Monospace (code, Ctrl+Shift+M)"
+                    <Button Style="{StaticResource FmtButton}" Content="&#xE943;" ToolTip="{DynamicResource Str_TT_Mono}"
                             Click="Mono_Click"/>
                     <Rectangle Style="{StaticResource FmtSeparator}"/>
                     <!-- Word-style "A over a color bar" - the bar follows the accent -->
                     <Button x:Name="TextColorBtn" Style="{StaticResource FmtButton}"
-                            ToolTip="Text color and highlight" Click="TextColorBtn_Click">
+                            ToolTip="{DynamicResource Str_TT_TextColor}" Click="TextColorBtn_Click">
                         <StackPanel>
                             <TextBlock Text="A" FontFamily="Segoe UI" FontWeight="Bold" FontSize="13"
                                        HorizontalAlignment="Center" Margin="0,0,0,1"/>
@@ -454,43 +462,43 @@
                                 BorderThickness="1" CornerRadius="6" Padding="12,10" Margin="14">
                             <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
                             <StackPanel>
-                                <TextBlock Text="text" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,0,0,4"/>
+                                <TextBlock Text="{DynamicResource Str_Lbl_TextColor}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,0,0,4"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource ThemeSwatch}" Background="{DynamicResource PrimaryBrush}" Tag="accent" Click="FgSwatch_Click" ToolTip="Accent"/>
+                                    <Button Style="{StaticResource ThemeSwatch}" Background="{DynamicResource PrimaryBrush}" Tag="accent" Click="FgSwatch_Click" ToolTip="{DynamicResource Str_TT_AccentSwatch}"/>
                                     <Button Style="{StaticResource ThemeSwatch}" Background="#DD504B" Tag="#DD504B" Click="FgSwatch_Click"/>
                                     <Button Style="{StaticResource ThemeSwatch}" Background="#E8962C" Tag="#E8962C" Click="FgSwatch_Click"/>
                                     <Button Style="{StaticResource ThemeSwatch}" Background="#1ea54c" Tag="#1ea54c" Click="FgSwatch_Click"/>
                                     <Button Style="{StaticResource ThemeSwatch}" Background="#50AEE8" Tag="#50AEE8" Click="FgSwatch_Click"/>
                                     <Button Style="{StaticResource ThemeSwatch}" Background="#9a9a9a" Tag="#9a9a9a" Click="FgSwatch_Click"/>
-                                    <Button Content="auto" Style="{StaticResource SurfaceButton}" FontSize="10"
+                                    <Button Content="{DynamicResource Str_Btn_Auto}" Style="{StaticResource SurfaceButton}" FontSize="10"
                                             Padding="6,1" Margin="6,0,0,0" Click="FgAuto_Click"
-                                            ToolTip="Back to the theme text color"/>
+                                            ToolTip="{DynamicResource Str_TT_Auto}"/>
                                 </StackPanel>
-                                <TextBlock Text="highlight" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,8,0,4"/>
+                                <TextBlock Text="{DynamicResource Str_Lbl_Highlight}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,8,0,4"/>
                                 <StackPanel Orientation="Horizontal">
                                     <Button Style="{StaticResource ThemeSwatch}" Background="#7a6a00" Tag="#7A6A00" Click="BgSwatch_Click"/>
                                     <Button Style="{StaticResource ThemeSwatch}" Background="#0a5e2a" Tag="#0A5E2A" Click="BgSwatch_Click"/>
                                     <Button Style="{StaticResource ThemeSwatch}" Background="#084d6e" Tag="#084D6E" Click="BgSwatch_Click"/>
                                     <Button Style="{StaticResource ThemeSwatch}" Background="#6e1414" Tag="#6E1414" Click="BgSwatch_Click"/>
-                                    <Button Content="none" Style="{StaticResource SurfaceButton}" FontSize="10"
+                                    <Button Content="{DynamicResource Str_Btn_None}" Style="{StaticResource SurfaceButton}" FontSize="10"
                                             Padding="6,1" Margin="6,0,0,0" Click="BgNone_Click"
-                                            ToolTip="Remove highlight"/>
+                                            ToolTip="{DynamicResource Str_TT_None}"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
                     </Popup>
                     <Rectangle Style="{StaticResource FmtSeparator}"/>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE8FD;" ToolTip="Bulleted list (Ctrl+Shift+L)"
+                    <Button Style="{StaticResource FmtButton}" Content="&#xE8FD;" ToolTip="{DynamicResource Str_TT_Bullets}"
                             Command="EditingCommands.ToggleBullets" CommandTarget="{Binding ElementName=Editor}"/>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xEA37;" ToolTip="Numbered list (Ctrl+Shift+N)"
+                    <Button Style="{StaticResource FmtButton}" Content="&#xEA37;" ToolTip="{DynamicResource Str_TT_Numbering}"
                             Command="EditingCommands.ToggleNumbering" CommandTarget="{Binding ElementName=Editor}"/>
                     <Rectangle Style="{StaticResource FmtSeparator}"/>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE738;" ToolTip="Horizontal rule (Ctrl+Shift+R)"
+                    <Button Style="{StaticResource FmtButton}" Content="&#xE738;" ToolTip="{DynamicResource Str_TT_Rule}"
                             Click="InsertRule_Click"/>
                     <!-- Press (or press-hold-drag) opens the size picker grid; release or click
                          on a cell inserts that rows x cols table (Editor.cs). -->
                     <Button x:Name="TableBtn" Style="{StaticResource FmtButton}" Content="&#xE8A9;"
-                            ToolTip="Insert table (drag to pick the size)"
+                            ToolTip="{DynamicResource Str_TT_Table}"
                             PreviewMouseLeftButtonDown="TableBtn_MouseDown"/>
                     <Popup x:Name="TableSizePopup" PlacementTarget="{Binding ElementName=TableBtn}"
                            Placement="Bottom" StaysOpen="False" AllowsTransparency="True" VerticalOffset="4">
@@ -500,20 +508,20 @@
                             <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
                             <StackPanel>
                                 <UniformGrid x:Name="TableSizeCells" Columns="8"/>
-                                <TextBlock x:Name="TableSizeLabel" Text="size" Foreground="{DynamicResource DimTextBrush}"
+                                <TextBlock x:Name="TableSizeLabel" Text="{DynamicResource Str_Lbl_Size}" Foreground="{DynamicResource DimTextBrush}"
                                            FontSize="10" HorizontalAlignment="Center" Margin="0,6,0,0"/>
                                 <!-- Custom size for anything beyond the hover grid -->
                                 <Border Height="1" Background="{DynamicResource MenuBorderBrush}" Margin="0,8,0,8"/>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBox x:Name="TblColsBox" Style="{StaticResource DarkTextBox}" Text="4"
                                              Width="34" FontSize="11" Padding="4,2" KeyDown="TblCustom_KeyDown"
-                                             ToolTip="Columns"/>
+                                             ToolTip="{DynamicResource Str_TT_Columns}"/>
                                     <TextBlock Text=" x " Foreground="{DynamicResource DimTextBrush}"
                                                FontSize="11" VerticalAlignment="Center"/>
                                     <TextBox x:Name="TblRowsBox" Style="{StaticResource DarkTextBox}" Text="3"
                                              Width="34" FontSize="11" Padding="4,2" KeyDown="TblCustom_KeyDown"
-                                             ToolTip="Rows"/>
-                                    <Button Content="Insert" Style="{StaticResource SurfaceButton}"
+                                             ToolTip="{DynamicResource Str_TT_Rows}"/>
+                                    <Button Content="{DynamicResource Str_Btn_Insert}" Style="{StaticResource SurfaceButton}"
                                             FontSize="11" Padding="8,2" Margin="8,0,0,0"
                                             Click="TblCustomInsert_Click"/>
                                 </StackPanel>
@@ -522,10 +530,10 @@
                     </Popup>
                     <!-- Appears only when the note text looks like markdown or HTML (Preview.cs) -->
                     <Button x:Name="PreviewBtn" Style="{StaticResource FmtButton}" Content="&#xE890;"
-                            ToolTip="Preview (F4)" Click="TogglePreview_Click" Visibility="Collapsed"/>
+                            ToolTip="{DynamicResource Str_TT_Preview}" Click="TogglePreview_Click" Visibility="Collapsed"/>
                     <Rectangle Style="{StaticResource FmtSeparator}"/>
                     <Button Style="{StaticResource FmtButton}" Content="&#xE70E;" FontSize="10"
-                            ToolTip="Hide format bar (F6)" Click="FormatBarToggle_Click"/>
+                            ToolTip="{DynamicResource Str_TT_HideBar}" Click="FormatBarToggle_Click"/>
                 </StackPanel>
                 </Grid>
                 </Border>
@@ -548,9 +556,9 @@
                                  TextChanged="Editor_TextChanged">
                         <RichTextBox.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Cut" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
-                                <MenuItem Header="Copy" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
-                                <MenuItem Header="Paste" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
                             </ContextMenu>
                         </RichTextBox.ContextMenu>
                     </RichTextBox>
@@ -570,7 +578,7 @@
                       DragOver="EmptyState_DragOver" Drop="EmptyState_Drop">
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"
                                Foreground="{DynamicResource DimTextBrush}" FontSize="13"
-                               Text="Click to start a new note, drop text or an image here, or pick one on the left."/>
+                               Text="{DynamicResource Str_EmptyHint}"/>
                 </Grid>
             </Grid>
             </Border>
@@ -598,7 +606,7 @@
                     <TextBlock x:Name="VersionLabel" Text="v0.1.0"
                                Foreground="{DynamicResource TextFooter}" FontFamily="Consolas"
                                FontSize="10" VerticalAlignment="Center" Margin="0,0,12,0"
-                               Cursor="Hand" ToolTip="About KillerNotes"
+                               Cursor="Hand" ToolTip="{DynamicResource Str_TT_About}"
                                MouseLeftButtonUp="VersionLabel_Click"/>
                     <!-- 14px trailing margin keeps the copyright clear of the corner grip (family standard) -->
                     <TextBlock FontSize="10" VerticalAlignment="Center"
@@ -695,7 +703,7 @@
                                                    Opacity="{DynamicResource IconShadowOpacity}"><TextBlock.Effect><BlurEffect Radius="2"/></TextBlock.Effect><Run Text="Killer" FontSize="22" Foreground="#C0000000"/><Run Text="Notes" FontSize="28.6" FontWeight="Bold" Foreground="#C0000000"/></TextBlock>
                                         <TextBlock FontFamily="{DynamicResource WordmarkFont}"><Run Text="Killer" FontSize="22" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="28.6" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"/></TextBlock>
                                     </Grid>
-                                    <TextBlock FontSize="12" Foreground="{DynamicResource MutedTextBrush}" TextWrapping="Wrap"><Run Text="Notes that keep up. A GPLv3 "/><Hyperlink NavigateUri="https://killertools.net" RequestNavigate="AboutLink_Navigate" Foreground="{DynamicResource PrimaryBrush}" TextDecorations="None">Killer Tools</Hyperlink><Run Text=" utility."/></TextBlock>
+                                    <TextBlock FontSize="12" Foreground="{DynamicResource MutedTextBrush}" TextWrapping="Wrap"><Run Text="{DynamicResource Str_About_DescA}"/><Hyperlink NavigateUri="https://killertools.net" RequestNavigate="AboutLink_Navigate" Foreground="{DynamicResource PrimaryBrush}" TextDecorations="None">Killer Tools</Hyperlink><Run Text="{DynamicResource Str_About_DescB}"/></TextBlock>
                                 </StackPanel>
                             </Grid>
 
@@ -709,21 +717,21 @@
                                 <Border Background="{DynamicResource PaneBrush}" CornerRadius="4" Padding="14,12,14,4">
                                     <StackPanel>
                                         <StackPanel Margin="0,0,0,10">
-                                            <TextBlock Text="Version" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
+                                            <TextBlock Text="{DynamicResource Str_About_Version}" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
                                             <TextBlock x:Name="AboutVersionBlock" Foreground="{DynamicResource PrimaryBrush}"
                                                        FontFamily="Consolas" FontSize="13" Cursor="Hand"
                                                        MouseLeftButtonUp="AboutVersion_Click" Margin="0,1,0,0"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,0,0,10">
-                                            <TextBlock Text="Publisher" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
+                                            <TextBlock Text="{DynamicResource Str_About_Publisher}" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
                                             <TextBlock x:Name="AboutPublisherBlock" Foreground="{DynamicResource TextBrush}" FontSize="12" Margin="0,1,0,0"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,0,0,10">
-                                            <TextBlock Text="Certificate thumbprint" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
+                                            <TextBlock Text="{DynamicResource Str_About_Thumbprint}" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
                                             <TextBlock x:Name="AboutThumbprintBlock" Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11" TextWrapping="Wrap" Margin="0,1,0,0"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,0,0,10">
-                                            <TextBlock Text="EXE SHA-256" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
+                                            <TextBlock Text="{DynamicResource Str_About_Sha}" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
                                             <TextBlock x:Name="AboutSha256Block" Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11" TextWrapping="NoWrap" Margin="0,1,0,0"/>
                                         </StackPanel>
                                     </StackPanel>
@@ -772,15 +780,15 @@
                                 Opacity="{DynamicResource GrainOpacity}" Background="{DynamicResource GrainTileBrush}"/>
                         <StackPanel Margin="18,14,18,18">
                             <Grid Margin="0,0,0,12">
-                                <TextBlock Text="Keyboard shortcuts" Foreground="{DynamicResource TextBrush}"
+                                <TextBlock Text="{DynamicResource Str_KS_Title}" Foreground="{DynamicResource TextBrush}"
                                            FontFamily="Consolas" FontSize="15" FontWeight="Bold"/>
                                 <!-- LIST / KEYBOARD view toggle (KeyboardMap.cs) -->
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
                                             VerticalAlignment="Center" Margin="0,0,36,0">
                                     <Button x:Name="KsViewListBtn" Style="{StaticResource KsTabBtn}"
-                                            Content="LIST" Click="KsViewList_Click" Margin="0,0,12,0"/>
+                                            Content="{DynamicResource Str_KS_ViewList}" Click="KsViewList_Click" Margin="0,0,12,0"/>
                                     <Button x:Name="KsViewKeyboardBtn" Style="{StaticResource KsTabBtn}"
-                                            Content="KEYBOARD" Click="KsViewKeyboard_Click"/>
+                                            Content="{DynamicResource Str_KS_ViewKeyboard}" Click="KsViewKeyboard_Click"/>
                                 </StackPanel>
                                 <!-- Foreground lives in a Style setter, NOT a local attribute:
                                      a local value outranks the template's hover trigger and

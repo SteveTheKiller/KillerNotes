@@ -49,7 +49,7 @@ namespace KillerNotes
             var (subject, thumb) = GetSignerInfo();
             AboutPublisherBlock.Text  = subject;
             AboutThumbprintBlock.Text = thumb;
-            AboutSha256Block.Text     = "computing...";
+            AboutSha256Block.Text     = Loc("Str_About_Computing");
             AboutUpdateButton.Visibility = Visibility.Collapsed;
 
             FadeOverlayIn(AboutOverlay);
@@ -105,14 +105,14 @@ namespace KillerNotes
             if (string.IsNullOrEmpty(tag)) return;
 
             var dlg = new ConfirmDialog(
-                $"Download and install {AppDisplayName} {tag}?",
-                "The app will close and reopen automatically.",
-                "Update") { Owner = this };
+                string.Format(Loc("Str_Dlg_UpdateHead"), AppDisplayName, tag),
+                Loc("Str_Dlg_UpdateBody"),
+                Loc("Str_Btn_Update")) { Owner = this };
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
             AboutUpdateButton.IsEnabled = false;
-            AboutUpdateText.Text = "Downloading...";
+            AboutUpdateText.Text = Loc("Str_About_Downloading");
 
             string? newExe = null;
             try
@@ -154,7 +154,7 @@ namespace KillerNotes
             catch
             {
                 AboutUpdateButton.IsEnabled = true;
-                AboutUpdateText.Text = $"Update available: {tag}";
+                AboutUpdateText.Text = string.Format(Loc("Str_About_UpdateAvail"), tag);
                 OpenUrl($"https://github.com/{GitHubRepo}/releases/latest");
                 return;
             }
@@ -186,7 +186,7 @@ namespace KillerNotes
             catch
             {
                 AboutUpdateButton.IsEnabled = true;
-                AboutUpdateText.Text = $"Update available: {tag}";
+                AboutUpdateText.Text = string.Format(Loc("Str_About_UpdateAvail"), tag);
             }
         }
 
@@ -214,7 +214,7 @@ namespace KillerNotes
                 await Dispatcher.BeginInvoke((Action)(() =>
                 {
                     _updateTag = $"v{lat.ToString(3)}";
-                    AboutUpdateText.Text = $"Update available: {_updateTag}";
+                    AboutUpdateText.Text = string.Format(Loc("Str_About_UpdateAvail"), _updateTag);
                     AboutUpdateButton.Visibility = Visibility.Visible;
                 }));
             }

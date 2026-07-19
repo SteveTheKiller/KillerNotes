@@ -52,9 +52,9 @@ namespace KillerNotes
             NotesList.SelectedItem = _notes.FirstOrDefault(n => n.Id == _currentId);
             _syncingSelection = false;
 
-            StatusText.Text = string.IsNullOrWhiteSpace(SearchBox.Text)
-                ? $"{_notes.Count} notes"
-                : $"{_notes.Count} matches";
+            StatusText.Text = string.Format(
+                Loc(string.IsNullOrWhiteSpace(SearchBox.Text) ? "Str_St_NotesCount" : "Str_St_Matches"),
+                _notes.Count);
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e) => RefreshList();
@@ -98,17 +98,25 @@ namespace KillerNotes
         {
             if (_syncingSelection) return;
             SaveCurrentNote(refreshList: false);
-            if (NotesList.SelectedItem is Note n) OpenNote(n.Id);
+            // Extended mode: only a single selection opens a note; Ctrl/Shift multi-
+            // selection (for mass delete) leaves the current note in the editor.
+            if (NotesList.SelectedItems.Count == 1 && NotesList.SelectedItem is Note n) OpenNote(n.Id);
         }
 
         // Right-click selects the item under the cursor before the context menu opens,
-        // so "Delete note" always targets the row that was clicked.
+        // so "Delete note" always targets the row that was clicked. If the clicked row
+        // is already part of a multi-selection, the selection is kept intact so the
+        // menu can act on all of it.
         private void NotesList_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var d = e.OriginalSource as DependencyObject;
             while (d != null && d is not ListBoxItem)
                 d = System.Windows.Media.VisualTreeHelper.GetParent(d);
-            if (d is ListBoxItem item) item.IsSelected = true;
+            if (d is ListBoxItem item && !item.IsSelected)
+            {
+                NotesList.SelectedItems.Clear();
+                item.IsSelected = true;
+            }
         }
 
         // ---- Open / save ----
@@ -130,6 +138,7 @@ namespace KillerNotes
                 using var ms = new MemoryStream(blob);
                 range.Load(ms, DataFormats.XamlPackage);
             }
+            NormalizeThemeColors(Editor.Document);   // Editor.cs (default text follows the live theme)
             EnsureEditableTail();   // Editor.cs (rule/table as last block traps the caret)
             _loadingNote = false;
             _dirty = false;
@@ -197,7 +206,7 @@ namespace KillerNotes
         {
             if (!NoteStore.IsOpen) return;
             SaveCurrentNote(refreshList: false);
-            _currentId = NoteStore.Create("Untitled");
+            _currentId = NoteStore.Create(Loc("Str_Untitled"));
             SearchBox.Text = "";   // a filtered list would hide the new note
             RefreshList();
             OpenNote(_currentId);
@@ -214,7 +223,10 @@ namespace KillerNotes
         private void OpenStartupNote()
         {
             if (!NoteStore.IsOpen || _currentId >= 0) return;
-            var empty = _notes.Where(n => n.Title == "Untitled" && string.IsNullOrWhiteSpace(n.Snippet))
+            // Match the English default AND the active locale's, so a language switch
+            // never orphans yesterday's empty startup note.
+            var empty = _notes.Where(n => (n.Title == "Untitled" || n.Title == Loc("Str_Untitled")) &&
+                                          string.IsNullOrWhiteSpace(n.Snippet))
                               .OrderByDescending(n => n.Modified)
                               .FirstOrDefault();   // newest empty regardless of the list's sort order
             if (empty != null)
@@ -241,13 +253,13 @@ namespace KillerNotes
 
         private void EmptyState_DragOver(object sender, DragEventArgs e)
         {
-            e.Effects = NoteStore.IsOpen ? DragDropEffects.Copy : DragDropEffects.None;
+            e.Effects = NoteStore.IsOpen && !_noteDragOut ? DragDropEffects.Copy : DragDropEffects.None;
             e.Handled = true;
         }
 
         private void EmptyState_Drop(object sender, DragEventArgs e)
         {
-            if (!NoteStore.IsOpen) return;
+            if (!NoteStore.IsOpen || _noteDragOut) return;
             // Document files become their own notes (ImportExport.cs); images and raw
             // text keep the original behavior of starting one fresh note carrying them.
             if (e.Data.GetData(DataFormats.FileDrop) is string[] files && files.Any(IsDocImport))
@@ -269,16 +281,19 @@ namespace KillerNotes
             // ContextMenu DataContext propagation is unreliable (menu lives outside the
             // visual tree), so fall back to the list selection.
             var n = (sender as MenuItem)?.DataContext as Note ?? NotesList.SelectedItem as Note;
-            if (n != null) DeleteNoteWithConfirm(n);
+            if (n == null) return;
+            var sel = NotesList.SelectedItems.Cast<Note>().ToList();
+            if (sel.Count > 1 && sel.Contains(n)) DeleteNotesWithConfirm(sel);
+            else DeleteNoteWithConfirm(n);
         }
 
         // Shared by the context menu and the Delete key (Shortcuts.cs).
         private void DeleteNoteWithConfirm(Note n)
         {
             var dlg = new ConfirmDialog(
-                $"Delete \"{n.Title}\"?",
-                "This cannot be undone.",
-                "Delete") { Owner = this };
+                string.Format(Loc("Str_Dlg_DeleteNoteHead"), n.Title),
+                Loc("Str_Dlg_CannotUndo"),
+                Loc("Str_Btn_Delete")) { Owner = this };
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
@@ -289,7 +304,34 @@ namespace KillerNotes
                 _dirty = false;
             }
             RefreshList();
-            StatusText.Text = "Note deleted";
+            StatusText.Text = Loc("Str_St_NoteDeleted");
+            OpenStartupNote();   // never drop back to the empty screen
+        }
+
+        // Mass delete for a Ctrl/Shift multi-selection: one confirm, one list refresh.
+        private void DeleteNotesWithConfirm(List<Note> notes)
+        {
+            if (notes.Count == 0) return;
+            if (notes.Count == 1) { DeleteNoteWithConfirm(notes[0]); return; }
+
+            var dlg = new ConfirmDialog(
+                string.Format(Loc("Str_Dlg_DeleteNotesHead"), notes.Count),
+                Loc("Str_Dlg_CannotUndo"),
+                Loc("Str_Btn_Delete")) { Owner = this };
+            dlg.ShowDialog();
+            if (!dlg.Confirmed) return;
+
+            foreach (var n in notes)
+            {
+                NoteStore.Delete(n.Id);
+                if (n.Id == _currentId)
+                {
+                    _currentId = -1;
+                    _dirty = false;
+                }
+            }
+            RefreshList();
+            StatusText.Text = string.Format(Loc("Str_St_NotesDeleted"), notes.Count);
             OpenStartupNote();   // never drop back to the empty screen
         }
 

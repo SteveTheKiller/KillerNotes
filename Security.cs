@@ -42,7 +42,7 @@ namespace KillerNotes
             }
             catch (Exception ex)
             {
-                StatusText.Text = "Could not open the notes database: " + ex.Message;
+                StatusText.Text = string.Format(Loc("Str_St_OpenDbFailed"), ex.Message);
                 return false;
             }
 
@@ -56,12 +56,12 @@ namespace KillerNotes
 
         private bool PromptUnlock(bool exitOnCancel)
         {
-            string heading = "Unlock KillerNotes";
+            string heading = Loc("Str_Pw_UnlockHead");
             while (true)
             {
                 var dlg = new PasswordDialog(heading,
-                    $"\"{NoteStore.ActiveDbFile}\" is password protected.", "Unlock",
-                    extraText: "New database...") { Owner = this };
+                    string.Format(Loc("Str_Pw_Protected"), NoteStore.ActiveDbFile), Loc("Str_Btn_Unlock"),
+                    extraText: Loc("Str_Pw_NewDbBtn")) { Owner = this };
                 dlg.ShowDialog();
 
                 if (dlg.ExtraClicked)
@@ -80,7 +80,7 @@ namespace KillerNotes
                     _dbPassword = string.IsNullOrEmpty(dlg.Password) ? null : dlg.Password;
                     return true;
                 }
-                catch (SqliteException) { heading = "Wrong password - try again"; }
+                catch (SqliteException) { heading = Loc("Str_Pw_WrongPw"); }
             }
         }
 
@@ -90,16 +90,16 @@ namespace KillerNotes
         private bool StartFreshDatabase()
         {
             var confirm = new ConfirmDialog(
-                "Start a new database?",
-                "The locked database stays on disk and can still be unlocked later if the\npassword turns up. There is no way to recover its notes without it.",
-                "Start new") { Owner = this };
+                Loc("Str_Dlg_FreshHead"),
+                Loc("Str_Dlg_FreshBody"),
+                Loc("Str_Btn_StartNew")) { Owner = this };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return false;
 
             string archived = NoteStore.ArchiveDatabase();
             NoteStore.Open();
             _dbPassword = null;
-            _pendingStatus = "New database - the locked one is kept as " + Path.GetFileName(archived);
+            _pendingStatus = string.Format(Loc("Str_St_FreshDb"), Path.GetFileName(archived));
             return true;
         }
 
@@ -146,43 +146,41 @@ namespace KillerNotes
                 if (!NoteStore.HasPassword)
                 {
                     var dlg = new PasswordDialog(
-                        "Set a password",
-                        "Encrypts the whole notes database (AES-256 via SQLCipher).\nDo not lose it - there is no recovery.",
-                        "Encrypt", showConfirm: true) { Owner = this };
+                        Loc("Str_Pw_SetHead"),
+                        Loc("Str_Pw_SetBody"),
+                        Loc("Str_Btn_Encrypt"), showConfirm: true) { Owner = this };
                     dlg.ShowDialog();
                     if (!dlg.Confirmed || string.IsNullOrEmpty(dlg.Password)) return;
                     if (dlg.Password != dlg.PasswordConfirm)
                     {
-                        StatusText.Text = "Passwords did not match - nothing changed";
+                        StatusText.Text = Loc("Str_St_PwMismatch");
                         return;
                     }
                     NoteStore.SetPassword(dlg.Password);
                     _dbPassword = dlg.Password;
-                    StatusText.Text = "Database encrypted";
+                    StatusText.Text = Loc("Str_St_Encrypted");
                 }
                 else
                 {
                     var dlg = new PasswordDialog(
-                        "Change or remove password",
-                        "Enter a new password, or leave both boxes empty to remove protection.",
-                        "Apply", showConfirm: true) { Owner = this };
+                        Loc("Str_Pw_ChangeHead"),
+                        Loc("Str_Pw_ChangeBody"),
+                        Loc("Str_Btn_Apply"), showConfirm: true) { Owner = this };
                     dlg.ShowDialog();
                     if (!dlg.Confirmed) return;
                     if (dlg.Password != dlg.PasswordConfirm)
                     {
-                        StatusText.Text = "Passwords did not match - nothing changed";
+                        StatusText.Text = Loc("Str_St_PwMismatch");
                         return;
                     }
                     NoteStore.SetPassword(string.IsNullOrEmpty(dlg.Password) ? null : dlg.Password);
                     _dbPassword = string.IsNullOrEmpty(dlg.Password) ? null : dlg.Password;
-                    StatusText.Text = NoteStore.HasPassword
-                        ? "Password changed"
-                        : "Password removed - database is no longer encrypted";
+                    StatusText.Text = Loc(NoteStore.HasPassword ? "Str_St_PwChanged" : "Str_St_PwRemoved");
                 }
             }
             catch (Exception ex)
             {
-                StatusText.Text = "Password change failed: " + ex.Message;
+                StatusText.Text = string.Format(Loc("Str_St_PwFailed"), ex.Message);
             }
             UpdateLockGlyph();
         }
