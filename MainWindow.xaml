@@ -602,6 +602,15 @@
                 <TextBlock x:Name="StatusText" Grid.Column="0" Text="Ready"
                            Foreground="{DynamicResource ChromeTextBrush}" FontFamily="Consolas"
                            FontSize="11.5" VerticalAlignment="Center"/>
+                <!-- Portable mode indicator (hidden when installed), same as KillerScan/KillerFind -->
+                <StackPanel x:Name="PortableBadge" Grid.Column="1" Orientation="Horizontal"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                    <TextBlock Text="{DynamicResource Str_Portable}" Foreground="{DynamicResource TextFooter}"
+                               FontFamily="Consolas" FontSize="9" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <Button x:Name="InstallBtn" Content="{DynamicResource Str_Btn_Install}" Click="Install_Click"
+                            Style="{StaticResource OutlineButton}" FontFamily="Segoe UI" FontSize="10" Padding="8,1"
+                            VerticalAlignment="Center"/>
+                </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <TextBlock x:Name="VersionLabel" Text="v0.1.0"
                                Foreground="{DynamicResource TextFooter}" FontFamily="Consolas"

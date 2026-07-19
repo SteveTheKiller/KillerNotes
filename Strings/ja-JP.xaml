@@ -241,4 +241,12 @@
     <sys:String x:Key="Str_Sec_Search">検索</sys:String>
     <sys:String x:Key="Str_Sec_Help">ヘルプ</sys:String>
 
+    <!-- Portable install (family install system) -->
+    <sys:String x:Key="Str_Portable">ポータブル</sys:String>
+    <sys:String x:Key="Str_Btn_Install">KillerNotes をインストール...</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">インストール</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">KillerNotes をユーザープロファイルにインストールしますか？</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- スタートメニューのショートカット&#x0A;- 「アプリと機能」に表示されます</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">デスクトップショートカット</sys:String>
+
 </ResourceDictionary>

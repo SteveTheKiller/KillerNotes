@@ -241,4 +241,12 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Sec_Search">Arama</sys:String>
     <sys:String x:Key="Str_Sec_Help">Yardım</sys:String>
 
+    <!-- Portable install (family install system) -->
+    <sys:String x:Key="Str_Portable">TASINABILIR</sys:String>
+    <sys:String x:Key="Str_Btn_Install">KillerNotes'u yukle...</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">Yukle</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">KillerNotes kullanici profilinize yuklensin mi?</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- Baslat menusu kisayolu&#x0A;- Program ekle/kaldir icinde gorunur</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">Masaustu kisayolu</sys:String>
+
 </ResourceDictionary>

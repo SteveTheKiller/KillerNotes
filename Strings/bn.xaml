@@ -241,4 +241,12 @@
     <sys:String x:Key="Str_Sec_Search">সার্চ</sys:String>
     <sys:String x:Key="Str_Sec_Help">সহায়তা</sys:String>
 
+    <!-- Portable install (family install system) -->
+    <sys:String x:Key="Str_Portable">পোর্টেবল</sys:String>
+    <sys:String x:Key="Str_Btn_Install">KillerNotes ইনস্টল করুন...</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">ইনস্টল</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">আপনার ইউজার প্রোফাইলে KillerNotes ইনস্টল করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- স্টার্ট মেনু শর্টকাট&#x0A;- Add/Remove Programs-এ দেখা যাবে</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">ডেস্কটপ শর্টকাট</sys:String>
+
 </ResourceDictionary>

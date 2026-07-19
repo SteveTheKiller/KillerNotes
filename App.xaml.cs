@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using Microsoft.Win32;
@@ -16,6 +17,25 @@ namespace KillerNotes
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            // Silent install: KillerNotes.exe /silent
+            // Installs machine-wide to Program Files, no UI. Used by winget/choco/RMM.
+            if (e.Args.Length > 0 &&
+                string.Equals(e.Args[0], "/silent", StringComparison.OrdinalIgnoreCase))
+            {
+                DoSilentInstall();
+                Shutdown(0);
+                return;
+            }
+
+            // Uninstall flag (called by Add/Remove Programs)
+            if (e.Args.Length > 0 &&
+                string.Equals(e.Args[0], "/uninstall", StringComparison.OrdinalIgnoreCase))
+            {
+                Uninstall();
+                Shutdown();
+                return;
+            }
 
             // Screenshot / demo mode: --demo (or /demo) fills a scratch database with
             // fabricated notes (DemoMode.cs). The real notes.db is never touched.
@@ -117,6 +137,202 @@ namespace KillerNotes
                 k.SetValue("", iconSpec);
             using (var k = Registry.CurrentUser.CreateSubKey($@"Software\Classes\{progId}\shell\open\command"))
                 k.SetValue("", $"\"{exe}\" \"%1\"");
+        }
+
+        // ============================================================
+        // Install system (ported from KillerScan/KillerFind)
+        // Portable badge Install = per-user (%LOCALAPPDATA%\Programs); /silent =
+        // machine-wide Program Files for winget/choco/RMM; /uninstall from ARP.
+        // ============================================================
+
+        private const string AppName = "KillerNotes";
+        private const string ExeName = "KillerNotes.exe";
+        private static readonly string InstallDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "Programs", AppName);
+        private static readonly string InstallExe = Path.Combine(InstallDir, ExeName);
+
+        private static readonly string StartMenuDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.Programs), AppName);
+        private static readonly string StartMenuLnk = Path.Combine(StartMenuDir, $"{AppName}.lnk");
+        private static readonly string DesktopLnk = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), $"{AppName}.lnk");
+
+        /// <summary>True when running from outside the installed location (i.e. portable mode).</summary>
+        internal static bool IsPortable()
+        {
+            string currentExe = Process.GetCurrentProcess().MainModule!.FileName;
+            return !string.Equals(currentExe, InstallExe, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>Installs KillerNotes, then relaunches from the installed location.</summary>
+        internal static void InstallAndRelaunch(bool wantDesktop)
+        {
+            DoInstall(wantDesktop);
+
+            Process.Start(new ProcessStartInfo(InstallExe));
+            Application.Current.Shutdown();
+        }
+
+        // Silent (machine-wide) install -- used by winget / choco / RMM
+        private static void DoSilentInstall()
+        {
+            try
+            {
+                string installDir = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), AppName);
+                string installExe = Path.Combine(installDir, ExeName);
+                string startMenuDir = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), AppName);
+                string startMenuLnk = Path.Combine(startMenuDir, $"{AppName}.lnk");
+
+                Directory.CreateDirectory(installDir);
+                string src = Process.GetCurrentProcess().MainModule!.FileName;
+                File.Copy(src, installExe, overwrite: true);
+
+                Directory.CreateDirectory(startMenuDir);
+                CreateShortcut(startMenuLnk, installExe);
+
+                string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "";
+
+                using (var key = Registry.LocalMachine.CreateSubKey(@"Software\KillerNotes"))
+                {
+                    key.SetValue("Installed",   1);
+                    key.SetValue("InstallPath", installExe);
+                    key.SetValue("Version",     version);
+                }
+
+                using (var key = Registry.LocalMachine.CreateSubKey(
+                    @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes"))
+                {
+                    key.SetValue("DisplayName",          AppName);
+                    key.SetValue("DisplayVersion",       version);
+                    key.SetValue("Publisher",            "Steve / thekiller.net");
+                    key.SetValue("InstallLocation",      installDir);
+                    key.SetValue("DisplayIcon",          $"{installExe},0");
+                    key.SetValue("UninstallString",      $"\"{installExe}\" /uninstall");
+                    key.SetValue("QuietUninstallString", $"\"{installExe}\" /uninstall");
+                    key.SetValue("NoModify",             1);
+                    key.SetValue("NoRepair",             1);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Silent install failed: {ex.Message}");
+                Environment.Exit(1);
+            }
+        }
+
+        // Per-user install (the PORTABLE badge's Install button)
+        private static void DoInstall(bool wantDesktop)
+        {
+            try
+            {
+                Directory.CreateDirectory(InstallDir);
+                string src = Process.GetCurrentProcess().MainModule!.FileName;
+                File.Copy(src, InstallExe, overwrite: true);
+
+                Directory.CreateDirectory(StartMenuDir);
+                CreateShortcut(StartMenuLnk, InstallExe);
+                if (wantDesktop)
+                    CreateShortcut(DesktopLnk, InstallExe);
+
+                string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "";
+
+                using (var key = Registry.CurrentUser.CreateSubKey(@"Software\KillerNotes"))
+                {
+                    key.SetValue("Installed",   1);
+                    key.SetValue("InstallPath", InstallExe);
+                    key.SetValue("Version",     version);
+                }
+
+                using (var key = Registry.CurrentUser.CreateSubKey(
+                    @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes"))
+                {
+                    key.SetValue("DisplayName",          AppName);
+                    key.SetValue("DisplayVersion",       version);
+                    key.SetValue("Publisher",            "Steve / thekiller.net");
+                    key.SetValue("InstallLocation",      InstallDir);
+                    key.SetValue("DisplayIcon",          $"{InstallExe},0");
+                    key.SetValue("UninstallString",      $"\"{InstallExe}\" /uninstall");
+                    key.SetValue("QuietUninstallString", $"\"{InstallExe}\" /uninstall");
+                    key.SetValue("NoModify",             1);
+                    key.SetValue("NoRepair",             1);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Installation failed:\n{ex.Message}", AppName,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private static void CreateShortcut(string lnkPath, string targetPath)
+        {
+            // Reflection over IDispatch instead of `dynamic` - avoids needing the
+            // Microsoft.CSharp runtime binder reference this project doesn't carry.
+            try
+            {
+                var shellType = Type.GetTypeFromProgID("WScript.Shell");
+                if (shellType is null) return;
+                object shell = Activator.CreateInstance(shellType)!;
+                object shortcut = shellType.InvokeMember("CreateShortcut",
+                    BindingFlags.InvokeMethod, null, shell, new object[] { lnkPath })!;
+                var sc = shortcut.GetType();
+                sc.InvokeMember("TargetPath", BindingFlags.SetProperty,
+                    null, shortcut, new object[] { targetPath });
+                sc.InvokeMember("WorkingDirectory", BindingFlags.SetProperty,
+                    null, shortcut, new object[] { Path.GetDirectoryName(targetPath)! });
+                sc.InvokeMember("Save", BindingFlags.InvokeMethod,
+                    null, shortcut, null);
+            }
+            catch { /* best-effort */ }
+        }
+
+        // Uninstall (Add/Remove Programs). Removes the installed exe, shortcuts, file
+        // associations, and registry entries. The notes databases in %APPDATA%\KillerNotes
+        // are user data and are deliberately KEPT.
+        private static void Uninstall()
+        {
+            var res = MessageBox.Show(
+                "Uninstall KillerNotes from this computer?\n\nYour notes are kept.",
+                $"{AppName} Uninstall",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            if (res != MessageBoxResult.Yes) return;
+
+            try { File.Delete(StartMenuLnk); } catch { }
+            try { Directory.Delete(StartMenuDir, recursive: false); } catch { }
+            try { File.Delete(DesktopLnk); } catch { }
+
+            // Settings + install info (Software\KillerNotes covers the Settings subkey too)
+            try { Registry.CurrentUser.DeleteSubKeyTree(@"Software\KillerNotes"); } catch { }
+            try { Registry.CurrentUser.DeleteSubKeyTree(
+                @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes"); } catch { }
+
+            // File associations registered at launch (RegisterFileAssociations)
+            try { Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\.kndb"); } catch { }
+            try { Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\.knote"); } catch { }
+            try { Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\KillerNotes.Database"); } catch { }
+            try { Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\KillerNotes.Note"); } catch { }
+
+            SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, IntPtr.Zero, IntPtr.Zero);
+
+            // Self-delete: deferred via cmd batch so the EXE can exit first
+            string bat = Path.Combine(Path.GetTempPath(), "killernotes_uninstall.bat");
+            File.WriteAllText(bat,
+                "@echo off\r\n" +
+                "ping -n 3 127.0.0.1 >nul\r\n" +
+                $"rmdir /s /q \"{InstallDir}\"\r\n" +
+                "del \"%~f0\"\r\n");
+            Process.Start(new ProcessStartInfo("cmd.exe", $"/c \"{bat}\"")
+            {
+                WindowStyle     = ProcessWindowStyle.Hidden,
+                UseShellExecute = true
+            });
+
+            MessageBox.Show("KillerNotes has been uninstalled. Your notes were kept.", AppName,
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         // ============================================================

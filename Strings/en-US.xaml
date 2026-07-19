@@ -246,4 +246,12 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Sec_Search">Search</sys:String>
     <sys:String x:Key="Str_Sec_Help">Help</sys:String>
 
+    <!-- Portable install (family install system) -->
+    <sys:String x:Key="Str_Portable">PORTABLE</sys:String>
+    <sys:String x:Key="Str_Btn_Install">Install KillerNotes...</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">Install</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">Install KillerNotes to your user profile?</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- Start Menu shortcut&#x0A;- Appears in Add/Remove Programs</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">Desktop shortcut</sys:String>
+
 </ResourceDictionary>

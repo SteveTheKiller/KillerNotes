@@ -4,9 +4,6 @@ Notes that keep up. A searchable, organized replacement for the 80-tab Notepad w
 rich notes with inline images and tables, instant full-text search, and optional
 password protection for the whole database.
 
-Built on the KillerUI "Grunge" shell (film grain, typewriter wordmark, 6 themes + accents).
-Default look: **Black theme, Purple accent**.
-
 Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 
 ## Features (scaffold)

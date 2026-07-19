@@ -40,6 +40,9 @@ namespace KillerNotes
             Loaded += (_, _) =>
             {
                 FadeInContent();                                 // Chrome.cs (RootGrid 0 -> 1)
+                // Portable badge (family install system): hidden when running from the
+                // installed location, and in demo mode so screenshots stay clean.
+                if (App.IsPortable() && !DemoMode) PortableBadge.Visibility = Visibility.Visible;
                 // Deferred, NOT called inline: Loaded fires synchronously inside Show(),
                 // and cancelling the unlock prompt calls Close() - a reentrant Close()
                 // during Show() throws (this was a real crash). Dispatching lets Show()
@@ -59,6 +62,22 @@ namespace KillerNotes
         {
             HideShortcutsOverlay();
             ShowAboutOverlay();
+        }
+
+        // PORTABLE badge Install button (family install system, ported from
+        // KillerScan/KillerFind). Notes need no migration: the database lives in
+        // %APPDATA%\KillerNotes regardless of where the exe runs from.
+        private void Install_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new ConfirmDialog(
+                Loc("Str_Dlg_InstallMsg"), Loc("Str_Dlg_InstallBullets"), Loc("Str_Btn_DoInstall"),
+                check1Label: Loc("Str_Chk_Desktop"), check1Initial: true) { Owner = this };
+            dlg.ShowDialog();
+            if (!dlg.Confirmed) return;
+
+            PortableBadge.Visibility = Visibility.Collapsed;
+            SaveCurrentNote(refreshList: false);   // Notes.cs - flush the open note before the relaunch
+            App.InstallAndRelaunch(wantDesktop: dlg.Check1Checked);
         }
     }
 }

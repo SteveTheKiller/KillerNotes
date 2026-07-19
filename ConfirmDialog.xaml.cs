@@ -7,6 +7,7 @@ namespace KillerNotes
     public partial class ConfirmDialog : Window
     {
         public bool Confirmed { get; private set; }
+        public bool Check1Checked => Check1.IsChecked == true;
 
         public ConfirmDialog()
         {
@@ -16,7 +17,8 @@ namespace KillerNotes
 
         // Configurable variant for reusing the themed dialog beyond the install prompt
         // (e.g. the self-update confirmation). detail may contain newlines for multiple lines.
-        public ConfirmDialog(string heading, string detail, string confirmText, string? cancelText = null)
+        public ConfirmDialog(string heading, string detail, string confirmText, string? cancelText = null,
+                             string? check1Label = null, bool check1Initial = false)
             : this()
         {
             HeadingText.Text = heading;
@@ -27,6 +29,12 @@ namespace KillerNotes
             // Localized default: callers rarely pass a cancel caption.
             CancelButton.Content = cancelText
                 ?? Application.Current.TryFindResource("Str_Btn_Cancel") as string ?? "Cancel";
+            if (!string.IsNullOrEmpty(check1Label))
+            {
+                Check1.Content    = check1Label;
+                Check1.IsChecked  = check1Initial;
+                Check1.Visibility = Visibility.Visible;
+            }
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)

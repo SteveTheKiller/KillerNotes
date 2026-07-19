@@ -241,4 +241,12 @@
     <sys:String x:Key="Str_Sec_Search">搜索</sys:String>
     <sys:String x:Key="Str_Sec_Help">帮助</sys:String>
 
+    <!-- Portable install (family install system) -->
+    <sys:String x:Key="Str_Portable">便携版</sys:String>
+    <sys:String x:Key="Str_Btn_Install">安装 KillerNotes...</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">安装</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">将 KillerNotes 安装到你的用户配置文件？</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- 开始菜单快捷方式&#x0A;- 显示在添加/删除程序中</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">桌面快捷方式</sys:String>
+
 </ResourceDictionary>

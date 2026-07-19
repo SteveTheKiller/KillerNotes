@@ -98,6 +98,10 @@
                         <LineBreak/>
                         <Run Text="- Appears in Add/Remove Programs"/>
                     </TextBlock>
+                    <!-- Optional checkbox (KillerFind pattern): shown only when the
+                         configurable ctor gets a check1Label (e.g. Desktop shortcut). -->
+                    <CheckBox x:Name="Check1" Visibility="Collapsed" Margin="0,10,0,0"
+                              FontSize="12" Foreground="{StaticResource MutedTextBrush}"/>
                 </StackPanel>
 
                 <!-- Buttons -->
