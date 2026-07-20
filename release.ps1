@@ -182,6 +182,20 @@ Remove-Item $staging -Recurse -Force
 $srcZipMB = '{0:N1} MB' -f ((Get-Item $srcZip).Length / 1MB)
 Write-Host "Source bundle: $srcZip ($srcZipMB)"
 
+# --- 7b. Checksums (SHA256SUMS.txt) ---
+# The in-app updater (About.cs DoSelfUpdateAsync) downloads this asset next to the exe and
+# verifies the download against it; WITHOUT it the "Update" button falls back to just opening
+# the releases page. Line format is "<filename>  <sha256>" - the updater matches the line that
+# starts with KillerNotes.exe and takes the LAST whitespace token as the hash.
+Step "Writing SHA256SUMS.txt"
+$sumsFile = Join-Path $outDir 'SHA256SUMS.txt'
+$sumsLines = foreach ($asset in @($exe, $srcZip)) {
+    $hash = (Get-FileHash $asset -Algorithm SHA256).Hash.ToLower()
+    '{0}  {1}' -f (Split-Path $asset -Leaf), $hash
+}
+Set-Content -Path $sumsFile -Encoding ascii -Value ($sumsLines -join "`r`n")
+Write-Host ($sumsLines -join "`n")
+
 # --- 8. Release notes from CHANGELOG section ---
 Step "Extracting release notes from CHANGELOG.md"
 $lines = Get-Content -Path 'CHANGELOG.md'
@@ -199,7 +213,7 @@ Write-Host "Notes written to $notesFile ($($notes.Count) lines)"
 
 if ($DryRun) {
     Step "DryRun: stopping before tag and release"
-    Write-Host "Would create tag $Tag, push it, and publish release with KillerNotes.exe ($exeMB) and $(Split-Path $srcZip -Leaf) ($srcZipMB)"
+    Write-Host "Would create tag $Tag, push it, and publish release with KillerNotes.exe ($exeMB), $(Split-Path $srcZip -Leaf) ($srcZipMB), and SHA256SUMS.txt"
     exit 0
 }
 
@@ -211,7 +225,7 @@ if ($LASTEXITCODE -ne 0) { Fail 'Tag push failed' }
 
 # --- 10. GitHub release ---
 Step "Creating GitHub release"
-gh release create $Tag $exe $srcZip --title "KillerNotes $Tag" --notes-file $notesFile --verify-tag
+gh release create $Tag $exe $srcZip $sumsFile --title "KillerNotes $Tag" --notes-file $notesFile --verify-tag
 if ($LASTEXITCODE -ne 0) { Fail 'gh release create failed' }
 
 # --- 11. Submit to winget-pkgs (komac) ---
