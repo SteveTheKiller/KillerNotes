@@ -166,6 +166,7 @@ namespace KillerNotes
 
         private void NotesList_DragOver(object sender, DragEventArgs e)
         {
+            if (HandleNoteDragOver(e)) return;   // Groups.cs: our own note = reorder (#4)
             if (!_noteDragOut && NoteStore.IsOpen &&
                 e.Data.GetData(DataFormats.FileDrop) is string[] files &&
                 files.Any(f => IsDocImport(f) || ImgExts.Contains(Path.GetExtension(f).ToLowerInvariant())))
@@ -177,6 +178,7 @@ namespace KillerNotes
 
         private void NotesList_Drop(object sender, DragEventArgs e)
         {
+            if (HandleNoteDrop(e)) return;       // Groups.cs: reorder / move to group (#4)
             if (_noteDragOut) return;   // our own drag-out landing back on the list
             if (e.Data.GetData(DataFormats.FileDrop) is string[] files)
             {

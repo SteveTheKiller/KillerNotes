@@ -80,7 +80,7 @@
 
 <section class="tech-sec" id="storage">
 <h2>Storage</h2>
-<p>Notes live in a single SQLite database per notepad, stored under <code>%APPDATA%\KillerNotes</code>. Each note row keeps three representations of the same content:</p>
+<p>Notes live in a single SQLite database per notepad, stored under <code>%APPDATA%\KillerNotes</code> by default - the data folder is configurable from Manage databases. Each note row keeps three representations of the same content:</p>
 <ul class="blurb-list">
 <li><b>Title and metadata</b> - creation and modification timestamps, used for the sidebar and sorting.</li>
 <li><b>A XamlPackage blob</b> - the full rich content. XamlPackage is WPF's container format for FlowDocuments: formatting, embedded images, and tables all round-trip through the database byte-perfect. Pasted screenshots are re-encoded to PNG on the way in so they serialize reliably.</li>
@@ -152,7 +152,7 @@
 <section class="tech-sec" id="search">
 <h2>Search</h2>
 <p>Search is a SQLite <b>FTS5</b> full-text index over the title and the plain-text shadow copy, maintained by external-content triggers so it stays exactly in sync with the notes table without duplicating the rich blobs.</p>
-<p>As you type in the search box, each word is treated as a prefix: typing <code>pass wor</code> finds a note containing "password working notes". The sidebar filters live with every keystroke. Sorting is a separate axis: creation time or title, either direction, one click.</p>
+<p>As you type in the search box, each word is treated as a prefix: typing <code>pass wor</code> finds a note containing "password working notes". The sidebar filters live with every keystroke. Sorting is a separate axis: creation time or title in either direction, or a drag-and-drop custom order - one global sequence stored per note, with named collapsible groups layered on top.</p>
 </section>
 
 <section class="tech-sec" id="encryption">
@@ -197,7 +197,7 @@
 <h2>Distribution</h2>
 <p>KillerNotes ships as a <b>single signed exe</b> - about 4.3 MB with every dependency embedded, including the SQLCipher engine. There is no installer to run and no folder of DLLs: download, double-click, take notes. The exe is Authenticode-signed and timestamped, so Windows shows a verified publisher instead of an unknown-publisher warning, and the About panel shows the certificate thumbprint plus the exe's SHA-256 to check against the release page.</p>
 <ul class="blurb-list">
-<li><b>Portable first</b> - run it from anywhere, including a USB stick. Notes always live in <code>%APPDATA%\KillerNotes</code>, so where the exe sits does not matter.</li>
+<li><b>Portable first</b> - run it from anywhere, including a USB stick. Notes live in <code>%APPDATA%\KillerNotes</code> by default, and the data folder is configurable - point it next to the exe and the whole notepad travels with the stick.</li>
 <li><b>Optional install</b> - a PORTABLE badge in the status bar offers a one-click per-user install: Start Menu shortcut, optional desktop shortcut, and an Add/Remove Programs entry. No admin rights needed.</li>
 <li><b><code>KillerNotes.exe /silent</code></b> - unattended machine-wide install to Program Files, made for RMM, winget, and Chocolatey deployment. <code>/uninstall</code> reverses it - and your notes are always kept.</li>
 <li><b>Open source</b> - GPLv3. Every release attaches the exact source as <code>KillerNotes-x.y.z-src.zip</code> next to the exe.</li>
@@ -210,7 +210,7 @@
 <tr><th>Spec</th><th>Value</th></tr>
 <tr><td>Platform</td><td>Windows 10/11, x64</td></tr>
 <tr><td>Stack</td><td>C# / WPF on .NET Framework 4.8 (no runtime install on Win 10/11)</td></tr>
-<tr><td>Storage</td><td>SQLite via Microsoft.Data.Sqlite; one database file per notepad in %APPDATA%\KillerNotes</td></tr>
+<tr><td>Storage</td><td>SQLite via Microsoft.Data.Sqlite; one database file per notepad in a configurable data folder (default %APPDATA%\KillerNotes)</td></tr>
 <tr><td>Search</td><td>SQLite FTS5, external-content index, prefix matching as you type</td></tr>
 <tr><td>Encryption</td><td>SQLCipher (AES-256), whole-database, opt-in per database</td></tr>
 <tr><td>Rich content</td><td>WPF FlowDocument stored as XamlPackage blobs (images + tables round-trip)</td></tr>
@@ -244,7 +244,7 @@
 </div>
 <footer class="statusbar">
 <span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener">Source on GitHub</a> &middot; Part of <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span>
-<span class="right"><span id="verEgg" title="click me">v1.0.0</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
+<span class="right"><span id="verEgg" title="click me">v1.0.2</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
 </footer>
 <div class="egg-toast" id="eggToast"></div>
 <div class="dlightbox" id="dlightbox" hidden><div class="dlb-inner" id="dlbInner"></div></div>

@@ -21,9 +21,10 @@ namespace KillerNotes
         private bool _dirty;
         private bool _loadingNote;        // suppresses TextChanged while a note is loaded in
         private bool _syncingSelection;   // suppresses SelectionChanged while the list re-syncs
-        private string _sortField = "created";   // "created" | "title"
+        private string _sortField = "created";   // "created" | "title" | "custom" (#4)
         private bool _sortAsc = true;            // default: oldest at the top, moving down
-        private string _sort => $"{_sortField}-{(_sortAsc ? "asc" : "desc")}";
+        private string _sort => _sortField == "custom" ? "custom"
+                                                       : $"{_sortField}-{(_sortAsc ? "asc" : "desc")}";
         private readonly DispatcherTimer _saveTimer = new() { Interval = TimeSpan.FromSeconds(2) };
         // Reverts a transient status message (drag-ready, tag toggled, ...) back to the
         // note count so confirmations don't sit in the corner forever.
@@ -55,7 +56,7 @@ namespace KillerNotes
             _notes = NoteStore.List(SearchBox.Text, _sort);
             ApplyTagChips(_notes);   // Tags.cs
             _syncingSelection = true;
-            NotesList.ItemsSource = _notes;
+            NotesList.ItemsSource = BuildSidebarItems();   // Groups.cs (headers + notes, #4)
             NotesList.SelectedItem = _notes.FirstOrDefault(n => n.Id == _currentId);
             _syncingSelection = false;
 
@@ -79,42 +80,66 @@ namespace KillerNotes
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e) => RefreshList();
 
         // Dedicated sort buttons: clicking the inactive one activates it (its default
-        // direction); clicking the active one reverses direction.
+        // direction); clicking the active one reverses direction. Custom order (#4) has
+        // no direction - clicking it again is a no-op.
         private void SortTimeBtn_Click(object sender, RoutedEventArgs e) => SetSort("created", defaultAsc: true);
         private void SortAlphaBtn_Click(object sender, RoutedEventArgs e) => SetSort("title", defaultAsc: true);
+        private void SortCustomBtn_Click(object sender, RoutedEventArgs e) => SetSort("custom", defaultAsc: true);
 
         private void SetSort(string field, bool defaultAsc)
         {
-            if (_sortField == field) _sortAsc = !_sortAsc;
+            // First engagement of custom order keeps what is on screen (Groups.cs).
+            if (field == "custom" && _sortField != "custom") SeedCustomOrderIfNeeded();
+            if (_sortField == field) { if (field != "custom") _sortAsc = !_sortAsc; }
             else { _sortField = field; _sortAsc = defaultAsc; }
             UpdateSortButtons();
             RefreshList();
-            StatusText.Text = _sortField == "created"
-                ? (_sortAsc ? "By creation time - oldest first" : "By creation time - newest first")
-                : (_sortAsc ? "Alphabetical - A to Z" : "Alphabetical - Z to A");
+            StatusText.Text = _sortField switch
+            {
+                "created" => _sortAsc ? "By creation time - oldest first" : "By creation time - newest first",
+                "title"   => _sortAsc ? "Alphabetical - A to Z" : "Alphabetical - Z to A",
+                _         => "Custom order - drag notes to arrange",
+            };
         }
 
         /// <summary>Accent-colors the active sort button, shows its direction arrow
         /// (up = ascending), and keeps tooltips truthful.</summary>
         private void UpdateSortButtons()
         {
-            bool time = _sortField == "created";
+            bool time = _sortField == "created", alpha = _sortField == "title", custom = _sortField == "custom";
             SortTimeBtn.SetResourceReference(ForegroundProperty, time ? "PrimaryBrush" : "TextBrush");
-            SortAlphaBtn.SetResourceReference(ForegroundProperty, time ? "TextBrush" : "PrimaryBrush");
+            SortAlphaBtn.SetResourceReference(ForegroundProperty, alpha ? "PrimaryBrush" : "TextBrush");
+            SortCustomBtn.SetResourceReference(ForegroundProperty, custom ? "PrimaryBrush" : "TextBrush");
             string arrow = _sortAsc ? "↑" : "↓";
             SortTimeArrow.Text  = time ? arrow : "";
-            SortAlphaArrow.Text = time ? "" : arrow;
+            SortAlphaArrow.Text = alpha ? arrow : "";
             SortTimeBtn.ToolTip = time
                 ? (_sortAsc ? "By creation time - oldest first (click to reverse)"
                             : "By creation time - newest first (click to reverse)")
                 : "Sort by creation time";
-            SortAlphaBtn.ToolTip = !time
+            SortAlphaBtn.ToolTip = alpha
                 ? (_sortAsc ? "Alphabetical A-Z (click to reverse)" : "Alphabetical Z-A (click to reverse)")
                 : "Sort alphabetically";
+            SortCustomBtn.ToolTip = "Custom order - drag notes to arrange";
         }
 
         private void NotesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Group headers are never a selection (#4): clicks toggle collapse and set
+            // Handled, but keyboard navigation can still land one here - scrub it.
+            // The removal re-fires SelectionChanged, so it runs under the sync guard.
+            if (e.AddedItems.Count > 0)
+            {
+                var headers = e.AddedItems.OfType<Models.GroupHeader>().ToList();
+                if (headers.Count > 0)
+                {
+                    bool prev = _syncingSelection;
+                    _syncingSelection = true;
+                    foreach (var h in headers) NotesList.SelectedItems.Remove(h);
+                    _syncingSelection = prev;
+                }
+            }
+
             if (_syncingSelection) return;
             SaveCurrentNote(refreshList: false);
             // Extended mode: only a single selection opens a note; Ctrl/Shift multi-
@@ -133,6 +158,7 @@ namespace KillerNotes
                 d = System.Windows.Media.VisualTreeHelper.GetParent(d);
             if (d is ListBoxItem item && !item.IsSelected)
             {
+                if (item.DataContext is Models.GroupHeader) return;   // headers: own menu (#4)
                 NotesList.SelectedItems.Clear();
                 item.IsSelected = true;
             }

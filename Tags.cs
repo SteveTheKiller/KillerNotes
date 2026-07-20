@@ -72,15 +72,22 @@ namespace KillerNotes
 
         private void NotesContextMenu_Opened(object sender, RoutedEventArgs e)
         {
-            var note = NotesList.SelectedItem as Note;
+            // Acts on the whole multi-selection, not just the anchor row (#7): the
+            // check reflects "every selected note has this tag", and toggling brings
+            // all of them to the same state.
+            var selected = NotesList.SelectedItems.Cast<Note>().ToList();
             TagsMenu.Items.Clear();
-            TagsMenu.IsEnabled = note != null;
-            if (note == null) return;
+            TagsMenu.IsEnabled = selected.Count > 0;
+            if (selected.Count == 0) return;
 
-            var assigned = new HashSet<string>(NoteStore.SplitTags(note.Tags), StringComparer.OrdinalIgnoreCase);
             int i = 0;
             foreach (var def in _tagOrder)
-                TagsMenu.Items.Add(BuildTagToggleItem(note, def.Name, def.Color, assigned.Contains(def.Name), ++i));
+            {
+                bool allAssigned = selected.All(n => HasTag(n, def.Name));
+                TagsMenu.Items.Add(BuildTagToggleItem(selected, def.Name, def.Color, allAssigned, ++i));
+            }
+
+            BuildGroupMenu(selected);   // Groups.cs (#4)
 
             // No Separator here: implicit Separator styles don't reach menu separators, so
             // WPF drew the default light line ("white line"). A tighter-padded item reads
@@ -93,7 +100,7 @@ namespace KillerNotes
 
         // Check glyph + color swatch + name + right-aligned Ctrl+n hint, built by hand
         // because the themed MenuItem template renders only the Header.
-        private MenuItem BuildTagToggleItem(Note note, string name, string colorHex, bool assigned, int number)
+        private MenuItem BuildTagToggleItem(List<Note> notes, string name, string colorHex, bool assigned, int number)
         {
             var check = new TextBlock { Text = assigned ? "✓" : "", VerticalAlignment = VerticalAlignment.Center };
             check.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryBrush");
@@ -111,7 +118,7 @@ namespace KillerNotes
             var item = new MenuItem { Header = head, StaysOpenOnClick = true, Padding = new Thickness(6, 5, 14, 5), HorizontalContentAlignment = HorizontalAlignment.Stretch };
             item.Click += (_, _) =>
             {
-                bool nowAssigned = ToggleTag(note, name);
+                bool nowAssigned = ToggleTagOnNotes(notes, name);
                 check.Text = nowAssigned ? "✓" : "";
             };
             return item;
@@ -149,23 +156,49 @@ namespace KillerNotes
             return grid;
         }
 
-        /// <summary>Adds/removes the tag on the note; returns true when now assigned.</summary>
-        private bool ToggleTag(Note note, string tag)
+        private static bool HasTag(Note note, string tag) =>
+            NoteStore.SplitTags(note.Tags).Contains(tag, StringComparer.OrdinalIgnoreCase);
+
+        // Persists one note's tag state without touching the UI (callers batch the
+        // list refresh so a 50-note toggle repaints once, not 50 times).
+        private void SetTagAssigned(Note note, string tag, bool assigned)
         {
             var parts = NoteStore.SplitTags(note.Tags).ToList();
             int idx = parts.FindIndex(p => string.Equals(p, tag, StringComparison.OrdinalIgnoreCase));
-            bool nowAssigned;
-            if (idx >= 0) { parts.RemoveAt(idx); nowAssigned = false; }
-            else { parts.Add(tag); nowAssigned = true; }
+            if (assigned) { if (idx < 0) parts.Add(tag); else return; }
+            else { if (idx >= 0) parts.RemoveAt(idx); else return; }
 
             note.Tags = string.Join(", ", parts);
             NoteStore.SetNoteTags(note.Id, note.Tags);
             BuildChips(note);
+        }
+
+        /// <summary>Adds/removes the tag on the note; returns true when now assigned.</summary>
+        private bool ToggleTag(Note note, string tag)
+        {
+            bool nowAssigned = !HasTag(note, tag);
+            SetTagAssigned(note, tag, nowAssigned);
             _syncingSelection = true;
             NotesList.Items.Refresh();
             _syncingSelection = false;
             FlashStatus(string.Format(Loc(nowAssigned ? "Str_St_TagAdded" : "Str_St_TagRemoved"), tag));
             return nowAssigned;
+        }
+
+        /// <summary>Toggles the tag across a selection (#7). Mixed state assigns to the
+        /// notes still missing it; a uniform state flips all of them. Returns the new
+        /// shared state.</summary>
+        private bool ToggleTagOnNotes(List<Note> notes, string tag)
+        {
+            if (notes.Count == 1) return ToggleTag(notes[0], tag);
+
+            bool assign = notes.Any(n => !HasTag(n, tag));
+            foreach (var n in notes) SetTagAssigned(n, tag, assign);
+            _syncingSelection = true;
+            NotesList.Items.Refresh();
+            _syncingSelection = false;
+            FlashStatus(string.Format(Loc(assign ? "Str_St_TagAdded" : "Str_St_TagRemoved"), tag));
+            return assign;
         }
 
         /// <summary>Ctrl+1..9: toggle the Nth defined tag on the currently OPEN note

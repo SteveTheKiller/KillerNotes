@@ -4,6 +4,20 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-07-20
+
+### Added
+- Reorder notes by drag and drop (#4): a third sort button (grip icon) activates custom order, and dragging a note up or down the sidebar arranges it by hand - an accent line shows where it will land. Dragging while sorted by time or alphabet keeps what is on screen and switches to custom order automatically. New and imported notes append at the bottom, and dragging a note out of the app into Teams/Outlook/Explorer still shares it as a .knote exactly as before.
+- Note groups (#4): named sections in the sidebar ("House", "University", ...). Right-click a note > Group files it into an existing group, a new one, or back out; dropping a note onto a group header (or between its notes) moves it there too. Headers collapse on click (state remembered per database), and right-clicking a header renames or deletes the group - deleting a group keeps its notes. Groups travel inside shared .kndb files; search results stay flat while a search is active.
+- Choose where your databases live (#6): Manage databases gains a "Change data folder" button that repoints storage to any folder - a synced folder, a second drive, or the folder next to the exe for a portable setup. Picking a new folder offers to move the existing .db files along ("Move") or just switch ("Leave them"). The default stays %APPDATA%\KillerNotes.
+
+### Fixed
+- Tagging with several notes selected applied the tag to the first note only (#7). The right-click Tags submenu now acts on the whole selection: the check mark means "every selected note has this tag", and toggling a mixed state tags the notes still missing it (a second toggle untags them all).
+- On international keyboard layouts AltGr combos were read as Ctrl shortcuts, so AltGr+O (ó on Polish) triggered Ctrl+O Open files instead of typing the character (#5). AltGr arrives as Ctrl+Alt on Windows; those combos now pass through to the editor untouched so AltGr characters and dead keys type normally.
+- Further hardening of the password-change file swap (#3): straggler native SQLite handles are forced closed before the swap (a finalizer-held handle kept the old file mapped, which no amount of retrying could outwait), the retry also covers access-denied errors, and if the atomic replace still cannot win, a move-based swap takes over and restores the original database if it fails partway. Notes keep saving in every outcome.
+- In the Light themes, accent-filled controls kept text of the same hue, so the "New note" button read as a solid block with no label and the selected row in Manage databases was unreadable. Outline buttons are now a true outline at rest (accent border and text, filling solid only on hover), and the selected database row uses white text like the note list.
+- Right-click menus drew a hard rectangular box instead of a soft drop shadow, and correcting that exposed the shadow being clipped at the menu edge. Menu popups are now transparent with a correctly sized soft shadow that sits at the click point without being cut off.
+
 ## [1.0.1] - 2026-07-19
 
 ### Added

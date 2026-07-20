@@ -164,7 +164,10 @@ if (Test-Path $srcZip) { Remove-Item $srcZip -Force }
 $staging = Join-Path $env:TEMP "KillerNotes-src-$Version"
 if (Test-Path $staging) { Remove-Item $staging -Recurse -Force }
 New-Item -ItemType Directory -Force -Path $staging | Out-Null
-$srcFiles = @(git ls-files)
+# The landing site is a separate deployable, not app source - and a release's own exe
+# hash can never live correctly inside the source it is built from (it is circular).
+# Exclude the site so the bundle is buildable-app-only and never carries stale site info.
+$srcFiles = @(git ls-files) | Where-Object { $_ -notlike 'notes-landing/*' }
 if ($srcFiles.Count -eq 0) { Fail 'git ls-files returned no tracked files' }
 foreach ($f in $srcFiles) {
     # Tracked but deleted on disk (removed without git rm): skip, do not abort the bundle.
@@ -210,6 +213,21 @@ if ($LASTEXITCODE -ne 0) { Fail 'Tag push failed' }
 Step "Creating GitHub release"
 gh release create $Tag $exe $srcZip --title "KillerNotes $Tag" --notes-file $notesFile --verify-tag
 if ($LASTEXITCODE -ne 0) { Fail 'gh release create failed' }
+
+# --- 11. Submit to winget-pkgs (komac) ---
+# Runs AFTER the release is published, because komac downloads the uploaded exe to hash it.
+# Non-fatal (Write-Warning, not Fail): the GitHub release is already out, so a winget hiccup
+# must not fail the run. Uses `update` (the package is already in winget); komac needs a
+# GitHub token stored once via `komac token update` (or a GITHUB_TOKEN env var).
+# Caveat: the next release can only auto-submit once the PRIOR version's winget PR is merged -
+# until then komac update can't find the package, and it falls to the manual line below.
+Step "Submitting to winget-pkgs (komac)"
+$exeUrl = "https://github.com/SteveTheKiller/KillerNotes/releases/download/$Tag/KillerNotes.exe"
+komac update SteveTheKiller.KillerNotes --version $Version --urls $exeUrl --submit
+if ($LASTEXITCODE -ne 0) {
+    Write-Warning "winget submit failed. Run it by hand once the previous version's PR is merged:"
+    Write-Warning "  komac update SteveTheKiller.KillerNotes --version $Version --urls $exeUrl --submit"
+}
 
 Step "Done"
 Write-Host "Release $Tag published:"

@@ -141,6 +141,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <div class="blurb"><h3 data-i18n="b1_t">Fully featured</h3><ul class="blurb-list" data-i18n="b1_d">
 <li>Full-text search as you type (SQLite FTS5)</li>
 <li>Rich text with inline images, real tables, colors, highlights, and rules</li>
+<li>Named note groups and drag-and-drop custom order</li>
 <li>Optional whole-database AES-256 encryption (SQLCipher)</li>
 <li>Share single notes as .knote files or whole databases as .kndb - with optional share passwords</li>
 <li>Open .txt, .md, .html, .rtf and images as notes; export notes back out</li>
@@ -156,7 +157,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 </div>
 </div>
 <div class="hero-info">
-<div class="row"><span class="k">version</span>&nbsp;<span class="v">KillerNotes v1.0.1</span></div>
+<div class="row"><span class="k">version</span>&nbsp;<span class="v">KillerNotes v1.0.2</span></div>
 <div class="row"><span class="k">released</span>&nbsp;<span class="v">2026-07-19</span></div>
 <div class="row"><span class="k">size</span>&nbsp;<span class="v">4.3 MB single exe</span></div>
 <div class="row"><span class="k">platform</span>&nbsp;<span class="v">Windows 10/11 x64</span></div>
@@ -170,12 +171,13 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <h2 data-i18n="features_h">What it does</h2>
 <div class="feature-grid">
 <div class="feature-card"><h3 data-i18n="f_notepad_t">One notepad, not 80 tabs</h3><p data-i18n="f_notepad_d">Every note lives in a single local database and saves itself - on every pause in typing, on note switch, on alt-tab, and on close. Nothing is ever lost to a reboot or a crashed session again.</p></div>
-<div class="feature-card"><h3 data-i18n="f_search_t">Instant search</h3><p data-i18n="f_search_d">Full-text search across every note as you type, powered by a SQLite FTS5 index. Sort by creation time or title, in either direction, with one click.</p></div>
+<div class="feature-card"><h3 data-i18n="f_search_t">Instant search</h3><p data-i18n="f_search_d">Full-text search across every note as you type, powered by a SQLite FTS5 index. Sort by creation time or title in either direction, or switch to custom order and arrange notes yourself.</p></div>
 <div class="feature-card"><h3 data-i18n="f_tags_t">Color-coded tags</h3><p data-i18n="f_tags_d">Tag any note with one or more colored labels, Outlook-style. Tags show as pills on the sidebar and a click filters the list to that tag. Definitions live per database, so they travel inside shared files, and the Manage tags editor (F7) adds, renames, and recolors them - changes ripple through every note.</p></div>
+<div class="feature-card"><h3 data-i18n="f_groups_t">Groups &amp; custom order</h3><p data-i18n="f_groups_d">Drag notes up and down the sidebar to put them in the order that matters - an accent line shows where they land. File them into named groups per client, project, or topic: headers collapse with a click, dropping a note on one moves it in, and groups travel inside shared .kndb files.</p></div>
 <div class="feature-card"><h3 data-i18n="f_richtext_t">Rich text that keeps up</h3><p data-i18n="f_richtext_d">Paste screenshots straight into a note, insert real tables with an Office-style size picker, and format with bold, italic, text and highlight colors from a full picker with a desktop-wide eyedropper, adjustable font size, lists, monospace, and horizontal rules - all with hotkeys.</p></div>
 <div class="feature-card"><h3 data-i18n="f_crypt_t">Encrypted at rest</h3><p data-i18n="f_crypt_d">Set a password and the whole database is encrypted with SQLCipher (AES-256) - notes, images, index, everything. Set, change, or remove it from the title-bar lock at any time.</p></div>
 <div class="feature-card"><h3 data-i18n="f_share_t">Tear-off sharing</h3><p data-i18n="f_share_d">Right-click a note to share it as a .knote file, optionally protected with its own password - or just drag it out of the sidebar straight into Teams, Outlook, or a folder. Whole databases travel as .kndb.</p></div>
-<div class="feature-card"><h3 data-i18n="f_dbs_t">Multiple databases</h3><p data-i18n="f_dbs_d">Keep separate notepads per client or per job. The Manage databases dialog creates, renames, switches, exports, and copies them - and a received .kndb opens with a double-click.</p></div>
+<div class="feature-card"><h3 data-i18n="f_dbs_t">Multiple databases</h3><p data-i18n="f_dbs_d">Keep separate notepads per client or per job. The Manage databases dialog creates, renames, switches, exports, and copies them - and a received .kndb opens with a double-click. The data folder itself is yours to choose: a second drive, a synced folder, anywhere.</p></div>
 <div class="feature-card"><h3 data-i18n="f_import_t">Opens your files</h3><p data-i18n="f_import_d">Ctrl+O or drop files in: .txt, .log, and .md become text notes, .rtf keeps its formatting, .html carries its source with a rendered preview, and images land inline. Each file becomes its own note.</p></div>
 <div class="feature-card"><h3 data-i18n="f_export_t">Export</h3><p data-i18n="f_export_d">Any note exports back out as plain text, rich text (.rtf) with images intact, or a standalone theme-styled web page with images embedded.</p></div>
 <div class="feature-card"><h3 data-i18n="f_titlecolor_t">Per-note title colors</h3><p data-i18n="f_titlecolor_d">Right-click a note to color its title in the sidebar and the editor - a fast visual cue for the notes you reach for most. The color travels inside shared .knote and .kndb files, and resets to the theme in one click.</p></div>
@@ -183,6 +185,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <div class="feature-card"><h3 data-i18n="f_preview_t">Markdown &amp; HTML preview</h3><p data-i18n="f_preview_d">Notes that look like markdown or HTML get a preview toggle that opens a rendered split pane - handy for README drafts and pasted documentation.</p></div>
 <div class="feature-card"><h3 data-i18n="f_hotkeys_t">Hotkeys &amp; keyboard map</h3><p data-i18n="f_hotkeys_d">Everything has a key. F1 opens the shortcuts overlay, including a full visual keyboard map with color-coded layers - hold Ctrl or Shift to preview what each key does.</p></div>
 <div class="feature-card"><h3 data-i18n="f_themes_t">Themes &amp; accents</h3><p data-i18n="f_themes_d">Six themes (Dark, Light, Black, Blood, Greed and Cyanotic) with per-theme accent colors, all switchable live - the same set as every KillerTools app.</p></div>
+<div class="feature-card"><h3 data-i18n="f_install_t">Portable or installed</h3><p data-i18n="f_install_d">Runs portable from a USB stick or a share, or one-click installs per-user with no admin - Start Menu shortcut and Add/Remove Programs entry included. A /silent switch handles RMM, winget, or Chocolatey rollouts, and uninstall always keeps your notes. Point the data folder next to the exe and the whole notepad travels with the stick.</p></div>
 <div class="feature-card"><h3 data-i18n="f_private_t">Private by design</h3><p data-i18n="f_private_d">Everything runs on your machine. Notes never leave your disk, no account is required, no cloud sync happens behind your back, and no telemetry is sent anywhere.</p></div>
 </div>
 </section>
@@ -200,7 +203,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 
 <footer class="statusbar">
 <span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener" data-i18n="footer_src">Source on GitHub</a> &middot; Part of <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span>
-<span class="right"><span id="verEgg" title="click me">v1.0.1</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
+<span class="right"><span id="verEgg" title="click me">v1.0.2</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
 </footer>
 
 <div class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt="KillerNotes screenshot"></div>

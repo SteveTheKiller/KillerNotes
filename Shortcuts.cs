@@ -76,6 +76,12 @@ namespace KillerNotes
             bool ctrl  = Keyboard.Modifiers.HasFlag(ModifierKeys.Control);
             bool shift = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
 
+            // AltGr arrives as Ctrl+Alt on Windows, so on international layouts
+            // AltGr+O (ó on Polish) looked like Ctrl+O and hijacked the keystroke (#5).
+            // No shortcut here uses Alt: let every Ctrl+Alt combo pass through to the
+            // editor untouched so dead keys and AltGr characters type normally.
+            if (ctrl && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)) return;
+
             // Formatting combos first (Ctrl+Shift+letter; plain Ctrl+B/I/U and the list
             // combos Ctrl+Shift+L/N are RichTextBox built-ins and pass through).
             if (ctrl && shift && _currentId >= 0)

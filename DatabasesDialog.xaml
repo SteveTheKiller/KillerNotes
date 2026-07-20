@@ -144,6 +144,9 @@
                         <Button x:Name="ExplorerBtn" Content="&#xE838;" Click="Explorer_Click"
                                 Style="{StaticResource SurfaceButton}" FontFamily="Segoe MDL2 Assets"
                                 Width="34" Padding="0" ToolTip="{DynamicResource Str_TT_Explorer}"/>
+                        <Button x:Name="DataFolderBtn" Content="&#xE8DE;" Click="DataFolder_Click"
+                                Style="{StaticResource SurfaceButton}" FontFamily="Segoe MDL2 Assets"
+                                Width="34" Padding="0" Margin="6,0,0,0" ToolTip="{DynamicResource Str_TT_DataFolder}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <!-- OutlineButton (family standard): accent outline, fills solid on hover -->

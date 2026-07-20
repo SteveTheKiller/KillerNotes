@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        xmlns:models="clr-namespace:KillerNotes.Models"
         Title="KillerNotes"
         WindowStyle="None" Background="{DynamicResource BackgroundBrush}"
         MinWidth="720" MinHeight="480" Width="1080" Height="700"
@@ -270,6 +271,14 @@
                                                    FontSize="10" VerticalAlignment="Center" Margin="2,0,0,0"/>
                                     </StackPanel>
                                 </Button>
+                                <!-- Custom order (#4): manual arrangement, no direction arrow;
+                                     dragging a note in any sort switches here (Groups.cs) -->
+                                <Button x:Name="SortCustomBtn" Style="{StaticResource SurfaceButton}"
+                                        Margin="6,0,0,0" Click="SortCustomBtn_Click" Width="34" Padding="0"
+                                        ToolTip="{DynamicResource Str_TT_SortCustom}">
+                                    <TextBlock Text="&#xE76F;" FontFamily="Segoe MDL2 Assets" FontSize="13"
+                                               VerticalAlignment="Center"/>
+                                </Button>
                             </StackPanel>
                         </Grid>
                     </StackPanel>
@@ -282,7 +291,8 @@
                              PreviewMouseRightButtonDown="NotesList_PreviewMouseRightButtonDown"
                              PreviewMouseLeftButtonDown="NotesList_PreviewMouseLeftButtonDown"
                              PreviewMouseMove="NotesList_PreviewMouseMove"
-                             AllowDrop="True" DragOver="NotesList_DragOver" Drop="NotesList_Drop">
+                             AllowDrop="True" DragOver="NotesList_DragOver" Drop="NotesList_Drop"
+                             DragLeave="NotesList_DragLeave">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="Padding" Value="8,6"/>
@@ -318,14 +328,42 @@
                                           ToolTip="{DynamicResource Str_TT_ExportNote}"/>
                                 <!-- One toggle row per defined tag, built on open (Tags.cs) -->
                                 <MenuItem x:Name="TagsMenu" Header="{DynamicResource Str_Ctx_Tags}"/>
+                                <!-- One row per group + remove + new, built on open (Groups.cs, #4) -->
+                                <MenuItem x:Name="GroupMenu" Header="{DynamicResource Str_Ctx_Group}"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_TitleColor}" Click="TitleColorPick_Click"
                                           ToolTip="{DynamicResource Str_TT_TitleColor}"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_TitleColorReset}" Click="TitleColorReset_Click"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_DeleteNote}" Click="DeleteNote_Click"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
+                        <ListBox.Resources>
+                            <!-- Implicit typed templates (#4): the composite sidebar list mixes
+                                 Note rows and GroupHeader rows; WPF picks by item type. -->
+                            <DataTemplate DataType="{x:Type models:GroupHeader}">
+                                <!-- Headers are not selectable rows: click toggles collapse,
+                                     right-click opens the group menu (both set Handled so the
+                                     ListBoxItem never sees the press). Groups.cs. -->
+                                <Border Background="Transparent" Padding="0,6,0,2"
+                                        MouseLeftButtonDown="GroupHeader_Click"
+                                        MouseRightButtonDown="GroupHeader_RightDown">
+                                    <Border.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="{DynamicResource Str_Ctx_RenameGroup}" Click="RenameGroup_Click"/>
+                                            <MenuItem Header="{DynamicResource Str_Ctx_DeleteGroup}" Click="DeleteGroup_Click"/>
+                                        </ContextMenu>
+                                    </Border.ContextMenu>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Chevron}" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                                                   VerticalAlignment="Center" Foreground="{DynamicResource MutedTextBrush}"/>
+                                        <TextBlock Text="{Binding Name}" FontSize="12.5" FontWeight="Bold" Margin="6,0,0,0"
+                                                   VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{Binding CountDisplay}" FontSize="10" Margin="6,0,0,0"
+                                                   VerticalAlignment="Center" Foreground="{DynamicResource DimTextBrush}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type models:Note}">
                                 <StackPanel>
                                     <!-- Colored per note when TitleColor is set; the DataTrigger keeps
                                          uncolored titles on the theme-reactive TextBrush (1.0.1, #1) -->
@@ -337,14 +375,40 @@
                                                     <DataTrigger Binding="{Binding HasTitleColor}" Value="True">
                                                         <Setter Property="Foreground" Value="{Binding TitleBrush}"/>
                                                     </DataTrigger>
+                                                    <!-- Selected row = dark accent fill (matches the other Killer apps);
+                                                         force white text so it stays readable. Last, so it wins over a
+                                                         per-note title color while the row is selected. -->
+                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                        <Setter Property="Foreground" Value="#FFFFFF"/>
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                    <TextBlock Text="{Binding Snippet}" Foreground="{DynamicResource MutedTextBrush}"
-                                               FontSize="11" TextTrimming="CharacterEllipsis" Margin="0,1,0,0"/>
-                                    <TextBlock Text="{Binding ModifiedDisplay}" Foreground="{DynamicResource DimTextBrush}"
-                                               FontSize="10" Margin="0,1,0,0"/>
+                                    <TextBlock Text="{Binding Snippet}" FontSize="11" TextTrimming="CharacterEllipsis" Margin="0,1,0,0">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                        <Setter Property="Foreground" Value="#E8FFFFFF"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding ModifiedDisplay}" FontSize="10" Margin="0,1,0,0">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{DynamicResource DimTextBrush}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                        <Setter Property="Foreground" Value="#C8FFFFFF"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                     <!-- Tag pills (Tags.cs BuildChips); click filters by tag.
                                          Empty chip list renders zero height. -->
                                     <ItemsControl ItemsSource="{Binding Chips}">
@@ -364,7 +428,7 @@
                                     </ItemsControl>
                                 </StackPanel>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
+                        </ListBox.Resources>
                     </ListBox>
                 </DockPanel>
             </Grid>

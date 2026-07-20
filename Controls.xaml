@@ -127,7 +127,11 @@
 
     <!-- Outline Button (accent border + text, reactive fill on hover) -->
     <Style x:Key="OutlineButton" TargetType="Button">
-        <Setter Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+        <!-- Transparent at rest = a true outline (accent border + accent text), per the
+             family standard. RowSelectedBrush was a solid accent fill in the Light accents
+             (same value as OutlineBtnBrush), so the resting button was a solid block with
+             invisible same-color text. -->
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource OutlineBtnBrush}"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Padding" Value="14,5"/>
@@ -149,7 +153,11 @@
                             <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                            <!-- Pale accent press tint (the per-theme OutlinePressedBrush, defined
+                                 in every theme for exactly this and previously unused). Readable
+                                 accent text on it in every theme; RowSelectedBrush here was the
+                                 solid accent in Light, hiding the text on press too. -->
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource OutlinePressedBrush}"/>
                             <Setter Property="Foreground" Value="{DynamicResource OutlineBtnBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
@@ -307,7 +315,11 @@
     <!-- Context Menu (grain + rounding + shadow match the theme flyout) -->
     <Style TargetType="ContextMenu">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="HasDropShadow" Value="False"/>
+        <!-- True so the popup HWND is transparent: the custom soft shadow below then
+             renders on the Margin=6 halo instead of the popup showing as a hard
+             rectangle around the rounded menu. The shadow sits on its own item-free
+             Border (see template), so this does not reintroduce the submenu black-box. -->
+        <Setter Property="HasDropShadow" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -316,18 +328,26 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ContextMenu">
-                    <Border Margin="6" CornerRadius="6"
-                            Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
-                        <Border.Effect>
-                            <DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="4" Direction="270" Opacity="0.55"/>
-                        </Border.Effect>
-                        <Grid>
-                            <Border IsHitTestVisible="False" CornerRadius="5"
-                                    Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
-                            <StackPanel IsItemsHost="True" Margin="{TemplateBinding Padding}" KeyboardNavigation.DirectionalNavigation="Cycle"/>
-                        </Grid>
-                    </Border>
+                    <Grid Margin="6">
+                        <!-- Shadow cast from a dedicated item-free layer. Each MenuItem carries a
+                             transparent PART_Popup (for the Tags submenu); a WPF Effect over a
+                             subtree that contains an AllowsTransparency popup renders the drop
+                             shadow as a black box, so the effect must not sit above the items. -->
+                        <Border CornerRadius="6" Background="{TemplateBinding Background}">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1" Direction="270" Opacity="0.55"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border CornerRadius="6"
+                                Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                            <Grid>
+                                <Border IsHitTestVisible="False" CornerRadius="5"
+                                        Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
+                                <StackPanel IsItemsHost="True" Margin="{TemplateBinding Padding}" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -358,19 +378,23 @@
                         <Popup x:Name="PART_Popup" Placement="Right" HorizontalOffset="2" VerticalOffset="-10"
                                IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                AllowsTransparency="True" Focusable="False">
-                            <Border Margin="6" CornerRadius="6"
-                                    Background="{DynamicResource MenuBackgroundBrush}"
-                                    BorderBrush="{DynamicResource MenuBorderBrush}"
-                                    BorderThickness="1" SnapsToDevicePixels="True">
-                                <Border.Effect>
-                                    <DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="4" Direction="270" Opacity="0.55"/>
-                                </Border.Effect>
-                                <Grid>
-                                    <Border IsHitTestVisible="False" CornerRadius="5"
-                                            Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
-                                    <StackPanel IsItemsHost="True" Margin="0,4" KeyboardNavigation.DirectionalNavigation="Cycle"/>
-                                </Grid>
-                            </Border>
+                            <Grid Margin="6">
+                                <Border CornerRadius="6" Background="{DynamicResource MenuBackgroundBrush}">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1" Direction="270" Opacity="0.55"/>
+                                    </Border.Effect>
+                                </Border>
+                                <Border CornerRadius="6"
+                                        Background="{DynamicResource MenuBackgroundBrush}"
+                                        BorderBrush="{DynamicResource MenuBorderBrush}"
+                                        BorderThickness="1" SnapsToDevicePixels="True">
+                                    <Grid>
+                                        <Border IsHitTestVisible="False" CornerRadius="5"
+                                                Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
+                                        <StackPanel IsItemsHost="True" Margin="0,4" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
                         </Popup>
                     </Grid>
                     <ControlTemplate.Triggers>

@@ -193,13 +193,18 @@ namespace KillerNotes
                 NoteStore.ExportNote(note.Id, path, null);
 
                 var data = new DataObject(DataFormats.FileDrop, new[] { path });
+                // The same drag serves in-list reorder (#4): the note id rides along and
+                // the NotesList drop handler (Groups.cs) recognizes its own drag by it.
+                // External targets only see the FileDrop.
+                data.SetData(NoteIdFormat, note.Id);
                 _noteDragOut = true;   // keep NotesList_Drop from re-importing our own file
+                _noteReordered = false;
                 DragDropEffects result;
                 try { result = DragDrop.DoDragDrop(NotesList, data, DragDropEffects.Copy); }
-                finally { _noteDragOut = false; }
-                // Only announce when a target actually accepted the drop; a canceled drag
-                // (Esc, or released back inside the app) returns None.
-                if (result == DragDropEffects.Copy)
+                finally { _noteDragOut = false; ClearInsertionLine(); }
+                // Only announce when an EXTERNAL target actually accepted the drop; a
+                // canceled drag returns None, and an in-list reorder announces itself.
+                if (result == DragDropEffects.Copy && !_noteReordered)
                     FlashStatus(string.Format(Loc("Str_St_DragReady"), SafeFileName(note.Title)));
             }
             catch (Exception ex) { FlashStatus(string.Format(Loc("Str_St_DragFailed"), ex.Message)); }

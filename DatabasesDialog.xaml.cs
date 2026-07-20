@@ -45,7 +45,6 @@ namespace KillerNotes
                 // just the name part for a TextBox.
                 var row = new StackPanel { Orientation = Orientation.Horizontal };
                 var nameText = new TextBlock { Text = name, FontSize = 12 };
-                nameText.SetResourceReference(TextBlock.ForegroundProperty, active ? "PrimaryBrush" : "TextBrush");
                 var meta = new TextBlock
                 {
                     Text = $"   {fi.Length / 1024:N0} KB   {fi.LastWriteTime:yyyy-MM-dd HH:mm}"
@@ -54,11 +53,16 @@ namespace KillerNotes
                     FontSize = 11,
                     VerticalAlignment = VerticalAlignment.Center,
                 };
-                meta.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
                 row.Children.Add(nameText);
                 row.Children.Add(meta);
 
+                // A selected row fills with the accent (RowSelectedBrush); force white text
+                // so name + meta stay readable. In the Light accents that fill and the
+                // accent/muted text are the same hue, so a selected row was unreadable.
                 var item = new ListBoxItem { Tag = name, Content = row };
+                SetRowColors(nameText, meta, active, selected: false);
+                item.Selected   += (_, _) => SetRowColors(nameText, meta, active, selected: true);
+                item.Unselected += (_, _) => SetRowColors(nameText, meta, active, selected: false);
                 DbList.Items.Add(item);
                 if (select != null
                         ? string.Equals(name, select, StringComparison.OrdinalIgnoreCase)
@@ -66,6 +70,22 @@ namespace KillerNotes
                     DbList.SelectedItem = item;
             }
             DlgStatus.Text = NoteStore.DbDir;
+        }
+
+        // Selection fills the row with the accent; white text keeps it readable (the notes
+        // sidebar does the same). Unselected: active db name in the accent, others normal.
+        private static void SetRowColors(TextBlock name, TextBlock meta, bool active, bool selected)
+        {
+            if (selected)
+            {
+                name.Foreground = Brushes.White;
+                meta.Foreground = new SolidColorBrush(Color.FromArgb(0xC8, 0xFF, 0xFF, 0xFF));
+            }
+            else
+            {
+                name.SetResourceReference(TextBlock.ForegroundProperty, active ? "PrimaryBrush" : "TextBrush");
+                meta.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
+            }
         }
 
         private ListBoxItem? SelectedItem => DbList.SelectedItem as ListBoxItem;
@@ -251,6 +271,55 @@ namespace KillerNotes
                     "explorer.exe", NoteStore.DbDir) { UseShellExecute = true });
             }
             catch { /* best-effort */ }
+        }
+
+        // ---- Change data folder (#6): repoint where the .db files live ----
+        // The store is closed while this dialog is up (the caller guarantees it), so the
+        // active file can be moved like any other. Both dialog choices proceed with the
+        // folder change - "Move" brings every .db along, "Leave them" just switches.
+
+        private void DataFolder_Click(object sender, RoutedEventArgs e)
+        {
+            string current = NoteStore.DbDir;
+            string? picked = FolderPicker.Show(this, current, Loc("Str_Db_PickFolderTitle"));
+            if (picked == null) return;
+
+            string full;
+            try { full = Path.GetFullPath(picked).TrimEnd(Path.DirectorySeparatorChar); }
+            catch { DlgStatus.Text = Loc("Str_Db_BadName"); return; }
+            if (string.Equals(full, Path.GetFullPath(current).TrimEnd(Path.DirectorySeparatorChar),
+                    StringComparison.OrdinalIgnoreCase)) return;
+
+            string[] dbs;
+            try { dbs = Directory.GetFiles(current, "*.db"); } catch { dbs = new string[0]; }
+            int failed = 0;
+            if (dbs.Length > 0)
+            {
+                var confirm = new ConfirmDialog(
+                    string.Format(Loc("Str_Dlg_MoveDbsHead"), dbs.Length),
+                    Loc("Str_Dlg_MoveDbsBody"),
+                    Loc("Str_Btn_Move"), cancelText: Loc("Str_Btn_LeaveFiles")) { Owner = this };
+                confirm.ShowDialog();
+                if (confirm.Confirmed)
+                {
+                    foreach (string f in dbs)
+                    {
+                        try
+                        {
+                            string dest = Path.Combine(full, Path.GetFileName(f));
+                            if (File.Exists(dest)) { failed++; continue; }   // never clobber
+                            File.Move(f, dest);
+                        }
+                        catch { failed++; }
+                    }
+                }
+            }
+
+            App.SetSetting("DataFolder", full);
+            RefreshDbList();
+            DlgStatus.Text = failed == 0
+                ? string.Format(Loc("Str_Db_FolderChanged"), full)
+                : string.Format(Loc("Str_Db_FolderChangedPartial"), full, failed);
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)

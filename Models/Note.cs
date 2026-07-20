@@ -18,6 +18,7 @@ namespace KillerNotes.Models
         public string Snippet { get; set; } = "";   // first line of plain text, for the list
         public string TitleColor { get; set; } = "";   // "#RRGGBB", "" = follow the theme
         public bool SpellCheck { get; set; }           // per-note spell check (off by default)
+        public int SortOrder { get; set; }             // global custom-order position (#4)
 
         public string ModifiedDisplay => Modified.ToString("yyyy-MM-dd HH:mm");
 
@@ -45,5 +46,17 @@ namespace KillerNotes.Models
         public string Name { get; set; } = "";
         public Brush Background { get; set; } = Brushes.Gray;
         public Brush Foreground { get; set; } = Brushes.White;
+    }
+
+    /// <summary>Sidebar group header row (#4). Lives in the composite sidebar list next
+    /// to Note items; the implicit DataTemplate keys off the type. Not selectable - a
+    /// header click toggles collapse instead (Groups.cs).</summary>
+    public class GroupHeader
+    {
+        public string Name { get; set; } = "";
+        public int Count { get; set; }
+        public bool Collapsed { get; set; }
+        public string Chevron => ((char)(Collapsed ? 0xE76C : 0xE70D)).ToString();   // MDL2 ChevronRight / ChevronDown
+        public string CountDisplay => Count == 0 ? "" : Count.ToString();
     }
 }

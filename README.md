@@ -9,7 +9,13 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 ## Features
 
 - Sidebar library: search-as-you-type across titles, note text, and tags (SQLite FTS5),
-  sort by modified / created / title, new note, delete with themed confirm.
+  sort by creation time or title (either direction) or a drag-and-drop custom order,
+  new note, delete with themed confirm.
+- Groups & custom order: drag notes up and down the sidebar to arrange them by hand (an
+  accent line shows where they land; dragging in another sort switches to custom order
+  automatically), and file notes into named collapsible groups - from the right-click
+  Group submenu or by dropping a note onto a header. Deleting a group keeps its notes,
+  and groups travel inside shared .kndb files.
 - Tags: color-coded, per-database tag definitions (they travel inside shared .knote/.kndb
   files). Assign from the right-click Tags submenu or Ctrl+1-9, filter the list by clicking
   a pill on a card, and add / rename / recolor / delete in the Manage tags editor (F7).
@@ -25,14 +31,17 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 - Markdown/HTML preview: when a note's text looks like markdown or HTML, a preview toggle
   appears in the format bar and opens a split pane (Markdig for markdown; HTML is rendered
   with scripts, event handlers, frames, and javascript: URLs stripped first).
-- Storage: single database at `%APPDATA%\KillerNotes\notes.db`. Note bodies are stored
-  as XamlPackage blobs (text + images + tables in one), plus extracted plain text for search.
+- Storage: single database at `%APPDATA%\KillerNotes\notes.db` by default; the data folder
+  is configurable (Manage databases > Change data folder), including next to the exe for a
+  fully portable setup. Note bodies are stored as XamlPackage blobs (text + images + tables
+  in one), plus extracted plain text for search.
 - Password protection (lock button in the title bar): SQLCipher AES-256 encryption of the
   entire database file. No password = plain SQLite. Set / change / remove at any time
   (the file is rewritten through sqlcipher_export). There is no recovery for a lost
   password; the unlock screen's "New database" archives the locked file and starts fresh.
 - Multiple databases: the Manage databases dialog (title-bar button) lists every .db in
-  the data folder, creates/renames/deletes them, and switches the active one.
+  the data folder, creates/renames/deletes them, switches the active one, and moves the
+  data folder itself (offering to bring the files along).
 - Sharing: .knote (one note, optionally password protected) via right-click > Share note;
   .kndb (whole database, encryption included) via Manage databases > Export. Both are
   double-clickable on any machine with KillerNotes (HKCU associations register on launch).
@@ -55,7 +64,8 @@ bootstrap carries the native e_sqlcipher.dll, so the release ships as one signed
 ## Layout
 
 - `MainWindow.xaml` + partials: `Notes.cs` (list/search/save), `Editor.cs` (paste/tables),
-  `Security.cs` (password flow), plus the KillerUI kit files (`Chrome.cs`, `ThemeFlyout.cs`,
-  `About.cs`, `Anim.cs`, `ConfirmDialog`, `PasswordDialog`).
+  `Groups.cs` (custom order + note groups), `Security.cs` (password flow), plus the KillerUI
+  kit files (`Chrome.cs`, `ThemeFlyout.cs`, `About.cs`, `Anim.cs`, `ConfirmDialog`,
+  `PasswordDialog`, `InputDialog`).
 - `Services/NoteStore.cs` - all SQL. `Services/ThemeManager.cs` - kit theme engine.
 - `Themes/` + `Themes/Accents/` - the family palettes, copied from KillerScan.

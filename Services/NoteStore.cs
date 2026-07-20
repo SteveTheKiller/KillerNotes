@@ -22,8 +22,15 @@ namespace KillerNotes.Services
         private static SqliteConnection? _db;
         private static string? _password;   // key of the currently open db (null = plaintext)
 
-        public static string DbDir  => Path.Combine(
+        /// <summary>The stock data folder; DbDir prefers the "DataFolder" setting (#6).</summary>
+        public static string DefaultDbDir => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KillerNotes");
+
+        /// <summary>Folder holding the .db files: the "DataFolder" setting when one was
+        /// chosen (Manage databases > Change data folder, #6), else %APPDATA%\KillerNotes.</summary>
+        public static string DbDir =>
+            App.GetSetting("DataFolder") is string dir && !string.IsNullOrWhiteSpace(dir)
+                ? dir : DefaultDbDir;
 
         /// <summary>Set by --demo (App.OnStartup): overrides the active db with a scratch
         /// demo file so screenshot sessions never touch real notes. In-memory only - the
@@ -131,6 +138,11 @@ END;
 CREATE TABLE IF NOT EXISTS tags(
     name  TEXT PRIMARY KEY COLLATE NOCASE,
     color TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS groups(
+    name       TEXT PRIMARY KEY COLLATE NOCASE,
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    collapsed  INTEGER NOT NULL DEFAULT 0
 );";
 
         private static void EnsureSchema()
@@ -179,6 +191,10 @@ CREATE TABLE IF NOT EXISTS tags(
                 Exec("ALTER TABLE notes ADD COLUMN title_color TEXT NOT NULL DEFAULT ''");
             if (!have.Contains("spellcheck"))
                 Exec("ALTER TABLE notes ADD COLUMN spellcheck INTEGER NOT NULL DEFAULT 0");
+            // 1.0.2: manual drag-and-drop ordering (#4). 0 = never ordered; Create()
+            // appends max+1 so new notes land at the bottom of a custom arrangement.
+            if (!have.Contains("sort_order"))
+                Exec("ALTER TABLE notes ADD COLUMN sort_order INTEGER NOT NULL DEFAULT 0");
         }
 
         // ---- Notes ----
@@ -197,7 +213,7 @@ CREATE TABLE IF NOT EXISTS tags(
             if (!string.IsNullOrWhiteSpace(search))
             {
                 cmd.CommandText = @"
-SELECT n.id, n.title, n.notebook, n.tags, n.created, n.modified, substr(n.plain, 1, 120), n.title_color, n.spellcheck
+SELECT n.id, n.title, n.notebook, n.tags, n.created, n.modified, substr(n.plain, 1, 120), n.title_color, n.spellcheck, n.sort_order
 FROM notes_fts f JOIN notes n ON n.id = f.rowid
 WHERE notes_fts MATCH $q ORDER BY rank";
                 cmd.Parameters.AddWithValue("$q", FtsQuery(search!));
@@ -209,9 +225,10 @@ WHERE notes_fts MATCH $q ORDER BY rank";
                     "created-desc" => "created DESC",
                     "title-asc"    => "title COLLATE NOCASE ASC",
                     "title-desc"   => "title COLLATE NOCASE DESC",
+                    "custom"       => "sort_order ASC, id ASC",
                     _              => "created ASC",
                 };
-                cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck " +
+                cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order " +
                                   $"FROM notes ORDER BY {order}";
             }
 
@@ -229,6 +246,7 @@ WHERE notes_fts MATCH $q ORDER BY rank";
                     Snippet  = FirstLine(r.IsDBNull(6) ? "" : r.GetString(6)),
                     TitleColor = r.IsDBNull(7) ? "" : r.GetString(7),
                     SpellCheck = !r.IsDBNull(8) && r.GetInt64(8) != 0,
+                    SortOrder  = r.IsDBNull(9) ? 0 : (int)r.GetInt64(9),
                 });
             }
             return results;
@@ -237,7 +255,10 @@ WHERE notes_fts MATCH $q ORDER BY rank";
         public static long Create(string title)
         {
             using var cmd = _db!.CreateCommand();
-            cmd.CommandText = "INSERT INTO notes(title, created, modified, plain) VALUES ($t, $now, $now, ''); " +
+            // sort_order = max+1: a new note lands at the BOTTOM of a custom arrangement
+            // rather than jumping to the top with the column's 0 default (#4).
+            cmd.CommandText = "INSERT INTO notes(title, created, modified, plain, sort_order) " +
+                              "VALUES ($t, $now, $now, '', (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes)); " +
                               "SELECT last_insert_rowid()";
             cmd.Parameters.AddWithValue("$t", title);
             cmd.Parameters.AddWithValue("$now", Ts(DateTime.Now));
@@ -363,6 +384,106 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             RewriteTagInNotes(name, null);
         }
 
+        // ---- Custom order + groups (#4) ----
+        // Manual order is one GLOBAL sort_order sequence; a group's internal order is just
+        // that sequence filtered, so moving notes between groups never renumbers per-group.
+        // Group definitions (order + collapsed state) live in the groups table; assignment
+        // is the existing notes.notebook column.
+
+        /// <summary>Renumbers the whole custom order in one transaction (reorder drops
+        /// and the first-use seeding both rewrite every row; note counts are small).</summary>
+        public static void SetNoteOrders(IEnumerable<(long Id, int Order)> orders)
+        {
+            using var tx = _db!.BeginTransaction();
+            foreach (var o in orders)
+            {
+                using var cmd = _db!.CreateCommand();
+                cmd.Transaction = tx;
+                cmd.CommandText = "UPDATE notes SET sort_order = $o WHERE id = $id";
+                cmd.Parameters.AddWithValue("$o", o.Order);
+                cmd.Parameters.AddWithValue("$id", o.Id);
+                cmd.ExecuteNonQuery();
+            }
+            tx.Commit();
+        }
+
+        /// <summary>Assigns a note to a group ("" = ungrouped).</summary>
+        public static void SetNoteGroup(long id, string group)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET notebook = $g WHERE id = $id";
+            cmd.Parameters.AddWithValue("$g", group);
+            cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        public static List<(string Name, bool Collapsed)> ListGroups()
+        {
+            var list = new List<(string, bool)>();
+            if (_db == null) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT name, collapsed FROM groups ORDER BY sort_order, rowid";
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) list.Add((r.GetString(0), r.GetInt64(1) != 0));
+            return list;
+        }
+
+        /// <summary>Adds a group definition at the end; an existing name (case-insensitive) wins.</summary>
+        public static void AddGroup(string name)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "INSERT OR IGNORE INTO groups(name, sort_order) " +
+                              "VALUES ($n, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM groups))";
+            cmd.Parameters.AddWithValue("$n", name);
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Renames a group and rewrites the assignment on every member note.
+        /// The caller checks for collisions first (the NOCASE primary key would throw).</summary>
+        public static void RenameGroup(string oldName, string newName)
+        {
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "UPDATE groups SET name = $new WHERE name = $old";
+                cmd.Parameters.AddWithValue("$new", newName);
+                cmd.Parameters.AddWithValue("$old", oldName);
+                cmd.ExecuteNonQuery();
+            }
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "UPDATE notes SET notebook = $new WHERE notebook = $old COLLATE NOCASE";
+                cmd.Parameters.AddWithValue("$new", newName);
+                cmd.Parameters.AddWithValue("$old", oldName);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>Deletes a group definition; member notes are kept and become ungrouped.</summary>
+        public static void DeleteGroup(string name)
+        {
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "DELETE FROM groups WHERE name = $n";
+                cmd.Parameters.AddWithValue("$n", name);
+                cmd.ExecuteNonQuery();
+            }
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "UPDATE notes SET notebook = '' WHERE notebook = $n COLLATE NOCASE";
+                cmd.Parameters.AddWithValue("$n", name);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public static void SetGroupCollapsed(string name, bool collapsed)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "UPDATE groups SET collapsed = $c WHERE name = $n";
+            cmd.Parameters.AddWithValue("$c", collapsed ? 1 : 0);
+            cmd.Parameters.AddWithValue("$n", name);
+            cmd.ExecuteNonQuery();
+        }
+
         public static void SetNoteTags(long id, string tags)
         {
             using var cmd = _db!.CreateCommand();
@@ -435,6 +556,15 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             Exec("DETACH DATABASE rekeyed");
             Close();
 
+            // Pool clearing alone is not always enough (#3): a straggler sqlite3
+            // handle kept alive by a finalizer still has the old file mapped, and
+            // the swap below then throws "being used by another process" no matter
+            // how long we retry. Force finalization so every native handle on both
+            // files is truly closed before touching them.
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            SqliteConnection.ClearAllPools();
+
             string bak = DbPath + ".bak";
             try
             {
@@ -458,16 +588,27 @@ WHERE notes_fts MATCH $q ORDER BY rank";
 
         /// <summary>File.Replace with backoff retries. Antivirus and indexer scans of the
         /// freshly written rekey file cause transient sharing violations on the swap
-        /// (issue #3); waiting a moment and retrying beats failing the password change.</summary>
+        /// (issue #3); waiting a moment and retrying beats failing the password change.
+        /// If Replace never succeeds, falls back to a plain move-based swap - Replace
+        /// needs simultaneous exclusive access to all three paths, while the moves need
+        /// one file at a time and restore the original if the second move fails.</summary>
         private static void ReplaceWithRetry(string source, string dest, string backup)
         {
-            for (int attempt = 1; ; attempt++)
+            for (int attempt = 1; attempt <= 8; attempt++)
             {
                 try { File.Replace(source, dest, backup); return; }
-                catch (IOException) when (attempt < 5)
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
                 {
-                    System.Threading.Thread.Sleep(200 * attempt);   // 200/400/600/800ms
+                    System.Threading.Thread.Sleep(150 * attempt);   // ~150ms .. 1.2s
                 }
+            }
+            if (File.Exists(backup)) File.Delete(backup);   // stale .bak from a past failure
+            File.Move(dest, backup);
+            try { File.Move(source, dest); }
+            catch
+            {
+                File.Move(backup, dest);   // put the original back; caller reports the error
+                throw;
             }
         }
 
@@ -570,9 +711,10 @@ WHERE notes_fts MATCH $q ORDER BY rank";
                 while (r.Read())
                 {
                     using var ins = _db!.CreateCommand();
+                    // sort_order appends (see Create) so imports keep a custom arrangement intact.
                     ins.CommandText =
-                        "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck) " +
-                        "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc)";
+                        "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck, sort_order) " +
+                        "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes))";
                     ins.Parameters.AddWithValue("$t", r.GetString(0));
                     ins.Parameters.AddWithValue("$n", r.GetString(1));
                     ins.Parameters.AddWithValue("$g", r.GetString(2));
