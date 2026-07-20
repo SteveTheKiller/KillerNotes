@@ -45,8 +45,6 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 - Sharing: .knote (one note, optionally password protected) via right-click > Share note;
   .kndb (whole database, encryption included) via Manage databases > Export. Both are
   double-clickable on any machine with KillerNotes (HKCU associations register on launch).
-- Family shell: custom chrome, theme + accent flyout, About overlay with update check,
-  window placement persistence, 24px footer standard with resize grip.
 
 ## Dependencies
 
