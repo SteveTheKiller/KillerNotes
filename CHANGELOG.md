@@ -4,6 +4,26 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-07-19
+
+### Added
+- Color-coded tags (Outlook-style): tag any note with one or more colored labels via right-click > Tags. Tags show as colored pills on the sidebar cards, and clicking a pill filters the list to that tag. Tag definitions (name + color) live per database, so they travel inside shared .kndb/.knote files; a new database starts with a basic six-color set. Manage tags (right-click > Tags > Manage tags...) adds, renames, recolors (via the full color picker), and deletes tags, with deletes and renames rippling through every note. Tag search is instant (the existing full-text index).
+- Font size controls (#1): a size dropdown on the format bar shows the selection's size - hover it and scroll to change size (no clicking), or click it for the full list (10-48). Ctrl+Shift+> and Ctrl+Shift+< also grow/shrink the selection from the keyboard, and Ctrl+mouse-wheel zooms the whole editor view (50-300%, remembered across launches, Ctrl+0 resets).
+- Full color picker (#1): "More..." in the text color flyout opens the family KillerPDF-style picker - saturation/value square, hue strip, RGB and hex fields, a desktop-wide eyedropper, and 9 customizable saved swatches - for both text color and highlight.
+- Per-note title colors (#1): right-click a note > "Title color..." colors that note's title in the sidebar and the editor, "Reset title color" returns it to the theme. Colors travel inside shared .knote/.kndb files.
+- Per-note spell check: the abc button on the format bar toggles spell checking for the open note (off by default, remembered per note, lights in the accent while on). Uses the Windows spell checking engine, so it follows your installed Windows languages.
+- The notes database gains two columns for these (title_color, spellcheck), added automatically on first open; 1.0.0 databases and shared files keep working unchanged, and old .knote/.kndb files still import.
+
+### Changed
+- Sidebar toggle moved from F9 to F5, so the two pane toggles sit together (F5 sidebar, F6 format bar). Tooltips, the F1 overlay, and the keyboard map follow.
+- The minimized format bar strip is slimmer so it never overlaps long note titles, restores with a single click (F6 and drag-to-move unchanged), and no longer steals clicks to the title bar or jumps to the left edge on a plain click.
+- Right-clicking the markdown/HTML preview no longer pops the IE engine's native context menu - the one piece of the app that could not be themed - it is suppressed instead (Ctrl+A / Ctrl+C still work).
+- The app no longer creates an empty "Untitled" note at startup when the database already has notes (#2). Launch reopens the note that was open last time (remembered per database, falling back to the most recently modified), and deleting the open note lands in the most recently edited remaining note instead of spawning a replacement. A fresh empty Untitled is only created when the database has no notes at all, so the undeletable phantom "Untitled" row is gone.
+
+### Fixed
+- Password protection could fail with "The process cannot access the file because it is being used by another process" and, worse, leave the app running without an open database, so the next autosave crashed and the session's edits were lost (#3). The rekeyed file swap now retries through transient locks (antivirus and indexer scans of the freshly written file), and if the swap still fails the original database is reopened with the old password and the error is reported in the status bar - notes keep saving.
+- Only one KillerNotes instance now runs per desktop session. Two instances sharing the same notes.db was the deterministic way to hit the password-change failure above. A second launch hands its command line (a double-clicked .knote/.kndb) to the running window over a named pipe and exits, so share files still import as before; the running window is brought to the front. --demo launches are exempt, since they only ever touch the scratch demo database.
+
 ## [1.0.0] - 2026-07-18
 
 ### Added

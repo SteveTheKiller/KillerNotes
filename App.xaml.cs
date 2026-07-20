@@ -1,8 +1,10 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using Microsoft.Win32;
 
@@ -58,6 +60,26 @@ namespace KillerNotes
                 if (ext == ".kndb" || ext == ".knote") PendingOpenFile = e.Args[0];
             }
 
+            // Single instance (per desktop session). Two instances sharing the same
+            // notes.db is how the password-change file swap fails with "in use by
+            // another process" (#3) - SQLite happily lets both open the file, so the
+            // user never notices the double launch. A second launch forwards its
+            // command line (a double-clicked .knote/.kndb, or nothing) to the running
+            // window through a named pipe and exits; the running window activates and
+            // imports the file exactly as a first-launch double-click would.
+            // --demo is exempt: it only ever touches the scratch demo database.
+            if (!KillerNotes.MainWindow.DemoMode)
+            {
+                _instanceMutex = new Mutex(true, @"Local\KillerNotes-SingleInstance", out bool firstInstance);
+                if (!firstInstance)
+                {
+                    ForwardToRunningInstance(PendingOpenFile);
+                    Shutdown(0);
+                    return;
+                }
+                StartPipeServer();
+            }
+
             RegisterFileAssociations();   // best-effort, HKCU only, idempotent
 
             // GPU rendering, like KillerPDF (no SoftwareOnly here): the format bar and pane
@@ -74,6 +96,75 @@ namespace KillerNotes
 
             ShutdownMode = ShutdownMode.OnLastWindowClose;
             new MainWindow().Show();
+        }
+
+        // ============================================================
+        // Single instance (see OnStartup): "Local\" mutex + named pipe, both scoped
+        // to the desktop session, so RDS/multi-user boxes still get one per user.
+        // ============================================================
+
+        // Held for the process lifetime; the OS releases it on exit or crash.
+        private static Mutex? _instanceMutex;
+
+        private static string PipeName =>
+            $"KillerNotes-{Process.GetCurrentProcess().SessionId}";
+
+        /// <summary>Second launch: hands the double-clicked file path (or an empty line,
+        /// meaning "just come to the front") to the running instance, then this process
+        /// exits. Best-effort: if the pipe is unreachable the launch simply ends.</summary>
+        private static void ForwardToRunningInstance(string? path)
+        {
+            try
+            {
+                using var pipe = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
+                pipe.Connect(2000);
+                using var w = new StreamWriter(pipe) { AutoFlush = true };
+                w.WriteLine(path ?? "");
+            }
+            catch { /* running instance not listening (mid-shutdown) - nothing to do */ }
+        }
+
+        /// <summary>First instance: listens for forwarded launches for the process
+        /// lifetime on a background thread; each message is dispatched to the UI thread.</summary>
+        private void StartPipeServer()
+        {
+            var thread = new Thread(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        using var server = new NamedPipeServerStream(
+                            PipeName, PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.None);
+                        server.WaitForConnection();
+                        using var r = new StreamReader(server);
+                        string? path = r.ReadLine();
+                        Dispatcher.BeginInvoke(new Action(() => OnForwardedLaunch(path)));
+                    }
+                    catch (IOException) { /* client vanished mid-handshake - keep listening */ }
+                    catch (ObjectDisposedException) { return; }
+                }
+            })
+            { IsBackground = true, Name = "KillerNotes single-instance pipe" };
+            thread.Start();
+        }
+
+        /// <summary>UI thread: brings the window to the front and routes a forwarded
+        /// .knote/.kndb through the same import path as a first-launch double-click.</summary>
+        private void OnForwardedLaunch(string? path)
+        {
+            if (MainWindow is not KillerNotes.MainWindow win) return;
+
+            if (win.WindowState == WindowState.Minimized) win.WindowState = WindowState.Normal;
+            win.Activate();
+            win.Topmost = true; win.Topmost = false;   // foreground nudge past focus rules
+
+            if (string.IsNullOrEmpty(path) || !File.Exists(path)) return;
+            string ext = Path.GetExtension(path).ToLowerInvariant();
+            if (ext != ".kndb" && ext != ".knote") return;
+
+            PendingOpenFile = path;
+            win.HandlePendingOpenFile();
         }
 
         // ============================================================

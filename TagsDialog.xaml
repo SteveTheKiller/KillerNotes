@@ -1,0 +1,145 @@
+<!-- Manage tags: add, rename, recolor (via the family color picker), and delete the
+     per-database tag definitions. Same dialog chrome as DatabasesDialog. Deleting a tag
+     removes it from every note; renaming rewrites it in every note (NoteStore). -->
+<Window x:Class="KillerNotes.TagsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="KillerNotes"
+        Width="400" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        ShowInTaskbar="False">
+
+    <Border x:Name="RootBorder" Opacity="0"
+            Background="{StaticResource SurfaceBrush}"
+            BorderBrush="{StaticResource CardBorderBrush}"
+            BorderThickness="1"
+            CornerRadius="6"
+            Margin="10">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.6"/>
+        </Border.Effect>
+        <Grid>
+            <Border IsHitTestVisible="False" CornerRadius="6"
+                    Opacity="{DynamicResource GrainOpacity}"
+                    Background="{DynamicResource GrainTileBrush}"/>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="36"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Title bar (transparent, wordmark, drag, close) -->
+                <Border Grid.Row="0" Background="Transparent"
+                        MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid Margin="14,0">
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Margin="1,2,0,0"
+                                        Opacity="{DynamicResource IconShadowOpacity}">
+                                <StackPanel.Effect><BlurEffect Radius="3"/></StackPanel.Effect>
+                                <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="#D8000000"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="#D8000000"/></TextBlock>
+                            </StackPanel>
+                            <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"/></TextBlock>
+                        </Grid>
+                        <Button Content="&#x2715;" Click="Close_Click"
+                                HorizontalAlignment="Right"
+                                Width="28" FontSize="10"
+                                Background="Transparent" BorderThickness="0"
+                                Cursor="Hand">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="Transparent">
+                                                    <ContentPresenter x:Name="cp" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Foreground" Value="#E04444"/>
+                                                        <Setter TargetName="cp" Property="Effect">
+                                                            <Setter.Value>
+                                                                <DropShadowEffect Color="#000000" BlurRadius="4" ShadowDepth="1" Direction="270" Opacity="0.5"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Body -->
+                <StackPanel Grid.Row="1" Margin="24,16,24,12">
+                    <TextBlock Text="{DynamicResource Str_Tags_Title}" Foreground="{StaticResource TextBrush}"
+                               FontFamily="Consolas" FontSize="14" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <Border Background="{DynamicResource PaneBrush}"
+                            BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="4">
+                        <ListBox x:Name="TagList" Height="200" Background="Transparent" BorderThickness="0"
+                                 HorizontalContentAlignment="Stretch" Margin="4">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="6,4"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border x:Name="bg" Background="Transparent" CornerRadius="4"
+                                                        Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="bg" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="bg" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <!-- Rows are built in code (TagsDialog.xaml.cs Refresh) so the
+                                 swatch, name, and per-row buttons can carry the tag name. -->
+                        </ListBox>
+                    </Border>
+
+                    <!-- Add row: name box + color swatch button + Add -->
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBox x:Name="NewNameBox" Width="180" Height="26" VerticalContentAlignment="Center"
+                                 Background="{DynamicResource PaneBrush}" Foreground="{DynamicResource TextBrush}"
+                                 BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1"
+                                 CaretBrush="{DynamicResource TextBrush}" Padding="6,0"
+                                 KeyDown="NewNameBox_KeyDown"/>
+                        <Border x:Name="NewColorSwatch" Width="26" Height="26" CornerRadius="3" Margin="8,0,0,0"
+                                Cursor="Hand" BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1"
+                                MouseLeftButtonUp="NewColorSwatch_Click" ToolTip="{DynamicResource Str_TT_TagPickColor}"/>
+                        <Button x:Name="AddBtn" Content="{DynamicResource Str_Btn_TagAdd}" Click="Add_Click"
+                                Style="{StaticResource SurfaceButton}" Margin="8,0,0,0" Padding="12,0" Height="26"/>
+                    </StackPanel>
+                    <TextBlock x:Name="DlgStatus" Foreground="{DynamicResource DimTextBrush}"
+                               FontSize="10.5" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!-- Buttons -->
+                <Grid Grid.Row="2" Margin="24,0,24,18">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="DoneBtn" Content="{DynamicResource Str_Btn_Done}" Click="Close_Click"
+                                Style="{StaticResource OutlineButton}" Width="80"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

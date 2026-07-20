@@ -15,8 +15,10 @@ namespace KillerNotes
     // dialog > "Export as .kndb...".
     public partial class MainWindow
     {
-        /// <summary>Routes a double-clicked .kndb/.knote after the database has opened.</summary>
-        private void HandlePendingOpenFile()
+        /// <summary>Routes a double-clicked .kndb/.knote after the database has opened.
+        /// Internal: also called by App for paths forwarded from a blocked second launch
+        /// (single-instance pipe).</summary>
+        internal void HandlePendingOpenFile()
         {
             string? path = App.PendingOpenFile;
             App.PendingOpenFile = null;
@@ -198,9 +200,9 @@ namespace KillerNotes
                 // Only announce when a target actually accepted the drop; a canceled drag
                 // (Esc, or released back inside the app) returns None.
                 if (result == DragDropEffects.Copy)
-                    StatusText.Text = string.Format(Loc("Str_St_DragReady"), SafeFileName(note.Title));
+                    FlashStatus(string.Format(Loc("Str_St_DragReady"), SafeFileName(note.Title)));
             }
-            catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_DragFailed"), ex.Message); }
+            catch (Exception ex) { FlashStatus(string.Format(Loc("Str_St_DragFailed"), ex.Message)); }
         }
     }
 }

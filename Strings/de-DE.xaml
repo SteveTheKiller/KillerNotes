@@ -10,8 +10,8 @@
     <sys:String x:Key="Str_TT_About">Über KillerNotes</sys:String>
 
     <!-- Sidebar + rail -->
-    <sys:String x:Key="Str_TT_CollapseSidebar">Seitenleiste einklappen (F9)</sys:String>
-    <sys:String x:Key="Str_TT_ExpandSidebar">Seitenleiste ausklappen (F9)</sys:String>
+    <sys:String x:Key="Str_TT_CollapseSidebar">Seitenleiste einklappen (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Seitenleiste ausklappen (F5)</sys:String>
     <sys:String x:Key="Str_TT_Shortcuts">Tastenkürzel (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Design</sys:String>
     <sys:String x:Key="Str_TT_Language">Sprache</sys:String>

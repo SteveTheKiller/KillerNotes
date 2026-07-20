@@ -63,13 +63,14 @@ namespace KillerNotes
             CheckForUpdateAsync(Assembly.GetExecutingAssembly().GetName().Version);
         }
 
-        private static void FadeOverlayIn(UIElement o)
+        private void FadeOverlayIn(UIElement o)
         {
+            SetPreviewOverlayHidden(true);   // Preview.cs (airspace: the browser draws over overlays)
             o.Visibility = Visibility.Visible;
             Anim.FadeIn(o);
         }
 
-        private static void FadeOverlayOut(UIElement o)
+        private void FadeOverlayOut(UIElement o)
         {
             var a = new DoubleAnimation(o.Opacity, 0, new Duration(TimeSpan.FromMilliseconds(Anim.FadeMs)))
             {
@@ -77,6 +78,10 @@ namespace KillerNotes
             };
             a.Completed += (_, _) => o.Visibility = Visibility.Collapsed;
             o.BeginAnimation(UIElement.OpacityProperty, a);
+            // Bring the preview back only once no overlay is left up (F12 from the F1
+            // view swaps overlays; the incoming fade re-hides it immediately).
+            bool otherUp = (o == AboutOverlay ? ShortcutOverlay : AboutOverlay).Visibility == Visibility.Visible;
+            if (!otherUp) SetPreviewOverlayHidden(false);
         }
 
         // Click the dim backdrop to dismiss; a click on the card itself is swallowed.

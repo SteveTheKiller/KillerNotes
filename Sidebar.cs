@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace KillerNotes
 {
-    // Sidebar collapse (chevron button / F9), KillerPDF-style: collapsing shrinks the
+    // Sidebar collapse (chevron button / F5), KillerPDF-style: collapsing shrinks the
     // column to a slim strip with just the expand chevron; the chosen width comes back
     // on expand. State persists across runs.
     public partial class MainWindow
@@ -54,17 +54,10 @@ namespace KillerNotes
             SidebarToggleBtn.ToolTip = Loc(_sidebarCollapsed ? "Str_TT_ExpandSidebar" : "Str_TT_CollapseSidebar");
         }
 
-        // Both theme buttons (sidebar bottom + collapsed strip) share one flyout:
-        // retarget the popup to whichever was clicked, then toggle it.
-        private void SidebarThemeBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (FindName("ThemePopup") is System.Windows.Controls.Primitives.Popup p)
-            {
-                p.PlacementTarget = sender as UIElement;
-                p.IsOpen = !p.IsOpen;
-                if (p.IsOpen && p.Child is UIElement child) Anim.FadeIn(child);
-            }
-        }
+        // Every theme-button entry point opens the same flyout at the same fixed spot
+        // (OpenThemeMenu, ThemeFlyout.cs - a ContextMenu sharing the locale menu's
+        // placement settings and themed chrome).
+        private void SidebarThemeBtn_Click(object sender, RoutedEventArgs e) => OpenThemeMenu();
 
         /// <summary>Expands first if collapsed, then focuses the search box (F3 / Ctrl+F).</summary>
         private void FocusSearch()

@@ -28,9 +28,23 @@ namespace KillerNotes
             {
                 _previewBrowser = new WebBrowser();
                 _previewBrowser.Navigating += PreviewBrowser_Navigating;
+                // Born hidden if an overlay is up (airspace, see SetPreviewOverlayHidden).
+                if (ShortcutOverlay.Visibility == Visibility.Visible ||
+                    AboutOverlay.Visibility == Visibility.Visible)
+                    _previewBrowser.Visibility = Visibility.Hidden;
                 PreviewPane.Child = _previewBrowser;
             }
             return _previewBrowser;
+        }
+
+        /// <summary>The preview WebBrowser is a hosted NATIVE window, so it draws over
+        /// every WPF element in its rectangle - including the F1/About overlays (WPF
+        /// airspace). The overlay fade helpers (About.cs) hide the browser for the
+        /// duration; Hidden (not Collapsed) keeps the split layout from shifting.</summary>
+        private void SetPreviewOverlayHidden(bool hidden)
+        {
+            if (_previewBrowser == null) return;
+            _previewBrowser.Visibility = hidden ? Visibility.Hidden : Visibility.Visible;
         }
 
         // DisableHtml: raw HTML embedded inside markdown is ignored rather than rendered,
@@ -139,7 +153,13 @@ namespace KillerNotes
                 $"table{{border-collapse:collapse}}th,td{{border:1px solid {border};padding:3px 8px}}" +
                 $"blockquote{{border-left:3px solid {accent};margin-left:0;padding-left:10px}}" +
                 "img{max-width:100%}" +
-                "</style></head><body>" + body + "</body></html>";
+                // Context menu off at DOCUMENT level: right-click otherwise pops the IE
+                // engine's native menu (Back/Print/View source), which cannot be themed -
+                // suppressing it is the only clean option. Document level matters: a body
+                // attribute misses clicks in the empty space past the content, where the
+                // event targets the root element. Ctrl+A / Ctrl+C still work.
+                "</style></head><body>" + body +
+                "<script>document.oncontextmenu=function(){return false};</script></body></html>";
         }
 
         private string BrushHex(string key, string fallback) =>

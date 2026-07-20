@@ -23,8 +23,9 @@ namespace KillerNotes
         private double? _fmtCenterFrac;          // parked mid-pane: fraction of the free width
         private bool _fmtShownOnce;              // pop-in runs once per launch
         private (double StartX, double OrigLeft)? _fmtDrag;
+        private DateTime _fmtPeekRestoredAt = DateTime.MinValue;   // swallows the double-click tail
 
-        private const double FmtPeekHeight = 13;
+        private const double FmtPeekHeight = 9;
         private const double FmtEdgeGapDefault = 8;
         private const double FmtEdgeThreshold = 40;   // release this close to an edge = anchor to it
 
@@ -39,6 +40,7 @@ namespace KillerNotes
 
             EnableFmtBarSlide(FmtGrip);
             EnableFmtBarSlide(FmtPeek);
+            EnableFmtBarSlide(FmtPeekHalo);   // the grab pixels above the strip act as the strip
             // The bar floats inside the editor pane, so reposition on pane resize
             // (covers both window resizes and sidebar-splitter drags).
             if (FormatBar.Parent is FrameworkElement hostEl)
@@ -76,13 +78,23 @@ namespace KillerNotes
 
         private void EnableFmtBarSlide(FrameworkElement grip)
         {
+            bool dragging = false;   // true only after real movement (per-grip closure state)
             grip.MouseLeftButtonDown += (s, e) =>
             {
-                if (e.ClickCount == 2) { ToggleFormatBar(); e.Handled = true; return; }
+                if (e.ClickCount == 2)
+                {
+                    // Swallow the tail of a double-click on the peek: the first click
+                    // already restored the bar, so this second press must not minimize
+                    // it right back.
+                    if ((DateTime.Now - _fmtPeekRestoredAt).TotalMilliseconds > 500)
+                        ToggleFormatBar();
+                    e.Handled = true; return;
+                }
                 if (FormatBar.Parent is not FrameworkElement host) return;
                 double left = FormatBar.HorizontalAlignment == HorizontalAlignment.Right
                     ? host.ActualWidth - FormatBar.ActualWidth - FormatBar.Margin.Right
                     : FormatBar.Margin.Left;
+                dragging = false;
                 _fmtDrag = (e.GetPosition(host).X, left);
                 grip.CaptureMouse();
                 e.Handled = true;
@@ -92,8 +104,14 @@ namespace KillerNotes
                 if (_fmtDrag == null || !grip.IsMouseCaptured) return;
                 if (FormatBar.Parent is not FrameworkElement host) return;
                 var (startX, origLeft) = _fmtDrag.Value;
+                double dx = e.GetPosition(host).X - startX;
+                // A plain click must never reposition the bar (a pixel of press wiggle used
+                // to re-anchor a right-docked bar to the LEFT edge): moving starts only
+                // past the drag threshold.
+                if (!dragging && Math.Abs(dx) < SystemParameters.MinimumHorizontalDragDistance) return;
+                dragging = true;
                 double free = Math.Max(0, host.ActualWidth - FormatBar.ActualWidth);
-                double left = Math.Max(0, Math.Min(free, origLeft + e.GetPosition(host).X - startX));
+                double left = Math.Max(0, Math.Min(free, origLeft + dx));
                 FormatBar.HorizontalAlignment = HorizontalAlignment.Left;
                 FormatBar.Margin = new Thickness(left, FormatBar.Margin.Top, 0, 0);
             };
@@ -102,6 +120,20 @@ namespace KillerNotes
                 if (_fmtDrag == null) return;
                 _fmtDrag = null;
                 grip.ReleaseMouseCapture();
+                e.Handled = true;
+                if (!dragging)
+                {
+                    // Plain click, no drag: on the slim peek strip (or its halo) that
+                    // restores the bar (a 9px double-click target is too fiddly); on the
+                    // expanded grip it does nothing. F6 and the chevron still toggle.
+                    if ((grip == FmtPeek || grip == FmtPeekHalo) && _fmtMinimized)
+                    {
+                        ToggleFormatBar();
+                        _fmtPeekRestoredAt = DateTime.Now;
+                    }
+                    return;
+                }
+                dragging = false;
                 if (FormatBar.Parent is not FrameworkElement host) return;
                 double free = Math.Max(0, host.ActualWidth - FormatBar.ActualWidth);
                 double left = Math.Max(0, Math.Min(free, FormatBar.Margin.Left));
@@ -113,7 +145,6 @@ namespace KillerNotes
                 { _fmtCenterFrac = free > 0 ? left / free : 0.5; }
                 SaveFmtBarPlacement();
                 PositionFormatBar();
-                e.Handled = true;
             };
         }
 
@@ -161,8 +192,10 @@ namespace KillerNotes
 
         private void ToggleFormatBar(bool animate = true)
         {
+            // Minimized, the whole strip must fit inside the title's 10px top margin so it
+            // never overlaps the title text: 9px peek + 1px bottom border, vertical padding
+            // dropped for the duration.
             double minH = FmtPeekHeight
-                + FormatBar.Padding.Top + FormatBar.Padding.Bottom
                 + FormatBar.BorderThickness.Top + FormatBar.BorderThickness.Bottom;
             _fmtMinimized = !_fmtMinimized;
 
@@ -172,21 +205,34 @@ namespace KillerNotes
                 if (FormatBar.ActualWidth > 0) FormatBar.Width = FormatBar.ActualWidth;  // keep footprint
                 FormatBar.ClipToBounds = true;
                 FormatBar.Effect = null;                       // shadow off while minimized
+                FormatBar.Padding = new Thickness(4, 0, 4, 0);
                 FmtButtons.Visibility = Visibility.Collapsed;
                 FmtPeek.Visibility = Visibility.Visible;
+                // Once settled, the clip comes OFF so the negative-margin halo above the
+                // strip is hit-testable (it sits outside the bar's bounds).
+                void Settle()
+                {
+                    if (!_fmtMinimized) return;   // user re-expanded mid-animation
+                    FormatBar.ClipToBounds = false;
+                    FmtPeekHalo.Visibility = Visibility.Visible;
+                }
                 if (animate && _fmtFullHeight > 0)
                 {
                     var a = new DoubleAnimation(_fmtFullHeight, minH, TimeSpan.FromMilliseconds(120))
                     { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn } };
+                    a.Completed += (_, _) => Settle();
                     FormatBar.BeginAnimation(HeightProperty, a);
                 }
-                else FormatBar.Height = minH;
+                else { FormatBar.Height = minH; Settle(); }
             }
             else
             {
+                FmtPeekHalo.Visibility = Visibility.Collapsed;
+                FormatBar.ClipToBounds = true;   // clip the buttons while the expand animates
                 FmtPeek.Visibility = Visibility.Collapsed;
                 FmtButtons.Visibility = Visibility.Visible;
                 FormatBar.Effect = TryFindResource("ShadowBar") as Effect;
+                FormatBar.Padding = new Thickness(4, 2, 4, 2);   // restore before the expand animates
                 void Restore()
                 {
                     FormatBar.BeginAnimation(HeightProperty, null);

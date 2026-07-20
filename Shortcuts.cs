@@ -20,9 +20,10 @@ namespace KillerNotes
             ("F2",            "Str_KS_Rename"),
             ("F3 / Ctrl+F",   "Str_KS_Search"),
             ("F4",            "Str_KS_Preview"),
+            ("F5",            "Str_KS_Sidebar"),
             ("F6",            "Str_KS_FormatBar"),
+            ("F7",            "Str_KS_ManageTags"),
             ("F8",            "Str_KS_Export"),
-            ("F9",            "Str_KS_Sidebar"),
             ("F12",           "Str_KS_About"),
             ("Ctrl+N",        "Str_KS_NewNote"),
             ("Ctrl+O",        "Str_KS_OpenFiles"),
@@ -33,6 +34,9 @@ namespace KillerNotes
             ("Ctrl+Shift+H",  "Str_KS_Highlight"),
             ("Ctrl+Shift+R",  "Str_KS_Rule"),
             ("Ctrl+Shift+L / N", "Str_KS_Lists"),
+            ("Ctrl+1 - 9",     "Str_KS_Tags"),
+            ("Ctrl+Shift+> / <", "Str_KS_FontSize"),
+            ("Ctrl+Wheel / Ctrl+0", "Str_KS_Zoom"),
             ("Ctrl+V",        "Str_KS_Paste"),
             ("Delete",        "Str_KS_Delete"),
             ("Esc",           "Str_KS_Esc"),
@@ -86,6 +90,10 @@ namespace KillerNotes
                                 System.Windows.Media.Color.FromRgb(0x7A, 0x6A, 0x00)));
                         e.Handled = true; return;
                     case Key.R: InsertRule_Click(this, new RoutedEventArgs()); e.Handled = true; return;
+                    // Explicit rather than relying on the RichTextBox built-ins, so the
+                    // combo works with focus anywhere (title box, sidebar), like the rest.
+                    case Key.OemPeriod: System.Windows.Documents.EditingCommands.IncreaseFontSize.Execute(null, Editor); e.Handled = true; return;
+                    case Key.OemComma:  System.Windows.Documents.EditingCommands.DecreaseFontSize.Execute(null, Editor); e.Handled = true; return;
                 }
             }
 
@@ -114,13 +122,17 @@ namespace KillerNotes
                     ToggleFormatBar();                   // FormatBar.cs
                     e.Handled = true;
                     break;
+                case Key.F7:
+                    if (NoteStore.IsOpen) OpenTagsDialog();   // Tags.cs (needs a db, not a note)
+                    e.Handled = true;
+                    break;
                 case Key.F8:
                     ExportOpenNote();                    // ImportExport.cs
                     e.Handled = true;
                     break;
-                case Key.F9:
-                    ToggleSidebar();                     // Sidebar.cs
-                    e.Handled = true;
+                case Key.F5:
+                    ToggleSidebar();                     // Sidebar.cs (moved from F9: F5/F6
+                    e.Handled = true;                    // sit together as the two pane toggles)
                     break;
                 case Key.F12:
                     if (AboutOverlay.Visibility == Visibility.Visible) FadeOverlayOut(AboutOverlay);
@@ -133,6 +145,20 @@ namespace KillerNotes
                     break;
                 case Key.O when ctrl:
                     OpenFilesDialog();                   // ImportExport.cs
+                    e.Handled = true;
+                    break;
+                case Key.D0 when ctrl:
+                case Key.NumPad0 when ctrl:
+                    SetEditorZoom(1.0);                  // Editor.cs
+                    e.Handled = true;
+                    break;
+                // Ctrl+1..9: toggle the Nth defined tag on the open note (Tags.cs).
+                case >= Key.D1 and <= Key.D9 when ctrl && !shift:
+                    ToggleTagByIndex(e.Key - Key.D1);
+                    e.Handled = true;
+                    break;
+                case >= Key.NumPad1 and <= Key.NumPad9 when ctrl && !shift:
+                    ToggleTagByIndex(e.Key - Key.NumPad1);
                     e.Handled = true;
                     break;
                 case Key.Delete when NotesList.IsKeyboardFocusWithin && NotesList.SelectedItems.Count > 0:
@@ -155,8 +181,7 @@ namespace KillerNotes
             if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return; }
             if (AboutOverlay.Visibility == Visibility.Visible) FadeOverlayOut(AboutOverlay);
             ApplyPersistedShortcutView();   // KeyboardMap.cs (LIST or KEYBOARD, remembered)
-            ShortcutOverlay.Visibility = Visibility.Visible;
-            Anim.FadeIn(ShortcutOverlay);
+            FadeOverlayIn(ShortcutOverlay); // About.cs (also hides the preview browser - airspace)
         }
 
         private void HideShortcutsOverlay() => FadeOverlayOut(ShortcutOverlay);

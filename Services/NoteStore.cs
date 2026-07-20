@@ -108,7 +108,9 @@ CREATE TABLE IF NOT EXISTS notes(
     created  TEXT NOT NULL,
     modified TEXT NOT NULL,
     content  BLOB,
-    plain    TEXT NOT NULL DEFAULT ''
+    plain    TEXT NOT NULL DEFAULT '',
+    title_color TEXT NOT NULL DEFAULT '',
+    spellcheck  INTEGER NOT NULL DEFAULT 0
 );
 CREATE VIRTUAL TABLE IF NOT EXISTS notes_fts
     USING fts5(title, plain, tags, content='notes', content_rowid='id');
@@ -125,9 +127,59 @@ CREATE TRIGGER IF NOT EXISTS notes_au AFTER UPDATE ON notes BEGIN
         VALUES ('delete', old.id, old.title, old.plain, old.tags);
     INSERT INTO notes_fts(rowid, title, plain, tags)
         VALUES (new.id, new.title, new.plain, new.tags);
-END;";
+END;
+CREATE TABLE IF NOT EXISTS tags(
+    name  TEXT PRIMARY KEY COLLATE NOCASE,
+    color TEXT NOT NULL
+);";
 
-        private static void EnsureSchema() => Exec(SchemaSql);
+        private static void EnsureSchema()
+        {
+            bool hadTags = TableExists("tags");
+            Exec(SchemaSql);
+            EnsureColumns();
+            // Seed ONLY when the tags table was just created: user customizations and
+            // deletions must never resurrect (Steve, tags design).
+            if (!hadTags) SeedDefaultTags();
+        }
+
+        private static bool TableExists(string name)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = $n";
+            cmd.Parameters.AddWithValue("$n", name);
+            return (long)cmd.ExecuteScalar()! > 0;
+        }
+
+        // Outlook-style starter set in the family palette (same hexes as the accent row).
+        private static readonly (string Name, string Color)[] DefaultTags =
+        [
+            ("Red", "#DD504B"), ("Orange", "#E8962C"), ("Yellow", "#E8D44B"),
+            ("Green", "#1EA54C"), ("Blue", "#50AEE8"), ("Purple", "#B982E3"),
+        ];
+
+        private static void SeedDefaultTags()
+        {
+            foreach (var t in DefaultTags) AddTag(t.Name, t.Color);
+        }
+
+        // 1.0.1 additive columns (per-note title color + spell check). ALTER-on-open is
+        // needed because CREATE TABLE IF NOT EXISTS never touches an existing table;
+        // PRAGMA-checking first keeps this idempotent and cheap.
+        private static void EnsureColumns()
+        {
+            var have = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "PRAGMA table_info(notes)";
+                using var r = cmd.ExecuteReader();
+                while (r.Read()) have.Add(r.GetString(1));
+            }
+            if (!have.Contains("title_color"))
+                Exec("ALTER TABLE notes ADD COLUMN title_color TEXT NOT NULL DEFAULT ''");
+            if (!have.Contains("spellcheck"))
+                Exec("ALTER TABLE notes ADD COLUMN spellcheck INTEGER NOT NULL DEFAULT 0");
+        }
 
         // ---- Notes ----
 
@@ -145,7 +197,7 @@ END;";
             if (!string.IsNullOrWhiteSpace(search))
             {
                 cmd.CommandText = @"
-SELECT n.id, n.title, n.notebook, n.tags, n.created, n.modified, substr(n.plain, 1, 120)
+SELECT n.id, n.title, n.notebook, n.tags, n.created, n.modified, substr(n.plain, 1, 120), n.title_color, n.spellcheck
 FROM notes_fts f JOIN notes n ON n.id = f.rowid
 WHERE notes_fts MATCH $q ORDER BY rank";
                 cmd.Parameters.AddWithValue("$q", FtsQuery(search!));
@@ -159,7 +211,7 @@ WHERE notes_fts MATCH $q ORDER BY rank";
                     "title-desc"   => "title COLLATE NOCASE DESC",
                     _              => "created ASC",
                 };
-                cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120) " +
+                cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck " +
                                   $"FROM notes ORDER BY {order}";
             }
 
@@ -175,6 +227,8 @@ WHERE notes_fts MATCH $q ORDER BY rank";
                     Created  = ParseTs(r.GetString(4)),
                     Modified = ParseTs(r.GetString(5)),
                     Snippet  = FirstLine(r.IsDBNull(6) ? "" : r.GetString(6)),
+                    TitleColor = r.IsDBNull(7) ? "" : r.GetString(7),
+                    SpellCheck = !r.IsDBNull(8) && r.GetInt64(8) != 0,
                 });
             }
             return results;
@@ -231,6 +285,129 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             cmd.ExecuteNonQuery();
         }
 
+        /// <summary>Sets the sidebar/title display color ("#RRGGBB"; "" = theme default).</summary>
+        public static void SetTitleColor(long id, string color)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET title_color = $c WHERE id = $id";
+            cmd.Parameters.AddWithValue("$c", color);
+            cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Persists the per-note spell check toggle.</summary>
+        public static void SetSpellCheck(long id, bool on)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET spellcheck = $s WHERE id = $id";
+            cmd.Parameters.AddWithValue("$s", on ? 1 : 0);
+            cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        // ---- Tags (per-database definitions; assignment is the notes.tags CSV, which
+        //      the FTS triggers already index, so tag search/filter costs nothing) ----
+
+        public static List<(string Name, string Color)> ListTags()
+        {
+            var list = new List<(string, string)>();
+            if (_db == null) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT name, color FROM tags ORDER BY rowid";
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) list.Add((r.GetString(0), r.GetString(1)));
+            return list;
+        }
+
+        /// <summary>Adds a tag definition; an existing name (case-insensitive) wins.</summary>
+        public static void AddTag(string name, string color)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "INSERT OR IGNORE INTO tags(name, color) VALUES ($n, $c)";
+            cmd.Parameters.AddWithValue("$n", name);
+            cmd.Parameters.AddWithValue("$c", color);
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void SetTagColor(string name, string color)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "UPDATE tags SET color = $c WHERE name = $n";
+            cmd.Parameters.AddWithValue("$c", color);
+            cmd.Parameters.AddWithValue("$n", name);
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Renames a tag definition and rewrites it inside every note's CSV.</summary>
+        public static void RenameTag(string oldName, string newName)
+        {
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "UPDATE tags SET name = $new WHERE name = $old";
+                cmd.Parameters.AddWithValue("$new", newName);
+                cmd.Parameters.AddWithValue("$old", oldName);
+                cmd.ExecuteNonQuery();
+            }
+            RewriteTagInNotes(oldName, newName);
+        }
+
+        /// <summary>Deletes a tag definition and removes it from every note's CSV.</summary>
+        public static void DeleteTag(string name)
+        {
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "DELETE FROM tags WHERE name = $n";
+                cmd.Parameters.AddWithValue("$n", name);
+                cmd.ExecuteNonQuery();
+            }
+            RewriteTagInNotes(name, null);
+        }
+
+        public static void SetNoteTags(long id, string tags)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET tags = $t WHERE id = $id";
+            cmd.Parameters.AddWithValue("$t", tags);
+            cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Shared CSV parser for notes.tags ("a, b" style; commas are stripped
+        /// from tag names at entry, so a plain split is safe).</summary>
+        public static string[] SplitTags(string tags) =>
+            tags.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(t => t.Trim()).Where(t => t.Length > 0).ToArray();
+
+        // Renames (newName != null) or removes (null) one tag inside every note's CSV.
+        // C#-side rewrite on purpose: CSV surgery in SQL is fragile, and note counts
+        // are small. The FTS triggers keep the index in sync on each UPDATE.
+        private static void RewriteTagInNotes(string name, string? newName)
+        {
+            var rows = new List<(long Id, string Tags)>();
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "SELECT id, tags FROM notes WHERE tags <> ''";
+                using var r = cmd.ExecuteReader();
+                while (r.Read()) rows.Add((r.GetInt64(0), r.GetString(1)));
+            }
+            foreach (var row in rows)
+            {
+                bool hit = false;
+                var outParts = new List<string>();
+                foreach (var p in SplitTags(row.Tags))
+                {
+                    if (string.Equals(p, name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        hit = true;
+                        if (newName != null && !outParts.Contains(newName, StringComparer.OrdinalIgnoreCase))
+                            outParts.Add(newName);
+                    }
+                    else outParts.Add(p);
+                }
+                if (hit) SetNoteTags(row.Id, string.Join(", ", outParts));
+            }
+        }
+
         // ---- Password (SQLCipher) ----
 
         /// <summary>
@@ -243,6 +420,7 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             if (_db == null) throw new InvalidOperationException("database not open");
             if (string.IsNullOrEmpty(newPassword)) newPassword = null;
 
+            string? oldPassword = _password;   // Close() clears it; kept for rollback
             string tmp = DbPath + ".rekey";
             if (File.Exists(tmp)) File.Delete(tmp);
 
@@ -258,9 +436,39 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             Close();
 
             string bak = DbPath + ".bak";
-            File.Replace(tmp, DbPath, bak);
+            try
+            {
+                ReplaceWithRetry(tmp, DbPath, bak);
+            }
+            catch
+            {
+                // The swap failed even after retries: something else still holds the
+                // file (an AV scan, a second handle). The original db on disk is
+                // untouched, so clean up the rekeyed copy, reopen with the OLD key -
+                // the app must never keep running with no database, or the next
+                // autosave crashes and loses the session's edits - and let the
+                // caller report the error.
+                try { File.Delete(tmp); } catch { /* best effort */ }
+                Open(oldPassword);
+                throw;
+            }
             Open(newPassword);
             File.Delete(bak);   // only once the rewritten db opened cleanly
+        }
+
+        /// <summary>File.Replace with backoff retries. Antivirus and indexer scans of the
+        /// freshly written rekey file cause transient sharing violations on the swap
+        /// (issue #3); waiting a moment and retrying beats failing the password change.</summary>
+        private static void ReplaceWithRetry(string source, string dest, string backup)
+        {
+            for (int attempt = 1; ; attempt++)
+            {
+                try { File.Replace(source, dest, backup); return; }
+                catch (IOException) when (attempt < 5)
+                {
+                    System.Threading.Thread.Sleep(200 * attempt);   // 200/400/600/800ms
+                }
+            }
         }
 
         // ---- Sharing (.knote export / .knote and .kndb import) ----
@@ -285,15 +493,16 @@ WHERE notes_fts MATCH $q ORDER BY rank";
 
                 using var read = _db!.CreateCommand();
                 read.CommandText =
-                    "SELECT title, notebook, tags, created, modified, content, plain FROM notes WHERE id = $id";
+                    "SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck " +
+                    "FROM notes WHERE id = $id";
                 read.Parameters.AddWithValue("$id", id);
                 using var r = read.ExecuteReader();
                 if (!r.Read()) throw new InvalidOperationException("note not found");
 
                 using var ins = dest.CreateCommand();
                 ins.CommandText =
-                    "INSERT INTO notes(title, notebook, tags, created, modified, content, plain) " +
-                    "VALUES ($t, $n, $g, $c, $m, $b, $p)";
+                    "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck) " +
+                    "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc)";
                 ins.Parameters.AddWithValue("$t", r.GetString(0));
                 ins.Parameters.AddWithValue("$n", r.GetString(1));
                 ins.Parameters.AddWithValue("$g", r.GetString(2));
@@ -301,7 +510,26 @@ WHERE notes_fts MATCH $q ORDER BY rank";
                 ins.Parameters.AddWithValue("$m", r.GetString(4));
                 ins.Parameters.AddWithValue("$b", r.GetValue(5));   // blob or DBNull
                 ins.Parameters.AddWithValue("$p", r.GetString(6));
+                ins.Parameters.AddWithValue("$tc", r.IsDBNull(7) ? "" : r.GetString(7));
+                ins.Parameters.AddWithValue("$sc", r.IsDBNull(8) ? 0 : r.GetInt64(8));
                 ins.ExecuteNonQuery();
+
+                // Carry the note's tag definitions (name + color) so its chips keep their
+                // colors on the receiving machine; the receiver's own defs win on import.
+                foreach (string tag in SplitTags(r.GetString(2)))
+                {
+                    using var tc2 = _db!.CreateCommand();
+                    tc2.CommandText = "SELECT color FROM tags WHERE name = $n";
+                    tc2.Parameters.AddWithValue("$n", tag);
+                    if (tc2.ExecuteScalar() is string col)
+                    {
+                        using var ti = dest.CreateCommand();
+                        ti.CommandText = "INSERT OR IGNORE INTO tags(name, color) VALUES ($n, $c)";
+                        ti.Parameters.AddWithValue("$n", tag);
+                        ti.Parameters.AddWithValue("$c", col);
+                        ti.ExecuteNonQuery();
+                    }
+                }
             }
             finally { SqliteConnection.ClearAllPools(); }   // release the dest file handle
         }
@@ -320,17 +548,31 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             {
                 using var src = new SqliteConnection(csb.ConnectionString);
                 src.Open();
+
+                // Files shared by a 1.0.0 install predate the title_color/spellcheck
+                // columns - probe the source schema and substitute defaults, so old
+                // .knote/.kndb files import forever.
+                var srcCols = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                using (var pi = src.CreateCommand())
+                {
+                    pi.CommandText = "PRAGMA table_info(notes)";
+                    using var pr = pi.ExecuteReader();
+                    while (pr.Read()) srcCols.Add(pr.GetString(1));
+                }
+                bool extras = srcCols.Contains("title_color") && srcCols.Contains("spellcheck");
+
                 using var read = src.CreateCommand();
-                read.CommandText =
-                    "SELECT title, notebook, tags, created, modified, content, plain FROM notes";
+                read.CommandText = extras
+                    ? "SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck FROM notes"
+                    : "SELECT title, notebook, tags, created, modified, content, plain, '', 0 FROM notes";
                 using var r = read.ExecuteReader();
                 int count = 0;
                 while (r.Read())
                 {
                     using var ins = _db!.CreateCommand();
                     ins.CommandText =
-                        "INSERT INTO notes(title, notebook, tags, created, modified, content, plain) " +
-                        "VALUES ($t, $n, $g, $c, $m, $b, $p)";
+                        "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck) " +
+                        "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc)";
                     ins.Parameters.AddWithValue("$t", r.GetString(0));
                     ins.Parameters.AddWithValue("$n", r.GetString(1));
                     ins.Parameters.AddWithValue("$g", r.GetString(2));
@@ -338,8 +580,28 @@ WHERE notes_fts MATCH $q ORDER BY rank";
                     ins.Parameters.AddWithValue("$m", r.GetString(4));
                     ins.Parameters.AddWithValue("$b", r.GetValue(5));
                     ins.Parameters.AddWithValue("$p", r.GetString(6));
+                    ins.Parameters.AddWithValue("$tc", r.IsDBNull(7) ? "" : r.GetString(7));
+                    ins.Parameters.AddWithValue("$sc", r.IsDBNull(8) ? 0 : r.GetInt64(8));
                     ins.ExecuteNonQuery();
                     count++;
+                }
+
+                // Merge tag definitions carried by the shared file (files from before the
+                // tags feature have no tags table). Local names win via INSERT OR IGNORE.
+                using (var tchk = src.CreateCommand())
+                {
+                    tchk.CommandText = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='tags'";
+                    if ((long)tchk.ExecuteScalar()! > 0)
+                    {
+                        var defs = new List<(string N, string C)>();
+                        using (var td = src.CreateCommand())
+                        {
+                            td.CommandText = "SELECT name, color FROM tags";
+                            using var tr = td.ExecuteReader();
+                            while (tr.Read()) defs.Add((tr.GetString(0), tr.GetString(1)));
+                        }
+                        foreach (var d in defs) AddTag(d.N, d.C);
+                    }
                 }
                 return count;
             }

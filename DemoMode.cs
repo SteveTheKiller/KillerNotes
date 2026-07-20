@@ -17,31 +17,48 @@ namespace KillerNotes
     {
         public static bool DemoMode;
 
+        // Demo tags: MSP-flavored named tags (order sets the Ctrl+1..6 slots) that replace
+        // the auto-seeded color-named defaults, so screenshots show real categories.
+        private static readonly (string Name, string Color)[] DemoTags =
+        [
+            ("On-site",           "#50AEE8"),
+            ("Urgent",            "#DD504B"),
+            ("Follow-up",         "#E8962C"),
+            ("Network",           "#B982E3"),
+            ("Reference",         "#1EA54C"),
+            ("Waiting on vendor", "#E8D44B"),
+        ];
+
         private void GenerateDemoNotes()
         {
             if (!NoteStore.IsOpen) return;
             var now = DateTime.Now;
             long showcase = -1;
 
-            void Add(string title, double daysAgo, FlowDocument doc, bool feature = false)
+            void Add(string title, double daysAgo, FlowDocument doc, bool feature = false, string? tags = null)
             {
                 long id = CreateNoteFromDocument(title, doc);   // ImportExport.cs
                 var created = now.AddDays(-daysAgo);
                 var modified = created.AddHours(2 + (daysAgo % 5) * 7);
                 if (modified > now) modified = now.AddMinutes(-14);
                 NoteStore.SetTimestamps(id, created, modified);
+                if (tags != null) NoteStore.SetNoteTags(id, tags);
                 if (feature) showcase = id;
             }
 
-            Add("Northwind Dental - site visit", 38, DemoSiteVisit());
-            Add("Firewall swap - Meadowbrook Vet", 31, DemoFirewallSwap(), feature: true);
-            Add("PowerShell one-liners", 27, DemoPowerShell());
-            Add("Switch port map - Oakfield Law", 20, DemoPortMap());
-            Add("UPS runtimes", 16, DemoUps());
-            Add("New tech onboarding", 12, DemoOnboarding());
-            Add("RMM agent cleanup", 8, DemoRmm());
-            Add("Parts drawer inventory", 5, DemoParts());
-            Add("Scratch", 0.05, DemoScratch());
+            // Swap the color-named defaults for the MSP-flavored set, then tag the notes.
+            foreach (var t in NoteStore.ListTags()) NoteStore.DeleteTag(t.Name);
+            foreach (var t in DemoTags) NoteStore.AddTag(t.Name, t.Color);
+
+            Add("Northwind Dental - site visit", 38, DemoSiteVisit(), tags: "On-site, Reference");
+            Add("Firewall swap - Meadowbrook Vet", 31, DemoFirewallSwap(), feature: true, tags: "On-site, Network");
+            Add("PowerShell one-liners", 27, DemoPowerShell(), tags: "Reference");
+            Add("Switch port map - Oakfield Law", 20, DemoPortMap(), tags: "Network, Reference");
+            Add("UPS runtimes", 16, DemoUps(), tags: "Reference, Follow-up");
+            Add("New tech onboarding", 12, DemoOnboarding(), tags: "Reference");
+            Add("RMM agent cleanup", 8, DemoRmm(), tags: "Follow-up");
+            Add("Parts drawer inventory", 5, DemoParts(), tags: "Reference");
+            Add("Scratch", 0.05, DemoScratch(), tags: "Urgent, Waiting on vendor");
 
             SearchBox.Text = "";
             RefreshList();

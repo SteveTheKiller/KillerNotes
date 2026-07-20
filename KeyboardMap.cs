@@ -41,8 +41,9 @@ namespace KillerNotes
                 ["F3"] = ("Search", "Str_KS_Search"),
                 ["F4"] = ("View", "Str_Kb_Preview"),
                 ["F6"] = ("View", "Str_Kb_FormatBar"),
+                ["F7"] = ("Note", "Str_KS_ManageTags"),
                 ["F8"] = ("File", "Str_Kb_Export"),
-                ["F9"] = ("View", "Str_Kb_Sidebar"),
+                ["F5"] = ("View", "Str_Kb_Sidebar"),
                 ["F12"] = ("Help", "Str_KS_About"),
                 ["Del"] = ("Note", "Str_Kb_DeleteNote"),
                 ["Esc"] = ("Help", "Str_KS_Esc"),
@@ -57,6 +58,7 @@ namespace KillerNotes
                 ["I"] = ("Format", "Str_Kb_Italic"),
                 ["U"] = ("Format", "Str_Kb_Underline"),
                 ["V"] = ("Format", "Str_Kb_Paste"),
+                ["D0"] = ("View", "Str_Kb_ZoomReset"),
             },
             [KbLayer.CtrlShift] = new()
             {
@@ -66,6 +68,8 @@ namespace KillerNotes
                 ["R"] = ("Format", "Str_Kb_Rule"),
                 ["L"] = ("Format", "Str_Kb_Bullets"),
                 ["N"] = ("Format", "Str_Kb_Numbered"),
+                ["Period"] = ("Format", "Str_Kb_FontUp"),
+                ["Comma"]  = ("Format", "Str_Kb_FontDown"),
             },
         };
 

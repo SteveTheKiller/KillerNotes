@@ -90,36 +90,6 @@
                 <Button x:Name="CloseBtn"    Click="CloseBtn_Click"    Style="{StaticResource ChromeCloseButton}" Content="&#xE8BB;"/>
             </StackPanel>
 
-            <!-- Theme + accent flyout. The theme button lives in the sidebar bottom (family
-                 direction: appearance pickers out of the title bar); Placement=Top opens the
-                 flyout upward from there. Both theme buttons retarget this popup on click. -->
-            <Popup x:Name="ThemePopup" PlacementTarget="{Binding ElementName=ThemeButton}" Placement="Top"
-                   StaysOpen="False" AllowsTransparency="True" VerticalOffset="-5">
-                <Border Background="{DynamicResource MenuBackgroundBrush}" BorderBrush="{DynamicResource MenuBorderBrush}"
-                        BorderThickness="1" CornerRadius="6" Padding="12,10" Margin="14">
-                    <Border.Effect><DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="4" Direction="270" Opacity="0.55"/></Border.Effect>
-                    <StackPanel>
-                        <TextBlock Text="{DynamicResource Str_Lbl_Theme}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,0,0,4"/>
-                        <StackPanel x:Name="ThemeSwatches" Orientation="Horizontal">
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Dark"     Background="#3a3a3a" Click="ThemeSwatch_Click"/>
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Light"    Background="#e8e8e8" Click="ThemeSwatch_Click"/>
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Black"    Background="#000000" Click="ThemeSwatch_Click"/>
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Blood"    Background="#4a1f20" Click="ThemeSwatch_Click"/>
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Greed"    Background="#0a5234" Click="ThemeSwatch_Click"/>
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Cyanotic" Background="#0a4a6e" Click="ThemeSwatch_Click"/>
-                        </StackPanel>
-                        <TextBlock x:Name="AccentLabel" Text="{DynamicResource Str_Lbl_Accent}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,8,0,4"/>
-                        <StackPanel x:Name="AccentSwatches" Orientation="Horizontal">
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Red"    Background="#DD504B" Click="AccentSwatch_Click"/>
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Orange" Background="#E8962C" Click="AccentSwatch_Click"/>
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Green"  Background="#1ea54c" Click="AccentSwatch_Click"/>
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Teal"   Background="#1FB8A8" Click="AccentSwatch_Click"/>
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Blue"   Background="#50AEE8" Click="AccentSwatch_Click"/>
-                            <Button Style="{StaticResource ThemeSwatch}" Tag="Purple" Background="#B982E3" Click="AccentSwatch_Click"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-            </Popup>
         </Grid>
 
         <!-- ============ Sidebar + editor ============ -->
@@ -166,8 +136,48 @@
                                 ToolTip="{DynamicResource Str_TT_Language}">
                             <Button.ContextMenu><ContextMenu/></Button.ContextMenu>
                         </Button>
+                        <!-- Theme + accent flyout: deliberately a ContextMenu, the SAME control
+                             and themed chrome (grain included) as the locale menu, opened with
+                             the SAME placement settings (OpenThemeMenu, ThemeFlyout.cs) - one
+                             mechanism, so the two rail flyouts cannot diverge. The single
+                             MenuItem's template is a bare ContentPresenter: no menu hover
+                             chrome around the swatch panels. -->
                         <Button x:Name="ThemeButton" Style="{StaticResource RailButton}" Content="&#xE790;"
-                                Click="SidebarThemeBtn_Click" ToolTip="{DynamicResource Str_TT_Theme}"/>
+                                Click="SidebarThemeBtn_Click" ToolTip="{DynamicResource Str_TT_Theme}">
+                            <Button.ContextMenu>
+                                <ContextMenu x:Name="ThemeMenu">
+                                    <MenuItem>
+                                        <MenuItem.Template>
+                                            <ControlTemplate TargetType="MenuItem">
+                                                <ContentPresenter ContentSource="Header" Margin="12,6"/>
+                                            </ControlTemplate>
+                                        </MenuItem.Template>
+                                        <MenuItem.Header>
+                                            <StackPanel>
+                                                <TextBlock Text="{DynamicResource Str_Lbl_Theme}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,0,0,4"/>
+                                                <StackPanel x:Name="ThemeSwatches" Orientation="Horizontal">
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Dark"     Background="#3a3a3a" Click="ThemeSwatch_Click"/>
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Light"    Background="#e8e8e8" Click="ThemeSwatch_Click"/>
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Black"    Background="#000000" Click="ThemeSwatch_Click"/>
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Blood"    Background="#4a1f20" Click="ThemeSwatch_Click"/>
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Greed"    Background="#0a5234" Click="ThemeSwatch_Click"/>
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Cyanotic" Background="#0a4a6e" Click="ThemeSwatch_Click"/>
+                                                </StackPanel>
+                                                <TextBlock x:Name="AccentLabel" Text="{DynamicResource Str_Lbl_Accent}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,8,0,4"/>
+                                                <StackPanel x:Name="AccentSwatches" Orientation="Horizontal">
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Red"    Background="#DD504B" Click="AccentSwatch_Click"/>
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Orange" Background="#E8962C" Click="AccentSwatch_Click"/>
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Green"  Background="#1ea54c" Click="AccentSwatch_Click"/>
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Teal"   Background="#1FB8A8" Click="AccentSwatch_Click"/>
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Blue"   Background="#50AEE8" Click="AccentSwatch_Click"/>
+                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Purple" Background="#B982E3" Click="AccentSwatch_Click"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
                     </StackPanel>
                 </Grid>
 
@@ -301,23 +311,57 @@
                              elements inside a Style Setter (connectionId cast failure at load).
                              Right-click selects the item under the cursor first (code-behind). -->
                         <ListBox.ContextMenu>
-                            <ContextMenu>
+                            <ContextMenu Opened="NotesContextMenu_Opened">
                                 <MenuItem Header="{DynamicResource Str_Ctx_ShareNote}" Click="ShareNote_Click"
                                           ToolTip="{DynamicResource Str_TT_ShareNote}"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_ExportNote}" Click="ExportNoteAs_Click"
                                           ToolTip="{DynamicResource Str_TT_ExportNote}"/>
+                                <!-- One toggle row per defined tag, built on open (Tags.cs) -->
+                                <MenuItem x:Name="TagsMenu" Header="{DynamicResource Str_Ctx_Tags}"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_TitleColor}" Click="TitleColorPick_Click"
+                                          ToolTip="{DynamicResource Str_TT_TitleColor}"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_TitleColorReset}" Click="TitleColorReset_Click"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_DeleteNote}" Click="DeleteNote_Click"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Title}" Foreground="{DynamicResource TextBrush}"
-                                               FontSize="13" TextTrimming="CharacterEllipsis"/>
+                                    <!-- Colored per note when TitleColor is set; the DataTrigger keeps
+                                         uncolored titles on the theme-reactive TextBrush (1.0.1, #1) -->
+                                    <TextBlock Text="{Binding Title}" FontSize="13" TextTrimming="CharacterEllipsis">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding HasTitleColor}" Value="True">
+                                                        <Setter Property="Foreground" Value="{Binding TitleBrush}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                     <TextBlock Text="{Binding Snippet}" Foreground="{DynamicResource MutedTextBrush}"
                                                FontSize="11" TextTrimming="CharacterEllipsis" Margin="0,1,0,0"/>
                                     <TextBlock Text="{Binding ModifiedDisplay}" Foreground="{DynamicResource DimTextBrush}"
                                                FontSize="10" Margin="0,1,0,0"/>
+                                    <!-- Tag pills (Tags.cs BuildChips); click filters by tag.
+                                         Empty chip list renders zero height. -->
+                                    <ItemsControl ItemsSource="{Binding Chips}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{Binding Background}" CornerRadius="3" Padding="5,1" Margin="0,3,4,0"
+                                                        Cursor="Hand" MouseLeftButtonUp="TagChip_Click"
+                                                        ToolTip="{DynamicResource Str_TT_TagChip}">
+                                                    <TextBlock Text="{Binding Name}" Foreground="{Binding Foreground}"
+                                                               FontSize="9" FontWeight="SemiBold"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -327,6 +371,15 @@
 
             <GridSplitter x:Name="SidebarSplitter" Grid.Column="1" Width="4" HorizontalAlignment="Stretch"
                           Background="Transparent" ShowsPreview="False"/>
+
+            <!-- Zero-size anchor at (rail right edge + 4px, row bottom). Both rail flyouts
+                 open with built-in Placement=Top against it: popup bottom on the anchor's
+                 top, left edges aligned. Pure layout - no custom placement callback, whose
+                 device-pixel coordinate space made popup positions drift with DPI and
+                 popup size. Only the per-template shadow-halo offsets remain. -->
+            <Border x:Name="RailFlyoutAnchor" Grid.Column="1" Width="0" Height="0"
+                    HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,0,0,0"
+                    IsHitTestVisible="False"/>
 
             <!-- Editor pane - the lightest tier, lifted above the chrome with an outward drop
                  shadow, flush to the title bar and footer so the shadow overlays them rather
@@ -390,6 +443,7 @@
                      strip - chevron, F6, or double-click the grip/peek (FormatBar.cs) -->
                 <Border x:Name="FormatBar" Grid.RowSpan="2" Panel.ZIndex="30"
                         VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,8,0"
+                        shell:WindowChrome.IsHitTestVisibleInChrome="True"
                         Background="{DynamicResource SurfaceBrush}"
                         BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1,0,1,1"
                         CornerRadius="0,0,4,4" Padding="4,2"
@@ -405,8 +459,18 @@
                             Opacity="{DynamicResource GrainOpacity}"
                             Background="{DynamicResource GrainTileBrush}"/>
 
-                    <!-- Peek strip shown while minimized: drag to move, double-click to restore -->
-                    <Border x:Name="FmtPeek" Background="Transparent" Cursor="Hand" Height="13"
+                    <!-- Invisible grab halo above the peek strip: the strip hugs the native
+                         caption boundary (CaptionHeight=36, pane flush below), so a click
+                         overshooting by a few px used to land on the title bar (HTCAPTION).
+                         IsHitTestVisibleInChrome lets these pixels win inside the caption
+                         zone. Shown only while minimized (FormatBar.cs). -->
+                    <Border x:Name="FmtPeekHalo" Background="Transparent" Height="8" Margin="0,-8,0,0"
+                            VerticalAlignment="Top" Visibility="Collapsed" Cursor="Hand"
+                            shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                            ToolTip="{DynamicResource Str_TT_FmtPeek}"/>
+
+                    <!-- Peek strip shown while minimized: click to restore, drag to move -->
+                    <Border x:Name="FmtPeek" Background="Transparent" Cursor="Hand" Height="9"
                             Visibility="Collapsed"
                             ToolTip="{DynamicResource Str_TT_FmtPeek}">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
@@ -444,6 +508,41 @@
                     </Button>
                     <Button Style="{StaticResource FmtButton}" Content="&#xE943;" ToolTip="{DynamicResource Str_TT_Mono}"
                             Click="Mono_Click"/>
+                    <!-- Per-note spell check toggle ("abc" + check mark): lights in the accent
+                         while on (Editor.cs) -->
+                    <Button x:Name="SpellBtn" Style="{StaticResource FmtButton}"
+                            ToolTip="{DynamicResource Str_TT_Spell}" Click="Spell_Click">
+                        <Grid x:Name="SpellBtnIcon" Width="18" Height="18">
+                            <TextBlock Text="abc" FontFamily="Segoe UI" FontSize="9" FontWeight="SemiBold"
+                                       HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-1,0,0"/>
+                            <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                                       HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,-1"/>
+                        </Grid>
+                    </Button>
+                    <Rectangle Style="{StaticResource FmtSeparator}"/>
+                    <!-- Font size dropdown: shows the selection's size; hover it and SCROLL to
+                         step sizes without clicking, or click for the list (Editor.cs).
+                         Ctrl+Shift+> / < grow/shrink from the keyboard (Shortcuts.cs). -->
+                    <Button x:Name="FontSizeBtn" Style="{StaticResource FmtButton}" Width="36"
+                            ToolTip="{DynamicResource Str_TT_FontSize}" Click="FontSizeBtn_Click"
+                            PreviewMouseWheel="FontSizeBtn_MouseWheel">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="FontSizeText" Text="13" FontFamily="Segoe UI" FontSize="11"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="7"
+                                       Margin="3,2,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Popup x:Name="FontSizePopup" PlacementTarget="{Binding ElementName=FontSizeBtn}"
+                           Placement="Bottom" StaysOpen="False" AllowsTransparency="True" VerticalOffset="4">
+                        <Border Background="{DynamicResource MenuBackgroundBrush}"
+                                BorderBrush="{DynamicResource MenuBorderBrush}"
+                                BorderThickness="1" CornerRadius="6" Padding="4" Margin="14">
+                            <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
+                            <!-- Size rows built lazily in Editor.cs (FontSizeBtn_Click) -->
+                            <StackPanel x:Name="FontSizeList"/>
+                        </Border>
+                    </Popup>
                     <Rectangle Style="{StaticResource FmtSeparator}"/>
                     <!-- Word-style "A over a color bar" - the bar follows the accent -->
                     <Button x:Name="TextColorBtn" Style="{StaticResource FmtButton}"
@@ -473,6 +572,9 @@
                                     <Button Content="{DynamicResource Str_Btn_Auto}" Style="{StaticResource SurfaceButton}" FontSize="10"
                                             Padding="6,1" Margin="6,0,0,0" Click="FgAuto_Click"
                                             ToolTip="{DynamicResource Str_TT_Auto}"/>
+                                    <Button Content="{DynamicResource Str_Btn_More}" Style="{StaticResource SurfaceButton}" FontSize="10"
+                                            Padding="6,1" Margin="4,0,0,0" Click="FgMore_Click"
+                                            ToolTip="{DynamicResource Str_TT_MoreColors}"/>
                                 </StackPanel>
                                 <TextBlock Text="{DynamicResource Str_Lbl_Highlight}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,8,0,4"/>
                                 <StackPanel Orientation="Horizontal">
@@ -483,6 +585,9 @@
                                     <Button Content="{DynamicResource Str_Btn_None}" Style="{StaticResource SurfaceButton}" FontSize="10"
                                             Padding="6,1" Margin="6,0,0,0" Click="BgNone_Click"
                                             ToolTip="{DynamicResource Str_TT_None}"/>
+                                    <Button Content="{DynamicResource Str_Btn_More}" Style="{StaticResource SurfaceButton}" FontSize="10"
+                                            Padding="6,1" Margin="4,0,0,0" Click="BgMore_Click"
+                                            ToolTip="{DynamicResource Str_TT_MoreColors}"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>

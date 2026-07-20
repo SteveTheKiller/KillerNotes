@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media;
 using System.Windows.Threading;
 using KillerNotes.Models;
 using KillerNotes.Services;
@@ -24,6 +25,9 @@ namespace KillerNotes
         private bool _sortAsc = true;            // default: oldest at the top, moving down
         private string _sort => $"{_sortField}-{(_sortAsc ? "asc" : "desc")}";
         private readonly DispatcherTimer _saveTimer = new() { Interval = TimeSpan.FromSeconds(2) };
+        // Reverts a transient status message (drag-ready, tag toggled, ...) back to the
+        // note count so confirmations don't sit in the corner forever.
+        private readonly DispatcherTimer _statusTimer = new() { Interval = TimeSpan.FromSeconds(6) };
 
         private bool _notesInit;
 
@@ -35,6 +39,7 @@ namespace KillerNotes
             {
                 _notesInit = true;
                 _saveTimer.Tick += (_, _) => { _saveTimer.Stop(); SaveCurrentNote(); };
+                _statusTimer.Tick += (_, _) => { _statusTimer.Stop(); if (NoteStore.IsOpen) StatusText.Text = DefaultStatus(); };
                 // Alt-tabbing away commits immediately - notes must always be current.
                 Deactivated += (_, _) => SaveCurrentNote(refreshList: false);
             }
@@ -46,15 +51,29 @@ namespace KillerNotes
         private void RefreshList()
         {
             if (!NoteStore.IsOpen) return;
+            RefreshTagDefs();   // Tags.cs (cheap; keeps chip colors current across db switches)
             _notes = NoteStore.List(SearchBox.Text, _sort);
+            ApplyTagChips(_notes);   // Tags.cs
             _syncingSelection = true;
             NotesList.ItemsSource = _notes;
             NotesList.SelectedItem = _notes.FirstOrDefault(n => n.Id == _currentId);
             _syncingSelection = false;
 
-            StatusText.Text = string.Format(
-                Loc(string.IsNullOrWhiteSpace(SearchBox.Text) ? "Str_St_NotesCount" : "Str_St_Matches"),
-                _notes.Count);
+            StatusText.Text = DefaultStatus();
+        }
+
+        /// <summary>The resting status line: note count, or match count while searching.</summary>
+        private string DefaultStatus() => string.Format(
+            Loc(string.IsNullOrWhiteSpace(SearchBox.Text) ? "Str_St_NotesCount" : "Str_St_Matches"),
+            _notes.Count);
+
+        /// <summary>Shows a transient status message that auto-clears to DefaultStatus after
+        /// a few seconds (so drag/share/tag confirmations don't linger in the corner).</summary>
+        private void FlashStatus(string msg)
+        {
+            StatusText.Text = msg;
+            _statusTimer.Stop();
+            _statusTimer.Start();
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e) => RefreshList();
@@ -128,6 +147,10 @@ namespace KillerNotes
 
             _loadingNote = true;
             _currentId = id;
+            // Remembered for the next launch (OpenStartupNote). Demo sessions must
+            // never touch real settings.
+            if (NoteStore.DemoDbFile == null)
+                App.SetSetting("LastNote", $"{NoteStore.ActiveDbFile}|{id}");
             TitleBox.Text = meta.Title;
 
             DeselectImage();   // ImageResize.cs (handles must not outlive the document swap)
@@ -144,8 +167,18 @@ namespace KillerNotes
             EnsureEditableTail();   // Editor.cs (rule/table as last block traps the caret)
             _loadingNote = false;
             _dirty = false;
+            ApplySpellCheck(meta.SpellCheck);   // Editor.cs (per-note flag, off by default)
+            ApplyTitleColor(meta);
             ShowEditor(true);
             UpdatePreviewState();   // Preview.cs (md/html detection for this note)
+        }
+
+        /// <summary>Colors the open note's title box (concrete brush) or restores the
+        /// theme-reactive default when the note has no title color.</summary>
+        private void ApplyTitleColor(Note meta)
+        {
+            if (meta.TitleBrush is Brush b) TitleBox.Foreground = b;
+            else TitleBox.SetResourceReference(ForegroundProperty, "TextBrush");
         }
 
         /// <summary>Persists the open note (title, XamlPackage blob, plain text for search).</summary>
@@ -219,23 +252,38 @@ namespace KillerNotes
             else Editor.Focus();
         }
 
-        /// <summary>The app always opens INTO a note - no "make a new note" screen. Reuses
-        /// the newest still-empty Untitled note (so launches don't litter blank rows),
-        /// otherwise creates one. Called after the db opens and after deleting the open note.</summary>
+        /// <summary>The app always opens INTO a note - no "make a new note" screen. Reopens
+        /// the last open note (per database, "LastNote" setting), falls back to the most
+        /// recently modified, and only creates an empty Untitled when the database has no
+        /// notes at all - launching into a phantom "Untitled" row a user never asked for
+        /// (and could not delete, because deleting recreated it) was #2.
+        /// Called after the db opens and after deleting the open note.</summary>
         private void OpenStartupNote()
         {
             if (!NoteStore.IsOpen || _currentId >= 0) return;
-            // Match the English default AND the active locale's, so a language switch
-            // never orphans yesterday's empty startup note.
-            var empty = _notes.Where(n => (n.Title == "Untitled" || n.Title == Loc("Str_Untitled")) &&
-                                          string.IsNullOrWhiteSpace(n.Snippet))
-                              .OrderByDescending(n => n.Modified)
-                              .FirstOrDefault();   // newest empty regardless of the list's sort order
-            if (empty != null)
+
+            // A filtered-out library is not an empty one: clear the search first so the
+            // fallbacks below see every note (mirrors CreateNewNote).
+            if (_notes.Count == 0 && !string.IsNullOrEmpty(SearchBox.Text))
+                SearchBox.Text = "";   // TextChanged refreshes the list synchronously
+
+            // "file|id": the remembered id only counts inside the database it was saved in.
+            Note? target = null;
+            if (App.GetSetting("LastNote") is string last)
             {
-                OpenNote(empty.Id);
+                int sep = last.LastIndexOf('|');
+                if (sep > 0 &&
+                    string.Equals(last.Substring(0, sep), NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase) &&
+                    long.TryParse(last.Substring(sep + 1), out long lastId))
+                    target = _notes.FirstOrDefault(n => n.Id == lastId);
+            }
+            target ??= _notes.OrderByDescending(n => n.Modified).FirstOrDefault();
+
+            if (target != null)
+            {
+                OpenNote(target.Id);
                 _syncingSelection = true;
-                NotesList.SelectedItem = empty;
+                NotesList.SelectedItem = target;
                 _syncingSelection = false;
                 Editor.Focus();
             }
@@ -243,6 +291,37 @@ namespace KillerNotes
             {
                 CreateNewNote(focusTitle: false);
             }
+        }
+
+        // ---- Title color (sidebar right-click menu; 1.0.1, #1) ----
+
+        private void TitleColorPick_Click(object sender, RoutedEventArgs e)
+        {
+            var n = (sender as MenuItem)?.DataContext as Note ?? NotesList.SelectedItem as Note;
+            if (n == null) return;
+            var initial = n.TitleBrush is SolidColorBrush sb ? sb.Color
+                : (TryFindResource("TextBrush") as SolidColorBrush)?.Color ?? Colors.White;
+            var dlg = new ColorPickerDialog(this, initial);
+            if (dlg.ShowDialog() != true) return;
+            var c = dlg.SelectedColor;
+            SetNoteTitleColor(n, $"#{c.R:X2}{c.G:X2}{c.B:X2}");
+        }
+
+        private void TitleColorReset_Click(object sender, RoutedEventArgs e)
+        {
+            var n = (sender as MenuItem)?.DataContext as Note ?? NotesList.SelectedItem as Note;
+            if (n != null) SetNoteTitleColor(n, "");
+        }
+
+        private void SetNoteTitleColor(Note n, string hex)
+        {
+            NoteStore.SetTitleColor(n.Id, hex);
+            n.TitleColor = hex;
+            if (n.Id == _currentId) ApplyTitleColor(n);
+            // Repaint rows in place; the title DataTrigger re-evaluates on refresh.
+            _syncingSelection = true;
+            NotesList.Items.Refresh();
+            _syncingSelection = false;
         }
 
         // ---- Empty-state interactions (no note open) ----

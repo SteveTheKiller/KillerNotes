@@ -21,10 +21,17 @@ namespace KillerNotes
             if (sender is Button b && b.ContextMenu != null)
             {
                 BuildLanguageMenu(b.ContextMenu);
-                b.ContextMenu.PlacementTarget = b;
+                // Placement=Top on the fixed RailFlyoutAnchor: menu bottom sits on the
+                // footer boundary, left edge 4px right of the rail, growing upward - the
+                // exact spot the theme flyout uses. The offsets cancel the themed
+                // ContextMenu template's 6px shadow-halo margin (Controls.xaml) so the
+                // VISIBLE edges of both flyouts land identically.
+                b.ContextMenu.PlacementTarget = RailFlyoutAnchor;
                 b.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Top;
+                b.ContextMenu.HorizontalOffset = -6;
+                b.ContextMenu.VerticalOffset = 22;   // empirical, screenshot-verified: aligns the menu's visible bottom with the theme card's
                 b.ContextMenu.IsOpen = true;
-                Anim.FadeIn(b.ContextMenu);
+                Anim.SlideInX(b.ContextMenu, -12);
             }
         }
 

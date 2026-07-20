@@ -21,5 +21,20 @@ namespace KillerNotes
                     EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
                 });
         }
+
+        /// <summary>Fade plus a horizontal glide from dx px to rest (negative dx = in from
+        /// the left). Used by the rail flyouts so they read as sliding out of the sidebar.</summary>
+        public static void SlideInX(UIElement element, double dx)
+        {
+            var tt = new System.Windows.Media.TranslateTransform(dx, 0);
+            element.RenderTransform = tt;
+            FadeIn(element);
+            var a = new DoubleAnimation(dx, 0, new Duration(TimeSpan.FromMilliseconds(FadeMs)))
+            {
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+            };
+            a.Completed += (_, _) => element.RenderTransform = null;
+            tt.BeginAnimation(System.Windows.Media.TranslateTransform.XProperty, a);
+        }
     }
 }

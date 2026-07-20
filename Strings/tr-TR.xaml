@@ -10,8 +10,8 @@
     <sys:String x:Key="Str_TT_About">KillerNotes hakkında</sys:String>
 
     <!-- Sidebar + rail -->
-    <sys:String x:Key="Str_TT_CollapseSidebar">Kenar çubuğunu daralt (F9)</sys:String>
-    <sys:String x:Key="Str_TT_ExpandSidebar">Kenar çubuğunu genişlet (F9)</sys:String>
+    <sys:String x:Key="Str_TT_CollapseSidebar">Kenar çubuğunu daralt (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Kenar çubuğunu genişlet (F5)</sys:String>
     <sys:String x:Key="Str_TT_Shortcuts">Klavye kısayolları (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Tema</sys:String>
     <sys:String x:Key="Str_TT_Language">Dil</sys:String>

@@ -10,8 +10,8 @@
     <sys:String x:Key="Str_TT_About">KillerNotes সম্পর্কে</sys:String>
 
     <!-- Sidebar + rail -->
-    <sys:String x:Key="Str_TT_CollapseSidebar">সাইডবার সংকুচিত করুন (F9)</sys:String>
-    <sys:String x:Key="Str_TT_ExpandSidebar">সাইডবার প্রসারিত করুন (F9)</sys:String>
+    <sys:String x:Key="Str_TT_CollapseSidebar">সাইডবার সংকুচিত করুন (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">সাইডবার প্রসারিত করুন (F5)</sys:String>
     <sys:String x:Key="Str_TT_Shortcuts">কীবোর্ড শর্টকাট (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">থিম</sys:String>
     <sys:String x:Key="Str_TT_Language">ভাষা</sys:String>

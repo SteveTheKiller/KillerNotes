@@ -15,8 +15,8 @@
     <sys:String x:Key="Str_TT_About">About KillerNotes</sys:String>
 
     <!-- Sidebar + rail -->
-    <sys:String x:Key="Str_TT_CollapseSidebar">Collapse sidebar (F9)</sys:String>
-    <sys:String x:Key="Str_TT_ExpandSidebar">Expand sidebar (F9)</sys:String>
+    <sys:String x:Key="Str_TT_CollapseSidebar">Collapse sidebar (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Expand sidebar (F5)</sys:String>
     <sys:String x:Key="Str_TT_Shortcuts">Keyboard shortcuts (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Theme</sys:String>
     <sys:String x:Key="Str_TT_Language">Language</sys:String>
@@ -54,7 +54,7 @@
     <sys:String x:Key="Str_TT_Preview">Preview (F4)</sys:String>
     <sys:String x:Key="Str_TT_HideBar">Hide format bar (F6)</sys:String>
     <sys:String x:Key="Str_TT_FmtGrip">Drag to move - double-click to minimize</sys:String>
-    <sys:String x:Key="Str_TT_FmtPeek">Drag to move - double-click or F6 to restore</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Click or F6 to restore - drag to move</sys:String>
 
     <!-- Color popup -->
     <sys:String x:Key="Str_Lbl_TextColor">text</sys:String>
@@ -245,6 +245,53 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Sec_View">View</sys:String>
     <sys:String x:Key="Str_Sec_Search">Search</sys:String>
     <sys:String x:Key="Str_Sec_Help">Help</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
+    <sys:String x:Key="Str_TT_FontDown">Shrink text (Ctrl+Shift+&lt;)</sys:String>
+    <sys:String x:Key="Str_TT_FontSize">Text size (scroll to change)</sys:String>
+    <sys:String x:Key="Str_TT_FontUp">Grow text (Ctrl+Shift+&gt;)</sys:String>
+    <sys:String x:Key="Str_TT_Spell">Spell check for this note</sys:String>
+    <sys:String x:Key="Str_Btn_More">More...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">Pick any color</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">Title color...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">Color this note's title in the list</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">Reset title color</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">Grow / shrink selected text</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">Zoom editor (Ctrl+0 resets)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Zoom {0}%</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">Spell check on for this note</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">Spell check off for this note</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">Grow text</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">Shrink text</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">Reset zoom</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">Pick a color</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Replace</sys:String>
+    <sys:String x:Key="Str_Btn_Reset">Reset</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">Pick a color from anywhere on screen</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">Click, then click a swatch to set it to the current color</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">Reset swatches to defaults</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">Click to use this color</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">Click to set this swatch to the current color</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">Tags</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">Manage tags...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">Click to filter by this tag</sys:String>
+    <sys:String x:Key="Str_Tags_Title">Manage tags</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">Pick a color for the new tag</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">Add</sys:String>
+    <sys:String x:Key="Str_Btn_Done">Done</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">Change color</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">Rename</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">Delete tag</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">Enter a tag name first</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">A tag with that name already exists</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">Delete the "{0}" tag?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">It will be removed from every note. The notes themselves are kept.</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">Tagged: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">Untagged: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">Toggle tags 1-9 on the open note</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">Manage tags (add, rename, recolor)</sys:String>
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Portable">PORTABLE</sys:String>

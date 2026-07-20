@@ -10,8 +10,8 @@
     <sys:String x:Key="Str_TT_About">關於 KillerNotes</sys:String>
 
     <!-- Sidebar + rail -->
-    <sys:String x:Key="Str_TT_CollapseSidebar">摺疊側邊欄 (F9)</sys:String>
-    <sys:String x:Key="Str_TT_ExpandSidebar">展開側邊欄 (F9)</sys:String>
+    <sys:String x:Key="Str_TT_CollapseSidebar">摺疊側邊欄 (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">展開側邊欄 (F5)</sys:String>
     <sys:String x:Key="Str_TT_Shortcuts">鍵盤快速鍵 (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">佈景主題</sys:String>
     <sys:String x:Key="Str_TT_Language">語言</sys:String>

@@ -6,12 +6,21 @@ password protection for the whole database.
 
 Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 
-## Features (scaffold)
+## Features
 
 - Sidebar library: search-as-you-type across titles, note text, and tags (SQLite FTS5),
   sort by modified / created / title, new note, delete with themed confirm.
-- Editor: WPF RichTextBox (FlowDocument). Bold / italic / underline / lists, insert
-  real tables, paste images inline (screenshots land as part of the note).
+- Tags: color-coded, per-database tag definitions (they travel inside shared .knote/.kndb
+  files). Assign from the right-click Tags submenu or Ctrl+1-9, filter the list by clicking
+  a pill on a card, and add / rename / recolor / delete in the Manage tags editor (F7).
+  Renames and deletes ripple through every note; the notes.tags CSV is FTS-indexed, so tag
+  search and the pill filter are free.
+- Editor: WPF RichTextBox (FlowDocument). Bold / italic / underline / strikethrough /
+  monospace / lists / horizontal rules, adjustable font size, and text + highlight color
+  from a full picker (saturation-value square, hex fields, desktop-wide eyedropper, saved
+  swatches). Insert real tables and paste images inline (screenshots land as part of the
+  note). Per-note title color (right-click > Title color) and per-note spell check (format-bar
+  toggle, Windows spell-checking engine, remembered per note) round it out.
 - Autosave: 2 seconds after the last change, on note switch, and on close. Ctrl+S saves now.
 - Markdown/HTML preview: when a note's text looks like markdown or HTML, a preview toggle
   appears in the format bar and opens a split pane (Markdig for markdown; HTML is rendered
@@ -40,8 +49,8 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 | PolySharp | net48 polyfills for modern C# syntax (compile-time only) |
 
 Run `dotnet list package --vulnerable --include-transitive` as part of every release checklist.
-Single-exe packaging (Costura or ILRepack plus the native e_sqlcipher.dll) is a release-time
-task, deliberately not wired into the scaffold.
+Single-exe packaging: Costura.Fody embeds every managed dependency and a self-extracting
+bootstrap carries the native e_sqlcipher.dll, so the release ships as one signed exe.
 
 ## Layout
 

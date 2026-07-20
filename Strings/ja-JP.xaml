@@ -10,8 +10,8 @@
     <sys:String x:Key="Str_TT_About">KillerNotes について</sys:String>
 
     <!-- Sidebar + rail -->
-    <sys:String x:Key="Str_TT_CollapseSidebar">サイドバーを折りたたむ (F9)</sys:String>
-    <sys:String x:Key="Str_TT_ExpandSidebar">サイドバーを展開 (F9)</sys:String>
+    <sys:String x:Key="Str_TT_CollapseSidebar">サイドバーを折りたたむ (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">サイドバーを展開 (F5)</sys:String>
     <sys:String x:Key="Str_TT_Shortcuts">キーボード ショートカット (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">テーマ</sys:String>
     <sys:String x:Key="Str_TT_Language">言語</sys:String>

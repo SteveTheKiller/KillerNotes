@@ -10,7 +10,8 @@ using KillerNotes.Services;
 //
 // Your MainWindow.xaml is expected to provide:
 //   ThemeButton   - Button, Click="ThemeButton_Click"
-//   ThemePopup    - Popup anchored to ThemeButton; its child is the flyout Border
+//   ThemeMenu     - ContextMenu on ThemeButton holding the flyout panels (same control
+//                   and placement settings as the locale menu - see OpenThemeMenu)
 //   ThemeSwatches - Panel of theme Buttons, each Style="{StaticResource ThemeSwatch}",
 //                   Tag = a Theme name ("Dark","Light","Black","Blood","Greed","Cyanotic"),
 //                   Click="ThemeSwatch_Click"
@@ -45,14 +46,24 @@ namespace KillerNotes
             }
         }
 
-        private void ThemeButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>Opens the theme/accent flyout. It is a ContextMenu ON PURPOSE - the
+        /// same control, themed chrome, and placement settings as the locale menu
+        /// (Localization.cs LangButton_Click), so the two rail flyouts open in exactly
+        /// the same spot and can never drift apart again.</summary>
+        private void OpenThemeMenu()
         {
-            if (FindName("ThemePopup") is System.Windows.Controls.Primitives.Popup p)
-            {
-                p.IsOpen = !p.IsOpen;
-                if (p.IsOpen && p.Child is UIElement child) Anim.FadeIn(child);
-            }
+            if (FindName("ThemeMenu") is not ContextMenu menu) return;
+            if (menu.IsOpen) { menu.IsOpen = false; return; }
+            if (FindName("RailFlyoutAnchor") is not UIElement anchor) return;
+            menu.PlacementTarget = anchor;
+            menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Top;
+            menu.HorizontalOffset = -6;
+            menu.VerticalOffset = 22;   // same empirical pair as the locale menu
+            menu.IsOpen = true;
+            Anim.SlideInX(menu, -12);   // out of the rail
         }
+
+        private void ThemeButton_Click(object sender, RoutedEventArgs e) => OpenThemeMenu();
 
         /// <summary>Highlights the active theme's swatch.</summary>
         private void UpdateThemeSwatchSelection()
