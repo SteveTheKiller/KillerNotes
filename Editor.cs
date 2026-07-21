@@ -48,11 +48,109 @@ namespace KillerNotes
         {
             if (e.DataObject.GetDataPresent(DataFormats.Text) ||
                 e.DataObject.GetDataPresent(DataFormats.Rtf)  ||
-                e.DataObject.GetDataPresent(DataFormats.XamlPackage)) return;
+                e.DataObject.GetDataPresent(DataFormats.XamlPackage))
+            {
+                // Text/RTF/Xaml pastes (Excel, Word, the browser) bake the SOURCE's own colors
+                // and table borders: black text disappears in the dark themes and Excel's bright
+                // gridlines clash. Let WPF's native paste do the clipboard->document conversion
+                // (it handles HTML tables, RTF, and images), then re-run the note's own theme
+                // normalization once it lands (the same neutral-color rule as note load).
+                Dispatcher.BeginInvoke(new Action(NormalizePastedContent),
+                    System.Windows.Threading.DispatcherPriority.Background);
+                return;
+            }
             if (!Clipboard.ContainsImage()) return;
 
             e.CancelCommand();
             if (Clipboard.GetImage() is BitmapSource src) InsertImageAtCaret(src);
+        }
+
+        // After a text/RTF/Xaml paste lands: strip the source's baked-in neutral (black/white/gray)
+        // text colors so they follow the live theme, drop the paragraph margins the paste converter
+        // bakes on (so Notepad lines keep the editor's own line spacing), and give any pasted table
+        // the app's subtle border styling instead of Excel's bright gridlines. Neutral-only on color,
+        // so deliberately colored pasted text and highlights are left alone (as on note load).
+        private void NormalizePastedContent()
+        {
+            if (_currentId < 0) return;
+            NormalizeThemeColors(Editor.Document);
+            foreach (var block in Editor.Document.Blocks.ToList()) NormalizePastedBlock(block);
+            MarkDirty();
+        }
+
+        // Brings pasted blocks to the editor's own defaults. Paragraphs lose the margin the
+        // text-to-document paste converter bakes onto every line (Notepad line breaks otherwise
+        // paste with extra line spacing the editor's zero-margin typed paragraphs don't have); the
+        // FontSize 2 rule paragraph keeps its margin, since that spacing is deliberate. Tables take
+        // the family look: the theme card-border brush via SetResourceReference so it tracks live
+        // theme switches (a baked snapshot would not - net48 family gotcha), a single-line grid, and
+        // no cell spacing - matching InsertTable.
+        private static void NormalizePastedBlock(Block block)
+        {
+            switch (block)
+            {
+                case Paragraph p:
+                    if (p.FontSize != 2) p.ClearValue(Block.MarginProperty);
+                    break;
+                case Table t:
+                    t.CellSpacing = 0;
+                    t.SetResourceReference(Table.BorderBrushProperty, "CardBorderBrush");
+                    t.BorderThickness = new Thickness(1, 1, 0, 0);
+                    foreach (var g in t.RowGroups)
+                        foreach (var row in g.Rows)
+                            foreach (var cell in row.Cells)
+                            {
+                                cell.SetResourceReference(TableCell.BorderBrushProperty, "CardBorderBrush");
+                                cell.BorderThickness = new Thickness(0, 0, 1, 1);
+                                foreach (var b in cell.Blocks.ToList()) NormalizePastedBlock(b);
+                            }
+                    break;
+                case Section s:
+                    foreach (var b in s.Blocks.ToList()) NormalizePastedBlock(b);
+                    break;
+                case List list:
+                    foreach (var li in list.ListItems)
+                        foreach (var b in li.Blocks.ToList()) NormalizePastedBlock(b);
+                    break;
+            }
+        }
+
+        // ---- Convert selection to a comma-separated list ----
+        // Turns the selected lines - or a selected table column - into PC1,PC2,PC3 for
+        // dropping into scripts. Items are split on line and cell breaks, trimmed, and blanks
+        // dropped. A plain-text selection is rewritten in place (what "convert" reads as); a
+        // selection spanning table cells can't be replaced with one string, so there the list
+        // goes to the clipboard instead. Right-click > Convert to list, or Ctrl+Shift+J.
+        private void ConvertToList_Click(object sender, RoutedEventArgs e) => ConvertSelectionToList();
+
+        private void ConvertSelectionToList()
+        {
+            if (_currentId < 0) return;
+            var sel = Editor.Selection;
+            if (sel.IsEmpty) { StatusText.Text = Loc("Str_St_ListNoSel"); return; }
+
+            var items = sel.Text
+                .Split(new[] { '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim())
+                .Where(s => s.Length > 0)
+                .ToArray();
+            if (items.Length == 0) { StatusText.Text = Loc("Str_St_ListNoSel"); return; }
+
+            string list = string.Join(",", items);
+
+            // Rewrite plain-text selections in place; fall back to the clipboard when the
+            // selection spans table cells (setting Text across cells throws).
+            try
+            {
+                sel.Text = list;
+                StatusText.Text = string.Format(Loc("Str_St_ListMade"), items.Length);
+                MarkDirty();
+            }
+            catch
+            {
+                try { Clipboard.SetText(list); } catch { /* clipboard busy - nothing to do */ }
+                StatusText.Text = string.Format(Loc("Str_St_ListCopied"), items.Length);
+            }
         }
 
         private void InsertImageAtCaret(BitmapSource src)

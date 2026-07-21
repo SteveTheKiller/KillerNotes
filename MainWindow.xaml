@@ -96,7 +96,7 @@
         <!-- ============ Sidebar + editor ============ -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="SidebarCol" Width="280" MinWidth="200" MaxWidth="480"/>
+                <ColumnDefinition x:Name="SidebarCol" Width="280" MinWidth="230" MaxWidth="480"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -182,7 +182,7 @@
                     </StackPanel>
                 </Grid>
 
-                <DockPanel x:Name="SidebarPanel" Grid.Column="0" Margin="8,8,0,8">
+                <DockPanel x:Name="SidebarPanel" Grid.Column="0" Margin="8,8,0,0">
                     <StackPanel DockPanel.Dock="Top">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -238,7 +238,7 @@
                         </Grid>
                         <Grid Margin="0,8,0,8">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition x:Name="NewNoteCol" Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Button x:Name="NewNoteBtn" Grid.Column="0" Style="{StaticResource OutlineButton}"
@@ -283,6 +283,7 @@
                         </Grid>
                     </StackPanel>
 
+                    <Grid>
                     <ListBox x:Name="NotesList" Background="Transparent" BorderThickness="0"
                              HorizontalContentAlignment="Stretch" SelectionMode="Extended"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -300,9 +301,57 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <Border x:Name="bg" Background="Transparent" CornerRadius="4"
-                                                    Padding="{TemplateBinding Padding}">
-                                                <ContentPresenter/>
+                                            <Border x:Name="bg" Background="Transparent" CornerRadius="4">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <!-- Group spine (#8): a colored line down the left of the group - on the
+                                                         header and every child note, capped (rounded, inset) at the group's top
+                                                         and bottom so groups don't merge, square + full-height in between so the
+                                                         rows join seamlessly. Group color when set, else a muted theme line. It
+                                                         replaces the chevron: short on a collapsed header, grown down the notes
+                                                         when expanded. -->
+                                                    <Border Grid.Column="0" Width="3">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Setter Property="Background" Value="{DynamicResource MutedTextBrush}"/>
+                                                                <Setter Property="CornerRadius" Value="0"/>
+                                                                <Setter Property="Margin" Value="8,0,0,0"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding ShowGroupStripe}" Value="True">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding HasGroupColor}" Value="True">
+                                                                        <Setter Property="Background" Value="{Binding GroupColorBrush}"/>
+                                                                    </DataTrigger>
+                                                                    <!-- The spine caps at the group's top (header) and bottom (last note - or the
+                                                                         header itself when collapsed, giving a short pill); middle rows stay
+                                                                         square + full-height so they join with no seam. -->
+                                                                    <DataTrigger Binding="{Binding IsFirstInGroup}" Value="True">
+                                                                        <Setter Property="CornerRadius" Value="1.5,1.5,0,0"/>
+                                                                        <Setter Property="Margin" Value="8,5,0,0"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IsLastInGroup}" Value="True">
+                                                                        <Setter Property="CornerRadius" Value="0,0,1.5,1.5"/>
+                                                                        <Setter Property="Margin" Value="8,0,0,5"/>
+                                                                    </DataTrigger>
+                                                                    <MultiDataTrigger>
+                                                                        <MultiDataTrigger.Conditions>
+                                                                            <Condition Binding="{Binding IsFirstInGroup}" Value="True"/>
+                                                                            <Condition Binding="{Binding IsLastInGroup}" Value="True"/>
+                                                                        </MultiDataTrigger.Conditions>
+                                                                        <Setter Property="CornerRadius" Value="1.5"/>
+                                                                        <Setter Property="Margin" Value="8,5,0,5"/>
+                                                                    </MultiDataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                    </Border>
+                                                    <ContentPresenter Grid.Column="1" Margin="{TemplateBinding Padding}"/>
+                                                </Grid>
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
@@ -343,23 +392,39 @@
                                 <!-- Headers are not selectable rows: click toggles collapse,
                                      right-click opens the group menu (both set Handled so the
                                      ListBoxItem never sees the press). Groups.cs. -->
-                                <Border Background="Transparent" Padding="0,6,0,2"
+                                <Border Background="Transparent" Padding="0,4,0,4"
                                         MouseLeftButtonDown="GroupHeader_Click"
                                         MouseRightButtonDown="GroupHeader_RightDown">
                                     <Border.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Header="{DynamicResource Str_Ctx_RenameGroup}" Click="RenameGroup_Click"/>
+                                            <MenuItem Header="{DynamicResource Str_Ctx_GroupColor}" Click="GroupColorPick_Click"
+                                                      ToolTip="{DynamicResource Str_TT_GroupColor}"/>
+                                            <MenuItem Header="{DynamicResource Str_Ctx_GroupColorReset}" Click="GroupColorReset_Click"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_DeleteGroup}" Click="DeleteGroup_Click"/>
                                         </ContextMenu>
                                     </Border.ContextMenu>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Chevron}" FontFamily="Segoe MDL2 Assets" FontSize="10"
-                                                   VerticalAlignment="Center" Foreground="{DynamicResource MutedTextBrush}"/>
-                                        <TextBlock Text="{Binding Name}" FontSize="12.5" FontWeight="Bold" Margin="6,0,0,0"
-                                                   VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"
-                                                   TextTrimming="CharacterEllipsis"/>
-                                        <TextBlock Text="{Binding CountDisplay}" FontSize="10" Margin="6,0,0,0"
-                                                   VerticalAlignment="Center" Foreground="{DynamicResource DimTextBrush}"/>
+                                    <!-- No chevron: the colored spine (the container line) is the group's
+                                         indicator; clicking the header toggles collapse and the line grows down
+                                         through the notes / shrinks back to the header. -->
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" FontSize="12.5" FontWeight="Bold"
+                                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+                                                <!-- Colored per group when NameColor is set; the DataTrigger keeps
+                                                     uncolored names on the theme-reactive TextBrush (issue #8) -->
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding HasColor}" Value="True">
+                                                                <Setter Property="Foreground" Value="{Binding NameBrush}"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding CountDisplay}" FontSize="10" Margin="6,0,0,0"
+                                                       VerticalAlignment="Center" Foreground="{DynamicResource DimTextBrush}"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
@@ -430,6 +495,26 @@
                             </DataTemplate>
                         </ListBox.Resources>
                     </ListBox>
+                    <!-- Bottom fade overlay: the last rows fade into the chrome while the list
+                         overflows and is not at the bottom (Sidebar.cs toggles Visibility). Inset
+                         12px on the right to clear the scrollbar. The overlay IS the chrome -
+                         BackgroundBrush + the same grain - under a top-transparent to bottom-opaque
+                         mask, so it fades into an exact match for the sidebar/footer (never darker,
+                         grain intact) rather than a flat black patch. -->
+                    <Border x:Name="NotesFade" Height="28" VerticalAlignment="Bottom" Margin="0,0,12,0"
+                            IsHitTestVisible="False" Visibility="Collapsed">
+                        <Border.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#00000000" Offset="0"/>
+                                <GradientStop Color="#FF000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                        <Grid>
+                            <Border Background="{DynamicResource BackgroundBrush}"/>
+                            <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
+                        </Grid>
+                    </Border>
+                    </Grid>
                 </DockPanel>
             </Grid>
 
@@ -728,6 +813,8 @@
                                 <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_ConvertList}" Click="ConvertToList_Click"
+                                          InputGestureText="Ctrl+Shift+J" ToolTip="{DynamicResource Str_TT_ConvertList}"/>
                             </ContextMenu>
                         </RichTextBox.ContextMenu>
                     </RichTextBox>

@@ -142,7 +142,8 @@ CREATE TABLE IF NOT EXISTS tags(
 CREATE TABLE IF NOT EXISTS groups(
     name       TEXT PRIMARY KEY COLLATE NOCASE,
     sort_order INTEGER NOT NULL DEFAULT 0,
-    collapsed  INTEGER NOT NULL DEFAULT 0
+    collapsed  INTEGER NOT NULL DEFAULT 0,
+    color      TEXT NOT NULL DEFAULT ''
 );";
 
         private static void EnsureSchema()
@@ -195,6 +196,18 @@ CREATE TABLE IF NOT EXISTS groups(
             // appends max+1 so new notes land at the bottom of a custom arrangement.
             if (!have.Contains("sort_order"))
                 Exec("ALTER TABLE notes ADD COLUMN sort_order INTEGER NOT NULL DEFAULT 0");
+
+            // 1.0.3: per-group name color (mirrors the per-note title_color above). The
+            // groups table already exists here (EnsureSchema runs the CREATE first).
+            var gcols = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "PRAGMA table_info(groups)";
+                using var r = cmd.ExecuteReader();
+                while (r.Read()) gcols.Add(r.GetString(1));
+            }
+            if (!gcols.Contains("color"))
+                Exec("ALTER TABLE groups ADD COLUMN color TEXT NOT NULL DEFAULT ''");
         }
 
         // ---- Notes ----
@@ -417,15 +430,25 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             cmd.ExecuteNonQuery();
         }
 
-        public static List<(string Name, bool Collapsed)> ListGroups()
+        public static List<(string Name, bool Collapsed, string Color)> ListGroups()
         {
-            var list = new List<(string, bool)>();
+            var list = new List<(string, bool, string)>();
             if (_db == null) return list;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT name, collapsed FROM groups ORDER BY sort_order, rowid";
+            cmd.CommandText = "SELECT name, collapsed, color FROM groups ORDER BY sort_order, rowid";
             using var r = cmd.ExecuteReader();
-            while (r.Read()) list.Add((r.GetString(0), r.GetInt64(1) != 0));
+            while (r.Read()) list.Add((r.GetString(0), r.GetInt64(1) != 0, r.IsDBNull(2) ? "" : r.GetString(2)));
             return list;
+        }
+
+        /// <summary>Sets a group's sidebar name color ("#RRGGBB"; "" = theme default).</summary>
+        public static void SetGroupColor(string name, string color)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "UPDATE groups SET color = $c WHERE name = $n";
+            cmd.Parameters.AddWithValue("$c", color);
+            cmd.Parameters.AddWithValue("$n", name);
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>Adds a group definition at the end; an existing name (case-insensitive) wins.</summary>

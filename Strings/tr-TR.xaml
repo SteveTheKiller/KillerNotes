@@ -183,7 +183,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_About_Publisher">Yayımcı</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Sertifika parmak izi</sys:String>
     <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
-    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Ayak uyduran notlar. GPLv3 lisanslı bir </sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Ayak uyduran notlar. Zengin metin, satır içi resimler, gerçek tablolar ve anında tam metin aramasıyla aranabilir, şifreli bir not defteri; tümü tek bir dosyada otomatik olarak kaydedilir. GPLv3 lisanslı bir </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> aracı.</sys:String>
     <sys:String x:Key="Str_About_Computing">hesaplanıyor...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvail">Güncelleme var: {0}</sys:String>
@@ -248,5 +248,106 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">KillerNotes kullanici profilinize yuklensin mi?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Baslat menusu kisayolu&#x0A;- Program ekle/kaldir icinde gorunur</sys:String>
     <sys:String x:Key="Str_Chk_Desktop">Masaustu kisayolu</sys:String>
+
+    <!-- New note (short) -->
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ Yeni</sys:String>
+
+    <!-- Change data folder (#6) -->
+    <sys:String x:Key="Str_TT_DataFolder">Veritabanlarının saklandığı veri klasörünü değiştir</sys:String>
+    <sys:String x:Key="Str_Db_PickFolderTitle">KillerNotes veri klasörünü seçin</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">{0} veritabanı dosyası yeni klasöre taşınsın mı?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">Taşı, her .db dosyasını birlikte getirir. Oldukları yerde bırak, yeni klasöre geçer ve mevcut dosyaları oldukları yerde tutar.</sys:String>
+    <sys:String x:Key="Str_Btn_Move">Taşı</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">Oldukları yerde bırak</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">Veri klasörü artık {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">Veri klasörü artık {0} - {1} dosya geride kaldı (kullanımda veya hedefte zaten mevcut)</sys:String>
+
+    <!-- Custom order + groups (#4) -->
+    <sys:String x:Key="Str_TT_SortCustom">Özel sıralama - düzenlemek için notları sürükleyin</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">Özel sıralamaya geçildi - düzenlemek için notları sürükleyin</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">Grup</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">Yeni grup...</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">Gruptan çıkar</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">Grubu yeniden adlandır...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">Grubu sil</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">Yeni gruba ad verin</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">Bu grubu yeniden adlandır</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">"{0}" grubu silinsin mi?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">Notları korunur - yalnızca gruptan çıkarılırlar.</sys:String>
+    <sys:String x:Key="Str_Btn_Create">Oluştur</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">Yeniden adlandır</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">{0} adında bir grup zaten var</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">{0} grubuna taşındı</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">Gruptan çıkarıldı</sys:String>
+
+    <!-- Shortcuts overlay (additional) -->
+    <sys:String x:Key="Str_KS_Undo">Geri al / yinele</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">Kes / kopyala</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">Tümünü seç</sys:String>
+
+    <!-- Keyboard map (additional) -->
+    <sys:String x:Key="Str_Kb_Cut">Kes</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">Kopyala</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">Geri al</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">Yinele</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">Tümünü seç</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">Etiketi aç/kapat</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">Düzenleme</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
+    <sys:String x:Key="Str_TT_FontDown">Metni küçült (Ctrl+Shift+&lt;)</sys:String>
+    <sys:String x:Key="Str_TT_FontSize">Metin boyutu (değiştirmek için kaydırın)</sys:String>
+    <sys:String x:Key="Str_TT_FontUp">Metni büyüt (Ctrl+Shift+&gt;)</sys:String>
+    <sys:String x:Key="Str_TT_Spell">Bu not için yazım denetimi</sys:String>
+    <sys:String x:Key="Str_Btn_More">Daha fazla...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">Herhangi bir renk seçin</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">Başlık rengi...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">Bu notun başlığını listede renklendir</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">Başlık rengini sıfırla</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertList">Listeye dönüştür</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Seçili satırları virgülle ayrılmış bir listeye dönüştür</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">Seçimi virgüllü listeye dönüştür</sys:String>
+    <sys:String x:Key="Str_St_ListMade">{0} değer virgüllü listeye dönüştürüldü</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">{0} değer virgüllü liste olarak kopyalandı</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">Önce birkaç satır seçin</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColor">Grup rengi...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">Bu grubun adını kenar çubuğunda renklendir</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">Rengi sıfırla</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">Seçili metni büyüt / küçült</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">Düzenleyiciyi yakınlaştır (Ctrl+0 sıfırlar)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Yakınlaştırma %{0}</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">Bu not için yazım denetimi açık</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">Bu not için yazım denetimi kapalı</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">Metni büyüt</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">Metni küçült</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">Yakınlaştırmayı sıfırla</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">Bir renk seçin</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Değiştir</sys:String>
+    <sys:String x:Key="Str_Btn_Reset">Sıfırla</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">Ekranın herhangi bir yerinden renk seçin</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">Tıklayın, ardından geçerli renge ayarlamak için bir renk örneğine tıklayın</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">Renk örneklerini varsayılanlara sıfırla</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">Bu rengi kullanmak için tıklayın</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">Bu renk örneğini geçerli renge ayarlamak için tıklayın</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">Etiketler</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">Etiketleri yönet...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">Bu etikete göre filtrelemek için tıklayın</sys:String>
+    <sys:String x:Key="Str_Tags_Title">Etiketleri yönet</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">Yeni etiket için bir renk seçin</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">Ekle</sys:String>
+    <sys:String x:Key="Str_Btn_Done">Bitti</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">Rengi değiştir</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">Yeniden adlandır</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">Etiketi sil</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">Önce bir etiket adı girin</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">Bu adda bir etiket zaten var</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">"{0}" etiketi silinsin mi?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">Her nottan kaldırılır. Notların kendisi korunur.</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">Etiketlendi: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">Etiket kaldırıldı: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">Açık notta 1-9 etiketlerini aç/kapat</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">Etiketleri yönet (ekle, yeniden adlandır, yeniden renklendir)</sys:String>
 
 </ResourceDictionary>

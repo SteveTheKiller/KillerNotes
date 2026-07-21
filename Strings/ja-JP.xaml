@@ -183,7 +183,7 @@
     <sys:String x:Key="Str_About_Publisher">発行元</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">証明書の拇印</sys:String>
     <sys:String x:Key="Str_About_Sha">EXE の SHA-256</sys:String>
-    <sys:String x:Key="Str_About_DescA" xml:space="preserve">追いつくノート。GPLv3 の </sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">追いつくノート。リッチ テキスト、インライン画像、本物の表、瞬時の全文検索を備えた、検索可能で暗号化されたメモ帳。すべて単一のファイルに自動保存されます。GPLv3 の </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> ユーティリティ。</sys:String>
     <sys:String x:Key="Str_About_Computing">計算中...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvail">更新があります: {0}</sys:String>
@@ -248,5 +248,106 @@
     <sys:String x:Key="Str_Dlg_InstallMsg">KillerNotes をユーザープロファイルにインストールしますか？</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- スタートメニューのショートカット&#x0A;- 「アプリと機能」に表示されます</sys:String>
     <sys:String x:Key="Str_Chk_Desktop">デスクトップショートカット</sys:String>
+
+    <!-- Short new-note label -->
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ 新規</sys:String>
+
+    <!-- Change data folder (#6) -->
+    <sys:String x:Key="Str_TT_DataFolder">データベースを保存するデータ フォルダーを変更</sys:String>
+    <sys:String x:Key="Str_Db_PickFolderTitle">KillerNotes のデータ フォルダーを選択</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">{0} 個のデータベース ファイルを新しいフォルダーに移動しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">「移動」はすべての .db ファイルを一緒に移します。「そのままにする」は現在のファイルをそのままにして新しいフォルダーに切り替えます。</sys:String>
+    <sys:String x:Key="Str_Btn_Move">移動</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">そのままにする</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">データ フォルダーは {0} になりました</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">データ フォルダーは {0} になりました - {1} 個のファイルは残りました (使用中または移動先に既に存在)</sys:String>
+
+    <!-- Custom order + groups (#4) -->
+    <sys:String x:Key="Str_TT_SortCustom">カスタム順 - ノートをドラッグして並べ替え</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">カスタム順に切り替えました - ノートをドラッグして並べ替え</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">グループ</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">新しいグループ...</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">グループから削除</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">グループ名を変更...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">グループを削除</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">新しいグループの名前</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">このグループの名前を変更</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">グループ「{0}」を削除しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">ノートは保持されます - グループから外れるだけです。</sys:String>
+    <sys:String x:Key="Str_Btn_Create">作成</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">名前を変更</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">{0} という名前のグループは既に存在します</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">{0} に移動しました</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">グループから削除しました</sys:String>
+
+    <!-- Shortcuts overlay (additional list rows) -->
+    <sys:String x:Key="Str_KS_Undo">元に戻す / やり直し</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">切り取り / コピー</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">すべて選択</sys:String>
+
+    <!-- Keyboard map (additional keycaps + section) -->
+    <sys:String x:Key="Str_Kb_Cut">切り取り</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">コピー</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">元に戻す</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">やり直し</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">すべて選択</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">タグの切り替え</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">編集</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check -->
+    <sys:String x:Key="Str_TT_FontDown">文字を小さく (Ctrl+Shift+&lt;)</sys:String>
+    <sys:String x:Key="Str_TT_FontSize">文字サイズ (スクロールで変更)</sys:String>
+    <sys:String x:Key="Str_TT_FontUp">文字を大きく (Ctrl+Shift+&gt;)</sys:String>
+    <sys:String x:Key="Str_TT_Spell">このノートのスペル チェック</sys:String>
+    <sys:String x:Key="Str_Btn_More">その他...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">任意の色を選択</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">タイトルの色...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">一覧でこのノートのタイトルに色を付けます</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">タイトルの色をリセット</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertList">リストに変換</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">選択した行をカンマ区切りのリストに変換します</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">選択範囲をカンマ区切りリストに</sys:String>
+    <sys:String x:Key="Str_St_ListMade">{0} 個の値をカンマ区切りリストに変換しました</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">{0} 個の値をカンマ区切りリストとしてコピーしました</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">先に行を選択してください</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColor">グループの色...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">サイドバーでこのグループの名前に色を付けます</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">色をリセット</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">選択した文字を拡大 / 縮小</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">エディターをズーム (Ctrl+0 でリセット)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">ズーム {0}%</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">このノートのスペル チェックをオンにしました</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">このノートのスペル チェックをオフにしました</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">文字を大きく</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">文字を小さく</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">ズームをリセット</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">色を選択</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">置換</sys:String>
+    <sys:String x:Key="Str_Btn_Reset">リセット</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">画面上の任意の場所から色を取得</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">クリックした後、スウォッチをクリックして現在の色に設定します</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">スウォッチを既定値にリセット</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">クリックしてこの色を使用</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">クリックしてこのスウォッチを現在の色に設定</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">タグ</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">タグの管理...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">クリックしてこのタグで絞り込み</sys:String>
+    <sys:String x:Key="Str_Tags_Title">タグの管理</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">新しいタグの色を選択</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">追加</sys:String>
+    <sys:String x:Key="Str_Btn_Done">完了</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">色を変更</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">名前を変更</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">タグを削除</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">先にタグ名を入力してください</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">その名前のタグは既に存在します</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">「{0}」タグを削除しますか?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">すべてのノートから削除されます。ノート自体は保持されます。</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">タグを付けました: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">タグを外しました: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">開いているノートのタグ 1-9 を切り替え</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">タグの管理 (追加、名前変更、色変更)</sys:String>
 
 </ResourceDictionary>

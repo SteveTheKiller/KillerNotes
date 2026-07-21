@@ -183,7 +183,7 @@
     <sys:String x:Key="Str_About_Publisher">প্রকাশক</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">সার্টিফিকেট থাম্বপ্রিন্ট</sys:String>
     <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
-    <sys:String x:Key="Str_About_DescA" xml:space="preserve">তাল মিলিয়ে চলা নোট। একটি GPLv3 </sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">তাল মিলিয়ে চলা নোট। রিচ টেক্সট, ইনলাইন ছবি, সত্যিকারের টেবিল এবং তাৎক্ষণিক পূর্ণ-টেক্সট সার্চসহ একটি খোঁজযোগ্য, এনক্রিপ্ট করা নোটপ্যাড, সবকিছু স্বয়ংক্রিয়ভাবে একটি ফাইলে সংরক্ষিত। একটি GPLv3 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> ইউটিলিটি।</sys:String>
     <sys:String x:Key="Str_About_Computing">গণনা চলছে...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvail">আপডেট আছে: {0}</sys:String>
@@ -248,5 +248,108 @@
     <sys:String x:Key="Str_Dlg_InstallMsg">আপনার ইউজার প্রোফাইলে KillerNotes ইনস্টল করবেন?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- স্টার্ট মেনু শর্টকাট&#x0A;- Add/Remove Programs-এ দেখা যাবে</sys:String>
     <sys:String x:Key="Str_Chk_Desktop">ডেস্কটপ শর্টকাট</sys:String>
+
+    <!-- New note (short) -->
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ নতুন</sys:String>
+
+    <!-- Change data folder (#6) -->
+    <sys:String x:Key="Str_TT_DataFolder">ডেটাবেস যেখানে রাখা হয় সেই ডেটা ফোল্ডার বদলান</sys:String>
+    <sys:String x:Key="Str_Db_PickFolderTitle">KillerNotes ডেটা ফোল্ডার বেছে নিন</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">{0}টি ডেটাবেস ফাইল নতুন ফোল্ডারে সরাবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">সরান প্রতিটি .db ফাইল সঙ্গে নিয়ে যায়। রেখে দিন নতুন ফোল্ডারে যায় কিন্তু বর্তমান ফাইলগুলো যেখানে আছে সেখানেই রাখে।</sys:String>
+    <sys:String x:Key="Str_Btn_Move">সরান</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">রেখে দিন</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">ডেটা ফোল্ডার এখন {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">ডেটা ফোল্ডার এখন {0} - {1}টি ফাইল থেকে গেছে (ব্যবহারে আছে বা গন্তব্যে আগে থেকেই আছে)</sys:String>
+
+    <!-- Custom order + groups (#4) -->
+    <sys:String x:Key="Str_TT_SortCustom">কাস্টম ক্রম - সাজাতে নোট টেনে আনুন</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">কাস্টম ক্রমে বদলানো হয়েছে - সাজাতে নোট টেনে আনুন</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">গ্রুপ</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">নতুন গ্রুপ...</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">গ্রুপ থেকে সরান</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">গ্রুপের নাম বদলান...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">গ্রুপ মুছুন</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">নতুন গ্রুপের নাম দিন</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">এই গ্রুপের নাম বদলান</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">"{0}" গ্রুপ মুছবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">এর নোটগুলো থেকে যায় - কেবল গ্রুপ থেকে বেরিয়ে আসে।</sys:String>
+    <sys:String x:Key="Str_Btn_Create">তৈরি করুন</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">নাম বদলান</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">{0} নামে একটি গ্রুপ আগে থেকেই আছে</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">{0}-এ সরানো হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">গ্রুপ থেকে সরানো হয়েছে</sys:String>
+
+    <!-- Shortcuts overlay (additional) -->
+    <sys:String x:Key="Str_KS_Undo">আনডু / রিডু</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">কাট / কপি</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">সব নির্বাচন করুন</sys:String>
+
+    <!-- Keyboard map (additional) -->
+    <sys:String x:Key="Str_Kb_Cut">কাট</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">কপি</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">আনডু</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">রিডু</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">সব নির্বাচন করুন</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">ট্যাগ টগল করুন</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">সম্পাদনা</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check -->
+    <sys:String x:Key="Str_TT_FontDown">লেখা ছোট করুন (Ctrl+Shift+&lt;)</sys:String>
+    <sys:String x:Key="Str_TT_FontSize">লেখার আকার (বদলাতে স্ক্রল করুন)</sys:String>
+    <sys:String x:Key="Str_TT_FontUp">লেখা বড় করুন (Ctrl+Shift+&gt;)</sys:String>
+    <sys:String x:Key="Str_TT_Spell">এই নোটের জন্য বানান পরীক্ষা</sys:String>
+    <sys:String x:Key="Str_Btn_More">আরও...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">যেকোনো রং বাছুন</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">শিরোনামের রং...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">তালিকায় এই নোটের শিরোনাম রঙিন করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">শিরোনামের রং রিসেট করুন</sys:String>
+    <!-- Convert selection to a comma-separated list -->
+    <sys:String x:Key="Str_Ctx_ConvertList">তালিকায় রূপান্তর করুন</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">নির্বাচিত লাইনগুলোকে কমা দিয়ে আলাদা তালিকায় পরিণত করুন</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">নির্বাচন কমা তালিকায়</sys:String>
+    <sys:String x:Key="Str_St_ListMade">{0}টি মান কমা তালিকায় রূপান্তর হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">{0}টি মান কমা তালিকা হিসেবে কপি হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">আগে কয়েকটি লাইন নির্বাচন করুন</sys:String>
+    <!-- Per-group name color -->
+    <sys:String x:Key="Str_Ctx_GroupColor">গ্রুপের রং...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">সাইডবারে এই গ্রুপের নাম রঙিন করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">রং রিসেট করুন</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">নির্বাচিত লেখা বড় / ছোট করুন</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">এডিটর জুম করুন (Ctrl+0 রিসেট করে)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">জুম {0}%</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">এই নোটে বানান পরীক্ষা চালু</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">এই নোটে বানান পরীক্ষা বন্ধ</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">লেখা বড় করুন</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">লেখা ছোট করুন</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">জুম রিসেট করুন</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">একটি রং বাছুন</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">প্রতিস্থাপন</sys:String>
+    <sys:String x:Key="Str_Btn_Reset">রিসেট</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">স্ক্রিনের যেকোনো জায়গা থেকে একটি রং বাছুন</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">ক্লিক করুন, তারপর কোনো সোয়াচে ক্লিক করে সেটিকে বর্তমান রঙে সেট করুন</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">সোয়াচগুলো ডিফল্টে রিসেট করুন</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">এই রং ব্যবহার করতে ক্লিক করুন</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">এই সোয়াচটি বর্তমান রঙে সেট করতে ক্লিক করুন</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">ট্যাগ</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">ট্যাগ পরিচালনা...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">এই ট্যাগ দিয়ে ফিল্টার করতে ক্লিক করুন</sys:String>
+    <sys:String x:Key="Str_Tags_Title">ট্যাগ পরিচালনা</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">নতুন ট্যাগের জন্য একটি রং বাছুন</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">যোগ করুন</sys:String>
+    <sys:String x:Key="Str_Btn_Done">সম্পন্ন</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">রং বদলান</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">নাম বদলান</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">ট্যাগ মুছুন</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">আগে একটি ট্যাগের নাম লিখুন</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">এই নামে একটি ট্যাগ আগে থেকেই আছে</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">"{0}" ট্যাগটি মুছবেন?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">এটি প্রতিটি নোট থেকে সরানো হবে। নোটগুলো নিজে থেকেই থেকে যায়।</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">ট্যাগ করা হয়েছে: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">ট্যাগ সরানো হয়েছে: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">খোলা নোটে ট্যাগ ১-৯ টগল করুন</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">ট্যাগ পরিচালনা (যোগ, নাম বদল, রং বদল)</sys:String>
 
 </ResourceDictionary>

@@ -61,6 +61,11 @@ namespace KillerNotes
             _syncingSelection = false;
 
             StatusText.Text = DefaultStatus();
+
+            // Re-evaluate the sidebar bottom fade once this rebuild has laid out (Sidebar.cs):
+            // a load/refresh that overflows should fade without waiting for a scroll.
+            Dispatcher.BeginInvoke(new System.Action(ResolveAndUpdateNotesFade),
+                                   System.Windows.Threading.DispatcherPriority.Loaded);
         }
 
         /// <summary>The resting status line: note count, or match count while searching.</summary>

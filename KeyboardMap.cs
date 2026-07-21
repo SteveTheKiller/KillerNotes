@@ -57,7 +57,21 @@ namespace KillerNotes
                 ["B"] = ("Format", "Str_Kb_Bold"),
                 ["I"] = ("Format", "Str_Kb_Italic"),
                 ["U"] = ("Format", "Str_Kb_Underline"),
-                ["V"] = ("Format", "Str_Kb_Paste"),
+                ["X"] = ("Edit", "Str_Kb_Cut"),
+                ["C"] = ("Edit", "Str_Kb_Copy"),
+                ["V"] = ("Edit", "Str_Kb_Paste"),
+                ["Z"] = ("Edit", "Str_Kb_Undo"),
+                ["Y"] = ("Edit", "Str_Kb_Redo"),
+                ["A"] = ("Edit", "Str_Kb_SelectAll"),
+                ["D1"] = ("Note", "Str_Kb_Tag"),
+                ["D2"] = ("Note", "Str_Kb_Tag"),
+                ["D3"] = ("Note", "Str_Kb_Tag"),
+                ["D4"] = ("Note", "Str_Kb_Tag"),
+                ["D5"] = ("Note", "Str_Kb_Tag"),
+                ["D6"] = ("Note", "Str_Kb_Tag"),
+                ["D7"] = ("Note", "Str_Kb_Tag"),
+                ["D8"] = ("Note", "Str_Kb_Tag"),
+                ["D9"] = ("Note", "Str_Kb_Tag"),
                 ["D0"] = ("View", "Str_Kb_ZoomReset"),
             },
             [KbLayer.CtrlShift] = new()
@@ -68,6 +82,7 @@ namespace KillerNotes
                 ["R"] = ("Format", "Str_Kb_Rule"),
                 ["L"] = ("Format", "Str_Kb_Bullets"),
                 ["N"] = ("Format", "Str_Kb_Numbered"),
+                ["J"] = ("Format", "Str_KS_ConvertList"),
                 ["Period"] = ("Format", "Str_Kb_FontUp"),
                 ["Comma"]  = ("Format", "Str_Kb_FontDown"),
             },
@@ -113,7 +128,7 @@ namespace KillerNotes
         private static string KbSectionKeyFor(string cat) => cat switch
         {
             "File" => "Str_Sec_File", "Note" => "Str_Sec_Notes", "Format" => "Str_Sec_Format",
-            "View" => "Str_Sec_View", "Search" => "Str_Sec_Search", _ => "Str_Sec_Help",
+            "View" => "Str_Sec_View", "Search" => "Str_Sec_Search", "Edit" => "Str_Sec_Edit", _ => "Str_Sec_Help",
         };
 
         // ---- View toggle (LIST / KEYBOARD) ----

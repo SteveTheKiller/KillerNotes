@@ -120,6 +120,7 @@ namespace KillerNotes
 
             // Sidebar collapse tooltip is set from code (Sidebar.cs).
             ApplySidebarState();
+            UpdateNewNoteLabel();   // re-pick the "New note" wording for the new language
 
             // Lock/preview tooltips and the status line refresh on their next change;
             // reset the status line to the neutral count now.

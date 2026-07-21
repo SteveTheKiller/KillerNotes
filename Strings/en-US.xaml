@@ -22,6 +22,7 @@
     <sys:String x:Key="Str_TT_Language">Language</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Search notes  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ New note</sys:String>
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ New</sys:String>
     <sys:String x:Key="Str_TT_NewNote">New note (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">By creation time - oldest first (click again to reverse)</sys:String>
     <sys:String x:Key="Str_TT_SortAlpha">Alphabetical (click again to reverse)</sys:String>
@@ -216,7 +217,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_About_Publisher">Publisher</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Certificate thumbprint</sys:String>
     <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
-    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notes that keep up. A GPLv3 </sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notes that keep up. A searchable, encrypted notepad with rich text, inline images, real tables, and instant full-text search, all saved automatically in a single file. A GPLv3 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> utility.</sys:String>
     <sys:String x:Key="Str_About_Computing">computing...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvail">Update available: {0}</sys:String>
@@ -250,6 +251,9 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_Paste">Paste - text, images, tables</sys:String>
     <sys:String x:Key="Str_KS_Delete">Delete the selected note (in the list)</sys:String>
     <sys:String x:Key="Str_KS_Esc">Close overlay / clear search</sys:String>
+    <sys:String x:Key="Str_KS_Undo">Undo / redo</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">Cut / copy</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">Select all</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">Keyboard shortcuts</sys:String>
@@ -267,12 +271,19 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Kb_Rule">Horizontal rule</sys:String>
     <sys:String x:Key="Str_Kb_Bullets">Bulleted list</sys:String>
     <sys:String x:Key="Str_Kb_Numbered">Numbered list</sys:String>
+    <sys:String x:Key="Str_Kb_Cut">Cut</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">Copy</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">Undo</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">Redo</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">Select all</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">Toggle tag</sys:String>
     <sys:String x:Key="Str_Sec_File">File</sys:String>
     <sys:String x:Key="Str_Sec_Notes">Notes</sys:String>
     <sys:String x:Key="Str_Sec_Format">Formatting</sys:String>
     <sys:String x:Key="Str_Sec_View">View</sys:String>
     <sys:String x:Key="Str_Sec_Search">Search</sys:String>
     <sys:String x:Key="Str_Sec_Help">Help</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">Editing</sys:String>
 
     <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
     <sys:String x:Key="Str_TT_FontDown">Shrink text (Ctrl+Shift+&lt;)</sys:String>
@@ -284,6 +295,17 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColor">Title color...</sys:String>
     <sys:String x:Key="Str_TT_TitleColor">Color this note's title in the list</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColorReset">Reset title color</sys:String>
+    <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
+    <sys:String x:Key="Str_Ctx_ConvertList">Convert to list</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Turn the selected lines into a comma-separated list</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">Selection to comma list</sys:String>
+    <sys:String x:Key="Str_St_ListMade">{0} values converted to a comma list</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">{0} values copied as a comma list</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">Select some lines first</sys:String>
+    <!-- Per-group name color (1.0.3, issue #8), mirrors the per-note title color -->
+    <sys:String x:Key="Str_Ctx_GroupColor">Group color...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">Color this group's name in the sidebar</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">Reset color</sys:String>
     <sys:String x:Key="Str_KS_FontSize">Grow / shrink selected text</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Zoom editor (Ctrl+0 resets)</sys:String>
     <sys:String x:Key="Str_St_Zoom">Zoom {0}%</sys:String>

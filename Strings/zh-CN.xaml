@@ -183,7 +183,7 @@
     <sys:String x:Key="Str_About_Publisher">发布者</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">证书指纹</sys:String>
     <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
-    <sys:String x:Key="Str_About_DescA" xml:space="preserve">跟得上节奏的笔记。GPLv3 许可的 </sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">跟得上节奏的笔记。一款可搜索的加密记事本，支持富文本、内嵌图片、真正的表格和即时全文搜索，全部自动保存在单个文件中。GPLv3 许可的 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> 工具。</sys:String>
     <sys:String x:Key="Str_About_Computing">计算中...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvail">有可用更新: {0}</sys:String>
@@ -248,5 +248,106 @@
     <sys:String x:Key="Str_Dlg_InstallMsg">将 KillerNotes 安装到你的用户配置文件？</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- 开始菜单快捷方式&#x0A;- 显示在添加/删除程序中</sys:String>
     <sys:String x:Key="Str_Chk_Desktop">桌面快捷方式</sys:String>
+
+    <!-- New note (short label) -->
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ 新建</sys:String>
+
+    <!-- Change data folder (#6) -->
+    <sys:String x:Key="Str_TT_DataFolder">更改存储数据库的数据文件夹</sys:String>
+    <sys:String x:Key="Str_Db_PickFolderTitle">选择 KillerNotes 数据文件夹</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">将 {0} 个数据库文件移动到新文件夹?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">“移动”会将所有 .db 文件一并带走。“保留原处”会切换到新文件夹，并将当前文件保留在原位置。</sys:String>
+    <sys:String x:Key="Str_Btn_Move">移动</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">保留原处</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">数据文件夹现在是 {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">数据文件夹现在是 {0} - {1} 个文件未移动 (正在使用中或目标位置已存在)</sys:String>
+
+    <!-- Custom order + groups (#4) -->
+    <sys:String x:Key="Str_TT_SortCustom">自定义顺序 - 拖动笔记进行排列</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">已切换到自定义顺序 - 拖动笔记进行排列</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">分组</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">新建分组...</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">从分组中移除</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">重命名分组...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">删除分组</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">为新分组命名</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">重命名此分组</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">删除分组“{0}”?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">其中的笔记会保留 - 只是移出该分组。</sys:String>
+    <sys:String x:Key="Str_Btn_Create">创建</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">重命名</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">名为 {0} 的分组已存在</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">已移动到 {0}</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">已从分组中移除</sys:String>
+
+    <!-- Shortcuts overlay (list view) - additions -->
+    <sys:String x:Key="Str_KS_Undo">撤销 / 重做</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">剪切 / 复制</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">全选</sys:String>
+
+    <!-- Keyboard map - additions -->
+    <sys:String x:Key="Str_Kb_Cut">剪切</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">复制</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">撤销</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">重做</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">全选</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">切换标签</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">编辑</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
+    <sys:String x:Key="Str_TT_FontDown">缩小文字 (Ctrl+Shift+&lt;)</sys:String>
+    <sys:String x:Key="Str_TT_FontSize">文字大小 (滚动更改)</sys:String>
+    <sys:String x:Key="Str_TT_FontUp">放大文字 (Ctrl+Shift+&gt;)</sys:String>
+    <sys:String x:Key="Str_TT_Spell">对此笔记进行拼写检查</sys:String>
+    <sys:String x:Key="Str_Btn_More">更多...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">选择任意颜色</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">标题颜色...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">为此笔记在列表中的标题着色</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">重置标题颜色</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertList">转换为列表</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">将所选行转换为逗号分隔的列表</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">所选内容转为逗号列表</sys:String>
+    <sys:String x:Key="Str_St_ListMade">已将 {0} 个值转换为逗号列表</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">已将 {0} 个值复制为逗号列表</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">请先选择一些行</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColor">分组颜色...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">为此分组在侧边栏中的名称着色</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">重置颜色</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">放大 / 缩小所选文字</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">缩放编辑器 (Ctrl+0 重置)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">缩放 {0}%</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">已对此笔记开启拼写检查</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">已对此笔记关闭拼写检查</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">放大文字</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">缩小文字</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">重置缩放</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">选择颜色</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">替换</sys:String>
+    <sys:String x:Key="Str_Btn_Reset">重置</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">从屏幕任意位置拾取颜色</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">点击后再点击某个色块，将其设为当前颜色</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">将色块重置为默认值</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">点击使用此颜色</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">点击将此色块设为当前颜色</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">标签</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">管理标签...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">点击按此标签筛选</sys:String>
+    <sys:String x:Key="Str_Tags_Title">管理标签</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">为新标签选择颜色</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">添加</sys:String>
+    <sys:String x:Key="Str_Btn_Done">完成</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">更改颜色</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">重命名</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">删除标签</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">请先输入标签名称</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">同名标签已存在</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">删除“{0}”标签?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">它将从每条笔记中移除。笔记本身会保留。</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">已添加标签: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">已移除标签: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">在当前笔记上切换标签 1-9</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">管理标签 (添加、重命名、改色)</sys:String>
 
 </ResourceDictionary>

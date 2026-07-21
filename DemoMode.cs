@@ -35,7 +35,7 @@ namespace KillerNotes
             var now = DateTime.Now;
             long showcase = -1;
 
-            void Add(string title, double daysAgo, FlowDocument doc, bool feature = false, string? tags = null)
+            void Add(string title, double daysAgo, FlowDocument doc, bool feature = false, string? tags = null, string? group = null, string? titleColor = null)
             {
                 long id = CreateNoteFromDocument(title, doc);   // ImportExport.cs
                 var created = now.AddDays(-daysAgo);
@@ -43,6 +43,8 @@ namespace KillerNotes
                 if (modified > now) modified = now.AddMinutes(-14);
                 NoteStore.SetTimestamps(id, created, modified);
                 if (tags != null) NoteStore.SetNoteTags(id, tags);
+                if (group != null) NoteStore.SetNoteGroup(id, group);
+                if (titleColor != null) NoteStore.SetTitleColor(id, titleColor);
                 if (feature) showcase = id;
             }
 
@@ -50,14 +52,24 @@ namespace KillerNotes
             foreach (var t in NoteStore.ListTags()) NoteStore.DeleteTag(t.Name);
             foreach (var t in DemoTags) NoteStore.AddTag(t.Name, t.Color);
 
-            Add("Northwind Dental - site visit", 38, DemoSiteVisit(), tags: "On-site, Reference");
-            Add("Firewall swap - Meadowbrook Vet", 31, DemoFirewallSwap(), feature: true, tags: "On-site, Network");
-            Add("PowerShell one-liners", 27, DemoPowerShell(), tags: "Reference");
-            Add("Switch port map - Oakfield Law", 20, DemoPortMap(), tags: "Network, Reference");
-            Add("UPS runtimes", 16, DemoUps(), tags: "Reference, Follow-up");
-            Add("New tech onboarding", 12, DemoOnboarding(), tags: "Reference");
-            Add("RMM agent cleanup", 8, DemoRmm(), tags: "Follow-up");
-            Add("Parts drawer inventory", 5, DemoParts(), tags: "Reference");
+            // A couple of named groups so the sidebar shows sections pinned above the loose
+            // notes (issue #8); the order here sets their top-to-bottom order. Two notes stay
+            // ungrouped on purpose so the loose-notes tail below the groups is visible. Group
+            // names deliberately differ from the tag names above to keep the demo unambiguous.
+            foreach (string g in new[] { "Client sites", "Bench reference" }) NoteStore.AddGroup(g);
+            // Color the groups so the sidebar spine shows the per-group color, and give a couple of
+            // notes their own title color, so the demo showcases both cues (#8).
+            NoteStore.SetGroupColor("Client sites", "#50AEE8");
+            NoteStore.SetGroupColor("Bench reference", "#B982E3");
+
+            Add("Northwind Dental - site visit", 38, DemoSiteVisit(), tags: "On-site, Reference", group: "Client sites");
+            Add("Firewall swap - Meadowbrook Vet", 31, DemoFirewallSwap(), feature: true, tags: "On-site, Network", group: "Client sites", titleColor: "#DD504B");
+            Add("PowerShell one-liners", 27, DemoPowerShell(), tags: "Reference", group: "Bench reference");
+            Add("Switch port map - Oakfield Law", 20, DemoPortMap(), tags: "Network, Reference", group: "Client sites");
+            Add("UPS runtimes", 16, DemoUps(), tags: "Reference, Follow-up", group: "Bench reference");
+            Add("New tech onboarding", 12, DemoOnboarding(), tags: "Reference", group: "Bench reference");
+            Add("RMM agent cleanup", 8, DemoRmm(), tags: "Follow-up", titleColor: "#E8962C");
+            Add("Parts drawer inventory", 5, DemoParts(), tags: "Reference", group: "Bench reference");
             Add("Scratch", 0.05, DemoScratch(), tags: "Urgent, Waiting on vendor");
 
             SearchBox.Text = "";

@@ -183,7 +183,7 @@
     <sys:String x:Key="Str_About_Publisher">發行者</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">憑證指紋</sys:String>
     <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
-    <sys:String x:Key="Str_About_DescA" xml:space="preserve">跟得上腳步的筆記。GPLv3 授權的 </sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">跟得上腳步的筆記。可搜尋、加密的記事本，具備格式文字、內嵌圖片、真正的表格，以及即時全文搜尋，全部自動儲存在單一檔案中。GPLv3 授權的 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> 工具。</sys:String>
     <sys:String x:Key="Str_About_Computing">計算中...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvail">有可用更新: {0}</sys:String>
@@ -248,5 +248,108 @@
     <sys:String x:Key="Str_Dlg_InstallMsg">將 KillerNotes 安裝到你的使用者設定檔？</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- 開始功能表捷徑&#x0A;- 顯示在新增/移除程式中</sys:String>
     <sys:String x:Key="Str_Chk_Desktop">桌面捷徑</sys:String>
+
+    <!-- New note (short) -->
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ 新增</sys:String>
+
+    <!-- Change data folder (#6) -->
+    <sys:String x:Key="Str_TT_DataFolder">變更儲存資料庫的資料夾</sys:String>
+    <sys:String x:Key="Str_Db_PickFolderTitle">選擇 KillerNotes 資料夾</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">將 {0} 個資料庫檔案移至新資料夾?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">「移動」會一併帶走所有 .db 檔案。「保留原處」則切換到新資料夾，並將目前的檔案留在原地。</sys:String>
+    <sys:String x:Key="Str_Btn_Move">移動</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">保留原處</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">資料夾現在是 {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">資料夾現在是 {0} - 有 {1} 個檔案留在原地 (使用中或目的地已存在)</sys:String>
+
+    <!-- Custom order + groups (#4) -->
+    <sys:String x:Key="Str_TT_SortCustom">自訂順序 - 拖曳筆記來排列</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">已切換為自訂順序 - 拖曳筆記來排列</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">群組</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">新增群組...</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">從群組移除</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">重新命名群組...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">刪除群組</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">為新群組命名</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">重新命名此群組</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">刪除群組「{0}」?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">其中的筆記會保留 - 只是離開群組。</sys:String>
+    <sys:String x:Key="Str_Btn_Create">建立</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">重新命名</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">已有名為 {0} 的群組</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">已移至 {0}</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">已從群組移除</sys:String>
+
+    <!-- Shortcuts overlay (list view) - additions -->
+    <sys:String x:Key="Str_KS_Undo">復原 / 取消復原</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">剪下 / 複製</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">全選</sys:String>
+
+    <!-- Keyboard map - additions -->
+    <sys:String x:Key="Str_Kb_Cut">剪下</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">複製</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">復原</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">取消復原</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">全選</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">切換標籤</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">編輯</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
+    <sys:String x:Key="Str_TT_FontDown">縮小文字 (Ctrl+Shift+&lt;)</sys:String>
+    <sys:String x:Key="Str_TT_FontSize">文字大小 (滾動變更)</sys:String>
+    <sys:String x:Key="Str_TT_FontUp">放大文字 (Ctrl+Shift+&gt;)</sys:String>
+    <sys:String x:Key="Str_TT_Spell">此筆記的拼字檢查</sys:String>
+    <sys:String x:Key="Str_Btn_More">更多...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">選擇任何色彩</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">標題色彩...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">在清單中為此筆記的標題上色</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">重設標題色彩</sys:String>
+    <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
+    <sys:String x:Key="Str_Ctx_ConvertList">轉換為清單</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">將選取的行轉為以逗號分隔的清單</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">選取範圍轉為逗號清單</sys:String>
+    <sys:String x:Key="Str_St_ListMade">已將 {0} 個值轉為逗號清單</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">已將 {0} 個值以逗號清單複製</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">請先選取一些行</sys:String>
+    <!-- Per-group name color (1.0.3, issue #8) -->
+    <sys:String x:Key="Str_Ctx_GroupColor">群組色彩...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">在側邊欄為此群組的名稱上色</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">重設色彩</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">放大 / 縮小選取的文字</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">縮放編輯器 (Ctrl+0 重設)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">縮放 {0}%</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">已開啟此筆記的拼字檢查</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">已關閉此筆記的拼字檢查</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">放大文字</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">縮小文字</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">重設縮放</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">選擇色彩</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">取代</sys:String>
+    <sys:String x:Key="Str_Btn_Reset">重設</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">從螢幕上任何位置選取色彩</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">按一下，再按一個色票，即可將其設為目前的色彩</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">將色票重設為預設值</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">按一下使用此色彩</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">按一下將此色票設為目前的色彩</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">標籤</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">管理標籤...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">按一下以依此標籤篩選</sys:String>
+    <sys:String x:Key="Str_Tags_Title">管理標籤</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">為新標籤選擇色彩</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">新增</sys:String>
+    <sys:String x:Key="Str_Btn_Done">完成</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">變更色彩</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">重新命名</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">刪除標籤</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">請先輸入標籤名稱</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">已有相同名稱的標籤</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">刪除「{0}」標籤?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">它會從每則筆記移除。筆記本身會保留。</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">已加標籤: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">已移除標籤: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">在開啟中的筆記切換標籤 1-9</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">管理標籤 (新增、重新命名、變更色彩)</sys:String>
 
 </ResourceDictionary>

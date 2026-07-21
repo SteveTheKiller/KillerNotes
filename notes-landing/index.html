@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="One searchable, encrypted notepad instead of 80 Notepad tabs. Rich text, images, tables, AES-256 protection, tear-off .knote sharing.">
 <meta name="twitter:image" content="https://killernotes.net/og-image.png">
 <script defer src="https://koya.thekiller.net/script.js" data-website-id="9cbd0ccf-b6de-4fb3-a9fe-a166c151fa3f"></script>
-<link rel="stylesheet" href="kn.css?v=3">
+<link rel="stylesheet" href="kn.css?v=6">
 <style>
 /* ---- Page-specific (landing) ---- */
 .content-inner { max-width: 1100px; margin: 0 auto; padding: 0 28px 50px; }
@@ -68,7 +68,15 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 .feature-card code { display: inline-block; margin-top: 4px; background: var(--panel); padding: 2px 7px; border-radius: 4px; font-family: Consolas, monospace; font-size: 12px; color: var(--text); white-space: nowrap; }
 
 /* Sidebar (screenshot strip) */
-.sb-thumbs { padding: 12px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1; }
+.sb-thumbs { padding: 4px 12px 0; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1; }
+/* Grain fade overlays pinned to the sidebar top/bottom (not a mask on the scroller, so the
+   scrollbar is never faded). Inset 8px from the right to clear the scrollbar. JS toggles .on:
+   top only once scrolled down, bottom only while more shots remain below. */
+.sb-fade { position: absolute; left: 0; right: 8px; height: 40px; pointer-events: none; z-index: 2; opacity: 0; transition: opacity 0.12s ease;
+  background: var(--sidebar) url('grain.png?v=2') repeat fixed; background-size: 256px 256px; }
+.sb-fade-top { top: 0; -webkit-mask-image: linear-gradient(to bottom, #000, transparent); mask-image: linear-gradient(to bottom, #000, transparent); }
+.sb-fade-bottom { bottom: 0; -webkit-mask-image: linear-gradient(to top, #000, transparent); mask-image: linear-gradient(to top, #000, transparent); }
+.sb-fade.on { opacity: 1; }
 .sb-thumb { flex-shrink: 0; border: 2px solid transparent; border-radius: 5px; overflow: hidden; cursor: pointer; background: var(--panel); transition: border-color 0.15s, transform 0.12s; position: relative; }
 .sb-thumb:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
 .sb-thumb img { display: block; width: 100%; height: auto; }
@@ -80,7 +88,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
   .hero-grid { flex-direction: column; gap: 22px; }
   .hero-cta, .hero-info { flex: 0 0 auto; min-width: 0; }
   .feature-grid { grid-template-columns: 1fr; }
-  .sb-thumbs { flex-direction: row; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+  .sb-thumbs { flex-direction: row; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; -webkit-mask-image: none; mask-image: none; }
   .sb-thumb { flex: 0 0 auto; width: 240px; min-width: 240px; }
 }
 @media (max-width: 560px) {
@@ -123,7 +131,20 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <button class="acc" data-accent="purple" style="background:#B982E3;color:#B982E3" title="Purple"></button>
 </div>
 </div>
-<!-- Language switcher returns here with the kn-i18n.js pass (9-language support planned) -->
+<div class="lang-switch" role="group" aria-label="Language">
+<button class="lang-toggle" id="langToggle" aria-haspopup="true" aria-expanded="false" title="Language" aria-label="Language">&#127760;</button>
+<div class="lang-menu" id="langMenu" hidden>
+<button class="lang-item" data-lang="en">English</button>
+<button class="lang-item" data-lang="bn">&#2476;&#2494;&#2434;&#2482;&#2494;</button>
+<button class="lang-item" data-lang="de">Deutsch</button>
+<button class="lang-item" data-lang="es">Espanol</button>
+<button class="lang-item" data-lang="fr">Francais</button>
+<button class="lang-item" data-lang="ja">&#26085;&#26412;&#35486;</button>
+<button class="lang-item" data-lang="tr">Turkce</button>
+<button class="lang-item" data-lang="zh-cn">&#20013;&#25991; (&#31616;&#20307;)</button>
+<button class="lang-item" data-lang="zh">&#20013;&#25991; (&#32321;&#39636;)</button>
+</div>
+</div>
 </div>
 
 <div class="shell">
@@ -146,8 +167,8 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <li>Share single notes as .knote files or whole databases as .kndb - with optional share passwords</li>
 <li>Open .txt, .md, .html, .rtf and images as notes; export notes back out</li>
 </ul></div>
-<div class="blurb"><h3 data-i18n="b2_t">Built from scratch</h3><p data-i18n="b2_d">KillerNotes is written in C# and WPF on .NET Framework 4.8. Notes live in a local SQLite database with an FTS5 full-text index, encrypted at rest with SQLCipher when you set a password. Rich content round-trips through the database intact - images and tables included.</p><p data-i18n="b2_d2">The <a href="technical.html">Technical</a> page has the full breakdown of the storage, search, and encryption design.</p></div>
-<div class="blurb"><h3 data-i18n="b3_t">By a field tech, for field techs</h3><p data-i18n="b3_d">KillerNotes is built by a working field tech and used on real client benches every day. Notes save themselves on every pause, every note switch, and every close - nothing is ever lost to a reboot again.</p><p data-i18n="b3_d2">It answers to nobody but you: everything stays on your machine, and the whole thing is GPLv3 open source with the <a href="https://github.com/SteveTheKiller/KillerNotes/issues" target="_blank" rel="noopener">issues page</a> open to anyone.</p><p data-i18n="b3_d3">Read the story behind it on the <a href="about.html">About</a> page.</p></div>
+<div class="blurb"><h3 data-i18n="b2_t">Built from scratch</h3><p data-i18n="b2_d">KillerNotes is written in C# and WPF on .NET Framework 4.8. Notes live in a local SQLite database with an FTS5 full-text index, encrypted at rest with SQLCipher when you set a password. Images, tables, and formatting come back from the database exactly as you left them. It ships as a single self-contained exe with no runtime to install and no background services, so it starts instantly and leaves nothing behind when you move on.</p><p data-i18n="b2_d2">The <a href="technical.html">Technical</a> page has the full breakdown of the storage, search, and encryption design.</p></div>
+<div class="blurb"><h3 data-i18n="b3_t">By a field tech, for field techs</h3><p data-i18n="b3_d">KillerNotes is built by a working field tech and used on real client benches every day. The things that end up in it are the things that matter most: credentials, config snippets, license keys, and the personal client details you jot down between jobs. One password locks the whole database, so none of it sits in plain text on a machine other people can get to.</p><p data-i18n="b3_d2">It answers to nobody but you: everything stays on your machine, and the whole thing is GPLv3 open source with the <a href="https://github.com/SteveTheKiller/KillerNotes/issues" target="_blank" rel="noopener">issues page</a> open to anyone.</p><p data-i18n="b3_d3">Read the story behind it on the <a href="about.html">About</a> page.</p></div>
 </div>
 <div class="hero-grid">
 <div class="hero-cta">
@@ -157,12 +178,12 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 </div>
 </div>
 <div class="hero-info">
-<div class="row"><span class="k">version</span>&nbsp;<span class="v">KillerNotes v1.0.2</span></div>
+<div class="row"><span class="k">version</span>&nbsp;<span class="v">KillerNotes v1.0.3</span></div>
 <div class="row"><span class="k">released</span>&nbsp;<span class="v">2026-07-20</span></div>
 <div class="row"><span class="k">size</span>&nbsp;<span class="v">4.3 MB single exe</span></div>
 <div class="row"><span class="k">platform</span>&nbsp;<span class="v">Windows 10/11 x64</span></div>
 <div class="row"><span class="k">sha256</span>&nbsp;<span class="v hash"><span>d655461d15f826c622375a1d2bb74adf</span><span>321921b32c90c8bed6f753c29fbdc6c4</span></span></div>
-<p class="note" data-i18n="hero_note">Free, open source.<br>No agent, no account, no subscription.<br>No telemetry is sent and no ads... ever.</p>
+<p class="note" data-i18n="hero_note">Free, open source, GPLv3<br>No agent, no account, no subscription.<br>No telemetry is sent and no ads... ever.</p>
 </div>
 </div>
 </section>
@@ -170,23 +191,22 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <section class="features">
 <h2 data-i18n="features_h">What it does</h2>
 <div class="feature-grid">
-<div class="feature-card"><h3 data-i18n="f_notepad_t">One notepad, not 80 tabs</h3><p data-i18n="f_notepad_d">Every note lives in a single local database and saves itself - on every pause in typing, on note switch, on alt-tab, and on close. Nothing is ever lost to a reboot or a crashed session again.</p></div>
-<div class="feature-card"><h3 data-i18n="f_search_t">Instant search</h3><p data-i18n="f_search_d">Full-text search across every note as you type, powered by a SQLite FTS5 index. Sort by creation time or title in either direction, or switch to custom order and arrange notes yourself.</p></div>
-<div class="feature-card"><h3 data-i18n="f_tags_t">Color-coded tags</h3><p data-i18n="f_tags_d">Tag any note with one or more colored labels, Outlook-style. Tags show as pills on the sidebar and a click filters the list to that tag. Definitions live per database, so they travel inside shared files, and the Manage tags editor (F7) adds, renames, and recolors them - changes ripple through every note.</p></div>
-<div class="feature-card"><h3 data-i18n="f_groups_t">Groups &amp; custom order</h3><p data-i18n="f_groups_d">Drag notes up and down the sidebar to put them in the order that matters - an accent line shows where they land. File them into named groups per client, project, or topic: headers collapse with a click, dropping a note on one moves it in, and groups travel inside shared .kndb files.</p></div>
-<div class="feature-card"><h3 data-i18n="f_richtext_t">Rich text that keeps up</h3><p data-i18n="f_richtext_d">Paste screenshots straight into a note, insert real tables with an Office-style size picker, and format with bold, italic, text and highlight colors from a full picker with a desktop-wide eyedropper, adjustable font size, lists, monospace, and horizontal rules - all with hotkeys.</p></div>
-<div class="feature-card"><h3 data-i18n="f_crypt_t">Encrypted at rest</h3><p data-i18n="f_crypt_d">Set a password and the whole database is encrypted with SQLCipher (AES-256) - notes, images, index, everything. Set, change, or remove it from the title-bar lock at any time.</p></div>
-<div class="feature-card"><h3 data-i18n="f_share_t">Tear-off sharing</h3><p data-i18n="f_share_d">Right-click a note to share it as a .knote file, optionally protected with its own password - or just drag it out of the sidebar straight into Teams, Outlook, or a folder. Whole databases travel as .kndb.</p></div>
-<div class="feature-card"><h3 data-i18n="f_dbs_t">Multiple databases</h3><p data-i18n="f_dbs_d">Keep separate notepads per client or per job. The Manage databases dialog creates, renames, switches, exports, and copies them - and a received .kndb opens with a double-click. The data folder itself is yours to choose: a second drive, a synced folder, anywhere.</p></div>
-<div class="feature-card"><h3 data-i18n="f_import_t">Opens your files</h3><p data-i18n="f_import_d">Ctrl+O or drop files in: .txt, .log, and .md become text notes, .rtf keeps its formatting, .html carries its source with a rendered preview, and images land inline. Each file becomes its own note.</p></div>
-<div class="feature-card"><h3 data-i18n="f_export_t">Export</h3><p data-i18n="f_export_d">Any note exports back out as plain text, rich text (.rtf) with images intact, or a standalone theme-styled web page with images embedded.</p></div>
-<div class="feature-card"><h3 data-i18n="f_titlecolor_t">Per-note title colors</h3><p data-i18n="f_titlecolor_d">Right-click a note to color its title in the sidebar and the editor - a fast visual cue for the notes you reach for most. The color travels inside shared .knote and .kndb files, and resets to the theme in one click.</p></div>
-<div class="feature-card"><h3 data-i18n="f_spell_t">Per-note spell check</h3><p data-i18n="f_spell_d">Toggle spell checking per note from the format bar. It uses the Windows spell-checking engine, so it follows your installed Windows languages, and each note remembers its own setting.</p></div>
-<div class="feature-card"><h3 data-i18n="f_preview_t">Markdown &amp; HTML preview</h3><p data-i18n="f_preview_d">Notes that look like markdown or HTML get a preview toggle that opens a rendered split pane - handy for README drafts and pasted documentation.</p></div>
-<div class="feature-card"><h3 data-i18n="f_hotkeys_t">Hotkeys &amp; keyboard map</h3><p data-i18n="f_hotkeys_d">Everything has a key. F1 opens the shortcuts overlay, including a full visual keyboard map with color-coded layers - hold Ctrl or Shift to preview what each key does.</p></div>
-<div class="feature-card"><h3 data-i18n="f_themes_t">Themes &amp; accents</h3><p data-i18n="f_themes_d">Six themes (Dark, Light, Black, Blood, Greed and Cyanotic) with per-theme accent colors, all switchable live - the same set as every KillerTools app.</p></div>
-<div class="feature-card"><h3 data-i18n="f_install_t">Portable or installed</h3><p data-i18n="f_install_d">Runs portable from a USB stick or a share, or one-click installs per-user with no admin - Start Menu shortcut and Add/Remove Programs entry included. A /silent switch handles RMM, winget, or Chocolatey rollouts, and uninstall always keeps your notes. Point the data folder next to the exe and the whole notepad travels with the stick.</p></div>
-<div class="feature-card"><h3 data-i18n="f_private_t">Private by design</h3><p data-i18n="f_private_d">Everything runs on your machine. Notes never leave your disk, no account is required, no cloud sync happens behind your back, and no telemetry is sent anywhere.</p></div>
+<div class="feature-card"><h3 data-i18n="f_notepad_t">One notepad, not 80 tabs</h3><p data-i18n="f_notepad_d">Every note lives in one local database and saves itself on every pause, note switch, and close. Nothing is lost to a reboot or a crash.</p></div>
+<div class="feature-card"><h3 data-i18n="f_search_t">Instant search</h3><p data-i18n="f_search_d">Full-text search across every note as you type, on a SQLite FTS5 index. Sort by date or title, or arrange notes in your own custom order.</p></div>
+<div class="feature-card"><h3 data-i18n="f_tags_t">Color-coded tags</h3><p data-i18n="f_tags_d">Tag notes with colored labels, Outlook-style. Tags show as sidebar pills, and a click filters to that tag. Definitions travel inside shared files, and F7 manages them across every note.</p></div>
+<div class="feature-card"><h3 data-i18n="f_groups_t">Groups &amp; custom order</h3><p data-i18n="f_groups_d">Drag notes into the order that matters, or file them into named groups per client or project. Headers collapse with a click, and groups travel inside shared .kndb files.</p></div>
+<div class="feature-card"><h3 data-i18n="f_richtext_t">Rich text that keeps up</h3><p data-i18n="f_richtext_d">Paste screenshots inline, insert real tables, and format with bold, italic, colors, lists, monospace, and rules. A full color picker with a desktop-wide eyedropper, all on hotkeys.</p></div>
+<div class="feature-card"><h3 data-i18n="f_crypt_t">Encrypted at rest</h3><p data-i18n="f_crypt_d">Set a password and the whole database is encrypted with SQLCipher (AES-256): notes, images, index, everything. Change or remove it from the title-bar lock anytime.</p></div>
+<div class="feature-card"><h3 data-i18n="f_share_t">Tear-off sharing</h3><p data-i18n="f_share_d">Right-click to share a note as a .knote file, optionally password-protected, or drag it straight out to Teams, Outlook, or a folder. Whole databases travel as .kndb.</p></div>
+<div class="feature-card"><h3 data-i18n="f_dbs_t">Multiple databases</h3><p data-i18n="f_dbs_d">Keep separate notepads per client or job. Create, switch, and export them from one dialog, and a received .kndb opens with a double-click. Point the data folder anywhere.</p></div>
+<div class="feature-card"><h3 data-i18n="f_import_t">Opens your files</h3><p data-i18n="f_import_d">Ctrl+O or drop files in: .txt, .log, and .md become notes, .rtf keeps its formatting, .html carries a rendered preview, and images land inline. Each file becomes its own note.</p></div>
+<div class="feature-card"><h3 data-i18n="f_export_t">Export</h3><p data-i18n="f_export_d">Export any note as plain text, rich text (.rtf) with images intact, or a standalone theme-styled web page with images embedded.</p></div>
+<div class="feature-card"><h3 data-i18n="f_titlecolor_t">Per-note title colors</h3><p data-i18n="f_titlecolor_d">Right-click a note to color its title in the sidebar and editor, a fast cue for the notes you reach for most. The color travels inside shared files and resets in one click.</p></div>
+<div class="feature-card"><h3 data-i18n="f_spell_t">Per-note spell check</h3><p data-i18n="f_spell_d">Toggle spell check per note from the format bar. It uses the Windows engine, follows your installed languages, and remembers its setting per note.</p></div>
+<div class="feature-card"><h3 data-i18n="f_preview_t">Markdown &amp; HTML preview</h3><p data-i18n="f_preview_d">Notes that look like markdown or HTML get a preview toggle that opens a rendered split pane, handy for README drafts and pasted docs.</p></div>
+<div class="feature-card"><h3 data-i18n="f_hotkeys_t">Hotkeys &amp; keyboard map</h3><p data-i18n="f_hotkeys_d">Everything has a key. F1 opens the shortcuts overlay with a full visual keyboard map; hold Ctrl or Shift to preview what each key does.</p></div>
+<div class="feature-card"><h3 data-i18n="f_themes_t">Themes &amp; accents</h3><p data-i18n="f_themes_d">Six themes (Dark, Light, Black, Blood, Greed, Cyanotic) with per-theme accents, all switchable live. The same set as every KillerTools app.</p></div>
+<div class="feature-card"><h3 data-i18n="f_install_t">Portable or installed</h3><p data-i18n="f_install_d">Runs portable from a USB stick, or one-click installs per-user with no admin. A /silent switch handles RMM, winget, and Chocolatey rollouts, and uninstall always keeps your notes.</p></div>
 </div>
 </section>
 
@@ -198,18 +218,21 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <div class="sb-thumbs" id="sbThumbs">
 <div class="sb-empty" data-i18n="sb_empty">Screenshots<br>coming soon</div>
 </div>
+<div class="sb-fade sb-fade-top" aria-hidden="true"></div>
+<div class="sb-fade sb-fade-bottom" aria-hidden="true"></div>
 </aside>
 </div>
 
 <footer class="statusbar">
 <span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener" data-i18n="footer_src">Source on GitHub</a> &middot; Part of <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span>
-<span class="right"><span id="verEgg" title="click me">v1.0.2</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
+<span class="right"><span id="verEgg" title="click me">v1.0.3</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
 </footer>
 
 <div class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt="KillerNotes screenshot"></div>
 <div class="egg-toast" id="eggToast"></div>
 
-<script src="kn.js?v=1"></script>
+<script src="kn-i18n.js?v=1"></script>
+<script src="kn.js?v=2"></script>
 <script>
 (function () {
   // Screenshot strip: tries screenshots/01.png .. NN.png, drops any that 404, and shows a
@@ -242,11 +265,26 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
         }
         sbThumbs.insertBefore(b, next);
         loaded++;
+        updateFade();
       };
       img.alt = 'KillerNotes screenshot ' + n;
       img.src = src;
     })(i);
   }
+
+  // Fade the bottom of the strip while it overflows and isn't scrolled to the last shot,
+  // matching the app sidebar (no fade once the last screenshot is in view).
+  var fadeTop = document.querySelector('.sb-fade-top');
+  var fadeBottom = document.querySelector('.sb-fade-bottom');
+  function updateFade() {
+    var scrolledDown = sbThumbs.scrollTop > 2;
+    var more = sbThumbs.scrollHeight - sbThumbs.clientHeight - sbThumbs.scrollTop > 2;
+    if (fadeTop) fadeTop.classList.toggle('on', scrolledDown);
+    if (fadeBottom) fadeBottom.classList.toggle('on', more);
+  }
+  sbThumbs.addEventListener('scroll', updateFade, { passive: true });
+  window.addEventListener('resize', updateFade);
+  updateFade();
 })();
 </script>
 </body>

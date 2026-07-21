@@ -4,6 +4,27 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2026-07-20
+
+### Added
+- Convert to list: select lines (or a table column) in a note and Convert to list - right-click, or Ctrl+Shift+J - turns them into a comma-separated list like PC1,PC2,PC3 for pasting into scripts. Blank lines are dropped and each value is trimmed. A plain-text selection is rewritten in place; a table-cell selection is copied to the clipboard instead, since cells can't be replaced with a single value.
+- Color a group's name in the sidebar: right-click a group header > Group color... (or Reset color), the same picker used for per-note title colors. The color is stored per database, travels inside shared .kndb files, and stays with the group when it is renamed.
+- Grouped notes now carry the group's color as a connector line down the left edge of the sidebar, so a group reads as one set at a glance and a colored group stands out. The line runs from the group header down through its notes and caps cleanly at the top and bottom; a collapsed group shows a short colored pill that grows down through the notes when the group is expanded. The line itself is now the expand/collapse indicator in place of the old chevron.
+
+### Changed
+- Groups now sit at the top of the sidebar, pinned above the ungrouped notes, so they stay reachable instead of scrolling off the bottom as loose notes pile up (issue #8). Dragging a note to the very top files it into the first group.
+- The note list now runs flush to the footer instead of stopping about 8px short. When the list is longer than the sidebar its bottom edge fades into the chrome to hint at more below; the fade clears once you scroll to the end, and the scrollbar itself never fades.
+- The New note button now steps its label down as the sidebar narrows - "+ New note" to "+ New" to "+" - taking the widest wording that fits, and the sidebar no longer narrows past a clean "+" button (collapse it fully with the chevron instead).
+- The keyboard shortcuts overlay (F1), both the list and the visual keyboard, now include the standard editing shortcuts that were always active but undocumented: Undo / Redo (Ctrl+Z / Ctrl+Y), Cut / Copy (Ctrl+X / Ctrl+C), and Select all (Ctrl+A). The keyboard map also marks the Ctrl+1-9 tag toggles.
+- The About window description is a little longer, spelling out what KillerNotes is rather than a single line.
+
+### Fixed
+- Pasting from Excel (or any app that carries its own colors) dropped black text into the note, which vanished in the dark themes. Pasted content is now normalized to the live theme the moment it lands - neutral black/white/gray text follows the theme like typed text does, while deliberately colored text and highlights are left untouched (the same rule the app already applies when opening a note).
+- Tables pasted from Excel arrived with bright gridline cell walls that clashed with the dark themes. Pasted tables now take the app's own table styling (theme card-border color, single-line grid, no cell spacing) so they match tables inserted from the format bar.
+- Multi-line text pasted from Notepad (or any plain-text source) arrived with extra line spacing, because the text-to-document paste converter bakes a paragraph margin onto every pasted line that the editor's own typed lines do not carry. Pasted paragraphs now drop that baked margin so they match the editor's default spacing (horizontal rules keep theirs).
+- The film grain was almost invisible in the Black theme: its grain opacity was half that of the other dark themes (0.12 vs 0.24) while sitting on the darkest background, so it never read. Black now uses the same grain strength as the Dark theme.
+- Filled in the missing translations: 87 strings added over the recent releases (note groups, tags, per-note and per-group colors, spell check, convert-to-list, zoom, the data-folder setting, and the keyboard-shortcut labels) had been falling back to English in the non-English builds. They are now translated across all eight bundled languages - Spanish, French, German, Turkish, Chinese (Simplified and Traditional), Japanese, and Bengali.
+
 ## [1.0.2] - 2026-07-20
 
 ### Added

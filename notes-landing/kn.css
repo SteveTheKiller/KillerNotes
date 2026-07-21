@@ -99,9 +99,12 @@ html[data-theme="light"] .page-title { text-shadow: none; }
 .content-scroll { height: 100%; overflow-y: auto; scroll-behavior: smooth; }
 
 /* ---- Sidebar (the app's docked pane) ---- */
-.sidebar { position: relative; height: 100%; min-height: 0; background: var(--sidebar); display: flex; flex-direction: column; z-index: 5; }
+.sidebar { position: relative; height: calc(100% - 8px); margin-top: 8px; min-height: 0; background: var(--sidebar); display: flex; flex-direction: column; z-index: 5; }
 .sidebar::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: url('grain.png?v=2') repeat fixed; background-size: 256px 256px; opacity: 1; }
-.sb-thumbs { flex: 1 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 14px; }
+.sb-thumbs { flex: 1 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 14px 14px 0; }
+/* Bottom fade while the strip overflows and isn't scrolled to the last shot (toggled in JS),
+   matching the app sidebar: the mask reveals the grainy sidebar behind, so grain stays intact. */
+.sb-thumbs.faded { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent); }
 .sb-empty { margin: auto; text-align: center; color: var(--muted); font-family: 'KillerNotes', 'Courier New', monospace; font-size: 14px; letter-spacing: .5px; line-height: 1.5; padding: 20px; }
 .sb-thumb { display: block; width: 100%; padding: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--panel); cursor: zoom-in; box-shadow: 0 2px 6px rgba(0,0,0,0.45); transition: border-color .15s ease, transform .15s ease; }
 .sb-thumb:hover { border-color: var(--accent); transform: translateY(-1px); }
@@ -209,7 +212,7 @@ html[data-theme="light"] .tb-nav a { text-shadow: none; }
 .acc-pop .acc-pop-label { font-size: 11px; font-family: Consolas, monospace; color: var(--muted); margin-right: 1px; }
 
 /* ============ Landing hero info block (replaces the terminal) ============ */
-.hero-info { background: color-mix(in srgb, var(--modal) 80%, transparent) url('grain.png?v=2') repeat; background-size: 256px 256px; -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); border: 1px solid var(--pane-border); border-left: 2px solid var(--tab-edge); border-right: 2px solid var(--tab-edge); border-radius: 8px; box-shadow: 0 14px 32px rgba(0,0,0,0.4); padding: 15px 14px; font-family: Consolas, monospace; font-size: 13px; line-height: 1.9; flex: 0 1 360px; min-width: 308px; transition: transform 0.12s, box-shadow 0.15s, border-color 0.12s; }
+.hero-info { background: color-mix(in srgb, var(--modal) 80%, transparent) url('grain.png?v=2') repeat; background-size: 256px 256px; -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); border: 1px solid var(--pane-border); border-left: 2px solid var(--tab-edge); border-right: 2px solid var(--tab-edge); border-radius: 8px; box-shadow: 0 14px 32px rgba(0,0,0,0.4); padding: 15px 14px; font-family: Consolas, monospace; font-size: 13px; line-height: 1.9; flex: 0 0 auto; width: -moz-fit-content; width: fit-content; transition: transform 0.12s, box-shadow 0.15s, border-color 0.12s; }
 .hero-info:hover { border-left-color: var(--accent); border-right-color: var(--accent); }
 .hero-info:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); border-top-color: var(--dragline); border-bottom-color: var(--dragline); }
 .hero-info .row { display: flex; gap: 8px; }
@@ -218,7 +221,7 @@ html[data-theme="light"] .tb-nav a { text-shadow: none; }
 /* The hash is split into two 32-char inline-block halves: it breaks exactly at the
    midpoint when the box is narrow, or sits on one line when there is room - never ragged. */
 .hero-info .hash { color: var(--muted); min-width: 0; font-size: 11.5px; letter-spacing: -0.2px; line-height: 1.5; align-self: center; }
-.hero-info .hash span { display: inline-block; }
+.hero-info .hash span { display: block; }
 .hero-info .note { margin-top: 11px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; line-height: 1.55; color: var(--muted); }
 
 /* ============ About page ============ */

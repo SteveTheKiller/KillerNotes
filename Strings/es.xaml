@@ -184,7 +184,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_About_Publisher">Editor</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Huella digital del certificado</sys:String>
     <sys:String x:Key="Str_About_Sha">SHA-256 del EXE</sys:String>
-    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notas que siguen el ritmo. Una utilidad </sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notas que siguen el ritmo. Un bloc de notas cifrado y con búsqueda, con texto enriquecido, imágenes insertadas, tablas reales y búsqueda instantánea de texto completo, todo guardado automáticamente en un solo archivo. Una utilidad </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> con licencia GPLv3.</sys:String>
     <sys:String x:Key="Str_About_Computing">calculando...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvail">Actualización disponible: {0}</sys:String>
@@ -249,5 +249,106 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Instalar KillerNotes en tu perfil de usuario?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Acceso directo en el menu Inicio&#x0A;- Aparece en Agregar o quitar programas</sys:String>
     <sys:String x:Key="Str_Chk_Desktop">Acceso directo en el escritorio</sys:String>
+
+    <!-- New note (short label) -->
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ Nueva</sys:String>
+
+    <!-- Change data folder (#6) -->
+    <sys:String x:Key="Str_TT_DataFolder">Cambiar la carpeta de datos donde se guardan las bases de datos</sys:String>
+    <sys:String x:Key="Str_Db_PickFolderTitle">Elija la carpeta de datos de KillerNotes</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">¿Mover {0} archivo(s) de base de datos a la nueva carpeta?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">Mover lleva consigo todos los archivos .db. Dejarlos cambia a la nueva carpeta y conserva los archivos actuales donde están.</sys:String>
+    <sys:String x:Key="Str_Btn_Move">Mover</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">Dejarlos</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">La carpeta de datos ahora es {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">La carpeta de datos ahora es {0} - {1} archivo(s) se quedaron atrás (en uso o ya existentes en el destino)</sys:String>
+
+    <!-- Custom order + groups (#4) -->
+    <sys:String x:Key="Str_TT_SortCustom">Orden personalizado - arrastre las notas para organizarlas</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">Se cambió a orden personalizado - arrastre las notas para organizarlas</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">Grupo</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">Nuevo grupo...</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">Quitar del grupo</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">Cambiar nombre del grupo...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">Eliminar grupo</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">Asigne un nombre al nuevo grupo</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">Cambiar el nombre de este grupo</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">¿Eliminar el grupo "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">Sus notas se conservan - solo salen del grupo.</sys:String>
+    <sys:String x:Key="Str_Btn_Create">Crear</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">Cambiar nombre</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">Ya existe un grupo llamado {0}</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">Movida a {0}</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">Quitada del grupo</sys:String>
+
+    <!-- Shortcuts overlay (additional) -->
+    <sys:String x:Key="Str_KS_Undo">Deshacer / rehacer</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">Cortar / copiar</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">Seleccionar todo</sys:String>
+
+    <!-- Keyboard map (additional) -->
+    <sys:String x:Key="Str_Kb_Cut">Cortar</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">Copiar</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">Deshacer</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">Rehacer</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">Seleccionar todo</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">Alternar etiqueta</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">Edición</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
+    <sys:String x:Key="Str_TT_FontDown">Reducir texto (Ctrl+Mayús+&lt;)</sys:String>
+    <sys:String x:Key="Str_TT_FontSize">Tamaño del texto (desplace para cambiar)</sys:String>
+    <sys:String x:Key="Str_TT_FontUp">Aumentar texto (Ctrl+Mayús+&gt;)</sys:String>
+    <sys:String x:Key="Str_TT_Spell">Corrección ortográfica para esta nota</sys:String>
+    <sys:String x:Key="Str_Btn_More">Más...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">Elegir cualquier color</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">Color del título...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">Colorear el título de esta nota en la lista</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">Restablecer color del título</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertList">Convertir en lista</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Convierte las líneas seleccionadas en una lista separada por comas</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">Selección a lista separada por comas</sys:String>
+    <sys:String x:Key="Str_St_ListMade">{0} valores convertidos en una lista separada por comas</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">{0} valores copiados como lista separada por comas</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">Seleccione primero algunas líneas</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColor">Color del grupo...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">Colorear el nombre de este grupo en la barra lateral</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">Restablecer color</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">Aumentar / reducir el texto seleccionado</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">Zoom del editor (Ctrl+0 restablece)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Zoom {0}%</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">Corrección ortográfica activada para esta nota</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">Corrección ortográfica desactivada para esta nota</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">Aumentar texto</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">Reducir texto</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">Restablecer zoom</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">Elija un color</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Reemplazar</sys:String>
+    <sys:String x:Key="Str_Btn_Reset">Restablecer</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">Elegir un color de cualquier parte de la pantalla</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">Haga clic y luego en una muestra para asignarle el color actual</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">Restablecer las muestras a los valores predeterminados</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">Haga clic para usar este color</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">Haga clic para asignar el color actual a esta muestra</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">Etiquetas</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">Administrar etiquetas...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">Haga clic para filtrar por esta etiqueta</sys:String>
+    <sys:String x:Key="Str_Tags_Title">Administrar etiquetas</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">Elija un color para la nueva etiqueta</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">Agregar</sys:String>
+    <sys:String x:Key="Str_Btn_Done">Listo</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">Cambiar color</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">Cambiar nombre</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">Eliminar etiqueta</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">Escriba primero un nombre de etiqueta</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">Ya existe una etiqueta con ese nombre</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">¿Eliminar la etiqueta "{0}"?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">Se quitará de todas las notas. Las notas se conservan.</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">Etiquetada: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">Sin etiqueta: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">Alternar etiquetas 1-9 en la nota abierta</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">Administrar etiquetas (agregar, cambiar nombre, cambiar color)</sys:String>
 
 </ResourceDictionary>

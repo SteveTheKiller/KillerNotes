@@ -183,7 +183,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_About_Publisher">Herausgeber</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Zertifikat-Fingerabdruck</sys:String>
     <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
-    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notizen, die mithalten. Ein GPLv3-Dienstprogramm von </sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notizen, die mithalten. Ein durchsuchbarer, verschlüsselter Notizblock mit Rich Text, eingebetteten Bildern, echten Tabellen und sofortiger Volltextsuche, alles automatisch in einer einzigen Datei gespeichert. Ein GPLv3-Dienstprogramm von </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
     <sys:String x:Key="Str_About_Computing">wird berechnet...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvail">Update verfügbar: {0}</sys:String>
@@ -248,5 +248,106 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">KillerNotes im Benutzerprofil installieren?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Startmenü-Verknüpfung&#x0A;- Erscheint unter Apps und Features</sys:String>
     <sys:String x:Key="Str_Chk_Desktop">Desktop-Verknüpfung</sys:String>
+
+    <!-- New note (short) -->
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ Neu</sys:String>
+
+    <!-- Change data folder (#6) -->
+    <sys:String x:Key="Str_TT_DataFolder">Datenordner ändern, in dem die Datenbanken gespeichert werden</sys:String>
+    <sys:String x:Key="Str_Db_PickFolderTitle">KillerNotes-Datenordner auswählen</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">{0} Datenbankdatei(en) in den neuen Ordner verschieben?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">Verschieben bringt jede .db-Datei mit. Belassen wechselt in den neuen Ordner und lässt die aktuellen Dateien, wo sie sind.</sys:String>
+    <sys:String x:Key="Str_Btn_Move">Verschieben</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">Belassen</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">Datenordner ist jetzt {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">Datenordner ist jetzt {0} - {1} Datei(en) blieben zurück (in Verwendung oder am Ziel bereits vorhanden)</sys:String>
+
+    <!-- Custom order + groups (#4) -->
+    <sys:String x:Key="Str_TT_SortCustom">Benutzerdefinierte Reihenfolge - Notizen zum Anordnen ziehen</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">Zu benutzerdefinierter Reihenfolge gewechselt - Notizen zum Anordnen ziehen</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">Gruppe</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">Neue Gruppe...</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">Aus Gruppe entfernen</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">Gruppe umbenennen...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">Gruppe löschen</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">Neue Gruppe benennen</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">Diese Gruppe umbenennen</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">Gruppe "{0}" löschen?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">Ihre Notizen bleiben erhalten - sie verlassen nur die Gruppe.</sys:String>
+    <sys:String x:Key="Str_Btn_Create">Erstellen</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">Umbenennen</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">Eine Gruppe namens {0} existiert bereits</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">Nach {0} verschoben</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">Aus Gruppe entfernt</sys:String>
+
+    <!-- Shortcuts overlay (list view, additions) -->
+    <sys:String x:Key="Str_KS_Undo">Rückgängig / Wiederholen</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">Ausschneiden / Kopieren</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">Alles auswählen</sys:String>
+
+    <!-- Keyboard map (additions) -->
+    <sys:String x:Key="Str_Kb_Cut">Ausschneiden</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">Kopieren</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">Rückgängig</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">Wiederholen</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">Alles auswählen</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">Tag umschalten</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">Bearbeiten</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
+    <sys:String x:Key="Str_TT_FontDown">Text verkleinern (Strg+Umschalt+&lt;)</sys:String>
+    <sys:String x:Key="Str_TT_FontSize">Textgröße (zum Ändern scrollen)</sys:String>
+    <sys:String x:Key="Str_TT_FontUp">Text vergrößern (Strg+Umschalt+&gt;)</sys:String>
+    <sys:String x:Key="Str_TT_Spell">Rechtschreibprüfung für diese Notiz</sys:String>
+    <sys:String x:Key="Str_Btn_More">Mehr...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">Beliebige Farbe wählen</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">Titelfarbe...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">Den Titel dieser Notiz in der Liste einfärben</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">Titelfarbe zurücksetzen</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertList">In Liste umwandeln</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Die ausgewählten Zeilen in eine kommagetrennte Liste umwandeln</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">Auswahl in Komma-Liste</sys:String>
+    <sys:String x:Key="Str_St_ListMade">{0} Werte in eine Komma-Liste umgewandelt</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">{0} Werte als Komma-Liste kopiert</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">Zuerst einige Zeilen auswählen</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColor">Gruppenfarbe...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">Den Namen dieser Gruppe in der Seitenleiste einfärben</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">Farbe zurücksetzen</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">Ausgewählten Text vergrößern / verkleinern</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">Editor zoomen (Strg+0 setzt zurück)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Zoom {0}%</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">Rechtschreibprüfung für diese Notiz an</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">Rechtschreibprüfung für diese Notiz aus</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">Text vergrößern</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">Text verkleinern</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">Zoom zurücksetzen</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">Farbe wählen</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Ersetzen</sys:String>
+    <sys:String x:Key="Str_Btn_Reset">Zurücksetzen</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">Farbe von einer beliebigen Stelle auf dem Bildschirm aufnehmen</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">Klicken, dann ein Farbfeld anklicken, um es auf die aktuelle Farbe zu setzen</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">Farbfelder auf Standard zurücksetzen</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">Klicken, um diese Farbe zu verwenden</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">Klicken, um dieses Farbfeld auf die aktuelle Farbe zu setzen</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">Tags</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">Tags verwalten...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">Klicken, um nach diesem Tag zu filtern</sys:String>
+    <sys:String x:Key="Str_Tags_Title">Tags verwalten</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">Farbe für den neuen Tag wählen</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">Hinzufügen</sys:String>
+    <sys:String x:Key="Str_Btn_Done">Fertig</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">Farbe ändern</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">Umbenennen</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">Tag löschen</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">Zuerst einen Tag-Namen eingeben</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">Ein Tag mit diesem Namen existiert bereits</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">Tag "{0}" löschen?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">Er wird von jeder Notiz entfernt. Die Notizen selbst bleiben erhalten.</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">Getaggt: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">Tag entfernt: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">Tags 1-9 der offenen Notiz umschalten</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">Tags verwalten (hinzufügen, umbenennen, umfärben)</sys:String>
 
 </ResourceDictionary>

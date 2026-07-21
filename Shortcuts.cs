@@ -34,10 +34,14 @@ namespace KillerNotes
             ("Ctrl+Shift+H",  "Str_KS_Highlight"),
             ("Ctrl+Shift+R",  "Str_KS_Rule"),
             ("Ctrl+Shift+L / N", "Str_KS_Lists"),
+            ("Ctrl+Shift+J",   "Str_KS_ConvertList"),
             ("Ctrl+1 - 9",     "Str_KS_Tags"),
             ("Ctrl+Shift+> / <", "Str_KS_FontSize"),
             ("Ctrl+Wheel / Ctrl+0", "Str_KS_Zoom"),
+            ("Ctrl+X / C",    "Str_KS_CutCopy"),
             ("Ctrl+V",        "Str_KS_Paste"),
+            ("Ctrl+Z / Y",    "Str_KS_Undo"),
+            ("Ctrl+A",        "Str_KS_SelectAll"),
             ("Delete",        "Str_KS_Delete"),
             ("Esc",           "Str_KS_Esc"),
         ];
@@ -96,6 +100,7 @@ namespace KillerNotes
                                 System.Windows.Media.Color.FromRgb(0x7A, 0x6A, 0x00)));
                         e.Handled = true; return;
                     case Key.R: InsertRule_Click(this, new RoutedEventArgs()); e.Handled = true; return;
+                    case Key.J: ConvertSelectionToList(); e.Handled = true; return;
                     // Explicit rather than relying on the RichTextBox built-ins, so the
                     // combo works with focus anywhere (title box, sidebar), like the rest.
                     case Key.OemPeriod: System.Windows.Documents.EditingCommands.IncreaseFontSize.Execute(null, Editor); e.Handled = true; return;

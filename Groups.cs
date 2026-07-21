@@ -20,9 +20,10 @@ namespace KillerNotes
     //
     // GROUPS: named sections in the sidebar, backed by the (previously unused)
     // notes.notebook column + the groups table (order, collapsed). The sidebar renders a
-    // COMPOSITE list - ungrouped notes first, then per group a GroupHeader row followed
-    // by its notes (hidden while collapsed). Headers are not selectable: click toggles
-    // collapse, right-click renames/deletes, dropping a note on one files it there.
+    // COMPOSITE list - the group sections first (pinned above the loose notes so they stay
+    // reachable, issue #8), each a GroupHeader row followed by its notes (hidden while
+    // collapsed), then the ungrouped notes underneath. Headers are not selectable: click
+    // toggles collapse, right-click renames/deletes, dropping a note on one files it there.
     // Search results stay flat (relevance order, no headers).
     //
     // The same left-drag serves reorder AND the existing shell drag-out: the DataObject
@@ -32,7 +33,7 @@ namespace KillerNotes
     {
         internal const string NoteIdFormat = "KillerNotes.NoteId";
 
-        private List<(string Name, bool Collapsed)> _groups = [];
+        private List<(string Name, bool Collapsed, string Color)> _groups = [];
 
         /// <summary>Set by HandleNoteDrop so Sharing.cs skips the "drag ready" flash
         /// when the drag ended as an in-list reorder rather than an external drop.</summary>
@@ -51,25 +52,36 @@ namespace KillerNotes
             if (_groups.Count == 0 && !anyGrouped) return _notes;
 
             var items = new List<object>();
-            foreach (var n in _notes) if (n.Notebook.Length == 0) items.Add(n);
 
+            // Groups first, so the named sections stay pinned above the loose notes and never
+            // scroll out of reach (issue #8); the ungrouped notes follow underneath.
             // Defined groups in stored order; names that exist only on notes (imports
             // from another database) are appended alphabetically, uncollapsed.
-            var order = new List<(string Name, bool Collapsed)>(_groups);
+            var order = new List<(string Name, bool Collapsed, string Color)>(_groups);
             var known = new HashSet<string>(_groups.Select(g => g.Name), StringComparer.OrdinalIgnoreCase);
             foreach (string name in _notes.Where(n => n.Notebook.Length > 0 && !known.Contains(n.Notebook))
                                           .Select(n => n.Notebook)
                                           .Distinct(StringComparer.OrdinalIgnoreCase)
                                           .OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
-                order.Add((name, false));
+                order.Add((name, false, ""));
 
             foreach (var g in order)
             {
                 var members = _notes.Where(n =>
                     string.Equals(n.Notebook, g.Name, StringComparison.OrdinalIgnoreCase)).ToList();
-                items.Add(new GroupHeader { Name = g.Name, Count = members.Count, Collapsed = g.Collapsed });
+                // Stripe on each note matches the group color; flag the first/last so the
+                // connector line caps cleanly at the top and bottom of this group.
+                for (int i = 0; i < members.Count; i++)
+                {
+                    members[i].GroupColor = g.Color;
+                    members[i].IsFirstInGroup = false;   // header's connector caps the top; notes only cap the bottom
+                    members[i].IsLastInGroup = i == members.Count - 1;
+                }
+                items.Add(new GroupHeader { Name = g.Name, Count = members.Count, Collapsed = g.Collapsed, NameColor = g.Color });
                 if (!g.Collapsed) items.AddRange(members);
             }
+
+            foreach (var n in _notes) if (n.Notebook.Length == 0) items.Add(n);
             return items;
         }
 
@@ -118,6 +130,25 @@ namespace KillerNotes
             if (!confirm.Confirmed) return;
             NoteStore.DeleteGroup(g.Name);
             RefreshList();
+        }
+
+        // ---- Group name color (mirrors the per-note title color, Notes.cs) ----
+
+        private void GroupColorPick_Click(object sender, RoutedEventArgs e)
+        {
+            if (_ctxGroup is not GroupHeader g) return;
+            var initial = g.NameBrush is SolidColorBrush sb ? sb.Color
+                : (TryFindResource("TextBrush") as SolidColorBrush)?.Color ?? Colors.White;
+            var dlg = new ColorPickerDialog(this, initial);
+            if (dlg.ShowDialog() != true) return;
+            var c = dlg.SelectedColor;
+            NoteStore.SetGroupColor(g.Name, $"#{c.R:X2}{c.G:X2}{c.B:X2}");
+            RefreshList();
+        }
+
+        private void GroupColorReset_Click(object sender, RoutedEventArgs e)
+        {
+            if (_ctxGroup is GroupHeader g) { NoteStore.SetGroupColor(g.Name, ""); RefreshList(); }
         }
 
         // ---- Right-click > Group submenu (built from NotesContextMenu_Opened, like Tags) ----
@@ -254,9 +285,11 @@ namespace KillerNotes
 
         private void ApplyReorderDrop(long id, int slot)
         {
-            // Resolve the slot into (target group, note to insert after). Slot 0 = very
-            // top = start of the ungrouped section; a slot right below a header = start
-            // of that group; otherwise = after the note above the line, in its group.
+            // Resolve the slot into (target group, note to insert after). A slot right below
+            // a header = start of that group; a slot after a note = after that note, in its
+            // group; the very top (slot 0) = top of the first section, which with groups now
+            // pinned above the loose notes (issue #8) is the first group when one exists
+            // (otherwise the ungrouped list, so a group-less database keeps today's behavior).
             string group = "";
             Note? after = null;
             var items = NotesList.Items;
@@ -264,6 +297,10 @@ namespace KillerNotes
             {
                 if (items[slot - 1] is GroupHeader h) group = h.Name;
                 else if (items[slot - 1] is Note p) { after = p; group = p.Notebook; }
+            }
+            else if (slot == 0 && items.Count > 0 && items[0] is GroupHeader top)
+            {
+                group = top.Name;   // above the first header -> file into that group's top
             }
             if (after != null && after.Id == id) return;   // dropped onto its own spot
 
