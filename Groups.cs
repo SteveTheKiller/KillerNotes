@@ -32,8 +32,14 @@ namespace KillerNotes
     public partial class MainWindow
     {
         internal const string NoteIdFormat = "KillerNotes.NoteId";
+        internal const string GroupPathFormat = "KillerNotes.GroupPath";   // dragged group's path (1.1.0)
 
-        private List<(string Name, bool Collapsed, string Color)> _groups = [];
+        private List<(string Path, string Parent, bool Collapsed, string Color)> _groups = [];
+
+        // Group-header drag (1.1.0): press records the candidate; a move past the threshold
+        // starts the drag (TryStartGroupDrag); a plain press+release toggles collapse instead.
+        private GroupHeader? _groupDragCandidate;
+        private Point _groupDragStart;
 
         /// <summary>Set by HandleNoteDrop so Sharing.cs skips the "drag ready" flash
         /// when the drag ended as an in-list reorder rather than an external drop.</summary>
@@ -42,57 +48,230 @@ namespace KillerNotes
         // ---- Composite sidebar list ----
 
         /// <summary>Headers + notes for the sidebar (RefreshList). Flat while searching,
-        /// and flat when the database has no groups at all (zero change until used).</summary>
+        /// and flat when the database has no groups at all (zero change until used).
+        /// Groups nest (1.1.0): each group renders its header, then its own notes, then its
+        /// child groups recursively - a collapsed group hides its notes AND its whole subtree.</summary>
         private System.Collections.IList BuildSidebarItems()
         {
             if (!string.IsNullOrWhiteSpace(SearchBox.Text)) return _notes;
 
-            _groups = NoteStore.ListGroups();
+            _groups = NoteStore.ListGroupTree();
             bool anyGrouped = _notes.Any(n => n.Notebook.Length > 0);
             if (_groups.Count == 0 && !anyGrouped) return _notes;
 
+            // Children bucketed by parent path, each bucket left in stored (sort_order) order.
+            var childrenOf = new Dictionary<string, List<(string Path, string Parent, bool Collapsed, string Color)>>(StringComparer.OrdinalIgnoreCase);
+            foreach (var g in _groups)
+            {
+                if (!childrenOf.TryGetValue(g.Parent, out var lst)) { lst = new(); childrenOf[g.Parent] = lst; }
+                lst.Add(g);
+            }
+            var known = new HashSet<string>(_groups.Select(g => g.Path), StringComparer.OrdinalIgnoreCase);
+
             var items = new List<object>();
 
-            // Groups first, so the named sections stay pinned above the loose notes and never
-            // scroll out of reach (issue #8); the ungrouped notes follow underneath.
-            // Defined groups in stored order; names that exist only on notes (imports
-            // from another database) are appended alphabetically, uncollapsed.
-            var order = new List<(string Name, bool Collapsed, string Color)>(_groups);
-            var known = new HashSet<string>(_groups.Select(g => g.Name), StringComparer.OrdinalIgnoreCase);
-            foreach (string name in _notes.Where(n => n.Notebook.Length > 0 && !known.Contains(n.Notebook))
-                                          .Select(n => n.Notebook)
-                                          .Distinct(StringComparer.OrdinalIgnoreCase)
-                                          .OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
-                order.Add((name, false, ""));
+            // A frozen brush for a color hex, or null (uncolored -> the template draws the muted
+            // theme line, staying theme-reactive).
+            Brush? RailBrush(string hex)
+            {
+                if (string.IsNullOrEmpty(hex)) return null;
+                try { var b = new SolidColorBrush((Color)ColorConverter.ConvertFromString(hex)); b.Freeze(); return b; }
+                catch { return null; }
+            }
 
-            foreach (var g in order)
+            // Ancestor guide rails for one row, one per level above it. Built fresh per row so the
+            // bottom cap can be set on just the last row of each ancestor's subtree.
+            List<GroupRail> RailsFrom(List<(int Level, string Color)> ancestors) =>
+                ancestors.Select(a => new GroupRail
+                {
+                    Level = a.Level,
+                    HasColor = !string.IsNullOrEmpty(a.Color),
+                    Brush = RailBrush(a.Color),
+                }).ToList();
+
+            // Rounds the rail at `level` on a row (its ancestor's subtree ends on this row).
+            void CapRail(object row, int level)
+            {
+                var rails = (row as GroupHeader)?.Rails ?? (row as Note)?.Rails;
+                var r = rails?.FirstOrDefault(x => x.Level == level);
+                if (r != null) r.IsLast = true;
+            }
+
+            // Emits a group header, its direct notes (unless collapsed), then its child groups one
+            // level deeper, and returns the index of the LAST row of the whole subtree. ancestors
+            // are the guide-line levels above this group; a child inherits them plus this group's
+            // own level, so the parent's line runs down the left of the child's subtree and is
+            // capped (rounded) on that subtree's last row.
+            int Emit((string Path, string Parent, bool Collapsed, string Color) g, int depth, List<(int Level, string Color)> ancestors)
             {
                 var members = _notes.Where(n =>
-                    string.Equals(n.Notebook, g.Name, StringComparison.OrdinalIgnoreCase)).ToList();
-                // Stripe on each note matches the group color; flag the first/last so the
-                // connector line caps cleanly at the top and bottom of this group.
+                    string.Equals(n.Notebook, g.Path, StringComparison.OrdinalIgnoreCase)).ToList();
+                items.Add(new GroupHeader
+                {
+                    Path = g.Path,
+                    Name = NoteStore.GroupNameOf(g.Path),
+                    Depth = depth,
+                    Rails = RailsFrom(ancestors),
+                    Count = members.Count,
+                    Collapsed = g.Collapsed,
+                    NameColor = g.Color,
+                });
+                if (g.Collapsed) return items.Count - 1;
+
+                bool hasKids = childrenOf.ContainsKey(g.Path);
                 for (int i = 0; i < members.Count; i++)
                 {
                     members[i].GroupColor = g.Color;
-                    members[i].IsFirstInGroup = false;   // header's connector caps the top; notes only cap the bottom
-                    members[i].IsLastInGroup = i == members.Count - 1;
+                    members[i].GroupDepth = depth;
+                    members[i].Rails = RailsFrom(ancestors);
+                    members[i].IsFirstInGroup = false;   // the header caps the spine's top
+                    // The last own note caps the spine's bottom only when nothing else follows in
+                    // this group; with child subgroups below, the line runs on into them instead.
+                    members[i].IsLastInGroup = i == members.Count - 1 && !hasKids;
+                    items.Add(members[i]);
                 }
-                items.Add(new GroupHeader { Name = g.Name, Count = members.Count, Collapsed = g.Collapsed, NameColor = g.Color });
-                if (!g.Collapsed) items.AddRange(members);
+
+                int lastIdx = items.Count - 1;
+                if (hasKids)
+                {
+                    var childAncestors = new List<(int Level, string Color)>(ancestors) { (depth, g.Color) };
+                    foreach (var k in childrenOf[g.Path]) lastIdx = Emit(k, depth + 1, childAncestors);
+                    CapRail(items[lastIdx], depth);   // round this group's rail on its subtree's last row
+                }
+                return lastIdx;
             }
 
-            foreach (var n in _notes) if (n.Notebook.Length == 0) items.Add(n);
+            // Groups first (pinned above the loose notes, issue #8): every top-level group
+            // (parent = ""), each expanded into its subtree. Paths that exist only on notes
+            // (imported from another database) have no group row, so they are appended as
+            // top-level sections, uncollapsed, in alphabetical order.
+            var rootAncestors = new List<(int Level, string Color)>();
+            if (childrenOf.TryGetValue("", out var roots))
+                foreach (var g in roots) Emit(g, 0, rootAncestors);
+
+            foreach (string path in _notes.Where(n => n.Notebook.Length > 0 && !known.Contains(n.Notebook))
+                                          .Select(n => n.Notebook)
+                                          .Distinct(StringComparer.OrdinalIgnoreCase)
+                                          .OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
+                Emit((path, "", false, ""), 0, rootAncestors);
+
+            foreach (var n in _notes) if (n.Notebook.Length == 0) { n.GroupDepth = 0; items.Add(n); }
             return items;
         }
 
         // ---- Header interactions (wired in the GroupHeader DataTemplate) ----
 
+        // Press on a header: block ListBox selection and arm a possible drag. Collapse is
+        // deferred to release so a press-drag reorders the group instead of toggling it.
+        private void GroupHeader_Press(object sender, MouseButtonEventArgs e)
+        {
+            if ((sender as FrameworkElement)?.DataContext is not GroupHeader h) return;
+            _groupDragCandidate = h;
+            _groupDragStart = e.GetPosition(null);
+            e.Handled = true;   // headers are not selectable rows
+        }
+
+        // Release on a header with no drag = a click: toggle collapse. A drag consumes the
+        // release (DoDragDrop) and clears the candidate, so this no-ops after a drag.
         private void GroupHeader_Click(object sender, MouseButtonEventArgs e)
         {
             if ((sender as FrameworkElement)?.DataContext is not GroupHeader h) return;
-            NoteStore.SetGroupCollapsed(h.Name, !h.Collapsed);
-            RefreshList();
-            e.Handled = true;   // keep the ListBox from selecting the header row
+            e.Handled = true;
+            if (!ReferenceEquals(_groupDragCandidate, h)) return;   // a drag ran instead of a click
+            _groupDragCandidate = null;
+            NoteStore.SetGroupCollapsed(h.Path, !h.Collapsed);
+            RefreshList(preserveScroll: true);   // keep the sidebar from jumping on collapse/expand
+        }
+
+        // Begins a header drag once the pointer passes the threshold; returns true when it
+        // started one (the caller stops treating the move as a note drag). Called from
+        // NotesList_PreviewMouseMove (Sharing.cs).
+        private bool TryStartGroupDrag(MouseEventArgs e)
+        {
+            if (_groupDragCandidate == null || e.LeftButton != MouseButtonState.Pressed) return false;
+            var p = e.GetPosition(null);
+            // Nudge resistance: a group header only starts moving on a deliberate drag, not a
+            // stray twitch while clicking to collapse - 2.5x the system drag threshold. Below
+            // that the press stays a click and just toggles collapse. (Steve, 2026-07-22)
+            const double NudgeFactor = 2.5;
+            if (Math.Abs(p.X - _groupDragStart.X) < SystemParameters.MinimumHorizontalDragDistance * NudgeFactor &&
+                Math.Abs(p.Y - _groupDragStart.Y) < SystemParameters.MinimumVerticalDragDistance * NudgeFactor) return false;
+            string path = _groupDragCandidate.Path;
+            _groupDragCandidate = null;   // consumed: the release must not toggle collapse
+            try { DragDrop.DoDragDrop(NotesList, new DataObject(GroupPathFormat, path), DragDropEffects.Move); }
+            catch { /* a failed drag leaves the tree untouched */ }
+            finally { ClearInsertionLine(); }
+            return true;
+        }
+
+        // ---- Group drag: reorder / re-nest (1.1.0) ----
+
+        private bool HandleGroupDragOver(DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(GroupPathFormat)) return false;
+            e.Handled = true;
+            if (!string.IsNullOrWhiteSpace(SearchBox.Text)) { e.Effects = DragDropEffects.None; ClearInsertionLine(); return true; }
+            e.Effects = DragDropEffects.Move;
+            ShowInsertionLine(e);
+            return true;
+        }
+
+        private bool HandleGroupDrop(DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(GroupPathFormat)) return false;
+            ClearInsertionLine();
+            e.Handled = true;
+            if (!string.IsNullOrWhiteSpace(SearchBox.Text)) return true;
+            if (e.Data.GetData(GroupPathFormat) is not string dragged || dragged.Length == 0) return true;
+
+            // Resolve (new parent, before-sibling) from the row under the cursor. On a header the
+            // top/bottom edge reorders it as a sibling (before/after the target), the middle nests
+            // into it; on a note, nest into that note's group; empty space = move to top level.
+            var d = e.OriginalSource as DependencyObject;
+            while (d != null && d is not ListBoxItem) d = VisualTreeHelper.GetParent(d);
+            var item = d as ListBoxItem;
+            object? row = item?.DataContext;
+
+            string newParent; string? before = null;
+            if (row is GroupHeader gh && item != null)
+            {
+                double y = e.GetPosition(item).Y, h = Math.Max(1, item.ActualHeight);
+                if (y < h * 0.30) { newParent = NoteStore.GroupParentOf(gh.Path); before = gh.Path; }
+                else if (y > h * 0.70) { newParent = NoteStore.GroupParentOf(gh.Path); before = SiblingAfter(gh.Path); }
+                else newParent = gh.Path;   // nest into the target group
+            }
+            else if (row is Note nt && nt.Notebook.Length > 0) newParent = nt.Notebook;   // nest into the note's group
+            else newParent = "";   // top level
+
+            // Capture the pre-move position so Ctrl+Z can put the branch back exactly:
+            // its original parent and the sibling it originally sat in front of. The leaf
+            // name is unchanged by a move, so the post-move path is (newParent / leaf).
+            string leaf = NoteStore.GroupNameOf(dragged);
+            string origParent = NoteStore.GroupParentOf(dragged);
+            string? origBefore = SiblingAfter(dragged);
+            if (NoteStore.MoveGroup(dragged, newParent, before))
+            {
+                string newPath = NoteStore.GroupPath(newParent, leaf);
+                PushUndo(() =>
+                {
+                    NoteStore.MoveGroup(newPath, origParent, origBefore);
+                    RefreshList(preserveScroll: true);
+                });
+                RefreshList(preserveScroll: true);
+                FlashStatus(Loc("Str_St_GroupMoved"));
+            }
+            return true;
+        }
+
+        // The sibling right after `path` among its parent's children (null = it is last).
+        private string? SiblingAfter(string path)
+        {
+            string parent = NoteStore.GroupParentOf(path);
+            var sibs = NoteStore.ListGroupTree()
+                .Where(x => string.Equals(x.Parent, parent, StringComparison.OrdinalIgnoreCase))
+                .Select(x => x.Path).ToList();
+            int i = sibs.FindIndex(p => string.Equals(p, path, StringComparison.OrdinalIgnoreCase));
+            return i >= 0 && i + 1 < sibs.Count ? sibs[i + 1] : null;
         }
 
         // The header's ContextMenu lives outside the visual tree, so remember which
@@ -100,22 +279,36 @@ namespace KillerNotes
         private GroupHeader? _ctxGroup;
 
         private void GroupHeader_RightDown(object sender, MouseButtonEventArgs e)
-            => _ctxGroup = (sender as FrameworkElement)?.DataContext as GroupHeader;
+        {
+            var fe = sender as FrameworkElement;
+            _ctxGroup = fe?.DataContext as GroupHeader;
+            // A nested group's color item reads "Subgroup color..." for clarity; a root group
+            // keeps "Group color...". Set on right-click, before the menu opens. (Steve, 2026-07-22)
+            if (fe?.ContextMenu is ContextMenu cm && _ctxGroup is GroupHeader g)
+                foreach (var it in cm.Items)
+                    if (it is MenuItem mi && (mi.Tag as string) == "groupcolor")
+                        mi.Header = Loc(g.IsNested ? "Str_Ctx_SubgroupColor" : "Str_Ctx_GroupColor");
+        }
 
         private void RenameGroup_Click(object sender, RoutedEventArgs e)
         {
             if (_ctxGroup is not GroupHeader g) return;
             var dlg = new InputDialog(Loc("Str_Dlg_RenameGroupHead"), g.Name, Loc("Str_Btn_Rename")) { Owner = this };
             dlg.ShowDialog();
-            string name = dlg.Value.Trim();
+            string name = dlg.Value.Trim().Replace(NoteStore.GroupSep, "");   // strip the reserved path separator
             if (!dlg.Confirmed || name.Length == 0 || name == g.Name) return;
-            if (!string.Equals(name, g.Name, StringComparison.OrdinalIgnoreCase) &&
-                NoteStore.ListGroups().Any(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase)))
+            // Only a sibling (same parent) using the new leaf blocks the rename; the same
+            // leaf under a different parent is a distinct group path and is fine.
+            string parent = NoteStore.GroupParentOf(g.Path);
+            if (NoteStore.ListGroupTree().Any(x =>
+                    string.Equals(x.Parent, parent, StringComparison.OrdinalIgnoreCase) &&
+                    !string.Equals(x.Path, g.Path, StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(NoteStore.GroupNameOf(x.Path), name, StringComparison.OrdinalIgnoreCase)))
             {
                 FlashStatus(string.Format(Loc("Str_Grp_Exists"), name));
                 return;
             }
-            NoteStore.RenameGroup(g.Name, name);
+            NoteStore.RenameGroup(g.Path, name);
             RefreshList();
         }
 
@@ -128,8 +321,56 @@ namespace KillerNotes
                 Loc("Str_Btn_Delete")) { Owner = this };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
-            NoteStore.DeleteGroup(g.Name);
+            NoteStore.DeleteGroup(g.Path);
             RefreshList();
+        }
+
+        // Creates a child group under the right-clicked header (1.1.0 subgroups). The new
+        // group's path is parent + separator + leaf; its parent's row is expanded so the
+        // child is visible. An existing sibling leaf just resolves to that group.
+        private void NewSubgroup_Click(object sender, RoutedEventArgs e)
+        {
+            if (_ctxGroup is not GroupHeader g) return;
+            var dlg = new InputDialog(Loc("Str_Dlg_NewSubgroupHead"), "", Loc("Str_Btn_Create")) { Owner = this };
+            dlg.ShowDialog();
+            string leaf = dlg.Value.Trim().Replace(NoteStore.GroupSep, "");   // strip the reserved path separator
+            if (!dlg.Confirmed || leaf.Length == 0) return;
+            string parent = g.Path;
+            NoteStore.AddGroup(NoteStore.GroupPath(parent, leaf), parent);
+            NoteStore.SetGroupCollapsed(parent, false);   // reveal the new child
+            RefreshList();
+        }
+
+        // ---- Keyboard entry points (Ctrl+Shift+G / Ctrl+Shift+K, Shortcuts.cs) ----
+        // Group headers are not selectable, so a keyboard group action targets the group of
+        // the selected note(s): valid only when the selection lands in exactly one group.
+
+        private GroupHeader? ResolveKeyboardGroup()
+        {
+            var groups = NotesList.SelectedItems.OfType<Note>()
+                .Select(n => n.Notebook).Where(g => g.Length > 0)
+                .Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+            if (groups.Count != 1) return null;
+            var t = NoteStore.ListGroupTree()
+                .FirstOrDefault(x => string.Equals(x.Path, groups[0], StringComparison.OrdinalIgnoreCase));
+            if (t.Path == null) return null;
+            return new GroupHeader { Path = t.Path, Name = NoteStore.GroupNameOf(t.Path), NameColor = t.Color };
+        }
+
+        private void NewSubgroupShortcut()
+        {
+            var g = ResolveKeyboardGroup();
+            if (g == null) { FlashStatus(Loc("Str_St_PickGroupFirst")); return; }
+            _ctxGroup = g;
+            NewSubgroup_Click(this, new RoutedEventArgs());
+        }
+
+        private void GroupColorShortcut()
+        {
+            var g = ResolveKeyboardGroup();
+            if (g == null) { FlashStatus(Loc("Str_St_PickGroupFirst")); return; }
+            _ctxGroup = g;
+            GroupColorPick_Click(this, new RoutedEventArgs());
         }
 
         // ---- Group name color (mirrors the per-note title color, Notes.cs) ----
@@ -139,16 +380,55 @@ namespace KillerNotes
             if (_ctxGroup is not GroupHeader g) return;
             var initial = g.NameBrush is SolidColorBrush sb ? sb.Color
                 : (TryFindResource("TextBrush") as SolidColorBrush)?.Color ?? Colors.White;
+            string groupName = g.Path;
+            string original = g.NameColor;
             var dlg = new ColorPickerDialog(this, initial);
-            if (dlg.ShowDialog() != true) return;
-            var c = dlg.SelectedColor;
-            NoteStore.SetGroupColor(g.Name, $"#{c.R:X2}{c.G:X2}{c.B:X2}");
+            // Live preview: recolor the group header + its notes' connector line as the color
+            // changes in the picker (PreviewGroupColor). The RefreshList below then rebuilds
+            // with the stored color (cancel) or the newly saved one (OK).
+            dlg.ColorChanged += c => PreviewGroupColor(groupName, $"#{c.R:X2}{c.G:X2}{c.B:X2}");
+            if (dlg.ShowDialog() == true)
+            {
+                NoteStore.SetGroupColor(groupName,
+                    $"#{dlg.SelectedColor.R:X2}{dlg.SelectedColor.G:X2}{dlg.SelectedColor.B:X2}");
+                PushUndo(() => RestoreGroupColor(groupName, original));
+            }
             RefreshList();
+        }
+
+        // Undo target: restore a group's stored name color by path.
+        private void RestoreGroupColor(string path, string hex)
+        {
+            NoteStore.SetGroupColor(path, hex);
+            RefreshList(preserveScroll: true);
+        }
+
+        /// <summary>Recolors the open group's header and its notes' spine in place while the
+        /// color picker is open, so the change previews as you drag. Transient only - the
+        /// caller's RefreshList restores the stored color on cancel (or the saved one on OK).
+        /// GroupHeader/Note raise PropertyChanged for the color, so the rows update without a
+        /// list rebuild that would reset the scroll position.</summary>
+        private void PreviewGroupColor(string groupName, string hex)
+        {
+            if (NotesList.ItemsSource is not System.Collections.IEnumerable items) return;
+            foreach (var it in items)
+            {
+                if (it is GroupHeader gh &&
+                    string.Equals(gh.Path, groupName, StringComparison.OrdinalIgnoreCase))
+                    gh.NameColor = hex;
+                else if (it is Note n &&
+                    string.Equals(n.Notebook, groupName, StringComparison.OrdinalIgnoreCase))
+                    n.GroupColor = hex;
+            }
         }
 
         private void GroupColorReset_Click(object sender, RoutedEventArgs e)
         {
-            if (_ctxGroup is GroupHeader g) { NoteStore.SetGroupColor(g.Name, ""); RefreshList(); }
+            if (_ctxGroup is not GroupHeader g) return;
+            string path = g.Path, original = g.NameColor;
+            NoteStore.SetGroupColor(path, "");
+            PushUndo(() => RestoreGroupColor(path, original));
+            RefreshList();
         }
 
         // ---- Right-click > Group submenu (built from NotesContextMenu_Opened, like Tags) ----
@@ -159,21 +439,23 @@ namespace KillerNotes
             GroupMenu.IsEnabled = selected.Count > 0;
             if (selected.Count == 0) return;
 
-            foreach (var g in NoteStore.ListGroups())
+            foreach (var g in NoteStore.ListGroupTree())
             {
                 bool all = selected.All(n =>
-                    string.Equals(n.Notebook, g.Name, StringComparison.OrdinalIgnoreCase));
+                    string.Equals(n.Notebook, g.Path, StringComparison.OrdinalIgnoreCase));
                 var check = new TextBlock { Text = all ? "✓" : "", VerticalAlignment = VerticalAlignment.Center };
                 check.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryBrush");
+                // Full path (Parent / Child) so a nested group reads unambiguously in the flat menu.
+                string label = g.Path.Replace(NoteStore.GroupSep, " / ");
                 var item = new MenuItem
                 {
-                    Header = BuildMenuRow(check, null, g.Name, null),   // Tags.cs (shared row layout)
+                    Header = BuildMenuRow(check, null, label, null),   // Tags.cs (shared row layout)
                     Padding = new Thickness(6, 5, 14, 5),
                     HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 };
-                string name = g.Name;
+                string path = g.Path;
                 bool allIn = all;
-                item.Click += (_, _) => AssignGroup(SelectedOrSame(selected), allIn ? "" : name);
+                item.Click += (_, _) => AssignGroup(SelectedOrSame(selected), allIn ? "" : path);
                 GroupMenu.Items.Add(item);
             }
 
@@ -209,12 +491,23 @@ namespace KillerNotes
 
         private void AssignGroup(List<Note> notes, string group)
         {
+            // Snapshot the prior membership of only the notes that actually move, by id, so
+            // Ctrl+Z files them back where they were (the Note instances are stale post-refresh).
+            var snap = notes
+                .Where(n => !string.Equals(n.Notebook, group, StringComparison.OrdinalIgnoreCase))
+                .Select(n => (n.Id, n.Notebook)).ToList();
             foreach (var n in notes)
             {
                 if (string.Equals(n.Notebook, group, StringComparison.OrdinalIgnoreCase)) continue;
                 NoteStore.SetNoteGroup(n.Id, group);
                 n.Notebook = group;
             }
+            if (snap.Count > 0)
+                PushUndo(() =>
+                {
+                    foreach (var (id, notebook) in snap) NoteStore.SetNoteGroup(id, notebook);
+                    RefreshList(preserveScroll: true);
+                });
             RefreshList();
             FlashStatus(group.Length == 0
                 ? Loc("Str_St_RemovedFromGroup")
@@ -295,12 +588,12 @@ namespace KillerNotes
             var items = NotesList.Items;
             if (slot > 0 && slot <= items.Count)
             {
-                if (items[slot - 1] is GroupHeader h) group = h.Name;
+                if (items[slot - 1] is GroupHeader h) group = h.Path;
                 else if (items[slot - 1] is Note p) { after = p; group = p.Notebook; }
             }
             else if (slot == 0 && items.Count > 0 && items[0] is GroupHeader top)
             {
-                group = top.Name;   // above the first header -> file into that group's top
+                group = top.Path;   // above the first header -> file into that group's top
             }
             if (after != null && after.Id == id) return;   // dropped onto its own spot
 
@@ -316,6 +609,10 @@ namespace KillerNotes
             var all = NoteStore.List(null, "custom");
             var dragged = all.FirstOrDefault(n => n.Id == id);
             if (dragged == null) return;
+            // Snapshot the pre-move arrangement (all orders + the dragged note's group) so Ctrl+Z
+            // puts it back. Captured after any first-time seed, so it matches the on-screen order.
+            var undoOrders = all.Select(n => (n.Id, n.SortOrder)).ToList();
+            string undoGroup = dragged.Notebook;
             all.Remove(dragged);
 
             int insert;
@@ -338,6 +635,12 @@ namespace KillerNotes
             if (!string.Equals(dragged.Notebook, group, StringComparison.OrdinalIgnoreCase))
                 NoteStore.SetNoteGroup(id, group);
             NoteStore.SetNoteOrders(all.Select((n, i) => (n.Id, i + 1)));
+            PushUndo(() =>
+            {
+                NoteStore.SetNoteGroup(id, undoGroup);
+                NoteStore.SetNoteOrders(undoOrders);
+                RefreshList(preserveScroll: true);
+            });
             RefreshList();
         }
 

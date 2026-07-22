@@ -267,10 +267,17 @@
     <sys:String x:Key="Str_St_CustomOrderOn">已切換為自訂順序 - 拖曳筆記來排列</sys:String>
     <sys:String x:Key="Str_Ctx_Group">群組</sys:String>
     <sys:String x:Key="Str_Ctx_NewGroup">新增群組...</sys:String>
+    <sys:String x:Key="Str_TT_Density">側欄密度 (F10) - 點擊或捲動</sys:String>
+    <sys:String x:Key="Str_KS_Density">切換側欄密度</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">密度：完整</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">密度：緊湊</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">密度：最小</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">新增子群組...</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">從群組移除</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">重新命名群組...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">刪除群組</sys:String>
     <sys:String x:Key="Str_Dlg_NewGroupHead">為新群組命名</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">為新子群組命名</sys:String>
     <sys:String x:Key="Str_Dlg_RenameGroupHead">重新命名此群組</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupHead">刪除群組「{0}」?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupBody">其中的筆記會保留 - 只是離開群組。</sys:String>
@@ -279,6 +286,7 @@
     <sys:String x:Key="Str_Grp_Exists">已有名為 {0} 的群組</sys:String>
     <sys:String x:Key="Str_St_MovedToGroup">已移至 {0}</sys:String>
     <sys:String x:Key="Str_St_RemovedFromGroup">已從群組移除</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">群組已移動</sys:String>
 
     <!-- Shortcuts overlay (list view) - additions -->
     <sys:String x:Key="Str_KS_Undo">復原 / 取消復原</sys:String>
@@ -313,8 +321,12 @@
     <sys:String x:Key="Str_St_ListNoSel">請先選取一些行</sys:String>
     <!-- Per-group name color (1.0.3, issue #8) -->
     <sys:String x:Key="Str_Ctx_GroupColor">群組色彩...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">子群組色彩...</sys:String>
     <sys:String x:Key="Str_TT_GroupColor">在側邊欄為此群組的名稱上色</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColorReset">重設色彩</sys:String>
+    <sys:String x:Key="Str_KS_NewSubgroup">新增子群組（選取筆記的群組）</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">群組色彩（選取筆記的群組）</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">請先選取一則位於群組中的筆記</sys:String>
     <sys:String x:Key="Str_KS_FontSize">放大 / 縮小選取的文字</sys:String>
     <sys:String x:Key="Str_KS_Zoom">縮放編輯器 (Ctrl+0 重設)</sys:String>
     <sys:String x:Key="Str_St_Zoom">縮放 {0}%</sys:String>

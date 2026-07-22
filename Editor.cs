@@ -24,6 +24,7 @@ namespace KillerNotes
             InitFormatBar();
             InitImageResize();   // click-to-resize handles on note images (ImageResize.cs)
             InitEditorView();    // remembered zoom + Ctrl+wheel (below)
+            InitWordWrap();      // remembered word-wrap toggle (below)
 
             // Drag-and-drop: text drops are native RichTextBox behavior; image files and
             // raw bitmaps need the handlers below.
@@ -116,11 +117,12 @@ namespace KillerNotes
         }
 
         // ---- Convert selection to a comma-separated list ----
-        // Turns the selected lines - or a selected table column - into PC1,PC2,PC3 for
-        // dropping into scripts. Items are split on line and cell breaks, trimmed, and blanks
-        // dropped. A plain-text selection is rewritten in place (what "convert" reads as); a
-        // selection spanning table cells can't be replaced with one string, so there the list
-        // goes to the clipboard instead. Right-click > Convert to list, or Ctrl+Shift+J.
+        // Turns the selection into PC1,PC2,PC3 for dropping into scripts. Multiple lines (or a
+        // selected table column) split on line and cell breaks; a single highlighted sentence
+        // splits on its spaces/commas instead, so a run of words on one line becomes a list too.
+        // Items are trimmed and blanks dropped. A plain-text selection is rewritten in place
+        // (what "convert" reads as); a selection spanning table cells can't be replaced with one
+        // string, so there the list goes to the clipboard instead. Right-click, or Ctrl+Shift+J.
         private void ConvertToList_Click(object sender, RoutedEventArgs e) => ConvertSelectionToList();
 
         private void ConvertSelectionToList()
@@ -129,11 +131,34 @@ namespace KillerNotes
             var sel = Editor.Selection;
             if (sel.IsEmpty) { StatusText.Text = Loc("Str_St_ListNoSel"); return; }
 
-            var items = sel.Text
-                .Split(new[] { '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries)
+            // Strip invisible formatting characters (zero-width spaces, BOM, etc.) that rich
+            // text and bulleted lists sometimes carry. Left in, they survive trimming as a
+            // phantom item and show up as a stray leading comma.
+            string raw = new string((sel.Text ?? "").Where(c =>
+                System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c)
+                    != System.Globalization.UnicodeCategory.Format).ToArray());
+
+            // Rows: split on line and cell breaks. Keep only rows with real content (a letter or
+            // digit): this drops blank rows AND phantom rows made of invisible characters that
+            // rich text / bulleted lists carry, which otherwise skip the word split below and
+            // show up as a stray leading comma.
+            var rows = raw
+                .Split(new[] { '\r', '\n', '\t', '\v', '\f' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim())
+                .Where(s => s.Any(char.IsLetterOrDigit))
+                .ToArray();
+
+            // One line (a highlighted sentence) becomes its words - split on any whitespace plus
+            // commas and semicolons, so "PC1 PC2 PC3" or "PC1, PC2" both give PC1,PC2,PC3. Several
+            // lines keep one item per line. The final filter drops any blank so a stray separator
+            // can never produce a leading/empty comma.
+            var items = (rows.Length == 1
+                    ? rows[0].Replace(',', ' ').Replace(';', ' ').Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries)
+                    : rows)
                 .Select(s => s.Trim())
                 .Where(s => s.Length > 0)
                 .ToArray();
+
             if (items.Length == 0) { StatusText.Text = Loc("Str_St_ListNoSel"); return; }
 
             string list = string.Join(",", items);
@@ -587,6 +612,7 @@ namespace KillerNotes
             Editor.LayoutTransform = zoom == 1.0 ? Transform.Identity : new ScaleTransform(zoom, zoom);
             App.SetSetting("EditorZoom", ((int)Math.Round(zoom * 100)).ToString());
             StatusText.Text = string.Format(Loc("Str_St_Zoom"), (int)Math.Round(zoom * 100));
+            RebuildLineNumbers();   // LineNumbers.cs (numbers track the editor zoom)
         }
 
         // The size list is built lazily so startup never pays for it.
@@ -682,6 +708,33 @@ namespace KillerNotes
             catch { on = false; }   // OS spell checking unavailable - stay off quietly
             if (on) SpellBtnIcon.SetResourceReference(TextElement.ForegroundProperty, "PrimaryBrush");
             else SpellBtnIcon.ClearValue(TextElement.ForegroundProperty);
+        }
+
+        // ---- Word wrap toggle (global view setting, remembered like zoom) ----
+        // Wrap on (default): the document page width is auto, so text wraps to the editor
+        // pane. Off: a wide fixed page width, so long lines and over-wide images/tables do
+        // not wrap and the editor's horizontal scrollbar (MainWindow.xaml) can reach them.
+        // The button lights in the accent while wrap is on. Editor.Document is reused across
+        // note loads (Notes.cs OpenNote clears blocks, not the document), so the page width
+        // persists; OpenNote re-asserts it after each load to be safe.
+        private bool _wordWrap = true;
+        private const double NoWrapPageWidth = 4000;
+
+        private void InitWordWrap() => ApplyWordWrap(App.GetSetting("WordWrap") != "off");
+
+        private void WordWrap_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyWordWrap(!_wordWrap);
+            App.SetSetting("WordWrap", _wordWrap ? "on" : "off");
+            StatusText.Text = Loc(_wordWrap ? "Str_St_WrapOn" : "Str_St_WrapOff");
+        }
+
+        private void ApplyWordWrap(bool wrap)
+        {
+            _wordWrap = wrap;
+            Editor.Document.PageWidth = wrap ? double.NaN : NoWrapPageWidth;
+            if (wrap) WrapBtnIcon.SetResourceReference(TextElement.ForegroundProperty, "PrimaryBrush");
+            else WrapBtnIcon.ClearValue(TextElement.ForegroundProperty);
         }
     }
 }

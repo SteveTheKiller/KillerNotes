@@ -176,13 +176,23 @@ namespace KillerNotes
         /// <summary>Adds/removes the tag on the note; returns true when now assigned.</summary>
         private bool ToggleTag(Note note, string tag)
         {
+            var snap = new List<(long Id, string Tags)> { (note.Id, note.Tags) };
             bool nowAssigned = !HasTag(note, tag);
             SetTagAssigned(note, tag, nowAssigned);
             _syncingSelection = true;
             NotesList.Items.Refresh();
             _syncingSelection = false;
+            PushUndo(() => RestoreTags(snap));
             FlashStatus(string.Format(Loc(nowAssigned ? "Str_St_TagAdded" : "Str_St_TagRemoved"), tag));
             return nowAssigned;
+        }
+
+        // Undo target: restore each note's stored tag CSV by id (the captured Note instances
+        // are stale after a refresh). RefreshList reloads the rows and rebuilds their chips.
+        private void RestoreTags(List<(long Id, string Tags)> snap)
+        {
+            foreach (var (id, tags) in snap) NoteStore.SetNoteTags(id, tags);
+            RefreshList(preserveScroll: true);
         }
 
         /// <summary>Toggles the tag across a selection (#7). Mixed state assigns to the
@@ -192,11 +202,13 @@ namespace KillerNotes
         {
             if (notes.Count == 1) return ToggleTag(notes[0], tag);
 
+            var snap = notes.Select(n => (n.Id, n.Tags)).ToList();
             bool assign = notes.Any(n => !HasTag(n, tag));
             foreach (var n in notes) SetTagAssigned(n, tag, assign);
             _syncingSelection = true;
             NotesList.Items.Refresh();
             _syncingSelection = false;
+            PushUndo(() => RestoreTags(snap));
             FlashStatus(string.Format(Loc(assign ? "Str_St_TagAdded" : "Str_St_TagRemoved"), tag));
             return assign;
         }
@@ -218,7 +230,7 @@ namespace KillerNotes
             // updates as you edit rather than waiting for the dialog to close. (Rename
             // rewrote notes.tags in the DB, so the in-memory list must be re-read - a
             // stale rebuild is what left renamed tags gray.)
-            dlg.TagsChanged += RefreshList;
+            dlg.TagsChanged += () => RefreshList();
             dlg.ShowDialog();
             RefreshList();   // final catch-all
         }

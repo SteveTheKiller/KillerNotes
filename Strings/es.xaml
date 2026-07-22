@@ -268,10 +268,17 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_CustomOrderOn">Se cambió a orden personalizado - arrastre las notas para organizarlas</sys:String>
     <sys:String x:Key="Str_Ctx_Group">Grupo</sys:String>
     <sys:String x:Key="Str_Ctx_NewGroup">Nuevo grupo...</sys:String>
+    <sys:String x:Key="Str_TT_Density">Densidad de la barra lateral (F10) - clic o desplazamiento</sys:String>
+    <sys:String x:Key="Str_KS_Density">Cambiar la densidad de la barra lateral</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">Densidad: completa</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">Densidad: compacta</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">Densidad: mínima</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">Nuevo subgrupo...</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">Quitar del grupo</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">Cambiar nombre del grupo...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">Eliminar grupo</sys:String>
     <sys:String x:Key="Str_Dlg_NewGroupHead">Asigne un nombre al nuevo grupo</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">Asigne un nombre al nuevo subgrupo</sys:String>
     <sys:String x:Key="Str_Dlg_RenameGroupHead">Cambiar el nombre de este grupo</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupHead">¿Eliminar el grupo "{0}"?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupBody">Sus notas se conservan - solo salen del grupo.</sys:String>
@@ -280,6 +287,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Grp_Exists">Ya existe un grupo llamado {0}</sys:String>
     <sys:String x:Key="Str_St_MovedToGroup">Movida a {0}</sys:String>
     <sys:String x:Key="Str_St_RemovedFromGroup">Quitada del grupo</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">Grupo movido</sys:String>
 
     <!-- Shortcuts overlay (additional) -->
     <sys:String x:Key="Str_KS_Undo">Deshacer / rehacer</sys:String>
@@ -312,8 +320,12 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_ListCopied">{0} valores copiados como lista separada por comas</sys:String>
     <sys:String x:Key="Str_St_ListNoSel">Seleccione primero algunas líneas</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColor">Color del grupo...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">Color del subgrupo...</sys:String>
     <sys:String x:Key="Str_TT_GroupColor">Colorear el nombre de este grupo en la barra lateral</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColorReset">Restablecer color</sys:String>
+    <sys:String x:Key="Str_KS_NewSubgroup">Nuevo subgrupo (grupo de la nota seleccionada)</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">Color del grupo (grupo de la nota seleccionada)</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">Primero seleccione una nota que esté en un grupo</sys:String>
     <sys:String x:Key="Str_KS_FontSize">Aumentar / reducir el texto seleccionado</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Zoom del editor (Ctrl+0 restablece)</sys:String>
     <sys:String x:Key="Str_St_Zoom">Zoom {0}%</sys:String>

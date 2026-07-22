@@ -46,7 +46,13 @@ namespace KillerNotes
             var layer = AdornerLayer.GetAdornerLayer(img);
             if (layer == null) return;
 
-            _imgAdorner = new ImageResizeAdorner(img);
+            // While word wrap is on, cap the drag at the editor pane width (minus a small edge
+            // pad) so an image can't be sized past the wrap edge where it would clip unreachably;
+            // wrap off lifts the cap (the horizontal scrollbar can reach a wider image).
+            _imgAdorner = new ImageResizeAdorner(img, () =>
+                _wordWrap && Editor.ViewportWidth > 0
+                    ? System.Math.Max(40, Editor.ViewportWidth - 10)
+                    : double.MaxValue);
             _imgAdorner.Resized += MarkDirty;              // persist: Width rides the XamlPackage
             _imgAdorner.DismissRequested += DeselectImage;
             layer.Add(_imgAdorner);
@@ -128,6 +134,7 @@ namespace KillerNotes
         private const double HitPad = 16;   // invisible hit target around each corner
 
         private readonly Image _img;
+        private readonly Func<double> _maxWidth;   // live cap (pane width while wrap is on)
         private bool _dragging;
         private int _corner = -1;           // 0 TL, 1 TR, 2 BL, 3 BR
         private Point _start;
@@ -136,7 +143,11 @@ namespace KillerNotes
         public event Action? Resized;
         public event Action? DismissRequested;
 
-        public ImageResizeAdorner(Image img) : base(img) { _img = img; }
+        public ImageResizeAdorner(Image img, Func<double> maxWidth) : base(img)
+        {
+            _img = img;
+            _maxWidth = maxWidth;
+        }
 
         private Point[] Corners()
         {
@@ -200,8 +211,12 @@ namespace KillerNotes
             double dx = p.X - _start.X;
             if (_corner is 0 or 2) dx = -dx;
 
+            // Cap at the natural size (never upscale-blur) and, while word wrap is on, at the
+            // editor pane width so an image can't be dragged wider than the wrap edge - past
+            // there it would clip with no horizontal scroll to reach it. (Steve, 2026-07-22)
             double natural = _img.Source?.Width ?? double.MaxValue;
-            double newW = Math.Max(40, Math.Min(natural, _startWidth + dx));
+            double cap = Math.Min(natural, _maxWidth());
+            double newW = Math.Max(40, Math.Min(cap, _startWidth + dx));
 
             // Manual size takes over from the 640-DIP auto-fit cap.
             _img.ClearValue(FrameworkElement.MaxWidthProperty);

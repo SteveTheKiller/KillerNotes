@@ -208,6 +208,11 @@ CREATE TABLE IF NOT EXISTS groups(
             }
             if (!gcols.Contains("color"))
                 Exec("ALTER TABLE groups ADD COLUMN color TEXT NOT NULL DEFAULT ''");
+            // 1.1.0 subgroups: groups.name now holds a full PATH (top-level = the name; a child
+            // = parentPath + GroupSep + name). 'parent' is the parent group's path ("" = top
+            // level). Existing rows are all top-level, so parent defaults to "" - no data rewrite.
+            if (!gcols.Contains("parent"))
+                Exec("ALTER TABLE groups ADD COLUMN parent TEXT NOT NULL DEFAULT ''");
         }
 
         // ---- Notes ----
@@ -316,6 +321,69 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             using var cmd = _db!.CreateCommand();
             cmd.CommandText = "DELETE FROM notes WHERE id = $id";
             cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Full row snapshot for undo (delete). Captured before Delete; RestoreRow
+        /// re-inserts it verbatim - same id, content, tags, group, order, and timestamps - so
+        /// Ctrl+Z brings the note back exactly (the FTS trigger re-indexes it on insert).</summary>
+        public sealed class NoteRow
+        {
+            public long Id;
+            public string Title = "";
+            public byte[]? Content;
+            public string Plain = "";
+            public string Tags = "";
+            public string Notebook = "";
+            public string TitleColor = "";
+            public bool SpellCheck;
+            public int SortOrder;
+            public string Created = "";
+            public string Modified = "";
+        }
+
+        public static NoteRow? CaptureRow(long id)
+        {
+            if (_db == null) return null;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order " +
+                              "FROM notes WHERE id = $id";
+            cmd.Parameters.AddWithValue("$id", id);
+            using var r = cmd.ExecuteReader();
+            if (!r.Read()) return null;
+            return new NoteRow
+            {
+                Id         = r.GetInt64(0),
+                Title      = r.IsDBNull(1) ? "" : r.GetString(1),
+                Notebook   = r.IsDBNull(2) ? "" : r.GetString(2),
+                Tags       = r.IsDBNull(3) ? "" : r.GetString(3),
+                Created    = r.IsDBNull(4) ? "" : r.GetString(4),
+                Modified   = r.IsDBNull(5) ? "" : r.GetString(5),
+                Plain      = r.IsDBNull(6) ? "" : r.GetString(6),
+                Content    = r[7] is byte[] b && b.Length > 0 ? b : null,
+                TitleColor = r.IsDBNull(8) ? "" : r.GetString(8),
+                SpellCheck = !r.IsDBNull(9) && r.GetInt64(9) != 0,
+                SortOrder  = r.IsDBNull(10) ? 0 : (int)r.GetInt64(10),
+            };
+        }
+
+        public static void RestoreRow(NoteRow n)
+        {
+            if (_db == null) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "INSERT INTO notes(id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order) " +
+                              "VALUES($id, $t, $nb, $tg, $cr, $md, $pl, $ct, $tc, $sp, $so)";
+            cmd.Parameters.AddWithValue("$id", n.Id);
+            cmd.Parameters.AddWithValue("$t", n.Title);
+            cmd.Parameters.AddWithValue("$nb", n.Notebook);
+            cmd.Parameters.AddWithValue("$tg", n.Tags);
+            cmd.Parameters.AddWithValue("$cr", n.Created);
+            cmd.Parameters.AddWithValue("$md", n.Modified);
+            cmd.Parameters.AddWithValue("$pl", n.Plain);
+            cmd.Parameters.AddWithValue("$ct", (object?)n.Content ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("$tc", n.TitleColor);
+            cmd.Parameters.AddWithValue("$sp", n.SpellCheck ? 1 : 0);
+            cmd.Parameters.AddWithValue("$so", n.SortOrder);
             cmd.ExecuteNonQuery();
         }
 
@@ -451,52 +519,149 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             cmd.ExecuteNonQuery();
         }
 
-        /// <summary>Adds a group definition at the end; an existing name (case-insensitive) wins.</summary>
-        public static void AddGroup(string name)
+        // ---- Subgroups (1.1.0): groups.name is a full PATH, groups.parent is the parent's
+        //      path ("" = top level). GroupSep joins a parent path to a child's leaf name.
+        //      Kept out of band (, an ASCII unit separator) so it can never collide
+        //      with a name the user types.
+
+        /// <summary>Path separator between a parent group path and a child's leaf name.</summary>
+        public const string GroupSep = "";
+
+        /// <summary>Parent path of a group path ("" for a top-level group).</summary>
+        public static string GroupParentOf(string path)
+        {
+            int i = path.LastIndexOf(GroupSep, StringComparison.Ordinal);
+            return i < 0 ? "" : path.Substring(0, i);
+        }
+
+        /// <summary>Leaf name of a group path (the part after the last separator).</summary>
+        public static string GroupNameOf(string path)
+        {
+            int i = path.LastIndexOf(GroupSep, StringComparison.Ordinal);
+            return i < 0 ? path : path.Substring(i + GroupSep.Length);
+        }
+
+        /// <summary>Joins a parent path and a leaf name into a child group path.</summary>
+        public static string GroupPath(string parent, string leaf) =>
+            string.IsNullOrEmpty(parent) ? leaf : parent + GroupSep + leaf;
+
+        /// <summary>Adds a group definition; an existing path (case-insensitive) wins. A top-level
+        /// group passes parent = "" (path == name); a subgroup passes its parent's full path, and
+        /// its own path already carries that parent (see GroupPath). atTop (the default for user
+        /// creation) lands it above its existing siblings - one below the current minimum sort_order
+        /// for that parent; atTop = false appends it last (demo builds its tree that way).</summary>
+        public static void AddGroup(string path, string parent = "", bool atTop = true)
         {
             using var cmd = _db!.CreateCommand();
-            cmd.CommandText = "INSERT OR IGNORE INTO groups(name, sort_order) " +
-                              "VALUES ($n, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM groups))";
-            cmd.Parameters.AddWithValue("$n", name);
+            string order = atTop
+                ? "(SELECT COALESCE(MIN(sort_order), 0) - 1 FROM groups WHERE parent = $p)"
+                : "(SELECT COALESCE(MAX(sort_order), 0) + 1 FROM groups)";
+            cmd.CommandText = "INSERT OR IGNORE INTO groups(name, parent, sort_order) VALUES ($n, $p, " + order + ")";
+            cmd.Parameters.AddWithValue("$n", path);
+            cmd.Parameters.AddWithValue("$p", parent);
             cmd.ExecuteNonQuery();
         }
 
-        /// <summary>Renames a group and rewrites the assignment on every member note.
-        /// The caller checks for collisions first (the NOCASE primary key would throw).</summary>
-        public static void RenameGroup(string oldName, string newName)
+        /// <summary>Lists every group as (Path, Parent, Collapsed, Color) in sidebar order.
+        /// The caller assembles the tree from Parent; ListGroups() stays for flat callers.</summary>
+        public static List<(string Path, string Parent, bool Collapsed, string Color)> ListGroupTree()
         {
-            using (var cmd = _db!.CreateCommand())
-            {
-                cmd.CommandText = "UPDATE groups SET name = $new WHERE name = $old";
-                cmd.Parameters.AddWithValue("$new", newName);
-                cmd.Parameters.AddWithValue("$old", oldName);
-                cmd.ExecuteNonQuery();
-            }
-            using (var cmd = _db!.CreateCommand())
-            {
-                cmd.CommandText = "UPDATE notes SET notebook = $new WHERE notebook = $old COLLATE NOCASE";
-                cmd.Parameters.AddWithValue("$new", newName);
-                cmd.Parameters.AddWithValue("$old", oldName);
-                cmd.ExecuteNonQuery();
-            }
+            var list = new List<(string, string, bool, string)>();
+            if (_db == null) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT name, parent, collapsed, color FROM groups ORDER BY sort_order, rowid";
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+                list.Add((r.GetString(0), r.IsDBNull(1) ? "" : r.GetString(1),
+                          r.GetInt64(2) != 0, r.IsDBNull(3) ? "" : r.GetString(3)));
+            return list;
         }
 
-        /// <summary>Deletes a group definition; member notes are kept and become ungrouped.</summary>
-        public static void DeleteGroup(string name)
+        /// <summary>Renames a group's LEAF, keeping its place in the tree, and repaths the
+        /// whole branch (the group, every descendant group, and every member note) so the
+        /// new name flows down. The caller checks the new leaf does not clash with a sibling.</summary>
+        public static void RenameGroup(string oldPath, string newLeaf)
         {
-            using (var cmd = _db!.CreateCommand())
-            {
-                cmd.CommandText = "DELETE FROM groups WHERE name = $n";
-                cmd.Parameters.AddWithValue("$n", name);
-                cmd.ExecuteNonQuery();
-            }
-            using (var cmd = _db!.CreateCommand())
-            {
-                cmd.CommandText = "UPDATE notes SET notebook = '' WHERE notebook = $n COLLATE NOCASE";
-                cmd.Parameters.AddWithValue("$n", name);
-                cmd.ExecuteNonQuery();
-            }
+            string newPath = GroupPath(GroupParentOf(oldPath), newLeaf);
+            if (string.Equals(oldPath, newPath, StringComparison.Ordinal)) return;
+            RepathBranch(oldPath, newPath);
         }
+
+        /// <summary>Moves a whole group branch from oldPath to newPath in one transaction:
+        /// the group row (name + parent), every descendant group (path prefix + parent prefix
+        /// swapped), and every member note's notebook. Shared by rename and drag-to-renest.</summary>
+        private static void RepathBranch(string oldPath, string newPath)
+        {
+            string likeDesc = EscapeLike(oldPath + GroupSep) + "%";   // descendants: path starts with oldPath + sep
+            using var tx = _db!.BeginTransaction();
+
+            // 1. The group itself: its new leaf/parent are exactly newPath.
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.Transaction = tx;
+                cmd.CommandText = "UPDATE groups SET name = $np, parent = $npar WHERE name = $op";
+                cmd.Parameters.AddWithValue("$np", newPath);
+                cmd.Parameters.AddWithValue("$npar", GroupParentOf(newPath));
+                cmd.Parameters.AddWithValue("$op", oldPath);
+                cmd.ExecuteNonQuery();
+            }
+            // 2. Descendant groups: swap the oldPath prefix for newPath in both name and parent.
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.Transaction = tx;
+                cmd.CommandText = @"
+UPDATE groups SET
+    name   = $np || substr(name,   length($op) + 1),
+    parent = $np || substr(parent, length($op) + 1)
+WHERE name LIKE $like ESCAPE '\'";
+                cmd.Parameters.AddWithValue("$np", newPath);
+                cmd.Parameters.AddWithValue("$op", oldPath);
+                cmd.Parameters.AddWithValue("$like", likeDesc);
+                cmd.ExecuteNonQuery();
+            }
+            // 3. Member notes of the group and of every descendant.
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.Transaction = tx;
+                cmd.CommandText = @"
+UPDATE notes SET notebook = $np || substr(notebook, length($op) + 1)
+WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
+                cmd.Parameters.AddWithValue("$np", newPath);
+                cmd.Parameters.AddWithValue("$op", oldPath);
+                cmd.Parameters.AddWithValue("$like", likeDesc);
+                cmd.ExecuteNonQuery();
+            }
+            tx.Commit();
+        }
+
+        /// <summary>Deletes a group and its whole subtree; member notes (of the group and
+        /// every descendant) are kept and become ungrouped.</summary>
+        public static void DeleteGroup(string path)
+        {
+            string likeDesc = EscapeLike(path + GroupSep) + "%";
+            using var tx = _db!.BeginTransaction();
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.Transaction = tx;
+                cmd.CommandText = "UPDATE notes SET notebook = '' WHERE notebook = $p OR notebook LIKE $like ESCAPE '\\'";
+                cmd.Parameters.AddWithValue("$p", path);
+                cmd.Parameters.AddWithValue("$like", likeDesc);
+                cmd.ExecuteNonQuery();
+            }
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.Transaction = tx;
+                cmd.CommandText = "DELETE FROM groups WHERE name = $p OR name LIKE $like ESCAPE '\\'";
+                cmd.Parameters.AddWithValue("$p", path);
+                cmd.Parameters.AddWithValue("$like", likeDesc);
+                cmd.ExecuteNonQuery();
+            }
+            tx.Commit();
+        }
+
+        /// <summary>Escapes LIKE wildcards in a literal prefix (used with ESCAPE '\').</summary>
+        private static string EscapeLike(string s) =>
+            s.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");
 
         public static void SetGroupCollapsed(string name, bool collapsed)
         {
@@ -505,6 +670,78 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             cmd.Parameters.AddWithValue("$c", collapsed ? 1 : 0);
             cmd.Parameters.AddWithValue("$n", name);
             cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Writes sort_order for a set of group paths in one transaction.</summary>
+        public static void SetGroupOrders(IEnumerable<(string Path, int Order)> orders)
+        {
+            using var tx = _db!.BeginTransaction();
+            foreach (var o in orders)
+            {
+                using var cmd = _db.CreateCommand();
+                cmd.Transaction = tx;
+                cmd.CommandText = "UPDATE groups SET sort_order = $o WHERE name = $p";
+                cmd.Parameters.AddWithValue("$o", o.Order);
+                cmd.Parameters.AddWithValue("$p", o.Path);
+                cmd.ExecuteNonQuery();
+            }
+            tx.Commit();
+        }
+
+        /// <summary>Drag-to-reorder / re-nest a group (1.1.0). Re-parents the branch (newParent
+        /// "" = top level) when the parent changes, then orders it among its new siblings before
+        /// beforePath (null = last), and renumbers every group's sort_order by a pre-order tree
+        /// walk so sibling order is stable. Returns false (no change) when the move is invalid:
+        /// onto itself, into its own subtree, or onto a sibling leaf that already exists.</summary>
+        public static bool MoveGroup(string path, string newParent, string? beforePath)
+        {
+            if (_db == null) return false;
+            // Into itself or its own descendant would orphan the branch.
+            if (string.Equals(path, newParent, StringComparison.OrdinalIgnoreCase)) return false;
+            if (newParent.StartsWith(path + GroupSep, StringComparison.OrdinalIgnoreCase)) return false;
+
+            string leaf = GroupNameOf(path);
+            string curParent = GroupParentOf(path);
+            if (!string.Equals(newParent, curParent, StringComparison.OrdinalIgnoreCase))
+            {
+                // A different sibling already using this leaf would collide on the NOCASE key.
+                bool clash = ListGroupTree().Any(x =>
+                    string.Equals(x.Parent, newParent, StringComparison.OrdinalIgnoreCase) &&
+                    !string.Equals(x.Path, path, StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(GroupNameOf(x.Path), leaf, StringComparison.OrdinalIgnoreCase));
+                if (clash) return false;
+                string newPath = GroupPath(newParent, leaf);
+                RepathBranch(path, newPath);
+                if (string.Equals(beforePath, path, StringComparison.OrdinalIgnoreCase)) beforePath = newPath;
+                path = newPath;
+            }
+
+            // Reorder within newParent's children, then renumber the whole tree pre-order so
+            // every sibling group gets a stable, contiguous sort_order.
+            var byParent = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
+            foreach (var g in ListGroupTree())
+            {
+                if (!byParent.TryGetValue(g.Parent, out var lst)) { lst = new(); byParent[g.Parent] = lst; }
+                lst.Add(g.Path);
+            }
+            if (byParent.TryGetValue(newParent, out var sibs))
+            {
+                sibs.Remove(path);
+                int idx = beforePath == null ? -1
+                    : sibs.FindIndex(p => string.Equals(p, beforePath, StringComparison.OrdinalIgnoreCase));
+                if (idx < 0) sibs.Add(path); else sibs.Insert(idx, path);
+            }
+
+            var order = new List<(string, int)>();
+            int n = 0;
+            void Walk(string parent)
+            {
+                if (!byParent.TryGetValue(parent, out var kids)) return;
+                foreach (var p in kids) { order.Add((p, ++n)); Walk(p); }
+            }
+            Walk("");
+            SetGroupOrders(order);
+            return true;
         }
 
         public static void SetNoteTags(long id, string tags)

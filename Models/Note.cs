@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Media;
 
 namespace KillerNotes.Models
@@ -7,7 +9,7 @@ namespace KillerNotes.Models
     // One row of the notes table, metadata only. The content blob (a FlowDocument saved as
     // a XamlPackage, which carries pasted images and tables inside one zip stream) is loaded
     // separately by NoteStore.LoadContent so the sidebar list stays light.
-    public class Note
+    public class Note : INotifyPropertyChanged
     {
         public long Id { get; set; }
         public string Title { get; set; } = "";
@@ -16,11 +18,33 @@ namespace KillerNotes.Models
         public DateTime Created { get; set; }
         public DateTime Modified { get; set; }
         public string Snippet { get; set; } = "";   // first line of plain text, for the list
-        public string TitleColor { get; set; } = "";   // "#RRGGBB", "" = follow the theme
+        private string _titleColor = "";
+        // "#RRGGBB", "" = follow the theme. Notifying so the color picker's live preview
+        // repaints the sidebar row as the color changes (mirrors GroupColor).
+        public string TitleColor
+        {
+            get => _titleColor;
+            set
+            {
+                if (_titleColor == value) return;
+                _titleColor = value;
+                OnChanged(nameof(TitleColor));
+                OnChanged(nameof(HasTitleColor));
+                OnChanged(nameof(TitleBrush));
+            }
+        }
         public bool SpellCheck { get; set; }           // per-note spell check (off by default)
         public int SortOrder { get; set; }             // global custom-order position (#4)
 
         public string ModifiedDisplay => Modified.ToString("yyyy-MM-dd HH:mm");
+
+        // Sidebar row density (1.1.0): 0 = Comfortable (title, snippet, date, tags),
+        // 1 = Compact (title + tags), 2 = Minimal (title only). Set on every note by
+        // RefreshList from the app-wide setting; the row template binds the visibilities.
+        public int Density { get; set; }
+        public Visibility SnippetVisibility => Density == 0 ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility DateVisibility => Density == 0 ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility ChipsVisibility => Density <= 1 ? Visibility.Visible : Visibility.Collapsed;
 
         // Sidebar binding helpers: the row title's DataTrigger switches to TitleBrush only
         // when a color is set, so uncolored titles keep the theme-reactive TextBrush.
@@ -45,7 +69,26 @@ namespace KillerNotes.Models
         // its top and bottom cleanly - the segment is bounded to this group instead of running on.
         public bool IsFirstInGroup { get; set; }
         public bool IsLastInGroup { get; set; }
-        public string GroupColor { get; set; } = "";
+        // Subgroup nesting (1.1.0): depth of this note's owning group (0 = top-level group or
+        // ungrouped). GutterWidth reserves the left indent (aligned with the group header);
+        // Rails are the ancestor guide lines drawn in that gutter. Set by BuildSidebarItems.
+        public int GroupDepth { get; set; }
+        public bool IsNested => GroupDepth > 0;   // shared spine style binds this; only headers act on it
+        public double GutterWidth => GroupDepth * 14;
+        public List<GroupRail> Rails { get; set; } = new();
+        private string _groupColor = "";
+        public string GroupColor
+        {
+            get => _groupColor;
+            set
+            {
+                if (_groupColor == value) return;
+                _groupColor = value;
+                OnChanged(nameof(GroupColor));
+                OnChanged(nameof(HasGroupColor));
+                OnChanged(nameof(GroupColorBrush));
+            }
+        }
         public bool HasGroupColor => InGroup && GroupColor.Length > 0;
         public Brush? GroupColorBrush
         {
@@ -60,6 +103,9 @@ namespace KillerNotes.Models
         /// <summary>Colored tag pills for the sidebar card, rebuilt by MainWindow
         /// (Tags.cs BuildChips) from the Tags CSV + the per-database definitions.</summary>
         public List<TagChip> Chips { get; } = [];
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
     /// <summary>One rendered tag pill (background = tag color, foreground by luminance).</summary>
@@ -70,15 +116,49 @@ namespace KillerNotes.Models
         public Brush Foreground { get; set; } = Brushes.White;
     }
 
+    /// <summary>One ancestor guide line drawn in a sidebar row's left gutter: a thin vertical
+    /// rule in an ancestor group's color, so a parent's line runs down the left of its child
+    /// subgroups (containment). One per nesting level above the row. Built by BuildSidebarItems.</summary>
+    public class GroupRail
+    {
+        public int Level { get; set; }           // nesting level of the ancestor this rail represents
+        public bool HasColor { get; set; }       // false = uncolored ancestor, template uses the muted theme line
+        public Brush? Brush { get; set; }
+        public bool IsLast { get; set; }          // this row is the bottom of the ancestor's subtree - round the cap
+    }
+
     /// <summary>Sidebar group header row (#4). Lives in the composite sidebar list next
     /// to Note items; the implicit DataTemplate keys off the type. Not selectable - a
     /// header click toggles collapse instead (Groups.cs).</summary>
-    public class GroupHeader
+    public class GroupHeader : INotifyPropertyChanged
     {
+        // Subgroups (1.1.0): Path is the group's full identity (top-level = its name; a child =
+        // parentPath + GroupSep + leaf). Name is the LEAF only, shown in the sidebar; every
+        // NoteStore call keys off Path. Depth (0 = top-level) drives the row's left indent;
+        // GutterWidth reserves it and Rails are the ancestor guide lines drawn in that gutter.
+        public string Path { get; set; } = "";
+        public int Depth { get; set; }
+        public bool IsNested => Depth > 0;   // a subgroup: its own spine starts flush (no top inset) to line up with the parent rails
+        public double GutterWidth => Depth * 14;
+        public List<GroupRail> Rails { get; set; } = new();
         public string Name { get; set; } = "";
         public int Count { get; set; }
         public bool Collapsed { get; set; }
-        public string NameColor { get; set; } = "";   // "#RRGGBB", "" = follow the theme
+        private string _nameColor = "";
+        public string NameColor   // "#RRGGBB", "" = follow the theme
+        {
+            get => _nameColor;
+            set
+            {
+                if (_nameColor == value) return;
+                _nameColor = value;
+                OnChanged(nameof(NameColor));
+                OnChanged(nameof(HasColor));
+                OnChanged(nameof(NameBrush));
+                OnChanged(nameof(HasGroupColor));
+                OnChanged(nameof(GroupColorBrush));
+            }
+        }
         public string Chevron => ((char)(Collapsed ? 0xE76C : 0xE70D)).ToString();   // MDL2 ChevronRight / ChevronDown
         public string CountDisplay => Count == 0 ? "" : Count.ToString();
 
@@ -104,5 +184,8 @@ namespace KillerNotes.Models
         public bool IsLastInGroup => Collapsed;
         public bool HasGroupColor => HasColor;
         public Brush? GroupColorBrush => NameBrush;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

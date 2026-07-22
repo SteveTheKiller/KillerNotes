@@ -47,6 +47,31 @@
     <sys:String x:Key="Str_TT_Underline">Underline (Ctrl+U)</sys:String>
     <sys:String x:Key="Str_TT_Strike">Strikethrough (Ctrl+Shift+S)</sys:String>
     <sys:String x:Key="Str_TT_Mono">Monospace (code, Ctrl+Shift+M)</sys:String>
+    <sys:String x:Key="Str_TT_WordWrap">Word wrap on/off (Ctrl+Shift+W)</sys:String>
+    <!-- 1.1.0 additions (grouped here for convenience; keys resolve regardless of position) -->
+    <sys:String x:Key="Str_TT_AppSize">Scroll to resize the whole app</sys:String>
+    <sys:String x:Key="Str_St_AppSize">App size {0}%</sys:String>
+    <sys:String x:Key="Str_KS_WordWrap">Toggle word wrap</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Line numbers (F11)</sys:String>
+    <sys:String x:Key="Str_KS_LineNumbers">Toggle line numbers</sys:String>
+    <sys:String x:Key="Str_KS_AppSize">Zoom the whole app (accessibility)</sys:String>
+    <sys:String x:Key="Str_St_LineNumOn">Line numbers on</sys:String>
+    <sys:String x:Key="Str_St_LineNumOff">Line numbers off</sys:String>
+    <sys:String x:Key="Str_TT_Density">Sidebar density (Ctrl+D) - click or scroll</sys:String>
+    <sys:String x:Key="Str_KS_Density">Cycle sidebar density</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">Density: full</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">Density: compact</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">Density: minimal</sys:String>
+    <sys:String x:Key="Str_St_Undo">Undone</sys:String>
+    <!-- Killculator sidebar calculator (F9) -->
+    <sys:String x:Key="Str_KS_Calc">Killculator - Print drops the result into the note</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrint">Print the Killculator result to the note</sys:String>
+    <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrint">Print to note</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrint">Print the result into this note at the cursor (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_TT_CalcClose">Close (Esc)</sys:String>
+    <sys:String x:Key="Str_St_CalcNoNote">Open a note first</sys:String>
+    <sys:String x:Key="Str_St_CalcPrinted">Printed to note</sys:String>
     <sys:String x:Key="Str_TT_TextColor">Text color and highlight</sys:String>
     <sys:String x:Key="Str_TT_Bullets">Bulleted list (Ctrl+Shift+L)</sys:String>
     <sys:String x:Key="Str_TT_Numbering">Numbered list (Ctrl+Shift+N)</sys:String>
@@ -90,6 +115,7 @@
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Delete "{0}"?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">Delete {0} notes?</sys:String>
     <sys:String x:Key="Str_Dlg_CannotUndo">This cannot be undone.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z brings it back.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Delete</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Cancel</sys:String>
 
@@ -199,10 +225,12 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_CustomOrderOn">Switched to custom order - drag notes to arrange</sys:String>
     <sys:String x:Key="Str_Ctx_Group">Group</sys:String>
     <sys:String x:Key="Str_Ctx_NewGroup">New group...</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">New subgroup...</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">Remove from group</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">Rename group...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">Delete group</sys:String>
     <sys:String x:Key="Str_Dlg_NewGroupHead">Name the new group</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">Name the new subgroup</sys:String>
     <sys:String x:Key="Str_Dlg_RenameGroupHead">Rename this group</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupHead">Delete group "{0}"?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupBody">Its notes are kept - they just leave the group.</sys:String>
@@ -211,6 +239,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Grp_Exists">A group named {0} already exists</sys:String>
     <sys:String x:Key="Str_St_MovedToGroup">Moved to {0}</sys:String>
     <sys:String x:Key="Str_St_RemovedFromGroup">Removed from group</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">Group moved</sys:String>
 
     <!-- About overlay -->
     <sys:String x:Key="Str_About_Version">Version</sys:String>
@@ -297,20 +326,27 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColorReset">Reset title color</sys:String>
     <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
     <sys:String x:Key="Str_Ctx_ConvertList">Convert to list</sys:String>
-    <sys:String x:Key="Str_TT_ConvertList">Turn the selected lines into a comma-separated list</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Turn the selected lines - or the words in one sentence - into a comma-separated list</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Selection to comma list</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} values converted to a comma list</sys:String>
     <sys:String x:Key="Str_St_ListCopied">{0} values copied as a comma list</sys:String>
     <sys:String x:Key="Str_St_ListNoSel">Select some lines first</sys:String>
     <!-- Per-group name color (1.0.3, issue #8), mirrors the per-note title color -->
     <sys:String x:Key="Str_Ctx_GroupColor">Group color...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">Subgroup color...</sys:String>
     <sys:String x:Key="Str_TT_GroupColor">Color this group's name in the sidebar</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColorReset">Reset color</sys:String>
+    <!-- Subgroup + group-color keyboard shortcuts (1.1.0), acting on the selected note's group -->
+    <sys:String x:Key="Str_KS_NewSubgroup">New subgroup (selected note's group)</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">Group color (selected note's group)</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">Select a note that's in a group first</sys:String>
     <sys:String x:Key="Str_KS_FontSize">Grow / shrink selected text</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Zoom editor (Ctrl+0 resets)</sys:String>
     <sys:String x:Key="Str_St_Zoom">Zoom {0}%</sys:String>
     <sys:String x:Key="Str_St_SpellOn">Spell check on for this note</sys:String>
     <sys:String x:Key="Str_St_SpellOff">Spell check off for this note</sys:String>
+    <sys:String x:Key="Str_St_WrapOn">Word wrap on</sys:String>
+    <sys:String x:Key="Str_St_WrapOff">Word wrap off - scroll to see wide content</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Grow text</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">Shrink text</sys:String>
     <sys:String x:Key="Str_Kb_ZoomReset">Reset zoom</sys:String>

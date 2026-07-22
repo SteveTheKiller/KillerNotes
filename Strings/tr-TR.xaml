@@ -267,10 +267,17 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_CustomOrderOn">Özel sıralamaya geçildi - düzenlemek için notları sürükleyin</sys:String>
     <sys:String x:Key="Str_Ctx_Group">Grup</sys:String>
     <sys:String x:Key="Str_Ctx_NewGroup">Yeni grup...</sys:String>
+    <sys:String x:Key="Str_TT_Density">Kenar çubuğu yoğunluğu (F10) - tıklayın veya kaydırın</sys:String>
+    <sys:String x:Key="Str_KS_Density">Kenar çubuğu yoğunluğunu değiştir</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">Yoğunluk: tam</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">Yoğunluk: sıkışık</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">Yoğunluk: en az</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">Yeni alt grup...</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">Gruptan çıkar</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">Grubu yeniden adlandır...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">Grubu sil</sys:String>
     <sys:String x:Key="Str_Dlg_NewGroupHead">Yeni gruba ad verin</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">Yeni alt gruba ad verin</sys:String>
     <sys:String x:Key="Str_Dlg_RenameGroupHead">Bu grubu yeniden adlandır</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupHead">"{0}" grubu silinsin mi?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupBody">Notları korunur - yalnızca gruptan çıkarılırlar.</sys:String>
@@ -279,6 +286,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Grp_Exists">{0} adında bir grup zaten var</sys:String>
     <sys:String x:Key="Str_St_MovedToGroup">{0} grubuna taşındı</sys:String>
     <sys:String x:Key="Str_St_RemovedFromGroup">Gruptan çıkarıldı</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">Grup taşındı</sys:String>
 
     <!-- Shortcuts overlay (additional) -->
     <sys:String x:Key="Str_KS_Undo">Geri al / yinele</sys:String>
@@ -311,8 +319,12 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_ListCopied">{0} değer virgüllü liste olarak kopyalandı</sys:String>
     <sys:String x:Key="Str_St_ListNoSel">Önce birkaç satır seçin</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColor">Grup rengi...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">Alt grup rengi...</sys:String>
     <sys:String x:Key="Str_TT_GroupColor">Bu grubun adını kenar çubuğunda renklendir</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColorReset">Rengi sıfırla</sys:String>
+    <sys:String x:Key="Str_KS_NewSubgroup">Yeni alt grup (seçili notun grubu)</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">Grup rengi (seçili notun grubu)</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">Önce bir gruptaki notu seçin</sys:String>
     <sys:String x:Key="Str_KS_FontSize">Seçili metni büyüt / küçült</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Düzenleyiciyi yakınlaştır (Ctrl+0 sıfırlar)</sys:String>
     <sys:String x:Key="Str_St_Zoom">Yakınlaştırma %{0}</sys:String>

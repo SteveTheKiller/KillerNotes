@@ -24,6 +24,8 @@ namespace KillerNotes
             ("F6",            "Str_KS_FormatBar"),
             ("F7",            "Str_KS_ManageTags"),
             ("F8",            "Str_KS_Export"),
+            ("F9",            "Str_KS_Calc"),
+            ("F11",           "Str_KS_LineNumbers"),
             ("F12",           "Str_KS_About"),
             ("Ctrl+N",        "Str_KS_NewNote"),
             ("Ctrl+O",        "Str_KS_OpenFiles"),
@@ -35,9 +37,15 @@ namespace KillerNotes
             ("Ctrl+Shift+R",  "Str_KS_Rule"),
             ("Ctrl+Shift+L / N", "Str_KS_Lists"),
             ("Ctrl+Shift+J",   "Str_KS_ConvertList"),
+            ("Ctrl+Shift+G",   "Str_KS_NewSubgroup"),
+            ("Ctrl+Shift+K",   "Str_KS_GroupColor"),
+            ("Ctrl+Shift+W",   "Str_KS_WordWrap"),
+            ("Ctrl+D",         "Str_KS_Density"),
+            ("Ctrl+Enter",     "Str_KS_CalcPrint"),
             ("Ctrl+1 - 9",     "Str_KS_Tags"),
             ("Ctrl+Shift+> / <", "Str_KS_FontSize"),
             ("Ctrl+Wheel / Ctrl+0", "Str_KS_Zoom"),
+            ("Ctrl+Shift +/- / 0", "Str_KS_AppSize"),
             ("Ctrl+X / C",    "Str_KS_CutCopy"),
             ("Ctrl+V",        "Str_KS_Paste"),
             ("Ctrl+Z / Y",    "Str_KS_Undo"),
@@ -86,6 +94,24 @@ namespace KillerNotes
             // editor untouched so dead keys and AltGr characters type normally.
             if (ctrl && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)) return;
 
+            // Ctrl+Enter prints the Killculator readout into the note (Killculator.cs).
+            if (_kalcOpen && ctrl && !shift && e.Key == Key.Return)
+            {
+                KalcPrint();
+                e.Handled = true;
+                return;
+            }
+
+            // While the Killculator is open, number/operator keys type into it (Killculator.cs)
+            // instead of the note. F9 and Esc are not calc keys, so they fall through to the
+            // switch below and still close it; Ctrl/Alt combos pass through untouched.
+            if (_kalcOpen && !ctrl && !Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)
+                && TryKalcKey(e.Key))
+            {
+                e.Handled = true;
+                return;
+            }
+
             // Formatting combos first (Ctrl+Shift+letter; plain Ctrl+B/I/U and the list
             // combos Ctrl+Shift+L/N are RichTextBox built-ins and pass through).
             if (ctrl && shift && _currentId >= 0)
@@ -101,6 +127,7 @@ namespace KillerNotes
                         e.Handled = true; return;
                     case Key.R: InsertRule_Click(this, new RoutedEventArgs()); e.Handled = true; return;
                     case Key.J: ConvertSelectionToList(); e.Handled = true; return;
+                    case Key.W: WordWrap_Click(this, new RoutedEventArgs()); e.Handled = true; return;   // Editor.cs (moved off F9)
                     // Explicit rather than relying on the RichTextBox built-ins, so the
                     // combo works with focus anywhere (title box, sidebar), like the rest.
                     case Key.OemPeriod: System.Windows.Documents.EditingCommands.IncreaseFontSize.Execute(null, Editor); e.Handled = true; return;
@@ -141,6 +168,15 @@ namespace KillerNotes
                     ExportOpenNote();                    // ImportExport.cs
                     e.Handled = true;
                     break;
+                case Key.F9:
+                    ToggleKalc();   // Killculator.cs (slide-up sidebar calculator)
+                    e.Handled = true;
+                    break;
+                // F10 is free now (density -> Ctrl+D, word wrap -> Ctrl+Shift+W).
+                case Key.F11:
+                    LineNumbers_Click(this, new RoutedEventArgs());   // LineNumbers.cs
+                    e.Handled = true;
+                    break;
                 case Key.F5:
                     ToggleSidebar();                     // Sidebar.cs (moved from F9: F5/F6
                     e.Handled = true;                    // sit together as the two pane toggles)
@@ -158,9 +194,52 @@ namespace KillerNotes
                     OpenFilesDialog();                   // ImportExport.cs
                     e.Handled = true;
                     break;
+                // App-wide accessibility zoom (distinct from the per-note editor zoom above):
+                // Ctrl+Shift +/- steps the whole-app size, Ctrl+Shift+0 resets it. Works with no
+                // note open. AppScale.cs.
+                case Key.OemPlus when ctrl && shift:
+                case Key.Add when ctrl && shift:
+                    ApplyAppScale(_appScale + 0.05, persist: true);
+                    e.Handled = true;
+                    break;
+                case Key.OemMinus when ctrl && shift:
+                case Key.Subtract when ctrl && shift:
+                    ApplyAppScale(_appScale - 0.05, persist: true);
+                    e.Handled = true;
+                    break;
+                case Key.D0 when ctrl && shift:
+                case Key.NumPad0 when ctrl && shift:
+                    ApplyAppScale(1.0, persist: true);
+                    e.Handled = true;
+                    break;
+                // Group actions on the selected note's group (mirrors the header right-click
+                // menu, Groups.cs): Ctrl+Shift+G adds a subgroup, Ctrl+Shift+K colors the group.
+                case Key.G when ctrl && shift:
+                    NewSubgroupShortcut();
+                    e.Handled = true;
+                    break;
+                case Key.K when ctrl && shift:
+                    GroupColorShortcut();
+                    e.Handled = true;
+                    break;
                 case Key.D0 when ctrl:
                 case Key.NumPad0 when ctrl:
                     SetEditorZoom(1.0);                  // Editor.cs
+                    e.Handled = true;
+                    break;
+                // Ctrl+Z: if the last thing done was a sidebar action (group move, color, tag,
+                // assignment) it wins - a group drag leaves the editor focused with its own undo
+                // history, but the user means "undo that drag". Otherwise text editing keeps
+                // Ctrl+Z while the editor has focus and edits left; once its history is spent the
+                // key falls through to the remaining organizational actions. (ActionUndo.cs)
+                case Key.Z when ctrl && !shift:
+                    if (_lastActionWasOrg && _actionUndo.Count > 0) { PerformActionUndo(); e.Handled = true; break; }
+                    if (Editor.IsKeyboardFocusWithin && Editor.CanUndo) break;   // fall through to the RichTextBox
+                    if (PerformActionUndo()) e.Handled = true;
+                    break;
+                // Ctrl+D: cycle sidebar row density (moved off F10 when the calculator took it).
+                case Key.D when ctrl && !shift:
+                    Density_Click(this, new RoutedEventArgs());   // Density.cs
                     e.Handled = true;
                     break;
                 // Ctrl+1..9: toggle the Nth defined tag on the open note (Tags.cs).
@@ -205,6 +284,7 @@ namespace KillerNotes
         // Returns false when nothing consumed it, so the key still reaches the editor.
         private bool HandleEscape()
         {
+            if (_kalcOpen) { CloseKalc(); return true; }   // Killculator.cs
             if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return true; }
             if (AboutOverlay.Visibility == Visibility.Visible) { FadeOverlayOut(AboutOverlay); return true; }
             if (SearchBox.IsKeyboardFocusWithin || SearchBox.Text.Length > 0)

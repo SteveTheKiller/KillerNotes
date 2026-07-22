@@ -4,6 +4,21 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - Unreleased
+
+### Added
+- Word wrap toggle (#9): a new button on the format bar, and the F9 key, turns word wrap on or off for the editor. With wrap on (the default) text flows to the pane as before. With wrap off, long lines and anything wider than the pane - a large pasted image, a wide table - stop wrapping and can be reached with the editor's new horizontal scrollbar. The choice is remembered across launches.
+- App-wide size control for accessibility: scroll the mouse wheel over the KillerNotes logo in the title bar to scale the app content - sidebar, toolbar, and editor - up or down in fine steps, from 70% to 250% (or with Ctrl+Shift and the +/- keys, and Ctrl+Shift+0 to reset); the size is remembered across launches. It uses a layout scale so text stays sharp rather than blurring, and it is separate from the per-note Ctrl+wheel editor zoom, which still scales only the note body. The title bar and footer stay a fixed size, so the logo you scroll over never moves, and the sidebar holds its on-screen width while its text grows.
+- Optional line-number column: a toggle in the icon rail (or F11) shows line numbers down the left edge of the editor, like a code editor, so you can count lines at a glance. The choice is remembered across launches.
+- Subgroups: groups now nest to any depth. Right-click a group header and choose New subgroup (or Ctrl+Shift+G) to add a child inside it. The sidebar indents each level, and a parent's colored line runs down the left of its child subgroups so the nesting reads as one contained tree. Collapsing a group hides its whole subtree. Renaming a group carries its subgroups and their notes along, and deleting a group removes its subgroups too (the notes are kept and just leave the group). Notes can sit at any level, and the right-click Group submenu lists every group by its full path (Parent / Child).
+- Keyboard shortcuts for group actions on the selected note's group: Ctrl+Shift+G adds a subgroup and Ctrl+Shift+K opens the group color picker. Both are listed in the F1 shortcut overlay and shown, right-aligned, on the group header's right-click menu.
+- Drag groups to reorder or re-nest them: press and drag a group header to move it. Drop it on the top or bottom edge of another group to reorder it among that group's siblings, drop it on the middle of a group (or onto one of that group's notes) to nest it inside, and drop it in the empty space below the list to lift it back to the top level. A plain click still toggles collapse.
+
+### Changed
+- Convert to list now also handles a single sentence: highlight a run of words on one line and Convert to list (Ctrl+Shift+J) splits it on spaces, commas, and semicolons into PC1,PC2,PC3, instead of leaving the line as one item. Selections spanning multiple lines still split by line as before.
+- Picking a group's color now previews live: right-click a group header, choose Group color, and the group's name and the connector line down its notes recolor as you drag in the color picker, so you see the result before committing. Cancel restores the previous color.
+- The sidebar now slides open and closed when you collapse or expand it with the chevron, instead of snapping instantly.
+
 ## [1.0.3] - 2026-07-20
 
 ### Added

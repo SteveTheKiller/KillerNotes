@@ -1,7 +1,9 @@
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace KillerNotes
 {
@@ -11,14 +13,19 @@ namespace KillerNotes
     public partial class MainWindow
     {
         private bool _sidebarCollapsed;
-        private GridLength _sidebarWidth = new(280);
+        // The user's chosen sidebar width in SCREEN px (scale-independent). The column's
+        // logical width is this divided by the app scale (AppScale.cs), so the sidebar keeps
+        // the same on-screen width when the whole UI is zoomed instead of widening and sliding
+        // the icon rail out from under the cursor.
+        private double _sidebarBaseWidth = 280;
 
         private void SidebarToggle_Click(object sender, RoutedEventArgs e) => ToggleSidebar();
 
         private void ToggleSidebar()
         {
+            _kalcAutoExpanded = false;   // a manual toggle owns the state; don't auto-restore later
             _sidebarCollapsed = !_sidebarCollapsed;
-            ApplySidebarState();
+            ApplySidebarState(animate: true);
             App.SetSetting("SidebarCollapsed", _sidebarCollapsed ? "1" : "0");
         }
 
@@ -120,29 +127,94 @@ namespace KillerNotes
 
         // The icon rail stays put in both states (KillerPDF pattern); collapsing just
         // hides the panel next to it and narrows the column to the rail width.
-        private void ApplySidebarState()
+        private void ApplySidebarState(bool animate = false)
         {
+            double s = _appScale <= 0 ? 1 : _appScale;
+            RailCol.Width = new GridLength(30 / s);
+
             if (_sidebarCollapsed)
             {
-                _sidebarWidth = SidebarCol.Width;   // remember the user's width
-                SidebarCol.MinWidth = 0;
-                SidebarCol.MaxWidth = 30;
-                SidebarCol.Width = new GridLength(30);
-                SidebarPanel.Visibility = Visibility.Collapsed;
+                // Remember the expanded on-screen width (respects a splitter drag) before
+                // collapsing. ActualWidth is in ScaleHost's pre-scale space, so scale it up.
+                if (SidebarCol.ActualWidth > 0) _sidebarBaseWidth = SidebarCol.ActualWidth * s;
                 SidebarSplitter.IsEnabled = false;
             }
             else
             {
-                SidebarCol.MinWidth = 230;
-                SidebarCol.MaxWidth = 480;
-                SidebarCol.Width = _sidebarWidth;
-                SidebarPanel.Visibility = Visibility.Visible;
+                SidebarPanel.Visibility = Visibility.Visible;   // reveal before the expand slide
                 SidebarSplitter.IsEnabled = true;
             }
+
             // Chevron points toward where the panel goes (char casts: literal PUA glyphs
             // do not survive tooling).
             SidebarToggleBtn.Content = ((char)(_sidebarCollapsed ? 0xE76C : 0xE76B)).ToString();
             SidebarToggleBtn.ToolTip = Loc(_sidebarCollapsed ? "Str_TT_ExpandSidebar" : "Str_TT_CollapseSidebar");
+
+            double targetPx = (_sidebarCollapsed ? 30 : _sidebarBaseWidth) / s;
+
+            if (!animate)
+            {
+                SidebarCol.BeginAnimation(ColumnDefinition.WidthProperty, null);
+                RefreshSidebarWidth();
+                if (_sidebarCollapsed) SidebarPanel.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            // Freeze the panel at its full width and left-align it so it does NOT reflow while the
+            // column moves - the XAML clip host wipes it in/out instead. When expanding, the panel
+            // was just re-shown so its ActualWidth is ~0; fall back to the computed expanded width
+            // (* cell = SidebarCol - rail, minus the 8px left margin).
+            double panelW = SidebarPanel.ActualWidth > 8
+                ? SidebarPanel.ActualWidth
+                : Math.Max(0, (_sidebarBaseWidth - 30) / s - 8);
+            SidebarPanel.HorizontalAlignment = HorizontalAlignment.Left;
+            SidebarPanel.Width = panelW;
+
+            // Slide the column width (WPF has no built-in GridLength animation - GridLengthAnimation.cs).
+            // Min/Max are opened for the tween and settled by RefreshSidebarWidth when it lands.
+            double fromPx = SidebarCol.ActualWidth > 0 ? SidebarCol.ActualWidth : targetPx;
+            SidebarCol.MinWidth = 0;
+            SidebarCol.MaxWidth = double.PositiveInfinity;
+            var anim = new GridLengthAnimation
+            {
+                From = fromPx,
+                To = targetPx,
+                Duration = new Duration(TimeSpan.FromMilliseconds(160)),
+                EasingFunction = new QuadraticEase { EasingMode = _sidebarCollapsed ? EasingMode.EaseIn : EasingMode.EaseOut }
+            };
+            anim.Completed += (_, _) =>
+            {
+                SidebarCol.BeginAnimation(ColumnDefinition.WidthProperty, null);
+                // Un-freeze the panel so a later splitter resize reflows normally.
+                SidebarPanel.ClearValue(FrameworkElement.WidthProperty);
+                SidebarPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                RefreshSidebarWidth();
+                if (_sidebarCollapsed) SidebarPanel.Visibility = Visibility.Collapsed;
+            };
+            SidebarCol.BeginAnimation(ColumnDefinition.WidthProperty, anim);
+        }
+
+        /// <summary>Sets the sidebar column and icon-rail widths for the current collapsed
+        /// state, dividing by the app scale so both keep a fixed ON-SCREEN width while the rest
+        /// of the UI zooms (AppScale.cs). At scale 1.0 these are the original 280 / 230-480 / 30
+        /// values, so nothing changes until the app is zoomed. Called on collapse/expand and on
+        /// every scale change.</summary>
+        internal void RefreshSidebarWidth()
+        {
+            double s = _appScale <= 0 ? 1 : _appScale;
+            RailCol.Width = new GridLength(30 / s);
+            if (_sidebarCollapsed)
+            {
+                SidebarCol.MinWidth = 0;
+                SidebarCol.MaxWidth = 30 / s;
+                SidebarCol.Width = new GridLength(30 / s);
+            }
+            else
+            {
+                SidebarCol.MinWidth = 230 / s;
+                SidebarCol.MaxWidth = 480 / s;
+                SidebarCol.Width = new GridLength(_sidebarBaseWidth / s);
+            }
         }
 
         // Every theme-button entry point opens the same flyout at the same fixed spot

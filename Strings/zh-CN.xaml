@@ -267,10 +267,17 @@
     <sys:String x:Key="Str_St_CustomOrderOn">已切换到自定义顺序 - 拖动笔记进行排列</sys:String>
     <sys:String x:Key="Str_Ctx_Group">分组</sys:String>
     <sys:String x:Key="Str_Ctx_NewGroup">新建分组...</sys:String>
+    <sys:String x:Key="Str_TT_Density">侧栏密度 (F10) - 点击或滚动</sys:String>
+    <sys:String x:Key="Str_KS_Density">切换侧栏密度</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">密度：完整</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">密度：紧凑</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">密度：最小</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">新建子分组...</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">从分组中移除</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">重命名分组...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">删除分组</sys:String>
     <sys:String x:Key="Str_Dlg_NewGroupHead">为新分组命名</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">为新子分组命名</sys:String>
     <sys:String x:Key="Str_Dlg_RenameGroupHead">重命名此分组</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupHead">删除分组“{0}”?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupBody">其中的笔记会保留 - 只是移出该分组。</sys:String>
@@ -279,6 +286,7 @@
     <sys:String x:Key="Str_Grp_Exists">名为 {0} 的分组已存在</sys:String>
     <sys:String x:Key="Str_St_MovedToGroup">已移动到 {0}</sys:String>
     <sys:String x:Key="Str_St_RemovedFromGroup">已从分组中移除</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">分组已移动</sys:String>
 
     <!-- Shortcuts overlay (list view) - additions -->
     <sys:String x:Key="Str_KS_Undo">撤销 / 重做</sys:String>
@@ -311,8 +319,12 @@
     <sys:String x:Key="Str_St_ListCopied">已将 {0} 个值复制为逗号列表</sys:String>
     <sys:String x:Key="Str_St_ListNoSel">请先选择一些行</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColor">分组颜色...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">子分组颜色...</sys:String>
     <sys:String x:Key="Str_TT_GroupColor">为此分组在侧边栏中的名称着色</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColorReset">重置颜色</sys:String>
+    <sys:String x:Key="Str_KS_NewSubgroup">新建子分组（选中笔记的分组）</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">分组颜色（选中笔记的分组）</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">请先选择一条位于分组中的笔记</sys:String>
     <sys:String x:Key="Str_KS_FontSize">放大 / 缩小所选文字</sys:String>
     <sys:String x:Key="Str_KS_Zoom">缩放编辑器 (Ctrl+0 重置)</sys:String>
     <sys:String x:Key="Str_St_Zoom">缩放 {0}%</sys:String>

@@ -267,10 +267,17 @@
     <sys:String x:Key="Str_St_CustomOrderOn">কাস্টম ক্রমে বদলানো হয়েছে - সাজাতে নোট টেনে আনুন</sys:String>
     <sys:String x:Key="Str_Ctx_Group">গ্রুপ</sys:String>
     <sys:String x:Key="Str_Ctx_NewGroup">নতুন গ্রুপ...</sys:String>
+    <sys:String x:Key="Str_TT_Density">সাইডবার ঘনত্ব (F10) - ক্লিক বা স্ক্রোল করুন</sys:String>
+    <sys:String x:Key="Str_KS_Density">সাইডবার ঘনত্ব পরিবর্তন করুন</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">ঘনত্ব: পূর্ণ</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">ঘনত্ব: কমপ্যাক্ট</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">ঘনত্ব: ন্যূনতম</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">নতুন সাবগ্রুপ...</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">গ্রুপ থেকে সরান</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">গ্রুপের নাম বদলান...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">গ্রুপ মুছুন</sys:String>
     <sys:String x:Key="Str_Dlg_NewGroupHead">নতুন গ্রুপের নাম দিন</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">নতুন সাবগ্রুপের নাম দিন</sys:String>
     <sys:String x:Key="Str_Dlg_RenameGroupHead">এই গ্রুপের নাম বদলান</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupHead">"{0}" গ্রুপ মুছবেন?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupBody">এর নোটগুলো থেকে যায় - কেবল গ্রুপ থেকে বেরিয়ে আসে।</sys:String>
@@ -279,6 +286,7 @@
     <sys:String x:Key="Str_Grp_Exists">{0} নামে একটি গ্রুপ আগে থেকেই আছে</sys:String>
     <sys:String x:Key="Str_St_MovedToGroup">{0}-এ সরানো হয়েছে</sys:String>
     <sys:String x:Key="Str_St_RemovedFromGroup">গ্রুপ থেকে সরানো হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">গ্রুপ সরানো হয়েছে</sys:String>
 
     <!-- Shortcuts overlay (additional) -->
     <sys:String x:Key="Str_KS_Undo">আনডু / রিডু</sys:String>
@@ -313,8 +321,12 @@
     <sys:String x:Key="Str_St_ListNoSel">আগে কয়েকটি লাইন নির্বাচন করুন</sys:String>
     <!-- Per-group name color -->
     <sys:String x:Key="Str_Ctx_GroupColor">গ্রুপের রং...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">সাবগ্রুপের রং...</sys:String>
     <sys:String x:Key="Str_TT_GroupColor">সাইডবারে এই গ্রুপের নাম রঙিন করুন</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColorReset">রং রিসেট করুন</sys:String>
+    <sys:String x:Key="Str_KS_NewSubgroup">নতুন সাবগ্রুপ (নির্বাচিত নোটের গ্রুপ)</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">গ্রুপের রং (নির্বাচিত নোটের গ্রুপ)</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">আগে একটি গ্রুপে থাকা নোট নির্বাচন করুন</sys:String>
     <sys:String x:Key="Str_KS_FontSize">নির্বাচিত লেখা বড় / ছোট করুন</sys:String>
     <sys:String x:Key="Str_KS_Zoom">এডিটর জুম করুন (Ctrl+0 রিসেট করে)</sys:String>
     <sys:String x:Key="Str_St_Zoom">জুম {0}%</sys:String>

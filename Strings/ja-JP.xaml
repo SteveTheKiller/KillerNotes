@@ -267,10 +267,17 @@
     <sys:String x:Key="Str_St_CustomOrderOn">カスタム順に切り替えました - ノートをドラッグして並べ替え</sys:String>
     <sys:String x:Key="Str_Ctx_Group">グループ</sys:String>
     <sys:String x:Key="Str_Ctx_NewGroup">新しいグループ...</sys:String>
+    <sys:String x:Key="Str_TT_Density">サイドバーの密度 (F10) - クリックまたはスクロール</sys:String>
+    <sys:String x:Key="Str_KS_Density">サイドバーの密度を切り替え</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">密度: フル</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">密度: コンパクト</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">密度: 最小</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">新しいサブグループ...</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">グループから削除</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">グループ名を変更...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">グループを削除</sys:String>
     <sys:String x:Key="Str_Dlg_NewGroupHead">新しいグループの名前</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">新しいサブグループの名前</sys:String>
     <sys:String x:Key="Str_Dlg_RenameGroupHead">このグループの名前を変更</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupHead">グループ「{0}」を削除しますか?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupBody">ノートは保持されます - グループから外れるだけです。</sys:String>
@@ -279,6 +286,7 @@
     <sys:String x:Key="Str_Grp_Exists">{0} という名前のグループは既に存在します</sys:String>
     <sys:String x:Key="Str_St_MovedToGroup">{0} に移動しました</sys:String>
     <sys:String x:Key="Str_St_RemovedFromGroup">グループから削除しました</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">グループを移動しました</sys:String>
 
     <!-- Shortcuts overlay (additional list rows) -->
     <sys:String x:Key="Str_KS_Undo">元に戻す / やり直し</sys:String>
@@ -311,8 +319,12 @@
     <sys:String x:Key="Str_St_ListCopied">{0} 個の値をカンマ区切りリストとしてコピーしました</sys:String>
     <sys:String x:Key="Str_St_ListNoSel">先に行を選択してください</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColor">グループの色...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">サブグループの色...</sys:String>
     <sys:String x:Key="Str_TT_GroupColor">サイドバーでこのグループの名前に色を付けます</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColorReset">色をリセット</sys:String>
+    <sys:String x:Key="Str_KS_NewSubgroup">新しいサブグループ（選択中のノートのグループ）</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">グループの色（選択中のノートのグループ）</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">先にグループ内のノートを選択してください</sys:String>
     <sys:String x:Key="Str_KS_FontSize">選択した文字を拡大 / 縮小</sys:String>
     <sys:String x:Key="Str_KS_Zoom">エディターをズーム (Ctrl+0 でリセット)</sys:String>
     <sys:String x:Key="Str_St_Zoom">ズーム {0}%</sys:String>

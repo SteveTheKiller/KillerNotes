@@ -52,24 +52,129 @@ namespace KillerNotes
             foreach (var t in NoteStore.ListTags()) NoteStore.DeleteTag(t.Name);
             foreach (var t in DemoTags) NoteStore.AddTag(t.Name, t.Color);
 
-            // A couple of named groups so the sidebar shows sections pinned above the loose
-            // notes (issue #8); the order here sets their top-to-bottom order. Two notes stay
-            // ungrouped on purpose so the loose-notes tail below the groups is visible. Group
-            // names deliberately differ from the tag names above to keep the demo unambiguous.
-            foreach (string g in new[] { "Client sites", "Bench reference" }) NoteStore.AddGroup(g);
-            // Color the groups so the sidebar spine shows the per-group color, and give a couple of
-            // notes their own title color, so the demo showcases both cues (#8).
-            NoteStore.SetGroupColor("Client sites", "#50AEE8");
-            NoteStore.SetGroupColor("Bench reference", "#B982E3");
+            // Family accent palette, reused across group colors + a few note titles.
+            const string BLUE = "#50AEE8", RED = "#DD504B", ORANGE = "#E8962C", PURPLE = "#B982E3",
+                         GREEN = "#1EA54C", YELLOW = "#E8D44B", TEAL = "#2BB6A3", PINK = "#E86FA6",
+                         INDIGO = "#6A6AE3", SLATE = "#7A8CA3";
 
-            Add("Northwind Dental - site visit", 38, DemoSiteVisit(), tags: "On-site, Reference", group: "Client sites");
-            Add("Firewall swap - Meadowbrook Vet", 31, DemoFirewallSwap(), feature: true, tags: "On-site, Network", group: "Client sites", titleColor: "#DD504B");
-            Add("PowerShell one-liners", 27, DemoPowerShell(), tags: "Reference", group: "Bench reference");
-            Add("Switch port map - Oakfield Law", 20, DemoPortMap(), tags: "Network, Reference", group: "Client sites");
-            Add("UPS runtimes", 16, DemoUps(), tags: "Reference, Follow-up", group: "Bench reference");
-            Add("New tech onboarding", 12, DemoOnboarding(), tags: "Reference", group: "Bench reference");
-            Add("RMM agent cleanup", 8, DemoRmm(), tags: "Follow-up", titleColor: "#E8962C");
-            Add("Parts drawer inventory", 5, DemoParts(), tags: "Reference", group: "Bench reference");
+            // Build a nested group PATH from its parts ("A","B" => A<sep>B).
+            string P(params string[] parts)
+            {
+                string p = "";
+                foreach (var s in parts) p = NoteStore.GroupPath(p, s);
+                return p;
+            }
+            // Create a (sub)group at parts and color it. Parents are created first (calls run in
+            // pre-order), which also sets the top-to-bottom sidebar order.
+            void G(string color, params string[] parts)
+            {
+                string path = P(parts);
+                string parent = NoteStore.GroupParentOf(path);   // net48 has no array-range slicing
+                NoteStore.AddGroup(path, parent, atTop: false);   // pre-order build => keep top-to-bottom order
+                NoteStore.SetGroupColor(path, color);
+            }
+
+            // A deep, colorful tree so the demo shows groups, nested subgroups (up to three
+            // levels), and per-group colors. A few notes stay ungrouped as the loose tail (#8).
+            G(BLUE,   "Client sites");
+            G(TEAL,   "Client sites", "Northwind Dental");
+            G(RED,    "Client sites", "Meadowbrook Vet");
+            G(INDIGO, "Client sites", "Oakfield Law");
+            G(ORANGE, "Client sites", "Oakfield Law", "Phase 2");
+            G(PURPLE, "Bench reference");
+            G(GREEN,  "Bench reference", "PowerShell");
+            G(ORANGE, "Bench reference", "Networking");
+            G(BLUE,   "Bench reference", "Networking", "VLAN cheatsheets");
+            G(YELLOW, "Bench reference", "Hardware");
+            G(PINK,   "Projects");
+            G(RED,    "Projects", "Firewall refresh");
+            G(BLUE,   "Projects", "Wi-Fi survey");
+            G(SLATE,  "Admin");
+
+            // ---- Client sites ----
+            Add("Northwind Dental - site visit", 38, DemoSiteVisit(), tags: "On-site, Reference", group: P("Client sites", "Northwind Dental"));
+            Add("Imaging server quirk", 35, DemoDoc("The bench imaging box drops its second NIC after a reboot. Disable and re-enable it, or just leave NIC1 patched.",
+                "PXE only works on NIC1", "Static 192.0.2.40 /24 on the imaging VLAN", "Amber light is a bad LED, not the PSU"),
+                tags: "Reference", group: P("Client sites", "Northwind Dental"), titleColor: TEAL);
+            Add("After-hours contacts", 30, DemoDoc("Escalation for the main office, in order:",
+                "Office manager - has the alarm code", "Practice owner - text first, never call after 21:00", "Alarm company passphrase is on the work order"),
+                tags: "Reference", group: P("Client sites", "Northwind Dental"));
+
+            Add("Firewall swap - Meadowbrook Vet", 31, DemoFirewallSwap(), feature: true, tags: "On-site, Network", group: P("Client sites", "Meadowbrook Vet"), titleColor: RED);
+            Add("Kennel cams offline", 26, DemoDoc("Four PoE cameras in the kennel keep dropping. Suspect the cheap unmanaged switch back there.",
+                "Swap in the spare PoE+ switch from the van", "Camera VLAN 40, DHCP off, static .50-.70", "If they still drop it is the long run near the compressor"),
+                tags: "Urgent, Follow-up", group: P("Client sites", "Meadowbrook Vet"));
+            Add("Printer mapping", 22, DemoDoc("Shared printers by room, for the deploy script:",
+                "Front desk - HP M428 (192.0.2.61)", "Lab - Brother HL-L2350 (192.0.2.62)", "Back office Lexmark - do not map, they want it gone"),
+                tags: "Reference", group: P("Client sites", "Meadowbrook Vet"));
+
+            Add("Switch port map - Oakfield Law", 20, DemoPortMap(), tags: "Network, Reference", group: P("Client sites", "Oakfield Law"));
+            Add("VPN user list", 18, DemoDoc("Who has client VPN and why. Review quarterly.",
+                "3 partners - always on", "2 paralegals - remote days only", "1 vendor account - disable when the case closes"),
+                tags: "Reference", group: P("Client sites", "Oakfield Law"));
+
+            Add("Phase 2 - cabling scope", 15, DemoDoc("Second-floor buildout. Rough count before the quote:",
+                "14 new drops, all Cat6", "2 WAPs at the hallway ends", "Home-run to the second-floor IDF, not the MDF"),
+                tags: "On-site", group: P("Client sites", "Oakfield Law", "Phase 2"));
+            Add("Phase 2 - cutover runbook", 13, DemoDoc("Order of operations for the cutover weekend:",
+                "Label and test every new drop Friday PM", "Move users desk by desk Saturday", "Old IDF stays live one week as rollback"),
+                tags: "Follow-up", group: P("Client sites", "Oakfield Law", "Phase 2"), titleColor: ORANGE);
+
+            // ---- Bench reference ----
+            Add("PowerShell one-liners", 27, DemoPowerShell(), tags: "Reference", group: P("Bench reference", "PowerShell"));
+            Add("Bulk AD password reset", 24, DemoDocMono("Force a reset at next logon for a whole OU:",
+                "Get-ADUser -Filter * -SearchBase 'OU=Staff,DC=corp,DC=local' | Set-ADUser -ChangePasswordAtLogon $true",
+                "Skip the service accounts - they live in OU=Service", "Hand out the temp passwords out of band"),
+                tags: "Reference", group: P("Bench reference", "PowerShell"));
+            Add("Export mailbox sizes", 19, DemoDocMono("Quick capacity check before a migration:",
+                "Get-MailboxStatistics -Server EX01 | Sort TotalItemSize -Desc | Select DisplayName,TotalItemSize"),
+                tags: "Reference", group: P("Bench reference", "PowerShell"));
+
+            Add("Subnet quick math", 21, DemoSubnet(), tags: "Reference", group: P("Bench reference", "Networking"));
+            Add("DNS troubleshooting order", 17, DemoDoc("When name resolution is flaky, work it in this order:",
+                "flushdns, then nslookup against the server directly", "Check the forwarders on the DNS server, not just the client",
+                "Confirm the client points at the internal DNS, not the router", "Only then suspect the record itself"),
+                tags: "Reference", group: P("Bench reference", "Networking"));
+
+            Add("VLAN numbering standard", 14, DemoVlan(), tags: "Reference", group: P("Bench reference", "Networking", "VLAN cheatsheets"), titleColor: BLUE);
+            Add("Trunk config snippets", 11, DemoDocMono("The uplink trunk I paste on every access switch:",
+                "switchport mode trunk ; switchport trunk allowed vlan 10,20,30,40,99", "Native VLAN 1, unused everywhere"),
+                tags: "Reference", group: P("Bench reference", "Networking", "VLAN cheatsheets"));
+
+            Add("UPS runtimes", 16, DemoUps(), tags: "Reference, Follow-up", group: P("Bench reference", "Hardware"));
+            Add("Parts drawer inventory", 5, DemoParts(), tags: "Reference", group: P("Bench reference", "Hardware"));
+            Add("Drive shucking notes", 9, DemoDoc("Cheap external drives for the backup rotation:",
+                "Tape over the 3.3V pin or the drive will not spin in the NAS", "8TB+ white-labels are usually CMR, but test",
+                "Log the serial before shucking - warranty voids"),
+                tags: "Reference", group: P("Bench reference", "Hardware"));
+
+            // ---- Projects ----
+            Add("Firewall refresh - vendor quotes", 12, DemoDoc("Comparing the two firewall vendors for the fleet refresh. Waiting on the second quote.",
+                "Vendor A - cheaper box, pricier licensing", "Vendor B - better throughput, 3-year bundle", "Both cover the VLANs and the site-to-site we need"),
+                tags: "Waiting on vendor", group: P("Projects", "Firewall refresh"));
+            Add("Firewall refresh - migration plan", 10, DemoDoc("One site per weekend, lowest-risk first:",
+                "Start with the single-VPN sites", "Multi-peer sites last, once the runbook is solid", "Keep each old unit racked a week as rollback"),
+                tags: "Follow-up", group: P("Projects", "Firewall refresh"), titleColor: RED);
+
+            Add("Wi-Fi survey - AP placement", 8, DemoDoc("Walk-through notes for the warehouse survey:",
+                "Dead spot at the far loading dock - needs its own AP", "Office side is fine on 2 APs", "Metal racking kills 5GHz down the aisles"),
+                tags: "On-site", group: P("Projects", "Wi-Fi survey"));
+            Add("Wi-Fi survey - channel plan", 7, DemoDoc("Non-overlapping channel plan after the survey:",
+                "2.4GHz - 1, 6, 11 only, never auto", "5GHz - let the controller pick but cap TX power", "Neighboring tenant sits on 6, keep our high-density APs off it"),
+                tags: "Reference", group: P("Projects", "Wi-Fi survey"));
+
+            // ---- Admin (notes filed directly in the group, no subgroups) ----
+            Add("New tech onboarding", 12, DemoOnboarding(), tags: "Reference", group: P("Admin"));
+            Add("On-call rotation", 6, DemoOnCall(), tags: "Reference", group: P("Admin"));
+            Add("Expense receipts - reminder", 4, DemoDoc("Submit receipts by the last business day or they roll to next month.",
+                "Photograph the receipt at the counter, do not save it for later", "Mileage log is in the shared drive", "Personal-card parts need the PO number in the memo"),
+                tags: "Follow-up", group: P("Admin"), titleColor: SLATE);
+
+            // ---- Ungrouped tail ----
+            Add("RMM agent cleanup", 8, DemoRmm(), tags: "Follow-up", titleColor: ORANGE);
+            Add("Callback list", 1, DemoDoc("Loose ends to chase tomorrow:",
+                "NAS quote - they want the 4-bay after all", "Ticket #4183 still waiting on the ISP", "Return the loaner laptop to the vet office"),
+                tags: "Follow-up");
             Add("Scratch", 0.05, DemoScratch(), tags: "Urgent, Waiting on vendor");
 
             SearchBox.Text = "";
@@ -100,6 +205,25 @@ namespace KillerNotes
         {
             var p = new Paragraph(new Run(text)) { FontFamily = new FontFamily("Consolas") };
             return p;
+        }
+
+        // Compact builders for the many short demo notes: an intro paragraph plus an optional
+        // bullet list (DemoDoc) or a mono command line between them (DemoDocMono).
+        private static FlowDocument DemoDoc(string intro, params string[] bullets)
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoP(intro));
+            if (bullets.Length > 0) d.Blocks.Add(DemoList(bullets));
+            return d;
+        }
+
+        private static FlowDocument DemoDocMono(string intro, string mono, params string[] bullets)
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoP(intro));
+            d.Blocks.Add(DemoMono(mono));
+            if (bullets.Length > 0) d.Blocks.Add(DemoList(bullets));
+            return d;
         }
 
         private static List DemoList(params string[] items)
@@ -260,6 +384,49 @@ namespace KillerNotes
                 new[] { "SFP+ DAC 3m", "4", "2" },
                 new[] { "RJ45 ends (bag)", "2", "1" },
                 new[] { "PSU tester", "1", "-" }));
+            return d;
+        }
+
+        private static FlowDocument DemoSubnet()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoP("The mask-to-hosts table I never keep in my head:"));
+            d.Blocks.Add(DemoTable(
+                new[] { "CIDR", "Mask", "Usable hosts" },
+                new[] { "/24", "255.255.255.0", "254" },
+                new[] { "/25", "255.255.255.128", "126" },
+                new[] { "/26", "255.255.255.192", "62" },
+                new[] { "/27", "255.255.255.224", "30" },
+                new[] { "/28", "255.255.255.240", "14" },
+                new[] { "/30", "255.255.255.252", "2" }));
+            return d;
+        }
+
+        private static FlowDocument DemoVlan()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoP("Standard VLAN numbering we use at every site:"));
+            d.Blocks.Add(DemoTable(
+                new[] { "VLAN", "Use", "Subnet" },
+                new[] { "10", "Workstations", "192.0.2.0 /24" },
+                new[] { "20", "Phones", "198.51.100.0 /24" },
+                new[] { "30", "Printers", "203.0.113.0 /27" },
+                new[] { "40", "Cameras / IoT", "203.0.113.32 /27" },
+                new[] { "99", "Management", "203.0.113.240 /28" }));
+            d.Blocks.Add(DemoP("Keep cameras and IoT off the workstation VLAN, always.", bold: true, color: "#3f9b56"));
+            return d;
+        }
+
+        private static FlowDocument DemoOnCall()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoP("Rotation runs Monday to Monday. Swap with whoever, just update the calendar."));
+            d.Blocks.Add(DemoTable(
+                new[] { "Week", "Primary", "Backup" },
+                new[] { "This week", "Me", "Priya" },
+                new[] { "Next week", "Dev", "Me" },
+                new[] { "Week after", "Priya", "Dev" }));
+            d.Blocks.Add(DemoP("After-hours calls go to the on-call phone, not personal numbers."));
             return d;
         }
 

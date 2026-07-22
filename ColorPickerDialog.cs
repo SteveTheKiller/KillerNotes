@@ -22,6 +22,11 @@ namespace KillerNotes
     internal sealed class ColorPickerDialog : Window
     {
         public Color SelectedColor { get; private set; }
+
+        /// <summary>Fires on every color change (SV/hue drag, RGB/hex, eyedropper, swatch)
+        /// so a caller can preview the color live. Not fired for the initial value set in
+        /// the constructor (no subscriber is attached yet at that point).</summary>
+        public event Action<Color>? ColorChanged;
         private double _h, _s = 1, _v = 1;     // HSV state (h 0..360, s/v 0..1)
         private bool _updating;                // guards the field<->thumb<->preview sync from feedback loops
         private Border _svArea = null!;
@@ -240,6 +245,7 @@ namespace KillerNotes
             _hexBox.Text = $"#{c.R:X2}{c.G:X2}{c.B:X2}";
             _newSwatch.Background = new SolidColorBrush(c);
             _updating = false;
+            ColorChanged?.Invoke(c);
         }
 
         // ---- Eyedropper (desktop-wide) ----

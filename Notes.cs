@@ -45,27 +45,100 @@ namespace KillerNotes
                 Deactivated += (_, _) => SaveCurrentNote(refreshList: false);
             }
             ShowEditor(false);
+            ClearActionUndo();   // ids are per-database; never replay an undo across a switch
         }
 
         // ---- List / search / sort ----
 
-        private void RefreshList()
+        // Stable ItemsSource so the list is updated in place (ReconcileSidebar) instead of
+        // reassigned. Reassigning ItemsSource resets the scroll offset, which reads as the
+        // sidebar jumping on every collapse/expand or group move.
+        private readonly System.Collections.ObjectModel.ObservableCollection<object> _sidebarItems = new();
+
+        private void RefreshList(bool preserveScroll = false)
         {
             if (!NoteStore.IsOpen) return;
             RefreshTagDefs();   // Tags.cs (cheap; keeps chip colors current across db switches)
             _notes = NoteStore.List(SearchBox.Text, _sort);
             ApplyTagChips(_notes);   // Tags.cs
+            foreach (var n in _notes) n.Density = _density;   // sidebar row density (Density.cs)
+
+            if (!ReferenceEquals(NotesList.ItemsSource, _sidebarItems))
+                NotesList.ItemsSource = _sidebarItems;
+
             _syncingSelection = true;
-            NotesList.ItemsSource = BuildSidebarItems();   // Groups.cs (headers + notes, #4)
-            NotesList.SelectedItem = _notes.FirstOrDefault(n => n.Id == _currentId);
+            ReconcileSidebar(BuildSidebarItems());   // Groups.cs (headers + notes, #4); in place
+            NotesList.SelectedItem = _sidebarItems.FirstOrDefault(o => o is Note n && n.Id == _currentId);
             _syncingSelection = false;
 
             StatusText.Text = DefaultStatus();
 
+            // A search/sort snaps back to the top; in-place edits (collapse/expand, reorder) pass
+            // preserveScroll and hold position, since the reconcile leaves the offset alone.
+            if (!preserveScroll)
+                Dispatcher.BeginInvoke(new System.Action(() => _notesScroll?.ScrollToVerticalOffset(0)),
+                                       System.Windows.Threading.DispatcherPriority.Loaded);
             // Re-evaluate the sidebar bottom fade once this rebuild has laid out (Sidebar.cs):
             // a load/refresh that overflows should fade without waiting for a scroll.
             Dispatcher.BeginInvoke(new System.Action(ResolveAndUpdateNotesFade),
                                    System.Windows.Threading.DispatcherPriority.Loaded);
+        }
+
+        // Brings _sidebarItems in line with `built` with the SMALLEST set of Insert/Remove/Replace
+        // edits (never a Clear/Reset), matching rows by identity (RowKey) so unchanged rows keep
+        // their container. Collapsing a group then removes only its descendant rows and leaves the
+        // rest untouched - so the ScrollViewer's offset (and every other row) stays put. A row is
+        // replaced only when its display data (RowSig) actually changed. BuildSidebarItems hands
+        // back fresh objects each time, so matching by reference (the old approach) churned every
+        // row and drifted the scroll.
+        private void ReconcileSidebar(System.Collections.IList built)
+        {
+            var builtKeys = new System.Collections.Generic.HashSet<string>();
+            foreach (var o in built) builtKeys.Add(RowKey(o));
+
+            int i = 0, j = 0;
+            while (j < built.Count)
+            {
+                if (i >= _sidebarItems.Count) { _sidebarItems.Insert(i, built[j]); i++; j++; continue; }
+
+                string curKey = RowKey(_sidebarItems[i]);
+                if (curKey == RowKey(built[j]))
+                {
+                    if (RowSig(_sidebarItems[i]) != RowSig(built[j])) _sidebarItems[i] = built[j];   // data changed
+                    i++; j++;
+                }
+                else if (!builtKeys.Contains(curKey)) _sidebarItems.RemoveAt(i);   // row is gone (collapsed)
+                else { _sidebarItems.Insert(i, built[j]); i++; j++; }              // new row here (expanded)
+            }
+            while (_sidebarItems.Count > j) _sidebarItems.RemoveAt(_sidebarItems.Count - 1);
+        }
+
+        // Row identity (survives a rebuild): note id / group path.
+        private static string RowKey(object o) => o switch
+        {
+            Note n => "N" + n.Id,
+            GroupHeader g => "G" + g.Path,
+            _ => "?" + o.GetHashCode(),
+        };
+
+        // Everything the sidebar row renders from; when this is unchanged the old container is kept.
+        private static string RowSig(object o) => o switch
+        {
+            Note n => string.Join("|", "N", n.Id, n.Title, n.Snippet, n.ModifiedDisplay, n.TitleColor,
+                                  n.Tags, n.Notebook, n.GroupDepth, n.GroupColor, n.IsFirstInGroup, n.IsLastInGroup, n.Density, RailSig(n.Rails)),
+            GroupHeader g => string.Join("|", "G", g.Path, g.Name, g.Depth, g.Count, g.Collapsed, g.NameColor, RailSig(g.Rails)),
+            _ => o.GetHashCode().ToString(),
+        };
+
+        private static string RailSig(System.Collections.Generic.List<GroupRail> rails)
+        {
+            if (rails == null || rails.Count == 0) return "";
+            var sb = new System.Text.StringBuilder();
+            foreach (var r in rails)
+                sb.Append(r.Level).Append(':')
+                  .Append(r.Brush is System.Windows.Media.SolidColorBrush b ? b.Color.ToString() : "-").Append(':')
+                  .Append(r.IsLast ? '1' : '0').Append(';');
+            return sb.ToString();
         }
 
         /// <summary>The resting status line: note count, or match count while searching.</summary>
@@ -196,6 +269,7 @@ namespace KillerNotes
             NormalizeThemeColors(Editor.Document);   // Editor.cs (default text follows the live theme)
             ApplyImageQuality(Editor.Document);      // ImageResize.cs (Fant scaling on loaded images)
             EnsureEditableTail();   // Editor.cs (rule/table as last block traps the caret)
+            ApplyWordWrap(_wordWrap);   // Editor.cs (re-assert the word-wrap page width after the load)
             _loadingNote = false;
             _dirty = false;
             ApplySpellCheck(meta.SpellCheck);   // Editor.cs (per-note flag, off by default)
@@ -255,6 +329,7 @@ namespace KillerNotes
         {
             if (_loadingNote || _currentId < 0) return;
             _dirty = true;
+            _lastActionWasOrg = false;   // a text edit is now the most recent undoable thing (ActionUndo.cs)
             _saveTimer.Stop();
             _saveTimer.Start();
         }
@@ -332,16 +407,33 @@ namespace KillerNotes
             if (n == null) return;
             var initial = n.TitleBrush is SolidColorBrush sb ? sb.Color
                 : (TryFindResource("TextBrush") as SolidColorBrush)?.Color ?? Colors.White;
+            string original = n.TitleColor;
             var dlg = new ColorPickerDialog(this, initial);
-            if (dlg.ShowDialog() != true) return;
-            var c = dlg.SelectedColor;
-            SetNoteTitleColor(n, $"#{c.R:X2}{c.G:X2}{c.B:X2}");
+            // Live preview: recolor the note's sidebar title as the color changes in the
+            // picker (TitleColor is notifying). Restore the stored color on cancel.
+            dlg.ColorChanged += c => n.TitleColor = $"#{c.R:X2}{c.G:X2}{c.B:X2}";
+            if (dlg.ShowDialog() == true)
+            {
+                var c = dlg.SelectedColor;
+                long id = n.Id;
+                SetNoteTitleColor(n, $"#{c.R:X2}{c.G:X2}{c.B:X2}");
+                PushUndo(() => RestoreTitleColor(id, original));
+            }
+            else
+            {
+                n.TitleColor = original;
+                if (n.Id == _currentId) ApplyTitleColor(n);
+            }
         }
 
         private void TitleColorReset_Click(object sender, RoutedEventArgs e)
         {
             var n = (sender as MenuItem)?.DataContext as Note ?? NotesList.SelectedItem as Note;
-            if (n != null) SetNoteTitleColor(n, "");
+            if (n == null) return;
+            string original = n.TitleColor;
+            long id = n.Id;
+            SetNoteTitleColor(n, "");
+            PushUndo(() => RestoreTitleColor(id, original));
         }
 
         private void SetNoteTitleColor(Note n, string hex)
@@ -353,6 +445,16 @@ namespace KillerNotes
             _syncingSelection = true;
             NotesList.Items.Refresh();
             _syncingSelection = false;
+        }
+
+        // Undo target: restore a note's stored title color by id (the captured Note instance
+        // is stale after any refresh). Repaints the row and the open editor's title box.
+        private void RestoreTitleColor(long id, string hex)
+        {
+            NoteStore.SetTitleColor(id, hex);
+            RefreshList(preserveScroll: true);
+            if (id == _currentId && _notes.FirstOrDefault(x => x.Id == id) is Note m)
+                ApplyTitleColor(m);
         }
 
         // ---- Empty-state interactions (no note open) ----
@@ -404,17 +506,20 @@ namespace KillerNotes
         {
             var dlg = new ConfirmDialog(
                 string.Format(Loc("Str_Dlg_DeleteNoteHead"), n.Title),
-                Loc("Str_Dlg_CannotUndo"),
+                Loc("Str_Dlg_DeleteNoteBody"),
                 Loc("Str_Btn_Delete")) { Owner = this };
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
+            var snap = NoteStore.CaptureRow(n.Id);   // for Ctrl+Z (ActionUndo.cs)
             NoteStore.Delete(n.Id);
             if (n.Id == _currentId)
             {
                 _currentId = -1;
                 _dirty = false;
             }
+            if (snap != null)
+                PushUndo(() => { NoteStore.RestoreRow(snap); RefreshList(); });
             RefreshList();
             StatusText.Text = Loc("Str_St_NoteDeleted");
             OpenStartupNote();   // never drop back to the empty screen
@@ -428,11 +533,12 @@ namespace KillerNotes
 
             var dlg = new ConfirmDialog(
                 string.Format(Loc("Str_Dlg_DeleteNotesHead"), notes.Count),
-                Loc("Str_Dlg_CannotUndo"),
+                Loc("Str_Dlg_DeleteNoteBody"),
                 Loc("Str_Btn_Delete")) { Owner = this };
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
+            var snaps = notes.Select(x => NoteStore.CaptureRow(x.Id)).Where(s => s != null).Select(s => s!).ToList();
             foreach (var n in notes)
             {
                 NoteStore.Delete(n.Id);
@@ -442,6 +548,8 @@ namespace KillerNotes
                     _dirty = false;
                 }
             }
+            if (snaps.Count > 0)
+                PushUndo(() => { foreach (var s in snaps) NoteStore.RestoreRow(s); RefreshList(); });
             RefreshList();
             StatusText.Text = string.Format(Loc("Str_St_NotesDeleted"), notes.Count);
             OpenStartupNote();   // never drop back to the empty screen

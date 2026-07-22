@@ -267,10 +267,17 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_St_CustomOrderOn">Zu benutzerdefinierter Reihenfolge gewechselt - Notizen zum Anordnen ziehen</sys:String>
     <sys:String x:Key="Str_Ctx_Group">Gruppe</sys:String>
     <sys:String x:Key="Str_Ctx_NewGroup">Neue Gruppe...</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">Neue Untergruppe...</sys:String>
+    <sys:String x:Key="Str_TT_Density">Seitenleistendichte (F10) - klicken oder scrollen</sys:String>
+    <sys:String x:Key="Str_KS_Density">Seitenleistendichte wechseln</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">Dichte: voll</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">Dichte: kompakt</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">Dichte: minimal</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">Aus Gruppe entfernen</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">Gruppe umbenennen...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">Gruppe löschen</sys:String>
     <sys:String x:Key="Str_Dlg_NewGroupHead">Neue Gruppe benennen</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">Neue Untergruppe benennen</sys:String>
     <sys:String x:Key="Str_Dlg_RenameGroupHead">Diese Gruppe umbenennen</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupHead">Gruppe "{0}" löschen?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupBody">Ihre Notizen bleiben erhalten - sie verlassen nur die Gruppe.</sys:String>
@@ -279,6 +286,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Grp_Exists">Eine Gruppe namens {0} existiert bereits</sys:String>
     <sys:String x:Key="Str_St_MovedToGroup">Nach {0} verschoben</sys:String>
     <sys:String x:Key="Str_St_RemovedFromGroup">Aus Gruppe entfernt</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">Gruppe verschoben</sys:String>
 
     <!-- Shortcuts overlay (list view, additions) -->
     <sys:String x:Key="Str_KS_Undo">Rückgängig / Wiederholen</sys:String>
@@ -311,8 +319,12 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_St_ListCopied">{0} Werte als Komma-Liste kopiert</sys:String>
     <sys:String x:Key="Str_St_ListNoSel">Zuerst einige Zeilen auswählen</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColor">Gruppenfarbe...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">Untergruppenfarbe...</sys:String>
     <sys:String x:Key="Str_TT_GroupColor">Den Namen dieser Gruppe in der Seitenleiste einfärben</sys:String>
     <sys:String x:Key="Str_Ctx_GroupColorReset">Farbe zurücksetzen</sys:String>
+    <sys:String x:Key="Str_KS_NewSubgroup">Neue Untergruppe (Gruppe der gewählten Notiz)</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">Gruppenfarbe (Gruppe der gewählten Notiz)</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">Zuerst eine Notiz in einer Gruppe auswählen</sys:String>
     <sys:String x:Key="Str_KS_FontSize">Ausgewählten Text vergrößern / verkleinern</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Editor zoomen (Strg+0 setzt zurück)</sys:String>
     <sys:String x:Key="Str_St_Zoom">Zoom {0}%</sys:String>

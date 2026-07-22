@@ -36,6 +36,9 @@ namespace KillerNotes
             InitEditor();                                        // Editor.cs (paste handler, Ctrl+S)
             InitSidebar();                                       // Sidebar.cs (restore collapsed state)
             InitShortcuts();                                     // Shortcuts.cs (hotkeys + F1 overlay)
+            InitAppScale();                                      // AppScale.cs (restore app-wide size)
+            InitLineNumbers();                                   // LineNumbers.cs (optional gutter)
+            InitDensity();                                       // Density.cs (restore sidebar row density)
 
             Loaded += (_, _) =>
             {

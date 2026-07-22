@@ -161,6 +161,7 @@ namespace KillerNotes
 
         private void NotesList_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            _groupDragCandidate = null;   // cleared each press; GroupHeader_Press re-arms it for a header
             _noteDragStart = e.GetPosition(null);
             _noteDragCandidate = NoteUnderMouse(e.OriginalSource);
         }
@@ -175,6 +176,7 @@ namespace KillerNotes
 
         private void NotesList_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            if (TryStartGroupDrag(e)) return;   // Groups.cs: dragging a header reorders / re-nests the group
             if (_noteDragCandidate == null ||
                 e.LeftButton != System.Windows.Input.MouseButtonState.Pressed) return;
 
