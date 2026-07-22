@@ -4,6 +4,11 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3] - Unreleased
+
+### Added
+- Hyperlinks. Notes can finally hold real links: Ctrl+Click opens them in the browser, Ctrl+K (or the right-click menu) links the selected text or edits the link under the caret - clearing the address removes it. Links pasted from CherryTree, browsers, and Word keep working instead of arriving as dead text, typing a URL followed by a space links it automatically, and the HTML export writes real anchors. Links are colored by the theme accent and only http, https, and mailto ever open - a shared note can't hand your shell anything else.
+
 ## [1.1.2] - 2026-07-22
 
 ### Added

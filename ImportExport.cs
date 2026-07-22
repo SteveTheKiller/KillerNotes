@@ -358,7 +358,13 @@ namespace KillerNotes
                 case InlineUIContainer iu when iu.Child is Image img:
                     AppendImage(sb, img);
                     break;
-                case Span sp:   // includes Bold/Italic/Underline/Hyperlink containers
+                case Hyperlink h when h.NavigateUri != null:   // real anchors (Links.cs, 1.1.3)
+                    sb.Append("<a href=\"").Append(Html(h.NavigateUri.IsAbsoluteUri ? h.NavigateUri.AbsoluteUri : h.NavigateUri.OriginalString))
+                      .Append("\" target=\"_blank\" rel=\"noopener\">");
+                    AppendInlines(sb, h.Inlines);
+                    sb.Append("</a>");
+                    break;
+                case Span sp:   // includes Bold/Italic/Underline containers
                     AppendInlines(sb, sp.Inlines);
                     break;
             }

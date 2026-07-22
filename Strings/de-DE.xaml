@@ -405,6 +405,15 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevHead">Kundenstandorte - AaBbCc 123</sys:String>
     <sys:String x:Key="Str_Fonts_PrevSidebar">Firewall-Tausch - Tierklinik</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">Franz jagt im komplett verwahrlosten Taxi quer durch Bayern. 0123456789.</sys:String>
+
+    <!-- Hyperlinks (Links.cs, 1.1.3) -->
+    <sys:String x:Key="Str_KS_Link">Link einfügen / bearbeiten</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">Link...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">Linkadresse</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">Link bearbeiten - Adresse leeren zum Entfernen</sys:String>
+    <sys:String x:Key="Str_Btn_Link">Verlinken</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">Das sieht nicht nach einer Webadresse aus</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">Link ließ sich nicht öffnen</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Farbe wählen</sys:String>
     <sys:String x:Key="Str_Btn_Replace">Ersetzen</sys:String>
     <sys:String x:Key="Str_Btn_Reset">Zurücksetzen</sys:String>

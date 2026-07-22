@@ -401,6 +401,15 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevHead">Client sites - AaBbCc 123</sys:String>
     <sys:String x:Key="Str_Fonts_PrevSidebar">Firewall swap - Meadowbrook Vet</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">The quick brown fox jumps over the lazy dog 0123456789.</sys:String>
+
+    <!-- Hyperlinks (Links.cs, 1.1.3) -->
+    <sys:String x:Key="Str_KS_Link">Insert / edit link</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">Link...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">Link address</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">Edit link - clear the address to unlink</sys:String>
+    <sys:String x:Key="Str_Btn_Link">Link</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">That doesn't look like a web address</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">Couldn't open the link</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Pick a color</sys:String>
     <sys:String x:Key="Str_Btn_Replace">Replace</sys:String>
     <sys:String x:Key="Str_Btn_Reset">Reset</sys:String>

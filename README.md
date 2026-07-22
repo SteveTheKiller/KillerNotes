@@ -59,7 +59,7 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 </tr>
 <tr>
 <td><img src="docs/shortcuts.png" alt="Keyboard shortcuts"><br><sub>Every function has a shortcut - F1 opens the visual keyboard map.</sub></td>
-<td><img src="docs/localization.png" alt="Localization"><br><sub>Nine languages - here Japanese, in the sepia theme.</sub></td>
+<td><img src="docs/localization.png" alt="Localization"><br><sub>Nine languages - here Japanese, in the Blood theme.</sub></td>
 </tr>
 </table>
 

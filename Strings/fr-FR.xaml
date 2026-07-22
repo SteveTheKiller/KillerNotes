@@ -405,6 +405,15 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevHead">Sites clients - AaBbCc 123</sys:String>
     <sys:String x:Key="Str_Fonts_PrevSidebar">Remplacement du pare-feu - Clinique vét.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">Portez ce vieux whisky au juge blond qui fume. 0123456789.</sys:String>
+
+    <!-- Hyperlinks (Links.cs, 1.1.3) -->
+    <sys:String x:Key="Str_KS_Link">Insérer / modifier un lien</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">Lien...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">Adresse du lien</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">Modifier le lien - videz l'adresse pour le retirer</sys:String>
+    <sys:String x:Key="Str_Btn_Link">Lier</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">Cela ne ressemble pas à une adresse web</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">Impossible d'ouvrir le lien</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Choisir une couleur</sys:String>
     <sys:String x:Key="Str_Btn_Replace">Remplacer</sys:String>
     <sys:String x:Key="Str_Btn_Reset">Réinitialiser</sys:String>

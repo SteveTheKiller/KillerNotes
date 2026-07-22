@@ -405,6 +405,15 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevHead">Müşteri lokasyonları - AaBbCc 123</sys:String>
     <sys:String x:Key="Str_Fonts_PrevSidebar">Güvenlik duvarı değişimi - Veteriner Kliniği</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">Pijamalı hasta yağız şoföre çabucak güvendi. 0123456789.</sys:String>
+
+    <!-- Hyperlinks (Links.cs, 1.1.3) -->
+    <sys:String x:Key="Str_KS_Link">Bağlantı ekle / düzenle</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">Bağlantı...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">Bağlantı adresi</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">Bağlantıyı düzenle - kaldırmak için adresi boşalt</sys:String>
+    <sys:String x:Key="Str_Btn_Link">Bağla</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">Bu bir web adresine benzemiyor</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">Bağlantı açılamadı</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Bir renk seçin</sys:String>
     <sys:String x:Key="Str_Btn_Replace">Değiştir</sys:String>
     <sys:String x:Key="Str_Btn_Reset">Sıfırla</sys:String>

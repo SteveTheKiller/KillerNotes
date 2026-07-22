@@ -405,6 +405,15 @@
     <sys:String x:Key="Str_Fonts_PrevHead">クライアント拠点 - AaBbCc 123</sys:String>
     <sys:String x:Key="Str_Fonts_PrevSidebar">ファイアウォール交換 - 動物病院</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">いろはにほへと ちりぬるを The quick brown fox 0123456789.</sys:String>
+
+    <!-- Hyperlinks (Links.cs, 1.1.3) -->
+    <sys:String x:Key="Str_KS_Link">リンクを挿入 / 編集</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">リンク...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">リンクのアドレス</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">リンクを編集 - アドレスを空にすると解除</sys:String>
+    <sys:String x:Key="Str_Btn_Link">リンク</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">ウェブアドレスではないようです</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">リンクを開けませんでした</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">色を選択</sys:String>
     <sys:String x:Key="Str_Btn_Replace">置換</sys:String>
     <sys:String x:Key="Str_Btn_Reset">リセット</sys:String>

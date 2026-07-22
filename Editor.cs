@@ -20,6 +20,7 @@ namespace KillerNotes
         private void InitEditor()
         {
             DataObject.AddPastingHandler(Editor, Editor_OnPaste);
+            InitLinks();         // Links.cs (clickable + pasted + Ctrl+K hyperlinks)
             InitTableSizePicker();
             InitFormatBar();
             InitImageResize();   // click-to-resize handles on note images (ImageResize.cs)
@@ -47,6 +48,15 @@ namespace KillerNotes
 
         private void Editor_OnPaste(object sender, DataObjectPastingEventArgs e)
         {
+            // CherryTree and browsers put links on the clipboard as HTML + plain text
+            // with no RTF - and WPF's native paste has no HTML path, so those links
+            // died to plain text. Convert the HTML ourselves when it carries links
+            // (Links.cs); everything else stays on the native paste below.
+            if (!e.DataObject.GetDataPresent(DataFormats.Rtf) &&
+                !e.DataObject.GetDataPresent(DataFormats.XamlPackage) &&
+                e.DataObject.GetDataPresent(DataFormats.Html) &&
+                TryPasteHtml(e)) return;
+
             if (e.DataObject.GetDataPresent(DataFormats.Text) ||
                 e.DataObject.GetDataPresent(DataFormats.Rtf)  ||
                 e.DataObject.GetDataPresent(DataFormats.XamlPackage))
@@ -483,6 +493,21 @@ namespace KillerNotes
 
         private static void NormalizeElement(TextElement te)
         {
+            // Links: pasted/loaded hyperlinks carry the source's baked link-blue and
+            // underline on themselves AND their runs. Clear both so the themed editor
+            // style (Editor.Resources, accent color) paints them and they follow theme
+            // switches live - same idea as the neutral-color rule below.
+            if (te is Hyperlink link)
+            {
+                link.ClearValue(TextElement.ForegroundProperty);
+                link.ClearValue(Inline.TextDecorationsProperty);
+                foreach (var li in link.Inlines)
+                {
+                    li.ClearValue(TextElement.ForegroundProperty);
+                    li.ClearValue(Inline.TextDecorationsProperty);
+                }
+                return;
+            }
             if (te.ReadLocalValue(TextElement.ForegroundProperty) is SolidColorBrush f && IsNeutralColor(f.Color))
                 te.ClearValue(TextElement.ForegroundProperty);
             if (te.ReadLocalValue(TextElement.BackgroundProperty) is SolidColorBrush b && IsNeutralColor(b.Color))

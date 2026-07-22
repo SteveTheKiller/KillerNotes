@@ -31,6 +31,7 @@ namespace KillerNotes
             ("Ctrl+N",        "Str_KS_NewNote"),
             ("Ctrl+G",        "Str_KS_NewGroup"),
             ("Ctrl+T",        "Str_KS_Theme"),
+            ("Ctrl+K",        "Str_KS_Link"),
             ("Ctrl+O",        "Str_KS_OpenFiles"),
             ("Ctrl+S",        "Str_KS_Save"),
             ("Ctrl+B / I / U","Str_KS_BIU"),
@@ -279,6 +280,11 @@ namespace KillerNotes
                 // Ctrl+T: open the theme/accent flyout (ThemeFlyout.cs).
                 case Key.T when ctrl && !shift:
                     OpenThemeMenu();
+                    e.Handled = true;
+                    break;
+                // Ctrl+K: insert / edit a hyperlink on the selection (Links.cs).
+                case Key.K when ctrl && !shift:
+                    LinkShortcut();
                     e.Handled = true;
                     break;
                 // Ctrl+1..9: toggle the Nth defined tag on the open note (Tags.cs).

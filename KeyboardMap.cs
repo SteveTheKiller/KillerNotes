@@ -70,6 +70,7 @@ namespace KillerNotes
                 ["D"] = ("View", "Str_KS_Density"),
                 ["G"] = ("Note", "Str_KS_NewGroup"),
                 ["T"] = ("View", "Str_KS_Theme"),
+                ["K"] = ("Format", "Str_KS_Link"),
                 ["Enter"] = ("Note", "Str_KS_CalcPrint"),
                 ["D1"] = ("Note", "Str_Kb_Tag"),
                 ["D2"] = ("Note", "Str_Kb_Tag"),

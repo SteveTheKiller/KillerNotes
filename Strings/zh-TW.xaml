@@ -407,6 +407,15 @@
     <sys:String x:Key="Str_Fonts_PrevHead">客戶站點 - AaBbCc 123</sys:String>
     <sys:String x:Key="Str_Fonts_PrevSidebar">防火牆更換 - 動物醫院</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">敏捷的棕色狐狸跳過懶狗 The quick brown fox 0123456789.</sys:String>
+
+    <!-- Hyperlinks (Links.cs, 1.1.3) -->
+    <sys:String x:Key="Str_KS_Link">插入 / 編輯連結</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">連結...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">連結網址</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">編輯連結 - 清空網址即可移除</sys:String>
+    <sys:String x:Key="Str_Btn_Link">連結</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">這看起來不像網址</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">無法開啟連結</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">選擇色彩</sys:String>
     <sys:String x:Key="Str_Btn_Replace">取代</sys:String>
     <sys:String x:Key="Str_Btn_Reset">重設</sys:String>
