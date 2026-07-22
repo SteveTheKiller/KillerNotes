@@ -27,7 +27,11 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
   text and highlight color picker with a desktop-wide eyedropper, and inline images. Per-note
   title color and spell check. Convert to list (Ctrl+Shift+J) for pasting into scripts, and
   pasted content is normalized to the current theme. Word wrap toggle (wide content reachable
-  by horizontal scroll when off) and an optional line-number column (F11).
+  by horizontal scroll, tilt wheel, or Shift+wheel when off) and an optional line-number
+  column (F11).
+- Hyperlinks: Ctrl+K links the selection (or edits the link under the caret), Ctrl+Click
+  opens, typed URLs auto-link, and links survive pasting from browsers, Word, and other
+  note apps. Only web and mail addresses ever open.
 - Killculator (F9): a themed calculator that slides up under the notes list. Type an equation
   on the number keys; Print (Ctrl+Enter) drops the result into the note at the cursor.
 - Custom fonts: a Fonts dialog (theme flyout) swaps the header, sidebar, and note-text fonts
@@ -80,8 +84,8 @@ bootstrap carries the native e_sqlcipher.dll, so the release ships as one signed
 
 - `MainWindow.xaml` + partials: `Notes.cs` (list/search/save), `Editor.cs` (paste/tables),
   `Groups.cs` (custom order + nested groups), `Killculator.cs` (sidebar calculator),
-  `Fonts.cs` (font slots + dialog), `ActionUndo.cs` (sidebar Ctrl+Z), `Density.cs`
-  (row density), `Security.cs` (password
+  `Fonts.cs` (font slots + dialog), `Links.cs` (hyperlinks), `TiltWheel.cs` (horizontal
+  scroll), `ActionUndo.cs` (sidebar Ctrl+Z), `Density.cs` (row density), `Security.cs` (password
   flow), plus the KillerUI kit files (`Chrome.cs`, `ThemeFlyout.cs`, `About.cs`, `Anim.cs`,
   `ConfirmDialog`, `PasswordDialog`, `InputDialog`).
 - `Services/NoteStore.cs` - all SQL. `Services/ThemeManager.cs` - kit theme engine.

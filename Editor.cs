@@ -21,6 +21,7 @@ namespace KillerNotes
         {
             DataObject.AddPastingHandler(Editor, Editor_OnPaste);
             InitLinks();         // Links.cs (clickable + pasted + Ctrl+K hyperlinks)
+            InitTiltWheel();     // TiltWheel.cs (WM_MOUSEHWHEEL + Shift+wheel, issue #9)
             InitTableSizePicker();
             InitFormatBar();
             InitImageResize();   // click-to-resize handles on note images (ImageResize.cs)

@@ -34,15 +34,15 @@ namespace KillerNotes
         /// remembered on-screen width, floored so the toolbar always fits.</summary>
         private double ExpandedLogicalWidth(double s) => Math.Max(_sidebarBaseWidth / s, PanelMinLogical);
 
-        /// <summary>Responsive sidebar toolbar: when the panel's logical width (screen-
-        /// constant sidebar / app zoom) can no longer hold the New-note button and the
-        /// sort trio on one row, the sorts drop to a second row under the button - the
-        /// user's pick over letting the sidebar widen or the buttons clip. Width-only
-        /// hysteresis-free: wrapping changes the toolbar's height, never its width.</summary>
+        /// <summary>Wrap decision ONLY - the wording is UpdateNewNoteLabel's job (it
+        /// steps "+ New note" -> "+ New" -> "+" against its own column, and its column
+        /// reflects whatever this handler decides). The sorts drop to their own row
+        /// exactly when even the bare "+" cannot share a row with them, and snap back
+        /// the moment it can. One writer per concern, so the two can't fight.</summary>
         private void SidebarToolbar_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (NewNoteBtn.ActualWidth <= 0 || SortBtns.ActualWidth <= 0) return;
-            bool wrap = e.NewSize.Width < NewNoteBtn.ActualWidth + SortBtns.ActualWidth + 12;
+            if (SortBtns.ActualWidth <= 0) return;
+            bool wrap = e.NewSize.Width < MeasureNewNoteWidth("+") + SortBtns.ActualWidth + 12;
             if (wrap == (Grid.GetRow(SortBtns) == 1)) return;
             if (wrap)
             {
@@ -60,6 +60,7 @@ namespace KillerNotes
                 SortBtns.HorizontalAlignment = HorizontalAlignment.Right;
                 SortBtns.Margin = new Thickness(0);
             }
+            UpdateNewNoteLabel();   // the button's column just changed shape - re-pick now
         }
 
         private void SidebarToggle_Click(object sender, RoutedEventArgs e) => ToggleSidebar();
@@ -81,6 +82,16 @@ namespace KillerNotes
             // "New note" label steps down as its column narrows; SizeChanged fires on the
             // first layout too, so the initial wording is set without an extra call.
             SidebarPanel.SizeChanged += (_, _) => UpdateNewNoteLabel();
+            // A splitter drag resizes the column directly and nothing recorded it, so
+            // the next width re-apply (language switch refreshing the collapse tooltip,
+            // or a zoom change) snapped the sidebar back to the stale remembered width.
+            // Record the drag result as the new base and every re-apply keeps it.
+            SidebarSplitter.DragCompleted += (_, _) =>
+            {
+                double s = _appScale <= 0 ? 1 : _appScale;
+                if (!_sidebarCollapsed && SidebarCol.ActualWidth > 0)
+                    _sidebarBaseWidth = SidebarCol.ActualWidth * s;
+            };
         }
 
         // ---- Responsive "New note" button ----

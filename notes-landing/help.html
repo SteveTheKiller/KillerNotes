@@ -130,9 +130,11 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 <h2 class="help-cat" id="editor" data-i18n="hp_37">Editor</h2>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_38">Formatting<span class="kbd">F6</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_39"><code>Ctrl+B</code> / <code>I</code> / <code>U</code> bold, italic, underline; <code>Ctrl+Shift+S</code> strikethrough, <code>Ctrl+Shift+M</code> monospace, <code>Ctrl+Shift+H</code> highlight, <code>Ctrl+Shift+R</code> horizontal rule, <code>Ctrl+Shift+L</code> / <code>N</code> bulleted and numbered lists, <code>Ctrl+Shift+&gt;</code> / <code>&lt;</code> grow and shrink the selection. The format bar (<code>F6</code>) has all of it, plus full text and highlight color pickers with a desktop-wide eyedropper.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_40">Tables<span class="kbd">Ctrl+Shift+T</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_41">Insert a real table from the format bar or <code>Ctrl+Shift+T</code>. Rows and columns are added and removed from the right-click menu, and tables pasted from Excel, Word, or a web page come in as tables, not text.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_81">Hyperlinks<span class="kbd">Ctrl+K</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_82">Select text and press <code>Ctrl+K</code> to link it; <code>Ctrl+Click</code> opens a link in your browser. Ctrl+K on an existing link edits it, and clearing the address removes the link. Typing a URL followed by a space links it automatically.</p><p data-i18n="hp_83">Links survive pasting - from browsers, Word, and other note apps - and the HTML export writes real anchors. Only web and mail addresses ever open, so a shared note can't launch anything else.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_42">Images<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_43">Paste a screenshot and it lands inline at the cursor; image files drop in the same way. Click an image for resize handles.</p><p data-i18n="hp_44">With word wrap on, an image cannot be stretched wider than the pane; turn wrap off (<code>Ctrl+Shift+W</code>) and wide images get a horizontal scrollbar instead.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_45">Spell check &amp; convert to list<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_46"><code>Ctrl+Shift+P</code> toggles spell check per note - keep it on for prose, off for config dumps.</p><p data-i18n="hp_47"><b>Convert to list</b> (<code>Ctrl+Shift+J</code>) turns selected lines - or the words of one sentence - into a comma-separated list, made for pasting into scripts and one-liners.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_48">Word wrap &amp; line numbers<span class="kbd">Ctrl+Shift+W / F11</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_49"><code>Ctrl+Shift+W</code> toggles word wrap; with wrap off, wide content is reachable by horizontal scroll. <code>F11</code> adds a line-number column, handy when a note is really a config file.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_84">Sideways scrolling<span class="kbd">Tilt / Shift+Wheel</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_85">With word wrap off, the tilt wheel pans wide tables and images left and right, and <code>Shift+Wheel</code> does the same on mice without a tilt wheel. <code>Ctrl+Wheel</code> stays text zoom.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_50">Markdown &amp; HTML preview<span class="kbd">F4</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_51">Notes that look like markdown or HTML get a split-pane preview on <code>F4</code>. Markdown renders through Markdig; HTML is sanitized first - scripts and event handlers never run.</p></div></div></div>
 
 <h2 class="help-cat" id="killculator" data-i18n="hp_52">Killculator</h2>
@@ -202,7 +204,8 @@ ctrl: { N:['note','New note'], O:['file','Open files as new notes'], S:['file','
   F:['search','Search notes'], B:['format','Bold'], I:['format','Italic'], U:['format','Underline'],
   X:['edit','Cut'], C:['edit','Copy'], V:['edit','Paste'], Z:['edit','Undo'], Y:['edit','Redo'], A:['edit','Select all'],
   D:['view','Cycle sidebar density'], G:['note','New group (files selected notes into it)'],
-  T:['view','Theme and accent flyout'], Enter:['note','Print the Killculator result to the note'],
+  T:['view','Theme and accent flyout'], K:['format','Insert / edit link'],
+  Enter:['note','Print the Killculator result to the note'],
   D1:['note','Toggle tag'], D2:['note','Toggle tag'], D3:['note','Toggle tag'], D4:['note','Toggle tag'],
   D5:['note','Toggle tag'], D6:['note','Toggle tag'], D7:['note','Toggle tag'], D8:['note','Toggle tag'],
   D9:['note','Toggle tag'], D0:['view','Reset editor zoom'],
@@ -323,6 +326,7 @@ window.addEventListener('resize', fit);
 <div class="kbd-row"><span class="k">Ctrl+N</span><span class="d">New note</span></div>
 <div class="kbd-row"><span class="k">Ctrl+G</span><span class="d">New group (files selected notes into it)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+T</span><span class="d">Theme and accent flyout</span></div>
+<div class="kbd-row"><span class="k">Ctrl+K</span><span class="d">Insert / edit link (Ctrl+Click opens)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+O</span><span class="d">Open files as new notes</span></div>
 <div class="kbd-row"><span class="k">Ctrl+S</span><span class="d">Save now (autosave runs anyway)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+D</span><span class="d">Cycle sidebar density</span></div>
@@ -358,6 +362,7 @@ window.addEventListener('resize', fit);
 </div>
 <div class="kbd-group"><h4>Everything else</h4>
 <div class="kbd-row"><span class="k">Ctrl+Wheel / Ctrl+0</span><span class="d">Zoom editor text (Ctrl+0 resets)</span></div>
+<div class="kbd-row"><span class="k">Tilt / Shift+Wheel</span><span class="d">Scroll sideways (word wrap off)</span></div>
 <div class="kbd-row"><span class="k">Delete</span><span class="d">Delete the selected note (in the list)</span></div>
 <div class="kbd-row"><span class="k">Menu key</span><span class="d">Context menu at the cursor</span></div>
 <div class="kbd-row"><span class="k">Esc</span><span class="d">Close overlay / Killculator / clear search</span></div>
@@ -384,10 +389,10 @@ window.addEventListener('resize', fit);
 </div>
 <footer class="statusbar">
 <span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener">Source on GitHub</a> &middot; Part of <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span>
-<span class="right"><span id="verEgg" title="click me">v1.1.2</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
+<span class="right"><span id="verEgg" title="click me">v1.1.1</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
 </footer>
 <div class="egg-toast" id="eggToast"></div>
-<script src="kn-i18n.js?v=4"></script>
+<script src="kn-i18n.js?v=5"></script>
 <script src="kn.js?v=2"></script>
 <script>
 (function(){
