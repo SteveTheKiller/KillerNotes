@@ -115,6 +115,7 @@ namespace KillerNotes
                     Count = members.Count,
                     Collapsed = g.Collapsed,
                     NameColor = g.Color,
+                    Density = _density,   // compact modes trim the header spacing too (Density.cs)
                 });
                 if (g.Collapsed) return items.Count - 1;
 
@@ -512,6 +513,21 @@ namespace KillerNotes
             FlashStatus(group.Length == 0
                 ? Loc("Str_St_RemovedFromGroup")
                 : string.Format(Loc("Str_St_MovedToGroup"), group));
+        }
+
+        // Ctrl+G (Shortcuts.cs): new top-level group. Files the selected notes into it;
+        // with nothing selected it just creates the empty group.
+        private void NewGroupShortcut()
+        {
+            if (!NoteStore.IsOpen) return;
+            var notes = NotesList.SelectedItems.OfType<Note>().ToList();
+            if (notes.Count > 0) { NewGroupForNotes(notes); return; }
+            var dlg = new InputDialog(Loc("Str_Dlg_NewGroupHead"), "", Loc("Str_Btn_Create")) { Owner = this };
+            dlg.ShowDialog();
+            string name = dlg.Value.Trim().Replace(NoteStore.GroupSep, "");
+            if (!dlg.Confirmed || name.Length == 0) return;
+            NoteStore.AddGroup(name);   // an existing name just resolves to that group
+            RefreshList();
         }
 
         private void NewGroupForNotes(List<Note> notes)

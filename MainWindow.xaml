@@ -477,7 +477,9 @@
                                 <!-- Headers are not selectable rows: click toggles collapse,
                                      right-click opens the group menu (both set Handled so the
                                      ListBoxItem never sees the press). Groups.cs. -->
-                                <Border Background="Transparent" Padding="0,2,0,0" Margin="0,0,0,-6"
+                                <!-- Padding/Margin come from the model so the compact densities
+                                     (Ctrl+D) trim the header spacing too, not just the note rows. -->
+                                <Border Background="Transparent" Padding="{Binding HeaderPadding}" Margin="{Binding HeaderMargin}"
                                         MouseLeftButtonDown="GroupHeader_Press"
                                         MouseLeftButtonUp="GroupHeader_Click"
                                         MouseRightButtonDown="GroupHeader_RightDown">

@@ -162,6 +162,18 @@ namespace KillerNotes.Models
         public string Chevron => ((char)(Collapsed ? 0xE76C : 0xE70D)).ToString();   // MDL2 ChevronRight / ChevronDown
         public string CountDisplay => Count == 0 ? "" : Count.ToString();
 
+        // Sidebar density (set by BuildSidebarItems from the app-wide setting): the compact
+        // modes trim the header's breathing room too, not just the note rows. The header
+        // template binds these instead of hardcoding its Padding/Margin.
+        public int Density { get; set; }
+        public Thickness HeaderPadding => new(0, Density == 0 ? 2 : 0, 0, 0);
+        public Thickness HeaderMargin => Density switch
+        {
+            0 => new Thickness(0, 0, 0, -6),
+            1 => new Thickness(0, 0, 0, -8),
+            _ => new Thickness(0, -2, 0, -9),
+        };
+
         // Header-name binding helpers, mirroring Note.HasTitleColor / TitleBrush: the
         // DataTrigger switches to NameBrush only when a color is set, else theme TextBrush.
         public bool HasColor => NameColor.Length > 0;

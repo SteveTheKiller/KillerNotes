@@ -126,7 +126,7 @@ namespace KillerNotes
         {
             Note n => string.Join("|", "N", n.Id, n.Title, n.Snippet, n.ModifiedDisplay, n.TitleColor,
                                   n.Tags, n.Notebook, n.GroupDepth, n.GroupColor, n.IsFirstInGroup, n.IsLastInGroup, n.Density, RailSig(n.Rails)),
-            GroupHeader g => string.Join("|", "G", g.Path, g.Name, g.Depth, g.Count, g.Collapsed, g.NameColor, RailSig(g.Rails)),
+            GroupHeader g => string.Join("|", "G", g.Path, g.Name, g.Depth, g.Count, g.Collapsed, g.NameColor, g.Density, RailSig(g.Rails)),
             _ => o.GetHashCode().ToString(),
         };
 
@@ -163,6 +163,12 @@ namespace KillerNotes
         private void SortTimeBtn_Click(object sender, RoutedEventArgs e) => SetSort("created", defaultAsc: true);
         private void SortAlphaBtn_Click(object sender, RoutedEventArgs e) => SetSort("title", defaultAsc: true);
         private void SortCustomBtn_Click(object sender, RoutedEventArgs e) => SetSort("custom", defaultAsc: true);
+
+        // F10 (Shortcuts.cs): step to the NEXT sort mode - time -> A-Z -> custom -> time.
+        // Always a mode change, so SetSort never treats it as a direction flip.
+        private void CycleSortShortcut()
+            => SetSort(_sortField switch { "created" => "title", "title" => "custom", _ => "created" },
+                       defaultAsc: true);
 
         private void SetSort(string field, bool defaultAsc)
         {

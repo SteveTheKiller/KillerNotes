@@ -63,6 +63,12 @@
     <sys:String x:Key="Str_St_DensityCompact">Density: compact</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Density: minimal</sys:String>
     <sys:String x:Key="Str_St_Undo">Undone</sys:String>
+    <sys:String x:Key="Str_KS_SortCycle">Cycle sidebar sort (time / A-Z / custom)</sys:String>
+    <sys:String x:Key="Str_KS_NewGroup">New group (files selected notes into it)</sys:String>
+    <sys:String x:Key="Str_KS_Theme">Theme and accent flyout</sys:String>
+    <sys:String x:Key="Str_KS_TitleColor">Title color (selected note)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Toggle spell check (this note)</sys:String>
+    <sys:String x:Key="Str_KS_Table">Insert table</sys:String>
     <!-- Killculator sidebar calculator (F9) -->
     <sys:String x:Key="Str_KS_Calc">Killculator - Print drops the result into the note</sys:String>
     <sys:String x:Key="Str_KS_CalcPrint">Print the Killculator result to the note</sys:String>

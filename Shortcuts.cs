@@ -25,9 +25,12 @@ namespace KillerNotes
             ("F7",            "Str_KS_ManageTags"),
             ("F8",            "Str_KS_Export"),
             ("F9",            "Str_KS_Calc"),
+            ("F10",           "Str_KS_SortCycle"),
             ("F11",           "Str_KS_LineNumbers"),
             ("F12",           "Str_KS_About"),
             ("Ctrl+N",        "Str_KS_NewNote"),
+            ("Ctrl+G",        "Str_KS_NewGroup"),
+            ("Ctrl+T",        "Str_KS_Theme"),
             ("Ctrl+O",        "Str_KS_OpenFiles"),
             ("Ctrl+S",        "Str_KS_Save"),
             ("Ctrl+B / I / U","Str_KS_BIU"),
@@ -40,6 +43,9 @@ namespace KillerNotes
             ("Ctrl+Shift+G",   "Str_KS_NewSubgroup"),
             ("Ctrl+Shift+K",   "Str_KS_GroupColor"),
             ("Ctrl+Shift+W",   "Str_KS_WordWrap"),
+            ("Ctrl+Shift+C",   "Str_KS_TitleColor"),
+            ("Ctrl+Shift+P",   "Str_KS_Spell"),
+            ("Ctrl+Shift+T",   "Str_KS_Table"),
             ("Ctrl+D",         "Str_KS_Density"),
             ("Ctrl+Enter",     "Str_KS_CalcPrint"),
             ("Ctrl+1 - 9",     "Str_KS_Tags"),
@@ -94,6 +100,16 @@ namespace KillerNotes
             // editor untouched so dead keys and AltGr characters type normally.
             if (ctrl && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)) return;
 
+            // F10 arrives as a SystemKey (like Alt it traditionally opens the window menu bar),
+            // so it never reaches the e.Key switch below - handle it here and swallow the menu.
+            if (e.Key == Key.System && e.SystemKey == Key.F10 && !ctrl && !shift
+                && !Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+            {
+                CycleSortShortcut();   // Notes.cs (time -> A-Z -> custom)
+                e.Handled = true;
+                return;
+            }
+
             // Ctrl+Enter prints the Killculator readout into the note (Killculator.cs).
             if (_kalcOpen && ctrl && !shift && e.Key == Key.Return)
             {
@@ -128,6 +144,9 @@ namespace KillerNotes
                     case Key.R: InsertRule_Click(this, new RoutedEventArgs()); e.Handled = true; return;
                     case Key.J: ConvertSelectionToList(); e.Handled = true; return;
                     case Key.W: WordWrap_Click(this, new RoutedEventArgs()); e.Handled = true; return;   // Editor.cs (moved off F9)
+                    case Key.C: TitleColorPick_Click(this, new RoutedEventArgs()); e.Handled = true; return;   // Notes.cs (selected note)
+                    case Key.P: Spell_Click(this, new RoutedEventArgs()); e.Handled = true; return;   // Editor.cs (per-note spell check)
+                    case Key.T: InsertTable(3, 3); e.Handled = true; return;   // Editor.cs (default size; the drag picker still sizes freely)
                     // Explicit rather than relying on the RichTextBox built-ins, so the
                     // combo works with focus anywhere (title box, sidebar), like the rest.
                     case Key.OemPeriod: System.Windows.Documents.EditingCommands.IncreaseFontSize.Execute(null, Editor); e.Handled = true; return;
@@ -240,6 +259,16 @@ namespace KillerNotes
                 // Ctrl+D: cycle sidebar row density (moved off F10 when the calculator took it).
                 case Key.D when ctrl && !shift:
                     Density_Click(this, new RoutedEventArgs());   // Density.cs
+                    e.Handled = true;
+                    break;
+                // Ctrl+G: new top-level group; files the selected notes into it (Groups.cs).
+                case Key.G when ctrl && !shift:
+                    NewGroupShortcut();
+                    e.Handled = true;
+                    break;
+                // Ctrl+T: open the theme/accent flyout (ThemeFlyout.cs).
+                case Key.T when ctrl && !shift:
+                    OpenThemeMenu();
                     e.Handled = true;
                     break;
                 // Ctrl+1..9: toggle the Nth defined tag on the open note (Tags.cs).
