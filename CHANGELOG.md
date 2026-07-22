@@ -4,6 +4,19 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-07-22
+
+### Added
+- Notes remember where you left off: switching back to a note restores the cursor position and scroll instead of starting at the top, so a long running note (a log, a journal) reopens right at the spot you were working. The position survives restarts - it is stored per note in the database.
+
+### Changed
+- Subgroups now sit at the top of their parent group, above the group's own notes, so nested structure stays visible without scrolling past the notes. A "Subgroups on top" toggle on the group right-click menu restores the old notes-first order, and the group's colored line stays continuous in either arrangement.
+- The collapsed group's short colored pill now centers itself on the header text instead of stretching the row, so it lines up with the larger group title font at every density.
+
+### Fixed
+- Creating a subgroup no longer snaps the sidebar back to the top - the list holds its scroll position, since the new child appears right where you right-clicked. The same fix covers renaming, coloring, and deleting a group.
+- The Killculator no longer swallows the keyboard for the whole app while open: focus decides who gets the keys. Opening the pad (or clicking anywhere on it) points the number and operator keys at the calculator; clicking into the note hands typing back to the editor with the pad still open. This also stops Backspace and digits from vanishing into the calculator while writing a note with the pad up.
+
 ## [1.1.0] - 2026-07-22
 
 ### Added

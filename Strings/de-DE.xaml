@@ -268,6 +268,8 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Ctx_Group">Gruppe</sys:String>
     <sys:String x:Key="Str_Ctx_NewGroup">Neue Gruppe...</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">Neue Untergruppe...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">Untergruppen oben</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">Untergruppen über den eigenen Notizen der Gruppe anzeigen</sys:String>
     <sys:String x:Key="Str_TT_Density">Seitenleistendichte (Strg+D) - klicken oder scrollen</sys:String>
     <sys:String x:Key="Str_KS_Density">Seitenleistendichte wechseln</sys:String>
     <sys:String x:Key="Str_St_DensityFull">Dichte: voll</sys:String>

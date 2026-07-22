@@ -32,6 +32,14 @@ namespace KillerNotes
 
         private void KalcRail_Click(object sender, RoutedEventArgs e) => ToggleKalc();   // rail icon (MainWindow.xaml)
 
+        // Clicking anywhere on the pad (readout, gaps) reclaims the keyboard for the calc;
+        // clicking into the note hands typing back to the editor. Shortcuts.cs routes the
+        // number/operator keys to the calc only while focus is inside the panel.
+        private void KalcPanel_Press(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (!KalcPanel.IsKeyboardFocusWithin) Keyboard.Focus(KalcPanel);
+        }
+
         private void OpenKalc()
         {
             if (_kalcOpen) return;
@@ -56,12 +64,14 @@ namespace KillerNotes
             { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }, FillBehavior = FillBehavior.Stop };
             grow.Completed += (_, _) => { if (_kalcOpen) { KalcPanel.BeginAnimation(FrameworkElement.HeightProperty, null); KalcPanel.Height = h; } };
             KalcPanel.BeginAnimation(FrameworkElement.HeightProperty, grow);
+            Keyboard.Focus(KalcPanel);   // opening claims the keyboard, so an equation types immediately
         }
 
         private void CloseKalc()
         {
             if (!_kalcOpen) return;
             _kalcOpen = false;
+            if (KalcPanel.IsKeyboardFocusWithin) Editor.Focus();   // hand typing back to the note
             // Restore the collapsed sidebar if we were the ones who popped it open.
             if (_kalcAutoExpanded)
             {

@@ -255,6 +255,8 @@ namespace KillerNotes
             var meta = _notes.FirstOrDefault(n => n.Id == id);
             if (meta == null) return;
 
+            SaveNotePosition();   // remember where the outgoing note was left (1.1.1)
+
             _loadingNote = true;
             _currentId = id;
             // Remembered for the next launch (OpenStartupNote). Demo sessions must
@@ -281,7 +283,35 @@ namespace KillerNotes
             ApplySpellCheck(meta.SpellCheck);   // Editor.cs (per-note flag, off by default)
             ApplyTitleColor(meta);
             ShowEditor(true);
+            RestoreNotePosition(id);   // reopen where the note was left, not at the top (1.1.1)
             UpdatePreviewState();   // Preview.cs (md/html detection for this note)
+        }
+
+        // ---- Remembered reading position (1.1.1, #8 follow-up) ----
+        // The caret offset and scroll are saved when a note is left (note switch, alt-tab)
+        // and restored on open, so a long running note reopens at the spot you were working
+        // instead of the top. Position-only changes never touch the modified stamp.
+
+        private void SaveNotePosition()
+        {
+            if (_currentId < 0 || !NoteStore.IsOpen) return;
+            int caret = Editor.Document.ContentStart.GetOffsetToPosition(Editor.CaretPosition);
+            NoteStore.SetNotePosition(_currentId, caret, Editor.VerticalOffset);
+        }
+
+        private void RestoreNotePosition(long id)
+        {
+            var (caret, scroll) = NoteStore.GetNotePosition(id);
+            if (caret > 0 &&
+                Editor.Document.ContentStart.GetPositionAtOffset(caret) is TextPointer p)
+                Editor.CaretPosition = p;
+            if (scroll > 0)
+                // Deferred: the freshly loaded document has no layout yet, so an immediate
+                // scroll would be clamped to 0. Loaded priority runs after measure/arrange.
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    if (_currentId == id) Editor.ScrollToVerticalOffset(scroll);
+                }), DispatcherPriority.Loaded);
         }
 
         /// <summary>Colors the open note's title box (concrete brush) or restores the

@@ -118,10 +118,13 @@ namespace KillerNotes
                 return;
             }
 
-            // While the Killculator is open, number/operator keys type into it (Killculator.cs)
-            // instead of the note. F9 and Esc are not calc keys, so they fall through to the
-            // switch below and still close it; Ctrl/Alt combos pass through untouched.
-            if (_kalcOpen && !ctrl && !Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)
+            // While the Killculator HAS FOCUS, number/operator keys type into it
+            // (Killculator.cs). Focus decides who gets the keyboard: opening the pad (or
+            // clicking it) focuses it, clicking into the note gives typing back to the
+            // editor with the pad still open. F9 and Esc are not calc keys, so they fall
+            // through to the switch below and still close it; Ctrl/Alt combos pass through.
+            if (_kalcOpen && KalcPanel.IsKeyboardFocusWithin
+                && !ctrl && !Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)
                 && TryKalcKey(e.Key))
             {
                 e.Handled = true;

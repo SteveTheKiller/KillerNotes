@@ -300,6 +300,8 @@
     <sys:String x:Key="Str_St_CalcPrinted">已打印到笔记</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z 可恢复。</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">新建子分组...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">子分组置顶</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">在分组自身笔记的上方显示子分组</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">从分组中移除</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">重命名分组...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">删除分组</sys:String>

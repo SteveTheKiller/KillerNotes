@@ -300,6 +300,8 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">Imprimé dans la note</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z la récupère.</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">Nouveau sous-groupe...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">Sous-groupes en haut</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">Afficher les sous-groupes au-dessus des notes du groupe</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">Retirer du groupe</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">Renommer le groupe...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">Supprimer le groupe</sys:String>

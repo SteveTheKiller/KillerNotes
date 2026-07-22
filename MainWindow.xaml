@@ -423,13 +423,21 @@
                                                                         <Setter Property="CornerRadius" Value="0,0,1.5,1.5"/>
                                                                         <Setter Property="Margin" Value="8,0,0,5"/>
                                                                     </DataTrigger>
+                                                                    <!-- Collapsed pill: a fixed-height, vertically centered bar instead of
+                                                                         a stretched line with fixed insets, so it sits centered on the
+                                                                         header text regardless of the header font size or density. -->
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding IsFirstInGroup}" Value="True"/>
                                                                             <Condition Binding="{Binding IsLastInGroup}" Value="True"/>
                                                                         </MultiDataTrigger.Conditions>
                                                                         <Setter Property="CornerRadius" Value="1.5"/>
-                                                                        <Setter Property="Margin" Value="8,5,0,5"/>
+                                                                        <Setter Property="Height" Value="14"/>
+                                                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                                                        <!-- The header's negative bottom margin lets its text overdraw the
+                                                                             row bottom, so the visible text center sits ~3px below the cell
+                                                                             center; nudge the centered pill down to match. -->
+                                                                        <Setter Property="Margin" Value="8,3,0,-3"/>
                                                                     </MultiDataTrigger>
                                                                 </Style.Triggers>
                                                             </Style>
@@ -487,6 +495,8 @@
                                         <ContextMenu>
                                             <MenuItem Header="{DynamicResource Str_Ctx_NewSubgroup}" Click="NewSubgroup_Click"
                                                       InputGestureText="Ctrl+Shift+G"/>
+                                            <MenuItem Header="{DynamicResource Str_Ctx_SubTop}" Tag="subtop" IsCheckable="True"
+                                                      Click="SubgroupsOnTop_Click" ToolTip="{DynamicResource Str_TT_SubTop}"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_RenameGroup}" Click="RenameGroup_Click"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_GroupColor}" Click="GroupColorPick_Click"
                                                       Tag="groupcolor" InputGestureText="Ctrl+Shift+K"
@@ -616,7 +626,8 @@
                          like the sidebar chrome; its Height animates 0 -> natural (Killculator.cs) so
                          it slides up from the footer. The Print key pushes the readout into the note. -->
                     <Border x:Name="KalcPanel" Grid.Row="1" Visibility="Collapsed" ClipToBounds="True"
-                            Height="0" VerticalAlignment="Bottom" Background="{DynamicResource BackgroundBrush}">
+                            Height="0" VerticalAlignment="Bottom" Background="{DynamicResource BackgroundBrush}"
+                            Focusable="True" PreviewMouseDown="KalcPanel_Press">
                         <Grid>
                             <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
                             <Grid Margin="8,8,8,10" VerticalAlignment="Bottom">

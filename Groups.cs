@@ -97,11 +97,17 @@ namespace KillerNotes
                 if (r != null) r.IsLast = true;
             }
 
-            // Emits a group header, its direct notes (unless collapsed), then its child groups one
-            // level deeper, and returns the index of the LAST row of the whole subtree. ancestors
-            // are the guide-line levels above this group; a child inherits them plus this group's
-            // own level, so the parent's line runs down the left of the child's subtree and is
-            // capped (rounded) on that subtree's last row.
+            // Subgroups on top (toggleable from the group right-click menu): child groups render
+            // right under their parent's header, ABOVE the parent's own notes; off restores the
+            // original notes-then-subgroups order. The parent's line stays continuous either way:
+            // its rail (level = depth) runs beside the child rows and its spine beside its own
+            // notes at the same x, so only which segment ends the line changes.
+            bool subTop = App.GetSetting("SubgroupsOnTop") != "0";
+
+            // Emits a group header and its subtree (order per subTop), returning the index of the
+            // LAST row of the whole subtree. ancestors are the guide-line levels above this group;
+            // a child inherits them plus this group's own level, so the parent's line runs down
+            // the left of the child's subtree and is capped (rounded) where the subtree ends.
             int Emit((string Path, string Parent, bool Collapsed, string Color) g, int depth, List<(int Level, string Color)> ancestors)
             {
                 var members = _notes.Where(n =>
@@ -120,6 +126,29 @@ namespace KillerNotes
                 if (g.Collapsed) return items.Count - 1;
 
                 bool hasKids = childrenOf.ContainsKey(g.Path);
+
+                if (subTop && hasKids)
+                {
+                    // Children first: the group's rail runs from the header down through them.
+                    var childAncestors = new List<(int Level, string Color)>(ancestors) { (depth, g.Color) };
+                    int lastChild = items.Count - 1;
+                    foreach (var k in childrenOf[g.Path]) lastChild = Emit(k, depth + 1, childAncestors);
+
+                    for (int i = 0; i < members.Count; i++)
+                    {
+                        members[i].GroupColor = g.Color;
+                        members[i].GroupDepth = depth;
+                        members[i].Rails = RailsFrom(ancestors);
+                        members[i].IsFirstInGroup = false;   // the header caps the spine's top
+                        members[i].IsLastInGroup = i == members.Count - 1;   // notes end the group now
+                        items.Add(members[i]);
+                    }
+                    // No own notes below the children: the rail itself ends the line, so cap it
+                    // on the subtree's last row. With notes below, the last note's spine caps.
+                    if (members.Count == 0) CapRail(items[lastChild], depth);
+                    return items.Count - 1;
+                }
+
                 for (int i = 0; i < members.Count; i++)
                 {
                     members[i].GroupColor = g.Color;
@@ -287,8 +316,21 @@ namespace KillerNotes
             // keeps "Group color...". Set on right-click, before the menu opens. (Steve, 2026-07-22)
             if (fe?.ContextMenu is ContextMenu cm && _ctxGroup is GroupHeader g)
                 foreach (var it in cm.Items)
-                    if (it is MenuItem mi && (mi.Tag as string) == "groupcolor")
-                        mi.Header = Loc(g.IsNested ? "Str_Ctx_SubgroupColor" : "Str_Ctx_GroupColor");
+                    if (it is MenuItem mi)
+                    {
+                        if ((mi.Tag as string) == "groupcolor")
+                            mi.Header = Loc(g.IsNested ? "Str_Ctx_SubgroupColor" : "Str_Ctx_GroupColor");
+                        else if ((mi.Tag as string) == "subtop")
+                            mi.IsChecked = App.GetSetting("SubgroupsOnTop") != "0";
+                    }
+        }
+
+        // App-wide toggle (default on): subgroups render above their parent's notes.
+        private void SubgroupsOnTop_Click(object sender, RoutedEventArgs e)
+        {
+            bool on = App.GetSetting("SubgroupsOnTop") != "0";
+            App.SetSetting("SubgroupsOnTop", on ? "0" : "1");
+            RefreshList(preserveScroll: true);
         }
 
         private void RenameGroup_Click(object sender, RoutedEventArgs e)
@@ -310,7 +352,7 @@ namespace KillerNotes
                 return;
             }
             NoteStore.RenameGroup(g.Path, name);
-            RefreshList();
+            RefreshList(preserveScroll: true);   // in-place edit - hold position
         }
 
         private void DeleteGroup_Click(object sender, RoutedEventArgs e)
@@ -323,7 +365,7 @@ namespace KillerNotes
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
             NoteStore.DeleteGroup(g.Path);
-            RefreshList();
+            RefreshList(preserveScroll: true);   // in-place edit - hold position
         }
 
         // Creates a child group under the right-clicked header (1.1.0 subgroups). The new
@@ -339,7 +381,7 @@ namespace KillerNotes
             string parent = g.Path;
             NoteStore.AddGroup(NoteStore.GroupPath(parent, leaf), parent);
             NoteStore.SetGroupCollapsed(parent, false);   // reveal the new child
-            RefreshList();
+            RefreshList(preserveScroll: true);   // in-place edit at the header you clicked - hold position
         }
 
         // ---- Keyboard entry points (Ctrl+Shift+G / Ctrl+Shift+K, Shortcuts.cs) ----
@@ -394,7 +436,7 @@ namespace KillerNotes
                     $"#{dlg.SelectedColor.R:X2}{dlg.SelectedColor.G:X2}{dlg.SelectedColor.B:X2}");
                 PushUndo(() => RestoreGroupColor(groupName, original));
             }
-            RefreshList();
+            RefreshList(preserveScroll: true);   // in-place edit - hold position
         }
 
         // Undo target: restore a group's stored name color by path.
@@ -429,7 +471,7 @@ namespace KillerNotes
             string path = g.Path, original = g.NameColor;
             NoteStore.SetGroupColor(path, "");
             PushUndo(() => RestoreGroupColor(path, original));
-            RefreshList();
+            RefreshList(preserveScroll: true);   // in-place edit - hold position
         }
 
         // ---- Right-click > Group submenu (built from NotesContextMenu_Opened, like Tags) ----

@@ -232,6 +232,8 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Ctx_Group">Group</sys:String>
     <sys:String x:Key="Str_Ctx_NewGroup">New group...</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">New subgroup...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">Subgroups on top</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">Show subgroups above the group's own notes</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">Remove from group</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">Rename group...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">Delete group</sys:String>

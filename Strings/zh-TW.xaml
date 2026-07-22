@@ -300,6 +300,8 @@
     <sys:String x:Key="Str_St_CalcPrinted">已列印到筆記</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z 可復原。</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">新增子群組...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">子群組置頂</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">在群組自身筆記的上方顯示子群組</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">從群組移除</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">重新命名群組...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">刪除群組</sys:String>

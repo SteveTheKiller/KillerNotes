@@ -208,7 +208,7 @@
 
 <section class="tech-sec" id="distribution">
 <h2>Distribution</h2>
-<p>KillerNotes ships as a <b>single signed exe</b> - about 4.3 MB with every dependency embedded, including the SQLCipher engine. There is no installer to run and no folder of DLLs: download, double-click, take notes. The exe is Authenticode-signed and timestamped, so Windows shows a verified publisher instead of an unknown-publisher warning, and the About panel shows the certificate thumbprint plus the exe's SHA-256 to check against the release page.</p>
+<p>KillerNotes ships as a <b>single signed exe</b> - about 4.5 MB with every dependency embedded, including the SQLCipher engine. There is no installer to run and no folder of DLLs: download, double-click, take notes. The exe is Authenticode-signed and timestamped, so Windows shows a verified publisher instead of an unknown-publisher warning, and the About panel shows the certificate thumbprint plus the exe's SHA-256 to check against the release page.</p>
 <ul class="blurb-list">
 <li><b>Portable first</b> - run it from anywhere, including a USB stick. Notes live in <code>%APPDATA%\KillerNotes</code> by default, and the data folder is configurable - point it next to the exe and the whole notepad travels with the stick.</li>
 <li><b>Optional install</b> - a PORTABLE badge in the status bar offers a one-click per-user install: Start Menu shortcut, optional desktop shortcut, and an Add/Remove Programs entry. No admin rights needed.</li>
@@ -232,7 +232,7 @@
 <tr><td>Import</td><td>.txt, .log, .md, .html, .rtf, png/jpg/gif/bmp images</td></tr>
 <tr><td>Export</td><td>.txt, .rtf, self-contained .html; notes also share as .knote</td></tr>
 <tr><td>Network use</td><td>None, except the About panel's version check (GitHub)</td></tr>
-<tr><td>Distribution</td><td>Single signed exe (~4.3 MB); portable, per-user install, or /silent machine-wide</td></tr>
+<tr><td>Distribution</td><td>Single signed exe (~4.5 MB); portable, per-user install, or /silent machine-wide</td></tr>
 <tr><td>License</td><td>GPLv3; source zip attached to every release</td></tr>
 </table>
 </section>
@@ -257,11 +257,11 @@
 </div>
 <footer class="statusbar">
 <span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener">Source on GitHub</a> &middot; Part of <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span>
-<span class="right"><span id="verEgg" title="click me">v1.0.3</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
+<span class="right"><span id="verEgg" title="click me">v1.1.0</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
 </footer>
 <div class="egg-toast" id="eggToast"></div>
 <div class="dlightbox" id="dlightbox" hidden><div class="dlb-inner" id="dlbInner"></div></div>
-<script src="kn-i18n.js?v=1"></script>
+<script src="kn-i18n.js?v=2"></script>
 <script src="kn.js?v=2"></script>
 <script>
 (function(){

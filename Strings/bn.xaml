@@ -300,6 +300,8 @@
     <sys:String x:Key="Str_St_CalcPrinted">নোটে প্রিন্ট হয়েছে</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z ফিরিয়ে আনে।</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">নতুন সাবগ্রুপ...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">সাবগ্রুপ উপরে</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">গ্রুপের নিজের নোটের উপরে সাবগ্রুপ দেখান</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">গ্রুপ থেকে সরান</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">গ্রুপের নাম বদলান...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">গ্রুপ মুছুন</sys:String>

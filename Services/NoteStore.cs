@@ -196,6 +196,12 @@ CREATE TABLE IF NOT EXISTS groups(
             // appends max+1 so new notes land at the bottom of a custom arrangement.
             if (!have.Contains("sort_order"))
                 Exec("ALTER TABLE notes ADD COLUMN sort_order INTEGER NOT NULL DEFAULT 0");
+            // 1.1.1: remembered reading position (#8 follow-up) - caret offset into the
+            // document plus the editor's vertical scroll, restored when the note reopens.
+            if (!have.Contains("caret_pos"))
+                Exec("ALTER TABLE notes ADD COLUMN caret_pos INTEGER NOT NULL DEFAULT 0");
+            if (!have.Contains("scroll_pos"))
+                Exec("ALTER TABLE notes ADD COLUMN scroll_pos REAL NOT NULL DEFAULT 0");
 
             // 1.0.3: per-group name color (mirrors the per-note title_color above). The
             // groups table already exists here (EnsureSchema runs the CREATE first).
@@ -385,6 +391,30 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             cmd.Parameters.AddWithValue("$sp", n.SpellCheck ? 1 : 0);
             cmd.Parameters.AddWithValue("$so", n.SortOrder);
             cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Remembers the reading position (caret offset + editor scroll) so the
+        /// note reopens where the user left off instead of at the top (1.1.1).</summary>
+        public static void SetNotePosition(long id, int caret, double scroll)
+        {
+            if (_db == null) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET caret_pos = $c, scroll_pos = $s WHERE id = $id";
+            cmd.Parameters.AddWithValue("$c", caret);
+            cmd.Parameters.AddWithValue("$s", scroll);
+            cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        public static (int Caret, double Scroll) GetNotePosition(long id)
+        {
+            if (_db == null) return (0, 0);
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT caret_pos, scroll_pos FROM notes WHERE id = $id";
+            cmd.Parameters.AddWithValue("$id", id);
+            using var r = cmd.ExecuteReader();
+            if (!r.Read()) return (0, 0);
+            return (r.IsDBNull(0) ? 0 : (int)r.GetInt64(0), r.IsDBNull(1) ? 0 : r.GetDouble(1));
         }
 
         /// <summary>Sets the sidebar/title display color ("#RRGGBB"; "" = theme default).</summary>

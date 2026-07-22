@@ -300,6 +300,8 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">Nota yazdırıldı</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z geri getirir.</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">Yeni alt grup...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">Alt gruplar üstte</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">Alt grupları grubun kendi notlarının üstünde göster</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">Gruptan çıkar</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">Grubu yeniden adlandır...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">Grubu sil</sys:String>

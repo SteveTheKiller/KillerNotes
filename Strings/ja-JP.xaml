@@ -300,6 +300,8 @@
     <sys:String x:Key="Str_St_CalcPrinted">ノートに印刷しました</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z で元に戻せます。</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">新しいサブグループ...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">サブグループを上に</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">サブグループをグループ自身のノートの上に表示</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">グループから削除</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">グループ名を変更...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">グループを削除</sys:String>
