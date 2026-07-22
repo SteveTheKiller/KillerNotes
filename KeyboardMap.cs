@@ -50,6 +50,7 @@ namespace KillerNotes
                 ["F12"] = ("Help", "Str_KS_About"),
                 ["Del"] = ("Note", "Str_Kb_DeleteNote"),
                 ["Esc"] = ("Help", "Str_KS_Esc"),
+                ["Menu"] = ("Edit", "Str_Kb_CtxMenu"),   // Apps key: RichTextBox context menu
             },
             [KbLayer.Ctrl] = new()
             {
@@ -80,6 +81,20 @@ namespace KillerNotes
                 ["D8"] = ("Note", "Str_Kb_Tag"),
                 ["D9"] = ("Note", "Str_Kb_Tag"),
                 ["D0"] = ("View", "Str_Kb_ZoomReset"),
+                // RichTextBox built-ins (nothing in Shortcuts.cs intercepts these); on the
+                // map so the diagram covers everything that actually works in the editor.
+                ["Home"] = ("Edit", "Str_Kb_NoteTop"),
+                ["End"] = ("Edit", "Str_Kb_NoteEnd"),
+                ["Left"] = ("Edit", "Str_Kb_WordLeft"),
+                ["Right"] = ("Edit", "Str_Kb_WordRight"),
+                ["Back"] = ("Edit", "Str_Kb_DelWordL"),
+                ["Del"] = ("Edit", "Str_Kb_DelWordR"),
+                ["L"] = ("Format", "Str_Kb_AlignL"),
+                ["E"] = ("Format", "Str_Kb_AlignC"),
+                ["R"] = ("Format", "Str_Kb_AlignR"),
+                ["J"] = ("Format", "Str_Kb_AlignJ"),
+                ["LBr"] = ("Format", "Str_Kb_FontDown"),
+                ["RBr"] = ("Format", "Str_Kb_FontUp"),
             },
             [KbLayer.CtrlShift] = new()
             {

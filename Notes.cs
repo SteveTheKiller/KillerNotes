@@ -180,9 +180,9 @@ namespace KillerNotes
             RefreshList();
             StatusText.Text = _sortField switch
             {
-                "created" => _sortAsc ? "By creation time - oldest first" : "By creation time - newest first",
-                "title"   => _sortAsc ? "Alphabetical - A to Z" : "Alphabetical - Z to A",
-                _         => "Custom order - drag notes to arrange",
+                "created" => Loc(_sortAsc ? "Str_St_SortOldest" : "Str_St_SortNewest"),
+                "title"   => Loc(_sortAsc ? "Str_St_SortAZ" : "Str_St_SortZA"),
+                _         => Loc("Str_TT_SortCustom"),
             };
         }
 
@@ -198,13 +198,12 @@ namespace KillerNotes
             SortTimeArrow.Text  = time ? arrow : "";
             SortAlphaArrow.Text = alpha ? arrow : "";
             SortTimeBtn.ToolTip = time
-                ? (_sortAsc ? "By creation time - oldest first (click to reverse)"
-                            : "By creation time - newest first (click to reverse)")
-                : "Sort by creation time";
+                ? string.Format(Loc("Str_TT_ClickReverse"), Loc(_sortAsc ? "Str_St_SortOldest" : "Str_St_SortNewest"))
+                : Loc("Str_TT_SortTimeOff");
             SortAlphaBtn.ToolTip = alpha
-                ? (_sortAsc ? "Alphabetical A-Z (click to reverse)" : "Alphabetical Z-A (click to reverse)")
-                : "Sort alphabetically";
-            SortCustomBtn.ToolTip = "Custom order - drag notes to arrange";
+                ? string.Format(Loc("Str_TT_ClickReverse"), Loc(_sortAsc ? "Str_St_SortAZ" : "Str_St_SortZA"))
+                : Loc("Str_TT_SortAlphaOff");
+            SortCustomBtn.ToolTip = Loc("Str_TT_SortCustom");
         }
 
         private void NotesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -275,6 +274,7 @@ namespace KillerNotes
                 range.Load(ms, DataFormats.XamlPackage);
             }
             NormalizeThemeColors(Editor.Document);   // Editor.cs (default text follows the live theme)
+            NormalizeContentFont(Editor.Document);   // Fonts.cs (baked save-time font must not defeat the ContentFont slot)
             ApplyImageQuality(Editor.Document);      // ImageResize.cs (Fant scaling on loaded images)
             EnsureEditableTail();   // Editor.cs (rule/table as last block traps the caret)
             ApplyWordWrap(_wordWrap);   // Editor.cs (re-assert the word-wrap page width after the load)

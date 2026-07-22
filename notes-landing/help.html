@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="hc">
+<head>
+<meta charset="utf-8">
+<script>/* Apply saved theme + accent before first paint to avoid a reload flash */(function(){try{var d=document.documentElement,t=localStorage.getItem('knotes-theme');if(t){d.setAttribute('data-theme',t);if({dark:1,light:1,hc:1}[t]){var v=localStorage.getItem('knotes-av');if(v){var s=v.split('|');d.style.setProperty('--accent',s[0]);d.style.setProperty('--btn',s[1]);}}}}catch(e){}})();</script>
+<link rel="preload" href="brand/KillerNotes.ttf" as="font" type="font/ttf" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="darkreader-lock">
+<title>KillerNotes - How-To</title>
+<link rel="canonical" href="https://killernotes.net/help.html">
+<meta name="description" content="How to use KillerNotes: every feature, workflow, quirk, and keyboard shortcut explained.">
+<link rel="icon" type="image/x-icon" href="brand/kn-icon.ico">
+<script defer src="https://koya.thekiller.net/script.js" data-website-id="9cbd0ccf-b6de-4fb3-a9fe-a166c151fa3f"></script>
+<link rel="stylesheet" href="kn.css?v=6">
+<style>
+.page-hero { text-align: center; padding: 44px 16px 8px; }
+.page-hero .wm-logo { font-size: clamp(34px, 5.6vw, 56px); margin: 0 auto 8px; display: block; }
+.page-hero p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+.page-hero .legend { font-size: 13px; margin-top: 4px; color: var(--text2); }
+.content-inner { max-width: 880px; margin: 0 auto; padding: 0 28px 56px; }
+.help-cat { font-family: 'KillerNotes', 'Courier New', monospace; font-size: 18px; font-weight: normal; letter-spacing: .5px; color: var(--accent); margin: 30px 2px 12px; padding-top: 6px; scroll-margin-top: 74px; text-shadow: 0 2px 5px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
+.help-cat:first-of-type { margin-top: 18px; }
+html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { text-shadow: none; }
+.acc-item { border: 1px solid var(--dragline); border-radius: 8px; margin-bottom: 10px; background: var(--modal) url('grain.png') repeat; background-size: 256px 256px; overflow: hidden; }
+.acc-head { width: 100%; text-align: left; background: none; border: 0; color: var(--text); font: inherit; font-size: 15px; font-weight: 600; padding: 15px 18px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.acc-head:hover { color: var(--accent); }
+.acc-head .kbd { font-family: Consolas, monospace; font-size: 12px; color: var(--muted); font-weight: 400; margin-left: auto; }
+.acc-head .chev { color: var(--muted); transition: transform 0.25s ease; flex-shrink: 0; font-size: 13px; }
+.acc-item.open .acc-head { color: var(--accent); }
+.acc-item.open .acc-head .chev { transform: rotate(90deg); color: var(--accent); }
+.acc-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.acc-body-inner { padding: 2px 18px 16px; }
+.acc-body p { margin-bottom: 9px; } .acc-body p:last-child { margin-bottom: 0; }
+.acc-body b { color: var(--text); font-weight: 600; }
+.acc-body code { font-family: Consolas, monospace; font-size: 12.5px; background: var(--panel); padding: 1px 6px; border-radius: 4px; color: var(--text); }
+.kbd-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 44px; align-items: start; }
+.kbd-col { min-width: 0; }
+.kbd-group { display: grid; grid-template-columns: max-content 1fr; column-gap: 18px; row-gap: 6px; align-items: baseline; margin-bottom: 22px; }
+.kbd-group h4 { grid-column: 1 / -1; font-family: 'KillerNotes', 'Courier New', monospace; font-size: 15px; letter-spacing: .5px; color: var(--accent); font-weight: normal; margin-bottom: 4px; text-shadow: 0 2px 5px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
+.kbd-row { display: contents; }
+.kbd-row .k { font-family: Consolas, monospace; font-size: 12px; color: var(--text2); }
+.kbd-row .d { font-size: 13px; color: var(--text); }
+.sb-tabs .on { border-bottom: 0; }
+.outline { padding: 8px 0; overflow-y: auto; flex: 1; }
+.outline a { display: block; padding: 8px 16px 8px 18px; font-size: 13px; color: var(--text2); border-left: 2px solid transparent; }
+.outline a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 8%, transparent); filter: none; }
+.outline a.on { color: var(--accent); border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--sidebar)); }
+@media (max-width: 900px) { .content-inner { padding: 0 16px 44px; } .kbd-cols { grid-template-columns: 1fr; gap: 0; } .outline { display:flex; flex-direction:row; flex-wrap:wrap; padding:8px; gap:4px; } .outline a { border-left:0; border-radius:5px; padding:6px 10px; } .outline a.on { border-left:0; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<a href="index.html" class="tb-home" title="KillerNotes home">
+<img class="tb-icon" src="brand/kn-icon.png" alt="KillerNotes" width="44" height="44">
+<span class="wm-logo tb-wm" style="font-size:22px"><span class="wmk">Killer</span><span class="wms">Notes</span></span>
+</a>
+<a class="tb-dl" href="https://github.com/SteveTheKiller/KillerNotes/releases/latest/download/KillerNotes.exe"><svg viewBox="0 0 24 24"><path d="M11 4h2v7h3l-4 5-4-5h3V4zM5 18h14v2H5z"/></svg><span data-i18n="nav_dl">Download</span></a>
+<span class="tb-spacer"></span>
+<nav class="tb-nav">
+<a href="help.html" class="on" data-i18n="nav_help">How-to</a>
+<a href="technical.html" data-i18n="nav_tech">Technical</a>
+<a href="about.html" data-i18n="nav_about">About</a>
+</nav>
+<div class="tgrp" role="group" aria-label="Theme">
+<button class="swatch sw-dark"     data-theme="dark"     title="Dark"></button>
+<button class="swatch sw-light"    data-theme="light"    title="Light"></button>
+<button class="swatch sw-hc"       data-theme="hc"       title="Black"></button>
+<button class="swatch sw-blood"    data-theme="blood"    title="Blood"></button>
+<button class="swatch sw-greed"    data-theme="greed"    title="Greed"></button>
+<button class="swatch sw-cyanotic" data-theme="cyanotic" title="Cyanotic"></button>
+</div>
+<div class="acc-fly accent-switch" id="accentSwitch">
+<button class="acc-toggle" id="accentToggle" aria-haspopup="true" aria-expanded="false" title="Accent color"></button>
+<div class="acc-pop" id="accentPop" hidden role="group" aria-label="Accent color">
+<span class="acc-pop-label" data-i18n="accent_label">accent:</span>
+<button class="acc" data-accent="red"    style="background:#DD504B;color:#DD504B" title="Red"></button>
+<button class="acc" data-accent="orange" style="background:#E8962C;color:#E8962C" title="Orange"></button>
+<button class="acc" data-accent="green"  style="background:#1EA54C;color:#1EA54C" title="Green"></button>
+<button class="acc" data-accent="teal"   style="background:#1FB8A8;color:#1FB8A8" title="Teal"></button>
+<button class="acc" data-accent="blue"   style="background:#50AEE8;color:#50AEE8" title="Blue"></button>
+<button class="acc" data-accent="purple" style="background:#B982E3;color:#B982E3" title="Purple"></button>
+</div>
+</div>
+<div class="lang-switch" role="group" aria-label="Language">
+<button class="lang-toggle" id="langToggle" aria-haspopup="true" aria-expanded="false" title="Language" aria-label="Language">&#127760;</button>
+<div class="lang-menu" id="langMenu" hidden>
+<button class="lang-item" data-lang="en">English</button>
+<button class="lang-item" data-lang="bn">&#2476;&#2494;&#2434;&#2482;&#2494;</button>
+<button class="lang-item" data-lang="de">Deutsch</button>
+<button class="lang-item" data-lang="es">Espanol</button>
+<button class="lang-item" data-lang="fr">Francais</button>
+<button class="lang-item" data-lang="ja">&#26085;&#26412;&#35486;</button>
+<button class="lang-item" data-lang="tr">Turkce</button>
+<button class="lang-item" data-lang="zh-cn">&#20013;&#25991; (&#31616;&#20307;)</button>
+<button class="lang-item" data-lang="zh">&#20013;&#25991; (&#32321;&#39636;)</button>
+</div>
+</div>
+</div>
+
+<div class="shell">
+<div class="content">
+<div class="content-scroll">
+<div class="content-inner">
+
+<section class="page-hero">
+<span class="page-title" data-i18n="hp_1">How-To</span>
+<span class="wm-logo"><span class="wmk">Killer</span><span class="wms">Notes</span></span>
+<p data-i18n="hp_2">Every feature, what it does, and how to drive it from the keyboard.</p>
+<p class="legend" data-i18n="hp_3">Click a row to expand it. Where a feature has a shortcut, it shows on the right.</p>
+</section>
+
+<h2 class="help-cat" id="notes" data-i18n="hp_4">Notes &amp; search</h2>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_5">New notes &amp; autosave<span class="kbd">Ctrl+N</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_6"><code>Ctrl+N</code> starts a new note; the first line you type becomes its title until you rename it (<code>F2</code>).</p><p data-i18n="hp_7">There is no Save button to forget. A save commits 2 seconds after you stop typing, plus immediately on note switch, on alt-tab away, and on close. <code>Ctrl+S</code> just means "commit now".</p><p data-i18n="hp_8">Every note also remembers its cursor and scroll position, so it reopens exactly where you left off.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_9">Search<span class="kbd">F3 / Ctrl+F</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_10"><code>F3</code> or <code>Ctrl+F</code> jumps to the search box. Every word you type is matched as a prefix against titles, note text, and tags: <code>pass wor</code> finds "password working notes".</p><p data-i18n="hp_11">The sidebar filters live with every keystroke; <code>Esc</code> clears the search and puts the list back.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_12">Sorting &amp; density<span class="kbd">F10 / Ctrl+D</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_13">Notes sort by creation time or title, in either direction, or by a drag-and-drop custom order. <code>F10</code> cycles the modes; the toolbar buttons pick them directly.</p><p data-i18n="hp_14"><code>Ctrl+D</code> cycles three sidebar densities - full, compact, and minimal - to fit more notes on screen. The compact modes trim the group headers too.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_15">Title colors<span class="kbd">Ctrl+Shift+C</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_16">Right-click a note for <b>Title color</b> (or press <code>Ctrl+Shift+C</code>) to color its title in the list, with a live preview while you pick. Colored titles stay colored even while the note is selected.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_17">Delete &amp; sidebar undo<span class="kbd">Delete / Ctrl+Z</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_18"><code>Delete</code> removes the selected note after a confirm - and <code>Ctrl+Z</code> brings it back.</p><p data-i18n="hp_19">Sidebar undo covers more than deletes: group moves, group colors, tag toggles, and note reorders all revert with <code>Ctrl+Z</code>. Inside the editor, <code>Ctrl+Z</code> stays normal text undo; the app picks the right one based on what you did last.</p></div></div></div>
+
+<h2 class="help-cat" id="groups" data-i18n="hp_20">Groups &amp; subgroups</h2>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_21">Creating groups<span class="kbd">Ctrl+G</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_22"><code>Ctrl+G</code> makes a new group - if notes are selected, they are filed into it on the spot. Groups pin above the loose notes and travel inside shared .kndb files.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_23">Subgroups<span class="kbd">Ctrl+Shift+G</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_24"><code>Ctrl+Shift+G</code> creates a subgroup inside the selected note's group; right-clicking a header offers the same. Nesting has no depth limit.</p><p data-i18n="hp_25">Subgroups sit above the parent group's own notes by default. Right-click a header and toggle <b>Subgroups on top</b> to switch back to notes-first ordering - the check mark shows which way it is set.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_26">Group colors<span class="kbd">Ctrl+Shift+K</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_27">Each group takes a color that runs as a connector line from its header down through its notes and children, so you can see at a glance what belongs where. The picker previews live; <b>Reset color</b> returns to the theme accent.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_28">Drag, reorder &amp; collapse<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_29">In custom sort, notes drag to reorder and group headers drag to reorder or re-nest whole groups. Drags need a deliberate pull before they start, so a twitchy mouse will not scramble the tree - and <code>Ctrl+Z</code> reverts a bad drop.</p><p data-i18n="hp_30">Click a header to collapse or expand its group; the colored line shrinks to a pill beside the header while it is closed.</p></div></div></div>
+
+<h2 class="help-cat" id="tags" data-i18n="hp_31">Tags</h2>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_32">Managing tags<span class="kbd">F7</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_33"><code>F7</code> opens the tag manager: add, rename, and recolor the tags of the current database.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_34">Assigning &amp; filtering<span class="kbd">Ctrl+1 - 9</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_35">Right-click a note to toggle its tags, or press <code>Ctrl+1</code> through <code>Ctrl+9</code> to flip the first nine on the open note.</p><p data-i18n="hp_36">Tag pills under each note row filter the list on click, and tag names are part of the full-text index, so typing a tag in search works too.</p></div></div></div>
+
+<h2 class="help-cat" id="editor" data-i18n="hp_37">Editor</h2>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_38">Formatting<span class="kbd">F6</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_39"><code>Ctrl+B</code> / <code>I</code> / <code>U</code> bold, italic, underline; <code>Ctrl+Shift+S</code> strikethrough, <code>Ctrl+Shift+M</code> monospace, <code>Ctrl+Shift+H</code> highlight, <code>Ctrl+Shift+R</code> horizontal rule, <code>Ctrl+Shift+L</code> / <code>N</code> bulleted and numbered lists, <code>Ctrl+Shift+&gt;</code> / <code>&lt;</code> grow and shrink the selection. The format bar (<code>F6</code>) has all of it, plus full text and highlight color pickers with a desktop-wide eyedropper.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_40">Tables<span class="kbd">Ctrl+Shift+T</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_41">Insert a real table from the format bar or <code>Ctrl+Shift+T</code>. Rows and columns are added and removed from the right-click menu, and tables pasted from Excel, Word, or a web page come in as tables, not text.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_42">Images<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_43">Paste a screenshot and it lands inline at the cursor; image files drop in the same way. Click an image for resize handles.</p><p data-i18n="hp_44">With word wrap on, an image cannot be stretched wider than the pane; turn wrap off (<code>Ctrl+Shift+W</code>) and wide images get a horizontal scrollbar instead.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_45">Spell check &amp; convert to list<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_46"><code>Ctrl+Shift+P</code> toggles spell check per note - keep it on for prose, off for config dumps.</p><p data-i18n="hp_47"><b>Convert to list</b> (<code>Ctrl+Shift+J</code>) turns selected lines - or the words of one sentence - into a comma-separated list, made for pasting into scripts and one-liners.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_48">Word wrap &amp; line numbers<span class="kbd">Ctrl+Shift+W / F11</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_49"><code>Ctrl+Shift+W</code> toggles word wrap; with wrap off, wide content is reachable by horizontal scroll. <code>F11</code> adds a line-number column, handy when a note is really a config file.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_50">Markdown &amp; HTML preview<span class="kbd">F4</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_51">Notes that look like markdown or HTML get a split-pane preview on <code>F4</code>. Markdown renders through Markdig; HTML is sanitized first - scripts and event handlers never run.</p></div></div></div>
+
+<h2 class="help-cat" id="killculator" data-i18n="hp_52">Killculator</h2>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_53">Using the Killculator<span class="kbd">F9</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_54"><code>F9</code> slides a themed calculator up under the notes list (and pops the sidebar open if it was collapsed). Type equations straight on the number keys; <code>Enter</code> or <code>=</code> computes.</p><p data-i18n="hp_55"><b>Print to note</b> (<code>Ctrl+Enter</code>) drops the result into the open note at the cursor - no more copying out of Windows Calculator.</p><p data-i18n="hp_56">Click the note to keep editing while the pad stays open; click the pad to give it the keys back. <code>Esc</code> closes it.</p></div></div></div>
+
+<h2 class="help-cat" id="data" data-i18n="hp_57">Databases, security &amp; sharing</h2>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_58">Password protection<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_59">The title-bar lock encrypts the whole database with SQLCipher (AES-256) - notes, images, search index, everything. Set, change, or remove the password at any time; there is no recovery back door, so a lost password means a locked file.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_60">Multiple databases<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_61">Keep separate notepads per client or per context: create, rename, switch, and relocate databases from <b>Manage databases</b>, including pointing the data folder next to the exe for a portable USB setup.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_62">Sharing &amp; export<span class="kbd">F8 / Ctrl+O</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_63">Share one note as a <code>.knote</code> file or a whole notepad as <code>.kndb</code>, optionally with their own passwords; both open with a double-click on the other end. Dragging a note out of the sidebar drops it as a real file.</p><p data-i18n="hp_64"><code>F8</code> exports the open note as <code>.txt</code>, <code>.rtf</code>, or a self-contained themed <code>.html</code>; <code>Ctrl+O</code> (or dropping files on the window) imports text, markdown, RTF, HTML, and images as new notes.</p></div></div></div>
+
+<h2 class="help-cat" id="quirks" data-i18n="hp_65">Quirks &amp; good to know</h2>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_66">Two zooms, not one<span class="kbd">Ctrl+0 / Ctrl+Shift+0</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_67"><code>Ctrl+Wheel</code> zooms the text of the current editor; <code>Ctrl+0</code> snaps it back to 100%. <code>Ctrl+Shift</code> <code>+</code> / <code>-</code> scales the entire app - window, sidebar, everything - for accessibility, and <code>Ctrl+Shift+0</code> resets that.</p><p data-i18n="hp_68">If your notes suddenly look tiny or huge and you do not know why, you probably hit one of these: try <code>Ctrl+0</code> first, then <code>Ctrl+Shift+0</code>.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_69">The sidebar rail<span class="kbd">F5</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_70"><code>F5</code> collapses the sidebar to a thin rail of icons - density, format bar, line numbers, shortcuts, language, theme, and the Killculator stay one click away. <code>F9</code> reopens the sidebar automatically when the Killculator needs the room.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_71">Themes &amp; languages<span class="kbd">Ctrl+T</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_72"><code>Ctrl+T</code> opens the theme flyout: six themes with accent colors, switched live. The interface speaks nine languages and falls back to English for anything untranslated.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_77">Custom fonts<span class="kbd">Ctrl+T</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_78">Open the theme flyout (<code>Ctrl+T</code>) and hit <b>Fonts...</b> - three slots swap independently: Headers (group titles), Sidebar (note rows), and Note text (the editor). Pick any installed font, or drop a .ttf or .otf file straight onto the card to add your own.</p><p data-i18n="hp_79">Everything applies live, and rolling the mouse wheel over a dropdown steps through fonts one at a time so you can shop by eye. A readability guard keeps symbol fonts like Wingdings from wrecking the app.</p><p data-i18n="hp_80">The shipped defaults: typewriter headers, Segoe UI in the sidebar, and Bahnschrift for note text. One click resets all three.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_73">Portable by default<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_74">The exe runs from anywhere with no install. A PORTABLE badge in the status bar offers a per-user install (Start Menu, Add/Remove entry) if you want one; <code>KillerNotes.exe /silent</code> does a machine-wide install for RMM deployment.</p></div></div></div>
+
+<h2 class="help-cat" id="shortcuts" data-i18n="hp_75">Keyboard shortcuts</h2>
+<p style="font-size:13.5px; color:var(--muted); margin:0 2px 16px;" data-i18n="hp_76">The same map lives in the app under <code>F1</code>, including a visual keyboard view that lights up each layer.</p>
+<!-- Interactive keyboard map: same binding tables as the in-app F1 KEYBOARD view
+     (English only, like the static list below; ported from the KillerPDF help page). -->
+<style>
+.kbmap { --kc-file:#00fff9; --kc-note:#ff2975; --kc-format:#ffd319; --kc-view:#f222ff; --kc-search:#00b3ff; --kc-edit:#ff901f; --kc-help:#39ff14; margin: 0 0 30px; }
+html[data-theme="light"] .kbmap { --kc-file:#009e99; --kc-note:#d1105a; --kc-format:#a67c00; --kc-view:#a316b5; --kc-search:#0077b3; --kc-edit:#cc6a00; --kc-help:#128c07; }
+.kbmap-layers { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.kbmap-layers button { font-family: Consolas, monospace; font-size: 12px; padding: 5px 12px; background: var(--surface); color: var(--text2); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; }
+.kbmap-layers button.on { color: var(--accent); border-color: var(--accent); }
+.kbmap-hint { font-size: 11.5px; color: var(--muted); margin-left: 6px; }
+.kbmap-scroll { overflow: hidden; padding-top: 6px; }
+.kbmap-board { display: inline-block; transform-origin: 0 0; }
+.kbmap-row { display: flex; margin-bottom: 4px; }
+.kb-key { flex: none; margin-right: 4px; height: 44px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; font-family: Consolas, monospace; color: var(--text); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 5px 2px 3px; transition: transform .09s ease; }
+.kb-key .cap { font-size: 11.5px; line-height: 1; }
+.kb-key .act { font-size: 8.5px; line-height: 1; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding: 0 2px; visibility: hidden; }
+.kb-key .act > span { display: inline; }
+.kb-key .act.scrolling { text-overflow: clip; }
+.kb-key .act.scrolling > span { display: inline-block; width: max-content; }
+.kb-key .bar { height: 3px; width: calc(100% - 6px); border-radius: 1.5px; visibility: hidden; }
+.kb-key.bound { border-color: var(--kc); }
+.kb-key.bound .act { visibility: visible; color: var(--kc); }
+.kb-key.bound .bar { visibility: visible; background: var(--kc); }
+.kb-key.bound:hover { transform: translateY(-3px); }
+.kb-key.mod-on { border-color: var(--accent); color: var(--accent); }
+.kbmap-detail { font-family: Consolas, monospace; font-size: 13px; color: var(--accent); height: 20px; margin-top: 10px; }
+</style>
+<div class="kbmap">
+<div class="kbmap-layers">
+<button data-kblayer="base" class="on">BASE</button>
+<button data-kblayer="ctrl">CTRL</button>
+<button data-kblayer="ctrlshift">CTRL+SHIFT</button>
+<span class="kbmap-hint">Hold Ctrl or Shift to preview that layer - hover a lit key for its action</span>
+</div>
+<div class="kbmap-scroll"><div class="kbmap-board" id="kbmapBoard"></div></div>
+<div class="kbmap-detail" id="kbmapDetail">&nbsp;</div>
+</div>
+<script>
+(function(){
+var KBL = {
+base: { F1:['help','Keyboard shortcuts'], F2:['note','Rename the open note'], F3:['search','Search notes'],
+  F4:['view','Markdown/HTML preview'], F5:['view','Sidebar'], F6:['view','Format bar'],
+  F7:['note','Manage tags (add, rename, recolor)'], F8:['file','Export the open note'],
+  F9:['view','Killculator'], F10:['view','Cycle sidebar sort (time / A-Z / custom)'],
+  F11:['view','Toggle line numbers'], F12:['help','About KillerNotes'],
+  Del:['note','Delete note (in the list)'], Esc:['help','Close overlay / clear search'],
+  Menu:['edit','Context menu'] },
+ctrl: { N:['note','New note'], O:['file','Open files as new notes'], S:['file','Save now'],
+  F:['search','Search notes'], B:['format','Bold'], I:['format','Italic'], U:['format','Underline'],
+  X:['edit','Cut'], C:['edit','Copy'], V:['edit','Paste'], Z:['edit','Undo'], Y:['edit','Redo'], A:['edit','Select all'],
+  D:['view','Cycle sidebar density'], G:['note','New group (files selected notes into it)'],
+  T:['view','Theme and accent flyout'], Enter:['note','Print the Killculator result to the note'],
+  D1:['note','Toggle tag'], D2:['note','Toggle tag'], D3:['note','Toggle tag'], D4:['note','Toggle tag'],
+  D5:['note','Toggle tag'], D6:['note','Toggle tag'], D7:['note','Toggle tag'], D8:['note','Toggle tag'],
+  D9:['note','Toggle tag'], D0:['view','Reset editor zoom'],
+  Home:['edit','Top of note'], End:['edit','End of note'],
+  Left:['edit','Word left'], Right:['edit','Word right'],
+  Back:['edit','Delete word left'], Del:['edit','Delete word right'],
+  L:['format','Align left'], E:['format','Center'], R:['format','Align right'], J:['format','Justify'],
+  LBr:['format','Shrink text'], RBr:['format','Grow text'] },
+ctrlshift: { S:['format','Strikethrough'], M:['format','Monospace (code)'], H:['format','Highlight'],
+  R:['format','Horizontal rule'], L:['format','Bulleted list'], N:['format','Numbered list'],
+  J:['format','Selection to comma list'], G:['note','New subgroup (selected note\'s group)'],
+  K:['note','Group color (selected note\'s group)'], W:['view','Toggle word wrap'],
+  C:['note','Title color (selected note)'], P:['format','Toggle spell check (this note)'],
+  T:['format','Insert table'], Period:['format','Grow text'], Comma:['format','Shrink text'],
+  Equals:['view','Zoom the whole app'], Minus:['view','Zoom the whole app'], D0:['view','Reset app zoom'] } };
+var CATNAME = { file:'FILE', note:'NOTES', format:'FORMATTING', view:'VIEW', search:'SEARCH', edit:'EDITING', help:'HELP' };
+var KBROWS = [
+[['Esc','Esc',1],['',0.8],['F1','F1',1],['F2','F2',1],['F3','F3',1],['F4','F4',1],['',0.6],['F5','F5',1],['F6','F6',1],['F7','F7',1],['F8','F8',1],['',0.6],['F9','F9',1],['F10','F10',1],['F11','F11',1],['F12','F12',1]],
+[['Grave','`',1],['D1','1',1],['D2','2',1],['D3','3',1],['D4','4',1],['D5','5',1],['D6','6',1],['D7','7',1],['D8','8',1],['D9','9',1],['D0','0',1],['Minus','-',1],['Equals','=',1],['Back','&#9003;',2],['',0.6],['Ins','Ins',1],['Home','Home',1],['PgUp','PgUp',1]],
+[['Tab','Tab',1.5],['Q','Q',1],['W','W',1],['E','E',1],['R','R',1],['T','T',1],['Y','Y',1],['U','U',1],['I','I',1],['O','O',1],['P','P',1],['LBr','[',1],['RBr',']',1],['Bslash','\\',1.5],['',0.6],['Del','Del',1],['End','End',1],['PgDn','PgDn',1]],
+[['Caps','Caps',1.8],['A','A',1],['S','S',1],['D','D',1],['F','F',1],['G','G',1],['H','H',1],['J','J',1],['K','K',1],['L','L',1],['Semi',';',1],['Quote','\'',1],['Enter','Enter',2.2]],
+[['Shift','Shift',2.3],['Z','Z',1],['X','X',1],['C','C',1],['V','V',1],['B','B',1],['N','N',1],['M','M',1],['Comma',',',1],['Period','.',1],['Slash','/',1],['RShift','Shift',2.7],['',1.6],['Up','&#8593;',1]],
+[['Ctrl','Ctrl',1.5],['Win','Win',1.2],['Alt','Alt',1.5],['Space','',6.8],['RAlt','Alt',1.5],['Menu','&#9776;',1],['RCtrl','Ctrl',1.5],['',0.6],['Left','&#8592;',1],['Down','&#8595;',1],['Right','&#8594;',1]]];
+var MODS = { base:[], ctrl:['Ctrl','RCtrl'], ctrlshift:['Ctrl','RCtrl','Shift','RShift'] };
+var U = 46, board = document.getElementById('kbmapBoard'), detail = document.getElementById('kbmapDetail');
+var layer = 'base', keys = {}, hover = null;
+function startMarquee(h){   // a cut-off caption scrolls, marquee-style
+  var b = KBL[layer][h.id];
+  if (!b || !h.m.animate) return;
+  h.act.classList.add('scrolling');   // unclamps the span so the full text width is measurable
+  var d = h.m.offsetWidth - h.act.clientWidth + 4;   // +4: the act's own side padding
+  if (d > 2) {
+    h.k._anim = h.m.animate([{transform:'translateX(0)'},{transform:'translateX(' + (-d) + 'px)'}],
+      {duration: Math.max(600, d * 40), direction: 'alternate', iterations: Infinity, easing: 'linear', delay: 350});
+  } else { h.act.classList.remove('scrolling'); }
+}
+function stopMarquee(h){
+  if (h.k._anim) { h.k._anim.cancel(); h.k._anim = null; }
+  h.act.classList.remove('scrolling');
+}
+KBROWS.forEach(function(row){
+  var r = document.createElement('div'); r.className = 'kbmap-row';
+  row.forEach(function(c){
+    if (!c[0]) { var g = document.createElement('div'); g.style.cssText = 'flex:none;width:' + (U * c[1]) + 'px'; r.appendChild(g); return; }
+    var k = document.createElement('div'); k.className = 'kb-key'; k.style.width = (U * c[2] - 4) + 'px';
+    k.innerHTML = '<span class="cap"></span><span class="act"><span></span></span><span class="bar"></span>';
+    k.firstChild.innerHTML = c[1];
+    var id = c[0], act = k.querySelector('.act'), m = act.firstChild;
+    k._h = { k: k, act: act, m: m, id: id };
+    k.addEventListener('mouseenter', function(){
+      var b = KBL[layer][id];
+      hover = k._h;
+      startMarquee(k._h);
+      detail.textContent = b ? (CATNAME[b[0]] + ' :: ' + b[1]) : ' '; });
+    k.addEventListener('mouseleave', function(){
+      stopMarquee(k._h);
+      hover = null;
+      detail.textContent = ' '; });
+    keys[id] = k; r.appendChild(k);
+  });
+  board.appendChild(r);
+});
+function paint(){
+  Object.keys(keys).forEach(function(id){
+    var k = keys[id], b = KBL[layer][id];
+    k.classList.toggle('bound', !!b);
+    if (b) { k.style.setProperty('--kc', 'var(--kc-' + b[0] + ')'); k.querySelector('.act').firstChild.textContent = b[1]; }
+    k.classList.toggle('mod-on', MODS[layer].indexOf(id) >= 0);
+  });
+  document.querySelectorAll('.kbmap-layers button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-kblayer') === layer); });
+  // Layer changed while a key is hovered (held modifier): restart its marquee for the NEW caption.
+  if (hover) {
+    stopMarquee(hover);
+    startMarquee(hover);
+    var hb = KBL[layer][hover.id];
+    detail.textContent = hb ? (CATNAME[hb[0]] + ' :: ' + hb[1]) : ' ';
+  }
+}
+document.querySelectorAll('.kbmap-layers button').forEach(function(b){
+  b.addEventListener('click', function(){ layer = b.getAttribute('data-kblayer'); paint(); });
+});
+function sync(e){
+  var l = e.ctrlKey && e.shiftKey ? 'ctrlshift' : e.ctrlKey ? 'ctrl' : 'base';
+  if (l !== layer) { layer = l; paint(); }
+}
+window.addEventListener('keydown', sync);
+window.addEventListener('keyup', sync);
+paint();
+// Scale the board down to the column width instead of scrolling, like the app's Viewbox.
+function fit(){
+  var wrap = board.parentNode;
+  board.style.transform = ''; wrap.style.height = '';
+  var s = wrap.clientWidth / board.offsetWidth;
+  if (s < 1) { board.style.transform = 'scale(' + s + ')'; wrap.style.height = (board.offsetHeight * s + 6) + 'px'; }
+}
+fit();
+window.addEventListener('resize', fit);
+})();
+</script>
+<!-- Shortcut tables are English only, matching the in-app keycaps (and the KillerPDF help page). -->
+<div class="kbd-cols">
+<div class="kbd-col">
+<div class="kbd-group"><h4>Function keys</h4>
+<div class="kbd-row"><span class="k">F1</span><span class="d">Keyboard shortcuts overlay</span></div>
+<div class="kbd-row"><span class="k">F2</span><span class="d">Rename the open note</span></div>
+<div class="kbd-row"><span class="k">F3 / Ctrl+F</span><span class="d">Search notes</span></div>
+<div class="kbd-row"><span class="k">F4</span><span class="d">Toggle markdown/HTML preview</span></div>
+<div class="kbd-row"><span class="k">F5</span><span class="d">Collapse / expand the sidebar</span></div>
+<div class="kbd-row"><span class="k">F6</span><span class="d">Show / hide the format bar</span></div>
+<div class="kbd-row"><span class="k">F7</span><span class="d">Manage tags (add, rename, recolor)</span></div>
+<div class="kbd-row"><span class="k">F8</span><span class="d">Export the open note (.txt / .rtf / .html)</span></div>
+<div class="kbd-row"><span class="k">F9</span><span class="d">Killculator</span></div>
+<div class="kbd-row"><span class="k">F10</span><span class="d">Cycle sidebar sort (time / A-Z / custom)</span></div>
+<div class="kbd-row"><span class="k">F11</span><span class="d">Toggle line numbers</span></div>
+<div class="kbd-row"><span class="k">F12</span><span class="d">About KillerNotes</span></div>
+</div>
+<div class="kbd-group"><h4>Ctrl</h4>
+<div class="kbd-row"><span class="k">Ctrl+N</span><span class="d">New note</span></div>
+<div class="kbd-row"><span class="k">Ctrl+G</span><span class="d">New group (files selected notes into it)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+T</span><span class="d">Theme and accent flyout</span></div>
+<div class="kbd-row"><span class="k">Ctrl+O</span><span class="d">Open files as new notes</span></div>
+<div class="kbd-row"><span class="k">Ctrl+S</span><span class="d">Save now (autosave runs anyway)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+D</span><span class="d">Cycle sidebar density</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Enter</span><span class="d">Print the Killculator result to the note</span></div>
+<div class="kbd-row"><span class="k">Ctrl+1 - 9</span><span class="d">Toggle tags 1-9 on the open note</span></div>
+<div class="kbd-row"><span class="k">Ctrl+B / I / U</span><span class="d">Bold / italic / underline</span></div>
+<div class="kbd-row"><span class="k">Ctrl+X / C / V</span><span class="d">Cut / copy / paste (text, images, tables)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Z / Y</span><span class="d">Undo / redo (editor and sidebar)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+A</span><span class="d">Select all</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Home / End</span><span class="d">Jump to the top / end of the note</span></div>
+<div class="kbd-row"><span class="k">Ctrl+&#8592; / &#8594;</span><span class="d">Jump by whole words</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Bksp / Del</span><span class="d">Delete a whole word</span></div>
+<div class="kbd-row"><span class="k">Ctrl+L / E / R / J</span><span class="d">Align left / center / right / justify</span></div>
+<div class="kbd-row"><span class="k">Ctrl+] / [</span><span class="d">Grow / shrink selected text</span></div>
+</div>
+</div>
+<div class="kbd-col">
+<div class="kbd-group"><h4>Ctrl+Shift</h4>
+<div class="kbd-row"><span class="k">Ctrl+Shift+S</span><span class="d">Strikethrough</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+M</span><span class="d">Monospace (code)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+H</span><span class="d">Highlight selection (yellow)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+R</span><span class="d">Insert horizontal rule</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+L / N</span><span class="d">Bulleted / numbered list</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+J</span><span class="d">Selection to comma list</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+T</span><span class="d">Insert table</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+G</span><span class="d">New subgroup (selected note's group)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+K</span><span class="d">Group color (selected note's group)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+C</span><span class="d">Title color (selected note)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+P</span><span class="d">Toggle spell check (this note)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+W</span><span class="d">Toggle word wrap</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+&gt; / &lt;</span><span class="d">Grow / shrink selected text</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift +/- / 0</span><span class="d">Zoom the whole app (accessibility)</span></div>
+</div>
+<div class="kbd-group"><h4>Everything else</h4>
+<div class="kbd-row"><span class="k">Ctrl+Wheel / Ctrl+0</span><span class="d">Zoom editor text (Ctrl+0 resets)</span></div>
+<div class="kbd-row"><span class="k">Delete</span><span class="d">Delete the selected note (in the list)</span></div>
+<div class="kbd-row"><span class="k">Menu key</span><span class="d">Context menu at the cursor</span></div>
+<div class="kbd-row"><span class="k">Esc</span><span class="d">Close overlay / Killculator / clear search</span></div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<aside class="sidebar">
+<div class="sb-tabs"><span class="on" data-i18n="nav_help">How-to</span></div>
+<nav class="outline">
+<a href="#notes" class="on" data-i18n="hp_4">Notes &amp; search</a>
+<a href="#groups" data-i18n="hp_20">Groups &amp; subgroups</a>
+<a href="#tags" data-i18n="hp_31">Tags</a>
+<a href="#editor" data-i18n="hp_37">Editor</a>
+<a href="#killculator" data-i18n="hp_52">Killculator</a>
+<a href="#data" data-i18n="hp_57">Databases, security &amp; sharing</a>
+<a href="#quirks" data-i18n="hp_65">Quirks &amp; good to know</a>
+<a href="#shortcuts" data-i18n="hp_75">Keyboard shortcuts</a>
+</nav>
+</aside>
+</div>
+<footer class="statusbar">
+<span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener">Source on GitHub</a> &middot; Part of <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span>
+<span class="right"><span id="verEgg" title="click me">v1.1.1</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
+</footer>
+<div class="egg-toast" id="eggToast"></div>
+<script src="kn-i18n.js?v=4"></script>
+<script src="kn.js?v=2"></script>
+<script>
+(function(){
+  var items=[].slice.call(document.querySelectorAll('.acc-item'));
+  items.forEach(function(it){ var h=it.querySelector('.acc-head'), b=it.querySelector('.acc-body');
+    h.addEventListener('click', function(){
+      var open=it.classList.contains('open');
+      items.forEach(function(o){ o.classList.remove('open'); o.querySelector('.acc-body').style.maxHeight=null; });
+      if(!open){ it.classList.add('open'); b.style.maxHeight=b.scrollHeight+'px'; }
+    });
+  });
+  var links=[].slice.call(document.querySelectorAll('.outline a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));}).filter(Boolean);
+  var sc=document.querySelector('.content-scroll');
+  function spy(){ var y=(sc?sc.scrollTop:window.scrollY)+100, cur=secs[0]; secs.forEach(function(s){ if(s&&s.offsetTop<=y) cur=s; });
+    links.forEach(function(a){ a.classList.toggle('on', cur && a.getAttribute('href')==='#'+cur.id); }); }
+  (sc||window).addEventListener('scroll',spy,{passive:true}); spy();
+})();
+</script>
+</body>
+</html>

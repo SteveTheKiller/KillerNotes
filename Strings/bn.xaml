@@ -364,6 +364,49 @@
     <sys:String x:Key="Str_Kb_FontUp">লেখা বড় করুন</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">লেখা ছোট করুন</sys:String>
     <sys:String x:Key="Str_Kb_ZoomReset">জুম রিসেট করুন</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">কনটেক্সট মেনু</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">নোটের শুরু</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">নোটের শেষ</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">বাঁয়ে এক শব্দ</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">ডানে এক শব্দ</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">বাঁয়ের শব্দ মুছুন</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">ডানের শব্দ মুছুন</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">বাঁয়ে সারিবদ্ধ</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">মাঝখানে</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">ডানে সারিবদ্ধ</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">জাস্টিফাই</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">নোটের শুরু / শেষে যান</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">শব্দ ধরে ধরে যান</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">পুরো শব্দ মুছুন</sys:String>
+    <sys:String x:Key="Str_KS_Align">বাঁয়ে / মাঝে / ডানে / জাস্টিফাই</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">ফন্ট...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">ফন্ট</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">শিরোনাম (গ্রুপের নাম)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">সাইডবার (নোটের শিরোনাম)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">নোটের লেখা</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">KillerNotes ডিফল্ট</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">নিজের ফন্ট যোগ করতে এই কার্ডে একটি .ttf বা .otf ফাইল ফেলুন।</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">সঙ্গে সঙ্গে পুরো অ্যাপে প্রযোজ্য হয়। নিজস্ব ফন্ট দেওয়া লেখা তা ধরে রাখে।</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">ডিফল্টে ফিরিয়ে আনুন</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">এই ফন্ট সাধারণ লেখা দেখাতে পারে না</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">ফন্ট যোগ হয়েছে: {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">তৈরির সময় অনুযায়ী - পুরোনো আগে</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">তৈরির সময় অনুযায়ী - নতুন আগে</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">বর্ণানুক্রমিক - A থেকে Z</sys:String>
+    <sys:String x:Key="Str_St_SortZA">বর্ণানুক্রমিক - Z থেকে A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (উল্টাতে ক্লিক করুন)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">তৈরির সময় অনুযায়ী সাজান</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">বর্ণানুক্রমে সাজান</sys:String>
+    <sys:String x:Key="Str_St_Ready">প্রস্তুত</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">ক্লায়েন্ট সাইট - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">ফায়ারওয়াল বদল - ভেট ক্লিনিক</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">আমার সোনার বাংলা The quick brown fox 0123456789.</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">একটি রং বাছুন</sys:String>
     <sys:String x:Key="Str_Btn_Replace">প্রতিস্থাপন</sys:String>
     <sys:String x:Key="Str_Btn_Reset">রিসেট</sys:String>

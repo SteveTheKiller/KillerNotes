@@ -39,6 +39,7 @@ namespace KillerNotes
             InitAppScale();                                      // AppScale.cs (restore app-wide size)
             InitLineNumbers();                                   // LineNumbers.cs (optional gutter)
             InitDensity();                                       // Density.cs (restore sidebar row density)
+            InitFonts();                                         // Fonts.cs (restore header/content fonts)
 
             Loaded += (_, _) =>
             {
@@ -54,7 +55,7 @@ namespace KillerNotes
                 {
                     OpenDatabase();               // Security.cs (unlock prompt if encrypted)
                     HandlePendingOpenFile();      // Sharing.cs (double-clicked .kndb/.knote)
-                    if (DemoMode) GenerateDemoNotes();   // DemoMode.cs (--demo: screenshot data)
+                    if (DemoMode && DemoFresh) GenerateDemoNotes();   // DemoMode.cs (--demo, fresh db only)
                 }), System.Windows.Threading.DispatcherPriority.Background);
             };
         }

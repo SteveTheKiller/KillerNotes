@@ -19,6 +19,49 @@ namespace KillerNotes
         // the icon rail out from under the cursor.
         private double _sidebarBaseWidth = 280;
 
+        // Rail column width, LOGICAL units (scales with the app zoom). Kept tight to the
+        // 20-logical RailButtons + their 2px inset so the strip hugs the icons instead of
+        // scaling empty air at high zoom - at 176% every spare logical unit is visible.
+        private const double RailW = 24;
+
+        // The panel's floor in LOGICAL units. The toolbar WRAPS when narrow (the sort
+        // trio drops under the New-note button, SidebarToolbar_SizeChanged), so this
+        // only needs to cover the widest single row of the wrapped layout - past it
+        // the sidebar grows with the zoom instead of cutting anything off.
+        private const double PanelMinLogical = 160;
+
+        /// <summary>Expanded sidebar column width in logical units for scale s: the
+        /// remembered on-screen width, floored so the toolbar always fits.</summary>
+        private double ExpandedLogicalWidth(double s) => Math.Max(_sidebarBaseWidth / s, PanelMinLogical);
+
+        /// <summary>Responsive sidebar toolbar: when the panel's logical width (screen-
+        /// constant sidebar / app zoom) can no longer hold the New-note button and the
+        /// sort trio on one row, the sorts drop to a second row under the button - the
+        /// user's pick over letting the sidebar widen or the buttons clip. Width-only
+        /// hysteresis-free: wrapping changes the toolbar's height, never its width.</summary>
+        private void SidebarToolbar_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (NewNoteBtn.ActualWidth <= 0 || SortBtns.ActualWidth <= 0) return;
+            bool wrap = e.NewSize.Width < NewNoteBtn.ActualWidth + SortBtns.ActualWidth + 12;
+            if (wrap == (Grid.GetRow(SortBtns) == 1)) return;
+            if (wrap)
+            {
+                Grid.SetRow(SortBtns, 1);
+                Grid.SetColumn(SortBtns, 0);
+                Grid.SetColumnSpan(SortBtns, 2);
+                SortBtns.HorizontalAlignment = HorizontalAlignment.Left;
+                SortBtns.Margin = new Thickness(-8, 8, 0, 0);   // cancels SortTimeBtn's 8px lead-in
+            }
+            else
+            {
+                Grid.SetRow(SortBtns, 0);
+                Grid.SetColumn(SortBtns, 1);
+                Grid.SetColumnSpan(SortBtns, 1);
+                SortBtns.HorizontalAlignment = HorizontalAlignment.Right;
+                SortBtns.Margin = new Thickness(0);
+            }
+        }
+
         private void SidebarToggle_Click(object sender, RoutedEventArgs e) => ToggleSidebar();
 
         private void ToggleSidebar()
@@ -130,7 +173,7 @@ namespace KillerNotes
         private void ApplySidebarState(bool animate = false)
         {
             double s = _appScale <= 0 ? 1 : _appScale;
-            RailCol.Width = new GridLength(30 / s);
+            RailCol.Width = new GridLength(RailW);   // logical: the rail scales with the app zoom
 
             if (_sidebarCollapsed)
             {
@@ -150,7 +193,9 @@ namespace KillerNotes
             SidebarToggleBtn.Content = ((char)(_sidebarCollapsed ? 0xE76C : 0xE76B)).ToString();
             SidebarToggleBtn.ToolTip = Loc(_sidebarCollapsed ? "Str_TT_ExpandSidebar" : "Str_TT_CollapseSidebar");
 
-            double targetPx = (_sidebarCollapsed ? 30 : _sidebarBaseWidth) / s;
+            // Collapsed = just the rail (RailW logical, scales with the app); expanded = the
+            // remembered on-screen width converted to logical.
+            double targetPx = _sidebarCollapsed ? RailW : ExpandedLogicalWidth(s);
 
             if (!animate)
             {
@@ -166,7 +211,7 @@ namespace KillerNotes
             // (* cell = SidebarCol - rail, minus the 8px left margin).
             double panelW = SidebarPanel.ActualWidth > 8
                 ? SidebarPanel.ActualWidth
-                : Math.Max(0, (_sidebarBaseWidth - 30) / s - 8);
+                : Math.Max(0, ExpandedLogicalWidth(s) - RailW - 8);   // total logical minus the logical rail and left margin
             SidebarPanel.HorizontalAlignment = HorizontalAlignment.Left;
             SidebarPanel.Width = panelW;
 
@@ -195,25 +240,28 @@ namespace KillerNotes
         }
 
         /// <summary>Sets the sidebar column and icon-rail widths for the current collapsed
-        /// state, dividing by the app scale so both keep a fixed ON-SCREEN width while the rest
-        /// of the UI zooms (AppScale.cs). At scale 1.0 these are the original 280 / 230-480 / 30
-        /// values, so nothing changes until the app is zoomed. Called on collapse/expand and on
-        /// every scale change.</summary>
+        /// state. The PANEL divides by the app scale so it keeps a fixed ON-SCREEN width while
+        /// the UI zooms (AppScale.cs); the RAIL stays a constant RailW LOGICAL so it scales
+        /// with the app and its (scaling) icons never clip - bigger zoom, bigger targets. At
+        /// scale 1.0 these are the original 280 / 230-480 / RailW values, so nothing changes
+        /// until the app is zoomed. Called on collapse/expand and on every scale change.</summary>
         internal void RefreshSidebarWidth()
         {
             double s = _appScale <= 0 ? 1 : _appScale;
-            RailCol.Width = new GridLength(30 / s);
+            RailCol.Width = new GridLength(RailW);
             if (_sidebarCollapsed)
             {
                 SidebarCol.MinWidth = 0;
-                SidebarCol.MaxWidth = 30 / s;
-                SidebarCol.Width = new GridLength(30 / s);
+                SidebarCol.MaxWidth = RailW;
+                SidebarCol.Width = new GridLength(RailW);
             }
             else
             {
-                SidebarCol.MinWidth = 230 / s;
-                SidebarCol.MaxWidth = 480 / s;
-                SidebarCol.Width = new GridLength(_sidebarBaseWidth / s);
+                // Screen-constant bounds, floored at the logical minimum the toolbar
+                // needs (Max keeps Min <= Max when the zoom pushes 480/s under it).
+                SidebarCol.MinWidth = Math.Max(230 / s, PanelMinLogical);
+                SidebarCol.MaxWidth = Math.Max(480 / s, SidebarCol.MinWidth);
+                SidebarCol.Width = new GridLength(ExpandedLogicalWidth(s));
             }
         }
 

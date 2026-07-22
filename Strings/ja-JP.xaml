@@ -362,6 +362,49 @@
     <sys:String x:Key="Str_Kb_FontUp">文字を大きく</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">文字を小さく</sys:String>
     <sys:String x:Key="Str_Kb_ZoomReset">ズームをリセット</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">コンテキストメニュー</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">ノートの先頭</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">ノートの末尾</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">前の単語へ</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">次の単語へ</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">前の単語を削除</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">次の単語を削除</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">左揃え</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">中央揃え</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">右揃え</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">両端揃え</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">ノートの先頭 / 末尾へ移動</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">単語単位で移動</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">単語をまとめて削除</sys:String>
+    <sys:String x:Key="Str_KS_Align">左 / 中央 / 右 / 両端揃え</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">フォント...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">フォント</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">見出し（グループ名）</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">サイドバー（ノートのタイトル）</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">ノート本文</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">KillerNotes 標準</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">このカードに .ttf / .otf ファイルをドロップすると独自のフォントを追加できます。</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">アプリ全体に即座に反映されます。個別にフォントを指定したテキストはそのままです。</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">標準に戻す</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">このフォントは通常の文字を表示できません</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">フォントを追加しました: {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">作成日時順 - 古い順</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">作成日時順 - 新しい順</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">アルファベット順 - A から Z</sys:String>
+    <sys:String x:Key="Str_St_SortZA">アルファベット順 - Z から A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0}（クリックで反転）</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">作成日時で並べ替え</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">アルファベット順に並べ替え</sys:String>
+    <sys:String x:Key="Str_St_Ready">準備完了</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">クライアント拠点 - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">ファイアウォール交換 - 動物病院</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">いろはにほへと ちりぬるを The quick brown fox 0123456789.</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">色を選択</sys:String>
     <sys:String x:Key="Str_Btn_Replace">置換</sys:String>
     <sys:String x:Key="Str_Btn_Reset">リセット</sys:String>

@@ -363,6 +363,49 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Aumentar texto</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">Reducir texto</sys:String>
     <sys:String x:Key="Str_Kb_ZoomReset">Restablecer zoom</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">Menú contextual</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">Inicio de la nota</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">Fin de la nota</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">Palabra izquierda</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">Palabra derecha</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">Borrar palabra izq.</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">Borrar palabra der.</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">Alinear izquierda</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">Centrar</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">Alinear derecha</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">Justificar</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">Saltar al inicio / fin de la nota</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">Saltar por palabras</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">Borrar una palabra entera</sys:String>
+    <sys:String x:Key="Str_KS_Align">Alinear izq. / centro / der. / justificar</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">Fuentes...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">Fuentes</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">Encabezados (títulos de grupo)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">Barra lateral (títulos de nota)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">Texto de las notas</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">Predeterminada de KillerNotes</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">Suelta un archivo .ttf o .otf en esta tarjeta para añadir tu propia fuente.</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">Se aplica al instante en toda la app. El texto con fuente propia la conserva.</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Restablecer valores predeterminados</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">Esa fuente no puede mostrar texto normal</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">Fuente añadida: {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">Por fecha de creación - más antiguas primero</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">Por fecha de creación - más recientes primero</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">Alfabético - de la A a la Z</sys:String>
+    <sys:String x:Key="Str_St_SortZA">Alfabético - de la Z a la A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (clic para invertir)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">Ordenar por fecha de creación</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">Ordenar alfabéticamente</sys:String>
+    <sys:String x:Key="Str_St_Ready">Listo</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Sitios de clientes - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Cambio de firewall - Clínica Vet</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">El veloz murciélago hindú comía feliz cardillo y kiwi. 0123456789.</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Elija un color</sys:String>
     <sys:String x:Key="Str_Btn_Replace">Reemplazar</sys:String>
     <sys:String x:Key="Str_Btn_Reset">Restablecer</sys:String>

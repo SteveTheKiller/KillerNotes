@@ -4,6 +4,20 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2026-07-22
+
+### Added
+- Custom fonts. A Fonts dialog (theme flyout, "Fonts...") swaps three slots independently: Headers (group titles and the Killculator title), Sidebar (note titles in the list), and Note text (the editor default). Pick from any installed font or drop a .ttf/.otf file straight onto the card - it is copied into your data folder so it survives moves. A readability guard keeps symbol fonts like Wingdings out, changes apply live, and one click resets all three slots to the killer defaults.
+- Note text now defaults to Bahnschrift, the DIN engineering face that ships with Windows 10/11 - more character next to the typewriter headers, with Segoe UI as the automatic fallback. The sidebar keeps Segoe UI for maximum legibility at its small row sizes; both are just defaults for the Fonts dialog and swap like anything else.
+
+### Fixed
+- The icon rail no longer clips its buttons at larger app sizes. The rail column now widens with the app zoom so its icons scale up with everything else - bigger zoom, bigger click targets - instead of overflowing a fixed-width strip and getting cut off. The strip is also trimmed to hug its icons, so high zoom grows the buttons instead of blank space next to them.
+- The sidebar toolbar no longer clips at high app zoom. The sidebar keeps its on-screen width while the UI scales, which squeezes its usable width - the sort buttons now drop to a second row under the New note button when one row stops fitting, and snap back when there is room again.
+- "Subgroups on top" in the group right-click menu now shows a check mark when it is on. The themed menu template never rendered a check glyph for checkable items, so the toggle gave no visual feedback.
+- The F1 keyboard map now covers every shortcut that works in the editor, including the built-ins that were never listed: Ctrl+Home/End (top / end of note), Ctrl+Left/Right (word jump), Ctrl+Backspace/Delete (delete word), Ctrl+L/E/R/J (paragraph alignment), Ctrl+]/[ (text size), and the Menu key. The shortcut list view gained the same entries, translated into all nine languages.
+- Editing-category keys on the keyboard map (Ctrl+X/C/V/Z/Y/A and the new built-ins) now light up in their own color. The map referenced a KnCatEdit brush that no theme defined, so those keys drew without a category color.
+- Demo mode no longer duplicates its notes when two demo windows run at once. A second instance could not delete the locked scratch database, then seeded a full extra copy into it on every launch; a stale database is now reused as-is, and the fresh-roll cleanup also removes SQLite's -wal/-shm sidecars.
+
 ## [1.1.1] - 2026-07-22
 
 ### Added

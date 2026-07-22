@@ -16,6 +16,7 @@ namespace KillerNotes
     public partial class MainWindow
     {
         public static bool DemoMode;
+        public static bool DemoFresh = true;   // false = stale demo db survived (locked); don't re-seed it
 
         // Demo tags: MSP-flavored named tags (order sets the Ctrl+1..6 slots) that replace
         // the auto-seeded color-named defaults, so screenshots show real categories.

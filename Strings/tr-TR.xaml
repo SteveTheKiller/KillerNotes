@@ -362,6 +362,49 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Metni büyüt</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">Metni küçült</sys:String>
     <sys:String x:Key="Str_Kb_ZoomReset">Yakınlaştırmayı sıfırla</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">Bağlam menüsü</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">Notun başı</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">Notun sonu</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">Sola kelime</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">Sağa kelime</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">Soldaki kelimeyi sil</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">Sağdaki kelimeyi sil</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">Sola hizala</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">Ortala</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">Sağa hizala</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">İki yana yasla</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">Notun başına / sonuna atla</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">Kelime kelime atla</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">Bütün kelimeyi sil</sys:String>
+    <sys:String x:Key="Str_KS_Align">Sola / ortaya / sağa hizala / yasla</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">Yazı tipleri...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">Yazı tipleri</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">Başlıklar (grup adları)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">Kenar çubuğu (not başlıkları)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">Not metni</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">KillerNotes varsayılanı</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">Kendi yazı tipini eklemek için bu karta bir .ttf veya .otf dosyası bırak.</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">Anında, tüm uygulamada geçerli olur. Kendi yazı tipi atanmış metin onu korur.</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Varsayılanlara sıfırla</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">Bu yazı tipi normal metni gösteremiyor</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">Yazı tipi eklendi: {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">Oluşturma zamanına göre - önce en eski</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">Oluşturma zamanına göre - önce en yeni</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">Alfabetik - A'dan Z'ye</sys:String>
+    <sys:String x:Key="Str_St_SortZA">Alfabetik - Z'den A'ya</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (tersine çevirmek için tıkla)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">Oluşturma zamanına göre sırala</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">Alfabetik sırala</sys:String>
+    <sys:String x:Key="Str_St_Ready">Hazır</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Müşteri lokasyonları - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Güvenlik duvarı değişimi - Veteriner Kliniği</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">Pijamalı hasta yağız şoföre çabucak güvendi. 0123456789.</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Bir renk seçin</sys:String>
     <sys:String x:Key="Str_Btn_Replace">Değiştir</sys:String>
     <sys:String x:Key="Str_Btn_Reset">Sıfırla</sys:String>

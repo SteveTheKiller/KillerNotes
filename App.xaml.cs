@@ -49,8 +49,18 @@ namespace KillerNotes
                 // Application.MainWindow property (a Window), not our class.
                 KillerNotes.MainWindow.DemoMode = true;
                 Services.NoteStore.DemoDbFile = "demo-notes.db";
-                try { File.Delete(Path.Combine(Services.NoteStore.DbDir, "demo-notes.db")); }
-                catch { /* fresh roll is best-effort */ }
+                string demoDb = Path.Combine(Services.NoteStore.DbDir, "demo-notes.db");
+                try
+                {
+                    File.Delete(demoDb);
+                    File.Delete(demoDb + "-wal");   // SQLite sidecars, if a run crashed
+                    File.Delete(demoDb + "-shm");
+                }
+                catch { /* locked - usually another demo window still open */ }
+                // Only generate into a FRESH database. If the delete failed (a second
+                // demo instance holds the file), reuse its notes instead of appending
+                // a duplicate set - every parallel launch used to add one full copy.
+                KillerNotes.MainWindow.DemoFresh = !File.Exists(demoDb);
             }
 
             // Double-clicked share file (association registered below).

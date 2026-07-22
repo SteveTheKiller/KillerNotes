@@ -362,6 +362,49 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Text vergrößern</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">Text verkleinern</sys:String>
     <sys:String x:Key="Str_Kb_ZoomReset">Zoom zurücksetzen</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">Kontextmenü</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">Notizanfang</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">Notizende</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">Wort nach links</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">Wort nach rechts</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">Wort links löschen</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">Wort rechts löschen</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">Linksbündig</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">Zentriert</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">Rechtsbündig</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">Blocksatz</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">Zum Anfang / Ende der Notiz springen</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">Wortweise springen</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">Ganzes Wort löschen</sys:String>
+    <sys:String x:Key="Str_KS_Align">Links / zentriert / rechts / Blocksatz</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">Schriften...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">Schriften</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">Überschriften (Gruppentitel)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">Seitenleiste (Notiztitel)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">Notiztext</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">KillerNotes-Standard</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">Eine .ttf- oder .otf-Datei auf diese Karte ziehen, um eine eigene Schrift hinzuzufügen.</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">Gilt sofort, in der ganzen App. Text mit eigener Schrift behält sie.</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Auf Standard zurücksetzen</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">Diese Schrift kann keinen normalen Text darstellen</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">Schrift hinzugefügt: {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">Nach Erstellungszeit - älteste zuerst</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">Nach Erstellungszeit - neueste zuerst</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">Alphabetisch - A bis Z</sys:String>
+    <sys:String x:Key="Str_St_SortZA">Alphabetisch - Z bis A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (Klick kehrt um)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">Nach Erstellungszeit sortieren</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">Alphabetisch sortieren</sys:String>
+    <sys:String x:Key="Str_St_Ready">Bereit</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Kundenstandorte - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Firewall-Tausch - Tierklinik</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">Franz jagt im komplett verwahrlosten Taxi quer durch Bayern. 0123456789.</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Farbe wählen</sys:String>
     <sys:String x:Key="Str_Btn_Replace">Ersetzen</sys:String>
     <sys:String x:Key="Str_Btn_Reset">Zurücksetzen</sys:String>

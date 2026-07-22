@@ -56,7 +56,7 @@ namespace KillerNotes
                 _sidebarBaseWidth = SidebarCol.ActualWidth * _appScale;
             _appScale = scale;
             ScaleHost.LayoutTransform = scale == 1.0 ? Transform.Identity : new ScaleTransform(scale, scale);
-            RefreshSidebarWidth();   // Sidebar.cs: keep the sidebar + rail on-screen width fixed
+            RefreshSidebarWidth();   // Sidebar.cs: panel keeps its on-screen width; the rail scales with the app
             RebuildLineNumbers();    // LineNumbers.cs: gutter numbers track the app zoom
             if (persist)
             {

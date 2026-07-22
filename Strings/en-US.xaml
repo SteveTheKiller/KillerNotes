@@ -358,6 +358,49 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Grow text</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">Shrink text</sys:String>
     <sys:String x:Key="Str_Kb_ZoomReset">Reset zoom</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">Context menu</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">Top of note</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">End of note</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">Word left</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">Word right</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">Delete word left</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">Delete word right</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">Align left</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">Center</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">Align right</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">Justify</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">Jump to the top / end of the note</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">Jump by whole words</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">Delete a whole word</sys:String>
+    <sys:String x:Key="Str_KS_Align">Align left / center / right / justify</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">Fonts...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">Fonts</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">Headers (group titles)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">Sidebar (note titles)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">Note text</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">KillerNotes default</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">Drop a .ttf or .otf file on this card to add your own font.</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">Applies instantly, app-wide. Text that was given its own font keeps it.</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Reset to defaults</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">That font can't render plain text</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">Font added: {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">By creation time - oldest first</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">By creation time - newest first</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">Alphabetical - A to Z</sys:String>
+    <sys:String x:Key="Str_St_SortZA">Alphabetical - Z to A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (click to reverse)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">Sort by creation time</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">Sort alphabetically</sys:String>
+    <sys:String x:Key="Str_St_Ready">Ready</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Client sites - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Firewall swap - Meadowbrook Vet</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">The quick brown fox jumps over the lazy dog 0123456789.</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Pick a color</sys:String>
     <sys:String x:Key="Str_Btn_Replace">Replace</sys:String>
     <sys:String x:Key="Str_Btn_Reset">Reset</sys:String>

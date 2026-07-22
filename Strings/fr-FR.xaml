@@ -362,6 +362,49 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Agrandir le texte</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">Réduire le texte</sys:String>
     <sys:String x:Key="Str_Kb_ZoomReset">Réinitialiser le zoom</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">Menu contextuel</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">Début de la note</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">Fin de la note</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">Mot à gauche</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">Mot à droite</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">Supprimer mot à gauche</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">Supprimer mot à droite</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">Aligner à gauche</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">Centrer</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">Aligner à droite</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">Justifier</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">Aller au début / à la fin de la note</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">Sauter de mot en mot</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">Supprimer un mot entier</sys:String>
+    <sys:String x:Key="Str_KS_Align">Aligner gauche / centre / droite / justifié</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">Polices...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">Polices</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">En-têtes (titres de groupe)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">Barre latérale (titres des notes)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">Texte des notes</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">Police par défaut de KillerNotes</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">Déposez un fichier .ttf ou .otf sur cette carte pour ajouter votre propre police.</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">Appliqué immédiatement, dans toute l'app. Le texte avec sa propre police la conserve.</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Rétablir les valeurs par défaut</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">Cette police ne peut pas afficher du texte normal</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">Police ajoutée : {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">Par date de création - les plus anciennes d'abord</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">Par date de création - les plus récentes d'abord</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">Alphabétique - de A à Z</sys:String>
+    <sys:String x:Key="Str_St_SortZA">Alphabétique - de Z à A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (cliquer pour inverser)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">Trier par date de création</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">Trier par ordre alphabétique</sys:String>
+    <sys:String x:Key="Str_St_Ready">Prêt</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Sites clients - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Remplacement du pare-feu - Clinique vét.</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">Portez ce vieux whisky au juge blond qui fume. 0123456789.</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Choisir une couleur</sys:String>
     <sys:String x:Key="Str_Btn_Replace">Remplacer</sys:String>
     <sys:String x:Key="Str_Btn_Reset">Réinitialiser</sys:String>

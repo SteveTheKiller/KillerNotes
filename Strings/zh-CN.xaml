@@ -362,6 +362,49 @@
     <sys:String x:Key="Str_Kb_FontUp">放大文字</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">缩小文字</sys:String>
     <sys:String x:Key="Str_Kb_ZoomReset">重置缩放</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">上下文菜单</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">笔记开头</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">笔记结尾</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">前一个词</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">后一个词</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">删除前一个词</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">删除后一个词</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">左对齐</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">居中</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">右对齐</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">两端对齐</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">跳到笔记开头 / 结尾</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">按词跳转</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">删除整个词</sys:String>
+    <sys:String x:Key="Str_KS_Align">左 / 居中 / 右 / 两端对齐</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">字体...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">字体</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">标题（组名）</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">侧栏（笔记标题）</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">笔记正文</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">KillerNotes 默认</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">把 .ttf 或 .otf 文件拖到此卡片上即可添加自己的字体。</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">立即在整个应用生效。已单独设置字体的文本保持不变。</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">恢复默认</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">该字体无法显示正常文字</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">已添加字体: {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">按创建时间 - 最早在前</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">按创建时间 - 最新在前</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">按字母 - A 到 Z</sys:String>
+    <sys:String x:Key="Str_St_SortZA">按字母 - Z 到 A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0}（点击反转）</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">按创建时间排序</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">按字母排序</sys:String>
+    <sys:String x:Key="Str_St_Ready">就绪</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">客户站点 - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">防火墙更换 - 宠物医院</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">敏捷的棕色狐狸跳过懒狗 The quick brown fox 0123456789.</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">选择颜色</sys:String>
     <sys:String x:Key="Str_Btn_Replace">替换</sys:String>
     <sys:String x:Key="Str_Btn_Reset">重置</sys:String>

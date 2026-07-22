@@ -30,6 +30,9 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
   by horizontal scroll when off) and an optional line-number column (F11).
 - Killculator (F9): a themed calculator that slides up under the notes list. Type an equation
   on the number keys; Print (Ctrl+Enter) drops the result into the note at the cursor.
+- Custom fonts: a Fonts dialog (theme flyout) swaps the header, sidebar, and note-text fonts
+  independently - any installed font, or drop your own .ttf/.otf onto the card. Note text
+  ships in Bahnschrift; a readability guard keeps symbol fonts like Wingdings out.
 - Autosave: after a pause in typing, on note switch, and on close (Ctrl+S forces it). Notes
   also remember their cursor and scroll position, so they reopen where you left off.
 - Markdown/HTML preview: split-pane preview for notes that look like markdown or HTML (HTML
@@ -51,12 +54,12 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 
 <table>
 <tr>
-<td width="50%"><img src="docs/main-window.png" alt="Main window"><br><sub>Notes with inline tables, tag pills, and search as you type.</sub></td>
-<td width="50%"><img src="docs/tags.png" alt="Tags"><br><sub>Color-coded tags, assigned from the right-click menu.</sub></td>
+<td width="50%"><img src="docs/main-window.png" alt="Main window"><br><sub>Notes with inline tables, tag pills, groups and subgroups, and search as you type.</sub></td>
+<td width="50%"><img src="docs/killculator.png" alt="Killculator"><br><sub>The Killculator (F9) docked under the notes list - Print drops the result into the note.</sub></td>
 </tr>
 <tr>
-<td><img src="docs/themes.png" alt="Themes"><br><sub>Six themes, each with its own accent colors.</sub></td>
-<td><img src="docs/localization.png" alt="Localization"><br><sub>Localized into nine languages.</sub></td>
+<td><img src="docs/shortcuts.png" alt="Keyboard shortcuts"><br><sub>Every function has a shortcut - F1 opens the visual keyboard map.</sub></td>
+<td><img src="docs/localization.png" alt="Localization"><br><sub>Nine languages - here Japanese, in the sepia theme.</sub></td>
 </tr>
 </table>
 
@@ -77,7 +80,8 @@ bootstrap carries the native e_sqlcipher.dll, so the release ships as one signed
 
 - `MainWindow.xaml` + partials: `Notes.cs` (list/search/save), `Editor.cs` (paste/tables),
   `Groups.cs` (custom order + nested groups), `Killculator.cs` (sidebar calculator),
-  `ActionUndo.cs` (sidebar Ctrl+Z), `Density.cs` (row density), `Security.cs` (password
+  `Fonts.cs` (font slots + dialog), `ActionUndo.cs` (sidebar Ctrl+Z), `Density.cs`
+  (row density), `Security.cs` (password
   flow), plus the KillerUI kit files (`Chrome.cs`, `ThemeFlyout.cs`, `About.cs`, `Anim.cs`,
   `ConfirmDialog`, `PasswordDialog`, `InputDialog`).
 - `Services/NoteStore.cs` - all SQL. `Services/ThemeManager.cs` - kit theme engine.

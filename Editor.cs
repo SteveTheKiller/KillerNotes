@@ -314,7 +314,7 @@ namespace KillerNotes
         {
             if (_currentId < 0) return;
             _tblCols = _tblRows = 0;
-            TableSizeLabel.Text = "size";
+            TableSizeLabel.Text = Loc("Str_Lbl_Size");   // same key as its XAML default
             foreach (Border b in TableSizeCells.Children)
                 b.SetResourceReference(Border.BackgroundProperty, "SurfaceBrush");
             TableSizePopup.IsOpen = true;

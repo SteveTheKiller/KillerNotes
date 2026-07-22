@@ -20,6 +20,16 @@
     <!-- Typewriter wordmark font (bundled in Fonts/). The face name after '#' must match the
          font's internal family name; keep it as-is if you copy KillerScan's Fonts/ verbatim. -->
     <FontFamily x:Key="WordmarkFont">/KillerNotes;component/Fonts/#Typewriter - a602 (dead postman 2004)</FontFamily>
+    <!-- User-swappable slots (Fonts.cs, 1.1.2). The wordmark above never changes - it is
+         the logo - but HeaderFont (group titles, Killculator title) and ContentFont (the
+         editor default) can be overridden at the Application level by the Fonts dialog;
+         these entries are the killer defaults it falls back to. -->
+    <FontFamily x:Key="HeaderFont">/KillerNotes;component/Fonts/#Typewriter - a602 (dead postman 2004)</FontFamily>
+    <FontFamily x:Key="SidebarFont">Segoe UI</FontFamily>
+    <!-- Bahnschrift: stock DIN face on Win10/11, pairs with the typewriter headers;
+         Segoe UI fallback for editions without it. The sidebar deliberately stays
+         Segoe UI - best small-size hinting for the dense 10-11px rows. -->
+    <FontFamily x:Key="ContentFont">Bahnschrift, Segoe UI</FontFamily>
 
     <!-- Global themed tooltip. Implicit (no key) so every tooltip app-wide picks it up. -->
     <Style TargetType="ToolTip">
@@ -382,6 +392,13 @@
                                            Visibility="Collapsed"/>
                             </Grid>
                         </Border>
+                        <!-- Check glyph for IsCheckable items (e.g. Subgroups on top), drawn in
+                             the 24px left padding inset; the default WPF check lives in a part
+                             this template doesn't have. -->
+                        <TextBlock x:Name="Check" Text="&#x2713;" FontSize="12" FontWeight="Bold"
+                                   Margin="7,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource PrimaryBrush}"
+                                   Visibility="Collapsed" IsHitTestVisible="False"/>
                         <!-- Submenu popup, same chrome + grain as the ContextMenu template.
                              The old header-only template had no popup part, so a themed
                              MenuItem could never show children (first user: Tags). -->
@@ -414,6 +431,9 @@
                         </Trigger>
                         <Trigger Property="Role" Value="SubmenuHeader">
                             <Setter TargetName="SubArrow" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Check" Property="Visibility" Value="Visible"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -528,8 +548,10 @@
     <Style x:Key="RailButton" TargetType="Button">
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="Width" Value="24"/>
-        <Setter Property="Height" Value="24"/>
+        <!-- 20 logical hugs the 16px glyphs; the RailW=24 column (Sidebar.cs) leaves only
+             a 2px inset per side, so zooming scales icons, not blank strip -->
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
         <Setter Property="FontSize" Value="16"/>
@@ -590,6 +612,133 @@
                             <Setter TargetName="box" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
                             <Setter TargetName="check" Property="Visibility" Value="Visible"/>
                             <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Themed ComboBox (ported from KillerPDF's DarkComboBox, first user: the Fonts
+         dialog). Keyed, not implicit - nothing else in the app is a ComboBox yet. -->
+    <Style x:Key="KnComboToggle" TargetType="ToggleButton">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="ClickMode" Value="Press"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="KnComboItem" TargetType="ComboBoxItem">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="Padding" Value="8,5"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border x:Name="ItemBd" Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="ItemBd" Property="Background" Value="{DynamicResource MenuHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="ItemBd" Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="KnCombo" TargetType="ComboBox">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource KnComboItem}"/>
+        <!-- Virtualized dropdown (the Fonts dialog lists ~300 families, each item rendered
+             in its own face): the panel comes from ItemsPanel + ItemsPresenter, the proven
+             KillerPDF arrangement, so the wheel scrolls the popup wherever the mouse hovers. -->
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter Grid.Column="0"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  Margin="8,0,0,0" VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left" IsHitTestVisible="False"/>
+                                <TextBlock Grid.Column="1" Text="&#xE70D;" FontFamily="Segoe MDL2 Assets"
+                                           FontSize="8" Foreground="{DynamicResource MutedTextBrush}"
+                                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                                           IsHitTestVisible="False"/>
+                                <ToggleButton Grid.Column="0" Grid.ColumnSpan="2"
+                                              Style="{StaticResource KnComboToggle}"
+                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,
+                                                          RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Grid>
+                        </Border>
+                        <Popup x:Name="PART_Popup" AllowsTransparency="True"
+                               IsOpen="{TemplateBinding IsDropDownOpen}" Focusable="False"
+                               PopupAnimation="Fade" Placement="Bottom">
+                            <Border Background="{DynamicResource MenuBackgroundBrush}"
+                                    BorderBrush="{DynamicResource MenuBorderBrush}"
+                                    BorderThickness="1" CornerRadius="4" Padding="2" Margin="0,2,6,6"
+                                    MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                    MaxHeight="260">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Black" BlurRadius="12" ShadowDepth="2" Direction="270" Opacity="0.5"/>
+                                </Border.Effect>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                                              CanContentScroll="True" Focusable="False">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.4"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

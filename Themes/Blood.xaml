@@ -66,5 +66,6 @@
     <SolidColorBrush x:Key="KnCatView"   Color="#f222ff" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatSearch" Color="#00b3ff" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatHelp"   Color="#39ff14" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatEdit"   Color="#ff901f" po:Freeze="True"/>
 
 </ResourceDictionary>

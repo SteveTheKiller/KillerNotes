@@ -122,18 +122,21 @@
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition x:Name="RailCol" Width="30"/>
+                    <ColumnDefinition x:Name="RailCol" Width="24"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Icon rail on the inner lip: collapse chevron top; ? and theme pinned bottom -->
+                <!-- Icon rail on the inner lip: collapse chevron top; ? and theme pinned bottom.
+                     The rail column is a constant LOGICAL RailW=24 (Sidebar.cs), so it widens
+                     with the app zoom and its scaling icons never clip - and it hugs the
+                     20-logical buttons so high zoom doesn't scale up empty air. -->
                 <Grid Grid.Column="1">
-                    <!-- 4px left margin on centered elements = a 2px shift toward the pane,
+                    <!-- 2px left margin on centered elements = a 1px shift toward the pane,
                          so the icons sit visually centered on the rail -->
                     <Button x:Name="SidebarToggleBtn" Style="{StaticResource RailButton}"
                             Content="&#xE76B;" FontSize="12"
-                            VerticalAlignment="Top" HorizontalAlignment="Center" Margin="4,10,0,0"
+                            VerticalAlignment="Top" HorizontalAlignment="Center" Margin="2,10,0,0"
                             Click="SidebarToggle_Click" ToolTip="{DynamicResource Str_TT_CollapseSidebar}"/>
-                    <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="4,0,0,6">
+                    <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="2,0,0,6">
                         <!-- Killculator toggle (Killculator.cs / F9). E1D0 = the calculator glyph. -->
                         <Button x:Name="KalcRailBtn" Style="{StaticResource RailButton}" Content="&#xE1D0;"
                                 Margin="0,0,0,6" Click="KalcRail_Click"
@@ -195,6 +198,10 @@
                                                     <Button Style="{StaticResource ThemeSwatch}" Tag="Blue"   Background="#50AEE8" Click="AccentSwatch_Click"/>
                                                     <Button Style="{StaticResource ThemeSwatch}" Tag="Purple" Background="#B982E3" Click="AccentSwatch_Click"/>
                                                 </StackPanel>
+                                                <!-- Fonts dialog (Fonts.cs): header + note-text font slots -->
+                                                <Button Content="{DynamicResource Str_Fonts_Open}" Click="FontsRow_Click"
+                                                        Style="{StaticResource OutlineButton}" FontSize="11" Padding="8,3"
+                                                        Margin="0,10,0,0" HorizontalAlignment="Stretch"/>
                                             </StackPanel>
                                         </MenuItem.Header>
                                     </MenuItem>
@@ -261,18 +268,26 @@
                                 </Grid>
                             </Border>
                         </Grid>
-                        <Grid Margin="0,8,0,8">
+                        <!-- Second Auto row: at high app zoom the panel's LOGICAL width shrinks
+                             (screen-constant sidebar) and one row can't hold everything - the
+                             sort trio then drops under the New-note button instead of clipping
+                             (Sidebar.cs SidebarToolbar_SizeChanged). -->
+                        <Grid x:Name="SidebarToolbar" Margin="0,8,0,8" SizeChanged="SidebarToolbar_SizeChanged">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition x:Name="NewNoteCol" Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
                             <Button x:Name="NewNoteBtn" Grid.Column="0" Style="{StaticResource OutlineButton}"
                                     Content="{DynamicResource Str_Btn_NewNote}" Click="NewNote_Click" HorizontalAlignment="Left"
                                     ToolTip="{DynamicResource Str_TT_NewNote}"/>
                             <!-- Dedicated sorts: creation time (default, oldest first) and
                                  alphabetical. The active one shows in the accent; clicking it
                                  again reverses its direction (Notes.cs). -->
-                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <StackPanel x:Name="SortBtns" Grid.Column="1" Orientation="Horizontal">
                                 <!-- Padding 0: SurfaceButton's 12px side padding clips glyphs at
                                      fixed widths. The active button carries a direction arrow
                                      (up = ascending) that flips when clicked again (Notes.cs). -->
@@ -510,7 +525,7 @@
                                          through the notes / shrinks back to the header. -->
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                             <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"
-                                                       FontFamily="{DynamicResource WordmarkFont}"
+                                                       FontFamily="{DynamicResource HeaderFont}"
                                                        VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
                                                 <!-- Colored per group when NameColor is set; the DataTrigger keeps
                                                      uncolored names on the theme-reactive TextBrush (issue #8) -->
@@ -535,6 +550,7 @@
                                     <!-- Colored per note when TitleColor is set; the DataTrigger keeps
                                          uncolored titles on the theme-reactive TextBrush (1.0.1, #1) -->
                                     <TextBlock Text="{Binding Title}" FontSize="13" TextTrimming="CharacterEllipsis"
+                                               FontFamily="{DynamicResource SidebarFont}"
                                                ToolTip="{Binding Title}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -555,6 +571,7 @@
                                         </TextBlock.Style>
                                     </TextBlock>
                                     <TextBlock Text="{Binding Snippet}" FontSize="11" TextTrimming="CharacterEllipsis" Margin="0,1,0,0"
+                                               FontFamily="{DynamicResource SidebarFont}"
                                                Visibility="{Binding SnippetVisibility}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -568,6 +585,7 @@
                                         </TextBlock.Style>
                                     </TextBlock>
                                     <TextBlock Text="{Binding ModifiedDisplay}" FontSize="10" Margin="0,1,0,0"
+                                               FontFamily="{DynamicResource SidebarFont}"
                                                Visibility="{Binding DateVisibility}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -700,7 +718,7 @@
                                 <StackPanel>
                                     <!-- Header: wordmark title + close -->
                                     <Grid Margin="0,0,0,8">
-                                        <TextBlock Text="Killculator" FontFamily="{DynamicResource WordmarkFont}" FontSize="16"
+                                        <TextBlock Text="Killculator" FontFamily="{DynamicResource HeaderFont}" FontSize="16"
                                                    Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center"/>
                                         <!-- Close X: glyph turns red on hover, like the About card (Foreground
                                              lives in a Setter, not a local value, so the trigger wins). -->
@@ -1081,6 +1099,7 @@
                          each paragraph; GutterCol stays 0-wide until the gutter is toggled on. -->
                     <Canvas x:Name="LineGutter" Grid.Column="0" ClipToBounds="True" Margin="2,0,0,8"/>
                     <RichTextBox x:Name="Editor" Grid.Column="1" Margin="8,0,8,8"
+                                 FontFamily="{DynamicResource ContentFont}"
                                  Background="Transparent" BorderThickness="0"
                                  Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
                                  SelectionBrush="{DynamicResource PrimaryBrush}" SelectionOpacity="0.35"
@@ -1145,7 +1164,7 @@
                                     ViewportUnits="Absolute" Viewport="0,0,256,256" Stretch="None"/>
                     </Border.Background>
                 </Border>
-                <TextBlock x:Name="StatusText" Grid.Column="0" Text="Ready"
+                <TextBlock x:Name="StatusText" Grid.Column="0" Text="{DynamicResource Str_St_Ready}"
                            Foreground="{DynamicResource ChromeTextBrush}" FontFamily="Consolas"
                            FontSize="11.5" VerticalAlignment="Center"/>
                 <!-- Portable mode indicator (hidden when installed), same as KillerScan/KillerFind -->
@@ -1312,6 +1331,114 @@
                                 <TextBlock x:Name="AboutUpdateText" Text="Update available" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
                             </Button>
 
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- Fonts overlay (Fonts.cs): three user-swappable slots - Headers (group titles,
+             Killculator title), Sidebar (note titles), and Note text (the editor default).
+             Same card chrome as the shortcuts overlay; drop a .ttf/.otf on the card to
+             import it. -->
+        <Grid x:Name="FontsOverlay" Grid.RowSpan="3" Panel.ZIndex="9200" Visibility="Collapsed"
+              Background="#88000000" MouseLeftButtonDown="FontsOverlay_Click">
+            <Grid MinWidth="400" MaxWidth="400" VerticalAlignment="Center"
+                  MouseLeftButtonDown="FontsCard_Click" AllowDrop="True" Drop="FontsCard_Drop">
+                <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="6" IsHitTestVisible="False">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="0.6"/>
+                    </Border.Effect>
+                </Border>
+                <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
+                        BorderThickness="1" CornerRadius="6">
+                    <Grid>
+                        <Border IsHitTestVisible="False" CornerRadius="6"
+                                Opacity="{DynamicResource GrainOpacity}" Background="{DynamicResource GrainTileBrush}"/>
+                        <StackPanel Margin="18,14,18,18">
+                            <Grid Margin="0,0,0,12">
+                                <TextBlock Text="{DynamicResource Str_Fonts_Title}" Foreground="{DynamicResource TextBrush}"
+                                           FontFamily="Consolas" FontSize="15" FontWeight="Bold"/>
+                                <Button Content="&#x2715;" Click="FontsClose_Click" HorizontalAlignment="Right"
+                                        VerticalAlignment="Top" Width="28" Height="22" FontSize="11" Panel.ZIndex="2"
+                                        Background="Transparent" BorderThickness="0" Cursor="Hand">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Background="Transparent">
+                                                            <ContentPresenter x:Name="cp" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Foreground" Value="#E04444"/>
+                                                                <Setter TargetName="cp" Property="Effect">
+                                                                    <Setter.Value>
+                                                                        <DropShadowEffect Color="#000000" BlurRadius="4" ShadowDepth="1" Direction="270" Opacity="0.5"/>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
+                            <TextBlock Text="{DynamicResource Str_Fonts_Headers}" Foreground="{DynamicResource DimTextBrush}"
+                                       FontSize="10" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="FontHeaderCombo" Style="{StaticResource KnCombo}" Height="26"
+                                      SelectionChanged="FontCombo_Changed" PreviewMouseWheel="FontCombo_Wheel">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Display}" FontFamily="{Binding Fam}" TextTrimming="CharacterEllipsis"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <!-- Fixed preview heights: fonts differ wildly in line height, and a
+                                 resizing card made wheel-browsing feel like the window was jumping -->
+                            <TextBlock Text="{DynamicResource Str_Fonts_PrevHead}" FontFamily="{DynamicResource HeaderFont}"
+                                       FontSize="17" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"
+                                       Height="30" ClipToBounds="True"
+                                       Margin="2,7,0,14" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{DynamicResource Str_Fonts_Sidebar}" Foreground="{DynamicResource DimTextBrush}"
+                                       FontSize="10" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="FontSidebarCombo" Style="{StaticResource KnCombo}" Height="26"
+                                      SelectionChanged="FontCombo_Changed" PreviewMouseWheel="FontCombo_Wheel">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Display}" FontFamily="{Binding Fam}" TextTrimming="CharacterEllipsis"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <TextBlock Text="{DynamicResource Str_Fonts_PrevSidebar}" FontFamily="{DynamicResource SidebarFont}"
+                                       FontSize="13" Foreground="{DynamicResource TextBrush}"
+                                       Height="24" ClipToBounds="True"
+                                       Margin="2,7,0,14" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{DynamicResource Str_Fonts_Content}" Foreground="{DynamicResource DimTextBrush}"
+                                       FontSize="10" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="FontContentCombo" Style="{StaticResource KnCombo}" Height="26"
+                                      SelectionChanged="FontCombo_Changed" PreviewMouseWheel="FontCombo_Wheel">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Display}" FontFamily="{Binding Fam}" TextTrimming="CharacterEllipsis"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <TextBlock Text="{DynamicResource Str_Fonts_PrevText}"
+                                       FontFamily="{DynamicResource ContentFont}" FontSize="13"
+                                       Height="44" ClipToBounds="True"
+                                       Foreground="{DynamicResource TextBrush}" Margin="2,7,0,12" TextWrapping="Wrap"/>
+                            <TextBlock Text="{DynamicResource Str_Fonts_DropHint}" Foreground="{DynamicResource DimTextBrush}"
+                                       FontSize="10.5" TextWrapping="Wrap"/>
+                            <TextBlock Text="{DynamicResource Str_Fonts_Note}" Foreground="{DynamicResource DimTextBrush}"
+                                       FontSize="10.5" TextWrapping="Wrap" Margin="0,4,0,12"/>
+                            <Button Content="{DynamicResource Str_Fonts_Reset}" Click="FontsReset_Click"
+                                    Style="{StaticResource OutlineButton}" FontSize="11" Padding="10,4"
+                                    HorizontalAlignment="Left"/>
                         </StackPanel>
                     </Grid>
                 </Border>

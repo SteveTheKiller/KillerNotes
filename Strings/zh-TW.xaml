@@ -364,6 +364,49 @@
     <sys:String x:Key="Str_Kb_FontUp">放大文字</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">縮小文字</sys:String>
     <sys:String x:Key="Str_Kb_ZoomReset">重設縮放</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">右鍵選單</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">筆記開頭</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">筆記結尾</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">上一個詞</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">下一個詞</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">刪除上一個詞</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">刪除下一個詞</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">靠左對齊</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">置中</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">靠右對齊</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">左右對齊</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">跳至筆記開頭 / 結尾</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">逐詞跳轉</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">刪除整個詞</sys:String>
+    <sys:String x:Key="Str_KS_Align">靠左 / 置中 / 靠右 / 左右對齊</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">字型...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">字型</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">標題（群組名稱）</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">側欄（筆記標題）</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">筆記內文</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">KillerNotes 預設</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">將 .ttf 或 .otf 檔案拖到此卡片即可加入自己的字型。</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">立即套用到整個應用程式。已單獨設定字型的文字維持不變。</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">還原預設</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">該字型無法顯示一般文字</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">已加入字型: {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">依建立時間 - 最舊在前</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">依建立時間 - 最新在前</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">依字母 - A 到 Z</sys:String>
+    <sys:String x:Key="Str_St_SortZA">依字母 - Z 到 A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0}（點擊反轉）</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">依建立時間排序</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">依字母排序</sys:String>
+    <sys:String x:Key="Str_St_Ready">就緒</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">客戶站點 - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">防火牆更換 - 動物醫院</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">敏捷的棕色狐狸跳過懶狗 The quick brown fox 0123456789.</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">選擇色彩</sys:String>
     <sys:String x:Key="Str_Btn_Replace">取代</sys:String>
     <sys:String x:Key="Str_Btn_Reset">重設</sys:String>

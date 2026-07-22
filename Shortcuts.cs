@@ -56,6 +56,13 @@ namespace KillerNotes
             ("Ctrl+V",        "Str_KS_Paste"),
             ("Ctrl+Z / Y",    "Str_KS_Undo"),
             ("Ctrl+A",        "Str_KS_SelectAll"),
+            // Editor built-ins (RichTextBox defaults that nothing above intercepts) -
+            // listed so the overlay really covers everything that works.
+            ("Ctrl+Home / End",  "Str_KS_NoteNav"),
+            ("Ctrl+Left / Right","Str_KS_WordJump"),
+            ("Ctrl+Bksp / Del",  "Str_KS_DelWord"),
+            ("Ctrl+L / E / R / J", "Str_KS_Align"),
+            ("Ctrl+] / [",       "Str_KS_FontSize"),
             ("Delete",        "Str_KS_Delete"),
             ("Esc",           "Str_KS_Esc"),
         ];
@@ -317,6 +324,7 @@ namespace KillerNotes
         private bool HandleEscape()
         {
             if (_kalcOpen) { CloseKalc(); return true; }   // Killculator.cs
+            if (FontsOverlay.Visibility == Visibility.Visible) { HideFontsOverlay(); return true; }   // Fonts.cs
             if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return true; }
             if (AboutOverlay.Visibility == Visibility.Visible) { FadeOverlayOut(AboutOverlay); return true; }
             if (SearchBox.IsKeyboardFocusWithin || SearchBox.Text.Length > 0)
