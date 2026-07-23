@@ -196,6 +196,43 @@ $sumsLines = foreach ($asset in @($exe, $srcZip)) {
 Set-Content -Path $sumsFile -Encoding ascii -Value ($sumsLines -join "`r`n")
 Write-Host ($sumsLines -join "`n")
 
+# --- 7b. Landing page release info (notes-landing) ---
+# The hero block (version, released date, size, sha256) and the verEgg footer on
+# every page carry release facts the script already knows, so they are rewritten
+# here and committed BEFORE the tag - the tag always matches the live site data.
+# ReadAllText/WriteAllText keep the files BOM-less UTF-8 (PS 5.1 Set-Content -Encoding UTF8 adds a BOM).
+Step "Updating notes-landing release info"
+if ($DryRun) {
+    Write-Host "DryRun: would update notes-landing to v$Version and commit"
+} else {
+    $exeHash    = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLower()
+    $releaseDate = Get-Date -Format 'yyyy-MM-dd'
+    $siteDir    = Join-Path (Get-Location).Path 'notes-landing'
+    $indexPath  = Join-Path $siteDir 'index.html'
+    $indexRaw   = [System.IO.File]::ReadAllText($indexPath)
+    $indexNew   = $indexRaw -replace 'KillerNotes v[0-9]+\.[0-9]+\.[0-9]+', "KillerNotes v$Version"
+    $indexNew   = $indexNew -replace '(<span class="k">released</span>&nbsp;<span class="v">)[0-9]{4}-[0-9]{2}-[0-9]{2}', ('${1}' + $releaseDate)
+    $indexNew   = $indexNew -replace '(<span class="k">size</span>&nbsp;<span class="v">)[^<]*', ('${1}' + $exeMB + ' single exe')
+    $indexNew   = $indexNew -replace '<span class="v hash"><span>[0-9a-f]{32}</span><span>[0-9a-f]{32}</span></span>', ('<span class="v hash"><span>' + $exeHash.Substring(0, 32) + '</span><span>' + $exeHash.Substring(32, 32) + '</span></span>')
+    if ($indexNew -ne $indexRaw) { [System.IO.File]::WriteAllText($indexPath, $indexNew) }
+    foreach ($page in 'index.html', 'about.html', 'help.html', 'technical.html') {
+        $p   = Join-Path $siteDir $page
+        $raw = [System.IO.File]::ReadAllText($p)
+        $new = $raw -replace '(id="verEgg"[^>]*>)v[0-9]+\.[0-9]+\.[0-9]+', ('${1}' + "v$Version")
+        if ($new -ne $raw) { [System.IO.File]::WriteAllText($p, $new) }
+    }
+    $siteDirty = git status --porcelain notes-landing
+    if ($siteDirty) {
+        git add notes-landing
+        git commit -m "site: v$Version release info" --quiet
+        git push origin main --quiet
+        if ($LASTEXITCODE -ne 0) { Fail 'Landing page commit failed to push' }
+        Write-Host "notes-landing updated to v$Version and pushed"
+    } else {
+        Write-Host 'notes-landing already current'
+    }
+}
+
 # --- 8. Release notes from CHANGELOG section ---
 Step "Extracting release notes from CHANGELOG.md"
 $lines = Get-Content -Path 'CHANGELOG.md'
