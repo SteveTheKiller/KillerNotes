@@ -4,6 +4,11 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4] - Unreleased
+
+### Fixed
+- The sidebar could keep showing a note's old title and snippet after an edit if you switched notes or apps within a couple of seconds of typing. The note itself was saved correctly; only the list row went stale. Latent since the 1.1.0 sidebar rework - the scroll-preserving list keeps its existing row objects, and the quick-save path was updating a different copy of the row than the one on screen.
+
 ## [1.1.3] - 2026-07-22
 
 ### Added

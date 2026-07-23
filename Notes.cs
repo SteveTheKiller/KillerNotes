@@ -337,15 +337,25 @@ namespace KillerNotes
             // ALWAYS sync the in-memory row too: OpenNote reads titles from this list, so
             // a stale row resurrected the old title on the next visit and the following
             // save wrote it back over the real one (the "title never saved" bug).
-            if (_notes.FirstOrDefault(n => n.Id == _currentId) is Note meta)
-            {
-                meta.Title = TitleBox.Text;
-                meta.Modified = DateTime.Now;
-                string plain = range.Text.TrimStart();
-                int nl = plain.IndexOfAny(['\r', '\n']);
-                if (nl >= 0) plain = plain.Substring(0, nl);
-                meta.Snippet = plain.Length > 120 ? plain.Substring(0, 120) : plain;
-            }
+            //
+            // BOTH lists: ReconcileSidebar keeps the EXISTING row object when its display
+            // data is unchanged, so _sidebarItems can hold an OLDER instance than _notes.
+            // A refreshList:false save (note switch, alt-tab) repaints via Items.Refresh -
+            // updating only the _notes instance redrew the stale displayed row, and since
+            // that save cleared _dirty, the 2s timer's full refresh never ran either, so
+            // a new title/snippet never appeared in the sidebar.
+            string plain = range.Text.TrimStart();
+            int nl = plain.IndexOfAny(['\r', '\n']);
+            if (nl >= 0) plain = plain.Substring(0, nl);
+            string snippet = plain.Length > 120 ? plain.Substring(0, 120) : plain;
+            foreach (var meta in new[] { _notes.FirstOrDefault(n => n.Id == _currentId),
+                                         _sidebarItems.OfType<Note>().FirstOrDefault(n => n.Id == _currentId) })
+                if (meta != null)
+                {
+                    meta.Title = TitleBox.Text;
+                    meta.Modified = DateTime.Now;
+                    meta.Snippet = snippet;
+                }
 
             if (refreshList)
             {

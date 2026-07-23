@@ -89,4 +89,4 @@ bootstrap carries the native e_sqlcipher.dll, so the release ships as one signed
   flow), plus the KillerUI kit files (`Chrome.cs`, `ThemeFlyout.cs`, `About.cs`, `Anim.cs`,
   `ConfirmDialog`, `PasswordDialog`, `InputDialog`).
 - `Services/NoteStore.cs` - all SQL. `Services/ThemeManager.cs` - kit theme engine.
-- `Themes/` + `Themes/Accents/` - the family palettes, copied from KillerScan.
+- `Themes/` + `Themes/Accents/` - the family palettes, the unified theme set shared across all the Killer apps.
