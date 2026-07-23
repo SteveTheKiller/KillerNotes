@@ -138,7 +138,7 @@ namespace KillerNotes.Models
         // GutterWidth reserves it and Rails are the ancestor guide lines drawn in that gutter.
         public string Path { get; set; } = "";
         public int Depth { get; set; }
-        public bool IsNested => Depth > 0;   // a subgroup: its own spine starts flush (no top inset) to line up with the parent rails
+        public bool IsNested => Depth > 0;   // a subgroup: its own spine starts just above its header text (see the spine style in MainWindow.xaml)
         public double GutterWidth => Depth * 14;
         public List<GroupRail> Rails { get; set; } = new();
         public string Name { get; set; } = "";

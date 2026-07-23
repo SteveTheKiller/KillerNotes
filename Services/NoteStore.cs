@@ -346,13 +346,15 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             public int SortOrder;
             public string Created = "";
             public string Modified = "";
+            public int CaretPos;      // reading position (1.1.4): restored with the row so
+            public double ScrollPos;  // an undone delete reopens where the note was left
         }
 
         public static NoteRow? CaptureRow(long id)
         {
             if (_db == null) return null;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order " +
+            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos " +
                               "FROM notes WHERE id = $id";
             cmd.Parameters.AddWithValue("$id", id);
             using var r = cmd.ExecuteReader();
@@ -370,6 +372,8 @@ WHERE notes_fts MATCH $q ORDER BY rank";
                 TitleColor = r.IsDBNull(8) ? "" : r.GetString(8),
                 SpellCheck = !r.IsDBNull(9) && r.GetInt64(9) != 0,
                 SortOrder  = r.IsDBNull(10) ? 0 : (int)r.GetInt64(10),
+                CaretPos   = r.IsDBNull(11) ? 0 : (int)r.GetInt64(11),
+                ScrollPos  = r.IsDBNull(12) ? 0 : r.GetDouble(12),
             };
         }
 
@@ -377,8 +381,8 @@ WHERE notes_fts MATCH $q ORDER BY rank";
         {
             if (_db == null) return;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "INSERT INTO notes(id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order) " +
-                              "VALUES($id, $t, $nb, $tg, $cr, $md, $pl, $ct, $tc, $sp, $so)";
+            cmd.CommandText = "INSERT INTO notes(id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos) " +
+                              "VALUES($id, $t, $nb, $tg, $cr, $md, $pl, $ct, $tc, $sp, $so, $cp, $scp)";
             cmd.Parameters.AddWithValue("$id", n.Id);
             cmd.Parameters.AddWithValue("$t", n.Title);
             cmd.Parameters.AddWithValue("$nb", n.Notebook);
@@ -390,6 +394,8 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             cmd.Parameters.AddWithValue("$tc", n.TitleColor);
             cmd.Parameters.AddWithValue("$sp", n.SpellCheck ? 1 : 0);
             cmd.Parameters.AddWithValue("$so", n.SortOrder);
+            cmd.Parameters.AddWithValue("$cp", n.CaretPos);
+            cmd.Parameters.AddWithValue("$scp", n.ScrollPos);
             cmd.ExecuteNonQuery();
         }
 

@@ -383,6 +383,12 @@ namespace KillerNotes
         private void TitleBox_TextChanged(object sender, TextChangedEventArgs e) => MarkDirty();
         private void Editor_TextChanged(object sender, TextChangedEventArgs e) => MarkDirty();
 
+        // Clicking the note title jumps the view back to the top of the note (Dantex's
+        // suggestion, Opera-style). Preview only scrolls the editor viewport - the click
+        // still lands in the TextBox for title editing, and the editor caret stays put.
+        private void TitleBox_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+            => Editor.ScrollToHome();
+
         // ---- New / delete ----
 
         private void NewNote_Click(object sender, RoutedEventArgs e) => CreateNewNote(focusTitle: true);
@@ -557,6 +563,7 @@ namespace KillerNotes
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
+            if (n.Id == _currentId) SaveNotePosition();   // freshest caret/scroll into the row first
             var snap = NoteStore.CaptureRow(n.Id);   // for Ctrl+Z (ActionUndo.cs)
             NoteStore.Delete(n.Id);
             if (n.Id == _currentId)
@@ -584,6 +591,7 @@ namespace KillerNotes
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
+            if (notes.Any(x => x.Id == _currentId)) SaveNotePosition();   // freshest caret/scroll into the row first
             var snaps = notes.Select(x => NoteStore.CaptureRow(x.Id)).Where(s => s != null).Select(s => s!).ToList();
             foreach (var n in notes)
             {

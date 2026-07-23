@@ -423,16 +423,17 @@
                                                                         <Setter Property="CornerRadius" Value="1.5,1.5,0,0"/>
                                                                         <Setter Property="Margin" Value="8,5,0,0"/>
                                                                     </DataTrigger>
-                                                                    <!-- A nested (subgroup) header's own spine starts flush at the header
-                                                                         top - no 5px inset - so it lines up with the ancestor rails beside
-                                                                         it; the rounded top corner above stays. Collapsed pills keep the inset. -->
+                                                                    <!-- A nested (subgroup) header's own spine starts just above its own
+                                                                         header text (~2px) instead of stretching to the row top, so it never
+                                                                         crowds the parent group's name above; the rounded top corner stays.
+                                                                         Collapsed pills keep their centered treatment. -->
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding IsFirstInGroup}" Value="True"/>
                                                                             <Condition Binding="{Binding IsNested}" Value="True"/>
                                                                             <Condition Binding="{Binding IsLastInGroup}" Value="False"/>
                                                                         </MultiDataTrigger.Conditions>
-                                                                        <Setter Property="Margin" Value="8,0,0,0"/>
+                                                                        <Setter Property="Margin" Value="8,10.5,0,0"/>
                                                                     </MultiDataTrigger>
                                                                     <DataTrigger Binding="{Binding IsLastInGroup}" Value="True">
                                                                         <Setter Property="CornerRadius" Value="0,0,1.5,1.5"/>
@@ -450,9 +451,19 @@
                                                                         <Setter Property="Height" Value="14"/>
                                                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                                                         <!-- The header's negative bottom margin lets its text overdraw the
-                                                                             row bottom, so the visible text center sits ~3px below the cell
+                                                                             row bottom, so the visible text center sits ~5px below the cell
                                                                              center; nudge the centered pill down to match. -->
-                                                                        <Setter Property="Margin" Value="8,3,0,-3"/>
+                                                                        <Setter Property="Margin" Value="8,5,0,-5"/>
+                                                                        <!-- Collapsed = the line "turns sideways": the vertical pill rotates
+                                                                             into a horizontal dash (render-only, so the layout slot and the
+                                                                             header text position stay identical to the expanded state).
+                                                                             Open runs the line down the notes; closed lays it flat. -->
+                                                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                                                        <Setter Property="RenderTransform">
+                                                                            <Setter.Value>
+                                                                                <RotateTransform Angle="90"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
                                                                     </MultiDataTrigger>
                                                                 </Style.Triggers>
                                                             </Style>
@@ -855,7 +866,8 @@
                          Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
                          SelectionBrush="{DynamicResource PrimaryBrush}" SelectionOpacity="0.35"
                          FontSize="17" FontWeight="SemiBold"
-                         TextChanged="TitleBox_TextChanged">
+                         TextChanged="TitleBox_TextChanged"
+                         PreviewMouseLeftButtonDown="TitleBox_PreviewMouseLeftButtonDown">
                     <!-- Explicit menu: the framework's built-in editing menu ignores the app's
                          implicit ContextMenu/MenuItem styles, so it renders unthemed -->
                     <TextBox.ContextMenu>

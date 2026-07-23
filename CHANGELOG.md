@@ -4,10 +4,15 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.4] - Unreleased
+## [1.1.4] - 2026-07-22
+
+### Added
+- Click the note title to jump back to the top of the note (thanks Dantex). The click still edits the title exactly as before; only the view moves.
+- Collapsed groups now lay their line flat: the colored spine that runs down an open group's notes turns into a short horizontal dash when the group is closed - open runs down, closed lies flat, so a tree of collapsed subgroups reads like a dashed outline. Expanded subgroup spines also got a trim: the line now starts just above its own group's name instead of stretching up toward the parent's.
 
 ### Fixed
 - The sidebar could keep showing a note's old title and snippet after an edit if you switched notes or apps within a couple of seconds of typing. The note itself was saved correctly; only the list row went stale. Latent since the 1.1.0 sidebar rework - the scroll-preserving list keeps its existing row objects, and the quick-save path was updating a different copy of the row than the one on screen.
+- Undoing a note delete now restores the reading position too. The row snapshot Ctrl+Z restores carried everything except the remembered caret and scroll, so an undone note reopened at the top instead of where you left off.
 
 ## [1.1.3] - 2026-07-22
 
