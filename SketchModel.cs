@@ -256,7 +256,7 @@ namespace KillerNotes
         public static BitmapSource RenderObjects(IEnumerable<SketchObject> objs, int w, int h)
         {
             var canvas = new Canvas { Width = w, Height = h };
-            foreach (var o in objs) canvas.Children.Add(BuildElement(o));
+            foreach (var o in objs) canvas.Children.Add(BuildElement(GuardForFlatten(o)));
             canvas.Measure(new Size(w, h));
             canvas.Arrange(new Rect(0, 0, w, h));
             canvas.UpdateLayout();
@@ -264,6 +264,40 @@ namespace KillerNotes
             rtb.Render(canvas);
             rtb.Freeze();
             return rtb;
+        }
+
+        // Legibility guard for the FLATTENED image only: a near-white or near-black stroke color is
+        // pulled toward a mid-tone so it never vanishes on the note paper, whatever theme the note is
+        // viewed in. The live pad and the stored objects keep their true colors - only this baked copy
+        // is adjusted. Fills (alpha washes) and images (already-composited pixels) are left as-is.
+        private static SketchObject GuardForFlatten(SketchObject o)
+        {
+            if (o.Kind == SketchKind.Image) return o;
+            var c = ParseColor(o.Color);
+            var g = GuardColor(c);
+            if (g == c) return o;
+            var clone = o.Clone();
+            clone.Color = HexOf(g);
+            return clone;
+        }
+
+        private static Color GuardColor(Color c)
+        {
+            double lum = 0.299 * c.R + 0.587 * c.G + 0.114 * c.B;   // 0..255 (perceptual)
+            if (lum >= 209)   // ~0.82: near-white, would wash out on light paper
+            {
+                double f = 184.0 / lum;   // darken proportionally to ~0.72 luminance (hue kept)
+                return Color.FromArgb(c.A, (byte)(c.R * f), (byte)(c.G * f), (byte)(c.B * f));
+            }
+            if (lum <= 41)    // ~0.16: near-black, would vanish on dark paper
+            {
+                double t = (77.0 - lum) / (255.0 - lum);   // blend toward white to ~0.30 luminance
+                return Color.FromArgb(c.A,
+                    (byte)(c.R + (255 - c.R) * t),
+                    (byte)(c.G + (255 - c.G) * t),
+                    (byte)(c.B + (255 - c.B) * t));
+            }
+            return c;
         }
 
         // ---- Geometry / hit testing (eraser + select) ----
@@ -327,7 +361,12 @@ namespace KillerNotes
                 case SketchKind.Ellipse:
                     return RectOf(o);
                 case SketchKind.Text:
-                    return new Rect(o.X, o.Y, Math.Max(20, (o.Text?.Length ?? 1) * o.FontSize * 0.6), o.FontSize * 1.4);
+                {
+                    var lines = (o.Text ?? "").Split('\n');
+                    int longest = 1;
+                    foreach (var ln in lines) longest = Math.Max(longest, ln.Length);
+                    return new Rect(o.X, o.Y, Math.Max(20, longest * o.FontSize * 0.6), Math.Max(1, lines.Length) * o.FontSize * 1.4);
+                }
                 case SketchKind.Image:
                     return o.Backdrop ? new Rect(0, 0, Sketch.CanvasW, Sketch.CanvasH) : new Rect(o.X, o.Y, o.W, o.H);
             }

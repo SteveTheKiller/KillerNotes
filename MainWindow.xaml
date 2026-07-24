@@ -4,6 +4,7 @@
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:models="clr-namespace:KillerNotes.Models"
         Title="KillerNotes"
+        Icon="pack://application:,,,/Resources/kn-icon.ico"
         WindowStyle="None" Background="{DynamicResource BackgroundBrush}"
         MinWidth="720" MinHeight="480" Width="1080" Height="700"
         TextOptions.TextFormattingMode="Display" UseLayoutRounding="True">
@@ -173,30 +174,30 @@
                     <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="2,0,0,6">
                         <!-- Killculator toggle (Killculator.cs / F9). E1D0 = the calculator glyph. -->
                         <Button x:Name="KalcRailBtn" Style="{StaticResource RailButton}" Content="&#xE1D0;"
-                                Margin="0,0,0,8" Click="KalcRail_Click"
+                                Margin="0,0,0,10" Click="KalcRail_Click"
                                 ToolTip="{DynamicResource Str_TT_CalcRail}"/>
                         <!-- SketchPad (Editor.cs InsertSketchPad / F7). E70F = the pencil/draw glyph. -->
                         <Button x:Name="SketchRailBtn" Style="{StaticResource RailButton}" Content="&#xE70F;"
-                                Margin="0,0,0,8" Click="SketchRail_Click"
+                                Margin="0,0,0,10" Click="SketchRail_Click"
                                 ToolTip="{DynamicResource Str_TT_SketchRail}"/>
                         <!-- Sidebar row density (Density.cs / Ctrl+D): click cycles Comfortable ->
                              Compact -> Minimal, mouse wheel steps through them. E8A1 = the list glyph. -->
                         <Button x:Name="DensityBtn" Style="{StaticResource RailButton}" Content="&#xE8A1;"
-                                Margin="0,0,0,8" Click="Density_Click" PreviewMouseWheel="Density_MouseWheel"
+                                Margin="0,0,0,10" Click="Density_Click" PreviewMouseWheel="Density_MouseWheel"
                                 ToolTip="{DynamicResource Str_TT_Density}"/>
                         <!-- Line-number gutter toggle (LineNumbers.cs / F11). RailButton renders
                              Content AS a glyph (Text=TemplateBinding Content), so this must be
                              Content, not a child element. EA37 = the numbered-list glyph. -->
                         <Button x:Name="LineNumBtn" Style="{StaticResource RailButton}" Content="&#xEA37;"
-                                Margin="0,0,0,8" Click="LineNumbers_Click"
+                                Margin="0,0,0,10" Click="LineNumbers_Click"
                                 ToolTip="{DynamicResource Str_TT_LineNumbers}"/>
                         <Button Style="{StaticResource RailButton}" Content="?"
-                                FontFamily="Consolas" FontSize="18" Margin="0,0,0,8"
+                                FontFamily="Consolas" FontSize="18" Margin="0,0,0,10"
                                 Click="ShortcutHelp_Click" ToolTip="{DynamicResource Str_TT_Shortcuts}"/>
                         <!-- E774 (Globe): language picker, opens the locale menu upward
                              (Localization.cs BuildLanguageMenu fills it on click) -->
                         <Button x:Name="LangButton" Style="{StaticResource RailButton}" Content="&#xE774;"
-                                Margin="0,0,0,8" Click="LangButton_Click"
+                                Margin="0,0,0,10" Click="LangButton_Click"
                                 ToolTip="{DynamicResource Str_TT_Language}">
                             <Button.ContextMenu><ContextMenu/></Button.ContextMenu>
                         </Button>
@@ -1138,6 +1139,21 @@
                             </StackPanel>
                         </Border>
                     </Popup>
+                    <!-- Insert an image from a file (Editor.cs); paste and drag-and-drop are the other two ways in.
+                         Icon = the SketchPad's own add-image picture (framed photo + mountain + sun), drawn as shapes
+                         (the plain E91B glyph read as a bare rectangle) and theme-reactive via TextBrush. -->
+                    <Button Style="{StaticResource FmtButton}" ToolTip="{DynamicResource Str_TT_InsertImage}"
+                            Click="InsertImageBtn_Click">
+                        <!-- Viewbox scales the 16px drawing down to the 14px glyph size so it sits level with the font icons. -->
+                        <Viewbox Width="14" Height="14">
+                            <Canvas Width="16" Height="16">
+                                <Rectangle Width="16" Height="13" RadiusX="1.5" RadiusY="1.5" StrokeThickness="1.4"
+                                           Stroke="{DynamicResource TextBrush}" Canvas.Left="0" Canvas.Top="1.5"/>
+                                <Polygon Points="1,13 6,7.5 9.5,11 11.5,9 15,13" Fill="{DynamicResource TextBrush}"/>
+                                <Ellipse Width="3" Height="3" Fill="{DynamicResource TextBrush}" Canvas.Left="3" Canvas.Top="4"/>
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
                     <!-- Appears only when the note text looks like markdown or HTML (Preview.cs) -->
                     <Button x:Name="PreviewBtn" Style="{StaticResource FmtButton}" Content="&#xE890;"
                             ToolTip="{DynamicResource Str_TT_Preview}" Click="TogglePreview_Click" Visibility="Collapsed"/>

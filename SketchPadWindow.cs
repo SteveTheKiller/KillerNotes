@@ -24,7 +24,7 @@ namespace KillerNotes
     // MDL2 private-use characters live in the source; the shape/bucket icons are drawn as WPF shapes.
     internal sealed class SketchPadWindow : Window
     {
-        private enum Tool { Select, Pen, Line, Arrow, Rect, Ellipse, Polygon, Bucket, Eraser }
+        private enum Tool { Select, Pen, Line, Arrow, Rect, Ellipse, Polygon, Bucket, Text, Eraser }
 
         private readonly Canvas _canvas;
         private readonly Action<IReadOnlyList<SketchObject>, int, int> _print;
@@ -44,6 +44,9 @@ namespace KillerNotes
         private Point _start;
         private List<double> _gesturePts = [];
         private UIElement? _previewEl;
+
+        // Eraser cursor ring: shows the erase radius under the pointer while the eraser is active.
+        private Ellipse? _eraseCursor;
 
         // Polygon-in-progress state (multi-click; not part of _objects until committed).
         private readonly List<Point> _polyPts = [];
@@ -75,6 +78,12 @@ namespace KillerNotes
         // "Arc line" live mode: after the menu pick, mouse movement bends the line until a click sets it.
         private SketchObject? _arcTarget;
 
+        // Text tool: an inline TextBox overlays the canvas while a label is typed. _textEditTarget is
+        // the existing object being re-edited (null when placing a new label); _textAt is its origin.
+        private TextBox? _textBox;
+        private SketchObject? _textEditTarget;
+        private Point _textAt;
+
         // UI refs.
         private Border _outerBorder = null!;
         private Border _closeBtn = null!;
@@ -88,7 +97,7 @@ namespace KillerNotes
 
         private static readonly int[] Widths = [2, 4, 6, 10, 16];
         private static readonly int[] Alphas = [51, 102, 153, 204, 255];   // 20 / 40 / 60 / 80 / 100 %
-        private static readonly Color DefaultPen = (Color)ColorConverter.ConvertFromString("#50AEE8");
+        private static readonly Color DefaultPen = (Color)ColorConverter.ConvertFromString("#E3DAC9");   // bone - warm off-white, reads well on the dark canvas
         private const double EraseRadius = 11;
 
         private static SolidColorBrush R(string key) => (SolidColorBrush)Application.Current.Resources[key];
@@ -120,12 +129,14 @@ namespace KillerNotes
 
             // No fixed size: the canvas stretches to fill the frame, so resizing the window enlarges the
             // actual drawing area (1:1 pixels) rather than scaling a fixed canvas. _canvasW/H track it.
-            _canvas = new Canvas { Background = R("PaneBrush") };
+            _canvas = new Canvas();
+            _canvas.SetResourceReference(Panel.BackgroundProperty, "PaneBrush");   // DynamicResource so it follows a live theme change
             _canvas.MouseLeftButtonDown += CanvasDown;
             _canvas.MouseMove += CanvasMove;
             _canvas.MouseLeftButtonUp += CanvasUp;
             _canvas.MouseRightButtonDown += OnCanvasRightDown;   // context menu (object vs empty canvas)
             _canvas.MouseWheel += OnWheel;                       // scroll over a placed image = its opacity
+            _canvas.MouseLeave += (_, _) => HideEraseCursor();   // drop the eraser ring when the pointer leaves the canvas
             _canvas.SizeChanged += (_, _) =>
             {
                 _canvasW = Math.Max(1, (int)_canvas.ActualWidth);
@@ -144,6 +155,7 @@ namespace KillerNotes
             StateChanged += (_, _) => UpdateWindowCorners();
             KeyDown += (_, e) =>
             {
+                if (_textBox != null) return;   // the inline text editor owns the keyboard while a label is open
                 bool ctrl = (Keyboard.Modifiers & ModifierKeys.Control) != 0;
                 bool shift = (Keyboard.Modifiers & ModifierKeys.Shift) != 0;
                 if (e.Key == Key.Escape) { if (_arcTarget != null) { _arcTarget = null; _canvas.ReleaseMouseCapture(); RenderCanvas(); e.Handled = true; } else if (PolyActive) { CancelPoly(); e.Handled = true; } else Close(); }
@@ -153,20 +165,80 @@ namespace KillerNotes
                 else if (ctrl && e.Key == Key.V) { PasteImage(); e.Handled = true; }
                 else if (ctrl && e.Key == Key.Z && !shift) { Undo(); e.Handled = true; }
                 else if (ctrl && (e.Key == Key.Y || (e.Key == Key.Z && shift))) { Redo(); e.Handled = true; }
+                else if (ctrl && e.Key == Key.Enter) { _print(_objects, _canvasW, _canvasH); e.Handled = true; }   // Print to note
+                else if (!ctrl)
+                {
+                    // Single-key tool switches (Steve prefers bare letters). Safe: the pad has no text
+                    // field except the inline label editor, which is guarded above (returns early).
+                    switch (e.Key)
+                    {
+                        case Key.V: SetTool(Tool.Select); e.Handled = true; break;
+                        case Key.P: SetTool(Tool.Pen); e.Handled = true; break;
+                        case Key.L: SetTool(Tool.Line); e.Handled = true; break;
+                        case Key.A: SetTool(Tool.Arrow); e.Handled = true; break;
+                        case Key.R: SetTool(Tool.Rect); e.Handled = true; break;
+                        case Key.O: SetTool(Tool.Ellipse); e.Handled = true; break;
+                        case Key.G: SetTool(Tool.Polygon); e.Handled = true; break;
+                        case Key.B: SetTool(Tool.Bucket); e.Handled = true; break;
+                        case Key.T: SetTool(Tool.Text); e.Handled = true; break;
+                        case Key.E: SetTool(Tool.Eraser); e.Handled = true; break;
+                        case Key.I: AddImageFromFile(); e.Handled = true; break;
+                    }
+                }
             };
         }
 
         /// <summary>Load an existing sketch's objects into the pad (double-click a printed sketch).
-        /// Cloned so the pad's edits don't touch the caller's list, and history is reset.</summary>
-        public void LoadObjects(IReadOnlyList<SketchObject> objs)
+        /// Cloned so the pad's edits don't touch the caller's list, and history is reset. When the
+        /// drawn canvas size is known (the placed bitmap's pixel size), the window grows or shrinks
+        /// so the sketch reopens at the size it was made.</summary>
+        public void LoadObjects(IReadOnlyList<SketchObject> objs, int canvasW = 0, int canvasH = 0)
         {
             _objects.Clear();
             _objects.AddRange(SketchModel.CloneList(objs));
             _undo.Clear();
             _redo.Clear();
             _sel = null;
+            if (canvasW > 0 && canvasH > 0) ResizeCanvasTo(canvasW, canvasH);
             RenderCanvas();
             UpdateUndoButtons();
+        }
+
+        /// <summary>Open a plain (non-sketch) image in the pad as a full-canvas drawable layer, so it
+        /// can be annotated and Printed back over the original. The canvas is sized to the image so
+        /// Print round-trips at the same pixel size. History is reset, like LoadObjects.</summary>
+        public void LoadImageAsBackdrop(BitmapSource src)
+        {
+            _objects.Clear();
+            _undo.Clear();
+            _redo.Clear();
+            _sel = null;
+            string? b64 = ToPngB64(src);
+            if (b64 != null)
+            {
+                int w = Math.Max(1, src.PixelWidth), h = Math.Max(1, src.PixelHeight);
+                _objects.Add(new SketchObject { Kind = SketchKind.Image, Img = b64, X = 0, Y = 0, W = w, H = h });
+                ResizeCanvasTo(w, h);
+            }
+            RenderCanvas();
+            UpdateUndoButtons();
+        }
+
+        // Grow / shrink the window so its drawing canvas lands at (targetW, targetH), restoring a
+        // reopened sketch to the size it was drawn. Deferred until layout has run so the canvas and
+        // chrome sizes are current; clamped to the screen work area and the window minimums.
+        private void ResizeCanvasTo(int targetW, int targetH)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (WindowState == WindowState.Maximized) return;   // don't fight a maximized window
+                double cw = _canvas.ActualWidth, ch = _canvas.ActualHeight;
+                if (cw < 1 || ch < 1) return;
+                double chromeW = ActualWidth - cw, chromeH = ActualHeight - ch;   // borders, toolbar, buttons, shadow halo
+                var area = SystemParameters.WorkArea;
+                Width = Math.Max(MinWidth, Math.Min(area.Width, targetW + chromeW));
+                Height = Math.Max(MinHeight, Math.Min(area.Height, targetH + chromeH));
+            }), System.Windows.Threading.DispatcherPriority.Loaded);
         }
 
         private static DropShadowEffect CardShadow()
@@ -191,9 +263,11 @@ namespace KillerNotes
 
         private void CanvasDown(object sender, MouseButtonEventArgs e)
         {
+            if (_textBox != null) { CommitTextEntry(); e.Handled = true; return; }   // a click off the editor sets the label
             if (_arcTarget != null) { _arcTarget = null; _canvas.ReleaseMouseCapture(); RenderCanvas(); e.Handled = true; return; }   // click solidifies the arc
             _wheelObj = null;   // a click ends the current opacity-scroll run (next scroll = fresh undo)
             var p = Clamp(e.GetPosition(_canvas));
+            if (_tool == Tool.Text) { BeginTextEntry(p, null); e.Handled = true; return; }   // place a new label
             if (_tool == Tool.Bucket) { BucketFill(p); e.Handled = true; return; }   // single click, no drag
             if (_tool == Tool.Polygon)
             {
@@ -202,7 +276,11 @@ namespace KillerNotes
                 e.Handled = true;
                 return;
             }
-            if (_tool == Tool.Select) { SelectDown(p); e.Handled = true; return; }
+            if (_tool == Tool.Select)
+            {
+                if (e.ClickCount == 2 && HitPick(p) is { Kind: SketchKind.Text } tx) { BeginTextEntry(new Point(tx.X, tx.Y), tx); e.Handled = true; return; }   // double-click a label to re-edit it
+                SelectDown(p); e.Handled = true; return;
+            }
 
             _dragging = true;
             _start = p;
@@ -228,13 +306,14 @@ namespace KillerNotes
         private void CanvasMove(object sender, MouseEventArgs e)
         {
             var p = Clamp(e.GetPosition(_canvas));
+            if (_tool == Tool.Eraser) ShowEraseCursor(p);   // ring tracks the pointer so the erase area is visible
             if (_arcTarget != null) { _sel = _arcTarget; CurveMove(p); return; }   // live bend follows the mouse
             if (_resizing) { ResizeMove(p); return; }
             if (_curving) { CurveMove(p); return; }
             if (_tool == Tool.Polygon) { if (PolyActive) PolyRubber(p); return; }
             if (!_dragging) return;
             if (_tool == Tool.Select) { SelectMove(p); return; }
-            if (_tool == Tool.Eraser) { EraseStep(p); return; }
+            if (_tool == Tool.Eraser) { EraseStep(p); ShowEraseCursor(p); return; }
             if (_tool == Tool.Pen) { _gesturePts.Add(p.X); _gesturePts.Add(p.Y); }
             UpdatePreview(p);
         }
@@ -482,6 +561,7 @@ namespace KillerNotes
 
         private void OnWheel(object sender, MouseWheelEventArgs e)
         {
+            if (_textBox != null) return;   // ignore the wheel while a label is being typed
             var img = ImageUnder(Clamp(e.GetPosition(_canvas)));
             if (img == null) return;   // not over a placed image - leave the wheel alone
             if (!ReferenceEquals(_wheelObj, img)) { PushUndo(); _wheelObj = img; }
@@ -506,6 +586,7 @@ namespace KillerNotes
         // duplicate, plus opacity reset for images) or empty canvas (add / paste image, clear).
         private void OnCanvasRightDown(object sender, MouseButtonEventArgs e)
         {
+            if (_textBox != null) { CommitTextEntry(); e.Handled = true; return; }   // a right-click also sets an open label
             var hit = HitPick(Clamp(e.GetPosition(_canvas)));
             if (hit != null && _tool == Tool.Select) { _sel = hit; RenderCanvas(); }
 
@@ -526,6 +607,12 @@ namespace KillerNotes
                 {
                     menu.Items.Add(Sep());
                     menu.Items.Add(Mi(L("Str_Sketch_ResetOpacity", "Reset opacity"), 0, () => { PushUndo(); hit.Opacity = 1; _wheelObj = null; RenderCanvas(); }));
+                }
+                if (hit.Kind == SketchKind.Text)
+                {
+                    menu.Items.Add(Sep());
+                    menu.Items.Add(Mi(L("Str_Sketch_EditText", "Edit text"), 0xE70F, () => BeginTextEntry(new Point(hit.X, hit.Y), hit)));
+                    menu.Items.Add(Mi(hit.Bold ? L("Str_Sketch_Unbold", "Remove bold") : L("Str_Sketch_Bold", "Bold"), 0, () => { PushUndo(); hit.Bold = !hit.Bold; RenderCanvas(); }));
                 }
             }
             else
@@ -661,6 +748,35 @@ namespace KillerNotes
             _objects.Clear();
             _objects.AddRange(res);
             RenderCanvas();
+        }
+
+        // Eraser ring: a thin outline the size of the erase area, drawn under the pointer so the edges
+        // of what the eraser will remove are visible. Hit-test-invisible so it never blocks a drag.
+        private Ellipse MakeEraseCursor()
+        {
+            var ring = new Ellipse
+            {
+                Width = EraseRadius * 2,
+                Height = EraseRadius * 2,
+                StrokeThickness = 1,
+                Fill = null,
+                IsHitTestVisible = false,
+            };
+            ring.SetResourceReference(Shape.StrokeProperty, "TextBrush");   // follows the live theme
+            return ring;
+        }
+
+        private void ShowEraseCursor(Point p)
+        {
+            _eraseCursor ??= MakeEraseCursor();
+            if (!_canvas.Children.Contains(_eraseCursor)) _canvas.Children.Add(_eraseCursor);
+            Canvas.SetLeft(_eraseCursor, p.X - EraseRadius);
+            Canvas.SetTop(_eraseCursor, p.Y - EraseRadius);
+        }
+
+        private void HideEraseCursor()
+        {
+            if (_eraseCursor != null && _canvas.Children.Contains(_eraseCursor)) _canvas.Children.Remove(_eraseCursor);
         }
 
         // Paint bucket: a raster flood fill from the click point (MS Paint style). Rasterize the current
@@ -811,7 +927,11 @@ namespace KillerNotes
         private void RenderCanvas()
         {
             _canvas.Children.Clear();
-            foreach (var o in _objects) _canvas.Children.Add(SketchModel.BuildElement(o));
+            foreach (var o in _objects)
+            {
+                if (ReferenceEquals(o, _textEditTarget)) continue;   // its inline editor is open; don't draw the original underneath
+                _canvas.Children.Add(SketchModel.BuildElement(o));
+            }
             if (_sel != null && _objects.Contains(_sel))
             {
                 var b = SketchModel.BoundsOf(_sel);
@@ -837,12 +957,16 @@ namespace KillerNotes
                     }
                 }
             }
+            // Keep the eraser ring on top after a re-render while the pointer is over the canvas.
+            if (_tool == Tool.Eraser && _eraseCursor != null && _canvas.IsMouseOver && !_canvas.Children.Contains(_eraseCursor))
+                _canvas.Children.Add(_eraseCursor);
             _previewEl = null;   // cleared with the children; gesture handlers re-add if needed
         }
 
         private void AddHandle(double x, double y, int index, Cursor cursor)
         {
-            var h = new Rectangle { Width = 10, Height = 10, Fill = R("PrimaryBrush"), Stroke = Brushes.White, StrokeThickness = 1, Cursor = cursor };
+            var h = new Rectangle { Width = 10, Height = 10, Stroke = Brushes.White, StrokeThickness = 1, Cursor = cursor };
+            h.SetResourceReference(Shape.FillProperty, "PrimaryBrush");
             Canvas.SetLeft(h, x - 5); Canvas.SetTop(h, y - 5);
             h.MouseLeftButtonDown += (_, e) => { ResizeStart(index); e.Handled = true; };
             _canvas.Children.Add(h);
@@ -853,7 +977,8 @@ namespace KillerNotes
             double hx, hy;
             if (o.Pts.Count >= 6) { hx = o.Pts[2]; hy = o.Pts[3]; }
             else { hx = (o.Pts[0] + o.Pts[^2]) / 2; hy = (o.Pts[1] + o.Pts[^1]) / 2; }
-            var h = new Ellipse { Width = 12, Height = 12, Fill = R("PrimaryBrush"), Stroke = Brushes.White, StrokeThickness = 1, Cursor = Cursors.Hand };
+            var h = new Ellipse { Width = 12, Height = 12, Stroke = Brushes.White, StrokeThickness = 1, Cursor = Cursors.Hand };
+            h.SetResourceReference(Shape.FillProperty, "PrimaryBrush");
             Canvas.SetLeft(h, hx - 6); Canvas.SetTop(h, hy - 6);
             h.MouseLeftButtonDown += (_, e) => { CurveStart(Clamp(e.GetPosition(_canvas))); e.Handled = true; };
             _canvas.Children.Add(h);
@@ -912,6 +1037,97 @@ namespace KillerNotes
         private string? FillHex()
             => _fill ? SketchModel.HexOf(Color.FromArgb(_fillAlpha, _penColor.R, _penColor.G, _penColor.B)) : null;
 
+        // ---- Text tool ----
+
+        // Open an inline TextBox over the canvas: a new label at `at`, or `existing` re-edited in
+        // place (its original is hidden by RenderCanvas until the edit commits). Enter or a click
+        // elsewhere commits; Esc cancels; an empty commit places nothing (or deletes the object).
+        private void BeginTextEntry(Point at, SketchObject? existing)
+        {
+            if (_textBox != null) CommitTextEntry();
+            _textAt = at;
+            _textEditTarget = existing;
+            if (existing != null) { _sel = null; RenderCanvas(); }   // hide the original while its editor is open
+
+            var color = existing != null ? ColorOf(existing.Color) : _penColor;
+            var tb = new TextBox
+            {
+                Text = existing?.Text ?? "",
+                FontSize = existing?.FontSize ?? 24,
+                FontWeight = (existing?.Bold ?? false) ? FontWeights.Bold : FontWeights.Normal,
+                Foreground = new SolidColorBrush(color),
+                CaretBrush = new SolidColorBrush(color),
+                Background = R("PaneBrush"),               // matches the canvas, so only the accent border reads
+                BorderBrush = R("PrimaryBrush"),
+                BorderThickness = new Thickness(1),
+                Padding = new Thickness(0),
+                AcceptsReturn = true,                      // Shift+Enter adds a line; Enter commits
+                MinWidth = 24,
+            };
+            tb.PreviewKeyDown += (_, ke) =>
+            {
+                if (ke.Key == Key.Enter && (Keyboard.Modifiers & ModifierKeys.Shift) == 0) { CommitTextEntry(); ke.Handled = true; }
+                else if (ke.Key == Key.Escape) { CancelTextEntry(); ke.Handled = true; }
+            };
+            tb.LostKeyboardFocus += (_, _) => CommitTextEntry();
+
+            _textBox = tb;
+            Canvas.SetLeft(tb, at.X); Canvas.SetTop(tb, at.Y);
+            _canvas.Children.Add(tb);
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                tb.Focus();
+                if (existing != null) tb.SelectAll(); else tb.CaretIndex = tb.Text.Length;
+            }), System.Windows.Threading.DispatcherPriority.Input);
+        }
+
+        // Bank the typed label: update the edited object, drop it if emptied, or add a new one.
+        private void CommitTextEntry()
+        {
+            if (_textBox == null) return;
+            var tb = _textBox;
+            _textBox = null;
+            _canvas.Children.Remove(tb);
+            string text = tb.Text.Replace("\r\n", "\n").Trim();
+            var target = _textEditTarget;
+            _textEditTarget = null;
+
+            SketchObject? result = null;
+            if (target != null)
+            {
+                if (text.Length == 0) { PushUndo(); _objects.Remove(target); }
+                else if (text != target.Text) { PushUndo(); target.Text = text; result = target; }
+                else result = target;
+            }
+            else if (text.Length > 0)
+            {
+                PushUndo();
+                result = new SketchObject { Kind = SketchKind.Text, Text = text, X = _textAt.X, Y = _textAt.Y, Color = SketchModel.HexOf(_penColor) };
+                _objects.Add(result);
+            }
+
+            _sel = result;
+            if (result != null) SetTool(Tool.Select);   // land in Select so the new label can be nudged / resized
+            RenderCanvas();
+        }
+
+        // Abandon the edit; the original (if any) comes back untouched.
+        private void CancelTextEntry()
+        {
+            if (_textBox == null) return;
+            var tb = _textBox;
+            _textBox = null;
+            _textEditTarget = null;
+            _canvas.Children.Remove(tb);
+            RenderCanvas();
+        }
+
+        private static Color ColorOf(string hex)
+        {
+            try { return (Color)ColorConverter.ConvertFromString(hex); }
+            catch { return DefaultPen; }
+        }
+
         // ---- Undo / redo ----
 
         private void PushUndo()
@@ -968,7 +1184,8 @@ namespace KillerNotes
                 if (kv.Key == t) kv.Value.SetResourceReference(Control.BackgroundProperty, "RowSelectedBrush");
                 else kv.Value.ClearValue(Control.BackgroundProperty);
             }
-            _canvas.Cursor = t == Tool.Pen ? Cursors.Pen : t is Tool.Select or Tool.Eraser ? Cursors.Arrow : Cursors.Cross;
+            _canvas.Cursor = t == Tool.Pen ? Cursors.Pen : t == Tool.Text ? Cursors.IBeam : t == Tool.Select ? Cursors.Arrow : Cursors.Cross;
+            if (t != Tool.Eraser) HideEraseCursor();
         }
 
         private void PickColor(Color c)
@@ -1003,7 +1220,8 @@ namespace KillerNotes
         private void ToggleFill()
         {
             _fill = !_fill;
-            _fillSquare.Background = _fill ? R("PrimaryBrush") : Brushes.Transparent;
+            if (_fill) _fillSquare.SetResourceReference(Border.BackgroundProperty, "PrimaryBrush");
+            else { _fillSquare.ClearValue(Border.BackgroundProperty); _fillSquare.Background = Brushes.Transparent; }
         }
 
         // ---- Layout ----
@@ -1015,13 +1233,13 @@ namespace KillerNotes
             // when maximized (UpdateWindowCorners).
             _outerBorder = new Border
             {
-                BorderBrush = R("CardBorderBrush"),
                 BorderThickness = new Thickness(1),
-                Background = R("BackgroundBrush"),
                 CornerRadius = new CornerRadius(7),
                 Margin = new Thickness(20),
                 Effect = CardShadow(),
             };
+            _outerBorder.SetResourceReference(Border.BorderBrushProperty, "CardBorderBrush");
+            _outerBorder.SetResourceReference(Border.BackgroundProperty, "BackgroundBrush");
             var root = new Grid();
             // Film grain over the window background, same treatment as the rest of the app.
             if (Application.Current.TryFindResource("GrainTileBrush") is Brush grain)
@@ -1044,7 +1262,7 @@ namespace KillerNotes
             _closeBtn.VerticalAlignment = VerticalAlignment.Top;
             root.Children.Add(_closeBtn);
 
-            // Resize-grip dots in the bottom-right corner (visual cue; the wide resize border does the work).
+            // Resize-grip dots in the bottom-right corner - press them to start a corner resize.
             root.Children.Add(BuildResizeGrip());
 
             _outerBorder.Child = root;
@@ -1074,9 +1292,9 @@ namespace KillerNotes
             var shadow = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(1, 2, 0, 0) };
             if (Application.Current.TryFindResource("IconShadowOpacity") is double sop) shadow.Opacity = sop;
             shadow.Effect = new BlurEffect { Radius = 3 };
-            shadow.Children.Add(WordmarkText(wf, shadowInk, shadowInk, shadowInk));
+            shadow.Children.Add(WordmarkText(wf, "", "", "", shadowInk));
             mark.Children.Add(shadow);
-            mark.Children.Add(WordmarkText(wf, R("TextBrush"), R("PrimaryBrush"), R("MutedTextBrush")));
+            mark.Children.Add(WordmarkText(wf, "TextBrush", "PrimaryBrush", "MutedTextBrush"));
             Grid.SetColumn(mark, 0);
             titleBar.Children.Add(mark);
 
@@ -1092,48 +1310,67 @@ namespace KillerNotes
 
         private void BuildToolBar(Grid grid)
         {
-            // Row 1: drawing tools + shape settings + undo/redo. Row 2: the color palette. Two deliberate
-            // rows (not an accidental wrap) so nothing spills and each group reads as its own band.
-            var toolsRow = new WrapPanel();
-            // Draw tools + brush size.
-            toolsRow.Children.Add(ToolButton(IconSelect(), L("Str_Sketch_Select", "Select / move - click an object, drag to move it, Delete removes it"), Tool.Select));
-            toolsRow.Children.Add(ToolButton(Glyph(0xE70F), L("Str_Sketch_Pen", "Pen (freehand)"), Tool.Pen));
-            toolsRow.Children.Add(ToolButton(IconLine(), L("Str_Sketch_Line", "Line (straight)"), Tool.Line));
-            toolsRow.Children.Add(ToolButton(IconArrow(), L("Str_Sketch_Arrow", "Arrow (line with an arrowhead)"), Tool.Arrow));
-            toolsRow.Children.Add(WidthButton());
-            toolsRow.Children.Add(Separator());
-            // Shapes + their fill settings.
-            toolsRow.Children.Add(ToolButton(IconRect(), L("Str_Sketch_Rect", "Rectangle"), Tool.Rect));
-            toolsRow.Children.Add(ToolButton(IconEllipse(), L("Str_Sketch_Ellipse", "Ellipse"), Tool.Ellipse));
-            toolsRow.Children.Add(ToolButton(IconPolygon(), L("Str_Sketch_Polygon", "Polygon - click each corner; click the first point or double-click to close (Backspace undoes a point, Esc cancels)"), Tool.Polygon));
-            toolsRow.Children.Add(OpacityButton());
-            toolsRow.Children.Add(FillButton());
-            toolsRow.Children.Add(Separator());
-            // Fill + image tools.
-            toolsRow.Children.Add(ToolButton(IconBucket(), L("Str_Sketch_Bucket", "Paint bucket - click inside a closed area to flood-fill it"), Tool.Bucket));
-            toolsRow.Children.Add(ActionButton(IconImage(), L("Str_Sketch_AddImage", "Add an image (drag one onto the pad, or Ctrl+V to paste)"), AddImageFromFile));
-            toolsRow.Children.Add(Separator());
-            // Undo / redo.
+            // Top strip (row 1): the color palette on the left, undo / redo / clear on the right. The
+            // drawing tools live in the left rail (BuildToolRail), MS-Paint style.
+            var top = new Grid { Margin = new Thickness(0, 0, 0, 8) };
+            top.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });   // palette
+            top.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });                        // actions
+
+            var palette = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
+            _swatchRow = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
+            palette.Children.Add(_swatchRow);
+            palette.Children.Add(ActionButton(Glyph(0xE790), L("Str_Sketch_MoreColors", "Custom color..."), OpenColorPicker));
+            Grid.SetColumn(palette, 0);
+            top.Children.Add(palette);
+
+            var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right };
             _undoBtn = ActionButton(Glyph(0xE7A7), L("Str_Sketch_Undo", "Undo (Ctrl+Z)"), Undo);
             _redoBtn = ActionButton(Glyph(0xE7A6), L("Str_Sketch_Redo", "Redo (Ctrl+Y)"), Redo);
-            toolsRow.Children.Add(_undoBtn);
-            toolsRow.Children.Add(_redoBtn);
-            toolsRow.Children.Add(Separator());
-            // Eraser + clear (far right).
-            toolsRow.Children.Add(ToolButton(Glyph(0xE75C), L("Str_Sketch_Eraser", "Eraser - brush over ink, or touch a shape to remove it"), Tool.Eraser));
-            toolsRow.Children.Add(ActionButton(Glyph(0xE894), L("Str_Sketch_Clear", "Clear all"), ClearAll));
+            actions.Children.Add(_undoBtn);
+            actions.Children.Add(_redoBtn);
+            actions.Children.Add(Separator());
+            actions.Children.Add(ActionButton(Glyph(0xE894), L("Str_Sketch_Clear", "Clear all"), ClearAll));
+            Grid.SetColumn(actions, 1);
+            top.Children.Add(actions);
 
-            var paletteRow = new WrapPanel { Margin = new Thickness(0, 4, 0, 0) };
-            _swatchRow = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
-            paletteRow.Children.Add(_swatchRow);
-            paletteRow.Children.Add(ActionButton(Glyph(0xE790), L("Str_Sketch_MoreColors", "Custom color..."), OpenColorPicker));
-
-            var stack = new StackPanel { Margin = new Thickness(0, 0, 0, 2) };
-            stack.Children.Add(toolsRow);
-            stack.Children.Add(paletteRow);
             RebuildSwatches();
-            Grid.SetRow(stack, 1);
-            grid.Children.Add(stack);
+            Grid.SetRow(top, 1);
+            grid.Children.Add(top);
+        }
+
+        // MS-Paint-style vertical tool rail (left of the canvas). Grouped draw / brush / shapes /
+        // content, with thin rules between; the eraser sits directly under the brush-size button.
+        private UIElement BuildToolRail()
+        {
+            var rail = new StackPanel { Orientation = Orientation.Vertical, VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 0, 8, 0) };
+            void Add(FrameworkElement b) { b.Width = 42; rail.Children.Add(b); }   // uniform rail width (matches the opacity button)
+
+            Add(ToolButton(IconSelect(), L("Str_Sketch_Select", "Select / move (V) - click an object, drag to move it, Delete removes it"), Tool.Select));
+            Add(ToolButton(Glyph(0xE70F), L("Str_Sketch_Pen", "Pen - freehand (P)"), Tool.Pen));
+            Add(ToolButton(IconLine(), L("Str_Sketch_Line", "Line - straight (L)"), Tool.Line));
+            Add(ToolButton(IconArrow(), L("Str_Sketch_Arrow", "Arrow - line with an arrowhead (A)"), Tool.Arrow));
+            rail.Children.Add(RailSeparator());
+            Add(WidthButton());
+            Add(ToolButton(Glyph(0xE75C), L("Str_Sketch_Eraser", "Eraser (E) - brush over ink, or touch a shape to remove it"), Tool.Eraser));
+            rail.Children.Add(RailSeparator());
+            Add(ToolButton(IconRect(), L("Str_Sketch_Rect", "Rectangle (R)"), Tool.Rect));
+            Add(ToolButton(IconEllipse(), L("Str_Sketch_Ellipse", "Ellipse (O)"), Tool.Ellipse));
+            Add(ToolButton(IconPolygon(), L("Str_Sketch_Polygon", "Polygon (G) - click each corner; click the first point or double-click to close (Backspace undoes a point, Esc cancels)"), Tool.Polygon));
+            Add(OpacityButton());
+            Add(FillButton());
+            rail.Children.Add(RailSeparator());
+            Add(ToolButton(IconBucket(), L("Str_Sketch_Bucket", "Paint bucket (B) - click inside a closed area to flood-fill it"), Tool.Bucket));
+            Add(ToolButton(IconText(), L("Str_Sketch_Text", "Text (T) - click to place a label, type, Enter to set it (Shift+Enter for a new line)"), Tool.Text));
+            Add(ActionButton(IconImage(), L("Str_Sketch_AddImage", "Add an image (I) - drag one onto the pad, or Ctrl+V to paste"), AddImageFromFile));
+            return rail;
+        }
+
+        // Horizontal 1px rule between rail groups, centered under the 42px buttons.
+        private static Border RailSeparator()
+        {
+            var b = new Border { Width = 22, Height = 1, Margin = new Thickness(10, 4, 0, 5), HorizontalAlignment = HorizontalAlignment.Left };
+            b.SetResourceReference(Border.BackgroundProperty, "CardBorderBrush");
+            return b;
         }
 
         private void BuildCanvas(Grid grid)
@@ -1142,6 +1379,15 @@ namespace KillerNotes
             // fill) like the rest of the app. Grain sits at SCREEN resolution ON TOP of the Viewbox
             // (never inside it) and spans the whole frame, so the Uniform letterbox is textured to
             // match. It only dresses the live surface; flattened objects (SketchModel) carry no grain.
+            // Row 2 = the tool rail (left) + the drawing surface (fills the rest).
+            var row = new Grid();
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });                        // tool rail
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });   // canvas
+
+            var rail = BuildToolRail();
+            Grid.SetColumn(rail, 0);
+            row.Children.Add(rail);
+
             var canvasStack = new Grid();
             canvasStack.Children.Add(_canvas);   // fills the frame 1:1 and grows with the window
             if (Application.Current.TryFindResource("GrainTileBrush") is Brush canvasGrain)
@@ -1151,36 +1397,62 @@ namespace KillerNotes
             }
             var frame = new Border
             {
-                Background = R("PaneBrush"),
-                BorderBrush = R("CardBorderBrush"), BorderThickness = new Thickness(1),
+                BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(4), ClipToBounds = true,
                 Child = canvasStack,
             };
-            Grid.SetRow(frame, 2);
-            grid.Children.Add(frame);
+            frame.SetResourceReference(Border.BackgroundProperty, "PaneBrush");
+            frame.SetResourceReference(Border.BorderBrushProperty, "CardBorderBrush");
+            Grid.SetColumn(frame, 1);
+            row.Children.Add(frame);
+
+            Grid.SetRow(row, 2);
+            grid.Children.Add(row);
         }
 
         private void BuildButtons(Grid grid)
         {
-            // One action: Print to note (stamps the drawing inline at the caret, keeps the pad open).
-            // The title-bar X closes the pad. Reuses the Killculator's "Print to note" label.
-            var btnRow = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 12, 0, 0) };
+            // Bottom action row, centered: Copy to clipboard (the same flattened image Print makes),
+            // then Print to note (stamps the drawing inline at the caret, keeps the pad open; Ctrl+Enter).
+            // The title-bar X closes the pad.
+            var actions = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 12, 0, 0) };
+
+            var copy = new Button { Content = L("Str_Sketch_CopyImage", "Copy to clipboard"), MinWidth = 110, Height = 30, Margin = new Thickness(0, 0, 8, 0), Style = Application.Current.TryFindResource("OutlineButton") as Style };
+            Tip(copy, L("Str_Sketch_CopyImageTip", "Copy the drawing to the clipboard as an image"));
+            copy.Click += (_, _) => CopyToClipboard();
+            actions.Children.Add(copy);
+
             var print = new Button { Content = L("Str_Btn_CalcPrint", "Print to note"), MinWidth = 110, Height = 30, IsDefault = true, Style = Application.Current.TryFindResource("OutlineButton") as Style };
+            Tip(print, L("Str_Sketch_Print", "Print to note (Ctrl+Enter)"));
             print.Click += (_, _) => _print(_objects, _canvasW, _canvasH);
-            btnRow.Children.Add(print);
-            Grid.SetRow(btnRow, 3);
-            grid.Children.Add(btnRow);
+            actions.Children.Add(print);
+
+            Grid.SetRow(actions, 3);
+            grid.Children.Add(actions);
         }
 
-        // Classic diagonal grip dots in the bottom-right corner. Purely a visual cue - it doesn't take
-        // hits, so the window's wide resize border underneath handles the actual drag.
-        private static UIElement BuildResizeGrip()
+        // Copy the current drawing to the Windows clipboard as an image (the same flattened bitmap
+        // Print produces). No-op on an empty canvas.
+        private void CopyToClipboard()
+        {
+            if (_objects.Count == 0) return;
+            try
+            {
+                Clipboard.SetImage(SketchModel.RenderObjects(_objects, _canvasW, _canvasH));
+            }
+            catch { /* clipboard busy - nothing to do */ }
+        }
+
+        // Classic diagonal grip dots in the bottom-right corner - a REAL handle: pressing it starts a
+        // bottom-right corner resize through the OS. The window's own resize border lives out in the
+        // transparent shadow halo (easy to miss), so grabbing the visible dots is the reliable way.
+        private UIElement BuildResizeGrip()
         {
             var c = new Canvas
             {
-                Width = 14, Height = 14, IsHitTestVisible = false,
+                Width = 18, Height = 18, Background = Brushes.Transparent, Cursor = Cursors.SizeNWSE,
                 HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom,
-                Margin = new Thickness(0, 0, 4, 4),
+                Margin = new Thickness(0, 0, 3, 3),
             };
             void Dot(double x, double y)
             {
@@ -1189,15 +1461,33 @@ namespace KillerNotes
                 Canvas.SetLeft(d, x); Canvas.SetTop(d, y);
                 c.Children.Add(d);
             }
-            Dot(11, 2);
-            Dot(6.5, 6.5); Dot(11, 6.5);
-            Dot(2, 11); Dot(6.5, 11); Dot(11, 11);
+            Dot(15, 6);
+            Dot(10.5, 10.5); Dot(15, 10.5);
+            Dot(6, 15); Dot(10.5, 15); Dot(15, 15);
+            c.MouseLeftButtonDown += (_, e) => { StartCornerResize(); e.Handled = true; };
             return c;
         }
+
+        // Kick off an OS-driven bottom-right corner resize (from the grip dots).
+        private void StartCornerResize()
+        {
+            if (WindowState == WindowState.Maximized) return;
+            var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            if (hwnd == IntPtr.Zero) return;
+            ReleaseCapture();
+            SendMessage(hwnd, 0x00A1 /* WM_NCLBUTTONDOWN */, (IntPtr)17 /* HTBOTTOMRIGHT */, IntPtr.Zero);
+        }
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool ReleaseCapture();
 
         private void RebuildSwatches()
         {
             _swatchRow.Children.Clear();
+            _swatchRow.Children.Add(Swatch(DefaultPen));   // bone (the default pen) pinned first, ahead of the user swatches
             foreach (var c in ColorPickerDialog.UserSwatches())
                 _swatchRow.Children.Add(Swatch(c));
         }
@@ -1374,6 +1664,18 @@ namespace KillerNotes
             return IconWrap(c);
         }
 
+        // Text tool marker: a bold "A", the mini-Paint convention for a text tool.
+        private static UIElement IconText()
+        {
+            var t = new TextBlock
+            {
+                Text = "A", FontSize = 16, FontWeight = FontWeights.Bold,
+                HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center,
+            };
+            t.SetResourceReference(TextBlock.ForegroundProperty, "TextBrush");
+            return t;
+        }
+
         private static UIElement IconBucket()
         {
             // A proper paint bucket: wire handle, tapered body, and accent-colored paint in the opening.
@@ -1399,21 +1701,32 @@ namespace KillerNotes
             {
                 Width = 22, Height = 22, CornerRadius = new CornerRadius(3),
                 Background = new SolidColorBrush(c), Margin = new Thickness(0, 0, 6, 0),
-                BorderBrush = R("InputBorderBrush"), BorderThickness = new Thickness(1),
+                BorderThickness = new Thickness(1),
                 Cursor = Cursors.Hand,
             };
+            b.SetResourceReference(Border.BorderBrushProperty, "InputBorderBrush");
             Tip(b, $"#{c.R:X2}{c.G:X2}{c.B:X2}");
             b.MouseLeftButtonUp += (_, _) => PickColor(c);
             return b;
         }
 
-        private static TextBlock WordmarkText(FontFamily? wf, Brush killer, Brush notes, Brush sub)
+        // The three wordmark runs. Pass a flat brush for the drop-shadow copy, or resource keys for the
+        // real one so its colors follow a live theme change (DynamicResource).
+        private static TextBlock WordmarkText(FontFamily? wf, string killerKey, string notesKey, string subKey, Brush? flat = null)
         {
             var tb = new TextBlock { FontSize = 15, VerticalAlignment = VerticalAlignment.Center };
             if (wf != null) tb.FontFamily = wf;
-            tb.Inlines.Add(new Run("Killer") { Foreground = killer });
-            tb.Inlines.Add(new Run("Notes") { FontSize = 19.5, FontWeight = FontWeights.Bold, Foreground = notes });
-            tb.Inlines.Add(new Run("  " + L("Str_Sketch_Title", "SketchPad")) { FontSize = 18, Foreground = sub });
+            var killer = new Run("Killer");
+            var notes = new Run("Notes") { FontSize = 19.5, FontWeight = FontWeights.Bold };
+            var sub = new Run("  " + L("Str_Sketch_Title", "SketchPad")) { FontSize = 18 };
+            if (flat != null) { killer.Foreground = flat; notes.Foreground = flat; sub.Foreground = flat; }
+            else
+            {
+                killer.SetResourceReference(TextElement.ForegroundProperty, killerKey);
+                notes.SetResourceReference(TextElement.ForegroundProperty, notesKey);
+                sub.SetResourceReference(TextElement.ForegroundProperty, subKey);
+            }
+            tb.Inlines.Add(killer); tb.Inlines.Add(notes); tb.Inlines.Add(sub);
             return tb;
         }
 

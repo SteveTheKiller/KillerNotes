@@ -217,6 +217,31 @@ namespace KillerNotes
             MarkDirty();
         }
 
+        // Format-bar image button: pick an image file and drop it in at the caret. Paste (Ctrl+V)
+        // and drag-and-drop are the other two ways an image gets into a note.
+        private void InsertImageBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentId < 0) { StatusText.Text = Loc("Str_St_CalcNoNote"); return; }
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Images|*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.tif;*.tiff",
+                CheckFileExists = true,
+            };
+            if (dlg.ShowDialog(this) != true) return;
+            try
+            {
+                var bmp = new BitmapImage();
+                bmp.BeginInit();
+                bmp.CacheOption = BitmapCacheOption.OnLoad;
+                bmp.UriSource   = new Uri(dlg.FileName);
+                bmp.EndInit();
+                bmp.Freeze();
+                InsertImageAtCaret(bmp);
+                Editor.Focus();
+            }
+            catch { StatusText.Text = Loc("Str_St_OnlyImage"); }
+        }
+
         // ---- Drag and drop ----
         // Claim only what the RichTextBox can't handle natively (file drops, raw bitmaps
         // from apps like browsers); plain dragged text keeps the built-in behavior.
@@ -448,7 +473,19 @@ namespace KillerNotes
         {
             ShowSketchPad();
             _sketchEditTarget = target;
-            _sketchPad!.LoadObjects(objects);
+            int w = 0, h = 0;
+            if (target.Source is System.Windows.Media.Imaging.BitmapSource bs) { w = bs.PixelWidth; h = bs.PixelHeight; }   // the flattened bitmap is the drawn canvas size
+            _sketchPad!.LoadObjects(objects, w, h);
+        }
+
+        // Double-click a plain (non-sketch) image: open it in the pad as a full-canvas drawable
+        // layer to annotate. Print then flattens the result back over THIS same image in place.
+        private void OpenSketchPadForEditImage(Image target)
+        {
+            if (target.Source is not System.Windows.Media.Imaging.BitmapSource bs) return;
+            ShowSketchPad();
+            _sketchEditTarget = target;
+            _sketchPad!.LoadImageAsBackdrop(bs);
         }
 
         private void ShowSketchPad()

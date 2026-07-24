@@ -100,6 +100,7 @@ namespace KillerNotes
             [KbLayer.CtrlShift] = new()
             {
                 ["D"] = ("View", "Str_KS_SketchPad"),   // also F7
+                ["A"] = ("View", "Str_KS_Theme"),
                 ["S"] = ("Format", "Str_KS_Strike"),
                 ["M"] = ("Format", "Str_KS_Mono"),
                 ["H"] = ("Format", "Str_Kb_Highlight"),

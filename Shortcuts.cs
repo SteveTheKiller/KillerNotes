@@ -47,6 +47,7 @@ namespace KillerNotes
             ("Ctrl+Shift+C",   "Str_KS_TitleColor"),
             ("Ctrl+Shift+P",   "Str_KS_Spell"),
             ("Ctrl+Shift+T",   "Str_KS_Table"),
+            ("Ctrl+Shift+A",   "Str_KS_Theme"),
             ("Ctrl+D",         "Str_KS_Density"),
             ("Ctrl+Enter",     "Str_KS_CalcPrint"),
             ("Ctrl+1 - 9",     "Str_KS_Tags"),
@@ -288,8 +289,8 @@ namespace KillerNotes
                     if (NoteStore.IsOpen) OpenTagsDialog();   // Tags.cs (needs a db, not a note)
                     e.Handled = true;
                     break;
-                // Ctrl+Shift+T: theme/accent flyout (demoted from Ctrl+T).
-                case Key.T when ctrl && shift:
+                // Ctrl+Shift+A: theme/accent flyout (moved off Ctrl+Shift+T, which inserts a table while a note is open).
+                case Key.A when ctrl && shift:
                     OpenThemeMenu();   // ThemeFlyout.cs
                     e.Handled = true;
                     break;

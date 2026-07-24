@@ -89,6 +89,7 @@
     <sys:String x:Key="Str_TT_Numbering">Numbered list (Ctrl+Shift+N)</sys:String>
     <sys:String x:Key="Str_TT_Rule">Horizontal rule (Ctrl+Shift+R)</sys:String>
     <sys:String x:Key="Str_TT_Table">Insert table (drag to pick the size)</sys:String>
+    <sys:String x:Key="Str_TT_InsertImage">Insert image from a file</sys:String>
     <sys:String x:Key="Str_TT_Preview">Preview (F4)</sys:String>
     <sys:String x:Key="Str_TT_HideBar">Hide format bar (F6)</sys:String>
     <sys:String x:Key="Str_TT_FmtGrip">Drag to move - double-click to minimize</sys:String>
