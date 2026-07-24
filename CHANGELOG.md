@@ -4,6 +4,11 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.6] - 2026-07-24
+
+### Fixed
+- A new note's title now appears in the sidebar right away instead of staying "Untitled" until the app is restarted (#13, thanks Dantex). The sidebar row's title, snippet, and date are notifying properties now, so the in-place update on save repaints the row immediately. Previously the 2s autosave's in-place update also matched the freshly rebuilt list, so the reconcile saw no change and never regenerated the row, and the non-notifying title binding held the stale "Untitled" until a full reload.
+
 ## [1.1.5] - 2026-07-24
 
 ### Added

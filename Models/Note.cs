@@ -12,12 +12,31 @@ namespace KillerNotes.Models
     public class Note : INotifyPropertyChanged
     {
         public long Id { get; set; }
-        public string Title { get; set; } = "";
+        // Title/Snippet/Modified are notifying: SaveCurrentNote updates the live sidebar row
+        // object in place, and without notification the row's {Binding Title} kept showing the old
+        // value until a restart - the 2s autosave's in-place update also matched the rebuilt list,
+        // so ReconcileSidebar saw no change and never regenerated the row (#13).
+        private string _title = "";
+        public string Title
+        {
+            get => _title;
+            set { if (_title == value) return; _title = value; OnChanged(nameof(Title)); }
+        }
         public string Notebook { get; set; } = "";
         public string Tags { get; set; } = "";
         public DateTime Created { get; set; }
-        public DateTime Modified { get; set; }
-        public string Snippet { get; set; } = "";   // first line of plain text, for the list
+        private DateTime _modified;
+        public DateTime Modified
+        {
+            get => _modified;
+            set { if (_modified == value) return; _modified = value; OnChanged(nameof(Modified)); OnChanged(nameof(ModifiedDisplay)); }
+        }
+        private string _snippet = "";
+        public string Snippet   // first line of plain text, for the list
+        {
+            get => _snippet;
+            set { if (_snippet == value) return; _snippet = value; OnChanged(nameof(Snippet)); }
+        }
         private string _titleColor = "";
         // "#RRGGBB", "" = follow the theme. Notifying so the color picker's live preview
         // repaints the sidebar row as the color changes (mirrors GroupColor).
