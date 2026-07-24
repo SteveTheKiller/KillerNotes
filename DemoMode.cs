@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using KillerNotes.Services;
@@ -39,6 +41,17 @@ namespace KillerNotes
             void Add(string title, double daysAgo, FlowDocument doc, bool feature = false, string? tags = null, string? group = null, string? titleColor = null)
             {
                 long id = CreateNoteFromDocument(title, doc);   // ImportExport.cs
+                // Demo sketches: persist any editable SketchPad payload an image in this doc carries,
+                // keyed by the image's ordinal in document order - the same link OpenNote uses to
+                // re-attach strokes on load (Editor.cs), so a printed demo sketch reopens editable.
+                var sketchByOrd = new Dictionary<int, byte[]>();
+                int sOrd = 0;
+                foreach (var im in EnumerateImages(doc.Blocks))
+                {
+                    if (Sketch.TryGetData(im, out var payload)) sketchByOrd[sOrd] = payload;
+                    sOrd++;
+                }
+                if (sketchByOrd.Count > 0) NoteStore.SaveSketches(id, sketchByOrd);
                 var created = now.AddDays(-daysAgo);
                 var modified = created.AddHours(2 + (daysAgo % 5) * 7);
                 if (modified > now) modified = now.AddMinutes(-14);
@@ -102,6 +115,7 @@ namespace KillerNotes
                 tags: "Reference", group: P("Client sites", "Northwind Dental"));
 
             Add("Firewall swap - Meadowbrook Vet", 31, DemoFirewallSwap(), feature: true, tags: "On-site, Network", group: P("Client sites", "Meadowbrook Vet"), titleColor: RED);
+            Add("MDF rack elevation", 28, DemoRackSketch(), tags: "On-site, Reference", group: P("Client sites", "Meadowbrook Vet"), titleColor: RED);
             Add("Kennel cams offline", 26, DemoDoc("Four PoE cameras in the kennel keep dropping. Suspect the cheap unmanaged switch back there.",
                 "Swap in the spare PoE+ switch from the van", "Camera VLAN 40, DHCP off, static .50-.70", "If they still drop it is the long run near the compressor"),
                 tags: "Urgent, Follow-up", group: P("Client sites", "Meadowbrook Vet"));
@@ -163,6 +177,7 @@ namespace KillerNotes
             Add("Wi-Fi survey - channel plan", 7, DemoDoc("Non-overlapping channel plan after the survey:",
                 "2.4GHz - 1, 6, 11 only, never auto", "5GHz - let the controller pick but cap TX power", "Neighboring tenant sits on 6, keep our high-density APs off it"),
                 tags: "Reference", group: P("Projects", "Wi-Fi survey"));
+            Add("Wi-Fi survey - coverage sketch", 6, DemoWifiSketch(), tags: "On-site, Follow-up", group: P("Projects", "Wi-Fi survey"), titleColor: BLUE);
 
             // ---- Admin (notes filed directly in the group, no subgroups) ----
             Add("New tech onboarding", 12, DemoOnboarding(), tags: "Reference", group: P("Admin"));
@@ -437,6 +452,111 @@ namespace KillerNotes
             d.Blocks.Add(DemoP("call back about the NAS quote - they want the 4-bay after all"));
             d.Blocks.Add(DemoP("ticket #4183 waiting on ISP"));
             return d;
+        }
+
+        // ---- SketchPad demo drawings -------------------------------------------------------
+        // Fabricated SketchPad sketches so screenshots can show the pad's output. Each is a real
+        // List<SketchObject> flattened to an in-note image AND carried as an editable payload
+        // (Sketch.SetData), exactly like a live "Print to note" - Add() persists it to the sketch
+        // side table, so double-clicking the image in the demo reopens it in the pad. Colors are
+        // ARGB (#AARRGGBB); the flatten pass nudges near-white/near-black so they read on any paper.
+
+        private static SketchObject SkRect(double x0, double y0, double x1, double y1, string color, double w = 3, string? fill = null)
+            => new() { Kind = SketchKind.Rect, Color = color, Width = w, Fill = fill, Pts = [x0, y0, x1, y1] };
+
+        private static SketchObject SkEllipse(double x0, double y0, double x1, double y1, string color, double w = 3, string? fill = null)
+            => new() { Kind = SketchKind.Ellipse, Color = color, Width = w, Fill = fill, Pts = [x0, y0, x1, y1] };
+
+        private static SketchObject SkLine(double x0, double y0, double x1, double y1, string color, double w = 3)
+            => new() { Kind = SketchKind.Line, Color = color, Width = w, Pts = [x0, y0, x1, y1] };
+
+        private static SketchObject SkArrow(double x0, double y0, double x1, double y1, string color, double w = 4)
+            => new() { Kind = SketchKind.Arrow, Color = color, Width = w, Pts = [x0, y0, x1, y1] };
+
+        private static SketchObject SkText(double x, double y, string text, string color, double size = 22, bool bold = false)
+            => new() { Kind = SketchKind.Text, Color = color, X = x, Y = y, Text = text, FontSize = size, Bold = bold };
+
+        private static SketchObject SkFree(string color, double w, params double[] pts)
+            => new() { Kind = SketchKind.Freehand, Color = color, Width = w, Pts = [.. pts] };
+
+        // Flatten a sketch to an editable in-note image (payload attached so double-click reopens it).
+        private static Image SketchImage(List<SketchObject> objs)
+        {
+            var bmp = SketchModel.RenderObjects(objs, Sketch.CanvasW, Sketch.CanvasH);
+            var img = new Image { Source = bmp, MaxWidth = 560, Stretch = Stretch.Uniform };
+            FixImage(img);                                    // high-quality scaling, like pasted images
+            Sketch.SetData(img, SketchModel.Serialize(objs));
+            return img;
+        }
+
+        // The sketch as its own paragraph (InlineUIContainer > Image, the shape ImportImage uses).
+        private static Paragraph SketchPara(List<SketchObject> objs)
+        {
+            var p = new Paragraph();
+            p.Inlines.Add(new InlineUIContainer(SketchImage(objs)));
+            return p;
+        }
+
+        private static FlowDocument DemoRackSketch()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoP("Rack elevation for the MDF after the firewall swap - sketched on the bench and printed straight in.", bold: true));
+            d.Blocks.Add(SketchPara(RackSketch()));
+            d.Blocks.Add(DemoP("Double-click the sketch to reopen it in the pad and mark up the next change.", color: "#7A8CA3"));
+            return d;
+        }
+
+        private static List<SketchObject> RackSketch()
+        {
+            const string SLATE = "#FF9AA7B8", BLUE = "#FF50AEE8", RED = "#FFDD504B",
+                         GREEN = "#FF1EA54C", ORANGE = "#FFE8962C", INK = "#FFDCE3EE";
+            return
+            [
+                SkText(300, 16, "MDF rack - Meadowbrook", INK, 24, true),
+                SkRect(300, 58, 520, 470, SLATE, 3),
+                SkRect(308, 66, 512, 106, RED, 2, "#26DD504B"),     SkText(318, 74, "Firewall (new)", RED, 20, true),
+                SkRect(308, 114, 512, 154, BLUE, 2, "#2650AEE8"),   SkText(318, 122, "Core switch", BLUE, 20, true),
+                SkRect(308, 162, 512, 202, BLUE, 2, "#2650AEE8"),   SkText(318, 170, "Access switch", BLUE, 20, true),
+                SkRect(308, 210, 512, 250, GREEN, 2, "#261EA54C"),  SkText(318, 218, "Patch panel", GREEN, 20, true),
+                SkRect(308, 388, 512, 460, ORANGE, 2, "#26E8962C"), SkText(318, 412, "UPS 1500VA", ORANGE, 20, true),
+                SkArrow(640, 86, 516, 86, RED, 4),    SkText(556, 60, "WAN in", RED, 18),
+                SkArrow(640, 134, 516, 134, BLUE, 4), SkText(556, 108, "uplink", BLUE, 18),
+                SkText(300, 478, "gap = spare U for the NAS", INK, 15),
+            ];
+        }
+
+        private static FlowDocument DemoWifiSketch()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoP("Warehouse coverage sketch from the walk-through. Two good APs; the dock corner is the dead spot.", bold: true));
+            d.Blocks.Add(SketchPara(WifiSketch()));
+            d.Blocks.Add(DemoP("Rough, but enough to place the third AP. Reopens editable for the final plan.", color: "#7A8CA3"));
+            return d;
+        }
+
+        private static List<SketchObject> WifiSketch()
+        {
+            const string SLATE = "#FF9AA7B8", BLUE = "#FF50AEE8", RED = "#FFDD504B",
+                         GREEN = "#FF1EA54C", INK = "#FFDCE3EE";
+            return
+            [
+                SkText(40, 16, "Warehouse - AP coverage", INK, 24, true),
+                SkRect(40, 58, 760, 452, SLATE, 3),
+                SkLine(280, 58, 280, 452, SLATE, 2),
+                SkText(120, 70, "Office", INK, 20),
+                SkText(470, 70, "Warehouse floor", INK, 20),
+                SkEllipse(60, 150, 240, 340, GREEN, 2, "#1C1EA54C"),
+                SkEllipse(140, 235, 160, 255, BLUE, 3, "#3350AEE8"),
+                SkText(120, 118, "AP1", BLUE, 20, true),
+                SkEllipse(330, 150, 570, 380, GREEN, 2, "#1C1EA54C"),
+                SkEllipse(440, 255, 460, 275, BLUE, 3, "#3350AEE8"),
+                SkText(430, 118, "AP2", BLUE, 20, true),
+                SkFree(RED, 5, 628, 352, 672, 392, 712, 432),
+                SkFree(RED, 5, 712, 352, 668, 392, 628, 432),
+                SkText(596, 312, "dead spot", RED, 22, true),
+                SkText(600, 340, "needs AP3", RED, 16),
+                SkText(628, 436, "dock", INK, 16),
+            ];
         }
     }
 }
