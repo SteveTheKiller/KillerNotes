@@ -50,6 +50,7 @@ namespace KillerNotes
             ("Ctrl+Shift+A",   "Str_KS_Theme"),
             ("Ctrl+D",         "Str_KS_Density"),
             ("Ctrl+Enter",     "Str_KS_CalcPrint"),
+            ("Ctrl+Shift+Enter", "Str_KS_CalcPrintEq"),
             ("Ctrl+1 - 9",     "Str_KS_Tags"),
             ("Ctrl+Shift+> / <", "Str_KS_FontSize"),
             ("Ctrl+Wheel / Ctrl+0", "Str_KS_Zoom"),
@@ -124,10 +125,11 @@ namespace KillerNotes
                 return;
             }
 
-            // Ctrl+Enter prints the Killculator readout into the note (Killculator.cs).
-            if (_kalcOpen && ctrl && !shift && e.Key == Key.Return)
+            // Ctrl+Enter prints the Killculator readout into the note; Ctrl+Shift+Enter prints the
+            // whole running equation (Killculator.cs).
+            if (_kalcOpen && ctrl && e.Key == Key.Return)
             {
-                KalcPrint();
+                if (shift) KalcPrintEquation(); else KalcPrint();
                 e.Handled = true;
                 return;
             }

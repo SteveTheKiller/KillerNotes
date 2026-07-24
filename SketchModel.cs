@@ -413,37 +413,87 @@ namespace KillerNotes
             return false;
         }
 
-        // Eraser: brush point-erase on freehand (split into runs so gaps read like a real eraser),
-        // whole-object removal for shapes/text/images the brush touches. Returns the new object list.
+        // Eraser: a brush that rubs out strokes in place. Freehand, polygon, line, and arrow are
+        // "stroke path" shapes - the eraser breaks whatever its ring covers and keeps the rest as
+        // freehand segments, so a polygon/line/arrow the ring only clips is no longer deleted whole;
+        // its untouched outline survives (a closed shape becomes open segments and loses any fill).
+        // A stroke shape the ring never reaches is left exactly as-is. Rectangles, ellipses, text,
+        // and images are solid objects, not strokes, so a touch still removes them whole.
         public static List<SketchObject> EraseAt(IEnumerable<SketchObject> objs, Point e, double radius)
         {
             var result = new List<SketchObject>();
             foreach (var o in objs)
             {
-                if (o.Kind == SketchKind.Freehand)
+                bool strokePath = o.Kind is SketchKind.Freehand or SketchKind.Polygon
+                                          or SketchKind.Line or SketchKind.Arrow;
+                if (!strokePath)
                 {
-                    double r = radius + o.Width / 2;
-                    var run = new List<double>();
-                    void Flush()
-                    {
-                        if (run.Count >= 4)
-                            result.Add(new SketchObject { Kind = SketchKind.Freehand, Color = o.Color, Width = o.Width, Pts = [..run] });
-                        run.Clear();
-                    }
-                    for (int i = 0; i + 1 < o.Pts.Count; i += 2)
-                    {
-                        var pt = new Point(o.Pts[i], o.Pts[i + 1]);
-                        if ((pt - e).Length <= r) Flush();
-                        else { run.Add(pt.X); run.Add(pt.Y); }
-                    }
-                    Flush();
+                    if (!HitTest(o, e, radius)) result.Add(o);   // rect/ellipse/text/image: whole-object
+                    continue;
                 }
-                else if (!HitTest(o, e, radius))
+
+                double r = radius + o.Width / 2;
+                // Freehand points are already dense; sparse-vertex shapes are sampled along their
+                // outline (polygon includes the closing edge) so the ring can break a straight edge
+                // mid-span, not only at a corner.
+                var path = o.Kind == SketchKind.Freehand ? o.Pts : DensifyOutline(o);
+
+                // Leave a polygon/line/arrow intact if the ring never actually reaches its outline
+                // (e.g. hovering inside a filled polygon), so it stays a shape instead of silently
+                // turning into freehand. Freehand always runs the split - untouched, it re-emits itself.
+                if (o.Kind != SketchKind.Freehand)
                 {
-                    result.Add(o);
+                    bool touched = false;
+                    for (int i = 0; i + 1 < path.Count; i += 2)
+                        if ((new Point(path[i], path[i + 1]) - e).Length <= r) { touched = true; break; }
+                    if (!touched) { result.Add(o); continue; }
                 }
+
+                var run = new List<double>();
+                void Flush()
+                {
+                    if (run.Count >= 4)
+                        result.Add(new SketchObject { Kind = SketchKind.Freehand, Color = o.Color, Width = o.Width, Pts = [..run] });
+                    run.Clear();
+                }
+                for (int i = 0; i + 1 < path.Count; i += 2)
+                {
+                    var pt = new Point(path[i], path[i + 1]);
+                    if ((pt - e).Length <= r) Flush();
+                    else { run.Add(pt.X); run.Add(pt.Y); }
+                }
+                Flush();
             }
             return result;
+        }
+
+        // Samples points every ~2px along a shape's outline so the eraser brush can break it
+        // anywhere, not just at its (sparse) vertices. Polygons include the last->first closing edge.
+        private static List<double> DensifyOutline(SketchObject o)
+        {
+            var src = o.Pts;
+            int n = src.Count / 2;
+            var outp = new List<double>();
+            if (n == 0) return outp;
+            if (n == 1) { outp.Add(src[0]); outp.Add(src[1]); return outp; }
+            bool closed = o.Kind == SketchKind.Polygon;
+            const double step = 2.0;
+            int segs = closed ? n : n - 1;
+            for (int s = 0; s < segs; s++)
+            {
+                int ia = s, ib = (s + 1) % n;
+                double ax = src[2 * ia], ay = src[2 * ia + 1], bx = src[2 * ib], by = src[2 * ib + 1];
+                double len = Math.Sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay));
+                int k = Math.Max(1, (int)(len / step));
+                for (int j = 0; j < k; j++)
+                {
+                    double t = (double)j / k;
+                    outp.Add(ax + (bx - ax) * t);
+                    outp.Add(ay + (by - ay) * t);
+                }
+            }
+            if (!closed) { outp.Add(src[2 * (n - 1)]); outp.Add(src[2 * (n - 1) + 1]); }
+            return outp;
         }
 
         private static Rect Inflate(Rect r, double d)

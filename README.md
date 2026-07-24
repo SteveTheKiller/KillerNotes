@@ -12,7 +12,7 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 
 ## Features
 
-- Sidebar library: search-as-you-type across titles, text, and tags (SQLite FTS5); sort by
+- Sidebar library: search-as-you-type across titles, text, and tags (substring match, so any fragment hits - `02` finds `A/002/45`); sort by
   time or title, or a drag-and-drop custom order (F10 cycles the modes). Three row densities
   (Ctrl+D) fit more notes on screen.
 - Groups and subgroups: named, collapsible, colorable groups pinned above the loose notes,
@@ -33,7 +33,13 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
   opens, typed URLs auto-link, and links survive pasting from browsers, Word, and other
   note apps. Only web and mail addresses ever open.
 - Killculator (F9): a themed calculator that slides up under the notes list. Type an equation
-  on the number keys; Print (Ctrl+Enter) drops the result into the note at the cursor.
+  on the number keys; Print Sum (Ctrl+Enter) drops the result, or Print Equation
+  (Ctrl+Shift+Enter) the whole running equation, into the note at the cursor.
+- SketchPad (F7 / Ctrl+Shift+D): a modeless drawing companion for the open note - pen, line,
+  arrow, rectangle, ellipse, polygon, paint bucket, text labels, and an eraser, with color,
+  width, fill, and undo/redo, each on a single key. Print to note (Ctrl+Enter) stamps the
+  drawing inline at the caret and it stays editable - double-click any note image to reopen it
+  in the pad. A picture button on the format bar also inserts an image file at the caret.
 - Custom fonts: a Fonts dialog (theme flyout) swaps the header, sidebar, and note-text fonts
   independently - any installed font, or drop your own .ttf/.otf onto the card. Note text
   ships in Bahnschrift; a readability guard keeps symbol fonts like Wingdings out.
@@ -51,8 +57,8 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
   databases dialog.
 - Sharing: export a single note (.knote) or a whole database (.kndb), optionally password
   protected; both open with a double-click.
-- Localization: nine bundled languages (English, Spanish, French, German, Turkish, Chinese
-  Simplified and Traditional, Japanese, Bengali), falling back to English.
+- Localization: ten bundled languages (English, Spanish, French, German, Turkish, Czech,
+  Chinese Simplified and Traditional, Japanese, Bengali), falling back to English.
 
 ## Screenshots
 
@@ -84,6 +90,7 @@ bootstrap carries the native e_sqlcipher.dll, so the release ships as one signed
 
 - `MainWindow.xaml` + partials: `Notes.cs` (list/search/save), `Editor.cs` (paste/tables),
   `Groups.cs` (custom order + nested groups), `Killculator.cs` (sidebar calculator),
+  `SketchPadWindow.cs` / `SketchModel.cs` (SketchPad drawing companion),
   `Fonts.cs` (font slots + dialog), `Links.cs` (hyperlinks), `TiltWheel.cs` (horizontal
   scroll), `ActionUndo.cs` (sidebar Ctrl+Z), `Density.cs` (row density), `Security.cs` (password
   flow), plus the KillerUI kit files (`Chrome.cs`, `ThemeFlyout.cs`, `About.cs`, `Anim.cs`,

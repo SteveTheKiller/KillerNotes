@@ -846,16 +846,27 @@
                                                 FontFamily="Segoe UI Symbol"/>
                                         <Button Style="{StaticResource KalcBtnAccent}" Tag="eq" Click="Kalc_Key" Content="="/>
                                     </UniformGrid>
-                                    <!-- Print (full-width, slim): = / Enter computes, then Print (or
-                                         Ctrl+Enter) pushes the readout into the note. -->
-                                    <Button Style="{StaticResource KalcBtnAccent}" Tag="print" Click="Kalc_Key"
-                                            Height="32" MinHeight="0" Margin="3,8,3,0" ToolTip="{DynamicResource Str_TT_CalcPrint}">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <TextBlock Text="&#xE749;" FontFamily="Segoe MDL2 Assets" FontSize="13"
-                                                       VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                            <TextBlock Text="{DynamicResource Str_Btn_CalcPrint}" FontSize="13" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </Button>
+                                    <!-- Print row (slim): = / Enter computes, then Sum (Ctrl+Enter) drops
+                                         the readout and Equation (Ctrl+Shift+Enter) drops the whole
+                                         running equation into the note. -->
+                                    <UniformGrid Columns="2" Margin="3,8,3,0">
+                                        <Button Style="{StaticResource KalcBtnAccent}" Tag="print" Click="Kalc_Key"
+                                                Height="32" MinHeight="0" Margin="0,0,3,0" ToolTip="{DynamicResource Str_TT_CalcPrintSum}">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <TextBlock Text="&#xE749;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                                           VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                                <TextBlock Text="{DynamicResource Str_Btn_CalcPrintSum}" FontSize="12" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Style="{StaticResource KalcBtnAccent}" Tag="printeq" Click="Kalc_Key"
+                                                Height="32" MinHeight="0" Margin="3,0,0,0" ToolTip="{DynamicResource Str_TT_CalcPrintEq}">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <TextBlock Text="&#xE749;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                                           VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                                <TextBlock Text="{DynamicResource Str_Btn_CalcPrintEq}" FontSize="12" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </UniformGrid>
                                 </StackPanel>
                             </Grid>
                         </Grid>

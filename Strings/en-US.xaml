@@ -79,6 +79,11 @@
     <sys:String x:Key="Str_TT_SketchRail">SketchPad - draw a sketch (F7)</sys:String>
     <sys:String x:Key="Str_Btn_CalcPrint">Print to note</sys:String>
     <sys:String x:Key="Str_TT_CalcPrint">Print the result into this note at the cursor (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintSum">Sum</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintEq">Equation</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintSum">Print the result into this note at the cursor (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintEq">Print the whole equation into this note at the cursor (Ctrl+Shift+Enter)</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrintEq">Print the Killculator equation to the note</sys:String>
     <sys:String x:Key="Str_TT_CalcClose">Close (Esc)</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">Open a note first</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">Printed to note</sys:String>

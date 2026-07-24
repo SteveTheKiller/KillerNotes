@@ -10,8 +10,9 @@ namespace KillerNotes.Services
     // SQLite-backed note storage.
     //
     //   - One database file: %APPDATA%\KillerNotes\notes.db
-    //   - FTS5 full-text index (title, plain text, tags) kept in sync by triggers,
-    //     so search is instant regardless of note count.
+    //   - Search is a case-insensitive substring scan over title, plain text, and tags
+    //     (List), so a mid-token query like "02" still finds "A/002/45" (#12). An FTS5
+    //     index (title, plain, tags) is still kept in sync by triggers for future use.
     //   - Content is a BLOB: the editor's FlowDocument saved as a XamlPackage
     //     (a zip stream that carries pasted images and tables inside the note).
     //   - Optional password: SQLCipher (AES-256) encrypts the whole file at rest.
@@ -231,35 +232,46 @@ CREATE TABLE IF NOT EXISTS sketches(
 
         /// <summary>
         /// Lists notes, oldest-created first by default (the notepad-tabs order). With a search
-        /// string, matches the FTS5 index (prefix match per word) in relevance order.
-        /// sort: "created-asc" | "created-desc" | "title-asc" | "title-desc".
+        /// string, keeps notes where every whitespace-separated word appears as a substring of
+        /// the title, body, or tags (case-insensitive), in the current sort order.
+        /// sort: "created-asc" | "created-desc" | "title-asc" | "title-desc" | "custom".
         /// </summary>
         public static List<Note> List(string? search = null, string sort = "created-asc")
         {
             var results = new List<Note>();
             if (_db == null) return results;
 
+            string order = sort switch
+            {
+                "created-desc" => "created DESC",
+                "title-asc"    => "title COLLATE NOCASE ASC",
+                "title-desc"   => "title COLLATE NOCASE DESC",
+                "custom"       => "sort_order ASC, id ASC",
+                _              => "created ASC",
+            };
+            const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order";
+
             using var cmd = _db.CreateCommand();
             if (!string.IsNullOrWhiteSpace(search))
             {
-                cmd.CommandText = @"
-SELECT n.id, n.title, n.notebook, n.tags, n.created, n.modified, substr(n.plain, 1, 120), n.title_color, n.spellcheck, n.sort_order
-FROM notes_fts f JOIN notes n ON n.id = f.rowid
-WHERE notes_fts MATCH $q ORDER BY rank";
-                cmd.Parameters.AddWithValue("$q", FtsQuery(search!));
+                // Substring search across title, body, and tags. FTS5 prefix matching only hit
+                // whole tokens from their start, and "/" splits a signature into separate tokens,
+                // so "A/002/45" was found by "002" but never by "02" or "2" (#12). A LIKE scan
+                // matches any substring, mid-token included; at personal-notes scale it stays
+                // instant. Each whitespace word must appear (AND), in any of the columns (OR).
+                var words = search.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
+                var clauses = new List<string>(words.Length);
+                for (int i = 0; i < words.Length; i++)
+                {
+                    clauses.Add($"(title LIKE $w{i} ESCAPE '\\' OR plain LIKE $w{i} ESCAPE '\\' OR tags LIKE $w{i} ESCAPE '\\')");
+                    cmd.Parameters.AddWithValue($"$w{i}", "%" + EscapeLike(words[i]) + "%");
+                }
+                string where = clauses.Count > 0 ? string.Join(" AND ", clauses) : "1";
+                cmd.CommandText = $"SELECT {cols} FROM notes WHERE {where} ORDER BY {order}";
             }
             else
             {
-                string order = sort switch
-                {
-                    "created-desc" => "created DESC",
-                    "title-asc"    => "title COLLATE NOCASE ASC",
-                    "title-desc"   => "title COLLATE NOCASE DESC",
-                    "custom"       => "sort_order ASC, id ASC",
-                    _              => "created ASC",
-                };
-                cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order " +
-                                  $"FROM notes ORDER BY {order}";
+                cmd.CommandText = $"SELECT {cols} FROM notes ORDER BY {order}";
             }
 
             using var r = cmd.ExecuteReader();
@@ -1112,13 +1124,6 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             cmd.CommandText = sql;
             cmd.ExecuteNonQuery();
         }
-
-        // Every whitespace-separated word becomes a quoted prefix term, so user input can
-        // never break the FTS5 MATCH syntax and partial words still hit ("proj kil" works).
-        private static string FtsQuery(string raw) =>
-            string.Join(" ", raw
-                .Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries)
-                .Select(t => "\"" + t.Replace("\"", "\"\"") + "\"*"));
 
         private static string Ts(DateTime dt) =>
             dt.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);

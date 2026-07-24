@@ -114,6 +114,7 @@ namespace KillerNotes
                 ["C"] = ("Note", "Str_KS_TitleColor"),
                 ["P"] = ("Format", "Str_KS_Spell"),
                 ["T"] = ("Format", "Str_KS_Table"),
+                ["Enter"] = ("Note", "Str_KS_CalcPrintEq"),
                 ["Period"] = ("Format", "Str_Kb_FontUp"),
                 ["Comma"]  = ("Format", "Str_Kb_FontDown"),
                 ["Equals"] = ("View", "Str_KS_AppSize"),
