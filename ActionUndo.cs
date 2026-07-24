@@ -14,7 +14,7 @@ namespace KillerNotes
     // from one database can never be replayed against another.
     public partial class MainWindow
     {
-        private readonly List<Action> _actionUndo = new();
+        private readonly List<Action> _actionUndo = [];
         private const int ActionUndoLimit = 100;
 
         // True when the most recent undoable thing the user did was an organizational action

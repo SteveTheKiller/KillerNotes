@@ -26,6 +26,9 @@
     <sys:String x:Key="Str_TT_ExportNote">Sıradan bir dosya olarak kopya kaydedin - .txt, .rtf veya .html (F8)</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteNote">Notu sil</sys:String>
 
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">Sıralamayı tersine çevir</sys:String>
+
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">Kes</sys:String>
     <sys:String x:Key="Str_Ctx_Copy">Kopyala</sys:String>

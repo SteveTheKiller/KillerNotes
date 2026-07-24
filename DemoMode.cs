@@ -290,12 +290,12 @@ namespace KillerNotes
             var d = new FlowDocument();
             d.Blocks.Add(DemoP("Cutover scheduled Friday 17:30. Old unit stays racked for one week as rollback.", bold: true));
             d.Blocks.Add(DemoTable(
-                new[] { "Setting", "Old unit", "New unit" },
-                new[] { "WAN IP", "203.0.113.10 /29", "203.0.113.10 /29" },
-                new[] { "LAN GW", "192.0.2.1 /24", "192.0.2.1 /24" },
-                new[] { "VPN peers", "3 (see vendor sheet)", "re-key all 3" },
-                new[] { "DNS fwd", "198.51.100.53", "198.51.100.53" },
-                new[] { "Mgmt access", "LAN only", "LAN + mgmt VLAN 99" }));
+                ["Setting", "Old unit", "New unit"],
+                ["WAN IP", "203.0.113.10 /29", "203.0.113.10 /29"],
+                ["LAN GW", "192.0.2.1 /24", "192.0.2.1 /24"],
+                ["VPN peers", "3 (see vendor sheet)", "re-key all 3"],
+                ["DNS fwd", "198.51.100.53", "198.51.100.53"],
+                ["Mgmt access", "LAN only", "LAN + mgmt VLAN 99"]));
             d.Blocks.Add(DemoP("Port-forward list exported and attached to the ticket. Test plan:"));
             d.Blocks.Add(DemoList(
                 "VPN up from all 3 peers",
@@ -322,14 +322,14 @@ namespace KillerNotes
         {
             var d = new FlowDocument();
             d.Blocks.Add(DemoTable(
-                new[] { "Port", "VLAN", "Goes to" },
-                new[] { "1-8", "10", "Workstations, front office" },
-                new[] { "9-12", "10", "Workstations, paralegals" },
-                new[] { "13-16", "20", "Phones" },
-                new[] { "17-18", "30", "Printers" },
-                new[] { "19-22", "10", "Conference rooms" },
-                new[] { "23", "99", "AP uplink (trunk)" },
-                new[] { "24", "trunk", "Uplink to firewall" }));
+                ["Port", "VLAN", "Goes to"],
+                ["1-8", "10", "Workstations, front office"],
+                ["9-12", "10", "Workstations, paralegals"],
+                ["13-16", "20", "Phones"],
+                ["17-18", "30", "Printers"],
+                ["19-22", "10", "Conference rooms"],
+                ["23", "99", "AP uplink (trunk)"],
+                ["24", "trunk", "Uplink to firewall"]));
             d.Blocks.Add(DemoP("Spare drops in the ceiling above suite B - unterminated."));
             return d;
         }
@@ -339,10 +339,10 @@ namespace KillerNotes
             var d = new FlowDocument();
             d.Blocks.Add(DemoP("Measured on battery with normal load, this quarter:"));
             d.Blocks.Add(DemoTable(
-                new[] { "Location", "Model", "Runtime" },
-                new[] { "MDF", "1500VA rack", "22 min" },
-                new[] { "Front desk", "650VA tower", "9 min" },
-                new[] { "Server closet", "3000VA rack", "41 min" }));
+                ["Location", "Model", "Runtime"],
+                ["MDF", "1500VA rack", "22 min"],
+                ["Front desk", "650VA tower", "9 min"],
+                ["Server closet", "3000VA rack", "41 min"]));
             d.Blocks.Add(DemoRule());
             d.Blocks.Add(DemoP("Front desk unit beeps under load - batteries due next visit.", bold: true, color: "#c94f4f"));
             return d;
@@ -379,12 +379,12 @@ namespace KillerNotes
         {
             var d = new FlowDocument();
             d.Blocks.Add(DemoTable(
-                new[] { "Part", "Qty", "Reorder at" },
-                new[] { "Cat6 patch 1m", "18", "10" },
-                new[] { "Cat6 patch 3m", "7", "5" },
-                new[] { "SFP+ DAC 3m", "4", "2" },
-                new[] { "RJ45 ends (bag)", "2", "1" },
-                new[] { "PSU tester", "1", "-" }));
+                ["Part", "Qty", "Reorder at"],
+                ["Cat6 patch 1m", "18", "10"],
+                ["Cat6 patch 3m", "7", "5"],
+                ["SFP+ DAC 3m", "4", "2"],
+                ["RJ45 ends (bag)", "2", "1"],
+                ["PSU tester", "1", "-"]));
             return d;
         }
 
@@ -393,13 +393,13 @@ namespace KillerNotes
             var d = new FlowDocument();
             d.Blocks.Add(DemoP("The mask-to-hosts table I never keep in my head:"));
             d.Blocks.Add(DemoTable(
-                new[] { "CIDR", "Mask", "Usable hosts" },
-                new[] { "/24", "255.255.255.0", "254" },
-                new[] { "/25", "255.255.255.128", "126" },
-                new[] { "/26", "255.255.255.192", "62" },
-                new[] { "/27", "255.255.255.224", "30" },
-                new[] { "/28", "255.255.255.240", "14" },
-                new[] { "/30", "255.255.255.252", "2" }));
+                ["CIDR", "Mask", "Usable hosts"],
+                ["/24", "255.255.255.0", "254"],
+                ["/25", "255.255.255.128", "126"],
+                ["/26", "255.255.255.192", "62"],
+                ["/27", "255.255.255.224", "30"],
+                ["/28", "255.255.255.240", "14"],
+                ["/30", "255.255.255.252", "2"]));
             return d;
         }
 
@@ -408,12 +408,12 @@ namespace KillerNotes
             var d = new FlowDocument();
             d.Blocks.Add(DemoP("Standard VLAN numbering we use at every site:"));
             d.Blocks.Add(DemoTable(
-                new[] { "VLAN", "Use", "Subnet" },
-                new[] { "10", "Workstations", "192.0.2.0 /24" },
-                new[] { "20", "Phones", "198.51.100.0 /24" },
-                new[] { "30", "Printers", "203.0.113.0 /27" },
-                new[] { "40", "Cameras / IoT", "203.0.113.32 /27" },
-                new[] { "99", "Management", "203.0.113.240 /28" }));
+                ["VLAN", "Use", "Subnet"],
+                ["10", "Workstations", "192.0.2.0 /24"],
+                ["20", "Phones", "198.51.100.0 /24"],
+                ["30", "Printers", "203.0.113.0 /27"],
+                ["40", "Cameras / IoT", "203.0.113.32 /27"],
+                ["99", "Management", "203.0.113.240 /28"]));
             d.Blocks.Add(DemoP("Keep cameras and IoT off the workstation VLAN, always.", bold: true, color: "#3f9b56"));
             return d;
         }
@@ -423,10 +423,10 @@ namespace KillerNotes
             var d = new FlowDocument();
             d.Blocks.Add(DemoP("Rotation runs Monday to Monday. Swap with whoever, just update the calendar."));
             d.Blocks.Add(DemoTable(
-                new[] { "Week", "Primary", "Backup" },
-                new[] { "This week", "Me", "Priya" },
-                new[] { "Next week", "Dev", "Me" },
-                new[] { "Week after", "Priya", "Dev" }));
+                ["Week", "Primary", "Backup"],
+                ["This week", "Me", "Priya"],
+                ["Next week", "Dev", "Me"],
+                ["Week after", "Priya", "Dev"]));
             d.Blocks.Add(DemoP("After-hours calls go to the on-call phone, not personal numbers."));
             return d;
         }

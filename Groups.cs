@@ -63,7 +63,7 @@ namespace KillerNotes
             var childrenOf = new Dictionary<string, List<(string Path, string Parent, bool Collapsed, string Color)>>(StringComparer.OrdinalIgnoreCase);
             foreach (var g in _groups)
             {
-                if (!childrenOf.TryGetValue(g.Parent, out var lst)) { lst = new(); childrenOf[g.Parent] = lst; }
+                if (!childrenOf.TryGetValue(g.Parent, out var lst)) { lst = []; childrenOf[g.Parent] = lst; }
                 lst.Add(g);
             }
             var known = new HashSet<string>(_groups.Select(g => g.Path), StringComparer.OrdinalIgnoreCase);
@@ -82,12 +82,12 @@ namespace KillerNotes
             // Ancestor guide rails for one row, one per level above it. Built fresh per row so the
             // bottom cap can be set on just the last row of each ancestor's subtree.
             List<GroupRail> RailsFrom(List<(int Level, string Color)> ancestors) =>
-                ancestors.Select(a => new GroupRail
+                [.. ancestors.Select(a => new GroupRail
                 {
                     Level = a.Level,
                     HasColor = !string.IsNullOrEmpty(a.Color),
                     Brush = RailBrush(a.Color),
-                }).ToList();
+                })];
 
             // Rounds the rail at `level` on a row (its ancestor's subtree ends on this row).
             void CapRail(object row, int level)
@@ -708,7 +708,7 @@ namespace KillerNotes
         /// values and is left alone.</summary>
         private void SeedCustomOrderIfNeeded()
         {
-            var all = NoteStore.List(null, _sort);   // current sort, unfiltered
+            var all = NoteStore.List(null, SortKey);   // current sort, unfiltered
             if (all.Count == 0) return;
             bool needSeed = all.GroupBy(n => n.SortOrder).Any(g => g.Count() > 1);
             if (needSeed) NoteStore.SetNoteOrders(all.Select((n, i) => (n.Id, i + 1)));

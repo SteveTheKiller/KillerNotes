@@ -26,6 +26,9 @@
     <sys:String x:Key="Str_TT_ExportNote">Eine Kopie als normale Datei speichern - .txt, .rtf oder .html (F8)</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteNote">Notiz löschen</sys:String>
 
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">Reihenfolge umkehren</sys:String>
+
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">Ausschneiden</sys:String>
     <sys:String x:Key="Str_Ctx_Copy">Kopieren</sys:String>

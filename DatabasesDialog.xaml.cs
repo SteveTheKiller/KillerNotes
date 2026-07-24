@@ -291,7 +291,7 @@ namespace KillerNotes
                     StringComparison.OrdinalIgnoreCase)) return;
 
             string[] dbs;
-            try { dbs = Directory.GetFiles(current, "*.db"); } catch { dbs = new string[0]; }
+            try { dbs = Directory.GetFiles(current, "*.db"); } catch { dbs = []; }
             int failed = 0;
             if (dbs.Length > 0)
             {

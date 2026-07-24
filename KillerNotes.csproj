@@ -9,14 +9,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Resources\kn-icon.ico</ApplicationIcon>
-    <Version>1.1.4</Version>
-    <FileVersion>1.1.4.0</FileVersion>
-    <AssemblyVersion>1.1.4.0</AssemblyVersion>
+    <Version>1.1.5</Version>
+    <FileVersion>1.1.5.0</FileVersion>
+    <AssemblyVersion>1.1.5.0</AssemblyVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <Reference Include="System.Net.Http" />
+    <!-- Built-in net48 framework assembly (no NuGet, no scan surface): DataContractJsonSerializer
+         for the SketchPad object model (SketchModel.cs). -->
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
 
   <ItemGroup>

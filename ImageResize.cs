@@ -35,7 +35,21 @@ namespace KillerNotes
 
             if (e.OriginalSource is Image img)
             {
+                // Double-click a placed sketch opens it in the SketchPad for editing IN PLACE:
+                // "Print to note" then updates this same image where it sits (Editor.cs).
+                if (e.ClickCount == 2 && Sketch.TryGetData(img, out var payload))
+                {
+                    OpenSketchPadForEdit(img, SketchModel.Deserialize(payload));
+                    e.Handled = true;
+                    return;
+                }
                 if (!ReferenceEquals(img, _selImage)) SelectImage(img);
+                // Clicking an image also makes the RichTextBox select its whole block - a
+                // full-width highlight bar past the image edges. Collapse that to a caret so
+                // only the resize handles show. Deferred so it runs after the click-selection.
+                Dispatcher.BeginInvoke(new Action(() =>
+                    Editor.Selection.Select(Editor.Selection.Start, Editor.Selection.Start)),
+                    System.Windows.Threading.DispatcherPriority.Input);
             }
             else if (_selImage != null) DeselectImage();
         }
@@ -128,13 +142,13 @@ namespace KillerNotes
     // keeps the aspect), clamped between 40 DIPs and the image's
     // natural size - display-only, the bitmap is never resampled.
     // ============================================================
-    internal sealed class ImageResizeAdorner : Adorner
+    internal sealed class ImageResizeAdorner(Image img, Func<double> maxWidth) : Adorner(img)
     {
         private const double Handle = 7;    // visible square
         private const double HitPad = 16;   // invisible hit target around each corner
 
-        private readonly Image _img;
-        private readonly Func<double> _maxWidth;   // live cap (pane width while wrap is on)
+        private readonly Image _img = img;
+        private readonly Func<double> _maxWidth = maxWidth;   // live cap (pane width while wrap is on)
         private bool _dragging;
         private int _corner = -1;           // 0 TL, 1 TR, 2 BL, 3 BR
         private Point _start;
@@ -142,12 +156,6 @@ namespace KillerNotes
 
         public event Action? Resized;
         public event Action? DismissRequested;
-
-        public ImageResizeAdorner(Image img, Func<double> maxWidth) : base(img)
-        {
-            _img = img;
-            _maxWidth = maxWidth;
-        }
 
         private Point[] Corners()
         {

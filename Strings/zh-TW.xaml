@@ -26,6 +26,9 @@
     <sys:String x:Key="Str_TT_ExportNote">另存一般檔案副本 - .txt、.rtf 或 .html (F8)</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteNote">刪除筆記</sys:String>
 
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">反轉順序</sys:String>
+
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">剪下</sys:String>
     <sys:String x:Key="Str_Ctx_Copy">複製</sys:String>

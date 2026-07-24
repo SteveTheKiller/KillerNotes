@@ -30,8 +30,9 @@ namespace KillerNotes
             double min     = AsDouble(values, 2);
             double width   = AsDouble(values, 3);
             double height  = AsDouble(values, 4);
-            bool vertical  = values.Length <= 5 || !(values[5] is Orientation o)
-                                 || o == Orientation.Vertical;
+            bool vertical  = values.Length <= 5
+                                 || values[5] is not Orientation
+                                 || (Orientation)values[5] == Orientation.Vertical;
 
             double trackLen = vertical ? height : width;
             double range    = max - min;

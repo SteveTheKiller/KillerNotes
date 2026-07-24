@@ -82,11 +82,11 @@ namespace KillerNotes
 
             // Right-click menu: Rename / Change color / Delete (themed like the rest).
             var menu = new ContextMenu();
-            var miRename = new MenuItem { Header = Loc("Str_TT_TagRename") };
+            var miRename = new MenuItem { Header = Loc("Str_TT_TagRename"), Icon = "\uE8AC" };
             miRename.Click += (_, _) => BeginRename(grid, label, name);
-            var miColor = new MenuItem { Header = Loc("Str_TT_TagRecolor") };
+            var miColor = new MenuItem { Header = Loc("Str_TT_TagRecolor"), Icon = "\uE790" };
             miColor.Click += (_, _) => RecolorTag(name);
-            var miDelete = new MenuItem { Header = Loc("Str_TT_TagDelete") };
+            var miDelete = new MenuItem { Header = Loc("Str_TT_TagDelete"), Icon = "\uE74D" };
             miDelete.Click += (_, _) => DeleteTag(name);
             menu.Items.Add(miRename);
             menu.Items.Add(miColor);

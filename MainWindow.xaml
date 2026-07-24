@@ -42,6 +42,40 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!-- Right-click any of the three sidebar sort buttons to pick a sort by name;
+             the button strip alone is terse. x:Shared="False" gives each button its
+             own instance. The active sort is accent-colored and shows its direction
+             arrow, refreshed each time the menu opens (Notes.cs SortMenu_Opened /
+             SortMenuItem_Click). Picking a sort mirrors clicking its button. -->
+        <ContextMenu x:Key="SortMenu" x:Shared="False" Opened="SortMenu_Opened">
+            <ContextMenu.Resources>
+                <!-- A menu applies MenuItem.SeparatorStyleKey to a Separator, not the app's
+                     implicit Separator style, so the divider otherwise falls back to WPF's
+                     bright default line. MenuBorderBrush sits too close to the menu fill to
+                     read; DimTextBrush (the same dim tone as the menu glyphs) shows a clean,
+                     unobtrusive line across every theme. -->
+                <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator">
+                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                    <Setter Property="Height" Value="1"/>
+                    <Setter Property="Margin" Value="8,4"/>
+                    <Setter Property="Background" Value="{DynamicResource DimTextBrush}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Separator">
+                                <Border Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Margin="{TemplateBinding Margin}"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ContextMenu.Resources>
+            <MenuItem Tag="created" Icon="&#xE823;" Header="{DynamicResource Str_TT_SortTimeOff}" Click="SortMenuItem_Click"/>
+            <MenuItem Tag="title" Icon="&#xE8CB;" Header="{DynamicResource Str_TT_SortAlphaOff}" Click="SortMenuItem_Click"/>
+            <MenuItem Tag="custom" Icon="&#xE76F;" Header="{DynamicResource Str_TT_SortCustom}" Click="SortMenuItem_Click"/>
+            <!-- Reverse the active sort's direction. Hidden for custom order, which has
+                 no direction (SortMenu_Opened collapses this and the separator). -->
+            <Separator/>
+            <MenuItem Tag="reverse" Icon="&#xE895;" Header="{DynamicResource Str_Ctx_ReverseOrder}" Click="SortMenuItem_Click"/>
+        </ContextMenu>
     </Window.Resources>
 
     <Grid x:Name="RootGrid" Opacity="0">
@@ -139,26 +173,30 @@
                     <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="2,0,0,6">
                         <!-- Killculator toggle (Killculator.cs / F9). E1D0 = the calculator glyph. -->
                         <Button x:Name="KalcRailBtn" Style="{StaticResource RailButton}" Content="&#xE1D0;"
-                                Margin="0,0,0,6" Click="KalcRail_Click"
+                                Margin="0,0,0,8" Click="KalcRail_Click"
                                 ToolTip="{DynamicResource Str_TT_CalcRail}"/>
+                        <!-- SketchPad (Editor.cs InsertSketchPad / F7). E70F = the pencil/draw glyph. -->
+                        <Button x:Name="SketchRailBtn" Style="{StaticResource RailButton}" Content="&#xE70F;"
+                                Margin="0,0,0,8" Click="SketchRail_Click"
+                                ToolTip="{DynamicResource Str_TT_SketchRail}"/>
                         <!-- Sidebar row density (Density.cs / Ctrl+D): click cycles Comfortable ->
                              Compact -> Minimal, mouse wheel steps through them. E8A1 = the list glyph. -->
                         <Button x:Name="DensityBtn" Style="{StaticResource RailButton}" Content="&#xE8A1;"
-                                Margin="0,0,0,6" Click="Density_Click" PreviewMouseWheel="Density_MouseWheel"
+                                Margin="0,0,0,8" Click="Density_Click" PreviewMouseWheel="Density_MouseWheel"
                                 ToolTip="{DynamicResource Str_TT_Density}"/>
                         <!-- Line-number gutter toggle (LineNumbers.cs / F11). RailButton renders
                              Content AS a glyph (Text=TemplateBinding Content), so this must be
                              Content, not a child element. EA37 = the numbered-list glyph. -->
                         <Button x:Name="LineNumBtn" Style="{StaticResource RailButton}" Content="&#xEA37;"
-                                Margin="0,0,0,6" Click="LineNumbers_Click"
+                                Margin="0,0,0,8" Click="LineNumbers_Click"
                                 ToolTip="{DynamicResource Str_TT_LineNumbers}"/>
                         <Button Style="{StaticResource RailButton}" Content="?"
-                                FontFamily="Consolas" FontSize="18" Margin="0,0,0,6"
+                                FontFamily="Consolas" FontSize="18" Margin="0,0,0,8"
                                 Click="ShortcutHelp_Click" ToolTip="{DynamicResource Str_TT_Shortcuts}"/>
                         <!-- E774 (Globe): language picker, opens the locale menu upward
                              (Localization.cs BuildLanguageMenu fills it on click) -->
                         <Button x:Name="LangButton" Style="{StaticResource RailButton}" Content="&#xE774;"
-                                Margin="0,0,0,6" Click="LangButton_Click"
+                                Margin="0,0,0,8" Click="LangButton_Click"
                                 ToolTip="{DynamicResource Str_TT_Language}">
                             <Button.ContextMenu><ContextMenu/></Button.ContextMenu>
                         </Button>
@@ -263,7 +301,17 @@
                                                  Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
                                                  SelectionBrush="{DynamicResource PrimaryBrush}" SelectionOpacity="0.35"
                                                  FontSize="12" Padding="0,0,8,0" VerticalContentAlignment="Center"
-                                                 TextChanged="SearchBox_TextChanged"/>
+                                                 TextChanged="SearchBox_TextChanged">
+                                            <!-- Explicit menu: the framework's built-in editing menu ignores the app's
+                                                 implicit ContextMenu/MenuItem styles, so it renders unthemed -->
+                                            <TextBox.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
+                                                    <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
+                                                    <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
+                                                </ContextMenu>
+                                            </TextBox.ContextMenu>
+                                        </TextBox>
                                     </Grid>
                                 </Grid>
                             </Border>
@@ -293,7 +341,8 @@
                                      (up = ascending) that flips when clicked again (Notes.cs). -->
                                 <Button x:Name="SortTimeBtn" Style="{StaticResource SurfaceButton}"
                                         Margin="8,0,0,0" Click="SortTimeBtn_Click" Width="40" Padding="0"
-                                        ToolTip="{DynamicResource Str_TT_SortTime}">
+                                        ToolTip="{DynamicResource Str_TT_SortTime}"
+                                        ContextMenu="{StaticResource SortMenu}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Text="&#xE823;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                                    VerticalAlignment="Center"/>
@@ -303,7 +352,8 @@
                                 </Button>
                                 <Button x:Name="SortAlphaBtn" Style="{StaticResource SurfaceButton}"
                                         Margin="6,0,0,0" Click="SortAlphaBtn_Click" Width="40" Padding="0"
-                                        ToolTip="{DynamicResource Str_TT_SortAlpha}">
+                                        ToolTip="{DynamicResource Str_TT_SortAlpha}"
+                                        ContextMenu="{StaticResource SortMenu}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Text="AZ" FontFamily="Consolas" FontSize="11"
                                                    VerticalAlignment="Center"/>
@@ -315,7 +365,8 @@
                                      dragging a note in any sort switches here (Groups.cs) -->
                                 <Button x:Name="SortCustomBtn" Style="{StaticResource SurfaceButton}"
                                         Margin="6,0,0,0" Click="SortCustomBtn_Click" Width="34" Padding="0"
-                                        ToolTip="{DynamicResource Str_TT_SortCustom}">
+                                        ToolTip="{DynamicResource Str_TT_SortCustom}"
+                                        ContextMenu="{StaticResource SortMenu}">
                                     <TextBlock Text="&#xE76F;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                                VerticalAlignment="Center"/>
                                 </Button>
@@ -490,18 +541,18 @@
                              Right-click selects the item under the cursor first (code-behind). -->
                         <ListBox.ContextMenu>
                             <ContextMenu Opened="NotesContextMenu_Opened">
-                                <MenuItem Header="{DynamicResource Str_Ctx_ShareNote}" Click="ShareNote_Click"
+                                <MenuItem Header="{DynamicResource Str_Ctx_ShareNote}" Icon="&#xE72D;" Click="ShareNote_Click"
                                           ToolTip="{DynamicResource Str_TT_ShareNote}"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_ExportNote}" Click="ExportNoteAs_Click"
+                                <MenuItem Header="{DynamicResource Str_Ctx_ExportNote}" Icon="&#xE74E;" Click="ExportNoteAs_Click"
                                           ToolTip="{DynamicResource Str_TT_ExportNote}"/>
                                 <!-- One toggle row per defined tag, built on open (Tags.cs) -->
-                                <MenuItem x:Name="TagsMenu" Header="{DynamicResource Str_Ctx_Tags}"/>
+                                <MenuItem x:Name="TagsMenu" Header="{DynamicResource Str_Ctx_Tags}" Icon="&#xE8EC;"/>
                                 <!-- One row per group + remove + new, built on open (Groups.cs, #4) -->
-                                <MenuItem x:Name="GroupMenu" Header="{DynamicResource Str_Ctx_Group}"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_TitleColor}" Click="TitleColorPick_Click"
+                                <MenuItem x:Name="GroupMenu" Header="{DynamicResource Str_Ctx_Group}" Icon="&#xE8B7;"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_TitleColor}" Icon="&#xE8D3;" Click="TitleColorPick_Click"
                                           ToolTip="{DynamicResource Str_TT_TitleColor}"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_TitleColorReset}" Click="TitleColorReset_Click"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_DeleteNote}" Click="DeleteNote_Click"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_TitleColorReset}" Icon="&#xE894;" Click="TitleColorReset_Click"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_DeleteNote}" Icon="&#xE74D;" Click="DeleteNote_Click"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
                         <ListBox.Resources>
@@ -519,16 +570,16 @@
                                         MouseRightButtonDown="GroupHeader_RightDown">
                                     <Border.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_NewSubgroup}" Click="NewSubgroup_Click"
+                                            <MenuItem Header="{DynamicResource Str_Ctx_NewSubgroup}" Icon="&#xE8F4;" Click="NewSubgroup_Click"
                                                       InputGestureText="Ctrl+Shift+G"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_SubTop}" Tag="subtop" IsCheckable="True"
                                                       Click="SubgroupsOnTop_Click" ToolTip="{DynamicResource Str_TT_SubTop}"/>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_RenameGroup}" Click="RenameGroup_Click"/>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_GroupColor}" Click="GroupColorPick_Click"
+                                            <MenuItem Header="{DynamicResource Str_Ctx_RenameGroup}" Icon="&#xE8AC;" Click="RenameGroup_Click"/>
+                                            <MenuItem Header="{DynamicResource Str_Ctx_GroupColor}" Icon="&#xE790;" Click="GroupColorPick_Click"
                                                       Tag="groupcolor" InputGestureText="Ctrl+Shift+K"
                                                       ToolTip="{DynamicResource Str_TT_GroupColor}"/>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_GroupColorReset}" Click="GroupColorReset_Click"/>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_DeleteGroup}" Click="DeleteGroup_Click"/>
+                                            <MenuItem Header="{DynamicResource Str_Ctx_GroupColorReset}" Icon="&#xE894;" Click="GroupColorReset_Click"/>
+                                            <MenuItem Header="{DynamicResource Str_Ctx_DeleteGroup}" Icon="&#xE74D;" Click="DeleteGroup_Click"/>
                                         </ContextMenu>
                                     </Border.ContextMenu>
                                     <!-- No chevron: the colored spine (the container line) is the group's
@@ -872,9 +923,9 @@
                          implicit ContextMenu/MenuItem styles, so it renders unthemed -->
                     <TextBox.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
-                            <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
-                            <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
+                            <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
+                            <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
+                            <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
                         </ContextMenu>
                     </TextBox.ContextMenu>
                 </TextBox>
@@ -1110,7 +1161,7 @@
                     <!-- Line-number gutter (LineNumbers.cs): a Canvas whose numbers are positioned to
                          each paragraph; GutterCol stays 0-wide until the gutter is toggled on. -->
                     <Canvas x:Name="LineGutter" Grid.Column="0" ClipToBounds="True" Margin="2,0,0,8"/>
-                    <RichTextBox x:Name="Editor" Grid.Column="1" Margin="8,0,8,8"
+                    <RichTextBox x:Name="Editor" Grid.Column="1" Padding="8,0,8,8"
                                  FontFamily="{DynamicResource ContentFont}"
                                  Background="Transparent" BorderThickness="0"
                                  Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
@@ -1120,6 +1171,11 @@
                                  HorizontalScrollBarVisibility="Auto"
                                  TextChanged="Editor_TextChanged">
                         <RichTextBox.Resources>
+                            <!-- The default ScrollViewer corner (where the H and V scrollbars meet, shown
+                                 with word wrap off) fills with SystemColors.ControlBrush - a light gray that
+                                 reads as a white square on the dark theme. Make it transparent so the note
+                                 pane behind shows through instead of a bright block. -->
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
                             <!-- Hyperlinks (Links.cs, 1.1.3): accent-colored and theme-reactive.
                                  NormalizeElement clears the baked link-blue on load/paste so this
                                  implicit style always wins; Ctrl+Click opens (tooltip = target). -->
@@ -1139,13 +1195,13 @@
                         </RichTextBox.Resources>
                         <RichTextBox.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_ConvertList}" Click="ConvertToList_Click"
+                                <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
+                                <MenuItem Header="{DynamicResource Str_Ctx_ConvertList}" Icon="&#xE8FD;" Click="ConvertToList_Click"
                                           InputGestureText="Ctrl+Shift+J" ToolTip="{DynamicResource Str_TT_ConvertList}"/>
                                 <!-- Insert on empty selection, edit/remove with the caret in a link (Links.cs) -->
-                                <MenuItem Header="{DynamicResource Str_Ctx_Link}" Click="LinkMenu_Click"
+                                <MenuItem Header="{DynamicResource Str_Ctx_Link}" Icon="&#xE71B;" Click="LinkMenu_Click"
                                           InputGestureText="Ctrl+K"/>
                             </ContextMenu>
                         </RichTextBox.ContextMenu>
@@ -1471,7 +1527,7 @@
         <!-- Shortcuts overlay (F1): same card language as About; mutually exclusive with it -->
         <Grid x:Name="ShortcutOverlay" Grid.RowSpan="3" Panel.ZIndex="9100" Visibility="Collapsed"
               Background="#88000000" MouseLeftButtonDown="ShortcutOverlay_Click">
-            <Grid x:Name="ShortcutCardGrid" MinWidth="380" MaxWidth="380"
+            <Grid x:Name="ShortcutCardGrid" MinWidth="380"
                   VerticalAlignment="Center" MouseLeftButtonDown="ShortcutCard_Click">
                 <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="6" IsHitTestVisible="False">
                     <Border.Effect>
@@ -1483,6 +1539,36 @@
                     <Grid>
                         <Border IsHitTestVisible="False" CornerRadius="6"
                                 Opacity="{DynamicResource GrainOpacity}" Background="{DynamicResource GrainTileBrush}"/>
+                        <!-- Close X: a direct child of the card grid (matches the working About overlay)
+                             so it sits at the card's top-right corner and always receives the click. -->
+                        <Button Content="&#x2715;" Click="ShortcutClose_Click" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                Width="28" Height="26" Margin="0,6,6,0" Panel.ZIndex="2" FontSize="11"
+                                Background="Transparent" BorderThickness="0" Cursor="Hand">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="Transparent">
+                                                    <ContentPresenter x:Name="cp" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Foreground" Value="#E04444"/>
+                                                        <Setter TargetName="cp" Property="Effect">
+                                                            <Setter.Value>
+                                                                <DropShadowEffect Color="#000000" BlurRadius="4" ShadowDepth="1" Direction="270" Opacity="0.5"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                         <StackPanel Margin="18,14,18,18">
                             <Grid Margin="0,0,0,12">
                                 <TextBlock Text="{DynamicResource Str_KS_Title}" Foreground="{DynamicResource TextBrush}"
@@ -1495,42 +1581,14 @@
                                     <Button x:Name="KsViewKeyboardBtn" Style="{StaticResource KsTabBtn}"
                                             Content="{DynamicResource Str_KS_ViewKeyboard}" Click="KsViewKeyboard_Click"/>
                                 </StackPanel>
-                                <!-- Foreground lives in a Style setter, NOT a local attribute:
-                                     a local value outranks the template's hover trigger and
-                                     the X never turned red -->
-                                <Button Content="&#x2715;" Click="ShortcutClose_Click" HorizontalAlignment="Right"
-                                        VerticalAlignment="Top" Width="28" Height="22" FontSize="11" Panel.ZIndex="2"
-                                        Background="Transparent" BorderThickness="0" Cursor="Hand">
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="Button">
-                                                        <Border Background="Transparent">
-                                                            <ContentPresenter x:Name="cp" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                        </Border>
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter Property="Foreground" Value="#E04444"/>
-                                                                <Setter TargetName="cp" Property="Effect">
-                                                                    <Setter.Value>
-                                                                        <DropShadowEffect Color="#000000" BlurRadius="4" ShadowDepth="1" Direction="270" Opacity="0.5"/>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
                             </Grid>
-                            <!-- Rows are built in code (Shortcuts.cs BuildShortcutRows) so the
-                                 list stays next to the handlers that implement it -->
+                            <!-- Rows are built in code (Shortcuts.cs BuildShortcutRows). Two columns keep
+                                 the ~48-row list inside the card instead of running off the bottom. -->
                             <Grid x:Name="ShortcutListHost">
-                                <StackPanel x:Name="ShortcutRows"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel x:Name="ShortcutColLeft"  Width="300"/>
+                                    <StackPanel x:Name="ShortcutColRight" Width="300" Margin="20,0,0,0"/>
+                                </StackPanel>
                             </Grid>
                             <!-- KEYBOARD view - generated by KeyboardMap.cs, hidden until toggled -->
                             <StackPanel x:Name="ShortcutKeyboardHost" Visibility="Collapsed"/>

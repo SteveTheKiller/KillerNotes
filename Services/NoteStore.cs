@@ -144,6 +144,12 @@ CREATE TABLE IF NOT EXISTS groups(
     sort_order INTEGER NOT NULL DEFAULT 0,
     collapsed  INTEGER NOT NULL DEFAULT 0,
     color      TEXT NOT NULL DEFAULT ''
+);
+CREATE TABLE IF NOT EXISTS sketches(
+    note_id INTEGER NOT NULL,
+    ord     INTEGER NOT NULL,
+    payload BLOB NOT NULL,
+    PRIMARY KEY(note_id, ord)
 );";
 
         private static void EnsureSchema()
@@ -173,7 +179,7 @@ CREATE TABLE IF NOT EXISTS groups(
 
         private static void SeedDefaultTags()
         {
-            foreach (var t in DefaultTags) AddTag(t.Name, t.Color);
+            foreach (var (name, color) in DefaultTags) AddTag(name, color);
         }
 
         // 1.0.1 additive columns (per-note title color + spell check). ALTER-on-open is
@@ -308,6 +314,48 @@ WHERE notes_fts MATCH $q ORDER BY rank";
             cmd.Parameters.AddWithValue("$m", Ts(DateTime.Now));
             cmd.Parameters.AddWithValue("$id", id);
             cmd.ExecuteNonQuery();
+        }
+
+        // ---- SketchPad payloads (BACKLOG: SketchPad) ----
+        // A sketch shows in the note as a flattened image (rides the content XamlPackage); its
+        // editable strokes live here, keyed by note id and the image's ordinal in document order.
+        // The note format strips any marker we put on the image, so ordinal is the link: the save
+        // and load walks see the same images in the same order, so ord N is the same image both
+        // times. Rewritten whole on every note save.
+
+        /// <summary>Replaces the note's sketch rows with the given ordinal -> ISF payload set.</summary>
+        public static void SaveSketches(long noteId, IReadOnlyDictionary<int, byte[]> byOrdinal)
+        {
+            if (_db == null) return;
+            using (var del = _db.CreateCommand())
+            {
+                del.CommandText = "DELETE FROM sketches WHERE note_id = $id";
+                del.Parameters.AddWithValue("$id", noteId);
+                del.ExecuteNonQuery();
+            }
+            foreach (var kv in byOrdinal)
+            {
+                using var ins = _db.CreateCommand();
+                ins.CommandText = "INSERT INTO sketches(note_id, ord, payload) VALUES ($id, $o, $p)";
+                ins.Parameters.AddWithValue("$id", noteId);
+                ins.Parameters.AddWithValue("$o", kv.Key);
+                ins.Parameters.AddWithValue("$p", kv.Value);
+                ins.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>The note's sketch payloads as ordinal -> ISF bytes (empty when none).</summary>
+        public static Dictionary<int, byte[]> LoadSketches(long noteId)
+        {
+            var map = new Dictionary<int, byte[]>();
+            if (_db == null) return map;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT ord, payload FROM sketches WHERE note_id = $id";
+            cmd.Parameters.AddWithValue("$id", noteId);
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+                map[(int)r.GetInt64(0)] = (byte[])r.GetValue(1);
+            return map;
         }
 
         /// <summary>Backdates a note (demo mode only - fabricated screenshot data needs a
@@ -512,13 +560,13 @@ WHERE notes_fts MATCH $q ORDER BY rank";
         public static void SetNoteOrders(IEnumerable<(long Id, int Order)> orders)
         {
             using var tx = _db!.BeginTransaction();
-            foreach (var o in orders)
+            foreach (var (id, order) in orders)
             {
                 using var cmd = _db!.CreateCommand();
                 cmd.Transaction = tx;
                 cmd.CommandText = "UPDATE notes SET sort_order = $o WHERE id = $id";
-                cmd.Parameters.AddWithValue("$o", o.Order);
-                cmd.Parameters.AddWithValue("$id", o.Id);
+                cmd.Parameters.AddWithValue("$o", order);
+                cmd.Parameters.AddWithValue("$id", id);
                 cmd.ExecuteNonQuery();
             }
             tx.Commit();
@@ -567,14 +615,14 @@ WHERE notes_fts MATCH $q ORDER BY rank";
         public static string GroupParentOf(string path)
         {
             int i = path.LastIndexOf(GroupSep, StringComparison.Ordinal);
-            return i < 0 ? "" : path.Substring(0, i);
+            return i < 0 ? "" : path[..i];
         }
 
         /// <summary>Leaf name of a group path (the part after the last separator).</summary>
         public static string GroupNameOf(string path)
         {
             int i = path.LastIndexOf(GroupSep, StringComparison.Ordinal);
-            return i < 0 ? path : path.Substring(i + GroupSep.Length);
+            return i < 0 ? path : path[(i + GroupSep.Length)..];
         }
 
         /// <summary>Joins a parent path and a leaf name into a child group path.</summary>
@@ -757,7 +805,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             var byParent = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
             foreach (var g in ListGroupTree())
             {
-                if (!byParent.TryGetValue(g.Parent, out var lst)) { lst = new(); byParent[g.Parent] = lst; }
+                if (!byParent.TryGetValue(g.Parent, out var lst)) { lst = []; byParent[g.Parent] = lst; }
                 lst.Add(g.Path);
             }
             if (byParent.TryGetValue(newParent, out var sibs))
@@ -792,8 +840,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         /// <summary>Shared CSV parser for notes.tags ("a, b" style; commas are stripped
         /// from tag names at entry, so a plain split is safe).</summary>
         public static string[] SplitTags(string tags) =>
-            tags.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(t => t.Trim()).Where(t => t.Length > 0).ToArray();
+            [.. tags.Split([','], StringSplitOptions.RemoveEmptyEntries)
+                .Select(t => t.Trim()).Where(t => t.Length > 0)];
 
         // Renames (newName != null) or removes (null) one tag inside every note's CSV.
         // C#-side rewrite on purpose: CSV surgery in SQL is fragile, and note counts
@@ -807,11 +855,11 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 using var r = cmd.ExecuteReader();
                 while (r.Read()) rows.Add((r.GetInt64(0), r.GetString(1)));
             }
-            foreach (var row in rows)
+            foreach (var (id, tags) in rows)
             {
                 bool hit = false;
                 var outParts = new List<string>();
-                foreach (var p in SplitTags(row.Tags))
+                foreach (var p in SplitTags(tags))
                 {
                     if (string.Equals(p, name, StringComparison.OrdinalIgnoreCase))
                     {
@@ -821,7 +869,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     }
                     else outParts.Add(p);
                 }
-                if (hit) SetNoteTags(row.Id, string.Join(", ", outParts));
+                if (hit) SetNoteTags(id, string.Join(", ", outParts));
             }
         }
 
@@ -1038,7 +1086,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                             using var tr = td.ExecuteReader();
                             while (tr.Read()) defs.Add((tr.GetString(0), tr.GetString(1)));
                         }
-                        foreach (var d in defs) AddTag(d.N, d.C);
+                        foreach (var (n, c) in defs) AddTag(n, c);
                     }
                 }
                 return count;
@@ -1083,7 +1131,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         {
             s = s.TrimStart();
             int nl = s.IndexOfAny(['\r', '\n']);
-            return nl < 0 ? s : s.Substring(0, nl);
+            return nl < 0 ? s : s[..nl];
         }
     }
 }

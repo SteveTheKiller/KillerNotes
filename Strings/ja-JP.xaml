@@ -26,6 +26,9 @@
     <sys:String x:Key="Str_TT_ExportNote">通常のファイルとしてコピーを保存 - .txt、.rtf、.html (F8)</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteNote">ノートを削除</sys:String>
 
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">並び順を逆にする</sys:String>
+
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">切り取り</sys:String>
     <sys:String x:Key="Str_Ctx_Copy">コピー</sys:String>

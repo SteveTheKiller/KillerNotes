@@ -10,7 +10,7 @@ namespace KillerNotes.Services
     //   [1] Controls.xaml
     //   [2] Strings/en-US.xaml  - always present (English base)
     //   [3] the chosen locale's overrides (absent for English)
-    internal enum Locale { EnUS, Es, ZhTW, ZhCN, Bn, TrTR, De, Fr, Ja }
+    internal enum Locale { EnUS, Es, ZhTW, ZhCN, Bn, TrTR, De, Fr, Ja, Cs }
 
     internal static class LocaleManager
     {
@@ -50,6 +50,7 @@ namespace KillerNotes.Services
                 Locale.TrTR => new Uri("pack://application:,,,/Strings/tr-TR.xaml"),
                 Locale.De   => new Uri("pack://application:,,,/Strings/de-DE.xaml"),
                 Locale.Ja   => new Uri("pack://application:,,,/Strings/ja-JP.xaml"),
+                Locale.Cs   => new Uri("pack://application:,,,/Strings/cs-CZ.xaml"),
                 _           => null,   // English: base only
             };
 

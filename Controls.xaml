@@ -310,6 +310,13 @@
                             </Track.Thumb>
                         </Track>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <!-- The Track is IsDirectionReversed=True for the vertical bar (value 0 = top). A
+                             horizontal bar must NOT be reversed, or the thumb sits on the right at offset 0. -->
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="False"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -392,6 +399,13 @@
                                            Visibility="Collapsed"/>
                             </Grid>
                         </Border>
+                        <!-- Left-gutter icon: MenuItem.Icon set as a Segoe MDL2 glyph string renders
+                             in the same 24px inset as the check glyph, matching the KillerPDF context
+                             menus. Non-checkable items carry an icon; checkable ones carry the check. -->
+                        <TextBlock x:Name="IconGlyph" Text="{TemplateBinding Icon}"
+                                   FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                   Margin="6,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource DimTextBrush}" IsHitTestVisible="False"/>
                         <!-- Check glyph for IsCheckable items (e.g. Subgroups on top), drawn in
                              the 24px left padding inset; the default WPF check lives in a part
                              this template doesn't have. -->

@@ -16,7 +16,7 @@ namespace KillerNotes
         private int _density;
 
         private static readonly string[] DensityStatusKeys =
-            { "Str_St_DensityFull", "Str_St_DensityCompact", "Str_St_DensityMin" };
+            ["Str_St_DensityFull", "Str_St_DensityCompact", "Str_St_DensityMin"];
 
         private void InitDensity() =>
             _density = int.TryParse(App.GetSetting("SidebarDensity"), out int d) ? ClampDensity(d) : 0;

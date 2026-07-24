@@ -24,8 +24,8 @@ namespace KillerNotes
         private TextBlock? _kbDetail;
         private TextBlock? _kbHoverAct;   // caption of the key under the mouse
         private string? _kbHoverId;
-        private readonly Dictionary<string, (Border Cap, TextBlock Act, Rectangle Bar)> _kbKeys = new();
-        private readonly Dictionary<KbLayer, Button> _kbLayerBtns = new();
+        private readonly Dictionary<string, (Border Cap, TextBlock Act, Rectangle Bar)> _kbKeys = [];
+        private readonly Dictionary<KbLayer, Button> _kbLayerBtns = [];
         private static readonly FontFamily KbMono = new("Consolas");
 
         private const string KsViewSetting = "ShortcutView";   // "list" (default) | "keyboard"
@@ -41,7 +41,7 @@ namespace KillerNotes
                 ["F3"] = ("Search", "Str_KS_Search"),
                 ["F4"] = ("View", "Str_Kb_Preview"),
                 ["F6"] = ("View", "Str_Kb_FormatBar"),
-                ["F7"] = ("Note", "Str_KS_ManageTags"),
+                ["F7"] = ("View", "Str_KS_SketchPad"),
                 ["F8"] = ("File", "Str_Kb_Export"),
                 ["F9"] = ("View", "Str_KS_Calc"),
                 ["F10"] = ("View", "Str_KS_SortCycle"),
@@ -69,7 +69,7 @@ namespace KillerNotes
                 ["A"] = ("Edit", "Str_Kb_SelectAll"),
                 ["D"] = ("View", "Str_KS_Density"),
                 ["G"] = ("Note", "Str_KS_NewGroup"),
-                ["T"] = ("View", "Str_KS_Theme"),
+                ["T"] = ("Note", "Str_KS_ManageTags"),
                 ["K"] = ("Format", "Str_KS_Link"),
                 ["Enter"] = ("Note", "Str_KS_CalcPrint"),
                 ["D1"] = ("Note", "Str_Kb_Tag"),
@@ -99,6 +99,7 @@ namespace KillerNotes
             },
             [KbLayer.CtrlShift] = new()
             {
+                ["D"] = ("View", "Str_KS_SketchPad"),   // also F7
                 ["S"] = ("Format", "Str_KS_Strike"),
                 ["M"] = ("Format", "Str_KS_Mono"),
                 ["H"] = ("Format", "Str_Kb_Highlight"),
@@ -175,7 +176,7 @@ namespace KillerNotes
             if (keyboard && !_kbBuilt) BuildKeyboardView();
             ShortcutListHost.Visibility     = keyboard ? Visibility.Collapsed : Visibility.Visible;
             ShortcutKeyboardHost.Visibility = keyboard ? Visibility.Visible : Visibility.Collapsed;
-            ShortcutCardGrid.MaxWidth       = keyboard ? 1000 : 380;
+            ShortcutCardGrid.MaxWidth       = keyboard ? 1000 : 680;   // list: wide enough for both columns
             KsViewListBtn.SetResourceReference(ForegroundProperty, keyboard ? "MutedTextBrush" : "PrimaryBrush");
             KsViewKeyboardBtn.SetResourceReference(ForegroundProperty, keyboard ? "PrimaryBrush" : "MutedTextBrush");
             if (keyboard) SetKbLayer(KbLayer.Base);
@@ -392,21 +393,21 @@ namespace KillerNotes
             var map = KbMap[layer];
             foreach (var kv in _kbKeys)   // no KeyValuePair deconstruction on net48
             {
-                var vis = kv.Value;
+                var (cap, act, bar) = kv.Value;
                 if (map.TryGetValue(kv.Key, out var b))
                 {
-                    vis.Cap.SetResourceReference(Border.BorderBrushProperty, "KnCat" + b.Cat);
-                    vis.Bar.SetResourceReference(Shape.FillProperty, "KnCat" + b.Cat);
-                    vis.Bar.Visibility = Visibility.Visible;
-                    vis.Act.Text = Loc(b.Label);
-                    vis.Act.SetResourceReference(TextBlock.ForegroundProperty, "KnCat" + b.Cat);
-                    vis.Act.Visibility = Visibility.Visible;
+                    cap.SetResourceReference(Border.BorderBrushProperty, "KnCat" + b.Cat);
+                    bar.SetResourceReference(Shape.FillProperty, "KnCat" + b.Cat);
+                    bar.Visibility = Visibility.Visible;
+                    act.Text = Loc(b.Label);
+                    act.SetResourceReference(TextBlock.ForegroundProperty, "KnCat" + b.Cat);
+                    act.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    vis.Cap.SetResourceReference(Border.BorderBrushProperty, "CardBorderBrush");
-                    vis.Bar.Visibility = Visibility.Collapsed;
-                    vis.Act.Visibility = Visibility.Collapsed;
+                    cap.SetResourceReference(Border.BorderBrushProperty, "CardBorderBrush");
+                    bar.Visibility = Visibility.Collapsed;
+                    act.Visibility = Visibility.Collapsed;
                 }
             }
             // Modifier caps that define the layer glow accent; the captions follow suit.

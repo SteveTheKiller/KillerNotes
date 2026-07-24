@@ -378,12 +378,12 @@ namespace KillerNotes
                 if (shellType is null) return;
                 object shell = Activator.CreateInstance(shellType)!;
                 object shortcut = shellType.InvokeMember("CreateShortcut",
-                    BindingFlags.InvokeMethod, null, shell, new object[] { lnkPath })!;
+                    BindingFlags.InvokeMethod, null, shell, [lnkPath])!;
                 var sc = shortcut.GetType();
                 sc.InvokeMember("TargetPath", BindingFlags.SetProperty,
-                    null, shortcut, new object[] { targetPath });
+                    null, shortcut, [targetPath]);
                 sc.InvokeMember("WorkingDirectory", BindingFlags.SetProperty,
-                    null, shortcut, new object[] { Path.GetDirectoryName(targetPath)! });
+                    null, shortcut, [Path.GetDirectoryName(targetPath)!]);
                 sc.InvokeMember("Save", BindingFlags.InvokeMethod,
                     null, shortcut, null);
             }

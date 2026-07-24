@@ -32,6 +32,9 @@
     <sys:String x:Key="Str_TT_ExportNote">Save a copy as an ordinary file - .txt, .rtf, or .html (F8)</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteNote">Delete note</sys:String>
 
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">Reverse order</sys:String>
+
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">Cut</sys:String>
     <sys:String x:Key="Str_Ctx_Copy">Copy</sys:String>
@@ -73,11 +76,14 @@
     <sys:String x:Key="Str_KS_Calc">Killculator - Print drops the result into the note</sys:String>
     <sys:String x:Key="Str_KS_CalcPrint">Print the Killculator result to the note</sys:String>
     <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
+    <sys:String x:Key="Str_TT_SketchRail">SketchPad - draw a sketch (F7)</sys:String>
     <sys:String x:Key="Str_Btn_CalcPrint">Print to note</sys:String>
     <sys:String x:Key="Str_TT_CalcPrint">Print the result into this note at the cursor (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_TT_CalcClose">Close (Esc)</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">Open a note first</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">Printed to note</sys:String>
+    <sys:String x:Key="Str_St_SketchEmpty">Draw something first</sys:String>
+    <sys:String x:Key="Str_St_SketchUpdated">Sketch updated</sys:String>
     <sys:String x:Key="Str_TT_TextColor">Text color and highlight</sys:String>
     <sys:String x:Key="Str_TT_Bullets">Bulleted list (Ctrl+Shift+L)</sys:String>
     <sys:String x:Key="Str_TT_Numbering">Numbered list (Ctrl+Shift+N)</sys:String>
@@ -438,6 +444,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_TagRemoved">Untagged: {0}</sys:String>
     <sys:String x:Key="Str_KS_Tags">Toggle tags 1-9 on the open note</sys:String>
     <sys:String x:Key="Str_KS_ManageTags">Manage tags (add, rename, recolor)</sys:String>
+    <sys:String x:Key="Str_KS_SketchPad">SketchPad - draw and annotate</sys:String>
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Portable">PORTABLE</sys:String>

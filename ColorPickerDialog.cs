@@ -280,7 +280,9 @@ namespace KillerNotes
 
         // ---- Saved swatches ----
 
-        private List<Color> LoadSaved()
+        // Shared with the SketchPad tool strip so both show the same slots and the picker's
+        // Replace / Reset edits them for both.
+        public static List<Color> UserSwatches()
         {
             var raw = App.GetSetting(SavedKey);
             if (string.IsNullOrWhiteSpace(raw)) return [.. DefaultSwatches];   // first run = defaults
@@ -289,6 +291,8 @@ namespace KillerNotes
                 if (TryParseHex(part.Trim(), out Color c)) list.Add(c);
             return list.Count > 0 ? list : [.. DefaultSwatches];
         }
+
+        private List<Color> LoadSaved() => UserSwatches();
 
         private void StoreSaved(List<Color> list) =>
             App.SetSetting(SavedKey, string.Join(",", list.Take(SwatchMax).Select(c => $"#{c.R:X2}{c.G:X2}{c.B:X2}")));

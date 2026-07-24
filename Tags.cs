@@ -61,7 +61,7 @@ namespace KillerNotes
 
         private void TagChip_Click(object sender, MouseButtonEventArgs e)
         {
-            if ((sender as FrameworkElement)?.DataContext is TagChip chip)
+            if (sender is FrameworkElement { DataContext: TagChip chip })
             {
                 SearchBox.Text = chip.Name;
                 e.Handled = true;

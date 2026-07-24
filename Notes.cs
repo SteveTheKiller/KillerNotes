@@ -23,7 +23,7 @@ namespace KillerNotes
         private bool _syncingSelection;   // suppresses SelectionChanged while the list re-syncs
         private string _sortField = "created";   // "created" | "title" | "custom" (#4)
         private bool _sortAsc = true;            // default: oldest at the top, moving down
-        private string _sort => _sortField == "custom" ? "custom"
+        private string SortKey => _sortField == "custom" ? "custom"
                                                        : $"{_sortField}-{(_sortAsc ? "asc" : "desc")}";
         private readonly DispatcherTimer _saveTimer = new() { Interval = TimeSpan.FromSeconds(2) };
         // Reverts a transient status message (drag-ready, tag toggled, ...) back to the
@@ -53,13 +53,13 @@ namespace KillerNotes
         // Stable ItemsSource so the list is updated in place (ReconcileSidebar) instead of
         // reassigned. Reassigning ItemsSource resets the scroll offset, which reads as the
         // sidebar jumping on every collapse/expand or group move.
-        private readonly System.Collections.ObjectModel.ObservableCollection<object> _sidebarItems = new();
+        private readonly System.Collections.ObjectModel.ObservableCollection<object> _sidebarItems = [];
 
         private void RefreshList(bool preserveScroll = false)
         {
             if (!NoteStore.IsOpen) return;
             RefreshTagDefs();   // Tags.cs (cheap; keeps chip colors current across db switches)
-            _notes = NoteStore.List(SearchBox.Text, _sort);
+            _notes = NoteStore.List(SearchBox.Text, SortKey);
             ApplyTagChips(_notes);   // Tags.cs
             foreach (var n in _notes) n.Density = _density;   // sidebar row density (Density.cs)
 
@@ -206,6 +206,39 @@ namespace KillerNotes
             SortCustomBtn.ToolTip = Loc("Str_TT_SortCustom");
         }
 
+        // The three sort buttons share a right-click menu (MainWindow.xaml SortMenu) that
+        // names each sort beside its glyph, so you can pick one without decoding the strip.
+        // Refresh the active marker each time it opens: accent the current mode and, for
+        // the two directional sorts, show its arrow on the right (custom has no direction).
+        private void SortMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            if (sender is not ContextMenu menu) return;
+            bool directional = _sortField != "custom";   // custom order has no direction to reverse
+            foreach (var obj in menu.Items)
+            {
+                // The reverse action and its separator only apply to a directional sort.
+                if (obj is Separator sep) { sep.Visibility = directional ? Visibility.Visible : Visibility.Collapsed; continue; }
+                if (obj is not MenuItem item) continue;
+                if (item.Tag as string == "reverse") { item.Visibility = directional ? Visibility.Visible : Visibility.Collapsed; continue; }
+                bool active = (item.Tag as string) == _sortField;
+                if (active) item.SetResourceReference(ForegroundProperty, "PrimaryBrush");
+                else item.ClearValue(ForegroundProperty);   // fall back to the style so hover still accents
+                item.InputGestureText = active && directional ? (_sortAsc ? "↑" : "↓") : "";
+            }
+        }
+
+        // A sort mode from the menu behaves exactly like clicking its button (switch to it,
+        // or reverse when already active); "Reverse order" flips the active sort's direction.
+        private void SortMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not MenuItem item || item.Tag is not string tag) return;
+            if (tag == "reverse")
+            {
+                if (_sortField != "custom") SetSort(_sortField, defaultAsc: true);   // same field -> SetSort flips direction
+            }
+            else SetSort(tag, defaultAsc: true);
+        }
+
         private void NotesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Group headers are never a selection (#4): clicks toggle collapse and set
@@ -285,6 +318,7 @@ namespace KillerNotes
             ShowEditor(true);
             RestoreNotePosition(id);   // reopen where the note was left, not at the top (1.1.1)
             UpdatePreviewState();   // Preview.cs (md/html detection for this note)
+            LinkSketchPayloads(id);   // SketchPad: re-attach sketch strokes to their images (Editor.cs)
         }
 
         // ---- Remembered reading position (1.1.1, #8 follow-up) ----
@@ -332,6 +366,7 @@ namespace KillerNotes
             using var ms = new MemoryStream();
             range.Save(ms, DataFormats.XamlPackage);
             NoteStore.Save(_currentId, TitleBox.Text, ms.ToArray(), range.Text);
+            SaveSketchPayloads(_currentId);   // SketchPad: persist sketch strokes by image ordinal (Editor.cs)
             _dirty = false;
 
             // ALWAYS sync the in-memory row too: OpenNote reads titles from this list, so
@@ -346,8 +381,8 @@ namespace KillerNotes
             // a new title/snippet never appeared in the sidebar.
             string plain = range.Text.TrimStart();
             int nl = plain.IndexOfAny(['\r', '\n']);
-            if (nl >= 0) plain = plain.Substring(0, nl);
-            string snippet = plain.Length > 120 ? plain.Substring(0, 120) : plain;
+            if (nl >= 0) plain = plain[..nl];
+            string snippet = plain.Length > 120 ? plain[..120] : plain;
             foreach (var meta in new[] { _notes.FirstOrDefault(n => n.Id == _currentId),
                                          _sidebarItems.OfType<Note>().FirstOrDefault(n => n.Id == _currentId) })
                 if (meta != null)
@@ -431,8 +466,8 @@ namespace KillerNotes
             {
                 int sep = last.LastIndexOf('|');
                 if (sep > 0 &&
-                    string.Equals(last.Substring(0, sep), NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase) &&
-                    long.TryParse(last.Substring(sep + 1), out long lastId))
+                    string.Equals(last[..sep], NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase) &&
+                    long.TryParse(last[(sep + 1)..], out long lastId))
                     target = _notes.FirstOrDefault(n => n.Id == lastId);
             }
             target ??= _notes.OrderByDescending(n => n.Modified).FirstOrDefault();

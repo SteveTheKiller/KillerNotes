@@ -75,7 +75,7 @@ namespace KillerNotes.Models
         public int GroupDepth { get; set; }
         public bool IsNested => GroupDepth > 0;   // shared spine style binds this; only headers act on it
         public double GutterWidth => GroupDepth * 14;
-        public List<GroupRail> Rails { get; set; } = new();
+        public List<GroupRail> Rails { get; set; } = [];
         private string _groupColor = "";
         public string GroupColor
         {
@@ -140,7 +140,7 @@ namespace KillerNotes.Models
         public int Depth { get; set; }
         public bool IsNested => Depth > 0;   // a subgroup: its own spine starts just above its header text (see the spine style in MainWindow.xaml)
         public double GutterWidth => Depth * 14;
-        public List<GroupRail> Rails { get; set; } = new();
+        public List<GroupRail> Rails { get; set; } = [];
         public string Name { get; set; } = "";
         public int Count { get; set; }
         public bool Collapsed { get; set; }

@@ -22,7 +22,7 @@ namespace KillerNotes
             ("F4",            "Str_KS_Preview"),
             ("F5",            "Str_KS_Sidebar"),
             ("F6",            "Str_KS_FormatBar"),
-            ("F7",            "Str_KS_ManageTags"),
+            ("F7 / Ctrl+Shift+D", "Str_KS_SketchPad"),
             ("F8",            "Str_KS_Export"),
             ("F9",            "Str_KS_Calc"),
             ("F10",           "Str_KS_SortCycle"),
@@ -30,7 +30,7 @@ namespace KillerNotes
             ("F12",           "Str_KS_About"),
             ("Ctrl+N",        "Str_KS_NewNote"),
             ("Ctrl+G",        "Str_KS_NewGroup"),
-            ("Ctrl+T",        "Str_KS_Theme"),
+            ("Ctrl+T",        "Str_KS_ManageTags"),
             ("Ctrl+K",        "Str_KS_Link"),
             ("Ctrl+O",        "Str_KS_OpenFiles"),
             ("Ctrl+S",        "Str_KS_Save"),
@@ -77,8 +77,13 @@ namespace KillerNotes
 
         private void BuildShortcutRows()
         {
-            foreach (var (keys, action) in ShortcutMap)
+            // Split the list across two columns so all ~48 rows fit the card instead of
+            // running one long column off the bottom of the screen. The left column takes
+            // the extra row when the count is odd.
+            int perCol = (ShortcutMap.Length + 1) / 2;
+            for (int i = 0; i < ShortcutMap.Length; i++)
             {
+                var (keys, action) = ShortcutMap[i];
                 var row = new Grid { Margin = new Thickness(0, 0, 0, 6) };
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -92,7 +97,7 @@ namespace KillerNotes
 
                 row.Children.Add(key);
                 row.Children.Add(desc);
-                ShortcutRows.Children.Add(row);
+                (i < perCol ? ShortcutColLeft : ShortcutColRight).Children.Add(row);
             }
         }
 
@@ -191,7 +196,7 @@ namespace KillerNotes
                     e.Handled = true;
                     break;
                 case Key.F7:
-                    if (NoteStore.IsOpen) OpenTagsDialog();   // Tags.cs (needs a db, not a note)
+                    OpenSketchPad();     // Editor.cs (open the modeless SketchPad companion window)
                     e.Handled = true;
                     break;
                 case Key.F8:
@@ -277,9 +282,20 @@ namespace KillerNotes
                     NewGroupShortcut();
                     e.Handled = true;
                     break;
-                // Ctrl+T: open the theme/accent flyout (ThemeFlyout.cs).
+                // Ctrl+T: Manage tags (moved off F7 when SketchPad took it; tags beat the
+                // theme picker for the bare key). Ctrl+1-9 still toggle individual tags.
                 case Key.T when ctrl && !shift:
-                    OpenThemeMenu();
+                    if (NoteStore.IsOpen) OpenTagsDialog();   // Tags.cs (needs a db, not a note)
+                    e.Handled = true;
+                    break;
+                // Ctrl+Shift+T: theme/accent flyout (demoted from Ctrl+T).
+                case Key.T when ctrl && shift:
+                    OpenThemeMenu();   // ThemeFlyout.cs
+                    e.Handled = true;
+                    break;
+                // Ctrl+Shift+D (also F7): open the modeless SketchPad companion window (Editor.cs).
+                case Key.D when ctrl && shift:
+                    OpenSketchPad();
                     e.Handled = true;
                     break;
                 // Ctrl+K: insert / edit a hyperlink on the selection (Links.cs).
@@ -297,7 +313,7 @@ namespace KillerNotes
                     e.Handled = true;
                     break;
                 case Key.Delete when NotesList.IsKeyboardFocusWithin && NotesList.SelectedItems.Count > 0:
-                    DeleteNotesWithConfirm(NotesList.SelectedItems.Cast<Note>().ToList());   // Notes.cs
+                    DeleteNotesWithConfirm([.. NotesList.SelectedItems.Cast<Note>()]);   // Notes.cs
                     e.Handled = true;
                     break;
                 case Key.Escape:

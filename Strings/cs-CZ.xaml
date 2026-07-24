@@ -1,0 +1,453 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ================================================================
+         KillerNotes  -  Czech (cs-CZ) strings.
+         x:Key values are looked up at runtime - never change them.
+         Other locales layer over this file; any key they omit falls back here.
+         {0}/{1} placeholders are filled in by the app - keep them.
+         ================================================================ -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">Spravovat databáze</sys:String>
+    <sys:String x:Key="Str_TT_Lock">Ochrana heslem</sys:String>
+    <sys:String x:Key="Str_TT_About">O aplikaci KillerNotes</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">Sbalit postranní panel (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Rozbalit postranní panel (F5)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">Klávesové zkratky (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">Motiv</sys:String>
+    <sys:String x:Key="Str_TT_Language">Jazyk</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Hledat poznámky  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ Nová poznámka</sys:String>
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ Nová</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">Nová poznámka (Ctrl+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">Podle času vytvoření - nejstarší první (dalším kliknutím obrátíte)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">Abecedně (dalším kliknutím obrátíte)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">Sdílet poznámku...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">Uložit jako soubor .knote (volitelně chráněný heslem) k odeslání kolegovi</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">Exportovat poznámku jako...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">Uložit kopii jako běžný soubor - .txt, .rtf nebo .html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">Smazat poznámku</sys:String>
+
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">Obrátit pořadí</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">Vyjmout</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">Kopírovat</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">Vložit</sys:String>
+
+    <!-- Theme flyout -->
+    <sys:String x:Key="Str_Lbl_Theme">motiv</sys:String>
+    <sys:String x:Key="Str_Lbl_Accent">akcent</sys:String>
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">Tučné (Ctrl+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">Kurzíva (Ctrl+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">Podtržení (Ctrl+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">Přeškrtnutí (Ctrl+Shift+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">Neproporcionální (kód, Ctrl+Shift+M)</sys:String>
+    <sys:String x:Key="Str_TT_WordWrap">Zalamování řádků zap/vyp (Ctrl+Shift+W)</sys:String>
+    <!-- 1.1.0 additions (grouped here for convenience; keys resolve regardless of position) -->
+    <sys:String x:Key="Str_TT_AppSize">Posouváním změníte velikost celé aplikace</sys:String>
+    <sys:String x:Key="Str_St_AppSize">Velikost aplikace {0} %</sys:String>
+    <sys:String x:Key="Str_KS_WordWrap">Přepnout zalamování řádků</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Čísla řádků (F11)</sys:String>
+    <sys:String x:Key="Str_KS_LineNumbers">Přepnout čísla řádků</sys:String>
+    <sys:String x:Key="Str_KS_AppSize">Přiblížit celou aplikaci (přístupnost)</sys:String>
+    <sys:String x:Key="Str_St_LineNumOn">Čísla řádků zapnuta</sys:String>
+    <sys:String x:Key="Str_St_LineNumOff">Čísla řádků vypnuta</sys:String>
+    <sys:String x:Key="Str_TT_Density">Hustota postranního panelu (Ctrl+D) - klikněte nebo posuňte</sys:String>
+    <sys:String x:Key="Str_KS_Density">Procházet hustotu postranního panelu</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">Hustota: plná</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">Hustota: kompaktní</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">Hustota: minimální</sys:String>
+    <sys:String x:Key="Str_St_Undo">Vráceno zpět</sys:String>
+    <sys:String x:Key="Str_KS_SortCycle">Procházet řazení panelu (čas / A-Z / vlastní)</sys:String>
+    <sys:String x:Key="Str_KS_NewGroup">Nová skupina (zařadí do ní vybrané poznámky)</sys:String>
+    <sys:String x:Key="Str_KS_Theme">Nabídka motivu a akcentu</sys:String>
+    <sys:String x:Key="Str_KS_TitleColor">Barva názvu (vybraná poznámka)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Přepnout kontrolu pravopisu (tato poznámka)</sys:String>
+    <sys:String x:Key="Str_KS_Table">Vložit tabulku</sys:String>
+    <!-- Killculator sidebar calculator (F9) -->
+    <sys:String x:Key="Str_KS_Calc">Killculator - Tisk vloží výsledek do poznámky</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrint">Vytisknout výsledek Killculatoru do poznámky</sys:String>
+    <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrint">Vytisknout do poznámky</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrint">Vytisknout výsledek do této poznámky na pozici kurzoru (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_TT_CalcClose">Zavřít (Esc)</sys:String>
+    <sys:String x:Key="Str_St_CalcNoNote">Nejprve otevřete poznámku</sys:String>
+    <sys:String x:Key="Str_St_CalcPrinted">Vytištěno do poznámky</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">Barva textu a zvýraznění</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">Odrážkový seznam (Ctrl+Shift+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">Číslovaný seznam (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">Vodorovná čára (Ctrl+Shift+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">Vložit tabulku (velikost zvolíte tažením)</sys:String>
+    <sys:String x:Key="Str_TT_Preview">Náhled (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">Skrýt panel formátování (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">Přetažením přesunete - dvojklikem minimalizujete</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Kliknutím nebo F6 obnovíte - přetažením přesunete</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">text</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">zvýraznění</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">Akcent</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">auto</sys:String>
+    <sys:String x:Key="Str_TT_Auto">Zpět na barvu textu motivu</sys:String>
+    <sys:String x:Key="Str_Btn_None">žádné</sys:String>
+    <sys:String x:Key="Str_TT_None">Odebrat zvýraznění</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">velikost</sys:String>
+    <sys:String x:Key="Str_TT_Columns">Sloupce</sys:String>
+    <sys:String x:Key="Str_TT_Rows">Řádky</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">Vložit</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">1-50 sloupců, 1-200 řádků</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">Kliknutím vytvoříte novou poznámku, sem přetáhněte text nebo obrázek, nebo vyberte poznámku vlevo.</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">Do poznámky lze přetáhnout pouze obrázkové soubory</sys:String>
+    <sys:String x:Key="Str_Untitled">Bez názvu</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">Uloženo</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">Počet poznámek: {0}</sys:String>
+    <sys:String x:Key="Str_St_Matches">Počet shod: {0}</sys:String>
+    <sys:String x:Key="Str_St_NoteDeleted">Poznámka smazána</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">Smazáno poznámek: {0}</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">Nepodařilo se otevřít databázi poznámek: {0}</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">Smazat „{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">Smazat {0} poznámek?</sys:String>
+    <sys:String x:Key="Str_Dlg_CannotUndo">Tuto akci nelze vrátit zpět.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z ji vrátí zpět.</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">Smazat</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">Zrušit</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">Odemknout KillerNotes</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">Nesprávné heslo - zkuste to znovu</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">„{0}" je chráněna heslem.</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">Odemknout</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Nová databáze...</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">potvrdit</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">Začít novou databázi?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Uzamčená databáze zůstane na disku a lze ji později odemknout, pokud se
+heslo najde. Bez něj nelze její poznámky nijak obnovit.</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">Začít novou</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">Nová databáze - uzamčená je zachována jako {0}</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">Nastavit heslo</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Zašifruje celou databázi poznámek (AES-256 přes SQLCipher).
+Neztraťte je - obnova není možná.</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">Zašifrovat</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">Změnit nebo odebrat heslo</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">Zadejte nové heslo, nebo nechte obě pole prázdná pro odebrání ochrany.</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">Použít</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">Hesla se neshodují - nic se nezměnilo</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">Databáze zašifrována</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">Heslo změněno</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">Heslo odebráno - databáze již není zašifrována</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">Změna hesla selhala: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">Přidat databázi „{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">Zkopíruje se do datové složky KillerNotes a otevře se.
+Vaše aktuální databáze zůstane dostupná ve Spravovat databáze.</sys:String>
+    <sys:String x:Key="Str_Btn_Add">Přidat</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">Přidání databáze selhalo: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">Importovat „{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">Její poznámky se přidají do vaší aktuální databáze.</sys:String>
+    <sys:String x:Key="Str_Btn_Import">Importovat</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">Odemknout sdílenou poznámku</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">„{0}" je chráněna heslem pro sdílení.</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">1 poznámka importována</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">Importováno poznámek: {0}</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">Import selhal: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">Chránit sdílenou poznámku heslem?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">Volitelné: příjemce musí pro otevření zadat toto heslo.
+Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
+    <sys:String x:Key="Str_Btn_Share">Sdílet</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">Hesla se neshodují - nic se nesdílelo</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">Sdíleno do {0}</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">Sdílení selhalo: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote je připraven tam, kam jste jej přetáhli</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">Sdílení tažením selhalo: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">Import selhal pro {0}: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">1 soubor importován</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">Importováno souborů: {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">Exportováno do {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">Export selhal: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">Vše podporované|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Text (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Formátovaný text (*.rtf)|*.rtf|Obrázky|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Soubory KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Všechny soubory (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Textový soubor (*.txt)|*.txt|Formátovaný text (*.rtf)|*.rtf|Webová stránka (*.html)|*.html</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">Náhled markdownu</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">Náhled HTML</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">Náhled selhal: {0}</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">Databáze</sys:String>
+    <sys:String x:Key="Str_Btn_Open">Otevřít</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">Nová databáze</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">Smazat vybranou databázi</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">Otevřít datovou složku v Průzkumníku souborů</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">Přejmenovat</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">Smazat</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">Kopírovat soubor</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">Zkopíruje soubor .db do schránky - vložte jej do Průzkumníka, Teams nebo e-mailu a sdílejte</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">Exportovat jako .kndb...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">Uložit kopii, kterou kolegové otevřou v KillerNotes dvojklikem</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">Zobrazit v Průzkumníku</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">Nejprve vyberte databázi</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">šifrováno</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">aktivní</sys:String>
+    <sys:String x:Key="Str_Db_Copied">{0} zkopírováno - vložte jej do Průzkumníka, Teams nebo e-mailu</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">Kopírování selhalo: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">Tento název obsahuje znaky, které Windows nepovoluje</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} již existuje</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">{0} přejmenováno na {1}</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">Přejmenování selhalo: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">Vytvoření selhalo: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">Všechny poznámky v ní budou trvale smazány. Tuto akci nelze vrátit zpět.</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">{0} smazáno</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">Smazání selhalo: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">Databáze KillerNotes (*.kndb)|*.kndb</sys:String>
+
+    <!-- Change data folder (#6) -->
+    <sys:String x:Key="Str_TT_DataFolder">Změnit datovou složku, kde jsou uloženy databáze</sys:String>
+    <sys:String x:Key="Str_Db_PickFolderTitle">Zvolte datovou složku KillerNotes</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">Přesunout {0} souborů databáze do nové složky?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">Přesunout vezme všechny soubory .db s sebou. Ponechat přepne na novou složku a stávající soubory ponechá na místě.</sys:String>
+    <sys:String x:Key="Str_Btn_Move">Přesunout</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">Ponechat</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">Datová složka je nyní {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">Datová složka je nyní {0} - {1} souborů zůstalo (používají se nebo již v cíli existují)</sys:String>
+
+    <!-- Custom order + groups (#4) -->
+    <sys:String x:Key="Str_TT_SortCustom">Vlastní pořadí - poznámky uspořádáte tažením</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">Přepnuto na vlastní pořadí - poznámky uspořádáte tažením</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">Skupina</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">Nová skupina...</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">Nová podskupina...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">Podskupiny nahoře</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">Zobrazit podskupiny nad vlastními poznámkami skupiny</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">Odebrat ze skupiny</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">Přejmenovat skupinu...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">Smazat skupinu</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">Pojmenujte novou skupinu</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">Pojmenujte novou podskupinu</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">Přejmenovat tuto skupinu</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">Smazat skupinu „{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">Její poznámky zůstanou - jen opustí skupinu.</sys:String>
+    <sys:String x:Key="Str_Btn_Create">Vytvořit</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">Přejmenovat</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">Skupina s názvem {0} již existuje</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">Přesunuto do {0}</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">Odebráno ze skupiny</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">Skupina přesunuta</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Version">Verze</sys:String>
+    <sys:String x:Key="Str_About_Publisher">Vydavatel</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">Otisk certifikátu</sys:String>
+    <sys:String x:Key="Str_About_Sha">SHA-256 souboru EXE</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Poznámky, které stačí tempu. Prohledávatelný šifrovaný poznámkový blok s formátovaným textem, vloženými obrázky, skutečnými tabulkami a okamžitým fulltextovým hledáním, vše automaticky ukládané do jediného souboru. Nástroj </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve"> s licencí GPLv3.</sys:String>
+    <sys:String x:Key="Str_About_Computing">počítá se...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">Dostupná aktualizace: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">Stahování...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">Stáhnout a nainstalovat {0} {1}?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">Aplikace se automaticky zavře a znovu otevře.</sys:String>
+    <sys:String x:Key="Str_Btn_Update">Aktualizovat</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">Klávesové zkratky</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">SEZNAM</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">KLÁVESNICE</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">podržte Ctrl nebo Shift pro náhled dané vrstvy</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">Klávesové zkratky (tento seznam)</sys:String>
+    <sys:String x:Key="Str_KS_Rename">Přejmenovat otevřenou poznámku</sys:String>
+    <sys:String x:Key="Str_KS_Search">Hledat poznámky</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Přepnout náhled markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">Zobrazit / skrýt panel formátování</sys:String>
+    <sys:String x:Key="Str_KS_Export">Exportovat otevřenou poznámku (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">Sbalit / rozbalit postranní panel</sys:String>
+    <sys:String x:Key="Str_KS_About">O aplikaci KillerNotes</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">Nová poznámka</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">Otevřít soubory jako nové poznámky</sys:String>
+    <sys:String x:Key="Str_KS_Save">Uložit nyní (automatické ukládání běží tak jako tak)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">Tučné / kurzíva / podtržení</sys:String>
+    <sys:String x:Key="Str_KS_Strike">Přeškrtnutí</sys:String>
+    <sys:String x:Key="Str_KS_Mono">Neproporcionální (kód)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Zvýraznit výběr (žlutě)</sys:String>
+    <sys:String x:Key="Str_KS_Rule">Vložit vodorovnou čáru</sys:String>
+    <sys:String x:Key="Str_KS_Lists">Odrážkový / číslovaný seznam</sys:String>
+    <sys:String x:Key="Str_KS_Paste">Vložit - text, obrázky, tabulky</sys:String>
+    <sys:String x:Key="Str_KS_Delete">Smazat vybranou poznámku (v seznamu)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">Zavřít překryv / vymazat hledání</sys:String>
+    <sys:String x:Key="Str_KS_Undo">Zpět / znovu</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">Vyjmout / kopírovat</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">Vybrat vše</sys:String>
+
+    <!-- Keyboard map (short keycap captions + section names) -->
+    <sys:String x:Key="Str_Kb_Shortcuts">Klávesové zkratky</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">Náhled markdown/HTML</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">Panel formátování</sys:String>
+    <sys:String x:Key="Str_Kb_Export">Exportovat otevřenou poznámku</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">Postranní panel</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">Smazat poznámku (v seznamu)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">Uložit nyní</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">Tučné</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">Kurzíva</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">Podtržení</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">Vložit</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">Zvýraznění</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">Vodorovná čára</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">Odrážkový seznam</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">Číslovaný seznam</sys:String>
+    <sys:String x:Key="Str_Kb_Cut">Vyjmout</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">Kopírovat</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">Zpět</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">Znovu</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">Vybrat vše</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">Přepnout štítek</sys:String>
+    <sys:String x:Key="Str_Sec_File">Soubor</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">Poznámky</sys:String>
+    <sys:String x:Key="Str_Sec_Format">Formátování</sys:String>
+    <sys:String x:Key="Str_Sec_View">Zobrazení</sys:String>
+    <sys:String x:Key="Str_Sec_Search">Hledání</sys:String>
+    <sys:String x:Key="Str_Sec_Help">Nápověda</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">Úpravy</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
+    <sys:String x:Key="Str_TT_FontDown">Zmenšit text (Ctrl+Shift+&lt;)</sys:String>
+    <sys:String x:Key="Str_TT_FontSize">Velikost textu (změníte posouváním)</sys:String>
+    <sys:String x:Key="Str_TT_FontUp">Zvětšit text (Ctrl+Shift+&gt;)</sys:String>
+    <sys:String x:Key="Str_TT_Spell">Kontrola pravopisu pro tuto poznámku</sys:String>
+    <sys:String x:Key="Str_Btn_More">Více...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">Vyberte libovolnou barvu</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">Barva názvu...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">Obarvit název této poznámky v seznamu</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">Obnovit barvu názvu</sys:String>
+    <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
+    <sys:String x:Key="Str_Ctx_ConvertList">Převést na seznam</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Převede vybrané řádky - nebo slova v jedné větě - na seznam oddělený čárkami</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">Výběr na seznam s čárkami</sys:String>
+    <sys:String x:Key="Str_St_ListMade">{0} hodnot převedeno na seznam s čárkami</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">{0} hodnot zkopírováno jako seznam s čárkami</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">Nejprve vyberte nějaké řádky</sys:String>
+    <!-- Per-group name color (1.0.3, issue #8), mirrors the per-note title color -->
+    <sys:String x:Key="Str_Ctx_GroupColor">Barva skupiny...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">Barva podskupiny...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">Obarvit název této skupiny v postranním panelu</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">Obnovit barvu</sys:String>
+    <!-- Subgroup + group-color keyboard shortcuts (1.1.0), acting on the selected note's group -->
+    <sys:String x:Key="Str_KS_NewSubgroup">Nová podskupina (skupina vybrané poznámky)</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">Barva skupiny (skupina vybrané poznámky)</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">Nejprve vyberte poznámku, která je ve skupině</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">Zvětšit / zmenšit vybraný text</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">Přiblížení editoru (Ctrl+0 obnoví)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Přiblížení {0} %</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">Kontrola pravopisu zapnuta pro tuto poznámku</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">Kontrola pravopisu vypnuta pro tuto poznámku</sys:String>
+    <sys:String x:Key="Str_St_WrapOn">Zalamování řádků zapnuto</sys:String>
+    <sys:String x:Key="Str_St_WrapOff">Zalamování řádků vypnuto - široký obsah zobrazíte posouváním</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">Zvětšit text</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">Zmenšit text</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">Obnovit přiblížení</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">Místní nabídka</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">Začátek poznámky</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">Konec poznámky</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">O slovo vlevo</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">O slovo vpravo</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">Smazat slovo vlevo</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">Smazat slovo vpravo</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">Zarovnat vlevo</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">Na střed</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">Zarovnat vpravo</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">Do bloku</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">Přejít na začátek / konec poznámky</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">Přeskakovat po celých slovech</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">Smazat celé slovo</sys:String>
+    <sys:String x:Key="Str_KS_Align">Zarovnat vlevo / na střed / vpravo / do bloku</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">Písma...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">Písma</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">Nadpisy (názvy skupin)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">Postranní panel (názvy poznámek)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">Text poznámky</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">Výchozí KillerNotes</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">Přetáhněte na tuto kartu soubor .ttf nebo .otf a přidejte vlastní písmo.</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">Použije se okamžitě v celé aplikaci. Text s vlastním písmem si jej ponechá.</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Obnovit výchozí</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">Toto písmo neumí vykreslit prostý text</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">Písmo přidáno: {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">Podle času vytvoření - nejstarší první</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">Podle času vytvoření - nejnovější první</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">Abecedně - A až Z</sys:String>
+    <sys:String x:Key="Str_St_SortZA">Abecedně - Z až A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (kliknutím obrátíte)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">Řadit podle času vytvoření</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">Řadit abecedně</sys:String>
+    <sys:String x:Key="Str_St_Ready">Připraveno</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Klientská pracoviště - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Výměna firewallu - Meadowbrook Vet</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">Příliš žluťoučký kůň úpěl ďábelské ódy 0123456789.</sys:String>
+
+    <!-- Hyperlinks (Links.cs, 1.1.3) -->
+    <sys:String x:Key="Str_KS_Link">Vložit / upravit odkaz</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">Odkaz...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">Adresa odkazu</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">Upravit odkaz - vymazáním adresy odkaz odeberete</sys:String>
+    <sys:String x:Key="Str_Btn_Link">Odkaz</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">Toto nevypadá jako webová adresa</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">Odkaz se nepodařilo otevřít</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">Vyberte barvu</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Nahradit</sys:String>
+    <sys:String x:Key="Str_Btn_Reset">Obnovit</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">Vyberte barvu odkudkoli na obrazovce</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">Klikněte, poté klikněte na vzorník a nastavte jej na aktuální barvu</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">Obnovit vzorníky na výchozí</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">Kliknutím použijete tuto barvu</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">Kliknutím nastavíte tento vzorník na aktuální barvu</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">Štítky</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">Spravovat štítky...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">Kliknutím filtrujete podle tohoto štítku</sys:String>
+    <sys:String x:Key="Str_Tags_Title">Spravovat štítky</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">Vyberte barvu pro nový štítek</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">Přidat</sys:String>
+    <sys:String x:Key="Str_Btn_Done">Hotovo</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">Změnit barvu</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">Přejmenovat</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">Smazat štítek</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">Nejprve zadejte název štítku</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">Štítek s tímto názvem již existuje</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">Smazat štítek „{0}"?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">Bude odebrán ze všech poznámek. Samotné poznámky zůstanou zachovány.</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">Přidán štítek: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">Odebrán štítek: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">Přepnout štítky 1-9 na otevřené poznámce</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">Spravovat štítky (přidat, přejmenovat, přebarvit)</sys:String>
+
+    <!-- Portable install (family install system) -->
+    <sys:String x:Key="Str_Portable">PŘENOSNÁ</sys:String>
+    <sys:String x:Key="Str_Btn_Install">Nainstalovat KillerNotes...</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">Nainstalovat</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">Nainstalovat KillerNotes do vašeho uživatelského profilu?</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- Zástupce v nabídce Start&#x0A;- Zobrazí se v Přidat nebo odebrat programy</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">Zástupce na ploše</sys:String>
+
+</ResourceDictionary>

@@ -4,6 +4,21 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5] - Unreleased
+
+### Added
+- Czech (cs-CZ) is now a full interface language, bringing the count to ten and matching KillerPDF's set. Pick it from the language menu in the title bar; the whole UI - menus, dialogs, tooltips, status messages, and the shortcuts overlay - is translated, with English as the automatic fallback for any key a locale leaves out.
+- Right-click any of the sidebar sort buttons for a menu that names each sort next to its glyph - by creation time, alphabetical, and custom order - so you can pick one without decoding the icon strip. The active sort is accent-colored and shows its direction arrow, and a Reverse order item flips the current direction (hidden for custom order, which has none). Picking a sort mode does exactly what clicking its button does, including reversing direction when it is already active.
+
+### Changed
+- Right-click menus now carry an icon in the left gutter beside each action - cut/copy/paste, share, export, tags, group, colors, rename, delete, and the rest - the same treatment as the KillerPDF context menus. The toggle rows (tag and group assignments) keep their existing check-and-swatch layout.
+
+### Fixed
+- Right-clicking the sidebar search box popped the stock Windows cut/copy/paste menu, bright and unthemed against the dark UI. A text box's built-in editing menu ignores the app's implicit menu styles, so it always renders unthemed; the search box now carries its own themed cut/copy/paste menu with icons, matching the note title box.
+- With word wrap off, the editor's horizontal scrollbar ran backwards - scrolled fully to the left, the thumb sat on the right. The themed scrollbar template shares one Track between both orientations with `IsDirectionReversed` set for the vertical bar (value 0 = top), and the horizontal bar inherited it, so offset 0 put the thumb at the far end. The horizontal bar now turns that off.
+- The little square where the horizontal and vertical scrollbars meet showed as a bright white block on the dark theme. It was the stock WPF ScrollViewer corner, which fills with the system control color; scoped to the editor, that corner is now transparent so the note pane shows through instead.
+- The editor's scrollbars sat inset from the note pane, floating in from the edge. The editor's 8px inset moved from its outer margin to inner padding, so the bars now hug the rounded pane's edge - the same "scrollbar flush inside the pane" treatment the website uses - while the text keeps its breathing room.
+
 ## [1.1.4] - 2026-07-22
 
 ### Added

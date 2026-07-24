@@ -26,6 +26,9 @@
     <sys:String x:Key="Str_TT_ExportNote">সাধারণ ফাইল হিসেবে একটি কপি সংরক্ষণ করুন - .txt, .rtf বা .html (F8)</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteNote">নোট মুছুন</sys:String>
 
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">ক্রম উল্টে দিন</sys:String>
+
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">কাট</sys:String>
     <sys:String x:Key="Str_Ctx_Copy">কপি</sys:String>

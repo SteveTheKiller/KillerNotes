@@ -40,6 +40,7 @@ namespace KillerNotes
         [
             (Services.Locale.EnUS, "English",    "en-US"),
             (Services.Locale.Bn,   "বাংলা",       "bn"),
+            (Services.Locale.Cs,   "Čeština",    "cs-CZ"),
             (Services.Locale.De,   "Deutsch",    "de-DE"),
             (Services.Locale.Es,   "Español",    "es"),
             (Services.Locale.Fr,   "Français",   "fr-FR"),
@@ -105,8 +106,9 @@ namespace KillerNotes
         /// updates them. Static {DynamicResource Str_*} XAML updates itself.</summary>
         private void RelocalizeDynamicUi()
         {
-            // Shortcut rows (list view) are built from ShortcutMap - rebuild them.
-            ShortcutRows.Children.Clear();
+            // Shortcut rows (list view) are built from ShortcutMap into two columns - clear both and rebuild.
+            ShortcutColLeft.Children.Clear();
+            ShortcutColRight.Children.Clear();
             BuildShortcutRows();                     // Shortcuts.cs
 
             // Keyboard map: rebuilt lazily on next open; if already built, repaint the
