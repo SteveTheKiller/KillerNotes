@@ -30,6 +30,26 @@ function Step([string]$Message) {
     Write-Host "==> $Message" -ForegroundColor Cyan
 }
 
+# Resolve the repo's default branch instead of hardcoding it, so the same script works across
+# the Killer family. origin/HEAD is the best hint but it can go stale - it keeps naming a
+# branch that was renamed away - so a candidate is only accepted if it still exists on the
+# remote. Order: whatever origin/HEAD claims, then main, then master.
+function Get-DefaultBranch {
+    $remoteHeads = @(git ls-remote --heads origin 2>$null) |
+        ForEach-Object { ($_ -split '\s+')[-1] -replace '^refs/heads/', '' }
+    if (-not $remoteHeads) { return $null }
+
+    $candidates = @()
+    $originHead = git symbolic-ref --quiet refs/remotes/origin/HEAD 2>$null
+    if ($originHead) { $candidates += (($originHead -replace '^refs/remotes/origin/', '').Trim()) }
+    foreach ($c in @('main', 'master')) { if ($candidates -notcontains $c) { $candidates += $c } }
+
+    foreach ($c in $candidates) {
+        if ($c -and $remoteHeads -contains $c) { return $c }
+    }
+    return $null
+}
+
 # --- 1. Read version from the csproj (single source of truth) ---
 Step "Reading version from KillerNotes.csproj"
 $csproj = Get-Content -Path 'KillerNotes.csproj' -Raw
@@ -40,18 +60,22 @@ $Version = $Matches[1]
 $Tag = "v$Version"
 Write-Host "Version: $Version (tag $Tag)"
 
-# --- 2. Preflight: clean tree, on main, up to date, tag free ---
+# --- 2. Preflight: clean tree, on the default branch, up to date, tag free ---
 Step "Preflight checks"
+$defaultBranch = Get-DefaultBranch
+if (-not $defaultBranch) { Fail 'Could not determine the default branch from origin' }
+Write-Host "Default branch: $defaultBranch"
+
 $branch = (git rev-parse --abbrev-ref HEAD).Trim()
-if ($branch -ne 'main') { Fail "On branch '$branch', expected main" }
+if ($branch -ne $defaultBranch) { Fail "On branch '$branch', expected $defaultBranch" }
 
 $dirty = git status --porcelain
 if ($dirty) { Fail "Working tree is not clean. Commit or stash first:`n$($dirty -join "`n")" }
 
-git fetch origin main --quiet
+git fetch origin $defaultBranch --quiet
 $local = (git rev-parse HEAD).Trim()
-$remote = (git rev-parse origin/main).Trim()
-if ($local -ne $remote) { Fail 'Local main and origin/main differ. Push or pull first.' }
+$remote = (git rev-parse "origin/$defaultBranch").Trim()
+if ($local -ne $remote) { Fail "Local $defaultBranch and origin/$defaultBranch differ. Push or pull first." }
 
 $existing = git tag --list $Tag
 if ($existing) { Fail "Tag $Tag already exists" }
@@ -98,13 +122,16 @@ if ($fileVersion -notlike "$Version*") {
 # --- 5. Single-exe check ---
 # Costura embeds every managed dependency and SqlCipherBootstrap carries the native, so the
 # exe alone is the release asset (the site links to releases/latest/download/KillerNotes.exe).
+# NOTE: this is the PRE-signature size, used only for the Costura sanity check. The figure
+# published on the landing page is recomputed after signing (step 7b), because Authenticode
+# adds ~10KB and the site would otherwise advertise a size the downloaded file does not have.
 Step "Verifying single-exe packaging"
 $exeSize = (Get-Item $exe).Length
-$exeMB = '{0:N1} MB' -f ($exeSize / 1MB)
+$unsignedMB = '{0:N1} MB' -f ($exeSize / 1MB)
 if ($exeSize -lt 3MB) {
-    Fail "KillerNotes.exe is only $exeMB - Costura does not appear to have embedded the dependencies. Check Fody/FodyWeavers.xml."
+    Fail "KillerNotes.exe is only $unsignedMB - Costura does not appear to have embedded the dependencies. Check Fody/FodyWeavers.xml."
 }
-Write-Host "KillerNotes.exe is $exeMB"
+Write-Host "KillerNotes.exe is $unsignedMB (unsigned)"
 
 # --- 6. Sign (Certum via SimplySign, same flow as the other Killer release scripts) ---
 if ($SkipSign) {
@@ -188,6 +215,10 @@ Write-Host "Source bundle: $srcZip ($srcZipMB)"
 # the releases page. Line format is "<filename>  <sha256>" - the updater matches the line that
 # starts with KillerNotes.exe and takes the LAST whitespace token as the hash.
 Step "Writing SHA256SUMS.txt"
+# Size and hash both come from the exe in its FINAL, signed state - this is the file people
+# actually download, so it is what the landing page must describe.
+$exeMB = '{0:N1} MB' -f ((Get-Item $exe).Length / 1MB)
+Write-Host "Signed KillerNotes.exe is $exeMB"
 $sumsFile = Join-Path $outDir 'SHA256SUMS.txt'
 $sumsLines = foreach ($asset in @($exe, $srcZip)) {
     $hash = (Get-FileHash $asset -Algorithm SHA256).Hash.ToLower()
@@ -225,7 +256,7 @@ if ($DryRun) {
     if ($siteDirty) {
         git add notes-landing
         git commit -m "site: v$Version release info" --quiet
-        git push origin main --quiet
+        git push origin $defaultBranch --quiet
         if ($LASTEXITCODE -ne 0) { Fail 'Landing page commit failed to push' }
         Write-Host "notes-landing updated to v$Version and pushed"
     } else {
