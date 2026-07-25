@@ -1,7 +1,5 @@
-# KillerNotes
-
 <p align="center">
-  <img src="docs/banner.png" width="640" alt="KillerNotes - encrypted, shareable, open-source notepad">
+  <a href="https://killernotes.net"><img src="docs/wordmark.png" width="640" alt="KillerNotes - Free Encrypted Notepad"></a>
 </p>
 
 Notes that keep up. A searchable, organized replacement for the 80-tab Notepad workflow:
