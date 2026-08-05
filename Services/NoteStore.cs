@@ -231,12 +231,12 @@ CREATE TABLE IF NOT EXISTS sketches(
         // ---- Notes ----
 
         /// <summary>
-        /// Lists notes, oldest-created first by default (the notepad-tabs order). With a search
+        /// Lists notes, newest-created first by default. With a search
         /// string, keeps notes where every whitespace-separated word appears as a substring of
         /// the title, body, or tags (case-insensitive), in the current sort order.
         /// sort: "created-asc" | "created-desc" | "title-asc" | "title-desc" | "custom".
         /// </summary>
-        public static List<Note> List(string? search = null, string sort = "created-asc")
+        public static List<Note> List(string? search = null, string sort = "created-desc")
         {
             var results = new List<Note>();
             if (_db == null) return results;

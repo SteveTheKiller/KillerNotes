@@ -35,12 +35,16 @@
     <SolidColorBrush x:Key="RowAltBrush"         Color="#14FFFFFF" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowHoverBrush"       Color="#242424" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowSelectedBrush"    Color="#003322" po:Freeze="True"/>
+    <!-- Selection pair - see the note in Dark.xaml. Values from KillerPDF. -->
+    <SolidColorBrush x:Key="SelectionBg"         Color="#003314" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionFg"         Color="#ffffff" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="InputBorderBrush"    Color="#2a2a2a" po:Freeze="True"/>
-    <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#121212" po:Freeze="True"/>
-    <SolidColorBrush x:Key="MenuBorderBrush"     Color="#2a2a2a" po:Freeze="True"/>
+    <!-- Menu surface: KillerPDF's values, the family source of truth for colour. -->
+    <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#000000" po:Freeze="True"/>
+    <SolidColorBrush x:Key="MenuBorderBrush"     Color="#808080" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuTextBrush"       Color="#cccccc" po:Freeze="True"/>
-    <SolidColorBrush x:Key="MenuHoverBrush"      Color="#242424" po:Freeze="True"/>
+    <SolidColorBrush x:Key="MenuHoverBrush"      Color="#333333" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlinePressedBrush" Color="#003322" po:Freeze="True"/>
     <SolidColorBrush x:Key="ScrollThumbBrush"    Color="#8800ff66" po:Freeze="True"/>
     <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#00ff66" po:Freeze="True"/>

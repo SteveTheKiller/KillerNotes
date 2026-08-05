@@ -44,11 +44,19 @@
     <SolidColorBrush x:Key="RowAltBrush"         Color="#18FFFFFF" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowHoverBrush"       Color="#404040" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowSelectedBrush"    Color="#0d2a18" po:Freeze="True"/>
+    <!-- SELECTION PAIR - the family's "this one is active" treatment, copied value-for-value from
+         KillerPDF, which is the source of truth. A selected menu item, toolbar button, tool or tab
+         is a solid SelectionBg fill with SelectionFg text. Distinct from RowSelectedBrush, which is
+         the fainter tint behind a selected LIST row. (Added 2026-07-30 - KillerNotes had neither
+         key, so its menus fell back to the gray MenuHoverBrush.) -->
+    <SolidColorBrush x:Key="SelectionBg"         Color="#1c5e38" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionFg"         Color="#ffffff" po:Freeze="True"/>
 
     <!-- Inputs / menus / scrollbar -->
     <SolidColorBrush x:Key="InputBorderBrush"    Color="#2e2e2e" po:Freeze="True"/>
-    <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#363636" po:Freeze="True"/>
-    <SolidColorBrush x:Key="MenuBorderBrush"     Color="#2e2e2e" po:Freeze="True"/>
+    <!-- Menu surface: KillerPDF's values, the family source of truth for colour. -->
+    <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#1e1e1e" po:Freeze="True"/>
+    <SolidColorBrush x:Key="MenuBorderBrush"     Color="#404040" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuTextBrush"       Color="#a0a0a0" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuHoverBrush"      Color="#404040" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlinePressedBrush" Color="#0d2a18" po:Freeze="True"/>

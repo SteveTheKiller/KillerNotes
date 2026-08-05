@@ -11,17 +11,17 @@
 <meta name="description" content="About KillerNotes and its maker, Steve the Killer - a field tech who got tired of losing his notes to 80 Notepad tabs.">
 <link rel="icon" type="image/x-icon" href="brand/kn-icon.ico">
 <script defer src="https://koya.thekiller.net/script.js" data-website-id="9cbd0ccf-b6de-4fb3-a9fe-a166c151fa3f"></script>
-<link rel="stylesheet" href="kn.css?v=3">
+<link rel="stylesheet" href="kn.css?v=9">
 <style>
 .page-hero { text-align: center; padding: 44px 16px 8px; }
-.page-hero .wm-logo { font-size: clamp(34px, 5.6vw, 56px); margin: 0 auto 8px; display: block; }
+.page-hero .wm-logo { height: clamp(46px, 8vw, 76px); width: auto; margin: 0 auto 8px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.55)); }
 .page-hero p { color: var(--muted); font-size: 15px; margin-top: 4px; }
 .content-inner { max-width: 880px; margin: 0 auto; padding: 0 28px 56px; }
 .sb-tabs .on { border-bottom: 0; }
-.outline { padding: 8px 0; overflow-y: auto; flex: 1; }
+.outline { padding: 8px 0; overflow-y: auto; flex: 1; min-height: 0; }
 .outline a { display: block; padding: 8px 16px 8px 18px; font-size: 13px; color: var(--text2); border-left: 2px solid transparent; }
 .outline a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 8%, transparent); filter: none; }
-.outline a.on { color: var(--accent); border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--sidebar)); }
+.outline a.on { color: var(--accent-text); border-left-color: var(--accent); background: var(--accent); }
 @media (max-width: 900px) { .outline { display:flex; flex-direction:row; flex-wrap:wrap; padding:8px; gap:4px; } .outline a { border-left:0; border-radius:5px; padding:6px 10px; } .outline a.on { border-left:0; } }
 /* Also try (cross-promo): chrome follows the page theme, wordmark swaps light/dark */
 .also-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 12px; margin-top: 4px; }
@@ -42,7 +42,7 @@ html[data-theme="light"] .also-wm.light { display: block; }
 <div class="topbar">
 <a href="index.html" class="tb-home" title="KillerNotes home">
 <img class="tb-icon" src="brand/kn-icon.png" alt="KillerNotes" width="44" height="44">
-<span class="wm-logo tb-wm" style="font-size:22px"><span class="wmk">Killer</span><span class="wms">Notes</span></span>
+<img class="wm-logo tb-wm" src="brand/killernotes-logo-dark-purple.svg" alt="KillerNotes">
 </a>
 <a class="tb-dl" href="https://github.com/SteveTheKiller/KillerNotes/releases/latest/download/KillerNotes.exe"><svg viewBox="0 0 24 24"><path d="M11 4h2v7h3l-4 5-4-5h3V4zM5 18h14v2H5z"/></svg><span data-i18n="nav_dl">Download</span></a>
 <span class="tb-spacer"></span>
@@ -76,11 +76,12 @@ html[data-theme="light"] .also-wm.light { display: block; }
 <div class="lang-menu" id="langMenu" hidden>
 <button class="lang-item" data-lang="en">English</button>
 <button class="lang-item" data-lang="bn">&#2476;&#2494;&#2434;&#2482;&#2494;</button>
+<button class="lang-item" data-lang="cs">&#268;e&#353;tina</button>
 <button class="lang-item" data-lang="de">Deutsch</button>
-<button class="lang-item" data-lang="es">Espanol</button>
-<button class="lang-item" data-lang="fr">Francais</button>
+<button class="lang-item" data-lang="es">Espa&#241;ol</button>
+<button class="lang-item" data-lang="fr">Fran&#231;ais</button>
 <button class="lang-item" data-lang="ja">&#26085;&#26412;&#35486;</button>
-<button class="lang-item" data-lang="tr">Turkce</button>
+<button class="lang-item" data-lang="tr">T&#252;rk&#231;e</button>
 <button class="lang-item" data-lang="zh-cn">&#20013;&#25991; (&#31616;&#20307;)</button>
 <button class="lang-item" data-lang="zh">&#20013;&#25991; (&#32321;&#39636;)</button>
 </div>
@@ -94,14 +95,14 @@ html[data-theme="light"] .also-wm.light { display: block; }
 
 <section class="page-hero">
 <span class="page-title" data-i18n="about_kicker">About</span>
-<span class="wm-logo"><span class="wmk">Killer</span><span class="wms">Notes</span></span>
+<img class="wm-logo" src="brand/killernotes-logo-dark-purple.svg" alt="KillerNotes">
 <p data-i18n="about_sub">The story behind the notepad, and the field tech who built it.</p>
 </section>
 
 <div class="about-card" id="maker">
 <h2 data-i18n="maker_h">The maker</h2>
 <p class="about-quote" data-i18n="maker_q">"My notes hold client credentials and the keys to a hundred networks. That doesn't belong in somebody's cloud - it belongs in one encrypted file that answers to me."</p>
-<p data-i18n="maker_p1">I'm <b>Steve the Killer</b> - a field technician and systems administrator at a large MSP, working in IT since 2017. I did not start there, though: I have been building websites since the 90s and spent roughly six years as a full-stack developer before I moved into IT, so building the tool I need comes as naturally to me as fixing the network in front of me.</p>
+<p data-i18n="maker_p1">I'm <b>Steve the Killer</b> - a field technician and systems administrator at a large MSP, working in IT since 2018. I did not start there, though: I have been building websites since the 90s and spent roughly eight years as a full-stack developer before I moved into IT, so building the tool I need comes as naturally to me as fixing the network in front of me.</p>
 <p data-i18n="ak_1">A tech's day generates an absurd amount of loose text: passwords that should never sit in a plaintext file, IP schemes, one-off fixes you will absolutely need again in six months, and screenshots that belong next to the notes about them. The existing answers were either cloud notebooks that want an account and sync your credentials somewhere you can't see, or a folder of .txt files with no search and no pictures.</p>
 <p data-i18n="maker_p2">I wanted one fast local notepad that searches everything instantly, encrypts itself, and can tear off a sheet to hand a coworker. So I built it, and KillerNotes is the result.</p>
 </div>
@@ -135,25 +136,33 @@ html[data-theme="light"] .also-wm.light { display: block; }
 <a class="also-card" href="https://killerpdf.net" target="_blank" rel="noopener">
 <img class="also-icon" src="brand/kp-icon.png" alt="KillerPDF" width="46" height="46">
 <span class="also-body">
-<img class="also-wm dark" src="brand/killerpdf-wordmark-dark.png" alt="KillerPDF">
-<img class="also-wm light" src="brand/killerpdf-wordmark-light.png" alt="KillerPDF">
+<img class="also-wm dark" src="brand/killerpdf-logo-brand-dark.svg" alt="KillerPDF">
+<img class="also-wm light" src="brand/killerpdf-logo-brand-light.svg" alt="KillerPDF">
 <span class="also-tag" data-i18n="ak_3">Open-source PDF editor for Windows</span>
 </span>
 </a>
 <a class="also-card" href="https://killerscan.net" target="_blank" rel="noopener">
 <img class="also-icon" src="brand/ks-icon.png" alt="KillerScan" width="46" height="46">
 <span class="also-body">
-<img class="also-wm dark" src="brand/killerscan-logo-dark-orange.svg" alt="KillerScan">
-<img class="also-wm light" src="brand/killerscan-logo-light-orange.svg" alt="KillerScan">
+<img class="also-wm dark" src="brand/killerscan-logo-brand-dark.svg" alt="KillerScan">
+<img class="also-wm light" src="brand/killerscan-logo-brand-light.svg" alt="KillerScan">
 <span class="also-tag" data-i18n="ak_ks">Open-source network scanner for Windows</span>
 </span>
 </a>
-<a class="also-card" href="https://killerfind.net" target="_blank" rel="noopener">
-<img class="also-icon" src="brand/kf-icon.png" alt="KillerFind" width="46" height="46">
+<a class="also-card" href="https://killershell.net" target="_blank" rel="noopener">
+<img class="also-icon" src="brand/ksh-icon.png" alt="KillerShell" width="46" height="46">
 <span class="also-body">
-<img class="also-wm dark" src="brand/killerfind-wordmark-dark.png" alt="KillerFind">
-<img class="also-wm light" src="brand/killerfind-wordmark-light.png" alt="KillerFind">
-<span class="also-tag" data-i18n="ak_kf">Open-source file search for Windows</span>
+<img class="also-wm dark" src="brand/killershell-logo-brand-dark.svg" alt="KillerShell">
+<img class="also-wm light" src="brand/killershell-logo-brand-light.svg" alt="KillerShell">
+<span class="also-tag" data-i18n="ak_kf">Open-source Windows shell for power users</span>
+</span>
+</a>
+<a class="also-card" href="https://killendar.net" target="_blank" rel="noopener">
+<img class="also-icon" src="brand/kd-icon.png" alt="Killendar" width="46" height="46">
+<span class="also-body">
+<img class="also-wm dark" src="brand/killendar-logo-brand-dark.svg" alt="Killendar">
+<img class="also-wm light" src="brand/killendar-logo-brand-light.svg" alt="Killendar">
+<span class="also-tag" data-i18n="ak_kd">Open-source encrypted calendar for Windows</span>
 </span>
 </a>
 </div>

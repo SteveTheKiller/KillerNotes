@@ -11,17 +11,17 @@
 <meta name="description" content="How KillerNotes works under the hood: SQLite storage with FTS5 full-text search, SQLCipher AES-256 encryption, XamlPackage rich content, and the .knote/.kndb sharing formats.">
 <link rel="icon" type="image/x-icon" href="brand/kn-icon.ico">
 <script defer src="https://koya.thekiller.net/script.js" data-website-id="9cbd0ccf-b6de-4fb3-a9fe-a166c151fa3f"></script>
-<link rel="stylesheet" href="kn.css?v=3">
+<link rel="stylesheet" href="kn.css?v=9">
 <style>
 .page-hero { text-align: center; padding: 44px 16px 8px; }
-.page-hero .wm-logo { font-size: clamp(34px, 5.6vw, 56px); margin: 0 auto 8px; display: block; }
+.page-hero .wm-logo { height: clamp(46px, 8vw, 76px); width: auto; margin: 0 auto 8px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.55)); }
 .page-hero p { color: var(--muted); font-size: 15px; margin-top: 4px; }
 .content-inner { max-width: 880px; margin: 0 auto; padding: 0 28px 56px; }
 .sb-tabs .on { border-bottom: 0; }
-.outline { padding: 8px 0; overflow-y: auto; flex: 1; }
+.outline { padding: 8px 0; overflow-y: auto; flex: 1; min-height: 0; }
 .outline a { display: block; padding: 8px 16px 8px 18px; font-size: 13px; color: var(--text2); border-left: 2px solid transparent; }
 .outline a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 8%, transparent); filter: none; }
-.outline a.on { color: var(--accent); border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--sidebar)); }
+.outline a.on { color: var(--accent-text); border-left-color: var(--accent); background: var(--accent); }
 @media (max-width: 900px) { .outline { display:flex; flex-direction:row; flex-wrap:wrap; padding:8px; gap:4px; } .outline a { border-left:0; border-radius:5px; padding:6px 10px; } .outline a.on { border-left:0; } }
 </style>
 </head>
@@ -30,7 +30,7 @@
 <div class="topbar">
 <a href="index.html" class="tb-home" title="KillerNotes home">
 <img class="tb-icon" src="brand/kn-icon.png" alt="KillerNotes" width="44" height="44">
-<span class="wm-logo tb-wm" style="font-size:22px"><span class="wmk">Killer</span><span class="wms">Notes</span></span>
+<img class="wm-logo tb-wm" src="brand/killernotes-logo-dark-purple.svg" alt="KillerNotes">
 </a>
 <a class="tb-dl" href="https://github.com/SteveTheKiller/KillerNotes/releases/latest/download/KillerNotes.exe"><svg viewBox="0 0 24 24"><path d="M11 4h2v7h3l-4 5-4-5h3V4zM5 18h14v2H5z"/></svg><span data-i18n="nav_dl">Download</span></a>
 <span class="tb-spacer"></span>
@@ -64,11 +64,12 @@
 <div class="lang-menu" id="langMenu" hidden>
 <button class="lang-item" data-lang="en">English</button>
 <button class="lang-item" data-lang="bn">&#2476;&#2494;&#2434;&#2482;&#2494;</button>
+<button class="lang-item" data-lang="cs">&#268;e&#353;tina</button>
 <button class="lang-item" data-lang="de">Deutsch</button>
-<button class="lang-item" data-lang="es">Espanol</button>
-<button class="lang-item" data-lang="fr">Francais</button>
+<button class="lang-item" data-lang="es">Espa&#241;ol</button>
+<button class="lang-item" data-lang="fr">Fran&#231;ais</button>
 <button class="lang-item" data-lang="ja">&#26085;&#26412;&#35486;</button>
-<button class="lang-item" data-lang="tr">Turkce</button>
+<button class="lang-item" data-lang="tr">T&#252;rk&#231;e</button>
 <button class="lang-item" data-lang="zh-cn">&#20013;&#25991; (&#31616;&#20307;)</button>
 <button class="lang-item" data-lang="zh">&#20013;&#25991; (&#32321;&#39636;)</button>
 </div>
@@ -82,7 +83,7 @@
 
 <section class="page-hero">
 <span class="page-title" data-i18n="tech_kicker">Technical</span>
-<span class="wm-logo"><span class="wmk">Killer</span><span class="wms">Notes</span></span>
+<img class="wm-logo" src="brand/killernotes-logo-dark-purple.svg" alt="KillerNotes">
 <p data-i18n="tech_sub">How the notepad actually works: storage, search, encryption, and the sharing formats.</p>
 </section>
 
@@ -209,7 +210,7 @@
 <section class="tech-sec" id="formats">
 <h2>Import &amp; export</h2>
 <h3>In</h3>
-<p>Ctrl+O or drop files anywhere sensible: <code>.txt</code> / <code>.log</code> / <code>.md</code> import as text notes, <code>.rtf</code> loads natively with formatting intact, images land inline, and <code>.html</code> imports as source - which the preview pane then renders, same as the markdown story: source in the editor, preview to view. Each file becomes its own note titled by its filename.</p>
+<p>Ctrl+O or drop files anywhere sensible: <code>.txt</code> / <code>.log</code> / <code>.md</code> import as text notes, <code>.rtf</code> loads natively with formatting intact, images land inline, and <code>.html</code> / <code>.htm</code> import as source - which the preview pane then renders, same as the markdown story: source in the editor, preview to view. Each file becomes its own note titled by its filename.</p>
 <h3>Out</h3>
 <p>Any note exports as plain text, as <code>.rtf</code> (WordPad/Word-compatible, images included), or as a standalone theme-styled HTML page built by a purpose-built FlowDocument-to-HTML converter: paragraphs, lists, tables, character formatting, colors, and images embedded as base64 data URIs - one self-contained file.</p>
 <h3>Preview</h3>
@@ -218,12 +219,12 @@
 
 <section class="tech-sec" id="privacy">
 <h2>Privacy</h2>
-<p>Everything runs on your machine. Notes never leave your disk unless you export or share them yourself. There is no account, no cloud sync, no telemetry, and no ads. The only network request the app ever makes is a version check against GitHub when you open the About panel.</p>
+<p>Everything runs on your machine. Notes never leave your disk unless you export or share them yourself. There is no account, no cloud sync, no telemetry, and no ads. The only network requests the app ever makes are to GitHub, both from the About panel: a version check when you open it, and the release download itself if you choose to update.</p>
 </section>
 
 <section class="tech-sec" id="distribution">
 <h2>Distribution</h2>
-<p>KillerNotes ships as a <b>single signed exe</b> - about 4.5 MB with every dependency embedded, including the SQLCipher engine. There is no installer to run and no folder of DLLs: download, double-click, take notes. The exe is Authenticode-signed and timestamped, so Windows shows a verified publisher instead of an unknown-publisher warning, and the About panel shows the certificate thumbprint plus the exe's SHA-256 to check against the release page.</p>
+<p>KillerNotes ships as a <b>single signed exe</b> - about 4.5 MB with every dependency embedded, including the SQLCipher engine. No installer is required and there is no folder of DLLs: download, double-click, take notes. The exe is Authenticode-signed and timestamped, so Windows shows a verified publisher instead of an unknown-publisher warning, and the About panel shows the certificate thumbprint plus the exe's SHA-256 to check against the release page.</p>
 <ul class="blurb-list">
 <li><b>Portable first</b> - run it from anywhere, including a USB stick. Notes live in <code>%APPDATA%\KillerNotes</code> by default, and the data folder is configurable - point it next to the exe and the whole notepad travels with the stick.</li>
 <li><b>Optional install</b> - a PORTABLE badge in the status bar offers a one-click per-user install: Start Menu shortcut, optional desktop shortcut, and an Add/Remove Programs entry. No admin rights needed.</li>
@@ -244,9 +245,9 @@
 <tr><td>Rich content</td><td>WPF FlowDocument stored as XamlPackage blobs (images + tables round-trip)</td></tr>
 <tr><td>Markdown</td><td>Markdig, advanced extensions, raw HTML disabled</td></tr>
 <tr><td>Share formats</td><td>.knote (single note), .kndb (whole database), HKCU file associations</td></tr>
-<tr><td>Import</td><td>.txt, .log, .md, .html, .rtf, png/jpg/gif/bmp images</td></tr>
+<tr><td>Import</td><td>.txt, .log, .md, .html, .htm, .rtf, png/jpg/jpeg/gif/bmp images</td></tr>
 <tr><td>Export</td><td>.txt, .rtf, self-contained .html; notes also share as .knote</td></tr>
-<tr><td>Network use</td><td>None, except the About panel's version check (GitHub)</td></tr>
+<tr><td>Network use</td><td>None, except the About panel's version check and optional self-update download (GitHub)</td></tr>
 <tr><td>Distribution</td><td>Single signed exe (~4.5 MB); portable, per-user install, or /silent machine-wide</td></tr>
 <tr><td>License</td><td>GPLv3; source zip attached to every release</td></tr>
 </table>

@@ -344,6 +344,13 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColor">Title color...</sys:String>
     <sys:String x:Key="Str_TT_TitleColor">Color this note's title in the list</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColorReset">Reset title color</sys:String>
+    <!-- App-wide off switch for the markdown/HTML detection (1.1.7, #14). The detector itself
+         now requires a strong markdown signal, so plain-text checklists no longer trip it; this
+         is for anyone who wants it to stop guessing entirely. -->
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">Detect markdown and HTML</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">Offer a preview when a note looks like markdown or HTML (all notes)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Markdown and HTML detection on</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Markdown and HTML detection off</sys:String>
     <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
     <sys:String x:Key="Str_Ctx_ConvertList">Convert to list</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Turn the selected lines - or the words in one sentence - into a comma-separated list</sys:String>

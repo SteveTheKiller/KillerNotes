@@ -47,7 +47,7 @@ namespace KillerNotes
                     !a.Equals("/demo", StringComparison.OrdinalIgnoreCase)) continue;
                 // Fully qualified: inside App, bare "MainWindow" is the
                 // Application.MainWindow property (a Window), not our class.
-                KillerNotes.MainWindow.DemoMode = true;
+                KillerNotes.Shell.MainWindow.DemoMode = true;
                 Services.NoteStore.DemoDbFile = "demo-notes.db";
                 string demoDb = Path.Combine(Services.NoteStore.DbDir, "demo-notes.db");
                 try
@@ -60,7 +60,7 @@ namespace KillerNotes
                 // Only generate into a FRESH database. If the delete failed (a second
                 // demo instance holds the file), reuse its notes instead of appending
                 // a duplicate set - every parallel launch used to add one full copy.
-                KillerNotes.MainWindow.DemoFresh = !File.Exists(demoDb);
+                KillerNotes.Shell.MainWindow.DemoFresh = !File.Exists(demoDb);
             }
 
             // Double-clicked share file (association registered below).
@@ -78,7 +78,7 @@ namespace KillerNotes
             // window through a named pipe and exits; the running window activates and
             // imports the file exactly as a first-launch double-click would.
             // --demo is exempt: it only ever touches the scratch demo database.
-            if (!KillerNotes.MainWindow.DemoMode)
+            if (!KillerNotes.Shell.MainWindow.DemoMode)
             {
                 _instanceMutex = new Mutex(true, @"Local\KillerNotes-SingleInstance", out bool firstInstance);
                 if (!firstInstance)
@@ -105,7 +105,7 @@ namespace KillerNotes
             Services.LocaleManager.Initialize();   // layers Strings/en-US.xaml (+ saved locale)
 
             ShutdownMode = ShutdownMode.OnLastWindowClose;
-            new MainWindow().Show();
+            new KillerNotes.Shell.MainWindow().Show();
         }
 
         // ============================================================
@@ -163,7 +163,7 @@ namespace KillerNotes
         /// .knote/.kndb through the same import path as a first-launch double-click.</summary>
         private void OnForwardedLaunch(string? path)
         {
-            if (MainWindow is not KillerNotes.MainWindow win) return;
+            if (MainWindow is not KillerNotes.Shell.MainWindow win) return;
 
             if (win.WindowState == WindowState.Minimized) win.WindowState = WindowState.Normal;
             win.Activate();
@@ -241,7 +241,7 @@ namespace KillerNotes
         }
 
         // ============================================================
-        // Install system (ported from KillerScan/KillerFind)
+        // Install system (ported from KillerScan)
         // Portable badge Install = per-user (%LOCALAPPDATA%\Programs); /silent =
         // machine-wide Program Files for winget/choco/RMM; /uninstall from ARP.
         // ============================================================
@@ -253,17 +253,30 @@ namespace KillerNotes
             "Programs", AppName);
         private static readonly string InstallExe = Path.Combine(InstallDir, ExeName);
 
+        /// <summary>Where /silent puts a machine-wide install. Needed by IsPortable: without it a
+        /// Program Files copy does not recognise itself as installed.</summary>
+        private static readonly string MachineDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), AppName);
+        private static readonly string MachineExe = Path.Combine(MachineDir, ExeName);
+
         private static readonly string StartMenuDir = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.Programs), AppName);
         private static readonly string StartMenuLnk = Path.Combine(StartMenuDir, $"{AppName}.lnk");
         private static readonly string DesktopLnk = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), $"{AppName}.lnk");
 
-        /// <summary>True when running from outside the installed location (i.e. portable mode).</summary>
+        /// <summary>True when running from outside EITHER installed location (i.e. portable mode).
+        ///
+        /// Both locations matter. This used to compare against the per-user path only, so a
+        /// machine-wide copy in Program Files reported itself as portable: it showed the PORTABLE
+        /// badge and offered to install itself, and accepting created a SECOND, per-user copy
+        /// alongside it. That is how a machine ends up running one version while Add/Remove
+        /// Programs describes another (Steve hit exactly this on 2026-08-05).</summary>
         internal static bool IsPortable()
         {
             string currentExe = Process.GetCurrentProcess().MainModule!.FileName;
-            return !string.Equals(currentExe, InstallExe, StringComparison.OrdinalIgnoreCase);
+            return !string.Equals(currentExe, InstallExe,  StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(currentExe, MachineExe, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>Installs KillerNotes, then relaunches from the installed location.</summary>

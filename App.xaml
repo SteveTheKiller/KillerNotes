@@ -7,7 +7,7 @@
                 <!-- [0] is swapped in place at runtime by ThemeManager. Black is the
                      KillerNotes default (with the Purple accent, set in ThemeManager). -->
                 <ResourceDictionary Source="Themes/Black.xaml"/>
-                <ResourceDictionary Source="Controls.xaml"/>
+                <ResourceDictionary Source="Controls/Controls.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

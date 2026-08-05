@@ -49,9 +49,21 @@
     });
     if (accToggle) { accToggle.style.background = pair[0]; accToggle.title = 'Accent color'; }
     try { localStorage.setItem('knotes-accent', name); } catch (e) {}
+    updateLogos();
   }
-  // (KillerScan swaps wordmark SVGs here; the KillerNotes wordmark is text styled by
-  // the CSS variables, so it recolors on its own - no logo swap needed.)
+
+  // The wordmark is an SVG with the accent baked in, so it is swapped rather than recolored.
+  // Files come from Killer Branding/make-logo-svgs.py and share a 996-unit viewBox height with
+  // every other app's, which is what keeps "Killer" the same size across all the sites.
+  // 'hc' is this site's name for the black family, whose six hexes differ from the dark ones.
+  function updateLogos() {
+    var t = root.getAttribute('data-theme');
+    var variant = (t === 'light') ? 'light' : (t === 'hc') ? 'black' : 'dark';
+    var color = (NEUTRAL.indexOf(t) >= 0) ? curAccent : 'purple';
+    var src = 'brand/killernotes-logo-' + variant + '-' + color + '.svg';
+    var imgs = document.querySelectorAll('img.wm-logo');
+    for (var i = 0; i < imgs.length; i++) imgs[i].src = src;
+  }
 
   function setTheme(name) {
     if (THEMES.indexOf(name) < 0) name = 'dark';

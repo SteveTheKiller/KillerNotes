@@ -4,6 +4,17 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.7] - Unreleased
+
+1.1.7 is primarily an internal release - the source tree moves to the same layout the rest of the family uses, with no change to how the app behaves - plus a small status-line timing fix.
+
+### Fixed
+- A machine-wide install no longer mistakes itself for a portable copy. Installing to Program Files (what winget, Chocolatey and an RMM push do, and what `/silent` performs) still showed the PORTABLE badge and offered to install, and accepting created a second, per-user copy alongside the first - two installs of the same app, each with its own Add/Remove Programs entry, and updating one leaving the other behind. The portable check compared the running program against the per-user location only; it now recognizes both. KillerPDF, KillerScan, KillerShell and Killendar already had this fix.
+
+### Changed
+- The app-size readout now clears after five seconds instead of six, matching KillerScan and KillerPDF. It runs on its own timer rather than the shared one behind every other transient message, so drag-ready, tag toggled, shared and the rest keep their six seconds. It still ends on the note count exactly as before.
+- Internal: the codebase now follows the same structure as Killendar and KillerPDF instead of ~50 files sitting flat in the project root. Source is split into `Shell/` (the window and its partials), `Features/` (controller + host-interface pairs that hold no WPF controls), `Services/`, `Models/` and `Controls/`, each with its own namespace. The About card and the password/database handling became `Features/About` and `Features/Security`; tag definitions, the Killculator's arithmetic, the FlowDocument-to-HTML exporter, Authenticode checking, update checking and app identity all became services. The four largest files were split along the section boundaries they already had - the SketchPad window into seven parts, the editor into six, and the note list and group handling into five each - so nothing outside the data layer is over 450 lines. The F1 shortcut list and the drawn keyboard map are now generated from one shared table rather than two hand-maintained ones that could drift apart, while keeping both label sets (the long list description and the short caption that has to fit on a drawn key). No behavior changes: this is a move-and-rename pass, verified by checking that the split files reproduce the originals exactly.
+
 ## [1.1.6] - 2026-07-24
 
 ### Fixed
