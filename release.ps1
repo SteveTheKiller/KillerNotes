@@ -6,6 +6,9 @@
 #   .\release.ps1              # full release for the version in the csproj
 #   .\release.ps1 -DryRun      # everything except tag push and gh release
 #   .\release.ps1 -SkipSign    # local test build only - never release unsigned
+#
+# winget is NOT submitted from here. .github/workflows/winget-release.yml fires on
+# "release: published" and runs komac itself, so doing it here too would double-submit.
 
 [CmdletBinding()]
 param(
@@ -28,6 +31,25 @@ function Fail([string]$Message) {
 function Step([string]$Message) {
     Write-Host ""
     Write-Host "==> $Message" -ForegroundColor Cyan
+}
+
+# Landing-page find/replace that REFUSES to silently do nothing. A plain -replace whose
+# pattern no longer matches the markup leaves the text untouched, the "did anything change"
+# check then reports the page as already current, and the release ships with a stale fact on
+# the site. That is exactly how the exe size on technical.html drifted to 4.5 MB while
+# index.html said 4.6. Every site edit goes through here so changed markup fails the release
+# instead of quietly skipping.
+function Edit-SiteFact {
+    param(
+        [Parameter(Mandatory)][AllowEmptyString()][string]$Text,
+        [Parameter(Mandatory)][string]$Pattern,
+        [Parameter(Mandatory)][AllowEmptyString()][string]$Replacement,
+        [Parameter(Mandatory)][string]$What
+    )
+    if ($Text -notmatch $Pattern) {
+        Fail "Landing page: could not find $What. The markup changed - update the pattern in release.ps1 (step 7b)."
+    }
+    return ($Text -replace $Pattern, $Replacement)
 }
 
 # Resolve the repo's default branch instead of hardcoding it, so the same script works across
@@ -91,6 +113,24 @@ if ($changelog -match [regex]::Escape("## [$Version] - Unreleased")) {
 if ($changelog -notmatch [regex]::Escape("## [$Version]")) {
     Fail "CHANGELOG.md has no [$Version] section"
 }
+
+# The About card shows <ReleaseDate> beside the version so users can tell how old their
+# build is. It is a hand-edited csproj field, so it silently goes stale unless something
+# checks it - that something is here. It must equal the date on this version's CHANGELOG
+# section, which is the date the release actually goes out.
+if ($csproj -notmatch '<ReleaseDate>([0-9]{4}-[0-9]{2}-[0-9]{2})</ReleaseDate>') {
+    Fail 'No <ReleaseDate>yyyy-MM-dd</ReleaseDate> found in KillerNotes.csproj'
+}
+$releaseDate = $Matches[1]
+if ($changelog -notmatch ('## \[' + [regex]::Escape($Version) + '\] - ([0-9]{4}-[0-9]{2}-[0-9]{2})')) {
+    Fail "CHANGELOG.md section [$Version] has no yyyy-MM-dd date"
+}
+$changelogDate = $Matches[1]
+if ($releaseDate -ne $changelogDate) {
+    Fail "csproj <ReleaseDate> is $releaseDate but CHANGELOG [$Version] is dated $changelogDate. Bump the csproj."
+}
+Write-Host "Release date: $releaseDate"
+
 Write-Host 'Preflight OK'
 
 # --- 3. Vulnerable package scan (required at every release, see csproj) ---
@@ -241,15 +281,26 @@ if ($DryRun) {
     $siteDir    = Join-Path (Get-Location).Path 'notes-landing'
     $indexPath  = Join-Path $siteDir 'index.html'
     $indexRaw   = [System.IO.File]::ReadAllText($indexPath)
-    $indexNew   = $indexRaw -replace 'KillerNotes v[0-9]+\.[0-9]+\.[0-9]+', "KillerNotes v$Version"
-    $indexNew   = $indexNew -replace '(<span class="k">released</span>&nbsp;<span class="v">)[0-9]{4}-[0-9]{2}-[0-9]{2}', ('${1}' + $releaseDate)
-    $indexNew   = $indexNew -replace '(<span class="k">size</span>&nbsp;<span class="v">)[^<]*', ('${1}' + $exeMB + ' single exe')
-    $indexNew   = $indexNew -replace '<span class="v hash"><span>[0-9a-f]{32}</span><span>[0-9a-f]{32}</span></span>', ('<span class="v hash"><span>' + $exeHash.Substring(0, 32) + '</span><span>' + $exeHash.Substring(32, 32) + '</span></span>')
+    $indexNew   = Edit-SiteFact $indexRaw 'KillerNotes v[0-9]+\.[0-9]+\.[0-9]+' "KillerNotes v$Version" 'the hero version'
+    $indexNew   = Edit-SiteFact $indexNew '(<span class="k">released</span>&nbsp;<span class="v">)[0-9]{4}-[0-9]{2}-[0-9]{2}' ('${1}' + $releaseDate) 'the hero released date'
+    $indexNew   = Edit-SiteFact $indexNew '(<span class="k">size</span>&nbsp;<span class="v">)[^<]*' ('${1}' + $exeMB + ' single exe') 'the hero size row'
+    $indexNew   = Edit-SiteFact $indexNew '<span class="v hash"><span>[0-9a-f]{32}</span><span>[0-9a-f]{32}</span></span>' ('<span class="v hash"><span>' + $exeHash.Substring(0, 32) + '</span><span>' + $exeHash.Substring(32, 32) + '</span></span>') 'the hero sha256 block'
     if ($indexNew -ne $indexRaw) { [System.IO.File]::WriteAllText($indexPath, $indexNew) }
+
+    # technical.html states the exe size twice in prose (the Distribution paragraph and the
+    # Specs table). Those are the only release facts outside index.html's hero block, and
+    # they drifted from it before this ran here - index said 4.6 MB while both of these
+    # still said 4.5.
+    $techPath = Join-Path $siteDir 'technical.html'
+    $techRaw  = [System.IO.File]::ReadAllText($techPath)
+    $techNew  = Edit-SiteFact $techRaw '(<b>single signed exe</b> - about )[0-9.]+ MB' ('${1}' + $exeMB) 'the Distribution paragraph size'
+    $techNew  = Edit-SiteFact $techNew '(Single signed exe \(~)[0-9.]+ MB'            ('${1}' + $exeMB) 'the Specs table size'
+    if ($techNew -ne $techRaw) { [System.IO.File]::WriteAllText($techPath, $techNew) }
+
     foreach ($page in 'index.html', 'about.html', 'help.html', 'technical.html') {
         $p   = Join-Path $siteDir $page
         $raw = [System.IO.File]::ReadAllText($p)
-        $new = $raw -replace '(id="verEgg"[^>]*>)v[0-9]+\.[0-9]+\.[0-9]+', ('${1}' + "v$Version")
+        $new = Edit-SiteFact $raw '(id="verEgg"[^>]*>)v[0-9]+\.[0-9]+\.[0-9]+' ('${1}' + "v$Version") "the verEgg footer version in $page"
         if ($new -ne $raw) { [System.IO.File]::WriteAllText($p, $new) }
     }
     $siteDirty = git status --porcelain notes-landing
@@ -296,21 +347,17 @@ Step "Creating GitHub release"
 gh release create $Tag $exe $srcZip $sumsFile --title "KillerNotes $Tag" --notes-file $notesFile --verify-tag
 if ($LASTEXITCODE -ne 0) { Fail 'gh release create failed' }
 
-# --- 11. Submit to winget-pkgs (komac) ---
-# Runs AFTER the release is published, because komac downloads the uploaded exe to hash it.
-# Non-fatal (Write-Warning, not Fail): the GitHub release is already out, so a winget hiccup
-# must not fail the run. Uses `update` (the package is already in winget); komac needs a
-# GitHub token stored once via `komac token update` (or a GITHUB_TOKEN env var).
-# Caveat: the next release can only auto-submit once the PRIOR version's winget PR is merged -
-# until then komac update can't find the package, and it falls to the manual line below.
-Step "Submitting to winget-pkgs (komac)"
-$exeUrl = "https://github.com/SteveTheKiller/KillerNotes/releases/download/$Tag/KillerNotes.exe"
-komac update SteveTheKiller.KillerNotes --version $Version --urls $exeUrl --submit
-if ($LASTEXITCODE -ne 0) {
-    Write-Warning "winget submit failed. Run it by hand once the previous version's PR is merged:"
-    Write-Warning "  komac update SteveTheKiller.KillerNotes --version $Version --urls $exeUrl --submit"
-}
+# Publishing this release is also what fires .github/workflows/winget-release.yml, which
+# submits to winget-pkgs via komac. Do NOT add a komac call here - it would double-submit.
+# That workflow uses `komac update`, which only works once the package already exists in
+# winget-pkgs; the very first submission has to be `komac new` by hand (see the workflow).
+#
+# This script used to submit here, and it failed silently: komac's exit code only produced a
+# Write-Warning, so seven releases (1.1.0 through 1.1.6) never reached winget and it sat on
+# 1.0.1 unnoticed. As a workflow the failure is a red X on the Actions tab instead, and it can
+# be retried with workflow_dispatch without cutting a new release.
 
 Step "Done"
 Write-Host "Release $Tag published:"
 gh release view $Tag --json url --jq '.url'
+Write-Host "  winget: submitted by .github/workflows/winget-release.yml (needs the WINGET_TOKEN secret)" -ForegroundColor Yellow

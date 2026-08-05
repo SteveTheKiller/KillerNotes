@@ -1,0 +1,49 @@
+# Submits KillerNotes to winget-pkgs when a GitHub release is published.
+#
+# This is the SINGLE winget submission path - release.ps1 deliberately does not call komac.
+# Doing it in both places double-submits (KillerPDF hit that on 2026-08-04).
+#
+# Needs the WINGET_TOKEN secret: a CLASSIC personal access token with the public_repo scope.
+# Fine-grained tokens can commit but cannot open the pull request to winget-pkgs. Without the
+# secret this fails in about 7 seconds with "GitHub token is invalid" - which is silent unless
+# you look at the Actions tab, so check a release actually produced a PR.
+#
+# `komac update` only works once the package already exists in winget-pkgs; the very first
+# submission has to be `komac new` by hand.
+#
+# workflow_dispatch is the retry path: a submission can fail because the PREVIOUS version's
+# winget PR has not merged yet, and re-running this with the tag is the fix - no re-release.
+
+name: WinGet Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.1.7)'
+        required: true
+
+jobs:
+  submit:
+    runs-on: windows-latest
+    steps:
+      - name: Install Komac
+        run: |
+          $tag = (Invoke-RestMethod "https://api.github.com/repos/russellbanks/Komac/releases/latest").tag_name
+          $ver = $tag.TrimStart('v')
+          $url = "https://github.com/russellbanks/Komac/releases/download/$tag/komac-$ver-x86_64-pc-windows-msvc.exe"
+          Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP\komac.exe"
+          Add-Content $env:GITHUB_PATH $env:RUNNER_TEMP
+        shell: pwsh
+
+      - name: Submit to WinGet
+        run: |
+          $releaseTag = if ("${{ github.event_name }}" -eq "workflow_dispatch") { "${{ github.event.inputs.tag }}" } else { "${{ github.event.release.tag_name }}" }
+          $version = $releaseTag.TrimStart('v')
+          $url = "https://github.com/SteveTheKiller/KillerNotes/releases/download/$releaseTag/KillerNotes.exe"
+          komac update SteveTheKiller.KillerNotes --version $version --urls $url --submit
+        env:
+          GITHUB_TOKEN: ${{ secrets.WINGET_TOKEN }}
+        shell: pwsh
