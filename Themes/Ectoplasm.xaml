@@ -1,0 +1,63 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Experimental KillerNotes-only theme. It inherits the complete Cyanotic/KillerUI
+         resource set in ThemeManager, then remaps the visible roles to a multi-colour
+         1990s palette. Promote to KillerUI only after visual testing. -->
+    <sys:Double x:Key="GrainOpacity">0.30</sys:Double>
+    <sys:Double x:Key="IconShadowOpacity">0.85</sys:Double>
+
+    <LinearGradientBrush x:Key="TitleBarBrush" StartPoint="0,0.5" EndPoint="1,0.5" po:Freeze="True"><GradientStop Color="#563343" Offset="0"/><GradientStop Color="#365b58" Offset="1"/></LinearGradientBrush>
+
+    <!-- Optimistic 90s palette: charcoal foundation, muted mint surfaces and vivid
+         peach, pink, yellow and aqua accents. -->
+    <LinearGradientBrush x:Key="BackgroundBrush" StartPoint="0,0.5" EndPoint="1,0.5" po:Freeze="True"><GradientStop Color="#563343" Offset="0"/><GradientStop Color="#365b58" Offset="1"/></LinearGradientBrush>
+    <SolidColorBrush x:Key="SurfaceBrush"        Color="#3f4947" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PaneBrush"           Color="#343b3d" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TableHeaderBrush"    Color="#4b5652" po:Freeze="True"/>
+    <SolidColorBrush x:Key="BgFlyout"            Color="#303638" po:Freeze="True"/>
+    <SolidColorBrush x:Key="BgRecentPanel"       Color="#394340" po:Freeze="True"/>
+    <SolidColorBrush x:Key="BgCanvas"            Color="#343b3d" po:Freeze="True"/>
+    <SolidColorBrush x:Key="CardBorderBrush"     Color="#756b79" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PaneBorderBrush"     Color="#668078" po:Freeze="True"/>
+    <SolidColorBrush x:Key="AppBorderBrush"      Color="#756b79" po:Freeze="True"/>
+    <SolidColorBrush x:Key="InputBorderBrush"    Color="#668078" po:Freeze="True"/>
+    <SolidColorBrush x:Key="InputHoverBrush"     Color="#c2b280" po:Freeze="True"/>
+
+    <SolidColorBrush x:Key="TextBrush"           Color="#f2f4f3" po:Freeze="True"/>
+    <SolidColorBrush x:Key="MutedTextBrush"      Color="#d8cfb5" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ChromeTextBrush"     Color="#f2f4f3" po:Freeze="True"/>
+    <SolidColorBrush x:Key="DimTextBrush"        Color="#b6ad9e" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TextFooter"          Color="#a0ffe6" po:Freeze="True"/>
+
+    <SolidColorBrush x:Key="PrimaryBrush"        Color="#ff6f91" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#ff86a2" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#e85e80" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OnPrimaryBrush"      Color="#292c31" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#ffb199" po:Freeze="True"/>
+    <SolidColorBrush x:Key="HeaderLineBrush"     Color="#a0ffe6" po:Freeze="True"/>
+    <SolidColorBrush x:Key="AccentLogo"          Color="#ff6f91" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionAccent"     Color="#a0ffe6" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RadioAccent"         Color="#f9f871" po:Freeze="True"/>
+    <SolidColorBrush x:Key="DangerRed"           Color="#ff6f91" po:Freeze="True"/>
+
+    <SolidColorBrush x:Key="RowAltBrush"         Color="#14f2f4f3" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RowHoverBrush"       Color="#4b5b57" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#586c66" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionBg"         Color="#ff6f91" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionFg"         Color="#292c31" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OutlinePressedBrush" Color="#586c66" po:Freeze="True"/>
+
+    <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#3b3f46" po:Freeze="True"/>
+    <SolidColorBrush x:Key="MenuBorderBrush"     Color="#8a7f72" po:Freeze="True"/>
+    <SolidColorBrush x:Key="MenuTextBrush"       Color="#f2f4f3" po:Freeze="True"/>
+    <SolidColorBrush x:Key="MenuHoverBrush"      Color="#6b705c" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbBrush"    Color="#aa6b705c" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#8a7f72" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SliderTrack"         Color="#8a7f72" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SettingsOpenRowBg"   Color="#c2b280" po:Freeze="True"/>
+    <SolidColorBrush x:Key="WarnBrush"           Color="#9a6b24" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OkBrush"             Color="#6b705c" po:Freeze="True"/>
+</ResourceDictionary>

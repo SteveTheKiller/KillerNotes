@@ -107,8 +107,9 @@ namespace KillerNotes.Shell
 
         private void TextColorBtn_Click(object sender, RoutedEventArgs e)
         {
+            ColorPopup.PlacementTarget = TextColorBtn;
             ColorPopup.IsOpen = !ColorPopup.IsOpen;
-            if (ColorPopup.IsOpen && ColorPopup.Child is UIElement ch) Anim.FadeIn(ch);
+            if (ColorPopup.IsOpen) Anim.FadeIn(ColorPopup);
         }
 
         private void FgSwatch_Click(object sender, RoutedEventArgs e)

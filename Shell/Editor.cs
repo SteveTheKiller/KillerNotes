@@ -29,6 +29,7 @@ namespace KillerNotes.Shell
             InitImageResize();   // click-to-resize handles on note images (ImageResize.cs)
             InitEditorView();    // remembered zoom + Ctrl+wheel (below)
             InitWordWrap();      // remembered word-wrap toggle (below)
+            InitSyntaxHighlighting();
 
             // Drag-and-drop: text drops are native RichTextBox behavior; image files and
             // raw bitmaps need the handlers below.

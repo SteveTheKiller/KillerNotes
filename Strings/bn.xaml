@@ -152,6 +152,10 @@
     <sys:String x:Key="Str_TT_PreviewMd">মার্কডাউন প্রিভিউ</sys:String>
     <sys:String x:Key="Str_TT_PreviewHtml">HTML প্রিভিউ</sys:String>
     <sys:String x:Key="Str_St_PreviewFailed">প্রিভিউ ব্যর্থ: {0}</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">মার্কডাউন ও HTML শনাক্ত করুন</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">কোনো নোট মার্কডাউন বা HTML-এর মতো দেখালে প্রিভিউ দেখান (সব নোট)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">মার্কডাউন ও HTML শনাক্তকরণ চালু</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">মার্কডাউন ও HTML শনাক্তকরণ বন্ধ</sys:String>
 
     <!-- Databases dialog -->
     <sys:String x:Key="Str_Db_Title">ডেটাবেস</sys:String>
@@ -280,10 +284,11 @@
     <sys:String x:Key="Str_KS_NewGroup">নতুন গ্রুপ (নির্বাচিত নোটগুলো এতে রাখা হয়)</sys:String>
     <sys:String x:Key="Str_KS_Theme">থিম ও অ্যাকসেন্ট মেনু</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">শিরোনামের রং (নির্বাচিত নোট)</sys:String>
-    <sys:String x:Key="Str_KS_Spell">বানান পরীক্ষা টগল করুন (এই নোট)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">বানান পরীক্ষা টগল করুন</sys:String>
     <sys:String x:Key="Str_KS_Table">টেবিল যোগ করুন</sys:String>
     <sys:String x:Key="Str_TT_WordWrap">ওয়ার্ড র‍্যাপ চালু/বন্ধ (Ctrl+Shift+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">ওয়ার্ড র‍্যাপ টগল করুন</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">সিনট্যাক্স হাইলাইটিং</sys:String>
     <sys:String x:Key="Str_St_WrapOn">ওয়ার্ড র‍্যাপ চালু</sys:String>
     <sys:String x:Key="Str_St_WrapOff">ওয়ার্ড র‍্যাপ বন্ধ - চওড়া বিষয়বস্তু দেখতে স্ক্রোল করুন</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">লাইন নম্বর (F11)</sys:String>

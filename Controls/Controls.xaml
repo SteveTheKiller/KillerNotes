@@ -47,7 +47,7 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="4"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
                             Padding="{TemplateBinding Padding}">
                         <Border.Effect>
                             <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Direction="270" Opacity="0.45"/>
@@ -120,9 +120,11 @@
                          whatever the palette says. All 15 accent files set PrimaryHoverBrush ==
                          PrimaryBrush, so the old brush swap was a no-op and this button had never
                          shown a hover. Ported from KillerShell. (Steve, 2026-07-30.) -->
-                    <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="4">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}">
                         <Grid>
-                            <Border x:Name="tint" CornerRadius="4" Background="Transparent"/>
+                            <Border x:Name="tint" CornerRadius="{DynamicResource ControlCornerRadius}" Background="Transparent"/>
+                            <Border x:Name="bevelLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                            <Border x:Name="bevelDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
                             <ContentPresenter Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
@@ -133,6 +135,8 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="tint" Property="Background" Value="#38000000"/>
+                            <Setter TargetName="bevelLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
+                            <Setter TargetName="bevelDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>
@@ -154,15 +158,19 @@
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Padding" Value="14,5"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource OutlineBtnBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource OutlineRestBrush}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="4" Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+                        <Grid>
+                            <Border x:Name="bevelLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                            <Border x:Name="bevelDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <!-- Order matters: IsPressed must come after IsMouseOver to win. -->
@@ -177,6 +185,8 @@
                                  solid accent in Light, hiding the text on press too. -->
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource OutlinePressedBrush}"/>
                             <Setter Property="Foreground" Value="{DynamicResource OutlineBtnBrush}"/>
+                            <Setter TargetName="bevelLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
+                            <Setter TargetName="bevelDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>
@@ -203,8 +213,12 @@
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="4" Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+                        <Grid>
+                            <Border x:Name="bevelLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                            <Border x:Name="bevelDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <!-- Order matters: IsPressed after IsMouseOver so it wins. -->
@@ -216,6 +230,8 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+                            <Setter TargetName="bevelLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
+                            <Setter TargetName="bevelDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4"/>
@@ -375,7 +391,7 @@
                              shadow as a black box, so the effect must not sit above the items. -->
                         <Border CornerRadius="6" Background="{TemplateBinding Background}">
                             <Border.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1" Direction="270" Opacity="0.55"/>
+                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                             </Border.Effect>
                         </Border>
                         <Border CornerRadius="6"
@@ -385,6 +401,10 @@
                                 <Border IsHitTestVisible="False" CornerRadius="5"
                                         Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
                                 <StackPanel IsItemsHost="True" Margin="{TemplateBinding Padding}" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
+                                        BorderThickness="{DynamicResource BevelLightThickness}"/>
+                                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
+                                        BorderThickness="{DynamicResource BevelDarkThickness}"/>
                             </Grid>
                         </Border>
                     </Grid>
@@ -475,7 +495,7 @@
                                             IsHitTestVisible="False">
                                         <Border.Effect>
                                             <DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="4"
-                                                              Direction="270" Opacity="0.55"/>
+                                                              Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                                         </Border.Effect>
                                     </Border>
                                     <Border Background="{DynamicResource MenuBackgroundBrush}"
@@ -487,6 +507,10 @@
                                                     Opacity="{DynamicResource GrainOpacity}"/>
                                             <StackPanel IsItemsHost="True" Margin="0,4"
                                                         KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
+                                                    BorderThickness="{DynamicResource BevelLightThickness}"/>
+                                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
+                                                    BorderThickness="{DynamicResource BevelDarkThickness}"/>
                                         </Grid>
                                     </Border>
                                 </Grid>
@@ -559,12 +583,51 @@
         <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}"/>
         <Setter Property="Padding" Value="12,8"/>
     </Style>
 
     <!-- Theme swatch (title-bar theme/accent picker dots). Background = the swatch colour;
          BorderBrush/Thickness form the active ring (set in ThemeFlyout.cs). -->
+    <!-- KillerPDF family-standard rail flyouts. -->
+    <Style x:Key="FlyoutCard" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/><Setter Property="CornerRadius" Value="{DynamicResource PanelCornerRadius}"/>
+        <Setter Property="Margin" Value="6"/><Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Effect"><Setter.Value><DropShadowEffect Color="Black" BlurRadius="7" ShadowDepth="2" Direction="270" Opacity="{DynamicResource BarShadowOpacity}"/></Setter.Value></Setter>
+    </Style>
+    <Style x:Key="FlyoutGrain" TargetType="Border">
+        <Setter Property="IsHitTestVisible" Value="False"/><Setter Property="CornerRadius" Value="{DynamicResource PanelCornerRadius}"/>
+        <Setter Property="Background" Value="{DynamicResource GrainTileBrush}"/><Setter Property="Opacity" Value="{DynamicResource GrainOpacity}"/>
+    </Style>
+    <Style x:Key="PanelMenuItem" TargetType="MenuItem">
+        <Setter Property="Padding" Value="0"/><Setter Property="StaysOpenOnClick" Value="True"/>
+        <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="MenuItem"><ContentPresenter ContentSource="Header"/></ControlTemplate></Setter.Value></Setter>
+    </Style>
+    <Style x:Key="AccentDot" TargetType="Border">
+        <Setter Property="Width" Value="18"/><Setter Property="Height" Value="18"/><Setter Property="CornerRadius" Value="{DynamicResource AccentSwatchCornerRadius}"/>
+        <Setter Property="Margin" Value="0,0,7,0"/><Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderThickness" Value="2"/><Setter Property="BorderBrush" Value="Transparent"/>
+    </Style>
+    <Style x:Key="ThemeRadio" TargetType="RadioButton">
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/><Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="12"/><Setter Property="Margin" Value="0,0,0,8"/><Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RadioButton">
+            <Border x:Name="bd" Background="Transparent" CornerRadius="3" Margin="-8,0,2,0" Padding="10,4">
+                <DockPanel LastChildFill="True"><Grid Width="16" Height="16" Margin="0,0,8,0" DockPanel.Dock="Left">
+                    <Ellipse x:Name="ring" Width="14" Height="14" Stroke="{DynamicResource DimTextBrush}" StrokeThickness="1.5"/>
+                    <Ellipse x:Name="dot" Width="7" Height="7" Fill="{DynamicResource PrimaryBrush}" Visibility="Collapsed"/>
+                </Grid><ContentPresenter VerticalAlignment="Center"/></DockPanel>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsChecked" Value="True"><Setter TargetName="dot" Property="Visibility" Value="Visible"/><Setter TargetName="ring" Property="Stroke" Value="{DynamicResource PrimaryBrush}"/><Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/></Trigger>
+                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ring" Property="Stroke" Value="{DynamicResource PrimaryBrush}"/><Setter TargetName="bd" Property="Background" Value="{DynamicResource RowHoverBrush}"/></Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate></Setter.Value></Setter>
+    </Style>
+
     <Style x:Key="ThemeSwatch" TargetType="Button">
         <Setter Property="Width" Value="15"/>
         <Setter Property="Height" Value="15"/>
@@ -619,6 +682,19 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!-- Canonical floating annotation/format bar controls. Keep these in sync with
+         KillerPDF's annotation bars; apps supply only command content. -->
+    <Style x:Key="AnnotationBarButton" TargetType="Button" BasedOn="{StaticResource ChromeButton}">
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="FontSize" Value="13"/>
+    </Style>
+    <Style x:Key="AnnotationBarSeparator" TargetType="Rectangle">
+        <Setter Property="Width" Value="1"/>
+        <Setter Property="Margin" Value="4,4"/>
+        <Setter Property="Fill" Value="{DynamicResource PaneBorderBrush}"/>
     </Style>
 
     <!-- Close caption button, KillerPDF-style: red glyph at rest, red fill + white glyph on hover -->
@@ -683,10 +759,10 @@
     </Style>
 
     <!-- Elevation shadow: lifts panels/cards slightly off the surface. -->
-    <DropShadowEffect x:Key="ShadowBar" Color="Black" BlurRadius="6" ShadowDepth="3" Direction="270" Opacity="0.38"/>
+    <DropShadowEffect x:Key="ShadowBar" Color="Black" BlurRadius="6" ShadowDepth="3" Direction="270" Opacity="{DynamicResource BarShadowOpacity}"/>
     <!-- Elevation for the content pane, cast DOWN onto the footer. ShadowDepth must be non-zero
          with Direction 270; a zero depth is a halo with nothing below to land on. -->
-    <DropShadowEffect x:Key="PaneShadow" Color="Black" BlurRadius="16" ShadowDepth="5" Direction="270" Opacity="0.6"/>
+    <DropShadowEffect x:Key="PaneShadow" Color="Black" BlurRadius="16" ShadowDepth="5" Direction="270" Opacity="{DynamicResource PaneShadowOpacity}"/>
 
     <!-- Themed checkbox: small square, accent check, mono label. -->
     <Style TargetType="CheckBox">

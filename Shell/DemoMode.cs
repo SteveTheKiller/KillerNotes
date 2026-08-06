@@ -248,7 +248,9 @@ namespace KillerNotes.Shell
 
         private static FlowDocument DemoDocMono(string intro, string mono, params string[] bullets)
         {
-            var d = new FlowDocument();
+            // Code-oriented demo notes should showcase the same per-note toggle state a user
+            // gets after pressing </>. The marker is serialized with the demo document.
+            var d = new FlowDocument { Tag = SyntaxTag };
             d.Blocks.Add(DemoP(intro));
             d.Blocks.Add(DemoMono(mono));
             if (bullets.Length > 0) d.Blocks.Add(DemoList(bullets));
@@ -335,7 +337,7 @@ namespace KillerNotes.Shell
 
         private static FlowDocument DemoPowerShell()
         {
-            var d = new FlowDocument();
+            var d = new FlowDocument { Tag = SyntaxTag };
             d.Blocks.Add(DemoP("The ones I always forget:"));
             d.Blocks.Add(DemoMono("Get-WinEvent -FilterHashtable @{LogName='System';Level=2} -MaxEvents 25"));
             d.Blocks.Add(DemoMono("Test-NetConnection 192.0.2.20 -Port 3389"));
@@ -475,7 +477,7 @@ namespace KillerNotes.Shell
         /// and the Preview button appears (note left on Automatic).</summary>
         private static FlowDocument DemoMarkdownRunbook()
         {
-            var d = new FlowDocument();
+            var d = new FlowDocument { Tag = SyntaxTag };
             d.Blocks.Add(DemoP("# Failover runbook"));
             d.Blocks.Add(DemoP(""));
             d.Blocks.Add(DemoP("## Before you start"));
@@ -517,7 +519,7 @@ namespace KillerNotes.Shell
         /// this detects as HTML and previews defused (no scripts, handlers, frames or js: URLs).</summary>
         private static FlowDocument DemoHtmlSnippet()
         {
-            var d = new FlowDocument();
+            var d = new FlowDocument { Tag = SyntaxTag };
             d.Blocks.Add(DemoP("Status banner the client wants on their intranet page:"));
             d.Blocks.Add(DemoMono("<div class=\"notice\">"));
             d.Blocks.Add(DemoMono("  <h3>Planned maintenance</h3>"));

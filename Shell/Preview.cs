@@ -81,8 +81,9 @@ namespace KillerNotes.Shell
             string text = EditorPlainText();
             _docKind = DetectMarkdownGlobally ? DetectDocKind(text) : DocKind.None;
             bool detected = _docKind != DocKind.None;
-            PreviewBtn.Visibility = detected ? Visibility.Visible : Visibility.Collapsed;
-            PreviewBtn.ToolTip = Loc(_docKind == DocKind.Html ? "Str_TT_PreviewHtml" : "Str_TT_PreviewMd");
+            PreviewMenuItem.Visibility = detected ? Visibility.Visible : Visibility.Collapsed;
+            PreviewMenuItem.IsChecked = _previewOpen;
+            PreviewMenuLabel.Text = Loc(_docKind == DocKind.Html ? "Str_TT_PreviewHtml" : "Str_TT_PreviewMd");
             if (!detected && _previewOpen) ClosePreview();
             else if (_previewOpen) RenderPreview(text);
         }
@@ -116,6 +117,7 @@ namespace KillerNotes.Shell
         {
             if (_previewOpen) { ClosePreview(); return; }
             _previewOpen = true;
+            PreviewMenuItem.IsChecked = true;
             PreviewPane.Visibility = Visibility.Visible;
             PreviewCol.Width = new GridLength(1, GridUnitType.Star);
             RenderPreview(EditorPlainText());
@@ -124,6 +126,7 @@ namespace KillerNotes.Shell
         private void ClosePreview()
         {
             _previewOpen = false;
+            PreviewMenuItem.IsChecked = false;
             PreviewPane.Visibility = Visibility.Collapsed;
             PreviewCol.Width = new GridLength(0);
             if (_previewBrowser != null)

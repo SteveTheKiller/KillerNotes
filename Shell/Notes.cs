@@ -59,6 +59,8 @@ namespace KillerNotes.Shell
         private void RefreshList(bool preserveScroll = false)
         {
             if (!NoteStore.IsOpen) return;
+            _notesScroll ??= FindDescendant<ScrollViewer>(NotesList);
+            double savedOffset = preserveScroll ? (_notesScroll?.VerticalOffset ?? 0) : 0;
             TagManager.Refresh();   // cheap; keeps chip colors current across db switches
             _notes = NoteStore.List(SearchBox.Text, SortKey);
             TagManager.ApplyChips(_notes);
@@ -79,6 +81,13 @@ namespace KillerNotes.Shell
             if (!preserveScroll)
                 Dispatcher.BeginInvoke(new System.Action(() => _notesScroll?.ScrollToVerticalOffset(0)),
                                        System.Windows.Threading.DispatcherPriority.Loaded);
+            else
+                // Replacing a selected row can make WPF bring its new container into view even
+                // though the collection itself was reconciled in place. Restore the exact pixel
+                // offset after layout so autosave cannot move the reader at all.
+                Dispatcher.BeginInvoke(new System.Action(() =>
+                    _notesScroll?.ScrollToVerticalOffset(Math.Min(savedOffset, _notesScroll.ScrollableHeight))),
+                    System.Windows.Threading.DispatcherPriority.Loaded);
             // Re-evaluate the sidebar bottom fade once this rebuild has laid out (Sidebar.cs):
             // a load/refresh that overflows should fade without waiting for a scroll.
             Dispatcher.BeginInvoke(new System.Action(ResolveAndUpdateNotesFade),

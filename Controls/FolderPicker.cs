@@ -15,6 +15,11 @@ namespace KillerNotes.Controls
         /// <summary>Shows the picker. Returns the chosen folder path, or null on cancel.</summary>
         public static string? Show(Window? owner, string? initialDir, string title)
         {
+            var themed = new KillerShell.FolderPickerDialog(initialDir) { Title = title };
+            if (owner != null && owner.IsVisible) themed.Owner = owner;
+            themed.ShowDialog();
+            return themed.SelectedPath;
+#if false
             var dialog = (IFileOpenDialog)new FileOpenDialogRCW();
             try
             {
@@ -35,6 +40,7 @@ namespace KillerNotes.Controls
                 finally { Marshal.FreeCoTaskMem(pszPath); }
             }
             finally { Marshal.ReleaseComObject(dialog); }
+#endif
         }
 
         private const uint FOS_PICKFOLDERS     = 0x00000020;

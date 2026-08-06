@@ -5,42 +5,48 @@
 
     <sys:Double x:Key="GrainOpacity">0.24</sys:Double>
     <sys:Double x:Key="IconShadowOpacity">0.9</sys:Double>
+    <!-- Controls.xaml is parsed against Black before ThemeManager restores the saved
+         choice. These startup defaults keep its shared Freezable effects elevated;
+         98SE replaces only these three values with zero. -->
+    <sys:Double x:Key="PaneShadowOpacity">0.60</sys:Double>
+    <sys:Double x:Key="BarShadowOpacity">0.38</sys:Double>
+    <sys:Double x:Key="FlyoutShadowOpacity">0.55</sys:Double>
 
-    <!-- KillerScan - BLACK theme. OLED-style near-black with subtle surface tiering so
+    <!-- KillerNotes additions for the shared KillerUI BLACK theme. OLED-style near-black with subtle surface tiering so
          elements read by background, not by bright borders (borders kept dark). -->
     <SolidColorBrush x:Key="PrimaryBrush"        Color="#00ff66" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#00ff66" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#00ff66" po:Freeze="True"/>
     <SolidColorBrush x:Key="HeaderLineBrush"     Color="#00ff66" po:Freeze="True"/>
-    <SolidColorBrush x:Key="OnPrimaryBrush"      Color="#0a0a0a" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OnPrimaryBrush"      Color="#ffffff" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#00ff66" po:Freeze="True"/>
-    <SolidColorBrush x:Key="InputHoverBrush"     Color="#8c8c8c" po:Freeze="True"/>
+    <SolidColorBrush x:Key="InputHoverBrush"     Color="#aaaaaa" po:Freeze="True"/>
     <SolidColorBrush x:Key="TextFooter"          Color="#aaaaaa" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="BackgroundBrush"     Color="#000000" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SurfaceBrush"        Color="#0d0d0d" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PaneBrush"           Color="#161616" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TableHeaderBrush"    Color="#0d0d0d" po:Freeze="True"/>
-    <SolidColorBrush x:Key="CardBorderBrush"     Color="#2a2a2a" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SurfaceBrush"        Color="#000000" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PaneBrush"           Color="#0a0a0a" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TableHeaderBrush"    Color="#000000" po:Freeze="True"/>
+    <SolidColorBrush x:Key="CardBorderBrush"     Color="#787878" po:Freeze="True"/>
     <SolidColorBrush x:Key="PaneBorderBrush"     Color="#1c1c1c" po:Freeze="True"/>
-    <!-- DWM window frame: pane borders are intentionally near-black here, so the
-         frame uses the card border tone instead. -->
+    <!-- Keep the outer app frame visible against the OLED-black chrome while
+         leaving internal pane borders intentionally near-black. -->
     <SolidColorBrush x:Key="AppBorderBrush"      Color="#2a2a2a" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="TextBrush"           Color="#ffffff" po:Freeze="True"/>
     <SolidColorBrush x:Key="MutedTextBrush"      Color="#cccccc" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ChromeTextBrush"     Color="#dcdcdc" po:Freeze="True"/>
-    <SolidColorBrush x:Key="DimTextBrush"        Color="#888888" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ChromeTextBrush"     Color="#e6e6e6" po:Freeze="True"/>
+    <SolidColorBrush x:Key="DimTextBrush"        Color="#aaaaaa" po:Freeze="True"/>
 
-    <SolidColorBrush x:Key="RowAltBrush"         Color="#14FFFFFF" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RowHoverBrush"       Color="#242424" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RowAltBrush"         Color="#18FFFFFF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RowHoverBrush"       Color="#333333" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowSelectedBrush"    Color="#003322" po:Freeze="True"/>
-    <!-- Selection pair - see the note in Dark.xaml. Values from KillerPDF. -->
+    <!-- Selection pair from the shared KillerUI contract. -->
     <SolidColorBrush x:Key="SelectionBg"         Color="#003314" po:Freeze="True"/>
     <SolidColorBrush x:Key="SelectionFg"         Color="#ffffff" po:Freeze="True"/>
 
-    <SolidColorBrush x:Key="InputBorderBrush"    Color="#2a2a2a" po:Freeze="True"/>
-    <!-- Menu surface: KillerPDF's values, the family source of truth for colour. -->
+    <SolidColorBrush x:Key="InputBorderBrush"    Color="#787878" po:Freeze="True"/>
+    <!-- Menu surface compatibility defaults; KillerUI overlays the authoritative values. -->
     <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#000000" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuBorderBrush"     Color="#808080" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuTextBrush"       Color="#cccccc" po:Freeze="True"/>
@@ -66,7 +72,7 @@
     <SolidColorBrush x:Key="TypeSmarttv"    Color="#E0A0E0" po:Freeze="True"/>
     <SolidColorBrush x:Key="TypeMedia"      Color="#70C0E0" po:Freeze="True"/>
 
-    <!-- Keyboard-map category colors (F1 overlay KEYBOARD view, KillerPDF palette) -->
+    <!-- KillerNotes keyboard-map category colors (product-specific) -->
     <SolidColorBrush x:Key="KnCatFile"   Color="#00fff9" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatNote"   Color="#ff2975" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatFormat" Color="#ffd319" po:Freeze="True"/>

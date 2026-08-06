@@ -36,6 +36,7 @@ namespace KillerNotes.Shell
 
             DeselectImage();   // ImageResize.cs (handles must not outlive the document swap)
             Editor.Document.Blocks.Clear();
+            Editor.Document.Tag = null; // A note without the marker must not inherit the prior note's syntax state.
             var blob = NoteStore.LoadContent(id);
             if (blob != null)
             {
@@ -47,6 +48,7 @@ namespace KillerNotes.Shell
             NormalizeContentFont(Editor.Document);   // Fonts.cs (baked save-time font must not defeat the ContentFont slot)
             ApplyImageQuality(Editor.Document);      // ImageResize.cs (Fant scaling on loaded images)
             EnsureEditableTail();   // Editor.cs (rule/table as last block traps the caret)
+            LoadSyntaxHighlightState();
             ApplyWordWrap(_wordWrap);   // Editor.cs (re-assert the word-wrap page width after the load)
             _loadingNote = false;
             _dirty = false;
@@ -99,10 +101,15 @@ namespace KillerNotes.Shell
             _saveTimer.Stop();
             if (_currentId < 0 || !_dirty || !NoteStore.IsOpen) return;
 
+            // Syntax colors are a transient view over the user's real rich formatting.
+            // Never bake TextEffects into the XamlPackage; restore them immediately after.
+            bool rehighlight = _syntaxHighlight;
+            if (rehighlight) ClearSyntaxHighlighting();
             var range = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd);
             using var ms = new MemoryStream();
             range.Save(ms, DataFormats.XamlPackage);
             NoteStore.Save(_currentId, TitleBox.Text, ms.ToArray(), range.Text);
+            if (rehighlight) ApplySyntaxHighlighting();
             SaveSketchPayloads(_currentId);   // SketchPad: persist sketch strokes by image ordinal (Editor.cs)
             _dirty = false;
 
@@ -131,7 +138,9 @@ namespace KillerNotes.Shell
 
             if (refreshList)
             {
-                RefreshList();
+                // Autosave updates the visible row but must never behave like a new
+                // search/sort and throw the reader back to the top of the sidebar.
+                RefreshList(preserveScroll: true);
             }
             else
             {
@@ -145,11 +154,12 @@ namespace KillerNotes.Shell
 
         private void MarkDirty()
         {
-            if (_loadingNote || _currentId < 0) return;
+            if (_loadingNote || _applyingSyntax || _currentId < 0) return;
             _dirty = true;
             _lastActionWasOrg = false;   // a text edit is now the most recent undoable thing (ActionUndo.cs)
             _saveTimer.Stop();
             _saveTimer.Start();
+            QueueSyntaxHighlighting();
         }
 
         private void TitleBox_TextChanged(object sender, TextChangedEventArgs e) => MarkDirty();

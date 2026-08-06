@@ -1,0 +1,5 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
+  <LinearGradientBrush x:Key="TitleBarBrush" StartPoint="0,0" EndPoint="1,0" po:Freeze="True"><GradientStop Color="#680030" Offset="0"/><GradientStop Color="#b05070" Offset="1"/></LinearGradientBrush>
+  <SolidColorBrush x:Key="PrimaryBrush" Color="#700038"/><SolidColorBrush x:Key="PrimaryHoverBrush" Color="#980050"/><SolidColorBrush x:Key="PrimaryPressedBrush" Color="#500028"/><SolidColorBrush x:Key="OutlineBtnBrush" Color="#700038"/><SolidColorBrush x:Key="HeaderLineBrush" Color="#700038"/><SolidColorBrush x:Key="SelectionBg" Color="#700038"/><SolidColorBrush x:Key="SelectionAccent" Color="#700038"/><SolidColorBrush x:Key="RadioAccent" Color="#700038"/>
+  <SolidColorBrush x:Key="RowSelectedBrush" Color="#700038"/>
+</ResourceDictionary>

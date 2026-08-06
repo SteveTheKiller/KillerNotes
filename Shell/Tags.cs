@@ -39,6 +39,10 @@ namespace KillerNotes.Shell
             // Acts on the whole multi-selection, not just the anchor row (#7): the
             // check reflects "every selected note has this tag", and toggling brings
             // all of them to the same state.
+            // This setting belongs to the note-row menu, not the blank sidebar surface.
+            // The ListBox owns one shared ContextMenu, so use the right-click hit captured
+            // before the popup opened to hide this row for background clicks.
+            PreviewDetectGlobal.Visibility = _noteContextTarget ? Visibility.Visible : Visibility.Collapsed;
             PreviewDetectGlobal.IsChecked = DetectMarkdownGlobally;   // Preview.cs (#14)
             var selected = NotesList.SelectedItems.Cast<Note>().ToList();
             TagsMenu.Items.Clear();

@@ -19,21 +19,12 @@ namespace KillerNotes.Shell
 
         private void LangButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button b && b.ContextMenu != null)
-            {
-                BuildLanguageMenu(b.ContextMenu);
-                // Placement=Top on the fixed RailFlyoutAnchor: menu bottom sits on the
-                // footer boundary, left edge 4px right of the rail, growing upward - the
-                // exact spot the theme flyout uses. The offsets cancel the themed
-                // ContextMenu template's 6px shadow-halo margin (Controls.xaml) so the
-                // VISIBLE edges of both flyouts land identically.
-                b.ContextMenu.PlacementTarget = RailFlyoutAnchor;
-                b.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Top;
-                b.ContextMenu.HorizontalOffset = -6;
-                b.ContextMenu.VerticalOffset = 22;   // empirical, screenshot-verified: aligns the menu's visible bottom with the theme card's
-                b.ContextMenu.IsOpen = true;
-                Anim.SlideInX(b.ContextMenu, -12);
-            }
+            if (LangMenu.IsOpen) { LangMenu.IsOpen = false; return; }
+            BuildLanguageMenu(LangMenu);
+            FlyoutPlacement.UsePane(ContentPane);
+            FlyoutPlacement.Attach(LangMenu, LangButton);
+            LangMenu.IsOpen = true;
+            Anim.FadeIn(LangMenu);
         }
 
         // English pinned on top; the rest alphabetical by locale code (the file name).
@@ -55,51 +46,49 @@ namespace KillerNotes.Shell
         {
             menu.Items.Clear();
             var current = Services.LocaleManager.Current;
+            var panel = new StackPanel { Margin = new Thickness(10, 10, 10, 10) };
 
             foreach (var (loc, name, code) in Languages)
             {
-                var grid = new Grid { MinWidth = 160 };
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                var grid = new Grid { MinWidth = 138 };
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
                 var nameBlock = new TextBlock { Text = name, VerticalAlignment = VerticalAlignment.Center };
                 var codeBlock = new TextBlock
                 {
-                    Text = "(" + code + ")",
-                    Opacity = 0.5,
-                    Margin = new Thickness(22, 0, 0, 0),
+                    Text = code,
+                    Margin = new Thickness(12, 0, 0, 0),
                     VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Right,
                 };
+                codeBlock.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
                 Grid.SetColumn(codeBlock, 1);
                 grid.Children.Add(nameBlock);
                 grid.Children.Add(codeBlock);
 
-                var item = new MenuItem
+                var item = new RadioButton
                 {
-                    Header = grid,
+                    Content = grid,
                     Tag = loc.ToString(),
-                    HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                    GroupName = "LangGroup",
+                    Style = (Style)FindResource("ThemeRadio"),
                     IsChecked = loc == current,
                 };
-                if (loc == current && TryFindResource("PrimaryBrush") is Brush accent)
-                {
-                    nameBlock.Foreground = accent;
-                    nameBlock.FontWeight = FontWeights.SemiBold;
-                    codeBlock.Foreground = accent;
-                    codeBlock.Opacity = 0.85;
-                }
-                item.Click += Lang_Click;
-                menu.Items.Add(item);
+                item.Checked += Lang_Click;
+                panel.Children.Add(item);
             }
+            menu.Items.Add(panel);
         }
 
         private void Lang_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is MenuItem mi && mi.Tag is string tag
+            if (sender is RadioButton mi && mi.Tag is string tag
                 && Enum.TryParse<Services.Locale>(tag, out var loc))
             {
                 Services.LocaleManager.Apply(loc);
                 RelocalizeDynamicUi();
+                LangMenu.IsOpen = false;
             }
         }
 

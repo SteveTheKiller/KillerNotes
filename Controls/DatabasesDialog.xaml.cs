@@ -326,7 +326,7 @@ namespace KillerNotes.Controls
         {
             if (SelectedFile is not string name) { DlgStatus.Text = Loc("Str_Db_SelectFirst"); return; }
             SelectedDatabase = name;
-            Close();
+            DialogResult = true;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e) => Close();

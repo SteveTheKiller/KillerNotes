@@ -153,6 +153,10 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_TT_PreviewMd">Vista previa de markdown</sys:String>
     <sys:String x:Key="Str_TT_PreviewHtml">Vista previa de HTML</sys:String>
     <sys:String x:Key="Str_St_PreviewFailed">Error en la vista previa: {0}</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">Detectar markdown y HTML</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">Ofrecer una vista previa cuando una nota parezca markdown o HTML (todas las notas)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Detección de markdown y HTML activada</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Detección de markdown y HTML desactivada</sys:String>
 
     <!-- Databases dialog -->
     <sys:String x:Key="Str_Db_Title">Bases de datos</sys:String>
@@ -281,10 +285,11 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Nuevo grupo (archiva en él las notas seleccionadas)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Panel de temas y acentos</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">Color del título (nota seleccionada)</sys:String>
-    <sys:String x:Key="Str_KS_Spell">Alternar corrección ortográfica (esta nota)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Alternar corrección ortográfica</sys:String>
     <sys:String x:Key="Str_KS_Table">Insertar tabla</sys:String>
     <sys:String x:Key="Str_TT_WordWrap">Ajuste de línea sí/no (Ctrl+Mayús+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Alternar ajuste de línea</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">Resaltado de sintaxis</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Ajuste de línea activado</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Ajuste de línea desactivado - desplácese para ver el contenido ancho</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Números de línea (F11)</sys:String>

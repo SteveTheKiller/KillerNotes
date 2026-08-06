@@ -60,6 +60,7 @@ namespace KillerNotes.Shell
             new("Ctrl+Shift+G", "Str_KS_NewSubgroup", "Note", [(KbLayer.CtrlShift, "G", "Str_KS_NewSubgroup")]),
             new("Ctrl+Shift+K", "Str_KS_GroupColor", "Note", [(KbLayer.CtrlShift, "K", "Str_KS_GroupColor")]),
             new("Ctrl+Shift+W", "Str_KS_WordWrap", "View", [(KbLayer.CtrlShift, "W", "Str_KS_WordWrap")]),
+            new("Ctrl+Shift+E", "Str_KS_Syntax", "View", [(KbLayer.CtrlShift, "E", "Str_KS_Syntax")]),
             new("Ctrl+Shift+C", "Str_KS_TitleColor", "Note", [(KbLayer.CtrlShift, "C", "Str_KS_TitleColor")]),
             new("Ctrl+Shift+P", "Str_KS_Spell", "Format", [(KbLayer.CtrlShift, "P", "Str_KS_Spell")]),
             new("Ctrl+Shift+T", "Str_KS_Table", "Format", [(KbLayer.CtrlShift, "T", "Str_KS_Table")]),

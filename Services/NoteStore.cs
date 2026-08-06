@@ -209,6 +209,18 @@ CREATE TABLE IF NOT EXISTS sketches(
                 Exec("ALTER TABLE notes ADD COLUMN caret_pos INTEGER NOT NULL DEFAULT 0");
             if (!have.Contains("scroll_pos"))
                 Exec("ALTER TABLE notes ADD COLUMN scroll_pos REAL NOT NULL DEFAULT 0");
+            // 1.1.7: drop preview_mode. A per-note markdown/HTML override was built and then
+            // withdrawn in favour of a stricter detector plus one global toggle, but any
+            // database opened by a build from that window still carries the column. Nothing
+            // reads or writes it. Guarded by the same PRAGMA check as the adds above, so it
+            // runs at most once per database and is a no-op everywhere else. DROP COLUMN needs
+            // SQLite 3.35+ (SQLCipher 4.5+ is well past it); the catch is there so an older
+            // engine leaves the harmless column in place rather than failing to open the file.
+            if (have.Contains("preview_mode"))
+            {
+                try { Exec("ALTER TABLE notes DROP COLUMN preview_mode"); }
+                catch { /* unsupported engine - an unused column costs nothing */ }
+            }
 
             // 1.0.3: per-group name color (mirrors the per-note title_color above). The
             // groups table already exists here (EnsureSchema runs the CREATE first).
@@ -243,11 +255,14 @@ CREATE TABLE IF NOT EXISTS sketches(
 
             string order = sort switch
             {
-                "created-desc" => "created DESC",
+                // id is the deterministic tie-breaker for notes created within the same
+                // stored timestamp. Without it SQLite may put a brand-new note below an
+                // older tied row even though the sidebar is in newest-first mode.
+                "created-desc" => "created DESC, id DESC",
                 "title-asc"    => "title COLLATE NOCASE ASC",
                 "title-desc"   => "title COLLATE NOCASE DESC",
                 "custom"       => "sort_order ASC, id ASC",
-                _              => "created ASC",
+                _              => "created ASC, id ASC",
             };
             const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order";
 
@@ -259,7 +274,9 @@ CREATE TABLE IF NOT EXISTS sketches(
                 // so "A/002/45" was found by "002" but never by "02" or "2" (#12). A LIKE scan
                 // matches any substring, mid-token included; at personal-notes scale it stays
                 // instant. Each whitespace word must appear (AND), in any of the columns (OR).
-                var words = search.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
+                // The branch guarantees a value, but net48's nullable annotations do not teach
+                // the compiler that IsNullOrWhiteSpace(false) also means non-null.
+                var words = search!.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
                 var clauses = new List<string>(words.Length);
                 for (int i = 0; i < words.Length; i++)
                 {

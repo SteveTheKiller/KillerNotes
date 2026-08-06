@@ -111,8 +111,9 @@ namespace KillerNotes.Shell
         private void InsertImageBtn_Click(object sender, RoutedEventArgs e)
         {
             if (_currentId < 0) { StatusText.Text = Loc("Str_St_CalcNoNote"); return; }
-            var dlg = new Microsoft.Win32.OpenFileDialog
+            var dlg = new KillerPDF.Controls.FileDialog(KillerPDF.Controls.FileDialogMode.Open)
             {
+                Title = Loc("Str_TT_Image"),
                 Filter = "Images|*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.tif;*.tiff",
                 CheckFileExists = true,
             };
@@ -128,7 +129,7 @@ namespace KillerNotes.Shell
                 InsertImageAtCaret(bmp);
                 Editor.Focus();
             }
-            catch { StatusText.Text = Loc("Str_St_OnlyImage"); }
+            catch { StatusText.Text = Loc("Str_St_OnlyImages"); }
         }
 
         // ---- Drag and drop ----

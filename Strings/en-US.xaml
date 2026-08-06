@@ -55,6 +55,7 @@
     <sys:String x:Key="Str_TT_AppSize">Scroll to resize the whole app</sys:String>
     <sys:String x:Key="Str_St_AppSize">App size {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Toggle word wrap</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">Syntax highlighting</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Line numbers (F11)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Toggle line numbers</sys:String>
     <sys:String x:Key="Str_KS_AppSize">Zoom the whole app (accessibility)</sys:String>
@@ -70,7 +71,7 @@
     <sys:String x:Key="Str_KS_NewGroup">New group (files selected notes into it)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Theme and accent flyout</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">Title color (selected note)</sys:String>
-    <sys:String x:Key="Str_KS_Spell">Toggle spell check (this note)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Toggle spell check</sys:String>
     <sys:String x:Key="Str_KS_Table">Insert table</sys:String>
     <!-- Killculator sidebar calculator (F9) -->
     <sys:String x:Key="Str_KS_Calc">Killculator - Print drops the result into the note</sys:String>

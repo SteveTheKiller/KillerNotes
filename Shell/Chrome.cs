@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using KillerNotes.Controls;
+using KillerNotes.Services;
 
 // KillerUI kit.
 //
@@ -34,13 +35,14 @@ namespace KillerNotes.Shell
 {
     public partial class MainWindow
     {
+        private bool _closeFadeComplete;
         // ---- Maximize-respects-taskbar (WindowStyle=None needs WM_GETMINMAXINFO) ----
 
         private void MainWindow_SourceInitialized(object? sender, EventArgs e)
         {
             var hwnd = new WindowInteropHelper(this).Handle;
             HwndSource.FromHwnd(hwnd)?.AddHook(WndProc);
-            ApplyWindowCorners(rounded: WindowState == WindowState.Normal);
+            ApplyWindowCorners(rounded: WindowState == WindowState.Normal && ThemeManager.Current != Theme.SE98);
             ApplyThemeBorder(this);
         }
 
@@ -74,6 +76,8 @@ namespace KillerNotes.Shell
                     int colorref = b.Color.R | (b.Color.G << 8) | (b.Color.B << 16);
                     DwmSetWindowAttribute(hwnd, DWMWA_BORDER_COLOR, ref colorref, sizeof(int));
                 }
+                int corner = ThemeManager.Current == Theme.SE98 ? DWMWCP_DONOTROUND : DWMWCP_ROUND;
+                DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, ref corner, sizeof(int));
             }
             catch { /* pre-Win11: attribute unsupported */ }
         }
@@ -94,7 +98,7 @@ namespace KillerNotes.Shell
         {
             base.OnStateChanged(e);
             // Square the corners when maximized (flush to screen edges), round when floating.
-            ApplyWindowCorners(rounded: WindowState == WindowState.Normal);
+            ApplyWindowCorners(rounded: WindowState == WindowState.Normal && ThemeManager.Current != Theme.SE98);
             // Maximize glyph (Segoe MDL2) toggles to a restore glyph when maximized.
             if (MaximizeBtn != null)
                 MaximizeBtn.Content = WindowState == WindowState.Maximized ? "" : "";

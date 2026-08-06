@@ -186,11 +186,14 @@ namespace KillerNotes.Models
         // template binds these instead of hardcoding its Padding/Margin.
         public int Density { get; set; }
         public Thickness HeaderPadding => new(0, Density == 0 ? 2 : 0, 0, 0);
+        // Leave a small, density-aware breath below the name before its first child.
+        // The old values over-collapsed the header row and made the first note appear
+        // attached to the label (especially obvious with brightly coloured groups).
         public Thickness HeaderMargin => Density switch
         {
-            0 => new Thickness(0, 0, 0, -6),
-            1 => new Thickness(0, 0, 0, -8),
-            _ => new Thickness(0, -2, 0, -9),
+            0 => new Thickness(0, 0, 0, -2),
+            1 => new Thickness(0, 0, 0, -4),
+            _ => new Thickness(0, -2, 0, -5),
         };
 
         // Header-name binding helpers, mirroring Note.HasTitleColor / TitleBrush: the

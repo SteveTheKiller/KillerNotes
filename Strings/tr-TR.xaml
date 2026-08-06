@@ -152,6 +152,10 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_TT_PreviewMd">Markdown önizlemesi</sys:String>
     <sys:String x:Key="Str_TT_PreviewHtml">HTML önizlemesi</sys:String>
     <sys:String x:Key="Str_St_PreviewFailed">Önizleme başarısız: {0}</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">Markdown ve HTML algıla</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">Bir not markdown veya HTML gibi göründüğünde önizleme sun (tüm notlar)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Markdown ve HTML algılama açık</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Markdown ve HTML algılama kapalı</sys:String>
 
     <!-- Databases dialog -->
     <sys:String x:Key="Str_Db_Title">Veritabanları</sys:String>
@@ -280,10 +284,11 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Yeni grup (seçili notları içine yerleştirir)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Tema ve vurgu menüsü</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">Başlık rengi (seçili not)</sys:String>
-    <sys:String x:Key="Str_KS_Spell">Yazım denetimini aç/kapat (bu not)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Yazım denetimini aç/kapat</sys:String>
     <sys:String x:Key="Str_KS_Table">Tablo ekle</sys:String>
     <sys:String x:Key="Str_TT_WordWrap">Sözcük kaydırma açık/kapalı (Ctrl+Shift+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Sözcük kaydırmayı aç/kapat</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">Sözdizimi vurgulama</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Sözcük kaydırma açık</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Sözcük kaydırma kapalı - geniş içeriği görmek için kaydırın</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Satır numaraları (F11)</sys:String>

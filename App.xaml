@@ -8,6 +8,7 @@
                      KillerNotes default (with the Purple accent, set in ThemeManager). -->
                 <ResourceDictionary Source="Themes/Black.xaml"/>
                 <ResourceDictionary Source="Controls/Controls.xaml"/>
+                <ResourceDictionary Source="Controls/PickerStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

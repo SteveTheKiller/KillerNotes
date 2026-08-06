@@ -9,9 +9,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Resources\kn-icon.ico</ApplicationIcon>
-    <Version>1.1.7</Version>
-    <FileVersion>1.1.7.0</FileVersion>
-    <AssemblyVersion>1.1.7.0</AssemblyVersion>
+    <Version>1.2.0</Version>
+    <FileVersion>1.2.0.0</FileVersion>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
     <!-- Shown in the About card beside the version so a user can tell how old their build
          is. Must match the date on this version's CHANGELOG section - release.ps1 preflight
          fails the release if it does not. Bump it with the version. -->
@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Reference Include="System.Net.Http" />
+    <Reference Include="Microsoft.CSharp" />
     <!-- Built-in net48 framework assembly (no NuGet, no scan surface): DataContractJsonSerializer
          for the SketchPad object model (SketchModel.cs). -->
     <Reference Include="System.Runtime.Serialization" />
@@ -100,4 +101,20 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <Import Project="..\KillerUI\KillerUI.ThemeAssets.props" />
+
+  <!-- Shared themed file picker, linked from KillerPDF's current family-reference
+       implementation. These are source links, not copies, so picker fixes stay unified. -->
+  <ItemGroup>
+    <Compile Include="..\KillerPDF\Controls\FileDialog.xaml.cs" Link="SharedPicker\FileDialog.xaml.cs" />
+    <Compile Include="..\KillerPDF\Controls\Picker.cs" Link="SharedPicker\Picker.cs" />
+    <Compile Include="..\KillerPDF\Controls\FolderTree.cs" Link="SharedPicker\FolderTree.cs" />
+    <Compile Include="..\KillerPDF\Controls\Anim.cs" Link="SharedPicker\Anim.cs" />
+    <Compile Include="..\KillerPDF\Services\ShellIcons.cs" Link="SharedPicker\ShellIcons.cs" />
+    <Compile Include="..\KillerShell\Controls\FolderPickerDialog.xaml.cs" Link="SharedPicker\FolderPickerDialog.xaml.cs" />
+    <Compile Include="..\KillerShell\Controls\Anim.cs" Link="SharedPicker\FolderPickerAnim.cs" />
+    <Page Include="..\KillerPDF\Controls\FileDialog.xaml" Link="Controls\FileDialog.xaml" />
+    <Page Include="..\KillerPDF\Controls\PickerStyles.xaml" Link="Controls\PickerStyles.xaml" />
+    <Page Include="..\KillerShell\Controls\FolderPickerDialog.xaml" Link="Controls\FolderPickerDialog.xaml" />
+  </ItemGroup>
 </Project>

@@ -152,6 +152,10 @@
     <sys:String x:Key="Str_TT_PreviewMd">預覽 Markdown</sys:String>
     <sys:String x:Key="Str_TT_PreviewHtml">預覽 HTML</sys:String>
     <sys:String x:Key="Str_St_PreviewFailed">預覽失敗: {0}</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">偵測 Markdown 與 HTML</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">當筆記看起來像 Markdown 或 HTML 時提供預覽（所有筆記）</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Markdown 與 HTML 偵測已開啟</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Markdown 與 HTML 偵測已關閉</sys:String>
 
     <!-- Databases dialog -->
     <sys:String x:Key="Str_Db_Title">資料庫</sys:String>
@@ -280,10 +284,11 @@
     <sys:String x:Key="Str_KS_NewGroup">新增群組（將選取的筆記歸入其中）</sys:String>
     <sys:String x:Key="Str_KS_Theme">主題與強調色面板</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">標題色彩（選取的筆記）</sys:String>
-    <sys:String x:Key="Str_KS_Spell">切換拼字檢查（此筆記）</sys:String>
+    <sys:String x:Key="Str_KS_Spell">切換拼字檢查</sys:String>
     <sys:String x:Key="Str_KS_Table">插入表格</sys:String>
     <sys:String x:Key="Str_TT_WordWrap">自動換行開/關 (Ctrl+Shift+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">切換自動換行</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">語法醒目提示</sys:String>
     <sys:String x:Key="Str_St_WrapOn">自動換行已開啟</sys:String>
     <sys:String x:Key="Str_St_WrapOff">自動換行已關閉 - 捲動以檢視較寬的內容</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">行號 (F11)</sys:String>

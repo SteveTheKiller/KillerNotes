@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using KillerNotes.Controls;
 using KillerNotes.Models;
@@ -127,7 +128,7 @@ namespace KillerNotes.Shell
             if (visible) PopInFormatBar();   // FormatBar.cs (first show only)
             else
             {
-                PreviewBtn.Visibility = Visibility.Collapsed;
+                PreviewMenuItem.Visibility = Visibility.Collapsed;
                 ClosePreview();   // Preview.cs
             }
         }
@@ -135,6 +136,22 @@ namespace KillerNotes.Shell
         // Save on close; Chrome.cs saves window placement in OnClosed.
         protected override void OnClosing(CancelEventArgs e)
         {
+            if (!_closeFadeComplete && IsLoaded && RootGrid.Opacity > 0.01)
+            {
+                e.Cancel = true;
+                var fade = new DoubleAnimation(RootGrid.Opacity, 0,
+                    TimeSpan.FromMilliseconds(Anim.FadeMs))
+                {
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
+                };
+                fade.Completed += (_, _) =>
+                {
+                    _closeFadeComplete = true;
+                    Dispatcher.BeginInvoke(new Action(Close));
+                };
+                RootGrid.BeginAnimation(UIElement.OpacityProperty, fade);
+                return;
+            }
             SaveCurrentNote(refreshList: false);
             NoteStore.Close();
             base.OnClosing(e);

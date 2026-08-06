@@ -152,6 +152,10 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_TT_PreviewMd">Aperçu markdown</sys:String>
     <sys:String x:Key="Str_TT_PreviewHtml">Aperçu HTML</sys:String>
     <sys:String x:Key="Str_St_PreviewFailed">Échec de l'aperçu : {0}</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">Détecter le markdown et le HTML</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">Proposer un aperçu lorsqu'une note ressemble à du markdown ou du HTML (toutes les notes)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Détection du markdown et du HTML activée</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Détection du markdown et du HTML désactivée</sys:String>
 
     <!-- Databases dialog -->
     <sys:String x:Key="Str_Db_Title">Bases de données</sys:String>
@@ -280,10 +284,11 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Nouveau groupe (y classe les notes sélectionnées)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Menu des thèmes et accents</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">Couleur du titre (note sélectionnée)</sys:String>
-    <sys:String x:Key="Str_KS_Spell">Activer/désactiver la vérification orthographique (cette note)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Activer/désactiver la vérification orthographique</sys:String>
     <sys:String x:Key="Str_KS_Table">Insérer un tableau</sys:String>
     <sys:String x:Key="Str_TT_WordWrap">Retour à la ligne activé/désactivé (Ctrl+Maj+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Activer/désactiver le retour à la ligne</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">Coloration syntaxique</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Retour à la ligne activé</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Retour à la ligne désactivé - faites défiler pour voir le contenu large</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Numéros de ligne (F11)</sys:String>

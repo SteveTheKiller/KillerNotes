@@ -14,18 +14,8 @@
     </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
-        <!-- Format-bar button: chrome hover behavior, editor-toolbar sizing (bigger glyphs) -->
-        <Style x:Key="FmtButton" TargetType="Button" BasedOn="{StaticResource ChromeButton}">
-            <Setter Property="Width" Value="34"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <!-- Thin divider between format-bar groups -->
-        <Style x:Key="FmtSeparator" TargetType="Rectangle">
-            <Setter Property="Width" Value="1"/>
-            <Setter Property="Margin" Value="5,6"/>
-            <Setter Property="Fill" Value="{DynamicResource CardBorderBrush}"/>
-        </Style>
+        <Style x:Key="FmtButton" TargetType="Button" BasedOn="{StaticResource AnnotationBarButton}"/>
+        <Style x:Key="FmtSeparator" TargetType="Rectangle" BasedOn="{StaticResource AnnotationBarSeparator}"/>
         <!-- LIST / KEYBOARD caption toggle in the shortcuts overlay header; the active
              one's Foreground is driven from code (KeyboardMap.cs ApplyShortcutView) -->
         <Style x:Key="KsTabBtn" TargetType="Button">
@@ -79,6 +69,10 @@
         </ContextMenu>
     </Window.Resources>
 
+    <!-- Family window frame: KillerPDF draws this WPF edge in addition to the matching DWM
+         border. Without it, the client/background transition makes KillerNotes look darker. -->
+    <Border x:Name="RootBorder" BorderBrush="{DynamicResource AppBorderBrush}"
+            BorderThickness="1" CornerRadius="{DynamicResource WindowCornerRadius}" SnapsToDevicePixels="True">
     <Grid x:Name="RootGrid" Opacity="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="36"/>   <!-- title bar -->
@@ -87,7 +81,7 @@
         </Grid.RowDefinitions>
 
         <!-- ============ Title bar ============ -->
-        <Grid Grid.Row="0" Background="{DynamicResource BackgroundBrush}">
+        <Grid Grid.Row="0" Background="{DynamicResource TitleBarBrush}">
             <Border IsHitTestVisible="False" Opacity="{DynamicResource GrainOpacity}">
                 <Border.Background>
                     <ImageBrush x:Name="TitleGrainBrush" TileMode="Tile" ViewportUnits="Absolute"
@@ -112,7 +106,7 @@
                         <StackPanel.Effect><BlurEffect Radius="3"/></StackPanel.Effect>
                         <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="17"><Run Text="Killer" Foreground="#D8000000"/><Run Text="Notes" FontSize="22" FontWeight="Bold" Foreground="#D8000000"/></TextBlock>
                     </StackPanel>
-                    <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="17"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"/></TextBlock>
+                    <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="17"><Run Text="Killer" Foreground="{DynamicResource ChromeTextBrush}"/><Run Text="Notes" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource AccentLogo}"/></TextBlock>
                 </Grid>
             </StackPanel>
 
@@ -128,12 +122,12 @@
                      as Killendar's title bar; set locally so Controls.xaml stays byte-identical
                      across the family. -->
                 <Button x:Name="DatabasesBtn" Click="ManageDatabases_Click" Style="{StaticResource ChromeButton}"
-                        FontSize="16" Content="&#xE8F1;" ToolTip="{DynamicResource Str_TT_Databases}"/>
+                        Foreground="{DynamicResource ChromeTextBrush}" FontSize="16" Content="&#xE8F1;" ToolTip="{DynamicResource Str_TT_Databases}"/>
                 <Button x:Name="LockButton" Click="LockButton_Click" Style="{StaticResource ChromeButton}"
-                        FontSize="14" Content="&#xE72E;" ToolTip="{DynamicResource Str_TT_Lock}"/>
-                <Button x:Name="MinimizeBtn" Click="MinimizeBtn_Click" Style="{StaticResource ChromeButton}" Content="&#xE921;"/>
-                <Button x:Name="MaximizeBtn" Click="MaximizeBtn_Click" Style="{StaticResource ChromeButton}" Content="&#xE922;"/>
-                <Button x:Name="CloseBtn"    Click="CloseBtn_Click"    Style="{StaticResource ChromeCloseButton}" Content="&#xE8BB;"/>
+                        Foreground="{DynamicResource ChromeTextBrush}" FontSize="14" Content="&#xE72E;" ToolTip="{DynamicResource Str_TT_Lock}"/>
+                <Button x:Name="MinimizeBtn" Foreground="{DynamicResource ChromeTextBrush}" Click="MinimizeBtn_Click" Style="{StaticResource ChromeButton}" Content="&#xE921;"/>
+                <Button x:Name="MaximizeBtn" Foreground="{DynamicResource ChromeTextBrush}" Click="MaximizeBtn_Click" Style="{StaticResource ChromeButton}" Content="&#xE922;"/>
+                <Button x:Name="CloseBtn" Click="CloseBtn_Click" Style="{StaticResource ChromeCloseButton}" Content="&#xE8BB;"/>
             </StackPanel>
 
         </Grid>
@@ -145,7 +139,9 @@
         <Grid x:Name="ScaleHost" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="SidebarCol" Width="280" MinWidth="230" MaxWidth="480"/>
-                <ColumnDefinition Width="Auto"/>
+                <!-- Zero-width popup-anchor lane. RailFlyoutAnchor may render past this point,
+                     but it must not reserve space between the 24px rail and the editor pane. -->
+                <ColumnDefinition Width="0"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -208,8 +204,8 @@
                      with the app zoom and its scaling icons never clip - and it hugs the
                      20-logical buttons so high zoom doesn't scale up empty air. -->
                 <Grid Grid.Column="1">
-                    <!-- 2px left margin on centered elements = a 1px shift toward the pane,
-                         so the icons sit visually centered on the rail -->
+                    <!-- The asymmetric 2px margin shifts centered elements 1px toward the
+                         pane, matching the family rail's optical glyph alignment. -->
                     <Button x:Name="SidebarToggleBtn" Style="{StaticResource RailButton}"
                             Content="&#xE76B;" FontSize="12"
                             VerticalAlignment="Top" HorizontalAlignment="Center" Margin="2,10,0,0"
@@ -243,7 +239,12 @@
                         <Button x:Name="LangButton" Style="{StaticResource RailButton}" Content="&#xF2B7;"
                                 Margin="0,0,0,10" Click="LangButton_Click"
                                 ToolTip="{DynamicResource Str_TT_Language}">
-                            <Button.ContextMenu><ContextMenu/></Button.ContextMenu>
+                            <Button.ContextMenu>
+                                <ContextMenu x:Name="LangMenu">
+                                    <ContextMenu.Template><ControlTemplate TargetType="ContextMenu"><Border Style="{StaticResource FlyoutCard}"><Grid><ItemsPresenter/><Border Style="{StaticResource FlyoutGrain}"/><Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/><Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/></Grid></Border></ControlTemplate></ContextMenu.Template>
+                                    <ContextMenu.ItemContainerStyle><Style TargetType="MenuItem" BasedOn="{StaticResource PanelMenuItem}"/></ContextMenu.ItemContainerStyle>
+                                </ContextMenu>
+                            </Button.ContextMenu>
                         </Button>
                         <!-- Theme + accent flyout: deliberately a ContextMenu, the SAME control
                              and themed chrome (grain included) as the locale menu, opened with
@@ -255,39 +256,8 @@
                                 Click="SidebarThemeBtn_Click" ToolTip="{DynamicResource Str_TT_Theme}">
                             <Button.ContextMenu>
                                 <ContextMenu x:Name="ThemeMenu">
-                                    <MenuItem>
-                                        <MenuItem.Template>
-                                            <ControlTemplate TargetType="MenuItem">
-                                                <ContentPresenter ContentSource="Header" Margin="12,6"/>
-                                            </ControlTemplate>
-                                        </MenuItem.Template>
-                                        <MenuItem.Header>
-                                            <StackPanel>
-                                                <TextBlock Text="{DynamicResource Str_Lbl_Theme}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,0,0,4"/>
-                                                <StackPanel x:Name="ThemeSwatches" Orientation="Horizontal">
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Dark"     Background="#3a3a3a" Click="ThemeSwatch_Click"/>
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Light"    Background="#e8e8e8" Click="ThemeSwatch_Click"/>
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Black"    Background="#000000" Click="ThemeSwatch_Click"/>
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Blood"    Background="#4a1f20" Click="ThemeSwatch_Click"/>
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Greed"    Background="#0a5234" Click="ThemeSwatch_Click"/>
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Cyanotic" Background="#0a4a6e" Click="ThemeSwatch_Click"/>
-                                                </StackPanel>
-                                                <TextBlock x:Name="AccentLabel" Text="{DynamicResource Str_Lbl_Accent}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,8,0,4"/>
-                                                <StackPanel x:Name="AccentSwatches" Orientation="Horizontal">
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Red"    Background="#DD504B" Click="AccentSwatch_Click"/>
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Orange" Background="#E8962C" Click="AccentSwatch_Click"/>
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Green"  Background="#1ea54c" Click="AccentSwatch_Click"/>
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Teal"   Background="#1FB8A8" Click="AccentSwatch_Click"/>
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Blue"   Background="#50AEE8" Click="AccentSwatch_Click"/>
-                                                    <Button Style="{StaticResource ThemeSwatch}" Tag="Purple" Background="#B982E3" Click="AccentSwatch_Click"/>
-                                                </StackPanel>
-                                                <!-- Fonts dialog (Fonts.cs): header + note-text font slots -->
-                                                <Button Content="{DynamicResource Str_Fonts_Open}" Click="FontsRow_Click"
-                                                        Style="{StaticResource OutlineButton}" FontSize="11" Padding="8,3"
-                                                        Margin="0,10,0,0" HorizontalAlignment="Stretch"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
-                                    </MenuItem>
+                                    <ContextMenu.Template><ControlTemplate TargetType="ContextMenu"><Border Style="{StaticResource FlyoutCard}"><Grid><ItemsPresenter/><Border Style="{StaticResource FlyoutGrain}"/><Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/><Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/></Grid></Border></ControlTemplate></ContextMenu.Template>
+                                    <ContextMenu.ItemContainerStyle><Style TargetType="MenuItem" BasedOn="{StaticResource PanelMenuItem}"/></ContextMenu.ItemContainerStyle>
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>
@@ -313,7 +283,7 @@
                             </Grid.ColumnDefinitions>
                             <!-- Search box (KillerScan pattern): magnifier + placeholder, compact -->
                             <Border Grid.Column="0" Height="26" VerticalAlignment="Center"
-                                    Background="{DynamicResource SurfaceBrush}" BorderThickness="1" CornerRadius="4">
+                                    Background="{DynamicResource SurfaceBrush}" BorderThickness="1" CornerRadius="{DynamicResource ControlCornerRadius}">
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
@@ -383,6 +353,8 @@
                             </Grid.RowDefinitions>
                             <Button x:Name="NewNoteBtn" Grid.Column="0" Style="{StaticResource OutlineButton}"
                                     Content="{DynamicResource Str_Btn_NewNote}" Click="NewNote_Click" HorizontalAlignment="Left"
+                                    Height="30" Width="100" Padding="14,5" FontSize="13"
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                                     ToolTip="{DynamicResource Str_TT_NewNote}"/>
                             <!-- Dedicated sorts: creation time (default, oldest first) and
                                  alphabetical. The active one shows in the accent; clicking it
@@ -392,6 +364,8 @@
                                      fixed widths. The active button carries a direction arrow
                                      (up = ascending) that flips when clicked again (Notes.cs). -->
                                 <Button x:Name="SortTimeBtn" Style="{StaticResource SurfaceButton}"
+                                        Background="{DynamicResource SortButtonBrush}"
+                                        BorderBrush="{DynamicResource OutlineBtnBrush}"
                                         Margin="8,0,0,0" Click="SortTimeBtn_Click" Width="40" Padding="0"
                                         ToolTip="{DynamicResource Str_TT_SortTime}"
                                         ContextMenu="{StaticResource SortMenu}">
@@ -403,6 +377,8 @@
                                     </StackPanel>
                                 </Button>
                                 <Button x:Name="SortAlphaBtn" Style="{StaticResource SurfaceButton}"
+                                        Background="{DynamicResource SortButtonBrush}"
+                                        BorderBrush="{DynamicResource OutlineBtnBrush}"
                                         Margin="6,0,0,0" Click="SortAlphaBtn_Click" Width="40" Padding="0"
                                         ToolTip="{DynamicResource Str_TT_SortAlpha}"
                                         ContextMenu="{StaticResource SortMenu}">
@@ -416,6 +392,8 @@
                                 <!-- Custom order (#4): manual arrangement, no direction arrow;
                                      dragging a note in any sort switches here (Groups.cs) -->
                                 <Button x:Name="SortCustomBtn" Style="{StaticResource SurfaceButton}"
+                                        Background="{DynamicResource SortButtonBrush}"
+                                        BorderBrush="{DynamicResource OutlineBtnBrush}"
                                         Margin="6,0,0,0" Click="SortCustomBtn_Click" Width="34" Padding="0"
                                         ToolTip="{DynamicResource Str_TT_SortCustom}"
                                         ContextMenu="{StaticResource SortMenu}">
@@ -450,7 +428,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <Border x:Name="bg" Background="Transparent" CornerRadius="4">
+                                            <Border x:Name="bg" Background="Transparent" CornerRadius="{DynamicResource ControlCornerRadius}">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"/>
@@ -592,7 +570,7 @@
                              elements inside a Style Setter (connectionId cast failure at load).
                              Right-click selects the item under the cursor first (code-behind). -->
                         <ListBox.ContextMenu>
-                            <ContextMenu Opened="NotesContextMenu_Opened">
+                            <ContextMenu Opened="NotesContextMenu_Opened" Closed="NotesContextMenu_Closed">
                                 <MenuItem Header="{DynamicResource Str_Ctx_ShareNote}" Icon="&#xE72D;" Click="ShareNote_Click"
                                           ToolTip="{DynamicResource Str_TT_ShareNote}"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_ExportNote}" Icon="&#xE74E;" Click="ExportNoteAs_Click"
@@ -727,7 +705,7 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Background="{Binding Background}" CornerRadius="3" Padding="5,1" Margin="0,3,4,0"
+                                                <Border Background="{Binding Background}" CornerRadius="{DynamicResource SmallCornerRadius}" Padding="5,1" Margin="0,3,4,0"
                                                         Cursor="Hand" MouseLeftButtonUp="TagChip_Click"
                                                         ToolTip="{DynamicResource Str_TT_TagChip}">
                                                     <TextBlock Text="{Binding Name}" Foreground="{Binding Foreground}"
@@ -740,6 +718,21 @@
                             </DataTemplate>
                         </ListBox.Resources>
                     </ListBox>
+                    <!-- Top counterpart to NotesFade: appears only after the list has moved away
+                         from its first row, matching KillerShell/KillerPDF's bidirectional hint. -->
+                    <Border x:Name="NotesTopFade" Height="28" VerticalAlignment="Top" Margin="0,0,12,0"
+                            IsHitTestVisible="False" Visibility="Collapsed">
+                        <Border.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#FF000000" Offset="0"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                        <Grid>
+                            <Border Background="{DynamicResource SurfaceBrush}"/>
+                            <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
+                        </Grid>
+                    </Border>
                     <!-- Bottom fade overlay: the last rows fade into the chrome while the list
                          overflows and is not at the bottom (Sidebar.cs toggles Visibility). Inset
                          12px on the right to clear the scrollbar. The overlay IS the chrome -
@@ -755,7 +748,7 @@
                             </LinearGradientBrush>
                         </Border.OpacityMask>
                         <Grid>
-                            <Border Background="{DynamicResource BackgroundBrush}"/>
+                            <Border Background="{DynamicResource SurfaceBrush}"/>
                             <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
                         </Grid>
                     </Border>
@@ -784,7 +777,7 @@
                                                 <ControlTemplate TargetType="Button">
                                                     <Border x:Name="cb" Background="{TemplateBinding Background}"
                                                             BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"
-                                                            CornerRadius="6" SnapsToDevicePixels="True">
+                                                            CornerRadius="{DynamicResource PanelCornerRadius}" SnapsToDevicePixels="True">
                                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
@@ -813,7 +806,7 @@
                                                 <ControlTemplate TargetType="Button">
                                                     <Border x:Name="cb" Background="{TemplateBinding Background}"
                                                             BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1.5"
-                                                            CornerRadius="6" SnapsToDevicePixels="True">
+                                                            CornerRadius="{DynamicResource PanelCornerRadius}" SnapsToDevicePixels="True">
                                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
@@ -875,7 +868,7 @@
                                     </Grid>
                                     <!-- Readout -->
                                     <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource InputBorderBrush}"
-                                            BorderThickness="1" CornerRadius="6" MinHeight="54" Margin="3,0,3,8">
+                                            BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" MinHeight="54" Margin="3,0,3,8">
                                         <TextBlock x:Name="KalcDisplay" Text="0" FontFamily="Consolas" FontSize="30"
                                                    Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Right"
                                                    VerticalAlignment="Center" Margin="14,4" TextTrimming="CharacterEllipsis"/>
@@ -935,7 +928,9 @@
             </Grid>
 
 
-            <!-- Zero-size anchor at (rail right edge + 4px, row bottom). Both rail flyouts
+            <!-- Zero-size anchor at (rail right edge + 4px, row bottom). Its grid column is
+                 explicitly zero-width, so this 4px positioning margin cannot create a seam
+                 between the rail and editor. Both rail flyouts
                  open with built-in Placement=Top against it: popup bottom on the anchor's
                  top, left edges aligned. Pure layout - no custom placement callback, whose
                  device-pixel coordinate space made popup positions drift with DPI and
@@ -951,9 +946,9 @@
                  software rendering, an Effect on an ancestor re-renders the whole subtree
                  through the effect on every keystroke - typing lag - so the content pane
                  below stays effect-free. -->
-            <Border Grid.Column="2" Background="{DynamicResource PaneBrush}"
+            <Border x:Name="ContentPane" Grid.Column="2" Background="{DynamicResource PaneBrush}"
                     BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
-                    CornerRadius="4" Margin="0,0,8,0" Panel.ZIndex="9"
+                    CornerRadius="{DynamicResource ControlCornerRadius}" Margin="0,0,8,0" Panel.ZIndex="9"
                     Effect="{StaticResource PaneShadow}">
                 <!-- Directional cast, so the shadow lands on the footer below. -->
                 <Border.CacheMode>
@@ -962,7 +957,7 @@
             </Border>
             <Border Grid.Column="2" Background="{DynamicResource PaneBrush}"
                     BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
-                    CornerRadius="4" Margin="0,0,8,0" Panel.ZIndex="10">
+                    CornerRadius="{DynamicResource ControlCornerRadius}" Margin="0,0,8,0" Panel.ZIndex="10">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -970,7 +965,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Film grain over the whole pane (behind content, clipped to the rounded corners) -->
-                <Border Grid.RowSpan="2" IsHitTestVisible="False" Opacity="0.20" Panel.ZIndex="-1" CornerRadius="3">
+                <Border Grid.RowSpan="2" IsHitTestVisible="False" Opacity="0.20" Panel.ZIndex="-1" CornerRadius="{DynamicResource SmallCornerRadius}">
                     <Border.Background>
                         <ImageBrush x:Name="GrainBrush" TileMode="Tile"
                                     ViewportUnits="Absolute" Viewport="0,0,256,256" Stretch="None"/>
@@ -1000,16 +995,16 @@
                         Background="{DynamicResource CardBorderBrush}"/>
                 </StackPanel>
 
-                <!-- Floating format bar, ported from KillerPDF's annotation bars: pops out of
+                <!-- Floating format bar using the KillerUI annotation-bar contract: pops out of
                      the top beside the title, slides horizontally by its grip (edge-anchored
                      or center-parked, position persisted), and minimizes to a grip-dots peek
                      strip - chevron, F6, or double-click the grip/peek (FormatBar.cs) -->
-                <Border x:Name="FormatBar" Grid.RowSpan="2" Panel.ZIndex="30"
+                <Border x:Name="FormatBar" Grid.Row="0" Panel.ZIndex="30"
                         VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,8,0"
                         shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                        Background="{DynamicResource SurfaceBrush}"
-                        BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1,0,1,1"
-                        CornerRadius="0,0,4,4" Padding="4,2"
+                        Background="{DynamicResource BgFlyout}"
+                        BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,1,1"
+                        CornerRadius="{DynamicResource FlyoutCornerRadius}" Padding="2"
                         Effect="{StaticResource ShadowBar}">
                     <!-- Cache the bar + its shadow as a bitmap: with software rendering the
                          shadow would otherwise re-render on every keystroke it overlaps -->
@@ -1017,8 +1012,14 @@
                         <BitmapCache/>
                     </Border.CacheMode>
                 <Grid>
+                    <!-- Classic raised frame: transparent in modern themes, a 2px light left
+                         edge and dark right/bottom edge in 98SE. -->
+                    <Border Panel.ZIndex="20" IsHitTestVisible="False"
+                            BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="2,0,0,0"/>
+                    <Border Panel.ZIndex="20" IsHitTestVisible="False"
+                            BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="0,0,2,2"/>
                     <!-- Film grain across the bar, KillerPDF-style; stays put when minimized -->
-                    <Border IsHitTestVisible="False" CornerRadius="0,0,3,3" Margin="-4,-2"
+                    <Border IsHitTestVisible="False" CornerRadius="{DynamicResource FlyoutCornerRadius}" Margin="-2"
                             Opacity="{DynamicResource GrainOpacity}"
                             Background="{DynamicResource GrainTileBrush}"/>
 
@@ -1047,11 +1048,12 @@
                         </StackPanel>
                     </Border>
 
-                <StackPanel x:Name="FmtButtons" Orientation="Horizontal">
+                <WrapPanel x:Name="FmtButtons" Orientation="Horizontal" Margin="8,0">
                     <!-- Drag grip (double-click minimizes, like KillerPDF) -->
                     <!-- Vertical 3-dot column, exactly like KillerPDF's MakeBarGrip -->
-                    <Border x:Name="FmtGrip" Background="Transparent" Cursor="SizeAll" Width="14"
-                            Margin="0,0,2,0" ToolTip="{DynamicResource Str_TT_FmtGrip}">
+                    <Border x:Name="FmtGrip" Background="Transparent" Cursor="Hand"
+                            Padding="1,0,10,0" VerticalAlignment="Stretch"
+                            ToolTip="{DynamicResource Str_TT_FmtGrip}">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" IsHitTestVisible="False">
                             <Ellipse Width="3" Height="3" Margin="0,1.5" Fill="{DynamicResource DimTextBrush}"/>
@@ -1059,45 +1061,48 @@
                             <Ellipse Width="3" Height="3" Margin="0,1.5" Fill="{DynamicResource DimTextBrush}"/>
                         </StackPanel>
                     </Border>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE8DD;" ToolTip="{DynamicResource Str_TT_Bold}"
+                    <Button x:Name="FmtBoldBtn" Style="{StaticResource FmtButton}" Content="&#xE8DD;" ToolTip="{DynamicResource Str_TT_Bold}"
                             Command="EditingCommands.ToggleBold" CommandTarget="{Binding ElementName=Editor}"/>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE8DB;" ToolTip="{DynamicResource Str_TT_Italic}"
+                    <Button x:Name="FmtItalicBtn" Style="{StaticResource FmtButton}" Content="&#xE8DB;" ToolTip="{DynamicResource Str_TT_Italic}"
                             Command="EditingCommands.ToggleItalic" CommandTarget="{Binding ElementName=Editor}"/>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE8DC;" ToolTip="{DynamicResource Str_TT_Underline}"
+                    <Button x:Name="FmtUnderlineBtn" Style="{StaticResource FmtButton}" Content="&#xE8DC;" ToolTip="{DynamicResource Str_TT_Underline}"
                             Command="EditingCommands.ToggleUnderline" CommandTarget="{Binding ElementName=Editor}"/>
-                    <Button Style="{StaticResource FmtButton}" ToolTip="{DynamicResource Str_TT_Strike}" Click="Strike_Click">
+                    <Button x:Name="FmtStrikeBtn" Style="{StaticResource FmtButton}" ToolTip="{DynamicResource Str_TT_Strike}" Click="Strike_Click">
                         <TextBlock Text="S" TextDecorations="Strikethrough" FontFamily="Segoe UI"
                                    FontSize="14" FontWeight="SemiBold"/>
                     </Button>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE943;" ToolTip="{DynamicResource Str_TT_Mono}"
+                    <Button x:Name="FmtMonoBtn" Style="{StaticResource FmtButton}" Content="&#xE943;" ToolTip="{DynamicResource Str_TT_Mono}"
                             Click="Mono_Click"/>
-                    <!-- Per-note spell check toggle ("abc" + check mark): lights in the accent
-                         while on (Editor.cs) -->
-                    <Button x:Name="SpellBtn" Style="{StaticResource FmtButton}"
-                            ToolTip="{DynamicResource Str_TT_Spell}" Click="Spell_Click">
-                        <Grid x:Name="SpellBtnIcon" Width="18" Height="18">
-                            <TextBlock Text="abc" FontFamily="Segoe UI" FontSize="9" FontWeight="SemiBold"
-                                       HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-1,0,0"/>
-                            <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="10"
-                                       HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,-1"/>
-                        </Grid>
-                    </Button>
-                    <!-- Word wrap toggle: on (default) wraps text to the pane; off lets long
-                         lines and wide images/tables run past the edge so the horizontal
-                         scrollbar reaches them (Editor.cs). Lights in the accent while on. -->
-                    <Button x:Name="WrapBtn" Style="{StaticResource FmtButton}"
-                            ToolTip="{DynamicResource Str_TT_WordWrap}" Click="WordWrap_Click">
-                        <TextBlock x:Name="WrapBtnIcon" Text="&#x21B5;" FontFamily="Segoe UI Symbol"
-                                   FontSize="15" FontWeight="Bold"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Button>
-                    <Rectangle Style="{StaticResource FmtSeparator}"/>
+                    <Rectangle x:Name="FmtFontSeparator" Style="{StaticResource FmtSeparator}"/>
                     <!-- Font size dropdown: shows the selection's size; hover it and SCROLL to
                          step sizes without clicking, or click for the list (Editor.cs).
                          Ctrl+Shift+> / < grow/shrink from the keyboard (Shortcuts.cs). -->
                     <Button x:Name="FontSizeBtn" Style="{StaticResource FmtButton}" Width="36"
                             ToolTip="{DynamicResource Str_TT_FontSize}" Click="FontSizeBtn_Click"
                             PreviewMouseWheel="FontSizeBtn_MouseWheel">
+                        <Button.ContextMenu>
+                            <ContextMenu x:Name="FontSizePopup" Placement="Bottom" VerticalOffset="4">
+                                <MenuItem StaysOpenOnClick="True">
+                                    <MenuItem.Template>
+                                        <ControlTemplate TargetType="MenuItem">
+                                            <ContentPresenter ContentSource="Header" Margin="12,6"/>
+                                        </ControlTemplate>
+                                    </MenuItem.Template>
+                                    <MenuItem.Header>
+                                        <StackPanel Width="190">
+                                            <Grid Margin="0,0,0,4">
+                                                <TextBlock Text="{DynamicResource Str_Lbl_Size}" Foreground="{DynamicResource DimTextBrush}" FontSize="10"/>
+                                                <TextBlock x:Name="FontSizeSliderValue" Text="13" HorizontalAlignment="Right"
+                                                           Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11"/>
+                                            </Grid>
+                                            <Slider x:Name="FontSizeSlider" Minimum="8" Maximum="72" Value="13"
+                                                    TickFrequency="1" IsSnapToTickEnabled="True"
+                                                    ValueChanged="FontSizeSlider_ValueChanged"/>
+                                        </StackPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Name="FontSizeText" Text="13" FontFamily="Segoe UI" FontSize="11"
                                        VerticalAlignment="Center"/>
@@ -1105,20 +1110,49 @@
                                        Margin="3,2,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
-                    <Popup x:Name="FontSizePopup" PlacementTarget="{Binding ElementName=FontSizeBtn}"
-                           Placement="Bottom" StaysOpen="False" AllowsTransparency="True" VerticalOffset="4">
-                        <Border Background="{DynamicResource MenuBackgroundBrush}"
-                                BorderBrush="{DynamicResource MenuBorderBrush}"
-                                BorderThickness="1" CornerRadius="6" Padding="4" Margin="14">
-                            <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
-                            <!-- Size rows built lazily in Editor.cs (FontSizeBtn_Click) -->
-                            <StackPanel x:Name="FontSizeList"/>
-                        </Border>
-                    </Popup>
-                    <Rectangle Style="{StaticResource FmtSeparator}"/>
+                    <Rectangle x:Name="FmtColorSeparator" Style="{StaticResource FmtSeparator}"/>
                     <!-- Word-style "A over a color bar" - the bar follows the accent -->
                     <Button x:Name="TextColorBtn" Style="{StaticResource FmtButton}"
                             ToolTip="{DynamicResource Str_TT_TextColor}" Click="TextColorBtn_Click">
+                        <Button.ContextMenu>
+                            <ContextMenu x:Name="ColorPopup" Placement="Bottom" VerticalOffset="4">
+                                <MenuItem StaysOpenOnClick="True">
+                                    <MenuItem.Template>
+                                        <ControlTemplate TargetType="MenuItem">
+                                            <ContentPresenter ContentSource="Header" Margin="12,6"/>
+                                        </ControlTemplate>
+                                    </MenuItem.Template>
+                                    <MenuItem.Header>
+                                        <StackPanel>
+                                            <TextBlock Text="{DynamicResource Str_Lbl_TextColor}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,0,0,4"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Style="{StaticResource ThemeSwatch}" Background="{DynamicResource PrimaryBrush}" Tag="accent" Click="FgSwatch_Click" ToolTip="{DynamicResource Str_TT_AccentSwatch}"/>
+                                                <Button Style="{StaticResource ThemeSwatch}" Background="#DD504B" Tag="#DD504B" Click="FgSwatch_Click"/>
+                                                <Button Style="{StaticResource ThemeSwatch}" Background="#E8962C" Tag="#E8962C" Click="FgSwatch_Click"/>
+                                                <Button Style="{StaticResource ThemeSwatch}" Background="#1ea54c" Tag="#1ea54c" Click="FgSwatch_Click"/>
+                                                <Button Style="{StaticResource ThemeSwatch}" Background="#50AEE8" Tag="#50AEE8" Click="FgSwatch_Click"/>
+                                                <Button Style="{StaticResource ThemeSwatch}" Background="#9a9a9a" Tag="#9a9a9a" Click="FgSwatch_Click"/>
+                                                <Button Content="{DynamicResource Str_Btn_Auto}" Style="{StaticResource SurfaceButton}" FontSize="10"
+                                                        Padding="6,1" Margin="6,0,0,0" Click="FgAuto_Click" ToolTip="{DynamicResource Str_TT_Auto}"/>
+                                                <Button Content="{DynamicResource Str_Btn_More}" Style="{StaticResource SurfaceButton}" FontSize="10"
+                                                        Padding="6,1" Margin="4,0,0,0" Click="FgMore_Click" ToolTip="{DynamicResource Str_TT_MoreColors}"/>
+                                            </StackPanel>
+                                            <TextBlock Text="{DynamicResource Str_Lbl_Highlight}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,8,0,4"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Style="{StaticResource ThemeSwatch}" Background="#7a6a00" Tag="#7A6A00" Click="BgSwatch_Click"/>
+                                                <Button Style="{StaticResource ThemeSwatch}" Background="#0a5e2a" Tag="#0A5E2A" Click="BgSwatch_Click"/>
+                                                <Button Style="{StaticResource ThemeSwatch}" Background="#084d6e" Tag="#084D6E" Click="BgSwatch_Click"/>
+                                                <Button Style="{StaticResource ThemeSwatch}" Background="#6e1414" Tag="#6E1414" Click="BgSwatch_Click"/>
+                                                <Button Content="{DynamicResource Str_Btn_None}" Style="{StaticResource SurfaceButton}" FontSize="10"
+                                                        Padding="6,1" Margin="6,0,0,0" Click="BgNone_Click" ToolTip="{DynamicResource Str_TT_None}"/>
+                                                <Button Content="{DynamicResource Str_Btn_More}" Style="{StaticResource SurfaceButton}" FontSize="10"
+                                                        Padding="6,1" Margin="4,0,0,0" Click="BgMore_Click" ToolTip="{DynamicResource Str_TT_MoreColors}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
                         <StackPanel>
                             <TextBlock Text="A" FontFamily="Segoe UI" FontWeight="Bold" FontSize="13"
                                        HorizontalAlignment="Center" Margin="0,0,0,1"/>
@@ -1126,51 +1160,13 @@
                                        Fill="{DynamicResource PrimaryBrush}"/>
                         </StackPanel>
                     </Button>
-                    <Popup x:Name="ColorPopup" PlacementTarget="{Binding ElementName=TextColorBtn}"
-                           Placement="Bottom" StaysOpen="False" AllowsTransparency="True" VerticalOffset="4">
-                        <Border Background="{DynamicResource MenuBackgroundBrush}"
-                                BorderBrush="{DynamicResource MenuBorderBrush}"
-                                BorderThickness="1" CornerRadius="6" Padding="12,10" Margin="14">
-                            <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
-                            <StackPanel>
-                                <TextBlock Text="{DynamicResource Str_Lbl_TextColor}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,0,0,4"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource ThemeSwatch}" Background="{DynamicResource PrimaryBrush}" Tag="accent" Click="FgSwatch_Click" ToolTip="{DynamicResource Str_TT_AccentSwatch}"/>
-                                    <Button Style="{StaticResource ThemeSwatch}" Background="#DD504B" Tag="#DD504B" Click="FgSwatch_Click"/>
-                                    <Button Style="{StaticResource ThemeSwatch}" Background="#E8962C" Tag="#E8962C" Click="FgSwatch_Click"/>
-                                    <Button Style="{StaticResource ThemeSwatch}" Background="#1ea54c" Tag="#1ea54c" Click="FgSwatch_Click"/>
-                                    <Button Style="{StaticResource ThemeSwatch}" Background="#50AEE8" Tag="#50AEE8" Click="FgSwatch_Click"/>
-                                    <Button Style="{StaticResource ThemeSwatch}" Background="#9a9a9a" Tag="#9a9a9a" Click="FgSwatch_Click"/>
-                                    <Button Content="{DynamicResource Str_Btn_Auto}" Style="{StaticResource SurfaceButton}" FontSize="10"
-                                            Padding="6,1" Margin="6,0,0,0" Click="FgAuto_Click"
-                                            ToolTip="{DynamicResource Str_TT_Auto}"/>
-                                    <Button Content="{DynamicResource Str_Btn_More}" Style="{StaticResource SurfaceButton}" FontSize="10"
-                                            Padding="6,1" Margin="4,0,0,0" Click="FgMore_Click"
-                                            ToolTip="{DynamicResource Str_TT_MoreColors}"/>
-                                </StackPanel>
-                                <TextBlock Text="{DynamicResource Str_Lbl_Highlight}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,8,0,4"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource ThemeSwatch}" Background="#7a6a00" Tag="#7A6A00" Click="BgSwatch_Click"/>
-                                    <Button Style="{StaticResource ThemeSwatch}" Background="#0a5e2a" Tag="#0A5E2A" Click="BgSwatch_Click"/>
-                                    <Button Style="{StaticResource ThemeSwatch}" Background="#084d6e" Tag="#084D6E" Click="BgSwatch_Click"/>
-                                    <Button Style="{StaticResource ThemeSwatch}" Background="#6e1414" Tag="#6E1414" Click="BgSwatch_Click"/>
-                                    <Button Content="{DynamicResource Str_Btn_None}" Style="{StaticResource SurfaceButton}" FontSize="10"
-                                            Padding="6,1" Margin="6,0,0,0" Click="BgNone_Click"
-                                            ToolTip="{DynamicResource Str_TT_None}"/>
-                                    <Button Content="{DynamicResource Str_Btn_More}" Style="{StaticResource SurfaceButton}" FontSize="10"
-                                            Padding="6,1" Margin="4,0,0,0" Click="BgMore_Click"
-                                            ToolTip="{DynamicResource Str_TT_MoreColors}"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </Popup>
-                    <Rectangle Style="{StaticResource FmtSeparator}"/>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE8FD;" ToolTip="{DynamicResource Str_TT_Bullets}"
+                    <Rectangle x:Name="FmtListSeparator" Style="{StaticResource FmtSeparator}"/>
+                    <Button x:Name="FmtBulletsBtn" Style="{StaticResource FmtButton}" Content="&#xE8FD;" ToolTip="{DynamicResource Str_TT_Bullets}"
                             Command="EditingCommands.ToggleBullets" CommandTarget="{Binding ElementName=Editor}"/>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xEA37;" ToolTip="{DynamicResource Str_TT_Numbering}"
+                    <Button x:Name="FmtNumberingBtn" Style="{StaticResource FmtButton}" Content="&#xEA37;" ToolTip="{DynamicResource Str_TT_Numbering}"
                             Command="EditingCommands.ToggleNumbering" CommandTarget="{Binding ElementName=Editor}"/>
-                    <Rectangle Style="{StaticResource FmtSeparator}"/>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE738;" ToolTip="{DynamicResource Str_TT_Rule}"
+                    <Rectangle x:Name="FmtInsertSeparator" Style="{StaticResource FmtSeparator}"/>
+                    <Button x:Name="FmtRuleBtn" Style="{StaticResource FmtButton}" Content="&#xE738;" ToolTip="{DynamicResource Str_TT_Rule}"
                             Click="InsertRule_Click"/>
                     <!-- Press (or press-hold-drag) opens the size picker grid; release or click
                          on a cell inserts that rows x cols table (Editor.cs). -->
@@ -1181,7 +1177,7 @@
                            Placement="Bottom" StaysOpen="False" AllowsTransparency="True" VerticalOffset="4">
                         <Border Background="{DynamicResource MenuBackgroundBrush}"
                                 BorderBrush="{DynamicResource MenuBorderBrush}"
-                                BorderThickness="1" CornerRadius="6" Padding="10,8" Margin="12">
+                                BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" Padding="10,8" Margin="12">
                             <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
                             <StackPanel>
                                 <UniformGrid x:Name="TableSizeCells" Columns="8"/>
@@ -1208,7 +1204,7 @@
                     <!-- Insert an image from a file (Editor.cs); paste and drag-and-drop are the other two ways in.
                          Icon = the SketchPad's own add-image picture (framed photo + mountain + sun), drawn as shapes
                          (the plain E91B glyph read as a bare rectangle) and theme-reactive via TextBrush. -->
-                    <Button Style="{StaticResource FmtButton}" ToolTip="{DynamicResource Str_TT_InsertImage}"
+                    <Button x:Name="FmtImageBtn" Style="{StaticResource FmtButton}" ToolTip="{DynamicResource Str_TT_InsertImage}"
                             Click="InsertImageBtn_Click">
                         <!-- Viewbox scales the 16px drawing down to the 14px glyph size so it sits level with the font icons. -->
                         <Viewbox Width="14" Height="14">
@@ -1220,13 +1216,10 @@
                             </Canvas>
                         </Viewbox>
                     </Button>
-                    <!-- Appears only when the note text looks like markdown or HTML (Preview.cs) -->
-                    <Button x:Name="PreviewBtn" Style="{StaticResource FmtButton}" Content="&#xE890;"
-                            ToolTip="{DynamicResource Str_TT_Preview}" Click="TogglePreview_Click" Visibility="Collapsed"/>
-                    <Rectangle Style="{StaticResource FmtSeparator}"/>
+                    <Rectangle x:Name="FmtEndSeparator" Style="{StaticResource FmtSeparator}"/>
                     <Button Style="{StaticResource FmtButton}" Content="&#xE70E;" FontSize="10"
                             ToolTip="{DynamicResource Str_TT_HideBar}" Click="FormatBarToggle_Click"/>
-                </StackPanel>
+                </WrapPanel>
                 </Grid>
                 </Border>
 
@@ -1248,7 +1241,7 @@
                                  Background="Transparent" BorderThickness="0"
                                  Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
                                  SelectionBrush="{DynamicResource PrimaryBrush}" SelectionOpacity="0.35"
-                                 FontSize="13" AcceptsTab="True"
+                                 FontSize="13" FontWeight="Normal" AcceptsTab="True"
                                  VerticalScrollBarVisibility="Auto"
                                  HorizontalScrollBarVisibility="Auto"
                                  TextChanged="Editor_TextChanged">
@@ -1273,10 +1266,22 @@
                                  local margins, so those keep their spacing. -->
                             <Style TargetType="Paragraph">
                                 <Setter Property="Margin" Value="0"/>
+                                <!-- Make the body weight concrete in copied RTF/XAML. Browsers
+                                     otherwise sometimes resolve WPF's inherited default as bold;
+                                     an intentionally bold Run still overrides this setter. -->
+                                <Setter Property="FontWeight" Value="Normal"/>
                             </Style>
                         </RichTextBox.Resources>
                         <RichTextBox.ContextMenu>
                             <ContextMenu>
+                                <ContextMenu.Resources>
+                                    <!-- Editor menu only: its commands and shortcuts are already
+                                         self-explanatory, so it does not need the roomier family
+                                         padding used by nested/sidebar menus. -->
+                                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                        <Setter Property="Padding" Value="4,5,6,5"/>
+                                    </Style>
+                                </ContextMenu.Resources>
                                 <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
@@ -1285,6 +1290,64 @@
                                 <!-- Insert on empty selection, edit/remove with the caret in a link (Links.cs) -->
                                 <MenuItem Header="{DynamicResource Str_Ctx_Link}" Icon="&#xE71B;" Click="LinkMenu_Click"
                                           InputGestureText="Ctrl+K"/>
+                                <MenuItem IsHitTestVisible="False" Focusable="False" Height="9">
+                                    <MenuItem.Template>
+                                        <ControlTemplate TargetType="MenuItem">
+                                            <Border Height="1" Margin="10,4" Background="{DynamicResource MenuBorderBrush}"/>
+                                        </ControlTemplate>
+                                    </MenuItem.Template>
+                                </MenuItem>
+                                <MenuItem x:Name="SyntaxHighlightMenuItem"
+                                          IsCheckable="True" Click="SyntaxHighlight_Click"
+                                          InputGestureText="Ctrl+Shift+E">
+                                    <MenuItem.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid Width="20" Height="16">
+                                                <TextBlock Text="&lt;/&gt;" FontFamily="Consolas" FontSize="11" FontWeight="Bold"
+                                                           TextAlignment="Center" VerticalAlignment="Center"/>
+                                            </Grid>
+                                            <TextBlock Text="{DynamicResource Str_KS_Syntax}"/>
+                                        </StackPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem x:Name="WordWrapMenuItem"
+                                          IsCheckable="True" Click="WordWrap_Click"
+                                          InputGestureText="Ctrl+Shift+W">
+                                    <MenuItem.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid Width="20" Height="16">
+                                                <TextBlock Text="&#x21B5;" FontFamily="Segoe UI Symbol" FontSize="15"
+                                                           TextAlignment="Center" VerticalAlignment="Center" Margin="0,-2,0,0"/>
+                                            </Grid>
+                                            <TextBlock Text="{DynamicResource Str_KS_WordWrap}"/>
+                                        </StackPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem x:Name="SpellCheckMenuItem"
+                                          IsCheckable="True" Click="Spell_Click"
+                                          InputGestureText="Ctrl+Shift+P">
+                                    <MenuItem.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid Width="20" Height="16">
+                                                <TextBlock Text="abc" FontFamily="Segoe UI" FontSize="10" FontWeight="SemiBold"
+                                                           TextAlignment="Center" VerticalAlignment="Center"/>
+                                            </Grid>
+                                            <TextBlock Text="{DynamicResource Str_KS_Spell}"/>
+                                        </StackPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem x:Name="PreviewMenuItem" IsCheckable="True"
+                                          Click="TogglePreview_Click" Visibility="Collapsed">
+                                    <MenuItem.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid Width="20" Height="16">
+                                                <TextBlock Text="&#xE890;" FontFamily="Segoe MDL2 Assets" FontSize="13"
+                                                           TextAlignment="Center" VerticalAlignment="Center"/>
+                                            </Grid>
+                                            <TextBlock x:Name="PreviewMenuLabel" Text="Preview"/>
+                                        </StackPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
                             </ContextMenu>
                         </RichTextBox.ContextMenu>
                     </RichTextBox>
@@ -1336,7 +1399,7 @@
                     </Border.Background>
                 </Border>
                 <TextBlock x:Name="StatusText" Grid.Column="0" Text="{DynamicResource Str_St_Ready}"
-                           Foreground="{DynamicResource ChromeTextBrush}" FontFamily="Consolas"
+                           Foreground="{DynamicResource TextFooter}" FontFamily="Consolas"
                            FontSize="11.5" VerticalAlignment="Center"/>
                 <!-- Portable mode indicator (hidden when installed), same as KillerScan -->
                 <StackPanel x:Name="PortableBadge" Grid.Column="1" Orientation="Horizontal"
@@ -1367,7 +1430,7 @@
             </Grid>
         </Border>
 
-        <!-- Custom bottom-right resize grip (6 dots), ported from KillerPDF. Sits at the visible
+        <!-- KillerUI bottom-right resize grip (6 dots). Sits at the visible
              content corner and forwards a HTBOTTOMRIGHT resize to Windows on drag. -->
         <Canvas x:Name="ResizeGripDots" Grid.Row="2" Width="13" Height="13" Panel.ZIndex="50"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,4,4"
@@ -1381,6 +1444,18 @@
             <Rectangle Canvas.Left="10" Canvas.Top="10" Width="2" Height="2" Fill="{DynamicResource DimTextBrush}"/>
         </Canvas>
 
+        <!-- Theme-local decorative frame. It overlays the client edge and therefore does
+             not resize or jump the window when 98SE enables its classic gray surround. -->
+        <Border Grid.RowSpan="3" Panel.ZIndex="8999" IsHitTestVisible="False"
+                BorderBrush="{DynamicResource AppBorderBrush}"
+                BorderThickness="{DynamicResource WindowFrameThickness}"/>
+        <Border Grid.RowSpan="3" Panel.ZIndex="9000" IsHitTestVisible="False"
+                BorderBrush="{DynamicResource BevelLightBrush}"
+                BorderThickness="{DynamicResource BevelLightThickness}"/>
+        <Border Grid.RowSpan="3" Panel.ZIndex="9000" IsHitTestVisible="False"
+                BorderBrush="{DynamicResource BevelDarkBrush}"
+                BorderThickness="{DynamicResource BevelDarkThickness}"/>
+
         <!-- About overlay: dims the window behind it and shows a centred card (structure copied
              from KillerScan; the close X is blended into the card with a red hover). -->
         <Grid x:Name="AboutOverlay" Grid.RowSpan="3" Panel.ZIndex="9000" Visibility="Collapsed"
@@ -1390,16 +1465,16 @@
                  so a long tagline wraps instead of widening the card. Family standard. -->
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="AboutCard_Click">
                 <!-- Shadow on a separate element so the card text stays crisp -->
-                <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="6" IsHitTestVisible="False">
+                <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="{DynamicResource PanelCornerRadius}" IsHitTestVisible="False">
                     <Border.Effect>
-                        <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="0.6"/>
+                        <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
                 </Border>
-                <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
-                        BorderThickness="1" CornerRadius="6">
+                <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
                         <!-- Film grain over the whole card (behind content) -->
-                        <Border IsHitTestVisible="False" CornerRadius="6"
+                        <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
                                 Opacity="{DynamicResource GrainOpacity}" Background="{DynamicResource GrainTileBrush}"/>
 
                         <!-- Close X: just the glyph turns red on hover (no filled square), like KillerPDF. -->
@@ -1444,7 +1519,7 @@
                                 <Image Grid.Column="0" Source="pack://application:,,,/Resources/kn-icon.png" Width="58" Height="58"
                                        Margin="0,0,15,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality">
                                     <Image.Effect>
-                                        <DropShadowEffect Color="Black" BlurRadius="12" ShadowDepth="3" Direction="270" Opacity="0.55"/>
+                                        <DropShadowEffect Color="Black" BlurRadius="12" ShadowDepth="3" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                                     </Image.Effect>
                                 </Image>
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
@@ -1460,12 +1535,13 @@
                             <!-- Info panel - matte, lifted above the grainy card. Named: the header
                                  binds its width to this panel (see above). -->
                             <Grid x:Name="AboutInfoGrid">
-                                <Border Background="{DynamicResource PaneBrush}" CornerRadius="4" IsHitTestVisible="False">
+                                <Border Background="{DynamicResource PaneBrush}" CornerRadius="{DynamicResource ControlCornerRadius}" IsHitTestVisible="False">
                                     <Border.Effect>
-                                        <DropShadowEffect Color="Black" BlurRadius="14" ShadowDepth="2" Direction="270" Opacity="0.5"/>
+                                        <DropShadowEffect Color="Black" BlurRadius="14" ShadowDepth="2" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                                     </Border.Effect>
                                 </Border>
-                                <Border Background="{DynamicResource PaneBrush}" CornerRadius="4" Padding="14,12,14,4">
+                                <Border Background="{DynamicResource PaneBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                                        CornerRadius="{DynamicResource ControlCornerRadius}" Padding="14,12,14,4">
                                     <StackPanel>
                                         <StackPanel Margin="0,0,0,10">
                                             <TextBlock Text="{DynamicResource Str_About_Version}" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
@@ -1508,7 +1584,7 @@
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border x:Name="ub" Background="Transparent" BorderBrush="{DynamicResource PrimaryBrush}"
-                                                BorderThickness="1" CornerRadius="4" Padding="14,7">
+                                                BorderThickness="1" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="14,7">
                                             <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         </Border>
                                         <ControlTemplate.Triggers>
@@ -1709,4 +1785,5 @@
             </Grid>
         </Grid>
     </Grid>
+    </Border>
 </Window>

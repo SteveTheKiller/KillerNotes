@@ -131,11 +131,14 @@ namespace KillerNotes.Shell
         // so "Delete note" always targets the row that was clicked. If the clicked row
         // is already part of a multi-selection, the selection is kept intact so the
         // menu can act on all of it.
+        private bool _noteContextTarget;
+
         private void NotesList_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var d = e.OriginalSource as DependencyObject;
             while (d != null && d is not ListBoxItem)
                 d = System.Windows.Media.VisualTreeHelper.GetParent(d);
+            _noteContextTarget = d is ListBoxItem { DataContext: Note };
             if (d is ListBoxItem item && !item.IsSelected)
             {
                 if (item.DataContext is Models.GroupHeader) return;   // headers: own menu (#4)
@@ -143,6 +146,9 @@ namespace KillerNotes.Shell
                 item.IsSelected = true;
             }
         }
+
+        private void NotesContextMenu_Closed(object sender, RoutedEventArgs e)
+            => _noteContextTarget = false;
 
     }
 }

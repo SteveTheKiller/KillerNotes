@@ -152,6 +152,10 @@
     <sys:String x:Key="Str_TT_PreviewMd">Markdown プレビュー</sys:String>
     <sys:String x:Key="Str_TT_PreviewHtml">HTML プレビュー</sys:String>
     <sys:String x:Key="Str_St_PreviewFailed">プレビューに失敗しました: {0}</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">Markdown と HTML を検出</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">ノートが Markdown または HTML のように見えるときにプレビューを表示する (すべてのノート)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Markdown と HTML の検出: オン</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Markdown と HTML の検出: オフ</sys:String>
 
     <!-- Databases dialog -->
     <sys:String x:Key="Str_Db_Title">データベース</sys:String>
@@ -280,10 +284,11 @@
     <sys:String x:Key="Str_KS_NewGroup">新しいグループ (選択中のノートを入れる)</sys:String>
     <sys:String x:Key="Str_KS_Theme">テーマとアクセントのメニュー</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">タイトルの色 (選択中のノート)</sys:String>
-    <sys:String x:Key="Str_KS_Spell">スペル チェックを切り替え (このノート)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">スペル チェックを切り替え</sys:String>
     <sys:String x:Key="Str_KS_Table">表を挿入</sys:String>
     <sys:String x:Key="Str_TT_WordWrap">折り返し オン/オフ (Ctrl+Shift+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">折り返しを切り替え</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">構文の強調表示</sys:String>
     <sys:String x:Key="Str_St_WrapOn">折り返しオン</sys:String>
     <sys:String x:Key="Str_St_WrapOff">折り返しオフ - 幅の広い内容はスクロールで表示</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">行番号 (F11)</sys:String>

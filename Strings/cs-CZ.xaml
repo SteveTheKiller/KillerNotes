@@ -55,6 +55,7 @@
     <sys:String x:Key="Str_TT_AppSize">Posouváním změníte velikost celé aplikace</sys:String>
     <sys:String x:Key="Str_St_AppSize">Velikost aplikace {0} %</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Přepnout zalamování řádků</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">Zvýraznění syntaxe</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Čísla řádků (F11)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Přepnout čísla řádků</sys:String>
     <sys:String x:Key="Str_KS_AppSize">Přiblížit celou aplikaci (přístupnost)</sys:String>
@@ -70,7 +71,7 @@
     <sys:String x:Key="Str_KS_NewGroup">Nová skupina (zařadí do ní vybrané poznámky)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Nabídka motivu a akcentu</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">Barva názvu (vybraná poznámka)</sys:String>
-    <sys:String x:Key="Str_KS_Spell">Přepnout kontrolu pravopisu (tato poznámka)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Přepnout kontrolu pravopisu</sys:String>
     <sys:String x:Key="Str_KS_Table">Vložit tabulku</sys:String>
     <!-- Killculator sidebar calculator (F9) -->
     <sys:String x:Key="Str_KS_Calc">Killculator - Tisk vloží výsledek do poznámky</sys:String>
@@ -200,6 +201,10 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_TT_PreviewMd">Náhled markdownu</sys:String>
     <sys:String x:Key="Str_TT_PreviewHtml">Náhled HTML</sys:String>
     <sys:String x:Key="Str_St_PreviewFailed">Náhled selhal: {0}</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">Rozpoznávat markdown a HTML</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">Nabídnout náhled, když poznámka vypadá jako markdown nebo HTML (všechny poznámky)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Rozpoznávání markdownu a HTML zapnuto</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Rozpoznávání markdownu a HTML vypnuto</sys:String>
 
     <!-- Databases dialog -->
     <sys:String x:Key="Str_Db_Title">Databáze</sys:String>

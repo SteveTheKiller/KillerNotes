@@ -27,9 +27,15 @@ namespace KillerNotes.Shell
         private const int TblMaxRows = 6;
         private int _tblCols, _tblRows;
         private int _tblOpenedAt;   // TickCount when the popup opened (click-through guard)
+        private (Table Table, int ColumnIndex, double StartX, double StartWidth)? _tableResize;
 
         private void InitTableSizePicker()
         {
+            Editor.PreviewMouseMove += Editor_TableResizeMove;
+            Editor.PreviewMouseLeftButtonDown += Editor_TableResizeDown;
+            Editor.PreviewMouseLeftButtonUp += Editor_TableResizeUp;
+            Editor.LostMouseCapture += (_, _) => _tableResize = null;
+
             for (int i = 0; i < TblMaxRows * TblMaxCols; i++)
             {
                 var cell = new Border
@@ -46,6 +52,121 @@ namespace KillerNotes.Shell
                 cell.MouseLeftButtonDown += TableCell_Commit;  // click in hover mode
                 TableSizeCells.Children.Add(cell);
             }
+        }
+
+        // Direct table-wall resizing. WPF FlowDocument tables do not expose resize handles,
+        // so the editor detects the internal boundary from the first row's laid-out content
+        // positions and changes the corresponding TableColumn width while dragging.
+        private void Editor_TableResizeMove(object sender, MouseEventArgs e)
+        {
+            Point p = e.GetPosition(Editor);
+            if (_tableResize is { } drag && e.LeftButton == MouseButtonState.Pressed)
+            {
+                drag.Table.Columns[drag.ColumnIndex].Width =
+                    new GridLength(Math.Max(28, drag.StartWidth + p.X - drag.StartX));
+                Editor.Cursor = Cursors.SizeWE;
+                e.Handled = true;
+                return;
+            }
+            Editor.Cursor = TryGetTableBoundary(p, out _, out _, out _) ? Cursors.SizeWE : Cursors.IBeam;
+        }
+
+        private void Editor_TableResizeDown(object sender, MouseButtonEventArgs e)
+        {
+            Point p = e.GetPosition(Editor);
+            if (!TryGetTableBoundary(p, out Table? table, out int columnIndex, out double[]? widths) ||
+                table == null || widths == null) return;
+
+            // Auto-sized FlowDocument columns are interdependent: changing one makes WPF
+            // redistribute the rest. Freeze the complete laid-out geometry at drag start so
+            // one wall changes one column (and every cell in that column), predictably.
+            for (int i = 0; i < widths.Length; i++)
+                table.Columns[i].Width = new GridLength(widths[i]);
+            _tableResize = (table, columnIndex, p.X, widths[columnIndex]);
+            Editor.CaptureMouse();
+            e.Handled = true;
+        }
+
+        private void Editor_TableResizeUp(object sender, MouseButtonEventArgs e)
+        {
+            if (_tableResize == null) return;
+            _tableResize = null;
+            if (Editor.IsMouseCaptured) Editor.ReleaseMouseCapture();
+            Editor.Cursor = Cursors.IBeam;
+            MarkDirty();
+            e.Handled = true;
+        }
+
+        private bool TryGetTableBoundary(Point point, out Table? hitTable, out int columnIndex, out double[]? widths)
+        {
+            hitTable = null;
+            columnIndex = -1;
+            widths = null;
+            foreach (Table table in Tables(Editor.Document.Blocks))
+            {
+                if (table.RowGroups.Count == 0 || table.RowGroups[0].Rows.Count == 0) continue;
+                TableRow first = table.RowGroups[0].Rows[0];
+                if (first.Cells.Count == 0 || table.Columns.Count == 0) continue;
+
+                double top = double.MaxValue, bottom = double.MinValue;
+                foreach (TableRowGroup group in table.RowGroups)
+                    foreach (TableRow row in group.Rows)
+                        foreach (TableCell cell in row.Cells)
+                        {
+                            Rect a = cell.ContentStart.GetCharacterRect(LogicalDirection.Forward);
+                            Rect b = cell.ContentEnd.GetCharacterRect(LogicalDirection.Backward);
+                            if (!a.IsEmpty) top = Math.Min(top, a.Top - cell.Padding.Top - 4);
+                            if (!b.IsEmpty) bottom = Math.Max(bottom, b.Bottom + cell.Padding.Bottom + 4);
+                        }
+                if (point.Y < top || point.Y > bottom) continue;
+
+                int count = Math.Min(first.Cells.Count, table.Columns.Count);
+                var lefts = new double[count];
+                bool measurable = true;
+                for (int i = 0; i < count; i++)
+                {
+                    Rect rect = first.Cells[i].ContentStart.GetCharacterRect(LogicalDirection.Forward);
+                    if (rect.IsEmpty) { measurable = false; break; }
+                    lefts[i] = rect.X - first.Cells[i].Padding.Left;
+                }
+                if (!measurable) continue;
+
+                // A new table fills the document width. Once explicit widths exist, their
+                // sum is the authoritative outer edge and remains draggable thereafter.
+                double rightEdge = table.Columns.Cast<TableColumn>().Take(count).All(c => c.Width.IsAbsolute)
+                    ? lefts[0] + table.Columns.Cast<TableColumn>().Take(count).Sum(c => c.Width.Value)
+                    : Math.Max(lefts[count - 1] + 28,
+                        Editor.ActualWidth - Editor.Padding.Right - Editor.BorderThickness.Right - 2);
+                var measured = new double[count];
+                for (int i = 0; i < count; i++)
+                    measured[i] = Math.Max(28, (i + 1 < count ? lefts[i + 1] : rightEdge) - lefts[i]);
+
+                // Include the final outer wall: dragging it resizes the last column and thus
+                // the whole table, instead of leaving the right edge permanently fixed.
+                for (int i = 0; i < count; i++)
+                {
+                    double wall = i + 1 < count ? lefts[i + 1] : rightEdge;
+                    if (Math.Abs(point.X - wall) <= 5)
+                    {
+                        hitTable = table;
+                        columnIndex = i;
+                        widths = measured;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private static System.Collections.Generic.IEnumerable<Table> Tables(System.Collections.Generic.IEnumerable<Block> blocks)
+        {
+            foreach (Block block in blocks)
+                if (block is Table table) yield return table;
+                else if (block is Section section)
+                    foreach (Table nested in Tables(section.Blocks)) yield return nested;
+                else if (block is List list)
+                    foreach (ListItem item in list.ListItems)
+                        foreach (Table nested in Tables(item.Blocks)) yield return nested;
         }
 
         // e.Handled keeps the Button from capturing the mouse, so a held drag delivers

@@ -8,8 +8,7 @@ using System.Windows.Threading;
 
 namespace KillerNotes.Shell
 {
-    // Floating format bar, ported from KillerPDF's annotation bars (AnnotationBars.cs /
-    // WindowChrome.cs / SettingsPanel.cs): pops out of the top of the editor pane on
+    // Floating format bar implementing the KillerUI annotation-bar contract: pops out of the top of the editor pane on
     // first show, slides horizontally by its grip (edge-anchored or center-parked,
     // placement persisted), and minimizes to a grip-dots peek strip with the same
     // 120ms height animation. Double-click the grip or peek, the chevron button, or
@@ -168,7 +167,11 @@ namespace KillerNotes.Shell
         private void PositionFormatBar()
         {
             if (FormatBar.Parent is not FrameworkElement host) return;
-            double bw = FormatBar.ActualWidth, hw = host.ActualWidth;
+            double hw = host.ActualWidth;
+            UpdateFormatBarDensity(hw);
+            FormatBar.MaxWidth = Math.Max(88, hw - 4);
+            FormatBar.UpdateLayout();
+            double bw = FormatBar.ActualWidth;
             double top = FormatBar.Margin.Top;
             if (_fmtCenterFrac is double cf && bw > 0 && hw > bw)
             {
@@ -187,6 +190,31 @@ namespace KillerNotes.Shell
                     : new Thickness(gap, top, 0, 0);
             }
         }
+
+        /// <summary>The canonical KillerPDF annotation-bar host wraps rather than discarding
+        /// commands. Keep every formatting command available and let the WrapPanel reflow.</summary>
+        private void UpdateFormatBarDensity(double available)
+        {
+            SetVisible(FmtItalicBtn, true);
+            SetVisible(FmtUnderlineBtn, true);
+            SetVisible(FmtStrikeBtn, true);
+            SetVisible(FmtMonoBtn, true);
+            SetVisible(FmtFontSeparator, true);
+            SetVisible(FontSizeBtn, true);
+            SetVisible(FmtColorSeparator, true);
+            SetVisible(TextColorBtn, true);
+            SetVisible(FmtListSeparator, true);
+            SetVisible(FmtBulletsBtn, true);
+            SetVisible(FmtNumberingBtn, true);
+            SetVisible(FmtInsertSeparator, true);
+            SetVisible(FmtRuleBtn, true);
+            SetVisible(TableBtn, true);
+            SetVisible(FmtImageBtn, true);
+            SetVisible(FmtEndSeparator, true);
+        }
+
+        private static void SetVisible(UIElement element, bool visible) =>
+            element.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
 
         // ---- Minimize / restore (KillerPDF ToggleAnnotBarMinimized, 120ms) ----
 
@@ -232,7 +260,7 @@ namespace KillerNotes.Shell
                 FmtPeek.Visibility = Visibility.Collapsed;
                 FmtButtons.Visibility = Visibility.Visible;
                 FormatBar.Effect = TryFindResource("ShadowBar") as Effect;
-                FormatBar.Padding = new Thickness(4, 2, 4, 2);   // restore before the expand animates
+                FormatBar.Padding = new Thickness(2);   // compact annotation-bar chrome
                 void Restore()
                 {
                     FormatBar.BeginAnimation(HeightProperty, null);

@@ -21,6 +21,7 @@ namespace KillerNotes.Shell
 
         private static readonly int[] FontSizes = [10, 11, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48];
         private double _editorZoom = 1.0;
+        private bool _syncingFontSizeSlider;
 
         /// <summary>Called once from InitEditor: restores the remembered editor zoom and
         /// wires Ctrl+wheel. Zoom is a view setting (LayoutTransform), not note content.</summary>
@@ -50,27 +51,28 @@ namespace KillerNotes.Shell
             _editorZoom = zoom;
             Editor.LayoutTransform = zoom == 1.0 ? Transform.Identity : new ScaleTransform(zoom, zoom);
             App.SetSetting("EditorZoom", ((int)Math.Round(zoom * 100)).ToString());
-            StatusText.Text = string.Format(Loc("Str_St_Zoom"), (int)Math.Round(zoom * 100));
+            FlashStatus(string.Format(Loc("Str_St_Zoom"), (int)Math.Round(zoom * 100)));
             RebuildLineNumbers();   // LineNumbers.cs (numbers track the editor zoom)
         }
 
-        // The size list is built lazily so startup never pays for it.
         private void FontSizeBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (FontSizeList.Children.Count == 0)
-                foreach (int s in FontSizes)
-                {
-                    var b = new Button
-                    {
-                        Content = s.ToString(), Width = 52, Margin = new Thickness(1),
-                        Style = TryFindResource("SurfaceButton") as Style,
-                    };
-                    int size = s;
-                    b.Click += (_, _) => { FontSizePopup.IsOpen = false; ApplyFontSize(size); };
-                    FontSizeList.Children.Add(b);
-                }
+            double size = Editor.Selection.GetPropertyValue(TextElement.FontSizeProperty) is double d ? d : 13;
+            _syncingFontSizeSlider = true;
+            FontSizeSlider.Value = Math.Max(FontSizeSlider.Minimum, Math.Min(FontSizeSlider.Maximum, Math.Round(size)));
+            FontSizeSliderValue.Text = Math.Round(FontSizeSlider.Value).ToString();
+            _syncingFontSizeSlider = false;
+            FontSizePopup.PlacementTarget = FontSizeBtn;
             FontSizePopup.IsOpen = !FontSizePopup.IsOpen;
-            if (FontSizePopup.IsOpen && FontSizePopup.Child is UIElement ch) Anim.FadeIn(ch);
+            if (FontSizePopup.IsOpen) Anim.FadeIn(FontSizePopup);
+        }
+
+        private void FontSizeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_syncingFontSizeSlider || FontSizeSliderValue == null) return;
+            int size = (int)Math.Round(e.NewValue);
+            FontSizeSliderValue.Text = size.ToString();
+            if (FontSizePopup.IsOpen) ApplyFontSize(size);
         }
 
         // Hover the dropdown and scroll to step through the size ladder - no click needed.
@@ -134,19 +136,17 @@ namespace KillerNotes.Shell
             ApplySpellCheck(on);
             NoteStore.SetSpellCheck(_currentId, on);
             if (_notes.FirstOrDefault(n => n.Id == _currentId) is Note meta) meta.SpellCheck = on;
-            StatusText.Text = Loc(on ? "Str_St_SpellOn" : "Str_St_SpellOff");
+            FlashStatus(Loc(on ? "Str_St_SpellOn" : "Str_St_SpellOff"));
         }
 
-        /// <summary>Applies the state to the editor and lights the abc+check button in the
-        /// accent while on. Called on every note open with the note's saved flag.
+        /// <summary>Applies the state to the editor and updates the note-menu checkmark.
         /// TextElement.Foreground is inherited, so setting it on the icon Grid colors
         /// both the "abc" and the check mark at once.</summary>
         private void ApplySpellCheck(bool on)
         {
             try { Editor.SpellCheck.IsEnabled = on; }
             catch { on = false; }   // OS spell checking unavailable - stay off quietly
-            if (on) SpellBtnIcon.SetResourceReference(TextElement.ForegroundProperty, "PrimaryBrush");
-            else SpellBtnIcon.ClearValue(TextElement.ForegroundProperty);
+            if (SpellCheckMenuItem != null) SpellCheckMenuItem.IsChecked = on;
         }
 
         // ---- Word wrap toggle (global view setting, remembered like zoom) ----
@@ -165,15 +165,14 @@ namespace KillerNotes.Shell
         {
             ApplyWordWrap(!_wordWrap);
             App.SetSetting("WordWrap", _wordWrap ? "on" : "off");
-            StatusText.Text = Loc(_wordWrap ? "Str_St_WrapOn" : "Str_St_WrapOff");
+            FlashStatus(Loc(_wordWrap ? "Str_St_WrapOn" : "Str_St_WrapOff"));
         }
 
         private void ApplyWordWrap(bool wrap)
         {
             _wordWrap = wrap;
             Editor.Document.PageWidth = wrap ? double.NaN : NoWrapPageWidth;
-            if (wrap) WrapBtnIcon.SetResourceReference(TextElement.ForegroundProperty, "PrimaryBrush");
-            else WrapBtnIcon.ClearValue(TextElement.ForegroundProperty);
+            if (WordWrapMenuItem != null) WordWrapMenuItem.IsChecked = wrap;
         }
     }
 }

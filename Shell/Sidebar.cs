@@ -150,12 +150,8 @@ namespace KillerNotes.Shell
                  + NewNoteBtn.BorderThickness.Left + NewNoteBtn.BorderThickness.Right + 2;
         }
 
-        // ---- Notes-list bottom fade ----
-        // NotesFade (a Border overlaid on the bottom of the list in the XAML, inset from the
-        // scrollbar) fades the last rows into the chrome, but only while the list actually
-        // overflows AND is not scrolled to the very bottom - so it reads as a "more below" hint,
-        // not a permanent vignette. The overlay's look (chrome + grain under a fade mask) lives
-        // in the XAML and follows the theme on its own; here we only toggle its visibility.
+        // ---- Notes-list edge fades ----
+        // Each overlay appears only while more content exists in its direction.
 
         private ScrollViewer? _notesScroll;
 
@@ -189,10 +185,34 @@ namespace KillerNotes.Shell
 
         private void UpdateNotesFade()
         {
-            if (_notesScroll == null || NotesFade == null) return;
+            if (_notesScroll == null || NotesFade == null || NotesTopFade == null) return;
             bool overflow = _notesScroll.ScrollableHeight > 0.5;
+            bool atTop = _notesScroll.VerticalOffset <= 0.5;
             bool atBottom = _notesScroll.VerticalOffset >= _notesScroll.ScrollableHeight - 0.5;
-            NotesFade.Visibility = overflow && !atBottom ? Visibility.Visible : Visibility.Collapsed;
+
+            // Fade the list pixels themselves to transparent. An overlay can only match a flat
+            // sidebar; on horizontal chrome gradients it becomes a visibly different rectangle.
+            // Transparency reveals the exact grain and gradient already behind the list.
+            bool fadeTop = overflow && !atTop;
+            bool fadeBottom = overflow && !atBottom;
+            var mask = new LinearGradientBrush { StartPoint = new Point(0, 0), EndPoint = new Point(0, 1) };
+            if (fadeTop)
+            {
+                mask.GradientStops.Add(new GradientStop(Colors.Transparent, 0));
+                mask.GradientStops.Add(new GradientStop(Colors.Black, .045));
+            }
+            else mask.GradientStops.Add(new GradientStop(Colors.Black, 0));
+            if (fadeBottom)
+            {
+                mask.GradientStops.Add(new GradientStop(Colors.Black, .955));
+                mask.GradientStops.Add(new GradientStop(Colors.Transparent, 1));
+            }
+            else mask.GradientStops.Add(new GradientStop(Colors.Black, 1));
+            NotesList.OpacityMask = mask;
+
+            // Retained as named layout elements for compatibility, but no longer painted.
+            NotesTopFade.Visibility = Visibility.Collapsed;
+            NotesFade.Visibility = Visibility.Collapsed;
         }
 
         private static T? FindDescendant<T>(DependencyObject root) where T : DependencyObject

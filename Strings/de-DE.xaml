@@ -152,6 +152,10 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_TT_PreviewMd">Markdown-Vorschau</sys:String>
     <sys:String x:Key="Str_TT_PreviewHtml">HTML-Vorschau</sys:String>
     <sys:String x:Key="Str_St_PreviewFailed">Vorschau fehlgeschlagen: {0}</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">Markdown und HTML erkennen</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">Eine Vorschau anbieten, wenn eine Notiz wie Markdown oder HTML aussieht (alle Notizen)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Markdown- und HTML-Erkennung ein</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Markdown- und HTML-Erkennung aus</sys:String>
 
     <!-- Databases dialog -->
     <sys:String x:Key="Str_Db_Title">Datenbanken</sys:String>
@@ -283,10 +287,11 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Neue Gruppe (ausgewählte Notizen werden einsortiert)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Design- und Akzent-Flyout</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">Titelfarbe (ausgewählte Notiz)</sys:String>
-    <sys:String x:Key="Str_KS_Spell">Rechtschreibprüfung umschalten (diese Notiz)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Rechtschreibprüfung umschalten</sys:String>
     <sys:String x:Key="Str_KS_Table">Tabelle einfügen</sys:String>
     <sys:String x:Key="Str_TT_WordWrap">Zeilenumbruch ein/aus (Strg+Umschalt+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Zeilenumbruch umschalten</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">Syntaxhervorhebung</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Zeilenumbruch an</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Zeilenumbruch aus - scrollen, um breite Inhalte zu sehen</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Zeilennummern (F11)</sys:String>

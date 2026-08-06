@@ -6,38 +6,39 @@
     <sys:Double x:Key="GrainOpacity">0.34</sys:Double>
     <sys:Double x:Key="IconShadowOpacity">0.0</sys:Double>
 
-    <!-- KillerScan - LIGHT theme. Tiered surfaces ported from KillerPDF Themes/Light.xaml. -->
+    <!-- KillerNotes additions for the shared KillerUI LIGHT theme. -->
     <SolidColorBrush x:Key="PrimaryBrush"        Color="#1b5e20" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#1b5e20" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#1b5e20" po:Freeze="True"/>
     <SolidColorBrush x:Key="HeaderLineBrush"     Color="#1b5e20" po:Freeze="True"/>
     <SolidColorBrush x:Key="OnPrimaryBrush"      Color="#FFFFFF" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#1b5e20" po:Freeze="True"/>
-    <SolidColorBrush x:Key="InputHoverBrush"     Color="#888888" po:Freeze="True"/>
+    <SolidColorBrush x:Key="InputHoverBrush"     Color="#8a8a8a" po:Freeze="True"/>
     <SolidColorBrush x:Key="TextFooter"          Color="#888888" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="BackgroundBrush"     Color="#dcdcdc" po:Freeze="True"/>
     <SolidColorBrush x:Key="SurfaceBrush"        Color="#f0f0f0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PaneBrush"           Color="#c8c8c8" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TableHeaderBrush"    Color="#d2d2d2" po:Freeze="True"/>
-    <SolidColorBrush x:Key="CardBorderBrush"     Color="#b0b0b0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PaneBrush"           Color="#e8e8e8" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TableHeaderBrush"    Color="#f0f0f0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="CardBorderBrush"     Color="#c0c0c0" po:Freeze="True"/>
     <SolidColorBrush x:Key="PaneBorderBrush"     Color="#b0b0b0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="AppBorderBrush"      Color="#b0b0b0" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="TextBrush"           Color="#1a1a1a" po:Freeze="True"/>
     <SolidColorBrush x:Key="MutedTextBrush"      Color="#555555" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ChromeTextBrush"     Color="#444444" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ChromeTextBrush"     Color="#3a3a3a" po:Freeze="True"/>
     <SolidColorBrush x:Key="DimTextBrush"        Color="#666666" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="RowAltBrush"         Color="#14000000" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowHoverBrush"       Color="#b2b2b2" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#1b5e20" po:Freeze="True"/>
-    <!-- Selection pair - see the note in Dark.xaml. Values from KillerPDF. Deliberately a DARK
+    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#c8f5d8" po:Freeze="True"/>
+    <!-- Selection pair from the shared KillerUI contract. Deliberately a DARK
          fill on the light theme: the text on it is white in every theme. -->
     <SolidColorBrush x:Key="SelectionBg"         Color="#1b5e20" po:Freeze="True"/>
     <SolidColorBrush x:Key="SelectionFg"         Color="#ffffff" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="InputBorderBrush"    Color="#c0c0c0" po:Freeze="True"/>
-    <!-- Menu surface: KillerPDF's values, the family source of truth for colour. -->
+    <!-- Menu surface compatibility defaults; KillerUI overlays the authoritative values. -->
     <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#ffffff" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuBorderBrush"     Color="#a8a8a8" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuTextBrush"       Color="#555555" po:Freeze="True"/>
@@ -64,7 +65,7 @@
     <SolidColorBrush x:Key="TypeMedia"      Color="#256A9C" po:Freeze="True"/>
 
     <!-- Keyboard-map category colors (F1 overlay KEYBOARD view): darker variants of the
-         KillerPDF palette so they read on light keycaps -->
+         product palette so they read on light keycaps -->
     <SolidColorBrush x:Key="KnCatFile"   Color="#009e99" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatNote"   Color="#d1105a" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatFormat" Color="#a67c00" po:Freeze="True"/>

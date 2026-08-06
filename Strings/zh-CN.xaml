@@ -152,6 +152,10 @@
     <sys:String x:Key="Str_TT_PreviewMd">预览 Markdown</sys:String>
     <sys:String x:Key="Str_TT_PreviewHtml">预览 HTML</sys:String>
     <sys:String x:Key="Str_St_PreviewFailed">预览失败: {0}</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">检测 Markdown 和 HTML</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">当笔记看起来像 Markdown 或 HTML 时提供预览（所有笔记）</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Markdown 和 HTML 检测已开启</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Markdown 和 HTML 检测已关闭</sys:String>
 
     <!-- Databases dialog -->
     <sys:String x:Key="Str_Db_Title">数据库</sys:String>
@@ -280,10 +284,11 @@
     <sys:String x:Key="Str_KS_NewGroup">新建分组（将选中的笔记归入其中）</sys:String>
     <sys:String x:Key="Str_KS_Theme">主题与强调色面板</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">标题颜色（选中的笔记）</sys:String>
-    <sys:String x:Key="Str_KS_Spell">切换拼写检查（此笔记）</sys:String>
+    <sys:String x:Key="Str_KS_Spell">切换拼写检查</sys:String>
     <sys:String x:Key="Str_KS_Table">插入表格</sys:String>
     <sys:String x:Key="Str_TT_WordWrap">自动换行开/关 (Ctrl+Shift+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">切换自动换行</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">语法高亮</sys:String>
     <sys:String x:Key="Str_St_WrapOn">自动换行已开启</sys:String>
     <sys:String x:Key="Str_St_WrapOff">自动换行已关闭 - 滚动以查看较宽的内容</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">行号 (F11)</sys:String>

@@ -106,6 +106,7 @@ namespace KillerNotes.Shell
                     case Key.W: WordWrap_Click(this, new RoutedEventArgs()); e.Handled = true; return;   // Editor.cs (moved off F9)
                     case Key.C: TitleColorPick_Click(this, new RoutedEventArgs()); e.Handled = true; return;   // Notes.cs (selected note)
                     case Key.P: Spell_Click(this, new RoutedEventArgs()); e.Handled = true; return;   // Editor.cs (per-note spell check)
+                    case Key.E: SyntaxHighlight_Click(this, new RoutedEventArgs()); e.Handled = true; return;
                     case Key.T: InsertTable(3, 3); e.Handled = true; return;   // Editor.cs (default size; the drag picker still sizes freely)
                     // Explicit rather than relying on the RichTextBox built-ins, so the
                     // combo works with focus anywhere (title box, sidebar), like the rest.
@@ -129,7 +130,7 @@ namespace KillerNotes.Shell
                     e.Handled = true;
                     break;
                 case Key.F4:
-                    if (PreviewBtn.Visibility == Visibility.Visible)
+                    if (PreviewMenuItem.Visibility == Visibility.Visible)
                     {
                         TogglePreview_Click(this, new RoutedEventArgs());   // Preview.cs
                         e.Handled = true;

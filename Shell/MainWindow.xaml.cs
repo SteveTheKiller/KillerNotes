@@ -31,6 +31,7 @@ namespace KillerNotes.Shell
             RestoreWindowPlacement();                            // Chrome.cs (size/position from previous run)
             SourceInitialized += MainWindow_SourceInitialized;   // Chrome.cs (taskbar-aware maximize + corners)
             ApplyGrainTexture();                                 // Chrome.cs (paints the shared grain)
+            ApplyThemeElevation();                               // ThemeFlyout.cs (98SE is deliberately flat)
 
             UpdateThemeSwatchSelection();                        // ThemeFlyout.cs
             UpdateAccentSwatches();
@@ -38,6 +39,7 @@ namespace KillerNotes.Shell
             {
                 UpdateThemeSwatchSelection();
                 UpdateAccentSwatches();
+                ApplyThemeElevation();
             };
 
             InitEditor();                                        // Editor.cs (paste handler, Ctrl+S)

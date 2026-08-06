@@ -48,6 +48,9 @@ namespace KillerNotes.Shell
                 {
                     if (_currentId == newRow.Id)
                     {
+                        // Ensure virtualization has produced the row before asking the
+                        // ListBox to reveal it beneath what may be a tall group section.
+                        NotesList.UpdateLayout();
                         NotesList.ScrollIntoView(newRow);
                         ResolveAndUpdateNotesFade();
                     }

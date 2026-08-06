@@ -31,7 +31,7 @@ namespace KillerNotes.Shell
         {
             ApplyLineNumbers(!_lineNumbers);
             App.SetSetting("LineNumbers", _lineNumbers ? "1" : "0");
-            StatusText.Text = Loc(_lineNumbers ? "Str_St_LineNumOn" : "Str_St_LineNumOff");
+            FlashStatus(Loc(_lineNumbers ? "Str_St_LineNumOn" : "Str_St_LineNumOff"));
         }
 
         private void ApplyLineNumbers(bool on)
