@@ -68,12 +68,20 @@ namespace KillerNotes.Shell
             {
                 var hwnd = new WindowInteropHelper(w).Handle;
                 if (hwnd == IntPtr.Zero) return;
-                if ((Application.Current.TryFindResource("AppBorderBrush")
+                // WindowEdgeBrush FIRST - the same key RootBorder uses, so the OS-drawn frame and
+                // the WPF one always agree. This is the outermost thing on screen: DWM paints it
+                // outside everything WPF draws, so a theme that hides the WPF edge but not this one
+                // still shows a line round the whole window. A fully transparent brush (alpha 0)
+                // means "no border", which is how 98SE drops it - its bevel is the window edge.
+                if ((Application.Current.TryFindResource("WindowEdgeBrush")
+                     ?? Application.Current.TryFindResource("AppBorderBrush")
                      ?? Application.Current.TryFindResource("PaneBorderBrush"))
                     is System.Windows.Media.SolidColorBrush b)
                 {
-                    // COLORREF is 0x00BBGGRR
-                    int colorref = b.Color.R | (b.Color.G << 8) | (b.Color.B << 16);
+                    // COLORREF is 0x00BBGGRR; DWMWA_COLOR_NONE (0xFFFFFFFE) removes the border.
+                    int colorref = b.Color.A == 0
+                        ? unchecked((int)0xFFFFFFFE)
+                        : b.Color.R | (b.Color.G << 8) | (b.Color.B << 16);
                     DwmSetWindowAttribute(hwnd, DWMWA_BORDER_COLOR, ref colorref, sizeof(int));
                 }
                 int corner = ThemeManager.Current == Theme.SE98 ? DWMWCP_DONOTROUND : DWMWCP_ROUND;
@@ -114,6 +122,9 @@ namespace KillerNotes.Shell
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
+            // FIRST: swallow the caption right-click and Alt+Space so Windows cannot raise its own
+            // stock white HMENU, and show the themed one instead (SystemMenu.cs).
+            if (TryHandleSystemMenu(msg, wParam, lParam)) { handled = true; return IntPtr.Zero; }
             if (msg == WM_ERASEBKGND)
             {
                 // KillerPDF's anti-flash trick: WPF paints the whole client area itself, so

@@ -21,7 +21,7 @@ namespace KillerNotes.Controls
             _outerBorder = new Border
             {
                 BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(7),
+                CornerRadius = CardRadius(),
                 Margin = new Thickness(20),
                 Effect = CardShadow(),
             };
@@ -32,15 +32,35 @@ namespace KillerNotes.Controls
             if (Application.Current.TryFindResource("GrainTileBrush") is Brush grain)
             {
                 double grainOp = Application.Current.TryFindResource("GrainOpacity") is double go ? go : 0.12;
-                _grainBorder = new Border { Background = grain, Opacity = grainOp, IsHitTestVisible = false, CornerRadius = new CornerRadius(7) };
+                _grainBorder = new Border { Background = grain, Opacity = grainOp, IsHitTestVisible = false, CornerRadius = CardRadius() };
                 root.Children.Add(_grainBorder);
             }
-            var grid = new Grid { Margin = new Thickness(16, 6, 16, 12) };   // tight top - minimal forehead above the title
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // title
+
+            // Classic raised edge, drawn LAST so it sits over the card's own border rather than
+            // inside it - the same sibling placement the context menus and the About card use.
+            // Both are transparent and zero-thickness in every theme but 98SE.
+            _bevelLight = new Border { IsHitTestVisible = false };
+            _bevelLight.SetResourceReference(Border.BorderBrushProperty, "BevelLightBrush");
+            _bevelLight.SetResourceReference(Border.BorderThicknessProperty, "BevelLightThickness");
+            _bevelDark = new Border { IsHitTestVisible = false };
+            _bevelDark.SetResourceReference(Border.BorderBrushProperty, "BevelDarkBrush");
+            _bevelDark.SetResourceReference(Border.BorderThicknessProperty, "BevelDarkThickness");
+            // The title bar is its OWN row on the card, not a row inside the padded content grid.
+            // Inside the padding it could never span the card, so it could not carry a title-bar
+            // background - it had to stay transparent. As a full-width band it takes TitleBarBrush
+            // like the main window, which is what gives 98SE its gradient caption.
+            var shell = new Grid();
+            shell.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                       // title band
+            shell.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });  // content
+            root.Children.Add(shell);
+
+            var grid = new Grid { Margin = new Thickness(16, 6, 16, 12) };
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // (unused - title moved out)
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // tools
             grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });   // canvas fills
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // buttons
-            root.Children.Add(grid);
+            Grid.SetRow(grid, 1);
+            shell.Children.Add(grid);
 
             // Red close button flush in the card's top-right corner (rounded only on that corner), so
             // it hugs the window edge like KillerPDF's dialogs rather than floating as a pill.
@@ -51,19 +71,27 @@ namespace KillerNotes.Controls
 
             // Resize-grip dots in the bottom-right corner - press them to start a corner resize.
             root.Children.Add(BuildResizeGrip());
+            // Last, so the raised edge draws over everything else in the card.
+            root.Children.Add(_bevelLight);
+            root.Children.Add(_bevelDark);
 
             _outerBorder.Child = root;
             Content = _outerBorder;
 
-            BuildTitleBar(grid);
+            BuildTitleBar(shell);
             BuildToolBar(grid);
             BuildCanvas(grid);
             BuildButtons(grid);
         }
 
-        private void BuildTitleBar(Grid grid)
+        private void BuildTitleBar(Grid shell)
         {
-            var titleBar = new Grid { Margin = new Thickness(0, 0, 0, 8), Background = Brushes.Transparent };
+            // Padding, not Margin: the band runs the full width of the card and insets its own
+            // contents, so the background reaches the edges. TitleBarBrush is a gradient on some
+            // themes, so it must be a resource reference rather than a copied colour.
+            var titleBar = new Grid();
+            titleBar.SetResourceReference(Panel.BackgroundProperty, "DialogTitleBarBrush");
+            titleBar.SetResourceReference(FrameworkElement.HeightProperty, "DialogTitleBarHeight");
             titleBar.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             titleBar.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             titleBar.MouseLeftButtonDown += (_, e) =>
@@ -74,14 +102,19 @@ namespace KillerNotes.Controls
             };
 
             var wf = Application.Current.TryFindResource("WordmarkFont") as FontFamily;
-            var mark = new Grid { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center };
+            var mark = new Grid { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center,
+                                  Margin = new Thickness(16, 0, 0, 0) };
             var shadowInk = new SolidColorBrush(Color.FromArgb(0xD8, 0, 0, 0));
             var shadow = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(1, 2, 0, 0) };
             if (Application.Current.TryFindResource("IconShadowOpacity") is double sop) shadow.Opacity = sop;
             shadow.Effect = new BlurEffect { Radius = 3 };
             shadow.Children.Add(WordmarkText(wf, "", "", "", shadowInk));
             mark.Children.Add(shadow);
-            mark.Children.Add(WordmarkText(wf, "TextBrush", "PrimaryBrush", "MutedTextBrush"));
+            // ChromeTextBrush, not TextBrush: this sits on the title BAND now, which on several
+            // themes is a dark gradient. TextBrush is the colour for the content surface (black on
+            // 98SE) and vanished against it. ChromeTextBrush is the title-bar text colour and is
+            // what the main window's wordmark uses.
+            mark.Children.Add(WordmarkText(wf, "ChromeTextBrush", "AccentLogo", "MutedTextBrush"));
             Grid.SetColumn(mark, 0);
             titleBar.Children.Add(mark);
 
@@ -92,7 +125,7 @@ namespace KillerNotes.Controls
             titleBar.Children.Add(spacer);
 
             Grid.SetRow(titleBar, 0);
-            grid.Children.Add(titleBar);
+            shell.Children.Add(titleBar);
         }
 
         private void BuildToolBar(Grid grid)
@@ -182,16 +215,38 @@ namespace KillerNotes.Controls
                 double cop = Application.Current.TryFindResource("GrainOpacity") is double cg ? cg : 0.12;
                 canvasStack.Children.Add(new Border { Background = canvasGrain, Opacity = cop, IsHitTestVisible = false });
             }
+            // A Border's ClipToBounds clips to its RECTANGLE, not to its CornerRadius, so the
+            // canvas underneath kept painting square corners through the rounded frame. Clip the
+            // content to a rounded geometry of its own instead, resized with the pane.
+            canvasStack.ClipToBounds = false;
+            canvasStack.SizeChanged += (_, e) =>
+                canvasStack.Clip = new RectangleGeometry(new Rect(e.NewSize), 4, 4);
+
             var frame = new Border
             {
                 BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(4), ClipToBounds = true,
+                CornerRadius = new CornerRadius(4),
                 Child = canvasStack,
             };
             frame.SetResourceReference(Border.BackgroundProperty, "PaneBrush");
             frame.SetResourceReference(Border.BorderBrushProperty, "CardBorderBrush");
-            Grid.SetColumn(frame, 1);
-            row.Children.Add(frame);
+
+            // The shadow rides a SEPARATE sibling behind the pane, never the pane itself - an
+            // Effect applies to an element's whole rendering, children included, and content
+            // drawn through a bitmap effect loses ClearType. Family rule, same as the About card.
+            var frameShadow = new Border
+            {
+                CornerRadius = new CornerRadius(4),
+                IsHitTestVisible = false,
+                Effect = CardShadow(),
+            };
+            frameShadow.SetResourceReference(Border.BackgroundProperty, "PaneBrush");
+
+            var frameHost = new Grid();
+            frameHost.Children.Add(frameShadow);
+            frameHost.Children.Add(frame);
+            Grid.SetColumn(frameHost, 1);
+            row.Children.Add(frameHost);
 
             Grid.SetRow(row, 2);
             grid.Children.Add(row);

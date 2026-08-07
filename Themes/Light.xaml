@@ -31,7 +31,10 @@
 
     <SolidColorBrush x:Key="RowAltBrush"         Color="#14000000" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowHoverBrush"       Color="#b2b2b2" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#c8f5d8" po:Freeze="True"/>
+    <!-- SelectionBg's colour, not a pale mint. This was #c8f5d8, which existed only in this file
+         and read as a highlighter stripe across a light surface. Light's selection is DARK on
+         light - the same #1b5e20 the theme already uses for SelectionBg, paired with white text. -->
+    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#1b5e20" po:Freeze="True"/>
     <!-- Selection pair from the shared KillerUI contract. Deliberately a DARK
          fill on the light theme: the text on it is white in every theme. -->
     <SolidColorBrush x:Key="SelectionBg"         Color="#1b5e20" po:Freeze="True"/>

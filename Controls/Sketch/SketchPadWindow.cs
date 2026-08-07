@@ -85,6 +85,8 @@ namespace KillerNotes.Controls
 
         // UI refs.
         private Border _outerBorder = null!;
+        private Border _bevelLight = null!;
+        private Border _bevelDark = null!;
         private Border _closeBtn = null!;
         private Border? _grainBorder;
         private readonly Dictionary<Tool, Button> _toolBtns = [];
@@ -96,7 +98,13 @@ namespace KillerNotes.Controls
 
         private static readonly int[] Widths = [2, 4, 6, 10, 16];
         private static readonly int[] Alphas = [51, 102, 153, 204, 255];   // 20 / 40 / 60 / 80 / 100 %
-        private static readonly Color DefaultPen = (Color)ColorConverter.ConvertFromString("#E3DAC9");   // bone - warm off-white, reads well on the dark canvas
+        /// <summary>The pinned first swatch and the fallback ink. Follows the theme's TextBrush
+        /// rather than being a fixed colour: it was bone (#E3DAC9), picked when every canvas was
+        /// dark, and on a light theme that is near-invisible on the paper. TextBrush is by
+        /// definition the colour that reads on the current surface - black on 98SE and Light,
+        /// near-white on the dark palettes.</summary>
+        private static Color DefaultPen =>
+            Application.Current?.TryFindResource("TextBrush") is SolidColorBrush b ? b.Color : Colors.Black;
         private const double EraseRadius = 11;
 
         private static SolidColorBrush R(string key) => (SolidColorBrush)Application.Current.Resources[key];
@@ -116,6 +124,11 @@ namespace KillerNotes.Controls
             Owner = owner;
             WindowStartupLocation = owner != null ? WindowStartupLocation.CenterOwner : WindowStartupLocation.CenterScreen;
             UseLayoutRounding = true;
+
+            // Fade in on open, like every other dialog in the app. Start transparent so the first
+            // painted frame is already at zero rather than flashing the card at full opacity.
+            Opacity = 0;
+            Loaded += (_, _) => Anim.FadeIn(this);
 
             WindowChrome.SetWindowChrome(this, new WindowChrome
             {
@@ -240,17 +253,50 @@ namespace KillerNotes.Controls
             }), System.Windows.Threading.DispatcherPriority.Loaded);
         }
 
+        // ---- Close fade ----
+        // Cancel the first close, fade out, then close for real - the same pattern the main
+        // window uses in Notes.EmptyState.cs, shared through Anim.FadeOutAndClose.
+        private bool _closeFaded;
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            if (Anim.FadeOutAndClose(this, ref _closeFaded)) { e.Cancel = true; return; }
+            base.OnClosing(e);
+        }
+
+        // The family PaneShadow, identical to the one ApplyThemeElevation puts on the main
+        // content pane (blur 16, depth 5, direction 270, opacity .60) so the SketchPad card sits
+        // at the same elevation as the pane it floats over. ShadowDepth must NOT be 0: that
+        // spreads an even halo on all four sides instead of casting downward.
+        // Opacity follows the theme's PaneShadowOpacity, which is how 98SE stays flat.
         private static DropShadowEffect CardShadow()
-            => new() { Color = Colors.Black, BlurRadius = 16, ShadowDepth = 3, Direction = 270, Opacity = 0.55 };
+        {
+            double opacity = Application.Current.TryFindResource("PaneShadowOpacity") is double o ? o : 0.60;
+            return new DropShadowEffect
+            {
+                Color = Colors.Black,
+                BlurRadius = 16,
+                ShadowDepth = 5,
+                Direction = 270,
+                Opacity = opacity,
+                RenderingBias = RenderingBias.Quality
+            };
+        }
+
+        /// <summary>The card's corner radius, from the theme rather than a hardcoded 7 - a
+        /// square-cornered theme gets square corners, and its square bevel then meets the card
+        /// edge instead of cutting across a rounded one.</summary>
+        private static CornerRadius CardRadius() =>
+            Application.Current.TryFindResource("WindowCornerRadius") is CornerRadius r ? r : new CornerRadius(7);
 
         // Rounded floating card normally; squared off and flush (no halo / shadow) when maximized.
         private void UpdateWindowCorners()
         {
             bool max = WindowState == WindowState.Maximized;
-            _outerBorder.CornerRadius = new CornerRadius(max ? 0 : 7);
+            _outerBorder.CornerRadius = max ? new CornerRadius(0) : CardRadius();
             _outerBorder.Margin = max ? new Thickness(0) : new Thickness(20);
             _outerBorder.Effect = max ? null : CardShadow();
-            if (_grainBorder != null) _grainBorder.CornerRadius = new CornerRadius(max ? 0 : 7);
+            if (_grainBorder != null) _grainBorder.CornerRadius = max ? new CornerRadius(0) : CardRadius();
             _closeBtn.CornerRadius = new CornerRadius(0, max ? 0 : 7, 0, 0);
         }
     }

@@ -42,10 +42,80 @@ namespace KillerNotes.Shell
             if (!KalcPanel.IsKeyboardFocusWithin) Keyboard.Focus(KalcPanel);
         }
 
+        // ---- Sizing ----
+        //
+        // Width and height are INDEPENDENT. There is deliberately no aspect ratio: the sidebar
+        // sets the width and the grip sets the height, and neither touches the other. A ratio lock
+        // was tried and removed - dragging the sidebar wider then grew the pad's height too, which
+        // is not what anyone wants from a sidebar drag.
+        private bool _kalcWired;
+
+        /// <summary>Grip on the pad's top edge: a free vertical stretch, height only.</summary>
+        private void KalcGrip_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            if (!_kalcOpen) return;
+            double wanted = KalcPanel.ActualHeight - e.VerticalChange;   // up (negative) grows it
+
+            // Never taller than the sidebar row it shares with the notes list, or the list is
+            // pushed out of existence. The floor is KalcPanel.MinHeight, which WPF applies for us.
+            double ceiling = SidebarPanel.ActualHeight > 0 ? SidebarPanel.ActualHeight - 120 : double.MaxValue;
+            KalcPanel.BeginAnimation(FrameworkElement.HeightProperty, null);
+            KalcPanel.Height = Math.Min(ceiling, wanted);
+        }
+
+        // Below this the pad switches to compact metrics. Chosen as roughly the height at which
+        // the full-size readout plus five 24px key rows stop fitting comfortably.
+        private const double KalcCompactBelow = 300;
+        private bool _kalcCompact;
+
+        /// <summary>Tightens the readout as the pad gets short, so the height that would otherwise
+        /// be spent on padding goes to the keys instead. Without this the readout keeps its full
+        /// 54px box and the keypad is the only thing that gives, which is what made the buttons
+        /// collapse to slivers before anything else had yielded.</summary>
+        private void ApplyKalcCompaction()
+        {
+            bool compact = KalcPanel.ActualHeight < KalcCompactBelow;
+            if (compact == _kalcCompact) return;      // only touch the tree when it actually flips
+            SetKalcMetrics(compact);
+        }
+
+        private void SetKalcMetrics(bool compact)
+        {
+            if (KalcReadout == null || KalcDisplay == null) return;
+            _kalcCompact = compact;
+            KalcReadout.MinHeight = compact ? 34 : 54;
+            KalcReadout.Margin    = compact ? new Thickness(3, 0, 3, 4) : new Thickness(3, 0, 3, 8);
+            KalcDisplay.FontSize  = compact ? 21 : 30;
+            KalcDisplay.Margin    = compact ? new Thickness(10, 2, 10, 2) : new Thickness(14, 4, 14, 4);
+        }
+
+        /// <summary>The shortest the pad can render without clipping: its content measured with
+        /// COMPACT metrics on. Measuring at normal metrics would set the floor above the point
+        /// compaction kicks in, so the pad could never reach its own compact layout.</summary>
+        private double MeasureKalcFloor()
+        {
+            bool restore = _kalcCompact;
+            SetKalcMetrics(true);
+            KalcPanel.MinHeight = 0;
+            KalcPanel.Height = double.NaN;
+            KalcPanel.UpdateLayout();
+            double floor = KalcPanel.ActualHeight;
+            SetKalcMetrics(restore);
+            return floor > 0 ? floor : 220;
+        }
+
         private void OpenKalc()
         {
             if (_kalcOpen) return;
             _kalcOpen = true;
+
+            // Height changes flip the compact metrics. Width is not involved - the sidebar sets it
+            // and nothing here reacts to it.
+            if (!_kalcWired)
+            {
+                _kalcWired = true;
+                KalcPanel.SizeChanged += (_, e) => { if (e.HeightChanged) ApplyKalcCompaction(); };
+            }
             // If the sidebar is collapsed, pop it open (without changing the saved preference)
             // so the pad is visible; CloseKalc tucks it back. (Steve, 2026-07-22)
             if (_sidebarCollapsed)
@@ -58,13 +128,28 @@ namespace KillerNotes.Shell
             // panel sits in an Auto row, so the notes row (star) gives way as it grows.
             KalcPanel.BeginAnimation(FrameworkElement.HeightProperty, null);
             KalcPanel.Visibility = Visibility.Visible;
+            // MinHeight off while measuring and while the slide runs, or the panel cannot start
+            // from 0 and the open animation has nothing to travel.
+            KalcPanel.MinHeight = 0;
             KalcPanel.Height = double.NaN;
             KalcPanel.UpdateLayout();
             double h = KalcPanel.ActualHeight > 0 ? KalcPanel.ActualHeight : 380;
+
+            // The no-clip floor is measured with COMPACT metrics, which is smaller than h. Measure
+            // it now, before the slide starts, so the panel is left back at its natural size.
+            double floor = MeasureKalcFloor();
             KalcPanel.Height = 0;
             var grow = new DoubleAnimation(0, h, TimeSpan.FromMilliseconds(220))
             { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }, FillBehavior = FillBehavior.Stop };
-            grow.Completed += (_, _) => { if (_kalcOpen) { KalcPanel.BeginAnimation(FrameworkElement.HeightProperty, null); KalcPanel.Height = h; } };
+            grow.Completed += (_, _) =>
+            {
+                if (!_kalcOpen) return;
+                KalcPanel.BeginAnimation(FrameworkElement.HeightProperty, null);
+                KalcPanel.Height = h;
+                // WPF honours MinHeight OVER Height, so this one line stops the grip from ever
+                // driving the panel shorter than its contents - which is what cut the buttons off.
+                KalcPanel.MinHeight = floor;
+            };
             KalcPanel.BeginAnimation(FrameworkElement.HeightProperty, grow);
             Keyboard.Focus(KalcPanel);   // opening claims the keyboard, so an equation types immediately
         }
@@ -73,6 +158,9 @@ namespace KillerNotes.Shell
         {
             if (!_kalcOpen) return;
             _kalcOpen = false;
+            // Release the no-clip floor, or the panel cannot animate down to 0 and the pad
+            // disappears in one frame instead of sliding away.
+            KalcPanel.MinHeight = 0;
             if (KalcPanel.IsKeyboardFocusWithin) Editor.Focus();   // hand typing back to the note
             // Restore the collapsed sidebar if we were the ones who popped it open.
             if (_kalcAutoExpanded)

@@ -92,7 +92,17 @@ namespace KillerNotes.Shell
             }
             else
             {
-                _ = new Hyperlink(Editor.Selection.Start, Editor.Selection.End) { NavigateUri = url };
+                // A Hyperlink spans Inlines within ONE Paragraph. An image or a recording chip sits
+                // in its own container block, so selecting one gives pointers whose Paragraph is
+                // null or differs - and the ctor throws ArgumentException ("'start' and 'end'
+                // TextPointers are not in the same Paragraph") rather than failing softly. A
+                // selection dragged across a paragraph break does the same.
+                var from = Editor.Selection.Start.Paragraph;
+                var to = Editor.Selection.End.Paragraph;
+                if (from == null || !ReferenceEquals(from, to))
+                { FlashStatus(Loc("Str_St_LinkNotText")); return; }
+                try { _ = new Hyperlink(Editor.Selection.Start, Editor.Selection.End) { NavigateUri = url }; }
+                catch (ArgumentException) { FlashStatus(Loc("Str_St_LinkNotText")); return; }
             }
             MarkDirty();
         }

@@ -152,7 +152,15 @@ namespace KillerNotes.Shell
                     ToggleKalc();   // Killculator.cs (slide-up sidebar calculator)
                     e.Handled = true;
                     break;
-                // F10 is free now (density -> Ctrl+D, word wrap -> Ctrl+Shift+W).
+                // Ctrl+M: dictation (M for microphone). NOT an F-key - all twelve are taken, and F10
+                // in particular is sort cycling, handled above as Key.System because F10 opens the
+                // menu bar in WPF and never reaches this switch. A `case Key.F10` here was therefore
+                // dead code, so dictation had no working shortcut at all despite the rail tooltip
+                // and the docs both claiming one.
+                case Key.M when ctrl && !shift:
+                    OpenDictation();   // Editor.Dictation.cs (modeless mic + transcription window)
+                    e.Handled = true;
+                    break;
                 case Key.F11:
                     LineNumbers_Click(this, new RoutedEventArgs());   // LineNumbers.cs
                     e.Handled = true;

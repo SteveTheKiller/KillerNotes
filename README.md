@@ -33,6 +33,22 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 - Killculator (F9): a themed calculator that slides up under the notes list. Type an equation
   on the number keys; Print Sum (Ctrl+Enter) drops the result, or Print Equation
   (Ctrl+Shift+Enter) the whole running equation, into the note at the cursor.
+- Dictation (Ctrl+M): a modeless recording pad for the open note. Record from the microphone,
+  and the take is transcribed as soon as you stop - print the text into the note at the
+  caret, embed the recording itself as an inline chip, or both. Transcription runs on your
+  machine with a downloadable speech model (three sizes, picked on first use, changeable by
+  right-clicking the microphone on the rail); without one it falls back to Windows' own
+  engine. Nothing is uploaded at any point.
+- Recording editing and playback: the pad's waveform is the editing surface - right-click to
+  slice, then copy, delete or paste segments, with undo, and save back over the original.
+  Embedded recordings are a small transport rather than a button: the waveform fills as it
+  plays, play becomes pause, and a volume knob sits at the end. Recordings are stored as
+  FLAC (lossless, about half the size of WAV) and export to WAV or MP3, or copy as a file to
+  paste into an email or chat.
+- Free placement: drag an image or a recording and it lifts out of the text, snapping to a
+  twelve-column grid and to the text's own lines, with the paragraph wrapping around it.
+  Drop one on a table cell and it becomes that cell's content, widening the column to fit.
+  There is no setting for this - dragging is the whole gesture.
 - SketchPad (F7 / Ctrl+Shift+D): a modeless drawing companion for the open note - pen, line,
   arrow, rectangle, ellipse, polygon, paint bucket, text labels, and an eraser, with color,
   width, fill, and undo/redo, each on a single key. Print to note (Ctrl+Enter) stamps the
@@ -58,6 +74,22 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 - Localization: ten bundled languages (English, Spanish, French, German, Turkish, Czech,
   Chinese Simplified and Traditional, Japanese, Bengali), falling back to English.
 
+## Requirements
+
+- Windows 10 or 11 (x64)
+- No runtime install. Everything needed is inside the EXE (targets .NET Framework 4.8, which ships with every supported Windows release).
+
+## Download
+
+WinGet:
+
+```powershell
+winget install killernotes
+```
+
+- Prebuilt binary: <https://github.com/SteveTheKiller/KillerNotes/releases/latest/download/KillerNotes.exe>
+- Source (GPL3 corresponding source for this release): <https://github.com/SteveTheKiller/KillerNotes/releases/latest>
+
 ## Screenshots
 
 <table>
@@ -79,6 +111,16 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 | SQLitePCLRaw.provider.e_sqlcipher + lib.e_sqlcipher | SQLCipher native build: SQLite + FTS5 + AES-256 (static provider - the bundle's dynamic loader breaks under Costura) |
 | Markdig | Markdown to HTML for the preview pane (managed, MIT) |
 | PolySharp | net48 polyfills for modern C# syntax (compile-time only) |
+| libFLAC | Lossless storage for embedded recordings (native, BSD-3-Clause) |
+| libmp3lame | MP3 export only, never storage (native, LGPL-2.1 - source shipped with every release) |
+| whisper.cpp (+ ggml) | Offline speech recognition for dictation (native, MIT) |
+
+The three audio natives are cross-compiled from their upstream release tarballs rather than
+taken from a mirror; the tarballs, hashes and exact build commands are in
+`third_party/audio/README.md`. Speech models are downloaded on demand from whisper.cpp's own
+repository, not bundled. All of it is optional at build time - with `third_party/audio/`
+empty the app still builds and runs, storing recordings as WAV and transcribing with the
+Windows engine.
 
 Run `dotnet list package --vulnerable --include-transitive` as part of every release checklist.
 Single-exe packaging: Costura.Fody embeds every managed dependency and a self-extracting

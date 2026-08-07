@@ -16,6 +16,16 @@ namespace KillerNotes.Controls
     // up, so file operations - active file included - are safe.
     public partial class DatabasesDialog : Window
     {
+        // Cancel the first close, fade out, then close for real (Anim.FadeOutAndClose). A
+        // DialogResult set before this survives the cancel and is delivered by the real close.
+        private bool _closeFaded;
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            if (Anim.FadeOutAndClose(this, ref _closeFaded)) { e.Cancel = true; return; }
+            base.OnClosing(e);
+        }
+
         /// <summary>File name the user chose to open, or null if they just closed.</summary>
         public string? SelectedDatabase { get; private set; }
 

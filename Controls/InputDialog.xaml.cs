@@ -8,6 +8,16 @@ namespace KillerNotes.Controls
     // naming and renaming note groups (#4).
     public partial class InputDialog : Window
     {
+        // Cancel the first close, fade out, then close for real (Anim.FadeOutAndClose). A
+        // DialogResult set before this survives the cancel and is delivered by the real close.
+        private bool _closeFaded;
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            if (Anim.FadeOutAndClose(this, ref _closeFaded)) { e.Cancel = true; return; }
+            base.OnClosing(e);
+        }
+
         public bool Confirmed { get; private set; }
         public string Value => ValueBox.Text;
 

@@ -71,8 +71,15 @@
 
     <!-- Family window frame: KillerPDF draws this WPF edge in addition to the matching DWM
          border. Without it, the client/background transition makes KillerNotes look darker. -->
-    <Border x:Name="RootBorder" BorderBrush="{DynamicResource AppBorderBrush}"
-            BorderThickness="1" CornerRadius="{DynamicResource WindowCornerRadius}" SnapsToDevicePixels="True">
+    <!-- WindowEdgeBrush, not AppBorderBrush. This 1px line rings the whole window, so on a bevelled
+         theme it lands OUTSIDE the bevel: fine against the light top/left edge, but on the bottom
+         and right it puts a bright line immediately outside the dark bevel, which reads as a hard
+         stripe. Themes that do not want it set WindowEdgeBrush transparent; the border stays 1px
+         either way, so the geometry and the resize grab area never move.
+         Defaults to AppBorderBrush in ThemeManager, so only a theme that cares states it. -->
+    <Border x:Name="RootBorder" BorderBrush="{DynamicResource WindowEdgeBrush}"
+            BorderThickness="{DynamicResource WindowEdgeThickness}"
+            CornerRadius="{DynamicResource WindowCornerRadius}" SnapsToDevicePixels="True">
     <Grid x:Name="RootGrid" Opacity="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="36"/>   <!-- title bar -->
@@ -219,6 +226,23 @@
                         <Button x:Name="SketchRailBtn" Style="{StaticResource RailButton}" Content="&#xE929;"
                                 Margin="0,0,0,10" Click="SketchRail_Click"
                                 ToolTip="{DynamicResource Str_TT_SketchRail}"/>
+                        <!-- Dictation (Editor.Dictation.cs / F8). E720 = Microphone. Sits with the
+                             other app-specific tools, above the universal ? / language / theme
+                             block, per the locked family rail order. -->
+                        <Button x:Name="DictationRailBtn" Style="{StaticResource RailButton}" Content="&#xE720;"
+                                Margin="0,0,0,10" Click="DictationRail_Click"
+                                ToolTip="{DynamicResource Str_TT_DictationRail}">
+                            <!-- Right-click: the speech model. The chooser is offered once, the
+                                 first time a transcription would otherwise use Windows' engine,
+                                 and after that there was NO way back to it - so switching model,
+                                 or adding a more accurate one later, was impossible. -->
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource Str_Whisper_Menu}" Icon="&#xE720;"
+                                              Click="SpeechModel_Click"/>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
                         <!-- Sidebar row density (Density.cs / Ctrl+D): click cycles Comfortable ->
                              Compact -> Minimal, mouse wheel steps through them. E8A1 = the list glyph. -->
                         <Button x:Name="DensityBtn" Style="{StaticResource RailButton}" Content="&#xE8A1;"
@@ -241,7 +265,7 @@
                                 ToolTip="{DynamicResource Str_TT_Language}">
                             <Button.ContextMenu>
                                 <ContextMenu x:Name="LangMenu">
-                                    <ContextMenu.Template><ControlTemplate TargetType="ContextMenu"><Border Style="{StaticResource FlyoutCard}"><Grid><ItemsPresenter/><Border Style="{StaticResource FlyoutGrain}"/><Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/><Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/></Grid></Border></ControlTemplate></ContextMenu.Template>
+                                    <ContextMenu.Template><ControlTemplate TargetType="ContextMenu"><Grid><Border Style="{StaticResource FlyoutCard}"><Grid><ItemsPresenter/><Border Style="{StaticResource FlyoutGrain}"/></Grid></Border><Border IsHitTestVisible="False" Margin="6" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/><Border IsHitTestVisible="False" Margin="6" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/></Grid></ControlTemplate></ContextMenu.Template>
                                     <ContextMenu.ItemContainerStyle><Style TargetType="MenuItem" BasedOn="{StaticResource PanelMenuItem}"/></ContextMenu.ItemContainerStyle>
                                 </ContextMenu>
                             </Button.ContextMenu>
@@ -256,7 +280,7 @@
                                 Click="SidebarThemeBtn_Click" ToolTip="{DynamicResource Str_TT_Theme}">
                             <Button.ContextMenu>
                                 <ContextMenu x:Name="ThemeMenu">
-                                    <ContextMenu.Template><ControlTemplate TargetType="ContextMenu"><Border Style="{StaticResource FlyoutCard}"><Grid><ItemsPresenter/><Border Style="{StaticResource FlyoutGrain}"/><Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/><Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/></Grid></Border></ControlTemplate></ContextMenu.Template>
+                                    <ContextMenu.Template><ControlTemplate TargetType="ContextMenu"><Grid><Border Style="{StaticResource FlyoutCard}"><Grid><ItemsPresenter/><Border Style="{StaticResource FlyoutGrain}"/></Grid></Border><Border IsHitTestVisible="False" Margin="6" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/><Border IsHitTestVisible="False" Margin="6" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/></Grid></ControlTemplate></ContextMenu.Template>
                                     <ContextMenu.ItemContainerStyle><Style TargetType="MenuItem" BasedOn="{StaticResource PanelMenuItem}"/></ContextMenu.ItemContainerStyle>
                                 </ContextMenu>
                             </Button.ContextMenu>
@@ -351,9 +375,15 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
+                            <!-- NO fixed Width. The button must size to whichever label
+                                 UpdateNewNoteLabel picked ("+ New note" / "+ New" / "+"): that
+                                 step-down exists so the button SHRINKS as the sidebar narrows, and
+                                 pinning a width defeats it entirely - the label collapses to "+"
+                                 while the button stays put, so it plus the sort trio overrun the
+                                 column and clip. MinWidth keeps a bare "+" a comfortable target. -->
                             <Button x:Name="NewNoteBtn" Grid.Column="0" Style="{StaticResource OutlineButton}"
                                     Content="{DynamicResource Str_Btn_NewNote}" Click="NewNote_Click" HorizontalAlignment="Left"
-                                    Height="30" Width="100" Padding="14,5" FontSize="13"
+                                    Height="30" MinWidth="34" Padding="14,5" FontSize="13"
                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                                     ToolTip="{DynamicResource Str_TT_NewNote}"/>
                             <!-- Dedicated sorts: creation time (default, oldest first) and
@@ -557,8 +587,13 @@
                                                 <Trigger Property="IsMouseOver" Value="True">
                                                     <Setter TargetName="bg" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
                                                 </Trigger>
+                                                <!-- SelectionBg, not RowSelectedBrush: the row's TEXT
+                                                     uses SelectionFg, and those two are a matched
+                                                     pair every theme defines together. Pairing the
+                                                     fill with a third, unrelated key is how the
+                                                     contrast between them drifts per theme. -->
                                                 <Trigger Property="IsSelected" Value="True">
-                                                    <Setter TargetName="bg" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                                                    <Setter TargetName="bg" Property="Background" Value="{DynamicResource SelectionBg}"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -655,12 +690,18 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                                                 <Style.Triggers>
-                                                    <!-- Selected row = dark accent fill (matches the other Killer apps);
-                                                         force white text so an uncolored title stays readable. First,
-                                                         so a per-note title color (next trigger) still wins while the
-                                                         row is selected - a colored title keeps its color. -->
+                                                    <!-- Selected row text rides SelectionFg, the foreground each theme
+                                                         pairs with its own selection fill. This was hardcoded #FFFFFF on
+                                                         the assumption the fill is always a dark accent, which is true
+                                                         of the six original palettes (all of which set SelectionFg to
+                                                         #ffffff, so they are unchanged) but not of the palette-lab
+                                                         themes: Malaise picks #ead900 as its accent, giving a bright
+                                                         yellow row that white text vanishes into. Those themes compute
+                                                         SelectionFg from the accent's luminance, so it comes back
+                                                         charcoal. First, so a per-note title color (next trigger) still
+                                                         wins while the row is selected - a colored title keeps its color. -->
                                                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
-                                                        <Setter Property="Foreground" Value="#FFFFFF"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding HasTitleColor}" Value="True">
                                                         <Setter Property="Foreground" Value="{Binding TitleBrush}"/>
@@ -676,8 +717,11 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
                                                 <Style.Triggers>
+                                                    <!-- Opacity rather than a baked alpha white, so the snippet keeps its
+                                                         step down from the title against a charcoal SelectionFg too. -->
                                                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
-                                                        <Setter Property="Foreground" Value="#E8FFFFFF"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
+                                                        <Setter Property="Opacity" Value="0.91"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -691,7 +735,8 @@
                                                 <Setter Property="Foreground" Value="{DynamicResource DimTextBrush}"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
-                                                        <Setter Property="Foreground" Value="#C8FFFFFF"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
+                                                        <Setter Property="Opacity" Value="0.78"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -757,12 +802,54 @@
                          list, so the list shrinks and stays visible above it. Opaque + grain to read
                          like the sidebar chrome; its Height animates 0 -> natural (Killculator.cs) so
                          it slides up from the footer. The Print key pushes the readout into the note. -->
+                    <!-- Background is Transparent, NOT BackgroundBrush, and there is no grain layer
+                         of its own. Painting BackgroundBrush here draws a SECOND copy of it, and on
+                         the themes whose background is a gradient that copy starts its ramp at the
+                         panel's own edges - so it never lines up with the window behind it and the
+                         pad reads as a mismatched block. Transparent lets the real background (and
+                         its grain) run straight through. Transparent rather than null: a Border with
+                         a null Background receives no mouse input, and this panel is clickable. -->
                     <Border x:Name="KalcPanel" Grid.Row="1" Visibility="Collapsed" ClipToBounds="True"
-                            Height="0" VerticalAlignment="Bottom" Background="{DynamicResource BackgroundBrush}"
+                            Height="0" VerticalAlignment="Bottom" Background="Transparent"
                             Focusable="True" PreviewMouseDown="KalcPanel_Press">
                         <Grid>
-                            <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
-                            <Grid Margin="8,8,8,10" VerticalAlignment="Bottom">
+                            <!-- Grip on the pad's top edge: a free vertical STRETCH, height only.
+                                 The sidebar is what locks the aspect ratio (Killculator.cs) - the
+                                 grip deliberately does not, so the pad can be made taller without
+                                 dragging the whole sidebar wider. -->
+                            <Thumb x:Name="KalcGrip" Height="5" VerticalAlignment="Top" Panel.ZIndex="50"
+                                   Cursor="SizeNS" DragDelta="KalcGrip_DragDelta"
+                                   ToolTip="{DynamicResource Str_TT_KalcResize}">
+                                <!-- The horizontal twin of SidebarResizeGrip: same 5px band, same
+                                     transparent-Border template, same 1px hint line that appears on
+                                     hover and lights to the accent while dragging. Without the hint
+                                     the band is invisible and you have to hunt for it. -->
+                                <Thumb.Template>
+                                    <ControlTemplate TargetType="Thumb">
+                                        <!-- Transparent, not empty: a Border with no Background is
+                                             not hit-testable, so the grip would be unusable. -->
+                                        <Border x:Name="grip" Background="Transparent">
+                                            <Rectangle x:Name="hint" Height="1" VerticalAlignment="Top"
+                                                       Fill="{DynamicResource PaneBorderBrush}" Opacity="0"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="hint" Property="Opacity" Value="1"/>
+                                            </Trigger>
+                                            <Trigger Property="IsDragging" Value="True">
+                                                <Setter TargetName="hint" Property="Opacity" Value="1"/>
+                                                <Setter TargetName="hint" Property="Fill" Value="{DynamicResource PrimaryBrush}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Thumb.Template>
+                            </Thumb>
+                            <!-- Stretch, not Bottom: the content fills whatever height the panel has,
+                                 so the keypad row absorbs a grip drag. Deliberately NOT a Viewbox -
+                                 that scales the keypad like a picture, which balloons it to fill the
+                                 width on open and shrinks it to a thumbnail rather than letting the
+                                 buttons flatten. -->
+                            <Grid Margin="8,8,8,10" VerticalAlignment="Stretch">
                                 <Grid.Resources>
                                     <Style x:Key="KalcBtn" TargetType="Button">
                                         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
@@ -770,7 +857,11 @@
                                         <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
                                         <Setter Property="FontSize" Value="17"/>
                                         <Setter Property="Margin" Value="3"/>
-                                        <Setter Property="MinHeight" Value="42"/>
+                                        <!-- 24, not 42. This is the floor the keypad can compress to
+                                             when the pad is dragged shorter; at 42 the five rows have
+                                             a hard 210px minimum and the panel clips them instead of
+                                             flattening. The UniformGrid stretches them above this. -->
+                                        <Setter Property="MinHeight" Value="24"/>
                                         <Setter Property="Cursor" Value="Hand"/>
                                         <Setter Property="Template">
                                             <Setter.Value>
@@ -829,52 +920,31 @@
                                         <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
                                     </Style>
                                 </Grid.Resources>
-                                <StackPanel>
-                                    <!-- Header: wordmark title + close -->
-                                    <Grid Margin="0,0,0,8">
-                                        <TextBlock Text="Killculator" FontFamily="{DynamicResource HeaderFont}" FontSize="16"
-                                                   Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center"/>
-                                        <!-- Close X: glyph turns red on hover, like the About card (Foreground
-                                             lives in a Setter, not a local value, so the trigger wins). -->
-                                        <Button Tag="close" Content="&#x2715;" Click="Kalc_Key" HorizontalAlignment="Right"
-                                                VerticalAlignment="Center" Width="24" Height="24" FontSize="13"
-                                                Background="Transparent" BorderThickness="0" Cursor="Hand"
-                                                ToolTip="{DynamicResource Str_TT_CalcClose}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Foreground" Value="{DynamicResource DimTextBrush}"/>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="Button">
-                                                                <Border Background="Transparent">
-                                                                    <ContentPresenter x:Name="cp" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                                </Border>
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="Foreground" Value="#E04444"/>
-                                                                        <Setter TargetName="cp" Property="Effect">
-                                                                            <Setter.Value>
-                                                                                <DropShadowEffect Color="#000000" BlurRadius="4" ShadowDepth="1" Direction="270" Opacity="0.5"/>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                    </Trigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
-                                    </Grid>
+                                <!-- Grid, not StackPanel: only the KEYPAD row is star-sized, so a
+                                     grip drag grows or shrinks the buttons while the header, readout
+                                     and print row keep their natural heights. A StackPanel gives
+                                     every child its natural height and the extra space goes nowhere. -->
+                                <Grid>
+                                    <!-- No header row. The "Killculator" caption and its close X were
+                                         both redundant - the rail's calculator button sits right
+                                         beside the pad and toggles it - and the row they occupied is
+                                         better spent on the notes list above. -->
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>   <!-- readout -->
+                                        <RowDefinition Height="*"/>      <!-- keypad, takes the slack -->
+                                        <RowDefinition Height="Auto"/>   <!-- print row -->
+                                    </Grid.RowDefinitions>
                                     <!-- Readout -->
-                                    <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource InputBorderBrush}"
+                                    <!-- Named: Killculator.cs tightens MinHeight/Margin here, and the
+                                         display's FontSize, when the pad is dragged short. -->
+                                    <Border x:Name="KalcReadout" Grid.Row="0" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource InputBorderBrush}"
                                             BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" MinHeight="54" Margin="3,0,3,8">
                                         <TextBlock x:Name="KalcDisplay" Text="0" FontFamily="Consolas" FontSize="30"
                                                    Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Right"
                                                    VerticalAlignment="Center" Margin="14,4" TextTrimming="CharacterEllipsis"/>
                                     </Border>
-                                    <!-- Keypad -->
-                                    <UniformGrid Rows="5" Columns="4">
+                                    <!-- Keypad. Star row, so this is what a grip drag resizes. -->
+                                    <UniformGrid Grid.Row="1" Rows="5" Columns="4">
                                         <Button Style="{StaticResource KalcBtnOp}" Tag="clear" Click="Kalc_Key" Content="C"/>
                                         <Button Style="{StaticResource KalcBtn}" Tag="neg" Click="Kalc_Key" Content="&#x00B1;"/>
                                         <Button Style="{StaticResource KalcBtn}" Tag="pct" Click="Kalc_Key" Content="%"/>
@@ -900,7 +970,7 @@
                                     <!-- Print row (slim): = / Enter computes, then Sum (Ctrl+Enter) drops
                                          the readout and Equation (Ctrl+Shift+Enter) drops the whole
                                          running equation into the note. -->
-                                    <UniformGrid Columns="2" Margin="3,8,3,0">
+                                    <UniformGrid Grid.Row="2" Columns="2" Margin="3,8,3,0">
                                         <Button Style="{StaticResource KalcBtnAccent}" Tag="print" Click="Kalc_Key"
                                                 Height="32" MinHeight="0" Margin="0,0,3,0" ToolTip="{DynamicResource Str_TT_CalcPrintSum}">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -918,7 +988,7 @@
                                             </StackPanel>
                                         </Button>
                                     </UniformGrid>
-                                </StackPanel>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Border>
@@ -1012,11 +1082,15 @@
                         <BitmapCache/>
                     </Border.CacheMode>
                 <Grid>
-                    <!-- Classic raised frame: transparent in modern themes, a 2px light left
-                         edge and dark right/bottom edge in 98SE. -->
-                    <Border Panel.ZIndex="20" IsHitTestVisible="False"
+                    <!-- Classic raised frame: transparent in modern themes, a 2px light left edge
+                         and dark right/bottom edge in 98SE. No top edge by design - the bar hangs
+                         off the title bar and is flush there.
+                         Margin -2 cancels the bar's Padding="2": without it these sit two pixels
+                         inside the bar and the bevel floats away from the edge it is meant to be.
+                         The grain overlay below cancels the same padding the same way. -->
+                    <Border Panel.ZIndex="20" IsHitTestVisible="False" Margin="-2"
                             BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="2,0,0,0"/>
-                    <Border Panel.ZIndex="20" IsHitTestVisible="False"
+                    <Border Panel.ZIndex="20" IsHitTestVisible="False" Margin="-2"
                             BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="0,0,2,2"/>
                     <!-- Film grain across the bar, KillerPDF-style; stays put when minimized -->
                     <Border IsHitTestVisible="False" CornerRadius="{DynamicResource FlyoutCornerRadius}" Margin="-2"
@@ -1285,12 +1359,14 @@
                                 <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_ConvertList}" Icon="&#xE8FD;" Click="ConvertToList_Click"
+                                <MenuItem x:Name="ConvertListMenuItem"
+                                          Header="{DynamicResource Str_Ctx_ConvertList}" Icon="&#xE8FD;" Click="ConvertToList_Click"
                                           InputGestureText="Ctrl+Shift+J" ToolTip="{DynamicResource Str_TT_ConvertList}"/>
                                 <!-- Insert on empty selection, edit/remove with the caret in a link (Links.cs) -->
-                                <MenuItem Header="{DynamicResource Str_Ctx_Link}" Icon="&#xE71B;" Click="LinkMenu_Click"
+                                <MenuItem x:Name="LinkMenuItem"
+                                          Header="{DynamicResource Str_Ctx_Link}" Icon="&#xE71B;" Click="LinkMenu_Click"
                                           InputGestureText="Ctrl+K"/>
-                                <MenuItem IsHitTestVisible="False" Focusable="False" Height="9">
+                                <MenuItem x:Name="DocToggleSeparator" IsHitTestVisible="False" Focusable="False" Height="9">
                                     <MenuItem.Template>
                                         <ControlTemplate TargetType="MenuItem">
                                             <Border Height="1" Margin="10,4" Background="{DynamicResource MenuBorderBrush}"/>
@@ -1347,6 +1423,26 @@
                                             <TextBlock x:Name="PreviewMenuLabel" Text="Preview"/>
                                         </StackPanel>
                                     </MenuItem.Header>
+                                </MenuItem>
+                                <!-- Recording actions (Editor.Dictation.cs). Collapsed unless the
+                                     right-click landed on an embedded recording chip. -->
+                                <MenuItem x:Name="RecSeparator" IsHitTestVisible="False" Focusable="False"
+                                          Height="9" Visibility="Collapsed">
+                                    <MenuItem.Template>
+                                        <ControlTemplate TargetType="MenuItem">
+                                            <Border Height="1" Margin="10,4" Background="{DynamicResource MenuBorderBrush}"/>
+                                        </ControlTemplate>
+                                    </MenuItem.Template>
+                                </MenuItem>
+                                <MenuItem x:Name="RecEditMenuItem" Icon="&#xE70F;"
+                                          Header="{DynamicResource Str_Dict_EditRec}" Click="RecEdit_Click"
+                                          Visibility="Collapsed"/>
+                                <MenuItem x:Name="RecShareMenuItem" Icon="&#xE72D;"
+                                          Header="{DynamicResource Str_Dict_Share}" Visibility="Collapsed">
+                                    <MenuItem x:Name="RecSaveAsMenuItem" Icon="&#xE74E;"
+                                              Header="{DynamicResource Str_Dict_SaveAs}" Click="RecSaveAs_Click"/>
+                                    <MenuItem x:Name="RecCopyFileMenuItem" Icon="&#xE8C8;"
+                                              Header="{DynamicResource Str_Dict_CopyFile}" Click="RecCopyFile_Click"/>
                                 </MenuItem>
                             </ContextMenu>
                         </RichTextBox.ContextMenu>
@@ -1526,7 +1622,7 @@
                                     <Grid Margin="0,0,0,4" HorizontalAlignment="Left">
                                         <TextBlock FontFamily="{DynamicResource WordmarkFont}" Margin="1,2,0,0" IsHitTestVisible="False"
                                                    Opacity="{DynamicResource IconShadowOpacity}"><TextBlock.Effect><BlurEffect Radius="2"/></TextBlock.Effect><Run Text="Killer" FontSize="22" Foreground="#C0000000"/><Run Text="Notes" FontSize="28.6" FontWeight="Bold" Foreground="#C0000000"/></TextBlock>
-                                        <TextBlock FontFamily="{DynamicResource WordmarkFont}"><Run Text="Killer" FontSize="22" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="28.6" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"/></TextBlock>
+                                        <TextBlock FontFamily="{DynamicResource WordmarkFont}"><Run Text="Killer" FontSize="22" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="28.6" FontWeight="Bold" Foreground="{DynamicResource AccentLogo}"/></TextBlock>
                                     </Grid>
                                     <TextBlock FontSize="12" Foreground="{DynamicResource MutedTextBrush}" TextWrapping="Wrap"><Run Text="{DynamicResource Str_About_DescA}"/><Hyperlink NavigateUri="https://killertools.net" RequestNavigate="AboutLink_Navigate" Foreground="{DynamicResource PrimaryBrush}" TextDecorations="None">Killer Tools</Hyperlink><Run Text="{DynamicResource Str_About_DescB}"/></TextBlock>
                                 </StackPanel>
@@ -1540,7 +1636,7 @@
                                         <DropShadowEffect Color="Black" BlurRadius="14" ShadowDepth="2" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                                     </Border.Effect>
                                 </Border>
-                                <Border Background="{DynamicResource PaneBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                                <Border Background="{DynamicResource PaneBrush}" BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                                         CornerRadius="{DynamicResource ControlCornerRadius}" Padding="14,12,14,4">
                                     <StackPanel>
                                         <StackPanel Margin="0,0,0,10">
@@ -1600,6 +1696,12 @@
                         </StackPanel>
                     </Grid>
                 </Border>
+                <!-- Bevels as siblings of the card, so they land on its outer edge. Transparent and
+                     zero-thickness in every theme except 98SE, where they are the card's edge. -->
+                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
+                        BorderThickness="{DynamicResource BevelLightThickness}"/>
+                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
+                        BorderThickness="{DynamicResource BevelDarkThickness}"/>
             </Grid>
         </Grid>
 
@@ -1611,15 +1713,17 @@
               Background="#88000000" MouseLeftButtonDown="FontsOverlay_Click">
             <Grid MinWidth="400" MaxWidth="400" VerticalAlignment="Center"
                   MouseLeftButtonDown="FontsCard_Click" AllowDrop="True" Drop="FontsCard_Drop">
-                <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="6" IsHitTestVisible="False">
+                <!-- Radius and shadow follow the theme, not hardcoded 6 / 0.6: a square-cornered
+                     flat palette was getting a rounded card with a drop shadow. -->
+                <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="{DynamicResource PanelCornerRadius}" IsHitTestVisible="False">
                     <Border.Effect>
-                        <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="0.6"/>
+                        <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
                 </Border>
                 <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
-                        BorderThickness="1" CornerRadius="6">
+                        BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
-                        <Border IsHitTestVisible="False" CornerRadius="6"
+                        <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
                                 Opacity="{DynamicResource GrainOpacity}" Background="{DynamicResource GrainTileBrush}"/>
                         <StackPanel Margin="18,14,18,18">
                             <Grid Margin="0,0,0,12">
@@ -1708,23 +1812,34 @@
                         </StackPanel>
                     </Grid>
                 </Border>
+                <!-- Bevels as siblings of the card, so they land on its outer edge. -->
+                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
+                        BorderThickness="{DynamicResource BevelLightThickness}"/>
+                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
+                        BorderThickness="{DynamicResource BevelDarkThickness}"/>
             </Grid>
         </Grid>
 
         <!-- Shortcuts overlay (F1): same card language as About; mutually exclusive with it -->
         <Grid x:Name="ShortcutOverlay" Grid.RowSpan="3" Panel.ZIndex="9100" Visibility="Collapsed"
               Background="#88000000" MouseLeftButtonDown="ShortcutOverlay_Click">
-            <Grid x:Name="ShortcutCardGrid" MinWidth="380"
+            <!-- Stretch WITH a margin, never bare. With no Margin the card runs flush to the
+                 window edges, which puts the close X hard into the corner on top of the resize
+                 zone - it reads as misaligned and is awkward to hit. The margin also keeps the
+                 keyboard map off the window edge on a narrow window. -->
+            <Grid x:Name="ShortcutCardGrid" MinWidth="380" Margin="40,32,40,32"
                   VerticalAlignment="Center" MouseLeftButtonDown="ShortcutCard_Click">
-                <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="6" IsHitTestVisible="False">
+                <!-- Radius and shadow follow the theme, not hardcoded 6 / 0.6: a square-cornered
+                     flat palette was getting a rounded card with a drop shadow. -->
+                <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="{DynamicResource PanelCornerRadius}" IsHitTestVisible="False">
                     <Border.Effect>
-                        <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="0.6"/>
+                        <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
                 </Border>
                 <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
-                        BorderThickness="1" CornerRadius="6">
+                        BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
-                        <Border IsHitTestVisible="False" CornerRadius="6"
+                        <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
                                 Opacity="{DynamicResource GrainOpacity}" Background="{DynamicResource GrainTileBrush}"/>
                         <!-- Close X: a direct child of the card grid (matches the working About overlay)
                              so it sits at the card's top-right corner and always receives the click. -->
@@ -1782,6 +1897,11 @@
                         </StackPanel>
                     </Grid>
                 </Border>
+                <!-- Bevels as siblings of the card, so they land on its outer edge. -->
+                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
+                        BorderThickness="{DynamicResource BevelLightThickness}"/>
+                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
+                        BorderThickness="{DynamicResource BevelDarkThickness}"/>
             </Grid>
         </Grid>
     </Grid>

@@ -6,6 +6,16 @@ namespace KillerNotes.Controls
 {
     public partial class ConfirmDialog : Window
     {
+        // Cancel the first close, fade out, then close for real (Anim.FadeOutAndClose). A
+        // DialogResult set before this survives the cancel and is delivered by the real close.
+        private bool _closeFaded;
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            if (Anim.FadeOutAndClose(this, ref _closeFaded)) { e.Cancel = true; return; }
+            base.OnClosing(e);
+        }
+
         public bool Confirmed { get; private set; }
         public bool Check1Checked => Check1.IsChecked == true;
 

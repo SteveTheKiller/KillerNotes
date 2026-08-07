@@ -74,6 +74,9 @@ namespace KillerNotes.Shell
                     ? System.Math.Max(40, Editor.ViewportWidth - 10)
                     : double.MaxValue);
             _imgAdorner.Resized += MarkDirty;              // persist: Width rides the XamlPackage
+            // A floated image also has to resize the box its Floater reserves, or the text keeps
+            // wrapping around the OLD footprint (Editor.Float.cs).
+            _imgAdorner.Resized += () => RefloatWidth(img);
             _imgAdorner.DismissRequested += DeselectImage;
             layer.Add(_imgAdorner);
             _selImage = img;

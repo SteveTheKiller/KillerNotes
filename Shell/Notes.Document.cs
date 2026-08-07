@@ -34,7 +34,9 @@ namespace KillerNotes.Shell
                 App.SetSetting("LastNote", $"{NoteStore.ActiveDbFile}|{id}");
             TitleBox.Text = meta.Title;
 
-            DeselectImage();   // ImageResize.cs (handles must not outlive the document swap)
+            DeselectImage();          // ImageResize.cs (handles must not outlive the document swap)
+            StopEmbeddedPlayback();   // Editor.Dictation.cs (same reason - and audio from the note
+                                      // you just navigated away from must not keep playing)
             Editor.Document.Blocks.Clear();
             Editor.Document.Tag = null; // A note without the marker must not inherit the prior note's syntax state.
             var blob = NoteStore.LoadContent(id);

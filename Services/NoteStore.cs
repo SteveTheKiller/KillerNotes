@@ -151,6 +151,17 @@ CREATE TABLE IF NOT EXISTS sketches(
     ord     INTEGER NOT NULL,
     payload BLOB NOT NULL,
     PRIMARY KEY(note_id, ord)
+);
+-- Embedded dictation recordings. A side table, like sketches, rather than base64 inside the
+-- note's XamlPackage: audio is far larger than ink, and inlining it would bloat every load and
+-- save of the note itself. The note carries a small marker; the WAV lives here.
+-- Encrypted with the rest of the database when the file has a password.
+CREATE TABLE IF NOT EXISTS recordings(
+    note_id  INTEGER NOT NULL,
+    ord      INTEGER NOT NULL,
+    payload  BLOB NOT NULL,
+    duration INTEGER NOT NULL DEFAULT 0,   -- milliseconds, for the playback chip's label
+    PRIMARY KEY(note_id, ord)
 );";
 
         private static void EnsureSchema()
@@ -387,6 +398,91 @@ CREATE TABLE IF NOT EXISTS sketches(
             return map;
         }
 
+        // ---- Embedded dictation recordings ----
+        // Same shape as the sketch payloads above: replace-all per note, keyed by ordinal, so a
+        // save is one delete plus n inserts and the note's own content blob stays small.
+
+        /// <summary>Stores a recording against a note and returns the ordinal it was given. The WAV
+        /// is compressed to FLAC on the way in (AudioCodec) - losslessly, so editing it later costs
+        /// nothing, and roughly halving what the database carries.</summary>
+        public static int AddRecording(long noteId, byte[] wav, int durationMs)
+        {
+            if (_db == null || wav.Length == 0) return -1;
+            byte[] payload = AudioCodec.ForStorage(wav);
+            int ord;
+            using (var max = _db.CreateCommand())
+            {
+                max.CommandText = "SELECT IFNULL(MAX(ord), -1) + 1 FROM recordings WHERE note_id = $id";
+                max.Parameters.AddWithValue("$id", noteId);
+                ord = Convert.ToInt32(max.ExecuteScalar());
+            }
+            using var ins = _db.CreateCommand();
+            ins.CommandText = "INSERT INTO recordings(note_id, ord, payload, duration) VALUES ($id, $o, $p, $d)";
+            ins.Parameters.AddWithValue("$id", noteId);
+            ins.Parameters.AddWithValue("$o", ord);
+            ins.Parameters.AddWithValue("$p", payload);
+            ins.Parameters.AddWithValue("$d", durationMs);
+            ins.ExecuteNonQuery();
+            return ord;
+        }
+
+        /// <summary>Overwrites an existing recording in place, keeping its ordinal so the chip
+        /// already in the note still points at it. Used when a recording is reopened in the pad and
+        /// re-embedded after editing.</summary>
+        public static bool ReplaceRecording(long noteId, int ord, byte[] wav, int durationMs)
+        {
+            if (_db == null || wav.Length == 0) return false;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "UPDATE recordings SET payload = $p, duration = $d WHERE note_id = $id AND ord = $o";
+            cmd.Parameters.AddWithValue("$p", AudioCodec.ForStorage(wav));
+            cmd.Parameters.AddWithValue("$d", durationMs);
+            cmd.Parameters.AddWithValue("$id", noteId);
+            cmd.Parameters.AddWithValue("$o", ord);
+            return cmd.ExecuteNonQuery() > 0;
+        }
+
+        /// <summary>One recording as 16-bit PCM WAV, whatever it is stored as, or null if that
+        /// ordinal has none. Callers only ever see PCM - that is what keeps the waveform, the
+        /// slicing and waveOut playback unaware of the storage format.</summary>
+        public static byte[]? LoadRecording(long noteId, int ord) =>
+            AudioCodec.ToPcm(LoadRecordingRaw(noteId, ord));
+
+        /// <summary>The stored bytes exactly as they are, for export - sharing a recording should
+        /// hand over the FLAC rather than an inflated WAV re-created from it.</summary>
+        public static byte[]? LoadRecordingRaw(long noteId, int ord)
+        {
+            if (_db == null) return null;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT payload FROM recordings WHERE note_id = $id AND ord = $o";
+            cmd.Parameters.AddWithValue("$id", noteId);
+            cmd.Parameters.AddWithValue("$o", ord);
+            return cmd.ExecuteScalar() is byte[] b && b.Length > 0 ? b : null;
+        }
+
+        /// <summary>Ordinal -> duration in ms, for labelling the playback chips.</summary>
+        public static Dictionary<int, int> LoadRecordingIndex(long noteId)
+        {
+            var map = new Dictionary<int, int>();
+            if (_db == null) return map;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT ord, duration FROM recordings WHERE note_id = $id";
+            cmd.Parameters.AddWithValue("$id", noteId);
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) map[(int)r.GetInt64(0)] = (int)r.GetInt64(1);
+            return map;
+        }
+
+        /// <summary>Drops every recording for a note. Called when the note itself is deleted, so
+        /// audio cannot outlive its note and quietly keep the database large.</summary>
+        public static void DeleteRecordings(long noteId)
+        {
+            if (_db == null) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "DELETE FROM recordings WHERE note_id = $id";
+            cmd.Parameters.AddWithValue("$id", noteId);
+            cmd.ExecuteNonQuery();
+        }
+
         /// <summary>Backdates a note (demo mode only - fabricated screenshot data needs a
         /// lived-in sidebar). Normal saves always stamp DateTime.Now.</summary>
         public static void SetTimestamps(long id, DateTime created, DateTime modified)
@@ -402,6 +498,11 @@ CREATE TABLE IF NOT EXISTS sketches(
         public static void Delete(long id)
         {
             using var cmd = _db!.CreateCommand();
+            // Deliberately does NOT drop sketches or recordings. Delete is undoable - RestoreRow
+            // re-inserts the row verbatim by the same id - and the payload tables are keyed on that
+            // id, so clearing them here would restore a note with its sketches and audio gone.
+            // The cost is that a note deleted and never undone leaves its payloads behind; that is
+            // pre-existing behaviour for sketches, and DeleteRecordings exists for a future purge.
             cmd.CommandText = "DELETE FROM notes WHERE id = $id";
             cmd.Parameters.AddWithValue("$id", id);
             cmd.ExecuteNonQuery();

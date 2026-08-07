@@ -30,6 +30,9 @@
 
   <ItemGroup>
     <Reference Include="System.Net.Http" />
+    <!-- Offline dictation (Services/DictationRecorder.cs). Part of .NET Framework itself, so this
+         adds no package, no native DLL and nothing to the vulnerability audit. -->
+    <Reference Include="System.Speech" />
     <Reference Include="Microsoft.CSharp" />
     <!-- Built-in net48 framework assembly (no NuGet, no scan surface): DataContractJsonSerializer
          for the SketchPad object model (SketchModel.cs). -->
@@ -98,6 +101,41 @@
   <ItemGroup>
     <EmbeddedResource Include="$(PkgSQLitePCLRaw_lib_e_sqlcipher)\runtimes\win-x64\native\e_sqlcipher.dll" Condition="'$(PkgSQLitePCLRaw_lib_e_sqlcipher)' != ''">
       <LogicalName>KillerNotes.SqlCipherNative.e_sqlcipher.dll</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- Audio codec natives (AudioNativeBootstrap), same embed-and-self-extract route as SQLCipher
+       above, because Costura only handles MANAGED assemblies. Drop the x64 DLLs into
+       third_party\audio\ and they get bundled; leave the folder empty and the app still builds and
+       runs, storing recordings as WAV instead. That Condition is what makes the codecs optional
+       rather than a build break.
+
+       libFLAC  - BSD-3-Clause. Lossless, so it is the STORAGE format for recordings.
+       libmp3lame - LGPL-2.1. Export only; MP3 as storage would compound generation loss on
+                    every edit. LGPL-2.1 permits GPLv2-or-later, so it sits inside GPLv3 - but
+                    distributing it obliges us to offer its source, so keep the matching source
+                    tarball beside the DLL in third_party\audio\. -->
+  <ItemGroup>
+    <EmbeddedResource Include="third_party\audio\libFLAC.dll" Condition="Exists('third_party\audio\libFLAC.dll')">
+      <LogicalName>KillerNotes.AudioNative.libFLAC.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="third_party\audio\libmp3lame.dll" Condition="Exists('third_party\audio\libmp3lame.dll')">
+      <LogicalName>KillerNotes.AudioNative.libmp3lame.dll</LogicalName>
+    </EmbeddedResource>
+    <!-- whisper.cpp (MIT) - offline speech recognition, vastly better than SAPI. Four DLLs because
+         it is built shared; they must all be present or none (AudioNativeBootstrap). The DLLs are
+         ~1.3 MB total; the MODEL is downloaded on demand, which is where the size actually is. -->
+    <EmbeddedResource Include="third_party\audio\ggml-base.dll" Condition="Exists('third_party\audio\ggml-base.dll')">
+      <LogicalName>KillerNotes.AudioNative.ggml-base.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="third_party\audio\ggml-cpu.dll" Condition="Exists('third_party\audio\ggml-cpu.dll')">
+      <LogicalName>KillerNotes.AudioNative.ggml-cpu.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="third_party\audio\ggml.dll" Condition="Exists('third_party\audio\ggml.dll')">
+      <LogicalName>KillerNotes.AudioNative.ggml.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="third_party\audio\libwhisper.dll" Condition="Exists('third_party\audio\libwhisper.dll')">
+      <LogicalName>KillerNotes.AudioNative.libwhisper.dll</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 

@@ -249,6 +249,26 @@ Remove-Item $staging -Recurse -Force
 $srcZipMB = '{0:N1} MB' -f ((Get-Item $srcZip).Length / 1MB)
 Write-Host "Source bundle: $srcZip ($srcZipMB)"
 
+# --- 7a2. LGPL source for the bundled LAME encoder ---
+# libmp3lame.dll is embedded in the exe, and LGPL-2.1 obliges us to offer the matching source
+# WHEREVER THE BINARY IS DISTRIBUTED. What people download is the exe, not the repo, so the
+# tarball ships as its own release asset rather than only living in the source bundle - nobody
+# should have to unpack the whole source zip to exercise that right.
+# libFLAC is BSD-3-Clause and carries no such obligation.
+Step "Staging LGPL source (LAME)"
+$lameSrc = Get-ChildItem (Join-Path $PSScriptRoot 'third_party\audio') -Filter 'lame-*.tar.gz' -ErrorAction SilentlyContinue |
+           Select-Object -First 1
+if ($lameSrc) {
+    $lameAsset = Join-Path $outDir $lameSrc.Name
+    Copy-Item $lameSrc.FullName $lameAsset -Force
+    Write-Host "LGPL source asset: $($lameSrc.Name)"
+} elseif (Test-Path (Join-Path $PSScriptRoot 'third_party\audio\libmp3lame.dll')) {
+    # Shipping the binary without its source is the one state that is not allowed.
+    Fail 'libmp3lame.dll is bundled but no lame-*.tar.gz is present in third_party\audio - LGPL requires the matching source to be offered alongside the binary.'
+} else {
+    Write-Host 'No LAME binary bundled - skipping LGPL source asset'
+}
+
 # --- 7b. Checksums (SHA256SUMS.txt) ---
 # The in-app updater (About.cs DoSelfUpdateAsync) downloads this asset next to the exe and
 # verifies the download against it; WITHOUT it the "Update" button falls back to just opening
@@ -260,7 +280,9 @@ Step "Writing SHA256SUMS.txt"
 $exeMB = '{0:N1} MB' -f ((Get-Item $exe).Length / 1MB)
 Write-Host "Signed KillerNotes.exe is $exeMB"
 $sumsFile = Join-Path $outDir 'SHA256SUMS.txt'
-$sumsLines = foreach ($asset in @($exe, $srcZip)) {
+$sumsAssets = @($exe, $srcZip)
+if ($lameAsset) { $sumsAssets += $lameAsset }
+$sumsLines = foreach ($asset in $sumsAssets) {
     $hash = (Get-FileHash $asset -Algorithm SHA256).Hash.ToLower()
     '{0}  {1}' -f (Split-Path $asset -Leaf), $hash
 }
@@ -327,6 +349,14 @@ foreach ($line in $lines) {
 }
 if ($notes.Count -eq 0) { Fail "Could not extract [$Version] notes from CHANGELOG.md" }
 $notesFile = Join-Path $env:TEMP "KillerNotes-$Version-notes.md"
+# Written licence offer, alongside the tarball asset itself. LGPL-2.1 wants the source OFFERED,
+# not merely present, so the notes have to say it is there and what it is for.
+if ($lameSrc) {
+    $notes.Add('')
+    $notes.Add('---')
+    $notes.Add('')
+    $notes.Add("KillerNotes embeds the LAME MP3 encoder (libmp3lame, LGPL-2.1) for exporting recordings. Its complete corresponding source is attached to this release as ``$($lameSrc.Name)``, and also lives in ``third_party/audio/`` in the tagged source. Build instructions are in ``third_party/audio/README.md``.")
+}
 $notes -join "`r`n" | Set-Content -Path $notesFile -Encoding UTF8
 Write-Host "Notes written to $notesFile ($($notes.Count) lines)"
 
@@ -344,7 +374,9 @@ if ($LASTEXITCODE -ne 0) { Fail 'Tag push failed' }
 
 # --- 10. GitHub release ---
 Step "Creating GitHub release"
-gh release create $Tag $exe $srcZip $sumsFile --title "KillerNotes $Tag" --notes-file $notesFile --verify-tag
+$releaseAssets = @($exe, $srcZip, $sumsFile)
+if ($lameAsset) { $releaseAssets += $lameAsset }   # LGPL source for the bundled LAME encoder
+gh release create $Tag @releaseAssets --title "KillerNotes $Tag" --notes-file $notesFile --verify-tag
 if ($LASTEXITCODE -ne 0) { Fail 'gh release create failed' }
 
 # Publishing this release is also what fires .github/workflows/winget-release.yml, which

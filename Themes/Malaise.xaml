@@ -1,0 +1,58 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- KillerNotes half of the Malaise theme. Shared contract tokens live in
+         KillerUI/Themes/Malaise.xaml; only app-specific resources belong here.
+         Flattened from the former RetroPaletteCatalog generator, whose source palette
+         was ["#bd00c6", "#26222e", "#df260c", "#0bc2c6", "#ead900"]. -->
+    <sys:Double x:Key="GrainOpacity">0.32</sys:Double>
+    <sys:Double x:Key="IconShadowOpacity">1.0</sys:Double>
+
+    <SolidColorBrush x:Key="TextFooter"            Color="#e2e4e0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RowSelectedBrush"      Color="#b8ac0a" po:Freeze="True"/>
+    <SolidColorBrush x:Key="MenuTextBrush"         Color="#f4f4f0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OutlinePressedBrush"   Color="#b2a70b" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbBrush"      Color="#b4bd00c6" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#bd00c6" po:Freeze="True"/>
+
+    <SolidColorBrush x:Key="BgCanvas"              Color="#293c3f" po:Freeze="True"/>
+    <SolidColorBrush x:Key="BgFlyout"              Color="#25272a" po:Freeze="True"/>
+    <SolidColorBrush x:Key="BgRecentPanel"         Color="#2e3134" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SortButtonBrush"       Color="#2a2c2f" po:Freeze="True"/>
+    <SolidColorBrush x:Key="AccentLogo"            Color="#eee02e" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionAccent"       Color="#bd00c6" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RadioAccent"           Color="#0bc2c6" po:Freeze="True"/>
+    <SolidColorBrush x:Key="DangerRed"             Color="#dd4641" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SliderTrack"           Color="#25232d" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SettingsOpenRowBg"     Color="#a49a0e" po:Freeze="True"/>
+    <SolidColorBrush x:Key="WarnBrush"             Color="#0bc2c6" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OkBrush"               Color="#bd00c6" po:Freeze="True"/>
+
+    <!-- Shortcut-overlay category colours (the family neon set, shared with the website map) -->
+    <SolidColorBrush x:Key="KnCatFile"   Color="#00fff9" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatNote"   Color="#ff2975" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatFormat" Color="#ffd319" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatView"   Color="#f222ff" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatSearch" Color="#00b3ff" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatHelp"   Color="#39ff14" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatEdit"   Color="#ff901f" po:Freeze="True"/>
+
+    <!-- Device-type swatches (inherited from the shared palette set) -->
+    <SolidColorBrush x:Key="TypeRouter"     Color="#F0A030" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeWindows"    Color="#8FC4FF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypePrinter"    Color="#D080A0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeSwitch"     Color="#C0C0C0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeHypervisor" Color="#E06060" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeNas"        Color="#40C080" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeIot"        Color="#A24FD8" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeServer"     Color="#E08050" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeLinux"      Color="#D0C050" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeDns"        Color="#50B0D0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeHa"         Color="#50D0A0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeMobile"     Color="#A0A0F0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeCamera"     Color="#F0C060" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeSmarttv"    Color="#E0A0E0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeMedia"      Color="#70C0E0" po:Freeze="True"/>
+</ResourceDictionary>

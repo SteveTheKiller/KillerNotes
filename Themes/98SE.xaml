@@ -2,10 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <!-- Experimental KillerNotes-only 98SE homage. The Light family supplies
-         a complete resource set; this overlay replaces its visible material language. -->
+
+    <!-- KillerNotes half of the 98SE theme. Shared contract tokens live in
+         KillerUI/Themes/98SE.xaml; only app-specific resources belong here. Flattened
+         from the former Light-plus-patch form so this theme stands alone.
+         Accent variants still live in Themes/Accents/98SE/. -->
     <sys:Double x:Key="GrainOpacity">0</sys:Double>
     <sys:Double x:Key="IconShadowOpacity">0</sys:Double>
+
+    <!-- 98SE is deliberately FLAT: no drop shadows, a hard 2px frame, and raised-control
+         bevels instead. These override the material defaults LoadDict applies. -->
     <sys:Double x:Key="PaneShadowOpacity">0</sys:Double>
     <sys:Double x:Key="BarShadowOpacity">0</sys:Double>
     <sys:Double x:Key="FlyoutShadowOpacity">0</sys:Double>
@@ -13,60 +19,78 @@
     <Thickness x:Key="BevelLightThickness">2,2,0,0</Thickness>
     <Thickness x:Key="BevelDarkThickness">0,0,2,2</Thickness>
     <SolidColorBrush x:Key="BevelLightBrush" Color="#ffffff" po:Freeze="True"/>
-    <SolidColorBrush x:Key="BevelDarkBrush" Color="#808080" po:Freeze="True"/>
-    <CornerRadius x:Key="WindowCornerRadius">0</CornerRadius>
-    <CornerRadius x:Key="PanelCornerRadius">0</CornerRadius>
-    <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
-    <CornerRadius x:Key="SmallCornerRadius">0</CornerRadius>
-    <CornerRadius x:Key="FlyoutCornerRadius">0</CornerRadius>
-    <CornerRadius x:Key="AccentSwatchCornerRadius">0</CornerRadius>
+    <SolidColorBrush x:Key="BevelDarkBrush"  Color="#808080" po:Freeze="True"/>
 
-    <!-- Green is the no-overlay base, matching ThemeManager's accent model. The shipped
-         98SE default is Blue, whose overlay is applied immediately. -->
-    <LinearGradientBrush x:Key="TitleBarBrush" StartPoint="0,0" EndPoint="1,0" po:Freeze="True">
-        <GradientStop Color="#004000" Offset="0"/><GradientStop Color="#3a7d44" Offset="1"/>
-    </LinearGradientBrush>
-    <SolidColorBrush x:Key="BackgroundBrush" Color="#c0c0c0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SurfaceBrush" Color="#d4d0c8" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PaneBrush" Color="#ffffff" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TableHeaderBrush" Color="#c0c0c0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="BgFlyout" Color="#d4d0c8" po:Freeze="True"/>
-    <SolidColorBrush x:Key="BgRecentPanel" Color="#d4d0c8" po:Freeze="True"/>
-    <SolidColorBrush x:Key="BgCanvas" Color="#ffffff" po:Freeze="True"/>
-    <SolidColorBrush x:Key="CardBorderBrush" Color="#808080" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PaneBorderBrush" Color="#808080" po:Freeze="True"/>
-    <SolidColorBrush x:Key="AppBorderBrush" Color="#c0c0c0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="InputBorderBrush" Color="#808080" po:Freeze="True"/>
-    <SolidColorBrush x:Key="InputHoverBrush" Color="#000000" po:Freeze="True"/>
+    <!-- No flat outline: in 98SE a button's edge IS the bevel (white top/left, grey bottom/right),
+         drawn by the bevel borders in the OutlineButton template. A visible OutlineRestBrush here
+         would draw a second, flat line in the same place. Transparent rather than absent, so the
+         button still reserves its 1px border and the text does not shift.
+         Window edge: transparent for the same reason - see WindowEdgeBrush below. -->
+    <SolidColorBrush x:Key="OutlineRestBrush"      Color="#00000000" po:Freeze="True"/>
 
-    <SolidColorBrush x:Key="TextBrush" Color="#000000" po:Freeze="True"/>
-    <SolidColorBrush x:Key="MutedTextBrush" Color="#404040" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ChromeTextBrush" Color="#ffffff" po:Freeze="True"/>
-    <SolidColorBrush x:Key="DimTextBrush" Color="#606060" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TextFooter" Color="#000000" po:Freeze="True"/>
+    <!-- The 1px line ringing the whole window. On the top and left it hides against the white
+         bevel, but on the bottom and right it lands OUTSIDE the dark bevel as a bright stripe.
+         Transparent keeps the 1px geometry, and the resize grab area, exactly as they were. -->
+    <SolidColorBrush x:Key="WindowEdgeBrush"       Color="#00000000" po:Freeze="True"/>
+    <!-- 0, not just a transparent brush: RootBorder wraps the whole window, so its border band
+         sits outside the bevel. Left at 1px the window's own grey Background shows through it and
+         you still get a light line outside the dark bottom/right bevel. -->
+    <Thickness x:Key="WindowEdgeThickness">0</Thickness>
 
-    <SolidColorBrush x:Key="PrimaryBrush" Color="#004f00" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#3a7d44" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#003600" po:Freeze="True"/>
-    <SolidColorBrush x:Key="OnPrimaryBrush" Color="#ffffff" po:Freeze="True"/>
-    <SolidColorBrush x:Key="OutlineBtnBrush" Color="#004f00" po:Freeze="True"/>
-    <SolidColorBrush x:Key="HeaderLineBrush" Color="#004f00" po:Freeze="True"/>
-    <SolidColorBrush x:Key="AccentLogo" Color="#ffff00" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SelectionAccent" Color="#004f00" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RadioAccent" Color="#004f00" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SelectionBg" Color="#004f00" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SelectionFg" Color="#ffffff" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RowSelectedBrush" Color="#004f00" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RowHoverBrush" Color="#d4d0c8" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RowAltBrush" Color="#08000000" po:Freeze="True"/>
-    <SolidColorBrush x:Key="OutlinePressedBrush" Color="#a0a0a0" po:Freeze="True"/>
+    <!-- A button's edge here is its bevel, so the flat outline must not also draw - two lines in
+         the same place is what made the secondary buttons look doubled. -->
+    <SolidColorBrush x:Key="ButtonEdgeBrush"       Color="#00000000" po:Freeze="True"/>
 
-    <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#d4d0c8" po:Freeze="True"/>
-    <SolidColorBrush x:Key="MenuBorderBrush" Color="#000000" po:Freeze="True"/>
-    <SolidColorBrush x:Key="MenuTextBrush" Color="#000000" po:Freeze="True"/>
-    <SolidColorBrush x:Key="MenuHoverBrush" Color="#000080" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbBrush" Color="#c0c0c0" po:Freeze="True"/>
+    <!-- Dialogs get a real caption band here, unlike the rest of the family where the title blends
+         into the card. ThemeManager sees this marker and points DialogTitleBarBrush at whatever
+         TitleBarBrush the current accent resolved to, so the band follows the accent gradient. -->
+    <sys:Boolean x:Key="UseDialogCaption">True</sys:Boolean>
+    <!-- 20, not 28: a Windows 98 caption is short. -->
+    <sys:Double x:Key="DialogTitleBarHeight">20</sys:Double>
+    <!-- No halo. There is no drop shadow to make room for, and the halo is the resize grab band -
+         an invisible one puts the grab handle out in space beyond the visible window edge. -->
+    <Thickness x:Key="DialogHaloMargin">0</Thickness>
+
+    <SolidColorBrush x:Key="TextFooter"            Color="#000000" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RowSelectedBrush"      Color="#004f00" po:Freeze="True"/>
+    <SolidColorBrush x:Key="MenuTextBrush"         Color="#000000" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OutlinePressedBrush"   Color="#a0a0a0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbBrush"      Color="#c0c0c0" po:Freeze="True"/>
     <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#a0a0a0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SliderTrack" Color="#808080" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SettingsOpenRowBg" Color="#a0a0a0" po:Freeze="True"/>
+
+    <SolidColorBrush x:Key="BgFlyout"              Color="#d4d0c8" po:Freeze="True"/>
+    <SolidColorBrush x:Key="BgRecentPanel"         Color="#d4d0c8" po:Freeze="True"/>
+    <SolidColorBrush x:Key="BgCanvas"              Color="#ffffff" po:Freeze="True"/>
+    <SolidColorBrush x:Key="AccentLogo"            Color="#ffff00" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionAccent"       Color="#004f00" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RadioAccent"           Color="#004f00" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SliderTrack"           Color="#808080" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SettingsOpenRowBg"     Color="#a0a0a0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SortButtonBrush"       Color="#ffffff" po:Freeze="True"/>
+
+    <!-- Shortcut-overlay category colours (the family neon set, shared with the website map) -->
+    <SolidColorBrush x:Key="KnCatFile"   Color="#00fff9" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatNote"   Color="#ff2975" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatFormat" Color="#ffd319" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatView"   Color="#f222ff" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatSearch" Color="#00b3ff" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatHelp"   Color="#39ff14" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KnCatEdit"   Color="#ff901f" po:Freeze="True"/>
+
+    <!-- Device-type swatches (inherited from the shared palette set) -->
+    <SolidColorBrush x:Key="TypeRouter"     Color="#F0A030" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeWindows"    Color="#8FC4FF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypePrinter"    Color="#D080A0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeSwitch"     Color="#C0C0C0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeHypervisor" Color="#E06060" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeNas"        Color="#40C080" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeIot"        Color="#A24FD8" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeServer"     Color="#E08050" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeLinux"      Color="#D0C050" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeDns"        Color="#50B0D0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeHa"         Color="#50D0A0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeMobile"     Color="#A0A0F0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeCamera"     Color="#F0C060" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeSmarttv"    Color="#E0A0E0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeMedia"      Color="#70C0E0" po:Freeze="True"/>
 </ResourceDictionary>

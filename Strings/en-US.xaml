@@ -78,6 +78,84 @@
     <sys:String x:Key="Str_KS_CalcPrint">Print the Killculator result to the note</sys:String>
     <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
     <sys:String x:Key="Str_TT_SketchRail">SketchPad - draw a sketch (F7)</sys:String>
+    <sys:String x:Key="Str_TT_KalcResize">Drag to resize the Killculator</sys:String>
+    <!-- Title of the image picker (Editor.Insert.cs and the SketchPad's add-image button). It was
+         never defined, so the dialog's caption rendered the key name itself. -->
+    <sys:String x:Key="Str_TT_Image">Insert image</sys:String>
+
+    <!-- ==== Themed Windows system menu (Shell/SystemMenu.cs - caption right-click, Alt+Space) ==== -->
+    <sys:String x:Key="Str_Sys_Restore">Restore</sys:String>
+    <sys:String x:Key="Str_Sys_Move">Move</sys:String>
+    <sys:String x:Key="Str_Sys_Size">Size</sys:String>
+    <sys:String x:Key="Str_Sys_Minimize">Minimize</sys:String>
+    <sys:String x:Key="Str_Sys_Maximize">Maximize</sys:String>
+    <sys:String x:Key="Str_Sys_Close">Close</sys:String>
+
+    <!-- ==== Dictation (F10) - Controls/Dictation/DictationWindow.cs, Shell/Editor.Dictation.cs ==== -->
+    <sys:String x:Key="Str_TT_DictationRail">Dictation - record and transcribe (Ctrl+M)</sys:String>
+    <sys:String x:Key="Str_KS_Dictation">Dictation - record and transcribe</sys:String>
+    <sys:String x:Key="Str_Kb_Dictation">Dictate</sys:String>
+    <sys:String x:Key="Str_Dict_Title">Dictation</sys:String>
+    <sys:String x:Key="Str_Dict_Record">Record</sys:String>
+    <sys:String x:Key="Str_Dict_Stop">Stop</sys:String>
+    <sys:String x:Key="Str_Dict_Play">Play</sys:String>
+    <sys:String x:Key="Str_Dict_Transcribe">Transcribe</sys:String>
+    <sys:String x:Key="Str_Dict_Print">Print to note</sys:String>
+    <sys:String x:Key="Str_Dict_Embed">Embed recording</sys:String>
+    <sys:String x:Key="Str_Dict_Ready">Ready. Record, then transcribe or embed the audio.</sys:String>
+    <sys:String x:Key="Str_Dict_Recording">Recording...</sys:String>
+    <sys:String x:Key="Str_Dict_Recorded">Recorded. Transcribe it, embed it, or both.</sys:String>
+    <sys:String x:Key="Str_Dict_Working">Transcribing...</sys:String>
+    <sys:String x:Key="Str_Dict_Done">Transcribed. Edit it here, then print to the note.</sys:String>
+    <sys:String x:Key="Str_Dict_Printed">Printed to the note.</sys:String>
+    <sys:String x:Key="Str_Dict_Embedded">Recording embedded in the note.</sys:String>
+    <sys:String x:Key="Str_Dict_NoMic">Could not open the microphone.</sys:String>
+    <sys:String x:Key="Str_Dict_Empty">Nothing was captured. Check that a microphone is connected.</sys:String>
+    <sys:String x:Key="Str_Dict_NoSpeech">No speech was recognised in that recording.</sys:String>
+    <sys:String x:Key="Str_Dict_NoText">There is no text to print.</sys:String>
+    <sys:String x:Key="Str_Dict_Failed">Transcription failed.</sys:String>
+    <sys:String x:Key="Str_Dict_NoEngine">No speech recogniser is installed, so transcription is unavailable. Recording and embedding still work.</sys:String>
+    <sys:String x:Key="Str_Dict_EmbedFailed">The recording could not be saved to this note.</sys:String>
+    <sys:String x:Key="Str_Dict_Missing">That recording is no longer in this note.</sys:String>
+    <sys:String x:Key="Str_Dict_Chip">Recording</sys:String>
+    <sys:String x:Key="Str_Dict_ChipTip">Play with the arrow, drag to move, right-click to edit or share</sys:String>
+
+    <!-- The app's own wordmark, split into the family's two runs: neutral first word, accent
+         second. Shared chrome compiled from another app's source (the file picker) reads these
+         so it names the HOST app instead of the app it was written in. -->
+    <sys:String x:Key="Str_Wordmark_A">Killer</sys:String>
+    <sys:String x:Key="Str_Wordmark_B">Notes</sys:String>
+
+    <!-- ==== Shared file picker (KillerPDF/Controls/FileDialog, linked into this project) ====
+         The picker is compiled from KillerPDF's source, but it resolves its strings against the
+         HOST app's dictionary - so without these it renders its own key names on screen, which is
+         what "Str_QA_Home" and "Str_Sum_Counts" in the dialog were. Wording copied verbatim from
+         KillerPDF/Strings/en-US.xaml so the two apps read identically. -->
+    <sys:String x:Key="Str_Btn_Save">Save</sys:String>
+    <sys:String x:Key="Str_Col_Modified">modified</sys:String>
+    <sys:String x:Key="Str_Col_Name">name</sys:String>
+    <sys:String x:Key="Str_Col_Size">size</sys:String>
+    <sys:String x:Key="Str_Dlg_AllFiles">All files</sys:String>
+    <sys:String x:Key="Str_Dlg_FileName">File name:</sys:String>
+    <sys:String x:Key="Str_Dlg_FileType">File type:</sys:String>
+    <sys:String x:Key="Str_Dlg_NoMatchingFiles">Nothing here matches the current file type.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFile">That file does not exist.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFolder">That folder does not exist.</sys:String>
+    <sys:String x:Key="Str_Dlg_OverwriteMsg">Replace {0}?</sys:String>
+    <sys:String x:Key="Str_Menu_PinPlace">Pin to places</sys:String>
+    <sys:String x:Key="Str_Menu_UnpinPlace">Remove from places</sys:String>
+    <sys:String x:Key="Str_QA_Desktop">Desktop</sys:String>
+    <sys:String x:Key="Str_QA_Documents">Documents</sys:String>
+    <sys:String x:Key="Str_QA_Downloads">Downloads</sys:String>
+    <sys:String x:Key="Str_QA_Home">Home</sys:String>
+    <sys:String x:Key="Str_QA_Pictures">Pictures</sys:String>
+    <sys:String x:Key="Str_Sum_Counts">{0} folder(s), {1} file(s)</sys:String>
+    <sys:String x:Key="Str_TT_RecentLocations">Recent locations</sys:String>
+    <sys:String x:Key="Str_TT_ShowHidden">Show hidden and system items</sys:String>
+    <sys:String x:Key="Str_TT_Up">Up one folder</sys:String>
+    <sys:String x:Key="Str_TT_ViewDetails">Details view</sys:String>
+    <sys:String x:Key="Str_TT_ViewIcons">Icon view</sys:String>
+    <sys:String x:Key="Str_TT_ViewList">List view</sys:String>
     <sys:String x:Key="Str_Btn_CalcPrint">Print to note</sys:String>
     <sys:String x:Key="Str_TT_CalcPrint">Print the result into this note at the cursor (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_Btn_CalcPrintSum">Sum</sys:String>
@@ -422,6 +500,43 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevSidebar">Firewall swap - Meadowbrook Vet</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">The quick brown fox jumps over the lazy dog 0123456789.</sys:String>
 
+    <sys:String x:Key="Str_Dict_Volume">Volume - drag up or down</sys:String>
+    <sys:String x:Key="Str_Dict_Pause">Pause</sys:String>
+    <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
+    <sys:String x:Key="Str_Whisper_Title">Speech model</sys:String>
+    <sys:String x:Key="Str_Whisper_Blurb">Windows' built-in dictation is not very accurate. KillerNotes can use a better speech model instead - it runs entirely on this machine, and nothing is uploaded. Pick one to download.</sys:String>
+    <sys:String x:Key="Str_Whisper_Tiny">Fast</sys:String>
+    <sys:String x:Key="Str_Whisper_Base">Recommended</sys:String>
+    <sys:String x:Key="Str_Whisper_Small">Most accurate</sys:String>
+    <sys:String x:Key="Str_Whisper_Installed">already downloaded</sys:String>
+    <sys:String x:Key="Str_Whisper_Download">Download</sys:String>
+    <sys:String x:Key="Str_Whisper_Use">Use this one</sys:String>
+    <sys:String x:Key="Str_Whisper_Menu">Speech model...</sys:String>
+    <sys:String x:Key="Str_Whisper_Unavailable">This build has no speech models - transcription uses Windows' own engine.</sys:String>
+    <sys:String x:Key="Str_Whisper_Starting">Starting download...</sys:String>
+    <sys:String x:Key="Str_Whisper_Cancelled">Download cancelled.</sys:String>
+    <sys:String x:Key="Str_Whisper_Done">Ready. Transcription will use this from now on.</sys:String>
+
+    <sys:String x:Key="Str_Dict_EditRec">Edit recording...</sys:String>
+    <sys:String x:Key="Str_Dict_SaveChanges">Save changes</sys:String>
+    <sys:String x:Key="Str_Dict_Editing">Editing an embedded recording. Slice it, then save your changes.</sys:String>
+    <sys:String x:Key="Str_Dict_Replaced">Recording updated.</sys:String>
+    <sys:String x:Key="Str_Dict_Share">Share recording</sys:String>
+    <sys:String x:Key="Str_Dict_SaveAs">Save as a file...</sys:String>
+    <sys:String x:Key="Str_Dict_CopyFile">Copy as a file</sys:String>
+    <sys:String x:Key="Str_Dict_Saved">Recording saved.</sys:String>
+    <sys:String x:Key="Str_Dict_Copied">Recording copied - paste it into an email, chat or folder.</sys:String>
+    <sys:String x:Key="Str_Dict_Slice">Slice here</sys:String>
+    <sys:String x:Key="Str_Dict_CopySeg">Copy segment</sys:String>
+    <sys:String x:Key="Str_Dict_DeleteSeg">Delete segment</sys:String>
+    <sys:String x:Key="Str_Dict_PasteSeg">Paste segment here</sys:String>
+    <sys:String x:Key="Str_Dict_ClearCuts">Clear slices</sys:String>
+    <sys:String x:Key="Str_Dict_UndoEdit">Undo edit</sys:String>
+    <sys:String x:Key="Str_Dict_Edited">Edited. Play it back, or transcribe it again.</sys:String>
+
+    <!-- Floating images and recordings (Editor.Float.cs, 1.2.0). No strings: floating has no menu
+         item and no wording - dragging an object IS the gesture. -->
+
     <!-- Hyperlinks (Links.cs, 1.1.3) -->
     <sys:String x:Key="Str_KS_Link">Insert / edit link</sys:String>
     <sys:String x:Key="Str_Ctx_Link">Link...</sys:String>
@@ -429,6 +544,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Dlg_LinkEdit">Edit link - clear the address to unlink</sys:String>
     <sys:String x:Key="Str_Btn_Link">Link</sys:String>
     <sys:String x:Key="Str_St_LinkBad">That doesn't look like a web address</sys:String>
+    <sys:String x:Key="Str_St_LinkNotText">Only text can be linked - select words, not an image or recording</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Couldn't open the link</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Pick a color</sys:String>
     <sys:String x:Key="Str_Btn_Replace">Replace</sys:String>

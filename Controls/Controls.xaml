@@ -113,6 +113,8 @@
         <Setter Property="Padding" Value="16,8"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <!-- No stock dotted focus rectangle - it draws over the caption. See OutlineButton. -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -160,18 +162,28 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="{DynamicResource OutlineRestBrush}"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <!-- WPF's stock focus visual is a dotted rectangle drawn OVER the control, which on a
+             themed button reads as a stray line through the caption - that was the "broken"
+             Cancel button. The templates show focus through their own hover/press states. -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="border" Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
-                        <Grid>
-                            <Border x:Name="bevelLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
-                            <Border x:Name="bevelDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                    <!-- The bevels are SIBLINGS of the border, not children of it. Nested inside,
+                         they were drawn within the 1px border AND the 14,5 padding, so the raised
+                         edge appeared around the TEXT rather than around the button. As siblings
+                         they fill the whole button and land on its outer edge - exactly where a
+                         flat outline sits, so a bevelled theme replaces the outline rather than
+                         drawing a second line inside it. -->
+                    <Grid>
+                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </Border>
+                        </Border>
+                        <Border x:Name="bevelLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                        <Border x:Name="bevelDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <!-- Order matters: IsPressed must come after IsMouseOver to win. -->
                         <Trigger Property="IsMouseOver" Value="True">
@@ -206,20 +218,28 @@
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Padding" Value="12,6"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
+        <!-- ButtonEdgeBrush, not CardBorderBrush: on a bevelled theme the bevel IS the button's
+             edge, so this goes transparent there and the flat outline stops doubling up with it.
+             ThemeManager defaults it to CardBorderBrush, so only a theme that cares states it. -->
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonEdgeBrush}"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <!-- No stock dotted focus rectangle - it draws over the caption. See OutlineButton. -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="border" Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
-                        <Grid>
-                            <Border x:Name="bevelLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
-                            <Border x:Name="bevelDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                    <!-- Bevels are SIBLINGS of the border, matching OutlineButton. Nested inside
+                         they were drawn within the 1px edge and the 12,6 padding, so the raised
+                         edge appeared around the text instead of around the button. -->
+                    <Grid>
+                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </Border>
+                        </Border>
+                        <Border x:Name="bevelLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                        <Border x:Name="bevelDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <!-- Order matters: IsPressed after IsMouseOver so it wins. -->
                         <!-- A real fill change, not an opacity fade - the fade is invisible on a
@@ -389,24 +409,30 @@
                              transparent SubPopup (for the Tags submenu); a WPF Effect over a
                              subtree that contains an AllowsTransparency popup renders the drop
                              shadow as a black box, so the effect must not sit above the items. -->
-                        <Border CornerRadius="6" Background="{TemplateBinding Background}">
+                        <Border CornerRadius="{DynamicResource PanelCornerRadius}" Background="{TemplateBinding Background}">
                             <Border.Effect>
                                 <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                             </Border.Effect>
                         </Border>
-                        <Border CornerRadius="6"
+                        <!-- CornerRadius follows the theme, it is NOT hardcoded 6. A square-cornered
+                             theme got a rounded card with square bevels drawn across it, which is
+                             what made the corners look wrong. Same value as the outer shadow border. -->
+                        <Border CornerRadius="{DynamicResource PanelCornerRadius}"
                                 Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
                             <Grid>
-                                <Border IsHitTestVisible="False" CornerRadius="5"
+                                <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
                                         Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
                                 <StackPanel IsItemsHost="True" Margin="{TemplateBinding Padding}" KeyboardNavigation.DirectionalNavigation="Cycle"/>
-                                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
-                                        BorderThickness="{DynamicResource BevelLightThickness}"/>
-                                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
-                                        BorderThickness="{DynamicResource BevelDarkThickness}"/>
                             </Grid>
                         </Border>
+                        <!-- Bevels OUTSIDE the card border, as siblings - nested inside they were
+                             drawn within its 1px edge, so the flat border and the bevel both showed
+                             and disagreed at the corners. -->
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
+                                BorderThickness="{DynamicResource BevelLightThickness}"/>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
+                                BorderThickness="{DynamicResource BevelDarkThickness}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="ContextMenu.Loaded">
@@ -790,6 +816,53 @@
                             <Setter TargetName="box" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
                             <Setter TargetName="check" Property="Visibility" Value="Visible"/>
                             <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Themed radio: round ring, accent dot. The checkbox's sibling, with three deliberate
+         differences.
+
+         NO Consolas. CheckBox forces a mono label because its labels are short switch names; a
+         radio labels a CHOICE, which is usually a phrase, and mono prose reads badly.
+
+         The bullet is TOP-aligned, not centred. A radio option often carries a description under
+         its name, and a vertically centred bullet against two lines of text floats between them
+         pointing at nothing.
+
+         Content colour is left alone. CheckBox mutes its label until checked, which suits a
+         switch; an unselected choice still has to be readable enough to choose. -->
+    <Style TargetType="RadioButton">
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <StackPanel Orientation="Horizontal" Background="Transparent">
+                        <Border x:Name="ring" Width="15" Height="15" CornerRadius="8"
+                                VerticalAlignment="Top" Margin="0,2,0,0"
+                                Background="{DynamicResource SurfaceBrush}"
+                                BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1">
+                            <Border x:Name="dot" Width="7" Height="7" CornerRadius="4"
+                                    Background="{DynamicResource PrimaryBrush}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Visibility="Collapsed"/>
+                        </Border>
+                        <ContentPresenter Margin="7,0,0,0" VerticalAlignment="Top"/>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ring" Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="ring" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter TargetName="dot" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

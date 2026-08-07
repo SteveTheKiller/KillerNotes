@@ -115,6 +115,7 @@
 <li><b>A XamlPackage blob</b> - the full rich content. XamlPackage is WPF's container format for FlowDocuments: formatting, embedded images, and tables all round-trip through the database byte-perfect. Pasted screenshots are re-encoded to PNG on the way in so they serialize reliably.</li>
 <li><b>A plain-text shadow copy</b> - extracted on every save and fed to the search index, so search never has to parse rich content.</li>
 </ul>
+<p>Sketches and dictation recordings sit in side tables keyed to the note rather than inside its XamlPackage. Audio is far larger than the note that references it, and inlining it would make every load and save of that note carry it; the note keeps only a small marker. Both are encrypted with the rest of the database when a password is set.</p>
 
 <figure class="diagram" id="flowDiagram">
 <svg viewBox="0 0 1060 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow: editor to database to shares">
@@ -217,6 +218,17 @@
 <p>Notes that look like markdown or HTML get a preview toggle. Markdown renders through <b>Markdig</b> with raw HTML disabled; HTML notes are defused before display - scripts, event handlers, frames, and javascript: URLs are stripped. The preview is a viewer, never a place where pasted content gets to run.</p>
 </section>
 
+<section class="tech-sec" id="audio">
+<h2>Dictation &amp; audio</h2>
+<p>Recording and playback go through <b>winmm</b>, the waveIn and waveOut APIs that ship with Windows. Deliberately not WPF's MediaPlayer, which routes through the Windows Media Player components and fails outright on N editions, on Server, and anywhere the Media Feature Pack is absent - an app that records its own audio should not need a media stack to play it back. Capture is 16 kHz mono 16-bit PCM: what speech recognition wants, and only about 32 KB per second.</p>
+<h3>Storage format</h3>
+<p>Recordings are stored as <b>FLAC</b> (libFLAC, BSD-3-Clause) - lossless and roughly half the size of WAV. Lossless is the point rather than a nicety: slicing a recording and saving it again is bit-identical every time, so editing the same take repeatedly costs nothing. MP3 (libmp3lame) is offered on <i>export</i> only, where the copy is one-way and universal playability is what matters; storing MP3 would mean every edit was a decode and re-encode, compounding generation loss. The format is detected per recording from its first four bytes, so recordings made before FLAC keep working with no conversion pass.</p>
+<h3>Speech recognition</h3>
+<p>Transcription uses <b>whisper.cpp</b> (MIT) running locally. It replaced System.Speech, which is SAPI's desktop dictation engine - a command-and-control model from the Windows 7 era that was not misconfigured but simply at its ceiling, producing confident nonsense on unfamiliar words rather than admitting uncertainty. System.Speech remains as the fallback when no model is installed.</p>
+<p>The whisper natives are about 1.3 MB and ship inside the exe. The <i>model</i> is 75 to 466 MB, so it is downloaded on demand from whisper.cpp's own repository, into your local app data, after you pick a size. Nothing is downloaded without being asked, and nothing is uploaded at any point - the audio never leaves the machine.</p>
+<p>All three audio natives are cross-compiled from their upstream release tarballs rather than taken from a mirror; the tarballs, hashes and exact build commands are in the source tree, and LAME's LGPL source is attached to every release.</p>
+</section>
+
 <section class="tech-sec" id="privacy">
 <h2>Privacy</h2>
 <p>Everything runs on your machine. Notes never leave your disk unless you export or share them yourself. There is no account, no cloud sync, no telemetry, and no ads. The only network requests the app ever makes are to GitHub, both from the About panel: a version check when you open it, and the release download itself if you choose to update.</p>
@@ -224,7 +236,7 @@
 
 <section class="tech-sec" id="distribution">
 <h2>Distribution</h2>
-<p>KillerNotes ships as a <b>single signed exe</b> - about 4.5 MB with every dependency embedded, including the SQLCipher engine. No installer is required and there is no folder of DLLs: download, double-click, take notes. The exe is Authenticode-signed and timestamped, so Windows shows a verified publisher instead of an unknown-publisher warning, and the About panel shows the certificate thumbprint plus the exe's SHA-256 to check against the release page.</p>
+<p>KillerNotes ships as a <b>single signed exe</b> - about 9 MB with every dependency embedded, including the SQLCipher engine. No installer is required and there is no folder of DLLs: download, double-click, take notes. The exe is Authenticode-signed and timestamped, so Windows shows a verified publisher instead of an unknown-publisher warning, and the About panel shows the certificate thumbprint plus the exe's SHA-256 to check against the release page.</p>
 <ul class="blurb-list">
 <li><b>Portable first</b> - run it from anywhere, including a USB stick. Notes live in <code>%APPDATA%\KillerNotes</code> by default, and the data folder is configurable - point it next to the exe and the whole notepad travels with the stick.</li>
 <li><b>Optional install</b> - a PORTABLE badge in the status bar offers a one-click per-user install: Start Menu shortcut, optional desktop shortcut, and an Add/Remove Programs entry. No admin rights needed.</li>
@@ -244,11 +256,13 @@
 <tr><td>Encryption</td><td>SQLCipher (AES-256), whole-database, opt-in per database</td></tr>
 <tr><td>Rich content</td><td>WPF FlowDocument stored as XamlPackage blobs (images + tables round-trip)</td></tr>
 <tr><td>Markdown</td><td>Markdig, advanced extensions, raw HTML disabled</td></tr>
+<tr><td>Audio</td><td>winmm waveIn/waveOut capture and playback at 16 kHz mono; stored as FLAC, exports to WAV or MP3</td></tr>
+<tr><td>Speech</td><td>whisper.cpp offline, model downloaded on demand (75-466 MB); System.Speech fallback</td></tr>
 <tr><td>Share formats</td><td>.knote (single note), .kndb (whole database), HKCU file associations</td></tr>
 <tr><td>Import</td><td>.txt, .log, .md, .html, .htm, .rtf, png/jpg/jpeg/gif/bmp images</td></tr>
 <tr><td>Export</td><td>.txt, .rtf, self-contained .html; notes also share as .knote</td></tr>
 <tr><td>Network use</td><td>None, except the About panel's version check and optional self-update download (GitHub)</td></tr>
-<tr><td>Distribution</td><td>Single signed exe (~4.5 MB); portable, per-user install, or /silent machine-wide</td></tr>
+<tr><td>Distribution</td><td>Single signed exe (~9 MB); portable, per-user install, or /silent machine-wide</td></tr>
 <tr><td>License</td><td>GPLv3; source zip attached to every release</td></tr>
 </table>
 </section>
@@ -266,6 +280,7 @@
 <a href="#encryption">Encryption</a>
 <a href="#sharing">Sharing formats</a>
 <a href="#formats">Import &amp; export</a>
+<a href="#audio">Dictation &amp; audio</a>
 <a href="#privacy">Privacy</a>
 <a href="#distribution">Distribution</a>
 <a href="#specs">Specs</a>

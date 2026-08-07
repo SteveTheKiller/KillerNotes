@@ -14,6 +14,16 @@ namespace KillerNotes.Controls
     // OPEN (unlike Manage databases) - these are ordinary row edits on the live db.
     public partial class TagsDialog : Window
     {
+        // Cancel the first close, fade out, then close for real (Anim.FadeOutAndClose). A
+        // DialogResult set before this survives the cancel and is delivered by the real close.
+        private bool _closeFaded;
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            if (Anim.FadeOutAndClose(this, ref _closeFaded)) { e.Cancel = true; return; }
+            base.OnClosing(e);
+        }
+
         private string _newColor = "#50AEE8";   // default pick for the add row
 
         /// <summary>Raised after every add/rename/recolor/delete so the owner can refresh

@@ -62,8 +62,19 @@ namespace KillerNotes.Controls
             _tool = t;
             foreach (var kv in _toolBtns)
             {
-                if (kv.Key == t) kv.Value.SetResourceReference(Control.BackgroundProperty, "RowSelectedBrush");
-                else kv.Value.ClearValue(Control.BackgroundProperty);
+                if (kv.Key == t)
+                {
+                    // Foreground as well as Background. SelectionBg/SelectionFg are a matched pair;
+                    // setting only the fill left a dark glyph on a dark selection, so the active
+                    // tool was invisible - which is the whole point of marking it.
+                    kv.Value.SetResourceReference(Control.BackgroundProperty, "SelectionBg");
+                    kv.Value.SetResourceReference(Control.ForegroundProperty, "SelectionFg");
+                }
+                else
+                {
+                    kv.Value.ClearValue(Control.BackgroundProperty);
+                    kv.Value.ClearValue(Control.ForegroundProperty);
+                }
             }
             _canvas.Cursor = t == Tool.Pen ? Cursors.Pen : t == Tool.Text ? Cursors.IBeam : t == Tool.Select ? Cursors.Arrow : Cursors.Cross;
             if (t != Tool.Eraser) HideEraseCursor();

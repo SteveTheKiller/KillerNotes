@@ -44,6 +44,8 @@ namespace KillerNotes.Shell
             new("Ctrl+G", "Str_KS_NewGroup", "Note", [(KbLayer.Ctrl, "G", "Str_KS_NewGroup")]),
             new("Ctrl+T", "Str_KS_ManageTags", "Note", [(KbLayer.Ctrl, "T", "Str_KS_ManageTags")]),
             new("Ctrl+K", "Str_KS_Link", "Format", [(KbLayer.Ctrl, "K", "Str_KS_Link")]),
+            // M for microphone. Not an F-key: all twelve are taken (Shortcuts.cs).
+            new("Ctrl+M", "Str_KS_Dictation", "View", [(KbLayer.Ctrl, "M", "Str_Kb_Dictation")]),
             new("Ctrl+O", "Str_KS_OpenFiles", "File", [(KbLayer.Ctrl, "O", "Str_KS_OpenFiles")]),
             new("Ctrl+S", "Str_KS_Save", "File", [(KbLayer.Ctrl, "S", "Str_Kb_SaveNow")]),
             new("Ctrl+B / I / U", "Str_KS_BIU", "Format",

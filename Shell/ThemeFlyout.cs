@@ -99,12 +99,12 @@ namespace KillerNotes.Shell
         {
             if (sender is not RadioButton { Tag: Theme theme } || theme == ThemeManager.Current) return;
             Theme old = ThemeManager.Current;
-            Controls.ThemeTransition.CrossFade(RootGrid, () =>
-            {
-                ThemeManager.Apply(theme);
-                ApplyThemeBorder(this);
-                ApplyThemeElevation();
-            });
+            // The crossfade lives in ThemeManager.Publish, which animates the palette's brushes
+            // in place. Nothing here needs to capture or cover the window - see the comment on
+            // the live palette for why every snapshot-based version of this throbbed.
+            ThemeManager.Apply(theme);
+            ApplyThemeBorder(this);
+            ApplyThemeElevation();
             RefreshAccentDots();
             if (HasAccents(old) && HasAccents(theme))
                 AnimateNeutralRowsInVisualOrder(old, theme);

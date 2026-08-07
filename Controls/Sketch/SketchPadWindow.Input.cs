@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Microsoft.Win32;
 using KillerNotes.Models;
 
 namespace KillerNotes.Controls
@@ -222,7 +221,15 @@ namespace KillerNotes.Controls
 
         private void AddImageFromFile()
         {
-            var dlg = new OpenFileDialog { Filter = "Images|*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.tif;*.tiff", CheckFileExists = true };
+            // The themed family picker, not Microsoft.Win32.OpenFileDialog - the Win32 one cannot be
+            // themed at all and opened as a stock Explorer window in the middle of the app. Same
+            // dialog and same filter the editor's Insert image button uses (Editor.Insert.cs).
+            var dlg = new KillerPDF.Controls.FileDialog(KillerPDF.Controls.FileDialogMode.Open)
+            {
+                Title = L("Str_TT_Image", "Insert image"),
+                Filter = "Images|*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.tif;*.tiff",
+                CheckFileExists = true,
+            };
             if (dlg.ShowDialog(this) != true) return;
             var src = LoadBitmap(dlg.FileName);
             if (src != null) AddImage(src, null);

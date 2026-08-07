@@ -95,7 +95,7 @@ namespace KillerNotes.Controls
         private Button WidthButton()
         {
             _widthDot = new Ellipse { HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-            _widthDot.SetResourceReference(Shape.FillProperty, "TextBrush");
+            _widthDot.InkFill();
             SetWidthDot();
             _widthBtn = new Button
             {
@@ -109,10 +109,11 @@ namespace KillerNotes.Controls
 
         private static Viewbox IconWrap(UIElement shape) => new() { Width = 17, Height = 17, Child = shape, Stretch = Stretch.Uniform };
 
+
         private static UIElement IconLine()
         {
             var l = new Line { X1 = 2, Y1 = 14, X2 = 14, Y2 = 2, StrokeThickness = 2, StrokeStartLineCap = PenLineCap.Round, StrokeEndLineCap = PenLineCap.Round };
-            l.SetResourceReference(Shape.StrokeProperty, "TextBrush");
+            l.InkStroke();
             return IconWrap(l);
         }
 
@@ -121,10 +122,10 @@ namespace KillerNotes.Controls
         {
             var g = new Grid { Width = 17, Height = 17 };
             var shaft = new Line { X1 = 2, Y1 = 15, X2 = 11, Y2 = 6, StrokeThickness = 2, StrokeStartLineCap = PenLineCap.Round, StrokeEndLineCap = PenLineCap.Round };
-            shaft.SetResourceReference(Shape.StrokeProperty, "TextBrush");
+            shaft.InkStroke();
             var head = new Polygon();
             foreach (var p in new[] { new Point(15.5, 1.5), new Point(8, 4), new Point(13, 9) }) head.Points.Add(p);
-            head.SetResourceReference(Shape.FillProperty, "TextBrush");
+            head.InkFill();
             g.Children.Add(shaft);
             g.Children.Add(head);
             return g;
@@ -133,14 +134,14 @@ namespace KillerNotes.Controls
         private static UIElement IconRect()
         {
             var r = new Rectangle { Width = 14, Height = 10, StrokeThickness = 2 };
-            r.SetResourceReference(Shape.StrokeProperty, "TextBrush");
+            r.InkStroke();
             return IconWrap(r);
         }
 
         private static UIElement IconEllipse()
         {
             var el = new Ellipse { Width = 14, Height = 12, StrokeThickness = 2 };
-            el.SetResourceReference(Shape.StrokeProperty, "TextBrush");
+            el.InkStroke();
             return IconWrap(el);
         }
 
@@ -148,14 +149,14 @@ namespace KillerNotes.Controls
         {
             var pg = new Polygon { StrokeThickness = 2, StrokeLineJoin = PenLineJoin.Round };
             foreach (var p in new[] { new Point(8.5, 1), new Point(16, 6.5), new Point(13, 15.5), new Point(4, 15.5), new Point(1, 6.5) }) pg.Points.Add(p);
-            pg.SetResourceReference(Shape.StrokeProperty, "TextBrush");
+            pg.InkStroke();
             return IconWrap(pg);
         }
 
         private static UIElement IconSelect()
         {
             var r = new Rectangle { Width = 13, Height = 11, StrokeThickness = 1.6, StrokeDashArray = [2, 2], Fill = null };
-            r.SetResourceReference(Shape.StrokeProperty, "TextBrush");
+            r.InkStroke();
             return IconWrap(r);
         }
 
@@ -163,13 +164,13 @@ namespace KillerNotes.Controls
         {
             var c = new Canvas { Width = 16, Height = 16 };
             var frame = new Rectangle { Width = 16, Height = 13, RadiusX = 1.5, RadiusY = 1.5, StrokeThickness = 1.4, Fill = null };
-            frame.SetResourceReference(Shape.StrokeProperty, "TextBrush");
+            frame.InkStroke();
             Canvas.SetLeft(frame, 0); Canvas.SetTop(frame, 1.5);
             var mtn = new Polygon();
             foreach (var p in new[] { new Point(1, 13), new Point(6, 7.5), new Point(9.5, 11), new Point(11.5, 9), new Point(15, 13) }) mtn.Points.Add(p);
-            mtn.SetResourceReference(Shape.FillProperty, "TextBrush");
+            mtn.InkFill();
             var sun = new Ellipse { Width = 3, Height = 3 };
-            sun.SetResourceReference(Shape.FillProperty, "TextBrush");
+            sun.InkFill();
             Canvas.SetLeft(sun, 3); Canvas.SetTop(sun, 4);
             c.Children.Add(frame); c.Children.Add(mtn); c.Children.Add(sun);
             return IconWrap(c);
@@ -192,12 +193,12 @@ namespace KillerNotes.Controls
             // A proper paint bucket: wire handle, tapered body, and accent-colored paint in the opening.
             var c = new Canvas { Width = 17, Height = 17 };
             var handle = new System.Windows.Shapes.Path { StrokeThickness = 1.4, Data = Geometry.Parse("M5,5.5 C5,1.5 12,1.5 12,5.5") };
-            handle.SetResourceReference(Shape.StrokeProperty, "TextBrush");
+            handle.InkStroke();
             var body = new System.Windows.Shapes.Path { StrokeThickness = 1.4, StrokeLineJoin = PenLineJoin.Round, Data = Geometry.Parse("M2.5,6 L4.3,15.2 Q8.5,16.6 12.7,15.2 L14.5,6 Z") };
-            body.SetResourceReference(Shape.StrokeProperty, "TextBrush");
+            body.InkStroke();
             body.SetResourceReference(Shape.FillProperty, "MutedTextBrush");
             var rim = new Ellipse { Width = 12, Height = 3.4, StrokeThickness = 1.2 };
-            rim.SetResourceReference(Shape.StrokeProperty, "TextBrush");
+            rim.InkStroke();
             rim.SetResourceReference(Shape.FillProperty, "PrimaryBrush");
             Canvas.SetLeft(rim, 2.5); Canvas.SetTop(rim, 4.3);
             c.Children.Add(handle);
@@ -273,5 +274,31 @@ namespace KillerNotes.Controls
             bd.MouseLeftButtonUp += (_, _) => Close();
             return bd;
         }
+    }
+
+    /// <summary>
+    /// Ink for the SketchPad's hand-drawn tool icons.
+    ///
+    /// These bind to the OWNING BUTTON's Foreground rather than pinning to TextBrush. The active
+    /// tool is filled with SelectionBg and given SelectionFg; ink pinned to TextBrush ignored that,
+    /// so on any theme whose text is dark the selected tool's icon went dark-on-dark and vanished -
+    /// exactly the icon the highlight exists to point at. Unselected buttons carry no Foreground of
+    /// their own, so the binding resolves to the button style's value, which is the TextBrush these
+    /// used to read directly. Every icon here lives inside a Button.
+    ///
+    /// A separate static class because extension methods cannot live in a non-static one, and
+    /// SketchPadWindow is a Window.
+    /// </summary>
+    internal static class SketchIcons
+    {
+        internal static void InkStroke(this Shape s) => Ink(s, Shape.StrokeProperty);
+        internal static void InkFill(this Shape s) => Ink(s, Shape.FillProperty);
+
+        private static void Ink(Shape s, DependencyProperty target) =>
+            s.SetBinding(target, new System.Windows.Data.Binding(nameof(Control.Foreground))
+            {
+                RelativeSource = new System.Windows.Data.RelativeSource(
+                    System.Windows.Data.RelativeSourceMode.FindAncestor) { AncestorType = typeof(Button) }
+            });
     }
 }

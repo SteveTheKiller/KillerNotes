@@ -21,6 +21,16 @@ namespace KillerNotes.Controls
     /// </summary>
     internal sealed class ColorPickerDialog : Window
     {
+        // Cancel the first close, fade out, then close for real (Anim.FadeOutAndClose). A
+        // DialogResult set before this survives the cancel and is delivered by the real close.
+        private bool _closeFaded;
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            if (Anim.FadeOutAndClose(this, ref _closeFaded)) { e.Cancel = true; return; }
+            base.OnClosing(e);
+        }
+
         public Color SelectedColor { get; private set; }
 
         /// <summary>Fires on every color change (SV/hue drag, RGB/hex, eyedropper, swatch)
@@ -57,7 +67,11 @@ namespace KillerNotes.Controls
             Colors.White,
         ];
 
-        private static SolidColorBrush R(string key) => (SolidColorBrush)Application.Current.Resources[key];
+        /// <summary>Returns Brush, NOT SolidColorBrush. Several palettes define BackgroundBrush and
+        /// TitleBarBrush as a LinearGradientBrush, and the hard cast threw InvalidCastException the
+        /// moment this dialog opened on one of them. Nothing here needs the concrete type - every
+        /// caller assigns it to a Background/BorderBrush/Foreground, all of which take Brush.</summary>
+        private static Brush? R(string key) => Application.Current.Resources[key] as Brush;
         private static string L(string key, string fallback) =>
             Application.Current.TryFindResource(key) as string ?? fallback;
 
@@ -84,42 +98,92 @@ namespace KillerNotes.Controls
 
         // ---- UI ----
 
+        /// <summary>A themed corner radius, falling back to the value this dialog used to
+        /// hardcode. Every radius in here was a literal, so a square-cornered palette got a
+        /// dialog full of rounded chips inside a square card.</summary>
+        private static CornerRadius Rad(string key, double fallback) =>
+            Application.Current.TryFindResource(key) is CornerRadius c ? c : new CornerRadius(fallback);
+
         private void BuildUi()
         {
+            // Corner radius and shadow follow the THEME, not hardcoded 6 / 0.55 - a square-cornered
+            // palette was getting a rounded card, and a flat one still got a drop shadow.
+            CornerRadius radius = Application.Current.TryFindResource("PanelCornerRadius") is CornerRadius cr
+                ? cr : new CornerRadius(6);
+            double shadowOp = Application.Current.TryFindResource("FlyoutShadowOpacity") is double so ? so : 0.55;
+
             var card = new Border
             {
-                Background = R("SurfaceBrush"),
+                // BackgroundBrush, the window face - NOT SurfaceBrush. SurfaceBrush is the raised
+                // material used for panes and bars (Sepulchre's brown), so this dialog was the one
+                // card in the family wearing a pane colour instead of the window colour. About,
+                // Confirm and the rest all use BackgroundBrush.
+                Background = R("BackgroundBrush"),
                 BorderBrush = R("CardBorderBrush"),
                 BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(6),
+                CornerRadius = radius,
                 Margin = new Thickness(14),
-                Effect = new System.Windows.Media.Effects.DropShadowEffect
-                { Color = Colors.Black, BlurRadius = 18, ShadowDepth = 3, Direction = 270, Opacity = 0.55 }
+                Effect = shadowOp <= 0 ? null : new System.Windows.Media.Effects.DropShadowEffect
+                { Color = Colors.Black, BlurRadius = 18, ShadowDepth = 3, Direction = 270, Opacity = shadowOp }
             };
-            var panel = new StackPanel { Margin = new Thickness(18, 14, 18, 16) };
+            // Top margin is small because the caption band above supplies the head room.
+            var panel = new StackPanel { Margin = new Thickness(18, 12, 18, 16) };
             // Film grain over the card, same treatment as ConfirmDialog.
             var root = new Grid();
             if (Application.Current.TryFindResource("GrainTileBrush") is Brush grain)
             {
                 double grainOp = Application.Current.TryFindResource("GrainOpacity") is double go ? go : 0.12;
-                root.Children.Add(new Border { Background = grain, Opacity = grainOp, CornerRadius = new CornerRadius(6), IsHitTestVisible = false });
+                root.Children.Add(new Border { Background = grain, Opacity = grainOp, CornerRadius = radius, IsHitTestVisible = false });
             }
             root.Children.Add(panel);
             card.Child = root;
-            Content = card;
+
+            // Raised edge as SIBLINGS of the card, sharing its margin so they land on its outer
+            // edge - the family pattern. Transparent and zero-thickness except on bevelled themes.
+            var shellGrid = new Grid();
+            shellGrid.Children.Add(card);
+            foreach (var (brushKey, thickKey) in new[]
+                     { ("BevelLightBrush", "BevelLightThickness"), ("BevelDarkBrush", "BevelDarkThickness") })
+            {
+                var bevel = new Border { Margin = new Thickness(14), IsHitTestVisible = false };
+                bevel.SetResourceReference(Border.BorderBrushProperty, brushKey);
+                bevel.SetResourceReference(Border.BorderThicknessProperty, thickKey);
+                shellGrid.Children.Add(bevel);
+            }
+            Content = shellGrid;
             Opacity = 0;
             Loaded += (_, _) => Anim.FadeIn(this);
 
-            // Accent heading, draggable like the family dialog title bars.
+            // A real caption BAND, not a heading floating inside the padding. The band is its own
+            // row spanning the card, so it can carry TitleBarBrush - a gradient on the themes that
+            // define one, identical to the card face on the themes that do not. Same treatment the
+            // SketchPad and the file picker got.
+            var titleBand = new Border { Padding = new Thickness(14, 0, 14, 0), Cursor = Cursors.SizeAll };
+            titleBand.SetResourceReference(Border.BackgroundProperty, "DialogTitleBarBrush");
+            titleBand.SetResourceReference(FrameworkElement.HeightProperty, "DialogTitleBarHeight");
+            titleBand.MouseLeftButtonDown += (_, e) => { if (e.ButtonState == MouseButtonState.Pressed) DragMove(); };
             var title = new TextBlock
             {
-                Text = L("Str_Dlg_PickColor", "Pick a color"), Foreground = R("PrimaryBrush"),
-                FontSize = 14, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 12),
+                Text = L("Str_Dlg_PickColor", "Pick a color"),
+                FontSize = 14, FontWeight = FontWeights.SemiBold, VerticalAlignment = VerticalAlignment.Center,
                 Effect = new System.Windows.Media.Effects.DropShadowEffect { Color = Colors.Black, BlurRadius = 2, ShadowDepth = 1, Direction = 270, Opacity = 0.7 },
-                Cursor = Cursors.SizeAll
             };
-            title.MouseLeftButtonDown += (_, e) => { if (e.ButtonState == MouseButtonState.Pressed) DragMove(); };
-            panel.Children.Add(title);
+            // ChromeTextBrush: the caption sits on the title band, which is dark on several themes.
+            title.SetResourceReference(TextBlock.ForegroundProperty, "ChromeTextBrush");
+            titleBand.Child = title;
+
+            // The band goes above the padded content, so it reaches the card's edges.
+            var cardRows = new Grid();
+            cardRows.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            cardRows.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            Grid.SetRow(titleBand, 0);
+            cardRows.Children.Add(titleBand);
+            // Detach from root BEFORE re-parenting: WPF throws if an element that already has a
+            // parent is added to another panel.
+            root.Children.Remove(panel);
+            Grid.SetRow(panel, 1);
+            cardRows.Children.Add(panel);
+            root.Children.Add(cardRows);
 
             // SV square + hue strip
             var pickRow = new StackPanel { Orientation = Orientation.Horizontal };
@@ -135,7 +199,7 @@ namespace KillerNotes.Controls
             var svGrid = new Grid { Width = SvW, Height = SvH };
             svGrid.Children.Add(_svHue); svGrid.Children.Add(svWhite); svGrid.Children.Add(svBlack); svGrid.Children.Add(_svThumb);
             // ClipToBounds off so the indicator dot shows fully when it sits at an edge/corner.
-            _svArea = new Border { Width = SvW, Height = SvH, CornerRadius = new CornerRadius(3), ClipToBounds = false,
+            _svArea = new Border { Width = SvW, Height = SvH, CornerRadius = Rad("SmallCornerRadius", 3), ClipToBounds = false,
                 BorderBrush = R("InputBorderBrush"), BorderThickness = new Thickness(1), Child = svGrid, Cursor = Cursors.Cross };
             _svArea.MouseLeftButtonDown += (s, e) => { _svArea.CaptureMouse(); SvPick(e.GetPosition(svGrid)); };
             _svArea.MouseMove += (s, e) => { if (e.LeftButton == MouseButtonState.Pressed) SvPick(e.GetPosition(svGrid)); };
@@ -144,13 +208,13 @@ namespace KillerNotes.Controls
 
             var hueRect = new Rectangle { Width = HueW, Height = SvH, Fill = HueStripBrush() };
             _hueThumb = new Border { Width = HueW + 6, Height = 6, BorderBrush = Brushes.White, BorderThickness = new Thickness(1.5),
-                Background = R("PrimaryBrush"), CornerRadius = new CornerRadius(2), IsHitTestVisible = false };
+                Background = R("PrimaryBrush"), CornerRadius = Rad("SmallCornerRadius", 2), IsHitTestVisible = false };
             var hueCanvas = new Canvas { Width = HueW + 6, Height = SvH };
             Canvas.SetLeft(_hueThumb, -3);
             hueCanvas.Children.Add(_hueThumb);
             var hueGrid = new Grid { Margin = new Thickness(8, 0, 0, 0) };
             hueGrid.Children.Add(hueRect); hueGrid.Children.Add(hueCanvas);
-            var hueArea = new Border { Child = hueGrid, Cursor = Cursors.SizeNS, CornerRadius = new CornerRadius(3),
+            var hueArea = new Border { Child = hueGrid, Cursor = Cursors.SizeNS, CornerRadius = Rad("SmallCornerRadius", 3),
                 BorderBrush = R("InputBorderBrush"), BorderThickness = new Thickness(1) };
             hueArea.MouseLeftButtonDown += (s, e) => { hueArea.CaptureMouse(); HuePick(e.GetPosition(hueRect)); };
             hueArea.MouseMove += (s, e) => { if (e.LeftButton == MouseButtonState.Pressed) HuePick(e.GetPosition(hueRect)); };
@@ -160,7 +224,7 @@ namespace KillerNotes.Controls
 
             // RGB + hex + preview + eyedropper
             var inputRow = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 12, 0, 0) };
-            _newSwatch = new Border { Width = 34, Height = 34, CornerRadius = new CornerRadius(3),
+            _newSwatch = new Border { Width = 34, Height = 34, CornerRadius = Rad("SmallCornerRadius", 3),
                 BorderBrush = R("InputBorderBrush"), BorderThickness = new Thickness(1), Margin = new Thickness(0, 0, 10, 0) };
             inputRow.Children.Add(_newSwatch);
             _rBox = NumBox(); _gBox = NumBox(); _bBox = NumBox();
@@ -206,9 +270,13 @@ namespace KillerNotes.Controls
 
             // OK / Cancel - the shared family button styles (OutlineButton = primary).
             var btnRow = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 14, 0, 0) };
+            // IsCancel ALONE. It already sets DialogResult=false and closes on click (and on Esc),
+            // so the explicit Click handler that did the same fired a SECOND close: the first was
+            // cancelled by the fade in OnClosing, the second arrived with _closeFaded already true
+            // and closed instantly - so Cancel skipped the fade and raced the fade timer into
+            // closing an already-closed window.
             var cancel = new Button { Content = L("Str_Btn_Cancel", "Cancel"), Width = 74, IsCancel = true,
                 Style = Application.Current.TryFindResource("SurfaceButton") as Style };
-            cancel.Click += (_, _) => { DialogResult = false; Close(); };
             var ok = new Button { Content = "OK", Width = 74, Margin = new Thickness(8, 0, 0, 0), IsDefault = true,
                 Style = Application.Current.TryFindResource("OutlineButton") as Style };
             ok.Click += (_, _) => Accept();
@@ -312,7 +380,7 @@ namespace KillerNotes.Controls
             {
                 var c = saved[i];
                 int idx = i;
-                var sw = new Border { Width = 20, Height = 20, CornerRadius = new CornerRadius(3), Margin = new Thickness(0, 0, 4, 4),
+                var sw = new Border { Width = 20, Height = 20, CornerRadius = Rad("SmallCornerRadius", 3), Margin = new Thickness(0, 0, 4, 4),
                     Background = new SolidColorBrush(c), BorderThickness = new Thickness(_replaceArmed ? 2 : 1), Cursor = Cursors.Hand,
                     ToolTip = _replaceArmed
                         ? L("Str_TT_SwatchReplace", "Click to set this swatch to the current color")
@@ -376,7 +444,7 @@ namespace KillerNotes.Controls
 
         private Border Chip(string text, string tip)
         {
-            var b = new Border { Height = 20, MinWidth = 22, CornerRadius = new CornerRadius(3), Cursor = Cursors.Hand,
+            var b = new Border { Height = 20, MinWidth = 22, CornerRadius = Rad("SmallCornerRadius", 3), Cursor = Cursors.Hand,
                 BorderBrush = R("InputBorderBrush"), BorderThickness = new Thickness(1), Background = R("PaneBrush"),
                 Padding = new Thickness(6, 0, 6, 0), ToolTip = tip,
                 Child = new TextBlock { Text = text, Foreground = R("TextBrush"), FontSize = 11,
@@ -392,7 +460,7 @@ namespace KillerNotes.Controls
             var b = new FrameworkElementFactory(typeof(Border));
             foreach (var (dp, prop) in new[] { (Border.BackgroundProperty, "Background"), (Border.BorderBrushProperty, "BorderBrush"), (Border.BorderThicknessProperty, "BorderThickness") })
                 b.SetBinding(dp, new Binding(prop) { RelativeSource = new RelativeSource(RelativeSourceMode.TemplatedParent) });
-            b.SetValue(Border.CornerRadiusProperty, new CornerRadius(3));
+            b.SetValue(Border.CornerRadiusProperty, Rad("SmallCornerRadius", 3));
             var sv = new FrameworkElementFactory(typeof(ScrollViewer)) { Name = "PART_ContentHost" };
             sv.SetValue(ScrollViewer.VerticalAlignmentProperty, VerticalAlignment.Center);
             b.AppendChild(sv);
@@ -404,7 +472,7 @@ namespace KillerNotes.Controls
             var bf = new FrameworkElementFactory(typeof(Border));
             foreach (var (dp, prop) in new[] { (Border.BackgroundProperty, "Background"), (Border.BorderBrushProperty, "BorderBrush"), (Border.BorderThicknessProperty, "BorderThickness") })
                 bf.SetBinding(dp, new Binding(prop) { RelativeSource = new RelativeSource(RelativeSourceMode.TemplatedParent) });
-            bf.SetValue(Border.CornerRadiusProperty, new CornerRadius(4));
+            bf.SetValue(Border.CornerRadiusProperty, Rad("ControlCornerRadius", 4));
             var cp = new FrameworkElementFactory(typeof(ContentPresenter));
             cp.SetValue(ContentPresenter.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             cp.SetValue(ContentPresenter.VerticalAlignmentProperty, VerticalAlignment.Center);

@@ -42,7 +42,13 @@ namespace KillerNotes.Shell
                 ApplyThemeElevation();
             };
 
+            // BEFORE InitEditor and InitDictation, and the order is load-bearing: all three attach
+            // to Editor.PreviewMouseLeftButtonDown, WPF runs same-element handlers in registration
+            // order, and a handler that marks the event handled stops the rest. Dragging a floated
+            // object has to win over "select this image" and "play this recording".
+            InitFloat();                                         // Editor.Float.cs (float + drag to place)
             InitEditor();                                        // Editor.cs (paste handler, Ctrl+S)
+            InitDictation();                                     // Editor.Dictation.cs (recording-chip clicks)
             InitSidebar();                                       // Sidebar.cs (restore collapsed state)
             InitShortcuts();                                     // Shortcuts.cs (hotkeys + F1 overlay)
             InitAppScale();                                      // AppScale.cs (restore app-wide size)
