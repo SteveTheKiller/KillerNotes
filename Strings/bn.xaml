@@ -372,6 +372,7 @@
     <sys:String x:Key="Str_KS_Zoom">এডিটর জুম করুন (Ctrl+0 রিসেট করে)</sys:String>
     <sys:String x:Key="Str_St_Zoom">জুম {0}%</sys:String>
     <sys:String x:Key="Str_St_SpellOn">এই নোটে বানান পরীক্ষা চালু</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">নোটটি বানান পরীক্ষার জন্য খুব বড়</sys:String>
     <sys:String x:Key="Str_St_SpellOff">এই নোটে বানান পরীক্ষা বন্ধ</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">লেখা বড় করুন</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">লেখা ছোট করুন</sys:String>

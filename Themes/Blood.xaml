@@ -32,7 +32,8 @@
 
     <SolidColorBrush x:Key="RowAltBrush"         Color="#18FFFFFF" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowHoverBrush"       Color="#54201f" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#44ffffff" po:Freeze="True"/>
+    <!-- Peach-tan wash, matching the warm accent (see KillerUI/Blood.xaml, Steve 2026-08-08) -->
+    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#44f8c99e" po:Freeze="True"/>
     <!-- Selection pair - see the note in Dark.xaml. The monochrome themes use a translucent white
          fill rather than a colour, as defined by KillerUI. -->
     <SolidColorBrush x:Key="SelectionBg"         Color="#44ffffff" po:Freeze="True"/>

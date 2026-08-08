@@ -22,7 +22,8 @@
 .outline a { display: block; padding: 8px 16px 8px 18px; font-size: 13px; color: var(--text2); border-left: 2px solid transparent; }
 .outline a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 8%, transparent); filter: none; }
 .outline a.on { color: var(--accent-text); border-left-color: var(--accent); background: var(--accent); }
-@media (max-width: 900px) { .outline { display:flex; flex-direction:row; flex-wrap:wrap; padding:8px; gap:4px; } .outline a { border-left:0; border-radius:5px; padding:6px 10px; } .outline a.on { border-left:0; } }
+.outline a.sub { padding: 5px 16px 5px 30px; font-size: 12px; }
+@media (max-width: 900px) { .outline { display:flex; flex-direction:row; flex-wrap:wrap; padding:8px; gap:4px; } .outline a { border-left:0; border-radius:5px; padding:6px 10px; } .outline a.on { border-left:0; } .outline a.sub { display:none; } }
 </style>
 </head>
 <body>
@@ -175,7 +176,7 @@
 <figcaption>The life of a note: the editor commits every change into one SQLite file, the search index stays in sync by trigger, encryption wraps the whole file, and shares tear off from there.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
 </figure>
 
-<h3>Autosave</h3>
+<h3 id="autosave">Autosave</h3>
 <p>There is no Save button to forget. A save commits 2 seconds after you stop typing, plus immediately on note switch, on alt-tab away, and on close. Ctrl+S exists for peace of mind, but it is just "commit now" - the same write the timer would have made.</p>
 </section>
 
@@ -189,7 +190,7 @@
 <h2>Encryption</h2>
 <p>Password protection is whole-database encryption with <b>SQLCipher</b> (AES-256), not an application-level gate. When a password is set, every byte of the file is encrypted at rest - notes, images, the search index, the metadata, all of it. A KillerNotes database with a password is unreadable in any SQLite tool without the key.</p>
 <p>Setting, changing, or removing the password rebuilds the database through SQLCipher's export path into a fresh file, then atomically swaps it in. There is no plaintext temp copy of an encrypted database left behind.</p>
-<h3>The honest fine print</h3>
+<h3 id="fineprint">The honest fine print</h3>
 <ul class="blurb-list">
 <li>A database with no password set is a normal SQLite file - encryption is opt-in per database, one click on the title-bar lock.</li>
 <li>There is no recovery back door. If you forget the password, the unlock screen offers a fresh start and archives the locked file (kept on disk, unlockable later if the password comes back to you) - but the encrypted data itself is unrecoverable by design.</li>
@@ -210,20 +211,20 @@
 
 <section class="tech-sec" id="formats">
 <h2>Import &amp; export</h2>
-<h3>In</h3>
+<h3 id="import">In</h3>
 <p>Ctrl+O or drop files anywhere sensible: <code>.txt</code> / <code>.log</code> / <code>.md</code> import as text notes, <code>.rtf</code> loads natively with formatting intact, images land inline, and <code>.html</code> / <code>.htm</code> import as source - which the preview pane then renders, same as the markdown story: source in the editor, preview to view. Each file becomes its own note titled by its filename.</p>
-<h3>Out</h3>
+<h3 id="export">Out</h3>
 <p>Any note exports as plain text, as <code>.rtf</code> (WordPad/Word-compatible, images included), or as a standalone theme-styled HTML page built by a purpose-built FlowDocument-to-HTML converter: paragraphs, lists, tables, character formatting, colors, and images embedded as base64 data URIs - one self-contained file.</p>
-<h3>Preview</h3>
+<h3 id="preview">Preview</h3>
 <p>Notes that look like markdown or HTML get a preview toggle. Markdown renders through <b>Markdig</b> with raw HTML disabled; HTML notes are defused before display - scripts, event handlers, frames, and javascript: URLs are stripped. The preview is a viewer, never a place where pasted content gets to run.</p>
 </section>
 
 <section class="tech-sec" id="audio">
 <h2>Dictation &amp; audio</h2>
 <p>Recording and playback go through <b>winmm</b>, the waveIn and waveOut APIs that ship with Windows. Deliberately not WPF's MediaPlayer, which routes through the Windows Media Player components and fails outright on N editions, on Server, and anywhere the Media Feature Pack is absent - an app that records its own audio should not need a media stack to play it back. Capture is 16 kHz mono 16-bit PCM: what speech recognition wants, and only about 32 KB per second.</p>
-<h3>Storage format</h3>
+<h3 id="audioformat">Storage format</h3>
 <p>Recordings are stored as <b>FLAC</b> (libFLAC, BSD-3-Clause) - lossless and roughly half the size of WAV. Lossless is the point rather than a nicety: slicing a recording and saving it again is bit-identical every time, so editing the same take repeatedly costs nothing. MP3 (libmp3lame) is offered on <i>export</i> only, where the copy is one-way and universal playability is what matters; storing MP3 would mean every edit was a decode and re-encode, compounding generation loss. The format is detected per recording from its first four bytes, so recordings made before FLAC keep working with no conversion pass.</p>
-<h3>Speech recognition</h3>
+<h3 id="speech">Speech recognition</h3>
 <p>Transcription uses <b>whisper.cpp</b> (MIT) running locally. It replaced System.Speech, which is SAPI's desktop dictation engine - a command-and-control model from the Windows 7 era that was not misconfigured but simply at its ceiling, producing confident nonsense on unfamiliar words rather than admitting uncertainty. System.Speech remains as the fallback when no model is installed.</p>
 <p>The whisper natives are about 1.3 MB and ship inside the exe. The <i>model</i> is 75 to 466 MB, so it is downloaded on demand from whisper.cpp's own repository, into your local app data, after you pick a size. Nothing is downloaded without being asked, and nothing is uploaded at any point - the audio never leaves the machine.</p>
 <p>Three models are offered. The chooser names the file each one downloads, so a copy on disk can always be identified and checked against upstream:</p>
@@ -239,15 +240,18 @@
 
 <section class="tech-sec" id="editortools">
 <h2>Editor tools</h2>
-<h3>Syntax highlighting</h3>
-<p>Toggled per note with <code>Ctrl+Shift+E</code>. The highlighter recognizes sixteen languages - PowerShell, Python, SQL, Bash, C#, JavaScript, TypeScript, CSS, HTML, XAML, XML, Vue, JSON, YAML, Markdown and plain - and detection runs <b>per paragraph</b> rather than per note. That is the design decision worth knowing: each block is sniffed on its own, with no help from the lines around it, so a scratch note holding a PowerShell one-liner, a SQL query and a chunk of YAML colors all three correctly without a language picker anywhere in the UI. The trade is that a line has to identify itself in isolation, so a multi-line construct only lights up on the lines carrying its giveaway tokens.</p>
+<h3 id="syntaxhl">Syntax highlighting</h3>
+<p>Toggled per note with <code>Ctrl+Shift+E</code>. The highlighter recognizes sixteen languages - PowerShell, Python, SQL, Bash, C#, JavaScript, TypeScript, CSS, HTML, XAML, XML, Vue, JSON, YAML, Markdown and plain - and detection runs <b>per paragraph</b> rather than per note. That is the design decision worth knowing: each block is sniffed on its own, so a scratch note holding a PowerShell one-liner, a SQL query and a chunk of YAML colors all three correctly without a language picker anywhere in the UI. Lines with no giveaway tokens of their own - a bare closing brace, <code>base.OnStartup(e);</code> - inherit the language of the code block above them, so pasted multi-line code colors whole; a prose line ends the block.</p>
+<p>Highlighting is viewport-scoped and incremental: only the paragraphs on or near the screen are tokenized, only when their text has changed, and pathological input is fenced by per-paragraph size caps and regex timeouts - a 6000-line pasted script stays typeable and scrollable.</p>
 <p>Coloring is applied as <code>TextEffects</code> over the existing runs, so it never touches the stored document - the toggle state rides the note as a tag and the text itself is unchanged. Turning it off restores the original brushes exactly.</p>
-<h3>SketchPad</h3>
+<h3 id="sketchpad">SketchPad</h3>
 <p>A modeless drawing companion on <code>F7</code> (or <code>Ctrl+Shift+D</code>): pen, line, arrow, rectangle, ellipse, polygon, paint bucket, text labels and an eraser, with per-object color, width and opacity. It stays open beside the note rather than blocking it, so you can draw and type in turn.</p>
 <p>Drawings are kept as a <b>vector object list</b>, not just a bitmap. "Print to note" flattens the strokes to an image at the caret and stores the object list alongside it in a side table keyed to the note, so double-clicking that image reopens the original strokes for editing - the picture in the note and the editable drawing behind it stay linked. The paint bucket is a genuine raster flood fill of the rasterized strokes, so an unclosed shape leaks to the canvas edge exactly as it would in MS Paint.</p>
-<h3>Killculator</h3>
+<h3 id="killculator">Killculator</h3>
 <p>A calculator docked in the row beneath the notes list, opened with <code>F9</code>. It is a themed WPF control rather than a shell-out to calc.exe, so it follows the palette and the keyboard. <code>Ctrl+Enter</code> prints the current result into the note; <code>Ctrl+Shift+Enter</code> prints the whole running equation, which is the one that matters when the note has to show the working rather than the answer.</p>
-<h3>Floating placement</h3>
+<h3 id="spellcheck">Spell check</h3>
+<p>Per note, off by default (<code>Ctrl+Shift+P</code>), using Windows' own spell checking. WPF's checker walks the whole document on the UI thread, so notes over 50,000 characters decline the toggle with a status message rather than hanging the app - a pasted script is not what spell check is for anyway.</p>
+<h3 id="floating">Floating placement</h3>
 <p>Images and recordings can be dragged out of the text flow to float, with text wrapping down the side. The mechanism is a FlowDocument <code>Floater</code>, chosen after <code>Figure</code> failed twice: Figure is the element that carries offsets and <code>WrapDirection.Both</code>, but an editable RichTextBox implements only a subset of FlowDocument layout and ignores both. Floater is the part it does implement properly. A Floater has no offset of its own, so horizontal position is a margin snapped to a twelve-column grid - twelve because it divides cleanly by 2, 3, 4 and 6 - and vertical position is <i>which paragraph the object is anchored in</i>, since a Floater reserves its column from its anchor downward. Dragging re-homes the anchor live, and the text lines are themselves the vertical grid.</p>
 </section>
 
@@ -309,12 +313,24 @@
 <a href="#architecture" class="on">Architecture</a>
 <a href="#database">A database, for the layman</a>
 <a href="#storage">Storage</a>
+<a href="#autosave" class="sub">Autosave</a>
 <a href="#search">Search</a>
 <a href="#encryption">Encryption</a>
+<a href="#fineprint" class="sub">The honest fine print</a>
 <a href="#sharing">Sharing formats</a>
 <a href="#formats">Import &amp; export</a>
+<a href="#import" class="sub">In</a>
+<a href="#export" class="sub">Out</a>
+<a href="#preview" class="sub">Preview</a>
 <a href="#audio">Dictation &amp; audio</a>
+<a href="#audioformat" class="sub">Storage format</a>
+<a href="#speech" class="sub">Speech recognition</a>
 <a href="#editortools">Editor tools</a>
+<a href="#syntaxhl" class="sub">Syntax highlighting</a>
+<a href="#sketchpad" class="sub">SketchPad</a>
+<a href="#killculator" class="sub">Killculator</a>
+<a href="#spellcheck" class="sub">Spell check</a>
+<a href="#floating" class="sub">Floating placement</a>
 <a href="#localization">Localization</a>
 <a href="#privacy">Privacy</a>
 <a href="#distribution">Distribution</a>

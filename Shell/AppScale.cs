@@ -56,6 +56,14 @@ namespace KillerNotes.Shell
                 _sidebarBaseWidth = SidebarCol.ActualWidth * _appScale;
             _appScale = scale;
             ScaleHost.LayoutTransform = scale == 1.0 ? Transform.Identity : new ScaleTransform(scale, scale);
+            // Layout rounding OFF while the scale is fractional - the window sets
+            // UseLayoutRounding=True, and rounded child positions multiplied by a fractional
+            // scale land SHORT of the row at some scales and not others: a backdrop stripe
+            // between the editor and the footer, the last text line clipped, and the footer
+            // cast swallowed, all varying with the zoom step ("gone at 108%... a stripe along
+            // the bottom cutting off words", Steve, 2026-08-08). Sub-pixel layout under a
+            // transform is exactly what rounding-off is for; at 1.0 it comes back on.
+            ScaleHost.UseLayoutRounding = scale == 1.0;
             RefreshSidebarWidth();   // Sidebar.cs: panel keeps its on-screen width; the rail scales with the app
             RebuildLineNumbers();    // LineNumbers.cs: gutter numbers track the app zoom
             if (persist)

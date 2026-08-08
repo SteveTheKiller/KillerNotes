@@ -370,6 +370,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Editor zoomen (Strg+0 setzt zurück)</sys:String>
     <sys:String x:Key="Str_St_Zoom">Zoom {0} %</sys:String>
     <sys:String x:Key="Str_St_SpellOn">Rechtschreibprüfung für diese Notiz an</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">Notiz zu groß für die Rechtschreibprüfung</sys:String>
     <sys:String x:Key="Str_St_SpellOff">Rechtschreibprüfung für diese Notiz aus</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Text vergrößern</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">Text verkleinern</sys:String>

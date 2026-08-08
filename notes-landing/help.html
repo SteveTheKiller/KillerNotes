@@ -45,7 +45,8 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 .outline a { display: block; padding: 8px 16px 8px 18px; font-size: 13px; color: var(--text2); border-left: 2px solid transparent; }
 .outline a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 8%, transparent); filter: none; }
 .outline a.on { color: var(--accent-text); border-left-color: var(--accent); background: var(--accent); }
-@media (max-width: 900px) { .content-inner { padding: 0 16px 44px; } .kbd-cols { grid-template-columns: 1fr; gap: 0; } .outline { display:flex; flex-direction:row; flex-wrap:wrap; padding:8px; gap:4px; } .outline a { border-left:0; border-radius:5px; padding:6px 10px; } .outline a.on { border-left:0; } }
+.outline a.sub { padding: 5px 16px 5px 30px; font-size: 12px; }
+@media (max-width: 900px) { .content-inner { padding: 0 16px 44px; } .kbd-cols { grid-template-columns: 1fr; gap: 0; } .outline { display:flex; flex-direction:row; flex-wrap:wrap; padding:8px; gap:4px; } .outline a { border-left:0; border-radius:5px; padding:6px 10px; } .outline a.on { border-left:0; } .outline a.sub { display:none; } }
 </style>
 </head>
 <body>
@@ -400,15 +401,51 @@ window.addEventListener('resize', fit);
 <div class="sb-tabs"><span class="on" data-i18n="nav_help">Help</span></div>
 <nav class="outline">
 <a href="#notes" class="on" data-i18n="hp_4">Notes &amp; search</a>
+<a href="#hp_5" class="sub" data-i18n="hp_5">New notes &amp; autosave</a>
+<a href="#hp_9" class="sub" data-i18n="hp_9">Search</a>
+<a href="#hp_12" class="sub" data-i18n="hp_12">Sorting &amp; density</a>
+<a href="#hp_15" class="sub" data-i18n="hp_15">Title colors</a>
+<a href="#hp_17" class="sub" data-i18n="hp_17">Delete &amp; sidebar undo</a>
 <a href="#groups" data-i18n="hp_20">Groups &amp; subgroups</a>
+<a href="#hp_21" class="sub" data-i18n="hp_21">Creating groups</a>
+<a href="#hp_23" class="sub" data-i18n="hp_23">Subgroups</a>
+<a href="#hp_26" class="sub" data-i18n="hp_26">Group colors</a>
+<a href="#hp_28" class="sub" data-i18n="hp_28">Drag, reorder &amp; collapse</a>
 <a href="#tags" data-i18n="hp_31">Tags</a>
+<a href="#hp_32" class="sub" data-i18n="hp_32">Managing tags</a>
+<a href="#hp_34" class="sub" data-i18n="hp_34">Assigning &amp; filtering</a>
 <a href="#editor" data-i18n="hp_37">Editor</a>
+<a href="#hp_38" class="sub" data-i18n="hp_38">Formatting</a>
+<a href="#hp_40" class="sub" data-i18n="hp_40">Tables</a>
+<a href="#hp_81" class="sub" data-i18n="hp_81">Hyperlinks</a>
+<a href="#hp_42" class="sub" data-i18n="hp_42">Images</a>
+<a href="#hp_45" class="sub" data-i18n="hp_45">Spell check &amp; convert to list</a>
+<a href="#hp_48" class="sub" data-i18n="hp_48">Word wrap &amp; line numbers</a>
+<a href="#hp_84" class="sub" data-i18n="hp_84">Sideways scrolling</a>
+<a href="#hp_110" class="sub" data-i18n="hp_110">Syntax highlighting</a>
+<a href="#hp_50" class="sub" data-i18n="hp_50">Markdown &amp; HTML preview</a>
 <a href="#killculator" data-i18n="hp_52">Killculator</a>
+<a href="#hp_53" class="sub" data-i18n="hp_53">Using the Killculator</a>
 <a href="#sketchpad" data-i18n="hp_86">SketchPad</a>
+<a href="#hp_87" class="sub" data-i18n="hp_87">Drawing on a note</a>
 <a href="#dictation" data-i18n="hp_90">Dictation</a>
+<a href="#hp_91" class="sub" data-i18n="hp_91">Recording &amp; transcribing</a>
+<a href="#hp_95" class="sub" data-i18n="hp_95">Better transcription</a>
+<a href="#hp_99" class="sub" data-i18n="hp_99">Editing a recording</a>
+<a href="#hp_102" class="sub" data-i18n="hp_102">Getting a recording out</a>
 <a href="#placing" data-i18n="hp_105">Placing images &amp; recordings</a>
+<a href="#hp_106" class="sub" data-i18n="hp_106">Drag to place</a>
 <a href="#data" data-i18n="hp_57">Databases, security &amp; sharing</a>
+<a href="#hp_58" class="sub" data-i18n="hp_58">Password protection</a>
+<a href="#hp_60" class="sub" data-i18n="hp_60">Multiple databases</a>
+<a href="#hp_62" class="sub" data-i18n="hp_62">Sharing &amp; export</a>
 <a href="#quirks" data-i18n="hp_65">Quirks &amp; good to know</a>
+<a href="#hp_66" class="sub" data-i18n="hp_66">Two zooms, not one</a>
+<a href="#hp_69" class="sub" data-i18n="hp_69">The sidebar rail</a>
+<a href="#hp_71" class="sub" data-i18n="hp_71">Themes &amp; languages</a>
+<a href="#hp_77" class="sub" data-i18n="hp_77">Custom fonts</a>
+<a href="#hp_113" class="sub" data-i18n="hp_113">The file picker is ours, not Windows'</a>
+<a href="#hp_73" class="sub" data-i18n="hp_73">Portable by default</a>
 <a href="#shortcuts" data-i18n="hp_75">Keyboard shortcuts</a>
 </nav>
 </aside>
@@ -424,6 +461,9 @@ window.addEventListener('resize', fit);
 (function(){
   var items=[].slice.call(document.querySelectorAll('.acc-item'));
   items.forEach(function(it){ var h=it.querySelector('.acc-head'), b=it.querySelector('.acc-body');
+    // Anchor id from the head's i18n key ("hp_9"), so the sidebar's sub-links can target
+    // every accordion item without the markup carrying three dozen hand-written ids.
+    if(h && !it.id) it.id=h.getAttribute('data-i18n');
     h.addEventListener('click', function(){
       var open=it.classList.contains('open');
       items.forEach(function(o){ o.classList.remove('open'); o.querySelector('.acc-body').style.maxHeight=null; });
@@ -431,6 +471,13 @@ window.addEventListener('resize', fit);
     });
   });
   var links=[].slice.call(document.querySelectorAll('.outline a'));
+  // A sub-link that targets a collapsed accordion item expands it on arrival.
+  links.forEach(function(a){ a.addEventListener('click', function(){
+    var t=document.querySelector(a.getAttribute('href'));
+    if(t && t.classList.contains('acc-item') && !t.classList.contains('open')){
+      var h=t.querySelector('.acc-head'); if(h) h.click();
+    }
+  }); });
   var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));}).filter(Boolean);
   var sc=document.querySelector('.content-scroll');
   function spy(){ var y=(sc?sc.scrollTop:window.scrollY)+100, cur=secs[0]; secs.forEach(function(s){ if(s&&s.offsetTop<=y) cur=s; });

@@ -68,7 +68,13 @@ namespace KillerNotes.Shell
             return group;
         }
 
-        private void DictationRail_Click(object sender, RoutedEventArgs e) => OpenDictation();
+        // The RAIL ICON toggles: clicking it with the pad open closes the pad (Steve,
+        // 2026-08-08). F8 keeps bring-to-front semantics.
+        private void DictationRail_Click(object sender, RoutedEventArgs e)
+        {
+            if (_dictation != null) { _dictation.Close(); return; }
+            OpenDictation();
+        }
 
         /// <summary>
         /// Reopens the speech-model chooser from the rail's right-click menu. The pad offers it once
@@ -134,8 +140,9 @@ namespace KillerNotes.Shell
             if (_dictation == null)
             {
                 _dictation = new DictationWindow(this, PrintDictationToNote, EmbedRecordingInNote);
-                _dictation.Closed += (_, _) => _dictation = null;
+                _dictation.Closed += (_, _) => { _dictation = null; DictationRailBtn.Tag = null; };
                 _dictation.Show();
+                DictationRailBtn.Tag = "on";   // light the rail toggle while the pad is open (family pattern)
             }
             else
             {

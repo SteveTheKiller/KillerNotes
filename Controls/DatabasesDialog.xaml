@@ -4,7 +4,11 @@
 <Window x:Class="KillerNotes.Controls.DatabasesDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:KillerNotes.Controls"
         Title="KillerNotes"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        SnapsToDevicePixels="True"
         Width="440" SizeToContent="Height"
         WindowStartupLocation="CenterOwner"
         WindowStyle="None"
@@ -13,39 +17,11 @@
         Background="Transparent"
         ShowInTaskbar="False">
 
-    <!-- The shadow is on its OWN childless sibling, never on the border that holds the content.
-         A DropShadowEffect is a bitmap effect: everything inside it is rasterised, so all the text
-         under it loses ClearType and renders visibly pixelated - which is exactly how this
-         dialog's caption looked while every other window's was crisp. CLAUDE.md locks this for the
-         About card and it is the same rule here. (Steve, 2026-08-07.) -->
-    <Grid x:Name="RootBorder" Opacity="0">
-        <Border Background="{DynamicResource BackgroundBrush}"
-                CornerRadius="{DynamicResource PanelCornerRadius}"
-                Margin="{DynamicResource DialogHaloMargin}"
-                IsHitTestVisible="False">
-            <Border.Effect>
-                <DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
-            </Border.Effect>
-        </Border>
-        <Border Background="{DynamicResource BackgroundBrush}"
-                BorderBrush="{DynamicResource WindowEdgeBrush}"
-                BorderThickness="{DynamicResource WindowEdgeThickness}"
-                CornerRadius="{DynamicResource PanelCornerRadius}"
-                Margin="{DynamicResource DialogHaloMargin}">
-        <Grid>
-            <!-- The window's 3D edge - the same stacked bevel pairs every other window draws.
-                 Transparent by default, so nothing appears on the other twelve themes. -->
-            <Border Panel.ZIndex="9000" IsHitTestVisible="False"
-                    BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
-            <Border Panel.ZIndex="9000" IsHitTestVisible="False"
-                    BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
-            <Border Panel.ZIndex="9001" IsHitTestVisible="False"
-                    BorderBrush="{DynamicResource FrameOuterLightBrush}" BorderThickness="{DynamicResource FrameOuterLightThickness}"/>
-            <Border Panel.ZIndex="9001" IsHitTestVisible="False"
-                    BorderBrush="{DynamicResource FrameOuterDarkBrush}" BorderThickness="{DynamicResource FrameOuterDarkThickness}"/>
-            <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
-                    Opacity="{DynamicResource GrainOpacity}"
-                    Background="{DynamicResource GrainTileBrush}"/>
+    <!-- Card chrome (shadow/border/bevels/grain) is the SHARED DialogCard style; the caption
+         is the SHARED DialogTitleBar control. This dialog is where both patterns were worked
+         out (the childless shadow sibling, the caption swap - Steve, 2026-08-07); the single
+         copies now live in Controls.xaml and DialogTitleBar.xaml - never inline them again. -->
+    <ContentControl x:Name="RootBorder" Opacity="0" Style="{StaticResource DialogCard}">
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -54,53 +30,8 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Title bar: Background MUST be Transparent, not TitleBarBrush. An opaque strip
-                     paints a square-cornered band over the card's rounded top corners and reads as
-                     a separate bar bolted on; every other dialog in the family lets the card's own
-                     background show through so the bar blends into the window. -->
-                <Border Grid.Row="0" Background="{DynamicResource DialogTitleBarBrush}"
-                        Height="{DynamicResource DialogTitleBarHeight}"
-                        MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
-                    <Grid Margin="{DynamicResource TitleBarPadding}">
-                        <!-- Plain bold caption on a theme with a Win98-style bar; the wordmark
-                             everywhere else. Same swap as MainWindow and both pickers. -->
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" IsHitTestVisible="False"
-                                   FontWeight="Bold" FontSize="11"
-                                   FontFamily="{DynamicResource ChromeFontFamily}"
-                                   Foreground="{DynamicResource ChromeTextBrush}"
-                                   Visibility="{DynamicResource PlainTitleVisibility}">
-                            <Run Text="KillerNotes - "/><Run Text="{DynamicResource Str_Db_Title}"/>
-                        </TextBlock>
-                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center"
-                              Visibility="{DynamicResource WordmarkVisibility}">
-                            <StackPanel Orientation="Horizontal" Margin="1,2,0,0"
-                                        Opacity="{DynamicResource IconShadowOpacity}">
-                                <StackPanel.Effect><BlurEffect Radius="3"/></StackPanel.Effect>
-                                <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="#D8000000"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="#D8000000"/><Run Text="  Databases" FontSize="18" Foreground="#D8000000"/></TextBlock>
-                            </StackPanel>
-                            <!-- Subtitle to the RIGHT of the wordmark, the shape SketchPad uses.
-                                 It used to be a heading in the BODY instead, which left this
-                                 dialog with an unlabelled caption and its title floating inside
-                                 the card. -->
-                            <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="{DynamicResource AccentLogo}"/><Run Text="  Databases" FontSize="18" Foreground="{DynamicResource MutedTextBrush}"/></TextBlock>
-                        </Grid>
-                        <!-- The SHARED caption close, not a hand-rolled one. This was a bare U+2715
-                             in the default UI font with its own hover template, so it was a
-                             different glyph, a different size and a different colour from the X in
-                             every other window. ChromeCloseButton carries the caption face, the
-                             bevel and the red-block hover; the dual glyph below is the same pair
-                             the title bar and About card use. -->
-                        <!-- CENTRED in the band with only a right inset, matching every other
-                             dialog caption. Top-aligning it and hand-computing the drop meant the
-                             margin had to be re-derived every time a height moved, and it kept
-                             coming out one or two pixels low. (Steve, 2026-08-07.) -->
-                        <Button Click="Close_Click" Style="{StaticResource ChromeCloseButton}"
-                                HorizontalAlignment="Right" VerticalAlignment="Center"
-                                Width="{DynamicResource CaptionButtonWidth}" Height="{DynamicResource CaptionButtonHeight}"
-                                Margin="{DynamicResource DialogCaptionButtonsMargin}">
-                        </Button>
-                    </Grid>
-                </Border>
+                <local:DialogTitleBar Grid.Row="0" Subtitle="{DynamicResource Str_Db_Title}"
+                                      CloseRequested="Close_Click"/>
 
                 <!-- Body -->
                 <StackPanel Grid.Row="1" Margin="24,16,24,12">
@@ -111,6 +42,13 @@
                          card like every other list and field in the app. The bevels are siblings in
                          the Grid below, never children of the bordered element. -->
                     <Grid>
+                    <!-- Elevation shadow on a childless sibling BEHIND the pane (family rule).
+                         PaneShadowEffect, NEVER the keyed PaneShadow - see TagsDialog's note
+                         (full-strength shadow on 98SE otherwise; the theme-built effect is
+                         null there). -->
+                    <Border IsHitTestVisible="False" Background="{DynamicResource PaneBrush}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Effect="{DynamicResource PaneShadowEffect}"/>
                     <Border Background="{DynamicResource PaneBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                             CornerRadius="{DynamicResource ControlCornerRadius}">
@@ -164,6 +102,11 @@
                             BorderThickness="{DynamicResource BevelLightThickness}"/>
                     <Border IsHitTestVisible="False" BorderBrush="{DynamicResource PaneBevelLightBrush}"
                             BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                    <!-- Pane grain OVER the rows, LAST (the locked menu rule) - the dialog's
+                         texture lives here, never in a card-wide overlay. -->
+                    <Border IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Opacity="{DynamicResource GrainOpacity}"
+                            Background="{DynamicResource GrainTileBrush}"/>
                     </Grid>
                     <TextBlock x:Name="DlgStatus" Foreground="{DynamicResource DimTextBrush}"
                                FontSize="10.5" Margin="0,6,0,0" TextWrapping="Wrap"/>
@@ -194,7 +137,5 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-        </Grid>
-        </Border>
-    </Grid>
+    </ContentControl>
 </Window>

@@ -17,7 +17,13 @@ namespace KillerNotes.Shell
     // SketchPad companion window: open, print to note, payload save/load.
     public partial class MainWindow
     {
-        private void SketchRail_Click(object sender, RoutedEventArgs e) => OpenSketchPad();
+        // The RAIL ICON toggles: clicking it with the pad open closes the pad (Steve,
+        // 2026-08-08). F7 and the double-click edit entry points keep bring-to-front semantics.
+        private void SketchRail_Click(object sender, RoutedEventArgs e)
+        {
+            if (_sketchPad != null) { _sketchPad.Close(); return; }
+            OpenSketchPad();
+        }
 
         // SketchPad (BACKLOG: SketchPad - "mini MS Paint"). A MODELESS companion window: F7 /
         // Ctrl+Shift+D / the rail button open it (or bring it forward if already open), and it stays
@@ -67,8 +73,13 @@ namespace KillerNotes.Shell
             if (_sketchPad == null)
             {
                 _sketchPad = new SketchPadWindow(this, PrintSketchToNote);
-                _sketchPad.Closed += (_, _) => { _sketchPad = null; _sketchEditTarget = null; _sketchNoteId = -1; };
+                _sketchPad.Closed += (_, _) =>
+                {
+                    _sketchPad = null; _sketchEditTarget = null; _sketchNoteId = -1;
+                    SketchRailBtn.Tag = null;
+                };
                 _sketchPad.Show();
+                SketchRailBtn.Tag = "on";   // light the rail toggle while the pad is open (family pattern)
             }
             else
             {

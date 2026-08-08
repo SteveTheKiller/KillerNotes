@@ -12,7 +12,7 @@
   <SolidColorBrush x:Key="TableHeaderBrush" Color="#424151"/>
   <SolidColorBrush x:Key="CardBorderBrush" Color="#8e101c"/>
   <SolidColorBrush x:Key="PaneBorderBrush" Color="#5c527d"/>
-  <SolidColorBrush x:Key="AppBorderBrush" Color="#91403e"/>
+  <SolidColorBrush x:Key="AppBorderBrush" Color="#81423b"/>
   <SolidColorBrush x:Key="TextBrush" Color="#f4f4f0"/>
   <SolidColorBrush x:Key="MutedTextBrush" Color="#d7d7cf"/>
   <SolidColorBrush x:Key="ChromeTextBrush" Color="#fafaf6"/>

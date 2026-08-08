@@ -370,6 +370,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Zoom de l'éditeur (Ctrl+0 réinitialise)</sys:String>
     <sys:String x:Key="Str_St_Zoom">Zoom {0} %</sys:String>
     <sys:String x:Key="Str_St_SpellOn">Vérification orthographique activée pour cette note</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">Note trop volumineuse pour la vérification orthographique</sys:String>
     <sys:String x:Key="Str_St_SpellOff">Vérification orthographique désactivée pour cette note</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Agrandir le texte</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">Réduire le texte</sys:String>

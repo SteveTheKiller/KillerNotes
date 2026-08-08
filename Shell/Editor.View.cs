@@ -114,7 +114,10 @@ namespace KillerNotes.Shell
             var cur = (Editor.Selection.GetPropertyValue(TextElement.ForegroundProperty) as SolidColorBrush)?.Color
                       ?? (TryFindResource("TextBrush") as SolidColorBrush)?.Color ?? Colors.White;
             var dlg = new ColorPickerDialog(this, cur);
-            if (dlg.ShowDialog() == true)
+            // Confirmed, not ShowDialog() == true: the close fade nulls DialogResult
+            // (ColorPickerDialog.Confirmed doc).
+            dlg.ShowDialog();
+            if (dlg.Confirmed)
                 ApplyToSelection(TextElement.ForegroundProperty, new SolidColorBrush(dlg.SelectedColor));
         }
 
@@ -124,16 +127,34 @@ namespace KillerNotes.Shell
             var cur = (Editor.Selection.GetPropertyValue(TextElement.BackgroundProperty) as SolidColorBrush)?.Color
                       ?? Color.FromRgb(0x7A, 0x6A, 0x00);
             var dlg = new ColorPickerDialog(this, cur);
-            if (dlg.ShowDialog() == true)
+            dlg.ShowDialog();
+            if (dlg.Confirmed)
                 ApplyToSelection(TextElement.BackgroundProperty, new SolidColorBrush(dlg.SelectedColor));
         }
 
         // ---- Spell check (per note, off by default; Windows spell checking APIs) ----
 
+        // WPF's spell checker walks the WHOLE document on the UI thread. On a huge pasted
+        // script it grinds for minutes before the first squiggle appears, which reads as
+        // "spell check not working at all" and "the app is unusable" AT ONCE (Steve,
+        // 2026-08-08) - and the setting persists per note, so that note re-hung the app on
+        // every load. Above this many characters the toggle refuses and says so, and the
+        // load path quietly stays off.
+        private const int MaxSpellCheckChars = 50_000;
+
+        private bool NoteTooBigForSpellCheck()
+            => new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd)
+                   .Text.Length > MaxSpellCheckChars;
+
         private void Spell_Click(object sender, RoutedEventArgs e)
         {
             if (_currentId < 0) return;
             bool on = !Editor.SpellCheck.IsEnabled;
+            if (on && NoteTooBigForSpellCheck())
+            {
+                FlashStatus(Loc("Str_St_SpellTooBig"));
+                return;
+            }
             ApplySpellCheck(on);
             NoteStore.SetSpellCheck(_currentId, on);
             if (_notes.FirstOrDefault(n => n.Id == _currentId) is Note meta) meta.SpellCheck = on;
@@ -145,6 +166,9 @@ namespace KillerNotes.Shell
         /// both the "abc" and the check mark at once.</summary>
         private void ApplySpellCheck(bool on)
         {
+            // The load path's rescue: a note saved with spell check on that has since grown
+            // past the cap must not re-hang the app the moment it opens.
+            if (on && NoteTooBigForSpellCheck()) on = false;
             try { Editor.SpellCheck.IsEnabled = on; }
             catch { on = false; }   // OS spell checking unavailable - stay off quietly
             if (SpellCheckMenuItem != null) SpellCheckMenuItem.IsChecked = on;

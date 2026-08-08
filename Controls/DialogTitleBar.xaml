@@ -1,0 +1,43 @@
+<!-- THE dialog caption bar, defined ONCE and used by every XAML dialog (Confirm, Password,
+     Tags, Input, Databases). Five inline copies of this block is exactly how the captions
+     drifted apart before; when the caption needs to change, change it HERE.
+     - Plain bold caption on a theme with a Win98-style bar (PlainTitleVisibility); the app
+       wordmark with its soft dark shadow copy everywhere else (WordmarkVisibility). Same swap
+       as MainWindow and both pickers.
+     - Subtitle (optional) appends " - <sub>" to the plain caption and "  <sub>" after the
+       wordmark, the shape SketchPad and Databases use.
+     - The X is the SHARED ChromeCloseButton: the glyph lives in the style, nothing here.
+     - Dragging the bar moves the owning window; the host wires CloseRequested. -->
+<UserControl x:Class="KillerNotes.Controls.DialogTitleBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Background="{DynamicResource DialogTitleBarBrush}"
+            Height="{DynamicResource DialogTitleBarHeight}"
+            MouseLeftButtonDown="Bar_MouseLeftButtonDown">
+        <Grid Margin="{DynamicResource TitleBarPadding}">
+            <TextBlock x:Name="PlainTitle" Text="KillerNotes"
+                       VerticalAlignment="Center" HorizontalAlignment="Left" IsHitTestVisible="False"
+                       FontWeight="Bold" FontSize="11"
+                       FontFamily="{DynamicResource ChromeFontFamily}"
+                       Foreground="{DynamicResource ChromeTextBrush}"
+                       Visibility="{DynamicResource PlainTitleVisibility}"/>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Center"
+                  Visibility="{DynamicResource WordmarkVisibility}">
+                <StackPanel Orientation="Horizontal" Margin="1,2,0,0"
+                            Opacity="{DynamicResource IconShadowOpacity}">
+                    <StackPanel.Effect><BlurEffect Radius="3"/></StackPanel.Effect>
+                    <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="#D8000000"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="#D8000000"/><Run x:Name="ShadowSubtitleRun" FontSize="18" Foreground="#D8000000"/></TextBlock>
+                </StackPanel>
+                <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="{DynamicResource AccentLogo}"/><Run x:Name="SubtitleRun" FontSize="18" Foreground="{DynamicResource MutedTextBrush}"/></TextBlock>
+            </Grid>
+            <!-- ChromeCloseButton, NOT DialogCloseButton: this X sits AT the card's top-right
+                 corner, so its hover block rounds with that corner ("top right should be
+                 rounded here", Steve, 2026-08-08). DialogCloseButton (all four corners) is
+                 only for the X's that float inset - About and Fonts. -->
+            <Button Click="Close_Click" Style="{StaticResource ChromeCloseButton}"
+                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Width="{DynamicResource DialogCloseWidth}" Height="{DynamicResource DialogCloseHeight}"
+                    Margin="{DynamicResource DialogCaptionButtonsMargin}"/>
+        </Grid>
+    </Border>
+</UserControl>

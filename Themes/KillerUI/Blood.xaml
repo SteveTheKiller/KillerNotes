@@ -6,5 +6,8 @@
   <SolidColorBrush x:Key="CardBorderBrush" Color="#401d1d"/><SolidColorBrush x:Key="PaneBorderBrush" Color="#633030"/><SolidColorBrush x:Key="AppBorderBrush" Color="#401d1d"/>
   <SolidColorBrush x:Key="TextBrush" Color="#fffde8"/><SolidColorBrush x:Key="MutedTextBrush" Color="#f8c99e"/><SolidColorBrush x:Key="ChromeTextBrush" Color="#e8cfc2"/><SolidColorBrush x:Key="DimTextBrush" Color="#e2b58a"/>
   <SolidColorBrush x:Key="InputBorderBrush" Color="#633030"/><SolidColorBrush x:Key="InputHoverBrush" Color="#a8434f"/><SolidColorBrush x:Key="MenuBackgroundBrush" Color="#1e0a0b"/><SolidColorBrush x:Key="MenuBorderBrush" Color="#633030"/>
-  <SolidColorBrush x:Key="SelectionBg" Color="#44ffffff"/><SolidColorBrush x:Key="SelectionFg" Color="#ffffff"/><SolidColorBrush x:Key="PrimaryBrush" Color="#ffffff"/><SolidColorBrush x:Key="PrimaryHoverBrush" Color="#ffffff"/><SolidColorBrush x:Key="PrimaryPressedBrush" Color="#ffffff"/><SolidColorBrush x:Key="OnPrimaryBrush" Color="#2c1012"/><SolidColorBrush x:Key="OutlineBtnBrush" Color="#e8485a"/><SolidColorBrush x:Key="HeaderLineBrush" Color="#e8485a"/>
+  <!-- The WARM accent, not white and not the signature salmon - the pre-KillerUI palette
+       accented with peach-tan #f8c99e (Steve, 2026-08-08, same call as Cyanotic and Greed).
+       The signature salmon stays in HeaderLineBrush for the wordmark. -->
+  <SolidColorBrush x:Key="SelectionBg" Color="#44f8c99e"/><SolidColorBrush x:Key="SelectionFg" Color="#ffffff"/><SolidColorBrush x:Key="PrimaryBrush" Color="#f8c99e"/><SolidColorBrush x:Key="PrimaryHoverBrush" Color="#f8c99e"/><SolidColorBrush x:Key="PrimaryPressedBrush" Color="#f8c99e"/><SolidColorBrush x:Key="OnPrimaryBrush" Color="#2c1012"/><SolidColorBrush x:Key="OutlineBtnBrush" Color="#f8c99e"/><SolidColorBrush x:Key="HeaderLineBrush" Color="#e8485a"/>
 </ResourceDictionary>

@@ -84,6 +84,18 @@ namespace KillerNotes.Controls
         {
             _penColor = c;
             if (_tool == Tool.Eraser) SetTool(Tool.Pen);
+            // A SELECTED object recolors too. The palette only ever set the pen for the NEXT
+            // stroke, so selecting a text label and clicking swatches did nothing at all
+            // ("theres no way to change the text color in the sketchpad", Steve, 2026-08-08).
+            // One undo step; a filled shape keeps its fill's own alpha while the hue follows.
+            if (_sel != null)
+            {
+                PushUndo();
+                if (_sel.Fill is string f && f.Length == 9)
+                    _sel.Fill = $"#{f.Substring(1, 2)}{c.R:X2}{c.G:X2}{c.B:X2}";
+                _sel.Color = $"#FF{c.R:X2}{c.G:X2}{c.B:X2}";
+                RenderCanvas();
+            }
         }
 
         private void CycleWidth()

@@ -370,6 +370,7 @@
     <sys:String x:Key="Str_KS_Zoom">エディターをズーム (Ctrl+0 でリセット)</sys:String>
     <sys:String x:Key="Str_St_Zoom">ズーム {0}%</sys:String>
     <sys:String x:Key="Str_St_SpellOn">このノートのスペル チェックをオンにしました</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">ノートが大きすぎるため、スペル チェックできません</sys:String>
     <sys:String x:Key="Str_St_SpellOff">このノートのスペル チェックをオフにしました</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">文字を大きく</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">文字を小さく</sys:String>

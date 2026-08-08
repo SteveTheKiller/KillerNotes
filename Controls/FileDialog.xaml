@@ -164,7 +164,7 @@
                          frame. Centring needs no arithmetic at all. (Steve, 2026-08-07.) -->
                     <Button Click="Cancel_Click" Style="{StaticResource ChromeCloseButton}"
                             HorizontalAlignment="Right" VerticalAlignment="Center"
-                            Width="{DynamicResource CaptionButtonWidth}" Height="{DynamicResource CaptionButtonHeight}"
+                            Width="{DynamicResource DialogCloseWidth}" Height="{DynamicResource DialogCloseHeight}"
                             Margin="{DynamicResource DialogCaptionButtonsMargin}">
                     </Button>
                 </Grid>

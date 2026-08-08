@@ -67,8 +67,5 @@ namespace KillerNotes.Controls
         {
             if (e.Key == Key.Enter) OK_Click(sender, e);
         }
-
-        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-            => DragMove();
     }
 }

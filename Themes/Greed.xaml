@@ -31,7 +31,8 @@
 
     <SolidColorBrush x:Key="RowAltBrush"         Color="#18FFFFFF" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowHoverBrush"       Color="#00593a" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#44ffffff" po:Freeze="True"/>
+    <!-- Tan wash, matching the warm accent (see KillerUI/Greed.xaml, Steve 2026-08-08) -->
+    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#44e0d49a" po:Freeze="True"/>
     <!-- Selection pair from the shared KillerUI contract: translucent white. -->
     <SolidColorBrush x:Key="SelectionBg"         Color="#44ffffff" po:Freeze="True"/>
     <SolidColorBrush x:Key="SelectionFg"         Color="#ffffff" po:Freeze="True"/>

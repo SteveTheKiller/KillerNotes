@@ -52,8 +52,5 @@ namespace KillerNotes.Controls
             Confirmed = false;
             Close();
         }
-
-        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-            => DragMove();
     }
 }

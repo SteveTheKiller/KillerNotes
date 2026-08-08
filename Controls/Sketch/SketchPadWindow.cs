@@ -117,12 +117,33 @@ namespace KillerNotes.Controls
             WindowStyle = WindowStyle.None;
             AllowsTransparency = true;                 // rounded card + shadow halo need a transparent window
             ResizeMode = ResizeMode.CanResize;
-            ShowInTaskbar = false;
+            // In the taskbar and Alt+Tab: the pads are free sibling windows now (no Owner), so
+            // without a taskbar entry there was no way to switch between them and the main
+            // window ("windows needs to register these windows in the taskbar", 2026-08-08).
+            ShowInTaskbar = true;
             Background = Brushes.Transparent;
             Width = 900; Height = 720;
             MinWidth = 520; MinHeight = 460;
-            Owner = owner;
-            WindowStartupLocation = owner != null ? WindowStartupLocation.CenterOwner : WindowStartupLocation.CenterScreen;
+            // NOT Owner = owner. An owned window sits permanently ABOVE its owner, so the main
+            // window could never be brought over an open pad ("i cant get the notes window above
+            // dictation or sketchpad", Steve, 2026-08-08). The pads are free siblings: normal
+            // z-order, click whichever should be on top. What Owner used to provide is done by
+            // hand - centred over the main window at open, and closed with it.
+            if (owner != null)
+            {
+                WindowStartupLocation = WindowStartupLocation.Manual;
+                Rect r = owner.WindowState == WindowState.Maximized
+                    ? SystemParameters.WorkArea
+                    : new Rect(owner.Left, owner.Top,
+                               owner.ActualWidth > 0 ? owner.ActualWidth : owner.Width,
+                               owner.ActualHeight > 0 ? owner.ActualHeight : owner.Height);
+                Left = r.Left + (r.Width - Width) / 2;
+                Top = r.Top + (r.Height - Height) / 2;
+                EventHandler ownerClosed = (_, _) => Close();
+                owner.Closed += ownerClosed;
+                Closed += (_, _) => owner.Closed -= ownerClosed;
+            }
+            else WindowStartupLocation = WindowStartupLocation.CenterScreen;
             UseLayoutRounding = true;
             // Text rendering, matching MainWindow.xaml:10 and FileDialog.xaml:16-17. This window set
             // neither, so its text fell back to Ideal formatting with default (greyscale) rendering
@@ -135,10 +156,13 @@ namespace KillerNotes.Controls
             Opacity = 0;
             Loaded += (_, _) => Anim.FadeIn(this);
 
+            // 24 reaches past the 20px shadow halo onto the visible card edge + corners; on a
+            // flat theme (halo 0) it must be thin or it swallows the caption - see the matching
+            // logic in UpdateWindowCorners, which re-derives this on every theme change.
             WindowChrome.SetWindowChrome(this, new WindowChrome
             {
                 CaptionHeight = 0,
-                ResizeBorderThickness = new Thickness(24),   // wide enough to reach past the 20px shadow halo onto the visible card edge + corners
+                ResizeBorderThickness = new Thickness(TryFindResource("UseDialogCaption") != null ? 4 : 24),
                 CornerRadius = new CornerRadius(0),
                 GlassFrameThickness = new Thickness(0),
                 UseAeroCaptionButtons = false,
@@ -170,6 +194,32 @@ namespace KillerNotes.Controls
             Drop += OnDrop;
 
             StateChanged += (_, _) => UpdateWindowCorners();
+            Loaded += (_, _) =>
+            {
+                // Re-assert the card chrome (radius, halo, shadow) once real, then fit the
+                // default height at ContextIdle - LOADED priority ran before layout numbers
+                // were final and the fit shrank the pad to garbage (2026-08-08).
+                UpdateWindowCorners();
+                Dispatcher.BeginInvoke(new Action(FitDefaultHeightToRail),
+                    System.Windows.Threading.DispatcherPriority.ContextIdle);
+            };
+            // Margins are Thickness values and cannot be resource references, so a live theme
+            // switch re-applies them here; grain and the caption swap are resource-driven. The
+            // rail's overflow STRUCTURE (arrows vs fades) stays from build - reopening the pad
+            // after a cross-family switch picks the right one up.
+            Action onThemeChanged = () =>
+            {
+                _flatChrome = TryFindResource("UseDialogCaption") != null;
+                _contentGrid.Margin = _flatChrome ? new Thickness(3, 2, 0, 4) : new Thickness(16, 6, 16, 12);
+                if (_railPanel != null)
+                    _railPanel.Margin = new Thickness(0, 0, _flatChrome ? 2 : 8, 0);
+                // The canvas pane's shadow follows the theme too - it was baked at build and a
+                // pad opened flat stayed shadowless everywhere (Steve, 2026-08-08).
+                if (_frameShadow != null) _frameShadow.Effect = CardShadowOrNull();
+                UpdateWindowCorners();   // radius + halo + shadow follow the new theme live
+            };
+            KillerNotes.Services.ThemeManager.ThemeChanged += onThemeChanged;
+            Closed += (_, _) => KillerNotes.Services.ThemeManager.ThemeChanged -= onThemeChanged;
             KeyDown += (_, e) =>
             {
                 if (_textBox != null) return;   // the inline text editor owns the keyboard while a label is open
@@ -274,6 +324,12 @@ namespace KillerNotes.Controls
         // at the same elevation as the pane it floats over. ShadowDepth must NOT be 0: that
         // spreads an even halo on all four sides instead of casting downward.
         // Opacity follows the theme's PaneShadowOpacity, which is how 98SE stays flat.
+        /// <summary>CardShadow, or NULL when the theme's PaneShadowOpacity is 0 - never attach
+        /// an invisible effect object (see the note in UpdateWindowCorners).</summary>
+        private static DropShadowEffect? CardShadowOrNull()
+            => Application.Current.TryFindResource("PaneShadowOpacity") is double o && o > 0
+                ? CardShadow() : null;
+
         private static DropShadowEffect CardShadow()
         {
             double opacity = Application.Current.TryFindResource("PaneShadowOpacity") is double o ? o : 0.60;
@@ -298,9 +354,31 @@ namespace KillerNotes.Controls
         private void UpdateWindowCorners()
         {
             bool max = WindowState == WindowState.Maximized;
+            bool flat = Application.Current.TryFindResource("UseDialogCaption") != null;
             _outerBorder.CornerRadius = max ? new CornerRadius(0) : CardRadius();
-            _outerBorder.Margin = max ? new Thickness(0) : new Thickness(20);
-            _outerBorder.Effect = max ? null : CardShadow();
+            // Halo 0 when maximized OR flat. 98SE declares DialogHaloMargin 0 - a flat window sits
+            // FLUSH - but the pads hardcoded 20, leaving a phantom transparent band outside the
+            // frame where shadow residue rendered ("the shadow came back in 98SE", 2026-08-08).
+            // The dialogs honor the key, which is why THEY looked right on 98SE and the pads did
+            // not. Normal themes keep 20: the pads' CardShadow needs more room than the dialogs'
+            // themed 10px halo.
+            _outerBorder.Margin = max || flat ? new Thickness(0) : new Thickness(20);
+            // NULL, never an opacity-0 effect: an Effect object always costs an offscreen surface
+            // and is one renderer quirk from ghosting; absence cannot ghost.
+            _outerBorder.Effect = max || flat ? null : CardShadowOrNull();
+            // The resize grab must TRACK the halo. 24 is sized to reach across the normal 20px
+            // transparent halo onto the visible card edge - but on a flat theme the halo is 0,
+            // so all 24px sit ON the window and swallow the entire 20px caption: no drag, no
+            // close X ("i cant click the titlebar... cant even close it", 2026-08-08). 4 is the
+            // Win98-style thin frame grab; the caption below it drags and the X clicks.
+            WindowChrome.SetWindowChrome(this, new WindowChrome
+            {
+                CaptionHeight = 0,
+                ResizeBorderThickness = new Thickness(flat ? 4 : 24),
+                CornerRadius = new CornerRadius(0),
+                GlassFrameThickness = new Thickness(0),
+                UseAeroCaptionButtons = false,
+            });
             if (_grainBorder != null) _grainBorder.CornerRadius = max ? new CornerRadius(0) : CardRadius();
             // The close X no longer has a corner to square off: it is a bare glyph now, not a
             // filled block hugging the window corner, so there is nothing here to follow the card.

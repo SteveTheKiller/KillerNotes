@@ -234,6 +234,11 @@
         <!-- ScaleHost: the app-wide accessibility zoom (AppScale.cs) scales THIS grid only, so
              the title bar and footer stay a fixed size and the logo you scroll to zoom (LogoBar)
              never moves. -->
+        <!-- Chrome-colored backing behind the scaled row: at a fractional app zoom the scaled
+             content can land a sub-pixel short of the row slot, and the window backdrop showed
+             through the seam as a dark stripe above the footer. Backed with the same
+             BackgroundBrush the chrome tiers use, a hairline seam is invisible (2026-08-08). -->
+        <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}"/>
         <Grid x:Name="ScaleHost" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="SidebarCol" Width="280" MinWidth="230" MaxWidth="480"/>
@@ -1199,14 +1204,44 @@
                  software rendering, an Effect on an ancestor re-renders the whole subtree
                  through the effect on every keystroke - typing lag - so the content pane
                  below stays effect-free. -->
+            <!-- NO Effect on this pane, ever. The downward cast onto the footer is the gradient
+                 band BELOW, drawn as geometry. A DropShadowEffect on a pane-sized element went
+                 through every failure mode today: a shared keyed effect's dynamic opacity died
+                 with a closed dialog window (shadow gone), through a BitmapCache the blur
+                 rendered as a hard 5px stripe, and bare, the shader surface dropped out at some
+                 accessibility-zoom scales and not others ("shadow is gone at 102%
+                 magnification, comes back at 104", Steve, 2026-08-08). Geometry cannot do any
+                 of that. -->
             <Border x:Name="ContentPane" Grid.Column="2" Background="{DynamicResource PaneBrush}"
                     BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
-                    CornerRadius="{DynamicResource ControlCornerRadius}" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="9"
-                    Effect="{StaticResource PaneShadow}">
-                <!-- Directional cast, so the shadow lands on the footer below. -->
-                <Border.CacheMode>
-                    <BitmapCache/>
-                </Border.CacheMode>
+                    CornerRadius="{DynamicResource ControlCornerRadius}" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="9"/>
+            <!-- The pane's cast onto the footer: a 20px gradient skirt hung into the footer row
+                 via RenderTransform (layout-neutral - the rows never move). It shares the
+                 pane's column and margins so it tracks the pane's width at every app zoom, and
+                 its Opacity IS PaneShadowOpacity, so a flat theme (98SE: 0) removes it
+                 entirely - the same key the old effect obeyed. -->
+            <Border Grid.Column="2" Height="20" VerticalAlignment="Bottom"
+                    Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="8"
+                    IsHitTestVisible="False"
+                    Opacity="{DynamicResource PaneShadowOpacity}">
+                <Border.RenderTransform><TranslateTransform Y="20"/></Border.RenderTransform>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#A0000000" Offset="0"/>
+                        <GradientStop Color="#00000000" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <!-- Feather the ENDS too: a real cast fades at the pane's corners, and without
+                     this the band stopped at the pane's right margin as a hard vertical edge
+                     ("you can see a hard edge on the footer shadow", Steve, 2026-08-08). -->
+                <Border.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#00FFFFFF" Offset="0"/>
+                        <GradientStop Color="#FFFFFFFF" Offset="0.02"/>
+                        <GradientStop Color="#FFFFFFFF" Offset="0.98"/>
+                        <GradientStop Color="#00FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.OpacityMask>
             </Border>
             <!-- The pane's SUNKEN edge, drawn over the pane's own border so the client area reads as
                  recessed into the window face - the Notepad/Explorer look. Siblings rather than
@@ -1263,7 +1298,10 @@
                         </ContextMenu>
                     </TextBox.ContextMenu>
                 </TextBox>
-                <Border Height="1" Margin="12,2,12,0" Opacity="0.5"
+                <!-- 0 top / 3 bottom, not 2/0: with no bottom clearance the rule sat on the body
+                     text's ascenders (Steve, 2026-08-08). The title's own 4px bottom margin
+                     keeps its descenders clear above. -->
+                <Border Height="1" Margin="12,0,12,3" Opacity="0.5"
                         Background="{DynamicResource CardBorderBrush}"/>
                 </StackPanel>
 
@@ -1745,8 +1783,11 @@
                     <Border IsHitTestVisible="False" BorderBrush="{DynamicResource FooterBevelLightBrush}"
                             BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
                 </Grid>
-                <!-- Portable mode indicator (hidden when installed), same as KillerScan -->
-                <StackPanel x:Name="PortableBadge" Grid.Column="1" Orientation="Horizontal"
+                <!-- Portable mode indicator (hidden when installed), same as KillerScan.
+                     Grid.Column 0, NOT 1: the middle column went Auto when the footer became
+                     sunken cells, so anything in it hugs the version cell instead of centering.
+                     Riding the star-width status column keeps the badge centered in the bar. -->
+                <StackPanel x:Name="PortableBadge" Grid.Column="0" Orientation="Horizontal"
                             HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
                     <TextBlock Text="{DynamicResource Str_Portable}" Foreground="{DynamicResource TextFooter}"
                                FontFamily="Consolas" FontSize="9" VerticalAlignment="Center" Margin="0,0,8,0"/>
@@ -1903,7 +1944,7 @@
                              the card on all twelve of those themes. Spanning both rows takes it out
                              of the measurement; AboutCloseMargin already positions it correctly
                              from the card's top edge in both cases. (Steve, 2026-08-07.) -->
-                        <Button Grid.RowSpan="2" Click="AboutClose_Click" Style="{StaticResource ChromeCloseButton}"
+                        <Button Grid.RowSpan="2" Click="AboutClose_Click" Style="{StaticResource DialogCloseButton}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2">
@@ -2072,41 +2113,36 @@
                 <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource WindowEdgeBrush}"
                         BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
-                        <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>   <!-- caption band, 0px unless the theme wants one -->
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.RowSpan="2" IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
                                 Opacity="{DynamicResource GrainOpacity}" Background="{DynamicResource GrainTileBrush}"/>
-                        <StackPanel Margin="18,14,18,18">
-                            <Grid Margin="0,0,0,12">
-                                <TextBlock Text="{DynamicResource Str_Fonts_Title}" Foreground="{DynamicResource TextBrush}"
-                                           FontFamily="Consolas" FontSize="15" FontWeight="Bold"/>
-                                <Button Content="&#x2715;" Click="FontsClose_Click" HorizontalAlignment="Right"
-                                        VerticalAlignment="Top" Width="28" Height="22" FontSize="11" Panel.ZIndex="2"
-                                        Background="Transparent" BorderThickness="0" Cursor="Hand">
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="Button">
-                                                        <Border Background="Transparent">
-                                                            <ContentPresenter x:Name="cp" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                        </Border>
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter Property="Foreground" Value="#E04444"/>
-                                                                <Setter TargetName="cp" Property="Effect">
-                                                                    <Setter.Value>
-                                                                        <DropShadowEffect Color="#000000" BlurRadius="4" ShadowDepth="1" Direction="270" Opacity="0.5"/>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                            </Grid>
+                        <!-- Caption band - the SAME recipe as the About card: 98SE gets its
+                             gradient and a plain Win98 title, every other theme gets a 0px band
+                             and nothing shifts. (Steve, 2026-08-08.) -->
+                        <Border Grid.Row="0" ClipToBounds="True"
+                                Height="{DynamicResource AboutCaptionHeight}"
+                                Margin="{DynamicResource AboutCaptionMargin}"
+                                Background="{DynamicResource DialogTitleBarBrush}">
+                            <TextBlock Text="{DynamicResource Str_Fonts_Title}" VerticalAlignment="Center" Margin="8,0,0,0"
+                                       FontFamily="{DynamicResource ChromeFontFamily}"
+                                       FontSize="11" FontWeight="Bold" Foreground="{DynamicResource ChromeTextBrush}"/>
+                        </Border>
+                        <!-- The shared caption close, replacing the last hand-rolled ✕ in the app -
+                             every X is now the same X. RowSpan 2, NOT Row 0: a child still measures
+                             into an Auto row (see the About card's note). -->
+                        <Button Grid.RowSpan="2" Click="FontsClose_Click" Style="{StaticResource DialogCloseButton}"
+                                HorizontalAlignment="Right" VerticalAlignment="Top"
+                                Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
+                                Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
+                        <StackPanel Grid.Row="1" Margin="18,14,18,18">
+                            <!-- Inner title hides when the caption band already says it (flat
+                                 themes) - WordmarkVisibility is the existing fancy-vs-flat switch. -->
+                            <TextBlock Text="{DynamicResource Str_Fonts_Title}" Foreground="{DynamicResource TextBrush}"
+                                       FontFamily="Consolas" FontSize="15" FontWeight="Bold" Margin="0,0,0,12"
+                                       Visibility="{DynamicResource WordmarkVisibility}"/>
                             <TextBlock Text="{DynamicResource Str_Fonts_Headers}" Foreground="{DynamicResource DimTextBrush}"
                                        FontSize="10" Margin="0,0,0,4"/>
                             <ComboBox x:Name="FontHeaderCombo" Style="{StaticResource KnCombo}" Height="26"

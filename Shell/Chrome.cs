@@ -42,8 +42,13 @@ namespace KillerNotes.Shell
         {
             var hwnd = new WindowInteropHelper(this).Handle;
             HwndSource.FromHwnd(hwnd)?.AddHook(WndProc);
-            ApplyWindowCorners(rounded: WindowState == WindowState.Normal && ThemeManager.Current != Theme.SE98);
+            ApplyCornerState();
             ApplyThemeBorder(this);
+            // Aero-snap leaves WindowState at Normal, so corner squaring cannot ride
+            // OnStateChanged alone - track moves and resizes too. ApplyCornerState caches the
+            // last applied value, so the per-pixel storm of a drag costs a bool compare.
+            LocationChanged += (_, _) => ApplyCornerState();
+            SizeChanged += (_, _) => ApplyCornerState();
         }
 
         // ---- Windows 11 rounded corners (DWMWA_WINDOW_CORNER_PREFERENCE = 33) ----
@@ -84,10 +89,76 @@ namespace KillerNotes.Shell
                         : b.Color.R | (b.Color.G << 8) | (b.Color.B << 16);
                     DwmSetWindowAttribute(hwnd, DWMWA_BORDER_COLOR, ref colorref, sizeof(int));
                 }
-                int corner = ThemeManager.Current == Theme.SE98 ? DWMWCP_DONOTROUND : DWMWCP_ROUND;
-                DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, ref corner, sizeof(int));
+                // NO corner preference here. ApplyCornerState is the ONE owner of the DWM
+                // corner: this method runs on every theme change and used to re-assert ROUND
+                // with no WindowState check, so switching themes while maximized brought the
+                // rounded corners back on a flush window ("its rounded again... another
+                // regression", Steve, 2026-08-08).
             }
             catch { /* pre-Win11: attribute unsupported */ }
+        }
+
+        // ---- Corner state: the ONE owner of the DWM corner preference ----
+        //
+        // Square when the window sits FLUSH with the screen - maximized, or Aero-SNAPPED,
+        // which is WindowState.Normal at full work-area height (the same not-Maximized trap
+        // KillerShell's DualPane documents) - rounded when floating on a rounded theme.
+        // Cached, because LocationChanged fires per pixel of a window drag.
+        private bool? _cornersRounded;
+
+        private void ApplyCornerState()
+        {
+            bool flush = WindowState == WindowState.Maximized || IsSnappedFlush();
+            bool rounded = !flush && WindowState == WindowState.Normal && ThemeManager.Current != Theme.SE98;
+            if (_cornersRounded == rounded) return;
+            _cornersRounded = rounded;
+            ApplyWindowCorners(rounded);
+            // BOTH layers, not just DWM: RootBorder draws its own WindowCornerRadius, and on a
+            // flush window that app-drawn rounding still notched the corners whatever the DWM
+            // preference said ("the corners are still partially rounded when snapped or
+            // fullscreen", Steve, 2026-08-08). SetResourceReference on the way back, so the
+            // radius stays theme-reactive when floating.
+            if (RootBorder != null)
+            {
+                if (flush) RootBorder.CornerRadius = new CornerRadius(0);
+                else RootBorder.SetResourceReference(
+                    System.Windows.Controls.Border.CornerRadiusProperty, "WindowCornerRadius");
+            }
+            // And the caption close's hover block, whose top-right rounds WITH the window
+            // corner (CaptionCloseCornerRadius is corner-following by design) - on a flush
+            // window it kept its curve against a now-square corner ("the right corner is
+            // still round on the close button", Steve, 2026-08-08). A WINDOW-LOCAL resource
+            // override, so every dialog's caption resolves the theme value untouched;
+            // removing it falls straight back to the theme, and DynamicResource consumers
+            // re-resolve on both edges.
+            if (flush) Resources["CaptionCloseCornerRadius"] = new CornerRadius(0);
+            else Resources.Remove("CaptionCloseCornerRadius");
+        }
+
+        [DllImport("user32.dll")]
+        private static extern bool GetWindowRect(IntPtr hwnd, out RECT rect);
+
+        /// <summary>Aero-snapped: the window fills the work area's height flush top and bottom
+        /// against one side, while WindowState stays Normal. Compared in device pixels via
+        /// GetWindowRect, so DPI never enters into it.</summary>
+        private bool IsSnappedFlush()
+        {
+            if (WindowState != WindowState.Normal) return false;
+            try
+            {
+                var hwnd = new WindowInteropHelper(this).Handle;
+                if (hwnd == IntPtr.Zero) return false;
+                IntPtr monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+                if (monitor == IntPtr.Zero) return false;
+                var info = new MONITORINFO { cbSize = Marshal.SizeOf(typeof(MONITORINFO)) };
+                if (!GetMonitorInfo(monitor, ref info)) return false;
+                if (!GetWindowRect(hwnd, out RECT wr)) return false;
+                return Math.Abs(wr.top - info.rcWork.top) <= 2
+                    && Math.Abs(wr.bottom - info.rcWork.bottom) <= 2
+                    && (Math.Abs(wr.left - info.rcWork.left) <= 2
+                        || Math.Abs(wr.right - info.rcWork.right) <= 2);
+            }
+            catch { return false; }
         }
 
         private void ApplyWindowCorners(bool rounded)
@@ -105,8 +176,8 @@ namespace KillerNotes.Shell
         protected override void OnStateChanged(EventArgs e)
         {
             base.OnStateChanged(e);
-            // Square the corners when maximized (flush to screen edges), round when floating.
-            ApplyWindowCorners(rounded: WindowState == WindowState.Normal && ThemeManager.Current != Theme.SE98);
+            // Square the corners when flush to screen edges, round when floating.
+            ApplyCornerState();
             // Maximize glyph (Segoe MDL2) toggles to a restore glyph when maximized.
             if (MaximizeBtn != null)
                 MaximizeBtn.Content = WindowState == WindowState.Maximized ? "" : "";

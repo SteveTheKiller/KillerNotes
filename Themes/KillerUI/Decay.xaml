@@ -1,7 +1,10 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <SolidColorBrush x:Key="PrimaryBrush" Color="#8fa88d"/>
-  <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#b3c6a5"/>
-  <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#718876"/>
+  <!-- TAN, not the sage green it shipped with: Decay's accent is the tan OutlineBtnBrush
+       below ("its supposed to be tan", Steve, 2026-08-08), so the icons and accent buttons
+       follow it. -->
+  <SolidColorBrush x:Key="PrimaryBrush" Color="#b8aa7c"/>
+  <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#c2b280"/>
+  <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#9a8f68"/>
   <SolidColorBrush x:Key="HeaderLineBrush" Color="#8a8a78"/>
   <SolidColorBrush x:Key="OnPrimaryBrush" Color="#202321"/>
   <SolidColorBrush x:Key="OutlineBtnBrush" Color="#b8aa7c"/>
@@ -12,7 +15,7 @@
   <SolidColorBrush x:Key="TableHeaderBrush" Color="#5a5c51"/>
   <SolidColorBrush x:Key="CardBorderBrush" Color="#6b705c"/>
   <SolidColorBrush x:Key="PaneBorderBrush" Color="#5c554c"/>
-  <SolidColorBrush x:Key="AppBorderBrush" Color="#8a7f72"/>
+  <SolidColorBrush x:Key="AppBorderBrush" Color="#7a7f62"/>
   <SolidColorBrush x:Key="TextBrush" Color="#f2f4f3"/>
   <SolidColorBrush x:Key="MutedTextBrush" Color="#d8cfb5"/>
   <SolidColorBrush x:Key="ChromeTextBrush" Color="#f2f4f3"/>

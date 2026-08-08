@@ -77,8 +77,20 @@ namespace KillerNotes.Shell
             // feature for all of 1.2.0's development and left help.html describing a door
             // that no longer existed. The ItemContainerStyle above gives this row the same
             // PanelMenuItem look as every other flyout row.
-            ThemeMenu.Items.Add(new Separator());
-            var fonts = new MenuItem { Header = FindResource("Str_Fonts_Open") };
+            // BOTH items carry EXPLICIT styles, and that is load-bearing, not cosmetic: the
+            // flyout's ItemContainerStyle is TargetType=MenuItem, and WPF applies it to EVERY
+            // container it generates - including a Separator, where the TargetType mismatch
+            // THROWS as the menu opens. A bare `new Separator()` here crashed the app on the
+            // first theme-button click (2026-08-08). An explicit local style stops the
+            // ItemContainerStyle from being applied; the keyed alias keeps it themed, and the
+            // implicit MenuItem style gives the Fonts row real hover chrome instead of
+            // PanelMenuItem's bare ContentPresenter.
+            ThemeMenu.Items.Add(new Separator { Style = (Style)FindResource(MenuItem.SeparatorStyleKey) });
+            var fonts = new MenuItem
+            {
+                Header = FindResource("Str_Fonts_Open"),
+                Style = (Style)FindResource(typeof(MenuItem)),
+            };
             fonts.Click += FontsRow_Click;
             ThemeMenu.Items.Add(fonts);
         }
@@ -112,6 +124,9 @@ namespace KillerNotes.Shell
             // the live palette for why every snapshot-based version of this throbbed.
             ThemeManager.Apply(theme);
             ApplyThemeBorder(this);
+            // Corner preference is owned by ApplyCornerState (never ApplyThemeBorder - see its
+            // comment): re-evaluate here because 98SE squares even a floating window.
+            ApplyCornerState();
             ApplyThemeElevation();
             RefreshAccentDots();
             if (HasAccents(old) && HasAccents(theme))

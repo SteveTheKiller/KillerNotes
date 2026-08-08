@@ -370,6 +370,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Düzenleyiciyi yakınlaştır (Ctrl+0 sıfırlar)</sys:String>
     <sys:String x:Key="Str_St_Zoom">Yakınlaştırma %{0}</sys:String>
     <sys:String x:Key="Str_St_SpellOn">Bu not için yazım denetimi açık</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">Not, yazım denetimi için çok büyük</sys:String>
     <sys:String x:Key="Str_St_SpellOff">Bu not için yazım denetimi kapalı</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Metni büyüt</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">Metni küçült</sys:String>

@@ -187,7 +187,12 @@ namespace KillerNotes.Controls
 
         private Border BuildTitleBand()
         {
-            var band = new Border { Padding = new Thickness(14, 0, 14, 0), Cursor = Cursors.SizeAll };
+            // LEFT padding only, like DialogTitleBar: a 14px right pad floated the close X inset
+            // from the window corner, so its hover block sat mid-band with one rounded corner
+            // ("the close button looks wrong on this dialog box", Steve, 2026-08-08). With the
+            // pad gone the X reaches the corner and DialogCaptionButtonsMargin supplies the
+            // family 3px inset, identical to every other dialog caption.
+            var band = new Border { Padding = new Thickness(14, 0, 0, 0), Cursor = Cursors.SizeAll };
             band.SetResourceReference(Border.BackgroundProperty, "DialogTitleBarBrush");
             band.SetResourceReference(HeightProperty, "DialogTitleBarHeight");
             band.MouseLeftButtonDown += (_, e) => { if (e.ButtonState == MouseButtonState.Pressed) DragMove(); };

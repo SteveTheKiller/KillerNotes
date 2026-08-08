@@ -108,6 +108,7 @@ namespace KillerNotes.Shell
         {
             if (_kalcOpen) return;
             _kalcOpen = true;
+            KalcRailBtn.Tag = "on";   // light the rail toggle while the pad is open (family pattern)
 
             // Height changes flip the compact metrics. Width is not involved - the sidebar sets it
             // and nothing here reacts to it.
@@ -158,6 +159,7 @@ namespace KillerNotes.Shell
         {
             if (!_kalcOpen) return;
             _kalcOpen = false;
+            KalcRailBtn.Tag = null;
             // Release the no-clip floor, or the panel cannot animate down to 0 and the pad
             // disappears in one frame instead of sliding away.
             KalcPanel.MinHeight = 0;

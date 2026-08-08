@@ -28,6 +28,36 @@ namespace KillerNotes.Controls
         private readonly Action<byte[], int, int> _embedAudio;
 
         private Border _outerBorder = null!, _bevelLight = null!, _bevelDark = null!;
+        private Grid _body = null!;   // the padded content grid, for live margin re-apply on theme switch
+        private Border _grainB = null!;   // root grain layer - its corner radius tracks the card's
+
+        /// <summary>Re-asserts the card chrome (corner radius, drop shadow, grain rounding) from
+        /// the CURRENT theme. Called at Loaded and on every live theme switch: these were baked
+        /// once at construction, so a switched theme kept the old card shape (2026-08-08).</summary>
+        private void EnsureCardChrome()
+        {
+            // Halo 0 on a flat theme - 98SE declares DialogHaloMargin 0 and a flush window; the
+            // hardcoded 20 left a phantom band outside the frame (same fix as the SketchPad).
+            bool flat = TryFindResource("UseDialogCaption") != null;
+            _outerBorder.Margin = flat ? new Thickness(0) : new Thickness(20);
+            // The resize grab must TRACK the halo (same fix as the SketchPad's 24): with the halo
+            // at 0 the 8px band sits ON the window and eats the top of the caption - the cursor
+            // turns into a resize handle where the drag and the X should be. 4 is the Win98-style
+            // thin frame grab.
+            WindowChrome.SetWindowChrome(this, new WindowChrome
+            { CaptionHeight = 0, ResizeBorderThickness = new Thickness(flat ? 4 : 8), GlassFrameThickness = new Thickness(0), CornerRadius = new CornerRadius(0) });
+            _outerBorder.CornerRadius = Application.Current.TryFindResource("WindowCornerRadius") is CornerRadius r
+                ? r : new CornerRadius(7);
+            double so = Application.Current.TryFindResource("PaneShadowOpacity") is double v ? v : 0.60;
+            _outerBorder.Effect = so > 0
+                ? new System.Windows.Media.Effects.DropShadowEffect
+                  { Color = Colors.Black, BlurRadius = 16, ShadowDepth = 5, Direction = 270, Opacity = so,
+                    RenderingBias = System.Windows.Media.Effects.RenderingBias.Quality }
+                : null;
+            if (_grainB != null) _grainB.CornerRadius = _outerBorder.CornerRadius;
+            // Inner pane shadows (waveform, transcript) follow the theme live too.
+            foreach (var shadow in _paneShadows) shadow.Effect = PaneShadowOrNull();
+        }
         private Button _recordBtn = null!, _transcribeBtn = null!, _printBtn = null!, _embedBtn = null!, _playBtn = null!;
         private TextBox _transcript = null!;
         private TextBlock _status = null!, _elapsed = null!;
@@ -49,7 +79,9 @@ namespace KillerNotes.Controls
             WindowStyle = WindowStyle.None;
             AllowsTransparency = true;
             ResizeMode = ResizeMode.CanResize;
-            ShowInTaskbar = false;
+            // In the taskbar and Alt+Tab, same as the SketchPad (free sibling windows need a
+            // taskbar entry to switch between; 2026-08-08).
+            ShowInTaskbar = true;
             Background = Brushes.Transparent;
             // Text rendering, matching MainWindow.xaml:10 and FileDialog.xaml:16-17. This window set
             // neither, so its text fell back to Ideal formatting with default (greyscale) rendering
@@ -60,18 +92,48 @@ namespace KillerNotes.Controls
             // Landscape, not portrait: the waveform is the thing being worked on and it reads along
             // the X axis, so width is what buys precision when slicing. The transcript is a couple
             // of sentences and does not need the depth it had.
-            Width = 760; Height = 430;
+            // Defaults AT the minimums - the pad opens as small as it can legally be and the
+            // user grows it if the take warrants (Steve, 2026-08-08; it was 760x430).
+            Width = 520; Height = 360;
             MinWidth = 520; MinHeight = 360;
-            Owner = owner;
-            WindowStartupLocation = owner != null ? WindowStartupLocation.CenterOwner : WindowStartupLocation.CenterScreen;
+            // NOT Owner = owner - same free-sibling z-order as the SketchPad (see its ctor
+            // comment; "i cant get the notes window above dictation or sketchpad", 2026-08-08).
+            if (owner != null)
+            {
+                WindowStartupLocation = WindowStartupLocation.Manual;
+                Rect r = owner.WindowState == WindowState.Maximized
+                    ? SystemParameters.WorkArea
+                    : new Rect(owner.Left, owner.Top,
+                               owner.ActualWidth > 0 ? owner.ActualWidth : owner.Width,
+                               owner.ActualHeight > 0 ? owner.ActualHeight : owner.Height);
+                Left = r.Left + (r.Width - Width) / 2;
+                Top = r.Top + (r.Height - Height) / 2;
+                EventHandler ownerClosed = (_, _) => Close();
+                owner.Closed += ownerClosed;
+                Closed += (_, _) => owner.Closed -= ownerClosed;
+            }
+            else WindowStartupLocation = WindowStartupLocation.CenterScreen;
             UseLayoutRounding = true;
+            // 8 on the normal themes; thin on a flat theme or it eats the caption - see the
+            // matching logic in EnsureCardChrome, which re-derives this on every theme change.
             WindowChrome.SetWindowChrome(this, new WindowChrome
-            { CaptionHeight = 0, ResizeBorderThickness = new Thickness(8), GlassFrameThickness = new Thickness(0), CornerRadius = new CornerRadius(0) });
+            { CaptionHeight = 0, ResizeBorderThickness = new Thickness(TryFindResource("UseDialogCaption") != null ? 4 : 8), GlassFrameThickness = new Thickness(0), CornerRadius = new CornerRadius(0) });
 
             BuildUi();
 
+            // Margins are Thickness values and cannot be resource references, so a live theme
+            // switch re-applies them; grain and the caption swap are resource-driven already.
+            Action onThemeChanged = () =>
+            {
+                _body.Margin = TryFindResource("UseDialogCaption") != null
+                    ? new Thickness(4, 4, 4, 6) : new Thickness(16, 10, 16, 14);
+                EnsureCardChrome();   // radius + shadow + grain rounding follow the new theme live
+            };
+            KillerNotes.Services.ThemeManager.ThemeChanged += onThemeChanged;
+            Closed += (_, _) => KillerNotes.Services.ThemeManager.ThemeChanged -= onThemeChanged;
+
             Opacity = 0;
-            Loaded += (_, _) => Anim.FadeIn(this);
+            Loaded += (_, _) => { EnsureCardChrome(); Anim.FadeIn(this); };
             _tick.Tick += (_, _) =>
             {
                 _elapsed.Text = Format(DictationRecorder.ElapsedMs);
@@ -116,7 +178,9 @@ namespace KillerNotes.Controls
             {
                 BorderThickness = new Thickness(1),
                 CornerRadius = Application.Current.TryFindResource("WindowCornerRadius") is CornerRadius r ? r : new CornerRadius(7),
-                Margin = new Thickness(20),
+                // Flat themes are FLUSH from the first frame (DialogHaloMargin 0 on 98SE);
+                // EnsureCardChrome keeps this current across live switches.
+                Margin = TryFindResource("UseDialogCaption") != null ? new Thickness(0) : new Thickness(20),
             };
             _outerBorder.SetResourceReference(Border.BorderBrushProperty, "WindowEdgeBrush");
             _outerBorder.SetResourceReference(Border.BorderThicknessProperty, "WindowEdgeThickness");
@@ -128,12 +192,13 @@ namespace KillerNotes.Controls
                   RenderingBias = System.Windows.Media.Effects.RenderingBias.Quality };
 
             var root = new Grid();
-            if (Application.Current.TryFindResource("GrainTileBrush") is Brush grain)
-            {
-                double op = Application.Current.TryFindResource("GrainOpacity") is double go ? go : 0.12;
-                root.Children.Add(new Border { Background = grain, Opacity = op, IsHitTestVisible = false,
-                                               CornerRadius = _outerBorder.CornerRadius });
-            }
+            // Grain via RESOURCE REFERENCES, not values baked at build: a pad built under a
+            // grainy theme kept its texture after a live switch to 98SE, whose GrainOpacity is
+            // 0 (Steve, 2026-08-08). Same fix as the SketchPad's two grain layers.
+            _grainB = new Border { IsHitTestVisible = false, CornerRadius = _outerBorder.CornerRadius };
+            _grainB.SetResourceReference(Border.BackgroundProperty, "GrainTileBrush");
+            _grainB.SetResourceReference(UIElement.OpacityProperty, "GrainOpacity");
+            root.Children.Add(_grainB);
 
             var shell = new Grid();
             shell.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                       // caption band
@@ -142,11 +207,22 @@ namespace KillerNotes.Controls
 
             shell.Children.Add(BuildTitleBand());
 
-            var body = new Grid { Margin = new Thickness(16, 10, 16, 14) };
+            // Skinny sides on a bevelled theme, same notepad treatment as the SketchPad; the
+            // standard themes keep their full air. (Steve, 2026-08-08.)
+            var body = new Grid
+            {
+                Margin = TryFindResource("UseDialogCaption") != null
+                    ? new Thickness(4, 4, 4, 6) : new Thickness(16, 10, 16, 14)
+            };
+            _body = body;
             body.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // 0 controls
-            body.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // 1 waveform
+            // Waveform and transcript SHARE the flexible space, each with a FLOOR. A short window
+            // used to crush the transcript to a sliver while the waveform kept its full 132px
+            // (Steve, 2026-08-08): the waveform row now gives ground too - never below 72px, never
+            // above the 132 it was fixed at - and the transcript never drops below 64px.
+            body.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star), MinHeight = 72, MaxHeight = 140 });   // 1 waveform (140 = 132 + its 8px bottom margin)
             body.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // 2 status
-            body.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });   // 3 transcript
+            body.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star), MinHeight = 64 });   // 3 transcript
             body.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // 4 buttons
             Grid.SetRow(body, 1);
             shell.Children.Add(body);
@@ -172,6 +248,10 @@ namespace KillerNotes.Controls
             // The shared window frame - DialogChrome.WindowFrame, the same 5px sizing border the
             // main window, SketchPad and every dialog draw. The pair above is the shared CONTROL
             // bevel and is a different thing. Nothing on a flat theme. (Steve, 2026-08-07.)
+            // Shared corner grip (DialogChrome) - the pad was ALREADY resizable, but with the
+            // resize border hidden out in the shadow halo nothing said so; the visible grip is
+            // the same one the SketchPad carries. (Steve, 2026-08-08.)
+            root.Children.Add(KillerNotes.Controls.DialogChrome.ResizeGrip(this));
             root.Children.Add(KillerNotes.Controls.DialogChrome.WindowFrame());
             KillerNotes.Controls.DialogChrome.InsetForFrame(shell);
 
@@ -247,9 +327,9 @@ namespace KillerNotes.Controls
             // the scrolling tail was dropped.
             var waveFrame = new Border
             {
-                // Tall enough to slice against. The waveform is the editing surface now, not a
-                // level meter, so it gets the vertical space the transcript used to hog.
-                Height = 132,
+                // NO fixed Height: the row definition owns the size now (72 to 132, giving ground
+                // to the transcript when the window is short - see the body row comments). The
+                // waveform is still the editing surface and still gets first claim on the space.
                 BorderThickness = new Thickness(1),
                 Margin = new Thickness(0, 0, 0, 8),
                 Padding = new Thickness(4, 3, 4, 3),
@@ -332,9 +412,35 @@ namespace KillerNotes.Controls
         /// every corner - the defect the Killculator readout had. The pane's margin moves to the
         /// host for the same reason: the bevel has to land ON the pane's edge, not outside it.
         /// </summary>
-        private static Grid Sunken(FrameworkElement pane, Thickness margin)
+        // The waveform and transcript panes' shadow siblings, re-derived on live theme switches
+        // by EnsureCardChrome ("I think both the waveform and transcription need the work",
+        // Steve, 2026-08-08).
+        private readonly List<Border> _paneShadows = [];
+
+        /// <summary>The family pane shadow, or null on a 0-opacity (flat) theme - never an
+        /// invisible effect, which still costs an offscreen surface.</summary>
+        private static System.Windows.Media.Effects.DropShadowEffect? PaneShadowOrNull()
+        {
+            double so = Application.Current.TryFindResource("PaneShadowOpacity") is double v ? v : 0.60;
+            return so > 0
+                ? new System.Windows.Media.Effects.DropShadowEffect
+                  { Color = Colors.Black, BlurRadius = 16, ShadowDepth = 5, Direction = 270, Opacity = so,
+                    RenderingBias = System.Windows.Media.Effects.RenderingBias.Quality }
+                : null;
+        }
+
+        private Grid Sunken(FrameworkElement pane, Thickness margin)
         {
             var host = new Grid { Margin = margin };
+            // The elevation shadow rides a CHILDLESS sibling behind the pane, never the pane
+            // itself: an Effect rasterises everything inside it and text loses ClearType (the
+            // family rule). Both pads' inner panes cast the same shadow the main window's
+            // content panes do.
+            var shadow = new Border { IsHitTestVisible = false, Effect = PaneShadowOrNull() };
+            shadow.SetResourceReference(Border.BackgroundProperty, "PaneBrush");
+            shadow.SetResourceReference(Border.CornerRadiusProperty, "ControlCornerRadius");
+            _paneShadows.Add(shadow);
+            host.Children.Add(shadow);
             host.Children.Add(pane);
             var dark = new Border { IsHitTestVisible = false };
             dark.SetResourceReference(Border.BorderBrushProperty, "PaneBevelDarkBrush");
@@ -349,8 +455,10 @@ namespace KillerNotes.Controls
 
         private void BuildButtons(Grid body)
         {
+            // 14px off the right so Print to note clears the corner resize grip instead of
+            // butting against it (Steve, 2026-08-08).
             var row = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right,
-                                       Margin = new Thickness(0, 12, 0, 0) };
+                                       Margin = new Thickness(0, 12, 14, 0) };
 
             _embedBtn = new Button { Content = L("Str_Dict_Embed", "Embed recording"), MinWidth = 130, Height = 30,
                                      Margin = new Thickness(0, 0, 8, 0), IsEnabled = false, Style = S("SurfaceButton") };

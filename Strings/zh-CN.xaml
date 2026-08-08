@@ -370,6 +370,7 @@
     <sys:String x:Key="Str_KS_Zoom">缩放编辑器 (Ctrl+0 重置)</sys:String>
     <sys:String x:Key="Str_St_Zoom">缩放 {0}%</sys:String>
     <sys:String x:Key="Str_St_SpellOn">已对此笔记开启拼写检查</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">笔记过大，无法进行拼写检查</sys:String>
     <sys:String x:Key="Str_St_SpellOff">已对此笔记关闭拼写检查</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">放大文字</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">缩小文字</sys:String>

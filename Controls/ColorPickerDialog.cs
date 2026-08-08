@@ -21,8 +21,7 @@ namespace KillerNotes.Controls
     /// </summary>
     internal sealed class ColorPickerDialog : Window
     {
-        // Cancel the first close, fade out, then close for real (Anim.FadeOutAndClose). A
-        // DialogResult set before this survives the cancel and is delivered by the real close.
+        // Cancel the first close, fade out, then close for real (Anim.FadeOutAndClose).
         private bool _closeFaded;
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
@@ -32,6 +31,14 @@ namespace KillerNotes.Controls
         }
 
         public Color SelectedColor { get; private set; }
+
+        /// <summary>True when OK confirmed the pick. Callers read THIS, never ShowDialog's
+        /// return: the fade in OnClosing cancels the first close, and WPF nulls DialogResult
+        /// whenever a close is cancelled (Anim.cs header), so ShowDialog returns null and a
+        /// `== true` check silently discards the pick - which is exactly how the tag color
+        /// picker "didn't work" (2026-08-08). Same shape as ConfirmDialog/PasswordDialog's
+        /// Confirmed.</summary>
+        public bool Confirmed { get; private set; }
 
         /// <summary>Fires on every color change (SV/hue drag, RGB/hex, eyedropper, swatch)
         /// so a caller can preview the color live. Not fired for the initial value set in
@@ -164,7 +171,9 @@ namespace KillerNotes.Controls
             // row spanning the card, so it can carry TitleBarBrush - a gradient on the themes that
             // define one, identical to the card face on the themes that do not. Same treatment the
             // SketchPad and the file picker got.
-            var titleBand = new Border { Padding = new Thickness(14, 0, 14, 0), Cursor = Cursors.SizeAll };
+            // LEFT padding only, like DialogTitleBar - the right pad floated the close X off the
+            // corner (same fix as WhisperModelDialog, Steve, 2026-08-08).
+            var titleBand = new Border { Padding = new Thickness(14, 0, 0, 0), Cursor = Cursors.SizeAll };
             titleBand.SetResourceReference(Border.BackgroundProperty, "DialogTitleBarBrush");
             titleBand.SetResourceReference(FrameworkElement.HeightProperty, "DialogTitleBarHeight");
             titleBand.MouseLeftButtonDown += (_, e) => { if (e.ButtonState == MouseButtonState.Pressed) DragMove(); };
@@ -293,12 +302,10 @@ namespace KillerNotes.Controls
             panel.Children.Add(btnRow);
         }
 
-        // DialogResult ALONE - no Close() after it. Assigning DialogResult IS a close request;
-        // the fade in OnClosing cancels that first close and the result is delivered by the real
-        // one. The explicit Close() that used to follow arrived with _closeFaded already true and
-        // closed instantly, so OK and Enter were the last two paths still skipping the fade
-        // (the same double-close the Cancel button and the Escape handler were cured of).
-        private void Accept() { SelectedColor = HsvToRgb(_h, _s, _v); DialogResult = true; }
+        // Confirmed + Close(), never DialogResult: the fade-cancelled first close nulls
+        // DialogResult (see the Confirmed doc above), so the result rides a plain property
+        // and ONE Close() call keeps the single close request the fade needs.
+        private void Accept() { SelectedColor = HsvToRgb(_h, _s, _v); Confirmed = true; Close(); }
 
         // ---- Interaction ----
 

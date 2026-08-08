@@ -122,7 +122,10 @@ namespace KillerNotes.Shell
             // Live preview: recolor the note's sidebar title as the color changes in the
             // picker (TitleColor is notifying). Restore the stored color on cancel.
             dlg.ColorChanged += c => n.TitleColor = $"#{c.R:X2}{c.G:X2}{c.B:X2}";
-            if (dlg.ShowDialog() == true)
+            // Confirmed, not ShowDialog() == true: the close fade nulls DialogResult
+            // (ColorPickerDialog.Confirmed doc).
+            dlg.ShowDialog();
+            if (dlg.Confirmed)
             {
                 var c = dlg.SelectedColor;
                 long id = n.Id;

@@ -4,7 +4,11 @@
 <Window x:Class="KillerNotes.Controls.TagsDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:KillerNotes.Controls"
         Title="KillerNotes"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        SnapsToDevicePixels="True"
         Width="400" SizeToContent="Height"
         WindowStartupLocation="CenterOwner"
         WindowStyle="None"
@@ -13,78 +17,41 @@
         Background="Transparent"
         ShowInTaskbar="False">
 
-    <Border x:Name="RootBorder" Opacity="0"
-            Background="{StaticResource BackgroundBrush}"
-            BorderBrush="{DynamicResource WindowEdgeBrush}"
-            BorderThickness="1"
-            CornerRadius="6"
-            Margin="10">
-        <Border.Effect>
-            <DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.6"/>
-        </Border.Effect>
-        <Grid>
-            <Border IsHitTestVisible="False" CornerRadius="6"
-                    Opacity="{DynamicResource GrainOpacity}"
-                    Background="{DynamicResource GrainTileBrush}"/>
+    <!-- Card chrome (shadow/border/bevels/grain) is the SHARED DialogCard style; the caption
+         is the SHARED DialogTitleBar control. One copy each, in Controls.xaml and
+         DialogTitleBar.xaml - never inline them here again. -->
+    <ContentControl x:Name="RootBorder" Opacity="0" Style="{StaticResource DialogCard}">
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="36"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Title bar (transparent, wordmark, drag, close) -->
-                <Border Grid.Row="0" Background="Transparent"
-                        MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
-                    <Grid Margin="14,0">
-                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal" Margin="1,2,0,0"
-                                        Opacity="{DynamicResource IconShadowOpacity}">
-                                <StackPanel.Effect><BlurEffect Radius="3"/></StackPanel.Effect>
-                                <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="#D8000000"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="#D8000000"/></TextBlock>
-                            </StackPanel>
-                            <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="{DynamicResource AccentLogo}"/></TextBlock>
-                        </Grid>
-                        <Button Content="&#x2715;" Click="Close_Click"
-                                HorizontalAlignment="Right"
-                                Width="28" FontSize="10"
-                                Background="Transparent" BorderThickness="0"
-                                Cursor="Hand">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Background="Transparent">
-                                                    <ContentPresenter x:Name="cp" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Foreground" Value="#E04444"/>
-                                                        <Setter TargetName="cp" Property="Effect">
-                                                            <Setter.Value>
-                                                                <DropShadowEffect Color="#000000" BlurRadius="4" ShadowDepth="1" Direction="270" Opacity="0.5"/>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                    </Grid>
-                </Border>
+                <local:DialogTitleBar Grid.Row="0" Subtitle="{DynamicResource Str_Tags_Title}"
+                                      CloseRequested="Close_Click"/>
 
                 <!-- Body -->
                 <StackPanel Grid.Row="1" Margin="24,16,24,12">
-                    <TextBlock Text="{DynamicResource Str_Tags_Title}" Foreground="{StaticResource TextBrush}"
-                               FontFamily="Consolas" FontSize="14" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <!-- The "Manage tags" heading that used to sit here has moved into the
+                         caption (DialogTitleBar Subtitle), same as DatabasesDialog. -->
+                    <!-- The list is a CLIENT AREA, same treatment as DatabasesDialog's: square
+                         corners from the theme rather than a hardcoded 4, and the crossed sunken
+                         bevel so it reads as recessed into the card. Bevels are siblings in the
+                         Grid, never children of the bordered element. -->
+                    <Grid>
+                    <!-- Elevation shadow on a childless sibling BEHIND the pane (family rule).
+                         PaneShadowEffect, NEVER the keyed PaneShadow: its dynamic opacity does
+                         not resolve reliably inside a shared Freezable and it cast a
+                         full-strength shadow on 98SE; the theme-built effect is null there
+                         (Steve, 2026-08-08). -->
+                    <Border IsHitTestVisible="False" Background="{DynamicResource PaneBrush}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Effect="{DynamicResource PaneShadowEffect}"/>
                     <Border Background="{DynamicResource PaneBrush}"
-                            BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1" CornerRadius="4">
+                            BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
+                            CornerRadius="{DynamicResource ControlCornerRadius}">
                         <ListBox x:Name="TagList" Height="200" Background="Transparent" BorderThickness="0"
                                  HorizontalContentAlignment="Stretch" Margin="4">
                             <ListBox.ItemContainerStyle>
@@ -93,7 +60,11 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListBoxItem">
-                                                <Border x:Name="bg" Background="Transparent" CornerRadius="4"
+                                                <!-- The theme's radius, not a hardcoded 4: a list
+                                                     row on a square-cornered theme is a square
+                                                     selection bar (same rule as Databases). -->
+                                                <Border x:Name="bg" Background="Transparent"
+                                                        CornerRadius="{DynamicResource SmallCornerRadius}"
                                                         Padding="{TemplateBinding Padding}">
                                                     <ContentPresenter/>
                                                 </Border>
@@ -114,15 +85,27 @@
                                  swatch, name, and per-row buttons can carry the tag name. -->
                         </ListBox>
                     </Border>
+                    <Border IsHitTestVisible="False" BorderBrush="{DynamicResource PaneBevelDarkBrush}"
+                            BorderThickness="{DynamicResource BevelLightThickness}"/>
+                    <Border IsHitTestVisible="False" BorderBrush="{DynamicResource PaneBevelLightBrush}"
+                            BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                    <!-- Pane grain OVER the rows, LAST (the locked menu rule) - this is where the
+                         dialog's texture lives, never in a card-wide overlay that would blanket
+                         the edit fields. -->
+                    <Border IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Opacity="{DynamicResource GrainOpacity}"
+                            Background="{DynamicResource GrainTileBrush}"/>
+                    </Grid>
 
                     <!-- Add row: name box + color swatch button + Add -->
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                        <TextBox x:Name="NewNameBox" Width="180" Height="26" VerticalContentAlignment="Center"
-                                 Background="{DynamicResource PaneBrush}" Foreground="{DynamicResource TextBrush}"
-                                 BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1"
-                                 CaretBrush="{DynamicResource TextBrush}" Padding="6,0"
+                        <!-- EditFieldTextBox (Controls.xaml): the search-box look - flat
+                             SearchFieldBrush, themed focus border, sunken bevel on 98SE. -->
+                        <TextBox x:Name="NewNameBox" Width="180" Height="26"
+                                 Style="{StaticResource EditFieldTextBox}"
                                  KeyDown="NewNameBox_KeyDown"/>
-                        <Border x:Name="NewColorSwatch" Width="26" Height="26" CornerRadius="3" Margin="8,0,0,0"
+                        <Border x:Name="NewColorSwatch" Width="26" Height="26"
+                                CornerRadius="{DynamicResource SmallCornerRadius}" Margin="8,0,0,0"
                                 Cursor="Hand" BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1"
                                 MouseLeftButtonUp="NewColorSwatch_Click" ToolTip="{DynamicResource Str_TT_TagPickColor}"/>
                         <Button x:Name="AddBtn" Content="{DynamicResource Str_Btn_TagAdd}" Click="Add_Click"
@@ -140,6 +123,5 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-        </Grid>
-    </Border>
+    </ContentControl>
 </Window>

@@ -17,6 +17,19 @@ namespace KillerNotes.Controls
     {
         private float[] _peaks = Array.Empty<float>();
 
+        public WaveformView()
+        {
+            // The brushes are resolved per render, but a live theme switch does not RENDER a
+            // static waveform - nothing invalidates it - so it kept the old palette until the
+            // next peak/progress change ("when i change themes the waveform didnt change
+            // color", Steve, 2026-08-08). Loaded/Unloaded so an embedded chip discarded with
+            // its note does not leak through the static event.
+            Loaded += (_, _) => KillerNotes.Services.ThemeManager.ThemeChanged += OnThemeChanged;
+            Unloaded += (_, _) => KillerNotes.Services.ThemeManager.ThemeChanged -= OnThemeChanged;
+        }
+
+        private void OnThemeChanged() => InvalidateVisual();
+
         /// <summary>How many buckets to show, or 0 for all of them.
         ///
         /// The pad uses 0 even while recording. A scrolling tail was tried and is worse: early in a
@@ -122,11 +135,27 @@ namespace KillerNotes.Controls
         /// <summary>How much of each bar takes the second colour.</summary>
         private const double CoreScale = 0.55;
 
-        /// <summary>The second waveform colour. A different theme token rather than a tint of the
-        /// first, so every palette picks its own pairing instead of one hard-coded shade.</summary>
+        /// <summary>The second waveform colour: a LIGHTER SHADE of the accent, derived per render.
+        /// This was PrimaryBrush - a different token - but the warm-accent pass pointed
+        /// OutlineBtnBrush and PrimaryBrush at the SAME colour on several themes, which collapsed
+        /// the waveform to one flat tone ("can we combine the tan with white or something for
+        /// some dimension... two shades of the accent color", Steve, 2026-08-08). Deriving the
+        /// core from the accent guarantees two shades on EVERY palette; a non-solid accent falls
+        /// back to PrimaryBrush as before.</summary>
         private Brush Core()
         {
-            if (Application.Current?.TryFindResource("PrimaryBrush") is Brush b) return b;
+            if (Ink() is SolidColorBrush s)
+            {
+                Color c = s.Color;
+                var lighter = Color.FromRgb(
+                    (byte)(c.R + (255 - c.R) * 0.55),
+                    (byte)(c.G + (255 - c.G) * 0.55),
+                    (byte)(c.B + (255 - c.B) * 0.55));
+                var b = new SolidColorBrush(lighter);
+                b.Freeze();
+                return b;
+            }
+            if (Application.Current?.TryFindResource("PrimaryBrush") is Brush p) return p;
             return Ink();
         }
 

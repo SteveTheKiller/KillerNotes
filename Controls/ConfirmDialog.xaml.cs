@@ -1,5 +1,4 @@
 using System.Windows;
-using System.Windows.Input;
 
 // KillerUI kit.
 namespace KillerNotes.Controls
@@ -58,8 +57,5 @@ namespace KillerNotes.Controls
             Confirmed = false;
             Close();
         }
-
-        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-            => DragMove();
     }
 }

@@ -448,6 +448,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Zoom editor (Ctrl+0 resets)</sys:String>
     <sys:String x:Key="Str_St_Zoom">Zoom {0}%</sys:String>
     <sys:String x:Key="Str_St_SpellOn">Spell check on for this note</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">Note too large for spell check</sys:String>
     <sys:String x:Key="Str_St_SpellOff">Spell check off for this note</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Word wrap on</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Word wrap off - scroll to see wide content</sys:String>

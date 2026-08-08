@@ -447,7 +447,12 @@
                                                              is a square raised button that FILLS it. The bevel
                                                              pair draws nothing at 0 thickness. -->
                                                         <Grid x:Name="thumbBorder" Margin="{DynamicResource ScrollThumbMargin}">
-                                                            <Border Background="{DynamicResource ScrollThumbBrush}"
+                                                            <!-- thumbFill is what the hover trigger recolors. When this Grid
+                                                                 grew around the old Border for the 98SE bevels, the hover
+                                                                 setter kept targeting thumbBorder - now the GRID - and its
+                                                                 square background bled out past the rounded fill's corners
+                                                                 on every rounded theme (Steve, 2026-08-08). -->
+                                                            <Border x:Name="thumbFill" Background="{DynamicResource ScrollThumbBrush}"
                                                                     CornerRadius="{DynamicResource ScrollThumbRadius}"/>
                                                             <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
                                                                     BorderThickness="{DynamicResource BevelLightThickness}"/>
@@ -459,7 +464,7 @@
                                                                 <Setter TargetName="thumbBorder" Property="Margin" Value="0,4"/>
                                                             </DataTrigger>
                                                             <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="thumbBorder" Property="Background" Value="{DynamicResource ScrollThumbHoverBrush}"/>
+                                                                <Setter TargetName="thumbFill" Property="Background" Value="{DynamicResource ScrollThumbHoverBrush}"/>
                                                                 <Setter TargetName="thumbBorder" Property="Margin" Value="2,2"/>
                                                                 <Setter TargetName="thumbBorder" Property="Effect">
                                                                     <Setter.Value>
@@ -1001,21 +1006,27 @@
         <Setter Property="Foreground" Value="{DynamicResource CaptionCloseBrush}"/>
         <!-- Win98 pushed close a couple of pixels clear of minimise/maximise. 0 elsewhere. -->
         <Setter Property="Margin" Value="{DynamicResource CaptionCloseGap}"/>
+        <!-- The hover block's radius rides Tag so ONE template serves both shapes: this style
+             is the main title bar's X, whose block fills the window corner and rounds only with
+             it; DialogCloseButton below overrides Tag for the X's that float inset (About,
+             Fonts, every dialog caption), whose block rounds all four corners. -->
+        <Setter Property="Tag" Value="{DynamicResource CaptionCloseCornerRadius}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <!-- ROUNDED from the theme. The dialogs that used to build their own close
-                             button had a rounded hover block; collapsing them onto this shared one
-                             lost that and the hover came back as a hard pink square on every
-                             rounded theme. SmallCornerRadius is 0 on a square theme, so 98SE is
-                             unaffected. (Steve, 2026-08-07.) -->
+                        <!-- ROUNDED from the theme, via the style's Tag (see the Tag setter above):
+                             corner-following for the main X, all-round for the floating ones. The
+                             dialogs that used to build their own close button had a rounded hover
+                             block; collapsing them onto this shared one lost that and the hover
+                             came back as a hard pink square on every rounded theme. The radius keys
+                             are 0 on a square theme, so 98SE is unaffected. (Steve, 2026-08-07/08.) -->
                         <Border x:Name="Bd" Margin="{DynamicResource CaptionButtonMargin}"
-                                CornerRadius="{DynamicResource CaptionCloseCornerRadius}"
+                                CornerRadius="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
                                 Background="{TemplateBinding Background}"/>
                         <!-- Same Win98 face + raised bevel as ChromeButton; nothing on other themes -->
                         <Border x:Name="Face" Margin="{DynamicResource CaptionButtonMargin}"
-                                CornerRadius="{DynamicResource CaptionCloseCornerRadius}"
+                                CornerRadius="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
                                 Background="{DynamicResource CaptionButtonBrush}">
                             <Grid>
                                 <Border x:Name="capLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
@@ -1062,6 +1073,144 @@
         </Setter>
     </Style>
 
+    <!-- The FLOATING close: same shared template, all four hover-block corners rounded
+         (DialogCloseCornerRadius = SmallCornerRadius, 0 on a square theme). ONLY for the X's
+         that float INSET from a window corner - the About and Fonts overlays - where the
+         corner-following radius reads as a red square with three hard corners. A dialog
+         caption's X sits AT the card corner and stays on ChromeCloseButton, whose block
+         rounds with the card's top-right ("top right should be rounded here", Steve,
+         2026-08-08). -->
+    <Style x:Key="DialogCloseButton" TargetType="Button" BasedOn="{StaticResource ChromeCloseButton}">
+        <Setter Property="Tag" Value="{DynamicResource DialogCloseCornerRadius}"/>
+    </Style>
+
+    <!-- THE dialog card chrome, defined ONCE. Every XAML dialog (Confirm, Password, Tags,
+         Input, Databases) wraps its content in a ContentControl with this style instead of
+         carrying its own copy of the shadow/border/bevel/grain stack - five inline copies of
+         this block is exactly how the dialogs drifted apart before.
+         - The shadow is on its OWN childless sibling, never on the border that holds the
+           content: a DropShadowEffect is a bitmap effect, everything inside it is rasterised,
+           and the text loses ClearType (CLAUDE.md locks this for the About card; Steve caught
+           it live on the Databases caption, 2026-08-07).
+         - Halo/radius/edge come from the theme, so a Win98-style theme collapses to a flat,
+           square window wearing the stacked 3D bevel pairs; the other twelve themes see the
+           usual rounded card with a halo, and the bevels are transparent/0.
+         - Focusable/IsTabStop false so the wrapper never steals focus from dialog inputs. -->
+    <Style x:Key="DialogCard" TargetType="ContentControl">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Grid>
+                        <!-- The family PANE shadow numbers (16/5/270, PaneShadowOpacity), not the
+                             softer flyout ones: "this window should have the same... drop shadow
+                             as the main window" (Steve, 2026-08-08). -->
+                        <!-- PaneShadowEffect (ThemeManager): the family numbers at the theme's
+                             opacity, NULL on a flat theme - never an invisible effect, and never
+                             a dynamic opacity inside a Freezable (see the ThemeManager note). -->
+                        <Border Background="{DynamicResource BackgroundBrush}"
+                                CornerRadius="{DynamicResource PanelCornerRadius}"
+                                Margin="{DynamicResource DialogHaloMargin}"
+                                IsHitTestVisible="False"
+                                Effect="{DynamicResource PaneShadowEffect}"/>
+                        <Border Background="{DynamicResource BackgroundBrush}"
+                                BorderBrush="{DynamicResource WindowEdgeBrush}"
+                                BorderThickness="{DynamicResource WindowEdgeThickness}"
+                                CornerRadius="{DynamicResource PanelCornerRadius}"
+                                Margin="{DynamicResource DialogHaloMargin}">
+                            <Grid>
+                                <Border Panel.ZIndex="9000" IsHitTestVisible="False"
+                                        BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                                <Border Panel.ZIndex="9000" IsHitTestVisible="False"
+                                        BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                                <Border Panel.ZIndex="9001" IsHitTestVisible="False"
+                                        BorderBrush="{DynamicResource FrameOuterLightBrush}" BorderThickness="{DynamicResource FrameOuterLightThickness}"/>
+                                <Border Panel.ZIndex="9001" IsHitTestVisible="False"
+                                        BorderBrush="{DynamicResource FrameOuterDarkBrush}" BorderThickness="{DynamicResource FrameOuterDarkThickness}"/>
+                                <!-- Grain UNDER the content - the composition the main window
+                                     actually uses: the chrome grain sits beneath its widgets, so
+                                     the SEARCH BOX is crisp, and each PANE carries its own grain
+                                     overlay above its rows (the menu rule). A card-wide overlay
+                                     was tried and put texture over the dialogs' edit fields,
+                                     which no input in the app has ("the text input box still
+                                     has a gradient and texture here, unlike the main searchbox",
+                                     Steve, 2026-08-08); the pane-level overlays live in the
+                                     dialogs' own list Grids. -->
+                                <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
+                                        Opacity="{DynamicResource GrainOpacity}"
+                                        Background="{DynamicResource GrainTileBrush}"/>
+                                <ContentPresenter/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- THE dialog edit field, defined ONCE - a single template serving both the TextBox and
+         PasswordBox styles below. Matches the main window's search box exactly:
+         - SearchFieldBrush fill, never BackgroundBrush: several palettes define BackgroundBrush
+           as a GRADIENT, and a field synthesized from it painted the window's gradient into
+           itself ("non-gradient", Steve, 2026-08-08).
+         - Templated border with themed hover/focus: an unstyled box falls back to WPF's stock
+           template, whose focus border is the hardcoded system blue on every theme.
+         - Crossed sunken bevel siblings so a bevelled theme reads the field as recessed
+           (white + sunken on 98SE); the bevel thicknesses are 0 on the other twelve. -->
+    <ControlTemplate x:Key="EditFieldTemplate" TargetType="Control">
+        <Border x:Name="bd" Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{DynamicResource ControlCornerRadius}">
+            <Grid>
+                <Border Panel.ZIndex="2" IsHitTestVisible="False"
+                        BorderBrush="{DynamicResource PaneBevelDarkBrush}"
+                        BorderThickness="{DynamicResource FooterCellLightThickness}"/>
+                <Border Panel.ZIndex="2" IsHitTestVisible="False"
+                        BorderBrush="{DynamicResource PaneBevelLightBrush}"
+                        BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
+                <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <!-- Hover first, focus second so a focused box keeps the accent border (same
+                 ordering as the search box). -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="EditFieldTextBox" TargetType="TextBox">
+        <Setter Property="Background" Value="{DynamicResource SearchFieldBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource TextSelectionBrush}"/>
+        <Setter Property="SelectionOpacity" Value="{DynamicResource TextSelectionOpacity}"/>
+        <Setter Property="SelectionTextBrush" Value="{DynamicResource TextSelectionTextBrush}"/>
+        <Setter Property="Padding" Value="6,0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template" Value="{StaticResource EditFieldTemplate}"/>
+    </Style>
+    <Style x:Key="EditFieldPasswordBox" TargetType="PasswordBox">
+        <Setter Property="Background" Value="{DynamicResource SearchFieldBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource TextSelectionBrush}"/>
+        <Setter Property="SelectionOpacity" Value="{DynamicResource TextSelectionOpacity}"/>
+        <Setter Property="Padding" Value="6,0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template" Value="{StaticResource EditFieldTemplate}"/>
+    </Style>
+
     <!-- Sidebar icon-rail button (KillerPDF pattern): bare glyph with a soft shadow,
          glyph turns the accent color on hover. Set Content to the glyph; override
          FontFamily/FontSize for text glyphs like the "?" help button. -->
@@ -1090,6 +1239,11 @@
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                                     <Style.Triggers>
+                                        <!-- Family pattern (KillerShell/Killendar): Tag="on" lights a
+                                             toggle whose feature is active, in the accent. -->
+                                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" Value="on">
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                                        </DataTrigger>
                                         <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
                                             <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
                                         </DataTrigger>
@@ -1105,9 +1259,12 @@
 
     <!-- Elevation shadow: lifts panels/cards slightly off the surface. -->
     <DropShadowEffect x:Key="ShadowBar" Color="Black" BlurRadius="6" ShadowDepth="3" Direction="270" Opacity="{DynamicResource BarShadowOpacity}"/>
-    <!-- Elevation for the content pane, cast DOWN onto the footer. ShadowDepth must be non-zero
-         with Direction 270; a zero depth is a halo with nothing below to land on. -->
-    <DropShadowEffect x:Key="PaneShadow" Color="Black" BlurRadius="16" ShadowDepth="5" Direction="270" Opacity="{DynamicResource PaneShadowOpacity}"/>
+    <!-- The content pane's downward shadow is ThemeManager's PaneShadowEffect now (frozen,
+         per-palette, null on flat themes). The keyed PaneShadow that lived here - a SHARED
+         Freezable with a DynamicResource opacity - is gone: one borrowed use from a dialog
+         that later closed took the expression's only inheritance context with it, and the
+         main window's footer shadow died (2026-08-08). Do not reintroduce the pattern. -->
+
 
     <!-- Themed checkbox: small square, accent check, mono label. -->
     <Style TargetType="CheckBox">

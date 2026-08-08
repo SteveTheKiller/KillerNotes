@@ -364,6 +364,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Přiblížení editoru (Ctrl+0 obnoví)</sys:String>
     <sys:String x:Key="Str_St_Zoom">Přiblížení {0} %</sys:String>
     <sys:String x:Key="Str_St_SpellOn">Kontrola pravopisu zapnuta pro tuto poznámku</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">Poznámka je příliš velká pro kontrolu pravopisu</sys:String>
     <sys:String x:Key="Str_St_SpellOff">Kontrola pravopisu vypnuta pro tuto poznámku</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Zalamování řádků zapnuto</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Zalamování řádků vypnuto - široký obsah zobrazíte posouváním</sys:String>

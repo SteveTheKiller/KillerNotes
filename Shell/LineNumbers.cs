@@ -8,8 +8,9 @@ using System.Windows.Threading;
 namespace KillerNotes.Shell
 {
     // Optional line-number gutter, VS Code style: one number per LOGICAL line - each paragraph,
-    // each list bullet, each table-cell paragraph, each embedded object - so a long paragraph
-    // that wraps carries ONE number, exactly like VS Code with word wrap on. The gutter is a
+    // each list bullet, each embedded object, and each TABLE as a whole (cells in a row share a
+    // Y, so per-cell numbers overprint) - so a long paragraph that wraps carries ONE number,
+    // exactly like VS Code with word wrap on. The gutter is a
     // Canvas left of the editor (MainWindow.xaml: GutterCol / LineGutter); visible numbers are
     // mapped into the gutter with TransformToVisual so they track scroll and both zooms, using
     // the editor's own font and size (times the per-note zoom, since the gutter sits outside
@@ -25,9 +26,12 @@ namespace KillerNotes.Shell
     //   1. NOTHING here may force layout outside the viewport. Numbering comes from a flat
     //      list of the document's leaf blocks - an object-graph walk that touches no layout -
     //      and only the handful of on-screen blocks ever get a GetCharacterRect call.
-    //   2. NOTHING here runs once per event. Every trigger schedules ONE rebuild on a 150ms
-    //      Background-priority timer, so a scroll storm or a loading document collapses to a
-    //      single pass after the burst settles.
+    //   2. NOTHING here runs unthrottled. EDITS schedule ONE rebuild on a 150ms Background
+    //      timer (they dirty the block list, the costlier half), so a loading document
+    //      collapses to a single pass after the burst settles. SCROLL and RESIZE coalesce to
+    //      one repaint per FRAME instead (QueueGutterRepaint): the repaint is viewport-local
+    //      and cheap, and riding the debounce made the numbers trail a beat behind the text
+    //      ("it takes the numbers about a full second to catch up", Steve, 2026-08-08).
     public partial class MainWindow
     {
         private bool _lineNumbers;
@@ -39,10 +43,21 @@ namespace KillerNotes.Shell
         private void InitLineNumbers()
         {
             _lineNumbers = App.GetSetting("LineNumbers") == "1";
-            Editor.TextChanged += (_, _) => { _gutterBlocksDirty = true; RebuildLineNumbers(); };
-            Editor.SizeChanged += (_, _) => RebuildLineNumbers();
+            Editor.TextChanged += (_, _) =>
+            {
+                // IGNORE the syntax highlighter's own writes. Recolouring splits RUNS, never
+                // blocks, so the block list stays valid - and on a highlighted note the
+                // viewport fill-in fires TextChanged on every scroll frame, which dirtied the
+                // list, made QueueGutterRepaint skip, and put the numbers back on the 150ms
+                // edit debounce that restarts per scroll tick - the exact stop-then-wait lag
+                // the per-frame repaint exists to kill (regressed and re-fixed 2026-08-08).
+                if (_applyingSyntax) return;
+                _gutterBlocksDirty = true;
+                RebuildLineNumbers();
+            };
+            Editor.SizeChanged += (_, _) => QueueGutterRepaint();
             Editor.AddHandler(ScrollViewer.ScrollChangedEvent,
-                new ScrollChangedEventHandler((_, _) => RebuildLineNumbers()));
+                new ScrollChangedEventHandler((_, _) => QueueGutterRepaint()));
             ApplyLineNumbers(_lineNumbers);
         }
 
@@ -56,6 +71,8 @@ namespace KillerNotes.Shell
         private void ApplyLineNumbers(bool on)
         {
             _lineNumbers = on;
+            // Light the rail toggle while active (family Tag="on" pattern, RailButton style).
+            if (LineNumBtn != null) LineNumBtn.Tag = on ? "on" : null;
             RebuildLineNumbers();
         }
 
@@ -74,6 +91,25 @@ namespace KillerNotes.Shell
             }
             _gutterTimer.Stop();
             _gutterTimer.Start();
+        }
+
+        /// <summary>Immediate repaint, coalesced to one per frame: scroll and resize call this
+        /// so the numbers track the text live instead of riding the edit debounce. Loaded
+        /// priority runs after the frame's layout, so the rects read here are current.</summary>
+        private bool _gutterQueued;
+        private void QueueGutterRepaint()
+        {
+            if (_gutterQueued) return;
+            _gutterQueued = true;
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                _gutterQueued = false;
+                // A dirty block list means an edit burst is in flight (loading a big note also
+                // storms ScrollChanged as the extent grows) - leave that to the debounced
+                // rebuild rather than re-walking the document once per frame.
+                if (_gutterBlocksDirty) return;
+                RebuildLineNumbersNow();
+            }), DispatcherPriority.Loaded);
         }
 
         private void RebuildLineNumbersNow()
@@ -102,7 +138,12 @@ namespace KillerNotes.Shell
                 int emptyStreak = 0;
                 for (int i = first; i < _gutterBlocks.Count; i++)
                 {
-                    var rect = _gutterBlocks[i].ElementStart.GetCharacterRect(LogicalDirection.Forward);
+                    // ContentStart, NEVER ElementStart: a rect read at an element EDGE comes back
+                    // as the NEIGHBORING content's bounds (the same trap EditorSelectionText.cs
+                    // documents), so ElementStart put each number on the PREVIOUS block's line and
+                    // the gutter drew overlapping pairs (Steve, 2026-08-08). ContentStart faces
+                    // the block's own first line, empty paragraphs included.
+                    var rect = _gutterBlocks[i].ContentStart.GetCharacterRect(LogicalDirection.Forward);
                     if (rect.IsEmpty)
                     {
                         // Block not laid out yet. A big note keeps formatting in the background
@@ -163,10 +204,13 @@ namespace KillerNotes.Shell
                         foreach (ListItem li in list.ListItems) AddGutterBlocks(li.Blocks);
                         break;
                     case Table table:
-                        foreach (TableRowGroup g in table.RowGroups)
-                            foreach (TableRow r in g.Rows)
-                                foreach (TableCell c in r.Cells)
-                                    AddGutterBlocks(c.Blocks);
+                        // ONE number for the whole table, like an embedded object - never one per
+                        // cell paragraph: cells in the same ROW all sit at the same Y, so a
+                        // two-column table drew two numbers on top of each other in the gutter,
+                        // one overprinted pair per row (Steve, 2026-08-08). FirstVisibleGutterIndex
+                        // still resolves a position inside a cell to the table via its parent walk.
+                        _gutterIndex[table] = _gutterBlocks.Count;
+                        _gutterBlocks.Add(table);
                         break;
                     case Section s:
                         AddGutterBlocks(s.Blocks);

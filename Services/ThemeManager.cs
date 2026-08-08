@@ -175,6 +175,20 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "PaneShadowOpacity", 0.60);
             SetIfAbsent(newDict, "BarShadowOpacity", 0.38);
             SetIfAbsent(newDict, "FlyoutShadowOpacity", 0.55);
+            // A READY-MADE pane shadow effect: the family numbers at this theme's opacity, or
+            // NULL on a flat theme. Built per palette load and FROZEN, because a
+            // DynamicResource inside a shared keyed Freezable's Opacity does not reliably
+            // resolve - the Tags list pane cast a full-strength shadow on 98SE through exactly
+            // that ("remember, there shouldnt be any shadow in 98se", Steve, 2026-08-08).
+            // Consumers take it with DynamicResource, so a live switch swaps the whole effect.
+            if (newDict["PaneShadowOpacity"] is double pso && pso > 0)
+            {
+                var paneShadow = new System.Windows.Media.Effects.DropShadowEffect
+                { Color = Colors.Black, BlurRadius = 16, ShadowDepth = 5, Direction = 270, Opacity = pso };
+                paneShadow.Freeze();
+                newDict["PaneShadowEffect"] = paneShadow;
+            }
+            else newDict["PaneShadowEffect"] = null;
             SetIfAbsent(newDict, "WindowFrameThickness", new Thickness(0));
             SetIfAbsent(newDict, "BevelLightBrush", new SolidColorBrush(Colors.Transparent));
             SetIfAbsent(newDict, "BevelDarkBrush", new SolidColorBrush(Colors.Transparent));
@@ -267,6 +281,16 @@ namespace KillerNotes.Services
                 double tr = newDict["PanelCornerRadius"] is CornerRadius pcr ? pcr.TopRight : 0.0;
                 newDict["CaptionCloseCornerRadius"] = new CornerRadius(0, tr, 0, 0);
             }
+            // The FLOATING twin of that radius, for the About/Fonts overlay X and every dialog
+            // caption X (DialogCloseButton in Controls.xaml). Those buttons sit INSET from the
+            // window corner, so the corner-following shape above gave their hover block one
+            // rounded corner and three hard ones - a red square slapped on a rounded card ("the
+            // hover close button is wrong somehow", 2026-08-08). A floating block rounds all
+            // four; SmallCornerRadius is already 0 on a square theme, so 98SE keeps the exact
+            // beveled block it had.
+            if (!newDict.Contains("DialogCloseCornerRadius"))
+                newDict["DialogCloseCornerRadius"] = newDict.Contains("SmallCornerRadius")
+                    ? newDict["SmallCornerRadius"] : new CornerRadius(0);
             // The DIALOG twin of that inset. Same right-hand gap, no top inset: a dialog band is
             // not covered by the window frame overlay the way the main window's is, so inheriting
             // the main key's top value only pushed the close button below centre.
@@ -288,6 +312,14 @@ namespace KillerNotes.Services
             // caption band, and keep the smaller bare-glyph box it always had when it does not.
             newDict["AboutCloseWidth"] = flatCaption ? newDict["CaptionButtonWidth"] : 28.0;
             newDict["AboutCloseHeight"] = flatCaption ? newDict["CaptionButtonHeight"] : 26.0;
+            // The DIALOG caption close's box, same non-flat numbers as the About card's. The
+            // dialog band is DialogTitleBarHeight (28), not the main bar's 36: riding
+            // CaptionButtonWidth/Height (44x36) overflowed the band, and the oversized hover
+            // block smothered the card's rounded top-right corner entirely ("close button on
+            // hover isnt rounded on the top right", Steve, 2026-08-08). A flat theme keeps its
+            // real caption-button size, which its short band is built around.
+            newDict["DialogCloseWidth"] = flatCaption ? newDict["CaptionButtonWidth"] : 28.0;
+            newDict["DialogCloseHeight"] = flatCaption ? newDict["CaptionButtonHeight"] : 26.0;
             // +1 for the card's own 1px border. A dialog's caption band meets the window edge, so
             // all of DialogTitleBarHeight is visible; the About band sits INSIDE the card border
             // (MainWindow.xaml:1641, BorderThickness=1), so at the same value it presents one row
@@ -585,12 +617,12 @@ namespace KillerNotes.Services
             if (!newDict.Contains("TextSelectionTextBrush") && newDict.Contains("TextBrush"))
                 newDict["TextSelectionTextBrush"] = newDict["TextBrush"];
             SetIfAbsent(newDict, "OutlineFaceBrush", new SolidColorBrush(Colors.Transparent));
-            if (!newDict.Contains("OutlineTextBrush") && newDict.Contains("OutlineBtnBrush"))
-                newDict["OutlineTextBrush"] = newDict["OutlineBtnBrush"];
-            if (!newDict.Contains("OutlineHoverBrush") && newDict.Contains("OutlineBtnBrush"))
-                newDict["OutlineHoverBrush"] = newDict["OutlineBtnBrush"];
-            if (!newDict.Contains("OutlineHoverTextBrush") && newDict.Contains("OnPrimaryBrush"))
-                newDict["OutlineHoverTextBrush"] = newDict["OnPrimaryBrush"];
+            // OutlineTextBrush / OutlineHoverBrush / OutlineHoverTextBrush are synthesized BELOW,
+            // after the accent overlay, beside OutlineRestBrush. Synthesizing them here aliased
+            // the BASE theme's OutlineBtnBrush before the overlay replaced it, so on Black+Purple
+            // every OutlineButton's caption stayed the base's terminal green (#00ff66) while its
+            // border went purple ("why are these buttons green", Steve, 2026-08-08) - the same
+            // read-before-merge trap the DialogTitleBarBrush comment below documents.
             // Caption glyphs: font character or drawn shape. Segoe MDL2 has no Win98 equivalents -
             // the era's minimize/maximize/close were hand-drawn bitmaps - so a bevelled theme swaps
             // to shapes rather than trying to find a character that looks close. Every other theme
@@ -643,6 +675,15 @@ namespace KillerNotes.Services
             // rendered as bare text with its padding invisible.
             if (!newDict.Contains("OutlineRestBrush") && newDict.Contains("OutlineBtnBrush"))
                 newDict["OutlineRestBrush"] = newDict["OutlineBtnBrush"];
+            // The rest of the OutlineButton aliases, HERE for the same reason: they must read the
+            // accent overlay's OutlineBtnBrush, not the base theme's (see the note at the old
+            // location above).
+            if (!newDict.Contains("OutlineTextBrush") && newDict.Contains("OutlineBtnBrush"))
+                newDict["OutlineTextBrush"] = newDict["OutlineBtnBrush"];
+            if (!newDict.Contains("OutlineHoverBrush") && newDict.Contains("OutlineBtnBrush"))
+                newDict["OutlineHoverBrush"] = newDict["OutlineBtnBrush"];
+            if (!newDict.Contains("OutlineHoverTextBrush") && newDict.Contains("OnPrimaryBrush"))
+                newDict["OutlineHoverTextBrush"] = newDict["OnPrimaryBrush"];
 
             // AccentLogo (title-bar wordmark) and BgFlyout (format bar) are KillerPDF-vocabulary
             // keys that only the newer themes declare. Rather than hand-adding them to the six

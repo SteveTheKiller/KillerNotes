@@ -122,7 +122,10 @@ namespace KillerNotes.Controls
         private void NewColorSwatch_Click(object sender, MouseButtonEventArgs e)
         {
             var dlg = new ColorPickerDialog(this, ColorFromHex(_newColor)) { Owner = this };
-            if (dlg.ShowDialog() == true)
+            // Confirmed, not ShowDialog() == true: the picker's close fade nulls DialogResult
+            // (ColorPickerDialog.Confirmed doc), so the == true check silently dropped the pick.
+            dlg.ShowDialog();
+            if (dlg.Confirmed)
             {
                 _newColor = HexFromColor(dlg.SelectedColor);
                 NewColorSwatch.Background = new SolidColorBrush(dlg.SelectedColor);
@@ -155,7 +158,8 @@ namespace KillerNotes.Controls
             string cur = NoteStore.ListTags().FirstOrDefault(t =>
                 string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase)).Color ?? "#50AEE8";
             var dlg = new ColorPickerDialog(this, ColorFromHex(cur)) { Owner = this };
-            if (dlg.ShowDialog() == true)
+            dlg.ShowDialog();
+            if (dlg.Confirmed)
             {
                 NoteStore.SetTagColor(name, HexFromColor(dlg.SelectedColor));
                 Changed(select: name);
@@ -239,7 +243,6 @@ namespace KillerNotes.Controls
 
         // ---- Chrome ----
 
-        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
         private void Close_Click(object sender, RoutedEventArgs e) => Close();
     }
 }

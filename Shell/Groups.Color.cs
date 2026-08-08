@@ -29,7 +29,10 @@ namespace KillerNotes.Shell
             // changes in the picker (PreviewGroupColor). The RefreshList below then rebuilds
             // with the stored color (cancel) or the newly saved one (OK).
             dlg.ColorChanged += c => PreviewGroupColor(groupName, $"#{c.R:X2}{c.G:X2}{c.B:X2}");
-            if (dlg.ShowDialog() == true)
+            // Confirmed, not ShowDialog() == true: the close fade nulls DialogResult
+            // (ColorPickerDialog.Confirmed doc).
+            dlg.ShowDialog();
+            if (dlg.Confirmed)
             {
                 NoteStore.SetGroupColor(groupName,
                     $"#{dlg.SelectedColor.R:X2}{dlg.SelectedColor.G:X2}{dlg.SelectedColor.B:X2}");
