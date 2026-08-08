@@ -97,12 +97,14 @@ namespace KillerNotes.Shell
             dc.PushClip(new RectangleGeometry(new Rect(_rtb.RenderSize)));
             double ppd = VisualTreeHelper.GetDpi(this).PixelsPerDip;
 
-            // Focused: WPF paints the selection fill (SelectionBrush) and this adorner adds only
-            // the text. Unfocused: WPF paints NOTHING (inactive highlighting is deliberately off,
-            // see the class comment), so the adorner draws the accent fill under each segment too.
-            Brush? fill = _rtb.IsKeyboardFocusWithin
-                ? null
-                : Application.Current.TryFindResource("TextSelectionBrush") as Brush;
+            // The adorner draws its own SOLID accent fill under each text segment in BOTH focus
+            // states. WPF's native selection fill still paints underneath at the editor's own
+            // EditorSelectionOpacity - a translucent wash - and that wash is the only thing that
+            // covers EMBEDDED IMAGES, which have no glyphs for this adorner to redraw. At the old
+            // SelectionOpacity 1.0 a selected image was an unreadable solid block (reported
+            // 2026-08-08); with the wash translucent the image shows through tinted while TEXT
+            // keeps the solid era block because this fill covers the wash wherever glyphs live.
+            Brush? fill = Application.Current.TryFindResource("TextSelectionBrush") as Brush;
 
             // Line by line, because a wrapped run needs one draw per visual line.
             var lineStart = start;
@@ -118,19 +120,63 @@ namespace KillerNotes.Shell
 
         private void DrawLineSegment(DrawingContext dc, TextPointer pos, TextPointer lineEnd, Brush brush, Brush? fill, double ppd)
         {
+            // The dark fill is drawn as CONTIGUOUS BANDS per line, never per text run. Per-run
+            // fills left the native light tint showing through every gap - between runs, past the
+            // last word, on selected blank lines - a two-tone patchwork that read as a rendering
+            // glitch (2026-08-08). A band runs from the first selected position on the line to the
+            // last, broken ONLY around embedded objects (images, recording chips), which keep the
+            // translucent accent tint that is the whole point of the split scheme.
+            // Starts NULL and is set ONLY by the Text branch: any position at an element edge
+            // reports the neighboring object's full bounds from GetCharacterRect, so seeding this
+            // with the line start put the image's whole rectangle under the opaque fill whenever a
+            // line began with an image. Text positions report glyph rects and are safe.
+            TextPointer? stretchStart = null;  // start of the current band
+            TextPointer? textEnd = null;       // end of the last text run inside it
+            double top = double.MaxValue, bottom = double.MinValue;
+            var pending = new List<(FormattedText ft, Point at)>();
+
+            void CloseStretch(TextPointer? endPtr, bool pad)
+            {
+                if (stretchStart != null)
+                {
+                    Rect ra = stretchStart.GetCharacterRect(LogicalDirection.Forward);
+                    Rect rb = (endPtr ?? stretchStart).GetCharacterRect(
+                        endPtr != null ? LogicalDirection.Backward : LogicalDirection.Forward);
+                    if (!ra.IsEmpty) { top = Math.Min(top, ra.Top); bottom = Math.Max(bottom, ra.Bottom); }
+                    if (!rb.IsEmpty) { top = Math.Min(top, rb.Top); bottom = Math.Max(bottom, rb.Bottom); }
+                    if (fill != null && bottom > top && bottom > 0 && top < _rtb.ActualHeight)
+                    {
+                        double left = Math.Min(ra.Left, rb.Left);
+                        // pad covers the native selection's little line-break stub at each line's
+                        // tail; without it a light nub survived at the end of every wrapped line.
+                        double right = Math.Max(ra.Right, rb.Right) + (pad ? 4 : 0);
+                        dc.DrawRectangle(fill, null,
+                            new Rect(left, top, Math.Max(right - left, 4), bottom - top));
+                    }
+                    foreach (var (ft, at) in pending) dc.DrawText(ft, at);
+                }
+                pending.Clear();
+                stretchStart = null; textEnd = null;
+                top = double.MaxValue; bottom = double.MinValue;
+            }
+
             while (pos != null && pos.CompareTo(lineEnd) < 0)
             {
-                if (pos.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text)
+                var ctx = pos.GetPointerContext(LogicalDirection.Forward);
+                if (ctx == TextPointerContext.Text)
                 {
+                    stretchStart ??= pos;
                     string run = pos.GetTextInRun(LogicalDirection.Forward);
                     int len = Math.Min(run.Length, pos.GetOffsetToPosition(lineEnd));
-                    if (len <= 0) return;
+                    if (len <= 0) break;
                     Rect rect = pos.GetCharacterRect(LogicalDirection.Forward);
                     if (rect != Rect.Empty && rect.Bottom > 0 && rect.Top < _rtb.ActualHeight)
                     {
-                        // Each segment redraws with ITS run's own font, size, style and
-                        // decorations, read as effective (inherited) values, so bold, italic,
-                        // sizes and underlines all land exactly where the black glyphs are.
+                        top = Math.Min(top, rect.Top); bottom = Math.Max(bottom, rect.Bottom);
+                        // Each run redraws with ITS OWN font, size, style and decorations, read as
+                        // effective (inherited) values, so bold, italic, sizes and underlines all
+                        // land exactly where the original glyphs are. Glyphs are queued and drawn
+                        // when the band closes, so they always paint ABOVE their band's fill.
                         var elem = pos.Parent as TextElement;
                         var typeface = new Typeface(
                             (FontFamily)(elem?.GetValue(TextElement.FontFamilyProperty) ?? _rtb.FontFamily),
@@ -142,15 +188,33 @@ namespace KillerNotes.Shell
                             _rtb.FlowDirection, typeface, size, brush, null, TextFormattingMode.Display, ppd);
                         if ((elem as Inline)?.TextDecorations is { Count: > 0 } deco)
                             ft.SetTextDecorations(deco);
-                        if (fill != null)
-                            dc.DrawRectangle(fill, null,
-                                new Rect(rect.TopLeft, new Size(ft.WidthIncludingTrailingWhitespace, rect.Height)));
-                        dc.DrawText(ft, rect.TopLeft);
+                        pending.Add((ft, rect.TopLeft));
                     }
                     pos = pos.GetPositionAtOffset(len);
+                    textEnd = pos;
                 }
-                else pos = pos.GetNextContextPosition(LogicalDirection.Forward);
+                else if (ctx == TextPointerContext.EmbeddedElement)
+                {
+                    // An image or chip: close the band BEFORE it so the opaque fill never covers
+                    // it. The object itself is marked by the editor's NATIVE selection layer -
+                    // the same accent at EditorSelectionOpacity (75%) - and nothing else.
+                    CloseStretch(textEnd, pad: false);
+                    pos = pos.GetNextContextPosition(LogicalDirection.Forward);
+                }
+                else
+                {
+                    // NEVER start a band here. GetCharacterRect at an element edge returns the
+                    // NEIGHBORING OBJECT'S full bounds - starting a stretch on the edge before an
+                    // image handed CloseStretch the image's whole rectangle, and the opaque fill
+                    // painted the image solid regardless of the 75% native layer (2026-08-08).
+                    // Bands start at TEXT only (the Text branch above); a zero-width edge BETWEEN
+                    // text runs is spanned by the running band without needing to start one.
+                    pos = pos.GetNextContextPosition(LogicalDirection.Forward);
+                }
             }
+            // Close to the line's end. For a selected EMPTY line this still draws the small
+            // caret-width stub the native selection shows, in the dark fill instead of the tint.
+            CloseStretch(textEnd ?? lineEnd, pad: true);
         }
     }
 }

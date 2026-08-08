@@ -52,6 +52,12 @@
        own dark tone, matching its SelectionBg. -->
   <SolidColorBrush x:Key="TextSelectionBrush" Color="#004f00"/>
   <sys:Double x:Key="TextSelectionOpacity">1.0</sys:Double>
+  <!-- The EDITOR's native selection layer. Steve's spec (2026-08-08, final): selected TEXT is
+       the solid accent block with white glyphs (the adorner's opaque band draws that, covering
+       this layer), and a selected IMAGE gets THIS - the same dark accent at 75% - laid over it.
+       No lighter "tint" brush, no border, no other cleverness. The plain TextBoxes keep the 1.0
+       above: they cannot contain images and their white selected text needs the solid fill. -->
+  <sys:Double x:Key="EditorSelectionOpacity">0.75</sys:Double>
   <SolidColorBrush x:Key="TextSelectionTextBrush" Color="#ffffff"/>
   <!-- The EXPLICIT opt-in for SelectionTextAdorner (Shell/EditorSelectionText.cs). The adorner
        must NOT key off the brushes above existing - ThemeManager synthesizes those for every

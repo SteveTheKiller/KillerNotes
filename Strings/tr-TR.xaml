@@ -35,8 +35,6 @@
     <sys:String x:Key="Str_Ctx_Paste">Yapıştır</sys:String>
 
     <!-- Theme flyout -->
-    <sys:String x:Key="Str_Lbl_Theme">tema</sys:String>
-    <sys:String x:Key="Str_Lbl_Accent">vurgu</sys:String>
 
     <!-- Format bar -->
     <sys:String x:Key="Str_TT_Bold">Kalın (Ctrl+B)</sys:String>
@@ -86,7 +84,6 @@
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">"{0}" silinsin mi?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">{0} not silinsin mi?</sys:String>
-    <sys:String x:Key="Str_Dlg_CannotUndo">Bu işlem geri alınamaz.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Sil</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">İptal</sys:String>
 
@@ -287,7 +284,6 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">Başlık rengi (seçili not)</sys:String>
     <sys:String x:Key="Str_KS_Spell">Yazım denetimini aç/kapat</sys:String>
     <sys:String x:Key="Str_KS_Table">Tablo ekle</sys:String>
-    <sys:String x:Key="Str_TT_WordWrap">Sözcük kaydırma açık/kapalı (Ctrl+Shift+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Sözcük kaydırmayı aç/kapat</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Sözdizimi vurgulama</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Sözcük kaydırma açık</sys:String>
@@ -305,6 +301,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - çiz ve not al</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">Önce bir şeyler çizin</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">Eskiz güncellendi</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">Eskiz yazdırılmadı - ait olduğu nota geri dönün</sys:String>
     <sys:String x:Key="Str_TT_InsertImage">Dosyadan resim ekle</sys:String>
     <sys:String x:Key="Str_TT_SketchRail">SketchPad - bir eskiz çiz (F7)</sys:String>
     <sys:String x:Key="Str_Btn_CalcPrint">Nota yazdır</sys:String>
@@ -314,7 +311,6 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_TT_CalcPrintSum">Sonucu imlecin bulunduğu yere bu nota ekle (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_TT_CalcPrintEq">Tüm denklemi imlecin bulunduğu yere bu nota ekle (Ctrl+Shift+Enter)</sys:String>
     <sys:String x:Key="Str_KS_CalcPrintEq">Killculator denklemini nota yazdır</sys:String>
-    <sys:String x:Key="Str_TT_CalcClose">Kapat (Esc)</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">Önce bir not açın</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">Nota yazdırıldı</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z geri getirir.</sys:String>
@@ -351,10 +347,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Sec_Edit">Düzenleme</sys:String>
 
     <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
-    <sys:String x:Key="Str_TT_FontDown">Metni küçült (Ctrl+Shift+&lt;)</sys:String>
     <sys:String x:Key="Str_TT_FontSize">Metin boyutu (değiştirmek için kaydırın)</sys:String>
-    <sys:String x:Key="Str_TT_FontUp">Metni büyüt (Ctrl+Shift+&gt;)</sys:String>
-    <sys:String x:Key="Str_TT_Spell">Bu not için yazım denetimi</sys:String>
     <sys:String x:Key="Str_Btn_More">Daha fazla...</sys:String>
     <sys:String x:Key="Str_TT_MoreColors">Herhangi bir renk seçin</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColor">Başlık rengi...</sys:String>
@@ -434,8 +427,6 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_LinkBad">Bu bir web adresine benzemiyor</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Bağlantı açılamadı</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Bir renk seçin</sys:String>
-    <sys:String x:Key="Str_Btn_Replace">Değiştir</sys:String>
-    <sys:String x:Key="Str_Btn_Reset">Sıfırla</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Ekranın herhangi bir yerinden renk seçin</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Tıklayın, ardından geçerli renge ayarlamak için bir renk örneğine tıklayın</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Renk örneklerini varsayılanlara sıfırla</sys:String>
@@ -559,9 +550,6 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Dict_Edited">Düzenlendi. Geri oynatın veya yeniden yazıya dökün.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Yalnızca metin bağlanabilir - resim veya kayıt değil, sözcük seçin</sys:String>
 
-    <sys:String x:Key="Str_Btn_Select">Seç</sys:String>
-    <sys:String x:Key="Str_Dlg_SelectFolder">Klasörü seçin</sys:String>
-    <sys:String x:Key="Str_Dlg_NoSubfolders">(alt klasör yok - bu klasörü kullanmak için Seç'e tıklayın)</sys:String>
     <sys:String x:Key="Str_Ctx_SelectAll">Tümünü seç</sys:String>
 
     <sys:String x:Key="Str_Dlg_NoPreview">Önizleme yok</sys:String>

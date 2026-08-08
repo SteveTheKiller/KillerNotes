@@ -35,8 +35,6 @@
     <sys:String x:Key="Str_Ctx_Paste">貼り付け</sys:String>
 
     <!-- Theme flyout -->
-    <sys:String x:Key="Str_Lbl_Theme">テーマ</sys:String>
-    <sys:String x:Key="Str_Lbl_Accent">アクセント</sys:String>
 
     <!-- Format bar -->
     <sys:String x:Key="Str_TT_Bold">太字 (Ctrl+B)</sys:String>
@@ -86,7 +84,6 @@
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">「{0}」を削除しますか?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">{0} 件のノートを削除しますか?</sys:String>
-    <sys:String x:Key="Str_Dlg_CannotUndo">この操作は元に戻せません。</sys:String>
     <sys:String x:Key="Str_Btn_Delete">削除</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">キャンセル</sys:String>
 
@@ -287,7 +284,6 @@
     <sys:String x:Key="Str_KS_TitleColor">タイトルの色 (選択中のノート)</sys:String>
     <sys:String x:Key="Str_KS_Spell">スペル チェックを切り替え</sys:String>
     <sys:String x:Key="Str_KS_Table">表を挿入</sys:String>
-    <sys:String x:Key="Str_TT_WordWrap">折り返し オン/オフ (Ctrl+Shift+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">折り返しを切り替え</sys:String>
     <sys:String x:Key="Str_KS_Syntax">構文の強調表示</sys:String>
     <sys:String x:Key="Str_St_WrapOn">折り返しオン</sys:String>
@@ -305,6 +301,7 @@
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - 描画と注釈</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">先に何か描いてください</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">スケッチを更新しました</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">スケッチは印刷されていません - 元のノートに戻ってください</sys:String>
     <sys:String x:Key="Str_TT_InsertImage">ファイルから画像を挿入</sys:String>
     <sys:String x:Key="Str_TT_SketchRail">SketchPad - スケッチを描く (F7)</sys:String>
     <sys:String x:Key="Str_Btn_CalcPrint">ノートに印刷</sys:String>
@@ -314,7 +311,6 @@
     <sys:String x:Key="Str_TT_CalcPrintSum">カーソル位置で結果をこのノートに挿入 (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_TT_CalcPrintEq">カーソル位置で数式全体をこのノートに挿入 (Ctrl+Shift+Enter)</sys:String>
     <sys:String x:Key="Str_KS_CalcPrintEq">Killculator の数式をノートに印刷</sys:String>
-    <sys:String x:Key="Str_TT_CalcClose">閉じる (Esc)</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">先にノートを開いてください</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">ノートに印刷しました</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z で元に戻せます。</sys:String>
@@ -351,10 +347,7 @@
     <sys:String x:Key="Str_Sec_Edit">編集</sys:String>
 
     <!-- Font size / zoom / colors / title color / spell check -->
-    <sys:String x:Key="Str_TT_FontDown">文字を小さく (Ctrl+Shift+&lt;)</sys:String>
     <sys:String x:Key="Str_TT_FontSize">文字サイズ (スクロールで変更)</sys:String>
-    <sys:String x:Key="Str_TT_FontUp">文字を大きく (Ctrl+Shift+&gt;)</sys:String>
-    <sys:String x:Key="Str_TT_Spell">このノートのスペル チェック</sys:String>
     <sys:String x:Key="Str_Btn_More">その他...</sys:String>
     <sys:String x:Key="Str_TT_MoreColors">任意の色を選択</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColor">タイトルの色...</sys:String>
@@ -434,8 +427,6 @@
     <sys:String x:Key="Str_St_LinkBad">ウェブアドレスではないようです</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">リンクを開けませんでした</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">色を選択</sys:String>
-    <sys:String x:Key="Str_Btn_Replace">置換</sys:String>
-    <sys:String x:Key="Str_Btn_Reset">リセット</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">画面上の任意の場所から色を取得</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">クリックした後、スウォッチをクリックして現在の色に設定します</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">スウォッチを既定値にリセット</sys:String>
@@ -559,9 +550,6 @@
     <sys:String x:Key="Str_Dict_Edited">編集しました。再生するか、もう一度文字起こししてください。</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">リンクにできるのはテキストのみです - 画像や録音ではなく単語を選択してください</sys:String>
 
-    <sys:String x:Key="Str_Btn_Select">選択</sys:String>
-    <sys:String x:Key="Str_Dlg_SelectFolder">フォルダーを選択</sys:String>
-    <sys:String x:Key="Str_Dlg_NoSubfolders">(サブフォルダーはありません - 選択を押すとこのフォルダーを使います)</sys:String>
     <sys:String x:Key="Str_Ctx_SelectAll">すべて選択</sys:String>
 
     <sys:String x:Key="Str_Dlg_NoPreview">プレビューはありません</sys:String>

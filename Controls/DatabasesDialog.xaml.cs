@@ -54,7 +54,13 @@ namespace KillerNotes.Controls
                 // Name and metadata are separate TextBlocks so inline rename can swap
                 // just the name part for a TextBox.
                 var row = new StackPanel { Orientation = Orientation.Horizontal };
+                // SidebarFont, NOT the inherited default. These rows are code-built, so they do
+                // not pick up the app's font slots on their own - without this they rendered in
+                // stock Segoe UI while every other list row in the app follows the Sidebar font
+                // (regressed in the 1.2.0 dialog rebuild; refixed 2026-08-08). SetResourceReference
+                // so a font change in the Fonts dialog updates these rows live like the sidebar.
                 var nameText = new TextBlock { Text = name, FontSize = 12 };
+                nameText.SetResourceReference(TextBlock.FontFamilyProperty, "SidebarFont");
                 var meta = new TextBlock
                 {
                     Text = $"   {fi.Length / 1024:N0} KB   {fi.LastWriteTime:yyyy-MM-dd HH:mm}"
@@ -63,6 +69,7 @@ namespace KillerNotes.Controls
                     FontSize = 11,
                     VerticalAlignment = VerticalAlignment.Center,
                 };
+                meta.SetResourceReference(TextBlock.FontFamilyProperty, "SidebarFont");
                 row.Children.Add(nameText);
                 row.Children.Add(meta);
 
@@ -101,11 +108,15 @@ namespace KillerNotes.Controls
         private ListBoxItem? SelectedItem => DbList.SelectedItem as ListBoxItem;
         private string? SelectedFile => SelectedItem?.Tag as string;
 
-        // ---- Inline rename (double-click the name, or right-click > Rename) ----
+        // ---- Inline rename (right-click > Rename, or F2) ----
 
+        // Double-click OPENS the database. It used to start an inline rename, which is nobody's
+        // expectation for a list of openable things - Explorer, the file picker and every other
+        // list in the family open on double-click (Steve, 2026-08-08). Rename keeps its two
+        // deliberate triggers: the context menu and F2.
         private void DbList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (SelectedItem is ListBoxItem item) BeginRename(item);
+            if (SelectedItem is ListBoxItem) Open_Click(sender, e);
         }
 
         // Right-click selects the row under the cursor before the context menu opens.
@@ -174,12 +185,13 @@ namespace KillerNotes.Controls
             var box = new TextBox
             {
                 Text = oldName,
-                FontSize = 12,
+                FontSize = 12,   // family set below: matches the row it replaces (SidebarFont)
                 MinWidth = 160,
                 Padding = new Thickness(2, 0, 2, 0),
                 BorderThickness = new Thickness(1),
                 Background = Brushes.Transparent,
             };
+            box.SetResourceReference(TextBox.FontFamilyProperty, "SidebarFont");
             box.SetResourceReference(TextBox.ForegroundProperty, "TextBrush");
             box.SetResourceReference(TextBox.CaretBrushProperty, "TextBrush");
             box.SetResourceReference(TextBox.BorderBrushProperty, "PrimaryBrush");

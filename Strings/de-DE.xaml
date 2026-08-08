@@ -35,8 +35,6 @@
     <sys:String x:Key="Str_Ctx_Paste">Einfügen</sys:String>
 
     <!-- Theme flyout -->
-    <sys:String x:Key="Str_Lbl_Theme">Design</sys:String>
-    <sys:String x:Key="Str_Lbl_Accent">Akzent</sys:String>
 
     <!-- Format bar -->
     <sys:String x:Key="Str_TT_Bold">Fett (Strg+B)</sys:String>
@@ -86,7 +84,6 @@
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">"{0}" löschen?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">{0} Notizen löschen?</sys:String>
-    <sys:String x:Key="Str_Dlg_CannotUndo">Das kann nicht rückgängig gemacht werden.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Löschen</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Abbrechen</sys:String>
 
@@ -290,7 +287,6 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">Titelfarbe (ausgewählte Notiz)</sys:String>
     <sys:String x:Key="Str_KS_Spell">Rechtschreibprüfung umschalten</sys:String>
     <sys:String x:Key="Str_KS_Table">Tabelle einfügen</sys:String>
-    <sys:String x:Key="Str_TT_WordWrap">Zeilenumbruch ein/aus (Strg+Umschalt+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Zeilenumbruch umschalten</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Syntaxhervorhebung</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Zeilenumbruch an</sys:String>
@@ -308,6 +304,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - zeichnen und beschriften</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">Zeichnen Sie zuerst etwas</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">Skizze aktualisiert</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">Skizze nicht gedruckt - wechseln Sie zurück zu ihrer Notiz</sys:String>
     <sys:String x:Key="Str_TT_InsertImage">Bild aus einer Datei einfügen</sys:String>
     <sys:String x:Key="Str_TT_SketchRail">SketchPad - eine Skizze zeichnen (F7)</sys:String>
     <sys:String x:Key="Str_Btn_CalcPrint">In Notiz drucken</sys:String>
@@ -317,7 +314,6 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_TT_CalcPrintSum">Das Ergebnis an der Cursorposition in die Notiz einfügen (Strg+Eingabe)</sys:String>
     <sys:String x:Key="Str_TT_CalcPrintEq">Die ganze Gleichung an der Cursorposition in die Notiz einfügen (Strg+Umschalt+Eingabe)</sys:String>
     <sys:String x:Key="Str_KS_CalcPrintEq">Killculator-Gleichung in die Notiz drucken</sys:String>
-    <sys:String x:Key="Str_TT_CalcClose">Schließen (Esc)</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">Zuerst eine Notiz öffnen</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">In Notiz gedruckt</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Strg+Z holt sie zurück.</sys:String>
@@ -351,10 +347,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Sec_Edit">Bearbeiten</sys:String>
 
     <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
-    <sys:String x:Key="Str_TT_FontDown">Text verkleinern (Strg+Umschalt+&lt;)</sys:String>
     <sys:String x:Key="Str_TT_FontSize">Textgröße (zum Ändern scrollen)</sys:String>
-    <sys:String x:Key="Str_TT_FontUp">Text vergrößern (Strg+Umschalt+&gt;)</sys:String>
-    <sys:String x:Key="Str_TT_Spell">Rechtschreibprüfung für diese Notiz</sys:String>
     <sys:String x:Key="Str_Btn_More">Mehr...</sys:String>
     <sys:String x:Key="Str_TT_MoreColors">Beliebige Farbe wählen</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColor">Titelfarbe...</sys:String>
@@ -434,8 +427,6 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_St_LinkBad">Das sieht nicht nach einer Webadresse aus</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Link ließ sich nicht öffnen</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Farbe wählen</sys:String>
-    <sys:String x:Key="Str_Btn_Replace">Ersetzen</sys:String>
-    <sys:String x:Key="Str_Btn_Reset">Zurücksetzen</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Farbe von einer beliebigen Stelle auf dem Bildschirm aufnehmen</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Klicken, dann ein Farbfeld anklicken, um es auf die aktuelle Farbe zu setzen</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Farbfelder auf Standard zurücksetzen</sys:String>
@@ -559,9 +550,6 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Dict_Edited">Bearbeitet. Abspielen oder erneut transkribieren.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Nur Text kann verlinkt werden - Wörter auswählen, kein Bild und keine Aufnahme</sys:String>
 
-    <sys:String x:Key="Str_Btn_Select">Auswählen</sys:String>
-    <sys:String x:Key="Str_Dlg_SelectFolder">Ordner auswählen</sys:String>
-    <sys:String x:Key="Str_Dlg_NoSubfolders">(keine Unterordner - mit Auswählen diesen Ordner verwenden)</sys:String>
     <sys:String x:Key="Str_Ctx_SelectAll">Alles auswählen</sys:String>
 
     <sys:String x:Key="Str_Dlg_NoPreview">Keine Vorschau verfügbar</sys:String>

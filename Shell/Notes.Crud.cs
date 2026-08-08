@@ -74,9 +74,18 @@ namespace KillerNotes.Shell
             if (_notes.Count == 0 && !string.IsNullOrEmpty(SearchBox.Text))
                 SearchBox.Text = "";   // TextChanged refreshes the list synchronously
 
-            // "file|id": the remembered id only counts inside the database it was saved in.
+            // Same-database round trip (Manage databases cancelled, lock/unlock): reopen exactly
+            // the note that was open, not whatever the LastNote setting or the most-recent
+            // fallback would pick. In-memory (SecurityHost.cs), so it holds in demo sessions,
+            // which never write the LastNote setting.
             Note? target = null;
-            if (App.GetSetting("LastNote") is string last)
+            if (_resumeNoteId >= 0 &&
+                string.Equals(_resumeDb, NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase))
+                target = _notes.FirstOrDefault(n => n.Id == _resumeNoteId);
+            _resumeNoteId = -1; _resumeDb = "";
+
+            // "file|id": the remembered id only counts inside the database it was saved in.
+            if (target == null && App.GetSetting("LastNote") is string last)
             {
                 int sep = last.LastIndexOf('|');
                 if (sep > 0 &&

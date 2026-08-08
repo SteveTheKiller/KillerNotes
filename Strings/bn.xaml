@@ -35,8 +35,6 @@
     <sys:String x:Key="Str_Ctx_Paste">পেস্ট</sys:String>
 
     <!-- Theme flyout -->
-    <sys:String x:Key="Str_Lbl_Theme">থিম</sys:String>
-    <sys:String x:Key="Str_Lbl_Accent">অ্যাকসেন্ট</sys:String>
 
     <!-- Format bar -->
     <sys:String x:Key="Str_TT_Bold">বোল্ড (Ctrl+B)</sys:String>
@@ -86,7 +84,6 @@
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">"{0}" মুছবেন?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">{0}টি নোট মুছবেন?</sys:String>
-    <sys:String x:Key="Str_Dlg_CannotUndo">এটি আর ফেরানো যাবে না।</sys:String>
     <sys:String x:Key="Str_Btn_Delete">মুছুন</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">বাতিল</sys:String>
 
@@ -287,7 +284,6 @@
     <sys:String x:Key="Str_KS_TitleColor">শিরোনামের রং (নির্বাচিত নোট)</sys:String>
     <sys:String x:Key="Str_KS_Spell">বানান পরীক্ষা টগল করুন</sys:String>
     <sys:String x:Key="Str_KS_Table">টেবিল যোগ করুন</sys:String>
-    <sys:String x:Key="Str_TT_WordWrap">ওয়ার্ড র‍্যাপ চালু/বন্ধ (Ctrl+Shift+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">ওয়ার্ড র‍্যাপ টগল করুন</sys:String>
     <sys:String x:Key="Str_KS_Syntax">সিনট্যাক্স হাইলাইটিং</sys:String>
     <sys:String x:Key="Str_St_WrapOn">ওয়ার্ড র‍্যাপ চালু</sys:String>
@@ -305,6 +301,7 @@
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - আঁকুন ও টীকা দিন</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">আগে কিছু আঁকুন</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">স্কেচ আপডেট হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">স্কেচ প্রিন্ট হয়নি - এটি যে নোটের, সেটিতে ফিরে যান</sys:String>
     <sys:String x:Key="Str_TT_InsertImage">ফাইল থেকে ছবি ঢোকান</sys:String>
     <sys:String x:Key="Str_TT_SketchRail">SketchPad - একটি স্কেচ আঁকুন (F7)</sys:String>
     <sys:String x:Key="Str_Btn_CalcPrint">নোটে প্রিন্ট করুন</sys:String>
@@ -314,7 +311,6 @@
     <sys:String x:Key="Str_TT_CalcPrintSum">কার্সারের জায়গায় ফলাফল এই নোটে বসান (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_TT_CalcPrintEq">কার্সারের জায়গায় পুরো সমীকরণ এই নোটে বসান (Ctrl+Shift+Enter)</sys:String>
     <sys:String x:Key="Str_KS_CalcPrintEq">Killculator সমীকরণ নোটে প্রিন্ট করুন</sys:String>
-    <sys:String x:Key="Str_TT_CalcClose">বন্ধ করুন (Esc)</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">আগে একটি নোট খুলুন</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">নোটে প্রিন্ট হয়েছে</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z ফিরিয়ে আনে।</sys:String>
@@ -351,10 +347,7 @@
     <sys:String x:Key="Str_Sec_Edit">সম্পাদনা</sys:String>
 
     <!-- Font size / zoom / colors / title color / spell check -->
-    <sys:String x:Key="Str_TT_FontDown">লেখা ছোট করুন (Ctrl+Shift+&lt;)</sys:String>
     <sys:String x:Key="Str_TT_FontSize">লেখার আকার (বদলাতে স্ক্রল করুন)</sys:String>
-    <sys:String x:Key="Str_TT_FontUp">লেখা বড় করুন (Ctrl+Shift+&gt;)</sys:String>
-    <sys:String x:Key="Str_TT_Spell">এই নোটের জন্য বানান পরীক্ষা</sys:String>
     <sys:String x:Key="Str_Btn_More">আরও...</sys:String>
     <sys:String x:Key="Str_TT_MoreColors">যেকোনো রং বাছুন</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColor">শিরোনামের রং...</sys:String>
@@ -436,8 +429,6 @@
     <sys:String x:Key="Str_St_LinkBad">এটা ওয়েব ঠিকানার মতো দেখাচ্ছে না</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">লিঙ্ক খোলা গেল না</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">একটি রং বাছুন</sys:String>
-    <sys:String x:Key="Str_Btn_Replace">প্রতিস্থাপন</sys:String>
-    <sys:String x:Key="Str_Btn_Reset">রিসেট</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">স্ক্রিনের যেকোনো জায়গা থেকে একটি রং বাছুন</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">ক্লিক করুন, তারপর কোনো সোয়াচে ক্লিক করে সেটিকে বর্তমান রঙে সেট করুন</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">সোয়াচগুলো ডিফল্টে রিসেট করুন</sys:String>
@@ -561,9 +552,6 @@
     <sys:String x:Key="Str_Dict_Edited">সম্পাদিত। চালিয়ে দেখুন, বা আবার প্রতিলিপি করুন।</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">কেবল লেখা লিঙ্ক করা যায় - শব্দ নির্বাচন করুন, ছবি বা রেকর্ডিং নয়</sys:String>
 
-    <sys:String x:Key="Str_Btn_Select">নির্বাচন করুন</sys:String>
-    <sys:String x:Key="Str_Dlg_SelectFolder">ফোল্ডার নির্বাচন করুন</sys:String>
-    <sys:String x:Key="Str_Dlg_NoSubfolders">(কোনো সাবফোল্ডার নেই - এই ফোল্ডারটি ব্যবহার করতে নির্বাচন করুন চাপুন)</sys:String>
     <sys:String x:Key="Str_Ctx_SelectAll">সব নির্বাচন করুন</sys:String>
 
     <sys:String x:Key="Str_Dlg_NoPreview">কোনো প্রিভিউ নেই</sys:String>

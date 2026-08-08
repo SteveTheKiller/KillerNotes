@@ -41,8 +41,6 @@
     <sys:String x:Key="Str_Ctx_Paste">Vložit</sys:String>
 
     <!-- Theme flyout -->
-    <sys:String x:Key="Str_Lbl_Theme">motiv</sys:String>
-    <sys:String x:Key="Str_Lbl_Accent">akcent</sys:String>
 
     <!-- Format bar -->
     <sys:String x:Key="Str_TT_Bold">Tučné (Ctrl+B)</sys:String>
@@ -50,7 +48,6 @@
     <sys:String x:Key="Str_TT_Underline">Podtržení (Ctrl+U)</sys:String>
     <sys:String x:Key="Str_TT_Strike">Přeškrtnutí (Ctrl+Shift+S)</sys:String>
     <sys:String x:Key="Str_TT_Mono">Neproporcionální (kód, Ctrl+Shift+M)</sys:String>
-    <sys:String x:Key="Str_TT_WordWrap">Zalamování řádků zap/vyp (Ctrl+Shift+W)</sys:String>
     <!-- 1.1.0 additions (grouped here for convenience; keys resolve regardless of position) -->
     <sys:String x:Key="Str_TT_AppSize">Posouváním změníte velikost celé aplikace</sys:String>
     <sys:String x:Key="Str_St_AppSize">Velikost aplikace {0} %</sys:String>
@@ -80,6 +77,7 @@
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - kreslení a poznámky</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">Nejprve něco nakreslete</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">Skica aktualizována</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">Skica nevytištěna - přepněte zpět na poznámku, ke které patří</sys:String>
     <sys:String x:Key="Str_TT_InsertImage">Vložit obrázek ze souboru</sys:String>
     <sys:String x:Key="Str_TT_SketchRail">SketchPad - nakreslete skicu (F7)</sys:String>
     <sys:String x:Key="Str_Btn_CalcPrint">Vytisknout do poznámky</sys:String>
@@ -89,7 +87,6 @@
     <sys:String x:Key="Str_TT_CalcPrintSum">Vytisknout výsledek do této poznámky na pozici kurzoru (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_TT_CalcPrintEq">Vytisknout celou rovnici do této poznámky na pozici kurzoru (Ctrl+Shift+Enter)</sys:String>
     <sys:String x:Key="Str_KS_CalcPrintEq">Vytisknout rovnici Killculatoru do poznámky</sys:String>
-    <sys:String x:Key="Str_TT_CalcClose">Zavřít (Esc)</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">Nejprve otevřete poznámku</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">Vytištěno do poznámky</sys:String>
     <sys:String x:Key="Str_TT_TextColor">Barva textu a zvýraznění</sys:String>
@@ -134,7 +131,6 @@
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Smazat „{0}"?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">Smazat {0} poznámek?</sys:String>
-    <sys:String x:Key="Str_Dlg_CannotUndo">Tuto akci nelze vrátit zpět.</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z ji vrátí zpět.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Smazat</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Zrušit</sys:String>
@@ -342,10 +338,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Sec_Edit">Úpravy</sys:String>
 
     <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
-    <sys:String x:Key="Str_TT_FontDown">Zmenšit text (Ctrl+Shift+&lt;)</sys:String>
     <sys:String x:Key="Str_TT_FontSize">Velikost textu (změníte posouváním)</sys:String>
-    <sys:String x:Key="Str_TT_FontUp">Zvětšit text (Ctrl+Shift+&gt;)</sys:String>
-    <sys:String x:Key="Str_TT_Spell">Kontrola pravopisu pro tuto poznámku</sys:String>
     <sys:String x:Key="Str_Btn_More">Více...</sys:String>
     <sys:String x:Key="Str_TT_MoreColors">Vyberte libovolnou barvu</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColor">Barva názvu...</sys:String>
@@ -430,8 +423,6 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_LinkBad">Toto nevypadá jako webová adresa</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Odkaz se nepodařilo otevřít</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Vyberte barvu</sys:String>
-    <sys:String x:Key="Str_Btn_Replace">Nahradit</sys:String>
-    <sys:String x:Key="Str_Btn_Reset">Obnovit</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Vyberte barvu odkudkoli na obrazovce</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Klikněte, poté klikněte na vzorník a nastavte jej na aktuální barvu</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Obnovit vzorníky na výchozí</sys:String>
@@ -563,9 +554,6 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Dict_Edited">Upraveno. Přehrajte si to, nebo to přepište znovu.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Odkazovat lze pouze text - vyberte slova, ne obrázek nebo nahrávku</sys:String>
 
-    <sys:String x:Key="Str_Btn_Select">Vybrat</sys:String>
-    <sys:String x:Key="Str_Dlg_SelectFolder">Vyberte složku</sys:String>
-    <sys:String x:Key="Str_Dlg_NoSubfolders">(žádné podsložky - kliknutím na Vybrat použijete tuto složku)</sys:String>
     <sys:String x:Key="Str_Ctx_SelectAll">Vybrat vše</sys:String>
 
     <sys:String x:Key="Str_Dlg_NoPreview">Náhled není k dispozici</sys:String>

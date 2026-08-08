@@ -35,8 +35,6 @@
     <sys:String x:Key="Str_Ctx_Paste">Pegar</sys:String>
 
     <!-- Theme flyout -->
-    <sys:String x:Key="Str_Lbl_Theme">tema</sys:String>
-    <sys:String x:Key="Str_Lbl_Accent">acento</sys:String>
 
     <!-- Format bar -->
     <sys:String x:Key="Str_TT_Bold">Negrita (Ctrl+B)</sys:String>
@@ -86,7 +84,6 @@
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">¿Eliminar "{0}"?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">¿Eliminar {0} notas?</sys:String>
-    <sys:String x:Key="Str_Dlg_CannotUndo">Esto no se puede deshacer.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Eliminar</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Cancelar</sys:String>
 
@@ -288,7 +285,6 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_TitleColor">Color del título (nota seleccionada)</sys:String>
     <sys:String x:Key="Str_KS_Spell">Alternar corrección ortográfica</sys:String>
     <sys:String x:Key="Str_KS_Table">Insertar tabla</sys:String>
-    <sys:String x:Key="Str_TT_WordWrap">Ajuste de línea sí/no (Ctrl+Mayús+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Alternar ajuste de línea</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Resaltado de sintaxis</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Ajuste de línea activado</sys:String>
@@ -306,6 +302,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - dibujar y anotar</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">Dibuja algo primero</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">Boceto actualizado</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">Boceto no impreso - vuelva a la nota a la que pertenece</sys:String>
     <sys:String x:Key="Str_TT_InsertImage">Insertar imagen desde un archivo</sys:String>
     <sys:String x:Key="Str_TT_SketchRail">SketchPad - dibujar un boceto (F7)</sys:String>
     <sys:String x:Key="Str_Btn_CalcPrint">Imprimir en la nota</sys:String>
@@ -315,7 +312,6 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_TT_CalcPrintSum">Insertar el resultado en esta nota en el cursor (Ctrl+Intro)</sys:String>
     <sys:String x:Key="Str_TT_CalcPrintEq">Insertar toda la ecuación en esta nota en el cursor (Ctrl+Mayús+Intro)</sys:String>
     <sys:String x:Key="Str_KS_CalcPrintEq">Imprimir la ecuación de Killculator en la nota</sys:String>
-    <sys:String x:Key="Str_TT_CalcClose">Cerrar (Esc)</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">Abra primero una nota</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">Impreso en la nota</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z la recupera.</sys:String>
@@ -352,10 +348,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Sec_Edit">Edición</sys:String>
 
     <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
-    <sys:String x:Key="Str_TT_FontDown">Reducir texto (Ctrl+Mayús+&lt;)</sys:String>
     <sys:String x:Key="Str_TT_FontSize">Tamaño del texto (desplace para cambiar)</sys:String>
-    <sys:String x:Key="Str_TT_FontUp">Aumentar texto (Ctrl+Mayús+&gt;)</sys:String>
-    <sys:String x:Key="Str_TT_Spell">Corrección ortográfica para esta nota</sys:String>
     <sys:String x:Key="Str_Btn_More">Más...</sys:String>
     <sys:String x:Key="Str_TT_MoreColors">Elegir cualquier color</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColor">Color del título...</sys:String>
@@ -435,8 +428,6 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_LinkBad">Eso no parece una dirección web</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">No se pudo abrir el enlace</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Elija un color</sys:String>
-    <sys:String x:Key="Str_Btn_Replace">Reemplazar</sys:String>
-    <sys:String x:Key="Str_Btn_Reset">Restablecer</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Elegir un color de cualquier parte de la pantalla</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Haga clic y luego en una muestra para asignarle el color actual</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Restablecer las muestras a los valores predeterminados</sys:String>
@@ -560,9 +551,6 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Dict_Edited">Editado. Reprodúzcalo o transcríbalo de nuevo.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Solo se puede enlazar texto - seleccione palabras, no una imagen o grabación</sys:String>
 
-    <sys:String x:Key="Str_Btn_Select">Seleccionar</sys:String>
-    <sys:String x:Key="Str_Dlg_SelectFolder">Selecciona la carpeta</sys:String>
-    <sys:String x:Key="Str_Dlg_NoSubfolders">(sin subcarpetas - haz clic en Seleccionar para usar esta carpeta)</sys:String>
     <sys:String x:Key="Str_Ctx_SelectAll">Seleccionar todo</sys:String>
 
     <sys:String x:Key="Str_Dlg_NoPreview">Vista previa no disponible</sys:String>

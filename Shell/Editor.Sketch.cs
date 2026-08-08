@@ -30,6 +30,7 @@ namespace KillerNotes.Shell
         // the caret; double-clicking a placed sketch edits THAT one and Print replaces it in place.
         private SketchPadWindow? _sketchPad;
         private Image? _sketchEditTarget;   // the placed sketch being edited in place; null = Print makes a new one
+        private long _sketchNoteId = -1;    // the note this pad session belongs to - Print refuses any other
 
         // Fresh open (F7 / Ctrl+Shift+D / rail button): new-sketch mode - Print stamps at the caret.
         private void OpenSketchPad()
@@ -60,10 +61,13 @@ namespace KillerNotes.Shell
 
         private void ShowSketchPad()
         {
+            // Every entry point (fresh open, edit sketch, edit image) comes through here, so this
+            // is where the session binds to the OPEN note. Print checks it before stamping.
+            _sketchNoteId = _currentId;
             if (_sketchPad == null)
             {
                 _sketchPad = new SketchPadWindow(this, PrintSketchToNote);
-                _sketchPad.Closed += (_, _) => { _sketchPad = null; _sketchEditTarget = null; };
+                _sketchPad.Closed += (_, _) => { _sketchPad = null; _sketchEditTarget = null; _sketchNoteId = -1; };
                 _sketchPad.Show();
             }
             else
@@ -81,6 +85,12 @@ namespace KillerNotes.Shell
         private void PrintSketchToNote(IReadOnlyList<SketchObject> objects, int w, int h)
         {
             if (_currentId < 0) { StatusText.Text = Loc("Str_St_CalcNoNote"); return; }
+            // The pad is MODELESS: the user can switch notes while it is open, and the close fade
+            // defers pad teardown past a quick note switch. Without this guard the new-sketch
+            // fallthrough below stamped the drawing into WHATEVER note was open at that moment -
+            // one note's sketch appearing inside an unrelated note (2026-08-08). A session prints
+            // only into the note it was opened from.
+            if (_currentId != _sketchNoteId) { StatusText.Text = Loc("Str_St_SketchWrongNote"); return; }
             if (objects.Count == 0) { StatusText.Text = Loc("Str_St_SketchEmpty"); return; }
             if (w < 1 || h < 1) { w = Sketch.CanvasW; h = Sketch.CanvasH; }   // pad's live canvas size
 

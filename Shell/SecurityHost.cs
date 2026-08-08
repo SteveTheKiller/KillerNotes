@@ -16,7 +16,21 @@ namespace KillerNotes.Shell
         void ISecurityHost.ShowLockState(bool encrypted)
             => LockButton.Content = ((char)(encrypted ? 0xE72E : 0xE785)).ToString();
 
-        void ISecurityHost.SaveOpenNote() => SaveCurrentNote(refreshList: false);   // Notes.cs
+        // In-memory resume hint for the security round trips (Manage databases, lock/unlock).
+        // The "LastNote" SETTING cannot serve here: demo sessions never write it on purpose, so
+        // cancelling the Databases dialog in a demo fell through to the most-recently-modified
+        // fallback and jumped the user to a different note (2026-08-08). Captured when a round
+        // trip saves the open note; consumed by OpenStartupNote only when the SAME database
+        // comes back.
+        private long _resumeNoteId = -1;
+        private string _resumeDb = "";
+
+        void ISecurityHost.SaveOpenNote()
+        {
+            _resumeDb = NoteStore.ActiveDbFile;
+            _resumeNoteId = _currentId;
+            SaveCurrentNote(refreshList: false);   // Notes.cs
+        }
 
         void ISecurityHost.LoadNotes()
         {

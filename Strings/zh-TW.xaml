@@ -35,8 +35,6 @@
     <sys:String x:Key="Str_Ctx_Paste">貼上</sys:String>
 
     <!-- Theme flyout -->
-    <sys:String x:Key="Str_Lbl_Theme">主題</sys:String>
-    <sys:String x:Key="Str_Lbl_Accent">強調色</sys:String>
 
     <!-- Format bar -->
     <sys:String x:Key="Str_TT_Bold">粗體 (Ctrl+B)</sys:String>
@@ -86,7 +84,6 @@
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">刪除「{0}」?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">刪除 {0} 則筆記?</sys:String>
-    <sys:String x:Key="Str_Dlg_CannotUndo">此動作無法復原。</sys:String>
     <sys:String x:Key="Str_Btn_Delete">刪除</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">取消</sys:String>
 
@@ -287,7 +284,6 @@
     <sys:String x:Key="Str_KS_TitleColor">標題色彩（選取的筆記）</sys:String>
     <sys:String x:Key="Str_KS_Spell">切換拼字檢查</sys:String>
     <sys:String x:Key="Str_KS_Table">插入表格</sys:String>
-    <sys:String x:Key="Str_TT_WordWrap">自動換行開/關 (Ctrl+Shift+W)</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">切換自動換行</sys:String>
     <sys:String x:Key="Str_KS_Syntax">語法醒目提示</sys:String>
     <sys:String x:Key="Str_St_WrapOn">自動換行已開啟</sys:String>
@@ -305,6 +301,7 @@
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - 繪圖與註解</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">請先畫點東西</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">草圖已更新</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">草圖未列印 - 請切回它所屬的筆記</sys:String>
     <sys:String x:Key="Str_TT_InsertImage">從檔案插入圖片</sys:String>
     <sys:String x:Key="Str_TT_SketchRail">SketchPad - 畫一張草圖 (F7)</sys:String>
     <sys:String x:Key="Str_Btn_CalcPrint">列印到筆記</sys:String>
@@ -314,7 +311,6 @@
     <sys:String x:Key="Str_TT_CalcPrintSum">在游標處將結果插入此筆記 (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_TT_CalcPrintEq">在游標處將整個算式插入此筆記 (Ctrl+Shift+Enter)</sys:String>
     <sys:String x:Key="Str_KS_CalcPrintEq">將 Killculator 算式列印到筆記</sys:String>
-    <sys:String x:Key="Str_TT_CalcClose">關閉 (Esc)</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">請先開啟一則筆記</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">已列印到筆記</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z 可復原。</sys:String>
@@ -351,10 +347,7 @@
     <sys:String x:Key="Str_Sec_Edit">編輯</sys:String>
 
     <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
-    <sys:String x:Key="Str_TT_FontDown">縮小文字 (Ctrl+Shift+&lt;)</sys:String>
     <sys:String x:Key="Str_TT_FontSize">文字大小 (滾動變更)</sys:String>
-    <sys:String x:Key="Str_TT_FontUp">放大文字 (Ctrl+Shift+&gt;)</sys:String>
-    <sys:String x:Key="Str_TT_Spell">此筆記的拼字檢查</sys:String>
     <sys:String x:Key="Str_Btn_More">更多...</sys:String>
     <sys:String x:Key="Str_TT_MoreColors">選擇任何色彩</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColor">標題色彩...</sys:String>
@@ -436,8 +429,6 @@
     <sys:String x:Key="Str_St_LinkBad">這看起來不像網址</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">無法開啟連結</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">選擇色彩</sys:String>
-    <sys:String x:Key="Str_Btn_Replace">取代</sys:String>
-    <sys:String x:Key="Str_Btn_Reset">重設</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">從螢幕上任何位置選取色彩</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">按一下，再按一個色票，即可將其設為目前的色彩</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">將色票重設為預設值</sys:String>
@@ -561,9 +552,6 @@
     <sys:String x:Key="Str_Dict_Edited">已編輯。可以播放，或再次轉錄。</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">只有文字可以加連結 - 請選取文字，而非圖片或錄音</sys:String>
 
-    <sys:String x:Key="Str_Btn_Select">選擇</sys:String>
-    <sys:String x:Key="Str_Dlg_SelectFolder">選取資料夾</sys:String>
-    <sys:String x:Key="Str_Dlg_NoSubfolders">（無子資料夾 - 按選擇以使用此資料夾）</sys:String>
     <sys:String x:Key="Str_Ctx_SelectAll">全選</sys:String>
 
     <sys:String x:Key="Str_Dlg_NoPreview">無預覽</sys:String>

@@ -71,6 +71,16 @@ namespace KillerNotes.Shell
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled
             });
+            // Fonts... - the entry the flyout rework dropped. The whole Fonts overlay
+            // (FontsOverlay, the combos, font import) and its FontsRow_Click handler survived
+            // the rework untouched; only the row that opened it vanished, which orphaned the
+            // feature for all of 1.2.0's development and left help.html describing a door
+            // that no longer existed. The ItemContainerStyle above gives this row the same
+            // PanelMenuItem look as every other flyout row.
+            ThemeMenu.Items.Add(new Separator());
+            var fonts = new MenuItem { Header = FindResource("Str_Fonts_Open") };
+            fonts.Click += FontsRow_Click;
+            ThemeMenu.Items.Add(fonts);
         }
 
         private StackPanel BuildAccentRow(Theme theme)

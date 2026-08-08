@@ -570,6 +570,14 @@ namespace KillerNotes.Services
             if (!newDict.Contains("TextSelectionBrush") && newDict.Contains("PrimaryBrush"))
                 newDict["TextSelectionBrush"] = newDict["PrimaryBrush"];
             SetIfAbsent(newDict, "TextSelectionOpacity", 0.35);
+            // The note editor's own selection opacity, split from the TextBoxes'. The editor can
+            // hold IMAGES, and the native fill is the only thing that paints over them - at 1.0 a
+            // selected image was a solid unreadable block, while the plain TextBoxes NEED 1.0 for
+            // 98SE's solid-with-white-text look. A theme that wants both states a solid TEXT block
+            // relies on SelectionTextAdorner drawing its own fill; the editor's native wash can
+            // then stay translucent so selected images show through tinted.
+            if (!newDict.Contains("EditorSelectionOpacity"))
+                newDict["EditorSelectionOpacity"] = newDict["TextSelectionOpacity"];
             // The selected text's own colour. At the family's 0.35 wash the glyphs still read
             // through, so this defaults to TextBrush and nothing changes. A theme that selects
             // with a SOLID block - Win98 fills the run with navy - has to flip the text to white

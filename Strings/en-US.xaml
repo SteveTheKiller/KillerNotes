@@ -41,8 +41,6 @@
     <sys:String x:Key="Str_Ctx_Paste">Paste</sys:String>
 
     <!-- Theme flyout -->
-    <sys:String x:Key="Str_Lbl_Theme">theme</sys:String>
-    <sys:String x:Key="Str_Lbl_Accent">accent</sys:String>
 
     <!-- Format bar -->
     <sys:String x:Key="Str_TT_Bold">Bold (Ctrl+B)</sys:String>
@@ -50,7 +48,6 @@
     <sys:String x:Key="Str_TT_Underline">Underline (Ctrl+U)</sys:String>
     <sys:String x:Key="Str_TT_Strike">Strikethrough (Ctrl+Shift+S)</sys:String>
     <sys:String x:Key="Str_TT_Mono">Monospace (code, Ctrl+Shift+M)</sys:String>
-    <sys:String x:Key="Str_TT_WordWrap">Word wrap on/off (Ctrl+Shift+W)</sys:String>
     <!-- 1.1.0 additions (grouped here for convenience; keys resolve regardless of position) -->
     <sys:String x:Key="Str_TT_AppSize">Scroll to resize the whole app</sys:String>
     <sys:String x:Key="Str_St_AppSize">App size {0}%</sys:String>
@@ -165,11 +162,11 @@
     <sys:String x:Key="Str_TT_CalcPrintSum">Print the result into this note at the cursor (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_TT_CalcPrintEq">Print the whole equation into this note at the cursor (Ctrl+Shift+Enter)</sys:String>
     <sys:String x:Key="Str_KS_CalcPrintEq">Print the Killculator equation to the note</sys:String>
-    <sys:String x:Key="Str_TT_CalcClose">Close (Esc)</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">Open a note first</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">Printed to note</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">Draw something first</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">Sketch updated</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">Sketch not printed - switch back to the note it belongs to</sys:String>
     <sys:String x:Key="Str_TT_TextColor">Text color and highlight</sys:String>
     <sys:String x:Key="Str_TT_Bullets">Bulleted list (Ctrl+Shift+L)</sys:String>
     <sys:String x:Key="Str_TT_Numbering">Numbered list (Ctrl+Shift+N)</sys:String>
@@ -213,7 +210,6 @@
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Delete "{0}"?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">Delete {0} notes?</sys:String>
-    <sys:String x:Key="Str_Dlg_CannotUndo">This cannot be undone.</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z brings it back.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Delete</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Cancel</sys:String>
@@ -419,10 +415,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Sec_Edit">Editing</sys:String>
 
     <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
-    <sys:String x:Key="Str_TT_FontDown">Shrink text (Ctrl+Shift+&lt;)</sys:String>
     <sys:String x:Key="Str_TT_FontSize">Text size (scroll to change)</sys:String>
-    <sys:String x:Key="Str_TT_FontUp">Grow text (Ctrl+Shift+&gt;)</sys:String>
-    <sys:String x:Key="Str_TT_Spell">Spell check for this note</sys:String>
     <sys:String x:Key="Str_Btn_More">More...</sys:String>
     <sys:String x:Key="Str_TT_MoreColors">Pick any color</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColor">Title color...</sys:String>
@@ -552,8 +545,6 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Only text can be linked - select words, not an image or recording</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Couldn't open the link</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Pick a color</sys:String>
-    <sys:String x:Key="Str_Btn_Replace">Replace</sys:String>
-    <sys:String x:Key="Str_Btn_Reset">Reset</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Pick a color from anywhere on screen</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Click, then click a swatch to set it to the current color</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Reset swatches to defaults</sys:String>
@@ -589,12 +580,6 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Start Menu shortcut&#x0A;- Appears in Add/Remove Programs</sys:String>
     <sys:String x:Key="Str_Chk_Desktop">Desktop shortcut</sys:String>
 
-    <!-- Themed folder picker (Manage databases > Change data folder). Three of these are
-         KillerShell's exact strings; Str_Dlg_SelectFolder is NOT - KillerShell's reads "root
-         search folder" because it picks a search root, and this picker chooses a data folder. -->
-    <sys:String x:Key="Str_Btn_Select">Select</sys:String>
-    <sys:String x:Key="Str_Dlg_SelectFolder">Select folder</sys:String>
-    <sys:String x:Key="Str_Dlg_NoSubfolders">(no subfolders - click Select to use this folder)</sys:String>
     <sys:String x:Key="Str_Ctx_SelectAll">Select all</sys:String>
 
     <sys:String x:Key="Str_Dlg_NoPreview">No preview available</sys:String>
