@@ -192,7 +192,12 @@
                          at the bottom of, so the bar rendered dead centre no matter what margin it
                          was given - which is exactly what it was doing. -->
                     <Grid Height="{DynamicResource CaptionButtonHeight}">
+                        <!-- Centered EXPLICITLY. The Grid's height is pinned for the drawn bar
+                             below, and a TextBlock with no alignment stretches to that height and
+                             paints its text at the TOP - which put the minimize dash on the top
+                             edge of the button on every non-bevelled theme. -->
                         <TextBlock Text="&#xE921;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
                                    FontWeight="{DynamicResource CaptionGlyphWeight}"
                                    Visibility="{DynamicResource CaptionFontGlyphVisibility}"/>
                         <!-- A short thick bar sitting on the BOTTOM of the button, not centred. -->
@@ -1865,12 +1870,11 @@
                              98SE gets its green gradient and a Win98-style title. ClipToBounds so
                              the title cannot spill out of a zero-height band. Same DialogTitleBarBrush
                              the sketch pad, colour picker and file dialog already use. -->
-                        <!-- AboutCaptionMargin shaves a pixel off the right so the card's own grey
-                             edge can come up and meet the band. The band is a child of the card's
-                             bordered Border, so it runs to the inside of that 1px edge - which on a
-                             theme with a coloured caption left the gradient butting into the border
-                             instead of the card's frame closing around it. 0 by default.
-                             (Steve, 2026-08-07.) -->
+                        <!-- AboutCaptionMargin insets the band from the card edge. 0 by default;
+                             98SE sets 2,2,2 so a sliver of face color shows between its overdrawn
+                             2px bevel and the caption on left, top and right - see the comment on
+                             the key in Themes/KillerUI/98SE.xaml. AboutCloseMargin is derived from
+                             this margin in ThemeManager so the X follows the band. -->
                         <Border Grid.Row="0" ClipToBounds="True"
                                 Height="{DynamicResource AboutCaptionHeight}"
                                 Margin="{DynamicResource AboutCaptionMargin}"

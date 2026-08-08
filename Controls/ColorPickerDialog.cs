@@ -93,7 +93,13 @@ namespace KillerNotes.Controls
             (_h, _s, _v) = RgbToHsv(initial);
             BuildUi();
             SyncFromHsv();
-            KeyDown += (_, e) => { if (e.Key == Key.Escape) { DialogResult = false; Close(); } else if (e.Key == Key.Enter) Accept(); };
+            // No window-level Escape/Enter handler. The Cancel button is IsCancel and the OK button
+            // IsDefault (see BuildUi), so WPF already routes both keys for us. The handler that used
+            // to live here duplicated that: Escape ran DialogResult=false AND Close(), and assigning
+            // DialogResult is itself a close request - so the first close was cancelled by the fade in
+            // OnClosing and the second arrived with _closeFaded already true and closed instantly.
+            // Escape therefore skipped the fade that the X and Cancel both play. Same shape as the
+            // duplicate Cancel_Click that was removed for the same reason.
         }
 
         // ---- UI ----
@@ -287,7 +293,12 @@ namespace KillerNotes.Controls
             panel.Children.Add(btnRow);
         }
 
-        private void Accept() { SelectedColor = HsvToRgb(_h, _s, _v); DialogResult = true; Close(); }
+        // DialogResult ALONE - no Close() after it. Assigning DialogResult IS a close request;
+        // the fade in OnClosing cancels that first close and the result is delivered by the real
+        // one. The explicit Close() that used to follow arrived with _closeFaded already true and
+        // closed instantly, so OK and Enter were the last two paths still skipping the fade
+        // (the same double-close the Cancel button and the Escape handler were cured of).
+        private void Accept() { SelectedColor = HsvToRgb(_h, _s, _v); DialogResult = true; }
 
         // ---- Interaction ----
 

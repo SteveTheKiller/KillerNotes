@@ -308,8 +308,14 @@ namespace KillerNotes.Services
             // also deliberate: the slack has to stay EVEN or no integer margin can centre a 16px
             // button, which is the same odd-number trap the card hit the first time.
             double capH = newDict["AboutCaptionHeight"] is double ch ? ch : 0.0;
+            // The band may carry its own margin inside the card (98SE insets it 2,2,2 so a sliver
+            // of face color shows between the bevel and the caption). The close button is anchored
+            // to the CARD, not the band, so both components of its margin must follow the band's:
+            // top = band offset + centering, right = band offset + the same 3px inset from the
+            // band's right edge the button has always had (1 + 3 = the old hardcoded 4).
+            Thickness capM = newDict["AboutCaptionMargin"] is Thickness aboutCapM ? aboutCapM : new Thickness(0);
             newDict["AboutCloseMargin"] = flatCaption
-                ? new Thickness(0, System.Math.Max(0, (capH - btnH) / 2.0), 4, 0)
+                ? new Thickness(0, capM.Top + System.Math.Max(0, (capH - btnH) / 2.0), capM.Right + 3, 0)
                 : new Thickness(0, 6, 6, 0);
             // The DIALOG twin. The About card's band is deliberately one row taller than a
             // dialog's - that extra row is the card border - so About's margin is one pixel too
@@ -614,6 +620,14 @@ namespace KillerNotes.Services
                 }
                 catch { /* overlay file not present - base theme stands */ }
             }
+            // DO NOT enable IsInactiveSelectionHighlightEnabled on the editors, and do not try to
+            // theme SystemColors.InactiveSelectionHighlightBrushKey to support it. Both were tried
+            // on 2026-08-08: WPF's inactive highlight paints the USER'S WINDOWS ACCENT COLOR at
+            // full strength OVER the editor's glyphs (solid blocks, text unreadable), and it reads
+            // that brush past the app's resource dictionaries, so no themed alias reaches it.
+            // Unfocused-selection rendering for themes that want it is done entirely by
+            // SelectionTextAdorner (Shell/EditorSelectionText.cs), which draws its own fill and
+            // text and needs no WPF selection machinery.
             // Button edge at rest. Default is the accent outline; a theme that wants a different
             // one states it in its own file. No theme is named here - 98SE used to be special-cased
             // to Transparent, which left its buttons with NO edge at all (the "raised gray control"

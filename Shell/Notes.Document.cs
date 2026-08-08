@@ -57,6 +57,12 @@ namespace KillerNotes.Shell
             ApplySpellCheck(meta.SpellCheck);   // Editor.cs (per-note flag, off by default)
             ApplyTitleColor(meta);
             ShowEditor(true);
+            // The TextSelection object SURVIVES Blocks.Clear() + range.Load and renormalizes its
+            // pointers into the NEW note's content - so switching notes could carry a ghost
+            // selection that highlighted arbitrary text in the note being opened (seen as opaque
+            // blocks over the words, 2026-08-08). Collapse it before restoring the position;
+            // RestoreNotePosition only collapses it when a saved caret exists.
+            Editor.Selection.Select(Editor.Document.ContentStart, Editor.Document.ContentStart);
             RestoreNotePosition(id);   // reopen where the note was left, not at the top (1.1.1)
             UpdatePreviewState();   // Preview.cs (md/html detection for this note)
             LinkSketchPayloads(id);   // SketchPad: re-attach sketch strokes to their images (Editor.cs)
@@ -74,19 +80,43 @@ namespace KillerNotes.Shell
             NoteStore.SetNotePosition(_currentId, caret, Editor.VerticalOffset);
         }
 
+        /// <summary>Invalidates in-flight scroll-restore retry chains. The id guard alone is not
+        /// enough: switch A to B and back to A inside the retry window and the FIRST chain wakes
+        /// up (id matches again), yanks the scroll, and runs concurrently with the second.</summary>
+        private int _restoreToken;
+
         private void RestoreNotePosition(long id)
         {
+            int token = ++_restoreToken;
             var (caret, scroll) = NoteStore.GetNotePosition(id);
             if (caret > 0 &&
                 Editor.Document.ContentStart.GetPositionAtOffset(caret) is TextPointer p)
                 Editor.CaretPosition = p;
             if (scroll > 0)
-                // Deferred: the freshly loaded document has no layout yet, so an immediate
-                // scroll would be clamped to 0. Loaded priority runs after measure/arrange.
-                Dispatcher.BeginInvoke(new Action(() =>
+            {
+                // Deferred AND retried. The freshly loaded document has no layout yet, so an
+                // immediate scroll clamps to 0 - and a LARGE document keeps formatting in the
+                // background, so its scrollable extent GROWS for a while after Loaded fires. The
+                // old single deferred scroll was clamped to however much had formatted by that
+                // moment, which on a 6000-line note was roughly the first quarter - reported as
+                // "position memory stops working on big notes" (#16, MrPapaya-JRR). Retry on a
+                // short timer until the target offset is reachable, the extent stops growing, or
+                // the user switches notes; small notes still land on the first try.
+                double lastExtent = -1; int tries = 0;
+                void TryScroll()
                 {
-                    if (_currentId == id) Editor.ScrollToVerticalOffset(scroll);
-                }), DispatcherPriority.Loaded);
+                    if (_currentId != id || token != _restoreToken) return;   // switched away or superseded: stop
+                    Editor.ScrollToVerticalOffset(scroll);
+                    bool reached = Editor.VerticalOffset >= scroll - 1;
+                    bool growing = Editor.ExtentHeight > lastExtent + 1;
+                    lastExtent = Editor.ExtentHeight;
+                    if (reached || (!growing && tries >= 5) || ++tries >= 100) return;
+                    var t = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150) };
+                    t.Tick += (_, _) => { t.Stop(); TryScroll(); };
+                    t.Start();
+                }
+                Dispatcher.BeginInvoke(new Action(TryScroll), DispatcherPriority.Loaded);
+            }
         }
 
         /// <summary>Colors the open note's title box (concrete brush) or restores the

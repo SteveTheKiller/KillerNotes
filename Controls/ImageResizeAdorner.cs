@@ -107,7 +107,14 @@ namespace KillerNotes.Controls
             // Cap at the natural size (never upscale-blur) and, while word wrap is on, at the
             // editor pane width so an image can't be dragged wider than the wrap edge - past
             // there it would clip with no horizontal scroll to reach it. (Steve, 2026-07-22)
-            double natural = _img.Source?.Width ?? double.MaxValue;
+            // Natural = the bitmap's PIXEL width, never ImageSource.Width. Width is DIPs scaled
+            // by the file's DPI metadata: a photo stamped 300dpi reports a Width a third of its
+            // pixels, so the cap sat far below the real resolution - the first drag snapped the
+            // image down to that false cap and nothing could grow it back (demo mode,
+            // 2026-08-08). PixelWidth is the true no-upscale limit.
+            double natural = _img.Source is System.Windows.Media.Imaging.BitmapSource bmp
+                ? bmp.PixelWidth
+                : (_img.Source?.Width ?? double.MaxValue);
             double cap = Math.Min(natural, _maxWidth());
             double newW = Math.Max(40, Math.Min(cap, _startWidth + dx));
 

@@ -29,6 +29,10 @@ namespace KillerNotes.Shell
         {
             _currentId = -1;
             ShowEditor(false);
+            // No TextChanged fires on this path, so without an explicit pass the gutter keeps
+            // the last note's numbers and width beside the lock screen; the rebuild sees
+            // _currentId < 0 and collapses it.
+            RebuildLineNumbers();
         }
 
         // ---- Entry points the rest of the shell calls ----

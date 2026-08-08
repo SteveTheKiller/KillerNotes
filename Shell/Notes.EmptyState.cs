@@ -79,6 +79,7 @@ namespace KillerNotes.Shell
             {
                 _currentId = -1;
                 _dirty = false;
+                RebuildLineNumbers();   // collapse the gutter - nothing else schedules a pass here
             }
             if (snap != null)
                 PushUndo(() => { NoteStore.RestoreRow(snap); RefreshList(); });
@@ -109,6 +110,7 @@ namespace KillerNotes.Shell
                 {
                     _currentId = -1;
                     _dirty = false;
+                    RebuildLineNumbers();   // collapse the gutter - nothing else schedules a pass here
                 }
             }
             if (snaps.Count > 0)

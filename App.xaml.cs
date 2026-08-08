@@ -12,6 +12,19 @@ namespace KillerNotes
 {
     public partial class App : Application
     {
+        // Opt in to WPF's non-adorner text selection rendering, the machinery that makes
+        // SelectionTextBrush work (98SE's navy selection with WHITE text). The old renderer
+        // paints a rectangle OVER the glyphs and ignores SelectionTextBrush entirely; the new
+        // one paints behind them and recolors the selected text. .NET Framework 4.8 shipped
+        // the new renderer as the default, but a 2019 servicing update reverted the default
+        // to the old one, so on every patched machine this switch is the ONLY way to get it.
+        // Must be set before the first text control is created - WPF reads it once and caches
+        // it - hence the static ctor, which runs before any of that.
+        static App()
+        {
+            AppContext.SetSwitch("Switch.System.Windows.Controls.Text.UseAdornerForTextboxSelectionRendering", false);
+        }
+
         /// <summary>A .kndb/.knote path passed on the command line (double-clicked file);
         /// MainWindow picks it up after the database opens (Sharing.cs).</summary>
         internal static string? PendingOpenFile;

@@ -32,15 +32,31 @@
   <!-- Transparent: a field that carries the sunken bevel already has its edge, and drawing this
        flat line too gives it two. -->
   <SolidColorBrush x:Key="InputEdgeBrush" Color="#00000000"/>
-  <!-- Win98's selection is a SOLID navy block, not a translucent accent wash - and it is a system
-       colour, so it does not follow the app's accent the way every other theme's does. 0.6 rather
-       than 1.0 keeps the selected text legible through it, since WPF draws this over the glyphs. -->
-  <SolidColorBrush x:Key="TextSelectionBrush" Color="#000080"/>
-  <!-- 1.0, not a wash. Navy at 0.6 over a white page averages out to a blue-violet, which is why
-       it read as "purple" - the era's selection is a SOLID navy block with WHITE text, so the
-       fill goes fully opaque and the glyphs invert. -->
+  <!-- The era's selection shape: a SOLID block with WHITE text, in the picked accent's dark
+       tone. TWO mechanisms deliver the white, because WPF has no single one that covers both
+       control kinds:
+       - Plain TextBoxes (search, title): SelectionTextBrush works there, but only under
+         non-adorner selection rendering, which App.xaml.cs opts into via the
+         UseAdornerForTextboxSelectionRendering AppContext switch in its static ctor.
+       - The note editor (RichTextBox): NO property can recolor its selected text -
+         SelectionTextBrush and the non-adorner renderer are documented for TextBox and
+         PasswordBox only. Its white text is drawn by hand: SelectionTextAdorner
+         (Shell/EditorSelectionText.cs) repaints the selected glyphs in
+         TextSelectionTextBrush over the solid fill, switched on by EditorSelectionOverlay below.
+       History, so nobody relives 2026-08-08: navy alone at 1.0 was an unreadable solid bar,
+       0.6 and 0.4 washed out to purple, #1084d0-with-black was rejected as not the asked-for
+       look, and hardcoded navy under a GREEN accent was rejected too - when the user picks an
+       accent they expect the selection in that accent. The fill is SOLID, the adorner supplies
+       the white, and the COLOR FOLLOWS THE ACCENT: this base file is the green accent (green
+       gets no overlay), and every file in Accents/98SE/ overrides TextSelectionBrush with its
+       own dark tone, matching its SelectionBg. -->
+  <SolidColorBrush x:Key="TextSelectionBrush" Color="#004f00"/>
   <sys:Double x:Key="TextSelectionOpacity">1.0</sys:Double>
   <SolidColorBrush x:Key="TextSelectionTextBrush" Color="#ffffff"/>
+  <!-- The EXPLICIT opt-in for SelectionTextAdorner (Shell/EditorSelectionText.cs). The adorner
+       must NOT key off the brushes above existing - ThemeManager synthesizes those for every
+       theme - so this boolean is the one and only switch, and only this palette states it. -->
+  <sys:Boolean x:Key="EditorSelectionOverlay">True</sys:Boolean>
   <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#c0c0c0"/>
   <SolidColorBrush x:Key="MenuBorderBrush" Color="#808080"/>
   <SolidColorBrush x:Key="MenuHoverBrush" Color="#000080"/>
@@ -125,9 +141,13 @@
   <!-- The caption gradient runs 1px further out on each side so it meets the frame rather than
        leaving a sliver of window face between the two. -->
   <Thickness x:Key="TitleBarBleed">-1,0,-1,0</Thickness>
-  <!-- One pixel off the right of the About card's caption, so the card's grey edge closes around
-       the band instead of the gradient running into the border. -->
-  <Thickness x:Key="AboutCaptionMargin">0,0,1,0</Thickness>
+  <!-- 2,2,2: the About card's bevel is painted OVER its outer 2px by sibling borders, and with
+       no margin the caption band ran underneath it - flush left/top under the WHITE bevel (which
+       read as a gap) but meeting the GRAY bevel edge-to-edge on the right (which read as the
+       caption running 1-2px past the frame). Win98 leaves a sliver of face color between a
+       dialog's raised edge and its caption; with the card's own 1px border this margin yields
+       exactly that: 2px bevel, 1px face, then the band, symmetric on left, top and right. -->
+  <Thickness x:Key="AboutCaptionMargin">2,2,2,0</Thickness>
   <!-- The etched toolbar divider: 2px, grey then white, hard stop between them. Offset 0.5 on
        both stops is what makes it two solid 1px rules instead of a blend. -->
   <!-- Menus get the same EDGE_RAISED double bevel as a window: white over BLACK outside, #dfdfdf

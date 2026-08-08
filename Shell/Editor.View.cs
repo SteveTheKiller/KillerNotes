@@ -35,6 +35,7 @@ namespace KillerNotes.Shell
             Editor.PreviewMouseWheel += Editor_PreviewMouseWheel;
             // Keep the size dropdown showing the size under the caret/selection.
             Editor.SelectionChanged += (_, _) => UpdateFontSizeDisplay();
+            InitSelectionTextOverlay();   // 98SE white-on-navy selection (EditorSelectionText.cs)
         }
 
         private void Editor_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
