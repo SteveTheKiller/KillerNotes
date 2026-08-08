@@ -29,27 +29,6 @@ jobs:
   submit:
     runs-on: windows-latest
     steps:
-      # TEMPORARY diagnostic for the v1.2.0 CreateRef 403. Delete this step once winget submits.
-      # Prints nothing sensitive: GitHub masks the secret, and only a 4-char prefix is shown so
-      # a classic token (ghp_) can be told from a fine-grained one (github_pat_).
-      - name: Diagnose token
-        run: |
-          $h = @{ Authorization = "Bearer $env:GITHUB_TOKEN"; "User-Agent" = "komac-debug"; Accept = "application/vnd.github+json" }
-          $len = "$env:GITHUB_TOKEN".Length
-          "token length: $len"
-          "token prefix: $("$env:GITHUB_TOKEN".Substring(0, [Math]::Min(4, $len)))"
-          $r = Invoke-WebRequest -Uri "https://api.github.com/user" -Headers $h -SkipHttpErrorCheck
-          "status: $($r.StatusCode)"
-          "authenticated as: $((($r.Content | ConvertFrom-Json).login))"
-          "scopes: $(($r.Headers['X-OAuth-Scopes'] -join ', '))"
-          $f = Invoke-WebRequest -Uri "https://api.github.com/repos/SteveTheKiller/winget-pkgs" -Headers $h -SkipHttpErrorCheck
-          "fork status: $($f.StatusCode)"
-          $p = ($f.Content | ConvertFrom-Json).permissions
-          "fork push: $($p.push)  admin: $($p.admin)"
-        shell: pwsh
-        env:
-          GITHUB_TOKEN: ${{ secrets.WINGET_TOKEN }}
-
       - name: Install Komac
         run: |
           $tag = (Invoke-RestMethod "https://api.github.com/repos/russellbanks/Komac/releases/latest").tag_name
