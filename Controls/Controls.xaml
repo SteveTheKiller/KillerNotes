@@ -155,8 +155,13 @@
              family standard. RowSelectedBrush was a solid accent fill in the Light accents
              (same value as OutlineBtnBrush), so the resting button was a solid block with
              invisible same-color text. -->
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource OutlineBtnBrush}"/>
+        <!-- OutlineFaceBrush / OutlineTextBrush default to Transparent and OutlineBtnBrush, so
+             the twelve flat themes get the accent outline exactly as before. A theme whose
+             buttons all share one face - a Win98 dialog has two IDENTICAL grey buttons, the
+             default one marked by its border, never by a different colour - points both at that
+             face instead, and Cancel and OK stop disagreeing. (Steve, 2026-08-07.) -->
+        <Setter Property="Background" Value="{DynamicResource OutlineFaceBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource OutlineTextBrush}"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Padding" Value="14,5"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -186,9 +191,12 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <!-- Order matters: IsPressed must come after IsMouseOver to win. -->
+                        <!-- Keyed for the same reason as the face: a theme whose OK button is a
+                             plain grey one hovers to a lighter grey, not to a solid accent fill.
+                             Both default to what they were. -->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource OutlineBtnBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource OutlineHoverBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource OutlineHoverTextBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <!-- Pale accent press tint (the per-theme OutlinePressedBrush, defined
@@ -213,7 +221,11 @@
          hover that dims rather than colours. Accent on hover belongs to OutlineButton and
          PrimaryButton; a secondary button that lights up accent reads as the primary action. -->
     <Style x:Key="SurfaceButton" TargetType="Button">
-        <Setter Property="Background" Value="{DynamicResource PaneBrush}"/>
+        <!-- ChipFaceBrush, not PaneBrush. A button is not a client area, and on a theme where
+             PaneBrush IS the white client colour every SurfaceButton in the app came out white -
+             the picker's Cancel, the dialog buttons, all of them. ThemeManager defaults
+             ChipFaceBrush to PaneBrush, so the other twelve themes are unchanged. -->
+        <Setter Property="Background" Value="{DynamicResource ChipFaceBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Padding" Value="12,6"/>
@@ -244,8 +256,13 @@
                         <!-- Order matters: IsPressed after IsMouseOver so it wins. -->
                         <!-- A real fill change, not an opacity fade - the fade is invisible on a
                              dark panel and the button reads as dead. (Steve, 2026-07-30.) -->
+                        <!-- SurfaceHoverBrush, not RowHoverBrush. On a theme whose LIST hover and
+                             whose button face are the same grey - 98SE has both at #d4d0c8 - a
+                             button hovering to RowHoverBrush does not change at all, and every
+                             Cancel in the app read as dead. Defaults to RowHoverBrush, so the
+                             other twelve are unchanged. (Steve, 2026-08-07.) -->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource SurfaceHoverBrush}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource OutlineBtnBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
@@ -299,12 +316,99 @@
          ThumbFloor keeps the thumb grabbable on long lists. -->
     <Style TargetType="ScrollBar">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Width" Value="12"/>
-        <Setter Property="MinWidth" Value="12"/>
+        <Setter Property="Width" Value="{DynamicResource ScrollBarThickness}"/>
+        <Setter Property="MinWidth" Value="{DynamicResource ScrollBarThickness}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollBar">
+                    <!-- DockPanel, so the two line buttons can bracket the track. They are SQUARE
+                         (both dimensions = ScrollArrowSize) which makes one size key work for both
+                         orientations, since the bar's cross axis is the same measurement. The key
+                         defaults to 0, so on every other theme the buttons occupy no space at all
+                         and the bar is the bare track it has always been - no Visibility juggling
+                         and no second template to keep in step. -->
+                    <DockPanel LastChildFill="True">
+                        <!-- The arrow is the button's CONTENT, not a literal inside its template.
+                             It was hardcoded there, and a TargetName in the ScrollBar's template
+                             cannot reach into a nested one - so the horizontal trigger below could
+                             re-dock these buttons and swap their commands but had no way to turn
+                             the triangles, and a horizontal bar showed up/down arrows. -->
+                        <RepeatButton x:Name="LineUp" DockPanel.Dock="Top" Focusable="False" IsTabStop="False"
+                                      Command="ScrollBar.LineUpCommand" Content="0"
+                                      Width="{DynamicResource ScrollArrowSize}" Height="{DynamicResource ScrollArrowSize}">
+                            <RepeatButton.Template>
+                                <ControlTemplate TargetType="RepeatButton">
+                                    <Grid>
+                                        <Border Background="{DynamicResource CaptionButtonBrush}"/>
+                                        <Border x:Name="lu1" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                                        <Border x:Name="lu2" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                                        <!-- A drawn triangle, not a character. The Unicode arrows
+                                             rendered at whatever glyph the UI font happens to
+                                             carry - different weights, off-centre, and visibly
+                                             wrong at 7px. This is a 7x4 path, so it is the same
+                                             crisp shape at every size and in every language.
+                                             Content is the ROTATION in degrees, which is how one
+                                             template serves all four directions - a TargetName in
+                                             the ScrollBar template cannot reach in here to swap a
+                                             Path's Data. (Steve, 2026-08-07.) -->
+                                        <Path x:Name="luGlyph" Data="M 0,4 L 3.5,0 L 7,4 Z"
+                                              Width="7" Height="4" Stretch="None"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Fill="{DynamicResource CaptionGlyphBrush}"
+                                              RenderTransformOrigin="0.5,0.5">
+                                            <Path.RenderTransform>
+                                                <RotateTransform Angle="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            </Path.RenderTransform>
+                                        </Path>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <!-- Pressed reverses the bevel, like every other Win98 button -->
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="lu1" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
+                                            <Setter TargetName="lu2" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </RepeatButton.Template>
+                        </RepeatButton>
+                        <RepeatButton x:Name="LineDown" DockPanel.Dock="Bottom" Focusable="False" IsTabStop="False"
+                                      Command="ScrollBar.LineDownCommand" Content="180"
+                                      Width="{DynamicResource ScrollArrowSize}" Height="{DynamicResource ScrollArrowSize}">
+                            <RepeatButton.Template>
+                                <ControlTemplate TargetType="RepeatButton">
+                                    <Grid>
+                                        <Border Background="{DynamicResource CaptionButtonBrush}"/>
+                                        <Border x:Name="ld1" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                                        <Border x:Name="ld2" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                                        <Path x:Name="ldGlyph" Data="M 0,4 L 3.5,0 L 7,4 Z"
+                                              Width="7" Height="4" Stretch="None"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Fill="{DynamicResource CaptionGlyphBrush}"
+                                              RenderTransformOrigin="0.5,0.5">
+                                            <Path.RenderTransform>
+                                                <RotateTransform Angle="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            </Path.RenderTransform>
+                                        </Path>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="ld1" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
+                                            <Setter TargetName="ld2" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </RepeatButton.Template>
+                        </RepeatButton>
                     <Grid>
+                        <!-- The track well. Transparent by default, so the bar keeps floating over
+                             whatever is behind it exactly as before. A Win98 theme fills it with the
+                             dithered channel colour and sinks it with a crossed bevel, because there
+                             the scrollbar is a control with a recessed groove, not an overlay. -->
+                        <Border Background="{DynamicResource ScrollTrackBrush}"/>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource ScrollTrackBevelDark}"
+                                BorderThickness="{DynamicResource BevelLightThickness}"/>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource ScrollTrackBevelLight}"
+                                BorderThickness="{DynamicResource BevelDarkThickness}"/>
                         <Track x:Name="PART_Track" IsDirectionReversed="True"
                                Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value}">
                             <Track.ViewportSize>
@@ -338,7 +442,18 @@
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="Thumb">
-                                                        <Border x:Name="thumbBorder" Background="{DynamicResource ScrollThumbBrush}" CornerRadius="3" Margin="4,0"/>
+                                                        <!-- Radius and margin are keyed: the family thumb is a
+                                                             rounded lozenge floating in the track, the Win98 one
+                                                             is a square raised button that FILLS it. The bevel
+                                                             pair draws nothing at 0 thickness. -->
+                                                        <Grid x:Name="thumbBorder" Margin="{DynamicResource ScrollThumbMargin}">
+                                                            <Border Background="{DynamicResource ScrollThumbBrush}"
+                                                                    CornerRadius="{DynamicResource ScrollThumbRadius}"/>
+                                                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
+                                                                    BorderThickness="{DynamicResource BevelLightThickness}"/>
+                                                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
+                                                                    BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                                                        </Grid>
                                                         <ControlTemplate.Triggers>
                                                             <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type ScrollBar}}}" Value="Horizontal">
                                                                 <Setter TargetName="thumbBorder" Property="Margin" Value="0,4"/>
@@ -362,6 +477,7 @@
                             </Track.Thumb>
                         </Track>
                     </Grid>
+                    </DockPanel>
                     <ControlTemplate.Triggers>
                         <!-- The Track is IsDirectionReversed=True for the vertical bar (value 0 = top). A
                              horizontal bar must NOT be reversed, or the thumb sits on the right at offset 0. -->
@@ -369,6 +485,16 @@
                             <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="False"/>
                             <Setter TargetName="PageBack"    Property="Command" Value="ScrollBar.PageLeftCommand"/>
                             <Setter TargetName="PageForward" Property="Command" Value="ScrollBar.PageRightCommand"/>
+                            <!-- Re-dock the line buttons to the ends of a horizontal bar and turn the
+                                 triangles to match. Commands change too: LineUp/LineDown are the
+                                 vertical names, LineLeft/LineRight the horizontal ones. -->
+                            <Setter TargetName="LineUp"   Property="DockPanel.Dock" Value="Left"/>
+                            <Setter TargetName="LineDown" Property="DockPanel.Dock" Value="Right"/>
+                            <Setter TargetName="LineUp"   Property="Command" Value="ScrollBar.LineLeftCommand"/>
+                            <Setter TargetName="LineDown" Property="Command" Value="ScrollBar.LineRightCommand"/>
+                            <!-- Rotation in degrees: 270 points the triangle left, 90 right. -->
+                            <Setter TargetName="LineUp"   Property="Content" Value="270"/>
+                            <Setter TargetName="LineDown" Property="Content" Value="90"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -376,9 +502,15 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="Height" Value="12"/>
-                <Setter Property="MinHeight" Value="12"/>
+                <!-- ScrollBarThickness, not a hardcoded 12. The vertical bar reads the key and the
+                     horizontal one did not, so on a theme that widens the bar (98SE takes it to
+                     16 to fit real arrow buttons) the horizontal bar stayed 12 tall while its
+                     square ScrollArrowSize buttons were 16 - and the bar came out visibly clipped
+                     along the bottom of the list. Both axes track one key now. -->
+                <Setter Property="Height" Value="{DynamicResource ScrollBarThickness}"/>
+                <Setter Property="MinHeight" Value="{DynamicResource ScrollBarThickness}"/>
                 <Setter Property="Width" Value="Auto"/>
+                <Setter Property="MinWidth" Value="0"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -429,10 +561,21 @@
                         <!-- Bevels OUTSIDE the card border, as siblings - nested inside they were
                              drawn within its 1px edge, so the flat border and the bevel both showed
                              and disagreed at the corners. -->
-                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
-                                BorderThickness="{DynamicResource BevelLightThickness}"/>
-                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
-                                BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevelLightBrush}"
+                                BorderThickness="{DynamicResource MenuBevelLightThickness}"
+                                Margin="{DynamicResource MenuBevelInnerMargin}"/>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevelDarkBrush}"
+                                BorderThickness="{DynamicResource MenuBevelDarkThickness}"
+                                Margin="{DynamicResource MenuBevelInnerMargin}"/>
+                        <!-- The OUTER ring of a raised menu edge. Win98 draws a menu with the same
+                             EDGE_RAISED double bevel as a window - white over BLACK on the outside,
+                             #dfdfdf over #808080 within - and one ring alone reads as a plain line
+                             with a highlight rather than as a raised card. Transparent at zero
+                             thickness by default. (Steve, 2026-08-07.) -->
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevel2LightBrush}"
+                                BorderThickness="{DynamicResource MenuBevel2LightThickness}"/>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevel2DarkBrush}"
+                                BorderThickness="{DynamicResource MenuBevel2DarkThickness}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="ContextMenu.Loaded">
@@ -643,6 +786,11 @@
         <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RadioButton">
             <Border x:Name="bd" Background="Transparent" CornerRadius="3" Margin="-8,0,2,0" Padding="10,4">
                 <DockPanel LastChildFill="True"><Grid Width="16" Height="16" Margin="0,0,8,0" DockPanel.Dock="Left">
+                    <!-- The WELL behind the ring. A Win98 radio is a white sunken circle with the
+                         dot inside it, not a hollow ring on the panel face - small, but it is the
+                         difference between reading as a control and reading as an outline.
+                         Transparent by default, so the other twelve are untouched. -->
+                    <Ellipse x:Name="well" Width="14" Height="14" Fill="{DynamicResource RadioWellBrush}"/>
                     <Ellipse x:Name="ring" Width="14" Height="14" Stroke="{DynamicResource DimTextBrush}" StrokeThickness="1.5"/>
                     <Ellipse x:Name="dot" Width="7" Height="7" Fill="{DynamicResource PrimaryBrush}" Visibility="Collapsed"/>
                 </Grid><ContentPresenter VerticalAlignment="Center"/></DockPanel>
@@ -686,23 +834,48 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Width" Value="44"/>
-        <Setter Property="Height" Value="36"/>
+        <Setter Property="Width" Value="{DynamicResource CaptionButtonWidth}"/>
+        <Setter Property="Height" Value="{DynamicResource CaptionButtonHeight}"/>
         <Setter Property="FontSize" Value="10"/>
         <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+        <!-- Bold on a bevelled theme: a hairline MDL2 stroke vanishes on a grey button face -->
+        <Setter Property="FontWeight" Value="{DynamicResource CaptionGlyphWeight}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="Bd" Background="{TemplateBinding Background}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
+                    <Grid>
+                        <!-- Bd carries the SAME margin as Face. Without it the hover fill paints the
+                             full button cell, spilling into the 1px gaps between the buttons and
+                             over the caption behind them - which is what made the hover state look
+                             like a loose grey block instead of the button lighting up. -->
+                        <Border x:Name="Bd" Margin="{DynamicResource CaptionButtonMargin}"
+                                Background="{TemplateBinding Background}"/>
+                        <!-- Win98 caption button: its own solid face with a raised bevel, inset from
+                             the caption, so the title bar gradient STOPS at the button instead of
+                             running under it. CaptionButtonBrush is Transparent and
+                             CaptionButtonMargin is 0 on every other theme, so this draws nothing
+                             and the modern hover/press fill above is all you see.
+                             The glyph lives INSIDE the face so it centres on the button, not on the
+                             cell - offsetting the face by a pixel used to leave the glyph off-centre. -->
+                        <Border x:Name="Face" Margin="{DynamicResource CaptionButtonMargin}"
+                                Background="{DynamicResource CaptionButtonBrush}">
+                            <Grid>
+                                <Border x:Name="capLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                                <Border x:Name="capDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource CaptionHoverBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                            <!-- Pressed reverses the bevel, the same swap the other button styles use -->
+                            <Setter TargetName="capLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
+                            <Setter TargetName="capDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -716,26 +889,172 @@
         <Setter Property="Width" Value="32"/>
         <Setter Property="Height" Value="24"/>
         <Setter Property="FontSize" Value="13"/>
+        <!-- Its own template, NOT ChromeButton's. ChromeButton draws a raised bevelled face at
+             rest, which is right for a caption button and wrong for a toolbar: it made every
+             ribbon button look permanently raised. Here the button is FLAT at rest and only
+             takes a bevel while pressed, and that bevel is the SUNKEN one - dark on the
+             top/left, light on the bottom/right - so it reads as pushed in. Zero thickness at
+             rest, so nothing draws on any theme until the press. -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"/>
+                        <Border x:Name="bTopLeft" IsHitTestVisible="False" BorderThickness="0"/>
+                        <Border x:Name="bBotRight" IsHitTestVisible="False" BorderThickness="0"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                            <Setter TargetName="bTopLeft" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
+                            <Setter TargetName="bTopLeft" Property="BorderThickness" Value="{DynamicResource BevelLightThickness}"/>
+                            <Setter TargetName="bBotRight" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
+                            <Setter TargetName="bBotRight" Property="BorderThickness" Value="{DynamicResource BevelDarkThickness}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
+    <!-- Toolbar separator. A single flat 1px rule by default; on a bevelled theme it becomes the
+         era's ETCHED divider - a grey line with a white one beside it, which is what every Win98
+         toolbar and taskbar draws between bands. BarSepLightBrush is transparent by default, so
+         the second rule has no width to give away and the twelve flat themes are unchanged.
+         (Steve, 2026-08-07.) -->
     <Style x:Key="AnnotationBarSeparator" TargetType="Rectangle">
-        <Setter Property="Width" Value="1"/>
+        <Setter Property="Width" Value="{DynamicResource BarSepWidth}"/>
         <Setter Property="Margin" Value="4,4"/>
-        <Setter Property="Fill" Value="{DynamicResource PaneBorderBrush}"/>
+        <Setter Property="Fill" Value="{DynamicResource BarSepBrush}"/>
+    </Style>
+
+    <!-- Slider. IMPLICIT, so every Slider in the app picks it up. There was no Slider style at
+         all, so the font-size slider fell through to WPF's default template and painted system
+         colours on a themed card - the same fall-through the radio buttons had. Sunken track,
+         raised thumb, both from the theme's own brushes and bevels. -->
+    <Style TargetType="Slider">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Grid VerticalAlignment="Center" Background="Transparent">
+                        <!-- Track: a THIN recessed groove (4px), crossed bevel like every other sunken
+                             surface. The thumb is taller than the groove and stands proud of it, which
+                             is the Win98 trackbar shape. -->
+                        <Grid Height="4" VerticalAlignment="Center">
+                            <Border Background="{DynamicResource SliderTrack}"
+                                    CornerRadius="{DynamicResource SmallCornerRadius}"/>
+                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
+                                    BorderThickness="{DynamicResource BevelLightThickness}"/>
+                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
+                                    BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                        </Grid>
+                        <Track x:Name="PART_Track">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="Slider.DecreaseLarge" Focusable="False" IsTabStop="False">
+                                    <RepeatButton.Template>
+                                        <ControlTemplate TargetType="RepeatButton">
+                                            <Border Background="Transparent"/>
+                                        </ControlTemplate>
+                                    </RepeatButton.Template>
+                                </RepeatButton>
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="Slider.IncreaseLarge" Focusable="False" IsTabStop="False">
+                                    <RepeatButton.Template>
+                                        <ControlTemplate TargetType="RepeatButton">
+                                            <Border Background="Transparent"/>
+                                        </ControlTemplate>
+                                    </RepeatButton.Template>
+                                </RepeatButton>
+                            </Track.IncreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Width="11" Height="21" Focusable="False" IsTabStop="False">
+                                    <Thumb.Template>
+                                        <ControlTemplate TargetType="Thumb">
+                                            <Grid>
+                                                <Border Background="{DynamicResource SurfaceBrush}"
+                                                        BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                                                        CornerRadius="{DynamicResource SmallCornerRadius}"/>
+                                                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
+                                                        BorderThickness="{DynamicResource BevelLightThickness}"/>
+                                                <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
+                                                        BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- Close caption button, KillerPDF-style: red glyph at rest, red fill + white glyph on hover -->
     <Style x:Key="ChromeCloseButton" TargetType="Button" BasedOn="{StaticResource ChromeButton}">
-        <Setter Property="Foreground" Value="{DynamicResource DangerRed}"/>
+        <Setter Property="Foreground" Value="{DynamicResource CaptionCloseBrush}"/>
+        <!-- Win98 pushed close a couple of pixels clear of minimise/maximise. 0 elsewhere. -->
+        <Setter Property="Margin" Value="{DynamicResource CaptionCloseGap}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="Bd" Background="{TemplateBinding Background}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
+                    <Grid>
+                        <!-- ROUNDED from the theme. The dialogs that used to build their own close
+                             button had a rounded hover block; collapsing them onto this shared one
+                             lost that and the hover came back as a hard pink square on every
+                             rounded theme. SmallCornerRadius is 0 on a square theme, so 98SE is
+                             unaffected. (Steve, 2026-08-07.) -->
+                        <Border x:Name="Bd" Margin="{DynamicResource CaptionButtonMargin}"
+                                CornerRadius="{DynamicResource CaptionCloseCornerRadius}"
+                                Background="{TemplateBinding Background}"/>
+                        <!-- Same Win98 face + raised bevel as ChromeButton; nothing on other themes -->
+                        <Border x:Name="Face" Margin="{DynamicResource CaptionButtonMargin}"
+                                CornerRadius="{DynamicResource CaptionCloseCornerRadius}"
+                                Background="{DynamicResource CaptionButtonBrush}">
+                            <Grid>
+                                <Border x:Name="capLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                                <Border x:Name="capDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                                <!-- THE close glyph, drawn HERE and nowhere else. Every window used
+                                     to carry its own copy of this pair - title bar, About card,
+                                     Databases, both pickers, DialogChrome - which is precisely how
+                                     they drifted into several different X's. Callers now supply NO
+                                     content: Style="{StaticResource ChromeCloseButton}" is the whole
+                                     declaration, and there is one place to change it. -->
+                                <TextBlock Text="&#xE8BB;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           FontWeight="{DynamicResource CaptionGlyphWeight}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Visibility="{DynamicResource CaptionFontGlyphVisibility}"/>
+                                <Grid Width="8" Height="8" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Visibility="{DynamicResource CaptionDrawnGlyphVisibility}">
+                                    <Rectangle Width="10" Height="2" Fill="{TemplateBinding Foreground}"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Rectangle.RenderTransform><RotateTransform Angle="45" CenterX="5" CenterY="1"/></Rectangle.RenderTransform>
+                                    </Rectangle>
+                                    <Rectangle Width="10" Height="2" Fill="{TemplateBinding Foreground}"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Rectangle.RenderTransform><RotateTransform Angle="-45" CenterX="5" CenterY="1"/></Rectangle.RenderTransform>
+                                    </Rectangle>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
+                        <!-- CaptionHoverBrush is the red fill on the modern themes and the plain
+                             button face on a bevelled one, where a red wash would be wrong. -->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DangerRed}"/>
-                            <Setter Property="Foreground" Value="White"/>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource CaptionCloseHoverBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource CaptionCloseHoverFgBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="capLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
+                            <Setter TargetName="capDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -842,14 +1161,23 @@
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
                     <StackPanel Orientation="Horizontal" Background="Transparent">
+                        <!-- RadioWellBrush, layered over the ring's own fill. A Win98 radio is a
+                             WHITE well with the dot in it, not a dot on the panel colour - the
+                             keyed ThemeRadio already had this and the implicit style did not, so
+                             every radio outside the theme flyout (the speech-model dialog's, most
+                             visibly) came up with a grey well. Transparent by default, so the
+                             twelve flat themes keep the plain ring. (Steve, 2026-08-07.) -->
                         <Border x:Name="ring" Width="15" Height="15" CornerRadius="8"
                                 VerticalAlignment="Top" Margin="0,2,0,0"
                                 Background="{DynamicResource SurfaceBrush}"
                                 BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1">
-                            <Border x:Name="dot" Width="7" Height="7" CornerRadius="4"
-                                    Background="{DynamicResource PrimaryBrush}"
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Visibility="Collapsed"/>
+                            <Grid>
+                                <Ellipse x:Name="well" Fill="{DynamicResource RadioWellBrush}" Margin="0"/>
+                                <Border x:Name="dot" Width="7" Height="7" CornerRadius="4"
+                                        Background="{DynamicResource PrimaryBrush}"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Visibility="Collapsed"/>
+                            </Grid>
                         </Border>
                         <ContentPresenter Margin="7,0,0,0" VerticalAlignment="Top"/>
                     </StackPanel>

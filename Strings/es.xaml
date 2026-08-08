@@ -187,6 +187,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Filter_Kndb">Base de datos de KillerNotes (*.kndb)|*.kndb</sys:String>
 
     <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">Acerca de KillerNotes</sys:String>
     <sys:String x:Key="Str_About_Version">Versión</sys:String>
     <sys:String x:Key="Str_About_Publisher">Editor</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Huella digital del certificado</sys:String>
@@ -375,7 +376,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_PickGroupFirst">Primero seleccione una nota que esté en un grupo</sys:String>
     <sys:String x:Key="Str_KS_FontSize">Aumentar / reducir el texto seleccionado</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Zoom del editor (Ctrl+0 restablece)</sys:String>
-    <sys:String x:Key="Str_St_Zoom">Zoom {0}%</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Zoom {0} %</sys:String>
     <sys:String x:Key="Str_St_SpellOn">Corrección ortográfica activada para esta nota</sys:String>
     <sys:String x:Key="Str_St_SpellOff">Corrección ortográfica desactivada para esta nota</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Aumentar texto</sys:String>
@@ -475,6 +476,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_Dictation">Dictado - grabar y transcribir</sys:String>
     <sys:String x:Key="Str_Kb_Dictation">Dictar</sys:String>
     <sys:String x:Key="Str_Dict_Title">Dictado</sys:String>
+    <sys:String x:Key="Str_Dict_Close">Cerrar (Esc)</sys:String>
     <sys:String x:Key="Str_Dict_Record">Grabar</sys:String>
     <sys:String x:Key="Str_Dict_Stop">Detener</sys:String>
     <sys:String x:Key="Str_Dict_Play">Reproducir</sys:String>
@@ -558,4 +560,50 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Dict_Edited">Editado. Reprodúzcalo o transcríbalo de nuevo.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Solo se puede enlazar texto - seleccione palabras, no una imagen o grabación</sys:String>
 
+    <sys:String x:Key="Str_Btn_Select">Seleccionar</sys:String>
+    <sys:String x:Key="Str_Dlg_SelectFolder">Selecciona la carpeta</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSubfolders">(sin subcarpetas - haz clic en Seleccionar para usar esta carpeta)</sys:String>
+    <sys:String x:Key="Str_Ctx_SelectAll">Seleccionar todo</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">Vista previa no disponible</sys:String>
+
+
+    <!-- SketchPad (F7) tools, added 2026-08-07. These lived only as inline English
+         fallbacks in Controls/Sketch/*.cs, so the pad stayed English in every language.
+         The shortcut letters in parentheses are real key bindings and stay Latin. -->
+    <sys:String x:Key="Str_Sketch_AddImage">Añadir una imagen (I) - arrástrela al lienzo o pulse Ctrl+V para pegar</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">Añadir imagen...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">Línea curva</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">Flecha - línea con punta (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">Enviar al fondo</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">Negrita</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">Cubo de pintura (B) - haga clic dentro de un área cerrada para rellenarla</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">Borrar todo</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">Cerrar (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">Copiar al portapapeles</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">Copiar el dibujo al portapapeles como imagen</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">Eliminar</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">Duplicar</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">Editar texto</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">Elipse (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">Borrador (E) - pase sobre el trazo o toque una forma para quitarla</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">Rellenar formas (rectángulo / elipse)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">Traer al frente</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">Línea - recta (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">Color personalizado...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">Opacidad de relleno / cubo (clic para alternar)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">Pegar imagen</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">Lápiz - a mano alzada (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">Polígono (G) - haga clic en cada vértice; clic en el primer punto o doble clic para cerrar (Retroceso deshace un punto, Esc cancela)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">Imprimir en la nota (Ctrl+Intro)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">Rectángulo (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">Rehacer (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">Restablecer opacidad</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">Seleccionar / mover (V) - clic en un objeto, arrastre para moverlo, Supr lo elimina</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">Enderezar línea</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">Texto (T) - clic para colocar una etiqueta, escriba, Intro para fijarla (Mayús+Intro para nueva línea)</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">Quitar negrita</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">Deshacer (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">Tamaño del pincel (clic para alternar)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 </ResourceDictionary>

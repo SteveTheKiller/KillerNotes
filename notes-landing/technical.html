@@ -89,7 +89,7 @@
 
 <section class="tech-sec" id="architecture">
 <h2>Architecture</h2>
-<p><b>KillerNotes</b> is a native Windows app written in C# and WPF on .NET Framework 4.8 (x64). There is no web view wrapping a JavaScript app and no runtime to install on Windows 10/11 - it is the same stack as the rest of the KillerTools family, sharing the KillerUI chrome: custom title bar, six live-switchable themes with accent colors, film grain, and the family status bar.</p>
+<p><b>KillerNotes</b> is a native Windows app written in C# and WPF on .NET Framework 4.8 (x64). There is no web view wrapping a JavaScript app and no runtime to install on Windows 10/11 - it is the same stack as the rest of the KillerTools family, sharing the KillerUI chrome: custom title bar, thirteen live-switchable themes with accent colors, film grain, and the family status bar.</p>
 <p>The editor is a WPF RichTextBox working on a real FlowDocument, which is what makes inline images and true tables first-class citizens rather than attachments. Everything else - search, storage, encryption, sharing - lives underneath it in a SQLite database.</p>
 </section>
 
@@ -226,7 +226,36 @@
 <h3>Speech recognition</h3>
 <p>Transcription uses <b>whisper.cpp</b> (MIT) running locally. It replaced System.Speech, which is SAPI's desktop dictation engine - a command-and-control model from the Windows 7 era that was not misconfigured but simply at its ceiling, producing confident nonsense on unfamiliar words rather than admitting uncertainty. System.Speech remains as the fallback when no model is installed.</p>
 <p>The whisper natives are about 1.3 MB and ship inside the exe. The <i>model</i> is 75 to 466 MB, so it is downloaded on demand from whisper.cpp's own repository, into your local app data, after you pick a size. Nothing is downloaded without being asked, and nothing is uploaded at any point - the audio never leaves the machine.</p>
+<p>Three models are offered. The chooser names the file each one downloads, so a copy on disk can always be identified and checked against upstream:</p>
+<table class="spec-table">
+<tr><th>Choice</th><th>File</th><th>Size</th><th>Notes</th></tr>
+<tr><td>Fast</td><td><code>ggml-tiny.en.bin</code></td><td>75 MB</td><td>Fastest. A clear step up from Windows dictation, but weaker on names and technical terms.</td></tr>
+<tr><td>Recommended</td><td><code>ggml-base.en.bin</code></td><td>142 MB</td><td>The usual choice. Accurate enough to correct rather than rewrite, and quick on most machines.</td></tr>
+<tr><td>Most accurate</td><td><code>ggml-small.en.bin</code></td><td>466 MB</td><td>Most accurate of the three. Noticeably slower on an older laptop.</td></tr>
+</table>
+<p>All three are the English-only (<code>.en</code>) builds, pulled from <code>huggingface.co/ggerganov/whisper.cpp</code> - whisper.cpp's own repository, not a mirror - and written to <code>%LOCALAPPDATA%\KillerNotes\native\&lt;version&gt;\models</code>. When more than one is present the largest wins. Delete a file to reclaim the space; the chooser reopens from the right-click menu on the microphone in the sidebar rail, which is also the only way to change model after the first prompt.</p>
 <p>All three audio natives are cross-compiled from their upstream release tarballs rather than taken from a mirror; the tarballs, hashes and exact build commands are in the source tree, and LAME's LGPL source is attached to every release.</p>
+</section>
+
+<section class="tech-sec" id="editortools">
+<h2>Editor tools</h2>
+<h3>Syntax highlighting</h3>
+<p>Toggled per note with <code>Ctrl+Shift+E</code>. The highlighter recognizes sixteen languages - PowerShell, Python, SQL, Bash, C#, JavaScript, TypeScript, CSS, HTML, XAML, XML, Vue, JSON, YAML, Markdown and plain - and detection runs <b>per paragraph</b> rather than per note. That is the design decision worth knowing: each block is sniffed on its own, with no help from the lines around it, so a scratch note holding a PowerShell one-liner, a SQL query and a chunk of YAML colors all three correctly without a language picker anywhere in the UI. The trade is that a line has to identify itself in isolation, so a multi-line construct only lights up on the lines carrying its giveaway tokens.</p>
+<p>Coloring is applied as <code>TextEffects</code> over the existing runs, so it never touches the stored document - the toggle state rides the note as a tag and the text itself is unchanged. Turning it off restores the original brushes exactly.</p>
+<h3>SketchPad</h3>
+<p>A modeless drawing companion on <code>F7</code> (or <code>Ctrl+Shift+D</code>): pen, line, arrow, rectangle, ellipse, polygon, paint bucket, text labels and an eraser, with per-object color, width and opacity. It stays open beside the note rather than blocking it, so you can draw and type in turn.</p>
+<p>Drawings are kept as a <b>vector object list</b>, not just a bitmap. "Print to note" flattens the strokes to an image at the caret and stores the object list alongside it in a side table keyed to the note, so double-clicking that image reopens the original strokes for editing - the picture in the note and the editable drawing behind it stay linked. The paint bucket is a genuine raster flood fill of the rasterized strokes, so an unclosed shape leaks to the canvas edge exactly as it would in MS Paint.</p>
+<h3>Killculator</h3>
+<p>A calculator docked in the row beneath the notes list, opened with <code>F9</code>. It is a themed WPF control rather than a shell-out to calc.exe, so it follows the palette and the keyboard. <code>Ctrl+Enter</code> prints the current result into the note; <code>Ctrl+Shift+Enter</code> prints the whole running equation, which is the one that matters when the note has to show the working rather than the answer.</p>
+<h3>Floating placement</h3>
+<p>Images and recordings can be dragged out of the text flow to float, with text wrapping down the side. The mechanism is a FlowDocument <code>Floater</code>, chosen after <code>Figure</code> failed twice: Figure is the element that carries offsets and <code>WrapDirection.Both</code>, but an editable RichTextBox implements only a subset of FlowDocument layout and ignores both. Floater is the part it does implement properly. A Floater has no offset of its own, so horizontal position is a margin snapped to a twelve-column grid - twelve because it divides cleanly by 2, 3, 4 and 6 - and vertical position is <i>which paragraph the object is anchored in</i>, since a Floater reserves its column from its anchor downward. Dragging re-homes the anchor live, and the text lines are themselves the vertical grid.</p>
+</section>
+
+<section class="tech-sec" id="localization">
+<h2>Localization</h2>
+<p>The interface ships in ten languages: English, Bengali, Czech, German, Spanish, French, Japanese, Turkish, Simplified Chinese and Traditional Chinese. Switching is live - no restart, no relaunch - because every string is a <code>DynamicResource</code> lookup against a merged ResourceDictionary that is swapped in place, the same mechanism the themes use.</p>
+<p>Translation covers the whole surface, not just the menus: dialogs, tooltips, context menus, the status bar, the keyboard-shortcut overlay and its visual keyboard map. The shortcut <i>keycaps</i> stay in English on purpose - a key is a physical thing, and translating "Ctrl" helps nobody - while their descriptions are translated.</p>
+<p>Each locale is one XAML file in <code>Strings/</code>, so adding a language means adding a file and an entry to the picker, with no code change. Missing keys fall back to en-US rather than rendering blank, so a partial translation degrades to English instead of breaking the layout.</p>
 </section>
 
 <section class="tech-sec" id="privacy">
@@ -258,6 +287,10 @@
 <tr><td>Markdown</td><td>Markdig, advanced extensions, raw HTML disabled</td></tr>
 <tr><td>Audio</td><td>winmm waveIn/waveOut capture and playback at 16 kHz mono; stored as FLAC, exports to WAV or MP3</td></tr>
 <tr><td>Speech</td><td>whisper.cpp offline, model downloaded on demand (75-466 MB); System.Speech fallback</td></tr>
+<tr><td>Syntax highlighting</td><td>16 languages, detected per paragraph; applied as TextEffects, stored text unchanged</td></tr>
+<tr><td>Drawing</td><td>SketchPad vector object list, flattened to an image in the note and reopenable for editing</td></tr>
+<tr><td>Themes</td><td>13 (98SE, Black, Blood, Cyanotic, Dark, Decay, Delirium, Ectoplasm, Greed, Light, Malaise, Mourning, Sepulchre), live-switchable with per-theme accents</td></tr>
+<tr><td>Languages</td><td>10 (en, bn, cs, de, es, fr, ja, tr, zh-Hans, zh-Hant), live-switchable, en-US fallback</td></tr>
 <tr><td>Share formats</td><td>.knote (single note), .kndb (whole database), HKCU file associations</td></tr>
 <tr><td>Import</td><td>.txt, .log, .md, .html, .htm, .rtf, png/jpg/jpeg/gif/bmp images</td></tr>
 <tr><td>Export</td><td>.txt, .rtf, self-contained .html; notes also share as .knote</td></tr>
@@ -281,6 +314,8 @@
 <a href="#sharing">Sharing formats</a>
 <a href="#formats">Import &amp; export</a>
 <a href="#audio">Dictation &amp; audio</a>
+<a href="#editortools">Editor tools</a>
+<a href="#localization">Localization</a>
 <a href="#privacy">Privacy</a>
 <a href="#distribution">Distribution</a>
 <a href="#specs">Specs</a>
@@ -293,7 +328,7 @@
 </footer>
 <div class="egg-toast" id="eggToast"></div>
 <div class="dlightbox" id="dlightbox" hidden><div class="dlb-inner" id="dlbInner"></div></div>
-<script src="kn-i18n.js?v=6"></script>
+<script src="kn-i18n.js?v=8"></script>
 <script src="kn.js?v=2"></script>
 <script>
 (function(){

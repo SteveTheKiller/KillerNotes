@@ -40,6 +40,11 @@ namespace KillerNotes.Shell
                 UpdateThemeSwatchSelection();
                 UpdateAccentSwatches();
                 ApplyThemeElevation();
+                // Syntax runs carry a resolved Color, not a DynamicResource, so they cannot follow
+                // a theme switch on their own - and the palette genuinely differs between a dark
+                // page and a light one. Re-run the pass so a switch into 98SE or Light recolours
+                // the open note instead of leaving Dark+ greens on white. (Steve, 2026-08-07.)
+                QueueSyntaxHighlighting();                       // SyntaxHighlighting.cs
             };
 
             // BEFORE InitEditor and InitDictation, and the order is load-bearing: all three attach

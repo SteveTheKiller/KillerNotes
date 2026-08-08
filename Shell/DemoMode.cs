@@ -101,6 +101,7 @@ namespace KillerNotes.Shell
             G(ORANGE, "Bench reference", "Networking");
             G(BLUE,   "Bench reference", "Networking", "VLAN cheatsheets");
             G(YELLOW, "Bench reference", "Hardware");
+            G(TEAL,   "Bench reference", "Scripts");
             G(PINK,   "Projects");
             G(RED,    "Projects", "Firewall refresh");
             G(BLUE,   "Projects", "Wi-Fi survey");
@@ -120,6 +121,7 @@ namespace KillerNotes.Shell
             Add("Kennel cams offline", 26, DemoDoc("Four PoE cameras in the kennel keep dropping. Suspect the cheap unmanaged switch back there.",
                 "Swap in the spare PoE+ switch from the van", "Camera VLAN 40, DHCP off, static .50-.70", "If they still drop it is the long run near the compressor"),
                 tags: "Urgent, Follow-up", group: P("Client sites", "Meadowbrook Vet"));
+            Add("Kennel cams - photos", 25, DemoCamStation(), tags: "On-site, Urgent", group: P("Client sites", "Meadowbrook Vet"));
             Add("Printer mapping", 22, DemoDoc("Shared printers by room, for the deploy script:",
                 "Front desk - HP M428 (192.0.2.61)", "Lab - Brother HL-L2350 (192.0.2.62)", "Back office Lexmark - do not map, they want it gone"),
                 tags: "Reference", group: P("Client sites", "Meadowbrook Vet"));
@@ -159,6 +161,11 @@ namespace KillerNotes.Shell
 
             Add("UPS runtimes", 16, DemoUps(), tags: "Reference, Follow-up", group: P("Bench reference", "Hardware"));
             Add("Parts drawer inventory", 5, DemoParts(), tags: "Reference", group: P("Bench reference", "Hardware"));
+            Add("Bench photos", 7, DemoBenchPhotos(), tags: "Reference", group: P("Bench reference", "Hardware"), titleColor: YELLOW);
+            Add("Syntax highlighting - all languages", 23, DemoSyntaxShowcase(), tags: "Reference", group: P("Bench reference", "Scripts"), titleColor: TEAL);
+            Add("Patch baseline playbook", 18, DemoAnsibleYaml(), tags: "Reference", group: P("Bench reference", "Scripts"));
+            Add("New starter provisioning", 15, DemoProvisionScript(), tags: "Reference", group: P("Bench reference", "Scripts"), titleColor: GREEN);
+
             Add("Drive shucking notes", 9, DemoDoc("Cheap external drives for the backup rotation:",
                 "Tape over the 3.3V pin or the drive will not spin in the NAS", "8TB+ white-labels are usually CMR, but test",
                 "Log the serial before shucking - warranty voids"),
@@ -466,6 +473,222 @@ namespace KillerNotes.Shell
             var d = new FlowDocument();
             d.Blocks.Add(DemoP("call back about the NAS quote - they want the 4-bay after all"));
             d.Blocks.Add(DemoP("ticket #4183 waiting on ISP"));
+            return d;
+        }
+
+        // ---- Demo photos -------------------------------------------------------------------
+        //
+        // Real photographs, loaded from code\Demo\KillerNotes at seed time rather than shipped as
+        // project resources: the demo database is scratch and rebuilt on every --demo launch, so
+        // the pictures are Steve's to swap without touching the build. A missing folder or an
+        // unreadable file is not an error - the note simply seeds without its picture, so the demo
+        // still works on a machine that has never had the folder.
+
+        /// <summary>Where the demo photos live. Sits beside the repo, not inside it.</summary>
+        private static string DemoPhotoDir()
+        {
+            // Walk up from the running exe (bin\Debug\net48) to the code root, then across.
+            var dir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+            for (int up = 0; up < 6 && dir != null; up++, dir = dir.Parent)
+            {
+                string candidate = System.IO.Path.Combine(dir.FullName, "Demo", "KillerNotes");
+                if (System.IO.Directory.Exists(candidate)) return candidate;
+                string sibling = System.IO.Path.Combine(dir.FullName, "..", "Demo", "KillerNotes");
+                if (System.IO.Directory.Exists(sibling)) return System.IO.Path.GetFullPath(sibling);
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// One demo photo as an in-note Image, or null if it is not there. Decoded and FROZEN with
+        /// OnLoad - the same treatment InsertImageAtCaret gives a pasted image, which is what lets
+        /// the XamlPackage serializer persist it into the note blob. A file handle is never held
+        /// open, so the folder stays swappable while the demo runs.
+        /// </summary>
+        private static Image? DemoPhoto(string fileName, double maxWidth = 520)
+        {
+            try
+            {
+                string dir = DemoPhotoDir();
+                if (dir.Length == 0) return null;
+                string path = System.IO.Path.Combine(dir, fileName);
+                if (!System.IO.File.Exists(path)) return null;
+
+                var bmp = new System.Windows.Media.Imaging.BitmapImage();
+                bmp.BeginInit();
+                bmp.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                bmp.UriSource = new Uri(path);
+                bmp.EndInit();
+                bmp.Freeze();
+
+                var img = new Image { Source = bmp, MaxWidth = maxWidth, Stretch = Stretch.Uniform };
+                FixImage(img);   // Fant downscale, same as a pasted photo
+                return img;
+            }
+            catch { return null; }   // unreadable or not an image - seed the note without it
+        }
+
+        /// <summary>A photo as its own paragraph, or nothing at all when the file is missing.</summary>
+        private static Paragraph? DemoPhotoPara(string fileName, double maxWidth = 520)
+        {
+            var img = DemoPhoto(fileName, maxWidth);
+            if (img == null) return null;
+            var p = new Paragraph();
+            p.Inlines.Add(new InlineUIContainer(img));
+            return p;
+        }
+
+        /// <summary>Appends a photo paragraph plus its caption, skipping both if the file is gone.</summary>
+        private static void AddPhoto(FlowDocument d, string fileName, string caption, double maxWidth = 520)
+        {
+            var p = DemoPhotoPara(fileName, maxWidth);
+            if (p == null) return;
+            d.Blocks.Add(p);
+            if (caption.Length > 0) d.Blocks.Add(DemoP(caption, color: "#7A8CA3"));
+        }
+
+        private static FlowDocument DemoCamStation()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoP("Camera station in the kennel corridor, photographed before the PoE switch swap.", bold: true));
+            AddPhoto(d, "cam_station.png", "As-found. Note the unmanaged switch tucked behind the monitor - that is the one dropping the cameras.");
+            d.Blocks.Add(DemoList(
+                "Four cameras, all PoE, all on the cheap unmanaged switch",
+                "Replace with the spare PoE+ from the van",
+                "Camera VLAN 40, static .50-.70, DHCP off"));
+            return d;
+        }
+
+        private static FlowDocument DemoBenchPhotos()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoP("Reference shots off the bench. Photographed on the phone and pasted straight into the note.", bold: true));
+            AddPhoto(d, "old_artist_shot_square.jpg", "Bench overview at the start of the week.");
+            d.Blocks.Add(DemoRule());
+            AddPhoto(d, "whatanoddthingtodo.png", "Filed under: things the last tech did.");
+            d.Blocks.Add(DemoRule());
+            AddPhoto(d, "moe.jpeg", "Bench supervisor.", 320);
+            return d;
+        }
+
+        // ---- Syntax highlighting demos -----------------------------------------------------
+        //
+        // ApplySyntaxHighlighting detects the language PER PARAGRAPH, not per note, so one note
+        // can hold as many languages as it likes and each block lights up in its own palette.
+        // That is what the showcase note below is for. It also sets the constraint these demos
+        // are written to: a line is sniffed on its own, with no help from the lines around it,
+        // so every code line here is one that identifies itself in isolation. The plain-text
+        // labels between the blocks deliberately carry NO colon and no tag - a trailing colon
+        // would read as YAML and the label would highlight along with the code under it.
+
+        /// <summary>Every language the highlighter knows, one note, one block each.</summary>
+        private static FlowDocument DemoSyntaxShowcase()
+        {
+            var d = new FlowDocument { Tag = SyntaxTag };
+            d.Blocks.Add(DemoP("One note, thirteen languages. The highlighter sniffs each paragraph on its own, so a scratch note full of mixed snippets colours itself correctly without a language picker.", bold: true));
+            d.Blocks.Add(DemoRule());
+
+            void Block(string label, params string[] lines)
+            {
+                d.Blocks.Add(DemoP(label, bold: true, color: "#7A8CA3"));
+                foreach (var l in lines) d.Blocks.Add(DemoMono(l));
+            }
+
+            Block("PowerShell",
+                @"$svc = Get-Service -Name Spooler",
+                @"if ($svc.Status -ne 'Running') { Start-Service $svc }");
+            Block("Python",
+                @"import ipaddress",
+                @"def sweep(cidr):",
+                @"    print(f""{len(hosts)} hosts up on {cidr}"")");
+            Block("SQL",
+                @"SELECT name, last_seen FROM agents WHERE last_seen < DATEADD(day, -30, GETDATE());");
+            Block("Bash",
+                @"#!/usr/bin/env bash",
+                @"if ping -c1 ""${HOST}"" >/dev/null; then echo up; fi",
+                @"for h in ${HOSTS}; do echo ""checking ${h}""; done");
+            Block("YAML",
+                @"hosts: workstations",
+                @"become: true",
+                @"- name: Apply security updates");
+            Block("JSON",
+                @"{ ""site"": ""Northwind"", ""vlan"": 10, ""managed"": true }");
+            Block("XAML",
+                @"<Border Background=""{DynamicResource PaneBrush}"" CornerRadius=""4"" />");
+            Block("HTML",
+                @"<div class=""notice""><p>File server offline Sat 06:00-09:00.</p></div>");
+            Block("XML",
+                @"<agent id=""4183"" site=""Northwind"" lastSeen=""2026-08-01T14:22:00Z"" />");
+            Block("CSS",
+                @".notice { color: #c94f4f; padding: 8px 12px; }");
+            Block("JavaScript",
+                @"const stale = agents.filter(a => a.lastSeen < cutoff);");
+            Block("TypeScript",
+                @"interface Agent { id: string; site: string; lastSeen: Date; }");
+            Block("Markdown",
+                @"## Failover runbook");
+
+            d.Blocks.Add(DemoRule());
+            d.Blocks.Add(DemoP("Toggle the whole note with Ctrl+Shift+E.", color: "#7A8CA3"));
+            return d;
+        }
+
+        /// <summary>Pure code, no prose. YAML identifies itself line by line, so the whole
+        /// playbook colours evenly - the best single showcase of the highlighter.</summary>
+        private static FlowDocument DemoAnsibleYaml() => DemoCode(
+            @"---",
+            @"- name: Monthly patch baseline",
+            @"  hosts: workstations",
+            @"  become: true",
+            @"  vars:",
+            @"    reboot_window: ""02:00-04:00""",
+            @"    max_reboot_wait: 1800",
+            @"  tasks:",
+            @"    - name: Refresh the package cache",
+            @"      ansible.builtin.apt:",
+            @"        update_cache: true",
+            @"        cache_valid_time: 3600",
+            @"    - name: Apply security updates only",
+            @"      ansible.builtin.apt:",
+            @"        upgrade: safe",
+            @"      register: patch_result",
+            @"    - name: Reboot if the kernel changed",
+            @"      ansible.builtin.reboot:",
+            @"        reboot_timeout: ""{{ max_reboot_wait }}""",
+            @"      when: patch_result.changed");
+
+        /// <summary>Pure code, no prose. PS 5.1-safe - nothing here needs PowerShell 7.</summary>
+        private static FlowDocument DemoProvisionScript() => DemoCode(
+            @"# Creates the AD account, groups and home share for a new starter.",
+            @"param(",
+            @"    [Parameter(Mandatory)][string]$FirstName,",
+            @"    [Parameter(Mandatory)][string]$LastName,",
+            @"    [string]$Site = 'Northwind'",
+            @")",
+            @"",
+            @"$ErrorActionPreference = 'Stop'",
+            @"$sam  = ($FirstName.Substring(0,1) + $LastName).ToLower()",
+            @"$upn  = ""$sam@corp.local""",
+            @"$ou   = ""OU=Staff,OU=$Site,DC=corp,DC=local""",
+            @"$temp = ConvertTo-SecureString 'Change.Me.2026!' -AsPlainText -Force",
+            @"",
+            @"if (Get-ADUser -Filter ""SamAccountName -eq '$sam'"") {",
+            @"    throw ""User $sam already exists""",
+            @"}",
+            @"",
+            @"New-ADUser -Name ""$FirstName $LastName"" -SamAccountName $sam -UserPrincipalName $upn ` ",
+            @"    -Path $ou -AccountPassword $temp -ChangePasswordAtLogon $true -Enabled $true",
+            @"",
+            @"Add-ADGroupMember -Identity 'RMM-Managed' -Members $sam",
+            @"Add-ADGroupMember -Identity ""Site-$Site""  -Members $sam",
+            @"",
+            @"Write-Host ""Created $upn in $Site"" -ForegroundColor Green");
+
+        /// <summary>A note that is nothing but code: every line mono, syntax toggle already on.</summary>
+        private static FlowDocument DemoCode(params string[] lines)
+        {
+            var d = new FlowDocument { Tag = SyntaxTag };
+            foreach (var l in lines) d.Blocks.Add(DemoMono(l));
             return d;
         }
 

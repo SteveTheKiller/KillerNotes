@@ -211,11 +211,14 @@ namespace KillerNotes.Controls
         {
             var b = new Border
             {
-                Width = 22, Height = 22, CornerRadius = new CornerRadius(3),
+                Width = 22, Height = 22,
                 Background = new SolidColorBrush(c), Margin = new Thickness(0, 0, 6, 0),
                 BorderThickness = new Thickness(1),
                 Cursor = Cursors.Hand,
             };
+            // Radius from the theme, not a hardcoded 3. A square-cornered palette squares these off
+            // with everything else in it - a Win98 colour swatch is a hard-edged square.
+            b.SetResourceReference(Border.CornerRadiusProperty, "SmallCornerRadius");
             b.SetResourceReference(Border.BorderBrushProperty, "InputBorderBrush");
             Tip(b, $"#{c.R:X2}{c.G:X2}{c.B:X2}");
             b.MouseLeftButtonUp += (_, _) => PickColor(c);
@@ -245,35 +248,13 @@ namespace KillerNotes.Controls
         private void ToggleMaximize()
             => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
 
-        // Red close button in the card's top-right corner, KillerPDF ChromeCloseButton spec: 46x36,
-        // red glyph at rest, solid red fill + white glyph on hover, rounded ONLY on the top-right
-        // (0,7,0,0) so the fill hugs the window corner. Handles its own press so the title bar's
-        // DragMove doesn't fire when clicked. Corner squares off when maximized (UpdateWindowCorners).
-        private Border CloseButton(string tooltip)
-        {
-            var glyph = new TextBlock
-            {
-                Text = char.ConvertFromUtf32(0xE8BB),
-                FontFamily = new FontFamily("Segoe MDL2 Assets"), FontSize = 10,
-                HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center,
-            };
-            glyph.SetResourceReference(TextBlock.ForegroundProperty, "DangerRed");
-            var bd = new Border
-            {
-                Width = 46, Height = 36, CornerRadius = new CornerRadius(0, 7, 0, 0),
-                Background = Brushes.Transparent, Child = glyph, Cursor = Cursors.Hand,
-            };
-            Tip(bd, tooltip);
-            bd.MouseEnter += (_, _) => { bd.Background = R("DangerRed"); glyph.Foreground = Brushes.White; };
-            bd.MouseLeave += (_, _) =>
-            {
-                bd.Background = Brushes.Transparent;
-                glyph.SetResourceReference(TextBlock.ForegroundProperty, "DangerRed");
-            };
-            bd.MouseLeftButtonDown += (_, e) => e.Handled = true;   // don't let the title bar start a drag
-            bd.MouseLeftButtonUp += (_, _) => Close();
-            return bd;
-        }
+        // The family close X, from DialogChrome. This used to be a 46x36 block that filled SOLID
+        // RED with a white glyph on hover - the Windows caption treatment, which is the one thing
+        // every other dialog in the app deliberately avoids, and it made the SketchPad the odd one
+        // out. It also hardcoded a 36px height into a caption band that DialogTitleBarHeight sizes
+        // to 28 (20 on 98SE), so it hung 8px into the toolbar row underneath.
+        private FrameworkElement CloseButton(string tooltip)
+            => DialogChrome.CloseGlyph(tooltip, Close);
     }
 
     /// <summary>

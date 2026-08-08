@@ -51,6 +51,12 @@ namespace KillerNotes.Controls
             ResizeMode = ResizeMode.CanResize;
             ShowInTaskbar = false;
             Background = Brushes.Transparent;
+            // Text rendering, matching MainWindow.xaml:10 and FileDialog.xaml:16-17. This window set
+            // neither, so its text fell back to Ideal formatting with default (greyscale) rendering
+            // and came out soft next to every other window in the app.
+            UseLayoutRounding = true;
+            TextOptions.SetTextFormattingMode(this, TextFormattingMode.Display);
+            TextOptions.SetTextRenderingMode(this, TextRenderingMode.ClearType);
             // Landscape, not portrait: the waveform is the thing being worked on and it reads along
             // the X axis, so width is what buys precision when slicing. The transcript is a couple
             // of sentences and does not need the depth it had.
@@ -112,7 +118,8 @@ namespace KillerNotes.Controls
                 CornerRadius = Application.Current.TryFindResource("WindowCornerRadius") is CornerRadius r ? r : new CornerRadius(7),
                 Margin = new Thickness(20),
             };
-            _outerBorder.SetResourceReference(Border.BorderBrushProperty, "CardBorderBrush");
+            _outerBorder.SetResourceReference(Border.BorderBrushProperty, "WindowEdgeBrush");
+            _outerBorder.SetResourceReference(Border.BorderThicknessProperty, "WindowEdgeThickness");
             _outerBorder.SetResourceReference(Border.BackgroundProperty, "BackgroundBrush");
             double shadowOp = Application.Current.TryFindResource("PaneShadowOpacity") is double so ? so : 0.60;
             if (shadowOp > 0)
@@ -148,6 +155,10 @@ namespace KillerNotes.Controls
             BuildTranscript(body);
             BuildButtons(body);
 
+            // (The close button is built INSIDE the caption band - see BuildTitleBand. It used to be
+            // parented onto the card here and top-aligned, which is why it sat flush against the
+            // window edge instead of centred in the bar like the main window's.)
+
             // Bevels last, so the raised edge draws over everything (family pattern).
             _bevelLight = new Border { IsHitTestVisible = false };
             _bevelLight.SetResourceReference(Border.BorderBrushProperty, "BevelLightBrush");
@@ -158,60 +169,47 @@ namespace KillerNotes.Controls
             root.Children.Add(_bevelLight);
             root.Children.Add(_bevelDark);
 
+            // The shared window frame - DialogChrome.WindowFrame, the same 5px sizing border the
+            // main window, SketchPad and every dialog draw. The pair above is the shared CONTROL
+            // bevel and is a different thing. Nothing on a flat theme. (Steve, 2026-08-07.)
+            root.Children.Add(KillerNotes.Controls.DialogChrome.WindowFrame());
+            KillerNotes.Controls.DialogChrome.InsetForFrame(shell);
+
             _outerBorder.Child = root;
             Content = _outerBorder;
         }
 
         private Border BuildTitleBand()
         {
-            var band = new Border { Padding = new Thickness(14, 0, 14, 0), Cursor = Cursors.SizeAll };
+            // TitleBarPadding and TitleBarHeight - the SAME two keys the main window's caption uses,
+            // not a hardcoded 14px inset and the separate DialogTitleBarHeight. Those two differences
+            // are exactly why this bar never lined up with the main one.
+            // NO Padding on the band. It used to take TitleBarPadding here, but the close button
+            // inside it separately carries CaptionButtonsMargin, and once that key gained a top
+            // inset the two stacked and the button sat 4px down instead of 2. SketchPad has always
+            // done it the other way - a bare band, with the padding on the MARK only - and that is
+            // the one that lines up, so this now matches it. The mark takes the padding below.
+            var band = new Border { Cursor = Cursors.SizeAll };
             band.SetResourceReference(Border.BackgroundProperty, "DialogTitleBarBrush");
-            band.SetResourceReference(HeightProperty, "DialogTitleBarHeight");
+            band.SetResourceReference(HeightProperty, "TitleBarHeight");
             band.MouseLeftButtonDown += (_, e) =>
             {
                 if (e.ClickCount == 2) WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
                 else if (e.ButtonState == MouseButtonState.Pressed) DragMove();
             };
-            var caption = new TextBlock
-            {
-                Text = L("Str_Dict_Title", "Dictation"),
-                FontSize = 13, FontWeight = FontWeights.SemiBold, VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left,
-            };
-            caption.SetResourceReference(TextBlock.ForegroundProperty, "ChromeTextBrush");
+            // The wordmark, same as SketchPad and Databases - this used to be the bare word
+            // "Dictation" in the content font, which is why this one dialog looked like it came
+            // from a different app. DialogChrome owns the mark now (see that file).
+            var caption = DialogChrome.Wordmark(L("Str_Dict_Title", "Dictation"));
+            // The inset the band used to apply, moved onto the mark - SketchPad's arrangement.
+            ((FrameworkElement)caption).SetResourceReference(FrameworkElement.MarginProperty, "TitleBarPadding");
 
-            // Close X. The window had NO way to close it: no caption buttons (WindowStyle.None),
-            // no Esc handler, and the family close button is drawn per-window rather than inherited.
-            // A TextBlock, not a Button. A Button with Background="Transparent" still carries WPF's
-            // DEFAULT template, which paints the system highlight behind it on hover - that is the
-            // filled block, and no brush or theme reaches it. The family rule is that only the
-            // GLYPH reddens; a filled red box is the Windows caption treatment and wrong on a
-            // floating card. MDL2 E8BB is the same close glyph the caption buttons use.
-            var close = new TextBlock
-            {
-                Text = char.ConvertFromUtf32(0xE8BB),
-                FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                FontSize = 10,
-                Padding = new Thickness(8, 4, 4, 4),   // a comfortable target without a visible box
-                HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Center,
-                Background = Brushes.Transparent,      // Transparent, not null: null is not hit-testable
-                Cursor = Cursors.Hand,
-                ToolTip = L("Str_Dict_Close", "Close (Esc)"),
-            };
-            close.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
-            close.MouseEnter += (_, _) => close.SetResourceReference(TextBlock.ForegroundProperty, "DangerRed");
-            close.MouseLeave += (_, _) => close.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
-            // PreviewMouseLeftButtonDown, NOT MouseLeftButtonUp. The band below handles
-            // MouseLeftButtonDown to drag the window; that fires as the event bubbles up from this
-            // glyph and DragMove() then runs a modal drag loop, so the matching ButtonUp never
-            // arrives here and the X did nothing. Tunnelling gets it first, and marking it handled
-            // stops the drag from starting on a click aimed at the close button.
-            close.PreviewMouseLeftButtonDown += (_, e) => { e.Handled = true; Close(); };
-
+            // The close button lives IN the band, right-aligned and vertically centred - the same
+            // placement as the main window's. DialogChrome sizes it from CaptionButtonWidth/Height
+            // and insets it with CaptionButtonsMargin, so it is the identical button.
             var head = new Grid();
             head.Children.Add(caption);
-            head.Children.Add(close);
+            head.Children.Add(DialogChrome.CloseGlyph(L("Str_Dict_Close", "Close (Esc)"), Close));
             band.Child = head;
             Grid.SetRow(band, 0);
             return band;
@@ -256,8 +254,13 @@ namespace KillerNotes.Controls
                 Margin = new Thickness(0, 0, 0, 8),
                 Padding = new Thickness(4, 3, 4, 3),
             };
+            // PaneBorderBrush, not InputBorderBrush. The waveform is a content PANE - it displays,
+            // it is not typed into - and its face is PaneBrush, so it takes the pane edge like
+            // every other pane in the app. InputBorderBrush is the edge of a text field and is a
+            // deliberately brighter tone on several themes (#787878 on Black against a #1c1c1c
+            // pane edge), which made this one box glare next to everything around it.
             waveFrame.SetResourceReference(Border.BackgroundProperty, "PaneBrush");
-            waveFrame.SetResourceReference(Border.BorderBrushProperty, "InputBorderBrush");
+            waveFrame.SetResourceReference(Border.BorderBrushProperty, "PaneBorderBrush");
             if (Application.Current.TryFindResource("ControlCornerRadius") is CornerRadius wr)
                 waveFrame.CornerRadius = wr;
 
@@ -286,8 +289,10 @@ namespace KillerNotes.Controls
                 ShowWaveMenu();
             };
             waveFrame.Child = _wave;
-            Grid.SetRow(waveFrame, 1);
-            body.Children.Add(waveFrame);
+            var waveHost = Sunken(waveFrame, waveFrame.Margin);
+            waveFrame.Margin = new Thickness(0);
+            Grid.SetRow(waveHost, 1);
+            body.Children.Add(waveHost);
 
             _status = new TextBlock { TextWrapping = TextWrapping.Wrap, FontSize = 11, Margin = new Thickness(0, 0, 0, 8) };
             _status.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
@@ -307,8 +312,39 @@ namespace KillerNotes.Controls
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                 Style = S("DarkTextBox"),
             };
-            Grid.SetRow(_transcript, 3);
-            body.Children.Add(_transcript);
+            // Overridden on the INSTANCE, not in DarkTextBox: that style is shared by every text
+            // field in the app and an input edge is right for those. Here the transcript reads as
+            // the second half of a pair with the waveform above it, so it takes the same pane edge
+            // rather than standing out as a form field on a card.
+            _transcript.SetResourceReference(Control.BorderBrushProperty, "PaneBorderBrush");
+            var host = Sunken(_transcript, new Thickness(0));
+            Grid.SetRow(host, 3);
+            body.Children.Add(host);
+        }
+
+        /// <summary>
+        /// Wraps a pane in the crossed SUNKEN bevel, so it reads as recessed into the window face
+        /// the way a Win98 client area does. Both brushes are transparent on every theme that does
+        /// not ask for them, so this adds nothing anywhere else.
+        ///
+        /// The bevels are SIBLINGS of the pane inside a Grid, never children of it. A bevel nested
+        /// inside a bordered element draws inside that element's own border and comes up short at
+        /// every corner - the defect the Killculator readout had. The pane's margin moves to the
+        /// host for the same reason: the bevel has to land ON the pane's edge, not outside it.
+        /// </summary>
+        private static Grid Sunken(FrameworkElement pane, Thickness margin)
+        {
+            var host = new Grid { Margin = margin };
+            host.Children.Add(pane);
+            var dark = new Border { IsHitTestVisible = false };
+            dark.SetResourceReference(Border.BorderBrushProperty, "PaneBevelDarkBrush");
+            dark.SetResourceReference(Border.BorderThicknessProperty, "BevelLightThickness");
+            var light = new Border { IsHitTestVisible = false };
+            light.SetResourceReference(Border.BorderBrushProperty, "PaneBevelLightBrush");
+            light.SetResourceReference(Border.BorderThicknessProperty, "BevelDarkThickness");
+            host.Children.Add(dark);
+            host.Children.Add(light);
+            return host;
         }
 
         private void BuildButtons(Grid body)

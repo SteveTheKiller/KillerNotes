@@ -25,7 +25,8 @@ namespace KillerNotes.Controls
                 Margin = new Thickness(20),
                 Effect = CardShadow(),
             };
-            _outerBorder.SetResourceReference(Border.BorderBrushProperty, "CardBorderBrush");
+            _outerBorder.SetResourceReference(Border.BorderBrushProperty, "WindowEdgeBrush");
+            _outerBorder.SetResourceReference(Border.BorderThicknessProperty, "WindowEdgeThickness");
             _outerBorder.SetResourceReference(Border.BackgroundProperty, "BackgroundBrush");
             var root = new Grid();
             // Film grain over the window background, same treatment as the rest of the app.
@@ -62,18 +63,23 @@ namespace KillerNotes.Controls
             Grid.SetRow(grid, 1);
             shell.Children.Add(grid);
 
-            // Red close button flush in the card's top-right corner (rounded only on that corner), so
-            // it hugs the window edge like KillerPDF's dialogs rather than floating as a pill.
+            // Built here, PARENTED INTO THE TITLE BAND (BuildTitleBar) - not onto the card. On the
+            // card it was top-aligned against the window edge, which is why it never had the band
+            // above and below it that the main window's close button has.
             _closeBtn = CloseButton(L("Str_Sketch_Close", "Close (Esc)"));
-            _closeBtn.HorizontalAlignment = HorizontalAlignment.Right;
-            _closeBtn.VerticalAlignment = VerticalAlignment.Top;
-            root.Children.Add(_closeBtn);
 
             // Resize-grip dots in the bottom-right corner - press them to start a corner resize.
             root.Children.Add(BuildResizeGrip());
             // Last, so the raised edge draws over everything else in the card.
             root.Children.Add(_bevelLight);
             root.Children.Add(_bevelDark);
+
+            // ONE window frame for the whole app - DialogChrome.WindowFrame, the same builder the
+            // Dictation pad, the About card and every dialog use. The card's _bevelLight/_bevelDark
+            // pair above is the shared CONTROL bevel and is a different thing; it is why this
+            // window read as flat beside the main one on a bevelled theme.
+            root.Children.Add(KillerNotes.Controls.DialogChrome.WindowFrame());
+            KillerNotes.Controls.DialogChrome.InsetForFrame(shell);
 
             _outerBorder.Child = root;
             Content = _outerBorder;
@@ -91,7 +97,7 @@ namespace KillerNotes.Controls
             // themes, so it must be a resource reference rather than a copied colour.
             var titleBar = new Grid();
             titleBar.SetResourceReference(Panel.BackgroundProperty, "DialogTitleBarBrush");
-            titleBar.SetResourceReference(FrameworkElement.HeightProperty, "DialogTitleBarHeight");
+            titleBar.SetResourceReference(FrameworkElement.HeightProperty, "TitleBarHeight");
             titleBar.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             titleBar.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             titleBar.MouseLeftButtonDown += (_, e) =>
@@ -101,28 +107,19 @@ namespace KillerNotes.Controls
                 else DragMove();
             };
 
-            var wf = Application.Current.TryFindResource("WordmarkFont") as FontFamily;
-            var mark = new Grid { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center,
-                                  Margin = new Thickness(16, 0, 0, 0) };
-            var shadowInk = new SolidColorBrush(Color.FromArgb(0xD8, 0, 0, 0));
-            var shadow = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(1, 2, 0, 0) };
-            if (Application.Current.TryFindResource("IconShadowOpacity") is double sop) shadow.Opacity = sop;
-            shadow.Effect = new BlurEffect { Radius = 3 };
-            shadow.Children.Add(WordmarkText(wf, "", "", "", shadowInk));
-            mark.Children.Add(shadow);
-            // ChromeTextBrush, not TextBrush: this sits on the title BAND now, which on several
-            // themes is a dark gradient. TextBrush is the colour for the content surface (black on
-            // 98SE) and vanished against it. ChromeTextBrush is the title-bar text colour and is
-            // what the main window's wordmark uses.
-            mark.Children.Add(WordmarkText(wf, "ChromeTextBrush", "AccentLogo", "MutedTextBrush"));
+            // Built by DialogChrome, not locally: this window had its own copy of the wordmark, so
+            // the flat-caption swap that Dictation and the About card already got never reached it
+            // and 98SE kept showing the typewriter logotype. One builder, one caption everywhere.
+            var mark = (FrameworkElement)KillerNotes.Controls.DialogChrome.Wordmark(L("Str_Sketch_Title", "SketchPad"));
+            mark.SetResourceReference(FrameworkElement.MarginProperty, "TitleBarPadding");
             Grid.SetColumn(mark, 0);
             titleBar.Children.Add(mark);
 
-            // (The red close button lives at the card's top-right corner - added in BuildUi. Reserve the
-            // right column so the wordmark never runs under it.)
-            var spacer = new Border { Width = 48, Background = Brushes.Transparent };
-            Grid.SetColumn(spacer, 1);
-            titleBar.Children.Add(spacer);
+            // The close button lives IN the band, column 1 - the same place the main window puts it.
+            // It used to be a child of the card with a 48px spacer reserved here, which is why it
+            // sat hard against the top edge instead of centred in the bar.
+            Grid.SetColumn(_closeBtn, 1);
+            titleBar.Children.Add(_closeBtn);
 
             Grid.SetRow(titleBar, 0);
             shell.Children.Add(titleBar);
@@ -218,33 +215,68 @@ namespace KillerNotes.Controls
             // A Border's ClipToBounds clips to its RECTANGLE, not to its CornerRadius, so the
             // canvas underneath kept painting square corners through the rounded frame. Clip the
             // content to a rounded geometry of its own instead, resized with the pane.
+            // Radius comes from the theme (ControlCornerRadius, 0 on a squared-off theme) instead of
+            // a hardcoded 4, so 98SE gets real square corners like every other pane.
             canvasStack.ClipToBounds = false;
             canvasStack.SizeChanged += (_, e) =>
-                canvasStack.Clip = new RectangleGeometry(new Rect(e.NewSize), 4, 4);
+            {
+                double r = Application.Current?.TryFindResource("ControlCornerRadius") is CornerRadius cr
+                    ? cr.TopLeft : 4;
+                canvasStack.Clip = new RectangleGeometry(new Rect(e.NewSize), r, r);
+            };
 
             var frame = new Border
             {
                 BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(4),
                 Child = canvasStack,
             };
+            frame.SetResourceReference(Border.CornerRadiusProperty, "ControlCornerRadius");
             frame.SetResourceReference(Border.BackgroundProperty, "PaneBrush");
-            frame.SetResourceReference(Border.BorderBrushProperty, "CardBorderBrush");
+            frame.SetResourceReference(Border.BorderBrushProperty, "PaneBorderBrush");
+            frame.SetResourceReference(Border.BorderThicknessProperty, "AboutPanelBorderThickness");
 
             // The shadow rides a SEPARATE sibling behind the pane, never the pane itself - an
             // Effect applies to an element's whole rendering, children included, and content
             // drawn through a bitmap effect loses ClearType. Family rule, same as the About card.
             var frameShadow = new Border
             {
-                CornerRadius = new CornerRadius(4),
                 IsHitTestVisible = false,
                 Effect = CardShadow(),
             };
+            frameShadow.SetResourceReference(Border.CornerRadiusProperty, "ControlCornerRadius");
             frameShadow.SetResourceReference(Border.BackgroundProperty, "PaneBrush");
 
             var frameHost = new Grid();
             frameHost.Children.Add(frameShadow);
             frameHost.Children.Add(frame);
+
+            // SUNKEN bevel, same as the About card's info panel: the brushes are CROSSED relative to
+            // a raised control - dark on the top/left, light on the bottom/right - so the drawing
+            // pane reads as a recessed Win98 client area. Transparent and zero-thickness on every
+            // theme that does not define bevels, so it draws nothing there.
+            // TWO tones, the same PaneBevel* pair the main window's content pane and notes list
+            // use - #808080 then #000000 down the top/left, #ffffff then the face up the
+            // bottom/right. This drew a single flat grey off the shared control Bevel* keys, which
+            // had the right width and the wrong depth: it read as a line rather than an edge, and
+            // was visibly shallower than the panes in the main window. (Steve, 2026-08-07.)
+            var sunkDark = new Border { IsHitTestVisible = false };
+            sunkDark.SetResourceReference(Border.BorderBrushProperty, "PaneBevelDarkBrush");
+            sunkDark.SetResourceReference(Border.BorderThicknessProperty, "PaneBevelLightThickness");
+            var sunkLight = new Border { IsHitTestVisible = false };
+            sunkLight.SetResourceReference(Border.BorderBrushProperty, "PaneBevelLightBrush");
+            sunkLight.SetResourceReference(Border.BorderThicknessProperty, "PaneBevelDarkThickness");
+            var sunkDark2 = new Border { IsHitTestVisible = false };
+            sunkDark2.SetResourceReference(Border.BorderBrushProperty, "PaneBevelDark2Brush");
+            sunkDark2.SetResourceReference(Border.BorderThicknessProperty, "PaneBevel2LightThickness");
+            sunkDark2.SetResourceReference(FrameworkElement.MarginProperty, "PaneBevelInnerMargin");
+            var sunkLight2 = new Border { IsHitTestVisible = false };
+            sunkLight2.SetResourceReference(Border.BorderBrushProperty, "PaneBevelLight2Brush");
+            sunkLight2.SetResourceReference(Border.BorderThicknessProperty, "PaneBevel2DarkThickness");
+            sunkLight2.SetResourceReference(FrameworkElement.MarginProperty, "PaneBevelInnerMargin");
+            frameHost.Children.Add(sunkDark);
+            frameHost.Children.Add(sunkLight);
+            frameHost.Children.Add(sunkDark2);
+            frameHost.Children.Add(sunkLight2);
             Grid.SetColumn(frameHost, 1);
             row.Children.Add(frameHost);
 
@@ -296,16 +328,44 @@ namespace KillerNotes.Controls
                 HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom,
                 Margin = new Thickness(0, 0, 3, 3),
             };
+            // TWO grips in the same 18x18 slot, each shown by its own visibility key - the same
+            // pair the main window uses (MainWindow.xaml). The family standard is six 2x2 dots;
+            // a Win98-style theme swaps in the era's diagonal bevelled bands instead. This window
+            // only ever had the dots, so it stayed on them while the main window changed.
+            // (Steve, 2026-08-07.)
+            var dots = new Canvas { Width = 18, Height = 18, IsHitTestVisible = false };
+            dots.SetResourceReference(UIElement.VisibilityProperty, "GripDotsVisibility");
             void Dot(double x, double y)
             {
                 var d = new Ellipse { Width = 2.4, Height = 2.4 };
                 d.SetResourceReference(Shape.FillProperty, "MutedTextBrush");
                 Canvas.SetLeft(d, x); Canvas.SetTop(d, y);
-                c.Children.Add(d);
+                dots.Children.Add(d);
             }
             Dot(15, 6);
             Dot(10.5, 10.5); Dot(15, 10.5);
             Dot(6, 15); Dot(10.5, 15); Dot(15, 15);
+            c.Children.Add(dots);
+
+            // Diagonal bands. Half-pixel centres so a 1px line lands on one row instead of
+            // smearing across two, and each band is a dark line with a light one under it - the
+            // bevelled hatch, not a set of plain strokes.
+            var hatch = new Canvas { Width = 18, Height = 18, IsHitTestVisible = false };
+            hatch.SetResourceReference(UIElement.VisibilityProperty, "GripHatchVisibility");
+            void Band(double off, string brushKey)
+            {
+                var l = new System.Windows.Shapes.Line
+                {
+                    X1 = 16.5, Y1 = off, X2 = off, Y2 = 16.5, StrokeThickness = 1,
+                };
+                l.SetResourceReference(Shape.StrokeProperty, brushKey);
+                hatch.Children.Add(l);
+            }
+            Band(5.5, "BevelDarkBrush");  Band(6.5, "BevelLightBrush");
+            Band(9.5, "BevelDarkBrush");  Band(10.5, "BevelLightBrush");
+            Band(13.5, "BevelDarkBrush"); Band(14.5, "BevelLightBrush");
+            c.Children.Add(hatch);
+
             c.MouseLeftButtonDown += (_, e) => { StartCornerResize(); e.Handled = true; };
             return c;
         }

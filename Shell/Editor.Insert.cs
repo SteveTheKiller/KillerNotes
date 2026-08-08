@@ -116,6 +116,9 @@ namespace KillerNotes.Shell
                 Title = Loc("Str_TT_Image"),
                 Filter = "Images|*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.tif;*.tiff",
                 CheckFileExists = true,
+                // Picking an image out of a list of file names is a guess - show the selected
+                // one. Off by default everywhere else (the data-folder picker has nothing to show).
+                ShowPreview = true,
             };
             if (dlg.ShowDialog(this) != true) return;
             try

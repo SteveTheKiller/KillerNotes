@@ -19,7 +19,7 @@
          on SurfaceBrush a field is the same colour as the card behind it. -->
     <Border x:Name="RootBorder" Opacity="0"
             Background="{StaticResource BackgroundBrush}"
-            BorderBrush="{StaticResource CardBorderBrush}"
+            BorderBrush="{DynamicResource WindowEdgeBrush}"
             BorderThickness="1"
             CornerRadius="6"
             Margin="10">

@@ -114,7 +114,7 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 <h2 class="help-cat" id="notes" data-i18n="hp_4">Notes &amp; search</h2>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_5">New notes &amp; autosave<span class="kbd">Ctrl+N</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_6"><code>Ctrl+N</code> starts a new note; the first line you type becomes its title until you rename it (<code>F2</code>).</p><p data-i18n="hp_7">There is no Save button to forget. A save commits 2 seconds after you stop typing, plus immediately on note switch, on alt-tab away, and on close. <code>Ctrl+S</code> just means "commit now".</p><p data-i18n="hp_8">Every note also remembers its cursor and scroll position, so it reopens exactly where you left off.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_9">Search<span class="kbd">F3 / Ctrl+F</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_10"><code>F3</code> or <code>Ctrl+F</code> jumps to the search box. Every word you type is matched anywhere inside titles, note text, and tags - any fragment finds it, so <code>02</code> finds <code>A/002/45</code> and <code>pass wor</code> finds "password working notes".</p><p data-i18n="hp_11">The sidebar filters live with every keystroke; <code>Esc</code> clears the search and puts the list back.</p></div></div></div>
-<div class="acc-item"><button class="acc-head" data-i18n="hp_12">Sorting &amp; density<span class="kbd">F10 / Ctrl+D</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_13">Notes sort by creation time or title, in either direction, or by a drag-and-drop custom order. <code>F10</code> cycles the modes; the toolbar buttons pick them directly.</p><p data-i18n="hp_14"><code>Ctrl+D</code> cycles three sidebar densities - full, compact, and minimal - to fit more notes on screen. The compact modes trim the group headers too.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_12">Sorting &amp; density<span class="kbd">Ctrl+F10 / Ctrl+D</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_13">Notes sort by creation time or title, in either direction, or by a drag-and-drop custom order. <code>Ctrl+F10</code> cycles the modes; the toolbar buttons pick them directly.</p><p data-i18n="hp_14"><code>Ctrl+D</code> cycles three sidebar densities - full, compact, and minimal - to fit more notes on screen. The compact modes trim the group headers too.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_15">Title colors<span class="kbd">Ctrl+Shift+C</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_16">Right-click a note for <b>Title color</b> (or press <code>Ctrl+Shift+C</code>) to color its title in the list, with a live preview while you pick. Colored titles stay colored even while the note is selected.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_17">Delete &amp; sidebar undo<span class="kbd">Delete / Ctrl+Z</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_18"><code>Delete</code> removes the selected note after a confirm - and <code>Ctrl+Z</code> brings it back.</p><p data-i18n="hp_19">Sidebar undo covers more than deletes: group moves, group colors, tag toggles, and note reorders all revert with <code>Ctrl+Z</code>. Inside the editor, <code>Ctrl+Z</code> stays normal text undo; the app picks the right one based on what you did last.</p></div></div></div>
 
@@ -136,6 +136,7 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 <div class="acc-item"><button class="acc-head" data-i18n="hp_45">Spell check &amp; convert to list<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_46"><code>Ctrl+Shift+P</code> toggles spell check per note - keep it on for prose, off for config dumps.</p><p data-i18n="hp_47"><b>Convert to list</b> (<code>Ctrl+Shift+J</code>) turns selected lines - or the words of one sentence - into a comma-separated list, made for pasting into scripts and one-liners.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_48">Word wrap &amp; line numbers<span class="kbd">Ctrl+Shift+W / F11</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_49"><code>Ctrl+Shift+W</code> toggles word wrap; with wrap off, wide content is reachable by horizontal scroll. <code>F11</code> adds a line-number column, handy when a note is really a config file.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_84">Sideways scrolling<span class="kbd">Tilt / Shift+Wheel</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_85">With word wrap off, the tilt wheel pans wide tables and images left and right, and <code>Shift+Wheel</code> does the same on mice without a tilt wheel. <code>Ctrl+Wheel</code> stays text zoom.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_110">Syntax highlighting<span class="kbd">Ctrl+Shift+E</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_111">Turn it on per note from the note's right-click menu, or with <code>Ctrl+Shift+E</code>. Code is detected paragraph by paragraph rather than for the whole note, so one runbook can mix plain prose with PowerShell, HTML, XAML, XML, Vue, JSON, YAML, Markdown, SQL, C#, Python, JavaScript, TypeScript, CSS and Bash - without you picking a language anywhere.</p><p data-i18n="hp_112">Prose keeps the normal note color, and the colors refresh as you edit. They are never written into the saved note: the highlighting is a view of the text, so a note stays exactly as you typed it when exported or shared.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_50">Markdown &amp; HTML preview<span class="kbd">F4</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_51">Notes that look like markdown or HTML get a split-pane preview on <code>F4</code>. Markdown renders through Markdig; HTML is sanitized first - scripts and event handlers never run.</p></div></div></div>
 
 <h2 class="help-cat" id="killculator" data-i18n="hp_52">Killculator</h2>
@@ -163,6 +164,7 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 <div class="acc-item"><button class="acc-head" data-i18n="hp_69">The sidebar rail<span class="kbd">F5</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_70"><code>F5</code> collapses the sidebar to a thin rail of icons - Killculator, SketchPad, dictation, density, line numbers, shortcuts, language, and theme stay one click away. <code>F9</code> reopens the sidebar automatically when the Killculator needs the room.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_71">Themes &amp; languages<span class="kbd">Ctrl+Shift+A</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_72"><code>Ctrl+Shift+A</code> opens the theme flyout: thirteen themes with accent colors, switched live. The interface speaks ten languages and falls back to English for anything untranslated.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_77">Custom fonts<span class="kbd">Ctrl+Shift+A</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_78">Open the theme flyout (<code>Ctrl+Shift+A</code>) and hit <b>Fonts...</b> - three slots swap independently: Headers (group titles), Sidebar (note rows), and Note text (the editor). Pick any installed font, or drop a .ttf or .otf file straight onto the card to add your own.</p><p data-i18n="hp_79">Everything applies live, and rolling the mouse wheel over a dropdown steps through fonts one at a time so you can shop by eye. A readability guard keeps symbol fonts like Wingdings from wrecking the app.</p><p data-i18n="hp_80">The shipped defaults: typewriter headers, Segoe UI in the sidebar, and Bahnschrift for note text. One click resets all three.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_113">The file picker is ours, not Windows'<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_114">Every Open and Save in the app uses KillerNotes' own picker rather than the Windows one, so it follows your theme instead of opening a bright Explorer window in the middle of a dark app. List, icon and detail views, sortable columns, and a hidden-files toggle.</p><p data-i18n="hp_115">The left column is <b>bookmarks</b>, not a folder tree: right-click any folder in the list and choose <b>Bookmark place</b> to pin it, right-click a bookmark to remove it. Picking an image also gets thumbnails in the list and a preview pane, so you are not choosing from filenames alone.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_73">Portable by default<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_74">The exe runs from anywhere with no install. A PORTABLE badge in the status bar offers a per-user install (Start Menu, Add/Remove entry) if you want one; <code>KillerNotes.exe /silent</code> does a machine-wide install for RMM deployment.</p></div></div></div>
 
 <h2 class="help-cat" id="shortcuts" data-i18n="hp_75">Keyboard shortcuts</h2>
@@ -209,7 +211,7 @@ var KBL = {
 base: { F1:['help','Keyboard shortcuts'], F2:['note','Rename the open note'], F3:['search','Search notes'],
   F4:['view','Markdown/HTML preview'], F5:['view','Sidebar'], F6:['view','Format bar'],
   F7:['view','SketchPad (drawing companion)'], F8:['file','Export the open note'],
-  F9:['view','Killculator'], F10:['view','Cycle sidebar sort (time / A-Z / custom)'],
+  F9:['view','Killculator'], F10:['view','Dictation (record, transcribe, embed)'],
   F11:['view','Toggle line numbers'], F12:['help','About KillerNotes'],
   Del:['note','Delete note (in the list)'], Esc:['help','Close overlay / clear search'],
   Menu:['edit','Context menu'] },
@@ -218,7 +220,7 @@ ctrl: { N:['note','New note'], O:['file','Open files as new notes'], S:['file','
   X:['edit','Cut'], C:['edit','Copy'], V:['edit','Paste'], Z:['edit','Undo'], Y:['edit','Redo'], A:['edit','Select all'],
   D:['view','Cycle sidebar density'], G:['note','New group (files selected notes into it)'],
   T:['note','Manage tags (add, rename, recolor)'], K:['format','Insert / edit link'],
-  M:['view','Dictation (record and transcribe)'],
+  M:['view','Dictation (record and transcribe)'], F10:['view','Cycle sidebar sort (time / A-Z / custom)'],
   Enter:['note','Print the Killculator result to the note'],
   D1:['note','Toggle tag'], D2:['note','Toggle tag'], D3:['note','Toggle tag'], D4:['note','Toggle tag'],
   D5:['note','Toggle tag'], D6:['note','Toggle tag'], D7:['note','Toggle tag'], D8:['note','Toggle tag'],
@@ -236,7 +238,8 @@ ctrlshift: { S:['format','Strikethrough'], M:['format','Monospace (code)'], H:['
   T:['format','Insert table'], A:['view','Theme and accent flyout'],
   D:['view','SketchPad (drawing companion)'], E:['format','Syntax highlighting'],
   Period:['format','Grow text'], Comma:['format','Shrink text'],
-  Equals:['view','Zoom the whole app'], Minus:['view','Zoom the whole app'], D0:['view','Reset app zoom'] } };
+  Equals:['view','Zoom the whole app'], Minus:['view','Zoom the whole app'], D0:['view','Reset app zoom'],
+  Enter:['note','Print the whole Killculator equation'] } };
 var CATNAME = { file:'FILE', note:'NOTES', format:'FORMATTING', view:'VIEW', search:'SEARCH', edit:'EDITING', help:'HELP' };
 var KBROWS = [
 [['Esc','Esc',1],['',0.8],['F1','F1',1],['F2','F2',1],['F3','F3',1],['F4','F4',1],['',0.6],['F5','F5',1],['F6','F6',1],['F7','F7',1],['F8','F8',1],['',0.6],['F9','F9',1],['F10','F10',1],['F11','F11',1],['F12','F12',1]],
@@ -331,18 +334,19 @@ window.addEventListener('resize', fit);
 <div class="kbd-row"><span class="k">F4</span><span class="d">Toggle markdown/HTML preview</span></div>
 <div class="kbd-row"><span class="k">F5</span><span class="d">Collapse / expand the sidebar</span></div>
 <div class="kbd-row"><span class="k">F6</span><span class="d">Show / hide the format bar</span></div>
-<div class="kbd-row"><span class="k">F7</span><span class="d">Manage tags (add, rename, recolor)</span></div>
+<div class="kbd-row"><span class="k">F7 / Ctrl+Shift+D</span><span class="d">SketchPad (drawing companion)</span></div>
 <div class="kbd-row"><span class="k">F8</span><span class="d">Export the open note (.txt / .rtf / .html)</span></div>
 <div class="kbd-row"><span class="k">F9</span><span class="d">Killculator</span></div>
-<div class="kbd-row"><span class="k">F10</span><span class="d">Cycle sidebar sort (time / A-Z / custom)</span></div>
+<div class="kbd-row"><span class="k">F10 / Ctrl+M</span><span class="d">Dictation (record, transcribe, embed)</span></div>
 <div class="kbd-row"><span class="k">F11</span><span class="d">Toggle line numbers</span></div>
 <div class="kbd-row"><span class="k">F12</span><span class="d">About KillerNotes</span></div>
 </div>
 <div class="kbd-group"><h4>Ctrl</h4>
 <div class="kbd-row"><span class="k">Ctrl+N</span><span class="d">New note</span></div>
 <div class="kbd-row"><span class="k">Ctrl+G</span><span class="d">New group (files selected notes into it)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+T</span><span class="d">Theme and accent flyout</span></div>
+<div class="kbd-row"><span class="k">Ctrl+T</span><span class="d">Manage tags (add, rename, recolor)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+K</span><span class="d">Insert / edit link (Ctrl+Click opens)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+F10</span><span class="d">Cycle sidebar sort (time / A-Z / custom)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+O</span><span class="d">Open files as new notes</span></div>
 <div class="kbd-row"><span class="k">Ctrl+S</span><span class="d">Save now (autosave runs anyway)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+D</span><span class="d">Cycle sidebar density</span></div>
@@ -373,6 +377,9 @@ window.addEventListener('resize', fit);
 <div class="kbd-row"><span class="k">Ctrl+Shift+C</span><span class="d">Title color (selected note)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+Shift+P</span><span class="d">Toggle spell check (this note)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+Shift+W</span><span class="d">Toggle word wrap</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+E</span><span class="d">Toggle syntax highlighting (this note)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+A</span><span class="d">Theme and accent flyout</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+Enter</span><span class="d">Print the whole Killculator equation</span></div>
 <div class="kbd-row"><span class="k">Ctrl+Shift+&gt; / &lt;</span><span class="d">Grow / shrink selected text</span></div>
 <div class="kbd-row"><span class="k">Ctrl+Shift +/- / 0</span><span class="d">Zoom the whole app (accessibility)</span></div>
 </div>
@@ -411,7 +418,7 @@ window.addEventListener('resize', fit);
 <span class="right"><span id="verEgg" title="click me">v1.1.6</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
 </footer>
 <div class="egg-toast" id="eggToast"></div>
-<script src="kn-i18n.js?v=6"></script>
+<script src="kn-i18n.js?v=8"></script>
 <script src="kn.js?v=2"></script>
 <script>
 (function(){

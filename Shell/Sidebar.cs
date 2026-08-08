@@ -193,6 +193,19 @@ namespace KillerNotes.Shell
             // Fade the list pixels themselves to transparent. An overlay can only match a flat
             // sidebar; on horizontal chrome gradients it becomes a visibly different rectangle.
             // Transparency reveals the exact grain and gradient already behind the list.
+            // A theme can switch the scroll fades off entirely (EdgeFadeOpacity 0) - a soft gradient
+            // hint is a modern idiom and wrong on a retro one, where a list ends at a hard edge.
+            // It has to be handled HERE rather than on the NotesTopFade/NotesFade borders: those two
+            // are dead (see the bottom of this method), and the fade is really an OpacityMask on the
+            // list itself, so a Border-level opacity key never reaches it.
+            if (Application.Current?.TryFindResource("EdgeFadeOpacity") is double fadeOp && fadeOp <= 0)
+            {
+                NotesList.OpacityMask = null;
+                NotesTopFade.Visibility = Visibility.Collapsed;
+                NotesFade.Visibility = Visibility.Collapsed;
+                return;
+            }
+
             bool fadeTop = overflow && !atTop;
             bool fadeBottom = overflow && !atBottom;
             var mask = new LinearGradientBrush { StartPoint = new Point(0, 0), EndPoint = new Point(0, 1) };

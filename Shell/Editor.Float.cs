@@ -77,6 +77,13 @@ namespace KillerNotes.Shell
         private FrameworkElement? _armedObject;
         private Point _armedStart;
 
+        // How many blocks the note had when the drag began. Dragging below the last paragraph
+        // appends empty ones so the float has somewhere lower to anchor (GrowAnchorsTo); on release
+        // any past this count that are still blank come back out. The floor is what guarantees
+        // blank lines the user typed are never touched - only paragraphs a drag created can be
+        // taken away again.
+        private int _dragBlockFloor;
+
         // ---- volume knob state ----
         private Border? _dragDial;
         private double _dragFromVol;
@@ -194,6 +201,7 @@ namespace KillerNotes.Shell
             _dragFloater = fl;
             _dragStart = e.GetPosition(Editor);
             _dragFromX = CurrentLeft(fl, el);
+            _dragBlockFloor = Editor.Document.Blocks.Count;
             Editor.CaptureMouse();
             // Claim the click so the editor does not also move the caret or start a selection, and
             // so the image/recording handlers registered after this one stay out of it.
@@ -234,6 +242,9 @@ namespace KillerNotes.Shell
                 {
                     var el = _armedObject;
                     _armedObject = null;
+                    // Counted BEFORE Float(), so a paragraph this drag goes on to append is never
+                    // mistaken for one the note already had.
+                    _dragBlockFloor = Editor.Document.Blocks.Count;
                     Float(el);
                     if (FloaterOf(el) is Floater made)
                     {
@@ -310,8 +321,17 @@ namespace KillerNotes.Shell
             // the first frame the cursor crossed the table.
             Point at = e.GetPosition(Editor);
             var cell = CellOf(Editor.GetPositionFromPoint(at, true)?.Paragraph);
-            if (cell != null && _dragObject != null) DropIntoCell(_dragFloater, _dragObject, cell);
-            else ReanchorFloater(_dragFloater, at);
+            if (cell != null && _dragObject != null)
+            {
+                DropIntoCell(_dragFloater, _dragObject, cell);
+                TrimGrownAnchors(null);   // it lives in the table now; no anchor to keep
+            }
+            else
+            {
+                ReanchorFloater(_dragFloater, at);
+                // Keep the anchor the float ended on, drop the rest of what the drag appended.
+                TrimGrownAnchors(_dragFloater.Parent as Paragraph);
+            }
 
             _dragFloater = null;
             _dragObject = null;
@@ -495,6 +515,69 @@ namespace KillerNotes.Shell
         }
 
         /// <summary>
+        /// Makes sure there is a paragraph as far down as the cursor, by appending empty ones past
+        /// the end of the note.
+        ///
+        /// Vertical position IS the anchor paragraph, so an object can only be dragged as far down
+        /// as the text goes. In a note that is empty apart from the object there is exactly ONE
+        /// paragraph, ReanchorFloater finds that same paragraph however far down you drag, and the
+        /// object never moves - which reads as a broken drag rather than as a rule about anchors.
+        /// Growing the document is what a person does by hand when they press Enter a few times to
+        /// push a picture down the page; doing it for them is what makes the drag feel free.
+        ///
+        /// Whatever the drop does not end up needing is removed again on release (TrimGrownAnchors),
+        /// so this never leaves blank lines lying around.
+        /// </summary>
+        private void GrowAnchorsTo(Point p)
+        {
+            var end = Editor.Document.ContentEnd.GetCharacterRect(LogicalDirection.Backward);
+            if (end.IsEmpty || p.Y <= end.Bottom) return;
+
+            // One empty line's height drives how many are needed, computed in ONE go. There is
+            // deliberately no UpdateLayout() here - see the FailFast note on the release handler.
+            double lineH = end.Height > 1 ? end.Height : 16;
+            int need = (int)Math.Floor((p.Y - end.Bottom) / lineH);
+            if (need <= 0) return;
+
+            // Bounded. A fast drag past the bottom edge, or a bad rect, must not be able to append
+            // thousands of paragraphs.
+            need = Math.Min(need, 120);
+
+            // BeginChange/EndChange, always. Adding blocks straight onto Document.Blocks edits the
+            // TextContainer out from under the RichTextBox's TSF text store; the store then asks
+            // for a character offset that no longer maps to a node and WPF answers with
+            // Environment.FailFast("Unrecoverable system error") - a hard kill, no exception to
+            // catch, exit code 0. A change block is what makes the edit atomic to that layer.
+            Editor.BeginChange();
+            try
+            {
+                for (int i = 0; i < need; i++) Editor.Document.Blocks.Add(new Paragraph());
+            }
+            finally { Editor.EndChange(); }
+        }
+
+        /// <summary>
+        /// Takes back the empty paragraphs a downward drag added but the drop did not need.
+        ///
+        /// Only ever removes blocks ADDED DURING THIS DRAG - _dragBlockFloor is the count from
+        /// before it started, so blank lines already in the note are the user's and are left alone.
+        /// The float's own anchor is never removed, which is what holds it at its new depth.
+        /// </summary>
+        private void TrimGrownAnchors(Paragraph? anchor)
+        {
+            Editor.BeginChange();   // same TextContainer/TSF rule as GrowAnchorsTo
+            try
+            {
+                while (Editor.Document.Blocks.Count > _dragBlockFloor
+                       && Editor.Document.Blocks.LastBlock is Paragraph last
+                       && last.Inlines.Count == 0
+                       && !ReferenceEquals(last, anchor))
+                    Editor.Document.Blocks.Remove(last);
+            }
+            finally { Editor.EndChange(); }
+        }
+
+        /// <summary>
         /// Moves a float's anchor to the paragraph under the cursor. This IS the vertical placement
         /// mechanism - a Floater reserves its column from wherever it is anchored, so moving it down
         /// the page means moving it to a later paragraph, not adding a top margin.
@@ -504,6 +587,8 @@ namespace KillerNotes.Shell
             try
             {
                 if (fl.Parent is not Paragraph from) return;
+                // Give the drag somewhere lower to land before asking what is under the cursor.
+                GrowAnchorsTo(p);
                 // snapToText so a drop in the empty space beside a line still finds that line.
                 var target = ResolveAnchor(Editor.GetPositionFromPoint(p, true)?.Paragraph);
                 if (target == null || ReferenceEquals(target, from)) return;
@@ -511,8 +596,15 @@ namespace KillerNotes.Shell
                 for (DependencyObject? d = target; d != null; d = LogicalTreeHelper.GetParent(d))
                     if (ReferenceEquals(d, fl)) return;
 
-                from.Inlines.Remove(fl);
-                target.Inlines.Add(fl);
+                // Atomic to the TSF text store, same rule as GrowAnchorsTo: re-parenting the
+                // Floater is a TextContainer edit, and this one runs on EVERY mouse move.
+                Editor.BeginChange();
+                try
+                {
+                    from.Inlines.Remove(fl);
+                    target.Inlines.Add(fl);
+                }
+                finally { Editor.EndChange(); }
             }
             catch { /* odd drop target (inside a table cell being edited); leave the anchor alone */ }
         }
@@ -531,6 +623,12 @@ namespace KillerNotes.Shell
 
             DeselectImage();   // resize handles adorn the old position and must not outlive the move
 
+            // One change block around the whole lift. Removing the InlineUIContainer and adding the
+            // Floater are two TextContainer edits; left unbatched the text store can observe the
+            // document mid-swap, with the object parented to nothing, and FailFast on the offset.
+            Editor.BeginChange();
+            try
+            {
             para.Inlines.Remove(iuc);
             iuc.Child = null;  // an element can only have one parent; detach before re-parenting
 
@@ -548,6 +646,8 @@ namespace KillerNotes.Shell
             // Anchored in the paragraph it already lived in, so the object stays where it was and
             // only the text around it reflows. Dragging re-homes it from there.
             para.Inlines.Add(fl);
+            }
+            finally { Editor.EndChange(); }
             el.Cursor = Cursors.SizeAll;   // say it is draggable
         }
 

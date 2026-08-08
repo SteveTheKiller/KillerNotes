@@ -49,23 +49,7 @@
     <SolidColorBrush x:Key="OutlinePressedBrush" Color="#c8f5d8" po:Freeze="True"/>
     <SolidColorBrush x:Key="ScrollThumbBrush"    Color="#8818843d" po:Freeze="True"/>
     <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#1b5e20" po:Freeze="True"/>
-
-    <!-- Device-type label colours (darkened, for the light pane) -->
-    <SolidColorBrush x:Key="TypeRouter"     Color="#B06000" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeWindows"    Color="#1D5FB0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypePrinter"    Color="#9C3F66" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeSwitch"     Color="#5A5A5A" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeHypervisor" Color="#B02A2A" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeNas"        Color="#157A45" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeIot"        Color="#6A2A9C" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeServer"     Color="#B0481A" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeLinux"      Color="#7A6A10" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeDns"        Color="#1A6A8C" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeHa"         Color="#157A4F" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeMobile"     Color="#4040A8" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeCamera"     Color="#9A6800" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeSmarttv"    Color="#864A86" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeMedia"      Color="#256A9C" po:Freeze="True"/>
+    <!-- Folder-picker tree elbows. The family value, shared with KillerPDF/KillerShell/Killendar. -->
 
     <!-- Keyboard-map category colors (F1 overlay KEYBOARD view): darker variants of the
          product palette so they read on light keycaps -->

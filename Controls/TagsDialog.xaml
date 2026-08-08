@@ -15,7 +15,7 @@
 
     <Border x:Name="RootBorder" Opacity="0"
             Background="{StaticResource BackgroundBrush}"
-            BorderBrush="{StaticResource CardBorderBrush}"
+            BorderBrush="{DynamicResource WindowEdgeBrush}"
             BorderThickness="1"
             CornerRadius="6"
             Margin="10">
@@ -84,7 +84,7 @@
                     <TextBlock Text="{DynamicResource Str_Tags_Title}" Foreground="{StaticResource TextBrush}"
                                FontFamily="Consolas" FontSize="14" FontWeight="Bold" Margin="0,0,0,8"/>
                     <Border Background="{DynamicResource PaneBrush}"
-                            BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="4">
+                            BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1" CornerRadius="4">
                         <ListBox x:Name="TagList" Height="200" Background="Transparent" BorderThickness="0"
                                  HorizontalContentAlignment="Stretch" Margin="4">
                             <ListBox.ItemContainerStyle>

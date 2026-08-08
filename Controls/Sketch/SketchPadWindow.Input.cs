@@ -229,6 +229,7 @@ namespace KillerNotes.Controls
                 Title = L("Str_TT_Image", "Insert image"),
                 Filter = "Images|*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.tif;*.tiff",
                 CheckFileExists = true,
+                ShowPreview = true,
             };
             if (dlg.ShowDialog(this) != true) return;
             var src = LoadBitmap(dlg.FileName);

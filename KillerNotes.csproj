@@ -15,7 +15,7 @@
     <!-- Shown in the About card beside the version so a user can tell how old their build
          is. Must match the date on this version's CHANGELOG section - release.ps1 preflight
          fails the release if it does not. Bump it with the version. -->
-    <ReleaseDate>2026-07-24</ReleaseDate>
+    <ReleaseDate>2026-08-07</ReleaseDate>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 
@@ -139,20 +139,10 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <Import Project="..\KillerUI\KillerUI.ThemeAssets.props" />
-
-  <!-- Shared themed file picker, linked from KillerPDF's current family-reference
-       implementation. These are source links, not copies, so picker fixes stay unified. -->
-  <ItemGroup>
-    <Compile Include="..\KillerPDF\Controls\FileDialog.xaml.cs" Link="SharedPicker\FileDialog.xaml.cs" />
-    <Compile Include="..\KillerPDF\Controls\Picker.cs" Link="SharedPicker\Picker.cs" />
-    <Compile Include="..\KillerPDF\Controls\FolderTree.cs" Link="SharedPicker\FolderTree.cs" />
-    <Compile Include="..\KillerPDF\Controls\Anim.cs" Link="SharedPicker\Anim.cs" />
-    <Compile Include="..\KillerPDF\Services\ShellIcons.cs" Link="SharedPicker\ShellIcons.cs" />
-    <Compile Include="..\KillerShell\Controls\FolderPickerDialog.xaml.cs" Link="SharedPicker\FolderPickerDialog.xaml.cs" />
-    <Compile Include="..\KillerShell\Controls\Anim.cs" Link="SharedPicker\FolderPickerAnim.cs" />
-    <Page Include="..\KillerPDF\Controls\FileDialog.xaml" Link="Controls\FileDialog.xaml" />
-    <Page Include="..\KillerPDF\Controls\PickerStyles.xaml" Link="Controls\PickerStyles.xaml" />
-    <Page Include="..\KillerShell\Controls\FolderPickerDialog.xaml" Link="Controls\FolderPickerDialog.xaml" />
-  </ItemGroup>
+  <!-- Everything this project compiles lives INSIDE this repo. KillerUI is a reference for
+       the design language, not a build input: its palettes were copied into Themes\KillerUI
+       and its theme contract into Services. The shared picker was copied into SharedPicker\
+       and Controls\. Nothing here reaches outside the repo, so a clone builds on its own and
+       the GPL source zip is genuinely complete. SDK-style globbing picks all of it up - no
+       Compile or Page entries needed. -->
 </Project>

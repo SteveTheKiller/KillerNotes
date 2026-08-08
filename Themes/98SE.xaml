@@ -21,6 +21,69 @@
     <SolidColorBrush x:Key="BevelLightBrush" Color="#ffffff" po:Freeze="True"/>
     <SolidColorBrush x:Key="BevelDarkBrush"  Color="#808080" po:Freeze="True"/>
 
+    <!-- The About card's info panel. Every other theme inherits the context-menu fill from
+         ThemeManager; here that would be the same #c0c0c0 button face as the card behind it,
+         so the panel would vanish. White plus the crossed (sunken) bevel in MainWindow.xaml
+         makes it read as a recessed Win98 client area, matching PaneBrush. -->
+    <SolidColorBrush x:Key="AboutPanelBrush" Color="#ffffff" po:Freeze="True"/>
+
+    <!-- Caption buttons. A real button face inset from the caption, so the title bar gradient
+         ends AT the button rather than running under it - the thing that made the close glyph
+         look painted onto the gradient. The inset turns the 44x36 caption slot into a ~20x16
+         button, which is the Win98 proportion. The raised bevel comes from the Bevel* keys
+         above and reverses on press, exactly like every other button in this theme.
+         Close is a black glyph on the same face, not a red one: Win98 had no red close. -->
+    <SolidColorBrush x:Key="CaptionButtonBrush"      Color="#c0c0c0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="CaptionCloseBrush"       Color="#000000" po:Freeze="True"/>
+    <SolidColorBrush x:Key="CaptionCloseHoverBrush"  Color="#00000000" po:Freeze="True"/>
+    <SolidColorBrush x:Key="CaptionCloseHoverFgBrush" Color="#000000" po:Freeze="True"/>
+    <!-- Black glyphs, not ChromeTextBrush's white: the buttons have their own grey face now,
+         so a white glyph would be invisible on it. -->
+    <SolidColorBrush x:Key="CaptionGlyphBrush"       Color="#000000" po:Freeze="True"/>
+
+    <!-- Win98 caption geometry: an 18px bar with buttons that fill it, 2px in from the frame
+         and 1px apart. The wordmark shrinks to fit the shorter bar rather than being clipped. -->
+    <sys:Double x:Key="TitleBarHeight">22</sys:Double>
+    <sys:Double x:Key="CaptionButtonWidth">18</sys:Double>
+    <sys:Double x:Key="CaptionButtonHeight">16</sys:Double>
+    <Thickness x:Key="CaptionButtonMargin">0,0,1,0</Thickness>
+    <sys:Double x:Key="TitleWordmarkSize">11</sys:Double>
+    <sys:Double x:Key="TitleWordmarkBoldSize">14</sys:Double>
+    <!-- The blurred shadow is off here (IconShadowOpacity 0 - the theme is flat), so the
+         wordmark gets the hard 1px offset copy instead: a stroke, not a glow. -->
+    <sys:Double x:Key="WordmarkEmbossOpacity">1</sys:Double>
+    <!-- Tahoma, NOT "MS Sans Serif": MS Sans Serif is a raster .FON, and WPF cannot render bitmap
+         fonts - it silently falls back to a default serif, which is why the captions came out in
+         the wrong face. Tahoma is TrueType, shipped with Windows, and is the Win98-era UI font. -->
+    <FontFamily x:Key="ChromeFontFamily">Tahoma</FontFamily>
+    <Thickness x:Key="CaptionCloseGap">2,0,0,0</Thickness>
+    <!-- The 2 at the top is the WindowFrameThickness, which MainWindow paints as a RowSpan=3
+         overlay at ZIndex 9000 covering the top 2px of the caption. Insetting by it centres the
+         buttons in the VISIBLE band (was 1px above / 3px below). 98SE only - the frame is 0
+         everywhere else, so this key is 0 there and nothing moves. -->
+    <Thickness x:Key="CaptionButtonsMargin">0,2,3,0</Thickness>
+    <sys:Double x:Key="TitleIconSize">16</sys:Double>
+    <Thickness x:Key="TitleIconMargin">0,0,4,0</Thickness>
+    <!-- Not the family's 14px inset, but not flush either: 4 to MATCH the gap on the right, where
+         the close button's face ends up 4px from the frame (CaptionButtonsMargin 3 +
+         CaptionButtonMargin 1). At 2 the icon sat tighter to the left than the buttons did right.
+         The 2 at the top is the frame inset, same reason as CaptionButtonsMargin above. -->
+    <Thickness x:Key="TitleBarPadding">4,2,0,0</Thickness>
+
+    <!-- The editor pane's inset. The family default is a flush TOP, and that is right on the other
+         twelve because they BLEND the title bar into the surrounding chrome - the pane meeting it
+         reads as one continuous surface. This theme's caption is a distinct coloured band, so the
+         pane butts into a hard edge. 8 on top to match the 8 on the right. -->
+    <Thickness x:Key="ContentPaneMargin">0,8,8,0</Thickness>
+
+    <!-- Win98 client areas are WHITE, and both of these are client areas: an edit field and a list.
+         The family rule that inputs take the darkest tone is right where the darkest tone is dark,
+         but here it IS the button face, so the search box came out the same grey as its panel. -->
+    <SolidColorBrush x:Key="SearchFieldBrush" Color="#ffffff" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ListPaneBrush"    Color="#ffffff" po:Freeze="True"/>
+    <!-- No soft scroll fades - Win98 lists end at a hard edge. -->
+    <sys:Double x:Key="EdgeFadeOpacity">0</sys:Double>
+
     <!-- No flat outline: in 98SE a button's edge IS the bevel (white top/left, grey bottom/right),
          drawn by the bevel borders in the OutlineButton template. A visible OutlineRestBrush here
          would draw a second, flat line in the same place. Transparent rather than absent, so the
@@ -58,15 +121,22 @@
     <SolidColorBrush x:Key="ScrollThumbBrush"      Color="#c0c0c0" po:Freeze="True"/>
     <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#a0a0a0" po:Freeze="True"/>
 
-    <SolidColorBrush x:Key="BgFlyout"              Color="#d4d0c8" po:Freeze="True"/>
-    <SolidColorBrush x:Key="BgRecentPanel"         Color="#d4d0c8" po:Freeze="True"/>
+    <SolidColorBrush x:Key="BgFlyout"              Color="#c0c0c0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="BgRecentPanel"         Color="#c0c0c0" po:Freeze="True"/>
     <SolidColorBrush x:Key="BgCanvas"              Color="#ffffff" po:Freeze="True"/>
-    <SolidColorBrush x:Key="AccentLogo"            Color="#ffff00" po:Freeze="True"/>
+    <!-- AccentLogo is deliberately NOT stated here. ThemeManager defaults it to HeaderLineBrush
+         after the accent overlay merges, and all six 98SE accents restate HeaderLineBrush, so the
+         "Notes" run follows whichever accent is chosen instead of being pinned. It used to be a
+         hardcoded #ffff00, which is why it came out yellow whatever the accent was. -->
+
     <SolidColorBrush x:Key="SelectionAccent"       Color="#004f00" po:Freeze="True"/>
     <SolidColorBrush x:Key="RadioAccent"           Color="#004f00" po:Freeze="True"/>
     <SolidColorBrush x:Key="SliderTrack"           Color="#808080" po:Freeze="True"/>
     <SolidColorBrush x:Key="SettingsOpenRowBg"     Color="#a0a0a0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SortButtonBrush"       Color="#ffffff" po:Freeze="True"/>
+    <!-- Button FACE, not white. The sort trio are buttons sitting on the window face, not client
+         areas, so they take the same grey as every other button and only light up on hover.
+         White at rest read as inverted next to the search field beside them. -->
+    <SolidColorBrush x:Key="SortButtonBrush"       Color="#c0c0c0" po:Freeze="True"/>
 
     <!-- Shortcut-overlay category colours (the family neon set, shared with the website map) -->
     <SolidColorBrush x:Key="KnCatFile"   Color="#00fff9" po:Freeze="True"/>
@@ -76,21 +146,4 @@
     <SolidColorBrush x:Key="KnCatSearch" Color="#00b3ff" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatHelp"   Color="#39ff14" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatEdit"   Color="#ff901f" po:Freeze="True"/>
-
-    <!-- Device-type swatches (inherited from the shared palette set) -->
-    <SolidColorBrush x:Key="TypeRouter"     Color="#F0A030" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeWindows"    Color="#8FC4FF" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypePrinter"    Color="#D080A0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeSwitch"     Color="#C0C0C0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeHypervisor" Color="#E06060" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeNas"        Color="#40C080" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeIot"        Color="#A24FD8" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeServer"     Color="#E08050" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeLinux"      Color="#D0C050" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeDns"        Color="#50B0D0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeHa"         Color="#50D0A0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeMobile"     Color="#A0A0F0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeCamera"     Color="#F0C060" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeSmarttv"    Color="#E0A0E0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeMedia"      Color="#70C0E0" po:Freeze="True"/>
 </ResourceDictionary>

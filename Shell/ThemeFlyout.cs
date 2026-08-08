@@ -89,8 +89,6 @@ namespace KillerNotes.Shell
         private static bool HasAccents(Theme t) => t is Theme.Dark or Theme.Light or Theme.Black or Theme.SE98;
         private static string ThemeName(Theme t)
         {
-            if (t == Theme.Malaise) return "Ectoplasm";
-            if (t == Theme.Ectoplasm) return "Malaise";
             if (t == Theme.SE98) return "98SE";
             return t.ToString();
         }

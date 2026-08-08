@@ -8,6 +8,10 @@
                      KillerNotes default (with the Purple accent, set in ThemeManager). -->
                 <ResourceDictionary Source="Themes/Black.xaml"/>
                 <ResourceDictionary Source="Controls/Controls.xaml"/>
+                <!-- Safe to sit here again: LocaleManager now tracks its own two dictionaries by
+                     REFERENCE rather than writing merged[2] and merged[3] by position. It used to
+                     overwrite this entry at startup, which killed every StaticResource into it -
+                     the picker's PickerViewBtn, FolderTreeItem, row templates and file icons. -->
                 <ResourceDictionary Source="Controls/PickerStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

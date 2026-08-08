@@ -33,12 +33,24 @@ namespace KillerNotes.Services
             ApplyInternal(locale);
         }
 
+        // The two dictionaries THIS class owns, tracked by reference. They used to be addressed by
+        // index - merged[2] and merged[3] - which silently destroyed whatever else happened to sit
+        // there. App.xaml's PickerStyles.xaml was at [2], so the first locale apply at startup
+        // overwrote it and every StaticResource into it (the picker's PickerViewBtn, FolderTreeItem,
+        // row templates and file-type icons) stopped resolving. Index-based slots in a shared
+        // collection are a trap: anything appended to App.xaml silently lands in someone's slot.
+        private static ResourceDictionary? _base;
+        private static ResourceDictionary? _override;
+
         private static void ApplyInternal(Locale locale)
         {
             var merged = Application.Current.Resources.MergedDictionaries;
 
+            // Replace our own entries in place if present, otherwise append. Never index.
             var enUS = new ResourceDictionary { Source = new Uri("pack://application:,,,/Strings/en-US.xaml") };
-            if (merged.Count > 2) merged[2] = enUS; else merged.Add(enUS);
+            int baseAt = _base is null ? -1 : merged.IndexOf(_base);
+            if (baseAt >= 0) merged[baseAt] = enUS; else merged.Add(enUS);
+            _base = enUS;
 
             Uri? overrideUri = locale switch
             {
@@ -54,22 +66,23 @@ namespace KillerNotes.Services
                 _           => null,   // English: base only
             };
 
+            // Drop the previous override (by reference) before adding the new one, so switching
+            // locale repeatedly cannot stack dictionaries or delete a neighbour's.
+            if (_override is not null && merged.Contains(_override)) merged.Remove(_override);
+            _override = null;
+
             if (overrideUri is not null)
             {
                 try
                 {
                     var ov = new ResourceDictionary { Source = overrideUri };
-                    if (merged.Count > 3) merged[3] = ov; else merged.Add(ov);
+                    merged.Add(ov);
+                    _override = ov;
                 }
                 catch
                 {
                     // Locale file not present yet (or invalid) - stay on the English base.
-                    if (merged.Count > 3) merged.RemoveAt(3);
                 }
-            }
-            else if (merged.Count > 3)
-            {
-                merged.RemoveAt(3);
             }
         }
     }

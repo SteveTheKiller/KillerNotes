@@ -18,7 +18,6 @@
     <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#dd8500" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="BgCanvas"              Color="#343344" po:Freeze="True"/>
-    <SolidColorBrush x:Key="BgFlyout"              Color="#25272a" po:Freeze="True"/>
     <SolidColorBrush x:Key="BgRecentPanel"         Color="#2e3134" po:Freeze="True"/>
     <SolidColorBrush x:Key="SortButtonBrush"       Color="#2a2c2f" po:Freeze="True"/>
     <SolidColorBrush x:Key="AccentLogo"            Color="#e39b2e" po:Freeze="True"/>
@@ -38,21 +37,4 @@
     <SolidColorBrush x:Key="KnCatSearch" Color="#00b3ff" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatHelp"   Color="#39ff14" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatEdit"   Color="#ff901f" po:Freeze="True"/>
-
-    <!-- Device-type swatches (inherited from the shared palette set) -->
-    <SolidColorBrush x:Key="TypeRouter"     Color="#F0A030" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeWindows"    Color="#8FC4FF" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypePrinter"    Color="#D080A0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeSwitch"     Color="#C0C0C0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeHypervisor" Color="#E06060" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeNas"        Color="#40C080" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeIot"        Color="#A24FD8" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeServer"     Color="#E08050" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeLinux"      Color="#D0C050" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeDns"        Color="#50B0D0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeHa"         Color="#50D0A0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeMobile"     Color="#A0A0F0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeCamera"     Color="#F0C060" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeSmarttv"    Color="#E0A0E0" po:Freeze="True"/>
-    <SolidColorBrush x:Key="TypeMedia"      Color="#70C0E0" po:Freeze="True"/>
 </ResourceDictionary>

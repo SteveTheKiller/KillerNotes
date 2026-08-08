@@ -15,10 +15,29 @@ namespace KillerNotes.Controls
         /// <summary>Shows the picker. Returns the chosen folder path, or null on cancel.</summary>
         public static string? Show(Window? owner, string? initialDir, string title)
         {
-            var themed = new KillerShell.FolderPickerDialog(initialDir) { Title = title };
-            if (owner != null && owner.IsVisible) themed.Owner = owner;
-            themed.ShowDialog();
-            return themed.SelectedPath;
+            // THE picker - the same FileDialog every other browse in the app uses. There is no
+            // separate folder picker any more: a second window meant a second caption, a second
+            // close button and a second set of styles to keep in step, and they had already drifted
+            // apart. The chosen file's directory IS the folder, so nothing extra is needed.
+            // KillerPDF.Controls is the namespace the shared picker source carries - it is linked
+            // into every app in the family unchanged, so the namespace travels with it.
+            var dlg = new KillerPDF.Controls.FileDialog(KillerPDF.Controls.FileDialogMode.Open)
+            {
+                Title = title,
+                InitialDirectory = initialDir ?? "",
+                CheckFileExists = false,   // the target is the directory, not a file that must exist
+                // The title already names the product ("Choose the KillerNotes data folder"), so
+                // the caption's wordmark prefix would say it twice. (Steve, 2026-08-07.)
+                TitleOnly = true,
+            };
+            if (dlg.ShowDialog(owner) != true) return null;
+
+            string chosen = dlg.FileNames.Length > 0 ? dlg.FileNames[0] : dlg.FileName;
+            if (string.IsNullOrWhiteSpace(chosen)) return null;
+            // Accept either: a directory selected outright, or a file inside the wanted directory.
+            return System.IO.Directory.Exists(chosen)
+                ? chosen
+                : System.IO.Path.GetDirectoryName(chosen);
 #if false
             var dialog = (IFileOpenDialog)new FileOpenDialogRCW();
             try

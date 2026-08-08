@@ -15,6 +15,32 @@ namespace KillerNotes.Shell
     public partial class MainWindow
     {
         private const string SyntaxTag = "KillerNotes.SyntaxHighlight";
+
+        // ── Token colours ────────────────────────────────────────────────────────
+        //
+        // These were the VS Code Dark+ hexes, written straight into the Add() calls. That is a
+        // palette designed for ONE background - a near-black editor - and on a white page it
+        // falls apart: the pale green number colour (#B5CEA8) and the muted comment green
+        // (#6A9955) both land around 1.8:1 against white, which is not readable text, it is a
+        // watermark. 98SE and Light are white-paged, so they were the worst hit, but every light
+        // accent had the same problem. (Steve, 2026-08-07.)
+        //
+        // Each role resolves through the theme dictionary and falls back to the Dark+ value, so a
+        // theme that says nothing looks exactly as it did. A theme with a light page states the
+        // seven keys and gets a palette built for its own background.
+        private static Color Syn(string key, byte r, byte g, byte b)
+        {
+            if (Application.Current?.TryFindResource(key) is SolidColorBrush sb) return sb.Color;
+            return Color.FromRgb(r, g, b);
+        }
+
+        private static Color SynComment  => Syn("Syn_Comment",  106, 153,  85);
+        private static Color SynString   => Syn("Syn_String",   206, 145, 120);
+        private static Color SynNumber   => Syn("Syn_Number",   181, 206, 168);
+        private static Color SynVariable => Syn("Syn_Variable", 156, 220, 254);
+        private static Color SynType     => Syn("Syn_Type",      78, 201, 176);
+        private static Color SynOperator => Syn("Syn_Operator", 197, 134, 192);
+        private static Color SynKeyword  => Syn("Syn_Keyword",   86, 156, 214);
         private bool _syntaxHighlight;
         private bool _applyingSyntax;
         private readonly Dictionary<Paragraph, Brush> _syntaxOriginalBrushes = [];
@@ -133,22 +159,22 @@ namespace KillerNotes.Shell
                 _ => ""
             };
             if (comments.Length > 0)
-                Add(tokens, s, comments, Color.FromRgb(106, 153, 85), RegexOptions.Multiline | RegexOptions.Singleline);
-            Add(tokens, s, @"(['""])(?:\\.|(?!\1).)*\1", Color.FromRgb(206, 145, 120));
-            Add(tokens, s, @"(?<!\w)(?:\d+(?:\.\d+)?)(?!\w)", Color.FromRgb(181, 206, 168));
+                Add(tokens, s, comments, SynComment, RegexOptions.Multiline | RegexOptions.Singleline);
+            Add(tokens, s, @"(['""])(?:\\.|(?!\1).)*\1", SynString);
+            Add(tokens, s, @"(?<!\w)(?:\d+(?:\.\d+)?)(?!\w)", SynNumber);
             if (language == CodeLanguage.PowerShell)
             {
-                Add(tokens, s, @"\$(?:true|false|null)\b", Color.FromRgb(197, 134, 192), RegexOptions.IgnoreCase);
-                Add(tokens, s, @"\$[A-Za-z_][\w:]*", Color.FromRgb(156, 220, 254));
+                Add(tokens, s, @"\$(?:true|false|null)\b", SynOperator, RegexOptions.IgnoreCase);
+                Add(tokens, s, @"\$[A-Za-z_][\w:]*", SynVariable);
                 Add(tokens, s, @"\b(?:Get|Set|New|Remove|Start|Stop|Invoke|Write|Select|Where|ForEach|Test|Sort|Export|Import|Update|Add|Clear|Copy|Move|Out|ConvertTo|ConvertFrom|Measure|Compare)-[A-Za-z]+\b",
-                    Color.FromRgb(78, 201, 176), RegexOptions.IgnoreCase);
-                Add(tokens, s, @"(?<!\w)-[A-Za-z][\w-]*", Color.FromRgb(156, 220, 254));
-                Add(tokens, s, @"\[[A-Za-z_][\w.]*\]", Color.FromRgb(78, 201, 176));
-                Add(tokens, s, @"\b[A-Za-z_]\w*(?=\s*=)", Color.FromRgb(156, 220, 254));
+                    SynType, RegexOptions.IgnoreCase);
+                Add(tokens, s, @"(?<!\w)-[A-Za-z][\w-]*", SynVariable);
+                Add(tokens, s, @"\[[A-Za-z_][\w.]*\]", SynType);
+                Add(tokens, s, @"\b[A-Za-z_]\w*(?=\s*=)", SynVariable);
                 Add(tokens, s, @"(?:\|\||&&|==|!=|-eq\b|-ne\b|-like\b|-match\b|-and\b|-or\b|[|=@{}()[\];])",
-                    Color.FromRgb(197, 134, 192), RegexOptions.IgnoreCase);
+                    SynOperator, RegexOptions.IgnoreCase);
                 Add(tokens, s, @"\b(?:gpupdate|gpresult|ping|ipconfig|nslookup|robocopy|netsh|winget|dotnet|git)\b",
-                    Color.FromRgb(78, 201, 176), RegexOptions.IgnoreCase);
+                    SynType, RegexOptions.IgnoreCase);
             }
             string keywords = language switch
             {
@@ -169,7 +195,7 @@ namespace KillerNotes.Shell
                 CodeLanguage.Bash => @"\b(?:if|then|elif|else|fi|for|while|do|done|case|esac|function|export|local|return|in)\b|\$\{?\w+\}?",
                 _ => ""
             };
-            if (keywords.Length > 0) Add(tokens, s, keywords, Color.FromRgb(86, 156, 214), RegexOptions.IgnoreCase);
+            if (keywords.Length > 0) Add(tokens, s, keywords, SynKeyword, RegexOptions.IgnoreCase);
             foreach (var token in tokens.OrderByDescending(t => t.Start))
             {
                 var start = PositionAtCharacter(paragraph.ContentStart, paragraph.ContentEnd, token.Start);

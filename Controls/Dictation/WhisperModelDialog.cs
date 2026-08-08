@@ -80,7 +80,8 @@ namespace KillerNotes.Controls
                 CornerRadius = Application.Current.TryFindResource("WindowCornerRadius") is CornerRadius r ? r : new CornerRadius(7),
                 Margin = Application.Current.TryFindResource("DialogHaloMargin") is Thickness hm ? hm : new Thickness(20),
             };
-            outer.SetResourceReference(Border.BorderBrushProperty, "CardBorderBrush");
+            outer.SetResourceReference(Border.BorderBrushProperty, "WindowEdgeBrush");
+            outer.SetResourceReference(Border.BorderThicknessProperty, "WindowEdgeThickness");
             outer.SetResourceReference(Border.BackgroundProperty, "BackgroundBrush");
             double shadowOp = Application.Current.TryFindResource("PaneShadowOpacity") is double so ? so : 0.60;
             if (shadowOp > 0)
@@ -150,7 +151,10 @@ namespace KillerNotes.Controls
             {
                 Orientation = Orientation.Horizontal,
                 HorizontalAlignment = HorizontalAlignment.Right,
-                Margin = new Thickness(0, 14, 0, 0),
+                // 4, not 14. The last choice's own bottom margin already separates it from the
+                // buttons, so 14 on top of that left a visible dead band across the dialog.
+                // (Steve, 2026-08-07.)
+                Margin = new Thickness(0, 4, 0, 0),
             };
             _cancelBtn = new Button { Content = L("Str_Btn_Cancel", "Cancel"), MinWidth = 84, Height = 30,
                                       Margin = new Thickness(0, 0, 8, 0), Style = S("OutlineButton") };
@@ -173,6 +177,10 @@ namespace KillerNotes.Controls
             root.Children.Add(light);
             root.Children.Add(dark);
 
+            // The shared 5px window frame; nothing on a flat theme. (Steve, 2026-08-07.)
+            root.Children.Add(KillerNotes.Controls.DialogChrome.WindowFrame());
+            KillerNotes.Controls.DialogChrome.InsetForFrame(shell);
+
             outer.Child = root;
             Content = outer;
         }
@@ -184,33 +192,19 @@ namespace KillerNotes.Controls
             band.SetResourceReference(HeightProperty, "DialogTitleBarHeight");
             band.MouseLeftButtonDown += (_, e) => { if (e.ButtonState == MouseButtonState.Pressed) DragMove(); };
 
-            var caption = new TextBlock
-            {
-                Text = L("Str_Whisper_Title", "Speech model"),
-                FontSize = 13, FontWeight = FontWeights.SemiBold,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left,
-            };
-            caption.SetResourceReference(TextBlock.ForegroundProperty, "ChromeTextBrush");
+            // DialogChrome.Wordmark, not a plain TextBlock. This was the last caption in the app
+            // still writing its own title, so it showed bare "Speech model" in the UI font while
+            // every other window shows the two-run wordmark (and the plain-title twin on a theme
+            // that wants one). Same call the picker and the Databases window make.
+            // (Steve, 2026-08-07.)
+            var caption = DialogChrome.Wordmark(L("Str_Whisper_Title", "Speech model"));
 
-            // A TextBlock, not a Button - a Button with a transparent background still carries WPF's
-            // default template and paints the system highlight on hover. Same treatment as the pad.
-            var close = new TextBlock
-            {
-                Text = char.ConvertFromUtf32(0xE8BB),
-                FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                FontSize = 10,
-                Padding = new Thickness(8, 4, 4, 4),
-                HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Center,
-                Background = Brushes.Transparent,
-                Cursor = Cursors.Hand,
-            };
-            close.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
-            close.MouseEnter += (_, _) => close.SetResourceReference(TextBlock.ForegroundProperty, "DangerRed");
-            close.MouseLeave += (_, _) => close.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
-            // Tunnelling, so the band's DragMove cannot swallow the click (the pad hit this too).
-            close.PreviewMouseLeftButtonDown += (_, e) => { e.Handled = true; Cancel(); };
+            // DialogChrome, not a hand-rolled TextBlock. This was the last close X in the app still
+            // built locally, so it kept the MDL2 character while every other window switched to the
+            // drawn shape on a bevelled theme - the exact drift that made "the same X everywhere"
+            // untrue. CloseGlyph carries the dual glyph, the caption face and the tunnelling click
+            // handler (the band's DragMove otherwise swallows it) in one place.
+            var close = DialogChrome.CloseGlyph(L("Str_Btn_Cancel", "Cancel"), Cancel);
 
             var grid = new Grid();
             grid.Children.Add(caption);
@@ -248,9 +242,19 @@ namespace KillerNotes.Controls
                                            Margin = new Thickness(0, 2, 0, 0) };
                 body.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
 
+                // The MODEL'S ACTUAL FILE NAME (Steve, 2026-08-07). "Fast" and "Recommended" are
+                // our labels, not whisper.cpp's - and once a file is on disk the user has no way to
+                // tell which of the three it is, or to check a download against the upstream
+                // repository. Consolas because it is a filename, dim because it is reference
+                // information rather than part of the choice.
+                var fileLine = new TextBlock { Text = file, FontFamily = new FontFamily("Consolas"),
+                                               FontSize = 10, Margin = new Thickness(0, 2, 0, 0) };
+                fileLine.SetResourceReference(TextBlock.ForegroundProperty, "DimTextBrush");
+
                 var stack = new StackPanel();
                 stack.Children.Add(head);
                 stack.Children.Add(body);
+                stack.Children.Add(fileLine);
 
                 var radio = new RadioButton
                 {
@@ -258,7 +262,9 @@ namespace KillerNotes.Controls
                     GroupName = "whisper",
                     Tag = id,
                     IsChecked = id == _choice,
-                    Margin = new Thickness(0, 0, 0, 10),
+                    // 4, not 10, on the bottom. This is the gap BETWEEN choices; at 10 the last
+                    // one also pushed a wide empty band down onto the buttons.
+                    Margin = new Thickness(0, 0, 0, 4),
                     VerticalContentAlignment = VerticalAlignment.Center,
                 };
                 radio.SetResourceReference(ForegroundProperty, "TextBrush");

@@ -58,7 +58,7 @@
     <sys:String x:Key="Str_Lbl_TextColor">Text</sys:String>
     <sys:String x:Key="Str_Lbl_Highlight">Hervorhebung</sys:String>
     <sys:String x:Key="Str_TT_AccentSwatch">Akzent</sys:String>
-    <sys:String x:Key="Str_Btn_Auto">auto</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">autom.</sys:String>
     <sys:String x:Key="Str_TT_Auto">Zurück zur Textfarbe des Designs</sys:String>
     <sys:String x:Key="Str_Btn_None">keine</sys:String>
     <sys:String x:Key="Str_TT_None">Hervorhebung entfernen</sys:String>
@@ -186,7 +186,8 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Filter_Kndb">KillerNotes-Datenbank (*.kndb)|*.kndb</sys:String>
 
     <!-- About overlay -->
-    <sys:String x:Key="Str_About_Version">Version</sys:String>
+    <sys:String x:Key="Str_About_Title">Über KillerNotes</sys:String>
+    <sys:String x:Key="Str_About_Version">Fassung</sys:String>
     <sys:String x:Key="Str_About_Publisher">Herausgeber</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Zertifikat-Fingerabdruck</sys:String>
     <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
@@ -217,7 +218,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_Save">Jetzt speichern (Autosave läuft ohnehin)</sys:String>
     <sys:String x:Key="Str_KS_BIU">Fett / kursiv / unterstrichen</sys:String>
     <sys:String x:Key="Str_KS_Strike">Durchgestrichen</sys:String>
-    <sys:String x:Key="Str_KS_Mono">Monospace (Code)</sys:String>
+    <sys:String x:Key="Str_KS_Mono">Feste Breite (Code)</sys:String>
     <sys:String x:Key="Str_KS_Highlight">Auswahl hervorheben (gelb)</sys:String>
     <sys:String x:Key="Str_KS_Rule">Horizontale Linie einfügen</sys:String>
     <sys:String x:Key="Str_KS_Lists">Aufzählung / nummerierte Liste</sys:String>
@@ -374,7 +375,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_St_PickGroupFirst">Zuerst eine Notiz in einer Gruppe auswählen</sys:String>
     <sys:String x:Key="Str_KS_FontSize">Ausgewählten Text vergrößern / verkleinern</sys:String>
     <sys:String x:Key="Str_KS_Zoom">Editor zoomen (Strg+0 setzt zurück)</sys:String>
-    <sys:String x:Key="Str_St_Zoom">Zoom {0}%</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Zoom {0} %</sys:String>
     <sys:String x:Key="Str_St_SpellOn">Rechtschreibprüfung für diese Notiz an</sys:String>
     <sys:String x:Key="Str_St_SpellOff">Rechtschreibprüfung für diese Notiz aus</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Text vergrößern</sys:String>
@@ -442,7 +443,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_TT_SwatchReplace">Klicken, um dieses Farbfeld auf die aktuelle Farbe zu setzen</sys:String>
 
     <!-- Tags -->
-    <sys:String x:Key="Str_Ctx_Tags">Tags</sys:String>
+    <sys:String x:Key="Str_Ctx_Tags">Schlagworte</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Tags verwalten...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Klicken, um nach diesem Tag zu filtern</sys:String>
     <sys:String x:Key="Str_Tags_Title">Tags verwalten</sys:String>
@@ -474,6 +475,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_Dictation">Diktat - aufnehmen und transkribieren</sys:String>
     <sys:String x:Key="Str_Kb_Dictation">Diktieren</sys:String>
     <sys:String x:Key="Str_Dict_Title">Diktat</sys:String>
+    <sys:String x:Key="Str_Dict_Close">Schließen (Esc)</sys:String>
     <sys:String x:Key="Str_Dict_Record">Aufnehmen</sys:String>
     <sys:String x:Key="Str_Dict_Stop">Stopp</sys:String>
     <sys:String x:Key="Str_Dict_Play">Abspielen</sys:String>
@@ -501,7 +503,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Wordmark_B">Notes</sys:String>
     <sys:String x:Key="Str_Btn_Save">Speichern</sys:String>
     <sys:String x:Key="Str_Col_Modified">geändert</sys:String>
-    <sys:String x:Key="Str_Col_Name">name</sys:String>
+    <sys:String x:Key="Str_Col_Name">Name</sys:String>
     <sys:String x:Key="Str_Col_Size">größe</sys:String>
     <sys:String x:Key="Str_Dlg_AllFiles">Alle Dateien</sys:String>
     <sys:String x:Key="Str_Dlg_FileName">Dateiname:</sys:String>
@@ -557,4 +559,50 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Dict_Edited">Bearbeitet. Abspielen oder erneut transkribieren.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Nur Text kann verlinkt werden - Wörter auswählen, kein Bild und keine Aufnahme</sys:String>
 
+    <sys:String x:Key="Str_Btn_Select">Auswählen</sys:String>
+    <sys:String x:Key="Str_Dlg_SelectFolder">Ordner auswählen</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSubfolders">(keine Unterordner - mit Auswählen diesen Ordner verwenden)</sys:String>
+    <sys:String x:Key="Str_Ctx_SelectAll">Alles auswählen</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">Keine Vorschau verfügbar</sys:String>
+
+
+    <!-- SketchPad (F7) tools, added 2026-08-07. These lived only as inline English
+         fallbacks in Controls/Sketch/*.cs, so the pad stayed English in every language.
+         The shortcut letters in parentheses are real key bindings and stay Latin. -->
+    <sys:String x:Key="Str_Sketch_AddImage">Bild hinzufügen (I) - auf das Feld ziehen oder Strg+V zum Einfügen</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">Bild hinzufügen...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">Bogenlinie</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">Pfeil - Linie mit Spitze (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">In den Hintergrund</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">Fett</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">Fülleimer (B) - in eine geschlossene Fläche klicken, um sie zu füllen</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">Alles löschen</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">Schließen (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">In die Zwischenablage kopieren</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">Die Zeichnung als Bild in die Zwischenablage kopieren</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">Löschen</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">Duplizieren</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">Text bearbeiten</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">Ellipse (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">Radierer (E) - über die Linie streichen oder eine Form berühren, um sie zu entfernen</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">Formen füllen (Rechteck / Ellipse)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">In den Vordergrund</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">Linie - gerade (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">Eigene Farbe...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">Deckkraft von Füllung / Eimer (klicken zum Wechseln)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">Bild einfügen</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">Stift - freihand (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">Vieleck (G) - jede Ecke anklicken; ersten Punkt anklicken oder doppelklicken zum Schließen (Rücktaste macht einen Punkt rückgängig, Esc bricht ab)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">In die Notiz drucken (Strg+Eingabe)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">Rechteck (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">Wiederholen (Strg+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">Deckkraft zurücksetzen</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">Auswählen / verschieben (V) - Objekt anklicken, zum Verschieben ziehen, Entf entfernt es</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">Linie begradigen</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">Text (T) - klicken, um eine Beschriftung zu setzen, tippen, Eingabe übernimmt sie (Umschalt+Eingabe für eine neue Zeile)</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">Fett entfernen</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">Rückgängig (Strg+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">Pinselgröße (klicken zum Wechseln)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 </ResourceDictionary>

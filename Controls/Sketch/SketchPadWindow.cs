@@ -87,7 +87,7 @@ namespace KillerNotes.Controls
         private Border _outerBorder = null!;
         private Border _bevelLight = null!;
         private Border _bevelDark = null!;
-        private Border _closeBtn = null!;
+        private FrameworkElement _closeBtn = null!;   // DialogChrome.CloseGlyph - a TextBlock, not a Border
         private Border? _grainBorder;
         private readonly Dictionary<Tool, Button> _toolBtns = [];
         private StackPanel _swatchRow = null!;
@@ -124,6 +124,11 @@ namespace KillerNotes.Controls
             Owner = owner;
             WindowStartupLocation = owner != null ? WindowStartupLocation.CenterOwner : WindowStartupLocation.CenterScreen;
             UseLayoutRounding = true;
+            // Text rendering, matching MainWindow.xaml:10 and FileDialog.xaml:16-17. This window set
+            // neither, so its text fell back to Ideal formatting with default (greyscale) rendering
+            // and came out soft next to every other window in the app.
+            TextOptions.SetTextFormattingMode(this, TextFormattingMode.Display);
+            TextOptions.SetTextRenderingMode(this, TextRenderingMode.ClearType);
 
             // Fade in on open, like every other dialog in the app. Start transparent so the first
             // painted frame is already at zero rather than flashing the card at full opacity.
@@ -297,7 +302,8 @@ namespace KillerNotes.Controls
             _outerBorder.Margin = max ? new Thickness(0) : new Thickness(20);
             _outerBorder.Effect = max ? null : CardShadow();
             if (_grainBorder != null) _grainBorder.CornerRadius = max ? new CornerRadius(0) : CardRadius();
-            _closeBtn.CornerRadius = new CornerRadius(0, max ? 0 : 7, 0, 0);
+            // The close X no longer has a corner to square off: it is a bare glyph now, not a
+            // filled block hugging the window corner, so there is nothing here to follow the card.
         }
     }
 }

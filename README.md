@@ -20,7 +20,7 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 - Undo for the sidebar: Ctrl+Z reverts group moves, colors, tag toggles, note reorders, and
   note deletes, alongside the editor's normal text undo.
 - Tags: color-coded per-database labels, assigned by right-click or Ctrl+1-9 and managed in
-  the tags editor (F7). FTS-indexed, so tag search and the pill filter are free.
+  the tags editor (Ctrl+T). FTS-indexed, so tag search and the pill filter are free.
 - Editor: rich text (bold / italic / lists / tables / rules), adjustable font size, a full
   text and highlight color picker with a desktop-wide eyedropper, and inline images. Per-note
   title color and spell check. Convert to list (Ctrl+Shift+J) for pasting into scripts, and
@@ -30,6 +30,14 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 - Hyperlinks: Ctrl+K links the selection (or edits the link under the caret), Ctrl+Click
   opens, typed URLs auto-link, and links survive pasting from browsers, Word, and other
   note apps. Only web and mail addresses ever open.
+- Syntax highlighting: optional per-note, from the note right-click menu. Code is detected
+  paragraph by paragraph, so one note can mix prose with PowerShell, HTML, XAML, XML, Vue,
+  JSON, YAML, Markdown, SQL, C#, Python, JavaScript, TypeScript, CSS and Bash without
+  picking a language. Plain text keeps the normal note color, and the token colors are
+  never baked into the saved note.
+- Themes: thirteen, each with its own accent set - Dark, Light, Black, Blood, Cyanotic,
+  Greed, and the seven added in 1.2.0: 98SE, Ectoplasm, Decay, Mourning, Sepulchre,
+  Delirium and Malaise. 98SE is a full Windows 98 reproduction, bevels and all.
 - Killculator (F9): a themed calculator that slides up under the notes list. Type an equation
   on the number keys; Print Sum (Ctrl+Enter) drops the result, or Print Equation
   (Ctrl+Shift+Enter) the whole running equation, into the note at the cursor.
@@ -94,12 +102,12 @@ winget install killernotes
 
 <table>
 <tr>
-<td width="50%"><img src="docs/main-window.png" alt="Main window"><br><sub>Notes with inline tables, tag pills, groups and subgroups, and search as you type.</sub></td>
-<td width="50%"><img src="docs/killculator.png" alt="Killculator"><br><sub>The Killculator (F9) docked under the notes list - Print drops the result into the note.</sub></td>
+<td width="50%"><img src="docs/main-window.png" alt="Main window"><br><sub>Nested groups, tag pills and search as you type - beside a note whose syntax highlighting is detected per paragraph, thirteen languages in one note.</sub></td>
+<td width="50%"><img src="docs/dictation.png" alt="Dictation"><br><sub>Dictation (Ctrl+M): record, scrub the waveform, transcribe offline, then embed the audio or print the text into the note.</sub></td>
 </tr>
 <tr>
-<td><img src="docs/shortcuts.png" alt="Keyboard shortcuts"><br><sub>Every function has a shortcut - F1 opens the visual keyboard map.</sub></td>
-<td><img src="docs/localization.png" alt="Localization"><br><sub>Nine languages - here Japanese, in the Blood theme.</sub></td>
+<td><img src="docs/shortcuts.png" alt="Keyboard shortcuts"><br><sub>Every function has a shortcut - F1 opens the visual keyboard map. Hold Ctrl or Shift to preview that layer. Shown in French.</sub></td>
+<td><img src="docs/localization.png" alt="Localization"><br><sub>Ten languages, translated down to the context menus - here Bengali, with a SketchPad drawing printed into the note.</sub></td>
 </tr>
 </table>
 

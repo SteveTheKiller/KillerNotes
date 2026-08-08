@@ -186,6 +186,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Filter_Kndb">KillerNotes veritabanı (*.kndb)|*.kndb</sys:String>
 
     <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">KillerNotes Hakkında</sys:String>
     <sys:String x:Key="Str_About_Version">Sürüm</sys:String>
     <sys:String x:Key="Str_About_Publisher">Yayımcı</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Sertifika parmak izi</sys:String>
@@ -474,6 +475,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_Dictation">Dikte - kaydet ve yazıya dök</sys:String>
     <sys:String x:Key="Str_Kb_Dictation">Dikte et</sys:String>
     <sys:String x:Key="Str_Dict_Title">Dikte</sys:String>
+    <sys:String x:Key="Str_Dict_Close">Kapat (Esc)</sys:String>
     <sys:String x:Key="Str_Dict_Record">Kaydet</sys:String>
     <sys:String x:Key="Str_Dict_Stop">Durdur</sys:String>
     <sys:String x:Key="Str_Dict_Play">Oynat</sys:String>
@@ -557,4 +559,49 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Dict_Edited">Düzenlendi. Geri oynatın veya yeniden yazıya dökün.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Yalnızca metin bağlanabilir - resim veya kayıt değil, sözcük seçin</sys:String>
 
+    <sys:String x:Key="Str_Btn_Select">Seç</sys:String>
+    <sys:String x:Key="Str_Dlg_SelectFolder">Klasörü seçin</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSubfolders">(alt klasör yok - bu klasörü kullanmak için Seç'e tıklayın)</sys:String>
+    <sys:String x:Key="Str_Ctx_SelectAll">Tümünü seç</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">Önizleme yok</sys:String>
+
+    <!-- SketchPad (F7) tools, added 2026-08-07. These lived only as inline English
+         fallbacks in Controls/Sketch/*.cs, so the pad stayed English in every language.
+         The shortcut letters in parentheses are real key bindings and stay Latin. -->
+    <sys:String x:Key="Str_Sketch_AddImage">Görsel ekle (I) - panoya sürükleyin veya yapıştırmak için Ctrl+V</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">Görsel ekle...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">Yay çizgisi</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">Ok - uçlu çizgi (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">En arkaya gönder</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">Kalın</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">Boya kovası (B) - doldurmak için kapalı bir alanın içine tıklayın</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">Tümünü temizle</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">Kapat (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">Panoya kopyala</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">Çizimi görsel olarak panoya kopyala</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">Sil</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">Çoğalt</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">Metni düzenle</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">Elips (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">Silgi (E) - çizginin üzerinden geçin veya kaldırmak için bir şekle dokunun</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">Şekilleri doldur (dikdörtgen / elips)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">En öne getir</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">Çizgi - düz (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">Özel renk...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">Dolgu / kova saydamlığı (değiştirmek için tıklayın)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">Görseli yapıştır</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">Kalem - serbest çizim (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">Çokgen (G) - her köşeye tıklayın; kapatmak için ilk noktaya tıklayın veya çift tıklayın (Geri tuşu bir noktayı geri alır, Esc iptal eder)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">Nota yazdır (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">Dikdörtgen (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">Yinele (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">Saydamlığı sıfırla</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">Seç / taşı (V) - bir nesneye tıklayın, taşımak için sürükleyin, Delete kaldırır</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">Çizgiyi düzelt</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">Metin (T) - etiket koymak için tıklayın, yazın, ayarlamak için Enter (yeni satır için Shift+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">Kalınlığı kaldır</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">Geri al (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">Fırça boyutu (değiştirmek için tıklayın)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 </ResourceDictionary>

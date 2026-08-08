@@ -96,6 +96,8 @@
     <sys:String x:Key="Str_KS_Dictation">Dictation - record and transcribe</sys:String>
     <sys:String x:Key="Str_Kb_Dictation">Dictate</sys:String>
     <sys:String x:Key="Str_Dict_Title">Dictation</sys:String>
+    <sys:String x:Key="Str_Dict_Close">Close (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
     <sys:String x:Key="Str_Dict_Record">Record</sys:String>
     <sys:String x:Key="Str_Dict_Stop">Stop</sys:String>
     <sys:String x:Key="Str_Dict_Play">Play</sys:String>
@@ -111,7 +113,7 @@
     <sys:String x:Key="Str_Dict_Embedded">Recording embedded in the note.</sys:String>
     <sys:String x:Key="Str_Dict_NoMic">Could not open the microphone.</sys:String>
     <sys:String x:Key="Str_Dict_Empty">Nothing was captured. Check that a microphone is connected.</sys:String>
-    <sys:String x:Key="Str_Dict_NoSpeech">No speech was recognised in that recording.</sys:String>
+    <sys:String x:Key="Str_Dict_NoSpeech">No speech was recognized in that recording.</sys:String>
     <sys:String x:Key="Str_Dict_NoText">There is no text to print.</sys:String>
     <sys:String x:Key="Str_Dict_Failed">Transcription failed.</sys:String>
     <sys:String x:Key="Str_Dict_NoEngine">No speech recogniser is installed, so transcription is unavailable. Recording and embedding still work.</sys:String>
@@ -309,6 +311,8 @@ Leave both boxes empty to share without one.</sys:String>
 
     <!-- Change data folder (#6) -->
     <sys:String x:Key="Str_TT_DataFolder">Change the data folder where databases are stored</sys:String>
+    <!-- No product name: the caption already prefixes it, so it read "KillerNotes  Choose the
+         KillerNotes data folder". -->
     <sys:String x:Key="Str_Db_PickFolderTitle">Choose the KillerNotes data folder</sys:String>
     <sys:String x:Key="Str_Dlg_MoveDbsHead">Move {0} database file(s) to the new folder?</sys:String>
     <sys:String x:Key="Str_Dlg_MoveDbsBody">Move brings every .db file along. Leave them switches to the new folder and keeps the current files where they are.</sys:String>
@@ -341,6 +345,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_GroupMoved">Group moved</sys:String>
 
     <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">About KillerNotes</sys:String>
     <sys:String x:Key="Str_About_Version">Version</sys:String>
     <sys:String x:Key="Str_About_Publisher">Publisher</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Certificate thumbprint</sys:String>
@@ -584,4 +589,53 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Start Menu shortcut&#x0A;- Appears in Add/Remove Programs</sys:String>
     <sys:String x:Key="Str_Chk_Desktop">Desktop shortcut</sys:String>
 
+    <!-- Themed folder picker (Manage databases > Change data folder). Three of these are
+         KillerShell's exact strings; Str_Dlg_SelectFolder is NOT - KillerShell's reads "root
+         search folder" because it picks a search root, and this picker chooses a data folder. -->
+    <sys:String x:Key="Str_Btn_Select">Select</sys:String>
+    <sys:String x:Key="Str_Dlg_SelectFolder">Select folder</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSubfolders">(no subfolders - click Select to use this folder)</sys:String>
+    <sys:String x:Key="Str_Ctx_SelectAll">Select all</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">No preview available</sys:String>
+
+    <!-- ==== SketchPad (F7) tool tips and menu items ====
+         These were only ever inline English fallbacks in Controls/Sketch/*.cs, so the pad
+         was the one window that stayed English in all ten languages. Defined here they
+         behave like every other string: translatable, with en-US as the fallback.
+         (Steve, 2026-08-07.) -->
+    <sys:String x:Key="Str_Sketch_AddImage">Add an image (I) - drag one onto the pad, or Ctrl+V to paste</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">Add image...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">Arc line</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">Arrow - line with an arrowhead (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">Send to back</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">Bold</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">Paint bucket (B) - click inside a closed area to flood-fill it</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">Clear all</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">Close (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">Copy to clipboard</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">Copy the drawing to the clipboard as an image</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">Delete</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">Duplicate</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">Edit text</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">Ellipse (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">Eraser (E) - brush over ink, or touch a shape to remove it</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">Fill shapes (rectangle / ellipse)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">Bring to front</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">Line - straight (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">Custom color...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">Fill / bucket opacity (click to cycle)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">Paste image</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">Pen - freehand (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">Polygon (G) - click each corner; click the first point or double-click to close (Backspace undoes a point, Esc cancels)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">Print to note (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">Rectangle (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">Redo (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">Reset opacity</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">Select / move (V) - click an object, drag to move it, Delete removes it</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">Straighten line</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">Text (T) - click to place a label, type, Enter to set it (Shift+Enter for a new line)</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">Remove bold</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">Undo (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">Brush size (click to cycle)</sys:String>
 </ResourceDictionary>

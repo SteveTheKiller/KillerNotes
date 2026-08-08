@@ -58,10 +58,16 @@ namespace KillerNotes.Shell
 
             // F10 arrives as a SystemKey (like Alt it traditionally opens the window menu bar),
             // so it never reaches the e.Key switch below - handle it here and swallow the menu.
+            //
+            // F10 is DICTATION. The F row was full, and dictation - a whole recording, waveform and
+            // transcription pad - was the only major surface reachable by chord alone (Ctrl+M) while
+            // its two sibling pads sat on F7 and F9. Sort cycling gave up the key because it is the
+            // most redundant thing on the row: the three sort buttons are always visible in the
+            // sidebar and the sort context menu offers the same modes. It keeps Ctrl+F10 below.
             if (e.Key == Key.System && e.SystemKey == Key.F10 && !ctrl && !shift
                 && !Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
             {
-                CycleSortShortcut();   // Notes.cs (time -> A-Z -> custom)
+                OpenDictation();   // Editor.Dictation.cs (modeless mic + transcription window)
                 e.Handled = true;
                 return;
             }
@@ -152,13 +158,17 @@ namespace KillerNotes.Shell
                     ToggleKalc();   // Killculator.cs (slide-up sidebar calculator)
                     e.Handled = true;
                     break;
-                // Ctrl+M: dictation (M for microphone). NOT an F-key - all twelve are taken, and F10
-                // in particular is sort cycling, handled above as Key.System because F10 opens the
-                // menu bar in WPF and never reaches this switch. A `case Key.F10` here was therefore
-                // dead code, so dictation had no working shortcut at all despite the rail tooltip
-                // and the docs both claiming one.
+                // Ctrl+M kept as the chord alias for dictation (M for microphone). The primary
+                // gesture is F10, handled above as Key.System - plain F10 opens the menu bar in WPF
+                // and never reaches this switch, so a `case Key.F10` here would be dead code.
                 case Key.M when ctrl && !shift:
                     OpenDictation();   // Editor.Dictation.cs (modeless mic + transcription window)
+                    e.Handled = true;
+                    break;
+                // Ctrl+F10 keeps sort cycling, which gave up the bare key to dictation. WITH a
+                // modifier F10 is an ordinary key, so unlike plain F10 this case really does fire.
+                case Key.F10 when ctrl && !shift:
+                    CycleSortShortcut();   // Notes.cs (time -> A-Z -> custom)
                     e.Handled = true;
                     break;
                 case Key.F11:

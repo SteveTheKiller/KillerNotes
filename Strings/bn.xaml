@@ -186,6 +186,7 @@
     <sys:String x:Key="Str_Filter_Kndb">KillerNotes ডেটাবেস (*.kndb)|*.kndb</sys:String>
 
     <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">KillerNotes সম্পর্কে</sys:String>
     <sys:String x:Key="Str_About_Version">সংস্করণ</sys:String>
     <sys:String x:Key="Str_About_Publisher">প্রকাশক</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">সার্টিফিকেট থাম্বপ্রিন্ট</sys:String>
@@ -300,7 +301,7 @@
     <sys:String x:Key="Str_KS_AppSize">পুরো অ্যাপ জুম করুন (অ্যাক্সেসযোগ্যতা)</sys:String>
     <sys:String x:Key="Str_KS_Calc">Killculator - Print ফলাফল নোটে বসিয়ে দেয়</sys:String>
     <sys:String x:Key="Str_KS_CalcPrint">Killculator ফলাফল নোটে প্রিন্ট করুন</sys:String>
-    <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
+    <sys:String x:Key="Str_TT_CalcRail">কিলকুলেটর (F9)</sys:String>
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - আঁকুন ও টীকা দিন</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">আগে কিছু আঁকুন</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">স্কেচ আপডেট হয়েছে</sys:String>
@@ -476,6 +477,7 @@
     <sys:String x:Key="Str_KS_Dictation">ডিকটেশন - রেকর্ড ও প্রতিলিপি করুন</sys:String>
     <sys:String x:Key="Str_Kb_Dictation">ডিকটেশন</sys:String>
     <sys:String x:Key="Str_Dict_Title">ডিকটেশন</sys:String>
+    <sys:String x:Key="Str_Dict_Close">বন্ধ করুন (Esc)</sys:String>
     <sys:String x:Key="Str_Dict_Record">রেকর্ড</sys:String>
     <sys:String x:Key="Str_Dict_Stop">থামান</sys:String>
     <sys:String x:Key="Str_Dict_Play">চালান</sys:String>
@@ -559,4 +561,49 @@
     <sys:String x:Key="Str_Dict_Edited">সম্পাদিত। চালিয়ে দেখুন, বা আবার প্রতিলিপি করুন।</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">কেবল লেখা লিঙ্ক করা যায় - শব্দ নির্বাচন করুন, ছবি বা রেকর্ডিং নয়</sys:String>
 
+    <sys:String x:Key="Str_Btn_Select">নির্বাচন করুন</sys:String>
+    <sys:String x:Key="Str_Dlg_SelectFolder">ফোল্ডার নির্বাচন করুন</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSubfolders">(কোনো সাবফোল্ডার নেই - এই ফোল্ডারটি ব্যবহার করতে নির্বাচন করুন চাপুন)</sys:String>
+    <sys:String x:Key="Str_Ctx_SelectAll">সব নির্বাচন করুন</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">কোনো প্রিভিউ নেই</sys:String>
+
+    <!-- SketchPad (F7) tools, added 2026-08-07. These lived only as inline English
+         fallbacks in Controls/Sketch/*.cs, so the pad stayed English in every language.
+         The shortcut letters in parentheses are real key bindings and stay Latin. -->
+    <sys:String x:Key="Str_Sketch_AddImage">ছবি যোগ করুন (I) - প্যাডে টেনে আনুন, বা পেস্ট করতে Ctrl+V</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">ছবি যোগ করুন...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">বাঁকা রেখা</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">তির - মাথাযুক্ত রেখা (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">পিছনে পাঠান</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">গাঢ়</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">রঙের বালতি (B) - ভরাট করতে বদ্ধ এলাকার ভিতরে ক্লিক করুন</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">সব মুছুন</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">বন্ধ করুন (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">ক্লিপবোর্ডে কপি করুন</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">অঙ্কনটি ছবি হিসেবে ক্লিপবোর্ডে কপি করুন</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">মুছুন</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">অনুলিপি</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">লেখা সম্পাদনা</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">উপবৃত্ত (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">রবার (E) - কালির উপর দিয়ে টানুন, বা কোনো আকৃতি স্পর্শ করে সরান</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">আকৃতি ভরাট করুন (আয়ত / উপবৃত্ত)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">সামনে আনুন</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">রেখা - সরল (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">নিজস্ব রং...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">ভরাট / বালতির স্বচ্ছতা (পরিবর্তনে ক্লিক)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">ছবি পেস্ট করুন</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">কলম - মুক্তহস্ত (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">বহুভুজ (G) - প্রতিটি কোণে ক্লিক করুন; প্রথম বিন্দুতে ক্লিক বা ডাবল-ক্লিক করে বন্ধ করুন (Backspace একটি বিন্দু ফেরায়, Esc বাতিল করে)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">নোটে ছাপুন (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">আয়তক্ষেত্র (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">পুনরায় করুন (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">স্বচ্ছতা রিসেট</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">নির্বাচন / সরান (V) - বস্তুতে ক্লিক করুন, টেনে সরান, Delete মুছে ফেলে</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">রেখা সোজা করুন</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">লেখা (T) - লেবেল বসাতে ক্লিক করুন, টাইপ করুন, Enter নিশ্চিত করে (Shift+Enter নতুন লাইন)</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">গাঢ় সরান</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">পূর্বাবস্থা (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">ব্রাশের আকার (পরিবর্তনে ক্লিক)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 </ResourceDictionary>

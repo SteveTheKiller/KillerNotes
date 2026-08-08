@@ -119,7 +119,7 @@ namespace KillerNotes.Controls
                 // card in the family wearing a pane colour instead of the window colour. About,
                 // Confirm and the rest all use BackgroundBrush.
                 Background = R("BackgroundBrush"),
-                BorderBrush = R("CardBorderBrush"),
+                BorderBrush = R("WindowEdgeBrush"),
                 BorderThickness = new Thickness(1),
                 CornerRadius = radius,
                 Margin = new Thickness(14),
@@ -254,10 +254,13 @@ namespace KillerNotes.Controls
 
             // Swatch header: Replace (assign current color to a slot) left, Reset far right.
             var swHeader = new Grid { Margin = new Thickness(0, 12, 0, 5), Width = SwatchCols * SwatchCell };
-            _replaceBtn = Chip(L("Str_Btn_Replace", "Replace"), L("Str_TT_ReplaceSwatch", "Click, then click a swatch to set it to the current color"));
+            // Icons, not words. Two text chips in a 216px header crowded the row and read as labels
+            // rather than controls; the tooltip still carries the full localized wording, so nothing
+            // is lost for a screen reader or a first-time user hovering them.
+            _replaceBtn = Chip("", L("Str_TT_ReplaceSwatch", "Click, then click a swatch to set it to the current color"));
             _replaceBtn.HorizontalAlignment = HorizontalAlignment.Left;
             _replaceBtn.MouseLeftButtonUp += (_, _) => { _replaceArmed = !_replaceArmed; UpdateReplaceChip(); RebuildSavedRow(); };
-            var resetBtn = Chip(L("Str_Btn_Reset", "Reset"), L("Str_TT_ResetSwatches", "Reset swatches to defaults"));
+            var resetBtn = Chip("", L("Str_TT_ResetSwatches", "Reset swatches to defaults"));
             resetBtn.HorizontalAlignment = HorizontalAlignment.Right;
             resetBtn.MouseLeftButtonUp += (_, _) => { StoreSaved([.. DefaultSwatches]); _replaceArmed = false; UpdateReplaceChip(); RebuildSavedRow(); };
             swHeader.Children.Add(_replaceBtn);
@@ -368,8 +371,11 @@ namespace KillerNotes.Controls
         private void UpdateReplaceChip()
         {
             if (_replaceBtn is null) return;
-            _replaceBtn.Background = _replaceArmed ? R("RowSelectedBrush") : R("PaneBrush");
-            _replaceBtn.SetResourceReference(Border.BorderBrushProperty, _replaceArmed ? "PrimaryBrush" : "InputBorderBrush");
+            // ChipFaceBrush / ChipEdgeBrush, matching Chip(). These were PaneBrush and
+            // InputBorderBrush, so the first arm or disarm flipped the chip back to the client
+            // colour and undid the button face it was built with.
+            _replaceBtn.Background = _replaceArmed ? R("RowSelectedBrush") : R("ChipFaceBrush");
+            _replaceBtn.SetResourceReference(Border.BorderBrushProperty, _replaceArmed ? "PrimaryBrush" : "ChipEdgeBrush");
         }
 
         private void RebuildSavedRow()
@@ -423,7 +429,10 @@ namespace KillerNotes.Controls
         private TextBox MakeTextBox(double width) => new()
         {
             Width = width, Height = 22, VerticalContentAlignment = VerticalAlignment.Center,
-            Background = R("BackgroundBrush"), Foreground = R("TextBrush"),
+            // TextFieldBrush, not BackgroundBrush directly: an edit field is a CLIENT area, and on a
+            // theme whose "darkest tone" is the button face the hex box came out the same grey as
+            // the dialog behind it. Defaults to BackgroundBrush, so nothing else moves.
+            Background = R("TextFieldBrush"), Foreground = R("TextBrush"),
             BorderBrush = R("InputBorderBrush"), BorderThickness = new Thickness(1),
             CaretBrush = R("TextBrush"), SelectionBrush = R("PrimaryBrush"),
             Padding = new Thickness(4, 0, 4, 0), Template = MakeTextBoxTemplate()
@@ -442,16 +451,43 @@ namespace KillerNotes.Controls
             return g;
         }
 
-        private Border Chip(string text, string tip)
+        /// <summary>
+        /// A small square icon button. <paramref name="glyph"/> is a Segoe MDL2 character - E70F
+        /// (edit) for Replace, E72C (refresh) for Reset - and the localized wording lives in the
+        /// tooltip. Square rather than text-width so the two read as a matched pair of controls.
+        /// </summary>
+        private Border Chip(string glyph, string tip)
         {
-            var b = new Border { Height = 20, MinWidth = 22, CornerRadius = Rad("SmallCornerRadius", 3), Cursor = Cursors.Hand,
-                BorderBrush = R("InputBorderBrush"), BorderThickness = new Thickness(1), Background = R("PaneBrush"),
-                Padding = new Thickness(6, 0, 6, 0), ToolTip = tip,
-                Child = new TextBlock { Text = text, Foreground = R("TextBrush"), FontSize = 11,
-                    HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center } };
+            // ChipFaceBrush, not PaneBrush. A chip is a BUTTON, and on a theme where PaneBrush is
+            // the white client colour it came out looking like an empty text field with a label in
+            // it rather than something pressable. Defaults to PaneBrush, so nothing else moves.
+            var b = new Border { Height = 22, Width = 24, CornerRadius = Rad("SmallCornerRadius", 3), Cursor = Cursors.Hand,
+                BorderBrush = R("ChipEdgeBrush"), BorderThickness = new Thickness(1), Background = R("ChipFaceBrush"),
+                ToolTip = tip };
+
+            // The RAISED bevel goes INSIDE the chip, alongside its label, rather than wrapping the
+            // chip in an outer element. Wrapping would return a different Border than the one the
+            // handlers below are attached to, so `_replaceBtn` would no longer be the object those
+            // handlers compare against and the armed highlight would never fire. Margin -1 pushes
+            // the bevel back over the chip's own 1px border so it rings the button instead of
+            // sitting inside it. Draws nothing where the bevel brushes are transparent.
+            var content = new Grid();
+            content.Children.Add(new TextBlock { Text = glyph, Foreground = R("TextBrush"), FontSize = 12,
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center });
+            var light = new Border { IsHitTestVisible = false, Margin = new Thickness(-1) };
+            light.SetResourceReference(Border.BorderBrushProperty, "BevelLightBrush");
+            light.SetResourceReference(Border.BorderThicknessProperty, "BevelLightThickness");
+            var dark = new Border { IsHitTestVisible = false, Margin = new Thickness(-1) };
+            dark.SetResourceReference(Border.BorderBrushProperty, "BevelDarkBrush");
+            dark.SetResourceReference(Border.BorderThicknessProperty, "BevelDarkThickness");
+            content.Children.Add(light);
+            content.Children.Add(dark);
+            b.Child = content;
+
             // Unified hover, respecting Replace's armed highlight.
-            b.MouseEnter += (_, _) => { if (b != _replaceBtn || !_replaceArmed) b.Background = R("InputBorderBrush"); };
-            b.MouseLeave += (_, _) => { b.Background = (b == _replaceBtn && _replaceArmed) ? R("RowSelectedBrush") : R("PaneBrush"); };
+            b.MouseEnter += (_, _) => { if (b != _replaceBtn || !_replaceArmed) b.Background = R("ChipHoverBrush"); };
+            b.MouseLeave += (_, _) => { b.Background = (b == _replaceBtn && _replaceArmed) ? R("RowSelectedBrush") : R("ChipFaceBrush"); };
             return b;
         }
 
@@ -464,20 +500,69 @@ namespace KillerNotes.Controls
             var sv = new FrameworkElementFactory(typeof(ScrollViewer)) { Name = "PART_ContentHost" };
             sv.SetValue(ScrollViewer.VerticalAlignmentProperty, VerticalAlignment.Center);
             b.AppendChild(sv);
-            return new ControlTemplate(typeof(TextBox)) { VisualTree = b };
+
+            // The SUNKEN edge, crossed: the dark brush takes the LIGHT thickness (top/left) and the
+            // light brush the dark one. That inversion is what makes an edit field read as pressed
+            // into the dialog rather than sitting on it. Transparent on the other twelve themes.
+            //
+            // The bevels are siblings of the field inside a GRID, not extra children of the Border.
+            // A Border accepts exactly one child and already has the content host, so appending them
+            // to it throws ArgumentException the moment the dialog is constructed.
+            var root = new FrameworkElementFactory(typeof(Grid));
+            root.AppendChild(b);
+            foreach (var (brushKey, thickKey) in new[] { ("PaneBevelDarkBrush", "BevelLightThickness"),
+                                                         ("PaneBevelLightBrush", "BevelDarkThickness") })
+            {
+                var bevel = new FrameworkElementFactory(typeof(Border));
+                bevel.SetResourceReference(Border.BorderBrushProperty, brushKey);
+                bevel.SetResourceReference(Border.BorderThicknessProperty, thickKey);
+                bevel.SetValue(UIElement.IsHitTestVisibleProperty, false);
+                root.AppendChild(bevel);
+            }
+            return new ControlTemplate(typeof(TextBox)) { VisualTree = root };
         }
 
         private static ControlTemplate MakeBtnTemplate()
         {
-            var bf = new FrameworkElementFactory(typeof(Border));
+            // Root is a Grid so the raised bevel can be a SIBLING of the face. The face is named so
+            // the triggers below can repaint it: this template had NO triggers at all, which is why
+            // the eyedropper looked like a button and behaved like a picture - no hover, no press.
+            var root = new FrameworkElementFactory(typeof(Grid));
+
+            var bf = new FrameworkElementFactory(typeof(Border), "face");
             foreach (var (dp, prop) in new[] { (Border.BackgroundProperty, "Background"), (Border.BorderBrushProperty, "BorderBrush"), (Border.BorderThicknessProperty, "BorderThickness") })
                 bf.SetBinding(dp, new Binding(prop) { RelativeSource = new RelativeSource(RelativeSourceMode.TemplatedParent) });
             bf.SetValue(Border.CornerRadiusProperty, Rad("ControlCornerRadius", 4));
+            root.AppendChild(bf);
+
+            var bLight = new FrameworkElementFactory(typeof(Border), "bLight");
+            bLight.SetResourceReference(Border.BorderBrushProperty, "BevelLightBrush");
+            bLight.SetResourceReference(Border.BorderThicknessProperty, "BevelLightThickness");
+            bLight.SetValue(UIElement.IsHitTestVisibleProperty, false);
+            root.AppendChild(bLight);
+
+            var bDark = new FrameworkElementFactory(typeof(Border), "bDark");
+            bDark.SetResourceReference(Border.BorderBrushProperty, "BevelDarkBrush");
+            bDark.SetResourceReference(Border.BorderThicknessProperty, "BevelDarkThickness");
+            bDark.SetValue(UIElement.IsHitTestVisibleProperty, false);
+            root.AppendChild(bDark);
+
             var cp = new FrameworkElementFactory(typeof(ContentPresenter));
             cp.SetValue(ContentPresenter.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             cp.SetValue(ContentPresenter.VerticalAlignmentProperty, VerticalAlignment.Center);
-            bf.AppendChild(cp);
-            return new ControlTemplate(typeof(Button)) { VisualTree = bf };
+            root.AppendChild(cp);
+
+            var t = new ControlTemplate(typeof(Button)) { VisualTree = root };
+            var hover = new Trigger { Property = UIElement.IsMouseOverProperty, Value = true };
+            hover.Setters.Add(new Setter(Border.BackgroundProperty, R("ChipHoverBrush"), "face"));
+            t.Triggers.Add(hover);
+            // Pressed reverses the bevel, the same swap every other button in the family performs.
+            var pressed = new Trigger { Property = System.Windows.Controls.Primitives.ButtonBase.IsPressedProperty, Value = true };
+            pressed.Setters.Add(new Setter(Border.BackgroundProperty, R("RowSelectedBrush"), "face"));
+            pressed.Setters.Add(new Setter(Border.BorderBrushProperty, R("BevelDarkBrush"), "bLight"));
+            pressed.Setters.Add(new Setter(Border.BorderBrushProperty, R("BevelLightBrush"), "bDark"));
+            t.Triggers.Add(pressed);
+            return t;
         }
 
         private static LinearGradientBrush HueStripBrush()

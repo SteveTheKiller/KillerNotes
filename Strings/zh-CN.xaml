@@ -186,6 +186,7 @@
     <sys:String x:Key="Str_Filter_Kndb">KillerNotes 数据库 (*.kndb)|*.kndb</sys:String>
 
     <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">关于 KillerNotes</sys:String>
     <sys:String x:Key="Str_About_Version">版本</sys:String>
     <sys:String x:Key="Str_About_Publisher">发布者</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">证书指纹</sys:String>
@@ -300,7 +301,7 @@
     <sys:String x:Key="Str_KS_AppSize">缩放整个应用（无障碍）</sys:String>
     <sys:String x:Key="Str_KS_Calc">Killculator - “打印”将结果放入笔记</sys:String>
     <sys:String x:Key="Str_KS_CalcPrint">将 Killculator 结果打印到笔记</sys:String>
-    <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
+    <sys:String x:Key="Str_TT_CalcRail">计算器 Killculator (F9)</sys:String>
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - 绘图与批注</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">请先画点什么</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">草图已更新</sys:String>
@@ -474,6 +475,7 @@
     <sys:String x:Key="Str_KS_Dictation">语音听写 - 录音并转写</sys:String>
     <sys:String x:Key="Str_Kb_Dictation">听写</sys:String>
     <sys:String x:Key="Str_Dict_Title">语音听写</sys:String>
+    <sys:String x:Key="Str_Dict_Close">关闭 (Esc)</sys:String>
     <sys:String x:Key="Str_Dict_Record">录音</sys:String>
     <sys:String x:Key="Str_Dict_Stop">停止</sys:String>
     <sys:String x:Key="Str_Dict_Play">播放</sys:String>
@@ -557,4 +559,49 @@
     <sys:String x:Key="Str_Dict_Edited">已编辑。可回放，或重新转写。</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">只有文字可以添加链接 - 请选择文字，而不是图片或录音</sys:String>
 
+    <sys:String x:Key="Str_Btn_Select">选择</sys:String>
+    <sys:String x:Key="Str_Dlg_SelectFolder">选择文件夹</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSubfolders">（无子文件夹 - 点击选择以使用此文件夹）</sys:String>
+    <sys:String x:Key="Str_Ctx_SelectAll">全选</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">无预览</sys:String>
+
+    <!-- SketchPad (F7) tools, added 2026-08-07. These lived only as inline English
+         fallbacks in Controls/Sketch/*.cs, so the pad stayed English in every language.
+         The shortcut letters in parentheses are real key bindings and stay Latin. -->
+    <sys:String x:Key="Str_Sketch_AddImage">添加图片 (I) - 拖到画板上，或按 Ctrl+V 粘贴</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">添加图片...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">弧线</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">箭头 - 带箭头的直线 (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">置于底层</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">粗体</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">油漆桶 (B) - 点击封闭区域内部进行填充</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">全部清除</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">关闭 (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">复制到剪贴板</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">将绘图作为图片复制到剪贴板</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">删除</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">创建副本</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">编辑文字</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">椭圆 (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">橡皮擦 (E) - 在笔迹上涂抹，或触碰图形将其删除</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">填充图形 (矩形 / 椭圆)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">置于顶层</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">直线 (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">自定义颜色...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">填充 / 油漆桶不透明度 (点击切换)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">粘贴图片</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">画笔 - 自由绘制 (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">多边形 (G) - 逐个点击顶点；点击首个点或双击闭合 (Backspace 撤销一个点，Esc 取消)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">打印到笔记 (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">矩形 (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">重做 (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">重置不透明度</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">选择 / 移动 (V) - 点击对象，拖动移动，Delete 删除</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">拉直线条</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">文字 (T) - 点击放置标签，输入后按 Enter 确定 (Shift+Enter 换行)</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">取消粗体</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">撤销 (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">笔刷大小 (点击切换)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 </ResourceDictionary>

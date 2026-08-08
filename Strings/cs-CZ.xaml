@@ -268,6 +268,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_GroupMoved">Skupina přesunuta</sys:String>
 
     <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">O aplikaci KillerNotes</sys:String>
     <sys:String x:Key="Str_About_Version">Verze</sys:String>
     <sys:String x:Key="Str_About_Publisher">Vydavatel</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Otisk certifikátu</sys:String>
@@ -478,6 +479,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_KS_Dictation">Diktování - nahrát a přepsat</sys:String>
     <sys:String x:Key="Str_Kb_Dictation">Diktovat</sys:String>
     <sys:String x:Key="Str_Dict_Title">Diktování</sys:String>
+    <sys:String x:Key="Str_Dict_Close">Zavřít (Esc)</sys:String>
     <sys:String x:Key="Str_Dict_Record">Nahrát</sys:String>
     <sys:String x:Key="Str_Dict_Stop">Zastavit</sys:String>
     <sys:String x:Key="Str_Dict_Play">Přehrát</sys:String>
@@ -561,4 +563,49 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Dict_Edited">Upraveno. Přehrajte si to, nebo to přepište znovu.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Odkazovat lze pouze text - vyberte slova, ne obrázek nebo nahrávku</sys:String>
 
+    <sys:String x:Key="Str_Btn_Select">Vybrat</sys:String>
+    <sys:String x:Key="Str_Dlg_SelectFolder">Vyberte složku</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSubfolders">(žádné podsložky - kliknutím na Vybrat použijete tuto složku)</sys:String>
+    <sys:String x:Key="Str_Ctx_SelectAll">Vybrat vše</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">Náhled není k dispozici</sys:String>
+
+    <!-- SketchPad (F7) tools, added 2026-08-07. These lived only as inline English
+         fallbacks in Controls/Sketch/*.cs, so the pad stayed English in every language.
+         The shortcut letters in parentheses are real key bindings and stay Latin. -->
+    <sys:String x:Key="Str_Sketch_AddImage">Přidat obrázek (I) - přetáhněte jej na plochu nebo vložte pomocí Ctrl+V</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">Přidat obrázek...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">Oblouková čára</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">Šipka - čára s hrotem (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">Přenést dozadu</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">Tučné</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">Plechovka barvy (B) - kliknutím dovnitř uzavřené plochy ji vyplníte</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">Vymazat vše</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">Zavřít (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">Kopírovat do schránky</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">Zkopírovat kresbu do schránky jako obrázek</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">Smazat</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">Duplikovat</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">Upravit text</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">Elipsa (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">Guma (E) - přejeďte přes stopu nebo se dotkněte tvaru pro jeho odstranění</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">Vyplnit tvary (obdélník / elipsa)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">Přenést dopředu</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">Čára - rovná (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">Vlastní barva...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">Krytí výplně / plechovky (kliknutím přepnete)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">Vložit obrázek</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">Pero - od ruky (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">Mnohoúhelník (G) - klikněte na každý vrchol; kliknutím na první bod nebo dvojklikem jej uzavřete (Backspace vrátí bod, Esc ruší)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">Vytisknout do poznámky (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">Obdélník (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">Znovu (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">Obnovit krytí</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">Vybrat / přesunout (V) - klikněte na objekt, tažením jej přesunete, Delete jej odstraní</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">Narovnat čáru</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">Text (T) - kliknutím umístíte popisek, pište, Enter jej potvrdí (Shift+Enter nový řádek)</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">Odebrat tučné</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">Zpět (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">Velikost štětce (kliknutím přepnete)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 </ResourceDictionary>

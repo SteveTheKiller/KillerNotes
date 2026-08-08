@@ -186,6 +186,7 @@
     <sys:String x:Key="Str_Filter_Kndb">KillerNotes データベース (*.kndb)|*.kndb</sys:String>
 
     <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">KillerNotes について</sys:String>
     <sys:String x:Key="Str_About_Version">バージョン</sys:String>
     <sys:String x:Key="Str_About_Publisher">発行元</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">証明書の拇印</sys:String>
@@ -300,7 +301,7 @@
     <sys:String x:Key="Str_KS_AppSize">アプリ全体をズーム (アクセシビリティ)</sys:String>
     <sys:String x:Key="Str_KS_Calc">Killculator - 「印刷」で結果をノートに入れます</sys:String>
     <sys:String x:Key="Str_KS_CalcPrint">Killculator の結果をノートに印刷</sys:String>
-    <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
+    <sys:String x:Key="Str_TT_CalcRail">キルキュレーター (F9)</sys:String>
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - 描画と注釈</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">先に何か描いてください</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">スケッチを更新しました</sys:String>
@@ -474,6 +475,7 @@
     <sys:String x:Key="Str_KS_Dictation">音声入力 - 録音して文字起こし</sys:String>
     <sys:String x:Key="Str_Kb_Dictation">音声入力</sys:String>
     <sys:String x:Key="Str_Dict_Title">音声入力</sys:String>
+    <sys:String x:Key="Str_Dict_Close">閉じる (Esc)</sys:String>
     <sys:String x:Key="Str_Dict_Record">録音</sys:String>
     <sys:String x:Key="Str_Dict_Stop">停止</sys:String>
     <sys:String x:Key="Str_Dict_Play">再生</sys:String>
@@ -557,4 +559,49 @@
     <sys:String x:Key="Str_Dict_Edited">編集しました。再生するか、もう一度文字起こししてください。</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">リンクにできるのはテキストのみです - 画像や録音ではなく単語を選択してください</sys:String>
 
+    <sys:String x:Key="Str_Btn_Select">選択</sys:String>
+    <sys:String x:Key="Str_Dlg_SelectFolder">フォルダーを選択</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSubfolders">(サブフォルダーはありません - 選択を押すとこのフォルダーを使います)</sys:String>
+    <sys:String x:Key="Str_Ctx_SelectAll">すべて選択</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">プレビューはありません</sys:String>
+
+    <!-- SketchPad (F7) tools, added 2026-08-07. These lived only as inline English
+         fallbacks in Controls/Sketch/*.cs, so the pad stayed English in every language.
+         The shortcut letters in parentheses are real key bindings and stay Latin. -->
+    <sys:String x:Key="Str_Sketch_AddImage">画像を追加 (I) - パッドにドラッグするか、Ctrl+V で貼り付け</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">画像を追加...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">曲線</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">矢印 - 先端付きの線 (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">最背面へ移動</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">太字</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">塗りつぶし (B) - 閉じた領域の内側をクリックして塗ります</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">すべて消去</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">閉じる (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">クリップボードにコピー</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">描画を画像としてクリップボードにコピーします</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">削除</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">複製</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">テキストを編集</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">楕円 (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">消しゴム (E) - 線の上をなぞるか、図形に触れて削除します</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">図形を塗りつぶす (長方形 / 楕円)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">最前面へ移動</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">直線 (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">カスタム色...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">塗り / バケツの不透明度 (クリックで切り替え)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">画像を貼り付け</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">ペン - フリーハンド (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">多角形 (G) - 各頂点をクリック。最初の点をクリックするかダブルクリックで閉じます (Backspace で 1 点戻る、Esc で取り消し)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">ノートに出力 (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">長方形 (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">やり直し (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">不透明度をリセット</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">選択 / 移動 (V) - オブジェクトをクリックし、ドラッグで移動、Delete で削除</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">線をまっすぐにする</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">テキスト (T) - クリックしてラベルを置き、入力し、Enter で確定 (Shift+Enter で改行)</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">太字を解除</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">元に戻す (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">ブラシサイズ (クリックで切り替え)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 </ResourceDictionary>
