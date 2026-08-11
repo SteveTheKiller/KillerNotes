@@ -67,7 +67,7 @@ namespace KillerNotes.Services
             };
 
             // Drop the previous override (by reference) before adding the new one, so switching
-            // locale repeatedly cannot stack dictionaries or delete a neighbour's.
+            // locale repeatedly cannot stack dictionaries or delete a neighbor's.
             if (_override is not null && merged.Contains(_override)) merged.Remove(_override);
             _override = null;
 

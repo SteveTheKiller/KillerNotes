@@ -49,13 +49,13 @@
          content Border, and this is the only dialog with a ComboBox, whose dropdown is an
          AllowsTransparency Popup; a WPF Effect over a subtree containing one renders as a filled
          rectangle. That is fixed below and is a real bug, it just was not this one.
-         (Steve, 2026-07-30, four attempts.) -->
+         (2026-07-30, four attempts) -->
     <!-- RootFade, not RootBorder, is what the open/close animation drives - and it starts at 0,
          the same way KillerShell's RootGrid does. The fade used to run on RootBorder alone, but
          the shadow layer below is a SIBLING carrying the identical BackgroundBrush and geometry,
          with no starting opacity: it slammed in solid on the first frame and only the card faded
          on top of it, so the dialog read as blinking into existence rather than fading. Fading the
-         shared parent takes the shadow with it. (Steve, 2026-07-31: "they kind of blink in".) -->
+         shared parent takes the shadow with it. (2026-07-31) -->
     <Grid x:Name="RootFade" Opacity="0" Background="#01000000"
           MouseMove="Resize_MouseMove" MouseLeftButtonDown="Resize_MouseDown">
 
@@ -80,7 +80,7 @@
         <!-- BorderThickness from the theme, not a hardcoded 1. On a theme with a real 5px sizing
              frame that extra invisible pixel sat OUTSIDE the frame, so the picker's edge measured
              one wider than the main window's and its outermost pixel was the card background
-             rather than the frame. (Steve, 2026-08-07.) -->
+             rather than the frame. (2026-08-07) -->
         <Border x:Name="RootBorder" BorderBrush="{DynamicResource WindowEdgeBrush}"
                 BorderThickness="{DynamicResource WindowEdgeThickness}"
                 Background="{DynamicResource BackgroundBrush}"
@@ -90,7 +90,7 @@
                  see DialogChrome.WindowFrame. Content is inset by WindowFramePadding so the 5px
                  edge occupies its own space instead of clipping the caption and the footer.
                  Every frame key is transparent at zero thickness by default, so a flat theme is
-                 unchanged. (Steve, 2026-08-07: "the picker also needs all the updates".) -->
+                 unchanged. (2026-08-07) -->
             <Grid>
             <Grid x:Name="ContentHost" Margin="{DynamicResource WindowFramePadding}">
             <Grid.RowDefinitions>
@@ -119,7 +119,7 @@
                     <!-- The plain caption, shown on a theme that declares a Win98-style bar. Without
                          it this dialog kept the typewriter wordmark while every other window swapped,
                          AND the wordmark's bold run uses AccentLogo - which on a theme whose caption
-                         band IS the accent colour renders the product name invisible against it.
+                         band IS the accent color renders the product name invisible against it.
                          That is why the bar read as "Killer" followed by a gap. -->
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" IsHitTestVisible="False"
                                FontWeight="Bold" FontSize="11"
@@ -143,7 +143,7 @@
                         </TextBlock>
                         <!-- The caller's Title rides HERE, to the right of the wordmark, the same
                              shape SketchPad / Databases / Dictation use. It used to be a heading in
-                             the BODY, which left the caption unlabelled and put "Insert image" in
+                             the BODY, which left the caption unlabeled and put "Insert image" in
                              the content area as if it were part of the file list.
                              ChromeTextBrush, not MutedTextBrush: muted is mixed against the CONTENT
                              surface and vanishes on a theme that paints a real caption band. -->
@@ -156,12 +156,12 @@
                          window rather than being its own size in its own place. -->
                     <!-- ChromeCloseButton, the SHARED caption close. Its own inline Style was the
                          reason this X was unthemed: a bare transparent Border with no caption face
-                         and no bevel, so on a bevelled theme it stayed a floating glyph while every
+                         and no bevel, so on a beveled theme it stayed a floating glyph while every
                          other window drew a real button. -->
-                    <!-- CENTRED in the band on the shared caption keys, the same as the Databases
+                    <!-- CENTERED in the band on the shared caption keys, the same as the Databases
                          window. Top-aligned with a derived drop, it had to be re-derived every time
                          a height moved - and it moved when the content was inset for the window
-                         frame. Centring needs no arithmetic at all. (Steve, 2026-08-07.) -->
+                         frame. Centering needs no arithmetic at all. (2026-08-07) -->
                     <Button Click="Cancel_Click" Style="{StaticResource ChromeCloseButton}"
                             HorizontalAlignment="Right" VerticalAlignment="Center"
                             Width="{DynamicResource DialogCloseWidth}" Height="{DynamicResource DialogCloseHeight}"
@@ -175,13 +175,13 @@
             <TextBlock x:Name="HeadingText" Grid.Row="1" Visibility="Collapsed"/>
 
             <!-- Path row: up one level + current path + view modes -->
-            <!-- 8px of air under the caption. It was flush, so on a theme with a real coloured
+            <!-- 8px of air under the caption. It was flush, so on a theme with a real colored
                  caption band the address bar butted straight into it. Same reasoning as the main
                  window's ContentPaneMargin: a distinct band needs a gap, a blended one does not. -->
             <!-- DialogContentMargin: the dialog's own inset, 16 by default. A theme with a real
                  sizing frame sets it much smaller, or the frame and this stack into a band several
                  times the frame's width - the same mistake SidebarPanelMargin made in the main
-                 window. (Steve, 2026-08-07.) -->
+                 window. (2026-08-07) -->
             <Grid Grid.Row="2" Margin="{DynamicResource DialogContentMargin}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -194,7 +194,7 @@
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <!-- Bevels as siblings, like the view buttons. ButtonEdgeBrush rather
-                                 than InputBorderBrush so a bevelled theme drops the flat outline and
+                                 than InputBorderBrush so a beveled theme drops the flat outline and
                                  the raised edge IS the button's edge. Bevel inverts while pressed. -->
                             <Grid>
                                 <Border x:Name="ub" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource ButtonEdgeBrush}"
@@ -218,20 +218,19 @@
                 <!-- Explicit style: an unstyled TextBox falls back to WPF's white fill and blue
                      focus border. The chevron overlays the box's right edge (the box pads 28 to
                      clear it) and drops the recent-locations list, like Explorer's address bar. -->
-                <!-- Height 22 and CENTRED, matching the TextBox inside it. The Grid used to stretch
+                <!-- Height 22 and CENTERED, matching the TextBox inside it. The Grid used to stretch
                      to the row's full 28, and the sunken bevel borders below are siblings sized to
                      the GRID - so the recessed box was 28 tall around a 22 tall white field, and
-                     the leftover showed as grey bands above and below the text. (Steve,
-                     2026-08-07.) -->
+                     the leftover showed as gray bands above and below the text. (2026-08-07) -->
                 <Grid Grid.Column="1" Height="22" VerticalAlignment="Center">
                     <!-- The address bar is an EDIT FIELD: TextFieldBrush (white on a theme whose
                          darkest tone is the button face) with the crossed sunken bevel over it, so
                          it reads as recessed rather than painted on. -->
                     <!-- 22, matching the recents button exactly so the button fills the field's
                          height and reads as attached to it rather than floating inside it.
-                         InputEdgeBrush, not the style's own InputBorderBrush: on a bevelled theme
+                         InputEdgeBrush, not the style's own InputBorderBrush: on a beveled theme
                          the sunken bevel below IS the field's edge, and the flat 1px line drew a
-                         SECOND line right beside it along the top. (Steve, 2026-08-07.) -->
+                         SECOND line right beside it along the top. (2026-08-07) -->
                     <TextBox x:Name="PathBox" Height="22" Style="{StaticResource DarkTextBox}"
                              Background="{DynamicResource TextFieldBrush}"
                              BorderBrush="{DynamicResource InputEdgeBrush}"
@@ -241,7 +240,7 @@
                             BorderThickness="{DynamicResource FooterCellLightThickness}"/>
                     <Border IsHitTestVisible="False" BorderBrush="{DynamicResource PaneBevelLightBrush}"
                             BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
-                    <!-- The recents drop is a real BUTTON - a grey square with a raised bevel that
+                    <!-- The recents drop is a real BUTTON - a gray square with a raised bevel that
                          inverts on press - not a bare chevron floating on the field. It was a
                          transparent border with no edge and no pressed state at all. -->
                     <Button x:Name="RecentsBtn" Content="&#xE70D;" Click="RecentsBtn_Click"
@@ -331,18 +330,18 @@
                     <ColumnDefinition x:Name="PreviewCol" Width="0"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- NOT a raised pane, deliberately (Steve, 2026-07-30): KillerShell's sidebar
+                <!-- NOT a raised pane, deliberately (2026-07-30): KillerShell's sidebar
                      sits flat on the chrome background, and this one matches - only the file
                      LIST is the lifted card. No fill, no shadow, no grain of its own; the
                      dialog card's shared grain shows through.
 
-                     BOOKMARKS ONLY, no folder tree (Steve, 2026-08-07). The tree was Explorer's
+                     BOOKMARKS ONLY, no folder tree (2026-08-07). The tree was Explorer's
                      1995 answer to navigation and nothing modern ships one: it duplicated the file
                      list's own folder rows, ate the whole panel, and made the places - the part
                      people actually use - a cramped drawer at the bottom. Places now fill the
                      column. Right-click any folder in the file list to add it here. -->
                 <Grid Grid.Column="0">
-                    <!-- The left column IS a client area on a bevelled theme - a Win98 places list
+                    <!-- The left column IS a client area on a beveled theme - a Win98 places list
                          is white and recessed, like Explorer's. SidebarPaneBrush and the bevel
                          pair are transparent by default, so the flat sidebar the family uses
                          everywhere else is unchanged. -->
@@ -351,7 +350,7 @@
                     <!-- Two-tone sunken edge, the same PaneBevel* pair as the main window's panes:
                          #808080 then #000000 down the top/left, #ffffff then the face up the
                          bottom/right. These were on the shallow FooterCell* keys, which are the
-                         status-bar recess and one tone only. (Steve, 2026-08-07.) -->
+                         status-bar recess and one tone only. (2026-08-07) -->
                     <Border Panel.ZIndex="9" IsHitTestVisible="False"
                             BorderBrush="{DynamicResource PaneBevelDarkBrush}"
                             BorderThickness="{DynamicResource PaneBevelLightThickness}"/>
@@ -386,7 +385,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <!-- Edge fades for the places list (Steve, 2026-07-30): rows dissolve
+                    <!-- Edge fades for the places list (2026-07-30): rows dissolve
                          at both ends unless the list is flush there. Same surface, same ramp
                          (SyncPlacesEdgeFades); no scrollbar lift needed - horizontal scrolling
                          is disabled on this list. -->
@@ -543,9 +542,9 @@
                 <!-- Left padding 5, not 8: a TextBox's content host carries its own ~2px inset
                      (WPF's TextBoxView), so at 8 the name started visibly right of the filter
                      combo's text directly below it (combo padding is 7 with no inherent inset).
-                     5 + 2 lines the two up. (Steve, 2026-07-31.) -->
+                     5 + 2 lines the two up. (2026-07-31) -->
                 <!-- An edit field, so white and sunken like the address bar and every other input. -->
-                <!-- Same 22 and centred as the address bar, for the same reason. -->
+                <!-- Same 22 and centered as the address bar, for the same reason. -->
                 <Grid Grid.Row="0" Grid.Column="1" Height="22" VerticalAlignment="Center">
                     <TextBox x:Name="FileNameBox" Height="22"
                              Style="{StaticResource DarkTextBox}"
@@ -579,7 +578,7 @@
                      two by name. The 98SE status bar below mirrors them with ElementName bindings
                      rather than owning a second pair, so there is one source of truth and no code
                      change. This block hides itself on a theme that shows the status bar.
-                     (Steve, 2026-08-07.) -->
+                     (2026-08-07) -->
                 <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,12,0"
                             Visibility="{DynamicResource DialogInlineSelVisibility}">
                     <TextBlock x:Name="SelName" FontFamily="Consolas" FontSize="12" Foreground="{DynamicResource TextBrush}"
@@ -599,9 +598,9 @@
                  stacked lines floating in the button row, which is not what a Win32 dialog does -
                  it puts them in a status bar at the very bottom. Cell margins, padding and bevels
                  all come from the shared Footer* keys, so this footer and the main window's are
-                 the same object. (Steve, 2026-08-07: "this should look exactly like the old win32
-                 dialog".) -->
-            <!-- 98SE ONLY (Steve, 2026-08-07). A Win32 file dialog puts the selection in a status
+                 the same object. It is meant to look exactly like the old Win32 dialog.
+                 (2026-08-07) -->
+            <!-- 98SE ONLY (2026-08-07). A Win32 file dialog puts the selection in a status
                  bar at the bottom; the family's floating card puts it beside the buttons, and a
                  bare strip along the bottom of a rounded dark card reads as bolted on. Height and
                  visibility both come from DialogStatusBarHeight / DialogStatusBarVisibility, which
@@ -649,7 +648,7 @@
                          Win98 draws it, over the last panel of the status bar rather than in a
                          column of its own past the end of it. Dots or diagonal hatch on the same
                          visibility keys as every other grip in the app; it starts a resize, it is
-                         not decorative. (Steve, 2026-08-07.) -->
+                         not decorative. (2026-08-07) -->
                     <Canvas Panel.ZIndex="3" Width="13" Height="13"
                             Background="Transparent" Cursor="SizeNWSE"
                             VerticalAlignment="Bottom" HorizontalAlignment="Right"
@@ -663,7 +662,7 @@
                             <Rectangle Canvas.Left="5" Canvas.Top="11" Width="2" Height="2" Fill="{DynamicResource DimTextBrush}"/>
                             <Rectangle Canvas.Left="9" Canvas.Top="11" Width="2" Height="2" Fill="{DynamicResource DimTextBrush}"/>
                         </Canvas>
-                        <!-- Half-pixel centres so a 1px diagonal stays crisp instead of smearing
+                        <!-- Half-pixel centers so a 1px diagonal stays crisp instead of smearing
                              across two rows - the same lines the main window draws. -->
                         <Canvas Width="13" Height="13" IsHitTestVisible="False"
                                 Visibility="{DynamicResource GripHatchVisibility}">
@@ -708,7 +707,7 @@
 
         <!-- Raised edge, as SIBLINGS of the card sharing its Margin so they land on its outer
              edge rather than inside its 1px border. Transparent and zero-thickness in every theme
-             except the bevelled ones, where they are the card's edge. -->
+             except the beveled ones, where they are the card's edge. -->
         <Border Margin="{DynamicResource DialogHaloMargin}" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
                 BorderThickness="{DynamicResource BevelLightThickness}"/>
         <Border Margin="{DynamicResource DialogHaloMargin}" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"

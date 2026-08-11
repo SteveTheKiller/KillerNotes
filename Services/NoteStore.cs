@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS recordings(
             Exec(SchemaSql);
             EnsureColumns();
             // Seed ONLY when the tags table was just created: user customizations and
-            // deletions must never resurrect (Steve, tags design).
+            // deletions must never resurrect.
             if (!hadTags) SeedDefaultTags();
         }
 
@@ -459,7 +459,7 @@ CREATE TABLE IF NOT EXISTS recordings(
             return cmd.ExecuteScalar() is byte[] b && b.Length > 0 ? b : null;
         }
 
-        /// <summary>Ordinal -> duration in ms, for labelling the playback chips.</summary>
+        /// <summary>Ordinal -> duration in ms, for labeling the playback chips.</summary>
         public static Dictionary<int, int> LoadRecordingIndex(long noteId)
         {
             var map = new Dictionary<int, int>();
@@ -502,7 +502,7 @@ CREATE TABLE IF NOT EXISTS recordings(
             // re-inserts the row verbatim by the same id - and the payload tables are keyed on that
             // id, so clearing them here would restore a note with its sketches and audio gone.
             // The cost is that a note deleted and never undone leaves its payloads behind; that is
-            // pre-existing behaviour for sketches, and DeleteRecordings exists for a future purge.
+            // pre-existing behavior for sketches, and DeleteRecordings exists for a future purge.
             cmd.CommandText = "DELETE FROM notes WHERE id = $id";
             cmd.Parameters.AddWithValue("$id", id);
             cmd.ExecuteNonQuery();

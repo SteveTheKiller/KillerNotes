@@ -480,7 +480,7 @@ namespace KillerNotes.Shell
         //
         // Real photographs, loaded from code\Demo\KillerNotes at seed time rather than shipped as
         // project resources: the demo database is scratch and rebuilt on every --demo launch, so
-        // the pictures are Steve's to swap without touching the build. A missing folder or an
+        // the pictures can be swapped without touching the build. A missing folder or an
         // unreadable file is not an error - the note simply seeds without its picture, so the demo
         // still works on a machine that has never had the folder.
 
@@ -585,7 +585,7 @@ namespace KillerNotes.Shell
         private static FlowDocument DemoSyntaxShowcase()
         {
             var d = new FlowDocument { Tag = SyntaxTag };
-            d.Blocks.Add(DemoP("One note, thirteen languages. The highlighter sniffs each paragraph on its own, so a scratch note full of mixed snippets colours itself correctly without a language picker.", bold: true));
+            d.Blocks.Add(DemoP("One note, thirteen languages. The highlighter sniffs each paragraph on its own, so a scratch note full of mixed snippets colors itself correctly without a language picker.", bold: true));
             d.Blocks.Add(DemoRule());
 
             void Block(string label, params string[] lines)
@@ -634,7 +634,7 @@ namespace KillerNotes.Shell
         }
 
         /// <summary>Pure code, no prose. YAML identifies itself line by line, so the whole
-        /// playbook colours evenly - the best single showcase of the highlighter.</summary>
+        /// playbook colors evenly - the best single showcase of the highlighter.</summary>
         private static FlowDocument DemoAnsibleYaml() => DemoCode(
             @"---",
             @"- name: Monthly patch baseline",

@@ -60,8 +60,8 @@ namespace KillerNotes.Shell
             // UseLayoutRounding=True, and rounded child positions multiplied by a fractional
             // scale land SHORT of the row at some scales and not others: a backdrop stripe
             // between the editor and the footer, the last text line clipped, and the footer
-            // cast swallowed, all varying with the zoom step ("gone at 108%... a stripe along
-            // the bottom cutting off words", Steve, 2026-08-08). Sub-pixel layout under a
+            // cast swallowed, all varying with the zoom step - at 108% a stripe along the
+            // bottom cut off words (2026-08-08). Sub-pixel layout under a
             // transform is exactly what rounding-off is for; at 1.0 it comes back on.
             ScaleHost.UseLayoutRounding = scale == 1.0;
             RefreshSidebarWidth();   // Sidebar.cs: panel keeps its on-screen width; the rail scales with the app
@@ -78,7 +78,7 @@ namespace KillerNotes.Shell
         // and is shared by every other confirmation in the app (drag-ready, tag toggled,
         // shared...) - those keep their six seconds. Landing back on DefaultStatus is the same
         // ending FlashStatus gives, so nothing else about the status line changes. Any pending
-        // flash is cancelled on the way in, since its message is being overwritten regardless.
+        // flash is canceled on the way in, since its message is being overwritten regardless.
         //
         // Normal priority rather than the DispatcherTimer default of Background, so a busy
         // moment cannot leave the readout parked on the footer.

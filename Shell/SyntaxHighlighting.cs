@@ -17,14 +17,14 @@ namespace KillerNotes.Shell
     {
         private const string SyntaxTag = "KillerNotes.SyntaxHighlight";
 
-        // ── Token colours ────────────────────────────────────────────────────────
+        // ── Token colors ────────────────────────────────────────────────────────
         //
         // These were the VS Code Dark+ hexes, written straight into the Add() calls. That is a
         // palette designed for ONE background - a near-black editor - and on a white page it
-        // falls apart: the pale green number colour (#B5CEA8) and the muted comment green
+        // falls apart: the pale green number color (#B5CEA8) and the muted comment green
         // (#6A9955) both land around 1.8:1 against white, which is not readable text, it is a
         // watermark. 98SE and Light are white-paged, so they were the worst hit, but every light
-        // accent had the same problem. (Steve, 2026-08-07.)
+        // accent had the same problem. (2026-08-07)
         //
         // Each role resolves through the theme dictionary and falls back to the Dark+ value, so a
         // theme that says nothing looks exactly as it did. A theme with a light page states the
@@ -44,12 +44,12 @@ namespace KillerNotes.Shell
         private static Color SynKeyword  => Syn("Syn_Keyword",   86, 156, 214);
         private bool _syntaxHighlight;
         private bool _applyingSyntax;
-        // The paragraphs currently carrying token colours. Restoring one CLEARS its local
+        // The paragraphs currently carrying token colors. Restoring one CLEARS its local
         // foregrounds (RestoreParagraphForeground) - never re-applies a captured brush. The old
         // code saved paragraph.Foreground and painted it back, which baked the PREVIOUS theme's
-        // colour in as an unthemed local value: switch a dark theme to 98SE and the restored
-        // text was white on the white page ("syntax highlighting has white text in 98se",
-        // Steve, 2026-08-08).
+        // color in as an unthemed local value: switch a dark theme to 98SE and the restored
+        // text was white on the white page, so 98SE showed white syntax highlighting
+        // (2026-08-08).
         private readonly HashSet<Paragraph> _syntaxColored = [];
         // The text each paragraph was last highlighted FOR, the language it resolved to (its
         // own detection or the contagion context - the Lang half seeds the next pass's context
@@ -58,7 +58,7 @@ namespace KillerNotes.Shell
         // writes are _applyingSyntax-guarded out of TextChanged), so between edits a painted
         // paragraph is skipped on a LONG COMPARE - no TextRange.Text materialisation, no
         // string allocation, nothing. Reading every visible paragraph's text once per scroll
-        // FRAME was the sluggishness ("scrolling needs to feel instant", Steve, 2026-08-08).
+        // FRAME was the sluggishness; scrolling has to feel instant (2026-08-08).
         private readonly Dictionary<Paragraph, (string Text, CodeLanguage Lang, long Version)> _syntaxSeen = [];
         // Bumped on every edit path (QueueSyntaxHighlighting); a pass revalidates a paragraph
         // by text compare only when its stored version is stale, then re-stamps it.
@@ -82,7 +82,7 @@ namespace KillerNotes.Shell
         {
             _syntaxTimer.Tick += (_, _) => { _syntaxTimer.Stop(); ApplySyntaxHighlighting(); };
             // A theme switch changes the Syn_* palette, and the incremental skip would otherwise
-            // keep every unchanged paragraph on the old colours.
+            // keep every unchanged paragraph on the old colors.
             KillerNotes.Services.ThemeManager.ThemeChanged += () =>
             {
                 _syntaxSeen.Clear();
@@ -90,8 +90,8 @@ namespace KillerNotes.Shell
             };
             // Passes are viewport-scoped, so scrolling into unpainted territory must fill in -
             // and it must fill in NOW, not on the 350ms edit debounce: the debounce restarts on
-            // every scroll tick, so text sat uncolored for seconds after a scroll ("people are
-            // gonna read this as bad performance", Steve, 2026-08-08). Per-frame coalesced, the
+            // every scroll tick, so text sat uncolored for seconds after a scroll, which reads
+            // as bad performance (2026-08-08). Per-frame coalesced, the
             // same shape as the gutter's QueueGutterRepaint; already-painted regions cost only
             // dictionary lookups.
             Editor.AddHandler(ScrollViewer.ScrollChangedEvent,
@@ -147,7 +147,7 @@ namespace KillerNotes.Shell
 
         private void ClearSyntaxHighlighting()
         {
-            // GUARDED and BATCHED. The un-colouring writes are document changes like any other:
+            // GUARDED and BATCHED. The un-coloring writes are document changes like any other:
             // unguarded, they fired Editor_TextChanged -> MarkDirty from INSIDE SaveCurrentNote's
             // pre-serialize clear (re-dirtying the note the save was about to mark clean), and
             // unbatched, every write was its own TextChanged + layout pass - thousands on a big
@@ -203,14 +203,14 @@ namespace KillerNotes.Shell
                 // document's structure can only change on an edit, so a SCROLL pass reuses all
                 // three untouched. Rebuilding them per frame was a full document walk plus a
                 // thousand-entry set and two LINQ prunes of allocation churn, every frame of a
-                // scroll ("the performance is still so terrible", Steve, 2026-08-08).
+                // scroll, and the performance showed it (2026-08-08).
                 if (_syntaxFlatDirty)
                 {
                     _syntaxFlat = Paragraphs(Editor.Document.Blocks).ToList();
                     _syntaxFlatIndex.Clear();
                     for (int fi = 0; fi < _syntaxFlat.Count; fi++) _syntaxFlatIndex[_syntaxFlat[fi]] = fi;
                     // Prune cache entries whose paragraphs left the document, so a deleted-and-
-                    // replaced paragraph cannot inherit a stale skip or stay marked coloured.
+                    // replaced paragraph cannot inherit a stale skip or stay marked colored.
                     var live = new HashSet<Paragraph>(_syntaxFlat);
                     foreach (var dead in _syntaxSeen.Keys.Where(p => !live.Contains(p)).ToList())
                         _syntaxSeen.Remove(dead);
@@ -226,8 +226,8 @@ namespace KillerNotes.Shell
                 // unconditionally made every scroll pass - even a pure-read one over painted
                 // territory - end in a layout invalidation of a huge fragmented document, and a
                 // flick into unpainted territory painted the whole runway in one frame; together
-                // they starved input until the note stopped scrolling at all ("worked for a few
-                // seconds and now wont scroll", Steve, 2026-08-08). A read-only pass now touches
+                // they starved input until the note stopped scrolling at all after a few
+                // seconds (2026-08-08). A read-only pass now touches
                 // no change machinery, and painting spreads across frames.
                 bool changeOpen = false;
                 int paintBudget = 12;
@@ -237,8 +237,8 @@ namespace KillerNotes.Shell
                     int start = Math.Max(0, first - 2);
                     // Language CONTEXT for contagion. Most lines of a pasted code block carry no
                     // language tell of their own - "base.OnStartup(e);" is anonymous - so
-                    // per-paragraph detection left whole blocks uncoloured ("why isnt syntax
-                    // highlighting working for this code?", Steve, 2026-08-08). An anonymous
+                    // per-paragraph detection left whole blocks of real code uncolored
+                    // (2026-08-08). An anonymous
                     // line that LOOKS like code inherits the language of the lines above it;
                     // blank lines carry the context through; a prose line breaks the block.
                     var context = CodeLanguage.Plain;
@@ -293,7 +293,7 @@ namespace KillerNotes.Shell
                         if (!changeOpen) { Editor.BeginChange(); changeOpen = true; }
 
                         // The paragraph changed: drop its local foregrounds first so stale token
-                        // colours cannot linger where the tokens moved.
+                        // colors cannot linger where the tokens moved.
                         if (_syntaxColored.Remove(p))
                         {
                             try { RestoreParagraphForeground(p); }
@@ -357,13 +357,13 @@ namespace KillerNotes.Shell
             if (SafeIsMatch(s, @"^\s*(?:#{1,6}\s+\S|```\w*\s*$|>\s+\S|\[[^\]]+\]\([^)]+\)|(?:[-*_]\s*){3,}$)|\*\*[^*\r\n]+\*\*|`[^`\r\n]+`", RegexOptions.Multiline)) return CodeLanguage.Markdown;
             // The verb list mirrors the PowerShell token pattern in HighlightParagraph - keep the
             // two in step. The short original missed real cmdlets outright: "Publish-Module -Path
-            // ..." detected as nothing at all (Steve, 2026-08-08).
-            if (SafeIsMatch(s, @"\$[A-Za-z_][\w:]*|\b(?:Get|Set|New|Remove|Start|Stop|Invoke|Write|Select|Where|ForEach|Test|Sort|Export|Import|Update|Add|Clear|Copy|Move|Out|ConvertTo|ConvertFrom|Measure|Compare|Publish|Install|Uninstall|Register|Unregister|Save|Find|Connect|Disconnect|Enable|Disable|Restart|Resolve|Join|Format|Read|Show|Wait|Push|Pop|Send|Receive)-[A-Za-z]+\b", RegexOptions.IgnoreCase)) return CodeLanguage.PowerShell;
+            // ..." detected as nothing at all (2026-08-08).
+            if (SafeIsMatch(s, @"\$[A-Za-z_][\w:]*|\b(?:Add|Approve|Assert|Backup|Block|Build|Checkpoint|Clear|Close|Compare|Complete|Compress|Confirm|Connect|ConvertFrom|ConvertTo|Convert|Copy|Debug|Deny|Deploy|Disable|Disconnect|Dismount|Edit|Enable|Enter|Exit|Expand|Export|Find|ForEach|Format|Get|Grant|Group|Hide|Import|Initialize|Install|Invoke|Join|Limit|Lock|Measure|Merge|Mount|Move|New|Open|Optimize|Out|Ping|Pop|Protect|Publish|Push|Read|Receive|Redo|Register|Remove|Rename|Repair|Request|Reset|Resize|Resolve|Restart|Restore|Resume|Revoke|Save|Search|Select|Send|Set|Show|Skip|Sort|Split|Start|Step|Stop|Submit|Suspend|Switch|Sync|Test|Trace|Unblock|Undo|Uninstall|Unlock|Unprotect|Unpublish|Unregister|Update|Use|Wait|Watch|Where|Write)-[A-Za-z]+\b", RegexOptions.IgnoreCase)) return CodeLanguage.PowerShell;
             if (SafeIsMatch(s, @"^\s*#!.*(?:bash|sh)\b|\b(?:fi|then|elif|done|export)\b|\$\{[^}]+\}")) return CodeLanguage.Bash;
             if (SafeIsMatch(s, @"\b(?:SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)\b.*\b(?:FROM|INTO|TABLE|SET|WHERE)\b", RegexOptions.IgnoreCase)) return CodeLanguage.Sql;
             // Method signatures and base/this calls included: real C# pasted line-by-line is
             // mostly lines like "protected override void OnStartup(StartupEventArgs e)", which
-            // the original tells ("using ...;", "public class") never matched (Steve, 2026-08-08).
+            // the original tells ("using ...;", "public class") never matched (2026-08-08).
             if (SafeIsMatch(s, @"\busing\s+[\w.]+;|\bnamespace\s+\w+|\bpublic\s+(?:class|static|void)\b|\bConsole\.WriteLine\b|\b(?:public|private|protected|internal)\s+(?:(?:static|override|virtual|sealed|async|abstract|readonly)\s+)*[\w<>\[\],.]+\s+\w+\s*\(|\bbase\.\w+\s*\(")) return CodeLanguage.CSharp;
             if (SafeIsMatch(s, @"^\s*(?:def|class|from|import)\s+\w+|\b(?:print|len|range)\s*\(", RegexOptions.Multiline)) return CodeLanguage.Python;
             if (SafeIsMatch(s, @"\b(?:interface|type|enum|namespace|implements|declare|readonly|keyof|unknown|never)\b|\b(?:const|let|function)\s+\w+\s*(?:<[^>]+>)?\s*(?:\([^)]*:[^)]*\)|:\s*[A-Za-z_$][\w.$<>\[\]| ]*)")) return CodeLanguage.TypeScript;
@@ -379,7 +379,11 @@ namespace KillerNotes.Shell
             var tokens = new List<(int Start, int Length, Color Color)>();
             string comments = language switch
             {
-                CodeLanguage.PowerShell or CodeLanguage.Python or CodeLanguage.Yaml or CodeLanguage.Bash => @"#.*$",
+                // PowerShell is split out for <# ... #> block comments, which comment-based help
+                // uses for every .SYNOPSIS header. On the shared "#.*$" it highlighted only the
+                // lines that literally began with #, so a help block came out striped.
+                CodeLanguage.PowerShell => @"<#[\s\S]*?#>|#[^\n]*",
+                CodeLanguage.Python or CodeLanguage.Yaml or CodeLanguage.Bash => @"#.*$",
                 CodeLanguage.CSharp or CodeLanguage.JavaScript or CodeLanguage.TypeScript or CodeLanguage.Css => @"//.*$|/\*.*?\*/",
                 CodeLanguage.Html or CodeLanguage.Xaml or CodeLanguage.Xml or CodeLanguage.Vue or CodeLanguage.Markdown => @"<!--.*?-->",
                 CodeLanguage.Sql => @"--.*$|/\*.*?\*/",
@@ -393,12 +397,26 @@ namespace KillerNotes.Shell
             {
                 Add(tokens, s, @"\$(?:true|false|null)\b", SynOperator, RegexOptions.IgnoreCase);
                 Add(tokens, s, @"\$[A-Za-z_][\w:]*", SynVariable);
-                Add(tokens, s, @"\b(?:Get|Set|New|Remove|Start|Stop|Invoke|Write|Select|Where|ForEach|Test|Sort|Export|Import|Update|Add|Clear|Copy|Move|Out|ConvertTo|ConvertFrom|Measure|Compare|Publish|Install|Uninstall|Register|Unregister|Save|Find|Connect|Disconnect|Enable|Disable|Restart|Resolve|Join|Format|Read|Show|Wait|Push|Pop|Send|Receive)-[A-Za-z]+\b",
+                // The FULL approved-verb set (Get-Verb), not a hand-picked subset. The old list of
+                // 45 missed Expand, Compress, Rename, Split, Mount, Enter, Exit, Group, Repair,
+                // Search, Grant, Revoke, Suspend, Resume, Initialize and more - every one of which
+                // fell through to the parameter rule below, which painted the -Noun half as a
+                // parameter and left the verb uncolored. ConvertFrom/ConvertTo precede Convert so
+                // the longer names win the alternation.
+                Add(tokens, s, @"\b(?:Add|Approve|Assert|Backup|Block|Build|Checkpoint|Clear|Close|Compare|Complete|Compress|Confirm|Connect|ConvertFrom|ConvertTo|Convert|Copy|Debug|Deny|Deploy|Disable|Disconnect|Dismount|Edit|Enable|Enter|Exit|Expand|Export|Find|ForEach|Format|Get|Grant|Group|Hide|Import|Initialize|Install|Invoke|Join|Limit|Lock|Measure|Merge|Mount|Move|New|Open|Optimize|Out|Ping|Pop|Protect|Publish|Push|Read|Receive|Redo|Register|Remove|Rename|Repair|Request|Reset|Resize|Resolve|Restart|Restore|Resume|Revoke|Save|Search|Select|Send|Set|Show|Skip|Sort|Split|Start|Step|Stop|Submit|Suspend|Switch|Sync|Test|Trace|Unblock|Undo|Uninstall|Unlock|Unprotect|Unpublish|Unregister|Update|Use|Wait|Watch|Where|Write)-[A-Za-z]+\b",
                     SynType, RegexOptions.IgnoreCase);
+                // BEFORE the parameter rule: Add() keeps the FIRST match and skips overlaps, so an
+                // operator rule placed after it can never fire. The symbolic-operator rule further
+                // down did list -eq and friends, and had been dead code for exactly that reason -
+                // every comparison and logical operator was coloring as a parameter.
+                Add(tokens, s, @"(?<!\w)-(?:[ci]?(?:eq|ne|lt|gt|le|ge|notlike|notmatch|notcontains|notin|like|match|replace|contains|in)|isnot|is|as|and|or|xor|not|band|bor|bxor|bnot|shl|shr|join|split|f)\b",
+                    SynOperator, RegexOptions.IgnoreCase);
                 Add(tokens, s, @"(?<!\w)-[A-Za-z][\w-]*", SynVariable);
                 Add(tokens, s, @"\[[A-Za-z_][\w.]*\]", SynType);
                 Add(tokens, s, @"\b[A-Za-z_]\w*(?=\s*=)", SynVariable);
-                Add(tokens, s, @"(?:\|\||&&|==|!=|-eq\b|-ne\b|-like\b|-match\b|-and\b|-or\b|[|=@{}()[\];])",
+                // Symbols only. The -word operators moved above the parameter rule, where they can
+                // actually match; listing them here again would be dead weight.
+                Add(tokens, s, @"(?:\|\||&&|==|!=|[|=@{}()[\];])",
                     SynOperator, RegexOptions.IgnoreCase);
                 Add(tokens, s, @"\b(?:gpupdate|gpresult|ping|ipconfig|nslookup|robocopy|netsh|winget|dotnet|git)\b",
                     SynType, RegexOptions.IgnoreCase);
@@ -413,8 +431,8 @@ namespace KillerNotes.Shell
                 CodeLanguage.Json => @"\b(?:true|false|null)\b|""[^""]+""(?=\s*:)",
                 CodeLanguage.Yaml => @"(?m)^\s*(?:-\s+)?[A-Za-z_][\w.-]*(?=\s*:)|\b(?:true|false|null|yes|no|on|off)\b|[&*!|>]\w*",
                 // Whole SPANS, not just the markers: **bold text**, __bold__, *italic*, ~~gone~~
-                // colour the content too, and list/quote markers read as structure ("markdown
-                // should detect more things like bold text", Steve, 2026-08-08).
+                // color the content too, and list/quote markers read as structure - Markdown
+                // detection needs to reach bold text and the rest (2026-08-08).
                 CodeLanguage.Markdown => @"(?m)^\s*#{1,6}(?=\s)|```\w*|`[^`\r\n]+`|\*\*[^*\r\n]+\*\*|__[^_\r\n]+__|~~[^~\r\n]+~~|\*[^*\r\n]+\*|^\s*[-*+](?=\s)|^\s*\d+\.(?=\s)|^\s*>(?=\s)|(?<=\])\([^)]+\)",
                 CodeLanguage.Sql => @"\b(?:SELECT|FROM|WHERE|JOIN|ON|INSERT|INTO|UPDATE|SET|DELETE|CREATE|ALTER|DROP|TABLE|VALUES|AS|AND|OR|NULL|ORDER|GROUP|BY|HAVING|LIMIT)\b",
                 CodeLanguage.CSharp => @"\b(?:using|namespace|class|struct|interface|public|private|protected|internal|static|readonly|void|string|int|bool|var|new|return|if|else|foreach|for|while|try|catch|throw|null|true|false|async|await)\b",
@@ -479,7 +497,7 @@ namespace KillerNotes.Shell
 
         /// <summary>Removes every LOCAL foreground inside the paragraph, so its text falls back
         /// to the theme-inherited editor brush - correct on whatever theme is active NOW and
-        /// after every future switch. (The flip side: a user-applied text colour inside a
+        /// after every future switch. (The flip side: a user-applied text color inside a
         /// code-detected paragraph is cleared too - the old captured-brush restore flattened
         /// those identically, so nothing is lost that was ever kept.)</summary>
         private static void RestoreParagraphForeground(Paragraph p)

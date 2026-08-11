@@ -13,7 +13,7 @@ namespace KillerNotes.Controls
     {
         // ---- Layout ----
 
-        /// <summary>True on a bevelled theme (UseDialogCaption marker): the pad then uses the
+        /// <summary>True on a beveled theme (UseDialogCaption marker): the pad then uses the
         /// notepad treatment - minimal insets, no air around the rail, whole-button rail
         /// overflow. Margins re-apply on a live theme switch (ThemeChanged handler in the
         /// ctor); only the rail's overflow STRUCTURE (arrows vs fades) is build-once and picks
@@ -43,7 +43,7 @@ namespace KillerNotes.Controls
             var root = new Grid();
             // Film grain over the window background - RESOURCE REFERENCES, not values baked at
             // build: a pad built under a grainy theme kept its texture after a live switch to
-            // 98SE, whose GrainOpacity is 0 (Steve, 2026-08-08).
+            // 98SE, whose GrainOpacity is 0 (2026-08-08).
             _grainBorder = new Border { IsHitTestVisible = false, CornerRadius = CardRadius() };
             _grainBorder.SetResourceReference(Border.BackgroundProperty, "GrainTileBrush");
             _grainBorder.SetResourceReference(UIElement.OpacityProperty, "GrainOpacity");
@@ -68,11 +68,11 @@ namespace KillerNotes.Controls
             root.Children.Add(shell);
 
             // Tighter card padding everywhere - the old 16/6/16/12 wasted canvas space - and on a
-            // bevelled theme tighter still: a real Win98 client runs nearly flush to its frame
+            // beveled theme tighter still: a real Win98 client runs nearly flush to its frame
             // (Notepad's skinny right edge), so 98SE gets the notepad treatment with minimal
-            // insets and no air around the tool rail. (Steve, 2026-08-08.)
+            // insets and no air around the tool rail. (2026-08-08)
             _flatChrome = TryFindResource("UseDialogCaption") != null;
-            // TWO geometries, deliberately unequal (Steve, 2026-08-08):
+            // TWO geometries, deliberately unequal (2026-08-08):
             // - Flat/98SE: notepad treatment. Right margin ZERO - the window frame's own padding
             //   is all the right edge keeps - and minimal insets everywhere else.
             // - Every other theme: the ORIGINAL 16/6/16/12. A first tightening pass cut these
@@ -102,7 +102,7 @@ namespace KillerNotes.Controls
             // ONE window frame for the whole app - DialogChrome.WindowFrame, the same builder the
             // Dictation pad, the About card and every dialog use. The card's _bevelLight/_bevelDark
             // pair above is the shared CONTROL bevel and is a different thing; it is why this
-            // window read as flat beside the main one on a bevelled theme.
+            // window read as flat beside the main one on a beveled theme.
             root.Children.Add(KillerNotes.Controls.DialogChrome.WindowFrame());
             KillerNotes.Controls.DialogChrome.InsetForFrame(shell);
 
@@ -119,7 +119,7 @@ namespace KillerNotes.Controls
         {
             // Padding, not Margin: the band runs the full width of the card and insets its own
             // contents, so the background reaches the edges. TitleBarBrush is a gradient on some
-            // themes, so it must be a resource reference rather than a copied colour.
+            // themes, so it must be a resource reference rather than a copied color.
             var titleBar = new Grid();
             titleBar.SetResourceReference(Panel.BackgroundProperty, "DialogTitleBarBrush");
             titleBar.SetResourceReference(FrameworkElement.HeightProperty, "TitleBarHeight");
@@ -142,7 +142,7 @@ namespace KillerNotes.Controls
 
             // The close button lives IN the band, column 1 - the same place the main window puts it.
             // It used to be a child of the card with a 48px spacer reserved here, which is why it
-            // sat hard against the top edge instead of centred in the bar.
+            // sat hard against the top edge instead of centered in the bar.
             Grid.SetColumn(_closeBtn, 1);
             titleBar.Children.Add(_closeBtn);
 
@@ -164,7 +164,7 @@ namespace KillerNotes.Controls
             // The swatches' shadow (bevel on 98SE, drop shadow elsewhere) pulls their VISUAL
             // center below their layout center, so the buttons beside them read top-shifted on
             // every theme. A 4px render nudge re-centers them against the swatches without
-            // touching layout. First shipped 98SE-only; Steve promoted it to all themes
+            // touching layout. First shipped 98SE-only, then promoted to all themes
             // (2026-08-08). Same nudge on the undo/redo/clear group below.
             var moreColors = ActionButton(Glyph(0xE790), L("Str_Sketch_MoreColors", "Custom color..."), OpenColorPicker);
             moreColors.RenderTransform = new TranslateTransform(0, 4);
@@ -215,7 +215,7 @@ namespace KillerNotes.Controls
 
             // The rail holds fourteen buttons and the pad can be resized shorter than they
             // stack - a bare StackPanel just CLIPPED the bottom tools out of existence
-            // (Steve, 2026-08-08). Two overflow treatments, per theme kind:
+            // (2026-08-08). Two overflow treatments, per theme kind:
             // - Standard themes: the sidebar's answer - wheel scrolling with overflow FADES
             //   from an OpacityMask recomputed on scroll. A rail that fits shows neither.
             // - 98SE: Win98 never faded OR cut a toolbar mid-button; it showed little arrow
@@ -235,7 +235,7 @@ namespace KillerNotes.Controls
         }
 
         /// <summary>Default HEIGHT hugs the tool rail: the shortest pad where every tool shows
-        /// with no overflow arrows or fades (Steve, 2026-08-08). Runs once after first layout;
+        /// with no overflow arrows or fades (2026-08-08). Runs once after first layout;
         /// resizing afterwards goes anywhere MinHeight allows.</summary>
         private void FitDefaultHeightToRail()
         {
@@ -258,8 +258,7 @@ namespace KillerNotes.Controls
         private StackPanel _railPanel = null!;
         // The canvas pane's shadow sibling - a FIELD so a live theme switch can re-derive its
         // effect: built once, a pad opened under 98SE (PaneShadowOpacity 0) kept a null effect
-        // forever and the pane sat shadowless on every theme after ("the pane with the content
-        // has no drop shadow around it", Steve, 2026-08-08).
+        // forever and the pane sat shadowless on every theme after (2026-08-08).
         private Border _frameShadow = null!;
         private FrameworkElement _railViewport = null!;   // the element whose height is the rail's allotted space
         private FrameworkElement _railUp = null!, _railDown = null!;
@@ -444,9 +443,9 @@ namespace KillerNotes.Controls
             // theme that does not define bevels, so it draws nothing there.
             // TWO tones, the same PaneBevel* pair the main window's content pane and notes list
             // use - #808080 then #000000 down the top/left, #ffffff then the face up the
-            // bottom/right. This drew a single flat grey off the shared control Bevel* keys, which
+            // bottom/right. This drew a single flat gray off the shared control Bevel* keys, which
             // had the right width and the wrong depth: it read as a line rather than an edge, and
-            // was visibly shallower than the panes in the main window. (Steve, 2026-08-07.)
+            // was visibly shallower than the panes in the main window. (2026-08-07)
             var sunkDark = new Border { IsHitTestVisible = false };
             sunkDark.SetResourceReference(Border.BorderBrushProperty, "PaneBevelDarkBrush");
             sunkDark.SetResourceReference(Border.BorderThicknessProperty, "PaneBevelLightThickness");

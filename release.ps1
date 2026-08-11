@@ -349,7 +349,7 @@ foreach ($line in $lines) {
 }
 if ($notes.Count -eq 0) { Fail "Could not extract [$Version] notes from CHANGELOG.md" }
 $notesFile = Join-Path $env:TEMP "KillerNotes-$Version-notes.md"
-# Written licence offer, alongside the tarball asset itself. LGPL-2.1 wants the source OFFERED,
+# Written license offer, alongside the tarball asset itself. LGPL-2.1 wants the source OFFERED,
 # not merely present, so the notes have to say it is there and what it is for.
 if ($lameSrc) {
     $notes.Add('')

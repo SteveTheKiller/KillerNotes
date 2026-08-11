@@ -127,7 +127,7 @@ namespace KillerNotes.Services
                 FLAC__stream_encoder_set_total_samples_estimate(enc, (ulong)frames);
 
                 if (FLAC__stream_encoder_init_stream(enc, write, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero) != 0)
-                { LastError = "FLAC encoder could not be initialised."; return null; }
+                { LastError = "FLAC encoder could not be initialized."; return null; }
 
                 // In blocks rather than one call: a long take would otherwise hand libFLAC a
                 // multi-megabyte array in one go for no benefit.
@@ -220,7 +220,7 @@ namespace KillerNotes.Services
 
                 if (FLAC__stream_decoder_init_stream(dec, onRead, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero,
                         IntPtr.Zero, onWrite, IntPtr.Zero, onError, IntPtr.Zero) != 0)
-                { LastError = "FLAC decoder could not be initialised."; return null; }
+                { LastError = "FLAC decoder could not be initialized."; return null; }
 
                 FLAC__stream_decoder_process_until_end_of_stream(dec);
                 FLAC__stream_decoder_finish(dec);

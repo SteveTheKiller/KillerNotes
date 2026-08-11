@@ -30,7 +30,7 @@ namespace KillerNotes.Controls
         /// capture the incoming palette, and blend those two frozen images while the opaque
         /// incoming one hides the real window. Identical layout on both sides means every glyph
         /// sits on the same pixels in both images, so the blend is a straight linear interpolation
-        /// from the old text colour to the new one and the weight never changes.
+        /// from the old text color to the new one and the weight never changes.
         /// </summary>
         internal static void CrossFade(FrameworkElement surface, Action applyTheme)
         {
@@ -45,7 +45,7 @@ namespace KillerNotes.Controls
             // exception here therefore cannot strand a snapshot over the live window, which is
             // the failure the previous apply-inside-the-adorner version had to guard against.
             applyTheme();
-            // Force the new palette through layout before capturing it. Colours alone do not
+            // Force the new palette through layout before capturing it. Colors alone do not
             // reflow, but a theme also carries CornerRadius and Thickness values that do.
             surface.UpdateLayout();
             ImageSource? after = Snapshot(surface);

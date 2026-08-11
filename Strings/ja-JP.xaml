@@ -593,4 +593,14 @@
     <sys:String x:Key="Str_Sketch_Undo">元に戻す (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">ブラシサイズ (クリックで切り替え)</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+
+    <!-- In-note find (1.2.1) -->
+    <sys:String x:Key="Str_St_FindMatches">{1} 件中 {0} 件</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">一致なし</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">前の一致 (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">次の一致 (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">閉じる (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">ドラッグして移動</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">このノート内を検索 (Ctrl+F)</sys:String>
+    <sys:String x:Key="Str_KS_Find">このノート内を検索</sys:String>
 </ResourceDictionary>

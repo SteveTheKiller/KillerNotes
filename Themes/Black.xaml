@@ -18,7 +18,11 @@
     <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#00ff66" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#00ff66" po:Freeze="True"/>
     <SolidColorBrush x:Key="HeaderLineBrush"     Color="#00ff66" po:Freeze="True"/>
-    <SolidColorBrush x:Key="OnPrimaryBrush"      Color="#ffffff" po:Freeze="True"/>
+    <!-- Near-black, not white. This is the text ON a filled accent button, and every accent in
+         the Black family is a neon: white on them measures 1.27 to 4.38 contrast (teal and green
+         are effectively invisible), near-black measures 4.52 to 15.53. KillerScan, Killendar and
+         KillerShell already use this exact value. -->
+    <SolidColorBrush x:Key="OnPrimaryBrush"      Color="#0a0a0a" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#00ff66" po:Freeze="True"/>
     <SolidColorBrush x:Key="InputHoverBrush"     Color="#aaaaaa" po:Freeze="True"/>
     <SolidColorBrush x:Key="TextFooter"          Color="#aaaaaa" po:Freeze="True"/>
@@ -27,7 +31,12 @@
     <SolidColorBrush x:Key="SurfaceBrush"        Color="#000000" po:Freeze="True"/>
     <SolidColorBrush x:Key="PaneBrush"           Color="#0a0a0a" po:Freeze="True"/>
     <SolidColorBrush x:Key="TableHeaderBrush"    Color="#000000" po:Freeze="True"/>
-    <SolidColorBrush x:Key="CardBorderBrush"     Color="#787878" po:Freeze="True"/>
+    <!-- #2a2a2a, not #787878. Black's premise is that elements read by BACKGROUND rather than by
+         bright edges, and a mid-gray hairline on a near-black surface is a 4.8:1 edge where every
+         other dark theme in the family sits between 1.1 and 1.7 - it framed every card and dialog
+         in a light box. Corrected across the family 2026-08-10; the shared layer below carries the
+         same value, because that one is overlaid on top of this file and would otherwise win. -->
+    <SolidColorBrush x:Key="CardBorderBrush"     Color="#2a2a2a" po:Freeze="True"/>
     <SolidColorBrush x:Key="PaneBorderBrush"     Color="#1c1c1c" po:Freeze="True"/>
     <!-- Keep the outer app frame visible against the OLED-black chrome while
          leaving internal pane borders intentionally near-black. -->
@@ -48,7 +57,7 @@
     <SolidColorBrush x:Key="InputBorderBrush"    Color="#787878" po:Freeze="True"/>
     <!-- Menu surface compatibility defaults; KillerUI overlays the authoritative values. -->
     <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#000000" po:Freeze="True"/>
-    <SolidColorBrush x:Key="MenuBorderBrush"     Color="#808080" po:Freeze="True"/>
+    <SolidColorBrush x:Key="MenuBorderBrush"     Color="#1c1c1c" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuTextBrush"       Color="#cccccc" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuHoverBrush"      Color="#333333" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlinePressedBrush" Color="#003322" po:Freeze="True"/>

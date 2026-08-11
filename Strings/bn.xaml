@@ -595,4 +595,14 @@
     <sys:String x:Key="Str_Sketch_Undo">পূর্বাবস্থা (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">ব্রাশের আকার (পরিবর্তনে ক্লিক)</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+
+    <!-- In-note find (1.2.1) -->
+    <sys:String x:Key="Str_St_FindMatches">{1}-এর মধ্যে {0}</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">কোনো মিল নেই</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">পূর্ববর্তী মিল (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">পরবর্তী মিল (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">বন্ধ করুন (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">সরাতে টেনে আনুন</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">এই নোটে খুঁজুন (Ctrl+F)</sys:String>
+    <sys:String x:Key="Str_KS_Find">এই নোটে খুঁজুন</sys:String>
 </ResourceDictionary>

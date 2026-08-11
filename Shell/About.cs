@@ -10,7 +10,7 @@ using KillerNotes.Features;
 //
 // The About overlay's window half: the fade, the click handling, and the IAboutHost
 // implementation that maps the controller's values onto the named XAML elements. All the
-// behaviour lives in Features/About/AboutController.cs, and the values it reports come from
+// behavior lives in Features/About/AboutController.cs, and the values it reports come from
 // Services/AppInfo.cs, Services/CodeSignature.cs and Services/UpdateService.cs.
 //
 // Your MainWindow.xaml is expected to provide an "AboutOverlay" Grid (ZIndex high,

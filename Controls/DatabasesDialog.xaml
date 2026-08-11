@@ -19,7 +19,7 @@
 
     <!-- Card chrome (shadow/border/bevels/grain) is the SHARED DialogCard style; the caption
          is the SHARED DialogTitleBar control. This dialog is where both patterns were worked
-         out (the childless shadow sibling, the caption swap - Steve, 2026-08-07); the single
+         out (the childless shadow sibling, the caption swap - 2026-08-07); the single
          copies now live in Controls.xaml and DialogTitleBar.xaml - never inline them again. -->
     <ContentControl x:Name="RootBorder" Opacity="0" Style="{StaticResource DialogCard}">
 
@@ -77,7 +77,7 @@
                                                      row on a square-cornered theme is a square
                                                      selection bar - rounding it is a modern
                                                      convention that theme is explicitly not.
-                                                     (Steve, 2026-08-07.) -->
+                                                     (2026-08-07) -->
                                                 <Border x:Name="bg" Background="Transparent"
                                                         CornerRadius="{DynamicResource SmallCornerRadius}"
                                                         Padding="{TemplateBinding Padding}">

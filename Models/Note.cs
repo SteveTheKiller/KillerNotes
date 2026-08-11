@@ -188,7 +188,7 @@ namespace KillerNotes.Models
         public Thickness HeaderPadding => new(0, Density == 0 ? 2 : 0, 0, 0);
         // Leave a small, density-aware breath below the name before its first child.
         // The old values over-collapsed the header row and made the first note appear
-        // attached to the label (especially obvious with brightly coloured groups).
+        // attached to the label (especially obvious with brightly colored groups).
         public Thickness HeaderMargin => Density switch
         {
             0 => new Thickness(0, 0, 0, -2),

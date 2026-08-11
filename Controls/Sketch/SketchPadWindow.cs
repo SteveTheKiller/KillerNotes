@@ -99,9 +99,9 @@ namespace KillerNotes.Controls
         private static readonly int[] Widths = [2, 4, 6, 10, 16];
         private static readonly int[] Alphas = [51, 102, 153, 204, 255];   // 20 / 40 / 60 / 80 / 100 %
         /// <summary>The pinned first swatch and the fallback ink. Follows the theme's TextBrush
-        /// rather than being a fixed colour: it was bone (#E3DAC9), picked when every canvas was
+        /// rather than being a fixed color: it was bone (#E3DAC9), picked when every canvas was
         /// dark, and on a light theme that is near-invisible on the paper. TextBrush is by
-        /// definition the colour that reads on the current surface - black on 98SE and Light,
+        /// definition the color that reads on the current surface - black on 98SE and Light,
         /// near-white on the dark palettes.</summary>
         private static Color DefaultPen =>
             Application.Current?.TryFindResource("TextBrush") is SolidColorBrush b ? b.Color : Colors.Black;
@@ -125,10 +125,10 @@ namespace KillerNotes.Controls
             Width = 900; Height = 720;
             MinWidth = 520; MinHeight = 460;
             // NOT Owner = owner. An owned window sits permanently ABOVE its owner, so the main
-            // window could never be brought over an open pad ("i cant get the notes window above
-            // dictation or sketchpad", Steve, 2026-08-08). The pads are free siblings: normal
+            // window could never be brought over an open dictation or sketch pad
+            // (2026-08-08). The pads are free siblings: normal
             // z-order, click whichever should be on top. What Owner used to provide is done by
-            // hand - centred over the main window at open, and closed with it.
+            // hand - centered over the main window at open, and closed with it.
             if (owner != null)
             {
                 WindowStartupLocation = WindowStartupLocation.Manual;
@@ -146,7 +146,7 @@ namespace KillerNotes.Controls
             else WindowStartupLocation = WindowStartupLocation.CenterScreen;
             UseLayoutRounding = true;
             // Text rendering, matching MainWindow.xaml:10 and FileDialog.xaml:16-17. This window set
-            // neither, so its text fell back to Ideal formatting with default (greyscale) rendering
+            // neither, so its text fell back to Ideal formatting with default (grayscale) rendering
             // and came out soft next to every other window in the app.
             TextOptions.SetTextFormattingMode(this, TextFormattingMode.Display);
             TextOptions.SetTextRenderingMode(this, TextRenderingMode.ClearType);
@@ -214,7 +214,7 @@ namespace KillerNotes.Controls
                 if (_railPanel != null)
                     _railPanel.Margin = new Thickness(0, 0, _flatChrome ? 2 : 8, 0);
                 // The canvas pane's shadow follows the theme too - it was baked at build and a
-                // pad opened flat stayed shadowless everywhere (Steve, 2026-08-08).
+                // pad opened flat stayed shadowless everywhere (2026-08-08).
                 if (_frameShadow != null) _frameShadow.Effect = CardShadowOrNull();
                 UpdateWindowCorners();   // radius + halo + shadow follow the new theme live
             };
@@ -235,7 +235,7 @@ namespace KillerNotes.Controls
                 else if (ctrl && e.Key == Key.Enter) { _print(_objects, _canvasW, _canvasH); e.Handled = true; }   // Print to note
                 else if (!ctrl)
                 {
-                    // Single-key tool switches (Steve prefers bare letters). Safe: the pad has no text
+                    // Single-key tool switches, bare letters by preference. Safe: the pad has no text
                     // field except the inline label editor, which is guarded above (returns early).
                     switch (e.Key)
                     {

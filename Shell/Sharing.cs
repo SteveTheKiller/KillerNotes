@@ -58,7 +58,7 @@ namespace KillerNotes.Shell
                 _currentId = -1;
                 if (!OpenDatabase(exitOnCancel: false))
                 {
-                    // Unlock cancelled - fall back to the previous database.
+                    // Unlock canceled - fall back to the previous database.
                     App.SetSetting("ActiveDatabase", prevFile);
                     OpenDatabase(exitOnCancel: false);
                 }

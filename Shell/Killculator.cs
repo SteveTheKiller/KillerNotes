@@ -118,7 +118,7 @@ namespace KillerNotes.Shell
                 KalcPanel.SizeChanged += (_, e) => { if (e.HeightChanged) ApplyKalcCompaction(); };
             }
             // If the sidebar is collapsed, pop it open (without changing the saved preference)
-            // so the pad is visible; CloseKalc tucks it back. (Steve, 2026-07-22)
+            // so the pad is visible; CloseKalc tucks it back. (2026-07-22)
             if (_sidebarCollapsed)
             {
                 _sidebarCollapsed = false;
@@ -147,7 +147,7 @@ namespace KillerNotes.Shell
                 if (!_kalcOpen) return;
                 KalcPanel.BeginAnimation(FrameworkElement.HeightProperty, null);
                 KalcPanel.Height = h;
-                // WPF honours MinHeight OVER Height, so this one line stops the grip from ever
+                // WPF honors MinHeight OVER Height, so this one line stops the grip from ever
                 // driving the panel shorter than its contents - which is what cut the buttons off.
                 KalcPanel.MinHeight = floor;
             };

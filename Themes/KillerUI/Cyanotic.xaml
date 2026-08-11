@@ -7,8 +7,8 @@
   <SolidColorBrush x:Key="TextBrush" Color="#fffde8"/><SolidColorBrush x:Key="MutedTextBrush" Color="#e0d49a"/><SolidColorBrush x:Key="ChromeTextBrush" Color="#c2d2dc"/><SolidColorBrush x:Key="DimTextBrush" Color="#c0aa68"/>
   <SolidColorBrush x:Key="InputBorderBrush" Color="#26507a"/><SolidColorBrush x:Key="InputHoverBrush" Color="#2f6f9c"/><SolidColorBrush x:Key="MenuBackgroundBrush" Color="#001624"/><SolidColorBrush x:Key="MenuBorderBrush" Color="#26507a"/>
   <!-- The WARM accent, not white and not the signature blue: cyanotype prints carry tan/cream
-       highlights, and the pre-KillerUI palette accented with #e0d49a ("everything is white...
-       supposed to have a tan highlight", Steve, 2026-08-08). The signature blue stays in
-       HeaderLineBrush for the wordmark. -->
+       highlights, and the pre-KillerUI palette accented with #e0d49a - the tan highlight this
+       theme is meant to show, rather than the white it came up as (2026-08-08). The signature
+       blue stays in HeaderLineBrush for the wordmark. -->
   <SolidColorBrush x:Key="SelectionBg" Color="#44e0d49a"/><SolidColorBrush x:Key="SelectionFg" Color="#ffffff"/><SolidColorBrush x:Key="PrimaryBrush" Color="#e0d49a"/><SolidColorBrush x:Key="PrimaryHoverBrush" Color="#e0d49a"/><SolidColorBrush x:Key="PrimaryPressedBrush" Color="#e0d49a"/><SolidColorBrush x:Key="OnPrimaryBrush" Color="#00263a"/><SolidColorBrush x:Key="OutlineBtnBrush" Color="#e0d49a"/><SolidColorBrush x:Key="HeaderLineBrush" Color="#3aa0d8"/>
 </ResourceDictionary>

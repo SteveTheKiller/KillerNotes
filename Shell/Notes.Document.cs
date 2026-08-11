@@ -195,7 +195,14 @@ namespace KillerNotes.Shell
         }
 
         private void TitleBox_TextChanged(object sender, TextChangedEventArgs e) => MarkDirty();
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e) => MarkDirty();
+        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            MarkDirty();
+            // Only marks the find bar's flattened copy of the note stale - it does not re-walk
+            // anything unless the bar is open and a match is actually being asked for
+            // (FindBar.cs).
+            InvalidateFindCache();
+        }
 
         // Clicking the note title jumps the view back to the top of the note (Dantex's
         // suggestion, Opera-style). Preview only scrolls the editor viewport - the click

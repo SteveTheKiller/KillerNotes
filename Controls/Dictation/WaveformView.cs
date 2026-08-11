@@ -5,7 +5,7 @@ using System.Windows.Media;
 namespace KillerNotes.Controls
 {
     /// <summary>
-    /// Draws a peak envelope as mirrored bars around a centre line. Used twice: live while
+    /// Draws a peak envelope as mirrored bars around a center line. Used twice: live while
     /// recording (the tail of the envelope, scrolling) and static on an embedded recording's chip.
     /// Both read the same envelope from DictationRecorder, so what you watch while recording is
     /// what you get on the chip afterwards.
@@ -21,8 +21,8 @@ namespace KillerNotes.Controls
         {
             // The brushes are resolved per render, but a live theme switch does not RENDER a
             // static waveform - nothing invalidates it - so it kept the old palette until the
-            // next peak/progress change ("when i change themes the waveform didnt change
-            // color", Steve, 2026-08-08). Loaded/Unloaded so an embedded chip discarded with
+            // next peak/progress change: its color did not follow a theme switch at all
+            // (2026-08-08). Loaded/Unloaded so an embedded chip discarded with
             // its note does not leak through the static event.
             Loaded += (_, _) => KillerNotes.Services.ThemeManager.ThemeChanged += OnThemeChanged;
             Unloaded += (_, _) => KillerNotes.Services.ThemeManager.ThemeChanged -= OnThemeChanged;
@@ -40,7 +40,7 @@ namespace KillerNotes.Controls
         internal int Window { get; set; }
 
         /// <summary>Bar width and gap in DIPs. Small and fixed rather than derived from the control
-        /// width, so the bars stay the same size whether the pad is 380px or maximised.</summary>
+        /// width, so the bars stay the same size whether the pad is 380px or maximized.</summary>
         internal double BarWidth { get; set; } = 2;
         internal double BarGap { get; set; } = 1;
 
@@ -132,14 +132,14 @@ namespace KillerNotes.Controls
             return Brushes.Gray;
         }
 
-        /// <summary>How much of each bar takes the second colour.</summary>
+        /// <summary>How much of each bar takes the second color.</summary>
         private const double CoreScale = 0.55;
 
-        /// <summary>The second waveform colour: a LIGHTER SHADE of the accent, derived per render.
+        /// <summary>The second waveform color: a LIGHTER SHADE of the accent, derived per render.
         /// This was PrimaryBrush - a different token - but the warm-accent pass pointed
-        /// OutlineBtnBrush and PrimaryBrush at the SAME colour on several themes, which collapsed
-        /// the waveform to one flat tone ("can we combine the tan with white or something for
-        /// some dimension... two shades of the accent color", Steve, 2026-08-08). Deriving the
+        /// OutlineBtnBrush and PrimaryBrush at the SAME color on several themes, which collapsed
+        /// the waveform to one flat tone; it needs two shades of the accent color for
+        /// dimension (2026-08-08). Deriving the
         /// core from the accent guarantees two shades on EVERY palette; a non-solid accent falls
         /// back to PrimaryBrush as before.</summary>
         private Brush Core()
@@ -179,7 +179,7 @@ namespace KillerNotes.Controls
             rule = rule.Clone();
             rule.Opacity = 0.35;
             rule.Freeze();
-            // A centre line, so an empty or silent stretch still reads as "audio", not as a bug.
+            // A center line, so an empty or silent stretch still reads as "audio", not as a bug.
             dc.DrawRectangle(rule, null, new Rect(0, Math.Floor(mid), w, 1));
 
             // Selected segment first, UNDER the bars: a highlight painted over them would flatten
@@ -225,8 +225,8 @@ namespace KillerNotes.Controls
             }
 
             var ink = Ink();
-            // Bars ahead of the playhead are the same colour at reduced opacity rather than a
-            // different brush - on a themed palette a second colour reads as a second meaning.
+            // Bars ahead of the playhead are the same color at reduced opacity rather than a
+            // different brush - on a themed palette a second color reads as a second meaning.
             Brush ahead = ink;
             if (_progress >= 0)
             {
@@ -274,9 +274,9 @@ namespace KillerNotes.Controls
                 dc.DrawRectangle(playX < 0 || x < playX ? ink : ahead, null,
                                  new Rect(x, mid - half, barW, half * 2));
 
-                // A shorter core in a second colour, so a bar reads as loud middle and quieter tips
+                // A shorter core in a second color, so a bar reads as loud middle and quieter tips
                 // rather than one flat block. Drawn per bar rather than as a gradient brush so it
-                // tracks the theme, both colours being resolved per render.
+                // tracks the theme, both colors being resolved per render.
                 double core = half * CoreScale;
                 if (core > 0.5)
                     dc.DrawRectangle(playX < 0 || x < playX ? coreInk : coreAhead, null,

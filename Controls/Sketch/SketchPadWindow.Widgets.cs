@@ -217,7 +217,7 @@ namespace KillerNotes.Controls
                 Cursor = Cursors.Hand,
             };
             // Radius from the theme, not a hardcoded 3. A square-cornered palette squares these off
-            // with everything else in it - a Win98 colour swatch is a hard-edged square.
+            // with everything else in it - a Win98 color swatch is a hard-edged square.
             b.SetResourceReference(Border.CornerRadiusProperty, "SmallCornerRadius");
             b.SetResourceReference(Border.BorderBrushProperty, "InputBorderBrush");
             Tip(b, $"#{c.R:X2}{c.G:X2}{c.B:X2}");

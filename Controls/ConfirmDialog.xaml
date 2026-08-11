@@ -18,7 +18,7 @@
         ShowInTaskbar="False">
 
     <!-- Dialog cards sit on the dark tier. Inputs and DimTextBrush are calibrated against it;
-         on SurfaceBrush a field is the same colour as the card behind it. -->
+         on SurfaceBrush a field is the same color as the card behind it. -->
     <!-- Card chrome (shadow/border/bevels/grain) is the SHARED DialogCard style; the caption
          is the SHARED DialogTitleBar control. One copy each, in Controls.xaml and
          DialogTitleBar.xaml - never inline them here again. -->

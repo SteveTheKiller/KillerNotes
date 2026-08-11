@@ -130,9 +130,16 @@ namespace KillerNotes.Shell
                 case Key.F2:
                     if (_currentId >= 0) { TitleBox.Focus(); TitleBox.SelectAll(); e.Handled = true; }
                     break;
-                case Key.F3:
+                // THE SPLIT: Ctrl+F is IN-NOTE find, F3 is the sidebar's cross-note search - and
+                // while the find bar is open F3 steps its matches instead, which is what F3 means
+                // in every editor that has both. Shift+F3 steps back. Closed, F3 is unchanged.
                 case Key.F when ctrl:
-                    FocusSearch();                       // Sidebar.cs (expands first if collapsed)
+                    OpenFindBar();                       // FindBar.cs
+                    e.Handled = true;
+                    break;
+                case Key.F3:
+                    if (_findOpen) StepFind(shift ? -1 : 1);   // FindBar.cs
+                    else FocusSearch();                        // Sidebar.cs (expands first if collapsed)
                     e.Handled = true;
                     break;
                 case Key.F4:
@@ -312,6 +319,10 @@ namespace KillerNotes.Shell
             if (FontsOverlay.Visibility == Visibility.Visible) { HideFontsOverlay(); return true; }   // Fonts.cs
             if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return true; }
             if (AboutOverlay.Visibility == Visibility.Visible) { FadeOverlayOut(AboutOverlay); return true; }
+            // BEFORE the SearchBox branch, and it has to stay there. Both boxes can hold text at
+            // once, and if the sidebar's came first then Esc with the find bar open would clear
+            // the cross-note search and leave the find bar sitting there.
+            if (_findOpen) { CloseFindBar(); return true; }   // FindBar.cs
             if (SearchBox.IsKeyboardFocusWithin || SearchBox.Text.Length > 0)
             {
                 SearchBox.Text = "";

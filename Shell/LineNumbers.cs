@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace KillerNotes.Shell
@@ -31,9 +32,17 @@ namespace KillerNotes.Shell
     //      collapses to a single pass after the burst settles. SCROLL and RESIZE coalesce to
     //      one repaint per FRAME instead (QueueGutterRepaint): the repaint is viewport-local
     //      and cheap, and riding the debounce made the numbers trail a beat behind the text
-    //      ("it takes the numbers about a full second to catch up", Steve, 2026-08-08).
+    //      by about a full second (2026-08-08).
     public partial class MainWindow
     {
+        // Consolas, NOT the editor's family. The gutter is a column of digits, and in a
+        // proportional note font a 1 is far narrower than an 8, so right-aligned numbers
+        // shift horizontally as the visible range changes while scrolling. Mono also matches
+        // how the rest of the app sets numeric and technical chrome (FileDialog,
+        // PickerStyles, the dictation timer). Static so the per-frame scroll repaint does not
+        // allocate a FontFamily every pass.
+        private static readonly FontFamily GutterFont = new("Consolas");
+
         private bool _lineNumbers;
         private DispatcherTimer? _gutterTimer;
         private readonly List<Block> _gutterBlocks = [];
@@ -45,7 +54,7 @@ namespace KillerNotes.Shell
             _lineNumbers = App.GetSetting("LineNumbers") == "1";
             Editor.TextChanged += (_, _) =>
             {
-                // IGNORE the syntax highlighter's own writes. Recolouring splits RUNS, never
+                // IGNORE the syntax highlighter's own writes. Recoloring splits RUNS, never
                 // blocks, so the block list stays valid - and on a highlighted note the
                 // viewport fill-in fires TextChanged on every scroll frame, which dirtied the
                 // list, made QueueGutterRepaint skip, and put the numbers back on the 150ms
@@ -126,7 +135,7 @@ namespace KillerNotes.Shell
 
             double zoom = _editorZoom <= 0 ? 1 : _editorZoom;
             double fontSize = Editor.FontSize * zoom;   // match the editor text (gutter is outside its zoom transform)
-            var fontFamily = Editor.FontFamily;
+            var fontFamily = GutterFont;
             double h = LineGutter.ActualHeight;
 
             // Place numbers for the visible blocks only. Finding the first visible block and
@@ -141,7 +150,7 @@ namespace KillerNotes.Shell
                     // ContentStart, NEVER ElementStart: a rect read at an element EDGE comes back
                     // as the NEIGHBORING content's bounds (the same trap EditorSelectionText.cs
                     // documents), so ElementStart put each number on the PREVIOUS block's line and
-                    // the gutter drew overlapping pairs (Steve, 2026-08-08). ContentStart faces
+                    // the gutter drew overlapping pairs (2026-08-08). ContentStart faces
                     // the block's own first line, empty paragraphs included.
                     var rect = _gutterBlocks[i].ContentStart.GetCharacterRect(LogicalDirection.Forward);
                     if (rect.IsEmpty)
@@ -207,7 +216,7 @@ namespace KillerNotes.Shell
                         // ONE number for the whole table, like an embedded object - never one per
                         // cell paragraph: cells in the same ROW all sit at the same Y, so a
                         // two-column table drew two numbers on top of each other in the gutter,
-                        // one overprinted pair per row (Steve, 2026-08-08). FirstVisibleGutterIndex
+                        // one overprinted pair per row (2026-08-08). FirstVisibleGutterIndex
                         // still resolves a position inside a cell to the table via its parent walk.
                         _gutterIndex[table] = _gutterBlocks.Count;
                         _gutterBlocks.Add(table);

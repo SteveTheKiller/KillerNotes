@@ -1,7 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <!-- TAN, not the sage green it shipped with: Decay's accent is the tan OutlineBtnBrush
-       below ("its supposed to be tan", Steve, 2026-08-08), so the icons and accent buttons
-       follow it. -->
+       below (2026-08-08), so the icons and accent buttons follow it. -->
   <SolidColorBrush x:Key="PrimaryBrush" Color="#b8aa7c"/>
   <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#c2b280"/>
   <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#9a8f68"/>

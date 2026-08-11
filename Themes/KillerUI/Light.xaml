@@ -4,7 +4,7 @@
        near-black editor: on this theme's light page its number green (#B5CEA8) and comment green
        (#6A9955) sit around 1.8:1 and read as a watermark rather than as text. These are the
        Light+ equivalents - the same seven roles, picked for a light background. The eleven
-       dark-paged themes state nothing and keep Dark+. (Steve, 2026-08-07.) -->
+       dark-paged themes state nothing and keep Dark+. (2026-08-07) -->
   <SolidColorBrush x:Key="Syn_Comment"  Color="#008000"/>
   <SolidColorBrush x:Key="Syn_String"   Color="#a31515"/>
   <SolidColorBrush x:Key="Syn_Number"   Color="#098658"/>

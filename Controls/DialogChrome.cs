@@ -44,8 +44,8 @@ namespace KillerNotes.Controls
         /// invisible.
         ///
         /// Every key is transparent at zero thickness by default, so a window that adds this on a
-        /// flat theme draws nothing and looks exactly as it did. (Steve, 2026-08-07: "we need to
-        /// repeat the whole process for all the other windows".)
+        /// flat theme draws nothing and looks exactly as it did, so every other window can take
+        /// the same treatment. (2026-08-07)
         /// </summary>
         public static UIElement WindowFrame()
         {
@@ -76,7 +76,7 @@ namespace KillerNotes.Controls
         /// "KillerNotes <subtitle>" in the wordmark face, over a blurred dark copy of itself.
         ///
         /// ChromeTextBrush and not TextBrush for the "Killer" half: a caption band is a dark
-        /// gradient on several themes, and TextBrush is the colour calibrated for the CONTENT
+        /// gradient on several themes, and TextBrush is the color calibrated for the CONTENT
         /// surface (black on 98SE), which vanished against it.
         /// </summary>
         public static UIElement Wordmark(string subtitle)
@@ -86,7 +86,7 @@ namespace KillerNotes.Controls
             // comment here CLAIMED that while the code still picked one at build time with a C#
             // "if" on UseDialogCaption: a pad opened under a wordmark theme then kept the
             // typewriter logotype painted over 98SE's caption after a live theme switch, on top
-            // of the plain title (Steve, 2026-08-08). Now the code matches the claim.
+            // of the plain title (2026-08-08). Now the code matches the claim.
             var host = new Grid { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center };
 
             // -- Flat caption: icon + bold plain title, the SAME keys the main window's caption
@@ -133,10 +133,10 @@ namespace KillerNotes.Controls
             shadow.Children.Add(Text(wf, subtitle, "", "", "", shadowInk));
             mark.Children.Add(shadow);
 
-            // The subtitle takes ChromeTextBrush too, NOT MutedTextBrush. Muted is a colour mixed
+            // The subtitle takes ChromeTextBrush too, NOT MutedTextBrush. Muted is a color mixed
             // against the CONTENT surface; on a theme that paints a real caption band (98SE's green)
             // it lands dark-on-dark and the subtitle disappeared while "KillerNotes" beside it
-            // stayed perfectly readable. Chrome text is the band's own colour by definition. The
+            // stayed perfectly readable. Chrome text is the band's own color by definition. The
             // subtitle still reads as secondary because it is lighter weight and a size down.
             mark.Children.Add(Text(wf, subtitle, "ChromeTextBrush", "AccentLogo", "ChromeTextBrush"));
             host.Children.Add(mark);
@@ -179,9 +179,9 @@ namespace KillerNotes.Controls
         // OS-driven bottom-right corner resize. The windows' own resize border lives out in
         // the transparent shadow halo (easy to miss), so the visible grip is the reliable way.
         // ONE builder for every resizable pad, so the grips cannot drift apart: SketchPad had
-        // its own copy and Dictation had nothing (Steve, 2026-08-08). TWO looks in one 18x18
+        // its own copy and Dictation had nothing (2026-08-08). TWO looks in one 18x18
         // slot, each shown by its own visibility key - the family's six 2x2 dots, or the Win98
-        // diagonal bevelled bands on a flat theme.
+        // diagonal beveled bands on a flat theme.
         public static UIElement ResizeGrip(Window owner)
         {
             var c = new System.Windows.Controls.Canvas
@@ -208,8 +208,8 @@ namespace KillerNotes.Controls
             Dot(6, 15); Dot(10.5, 15); Dot(15, 15);
             c.Children.Add(dots);
 
-            // Diagonal bands: half-pixel centres so a 1px line lands on one row, each band a
-            // dark line with a light one under it - the bevelled hatch, not plain strokes.
+            // Diagonal bands: half-pixel centers so a 1px line lands on one row, each band a
+            // dark line with a light one under it - the beveled hatch, not plain strokes.
             var hatch = new System.Windows.Controls.Canvas { Width = 18, Height = 18, IsHitTestVisible = false };
             hatch.SetResourceReference(UIElement.VisibilityProperty, "GripHatchVisibility");
             void Band(double off, string brushKey)
@@ -245,7 +245,7 @@ namespace KillerNotes.Controls
         ///
         /// A TextBlock, not a Button. A Button with Background="Transparent" still carries WPF's
         /// default template, which paints the system highlight behind it on hover - that is the
-        /// grey block no brush or theme reaches.
+        /// gray block no brush or theme reaches.
         ///
         /// PreviewMouseLeftButtonDown, NOT MouseLeftButtonUp: the caption band under this handles
         /// ButtonDown to drag the window, DragMove() runs a modal loop, and the matching ButtonUp
@@ -259,8 +259,8 @@ namespace KillerNotes.Controls
             // button instead of a glyph floating on the band. On every other theme
             // CaptionButtonBrush is transparent and the margin is 0, so it looks exactly as it did.
             // ChromeCloseButton: these X's sit at the caption's corner end, so the hover block
-            // rounds with the card's top-right corner like every dialog caption (Steve,
-            // 2026-08-08); DialogCloseButton's all-round block is only for floating X's.
+            // rounds with the card's top-right corner like every dialog caption
+            // (2026-08-08); DialogCloseButton's all-round block is only for floating X's.
             var glyph = new Button
             {
                 // NO Content. ChromeCloseButton's template draws the glyph itself - one definition
@@ -274,9 +274,9 @@ namespace KillerNotes.Controls
             };
             if (Application.Current?.TryFindResource("ChromeCloseButton") is Style s) glyph.Style = s;
             // DialogCloseWidth/Height, the DIALOG-band size keys (ThemeManager), vertically
-            // CENTRED in the band. The main window's CaptionButtonWidth/Height (44x36) belongs
+            // CENTERED in the band. The main window's CaptionButtonWidth/Height (44x36) belongs
             // to the 36px main bar; in a 28px dialog band it overflowed and the hover block
-            // smothered the card's rounded corner (Steve, 2026-08-08). On a flat theme the keys
+            // smothered the card's rounded corner (2026-08-08). On a flat theme the keys
             // resolve to the real caption-button size, so 98SE is unchanged.
             glyph.SetResourceReference(FrameworkElement.WidthProperty, "DialogCloseWidth");
             glyph.SetResourceReference(FrameworkElement.HeightProperty, "DialogCloseHeight");
@@ -284,7 +284,7 @@ namespace KillerNotes.Controls
             // TOP inset because the window frame overlay paints over the first few pixels of its
             // band; a dialog band has no such overlay, so that inset just pushed the X down and it
             // sat visibly low. The dialog key is the same RIGHT inset with the top zeroed, which is
-            // all a vertically-centred button needs. (Steve, 2026-08-07.)
+            // all a vertically-centered button needs. (2026-08-07)
             glyph.SetResourceReference(FrameworkElement.MarginProperty, "DialogCaptionButtonsMargin");
             glyph.PreviewMouseLeftButtonDown += (_, e) => { e.Handled = true; onClose(); };
             return glyph;

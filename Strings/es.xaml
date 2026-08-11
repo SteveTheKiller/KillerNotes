@@ -595,4 +595,14 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Deshacer (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Tamaño del pincel (clic para alternar)</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+
+    <!-- In-note find (1.2.1) -->
+    <sys:String x:Key="Str_St_FindMatches">{0} de {1}</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">Sin coincidencias</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">Coincidencia anterior (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">Coincidencia siguiente (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">Cerrar (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">Arrastrar para mover</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">Buscar en esta nota (Ctrl+F)</sys:String>
+    <sys:String x:Key="Str_KS_Find">Buscar en esta nota</sys:String>
 </ResourceDictionary>

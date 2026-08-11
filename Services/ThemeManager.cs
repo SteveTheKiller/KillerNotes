@@ -14,11 +14,11 @@ namespace KillerNotes.Services
 
     // Accent-hue variants for the accent-capable families (Dark, Light, Black).
     // Green is the base theme (no overlay); the others apply a small overlay
-    // dictionary that recolours only the accent-family keys.
+    // dictionary that recolors only the accent-family keys.
     public enum Accent { Green, Red, Blue, Purple, Orange, Teal }
 
     /// <summary>
-    /// Builds a complete colour palette per theme and publishes it as MergedDictionaries[0] in a
+    /// Builds a complete color palette per theme and publishes it as MergedDictionaries[0] in a
     /// single assignment. Control styles bind through DynamicResource, so replacing the dictionary
     /// invalidates and repaints every surface at once. Theme changes are instant by design - see
     /// the comment on Publish for the transitions that were tried and why they were reverted.
@@ -28,7 +28,7 @@ namespace KillerNotes.Services
     /// the theme still works for the session, it just won't be remembered.
     ///
     /// REQUIRES (as app resources, merged in App.xaml before Controls.xaml):
-    ///   MergedDictionaries[0] = a Themes/{Theme}.xaml colour dictionary.
+    ///   MergedDictionaries[0] = a Themes/{Theme}.xaml color dictionary.
     /// Shared trademark tokens are overlaid from KillerUI; this app dictionary contains
     /// only compatibility defaults and KillerNotes-specific resources.
     /// </summary>
@@ -64,7 +64,7 @@ namespace KillerNotes.Services
         {
             string? savedTheme = GetSetting("Theme");
             // One-time: Ectoplasm and Malaise held each other's palettes while the picker
-            // relabelled them. The palettes have been put under their correct names, so swap
+            // relabeled them. The palettes have been put under their correct names, so swap
             // the saved value once - otherwise everyone's chosen theme flips underneath them.
             if (GetSetting("ThemeNameSwapFixed") is null)
             {
@@ -136,9 +136,9 @@ namespace KillerNotes.Services
         /// Attaches a fully built palette as MergedDictionaries[0], in ONE assignment.
         ///
         /// There is deliberately no transition here. Animating the brushes in place was tried and
-        /// reverted: mutating a brush's Colour fires no resource-changed notification, so only the
+        /// reverted: mutating a brush's Color fires no resource-changed notification, so only the
         /// surfaces that happen to hold that exact brush object repaint. The result was a theme
-        /// applying to some of the window and not the rest - the sidebar recoloured while the
+        /// applying to some of the window and not the rest - the sidebar recolored while the
         /// editor pane and the Killculator stayed on the previous palette. A correct repaint needs
         /// the invalidation that replacing the dictionary provides, and correctness beats a fade.
         ///
@@ -157,7 +157,7 @@ namespace KillerNotes.Services
         private static void LoadDict(Theme theme)
         {
             // EVERY theme is a complete, standalone palette in exactly two halves: the
-            // app-specific colours in Themes/<Name>.xaml and the shared contract tokens in
+            // app-specific colors in Themes/<Name>.xaml and the shared contract tokens in
             // KillerUI/Themes/<Name>.xaml. No theme inherits another and none is generated at
             // runtime - the former Cyanotic/Light base-plus-patch forms and the four
             // RetroPaletteCatalog palettes were flattened into files of their own, so adding a
@@ -179,7 +179,7 @@ namespace KillerNotes.Services
             // NULL on a flat theme. Built per palette load and FROZEN, because a
             // DynamicResource inside a shared keyed Freezable's Opacity does not reliably
             // resolve - the Tags list pane cast a full-strength shadow on 98SE through exactly
-            // that ("remember, there shouldnt be any shadow in 98se", Steve, 2026-08-08).
+            // that, and 98SE must have no shadow at all (2026-08-08).
             // Consumers take it with DynamicResource, so a live switch swaps the whole effect.
             if (newDict["PaneShadowOpacity"] is double pso && pso > 0)
             {
@@ -197,21 +197,21 @@ namespace KillerNotes.Services
             if (!newDict.Contains("SortButtonBrush") && newDict.Contains("PaneBrush"))
                 newDict["SortButtonBrush"] = newDict["PaneBrush"];
             // The 1px line ringing the window (RootBorder). Same as the app border unless a theme
-            // says otherwise - 98SE makes it transparent, because on a bevelled theme it lands
+            // says otherwise - 98SE makes it transparent, because on a beveled theme it lands
             // outside the dark bottom/right bevel as a bright stripe.
             if (!newDict.Contains("WindowEdgeBrush") && newDict.Contains("AppBorderBrush"))
                 newDict["WindowEdgeBrush"] = newDict["AppBorderBrush"];
             // RootBorder's thickness. It is the PARENT of everything, so its border sits OUTSIDE
             // the bevel layer - a transparent brush is not enough to hide it, because the window's
-            // own Background then shows through the same 1px band. A bevelled theme sets this to 0
+            // own Background then shows through the same 1px band. A beveled theme sets this to 0
             // so its bevel reaches the true window edge.
             SetIfAbsent(newDict, "WindowEdgeThickness", new Thickness(1));
-            // A button's flat edge. Bevelled themes make it transparent so the bevel is the edge
+            // A button's flat edge. Beveled themes make it transparent so the bevel is the edge
             // instead of a second line drawn beside it.
             if (!newDict.Contains("ButtonEdgeBrush") && newDict.Contains("CardBorderBrush"))
                 newDict["ButtonEdgeBrush"] = newDict["CardBorderBrush"];
 
-            // ---- Dialog caption bands (SketchPad, colour picker, file picker) ----
+            // ---- Dialog caption bands (SketchPad, color picker, file picker) ----
             //
             // Transparent by DEFAULT, so the band shows the card's own face and is invisible - the
             // family look, where a dialog's title blends into the surface. Painting these with
@@ -225,7 +225,7 @@ namespace KillerNotes.Services
             // NOTE: the actual assignment happens AFTER the accent overlay below - see the comment
             // there. Computing it here reads the BASE TitleBarBrush, and the overlay then replaces
             // TitleBarBrush without touching this copy, so every dialog kept the base theme's
-            // caption colour while the main window followed the accent.
+            // caption color while the main window followed the accent.
             // Caption height and the transparent halo a dialog leaves around itself for its drop
             // shadow. A flat theme wants a short caption and NO halo - the halo is where the resize
             // grab lives, so an invisible one puts the grab handle outside the visible window.
@@ -240,12 +240,12 @@ namespace KillerNotes.Services
             // (AboutCloseMargin is computed further down, once CaptionButtonHeight is known - it has
             // to be derived from the band height, not hand-picked.)
             // Caption buttons. Transparent face and no inset by default, so the title bar brush runs
-            // edge to edge exactly as it always has and only the hover/press fill shows. A bevelled
+            // edge to edge exactly as it always has and only the hover/press fill shows. A beveled
             // theme gives them a real face and an inset - that is what stops the gradient AT the
             // button instead of letting it run underneath, which is how Win98 drew a caption.
             SetIfAbsent(newDict, "CaptionButtonBrush", new SolidColorBrush(Colors.Transparent));
             SetIfAbsent(newDict, "CaptionButtonMargin", new Thickness(0));
-            // Title bar geometry. A bevelled theme wants the short Win98 caption with buttons that
+            // Title bar geometry. A beveled theme wants the short Win98 caption with buttons that
             // fill it; everything else keeps the 36px bar and 44x36 hit targets it always had.
             SetIfAbsent(newDict, "TitleBarHeight", 36.0);
             SetIfAbsent(newDict, "CaptionButtonWidth", 44.0);
@@ -262,7 +262,7 @@ namespace KillerNotes.Services
             // The caption's own font. MS Sans Serif is the real Win98 UI face and still ships with
             // Windows; Tahoma is the fallback if it ever stops resolving.
             SetIfAbsent(newDict, "ChromeFontFamily", new FontFamily("Segoe UI"));
-            // Extra gap before the close button. Win98 sat minimise and maximise flush together and
+            // Extra gap before the close button. Win98 sat minimize and maximize flush together and
             // pushed close a couple of pixels clear of them.
             SetIfAbsent(newDict, "CaptionCloseGap", new Thickness(0));
             // Inset for the caption button strip. Win98 left a couple of pixels between the last
@@ -275,7 +275,7 @@ namespace KillerNotes.Services
             // CARD's radius - that corner is the card's corner, and the other three are interior
             // edges that must stay square. Rounding all four to SmallCornerRadius made the hover a
             // floating lozenge at the wrong radius. Derived, so it tracks the card automatically
-            // and squares off with it on a square theme. (Steve, 2026-08-07.)
+            // and squares off with it on a square theme. (2026-08-07)
             if (!newDict.Contains("CaptionCloseCornerRadius"))
             {
                 double tr = newDict["PanelCornerRadius"] is CornerRadius pcr ? pcr.TopRight : 0.0;
@@ -293,20 +293,20 @@ namespace KillerNotes.Services
                     ? newDict["SmallCornerRadius"] : new CornerRadius(0);
             // The DIALOG twin of that inset. Same right-hand gap, no top inset: a dialog band is
             // not covered by the window frame overlay the way the main window's is, so inheriting
-            // the main key's top value only pushed the close button below centre.
+            // the main key's top value only pushed the close button below center.
             if (!newDict.Contains("DialogCaptionButtonsMargin"))
             {
                 var cbm = newDict["CaptionButtonsMargin"] is Thickness ct ? ct : new Thickness(0);
                 newDict["DialogCaptionButtonsMargin"] = new Thickness(0, 0, cbm.Right, 0);
             }
             // Hover fill for the caption buttons. A Win98 caption button had NO hover state at all -
-            // it reacted only to being pressed - so a bevelled theme states Transparent and the
+            // it reacted only to being pressed - so a beveled theme states Transparent and the
             // button simply sinks when clicked. Everything else keeps the row-hover wash.
             if (!newDict.Contains("CaptionHoverBrush"))
                 newDict["CaptionHoverBrush"] = flatCaption
                     ? new SolidColorBrush(Colors.Transparent) : newDict["RowHoverBrush"];
-            // Caption glyphs are drawn bold on a bevelled theme - a 1px MDL2 stroke disappears
-            // against a grey button face at 16px.
+            // Caption glyphs are drawn bold on a beveled theme - a 1px MDL2 stroke disappears
+            // against a gray button face at 16px.
             newDict["CaptionGlyphWeight"] = flatCaption ? FontWeights.Bold : FontWeights.Normal;
             // The About card's close button. It must match the caption buttons when the card has a
             // caption band, and keep the smaller bare-glyph box it always had when it does not.
@@ -315,8 +315,8 @@ namespace KillerNotes.Services
             // The DIALOG caption close's box, same non-flat numbers as the About card's. The
             // dialog band is DialogTitleBarHeight (28), not the main bar's 36: riding
             // CaptionButtonWidth/Height (44x36) overflowed the band, and the oversized hover
-            // block smothered the card's rounded top-right corner entirely ("close button on
-            // hover isnt rounded on the top right", Steve, 2026-08-08). A flat theme keeps its
+            // block smothered the card's rounded top-right corner entirely, so the close
+            // button's hover was not rounded there (2026-08-08). A flat theme keeps its
             // real caption-button size, which its short band is built around.
             newDict["DialogCloseWidth"] = flatCaption ? newDict["CaptionButtonWidth"] : 28.0;
             newDict["DialogCloseHeight"] = flatCaption ? newDict["CaptionButtonHeight"] : 26.0;
@@ -324,8 +324,8 @@ namespace KillerNotes.Services
             // all of DialogTitleBarHeight is visible; the About band sits INSIDE the card border
             // (MainWindow.xaml:1641, BorderThickness=1), so at the same value it presents one row
             // of pixels fewer. That made its slack odd - 3px around a 16px button - and no integer
-            // margin could centre it. Giving it the extra row restores an even 4, so the close sits
-            // 2 above and 2 below like every other caption. The centring math below deliberately
+            // margin could center it. Giving it the extra row restores an even 4, so the close sits
+            // 2 above and 2 below like every other caption. The centering math below deliberately
             // uses the DIALOG height, not this one: the extra pixel is spent on the border, not on
             // the band, so it must not enter the arithmetic.
             double dlgH = newDict["DialogTitleBarHeight"] is double dh ? dh : 0.0;
@@ -334,10 +334,10 @@ namespace KillerNotes.Services
             // positioning it. Derive that margin from the heights instead of hand-picking a number:
             // every time the band height changed (28 -> 20) a hardcoded value silently went wrong.
             double btnH = newDict["AboutCloseHeight"] is double bh ? bh : 0.0;
-            // Centre in the BAND's own height, not the dialog caption height. The button lives
-            // inside the band, so the band is what it has to centre in - measuring against dlgH
+            // Center in the BAND's own height, not the dialog caption height. The button lives
+            // inside the band, so the band is what it has to center in - measuring against dlgH
             // was two pixels of headroom against three of footroom. +2 above rather than +1 is
-            // also deliberate: the slack has to stay EVEN or no integer margin can centre a 16px
+            // also deliberate: the slack has to stay EVEN or no integer margin can center a 16px
             // button, which is the same odd-number trap the card hit the first time.
             double capH = newDict["AboutCaptionHeight"] is double ch ? ch : 0.0;
             // The band may carry its own margin inside the card (98SE insets it 2,2,2 so a sliver
@@ -352,8 +352,8 @@ namespace KillerNotes.Services
             // The DIALOG twin. The About card's band is deliberately one row taller than a
             // dialog's - that extra row is the card border - so About's margin is one pixel too
             // low anywhere else. The picker and the Databases window were both using
-            // AboutCloseMargin, which is exactly why their X sat off-centre while the About card's
-            // looked right. Same arithmetic, dlgH instead of capH. (Steve, 2026-08-07.)
+            // AboutCloseMargin, which is exactly why their X sat off-center while the About card's
+            // looked right. Same arithmetic, dlgH instead of capH. (2026-08-07)
             newDict["DialogCloseMargin"] = flatCaption
                 ? new Thickness(0, System.Math.Max(0, (dlgH - btnH) / 2.0), 4, 0)
                 : new Thickness(0, 6, 6, 0);
@@ -364,7 +364,7 @@ namespace KillerNotes.Services
             // top, and that is correct on the themes that blend: their title bar, the strip behind
             // the content row and the footer are all the same chrome tier, so the pane meeting the
             // caption reads as one continuous surface and a gap there would look like a seam.
-            // A theme whose caption is a DISTINCT coloured band does not blend - the pane butts
+            // A theme whose caption is a DISTINCT colored band does not blend - the pane butts
             // straight into a hard edge and reads as jammed under it - so it opens the gap instead.
             SetIfAbsent(newDict, "ContentPaneMargin", new Thickness(0, 0, 8, 0));
             // The content pane's INNER sunken ring sits one pixel inside its outer one. Derived so
@@ -381,7 +381,7 @@ namespace KillerNotes.Services
             // The search field's fill. Defaults to SurfaceBrush, which is what it has always been.
             // The family rule is that inputs take the darkest tone, and that is right on the twelve
             // blended themes - but on a theme whose "darkest tone" IS the button face, it makes an
-            // edit field the same grey as the panel around it. Win98 edit fields are white.
+            // edit field the same gray as the panel around it. Win98 edit fields are white.
             if (!newDict.Contains("SearchFieldBrush") && newDict.Contains("SurfaceBrush"))
                 newDict["SearchFieldBrush"] = newDict["SurfaceBrush"];
             // The notes LIST's fill - not the sidebar. Transparent by default, so the chrome strip
@@ -389,7 +389,7 @@ namespace KillerNotes.Services
             // theme where a list is a client area - a Win98 list box is white - states its own.
             // Scope matters here: this must not reach the header above the list or the calculator
             // below it. Those are controls sitting on the window face, and painting them the client
-            // colour makes the whole sidebar look like one big edit field.
+            // color makes the whole sidebar look like one big edit field.
             SetIfAbsent(newDict, "ListPaneBrush", new SolidColorBrush(Colors.Transparent));
             // The notes list's top and bottom scroll fades. 1 keeps them; a retro theme sets 0.
             // Opacity rather than Visibility because Sidebar.cs drives Visibility from scroll
@@ -398,7 +398,7 @@ namespace KillerNotes.Services
             // The window frame's OUTER 3D edge. Win98 draws a window border as TWO stacked bevels,
             // not one: a raised-outer (white top/left over black bottom/right) wrapping a
             // raised-inner (#dfdfdf over #808080). That doubling is why a real Win98 edge looks
-            // bevelled on both sides of the line. The existing Bevel* pair is the inner one and is
+            // beveled on both sides of the line. The existing Bevel* pair is the inner one and is
             // shared with every control, so the outer pair gets its own keys rather than making
             // buttons thicker. All four default to nothing, so no other theme grows an edge.
             SetIfAbsent(newDict, "FrameOuterLightBrush", new SolidColorBrush(Colors.Transparent));
@@ -408,9 +408,9 @@ namespace KillerNotes.Services
             // The window frame's INNER 3D edge, and the frame face itself. These three used to be
             // the shared Bevel* pair and AppBorderBrush read straight off the window border, which
             // tied the window's edge to every button's edge and made the frame a flat slab of one
-            // grey. A real Win98 frame is 1px inner bevel over a SHADED face, thinner than the 2px
+            // gray. A real Win98 frame is 1px inner bevel over a SHADED face, thinner than the 2px
             // a control gets. Each falls back to what the window used before, so the twelve other
-            // themes are pixel-identical. (Steve, 2026-08-07.)
+            // themes are pixel-identical. (2026-08-07)
             if (!newDict.Contains("FrameInnerLightBrush") && newDict.Contains("BevelLightBrush"))
                 newDict["FrameInnerLightBrush"] = newDict["BevelLightBrush"];
             if (!newDict.Contains("FrameInnerDarkBrush") && newDict.Contains("BevelDarkBrush"))
@@ -423,7 +423,7 @@ namespace KillerNotes.Services
                 newDict["WindowFrameBrush"] = newDict["AppBorderBrush"];
             // How far each layer of the window frame is inset from the one outside it. Zero by
             // default, which is what every flat theme wants (it draws nothing here anyway). A
-            // bevelled theme insets the face past the outer bevel and the inner bevel past the
+            // beveled theme insets the face past the outer bevel and the inner bevel past the
             // face, so the three read as one 5px edge instead of three lines fighting for pixel 0.
             SetIfAbsent(newDict, "WindowFrameMargin", new Thickness(0));
             SetIfAbsent(newDict, "FrameInnerMargin", new Thickness(0));
@@ -442,14 +442,14 @@ namespace KillerNotes.Services
             // once that grid is inset for the frame they stop short of the window edge and the
             // frame stays undimmed while everything else behind the overlay dims - a bright 5px
             // ring around a dimmed window. This is the negative of the frame padding, so they
-            // bleed back out over it. Zero when there is no frame. (Steve, 2026-08-07.)
+            // bleed back out over it. Zero when there is no frame. (2026-08-07)
             if (!newDict.Contains("OverlayBleed"))
             {
                 var fp = newDict["WindowFramePadding"] is Thickness wfp ? wfp : new Thickness(0);
                 newDict["OverlayBleed"] = new Thickness(-fp.Left, -fp.Top, -fp.Right, -fp.Bottom);
             }
-            // Toolbar separator. One flat 1px rule by default. A bevelled theme makes it 2px and
-            // fills it with a hard-stop gradient - grey then white - which is the ETCHED divider
+            // Toolbar separator. One flat 1px rule by default. A beveled theme makes it 2px and
+            // fills it with a hard-stop gradient - gray then white - which is the ETCHED divider
             // every Win98 toolbar and taskbar draws between bands. Done as one Rectangle with a
             // two-stop brush rather than a second element, because each separator is named and
             // code toggles its visibility; a sibling would need every one of those call sites too.
@@ -475,7 +475,7 @@ namespace KillerNotes.Services
             // The picker's Win32 status bar. Off by default: the family's floating card puts the
             // selection beside the buttons, and a bare strip along the bottom of a rounded card
             // reads as bolted on. A theme that IS a Win32 dialog turns it on and hides the inline
-            // pair instead. (Steve, 2026-08-07: "98SE only".)
+            // pair instead - 98SE only. (2026-08-07)
             SetIfAbsent(newDict, "DialogStatusBarHeight", 0.0);
             SetIfAbsent(newDict, "DialogStatusBarVisibility", Visibility.Collapsed);
             SetIfAbsent(newDict, "DialogInlineSelVisibility", Visibility.Visible);
@@ -492,9 +492,9 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "SidebarPanelMargin", new Thickness(8, 8, 0, 0));
             // The bottom-right resize grip. CLAUDE.md locks the family grip as six 2x2 dots across
             // every app, so that stays the default and the twelve other themes never see the hatch.
-            // A Win98-style theme swaps in the era's diagonal bevelled bands instead - Steve,
-            // 2026-08-07: "the corner will look different from the rest because this theme is not
-            // like the rest". Gated on the same UseDialogCaption marker as the rest of the retro
+            // A Win98-style theme swaps in the era's diagonal beveled bands instead: its corner
+            // is meant to look different from the rest, because the theme itself does
+            // (2026-08-07). Gated on the same UseDialogCaption marker as the rest of the retro
             // treatment, so a theme opts into the whole look at once rather than piecemeal.
             newDict["GripDotsVisibility"] = flatCaption ? Visibility.Collapsed : Visibility.Visible;
             newDict["GripHatchVisibility"] = flatCaption ? Visibility.Visible : Visibility.Collapsed;
@@ -522,10 +522,10 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "PaneBevelDarkBrush", new SolidColorBrush(Colors.Transparent));
             SetIfAbsent(newDict, "PaneBevelLightBrush", new SolidColorBrush(Colors.Transparent));
             // A real sunken client edge is TWO tones, not one - Win32's EDGE_SUNKEN draws #808080
-            // then #000000 down the top/left, and #ffffff then the face colour up the bottom/right.
-            // A single 2px grey has the right width and the wrong depth: it reads as a drawn line
+            // then #000000 down the top/left, and #ffffff then the face color up the bottom/right.
+            // A single 2px gray has the right width and the wrong depth: it reads as a drawn line
             // rather than as an edge, which is exactly how it differed from Notepad's list box.
-            // (Steve, 2026-08-07.)
+            // (2026-08-07)
             //
             // The pane rings also get their OWN thickness keys rather than borrowing the shared
             // control Bevel* pair: a 2-tone edge needs 1px per ring, and a button still wants 2.
@@ -538,7 +538,7 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "PaneBevel2LightThickness", new Thickness(0));
             SetIfAbsent(newDict, "PaneBevel2DarkThickness", new Thickness(0));
             SetIfAbsent(newDict, "PaneBevelInnerMargin", new Thickness(0));
-            // The flat 1px edge on a pane that ALSO carries a sunken bevel. On a bevelled theme the
+            // The flat 1px edge on a pane that ALSO carries a sunken bevel. On a beveled theme the
             // bevel is the edge, so this goes transparent there and the two stop stacking into a
             // three-pixel border - which is what made the About card look heavier, not better,
             // the moment its info panel got a proper bevel.
@@ -558,7 +558,7 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "FooterCellMargin", new Thickness(0));
             SetIfAbsent(newDict, "FooterCellPadding", new Thickness(0));
             SetIfAbsent(newDict, "FooterPadding", new Thickness(16, 0, 16, 0));
-            // Edit-field fill for code-built text boxes (the colour picker's RGB and hex inputs).
+            // Edit-field fill for code-built text boxes (the color picker's RGB and hex inputs).
             // Same reasoning as SearchFieldBrush: the family rule sends inputs to the darkest tone,
             // which on a theme whose darkest tone IS the button face makes a field vanish into the
             // dialog. Defaults to BackgroundBrush, exactly what those boxes had.
@@ -571,8 +571,8 @@ namespace KillerNotes.Services
             // theme where a tree is a client area - Win98's Explorer is white and recessed - fills
             // it instead. Only the fill is keyed; the recess comes from the shared PaneBevel pair.
             SetIfAbsent(newDict, "SidebarPaneBrush", new SolidColorBrush(Colors.Transparent));
-            // The colour picker's Replace/Reset chips. They are buttons, so on a theme where
-            // PaneBrush is the white client colour they must NOT take it - they came out looking
+            // The color picker's Replace/Reset chips. They are buttons, so on a theme where
+            // PaneBrush is the white client color they must NOT take it - they came out looking
             // like empty text fields. All three default to what the chips already used.
             if (!newDict.Contains("ChipFaceBrush") && newDict.Contains("PaneBrush"))
                 newDict["ChipFaceBrush"] = newDict["PaneBrush"];
@@ -583,24 +583,26 @@ namespace KillerNotes.Services
             // OutlineButton's resting fill and text. Transparent + accent is the family standard
             // and stays the default, so the twelve flat themes are untouched. A theme whose
             // buttons all share one face states these instead: a Win98 dialog has two IDENTICAL
-            // grey buttons and marks the default one with its border, never with a different
-            // colour, so an accent-outlined OK beside a grey Cancel is wrong there.
+            // gray buttons and marks the default one with its border, never with a different
+            // color, so an accent-outlined OK beside a gray Cancel is wrong there.
             // SurfaceButton's hover fill. Separate from RowHoverBrush because a list row and a
-            // button do not hover to the same colour on a theme where the button face IS the row
-            // hover colour - 98SE has both at #d4d0c8, so Cancel had no hover at all.
+            // button do not hover to the same color on a theme where the button face IS the row
+            // hover color - 98SE has both at #d4d0c8, so Cancel had no hover at all.
             if (!newDict.Contains("SurfaceHoverBrush") && newDict.Contains("RowHoverBrush"))
                 newDict["SurfaceHoverBrush"] = newDict["RowHoverBrush"];
-            // The flat 1px edge on a field that ALSO carries a sunken bevel. On a bevelled theme
+            // The flat 1px edge on a field that ALSO carries a sunken bevel. On a beveled theme
             // the bevel is the edge, and drawing InputBorderBrush as well put a second line right
             // beside it - visible as a doubled rule along the top of the picker's address bar.
             if (!newDict.Contains("InputEdgeBrush") && newDict.Contains("InputBorderBrush"))
                 newDict["InputEdgeBrush"] = newDict["InputBorderBrush"];
             // Text selection. It was PrimaryBrush at 0.35 everywhere, which ties the selection to
-            // the ACCENT - so a theme with a fixed system selection colour could not have one, and
+            // the ACCENT - so a theme with a fixed system selection color could not have one, and
             // 98SE selected text in the app's purple instead of the era's navy. Both default to
-            // what they were, so the twelve accent-led themes are unchanged. (Steve, 2026-08-07.)
-            if (!newDict.Contains("TextSelectionBrush") && newDict.Contains("PrimaryBrush"))
-                newDict["TextSelectionBrush"] = newDict["PrimaryBrush"];
+            // what they were, so the twelve accent-led themes are unchanged. (2026-08-07)
+            //
+            // TextSelectionBrush itself is synthesized BELOW, after the accent overlay - it reads
+            // PrimaryBrush, and reading it here took the BASE theme's accent. Only the opacity,
+            // which no overlay touches, is safe to set at this point.
             SetIfAbsent(newDict, "TextSelectionOpacity", 0.35);
             // The note editor's own selection opacity, split from the TextBoxes'. The editor can
             // hold IMAGES, and the native fill is the only thing that paints over them - at 1.0 a
@@ -610,7 +612,7 @@ namespace KillerNotes.Services
             // then stay translucent so selected images show through tinted.
             if (!newDict.Contains("EditorSelectionOpacity"))
                 newDict["EditorSelectionOpacity"] = newDict["TextSelectionOpacity"];
-            // The selected text's own colour. At the family's 0.35 wash the glyphs still read
+            // The selected text's own color. At the family's 0.35 wash the glyphs still read
             // through, so this defaults to TextBrush and nothing changes. A theme that selects
             // with a SOLID block - Win98 fills the run with navy - has to flip the text to white
             // or the selection is unreadable, which is what a translucent navy was working around.
@@ -621,10 +623,10 @@ namespace KillerNotes.Services
             // after the accent overlay, beside OutlineRestBrush. Synthesizing them here aliased
             // the BASE theme's OutlineBtnBrush before the overlay replaced it, so on Black+Purple
             // every OutlineButton's caption stayed the base's terminal green (#00ff66) while its
-            // border went purple ("why are these buttons green", Steve, 2026-08-08) - the same
+            // border went purple (2026-08-08) - the same
             // read-before-merge trap the DialogTitleBarBrush comment below documents.
             // Caption glyphs: font character or drawn shape. Segoe MDL2 has no Win98 equivalents -
-            // the era's minimize/maximize/close were hand-drawn bitmaps - so a bevelled theme swaps
+            // the era's minimize/maximize/close were hand-drawn bitmaps - so a beveled theme swaps
             // to shapes rather than trying to find a character that looks close. Every other theme
             // keeps the MDL2 glyph it has always had.
             newDict["CaptionFontGlyphVisibility"] = flatCaption ? Visibility.Collapsed : Visibility.Visible;
@@ -637,13 +639,13 @@ namespace KillerNotes.Services
                 newDict["BarEdgeBrush"] = newDict["PaneBorderBrush"];
             SetIfAbsent(newDict, "BarEdgeThickness", new Thickness(1, 0, 1, 1));
             SetIfAbsent(newDict, "BarPadding", new Thickness(2));
-            // The About panel's flat 1px edge. A bevelled theme drops it to 0 so the crossed sunken
+            // The About panel's flat 1px edge. A beveled theme drops it to 0 so the crossed sunken
             // bevel IS the edge: in 98SE PaneBorderBrush and BevelDarkBrush are both #808080, so the
             // flat line sat exactly on top of the dark half of the bevel and hid it completely.
             newDict["AboutPanelBorderThickness"] = newDict.Contains("UseDialogCaption")
                 ? new Thickness(0)
                 : new Thickness(1);
-            // Accent overlay: Dark/Light/Black recolour their accent-family keys on top of the base
+            // Accent overlay: Dark/Light/Black recolor their accent-family keys on top of the base
             // green. Green is the base itself, so it needs no overlay. Overlays live in Accents/<Family>/.
             var accent = AccentFor(theme);
             if (HasAccents(theme) && accent != Accent.Green)
@@ -685,16 +687,31 @@ namespace KillerNotes.Services
             if (!newDict.Contains("OutlineHoverTextBrush") && newDict.Contains("OnPrimaryBrush"))
                 newDict["OutlineHoverTextBrush"] = newDict["OnPrimaryBrush"];
 
+            // Text selection color, HERE and not with the other selection keys above, for exactly
+            // the reason the OutlineButton aliases are here: it aliases PrimaryBrush, and the
+            // accent overlay had not been merged yet at the old location. So the selection kept
+            // whatever accent the BASE theme file declares, whichever accent was actually chosen -
+            // on Black that is the terminal green #00ff66, which is why selected text came up green
+            // on Black+Orange while the rest of the window was orange (2026-08-10). The selection
+            // color looked random across the themes, but it was not: it was every theme's own
+            // default accent, frozen before the overlay.
+            //
+            // Still guarded on Contains, so 98SE's own #004f00 and the per-accent files under
+            // Accents/98SE/ - which state a real Win98 selection color and are merged by the
+            // overlay above - continue to win outright.
+            if (!newDict.Contains("TextSelectionBrush") && newDict.Contains("PrimaryBrush"))
+                newDict["TextSelectionBrush"] = newDict["PrimaryBrush"];
+
             // AccentLogo (title-bar wordmark) and BgFlyout (format bar) are KillerPDF-vocabulary
             // keys that only the newer themes declare. Rather than hand-adding them to the six
-            // original palettes, default them from colours those palettes already define, AFTER
+            // original palettes, default them from colors those palettes already define, AFTER
             // the accent overlay so the wordmark tracks the live accent. A theme that sets either
             // key itself keeps its own value - this is what preserves 98SE's yellow wordmark and
-            // its raised-grey flyout, and Ectoplasm's and Decay's overrides.
+            // its raised-gray flyout, and Ectoplasm's and Decay's overrides.
             //
             // The wordmark follows HeaderLineBrush, NOT PrimaryBrush. On Blood, Greed and Cyanotic
             // the KillerUI palette deliberately sets PrimaryBrush to #ffffff - white is those
-            // themes' button fill - and keeps the signature colour (#e8485a / #3fbf6f / #3aa0d8)
+            // themes' button fill - and keeps the signature color (#e8485a / #3fbf6f / #3aa0d8)
             // in HeaderLineBrush. Since KillerThemeContract.Apply runs after the local theme file,
             // that white wins, and sourcing the logo from PrimaryBrush painted those three white.
             // HeaderLineBrush is the accent on every theme and in all 21 accent overlays.
@@ -711,7 +728,7 @@ namespace KillerNotes.Services
                 newDict["BgFlyout"] = newDict["MenuBackgroundBrush"];
             // The About card's info panel. Defaults to the context-menu fill so the panel reads as
             // the same material as a menu; a theme states its own when that is wrong for it - 98SE
-            // wants a white, sunken client area rather than its button-face grey.
+            // wants a white, sunken client area rather than its button-face gray.
             if (!newDict.Contains("AboutPanelBrush") && newDict.Contains("MenuBackgroundBrush"))
                 newDict["AboutPanelBrush"] = newDict["MenuBackgroundBrush"];
             // Close caption button. Read AFTER the accent overlay so it tracks the live accent.
@@ -732,7 +749,7 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "CaptionCloseHoverFgBrush", new SolidColorBrush(Colors.White));
             // Caption glyphs (Databases, Lock, Minimize, Maximize). ChromeTextBrush is written for
             // text ON the title bar brush - white on 98SE's green. Once those buttons have their own
-            // grey face, white is unreadable, so a bevelled theme states a dark glyph instead.
+            // gray face, white is unreadable, so a beveled theme states a dark glyph instead.
             if (!newDict.Contains("CaptionGlyphBrush"))
                 newDict["CaptionGlyphBrush"] = newDict["ChromeTextBrush"];
 

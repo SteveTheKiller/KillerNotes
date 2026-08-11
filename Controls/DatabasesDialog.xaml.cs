@@ -112,7 +112,7 @@ namespace KillerNotes.Controls
 
         // Double-click OPENS the database. It used to start an inline rename, which is nobody's
         // expectation for a list of openable things - Explorer, the file picker and every other
-        // list in the family open on double-click (Steve, 2026-08-08). Rename keeps its two
+        // list in the family open on double-click (2026-08-08). Rename keeps its two
         // deliberate triggers: the context menu and F2.
         private void DbList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

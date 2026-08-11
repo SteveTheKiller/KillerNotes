@@ -37,7 +37,7 @@ namespace KillerNotes.Shell
         private string _recTotalText = "";
 
         /// <summary>
-        /// The chip's waveform, baked into a frozen Geometry of mirrored bars around a centre line.
+        /// The chip's waveform, baked into a frozen Geometry of mirrored bars around a center line.
         /// Geometry rather than a custom element because the chip lives in the note's FlowDocument
         /// and has to survive XamlWriter, which refuses non-public types.
         /// </summary>
@@ -45,7 +45,7 @@ namespace KillerNotes.Shell
         {
             var group = new GeometryGroup();
             double mid = h / 2;
-            // The centre line, so a silent or empty recording still reads as audio rather than as
+            // The center line, so a silent or empty recording still reads as audio rather than as
             // a chip that failed to draw.
             group.Children.Add(new RectangleGeometry(new Rect(0, mid - 0.5, w, 1)));
 
@@ -68,8 +68,8 @@ namespace KillerNotes.Shell
             return group;
         }
 
-        // The RAIL ICON toggles: clicking it with the pad open closes the pad (Steve,
-        // 2026-08-08). F8 keeps bring-to-front semantics.
+        // The RAIL ICON toggles: clicking it with the pad open closes the pad
+        // (2026-08-08). F8 keeps bring-to-front semantics.
         private void DictationRail_Click(object sender, RoutedEventArgs e)
         {
             if (_dictation != null) { _dictation.Close(); return; }
@@ -273,8 +273,8 @@ namespace KillerNotes.Shell
             Grid.SetColumn(play, 0);
             layout.Children.Add(play);
 
-            // A Path, NOT the WaveformView the pad uses. Saving a note serialises the FlowDocument
-            // to a XamlPackage, and XamlWriter can only serialise PUBLIC types - an internal custom
+            // A Path, NOT the WaveformView the pad uses. Saving a note serializes the FlowDocument
+            // to a XamlPackage, and XamlWriter can only serialize PUBLIC types - an internal custom
             // element in the document throws "Cannot serialize a non-public type" the moment the
             // note is saved or swapped. Path/Geometry are public framework types, so the chip
             // survives the round trip. Same envelope either way, just baked into geometry.
@@ -306,7 +306,7 @@ namespace KillerNotes.Shell
             played.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "OutlineBtnBrush");
 
             // A second, SHORTER copy of the envelope drawn over the first in a different theme
-            // colour, so the loud middle of each bar reads differently from its tips. Two Paths
+            // color, so the loud middle of each bar reads differently from its tips. Two Paths
             // rather than a gradient brush because both keep their SetResourceReference and so
             // still follow a theme change - a baked gradient would freeze the chip on whatever
             // palette was active when the note was written.
@@ -338,7 +338,7 @@ namespace KillerNotes.Shell
             return layout;
         }
 
-        /// <summary>How much of each bar gets the second colour. 0.55 leaves a clear band of the
+        /// <summary>How much of each bar gets the second color. 0.55 leaves a clear band of the
         /// accent at the tips, which is what makes the two tones legible at 22px tall.</summary>
         private const double CoreScale = 0.55;
 
@@ -513,7 +513,7 @@ namespace KillerNotes.Shell
             pointer.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "OutlineBtnBrush");
 
             // The whole face rotates, not the pointer alone: rotating a top-aligned child about the
-            // FACE's centre is what makes the pointer sweep the rim instead of spinning in place.
+            // FACE's center is what makes the pointer sweep the rim instead of spinning in place.
             var face = new Grid
             {
                 RenderTransformOrigin = new Point(0.5, 0.5),
@@ -543,7 +543,7 @@ namespace KillerNotes.Shell
                 Padding = new Thickness(8, 6, 6, 6),
                 VerticalAlignment = VerticalAlignment.Center,
                 Cursor = Cursors.SizeNS,
-                Tag = DialTag,                 // how the editor's press handler recognises it
+                Tag = DialTag,                 // how the editor's press handler recognizes it
                 ToolTip = Loc("Str_Dict_Volume"),
                 Child = dial,
             };

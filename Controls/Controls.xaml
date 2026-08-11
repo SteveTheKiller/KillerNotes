@@ -2,7 +2,7 @@
     KillerUI kit - Controls.xaml
     Theme-INDEPENDENT control styles. All brush references use DynamicResource, so a
     live theme/accent change repaints them automatically. Merge this AFTER a
-    Themes/{Theme}.xaml colour dictionary (see App.xaml in the guide).
+    Themes/{Theme}.xaml color dictionary (see App.xaml in the guide).
 
 -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -121,7 +121,7 @@
                     <!-- Hover/press are a translucent tint OVER the accent, so the feedback works
                          whatever the palette says. All 15 accent files set PrimaryHoverBrush ==
                          PrimaryBrush, so the old brush swap was a no-op and this button had never
-                         shown a hover. Ported from KillerShell. (Steve, 2026-07-30.) -->
+                         shown a hover. Ported from KillerShell. (2026-07-30) -->
                     <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}">
                         <Grid>
                             <Border x:Name="tint" CornerRadius="{DynamicResource ControlCornerRadius}" Background="Transparent"/>
@@ -157,9 +157,9 @@
              invisible same-color text. -->
         <!-- OutlineFaceBrush / OutlineTextBrush default to Transparent and OutlineBtnBrush, so
              the twelve flat themes get the accent outline exactly as before. A theme whose
-             buttons all share one face - a Win98 dialog has two IDENTICAL grey buttons, the
-             default one marked by its border, never by a different colour - points both at that
-             face instead, and Cancel and OK stop disagreeing. (Steve, 2026-08-07.) -->
+             buttons all share one face - a Win98 dialog has two IDENTICAL gray buttons, the
+             default one marked by its border, never by a different color - points both at that
+             face instead, and Cancel and OK stop disagreeing. (2026-08-07) -->
         <Setter Property="Background" Value="{DynamicResource OutlineFaceBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource OutlineTextBrush}"/>
         <Setter Property="FontSize" Value="13"/>
@@ -178,7 +178,7 @@
                          they were drawn within the 1px border AND the 14,5 padding, so the raised
                          edge appeared around the TEXT rather than around the button. As siblings
                          they fill the whole button and land on its outer edge - exactly where a
-                         flat outline sits, so a bevelled theme replaces the outline rather than
+                         flat outline sits, so a beveled theme replaces the outline rather than
                          drawing a second line inside it. -->
                     <Grid>
                         <Border x:Name="border" Background="{TemplateBinding Background}"
@@ -192,7 +192,7 @@
                     <ControlTemplate.Triggers>
                         <!-- Order matters: IsPressed must come after IsMouseOver to win. -->
                         <!-- Keyed for the same reason as the face: a theme whose OK button is a
-                             plain grey one hovers to a lighter grey, not to a solid accent fill.
+                             plain gray one hovers to a lighter gray, not to a solid accent fill.
                              Both default to what they were. -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource OutlineHoverBrush}"/>
@@ -218,11 +218,11 @@
     </Style>
 
     <!-- Surface Button (secondary): fill one tier lighter than what it sits on, a dim border, and a
-         hover that dims rather than colours. Accent on hover belongs to OutlineButton and
+         hover that dims rather than colors. Accent on hover belongs to OutlineButton and
          PrimaryButton; a secondary button that lights up accent reads as the primary action. -->
     <Style x:Key="SurfaceButton" TargetType="Button">
         <!-- ChipFaceBrush, not PaneBrush. A button is not a client area, and on a theme where
-             PaneBrush IS the white client colour every SurfaceButton in the app came out white -
+             PaneBrush IS the white client color every SurfaceButton in the app came out white -
              the picker's Cancel, the dialog buttons, all of them. ThemeManager defaults
              ChipFaceBrush to PaneBrush, so the other twelve themes are unchanged. -->
         <Setter Property="Background" Value="{DynamicResource ChipFaceBrush}"/>
@@ -230,7 +230,7 @@
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Padding" Value="12,6"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <!-- ButtonEdgeBrush, not CardBorderBrush: on a bevelled theme the bevel IS the button's
+        <!-- ButtonEdgeBrush, not CardBorderBrush: on a beveled theme the bevel IS the button's
              edge, so this goes transparent there and the flat outline stops doubling up with it.
              ThemeManager defaults it to CardBorderBrush, so only a theme that cares states it. -->
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonEdgeBrush}"/>
@@ -255,12 +255,12 @@
                     <ControlTemplate.Triggers>
                         <!-- Order matters: IsPressed after IsMouseOver so it wins. -->
                         <!-- A real fill change, not an opacity fade - the fade is invisible on a
-                             dark panel and the button reads as dead. (Steve, 2026-07-30.) -->
+                             dark panel and the button reads as dead. (2026-07-30) -->
                         <!-- SurfaceHoverBrush, not RowHoverBrush. On a theme whose LIST hover and
-                             whose button face are the same grey - 98SE has both at #d4d0c8 - a
+                             whose button face are the same gray - 98SE has both at #d4d0c8 - a
                              button hovering to RowHoverBrush does not change at all, and every
                              Cancel in the app read as dead. Defaults to RowHoverBrush, so the
-                             other twelve are unchanged. (Steve, 2026-08-07.) -->
+                             other twelve are unchanged. (2026-08-07) -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource SurfaceHoverBrush}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource OutlineBtnBrush}"/>
@@ -344,13 +344,13 @@
                                         <Border x:Name="lu2" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
                                         <!-- A drawn triangle, not a character. The Unicode arrows
                                              rendered at whatever glyph the UI font happens to
-                                             carry - different weights, off-centre, and visibly
+                                             carry - different weights, off-center, and visibly
                                              wrong at 7px. This is a 7x4 path, so it is the same
                                              crisp shape at every size and in every language.
                                              Content is the ROTATION in degrees, which is how one
                                              template serves all four directions - a TargetName in
                                              the ScrollBar template cannot reach in here to swap a
-                                             Path's Data. (Steve, 2026-08-07.) -->
+                                             Path's Data. (2026-08-07) -->
                                         <Path x:Name="luGlyph" Data="M 0,4 L 3.5,0 L 7,4 Z"
                                               Width="7" Height="4" Stretch="None"
                                               HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -402,7 +402,7 @@
                     <Grid>
                         <!-- The track well. Transparent by default, so the bar keeps floating over
                              whatever is behind it exactly as before. A Win98 theme fills it with the
-                             dithered channel colour and sinks it with a crossed bevel, because there
+                             dithered channel color and sinks it with a crossed bevel, because there
                              the scrollbar is a control with a recessed groove, not an overlay. -->
                         <Border Background="{DynamicResource ScrollTrackBrush}"/>
                         <Border IsHitTestVisible="False" BorderBrush="{DynamicResource ScrollTrackBevelDark}"
@@ -451,7 +451,7 @@
                                                                  grew around the old Border for the 98SE bevels, the hover
                                                                  setter kept targeting thumbBorder - now the GRID - and its
                                                                  square background bled out past the rounded fill's corners
-                                                                 on every rounded theme (Steve, 2026-08-08). -->
+                                                                 on every rounded theme (2026-08-08). -->
                                                             <Border x:Name="thumbFill" Background="{DynamicResource ScrollThumbBrush}"
                                                                     CornerRadius="{DynamicResource ScrollThumbRadius}"/>
                                                             <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
@@ -524,10 +524,15 @@
     <Style TargetType="ContextMenu">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <!-- True so the popup HWND is transparent: the custom soft shadow below then
-             renders on the Margin=6 halo instead of the popup showing as a hard
+             renders on MenuRoot's halo instead of the popup showing as a hard
              rectangle around the rounded menu. The shadow sits on its own item-free
              Border (see template), so this does not reintroduce the submenu black-box. -->
         <Setter Property="HasDropShadow" Value="True"/>
+        <!-- Cancels the extra halo MenuRoot's margin adds, so the card still lands where it
+             did when that margin was a uniform 6. Only the DIFFERENCE matters: the halo grew
+             by 16 on the left and 12 on the top, so those are the offsets. -->
+        <Setter Property="HorizontalOffset" Value="-16"/>
+        <Setter Property="VerticalOffset" Value="-12"/>
         <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -540,15 +545,28 @@
                          it is hosted inside one WPF owns - so the fade is driven from the template
                          with an EventTrigger on Loaded. Submenus already faded, so a menu appeared
                          instantly while its own children faded in, which is backwards. 150ms
-                         ease-out, the curve Anim.FadeIn uses. (Steve, 2026-07-30.) -->
-                    <Grid x:Name="MenuRoot" Opacity="0" Margin="6">
+                         ease-out, the curve Anim.FadeIn uses. (2026-07-30) -->
+                    <!-- The margin IS the room the drop shadow renders into: the popup is sized to
+                         this card plus the margin and then clips to its own bounds, so anything the
+                         shadow throws beyond it is cut off square. Sized to the shadow below rather
+                         than picked: WPF expands an effect's render bounds by the FULL BlurRadius,
+                         not half of it, so a 22 blur needs 22 each way, and the 4px downward depth
+                         takes 4 off the top and adds 4 to the bottom. Halving it leaves a faint but
+                         visible step where the tail gets cut. HorizontalOffset/VerticalOffset on the
+                         style above hold the card in place against the wider halo. -->
+                    <Grid x:Name="MenuRoot" Opacity="0" Margin="22,18,22,26">
                         <!-- Shadow cast from a dedicated item-free layer. Each MenuItem carries a
                              transparent SubPopup (for the Tags submenu); a WPF Effect over a
                              subtree that contains an AllowsTransparency popup renders the drop
                              shadow as a black box, so the effect must not sit above the items. -->
                         <Border CornerRadius="{DynamicResource PanelCornerRadius}" Background="{TemplateBinding Background}">
                             <Border.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
+                                <!-- 22/4 is the family flyout shadow (KillerUI FlyoutCard, Killendar).
+                                     MenuRoot's margin above is sized to hold exactly this; change one
+                                     and the other has to follow, or the shadow clips. Opacity stays
+                                     bound rather than the kit's hardcoded 0.55, because that binding
+                                     is how 98SE goes flat. -->
+                                <DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="4" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                             </Border.Effect>
                         </Border>
                         <!-- CornerRadius follows the theme, it is NOT hardcoded 6. A square-cornered
@@ -576,7 +594,7 @@
                              EDGE_RAISED double bevel as a window - white over BLACK on the outside,
                              #dfdfdf over #808080 within - and one ring alone reads as a plain line
                              with a highlight rather than as a raised card. Transparent at zero
-                             thickness by default. (Steve, 2026-08-07.) -->
+                             thickness by default. (2026-08-07) -->
                         <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevel2LightBrush}"
                                 BorderThickness="{DynamicResource MenuBevel2LightThickness}"/>
                         <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevel2DarkBrush}"
@@ -619,7 +637,7 @@
                          KillerNotes previously overlaid the icon and check on the item and hung the
                          gesture and chevron off negative margins in a 2-column grid. Same parts, a
                          different geometry, so the menus never quite lined up with the other apps'.
-                         (Standardised 2026-07-30.) -->
+                         (Standardized 2026-07-30.) -->
                     <Border x:Name="bg" Background="{TemplateBinding Background}"
                             Padding="{TemplateBinding Padding}" CornerRadius="3" SnapsToDevicePixels="True">
                         <Grid>
@@ -661,10 +679,13 @@
                             <!-- Submenu popup, same chrome + grain as the ContextMenu template.
                                  OverridesDefaultStyle discards WPF's stock submenu Popup, so a
                                  template without this part can never open its children. -->
+                            <!-- Offsets carry the -16,-12 halo compensation on top of the -4 gap this
+                                 popup already wanted, so the submenu card sits where it always did. -->
                             <Popup x:Name="SubPopup" AllowsTransparency="True" Placement="Right"
-                                   HorizontalOffset="-4" Focusable="False" PopupAnimation="Fade"
+                                   HorizontalOffset="-20" VerticalOffset="-12" Focusable="False" PopupAnimation="Fade"
                                    IsOpen="{TemplateBinding IsSubmenuOpen}">
-                                <Grid Margin="6">
+                                <!-- Halo sized to the 22/4 shadow below - see the note on MenuRoot. -->
+                                <Grid Margin="22,18,22,26">
                                     <Border Background="{DynamicResource MenuBackgroundBrush}" CornerRadius="6"
                                             IsHitTestVisible="False">
                                         <Border.Effect>
@@ -709,9 +730,9 @@
                         </Trigger>
                         <!-- SELECTION, not a gray wash - solid SelectionBg fill with SelectionFg
                              text, the same treatment a selected tool or tab gets. The gesture and
-                             chevron are recoloured too: they are MutedTextBrush at rest, which is
+                             chevron are recolored too: they are MutedTextBrush at rest, which is
                              unreadable on a saturated fill. Family standard, see KillerUI.
-                             (Steve, 2026-07-30.) -->
+                             (2026-07-30) -->
                         <Trigger Property="IsHighlighted" Value="True">
                             <Setter TargetName="bg" Property="Background" Value="{DynamicResource SelectionBg}"/>
                             <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
@@ -746,7 +767,7 @@
 
     <!-- A Separator INSIDE a MenuItem is styled by this keyed alias, NOT by the implicit
          TargetType style above - WPF looks up MenuItem.SeparatorStyleKey for it. Without
-         this, a menu separator falls back to the stock light-grey Aero line however well
+         this, a menu separator falls back to the stock light-gray Aero line however well
          the implicit style is themed. Family gap noted in code/CLAUDE.md; Killendar has
          the same alias. -->
     <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator"
@@ -761,15 +782,21 @@
         <Setter Property="Padding" Value="12,8"/>
     </Style>
 
-    <!-- Theme swatch (title-bar theme/accent picker dots). Background = the swatch colour;
+    <!-- Theme swatch (title-bar theme/accent picker dots). Background = the swatch color;
          BorderBrush/Thickness form the active ring (set in ThemeFlyout.cs). -->
     <!-- KillerPDF family-standard rail flyouts. -->
     <Style x:Key="FlyoutCard" TargetType="Border">
         <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/><Setter Property="CornerRadius" Value="{DynamicResource PanelCornerRadius}"/>
-        <Setter Property="Margin" Value="6"/><Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Effect"><Setter.Value><DropShadowEffect Color="Black" BlurRadius="7" ShadowDepth="2" Direction="270" Opacity="{DynamicResource BarShadowOpacity}"/></Setter.Value></Setter>
+        <!-- Halo sized to the 22/4 shadow below: WPF expands render bounds by the FULL BlurRadius,
+             so 22 each way, less the 4px lift off the top and plus it on the bottom. CONSUMERS MUST
+             COMPENSATE with HorizontalOffset/VerticalOffset - see the ContextMenu style. -->
+        <Setter Property="Margin" Value="22,18,22,26"/><Setter Property="SnapsToDevicePixels" Value="True"/>
+        <!-- The family flyout shadow, and FlyoutShadowOpacity rather than BarShadowOpacity: this is
+             a flyout card, not a settings bar, and the bar opacity left it noticeably fainter than
+             every other flyout in the app. -->
+        <Setter Property="Effect"><Setter.Value><DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="4" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/></Setter.Value></Setter>
     </Style>
     <Style x:Key="FlyoutGrain" TargetType="Border">
         <Setter Property="IsHitTestVisible" Value="False"/><Setter Property="CornerRadius" Value="{DynamicResource PanelCornerRadius}"/>
@@ -843,7 +870,7 @@
         <Setter Property="Height" Value="{DynamicResource CaptionButtonHeight}"/>
         <Setter Property="FontSize" Value="10"/>
         <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
-        <!-- Bold on a bevelled theme: a hairline MDL2 stroke vanishes on a grey button face -->
+        <!-- Bold on a beveled theme: a hairline MDL2 stroke vanishes on a gray button face -->
         <Setter Property="FontWeight" Value="{DynamicResource CaptionGlyphWeight}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
@@ -853,7 +880,7 @@
                         <!-- Bd carries the SAME margin as Face. Without it the hover fill paints the
                              full button cell, spilling into the 1px gaps between the buttons and
                              over the caption behind them - which is what made the hover state look
-                             like a loose grey block instead of the button lighting up. -->
+                             like a loose gray block instead of the button lighting up. -->
                         <Border x:Name="Bd" Margin="{DynamicResource CaptionButtonMargin}"
                                 Background="{TemplateBinding Background}"/>
                         <!-- Win98 caption button: its own solid face with a raised bevel, inset from
@@ -861,8 +888,8 @@
                              running under it. CaptionButtonBrush is Transparent and
                              CaptionButtonMargin is 0 on every other theme, so this draws nothing
                              and the modern hover/press fill above is all you see.
-                             The glyph lives INSIDE the face so it centres on the button, not on the
-                             cell - offsetting the face by a pixel used to leave the glyph off-centre. -->
+                             The glyph lives INSIDE the face so it centers on the button, not on the
+                             cell - offsetting the face by a pixel used to leave the glyph off-center. -->
                         <Border x:Name="Face" Margin="{DynamicResource CaptionButtonMargin}"
                                 Background="{DynamicResource CaptionButtonBrush}">
                             <Grid>
@@ -894,7 +921,7 @@
         <Setter Property="Width" Value="32"/>
         <Setter Property="Height" Value="24"/>
         <Setter Property="FontSize" Value="13"/>
-        <!-- Its own template, NOT ChromeButton's. ChromeButton draws a raised bevelled face at
+        <!-- Its own template, NOT ChromeButton's. ChromeButton draws a raised beveled face at
              rest, which is right for a caption button and wrong for a toolbar: it made every
              ribbon button look permanently raised. Here the button is FLAT at rest and only
              takes a bevel while pressed, and that bevel is the SUNKEN one - dark on the
@@ -925,11 +952,11 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!-- Toolbar separator. A single flat 1px rule by default; on a bevelled theme it becomes the
-         era's ETCHED divider - a grey line with a white one beside it, which is what every Win98
+    <!-- Toolbar separator. A single flat 1px rule by default; on a beveled theme it becomes the
+         era's ETCHED divider - a gray line with a white one beside it, which is what every Win98
          toolbar and taskbar draws between bands. BarSepLightBrush is transparent by default, so
          the second rule has no width to give away and the twelve flat themes are unchanged.
-         (Steve, 2026-08-07.) -->
+         (2026-08-07) -->
     <Style x:Key="AnnotationBarSeparator" TargetType="Rectangle">
         <Setter Property="Width" Value="{DynamicResource BarSepWidth}"/>
         <Setter Property="Margin" Value="4,4"/>
@@ -938,7 +965,7 @@
 
     <!-- Slider. IMPLICIT, so every Slider in the app picks it up. There was no Slider style at
          all, so the font-size slider fell through to WPF's default template and painted system
-         colours on a themed card - the same fall-through the radio buttons had. Sunken track,
+         colors on a themed card - the same fall-through the radio buttons had. Sunken track,
          raised thumb, both from the theme's own brushes and bevels. -->
     <Style TargetType="Slider">
         <Setter Property="Focusable" Value="False"/>
@@ -1004,7 +1031,7 @@
     <!-- Close caption button, KillerPDF-style: red glyph at rest, red fill + white glyph on hover -->
     <Style x:Key="ChromeCloseButton" TargetType="Button" BasedOn="{StaticResource ChromeButton}">
         <Setter Property="Foreground" Value="{DynamicResource CaptionCloseBrush}"/>
-        <!-- Win98 pushed close a couple of pixels clear of minimise/maximise. 0 elsewhere. -->
+        <!-- Win98 pushed close a couple of pixels clear of minimize/maximize. 0 elsewhere. -->
         <Setter Property="Margin" Value="{DynamicResource CaptionCloseGap}"/>
         <!-- The hover block's radius rides Tag so ONE template serves both shapes: this style
              is the main title bar's X, whose block fills the window corner and rounds only with
@@ -1020,7 +1047,7 @@
                              dialogs that used to build their own close button had a rounded hover
                              block; collapsing them onto this shared one lost that and the hover
                              came back as a hard pink square on every rounded theme. The radius keys
-                             are 0 on a square theme, so 98SE is unaffected. (Steve, 2026-08-07/08.) -->
+                             are 0 on a square theme, so 98SE is unaffected. (2026-08-07/08) -->
                         <Border x:Name="Bd" Margin="{DynamicResource CaptionButtonMargin}"
                                 CornerRadius="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
                                 Background="{TemplateBinding Background}"/>
@@ -1058,7 +1085,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <!-- CaptionHoverBrush is the red fill on the modern themes and the plain
-                             button face on a bevelled one, where a red wash would be wrong. -->
+                             button face on a beveled one, where a red wash would be wrong. -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource CaptionCloseHoverBrush}"/>
                             <Setter Property="Foreground" Value="{DynamicResource CaptionCloseHoverFgBrush}"/>
@@ -1078,8 +1105,7 @@
          that float INSET from a window corner - the About and Fonts overlays - where the
          corner-following radius reads as a red square with three hard corners. A dialog
          caption's X sits AT the card corner and stays on ChromeCloseButton, whose block
-         rounds with the card's top-right ("top right should be rounded here", Steve,
-         2026-08-08). -->
+         rounds with the card's top-right (2026-08-08). -->
     <Style x:Key="DialogCloseButton" TargetType="Button" BasedOn="{StaticResource ChromeCloseButton}">
         <Setter Property="Tag" Value="{DynamicResource DialogCloseCornerRadius}"/>
     </Style>
@@ -1090,8 +1116,8 @@
          this block is exactly how the dialogs drifted apart before.
          - The shadow is on its OWN childless sibling, never on the border that holds the
            content: a DropShadowEffect is a bitmap effect, everything inside it is rasterised,
-           and the text loses ClearType (CLAUDE.md locks this for the About card; Steve caught
-           it live on the Databases caption, 2026-08-07).
+           and the text loses ClearType (CLAUDE.md locks this for the About card; it showed up
+           live on the Databases caption, 2026-08-07).
          - Halo/radius/edge come from the theme, so a Win98-style theme collapses to a flat,
            square window wearing the stacked 3D bevel pairs; the other twelve themes see the
            usual rounded card with a halo, and the bevels are transparent/0.
@@ -1104,8 +1130,8 @@
                 <ControlTemplate TargetType="ContentControl">
                     <Grid>
                         <!-- The family PANE shadow numbers (16/5/270, PaneShadowOpacity), not the
-                             softer flyout ones: "this window should have the same... drop shadow
-                             as the main window" (Steve, 2026-08-08). -->
+                             softer flyout ones: these windows carry the same drop shadow as the
+                             main window (2026-08-08). -->
                         <!-- PaneShadowEffect (ThemeManager): the family numbers at the theme's
                              opacity, NULL on a flat theme - never an invisible effect, and never
                              a dynamic opacity inside a Freezable (see the ThemeManager note). -->
@@ -1133,9 +1159,9 @@
                                      the SEARCH BOX is crisp, and each PANE carries its own grain
                                      overlay above its rows (the menu rule). A card-wide overlay
                                      was tried and put texture over the dialogs' edit fields,
-                                     which no input in the app has ("the text input box still
-                                     has a gradient and texture here, unlike the main searchbox",
-                                     Steve, 2026-08-08); the pane-level overlays live in the
+                                     which no input in the app has - they came up with a
+                                     gradient and texture the main search box does not have
+                                     (2026-08-08); the pane-level overlays live in the
                                      dialogs' own list Grids. -->
                                 <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
                                         Opacity="{DynamicResource GrainOpacity}"
@@ -1153,10 +1179,10 @@
          PasswordBox styles below. Matches the main window's search box exactly:
          - SearchFieldBrush fill, never BackgroundBrush: several palettes define BackgroundBrush
            as a GRADIENT, and a field synthesized from it painted the window's gradient into
-           itself ("non-gradient", Steve, 2026-08-08).
+           itself; the field must be non-gradient (2026-08-08).
          - Templated border with themed hover/focus: an unstyled box falls back to WPF's stock
            template, whose focus border is the hardcoded system blue on every theme.
-         - Crossed sunken bevel siblings so a bevelled theme reads the field as recessed
+         - Crossed sunken bevel siblings so a beveled theme reads the field as recessed
            (white + sunken on 98SE); the bevel thicknesses are 0 on the other twelve. -->
     <ControlTemplate x:Key="EditFieldTemplate" TargetType="Control">
         <Border x:Name="bd" Background="{TemplateBinding Background}"
@@ -1305,11 +1331,11 @@
          NO Consolas. CheckBox forces a mono label because its labels are short switch names; a
          radio labels a CHOICE, which is usually a phrase, and mono prose reads badly.
 
-         The bullet is TOP-aligned, not centred. A radio option often carries a description under
-         its name, and a vertically centred bullet against two lines of text floats between them
+         The bullet is TOP-aligned, not centered. A radio option often carries a description under
+         its name, and a vertically centered bullet against two lines of text floats between them
          pointing at nothing.
 
-         Content colour is left alone. CheckBox mutes its label until checked, which suits a
+         Content color is left alone. CheckBox mutes its label until checked, which suits a
          switch; an unselected choice still has to be readable enough to choose. -->
     <Style TargetType="RadioButton">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
@@ -1319,11 +1345,11 @@
                 <ControlTemplate TargetType="RadioButton">
                     <StackPanel Orientation="Horizontal" Background="Transparent">
                         <!-- RadioWellBrush, layered over the ring's own fill. A Win98 radio is a
-                             WHITE well with the dot in it, not a dot on the panel colour - the
+                             WHITE well with the dot in it, not a dot on the panel color - the
                              keyed ThemeRadio already had this and the implicit style did not, so
                              every radio outside the theme flyout (the speech-model dialog's, most
-                             visibly) came up with a grey well. Transparent by default, so the
-                             twelve flat themes keep the plain ring. (Steve, 2026-08-07.) -->
+                             visibly) came up with a gray well. Transparent by default, so the
+                             twelve flat themes keep the plain ring. (2026-08-07) -->
                         <Border x:Name="ring" Width="15" Height="15" CornerRadius="8"
                                 VerticalAlignment="Top" Margin="0,2,0,0"
                                 Background="{DynamicResource SurfaceBrush}"

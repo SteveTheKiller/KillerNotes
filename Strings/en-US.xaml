@@ -90,6 +90,7 @@
 
     <!-- ==== Dictation (F10) - Controls/Dictation/DictationWindow.cs, Shell/Editor.Dictation.cs ==== -->
     <sys:String x:Key="Str_TT_DictationRail">Dictation - record and transcribe (Ctrl+M)</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">Find in this note (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Dictation">Dictation - record and transcribe</sys:String>
     <sys:String x:Key="Str_Kb_Dictation">Dictate</sys:String>
     <sys:String x:Key="Str_Dict_Title">Dictation</sys:String>
@@ -113,7 +114,7 @@
     <sys:String x:Key="Str_Dict_NoSpeech">No speech was recognized in that recording.</sys:String>
     <sys:String x:Key="Str_Dict_NoText">There is no text to print.</sys:String>
     <sys:String x:Key="Str_Dict_Failed">Transcription failed.</sys:String>
-    <sys:String x:Key="Str_Dict_NoEngine">No speech recogniser is installed, so transcription is unavailable. Recording and embedding still work.</sys:String>
+    <sys:String x:Key="Str_Dict_NoEngine">No speech recognizer is installed, so transcription is unavailable. Recording and embedding still work.</sys:String>
     <sys:String x:Key="Str_Dict_EmbedFailed">The recording could not be saved to this note.</sys:String>
     <sys:String x:Key="Str_Dict_Missing">That recording is no longer in this note.</sys:String>
     <sys:String x:Key="Str_Dict_Chip">Recording</sys:String>
@@ -203,6 +204,14 @@
     <sys:String x:Key="Str_St_Saved">Saved</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} notes</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} matches</sys:String>
+    <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
+         this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->
+    <sys:String x:Key="Str_St_FindMatches">{0} of {1}</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">No matches</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">Previous match (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">Next match (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">Close (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">Drag to move</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Note deleted</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} notes deleted</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Could not open the notes database: {0}</sys:String>
@@ -363,6 +372,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Keyboard shortcuts (this list)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Rename the open note</sys:String>
     <sys:String x:Key="Str_KS_Search">Search notes</sys:String>
+    <sys:String x:Key="Str_KS_Find">Find in this note</sys:String>
     <sys:String x:Key="Str_KS_Preview">Toggle markdown/HTML preview</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Show / hide the format bar</sys:String>
     <sys:String x:Key="Str_KS_Export">Export the open note (.txt / .rtf / .html)</sys:String>
@@ -513,7 +523,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Speech model...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">This build has no speech models - transcription uses Windows' own engine.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Starting download...</sys:String>
-    <sys:String x:Key="Str_Whisper_Cancelled">Download cancelled.</sys:String>
+    <sys:String x:Key="Str_Whisper_Cancelled">Download canceled.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Ready. Transcription will use this from now on.</sys:String>
 
     <sys:String x:Key="Str_Dict_EditRec">Edit recording...</sys:String>
@@ -589,7 +599,7 @@ Leave both boxes empty to share without one.</sys:String>
          These were only ever inline English fallbacks in Controls/Sketch/*.cs, so the pad
          was the one window that stayed English in all ten languages. Defined here they
          behave like every other string: translatable, with en-US as the fallback.
-         (Steve, 2026-08-07.) -->
+         (2026-08-07) -->
     <sys:String x:Key="Str_Sketch_AddImage">Add an image (I) - drag one onto the pad, or Ctrl+V to paste</sys:String>
     <sys:String x:Key="Str_Sketch_AddImageMenu">Add image...</sys:String>
     <sys:String x:Key="Str_Sketch_Arc">Arc line</sys:String>

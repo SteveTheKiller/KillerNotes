@@ -48,7 +48,7 @@ namespace KillerNotes.Shell
             var p = e.GetPosition(null);
             // Nudge resistance: a group header only starts moving on a deliberate drag, not a
             // stray twitch while clicking to collapse - 2.5x the system drag threshold. Below
-            // that the press stays a click and just toggles collapse. (Steve, 2026-07-22)
+            // that the press stays a click and just toggles collapse. (2026-07-22)
             const double NudgeFactor = 2.5;
             if (Math.Abs(p.X - _groupDragStart.X) < SystemParameters.MinimumHorizontalDragDistance * NudgeFactor &&
                 Math.Abs(p.Y - _groupDragStart.Y) < SystemParameters.MinimumVerticalDragDistance * NudgeFactor) return false;
@@ -139,7 +139,7 @@ namespace KillerNotes.Shell
             var fe = sender as FrameworkElement;
             _ctxGroup = fe?.DataContext as GroupHeader;
             // A nested group's color item reads "Subgroup color..." for clarity; a root group
-            // keeps "Group color...". Set on right-click, before the menu opens. (Steve, 2026-07-22)
+            // keeps "Group color...". Set on right-click, before the menu opens. (2026-07-22)
             if (fe?.ContextMenu is ContextMenu cm && _ctxGroup is GroupHeader g)
                 foreach (var it in cm.Items)
                     if (it is MenuItem mi)

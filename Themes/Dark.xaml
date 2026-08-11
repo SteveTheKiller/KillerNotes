@@ -12,7 +12,7 @@
            Surface    = bar      (#333333) - scan config bar, table header
            Pane       = content  (#3a3a3a) - devices pane + grid rows (lightest)
          Borders (CardBorder) separate the tiers. ThemeManager swaps this
-         dictionary's keys in place at runtime - colours/brushes only here.
+         dictionary's keys in place at runtime - colors/brushes only here.
          ================================================================ -->
 
     <!-- Accent -->
@@ -20,7 +20,10 @@
     <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#1ea54c" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#1ea54c" po:Freeze="True"/>
     <SolidColorBrush x:Key="HeaderLineBrush"     Color="#1ea54c" po:Freeze="True"/>
-    <SolidColorBrush x:Key="OnPrimaryBrush"      Color="#FFFFFF" po:Freeze="True"/>
+    <!-- Near-black, matching the Black family. This is the text ON a filled accent button, and
+         Dark's accents are mid-tone rather than deep: white measures 2.38 to 3.94 across the six
+         (blue, teal, orange and purple all under 3), near-black measures 5.32 to 8.83. -->
+    <SolidColorBrush x:Key="OnPrimaryBrush"      Color="#0a0a0a" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#1ea54c" po:Freeze="True"/>
     <SolidColorBrush x:Key="InputHoverBrush"     Color="#707070" po:Freeze="True"/>
     <SolidColorBrush x:Key="TextFooter"          Color="#6a6a6a" po:Freeze="True"/>

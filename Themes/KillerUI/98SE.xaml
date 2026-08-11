@@ -8,9 +8,9 @@
   <SolidColorBrush x:Key="OnPrimaryBrush" Color="#ffffff"/>
   <SolidColorBrush x:Key="OutlineBtnBrush" Color="#004f00"/>
   <SolidColorBrush x:Key="InputHoverBrush" Color="#000000"/>
-  <!-- #c0c0c0 - the real Win95/98 3D-object face, and the ONE grey every surface in this theme
-       uses (Steve, 2026-08-07). It was #d4d0c8 for a while, which is the Windows 2000 / XP Classic
-       face: a step warmer and lighter, and visibly not the colour in any Win98 screenshot. Real
+  <!-- #c0c0c0 - the real Win95/98 3D-object face, and the ONE gray every surface in this theme
+       uses (2026-08-07). It was #d4d0c8 for a while, which is the Windows 2000 / XP Classic
+       face: a step warmer and lighter, and visibly not the color in any Win98 screenshot. Real
        Win98 paints the window, the dialogs, the menus, the button faces and the status cells all
        in this one value. -->
   <SolidColorBrush x:Key="BackgroundBrush" Color="#c0c0c0"/>
@@ -52,7 +52,7 @@
        own dark tone, matching its SelectionBg. -->
   <SolidColorBrush x:Key="TextSelectionBrush" Color="#004f00"/>
   <sys:Double x:Key="TextSelectionOpacity">1.0</sys:Double>
-  <!-- The EDITOR's native selection layer. Steve's spec (2026-08-08, final): selected TEXT is
+  <!-- The EDITOR's native selection layer (2026-08-08, final): selected TEXT is
        the solid accent block with white glyphs (the adorner's opaque band draws that, covering
        this layer), and a selected IMAGE gets THIS - the same dark accent at 75% - laid over it.
        No lighter "tint" brush, no border, no other cleverness. The plain TextBoxes keep the 1.0
@@ -75,10 +75,10 @@
   <LinearGradientBrush x:Key="TitleBarBrush" StartPoint="0,0" EndPoint="1,0"><GradientStop Color="#004000" Offset="0"/><GradientStop Color="#3a7d44" Offset="1"/></LinearGradientBrush>
 
   <!-- ============================================================================================
-       98SE is the kit's ONE bevelled, flat, square theme, and everything below is what makes the
+       98SE is the kit's ONE beveled, flat, square theme, and everything below is what makes the
        derived-token defaults in ThemeManager.ApplyDerivedTokens actually do something. Without
-       this block the twelve other themes are correct and 98SE simply renders as a grey Dark - the
-       kit documented a bevelled theme it could not produce.
+       this block the twelve other themes are correct and 98SE simply renders as a gray Dark - the
+       kit documented a beveled theme it could not produce.
 
        No theme name appears anywhere in code. Every key here is an OPT-IN override of a default,
        so a new palette that says nothing keeps the family look exactly as it was.
@@ -102,7 +102,7 @@
   <!-- The window's RAISED double bevel, exactly what Win32 draws for EDGE_RAISED on a sizing
        border. Two 1px rings wrapping the face, and BOTH are directional - light on the top/left,
        dark on the bottom/right - which is what makes every right and bottom edge in the reference
-       screenshot look bevelled. (Steve, 2026-08-07.)
+       screenshot look beveled. (2026-08-07)
 
          outer ring   #dfdfdf top/left   #000000 bottom/right   (3DLight / DkShadow)
          inner ring   #ffffff top/left   #808080 bottom/right   (Highlight / Shadow)
@@ -120,14 +120,14 @@
   <SolidColorBrush x:Key="FrameInnerLightBrush" Color="#ffffff"/>
   <SolidColorBrush x:Key="FrameInnerDarkBrush" Color="#808080"/>
 
-  <!-- The window frame, 5px on EVERY side (Steve, 2026-08-07). Measured off a real 98 window it
+  <!-- The window frame, 5px on EVERY side (2026-08-07). Measured off a real 98 window it
        is 1px outer bevel + 3px of face + 1px inner bevel, the same all the way round - so the top
        matches the sides matches the bottom, and it lines up with the footer spacer. It used to
        carry the shared 2px control bevel, which made the left and right raised edges visibly
        fatter than the frame they sit in.
 
        The face is a GRADIENT, not the flat #c0c0c0 it was. Win98's frame catches the light across
-       its width; 3px of one grey reads as a slab, and this is the difference between "there is a
+       its width; 3px of one gray reads as a slab, and this is the difference between "there is a
        border here" and "this window has an edge". Lit at the top/left corner, falling to shadow
        at the bottom/right, matching the direction every bevel in the theme already implies. -->
   <LinearGradientBrush x:Key="WindowFrameBrush" StartPoint="0,0" EndPoint="1,1">
@@ -154,11 +154,11 @@
        dialog's raised edge and its caption; with the card's own 1px border this margin yields
        exactly that: 2px bevel, 1px face, then the band, symmetric on left, top and right. -->
   <Thickness x:Key="AboutCaptionMargin">2,2,2,0</Thickness>
-  <!-- The etched toolbar divider: 2px, grey then white, hard stop between them. Offset 0.5 on
+  <!-- The etched toolbar divider: 2px, gray then white, hard stop between them. Offset 0.5 on
        both stops is what makes it two solid 1px rules instead of a blend. -->
   <!-- Menus get the same EDGE_RAISED double bevel as a window: white over BLACK outside, #dfdfdf
        over #808080 within. 1px per ring - a menu's edge is 2px total, not the 5 a sizing border
-       gets. (Steve, 2026-08-07: "even context menus might require the darker bevel".) -->
+       gets. Context menus need the darker bevel too. (2026-08-07) -->
   <SolidColorBrush x:Key="MenuBevel2LightBrush" Color="#ffffff"/>
   <SolidColorBrush x:Key="MenuBevel2DarkBrush" Color="#000000"/>
   <Thickness x:Key="MenuBevel2LightThickness">1,1,0,0</Thickness>
@@ -168,6 +168,15 @@
   <Thickness x:Key="MenuBevelLightThickness">1,1,0,0</Thickness>
   <Thickness x:Key="MenuBevelDarkThickness">0,0,1,1</Thickness>
   <Thickness x:Key="MenuBevelInnerMargin">1</Thickness>
+
+  <!-- Rebar gripper. Win98 grabs a toolbar band by raised hairlines at its leading edge, not by
+       a field of dots, so on this theme the family dot grip is hidden and the hatch takes over.
+       GripHatchVisibility was already read in three places (the format bar, the file dialog and
+       the resize grip) but was never DEFINED in any theme, so it fell back to Visible and the
+       hatch drew everywhere - harmlessly, because BevelLightBrush is 98SE-only and the rules
+       were invisible elsewhere. GripDotsVisibility had the same gap, which meant 98SE showed the
+       dots AND the hatch together. Defining it here is what finally picks one. -->
+  <Visibility x:Key="GripDotsVisibility">Collapsed</Visibility>
 
   <!-- The dialog's rows sit tight against the 5px frame - a Win98 dialog has almost no gutter of
        its own, the frame IS the border. 16 on top of 5 was a 21px band down each side. -->
@@ -213,7 +222,7 @@
   <!-- Client areas are RECESSED here - Notepad's text area, Explorer's list. Crossed against the
        bevel thicknesses (dark on top/left, light on bottom/right) so they read as pressed in. -->
   <!-- A white client area's SUNKEN edge, two-tone, exactly as Notepad's list box draws it
-       (Steve, 2026-08-07):
+       (2026-08-07):
 
          top/left      #808080 outer, #000000 inner
          bottom/right  #ffffff outer, #c0c0c0 inner
@@ -243,8 +252,8 @@
        what a Win98 divider actually is. -->
   <Thickness x:Key="FooterCellLightThickness">1,1,0,0</Thickness>
   <Thickness x:Key="FooterCellDarkThickness">0,0,1,1</Thickness>
-  <!-- The gap around the cells is the SAME on all four sides (Steve, 2026-08-07). It was 2 top and
-       bottom, 3 to the right and 0 to the left, so the cells sat off-centre in the footer and the
+  <!-- The gap around the cells is the SAME on all four sides (2026-08-07). It was 2 top and
+       bottom, 3 to the right and 0 to the left, so the cells sat off-center in the footer and the
        inter-cell divider was a different width from the border gap. Each cell carries 2 on its
        top, right and bottom; the footer's own 2 on the left supplies the matching gap at the start
        of the row, so the last cell's own right margin closes it symmetrically. -->
@@ -254,7 +263,7 @@
        their own at all. The right is -2 to cancel the last cell's own right margin, which is the
        inter-cell gap and has nothing to sit against at the end of the row. The 5px frame is
        already the window's border; the footer does not need to inset from it again.
-       (Steve, 2026-08-07.) -->
+       (2026-08-07) -->
   <Thickness x:Key="FooterPadding">0,0,-2,0</Thickness>
 
   <!-- Edit fields and radio wells are WHITE client areas here, like every other input. -->
@@ -262,17 +271,17 @@
   <SolidColorBrush x:Key="RadioWellBrush" Color="#ffffff"/>
   <!-- The picker's tree/places column is a client area here, like Explorer's. -->
   <SolidColorBrush x:Key="SidebarPaneBrush" Color="#ffffff"/>
-  <!-- Chips are BUTTONS: button-face grey with a raised bevel, never the white client colour. -->
+  <!-- Chips are BUTTONS: button-face gray with a raised bevel, never the white client color. -->
   <SolidColorBrush x:Key="ChipFaceBrush" Color="#c0c0c0"/>
   <SolidColorBrush x:Key="ChipEdgeBrush" Color="#00000000"/>
   <SolidColorBrush x:Key="ChipHoverBrush" Color="#dfdfdf"/>
-  <!-- OK and Cancel are the SAME button here. Win98 gives every dialog button the one grey face
-       and marks the default with a heavier border, never with a different fill or text colour,
-       so the family's accent-outlined confirm button beside a grey Cancel reads as two unrelated
+  <!-- OK and Cancel are the SAME button here. Win98 gives every dialog button the one gray face
+       and marks the default with a heavier border, never with a different fill or text color,
+       so the family's accent-outlined confirm button beside a gray Cancel reads as two unrelated
        controls. Both keys default to the accent outline, so only this theme opts out. -->
   <SolidColorBrush x:Key="OutlineFaceBrush" Color="#c0c0c0"/>
   <SolidColorBrush x:Key="OutlineTextBrush" Color="#000000"/>
-  <!-- RowHoverBrush is #c0c0c0 here, the same grey as the button face, so a button hovering to it
+  <!-- RowHoverBrush is #c0c0c0 here, the same gray as the button face, so a button hovering to it
        does not change. The lighter #dfdfdf is the era's button highlight. -->
   <SolidColorBrush x:Key="SurfaceHoverBrush" Color="#dfdfdf"/>
   <SolidColorBrush x:Key="OutlineHoverBrush" Color="#dfdfdf"/>
@@ -282,8 +291,8 @@
        editor; the page here is pure white, where its number green (#B5CEA8) lands at about 1.7:1
        and the comment green not much better - unreadable, and this theme was the worst hit of the
        thirteen. These are the Light+ equivalents, which are also the closer match to how a
-       code-aware editor of the era coloured text: saturated, high contrast, no pastels.
-       (Steve, 2026-08-07.) -->
+       code-aware editor of the era colored text: saturated, high contrast, no pastels.
+       (2026-08-07) -->
   <SolidColorBrush x:Key="Syn_Comment"  Color="#008000"/>
   <SolidColorBrush x:Key="Syn_String"   Color="#a31515"/>
   <SolidColorBrush x:Key="Syn_Number"   Color="#098658"/>
@@ -293,7 +302,7 @@
   <SolidColorBrush x:Key="Syn_Keyword"  Color="#0000ff"/>
 
   <!-- The format bar as a TASKBAR: a raised strip with a white top/left highlight rather than a
-       floating card outlined in grey, so the tool buttons read as sitting on it. A little more
+       floating card outlined in gray, so the tool buttons read as sitting on it. A little more
        padding for the same reason - a taskbar has air around its buttons. -->
   <SolidColorBrush x:Key="BarEdgeBrush" Color="#ffffff"/>
   <Thickness x:Key="BarEdgeThickness">1,1,0,0</Thickness>
@@ -314,7 +323,7 @@
   <SolidColorBrush x:Key="CaptionCloseBrush" Color="#000000"/>
   <SolidColorBrush x:Key="CaptionCloseHoverBrush" Color="#00000000"/>
   <SolidColorBrush x:Key="CaptionCloseHoverFgBrush" Color="#000000"/>
-  <!-- Black glyphs, not ChromeTextBrush's white: the buttons have their own grey face now, so a
+  <!-- Black glyphs, not ChromeTextBrush's white: the buttons have their own gray face now, so a
        white glyph would be invisible on it. -->
   <SolidColorBrush x:Key="CaptionGlyphBrush" Color="#000000"/>
 
@@ -328,12 +337,12 @@
   <Thickness x:Key="CaptionCloseGap">2,0,0,0</Thickness>
   <!-- No top inset. This used to be 2, compensating for the frame being a RowSpan overlay that
        painted over the top of the caption band - the visible band was shorter than the key said,
-       so a centred button had to be nudged down. The frame is a sibling of the content now
+       so a centered button had to be nudged down. The frame is a sibling of the content now
        (WindowFramePadding), covers nothing, and the band is its full height, so the nudge would
-       only push the buttons off centre again. Right stays 3: that is the gap to the frame. -->
+       only push the buttons off center again. Right stays 3: that is the gap to the frame. -->
   <Thickness x:Key="CaptionButtonsMargin">0,0,3,0</Thickness>
-  <!-- Tahoma Bold sits low in its line box at this size, so the centred caption reads a pixel
-       below centre in a 20px band. -1 on the top lifts it. -->
+  <!-- Tahoma Bold sits low in its line box at this size, so the centered caption reads a pixel
+       below center in a 20px band. -1 on the top lifts it. -->
   <Thickness x:Key="TitleTextMargin">0,-1,0,0</Thickness>
   <sys:Double x:Key="TitleWordmarkSize">11</sys:Double>
   <sys:Double x:Key="TitleWordmarkBoldSize">14</sys:Double>
@@ -354,9 +363,9 @@
   <!-- The content pane's inset. The family default is a flush TOP, and that is right on the themes
        that BLEND: their title bar, content strip and footer are all the same chrome tier, so the
        pane meeting the caption reads as one continuous surface. This theme's caption is a distinct
-       coloured band, so the pane butts into a hard edge and reads as jammed under it.
+       colored band, so the pane butts into a hard edge and reads as jammed under it.
 
-       ONE number, 5, and it is the frame's width (Steve, 2026-08-07). Every gap around the client
+       ONE number, 5, and it is the frame's width (2026-08-07). Every gap around the client
        is the same measurement: 5 on the left from the frame, 5 on the right, 5 below the caption,
        5 at the bottom. The RIGHT was 8, which stacked on the 5px frame the same way the sidebar's
        8 did on the left and made that side visibly wider than the other three. -->
@@ -364,7 +373,7 @@
 
   <!-- Win98 client areas are WHITE, and both of these are client areas: an edit field and a list.
        The family rule that inputs take the darkest tone is right on a theme where the darkest tone
-       is actually dark, but here it IS the button face, so the search box came out the same grey as
+       is actually dark, but here it IS the button face, so the search box came out the same gray as
        the panel holding it and the note list looked like part of the window frame. -->
   <SolidColorBrush x:Key="SearchFieldBrush" Color="#ffffff"/>
   <SolidColorBrush x:Key="ListPaneBrush" Color="#ffffff"/>
@@ -372,7 +381,7 @@
        is the one thing left in the sidebar that gives the era away. -->
   <sys:Double x:Key="EdgeFadeOpacity">0</sys:Double>
 
-  <!-- No flat outline: here a button's edge IS the bevel (white top/left, grey bottom/right). A
+  <!-- No flat outline: here a button's edge IS the bevel (white top/left, gray bottom/right). A
        visible OutlineRestBrush would draw a second, flat line in the same place. Transparent
        rather than absent, so the button still reserves its 1px border and the text does not shift. -->
   <SolidColorBrush x:Key="OutlineRestBrush" Color="#00000000"/>
@@ -381,7 +390,7 @@
   <!-- The 1px line ringing the whole window. On the top and left it hides against the white bevel,
        but on the bottom and right it lands OUTSIDE the dark bevel as a bright stripe. The THICKNESS
        has to go to 0 as well: RootBorder wraps the whole window, so its border band sits outside
-       the bevel layer, and at 1px the window's own grey Background shows through it. -->
+       the bevel layer, and at 1px the window's own gray Background shows through it. -->
   <SolidColorBrush x:Key="WindowEdgeBrush" Color="#00000000"/>
   <Thickness x:Key="WindowEdgeThickness">0</Thickness>
 
@@ -404,12 +413,12 @@
   <!-- The slider's sunken groove, and the sort button's recessed white field. -->
   <SolidColorBrush x:Key="SliderTrack" Color="#808080"/>
   <!-- Button FACE, not white. These are buttons sitting on the window face, not client areas, so
-       they take the same grey as every other button and only light up on hover. White at rest read
+       they take the same gray as every other button and only light up on hover. White at rest read
        as inverted next to the search field beside them. NOTE: the app half states this key too, and
        THIS copy wins because the contract dictionary is applied over it - so the two must agree or
        an edit to the app half silently does nothing. -->
   <SolidColorBrush x:Key="SortButtonBrush" Color="#c0c0c0"/>
   <!-- AccentLogo is deliberately NOT stated. ThemeManager defaults it to HeaderLineBrush after the
        accent overlay merges, and every 98SE accent restates HeaderLineBrush, so the wordmark's bold
-       run follows whichever accent is chosen instead of being pinned to one colour. -->
+       run follows whichever accent is chosen instead of being pinned to one color. -->
 </ResourceDictionary>

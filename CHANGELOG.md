@@ -4,6 +4,20 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-08-10
+
+1.2.1 adds find within the open note, on Ctrl+F, and fixes the themes around it: legible text on filled accent buttons, dark card borders and a real drop shadow on the Black theme, and context menus that cast a shadow again.
+
+### Added
+- Find in the open note, on Ctrl+F. A small card fades in over the note with the match count, next and previous, and wrap at either end. Drag it by the grip on its left to put it wherever it suits you and it opens there next time, staying inside the note whatever the window is doing; F3 and Shift+F3 step while it is open, Enter and Shift+Enter do the same from the box itself, and Esc closes it. Selected text seeds the box, so Ctrl+F on a word searches for it straight away. Matches are drawn over the text rather than into it, so nothing about finding touches the note, the undo stack or autosave. The sidebar box is unchanged and still searches across every note; F3 still goes there when the find bar is closed.
+
+### Fixed
+- Context menus cast a drop shadow again. The shadow layer was still in place but its blur and depth had drifted to about a quarter of the size every other flyout in the app uses, so on a light background there was nothing to see and the menu sat flat on the page.
+- The Black theme draws its card borders dark instead of ringing every card and dialog in a mid-gray box. Black is built so that things read by their background rather than by bright edges, and a mid-gray hairline on a near-black surface was the one edge in the app fighting that.
+- Selected text is highlighted in the accent color you actually chose. Every theme carries a default accent, and the selection color was being copied from it before your choice was applied on top - so on Black the selection stayed the theme's terminal green whether you had picked orange, purple, red or blue, and the same in every other theme. It looked random; it was each theme's own default, frozen a moment too early. The Windows 98 theme keeps its period navy selection, which it states outright rather than inheriting.
+- Text on a filled accent button is legible on the Black and Dark themes, which is most visible when hovering a button, since that is when the fill appears. It was white on both, and those accents are bright: on Black's neon green and teal that measures around 1.3 to 1, which is to say invisible, and on Dark four of the six accents come out under 3 to 1. Both families use near-black now, which measures between 4.5 and 15.5 on Black and between 5.3 and 8.8 on Dark. Light keeps white, which is the readable choice against its deeper accents. The palettes had in fact been corrected once already and the change did not reach the screen: the shared KillerUI layer is merged on top of them and still held white, so it overwrote the fix at startup.
+- Line numbers use a monospace font, so the gutter no longer shifts sideways as you scroll between narrow and wide numbers.
+
 ## [1.2.0] - 2026-08-08
 
 1.2.0 adds dictation with offline speech recognition, code-aware notes with syntax highlighting, freely placed images and recordings, and seven new themes, alongside big-note performance fixes (#16), a markdown detection fix, interface refinements, and an installer fix.

@@ -31,8 +31,8 @@
                 <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="{DynamicResource AccentLogo}"/><Run x:Name="SubtitleRun" FontSize="18" Foreground="{DynamicResource MutedTextBrush}"/></TextBlock>
             </Grid>
             <!-- ChromeCloseButton, NOT DialogCloseButton: this X sits AT the card's top-right
-                 corner, so its hover block rounds with that corner ("top right should be
-                 rounded here", Steve, 2026-08-08). DialogCloseButton (all four corners) is
+                 corner, so its hover block rounds with that corner (2026-08-08).
+                 DialogCloseButton (all four corners) is
                  only for the X's that float inset - About and Fonts. -->
             <Button Click="Close_Click" Style="{StaticResource ChromeCloseButton}"
                     HorizontalAlignment="Right" VerticalAlignment="Center"

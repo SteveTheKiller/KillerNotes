@@ -13,7 +13,7 @@ namespace KillerNotes.Controls
 {
     /// <summary>
     /// Dictation pad (F8). A modeless companion window, built the same way as the SketchPad: family
-    /// card chrome, a themed caption band, bevels on the bevelled themes, and a fade in and out.
+    /// card chrome, a themed caption band, bevels on the beveled themes, and a fade in and out.
     ///
     /// Record -> stop -> transcribe, then either drop the text into the note at the caret or embed
     /// the recording itself for playback. Recording and recognition are both offline
@@ -84,7 +84,7 @@ namespace KillerNotes.Controls
             ShowInTaskbar = true;
             Background = Brushes.Transparent;
             // Text rendering, matching MainWindow.xaml:10 and FileDialog.xaml:16-17. This window set
-            // neither, so its text fell back to Ideal formatting with default (greyscale) rendering
+            // neither, so its text fell back to Ideal formatting with default (grayscale) rendering
             // and came out soft next to every other window in the app.
             UseLayoutRounding = true;
             TextOptions.SetTextFormattingMode(this, TextFormattingMode.Display);
@@ -93,7 +93,7 @@ namespace KillerNotes.Controls
             // the X axis, so width is what buys precision when slicing. The transcript is a couple
             // of sentences and does not need the depth it had.
             // Defaults AT the minimums - the pad opens as small as it can legally be and the
-            // user grows it if the take warrants (Steve, 2026-08-08; it was 760x430).
+            // user grows it if the take warrants (2026-08-08; it was 760x430).
             Width = 520; Height = 360;
             MinWidth = 520; MinHeight = 360;
             // NOT Owner = owner - same free-sibling z-order as the SketchPad (see its ctor
@@ -194,7 +194,7 @@ namespace KillerNotes.Controls
             var root = new Grid();
             // Grain via RESOURCE REFERENCES, not values baked at build: a pad built under a
             // grainy theme kept its texture after a live switch to 98SE, whose GrainOpacity is
-            // 0 (Steve, 2026-08-08). Same fix as the SketchPad's two grain layers.
+            // 0 (2026-08-08). Same fix as the SketchPad's two grain layers.
             _grainB = new Border { IsHitTestVisible = false, CornerRadius = _outerBorder.CornerRadius };
             _grainB.SetResourceReference(Border.BackgroundProperty, "GrainTileBrush");
             _grainB.SetResourceReference(UIElement.OpacityProperty, "GrainOpacity");
@@ -207,8 +207,8 @@ namespace KillerNotes.Controls
 
             shell.Children.Add(BuildTitleBand());
 
-            // Skinny sides on a bevelled theme, same notepad treatment as the SketchPad; the
-            // standard themes keep their full air. (Steve, 2026-08-08.)
+            // Skinny sides on a beveled theme, same notepad treatment as the SketchPad; the
+            // standard themes keep their full air. (2026-08-08)
             var body = new Grid
             {
                 Margin = TryFindResource("UseDialogCaption") != null
@@ -218,7 +218,7 @@ namespace KillerNotes.Controls
             body.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // 0 controls
             // Waveform and transcript SHARE the flexible space, each with a FLOOR. A short window
             // used to crush the transcript to a sliver while the waveform kept its full 132px
-            // (Steve, 2026-08-08): the waveform row now gives ground too - never below 72px, never
+            // (2026-08-08): the waveform row now gives ground too - never below 72px, never
             // above the 132 it was fixed at - and the transcript never drops below 64px.
             body.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star), MinHeight = 72, MaxHeight = 140 });   // 1 waveform (140 = 132 + its 8px bottom margin)
             body.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // 2 status
@@ -233,7 +233,7 @@ namespace KillerNotes.Controls
 
             // (The close button is built INSIDE the caption band - see BuildTitleBand. It used to be
             // parented onto the card here and top-aligned, which is why it sat flush against the
-            // window edge instead of centred in the bar like the main window's.)
+            // window edge instead of centered in the bar like the main window's.)
 
             // Bevels last, so the raised edge draws over everything (family pattern).
             _bevelLight = new Border { IsHitTestVisible = false };
@@ -247,10 +247,10 @@ namespace KillerNotes.Controls
 
             // The shared window frame - DialogChrome.WindowFrame, the same 5px sizing border the
             // main window, SketchPad and every dialog draw. The pair above is the shared CONTROL
-            // bevel and is a different thing. Nothing on a flat theme. (Steve, 2026-08-07.)
+            // bevel and is a different thing. Nothing on a flat theme. (2026-08-07)
             // Shared corner grip (DialogChrome) - the pad was ALREADY resizable, but with the
             // resize border hidden out in the shadow halo nothing said so; the visible grip is
-            // the same one the SketchPad carries. (Steve, 2026-08-08.)
+            // the same one the SketchPad carries. (2026-08-08)
             root.Children.Add(KillerNotes.Controls.DialogChrome.ResizeGrip(this));
             root.Children.Add(KillerNotes.Controls.DialogChrome.WindowFrame());
             KillerNotes.Controls.DialogChrome.InsetForFrame(shell);
@@ -284,7 +284,7 @@ namespace KillerNotes.Controls
             // The inset the band used to apply, moved onto the mark - SketchPad's arrangement.
             ((FrameworkElement)caption).SetResourceReference(FrameworkElement.MarginProperty, "TitleBarPadding");
 
-            // The close button lives IN the band, right-aligned and vertically centred - the same
+            // The close button lives IN the band, right-aligned and vertically centered - the same
             // placement as the main window's. DialogChrome sizes it from CaptionButtonWidth/Height
             // and insets it with CaptionButtonsMargin, so it is the identical button.
             var head = new Grid();
@@ -376,10 +376,10 @@ namespace KillerNotes.Controls
 
             _status = new TextBlock { TextWrapping = TextWrapping.Wrap, FontSize = 11, Margin = new Thickness(0, 0, 0, 8) };
             _status.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
-            // Say up front when the machine has no recogniser, rather than after a take is recorded.
+            // Say up front when the machine has no recognizer, rather than after a take is recorded.
             _status.Text = DictationRecorder.RecognizerAvailable()
                 ? L("Str_Dict_Ready", "Ready. Record, then transcribe or embed the audio.")
-                : L("Str_Dict_NoEngine", "No speech recogniser is installed, so transcription is unavailable. Recording and embedding still work.");
+                : L("Str_Dict_NoEngine", "No speech recognizer is installed, so transcription is unavailable. Recording and embedding still work.");
             Grid.SetRow(_status, 2);
             body.Children.Add(_status);
         }
@@ -413,8 +413,7 @@ namespace KillerNotes.Controls
         /// host for the same reason: the bevel has to land ON the pane's edge, not outside it.
         /// </summary>
         // The waveform and transcript panes' shadow siblings, re-derived on live theme switches
-        // by EnsureCardChrome ("I think both the waveform and transcription need the work",
-        // Steve, 2026-08-08).
+        // by EnsureCardChrome - both panes need it (2026-08-08).
         private readonly List<Border> _paneShadows = [];
 
         /// <summary>The family pane shadow, or null on a 0-opacity (flat) theme - never an
@@ -456,7 +455,7 @@ namespace KillerNotes.Controls
         private void BuildButtons(Grid body)
         {
             // 14px off the right so Print to note clears the corner resize grip instead of
-            // butting against it (Steve, 2026-08-08).
+            // butting against it (2026-08-08).
             var row = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right,
                                        Margin = new Thickness(0, 12, 14, 0) };
 
@@ -786,7 +785,7 @@ namespace KillerNotes.Controls
             _status.Text = L("Str_Dict_Working", "Transcribing...");
             byte[] wav = _wav;
 
-            // Off the UI thread: a minute of audio takes seconds to recognise and would otherwise
+            // Off the UI thread: a minute of audio takes seconds to recognize and would otherwise
             // freeze the window mid-click.
             System.Threading.Tasks.Task.Run(() =>
             {
@@ -802,7 +801,7 @@ namespace KillerNotes.Controls
                     }
                     if (text.Length == 0)
                     {
-                        _status.Text = L("Str_Dict_NoSpeech", "No speech was recognised in that recording.");
+                        _status.Text = L("Str_Dict_NoSpeech", "No speech was recognized in that recording.");
                         return;
                     }
                     // Append rather than replace: a second pass over a re-recorded take should not

@@ -34,7 +34,7 @@ namespace KillerNotes.Controls
 
         /// <summary>True when OK confirmed the pick. Callers read THIS, never ShowDialog's
         /// return: the fade in OnClosing cancels the first close, and WPF nulls DialogResult
-        /// whenever a close is cancelled (Anim.cs header), so ShowDialog returns null and a
+        /// whenever a close is canceled (Anim.cs header), so ShowDialog returns null and a
         /// `== true` check silently discards the pick - which is exactly how the tag color
         /// picker "didn't work" (2026-08-08). Same shape as ConfirmDialog/PasswordDialog's
         /// Confirmed.</summary>
@@ -103,7 +103,7 @@ namespace KillerNotes.Controls
             // No window-level Escape/Enter handler. The Cancel button is IsCancel and the OK button
             // IsDefault (see BuildUi), so WPF already routes both keys for us. The handler that used
             // to live here duplicated that: Escape ran DialogResult=false AND Close(), and assigning
-            // DialogResult is itself a close request - so the first close was cancelled by the fade in
+            // DialogResult is itself a close request - so the first close was canceled by the fade in
             // OnClosing and the second arrived with _closeFaded already true and closed instantly.
             // Escape therefore skipped the fade that the X and Cancel both play. Same shape as the
             // duplicate Cancel_Click that was removed for the same reason.
@@ -129,7 +129,7 @@ namespace KillerNotes.Controls
             {
                 // BackgroundBrush, the window face - NOT SurfaceBrush. SurfaceBrush is the raised
                 // material used for panes and bars (Sepulchre's brown), so this dialog was the one
-                // card in the family wearing a pane colour instead of the window colour. About,
+                // card in the family wearing a pane color instead of the window color. About,
                 // Confirm and the rest all use BackgroundBrush.
                 Background = R("BackgroundBrush"),
                 BorderBrush = R("WindowEdgeBrush"),
@@ -152,7 +152,7 @@ namespace KillerNotes.Controls
             card.Child = root;
 
             // Raised edge as SIBLINGS of the card, sharing its margin so they land on its outer
-            // edge - the family pattern. Transparent and zero-thickness except on bevelled themes.
+            // edge - the family pattern. Transparent and zero-thickness except on beveled themes.
             var shellGrid = new Grid();
             shellGrid.Children.Add(card);
             foreach (var (brushKey, thickKey) in new[]
@@ -172,7 +172,7 @@ namespace KillerNotes.Controls
             // define one, identical to the card face on the themes that do not. Same treatment the
             // SketchPad and the file picker got.
             // LEFT padding only, like DialogTitleBar - the right pad floated the close X off the
-            // corner (same fix as WhisperModelDialog, Steve, 2026-08-08).
+            // corner (same fix as WhisperModelDialog, 2026-08-08).
             var titleBand = new Border { Padding = new Thickness(14, 0, 0, 0), Cursor = Cursors.SizeAll };
             titleBand.SetResourceReference(Border.BackgroundProperty, "DialogTitleBarBrush");
             titleBand.SetResourceReference(FrameworkElement.HeightProperty, "DialogTitleBarHeight");
@@ -290,7 +290,7 @@ namespace KillerNotes.Controls
             var btnRow = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 14, 0, 0) };
             // IsCancel ALONE. It already sets DialogResult=false and closes on click (and on Esc),
             // so the explicit Click handler that did the same fired a SECOND close: the first was
-            // cancelled by the fade in OnClosing, the second arrived with _closeFaded already true
+            // canceled by the fade in OnClosing, the second arrived with _closeFaded already true
             // and closed instantly - so Cancel skipped the fade and raced the fade timer into
             // closing an already-closed window.
             var cancel = new Button { Content = L("Str_Btn_Cancel", "Cancel"), Width = 74, IsCancel = true,
@@ -302,7 +302,7 @@ namespace KillerNotes.Controls
             panel.Children.Add(btnRow);
         }
 
-        // Confirmed + Close(), never DialogResult: the fade-cancelled first close nulls
+        // Confirmed + Close(), never DialogResult: the fade-canceled first close nulls
         // DialogResult (see the Confirmed doc above), so the result rides a plain property
         // and ONE Close() call keeps the single close request the fade needs.
         private void Accept() { SelectedColor = HsvToRgb(_h, _s, _v); Confirmed = true; Close(); }
@@ -391,7 +391,7 @@ namespace KillerNotes.Controls
             if (_replaceBtn is null) return;
             // ChipFaceBrush / ChipEdgeBrush, matching Chip(). These were PaneBrush and
             // InputBorderBrush, so the first arm or disarm flipped the chip back to the client
-            // colour and undid the button face it was built with.
+            // color and undid the button face it was built with.
             _replaceBtn.Background = _replaceArmed ? R("RowSelectedBrush") : R("ChipFaceBrush");
             _replaceBtn.SetResourceReference(Border.BorderBrushProperty, _replaceArmed ? "PrimaryBrush" : "ChipEdgeBrush");
         }
@@ -448,7 +448,7 @@ namespace KillerNotes.Controls
         {
             Width = width, Height = 22, VerticalContentAlignment = VerticalAlignment.Center,
             // TextFieldBrush, not BackgroundBrush directly: an edit field is a CLIENT area, and on a
-            // theme whose "darkest tone" is the button face the hex box came out the same grey as
+            // theme whose "darkest tone" is the button face the hex box came out the same gray as
             // the dialog behind it. Defaults to BackgroundBrush, so nothing else moves.
             Background = R("TextFieldBrush"), Foreground = R("TextBrush"),
             BorderBrush = R("InputBorderBrush"), BorderThickness = new Thickness(1),
@@ -477,7 +477,7 @@ namespace KillerNotes.Controls
         private Border Chip(string glyph, string tip)
         {
             // ChipFaceBrush, not PaneBrush. A chip is a BUTTON, and on a theme where PaneBrush is
-            // the white client colour it came out looking like an empty text field with a label in
+            // the white client color it came out looking like an empty text field with a label in
             // it rather than something pressable. Defaults to PaneBrush, so nothing else moves.
             var b = new Border { Height = 22, Width = 24, CornerRadius = Rad("SmallCornerRadius", 3), Cursor = Cursors.Hand,
                 BorderBrush = R("ChipEdgeBrush"), BorderThickness = new Thickness(1), Background = R("ChipFaceBrush"),

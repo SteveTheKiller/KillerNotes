@@ -38,7 +38,7 @@
                     <!-- EditFieldTextBox (Controls.xaml): the search-box look - flat
                          SearchFieldBrush, themed focus border, white + sunken on 98SE. This was
                          a transparent box with an accent border, the one input in the app that
-                         did not look like an edit field (Steve, 2026-08-08). -->
+                         did not look like an edit field (2026-08-08). -->
                     <TextBox x:Name="ValueBox" FontSize="12" Padding="6,4"
                              Style="{StaticResource EditFieldTextBox}"
                              KeyDown="ValueBox_KeyDown"/>

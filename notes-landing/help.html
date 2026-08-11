@@ -114,7 +114,12 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 
 <h2 class="help-cat" id="notes" data-i18n="hp_4">Notes &amp; search</h2>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_5">New notes &amp; autosave<span class="kbd">Ctrl+N</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_6"><code>Ctrl+N</code> starts a new note; the first line you type becomes its title until you rename it (<code>F2</code>).</p><p data-i18n="hp_7">There is no Save button to forget. A save commits 2 seconds after you stop typing, plus immediately on note switch, on alt-tab away, and on close. <code>Ctrl+S</code> just means "commit now".</p><p data-i18n="hp_8">Every note also remembers its cursor and scroll position, so it reopens exactly where you left off.</p></div></div></div>
-<div class="acc-item"><button class="acc-head" data-i18n="hp_9">Search<span class="kbd">F3 / Ctrl+F</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_10"><code>F3</code> or <code>Ctrl+F</code> jumps to the search box. Every word you type is matched anywhere inside titles, note text, and tags - any fragment finds it, so <code>02</code> finds <code>A/002/45</code> and <code>pass wor</code> finds "password working notes".</p><p data-i18n="hp_11">The sidebar filters live with every keystroke; <code>Esc</code> clears the search and puts the list back.</p></div></div></div>
+<!-- hp_9 / hp_10 said "F3 or Ctrl+F jumps to the search box", which was true until 1.2.1 took
+     Ctrl+F for find-in-this-note. The English is corrected here; the ten locale strings in
+     kn-i18n.js still carry the old wording and need the same edit. -->
+<div class="acc-item"><button class="acc-head" data-i18n="hp_9">Search every note<span class="kbd">F3</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_10"><code>F3</code> jumps to the sidebar search box. Every word you type is matched anywhere inside titles, note text, and tags - any fragment finds it, so <code>02</code> finds <code>A/002/45</code> and <code>pass wor</code> finds "password working notes".</p><p data-i18n="hp_11">The sidebar filters live with every keystroke; <code>Esc</code> clears the search and puts the list back.</p></div></div></div>
+<!-- New in 1.2.1. No kn-i18n.js entry yet, so the other locales fall back to this English. -->
+<div class="acc-item"><button class="acc-head" data-i18n="hp_find">Find in this note<span class="kbd">Ctrl+F</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_find_1"><code>Ctrl+F</code> opens a small card over the note with the match count, next and previous, and wrap at either end. Selected text seeds the box, so <code>Ctrl+F</code> on a word searches for it straight away.</p><p data-i18n="hp_find_2">Drag it by the grip on its left to put it wherever suits you and it opens there next time, staying inside the note whatever the window is doing. <code>F3</code> and <code>Shift+F3</code> step through matches while it is open, <code>Enter</code> and <code>Shift+Enter</code> do the same from the box itself, and <code>Esc</code> closes it.</p><p data-i18n="hp_find_3">Matches are drawn over the text rather than into it, so finding never touches the note, the undo stack or autosave. The sidebar box is unchanged and still searches across every note.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_12">Sorting &amp; density<span class="kbd">Ctrl+F10 / Ctrl+D</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_13">Notes sort by creation time or title, in either direction, or by a drag-and-drop custom order. <code>Ctrl+F10</code> cycles the modes; the toolbar buttons pick them directly.</p><p data-i18n="hp_14"><code>Ctrl+D</code> cycles three sidebar densities - full, compact, and minimal - to fit more notes on screen. The compact modes trim the group headers too.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_15">Title colors<span class="kbd">Ctrl+Shift+C</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_16">Right-click a note for <b>Title color</b> (or press <code>Ctrl+Shift+C</code>) to color its title in the list, with a live preview while you pick. Colored titles stay colored even while the note is selected.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_17">Delete &amp; sidebar undo<span class="kbd">Delete / Ctrl+Z</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_18"><code>Delete</code> removes the selected note after a confirm - and <code>Ctrl+Z</code> brings it back.</p><p data-i18n="hp_19">Sidebar undo covers more than deletes: group moves, group colors, tag toggles, and note reorders all revert with <code>Ctrl+Z</code>. Inside the editor, <code>Ctrl+Z</code> stays normal text undo; the app picks the right one based on what you did last.</p></div></div></div>
@@ -331,7 +336,7 @@ window.addEventListener('resize', fit);
 <div class="kbd-group"><h4>Function keys</h4>
 <div class="kbd-row"><span class="k">F1</span><span class="d">Keyboard shortcuts overlay</span></div>
 <div class="kbd-row"><span class="k">F2</span><span class="d">Rename the open note</span></div>
-<div class="kbd-row"><span class="k">F3 / Ctrl+F</span><span class="d">Search notes</span></div>
+<div class="kbd-row"><span class="k">F3</span><span class="d">Search every note (steps matches while find is open)</span></div>
 <div class="kbd-row"><span class="k">F4</span><span class="d">Toggle markdown/HTML preview</span></div>
 <div class="kbd-row"><span class="k">F5</span><span class="d">Collapse / expand the sidebar</span></div>
 <div class="kbd-row"><span class="k">F6</span><span class="d">Show / hide the format bar</span></div>
@@ -346,6 +351,7 @@ window.addEventListener('resize', fit);
 <div class="kbd-row"><span class="k">Ctrl+N</span><span class="d">New note</span></div>
 <div class="kbd-row"><span class="k">Ctrl+G</span><span class="d">New group (files selected notes into it)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+T</span><span class="d">Manage tags (add, rename, recolor)</span></div>
+<div class="kbd-row"><span class="k">Ctrl+F</span><span class="d">Find in this note (F3 / Shift+F3 step matches)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+K</span><span class="d">Insert / edit link (Ctrl+Click opens)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+F10</span><span class="d">Cycle sidebar sort (time / A-Z / custom)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+O</span><span class="d">Open files as new notes</span></div>
@@ -452,7 +458,7 @@ window.addEventListener('resize', fit);
 </div>
 <footer class="statusbar">
 <span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener">Source on GitHub</a> &middot; Part of <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span>
-<span class="right"><span id="verEgg" title="click me">v1.2.0</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
+<span class="right"><span id="verEgg" title="click me">v1.2.1</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
 </footer>
 <div class="egg-toast" id="eggToast"></div>
 <script src="kn-i18n.js?v=9"></script>

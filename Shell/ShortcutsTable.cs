@@ -30,7 +30,11 @@ namespace KillerNotes.Shell
         [
             new("F1", "Str_KS_ThisList", "Help", [(KbLayer.Base, "F1", "Str_Kb_Shortcuts")]),
             new("F2", "Str_KS_Rename", "Note", [(KbLayer.Base, "F2", "Str_KS_Rename")]),
-            new("F3 / Ctrl+F", "Str_KS_Search", "Search", [(KbLayer.Base, "F3", "Str_KS_Search"), (KbLayer.Ctrl, "F", "Str_KS_Search")]),
+            // The two searches are separate keys now: F3 is the sidebar's cross-note search,
+            // Ctrl+F is find-in-this-note. F3 also steps matches while the find bar is open,
+            // which is a state the map cannot draw, so the cap keeps its primary meaning.
+            new("F3", "Str_KS_Search", "Search", [(KbLayer.Base, "F3", "Str_KS_Search")]),
+            new("Ctrl+F", "Str_KS_Find", "Search", [(KbLayer.Ctrl, "F", "Str_KS_Find")]),
             new("F4", "Str_KS_Preview", "View", [(KbLayer.Base, "F4", "Str_Kb_Preview")]),
             new("F5", "Str_KS_Sidebar", "View", [(KbLayer.Base, "F5", "Str_Kb_Sidebar")]),
             new("F6", "Str_KS_FormatBar", "View", [(KbLayer.Base, "F6", "Str_Kb_FormatBar")]),

@@ -36,6 +36,7 @@ namespace KillerNotes.Shell
             // Keep the size dropdown showing the size under the caret/selection.
             Editor.SelectionChanged += (_, _) => UpdateFontSizeDisplay();
             InitSelectionTextOverlay();   // 98SE white-on-navy selection (EditorSelectionText.cs)
+            InitFindBar();                // in-note find match highlights (FindBar.cs)
         }
 
         private void Editor_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -136,8 +137,8 @@ namespace KillerNotes.Shell
 
         // WPF's spell checker walks the WHOLE document on the UI thread. On a huge pasted
         // script it grinds for minutes before the first squiggle appears, which reads as
-        // "spell check not working at all" and "the app is unusable" AT ONCE (Steve,
-        // 2026-08-08) - and the setting persists per note, so that note re-hung the app on
+        // spell check not working at all AND the app being unusable at once
+        // (2026-08-08) - and the setting persists per note, so that note re-hung the app on
         // every load. Above this many characters the toggle refuses and says so, and the
         // load path quietly stays off.
         private const int MaxSpellCheckChars = 50_000;

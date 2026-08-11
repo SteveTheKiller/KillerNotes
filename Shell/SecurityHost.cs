@@ -3,7 +3,7 @@ using KillerNotes.Features;
 using KillerNotes.Services;   // NoteStore, for the resume hint's database check
 
 // MainWindow's side of the security feature: it satisfies ISecurityHost and forwards the two
-// button clicks. All the behaviour lives in Features/Security/SecurityController.cs.
+// button clicks. All the behavior lives in Features/Security/SecurityController.cs.
 namespace KillerNotes.Shell
 {
     public partial class MainWindow : ISecurityHost
@@ -19,7 +19,7 @@ namespace KillerNotes.Shell
 
         // In-memory resume hint for the security round trips (Manage databases, lock/unlock).
         // The "LastNote" SETTING cannot serve here: demo sessions never write it on purpose, so
-        // cancelling the Databases dialog in a demo fell through to the most-recently-modified
+        // canceling the Databases dialog in a demo fell through to the most-recently-modified
         // fallback and jumped the user to a different note (2026-08-08). Captured when a round
         // trip saves the open note; consumed by OpenStartupNote only when the SAME database
         // comes back.
@@ -52,11 +52,11 @@ namespace KillerNotes.Shell
 
         // ---- Entry points the rest of the shell calls ----
 
-        /// <summary>Opens the active database at launch (MainWindow ctor); cancelling exits.</summary>
+        /// <summary>Opens the active database at launch (MainWindow ctor); canceling exits.</summary>
         private void OpenDatabase() => _security.OpenAtLaunch();
 
         /// <summary>Opens the active database after a switch (Sharing.cs, and the controller's own
-        /// Manage databases round trip). Returns false when the unlock was cancelled.</summary>
+        /// Manage databases round trip). Returns false when the unlock was canceled.</summary>
         private bool OpenDatabase(bool exitOnCancel) => _security.Open(exitOnCancel);
 
         /// <summary>Drops the session password: the file being opened is a different one, so its

@@ -70,7 +70,7 @@ namespace KillerNotes.Services
         /// <summary>
         /// Playback volume, 0..1. Applied per waveOut device rather than to the system mixer, so
         /// turning a note's recording down does not touch anything else the machine is playing.
-        /// Sticky across recordings: set it once and every clip honours it.
+        /// Sticky across recordings: set it once and every clip honors it.
         /// </summary>
         internal static double Volume
         {

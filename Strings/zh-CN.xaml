@@ -593,4 +593,14 @@
     <sys:String x:Key="Str_Sketch_Undo">撤销 (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">笔刷大小 (点击切换)</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+
+    <!-- In-note find (1.2.1) -->
+    <sys:String x:Key="Str_St_FindMatches">第 {0} 项，共 {1} 项</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">无匹配项</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">上一个匹配项 (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">下一个匹配项 (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">关闭 (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">拖动以移动</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">在此笔记中查找 (Ctrl+F)</sys:String>
+    <sys:String x:Key="Str_KS_Find">在此笔记中查找</sys:String>
 </ResourceDictionary>

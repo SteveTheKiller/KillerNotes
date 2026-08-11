@@ -74,7 +74,7 @@ namespace KillerNotes.Shell
             if (_notes.Count == 0 && !string.IsNullOrEmpty(SearchBox.Text))
                 SearchBox.Text = "";   // TextChanged refreshes the list synchronously
 
-            // Same-database round trip (Manage databases cancelled, lock/unlock): reopen exactly
+            // Same-database round trip (Manage databases canceled, lock/unlock): reopen exactly
             // the note that was open, not whatever the LastNote setting or the most-recent
             // fallback would pick. In-memory (SecurityHost.cs), so it holds in demo sessions,
             // which never write the LastNote setting.

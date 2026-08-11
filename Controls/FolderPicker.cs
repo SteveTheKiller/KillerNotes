@@ -27,7 +27,7 @@ namespace KillerNotes.Controls
                 InitialDirectory = initialDir ?? "",
                 CheckFileExists = false,   // the target is the directory, not a file that must exist
                 // The title already names the product ("Choose the KillerNotes data folder"), so
-                // the caption's wordmark prefix would say it twice. (Steve, 2026-08-07.)
+                // the caption's wordmark prefix would say it twice. (2026-08-07)
                 TitleOnly = true,
             };
             if (dlg.ShowDialog(owner) != true) return null;
@@ -51,7 +51,7 @@ namespace KillerNotes.Controls
                     dialog.SetFolder(start);
 
                 IntPtr hwnd = owner != null ? new WindowInteropHelper(owner).Handle : IntPtr.Zero;
-                if (dialog.Show(hwnd) != 0) return null;   // cancelled (HRESULT_FROM_WIN32(ERROR_CANCELLED))
+                if (dialog.Show(hwnd) != 0) return null;   // canceled (HRESULT_FROM_WIN32(ERROR_CANCELLED))
 
                 dialog.GetResult(out IShellItem item);
                 item.GetDisplayName(SIGDN_FILESYSPATH, out IntPtr pszPath);

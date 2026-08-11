@@ -12,7 +12,7 @@ namespace KillerNotes.Shell
     //
     //   UI shell (KillerUI kit): Chrome.cs, ThemeFlyout.cs, Controls/Anim.cs
     //   Notes:    Notes.cs (list/search/save), Editor.cs (formatting/paste/tables)
-    //   Features: each is a Controller + IHost pair - the controller holds the behaviour
+    //   Features: each is a Controller + IHost pair - the controller holds the behavior
     //             and no WPF controls, the Shell/*Host.cs partial maps it onto the XAML.
     //             Features/About + Shell/About.cs, Features/Security + Shell/SecurityHost.cs
     //   Data:     Services/NoteStore.cs (SQLite + FTS5 + SQLCipher)
@@ -42,8 +42,8 @@ namespace KillerNotes.Shell
                 ApplyThemeElevation();
                 // Syntax runs carry a resolved Color, not a DynamicResource, so they cannot follow
                 // a theme switch on their own - and the palette genuinely differs between a dark
-                // page and a light one. Re-run the pass so a switch into 98SE or Light recolours
-                // the open note instead of leaving Dark+ greens on white. (Steve, 2026-08-07.)
+                // page and a light one. Re-run the pass so a switch into 98SE or Light recolors
+                // the open note instead of leaving Dark+ greens on white. (2026-08-07)
                 QueueSyntaxHighlighting();                       // SyntaxHighlighting.cs
             };
 
@@ -68,7 +68,7 @@ namespace KillerNotes.Shell
                 // installed location, and in demo mode so screenshots stay clean.
                 if (App.IsPortable() && !DemoMode) PortableBadge.Visibility = Visibility.Visible;
                 // Deferred, NOT called inline: Loaded fires synchronously inside Show(),
-                // and cancelling the unlock prompt calls Close() - a reentrant Close()
+                // and canceling the unlock prompt calls Close() - a reentrant Close()
                 // during Show() throws (this was a real crash). Dispatching lets Show()
                 // finish first; the prompt appears right after first paint.
                 Dispatcher.BeginInvoke(new Action(() =>

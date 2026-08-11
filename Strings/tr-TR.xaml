@@ -593,4 +593,14 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Geri al (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Fırça boyutu (değiştirmek için tıklayın)</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+
+    <!-- In-note find (1.2.1) -->
+    <sys:String x:Key="Str_St_FindMatches">{1} eşleşmeden {0}</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">Eşleşme yok</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">Önceki eşleşme (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">Sonraki eşleşme (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">Kapat (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">Taşımak için sürükleyin</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">Bu notta bul (Ctrl+F)</sys:String>
+    <sys:String x:Key="Str_KS_Find">Bu notta bul</sys:String>
 </ResourceDictionary>

@@ -16,18 +16,18 @@
                     xmlns:local="clr-namespace:KillerPDF.Controls"
                     xmlns:kui="clr-namespace:KillerPDF.Controls">
 
-    <!-- NO OutlineButton / SurfaceButton HERE (Steve, 2026-08-07). This file used to carry its
+    <!-- NO OutlineButton / SurfaceButton HERE (2026-08-07). This file used to carry its
          own copies of both, and it merges AFTER Controls.xaml, so the picker silently ignored
          the real definitions - four separate fixes to Controls.xaml changed nothing on screen
-         and Cancel stayed white while every other Cancel in the app went grey. Button styles
+         and Cancel stayed white while every other Cancel in the app went gray. Button styles
          live in Controls.xaml, once. Do not reintroduce them here. -->
 
     <Style x:Key="DarkTextBox" TargetType="TextBox">
         <!-- SurfaceBrush (#333333 on Dark), NOT BackgroundBrush. The appointment sidebar paints
              nothing of its own and sits straight on the window's BackgroundBrush (#1c1c1c), so a
-             BackgroundBrush field was the exact same colour as the panel behind it - the only thing
+             BackgroundBrush field was the exact same color as the panel behind it - the only thing
              separating a text box from empty space was its 1px border. KillerNotes has always used
-             SurfaceBrush here; this is that. (Steve, 2026-07-30.)
+             SurfaceBrush here; this is that. (2026-07-30)
              It reads correctly on the other surfaces too: the dialog cards are PaneBrush (#3a3a3a),
              against which a SurfaceBrush field is a step darker and reads as recessed. -->
         <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
@@ -121,7 +121,7 @@
                             <Setter TargetName="bg" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
                         </Trigger>
                         <!-- SelectionBg/SelectionFg, the family pair - never the raw accent.
-                             Same treatment as a selected menu item or tab. (Steve, 2026-07-30.) -->
+                             Same treatment as a selected menu item or tab. (2026-07-30) -->
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="bg" Property="Background" Value="{DynamicResource SelectionBg}"/>
                             <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
@@ -278,7 +278,7 @@
         <WrapPanel Orientation="Horizontal" ItemWidth="96" ItemHeight="76"/>
     </ItemsPanelTemplate>
 
-    <!-- THE FOLDER TREE IS GONE (Steve, 2026-08-07). The picker's left column is bookmarks only
+    <!-- THE FOLDER TREE IS GONE (2026-08-07). The picker's left column is bookmarks only
          now, so LastChildConverter/IsLastChild, TreeExpander, TreeName, FolderTreeItem and
          FolderTreeView were all dead - together with SharedPicker/FolderTree.cs, which is deleted.
          Nothing in the app builds a TreeView any more; do not reintroduce these without the tree. -->
@@ -394,16 +394,16 @@
                                          SelectionTextBrush="{DynamicResource PrimaryBrush}"
                                          CaretBrush="{DynamicResource PrimaryBrush}"/>
                                 <!-- The drop chevron is a real BUTTON FACE, matching the address
-                                     bar's recents button (Steve, 2026-08-07): a square with the
+                                     bar's recents button (2026-08-07): a square with the
                                      caption-button fill and a raised bevel, not a bare glyph
                                      floating on the field. Both keys are transparent / zero
-                                     thickness off a bevelled theme, so the other twelve still
+                                     thickness off a beveled theme, so the other twelve still
                                      show exactly the flat chevron they showed before. -->
                                 <!-- FLUSH right, no gap. The 1px inset left a sliver of the field's
                                      own fill showing past the button - white on a theme whose edit
                                      fields are white - which read as a stray white column between
                                      the button and the combo's edge. A Win98 drop button sits hard
-                                     against the inside of the field. (Steve, 2026-08-07.) -->
+                                     against the inside of the field. (2026-08-07) -->
                                 <Grid Grid.Column="1" Width="20" Height="20" IsHitTestVisible="False"
                                       HorizontalAlignment="Right" Margin="0"
                                       VerticalAlignment="Center">

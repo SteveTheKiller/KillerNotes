@@ -25,7 +25,7 @@ namespace KillerNotes.Services
             Color Shade(int offset, double dark) => Mix(A(offset), Color.FromRgb(35, 37, 40), dark);
             void Brush(string key, Color color) => target[key] = new SolidColorBrush(color);
 
-            // Pick the most colourful swatch for interactive states. Fixed offsets made the
+            // Pick the most colorful swatch for interactive states. Fixed offsets made the
             // Coffee B accent nearly charcoal, hiding its checked radio and wordmark.
             Color accent = A(0);
             double bestChroma = -1;

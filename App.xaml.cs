@@ -267,7 +267,7 @@ namespace KillerNotes
         private static readonly string InstallExe = Path.Combine(InstallDir, ExeName);
 
         /// <summary>Where /silent puts a machine-wide install. Needed by IsPortable: without it a
-        /// Program Files copy does not recognise itself as installed.</summary>
+        /// Program Files copy does not recognize itself as installed.</summary>
         private static readonly string MachineDir = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), AppName);
         private static readonly string MachineExe = Path.Combine(MachineDir, ExeName);
@@ -284,7 +284,7 @@ namespace KillerNotes
         /// machine-wide copy in Program Files reported itself as portable: it showed the PORTABLE
         /// badge and offered to install itself, and accepting created a SECOND, per-user copy
         /// alongside it. That is how a machine ends up running one version while Add/Remove
-        /// Programs describes another (Steve hit exactly this on 2026-08-05).</summary>
+        /// Programs describes another (seen in the field, 2026-08-05).</summary>
         internal static bool IsPortable()
         {
             string currentExe = Process.GetCurrentProcess().MainModule!.FileName;

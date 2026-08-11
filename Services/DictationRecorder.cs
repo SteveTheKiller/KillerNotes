@@ -348,21 +348,21 @@ namespace KillerNotes.Services
                 // deleted in the finally, so the audio does not linger.
                 File.WriteAllBytes(tmp, wav);
 
-                // Pick the recogniser matching the UI culture rather than taking the default. The
-                // parameterless ctor grabs whichever recogniser Windows lists first, which on a
+                // Pick the recognizer matching the UI culture rather than taking the default. The
+                // parameterless ctor grabs whichever recognizer Windows lists first, which on a
                 // machine with several language packs is routinely NOT the language being spoken -
-                // and a recogniser listening in the wrong language produces exactly the plausible-
+                // and a recognizer listening in the wrong language produces exactly the plausible-
                 // looking nonsense that reads as "bad accuracy".
                 var want = System.Globalization.CultureInfo.CurrentUICulture;
                 var installed = System.Speech.Recognition.SpeechRecognitionEngine.InstalledRecognizers();
                 var match = installed.FirstOrDefault(r => r.Culture.Equals(want))
                          ?? installed.FirstOrDefault(r => r.Culture.TwoLetterISOLanguageName == want.TwoLetterISOLanguageName)
                          ?? installed.FirstOrDefault();
-                if (match == null) { LastError = "No speech recogniser is installed."; return null; }
+                if (match == null) { LastError = "No speech recognizer is installed."; return null; }
 
                 using var engine = new System.Speech.Recognition.SpeechRecognitionEngine(match);
 
-                // The desktop recogniser drops anything it is not confident about, which is why a
+                // The desktop recognizer drops anything it is not confident about, which is why a
                 // sentence comes back with words silently missing rather than merely wrong. Taking
                 // the threshold down keeps the low-confidence words: easier to correct a wrong word
                 // than to notice an absent one.

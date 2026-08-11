@@ -37,7 +37,7 @@
     <SolidColorBrush x:Key="CaptionCloseBrush"       Color="#000000" po:Freeze="True"/>
     <SolidColorBrush x:Key="CaptionCloseHoverBrush"  Color="#00000000" po:Freeze="True"/>
     <SolidColorBrush x:Key="CaptionCloseHoverFgBrush" Color="#000000" po:Freeze="True"/>
-    <!-- Black glyphs, not ChromeTextBrush's white: the buttons have their own grey face now,
+    <!-- Black glyphs, not ChromeTextBrush's white: the buttons have their own gray face now,
          so a white glyph would be invisible on it. -->
     <SolidColorBrush x:Key="CaptionGlyphBrush"       Color="#000000" po:Freeze="True"/>
 
@@ -58,7 +58,7 @@
     <FontFamily x:Key="ChromeFontFamily">Tahoma</FontFamily>
     <Thickness x:Key="CaptionCloseGap">2,0,0,0</Thickness>
     <!-- The 2 at the top is the WindowFrameThickness, which MainWindow paints as a RowSpan=3
-         overlay at ZIndex 9000 covering the top 2px of the caption. Insetting by it centres the
+         overlay at ZIndex 9000 covering the top 2px of the caption. Insetting by it centers the
          buttons in the VISIBLE band (was 1px above / 3px below). 98SE only - the frame is 0
          everywhere else, so this key is 0 there and nothing moves. -->
     <Thickness x:Key="CaptionButtonsMargin">0,2,3,0</Thickness>
@@ -72,19 +72,19 @@
 
     <!-- The editor pane's inset. The family default is a flush TOP, and that is right on the other
          twelve because they BLEND the title bar into the surrounding chrome - the pane meeting it
-         reads as one continuous surface. This theme's caption is a distinct coloured band, so the
+         reads as one continuous surface. This theme's caption is a distinct colored band, so the
          pane butts into a hard edge. 8 on top to match the 8 on the right. -->
     <Thickness x:Key="ContentPaneMargin">0,8,8,0</Thickness>
 
     <!-- Win98 client areas are WHITE, and both of these are client areas: an edit field and a list.
          The family rule that inputs take the darkest tone is right where the darkest tone is dark,
-         but here it IS the button face, so the search box came out the same grey as its panel. -->
+         but here it IS the button face, so the search box came out the same gray as its panel. -->
     <SolidColorBrush x:Key="SearchFieldBrush" Color="#ffffff" po:Freeze="True"/>
     <SolidColorBrush x:Key="ListPaneBrush"    Color="#ffffff" po:Freeze="True"/>
     <!-- No soft scroll fades - Win98 lists end at a hard edge. -->
     <sys:Double x:Key="EdgeFadeOpacity">0</sys:Double>
 
-    <!-- No flat outline: in 98SE a button's edge IS the bevel (white top/left, grey bottom/right),
+    <!-- No flat outline: in 98SE a button's edge IS the bevel (white top/left, gray bottom/right),
          drawn by the bevel borders in the OutlineButton template. A visible OutlineRestBrush here
          would draw a second, flat line in the same place. Transparent rather than absent, so the
          button still reserves its 1px border and the text does not shift.
@@ -96,7 +96,7 @@
          Transparent keeps the 1px geometry, and the resize grab area, exactly as they were. -->
     <SolidColorBrush x:Key="WindowEdgeBrush"       Color="#00000000" po:Freeze="True"/>
     <!-- 0, not just a transparent brush: RootBorder wraps the whole window, so its border band
-         sits outside the bevel. Left at 1px the window's own grey Background shows through it and
+         sits outside the bevel. Left at 1px the window's own gray Background shows through it and
          you still get a light line outside the dark bottom/right bevel. -->
     <Thickness x:Key="WindowEdgeThickness">0</Thickness>
 
@@ -134,11 +134,11 @@
     <SolidColorBrush x:Key="SliderTrack"           Color="#808080" po:Freeze="True"/>
     <SolidColorBrush x:Key="SettingsOpenRowBg"     Color="#a0a0a0" po:Freeze="True"/>
     <!-- Button FACE, not white. The sort trio are buttons sitting on the window face, not client
-         areas, so they take the same grey as every other button and only light up on hover.
+         areas, so they take the same gray as every other button and only light up on hover.
          White at rest read as inverted next to the search field beside them. -->
     <SolidColorBrush x:Key="SortButtonBrush"       Color="#c0c0c0" po:Freeze="True"/>
 
-    <!-- Shortcut-overlay category colours (the family neon set, shared with the website map) -->
+    <!-- Shortcut-overlay category colors (the family neon set, shared with the website map) -->
     <SolidColorBrush x:Key="KnCatFile"   Color="#00fff9" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatNote"   Color="#ff2975" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatFormat" Color="#ffd319" po:Freeze="True"/>

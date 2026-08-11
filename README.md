@@ -10,6 +10,10 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 
 ## Features
 
+- Find in the open note (`Ctrl+F`): a small card over the text with a match count, next/previous,
+  and wrap at either end. Drag it anywhere by its grip and it reopens there. `F3`/`Shift+F3` step
+  matches while it is open; matches are drawn over the text, so finding never touches the note,
+  the undo stack, or autosave.
 - Sidebar library: search-as-you-type across titles, text, and tags (substring match, so any fragment hits - `02` finds `A/002/45`); sort by
   time or title, or a drag-and-drop custom order (F10 cycles the modes). Three row densities
   (Ctrl+D) fit more notes on screen.

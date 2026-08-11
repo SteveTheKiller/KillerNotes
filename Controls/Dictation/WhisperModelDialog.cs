@@ -153,7 +153,7 @@ namespace KillerNotes.Controls
                 HorizontalAlignment = HorizontalAlignment.Right,
                 // 4, not 14. The last choice's own bottom margin already separates it from the
                 // buttons, so 14 on top of that left a visible dead band across the dialog.
-                // (Steve, 2026-08-07.)
+                // (2026-08-07)
                 Margin = new Thickness(0, 4, 0, 0),
             };
             _cancelBtn = new Button { Content = L("Str_Btn_Cancel", "Cancel"), MinWidth = 84, Height = 30,
@@ -177,7 +177,7 @@ namespace KillerNotes.Controls
             root.Children.Add(light);
             root.Children.Add(dark);
 
-            // The shared 5px window frame; nothing on a flat theme. (Steve, 2026-08-07.)
+            // The shared 5px window frame; nothing on a flat theme. (2026-08-07)
             root.Children.Add(KillerNotes.Controls.DialogChrome.WindowFrame());
             KillerNotes.Controls.DialogChrome.InsetForFrame(shell);
 
@@ -189,7 +189,7 @@ namespace KillerNotes.Controls
         {
             // LEFT padding only, like DialogTitleBar: a 14px right pad floated the close X inset
             // from the window corner, so its hover block sat mid-band with one rounded corner
-            // ("the close button looks wrong on this dialog box", Steve, 2026-08-08). With the
+            // and the close button looked wrong on this dialog (2026-08-08). With the
             // pad gone the X reaches the corner and DialogCaptionButtonsMargin supplies the
             // family 3px inset, identical to every other dialog caption.
             var band = new Border { Padding = new Thickness(14, 0, 0, 0), Cursor = Cursors.SizeAll };
@@ -201,12 +201,12 @@ namespace KillerNotes.Controls
             // still writing its own title, so it showed bare "Speech model" in the UI font while
             // every other window shows the two-run wordmark (and the plain-title twin on a theme
             // that wants one). Same call the picker and the Databases window make.
-            // (Steve, 2026-08-07.)
+            // (2026-08-07)
             var caption = DialogChrome.Wordmark(L("Str_Whisper_Title", "Speech model"));
 
             // DialogChrome, not a hand-rolled TextBlock. This was the last close X in the app still
             // built locally, so it kept the MDL2 character while every other window switched to the
-            // drawn shape on a bevelled theme - the exact drift that made "the same X everywhere"
+            // drawn shape on a beveled theme - the exact drift that made "the same X everywhere"
             // untrue. CloseGlyph carries the dual glyph, the caption face and the tunnelling click
             // handler (the band's DragMove otherwise swallows it) in one place.
             var close = DialogChrome.CloseGlyph(L("Str_Btn_Cancel", "Cancel"), Cancel);
@@ -225,7 +225,7 @@ namespace KillerNotes.Controls
                 bool have = WhisperSpeech.IsInstalled(file);
 
                 // Every piece of text gets an EXPLICIT theme brush. A RadioButton here uses WPF's
-                // default template, so anything left to inherit picks up the system control colour
+                // default template, so anything left to inherit picks up the system control color
                 // rather than the palette - which reads correctly on one theme and is invisible on
                 // the next.
                 var head = new TextBlock { FontSize = 12.5, FontWeight = FontWeights.SemiBold };
@@ -247,7 +247,7 @@ namespace KillerNotes.Controls
                                            Margin = new Thickness(0, 2, 0, 0) };
                 body.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
 
-                // The MODEL'S ACTUAL FILE NAME (Steve, 2026-08-07). "Fast" and "Recommended" are
+                // The MODEL'S ACTUAL FILE NAME (2026-08-07). "Fast" and "Recommended" are
                 // our labels, not whisper.cpp's - and once a file is on disk the user has no way to
                 // tell which of the three it is, or to check a download against the upstream
                 // repository. Consolas because it is a filename, dim because it is reference
@@ -300,12 +300,12 @@ namespace KillerNotes.Controls
 
         private void Cancel()
         {
-            // A download in flight is cancelled but the window stays, so the user sees it stop
+            // A download in flight is canceled but the window stays, so the user sees it stop
             // rather than the dialog vanishing mid-transfer.
             if (_cts != null && !_cts.IsCancellationRequested)
             {
                 _cts.Cancel();
-                _status.Text = L("Str_Whisper_Cancelled", "Download cancelled.");
+                _status.Text = L("Str_Whisper_Cancelled", "Download canceled.");
                 return;
             }
             // Close(), never DialogResult: OnClosing cancels the first close to run the fade, and
@@ -345,7 +345,7 @@ namespace KillerNotes.Controls
             }
             catch (OperationCanceledException)
             {
-                _status.Text = L("Str_Whisper_Cancelled", "Download cancelled.");
+                _status.Text = L("Str_Whisper_Cancelled", "Download canceled.");
             }
             catch (Exception ex)
             {

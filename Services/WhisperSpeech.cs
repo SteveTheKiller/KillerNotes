@@ -205,7 +205,7 @@ namespace KillerNotes.Services
         }
 
         /// <summary>
-        /// 16-bit PCM to the normalised float mono at 16kHz that whisper expects. Our own recordings
+        /// 16-bit PCM to the normalized float mono at 16kHz that whisper expects. Our own recordings
         /// are already 16kHz mono, so this is usually just a widening pass - but a recording made
         /// before the rate was fixed, or a stereo file, still has to arrive correctly, so channels
         /// are averaged and the rate is resampled if it differs.

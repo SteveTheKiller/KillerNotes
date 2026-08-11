@@ -21,7 +21,7 @@ namespace KillerNotes.Features
 
         internal SecurityController(ISecurityHost host) => _host = host;
 
-        /// <summary>Opens the active database at launch; cancelling the unlock exits the app.</summary>
+        /// <summary>Opens the active database at launch; canceling the unlock exits the app.</summary>
         internal void OpenAtLaunch() => Open(exitOnCancel: true);
 
         /// <summary>Forgets the session password. Called when switching to a different file, whose
@@ -137,7 +137,7 @@ namespace KillerNotes.Features
             _host.ClearEditor();
             if (!Open(exitOnCancel: false))
             {
-                // Unlock of the chosen db was cancelled - fall back to the previous one.
+                // Unlock of the chosen db was canceled - fall back to the previous one.
                 App.SetSetting("ActiveDatabase", prevFile);
                 Open(exitOnCancel: false);
             }

@@ -45,7 +45,7 @@
                          PaneShadowEffect, NEVER the keyed PaneShadow: its dynamic opacity does
                          not resolve reliably inside a shared Freezable and it cast a
                          full-strength shadow on 98SE; the theme-built effect is null there
-                         (Steve, 2026-08-08). -->
+                         (2026-08-08). -->
                     <Border IsHitTestVisible="False" Background="{DynamicResource PaneBrush}"
                             CornerRadius="{DynamicResource ControlCornerRadius}"
                             Effect="{DynamicResource PaneShadowEffect}"/>

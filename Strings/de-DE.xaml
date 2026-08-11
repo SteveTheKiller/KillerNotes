@@ -594,4 +594,14 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Rückgängig (Strg+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Pinselgröße (klicken zum Wechseln)</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+
+    <!-- In-note find (1.2.1) -->
+    <sys:String x:Key="Str_St_FindMatches">{0} von {1}</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">Keine Treffer</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">Vorheriger Treffer (Umschalt+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">Nächster Treffer (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">Schließen (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">Zum Verschieben ziehen</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">In dieser Notiz suchen (Strg+F)</sys:String>
+    <sys:String x:Key="Str_KS_Find">In dieser Notiz suchen</sys:String>
 </ResourceDictionary>

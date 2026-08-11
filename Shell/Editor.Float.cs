@@ -125,7 +125,7 @@ namespace KillerNotes.Shell
             return null;
         }
 
-        /// <summary>The volume knob under a point, or null. Recognised by its string Tag - the chip
+        /// <summary>The volume knob under a point, or null. Recognized by its string Tag - the chip
         /// itself tags with an int.</summary>
         private static Border? DialAt(object? source)
         {

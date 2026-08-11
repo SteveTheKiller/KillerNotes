@@ -33,7 +33,7 @@ using System.Windows.Media.Animation;
 //     fades the whole window, then closes for real. The default for a Window.
 //   - FadeOut(element, done): fades a named element and runs a callback. For a dialog that must
 //     hold its DialogResult until after the fade: assigning DialogResult is itself a close
-//     request, and WPF resets DialogResult to null whenever a close is cancelled, so such a
+//     request, and WPF resets DialogResult to null whenever a close is canceled, so such a
 //     dialog records the result, fades, and assigns it in the callback (see KillerPDF's
 //     FileDialog.OnClosing).
 // ============================================================

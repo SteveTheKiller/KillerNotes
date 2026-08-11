@@ -15,7 +15,7 @@ using System.Windows.Interop;
 //
 // So: swallow them and pop a normal WPF ContextMenu, which picks up the app's implicit
 // ContextMenu / MenuItem / Separator styles for free. Each item posts back the exact
-// WM_SYSCOMMAND the native menu would have sent, so behaviour is identical - including Move and
+// WM_SYSCOMMAND the native menu would have sent, so behavior is identical - including Move and
 // Size, which hand off to Windows' own modal drag loops.
 //
 // Dropped in from KillerUI/Shell/SystemMenu.cs. Chrome.cs calls TryHandleSystemMenu as the FIRST
@@ -81,7 +81,7 @@ namespace KillerNotes.Shell
             _sysMenu ??= BuildSystemMenu();
 
             bool maximized = WindowState == WindowState.Maximized;
-            // Windows greys out what does not apply: you cannot Restore a normal window, cannot
+            // Windows grays out what does not apply: you cannot Restore a normal window, cannot
             // Maximize an already-maximized one, and cannot Move or Size while maximized.
             foreach (object o in _sysMenu.Items)
             {

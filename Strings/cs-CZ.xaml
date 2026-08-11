@@ -597,4 +597,14 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Zpět (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Velikost štětce (kliknutím přepnete)</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+
+    <!-- In-note find (1.2.1) -->
+    <sys:String x:Key="Str_St_FindMatches">{0} z {1}</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">Žádné shody</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">Předchozí shoda (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">Další shoda (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">Zavřít (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">Přetažením přesunete</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">Najít v této poznámce (Ctrl+F)</sys:String>
+    <sys:String x:Key="Str_KS_Find">Najít v této poznámce</sys:String>
 </ResourceDictionary>

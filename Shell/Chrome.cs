@@ -92,8 +92,7 @@ namespace KillerNotes.Shell
                 // NO corner preference here. ApplyCornerState is the ONE owner of the DWM
                 // corner: this method runs on every theme change and used to re-assert ROUND
                 // with no WindowState check, so switching themes while maximized brought the
-                // rounded corners back on a flush window ("its rounded again... another
-                // regression", Steve, 2026-08-08).
+                // rounded corners back on a flush window (2026-08-08).
             }
             catch { /* pre-Win11: attribute unsupported */ }
         }
@@ -115,8 +114,8 @@ namespace KillerNotes.Shell
             ApplyWindowCorners(rounded);
             // BOTH layers, not just DWM: RootBorder draws its own WindowCornerRadius, and on a
             // flush window that app-drawn rounding still notched the corners whatever the DWM
-            // preference said ("the corners are still partially rounded when snapped or
-            // fullscreen", Steve, 2026-08-08). SetResourceReference on the way back, so the
+            // preference said - the corners stayed partially rounded when snapped or
+            // fullscreen (2026-08-08). SetResourceReference on the way back, so the
             // radius stays theme-reactive when floating.
             if (RootBorder != null)
             {
@@ -126,8 +125,8 @@ namespace KillerNotes.Shell
             }
             // And the caption close's hover block, whose top-right rounds WITH the window
             // corner (CaptionCloseCornerRadius is corner-following by design) - on a flush
-            // window it kept its curve against a now-square corner ("the right corner is
-            // still round on the close button", Steve, 2026-08-08). A WINDOW-LOCAL resource
+            // window it kept its curve against a now-square corner, so the close button's
+            // right corner stayed round (2026-08-08). A WINDOW-LOCAL resource
             // override, so every dialog's caption resolves the theme value untouched;
             // removing it falls straight back to the theme, and DynamicResource consumers
             // re-resolve on both edges.
@@ -233,7 +232,7 @@ namespace KillerNotes.Shell
                 // and WM_GETMINMAXINFO is exactly how WPF enforces MinWidth/MinHeight during a
                 // drag-resize. Without it the window drags below its minimum and the content is
                 // CLIPPED rather than resized. Device pixels, so scale the DIP values.
-                // (Steve, 2026-07-30. KillerShell always had this; the kit did not.)
+                // (2026-07-30. KillerShell always had this; the kit did not.)
                 var src = PresentationSource.FromVisual(this);
                 double sx = src?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
                 double sy = src?.CompositionTarget?.TransformToDevice.M22 ?? 1.0;

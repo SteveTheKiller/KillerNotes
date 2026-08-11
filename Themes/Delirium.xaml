@@ -29,7 +29,7 @@
     <SolidColorBrush x:Key="WarnBrush"             Color="#5fce00" po:Freeze="True"/>
     <SolidColorBrush x:Key="OkBrush"               Color="#cf1020" po:Freeze="True"/>
 
-    <!-- Shortcut-overlay category colours (the family neon set, shared with the website map) -->
+    <!-- Shortcut-overlay category colors (the family neon set, shared with the website map) -->
     <SolidColorBrush x:Key="KnCatFile"   Color="#00fff9" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatNote"   Color="#ff2975" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatFormat" Color="#ffd319" po:Freeze="True"/>

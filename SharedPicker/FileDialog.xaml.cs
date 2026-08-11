@@ -135,7 +135,7 @@ namespace KillerPDF.Controls
         ///
         /// The result CANNOT be assigned before the fade. Assigning Window.DialogResult is itself a
         /// close request, so it lands in this handler, which cancels that close - and WPF resets
-        /// DialogResult to null whenever a close is cancelled. Accept therefore records what it
+        /// DialogResult to null whenever a close is canceled. Accept therefore records what it
         /// wants in _pendingResult and the assignment happens in the fade's completion callback,
         /// where nothing will cancel it. Assigning DialogResult there also closes the window, which
         /// is why that branch does not call Close() as well.</summary>
@@ -213,7 +213,7 @@ namespace KillerPDF.Controls
             // band. The other four dialogs are AllowsTransparency with no DWM calls and have
             // never shown one; the card draws its own border and shadow, so DWM has nothing to
             // add. The WM_ERASEBKGND hook that lived here went too - a layered window is rendered
-            // via UpdateLayeredWindow and never receives it. (Steve, 2026-07-30, fifth attempt.)
+            // via UpdateLayeredWindow and never receives it. (2026-07-30, fifth attempt)
         }
 
         /// <summary>
@@ -1070,7 +1070,7 @@ namespace KillerPDF.Controls
             // Handled, or the press bubbles on to Resize_MouseDown AFTER DragMove's modal loop
             // returns - by then the button is UP, and WM_NCLBUTTONDOWN with no button held puts
             // Windows into its sticky keyboard-style size loop: the window chases the mouse,
-            // resizing, until a click. (Steve, 2026-07-30.)
+            // resizing, until a click. (2026-07-30)
             e.Handled = true;
             DragMove();
         }
@@ -1088,7 +1088,7 @@ namespace KillerPDF.Controls
         // the job instead: work out which edge the pointer is in and hand the drag to Windows with
         // WM_NCLBUTTONDOWN, exactly as Shell/Chrome.cs does for the main window's corner grip.
         // Windows then runs its own resize loop, so this gets the real snapping and live preview
-        // rather than a hand-rolled approximation. (Steve, 2026-07-30.)
+        // rather than a hand-rolled approximation. (2026-07-30)
 
         private const int WM_NCLBUTTONDOWN = 0x00A1;
         private const int HTLEFT = 10, HTRIGHT = 11, HTTOP = 12, HTTOPLEFT = 13,

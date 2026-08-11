@@ -7,7 +7,7 @@
     <sys:Double x:Key="IconShadowOpacity">1.0</sys:Double>
 
     <!-- KillerNotes additions for the shared KillerUI BLOOD theme.
-         Primary = HeaderAccent so the accent reads as colour, not the white base Accent. -->
+         Primary = HeaderAccent so the accent reads as color, not the white base Accent. -->
     <SolidColorBrush x:Key="PrimaryBrush"        Color="#e8485a" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#e8485a" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#e8485a" po:Freeze="True"/>
@@ -32,10 +32,10 @@
 
     <SolidColorBrush x:Key="RowAltBrush"         Color="#18FFFFFF" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowHoverBrush"       Color="#54201f" po:Freeze="True"/>
-    <!-- Peach-tan wash, matching the warm accent (see KillerUI/Blood.xaml, Steve 2026-08-08) -->
+    <!-- Peach-tan wash, matching the warm accent (see KillerUI/Blood.xaml, 2026-08-08) -->
     <SolidColorBrush x:Key="RowSelectedBrush"    Color="#44f8c99e" po:Freeze="True"/>
     <!-- Selection pair - see the note in Dark.xaml. The monochrome themes use a translucent white
-         fill rather than a colour, as defined by KillerUI. -->
+         fill rather than a color, as defined by KillerUI. -->
     <SolidColorBrush x:Key="SelectionBg"         Color="#44ffffff" po:Freeze="True"/>
     <SolidColorBrush x:Key="SelectionFg"         Color="#ffffff" po:Freeze="True"/>
 
