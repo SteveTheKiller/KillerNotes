@@ -39,7 +39,8 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
   JSON, YAML, Markdown, SQL, C#, Python, JavaScript, TypeScript, CSS and Bash without
   picking a language. Plain text keeps the normal note color, and the token colors are
   never baked into the saved note.
-- Themes: thirteen, each with its own accent set - Dark, Light, Black, Blood, Cyanotic,
+- Themes: thirteen, four of them (Dark, Light, Black and 98SE) carrying six accent
+  colors each for 33 looks in all - Dark, Light, Black, Blood, Cyanotic,
   Greed, and the seven added in 1.2.0: 98SE, Ectoplasm, Decay, Mourning, Sepulchre,
   Delirium and Malaise. 98SE is a full Windows 98 reproduction, bevels and all.
 - Killculator (F9): a themed calculator that slides up under the notes list. Type an equation
