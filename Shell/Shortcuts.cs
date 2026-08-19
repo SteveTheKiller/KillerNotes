@@ -311,6 +311,16 @@ namespace KillerNotes.Shell
         private void ShortcutCard_Click(object sender, MouseButtonEventArgs e) => e.Handled = true;
         private void ShortcutClose_Click(object sender, RoutedEventArgs e) => HideShortcutsOverlay();
 
+        // Handle the wheel at the overlay viewer itself. This keeps the shortcuts list scrolling
+        // even when the pointer is over a generated row or the keyboard view rather than over the
+        // scrollbar gutter.
+        private void ShortcutScroller_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (sender is not ScrollViewer viewer || viewer.ScrollableHeight <= 0) return;
+            viewer.ScrollToVerticalOffset(viewer.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+
         // Esc: close whichever overlay is up; otherwise clear an active search.
         // Returns false when nothing consumed it, so the key still reaches the editor.
         private bool HandleEscape()

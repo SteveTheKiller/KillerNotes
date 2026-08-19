@@ -75,6 +75,7 @@
 
     <!-- Status bar messages -->
     <sys:String x:Key="Str_St_Saved">已儲存</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">剪貼簿忙碌中 - 請再試一次</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} 則筆記</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} 個符合</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">筆記已刪除</sys:String>
@@ -248,7 +249,7 @@
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Portable">可攜版</sys:String>
-    <sys:String x:Key="Str_Btn_Install">安裝 KillerNotes...</sys:String>
+    <sys:String x:Key="Str_Btn_Install">安裝 KillerNotes</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">安裝</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">將 KillerNotes 安裝到你的使用者設定檔？</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- 開始功能表捷徑&#x0A;- 顯示在新增/移除程式中</sys:String>
@@ -533,7 +534,7 @@
     <sys:String x:Key="Str_Whisper_Menu">語音模型...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">此版本沒有語音模型 - 轉錄將使用 Windows 自己的引擎。</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">開始下載...</sys:String>
-    <sys:String x:Key="Str_Whisper_Cancelled">已取消下載。</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">已取消下載。</sys:String>
     <sys:String x:Key="Str_Whisper_Done">就緒。之後的轉錄都會使用這個模型。</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">編輯錄音...</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">儲存變更</sys:String>

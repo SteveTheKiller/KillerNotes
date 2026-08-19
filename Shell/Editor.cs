@@ -30,6 +30,7 @@ namespace KillerNotes.Shell
             InitEditorView();    // remembered zoom + Ctrl+wheel (below)
             InitWordWrap();      // remembered word-wrap toggle (below)
             InitSyntaxHighlighting();
+            InitEditorClipboard();   // cut that cannot lose the race for the clipboard (Editor.Clipboard.cs, #16)
 
             // Drag-and-drop: text drops are native RichTextBox behavior; image files and
             // raw bitmaps need the handlers below.

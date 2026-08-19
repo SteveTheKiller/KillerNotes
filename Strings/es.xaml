@@ -75,6 +75,7 @@
 
     <!-- Status bar messages -->
     <sys:String x:Key="Str_St_Saved">Guardado</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">El portapapeles está ocupado - inténtalo de nuevo</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} notas</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} coincidencias</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Nota eliminada</sys:String>
@@ -249,7 +250,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Portable">PORTATIL</sys:String>
-    <sys:String x:Key="Str_Btn_Install">Instalar KillerNotes...</sys:String>
+    <sys:String x:Key="Str_Btn_Install">Instalar KillerNotes</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Instalar</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Instalar KillerNotes en tu perfil de usuario?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Acceso directo en el menu Inicio&#x0A;- Aparece en Agregar o quitar programas</sys:String>
@@ -532,7 +533,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Modelo de voz...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Esta compilación no tiene modelos de voz - la transcripción usa el motor propio de Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Iniciando la descarga...</sys:String>
-    <sys:String x:Key="Str_Whisper_Cancelled">Descarga cancelada.</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">Descarga cancelada.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Listo. A partir de ahora la transcripción usará este modelo.</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">Editar grabación...</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Guardar cambios</sys:String>

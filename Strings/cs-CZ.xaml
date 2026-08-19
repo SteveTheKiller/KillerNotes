@@ -122,6 +122,7 @@
 
     <!-- Status bar messages -->
     <sys:String x:Key="Str_St_Saved">Uloženo</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">Schránka je zaneprázdněná - zkuste to znovu</sys:String>
     <sys:String x:Key="Str_St_NotesCount">Počet poznámek: {0}</sys:String>
     <sys:String x:Key="Str_St_Matches">Počet shod: {0}</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Poznámka smazána</sys:String>
@@ -452,7 +453,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Portable">PŘENOSNÁ</sys:String>
-    <sys:String x:Key="Str_Btn_Install">Nainstalovat KillerNotes...</sys:String>
+    <sys:String x:Key="Str_Btn_Install">Nainstalovat KillerNotes</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Nainstalovat</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Nainstalovat KillerNotes do vašeho uživatelského profilu?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Zástupce v nabídce Start&#x0A;- Zobrazí se v Přidat nebo odebrat programy</sys:String>
@@ -535,7 +536,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Model řeči...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Tato verze neobsahuje žádné modely řeči - přepis používá vlastní modul Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Zahajuje se stahování...</sys:String>
-    <sys:String x:Key="Str_Whisper_Cancelled">Stahování zrušeno.</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">Stahování zrušeno.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Připraveno. Přepis bude od nynějška používat tento model.</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">Upravit nahrávku...</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Uložit změny</sys:String>

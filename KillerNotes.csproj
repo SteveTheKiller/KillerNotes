@@ -66,12 +66,12 @@
          ADO.NET wrapper stays managed. Run the vulnerable-package scan (dotnet list package with
          the vulnerable and include-transitive flags) at every release. -->
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.6" />
-    <PackageReference Include="SQLitePCLRaw.provider.e_sqlcipher" Version="2.1.8" />
-    <!-- We embed the x64 SQLCipher native as a resource and self-extract it at runtime
-         (SqlCipherBootstrap), same pattern as KillerPDF's OCR natives. ExcludeAssets stops the
-         loose native copy in the output while GeneratePathProperty exposes the package path for
-         the embed below. Version pinned to match the provider. -->
-    <PackageReference Include="SQLitePCLRaw.lib.e_sqlcipher" Version="2.1.8" GeneratePathProperty="true" ExcludeAssets="build;buildTransitive;native;contentFiles" />
+    <PackageReference Include="SQLitePCLRaw.provider.e_sqlcipher" Version="2.1.11" />
+    <!-- The x64 SQLCipher native itself is VENDORED (third_party\sqlcipher\e_sqlcipher.dll,
+         built from upstream source - see the README there), embedded as a resource and
+         self-extracted at runtime (SqlCipherBootstrap), same pattern as KillerPDF's OCR
+         natives. It replaces the SQLitePCLRaw.lib.e_sqlcipher package, whose whole line
+         was deprecated upstream (legacy, unmaintained) in 2025. -->
     <!-- Markdown to HTML for the optional preview pane (managed, no natives, MIT) -->
     <PackageReference Include="Markdig" Version="0.37.0" />
     <!-- net48 polyfills so the kit's collection expressions / range operators compile -->
@@ -97,9 +97,10 @@
 
   <!-- SQLCipher native (x64) embedded for the single-exe build; SqlCipherBootstrap extracts it
        to a per-version cache under %LOCALAPPDATA%\KillerNotes and preloads it before the first
-       database open. PkgSQLitePCLRaw_lib_e_sqlcipher comes from GeneratePathProperty. -->
+       database open. Vendored in third_party\sqlcipher (built from source, see its README);
+       no Condition - a missing crypto native must fail the build, not silently ship without it. -->
   <ItemGroup>
-    <EmbeddedResource Include="$(PkgSQLitePCLRaw_lib_e_sqlcipher)\runtimes\win-x64\native\e_sqlcipher.dll" Condition="'$(PkgSQLitePCLRaw_lib_e_sqlcipher)' != ''">
+    <EmbeddedResource Include="third_party\sqlcipher\e_sqlcipher.dll">
       <LogicalName>KillerNotes.SqlCipherNative.e_sqlcipher.dll</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
@@ -139,10 +140,6 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <!-- Everything this project compiles lives INSIDE this repo. KillerUI is a reference for
-       the design language, not a build input: its palettes were copied into Themes\KillerUI
-       and its theme contract into Services. The shared picker was copied into SharedPicker\
-       and Controls\. Nothing here reaches outside the repo, so a clone builds on its own and
-       the GPL source zip is genuinely complete. SDK-style globbing picks all of it up - no
-       Compile or Page entries needed. -->
+  <!-- Every build input, including each complete theme dictionary, lives in this repository.
+       SDK-style globbing picks it up without explicit Compile or Page entries. -->
 </Project>

@@ -305,7 +305,7 @@ namespace KillerNotes.Controls
             if (_cts != null && !_cts.IsCancellationRequested)
             {
                 _cts.Cancel();
-                _status.Text = L("Str_Whisper_Cancelled", "Download canceled.");
+                _status.Text = L("Str_Whisper_Canceled", "Download canceled.");
                 return;
             }
             // Close(), never DialogResult: OnClosing cancels the first close to run the fade, and
@@ -345,7 +345,7 @@ namespace KillerNotes.Controls
             }
             catch (OperationCanceledException)
             {
-                _status.Text = L("Str_Whisper_Cancelled", "Download canceled.");
+                _status.Text = L("Str_Whisper_Canceled", "Download canceled.");
             }
             catch (Exception ex)
             {

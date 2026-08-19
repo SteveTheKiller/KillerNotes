@@ -1966,17 +1966,20 @@
                     <Border IsHitTestVisible="False" BorderBrush="{DynamicResource FooterBevelLightBrush}"
                             BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
                 </Grid>
-                <!-- Portable mode indicator (hidden when installed), same as KillerScan.
+                <!-- Portable install action (hidden when installed), matching KillerPDF's
+                     compact single-button footer treatment.
                      Grid.Column 0, NOT 1: the middle column went Auto when the footer became
                      sunken cells, so anything in it hugs the version cell instead of centering.
                      Riding the star-width status column keeps the badge centered in the bar. -->
                 <StackPanel x:Name="PortableBadge" Grid.Column="0" Orientation="Horizontal"
                             HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-                    <TextBlock Text="{DynamicResource Str_Portable}" Foreground="{DynamicResource TextFooter}"
-                               FontFamily="Consolas" FontSize="9" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <Button x:Name="InstallBtn" Content="{DynamicResource Str_Btn_Install}" Click="Install_Click"
-                            Style="{StaticResource OutlineButton}" FontFamily="Segoe UI" FontSize="10" Padding="8,1"
-                            VerticalAlignment="Center"/>
+                            Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
+                            FontSize="10" Padding="8,1" VerticalAlignment="Center">
+                        <Button.Resources>
+                            <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+                        </Button.Resources>
+                    </Button>
                 </StackPanel>
                 <!-- Cell 2: the version + copyright block, its own sunken cell. The visible gap
                      between this and the status cell IS the divider - Win98 never drew a standalone
@@ -2073,12 +2076,12 @@
                  so a long tagline wraps instead of widening the card. Family standard. -->
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="AboutCard_Click">
                 <!-- Shadow on a separate element so the card text stays crisp -->
-                <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="{DynamicResource PanelCornerRadius}" IsHitTestVisible="False">
+                <Border Background="{DynamicResource OverlayWindowBrush}" CornerRadius="{DynamicResource PanelCornerRadius}" IsHitTestVisible="False">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
                 </Border>
-                <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                <Border Background="{DynamicResource OverlayWindowBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -2097,7 +2100,7 @@
                         <!-- AboutCaptionMargin insets the band from the card edge. 0 by default;
                              98SE sets 2,2,2 so a sliver of face color shows between its overdrawn
                              2px bevel and the caption on left, top and right - see the comment on
-                             the key in Themes/KillerUI/98SE.xaml. AboutCloseMargin is derived from
+                             the key in Themes/98SE.xaml. AboutCloseMargin is derived from
                              this margin in ThemeManager so the X follows the band. -->
                         <Border Grid.Row="0" ClipToBounds="True"
                                 Height="{DynamicResource AboutCaptionHeight}"
@@ -2127,16 +2130,11 @@
                              the card on all twelve of those themes. Spanning both rows takes it out
                              of the measurement; AboutCloseMargin already positions it correctly
                              from the card's top edge in both cases. (2026-08-07) -->
-                        <Button Grid.RowSpan="2" Click="AboutClose_Click" Style="{StaticResource DialogCloseButton}"
+                        <Button Grid.RowSpan="2" Content="{DynamicResource AboutCloseGlyph}"
+                                Click="AboutClose_Click" Style="{StaticResource OverlayCloseButton}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
-                                Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2">
-                            <!-- The SAME dual glyph as the title bar's close, so every X in the app
-                                 is the same X. This was a bare MDL2 character, which meant the main
-                                 window switched to the drawn shape on a beveled theme and the card
-                                 kept the font one. DialogChrome.CloseGlyph builds the identical pair
-                                 for SketchPad, Dictation and the rest. -->
-                        </Button>
+                                Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
 
                         <StackPanel Grid.Row="1" Margin="18,10,18,18">
                             <!-- Header: icon left of the wordmark + description (KillerScan layout).
@@ -2166,7 +2164,7 @@
                             <!-- Info panel - context-menu fill and grain, lifted above the card. Named:
                                  the header binds its width to this panel (see above). -->
                             <Grid x:Name="AboutInfoGrid">
-                                <Border Background="{DynamicResource AboutPanelBrush}" CornerRadius="{DynamicResource ControlCornerRadius}" IsHitTestVisible="False">
+                                <Border Background="{DynamicResource MenuBackgroundBrush}" CornerRadius="{DynamicResource ControlCornerRadius}" IsHitTestVisible="False">
                                     <Border.Effect>
                                         <DropShadowEffect Color="Black" BlurRadius="14" ShadowDepth="2" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                                     </Border.Effect>
@@ -2189,13 +2187,8 @@
                                      edge to edge instead of stopping at the padding. Grain sits BEHIND the
                                      text here, not over it as in a menu template - there is no selection
                                      fill to cover it, and Consolas at 11 stays crisp underneath nothing. -->
-                                <!-- PaneEdgeBrush, not PaneBorderBrush: on a beveled theme the
-                                     sunken bevel above IS this panel's edge, and drawing the flat
-                                     1px line as well gave it three pixels of border - which is why
-                                     adding the bevel made the card look heavier rather than
-                                     better. Defaults to PaneBorderBrush. (2026-08-07) -->
-                                <Border Background="{DynamicResource AboutPanelBrush}" BorderBrush="{DynamicResource PaneEdgeBrush}"
-                                        BorderThickness="{DynamicResource AboutPanelBorderThickness}"
+                                <Border Background="{DynamicResource MenuBackgroundBrush}" BorderBrush="{DynamicResource PaneBorderBrush}"
+                                        BorderThickness="1"
                                         CornerRadius="{DynamicResource ControlCornerRadius}">
                                   <Grid>
                                     <Border IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
@@ -2293,7 +2286,7 @@
                         <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
                 </Border>
-                <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource WindowEdgeBrush}"
+                <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -2396,51 +2389,32 @@
                  window edges, which puts the close X hard into the corner on top of the resize
                  zone - it reads as misaligned and is awkward to hit. The margin also keeps the
                  keyboard map off the window edge on a narrow window. -->
-            <Grid x:Name="ShortcutCardGrid" MinWidth="380" Margin="40,32,40,32"
-                  VerticalAlignment="Center" MouseLeftButtonDown="ShortcutCard_Click">
+            <Grid x:Name="ShortcutCardGrid" Margin="32"
+                  VerticalAlignment="Stretch" MouseLeftButtonDown="ShortcutCard_Click">
                 <!-- Radius and shadow follow the theme, not hardcoded 6 / 0.6: a square-cornered
                      flat palette was getting a rounded card with a drop shadow. -->
-                <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="{DynamicResource PanelCornerRadius}" IsHitTestVisible="False">
+                <Border Background="{DynamicResource OverlayWindowBrush}" CornerRadius="{DynamicResource PanelCornerRadius}" IsHitTestVisible="False">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
                 </Border>
-                <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource WindowEdgeBrush}"
+                <Border Background="{DynamicResource OverlayWindowBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
                         <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
                                 Opacity="{DynamicResource GrainOpacity}" Background="{DynamicResource GrainTileBrush}"/>
                         <!-- Close X: a direct child of the card grid (matches the working About overlay)
                              so it sits at the card's top-right corner and always receives the click. -->
-                        <Button Content="&#x2715;" Click="ShortcutClose_Click" HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Width="28" Height="26" Margin="0,6,6,0" Panel.ZIndex="2" FontSize="11"
-                                Background="Transparent" BorderThickness="0" Cursor="Hand">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Background="Transparent">
-                                                    <ContentPresenter x:Name="cp" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Foreground" Value="#E04444"/>
-                                                        <Setter TargetName="cp" Property="Effect">
-                                                            <Setter.Value>
-                                                                <DropShadowEffect Color="#000000" BlurRadius="4" ShadowDepth="1" Direction="270" Opacity="0.5"/>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                        <StackPanel Margin="18,14,18,18">
+                        <Button Content="{DynamicResource AboutCloseGlyph}" Click="ShortcutClose_Click"
+                                Style="{StaticResource OverlayCloseButton}"
+                                HorizontalAlignment="Right" VerticalAlignment="Top"
+                                Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
+                                Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
+                        <ScrollViewer x:Name="ShortcutScroller" VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      CanContentScroll="False" PanningMode="VerticalOnly" Focusable="False"
+                                      PreviewMouseWheel="ShortcutScroller_PreviewMouseWheel">
+                        <StackPanel Margin="24,18,24,18">
                             <Grid Margin="0,0,0,12">
                                 <TextBlock Text="{DynamicResource Str_KS_Title}" Foreground="{DynamicResource TextBrush}"
                                            FontFamily="Consolas" FontSize="15" FontWeight="Bold"/>
@@ -2456,14 +2430,17 @@
                             <!-- Rows are built in code (Shortcuts.cs BuildShortcutRows). Two columns keep
                                  the ~48-row list inside the card instead of running off the bottom. -->
                             <Grid x:Name="ShortcutListHost">
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel x:Name="ShortcutColLeft"  Width="300"/>
-                                    <StackPanel x:Name="ShortcutColRight" Width="300" Margin="20,0,0,0"/>
-                                </StackPanel>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel x:Name="ShortcutColLeft" Grid.Column="0"/>
+                                <StackPanel x:Name="ShortcutColRight" Grid.Column="1" Margin="20,0,0,0"/>
                             </Grid>
                             <!-- KEYBOARD view - generated by KeyboardMap.cs, hidden until toggled -->
                             <StackPanel x:Name="ShortcutKeyboardHost" Visibility="Collapsed"/>
                         </StackPanel>
+                        </ScrollViewer>
                     </Grid>
                 </Border>
                 <!-- Bevels as siblings of the card, so they land on its outer edge. -->

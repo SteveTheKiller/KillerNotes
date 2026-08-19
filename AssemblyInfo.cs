@@ -1,4 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Windows;
+
+[assembly: InternalsVisibleTo("KillerNotes.Tests")]
 
 [assembly: ThemeInfo(
     // where theme specific resource dictionaries are located

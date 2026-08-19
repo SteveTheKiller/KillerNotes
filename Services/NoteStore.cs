@@ -27,11 +27,16 @@ namespace KillerNotes.Services
         public static string DefaultDbDir => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KillerNotes");
 
+        /// <summary>Test seam: overrides DbDir entirely (DemoDbFile's folder counterpart).
+        /// In-memory only - never persisted, never set by the app itself.</summary>
+        public static string? DbDirOverride;
+
         /// <summary>Folder holding the .db files: the "DataFolder" setting when one was
         /// chosen (Manage databases > Change data folder, #6), else %APPDATA%\KillerNotes.</summary>
         public static string DbDir =>
-            App.GetSetting("DataFolder") is string dir && !string.IsNullOrWhiteSpace(dir)
-                ? dir : DefaultDbDir;
+            DbDirOverride ??
+            (App.GetSetting("DataFolder") is string dir && !string.IsNullOrWhiteSpace(dir)
+                ? dir : DefaultDbDir);
 
         /// <summary>Set by --demo (App.OnStartup): overrides the active db with a scratch
         /// demo file so screenshot sessions never touch real notes. In-memory only - the
@@ -90,9 +95,24 @@ namespace KillerNotes.Services
             Directory.CreateDirectory(DbDir);
             var csb = new SqliteConnectionStringBuilder { DataSource = DbPath };
             if (!string.IsNullOrEmpty(password)) csb.Password = password;
-            _db = new SqliteConnection(csb.ConnectionString);
-            _db.Open();
-            Exec("SELECT count(*) FROM sqlite_master");   // forces the key check right here
+            // Build into a local and prove it before publishing to _db: assigning first
+            // would leave IsOpen true after a wrong key, and the unlock flow keys off
+            // IsOpen to decide whether to prompt (same fix as Killendar's store).
+            var db = new SqliteConnection(csb.ConnectionString);
+            try
+            {
+                db.Open();
+                using var check = db.CreateCommand();
+                check.CommandText = "SELECT count(*) FROM sqlite_master";   // forces the key check right here
+                check.ExecuteScalar();
+            }
+            catch
+            {
+                db.Dispose();
+                SqliteConnection.ClearAllPools();
+                throw;
+            }
+            _db = db;
             _password = string.IsNullOrEmpty(password) ? null : password;
             EnsureSchema();
         }

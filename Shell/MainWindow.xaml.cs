@@ -34,11 +34,11 @@ namespace KillerNotes.Shell
             ApplyThemeElevation();                               // ThemeFlyout.cs (98SE is deliberately flat)
 
             UpdateThemeSwatchSelection();                        // ThemeFlyout.cs
-            UpdateAccentSwatches();
+            UpdateAccentStrip(animate: false);
             Services.ThemeManager.ThemeChanged += () =>
             {
                 UpdateThemeSwatchSelection();
-                UpdateAccentSwatches();
+                UpdateAccentStrip(animate: false);
                 ApplyThemeElevation();
                 // Syntax runs carry a resolved Color, not a DynamicResource, so they cannot follow
                 // a theme switch on their own - and the palette genuinely differs between a dark

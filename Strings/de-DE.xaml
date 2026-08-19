@@ -75,6 +75,7 @@
 
     <!-- Status bar messages -->
     <sys:String x:Key="Str_St_Saved">Gespeichert</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">Zwischenablage ist belegt - bitte erneut versuchen</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} Notizen</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} Treffer</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Notiz gelöscht</sys:String>
@@ -248,7 +249,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Portable">PORTABEL</sys:String>
-    <sys:String x:Key="Str_Btn_Install">KillerNotes installieren...</sys:String>
+    <sys:String x:Key="Str_Btn_Install">KillerNotes installieren</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Installieren</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">KillerNotes im Benutzerprofil installieren?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Startmenü-Verknüpfung&#x0A;- Erscheint unter Apps und Features</sys:String>
@@ -531,7 +532,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Sprachmodell...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Dieser Build enthält keine Sprachmodelle - die Transkription nutzt die Windows-eigene Engine.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Download wird gestartet...</sys:String>
-    <sys:String x:Key="Str_Whisper_Cancelled">Download abgebrochen.</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">Download abgebrochen.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Bereit. Die Transkription verwendet ab jetzt dieses Modell.</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">Aufnahme bearbeiten...</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Änderungen speichern</sys:String>

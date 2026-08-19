@@ -1110,6 +1110,42 @@
         <Setter Property="Tag" Value="{DynamicResource DialogCloseCornerRadius}"/>
     </Style>
 
+    <!-- Overlay-only close control, matching KillerScan: a small transparent hit target whose
+         muted X alone turns red on hover. It deliberately does not inherit the filled caption
+         hover block used by window and dialog title bars. -->
+    <Style x:Key="OverlayCloseButton" TargetType="Button">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Foreground" Value="{DynamicResource AboutCloseFg}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource AboutCloseFont}"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontWeight" Value="{DynamicResource CaptionGlyphWeight}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border Background="{DynamicResource CaptionButtonBrush}"/>
+                        <Border x:Name="bevelLight" IsHitTestVisible="False"
+                                BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                        <Border x:Name="bevelDark" IsHitTestVisible="False"
+                                BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource AboutCloseHoverFg}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="bevelLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
+                            <Setter TargetName="bevelDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- THE dialog card chrome, defined ONCE. Every XAML dialog (Confirm, Password, Tags,
          Input, Databases) wraps its content in a ContentControl with this style instead of
          carrying its own copy of the shadow/border/bevel/grain stack - five inline copies of

@@ -17,19 +17,25 @@ namespace KillerNotes.Shell
             Theme.Ectoplasm, Theme.Decay,
             Theme.Malaise, Theme.Sepulchre, Theme.Delirium, Theme.Mourning
         ];
-        private static readonly (Accent Accent, string Color)[] PickerAccents =
-        [(Accent.Red,"#DD504B"),(Accent.Orange,"#E8962C"),(Accent.Green,"#1EA54C"),(Accent.Teal,"#1FB8A8"),(Accent.Blue,"#50AEE8"),(Accent.Purple,"#B982E3")];
-        private static readonly (Accent Accent, string Color)[] SE98Accents =
-        [(Accent.Blue,"#000080"),(Accent.Teal,"#008080"),(Accent.Green,"#006000"),(Accent.Orange,"#A05000"),(Accent.Red,"#800040"),(Accent.Purple,"#5A376E")];
+        private static readonly (Accent Accent, string Color)[] DarkStripColors =
+        [(Accent.Red,"#DD504B"),(Accent.Orange,"#E8962C"),(Accent.Green,"#1EA54C"),(Accent.Teal,"#1FB8A8"),(Accent.Blue,"#4580D9"),(Accent.Purple,"#B982E3")];
+        private static readonly (Accent Accent, string Color)[] LightStripColors =
+        [(Accent.Red,"#931A1A"),(Accent.Orange,"#C7710F"),(Accent.Green,"#1B5E20"),(Accent.Teal,"#0D827E"),(Accent.Blue,"#18608E"),(Accent.Purple,"#5A1690")];
+        private static readonly (Accent Accent, string Color)[] BlackStripColors =
+        [(Accent.Red,"#FF2929"),(Accent.Orange,"#FF910A"),(Accent.Green,"#00FF66"),(Accent.Teal,"#0AFFE7"),(Accent.Blue,"#298DFF"),(Accent.Purple,"#B829FF")];
+        private static readonly (Accent Accent, string Color)[] SE98StripColors =
+        [(Accent.Red,"#800040"),(Accent.Orange,"#A05000"),(Accent.Green,"#006000"),(Accent.Teal,"#008080"),(Accent.Blue,"#000080"),(Accent.Purple,"#5A376E")];
         private readonly Dictionary<Theme, RadioButton> _themeRadios = [];
-        private readonly Dictionary<Theme, StackPanel> _accentRows = [];
-        private const double AccentRowHeight = 26;
-        private const double AccentSlideMs = 160;
+        private readonly List<Border> _accentStripDots = [];
+        private Grid? _accentStripHost;
+        private Grid? _accentStrip;
+        private Theme _stripFamily = Theme.Dark;
+        private bool _stripOpen;
+        private const double AccentStripWidth = 39;
+        private const double AccentStripSlideMs = 180;
 
         private void ThemeButton_Click(object sender, RoutedEventArgs e) => OpenThemeMenu();
         private void UpdateThemeSwatchSelection() { }
-        private void UpdateAccentSwatches() { if (ThemeMenu.IsOpen) RefreshAccentDots(); }
-
         private void OpenThemeMenu()
         {
             if (ThemeMenu.IsOpen) { ThemeMenu.IsOpen = false; return; }
@@ -44,8 +50,13 @@ namespace KillerNotes.Shell
         {
             ThemeMenu.Items.Clear();
             _themeRadios.Clear();
-            _accentRows.Clear();
-            var panel = new StackPanel { Margin = new Thickness(12,10,14,10) };
+            _accentStripDots.Clear();
+            var picker = new Grid { Margin = new Thickness(12,10,3,10) };
+            picker.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            picker.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            var panel = new StackPanel { Width = 120 };
+            Grid.SetColumn(panel, 0);
+            picker.Children.Add(panel);
             foreach (Theme theme in PickerThemes)
             {
                 var radio = new RadioButton { Content = ThemeName(theme), Tag = theme, GroupName = "ThemeGroup",
@@ -53,24 +64,16 @@ namespace KillerNotes.Shell
                 radio.Checked += ThemeRadio_Checked;
                 _themeRadios[theme] = radio;
                 panel.Children.Add(radio);
-
-                if (HasAccents(theme))
-                {
-                    var row = BuildAccentRow(theme);
-                    bool shown = theme == ThemeManager.Current;
-                    row.Height = shown ? AccentRowHeight : 0;
-                    row.Visibility = Visibility.Visible;
-                    _accentRows[theme] = row;
-                    panel.Children.Add(row);
-                }
             }
+            picker.Children.Add(BuildAccentStrip());
             ThemeMenu.Items.Add(new ScrollViewer
             {
-                Content = panel,
+                Content = picker,
                 MaxHeight = 620,
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled
             });
+            UpdateAccentStrip(animate: false);
             // Fonts... - the entry the flyout rework dropped. The whole Fonts overlay
             // (FontsOverlay, the combos, font import) and its FontsRow_Click handler survived
             // the rework untouched; only the row that opened it vanished, which orphaned the
@@ -95,17 +98,36 @@ namespace KillerNotes.Shell
             ThemeMenu.Items.Add(fonts);
         }
 
-        private StackPanel BuildAccentRow(Theme theme)
+        private Grid BuildAccentStrip()
         {
-            var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(10,-5,0,5), ClipToBounds = true, Tag = theme };
-            foreach (var (accent, color) in theme == Theme.SE98 ? SE98Accents : PickerAccents)
+            _accentStripHost = new Grid { Width = 0, ClipToBounds = true };
+            Grid.SetColumn(_accentStripHost, 1);
+            _accentStripHost.Children.Add(new Border
             {
-                var dot = new Border { Tag = accent, Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color)),
-                    Style = (Style)FindResource("AccentDot") };
+                Width = 1,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(0, 6, 0, 6),
+                Background = (Brush)FindResource("MenuBorderBrush")
+            });
+            _accentStrip = new Grid { Margin = new Thickness(7, 6, 2, 6) };
+            for (int i = 0; i < 6; i++)
+            {
+                _accentStrip.RowDefinitions.Add(new RowDefinition());
+                var dot = new Border
+                {
+                    Style = (Style)FindResource("AccentDot"),
+                    Width = 26,
+                    Height = double.NaN,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Margin = new Thickness(0, 0, 0, i == 5 ? 0 : 8)
+                };
                 dot.MouseLeftButtonUp += AccentDot_Click;
-                row.Children.Add(dot);
+                Grid.SetRow(dot, i);
+                _accentStripDots.Add(dot);
+                _accentStrip.Children.Add(dot);
             }
-            return row;
+            _accentStripHost.Children.Add(_accentStrip);
+            return _accentStripHost;
         }
 
         private static bool HasAccents(Theme t) => t is Theme.Dark or Theme.Light or Theme.Black or Theme.SE98;
@@ -128,13 +150,7 @@ namespace KillerNotes.Shell
             // comment): re-evaluate here because 98SE squares even a floating window.
             ApplyCornerState();
             ApplyThemeElevation();
-            RefreshAccentDots();
-            if (HasAccents(old) && HasAccents(theme))
-                AnimateNeutralRowsInVisualOrder(old, theme);
-            else
-            {
-                foreach (var pair in _accentRows) SetAccentRow(pair.Value, pair.Key == theme);
-            }
+            UpdateAccentStrip(animate: true);
         }
 
         /// <summary>98SE is intentionally flat. Clearing the effects themselves is more robust
@@ -171,60 +187,81 @@ namespace KillerNotes.Shell
             };
         }
 
-        // Order matters. Updating top-to-bottom is KillerPDF's exact behavior: when the incoming
-        // row is above the outgoing one (Light -> Dark), it starts opening before the lower row
-        // starts closing. Reversing those calls produces a one-layout-pass upward jump.
-        private void AnimateNeutralRowsInVisualOrder(Theme old, Theme selected)
+        private static (Accent Accent, string Color)[] StripColorsFor(Theme family) => family switch
         {
-            // Establish a constant-height start state before WPF gets another render pass. The
-            // actual animations then begin together at Render priority; no intermediate popup
-            // measurement can observe one row changed and the other not yet changed.
-            foreach (Theme theme in new[] { Theme.Dark, Theme.Light, Theme.Black, Theme.SE98 })
+            Theme.Light => LightStripColors,
+            Theme.Black => BlackStripColors,
+            Theme.SE98 => SE98StripColors,
+            _ => DarkStripColors,
+        };
+
+        private void PopulateAccentStrip(Theme family)
+        {
+            var colors = StripColorsFor(family);
+            for (int i = 0; i < _accentStripDots.Count; i++)
             {
-                var row = _accentRows[theme];
-                row.BeginAnimation(HeightProperty, null);
-                row.Height = theme == old ? AccentRowHeight : 0;
+                _accentStripDots[i].Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colors[i].Color));
+                _accentStripDots[i].Tag = colors[i].Accent;
             }
-            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Render,
-                new Action(() =>
-                {
-                    foreach (Theme theme in new[] { Theme.Dark, Theme.Light, Theme.Black, Theme.SE98 })
-                        if (theme == old || theme == selected)
-                            SlideAccentRow(_accentRows[theme], theme == selected);
-                }));
+            _stripFamily = family;
+            RingAccentStrip();
         }
 
-        private static void SlideAccentRow(FrameworkElement row, bool show)
+        private void RingAccentStrip()
         {
-            row.BeginAnimation(HeightProperty, null);
+            if (_accentStrip is null) return;
+            var ring = TryFindResource("TextBrush") as Brush ?? Brushes.White;
+            var chosen = ThemeManager.AccentChoiceFor(_stripFamily);
+            foreach (var dot in _accentStripDots)
+                dot.BorderBrush = dot.Tag is Accent accent && accent == chosen ? ring : Brushes.Transparent;
+        }
+
+        private void UpdateAccentStrip(bool animate)
+        {
+            var current = ThemeManager.Current;
+            bool show = HasAccents(current);
             if (show)
             {
-                row.Height = 0;
-                row.BeginAnimation(HeightProperty,
-                    new DoubleAnimation(0, AccentRowHeight, TimeSpan.FromMilliseconds(AccentSlideMs)));
+                if (animate && _stripOpen && _stripFamily != current && _accentStrip is not null)
+                {
+                    var target = current;
+                    var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(90));
+                    fadeOut.Completed += (_, _) =>
+                    {
+                        PopulateAccentStrip(target);
+                        _accentStrip.BeginAnimation(OpacityProperty,
+                            new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(90)));
+                    };
+                    _accentStrip.BeginAnimation(OpacityProperty, fadeOut);
+                }
+                else PopulateAccentStrip(current);
             }
-            else if (row.ActualHeight > 0.5)
+            SlideAccentStrip(show, animate);
+        }
+
+        private void SlideAccentStrip(bool show, bool animate)
+        {
+            if (_accentStripHost is null) return;
+            if (show == _stripOpen && animate) return;
+            _stripOpen = show;
+            _accentStripHost.BeginAnimation(WidthProperty, null);
+            if (!animate)
             {
-                row.Height = AccentRowHeight;
-                row.BeginAnimation(HeightProperty,
-                    new DoubleAnimation(AccentRowHeight, 0, TimeSpan.FromMilliseconds(AccentSlideMs)));
+                _accentStripHost.Width = show ? AccentStripWidth : 0;
+                return;
             }
-            else row.Height = 0;
-        }
-
-        private static void SetAccentRow(FrameworkElement row, bool show)
-        {
-            row.BeginAnimation(HeightProperty, null);
-            row.Height = show ? AccentRowHeight : 0;
-        }
-
-        private void RefreshAccentDots()
-        {
-            var ring = TryFindResource("TextBrush") as Brush ?? Brushes.White;
-            foreach (var pair in _accentRows)
-                foreach (Border dot in pair.Value.Children)
-                    dot.BorderBrush = dot.Tag is Accent accent && accent == ThemeManager.AccentChoiceFor(pair.Key)
-                        ? ring : Brushes.Transparent;
+            double from = double.IsNaN(_accentStripHost.Width) ? _accentStripHost.ActualWidth : _accentStripHost.Width;
+            var animation = new DoubleAnimation(from, show ? AccentStripWidth : 0,
+                TimeSpan.FromMilliseconds(AccentStripSlideMs))
+            {
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+            };
+            animation.Completed += (_, _) =>
+            {
+                _accentStripHost.BeginAnimation(WidthProperty, null);
+                _accentStripHost.Width = _stripOpen ? AccentStripWidth : 0;
+            };
+            _accentStripHost.BeginAnimation(WidthProperty, animation);
         }
 
         private void AccentDot_Click(object sender, MouseButtonEventArgs e)
@@ -232,7 +269,7 @@ namespace KillerNotes.Shell
             if (sender is Border { Tag: Accent accent })
             {
                 ThemeManager.ApplyAccent(ThemeManager.Current, accent);
-                RefreshAccentDots();
+                RingAccentStrip();
                 e.Handled = true;
             }
         }

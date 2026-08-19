@@ -10,82 +10,23 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 
 ## Features
 
-- Find in the open note (`Ctrl+F`): a small card over the text with a match count, next/previous,
-  and wrap at either end. Drag it anywhere by its grip and it reopens there. `F3`/`Shift+F3` step
-  matches while it is open; matches are drawn over the text, so finding never touches the note,
-  the undo stack, or autosave.
-- Sidebar library: search-as-you-type across titles, text, and tags (substring match, so any fragment hits - `02` finds `A/002/45`); sort by
-  time or title, or a drag-and-drop custom order (F10 cycles the modes). Three row densities
-  (Ctrl+D) fit more notes on screen.
-- Groups and subgroups: named, collapsible, colorable groups pinned above the loose notes,
-  nested to any depth. A parent's color runs as a connector line down its notes and children,
-  subgroups sit above the group's own notes (toggleable), and headers drag to reorder or
-  re-nest. Travel inside shared .kndb files.
-- Undo for the sidebar: Ctrl+Z reverts group moves, colors, tag toggles, note reorders, and
-  note deletes, alongside the editor's normal text undo.
-- Tags: color-coded per-database labels, assigned by right-click or Ctrl+1-9 and managed in
-  the tags editor (Ctrl+T). FTS-indexed, so tag search and the pill filter are free.
-- Editor: rich text (bold / italic / lists / tables / rules), adjustable font size, a full
-  text and highlight color picker with a desktop-wide eyedropper, and inline images. Per-note
-  title color and spell check. Convert to list (Ctrl+Shift+J) for pasting into scripts, and
-  pasted content is normalized to the current theme. Word wrap toggle (wide content reachable
-  by horizontal scroll, tilt wheel, or Shift+wheel when off) and an optional line-number
-  column (F11).
-- Hyperlinks: Ctrl+K links the selection (or edits the link under the caret), Ctrl+Click
-  opens, typed URLs auto-link, and links survive pasting from browsers, Word, and other
-  note apps. Only web and mail addresses ever open.
-- Syntax highlighting: optional per-note, from the note right-click menu. Code is detected
-  paragraph by paragraph, so one note can mix prose with PowerShell, HTML, XAML, XML, Vue,
-  JSON, YAML, Markdown, SQL, C#, Python, JavaScript, TypeScript, CSS and Bash without
-  picking a language. Plain text keeps the normal note color, and the token colors are
-  never baked into the saved note.
-- Themes: thirteen, four of them (Dark, Light, Black and 98SE) carrying six accent
-  colors each for 33 looks in all - Dark, Light, Black, Blood, Cyanotic,
-  Greed, and the seven added in 1.2.0: 98SE, Ectoplasm, Decay, Mourning, Sepulchre,
-  Delirium and Malaise. 98SE is a full Windows 98 reproduction, bevels and all.
-- Killculator (F9): a themed calculator that slides up under the notes list. Type an equation
-  on the number keys; Print Sum (Ctrl+Enter) drops the result, or Print Equation
-  (Ctrl+Shift+Enter) the whole running equation, into the note at the cursor.
-- Dictation (Ctrl+M): a modeless recording pad for the open note. Record from the microphone,
-  and the take is transcribed as soon as you stop - print the text into the note at the
-  caret, embed the recording itself as an inline chip, or both. Transcription runs on your
-  machine with a downloadable speech model (three sizes, picked on first use, changeable by
-  right-clicking the microphone on the rail); without one it falls back to Windows' own
-  engine. Nothing is uploaded at any point.
-- Recording editing and playback: the pad's waveform is the editing surface - right-click to
-  slice, then copy, delete or paste segments, with undo, and save back over the original.
-  Embedded recordings are a small transport rather than a button: the waveform fills as it
-  plays, play becomes pause, and a volume knob sits at the end. Recordings are stored as
-  FLAC (lossless, about half the size of WAV) and export to WAV or MP3, or copy as a file to
-  paste into an email or chat.
-- Free placement: drag an image or a recording and it lifts out of the text, snapping to a
-  twelve-column grid and to the text's own lines, with the paragraph wrapping around it.
-  Drop one on a table cell and it becomes that cell's content, widening the column to fit.
-  There is no setting for this - dragging is the whole gesture.
-- SketchPad (F7 / Ctrl+Shift+D): a modeless drawing companion for the open note - pen, line,
-  arrow, rectangle, ellipse, polygon, paint bucket, text labels, and an eraser, with color,
-  width, fill, and undo/redo, each on a single key. Print to note (Ctrl+Enter) stamps the
-  drawing inline at the caret and it stays editable - double-click any note image to reopen it
-  in the pad. A picture button on the format bar also inserts an image file at the caret.
-- Custom fonts: a Fonts dialog (theme flyout) swaps the header, sidebar, and note-text fonts
-  independently - any installed font, or drop your own .ttf/.otf onto the card. Note text
-  ships in Bahnschrift; a readability guard keeps symbol fonts like Wingdings out.
-- Autosave: after a pause in typing, on note switch, and on close (Ctrl+S forces it). Notes
-  also remember their cursor and scroll position, so they reopen where you left off.
-- Markdown/HTML preview: split-pane preview for notes that look like markdown or HTML (HTML
-  is sanitized first).
-- Keyboard: every function has a shortcut; F1 opens a shortcuts overlay with a full visual
-  keyboard map. The whole app also scales for accessibility (Ctrl+Shift +/-).
-- Storage: single SQLite database, configurable location (including next to the exe for a
-  portable setup). Note bodies are XamlPackage blobs plus extracted plain text for search.
-- Password protection: optional SQLCipher AES-256 encryption of the whole database, set /
-  changed / removed at any time. No recovery for a lost password.
-- Multiple databases: create, rename, switch, and relocate databases from the Manage
-  databases dialog.
-- Sharing: export a single note (.knote) or a whole database (.kndb), optionally password
-  protected; both open with a double-click.
-- Localization: ten bundled languages (English, Spanish, French, German, Turkish, Czech,
-  Chinese Simplified and Traditional, Japanese, Bengali), falling back to English.
+- Rich text editor: bold, italic, lists, tables, rules, adjustable font size, a full color picker with a desktop-wide eyedropper, inline images, per-note title color and spell check, word wrap toggle, and an optional line-number column
+- Search everywhere: search-as-you-type across titles, text, and tags (substring match, so `02` finds `A/002/45`), plus Ctrl+F find in the open note that never touches the note or its undo stack
+- Organize: named, collapsible, colorable groups nested to any depth; color-coded tags with a pill filter; sort by time, title, or drag-and-drop custom order; three row densities; sidebar Ctrl+Z undoes group moves, reorders, and deletes
+- Syntax highlighting detected paragraph by paragraph, so one note mixes prose with PowerShell, JSON, SQL, C#, Python and ten more without picking a language - token colors are never baked into the saved note
+- Hyperlinks: Ctrl+K links the selection, typed URLs auto-link, links survive pasting from browsers and Word; only web and mail addresses ever open
+- Dictation (Ctrl+M): record, transcribe entirely on your machine with a downloadable speech model, then print the text, embed the recording as an inline playable chip, or both - recordings store as lossless FLAC and export to WAV or MP3
+- Recording editing: the waveform is the editing surface - slice, copy, delete, and paste segments with undo, then save back over the original
+- SketchPad (F7): pen, shapes, fill, text labels and eraser on single keys; print the drawing inline and double-click it later to keep editing. Dragged images and recordings lift out of the text and snap to a grid with the paragraph wrapping around them
+- Killculator (F9): a themed calculator under the notes list that prints the result or the whole running equation into the note
+- Custom fonts for header, sidebar, and note text independently - any installed font, or drop a .ttf/.otf onto the card
+- Autosave on pause, note switch, and close; notes reopen at their saved cursor and scroll position. Split-pane preview for markdown and (sanitized) HTML notes
+- Storage: one SQLite database in a configurable location (portable next to the exe if you like), with create/rename/switch/relocate in the Manage databases dialog
+- Password protection: optional SQLCipher AES-256 encryption of the whole database, set, changed, or removed at any time - no recovery for a lost password
+- Sharing: export a note (.knote) or a whole database (.kndb), optionally password protected; both open with a double-click
+- Keyboard-first: every function has a shortcut, F1 opens the visual keyboard map, and the whole app scales for accessibility (Ctrl+Shift +/-)
+- Localized in ten languages, falling back to English
+- Thirteen themes including a full 98SE recreation; Dark, Light, Black, and 98SE each carry six accent colors for 33 looks in all
 
 ## Requirements
 
@@ -121,7 +62,8 @@ winget install killernotes
 | Package | Why |
 |---------|-----|
 | Microsoft.Data.Sqlite.Core | ADO.NET SQLite wrapper (managed) |
-| SQLitePCLRaw.provider.e_sqlcipher + lib.e_sqlcipher | SQLCipher native build: SQLite + FTS5 + AES-256 (static provider - the bundle's dynamic loader breaks under Costura) |
+| SQLitePCLRaw.provider.e_sqlcipher | Managed P/Invoke shim to the SQLCipher native (static provider - the bundle's dynamic loader breaks under Costura) |
+| SQLCipher + LibTomCrypt (vendored) | The encryption native itself, built from upstream source in `third_party/sqlcipher/` after the NuGet lib package line was deprecated |
 | Markdig | Markdown to HTML for the preview pane (managed, MIT) |
 | PolySharp | net48 polyfills for modern C# syntax (compile-time only) |
 | libFLAC | Lossless storage for embedded recordings (native, BSD-3-Clause) |
@@ -138,15 +80,3 @@ Windows engine.
 Run `dotnet list package --vulnerable --include-transitive` as part of every release checklist.
 Single-exe packaging: Costura.Fody embeds every managed dependency and a self-extracting
 bootstrap carries the native e_sqlcipher.dll, so the release ships as one signed exe.
-
-## Layout
-
-- `MainWindow.xaml` + partials: `Notes.cs` (list/search/save), `Editor.cs` (paste/tables),
-  `Groups.cs` (custom order + nested groups), `Killculator.cs` (sidebar calculator),
-  `SketchPadWindow.cs` / `SketchModel.cs` (SketchPad drawing companion),
-  `Fonts.cs` (font slots + dialog), `Links.cs` (hyperlinks), `TiltWheel.cs` (horizontal
-  scroll), `ActionUndo.cs` (sidebar Ctrl+Z), `Density.cs` (row density), `Security.cs` (password
-  flow), plus the KillerUI kit files (`Chrome.cs`, `ThemeFlyout.cs`, `About.cs`, `Anim.cs`,
-  `ConfirmDialog`, `PasswordDialog`, `InputDialog`).
-- `Services/NoteStore.cs` - all SQL. `Services/ThemeManager.cs` - kit theme engine.
-- `Themes/` + `Themes/Accents/` - the family palettes, the unified theme set shared across all the Killer apps.

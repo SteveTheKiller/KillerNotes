@@ -202,6 +202,7 @@
 
     <!-- Status bar messages -->
     <sys:String x:Key="Str_St_Saved">Saved</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">Clipboard is busy - try again</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} notes</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} matches</sys:String>
     <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
@@ -523,7 +524,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Speech model...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">This build has no speech models - transcription uses Windows' own engine.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Starting download...</sys:String>
-    <sys:String x:Key="Str_Whisper_Cancelled">Download canceled.</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">Download canceled.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Ready. Transcription will use this from now on.</sys:String>
 
     <sys:String x:Key="Str_Dict_EditRec">Edit recording...</sys:String>
@@ -585,7 +586,7 @@ Leave both boxes empty to share without one.</sys:String>
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Portable">PORTABLE</sys:String>
-    <sys:String x:Key="Str_Btn_Install">Install KillerNotes...</sys:String>
+    <sys:String x:Key="Str_Btn_Install">Install KillerNotes</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Install</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Install KillerNotes to your user profile?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Start Menu shortcut&#x0A;- Appears in Add/Remove Programs</sys:String>

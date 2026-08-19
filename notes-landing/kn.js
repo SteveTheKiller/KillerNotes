@@ -2,8 +2,9 @@
    Page-specific behavior (screenshot strip, outline scroll-spy) stays inline per page. */
 (function () {
   var root = document.documentElement;
-  var THEMES = ['dark','light','hc','blood','greed','cyanotic'];
+  var THEMES = ['dark','light','hc','blood','greed','cyanotic','ectoplasm','decay','malaise','sepulchre','delirium','mourning'];
   var NEUTRAL = ['dark','light','hc'];
+  var THEMED = ['blood','greed','cyanotic','ectoplasm','decay','malaise','sepulchre','delirium','mourning'];  // fixed-color wordmark art
   // Per-family palette copied from the app: [ Accent (bright: text/links/logo/outlines), SelectionBg (darker fill: solid buttons, selected tab edges) ].
   var ACCENTS = {
     dark:  { red:['#DD504B','#5E1C1C'], orange:['#E8962C','#F29A28'], green:['#1EA54C','#1C5E38'], teal:['#1FB8A8','#1C5E5C'], blue:['#50AEE8','#1C3B5E'], purple:['#B982E3','#411C5E'] },
@@ -58,9 +59,16 @@
   // 'hc' is this site's name for the black family, whose six hexes differ from the dark ones.
   function updateLogos() {
     var t = root.getAttribute('data-theme');
-    var variant = (t === 'light') ? 'light' : (t === 'hc') ? 'black' : 'dark';
-    var color = (NEUTRAL.indexOf(t) >= 0) ? curAccent : 'purple';
-    var src = 'brand/killernotes-logo-' + variant + '-' + color + '.svg';
+    var src;
+    if (THEMED.indexOf(t) >= 0) {
+      // Fixed-color themes carry their own wordmark art, colored with the theme's in-app
+      // AccentLogo resource (make-logo-svgs.py --themes).
+      src = 'brand/killernotes-logo-' + t + '.svg';
+    } else {
+      var variant = (t === 'light') ? 'light' : (t === 'hc') ? 'black' : 'dark';
+      var color = (NEUTRAL.indexOf(t) >= 0) ? curAccent : 'purple';
+      src = 'brand/killernotes-logo-' + variant + '-' + color + '.svg';
+    }
     var imgs = document.querySelectorAll('img.wm-logo');
     for (var i = 0; i < imgs.length; i++) imgs[i].src = src;
   }
@@ -117,11 +125,15 @@
     window.addEventListener('mouseup', function () {
       if (!dragging) return; dragging = false; document.body.style.userSelect = '';
     });
-    window.addEventListener('resize', function () { dragDx = dragClamp(dragDx); pill.style.transform = 'translateX(' + dragDx + 'px)'; });
+    function dockAccentBar() {
+      var contentPane = document.querySelector('.content');
+      if (contentPane) accentBar.style.top = Math.round(contentPane.getBoundingClientRect().top) + 'px';
+    }
+    window.addEventListener('resize', function () { dockAccentBar(); dragDx = dragClamp(dragDx); pill.style.transform = 'translateX(' + dragDx + 'px)'; });
     // Default position: top-right corner, nearest the theme picker (still draggable from there).
     requestAnimationFrame(function () { dragDx = dragClamp(1e6); pill.style.transform = 'translateX(' + dragDx + 'px)'; });
   }
-  function showAccentBar() { if (accentBar && NEUTRAL.indexOf(root.getAttribute('data-theme')) >= 0) { accentBar.classList.add('show'); if (accToggle) accToggle.setAttribute('aria-expanded', 'true'); } }
+  function showAccentBar() { if (accentBar && NEUTRAL.indexOf(root.getAttribute('data-theme')) >= 0) { var contentPane = document.querySelector('.content'); if (contentPane) accentBar.style.top = Math.round(contentPane.getBoundingClientRect().top) + 'px'; accentBar.classList.add('show'); if (accToggle) accToggle.setAttribute('aria-expanded', 'true'); } }
   function hideAccentBar() { if (accentBar) { accentBar.classList.remove('show'); if (accToggle) accToggle.setAttribute('aria-expanded', 'false'); } }
   accDots.forEach(function (d) { d.addEventListener('click', function () { applyAccent(d.dataset.accent); }); });
   if (accToggle) {

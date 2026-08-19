@@ -419,8 +419,41 @@ namespace KillerNotes
         // Uninstall (Add/Remove Programs). Removes the installed exe, shortcuts, file
         // associations, and registry entries. The notes databases in %APPDATA%\KillerNotes
         // are user data and are deliberately KEPT.
+        private static bool RelaunchMachineUninstallElevatedIfNeeded(bool machine)
+        {
+            if (!machine) return false;
+            try
+            {
+                using var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+                var principal = new System.Security.Principal.WindowsPrincipal(identity);
+                if (principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator))
+                    return false;
+
+                Process.Start(new ProcessStartInfo(
+                    Process.GetCurrentProcess().MainModule!.FileName, "/uninstall")
+                {
+                    UseShellExecute = true,
+                    Verb = "runas",
+                });
+            }
+            catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223)
+            {
+                // UAC was declined. Leave the installation untouched.
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Uninstall could not request administrator access:\n{ex.Message}",
+                    AppName, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return true;
+        }
+
         private static void Uninstall()
         {
+            bool machine = string.Equals(Process.GetCurrentProcess().MainModule?.FileName,
+                                         MachineExe, StringComparison.OrdinalIgnoreCase);
+            if (RelaunchMachineUninstallElevatedIfNeeded(machine)) return;
+
             var res = MessageBox.Show(
                 "Uninstall KillerNotes from this computer?\n\nYour notes are kept.",
                 $"{AppName} Uninstall",
@@ -428,13 +461,19 @@ namespace KillerNotes
                 MessageBoxImage.Question);
             if (res != MessageBoxResult.Yes) return;
 
-            try { File.Delete(StartMenuLnk); } catch { }
-            try { Directory.Delete(StartMenuDir, recursive: false); } catch { }
-            try { File.Delete(DesktopLnk); } catch { }
+            string startMenuDir = machine
+                ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), AppName)
+                : StartMenuDir;
+            string targetDir = machine ? MachineDir : InstallDir;
 
-            // Settings + install info (Software\KillerNotes covers the Settings subkey too)
-            try { Registry.CurrentUser.DeleteSubKeyTree(@"Software\KillerNotes"); } catch { }
-            try { Registry.CurrentUser.DeleteSubKeyTree(
+            try { File.Delete(Path.Combine(startMenuDir, $"{AppName}.lnk")); } catch { }
+            try { Directory.Delete(startMenuDir, recursive: false); } catch { }
+            if (!machine) try { File.Delete(DesktopLnk); } catch { }
+
+            // Delete only the scope represented by the executable Add/Remove Programs launched.
+            var hive = machine ? Registry.LocalMachine : Registry.CurrentUser;
+            try { hive.DeleteSubKeyTree(@"Software\KillerNotes", throwOnMissingSubKey: false); } catch { }
+            try { hive.DeleteSubKeyTree(
                 @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes"); } catch { }
 
             // File associations registered at launch (RegisterFileAssociations)
@@ -450,7 +489,7 @@ namespace KillerNotes
             File.WriteAllText(bat,
                 "@echo off\r\n" +
                 "ping -n 3 127.0.0.1 >nul\r\n" +
-                $"rmdir /s /q \"{InstallDir}\"\r\n" +
+                $"rmdir /s /q \"{targetDir}\"\r\n" +
                 "del \"%~f0\"\r\n");
             Process.Start(new ProcessStartInfo("cmd.exe", $"/c \"{bat}\"")
             {

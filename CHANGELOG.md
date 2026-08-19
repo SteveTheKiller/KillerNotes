@@ -4,6 +4,21 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- Internal cancellation resource keys now use the same American spelling as their displayed text.
+
+### Fixed
+- Find-in-note now has localized match counts, button tooltips and shortcut labels in Bengali, Czech, German, Spanish, French, Japanese, Turkish, Simplified Chinese and Traditional Chinese; the technical page now documents how Ctrl+F, F3, Shift+F3 and Esc work without altering the note.
+- Cut no longer sometimes leaves the text in place: the selection is only deleted after the clipboard write has succeeded, and the write retries while another app briefly holds the clipboard (#16, thanks MrPapaya-JRR).
+- Machine-wide uninstall now requests administrator access and removes the Program Files copy, Common Start Menu shortcut and HKLM registration instead of silently reporting success after permission failures.
+- Keyboard Shortcuts is now bounded by the app window and scrolls internally. Its generated list rows receive wheel input through the overlay's own scroll host, and the two list columns flex with the available width instead of forcing the card beyond a narrow window.
+- About and Keyboard Shortcuts now share KillerScan's card padding and compact overlay close control. The inset X stays transparent and only its glyph turns red on hover, replacing the filled rounded caption button that had drifted into the About card.
+- Themes are now complete, app-owned resources with no private template overlay or external build dependency.
+- The About card now takes its outer edge from the app-frame color and its information panel directly from the context-menu surface, with the pane-border color around that panel. The old About-only color override is gone, so 98SE and the material themes no longer substitute a different panel color.
+- Ectoplasm now uses its signature yellow with near-black text for selected rows instead of a muted, muddy selection fill.
+
 ## [1.2.1] - 2026-08-10
 
 1.2.1 adds find within the open note, on Ctrl+F, and fixes the themes around it: legible text on filled accent buttons, dark card borders and a real drop shadow on the Black theme, and context menus that cast a shadow again.
@@ -15,7 +30,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Context menus cast a drop shadow again. The shadow layer was still in place but its blur and depth had drifted to about a quarter of the size every other flyout in the app uses, so on a light background there was nothing to see and the menu sat flat on the page.
 - The Black theme draws its card borders dark instead of ringing every card and dialog in a mid-gray box. Black is built so that things read by their background rather than by bright edges, and a mid-gray hairline on a near-black surface was the one edge in the app fighting that.
 - Selected text is highlighted in the accent color you actually chose. Every theme carries a default accent, and the selection color was being copied from it before your choice was applied on top - so on Black the selection stayed the theme's terminal green whether you had picked orange, purple, red or blue, and the same in every other theme. It looked random; it was each theme's own default, frozen a moment too early. The Windows 98 theme keeps its period navy selection, which it states outright rather than inheriting.
-- Text on a filled accent button is legible on the Black and Dark themes, which is most visible when hovering a button, since that is when the fill appears. It was white on both, and those accents are bright: on Black's neon green and teal that measures around 1.3 to 1, which is to say invisible, and on Dark four of the six accents come out under 3 to 1. Both families use near-black now, which measures between 4.5 and 15.5 on Black and between 5.3 and 8.8 on Dark. Light keeps white, which is the readable choice against its deeper accents. The palettes had in fact been corrected once already and the change did not reach the screen: the shared KillerUI layer is merged on top of them and still held white, so it overwrote the fix at startup.
+- Various UI and theme consistency tweaks, including legible accent buttons and matching selection treatments across the theme families.
 - Line numbers use a monospace font, so the gutter no longer shifts sideways as you scroll between narrow and wide numbers.
 
 ## [1.2.0] - 2026-08-08

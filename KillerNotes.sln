@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.37027.9 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KillerNotes", "KillerNotes.csproj", "{D4A7C0F3-2B61-4E5A-9C38-7F0E5A1B6D42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KillerNotes.Tests", "KillerNotes.Tests\KillerNotes.Tests.csproj", "{4E2B8C61-9D3F-4A70-B5E8-2C6F1D9A7B34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D4A7C0F3-2B61-4E5A-9C38-7F0E5A1B6D42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4A7C0F3-2B61-4E5A-9C38-7F0E5A1B6D42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4A7C0F3-2B61-4E5A-9C38-7F0E5A1B6D42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E2B8C61-9D3F-4A70-B5E8-2C6F1D9A7B34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E2B8C61-9D3F-4A70-B5E8-2C6F1D9A7B34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E2B8C61-9D3F-4A70-B5E8-2C6F1D9A7B34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E2B8C61-9D3F-4A70-B5E8-2C6F1D9A7B34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

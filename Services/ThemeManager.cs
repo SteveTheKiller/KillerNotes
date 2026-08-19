@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 
-// KillerUI kit.
 namespace KillerNotes.Services
 {
     public enum Theme
@@ -27,10 +26,7 @@ namespace KillerNotes.Services
     /// JSON, etc.) at startup if you want the choice to survive restarts. Left unset,
     /// the theme still works for the session, it just won't be remembered.
     ///
-    /// REQUIRES (as app resources, merged in App.xaml before Controls.xaml):
-    ///   MergedDictionaries[0] = a Themes/{Theme}.xaml color dictionary.
-    /// Shared trademark tokens are overlaid from KillerUI; this app dictionary contains
-    /// only compatibility defaults and KillerNotes-specific resources.
+    /// REQUIRES MergedDictionaries[0] to be a complete app-owned Themes/{Theme}.xaml dictionary.
     /// </summary>
     public static class ThemeManager
     {
@@ -156,18 +152,13 @@ namespace KillerNotes.Services
 
         private static void LoadDict(Theme theme)
         {
-            // EVERY theme is a complete, standalone palette in exactly two halves: the
-            // app-specific colors in Themes/<Name>.xaml and the shared contract tokens in
-            // KillerUI/Themes/<Name>.xaml. No theme inherits another and none is generated at
-            // runtime - the former Cyanotic/Light base-plus-patch forms and the four
-            // RetroPaletteCatalog palettes were flattened into files of their own, so adding a
-            // theme means adding two files and an enum entry, nothing else.
+            // Every theme is one complete, standalone app-owned palette. No theme inherits
+            // another and none is generated at runtime.
             string name = ThemeFileName(theme);
             var newDict = new ResourceDictionary
             {
                 Source = new Uri($"pack://application:,,,/Themes/{name}.xaml")
             };
-            KillerThemeContract.Apply(newDict, name);
 
             // Material tokens: defaults only. A theme that states its own keeps them, which is
             // how 98SE stays flat (no shadows, hard 2px frame, raised bevels) without a branch
@@ -710,10 +701,9 @@ namespace KillerNotes.Services
             // its raised-gray flyout, and Ectoplasm's and Decay's overrides.
             //
             // The wordmark follows HeaderLineBrush, NOT PrimaryBrush. On Blood, Greed and Cyanotic
-            // the KillerUI palette deliberately sets PrimaryBrush to #ffffff - white is those
+            // the palette deliberately sets PrimaryBrush to #ffffff - white is those
             // themes' button fill - and keeps the signature color (#e8485a / #3fbf6f / #3aa0d8)
-            // in HeaderLineBrush. Since KillerThemeContract.Apply runs after the local theme file,
-            // that white wins, and sourcing the logo from PrimaryBrush painted those three white.
+            // in HeaderLineBrush. Sourcing the logo from PrimaryBrush painted those three white.
             // HeaderLineBrush is the accent on every theme and in all 21 accent overlays.
             if (!newDict.Contains("AccentLogo") && newDict.Contains("HeaderLineBrush"))
                 newDict["AccentLogo"] = newDict["HeaderLineBrush"];
@@ -726,11 +716,9 @@ namespace KillerNotes.Services
                 : new SolidColorBrush(Colors.Transparent);
             if (!newDict.Contains("BgFlyout") && newDict.Contains("MenuBackgroundBrush"))
                 newDict["BgFlyout"] = newDict["MenuBackgroundBrush"];
-            // The About card's info panel. Defaults to the context-menu fill so the panel reads as
-            // the same material as a menu; a theme states its own when that is wrong for it - 98SE
-            // wants a white, sunken client area rather than its button-face gray.
-            if (!newDict.Contains("AboutPanelBrush") && newDict.Contains("MenuBackgroundBrush"))
-                newDict["AboutPanelBrush"] = newDict["MenuBackgroundBrush"];
+            // About and Keyboard Shortcuts are miniature app windows, not menus or content cards.
+            // Keep the exact live outer-window brush object, including material-theme gradients.
+            newDict["OverlayWindowBrush"] = newDict["BackgroundBrush"];
             // Close caption button. Read AFTER the accent overlay so it tracks the live accent.
             // The caption close is RED AT REST and fills a red BLOCK with a white glyph on hover.
             //
@@ -747,6 +735,15 @@ namespace KillerNotes.Services
                 newDict["CaptionCloseHoverBrush"] = newDict.Contains("DangerRed")
                     ? newDict["DangerRed"] : dangerRed;
             SetIfAbsent(newDict, "CaptionCloseHoverFgBrush", new SolidColorBrush(Colors.White));
+            // About and Shortcuts use KillerScan's overlay close, not the filled caption close.
+            newDict["AboutCloseGlyph"] = flatCaption ? "\uE8BB" : "\u2715";
+            newDict["AboutCloseFont"] = flatCaption
+                ? new FontFamily("Segoe MDL2 Assets") : new FontFamily("Segoe UI");
+            newDict["AboutCloseFg"] = flatCaption
+                ? newDict["CaptionCloseBrush"] : newDict["MutedTextBrush"];
+            newDict["AboutCloseHoverFg"] = flatCaption
+                ? newDict["CaptionCloseBrush"]
+                : (newDict.Contains("DangerRed") ? newDict["DangerRed"] : dangerRed);
             // Caption glyphs (Databases, Lock, Minimize, Maximize). ChromeTextBrush is written for
             // text ON the title bar brush - white on 98SE's green. Once those buttons have their own
             // gray face, white is unreadable, so a beveled theme states a dark glyph instead.

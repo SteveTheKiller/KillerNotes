@@ -75,6 +75,7 @@
 
     <!-- Status bar messages -->
     <sys:String x:Key="Str_St_Saved">保存しました</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">クリップボードが使用中です - もう一度お試しください</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} 件のノート</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} 件が一致</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">ノートを削除しました</sys:String>
@@ -248,7 +249,7 @@
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Portable">ポータブル</sys:String>
-    <sys:String x:Key="Str_Btn_Install">KillerNotes をインストール...</sys:String>
+    <sys:String x:Key="Str_Btn_Install">KillerNotes をインストール</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">インストール</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">KillerNotes をユーザープロファイルにインストールしますか？</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- スタートメニューのショートカット&#x0A;- 「アプリと機能」に表示されます</sys:String>
@@ -531,7 +532,7 @@
     <sys:String x:Key="Str_Whisper_Menu">音声モデル...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">このビルドには音声モデルがありません - 文字起こしには Windows 内蔵のエンジンを使用します。</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">ダウンロードを開始しています...</sys:String>
-    <sys:String x:Key="Str_Whisper_Cancelled">ダウンロードをキャンセルしました。</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">ダウンロードをキャンセルしました。</sys:String>
     <sys:String x:Key="Str_Whisper_Done">準備完了。今後の文字起こしにはこれを使用します。</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">録音を編集...</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">変更を保存</sys:String>

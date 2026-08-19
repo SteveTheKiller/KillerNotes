@@ -75,6 +75,7 @@
 
     <!-- Status bar messages -->
     <sys:String x:Key="Str_St_Saved">Enregistré</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">Le presse-papiers est occupé - réessayez</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} notes</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} résultats</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Note supprimée</sys:String>
@@ -248,7 +249,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Portable">PORTABLE</sys:String>
-    <sys:String x:Key="Str_Btn_Install">Installer KillerNotes...</sys:String>
+    <sys:String x:Key="Str_Btn_Install">Installer KillerNotes</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Installer</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Installer KillerNotes dans votre profil utilisateur ?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Raccourci du menu Demarrer&#x0A;- Apparait dans Ajouter/Supprimer des programmes</sys:String>
@@ -531,7 +532,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Modèle vocal...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Cette version ne contient aucun modèle vocal - la transcription utilise le moteur de Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Démarrage du téléchargement...</sys:String>
-    <sys:String x:Key="Str_Whisper_Cancelled">Téléchargement annulé.</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">Téléchargement annulé.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Prêt. La transcription l'utilisera désormais.</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">Modifier l'enregistrement...</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Enregistrer les modifications</sys:String>
