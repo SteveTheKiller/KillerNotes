@@ -140,7 +140,11 @@ namespace KillerNotes.Shell
             var range = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd);
             using var ms = new MemoryStream();
             range.Save(ms, DataFormats.XamlPackage);
-            NoteStore.Save(_currentId, TitleBox.Text, ms.ToArray(), range.Text);
+            // Sketch text labels ride at the END of the stored plain text (Editor.Sketch.cs), so
+            // a labeled diagram is searchable without its labels ever displacing the snippet.
+            string sketchLabels = CollectSketchLabelText();
+            string storedPlain = sketchLabels.Length == 0 ? range.Text : range.Text + "\n" + sketchLabels;
+            NoteStore.Save(_currentId, TitleBox.Text, ms.ToArray(), storedPlain);
             if (rehighlight) ApplySyntaxHighlighting();
             SaveSketchPayloads(_currentId);   // SketchPad: persist sketch strokes by image ordinal (Editor.cs)
             _dirty = false;
@@ -155,7 +159,7 @@ namespace KillerNotes.Shell
             // updating only the _notes instance redrew the stale displayed row, and since
             // that save cleared _dirty, the 2s timer's full refresh never ran either, so
             // a new title/snippet never appeared in the sidebar.
-            string plain = range.Text.TrimStart();
+            string plain = storedPlain.TrimStart();   // matches the DB's substr snippet, labels included
             int nl = plain.IndexOfAny(['\r', '\n']);
             if (nl >= 0) plain = plain[..nl];
             string snippet = plain.Length > 120 ? plain[..120] : plain;

@@ -34,6 +34,14 @@ namespace KillerNotes.Shell
         private int _findIndex = -1;                       // -1 = nothing current
         private readonly List<(int Start, int Length)> _findHits = [];
 
+        // Match options (#14): case, whole word, regex. They govern find AND replace, and are
+        // session state, not settings - a find bar reopens with plain matching, the default
+        // every editor's does.
+        private bool _findCase, _findWord, _findRegex;
+
+        /// <summary>True while the replace row is expanded (Ctrl+H).</summary>
+        private bool _replaceOpen;
+
         // Flattened document text plus the map back into it. Rebuilt only when the document
         // actually changed - a term edit reuses it, which is what keeps typing in the find box
         // from re-walking the note on every keystroke.
@@ -52,7 +60,8 @@ namespace KillerNotes.Shell
         // the text box, so the box can be sized from whatever width is left.
         // 246, not 240: the find box gained a wrapper border when it became a proper field
         // (1px each side plus a 4px right margin), so the fit has that much less room to give.
-        private const double FindBarChrome = 246;
+        // +78 in 1.2.2 for the three match-option toggles (26px each).
+        private const double FindBarChrome = 324;
 
         private (double StartX, double StartY, Thickness Orig)? _findDrag;
         private bool _findPlaced;   // the saved spot is applied once, on the first open
@@ -146,18 +155,7 @@ namespace KillerNotes.Shell
             if (_findTerm.Length > 0)
             {
                 if (_findPlainStale) RebuildFindPlain();
-
-                // Case-insensitive, the default every editor's find box has. Ordinal rather than
-                // culture-aware: a note is as likely to hold a path or a command as prose, and
-                // culture folding turns some of those into surprises.
-                int at = 0;
-                while (at <= _findPlain.Length - _findTerm.Length)
-                {
-                    int hit = _findPlain.IndexOf(_findTerm, at, StringComparison.OrdinalIgnoreCase);
-                    if (hit < 0) break;
-                    _findHits.Add((hit, _findTerm.Length));
-                    at = hit + 1;   // overlapping matches count, the same as a text editor's do
-                }
+                CollectFindHits(_findPlain, _findHits);
 
                 if (_findHits.Count > 0)
                 {
@@ -170,6 +168,56 @@ namespace KillerNotes.Shell
 
             UpdateFindCount();
             RepaintFindMatches();
+        }
+
+        /// <summary>Fills <paramref name="hits"/> with the current term's matches over
+        /// <paramref name="plain"/>, honoring the three option toggles. Shared by in-note find
+        /// and the cross-note replace scan (GlobalReplace.cs), so the two can never disagree
+        /// about what matches. Case folding stays Ordinal: a note is as likely to hold a path
+        /// or a command as prose, and culture folding turns some of those into surprises.</summary>
+        internal void CollectFindHits(string plain, List<(int Start, int Length)> hits)
+        {
+            if (_findTerm.Length == 0) return;
+
+            if (_findRegex)
+            {
+                var rx = TryBuildFindRegex();
+                if (rx == null) return;   // invalid pattern: zero hits, the count line reads no matches
+                foreach (System.Text.RegularExpressions.Match m in rx.Matches(plain))
+                    if (m.Length > 0)     // an empty match cannot be stepped or replaced
+                        hits.Add((m.Index, m.Length));
+                return;
+            }
+
+            var cmp = _findCase ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+            int at = 0;
+            while (at <= plain.Length - _findTerm.Length)
+            {
+                int hit = plain.IndexOf(_findTerm, at, cmp);
+                if (hit < 0) break;
+                if (!_findWord || IsWholeWordAt(plain, hit, _findTerm.Length))
+                    hits.Add((hit, _findTerm.Length));
+                at = hit + 1;   // overlapping matches count, the same as a text editor's do
+            }
+        }
+
+        private static bool IsWholeWordAt(string plain, int start, int length)
+        {
+            static bool WordChar(char c) => char.IsLetterOrDigit(c) || c == '_';
+            if (start > 0 && WordChar(plain[start - 1])) return false;
+            int end = start + length;
+            return end >= plain.Length || !WordChar(plain[end]);
+        }
+
+        /// <summary>The term as a Regex under the current options, or null when the pattern is
+        /// invalid. Whole word wraps the pattern in \b anchors, same as every editor's combo.</summary>
+        private System.Text.RegularExpressions.Regex? TryBuildFindRegex()
+        {
+            var opts = System.Text.RegularExpressions.RegexOptions.None;
+            if (!_findCase) opts |= System.Text.RegularExpressions.RegexOptions.IgnoreCase;
+            string pattern = _findWord ? @"\b(?:" + _findTerm + @")\b" : _findTerm;
+            try { return new System.Text.RegularExpressions.Regex(pattern, opts); }
+            catch (ArgumentException) { return null; }
         }
 
         /// <summary>Step to the next or previous match, wrapping at either end.</summary>
@@ -393,6 +441,11 @@ namespace KillerNotes.Shell
             _findOpen = false;
             FindRailBtn.Tag = null;   // clear the rail toggle's lit state
 
+            // The replace row does not survive a close: the next Ctrl+F opens plain find, and
+            // only Ctrl+H brings the row back (#14).
+            _replaceOpen = false;
+            ReplaceRow.Visibility = Visibility.Collapsed;
+
             // Fade out rather than blink away; on completion collapse it and drop the animation
             // so the next open starts from a clean Opacity.
             var fade = new System.Windows.Media.Animation.DoubleAnimation(
@@ -438,6 +491,132 @@ namespace KillerNotes.Shell
             if (e.Key != System.Windows.Input.Key.Enter) return;
             StepFind((System.Windows.Input.Keyboard.Modifiers
                       & System.Windows.Input.ModifierKeys.Shift) != 0 ? -1 : 1);
+            e.Handled = true;
+        }
+
+        // ── Replace (#14) ────────────────────────────────────────
+
+        /// <summary>Ctrl+H. Opens the bar (or keeps it) with the replace row expanded, and puts
+        /// the keyboard in the replace box.</summary>
+        internal void OpenReplaceBar()
+        {
+            if (_currentId < 0 || Services.NoteStore.IsReadOnly) return;
+            OpenFindBar();
+            if (!_replaceOpen)
+            {
+                _replaceOpen = true;
+                ReplaceRow.Visibility = Visibility.Visible;
+                // The card just got taller; pull it back inside the note body if it was parked
+                // against the bottom edge. After layout, so the new height is real.
+                Dispatcher.BeginInvoke(new Action(ClampFindBar),
+                    System.Windows.Threading.DispatcherPriority.Loaded);
+            }
+            ReplaceBox.Focus();
+            ReplaceBox.SelectAll();
+        }
+
+        /// <summary>What the given hit becomes: the replace box verbatim, or for regex the
+        /// pattern's substitution ($1 groups and friends) evaluated against that hit.</summary>
+        private string ReplacementFor((int Start, int Length) hit)
+        {
+            string repl = ReplaceBox.Text ?? "";
+            if (!_findRegex) return repl;
+            var rx = TryBuildFindRegex();
+            if (rx == null) return repl;
+            var m = rx.Match(_findPlain, hit.Start, hit.Length);
+            try { return m.Success ? m.Result(repl) : repl; }
+            catch (ArgumentException) { return repl; }   // malformed substitution: keep it literal
+        }
+
+        /// <summary>Replaces the CURRENT match and steps to the next one.</summary>
+        private void ReplaceCurrent_Click(object sender, RoutedEventArgs e)
+        {
+            if (Services.NoteStore.IsReadOnly) return;
+            if (_findIndex < 0 || _findIndex >= _findHits.Count) return;
+
+            var hit = _findHits[_findIndex];
+            string repl = ReplacementFor(hit);
+            var a = PointerForOffset(hit.Start);
+            var b = a?.GetPositionAtOffset(hit.Length, LogicalDirection.Forward);
+            if (a == null || b == null) return;
+
+            // The edit fires TextChanged, whose InvalidateFindCache re-runs the find with
+            // keepIndex - which would land back INSIDE the replacement whenever it still
+            // contains the term ("a" -> "aa"). Step explicitly to the first hit past the
+            // replacement instead, so repeated clicks always move forward.
+            int resumeAt = hit.Start + repl.Length;
+            new TextRange(a, b).Text = repl;
+
+            if (_findHits.Count > 0)
+            {
+                _findIndex = 0;
+                for (int i = 0; i < _findHits.Count; i++)
+                    if (_findHits[i].Start >= resumeAt) { _findIndex = i; break; }
+                UpdateFindCount();
+                RepaintFindMatches();
+            }
+            ScrollToCurrentFind();
+        }
+
+        /// <summary>Replaces every match in the note as ONE editor undo unit. Offsets were
+        /// collected once by the find pass; they are applied BACK-TO-FRONT so each earlier
+        /// offset is still valid when its turn comes (#14).</summary>
+        private void ReplaceAll_Click(object sender, RoutedEventArgs e)
+        {
+            if (Services.NoteStore.IsReadOnly) return;
+            if (_findHits.Count == 0) return;
+
+            // The find pass counts OVERLAPPING matches; a replace can only consume each
+            // character once, so overlaps collapse greedily left-to-right first.
+            var hits = new List<(int Start, int Length)>(_findHits.Count);
+            int lastEnd = -1;
+            foreach (var h in _findHits)
+            {
+                if (h.Start < lastEnd) continue;
+                hits.Add(h);
+                lastEnd = h.Start + h.Length;
+            }
+            var repls = new List<string>(hits.Count);
+            foreach (var h in hits) repls.Add(ReplacementFor(h));
+
+            // BeginChange batches everything inside into a single undo unit and holds the
+            // TextChanged storm until EndChange, so the cache invalidation runs once.
+            Editor.BeginChange();
+            try
+            {
+                for (int i = hits.Count - 1; i >= 0; i--)
+                {
+                    var a = PointerForOffset(hits[i].Start);
+                    var b = a?.GetPositionAtOffset(hits[i].Length, LogicalDirection.Forward);
+                    if (a == null || b == null) continue;
+                    new TextRange(a, b).Text = repls[i];
+                }
+            }
+            finally { Editor.EndChange(); }
+
+            FlashStatus(string.Format(Loc("Str_St_Replaced"), hits.Count));
+        }
+
+        /// <summary>Toggles one of the three match options; the family Tag="on" lights it.</summary>
+        private void FindOption_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button b) b.Tag = (b.Tag as string) == "on" ? null : "on";
+            _findCase  = (FindCaseBtn.Tag as string) == "on";
+            _findWord  = (FindWordBtn.Tag as string) == "on";
+            _findRegex = (FindRegexBtn.Tag as string) == "on";
+            RunFind();
+            ScrollToCurrentFind();
+        }
+
+        /// <summary>Enter in the replace box replaces the current match; Ctrl+Enter replaces all.</summary>
+        private void ReplaceBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key != System.Windows.Input.Key.Enter) return;
+            if ((System.Windows.Input.Keyboard.Modifiers
+                 & System.Windows.Input.ModifierKeys.Control) != 0)
+                ReplaceAll_Click(this, new RoutedEventArgs());
+            else
+                ReplaceCurrent_Click(this, new RoutedEventArgs());
             e.Handled = true;
         }
 

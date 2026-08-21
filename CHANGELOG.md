@@ -4,15 +4,25 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.2.2] - Unreleased
+
+### Added
+- Hungarian localization for the complete app interface and killernotes.net, bringing both to twelve languages.
+- A network data folder now warns once, and a lock file beside the database guards concurrent use: a database in use on another computer opens read-only instead of competing for SQLite's single writer, with the owning machine named. A clean close clears the lock.
+- Text labels inside sketches now feed the search index, so a label like "IDF-2, port 14" makes its note findable.
+- Search and replace (#14): Ctrl+H adds a replace row to the find bar with match-case, whole-word and regex options; Replace All in a note is a single undo step. The sidebar gains replace-across-all-notes behind a confirmation naming each note and its match count, committed in one transaction and undone with one Ctrl+Z.
 
 ### Changed
+- The SQLCipher encryption native is now built from upstream source (SQLCipher 4.18.0, SQLite 3.53.4) and vendored in the repo, replacing the deprecated SQLitePCLRaw.lib.e_sqlcipher package.
 - Internal cancellation resource keys now use the same American spelling as their displayed text.
 
 ### Fixed
+- A failed unlock no longer leaves the database reporting itself as open; a wrong password now cleanly returns to the prompt.
 - Find-in-note now has localized match counts, button tooltips and shortcut labels in Bengali, Czech, German, Spanish, French, Japanese, Turkish, Simplified Chinese and Traditional Chinese; the technical page now documents how Ctrl+F, F3, Shift+F3 and Esc work without altering the note.
 - Cut no longer sometimes leaves the text in place: the selection is only deleted after the clipboard write has succeeded, and the write retries while another app briefly holds the clipboard (#16, thanks MrPapaya-JRR).
 - Machine-wide uninstall now requests administrator access and removes the Program Files copy, Common Start Menu shortcut and HKLM registration instead of silently reporting success after permission failures.
+- KillerNotes now detects when both a per-user and an all-users installation exist and offers to remove the copy that is not running, and self-update keeps the Add/Remove Programs version current instead of leaving it describing the replaced build.
+- All-users installs now register the .kndb and .knote associations in HKLM for every account, with Default Apps entries, instead of only registering per-user at launch; each uninstall removes its own scope's registrations, and a per-user copy replaced by an all-users install takes its HKCU registrations with it.
 - Keyboard Shortcuts is now bounded by the app window and scrolls internally. Its generated list rows receive wheel input through the overlay's own scroll host, and the two list columns flex with the available width instead of forcing the card beyond a narrow window.
 - About and Keyboard Shortcuts now share KillerScan's card padding and compact overlay close control. The inset X stays transparent and only its glyph turns red on hover, replacing the filled rounded caption button that had drifted into the About card.
 - Themes are now complete, app-owned resources with no private template overlay or external build dependency.

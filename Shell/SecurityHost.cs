@@ -40,6 +40,16 @@ namespace KillerNotes.Shell
             OpenStartupNote();   // Notes.cs - the app always opens into a note
         }
 
+        void ISecurityHost.ApplyReadOnlyState()
+        {
+            bool ro = NoteStore.IsReadOnly;
+            Editor.IsReadOnly = ro;
+            TitleBox.IsReadOnly = ro;
+            NewNoteBtn.IsEnabled = !ro;
+            if (ro)
+                StatusText.Text = string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner);
+        }
+
         void ISecurityHost.ClearEditor()
         {
             _currentId = -1;

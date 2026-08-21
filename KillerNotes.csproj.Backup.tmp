@@ -28,15 +28,6 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <!-- The test project lives inside this folder; without these removes the SDK globs
-       compile its .cs files into the app itself, which has no xunit (same pattern as
-       Killendar.Tests in Killendar.csproj). -->
-  <ItemGroup>
-    <Compile Remove="KillerNotes.Tests\**\*.cs" />
-    <EmbeddedResource Remove="KillerNotes.Tests\**\*" />
-    <None Remove="KillerNotes.Tests\**\*" />
-  </ItemGroup>
-
   <ItemGroup>
     <Reference Include="System.Net.Http" />
     <!-- Offline dictation (Services/DictationRecorder.cs). Part of .NET Framework itself, so this
@@ -51,11 +42,11 @@
   <ItemGroup>
     <!-- Single-exe build (family standard, same versions as KillerPDF): Costura embeds every
          managed dependency into the exe at build time. -->
-    <PackageReference Include="Costura.Fody" Version="6.2.0">
+    <PackageReference Include="Costura.Fody" Version="5.7.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>compile; runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Fody" Version="6.9.3">
+    <PackageReference Include="Fody" Version="6.8.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

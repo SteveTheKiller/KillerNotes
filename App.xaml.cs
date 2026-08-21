@@ -52,6 +52,15 @@ namespace KillerNotes
                 return;
             }
 
+            // Elevated half of the dual-install repair below: removes the machine-wide copy.
+            if (e.Args.Length > 0 &&
+                string.Equals(e.Args[0], "/remove-machine-conflict", StringComparison.OrdinalIgnoreCase))
+            {
+                RemoveMachineInstallConflict();
+                Shutdown(0);
+                return;
+            }
+
             // Screenshot / demo mode: --demo (or /demo) fills a scratch database with
             // fabricated notes (DemoMode.cs). The real notes.db is never touched.
             foreach (string a in e.Args)
@@ -103,7 +112,14 @@ namespace KillerNotes
                 StartPipeServer();
             }
 
-            RegisterFileAssociations();   // best-effort, HKCU only, idempotent
+            // Portable/per-user: HKCU, best-effort, idempotent. The machine-wide copy skips
+            // this - the elevated installer already registered HKLM for every account, and an
+            // HKCU copy would shadow it for just this user.
+            if (!string.Equals(Process.GetCurrentProcess().MainModule?.FileName, MachineExe,
+                    StringComparison.OrdinalIgnoreCase))
+                RegisterFileAssociations();
+
+            OfferInstallConflictRepair();
 
             // GPU rendering, like KillerPDF (no SoftwareOnly here): the format bar and pane
             // drop shadows are recomputed on the CPU under software rendering, which made
@@ -192,8 +208,9 @@ namespace KillerNotes
 
         // ============================================================
         // File associations (.kndb = database, .knote = single shared note)
-        // HKCU only - no elevation. Registered every launch so the association
-        // follows the exe if it moves. NOT .kdb: that belongs to KeePass 1.x.
+        // Registered per hive: HKCU on every portable/per-user launch (no elevation,
+        // follows the exe if it moves), HKLM once by the elevated machine-wide install
+        // so every account sees the types. NOT .kdb: that belongs to KeePass 1.x.
         // ============================================================
 
         [DllImport("shell32.dll")]
@@ -201,33 +218,78 @@ namespace KillerNotes
         private const uint SHCNE_ASSOCCHANGED = 0x08000000;
         private const uint SHCNF_IDLIST       = 0x0000;
 
+        /// <summary>Per-user registration for the running exe, HKCU, every launch.</summary>
         private static void RegisterFileAssociations()
         {
             try
             {
-                string exe = Process.GetCurrentProcess().MainModule!.FileName;
-                // Dedicated per-type icons, extracted where Explorer can read them;
-                // the exe icon is the fallback if extraction fails.
-                string noteIcon = ExtractIcon("kn-note.ico") is string np ? $"{np},0" : $"{exe},0";
-                string dbIcon   = ExtractIcon("kn-db.ico")   is string dp ? $"{dp},0" : $"{exe},0";
-                RegisterType(".kndb",  "KillerNotes.Database", "KillerNotes Database",    exe, dbIcon);
-                RegisterType(".knote", "KillerNotes.Note",     "KillerNotes Shared Note", exe, noteIcon);
+                RegisterFileAssociations(Registry.CurrentUser,
+                    Process.GetCurrentProcess().MainModule!.FileName,
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                                 "KillerNotes", "icons"));
+            }
+            catch { /* best-effort - sharing still works via the in-app import */ }
+        }
+
+        /// <summary>Registers .kndb/.knote in one hive, plus the Capabilities and
+        /// RegisteredApplications entries that put KillerNotes in Default Apps and Open With
+        /// for that scope. Per-user installs pass HKCU and AppData paths; the machine-wide
+        /// install passes HKLM and Program Files paths.</summary>
+        private static void RegisterFileAssociations(RegistryKey root, string exe, string iconDir)
+        {
+            try
+            {
+                // Dedicated per-type icons, extracted where Explorer (and for HKLM, every
+                // account) can read them; the exe icon is the fallback if extraction fails.
+                string noteIcon = ExtractIcon("kn-note.ico", iconDir) is string np ? $"{np},0" : $"{exe},0";
+                string dbIcon   = ExtractIcon("kn-db.ico",   iconDir) is string dp ? $"{dp},0" : $"{exe},0";
+                RegisterType(root, ".kndb",  "KillerNotes.Database", "KillerNotes Database",    exe, dbIcon);
+                RegisterType(root, ".knote", "KillerNotes.Note",     "KillerNotes Shared Note", exe, noteIcon);
+
+                using (var cap = root.CreateSubKey(@"Software\KillerNotes\Capabilities"))
+                {
+                    cap.SetValue("ApplicationName", AppName);
+                    cap.SetValue("ApplicationDescription", "Notes that live in a file on your own machine.");
+                }
+                using (var fa = root.CreateSubKey(@"Software\KillerNotes\Capabilities\FileAssociations"))
+                {
+                    fa.SetValue(".kndb",  "KillerNotes.Database");
+                    fa.SetValue(".knote", "KillerNotes.Note");
+                }
+                using (var ra = root.CreateSubKey(@"Software\RegisteredApplications"))
+                    ra.SetValue(AppName, @"Software\KillerNotes\Capabilities");
+
                 SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, IntPtr.Zero, IntPtr.Zero);
             }
             catch { /* best-effort - sharing still works via the in-app import */ }
         }
 
-        /// <summary>Copies an embedded .ico to AppData\KillerNotes\icons (DefaultIcon needs
+        /// <summary>Takes the associations back out of one hive: extension keys, ProgIDs,
+        /// Capabilities and the RegisteredApplications value.</summary>
+        private static void UnregisterFileAssociations(RegistryKey root)
+        {
+            try { root.DeleteSubKeyTree(@"Software\Classes\.kndb", false); } catch { }
+            try { root.DeleteSubKeyTree(@"Software\Classes\.knote", false); } catch { }
+            try { root.DeleteSubKeyTree(@"Software\Classes\KillerNotes.Database", false); } catch { }
+            try { root.DeleteSubKeyTree(@"Software\Classes\KillerNotes.Note", false); } catch { }
+            try { root.DeleteSubKeyTree(@"Software\KillerNotes\Capabilities", false); } catch { }
+            try
+            {
+                using var ra = root.OpenSubKey(@"Software\RegisteredApplications", writable: true);
+                ra?.DeleteValue(AppName, throwOnMissingValue: false);
+            }
+            catch { }
+            SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>Copies an embedded .ico to <paramref name="iconDir"/> (DefaultIcon needs
         /// a real file path). Rewrites when the embedded copy changes. Null on failure.</summary>
-        private static string? ExtractIcon(string name)
+        private static string? ExtractIcon(string name, string iconDir)
         {
             try
             {
-                string dir = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    "KillerNotes", "icons");
-                Directory.CreateDirectory(dir);
-                string dest = Path.Combine(dir, name);
+                Directory.CreateDirectory(iconDir);
+                string dest = Path.Combine(iconDir, name);
 
                 var sri = GetResourceStream(new Uri($"pack://application:,,,/Resources/{name}"));
                 if (sri == null) return null;
@@ -241,15 +303,15 @@ namespace KillerNotes
             catch { return null; }
         }
 
-        private static void RegisterType(string ext, string progId, string display, string exe, string iconSpec)
+        private static void RegisterType(RegistryKey root, string ext, string progId, string display, string exe, string iconSpec)
         {
-            using (var k = Registry.CurrentUser.CreateSubKey($@"Software\Classes\{ext}"))
+            using (var k = root.CreateSubKey($@"Software\Classes\{ext}"))
                 k.SetValue("", progId);
-            using (var k = Registry.CurrentUser.CreateSubKey($@"Software\Classes\{progId}"))
+            using (var k = root.CreateSubKey($@"Software\Classes\{progId}"))
                 k.SetValue("", display);
-            using (var k = Registry.CurrentUser.CreateSubKey($@"Software\Classes\{progId}\DefaultIcon"))
+            using (var k = root.CreateSubKey($@"Software\Classes\{progId}\DefaultIcon"))
                 k.SetValue("", iconSpec);
-            using (var k = Registry.CurrentUser.CreateSubKey($@"Software\Classes\{progId}\shell\open\command"))
+            using (var k = root.CreateSubKey($@"Software\Classes\{progId}\shell\open\command"))
                 k.SetValue("", $"\"{exe}\" \"%1\"");
         }
 
@@ -290,6 +352,73 @@ namespace KillerNotes
             string currentExe = Process.GetCurrentProcess().MainModule!.FileName;
             return !string.Equals(currentExe, InstallExe,  StringComparison.OrdinalIgnoreCase)
                 && !string.Equals(currentExe, MachineExe, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>Repairs a machine that carries BOTH a per-user and a machine-wide install -
+        /// the state where each Add/Remove Programs entry describes the other copy's version and
+        /// launching gets whichever exe the shell resolves first. Detected at startup; offers to
+        /// remove whichever copy is NOT running. Removing the machine copy needs elevation, so
+        /// that path re-runs this exe with /remove-machine-conflict under UAC.</summary>
+        private static void OfferInstallConflictRepair()
+        {
+            if (!File.Exists(InstallExe) || !File.Exists(MachineExe)) return;
+            string current = Process.GetCurrentProcess().MainModule?.FileName ?? "";
+            bool runningMachine = string.Equals(current, MachineExe, StringComparison.OrdinalIgnoreCase);
+            bool runningUser = string.Equals(current, InstallExe, StringComparison.OrdinalIgnoreCase);
+            if (!runningMachine && !runningUser) return;
+
+            string other = runningMachine ? "per-user" : "all-users";
+            if (MessageBox.Show($"KillerNotes is installed twice. Remove the other {other} copy now?\n\nYour notes and settings will not be removed.",
+                $"{AppName} installation conflict", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+
+            if (runningMachine) RemovePerUserInstall();
+            else
+            {
+                try
+                {
+                    using var p = Process.Start(new ProcessStartInfo(current, "/remove-machine-conflict")
+                    { UseShellExecute = true, Verb = "runas" });
+                    p?.WaitForExit();
+                }
+                catch { /* declining UAC leaves both copies in place */ }
+            }
+        }
+
+        /// <summary>Remove a per-user install: files, shortcuts and the HKCU install markers.
+        /// Settings under Software\KillerNotes\Settings and the notes databases are deliberately
+        /// left alone. Deletes the marker VALUES, not the key - the Settings subkey lives under
+        /// the same key.</summary>
+        private static void RemovePerUserInstall()
+        {
+            try { if (File.Exists(StartMenuLnk)) File.Delete(StartMenuLnk); } catch { }
+            try { if (Directory.Exists(StartMenuDir)) Directory.Delete(StartMenuDir, true); } catch { }
+            try { if (File.Exists(DesktopLnk)) File.Delete(DesktopLnk); } catch { }
+            try { if (Directory.Exists(InstallDir)) Directory.Delete(InstallDir, true); } catch { }
+            try
+            {
+                using var key = Registry.CurrentUser.OpenSubKey(@"Software\KillerNotes", writable: true);
+                key?.DeleteValue("Installed", throwOnMissingValue: false);
+                key?.DeleteValue("InstallPath", throwOnMissingValue: false);
+                key?.DeleteValue("Version", throwOnMissingValue: false);
+            }
+            catch { }
+            try { Registry.CurrentUser.DeleteSubKeyTree(
+                @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes", throwOnMissingSubKey: false); }
+            catch { }
+            // The machine install's HKLM associations serve every account; drop the per-user
+            // registration so it cannot shadow the shared Program Files paths.
+            UnregisterFileAssociations(Registry.CurrentUser);
+        }
+
+        private static void RemoveMachineInstallConflict()
+        {
+            string common = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), AppName);
+            try { Registry.LocalMachine.DeleteSubKeyTree(@"Software\KillerNotes", false); } catch { }
+            try { Registry.LocalMachine.DeleteSubKeyTree(
+                @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes", false); } catch { }
+            UnregisterFileAssociations(Registry.LocalMachine);
+            try { if (Directory.Exists(common)) Directory.Delete(common, true); } catch { }
+            try { if (Directory.Exists(MachineDir)) Directory.Delete(MachineDir, true); } catch { }
         }
 
         /// <summary>Installs KillerNotes, then relaunches from the installed location.</summary>
@@ -342,6 +471,11 @@ namespace KillerNotes
                     key.SetValue("NoModify",             1);
                     key.SetValue("NoRepair",             1);
                 }
+
+                // HKLM associations for every account, icons in Program Files where all
+                // accounts can read them. This pass runs elevated by definition.
+                RegisterFileAssociations(Registry.LocalMachine, installExe,
+                    Path.Combine(installDir, "icons"));
             }
             catch (Exception ex)
             {
@@ -476,11 +610,11 @@ namespace KillerNotes
             try { hive.DeleteSubKeyTree(
                 @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes"); } catch { }
 
-            // File associations registered at launch (RegisterFileAssociations)
-            try { Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\.kndb"); } catch { }
-            try { Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\.knote"); } catch { }
-            try { Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\KillerNotes.Database"); } catch { }
-            try { Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\KillerNotes.Note"); } catch { }
+            // Drop the associations from the same scope that installed them. A machine
+            // uninstall also removes the HKCU shadow this account may carry from an older
+            // per-user registration.
+            if (machine) UnregisterFileAssociations(Registry.LocalMachine);
+            UnregisterFileAssociations(Registry.CurrentUser);
 
             SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, IntPtr.Zero, IntPtr.Zero);
 

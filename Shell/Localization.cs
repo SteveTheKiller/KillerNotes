@@ -38,6 +38,7 @@ namespace KillerNotes.Shell
             (Services.Locale.Fr,   "Français",   "fr-FR"),
             (Services.Locale.Ja,   "日本語",      "ja-JP"),
             (Services.Locale.PlPL, "Polski",      "pl-PL"),
+            (Services.Locale.HuHU, "Magyar",      "hu-HU"),
             (Services.Locale.TrTR, "Türkçe",     "tr-TR"),
             (Services.Locale.ZhCN, "中文 (简体)", "zh-CN"),
             (Services.Locale.ZhTW, "中文 (繁體)", "zh-TW"),

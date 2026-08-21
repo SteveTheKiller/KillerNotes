@@ -213,9 +213,41 @@
     <sys:String x:Key="Str_TT_FindNext">Next match (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">Close (Esc)</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">Drag to move</sys:String>
+
+    <!-- Search and replace (#14): in-note replace row + match options, and the sidebar's
+         cross-note replace. -->
+    <sys:String x:Key="Str_TT_FindCase">Match case</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Whole word</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Regular expression</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Replace</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">All</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Replace the current match (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Replace every match in this note (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">Replaced {0} matches</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">Replace across all notes</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Replace the search term in every note that carries it</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Replace with...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Type a search term above first</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">Replaced {0} matches across {1} notes</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">Replace {0} matches in {1} notes?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Every "{0}" becomes "{1}". Ctrl+Z puts them all back.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...and {0} more notes</sys:String>
+    <sys:String x:Key="Str_KS_Replace">Find and replace in this note</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Note deleted</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} notes deleted</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Could not open the notes database: {0}</sys:String>
+
+    <!-- Network data folder safeguard -->
+    <sys:String x:Key="Str_Btn_OK">OK</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">Data folder is on a network location</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} is on another computer. Using one notes database from two machines at
+once is not safe; a lock file guards against it, but each person should keep
+their own database and share notes as .knote or .kndb files.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Opened read-only</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">This database is in use on {0}, so it opened read-only - changes will not
+be saved. If {0} is not actually running KillerNotes (after a crash, for
+example), delete the .lock file beside the database and reopen it.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Read-only - in use on {0}</sys:String>
 
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Delete "{0}"?</sys:String>

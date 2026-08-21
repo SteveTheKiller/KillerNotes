@@ -54,6 +54,91 @@ namespace KillerNotes.Services
         public static bool IsOpen => _db != null;
         public static bool HasPassword => _password != null;
 
+        /// <summary>True when the database was opened read-only because another host's lock
+        /// file owns it (network shares only). Write methods no-op while this is set, and the
+        /// UI disables editing.</summary>
+        public static bool IsReadOnly { get; private set; }
+
+        /// <summary>Machine name from the foreign lock that forced read-only, for the UI.</summary>
+        public static string? ReadOnlyOwner { get; private set; }
+
+        // ---- Network share safeguard ----
+        // Two SQLite writers on one file over SMB is how databases corrupt, and the
+        // single-instance mutex only covers THIS machine. On a network data folder a lock
+        // file beside the database claims the single writer: the owner writes it on open
+        // and deletes it on clean close; anyone else finding a live foreign lock opens
+        // read-only. A crashed host leaves its lock behind - the read-only warning names
+        // the host so the user can delete the .lock file once they know that machine is
+        // not actually using it.
+
+        private static string LockPath => DbPath + ".lock";
+        private static bool _ownsLock;
+        private static string? _ownedLockPath;   // captured at acquire: DbPath can change before Close
+
+        /// <summary>True for UNC paths and paths on drives Windows reports as network.</summary>
+        public static bool IsNetworkPath(string path)
+        {
+            try
+            {
+                if (path.StartsWith(@"\\", StringComparison.Ordinal)) return true;
+                string? root = Path.GetPathRoot(Path.GetFullPath(path));
+                if (string.IsNullOrEmpty(root) || root!.StartsWith(@"\\", StringComparison.Ordinal))
+                    return !string.IsNullOrEmpty(root);
+                return new DriveInfo(root).DriveType == DriveType.Network;
+            }
+            catch { return false; }
+        }
+
+        /// <summary>Machine name inside a lock file another host wrote, or null when the
+        /// lock is absent, unreadable, or this machine's own (stale from a crash here -
+        /// the single-instance mutex already proves no other local process holds it).</summary>
+        private static string? ForeignLockOwner()
+        {
+            try
+            {
+                if (!File.Exists(LockPath)) return null;
+                string host = (File.ReadAllText(LockPath).Split('\n')[0] ?? "").Trim();
+                if (host.Length == 0) return null;
+                return string.Equals(host, Environment.MachineName, StringComparison.OrdinalIgnoreCase)
+                    ? null : host;
+            }
+            catch { return null; }
+        }
+
+        private static void AcquireLock()
+        {
+            try
+            {
+                // A stale lock this machine left after a crash may be hidden, and
+                // WriteAllText cannot overwrite a hidden file.
+                if (File.Exists(LockPath))
+                    File.SetAttributes(LockPath, FileAttributes.Normal);
+                File.WriteAllText(LockPath,
+                    Environment.MachineName + "\n" +
+                    Environment.UserName + "\n" +
+                    DateTime.UtcNow.ToString("o"));
+                File.SetAttributes(LockPath, FileAttributes.Hidden);
+                _ownsLock = true;
+                _ownedLockPath = LockPath;
+            }
+            catch { _ownsLock = false; _ownedLockPath = null; }
+        }
+
+        private static void ReleaseLock()
+        {
+            if (!_ownsLock) return;
+            _ownsLock = false;
+            string? path = _ownedLockPath;
+            _ownedLockPath = null;
+            if (path == null) return;
+            try
+            {
+                File.SetAttributes(path, FileAttributes.Normal);
+                File.Delete(path);
+            }
+            catch { /* a leftover lock names this machine and is treated as stale */ }
+        }
+
         // ---- Open / close ----
 
         /// <summary>True when the active db file exists and cannot be read without a key.</summary>
@@ -88,12 +173,20 @@ namespace KillerNotes.Services
             return dest;
         }
 
-        /// <summary>Opens (creating if needed) the database. Throws SqliteException on a wrong password.</summary>
+        /// <summary>Opens (creating if needed) the database. Throws SqliteException on a wrong password.
+        /// On a network data folder whose lock file another host owns, opens READ-ONLY instead of
+        /// competing for SQLite's single writer - IsReadOnly and ReadOnlyOwner report it.</summary>
         public static void Open(string? password = null)
         {
             Close();
             Directory.CreateDirectory(DbDir);
+
+            bool network = IsNetworkPath(DbDir);
+            string? owner = network ? ForeignLockOwner() : null;
+            bool readOnly = owner != null && File.Exists(DbPath);
+
             var csb = new SqliteConnectionStringBuilder { DataSource = DbPath };
+            if (readOnly) csb.Mode = SqliteOpenMode.ReadOnly;
             if (!string.IsNullOrEmpty(password)) csb.Password = password;
             // Build into a local and prove it before publishing to _db: assigning first
             // would leave IsOpen true after a wrong key, and the unlock flow keys off
@@ -114,7 +207,13 @@ namespace KillerNotes.Services
             }
             _db = db;
             _password = string.IsNullOrEmpty(password) ? null : password;
-            EnsureSchema();
+            IsReadOnly = readOnly;
+            ReadOnlyOwner = readOnly ? owner : null;
+            if (!readOnly)
+            {
+                EnsureSchema();
+                if (network) AcquireLock();
+            }
         }
 
         public static void Close()
@@ -122,6 +221,9 @@ namespace KillerNotes.Services
             _db?.Dispose();
             _db = null;
             _password = null;
+            IsReadOnly = false;
+            ReadOnlyOwner = null;
+            ReleaseLock();   // clean close clears the lock; a crash leaves it for the stale-lock path
             // Release the pooled handle so the file can be swapped (password changes).
             SqliteConnection.ClearAllPools();
         }
@@ -344,7 +446,8 @@ CREATE TABLE IF NOT EXISTS recordings(
 
         public static long Create(string title)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return -1;
+            using var cmd = _db.CreateCommand();
             // sort_order = max+1: a new note lands at the BOTTOM of a custom arrangement
             // rather than jumping to the top with the column's 0 default (#4).
             cmd.CommandText = "INSERT INTO notes(title, created, modified, plain, sort_order) " +
@@ -366,7 +469,8 @@ CREATE TABLE IF NOT EXISTS recordings(
 
         public static void Save(long id, string title, byte[] content, string plain)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE notes SET title = $t, content = $c, plain = $p, modified = $m WHERE id = $id";
             cmd.Parameters.AddWithValue("$t", title);
             cmd.Parameters.AddWithValue("$c", content);
@@ -386,7 +490,7 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// <summary>Replaces the note's sketch rows with the given ordinal -> ISF payload set.</summary>
         public static void SaveSketches(long noteId, IReadOnlyDictionary<int, byte[]> byOrdinal)
         {
-            if (_db == null) return;
+            if (_db == null || IsReadOnly) return;
             using (var del = _db.CreateCommand())
             {
                 del.CommandText = "DELETE FROM sketches WHERE note_id = $id";
@@ -427,7 +531,7 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// nothing, and roughly halving what the database carries.</summary>
         public static int AddRecording(long noteId, byte[] wav, int durationMs)
         {
-            if (_db == null || wav.Length == 0) return -1;
+            if (_db == null || IsReadOnly || wav.Length == 0) return -1;
             byte[] payload = AudioCodec.ForStorage(wav);
             int ord;
             using (var max = _db.CreateCommand())
@@ -451,7 +555,7 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// re-embedded after editing.</summary>
         public static bool ReplaceRecording(long noteId, int ord, byte[] wav, int durationMs)
         {
-            if (_db == null || wav.Length == 0) return false;
+            if (_db == null || IsReadOnly || wav.Length == 0) return false;
             using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE recordings SET payload = $p, duration = $d WHERE note_id = $id AND ord = $o";
             cmd.Parameters.AddWithValue("$p", AudioCodec.ForStorage(wav));
@@ -496,7 +600,7 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// audio cannot outlive its note and quietly keep the database large.</summary>
         public static void DeleteRecordings(long noteId)
         {
-            if (_db == null) return;
+            if (_db == null || IsReadOnly) return;
             using var cmd = _db.CreateCommand();
             cmd.CommandText = "DELETE FROM recordings WHERE note_id = $id";
             cmd.Parameters.AddWithValue("$id", noteId);
@@ -507,7 +611,8 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// lived-in sidebar). Normal saves always stamp DateTime.Now.</summary>
         public static void SetTimestamps(long id, DateTime created, DateTime modified)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE notes SET created = $c, modified = $m WHERE id = $id";
             cmd.Parameters.AddWithValue("$c", Ts(created));
             cmd.Parameters.AddWithValue("$m", Ts(modified));
@@ -517,7 +622,8 @@ CREATE TABLE IF NOT EXISTS recordings(
 
         public static void Delete(long id)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             // Deliberately does NOT drop sketches or recordings. Delete is undoable - RestoreRow
             // re-inserts the row verbatim by the same id - and the payload tables are keyed on that
             // id, so clearing them here would restore a note with its sketches and audio gone.
@@ -577,7 +683,7 @@ CREATE TABLE IF NOT EXISTS recordings(
 
         public static void RestoreRow(NoteRow n)
         {
-            if (_db == null) return;
+            if (_db == null || IsReadOnly) return;
             using var cmd = _db.CreateCommand();
             cmd.CommandText = "INSERT INTO notes(id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos) " +
                               "VALUES($id, $t, $nb, $tg, $cr, $md, $pl, $ct, $tc, $sp, $so, $cp, $scp)";
@@ -597,11 +703,53 @@ CREATE TABLE IF NOT EXISTS recordings(
             cmd.ExecuteNonQuery();
         }
 
+        /// <summary>Cross-note replace (#14): writes new content and plain text for a set of
+        /// notes in ONE transaction, so a global replace either lands whole or not at all.
+        /// Titles are deliberately untouched - replace works on note bodies.</summary>
+        public static void UpdateContents(IEnumerable<(long Id, byte[] Content, string Plain)> updates)
+        {
+            if (_db == null || IsReadOnly) return;
+            string now = Ts(DateTime.Now);
+            using var tx = _db.BeginTransaction();
+            foreach (var (id, content, plain) in updates)
+            {
+                using var cmd = _db.CreateCommand();
+                cmd.Transaction = tx;
+                cmd.CommandText = "UPDATE notes SET content = $c, plain = $p, modified = $m WHERE id = $id";
+                cmd.Parameters.AddWithValue("$c", content);
+                cmd.Parameters.AddWithValue("$p", plain);
+                cmd.Parameters.AddWithValue("$m", now);
+                cmd.Parameters.AddWithValue("$id", id);
+                cmd.ExecuteNonQuery();
+            }
+            tx.Commit();
+        }
+
+        /// <summary>The undo half of <see cref="UpdateContents"/>: puts captured rows' content,
+        /// plain text and modified stamps back, again in one transaction.</summary>
+        public static void RestoreContents(IEnumerable<NoteRow> rows)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var tx = _db.BeginTransaction();
+            foreach (var n in rows)
+            {
+                using var cmd = _db.CreateCommand();
+                cmd.Transaction = tx;
+                cmd.CommandText = "UPDATE notes SET content = $c, plain = $p, modified = $m WHERE id = $id";
+                cmd.Parameters.AddWithValue("$c", (object?)n.Content ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("$p", n.Plain);
+                cmd.Parameters.AddWithValue("$m", n.Modified);
+                cmd.Parameters.AddWithValue("$id", n.Id);
+                cmd.ExecuteNonQuery();
+            }
+            tx.Commit();
+        }
+
         /// <summary>Remembers the reading position (caret offset + editor scroll) so the
         /// note reopens where the user left off instead of at the top (1.1.1).</summary>
         public static void SetNotePosition(long id, int caret, double scroll)
         {
-            if (_db == null) return;
+            if (_db == null || IsReadOnly) return;
             using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE notes SET caret_pos = $c, scroll_pos = $s WHERE id = $id";
             cmd.Parameters.AddWithValue("$c", caret);
@@ -624,7 +772,8 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// <summary>Sets the sidebar/title display color ("#RRGGBB"; "" = theme default).</summary>
         public static void SetTitleColor(long id, string color)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE notes SET title_color = $c WHERE id = $id";
             cmd.Parameters.AddWithValue("$c", color);
             cmd.Parameters.AddWithValue("$id", id);
@@ -634,7 +783,8 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// <summary>Persists the per-note spell check toggle.</summary>
         public static void SetSpellCheck(long id, bool on)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE notes SET spellcheck = $s WHERE id = $id";
             cmd.Parameters.AddWithValue("$s", on ? 1 : 0);
             cmd.Parameters.AddWithValue("$id", id);
@@ -658,7 +808,8 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// <summary>Adds a tag definition; an existing name (case-insensitive) wins.</summary>
         public static void AddTag(string name, string color)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             cmd.CommandText = "INSERT OR IGNORE INTO tags(name, color) VALUES ($n, $c)";
             cmd.Parameters.AddWithValue("$n", name);
             cmd.Parameters.AddWithValue("$c", color);
@@ -667,7 +818,8 @@ CREATE TABLE IF NOT EXISTS recordings(
 
         public static void SetTagColor(string name, string color)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE tags SET color = $c WHERE name = $n";
             cmd.Parameters.AddWithValue("$c", color);
             cmd.Parameters.AddWithValue("$n", name);
@@ -677,7 +829,8 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// <summary>Renames a tag definition and rewrites it inside every note's CSV.</summary>
         public static void RenameTag(string oldName, string newName)
         {
-            using (var cmd = _db!.CreateCommand())
+            if (_db == null || IsReadOnly) return;
+            using (var cmd = _db.CreateCommand())
             {
                 cmd.CommandText = "UPDATE tags SET name = $new WHERE name = $old";
                 cmd.Parameters.AddWithValue("$new", newName);
@@ -690,7 +843,8 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// <summary>Deletes a tag definition and removes it from every note's CSV.</summary>
         public static void DeleteTag(string name)
         {
-            using (var cmd = _db!.CreateCommand())
+            if (_db == null || IsReadOnly) return;
+            using (var cmd = _db.CreateCommand())
             {
                 cmd.CommandText = "DELETE FROM tags WHERE name = $n";
                 cmd.Parameters.AddWithValue("$n", name);
@@ -709,7 +863,8 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// and the first-use seeding both rewrite every row; note counts are small).</summary>
         public static void SetNoteOrders(IEnumerable<(long Id, int Order)> orders)
         {
-            using var tx = _db!.BeginTransaction();
+            if (_db == null || IsReadOnly) return;
+            using var tx = _db.BeginTransaction();
             foreach (var (id, order) in orders)
             {
                 using var cmd = _db!.CreateCommand();
@@ -725,7 +880,8 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// <summary>Assigns a note to a group ("" = ungrouped).</summary>
         public static void SetNoteGroup(long id, string group)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE notes SET notebook = $g WHERE id = $id";
             cmd.Parameters.AddWithValue("$g", group);
             cmd.Parameters.AddWithValue("$id", id);
@@ -746,7 +902,8 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// <summary>Sets a group's sidebar name color ("#RRGGBB"; "" = theme default).</summary>
         public static void SetGroupColor(string name, string color)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE groups SET color = $c WHERE name = $n";
             cmd.Parameters.AddWithValue("$c", color);
             cmd.Parameters.AddWithValue("$n", name);
@@ -786,7 +943,8 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// for that parent; atTop = false appends it last (demo builds its tree that way).</summary>
         public static void AddGroup(string path, string parent = "", bool atTop = true)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             string order = atTop
                 ? "(SELECT COALESCE(MIN(sort_order), 0) - 1 FROM groups WHERE parent = $p)"
                 : "(SELECT COALESCE(MAX(sort_order), 0) + 1 FROM groups)";
@@ -816,6 +974,7 @@ CREATE TABLE IF NOT EXISTS recordings(
         /// new name flows down. The caller checks the new leaf does not clash with a sibling.</summary>
         public static void RenameGroup(string oldPath, string newLeaf)
         {
+            if (_db == null || IsReadOnly) return;
             string newPath = GroupPath(GroupParentOf(oldPath), newLeaf);
             if (string.Equals(oldPath, newPath, StringComparison.Ordinal)) return;
             RepathBranch(oldPath, newPath);
@@ -872,8 +1031,9 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         /// every descendant) are kept and become ungrouped.</summary>
         public static void DeleteGroup(string path)
         {
+            if (_db == null || IsReadOnly) return;
             string likeDesc = EscapeLike(path + GroupSep) + "%";
-            using var tx = _db!.BeginTransaction();
+            using var tx = _db.BeginTransaction();
             using (var cmd = _db.CreateCommand())
             {
                 cmd.Transaction = tx;
@@ -899,7 +1059,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
 
         public static void SetGroupCollapsed(string name, bool collapsed)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE groups SET collapsed = $c WHERE name = $n";
             cmd.Parameters.AddWithValue("$c", collapsed ? 1 : 0);
             cmd.Parameters.AddWithValue("$n", name);
@@ -909,7 +1070,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         /// <summary>Writes sort_order for a set of group paths in one transaction.</summary>
         public static void SetGroupOrders(IEnumerable<(string Path, int Order)> orders)
         {
-            using var tx = _db!.BeginTransaction();
+            if (_db == null || IsReadOnly) return;
+            using var tx = _db.BeginTransaction();
             foreach (var o in orders)
             {
                 using var cmd = _db.CreateCommand();
@@ -929,7 +1091,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         /// onto itself, into its own subtree, or onto a sibling leaf that already exists.</summary>
         public static bool MoveGroup(string path, string newParent, string? beforePath)
         {
-            if (_db == null) return false;
+            if (_db == null || IsReadOnly) return false;
             // Into itself or its own descendant would orphan the branch.
             if (string.Equals(path, newParent, StringComparison.OrdinalIgnoreCase)) return false;
             if (newParent.StartsWith(path + GroupSep, StringComparison.OrdinalIgnoreCase)) return false;
@@ -980,7 +1142,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
 
         public static void SetNoteTags(long id, string tags)
         {
-            using var cmd = _db!.CreateCommand();
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE notes SET tags = $t WHERE id = $id";
             cmd.Parameters.AddWithValue("$t", tags);
             cmd.Parameters.AddWithValue("$id", id);
@@ -1033,6 +1196,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         public static void SetPassword(string? newPassword)
         {
             if (_db == null) throw new InvalidOperationException("database not open");
+            if (IsReadOnly) throw new InvalidOperationException("database is open read-only");
             if (string.IsNullOrEmpty(newPassword)) newPassword = null;
 
             string? oldPassword = _password;   // Close() clears it; kept for rollback
@@ -1173,6 +1337,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         /// Throws SqliteException on a wrong password. Returns the count imported.</summary>
         public static int ImportNotes(string sourcePath, string? password)
         {
+            if (IsReadOnly) throw new InvalidOperationException("database is open read-only");
             var csb = new SqliteConnectionStringBuilder
             {
                 DataSource = sourcePath,

@@ -495,6 +495,75 @@
                                     </Grid>
                                 </Grid>
                             </Border>
+                            <!-- Cross-note replace toggle (GlobalReplace.cs). Lit (Tag="on")
+                                 while its row below is open. -->
+                            <Button x:Name="SidebarReplaceBtn" Grid.Column="1" Click="SidebarReplace_Click"
+                                    Style="{StaticResource RailButton}" FontSize="12" Width="24" Height="24"
+                                    Margin="4,0,0,0" VerticalAlignment="Center" Content="&#xE8AB;"
+                                    ToolTip="{DynamicResource Str_TT_SidebarReplace}"/>
+                        </Grid>
+                        <!-- Cross-note replace row (GlobalReplace.cs): replaces the search term
+                             above inside every note that carries it, behind a confirmation that
+                             names each note and its match count. One transaction, one undo. -->
+                        <Grid x:Name="SidebarReplaceRow" Visibility="Collapsed" Margin="0,6,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Height="26" VerticalAlignment="Center"
+                                    Background="{DynamicResource SearchFieldBrush}" BorderThickness="1"
+                                    CornerRadius="{DynamicResource ControlCornerRadius}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Border Panel.ZIndex="2" IsHitTestVisible="False"
+                                            BorderBrush="{DynamicResource PaneBevelDarkBrush}"
+                                            BorderThickness="{DynamicResource FooterCellLightThickness}"/>
+                                    <Border Panel.ZIndex="2" IsHitTestVisible="False"
+                                            BorderBrush="{DynamicResource PaneBevelLightBrush}"
+                                            BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
+                                    <Grid>
+                                        <TextBlock Text="{DynamicResource Str_ReplacePlaceholder}" Foreground="{DynamicResource DimTextBrush}"
+                                                   FontSize="12" VerticalAlignment="Center" IsHitTestVisible="False" Margin="8,0,8,0">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding Text, ElementName=SidebarReplaceBox}" Value=""/>
+                                                                <Condition Binding="{Binding IsKeyboardFocusWithin, ElementName=SidebarReplaceBox}" Value="False"/>
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBox x:Name="SidebarReplaceBox" Background="Transparent" BorderThickness="0"
+                                                 Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
+                                                 SelectionBrush="{DynamicResource TextSelectionBrush}" SelectionOpacity="{DynamicResource TextSelectionOpacity}"
+                                                 SelectionTextBrush="{DynamicResource TextSelectionTextBrush}"
+                                                 FontSize="12" Padding="8,0,8,0" VerticalContentAlignment="Center"/>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                            <Button Grid.Column="1" Click="SidebarReplaceAll_Click"
+                                    Style="{StaticResource OutlineButton}" FontSize="11" Height="24"
+                                    Padding="8,0" Margin="4,0,0,0" VerticalContentAlignment="Center"
+                                    Content="{DynamicResource Str_Btn_ReplaceAll}"
+                                    ToolTip="{DynamicResource Str_TT_SidebarReplaceAll}"/>
                         </Grid>
                         <!-- Second Auto row: at high app zoom the panel's LOGICAL width shrinks
                              (screen-constant sidebar) and one row can't hold everything - the
@@ -1777,7 +1846,8 @@
                         <!-- 12,10 = the old 8,6 content margin plus the card's former 4px padding.
                              The padding moved here so the bevel rings below can sit on the card's
                              real edge instead of 4px inside it. -->
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,10,12,10">
+                        <StackPanel Orientation="Vertical" Margin="12,10,12,10">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <!-- Drag grip: two columns of three dots, the family's grab handle.
                                  Transparent yet hit-testable so it can be grabbed. -->
                             <Border x:Name="FindGrip" Background="Transparent" Cursor="SizeAll"
@@ -1861,6 +1931,24 @@
                                 </Grid>
                             </Border>
 
+                            <!-- Match options, applied to find AND replace (FindBar.cs). Plain
+                                 Buttons on the RailButton style, lit via Tag="on" like every
+                                 other toggle in the family - no ToggleButton restyle needed. -->
+                            <Button x:Name="FindCaseBtn" Click="FindOption_Click"
+                                    Style="{StaticResource RailButton}" FontSize="11" Width="26" Height="24"
+                                    FontFamily="Consolas" Content="Aa"
+                                    ToolTip="{DynamicResource Str_TT_FindCase}"/>
+                            <Button x:Name="FindWordBtn" Click="FindOption_Click"
+                                    Style="{StaticResource RailButton}" FontSize="11" Width="26" Height="24"
+                                    ToolTip="{DynamicResource Str_TT_FindWord}">
+                                <TextBlock Text="ab" FontFamily="Consolas" FontSize="11"
+                                           TextDecorations="Underline"/>
+                            </Button>
+                            <Button x:Name="FindRegexBtn" Click="FindOption_Click"
+                                    Style="{StaticResource RailButton}" FontSize="11" Width="26" Height="24"
+                                    FontFamily="Consolas" Content=".*"
+                                    ToolTip="{DynamicResource Str_TT_FindRegex}"/>
+
                             <!-- "3 of 47", or the no-matches line. Consolas so the number stops
                                  jittering the buttons sideways as it counts up, and a fixed width
                                  so the floating card never resizes as the count changes. -->
@@ -1880,6 +1968,59 @@
                             <Button Click="FindClose_Click" Style="{StaticResource DialogCloseButton}"
                                     Width="26" Height="24" VerticalAlignment="Center"
                                     ToolTip="{DynamicResource Str_TT_FindClose}"/>
+                        </StackPanel>
+
+                        <!-- REPLACE ROW (Ctrl+H, FindBar.cs). Collapsed until Ctrl+H expands it;
+                             the option toggles above govern its matching too. The spacer lines
+                             the replace field up under the find field (grip + magnifier width),
+                             and the field itself tracks the find box's fitted width. -->
+                        <StackPanel x:Name="ReplaceRow" Orientation="Horizontal" Visibility="Collapsed"
+                                    Margin="0,8,0,0">
+                            <Border Width="35" IsHitTestVisible="False"/>
+                            <Border Height="26" VerticalAlignment="Center" Margin="0,0,4,0"
+                                    Background="{DynamicResource SearchFieldBrush}" BorderThickness="1"
+                                    CornerRadius="{DynamicResource ControlCornerRadius}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Border Panel.ZIndex="2" IsHitTestVisible="False"
+                                            BorderBrush="{DynamicResource PaneBevelDarkBrush}"
+                                            BorderThickness="{DynamicResource FooterCellLightThickness}"/>
+                                    <Border Panel.ZIndex="2" IsHitTestVisible="False"
+                                            BorderBrush="{DynamicResource PaneBevelLightBrush}"
+                                            BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
+                                    <TextBox x:Name="ReplaceBox" VerticalAlignment="Center"
+                                             Width="{Binding ActualWidth, ElementName=FindBox}"
+                                             Background="Transparent" BorderThickness="0" FontSize="12"
+                                             Padding="6,0,6,0" VerticalContentAlignment="Center"
+                                             Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
+                                             SelectionBrush="{DynamicResource TextSelectionBrush}"
+                                             SelectionOpacity="{DynamicResource TextSelectionOpacity}"
+                                             PreviewKeyDown="ReplaceBox_PreviewKeyDown"/>
+                                </Grid>
+                            </Border>
+                            <Button x:Name="ReplaceOneBtn" Click="ReplaceCurrent_Click"
+                                    Style="{StaticResource OutlineButton}" FontSize="11" Height="24"
+                                    Padding="8,0" Margin="4,0,0,0" VerticalContentAlignment="Center"
+                                    Content="{DynamicResource Str_Btn_Replace}"
+                                    ToolTip="{DynamicResource Str_TT_ReplaceOne}"/>
+                            <Button x:Name="ReplaceAllBtn" Click="ReplaceAll_Click"
+                                    Style="{StaticResource OutlineButton}" FontSize="11" Height="24"
+                                    Padding="8,0" Margin="4,0,0,0" VerticalContentAlignment="Center"
+                                    Content="{DynamicResource Str_Btn_ReplaceAll}"
+                                    ToolTip="{DynamicResource Str_TT_ReplaceAll}"/>
+                        </StackPanel>
                         </StackPanel>
                         <!-- Film grain over the row and hit-test invisible: under the content it
                              would be painted over by any solid fill above it. -->

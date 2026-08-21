@@ -57,10 +57,42 @@ namespace KillerNotes.Features
                 return false;
             }
 
+            WarnNetworkFolder();
+            WarnReadOnly();
+            _host.ApplyReadOnlyState();
             _host.LoadNotes();
             _host.ShowLockState(NoteStore.HasPassword);
             if (_pendingStatus != null) { _host.SetStatus(_pendingStatus); _pendingStatus = null; }
             return true;
+        }
+
+        /// <summary>One-time warning when the data folder is on a network location: SQLite over
+        /// SMB with two writers corrupts, and the lock file only mitigates. Remembered per folder,
+        /// so changing the data folder to a different share warns once more.</summary>
+        private void WarnNetworkFolder()
+        {
+            if (!NoteStore.IsNetworkPath(NoteStore.DbDir)) return;
+            if (string.Equals(App.GetSetting("NetworkWarnedFolder"), NoteStore.DbDir, StringComparison.OrdinalIgnoreCase)) return;
+            App.SetSetting("NetworkWarnedFolder", NoteStore.DbDir);
+
+            var dlg = new ConfirmDialog(
+                _host.Loc("Str_Net_WarnHead"),
+                string.Format(_host.Loc("Str_Net_WarnBody"), NoteStore.DbDir),
+                _host.Loc("Str_Btn_OK")) { Owner = _host.Window };
+            dlg.CancelButton.Visibility = System.Windows.Visibility.Collapsed;
+            dlg.ShowDialog();
+        }
+
+        /// <summary>Tells the user the database opened read-only and which host owns it.</summary>
+        private void WarnReadOnly()
+        {
+            if (!NoteStore.IsReadOnly) return;
+            var dlg = new ConfirmDialog(
+                _host.Loc("Str_Net_ReadOnlyHead"),
+                string.Format(_host.Loc("Str_Net_ReadOnlyBody"), NoteStore.ReadOnlyOwner),
+                _host.Loc("Str_Btn_OK")) { Owner = _host.Window };
+            dlg.CancelButton.Visibility = System.Windows.Visibility.Collapsed;
+            dlg.ShowDialog();
         }
 
         private bool PromptUnlock(bool exitOnCancel)

@@ -137,6 +137,10 @@ namespace KillerNotes.Shell
                     OpenFindBar();                       // FindBar.cs
                     e.Handled = true;
                     break;
+                case Key.H when ctrl:
+                    OpenReplaceBar();                    // FindBar.cs (#14): find bar + replace row
+                    e.Handled = true;
+                    break;
                 case Key.F3:
                     if (_findOpen) StepFind(shift ? -1 : 1);   // FindBar.cs
                     else FocusSearch();                        // Sidebar.cs (expands first if collapsed)

@@ -179,6 +179,20 @@ namespace KillerNotes.Shell
             NoteStore.SaveSketches(id, byOrd);
         }
 
+        /// <summary>Text labels inside the note's sketches, one per line. Appended to the note's
+        /// stored plain text on save so a label like "IDF-2, port 14" makes the note searchable;
+        /// appended at the END so a real first line always stays the snippet.</summary>
+        private string CollectSketchLabelText()
+        {
+            var parts = new System.Collections.Generic.List<string>();
+            foreach (var img in EnumerateImages(Editor.Document.Blocks))
+                if (Sketch.TryGetData(img, out var payload))
+                    foreach (var o in SketchModel.Deserialize(payload))
+                        if (o.Kind == SketchKind.Text && !string.IsNullOrWhiteSpace(o.Text))
+                            parts.Add(o.Text!.Trim());
+            return string.Join("\n", parts);
+        }
+
         // On load: re-attach saved strokes to images by the same ordinal, so a reloaded sketch is
         // editable again (double-click opens the editor with its strokes).
         private void LinkSketchPayloads(long id)

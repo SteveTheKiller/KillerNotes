@@ -77,6 +77,7 @@
 <button class="lang-item" data-lang="fr">Fran&#231;ais</button>
 <button class="lang-item" data-lang="ja">&#26085;&#26412;&#35486;</button>
 <button class="lang-item" data-lang="pl">Polski</button>
+<button class="lang-item" data-lang="hu">Magyar</button>
 <button class="lang-item" data-lang="tr">T&#252;rk&#231;e</button>
 <button class="lang-item" data-lang="zh-cn">&#20013;&#25991; (&#31616;&#20307;)</button>
 <button class="lang-item" data-lang="zh">&#20013;&#25991; (&#32321;&#39636;)</button>
@@ -265,7 +266,7 @@
 
 <section class="tech-sec" id="localization">
 <h2>Localization</h2>
-<p>The interface ships in ten languages: English, Bengali, Czech, German, Spanish, French, Japanese, Turkish, Simplified Chinese and Traditional Chinese. Switching is live - no restart, no relaunch - because every string is a <code>DynamicResource</code> lookup against a merged ResourceDictionary that is swapped in place, the same mechanism the themes use.</p>
+<p>The interface ships in twelve languages: English, Bengali, Czech, German, Spanish, French, Hungarian, Japanese, Polish, Turkish, Simplified Chinese and Traditional Chinese. Switching is live - no restart, no relaunch - because every string is a <code>DynamicResource</code> lookup against a merged ResourceDictionary that is swapped in place, the same mechanism the themes use.</p>
 <p>Translation covers the whole surface, not just the menus: dialogs, tooltips, context menus, the status bar, the keyboard-shortcut overlay and its visual keyboard map. The shortcut <i>keycaps</i> stay in English on purpose - a key is a physical thing, and translating "Ctrl" helps nobody - while their descriptions are translated.</p>
 <p>Each locale is one XAML file in <code>Strings/</code>, so adding a language means adding a file and an entry to the picker, with no code change. Missing keys fall back to en-US rather than rendering blank, so a partial translation degrades to English instead of breaking the layout.</p>
 </section>

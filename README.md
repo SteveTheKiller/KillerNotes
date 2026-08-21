@@ -25,7 +25,7 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 - Password protection: optional SQLCipher AES-256 encryption of the whole database, set, changed, or removed at any time - no recovery for a lost password
 - Sharing: export a note (.knote) or a whole database (.kndb), optionally password protected; both open with a double-click
 - Keyboard-first: every function has a shortcut, F1 opens the visual keyboard map, and the whole app scales for accessibility (Ctrl+Shift +/-)
-- Localized in ten languages, falling back to English
+- Localized in twelve languages, falling back to English
 - Thirteen themes including a full 98SE recreation; Dark, Light, Black, and 98SE each carry six accent colors for 33 looks in all
 
 ## Requirements
@@ -53,7 +53,7 @@ winget install killernotes
 </tr>
 <tr>
 <td><img src="docs/shortcuts.png" alt="Keyboard shortcuts"><br><sub>Every function has a shortcut - F1 opens the visual keyboard map. Hold Ctrl or Shift to preview that layer. Shown in French.</sub></td>
-<td><img src="docs/localization.png" alt="Localization"><br><sub>Ten languages, translated down to the context menus - here Bengali, with a SketchPad drawing printed into the note.</sub></td>
+<td><img src="docs/localization.png" alt="Localization"><br><sub>Twelve languages, translated down to the context menus - here Bengali, with a SketchPad drawing printed into the note.</sub></td>
 </tr>
 </table>
 

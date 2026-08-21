@@ -20,5 +20,9 @@ namespace KillerNotes.Features
         /// <summary>Drops the editor's current note - what it was showing belongs to a database that
         /// is about to be closed.</summary>
         void ClearEditor();
+
+        /// <summary>Reflects NoteStore.IsReadOnly in the shell after an open: read-only locks the
+        /// editor and title, disables New note, and pins a status line naming the owning host.</summary>
+        void ApplyReadOnlyState();
     }
 }

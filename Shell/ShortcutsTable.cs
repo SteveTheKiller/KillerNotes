@@ -35,6 +35,7 @@ namespace KillerNotes.Shell
             // which is a state the map cannot draw, so the cap keeps its primary meaning.
             new("F3", "Str_KS_Search", "Search", [(KbLayer.Base, "F3", "Str_KS_Search")]),
             new("Ctrl+F", "Str_KS_Find", "Search", [(KbLayer.Ctrl, "F", "Str_KS_Find")]),
+            new("Ctrl+H", "Str_KS_Replace", "Search", [(KbLayer.Ctrl, "H", "Str_KS_Replace")]),
             new("F4", "Str_KS_Preview", "View", [(KbLayer.Base, "F4", "Str_Kb_Preview")]),
             new("F5", "Str_KS_Sidebar", "View", [(KbLayer.Base, "F5", "Str_Kb_Sidebar")]),
             new("F6", "Str_KS_FormatBar", "View", [(KbLayer.Base, "F6", "Str_Kb_FormatBar")]),
