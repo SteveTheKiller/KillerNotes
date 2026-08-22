@@ -82,6 +82,16 @@
     <sys:String x:Key="Str_St_NoteDeleted">笔记已删除</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">已删除 {0} 条笔记</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">无法打开笔记数据库: {0}</sys:String>
+    <sys:String x:Key="Str_Btn_OK">确定</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">数据文件夹位于网络位置</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} 在另一台计算机上。同时从两台机器使用同一个笔记数据库并不安全；
+锁文件可以防范这种情况，但每个人都应保留自己的数据库，
+并以 .knote 或 .kndb 文件共享笔记。</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">已以只读方式打开</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">此数据库正在 {0} 上使用，因此以只读方式打开，更改不会被保存。
+如果 {0} 上其实并未运行 KillerNotes (例如崩溃之后)，
+请删除数据库旁边的 .lock 文件，然后重新打开。</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">只读 - 正在 {0} 上使用</sys:String>
 
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">删除“{0}”?</sys:String>
@@ -593,6 +603,32 @@
     <sys:String x:Key="Str_Sketch_Unbold">取消粗体</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">撤销 (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">笔刷大小 (点击切换)</sys:String>
+    <sys:String x:Key="Str_TT_FormatBadge">此笔记保存 Markdown 文本</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">新建 Markdown 笔记</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">创建一条保存纯 Markdown 文本而非富文本的笔记</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">转换为 Markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">转换为富文本</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">将所有笔记导出为 Markdown</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">将此数据库中的每条笔记写入一个 .md 文件夹</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">转换</sys:String>
+    <sys:String x:Key="Str_Btn_Export">导出</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">将 "{0}" 转换为 Markdown 吗?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">笔记将变为纯 Markdown 文本。Ctrl+Z 可以还原。</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">将 "{0}" 转换为富文本吗?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">Markdown 将呈现为带格式的文本。Ctrl+Z 可以还原。</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">表格会变成纯文本行</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">图片和草图会丢失</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">文字颜色和高亮颜色会丢失</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">此笔记是 Markdown - 只保存文本，因此无法添加图片、表格、草图和录音</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">已转换为 Markdown</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">已转换为富文本</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">选择 Markdown 文件夹的写入位置</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">将所有笔记导出为 Markdown 吗?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} 条笔记将写入 {1}。分组会变成子文件夹。数据库不会有任何改动。</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">没有可导出的内容 - 此数据库中没有笔记</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">已将 {0} 条笔记导出到 {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">已将 {0} 条笔记导出到 {2}，{1} 条失败</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">导出失败: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 
     <!-- In-note find (1.2.1) -->
@@ -602,6 +638,23 @@
     <sys:String x:Key="Str_TT_FindNext">下一个匹配项 (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">关闭 (Esc)</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">拖动以移动</sys:String>
+    <sys:String x:Key="Str_TT_FindCase">区分大小写</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">全字匹配</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">正则表达式</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">替换</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">全部</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">替换当前匹配项 (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">替换此笔记中的所有匹配项 (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">已替换 {0} 处匹配</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">在所有笔记中替换</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">在每条包含搜索词的笔记中替换该词</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">替换为...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">请先在上方输入搜索词</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">已在 {1} 条笔记中替换 {0} 处匹配</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">替换 {1} 条笔记中的 {0} 处匹配吗?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">每个 "{0}" 都会变成 "{1}"。Ctrl+Z 可全部撤销。</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...另有 {0} 条笔记</sys:String>
+    <sys:String x:Key="Str_KS_Replace">在此笔记中查找并替换</sys:String>
     <sys:String x:Key="Str_TT_FindRail">在此笔记中查找 (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">在此笔记中查找</sys:String>
     <sys:String x:Key="Str_Theme_Dark">深色</sys:String>

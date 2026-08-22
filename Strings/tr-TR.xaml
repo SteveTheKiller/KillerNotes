@@ -82,6 +82,17 @@
     <sys:String x:Key="Str_St_NoteDeleted">Not silindi</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} not silindi</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Not veritabanı açılamadı: {0}</sys:String>
+    <sys:String x:Key="Str_Btn_OK">Tamam</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">Veri klasörü bir ağ konumunda</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} başka bir bilgisayarda. Bir not veritabanını iki makineden aynı anda
+kullanmak güvenli değildir; bir kilit dosyası buna karşı koruma sağlar, ancak
+herkesin kendi veritabanı olmalı ve notlar .knote veya .kndb olarak paylaşılmalı.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Salt okunur açıldı</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">Bu veritabanı {0} üzerinde kullanımda olduğu için salt okunur açıldı ve
+değişiklikler kaydedilmeyecek. {0} üzerinde KillerNotes gerçekte çalışmıyorsa
+(örneğin bir çökmeden sonra), veritabanının yanındaki .lock dosyasını silin ve
+yeniden açın.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Salt okunur - {0} üzerinde kullanımda</sys:String>
 
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">"{0}" silinsin mi?</sys:String>
@@ -593,6 +604,32 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Kalınlığı kaldır</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Geri al (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Fırça boyutu (değiştirmek için tıklayın)</sys:String>
+    <sys:String x:Key="Str_TT_FormatBadge">Bu not markdown metni saklıyor</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Yeni markdown notu</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Zengin metin yerine düz markdown metni saklayan bir not oluştur</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Markdown'a dönüştür</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">Zengin metne dönüştür</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Tüm notları markdown olarak dışa aktar</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Bu veritabanındaki her notu .md dosyalarından oluşan bir klasöre yaz</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Dönüştür</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Dışa aktar</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">"{0}" markdown'a dönüştürülsün mü?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">Not düz markdown metnine dönüşür. Ctrl+Z geri alır.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">"{0}" zengin metne dönüştürülsün mü?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">Markdown biçimlendirilmiş metin olarak işlenir. Ctrl+Z geri alır.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">Tablolar düz metin satırlarına dönüşür</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">Görseller ve çizimler kaybolur</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">Metin ve vurgu renkleri kaybolur</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Bu not markdown - yalnızca metin tutar, bu yüzden görsel, tablo, çizim ve kayıt eklenemez</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">Markdown'a dönüştürüldü</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">Zengin metne dönüştürüldü</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">Markdown klasörünün nereye yazılacağını seçin</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">Tüm notlar markdown olarak dışa aktarılsın mı?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} not {1} konumuna yazılacak. Gruplar alt klasör olur. Veritabanında hiçbir şey değişmez.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Dışa aktarılacak bir şey yok - bu veritabanında not bulunmuyor</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">{0} not {1} konumuna aktarıldı</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">{0} not {2} konumuna aktarıldı, {1} başarısız</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Dışa aktarma başarısız: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 
     <!-- In-note find (1.2.1) -->
@@ -602,6 +639,23 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_TT_FindNext">Sonraki eşleşme (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">Kapat (Esc)</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">Taşımak için sürükleyin</sys:String>
+    <sys:String x:Key="Str_TT_FindCase">Büyük/küçük harf eşleştir</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Tam sözcük</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Düzenli ifade</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Değiştir</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">Tümü</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Geçerli eşleşmeyi değiştir (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Bu nottaki tüm eşleşmeleri değiştir (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">{0} eşleşme değiştirildi</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">Tüm notlarda değiştir</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Arama terimini, onu içeren her notta değiştir</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Şununla değiştir...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Önce yukarıya bir arama terimi yazın</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">{1} notta {0} eşleşme değiştirildi</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">{1} nottaki {0} eşleşme değiştirilsin mi?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Her "{0}", "{1}" olur. Ctrl+Z hepsini geri alır.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...ve {0} not daha</sys:String>
+    <sys:String x:Key="Str_KS_Replace">Bu notta bul ve değiştir</sys:String>
     <sys:String x:Key="Str_TT_FindRail">Bu notta bul (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">Bu notta bul</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Koyu</sys:String>

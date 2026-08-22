@@ -209,9 +209,37 @@
     <sys:String x:Key="Str_TT_FindNext">Következő mérkőzés (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">Bezárás (Esc)</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">Húzza a mozgatáshoz</sys:String>
+    <sys:String x:Key="Str_TT_FindCase">Kis- és nagybetű megkülönböztetése</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Teljes szó</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Reguláris kifejezés</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Csere</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">Mind</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Az aktuális találat cseréje (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Minden találat cseréje ebben a jegyzetben (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">{0} találat cserélve</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">Csere az összes jegyzetben</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">A keresett kifejezés cseréje minden jegyzetben, amely tartalmazza</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Csere erre...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Először írjon be fent egy keresett kifejezést</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">{0} találat cserélve {1} jegyzetben</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">Lecseréli a(z) {0} találatot {1} jegyzetben?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Minden "{0}" helyére "{1}" kerül. A Ctrl+Z mindet visszavonja.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...és további {0} jegyzet</sys:String>
+    <sys:String x:Key="Str_KS_Replace">Keresés és csere ebben a jegyzetben</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Megjegyzés törölve</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} jegyzet törölve</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Nem sikerült megnyitni a jegyzetadatbázist: {0}</sys:String>
+    <sys:String x:Key="Str_Btn_OK">OK</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">Az adatmappa hálózati helyen van</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">A(z) {0} egy másik számítógépen van. Egy jegyzetadatbázist két gépről egyszerre
+használni nem biztonságos; egy zárolófájl véd ellene, de mindenkinek saját
+adatbázist érdemes vezetnie, és a jegyzeteket .knote vagy .kndb fájlként megosztani.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Csak olvasásra megnyitva</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">Ez az adatbázis használatban van a(z) {0} gépen, ezért csak olvasásra nyílt meg,
+a módosítások nem lesznek mentve. Ha a(z) {0} gépen valójában nem fut a KillerNotes
+(például összeomlás után), törölje az adatbázis melletti .lock fájlt, és nyissa
+meg újra.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Csak olvasható - használatban a(z) {0} gépen</sys:String>
 
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Törli a következőt: &quot;{0}&quot;?</sys:String>
@@ -631,6 +659,32 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Sketch_Unbold">Távolítsa el a félkövér betűtípust</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Visszavonás (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Ecset mérete (kattintson a ciklushoz)</sys:String>
+    <sys:String x:Key="Str_TT_FormatBadge">Ez a jegyzet markdown szöveget tárol</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Új markdown jegyzet</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Olyan jegyzet létrehozása, amely formázott szöveg helyett egyszerű markdown szöveget tárol</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Átalakítás markdownra</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">Átalakítás formázott szöveggé</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Az összes jegyzet exportálása markdownként</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Az adatbázis minden jegyzetének kiírása egy .md fájlokat tartalmazó mappába</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Átalakítás</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Exportálás</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">Átalakítja a(z) "{0}" jegyzetet markdownra?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">A jegyzet egyszerű markdown szöveggé válik. A Ctrl+Z visszaállítja.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">Átalakítja a(z) "{0}" jegyzetet formázott szöveggé?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">A markdown formázott szövegként jelenik meg. A Ctrl+Z visszaállítja.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">A táblázatokból egyszerű szövegsorok lesznek</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">A képek és a vázlatok elvesznek</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">A szöveg- és kiemelésszínek elvesznek</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Ez a jegyzet markdown - csak szöveget tartalmaz, ezért nem adhatók hozzá képek, táblázatok, vázlatok és felvételek</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">Átalakítva markdownra</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">Átalakítva formázott szöveggé</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">Válassza ki, hová íródjon a markdown mappa</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">Exportálja az összes jegyzetet markdownként?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} jegyzet íródik ide: {1}. A csoportokból almappák lesznek. Az adatbázisban semmi nem változik.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Nincs mit exportálni - ebben az adatbázisban nincsenek jegyzetek</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">{0} jegyzet exportálva ide: {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">{0} jegyzet exportálva ide: {2}, {1} sikertelen</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Az exportálás sikertelen: {0}</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Sötét</sys:String>
     <sys:String x:Key="Str_Theme_Light">Világos</sys:String>
     <sys:String x:Key="Str_Theme_Black">Fekete</sys:String>

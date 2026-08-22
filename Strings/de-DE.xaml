@@ -82,6 +82,17 @@
     <sys:String x:Key="Str_St_NoteDeleted">Notiz gelöscht</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} Notizen gelöscht</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Notizdatenbank konnte nicht geöffnet werden: {0}</sys:String>
+    <sys:String x:Key="Str_Btn_OK">OK</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">Datenordner liegt auf einem Netzwerkpfad</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} liegt auf einem anderen Computer. Eine Notizdatenbank von zwei Rechnern
+gleichzeitig zu nutzen ist nicht sicher; eine Sperrdatei schützt davor, aber jeder
+sollte eine eigene Datenbank führen und Notizen als .knote oder .kndb teilen.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Schreibgeschützt geöffnet</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">Diese Datenbank wird auf {0} verwendet und wurde daher schreibgeschützt
+geöffnet - Änderungen werden nicht gespeichert. Falls auf {0} gar kein
+KillerNotes läuft (etwa nach einem Absturz), löschen Sie die .lock-Datei
+neben der Datenbank und öffnen Sie sie erneut.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Schreibgeschützt - in Verwendung auf {0}</sys:String>
 
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">"{0}" löschen?</sys:String>
@@ -594,6 +605,32 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Fett entfernen</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Rückgängig (Strg+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Pinselgröße (klicken zum Wechseln)</sys:String>
+    <sys:String x:Key="Str_TT_FormatBadge">Diese Notiz speichert Markdown-Text</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Neue Markdown-Notiz</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Eine Notiz anlegen, die einfachen Markdown-Text statt Rich-Text speichert</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">In Markdown umwandeln</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">In Rich-Text umwandeln</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Alle Notizen als Markdown exportieren</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Jede Notiz dieser Datenbank in einen Ordner mit .md-Dateien schreiben</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Umwandeln</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Exportieren</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">"{0}" in Markdown umwandeln?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">Die Notiz wird zu einfachem Markdown-Text. Strg+Z macht es rückgängig.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">"{0}" in Rich-Text umwandeln?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">Das Markdown wird als formatierter Text dargestellt. Strg+Z macht es rückgängig.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">Tabellen werden zu einfachen Textzeilen</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">Bilder und Skizzen gehen verloren</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">Text- und Markierungsfarben gehen verloren</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Diese Notiz ist Markdown - sie enthält nur Text, daher können Bilder, Tabellen, Skizzen und Aufnahmen nicht eingefügt werden</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">In Markdown umgewandelt</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">In Rich-Text umgewandelt</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">Wählen Sie, wohin der Markdown-Ordner geschrieben wird</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">Alle Notizen als Markdown exportieren?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} Notizen werden nach {1} geschrieben. Gruppen werden zu Unterordnern. An der Datenbank ändert sich nichts.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Nichts zu exportieren - diese Datenbank enthält keine Notizen</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">{0} Notizen nach {1} exportiert</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">{0} Notizen nach {2} exportiert, {1} fehlgeschlagen</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Export fehlgeschlagen: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 
     <!-- In-note find (1.2.1) -->
@@ -603,6 +640,23 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_TT_FindNext">Nächster Treffer (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">Schließen (Esc)</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">Zum Verschieben ziehen</sys:String>
+    <sys:String x:Key="Str_TT_FindCase">Groß-/Kleinschreibung beachten</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Ganzes Wort</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Regulärer Ausdruck</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Ersetzen</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">Alle</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Aktuellen Treffer ersetzen (Eingabetaste)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Alle Treffer in dieser Notiz ersetzen (Strg+Eingabetaste)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">{0} Treffer ersetzt</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">In allen Notizen ersetzen</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Den Suchbegriff in jeder Notiz ersetzen, die ihn enthält</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Ersetzen durch...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Geben Sie zuerst oben einen Suchbegriff ein</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">{0} Treffer in {1} Notizen ersetzt</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">{0} Treffer in {1} Notizen ersetzen?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Jedes "{0}" wird zu "{1}". Strg+Z macht alles rückgängig.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...und {0} weitere Notizen</sys:String>
+    <sys:String x:Key="Str_KS_Replace">In dieser Notiz suchen und ersetzen</sys:String>
     <sys:String x:Key="Str_TT_FindRail">In dieser Notiz suchen (Strg+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">In dieser Notiz suchen</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Dunkel</sys:String>

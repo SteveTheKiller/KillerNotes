@@ -82,6 +82,16 @@
     <sys:String x:Key="Str_St_NoteDeleted">নোট মুছে ফেলা হয়েছে</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0}টি নোট মুছে ফেলা হয়েছে</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">নোট ডেটাবেস খোলা যায়নি: {0}</sys:String>
+    <sys:String x:Key="Str_Btn_OK">ঠিক আছে</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">ডেটা ফোল্ডারটি একটি নেটওয়ার্ক অবস্থানে আছে</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} অন্য একটি কম্পিউটারে আছে। একটি নোট ডেটাবেস একসঙ্গে দুটি মেশিন থেকে
+ব্যবহার করা নিরাপদ নয়; একটি লক ফাইল এটি আটকায়, তবে প্রত্যেকেরই নিজের
+ডেটাবেস রাখা উচিত এবং নোট .knote বা .kndb ফাইল হিসেবে ভাগ করা উচিত।</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">শুধু পঠনযোগ্য হিসেবে খোলা হয়েছে</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">এই ডেটাবেসটি {0}-এ ব্যবহৃত হচ্ছে, তাই এটি শুধু পঠনযোগ্য হিসেবে খুলেছে এবং
+পরিবর্তন সংরক্ষিত হবে না। {0}-এ যদি আসলে KillerNotes চালু না থাকে (যেমন কোনো
+ক্র্যাশের পরে), তাহলে ডেটাবেসের পাশের .lock ফাইলটি মুছে আবার খুলুন।</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">শুধু পঠনযোগ্য - {0}-এ ব্যবহৃত হচ্ছে</sys:String>
 
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">"{0}" মুছবেন?</sys:String>
@@ -595,6 +605,32 @@
     <sys:String x:Key="Str_Sketch_Unbold">গাঢ় সরান</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">পূর্বাবস্থা (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">ব্রাশের আকার (পরিবর্তনে ক্লিক)</sys:String>
+    <sys:String x:Key="Str_TT_FormatBadge">এই নোটটি মার্কডাউন টেক্সট সংরক্ষণ করে</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">নতুন মার্কডাউন নোট</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">রিচ টেক্সটের বদলে সাধারণ মার্কডাউন টেক্সট সংরক্ষণ করে এমন একটি নোট তৈরি করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">মার্কডাউনে রূপান্তর করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">রিচ টেক্সটে রূপান্তর করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">সব নোট মার্কডাউন হিসেবে রপ্তানি করুন</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">এই ডেটাবেসের প্রতিটি নোট .md ফাইলের একটি ফোল্ডারে লিখুন</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">রূপান্তর</sys:String>
+    <sys:String x:Key="Str_Btn_Export">রপ্তানি</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">"{0}" মার্কডাউনে রূপান্তর করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">নোটটি সাধারণ মার্কডাউন টেক্সট হয়ে যাবে। Ctrl+Z দিয়ে ফিরিয়ে আনা যায়।</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">"{0}" রিচ টেক্সটে রূপান্তর করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">মার্কডাউনটি বিন্যাসিত টেক্সট হিসেবে দেখানো হবে। Ctrl+Z দিয়ে ফিরিয়ে আনা যায়।</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">টেবিলগুলি সাধারণ টেক্সটের লাইনে পরিণত হবে</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">ছবি ও স্কেচ বাদ পড়বে</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">টেক্সট ও হাইলাইটের রং বাদ পড়বে</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">এই নোটটি মার্কডাউন - এতে শুধু টেক্সট থাকে, তাই ছবি, টেবিল, স্কেচ ও রেকর্ডিং যোগ করা যায় না</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">মার্কডাউনে রূপান্তর করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">রিচ টেক্সটে রূপান্তর করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">মার্কডাউন ফোল্ডারটি কোথায় লেখা হবে তা বেছে নিন</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">সব নোট মার্কডাউন হিসেবে রপ্তানি করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0}টি নোট {1}-এ লেখা হবে। গ্রুপগুলি সাবফোল্ডার হয়ে যাবে। ডেটাবেসে কিছুই বদলাবে না।</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">রপ্তানি করার কিছু নেই - এই ডেটাবেসে কোনো নোট নেই</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">{0}টি নোট {1}-এ রপ্তানি করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">{0}টি নোট {2}-এ রপ্তানি করা হয়েছে, {1}টি ব্যর্থ হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">রপ্তানি ব্যর্থ হয়েছে: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 
     <!-- In-note find (1.2.1) -->
@@ -604,6 +640,23 @@
     <sys:String x:Key="Str_TT_FindNext">পরবর্তী মিল (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">বন্ধ করুন (Esc)</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">সরাতে টেনে আনুন</sys:String>
+    <sys:String x:Key="Str_TT_FindCase">বড় হাতের ও ছোট হাতের অক্ষর মেলান</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">সম্পূর্ণ শব্দ</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">রেগুলার এক্সপ্রেশন</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">প্রতিস্থাপন</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">সব</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">বর্তমান মিলটি প্রতিস্থাপন করুন (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">এই নোটের সব মিল প্রতিস্থাপন করুন (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">{0}টি মিল প্রতিস্থাপন করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">সব নোটে প্রতিস্থাপন করুন</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">অনুসন্ধানের শব্দটি যে নোটগুলিতে আছে সেগুলির সবেতেই প্রতিস্থাপন করুন</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">যা দিয়ে প্রতিস্থাপন...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">প্রথমে উপরে একটি অনুসন্ধানের শব্দ লিখুন</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">{1}টি নোটে {0}টি মিল প্রতিস্থাপন করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">{1}টি নোটের {0}টি মিল প্রতিস্থাপন করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">প্রতিটি "{0}" হয়ে যাবে "{1}"। Ctrl+Z দিয়ে সব ফিরিয়ে আনা যায়।</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...এবং আরও {0}টি নোট</sys:String>
+    <sys:String x:Key="Str_KS_Replace">এই নোটে খুঁজুন ও প্রতিস্থাপন করুন</sys:String>
     <sys:String x:Key="Str_TT_FindRail">এই নোটে খুঁজুন (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">এই নোটে খুঁজুন</sys:String>
     <sys:String x:Key="Str_Theme_Dark">গাঢ়</sys:String>

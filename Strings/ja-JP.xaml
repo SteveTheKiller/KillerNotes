@@ -82,6 +82,16 @@
     <sys:String x:Key="Str_St_NoteDeleted">ノートを削除しました</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} 件のノートを削除しました</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">ノート データベースを開けませんでした: {0}</sys:String>
+    <sys:String x:Key="Str_Btn_OK">OK</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">データ フォルダーがネットワーク上にあります</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} は別のコンピューター上にあります。1 つのノート データベースを 2 台から同時に
+使うのは安全ではありません。ロック ファイルが防いではいますが、各自が自分の
+データベースを持ち、ノートは .knote または .kndb ファイルで共有してください。</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">読み取り専用で開きました</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">このデータベースは {0} で使用中のため、読み取り専用で開きました。変更は保存され
+ません。{0} で実際には KillerNotes が動作していない場合 (クラッシュ後など) は、
+データベースの隣にある .lock ファイルを削除してから開き直してください。</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">読み取り専用 - {0} で使用中</sys:String>
 
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">「{0}」を削除しますか?</sys:String>
@@ -593,6 +603,32 @@
     <sys:String x:Key="Str_Sketch_Unbold">太字を解除</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">元に戻す (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">ブラシサイズ (クリックで切り替え)</sys:String>
+    <sys:String x:Key="Str_TT_FormatBadge">このノートはマークダウン テキストを保存します</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">新しいマークダウン ノート</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">リッチ テキストではなくプレーンなマークダウン テキストを保存するノートを作成します</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">マークダウンに変換</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">リッチ テキストに変換</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">すべてのノートをマークダウンでエクスポート</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">このデータベースのすべてのノートを .md ファイルのフォルダーに書き出します</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">変換</sys:String>
+    <sys:String x:Key="Str_Btn_Export">エクスポート</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">"{0}" をマークダウンに変換しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">ノートはプレーンなマークダウン テキストになります。Ctrl+Z で元に戻せます。</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">"{0}" をリッチ テキストに変換しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">マークダウンが書式付きテキストとして表示されます。Ctrl+Z で元に戻せます。</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">表はプレーンなテキスト行になります</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">画像とスケッチは失われます</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">文字色とハイライト色は失われます</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">このノートはマークダウンです - テキストのみを保持するため、画像、表、スケッチ、録音は追加できません</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">マークダウンに変換しました</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">リッチ テキストに変換しました</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">マークダウン フォルダーの書き出し先を選択してください</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">すべてのノートをマークダウンでエクスポートしますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} 件のノートを {1} に書き出します。グループはサブフォルダーになります。データベースは変更されません。</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">エクスポートするものがありません - このデータベースにはノートがありません</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">{0} 件のノートを {1} にエクスポートしました</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">{0} 件のノートを {2} にエクスポートしました。{1} 件は失敗しました</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">エクスポートに失敗しました: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 
     <!-- In-note find (1.2.1) -->
@@ -602,6 +638,23 @@
     <sys:String x:Key="Str_TT_FindNext">次の一致 (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">閉じる (Esc)</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">ドラッグして移動</sys:String>
+    <sys:String x:Key="Str_TT_FindCase">大文字と小文字を区別</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">単語単位</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">正規表現</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">置換</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">すべて</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">現在の一致を置換 (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">このノート内のすべての一致を置換 (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">{0} 件を置換しました</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">すべてのノートで置換</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">検索語を含むすべてのノートで置換します</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">置換後の文字列...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">先に上へ検索語を入力してください</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">{1} 件のノートで {0} 件を置換しました</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">{1} 件のノートの {0} 件を置換しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">すべての "{0}" が "{1}" になります。Ctrl+Z ですべて元に戻せます。</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...ほか {0} 件のノート</sys:String>
+    <sys:String x:Key="Str_KS_Replace">このノート内を検索して置換</sys:String>
     <sys:String x:Key="Str_TT_FindRail">このノート内を検索 (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">このノート内を検索</sys:String>
     <sys:String x:Key="Str_Theme_Dark">ダーク</sys:String>

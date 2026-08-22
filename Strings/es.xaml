@@ -82,6 +82,17 @@
     <sys:String x:Key="Str_St_NoteDeleted">Nota eliminada</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} notas eliminadas</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">No se pudo abrir la base de datos de notas: {0}</sys:String>
+    <sys:String x:Key="Str_Btn_OK">Aceptar</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">La carpeta de datos está en una ubicación de red</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} está en otro equipo. Usar una base de notas desde dos máquinas a la vez
+no es seguro; un archivo de bloqueo lo evita, pero cada persona debería tener
+su propia base y compartir notas como archivos .knote o .kndb.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Abierta en solo lectura</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">Esta base de datos está en uso en {0}, así que se abrió en solo lectura y los
+cambios no se guardarán. Si en {0} no se está ejecutando KillerNotes (tras un
+fallo, por ejemplo), elimine el archivo .lock que hay junto a la base de datos
+y vuelva a abrirla.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Solo lectura - en uso en {0}</sys:String>
 
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">¿Eliminar "{0}"?</sys:String>
@@ -595,6 +606,32 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Quitar negrita</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Deshacer (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Tamaño del pincel (clic para alternar)</sys:String>
+    <sys:String x:Key="Str_TT_FormatBadge">Esta nota guarda texto markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Nueva nota markdown</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Crear una nota que guarde texto markdown sin formato en lugar de texto enriquecido</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Convertir a markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">Convertir a texto enriquecido</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Exportar todas las notas como markdown</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Escribir todas las notas de esta base de datos en una carpeta de archivos .md</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Convertir</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Exportar</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">¿Convertir "{0}" a markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">La nota pasa a ser texto markdown sin formato. Ctrl+Z lo deshace.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">¿Convertir "{0}" a texto enriquecido?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">El markdown se representa como texto con formato. Ctrl+Z lo deshace.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">Las tablas pasan a ser líneas de texto simples</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">Las imágenes y los bocetos se pierden</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">Los colores de texto y resaltado se pierden</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Esta nota es markdown - solo contiene texto, así que no se pueden añadir imágenes, tablas, bocetos ni grabaciones</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">Convertida a markdown</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">Convertida a texto enriquecido</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">Elija dónde escribir la carpeta markdown</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">¿Exportar todas las notas como markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">Se escribirán {0} notas en {1}. Los grupos pasan a ser subcarpetas. No cambia nada en la base de datos.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Nada que exportar - esta base de datos no tiene notas</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">{0} notas exportadas a {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">{0} notas exportadas a {2}, {1} con error</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Error al exportar: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 
     <!-- In-note find (1.2.1) -->
@@ -604,6 +641,23 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_TT_FindNext">Coincidencia siguiente (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">Cerrar (Esc)</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">Arrastrar para mover</sys:String>
+    <sys:String x:Key="Str_TT_FindCase">Distinguir mayúsculas y minúsculas</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Palabra completa</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Expresión regular</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Reemplazar</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">Todo</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Reemplazar la coincidencia actual (Intro)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Reemplazar todas las coincidencias de esta nota (Ctrl+Intro)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">{0} coincidencias reemplazadas</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">Reemplazar en todas las notas</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Reemplazar el término de búsqueda en todas las notas que lo contengan</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Reemplazar con...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Escriba primero un término de búsqueda arriba</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">{0} coincidencias reemplazadas en {1} notas</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">¿Reemplazar {0} coincidencias en {1} notas?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Cada "{0}" pasa a ser "{1}". Ctrl+Z lo deshace todo.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...y {0} notas más</sys:String>
+    <sys:String x:Key="Str_KS_Replace">Buscar y reemplazar en esta nota</sys:String>
     <sys:String x:Key="Str_TT_FindRail">Buscar en esta nota (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">Buscar en esta nota</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Oscuro</sys:String>

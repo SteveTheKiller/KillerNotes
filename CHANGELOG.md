@@ -7,7 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.3.0] - Unreleased
 
 ### Added
-- Hungarian and Polish localization for the complete app interface and killernotes.net, the eleventh and twelfth languages.
+- Hungarian and Polish localization for the complete app interface and killernotes.net, the eleventh and twelfth languages. Every one of the twelve now carries all 587 interface keys, so search and replace, the network-lock warnings, markdown notes and the markdown export read in your own language rather than falling back to English.
 - A network data folder now warns once, and a lock file beside the database guards concurrent use: a database in use on another computer opens read-only instead of competing for SQLite's single writer, with the owning machine named. A clean close clears the lock.
 - Text labels inside sketches now feed the search index, so a label like "IDF-2, port 14" makes its note findable.
 - Search and replace (#14): Ctrl+H adds a replace row to the find bar with match-case, whole-word and regex options; Replace All in a note is a single undo step. The sidebar gains replace-across-all-notes behind a confirmation naming each note and its match count, committed in one transaction and undone with one Ctrl+Z.

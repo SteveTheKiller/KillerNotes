@@ -124,6 +124,16 @@
     <sys:String x:Key="Str_St_NoteDeleted">Poznámka smazána</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">Smazáno poznámek: {0}</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Nepodařilo se otevřít databázi poznámek: {0}</sys:String>
+    <sys:String x:Key="Str_Btn_OK">OK</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">Složka s daty je v síťovém umístění</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} je na jiném počítači. Používat jednu databázi poznámek ze dvou počítačů
+najednou není bezpečné; chrání před tím zamykací soubor, ale každý by měl mít
+vlastní databázi a sdílet poznámky jako soubory .knote nebo .kndb.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Otevřeno jen pro čtení</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">Tato databáze se používá na {0}, proto se otevřela jen pro čtení a změny
+se neuloží. Pokud na {0} KillerNotes ve skutečnosti neběží (například po
+pádu aplikace), odstraňte soubor .lock vedle databáze a otevřete ji znovu.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Jen pro čtení - používá se na {0}</sys:String>
 
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Smazat „{0}"?</sys:String>
@@ -592,6 +602,32 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Odebrat tučné</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Zpět (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Velikost štětce (kliknutím přepnete)</sys:String>
+    <sys:String x:Key="Str_TT_FormatBadge">Tato poznámka ukládá text v markdownu</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Nová poznámka v markdownu</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Vytvořit poznámku, která ukládá prostý text v markdownu místo formátovaného textu</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Převést na markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">Převést na formátovaný text</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Exportovat všechny poznámky jako markdown</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Zapsat každou poznámku z této databáze do složky se soubory .md</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Převést</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Exportovat</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">Převést "{0}" na markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">Z poznámky se stane prostý text v markdownu. Ctrl+Z ji vrátí zpět.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">Převést "{0}" na formátovaný text?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">Markdown se vykreslí jako formátovaný text. Ctrl+Z jej vrátí zpět.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">Z tabulek se stanou prosté řádky textu</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">Obrázky a náčrty budou ztraceny</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">Barvy textu a zvýraznění budou ztraceny</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Tato poznámka je v markdownu - obsahuje pouze text, takže do ní nelze přidat obrázky, tabulky, náčrty ani nahrávky</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">Převedeno na markdown</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">Převedeno na formátovaný text</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">Zvolte, kam zapsat složku s markdownem</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">Exportovat všechny poznámky jako markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">Do {1} se zapíše {0} poznámek. Ze skupin se stanou podsložky. V databázi se nic nezmění.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Není co exportovat - tato databáze neobsahuje žádné poznámky</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">Exportováno {0} poznámek do {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">Exportováno {0} poznámek do {2}, {1} se nezdařilo</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Export se nezdařil: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 
     <!-- In-note find (1.2.1) -->
@@ -601,6 +637,23 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_TT_FindNext">Další shoda (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">Zavřít (Esc)</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">Přetažením přesunete</sys:String>
+    <sys:String x:Key="Str_TT_FindCase">Rozlišovat velikost písmen</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Celé slovo</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Regulární výraz</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Nahradit</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">Vše</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Nahradit aktuální shodu (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Nahradit všechny shody v této poznámce (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">Nahrazeno {0} shod</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">Nahradit ve všech poznámkách</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Nahradit hledaný výraz v každé poznámce, která jej obsahuje</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Nahradit čím...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Nejprve zadejte hledaný výraz výše</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">Nahrazeno {0} shod v {1} poznámkách</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">Nahradit {0} shod v {1} poznámkách?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Každé "{0}" se změní na "{1}". Ctrl+Z vše vrátí zpět.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...a {0} dalších poznámek</sys:String>
+    <sys:String x:Key="Str_KS_Replace">Najít a nahradit v této poznámce</sys:String>
     <sys:String x:Key="Str_TT_FindRail">Najít v této poznámce (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">Najít v této poznámce</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Tmavý</sys:String>

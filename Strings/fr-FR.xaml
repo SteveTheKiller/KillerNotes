@@ -82,6 +82,17 @@
     <sys:String x:Key="Str_St_NoteDeleted">Note supprimée</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} notes supprimées</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Impossible d'ouvrir la base de notes : {0}</sys:String>
+    <sys:String x:Key="Str_Btn_OK">OK</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">Le dossier de données est sur un emplacement réseau</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} se trouve sur un autre ordinateur. Utiliser une base de notes depuis deux
+machines à la fois n'est pas sûr ; un fichier de verrouillage s'en prémunit, mais
+chacun devrait avoir sa base et partager ses notes en .knote ou .kndb.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Ouverte en lecture seule</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">Cette base est utilisée sur {0}, elle s'est donc ouverte en lecture seule et les
+modifications ne seront pas enregistrées. Si KillerNotes ne tourne pas réellement
+sur {0} (après un plantage, par exemple), supprimez le fichier .lock situé à côté
+de la base et rouvrez-la.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Lecture seule - utilisée sur {0}</sys:String>
 
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Supprimer « {0} » ?</sys:String>
@@ -594,6 +605,32 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Retirer le gras</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Annuler (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Taille du pinceau (clic pour changer)</sys:String>
+    <sys:String x:Key="Str_TT_FormatBadge">Cette note stocke du texte markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Nouvelle note markdown</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Créer une note qui stocke du texte markdown brut plutôt que du texte enrichi</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Convertir en markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">Convertir en texte enrichi</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Exporter toutes les notes en markdown</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Écrire chaque note de cette base dans un dossier de fichiers .md</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Convertir</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Exporter</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">Convertir "{0}" en markdown ?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">La note devient du texte markdown brut. Ctrl+Z rétablit.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">Convertir "{0}" en texte enrichi ?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">Le markdown est rendu en texte mis en forme. Ctrl+Z rétablit.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">Les tableaux deviennent de simples lignes de texte</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">Les images et les croquis sont perdus</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">Les couleurs de texte et de surlignage sont perdues</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Cette note est en markdown - elle ne contient que du texte, donc images, tableaux, croquis et enregistrements ne peuvent pas y être ajoutés</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">Convertie en markdown</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">Convertie en texte enrichi</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">Choisissez où écrire le dossier markdown</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">Exporter toutes les notes en markdown ?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} notes seront écrites dans {1}. Les groupes deviennent des sous-dossiers. Rien ne change dans la base de données.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Rien à exporter - cette base ne contient aucune note</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">{0} notes exportées vers {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">{0} notes exportées vers {2}, {1} en échec</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Échec de l'export : {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
 
     <!-- In-note find (1.2.1) -->
@@ -603,6 +640,23 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_TT_FindNext">Résultat suivant (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">Fermer (Échap)</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">Faire glisser pour déplacer</sys:String>
+    <sys:String x:Key="Str_TT_FindCase">Respecter la casse</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Mot entier</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Expression régulière</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Remplacer</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">Tout</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Remplacer la correspondance actuelle (Entrée)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Remplacer toutes les correspondances de cette note (Ctrl+Entrée)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">{0} correspondances remplacées</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">Remplacer dans toutes les notes</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Remplacer le terme recherché dans chaque note qui le contient</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Remplacer par...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Saisissez d'abord un terme de recherche ci-dessus</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">{0} correspondances remplacées dans {1} notes</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">Remplacer {0} correspondances dans {1} notes ?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Chaque "{0}" devient "{1}". Ctrl+Z annule le tout.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...et {0} autres notes</sys:String>
+    <sys:String x:Key="Str_KS_Replace">Rechercher et remplacer dans cette note</sys:String>
     <sys:String x:Key="Str_TT_FindRail">Rechercher dans cette note (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">Rechercher dans cette note</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Sombre</sys:String>
