@@ -379,6 +379,12 @@ if ($lameAsset) { $releaseAssets += $lameAsset }   # LGPL source for the bundled
 gh release create $Tag @releaseAssets --title "KillerNotes $Tag" --notes-file $notesFile --verify-tag
 if ($LASTEXITCODE -ne 0) { Fail 'gh release create failed' }
 
+Step "Refreshing thekiller.net software page"
+gh workflow run deploy.yml --repo SteveTheKiller/thekiller-site
+if ($LASTEXITCODE -ne 0) {
+    Write-Warning 'The release is published, but thekiller.net refresh could not be started. Run: gh workflow run deploy.yml --repo SteveTheKiller/thekiller-site'
+}
+
 # Publishing this release is also what fires .github/workflows/winget-release.yml, which
 # submits to winget-pkgs via komac. Do NOT add a komac call here - it would double-submit.
 # That workflow uses `komac update`, which only works once the package already exists in
