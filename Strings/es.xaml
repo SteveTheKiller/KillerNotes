@@ -77,6 +77,7 @@
     <sys:String x:Key="Str_St_Saved">Guardado</sys:String>
     <sys:String x:Key="Str_St_ClipBusy">El portapapeles está ocupado - inténtalo de nuevo</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} notas</sys:String>
+    <sys:String x:Key="Str_St_NoteLoadFailed">No se pudo abrir esta nota y se dejó sin cambios: {0}</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} coincidencias</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Nota eliminada</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} notas eliminadas</sys:String>

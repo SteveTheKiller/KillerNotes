@@ -119,6 +119,7 @@
     <sys:String x:Key="Str_St_Saved">Uloženo</sys:String>
     <sys:String x:Key="Str_St_ClipBusy">Schránka je zaneprázdněná - zkuste to znovu</sys:String>
     <sys:String x:Key="Str_St_NotesCount">Počet poznámek: {0}</sys:String>
+    <sys:String x:Key="Str_St_NoteLoadFailed">Tuto poznámku se nepodařilo otevřít a zůstala beze změny: {0}</sys:String>
     <sys:String x:Key="Str_St_Matches">Počet shod: {0}</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Poznámka smazána</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">Smazáno poznámek: {0}</sys:String>

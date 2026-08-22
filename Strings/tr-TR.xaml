@@ -77,6 +77,7 @@
     <sys:String x:Key="Str_St_Saved">Kaydedildi</sys:String>
     <sys:String x:Key="Str_St_ClipBusy">Pano meşgul - yeniden deneyin</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} not</sys:String>
+    <sys:String x:Key="Str_St_NoteLoadFailed">Bu not açılamadı ve değiştirilmeden bırakıldı: {0}</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} eşleşme</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Not silindi</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} not silindi</sys:String>

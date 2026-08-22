@@ -77,6 +77,7 @@
     <sys:String x:Key="Str_St_Saved">已保存</sys:String>
     <sys:String x:Key="Str_St_ClipBusy">剪贴板正忙 - 请重试</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} 条笔记</sys:String>
+    <sys:String x:Key="Str_St_NoteLoadFailed">无法打开此笔记，内容未更改: {0}</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} 个匹配</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">笔记已删除</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">已删除 {0} 条笔记</sys:String>

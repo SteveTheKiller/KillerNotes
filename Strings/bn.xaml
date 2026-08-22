@@ -77,6 +77,7 @@
     <sys:String x:Key="Str_St_Saved">সংরক্ষিত</sys:String>
     <sys:String x:Key="Str_St_ClipBusy">ক্লিপবোর্ড ব্যস্ত - আবার চেষ্টা করুন</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0}টি নোট</sys:String>
+    <sys:String x:Key="Str_St_NoteLoadFailed">এই নোটটি খোলা যায়নি এবং অপরিবর্তিত রাখা হয়েছে: {0}</sys:String>
     <sys:String x:Key="Str_St_Matches">{0}টি মিল</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">নোট মুছে ফেলা হয়েছে</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0}টি নোট মুছে ফেলা হয়েছে</sys:String>

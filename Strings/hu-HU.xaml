@@ -199,6 +199,7 @@
     <sys:String x:Key="Str_St_Saved">Mentve</sys:String>
     <sys:String x:Key="Str_St_ClipBusy">A vágólap foglalt - próbálja újra</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} jegyzet</sys:String>
+    <sys:String x:Key="Str_St_NoteLoadFailed">Ezt a jegyzetet nem sikerült megnyitni, változatlan maradt: {0}</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} egyezés</sys:String>
     <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
          this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->

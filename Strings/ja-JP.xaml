@@ -77,6 +77,7 @@
     <sys:String x:Key="Str_St_Saved">保存しました</sys:String>
     <sys:String x:Key="Str_St_ClipBusy">クリップボードが使用中です - もう一度お試しください</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} 件のノート</sys:String>
+    <sys:String x:Key="Str_St_NoteLoadFailed">このノートを開けませんでした。内容は変更されていません: {0}</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} 件が一致</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">ノートを削除しました</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} 件のノートを削除しました</sys:String>

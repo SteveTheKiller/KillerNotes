@@ -77,6 +77,7 @@
     <sys:String x:Key="Str_St_Saved">Gespeichert</sys:String>
     <sys:String x:Key="Str_St_ClipBusy">Zwischenablage ist belegt - bitte erneut versuchen</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} Notizen</sys:String>
+    <sys:String x:Key="Str_St_NoteLoadFailed">Diese Notiz konnte nicht geöffnet werden und blieb unverändert: {0}</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} Treffer</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Notiz gelöscht</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} Notizen gelöscht</sys:String>
