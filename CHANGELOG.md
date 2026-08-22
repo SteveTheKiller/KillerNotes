@@ -7,7 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.3.0] - Unreleased
 
 ### Added
-- Hungarian localization for the complete app interface and killernotes.net, bringing both to twelve languages.
+- Hungarian and Polish localization for the complete app interface and killernotes.net, the eleventh and twelfth languages.
 - A network data folder now warns once, and a lock file beside the database guards concurrent use: a database in use on another computer opens read-only instead of competing for SQLite's single writer, with the owning machine named. A clean close clears the lock.
 - Text labels inside sketches now feed the search index, so a label like "IDF-2, port 14" makes its note findable.
 - Search and replace (#14): Ctrl+H adds a replace row to the find bar with match-case, whole-word and regex options; Replace All in a note is a single undo step. The sidebar gains replace-across-all-notes behind a confirmation naming each note and its match count, committed in one transaction and undone with one Ctrl+Z.
@@ -19,6 +19,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Internal cancellation resource keys now use the same American spelling as their displayed text.
 
 ### Fixed
+- Theme names in the picker are now translated in all twelve languages instead of always showing their English names. KillerNotes was the only app in the family missing the shared theme-name strings.
 - A failed unlock no longer leaves the database reporting itself as open; a wrong password now cleanly returns to the prompt.
 - Find-in-note now has localized match counts, button tooltips and shortcut labels in Bengali, Czech, German, Spanish, French, Japanese, Turkish, Simplified Chinese and Traditional Chinese; the technical page now documents how Ctrl+F, F3, Shift+F3 and Esc work without altering the note.
 - Cut no longer sometimes leaves the text in place: the selection is only deleted after the clipboard write has succeeded, and the write retries while another app briefly holds the clipboard (#16, thanks MrPapaya-JRR).

@@ -131,10 +131,19 @@ namespace KillerNotes.Shell
         }
 
         private static bool HasAccents(Theme t) => t is Theme.Dark or Theme.Light or Theme.Black or Theme.SE98;
-        private static string ThemeName(Theme t)
+        /// <summary>Localized display name for a theme, keyed Str_Theme_&lt;member&gt; - the same keys
+        /// the rest of the family uses, so a translation is shared key for key across the apps.
+        /// The picker showed raw enum members in every language until 1.3.0.
+        /// SE98 is spelled 98SE for the user (a C# enum member cannot start with a digit) and the
+        /// resource carries that in every locale, so the fallback below is the only place it is
+        /// spelled out in code.</summary>
+        private string ThemeName(Theme t)
         {
-            if (t == Theme.SE98) return "98SE";
-            return t.ToString();
+            string key = "Str_Theme_" + t;
+            string name = Loc(key);
+            // Loc hands back the key itself when a locale has no entry. Fall back to the enum
+            // member so a theme added before its translations reads as a name, not as Str_Theme_X.
+            return name == key ? (t == Theme.SE98 ? "98SE" : t.ToString()) : name;
         }
 
         private void ThemeRadio_Checked(object sender, RoutedEventArgs e)

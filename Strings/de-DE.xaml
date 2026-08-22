@@ -605,4 +605,17 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">Zum Verschieben ziehen</sys:String>
     <sys:String x:Key="Str_TT_FindRail">In dieser Notiz suchen (Strg+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">In dieser Notiz suchen</sys:String>
+    <sys:String x:Key="Str_Theme_Dark">Dunkel</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Hell</sys:String>
+    <sys:String x:Key="Str_Theme_Black">Schwarz</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">Blut</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">Gier</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">Zyanotisch</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">Ektoplasma</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Verfall</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">Unwohlsein</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">Grabmal</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">Delirium</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">Trauer</sys:String>
 </ResourceDictionary>

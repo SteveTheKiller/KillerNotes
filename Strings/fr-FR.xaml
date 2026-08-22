@@ -605,4 +605,17 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">Faire glisser pour déplacer</sys:String>
     <sys:String x:Key="Str_TT_FindRail">Rechercher dans cette note (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">Rechercher dans cette note</sys:String>
+    <sys:String x:Key="Str_Theme_Dark">Sombre</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Clair</sys:String>
+    <sys:String x:Key="Str_Theme_Black">Noir</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">Sang</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">Avarice</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">Cyanotique</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">Ectoplasme</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Décomposition</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">Malaise</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">Sépulcre</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">Délire</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">Deuil</sys:String>
 </ResourceDictionary>

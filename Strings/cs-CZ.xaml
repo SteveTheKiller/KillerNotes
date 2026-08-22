@@ -2,12 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- ================================================================
-         KillerNotes  -  Czech (cs-CZ) strings.
-         x:Key values are looked up at runtime - never change them.
-         Other locales layer over this file; any key they omit falls back here.
-         {0}/{1} placeholders are filled in by the app - keep them.
-         ================================================================ -->
+    <!-- KillerNotes - Čeština (cs-CZ). Layered over en-US.xaml; omitted keys fall back. -->
 
     <!-- Title bar / chrome -->
     <sys:String x:Key="Str_TT_Databases">Spravovat databáze</sys:String>
@@ -608,4 +603,17 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">Přetažením přesunete</sys:String>
     <sys:String x:Key="Str_TT_FindRail">Najít v této poznámce (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">Najít v této poznámce</sys:String>
+    <sys:String x:Key="Str_Theme_Dark">Tmavý</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Světlý</sys:String>
+    <sys:String x:Key="Str_Theme_Black">Černý</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">Krvavý</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">Chamtivost</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">Cyanotický</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">Ektoplazma</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Rozklad</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">Malátnost</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">Hrobka</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">Delirium</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">Smutek</sys:String>
 </ResourceDictionary>

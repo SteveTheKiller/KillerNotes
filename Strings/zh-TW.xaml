@@ -606,4 +606,17 @@
     <sys:String x:Key="Str_TT_FindGrip">拖曳以移動</sys:String>
     <sys:String x:Key="Str_TT_FindRail">在此筆記中尋找 (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">在此筆記中尋找</sys:String>
+    <sys:String x:Key="Str_Theme_Dark">深色</sys:String>
+    <sys:String x:Key="Str_Theme_Light">淺色</sys:String>
+    <sys:String x:Key="Str_Theme_Black">黑色</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">血紅</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">貪婪綠</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">藍紫</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">靈質</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">腐朽</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">倦怠</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">陵墓</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">譫妄</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">哀悼</sys:String>
 </ResourceDictionary>

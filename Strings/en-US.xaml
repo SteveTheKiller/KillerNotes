@@ -692,4 +692,20 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Exported {0} notes to {1}</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Exported {0} notes to {2}, {1} failed</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Export failed: {0}</sys:String>
+
+    <!-- Theme names. Shared key for key with the rest of the family; 98SE is the same in
+         every locale because the enum member SE98 cannot start with a digit. -->
+    <sys:String x:Key="Str_Theme_Dark">Dark</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Light</sys:String>
+    <sys:String x:Key="Str_Theme_Black">Black</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">Blood</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">Greed</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">Cyanotic</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">Ectoplasm</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Decay</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">Malaise</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">Sepulchre</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">Delirium</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">Mourning</sys:String>
 </ResourceDictionary>

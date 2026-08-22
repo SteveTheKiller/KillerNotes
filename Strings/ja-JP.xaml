@@ -604,4 +604,17 @@
     <sys:String x:Key="Str_TT_FindGrip">ドラッグして移動</sys:String>
     <sys:String x:Key="Str_TT_FindRail">このノート内を検索 (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">このノート内を検索</sys:String>
+    <sys:String x:Key="Str_Theme_Dark">ダーク</sys:String>
+    <sys:String x:Key="Str_Theme_Light">ライト</sys:String>
+    <sys:String x:Key="Str_Theme_Black">ブラック</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">ブラッド</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">グリード</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">シアノティック</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">エクトプラズム</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">ディケイ</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">マレーズ</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">セパルカー</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">デリリウム</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">モーニング</sys:String>
 </ResourceDictionary>

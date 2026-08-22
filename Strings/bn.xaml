@@ -606,4 +606,17 @@
     <sys:String x:Key="Str_TT_FindGrip">সরাতে টেনে আনুন</sys:String>
     <sys:String x:Key="Str_TT_FindRail">এই নোটে খুঁজুন (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">এই নোটে খুঁজুন</sys:String>
+    <sys:String x:Key="Str_Theme_Dark">গাঢ়</sys:String>
+    <sys:String x:Key="Str_Theme_Light">হালকা</sys:String>
+    <sys:String x:Key="Str_Theme_Black">কালো</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">রক্ত</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">লোভ</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">নীলাভ</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">এক্টোপ্লাজম</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">ক্ষয়</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">অস্বস্তি</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">সমাধি</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">প্রলাপ</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">শোক</sys:String>
 </ResourceDictionary>

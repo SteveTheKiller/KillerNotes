@@ -2,12 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- ================================================================
-         KillerNotes  -  English (en-US) strings.
-         x:Key values are looked up at runtime - never change them.
-         Other locales layer over this file; any key they omit falls back here.
-         {0}/{1} placeholders are filled in by the app - keep them.
-         ================================================================ -->
+    <!-- KillerNotes - Magyar (hu-HU). Layered over en-US.xaml; omitted keys fall back. -->
 
     <!-- Title bar / chrome -->
     <sys:String x:Key="Str_TT_Databases">Adatbázisok kezelése</sys:String>
@@ -24,12 +19,12 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Új jegyzet</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Új</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Új jegyzet (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Létrehozási idő szerint – a legrégebbi elöl (kattintson újra a visszafordításhoz)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">Létrehozási idő szerint - a legrégebbi elöl (kattintson újra a visszafordításhoz)</sys:String>
     <sys:String x:Key="Str_TT_SortAlpha">ABC sorrendben (kattintson újra a visszafordításhoz)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Jegyzet megosztása...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Mentés .knote fájlként (opcionálisan jelszóval védett), hogy elküldje egy munkatársának</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Megjegyzés exportálása mint...</sys:String>
-    <sys:String x:Key="Str_TT_ExportNote">Másolat mentése közönséges fájlként – .txt, .rtf vagy .html (F8)</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">Másolat mentése közönséges fájlként - .txt, .rtf vagy .html (F8)</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteNote">Jegyzet törlése</sys:String>
 
     <!-- Sidebar sort menu -->
@@ -58,7 +53,7 @@
     <sys:String x:Key="Str_KS_AppSize">Az egész alkalmazás nagyítása (kisegítő lehetőségek)</sys:String>
     <sys:String x:Key="Str_St_LineNumOn">Sorszámok bekapcsolva</sys:String>
     <sys:String x:Key="Str_St_LineNumOff">A sorszámok kikapcsolva</sys:String>
-    <sys:String x:Key="Str_TT_Density">Oldalsáv sűrűsége (Ctrl+D) – kattintás vagy görgetés</sys:String>
+    <sys:String x:Key="Str_TT_Density">Oldalsáv sűrűsége (Ctrl+D) - kattintás vagy görgetés</sys:String>
     <sys:String x:Key="Str_KS_Density">Ciklikus oldalsáv sűrűség</sys:String>
     <sys:String x:Key="Str_St_DensityFull">Sűrűség: tele</sys:String>
     <sys:String x:Key="Str_St_DensityCompact">Sűrűség: kompakt</sys:String>
@@ -71,10 +66,10 @@
     <sys:String x:Key="Str_KS_Spell">Helyesírás-ellenőrzés be- és kikapcsolása</sys:String>
     <sys:String x:Key="Str_KS_Table">Táblázat beszúrása</sys:String>
     <!-- Killculator sidebar calculator (F9) -->
-    <sys:String x:Key="Str_KS_Calc">Killculator – A Print bedobja az eredményt a jegyzetbe</sys:String>
+    <sys:String x:Key="Str_KS_Calc">Killculator - A Print bedobja az eredményt a jegyzetbe</sys:String>
     <sys:String x:Key="Str_KS_CalcPrint">Nyomtassa ki a Killculator eredményét a jegyzethez</sys:String>
     <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
-    <sys:String x:Key="Str_TT_SketchRail">SketchPad – rajzoljon vázlatot (F7)</sys:String>
+    <sys:String x:Key="Str_TT_SketchRail">SketchPad - rajzoljon vázlatot (F7)</sys:String>
     <sys:String x:Key="Str_TT_KalcResize">Húzza át a Killculator méretét</sys:String>
     <!-- Title of the image picker (Editor.Insert.cs and the SketchPad's add-image button). It was
          never defined, so the dialog's caption rendered the key name itself. -->
@@ -89,7 +84,7 @@
     <sys:String x:Key="Str_Sys_Close">Bezárás</sys:String>
 
     <!-- ==== Dictation (F10) - Controls/Dictation/DictationWindow.cs, Shell/Editor.Dictation.cs ==== -->
-    <sys:String x:Key="Str_TT_DictationRail">Diktálás – rögzítés és átírás (Ctrl+M)</sys:String>
+    <sys:String x:Key="Str_TT_DictationRail">Diktálás - rögzítés és átírás (Ctrl+M)</sys:String>
     <sys:String x:Key="Str_TT_FindRail">Keresés ebben a jegyzetben (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Dictation">Diktálás - rögzítés és átírás</sys:String>
     <sys:String x:Key="Str_Kb_Dictation">Diktálj</sys:String>
@@ -167,7 +162,7 @@
     <sys:String x:Key="Str_St_CalcPrinted">Megjegyzésre nyomtatva</sys:String>
     <sys:String x:Key="Str_St_SketchEmpty">Először rajzolj valamit</sys:String>
     <sys:String x:Key="Str_St_SketchUpdated">Vázlat frissítve</sys:String>
-    <sys:String x:Key="Str_St_SketchWrongNote">A vázlat nincs kinyomtatva – váltson vissza arra a jegyzetre, amelyhez tartozik</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">A vázlat nincs kinyomtatva - váltson vissza arra a jegyzetre, amelyhez tartozik</sys:String>
     <sys:String x:Key="Str_TT_TextColor">Szöveg színe és kiemelése</sys:String>
     <sys:String x:Key="Str_TT_Bullets">Felsorolásjeles lista (Ctrl+Shift+L)</sys:String>
     <sys:String x:Key="Str_TT_Numbering">Számozott lista (Ctrl+Shift+N)</sys:String>
@@ -176,8 +171,8 @@
     <sys:String x:Key="Str_TT_InsertImage">Kép beszúrása fájlból</sys:String>
     <sys:String x:Key="Str_TT_Preview">Előnézet (F4)</sys:String>
     <sys:String x:Key="Str_TT_HideBar">Formátumsáv elrejtése (F6)</sys:String>
-    <sys:String x:Key="Str_TT_FmtGrip">Húzza az áthelyezéshez – kattintson duplán a kicsinyítéshez</sys:String>
-    <sys:String x:Key="Str_TT_FmtPeek">Kattintson vagy az F6 billentyűre a visszaállításhoz – húzza a mozgatáshoz</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">Húzza az áthelyezéshez - kattintson duplán a kicsinyítéshez</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Kattintson vagy az F6 billentyűre a visszaállításhoz - húzza a mozgatáshoz</sys:String>
 
     <!-- Color popup -->
     <sys:String x:Key="Str_Lbl_TextColor">szöveget</sys:String>
@@ -202,7 +197,7 @@
 
     <!-- Status bar messages -->
     <sys:String x:Key="Str_St_Saved">Mentve</sys:String>
-    <sys:String x:Key="Str_St_ClipBusy">A vágólap foglalt – próbálja újra</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">A vágólap foglalt - próbálja újra</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} jegyzet</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} egyezés</sys:String>
     <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
@@ -226,7 +221,7 @@
 
     <!-- Password / unlock flow -->
     <sys:String x:Key="Str_Pw_UnlockHead">Oldja fel a KillerNotes-t</sys:String>
-    <sys:String x:Key="Str_Pw_WrongPw">Hibás jelszó – próbálja újra</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">Hibás jelszó - próbálja újra</sys:String>
     <sys:String x:Key="Str_Pw_Protected">&quot;{0}&quot; jelszóval védett.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Oldja fel</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Új adatbázis...</sys:String>
@@ -235,7 +230,7 @@
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">A zárolt adatbázis a lemezen marad, és később is feloldható, ha a
 jelszó jelenik meg. Enélkül nincs mód a jegyzetek helyreállítására.</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">Kezdj újat</sys:String>
-    <sys:String x:Key="Str_St_FreshDb">Új adatbázis – a zárolt adatbázis a következőként lesz megtartva: {0}</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">Új adatbázis - a zárolt adatbázis a következőként lesz megtartva: {0}</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">Állítson be egy jelszót</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Titkosítja a teljes jegyzetadatbázist (AES-256 SQLCipheren keresztül).
 Ne veszítse el - nincs felépülés.</sys:String>
@@ -243,10 +238,10 @@ Ne veszítse el - nincs felépülés.</sys:String>
     <sys:String x:Key="Str_Pw_ChangeHead">Jelszó módosítása vagy eltávolítása</sys:String>
     <sys:String x:Key="Str_Pw_ChangeBody">Adjon meg egy új jelszót, vagy hagyja üresen mindkét mezőt a védelem eltávolításához.</sys:String>
     <sys:String x:Key="Str_Btn_Apply">Alkalmazni</sys:String>
-    <sys:String x:Key="Str_St_PwMismatch">A jelszavak nem egyeztek – semmi sem változott</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">A jelszavak nem egyeztek - semmi sem változott</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Az adatbázis titkosítva</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Jelszó megváltozott</sys:String>
-    <sys:String x:Key="Str_St_PwRemoved">Jelszó eltávolítva – az adatbázis már nincs titkosítva</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">Jelszó eltávolítva - az adatbázis már nincs titkosítva</sys:String>
     <sys:String x:Key="Str_St_PwFailed">A jelszómódosítás sikertelen: {0}</sys:String>
 
     <!-- Sharing (.knote / .kndb) -->
@@ -267,7 +262,7 @@ Jelenlegi adatbázisa elérhető marad az Adatbázisok kezelése részben.</sys:
     <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">Nem kötelező: a címzettnek meg kell adnia ezt a jelszót a megnyitáshoz.
 Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:String>
     <sys:String x:Key="Str_Btn_Share">Megosztás</sys:String>
-    <sys:String x:Key="Str_St_NothingShared">A jelszavak nem egyeztek – semmi sem osztott meg</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">A jelszavak nem egyeztek - semmi sem osztott meg</sys:String>
     <sys:String x:Key="Str_St_SharedTo">Megosztva vele: {0}</sys:String>
     <sys:String x:Key="Str_St_ShareFailed">A megosztás sikertelen: {0}</sys:String>
     <sys:String x:Key="Str_St_DragReady">{0}.knote készen áll, bárhová is ejtette</sys:String>
@@ -296,14 +291,14 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Ctx_Rename">Átnevezés</sys:String>
     <sys:String x:Key="Str_Ctx_Delete">Törölje</sys:String>
     <sys:String x:Key="Str_Ctx_CopyFile">Fájl másolása</sys:String>
-    <sys:String x:Key="Str_TT_CopyFile">A .db fájlt a vágólapra helyezi fájlként – illessze be az Explorerbe, a Teamsbe vagy egy e-mailbe a megosztáshoz</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">A .db fájlt a vágólapra helyezi fájlként - illessze be az Explorerbe, a Teamsbe vagy egy e-mailbe a megosztáshoz</sys:String>
     <sys:String x:Key="Str_Ctx_ExportKndb">Exportálás .kndb-ként...</sys:String>
     <sys:String x:Key="Str_TT_ExportKndb">Másolat mentése A munkatársak duplán kattintva megnyithatják a KillerNotes alkalmazásban</sys:String>
     <sys:String x:Key="Str_Ctx_Reveal">Megjelenítés az Explorerben</sys:String>
     <sys:String x:Key="Str_Db_SelectFirst">Először válasszon egy adatbázist</sys:String>
     <sys:String x:Key="Str_Db_FlagEncrypted">titkosítva</sys:String>
     <sys:String x:Key="Str_Db_FlagActive">aktív</sys:String>
-    <sys:String x:Key="Str_Db_Copied">{0} másolva – illessze be az Intézőbe, a Teamsbe vagy egy e-mailbe</sys:String>
+    <sys:String x:Key="Str_Db_Copied">{0} másolva - illessze be az Intézőbe, a Teamsbe vagy egy e-mailbe</sys:String>
     <sys:String x:Key="Str_Db_CopyFailed">A másolás nem sikerült: {0}</sys:String>
     <sys:String x:Key="Str_Db_BadName">Ez a név olyan karaktereket tartalmaz, amelyeket a Windows nem engedélyez</sys:String>
     <sys:String x:Key="Str_Db_Exists">{0} már létezik</sys:String>
@@ -325,11 +320,11 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Btn_Move">Mozgás</sys:String>
     <sys:String x:Key="Str_Btn_LeaveFiles">Hagyd őket</sys:String>
     <sys:String x:Key="Str_Db_FolderChanged">Az adatmappa most {0}</sys:String>
-    <sys:String x:Key="Str_Db_FolderChangedPartial">Az adatmappa most {0} – {1} fájl maradt hátra (használatban van, vagy már létezik a célhelyen)</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">Az adatmappa most {0} - {1} fájl maradt hátra (használatban van, vagy már létezik a célhelyen)</sys:String>
 
     <!-- Custom order + groups (#4) -->
-    <sys:String x:Key="Str_TT_SortCustom">Egyéni sorrend – húzza a jegyzeteket a rendezéshez</sys:String>
-    <sys:String x:Key="Str_St_CustomOrderOn">Egyéni sorrendre váltott – húzza a jegyzeteket a rendezéshez</sys:String>
+    <sys:String x:Key="Str_TT_SortCustom">Egyéni sorrend - húzza a jegyzeteket a rendezéshez</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">Egyéni sorrendre váltott - húzza a jegyzeteket a rendezéshez</sys:String>
     <sys:String x:Key="Str_Ctx_Group">Csoport</sys:String>
     <sys:String x:Key="Str_Ctx_NewGroup">Új csoport...</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">Új alcsoport...</sys:String>
@@ -342,7 +337,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Dlg_NewSubgroupHead">Nevezze el az új alcsoportot</sys:String>
     <sys:String x:Key="Str_Dlg_RenameGroupHead">Nevezze át ezt a csoportot</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteGroupHead">Törli a(z) &quot;{0}&quot; csoportot?</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteGroupBody">A jegyzeteit megőrzik – egyszerűen elhagyják a csoportot.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">A jegyzeteit megőrzik - egyszerűen elhagyják a csoportot.</sys:String>
     <sys:String x:Key="Str_Btn_Create">Létrehozása</sys:String>
     <sys:String x:Key="Str_Btn_Rename">Átnevezés</sys:String>
     <sys:String x:Key="Str_Grp_Exists">A(z) {0} nevű csoport már létezik</sys:String>
@@ -388,7 +383,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_KS_Highlight">Kijelölés kiemelése (sárga)</sys:String>
     <sys:String x:Key="Str_KS_Rule">Szúrjon be vízszintes szabályt</sys:String>
     <sys:String x:Key="Str_KS_Lists">Felsorolásos / számozott lista</sys:String>
-    <sys:String x:Key="Str_KS_Paste">Beillesztés – szöveg, képek, táblázatok</sys:String>
+    <sys:String x:Key="Str_KS_Paste">Beillesztés - szöveg, képek, táblázatok</sys:String>
     <sys:String x:Key="Str_KS_Delete">A kijelölt jegyzet törlése (a listában)</sys:String>
     <sys:String x:Key="Str_KS_Esc">Fedvény bezárása / keresés törlése</sys:String>
     <sys:String x:Key="Str_KS_Undo">Visszavonás / újra</sys:String>
@@ -462,7 +457,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_SpellTooBig">A megjegyzés túl nagy a helyesírás-ellenőrzéshez</sys:String>
     <sys:String x:Key="Str_St_SpellOff">Helyesírás-ellenőrzés ennél a jegyzetnél</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Szótördelés tovább</sys:String>
-    <sys:String x:Key="Str_St_WrapOff">Sortörés – görgessen a széles tartalom megtekintéséhez</sys:String>
+    <sys:String x:Key="Str_St_WrapOff">Sortörés - görgessen a széles tartalom megtekintéséhez</sys:String>
     <sys:String x:Key="Str_Kb_FontUp">Szöveg növelése</sys:String>
     <sys:String x:Key="Str_Kb_FontDown">Szöveg zsugorítása</sys:String>
     <sys:String x:Key="Str_Kb_ZoomReset">Zoom visszaállítása</sys:String>
@@ -498,23 +493,23 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_FontAdded">Betűtípus hozzáadva: {0}</sys:String>
 
     <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
-    <sys:String x:Key="Str_St_SortOldest">Létrehozási idő szerint – a legrégebbi előbb</sys:String>
-    <sys:String x:Key="Str_St_SortNewest">Létrehozási idő szerint – a legújabbak először</sys:String>
-    <sys:String x:Key="Str_St_SortAZ">ABC sorrendben – A-tól Z-ig</sys:String>
-    <sys:String x:Key="Str_St_SortZA">ABC sorrendben – Z-től A-ig</sys:String>
+    <sys:String x:Key="Str_St_SortOldest">Létrehozási idő szerint - a legrégebbi előbb</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">Létrehozási idő szerint - a legújabbak először</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">ABC sorrendben - A-tól Z-ig</sys:String>
+    <sys:String x:Key="Str_St_SortZA">ABC sorrendben - Z-től A-ig</sys:String>
     <sys:String x:Key="Str_TT_ClickReverse">{0} (kattintással megfordíthatja)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Rendezés létrehozási idő szerint</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Rendezés ábécé szerint</sys:String>
     <sys:String x:Key="Str_St_Ready">Kész</sys:String>
-    <sys:String x:Key="Str_Fonts_PrevHead">Ügyféloldalak – AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Ügyféloldalak - AaBbCc 123</sys:String>
     <sys:String x:Key="Str_Fonts_PrevSidebar">Tűzfalcsere - Meadowbrook Vet</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">A gyors barna róka átugrik a lusta kutyán 0123456789.</sys:String>
 
-    <sys:String x:Key="Str_Dict_Volume">Hangerő – húzza felfelé vagy lefelé</sys:String>
+    <sys:String x:Key="Str_Dict_Volume">Hangerő - húzza felfelé vagy lefelé</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Szünet</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Beszédmodell</sys:String>
-    <sys:String x:Key="Str_Whisper_Blurb">A Windows beépített diktálása nem túl pontos. A KillerNotes jobb beszédmodellt használhat helyette – teljes egészében ezen a gépen fut, és semmi sem kerül feltöltésre. Válasszon egyet a letöltéshez.</sys:String>
+    <sys:String x:Key="Str_Whisper_Blurb">A Windows beépített diktálása nem túl pontos. A KillerNotes jobb beszédmodellt használhat helyette - teljes egészében ezen a gépen fut, és semmi sem kerül feltöltésre. Válasszon egyet a letöltéshez.</sys:String>
     <sys:String x:Key="Str_Whisper_Tiny">Gyors</sys:String>
     <sys:String x:Key="Str_Whisper_Base">Ajánlott</sys:String>
     <sys:String x:Key="Str_Whisper_Small">A legpontosabb</sys:String>
@@ -522,7 +517,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Whisper_Download">Letöltés</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Használd ezt</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Beszédmodell...</sys:String>
-    <sys:String x:Key="Str_Whisper_Unavailable">Ebben a buildben nincsenek beszédmodellek – az átírás a Windows saját motorját használja.</sys:String>
+    <sys:String x:Key="Str_Whisper_Unavailable">Ebben a buildben nincsenek beszédmodellek - az átírás a Windows saját motorját használja.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Letöltés indítása...</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Letöltés megszakítva.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Kész. Az átírás mostantól ezt fogja használni.</sys:String>
@@ -535,7 +530,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Dict_SaveAs">Mentés fájlként...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Másolás fájlként</sys:String>
     <sys:String x:Key="Str_Dict_Saved">A felvétel mentve.</sys:String>
-    <sys:String x:Key="Str_Dict_Copied">Felvétel másolva – illessze be egy e-mailbe, csevegésbe vagy mappába.</sys:String>
+    <sys:String x:Key="Str_Dict_Copied">Felvétel másolva - illessze be egy e-mailbe, csevegésbe vagy mappába.</sys:String>
     <sys:String x:Key="Str_Dict_Slice">Szelet itt</sys:String>
     <sys:String x:Key="Str_Dict_CopySeg">Szegmens másolása</sys:String>
     <sys:String x:Key="Str_Dict_DeleteSeg">Szegmens törlése</sys:String>
@@ -551,10 +546,10 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_KS_Link">Hivatkozás beszúrása/szerkesztése</sys:String>
     <sys:String x:Key="Str_Ctx_Link">Link...</sys:String>
     <sys:String x:Key="Str_Dlg_LinkAdd">Link címe</sys:String>
-    <sys:String x:Key="Str_Dlg_LinkEdit">Link szerkesztése – törölje a címet a kapcsolat megszüntetéséhez</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">Link szerkesztése - törölje a címet a kapcsolat megszüntetéséhez</sys:String>
     <sys:String x:Key="Str_Btn_Link">Link</sys:String>
     <sys:String x:Key="Str_St_LinkBad">Ez nem úgy néz ki, mint egy webcím</sys:String>
-    <sys:String x:Key="Str_St_LinkNotText">Csak szöveg csatolható – válasszon szavakat, ne egy képet vagy felvételt</sys:String>
+    <sys:String x:Key="Str_St_LinkNotText">Csak szöveg csatolható - válasszon szavakat, ne egy képet vagy felvételt</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Nem sikerült megnyitni a linket</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Válasszon egy színt</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Válasszon egy színt a képernyő bármely pontjáról</sys:String>
@@ -582,7 +577,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_TagRemoved">Címkézetlen: {0}</sys:String>
     <sys:String x:Key="Str_KS_Tags">Váltsd át az 1-9 címkéket a nyitott jegyzeten</sys:String>
     <sys:String x:Key="Str_KS_ManageTags">Címkék kezelése (hozzáadás, átnevezés, átszínezés)</sys:String>
-    <sys:String x:Key="Str_KS_SketchPad">SketchPad – rajzoljon és jegyzeteljen</sys:String>
+    <sys:String x:Key="Str_KS_SketchPad">SketchPad - rajzoljon és jegyzeteljen</sys:String>
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Portable">HORDOZHATÓ</sys:String>
@@ -602,13 +597,13 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
          was the one window that stayed English in all ten languages. Defined here they
          behave like every other string: translatable, with en-US as the fallback.
          (2026-08-07) -->
-    <sys:String x:Key="Str_Sketch_AddImage">Kép hozzáadása (I) – húzzon egyet a padra, vagy a Ctrl+V billentyűkombinációt a beillesztéshez</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImage">Kép hozzáadása (I) - húzzon egyet a padra, vagy a Ctrl+V billentyűkombinációt a beillesztéshez</sys:String>
     <sys:String x:Key="Str_Sketch_AddImageMenu">Kép hozzáadása...</sys:String>
     <sys:String x:Key="Str_Sketch_Arc">Ívvonal</sys:String>
-    <sys:String x:Key="Str_Sketch_Arrow">Nyíl – vonal nyílhegygel (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">Nyíl - vonal nyílhegygel (A)</sys:String>
     <sys:String x:Key="Str_Sketch_Back">Küldje vissza</sys:String>
     <sys:String x:Key="Str_Sketch_Bold">Félkövér</sys:String>
-    <sys:String x:Key="Str_Sketch_Bucket">Festékes vödör (B) – kattintson a zárt területen belülre, hogy eláraszthassa</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">Festékes vödör (B) - kattintson a zárt területen belülre, hogy eláraszthassa</sys:String>
     <sys:String x:Key="Str_Sketch_Clear">Minden törlése</sys:String>
     <sys:String x:Key="Str_Sketch_Close">Bezárás (Esc)</sys:String>
     <sys:String x:Key="Str_Sketch_CopyImage">Másolás a vágólapra</sys:String>
@@ -617,7 +612,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Sketch_Duplicate">Megkettőzés</sys:String>
     <sys:String x:Key="Str_Sketch_EditText">Szöveg szerkesztése</sys:String>
     <sys:String x:Key="Str_Sketch_Ellipse">Ellipszis (O)</sys:String>
-    <sys:String x:Key="Str_Sketch_Eraser">Radír (E) – ecsetelje át a tintát, vagy érintsen meg egy alakzatot az eltávolításához</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">Radír (E) - ecsetelje át a tintát, vagy érintsen meg egy alakzatot az eltávolításához</sys:String>
     <sys:String x:Key="Str_Sketch_Fill">Formák kitöltése (téglalap/ellipszis)</sys:String>
     <sys:String x:Key="Str_Sketch_Front">Vigye előtérbe</sys:String>
     <sys:String x:Key="Str_Sketch_Line">Vonal - egyenes (L)</sys:String>
@@ -630,10 +625,23 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Sketch_Rect">Téglalap (R)</sys:String>
     <sys:String x:Key="Str_Sketch_Redo">Újra (Ctrl+Y)</sys:String>
     <sys:String x:Key="Str_Sketch_ResetOpacity">Állítsa vissza az átlátszatlanságot</sys:String>
-    <sys:String x:Key="Str_Sketch_Select">Kijelölés/áthelyezés (V) – kattintson egy objektumra, mozgassa húzással, a Törlés eltávolítja</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">Kijelölés/áthelyezés (V) - kattintson egy objektumra, mozgassa húzással, a Törlés eltávolítja</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Egyenesítse ki a vonalat</sys:String>
-    <sys:String x:Key="Str_Sketch_Text">Szöveg (T) – kattintson a címke elhelyezéséhez, írja be, az Enter beállításához (új sorhoz Shift+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">Szöveg (T) - kattintson a címke elhelyezéséhez, írja be, az Enter beállításához (új sorhoz Shift+Enter)</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Távolítsa el a félkövér betűtípust</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Visszavonás (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Ecset mérete (kattintson a ciklushoz)</sys:String>
+    <sys:String x:Key="Str_Theme_Dark">Sötét</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Világos</sys:String>
+    <sys:String x:Key="Str_Theme_Black">Fekete</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">Vér</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">Kapzsiság</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">Cianotikus</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">Ektoplazma</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Bomlás</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">Rosszullét</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">Sír</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">Delírium</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">Gyász</sys:String>
 </ResourceDictionary>

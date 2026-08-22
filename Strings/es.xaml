@@ -606,4 +606,17 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_TT_FindGrip">Arrastrar para mover</sys:String>
     <sys:String x:Key="Str_TT_FindRail">Buscar en esta nota (Ctrl+F)</sys:String>
     <sys:String x:Key="Str_KS_Find">Buscar en esta nota</sys:String>
+    <sys:String x:Key="Str_Theme_Dark">Oscuro</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Claro</sys:String>
+    <sys:String x:Key="Str_Theme_Black">Negro</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">Sangre</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">Codicia</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">Cianótico</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">Ectoplasma</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Descomposición</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">Malestar</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">Sepulcro</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">Delirio</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">Luto</sys:String>
 </ResourceDictionary>
