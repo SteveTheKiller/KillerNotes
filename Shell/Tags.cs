@@ -44,6 +44,7 @@ namespace KillerNotes.Shell
             // before the popup opened to hide this row for background clicks.
             PreviewDetectGlobal.Visibility = _noteContextTarget ? Visibility.Visible : Visibility.Collapsed;
             PreviewDetectGlobal.IsChecked = DetectMarkdownGlobally;   // Preview.cs (#14)
+            UpdateConvertMenuItem();   // Markdown.cs (labels the row with the conversion direction)
             var selected = NotesList.SelectedItems.Cast<Note>().ToList();
             TagsMenu.Items.Clear();
             TagsMenu.IsEnabled = selected.Count > 0;

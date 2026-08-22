@@ -40,7 +40,15 @@ namespace KillerNotes.Shell
             Editor.Document.Blocks.Clear();
             Editor.Document.Tag = null; // A note without the marker must not inherit the prior note's syntax state.
             var blob = NoteStore.LoadContent(id);
-            if (blob != null)
+            // Content type decides how the blob is read (1.3.0). It comes off the row metadata
+            // rather than a second query, and must be set before the load so a markdown blob is
+            // never handed to the XamlPackage deserializer.
+            _currentFormat = meta.Format;
+            if (CurrentIsMarkdown)
+            {
+                LoadMarkdownIntoEditor(blob);   // Markdown.cs
+            }
+            else if (blob != null)
             {
                 var range = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd);
                 using var ms = new MemoryStream(blob);
@@ -50,6 +58,7 @@ namespace KillerNotes.Shell
             NormalizeContentFont(Editor.Document);   // Fonts.cs (baked save-time font must not defeat the ContentFont slot)
             ApplyImageQuality(Editor.Document);      // ImageResize.cs (Fant scaling on loaded images)
             EnsureEditableTail();   // Editor.cs (rule/table as last block traps the caret)
+            ApplyFormatMode();      // Markdown.cs (hide the format bar over a plain-text note)
             LoadSyntaxHighlightState();
             ApplyWordWrap(_wordWrap);   // Editor.cs (re-assert the word-wrap page width after the load)
             _loadingNote = false;
@@ -137,14 +146,28 @@ namespace KillerNotes.Shell
             // Never bake TextEffects into the XamlPackage; restore them immediately after.
             bool rehighlight = _syntaxHighlight;
             if (rehighlight) ClearSyntaxHighlighting();
-            var range = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd);
-            using var ms = new MemoryStream();
-            range.Save(ms, DataFormats.XamlPackage);
+
+            byte[] blob;
+            string bodyText;
+            if (CurrentIsMarkdown)
+            {
+                // Markdown notes store their source text, not a XamlPackage. The blob and the
+                // search projection are the same bytes (Markdown.cs).
+                blob = MarkdownBlobFromEditor(out bodyText);
+            }
+            else
+            {
+                var range = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd);
+                using var ms = new MemoryStream();
+                range.Save(ms, DataFormats.XamlPackage);
+                blob = ms.ToArray();
+                bodyText = range.Text;
+            }
             // Sketch text labels ride at the END of the stored plain text (Editor.Sketch.cs), so
             // a labeled diagram is searchable without its labels ever displacing the snippet.
             string sketchLabels = CollectSketchLabelText();
-            string storedPlain = sketchLabels.Length == 0 ? range.Text : range.Text + "\n" + sketchLabels;
-            NoteStore.Save(_currentId, TitleBox.Text, ms.ToArray(), storedPlain);
+            string storedPlain = sketchLabels.Length == 0 ? bodyText : bodyText + "\n" + sketchLabels;
+            NoteStore.Save(_currentId, TitleBox.Text, blob, storedPlain);
             if (rehighlight) ApplySyntaxHighlighting();
             SaveSketchPayloads(_currentId);   // SketchPad: persist sketch strokes by image ordinal (Editor.cs)
             _dirty = false;

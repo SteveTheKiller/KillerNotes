@@ -240,7 +240,13 @@ CREATE TABLE IF NOT EXISTS notes(
     content  BLOB,
     plain    TEXT NOT NULL DEFAULT '',
     title_color TEXT NOT NULL DEFAULT '',
-    spellcheck  INTEGER NOT NULL DEFAULT 0
+    spellcheck  INTEGER NOT NULL DEFAULT 0,
+    -- Content type: 0 = rich text (content holds a XamlPackage), 1 = markdown (content holds
+    -- UTF-8 markdown text). Unlike sort_order/caret_pos/scroll_pos, which are presentation
+    -- state and live only in EnsureColumns, this one belongs in the shared schema: ExportNote
+    -- runs SchemaSql without EnsureColumns, so a column missing here is a column missing from
+    -- every .knote, and a markdown note would round-trip back through import as rich text.
+    format      INTEGER NOT NULL DEFAULT 0
 );
 CREATE VIRTUAL TABLE IF NOT EXISTS notes_fts
     USING fts5(title, plain, tags, content='notes', content_rowid='id');
@@ -349,6 +355,11 @@ CREATE TABLE IF NOT EXISTS recordings(
             // runs at most once per database and is a no-op everywhere else. DROP COLUMN needs
             // SQLite 3.35+ (SQLCipher 4.5+ is well past it); the catch is there so an older
             // engine leaves the harmless column in place rather than failing to open the file.
+            // 1.3.0: per-note content type (0 = rich text, 1 = markdown). Also declared in
+            // SchemaSql so exported .knote files carry it; this add is for databases created
+            // before 1.3.0. Existing notes are all rich text, so the default needs no rewrite.
+            if (!have.Contains("format"))
+                Exec("ALTER TABLE notes ADD COLUMN format INTEGER NOT NULL DEFAULT 0");
             if (have.Contains("preview_mode"))
             {
                 try { Exec("ALTER TABLE notes DROP COLUMN preview_mode"); }
@@ -397,7 +408,7 @@ CREATE TABLE IF NOT EXISTS recordings(
                 "custom"       => "sort_order ASC, id ASC",
                 _              => "created ASC, id ASC",
             };
-            const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order";
+            const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format";
 
             using var cmd = _db.CreateCommand();
             if (!string.IsNullOrWhiteSpace(search))
@@ -439,23 +450,54 @@ CREATE TABLE IF NOT EXISTS recordings(
                     TitleColor = r.IsDBNull(7) ? "" : r.GetString(7),
                     SpellCheck = !r.IsDBNull(8) && r.GetInt64(8) != 0,
                     SortOrder  = r.IsDBNull(9) ? 0 : (int)r.GetInt64(9),
+                    Format     = r.IsDBNull(10) ? 0 : (int)r.GetInt64(10),
                 });
             }
             return results;
         }
 
-        public static long Create(string title)
+        /// <summary>Creates an empty note. format is 0 for rich text, 1 for markdown; it
+        /// defaults so every existing caller keeps making rich-text notes.</summary>
+        public static long Create(string title, int format = 0)
         {
             if (_db == null || IsReadOnly) return -1;
             using var cmd = _db.CreateCommand();
             // sort_order = max+1: a new note lands at the BOTTOM of a custom arrangement
             // rather than jumping to the top with the column's 0 default (#4).
-            cmd.CommandText = "INSERT INTO notes(title, created, modified, plain, sort_order) " +
-                              "VALUES ($t, $now, $now, '', (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes)); " +
+            cmd.CommandText = "INSERT INTO notes(title, created, modified, plain, sort_order, format) " +
+                              "VALUES ($t, $now, $now, '', (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes), $f); " +
                               "SELECT last_insert_rowid()";
             cmd.Parameters.AddWithValue("$t", title);
             cmd.Parameters.AddWithValue("$now", Ts(DateTime.Now));
+            cmd.Parameters.AddWithValue("$f", format);
             return (long)cmd.ExecuteScalar()!;
+        }
+
+        /// <summary>Content type of one note: 0 = rich text, 1 = markdown. Returns 0 for a
+        /// missing note, which is also the safe default for a caller about to load content.</summary>
+        public static int GetFormat(long id)
+        {
+            if (_db == null) return 0;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT format FROM notes WHERE id = $id";
+            cmd.Parameters.AddWithValue("$id", id);
+            return cmd.ExecuteScalar() is long v ? (int)v : 0;
+        }
+
+        /// <summary>Rewrites a note's content type together with its converted body, as one
+        /// statement. Format and content must move together: a format flipped without its
+        /// matching blob leaves the editor decoding markdown text as a XamlPackage.</summary>
+        public static void SetFormat(long id, int format, byte[] content, string plain)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET format = $f, content = $c, plain = $p, modified = $m WHERE id = $id";
+            cmd.Parameters.AddWithValue("$f", format);
+            cmd.Parameters.AddWithValue("$c", content);
+            cmd.Parameters.AddWithValue("$p", plain);
+            cmd.Parameters.AddWithValue("$m", Ts(DateTime.Now));
+            cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
         }
 
         public static byte[]? LoadContent(long id)
@@ -1292,7 +1334,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
 
                 using var read = _db!.CreateCommand();
                 read.CommandText =
-                    "SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck " +
+                    "SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format " +
                     "FROM notes WHERE id = $id";
                 read.Parameters.AddWithValue("$id", id);
                 using var r = read.ExecuteReader();
@@ -1300,8 +1342,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
 
                 using var ins = dest.CreateCommand();
                 ins.CommandText =
-                    "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck) " +
-                    "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc)";
+                    "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format) " +
+                    "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc, $fmt)";
                 ins.Parameters.AddWithValue("$t", r.GetString(0));
                 ins.Parameters.AddWithValue("$n", r.GetString(1));
                 ins.Parameters.AddWithValue("$g", r.GetString(2));
@@ -1311,6 +1353,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 ins.Parameters.AddWithValue("$p", r.GetString(6));
                 ins.Parameters.AddWithValue("$tc", r.IsDBNull(7) ? "" : r.GetString(7));
                 ins.Parameters.AddWithValue("$sc", r.IsDBNull(8) ? 0 : r.GetInt64(8));
+                ins.Parameters.AddWithValue("$fmt", r.IsDBNull(9) ? 0 : r.GetInt64(9));
                 ins.ExecuteNonQuery();
 
                 // Carry the note's tag definitions (name + color) so its chips keep their
@@ -1360,11 +1403,16 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     while (pr.Read()) srcCols.Add(pr.GetString(1));
                 }
                 bool extras = srcCols.Contains("title_color") && srcCols.Contains("spellcheck");
+                // Files shared before 1.3.0 have no format column, and every note in them is
+                // rich text, so a literal 0 is the correct substitute. Probed separately from
+                // the pair above because the two additions are generations apart. The value is
+                // a column name this code chose, never anything the file supplied.
+                string fmtCol = srcCols.Contains("format") ? "format" : "0";
 
                 using var read = src.CreateCommand();
                 read.CommandText = extras
-                    ? "SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck FROM notes"
-                    : "SELECT title, notebook, tags, created, modified, content, plain, '', 0 FROM notes";
+                    ? $"SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck, {fmtCol} FROM notes"
+                    : $"SELECT title, notebook, tags, created, modified, content, plain, '', 0, {fmtCol} FROM notes";
                 using var r = read.ExecuteReader();
                 int count = 0;
                 while (r.Read())
@@ -1372,8 +1420,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     using var ins = _db!.CreateCommand();
                     // sort_order appends (see Create) so imports keep a custom arrangement intact.
                     ins.CommandText =
-                        "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck, sort_order) " +
-                        "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes))";
+                        "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format, sort_order) " +
+                        "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc, $fmt, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes))";
                     ins.Parameters.AddWithValue("$t", r.GetString(0));
                     ins.Parameters.AddWithValue("$n", r.GetString(1));
                     ins.Parameters.AddWithValue("$g", r.GetString(2));
@@ -1383,6 +1431,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     ins.Parameters.AddWithValue("$p", r.GetString(6));
                     ins.Parameters.AddWithValue("$tc", r.IsDBNull(7) ? "" : r.GetString(7));
                     ins.Parameters.AddWithValue("$sc", r.IsDBNull(8) ? 0 : r.GetInt64(8));
+                    ins.Parameters.AddWithValue("$fmt", r.IsDBNull(9) ? 0 : r.GetInt64(9));
                     ins.ExecuteNonQuery();
                     count++;
                 }

@@ -4,13 +4,15 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.2] - Unreleased
+## [1.3.0] - Unreleased
 
 ### Added
 - Hungarian localization for the complete app interface and killernotes.net, bringing both to twelve languages.
 - A network data folder now warns once, and a lock file beside the database guards concurrent use: a database in use on another computer opens read-only instead of competing for SQLite's single writer, with the owning machine named. A clean close clears the lock.
 - Text labels inside sketches now feed the search index, so a label like "IDF-2, port 14" makes its note findable.
 - Search and replace (#14): Ctrl+H adds a replace row to the find bar with match-case, whole-word and regex options; Replace All in a note is a single undo step. The sidebar gains replace-across-all-notes behind a confirmation naming each note and its match count, committed in one transaction and undone with one Ctrl+Z.
+- Notes can now be markdown instead of rich text. A markdown note stores its source text, edits as plain text with markdown syntax highlighting, and converts to and from rich text from the note menu; converting to markdown lists what will not survive before it runs.
+- Export all notes as markdown writes the whole database to a folder of .md files, groups as subfolders and tags in YAML front matter. Rich-text notes convert on the way out and nothing in the database changes.
 
 ### Changed
 - The SQLCipher encryption native is now built from upstream source (SQLCipher 4.18.0, SQLite 3.53.4) and vendored in the repo, replacing the deprecated SQLitePCLRaw.lib.e_sqlcipher package.

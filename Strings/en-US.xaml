@@ -667,4 +667,29 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Remove bold</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Undo (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Brush size (click to cycle)</sys:String>
+
+    <!-- Markdown notes and vault export (1.3.0) -->
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Convert to markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">Convert to rich text</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Export all notes as markdown</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Write every note in this database to a folder of .md files</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Convert</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Export</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">Convert "{0}" to markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">The note becomes plain markdown text. This cannot be undone from the editor.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">Convert "{0}" to rich text?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">The markdown is rendered into formatted text. This cannot be undone from the editor.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">Tables become plain lines of text</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">Images and sketches are dropped</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">Text and highlight colors are dropped</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoFormatting">This note is markdown - formatting is written as markdown syntax</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">Converted to markdown</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">Converted to rich text</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">Choose where to write the markdown folder</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">Export all notes as markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} notes will be written to {1}. Groups become subfolders. Nothing in the database changes.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Nothing to export - this database has no notes</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">Exported {0} notes to {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">Exported {0} notes to {2}, {1} failed</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Export failed: {0}</sys:String>
 </ResourceDictionary>

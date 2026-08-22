@@ -833,6 +833,11 @@
                                           ToolTip="{DynamicResource Str_TT_ShareNote}"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_ExportNote}" Icon="&#xE74E;" Click="ExportNoteAs_Click"
                                           ToolTip="{DynamicResource Str_TT_ExportNote}"/>
+                                <!-- Whole database to a folder of .md files (1.3.0, VaultExport.cs).
+                                     Not a per-note action despite sitting on the note menu; the
+                                     label says "all notes" so the scope is on the row itself. -->
+                                <MenuItem Header="{DynamicResource Str_Ctx_ExportVault}" Icon="&#xE838;" Click="ExportVault_Click"
+                                          ToolTip="{DynamicResource Str_TT_ExportVault}"/>
                                 <!-- One toggle row per defined tag, built on open (Tags.cs) -->
                                 <MenuItem x:Name="TagsMenu" Header="{DynamicResource Str_Ctx_Tags}" Icon="&#xE8EC;"/>
                                 <!-- One row per group + remove + new, built on open (Groups.cs, #4) -->
@@ -847,6 +852,10 @@
                                 <MenuItem x:Name="PreviewDetectGlobal" Header="{DynamicResource Str_Ctx_PreviewGlobal}"
                                           Icon="&#xE8A1;" IsCheckable="True" Click="PreviewDetectGlobal_Click"
                                           ToolTip="{DynamicResource Str_TT_PreviewGlobal}"/>
+                                <!-- Rich text to markdown and back (1.3.0). The header text flips
+                                     to name the direction, set on open by NotesContextMenu_Opened,
+                                     because it depends on the right-clicked note's format. -->
+                                <MenuItem x:Name="ConvertFormatItem" Icon="&#xE8AB;" Click="ConvertFormat_Click"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_DeleteNote}" Icon="&#xE74D;" Click="DeleteNote_Click"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>

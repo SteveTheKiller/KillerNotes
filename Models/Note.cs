@@ -55,6 +55,30 @@ namespace KillerNotes.Models
         public bool SpellCheck { get; set; }           // per-note spell check (off by default)
         public int SortOrder { get; set; }             // global custom-order position (#4)
 
+        // Content type (1.3.0): 0 = rich text, the content blob is a XamlPackage; 1 = markdown,
+        // the blob is UTF-8 markdown text. Notifying because converting a note edits the live
+        // sidebar row in place, and a non-notifying property changed that way never repaints
+        // when the rebuilt list carries a matching RowSig (#13).
+        private int _format;
+        public int Format
+        {
+            get => _format;
+            set
+            {
+                if (_format == value) return;
+                _format = value;
+                OnChanged(nameof(Format));
+                OnChanged(nameof(IsMarkdown));
+                OnChanged(nameof(FormatBadgeVisibility));
+            }
+        }
+        public bool IsMarkdown => Format == FormatMarkdown;
+        // Sidebar cue that a row holds markdown rather than rich text.
+        public Visibility FormatBadgeVisibility => IsMarkdown ? Visibility.Visible : Visibility.Collapsed;
+
+        public const int FormatRich = 0;
+        public const int FormatMarkdown = 1;
+
         public string ModifiedDisplay => Modified.ToString("yyyy-MM-dd HH:mm");
 
         // Sidebar row density (1.1.0): 0 = Comfortable (title, snippet, date, tags),

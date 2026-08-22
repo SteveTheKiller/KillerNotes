@@ -311,7 +311,11 @@ namespace KillerNotes.Shell
                             _syntaxSeen[p] = (text, context, _syntaxDocVersion);   // blank line inside a block
                             continue;
                         }
-                        var language = DetectLanguage(text);
+                        // A markdown note is markdown on every line, so skip detection for one
+                        // (Markdown.cs). Detection is per paragraph, and an ordinary prose line
+                        // between two headings carries no signal of its own - it came back Plain
+                        // and lost its list and emphasis markers while its neighbors kept theirs.
+                        var language = CurrentIsMarkdown ? CodeLanguage.Markdown : DetectLanguage(text);
                         if (language == CodeLanguage.Plain && context != CodeLanguage.Plain && LooksLikeCode(text))
                             language = context;
                         context = language;
