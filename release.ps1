@@ -142,6 +142,74 @@ if ($scan -match 'has the following vulnerable packages') {
     Fail 'Vulnerable packages found. Resolve before releasing.'
 }
 
+# --- 3b. Release tests ---
+# A red test cannot ship. A gate, not a reminder - same treatment as the date checks above.
+# The test csproj rather than the solution: the app project pulls the vendored SQLCipher and
+# audio natives, and a release must not be blocked by an unrelated build of those.
+Step "Running Release tests"
+dotnet test (Join-Path $PSScriptRoot 'KillerNotes.Tests\KillerNotes.Tests.csproj') -c Release --nologo -v quiet
+if ($LASTEXITCODE -ne 0) { Fail 'Release tests failed - fix them before releasing' }
+
+# --- 3c. Translations ---
+# Every localization must carry the complete English key set. Placeholders have to match too:
+# a translation can load perfectly and still throw at runtime when string.Format is handed a
+# value the translation dropped or renumbered. Ported from Killendar's release.ps1.
+Step "Checking translations"
+function Read-StringMap([string]$Path) {
+    [xml]$document = Get-Content -Path $Path -Raw
+    $map = @{}
+    foreach ($node in $document.ResourceDictionary.ChildNodes) {
+        if ($node.NodeType -ne [System.Xml.XmlNodeType]::Element) { continue }
+        $key = $node.GetAttribute('Key', 'http://schemas.microsoft.com/winfx/2006/xaml')
+        if ($key) { $map[$key] = [string]$node.InnerText }
+    }
+    return $map
+}
+
+$englishStrings = Read-StringMap (Join-Path $PSScriptRoot 'Strings\en-US.xaml')
+if ($englishStrings.Count -eq 0) { Fail 'English translation file contains no resource keys' }
+foreach ($localeFile in Get-ChildItem (Join-Path $PSScriptRoot 'Strings') -Filter '*.xaml') {
+    if ($localeFile.Name -eq 'en-US.xaml') { continue }
+    $localized = Read-StringMap $localeFile.FullName
+    $missing = @($englishStrings.Keys | Where-Object { -not $localized.ContainsKey($_) })
+    $extra = @($localized.Keys | Where-Object { -not $englishStrings.ContainsKey($_) })
+    $empty = @($localized.Keys | Where-Object { [string]::IsNullOrWhiteSpace($localized[$_]) })
+    $placeholderMismatch = @()
+    foreach ($key in $englishStrings.Keys) {
+        if (-not $localized.ContainsKey($key)) { continue }
+        $englishPlaceholders = @([regex]::Matches($englishStrings[$key], '\{\d+(?::[^}]*)?\}') |
+            ForEach-Object Value | Sort-Object)
+        $localizedPlaceholders = @([regex]::Matches($localized[$key], '\{\d+(?::[^}]*)?\}') |
+            ForEach-Object Value | Sort-Object)
+        if ([string]::Join('|', $englishPlaceholders) -ne
+            [string]::Join('|', $localizedPlaceholders)) {
+            $placeholderMismatch += $key
+        }
+    }
+    if ($missing.Count -or $extra.Count -or $empty.Count -or $placeholderMismatch.Count) {
+        Fail "$($localeFile.Name) is incomplete: missing=$($missing.Count), extra=$($extra.Count), empty=$($empty.Count), placeholder mismatches=$($placeholderMismatch.Count)"
+    }
+}
+Write-Host "Translations OK: $($englishStrings.Count) keys across $((Get-ChildItem (Join-Path $PSScriptRoot 'Strings') -Filter '*.xaml').Count) languages"
+
+# --- 3d. Punctuation ---
+# No en dashes or em dashes anywhere, with NO exclusions - not the app's Strings\*.xaml and not
+# the website's kn-i18n.js. Killendar's copy of this check exempts its landing script on the
+# grounds that punctuation follows the target language, and that argument is real: the em dash
+# is standard Chinese punctuation (破折号, normally doubled) and the en dash is Hungarian's
+# parenthetical dash. Both were converted to plain hyphens anyway, because one rule applied
+# everywhere beats a per-language exemption list that nobody can remember.
+#
+# The clean-tree preflight guarantees every candidate file is tracked, so git grep sees the
+# complete set.
+Step "Checking punctuation"
+$dashMatches = @(git grep -n -I -P '[\x{2013}\x{2014}]' -- . 2>$null)
+if ($dashMatches.Count) {
+    Write-Host ($dashMatches -join "`n")
+    Fail "En/em dashes found in $($dashMatches.Count) place(s). Use a single hyphen."
+}
+Write-Host 'Punctuation OK'
+
 # --- 4. Clean Release build ---
 Step "Building Release"
 if (Test-Path 'bin\Release') { Remove-Item 'bin\Release' -Recurse -Force }

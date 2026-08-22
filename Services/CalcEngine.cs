@@ -109,13 +109,24 @@ namespace KillerNotes.Services
         {
             // Record the tape BEFORE the chaining compute overwrites the readout with the running
             // total, so the operand is captured as the user typed it.
-            ClearTapeIfEqualed();   // a new op after "=" continues from the shown result
-            if (!_fresh)
+            if (_equaled)
+            {
+                // An operator after "=" CONTINUES the finished equation instead of starting a new
+                // one, which is what makes the tape read "12 + 5 = 17 x 3 = 51". The tape already
+                // ends with the operand that produced the shown result, so only the operator joins
+                // it, and the result is never re-added as a fresh left operand. This is the
+                // opposite of ClearTapeIfEqualed, which a digit, dot, +/- or % calls because those
+                // start a brand-new number. _seq cannot be empty here: "=" only sets _equaled with
+                // a pending op, and an op always puts two tokens on the tape first.
+                _equaled = false;
+                _seq.Add(op);
+            }
+            else if (!_fresh)
             {
                 _seq.Add(_text);   // the operand just entered
                 _seq.Add(op);
             }
-            else if (_seq.Count == 0)   // op at the very start, or continuing from a result
+            else if (_seq.Count == 0)   // op at the very start
             {
                 _seq.Add(_text);
                 _seq.Add(op);

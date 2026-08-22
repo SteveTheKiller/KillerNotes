@@ -21,6 +21,11 @@ namespace KillerNotes.Shell
         private long _currentId = -1;
         private bool _dirty;
         private bool _loadingNote;        // suppresses TextChanged while a note is loaded in
+        // Set when a note's stored blob would not deserialize. Blocks the save path for that
+        // note: the editor is empty because the load failed, not because the note is empty,
+        // and saving would write that emptiness over content still sitting on disk.
+        private bool _loadFailed;
+        private string _loadError = "";
         private bool _syncingSelection;   // suppresses SelectionChanged while the list re-syncs
         private string _sortField = "created";   // "created" | "title" | "custom" (#4)
         private bool _sortAsc = false;           // default: newest at the top, below the groups

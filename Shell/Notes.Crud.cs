@@ -23,11 +23,14 @@ namespace KillerNotes.Shell
 
         // The button/Ctrl+N path focuses the title for naming; the click-the-empty-space
         // path drops straight into the body so typing starts immediately.
-        private void CreateNewNote(bool focusTitle)
+        // format: 0 = rich text (every existing caller), 1 = markdown. Defaulted so the button,
+        // Ctrl+N and the click-the-empty-space path are untouched; only the context-menu entry
+        // for a new markdown note passes anything else.
+        private void CreateNewNote(bool focusTitle, int format = 0)
         {
             if (!NoteStore.IsOpen) return;
             SaveCurrentNote(refreshList: false);
-            _currentId = NoteStore.Create(Loc("Str_Untitled"));
+            _currentId = NoteStore.Create(Loc("Str_Untitled"), format);
             // Creating is a chronological action: switch to newest-first so the new row
             // has one predictable home even if the user was browsing A-Z or custom order.
             _sortField = "created";

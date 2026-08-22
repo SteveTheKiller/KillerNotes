@@ -236,6 +236,8 @@ namespace KillerNotes.Shell
         private void InsertTable(int rows, int cols)
         {
             if (_currentId < 0) return;
+            // A table cannot survive in a markdown note's stored text (Markdown.cs).
+            if (RejectsObject()) return;
 
             var table = new Table { CellSpacing = 0, Margin = new Thickness(0, 6, 0, 6) };
             table.SetResourceReference(Table.BorderBrushProperty, "CardBorderBrush");

@@ -175,6 +175,10 @@ namespace KillerNotes.Shell
         private void EmbedRecordingInNote(byte[] wav, int durationMs, int replaceOrd)
         {
             if (_currentId < 0) return;
+            // Markdown notes store text, so the chip and its side-table row would be orphaned at
+            // the next save (Markdown.cs). Transcribing to text is unaffected and still the
+            // useful path here - only embedding the audio itself is refused.
+            if (RejectsObject()) return;
 
             // Editing an existing recording overwrites it in place and refreshes the chip that is
             // already in the note, rather than leaving the original behind next to a second copy.

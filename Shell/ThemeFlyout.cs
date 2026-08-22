@@ -89,10 +89,31 @@ namespace KillerNotes.Shell
             // implicit MenuItem style gives the Fonts row real hover chrome instead of
             // PanelMenuItem's bare ContentPresenter.
             ThemeMenu.Items.Add(new Separator { Style = (Style)FindResource(MenuItem.SeparatorStyleKey) });
-            var fonts = new MenuItem
+            // The row is a Button in MenuRowButton style, matching KillerShell's flyout: MDL2
+            // glyph then a Consolas label, hover on the row. As a MenuItem it took the implicit
+            // MenuItem chrome and painted the whole row a solid accent bar with no icon.
+            // The explicit Style is what keeps the TargetType=MenuItem ItemContainerStyle from
+            // being applied to it - the same rule the Separator above follows.
+            var row = new StackPanel { Orientation = Orientation.Horizontal };
+            row.Children.Add(new TextBlock
             {
-                Header = FindResource("Str_Fonts_Open"),
-                Style = (Style)FindResource(typeof(MenuItem)),
+                Text = "\uE8D2",                      // MDL2 Font, the glyph KillerShell uses
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                FontSize = 12,
+                Margin = new Thickness(0, 0, 8, 0),
+                VerticalAlignment = VerticalAlignment.Center,
+            });
+            row.Children.Add(new TextBlock
+            {
+                Text = FindResource("Str_Fonts_Open") as string ?? "Fonts...",
+                FontFamily = new FontFamily("Consolas"),
+                FontSize = 11.5,
+                VerticalAlignment = VerticalAlignment.Center,
+            });
+            var fonts = new Button
+            {
+                Content = row,
+                Style = (Style)FindResource("MenuRowButton"),
             };
             fonts.Click += FontsRow_Click;
             ThemeMenu.Items.Add(fonts);
@@ -149,7 +170,6 @@ namespace KillerNotes.Shell
         private void ThemeRadio_Checked(object sender, RoutedEventArgs e)
         {
             if (sender is not RadioButton { Tag: Theme theme } || theme == ThemeManager.Current) return;
-            Theme old = ThemeManager.Current;
             // The crossfade lives in ThemeManager.Publish, which animates the palette's brushes
             // in place. Nothing here needs to capture or cover the window - see the comment on
             // the live palette for why every snapshot-based version of this throbbed.

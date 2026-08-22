@@ -12,8 +12,8 @@ namespace KillerNotes.Tests
     /// <summary>
     /// Points NoteStore at a throwaway folder for one test, and restores everything on
     /// Dispose. NoteStore is static global state, so these tests must not run against the
-    /// real data folder and must clean up after themselves; xunit runs the facts within a
-    /// single class sequentially, which is what keeps the static store race-free.
+    /// real data folder and must clean up after themselves. Serialization comes from
+    /// NoteStoreCollection below, NOT from being in one class.
     /// </summary>
     internal sealed class TempStore : IDisposable
     {
@@ -39,6 +39,20 @@ namespace KillerNotes.Tests
         }
     }
 
+    /// <summary>
+    /// Every class that drives the static NoteStore shares this collection. xunit runs the facts
+    /// inside one class sequentially but runs separate CLASSES in parallel, so as soon as a second
+    /// class started using TempStore the two raced over one static store and the suite failed a
+    /// different handful of tests on every run, none of them the test that was actually broken.
+    /// One collection puts them in a single queue. A new class that touches NoteStore belongs here.
+    /// </summary>
+    [CollectionDefinition(NoteStoreCollection.Name)]
+    public sealed class NoteStoreCollection
+    {
+        public const string Name = "NoteStore";
+    }
+
+    [Collection(NoteStoreCollection.Name)]
     public sealed class NoteStoreTests
     {
         private static readonly byte[] Blob = Encoding.UTF8.GetBytes("not a real XamlPackage, just bytes");

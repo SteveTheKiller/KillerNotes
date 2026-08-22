@@ -204,6 +204,9 @@
     <sys:String x:Key="Str_St_Saved">Saved</sys:String>
     <sys:String x:Key="Str_St_ClipBusy">Clipboard is busy - try again</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} notes</sys:String>
+    <!-- The note's stored content would not deserialize. It is left unloaded rather than
+         opened empty, and saving is blocked so the content on disk is not overwritten. -->
+    <sys:String x:Key="Str_St_NoteLoadFailed">This note could not be opened and was left unchanged: {0}</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} matches</sys:String>
     <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
          this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->
@@ -617,7 +620,6 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - draw and annotate</sys:String>
 
     <!-- Portable install (family install system) -->
-    <sys:String x:Key="Str_Portable">PORTABLE</sys:String>
     <sys:String x:Key="Str_Btn_Install">Install KillerNotes</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Install</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Install KillerNotes to your user profile?</sys:String>
@@ -669,6 +671,9 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Brush size (click to cycle)</sys:String>
 
     <!-- Markdown notes and vault export (1.3.0) -->
+    <sys:String x:Key="Str_TT_FormatBadge">This note stores markdown text</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">New markdown note</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Create a note that stores plain markdown text instead of rich text</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Convert to markdown</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertToRich">Convert to rich text</sys:String>
     <sys:String x:Key="Str_Ctx_ExportVault">Export all notes as markdown</sys:String>
@@ -676,13 +681,13 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Btn_Convert">Convert</sys:String>
     <sys:String x:Key="Str_Btn_Export">Export</sys:String>
     <sys:String x:Key="Str_Dlg_ToMarkdownHead">Convert "{0}" to markdown?</sys:String>
-    <sys:String x:Key="Str_Dlg_ToMarkdownBody">The note becomes plain markdown text. This cannot be undone from the editor.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">The note becomes plain markdown text. Ctrl+Z puts it back.</sys:String>
     <sys:String x:Key="Str_Dlg_ToRichHead">Convert "{0}" to rich text?</sys:String>
-    <sys:String x:Key="Str_Dlg_ToRichBody">The markdown is rendered into formatted text. This cannot be undone from the editor.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">The markdown is rendered into formatted text. Ctrl+Z puts it back.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">Tables become plain lines of text</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Images and sketches are dropped</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Text and highlight colors are dropped</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoFormatting">This note is markdown - formatting is written as markdown syntax</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">This note is markdown - it holds text only, so images, tables, sketches and recordings cannot be added</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Converted to markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Converted to rich text</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Choose where to write the markdown folder</sys:String>

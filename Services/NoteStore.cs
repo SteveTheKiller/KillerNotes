@@ -31,12 +31,15 @@ namespace KillerNotes.Services
         /// In-memory only - never persisted, never set by the app itself.</summary>
         public static string? DbDirOverride;
 
+        /// <summary>The rule DbDir applies, split out as a pure function so it can be tested
+        /// without writing to the real settings store: a non-blank setting wins, anything else
+        /// falls back to the stock folder (#6).</summary>
+        public static string ResolveDbDir(string? setting) =>
+            string.IsNullOrWhiteSpace(setting) ? DefaultDbDir : setting!;
+
         /// <summary>Folder holding the .db files: the "DataFolder" setting when one was
         /// chosen (Manage databases > Change data folder, #6), else %APPDATA%\KillerNotes.</summary>
-        public static string DbDir =>
-            DbDirOverride ??
-            (App.GetSetting("DataFolder") is string dir && !string.IsNullOrWhiteSpace(dir)
-                ? dir : DefaultDbDir);
+        public static string DbDir => DbDirOverride ?? ResolveDbDir(App.GetSetting("DataFolder"));
 
         /// <summary>Set by --demo (App.OnStartup): overrides the active db with a scratch
         /// demo file so screenshot sessions never touch real notes. In-memory only - the
@@ -520,6 +523,42 @@ CREATE TABLE IF NOT EXISTS recordings(
             cmd.Parameters.AddWithValue("$m", Ts(DateTime.Now));
             cmd.Parameters.AddWithValue("$id", id);
             cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Markdown notes whose content is still raw source rather than a XamlPackage,
+        /// as (id, content). Filtered in SQL on the package signature so a database with nothing
+        /// to migrate costs one indexless scan of a small column and reads no blobs at all.</summary>
+        public static List<(long Id, byte[] Content)> ListRawMarkdownBlobs()
+        {
+            var rows = new List<(long, byte[])>();
+            if (_db == null) return rows;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText =
+                "SELECT id, content FROM notes WHERE format = 1 AND content IS NOT NULL " +
+                "AND length(content) > 0 AND substr(content, 1, 4) <> x'504B0304'";
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+                if (r.GetValue(1) is byte[] b && b.Length > 0) rows.Add((r.GetInt64(0), b));
+            return rows;
+        }
+
+        /// <summary>Rewrites content ONLY, in one transaction. Title, plain text and the modified
+        /// stamp are deliberately left alone: this is a storage change, not an edit, and bumping
+        /// modified would reorder the sidebar and change which note the app opens into.</summary>
+        public static void RewriteContents(IEnumerable<(long Id, byte[] Content)> updates)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var tx = _db.BeginTransaction();
+            foreach (var (id, content) in updates)
+            {
+                using var cmd = _db.CreateCommand();
+                cmd.Transaction = tx;
+                cmd.CommandText = "UPDATE notes SET content = $c WHERE id = $id";
+                cmd.Parameters.AddWithValue("$c", content);
+                cmd.Parameters.AddWithValue("$id", id);
+                cmd.ExecuteNonQuery();
+            }
+            tx.Commit();
         }
 
         // ---- SketchPad payloads (BACKLOG: SketchPad) ----

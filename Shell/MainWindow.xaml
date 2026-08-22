@@ -856,6 +856,12 @@
                                      to name the direction, set on open by NotesContextMenu_Opened,
                                      because it depends on the right-clicked note's format. -->
                                 <MenuItem x:Name="ConvertFormatItem" Icon="&#xE8AB;" Click="ConvertFormat_Click"/>
+                                <!-- The only way to START a markdown note. Convert handles notes
+                                     that already exist; without this the format is unreachable
+                                     from a clean database. -->
+                                <MenuItem Header="{DynamicResource Str_Ctx_NewMarkdownNote}" Icon="&#xE943;"
+                                          Click="NewMarkdownNote_Click"
+                                          ToolTip="{DynamicResource Str_TT_NewMarkdownNote}"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_DeleteNote}" Icon="&#xE74D;" Click="DeleteNote_Click"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
@@ -913,6 +919,28 @@
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type models:Note}">
                                 <StackPanel>
+                                  <!-- Title row. The content-type cue is docked right of the title
+                                       rather than beside the date, so it survives every density -
+                                       Minimal shows the title and nothing else. -->
+                                  <DockPanel LastChildFill="True">
+                                    <!-- Markdown rows only (1.3.0). Collapsed for rich text, so every
+                                         note that existed before this looks exactly as it did. -->
+                                    <TextBlock DockPanel.Dock="Right" Text="MD" FontSize="9"
+                                               FontFamily="Consolas" VerticalAlignment="Center"
+                                               Margin="6,0,2,0" ToolTip="{DynamicResource Str_TT_FormatBadge}"
+                                               Visibility="{Binding FormatBadgeVisibility}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{DynamicResource DimTextBrush}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                        <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
+                                                        <Setter Property="Opacity" Value="0.85"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                     <!-- Colored per note when TitleColor is set; the DataTrigger keeps
                                          uncolored titles on the theme-reactive TextBrush (1.0.1, #1) -->
                                     <TextBlock Text="{Binding Title}" FontSize="13" TextTrimming="CharacterEllipsis"
@@ -942,6 +970,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
+                                  </DockPanel>
                                     <TextBlock Text="{Binding Snippet}" FontSize="11" TextTrimming="CharacterEllipsis" Margin="0,1,0,0"
                                                FontFamily="{DynamicResource SidebarFont}"
                                                Visibility="{Binding SnippetVisibility}">
@@ -2121,7 +2150,13 @@
                      Grid.Column 0, NOT 1: the middle column went Auto when the footer became
                      sunken cells, so anything in it hugs the version cell instead of centering.
                      Riding the star-width status column keeps the badge centered in the bar. -->
-                <StackPanel x:Name="PortableBadge" Grid.Column="0" Orientation="Horizontal"
+                <!-- ColumnSpan 3, not Column 0: the columns are * / Auto / Auto, so centering
+                     inside column 0 centers the button in the STATUS cell - everything left of
+                     the version block - which reads as noticeably left of the footer's middle.
+                     Spanning all three centers it in the bar itself. ZIndex clears the version
+                     cell's sunken borders, which are declared after this. -->
+                <StackPanel x:Name="PortableBadge" Grid.Column="0" Grid.ColumnSpan="3" Panel.ZIndex="3"
+                            Orientation="Horizontal"
                             HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
                     <Button x:Name="InstallBtn" Content="{DynamicResource Str_Btn_Install}" Click="Install_Click"
                             Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"

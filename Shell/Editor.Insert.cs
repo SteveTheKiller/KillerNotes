@@ -81,6 +81,11 @@ namespace KillerNotes.Shell
 
         private void InsertImageAtCaret(BitmapSource src)
         {
+            // Markdown notes store text, so an image here would vanish at the next save
+            // (Markdown.cs). Guarded at the insert, not at each caller, so the toolbar button,
+            // paste and drag-drop are all covered.
+            if (RejectsObject()) return;
+
             // Re-encode to PNG: clipboard images arrive as InteropBitmap, which the
             // XamlPackage serializer can't persist. A decoded, frozen BitmapImage can.
             var enc = new PngBitmapEncoder();

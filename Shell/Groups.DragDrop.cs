@@ -88,10 +88,11 @@ namespace KillerNotes.Shell
             }
             if (after != null && after.Id == id) return;   // dropped onto its own spot
 
-            // First drag from a time/alpha sort: keep what is on screen, then go custom.
+            // Dragging from a time/alpha sort: keep what is on screen, then go custom. Forced,
+            // because the drop below is positioned against rows the user can SEE.
             if (_sortField != "custom")
             {
-                SeedCustomOrderIfNeeded();
+                SeedCustomOrderIfNeeded(force: true);
                 _sortField = "custom";
                 UpdateSortButtons();
                 FlashStatus(Loc("Str_St_CustomOrderOn"));
@@ -135,15 +136,26 @@ namespace KillerNotes.Shell
             RefreshList();
         }
 
-        /// <summary>Lays sort_order down from the current on-screen arrangement the first
-        /// time custom order is engaged. "Never ordered" = duplicate sort_order values
-        /// (fresh columns are all 0); a database that was ever renumbered has unique
-        /// values and is left alone.</summary>
-        private void SeedCustomOrderIfNeeded()
+        /// <summary>Lays sort_order down from the current on-screen arrangement when custom order
+        /// is engaged from another sort. Both callers have already established that much, so the
+        /// only question left here is whether an arrangement worth keeping is already stored.
+        ///
+        /// Unforced, the seed runs only when sort_order carries DUPLICATES, which means no
+        /// arrangement was ever saved: the column defaults to 0 for every row predating it. That
+        /// guard is what stops the sort button from wiping a saved arrangement when the user
+        /// rounds back to custom through A-Z, so the button path keeps it.
+        ///
+        /// The DRAG path passes force. A drop is positioned against the rows on screen, so the
+        /// visible order has to become the stored order first, or the note lands relative to an
+        /// order nobody is looking at and the sidebar reshuffles under the cursor. The duplicate
+        /// check cannot serve that path: Create hands out MAX+1, so every note made since 1.0.2
+        /// already has a unique value and the check stopped firing, which quietly broke the
+        /// documented "keeps what is on screen" behavior for everyone after their first drag.</summary>
+        private void SeedCustomOrderIfNeeded(bool force = false)
         {
             var all = NoteStore.List(null, SortKey);   // current sort, unfiltered
             if (all.Count == 0) return;
-            bool needSeed = all.GroupBy(n => n.SortOrder).Any(g => g.Count() > 1);
+            bool needSeed = force || all.GroupBy(n => n.SortOrder).Any(g => g.Count() > 1);
             if (needSeed) NoteStore.SetNoteOrders(all.Select((n, i) => (n.Id, i + 1)));
         }
 

@@ -103,6 +103,9 @@ namespace KillerNotes.Shell
             // only into the note it was opened from.
             if (_currentId != _sketchNoteId) { StatusText.Text = Loc("Str_St_SketchWrongNote"); return; }
             if (objects.Count == 0) { StatusText.Text = Loc("Str_St_SketchEmpty"); return; }
+            // A markdown note stores text, so the flattened image would be lost at the next save
+            // (Markdown.cs). The pad itself stays usable - its copy-to-clipboard still works.
+            if (RejectsObject()) return;
             if (w < 1 || h < 1) { w = Sketch.CanvasW; h = Sketch.CanvasH; }   // pad's live canvas size
 
             var bmp = SketchModel.RenderObjects(objects, w, h);

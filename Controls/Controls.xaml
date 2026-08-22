@@ -822,9 +822,12 @@
                          dot inside it, not a hollow ring on the panel face - small, but it is the
                          difference between reading as a control and reading as an outline.
                          Transparent by default, so the other twelve are untouched. -->
-                    <Ellipse x:Name="well" Width="14" Height="14" Fill="{DynamicResource RadioWellBrush}"/>
-                    <Ellipse x:Name="ring" Width="14" Height="14" Stroke="{DynamicResource DimTextBrush}" StrokeThickness="1.5"/>
-                    <Ellipse x:Name="dot" Width="7" Height="7" Fill="{DynamicResource PrimaryBrush}" Visibility="Collapsed"/>
+                    <!-- Sizes must leave an EVEN inset inside the 14px ring or the dot lands on a
+                         half pixel and reads as off-center. 7 gave (14-7)/2 = 3.5; 8 gives 3.
+                         Alignment is explicit rather than relying on the Grid default. -->
+                    <Ellipse x:Name="well" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{DynamicResource RadioWellBrush}"/>
+                    <Ellipse x:Name="ring" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="{DynamicResource DimTextBrush}" StrokeThickness="1.5"/>
+                    <Ellipse x:Name="dot" Width="8" Height="8" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{DynamicResource PrimaryBrush}" Visibility="Collapsed"/>
                 </Grid><ContentPresenter VerticalAlignment="Center"/></DockPanel>
             </Border>
             <ControlTemplate.Triggers>
@@ -832,6 +835,38 @@
                 <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ring" Property="Stroke" Value="{DynamicResource PrimaryBrush}"/><Setter TargetName="bd" Property="Background" Value="{DynamicResource RowHoverBrush}"/></Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate></Setter.Value></Setter>
+    </Style>
+
+    <!-- A flyout row that is a Button rather than a MenuItem: an MDL2 glyph beside a Consolas
+         label, hover on the row. Ported verbatim from KillerShell so the theme flyout's Fonts
+         row matches the family instead of falling back to MenuItem chrome, which painted the
+         whole row a solid accent bar with no icon.
+         The explicit style is also load-bearing, for the reason the Separator comment in
+         ThemeFlyout.cs gives: the flyout's ItemContainerStyle is TargetType=MenuItem and WPF
+         applies it to every container it generates, which THROWS on a non-MenuItem. Setting a
+         Style locally stops that from being applied. -->
+    <Style x:Key="MenuRowButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="6,5"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Bd" Property="Background" Value="{DynamicResource MenuHoverBrush}"/></Trigger>
+                        <Trigger Property="IsPressed"   Value="True"><Setter TargetName="Bd" Property="Background" Value="{DynamicResource RowSelectedBrush}"/></Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="ThemeSwatch" TargetType="Button">

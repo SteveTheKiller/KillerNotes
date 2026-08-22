@@ -11,14 +11,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - A network data folder now warns once, and a lock file beside the database guards concurrent use: a database in use on another computer opens read-only instead of competing for SQLite's single writer, with the owning machine named. A clean close clears the lock.
 - Text labels inside sketches now feed the search index, so a label like "IDF-2, port 14" makes its note findable.
 - Search and replace (#14): Ctrl+H adds a replace row to the find bar with match-case, whole-word and regex options; Replace All in a note is a single undo step. The sidebar gains replace-across-all-notes behind a confirmation naming each note and its match count, committed in one transaction and undone with one Ctrl+Z.
-- Notes can now be markdown instead of rich text. A markdown note stores its source text, edits as plain text with markdown syntax highlighting, and converts to and from rich text from the note menu; converting to markdown lists what will not survive before it runs.
+- Notes can now be markdown instead of rich text. A markdown note stores its source text, edits as plain text with markdown syntax highlighting, and converts to and from rich text from the note menu; converting to markdown lists what will not survive before it runs. Images, tables, sketches and embedded recordings are refused in a markdown note rather than being dropped at the next save.
 - Export all notes as markdown writes the whole database to a folder of .md files, groups as subfolders and tags in YAML front matter. Rich-text notes convert on the way out and nothing in the database changes.
 
 ### Changed
 - The SQLCipher encryption native is now built from upstream source (SQLCipher 4.18.0, SQLite 3.53.4) and vendored in the repo, replacing the deprecated SQLitePCLRaw.lib.e_sqlcipher package.
 - Internal cancellation resource keys now use the same American spelling as their displayed text.
+- Markdown notes now store their source inside a XamlPackage rather than as raw bytes, so a database or a shared note carrying one can still be opened by releases older than 1.3.0. Notes written by earlier 1.3.0 builds are converted the first time the database is opened, so a database does not stay a hazard to older builds just because nobody edited the note.
 
 ### Fixed
+- A note whose stored content will not load no longer takes the app down at startup. It is left unopened with the reason in the status bar, and saving is blocked so the content on disk is not overwritten.
+- The Killculator's Print Equation keeps the whole running calculation when you continue from a result with an operator, instead of restarting the tape at that result.
+- Dragging a note while sorted by time or alphabet now really does keep what is on screen (#4). The drop was landing against the stored order rather than the visible one, reshuffling the sidebar. The sort button still leaves a saved arrangement untouched.
 - Theme names in the picker are now translated in all twelve languages instead of always showing their English names. KillerNotes was the only app in the family missing the shared theme-name strings.
 - A failed unlock no longer leaves the database reporting itself as open; a wrong password now cleanly returns to the prompt.
 - Find-in-note now has localized match counts, button tooltips and shortcut labels in Bengali, Czech, German, Spanish, French, Japanese, Turkish, Simplified Chinese and Traditional Chinese; the technical page now documents how Ctrl+F, F3, Shift+F3 and Esc work without altering the note.

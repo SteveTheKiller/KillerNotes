@@ -91,6 +91,23 @@ namespace KillerNotes.Services
             return doc;
         }
 
+        /// <summary>The text as one paragraph, its line breaks preserved as LineBreak inlines.
+        /// A Run holding newline characters does not break lines in a FlowDocument - the text
+        /// would come back as one long line - so the breaks have to be real elements.
+        /// Only reached when Markdig cannot parse the input at all, where returning the content
+        /// unformatted still beats returning an empty document.</summary>
+        private static Paragraph TextParagraph(string text)
+        {
+            var p = new Paragraph();
+            string[] lines = text.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (i > 0) p.Inlines.Add(new LineBreak());
+                p.Inlines.Add(new Run(lines[i]));
+            }
+            return p;
+        }
+
         private static IEnumerable<WpfBlock> ConvertBlock(MdBlock block, double base_)
         {
             switch (block)
@@ -556,12 +573,21 @@ namespace KillerNotes.Services
                     {
                         case InlineUIContainer: images = true; break;
                         case Run r:
-                            if (r.Foreground is SolidColorBrush || r.Background is SolidColorBrush) colors = true;
+                            if (HasOwnColor(r)) colors = true;
                             break;
                         case Span sp: ScanInlines(sp.Inlines); break;
                     }
                 }
             }
+
+            // A DELIBERATE color, not an inherited one. Foreground is an inheriting dependency
+            // property, so reading it off a plain Run returns whatever the document supplies, which
+            // is a SolidColorBrush every time. Testing the value therefore reported "colors will be
+            // lost" for any note at all, and the convert-to-markdown dialog listed a loss that was
+            // not there. ReadLocalValue only answers for a value set on the run itself.
+            static bool HasOwnColor(Run r) =>
+                r.ReadLocalValue(TextElement.ForegroundProperty) != DependencyProperty.UnsetValue ||
+                r.ReadLocalValue(TextElement.BackgroundProperty) != DependencyProperty.UnsetValue;
 
             if (tables) keys.Add("Str_MdLoss_Tables");
             if (images) keys.Add("Str_MdLoss_Images");

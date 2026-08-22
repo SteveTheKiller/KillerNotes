@@ -447,7 +447,6 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_KS_ManageTags">Spravovat štítky (přidat, přejmenovat, přebarvit)</sys:String>
 
     <!-- Portable install (family install system) -->
-    <sys:String x:Key="Str_Portable">PŘENOSNÁ</sys:String>
     <sys:String x:Key="Str_Btn_Install">Nainstalovat KillerNotes</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Nainstalovat</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Nainstalovat KillerNotes do vašeho uživatelského profilu?</sys:String>

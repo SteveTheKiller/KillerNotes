@@ -518,7 +518,6 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_KS_Tags">Przełączaj tagi 1-9 w otwartej notatce</sys:String>
     <sys:String x:Key="Str_KS_ManageTags">Zarządzaj tagami (dodawanie, zmiana nazwy i koloru)</sys:String>
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - rysuj i opisuj</sys:String>
-    <sys:String x:Key="Str_Portable">PRZENOŚNA</sys:String>
     <sys:String x:Key="Str_Btn_Install">Zainstaluj KillerNotes</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Zainstaluj</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Zainstalować KillerNotes w profilu użytkownika?</sys:String>
@@ -560,6 +559,9 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Usuń pogrubienie</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Cofnij (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Rozmiar pędzla (kliknij, aby przełączyć)</sys:String>
+    <sys:String x:Key="Str_TT_FormatBadge">Ta notatka przechowuje tekst markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Nowa notatka markdown</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Utwórz notatkę przechowującą zwykły tekst markdown zamiast tekstu sformatowanego</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Zamień na markdown</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertToRich">Zamień na tekst sformatowany</sys:String>
     <sys:String x:Key="Str_Ctx_ExportVault">Eksportuj wszystkie notatki jako markdown</sys:String>
@@ -567,13 +569,13 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Btn_Convert">Zamień</sys:String>
     <sys:String x:Key="Str_Btn_Export">Eksportuj</sys:String>
     <sys:String x:Key="Str_Dlg_ToMarkdownHead">Zamienić "{0}" na markdown?</sys:String>
-    <sys:String x:Key="Str_Dlg_ToMarkdownBody">Notatka stanie się zwykłym tekstem markdown. Tej zmiany nie można cofnąć z poziomu edytora.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">Notatka stanie się zwykłym tekstem markdown. Ctrl+Z przywróci ją z powrotem.</sys:String>
     <sys:String x:Key="Str_Dlg_ToRichHead">Zamienić "{0}" na tekst sformatowany?</sys:String>
-    <sys:String x:Key="Str_Dlg_ToRichBody">Markdown zostanie wyświetlony jako tekst sformatowany. Tej zmiany nie można cofnąć z poziomu edytora.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">Markdown zostanie wyświetlony jako tekst sformatowany. Ctrl+Z przywróci go z powrotem.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">Tabele staną się zwykłymi wierszami tekstu</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Obrazy i szkice zostaną pominięte</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Kolory tekstu i wyróżnień zostaną pominięte</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoFormatting">Ta notatka to markdown - formatowanie zapisuje się składnią markdown</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Ta notatka to markdown - zawiera tylko tekst, więc nie można dodać obrazów, tabel, szkiców ani nagrań</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Zamieniono na markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Zamieniono na tekst sformatowany</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Wybierz miejsce zapisu folderu markdown</sys:String>

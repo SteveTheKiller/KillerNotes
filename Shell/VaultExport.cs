@@ -119,7 +119,7 @@ namespace KillerNotes.Shell
             string body;
             if (note.IsMarkdown)
             {
-                body = blob == null || blob.Length == 0 ? "" : new UTF8Encoding(false).GetString(blob);
+                body = MarkdownBlob.Decode(blob);
             }
             else
             {

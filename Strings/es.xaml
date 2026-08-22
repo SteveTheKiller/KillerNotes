@@ -249,7 +249,6 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Sec_Help">Ayuda</sys:String>
 
     <!-- Portable install (family install system) -->
-    <sys:String x:Key="Str_Portable">PORTATIL</sys:String>
     <sys:String x:Key="Str_Btn_Install">Instalar KillerNotes</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Instalar</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Instalar KillerNotes en tu perfil de usuario?</sys:String>

@@ -35,6 +35,10 @@ namespace KillerNotes.Shell
 
         void ISecurityHost.LoadNotes()
         {
+            // Before the list is built, so the sidebar and the note about to open both read the
+            // migrated blobs. On the UI thread, which the XamlPackage writer requires, and a
+            // no-op on a database that has already been through it (MarkdownMigration.cs).
+            MarkdownMigration.RewrapRawMarkdown();
             InitNotes();         // Notes.cs (idempotent)
             RefreshList();
             OpenStartupNote();   // Notes.cs - the app always opens into a note

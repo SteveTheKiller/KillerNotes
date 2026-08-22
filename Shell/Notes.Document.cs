@@ -27,6 +27,8 @@ namespace KillerNotes.Shell
             SaveNotePosition();   // remember where the outgoing note was left (1.1.1)
 
             _loadingNote = true;
+            _loadFailed = false;
+            _loadError = "";
             _currentId = id;
             // Remembered for the next launch (OpenStartupNote). Demo sessions must
             // never touch real settings.
@@ -52,7 +54,23 @@ namespace KillerNotes.Shell
             {
                 var range = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd);
                 using var ms = new MemoryStream(blob);
-                range.Load(ms, DataFormats.XamlPackage);
+                try
+                {
+                    range.Load(ms, DataFormats.XamlPackage);
+                }
+                catch (Exception ex)
+                {
+                    // A blob the XamlPackage deserializer rejects must NEVER reach the dispatcher
+                    // unhandled. OpenStartupNote runs this before the window is usable, so the
+                    // throw killed the process on every launch with no way back in - the only
+                    // recoveries were editing the registry or deleting the database. Seen with a
+                    // markdown blob (format 1, raw UTF-8) written by 1.3.0 and read by 1.2.1,
+                    // which predates the format column and so reads every blob as a XamlPackage.
+                    // The note is left unloaded and _loadFailed blocks the save path.
+                    Editor.Document.Blocks.Clear();
+                    _loadFailed = true;
+                    _loadError = ex.Message;
+                }
             }
             NormalizeThemeColors(Editor.Document);   // Editor.cs (default text follows the live theme)
             NormalizeContentFont(Editor.Document);   // Fonts.cs (baked save-time font must not defeat the ContentFont slot)
@@ -75,6 +93,8 @@ namespace KillerNotes.Shell
             RestoreNotePosition(id);   // reopen where the note was left, not at the top (1.1.1)
             UpdatePreviewState();   // Preview.cs (md/html detection for this note)
             LinkSketchPayloads(id);   // SketchPad: re-attach sketch strokes to their images (Editor.cs)
+            // Last, so the message is not overwritten by anything above it.
+            if (_loadFailed) StatusText.Text = string.Format(Loc("Str_St_NoteLoadFailed"), _loadError);
         }
 
         // ---- Remembered reading position (1.1.1, #8 follow-up) ----
@@ -141,6 +161,7 @@ namespace KillerNotes.Shell
         {
             _saveTimer.Stop();
             if (_currentId < 0 || !_dirty || !NoteStore.IsOpen) return;
+            if (_loadFailed) return;   // the editor is empty because the load failed (OpenNote)
 
             // Syntax colors are a transient view over the user's real rich formatting.
             // Never bake TextEffects into the XamlPackage; restore them immediately after.

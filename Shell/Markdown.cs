@@ -10,10 +10,16 @@
 // working untouched: FindBar's adorner walk, GlobalReplace, dictation, caret and scroll
 // persistence, word wrap. Swapping in a TextBox for markdown notes would have forked all of it.
 //
-// The consequence to keep in mind: markdown notes ARE plain text, so the formatting commands
-// have to be inert while one is open. ApplyFormatMode does that, and MarkdownGuard is the check
-// every formatting entry point calls. A bold run inside a markdown note would be silently
-// discarded on the next save, which is worse than the command doing nothing.
+// The consequence to keep in mind: markdown notes ARE plain text. ApplyFormatMode hides the
+// format bar, and RejectsObject blocks the four paths that would put a non-text object into the
+// document - an image, a table, a sketch or an embedded recording. Those are the ones that
+// actually lose data: MarkdownBlobFromEditor walks Runs and LineBreaks only, so an object in a
+// markdown note is gone at the next autosave with nothing on screen to say so.
+//
+// Formatting is deliberately NOT blocked. Bold applied by Ctrl+B loses the weight on save but
+// keeps every character, so the text survives; refusing the keystroke would be a bigger
+// surprise than the formatting quietly not sticking. Objects are the opposite: the whole thing
+// disappears, so those are refused up front.
 //
 // Paragraph margins are zeroed for markdown. The rich-text default puts space between
 // paragraphs, and since every line of markdown source is its own paragraph, that default
@@ -23,7 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -48,59 +53,17 @@ namespace KillerNotes.Shell
         /// document, so the caret has somewhere to land.</summary>
         private void LoadMarkdownIntoEditor(byte[]? blob)
         {
-            string text = blob == null || blob.Length == 0
-                ? ""
-                : new UTF8Encoding(false).GetString(blob);
-
-            // Normalize first: a vault file edited elsewhere can arrive with either ending, and
-            // splitting on a raw \n would otherwise leave a trailing \r on every line.
-            foreach (string line in text.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n'))
-            {
-                var p = new Paragraph(new Run(line)) { Margin = new Thickness(0) };
-                Editor.Document.Blocks.Add(p);
-            }
-            if (Editor.Document.Blocks.Count == 0)
-                Editor.Document.Blocks.Add(new Paragraph { Margin = new Thickness(0) });
+            MarkdownBlob.Fill(Editor.Document, MarkdownBlob.Decode(blob));
         }
 
-        /// <summary>The open markdown note's body as it should be stored. The blob and the
-        /// plain-text projection are the same bytes here, which is the point of the format:
-        /// what is on disk is what the user typed.</summary>
+        /// <summary>The open markdown note's body as it should be stored. The plain-text
+        /// projection is the source itself, which is the point of the format: what is on disk is
+        /// what the user typed. The blob wraps that source in a XamlPackage so builds older than
+        /// this one can still open the note (MarkdownBlob.cs).</summary>
         private byte[] MarkdownBlobFromEditor(out string plain)
         {
-            var sb = new StringBuilder();
-            bool first = true;
-            foreach (var block in Editor.Document.Blocks)
-            {
-                if (!first) sb.Append('\n');
-                first = false;
-                if (block is Paragraph p) sb.Append(ParagraphText(p));
-            }
-            plain = sb.ToString();
-            return new UTF8Encoding(false).GetBytes(plain);
-        }
-
-        /// <summary>One paragraph's text, LineBreaks included. TextRange over the whole document
-        /// would insert its own paragraph separators and re-encode the line endings; this keeps
-        /// the file byte-for-byte what the editor shows.</summary>
-        private static string ParagraphText(Paragraph p)
-        {
-            var sb = new StringBuilder();
-            void Walk(InlineCollection inlines)
-            {
-                foreach (var i in inlines)
-                {
-                    switch (i)
-                    {
-                        case Run r: sb.Append(r.Text); break;
-                        case LineBreak: sb.Append('\n'); break;
-                        case Span s: Walk(s.Inlines); break;
-                        case Hyperlink h: Walk(h.Inlines); break;
-                    }
-                }
-            }
-            Walk(p.Inlines);
-            return sb.ToString();
+            plain = MarkdownBlob.TextOf(Editor.Document);
+            return MarkdownBlob.Encode(plain);
         }
 
         // ---- Mode gating ----
@@ -116,17 +79,30 @@ namespace KillerNotes.Shell
                 FormatBar.Visibility = md ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        /// <summary>Guard for every formatting entry point. Returns true when the command must
-        /// NOT run because the open note is markdown, and says so in the status line so the
-        /// keystroke does not just vanish with no explanation.</summary>
-        private bool MarkdownGuard()
+        /// <summary>True when the open note is markdown and therefore cannot hold the object the
+        /// caller is about to insert. Says so in the status line, because a command that does
+        /// nothing and explains nothing reads as a bug.
+        ///
+        /// Called from the four insertion points rather than from their click handlers, so the
+        /// keyboard shortcut, the rail button, paste and drag-drop are all covered at once:
+        /// InsertImageAtCaret, InsertTable, PrintSketchToNote, EmbedRecordingInNote.
+        ///
+        /// PrintDictationToNote is NOT guarded. It inserts plain text, which is exactly what a
+        /// markdown note stores, so transcription keeps working; only embedding the audio does
+        /// not. Killculator's print is text for the same reason and stays available.</summary>
+        private bool RejectsObject()
         {
             if (!CurrentIsMarkdown) return false;
-            StatusText.Text = Loc("Str_St_MarkdownNoFormatting");
+            StatusText.Text = Loc("Str_St_MarkdownNoObjects");
             return true;
         }
 
         // ---- Convert ----
+
+        /// <summary>Creates a new markdown note. Without this the format is unreachable from a
+        /// clean database: converting only works on a note that already exists.</summary>
+        private void NewMarkdownNote_Click(object sender, RoutedEventArgs e)
+            => CreateNewNote(focusTitle: true, format: Note.FormatMarkdown);
 
         private void ConvertFormat_Click(object sender, RoutedEventArgs e)
         {
@@ -170,18 +146,21 @@ namespace KillerNotes.Shell
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
+            // Capture the original bytes BEFORE the rewrite so Ctrl+Z can put them back exactly.
+            // A re-serialized document would not be byte-identical to what was stored.
+            byte[] beforeBlob = blob ?? [];
+            string beforePlain = new TextRange(doc.ContentStart, doc.ContentEnd).Text;
+
             string md = MarkdownConvert.FromDocument(doc);
-            byte[] bytes = new UTF8Encoding(false).GetBytes(md);
-            NoteStore.SetFormat(note.Id, Note.FormatMarkdown, bytes, md);
+            NoteStore.SetFormat(note.Id, Note.FormatMarkdown, MarkdownBlob.Encode(md), md);
+            PushConvertUndo(note, Note.FormatRich, beforeBlob, beforePlain);
             FinishConvert(note, Note.FormatMarkdown);
         }
 
         private void ConvertToRich(Note note)
         {
             byte[]? blob = NoteStore.LoadContent(note.Id);
-            string md = blob == null || blob.Length == 0
-                ? ""
-                : new UTF8Encoding(false).GetString(blob);
+            string md = MarkdownBlob.Decode(blob);
 
             // Markdown to rich loses nothing, so there is nothing to warn about. It is still
             // confirmed, because it rewrites the stored bytes and the editor cannot undo it.
@@ -192,12 +171,33 @@ namespace KillerNotes.Shell
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
+            byte[] beforeBlob = blob ?? [];
+
             var doc = MarkdownConvert.ToDocument(md, Editor.FontSize);
             var range = new TextRange(doc.ContentStart, doc.ContentEnd);
             using var ms = new MemoryStream();
             range.Save(ms, DataFormats.XamlPackage);
             NoteStore.SetFormat(note.Id, Note.FormatRich, ms.ToArray(), range.Text);
+            PushConvertUndo(note, Note.FormatMarkdown, beforeBlob, md);
             FinishConvert(note, Note.FormatRich);
+        }
+
+        /// <summary>Registers the conversion as ONE app-level undo step (ActionUndo.cs), the same
+        /// way a cross-note replace does. The original blob is restored verbatim rather than
+        /// converted back: a round trip through the other format is lossy, so re-converting would
+        /// hand back something subtly different from what the user had.</summary>
+        private void PushConvertUndo(Note note, int beforeFormat, byte[] beforeBlob, string beforePlain)
+        {
+            long id = note.Id;
+            PushUndo(() =>
+            {
+                if (NoteStore.IsReadOnly) return;
+                NoteStore.SetFormat(id, beforeFormat, beforeBlob, beforePlain);
+                var row = _notes.FirstOrDefault(n => n.Id == id)
+                          ?? _sidebarItems.OfType<Note>().FirstOrDefault(n => n.Id == id);
+                if (row != null) FinishConvert(row, beforeFormat);
+                else RefreshList(preserveScroll: true);
+            });
         }
 
         /// <summary>Shared tail: update both sidebar lists in place and reopen the note so the
