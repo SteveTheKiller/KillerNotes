@@ -267,19 +267,30 @@ namespace KillerNotes.Controls
                 // in Controls.xaml for the whole app - so setting content here would only be a
                 // seventh copy to drift out of step.
                 HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Center,
+                // STRETCH, not Center. The hover block has to reach the top edge of whatever band
+                // it is dropped into, or the band shows above it as a strip and the rounded
+                // top-right corner stops meeting the card corner. Centering only looked right in a
+                // 28px DialogTitleBarHeight band, where the 26px button left a 1px gap nobody
+                // could see; SketchPad and Dictation use the 36px main-window TitleBarHeight, and
+                // there the same button left a 5px band strip above it. Stretching also cannot
+                // reproduce the 2026-08-08 regression that made this a fixed height in the first
+                // place - a stretched button is exactly the band's height, so it can never
+                // overflow a short band and smother the card's corner.
+                VerticalAlignment = VerticalAlignment.Stretch,
                 Background = Brushes.Transparent,          // Transparent, not null: null is not hit-testable
                 Cursor = Cursors.Hand,
                 ToolTip = tooltip,
             };
             if (Application.Current?.TryFindResource("ChromeCloseButton") is Style s) glyph.Style = s;
-            // DialogCloseWidth/Height, the DIALOG-band size keys (ThemeManager), vertically
-            // CENTERED in the band. The main window's CaptionButtonWidth/Height (44x36) belongs
-            // to the 36px main bar; in a 28px dialog band it overflowed and the hover block
-            // smothered the card's rounded corner (2026-08-08). On a flat theme the keys
-            // resolve to the real caption-button size, so 98SE is unchanged.
+            // DialogCloseWidth, the DIALOG-band width key (ThemeManager). The main window's
+            // CaptionButtonWidth (44) belongs to the 36px main bar and was too wide for a 28px
+            // dialog band (2026-08-08). On a flat theme it resolves to the real caption-button
+            // width, so 98SE is unchanged.
+            //
+            // No Height: the band sets it, via the Stretch above. A fixed DialogCloseHeight is
+            // only ever right for one band size, and this helper serves both the 28px dialog band
+            // and the 36px SketchPad/Dictation band.
             glyph.SetResourceReference(FrameworkElement.WidthProperty, "DialogCloseWidth");
-            glyph.SetResourceReference(FrameworkElement.HeightProperty, "DialogCloseHeight");
             // DialogCaptionButtonsMargin, not CaptionButtonsMargin. The main window's key carries a
             // TOP inset because the window frame overlay paints over the first few pixels of its
             // band; a dialog band has no such overlay, so that inset just pushed the X down and it

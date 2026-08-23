@@ -1473,13 +1473,15 @@
                          overshooting by a few px used to land on the title bar (HTCAPTION).
                          IsHitTestVisibleInChrome lets these pixels win inside the caption
                          zone. Shown only while minimized (FormatBar.cs). -->
+                    <!-- No Cursor here: EnableFmtBarSlide sets the grab hand on every drag
+                         surface, so the affordance has one source of truth. -->
                     <Border x:Name="FmtPeekHalo" Background="Transparent" Height="8" Margin="0,-8,0,0"
-                            VerticalAlignment="Top" Visibility="Collapsed" Cursor="Hand"
+                            VerticalAlignment="Top" Visibility="Collapsed"
                             shell:WindowChrome.IsHitTestVisibleInChrome="True"
                             ToolTip="{DynamicResource Str_TT_FmtPeek}"/>
 
                     <!-- Peek strip shown while minimized: click to restore, drag to move -->
-                    <Border x:Name="FmtPeek" Background="Transparent" Cursor="Hand" Height="9"
+                    <Border x:Name="FmtPeek" Background="Transparent" Height="9"
                             Visibility="Collapsed"
                             ToolTip="{DynamicResource Str_TT_FmtPeek}">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
@@ -1496,7 +1498,7 @@
                 <WrapPanel x:Name="FmtButtons" Orientation="Horizontal" Margin="8,0">
                     <!-- Drag grip (double-click minimizes, like KillerPDF) -->
                     <!-- Vertical 3-dot column, exactly like KillerPDF's MakeBarGrip -->
-                    <Border x:Name="FmtGrip" Background="Transparent" Cursor="Hand"
+                    <Border x:Name="FmtGrip" Background="Transparent"
                             Padding="1,0,10,0" VerticalAlignment="Stretch"
                             ToolTip="{DynamicResource Str_TT_FmtGrip}">
                         <Grid IsHitTestVisible="False">
@@ -1888,7 +1890,7 @@
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <!-- Drag grip: two columns of three dots, the family's grab handle.
                                  Transparent yet hit-testable so it can be grabbed. -->
-                            <Border x:Name="FindGrip" Background="Transparent" Cursor="SizeAll"
+                            <Border x:Name="FindGrip" Background="Transparent"
                                     VerticalAlignment="Stretch" Margin="2,0,6,0"
                                     ToolTip="{DynamicResource Str_TT_FindGrip}">
                                 <Grid IsHitTestVisible="False">

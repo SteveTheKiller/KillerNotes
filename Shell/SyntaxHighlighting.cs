@@ -42,6 +42,14 @@ namespace KillerNotes.Shell
         private static Color SynType     => Syn("Syn_Type",      78, 201, 176);
         private static Color SynOperator => Syn("Syn_Operator", 197, 134, 192);
         private static Color SynKeyword  => Syn("Syn_Keyword",   86, 156, 214);
+
+        /// <summary>The seven colors a syntax pass can paint, resolved for the ACTIVE theme.
+        /// SaveCurrentNote hands these to SyntaxStrip so the stored copy carries none of them,
+        /// which is what lets the live document keep its paint across a save.</summary>
+        private static IReadOnlyCollection<Color> SyntaxPalette() =>
+        [
+            SynComment, SynString, SynNumber, SynVariable, SynType, SynOperator, SynKeyword,
+        ];
         private bool _syntaxHighlight;
         private bool _applyingSyntax;
         // The paragraphs currently carrying token colors. Restoring one CLEARS its local
@@ -448,19 +456,27 @@ namespace KillerNotes.Shell
                 _ => ""
             };
             if (keywords.Length > 0) Add(tokens, s, keywords, SynKeyword, RegexOptions.IgnoreCase);
+            if (tokens.Count == 0) return;
+
+            // Resolve every boundary in ONE walk, then paint. Two lookups per token, each
+            // restarting from ContentStart, was the hot spot on a long paragraph.
+            var offsets = new SortedSet<int>();
+            foreach (var t in tokens) { offsets.Add(t.Start); offsets.Add(t.Start + t.Length); }
+            var at = ResolveOffsets(paragraph, offsets);
+
+            // Still back to front: ApplyPropertyValue splits runs, and painting from the end means
+            // the structural churn happens behind the pointers still waiting to be used.
             foreach (var token in tokens.OrderByDescending(t => t.Start))
             {
-                var start = PositionAtCharacter(paragraph.ContentStart, paragraph.ContentEnd, token.Start);
-                var end = PositionAtCharacter(paragraph.ContentStart, paragraph.ContentEnd, token.Start + token.Length);
-                if (start != null && end != null && start.CompareTo(end) < 0)
+                if (!at.TryGetValue(token.Start, out var start) ||
+                    !at.TryGetValue(token.Start + token.Length, out var end) ||
+                    start == null || end == null || start.CompareTo(end) >= 0) continue;
+                try
                 {
-                    try
-                    {
-                        new TextRange(start, end).ApplyPropertyValue(
-                            TextElement.ForegroundProperty, new SolidColorBrush(token.Color));
-                    }
-                    catch (InvalidOperationException) { /* document changed during deferred refresh */ }
+                    new TextRange(start, end).ApplyPropertyValue(
+                        TextElement.ForegroundProperty, SynBrush(token.Color));
                 }
+                catch (InvalidOperationException) { /* document changed during deferred refresh */ }
             }
         }
 
@@ -519,24 +535,68 @@ namespace KillerNotes.Shell
             }
         }
 
-        private static TextPointer? PositionAtCharacter(TextPointer start, TextPointer end, int offset)
+        // Frozen and shared. The apply loop used to allocate a SolidColorBrush per token, so a
+        // long script built thousands of live DependencyObjects per pass, each joining change
+        // notification, for seven distinct colors. Frozen brushes also let WPF skip per-render
+        // change tracking entirely. Keyed by the color so a theme switch simply produces new
+        // entries rather than handing back the old theme's brush.
+        private static readonly Dictionary<Color, SolidColorBrush> _synBrushes = [];
+
+        private static SolidColorBrush SynBrush(Color c)
         {
+            if (_synBrushes.TryGetValue(c, out var cached)) return cached;
+            var brush = new SolidColorBrush(c);
+            brush.Freeze();
+            _synBrushes[c] = brush;
+            return brush;
+        }
+
+        /// <summary>Resolves EVERY token boundary in one forward walk of the paragraph.
+        ///
+        /// The old code called PositionAtCharacter twice per token, and each call restarted from
+        /// paragraph.ContentStart and walked forward character run by character run. That is
+        /// O(tokens * length) per paragraph, and it degrades as it goes because each applied token
+        /// splits more Runs for the next walk to step through. On a long script paragraph that is
+        /// the bulk of the cost.
+        ///
+        /// One ordered pass instead. TextPointer tracks its position through later edits, so the
+        /// pointers stay correct while the apply loop splits runs underneath them.</summary>
+        private static Dictionary<int, TextPointer> ResolveOffsets(Paragraph paragraph, SortedSet<int> offsets)
+        {
+            var found = new Dictionary<int, TextPointer>();
+            if (offsets.Count == 0) return found;
+
+            TextPointer end = paragraph.ContentEnd;
+            TextPointer? p = paragraph.ContentStart;
             int seen = 0;
-            TextPointer? p = start;
+            using var wanted = offsets.GetEnumerator();
+            if (!wanted.MoveNext()) return found;
+            int target = wanted.Current;
+
             while (p != null && p.CompareTo(end) < 0)
             {
                 if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text)
                 {
                     string text = p.GetTextInRun(LogicalDirection.Forward);
-                    if (seen + text.Length >= offset)
-                        return p.GetPositionAtOffset(offset - seen, LogicalDirection.Forward);
+                    // Every boundary landing inside this run is resolved before moving on.
+                    while (seen + text.Length >= target)
+                    {
+                        found[target] = p.GetPositionAtOffset(target - seen, LogicalDirection.Forward);
+                        if (!wanted.MoveNext()) return found;
+                        target = wanted.Current;
+                    }
                     seen += text.Length;
                     p = p.GetPositionAtOffset(text.Length, LogicalDirection.Forward);
                 }
                 else p = p.GetNextContextPosition(LogicalDirection.Forward);
             }
-            return offset == seen ? end : null;
+
+            // A boundary exactly at the end of the text is legitimate and lands on ContentEnd.
+            if (target == seen) found[target] = end;
+            return found;
         }
+
+
 
         private static IEnumerable<Paragraph> Paragraphs(IEnumerable<Block> blocks)
         {

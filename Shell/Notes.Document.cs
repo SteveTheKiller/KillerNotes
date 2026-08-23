@@ -75,6 +75,7 @@ namespace KillerNotes.Shell
             NormalizeThemeColors(Editor.Document);   // Editor.cs (default text follows the live theme)
             NormalizeContentFont(Editor.Document);   // Fonts.cs (baked save-time font must not defeat the ContentFont slot)
             ApplyImageQuality(Editor.Document);      // ImageResize.cs (Fant scaling on loaded images)
+            ApplyFloatCursors(Editor.Document);      // Editor.Float.cs (grab hand on already-floated objects)
             EnsureEditableTail();   // Editor.cs (rule/table as last block traps the caret)
             ApplyFormatMode();      // Markdown.cs (hide the format bar over a plain-text note)
             LoadSyntaxHighlightState();
@@ -163,10 +164,23 @@ namespace KillerNotes.Shell
             if (_currentId < 0 || !_dirty || !NoteStore.IsOpen) return;
             if (_loadFailed) return;   // the editor is empty because the load failed (OpenNote)
 
-            // Syntax colors are a transient view over the user's real rich formatting.
-            // Never bake TextEffects into the XamlPackage; restore them immediately after.
-            bool rehighlight = _syntaxHighlight;
-            if (rehighlight) ClearSyntaxHighlighting();
+            // NEVER serialize mid-drag. A float drag re-parents the Floater between paragraphs on
+            // every mouse move (ReanchorFloater) and appends anchor paragraphs as it goes
+            // (GrowAnchorsTo); walking the whole TextContainer with TextRange.Save while that is in
+            // flight asks the RichTextBox's TSF text store for offsets that no longer map to a
+            // node, and WPF answers with Environment.FailFast - a hard kill with exit code 0, no
+            // exception and no Windows error report, which is exactly why the app "just closes"
+            // with nothing to catch (see the FailFast note in GrowAnchorsTo).
+            //
+            // It only bites when the pointer pauses mid-gesture: continuous movement keeps
+            // restarting the 2 second timer, so a drag that stops moving for two seconds while the
+            // button is still down is the case that fires. Deferred, not dropped - the release
+            // handler marks the note dirty again and the save lands immediately after the drop.
+            if (_dragFloater != null || _armedObject != null || _dragDial != null)
+            {
+                _saveTimer.Start();
+                return;
+            }
 
             byte[] blob;
             string bodyText;
@@ -183,13 +197,22 @@ namespace KillerNotes.Shell
                 range.Save(ms, DataFormats.XamlPackage);
                 blob = ms.ToArray();
                 bodyText = range.Text;
+
+                // Syntax colors are a transient view over the user's real formatting and must not
+                // be stored. They used to be stripped off the LIVE document before this serialize
+                // and repainted after, which meant a full clear and re-tokenize of the whole note
+                // inside every 2 second autosave - the thing that made a long highlighted script
+                // crawl while being edited. The editor now keeps its paint and its incremental
+                // cache, and the colors come out of the stored bytes instead (SyntaxStrip.cs).
+                if (_syntaxHighlight) blob = SyntaxStrip.Remove(blob, SyntaxPalette());
             }
             // Sketch text labels ride at the END of the stored plain text (Editor.Sketch.cs), so
             // a labeled diagram is searchable without its labels ever displacing the snippet.
             string sketchLabels = CollectSketchLabelText();
             string storedPlain = sketchLabels.Length == 0 ? bodyText : bodyText + "\n" + sketchLabels;
             NoteStore.Save(_currentId, TitleBox.Text, blob, storedPlain);
-            if (rehighlight) ApplySyntaxHighlighting();
+            // No repaint here any more. The document was never unpainted, so there is nothing to
+            // restore and the incremental cache is still warm.
             SaveSketchPayloads(_currentId);   // SketchPad: persist sketch strokes by image ordinal (Editor.cs)
             _dirty = false;
 

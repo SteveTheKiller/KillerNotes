@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using KillerNotes.Controls;
 
 namespace KillerNotes.Shell
 {
@@ -351,11 +352,16 @@ namespace KillerNotes.Shell
         /// <summary>Grip drag: moves the card inside the note body and persists where it lands.</summary>
         private void EnableFindBarDrag(FrameworkElement handle)
         {
+            handle.Cursor = DragCursors.Open;
+            // A capture lost to an alt-tab or a dialog never reaches the button-up handler, which
+            // would strand the closed hand on screen for the rest of the session.
+            handle.LostMouseCapture += (_, _) => DragCursors.EndDrag();
             handle.MouseLeftButtonDown += (_, e) =>
             {
                 var p = e.GetPosition(EditorArea);
                 _findDrag = (p.X, p.Y, FindBar.Margin);
                 handle.CaptureMouse();
+                DragCursors.BeginDrag();
                 e.Handled = true;
             };
             handle.MouseMove += (_, e) =>
@@ -373,6 +379,7 @@ namespace KillerNotes.Shell
                 if (_findDrag == null) return;
                 _findDrag = null;
                 handle.ReleaseMouseCapture();
+                DragCursors.EndDrag();
                 var inv = CultureInfo.InvariantCulture;
                 App.SetSetting(FindBarKey + "Left", ((int)FindBar.Margin.Left).ToString(inv));
                 App.SetSetting(FindBarKey + "Top",  ((int)FindBar.Margin.Top).ToString(inv));

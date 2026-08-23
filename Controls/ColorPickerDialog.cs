@@ -173,10 +173,17 @@ namespace KillerNotes.Controls
             // SketchPad and the file picker got.
             // LEFT padding only, like DialogTitleBar - the right pad floated the close X off the
             // corner (same fix as WhisperModelDialog, 2026-08-08).
-            var titleBand = new Border { Padding = new Thickness(14, 0, 0, 0), Cursor = Cursors.SizeAll };
+            var titleBand = new Border { Padding = new Thickness(14, 0, 0, 0), Cursor = DragCursors.Open };
             titleBand.SetResourceReference(Border.BackgroundProperty, "DialogTitleBarBrush");
             titleBand.SetResourceReference(FrameworkElement.HeightProperty, "DialogTitleBarHeight");
-            titleBand.MouseLeftButtonDown += (_, e) => { if (e.ButtonState == MouseButtonState.Pressed) DragMove(); };
+            titleBand.MouseLeftButtonDown += (_, e) =>
+            {
+                if (e.ButtonState != MouseButtonState.Pressed) return;
+                // DragMove blocks for the whole move, so the override brackets it rather than
+                // being cleared from a button-up handler that never runs.
+                DragCursors.BeginDrag();
+                try { DragMove(); } catch { } finally { DragCursors.EndDrag(); }
+            };
             var title = new TextBlock
             {
                 Text = L("Str_Dlg_PickColor", "Pick a color"),

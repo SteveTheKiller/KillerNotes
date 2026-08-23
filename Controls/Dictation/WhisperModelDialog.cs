@@ -192,10 +192,17 @@ namespace KillerNotes.Controls
             // and the close button looked wrong on this dialog (2026-08-08). With the
             // pad gone the X reaches the corner and DialogCaptionButtonsMargin supplies the
             // family 3px inset, identical to every other dialog caption.
-            var band = new Border { Padding = new Thickness(14, 0, 0, 0), Cursor = Cursors.SizeAll };
+            var band = new Border { Padding = new Thickness(14, 0, 0, 0), Cursor = DragCursors.Open };
             band.SetResourceReference(Border.BackgroundProperty, "DialogTitleBarBrush");
             band.SetResourceReference(HeightProperty, "DialogTitleBarHeight");
-            band.MouseLeftButtonDown += (_, e) => { if (e.ButtonState == MouseButtonState.Pressed) DragMove(); };
+            band.MouseLeftButtonDown += (_, e) =>
+            {
+                if (e.ButtonState != MouseButtonState.Pressed) return;
+                // DragMove blocks for the whole move, so the override brackets it rather than
+                // being cleared from a button-up handler that never runs.
+                DragCursors.BeginDrag();
+                try { DragMove(); } catch { } finally { DragCursors.EndDrag(); }
+            };
 
             // DialogChrome.Wordmark, not a plain TextBlock. This was the last caption in the app
             // still writing its own title, so it showed bare "Speech model" in the UI font while

@@ -29,16 +29,47 @@ namespace KillerNotes.Controls
 
         public event Action? Resized;
         public event Action? DismissRequested;
+        /// <summary>Double-click on the image body rather than a handle. The adorner covers the
+        /// image the moment it is selected, so this press never reaches Editor_ImagePress, which
+        /// returns early on anything sourced from the adorner. That is why double-clicking a
+        /// SELECTED image stopped opening the SketchPad: the gesture only worked on the very first
+        /// click, while the image was still unselected and had no adorner over it.</summary>
+        public event Action? EditRequested;
 
         // While a resize is previewed (RenderTransform only, no layout change yet), draw the frame and
         // handles at the scaled size so the box tracks the image; 1.0 when not previewing.
         private double PreviewScale => _previewing && _startWidth > 0 ? _pendingW / _startWidth : 1.0;
 
-        private Point[] Corners()
+        /// <summary>Which corner stays put while a given handle is dragged, as a
+        /// RenderTransformOrigin. 0 TL pins BR, 1 TR pins BL, 2 BL pins TR, 3 BR pins TL.</summary>
+        private static Point OriginFor(int corner) => corner switch
+        {
+            0 => new Point(1, 1),
+            1 => new Point(0, 1),
+            2 => new Point(1, 0),
+            _ => new Point(0, 0),
+        };
+
+        /// <summary>The previewed box in adorner coordinates. Scaling about an origin moves the
+        /// box, so the frame has to follow it or the handles sit away from the image mid-drag -
+        /// the runaway rectangle. Scaling about O maps a point p to O + s*(p - O), so the top-left
+        /// lands at origin * size * (1 - scale).</summary>
+        private Rect PreviewBox()
         {
             double s = PreviewScale;
-            double w = _img.ActualWidth * s, h = _img.ActualHeight * s;
-            return [new Point(0, 0), new Point(w, 0), new Point(0, h), new Point(w, h)];
+            double w0 = _img.ActualWidth, h0 = _img.ActualHeight;
+            Point o = _previewing ? OriginFor(_corner) : new Point(0, 0);
+            return new Rect(o.X * w0 * (1 - s), o.Y * h0 * (1 - s), w0 * s, h0 * s);
+        }
+
+        private Point[] Corners()
+        {
+            Rect r = PreviewBox();
+            return
+            [
+                new Point(r.Left, r.Top), new Point(r.Right, r.Top),
+                new Point(r.Left, r.Bottom), new Point(r.Right, r.Bottom),
+            ];
         }
 
         private int CornerAt(Point p)
@@ -54,9 +85,7 @@ namespace KillerNotes.Controls
         {
             var accent = Application.Current.TryFindResource("PrimaryBrush") as Brush
                          ?? Brushes.MediumPurple;
-            double s = PreviewScale;
-            dc.DrawRectangle(null, new Pen(accent, 1.5),
-                new Rect(0, 0, _img.ActualWidth * s, _img.ActualHeight * s));
+            dc.DrawRectangle(null, new Pen(accent, 1.5), PreviewBox());
             foreach (var c in Corners())
             {
                 // Transparent square = the generous hit target; accent square = the visual.
@@ -75,7 +104,14 @@ namespace KillerNotes.Controls
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             _corner = CornerAt(e.GetPosition(this));
-            if (_corner < 0) { DismissRequested?.Invoke(); return; }
+            if (_corner < 0)
+            {
+                // Body double-click = open in the SketchPad. Handled here because the adorner is
+                // what the mouse actually hits once the image is selected.
+                if (e.ClickCount == 2) { EditRequested?.Invoke(); e.Handled = true; return; }
+                DismissRequested?.Invoke();
+                return;
+            }
 
             _dragging = true;
             _start = e.GetPosition(ResizeRef);
@@ -124,8 +160,15 @@ namespace KillerNotes.Controls
             _pendingW = newW;
             _previewing = true;
             double scale = newW / Math.Max(1, _startWidth);
+            // Pin the OPPOSITE corner, so the handle you are holding is the one that moves. The
+            // origin used to be (0,0) for every handle, which pinned the top-left whichever corner
+            // you grabbed: dragging the bottom-left grew the image rightward and downward, away
+            // from the cursor, instead of expanding toward the left as the gesture implies.
+            //   0 TL -> pin BR (1,1)   1 TR -> pin BL (0,1)
+            //   2 BL -> pin TR (1,0)   3 BR -> pin TL (0,0)
+            _img.RenderTransformOrigin = OriginFor(_corner);
             if (_img.RenderTransform is ScaleTransform st) { st.ScaleX = scale; st.ScaleY = scale; }
-            else { _img.RenderTransformOrigin = new Point(0, 0); _img.RenderTransform = new ScaleTransform(scale, scale); }
+            else _img.RenderTransform = new ScaleTransform(scale, scale);
             InvalidateVisual();   // redraw the frame + handles at the previewed size (the box tracks the image)
             e.Handled = true;
         }

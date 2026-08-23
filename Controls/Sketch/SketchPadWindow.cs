@@ -174,6 +174,9 @@ namespace KillerNotes.Controls
             _canvas.SetResourceReference(Panel.BackgroundProperty, "PaneBrush");   // DynamicResource so it follows a live theme change
             _canvas.MouseLeftButtonDown += CanvasDown;
             _canvas.MouseMove += CanvasMove;
+            // A capture lost to a dialog or an alt-tab never reaches CanvasUp, which would leave
+            // the fist overriding the cursor app-wide for the rest of the session.
+            _canvas.LostMouseCapture += (_, _) => DragCursors.EndDrag();
             _canvas.MouseLeftButtonUp += CanvasUp;
             _canvas.MouseRightButtonDown += OnCanvasRightDown;   // context menu (object vs empty canvas)
             _canvas.MouseWheel += OnWheel;                       // scroll over a placed image = its opacity

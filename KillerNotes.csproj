@@ -102,6 +102,8 @@
     <Resource Include="Resources\kn-note.ico" />
     <Resource Include="Resources\kn-db.ico" />
     <Resource Include="Fonts\KillerNotes.ttf" />
+	<Resource Include="Resources\open_hand.cur" />
+	<Resource Include="Resources\closed_hand.cur" />
   </ItemGroup>
 
   <!-- SQLCipher native (x64) embedded for the single-exe build; SqlCipherBootstrap extracts it

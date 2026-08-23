@@ -78,6 +78,14 @@ namespace KillerNotes.Shell
             // wrapping around the OLD footprint (Editor.Float.cs).
             _imgAdorner.Resized += () => RefloatWidth(img);
             _imgAdorner.DismissRequested += DeselectImage;
+            // Same destination as the unselected double-click in Editor_ImagePress: a printed
+            // sketch reopens with its editable objects, any other image as a drawable backdrop.
+            _imgAdorner.EditRequested += () =>
+            {
+                if (Sketch.TryGetData(img, out var payload))
+                    OpenSketchPadForEdit(img, SketchModel.Deserialize(payload));
+                else OpenSketchPadForEditImage(img);
+            };
             layer.Add(_imgAdorner);
             _selImage = img;
         }

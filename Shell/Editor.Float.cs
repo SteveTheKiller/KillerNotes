@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using KillerNotes.Controls;
+using KillerNotes.Models;
 using KillerNotes.Services;
 
 // Floating images and recordings (1.2.0).
@@ -100,6 +102,17 @@ namespace KillerNotes.Shell
             Editor.PreviewMouseLeftButtonDown += Editor_FloatDragPress;
             Editor.PreviewMouseMove += Editor_FloatDragMove;
             Editor.PreviewMouseLeftButtonUp += Editor_FloatDragRelease;
+            // A drag that loses capture never reaches the release handler, so without this the
+            // closed hand stays as the app-wide override and hovering never shows the open one
+            // again. The editor drops capture on its own more than the bars do: the document
+            // reflows under the gesture, and opening the SketchPad or a context menu takes it.
+            //
+            // CURSOR ONLY. This must NOT clear _dragFloater/_dragObject: the drag state is read
+            // across the whole of Editor_FloatDragMove, and the document edits in that path drop
+            // capture RE-ENTRANTLY, so clearing here nulls the floater between the guard at the
+            // top and ReanchorFloater at the bottom of the same call. The button-state guard in
+            // the move handler and the release handler already own that state.
+            Editor.LostMouseCapture += (_, _) => DragCursors.EndDrag();
             Editor.PreviewMouseRightButtonDown += Editor_ObjectRightPress;
             Editor.ContextMenuOpening += Editor_ContextMenuOpening;
             Editor.ContextMenuClosing += Editor_ContextMenuClosing;
@@ -191,6 +204,19 @@ namespace KillerNotes.Shell
                 return;
             }
 
+            // Double-click is the SketchPad gesture, not a drag. It has to be answered HERE: this
+            // handler claims every press on a floated object, so Editor_ImagePress - which owns the
+            // double-click for inline images - never runs once an image has been moved. That is
+            // exactly why double-clicking stopped opening the pad after the first drag.
+            if (e.ClickCount == 2 && el is Image dbl)
+            {
+                if (Sketch.TryGetData(dbl, out var payload))
+                    OpenSketchPadForEdit(dbl, SketchModel.Deserialize(payload));
+                else OpenSketchPadForEditImage(dbl);
+                e.Handled = true;
+                return;
+            }
+
             // Select the image OURSELVES. This handler claims the click (e.Handled below) so the
             // drag can start, which stops Editor_ImagePress from ever running - and that is what
             // silently cost a floated image its resize handles. A click still selects; a drag still
@@ -203,6 +229,10 @@ namespace KillerNotes.Shell
             _dragFromX = CurrentLeft(fl, el);
             _dragBlockFloor = Editor.Document.Blocks.Count;
             Editor.CaptureMouse();
+            // CaptureMouse hands the cursor to the RichTextBox, whose own IBeam then wins for the
+            // whole drag - the object's Cursor stops being consulted the moment capture moves.
+            // An override outranks both and is cleared on release.
+            DragCursors.BeginDrag();
             // Claim the click so the editor does not also move the caret or start a selection, and
             // so the image/recording handlers registered after this one stay out of it.
             e.Handled = true;
@@ -253,6 +283,10 @@ namespace KillerNotes.Shell
                         _dragStart = p;
                         _dragFromX = CurrentLeft(made, el);
                         Editor.CaptureMouse();
+                        // An inline object only becomes a float once the pointer has travelled, so
+                        // this is where a first-ever drag actually begins - without the override the
+                        // RichTextBox's IBeam owns the cursor for the whole of it.
+                        DragCursors.BeginDrag();
                     }
                 }
             }
@@ -312,6 +346,12 @@ namespace KillerNotes.Shell
             }
 
             _armedObject = null;   // a press that never became a drag was just a click
+
+            // Before the early return, not after it: releasing the button always ends the grab,
+            // whether or not this particular press turned into a float. Left below the return, a
+            // drag whose floater went away mid-gesture left the closed hand overriding the cursor
+            // app-wide, and hovering never showed the open hand again.
+            DragCursors.EndDrag();   // hand the cursor back to whatever is under it
 
             if (_dragFloater == null) return;
             Editor.ReleaseMouseCapture();
@@ -582,10 +622,16 @@ namespace KillerNotes.Shell
         /// mechanism - a Floater reserves its column from wherever it is anchored, so moving it down
         /// the page means moving it to a later paragraph, not adding a top margin.
         /// </summary>
-        private void ReanchorFloater(Floater fl, Point p)
+        private void ReanchorFloater(Floater? fl, Point p)
         {
             try
             {
+                // Nullable on purpose. Both callers read _dragFloater after their own guard, and
+                // this method runs on every mouse move through code that mutates the document -
+                // so anything that clears the drag state re-entrantly lands here as a null. The
+                // catch below would swallow the resulting NullReferenceException and quietly stop
+                // re-anchoring for the rest of the gesture; this makes it an honest no-op instead.
+                if (fl is null) return;
                 if (fl.Parent is not Paragraph from) return;
                 // Give the drag somewhere lower to land before asking what is under the cursor.
                 GrowAnchorsTo(p);
@@ -607,6 +653,38 @@ namespace KillerNotes.Shell
                 finally { Editor.EndChange(); }
             }
             catch { /* odd drop target (inside a table cell being edited); leave the anchor alone */ }
+        }
+
+        /// <summary>
+        /// Re-applies the grab hand to every object that is ALREADY floated in a loaded note.
+        ///
+        /// Float() is the only place that sets the cursor, and it runs when an object is lifted
+        /// out of the text - never again. An object floated in an earlier session comes back as a
+        /// Floater straight out of the XamlPackage without passing through Float(), so nothing
+        /// gives it a cursor. That went unnoticed while the cursor was Cursors.SizeAll, because
+        /// "SizeAll" is a named value with a type converter and so survived the save as a string;
+        /// a cursor loaded from a .cur stream has no such representation and does not, which is
+        /// why the hand stopped appearing on images the moment the art replaced SizeAll.
+        /// </summary>
+        private static void ApplyFloatCursors(FlowDocument doc)
+        {
+            foreach (var fl in Floaters(doc))
+                if (fl.Blocks.FirstBlock is BlockUIContainer { Child: FrameworkElement el })
+                    el.Cursor = DragCursors.Open;
+        }
+
+        /// <summary>Every Floater in the document, at any nesting depth.</summary>
+        private static IEnumerable<Floater> Floaters(FlowDocument doc)
+        {
+            var stack = new Stack<DependencyObject>();
+            stack.Push(doc);
+            while (stack.Count > 0)
+            {
+                var d = stack.Pop();
+                if (d is Floater f) yield return f;
+                foreach (object child in LogicalTreeHelper.GetChildren(d))
+                    if (child is DependencyObject dc) stack.Push(dc);
+            }
         }
 
         /// <summary>Lifts an inline object out of the text flow into a draggable Floater.</summary>
@@ -648,7 +726,7 @@ namespace KillerNotes.Shell
             para.Inlines.Add(fl);
             }
             finally { Editor.EndChange(); }
-            el.Cursor = Cursors.SizeAll;   // say it is draggable
+            el.Cursor = DragCursors.Open;   // say it is draggable
         }
 
         /// <summary>Puts a floated object back into the text flow, inline, at the caret.</summary>

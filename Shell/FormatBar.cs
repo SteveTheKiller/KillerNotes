@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Threading;
+using KillerNotes.Controls;
 
 namespace KillerNotes.Shell
 {
@@ -78,6 +79,10 @@ namespace KillerNotes.Shell
         private void EnableFmtBarSlide(FrameworkElement grip)
         {
             bool dragging = false;   // true only after real movement (per-grip closure state)
+            grip.Cursor = DragCursors.Open;
+            // A capture lost to an alt-tab or a dialog never reaches the button-up handler, which
+            // would strand the closed hand on screen for the rest of the session.
+            grip.LostMouseCapture += (_, _) => DragCursors.EndDrag();
             grip.MouseLeftButtonDown += (s, e) =>
             {
                 if (e.ClickCount == 2)
@@ -96,6 +101,7 @@ namespace KillerNotes.Shell
                 dragging = false;
                 _fmtDrag = (e.GetPosition(host).X, left);
                 grip.CaptureMouse();
+                DragCursors.BeginDrag();
                 e.Handled = true;
             };
             grip.MouseMove += (s, e) =>
@@ -119,6 +125,7 @@ namespace KillerNotes.Shell
                 if (_fmtDrag == null) return;
                 _fmtDrag = null;
                 grip.ReleaseMouseCapture();
+                DragCursors.EndDrag();
                 e.Handled = true;
                 if (!dragging)
                 {

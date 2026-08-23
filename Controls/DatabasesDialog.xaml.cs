@@ -89,19 +89,29 @@ namespace KillerNotes.Controls
             DlgStatus.Text = NoteStore.DbDir;
         }
 
-        // Selection fills the row with the accent; white text keeps it readable (the notes
-        // sidebar does the same). Unselected: active db name in the accent, others normal.
+        // Selection fills the row with the accent. Unselected: active db name in the accent,
+        // others normal.
         private static void SetRowColors(TextBlock name, TextBlock meta, bool active, bool selected)
         {
             if (selected)
             {
-                name.Foreground = Brushes.White;
-                meta.Foreground = new SolidColorBrush(Color.FromArgb(0xC8, 0xFF, 0xFF, 0xFF));
+                // SelectionFg, NOT Brushes.White. The ListBoxItem trigger in the XAML already sets
+                // SelectionFg for exactly this reason, but a local value on the child TextBlock
+                // beats an inherited one, so hardcoding white here silently defeated it - which is
+                // why the row still came out white on yellow after that trigger was added. On a
+                // theme that selects with a bright accent (Ectoplasm's RowSelectedBrush is
+                // #ead900) white is invisible; all thirteen themes define SelectionFg.
+                name.SetResourceReference(TextBlock.ForegroundProperty, "SelectionFg");
+                meta.SetResourceReference(TextBlock.ForegroundProperty, "SelectionFg");
+                // Subordinate to the name by opacity rather than a second hardcoded colour, so it
+                // stays legible whatever SelectionFg resolves to.
+                meta.Opacity = 0.78;
             }
             else
             {
                 name.SetResourceReference(TextBlock.ForegroundProperty, active ? "PrimaryBrush" : "TextBrush");
                 meta.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
+                meta.Opacity = 1.0;
             }
         }
 

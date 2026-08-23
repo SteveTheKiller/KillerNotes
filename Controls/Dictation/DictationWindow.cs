@@ -269,13 +269,19 @@ namespace KillerNotes.Controls
             // inset the two stacked and the button sat 4px down instead of 2. SketchPad has always
             // done it the other way - a bare band, with the padding on the MARK only - and that is
             // the one that lines up, so this now matches it. The mark takes the padding below.
-            var band = new Border { Cursor = Cursors.SizeAll };
+            var band = new Border { Cursor = DragCursors.Open };
             band.SetResourceReference(Border.BackgroundProperty, "DialogTitleBarBrush");
             band.SetResourceReference(HeightProperty, "TitleBarHeight");
             band.MouseLeftButtonDown += (_, e) =>
             {
                 if (e.ClickCount == 2) WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-                else if (e.ButtonState == MouseButtonState.Pressed) DragMove();
+                else if (e.ButtonState == MouseButtonState.Pressed)
+                {
+                    // DragMove blocks for the whole move, so the override brackets it rather than
+                    // being cleared from a button-up handler that never runs.
+                    DragCursors.BeginDrag();
+                    try { DragMove(); } catch { } finally { DragCursors.EndDrag(); }
+                }
             };
             // The wordmark, same as SketchPad and Databases - this used to be the bare word
             // "Dictation" in the content font, which is why this one dialog looked like it came
@@ -368,7 +374,7 @@ namespace KillerNotes.Controls
                 _wave.SelectedSegment = _wave.SegmentAt(_menuFraction);
                 ShowWaveMenu();
             };
-            waveFrame.Child = _wave;
+            waveFrame.Child = Grained(_wave, waveFrame.CornerRadius);
             var waveHost = Sunken(waveFrame, waveFrame.Margin);
             waveFrame.Margin = new Thickness(0);
             Grid.SetRow(waveHost, 1);
@@ -397,9 +403,42 @@ namespace KillerNotes.Controls
             // the second half of a pair with the waveform above it, so it takes the same pane edge
             // rather than standing out as a form field on a card.
             _transcript.SetResourceReference(Control.BorderBrushProperty, "PaneBorderBrush");
-            var host = Sunken(_transcript, new Thickness(0));
+            // The grain goes UNDER the text, not over it: a layer on top of a TextBox would tint
+            // the glyphs and the caret. Painting the box's own face transparent lets the textured
+            // pane behind show through, so the surface is grained while the text stays clean.
+            var face = new Border();
+            face.SetResourceReference(Border.BackgroundProperty, "PaneBrush");
+            if (Application.Current.TryFindResource("ControlCornerRadius") is CornerRadius tr)
+                face.CornerRadius = tr;
+            _transcript.Background = System.Windows.Media.Brushes.Transparent;
+            face.Child = Grained(null, face.CornerRadius);
+
+            var stack = new Grid();
+            stack.Children.Add(face);
+            stack.Children.Add(_transcript);
+            var host = Sunken(stack, new Thickness(0));
             Grid.SetRow(host, 3);
             body.Children.Add(host);
+        }
+
+        /// <summary>
+        /// Puts a film-grain layer over a pane's own face.
+        ///
+        /// The window-level grain layer sits UNDER the content, so any pane that paints its own
+        /// PaneBrush face covers it and comes out flat. That is why the waveform and the transcript
+        /// were the only two untextured surfaces in the pad. Resource references rather than baked
+        /// values, for the same reason the window layer uses them: a pad built under a grainy theme
+        /// kept its texture after a live switch to 98SE, whose GrainOpacity is 0.
+        /// </summary>
+        private static UIElement Grained(UIElement? content, CornerRadius radius)
+        {
+            var g = new Grid();
+            if (content != null) g.Children.Add(content);
+            var grain = new Border { IsHitTestVisible = false, CornerRadius = radius };
+            grain.SetResourceReference(Border.BackgroundProperty, "GrainTileBrush");
+            grain.SetResourceReference(UIElement.OpacityProperty, "GrainOpacity");
+            g.Children.Add(grain);
+            return g;
         }
 
         /// <summary>

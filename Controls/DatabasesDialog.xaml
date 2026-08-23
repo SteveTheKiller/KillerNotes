@@ -89,6 +89,14 @@
                                                     </Trigger>
                                                     <Trigger Property="IsSelected" Value="True">
                                                         <Setter TargetName="bg" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                                                        <!-- The row's text has to move with the fill. Setting only the
+                                                             background left the default light foreground on top of the
+                                                             selection, which is unreadable the moment a theme selects
+                                                             with a bright accent: Ectoplasm's RowSelectedBrush is
+                                                             #ead900, and white on that is invisible. SelectionFg is
+                                                             each theme's answer for exactly this and is defined in all
+                                                             thirteen. -->
+                                                        <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>

@@ -81,6 +81,7 @@ namespace KillerNotes.Controls
             if (!_dragging) return;
             _dragging = false;
             _canvas.ReleaseMouseCapture();
+            DragCursors.EndDrag();   // no-op unless the fist is ours (Select drag)
             var p = Clamp(e.GetPosition(_canvas));
             RemovePreview();
             if (_tool != Tool.Eraser && _tool != Tool.Select) CommitGesture(p);
@@ -94,7 +95,14 @@ namespace KillerNotes.Controls
             _movePushed = false;
             _lastMove = p;
             _dragging = _sel != null;
-            if (_dragging) _canvas.CaptureMouse();
+            if (_dragging)
+            {
+                _canvas.CaptureMouse();
+                // Fist only once something is actually held. SetTool leaves Select on the plain
+                // arrow deliberately: an open hand on hover would sit over the artwork you are
+                // trying to click precisely, which is the opposite of what a select tool needs.
+                DragCursors.BeginDrag();
+            }
             RenderCanvas();
         }
 
