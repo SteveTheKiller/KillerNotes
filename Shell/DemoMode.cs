@@ -53,6 +53,10 @@ namespace KillerNotes.Shell
                     sOrd++;
                 }
                 if (sketchByOrd.Count > 0) NoteStore.SaveSketches(id, sketchByOrd);
+                // DemoDocMono marks its documents so the code-oriented demo notes open with
+                // highlighting on. The Tag is an in-memory hint only - it is not serialized
+                // with the blob - so the flag is written to the note's metadata here.
+                if (Equals(doc.Tag, SyntaxTag)) NoteStore.SetSyntaxHighlight(id, true);
                 var created = now.AddDays(-daysAgo);
                 var modified = created.AddHours(2 + (daysAgo % 5) * 7);
                 if (modified > now) modified = now.AddMinutes(-14);
@@ -256,7 +260,8 @@ namespace KillerNotes.Shell
         private static FlowDocument DemoDocMono(string intro, string mono, params string[] bullets)
         {
             // Code-oriented demo notes should showcase the same per-note toggle state a user
-            // gets after pressing </>. The marker is serialized with the demo document.
+            // gets after pressing </>. The marker is read back by Add(), which writes the flag
+            // into the note's metadata; it does not travel in the document blob.
             var d = new FlowDocument { Tag = SyntaxTag };
             d.Blocks.Add(DemoP(intro));
             d.Blocks.Add(DemoMono(mono));

@@ -31,6 +31,7 @@ namespace KillerNotes
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            HookCrashLogging();   // CrashLog.cs - first, so it covers startup itself
             base.OnStartup(e);
 
             // Silent install: KillerNotes.exe /silent

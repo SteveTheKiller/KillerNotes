@@ -124,6 +124,8 @@
 <li><b>A XamlPackage blob</b> - the full rich content. XamlPackage is WPF's container format for FlowDocuments: formatting, embedded images, and tables all round-trip through the database byte-perfect. Pasted screenshots are re-encoded to PNG on the way in so they serialize reliably.</li>
 <li><b>A plain-text shadow copy</b> - extracted on every save and fed to the search index, so search never has to parse rich content.</li>
 </ul>
+<p>A fourth column, <code>format</code>, says which of two content types the row is: rich text or markdown. Rich text is the default and every note written before 1.3.0 is one. A markdown note stores its source instead - what you typed, line for line - but still inside a XamlPackage container rather than as raw UTF-8 bytes. That wrapper is deliberate: every release before 1.3.0 reads any blob as a XamlPackage, so raw bytes in a shared <code>.kndb</code> or <code>.knote</code> would throw during startup on the receiving machine, before its window was usable. Wrapped, the same note opens in an older build as ordinary rich text showing its markdown source. The cost is a fixed floor of roughly 1.6 KB per markdown note; past that size the package deflates and comes out smaller than the raw source.</p>
+<p>The editor control is the same RichTextBox for both types, with a markdown note loaded as one zero-margin paragraph per line. Everything built on the FlowDocument - find, replace, dictation, caret and scroll persistence, word wrap - therefore works on both without forking. What differs is what a markdown note will accept: images, tables, sketches and embedded recordings are refused at the four insertion points with a status-bar line, because the plain-text projection cannot carry them and they would vanish at the next save. Character formatting is deliberately <em>not</em> blocked - bold loses its weight on save but keeps every character, and refusing the keystroke would surprise more than the formatting quietly not sticking.</p>
 <p>Sketches and dictation recordings sit in side tables keyed to the note rather than inside its XamlPackage. Audio is far larger than the note that references it, and inlining it would make every load and save of that note carry it; the note keeps only a small marker. Both are encrypted with the rest of the database when a password is set.</p>
 
 <figure class="diagram" id="flowDiagram">
@@ -193,6 +195,10 @@
 <p>Search is a SQLite <b>FTS5</b> full-text index over the title and the plain-text shadow copy, maintained by external-content triggers so it stays exactly in sync with the notes table without duplicating the rich blobs.</p>
 <p>As you type in the search box, each word is treated as a prefix: typing <code>pass wor</code> finds a note containing "password working notes". The sidebar filters live with every keystroke. Sorting is a separate axis: creation time or title in either direction, or a drag-and-drop custom order - one global sequence stored per note, with named collapsible groups layered on top.</p>
 <p><code>Ctrl+F</code> searches inside the open note without disturbing the sidebar search. The find card reports the current match and total, <code>F3</code> and <code>Shift+F3</code> move forward and backward with wraparound, and <code>Esc</code> closes it. Match highlights are viewport-scoped adorners rather than document formatting, so finding does not modify the note, enter the undo history or trigger autosave.</p>
+<h3 id="replace">Replace</h3>
+<p><code>Ctrl+H</code> expands a replace row under the find card. Three toggles - match case, whole word, regular expression - govern the find and the replace together; with regex on, the replacement string is evaluated as a substitution, so <code>$1</code> and friends work. The options are session state rather than persisted settings, so the card always reopens on plain matching.</p>
+<p>Replace-all collects its offsets from the find pass, collapses overlapping matches greedily left to right (a replace can only consume each character once, where the counter is happy to overlap), and applies them <b>back to front</b>, so every earlier offset is still valid when its turn comes. The whole batch runs inside <code>BeginChange</code>/<code>EndChange</code>, which makes it one editor undo unit and holds the TextChanged storm until the end, so the find cache is invalidated once rather than once per match.</p>
+<p>The sidebar carries the cross-note half: replace a term in every note that holds it, without opening any of them. Matching there is literal and case-insensitive to mirror the search box it sits under - the find card's regex and whole-word options belong to the in-note surface and deliberately do not reach across the database. Each candidate is matched against its <em>document</em> text rather than the stored plain-text shadow, because the shadow also carries sketch text labels, which live in sketch payloads and must not be rewritten by a text replace. A confirmation lists every affected note with its match count; the writes are one SQLite transaction and one app-level undo entry, so <code>Ctrl+Z</code> after a forty-note replace restores all forty.</p>
 </section>
 
 <section class="tech-sec" id="encryption">
@@ -224,6 +230,13 @@
 <p>Ctrl+O or drop files anywhere sensible: <code>.txt</code> / <code>.log</code> / <code>.md</code> import as text notes, <code>.rtf</code> loads natively with formatting intact, images land inline, and <code>.html</code> / <code>.htm</code> import as source - which the preview pane then renders, same as the markdown story: source in the editor, preview to view. Each file becomes its own note titled by its filename.</p>
 <h3 id="export">Out</h3>
 <p>Any note exports as plain text, as <code>.rtf</code> (WordPad/Word-compatible, images included), or as a standalone theme-styled HTML page built by a purpose-built FlowDocument-to-HTML converter: paragraphs, lists, tables, character formatting, colors, and images embedded as base64 data URIs - one self-contained file.</p>
+<h3 id="vault">Vault export</h3>
+<p>The whole database also exports as a folder of <code>.md</code> files. Groups become nested subfolders, and each file opens with YAML front matter carrying title, tags, and created and modified times - readers that do not understand front matter show it as a small block at the top rather than mangling the note. Files are UTF-8 with no BOM, since a BOM shows as stray characters above the first heading in a lot of markdown tooling. Titles are sanitized into filenames with reserved device names and trailing dots and spaces handled, and collisions get a numeric suffix; everything lands in a subfolder named after the open database, so exporting two notepads side by side cannot merge them.</p>
+<p>Rich-text notes are converted on the way out, so the folder is the whole notepad rather than only the notes that were already markdown. That conversion is lossy in the ways the convert dialog names - tables, images, colored text - but nothing in the database is modified: this writes files and touches no note. A single unreadable note is skipped and counted rather than aborting the run.</p>
+<p>It is deliberately one-way and on demand rather than a live sync of a watched folder. Sync means conflict resolution, file-watcher races, and partial writes from other editors, and it would leave a permanent plaintext copy of an encrypted database on disk - which contradicts the reason the database is encrypted at all. Export is explicit, so the user chooses the moment the plaintext exists.</p>
+<h3 id="convert">Converting between formats</h3>
+<p>The notes context menu converts one note at a time in either direction. Rich to markdown is lossy, so the confirmation names what will not survive before anything is rewritten; markdown to rich loses nothing. Headings are not reverse-engineered from font size on the way out - a large bold paragraph might be a heading or might be a large bold paragraph, and guessing wrong rewrites the user's document. Hyperlinks arriving from markdown are held to the same three schemes the editor allows anywhere else, since a markdown file is untrusted input once it can arrive by import or from a vault folder.</p>
+<p>Either direction is a single app-level undo entry that restores the <em>original bytes</em> rather than converting back. A round trip through the other format is lossy, so re-converting would hand back something subtly different from what was there.</p>
 <h3 id="preview">Preview</h3>
 <p>Notes that look like markdown or HTML get a preview toggle. Markdown renders through <b>Markdig</b> with raw HTML disabled; HTML notes are defused before display - scripts, event handlers, frames, and javascript: URLs are stripped. The preview is a viewer, never a place where pasted content gets to run.</p>
 </section>
@@ -324,12 +337,15 @@
 <a href="#storage">Storage</a>
 <a href="#autosave" class="sub">Autosave</a>
 <a href="#search">Search</a>
+<a href="#replace" class="sub">Replace</a>
 <a href="#encryption">Encryption</a>
 <a href="#fineprint" class="sub">The honest fine print</a>
 <a href="#sharing">Sharing formats</a>
 <a href="#formats">Import &amp; export</a>
 <a href="#import" class="sub">In</a>
 <a href="#export" class="sub">Out</a>
+<a href="#vault" class="sub">Vault export</a>
+<a href="#convert" class="sub">Converting between formats</a>
 <a href="#preview" class="sub">Preview</a>
 <a href="#audio">Dictation &amp; audio</a>
 <a href="#audioformat" class="sub">Storage format</a>

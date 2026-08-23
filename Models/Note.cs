@@ -53,6 +53,12 @@ namespace KillerNotes.Models
             }
         }
         public bool SpellCheck { get; set; }           // per-note spell check (off by default)
+        // Per-note syntax highlighting (off by default). Metadata rather than something carried
+        // by the document: the flag used to live on FlowDocument.Tag, and TextRange.Save with
+        // XamlPackage serializes a Section of the content BETWEEN ContentStart and ContentEnd,
+        // so the FlowDocument element never reached the blob and every note reopened with
+        // highlighting off. Not notifying - nothing in the sidebar row template binds it.
+        public bool SyntaxHighlight { get; set; }
         public int SortOrder { get; set; }             // global custom-order position (#4)
 
         // Content type (1.3.0): 0 = rich text, the content blob is a XamlPackage; 1 = markdown,

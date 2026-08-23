@@ -244,6 +244,10 @@ CREATE TABLE IF NOT EXISTS notes(
     plain    TEXT NOT NULL DEFAULT '',
     title_color TEXT NOT NULL DEFAULT '',
     spellcheck  INTEGER NOT NULL DEFAULT 0,
+    -- Per-note syntax highlighting. In the shared schema for the same reason format is:
+    -- ExportNote runs SchemaSql without EnsureColumns, so a column missing here is missing
+    -- from every .knote, and the toggle would not survive being shared.
+    syntax      INTEGER NOT NULL DEFAULT 0,
     -- Content type: 0 = rich text (content holds a XamlPackage), 1 = markdown (content holds
     -- UTF-8 markdown text). Unlike sort_order/caret_pos/scroll_pos, which are presentation
     -- state and live only in EnsureColumns, this one belongs in the shared schema: ExportNote
@@ -341,6 +345,12 @@ CREATE TABLE IF NOT EXISTS recordings(
                 Exec("ALTER TABLE notes ADD COLUMN title_color TEXT NOT NULL DEFAULT ''");
             if (!have.Contains("spellcheck"))
                 Exec("ALTER TABLE notes ADD COLUMN spellcheck INTEGER NOT NULL DEFAULT 0");
+            // 1.3.0: per-note syntax highlighting. Default 0 means every existing note opens
+            // with it off, which is what they already did. A build older than this one reads
+            // the column list it knows about and never selects this one, so an upgraded
+            // database keeps opening in an older KillerNotes.
+            if (!have.Contains("syntax"))
+                Exec("ALTER TABLE notes ADD COLUMN syntax INTEGER NOT NULL DEFAULT 0");
             // 1.0.2: manual drag-and-drop ordering (#4). 0 = never ordered; Create()
             // appends max+1 so new notes land at the bottom of a custom arrangement.
             if (!have.Contains("sort_order"))
@@ -411,7 +421,7 @@ CREATE TABLE IF NOT EXISTS recordings(
                 "custom"       => "sort_order ASC, id ASC",
                 _              => "created ASC, id ASC",
             };
-            const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format";
+            const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax";
 
             using var cmd = _db.CreateCommand();
             if (!string.IsNullOrWhiteSpace(search))
@@ -454,6 +464,7 @@ CREATE TABLE IF NOT EXISTS recordings(
                     SpellCheck = !r.IsDBNull(8) && r.GetInt64(8) != 0,
                     SortOrder  = r.IsDBNull(9) ? 0 : (int)r.GetInt64(9),
                     Format     = r.IsDBNull(10) ? 0 : (int)r.GetInt64(10),
+                    SyntaxHighlight = !r.IsDBNull(11) && r.GetInt64(11) != 0,
                 });
             }
             return results;
@@ -728,6 +739,7 @@ CREATE TABLE IF NOT EXISTS recordings(
             public string Notebook = "";
             public string TitleColor = "";
             public bool SpellCheck;
+            public bool SyntaxHighlight;
             public int SortOrder;
             public string Created = "";
             public string Modified = "";
@@ -739,7 +751,7 @@ CREATE TABLE IF NOT EXISTS recordings(
         {
             if (_db == null) return null;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos " +
+            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos, syntax " +
                               "FROM notes WHERE id = $id";
             cmd.Parameters.AddWithValue("$id", id);
             using var r = cmd.ExecuteReader();
@@ -759,6 +771,7 @@ CREATE TABLE IF NOT EXISTS recordings(
                 SortOrder  = r.IsDBNull(10) ? 0 : (int)r.GetInt64(10),
                 CaretPos   = r.IsDBNull(11) ? 0 : (int)r.GetInt64(11),
                 ScrollPos  = r.IsDBNull(12) ? 0 : r.GetDouble(12),
+                SyntaxHighlight = !r.IsDBNull(13) && r.GetInt64(13) != 0,
             };
         }
 
@@ -766,8 +779,8 @@ CREATE TABLE IF NOT EXISTS recordings(
         {
             if (_db == null || IsReadOnly) return;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "INSERT INTO notes(id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos) " +
-                              "VALUES($id, $t, $nb, $tg, $cr, $md, $pl, $ct, $tc, $sp, $so, $cp, $scp)";
+            cmd.CommandText = "INSERT INTO notes(id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos, syntax) " +
+                              "VALUES($id, $t, $nb, $tg, $cr, $md, $pl, $ct, $tc, $sp, $so, $cp, $scp, $sy)";
             cmd.Parameters.AddWithValue("$id", n.Id);
             cmd.Parameters.AddWithValue("$t", n.Title);
             cmd.Parameters.AddWithValue("$nb", n.Notebook);
@@ -781,6 +794,7 @@ CREATE TABLE IF NOT EXISTS recordings(
             cmd.Parameters.AddWithValue("$so", n.SortOrder);
             cmd.Parameters.AddWithValue("$cp", n.CaretPos);
             cmd.Parameters.AddWithValue("$scp", n.ScrollPos);
+            cmd.Parameters.AddWithValue("$sy", n.SyntaxHighlight ? 1 : 0);
             cmd.ExecuteNonQuery();
         }
 
@@ -867,6 +881,19 @@ CREATE TABLE IF NOT EXISTS recordings(
             if (_db == null || IsReadOnly) return;
             using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE notes SET spellcheck = $s WHERE id = $id";
+            cmd.Parameters.AddWithValue("$s", on ? 1 : 0);
+            cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Persists the per-note syntax highlighting toggle. Deliberately does NOT
+        /// touch modified: highlighting is a view of the text, so turning it on must not make
+        /// the note look edited or reorder a time-sorted sidebar.</summary>
+        public static void SetSyntaxHighlight(long id, bool on)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET syntax = $s WHERE id = $id";
             cmd.Parameters.AddWithValue("$s", on ? 1 : 0);
             cmd.Parameters.AddWithValue("$id", id);
             cmd.ExecuteNonQuery();
@@ -1373,7 +1400,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
 
                 using var read = _db!.CreateCommand();
                 read.CommandText =
-                    "SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format " +
+                    "SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format, syntax " +
                     "FROM notes WHERE id = $id";
                 read.Parameters.AddWithValue("$id", id);
                 using var r = read.ExecuteReader();
@@ -1381,8 +1408,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
 
                 using var ins = dest.CreateCommand();
                 ins.CommandText =
-                    "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format) " +
-                    "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc, $fmt)";
+                    "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format, syntax) " +
+                    "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc, $fmt, $sy)";
                 ins.Parameters.AddWithValue("$t", r.GetString(0));
                 ins.Parameters.AddWithValue("$n", r.GetString(1));
                 ins.Parameters.AddWithValue("$g", r.GetString(2));
@@ -1393,6 +1420,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 ins.Parameters.AddWithValue("$tc", r.IsDBNull(7) ? "" : r.GetString(7));
                 ins.Parameters.AddWithValue("$sc", r.IsDBNull(8) ? 0 : r.GetInt64(8));
                 ins.Parameters.AddWithValue("$fmt", r.IsDBNull(9) ? 0 : r.GetInt64(9));
+                ins.Parameters.AddWithValue("$sy", r.IsDBNull(10) ? 0 : r.GetInt64(10));
                 ins.ExecuteNonQuery();
 
                 // Carry the note's tag definitions (name + color) so its chips keep their
@@ -1447,11 +1475,14 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 // the pair above because the two additions are generations apart. The value is
                 // a column name this code chose, never anything the file supplied.
                 string fmtCol = srcCols.Contains("format") ? "format" : "0";
+                // Same treatment for the syntax toggle, probed on its own: a file shared by a
+                // build between the format column and this one has one but not the other.
+                string synCol = srcCols.Contains("syntax") ? "syntax" : "0";
 
                 using var read = src.CreateCommand();
                 read.CommandText = extras
-                    ? $"SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck, {fmtCol} FROM notes"
-                    : $"SELECT title, notebook, tags, created, modified, content, plain, '', 0, {fmtCol} FROM notes";
+                    ? $"SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck, {fmtCol}, {synCol} FROM notes"
+                    : $"SELECT title, notebook, tags, created, modified, content, plain, '', 0, {fmtCol}, {synCol} FROM notes";
                 using var r = read.ExecuteReader();
                 int count = 0;
                 while (r.Read())
@@ -1459,8 +1490,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     using var ins = _db!.CreateCommand();
                     // sort_order appends (see Create) so imports keep a custom arrangement intact.
                     ins.CommandText =
-                        "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format, sort_order) " +
-                        "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc, $fmt, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes))";
+                        "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format, syntax, sort_order) " +
+                        "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc, $fmt, $sy, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes))";
                     ins.Parameters.AddWithValue("$t", r.GetString(0));
                     ins.Parameters.AddWithValue("$n", r.GetString(1));
                     ins.Parameters.AddWithValue("$g", r.GetString(2));
@@ -1471,6 +1502,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     ins.Parameters.AddWithValue("$tc", r.IsDBNull(7) ? "" : r.GetString(7));
                     ins.Parameters.AddWithValue("$sc", r.IsDBNull(8) ? 0 : r.GetInt64(8));
                     ins.Parameters.AddWithValue("$fmt", r.IsDBNull(9) ? 0 : r.GetInt64(9));
+                    ins.Parameters.AddWithValue("$sy", r.IsDBNull(10) ? 0 : r.GetInt64(10));
                     ins.ExecuteNonQuery();
                     count++;
                 }

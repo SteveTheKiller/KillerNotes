@@ -106,20 +106,33 @@ namespace KillerNotes.Shell
                 new ScrollChangedEventHandler((_, _) => { if (_syntaxHighlight) RepaintSyntaxSoon(); }));
         }
 
-        private void LoadSyntaxHighlightState()
+        /// <summary>Applies the opening note's stored toggle. The state is per-note METADATA
+        /// (notes.syntax), not something the document carries: it lived on FlowDocument.Tag
+        /// until 1.3.0, and TextRange.Save with XamlPackage writes a Section of the content
+        /// between ContentStart and ContentEnd, so the FlowDocument element - and its Tag -
+        /// never reached the blob. Every note therefore reopened with highlighting off.</summary>
+        private void LoadSyntaxHighlightState(bool on)
         {
-            _syntaxHighlight = Equals(Editor.Document.Tag, SyntaxTag);
+            _syntaxHighlight = on;
             SyncSyntaxButton();
             QueueSyntaxHighlighting();
         }
 
         private void SyntaxHighlight_Click(object sender, RoutedEventArgs e)
         {
+            if (_currentId < 0) return;
             _syntaxHighlight = !_syntaxHighlight;
-            Editor.Document.Tag = _syntaxHighlight ? SyntaxTag : null;
             SyncSyntaxButton();
             ApplySyntaxHighlighting();
-            MarkDirty();
+            // Written straight through rather than left for the autosave: highlighting never
+            // enters the content blob, so MarkDirty would be asking the save path to persist
+            // something it does not carry. BOTH sidebar lists are updated for the reason
+            // SaveCurrentNote spells out - ReconcileSidebar can leave _sidebarItems holding an
+            // older instance than _notes, and a reopen would then read the stale one.
+            Services.NoteStore.SetSyntaxHighlight(_currentId, _syntaxHighlight);
+            foreach (var meta in new[] { _notes.FirstOrDefault(n => n.Id == _currentId),
+                                         _sidebarItems.OfType<Models.Note>().FirstOrDefault(n => n.Id == _currentId) })
+                if (meta != null) meta.SyntaxHighlight = _syntaxHighlight;
         }
 
         private void SyncSyntaxButton()

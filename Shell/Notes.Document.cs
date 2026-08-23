@@ -40,7 +40,6 @@ namespace KillerNotes.Shell
             StopEmbeddedPlayback();   // Editor.Dictation.cs (same reason - and audio from the note
                                       // you just navigated away from must not keep playing)
             Editor.Document.Blocks.Clear();
-            Editor.Document.Tag = null; // A note without the marker must not inherit the prior note's syntax state.
             var blob = NoteStore.LoadContent(id);
             // Content type decides how the blob is read (1.3.0). It comes off the row metadata
             // rather than a second query, and must be set before the load so a markdown blob is
@@ -78,7 +77,7 @@ namespace KillerNotes.Shell
             ApplyFloatCursors(Editor.Document);      // Editor.Float.cs (grab hand on already-floated objects)
             EnsureEditableTail();   // Editor.cs (rule/table as last block traps the caret)
             ApplyFormatMode();      // Markdown.cs (hide the format bar over a plain-text note)
-            LoadSyntaxHighlightState();
+            LoadSyntaxHighlightState(meta.SyntaxHighlight);   // SyntaxHighlighting.cs (per-note flag, off by default)
             ApplyWordWrap(_wordWrap);   // Editor.cs (re-assert the word-wrap page width after the load)
             _loadingNote = false;
             _dirty = false;
