@@ -725,6 +725,15 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrangeCircle">In a circle</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrangeGrid">In a grid</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrangeGroups">By group</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Lock in place</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Nothing moves a locked note - not an arrangement, not its neighbors.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Save this arrangement...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Forget arrangement</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Name this arrangement</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">Replace "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">The positions saved under that name are replaced by the ones on screen now.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">Forget "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">The notes themselves are not touched, only the saved positions.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphDistance">Arrange by distance</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShowAll">Show everything</sys:String>
     <sys:String x:Key="Str_Ctx_GraphColor">Color by group</sys:String>

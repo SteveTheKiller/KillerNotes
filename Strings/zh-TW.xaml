@@ -603,6 +603,15 @@
     <sys:String x:Key="Str_Sketch_Select">選取 / 移動 (V) - 按一下物件，拖曳即可移動，Delete 移除</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">拉直線條</sys:String>
     <sys:String x:Key="Str_Sketch_Text">文字 (T) - 按一下放置標籤，輸入後按 Enter 確定 (Shift+Enter 換行)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">鎖定位置</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">鎖定的筆記不會被移動 - 排列不會移動它，相鄰的筆記也不會。</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">儲存此排列...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">忘記排列</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">為此排列命名</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">取代「{0}」?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">以該名稱儲存的位置將由目前畫面上的位置取代。</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">忘記「{0}」?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">筆記本身不會受到影響，只會移除已儲存的位置。</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">取消粗體</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">復原 (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">筆刷大小 (按一下切換)</sys:String>

@@ -604,6 +604,15 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Sketch_Select">Seleccionar / mover (V) - clic en un objeto, arrastre para moverlo, Supr lo elimina</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Enderezar línea</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Texto (T) - clic para colocar una etiqueta, escriba, Intro para fijarla (Mayús+Intro para nueva línea)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Bloquear en su sitio</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Nada mueve una nota bloqueada - ni una disposición, ni sus vecinas.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Guardar esta disposición...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Olvidar disposición</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Ponga un nombre a esta disposición</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">¿Reemplazar "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Las posiciones guardadas con ese nombre se sustituyen por las que hay ahora en pantalla.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">¿Olvidar "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Las notas no se tocan, solo las posiciones guardadas.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Quitar negrita</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Deshacer (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Tamaño del pincel (clic para alternar)</sys:String>

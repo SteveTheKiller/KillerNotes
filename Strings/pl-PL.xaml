@@ -558,6 +558,15 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Sketch_Select">Zaznacz / przenieś (V) - kliknij obiekt, przeciągnij, aby go przenieść, Delete usuwa</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Wyprostuj linię</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Tekst (T) - kliknij, aby umieścić etykietę, wpisz treść, Enter zatwierdza (Shift+Enter tworzy nowy wiersz)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Zablokuj w miejscu</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Zablokowanej notatki nic nie przesunie - ani układ, ani sąsiedzi.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Zapisz ten układ...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Zapomnij układ</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Nazwij ten układ</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">Zastąpić "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Pozycje zapisane pod tą nazwą zostaną zastąpione tymi, które są teraz na ekranie.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">Zapomnieć "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Same notatki pozostają nietknięte, zmieniają się tylko zapisane pozycje.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Usuń pogrubienie</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Cofnij (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Rozmiar pędzla (kliknij, aby przełączyć)</sys:String>

@@ -603,6 +603,15 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Sketch_Select">Sélectionner / déplacer (V) - cliquez un objet, glissez pour le déplacer, Suppr le retire</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Redresser la ligne</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Texte (T) - cliquez pour poser une étiquette, tapez, Entrée pour valider (Maj+Entrée pour une nouvelle ligne)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Verrouiller en place</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Rien ne déplace une note verrouillée - ni une disposition, ni ses voisines.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Enregistrer cette disposition...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Oublier la disposition</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Nommez cette disposition</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">Remplacer « {0} » ?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Les positions enregistrées sous ce nom sont remplacées par celles affichées à l'écran.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">Oublier « {0} » ?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Les notes elles-mêmes ne sont pas touchées, seules les positions enregistrées le sont.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Retirer le gras</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Annuler (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Taille du pinceau (clic pour changer)</sys:String>

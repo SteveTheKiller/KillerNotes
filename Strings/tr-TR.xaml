@@ -602,6 +602,15 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Sketch_Select">Seç / taşı (V) - bir nesneye tıklayın, taşımak için sürükleyin, Delete kaldırır</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Çizgiyi düzelt</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Metin (T) - etiket koymak için tıklayın, yazın, ayarlamak için Enter (yeni satır için Shift+Enter)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Yerinde kilitle</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Kilitli bir notu hiçbir şey oynatmaz - ne bir düzen, ne de komşuları.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Bu düzeni kaydet...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Düzeni unut</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Bu düzene bir ad verin</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">"{0}" değiştirilsin mi?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Bu adla kaydedilen konumlar, şu anda ekranda olanlarla değiştirilir.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">"{0}" unutulsun mu?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Notların kendisine dokunulmaz, yalnızca kaydedilen konumlar değişir.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Kalınlığı kaldır</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Geri al (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Fırça boyutu (değiştirmek için tıklayın)</sys:String>

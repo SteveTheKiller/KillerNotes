@@ -22,6 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The SketchPad opens a large image scaled to fit instead of at full size, and gains zoom (a magnifier in the top bar for 100% and fit, Ctrl+Wheel for anything between) and crop (C, drag a box to keep). The select tool's icon is a hand rather than a marquee.
 - Back and forward through the notes you have visited, so following a chain of links is not a one-way trip. Alt+Left and Alt+Right, the mouse thumb buttons, or the first two rows of a note's right-click menu.
 - F11 fills the whole screen, taskbar included. Esc leaves it as well.
+- Notes can be locked in place in the graph, from the right-click menu or with K: nothing moves a locked note, not an arrangement and not its neighbors. The graph also reopens exactly where you left it, and an arrangement can be saved by name from the Arrange menu and applied again later.
 
 ### Changed
 - The SQLCipher encryption native is now built from upstream source (SQLCipher 4.18.0, SQLite 3.53.4) and vendored in the repo, replacing the deprecated SQLitePCLRaw.lib.e_sqlcipher package.

@@ -600,6 +600,15 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Sketch_Select">Vybrat / přesunout (V) - klikněte na objekt, tažením jej přesunete, Delete jej odstraní</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Narovnat čáru</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Text (T) - kliknutím umístíte popisek, pište, Enter jej potvrdí (Shift+Enter nový řádek)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Uzamknout na místě</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Uzamčenou poznámkou nic nepohne - ani uspořádání, ani sousedé.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Uložit toto uspořádání...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Zapomenout uspořádání</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Pojmenujte toto uspořádání</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">Nahradit „{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Pozice uložené pod tímto názvem budou nahrazeny těmi, které jsou nyní na obrazovce.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">Zapomenout „{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Samotné poznámky zůstanou nedotčené, změní se jen uložené pozice.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Odebrat tučné</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Zpět (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Velikost štětce (kliknutím přepnete)</sys:String>

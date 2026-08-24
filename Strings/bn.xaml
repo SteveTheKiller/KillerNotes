@@ -603,6 +603,15 @@
     <sys:String x:Key="Str_Sketch_Select">নির্বাচন / সরান (V) - বস্তুতে ক্লিক করুন, টেনে সরান, Delete মুছে ফেলে</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">রেখা সোজা করুন</sys:String>
     <sys:String x:Key="Str_Sketch_Text">লেখা (T) - লেবেল বসাতে ক্লিক করুন, টাইপ করুন, Enter নিশ্চিত করে (Shift+Enter নতুন লাইন)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">জায়গায় লক করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">লক করা নোট কিছুতেই সরে না - বিন্যাসেও নয়, পাশের নোটেও নয়।</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">এই বিন্যাস সংরক্ষণ করুন...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">বিন্যাস ভুলে যান</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">এই বিন্যাসের নাম দিন</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">"{0}" প্রতিস্থাপন করবেন?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">ওই নামে সংরক্ষিত অবস্থানগুলো এখন পর্দায় থাকা অবস্থান দিয়ে প্রতিস্থাপিত হবে।</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">"{0}" ভুলে যাবেন?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">নোটগুলো নিজে অপরিবর্তিত থাকে, শুধু সংরক্ষিত অবস্থানগুলো মুছে যায়।</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">গাঢ় সরান</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">পূর্বাবস্থা (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">ব্রাশের আকার (পরিবর্তনে ক্লিক)</sys:String>

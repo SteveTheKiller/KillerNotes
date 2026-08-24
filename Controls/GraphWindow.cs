@@ -75,6 +75,15 @@ namespace KillerNotes.Controls
             // the cursor and cleared on release. It is not a mode, has no command, and nothing in
             // the menu refers to it.
             public double? FixX, FixY;
+
+            // LOCKED BY THE USER, from the node's right-click menu. Where FixX/FixY are a
+            // transient "the layout may not move this right now", a lock is a decision that
+            // outlives the session: nothing moves a locked node - not the simulation, not an
+            // arrangement, not a neighbor being dragged, not the visualizer's spin - until it is
+            // unlocked. Locked ALWAYS implies FixX/FixY are set to its position, which is what
+            // makes the solver honour it for free; SetLock is the only thing allowed to break or
+            // restore that pairing.
+            public bool Locked;
             public int Degree;
             public string Group = "";
             public string? GroupHex;    // the sidebar color of the group this note lives in
@@ -231,8 +240,23 @@ namespace KillerNotes.Controls
             // everything ends up inside the window.
             _resizeSettle.Tick += (_, _) => { _resizeSettle.Stop(); FitAllIntoView(); };
             _legendFade.Tick += (_, _) => DismissLegend();
-            Loaded += (_, _) => { Anim.FadeIn(this); Seed(); Resolve(); _legendFade.Start(); };
-            Closed += (_, _) => { _ease.Stop(); _resizeSettle.Stop(); _legendFade.Stop(); StopLive(); };
+            // A remembered layout REPLACES the first solve. Solving and then overwriting the
+            // result would throw away the work and, worse, would show the computed layout for a
+            // frame before snapping to the saved one.
+            Loaded += (_, _) =>
+            {
+                Anim.FadeIn(this);
+                Seed();
+                if (!CanRemember || !ApplyLayout(LastLayout)) Resolve();
+                _legendFade.Start();
+            };
+            Closed += (_, _) =>
+            {
+                // Timers first: an ease still running means the positions about to be saved are
+                // mid-flight, so it is stopped before anything reads them.
+                _ease.Stop(); _resizeSettle.Stop(); _legendFade.Stop(); StopLive();
+                if (CanRemember) SaveLayout(LastLayout);
+            };
 
             _canvas.MouseLeftButtonDown += CanvasDown;
             _canvas.MouseMove += CanvasMove;
@@ -1016,10 +1040,38 @@ namespace KillerNotes.Controls
         private void SetSelected(Node n, bool on)
         {
             if (on) _selected.Add(n); else _selected.Remove(n);
-            // The selection ring goes OUTSIDE the fill rather than replacing it, so a node keeps
-            // saying which group it belongs to while it is selected.
-            n.Dot.Stroke = on ? Res("SelectionBg", Colors.Yellow) : (n.Ghost ? Res("MutedTextBrush", Colors.Gray) : (Brush)n.Dot.Fill);
-            n.Dot.StrokeThickness = on ? 3 : (n.Ghost ? 1.4 : 0);
+            ApplyNodeOutline(n);
+        }
+
+        /// <summary>Draws selection, lock and ghost onto the one outline a dot has. Selection wins
+        /// the COLOR because it is what the user is doing right now, and lock owns the DASH, so a
+        /// selected locked node still reads as locked instead of one state hiding the other.
+        ///
+        /// The ring goes outside the fill rather than replacing it, so a node keeps saying which
+        /// group it belongs to whatever else is true of it.</summary>
+        private void ApplyNodeOutline(Node n)
+        {
+            bool sel = _selected.Contains(n);
+            n.Dot.Stroke = sel ? Res("SelectionBg", Colors.Yellow)
+                         : n.Locked ? Res("PrimaryBrush", Colors.Orange)
+                         : n.Ghost ? Res("MutedTextBrush", Colors.Gray)
+                         : (Brush)n.Dot.Fill;
+            n.Dot.StrokeThickness = sel ? 3 : n.Locked ? 2 : n.Ghost ? 1.4 : 0;
+            // A DoubleCollection is measured in multiples of the stroke thickness, so this stays
+            // the same dash pattern at either thickness rather than needing a value per state.
+            n.Dot.StrokeDashArray = n.Locked ? new DoubleCollection { 1.6, 1.2 } : null;
+        }
+
+        /// <summary>The one place allowed to change a lock, because it is the one place that keeps
+        /// Locked and FixX/FixY agreeing with each other. Locking captures where the node is
+        /// standing; unlocking hands it back to whatever Pin all Notes is currently set to.</summary>
+        private void SetLock(Node n, bool on)
+        {
+            n.Locked = on;
+            if (on) { n.FixX = n.X; n.FixY = n.Y; n.VX = 0; n.VY = 0; }
+            else if (_hold) { n.FixX = n.X; n.FixY = n.Y; }
+            else { n.FixX = null; n.FixY = null; }
+            ApplyNodeOutline(n);
         }
 
         private void ClearSelection()
@@ -1034,6 +1086,17 @@ namespace KillerNotes.Controls
         private List<Node> MenuTargets() =>
             _selected.Count > 0 ? [.. _selected]
             : _menuNode != null ? [_menuNode] : [];
+
+        /// <summary>What a lock acts on. The menu's targets minus ghosts: a ghost is a title
+        /// somebody linked to and has not written yet, so there is no note to record the lock
+        /// against and it could not survive the window closing.</summary>
+        private List<Node> LockTargets() => [.. MenuTargets().Where(v => !v.Ghost)];
+
+        private void LockMenuTarget(bool on)
+        {
+            foreach (var v in LockTargets()) SetLock(v, on);
+            Paint();
+        }
 
         // ── THE LIVE DRAG, on d3-force's model ───────────────────────────────────────────
         //
@@ -1270,7 +1333,10 @@ namespace KillerNotes.Controls
                 // A held node is honoured in BOTH modes. Everything else's pin is ignored while
                 // the visualizer runs - suspended, not cleared, so turning it off restores
                 // whatever "Pin all Notes" was set to.
-                bool honourPin = !_visualizer || _carried.Contains(v);
+                // A LOCK outranks the visualizer. Everything else's pin is suspended while it
+                // runs, but a locked node was locked precisely so that nothing moves it, and a
+                // mode that quietly moves it anyway would make the lock a lie.
+                bool honourPin = v.Locked || !_visualizer || _carried.Contains(v);
                 if (honourPin && v.FixX is double fx && v.FixY is double fy)
                 {
                     v.X = fx; v.Y = fy; v.VX = 0; v.VY = 0;
@@ -1314,7 +1380,7 @@ namespace KillerNotes.Controls
                 double ca = Math.Cos(a), sa = Math.Sin(a);
                 foreach (var v in _nodes)
                 {
-                    if (_carried.Contains(v)) continue;
+                    if (v.Locked || _carried.Contains(v)) continue;
                     double dx = v.X - cx, dy = v.Y - cy;
                     v.X = cx + dx * ca - dy * sa;
                     v.Y = cy + dx * sa + dy * ca;
@@ -1404,9 +1470,13 @@ namespace KillerNotes.Controls
 
         /// <summary>The nodes a drag carries: the whole selection when the grabbed node is part
         /// of it, otherwise just the grabbed node.</summary>
+        /// <summary>A locked node carries nothing, including when it is part of a selection:
+        /// grabbing the one node that was locked down is the clearest possible way of saying
+        /// "not this one", so the gesture does nothing rather than moving its neighbors out
+        /// from under it.</summary>
         private List<Node> DragSet() =>
-            _drag == null ? []
-            : _selected.Count > 1 && _selected.Contains(_drag) ? [.. _selected]
+            _drag == null || _drag.Locked ? []
+            : _selected.Count > 1 && _selected.Contains(_drag) ? [.. _selected.Where(v => !v.Locked)]
             : [_drag];
 
         private void CanvasMove(object sender, MouseEventArgs e)
@@ -1533,6 +1603,15 @@ namespace KillerNotes.Controls
             if (e.Key == Key.L) { _miLabels.IsChecked = !_miLabels.IsChecked; ApplyLabelVisibility(); e.Handled = true; return; }
             if (e.Key == Key.P) { SetHold(!_hold); e.Handled = true; return; }
             if (e.Key == Key.V) { SetVisualizer(!_visualizer); e.Handled = true; return; }
+            // Toggles on what is SELECTED, so K works from the keyboard with no menu open. Mixed
+            // selections lock, matching the menu row: the useful direction is the one that makes
+            // the whole selection agree.
+            if (e.Key == Key.K)
+            {
+                var lockable = LockTargets();
+                if (lockable.Count > 0) { LockMenuTarget(!lockable.All(v => v.Locked)); e.Handled = true; }
+                return;
+            }
             var n = _menuNode ?? _drag;
             if (n == null) return;
             switch (e.Key)
@@ -1555,20 +1634,29 @@ namespace KillerNotes.Controls
 
         private ContextMenu _menu = null!;
         private MenuItem _miOpen = null!, _miCopy = null!, _miIsolate = null!, _miDistance = null!;
+        private MenuItem _miLock = null!;
 
         private void BuildNodeMenu()
         {
             _menu = new ContextMenu();
             _miOpen = MenuRow("", Str("Str_Ctx_GraphOpen", "Open note"), "Enter", () => { if (_menuNode != null) OpenNode(_menuNode); });
             _miCopy = MenuRow("", Str("Str_Ctx_GraphCopy", "Copy as [[link]]"), "Ctrl+C", CopyMenuNodeLink);
-            // NO PIN ROW. Pinning was an internal flag - "may the layout move this node" - and
-            // putting it in the menu meant the reader had to know there was a physics simulation
-            // with a per-node frozen bit before the row made any sense. It also had no honest
-            // behaviour: unpin either rearranged the whole graph, which the word does not suggest,
-            // or waited for the next layout run and so appeared to do nothing at all (2026-08-23).
-            //
-            // What replaced it needs no explaining: a node you drag stays where you drop it, and
-            // Arrange is the one command that moves things.
+            // LOCK, not "pin". The old pin row was an internal flag wearing a menu row - "may the
+            // layout move this node" - so it needed the reader to know there was a physics
+            // simulation with a per-node frozen bit before it meant anything, and unlock either
+            // rearranged the whole graph or appeared to do nothing until the next layout run
+            // (2026-08-23). A lock says what it does in one word, does it in every mode, and
+            // survives closing the window, so none of that applies to it.
+            _miLock = new MenuItem
+            {
+                Header = Str("Str_Ctx_GraphLock", "Lock in place"),
+                IsCheckable = true,
+                InputGestureText = "K",
+                ToolTip = Str("Str_Ctx_GraphLockTip",
+                              "Nothing moves a locked note - not an arrangement, not its neighbors."),
+            };
+            // Click fires AFTER WPF has flipped IsChecked, so the new value is the intent.
+            _miLock.Click += (_, _) => LockMenuTarget(_miLock.IsChecked);
             _miIsolate = MenuRow("", Str("Str_Ctx_GraphIsolate", "Show only what links here"), "F", IsolateMenuNode);
             // "Arrange by distance" belongs HERE, on the note, not in the canvas menu. It lays the
             // graph out in rings by how many links each note is from ONE note - so it is
@@ -1583,6 +1671,7 @@ namespace KillerNotes.Controls
             _menu.Items.Add(_miOpen);
             _menu.Items.Add(_miCopy);
             _menu.Items.Add(new Separator());
+            _menu.Items.Add(_miLock);
             _menu.Items.Add(_miIsolate);
             _menu.Items.Add(_miDistance);
 
@@ -1601,6 +1690,10 @@ namespace KillerNotes.Controls
             // No separator. Grouping these into "shapes" and "meanings" was a distinction only I
             // could see; five rows do not need dividing (2026-08-23).
             _miArrange.Items.Add(ArrangeRow(Str("Str_Ctx_GraphArrangeGroups", "By group"), "B", IconArrangeGroups(), ArrangeByGroup));
+            // Everything below the built-ins is rebuilt each time the submenu opens: arrangements
+            // can be saved and forgotten while this window is up, and a menu built once in the
+            // constructor would go stale the first time either happened.
+            _miArrange.SubmenuOpened += (_, _) => RefreshArrangeMenu();
             _miColor = new MenuItem { Header = Str("Str_Ctx_GraphColor", "Color by group"), IsCheckable = true, IsChecked = true };
             _miColor.Click += (_, _) => ApplyNodeColors();
             _miLabels = new MenuItem { Header = Str("Str_Ctx_GraphLabels", "Show labels"), IsCheckable = true, IsChecked = true, InputGestureText = "L" };
@@ -1667,6 +1760,14 @@ namespace KillerNotes.Controls
                     _miOpen.Header = _menuNode.Ghost
                         ? Str("Str_Ctx_GraphCreate", "Create this note")
                         : Str("Str_Ctx_GraphOpen", "Open note");
+                    // Ticked only when EVERY node the row would act on is already locked, so on a
+                    // mixed selection the row reads unticked and one click locks the lot - which
+                    // is the useful direction. A ghost has no note to remember a lock against, so
+                    // the row is disabled rather than silently doing nothing that outlives the
+                    // window.
+                    var targets = LockTargets();
+                    _miLock.IsEnabled = targets.Count > 0;
+                    _miLock.IsChecked = targets.Count > 0 && targets.All(v => v.Locked);
                 }
                 menu.PlacementTarget = _canvas;
                 menu.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
@@ -1711,6 +1812,10 @@ namespace KillerNotes.Controls
         {
             foreach (var v in _nodes)
             {
+                // A locked node keeps its pin through BOTH edges of the toggle. Pin all Notes is a
+                // default for the notes that have not been decided about; a lock is the decision,
+                // and turning the default off must not undo it.
+                if (v.Locked) continue;
                 if (_hold) { v.FixX = v.X; v.FixY = v.Y; }
                 else { v.FixX = null; v.FixY = null; }
             }
@@ -1832,6 +1937,167 @@ namespace KillerNotes.Controls
 
         /// <summary>The force layout, from scratch. Unpins everything first: an arrange that
         /// honored the pins would leave the mess it was asked to clean up.</summary>
+        // ── Saved layouts ────────────────────────────────────────────────────────────────
+        //
+        // Two things share one table (graph_layouts, in Services/NoteStore.cs), told apart only by
+        // the name: "" is the layout the window was last left in, restored silently the next time
+        // it opens, and any other name is an arrangement the user chose to keep.
+        //
+        // They live in the NOTE DATABASE, not in app settings. Coordinates mean nothing without
+        // the notes they belong to, and KillerNotes opens more than one database - in settings a
+        // layout would follow the user into every notebook they opened and try to place notes that
+        // are not in it.
+        //
+        // GHOSTS ARE NOT SAVED: a ghost is a title that has been linked to and not written yet, so
+        // it has no note id to key against, and it stops being a ghost the moment the note exists.
+        // They are laid out fresh every time.
+
+        /// <summary>The name the remembered layout is stored under. Empty, so it can never
+        /// collide with something the user names.</summary>
+        private const string LastLayout = "";
+
+        /// <summary>The database this window was opened against. The graph is modeless and nothing
+        /// closes it when the user switches notebooks, so DbPath can be a different file by the
+        /// time this window closes - and a note id means something else entirely in another file.
+        /// NoteStore guards its own lock path the same way, for the same reason.</summary>
+        private readonly string _dbAtOpen = NoteStore.DbPath;
+
+        private bool SameDb => NoteStore.DbPath == _dbAtOpen;
+
+        /// <summary>Only the whole-notebook graph owns the remembered layout. A group graph shows a
+        /// SUBSET of the notes and saving replaces a layout wholesale, so letting one write the
+        /// remembered layout would throw away the position of every note outside that group.</summary>
+        private bool CanRemember => _groupFilter == null && SameDb;
+
+        private void SaveLayout(string name) =>
+            NoteStore.SaveGraphLayout(name, _nodes.Where(v => !v.Ghost)
+                .Select(v => new NoteStore.GraphNodePos(v.Id, v.X, v.Y, v.Locked)));
+
+        /// <summary>Puts saved positions and locks back. Returns false when there was nothing
+        /// stored for that name, which is what tells the opening path to solve a fresh layout
+        /// instead.
+        ///
+        /// Places INSTANTLY rather than through the ease. A restore is not a rearrangement being
+        /// computed in front of you, and going through the ease would mean choosing an order for
+        /// setting positions and setting locks, where locking captures wherever the node happens
+        /// to be standing at that moment.</summary>
+        private bool ApplyLayout(string name)
+        {
+            var rows = NoteStore.LoadGraphLayout(name);
+            if (rows.Count == 0) return false;
+
+            var byId = new Dictionary<long, Node>();
+            foreach (var v in _nodes) if (!v.Ghost) byId[v.Id] = v;
+
+            bool any = false;
+            foreach (var r in rows)
+            {
+                if (!byId.TryGetValue(r.NoteId, out var v)) continue;   // note deleted since
+                v.X = r.X; v.Y = r.Y;
+                SetLock(v, r.Locked);   // the only thing that keeps Locked and FixX/FixY agreeing
+                any = true;
+            }
+            if (!any) return false;
+
+            // Notes written since the layout was saved are not in it, and keep the positions Seed
+            // gave them. Clearing the ease targets for EVERYTHING is what stops the next
+            // arrangement dragging any of them back to a stale target.
+            foreach (var v in _nodes) { v.FromX = v.ToX = v.X; v.FromY = v.ToY = v.Y; }
+            _ease.Stop();
+            StopLive();
+            Paint();
+            return true;
+        }
+
+        /// <summary>How many rows at the top of the Arrange submenu are the built-in arrangements.
+        /// Everything past this index belongs to saved layouts and is rebuilt on every open.</summary>
+        private const int BuiltInArrangeRows = 4;
+
+        private void RefreshArrangeMenu()
+        {
+            while (_miArrange.Items.Count > BuiltInArrangeRows)
+                _miArrange.Items.RemoveAt(BuiltInArrangeRows);
+
+            // A window left open across a notebook switch offers no layouts at all rather than
+            // ones belonging to a file whose note ids have nothing to do with what is on screen.
+            if (!SameDb) return;
+
+            var saved = NoteStore.ListGraphLayouts();
+            if (saved.Count > 0)
+            {
+                _miArrange.Items.Add(new Separator());
+                foreach (string name in saved)
+                {
+                    // Captured per iteration on purpose: the handler outlives this loop.
+                    string pick = name;
+                    var row = new MenuItem { Header = pick };
+                    row.Click += (_, _) => ApplyLayout(pick);
+                    _miArrange.Items.Add(row);
+                }
+            }
+            _miArrange.Items.Add(new Separator());
+            var save = new MenuItem { Header = Str("Str_Ctx_GraphSaveArrange", "Save this arrangement...") };
+            save.Click += (_, _) => SaveArrangementPrompt();
+            _miArrange.Items.Add(save);
+
+            if (saved.Count > 0)
+            {
+                var forget = new MenuItem { Header = Str("Str_Ctx_GraphForget", "Forget arrangement") };
+                foreach (string name in saved)
+                {
+                    string drop = name;
+                    var row = new MenuItem { Header = drop };
+                    row.Click += (_, _) => ForgetArrangement(drop);
+                    forget.Items.Add(row);
+                }
+                _miArrange.Items.Add(forget);
+            }
+        }
+
+        private void SaveArrangementPrompt()
+        {
+            var dlg = new InputDialog(Str("Str_Dlg_GraphSaveArrangeHead", "Name this arrangement"),
+                                      "", Str("Str_Btn_Save", "Save")) { Owner = this };
+            dlg.ShowDialog();
+            if (!dlg.Confirmed) return;
+            string name = dlg.Value.Trim();
+            // Trimming already rules out whitespace, so this only has to stop the empty string -
+            // which is the name the remembered layout is stored under and must stay unreachable.
+            if (name.Length == 0) return;
+
+            if (NoteStore.GraphLayoutExists(name))
+            {
+                var ask = new ConfirmDialog(
+                    string.Format(Str("Str_Graph_OverwriteHead", "Replace \"{0}\"?"), name),
+                    Str("Str_Graph_OverwriteBody", "The positions saved under that name are replaced by the ones on screen now."),
+                    Str("Str_Btn_Replace", "Replace")) { Owner = this };
+                ask.ShowDialog();
+                if (!ask.Confirmed) return;
+            }
+            SaveLayout(name);
+        }
+
+        private void ForgetArrangement(string name)
+        {
+            var ask = new ConfirmDialog(
+                string.Format(Str("Str_Graph_ForgetHead", "Forget \"{0}\"?"), name),
+                Str("Str_Graph_ForgetBody", "The notes themselves are not touched, only the saved positions."),
+                // The existing Delete caption, not a new "Forget" one: the button really does
+                // delete the saved arrangement, and it already reads correctly in twelve languages.
+                Str("Str_Btn_Delete", "Delete")) { Owner = this };
+            ask.ShowDialog();
+            if (!ask.Confirmed) return;
+            NoteStore.DeleteGraphLayout(name);
+        }
+
+        /// <summary>The nodes an arrangement is allowed to place. A locked node keeps the position
+        /// it was locked at, so the others lay out around it and its space is simply left empty.
+        ///
+        /// Filtered HERE, at each arrangement, rather than inside EaseTo: two of the arrangements
+        /// build a parallel list of points and hand EaseTo a closure that indexes into it, so
+        /// removing entries underneath them would shift every point by one.</summary>
+        private List<Node> Placeable() => [.. _nodes.Where(v => !v.Locked)];
+
         private void ArrangeForce()
         {
             // The solver ignores pins, so this lays out the same either way; ApplyHold decides
@@ -1845,7 +2111,7 @@ namespace KillerNotes.Controls
         /// is what makes it a way back from a graph that has been dragged into knots.</summary>
         private void ArrangeCircle()
         {
-            var order = _nodes.OrderBy(v => v.Group, StringComparer.OrdinalIgnoreCase)
+            var order = Placeable().OrderBy(v => v.Group, StringComparer.OrdinalIgnoreCase)
                               .ThenBy(v => v.Title, StringComparer.OrdinalIgnoreCase).ToList();
             // Centred in the USABLE box, which is already inset for the labels and the legend.
             var (bl, bt, br, bb) = UsableBox();
@@ -1862,7 +2128,7 @@ namespace KillerNotes.Controls
         /// rather than for seeing structure.</summary>
         private void ArrangeGrid()
         {
-            var order = _nodes.OrderBy(v => v.Group, StringComparer.OrdinalIgnoreCase)
+            var order = Placeable().OrderBy(v => v.Group, StringComparer.OrdinalIgnoreCase)
                               .ThenBy(v => v.Title, StringComparer.OrdinalIgnoreCase).ToList();
             int cols = Math.Max(1, (int)Math.Ceiling(Math.Sqrt(order.Count * (AreaW / Math.Max(1, AreaH)))));
             int rows = Math.Max(1, (int)Math.Ceiling(order.Count / (double)cols));
@@ -1879,7 +2145,7 @@ namespace KillerNotes.Controls
         /// that link across group boundaries, which are the interesting ones.</summary>
         private void ArrangeByGroup()
         {
-            var groups = _nodes.GroupBy(v => v.Ghost ? "￿" : v.Group, StringComparer.OrdinalIgnoreCase)
+            var groups = Placeable().GroupBy(v => v.Ghost ? "￿" : v.Group, StringComparer.OrdinalIgnoreCase)
                                .OrderBy(g => g.Key, StringComparer.OrdinalIgnoreCase)
                                .ToList();
             if (groups.Count == 0) return;
@@ -1954,9 +2220,14 @@ namespace KillerNotes.Controls
             var points = new List<Point>();
             foreach (var ring in depth.GroupBy(kv => kv.Value).OrderBy(g => g.Key))
             {
+                // Locked nodes still COUNT for distance - they are part of the link structure, and
+                // dropping them from the walk would put the notes behind them on the wrong ring -
+                // they are simply not placed.
                 var members = ring.Select(kv => kv.Key)
+                                  .Where(v => !v.Locked)
                                   .OrderBy(v => v.Group, StringComparer.OrdinalIgnoreCase)
                                   .ThenBy(v => v.Title, StringComparer.OrdinalIgnoreCase).ToList();
+                if (members.Count == 0) continue;   // a whole ring may be locked, root included
                 if (ring.Key == 0) { placed.Add(members[0]); points.Add(new Point(cx, cy)); continue; }
                 double rr = step * ring.Key;
                 for (int i = 0; i < members.Count; i++)
@@ -2006,6 +2277,13 @@ namespace KillerNotes.Controls
                 xs[i] = p.X; ys[i] = p.Y;
             }
             FitInto(xs, ys);
+
+            // STAND STILL, everything this arrangement is not placing. EaseStep interpolates all
+            // of _nodes from From to To, so a node left out - a locked one - would otherwise still
+            // be carrying From/To from the PREVIOUS arrangement and would slide back to that old
+            // target the moment this ease started. Giving it From = To = where it already is makes
+            // the ease a no-op for it without EaseStep needing to know about locks.
+            foreach (var v in _nodes) { v.FromX = v.ToX = v.X; v.FromY = v.ToY = v.Y; }
 
             for (int i = 0; i < order.Count; i++)
             {

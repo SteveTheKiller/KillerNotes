@@ -311,10 +311,30 @@ CREATE TABLE IF NOT EXISTS recordings(
     PRIMARY KEY(note_id, ord)
 );";
 
+        // Saved graph layouts: one row per (layout name, note), holding where that note's node
+        // sits on the canvas. Deliberately OUTSIDE SchemaSql, unlike sketches and recordings:
+        // ExportNote runs SchemaSql to build a .knote, and a layout is a property of a whole
+        // notebook's link graph, not of the one note being shared. Carrying it into an export
+        // would ship coordinates for notes the receiving database has never seen.
+        //
+        // The name is NOCASE so "Radial" and "radial" are one layout, matching how tags and
+        // groups treat their names. WITHOUT ROWID because the (name, note_id) pair IS the
+        // identity, as with note_links.
+        private const string GraphLayoutSql = @"
+CREATE TABLE IF NOT EXISTS graph_layouts(
+    name    TEXT    NOT NULL COLLATE NOCASE,
+    note_id INTEGER NOT NULL,
+    x       REAL    NOT NULL,
+    y       REAL    NOT NULL,
+    locked  INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY(name, note_id)
+) WITHOUT ROWID;";
+
         private static void EnsureSchema()
         {
             bool hadTags = TableExists("tags");
             Exec(SchemaSql);
+            Exec(GraphLayoutSql);
             EnsureColumns();
             // Seed ONLY when the tags table was just created: user customizations and
             // deletions must never resurrect.
@@ -1039,6 +1059,125 @@ CREATE TABLE IF NOT EXISTS recordings(
             cmd.Parameters.AddWithValue("$s", on ? 1 : 0);
             cmd.Parameters.AddWithValue("$id", id);
             cmd.ExecuteNonQuery();
+        }
+
+        // ---- Graph layouts ----
+        //
+        // Where the graph view's nodes sit, saved under a name. Like note_links this is a view
+        // of the notes rather than the notes themselves, so losing it costs an arrangement and
+        // never any content - which is why nothing here migrates and an older build simply
+        // ignores the table.
+
+        /// <summary>One node's saved position. Locked means the layout pins it and a re-run of
+        /// the force simulation must leave it where the user put it.</summary>
+        public readonly struct GraphNodePos
+        {
+            public readonly long NoteId;
+            public readonly double X, Y;
+            public readonly bool Locked;
+
+            public GraphNodePos(long noteId, double x, double y, bool locked)
+            {
+                NoteId = noteId;
+                X = x;
+                Y = y;
+                Locked = locked;
+            }
+        }
+
+        /// <summary>Writes one layout, replacing whatever that name held. A layout is a snapshot
+        /// of the whole canvas, not a set of edits merged into an existing one, so the name's rows
+        /// are dropped and rewritten inside a single transaction - a half-written arrangement
+        /// would place some nodes from this save and the rest from the last one.
+        /// name "" is the remembered last layout; any other name is a user-named arrangement.</summary>
+        public static void SaveGraphLayout(string name, IEnumerable<GraphNodePos> rows)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var tx = _db.BeginTransaction();
+            using (var del = _db.CreateCommand())
+            {
+                del.Transaction = tx;
+                del.CommandText = "DELETE FROM graph_layouts WHERE name = $n";
+                del.Parameters.AddWithValue("$n", name ?? "");
+                del.ExecuteNonQuery();
+            }
+            foreach (var p in rows)
+            {
+                using var ins = _db.CreateCommand();
+                ins.Transaction = tx;
+                ins.CommandText = "INSERT OR REPLACE INTO graph_layouts(name, note_id, x, y, locked) " +
+                                  "VALUES ($n, $id, $x, $y, $l)";
+                ins.Parameters.AddWithValue("$n", name ?? "");
+                ins.Parameters.AddWithValue("$id", p.NoteId);
+                ins.Parameters.AddWithValue("$x", p.X);
+                ins.Parameters.AddWithValue("$y", p.Y);
+                ins.Parameters.AddWithValue("$l", p.Locked ? 1 : 0);
+                ins.ExecuteNonQuery();
+            }
+            // Sweep positions whose note is gone, across every layout. This cannot live in
+            // Delete: that delete is undoable - RestoreRow re-inserts the row verbatim by the
+            // same id - so dropping the note's coordinates there would bring the note back with
+            // its place in every saved arrangement lost. Saving a layout is the moment the user
+            // has settled on an arrangement, and by then an undo is long past.
+            using (var sweep = _db.CreateCommand())
+            {
+                sweep.Transaction = tx;
+                sweep.CommandText = "DELETE FROM graph_layouts WHERE note_id NOT IN (SELECT id FROM notes)";
+                sweep.ExecuteNonQuery();
+            }
+            tx.Commit();
+        }
+
+        /// <summary>One layout's positions, empty when that name has none. Joined against notes
+        /// so a row left by a note deleted since the save cannot resurrect that note as a node.</summary>
+        public static List<GraphNodePos> LoadGraphLayout(string name)
+        {
+            var list = new List<GraphNodePos>();
+            if (_db == null) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText =
+                "SELECT g.note_id, g.x, g.y, g.locked FROM graph_layouts g " +
+                "JOIN notes n ON n.id = g.note_id WHERE g.name = $n";
+            cmd.Parameters.AddWithValue("$n", name ?? "");
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+                list.Add(new GraphNodePos(r.GetInt64(0), r.GetDouble(1), r.GetDouble(2), r.GetInt64(3) != 0));
+            return list;
+        }
+
+        /// <summary>The user-named layouts, for the graph's load menu. The "" layout is the
+        /// remembered last arrangement rather than something the user saved, so it is never
+        /// listed as a choice.</summary>
+        public static List<string> ListGraphLayouts()
+        {
+            var list = new List<string>();
+            if (_db == null) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT DISTINCT name FROM graph_layouts WHERE name <> '' " +
+                              "ORDER BY name COLLATE NOCASE";
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) list.Add(r.IsDBNull(0) ? "" : r.GetString(0));
+            return list;
+        }
+
+        public static void DeleteGraphLayout(string name)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "DELETE FROM graph_layouts WHERE name = $n";
+            cmd.Parameters.AddWithValue("$n", name ?? "");
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>True when a layout of that name exists, for the overwrite prompt. Matches
+        /// case-insensitively, because that is what saving under the name would collide with.</summary>
+        public static bool GraphLayoutExists(string name)
+        {
+            if (_db == null) return false;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT count(*) FROM graph_layouts WHERE name = $n";
+            cmd.Parameters.AddWithValue("$n", name ?? "");
+            return (long)cmd.ExecuteScalar()! > 0;
         }
 
         // ---- Tags (per-database definitions; assignment is the notes.tags CSV, which

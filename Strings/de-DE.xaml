@@ -603,6 +603,15 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Sketch_Select">Auswählen / verschieben (V) - Objekt anklicken, zum Verschieben ziehen, Entf entfernt es</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Linie begradigen</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Text (T) - klicken, um eine Beschriftung zu setzen, tippen, Eingabe übernimmt sie (Umschalt+Eingabe für eine neue Zeile)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Position sperren</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Nichts bewegt eine gesperrte Notiz - keine Anordnung, keine Nachbarn.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Diese Anordnung speichern...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Anordnung vergessen</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Diese Anordnung benennen</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">"{0}" ersetzen?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Die unter diesem Namen gespeicherten Positionen werden durch die aktuell angezeigten ersetzt.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">"{0}" vergessen?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Die Notizen selbst bleiben unberührt, nur die gespeicherten Positionen.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Fett entfernen</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Rückgängig (Strg+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Pinselgröße (klicken zum Wechseln)</sys:String>

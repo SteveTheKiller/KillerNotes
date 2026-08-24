@@ -657,6 +657,15 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Sketch_Select">Kijelölés/áthelyezés (V) - kattintson egy objektumra, mozgassa húzással, a Törlés eltávolítja</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Egyenesítse ki a vonalat</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Szöveg (T) - kattintson a címke elhelyezéséhez, írja be, az Enter beállításához (új sorhoz Shift+Enter)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Rögzítés a helyén</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Rögzített jegyzetet semmi nem mozdít el - sem az elrendezés, sem a szomszédai.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Ennek az elrendezésnek a mentése...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Elrendezés elfelejtése</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Nevezze el ezt az elrendezést</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">Lecseréli a következőt: &quot;{0}&quot;?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Az ezen a néven mentett pozíciókat a képernyőn most láthatók váltják fel.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">Elfelejti a következőt: &quot;{0}&quot;?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Maguk a jegyzetek nem változnak, csak a mentett pozíciók.</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Távolítsa el a félkövér betűtípust</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Visszavonás (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Ecset mérete (kattintson a ciklushoz)</sys:String>

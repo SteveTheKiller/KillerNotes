@@ -601,6 +601,15 @@
     <sys:String x:Key="Str_Sketch_Select">選択 / 移動 (V) - オブジェクトをクリックし、ドラッグで移動、Delete で削除</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">線をまっすぐにする</sys:String>
     <sys:String x:Key="Str_Sketch_Text">テキスト (T) - クリックしてラベルを置き、入力し、Enter で確定 (Shift+Enter で改行)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">位置を固定</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">固定したノートは何をしても動きません。配置の適用でも、隣のノートに引っ張られても動きません。</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">この配置を保存...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">配置を削除</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">この配置に名前を付ける</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">「{0}」を置き換えますか?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">その名前で保存された位置は、いま画面に表示されている位置に置き換えられます。</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">「{0}」を削除しますか?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">ノート自体はそのままで、保存された位置だけが削除されます。</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">太字を解除</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">元に戻す (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">ブラシサイズ (クリックで切り替え)</sys:String>
