@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using KillerNotes.Models;
 
-namespace KillerNotes.Controls
+namespace KillerNotes.Controls.Sketch
 {
     internal sealed partial class SketchPadWindow
     {
@@ -259,9 +259,8 @@ namespace KillerNotes.Controls
         {
             if (_polyRubber == null) return;
             _polyRubber.X2 = p.X; _polyRubber.Y2 = p.Y;
-            if (_polySnap != null)
-                _polySnap.Visibility = _polyPts.Count >= 3 && (p - _polyPts[0]).Length <= PolySnapPx
-                    ? Visibility.Visible : Visibility.Collapsed;
+            _polySnap?.Visibility = _polyPts.Count >= 3 && (p - _polyPts[0]).Length <= PolySnapPx
+                ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void CommitPoly()

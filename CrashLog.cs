@@ -87,7 +87,7 @@ namespace KillerNotes
                 if (!fi.Exists || fi.Length <= CrashLogMaxBytes) return;
                 string text = File.ReadAllText(path);
                 int cut = text.IndexOf("\n=== ", text.Length / 2, StringComparison.Ordinal);
-                File.WriteAllText(path, cut >= 0 ? text.Substring(cut + 1) : "",
+                File.WriteAllText(path, cut >= 0 ? text[(cut + 1)..] : "",
                                   new UTF8Encoding(false));
             }
             catch { /* an untrimmable log is still a readable log */ }

@@ -21,6 +21,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - A graph of every link in the notebook, on the sidebar rail. Nodes are colored by their group and sized by how much links to them; titles that are linked but not yet written show as outlines. Drag one node or a whole selection and the rest move out of the way while you hold them. Five arrangements: by connection, in a circle, in a grid, by group, and rings by distance from a chosen note. Pin all Notes (P) keeps every note where it is put; turn it off and the notes it links to move out of the way as you drag. Visualizer (V) leaves the graph drifting and slowly turning on its own. Right-click for the rest, including "show only what links here".
 - The SketchPad opens a large image scaled to fit instead of at full size, and gains zoom (a magnifier in the top bar for 100% and fit, Ctrl+Wheel for anything between) and crop (C, drag a box to keep). The select tool's icon is a hand rather than a marquee.
 - Back and forward through the notes you have visited, so following a chain of links is not a one-way trip. Alt+Left and Alt+Right, the mouse thumb buttons, or the first two rows of a note's right-click menu.
+- F11 fills the whole screen, taskbar included. Esc leaves it as well.
 
 ### Changed
 - The SQLCipher encryption native is now built from upstream source (SQLCipher 4.18.0, SQLite 3.53.4) and vendored in the repo, replacing the deprecated SQLitePCLRaw.lib.e_sqlcipher package.

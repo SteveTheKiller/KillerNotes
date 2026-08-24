@@ -1,6 +1,7 @@
 using System.Windows;
 using KillerNotes.Controls;
-using KillerNotes.Features;
+using KillerNotes.Features.About;
+using KillerNotes.Features.Security;
 
 namespace KillerNotes.Shell
 {

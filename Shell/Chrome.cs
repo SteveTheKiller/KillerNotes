@@ -175,11 +175,15 @@ namespace KillerNotes.Shell
         protected override void OnStateChanged(EventArgs e)
         {
             base.OnStateChanged(e);
+            // Left Maximized by some other route - the caption button, a double-click on the title
+            // bar, the system menu - so the window is no longer fullscreen whatever the flag says.
+            // Without this the flag survives, and the NEXT ordinary maximize would silently cover
+            // the taskbar because WmGetMinMaxInfo is still handing back the monitor rect.
+            if (_fullscreen && !_fsSwitching && WindowState != WindowState.Maximized) _fullscreen = false;
             // Square the corners when flush to screen edges, round when floating.
             ApplyCornerState();
             // Maximize glyph (Segoe MDL2) toggles to a restore glyph when maximized.
-            if (MaximizeBtn != null)
-                MaximizeBtn.Content = WindowState == WindowState.Maximized ? "" : "";
+            MaximizeBtn?.Content = WindowState == WindowState.Maximized ? "" : "";
         }
 
         // ---- Content fade-in on open (RootGrid starts at Opacity=0 in XAML) ----
@@ -219,12 +223,18 @@ namespace KillerNotes.Shell
             {
                 var info = new MONITORINFO { cbSize = Marshal.SizeOf(typeof(MONITORINFO)) };
                 GetMonitorInfo(monitor, ref info);
-                RECT work = info.rcWork;
+                // Fullscreen (F11) maximizes over the WHOLE monitor instead of the work area, so
+                // the window covers the taskbar. This handler is the only thing that decides how
+                // large a maximized window gets, which is why fullscreen is a change to the clamp
+                // rather than a manual Left/Top/Width/Height set - setting the bounds by hand
+                // fights this message every time Windows re-asks, which it does on every DPI
+                // change, monitor change and restore.
                 RECT mon = info.rcMonitor;
-                mmi.ptMaxPosition.x = Math.Abs(work.left - mon.left);
-                mmi.ptMaxPosition.y = Math.Abs(work.top - mon.top);
-                mmi.ptMaxSize.x = Math.Abs(work.right - work.left);
-                mmi.ptMaxSize.y = Math.Abs(work.bottom - work.top);
+                RECT box = _fullscreen ? mon : info.rcWork;
+                mmi.ptMaxPosition.x = Math.Abs(box.left - mon.left);
+                mmi.ptMaxPosition.y = Math.Abs(box.top - mon.top);
+                mmi.ptMaxSize.x = Math.Abs(box.right - box.left);
+                mmi.ptMaxSize.y = Math.Abs(box.bottom - box.top);
                 mmi.ptMaxTrackSize.x = mmi.ptMaxSize.x;
                 mmi.ptMaxTrackSize.y = mmi.ptMaxSize.y;
 
@@ -243,6 +253,59 @@ namespace KillerNotes.Shell
 
                 Marshal.StructureToPtr(mmi, lParam, true);
             }
+        }
+
+        // ---- Fullscreen (F11) ----
+        //
+        // PLAIN fullscreen: the chrome stays exactly where it is, the window simply grows to cover
+        // the whole monitor including the taskbar. Nothing is hidden, so there is no way to get
+        // lost in it - the title bar, the caption buttons and the footer are all still there.
+        //
+        // The state lives here rather than in Shortcuts.cs because WmGetMinMaxInfo above is what
+        // actually implements it, and a flag read by a window message belongs beside that message.
+
+        private bool _fullscreen;
+        private WindowState _preFullscreen = WindowState.Normal;
+
+        /// <summary>Set while this file is driving WindowState itself, so OnStateChanged can tell
+        /// a deliberate transition from the user maximizing or restoring by some other route.</summary>
+        private bool _fsSwitching;
+
+        private void ToggleFullscreen()
+        {
+            if (_fullscreen) LeaveFullscreen();
+            else EnterFullscreen();
+        }
+
+        private void EnterFullscreen()
+        {
+            if (_fullscreen) return;
+            // Minimized is not a state worth coming back to, so a fullscreen taken from the taskbar
+            // restores to Normal.
+            _preFullscreen = WindowState == WindowState.Minimized ? WindowState.Normal : WindowState;
+            _fullscreen = true;
+            // Windows caches the maximized rect, so an already-maximized window would keep its old
+            // work-area size and never ask WM_GETMINMAXINFO again. Dropping to Normal first is what
+            // forces a fresh transition into Maximized, which is what re-runs the clamp.
+            SetStateQuietly(WindowState.Normal);
+            SetStateQuietly(WindowState.Maximized);
+        }
+
+        private void LeaveFullscreen()
+        {
+            if (!_fullscreen) return;
+            _fullscreen = false;   // cleared FIRST, so the clamp below reads the work area again
+            SetStateQuietly(WindowState.Normal);
+            if (_preFullscreen == WindowState.Maximized) SetStateQuietly(WindowState.Maximized);
+        }
+
+        /// <summary>Sets WindowState without OnStateChanged reading the transition as the user
+        /// having left fullscreen by some other route.</summary>
+        private void SetStateQuietly(WindowState state)
+        {
+            _fsSwitching = true;
+            try { WindowState = state; }
+            finally { _fsSwitching = false; }
         }
 
         [DllImport("user32.dll")]

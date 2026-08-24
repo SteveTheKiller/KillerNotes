@@ -47,6 +47,7 @@ namespace KillerNotes.Shell
             new("F9", "Str_KS_Calc", "View", [(KbLayer.Base, "F9", "Str_KS_Calc")]),
             new("F10 / Ctrl+M", "Str_KS_Dictation", "View", [(KbLayer.Base, "F10", "Str_Kb_Dictation"), (KbLayer.Ctrl, "M", "Str_Kb_Dictation")]),
             new("Ctrl+F10", "Str_KS_SortCycle", "View", [(KbLayer.Ctrl, "F10", "Str_KS_SortCycle")]),
+            new("F11", "Str_KS_Fullscreen", "View", [(KbLayer.Base, "F11", "Str_KS_Fullscreen")]),
             new("F12", "Str_KS_About", "Help", [(KbLayer.Base, "F12", "Str_KS_About")]),
             // The Alt layer. Alt+Left/Right are the browser's own back and forward, so they cost
             // nothing to learn; the mouse thumb buttons do the same thing (NoteHistory.cs).
@@ -129,9 +130,8 @@ namespace KillerNotes.Shell
 
         /// <summary>(keys, string-resource key) pairs for the F1 list, in table order.</summary>
         private static readonly (string Keys, string Action)[] ShortcutMap =
-            KsTable.Where(b => b.Keys.Length > 0)
-                   .Select(b => (b.Keys, b.Label))
-                   .ToArray();
+            [.. KsTable.Where(b => b.Keys.Length > 0)
+                   .Select(b => (b.Keys, b.Label))];
 
         /// <summary>key id -> (category, caption resource key), per layer, for the drawn map.
         /// Categories map 1:1 to the KnCat* theme brushes; captions resolve through Loc() so

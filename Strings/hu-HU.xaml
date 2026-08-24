@@ -402,6 +402,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_KS_FormatBar">A formátumsáv megjelenítése/elrejtése</sys:String>
     <sys:String x:Key="Str_KS_Export">A megnyitott jegyzet exportálása (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Az oldalsáv összecsukása/kibontása</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Teljes képernyő</sys:String>
     <sys:String x:Key="Str_KS_About">A KillerNotes-ról</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Új jegyzet</sys:String>
     <sys:String x:Key="Str_KS_OpenFiles">Nyissa meg a fájlokat új jegyzetként</sys:String>

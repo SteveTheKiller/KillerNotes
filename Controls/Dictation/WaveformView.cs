@@ -2,7 +2,7 @@ using System;
 using System.Windows;
 using System.Windows.Media;
 
-namespace KillerNotes.Controls
+namespace KillerNotes.Controls.Dictation
 {
     /// <summary>
     /// Draws a peak envelope as mirrored bars around a center line. Used twice: live while
@@ -15,7 +15,7 @@ namespace KillerNotes.Controls
     /// </summary>
     internal sealed class WaveformView : FrameworkElement
     {
-        private float[] _peaks = Array.Empty<float>();
+        private float[] _peaks = [];
 
         public WaveformView()
         {
@@ -63,7 +63,7 @@ namespace KillerNotes.Controls
 
         internal void SetPeaks(float[] peaks)
         {
-            _peaks = peaks ?? Array.Empty<float>();
+            _peaks = peaks ?? [];
             InvalidateVisual();
         }
 
@@ -72,7 +72,7 @@ namespace KillerNotes.Controls
 
         /// <summary>Slice points as 0..1 fractions, sorted. These are marks on the recording, not
         /// edits to it - nothing is removed until a segment between two of them is deleted.</summary>
-        internal System.Collections.Generic.List<double> Cuts { get; } = new();
+        internal System.Collections.Generic.List<double> Cuts { get; } = [];
 
         /// <summary>The segment highlighted for a delete or copy, as an index into the segments the
         /// cuts define, or -1 for none.</summary>
@@ -121,7 +121,7 @@ namespace KillerNotes.Controls
             InvalidateVisual();
         }
 
-        internal void Clear() => SetPeaks(Array.Empty<float>());
+        internal void Clear() => SetPeaks([]);
 
         private Brush Ink()
         {
@@ -208,7 +208,9 @@ namespace KillerNotes.Controls
             // and the entire waveform re-laid itself out - and below that threshold the bar pitch
             // itself changed on every single tick. Ten times a second, that reads as the waveform
             // lurching out in chunks. With the columns fixed, growth only changes the HEIGHTS.
-            int first = 0, count = capacity;
+            // count has no initializer: both branches below assign it, so the compiler enforces
+            // that rather than a default quietly surviving a branch that forgot to.
+            int first = 0, count;
             bool fit = Window <= 0;
             if (!fit)
             {
@@ -286,7 +288,7 @@ namespace KillerNotes.Controls
             // Cut marks last, over everything, dashed so they never read as a playhead.
             if (Cuts.Count > 0)
             {
-                var pen = new Pen(Rule(), 1) { DashStyle = new DashStyle(new double[] { 3, 3 }, 0) };
+                var pen = new Pen(Rule(), 1) { DashStyle = new DashStyle([3, 3], 0) };
                 pen.Freeze();
                 foreach (double c in Cuts)
                 {

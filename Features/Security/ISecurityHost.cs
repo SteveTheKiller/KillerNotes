@@ -1,4 +1,4 @@
-namespace KillerNotes.Features
+namespace KillerNotes.Features.Security
 {
     /// <summary>
     /// What SecurityController needs from the window hosting it, beyond the shared shell services.

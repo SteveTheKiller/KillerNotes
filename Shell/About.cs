@@ -4,7 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using KillerNotes.Controls;
-using KillerNotes.Features;
+using KillerNotes.Features.About;
 
 // KillerUI kit. A partial of your MainWindow.
 //

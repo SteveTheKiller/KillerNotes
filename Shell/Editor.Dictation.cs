@@ -5,6 +5,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using KillerNotes.Controls;
+using KillerNotes.Controls.Dictation;
 using KillerNotes.Services;
 
 // Dictation (F8). A modeless companion window, opened from the sidebar rail, that records the
@@ -193,7 +194,7 @@ namespace KillerNotes.Shell
                 // reloaded since the pad opened, and adding a fallback chip is what produced a
                 // duplicate before.
                 var target = FindChip(replaceOrd);
-                if (target != null) target.Child = BuildChipBody(replaceOrd, durationMs);
+                target?.Child = BuildChipBody(replaceOrd, durationMs);
                 MarkDirty();
                 StatusText.Text = Loc("Str_Dict_Replaced");
                 return;
@@ -283,7 +284,7 @@ namespace KillerNotes.Shell
             // note is saved or swapped. Path/Geometry are public framework types, so the chip
             // survives the round trip. Same envelope either way, just baked into geometry.
             byte[]? chipWav = NoteStore.LoadRecording(_currentId, ord);
-            Geometry env = WaveformGeometry(chipWav == null ? Array.Empty<float>()
+            Geometry env = WaveformGeometry(chipWav == null ? []
                                                             : DictationRecorder.EnvelopeOf(chipWav, 70),
                                             ChipWaveW, ChipWaveH);
 
@@ -318,7 +319,7 @@ namespace KillerNotes.Shell
             {
                 Width = ChipWaveW, Height = ChipWaveH,
                 VerticalAlignment = VerticalAlignment.Center,
-                Data = WaveformGeometry(chipWav == null ? Array.Empty<float>()
+                Data = WaveformGeometry(chipWav == null ? []
                                                         : DictationRecorder.EnvelopeOf(chipWav, 70),
                                         ChipWaveW, ChipWaveH, CoreScale),
                 IsHitTestVisible = false,
@@ -446,7 +447,7 @@ namespace KillerNotes.Shell
             // MP3 is offered for sending to someone else - lossy, but it plays anywhere.
             if (LameCodec.Available) formats.Add("MP3 audio|*.mp3");
 
-            var dlg = new KillerPDF.Controls.FileDialog(KillerPDF.Controls.FileDialogMode.Save)
+            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Save)
             {
                 Title = Loc("Str_Dict_SaveAs"),
                 FileName = RecordingFileName(ord, data),
@@ -597,13 +598,13 @@ namespace KillerNotes.Shell
                 {
                     DictationPlayer.Resume();
                     _recTimer?.Start();
-                    if (glyph != null) glyph.Text = char.ConvertFromUtf32(0xE769);
+                    glyph?.Text = char.ConvertFromUtf32(0xE769);
                 }
                 else
                 {
                     DictationPlayer.Pause();
                     _recTimer?.Stop();
-                    if (glyph != null) glyph.Text = char.ConvertFromUtf32(0xE768);
+                    glyph?.Text = char.ConvertFromUtf32(0xE768);
                 }
                 return;
             }
@@ -631,7 +632,7 @@ namespace KillerNotes.Shell
             _recChip = chip;
             _recOrd = ord;
             _recTotalText = label?.Text ?? "";
-            if (glyph != null) glyph.Text = char.ConvertFromUtf32(0xE769);   // Pause
+            glyph?.Text = char.ConvertFromUtf32(0xE769);   // Pause
 
             // 50ms: fast enough that the progress fill reads as moving rather than stepping, cheap
             // enough to be irrelevant next to the audio itself.
@@ -647,8 +648,7 @@ namespace KillerNotes.Shell
                 double frac = Math.Min(1, DictationPlayer.PositionMs / (double)total);
                 if (played?.Clip is RectangleGeometry rg)
                     rg.Rect = new Rect(0, 0, ChipWaveW * frac, ChipWaveH);
-                if (label != null)
-                    label.Text = TimeSpan.FromMilliseconds(DictationPlayer.PositionMs).ToString(DurationFormat);
+                label?.Text = TimeSpan.FromMilliseconds(DictationPlayer.PositionMs).ToString(DurationFormat);
             };
             _recTimer.Start();
         }
@@ -663,7 +663,7 @@ namespace KillerNotes.Shell
             if (_recChip != null)
             {
                 var (glyph, played, label) = ChipParts(_recChip);
-                if (glyph != null) glyph.Text = char.ConvertFromUtf32(0xE768);   // Play
+                glyph?.Text = char.ConvertFromUtf32(0xE768);   // Play
                 if (played?.Clip is RectangleGeometry rg) rg.Rect = new Rect(0, 0, 0, ChipWaveH);
                 if (label != null && _recTotalText.Length > 0) label.Text = _recTotalText;
                 _recChip = null;

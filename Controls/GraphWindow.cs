@@ -1032,7 +1032,7 @@ namespace KillerNotes.Controls
         /// node under the pointer. So the menu reads the same whether or not anything is selected.
         /// </summary>
         private List<Node> MenuTargets() =>
-            _selected.Count > 0 ? _selected.ToList()
+            _selected.Count > 0 ? [.. _selected]
             : _menuNode != null ? [_menuNode] : [];
 
         // ── THE LIVE DRAG, on d3-force's model ───────────────────────────────────────────
@@ -1137,7 +1137,7 @@ namespace KillerNotes.Controls
         private void SetVisualizer(bool on)
         {
             _visualizer = on;
-            if (_miSpin != null) _miSpin.IsChecked = on;
+            _miSpin?.IsChecked = on;
             if (on)
             {
                 // FIT TO A CIRCLE FIRST. The ordinary fit fills the box, and a layout that fills a
@@ -1406,7 +1406,7 @@ namespace KillerNotes.Controls
         /// of it, otherwise just the grabbed node.</summary>
         private List<Node> DragSet() =>
             _drag == null ? []
-            : _selected.Count > 1 && _selected.Contains(_drag) ? _selected.ToList()
+            : _selected.Count > 1 && _selected.Contains(_drag) ? [.. _selected]
             : [_drag];
 
         private void CanvasMove(object sender, MouseEventArgs e)
@@ -1700,7 +1700,7 @@ namespace KillerNotes.Controls
         {
             _hold = on;
             App.SetSetting("GraphHoldPositions", on ? "1" : "0");
-            if (_miHold != null) _miHold.IsChecked = on;
+            _miHold?.IsChecked = on;
             ApplyHold();
         }
 

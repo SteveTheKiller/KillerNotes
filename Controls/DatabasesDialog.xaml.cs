@@ -126,7 +126,8 @@ namespace KillerNotes.Controls
         // deliberate triggers: the context menu and F2.
         private void DbList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (SelectedItem is ListBoxItem) Open_Click(sender, e);
+            // SelectedItem is already ListBoxItem?, so this is a null check - written as one.
+            if (SelectedItem is not null) Open_Click(sender, e);
         }
 
         // Right-click selects the row under the cursor before the context menu opens.

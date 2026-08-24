@@ -222,6 +222,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Afficher / masquer la barre de mise en forme</sys:String>
     <sys:String x:Key="Str_KS_Export">Exporter la note ouverte (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Réduire / développer le panneau latéral</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Plein écran</sys:String>
     <sys:String x:Key="Str_KS_About">À propos de KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Nouvelle note</sys:String>
     <sys:String x:Key="Str_KS_OpenFiles">Ouvrir des fichiers comme nouvelles notes</sys:String>

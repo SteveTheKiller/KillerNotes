@@ -13,8 +13,8 @@
      ============================================================ -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:KillerPDF.Controls"
-                    xmlns:kui="clr-namespace:KillerPDF.Controls">
+                    xmlns:local="clr-namespace:KillerNotes.SharedPicker"
+                    xmlns:kui="clr-namespace:KillerNotes.SharedPicker">
 
     <!-- NO OutlineButton / SurfaceButton HERE (2026-08-07). This file used to carry its
          own copies of both, and it merges AFTER Controls.xaml, so the picker silently ignored

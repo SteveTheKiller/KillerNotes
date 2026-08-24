@@ -1,5 +1,5 @@
 using System.Windows;
-using KillerNotes.Features;
+using KillerNotes.Features.Security;
 using KillerNotes.Services;   // NoteStore, for the resume hint's database check
 
 // MainWindow's side of the security feature: it satisfies ISecurityHost and forwards the two

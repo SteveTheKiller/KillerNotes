@@ -340,6 +340,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Pokaż / ukryj pasek formatowania</sys:String>
     <sys:String x:Key="Str_KS_Export">Eksportuj otwartą notatkę (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Zwiń / rozwiń pasek boczny</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Pełny ekran</sys:String>
     <sys:String x:Key="Str_KS_About">O KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Nowa notatka</sys:String>
     <sys:String x:Key="Str_KS_OpenFiles">Otwórz pliki jako nowe notatki</sys:String>

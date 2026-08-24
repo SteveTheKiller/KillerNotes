@@ -209,9 +209,14 @@ namespace KillerNotes.Shell
                     CycleSortShortcut();   // Notes.cs (time -> A-Z -> custom)
                     e.Handled = true;
                     break;
-                // F11 is deliberately unbound here. Line numbers moved to Alt+L above, and the
-                // key is being held for a fullscreen mode rather than refilled with the next
-                // toggle that comes along.
+                // F11 is fullscreen everywhere else on the machine, so it needs no teaching. Plain
+                // fullscreen: the chrome stays put and the window covers the monitor, taskbar
+                // included. Chrome.cs owns it, because the window message that clamps a maximized
+                // window is what implements it.
+                case Key.F11:
+                    ToggleFullscreen();                  // Chrome.cs
+                    e.Handled = true;
+                    break;
                 case Key.F5:
                     ToggleSidebar();                     // Sidebar.cs (moved from F9: F5/F6
                     e.Handled = true;                    // sit together as the two pane toggles)
@@ -376,6 +381,10 @@ namespace KillerNotes.Shell
                 Editor.Focus();
                 return true;
             }
+            // LAST, so Esc never leaves fullscreen while it still has a panel or a box to clear -
+            // the window resizing under an open find bar is not what that press asked for. Esc is
+            // the second way out that every fullscreen has, on top of F11 itself.
+            if (_fullscreen) { LeaveFullscreen(); return true; }   // Chrome.cs
             return false;
         }
     }

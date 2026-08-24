@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace KillerNotes.Controls
+namespace KillerNotes.Controls.Sketch
 {
     internal sealed partial class SketchPadWindow
     {

@@ -27,7 +27,7 @@ namespace KillerNotes.Services
         // tape until an operator or = commits it, so backspace / % / +/- need no tape handling
         // (they only edit the live operand). _equaled marks that "=" just completed the tape, so
         // it survives for a print until the next entry begins.
-        private readonly List<string> _seq = new();
+        private readonly List<string> _seq = [];
         private bool _equaled;
 
         /// <summary>What the readout should show.</summary>

@@ -222,6 +222,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Formatleiste ein-/ausblenden</sys:String>
     <sys:String x:Key="Str_KS_Export">Offene Notiz exportieren (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Seitenleiste ein-/ausklappen</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Vollbild</sys:String>
     <sys:String x:Key="Str_KS_About">Über KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Neue Notiz</sys:String>
     <sys:String x:Key="Str_KS_OpenFiles">Dateien als neue Notizen öffnen</sys:String>

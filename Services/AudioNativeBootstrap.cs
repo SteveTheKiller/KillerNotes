@@ -26,7 +26,7 @@ namespace KillerNotes.Services
         /// extracted yet, and whisper silently reports unavailable.
         /// </summary>
         private static readonly string[] WhisperDlls =
-            { "ggml-base.dll", "ggml-cpu.dll", "ggml.dll", "libwhisper.dll" };
+            ["ggml-base.dll", "ggml-cpu.dll", "ggml.dll", "libwhisper.dll"];
 
         private static readonly object _gate = new();
         private static bool _done;
@@ -103,7 +103,7 @@ namespace KillerNotes.Services
             return sb.ToString();
         }
 
-        private static readonly System.Collections.Generic.Dictionary<string, string> _why = new();
+        private static readonly System.Collections.Generic.Dictionary<string, string> _why = [];
 
         [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
         private static extern bool SetDllDirectory(string lpPathName);
@@ -116,18 +116,16 @@ namespace KillerNotes.Services
             try
             {
                 Directory.CreateDirectory(_dir);
-                using (var src = typeof(AudioNativeBootstrap).Assembly.GetManifestResourceStream(resource))
+                using var src = typeof(AudioNativeBootstrap).Assembly.GetManifestResourceStream(resource);
+                embedded = src != null;
+                if (src != null && (!File.Exists(target) || new FileInfo(target).Length != src.Length))
                 {
-                    embedded = src != null;
-                    if (src != null && (!File.Exists(target) || new FileInfo(target).Length != src.Length))
-                    {
-                        // Temp name then swap, so a crash mid-extract never leaves a half-written
-                        // dll for the next launch to load.
-                        string tmp = target + ".tmp";
-                        using (var dst = File.Create(tmp)) src.CopyTo(dst);
-                        if (File.Exists(target)) File.Delete(target);
-                        File.Move(tmp, target);
-                    }
+                    // Temp name then swap, so a crash mid-extract never leaves a half-written
+                    // dll for the next launch to load.
+                    string tmp = target + ".tmp";
+                    using (var dst = File.Create(tmp)) src.CopyTo(dst);
+                    if (File.Exists(target)) File.Delete(target);
+                    File.Move(tmp, target);
                 }
             }
             catch (IOException)

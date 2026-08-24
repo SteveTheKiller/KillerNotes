@@ -351,7 +351,7 @@ namespace KillerNotes.Services
 
         private static void WriteBlock(StringBuilder sb, WpfBlock block, int depth)
         {
-            string indent = new string(' ', depth * 2);
+            string indent = new(' ', depth * 2);
             switch (block)
             {
                 case Paragraph p:
@@ -471,7 +471,9 @@ namespace KillerNotes.Services
                     if (italic) wrap.Append('*');
                     if (strike) wrap.Append("~~");
                     string open = wrap.ToString();
-                    string close = new string(open.Reverse().ToArray());
+                    // Enumerable.Reverse spelled out: on a string, a bare .Reverse() can bind to
+                    // MemoryExtensions.Reverse(Span<T>), which returns void.
+                    string close = new([.. Enumerable.Reverse(open)]);
                     // Reversing turns "**" into "**" and "~~" into "~~" correctly, but a mixed
                     // run reverses to the right nesting order too, which is what markdown wants.
                     sb.Append(lead).Append(open).Append(text).Append(close).Append(trail);

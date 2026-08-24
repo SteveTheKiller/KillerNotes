@@ -239,9 +239,9 @@ namespace KillerNotes.Services
             int align = channels * 2;
             using var ms = new MemoryStream(44 + pcm.Length);
             using var w = new BinaryWriter(ms);
-            w.Write(new[] { 'R', 'I', 'F', 'F' });
+            w.Write(['R', 'I', 'F', 'F']);
             w.Write(36 + pcm.Length);
-            w.Write(new[] { 'W', 'A', 'V', 'E', 'f', 'm', 't', ' ' });
+            w.Write(['W', 'A', 'V', 'E', 'f', 'm', 't', ' ']);
             w.Write(16);
             w.Write((short)1);              // PCM
             w.Write((short)channels);
@@ -249,7 +249,7 @@ namespace KillerNotes.Services
             w.Write(rate * align);
             w.Write((short)align);
             w.Write((short)16);
-            w.Write(new[] { 'd', 'a', 't', 'a' });
+            w.Write(['d', 'a', 't', 'a']);
             w.Write(pcm.Length);
             w.Write(pcm);
             w.Flush();

@@ -132,13 +132,12 @@ namespace KillerNotes.Shell
             Services.NoteStore.SetSyntaxHighlight(_currentId, _syntaxHighlight);
             foreach (var meta in new[] { _notes.FirstOrDefault(n => n.Id == _currentId),
                                          _sidebarItems.OfType<Models.Note>().FirstOrDefault(n => n.Id == _currentId) })
-                if (meta != null) meta.SyntaxHighlight = _syntaxHighlight;
+                meta?.SyntaxHighlight = _syntaxHighlight;
         }
 
         private void SyncSyntaxButton()
         {
-            if (SyntaxHighlightMenuItem != null)
-                SyntaxHighlightMenuItem.IsChecked = _syntaxHighlight;
+            SyntaxHighlightMenuItem?.IsChecked = _syntaxHighlight;
         }
 
         private void QueueSyntaxHighlighting()
@@ -227,7 +226,7 @@ namespace KillerNotes.Shell
                 // scroll, and the performance showed it (2026-08-08).
                 if (_syntaxFlatDirty)
                 {
-                    _syntaxFlat = Paragraphs(Editor.Document.Blocks).ToList();
+                    _syntaxFlat = [.. Paragraphs(Editor.Document.Blocks)];
                     _syntaxFlatIndex.Clear();
                     for (int fi = 0; fi < _syntaxFlat.Count; fi++) _syntaxFlatIndex[_syntaxFlat[fi]] = fi;
                     // Prune cache entries whose paragraphs left the document, so a deleted-and-
@@ -241,7 +240,7 @@ namespace KillerNotes.Shell
                 var flat = _syntaxFlat;
                 if (flat.Count == 0) return;
 
-                int first = FirstVisibleSyntaxIndex(flat);
+                int first = FirstVisibleSyntaxIndex();
                 double viewBottom = Editor.ActualHeight + 200;   // a margin below, so a small scroll is already painted
                 // LAZY change block, and a per-pass paint budget. Opening BeginChange/EndChange
                 // unconditionally made every scroll pass - even a pure-read one over painted
@@ -353,8 +352,11 @@ namespace KillerNotes.Shell
         }
 
         /// <summary>Index in the flat paragraph list of the paragraph under the editor's top-left
-        /// corner - a viewport-local query, no document walk. 0 when it cannot tell.</summary>
-        private int FirstVisibleSyntaxIndex(List<Paragraph> flat)
+        /// corner - a viewport-local query, no document walk. 0 when it cannot tell.
+        ///
+        /// Takes no list: it reads _syntaxFlatIndex, the cache built alongside that list. It used
+        /// to take one and IndexOf into it, which was a per-frame reference scan.</summary>
+        private int FirstVisibleSyntaxIndex()
         {
             try
             {
@@ -537,7 +539,7 @@ namespace KillerNotes.Shell
         {
             if (char.IsWhiteSpace(s[0])) return true;               // code blocks are indented
             string t = s.TrimEnd();
-            char last = t[t.Length - 1];
+            char last = t[^1];
             if (last is ';' or '{' or '}' or ')') return true;      // statement / brace / call line
             return t.StartsWith("//") || t.StartsWith("#") || t.StartsWith("/*")
                 || t.StartsWith("}") || t.StartsWith("{");

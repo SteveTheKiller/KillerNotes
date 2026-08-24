@@ -221,6 +221,7 @@
     <sys:String x:Key="Str_KS_FormatBar">ফরম্যাট বার দেখান / লুকান</sys:String>
     <sys:String x:Key="Str_KS_Export">খোলা নোট এক্সপোর্ট করুন (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">সাইডবার সংকুচিত / প্রসারিত করুন</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">পূর্ণ স্ক্রিন</sys:String>
     <sys:String x:Key="Str_KS_About">KillerNotes সম্পর্কে</sys:String>
     <sys:String x:Key="Str_KS_NewNote">নতুন নোট</sys:String>
     <sys:String x:Key="Str_KS_OpenFiles">ফাইলগুলো নতুন নোট হিসেবে খুলুন</sys:String>

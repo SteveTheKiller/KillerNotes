@@ -65,9 +65,11 @@ namespace KillerNotes.Services
 
                     // Truncate: the replacement is shorter, and a shorter write into an existing
                     // part leaves the tail of the old XAML behind and corrupts the note.
-                    using (var stream = part.GetStream(FileMode.Create, FileAccess.Write))
-                    using (var writer = new StreamWriter(stream, new UTF8Encoding(false)))
-                        writer.Write(cleaned);
+                    // Declarations, not blocks: nothing follows the write inside this scope, so
+                    // both still dispose before the Package does, which is what flushes the part.
+                    using var stream = part.GetStream(FileMode.Create, FileAccess.Write);
+                    using var writer = new StreamWriter(stream, new UTF8Encoding(false));
+                    writer.Write(cleaned);
                 }
 
                 return buffer.ToArray();

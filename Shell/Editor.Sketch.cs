@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using KillerNotes.Controls;
+using KillerNotes.Controls.Sketch;
 using KillerNotes.Models;
 using KillerNotes.Services;
 

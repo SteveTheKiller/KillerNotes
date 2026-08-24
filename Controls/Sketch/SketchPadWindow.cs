@@ -11,7 +11,7 @@ using System.Windows.Shell;
 using KillerNotes.Models;
 using KillerNotes.Services;
 
-namespace KillerNotes.Controls
+namespace KillerNotes.Controls.Sketch
 {
     // SketchPad (BACKLOG: SketchPad - "mini MS Paint"). A themed, MODELESS companion window in the
     // KillerPDF dialog chrome: a floating rounded card with a soft drop shadow and a single red
@@ -27,7 +27,9 @@ namespace KillerNotes.Controls
 
         private readonly Canvas _canvas;
         private readonly Action<IReadOnlyList<SketchObject>, int, int> _print;
-        private int _canvasW = Sketch.CanvasW, _canvasH = Sketch.CanvasH;   // live drawing size; grows with the window
+        // Services.Sketch, QUALIFIED. This file's own namespace is KillerNotes.Controls.Sketch, so
+        // a bare "Sketch" binds to that namespace and hides the Services class of the same name.
+        private int _canvasW = Services.Sketch.CanvasW, _canvasH = Services.Sketch.CanvasH;   // live drawing size; grows with the window
         private readonly List<SketchObject> _objects = [];
         private readonly Stack<List<SketchObject>> _undo = new();
         private readonly Stack<List<SketchObject>> _redo = new();
@@ -215,11 +217,10 @@ namespace KillerNotes.Controls
             {
                 _flatChrome = TryFindResource("UseDialogCaption") != null;
                 _contentGrid.Margin = _flatChrome ? new Thickness(3, 2, 0, 4) : new Thickness(16, 6, 16, 12);
-                if (_railPanel != null)
-                    _railPanel.Margin = new Thickness(0, 0, _flatChrome ? 2 : 8, 0);
+                _railPanel?.Margin = new Thickness(0, 0, _flatChrome ? 2 : 8, 0);
                 // The canvas pane's shadow follows the theme too - it was baked at build and a
                 // pad opened flat stayed shadowless everywhere (2026-08-08).
-                if (_frameShadow != null) _frameShadow.Effect = CardShadowOrNull();
+                _frameShadow?.Effect = CardShadowOrNull();
                 UpdateWindowCorners();   // radius + halo + shadow follow the new theme live
             };
             KillerNotes.Services.ThemeManager.ThemeChanged += onThemeChanged;
@@ -328,7 +329,7 @@ namespace KillerNotes.Controls
             _canvas.LayoutTransform = _zoom == 1.0
                 ? Transform.Identity
                 : new System.Windows.Media.ScaleTransform(_zoom, _zoom);
-            if (_zoomReadout != null) _zoomReadout.Text = $"{Math.Round(_zoom * 100)}%";
+            _zoomReadout?.Text = $"{Math.Round(_zoom * 100)}%";
             GrowCanvasToViewport();
         }
 
@@ -336,7 +337,7 @@ namespace KillerNotes.Controls
         // viewport growth below measures from this rather than from the current size, so making
         // the window big and then small again returns to the requested size instead of leaving a
         // permanently oversized sheet with scrollbars on it.
-        private int _canvasBaseW = Sketch.CanvasW, _canvasBaseH = Sketch.CanvasH;
+        private int _canvasBaseW = Services.Sketch.CanvasW, _canvasBaseH = Services.Sketch.CanvasH;   // qualified, see _canvasW
 
         private void SetCanvasSize(int w, int h)
         {
@@ -499,7 +500,7 @@ namespace KillerNotes.Controls
                 GlassFrameThickness = new Thickness(0),
                 UseAeroCaptionButtons = false,
             });
-            if (_grainBorder != null) _grainBorder.CornerRadius = max ? new CornerRadius(0) : CardRadius();
+            _grainBorder?.CornerRadius = max ? new CornerRadius(0) : CardRadius();
             // The close X no longer has a corner to square off: it is a bare glyph now, not a
             // filled block hugging the window corner, so there is nothing here to follow the card.
         }

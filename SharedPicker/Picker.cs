@@ -1,6 +1,6 @@
 using System;
 
-namespace KillerPDF.Controls
+namespace KillerNotes.SharedPicker
 {
     // Row and place models for FileDialog.
     public sealed class PickerPlace(string label, string path, bool pinned = false)
@@ -13,7 +13,7 @@ namespace KillerPDF.Controls
 
         /// <summary>Real shell icon, resolved by PATH - a drive shows its true icon (USB,
         /// network, optical) and a special folder its own. Cached in ShellIcons.</summary>
-        public System.Windows.Media.ImageSource? Icon => Services.ShellIcons.Place(Path);
+        public System.Windows.Media.ImageSource? Icon => ShellIcons.Place(Path);
     }
 
     // One row in the folder pane: a subfolder or a (dimmed, non-pickable) file.
@@ -33,7 +33,7 @@ namespace KillerPDF.Controls
         /// <summary>Shell icon, 16px, for the list and details rows. Cached by extension, so
         /// binding it per row is cheap.</summary>
         public System.Windows.Media.ImageSource? Icon
-            => Services.ShellIcons.Small(FullPath, IsFolder);
+            => ShellIcons.Small(FullPath, IsFolder);
 
         /// <summary>
         /// Shell icon, 32px, for the icon grid - or a real THUMBNAIL when the file is an image.
@@ -41,11 +41,11 @@ namespace KillerPDF.Controls
         /// itself. Falls back to the type icon when the file is not an image or will not decode.
         /// </summary>
         public System.Windows.Media.ImageSource? IconLarge
-            => Services.ShellIcons.Thumbnail(FullPath, 32) ?? Services.ShellIcons.Large(FullPath, IsFolder);
+            => ShellIcons.Thumbnail(FullPath, 32) ?? ShellIcons.Large(FullPath, IsFolder);
 
         /// <summary>The preview pane's image: bigger, and null for anything that is not an image.</summary>
         public System.Windows.Media.ImageSource? Preview
-            => IsFolder ? null : Services.ShellIcons.Thumbnail(FullPath, 512);
+            => IsFolder ? null : ShellIcons.Thumbnail(FullPath, 512);
 
         public string SizeLabel     => IsFolder ? string.Empty : FormatSize(SizeBytes);
         public string ModifiedLabel => Modified == DateTime.MinValue ? string.Empty : Modified.ToString("yyyy-MM-dd HH:mm");

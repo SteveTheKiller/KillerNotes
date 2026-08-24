@@ -154,7 +154,7 @@ namespace KillerNotes.Shell
             }
 
             int hidden = _strip.Count - shown;
-            if (hidden > 0) BacklinkRow.Children.Add(BuildOverflow(_strip.Skip(shown).ToList(), hidden));
+            if (hidden > 0) BacklinkRow.Children.Add(BuildOverflow([.. _strip.Skip(shown)], hidden));
         }
 
         private double AddFixed(FrameworkElement e)

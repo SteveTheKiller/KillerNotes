@@ -90,8 +90,12 @@ namespace KillerNotes.Shell
         /// state instead of silently doing nothing.</summary>
         private void UpdateNavState()
         {
-            if (NavBackItem != null) NavBackItem.IsEnabled = _navBack.Count > 0;
-            if (NavFwdItem != null) NavFwdItem.IsEnabled = _navFwd.Count > 0;
+            // PROBE for null-conditional ASSIGNMENT (C# 14). This is the shape ~35 other IDE0031
+            // sites take across the four apps, and it is the one transformation in the batch that
+            // needs a language version newer than the rest. If this compiles, the others follow;
+            // if it does not, they all stay as explicit if-statements.
+            NavBackItem?.IsEnabled = _navBack.Count > 0;
+            NavFwdItem?.IsEnabled = _navFwd.Count > 0;
         }
 
         /// <summary>Dropping a database drops its history with it - the ids in the stacks belong

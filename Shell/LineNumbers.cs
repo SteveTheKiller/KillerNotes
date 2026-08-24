@@ -81,7 +81,7 @@ namespace KillerNotes.Shell
         {
             _lineNumbers = on;
             // Light the rail toggle while active (family Tag="on" pattern, RailButton style).
-            if (LineNumBtn != null) LineNumBtn.Tag = on ? "on" : null;
+            LineNumBtn?.Tag = on ? "on" : null;
             RebuildLineNumbers();
         }
 

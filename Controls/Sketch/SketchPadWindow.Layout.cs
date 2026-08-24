@@ -7,7 +7,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using KillerNotes.Models;
 
-namespace KillerNotes.Controls
+namespace KillerNotes.Controls.Sketch
 {
     internal sealed partial class SketchPadWindow
     {
@@ -172,8 +172,7 @@ namespace KillerNotes.Controls
             Grid.SetColumn(palette, 0);
             top.Children.Add(palette);
 
-            var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right };
-            actions.RenderTransform = new TranslateTransform(0, 4);   // see the moreColors nudge above
+            var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right, RenderTransform = new TranslateTransform(0, 4) };   // see the moreColors nudge above
             _undoBtn = ActionButton(Glyph(0xE7A7), L("Str_Sketch_Undo", "Undo (Ctrl+Z)"), Undo);
             _redoBtn = ActionButton(Glyph(0xE7A6), L("Str_Sketch_Redo", "Redo (Ctrl+Y)"), Redo);
             actions.Children.Add(_undoBtn);

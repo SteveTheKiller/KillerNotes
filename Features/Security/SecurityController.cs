@@ -4,7 +4,7 @@ using Microsoft.Data.Sqlite;
 using KillerNotes.Controls;
 using KillerNotes.Services;
 
-namespace KillerNotes.Features
+namespace KillerNotes.Features.Security
 {
     /// <summary>
     /// Password protection + database lifecycle: unlock-on-launch, the title-bar lock button

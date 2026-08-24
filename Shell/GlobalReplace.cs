@@ -203,14 +203,14 @@ namespace KillerNotes.Shell
             while (lo <= hi)
             {
                 int mid = (lo + hi) / 2;
-                var r = runs[mid];
-                if (offset < r.Offset) hi = mid - 1;
-                else if (offset >= r.Offset + r.Length) lo = mid + 1;
+                var (rOffset, _, rLength) = runs[mid];
+                if (offset < rOffset) hi = mid - 1;
+                else if (offset >= rOffset + rLength) lo = mid + 1;
                 else { found = mid; break; }
             }
             if (found < 0) return null;
-            var run = runs[found];
-            return run.Start.GetPositionAtOffset(offset - run.Offset, LogicalDirection.Forward);
+            var (runOffset, runStart, _) = runs[found];
+            return runStart.GetPositionAtOffset(offset - runOffset, LogicalDirection.Forward);
         }
 
         /// <summary>A note's sketch text labels from its stored payloads, one per line - the

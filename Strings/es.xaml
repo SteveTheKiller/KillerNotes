@@ -223,6 +223,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Mostrar / ocultar la barra de formato</sys:String>
     <sys:String x:Key="Str_KS_Export">Exportar la nota abierta (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Contraer / expandir la barra lateral</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Pantalla completa</sys:String>
     <sys:String x:Key="Str_KS_About">Acerca de KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Nueva nota</sys:String>
     <sys:String x:Key="Str_KS_OpenFiles">Abrir archivos como notas nuevas</sys:String>

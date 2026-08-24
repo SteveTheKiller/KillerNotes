@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using KillerNotes.Controls;   // Anim - the app's own fade, which this used to carry a copy of
 
-namespace KillerPDF.Controls
+namespace KillerNotes.SharedPicker
 {
     /// <summary>Open or Save. Picked at construction; changes the accept button and the rules.</summary>
     public enum FileDialogMode { Open, Save }
@@ -384,7 +385,7 @@ namespace KillerPDF.Controls
             if (i < 0 || i >= _filterPatterns.Count) return null;
             string p = _filterPatterns[i][0];
             if (p.Length > 2 && p.StartsWith("*.") && p.IndexOfAny(['*', '?'], 2) < 0)
-                return p.Substring(1);
+                return p[1..];
             return null;
         }
 
@@ -394,7 +395,7 @@ namespace KillerPDF.Controls
             foreach (var pats in _filterPatterns)
                 foreach (var p in pats)
                     if (p.Length > 2 && p.StartsWith("*.") && p.IndexOfAny(['*', '?'], 2) < 0)
-                        yield return p.Substring(1);
+                        yield return p[1..];
         }
 
         /// <summary>True when the name passes the active filter. Folders are never filtered out.</summary>
@@ -1028,14 +1029,11 @@ namespace KillerPDF.Controls
 
                 if (OverwritePrompt && File.Exists(full))
                 {
-                    // Killendar asks this through its own ConfirmDialog. KillerPDF already has a
-                    // themed confirm (KillerDialog) that every other prompt in the app uses, so
-                    // this goes through that instead of importing a second one - two dialogs that
-                    // ask the same kind of question is exactly how a UI starts to look stitched
-                    // together. Same question, same buttons, one implementation.
-                    var answer = KillerDialog.Show(this,
+                    // The caption said "KillerPDF" - visibly, in a KillerNotes dialog - because
+                    // this file was carried across as foreign source. It is this app's now.
+                    var answer = MessageBox.Show(this,
                         string.Format(Loc("Str_Dlg_OverwriteMsg"), Path.GetFileName(full)),
-                        "KillerPDF", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                        "KillerNotes", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                     if (answer != MessageBoxResult.Yes) { FileNameBox.Focus(); return; }
                 }
             }

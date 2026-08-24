@@ -7,11 +7,11 @@
      THE ONLY PICKER IN THE APP. FolderPickerDialog was a second copy of all of this for choosing
      a folder and was deleted 2026-08-07; the two had drifted apart. Choosing a folder is this
      dialog with CheckFileExists off. Do not add a second one back. -->
-<Window x:Class="KillerPDF.Controls.FileDialog"
+<Window x:Class="KillerNotes.SharedPicker.FileDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:kui="clr-namespace:KillerPDF.Controls"
-        Title="KillerPDF"
+        xmlns:kui="clr-namespace:KillerNotes.SharedPicker"
+        Title="KillerNotes"
         Width="720" Height="520" MinWidth="560" MinHeight="420"
         WindowStyle="None" ResizeMode="CanResize" ShowInTaskbar="False"
         AllowsTransparency="True"

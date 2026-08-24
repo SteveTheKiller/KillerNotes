@@ -128,14 +128,14 @@ namespace KillerNotes.Shell
             while (lo <= hi)
             {
                 int mid = (lo + hi) / 2;
-                var r = _findRuns[mid];
-                if (offset < r.Offset) hi = mid - 1;
-                else if (offset >= r.Offset + r.Length) lo = mid + 1;
+                var (rOffset, _, rLength) = _findRuns[mid];
+                if (offset < rOffset) hi = mid - 1;
+                else if (offset >= rOffset + rLength) lo = mid + 1;
                 else { found = mid; break; }
             }
             if (found < 0) return null;
-            var run = _findRuns[found];
-            return run.Start.GetPositionAtOffset(offset - run.Offset, LogicalDirection.Forward);
+            var (runOffset, runStart, _) = _findRuns[found];
+            return runStart.GetPositionAtOffset(offset - runOffset, LogicalDirection.Forward);
         }
 
         // ── Searching ────────────────────────────────────────────
@@ -367,10 +367,10 @@ namespace KillerNotes.Shell
             handle.MouseMove += (_, e) =>
             {
                 if (_findDrag == null || !handle.IsMouseCaptured) return;
-                var d = _findDrag.Value;
+                var (startX, startY, orig) = _findDrag.Value;
                 var p = e.GetPosition(EditorArea);
-                double l = d.Orig.Left + (p.X - d.StartX);
-                double t = d.Orig.Top  + (p.Y - d.StartY);
+                double l = orig.Left + (p.X - startX);
+                double t = orig.Top  + (p.Y - startY);
                 ClampFindBar(ref l, ref t);
                 FindBar.Margin = new Thickness(l, t, 0, 0);
             };
@@ -681,10 +681,10 @@ namespace KillerNotes.Shell
 
             for (int i = 0; i < _win.FindHits.Count; i++)
             {
-                var hit = _win.FindHits[i];
-                TextPointer? a = _win.FindPointerFor(hit.Start);
+                var (start, length) = _win.FindHits[i];
+                TextPointer? a = _win.FindPointerFor(start);
                 if (a == null || a.CompareTo(topPos) < 0 || a.CompareTo(bottomPos) > 0) continue;
-                TextPointer? b = a.GetPositionAtOffset(hit.Length, LogicalDirection.Forward);
+                TextPointer? b = a.GetPositionAtOffset(length, LogicalDirection.Forward);
                 if (b == null) continue;
 
                 Rect ra = a.GetCharacterRect(LogicalDirection.Forward);

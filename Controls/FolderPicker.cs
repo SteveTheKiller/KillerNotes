@@ -19,9 +19,9 @@ namespace KillerNotes.Controls
             // separate folder picker any more: a second window meant a second caption, a second
             // close button and a second set of styles to keep in step, and they had already drifted
             // apart. The chosen file's directory IS the folder, so nothing extra is needed.
-            // KillerPDF.Controls is the namespace the shared picker source carries - it is linked
-            // into every app in the family unchanged, so the namespace travels with it.
-            var dlg = new KillerPDF.Controls.FileDialog(KillerPDF.Controls.FileDialogMode.Open)
+            // KillerNotes.SharedPicker: this is the app's own code now. It used to carry KillerPDF
+            // and KillerShell namespaces with a bridge file to satisfy them.
+            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Open)
             {
                 Title = title,
                 InitialDirectory = initialDir ?? "",

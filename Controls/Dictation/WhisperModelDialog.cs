@@ -17,7 +17,7 @@ using KillerNotes.Services;
 // The user picks; nothing is chosen for them. A 142 MB download that starts because the app decided
 // it knew best is exactly the kind of surprise that makes people distrust an app - especially on a
 // tethered connection at a client site.
-namespace KillerNotes.Controls
+namespace KillerNotes.Controls.Dictation
 {
     internal sealed class WhisperModelDialog : Window
     {
@@ -124,8 +124,8 @@ namespace KillerNotes.Controls
             // resetting to the recommendation every time.
             string? active = App.GetSetting("WhisperModel");
             if (!string.IsNullOrEmpty(active))
-                foreach (var m in WhisperSpeech.Catalog)
-                    if (m.File == active) _choice = m.Id;
+                foreach (var (id, file, _, _) in WhisperSpeech.Catalog)
+                    if (file == active) _choice = id;
 
             BuildChoices();
             body.Children.Add(_list);
@@ -243,9 +243,11 @@ namespace KillerNotes.Controls
                 // they are muted and a step smaller rather than sharing the heading's weight.
                 var size = new System.Windows.Documents.Run(have
                     ? "   " + L("Str_Whisper_Installed", "already downloaded")
-                    : $"   {mb} MB");
-                size.FontWeight = FontWeights.Normal;
-                size.FontSize = 11;
+                    : $"   {mb} MB")
+                {
+                    FontWeight = FontWeights.Normal,
+                    FontSize = 11,
+                };
                 size.SetResourceReference(System.Windows.Documents.TextElement.ForegroundProperty,
                     have ? "OutlineBtnBrush" : "MutedTextBrush");   // installed reads as the accent
                 head.Inlines.Add(size);
@@ -293,8 +295,8 @@ namespace KillerNotes.Controls
         /// model already downloaded, "Download" would be a lie.</summary>
         private void UpdateGoButton()
         {
-            var pick = Array.Find(WhisperSpeech.Catalog, m => m.Id == _choice);
-            bool have = pick.File != null && WhisperSpeech.IsInstalled(pick.File);
+            var (_, file, _, _) = Array.Find(WhisperSpeech.Catalog, m => m.Id == _choice);
+            bool have = file != null && WhisperSpeech.IsInstalled(file);
             _goBtn.Content = have ? L("Str_Whisper_Use", "Use this one") : L("Str_Whisper_Download", "Download");
         }
 
@@ -323,13 +325,13 @@ namespace KillerNotes.Controls
 
         private async Task DownloadAsync()
         {
-            var pick = Array.Find(WhisperSpeech.Catalog, m => m.Id == _choice);
-            if (pick.File == null) return;
+            var (_, file, mb, _) = Array.Find(WhisperSpeech.Catalog, m => m.Id == _choice);
+            if (file == null) return;
 
             // Already on disk from a previous session: just adopt it, no download.
-            if (WhisperSpeech.IsInstalled(pick.File))
+            if (WhisperSpeech.IsInstalled(file))
             {
-                App.SetSetting("WhisperModel", pick.File);
+                App.SetSetting("WhisperModel", file);
                 Installed = true;
                 Close();
                 return;
@@ -344,8 +346,8 @@ namespace KillerNotes.Controls
 
             try
             {
-                await Task.Run(() => Download(pick.File, pick.Mb, _cts.Token), _cts.Token);
-                App.SetSetting("WhisperModel", pick.File);
+                await Task.Run(() => Download(file, mb, _cts.Token), _cts.Token);
+                App.SetSetting("WhisperModel", file);
                 Installed = true;
                 _status.Text = L("Str_Whisper_Done", "Ready. Transcription will use this from now on.");
                 Close();

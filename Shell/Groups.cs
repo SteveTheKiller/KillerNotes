@@ -95,7 +95,7 @@ namespace KillerNotes.Shell
             {
                 var rails = (row as GroupHeader)?.Rails ?? (row as Note)?.Rails;
                 var r = rails?.FirstOrDefault(x => x.Level == level);
-                if (r != null) r.IsLast = true;
+                r?.IsLast = true;
             }
 
             // Subgroups on top (toggleable from the group right-click menu): child groups render

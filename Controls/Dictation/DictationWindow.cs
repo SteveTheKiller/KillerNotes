@@ -9,7 +9,7 @@ using System.Windows.Shell;
 using System.Windows.Threading;
 using KillerNotes.Services;
 
-namespace KillerNotes.Controls
+namespace KillerNotes.Controls.Dictation
 {
     /// <summary>
     /// Dictation pad (F8). A modeless companion window, built the same way as the SketchPad: family
@@ -54,7 +54,7 @@ namespace KillerNotes.Controls
                   { Color = Colors.Black, BlurRadius = 16, ShadowDepth = 5, Direction = 270, Opacity = so,
                     RenderingBias = System.Windows.Media.Effects.RenderingBias.Quality }
                 : null;
-            if (_grainB != null) _grainB.CornerRadius = _outerBorder.CornerRadius;
+            _grainB?.CornerRadius = _outerBorder.CornerRadius;
             // Inner pane shadows (waveform, transcript) follow the theme live too.
             foreach (var shadow in _paneShadows) shadow.Effect = PaneShadowOrNull();
         }

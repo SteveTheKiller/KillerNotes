@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using KillerNotes.Controls;
 using KillerNotes.Services;
 
-namespace KillerNotes.Features
+namespace KillerNotes.Features.About
 {
     /// <summary>
     /// The About card's content: version and release date, the code-signing publisher and

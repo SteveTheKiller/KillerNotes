@@ -44,7 +44,7 @@ namespace KillerNotes.Services
         }
 
         private static readonly Guid WTD_VERIFY_GENERIC =
-            new Guid("00AAC56B-CD44-11d0-8CC2-00C04FC295EE");
+            new("00AAC56B-CD44-11d0-8CC2-00C04FC295EE");
 
         [DllImport("wintrust.dll", ExactSpelling = true, SetLastError = false,
                    CharSet = CharSet.Unicode)]
@@ -59,7 +59,9 @@ namespace KillerNotes.Services
         {
             var subject = "(not signed)";
             var thumb   = "(none)";
-            var exePath = string.Empty;
+            // No initializer: every catch below returns, so the compiler already knows this is
+            // assigned by the time the P/Invoke section reads it.
+            string exePath;
 
             try
             {

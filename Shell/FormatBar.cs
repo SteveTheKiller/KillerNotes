@@ -200,7 +200,9 @@ namespace KillerNotes.Shell
 
         /// <summary>The canonical KillerPDF annotation-bar host wraps rather than discarding
         /// commands. Keep every formatting command available and let the WrapPanel reflow.</summary>
-        private void UpdateFormatBarDensity(double available)
+        // The width is discarded on purpose - see the note above: nothing here sheds with it, so
+        // the parameter is named _ rather than left looking like an input somebody forgot to read.
+        private void UpdateFormatBarDensity(double _)
         {
             SetVisible(FmtItalicBtn, true);
             SetVisible(FmtUnderlineBtn, true);

@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using KillerNotes.Models;
 
-namespace KillerNotes.Controls
+namespace KillerNotes.Controls.Sketch
 {
     internal sealed partial class SketchPadWindow
     {
@@ -232,7 +232,7 @@ namespace KillerNotes.Controls
             // The themed family picker, not Microsoft.Win32.OpenFileDialog - the Win32 one cannot be
             // themed at all and opened as a stock Explorer window in the middle of the app. Same
             // dialog and same filter the editor's Insert image button uses (Editor.Insert.cs).
-            var dlg = new KillerPDF.Controls.FileDialog(KillerPDF.Controls.FileDialogMode.Open)
+            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Open)
             {
                 Title = L("Str_TT_Image", "Insert image"),
                 Filter = "Images|*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.tif;*.tiff",

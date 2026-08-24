@@ -64,7 +64,7 @@ namespace KillerNotes.Shell
 
         private void CloseWikiCompletion()
         {
-            if (_wlPopup != null) _wlPopup.IsOpen = false;
+            _wlPopup?.IsOpen = false;
         }
 
         private void WikiCompletion_PreviewKeyDown(object sender, KeyEventArgs e)

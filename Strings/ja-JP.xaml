@@ -221,6 +221,7 @@
     <sys:String x:Key="Str_KS_FormatBar">書式バーの表示 / 非表示</sys:String>
     <sys:String x:Key="Str_KS_Export">開いているノートをエクスポート (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">サイドバーの折りたたみ / 展開</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">全画面表示</sys:String>
     <sys:String x:Key="Str_KS_About">KillerNotes について</sys:String>
     <sys:String x:Key="Str_KS_NewNote">新しいノート</sys:String>
     <sys:String x:Key="Str_KS_OpenFiles">ファイルを新しいノートとして開く</sys:String>

@@ -435,6 +435,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Show / hide the format bar</sys:String>
     <sys:String x:Key="Str_KS_Export">Export the open note (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Collapse / expand the sidebar</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Fullscreen</sys:String>
     <sys:String x:Key="Str_KS_About">About KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">New note</sys:String>
     <sys:String x:Key="Str_KS_OpenFiles">Open files as new notes</sys:String>

@@ -172,7 +172,7 @@ namespace KillerNotes.Shell
             if (on && NoteTooBigForSpellCheck()) on = false;
             try { Editor.SpellCheck.IsEnabled = on; }
             catch { on = false; }   // OS spell checking unavailable - stay off quietly
-            if (SpellCheckMenuItem != null) SpellCheckMenuItem.IsChecked = on;
+            SpellCheckMenuItem?.IsChecked = on;
         }
 
         // ---- Word wrap toggle (global view setting, remembered like zoom) ----
@@ -198,7 +198,7 @@ namespace KillerNotes.Shell
         {
             _wordWrap = wrap;
             Editor.Document.PageWidth = wrap ? double.NaN : NoWrapPageWidth;
-            if (WordWrapMenuItem != null) WordWrapMenuItem.IsChecked = wrap;
+            WordWrapMenuItem?.IsChecked = wrap;
         }
     }
 }

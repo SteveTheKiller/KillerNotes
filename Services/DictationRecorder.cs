@@ -50,7 +50,7 @@ namespace KillerNotes.Services
         // One peak per ~50ms of audio. This IS the waveform - both the live scroller and the chip
         // draw from it, so what you watch while recording is what you get on the chip afterwards.
         private const int EnvelopeMs = 50;
-        private static readonly List<float> _envelope = new();
+        private static readonly List<float> _envelope = [];
         private static int _envSamplesInBucket;
         private static float _envBucketPeak;
 
@@ -58,7 +58,7 @@ namespace KillerNotes.Services
         /// runs on a driver thread and appends to the live one.</summary>
         internal static float[] EnvelopeSnapshot()
         {
-            lock (Sync) return _envelope.ToArray();
+            lock (Sync) return [.. _envelope];
         }
 
         private static readonly object Sync = new();
@@ -67,7 +67,7 @@ namespace KillerNotes.Services
         private static IntPtr _hwi;
         private static WaveInProc? _proc;          // held in a field: if this is collected the
                                                    // driver calls into freed memory and the app dies
-        private static IntPtr[] _headers = Array.Empty<IntPtr>();
+        private static IntPtr[] _headers = [];
 
         // ---- winmm interop ----
 
@@ -267,7 +267,7 @@ namespace KillerNotes.Services
                 }
                 catch { /* already torn down */ }
             }
-            _headers = Array.Empty<IntPtr>();
+            _headers = [];
             if (_hwi != IntPtr.Zero) { waveInClose(_hwi); _hwi = IntPtr.Zero; }
             _proc = null;
         }
@@ -277,9 +277,9 @@ namespace KillerNotes.Services
         {
             using var ms = new MemoryStream();
             using var w = new BinaryWriter(ms);
-            w.Write(new[] { 'R', 'I', 'F', 'F' });
+            w.Write(['R', 'I', 'F', 'F']);
             w.Write(36 + pcm.Length);
-            w.Write(new[] { 'W', 'A', 'V', 'E', 'f', 'm', 't', ' ' });
+            w.Write(['W', 'A', 'V', 'E', 'f', 'm', 't', ' ']);
             w.Write(16);                                   // PCM fmt chunk size
             w.Write((short)WAVE_FORMAT_PCM);
             w.Write((short)Channels);
@@ -287,7 +287,7 @@ namespace KillerNotes.Services
             w.Write(SampleRate * BytesPerSample);           // byte rate
             w.Write((short)BytesPerSample);                 // block align
             w.Write((short)BitsPerSample);
-            w.Write(new[] { 'd', 'a', 't', 'a' });
+            w.Write(['d', 'a', 't', 'a']);
             w.Write(pcm.Length);
             w.Write(pcm);
             w.Flush();
@@ -299,9 +299,9 @@ namespace KillerNotes.Services
         /// than drawing noise.</summary>
         internal static float[] EnvelopeOf(byte[] wav, int buckets = 96)
         {
-            if (wav.Length <= 44 || buckets <= 0) return Array.Empty<float>();
+            if (wav.Length <= 44 || buckets <= 0) return [];
             int samples = (wav.Length - 44) / 2;
-            if (samples <= 0) return Array.Empty<float>();
+            if (samples <= 0) return [];
             var env = new float[buckets];
             int per = Math.Max(1, samples / buckets);
             for (int b = 0; b < buckets; b++)

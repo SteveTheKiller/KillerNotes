@@ -150,7 +150,8 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 <div class="acc-item"><button class="acc-head" data-i18n="hp_81">Hyperlinks<span class="kbd">Ctrl+K</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_82">Select text and press <code>Ctrl+K</code> to link it; <code>Ctrl+Click</code> opens a link in your browser. Ctrl+K on an existing link edits it, and clearing the address removes the link. Typing a URL followed by a space links it automatically.</p><p data-i18n="hp_83">Links survive pasting - from browsers, Word, and other note apps - and the HTML export writes real anchors. Only web and mail addresses ever open, so a shared note can't launch anything else.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_42">Images<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_43">Paste a screenshot and it lands inline at the cursor; image files drop in the same way, and the format bar's picture button inserts one from a file. Click an image for resize handles, or double-click it to open it in the SketchPad and draw on it.</p><p data-i18n="hp_44">With word wrap on, an image cannot be stretched wider than the pane; turn wrap off (<code>Ctrl+Shift+W</code>) and wide images get a horizontal scrollbar instead.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_45">Spell check &amp; convert to list<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_46"><code>Ctrl+Shift+P</code> toggles spell check per note - keep it on for prose, off for config dumps.</p><p data-i18n="hp_47"><b>Convert to list</b> (<code>Ctrl+Shift+J</code>) turns selected lines - or the words of one sentence - into a comma-separated list, made for pasting into scripts and one-liners.</p></div></div></div>
-<div class="acc-item"><button class="acc-head" data-i18n="hp_48">Word wrap &amp; line numbers<span class="kbd">Ctrl+Shift+W / F11</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_49"><code>Ctrl+Shift+W</code> toggles word wrap; with wrap off, wide content is reachable by horizontal scroll. <code>F11</code> adds a line-number column, handy when a note is really a config file.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_48">Word wrap &amp; line numbers<span class="kbd">Ctrl+Shift+W / Alt+L</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_49"><code>Ctrl+Shift+W</code> toggles word wrap; with wrap off, wide content is reachable by horizontal scroll. <code>Alt+L</code> adds a line-number column, handy when a note is really a config file.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_full">Fullscreen<span class="kbd">F11</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_full_b"><code>F11</code> fills the whole screen, taskbar included. Nothing is hidden - the title bar, the caption buttons and the footer all stay where they are, so there is no way to get stranded in it. <code>F11</code> again or <code>Esc</code> comes back, to whatever the window was doing before.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_84">Sideways scrolling<span class="kbd">Tilt / Shift+Wheel</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_85">With word wrap off, the tilt wheel pans wide tables and images left and right, and <code>Shift+Wheel</code> does the same on mice without a tilt wheel. <code>Ctrl+Wheel</code> stays text zoom.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_110">Syntax highlighting<span class="kbd">Ctrl+Shift+E</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_111">Turn it on per note from the note's right-click menu, or with <code>Ctrl+Shift+E</code>. Code is detected paragraph by paragraph rather than for the whole note, so one runbook can mix plain prose with PowerShell, HTML, XAML, XML, Vue, JSON, YAML, Markdown, SQL, C#, Python, JavaScript, TypeScript, CSS and Bash - without you picking a language anywhere.</p><p data-i18n="hp_112">Prose keeps the normal note color, and the colors refresh as you edit. They are never written into the saved note: the highlighting is a view of the text, so a note stays exactly as you typed it when exported or shared.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_50">Markdown &amp; HTML preview<span class="kbd">F4</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_51">Notes that look like markdown or HTML get a split-pane preview on <code>F4</code>. Markdown renders through Markdig; HTML is sanitized first - scripts and event handlers never run.</p></div></div></div>
@@ -220,7 +221,8 @@ html[data-theme="light"] .kbmap { --kc-file:#009e99; --kc-note:#d1105a; --kc-for
 <button data-kblayer="base" class="on">BASE</button>
 <button data-kblayer="ctrl">CTRL</button>
 <button data-kblayer="ctrlshift">CTRL+SHIFT</button>
-<span class="kbmap-hint">Hold Ctrl or Shift to preview that layer - hover a lit key for its action</span>
+<button data-kblayer="alt">ALT</button>
+<span class="kbmap-hint">Hold Ctrl, Shift or Alt to preview that layer - hover a lit key for its action</span>
 </div>
 <div class="kbmap-scroll"><div class="kbmap-board" id="kbmapBoard"></div></div>
 <div class="kbmap-detail" id="kbmapDetail">&nbsp;</div>
@@ -232,7 +234,7 @@ base: { F1:['help','Keyboard shortcuts'], F2:['note','Rename the open note'], F3
   F4:['view','Markdown/HTML preview'], F5:['view','Sidebar'], F6:['view','Format bar'],
   F7:['view','SketchPad (drawing companion)'], F8:['file','Export the open note'],
   F9:['view','Killculator'], F10:['view','Dictation (record, transcribe, embed)'],
-  F11:['view','Toggle line numbers'], F12:['help','About KillerNotes'],
+  F11:['view','Fullscreen'], F12:['help','About KillerNotes'],
   Del:['note','Delete note (in the list)'], Esc:['help','Close overlay / clear search'],
   Menu:['edit','Context menu'] },
 ctrl: { N:['note','New note'], O:['file','Open files as new notes'], S:['file','Save now'],
@@ -260,7 +262,9 @@ ctrlshift: { S:['format','Strikethrough'], M:['format','Monospace (code)'], H:['
   D:['view','SketchPad (drawing companion)'], E:['format','Syntax highlighting'],
   Period:['format','Grow text'], Comma:['format','Shrink text'],
   Equals:['view','Zoom the whole app'], Minus:['view','Zoom the whole app'], D0:['view','Reset app zoom'],
-  Enter:['note','Print the whole Killculator equation'] } };
+  Enter:['note','Print the whole Killculator equation'] },
+alt: { Left:['note','Back to the previous note'], Right:['note','Forward to the next note'],
+  L:['view','Toggle line numbers'], M:['view','Show or hide the linked-from strip'] } };
 var CATNAME = { file:'FILE', note:'NOTES', format:'FORMATTING', view:'VIEW', search:'SEARCH', edit:'EDITING', help:'HELP' };
 var KBROWS = [
 [['Esc','Esc',1],['',0.8],['F1','F1',1],['F2','F2',1],['F3','F3',1],['F4','F4',1],['',0.6],['F5','F5',1],['F6','F6',1],['F7','F7',1],['F8','F8',1],['',0.6],['F9','F9',1],['F10','F10',1],['F11','F11',1],['F12','F12',1]],
@@ -269,7 +273,7 @@ var KBROWS = [
 [['Caps','Caps',1.8],['A','A',1],['S','S',1],['D','D',1],['F','F',1],['G','G',1],['H','H',1],['J','J',1],['K','K',1],['L','L',1],['Semi',';',1],['Quote','\'',1],['Enter','Enter',2.2]],
 [['Shift','Shift',2.3],['Z','Z',1],['X','X',1],['C','C',1],['V','V',1],['B','B',1],['N','N',1],['M','M',1],['Comma',',',1],['Period','.',1],['Slash','/',1],['RShift','Shift',2.7],['',1.6],['Up','&#8593;',1]],
 [['Ctrl','Ctrl',1.5],['Win','Win',1.2],['Alt','Alt',1.5],['Space','',6.8],['RAlt','Alt',1.5],['Menu','&#9776;',1],['RCtrl','Ctrl',1.5],['',0.6],['Left','&#8592;',1],['Down','&#8595;',1],['Right','&#8594;',1]]];
-var MODS = { base:[], ctrl:['Ctrl','RCtrl'], ctrlshift:['Ctrl','RCtrl','Shift','RShift'] };
+var MODS = { base:[], ctrl:['Ctrl','RCtrl'], ctrlshift:['Ctrl','RCtrl','Shift','RShift'], alt:['Alt','RAlt'] };
 var U = 46, board = document.getElementById('kbmapBoard'), detail = document.getElementById('kbmapDetail');
 var layer = 'base', keys = {}, hover = null;
 function startMarquee(h){   // a cut-off caption scrolls, marquee-style
@@ -328,7 +332,9 @@ document.querySelectorAll('.kbmap-layers button').forEach(function(b){
   b.addEventListener('click', function(){ layer = b.getAttribute('data-kblayer'); paint(); });
 });
 function sync(e){
-  var l = e.ctrlKey && e.shiftKey ? 'ctrlshift' : e.ctrlKey ? 'ctrl' : 'base';
+  // Alt is checked before Ctrl so AltGr (which reports ctrlKey AND altKey) previews the Alt
+  // layer rather than the Ctrl one.
+  var l = e.altKey ? 'alt' : e.ctrlKey && e.shiftKey ? 'ctrlshift' : e.ctrlKey ? 'ctrl' : 'base';
   if (l !== layer) { layer = l; paint(); }
 }
 window.addEventListener('keydown', sync);
@@ -359,8 +365,14 @@ window.addEventListener('resize', fit);
 <div class="kbd-row"><span class="k">F8</span><span class="d">Export the open note (.txt / .rtf / .html)</span></div>
 <div class="kbd-row"><span class="k">F9</span><span class="d">Killculator</span></div>
 <div class="kbd-row"><span class="k">F10 / Ctrl+M</span><span class="d">Dictation (record, transcribe, embed)</span></div>
-<div class="kbd-row"><span class="k">F11</span><span class="d">Toggle line numbers</span></div>
+<div class="kbd-row"><span class="k">F11</span><span class="d">Fullscreen (Esc also leaves)</span></div>
 <div class="kbd-row"><span class="k">F12</span><span class="d">About KillerNotes</span></div>
+</div>
+<div class="kbd-group"><h4>Alt</h4>
+<div class="kbd-row"><span class="k">Alt+Left</span><span class="d">Back to the previous note</span></div>
+<div class="kbd-row"><span class="k">Alt+Right</span><span class="d">Forward to the next note</span></div>
+<div class="kbd-row"><span class="k">Alt+L</span><span class="d">Toggle line numbers</span></div>
+<div class="kbd-row"><span class="k">Alt+M</span><span class="d">Show or hide the linked-from strip</span></div>
 </div>
 <div class="kbd-group"><h4>Ctrl</h4>
 <div class="kbd-row"><span class="k">Ctrl+N</span><span class="d">New note</span></div>

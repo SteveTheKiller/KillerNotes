@@ -42,11 +42,11 @@ namespace KillerNotes.Services
         /// because a 466 MB surprise is not acceptable.
         /// </summary>
         internal static readonly (string Id, string File, int Mb, string Note)[] Catalog =
-        {
+        [
             ("tiny",  "ggml-tiny.en.bin",   75, "Fastest. A clear step up from Windows dictation, but weaker on names and technical terms."),
             ("base",  "ggml-base.en.bin",  142, "The usual choice. Accurate enough to correct rather than rewrite, and quick on most machines."),
             ("small", "ggml-small.en.bin", 466, "Most accurate of the three. Noticeably slower on an older laptop."),
-        };
+        ];
 
         /// <summary>
         /// Download URL. huggingface.co/ggerganov/whisper.cpp is whisper.cpp's OWN model repo - the

@@ -184,7 +184,7 @@ namespace KillerNotes.Shell
                             elem?.GetValue(TextElement.FontWeightProperty) is FontWeight fw ? fw : FontWeights.Normal,
                             elem?.GetValue(TextElement.FontStretchProperty) is FontStretch fst ? fst : FontStretches.Normal);
                         double size = elem?.GetValue(TextElement.FontSizeProperty) is double d ? d : _rtb.FontSize;
-                        var ft = new FormattedText(run.Substring(0, len), CultureInfo.CurrentUICulture,
+                        var ft = new FormattedText(run[..len], CultureInfo.CurrentUICulture,
                             _rtb.FlowDirection, typeface, size, brush, null, TextFormattingMode.Display, ppd);
                         if ((elem as Inline)?.TextDecorations is { Count: > 0 } deco)
                             ft.SetTextDecorations(deco);

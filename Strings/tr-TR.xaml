@@ -222,6 +222,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Biçim çubuğunu göster / gizle</sys:String>
     <sys:String x:Key="Str_KS_Export">Açık notu dışa aktar (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Kenar çubuğunu daralt / genişlet</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Tam ekran</sys:String>
     <sys:String x:Key="Str_KS_About">KillerNotes hakkında</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Yeni not</sys:String>
     <sys:String x:Key="Str_KS_OpenFiles">Dosyaları yeni not olarak aç</sys:String>

@@ -5,7 +5,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using KillerNotes.Models;
 
-namespace KillerNotes.Controls
+namespace KillerNotes.Controls.Sketch
 {
     internal sealed partial class SketchPadWindow
     {

@@ -75,8 +75,7 @@ namespace KillerNotes.Shell
             bool md = CurrentIsMarkdown;
             // The format bar has no meaning over plain text. Collapsed rather than disabled:
             // a row of dead buttons invites clicking them.
-            if (FormatBar != null)
-                FormatBar.Visibility = md ? Visibility.Collapsed : Visibility.Visible;
+            FormatBar?.Visibility = md ? Visibility.Collapsed : Visibility.Visible;
         }
 
         /// <summary>True when the open note is markdown and therefore cannot hold the object the
