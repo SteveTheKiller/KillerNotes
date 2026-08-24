@@ -158,6 +158,12 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 <!-- New in 1.3.0. Translated in every kn-i18n.js locale. -->
 <div class="acc-item"><button class="acc-head" data-i18n="hp_md">Markdown notes<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_md_1">A note is either rich text or markdown. <b>New markdown note</b> in the notes right-click menu makes one, and the same menu converts an existing note in either direction, one note at a time.</p><p data-i18n="hp_md_2">A markdown note is plain text, so it holds text and nothing else. Images, tables, sketches and embedded recordings are refused with a line in the status bar rather than being swallowed at the next save, and the format bar hides itself. Dictation still prints its transcript, because a transcript is text.</p><p data-i18n="hp_md_3">Converting to markdown names what will not survive - tables, images, colored text - before it rewrites anything. Markdown back to rich text loses nothing. Either way <code>Ctrl+Z</code> restores the original bytes exactly rather than converting a second time, which would hand back something subtly different.</p></div></div></div>
 
+<!-- New in 1.3.0. Translated in every kn-i18n.js locale. -->
+<h2 class="help-cat" id="links" data-i18n="hp_links">Linked notes &amp; the graph</h2>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_wiki">Linking one note to another<span class="kbd">[[</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_wiki_1">Type <code>[[</code> in a note and a list of your note titles appears; keep typing to narrow it and press <code>Enter</code> to insert the link. <code>Ctrl+Click</code> a link to follow it.</p><p data-i18n="hp_wiki_2">A link can point at a note that does not exist yet, which is the point: write the link while the thought is there and make the note later. Following a dead link offers to create it, already titled.</p><p data-i18n="hp_wiki_3"><code>Alt+Left</code> and <code>Alt+Right</code> step back and forward through the notes you have visited, as do the thumb buttons on a mouse - so following a chain of links is not a one-way trip.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_ment">What links here<span class="kbd">Alt+M</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_ment_1">A strip tucked into the bottom right of the note lists everything pointing at it. Click one to go there.</p><p data-i18n="hp_ment_2">It also lists notes that merely <b>name</b> this one without linking it. Click one of those and the link is made for you; <code>Ctrl+Click</code> just goes there instead. When there are more than fit, the rest collapse into an <b>And X more...</b> button. <code>Alt+M</code> hides the strip.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_graph">The link graph<span class="kbd">Ctrl+Shift+B</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_graph_1"><code>Ctrl+Shift+B</code> opens a graph of every link in the notebook, or of just one group when a group header is selected. Each note is a dot, colored by its group and sized by how much links to it; a title that is linked but not written yet draws as an outline. Double-click a dot to open the note.</p><p data-i18n="hp_graph_2">Five arrangements from the right-click menu: <b>by connection</b>, <b>in a circle</b>, <b>in a grid</b>, <b>by group</b>, and <b>rings by distance</b> from whichever note you right-clicked. Drag a dot, or a whole selection, and it stays where you drop it.</p><p data-i18n="hp_graph_3"><b>Pin all Notes</b> (<code>P</code>) decides what happens to everything else while you drag: on, nothing moves but what you are holding; off, the notes it links to get out of the way. <b>Lock in place</b> (<code>K</code>, on a note's right-click menu) is stronger and per note - nothing moves a locked note, not an arrangement and not its neighbors, and the lock is remembered.</p><p data-i18n="hp_graph_4">The graph reopens exactly as you left it. <b>Save this arrangement...</b> in the Arrange menu keeps a named layout you can come back to, and <b>Forget arrangement</b> drops one. Layouts live in the notebook they belong to, so they never follow you into another database.</p><p data-i18n="hp_graph_5"><b>Show only what links here</b> (<code>F</code>) narrows the graph to one note and its neighbors; <code>Esc</code> shows everything again. <b>Visualizer</b> (<code>V</code>) leaves the graph drifting and slowly turning on its own, which is worth leaving on a second monitor.</p></div></div></div>
+
 <h2 class="help-cat" id="killculator" data-i18n="hp_52">Killculator</h2>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_53">Using the Killculator<span class="kbd">F9</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_54"><code>F9</code> slides a themed calculator up under the notes list (and pops the sidebar open if it was collapsed). Type equations straight on the number keys; <code>Enter</code> or <code>=</code> computes.</p><p data-i18n="hp_55"><b>Print Sum</b> (<code>Ctrl+Enter</code>) drops the result into the open note at the cursor; <b>Print Equation</b> (<code>Ctrl+Shift+Enter</code>) drops the whole running equation instead - <code>12 + 5 = 17 &times; 3 = 51</code> - spelling out each step so the left-to-right math reads clearly. No more copying out of Windows Calculator.</p><p data-i18n="hp_56">Click the note to keep editing while the pad stays open; click the pad to give it the keys back. <code>Esc</code> closes it.</p></div></div></div>
 
@@ -259,7 +265,7 @@ ctrlshift: { S:['format','Strikethrough'], M:['format','Monospace (code)'], H:['
   K:['note','Group color (selected note\'s group)'], W:['view','Toggle word wrap'],
   C:['note','Title color (selected note)'], P:['format','Toggle spell check (this note)'],
   T:['format','Insert table'], A:['view','Theme and accent flyout'],
-  D:['view','SketchPad (drawing companion)'], E:['format','Syntax highlighting'],
+  B:['view','Link graph'], D:['view','SketchPad (drawing companion)'], E:['format','Syntax highlighting'],
   Period:['format','Grow text'], Comma:['format','Shrink text'],
   Equals:['view','Zoom the whole app'], Minus:['view','Zoom the whole app'], D0:['view','Reset app zoom'],
   Enter:['note','Print the whole Killculator equation'] },
@@ -412,6 +418,7 @@ window.addEventListener('resize', fit);
 <div class="kbd-row"><span class="k">Ctrl+Shift+C</span><span class="d">Title color (selected note)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+Shift+P</span><span class="d">Toggle spell check (this note)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+Shift+W</span><span class="d">Toggle word wrap</span></div>
+<div class="kbd-row"><span class="k">Ctrl+Shift+B</span><span class="d">Link graph (the selected group, or everything)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+Shift+E</span><span class="d">Toggle syntax highlighting (this note)</span></div>
 <div class="kbd-row"><span class="k">Ctrl+Shift+A</span><span class="d">Theme and accent flyout</span></div>
 <div class="kbd-row"><span class="k">Ctrl+Shift+Enter</span><span class="d">Print the whole Killculator equation</span></div>
@@ -457,10 +464,15 @@ window.addEventListener('resize', fit);
 <a href="#hp_42" class="sub" data-i18n="hp_42">Images</a>
 <a href="#hp_45" class="sub" data-i18n="hp_45">Spell check &amp; convert to list</a>
 <a href="#hp_48" class="sub" data-i18n="hp_48">Word wrap &amp; line numbers</a>
+<a href="#hp_full" class="sub" data-i18n="hp_full">Fullscreen</a>
 <a href="#hp_84" class="sub" data-i18n="hp_84">Sideways scrolling</a>
 <a href="#hp_110" class="sub" data-i18n="hp_110">Syntax highlighting</a>
 <a href="#hp_50" class="sub" data-i18n="hp_50">Markdown &amp; HTML preview</a>
 <a href="#hp_md" class="sub" data-i18n="hp_md">Markdown notes</a>
+<a href="#links" data-i18n="hp_links">Linked notes &amp; the graph</a>
+<a href="#hp_wiki" class="sub" data-i18n="hp_wiki">Linking one note to another</a>
+<a href="#hp_ment" class="sub" data-i18n="hp_ment">What links here</a>
+<a href="#hp_graph" class="sub" data-i18n="hp_graph">The link graph</a>
 <a href="#killculator" data-i18n="hp_52">Killculator</a>
 <a href="#hp_53" class="sub" data-i18n="hp_53">Using the Killculator</a>
 <a href="#sketchpad" data-i18n="hp_86">SketchPad</a>
