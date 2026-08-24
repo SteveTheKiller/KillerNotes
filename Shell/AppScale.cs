@@ -17,8 +17,13 @@ namespace KillerNotes.Shell
         private double _appScale = 1.0;
         private const double AppScaleMin = 0.7, AppScaleMax = 2.5, AppScaleStep = 0.02;
 
+        // Registered here rather than in the ctor because it exists BECAUSE of the scale: the
+        // transform below is what displaces MousePoint placement. MenuPlacement.cs has the detail.
+        private static bool _menuPlacementHooked;
+
         private void InitAppScale()
         {
+            if (!_menuPlacementHooked) { _menuPlacementHooked = true; HookContextMenuPlacement(); }
             if (double.TryParse(App.GetSetting("AppScale"), NumberStyles.Float,
                                 CultureInfo.InvariantCulture, out double s))
                 ApplyAppScale(s);

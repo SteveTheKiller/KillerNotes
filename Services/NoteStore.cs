@@ -255,6 +255,18 @@ CREATE TABLE IF NOT EXISTS notes(
     -- every .knote, and a markdown note would round-trip back through import as rich text.
     format      INTEGER NOT NULL DEFAULT 0
 );
+-- Wikilinks between notes: one row per (source note, target title). Rewritten wholesale for a
+-- note on every save, which is why there is no id - the pair IS the identity.
+--
+-- The TARGET IS A TITLE, not an id, and that is deliberate: a link may point at a note that does
+-- not exist yet, and resolving late is what lets you write the link first and create the note
+-- afterwards. Resolution to an id happens in the queries below, by title, case-insensitively.
+CREATE TABLE IF NOT EXISTS note_links(
+    src    INTEGER NOT NULL,
+    target TEXT    NOT NULL,
+    PRIMARY KEY (src, target)
+) WITHOUT ROWID;
+CREATE INDEX IF NOT EXISTS note_links_target ON note_links(target COLLATE NOCASE);
 CREATE VIRTUAL TABLE IF NOT EXISTS notes_fts
     USING fts5(title, plain, tags, content='notes', content_rowid='id');
 CREATE TRIGGER IF NOT EXISTS notes_ai AFTER INSERT ON notes BEGIN
@@ -884,6 +896,136 @@ CREATE TABLE IF NOT EXISTS recordings(
             cmd.Parameters.AddWithValue("$s", on ? 1 : 0);
             cmd.Parameters.AddWithValue("$id", id);
             cmd.ExecuteNonQuery();
+        }
+
+        // ── Wikilinks ────────────────────────────────────────────────────────────────────
+        //
+        // The note_links table is a CACHE of what the notes say, rebuilt from the text on save.
+        // It is never the source of truth - deleting it and re-saving every note would reproduce
+        // it exactly - which is why nothing here needs a migration and an older build that has
+        // never heard of it simply leaves it stale until this one saves the note again.
+
+        /// <summary>Replaces one note's outgoing links. Called from the save path with whatever
+        /// WikiLinks.Parse found, so an edit that removes a link removes the edge.</summary>
+        public static void SetLinks(long src, IEnumerable<string> targets)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var tx = _db.BeginTransaction();
+            using (var del = _db.CreateCommand())
+            {
+                del.Transaction = tx;
+                del.CommandText = "DELETE FROM note_links WHERE src = $s";
+                del.Parameters.AddWithValue("$s", src);
+                del.ExecuteNonQuery();
+            }
+            foreach (string t in targets)
+            {
+                string target = (t ?? "").Trim();
+                if (target.Length == 0) continue;
+                using var ins = _db.CreateCommand();
+                ins.Transaction = tx;
+                // OR IGNORE, not a uniqueness check: two spellings that differ only by case are
+                // the same edge to the NOCASE index but distinct to the primary key.
+                ins.CommandText = "INSERT OR IGNORE INTO note_links(src, target) VALUES ($s, $t)";
+                ins.Parameters.AddWithValue("$s", src);
+                ins.Parameters.AddWithValue("$t", target);
+                ins.ExecuteNonQuery();
+            }
+            tx.Commit();
+        }
+
+        /// <summary>Notes that link TO the given note, by its title. The backlinks panel.</summary>
+        public static List<(long Id, string Title)> Backlinks(string title)
+        {
+            var list = new List<(long, string)>();
+            if (_db == null || string.IsNullOrWhiteSpace(title)) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText =
+                "SELECT n.id, n.title FROM note_links l JOIN notes n ON n.id = l.src " +
+                "WHERE l.target = $t COLLATE NOCASE AND n.id <> (SELECT id FROM notes WHERE title = $t COLLATE NOCASE LIMIT 1) " +
+                "ORDER BY n.title COLLATE NOCASE";
+            cmd.Parameters.AddWithValue("$t", title);
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) list.Add((r.GetInt64(0), r.IsDBNull(1) ? "" : r.GetString(1)));
+            return list;
+        }
+
+        /// <summary>Notes that SAY this title without linking it. The other half of a backlinks
+        /// panel: forward links you wrote and backlinks you were told about are both explicit,
+        /// while this is the connection that already exists in the text and nobody has made yet.
+        ///
+        /// Cheap because the plain-text shadow column is already there for search - this is one
+        /// LIKE against it, minus everything that already links, minus the note itself. A note
+        /// linking the title is excluded by the note_links subquery, which is also why a mention
+        /// that IS inside [[brackets]] does not show up here.</summary>
+        public static List<(long Id, string Title)> UnlinkedMentions(string title, int cap = 20)
+        {
+            var list = new List<(long, string)>();
+            if (_db == null || string.IsNullOrWhiteSpace(title)) return list;
+            // A one or two character title matches almost everything; the noise would drown the
+            // signal and the query would scan the whole database to produce it.
+            if (title.Trim().Length < 3) return list;
+
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText =
+                "SELECT id, title FROM notes " +
+                "WHERE plain LIKE $q ESCAPE '\\' " +
+                "  AND title <> $t COLLATE NOCASE " +
+                "  AND id NOT IN (SELECT src FROM note_links WHERE target = $t COLLATE NOCASE) " +
+                "ORDER BY modified DESC LIMIT $n";
+            cmd.Parameters.AddWithValue("$q", "%" + EscapeLike(title.Trim()) + "%");
+            cmd.Parameters.AddWithValue("$t", title.Trim());
+            cmd.Parameters.AddWithValue("$n", cap);
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) list.Add((r.GetInt64(0), r.IsDBNull(1) ? "" : r.GetString(1)));
+            return list;
+        }
+
+        /// <summary>Resolves a link target to a note id, or -1 when nothing carries that title.
+        /// Case-insensitive, and the OLDEST match wins so a duplicate title cannot make an
+        /// existing link start pointing somewhere new.</summary>
+        public static long ResolveTitle(string title)
+        {
+            if (_db == null || string.IsNullOrWhiteSpace(title)) return -1;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT id FROM notes WHERE title = $t COLLATE NOCASE ORDER BY id LIMIT 1";
+            cmd.Parameters.AddWithValue("$t", title.Trim());
+            return cmd.ExecuteScalar() is long id ? id : -1;
+        }
+
+        /// <summary>Every edge in the database, resolved where possible: the graph's input.
+        /// DstId is -1 for a link whose target does not exist yet, which the graph draws as a
+        /// ghost rather than dropping - an unwritten note you keep linking to is a signal.</summary>
+        public static List<(long SrcId, long DstId, string Target)> AllLinks()
+        {
+            var list = new List<(long, long, string)>();
+            if (_db == null) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText =
+                "SELECT l.src, COALESCE(n.id, -1), l.target FROM note_links l " +
+                "LEFT JOIN notes n ON n.title = l.target COLLATE NOCASE";
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+                list.Add((r.GetInt64(0), r.GetInt64(1), r.IsDBNull(2) ? "" : r.GetString(2)));
+            return list;
+        }
+
+        /// <summary>Titles matching a prefix, for the [[ autocomplete.</summary>
+        public static List<(long Id, string Title)> TitlesStartingWith(string prefix, int cap = 12)
+        {
+            var list = new List<(long, string)>();
+            if (_db == null) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = string.IsNullOrWhiteSpace(prefix)
+                ? "SELECT id, title FROM notes WHERE title <> '' ORDER BY modified DESC LIMIT $n"
+                : "SELECT id, title FROM notes WHERE title LIKE $p ESCAPE '\\' AND title <> '' " +
+                  "ORDER BY length(title), title COLLATE NOCASE LIMIT $n";
+            if (!string.IsNullOrWhiteSpace(prefix))
+                cmd.Parameters.AddWithValue("$p", "%" + EscapeLike(prefix.Trim()) + "%");
+            cmd.Parameters.AddWithValue("$n", cap);
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) list.Add((r.GetInt64(0), r.IsDBNull(1) ? "" : r.GetString(1)));
+            return list;
         }
 
         /// <summary>Persists the per-note syntax highlighting toggle. Deliberately does NOT

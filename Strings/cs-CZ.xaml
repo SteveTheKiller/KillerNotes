@@ -48,7 +48,7 @@
     <sys:String x:Key="Str_St_AppSize">Velikost aplikace {0} %</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Přepnout zalamování řádků</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Zvýraznění syntaxe</sys:String>
-    <sys:String x:Key="Str_TT_LineNumbers">Čísla řádků (F11)</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Čísla řádků (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Přepnout čísla řádků</sys:String>
     <sys:String x:Key="Str_KS_AppSize">Přiblížit celou aplikaci (přístupnost)</sys:String>
     <sys:String x:Key="Str_St_LineNumOn">Čísla řádků zapnuta</sys:String>

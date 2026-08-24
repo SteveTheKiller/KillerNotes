@@ -294,7 +294,10 @@ namespace KillerNotes.Shell
                             context = prev.Lang;
                             continue;
                         }
-                        string text = new TextRange(p.ContentStart, p.ContentEnd).Text.TrimEnd('\r', '\n');
+                        // ParagraphCodeText, NOT TextRange.Text. The two do not agree about what
+                        // the paragraph contains, and every offset below is fed to ResolveOffsets,
+                        // which walks pointer contexts. See the note on ParagraphCodeText.
+                        string text = ParagraphCodeText(p).TrimEnd('\r', '\n');
                         if (had && prev.Text == text)
                         {
                             _syntaxSeen[p] = (prev.Text, prev.Lang, _syntaxDocVersion);
@@ -460,7 +463,11 @@ namespace KillerNotes.Shell
                 // detection needs to reach bold text and the rest (2026-08-08).
                 CodeLanguage.Markdown => @"(?m)^\s*#{1,6}(?=\s)|```\w*|`[^`\r\n]+`|\*\*[^*\r\n]+\*\*|__[^_\r\n]+__|~~[^~\r\n]+~~|\*[^*\r\n]+\*|^\s*[-*+](?=\s)|^\s*\d+\.(?=\s)|^\s*>(?=\s)|(?<=\])\([^)]+\)",
                 CodeLanguage.Sql => @"\b(?:SELECT|FROM|WHERE|JOIN|ON|INSERT|INTO|UPDATE|SET|DELETE|CREATE|ALTER|DROP|TABLE|VALUES|AS|AND|OR|NULL|ORDER|GROUP|BY|HAVING|LIMIT)\b",
-                CodeLanguage.CSharp => @"\b(?:using|namespace|class|struct|interface|public|private|protected|internal|static|readonly|void|string|int|bool|var|new|return|if|else|foreach|for|while|try|catch|throw|null|true|false|async|await)\b",
+                // The full modifier and control set. The short list left "override", "sealed",
+                // "abstract", "const", "base", "this", "switch", "case" and the numeric types
+                // uncolored, so a normal method signature came out half painted - which reads as
+                // highlighting that half works rather than as a missing keyword (2026-08-23).
+                CodeLanguage.CSharp => @"\b(?:using|namespace|class|struct|interface|enum|record|delegate|event|public|private|protected|internal|static|readonly|const|sealed|abstract|virtual|override|partial|extern|unsafe|volatile|implicit|explicit|operator|params|ref|out|in|is|as|typeof|nameof|sizeof|default|checked|unchecked|lock|fixed|stackalloc|void|object|string|char|bool|byte|sbyte|short|ushort|int|uint|long|ulong|float|double|decimal|dynamic|var|new|return|yield|if|else|switch|case|foreach|for|while|do|break|continue|goto|try|catch|finally|throw|null|true|false|this|base|async|await|get|set|init|when|where|global)\b",
                 CodeLanguage.Python => @"\b(?:def|class|from|import|as|return|if|elif|else|for|while|try|except|finally|raise|with|lambda|True|False|None|async|await|in|is|not|and|or)\b",
                 CodeLanguage.JavaScript => @"\b(?:const|let|var|function|class|return|if|else|for|while|try|catch|throw|null|undefined|true|false|async|await|new|import|export|from)\b",
                 CodeLanguage.TypeScript => @"\b(?:const|let|var|function|class|interface|type|enum|namespace|implements|extends|public|private|protected|readonly|abstract|declare|keyof|typeof|unknown|never|any|string|number|boolean|void|return|if|else|for|while|try|catch|throw|null|undefined|true|false|async|await|new|import|export|from|as|in|of)\b",
@@ -469,6 +476,21 @@ namespace KillerNotes.Shell
                 _ => ""
             };
             if (keywords.Length > 0) Add(tokens, s, keywords, SynKeyword, RegexOptions.IgnoreCase);
+
+            // TYPES and CALLS, and deliberately LAST. Add() keeps the first token claiming a span
+            // and skips anything overlapping it, so comments, strings and keywords have already
+            // taken their characters by now: "string" stays a keyword rather than becoming a type,
+            // and a capitalised word inside a comment stays comment-colored.
+            //
+            // Without these a signature like "protected override void OnStartup(StartupEventArgs e)"
+            // had its modifiers painted and every NAME left as body text, which is most of the ink
+            // on the line - the whole block read as barely highlighted (2026-08-23).
+            if (language is CodeLanguage.CSharp or CodeLanguage.TypeScript
+                         or CodeLanguage.JavaScript or CodeLanguage.Python)
+            {
+                Add(tokens, s, @"\b[A-Z][A-Za-z0-9_]*\b", SynType);
+                Add(tokens, s, @"\b[A-Za-z_][A-Za-z0-9_]*(?=\s*\()", SynVariable);
+            }
             if (tokens.Count == 0) return;
 
             // Resolve every boundary in ONE walk, then paint. Two lookups per token, each
@@ -588,7 +610,8 @@ namespace KillerNotes.Shell
 
             while (p != null && p.CompareTo(end) < 0)
             {
-                if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text)
+                var ctx = p.GetPointerContext(LogicalDirection.Forward);
+                if (ctx == TextPointerContext.Text)
                 {
                     string text = p.GetTextInRun(LogicalDirection.Forward);
                     // Every boundary landing inside this run is resolved before moving on.
@@ -600,13 +623,67 @@ namespace KillerNotes.Shell
                     }
                     seen += text.Length;
                     p = p.GetPositionAtOffset(text.Length, LogicalDirection.Forward);
+                    continue;
                 }
-                else p = p.GetNextContextPosition(LogicalDirection.Forward);
+                // A LineBreak is ONE character to ParagraphCodeText, so it must be one character
+                // here too. Counting it as zero - which is what walking straight past it does -
+                // slid every offset after the first break, and a pasted code block is one
+                // paragraph full of breaks: the first lines painted correctly and the rest
+                // colored mid-word, further out the further down they were (2026-08-23).
+                if (ctx == TextPointerContext.ElementStart
+                    && p.GetAdjacentElement(LogicalDirection.Forward) is LineBreak)
+                {
+                    if (target == seen)
+                    {
+                        found[target] = p;
+                        if (!wanted.MoveNext()) return found;
+                        target = wanted.Current;
+                    }
+                    seen++;   // a boundary just past the break resolves at offset 0 of the next run
+                }
+                p = p.GetNextContextPosition(LogicalDirection.Forward);
             }
 
             // A boundary exactly at the end of the text is legitimate and lands on ContentEnd.
             if (target == seen) found[target] = end;
             return found;
+        }
+
+        /// <summary>The paragraph's text AS THE OFFSET WALK COUNTS IT. This is the one definition
+        /// of "what is in this paragraph" that the highlighter uses: tokens are matched against
+        /// this string and their offsets are resolved by ResolveOffsets, which walks the same
+        /// contexts in the same order, so the two cannot drift apart.
+        ///
+        /// TextRange.Text is NOT interchangeable with it and was the bug: it renders a LineBreak
+        /// as a two-character "\r\n" while a pointer walk sees an element and counts nothing, so
+        /// every token offset past the first break in a paragraph landed two characters late per
+        /// break. Pasted code is one paragraph full of breaks, which is why highlighting looked
+        /// like it worked about half the time - the top of a block was right and the rest slid
+        /// into the middle of words (2026-08-23).</summary>
+        private static string ParagraphCodeText(Paragraph paragraph)
+        {
+            var sb = new System.Text.StringBuilder();
+            TextPointer end = paragraph.ContentEnd;
+            TextPointer? p = paragraph.ContentStart;
+            while (p != null && p.CompareTo(end) < 0)
+            {
+                var ctx = p.GetPointerContext(LogicalDirection.Forward);
+                if (ctx == TextPointerContext.Text)
+                {
+                    string text = p.GetTextInRun(LogicalDirection.Forward);
+                    sb.Append(text);
+                    p = p.GetPositionAtOffset(text.Length, LogicalDirection.Forward);
+                    continue;
+                }
+                // One '\n', matching the single character ResolveOffsets advances by. Which
+                // character it is does not matter as long as both sides agree and the regexes
+                // see a line ending - they use Multiline, and '\n' is what that anchors on.
+                if (ctx == TextPointerContext.ElementStart
+                    && p.GetAdjacentElement(LogicalDirection.Forward) is LineBreak)
+                    sb.Append('\n');
+                p = p.GetNextContextPosition(LogicalDirection.Forward);
+            }
+            return sb.ToString();
         }
 
 

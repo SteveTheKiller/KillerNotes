@@ -299,7 +299,7 @@
     <sys:String x:Key="Str_KS_Syntax">構文の強調表示</sys:String>
     <sys:String x:Key="Str_St_WrapOn">折り返しオン</sys:String>
     <sys:String x:Key="Str_St_WrapOff">折り返しオフ - 幅の広い内容はスクロールで表示</sys:String>
-    <sys:String x:Key="Str_TT_LineNumbers">行番号 (F11)</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">行番号 (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">行番号を切り替え</sys:String>
     <sys:String x:Key="Str_St_LineNumOn">行番号オン</sys:String>
     <sys:String x:Key="Str_St_LineNumOff">行番号オフ</sys:String>

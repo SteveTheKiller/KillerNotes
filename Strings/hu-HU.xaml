@@ -48,7 +48,7 @@
     <sys:String x:Key="Str_St_AppSize">Alkalmazás mérete {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Szótördelés váltása</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Szintaxis kiemelés</sys:String>
-    <sys:String x:Key="Str_TT_LineNumbers">Sorszámok (F11)</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Sorszámok (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Sorszámok váltása</sys:String>
     <sys:String x:Key="Str_KS_AppSize">Az egész alkalmazás nagyítása (kisegítő lehetőségek)</sys:String>
     <sys:String x:Key="Str_St_LineNumOn">Sorszámok bekapcsolva</sys:String>

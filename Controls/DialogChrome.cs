@@ -254,49 +254,30 @@ namespace KillerNotes.Controls
         /// </summary>
         public static FrameworkElement CloseGlyph(string tooltip, Action onClose)
         {
-            // A real Button on the shared close style, not a bare TextBlock: it carries the caption
-            // face and the raised bevel, so on a Win98-style theme this reads as an actual caption
-            // button instead of a glyph floating on the band. On every other theme
-            // CaptionButtonBrush is transparent and the margin is 0, so it looks exactly as it did.
-            // ChromeCloseButton: these X's sit at the caption's corner end, so the hover block
-            // rounds with the card's top-right corner like every dialog caption
-            // (2026-08-08); DialogCloseButton's all-round block is only for floating X's.
+            // THE FAMILY DIALOG CLOSE, in code. The exact equivalent of the markup KillerShell's
+            // ConfirmDialog, KillerScan's InputDialog, the KillerUI kit and now DialogTitleBar.xaml
+            // all use: OverlayCloseButton, AboutCloseGlyph, the AboutClose* box, centered.
+            //
+            // The kit states the rule: only the GLYPH reddens on hover, never a filled red block,
+            // because a filled block is the Windows CAPTION treatment and is wrong on a card
+            // floating over the app. This helper used ChromeCloseButton - the main window's caption
+            // X - which is why SketchPad, Dictation and the Whisper dialog all wore a red block
+            // nothing else in the family wears (2026-08-23).
             var glyph = new Button
             {
-                // NO Content. ChromeCloseButton's template draws the glyph itself - one definition
-                // in Controls.xaml for the whole app - so setting content here would only be a
-                // seventh copy to drift out of step.
                 HorizontalAlignment = HorizontalAlignment.Right,
-                // STRETCH, not Center. The hover block has to reach the top edge of whatever band
-                // it is dropped into, or the band shows above it as a strip and the rounded
-                // top-right corner stops meeting the card corner. Centering only looked right in a
-                // 28px DialogTitleBarHeight band, where the 26px button left a 1px gap nobody
-                // could see; SketchPad and Dictation use the 36px main-window TitleBarHeight, and
-                // there the same button left a 5px band strip above it. Stretching also cannot
-                // reproduce the 2026-08-08 regression that made this a fixed height in the first
-                // place - a stretched button is exactly the band's height, so it can never
-                // overflow a short band and smother the card's corner.
-                VerticalAlignment = VerticalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
                 Background = Brushes.Transparent,          // Transparent, not null: null is not hit-testable
                 Cursor = Cursors.Hand,
                 ToolTip = tooltip,
             };
-            if (Application.Current?.TryFindResource("ChromeCloseButton") is Style s) glyph.Style = s;
-            // DialogCloseWidth, the DIALOG-band width key (ThemeManager). The main window's
-            // CaptionButtonWidth (44) belongs to the 36px main bar and was too wide for a 28px
-            // dialog band (2026-08-08). On a flat theme it resolves to the real caption-button
-            // width, so 98SE is unchanged.
-            //
-            // No Height: the band sets it, via the Stretch above. A fixed DialogCloseHeight is
-            // only ever right for one band size, and this helper serves both the 28px dialog band
-            // and the 36px SketchPad/Dictation band.
-            glyph.SetResourceReference(FrameworkElement.WidthProperty, "DialogCloseWidth");
-            // DialogCaptionButtonsMargin, not CaptionButtonsMargin. The main window's key carries a
-            // TOP inset because the window frame overlay paints over the first few pixels of its
-            // band; a dialog band has no such overlay, so that inset just pushed the X down and it
-            // sat visibly low. The dialog key is the same RIGHT inset with the top zeroed, which is
-            // all a vertically-centered button needs. (2026-08-07)
-            glyph.SetResourceReference(FrameworkElement.MarginProperty, "DialogCaptionButtonsMargin");
+            if (Application.Current?.TryFindResource("OverlayCloseButton") is Style s) glyph.Style = s;
+            glyph.SetResourceReference(ContentControl.ContentProperty, "AboutCloseGlyph");
+            glyph.SetResourceReference(FrameworkElement.WidthProperty, "AboutCloseWidth");
+            glyph.SetResourceReference(FrameworkElement.HeightProperty, "AboutCloseHeight");
+            // PreviewMouseLeftButtonDown, not Click: the caption band under this handles ButtonDown
+            // to drag the window and DragMove() runs a modal loop, so the matching ButtonUp - and
+            // therefore Click - never arrives. See the note above.
             glyph.PreviewMouseLeftButtonDown += (_, e) => { e.Handled = true; onClose(); };
             return glyph;
         }

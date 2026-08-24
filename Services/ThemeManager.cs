@@ -180,6 +180,21 @@ namespace KillerNotes.Services
                 newDict["PaneShadowEffect"] = paneShadow;
             }
             else newDict["PaneShadowEffect"] = null;
+            // The same idea aimed UP AND LEFT (135), for a surface tucked into the pane's
+            // bottom-right corner - the mentions strip. Its right and bottom edges sit against
+            // the pane's own edges, so the family's downward cast would fall outside the pane
+            // and show nothing; the only edges it can cast from are the two it actually floats
+            // over. Softer and shallower than the pane numbers because it lifts a strip off the
+            // text behind it rather than a whole window off the desktop. Frozen and null-on-flat
+            // for the same reasons as above.
+            if (newDict["PaneShadowOpacity"] is double cso && cso > 0)
+            {
+                var cornerShadow = new System.Windows.Media.Effects.DropShadowEffect
+                { Color = Colors.Black, BlurRadius = 12, ShadowDepth = 3, Direction = 135, Opacity = cso };
+                cornerShadow.Freeze();
+                newDict["CornerShadowEffect"] = cornerShadow;
+            }
+            else newDict["CornerShadowEffect"] = null;
             SetIfAbsent(newDict, "WindowFrameThickness", new Thickness(0));
             SetIfAbsent(newDict, "BevelLightBrush", new SolidColorBrush(Colors.Transparent));
             SetIfAbsent(newDict, "BevelDarkBrush", new SolidColorBrush(Colors.Transparent));
@@ -309,6 +324,11 @@ namespace KillerNotes.Services
             // block smothered the card's rounded top-right corner entirely, so the close
             // button's hover was not rounded there (2026-08-08). A flat theme keeps its
             // real caption-button size, which its short band is built around.
+            // DEAD as of 2026-08-23 and kept only so a stale DynamicResource cannot resolve to
+            // nothing. Every dialog close in the app is now the family OverlayCloseButton on the
+            // AboutClose* box (DialogTitleBar.xaml, FileDialog.xaml, DialogChrome.CloseGlyph), the
+            // same markup KillerShell, KillerScan and the KillerUI kit use. Nothing should read
+            // these again - a dialog card does not get a caption button.
             newDict["DialogCloseWidth"] = flatCaption ? newDict["CaptionButtonWidth"] : 28.0;
             newDict["DialogCloseHeight"] = flatCaption ? newDict["CaptionButtonHeight"] : 26.0;
             // +1 for the card's own 1px border. A dialog's caption band meets the window edge, so
@@ -581,6 +601,24 @@ namespace KillerNotes.Services
             // hover color - 98SE has both at #d4d0c8, so Cancel had no hover at all.
             if (!newDict.Contains("SurfaceHoverBrush") && newDict.Contains("RowHoverBrush"))
                 newDict["SurfaceHoverBrush"] = newDict["RowHoverBrush"];
+            // The CONTENT color on that hover. It exists because the SketchPad's tool icons ink
+            // themselves from the button's Foreground, so a hover that moved only the fill left a
+            // gray glyph on a gray face (2026-08-22).
+            //
+            // DERIVED from the hover fill rather than hardcoded or hand-set per theme. White is
+            // right on a dark hover and invisible on 98SE's #dfdfdf, and there are thirteen themes
+            // to keep in step by hand. Measure the fill instead: a dark one gets near-white, a
+            // light one keeps TextBrush. A theme that states the key itself still wins.
+            if (!newDict.Contains("SurfaceHoverFg"))
+            {
+                object? fill = newDict.Contains("SurfaceHoverBrush") ? newDict["SurfaceHoverBrush"] : null;
+                // Rec. 601 luma, the same weighting every "is this background dark" test uses.
+                bool darkHover = fill is SolidColorBrush hb
+                    && (0.299 * hb.Color.R + 0.587 * hb.Color.G + 0.114 * hb.Color.B) / 255.0 < 0.45;
+                newDict["SurfaceHoverFg"] = darkHover
+                    ? new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF))
+                    : (newDict.Contains("TextBrush") ? newDict["TextBrush"] : new SolidColorBrush(Colors.Black));
+            }
             // The flat 1px edge on a field that ALSO carries a sunken bevel. On a beveled theme
             // the bevel is the edge, and drawing InputBorderBrush as well put a second line right
             // beside it - visible as a doubled rule along the top of the picker's address bar.

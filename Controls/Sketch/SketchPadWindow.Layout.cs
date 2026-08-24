@@ -179,6 +179,20 @@ namespace KillerNotes.Controls
             actions.Children.Add(_undoBtn);
             actions.Children.Add(_redoBtn);
             actions.Children.Add(Separator());
+            // ZOOM, in the TOP bar rather than the tool rail: it is a view control, not a drawing
+            // tool, so it does not belong beside the pen and the eraser. The button toggles
+            // between 100% and fit; Ctrl+wheel over the canvas is the fine control.
+            actions.Children.Add(ActionButton(IconZoom(),
+                L("Str_Sketch_Zoom", "Zoom (Ctrl+Wheel) - click for 100%, again to fit"), ToggleZoomFit));
+            _zoomReadout = new TextBlock
+            {
+                Text = "100%", VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 8, 6), MinWidth = 38,
+                TextAlignment = TextAlignment.Right, FontSize = 11,
+            };
+            _zoomReadout.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
+            actions.Children.Add(_zoomReadout);
+            actions.Children.Add(Separator());
             actions.Children.Add(ActionButton(Glyph(0xE894), L("Str_Sketch_Clear", "Clear all"), ClearAll));
             Grid.SetColumn(actions, 1);
             top.Children.Add(actions);
@@ -211,6 +225,7 @@ namespace KillerNotes.Controls
             rail.Children.Add(RailSeparator());
             Add(ToolButton(IconBucket(), L("Str_Sketch_Bucket", "Paint bucket (B) - click inside a closed area to flood-fill it"), Tool.Bucket));
             Add(ToolButton(IconText(), L("Str_Sketch_Text", "Text (T) - click to place a label, type, Enter to set it (Shift+Enter for a new line)"), Tool.Text));
+            Add(ToolButton(IconCrop(), L("Str_Sketch_Crop", "Crop (C) - drag a box to keep, everything outside it is trimmed away (Ctrl+Z restores it)"), Tool.Crop));
             Add(ActionButton(IconImage(), L("Str_Sketch_AddImage", "Add an image (I) - drag one onto the pad, or Ctrl+V to paste"), AddImageFromFile));
 
             // The rail holds fourteen buttons and the pad can be resized shorter than they
@@ -391,8 +406,28 @@ namespace KillerNotes.Controls
             Grid.SetColumn(rail, 0);
             row.Children.Add(rail);
 
+            // The canvas is CENTERED inside its scroller rather than stretched. At 100% the
+            // scroller grows the logical canvas to its own viewport (ZoomHost_SizeChanged), so the
+            // "resize the window, get more paper" behavior is unchanged; zoomed in, the canvas is
+            // bigger than the viewport and the scrollbars are how you reach the rest of it.
+            _canvas.HorizontalAlignment = HorizontalAlignment.Center;
+            _canvas.VerticalAlignment = VerticalAlignment.Center;
+
+            _zoomHost = new ScrollViewer
+            {
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                Background = System.Windows.Media.Brushes.Transparent,
+                Padding = new Thickness(0),
+                Content = _canvas,
+            };
+            _zoomHost.SizeChanged += (_, _) => GrowCanvasToViewport();
+            // Ctrl+wheel is the zoom, and it is taken on the SCROLLER so it works over the
+            // letterbox around a zoomed-out canvas too, not only over the artwork itself.
+            _zoomHost.PreviewMouseWheel += ZoomHost_PreviewMouseWheel;
+
             var canvasStack = new Grid();
-            canvasStack.Children.Add(_canvas);   // fills the frame 1:1 and grows with the window
+            canvasStack.Children.Add(_zoomHost);
             // Resource references, not baked values - see the root grain note in BuildUi.
             var canvasGrainB = new Border { IsHitTestVisible = false };
             canvasGrainB.SetResourceReference(Border.BackgroundProperty, "GrainTileBrush");

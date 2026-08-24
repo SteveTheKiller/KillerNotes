@@ -52,9 +52,36 @@ namespace KillerNotes.Shell
 
             // AltGr arrives as Ctrl+Alt on Windows, so on international layouts
             // AltGr+O (ó on Polish) looked like Ctrl+O and hijacked the keystroke (#5).
-            // No shortcut here uses Alt: let every Ctrl+Alt combo pass through to the
-            // editor untouched so dead keys and AltGr characters type normally.
+            // Let every Ctrl+Alt combo pass through to the editor untouched so dead keys and
+            // AltGr characters type normally. This guard is also what keeps the Alt bindings
+            // below safe on those layouts: they are reached only with Alt and NOT Ctrl, so
+            // AltGr can never trigger one.
             if (ctrl && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)) return;
+
+            // ── The Alt layer ────────────────────────────────────────────────────────────
+            //
+            // Alt+key arrives as Key.System with the real key in SystemKey (Alt traditionally
+            // reaches for the window menu bar), so none of these can be cased on e.Key in the
+            // switch below - they have to be handled up here, and handled to swallow the menu.
+            //
+            // Alt exists as a layer at all because the F row filled up. Line numbers held F11
+            // while being the most minor toggle in the app, and a bare F key is worth more than
+            // that - it went to Alt+L and gave F11 back for fullscreen.
+            if (e.Key == Key.System && !ctrl && !shift && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+            {
+                switch (e.SystemKey)
+                {
+                    // Browser back/forward, on the keys every browser uses (NoteHistory.cs).
+                    case Key.Left:  NavBack();    e.Handled = true; return;
+                    case Key.Right: NavForward(); e.Handled = true; return;
+                    case Key.L:
+                        LineNumbers_Click(this, new RoutedEventArgs());   // LineNumbers.cs
+                        e.Handled = true; return;
+                    case Key.M:
+                        ToggleBacklinkBar();   // Backlinks.cs (the linked-from / mentions strip)
+                        e.Handled = true; return;
+                }
+            }
 
             // F10 arrives as a SystemKey (like Alt it traditionally opens the window menu bar),
             // so it never reaches the e.Key switch below - handle it here and swallow the menu.
@@ -182,10 +209,9 @@ namespace KillerNotes.Shell
                     CycleSortShortcut();   // Notes.cs (time -> A-Z -> custom)
                     e.Handled = true;
                     break;
-                case Key.F11:
-                    LineNumbers_Click(this, new RoutedEventArgs());   // LineNumbers.cs
-                    e.Handled = true;
-                    break;
+                // F11 is deliberately unbound here. Line numbers moved to Alt+L above, and the
+                // key is being held for a fullscreen mode rather than refilled with the next
+                // toggle that comes along.
                 case Key.F5:
                     ToggleSidebar();                     // Sidebar.cs (moved from F9: F5/F6
                     e.Handled = true;                    // sit together as the two pane toggles)
@@ -206,6 +232,13 @@ namespace KillerNotes.Shell
                 // App-wide accessibility zoom (distinct from the per-note editor zoom above):
                 // Ctrl+Shift +/- steps the whole-app size, Ctrl+Shift+0 resets it. Works with no
                 // note open. AppScale.cs.
+                // Deliberately OUTSIDE the ctrl+shift block above, which is gated on a note being
+                // open: the graph is about the notebook, not the note, and it should open from a
+                // sidebar selection with no note loaded at all.
+                case Key.B when ctrl && shift:
+                    GraphShortcut();   // Backlinks.cs - the selected group, or everything
+                    e.Handled = true;
+                    break;
                 case Key.OemPlus when ctrl && shift:
                 case Key.Add when ctrl && shift:
                     ApplyAppScale(_appScale + 0.05, persist: true);

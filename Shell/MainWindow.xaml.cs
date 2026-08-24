@@ -58,6 +58,7 @@ namespace KillerNotes.Shell
             InitShortcuts();                                     // Shortcuts.cs (hotkeys + F1 overlay)
             InitAppScale();                                      // AppScale.cs (restore app-wide size)
             InitLineNumbers();                                   // LineNumbers.cs (optional gutter)
+            InitBacklinkBar();                                   // Backlinks.cs (Alt+M hide state)
             InitDensity();                                       // Density.cs (restore sidebar row density)
             InitFonts();                                         // Fonts.cs (restore header/content fonts)
 

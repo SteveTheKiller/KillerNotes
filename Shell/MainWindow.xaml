@@ -7,7 +7,8 @@
         Icon="pack://application:,,,/Resources/kn-icon.ico"
         WindowStyle="None" Background="{DynamicResource BackgroundBrush}"
         MinWidth="720" MinHeight="480" Width="1080" Height="700"
-        TextOptions.TextFormattingMode="Display" UseLayoutRounding="True">
+        TextOptions.TextFormattingMode="Display" UseLayoutRounding="True"
+        PreviewMouseDown="Window_PreviewMouseDown">
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="36" ResizeBorderThickness="8" CornerRadius="0"
                             GlassFrameThickness="0" UseAeroCaptionButtons="False"/>
@@ -351,12 +352,18 @@
                         <Button x:Name="DensityBtn" Style="{StaticResource RailButton}" Content="&#xE8A1;"
                                 Margin="0,0,0,10" Click="Density_Click" PreviewMouseWheel="Density_MouseWheel"
                                 ToolTip="{DynamicResource Str_TT_Density}"/>
-                        <!-- Line-number gutter toggle (LineNumbers.cs / F11). RailButton renders
+                        <!-- Line-number gutter toggle (LineNumbers.cs / Alt+L). RailButton renders
                              Content AS a glyph (Text=TemplateBinding Content), so this must be
                              Content, not a child element. EA37 = the numbered-list glyph. -->
                         <Button x:Name="LineNumBtn" Style="{StaticResource RailButton}" Content="&#xEA37;"
                                 Margin="0,0,0,10" Click="LineNumbers_Click"
                                 ToolTip="{DynamicResource Str_TT_LineNumbers}"/>
+                        <!-- Graph of the wikilinks between notes (GraphWindow.cs). An app-specific
+                             toggle, so it sits ABOVE the universal ? / language / theme trio the
+                             whole family keeps in the same place. E9D9 = the node-graph glyph. -->
+                        <Button x:Name="GraphRailBtn" Style="{StaticResource RailButton}" Content="&#xE9D9;"
+                                Margin="0,0,0,10" Click="Graph_Click"
+                                ToolTip="{DynamicResource Str_TT_Graph}"/>
                         <Button Style="{StaticResource RailButton}" Content="?"
                                 FontFamily="Consolas" FontSize="18" Margin="0,0,0,10"
                                 Click="ShortcutHelp_Click" ToolTip="{DynamicResource Str_TT_Shortcuts}"/>
@@ -829,6 +836,17 @@
                              Right-click selects the item under the cursor first (code-behind). -->
                         <ListBox.ContextMenu>
                             <ContextMenu Opened="NotesContextMenu_Opened" Closed="NotesContextMenu_Closed">
+                                <!-- Back / forward lead the menu because they are the only rows
+                                     here about WHERE YOU ARE rather than what to do to a note,
+                                     and they are greyed rather than hidden when the history is
+                                     empty so the menu reports the state (NoteHistory.cs). -->
+                                <MenuItem x:Name="NavBackItem" Header="{DynamicResource Str_Ctx_NavBack}"
+                                          Icon="&#xE72B;" InputGestureText="Alt+Left" Click="NavBack_Click"
+                                          ToolTip="{DynamicResource Str_TT_NavBack}"/>
+                                <MenuItem x:Name="NavFwdItem" Header="{DynamicResource Str_Ctx_NavForward}"
+                                          Icon="&#xE72A;" InputGestureText="Alt+Right" Click="NavForward_Click"
+                                          ToolTip="{DynamicResource Str_TT_NavForward}"/>
+                                <Separator/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_ShareNote}" Icon="&#xE72D;" Click="ShareNote_Click"
                                           ToolTip="{DynamicResource Str_TT_ShareNote}"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_ExportNote}" Icon="&#xE74E;" Click="ExportNoteAs_Click"
@@ -889,6 +907,9 @@
                                                       Tag="groupcolor" InputGestureText="Ctrl+Shift+K"
                                                       ToolTip="{DynamicResource Str_TT_GroupColor}"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_GroupColorReset}" Icon="&#xE894;" Click="GroupColorReset_Click"/>
+                                            <MenuItem Header="{DynamicResource Str_Ctx_GroupGraph}" Icon="&#xE9D9;" Click="GroupGraph_Click"
+                                                      InputGestureText="Ctrl+Shift+B"
+                                                      ToolTip="{DynamicResource Str_TT_GroupGraph}"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_DeleteGroup}" Icon="&#xE74D;" Click="DeleteGroup_Click"/>
                                         </ContextMenu>
                                     </Border.ContextMenu>
@@ -1856,6 +1877,95 @@
                             Margin="0,0,8,8"/>
                 </Grid>
 
+                <!-- ══════════ BACKLINKS (Backlinks.cs) ══════════ -->
+                <!-- Collapsed unless something actually links here or mentions this note, so a
+                     notebook with no wikilinks looks exactly as it did before this existed.
+
+                     ONE ROW, both halves. Two stacked strips ate two rows of editor for what is
+                     one idea ("what else touches this note"), and the second band read as a
+                     second toolbar. Inbound links come first, then the unlinked mentions after a
+                     divider - same row, different labels. The buttons scroll sideways rather than
+                     wrapping, so this can never grow tall enough to eat the editor.
+                     BgFlyout, matching the format bar, so it reads as app chrome rather than as
+                     another sheet of paper under the note, and it sits at the bottom of the pane
+                     like KillerShell's details strip - a band that belongs UNDER the content
+                     rather than a floating panel.
+                     IT FLOATS, and reserves no space. A full-width row across the bottom of the
+                     window was a lot of furniture for two buttons, and it stole a band of editor
+                     the note could have used. This sits IN the editor row (ZIndex above the text,
+                     below the find bar), sized to its content, pinned to the bottom right of the
+                     pane - so the note scrolls normally underneath it and long notes get the
+                     whole pane back.
+                     NO MARGIN. It is already a child of the content pane's Border, so repeating
+                     ContentPaneMargin here insets it a second time and leaves it floating a
+                     gutter's width off the corner it is supposed to be tucked into. It cuts
+                     straight to the pane's inner edge instead.
+                     The corners follow which edges it MEETS: top-left is a free corner and
+                     rounds, bottom-right follows the pane's own rounded corner, and the two that
+                     run along the pane's edges stay square. 5, not 6: the pane is radius 6 with a
+                     1px border, and a child inside that border wants one less - the same literal
+                     Killendar and KillerScan use. Borders on the two open sides only. -->
+                <!-- WIDTH CAP. Two star columns with the strip in the right-hand one: it grows
+                     leftward with its chips and then stops at 60% of the pane, where the
+                     ScrollViewer inside takes over and scrolls. Without this a well-linked note
+                     reaches the far side and becomes the full-width row this was moved away from
+                     in the first place. A star column is the cap - no converter, and it tracks
+                     the pane as it resizes. The Grid has no Background, so it is not hit-testable
+                     and clicks in the empty column go through to the note underneath. -->
+                <Grid x:Name="BacklinkHost" Grid.Row="1" Panel.ZIndex="20" VerticalAlignment="Bottom"
+                      SizeChanged="BacklinkHost_SizeChanged">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- This inner Grid is sized by the strip, and the shadow caster below
+                         stretches to fill it - which is how a childless sibling ends up exactly
+                         the strip's size without duplicating its layout. -->
+                    <Grid Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        <!-- SHADOW ON ITS OWN CHILDLESS BORDER, never on the one holding the
+                             chips: a DropShadowEffect rasterises everything inside it and the
+                             text would lose ClearType (the rule the About card locks). Aimed up
+                             and left, the strip's only free edges - see CornerShadowEffect. -->
+                        <Border CornerRadius="5,0,5,0"
+                                Visibility="{Binding Visibility, ElementName=BacklinkBar}"
+                                Background="{DynamicResource BgFlyout}"
+                                Effect="{DynamicResource CornerShadowEffect}"/>
+                <Border x:Name="BacklinkBar" Visibility="Collapsed"
+                        HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                        Background="{DynamicResource BgFlyout}"
+                        BorderBrush="{DynamicResource BarEdgeBrush}" BorderThickness="1,1,0,0"
+                        CornerRadius="5,0,5,0"
+                        ClipToBounds="True">
+                    <Border.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{DynamicResource Str_Ctx_HideMentions}" Icon="&#xED1A;"
+                                      InputGestureText="Alt+M" Click="HideBacklinkBar_Click"
+                                      ToolTip="{DynamicResource Str_TT_HideMentions}"/>
+                        </ContextMenu>
+                    </Border.ContextMenu>
+                    <Grid>
+                        <!-- ONE ROW, FILLED IN CODE, AND IT NEVER SCROLLS. A horizontal scrollbar
+                             in a strip this short was more chrome than the content it carried, and
+                             a scrollbar is the wrong affordance for a handful of names anyway:
+                             what fits is shown, and the remainder collapses into an "And N more"
+                             button that opens them as a menu (Backlinks.cs LayoutStrip).
+                             The labels, chips, divider and overflow button are all DIRECT children
+                             of this panel, because overflow has to be decided chip by chip - with
+                             the two lists as nested StackPanels the row could only ever drop a
+                             whole group at a time. -->
+                        <StackPanel x:Name="BacklinkRow" Orientation="Horizontal" Margin="10,5"/>
+                        <!-- Grain LAST and hit-test invisible, so it covers the buttons rather
+                             than sitting under them - the family rule that a pane's texture goes
+                             over its contents. Without it this was the one flat surface in the
+                             window (2026-08-23). -->
+                        <Border IsHitTestVisible="False" CornerRadius="5,0,5,0"
+                                Opacity="{DynamicResource GrainOpacity}"
+                                Background="{DynamicResource GrainTileBrush}"/>
+                    </Grid>
+                </Border>
+                    </Grid>
+                </Grid>
+
                 <!-- ══════════ IN-NOTE FIND BAR (FindBar.cs) ══════════ -->
                 <!-- A free-floating card over the note body, the same shape as KillerPDF's
                      search bar: grabbed by its six-dot grip and dragged anywhere inside the
@@ -2493,10 +2603,13 @@
                                        FontFamily="{DynamicResource ChromeFontFamily}"
                                        FontSize="11" FontWeight="Bold" Foreground="{DynamicResource ChromeTextBrush}"/>
                         </Border>
-                        <!-- The shared caption close, replacing the last hand-rolled ✕ in the app -
-                             every X is now the same X. RowSpan 2, NOT Row 0: a child still measures
-                             into an Auto row (see the About card's note). -->
-                        <Button Grid.RowSpan="2" Click="FontsClose_Click" Style="{StaticResource DialogCloseButton}"
+                        <!-- OverlayCloseButton with AboutCloseGlyph, IDENTICAL to the About card and
+                             the shortcuts overlay above. This card is the third of those three
+                             floating overlays, so it takes their treatment; DialogCloseButton is the
+                             CAPTION close and drew a different hover here (2026-08-23). RowSpan 2,
+                             NOT Row 0: a child still measures into an Auto row (About card's note). -->
+                        <Button Grid.RowSpan="2" Content="{DynamicResource AboutCloseGlyph}"
+                                Click="FontsClose_Click" Style="{StaticResource OverlayCloseButton}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>

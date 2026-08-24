@@ -118,6 +118,14 @@ namespace KillerNotes.Controls
             _startWidth = _img.ActualWidth;
             _pendingW = _startWidth;
             _previewing = false;
+            // HOLD the resize cursor for the whole drag. OnMouseMove only sets Cursor on the
+            // hover branch, and the drag branch returns before it - so once the pointer left the
+            // little corner box the arrow came back and the gesture read as having been dropped
+            // (reported 2026-08-23). An app-wide override is what the rest of the app already
+            // does for a held gesture (DragCursors), and it survives anything else re-querying
+            // the cursor mid-drag.
+            _heldCursor = _corner is 0 or 3 ? Cursors.SizeNWSE : Cursors.SizeNESW;
+            Mouse.OverrideCursor = _heldCursor;
             CaptureMouse();
             e.Handled = true;
         }
@@ -173,11 +181,36 @@ namespace KillerNotes.Controls
             e.Handled = true;
         }
 
+        // The cursor this adorner put up for a drag, so the release only ever clears its OWN
+        // override - the same discipline DragCursors.EndDrag keeps, so a wait cursor set by
+        // something else is never wiped out from here.
+        private Cursor? _heldCursor;
+
+        private void ReleaseCursorHold()
+        {
+            if (ReferenceEquals(Mouse.OverrideCursor, _heldCursor)) Mouse.OverrideCursor = null;
+            _heldCursor = null;
+        }
+
+        /// <summary>Losing capture ends the gesture whatever caused it - alt-tab, a dialog, the
+        /// window deactivating. Without this the override outlives the drag and the resize cursor
+        /// sticks to the whole app.</summary>
+        protected override void OnLostMouseCapture(MouseEventArgs e)
+        {
+            base.OnLostMouseCapture(e);
+            if (!_dragging) { ReleaseCursorHold(); return; }
+            _dragging = false;
+            _corner = -1;
+            ReleaseCursorHold();
+            InvalidateVisual();
+        }
+
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             if (!_dragging) return;
             _dragging = false;
             _corner = -1;
+            ReleaseCursorHold();
             ReleaseMouseCapture();
             if (_previewing)
             {

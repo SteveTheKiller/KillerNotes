@@ -17,7 +17,7 @@ namespace KillerNotes.Shell
     // the active theme. Holding a real Ctrl / Shift previews that layer.
     public partial class MainWindow
     {
-        private enum KbLayer { Base, Ctrl, CtrlShift }
+        private enum KbLayer { Base, Ctrl, CtrlShift, Alt }
 
         private KbLayer _kbLayer = KbLayer.Base;
         private bool _kbBuilt;
@@ -57,14 +57,20 @@ namespace KillerNotes.Shell
         private static readonly (KbLayer Layer, string Caption)[] KbLayerButtons =
         [
             (KbLayer.Base, "BASE"), (KbLayer.Ctrl, "CTRL"), (KbLayer.CtrlShift, "CTRL+SHIFT"),
+            (KbLayer.Alt, "ALT"),
         ];
 
         // Modifier keycaps that light up per layer (they define it rather than carry a binding).
+        // Alt lights BOTH Alt caps even though only the left one is a real Alt on international
+        // layouts - AltGr is a right Alt that Windows reports as Ctrl+Alt, and the Alt bindings
+        // deliberately refuse Ctrl so AltGr keeps typing accented characters. Lighting the cap
+        // is a drawing, not a promise about AltGr.
         private static readonly Dictionary<KbLayer, string[]> KbLayerMods = new()
         {
             [KbLayer.Base] = [],
             [KbLayer.Ctrl] = ["Ctrl", "RCtrl"],
             [KbLayer.CtrlShift] = ["Ctrl", "RCtrl", "Shift", "RShift"],
+            [KbLayer.Alt] = ["Alt", "RAlt"],
         };
 
         private static string KbSectionKeyFor(string cat) => cat switch
@@ -351,8 +357,11 @@ namespace KillerNotes.Shell
         {
             if (!_kbBuilt || ShortcutKeyboardHost.Visibility != Visibility.Visible) return;
             var m = Keyboard.Modifiers;
+            // Ctrl first, so AltGr (which Windows reports as Ctrl+Alt) previews the Ctrl layer
+            // rather than the Alt one - matching which layer its keystrokes can actually reach.
             var layer = m.HasFlag(ModifierKeys.Control) && m.HasFlag(ModifierKeys.Shift) ? KbLayer.CtrlShift
                       : m.HasFlag(ModifierKeys.Control) ? KbLayer.Ctrl
+                      : m.HasFlag(ModifierKeys.Alt) ? KbLayer.Alt
                       : KbLayer.Base;
             if (layer != _kbLayer) SetKbLayer(layer);
         }

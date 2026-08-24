@@ -299,7 +299,7 @@
     <sys:String x:Key="Str_KS_Syntax">语法高亮</sys:String>
     <sys:String x:Key="Str_St_WrapOn">自动换行已开启</sys:String>
     <sys:String x:Key="Str_St_WrapOff">自动换行已关闭 - 滚动以查看较宽的内容</sys:String>
-    <sys:String x:Key="Str_TT_LineNumbers">行号 (F11)</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">行号 (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">切换行号</sys:String>
     <sys:String x:Key="Str_St_LineNumOn">行号已开启</sys:String>
     <sys:String x:Key="Str_St_LineNumOff">行号已关闭</sys:String>

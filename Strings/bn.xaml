@@ -299,7 +299,7 @@
     <sys:String x:Key="Str_KS_Syntax">সিনট্যাক্স হাইলাইটিং</sys:String>
     <sys:String x:Key="Str_St_WrapOn">ওয়ার্ড র‍্যাপ চালু</sys:String>
     <sys:String x:Key="Str_St_WrapOff">ওয়ার্ড র‍্যাপ বন্ধ - চওড়া বিষয়বস্তু দেখতে স্ক্রোল করুন</sys:String>
-    <sys:String x:Key="Str_TT_LineNumbers">লাইন নম্বর (F11)</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">লাইন নম্বর (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">লাইন নম্বর টগল করুন</sys:String>
     <sys:String x:Key="Str_St_LineNumOn">লাইন নম্বর চালু</sys:String>
     <sys:String x:Key="Str_St_LineNumOff">লাইন নম্বর বন্ধ</sys:String>

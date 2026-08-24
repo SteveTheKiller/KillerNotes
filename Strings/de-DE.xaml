@@ -303,7 +303,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Syntaxhervorhebung</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Zeilenumbruch an</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Zeilenumbruch aus - scrollen, um breite Inhalte zu sehen</sys:String>
-    <sys:String x:Key="Str_TT_LineNumbers">Zeilennummern (F11)</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Zeilennummern (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Zeilennummern umschalten</sys:String>
     <sys:String x:Key="Str_St_LineNumOn">Zeilennummern an</sys:String>
     <sys:String x:Key="Str_St_LineNumOff">Zeilennummern aus</sys:String>

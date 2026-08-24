@@ -301,7 +301,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Resaltado de sintaxis</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Ajuste de línea activado</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Ajuste de línea desactivado - desplácese para ver el contenido ancho</sys:String>
-    <sys:String x:Key="Str_TT_LineNumbers">Números de línea (F11)</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Números de línea (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Alternar números de línea</sys:String>
     <sys:String x:Key="Str_St_LineNumOn">Números de línea activados</sys:String>
     <sys:String x:Key="Str_St_LineNumOff">Números de línea desactivados</sys:String>

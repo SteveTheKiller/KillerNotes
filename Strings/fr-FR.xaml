@@ -300,7 +300,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Coloration syntaxique</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Retour à la ligne activé</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Retour à la ligne désactivé - faites défiler pour voir le contenu large</sys:String>
-    <sys:String x:Key="Str_TT_LineNumbers">Numéros de ligne (F11)</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Numéros de ligne (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Afficher/masquer les numéros de ligne</sys:String>
     <sys:String x:Key="Str_St_LineNumOn">Numéros de ligne activés</sys:String>
     <sys:String x:Key="Str_St_LineNumOff">Numéros de ligne désactivés</sys:String>

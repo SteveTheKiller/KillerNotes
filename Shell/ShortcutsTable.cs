@@ -36,6 +36,9 @@ namespace KillerNotes.Shell
             new("F3", "Str_KS_Search", "Search", [(KbLayer.Base, "F3", "Str_KS_Search")]),
             new("Ctrl+F", "Str_KS_Find", "Search", [(KbLayer.Ctrl, "F", "Str_KS_Find")]),
             new("Ctrl+H", "Str_KS_Replace", "Search", [(KbLayer.Ctrl, "H", "Str_KS_Replace")]),
+            // Context-sensitive, and the label says so rather than leaving it to be found: with a
+            // group header selected it graphs that group, otherwise the whole notebook.
+            new("Ctrl+Shift+B", "Str_KS_Graph", "View", [(KbLayer.CtrlShift, "B", "Str_Kb_Graph")]),
             new("F4", "Str_KS_Preview", "View", [(KbLayer.Base, "F4", "Str_Kb_Preview")]),
             new("F5", "Str_KS_Sidebar", "View", [(KbLayer.Base, "F5", "Str_Kb_Sidebar")]),
             new("F6", "Str_KS_FormatBar", "View", [(KbLayer.Base, "F6", "Str_Kb_FormatBar")]),
@@ -44,8 +47,13 @@ namespace KillerNotes.Shell
             new("F9", "Str_KS_Calc", "View", [(KbLayer.Base, "F9", "Str_KS_Calc")]),
             new("F10 / Ctrl+M", "Str_KS_Dictation", "View", [(KbLayer.Base, "F10", "Str_Kb_Dictation"), (KbLayer.Ctrl, "M", "Str_Kb_Dictation")]),
             new("Ctrl+F10", "Str_KS_SortCycle", "View", [(KbLayer.Ctrl, "F10", "Str_KS_SortCycle")]),
-            new("F11", "Str_KS_LineNumbers", "View", [(KbLayer.Base, "F11", "Str_KS_LineNumbers")]),
             new("F12", "Str_KS_About", "Help", [(KbLayer.Base, "F12", "Str_KS_About")]),
+            // The Alt layer. Alt+Left/Right are the browser's own back and forward, so they cost
+            // nothing to learn; the mouse thumb buttons do the same thing (NoteHistory.cs).
+            new("Alt+Left", "Str_KS_NavBack", "Note", [(KbLayer.Alt, "Left", "Str_Kb_NavBack")]),
+            new("Alt+Right", "Str_KS_NavForward", "Note", [(KbLayer.Alt, "Right", "Str_Kb_NavForward")]),
+            new("Alt+L", "Str_KS_LineNumbers", "View", [(KbLayer.Alt, "L", "Str_Kb_LineNumbers")]),
+            new("Alt+M", "Str_KS_HideMentions", "View", [(KbLayer.Alt, "M", "Str_Kb_HideMentions")]),
             new("Ctrl+N", "Str_KS_NewNote", "Note", [(KbLayer.Ctrl, "N", "Str_KS_NewNote")]),
             new("Ctrl+G", "Str_KS_NewGroup", "Note", [(KbLayer.Ctrl, "G", "Str_KS_NewGroup")]),
             new("Ctrl+T", "Str_KS_ManageTags", "Note", [(KbLayer.Ctrl, "T", "Str_KS_ManageTags")]),

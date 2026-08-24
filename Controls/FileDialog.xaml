@@ -151,21 +151,12 @@
                             <Run x:Name="TitleWordA" Text="{DynamicResource Str_Wordmark_A}" Foreground="{DynamicResource ChromeTextBrush}"/><Run x:Name="TitleWordB" Text="{DynamicResource Str_Wordmark_B}" FontSize="19.5" FontWeight="Bold" Foreground="{DynamicResource AccentLogo}"/><Run x:Name="TitleSub" FontSize="18" Foreground="{DynamicResource ChromeTextBrush}"/>
                         </TextBlock>
                     </Grid>
-                    <!-- Sized and inset from the shared caption keys instead of a hardcoded 30x26
-                         at the row's right edge, so it matches the close button in every other
-                         window rather than being its own size in its own place. -->
-                    <!-- ChromeCloseButton, the SHARED caption close. Its own inline Style was the
-                         reason this X was unthemed: a bare transparent Border with no caption face
-                         and no bevel, so on a beveled theme it stayed a floating glyph while every
-                         other window drew a real button. -->
-                    <!-- CENTERED in the band on the shared caption keys, the same as the Databases
-                         window. Top-aligned with a derived drop, it had to be re-derived every time
-                         a height moved - and it moved when the content was inset for the window
-                         frame. Centering needs no arithmetic at all. (2026-08-07) -->
-                    <Button Click="Cancel_Click" Style="{StaticResource ChromeCloseButton}"
+                    <!-- The family dialog close - see the note in DialogTitleBar.xaml. Same markup
+                         as KillerShell, KillerScan and the KillerUI kit. -->
+                    <Button Content="{DynamicResource AboutCloseGlyph}" Click="Cancel_Click"
                             HorizontalAlignment="Right" VerticalAlignment="Center"
-                            Width="{DynamicResource DialogCloseWidth}" Height="{DynamicResource DialogCloseHeight}"
-                            Margin="{DynamicResource DialogCaptionButtonsMargin}">
+                            Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
+                            Style="{StaticResource OverlayCloseButton}">
                     </Button>
                 </Grid>
             </Border>

@@ -6,7 +6,8 @@
        as MainWindow and both pickers.
      - Subtitle (optional) appends " - <sub>" to the plain caption and "  <sub>" after the
        wordmark, the shape SketchPad and Databases use.
-     - The X is the SHARED ChromeCloseButton: the glyph lives in the style, nothing here.
+     - The X is the family OverlayCloseButton, the same markup KillerShell, KillerScan and the
+       KillerUI kit use on their dialogs. NOT a caption button - see the note on it below.
      - Dragging the bar moves the owning window; the host wires CloseRequested. -->
 <UserControl x:Class="KillerNotes.Controls.DialogTitleBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -30,14 +31,18 @@
                 </StackPanel>
                 <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="{DynamicResource AccentLogo}"/><Run x:Name="SubtitleRun" FontSize="18" Foreground="{DynamicResource MutedTextBrush}"/></TextBlock>
             </Grid>
-            <!-- ChromeCloseButton, NOT DialogCloseButton: this X sits AT the card's top-right
-                 corner, so its hover block rounds with that corner (2026-08-08).
-                 DialogCloseButton (all four corners) is
-                 only for the X's that float inset - About and Fonts. -->
-            <Button Click="Close_Click" Style="{StaticResource ChromeCloseButton}"
+            <!-- THE FAMILY DIALOG CLOSE. Identical markup to KillerShell's ConfirmDialog,
+                 KillerScan's InputDialog and the KillerUI kit: OverlayCloseButton, AboutCloseGlyph,
+                 the AboutClose* box, centered. The kit states the rule - only the GLYPH reddens on
+                 hover, never a filled red block, because a filled block is the Windows CAPTION
+                 treatment and is wrong on a card floating over the app.
+                 KillerNotes used ChromeCloseButton here instead, which is the main window's
+                 caption X, and that is what put a red block on every dialog card and started the
+                 alignment chase of 2026-08-23. Do not reintroduce a caption button on a card. -->
+            <Button Content="{DynamicResource AboutCloseGlyph}" Click="Close_Click"
                     HorizontalAlignment="Right" VerticalAlignment="Center"
-                    Width="{DynamicResource DialogCloseWidth}" Height="{DynamicResource DialogCloseHeight}"
-                    Margin="{DynamicResource DialogCaptionButtonsMargin}"/>
+                    Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
+                    Style="{StaticResource OverlayCloseButton}"/>
         </Grid>
     </Border>
 </UserControl>

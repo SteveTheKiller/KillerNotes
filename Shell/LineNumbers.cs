@@ -15,7 +15,7 @@ namespace KillerNotes.Shell
     // Canvas left of the editor (MainWindow.xaml: GutterCol / LineGutter); visible numbers are
     // mapped into the gutter with TransformToVisual so they track scroll and both zooms, using
     // the editor's own font and size (times the per-note zoom, since the gutter sits outside
-    // the editor's zoom transform). Toggle from the rail button or F11; remembered per app.
+    // the editor's zoom transform). Toggle from the rail button or Alt+L; remembered per app.
     //
     // REWRITTEN 2026-08-08 (#16, MrPapaya-JRR). The original numbered every VISUAL line by
     // walking the whole document with GetLineStartPosition on EVERY TextChanged, SizeChanged

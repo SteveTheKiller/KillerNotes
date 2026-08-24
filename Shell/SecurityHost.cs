@@ -66,12 +66,27 @@ namespace KillerNotes.Shell
 
         // ---- Entry points the rest of the shell calls ----
 
+        // BOTH wrappers clear the navigation history, and this is the only place that does it.
+        // The back stack holds bare note ids, which mean nothing outside the file they came from -
+        // carried across a switch, id 7 stops being the note you visited and becomes whatever note
+        // 7 happens to be in the new database, so Back would teleport somewhere you never were.
+        // Every switch path in the app (Sharing.cs, DatabasesDialog, the controller's own round
+        // trip) comes through here to bring the new file up, so clearing here covers all of them.
+
         /// <summary>Opens the active database at launch (MainWindow ctor); canceling exits.</summary>
-        private void OpenDatabase() => _security.OpenAtLaunch();
+        private void OpenDatabase()
+        {
+            ClearNavHistory();   // NoteHistory.cs
+            _security.OpenAtLaunch();
+        }
 
         /// <summary>Opens the active database after a switch (Sharing.cs, and the controller's own
         /// Manage databases round trip). Returns false when the unlock was canceled.</summary>
-        private bool OpenDatabase(bool exitOnCancel) => _security.Open(exitOnCancel);
+        private bool OpenDatabase(bool exitOnCancel)
+        {
+            ClearNavHistory();   // NoteHistory.cs
+            return _security.Open(exitOnCancel);
+        }
 
         /// <summary>Drops the session password: the file being opened is a different one, so its
         /// password is not ours to try (Sharing.cs).</summary>

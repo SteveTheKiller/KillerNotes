@@ -24,6 +24,11 @@ namespace KillerNotes.Shell
             var meta = _notes.FirstOrDefault(n => n.Id == id);
             if (meta == null) return;
 
+            // Record the note being left BEFORE _currentId moves on. Every navigation in the app
+            // funnels through here, which is the whole reason back/forward can be complete
+            // without each call site opting in (NoteHistory.cs).
+            if (_currentId >= 0 && _currentId != id) RecordNav(_currentId);
+
             SaveNotePosition();   // remember where the outgoing note was left (1.1.1)
 
             _loadingNote = true;
@@ -83,6 +88,7 @@ namespace KillerNotes.Shell
             _dirty = false;
             ApplySpellCheck(meta.SpellCheck);   // Editor.cs (per-note flag, off by default)
             ApplyTitleColor(meta);
+            RefreshBacklinks();   // Backlinks.cs - "linked from" is per note, so it reloads with one
             ShowEditor(true);
             // The TextSelection object SURVIVES Blocks.Clear() + range.Load and renormalizes its
             // pointers into the NEW note's content - so switching notes could carry a ghost
@@ -210,6 +216,12 @@ namespace KillerNotes.Shell
             string sketchLabels = CollectSketchLabelText();
             string storedPlain = sketchLabels.Length == 0 ? bodyText : bodyText + "\n" + sketchLabels;
             NoteStore.Save(_currentId, TitleBox.Text, blob, storedPlain);
+            // Wikilinks are re-derived from the text every save, so an edge appears the moment a
+            // link is typed and disappears the moment it is deleted. Parsed from bodyText, NOT
+            // storedPlain: the sketch labels appended to the stored copy are diagram captions, and
+            // a "[[...]]" typed into a drawing is not a link between notes.
+            NoteStore.SetLinks(_currentId, WikiLinks.Parse(bodyText));
+            RefreshBacklinks();   // Backlinks.cs - a rename or a new inbound link changes the strip
             // No repaint here any more. The document was never unpainted, so there is nothing to
             // restore and the incremental cache is still warm.
             SaveSketchPayloads(_currentId);   // SketchPad: persist sketch strokes by image ordinal (Editor.cs)

@@ -53,11 +53,33 @@
     <sys:String x:Key="Str_St_AppSize">App size {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Toggle word wrap</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Syntax highlighting</sys:String>
-    <sys:String x:Key="Str_TT_LineNumbers">Line numbers (F11)</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Line numbers (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Toggle line numbers</sys:String>
+    <sys:String x:Key="Str_Kb_LineNumbers">Line nums</sys:String>
     <sys:String x:Key="Str_KS_AppSize">Zoom the whole app (accessibility)</sys:String>
     <sys:String x:Key="Str_St_LineNumOn">Line numbers on</sys:String>
     <sys:String x:Key="Str_St_LineNumOff">Line numbers off</sys:String>
+
+    <!-- Navigation history (NoteHistory.cs). The gestures are the browser's, so the wording is
+         the browser's too - anything more inventive would only obscure what they do. -->
+    <sys:String x:Key="Str_Ctx_NavBack">Back</sys:String>
+    <sys:String x:Key="Str_Ctx_NavForward">Forward</sys:String>
+    <sys:String x:Key="Str_TT_NavBack">Return to the note you came from</sys:String>
+    <sys:String x:Key="Str_TT_NavForward">Go forward again</sys:String>
+    <sys:String x:Key="Str_KS_NavBack">Back to the previous note</sys:String>
+    <sys:String x:Key="Str_KS_NavForward">Forward to the next note</sys:String>
+    <sys:String x:Key="Str_Kb_NavBack">Back</sys:String>
+    <sys:String x:Key="Str_Kb_NavForward">Forward</sys:String>
+    <sys:String x:Key="Str_St_NavNoBack">Nothing to go back to</sys:String>
+    <sys:String x:Key="Str_St_NavNoForward">Nothing to go forward to</sys:String>
+
+    <!-- The linked-from / mentions strip (Backlinks.cs) -->
+    <sys:String x:Key="Str_Ctx_HideMentions">Hide this strip</sys:String>
+    <sys:String x:Key="Str_TT_HideMentions">Hide the linked-from strip. Alt+M brings it back.</sys:String>
+    <sys:String x:Key="Str_KS_HideMentions">Show or hide the linked-from strip</sys:String>
+    <sys:String x:Key="Str_Kb_HideMentions">Mentions</sys:String>
+    <sys:String x:Key="Str_St_MentionsHidden">Linked-from strip hidden - Alt+M shows it again</sys:String>
+    <sys:String x:Key="Str_St_MentionsShown">Linked-from strip shown</sys:String>
     <sys:String x:Key="Str_TT_Density">Sidebar density (Ctrl+D) - click or scroll</sys:String>
     <sys:String x:Key="Str_KS_Density">Cycle sidebar density</sys:String>
     <sys:String x:Key="Str_St_DensityFull">Density: full</sys:String>
@@ -666,6 +688,48 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Sketch_Select">Select / move (V) - click an object, drag to move it, Delete removes it</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Straighten line</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Text (T) - click to place a label, type, Enter to set it (Shift+Enter for a new line)</sys:String>
+    <sys:String x:Key="Str_Sketch_Crop">Crop (C) - drag a box to keep, everything outside it is trimmed away (Ctrl+Z restores it)</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Zoom (Ctrl+Wheel) - click for 100%, again to fit</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" does not exist yet</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewBody">Create it as a new note and open it?</sys:String>
+    <sys:String x:Key="Str_Lbl_Backlinks">Linked from</sys:String>
+    <sys:String x:Key="Str_St_NoBacklinks">No notes link here yet</sys:String>
+    <sys:String x:Key="Str_TT_Backlinks">Notes that link to this one</sys:String>
+    <sys:String x:Key="Str_Lbl_Mentions">Mentioned in</sys:String>
+    <sys:String x:Key="Str_KS_Graph">Graph the selected group, or the whole notebook</sys:String>
+    <sys:String x:Key="Str_Kb_Graph">Link graph</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupGraph">Show as graph</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSpin">Visualizer</sys:String>
+    <sys:String x:Key="Str_TT_GraphSpin">Let the graph drift and turn on its own. Pinning is suspended while it runs.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphHold">Pin all Notes</sys:String>
+    <sys:String x:Key="Str_TT_GraphHold">Keep every note where it is put. Off, dragging a note makes the notes it links to move out of the way.</sys:String>
+    <!-- {0} is how many names did not fit in the strip. -->
+    <sys:String x:Key="Str_Lbl_AndMore">And {0} more...</sys:String>
+    <sys:String x:Key="Str_TT_AndMore">The rest of the notes that point here</sys:String>
+    <sys:String x:Key="Str_TT_GroupGraph">The links between this group's notes, and what they reach</sys:String>
+    <sys:String x:Key="Str_St_GraphGroupEmpty">No links in this group yet</sys:String>
+    <sys:String x:Key="Str_TT_Mentions">Notes that name this one without linking it</sys:String>
+    <sys:String x:Key="Str_TT_MentionChip">Click to link it. Ctrl+Click to open the note.</sys:String>
+    <sys:String x:Key="Str_St_Linked">Linked</sys:String>
+    <sys:String x:Key="Str_St_MentionGone">That note no longer mentions this one</sys:String>
+    <sys:String x:Key="Str_TT_Graph">Graph of every link between notes</sys:String>
+    <sys:String x:Key="Str_Lbl_Graph">Graph</sys:String>
+    <sys:String x:Key="Str_St_GraphEmpty">No links yet - type [[a note title]] to make one</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphOpen">Open note</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCreate">Create this note</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCopy">Copy as [[link]]</sys:String>
+    <sys:String x:Key="Str_Graph_Legend">Filled = a note, colored by its group.   Outlined = linked but not written yet.   Drag to arrange, right-click for options.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrange">Arrange</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeForce">By connection</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeCircle">In a circle</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGrid">In a grid</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGroups">By group</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphDistance">Arrange by distance</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShowAll">Show everything</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphColor">Color by group</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLabels">Show labels</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphGhosts">Show notes not written yet</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphIsolate">Show only what links here</sys:String>
     <sys:String x:Key="Str_Sketch_Unbold">Remove bold</sys:String>
     <sys:String x:Key="Str_Sketch_Undo">Undo (Ctrl+Z)</sys:String>
     <sys:String x:Key="Str_Sketch_Width">Brush size (click to cycle)</sys:String>

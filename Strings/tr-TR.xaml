@@ -300,7 +300,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Sözdizimi vurgulama</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Sözcük kaydırma açık</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Sözcük kaydırma kapalı - geniş içeriği görmek için kaydırın</sys:String>
-    <sys:String x:Key="Str_TT_LineNumbers">Satır numaraları (F11)</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Satır numaraları (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Satır numaralarını aç/kapat</sys:String>
     <sys:String x:Key="Str_St_LineNumOn">Satır numaraları açık</sys:String>
     <sys:String x:Key="Str_St_LineNumOff">Satır numaraları kapalı</sys:String>

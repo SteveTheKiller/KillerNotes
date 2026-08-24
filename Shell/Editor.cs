@@ -30,6 +30,8 @@ namespace KillerNotes.Shell
             InitEditorView();    // remembered zoom + Ctrl+wheel (below)
             InitWordWrap();      // remembered word-wrap toggle (below)
             InitSyntaxHighlighting();
+            InitWikiLinks();        // WikiLinkNav.cs (Ctrl+Click a [[link]] to follow it)
+            InitWikiLinkComplete(); // WikiLinkComplete.cs (title picker after "[[")
             InitEditorClipboard();   // cut that cannot lose the race for the clipboard (Editor.Clipboard.cs, #16)
 
             // Drag-and-drop: text drops are native RichTextBox behavior; image files and

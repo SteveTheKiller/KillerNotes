@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.3.0] - Unreleased
 
+1.3.0 is the release where notes start pointing at each other - wikilinks, backlinks and a graph - alongside markdown notes with a whole-database markdown export, search and replace, and two more languages.
+
 ### Added
 - Hungarian and Polish localization for the complete app interface and killernotes.net, the eleventh and twelfth languages. Every one of the twelve now carries all 587 interface keys, so search and replace, the network-lock warnings, markdown notes and the markdown export read in your own language rather than falling back to English.
 - A network data folder now warns once, and a lock file beside the database guards concurrent use: a database in use on another computer opens read-only instead of competing for SQLite's single writer, with the owning machine named. A clean close clears the lock.
@@ -13,36 +15,36 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Search and replace (#14): Ctrl+H adds a replace row to the find bar with match-case, whole-word and regex options; Replace All in a note is a single undo step. The sidebar gains replace-across-all-notes behind a confirmation naming each note and its match count, committed in one transaction and undone with one Ctrl+Z.
 - Notes can now be markdown instead of rich text. A markdown note stores its source text, edits as plain text with markdown syntax highlighting, and converts to and from rich text from the note menu; converting to markdown lists what will not survive before it runs. Images, tables, sketches and embedded recordings are refused in a markdown note rather than being dropped at the next save.
 - Export all notes as markdown writes the whole database to a folder of .md files, groups as subfolders and tags in YAML front matter. Rich-text notes convert on the way out and nothing in the database changes.
-- Grab cursors: an open hand over anything that can be picked up and a closed hand while it is being carried, on the format bar, the find bar, floated images, the SketchPad's select tool and the dialog title bars.
+- Grab cursors sized to match the standard Windows pointers: an open hand over anything that can be picked up and a closed hand while it is being carried, on the format bar, the find bar, floated images, the SketchPad's select tool and the dialog title bars.
 - A crash now leaves a log behind, appended to crash.log under %APPDATA%\KillerNotes.
+- Notes can link to each other. Type [[ and pick a note from the list, Ctrl+Click to follow the link, and a link to a note that does not exist yet offers to create it. A strip tucked into the bottom right of the note lists everything pointing at it, alongside notes that name it without linking it - click one of those to make the link, Ctrl+Click to just go there. Alt+M hides the strip.
+- A graph of every link in the notebook, on the sidebar rail. Nodes are colored by their group and sized by how much links to them; titles that are linked but not yet written show as outlines. Drag one node or a whole selection and the rest move out of the way while you hold them. Five arrangements: by connection, in a circle, in a grid, by group, and rings by distance from a chosen note. Pin all Notes (P) keeps every note where it is put; turn it off and the notes it links to move out of the way as you drag. Visualizer (V) leaves the graph drifting and slowly turning on its own. Right-click for the rest, including "show only what links here".
+- The SketchPad opens a large image scaled to fit instead of at full size, and gains zoom (a magnifier in the top bar for 100% and fit, Ctrl+Wheel for anything between) and crop (C, drag a box to keep). The select tool's icon is a hand rather than a marquee.
+- Back and forward through the notes you have visited, so following a chain of links is not a one-way trip. Alt+Left and Alt+Right, the mouse thumb buttons, or the first two rows of a note's right-click menu.
 
 ### Changed
 - The SQLCipher encryption native is now built from upstream source (SQLCipher 4.18.0, SQLite 3.53.4) and vendored in the repo, replacing the deprecated SQLitePCLRaw.lib.e_sqlcipher package.
 - Internal cancellation resource keys now use the same American spelling as their displayed text.
+- Line numbers moved off F11 to Alt+L. The keyboard shortcuts overlay gains an Alt layer to match.
 - Markdown notes now store their source inside a XamlPackage rather than as raw bytes, so a database or a shared note carrying one can still be opened by releases older than 1.3.0. Notes written by earlier 1.3.0 builds are converted the first time the database is opened, so a database does not stay a hazard to older builds just because nobody edited the note.
 
 ### Fixed
-- Syntax highlighting now survives closing and reopening a note. The per-note toggle is stored with the note's metadata instead of on the document, which never made it into the saved blob, and it travels with shared .knote and .kndb files.
+- Syntax highlighting no longer colors partway into words, covers far more of a line, and survives closing and reopening a note. The per-note toggle is stored with the note's metadata now, so it also travels with shared .knote and .kndb files.
+- Context menus now open at the pointer instead of an inch away from it when the app zoom is not 100%.
+- Menu icons and check marks stay readable on a highlighted row instead of disappearing into the selection color.
+- The resize cursor stays put for the whole drag when resizing an image, instead of reverting the moment the pointer leaves the corner.
 - A note whose stored content will not load no longer takes the app down at startup. It is left unopened with the reason in the status bar, and saving is blocked so the content on disk is not overwritten.
 - The Killculator's Print Equation keeps the whole running calculation when you continue from a result with an operator, instead of restarting the tape at that result.
 - Dragging a note while sorted by time or alphabet now really does keep what is on screen (#4). The drop was landing against the stored order rather than the visible one, reshuffling the sidebar. The sort button still leaves a saved arrangement untouched.
-- Theme names in the picker are now translated in all twelve languages instead of always showing their English names. KillerNotes was the only app in the family missing the shared theme-name strings.
+- Theme names in the picker and find-in-note's match counts, tooltips and shortcut labels are translated in all twelve languages instead of falling back to English.
 - A failed unlock no longer leaves the database reporting itself as open; a wrong password now cleanly returns to the prompt.
-- Find-in-note now has localized match counts, button tooltips and shortcut labels in Bengali, Czech, German, Spanish, French, Japanese, Turkish, Simplified Chinese and Traditional Chinese; the technical page now documents how Ctrl+F, F3, Shift+F3 and Esc work without altering the note.
 - Cut no longer sometimes leaves the text in place: the selection is only deleted after the clipboard write has succeeded, and the write retries while another app briefly holds the clipboard (#16, thanks MrPapaya-JRR).
-- Machine-wide uninstall now requests administrator access and removes the Program Files copy, Common Start Menu shortcut and HKLM registration instead of silently reporting success after permission failures.
-- KillerNotes now detects when both a per-user and an all-users installation exist and offers to remove the copy that is not running, and self-update keeps the Add/Remove Programs version current instead of leaving it describing the replaced build.
-- All-users installs now register the .kndb and .knote associations in HKLM for every account, with Default Apps entries, instead of only registering per-user at launch; each uninstall removes its own scope's registrations, and a per-user copy replaced by an all-users install takes its HKCU registrations with it.
+- Install and uninstall are correct for both scopes. Machine-wide uninstall elevates and actually removes the Program Files copy, Common Start Menu shortcut and HKLM registration instead of reporting success after permission failures; all-users installs register .kndb and .knote in HKLM for every account with Default Apps entries; each uninstall removes only its own scope; a dual per-user and all-users installation is detected and offers to remove the copy that is not running; and self-update keeps the Add/Remove Programs version current.
 - Keyboard Shortcuts is now bounded by the app window and scrolls internally. Its generated list rows receive wheel input through the overlay's own scroll host, and the two list columns flex with the available width instead of forcing the card beyond a narrow window.
-- About and Keyboard Shortcuts now share KillerScan's card padding and compact overlay close control. The inset X stays transparent and only its glyph turns red on hover, replacing the filled rounded caption button that had drifted into the About card.
+- Every dialog and card in the app now uses the family's close X - only the glyph reddens on hover - instead of the main window's filled caption button, which had drifted into the About card, the unlock and Manage tags dialogs, New group, Databases, the file picker, SketchPad, Dictation and the Fonts card, and was why those sat a pixel low. About and Keyboard Shortcuts also pick up KillerScan's card padding.
 - Themes are now complete, app-owned resources with no private template overlay or external build dependency.
-- The About card now takes its outer edge from the app-frame color and its information panel directly from the context-menu surface, with the pane-border color around that panel. The old About-only color override is gone, so 98SE and the material themes no longer substitute a different panel color.
-- Ectoplasm now uses its signature yellow with near-black text for selected rows instead of a muted, muddy selection fill.
 - KillerNotes no longer closes while an image is being dragged inside a note; autosave was serializing the note mid-drag.
-- A floated image keeps its drag cursor after the note is reopened, instead of only until the next load.
-- The Databases dialog's selected row is legible again on themes that select with a bright accent, rather than white text on the selection fill.
-- The SketchPad and Dictation close buttons no longer leave a strip of title bar above them.
-- The Dictation waveform and transcript panels now carry the same film grain as every other pane.
+- Various theme and UI tweaks: the About card takes its colors from the app frame and the context-menu surface rather than an About-only override, Ectoplasm selects with its signature yellow instead of a muddy fill, the Databases dialog's selected row is legible on bright-accent themes, the Dictation panels carry the same film grain as every other pane, and a floated image keeps its drag cursor after the note is reopened.
 
 ## [1.2.1] - 2026-08-10
 

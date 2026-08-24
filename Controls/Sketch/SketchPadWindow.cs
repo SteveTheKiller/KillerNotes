@@ -23,7 +23,7 @@ namespace KillerNotes.Controls
     // MDL2 private-use characters live in the source; the shape/bucket icons are drawn as WPF shapes.
     internal sealed partial class SketchPadWindow : Window
     {
-        private enum Tool { Select, Pen, Line, Arrow, Rect, Ellipse, Polygon, Bucket, Text, Eraser }
+        private enum Tool { Select, Pen, Line, Arrow, Rect, Ellipse, Polygon, Bucket, Text, Eraser, Crop }
 
         private readonly Canvas _canvas;
         private readonly Action<IReadOnlyList<SketchObject>, int, int> _print;
@@ -181,11 +181,12 @@ namespace KillerNotes.Controls
             _canvas.MouseRightButtonDown += OnCanvasRightDown;   // context menu (object vs empty canvas)
             _canvas.MouseWheel += OnWheel;                       // scroll over a placed image = its opacity
             _canvas.MouseLeave += (_, _) => HideEraseCursor();   // drop the eraser ring when the pointer leaves the canvas
-            _canvas.SizeChanged += (_, _) =>
-            {
-                _canvasW = Math.Max(1, (int)_canvas.ActualWidth);
-                _canvasH = Math.Max(1, (int)_canvas.ActualHeight);
-            };
+            // The canvas carries an EXPLICIT size now rather than stretching to its parent: a
+            // ScrollViewer measures its child with infinite space in the scrolling direction, so a
+            // stretching canvas inside one collapses to nothing. GrowCanvasToViewport keeps the
+            // old "resize the window, get more paper" behaviour by growing the logical size to the
+            // viewport whenever the view is at 100%.
+            SetCanvasSize(_canvasW, _canvasH);
 
             BuildUi();
             SetTool(Tool.Pen);
@@ -252,6 +253,7 @@ namespace KillerNotes.Controls
                         case Key.B: SetTool(Tool.Bucket); e.Handled = true; break;
                         case Key.T: SetTool(Tool.Text); e.Handled = true; break;
                         case Key.E: SetTool(Tool.Eraser); e.Handled = true; break;
+                        case Key.C: SetTool(Tool.Crop); e.Handled = true; break;
                         case Key.I: AddImageFromFile(); e.Handled = true; break;
                     }
                 }
@@ -283,15 +285,126 @@ namespace KillerNotes.Controls
             _undo.Clear();
             _redo.Clear();
             _sel = null;
-            string? b64 = ToPngB64(src);
+            // FIT FIRST. The canvas used to be sized to the image's full pixel dimensions, so a
+            // screenshot opened at 1:1 in a window clamped to the work area - you got the top-left
+            // corner of it and no way to see or reach the rest (reported repeatedly, 2026-08-23).
+            // Scaled down to fit, the whole image is on screen and the pad behaves like an editor
+            // rather than a viewport.
+            //
+            // The DOWNSCALE IS REAL, not a view zoom: the drawing surface is 1:1 with the canvas
+            // and Print round-trips at canvas size, so a view-only zoom would put annotations at
+            // the wrong scale on the way back. An image already small enough is untouched, so
+            // nothing that fits loses a single pixel.
+            var fitted = FitForEditing(src);
+            string? b64 = ToPngB64(fitted);
             if (b64 != null)
             {
-                int w = Math.Max(1, src.PixelWidth), h = Math.Max(1, src.PixelHeight);
+                int w = Math.Max(1, fitted.PixelWidth), h = Math.Max(1, fitted.PixelHeight);
                 _objects.Add(new SketchObject { Kind = SketchKind.Image, Img = b64, X = 0, Y = 0, W = w, H = h });
                 ResizeCanvasTo(w, h);
             }
             RenderCanvas();
             UpdateUndoButtons();
+        }
+
+        // ── VIEW ZOOM ────────────────────────────────────────────────────────────────────
+        //
+        // A LayoutTransform on the canvas, not a RenderTransform: layout reflows so the scroller
+        // gets a real extent to scroll, and the artwork re-rasterizes crisply instead of being
+        // bitmap-stretched.
+        //
+        // Drawing coordinates need NO compensation. Every input path takes e.GetPosition(_canvas),
+        // which resolves in the canvas's own untransformed space, so a stroke drawn at 400% lands
+        // at the same model coordinates it would at 100%. That is the whole reason this is a view
+        // zoom on the canvas and not a scale baked into the objects.
+        private ScrollViewer _zoomHost = null!;
+        private TextBlock _zoomReadout = null!;
+        private double _zoom = 1.0;
+        private const double ZoomMin = 0.1, ZoomMax = 8.0;
+
+        private void ApplyZoom(double z)
+        {
+            _zoom = Math.Round(Math.Max(ZoomMin, Math.Min(ZoomMax, z)), 3);
+            _canvas.LayoutTransform = _zoom == 1.0
+                ? Transform.Identity
+                : new System.Windows.Media.ScaleTransform(_zoom, _zoom);
+            if (_zoomReadout != null) _zoomReadout.Text = $"{Math.Round(_zoom * 100)}%";
+            GrowCanvasToViewport();
+        }
+
+        // The canvas size that was ASKED for - by an opened image, a crop, or the default. The
+        // viewport growth below measures from this rather than from the current size, so making
+        // the window big and then small again returns to the requested size instead of leaving a
+        // permanently oversized sheet with scrollbars on it.
+        private int _canvasBaseW = Sketch.CanvasW, _canvasBaseH = Sketch.CanvasH;
+
+        private void SetCanvasSize(int w, int h)
+        {
+            _canvasBaseW = _canvasW = Math.Max(1, w);
+            _canvasBaseH = _canvasH = Math.Max(1, h);
+            _canvas.Width = _canvasW;
+            _canvas.Height = _canvasH;
+        }
+
+        /// <summary>At 100%, the logical canvas fills the viewport - the pad's original "a bigger
+        /// window is a bigger sheet of paper" behaviour. Never smaller than the size that was
+        /// asked for, so a window resize cannot crop artwork.</summary>
+        private void GrowCanvasToViewport()
+        {
+            if (_zoomHost == null || _zoom != 1.0) return;
+            double vw = _zoomHost.ViewportWidth, vh = _zoomHost.ViewportHeight;
+            if (vw < 1 || vh < 1) return;
+            int w = Math.Max(_canvasBaseW, (int)vw), h = Math.Max(_canvasBaseH, (int)vh);
+            if (w == _canvasW && h == _canvasH) return;
+            _canvasW = w; _canvasH = h;
+            _canvas.Width = w; _canvas.Height = h;
+            RenderCanvas();
+        }
+
+        /// <summary>Ctrl+wheel zooms. Without Ctrl the wheel keeps its existing meaning, which is
+        /// the opacity scrub over a placed image, and otherwise the scroller's own scrolling.</summary>
+        private void ZoomHost_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if ((Keyboard.Modifiers & ModifierKeys.Control) == 0) return;
+            // Multiplicative, so each notch is the same proportional step at every zoom level -
+            // a fixed increment crawls when zoomed out and leaps when zoomed in.
+            ApplyZoom(_zoom * (e.Delta > 0 ? 1.1 : 1 / 1.1));
+            e.Handled = true;
+        }
+
+        /// <summary>The magnifier button: 100% if the view is zoomed, otherwise fit the whole
+        /// canvas into the viewport. One button covers both things you ever want from a zoom
+        /// control, and the readout beside it says which state you are in.</summary>
+        private void ToggleZoomFit()
+        {
+            if (_zoom != 1.0) { ApplyZoom(1.0); return; }
+            if (_zoomHost == null || _canvasW < 1 || _canvasH < 1) return;
+            double vw = _zoomHost.ViewportWidth, vh = _zoomHost.ViewportHeight;
+            if (vw < 1 || vh < 1) return;
+            ApplyZoom(Math.Min(vw / _canvasW, vh / _canvasH));
+        }
+
+        /// <summary>Scales an image down until it fits the working area with room for the pad's
+        /// own chrome, leaving anything already small enough exactly as it is. High quality
+        /// resampling, because this result IS the artwork from here on, not a preview.</summary>
+        private static BitmapSource FitForEditing(BitmapSource src)
+        {
+            var area = SystemParameters.WorkArea;
+            // Room for the toolbar, the button row, the borders and the shadow halo, plus a
+            // margin so the window is not jammed against the screen edges.
+            double maxW = Math.Max(320, area.Width - 220);
+            double maxH = Math.Max(240, area.Height - 260);
+            double scale = Math.Min(maxW / Math.Max(1, src.PixelWidth),
+                                    maxH / Math.Max(1, src.PixelHeight));
+            if (scale >= 1.0) return src;
+
+            var t = new TransformedBitmap();
+            t.BeginInit();
+            t.Source = src;
+            t.Transform = new System.Windows.Media.ScaleTransform(scale, scale);
+            t.EndInit();
+            t.Freeze();
+            return t;
         }
 
         // Grow / shrink the window so its drawing canvas lands at (targetW, targetH), restoring a
@@ -302,7 +415,11 @@ namespace KillerNotes.Controls
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 if (WindowState == WindowState.Maximized) return;   // don't fight a maximized window
-                double cw = _canvas.ActualWidth, ch = _canvas.ActualHeight;
+                // Measured against the SCROLLER's viewport, not the canvas: the canvas is centered
+                // in it and may be smaller, and counting that letterbox as chrome sized the window
+                // larger every time an image was opened.
+                double cw = _zoomHost?.ViewportWidth ?? _canvas.ActualWidth;
+                double ch = _zoomHost?.ViewportHeight ?? _canvas.ActualHeight;
                 if (cw < 1 || ch < 1) return;
                 double chromeW = ActualWidth - cw, chromeH = ActualHeight - ch;   // borders, toolbar, buttons, shadow halo
                 var area = SystemParameters.WorkArea;

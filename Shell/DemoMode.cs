@@ -57,6 +57,11 @@ namespace KillerNotes.Shell
                 // highlighting on. The Tag is an in-memory hint only - it is not serialized
                 // with the blob - so the flag is written to the note's metadata here.
                 if (Equals(doc.Tag, SyntaxTag)) NoteStore.SetSyntaxHighlight(id, true);
+                // Demo notes never pass through SaveCurrentNote, which is where a real note's
+                // wikilinks get indexed - so index them here or the graph and the backlinks strip
+                // open empty on the one database built to show them off.
+                NoteStore.SetLinks(id, WikiLinks.Parse(
+                    new TextRange(doc.ContentStart, doc.ContentEnd).Text));
                 var created = now.AddDays(-daysAgo);
                 var modified = created.AddHours(2 + (daysAgo % 5) * 7);
                 if (modified > now) modified = now.AddMinutes(-14);
@@ -209,6 +214,160 @@ namespace KillerNotes.Shell
                 group: P("Admin"));
             Add("Meadowbrook cutover checklist", 3, DemoPlainChecklist(), tags: "On-site",
                 group: P("Client sites", "Meadowbrook Vet"));
+
+            // ══════════════ SECOND BRAIN ══════════════
+            //
+            // A real link graph, not a handful of token links. This is the half of demo mode that
+            // exercises wikilinks, the backlinks strip and the graph window, and it is built the
+            // way a working notebook actually grows: a few INDEX notes that gather a subject, a
+            // layer of concept notes that reference each other sideways, and links back into the
+            // client notes above so those get backlinks without their own text being rewritten.
+            //
+            // Deliberate shapes to test against:
+            //   - Hubs. "Networking index" and "Escalation" are linked from many notes, so they
+            //     draw as the big nodes and prove the degree sizing works.
+            //   - A CHAIN, VLAN plan -> trunking -> port map, so the graph has depth and not just
+            //     a star around one hub.
+            //   - A CYCLE, imaging <-> PXE <-> driver packs, which a naive layout tangles.
+            //   - GHOSTS: several notes link "[[Cable standards]]" and "[[Client onboarding]]",
+            //     which are deliberately never created, so the dashed unwritten-note nodes appear.
+            //   - Links INTO the client notes above, which is what puts entries in their
+            //     backlinks strip.
+            G(INDIGO, "Second brain");
+            G(PINK,   "Second brain", "Concepts");
+
+            Add("Networking index", 44, DemoDoc("Everything network, gathered. Start here.",
+                "Addressing and segments: [[VLAN plan]]", "Uplinks: [[Trunking]] and [[Cable standards]]",
+                "Wireless: [[Wi-Fi channel plan]], [[AP placement]]",
+                "Live examples: [[Switch port map - Oakfield Law]], [[Firewall swap - Meadowbrook Vet]]"),
+                tags: "Reference, Network", group: P("Second brain"), titleColor: BLUE);
+
+            Add("VLAN plan", 43, DemoDoc("The standard numbering used on every site so nothing has to be remembered twice.",
+                "10 data, 20 voice, 30 guest, 40 cameras, 50 management",
+                "Guest is internet-only, enforced on the firewall - see [[Firewall swap - Meadowbrook Vet]]",
+                "Cameras never route, see [[Kennel cams offline]] for why that matters",
+                "Uplinks carry all of them: [[Trunking]]"),
+                tags: "Network, Reference", group: P("Second brain", "Concepts"), titleColor: BLUE);
+
+            Add("Trunking", 42, DemoDoc("Rules for uplinks between switches. Gets this wrong once per site if you let it.",
+                "Tag everything except management, which stays native",
+                "Both ends must agree - a mismatch shows as one VLAN working and the rest silent",
+                "Numbering comes from [[VLAN plan]]",
+                "Worked example: [[Switch port map - Oakfield Law]]",
+                "Physical side: [[Cable standards]]"),
+                tags: "Network", group: P("Second brain", "Concepts"), titleColor: BLUE);
+
+            Add("Wi-Fi channel plan", 41, DemoDoc("2.4 is a lost cause, 5 is where the work is.",
+                "1, 6, 11 only on 2.4, and turn the power down",
+                "5 GHz: 20 MHz wide in an office, 40 only if the site is empty around it",
+                "Placement decides more than channels do: [[AP placement]]",
+                "Part of [[Networking index]]"),
+                tags: "Network, Reference", group: P("Second brain", "Concepts"));
+
+            Add("AP placement", 40, DemoDoc("Where the access points go, which nobody gets right from a floor plan alone.",
+                "Ceiling, centre of the space, never above a rack",
+                "One per 1500 sq ft of open office, closer where there are hard walls",
+                "Survey before quoting: the second-floor job is [[Phase 2 - cabling scope]]",
+                "Channels: [[Wi-Fi channel plan]]"),
+                tags: "Network", group: P("Second brain", "Concepts"));
+
+            Add("Imaging", 39, DemoDoc("Bench imaging, end to end. The three notes here are circular on purpose - you cannot understand one without the others.",
+                "Boot: [[PXE boot]]", "Hardware support: [[Driver packs]]",
+                "The machine that does it: [[Imaging server quirk]]",
+                "Naming and joining is part of [[Client onboarding]]"),
+                tags: "Reference", group: P("Second brain"), titleColor: TEAL);
+
+            Add("PXE boot", 38, DemoDoc("Network boot, and the four things that break it.",
+                "DHCP scope option 66/67, or a proxy if the firewall runs DHCP",
+                "Legacy and UEFI need different boot files - most failures are this",
+                "Only NIC1 on the bench box: [[Imaging server quirk]]",
+                "Once it boots you still need [[Driver packs]]", "Back to [[Imaging]]"),
+                tags: "Reference", group: P("Second brain", "Concepts"), titleColor: TEAL);
+
+            Add("Driver packs", 37, DemoDoc("Vendor driver bundles, injected at deploy time.",
+                "One pack per model per OS build, and they go stale quietly",
+                "A missing NIC driver looks exactly like [[PXE boot]] failing, which costs an hour every time",
+                "Storage driver missing = no disk found at setup", "Back to [[Imaging]]"),
+                tags: "Reference", group: P("Second brain", "Concepts"), titleColor: TEAL);
+
+            Add("Escalation", 36, DemoDoc("Who to wake, and when. Linked from most of the on-site notes.",
+                "Anything after 21:00 goes to the on-call phone, not to a person",
+                "Client contacts live with the client: [[After-hours contacts]]",
+                "Outage comms template is in [[Maintenance banner (HTML)]]",
+                "If it is a failover, follow [[Failover runbook]] first and escalate after"),
+                tags: "Reference, Urgent", group: P("Second brain"), titleColor: RED);
+
+            Add("Site visit checklist", 35, DemoDoc("What goes in the bag and what gets written down. Applies to every site.",
+                "Photograph the rack before touching it - like [[MDF rack elevation]]",
+                "Record every port you move: [[Switch port map - Oakfield Law]] is the format",
+                "Printers get mapped from [[Printer mapping]], never guessed",
+                "Leaving: update the ticket, then [[Escalation]] if anything is unfinished",
+                "New client? [[Client onboarding]]"),
+                tags: "On-site, Reference", group: P("Second brain"), titleColor: ORANGE);
+
+            Add("Cutover", 34, DemoDoc("Moving production from old to new without a rollback you cannot take.",
+                "Never cut over without the old path still live - [[Phase 2 - cutover runbook]]",
+                "Test plan written BEFORE the window, not during",
+                "Real example with timings: [[Meadowbrook cutover checklist]]",
+                "Failure path: [[Failover runbook]] then [[Escalation]]"),
+                tags: "Reference, Follow-up", group: P("Second brain"), titleColor: ORANGE);
+
+            Add("VPN access", 33, DemoDoc("Who gets remote access and how it is reviewed.",
+                "Named accounts only, never shared - the audit is [[VPN user list]]",
+                "Vendor accounts are time-boxed and disabled at case close",
+                "Split tunnel off for anyone touching client data",
+                "Onboarding and offboarding both live in [[Client onboarding]]"),
+                tags: "Reference", group: P("Second brain"), titleColor: GREEN);
+
+            Add("Backups", 32, DemoDoc("The thing every other note quietly depends on.",
+                "3-2-1, and the offsite copy is the one that gets forgotten",
+                "A backup nobody has restored from is a hypothesis, not a backup",
+                "Restore test before any [[Cutover]]",
+                "Storage sizing feeds the NAS quote in [[Callback list]]"),
+                tags: "Reference, Urgent", group: P("Second brain"), titleColor: RED);
+
+            // ══════════════ UNLINKED MENTIONS ══════════════
+            //
+            // Day notes that NAME other notes in ordinary prose and never link them. That is the
+            // whole point of the "Mentioned in" strip: the connection is already in the text and
+            // nobody has made it yet, so opening any of the notes named below shows these sitting
+            // underneath it waiting to be linked with one click.
+            //
+            // Every capitalised run below is an EXACT title of a note created above - "Escalation",
+            // "Backups", "Cutover", "VLAN plan", "Trunking", "Imaging", "PXE boot", "Driver packs",
+            // "Printer mapping", "AP placement", "Site visit checklist", "Failover runbook". They
+            // are deliberately written as bare words, never as [[links]], because a note that
+            // links a title is excluded from that title's mentions - which is exactly the contrast
+            // this section exists to show.
+            G(SLATE, "Day notes");
+
+            Add("Tuesday", 6, DemoDoc("Half the day on the vet site, half on the bench.",
+                "Ran the Site visit checklist before touching anything, photos first",
+                "Kennel cams offline again, swapped the PoE switch, watching it",
+                "Bench: two machines through Imaging, one failed at PXE boot until I refreshed the driver packs",
+                "Escalation was not needed, nobody was down"),
+                tags: "On-site", group: P("Day notes"));
+
+            Add("Wednesday", 5, DemoDoc("Quiet. Mostly paperwork and one cutover prep call.",
+                "Walked the client through Cutover timing, they want a Friday window",
+                "Confirmed Backups ran clean for three nights before we touch anything",
+                "Printer mapping needs updating, the Lexmark is finally gone",
+                "Asked about the VLAN plan for the new floor, waiting on the cabling quote"),
+                tags: "Follow-up", group: P("Day notes"));
+
+            Add("Thursday", 4, DemoDoc("Wi-Fi day.",
+                "Redid AP placement on the second floor, two APs moved off the racks",
+                "Channel plan holds, no overlap with the neighbours now",
+                "Trunking on the new switch was tagged wrong, one VLAN silent until I fixed it",
+                "Left the Failover runbook printed in the MDF for the on-call tech"),
+                tags: "On-site, Network", group: P("Day notes"));
+
+            Add("Parking lot", 3, DemoDoc("Things I keep meaning to write up properly.",
+                "The Imaging server quirk deserves a real note, I explain it monthly",
+                "Someone should document VPN access before the next audit",
+                "Escalation after 21:00 is still ambiguous for the vet site",
+                "Cable standards, still not written, still referenced constantly"),
+                tags: "Follow-up", group: P("Day notes"), titleColor: YELLOW);
 
             // ---- Ungrouped tail ----
             Add("RMM agent cleanup", 8, DemoRmm(), tags: "Follow-up", titleColor: ORANGE);

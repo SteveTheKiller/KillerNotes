@@ -23,6 +23,10 @@ namespace KillerNotes.Controls
                     Pts = [.._gesturePts],
                 }),
                 Tool.Line or Tool.Arrow or Tool.Rect or Tool.Ellipse => SketchModel.BuildElement(TempShape(cur)),
+                // The crop marquee IS the dashed rectangle - the one place in this app where that
+                // icon and that gesture are correct. It is chrome, not artwork: it is never added
+                // to _objects and never reaches the note.
+                Tool.Crop => CropMarquee(cur),
                 _ => null,
             };
             if (el != null) { el.IsHitTestVisible = false; _previewEl = el; _canvas.Children.Add(el); }
@@ -52,8 +56,54 @@ namespace KillerNotes.Controls
             return o;
         }
 
+        /// <summary>The crop rubber band: a dashed outline over a dimmed surround, so what is
+        /// about to be thrown away is visibly outside the box.</summary>
+        private UIElement CropMarquee(Point cur)
+        {
+            var r = CropRectFrom(cur);
+            var box = new System.Windows.Shapes.Rectangle
+            {
+                Width = Math.Max(1, r.Width), Height = Math.Max(1, r.Height),
+                Stroke = System.Windows.Media.Brushes.White, StrokeThickness = 1.4,
+                StrokeDashArray = [4, 3],
+                Fill = new System.Windows.Media.SolidColorBrush(
+                    System.Windows.Media.Color.FromArgb(28, 255, 255, 255)),
+            };
+            Canvas.SetLeft(box, r.X);
+            Canvas.SetTop(box, r.Y);
+            return box;
+        }
+
+        /// <summary>The normalized crop rectangle, clamped to the canvas so a drag off the edge
+        /// cannot produce a crop larger than the artwork.</summary>
+        private Rect CropRectFrom(Point cur)
+        {
+            double x1 = Math.Max(0, Math.Min(_start.X, cur.X));
+            double y1 = Math.Max(0, Math.Min(_start.Y, cur.Y));
+            double x2 = Math.Min(_canvasW, Math.Max(_start.X, cur.X));
+            double y2 = Math.Min(_canvasH, Math.Max(_start.Y, cur.Y));
+            return new Rect(x1, y1, Math.Max(0, x2 - x1), Math.Max(0, y2 - y1));
+        }
+
+        /// <summary>Applies the crop: everything shifts up and left by the box's origin and the
+        /// canvas becomes the box. Objects are NOT clipped to it - a shape half outside simply
+        /// hangs off the new edge, which is recoverable, where clipping would destroy it. One
+        /// undo entry, so Ctrl+Z puts the whole frame back.</summary>
+        private void ApplyCrop(Rect r)
+        {
+            if (r.Width < 8 || r.Height < 8) return;   // a stray click is not a crop
+            PushUndo();
+            foreach (var o in _objects) Translate(o, -r.X, -r.Y);
+            SetCanvasSize((int)Math.Round(r.Width), (int)Math.Round(r.Height));
+            ResizeCanvasTo(_canvasW, _canvasH);
+            RenderCanvas();
+            UpdateUndoButtons();
+        }
+
         private void CommitGesture(Point end)
         {
+            if (_tool == Tool.Crop) { ApplyCrop(CropRectFrom(end)); return; }
+
             SketchObject? obj = null;
             if (_tool == Tool.Pen)
             {

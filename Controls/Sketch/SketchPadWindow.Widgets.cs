@@ -153,11 +153,88 @@ namespace KillerNotes.Controls
             return IconWrap(pg);
         }
 
+        // A HAND, not a marquee. The dashed rectangle is the universal "rubber-band a region"
+        // icon, and this tool does not band a region - it picks a single object up and carries it,
+        // which is what the app's own open-hand drag cursor already says everywhere else.
+        //
+        // Built from separate rounded shapes rather than one outline path: a hand drawn as a
+        // single contour has to run back up the side of each finger, which self-overlaps and
+        // renders holes under the default fill rule. Same composition IconImage and IconBucket
+        // use, so it cannot misrender.
         private static UIElement IconSelect()
         {
-            var r = new Rectangle { Width = 13, Height = 11, StrokeThickness = 1.6, StrokeDashArray = [2, 2], Fill = null };
-            r.InkStroke();
-            return IconWrap(r);
+            var c = new Canvas { Width = 16, Height = 16 };
+
+            // Four fingers, tallest in the middle, then the palm over their base so the joins
+            // disappear. Drawn before the palm so the palm covers the finger roots.
+            foreach (var (x, top, h) in new[]
+                     {
+                         (3.5, 5.0, 5.0),
+                         (5.4, 2.6, 7.0),
+                         (7.3, 3.2, 6.6),
+                         (9.2, 5.4, 4.6),
+                     })
+            {
+                var f = new Rectangle { Width = 1.8, Height = h, RadiusX = 0.9, RadiusY = 0.9 };
+                f.InkFill();
+                Canvas.SetLeft(f, x); Canvas.SetTop(f, top);
+                c.Children.Add(f);
+            }
+
+            // Thumb, tucked against the left of the palm.
+            var thumb = new Rectangle { Width = 1.9, Height = 4.2, RadiusX = 0.95, RadiusY = 0.95 };
+            thumb.InkFill();
+            thumb.RenderTransform = new RotateTransform(-28, 0.95, 2.1);
+            Canvas.SetLeft(thumb, 1.9); Canvas.SetTop(thumb, 8.2);
+            c.Children.Add(thumb);
+
+            var palm = new Rectangle { Width = 7.9, Height = 6.6, RadiusX = 2.4, RadiusY = 2.4 };
+            palm.InkFill();
+            Canvas.SetLeft(palm, 3.2); Canvas.SetTop(palm, 8.0);
+            c.Children.Add(palm);
+
+            return IconWrap(c);
+        }
+
+        // Magnifier: a ring and a handle. Drawn rather than a Segoe MDL2 glyph for the same reason
+        // the other tool icons are - a glyph is only confirmed by rendering it, and these have to
+        // be right the first time.
+        private static UIElement IconZoom()
+        {
+            var c = new Canvas { Width = 16, Height = 16 };
+            var ring = new Ellipse { Width = 10, Height = 10, StrokeThickness = 1.6, Fill = null };
+            ring.InkStroke();
+            Canvas.SetLeft(ring, 1); Canvas.SetTop(ring, 1);
+            var handle = new Line { X1 = 9.6, Y1 = 9.6, X2 = 14.6, Y2 = 14.6, StrokeThickness = 1.8, StrokeStartLineCap = PenLineCap.Round, StrokeEndLineCap = PenLineCap.Round };
+            handle.InkStroke();
+            c.Children.Add(ring);
+            c.Children.Add(handle);
+            return IconWrap(c);
+        }
+
+        // Crop: the photographer's two overlapping L brackets. The DASHED rectangle lives here
+        // now - it is the marquee gesture's own icon, and this is the tool that actually bands a
+        // region, which is why the select tool no longer wears it.
+        private static UIElement IconCrop()
+        {
+            var c = new Canvas { Width = 16, Height = 16 };
+            // Top-left bracket: down the left edge, then across the top.
+            var tl = new System.Windows.Shapes.Path
+            {
+                StrokeThickness = 1.6, StrokeLineJoin = PenLineJoin.Miter,
+                Data = Geometry.Parse("M4,1 L4,12 L15,12"),
+            };
+            tl.InkStroke();
+            // Bottom-right bracket, offset so the two cross and read as a crop frame.
+            var br = new System.Windows.Shapes.Path
+            {
+                StrokeThickness = 1.6, StrokeLineJoin = PenLineJoin.Miter,
+                Data = Geometry.Parse("M1,4 L12,4 L12,15"),
+            };
+            br.InkStroke();
+            c.Children.Add(tl);
+            c.Children.Add(br);
+            return IconWrap(c);
         }
 
         private static UIElement IconImage()

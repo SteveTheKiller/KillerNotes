@@ -261,9 +261,18 @@
                              button hovering to RowHoverBrush does not change at all, and every
                              Cancel in the app read as dead. Defaults to RowHoverBrush, so the
                              other twelve are unchanged. (2026-08-07) -->
+                        <!-- The FOREGROUND has to move too, or the content stays the same value as
+                             the surface it is now sitting on: the SketchPad's tool icons ink
+                             themselves from the ancestor button's Foreground (SketchIcons), so a
+                             hover that changed only the fill left a gray glyph on a gray face
+                             (reported 2026-08-22). SurfaceHoverFg is a THEMED key, not a hardcoded
+                             white - 98SE hovers to #dfdfdf and a white glyph would vanish there -
+                             and ThemeManager defaults it to TextBrush, so a theme that says nothing
+                             keeps exactly the foreground it has now. -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource SurfaceHoverBrush}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource OutlineBtnBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SurfaceHoverFg}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource SurfaceBrush}"/>
@@ -520,19 +529,37 @@
         </Style.Triggers>
     </Style>
 
+    <!-- The transparent room the menu's drop shadow renders into. It is the reason a menu's popup
+         is bigger than the card you can see, so ANYTHING that positions a menu has to subtract it:
+         the style's negative offsets below, and MenuPlacement.cs. Sized to the shadow - WPF expands
+         an effect's bounds by the full BlurRadius, so a 22 blur needs 22 each way, and the 4px
+         downward depth takes 4 off the top and adds 4 to the bottom. -->
+    <Thickness x:Key="MenuHaloMargin">22,18,22,26</Thickness>
+
     <!-- Context Menu (grain + rounding + shadow match the theme flyout) -->
     <Style TargetType="ContextMenu">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <!-- Display formatting, and layout rounding so the menu cannot land on a fractional
+             offset - which would put every glyph in it at a subpixel origin however well the
+             text options are set. KillerShell also forces TextRenderingMode=ClearType, but it
+             can: its menus sit on an opaque host popup. These are rounded and shadowed, so the
+             popup has to stay transparent and subpixel rendering is not available - grayscale
+             antialiasing on integer pixel boundaries is the crisp result here. -->
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
         <!-- True so the popup HWND is transparent: the custom soft shadow below then
              renders on MenuRoot's halo instead of the popup showing as a hard
              rectangle around the rounded menu. The shadow sits on its own item-free
              Border (see template), so this does not reintroduce the submenu black-box. -->
         <Setter Property="HasDropShadow" Value="True"/>
-        <!-- Cancels the extra halo MenuRoot's margin adds, so the card still lands where it
-             did when that margin was a uniform 6. Only the DIFFERENCE matters: the halo grew
-             by 16 on the left and 12 on the top, so those are the offsets. -->
-        <Setter Property="HorizontalOffset" Value="-16"/>
-        <Setter Property="VerticalOffset" Value="-12"/>
+        <!-- Cancels the halo MenuRoot's margin adds. The FULL halo, not the difference from some
+             earlier value: the popup is positioned by its own top-left, and the visible card is
+             inset from that by the whole margin, so anything less leaves the card that far down
+             and right of the cursor. It was -16/-12 against a 22/18 halo, which is the residual
+             6px nobody could account for (2026-08-23). MenuPlacement.cs subtracts the same
+             MenuHaloMargin when it re-places a menu in screen space - one number, two readers. -->
+        <Setter Property="HorizontalOffset" Value="-22"/>
+        <Setter Property="VerticalOffset" Value="-18"/>
         <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -554,7 +581,15 @@
                          takes 4 off the top and adds 4 to the bottom. Halving it leaves a faint but
                          visible step where the tail gets cut. HorizontalOffset/VerticalOffset on the
                          style above hold the card in place against the wider halo. -->
-                    <Grid x:Name="MenuRoot" Opacity="0" Margin="22,18,22,26">
+                    <!-- OPACITY 1 AS THE BASE VALUE, with the fade below set to FillBehavior=Stop.
+                         This was Opacity="0" plus a HoldEnd animation to 1, and a held animation
+                         leaves the property permanently "animated" even sitting at 1.0 - WPF then
+                         keeps compositing this subtree through an intermediate surface, which
+                         softens every glyph in the menu for as long as it is open. That is the
+                         blurry menu text, and it is why the text options alone would change
+                         nothing. Diagnosed in KillerShell 2026-08-09; same template, same bug. -->
+                    <Grid x:Name="MenuRoot" Opacity="1" Margin="{StaticResource MenuHaloMargin}"
+                          RenderOptions.ClearTypeHint="Enabled">
                         <!-- Shadow cast from a dedicated item-free layer. Each MenuItem carries a
                              transparent SubPopup (for the Tags submenu); a WPF Effect over a
                              subtree that contains an AllowsTransparency popup renders the drop
@@ -604,8 +639,17 @@
                         <EventTrigger RoutedEvent="ContextMenu.Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
+                                    <!-- FillBehavior=Stop, and the base Opacity above is 1. See the
+                                         note on MenuRoot: a HOLDING animation leaves the property
+                                         permanently animated even once it is sitting at 1.0, and
+                                         WPF then keeps compositing this subtree through an
+                                         intermediate surface for as long as the menu is open,
+                                         which softens every glyph. Stopping hands the property
+                                         back to the base value and the menu renders on the
+                                         ordinary path. Ported from KillerShell, which hit and
+                                         diagnosed this on 2026-08-09. -->
                                     <DoubleAnimation Storyboard.TargetName="MenuRoot" Storyboard.TargetProperty="Opacity"
-                                                     From="0" To="1" Duration="0:0:0.15">
+                                                     From="0" To="1" Duration="0:0:0.15" FillBehavior="Stop">
                                         <DoubleAnimation.EasingFunction><QuadraticEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
                                     </DoubleAnimation>
                                 </Storyboard>
@@ -738,6 +782,15 @@
                             <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
                             <Setter TargetName="Gesture" Property="Foreground" Value="{DynamicResource SelectionFg}"/>
                             <Setter TargetName="SubArrow" Property="Foreground" Value="{DynamicResource SelectionFg}"/>
+                            <!-- The ICON and the CHECK need it too, and were the two parts left out.
+                                 Both are pinned at rest - the icon to DimTextBrush, the check to
+                                 PrimaryBrush - and neither survives a saturated fill: on the yellow
+                                 SelectionBg the icon vanished outright (reported 2026-08-23, seen on
+                                 "Delete note"). The icon's brush is the TextElement.Foreground
+                                 ATTACHED property, not Foreground, because that is what the presenter
+                                 carries so a bare glyph string inherits it. -->
+                            <Setter TargetName="IconPresenter" Property="TextElement.Foreground" Value="{DynamicResource SelectionFg}"/>
+                            <Setter TargetName="Check" Property="Foreground" Value="{DynamicResource SelectionFg}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="bg" Property="Opacity" Value="0.4"/>
