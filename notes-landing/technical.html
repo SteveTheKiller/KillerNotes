@@ -97,36 +97,36 @@
 </section>
 
 <section class="tech-sec" id="architecture">
-<h2>Architecture</h2>
-<p><b>KillerNotes</b> is a native Windows app written in C# and WPF on .NET Framework 4.8 (x64). There is no web view wrapping a JavaScript app and no runtime to install on Windows 10/11 - it is the same stack as the rest of the KillerTools family, sharing the KillerUI chrome: custom title bar, thirteen live-switchable themes with accent colors, film grain, and the family status bar.</p>
-<p>The editor is a WPF RichTextBox working on a real FlowDocument, which is what makes inline images and true tables first-class citizens rather than attachments. Everything else - search, storage, encryption, sharing - lives underneath it in a SQLite database.</p>
+<h2 data-i18n="t_arch_h">Architecture</h2>
+<p data-i18n="t_arch_p1"><b>KillerNotes</b> is a native Windows app written in C# and WPF on .NET Framework 4.8 (x64). There is no web view wrapping a JavaScript app and no runtime to install on Windows 10/11 - it is the same stack as the rest of the KillerTools family, sharing the KillerUI chrome: custom title bar, thirteen live-switchable themes with accent colors, film grain, and the family status bar.</p>
+<p data-i18n="t_arch_p2">The editor is a WPF RichTextBox working on a real FlowDocument, which is what makes inline images and true tables first-class citizens rather than attachments. Everything else - search, storage, encryption, sharing - lives underneath it in a SQLite database.</p>
 </section>
 
 <section class="tech-sec" id="database">
-<h2>A database, for the layman</h2>
-<p>"SQLite database" sounds heavier than it is, so here is the plain-English version. A <b>relational database</b> stores data in <b>tables</b> that look a lot like spreadsheets: each row is one thing (one note, one tag), and each column is one fact about it (its title, its created date). "Relational" just means the tables can point at each other - a small linking table records that note 12 carries tag 3, and that is the entire trick behind tags, groups, and search staying in agreement with each other.</p>
-<p><b>SQL</b> is the language for asking the tables questions ("every note tagged Urgent, newest first") and for changing them. The app writes those queries; you never see one.</p>
-<p><b>SQLite</b> is the engine that runs the queries - and unlike the databases behind websites, it is not a server. Nothing runs in the background and there is nothing extra to install: the engine is a library compiled into KillerNotes.exe, and the entire database is <b>one ordinary file on disk</b>. Copy the file and you have copied every note in it.</p>
-<p>Why bother, instead of a folder of .txt files? Three things a folder cannot do:</p>
+<h2 data-i18n="t_db_h">A database, for the layman</h2>
+<p data-i18n="t_db_p1">"SQLite database" sounds heavier than it is, so here is the plain-English version. A <b>relational database</b> stores data in <b>tables</b> that look a lot like spreadsheets: each row is one thing (one note, one tag), and each column is one fact about it (its title, its created date). "Relational" just means the tables can point at each other - a small linking table records that note 12 carries tag 3, and that is the entire trick behind tags, groups, and search staying in agreement with each other.</p>
+<p data-i18n="t_db_p2"><b>SQL</b> is the language for asking the tables questions ("every note tagged Urgent, newest first") and for changing them. The app writes those queries; you never see one.</p>
+<p data-i18n="t_db_p3"><b>SQLite</b> is the engine that runs the queries - and unlike the databases behind websites, it is not a server. Nothing runs in the background and there is nothing extra to install: the engine is a library compiled into KillerNotes.exe, and the entire database is <b>one ordinary file on disk</b>. Copy the file and you have copied every note in it.</p>
+<p data-i18n="t_db_p4">Why bother, instead of a folder of .txt files? Three things a folder cannot do:</p>
 <ul class="blurb-list">
-<li><b>Transactions</b> - every save happens completely or not at all. Power loss mid-save leaves the previous version intact, never half a note.</li>
-<li><b>Indexes</b> - like the index in the back of a book: finding "firewall" means jumping straight to it, not opening every note and reading it. That is what keeps search instant at thousands of notes.</li>
-<li><b>One file</b> - notes, images, tags, groups, and the search index travel together, which is what makes whole-notepad encryption and one-file sharing possible at all.</li>
+<li data-i18n="t_db_l1"><b>Transactions</b> - every save happens completely or not at all. Power loss mid-save leaves the previous version intact, never half a note.</li>
+<li data-i18n="t_db_l2"><b>Indexes</b> - like the index in the back of a book: finding "firewall" means jumping straight to it, not opening every note and reading it. That is what keeps search instant at thousands of notes.</li>
+<li data-i18n="t_db_l3"><b>One file</b> - notes, images, tags, groups, and the search index travel together, which is what makes whole-notepad encryption and one-file sharing possible at all.</li>
 </ul>
-<p>SQLite is the most widely deployed database in the world - it is in every phone, browser, and car. Your notes are in reliable company. The sections below get into the specifics.</p>
+<p data-i18n="t_db_p5">SQLite is the most widely deployed database in the world - it is in every phone, browser, and car. Your notes are in reliable company. The sections below get into the specifics.</p>
 </section>
 
 <section class="tech-sec" id="storage">
-<h2>Storage</h2>
-<p>Notes live in a single SQLite database per notepad, stored under <code>%APPDATA%\KillerNotes</code> by default - the data folder is configurable from Manage databases. Each note row keeps three representations of the same content:</p>
+<h2 data-i18n="t_store_h">Storage</h2>
+<p data-i18n="t_store_p1">Notes live in a single SQLite database per notepad, stored under <code>%APPDATA%\KillerNotes</code> by default - the data folder is configurable from Manage databases. Each note row keeps three representations of the same content:</p>
 <ul class="blurb-list">
-<li><b>Title and metadata</b> - creation and modification timestamps, used for the sidebar and sorting.</li>
-<li><b>A XamlPackage blob</b> - the full rich content. XamlPackage is WPF's container format for FlowDocuments: formatting, embedded images, and tables all round-trip through the database byte-perfect. Pasted screenshots are re-encoded to PNG on the way in so they serialize reliably.</li>
-<li><b>A plain-text shadow copy</b> - extracted on every save and fed to the search index, so search never has to parse rich content.</li>
+<li data-i18n="t_store_l1"><b>Title and metadata</b> - creation and modification timestamps, used for the sidebar and sorting.</li>
+<li data-i18n="t_store_l2"><b>A XamlPackage blob</b> - the full rich content. XamlPackage is WPF's container format for FlowDocuments: formatting, embedded images, and tables all round-trip through the database byte-perfect. Pasted screenshots are re-encoded to PNG on the way in so they serialize reliably.</li>
+<li data-i18n="t_store_l3"><b>A plain-text shadow copy</b> - extracted on every save and fed to the search index, so search never has to parse rich content.</li>
 </ul>
-<p>A fourth column, <code>format</code>, says which of two content types the row is: rich text or markdown. Rich text is the default and every note written before 1.3.0 is one. A markdown note stores its source instead - what you typed, line for line - but still inside a XamlPackage container rather than as raw UTF-8 bytes. That wrapper is deliberate: every release before 1.3.0 reads any blob as a XamlPackage, so raw bytes in a shared <code>.kndb</code> or <code>.knote</code> would throw during startup on the receiving machine, before its window was usable. Wrapped, the same note opens in an older build as ordinary rich text showing its markdown source. The cost is a fixed floor of roughly 1.6 KB per markdown note; past that size the package deflates and comes out smaller than the raw source.</p>
-<p>The editor control is the same RichTextBox for both types, with a markdown note loaded as one zero-margin paragraph per line. Everything built on the FlowDocument - find, replace, dictation, caret and scroll persistence, word wrap - therefore works on both without forking. What differs is what a markdown note will accept: images, tables, sketches and embedded recordings are refused at the four insertion points with a status-bar line, because the plain-text projection cannot carry them and they would vanish at the next save. Character formatting is deliberately <em>not</em> blocked - bold loses its weight on save but keeps every character, and refusing the keystroke would surprise more than the formatting quietly not sticking.</p>
-<p>Sketches and dictation recordings sit in side tables keyed to the note rather than inside its XamlPackage. Audio is far larger than the note that references it, and inlining it would make every load and save of that note carry it; the note keeps only a small marker. Both are encrypted with the rest of the database when a password is set.</p>
+<p data-i18n="t_store_p2">A fourth column, <code>format</code>, says which of two content types the row is: rich text or markdown. Rich text is the default and every note written before 1.3.0 is one. A markdown note stores its source instead - what you typed, line for line - but still inside a XamlPackage container rather than as raw UTF-8 bytes. That wrapper is deliberate: every release before 1.3.0 reads any blob as a XamlPackage, so raw bytes in a shared <code>.kndb</code> or <code>.knote</code> would throw during startup on the receiving machine, before its window was usable. Wrapped, the same note opens in an older build as ordinary rich text showing its markdown source. The cost is a fixed floor of roughly 1.6 KB per markdown note; past that size the package deflates and comes out smaller than the raw source.</p>
+<p data-i18n="t_store_p3">The editor control is the same RichTextBox for both types, with a markdown note loaded as one zero-margin paragraph per line. Everything built on the FlowDocument - find, replace, dictation, caret and scroll persistence, word wrap - therefore works on both without forking. What differs is what a markdown note will accept: images, tables, sketches and embedded recordings are refused at the four insertion points with a status-bar line, because the plain-text projection cannot carry them and they would vanish at the next save. Character formatting is deliberately <em>not</em> blocked - bold loses its weight on save but keeps every character, and refusing the keystroke would surprise more than the formatting quietly not sticking.</p>
+<p data-i18n="t_store_p4">Sketches and dictation recordings sit in side tables keyed to the note rather than inside its XamlPackage. Audio is far larger than the note that references it, and inlining it would make every load and save of that note carry it; the note keeps only a small marker. Both are encrypted with the rest of the database when a password is set.</p>
 
 <figure class="diagram" id="flowDiagram">
 <svg viewBox="0 0 1060 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow: editor to database to shares">
@@ -183,146 +183,270 @@
 <text x="996" y="241" text-anchor="middle" font-size="10" fill="var(--muted)">plain exports</text>
 </g>
 </svg>
-<figcaption>The life of a note: the editor commits every change into one SQLite file, the search index stays in sync by trigger, encryption wraps the whole file, and shares tear off from there.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
+<figcaption data-i18n="t_store_fig1">The life of a note: the editor commits every change into one SQLite file, the search index stays in sync by trigger, encryption wraps the whole file, and shares tear off from there.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
 </figure>
 
-<h3 id="autosave">Autosave</h3>
-<p>There is no Save button to forget. A save commits 2 seconds after you stop typing, plus immediately on note switch, on alt-tab away, and on close. Ctrl+S exists for peace of mind, but it is just "commit now" - the same write the timer would have made.</p>
+<h3 data-i18n="t_store_h1" id="autosave">Autosave</h3>
+<p data-i18n="t_store_p5">There is no Save button to forget. A save commits 2 seconds after you stop typing, plus immediately on note switch, on alt-tab away, and on close. Ctrl+S exists for peace of mind, but it is just "commit now" - the same write the timer would have made.</p>
 </section>
 
 <section class="tech-sec" id="search">
-<h2>Search</h2>
-<p>Search is a SQLite <b>FTS5</b> full-text index over the title and the plain-text shadow copy, maintained by external-content triggers so it stays exactly in sync with the notes table without duplicating the rich blobs.</p>
-<p>As you type in the search box, each word is treated as a prefix: typing <code>pass wor</code> finds a note containing "password working notes". The sidebar filters live with every keystroke. Sorting is a separate axis: creation time or title in either direction, or a drag-and-drop custom order - one global sequence stored per note, with named collapsible groups layered on top.</p>
-<p><code>Ctrl+F</code> searches inside the open note without disturbing the sidebar search. The find card reports the current match and total, <code>F3</code> and <code>Shift+F3</code> move forward and backward with wraparound, and <code>Esc</code> closes it. Match highlights are viewport-scoped adorners rather than document formatting, so finding does not modify the note, enter the undo history or trigger autosave.</p>
-<h3 id="replace">Replace</h3>
-<p><code>Ctrl+H</code> expands a replace row under the find card. Three toggles - match case, whole word, regular expression - govern the find and the replace together; with regex on, the replacement string is evaluated as a substitution, so <code>$1</code> and friends work. The options are session state rather than persisted settings, so the card always reopens on plain matching.</p>
-<p>Replace-all collects its offsets from the find pass, collapses overlapping matches greedily left to right (a replace can only consume each character once, where the counter is happy to overlap), and applies them <b>back to front</b>, so every earlier offset is still valid when its turn comes. The whole batch runs inside <code>BeginChange</code>/<code>EndChange</code>, which makes it one editor undo unit and holds the TextChanged storm until the end, so the find cache is invalidated once rather than once per match.</p>
-<p>The sidebar carries the cross-note half: replace a term in every note that holds it, without opening any of them. Matching there is literal and case-insensitive to mirror the search box it sits under - the find card's regex and whole-word options belong to the in-note surface and deliberately do not reach across the database. Each candidate is matched against its <em>document</em> text rather than the stored plain-text shadow, because the shadow also carries sketch text labels, which live in sketch payloads and must not be rewritten by a text replace. A confirmation lists every affected note with its match count; the writes are one SQLite transaction and one app-level undo entry, so <code>Ctrl+Z</code> after a forty-note replace restores all forty.</p>
+<h2 data-i18n="t_search_h">Search</h2>
+<p data-i18n="t_search_p1">Search is a SQLite <b>FTS5</b> full-text index over the title and the plain-text shadow copy, maintained by external-content triggers so it stays exactly in sync with the notes table without duplicating the rich blobs.</p>
+<p data-i18n="t_search_p2">As you type in the search box, each word is treated as a prefix: typing <code>pass wor</code> finds a note containing "password working notes". The sidebar filters live with every keystroke. Sorting is a separate axis: creation time or title in either direction, or a drag-and-drop custom order - one global sequence stored per note, with named collapsible groups layered on top.</p>
+<p data-i18n="t_search_p3"><code>Ctrl+F</code> searches inside the open note without disturbing the sidebar search. The find card reports the current match and total, <code>F3</code> and <code>Shift+F3</code> move forward and backward with wraparound, and <code>Esc</code> closes it. Match highlights are viewport-scoped adorners rather than document formatting, so finding does not modify the note, enter the undo history or trigger autosave.</p>
+<h3 data-i18n="t_search_h1" id="replace">Replace</h3>
+<p data-i18n="t_search_p4"><code>Ctrl+H</code> expands a replace row under the find card. Three toggles - match case, whole word, regular expression - govern the find and the replace together; with regex on, the replacement string is evaluated as a substitution, so <code>$1</code> and friends work. The options are session state rather than persisted settings, so the card always reopens on plain matching.</p>
+<p data-i18n="t_search_p5">Replace-all collects its offsets from the find pass, collapses overlapping matches greedily left to right (a replace can only consume each character once, where the counter is happy to overlap), and applies them <b>back to front</b>, so every earlier offset is still valid when its turn comes. The whole batch runs inside <code>BeginChange</code>/<code>EndChange</code>, which makes it one editor undo unit and holds the TextChanged storm until the end, so the find cache is invalidated once rather than once per match.</p>
+<p data-i18n="t_search_p6">The sidebar carries the cross-note half: replace a term in every note that holds it, without opening any of them. Matching there is literal and case-insensitive to mirror the search box it sits under - the find card's regex and whole-word options belong to the in-note surface and deliberately do not reach across the database. Each candidate is matched against its <em>document</em> text rather than the stored plain-text shadow, because the shadow also carries sketch text labels, which live in sketch payloads and must not be rewritten by a text replace. A confirmation lists every affected note with its match count; the writes are one SQLite transaction and one app-level undo entry, so <code>Ctrl+Z</code> after a forty-note replace restores all forty.</p>
+</section>
+
+<section class="tech-sec" id="links">
+<h2 data-i18n="t_links_h">Linked notes &amp; the graph</h2>
+<p data-i18n="t_links_p1">Since 1.3.0 notes can point at each other. Type <code>[[</code> and a title - <code>[[Firewall]]</code> - and that text is a link: <code>Ctrl+Click</code> follows it, the note it names lists it as an inbound link, and the graph draws it as an edge. Nothing about the note's stored bytes changes to make this work, which is the part worth explaining.</p>
+
+<h3 data-i18n="t_links_h1" id="wikilinks">Wikilinks and the link table</h3>
+<p data-i18n="t_links_p2">Links are parsed from the <b>plain-text shadow copy</b>, never from the rich document. The shadow already exists on every save for search, it is identical for rich and markdown notes, and it means a link counts the same whether it was typed, pasted, imported from a vault folder, or written into a <code>.md</code> file by another editor. No <code>Hyperlink</code> element is ever inserted, so the XamlPackage blob is untouched by the whole feature.</p>
+<p data-i18n="t_links_p3">Every save re-derives the note's outgoing links into a <code>note_links</code> table of <code>(src, target)</code> pairs - deleted wholesale and rewritten, because the table is a <b>cache of what the text says</b>, never an authority of its own. The accepted syntax is <code>[[Target]]</code> or <code>[[Target|label]]</code> (only the target is indexed), a link never crosses a line ending, and a note linking the same title five times is one edge - the graph and the backlinks list count notes, not mentions.</p>
+<p data-i18n="t_links_p4">The target is a <b>title, not an id</b>, resolved late and case-insensitively, with the oldest note winning a duplicate title so an existing link can never quietly start pointing somewhere new. Late resolution is what makes "write the link first, create the note later" work: a target with no note is kept as an unresolved edge - a <em>ghost</em> - rather than dropped, the graph draws it hollow, and following it offers to create the note already titled.</p>
+<p data-i18n="t_links_p5">The backlinks strip is one indexed query against that table. Its second row, unlinked mentions, is the inverse: a <code>LIKE</code> over the shadow copies for notes that <em>say</em> this title without linking it, minus everything that already links (their connection exists as an edge) and minus the note itself. Clicking a mention chip does not navigate - it wraps the first occurrence in that note in brackets, because the row exists to tell you a link is missing, and the link table catches up on that note's next save.</p>
+<p data-i18n="t_links_p6">Renaming a note is the one thing that breaks title-addressed links, so it is also the one thing that offers to fix them: at the moment of a rename the link table still names the old title, which is the <em>exact</em> set of notes to rewrite - no text search. The rewrite names every affected note and its link count first, runs as one transaction, and undoes with a single <code>Ctrl+Z</code>. Rich notes go through document surgery, markdown notes through text surgery, and the link table is re-derived on both the do and the undo so it can never describe text that no longer exists.</p>
+
+<figure class="diagram" id="linkDiagram">
+<svg viewBox="0 0 1060 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="How typed brackets become edges: parse on save into the link table, which feeds the strip, the graph and rename propagation">
+<defs><marker id="arrL" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+<g font-family="Consolas, monospace">
+<!-- the note being typed -->
+<rect x="10" y="80" width="205" height="140" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="112" y="108" text-anchor="middle" font-size="14" fill="var(--accent)">A note being typed</text>
+<text x="112" y="138" text-anchor="middle" font-size="12" fill="var(--text)">ping the</text>
+<text x="112" y="156" text-anchor="middle" font-size="12" fill="var(--accent)">[[Firewall]]</text>
+<text x="112" y="174" text-anchor="middle" font-size="12" fill="var(--text)">before lunch</text>
+<text x="112" y="202" text-anchor="middle" font-size="10" fill="var(--muted)">plain-text shadow copy</text>
+<!-- save arrow -->
+<line x1="215" y1="150" x2="288" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrL)"/>
+<text x="252" y="140" text-anchor="middle" font-size="12" fill="var(--accent)">every save</text>
+<!-- the parser -->
+<rect x="293" y="80" width="220" height="140" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="403" y="108" text-anchor="middle" font-size="14" fill="var(--accent)">parse</text>
+<text x="403" y="136" text-anchor="middle" font-size="11" fill="var(--text)">[[Target]] or [[Target|label]]</text>
+<text x="403" y="156" text-anchor="middle" font-size="11" fill="var(--muted)">never crosses a line ending</text>
+<text x="403" y="174" text-anchor="middle" font-size="11" fill="var(--muted)">duplicates collapse to one</text>
+<text x="403" y="192" text-anchor="middle" font-size="11" fill="var(--muted)">document bytes untouched</text>
+<!-- arrow to table -->
+<line x1="513" y1="150" x2="586" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrL)"/>
+<!-- the link table -->
+<rect x="591" y="52" width="240" height="196" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="711" y="78" text-anchor="middle" font-size="14" fill="var(--accent)">note_links (src, target)</text>
+<rect x="609" y="92" width="204" height="26" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="711" y="110" text-anchor="middle" font-size="12" fill="var(--text)">1  Firewall</text>
+<rect x="609" y="124" width="204" height="26" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="711" y="142" text-anchor="middle" font-size="12" fill="var(--text)">1  Server Rack</text>
+<rect x="609" y="156" width="204" height="26" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="711" y="174" text-anchor="middle" font-size="12" fill="var(--text)">7  Firewall</text>
+<text x="711" y="208" text-anchor="middle" font-size="10" fill="var(--muted)">a cache: rewritten wholesale per save</text>
+<text x="711" y="226" text-anchor="middle" font-size="10" fill="var(--muted)">targets are titles, resolved late</text>
+<!-- fan-out -->
+<line x1="831" y1="105" x2="898" y2="72" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrL)"/>
+<line x1="831" y1="150" x2="898" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrL)"/>
+<line x1="831" y1="195" x2="898" y2="228" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrL)"/>
+<rect x="902" y="46" width="148" height="48" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="976" y="66" text-anchor="middle" font-size="12" fill="var(--accent)">backlinks strip</text>
+<text x="976" y="84" text-anchor="middle" font-size="10" fill="var(--muted)">what links here</text>
+<rect x="902" y="126" width="148" height="48" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="976" y="146" text-anchor="middle" font-size="12" fill="var(--accent)">the graph</text>
+<text x="976" y="164" text-anchor="middle" font-size="10" fill="var(--muted)">edges, by title</text>
+<rect x="902" y="206" width="148" height="48" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="976" y="226" text-anchor="middle" font-size="12" fill="var(--accent)">rename propagation</text>
+<text x="976" y="244" text-anchor="middle" font-size="10" fill="var(--muted)">the exact set to rewrite</text>
+</g>
+</svg>
+<figcaption data-i18n="t_links_fig1">The pointing, end to end: brackets in the text become rows in a per-database table on every save, and everything else - the strip, the graph, the rename offer - only ever reads those rows.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
+</figure>
+
+<h3 data-i18n="t_links_h2" id="graphview">The graph</h3>
+<p data-i18n="t_links_p7"><code>Ctrl+Shift+B</code> draws the whole notebook - or one group, when a group header is selected. Every note is a dot colored by its sidebar group and sized by how much links to it; ghosts draw hollow; a locked note wears a dashed ring. Double-click opens the note, right-click carries everything else.</p>
+<p data-i18n="t_links_p8">The layout is a force simulation in the d3-force idiom: each node carries a <em>velocity</em> that decays per unit of time rather than per frame, charge repulsion has a distance floor so close pairs cannot explode, springs pull linked notes together, and a collision force keeps dots from stacking. The solve runs off the UI thread and only the easing touches WPF; per-frame motion goes through <code>TranslateTransform</code> and all edges render as one <code>Path</code> geometry, because canvas coordinates and individual <code>Line</code> elements invalidate layout and a hundred re-arranged elements per frame is exactly what stutter is. Frames ride <code>CompositionTarget.Rendering</code> rather than a timer, so motion stays even when frame times are not.</p>
+<p data-i18n="t_links_p9">Dragging follows the same idiom: the held node is fixed to the pointer while the simulation runs, only its immediate neighborhood is free to react, and everything stops dead on release - movement the user did not ask for reads as random however gently it is tuned. What happens to the rest is a choice with two levels. <b>Pin all Notes</b> is the default for every undecided note: on, nothing moves but what you hold; off, neighbors get out of the way. <b>Lock in place</b> is a per-note decision that outranks all of it - the simulation, every arrangement, a dragged neighbor, even the visualizer's spin - and unlike the pin it is remembered. An arrangement simply lays the unlocked notes out around a locked one and leaves its spot alone.</p>
+<p data-i18n="t_links_p10">Five deterministic arrangements complement the physics: by connection, in a circle, in a grid, by group, and rings by distance from one note - the last one placed on the note's own menu, where "distance from what" needs no explaining. The <b>visualizer</b> (V) is the opposite of an arrangement: it keeps the simulation warm, breathes the spring lengths, and turns the whole layout rigidly about its center, for a graph left running on a second monitor. Pinning is suspended while it runs; locks are not.</p>
+
+<figure class="diagram" id="graphAnatomy">
+<svg viewBox="0 0 1060 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Anatomy of the graph: sized hubs, group colors, hollow ghosts, dashed lock rings">
+<g font-family="Consolas, monospace">
+<!-- edges first, under the dots -->
+<g stroke="var(--pane-border)" stroke-width="1.5">
+<line x1="180" y1="105" x2="330" y2="175"/>
+<line x1="175" y1="250" x2="330" y2="175"/>
+<line x1="330" y1="175" x2="475" y2="95"/>
+<line x1="330" y1="175" x2="490" y2="255"/>
+<line x1="180" y1="105" x2="175" y2="250"/>
+</g>
+<!-- ordinary node, group A -->
+<circle cx="180" cy="105" r="13" fill="var(--accent)"/>
+<text x="180" y="84" text-anchor="middle" font-size="11" fill="var(--text)">VPN</text>
+<!-- ordinary node, group B -->
+<circle cx="175" cy="250" r="13" fill="var(--muted)"/>
+<text x="175" y="281" text-anchor="middle" font-size="11" fill="var(--text)">Server Rack</text>
+<!-- the hub -->
+<circle cx="330" cy="175" r="24" fill="var(--accent)"/>
+<text x="330" y="215" text-anchor="middle" font-size="11" fill="var(--text)">Firewall</text>
+<!-- locked node: dashed ring outside the fill -->
+<circle cx="475" cy="95" r="13" fill="var(--muted)"/>
+<circle cx="475" cy="95" r="19" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 3"/>
+<text x="475" y="66" text-anchor="middle" font-size="11" fill="var(--text)">Vault</text>
+<!-- ghost: hollow, linked but not written -->
+<circle cx="490" cy="255" r="12" fill="none" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="3 3"/>
+<text x="490" y="286" text-anchor="middle" font-size="11" fill="var(--muted)">Zero Trust</text>
+<!-- callouts -->
+<g stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 3">
+<line x1="360" y1="168" x2="640" y2="70"/>
+<line x1="496" y1="90" x2="640" y2="140"/>
+<line x1="504" y1="250" x2="640" y2="210"/>
+<line x1="192" y1="98" x2="640" y2="280"/>
+</g>
+<g font-size="12">
+<text x="650" y="62" fill="var(--accent)">sized by inbound links</text>
+<text x="650" y="80" fill="var(--muted)" font-size="11">the hub of a notebook is visible at a glance</text>
+<text x="650" y="132" fill="var(--accent)">dashed ring: locked in place</text>
+<text x="650" y="150" fill="var(--muted)" font-size="11">nothing moves it, and the lock is remembered</text>
+<text x="650" y="202" fill="var(--accent)">hollow: linked, not written yet</text>
+<text x="650" y="220" fill="var(--muted)" font-size="11">opening a ghost offers to create the note</text>
+<text x="650" y="272" fill="var(--accent)">color: the sidebar group</text>
+<text x="650" y="290" fill="var(--muted)" font-size="11">the same brushes the group headers use</text>
+</g>
+</g>
+</svg>
+<figcaption data-i18n="t_links_fig2">Anatomy of the graph. Everything it shows is derived: size from the link table, color from the sidebar groups, hollowness from a title no note owns yet.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
+</figure>
+
+<h3 data-i18n="t_links_h3" id="graphlayouts">Where layouts live</h3>
+<p data-i18n="t_links_p11">Node positions persist in a <code>graph_layouts</code> table - <code>(name, note_id, x, y, locked)</code> - in the <b>note database itself</b>, not in application settings. Coordinates mean nothing without the notes they belong to, and KillerNotes opens more than one database; in settings, a layout would follow you into every notebook and try to place notes that are not in it.</p>
+<p data-i18n="t_links_p12">Two kinds of row share the table, told apart only by the name. The empty name is the <em>remembered</em> layout: written when the graph window closes, restored silently the next time it opens, never listed as a choice. Every other name is an arrangement the user saved from the Arrange menu, re-applied or deleted from the same place. A save is a wholesale snapshot in one transaction - never a merge - and it sweeps rows whose note no longer exists. The sweep deliberately does <em>not</em> run when a note is deleted, because deletion is undoable and an undone delete should bring the note back with its place in every saved arrangement intact; loads additionally join against the notes table, so a stale row can never resurrect a deleted note as a node.</p>
+<p data-i18n="t_links_p13">Three guards keep the table honest: a <em>group</em> graph never writes the remembered layout, because it sees a subset and a snapshot save would throw away the position of every note outside the group; a graph window left open across a database switch refuses to write back at all, because its note ids mean something else entirely in the other file; and <code>.knote</code> exports never carry the table - a shared note has no business shipping the coordinates of a notebook the receiver has never seen. Ghosts are not saved either: they have no note id to key against, and they stop being ghosts the moment the note is written.</p>
 </section>
 
 <section class="tech-sec" id="encryption">
-<h2>Encryption</h2>
-<p>Password protection is whole-database encryption with <b>SQLCipher</b> (AES-256), not an application-level gate. When a password is set, every byte of the file is encrypted at rest - notes, images, the search index, the metadata, all of it. A KillerNotes database with a password is unreadable in any SQLite tool without the key.</p>
-<p>Setting, changing, or removing the password rebuilds the database through SQLCipher's export path into a fresh file, then atomically swaps it in. There is no plaintext temp copy of an encrypted database left behind.</p>
-<h3 id="fineprint">The honest fine print</h3>
+<h2 data-i18n="t_enc_h">Encryption</h2>
+<p data-i18n="t_enc_p1">Password protection is whole-database encryption with <b>SQLCipher</b> (AES-256), not an application-level gate. When a password is set, every byte of the file is encrypted at rest - notes, images, the search index, the metadata, all of it. A KillerNotes database with a password is unreadable in any SQLite tool without the key.</p>
+<p data-i18n="t_enc_p2">Setting, changing, or removing the password rebuilds the database through SQLCipher's export path into a fresh file, then atomically swaps it in. There is no plaintext temp copy of an encrypted database left behind.</p>
+<h3 data-i18n="t_enc_h1" id="fineprint">The honest fine print</h3>
 <ul class="blurb-list">
-<li>A database with no password set is a normal SQLite file - encryption is opt-in per database, one click on the title-bar lock.</li>
-<li>There is no recovery back door. If you forget the password, the unlock screen offers a fresh start and archives the locked file (kept on disk, unlockable later if the password comes back to you) - but the encrypted data itself is unrecoverable by design.</li>
-<li>Drag-out shares are unencrypted by design (there is no sane way to prompt for a password mid-drag). Use "Share note..." for a protected copy.</li>
+<li data-i18n="t_enc_l1">A database with no password set is a normal SQLite file - encryption is opt-in per database, one click on the title-bar lock.</li>
+<li data-i18n="t_enc_l2">There is no recovery back door. If you forget the password, the unlock screen offers a fresh start and archives the locked file (kept on disk, unlockable later if the password comes back to you) - but the encrypted data itself is unrecoverable by design.</li>
+<li data-i18n="t_enc_l3">Drag-out shares are unencrypted by design (there is no sane way to prompt for a password mid-drag). Use "Share note..." for a protected copy.</li>
 </ul>
 </section>
 
 <section class="tech-sec" id="sharing">
-<h2>Sharing formats</h2>
-<p>Sharing follows the notepad metaphor: tear off a sheet, or hand over the whole pad.</p>
+<h2 data-i18n="t_share_h">Sharing formats</h2>
+<p data-i18n="t_share_p1">Sharing follows the notepad metaphor: tear off a sheet, or hand over the whole pad.</p>
 <ul class="blurb-list">
-<li><b>.knote</b> - a single shared note. Under the hood it is literally a one-note KillerNotes database, optionally SQLCipher-encrypted with its own share password. The recipient double-clicks it and the note imports into their current notepad (prompting for the password if one was set).</li>
-<li><b>.kndb</b> - a whole database. Its encryption travels with it: if the notepad had a password, the recipient needs it. Double-clicking adds it to the data folder and switches to it; the previous notepad stays available in Manage databases.</li>
+<li data-i18n="t_share_l1"><b>.knote</b> - a single shared note. Under the hood it is literally a one-note KillerNotes database, optionally SQLCipher-encrypted with its own share password. The recipient double-clicks it and the note imports into their current notepad (prompting for the password if one was set).</li>
+<li data-i18n="t_share_l2"><b>.kndb</b> - a whole database. Its encryption travels with it: if the notepad had a password, the recipient needs it. Double-clicking adds it to the data folder and switches to it; the previous notepad stays available in Manage databases.</li>
 </ul>
-<p>Both extensions register per-user (HKCU only - no admin rights) with their own icons. Dragging a note out of the sidebar uses the standard shell file-drop mechanism, so Teams, Outlook, and Explorer all accept it like a real file, because it is one.</p>
-<p>The deliberately avoided extension: <b>.kdb</b> belongs to KeePass, and a tech's file manager should never confuse the two.</p>
+<p data-i18n="t_share_p2">Both extensions register per-user (HKCU only - no admin rights) with their own icons. Dragging a note out of the sidebar uses the standard shell file-drop mechanism, so Teams, Outlook, and Explorer all accept it like a real file, because it is one.</p>
+<p data-i18n="t_share_p3">The deliberately avoided extension: <b>.kdb</b> belongs to KeePass, and a tech's file manager should never confuse the two.</p>
 </section>
 
 <section class="tech-sec" id="formats">
-<h2>Import &amp; export</h2>
-<h3 id="import">In</h3>
-<p>Ctrl+O or drop files anywhere sensible: <code>.txt</code> / <code>.log</code> / <code>.md</code> import as text notes, <code>.rtf</code> loads natively with formatting intact, images land inline, and <code>.html</code> / <code>.htm</code> import as source - which the preview pane then renders, same as the markdown story: source in the editor, preview to view. Each file becomes its own note titled by its filename.</p>
-<h3 id="export">Out</h3>
-<p>Any note exports as plain text, as <code>.rtf</code> (WordPad/Word-compatible, images included), or as a standalone theme-styled HTML page built by a purpose-built FlowDocument-to-HTML converter: paragraphs, lists, tables, character formatting, colors, and images embedded as base64 data URIs - one self-contained file.</p>
-<h3 id="vault">Vault export</h3>
-<p>The whole database also exports as a folder of <code>.md</code> files. Groups become nested subfolders, and each file opens with YAML front matter carrying title, tags, and created and modified times - readers that do not understand front matter show it as a small block at the top rather than mangling the note. Files are UTF-8 with no BOM, since a BOM shows as stray characters above the first heading in a lot of markdown tooling. Titles are sanitized into filenames with reserved device names and trailing dots and spaces handled, and collisions get a numeric suffix; everything lands in a subfolder named after the open database, so exporting two notepads side by side cannot merge them.</p>
-<p>Rich-text notes are converted on the way out, so the folder is the whole notepad rather than only the notes that were already markdown. That conversion is lossy in the ways the convert dialog names - tables, images, colored text - but nothing in the database is modified: this writes files and touches no note. A single unreadable note is skipped and counted rather than aborting the run.</p>
-<p>It is deliberately one-way and on demand rather than a live sync of a watched folder. Sync means conflict resolution, file-watcher races, and partial writes from other editors, and it would leave a permanent plaintext copy of an encrypted database on disk - which contradicts the reason the database is encrypted at all. Export is explicit, so the user chooses the moment the plaintext exists.</p>
-<h3 id="convert">Converting between formats</h3>
-<p>The notes context menu converts one note at a time in either direction. Rich to markdown is lossy, so the confirmation names what will not survive before anything is rewritten; markdown to rich loses nothing. Headings are not reverse-engineered from font size on the way out - a large bold paragraph might be a heading or might be a large bold paragraph, and guessing wrong rewrites the user's document. Hyperlinks arriving from markdown are held to the same three schemes the editor allows anywhere else, since a markdown file is untrusted input once it can arrive by import or from a vault folder.</p>
-<p>Either direction is a single app-level undo entry that restores the <em>original bytes</em> rather than converting back. A round trip through the other format is lossy, so re-converting would hand back something subtly different from what was there.</p>
-<h3 id="preview">Preview</h3>
-<p>Notes that look like markdown or HTML get a preview toggle. Markdown renders through <b>Markdig</b> with raw HTML disabled; HTML notes are defused before display - scripts, event handlers, frames, and javascript: URLs are stripped. The preview is a viewer, never a place where pasted content gets to run.</p>
+<h2 data-i18n="t_fmt_h">Import &amp; export</h2>
+<h3 data-i18n="t_fmt_h1" id="import">In</h3>
+<p data-i18n="t_fmt_p1">Ctrl+O or drop files anywhere sensible: <code>.txt</code> / <code>.log</code> / <code>.md</code> import as text notes, <code>.rtf</code> loads natively with formatting intact, images land inline, and <code>.html</code> / <code>.htm</code> import as source - which the preview pane then renders, same as the markdown story: source in the editor, preview to view. Each file becomes its own note titled by its filename.</p>
+<h3 data-i18n="t_fmt_h2" id="export">Out</h3>
+<p data-i18n="t_fmt_p2">Any note exports as plain text, as <code>.rtf</code> (WordPad/Word-compatible, images included), or as a standalone theme-styled HTML page built by a purpose-built FlowDocument-to-HTML converter: paragraphs, lists, tables, character formatting, colors, and images embedded as base64 data URIs - one self-contained file.</p>
+<h3 data-i18n="t_fmt_h3" id="vault">Vault export</h3>
+<p data-i18n="t_fmt_p3">The whole database also exports as a folder of <code>.md</code> files. Groups become nested subfolders, and each file opens with YAML front matter carrying title, tags, and created and modified times - readers that do not understand front matter show it as a small block at the top rather than mangling the note. Files are UTF-8 with no BOM, since a BOM shows as stray characters above the first heading in a lot of markdown tooling. Titles are sanitized into filenames with reserved device names and trailing dots and spaces handled, and collisions get a numeric suffix; everything lands in a subfolder named after the open database, so exporting two notepads side by side cannot merge them.</p>
+<p data-i18n="t_fmt_p4">Rich-text notes are converted on the way out, so the folder is the whole notepad rather than only the notes that were already markdown. That conversion is lossy in the ways the convert dialog names - tables, images, colored text - but nothing in the database is modified: this writes files and touches no note. A single unreadable note is skipped and counted rather than aborting the run.</p>
+<p data-i18n="t_fmt_p5">It is deliberately one-way and on demand rather than a live sync of a watched folder. Sync means conflict resolution, file-watcher races, and partial writes from other editors, and it would leave a permanent plaintext copy of an encrypted database on disk - which contradicts the reason the database is encrypted at all. Export is explicit, so the user chooses the moment the plaintext exists.</p>
+<h3 data-i18n="t_fmt_h4" id="convert">Converting between formats</h3>
+<p data-i18n="t_fmt_p6">The notes context menu converts one note at a time in either direction. Rich to markdown is lossy, so the confirmation names what will not survive before anything is rewritten; markdown to rich loses nothing. Headings are not reverse-engineered from font size on the way out - a large bold paragraph might be a heading or might be a large bold paragraph, and guessing wrong rewrites the user's document. Hyperlinks arriving from markdown are held to the same three schemes the editor allows anywhere else, since a markdown file is untrusted input once it can arrive by import or from a vault folder.</p>
+<p data-i18n="t_fmt_p7">Either direction is a single app-level undo entry that restores the <em>original bytes</em> rather than converting back. A round trip through the other format is lossy, so re-converting would hand back something subtly different from what was there.</p>
+<h3 data-i18n="t_fmt_h5" id="preview">Preview</h3>
+<p data-i18n="t_fmt_p8">Notes that look like markdown or HTML get a preview toggle. Markdown renders through <b>Markdig</b> with raw HTML disabled; HTML notes are defused before display - scripts, event handlers, frames, and javascript: URLs are stripped. The preview is a viewer, never a place where pasted content gets to run.</p>
 </section>
 
 <section class="tech-sec" id="audio">
-<h2>Dictation &amp; audio</h2>
-<p>Recording and playback go through <b>winmm</b>, the waveIn and waveOut APIs that ship with Windows. Deliberately not WPF's MediaPlayer, which routes through the Windows Media Player components and fails outright on N editions, on Server, and anywhere the Media Feature Pack is absent - an app that records its own audio should not need a media stack to play it back. Capture is 16 kHz mono 16-bit PCM: what speech recognition wants, and only about 32 KB per second.</p>
-<h3 id="audioformat">Storage format</h3>
-<p>Recordings are stored as <b>FLAC</b> (libFLAC, BSD-3-Clause) - lossless and roughly half the size of WAV. Lossless is the point rather than a nicety: slicing a recording and saving it again is bit-identical every time, so editing the same take repeatedly costs nothing. MP3 (libmp3lame) is offered on <i>export</i> only, where the copy is one-way and universal playability is what matters; storing MP3 would mean every edit was a decode and re-encode, compounding generation loss. The format is detected per recording from its first four bytes, so recordings made before FLAC keep working with no conversion pass.</p>
-<h3 id="speech">Speech recognition</h3>
-<p>Transcription uses <b>whisper.cpp</b> (MIT) running locally. It replaced System.Speech, which is SAPI's desktop dictation engine - a command-and-control model from the Windows 7 era that was not misconfigured but simply at its ceiling, producing confident nonsense on unfamiliar words rather than admitting uncertainty. System.Speech remains as the fallback when no model is installed.</p>
-<p>The whisper natives are about 1.3 MB and ship inside the exe. The <i>model</i> is 75 to 466 MB, so it is downloaded on demand from whisper.cpp's own repository, into your local app data, after you pick a size. Nothing is downloaded without being asked, and nothing is uploaded at any point - the audio never leaves the machine.</p>
-<p>Three models are offered. The chooser names the file each one downloads, so a copy on disk can always be identified and checked against upstream:</p>
+<h2 data-i18n="t_audio_h">Dictation &amp; audio</h2>
+<p data-i18n="t_audio_p1">Recording and playback go through <b>winmm</b>, the waveIn and waveOut APIs that ship with Windows. Deliberately not WPF's MediaPlayer, which routes through the Windows Media Player components and fails outright on N editions, on Server, and anywhere the Media Feature Pack is absent - an app that records its own audio should not need a media stack to play it back. Capture is 16 kHz mono 16-bit PCM: what speech recognition wants, and only about 32 KB per second.</p>
+<h3 data-i18n="t_audio_h1" id="audioformat">Storage format</h3>
+<p data-i18n="t_audio_p2">Recordings are stored as <b>FLAC</b> (libFLAC, BSD-3-Clause) - lossless and roughly half the size of WAV. Lossless is the point rather than a nicety: slicing a recording and saving it again is bit-identical every time, so editing the same take repeatedly costs nothing. MP3 (libmp3lame) is offered on <i>export</i> only, where the copy is one-way and universal playability is what matters; storing MP3 would mean every edit was a decode and re-encode, compounding generation loss. The format is detected per recording from its first four bytes, so recordings made before FLAC keep working with no conversion pass.</p>
+<h3 data-i18n="t_audio_h2" id="speech">Speech recognition</h3>
+<p data-i18n="t_audio_p3">Transcription uses <b>whisper.cpp</b> (MIT) running locally. It replaced System.Speech, which is SAPI's desktop dictation engine - a command-and-control model from the Windows 7 era that was not misconfigured but simply at its ceiling, producing confident nonsense on unfamiliar words rather than admitting uncertainty. System.Speech remains as the fallback when no model is installed.</p>
+<p data-i18n="t_audio_p4">The whisper natives are about 1.3 MB and ship inside the exe. The <i>model</i> is 75 to 466 MB, so it is downloaded on demand from whisper.cpp's own repository, into your local app data, after you pick a size. Nothing is downloaded without being asked, and nothing is uploaded at any point - the audio never leaves the machine.</p>
+<p data-i18n="t_audio_p5">Three models are offered. The chooser names the file each one downloads, so a copy on disk can always be identified and checked against upstream:</p>
 <table class="spec-table">
-<tr><th>Choice</th><th>File</th><th>Size</th><th>Notes</th></tr>
-<tr><td>Fast</td><td><code>ggml-tiny.en.bin</code></td><td>75 MB</td><td>Fastest. A clear step up from Windows dictation, but weaker on names and technical terms.</td></tr>
-<tr><td>Recommended</td><td><code>ggml-base.en.bin</code></td><td>142 MB</td><td>The usual choice. Accurate enough to correct rather than rewrite, and quick on most machines.</td></tr>
-<tr><td>Most accurate</td><td><code>ggml-small.en.bin</code></td><td>466 MB</td><td>Most accurate of the three. Noticeably slower on an older laptop.</td></tr>
+<tr><th data-i18n="t_audio_r1k">Choice</th><th data-i18n="t_audio_r1v">File</th><th data-i18n="t_audio_r1x2">Size</th><th data-i18n="t_audio_r1x3">Notes</th></tr>
+<tr><td data-i18n="t_audio_r2k">Fast</td><td data-i18n="t_audio_r2v"><code>ggml-tiny.en.bin</code></td><td data-i18n="t_audio_r2x2">75 MB</td><td data-i18n="t_audio_r2x3">Fastest. A clear step up from Windows dictation, but weaker on names and technical terms.</td></tr>
+<tr><td data-i18n="t_audio_r3k">Recommended</td><td data-i18n="t_audio_r3v"><code>ggml-base.en.bin</code></td><td data-i18n="t_audio_r3x2">142 MB</td><td data-i18n="t_audio_r3x3">The usual choice. Accurate enough to correct rather than rewrite, and quick on most machines.</td></tr>
+<tr><td data-i18n="t_audio_r4k">Most accurate</td><td data-i18n="t_audio_r4v"><code>ggml-small.en.bin</code></td><td data-i18n="t_audio_r4x2">466 MB</td><td data-i18n="t_audio_r4x3">Most accurate of the three. Noticeably slower on an older laptop.</td></tr>
 </table>
-<p>All three are the English-only (<code>.en</code>) builds, pulled from <code>huggingface.co/ggerganov/whisper.cpp</code> - whisper.cpp's own repository, not a mirror - and written to <code>%LOCALAPPDATA%\KillerNotes\native\&lt;version&gt;\models</code>. When more than one is present the largest wins. Delete a file to reclaim the space; the chooser reopens from the right-click menu on the microphone in the sidebar rail, which is also the only way to change model after the first prompt.</p>
-<p>All three audio natives are cross-compiled from their upstream release tarballs rather than taken from a mirror; the tarballs, hashes and exact build commands are in the source tree, and LAME's LGPL source is attached to every release.</p>
+<p data-i18n="t_audio_p6">All three are the English-only (<code>.en</code>) builds, pulled from <code>huggingface.co/ggerganov/whisper.cpp</code> - whisper.cpp's own repository, not a mirror - and written to <code>%LOCALAPPDATA%\KillerNotes\native\&lt;version&gt;\models</code>. When more than one is present the largest wins. Delete a file to reclaim the space; the chooser reopens from the right-click menu on the microphone in the sidebar rail, which is also the only way to change model after the first prompt.</p>
+<p data-i18n="t_audio_p7">All three audio natives are cross-compiled from their upstream release tarballs rather than taken from a mirror; the tarballs, hashes and exact build commands are in the source tree, and LAME's LGPL source is attached to every release.</p>
 </section>
 
 <section class="tech-sec" id="editortools">
-<h2>Editor tools</h2>
-<h3 id="syntaxhl">Syntax highlighting</h3>
-<p>Toggled per note with <code>Ctrl+Shift+E</code>. The highlighter recognizes sixteen languages - PowerShell, Python, SQL, Bash, C#, JavaScript, TypeScript, CSS, HTML, XAML, XML, Vue, JSON, YAML, Markdown and plain - and detection runs <b>per paragraph</b> rather than per note. That is the design decision worth knowing: each block is sniffed on its own, so a scratch note holding a PowerShell one-liner, a SQL query and a chunk of YAML colors all three correctly without a language picker anywhere in the UI. Lines with no giveaway tokens of their own - a bare closing brace, <code>base.OnStartup(e);</code> - inherit the language of the code block above them, so pasted multi-line code colors whole; a prose line ends the block.</p>
-<p>Highlighting is viewport-scoped and incremental: only the paragraphs on or near the screen are tokenized, only when their text has changed, and pathological input is fenced by per-paragraph size caps and regex timeouts - a 6000-line pasted script stays typeable and scrollable.</p>
-<p>Coloring is applied as <code>TextEffects</code> over the existing runs, so it never touches the stored document - the toggle state rides the note as a tag and the text itself is unchanged. Turning it off restores the original brushes exactly.</p>
-<h3 id="sketchpad">SketchPad</h3>
-<p>A modeless drawing companion on <code>F7</code> (or <code>Ctrl+Shift+D</code>): pen, line, arrow, rectangle, ellipse, polygon, paint bucket, text labels and an eraser, with per-object color, width and opacity. It stays open beside the note rather than blocking it, so you can draw and type in turn.</p>
-<p>Drawings are kept as a <b>vector object list</b>, not just a bitmap. "Print to note" flattens the strokes to an image at the caret and stores the object list alongside it in a side table keyed to the note, so double-clicking that image reopens the original strokes for editing - the picture in the note and the editable drawing behind it stay linked. The paint bucket is a genuine raster flood fill of the rasterized strokes, so an unclosed shape leaks to the canvas edge exactly as it would in MS Paint.</p>
-<h3 id="killculator">Killculator</h3>
-<p>A calculator docked in the row beneath the notes list, opened with <code>F9</code>. It is a themed WPF control rather than a shell-out to calc.exe, so it follows the palette and the keyboard. <code>Ctrl+Enter</code> prints the current result into the note; <code>Ctrl+Shift+Enter</code> prints the whole running equation, which is the one that matters when the note has to show the working rather than the answer.</p>
-<h3 id="spellcheck">Spell check</h3>
-<p>Per note, off by default (<code>Ctrl+Shift+P</code>), using Windows' own spell checking. WPF's checker walks the whole document on the UI thread, so notes over 50,000 characters decline the toggle with a status message rather than hanging the app - a pasted script is not what spell check is for anyway.</p>
-<h3 id="floating">Floating placement</h3>
-<p>Images and recordings can be dragged out of the text flow to float, with text wrapping down the side. The mechanism is a FlowDocument <code>Floater</code>, chosen after <code>Figure</code> failed twice: Figure is the element that carries offsets and <code>WrapDirection.Both</code>, but an editable RichTextBox implements only a subset of FlowDocument layout and ignores both. Floater is the part it does implement properly. A Floater has no offset of its own, so horizontal position is a margin snapped to a twelve-column grid - twelve because it divides cleanly by 2, 3, 4 and 6 - and vertical position is <i>which paragraph the object is anchored in</i>, since a Floater reserves its column from its anchor downward. Dragging re-homes the anchor live, and the text lines are themselves the vertical grid.</p>
+<h2 data-i18n="t_tools_h">Editor tools</h2>
+<h3 data-i18n="t_tools_h1" id="syntaxhl">Syntax highlighting</h3>
+<p data-i18n="t_tools_p1">Toggled per note with <code>Ctrl+Shift+E</code>. The highlighter recognizes sixteen languages - PowerShell, Python, SQL, Bash, C#, JavaScript, TypeScript, CSS, HTML, XAML, XML, Vue, JSON, YAML, Markdown and plain - and detection runs <b>per paragraph</b> rather than per note. That is the design decision worth knowing: each block is sniffed on its own, so a scratch note holding a PowerShell one-liner, a SQL query and a chunk of YAML colors all three correctly without a language picker anywhere in the UI. Lines with no giveaway tokens of their own - a bare closing brace, <code>base.OnStartup(e);</code> - inherit the language of the code block above them, so pasted multi-line code colors whole; a prose line ends the block.</p>
+<p data-i18n="t_tools_p2">Highlighting is viewport-scoped and incremental: only the paragraphs on or near the screen are tokenized, only when their text has changed, and pathological input is fenced by per-paragraph size caps and regex timeouts - a 6000-line pasted script stays typeable and scrollable.</p>
+<p data-i18n="t_tools_p3">Coloring is applied as <code>TextEffects</code> over the existing runs, so it never touches the stored document - the toggle state rides the note as a tag and the text itself is unchanged. Turning it off restores the original brushes exactly.</p>
+<h3 data-i18n="t_tools_h2" id="sketchpad">SketchPad</h3>
+<p data-i18n="t_tools_p4">A modeless drawing companion on <code>F7</code> (or <code>Ctrl+Shift+D</code>): pen, line, arrow, rectangle, ellipse, polygon, paint bucket, text labels and an eraser, with per-object color, width and opacity. It stays open beside the note rather than blocking it, so you can draw and type in turn.</p>
+<p data-i18n="t_tools_p5">Drawings are kept as a <b>vector object list</b>, not just a bitmap. "Print to note" flattens the strokes to an image at the caret and stores the object list alongside it in a side table keyed to the note, so double-clicking that image reopens the original strokes for editing - the picture in the note and the editable drawing behind it stay linked. The paint bucket is a genuine raster flood fill of the rasterized strokes, so an unclosed shape leaks to the canvas edge exactly as it would in MS Paint.</p>
+<h3 data-i18n="t_tools_h3" id="killculator">Killculator</h3>
+<p data-i18n="t_tools_p6">A calculator docked in the row beneath the notes list, opened with <code>F9</code>. It is a themed WPF control rather than a shell-out to calc.exe, so it follows the palette and the keyboard. <code>Ctrl+Enter</code> prints the current result into the note; <code>Ctrl+Shift+Enter</code> prints the whole running equation, which is the one that matters when the note has to show the working rather than the answer.</p>
+<h3 data-i18n="t_tools_h4" id="spellcheck">Spell check</h3>
+<p data-i18n="t_tools_p7">Per note, off by default (<code>Ctrl+Shift+P</code>), using Windows' own spell checking. WPF's checker walks the whole document on the UI thread, so notes over 50,000 characters decline the toggle with a status message rather than hanging the app - a pasted script is not what spell check is for anyway.</p>
+<h3 data-i18n="t_tools_h5" id="floating">Floating placement</h3>
+<p data-i18n="t_tools_p8">Images and recordings can be dragged out of the text flow to float, with text wrapping down the side. The mechanism is a FlowDocument <code>Floater</code>, chosen after <code>Figure</code> failed twice: Figure is the element that carries offsets and <code>WrapDirection.Both</code>, but an editable RichTextBox implements only a subset of FlowDocument layout and ignores both. Floater is the part it does implement properly. A Floater has no offset of its own, so horizontal position is a margin snapped to a twelve-column grid - twelve because it divides cleanly by 2, 3, 4 and 6 - and vertical position is <i>which paragraph the object is anchored in</i>, since a Floater reserves its column from its anchor downward. Dragging re-homes the anchor live, and the text lines are themselves the vertical grid.</p>
 </section>
 
 <section class="tech-sec" id="localization">
-<h2>Localization</h2>
-<p>The interface ships in twelve languages: English, Bengali, Czech, German, Spanish, French, Hungarian, Japanese, Polish, Turkish, Simplified Chinese and Traditional Chinese. Switching is live - no restart, no relaunch - because every string is a <code>DynamicResource</code> lookup against a merged ResourceDictionary that is swapped in place, the same mechanism the themes use.</p>
-<p>Translation covers the whole surface, not just the menus: dialogs, tooltips, context menus, the status bar, the keyboard-shortcut overlay and its visual keyboard map. The shortcut <i>keycaps</i> stay in English on purpose - a key is a physical thing, and translating "Ctrl" helps nobody - while their descriptions are translated.</p>
-<p>Each locale is one XAML file in <code>Strings/</code>, so adding a language means adding a file and an entry to the picker, with no code change. Missing keys fall back to en-US rather than rendering blank, so a partial translation degrades to English instead of breaking the layout.</p>
+<h2 data-i18n="t_loc_h">Localization</h2>
+<p data-i18n="t_loc_p1">The interface ships in twelve languages: English, Bengali, Czech, German, Spanish, French, Hungarian, Japanese, Polish, Turkish, Simplified Chinese and Traditional Chinese. Switching is live - no restart, no relaunch - because every string is a <code>DynamicResource</code> lookup against a merged ResourceDictionary that is swapped in place, the same mechanism the themes use.</p>
+<p data-i18n="t_loc_p2">Translation covers the whole surface, not just the menus: dialogs, tooltips, context menus, the status bar, the keyboard-shortcut overlay and its visual keyboard map. The shortcut <i>keycaps</i> stay in English on purpose - a key is a physical thing, and translating "Ctrl" helps nobody - while their descriptions are translated.</p>
+<p data-i18n="t_loc_p3">Each locale is one XAML file in <code>Strings/</code>, so adding a language means adding a file and an entry to the picker, with no code change. Missing keys fall back to en-US rather than rendering blank, so a partial translation degrades to English instead of breaking the layout.</p>
 </section>
 
 <section class="tech-sec" id="privacy">
-<h2>Privacy</h2>
-<p>Everything runs on your machine. Notes never leave your disk unless you export or share them yourself. There is no account, no cloud sync, no telemetry, and no ads. The only network requests the app ever makes are to GitHub, both from the About panel: a version check when you open it, and the release download itself if you choose to update.</p>
+<h2 data-i18n="t_priv_h">Privacy</h2>
+<p data-i18n="t_priv_p1">Everything runs on your machine. Notes never leave your disk unless you export or share them yourself. There is no account, no cloud sync, no telemetry, and no ads. The only network requests the app ever makes are to GitHub, both from the About panel: a version check when you open it, and the release download itself if you choose to update.</p>
 </section>
 
 <section class="tech-sec" id="distribution">
-<h2>Distribution</h2>
-<p>KillerNotes ships as a <b>single signed exe</b> - about 8.2 MB with every dependency embedded, including the SQLCipher engine. No installer is required and there is no folder of DLLs: download, double-click, take notes. The exe is Authenticode-signed and timestamped, so Windows shows a verified publisher instead of an unknown-publisher warning, and the About panel shows the certificate thumbprint plus the exe's SHA-256 to check against the release page.</p>
+<h2 data-i18n="t_dist_h">Distribution</h2>
+<p data-i18n="t_dist_p1">KillerNotes ships as a <b>single signed exe</b> - about 8.2 MB with every dependency embedded, including the SQLCipher engine. No installer is required and there is no folder of DLLs: download, double-click, take notes. The exe is Authenticode-signed and timestamped, so Windows shows a verified publisher instead of an unknown-publisher warning, and the About panel shows the certificate thumbprint plus the exe's SHA-256 to check against the release page.</p>
 <ul class="blurb-list">
-<li><b>Portable first</b> - run it from anywhere, including a USB stick. Notes live in <code>%APPDATA%\KillerNotes</code> by default, and the data folder is configurable - point it next to the exe and the whole notepad travels with the stick.</li>
-<li><b>Optional install</b> - a PORTABLE badge in the status bar offers a one-click per-user install: Start Menu shortcut, optional desktop shortcut, and an Add/Remove Programs entry. No admin rights needed.</li>
-<li><b><code>KillerNotes.exe /silent</code></b> - unattended machine-wide install to Program Files, made for RMM, winget, and Chocolatey deployment. <code>/uninstall</code> reverses it - and your notes are always kept.</li>
-<li><b>Open source</b> - GPLv3. Every release attaches the exact source as <code>KillerNotes-x.y.z-src.zip</code> next to the exe.</li>
+<li data-i18n="t_dist_l1"><b>Portable first</b> - run it from anywhere, including a USB stick. Notes live in <code>%APPDATA%\KillerNotes</code> by default, and the data folder is configurable - point it next to the exe and the whole notepad travels with the stick.</li>
+<li data-i18n="t_dist_l2"><b>Optional install</b> - a PORTABLE badge in the status bar offers a one-click per-user install: Start Menu shortcut, optional desktop shortcut, and an Add/Remove Programs entry. No admin rights needed.</li>
+<li data-i18n="t_dist_l3"><b><code>KillerNotes.exe /silent</code></b> - unattended machine-wide install to Program Files, made for RMM, winget, and Chocolatey deployment. <code>/uninstall</code> reverses it - and your notes are always kept.</li>
+<li data-i18n="t_dist_l4"><b>Open source</b> - GPLv3. Every release attaches the exact source as <code>KillerNotes-x.y.z-src.zip</code> next to the exe.</li>
 </ul>
 </section>
 
 <section class="tech-sec" id="specs">
-<h2>Specs</h2>
+<h2 data-i18n="t_spec_h">Specs</h2>
 <table class="spec-table">
-<tr><th>Spec</th><th>Value</th></tr>
-<tr><td>Platform</td><td>Windows 10/11, x64</td></tr>
-<tr><td>Stack</td><td>C# / WPF on .NET Framework 4.8 (no runtime install on Win 10/11)</td></tr>
-<tr><td>Storage</td><td>SQLite via Microsoft.Data.Sqlite; one database file per notepad in a configurable data folder (default %APPDATA%\KillerNotes)</td></tr>
-<tr><td>Search</td><td>SQLite FTS5, external-content index, prefix matching as you type</td></tr>
-<tr><td>Encryption</td><td>SQLCipher (AES-256), whole-database, opt-in per database</td></tr>
-<tr><td>Rich content</td><td>WPF FlowDocument stored as XamlPackage blobs (images + tables round-trip)</td></tr>
-<tr><td>Markdown</td><td>Markdig, advanced extensions, raw HTML disabled</td></tr>
-<tr><td>Audio</td><td>winmm waveIn/waveOut capture and playback at 16 kHz mono; stored as FLAC, exports to WAV or MP3</td></tr>
-<tr><td>Speech</td><td>whisper.cpp offline, model downloaded on demand (75-466 MB); System.Speech fallback</td></tr>
-<tr><td>Syntax highlighting</td><td>16 languages, detected per paragraph; applied as TextEffects, stored text unchanged</td></tr>
-<tr><td>Drawing</td><td>SketchPad vector object list, flattened to an image in the note and reopenable for editing</td></tr>
-<tr><td>Themes</td><td>13 (98SE, Black, Blood, Cyanotic, Dark, Decay, Delirium, Ectoplasm, Greed, Light, Malaise, Mourning, Sepulchre), live-switchable with per-theme accents</td></tr>
-<tr><td>Languages</td><td>12 (en, bn, cs, de, es, fr, hu, ja, pl, tr, zh-Hans, zh-Hant), live-switchable, en-US fallback</td></tr>
-<tr><td>Share formats</td><td>.knote (single note), .kndb (whole database), HKCU file associations</td></tr>
-<tr><td>Import</td><td>.txt, .log, .md, .html, .htm, .rtf, png/jpg/jpeg/gif/bmp images</td></tr>
-<tr><td>Export</td><td>.txt, .rtf, self-contained .html; notes also share as .knote</td></tr>
-<tr><td>Network use</td><td>None, except the About panel's version check and optional self-update download (GitHub)</td></tr>
-<tr><td>Distribution</td><td>Single signed exe (~8.2 MB); portable, per-user install, or /silent machine-wide</td></tr>
-<tr><td>License</td><td>GPLv3; source zip attached to every release</td></tr>
+<tr><th data-i18n="t_spec_r1k">Spec</th><th data-i18n="t_spec_r1v">Value</th></tr>
+<tr><td data-i18n="t_spec_r2k">Platform</td><td data-i18n="t_spec_r2v">Windows 10/11, x64</td></tr>
+<tr><td data-i18n="t_spec_r3k">Stack</td><td data-i18n="t_spec_r3v">C# / WPF on .NET Framework 4.8 (no runtime install on Win 10/11)</td></tr>
+<tr><td data-i18n="t_spec_r4k">Storage</td><td data-i18n="t_spec_r4v">SQLite via Microsoft.Data.Sqlite; one database file per notepad in a configurable data folder (default %APPDATA%\KillerNotes)</td></tr>
+<tr><td data-i18n="t_spec_r5k">Search</td><td data-i18n="t_spec_r5v">SQLite FTS5, external-content index, prefix matching as you type</td></tr>
+<tr><td data-i18n="t_spec_r6k">Encryption</td><td data-i18n="t_spec_r6v">SQLCipher (AES-256), whole-database, opt-in per database</td></tr>
+<tr><td data-i18n="t_spec_r7k">Rich content</td><td data-i18n="t_spec_r7v">WPF FlowDocument stored as XamlPackage blobs (images + tables round-trip)</td></tr>
+<tr><td data-i18n="t_spec_r8k">Markdown</td><td data-i18n="t_spec_r8v">Markdig, advanced extensions, raw HTML disabled</td></tr>
+<tr><td data-i18n="t_spec_r9k">Audio</td><td data-i18n="t_spec_r9v">winmm waveIn/waveOut capture and playback at 16 kHz mono; stored as FLAC, exports to WAV or MP3</td></tr>
+<tr><td data-i18n="t_spec_r10k">Speech</td><td data-i18n="t_spec_r10v">whisper.cpp offline, model downloaded on demand (75-466 MB); System.Speech fallback</td></tr>
+<tr><td data-i18n="t_spec_r11k">Syntax highlighting</td><td data-i18n="t_spec_r11v">16 languages, detected per paragraph; applied as TextEffects, stored text unchanged</td></tr>
+<tr><td data-i18n="t_spec_r12k">Drawing</td><td data-i18n="t_spec_r12v">SketchPad vector object list, flattened to an image in the note and reopenable for editing</td></tr>
+<tr><td data-i18n="t_spec_r13k">Themes</td><td data-i18n="t_spec_r13v">13 (98SE, Black, Blood, Cyanotic, Dark, Decay, Delirium, Ectoplasm, Greed, Light, Malaise, Mourning, Sepulchre), live-switchable with per-theme accents</td></tr>
+<tr><td data-i18n="t_spec_r14k">Languages</td><td data-i18n="t_spec_r14v">12 (en, bn, cs, de, es, fr, hu, ja, pl, tr, zh-Hans, zh-Hant), live-switchable, en-US fallback</td></tr>
+<tr><td data-i18n="t_spec_r15k">Share formats</td><td data-i18n="t_spec_r15v">.knote (single note), .kndb (whole database), HKCU file associations</td></tr>
+<tr><td data-i18n="t_spec_r16k">Import</td><td data-i18n="t_spec_r16v">.txt, .log, .md, .html, .htm, .rtf, png/jpg/jpeg/gif/bmp images</td></tr>
+<tr><td data-i18n="t_spec_r17k">Export</td><td data-i18n="t_spec_r17v">.txt, .rtf, self-contained .html; notes also share as .knote</td></tr>
+<tr><td data-i18n="t_spec_r18k">Network use</td><td data-i18n="t_spec_r18v">None, except the About panel's version check and optional self-update download (GitHub)</td></tr>
+<tr><td data-i18n="t_spec_r19k">Distribution</td><td data-i18n="t_spec_r19v">Single signed exe (~8.2 MB); portable, per-user install, or /silent machine-wide</td></tr>
+<tr><td data-i18n="t_spec_r20k">License</td><td data-i18n="t_spec_r20v">GPLv3; source zip attached to every release</td></tr>
 </table>
 </section>
 
@@ -332,34 +456,38 @@
 <aside class="sidebar">
 <div class="sb-tabs"><span class="on" data-i18n="nav_tech">Technical</span></div>
 <nav class="outline">
-<a href="#architecture" class="on">Architecture</a>
-<a href="#database">A database, for the layman</a>
-<a href="#storage">Storage</a>
-<a href="#autosave" class="sub">Autosave</a>
-<a href="#search">Search</a>
-<a href="#replace" class="sub">Replace</a>
-<a href="#encryption">Encryption</a>
-<a href="#fineprint" class="sub">The honest fine print</a>
-<a href="#sharing">Sharing formats</a>
-<a href="#formats">Import &amp; export</a>
-<a href="#import" class="sub">In</a>
-<a href="#export" class="sub">Out</a>
-<a href="#vault" class="sub">Vault export</a>
-<a href="#convert" class="sub">Converting between formats</a>
-<a href="#preview" class="sub">Preview</a>
-<a href="#audio">Dictation &amp; audio</a>
-<a href="#audioformat" class="sub">Storage format</a>
-<a href="#speech" class="sub">Speech recognition</a>
-<a href="#editortools">Editor tools</a>
-<a href="#syntaxhl" class="sub">Syntax highlighting</a>
-<a href="#sketchpad" class="sub">SketchPad</a>
-<a href="#killculator" class="sub">Killculator</a>
-<a href="#spellcheck" class="sub">Spell check</a>
-<a href="#floating" class="sub">Floating placement</a>
-<a href="#localization">Localization</a>
-<a href="#privacy">Privacy</a>
-<a href="#distribution">Distribution</a>
-<a href="#specs">Specs</a>
+<a href="#architecture" class="on" data-i18n="t_nav_architecture">Architecture</a>
+<a href="#database" data-i18n="t_nav_database">A database, for the layman</a>
+<a href="#storage" data-i18n="t_nav_storage">Storage</a>
+<a href="#autosave" class="sub" data-i18n="t_nav_autosave">Autosave</a>
+<a href="#search" data-i18n="t_nav_search">Search</a>
+<a href="#replace" class="sub" data-i18n="t_nav_replace">Replace</a>
+<a href="#links" data-i18n="t_nav_links">Linked notes &amp; the graph</a>
+<a href="#wikilinks" class="sub" data-i18n="t_nav_wikilinks">Wikilinks and the link table</a>
+<a href="#graphview" class="sub" data-i18n="t_nav_graphview">The graph</a>
+<a href="#graphlayouts" class="sub" data-i18n="t_nav_graphlayouts">Where layouts live</a>
+<a href="#encryption" data-i18n="t_nav_encryption">Encryption</a>
+<a href="#fineprint" class="sub" data-i18n="t_nav_fineprint">The honest fine print</a>
+<a href="#sharing" data-i18n="t_nav_sharing">Sharing formats</a>
+<a href="#formats" data-i18n="t_nav_formats">Import &amp; export</a>
+<a href="#import" class="sub" data-i18n="t_nav_import">In</a>
+<a href="#export" class="sub" data-i18n="t_nav_export">Out</a>
+<a href="#vault" class="sub" data-i18n="t_nav_vault">Vault export</a>
+<a href="#convert" class="sub" data-i18n="t_nav_convert">Converting between formats</a>
+<a href="#preview" class="sub" data-i18n="t_nav_preview">Preview</a>
+<a href="#audio" data-i18n="t_nav_audio">Dictation &amp; audio</a>
+<a href="#audioformat" class="sub" data-i18n="t_nav_audioformat">Storage format</a>
+<a href="#speech" class="sub" data-i18n="t_nav_speech">Speech recognition</a>
+<a href="#editortools" data-i18n="t_nav_editortools">Editor tools</a>
+<a href="#syntaxhl" class="sub" data-i18n="t_nav_syntaxhl">Syntax highlighting</a>
+<a href="#sketchpad" class="sub" data-i18n="t_nav_sketchpad">SketchPad</a>
+<a href="#killculator" class="sub" data-i18n="t_nav_killculator">Killculator</a>
+<a href="#spellcheck" class="sub" data-i18n="t_nav_spellcheck">Spell check</a>
+<a href="#floating" class="sub" data-i18n="t_nav_floating">Floating placement</a>
+<a href="#localization" data-i18n="t_nav_localization">Localization</a>
+<a href="#privacy" data-i18n="t_nav_privacy">Privacy</a>
+<a href="#distribution" data-i18n="t_nav_distribution">Distribution</a>
+<a href="#specs" data-i18n="t_nav_specs">Specs</a>
 </nav>
 </aside>
 </div>
@@ -369,7 +497,7 @@
 </footer>
 <div class="egg-toast" id="eggToast"></div>
 <div class="dlightbox" id="dlightbox" hidden><div class="dlb-inner" id="dlbInner"></div></div>
-<script src="kn-i18n.js?v=9"></script>
+<script src="kn-i18n.js?v=10"></script>
 <script src="kn.js?v=3"></script>
 <script>
 (function(){
