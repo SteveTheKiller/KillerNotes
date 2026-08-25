@@ -108,9 +108,9 @@ namespace KillerNotes.Controls.Dictation
                                owner.ActualHeight > 0 ? owner.ActualHeight : owner.Height);
                 Left = r.Left + (r.Width - Width) / 2;
                 Top = r.Top + (r.Height - Height) / 2;
-                EventHandler ownerClosed = (_, _) => Close();
-                owner.Closed += ownerClosed;
-                Closed += (_, _) => owner.Closed -= ownerClosed;
+                void OwnerClosed(object? sender, EventArgs args) => Close();
+                owner.Closed += OwnerClosed;
+                Closed += (_, _) => owner.Closed -= OwnerClosed;
             }
             else WindowStartupLocation = WindowStartupLocation.CenterScreen;
             UseLayoutRounding = true;
@@ -123,14 +123,14 @@ namespace KillerNotes.Controls.Dictation
 
             // Margins are Thickness values and cannot be resource references, so a live theme
             // switch re-applies them; grain and the caption swap are resource-driven already.
-            Action onThemeChanged = () =>
+            void OnThemeChanged()
             {
                 _body.Margin = TryFindResource("UseDialogCaption") != null
                     ? new Thickness(4, 4, 4, 6) : new Thickness(16, 10, 16, 14);
                 EnsureCardChrome();   // radius + shadow + grain rounding follow the new theme live
-            };
-            KillerNotes.Services.ThemeManager.ThemeChanged += onThemeChanged;
-            Closed += (_, _) => KillerNotes.Services.ThemeManager.ThemeChanged -= onThemeChanged;
+            }
+            KillerNotes.Services.ThemeManager.ThemeChanged += OnThemeChanged;
+            Closed += (_, _) => KillerNotes.Services.ThemeManager.ThemeChanged -= OnThemeChanged;
 
             Opacity = 0;
             Loaded += (_, _) => { EnsureCardChrome(); Anim.FadeIn(this); };

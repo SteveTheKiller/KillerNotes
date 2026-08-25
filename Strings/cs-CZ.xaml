@@ -623,6 +623,10 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Sketch_Zoom">Přiblížení (Ctrl+Wheel) - kliknutím na 100%, dalším kliknutím přizpůsobíte</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">„{0}" zatím neexistuje</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Vytvořit ji jako novou poznámku a otevřít?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">Aktualizovat {0} odkazů v {1} poznámkách?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">Z odkazů [[{0}]] se stane [[{1}]]. Jedno Ctrl+Z vše vrátí zpět.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Aktualizovat odkazy</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">Aktualizováno {0} odkazů v {1} poznámkách</sys:String>
     <sys:String x:Key="Str_Lbl_Backlinks">Odkazuje sem</sys:String>
     <sys:String x:Key="Str_St_NoBacklinks">Zatím sem žádná poznámka neodkazuje</sys:String>
     <sys:String x:Key="Str_TT_Backlinks">Poznámky, které odkazují na tuto</sys:String>

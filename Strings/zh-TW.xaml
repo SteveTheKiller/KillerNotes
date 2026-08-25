@@ -626,6 +626,10 @@
     <sys:String x:Key="Str_Sketch_Zoom">縮放 (Ctrl+Wheel) - 按一下顯示 100%，再按一次符合視窗</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">「{0}」還不存在</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">建立為一則新筆記並開啟?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">要更新 {1} 則筆記中的 {0} 個連結嗎?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">[[{0}]] 的連結都會變成 [[{1}]]。按一次 Ctrl+Z 即可全部復原。</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">更新連結</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">已在 {1} 則筆記中更新 {0} 個連結</sys:String>
     <sys:String x:Key="Str_Lbl_Backlinks">連結來源</sys:String>
     <sys:String x:Key="Str_St_NoBacklinks">還沒有筆記連結到這裡</sys:String>
     <sys:String x:Key="Str_TT_Backlinks">連結到這則筆記的筆記</sys:String>

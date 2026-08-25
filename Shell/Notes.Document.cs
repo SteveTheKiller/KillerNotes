@@ -215,7 +215,12 @@ namespace KillerNotes.Shell
             // a labeled diagram is searchable without its labels ever displacing the snippet.
             string sketchLabels = CollectSketchLabelText();
             string storedPlain = sketchLabels.Length == 0 ? bodyText : bodyText + "\n" + sketchLabels;
+            // Read BEFORE the save and the row sync below, which are the two things that destroy
+            // the old title. Wikilinks target titles, so a rename orphans every link that named
+            // this note, and WikiRename.cs offers to rewrite them once the box is done with.
+            string titleWas = _notes.FirstOrDefault(n => n.Id == _currentId)?.Title ?? "";
             NoteStore.Save(_currentId, TitleBox.Text, blob, storedPlain);
+            RecordRename(_currentId, titleWas, TitleBox.Text);   // WikiRename.cs
             // Wikilinks are re-derived from the text every save, so an edge appears the moment a
             // link is typed and disappears the moment it is deleted. Parsed from bodyText, NOT
             // storedPlain: the sketch labels appended to the stored copy are diagram captions, and

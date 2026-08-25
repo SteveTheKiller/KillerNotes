@@ -625,6 +625,10 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Sketch_Zoom">Yakınlaştır (Ctrl+Wheel) - 100% için tıklayın, sığdırmak için tekrar tıklayın</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" henüz yok</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Yeni bir not olarak oluşturulup açılsın mı?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">{1} nottaki {0} bağlantı güncellensin mi?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">[[{0}]] yazan bağlantılar [[{1}]] olur. Tek bir Ctrl+Z hepsini geri alır.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Bağlantıları güncelle</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">{1} notta {0} bağlantı güncellendi</sys:String>
     <sys:String x:Key="Str_Lbl_Backlinks">Bağlantı verenler</sys:String>
     <sys:String x:Key="Str_St_NoBacklinks">Buraya henüz hiçbir not bağlantı vermiyor</sys:String>
     <sys:String x:Key="Str_TT_Backlinks">Bu nota bağlantı veren notlar</sys:String>

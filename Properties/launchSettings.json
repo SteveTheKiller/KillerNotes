@@ -6,6 +6,10 @@
     "KillerNotes (demo)": {
       "commandName": "Project",
       "commandLineArgs": "--demo"
+    },
+    "KillerNotes (Demo, syntax)": {
+      "commandName": "Project",
+      "commandLineArgs": "--demo --syntaxcheck"
     }
   }
 }

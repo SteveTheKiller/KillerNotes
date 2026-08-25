@@ -186,7 +186,7 @@ namespace KillerNotes.Shell
                         double size = elem?.GetValue(TextElement.FontSizeProperty) is double d ? d : _rtb.FontSize;
                         var ft = new FormattedText(run[..len], CultureInfo.CurrentUICulture,
                             _rtb.FlowDirection, typeface, size, brush, null, TextFormattingMode.Display, ppd);
-                        if ((elem as Inline)?.TextDecorations is { Count: > 0 } deco)
+                        if (elem is Inline inline && inline.TextDecorations is { Count: > 0 } deco)
                             ft.SetTextDecorations(deco);
                         pending.Add((ft, rect.TopLeft));
                     }

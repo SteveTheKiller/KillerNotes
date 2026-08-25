@@ -100,7 +100,7 @@ namespace KillerNotes.Shell
             var hits = NoteStore.TitlesStartingWith(query);
             // Never offer the note being edited: linking a note to itself is not an edge, and the
             // graph drops it anyway.
-            hits = hits.Where(h => h.Id != _currentId).ToList();
+            hits = [.. hits.Where(h => h.Id != _currentId)];
             if (hits.Count == 0) { CloseWikiCompletion(); return; }
 
             _wlList.ItemsSource = hits.Select(h => h.Title).ToList();

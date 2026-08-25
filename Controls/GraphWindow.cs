@@ -1059,7 +1059,7 @@ namespace KillerNotes.Controls
             n.Dot.StrokeThickness = sel ? 3 : n.Locked ? 2 : n.Ghost ? 1.4 : 0;
             // A DoubleCollection is measured in multiples of the stroke thickness, so this stays
             // the same dash pattern at either thickness rather than needing a value per state.
-            n.Dot.StrokeDashArray = n.Locked ? new DoubleCollection { 1.6, 1.2 } : null;
+            n.Dot.StrokeDashArray = n.Locked ? [1.6, 1.2] : null;
         }
 
         /// <summary>The one place allowed to change a lock, because it is the one place that keeps

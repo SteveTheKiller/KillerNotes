@@ -581,6 +581,10 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Sketch_Zoom">Powiększenie (Ctrl+Wheel) - kliknij, aby uzyskać 100%, ponownie, aby dopasować</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" jeszcze nie istnieje</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Utworzyć ją jako nową notatkę i otworzyć?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">Zaktualizować {0} łączy w {1} notatkach?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">Łącza z [[{0}]] zmienią się na [[{1}]]. Jedno Ctrl+Z cofnie wszystko.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Aktualizuj łącza</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">Zaktualizowano {0} łączy w {1} notatkach</sys:String>
     <sys:String x:Key="Str_Lbl_Backlinks">Prowadzą tutaj</sys:String>
     <sys:String x:Key="Str_St_NoBacklinks">Żadna notatka jeszcze tu nie prowadzi</sys:String>
     <sys:String x:Key="Str_TT_Backlinks">Notatki, które prowadzą do tej</sys:String>

@@ -624,6 +624,10 @@
     <sys:String x:Key="Str_Sketch_Zoom">缩放 (Ctrl+Wheel) - 点击显示 100%，再点一次适应窗口</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">“{0}”还不存在</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">创建为一条新笔记并打开?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">更新 {1} 条笔记中的 {0} 个链接吗?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">[[{0}]] 的链接都会变成 [[{1}]]。按一次 Ctrl+Z 即可全部撤销。</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">更新链接</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">已在 {1} 条笔记中更新 {0} 个链接</sys:String>
     <sys:String x:Key="Str_Lbl_Backlinks">链接来源</sys:String>
     <sys:String x:Key="Str_St_NoBacklinks">还没有笔记链接到这里</sys:String>
     <sys:String x:Key="Str_TT_Backlinks">链接到这条笔记的笔记</sys:String>

@@ -624,6 +624,10 @@
     <sys:String x:Key="Str_Sketch_Zoom">ズーム (Ctrl+Wheel) - クリックで 100%、もう一度で全体表示</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">「{0}」はまだありません</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">新しいノートとして作成して開きますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">{1} 件のノートの {0} 件のリンクを更新しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">[[{0}]] のリンクが [[{1}]] になります。Ctrl+Z 一回ですべて元に戻せます。</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">リンクを更新</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">{1} 件のノートで {0} 件のリンクを更新しました</sys:String>
     <sys:String x:Key="Str_Lbl_Backlinks">リンク元</sys:String>
     <sys:String x:Key="Str_St_NoBacklinks">ここにリンクしているノートはまだありません</sys:String>
     <sys:String x:Key="Str_TT_Backlinks">このノートにリンクしているノート</sys:String>

@@ -515,6 +515,10 @@ namespace KillerNotes.Shell
                 }
                 catch (InvalidOperationException) { /* document changed during deferred refresh */ }
             }
+
+            // Prove it, when asked to. Reads the finished paragraph back and compares what carries
+            // a syntax color against what the tokenizer asked for (SyntaxAudit.cs). Off by default.
+            if (SyntaxAudit) AuditParagraph(paragraph, s, tokens, language);
         }
 
         private static void Add(List<(int Start, int Length, Color Color)> dst, string text, string pattern, Color color, RegexOptions options = RegexOptions.None)

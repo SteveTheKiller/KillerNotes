@@ -1435,6 +1435,7 @@
                                  SelectionTextBrush="{DynamicResource TextSelectionTextBrush}"
                          FontSize="17" FontWeight="SemiBold"
                          TextChanged="TitleBox_TextChanged"
+                         LostKeyboardFocus="TitleBox_LostKeyboardFocus"
                          PreviewMouseLeftButtonDown="TitleBox_PreviewMouseLeftButtonDown">
                     <!-- Explicit menu: the framework's built-in editing menu ignores the app's
                          implicit ContextMenu/MenuItem styles, so it renders unthemed -->

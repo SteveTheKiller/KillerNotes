@@ -62,6 +62,16 @@ namespace KillerNotes
                 return;
             }
 
+            // Syntax audit: --syntaxcheck (or /syntaxcheck) makes the highlighter verify its own
+            // work after every paint and write what it finds to syntax-audit.log. Off by default
+            // and costly, because it re-reads each paragraph it just painted - this exists to
+            // catch tokens landing on the wrong characters, which has been reported and
+            // "fixed" more than once without the failing case ever being captured.
+            foreach (string a in e.Args)
+                if (a.Equals("--syntaxcheck", StringComparison.OrdinalIgnoreCase) ||
+                    a.Equals("/syntaxcheck", StringComparison.OrdinalIgnoreCase))
+                    KillerNotes.Shell.MainWindow.SyntaxAudit = true;
+
             // Screenshot / demo mode: --demo (or /demo) fills a scratch database with
             // fabricated notes (DemoMode.cs). The real notes.db is never touched.
             foreach (string a in e.Args)

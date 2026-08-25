@@ -680,6 +680,10 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Sketch_Zoom">Nagyítás (Ctrl+Wheel) - kattintson a 100%-hoz, ismét a képhez igazításhoz</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">A(z) &quot;{0}&quot; még nem létezik</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Létrehozza új jegyzetként és megnyitja?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">Frissíti a(z) {0} hivatkozást {1} jegyzetben?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">A [[{0}]] hivatkozásokból [[{1}]] lesz. Egyetlen Ctrl+Z mindet visszavonja.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Hivatkozások frissítése</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">{0} hivatkozás frissítve {1} jegyzetben</sys:String>
     <sys:String x:Key="Str_Lbl_Backlinks">Hivatkozik rá</sys:String>
     <sys:String x:Key="Str_St_NoBacklinks">Még egy jegyzet sem hivatkozik ide</sys:String>
     <sys:String x:Key="Str_TT_Backlinks">Jegyzetek, amelyek erre hivatkoznak</sys:String>

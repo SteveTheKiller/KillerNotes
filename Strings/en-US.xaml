@@ -693,6 +693,10 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Sketch_Zoom">Zoom (Ctrl+Wheel) - click for 100%, again to fit</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" does not exist yet</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Create it as a new note and open it?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">Update {0} links in {1} notes?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">Links that say [[{0}]] become [[{1}]]. One Ctrl+Z undoes the whole thing.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Update links</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">Updated {0} links in {1} notes</sys:String>
     <sys:String x:Key="Str_Lbl_Backlinks">Linked from</sys:String>
     <sys:String x:Key="Str_St_NoBacklinks">No notes link here yet</sys:String>
     <sys:String x:Key="Str_TT_Backlinks">Notes that link to this one</sys:String>

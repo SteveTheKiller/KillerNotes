@@ -626,6 +626,10 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Sketch_Zoom">Zoom (Ctrl+Wheel) - cliquez pour 100%, encore pour ajuster</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">« {0} » n'existe pas encore</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">La créer comme nouvelle note et l'ouvrir ?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">Mettre à jour {0} liens dans {1} notes ?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">Les liens qui indiquent [[{0}]] deviennent [[{1}]]. Un seul Ctrl+Z annule le tout.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Mettre à jour les liens</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">{0} liens mis à jour dans {1} notes</sys:String>
     <sys:String x:Key="Str_Lbl_Backlinks">Liée depuis</sys:String>
     <sys:String x:Key="Str_St_NoBacklinks">Aucune note ne pointe ici pour l'instant</sys:String>
     <sys:String x:Key="Str_TT_Backlinks">Notes qui pointent vers celle-ci</sys:String>

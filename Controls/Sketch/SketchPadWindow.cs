@@ -141,9 +141,9 @@ namespace KillerNotes.Controls.Sketch
                                owner.ActualHeight > 0 ? owner.ActualHeight : owner.Height);
                 Left = r.Left + (r.Width - Width) / 2;
                 Top = r.Top + (r.Height - Height) / 2;
-                EventHandler ownerClosed = (_, _) => Close();
-                owner.Closed += ownerClosed;
-                Closed += (_, _) => owner.Closed -= ownerClosed;
+                void OwnerClosed(object? sender, EventArgs args) => Close();
+                owner.Closed += OwnerClosed;
+                Closed += (_, _) => owner.Closed -= OwnerClosed;
             }
             else WindowStartupLocation = WindowStartupLocation.CenterScreen;
             UseLayoutRounding = true;
@@ -213,7 +213,7 @@ namespace KillerNotes.Controls.Sketch
             // switch re-applies them here; grain and the caption swap are resource-driven. The
             // rail's overflow STRUCTURE (arrows vs fades) stays from build - reopening the pad
             // after a cross-family switch picks the right one up.
-            Action onThemeChanged = () =>
+            void OnThemeChanged()
             {
                 _flatChrome = TryFindResource("UseDialogCaption") != null;
                 _contentGrid.Margin = _flatChrome ? new Thickness(3, 2, 0, 4) : new Thickness(16, 6, 16, 12);
@@ -222,9 +222,9 @@ namespace KillerNotes.Controls.Sketch
                 // pad opened flat stayed shadowless everywhere (2026-08-08).
                 _frameShadow?.Effect = CardShadowOrNull();
                 UpdateWindowCorners();   // radius + halo + shadow follow the new theme live
-            };
-            KillerNotes.Services.ThemeManager.ThemeChanged += onThemeChanged;
-            Closed += (_, _) => KillerNotes.Services.ThemeManager.ThemeChanged -= onThemeChanged;
+            }
+            KillerNotes.Services.ThemeManager.ThemeChanged += OnThemeChanged;
+            Closed += (_, _) => KillerNotes.Services.ThemeManager.ThemeChanged -= OnThemeChanged;
             KeyDown += (_, e) =>
             {
                 if (_textBox != null) return;   // the inline text editor owns the keyboard while a label is open

@@ -626,6 +626,10 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Sketch_Zoom">Zoom (Strg+Mausrad) - klicken für 100%, nochmal zum Einpassen</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" existiert noch nicht</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Als neue Notiz anlegen und öffnen?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">{0} Links in {1} Notizen aktualisieren?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">Aus Links mit [[{0}]] wird [[{1}]]. Ein einziges Strg+Z macht alles rückgängig.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Links aktualisieren</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">{0} Links in {1} Notizen aktualisiert</sys:String>
     <sys:String x:Key="Str_Lbl_Backlinks">Verlinkt von</sys:String>
     <sys:String x:Key="Str_St_NoBacklinks">Noch verweist keine Notiz hierher</sys:String>
     <sys:String x:Key="Str_TT_Backlinks">Notizen, die auf diese verlinken</sys:String>

@@ -94,13 +94,15 @@ namespace KillerNotes.Controls
 
             var clock = System.Diagnostics.Stopwatch.StartNew();
             double from = window.Opacity;
-            EventHandler? tick = null;
-            tick = (_, _) =>
+            // A local function rather than a self-referencing delegate variable: it can name itself
+            // to unsubscribe, which is the only reason the two-step "declare null, then assign"
+            // dance existed.
+            void Tick(object? sender, EventArgs args)
             {
                 double t = clock.Elapsed.TotalMilliseconds / FadeMs;
                 if (t >= 1)
                 {
-                    CompositionTarget.Rendering -= tick;
+                    CompositionTarget.Rendering -= Tick;
                     window.Opacity = 0;
                     // Off the render callback before closing: tearing the window down inside a
                     // Rendering handler reenters composition.
@@ -125,8 +127,8 @@ namespace KillerNotes.Controls
                     return;
                 }
                 window.Opacity = from * (1 - t * t);   // quadratic ease-in, mirrors FadeIn
-            };
-            CompositionTarget.Rendering += tick;
+            }
+            CompositionTarget.Rendering += Tick;
             return true;
         }
 

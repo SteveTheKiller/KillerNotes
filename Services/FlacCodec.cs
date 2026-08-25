@@ -165,9 +165,10 @@ namespace KillerNotes.Services
             int rate = 0, channels = 1;
             int read = 0;
 
-            // Every parameter spelled out, including the unused ones: a lambda with a `ref`
-            // parameter cannot mix explicit and discarded types (CS0748).
-            DecRead onRead = (IntPtr _d, IntPtr buffer, ref IntPtr bytes, IntPtr _c) =>
+            // `ref` on an implicitly typed lambda parameter, which reads the same as the two
+            // callbacks below. It used to spell every type out because mixing explicit and
+            // discarded types around a `ref` was CS0748; a modifier no longer forces the type.
+            DecRead onRead = (_, buffer, ref bytes, _) =>
             {
                 int want = (int)bytes;
                 int left = flac.Length - read;

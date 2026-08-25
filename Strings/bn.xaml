@@ -626,6 +626,10 @@
     <sys:String x:Key="Str_Sketch_Zoom">জুম (Ctrl+Wheel) - 100% এর জন্য ক্লিক করুন, মাপসই করতে আবার ক্লিক করুন</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" এখনও নেই</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">নতুন নোট হিসেবে তৈরি করে খুলবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">{1}টি নোটের {0}টি লিঙ্ক আপডেট করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">[[{0}]] লেখা লিঙ্কগুলো [[{1}]] হয়ে যাবে। একবার Ctrl+Z চাপলেই সব ফিরে আসবে।</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">লিঙ্ক আপডেট করুন</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">{1}টি নোটে {0}টি লিঙ্ক আপডেট করা হয়েছে</sys:String>
     <sys:String x:Key="Str_Lbl_Backlinks">লিঙ্ক উৎস</sys:String>
     <sys:String x:Key="Str_St_NoBacklinks">এখনও কোনো নোট এখানে লিঙ্ক করেনি</sys:String>
     <sys:String x:Key="Str_TT_Backlinks">যেসব নোট এই নোটে লিঙ্ক করে</sys:String>

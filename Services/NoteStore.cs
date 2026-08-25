@@ -961,8 +961,14 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
             if (_db == null || string.IsNullOrWhiteSpace(title)) return list;
             using var cmd = _db.CreateCommand();
             cmd.CommandText =
+                // COALESCE, because the title may belong to NO note: rename propagation asks for
+                // the OLD title's backlinks after the rename has already saved, and a ghost title
+                // has linkers before the note exists at all. Without it the self-exclusion
+                // compares n.id <> NULL, which is never true, and every backlink disappears the
+                // moment the title has no owner - which silently disabled both callers.
                 "SELECT n.id, n.title FROM note_links l JOIN notes n ON n.id = l.src " +
-                "WHERE l.target = $t COLLATE NOCASE AND n.id <> (SELECT id FROM notes WHERE title = $t COLLATE NOCASE LIMIT 1) " +
+                "WHERE l.target = $t COLLATE NOCASE " +
+                "  AND n.id <> COALESCE((SELECT id FROM notes WHERE title = $t COLLATE NOCASE LIMIT 1), -1) " +
                 "ORDER BY n.title COLLATE NOCASE";
             cmd.Parameters.AddWithValue("$t", title);
             using var r = cmd.ExecuteReader();
@@ -1070,19 +1076,11 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
 
         /// <summary>One node's saved position. Locked means the layout pins it and a re-run of
         /// the force simulation must leave it where the user put it.</summary>
-        public readonly struct GraphNodePos
+        public readonly struct GraphNodePos(long noteId, double x, double y, bool locked)
         {
-            public readonly long NoteId;
-            public readonly double X, Y;
-            public readonly bool Locked;
-
-            public GraphNodePos(long noteId, double x, double y, bool locked)
-            {
-                NoteId = noteId;
-                X = x;
-                Y = y;
-                Locked = locked;
-            }
+            public readonly long NoteId = noteId;
+            public readonly double X = x, Y = y;
+            public readonly bool Locked = locked;
         }
 
         /// <summary>Writes one layout, replacing whatever that name held. A layout is a snapshot
