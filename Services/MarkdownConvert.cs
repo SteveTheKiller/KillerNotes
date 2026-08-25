@@ -458,6 +458,17 @@ namespace KillerNotes.Services
                     string lead = "", trail = "";
                     int ws = text.Length - text.TrimStart().Length;
                     int we = text.Length - text.TrimEnd().Length;
+                    // ENTIRELY WHITESPACE. TrimStart and TrimEnd each count the WHOLE run, so ws
+                    // and we both equal the length, they overlap, and the slice below asks for a
+                    // negative length - ArgumentOutOfRangeException, which took the app down in
+                    // the middle of converting a note (2026-08-25). A run of spaces between two
+                    // formatted runs is ordinary in a rich-text note, so this is not a rare shape.
+                    //
+                    // Any run holding even one non-whitespace character has ws + we <= length - 1,
+                    // so this test isolates exactly the all-whitespace case. There is nothing to
+                    // emphasise in spaces, and wrapping them would produce "** **", which every
+                    // markdown parser renders as literal asterisks anyway - so it passes through.
+                    if (ws + we >= text.Length) { sb.Append(text); break; }
                     if (ws > 0 || we > 0)
                     {
                         lead = text[..ws];

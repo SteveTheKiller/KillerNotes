@@ -136,6 +136,49 @@ namespace KillerNotes.Tests
             Assert.Contains("plain", md);
         });
 
+        [Theory]
+        [InlineData(" ")]
+        [InlineData("   ")]
+        [InlineData("\t")]
+        [InlineData(" \t ")]
+        public void AWhitespaceOnlyRunDoesNotTakeTheAppDown(string spaces) => Sta.Run(() =>
+        {
+            // The 1.3.0 crash: TrimStart and TrimEnd each count the WHOLE run when it is nothing
+            // but whitespace, so the emphasis-hugging slice asked for a negative length and threw
+            // ArgumentOutOfRangeException out of Convert to markdown. A run of spaces sitting
+            // between two formatted runs is an ordinary shape in a rich-text note, so this took
+            // down conversion on real documents rather than on some contrived one.
+            var doc = new FlowDocument();
+            var p = new Paragraph();
+            p.Inlines.Add(new Run("before") { FontWeight = FontWeights.Bold });
+            p.Inlines.Add(new Run(spaces) { FontWeight = FontWeights.Bold });
+            p.Inlines.Add(new Run("after") { FontWeight = FontWeights.Bold });
+            doc.Blocks.Add(p);
+
+            string md = MarkdownConvert.FromDocument(doc);
+
+            // Not merely "it did not throw": the text either side has to survive, and the spaces
+            // must not come back wrapped as "** **", which every parser renders as literal
+            // asterisks rather than as emphasis.
+            Assert.Contains("before", md);
+            Assert.Contains("after", md);
+            Assert.DoesNotContain("** **", md);
+        });
+
+        [Fact]
+        public void AParagraphOfNothingButSpacesConvertsCleanly() => Sta.Run(() =>
+        {
+            var doc = new FlowDocument();
+            var p = new Paragraph();
+            p.Inlines.Add(new Run("     "));
+            doc.Blocks.Add(p);
+
+            // No assertion beyond "this returns": the point is that the whole-document walk
+            // survives a paragraph with nothing in it but a whitespace run.
+            string md = MarkdownConvert.FromDocument(doc);
+            Assert.NotNull(md);
+        });
+
         [Fact]
         public void EmphasisMarkersHugTheTextSoParsersSeeThem() => Sta.Run(() =>
         {
