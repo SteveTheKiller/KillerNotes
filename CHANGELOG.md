@@ -32,6 +32,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Markdown notes now store their source inside a XamlPackage rather than as raw bytes, so a database or a shared note carrying one can still be opened by releases older than 1.3.0. Notes written by earlier 1.3.0 builds are converted the first time the database is opened, so a database does not stay a hazard to older builds just because nobody edited the note.
 
 ### Fixed
+- Text now renders with ClearType instead of grayscale antialiasing, matching KillerScan and KillerShell. It shows most on small Consolas type, which is why the footer's version and copyright looked heavier and softer than the same line in the other apps.
+- The content pane no longer casts a shadow down onto the footer. The 20px band it hung into a 24px footer row made the footer read as almost twice its height and darker than the rest of the family; KillerScan and KillerPDF cast nothing there, and KillerNotes now matches them. Card shadows on the Dictation, Whisper, graph and SketchPad windows are unchanged.
 - Syntax highlighting no longer colors partway into words, covers far more of a line, and survives closing and reopening a note. The per-note toggle is stored with the note's metadata now, so it also travels with shared .knote and .kndb files.
 - Context menus now open at the pointer instead of an inch away from it when the app zoom is not 100%.
 - Menu icons and check marks stay readable on a highlighted row instead of disappearing into the selection color.

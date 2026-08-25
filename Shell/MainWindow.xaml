@@ -7,7 +7,9 @@
         Icon="pack://application:,,,/Resources/kn-icon.ico"
         WindowStyle="None" Background="{DynamicResource BackgroundBrush}"
         MinWidth="720" MinHeight="480" Width="1080" Height="700"
-        TextOptions.TextFormattingMode="Display" UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        UseLayoutRounding="True"
         PreviewMouseDown="Window_PreviewMouseDown">
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="36" ResizeBorderThickness="8" CornerRadius="0"
@@ -1363,34 +1365,17 @@
             <Border x:Name="ContentPane" Grid.Column="2" Background="{DynamicResource PaneBrush}"
                     BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                     CornerRadius="{DynamicResource PanelCornerRadius}" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="9"/>
-            <!-- The pane's cast onto the footer: a 20px gradient skirt hung into the footer row
-                 via RenderTransform (layout-neutral - the rows never move). It shares the
-                 pane's column and margins so it tracks the pane's width at every app zoom, and
-                 its Opacity IS PaneShadowOpacity, so a flat theme (98SE: 0) removes it
-                 entirely - the same key the old effect obeyed. -->
-            <Border Grid.Column="2" Height="20" VerticalAlignment="Bottom"
-                    Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="8"
-                    IsHitTestVisible="False"
-                    Opacity="{DynamicResource PaneShadowOpacity}">
-                <Border.RenderTransform><TranslateTransform Y="20"/></Border.RenderTransform>
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Color="#A0000000" Offset="0"/>
-                        <GradientStop Color="#00000000" Offset="1"/>
-                    </LinearGradientBrush>
-                </Border.Background>
-                <!-- Feather the ENDS too: a real cast fades at the pane's corners, and without
-                     this the band stopped at the pane's right margin as a hard vertical edge
-                     across the footer shadow (2026-08-08). -->
-                <Border.OpacityMask>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#00FFFFFF" Offset="0"/>
-                        <GradientStop Color="#FFFFFFFF" Offset="0.02"/>
-                        <GradientStop Color="#FFFFFFFF" Offset="0.98"/>
-                        <GradientStop Color="#00FFFFFF" Offset="1"/>
-                    </LinearGradientBrush>
-                </Border.OpacityMask>
-            </Border>
+            <!-- NOTHING CASTS ONTO THE FOOTER. KillerScan and KillerPDF are the family baseline
+                 and neither hangs anything into its footer row; KillerShell and Killendar carry
+                 PaneShadowOpacity 0 and cast nothing either. KillerNotes was the only app in the
+                 family that did, and it read as a taller, darker footer rather than as a shadow:
+                 a 20px skirt at 37.6% black over a 24px row covered 83% of it, so the band looked
+                 like about 44px of chrome (2026-08-24). The footer row itself was always 24px in
+                 all five apps - the height was never the difference, this was.
+
+                 PaneShadowOpacity itself STAYS. It is not a footer setting: the Dictation window,
+                 the Whisper model dialog, the graph window and the SketchPad all key their card
+                 shadows off it, and 98SE still flattens all of them by setting it to 0. -->
             <!-- The pane's SUNKEN edge, drawn over the pane's own border so the client area reads as
                  recessed into the window face - the Notepad/Explorer look. Siblings rather than
                  children of the pane, because a bevel nested inside a bordered element draws inside
