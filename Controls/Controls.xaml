@@ -730,7 +730,17 @@
                                    IsOpen="{TemplateBinding IsSubmenuOpen}">
                                 <!-- Halo sized to the 22/4 shadow below - see the note on MenuRoot. -->
                                 <Grid Margin="22,18,22,26">
-                                    <Border Background="{DynamicResource MenuBackgroundBrush}" CornerRadius="6"
+                                    <!-- EVERY radius and bevel here is the ContextMenu template's,
+                                         not a second set of values. This popup hardcoded radius 6
+                                         and 5 and reached for the generic BevelLight/DarkBrush,
+                                         where the parent menu themes its radius and uses the
+                                         MenuBevel brushes - so on a square theme the submenu came
+                                         up rounded and edged differently from the menu that opened
+                                         it, one card overlapping the other (2026-08-25). The
+                                         parent's own comment already says the radius is not to be
+                                         hardcoded; this is the same rule. -->
+                                    <Border Background="{DynamicResource MenuBackgroundBrush}"
+                                            CornerRadius="{DynamicResource PanelCornerRadius}"
                                             IsHitTestVisible="False">
                                         <Border.Effect>
                                             <DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="4"
@@ -739,17 +749,25 @@
                                     </Border>
                                     <Border Background="{DynamicResource MenuBackgroundBrush}"
                                             BorderBrush="{DynamicResource MenuBorderBrush}"
-                                            BorderThickness="1" CornerRadius="6" SnapsToDevicePixels="True">
+                                            BorderThickness="1" SnapsToDevicePixels="True"
+                                            CornerRadius="{DynamicResource PanelCornerRadius}">
                                         <Grid>
-                                            <Border IsHitTestVisible="False" CornerRadius="5"
+                                            <Border IsHitTestVisible="False"
+                                                    CornerRadius="{DynamicResource PanelCornerRadius}"
                                                     Background="{DynamicResource GrainTileBrush}"
                                                     Opacity="{DynamicResource GrainOpacity}"/>
                                             <StackPanel IsItemsHost="True" Margin="0,4"
                                                         KeyboardNavigation.DirectionalNavigation="Cycle"/>
-                                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
-                                                    BorderThickness="{DynamicResource BevelLightThickness}"/>
-                                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
-                                                    BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevelLightBrush}"
+                                                    BorderThickness="{DynamicResource MenuBevelLightThickness}"
+                                                    Margin="{DynamicResource MenuBevelInnerMargin}"/>
+                                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevelDarkBrush}"
+                                                    BorderThickness="{DynamicResource MenuBevelDarkThickness}"
+                                                    Margin="{DynamicResource MenuBevelInnerMargin}"/>
+                                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevel2LightBrush}"
+                                                    BorderThickness="{DynamicResource MenuBevel2LightThickness}"/>
+                                            <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevel2DarkBrush}"
+                                                    BorderThickness="{DynamicResource MenuBevel2DarkThickness}"/>
                                         </Grid>
                                     </Border>
                                 </Grid>

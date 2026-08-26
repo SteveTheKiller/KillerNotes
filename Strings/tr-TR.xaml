@@ -214,7 +214,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_Title">Klavye kısayolları</sys:String>
     <sys:String x:Key="Str_KS_ViewList">LİSTE</sys:String>
     <sys:String x:Key="Str_KS_ViewKeyboard">KLAVYE</sys:String>
-    <sys:String x:Key="Str_KS_HoldHint">o katmanı görmek için Ctrl veya Shift tuşunu basılı tutun</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">o katmanı görmek için Ctrl, Shift veya Alt tuşunu basılı tutun</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Klavye kısayolları (bu liste)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Açık notu yeniden adlandır</sys:String>
     <sys:String x:Key="Str_KS_Search">Notlarda ara</sys:String>
@@ -230,12 +230,30 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_BIU">Kalın / italik / altı çizili</sys:String>
     <sys:String x:Key="Str_KS_Strike">Üstü çizili</sys:String>
     <sys:String x:Key="Str_KS_Mono">Eş aralıklı (kod)</sys:String>
-    <sys:String x:Key="Str_KS_Highlight">Seçimi vurgula (sarı)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Seçimi vurgula</sys:String>
     <sys:String x:Key="Str_KS_Rule">Yatay çizgi ekle</sys:String>
     <sys:String x:Key="Str_KS_Lists">Madde işaretli / numaralı liste</sys:String>
     <sys:String x:Key="Str_KS_Paste">Yapıştır - metin, resim, tablo</sys:String>
     <sys:String x:Key="Str_KS_Delete">Seçili notu sil (listede)</sys:String>
     <sys:String x:Key="Str_KS_Esc">Paneli kapat / aramayı temizle</sys:String>
+    <sys:String x:Key="Str_KS_SecGraph">Grafik penceresi</sys:String>
+    <sys:String x:Key="Str_KS_GrArrange">Düzenle: bağlantıya, daireye, ızgaraya, gruba veya uzaklığa göre</sys:String>
+    <sys:String x:Key="Str_KS_GrVisualizer">Görselleştirici: grafiğin süzülmesine ve dönmesine izin ver</sys:String>
+    <sys:String x:Key="Str_KS_GrNextShape">Sonraki görselleştirici şekli</sys:String>
+    <sys:String x:Key="Str_KS_GrPin">Her notu bırakıldığı yere sabitle</sys:String>
+    <sys:String x:Key="Str_KS_GrLock">Seçili notları yerinde kilitle</sys:String>
+    <sys:String x:Key="Str_KS_GrIsolate">Yalnızca buraya bağlananları göster</sys:String>
+    <sys:String x:Key="Str_KS_GrLabels">Not başlıklarını göster</sys:String>
+    <sys:String x:Key="Str_KS_GrSelect">Görünen her şeyi seç / [[bağlantı]] olarak kopyala</sys:String>
+    <sys:String x:Key="Str_KS_GrOpen">Notu aç / her şeyi yeniden göster</sys:String>
+    <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_SkTools">Araçlar: seçim, kalem, çizgi, ok, dikdörtgen, elips, çokgen, doldurma, metin, silgi, kırpma, resim</sys:String>
+    <sys:String x:Key="Str_KS_SkUndo">Geri al / yinele</sys:String>
+    <sys:String x:Key="Str_KS_SkPaste">Panodan resim yapıştır</sys:String>
+    <sys:String x:Key="Str_KS_SkPrint">Çizimi nota yazdır</sys:String>
+    <sys:String x:Key="Str_KS_SkZoom">Tuvali yakınlaştır</sys:String>
+    <sys:String x:Key="Str_KS_SkDelete">Seçimi sil</sys:String>
+    <sys:String x:Key="Str_KS_SkClose">Çokgeni bitir / defteri kapat</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">Klavye kısayolları</sys:String>
@@ -602,6 +620,11 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Sketch_Select">Seç / taşı (V) - bir nesneye tıklayın, taşımak için sürükleyin, Delete kaldırır</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Çizgiyi düzelt</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Metin (T) - etiket koymak için tıklayın, yazın, ayarlamak için Enter (yeni satır için Shift+Enter)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShape">Şekil</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeFree">Serbest</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeSpiral">Ayçiçeği</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">Dalga biçiminde</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeNext">Sonraki şekil</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLock">Yerinde kilitle</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLockTip">Kilitli bir notu hiçbir şey oynatmaz - ne bir düzen, ne de komşuları.</sys:String>
     <sys:String x:Key="Str_Kb_LineNumbers">Satır no</sys:String>

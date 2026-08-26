@@ -12,7 +12,9 @@ Each language is a single XAML `ResourceDictionary` in the `Strings/` folder, na
 - `Strings/de-DE.xaml` - German
 - `Strings/es.xaml` - Spanish
 - `Strings/fr-FR.xaml` - French
+- `Strings/hu-HU.xaml` - Hungarian
 - `Strings/ja-JP.xaml` - Japanese
+- `Strings/pl-PL.xaml` - Polish
 - `Strings/tr-TR.xaml` - Turkish
 - `Strings/zh-CN.xaml` - Simplified Chinese
 - `Strings/zh-TW.xaml` - Traditional Chinese
@@ -37,7 +39,7 @@ Each language is a single XAML `ResourceDictionary` in the `Strings/` folder, na
 - **Keep product/feature names as-is:** Killculator, Sketch, Killer Tools.
 - **Keep any `{0}` / `{1}` format placeholders** intact and in a sensible order for your language.
 - **Keep XML entities** (`&amp;`, `&#xNNNN;`) as they are.
-- **Use plain hyphens (`-`),** not em or en dashes, unless your language's typography requires otherwise.
+- **Use plain hyphens (`-`), never em or en dashes,** even where your language's typography would normally call for one. This is a house style rule applied across every app and every language, so it deliberately overrides local convention. If you think it is wrong for your language, say so in the pull request rather than working around it.
 - The file must be valid XML - paste it into any XML validator to check.
 
 ## Notes

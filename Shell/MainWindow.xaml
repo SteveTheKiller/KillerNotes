@@ -1912,7 +1912,7 @@
                              chips: a DropShadowEffect rasterises everything inside it and the
                              text would lose ClearType (the rule the About card locks). Aimed up
                              and left, the strip's only free edges - see CornerShadowEffect. -->
-                        <Border CornerRadius="5,0,5,0"
+                        <Border CornerRadius="{DynamicResource MentionsCornerRadius}"
                                 Visibility="{Binding Visibility, ElementName=BacklinkBar}"
                                 Background="{DynamicResource BgFlyout}"
                                 Effect="{DynamicResource CornerShadowEffect}"/>
@@ -1920,7 +1920,7 @@
                         HorizontalAlignment="Right" VerticalAlignment="Bottom"
                         Background="{DynamicResource BgFlyout}"
                         BorderBrush="{DynamicResource BarEdgeBrush}" BorderThickness="1,1,0,0"
-                        CornerRadius="5,0,5,0"
+                        CornerRadius="{DynamicResource MentionsCornerRadius}"
                         ClipToBounds="True">
                     <Border.ContextMenu>
                         <ContextMenu>
@@ -1944,7 +1944,7 @@
                              than sitting under them - the family rule that a pane's texture goes
                              over its contents. Without it this was the one flat surface in the
                              window (2026-08-23). -->
-                        <Border IsHitTestVisible="False" CornerRadius="5,0,5,0"
+                        <Border IsHitTestVisible="False" CornerRadius="{DynamicResource MentionsCornerRadius}"
                                 Opacity="{DynamicResource GrainOpacity}"
                                 Background="{DynamicResource GrainTileBrush}"/>
                     </Grid>

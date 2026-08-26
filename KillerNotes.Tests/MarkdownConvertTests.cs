@@ -158,11 +158,13 @@ namespace KillerNotes.Tests
             string md = MarkdownConvert.FromDocument(doc);
 
             // Not merely "it did not throw": the text either side has to survive, and the spaces
-            // must not come back wrapped as "** **", which every parser renders as literal
-            // asterisks rather than as emphasis.
-            Assert.Contains("before", md);
-            Assert.Contains("after", md);
-            Assert.DoesNotContain("** **", md);
+            // have to come back OUTSIDE the emphasis. Wrapped, they would read "** **", which
+            // every parser renders as literal asterisks rather than as emphasis.
+            //
+            // Asserting the whole string rather than searching it for "** **": a correct
+            // "**before** **after**" contains that substring at the seam between the two spans,
+            // so a substring search fails the single-space case while passing the others.
+            Assert.Equal("**before**" + spaces + "**after**", md.TrimEnd('\n'));
         });
 
         [Fact]

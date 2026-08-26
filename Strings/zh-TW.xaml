@@ -213,7 +213,7 @@
     <sys:String x:Key="Str_KS_Title">鍵盤快速鍵</sys:String>
     <sys:String x:Key="Str_KS_ViewList">清單</sys:String>
     <sys:String x:Key="Str_KS_ViewKeyboard">鍵盤</sys:String>
-    <sys:String x:Key="Str_KS_HoldHint">按住 Ctrl 或 Shift 可預覽該層</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">按住 Ctrl、Shift 或 Alt 可預覽該層</sys:String>
     <sys:String x:Key="Str_KS_ThisList">鍵盤快速鍵 (這份清單)</sys:String>
     <sys:String x:Key="Str_KS_Rename">重新命名開啟中的筆記</sys:String>
     <sys:String x:Key="Str_KS_Search">搜尋筆記</sys:String>
@@ -229,12 +229,30 @@
     <sys:String x:Key="Str_KS_BIU">粗體 / 斜體 / 底線</sys:String>
     <sys:String x:Key="Str_KS_Strike">刪除線</sys:String>
     <sys:String x:Key="Str_KS_Mono">等寬字型 (程式碼)</sys:String>
-    <sys:String x:Key="Str_KS_Highlight">螢光標示選取範圍 (黃色)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">螢光標示選取範圍</sys:String>
     <sys:String x:Key="Str_KS_Rule">插入水平分隔線</sys:String>
     <sys:String x:Key="Str_KS_Lists">項目符號 / 編號清單</sys:String>
     <sys:String x:Key="Str_KS_Paste">貼上 - 文字、圖片、表格</sys:String>
     <sys:String x:Key="Str_KS_Delete">刪除選取的筆記 (清單中)</sys:String>
     <sys:String x:Key="Str_KS_Esc">關閉浮層 / 清除搜尋</sys:String>
+    <sys:String x:Key="Str_KS_SecGraph">關係圖視窗</sys:String>
+    <sys:String x:Key="Str_KS_GrArrange">排列: 依連結、圓形、網格、群組或距離</sys:String>
+    <sys:String x:Key="Str_KS_GrVisualizer">視覺化效果: 讓關係圖自行漂浮旋轉</sys:String>
+    <sys:String x:Key="Str_KS_GrNextShape">下一個視覺化形狀</sys:String>
+    <sys:String x:Key="Str_KS_GrPin">把每則筆記固定在放置的位置</sys:String>
+    <sys:String x:Key="Str_KS_GrLock">鎖定所選筆記的位置</sys:String>
+    <sys:String x:Key="Str_KS_GrIsolate">只顯示連結到這裡的內容</sys:String>
+    <sys:String x:Key="Str_KS_GrLabels">顯示筆記標題</sys:String>
+    <sys:String x:Key="Str_KS_GrSelect">選取所有可見項目 / 複製為 [[連結]]</sys:String>
+    <sys:String x:Key="Str_KS_GrOpen">開啟筆記 / 重新顯示全部</sys:String>
+    <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_SkTools">工具: 選取、畫筆、直線、箭頭、矩形、橢圓、多邊形、填滿、文字、橡皮擦、裁剪、圖片</sys:String>
+    <sys:String x:Key="Str_KS_SkUndo">復原 / 重做</sys:String>
+    <sys:String x:Key="Str_KS_SkPaste">從剪貼簿貼上圖片</sys:String>
+    <sys:String x:Key="Str_KS_SkPrint">把繪圖列印到筆記中</sys:String>
+    <sys:String x:Key="Str_KS_SkZoom">縮放畫布</sys:String>
+    <sys:String x:Key="Str_KS_SkDelete">刪除所選內容</sys:String>
+    <sys:String x:Key="Str_KS_SkClose">完成多邊形 / 關閉畫板</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">鍵盤快速鍵</sys:String>
@@ -603,6 +621,11 @@
     <sys:String x:Key="Str_Sketch_Select">選取 / 移動 (V) - 按一下物件，拖曳即可移動，Delete 移除</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">拉直線條</sys:String>
     <sys:String x:Key="Str_Sketch_Text">文字 (T) - 按一下放置標籤，輸入後按 Enter 確定 (Shift+Enter 換行)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShape">形狀</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeFree">自然排列</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeSpiral">向日葵</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">排成波形</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeNext">下一個形狀</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLock">鎖定位置</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLockTip">鎖定的筆記不會被移動 - 排列不會移動它，相鄰的筆記也不會。</sys:String>
     <sys:String x:Key="Str_Kb_LineNumbers">行號</sys:String>

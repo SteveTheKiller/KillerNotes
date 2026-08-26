@@ -23,6 +23,19 @@
 .outline a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 8%, transparent); filter: none; }
 .outline a.on { color: var(--accent-text); border-left-color: var(--accent); background: var(--accent); }
 .outline a.sub { padding: 5px 16px 5px 30px; font-size: 12px; }
+/* Collapsible outline. Subsections are hidden until their section is the one being read or is
+   opened by hand; the chevron sits on the row rather than in the link, so clicking the title
+   still navigates. */
+.ol-head { display: flex; align-items: stretch; }
+.ol-head > a { flex: 1 1 auto; min-width: 0; }
+.ol-chev { flex: 0 0 auto; width: 26px; padding: 0; margin: 0; border: 0; background: none;
+  color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.ol-chev:hover { color: var(--accent); }
+.ol-chev svg { transition: transform .15s ease; }
+.ol-group.open .ol-chev svg { transform: rotate(90deg); }
+.ol-subs { display: none; }
+.ol-group.open .ol-subs { display: block; }
+@media (max-width: 900px) { .ol-subs, .ol-chev { display: none; } .ol-head { display: block; } }
 @media (max-width: 900px) { .outline { display:flex; flex-direction:row; flex-wrap:wrap; padding:8px; gap:4px; } .outline a { border-left:0; border-radius:5px; padding:6px 10px; } .outline a.on { border-left:0; } .outline a.sub { display:none; } }
 </style>
 </head>
@@ -197,8 +210,7 @@
 <p data-i18n="t_search_p3"><code>Ctrl+F</code> searches inside the open note without disturbing the sidebar search. The find card reports the current match and total, <code>F3</code> and <code>Shift+F3</code> move forward and backward with wraparound, and <code>Esc</code> closes it. Match highlights are viewport-scoped adorners rather than document formatting, so finding does not modify the note, enter the undo history or trigger autosave.</p>
 <h3 data-i18n="t_search_h1" id="replace">Replace</h3>
 <p data-i18n="t_search_p4"><code>Ctrl+H</code> expands a replace row under the find card. Three toggles - match case, whole word, regular expression - govern the find and the replace together; with regex on, the replacement string is evaluated as a substitution, so <code>$1</code> and friends work. The options are session state rather than persisted settings, so the card always reopens on plain matching.</p>
-<p data-i18n="t_search_p5">Replace-all collects its offsets from the find pass, collapses overlapping matches greedily left to right (a replace can only consume each character once, where the counter is happy to overlap), and applies them <b>back to front</b>, so every earlier offset is still valid when its turn comes. The whole batch runs inside <code>BeginChange</code>/<code>EndChange</code>, which makes it one editor undo unit and holds the TextChanged storm until the end, so the find cache is invalidated once rather than once per match.</p>
-<p data-i18n="t_search_p6">The sidebar carries the cross-note half: replace a term in every note that holds it, without opening any of them. Matching there is literal and case-insensitive to mirror the search box it sits under - the find card's regex and whole-word options belong to the in-note surface and deliberately do not reach across the database. Each candidate is matched against its <em>document</em> text rather than the stored plain-text shadow, because the shadow also carries sketch text labels, which live in sketch payloads and must not be rewritten by a text replace. A confirmation lists every affected note with its match count; the writes are one SQLite transaction and one app-level undo entry, so <code>Ctrl+Z</code> after a forty-note replace restores all forty.</p>
+<p data-i18n="t_search_p6">The sidebar carries the cross-note half: replace a term in every note that holds it, without opening any of them. Matching there is plain and case-insensitive, mirroring the search box it sits under; the regex and whole-word options stay with the find card, inside one note. A confirmation lists every affected note with its match count before anything is written, and the whole batch is a single undo, so <code>Ctrl+Z</code> after a forty-note replace restores all forty.</p>
 </section>
 
 <section class="tech-sec" id="links">
@@ -206,11 +218,11 @@
 <p data-i18n="t_links_p1">Since 1.3.0 notes can point at each other. Type <code>[[</code> and a title - <code>[[Firewall]]</code> - and that text is a link: <code>Ctrl+Click</code> follows it, the note it names lists it as an inbound link, and the graph draws it as an edge. Nothing about the note's stored bytes changes to make this work, which is the part worth explaining.</p>
 
 <h3 data-i18n="t_links_h1" id="wikilinks">Wikilinks and the link table</h3>
-<p data-i18n="t_links_p2">Links are parsed from the <b>plain-text shadow copy</b>, never from the rich document. The shadow already exists on every save for search, it is identical for rich and markdown notes, and it means a link counts the same whether it was typed, pasted, imported from a vault folder, or written into a <code>.md</code> file by another editor. No <code>Hyperlink</code> element is ever inserted, so the XamlPackage blob is untouched by the whole feature.</p>
-<p data-i18n="t_links_p3">Every save re-derives the note's outgoing links into a <code>note_links</code> table of <code>(src, target)</code> pairs - deleted wholesale and rewritten, because the table is a <b>cache of what the text says</b>, never an authority of its own. The accepted syntax is <code>[[Target]]</code> or <code>[[Target|label]]</code> (only the target is indexed), a link never crosses a line ending, and a note linking the same title five times is one edge - the graph and the backlinks list count notes, not mentions.</p>
-<p data-i18n="t_links_p4">The target is a <b>title, not an id</b>, resolved late and case-insensitively, with the oldest note winning a duplicate title so an existing link can never quietly start pointing somewhere new. Late resolution is what makes "write the link first, create the note later" work: a target with no note is kept as an unresolved edge - a <em>ghost</em> - rather than dropped, the graph draws it hollow, and following it offers to create the note already titled.</p>
-<p data-i18n="t_links_p5">The backlinks strip is one indexed query against that table. Its second row, unlinked mentions, is the inverse: a <code>LIKE</code> over the shadow copies for notes that <em>say</em> this title without linking it, minus everything that already links (their connection exists as an edge) and minus the note itself. Clicking a mention chip does not navigate - it wraps the first occurrence in that note in brackets, because the row exists to tell you a link is missing, and the link table catches up on that note's next save.</p>
-<p data-i18n="t_links_p6">Renaming a note is the one thing that breaks title-addressed links, so it is also the one thing that offers to fix them: at the moment of a rename the link table still names the old title, which is the <em>exact</em> set of notes to rewrite - no text search. The rewrite names every affected note and its link count first, runs as one transaction, and undoes with a single <code>Ctrl+Z</code>. Rich notes go through document surgery, markdown notes through text surgery, and the link table is re-derived on both the do and the undo so it can never describe text that no longer exists.</p>
+<p data-i18n="t_links_p2">Links are read from the note's <b>plain text</b>, not from its formatting. That means a link counts the same whether you typed it, pasted it, imported it from a vault folder, or another editor wrote it into a <code>.md</code> file. Nothing is inserted into the note to make it work.</p>
+<p data-i18n="t_links_p3">Every save rebuilds the note's outgoing links into a <code>note_links</code> table. The syntax is <code>[[Target]]</code>, or <code>[[Target|label]]</code> to show different text. A link cannot span a line break, and naming the same note five times still draws one line on the graph: both the graph and the backlinks list count notes, not mentions.</p>
+<p data-i18n="t_links_p4">A link points at a <b>title</b>, not at a hidden id, and is resolved when you follow it. That is what lets you write a link before the note exists: a title nothing owns yet is kept as a <em>ghost</em>, drawn hollow on the graph, and following it offers to create the note already titled. Where two notes share a title the older one wins, so an existing link never quietly starts pointing somewhere new.</p>
+<p data-i18n="t_links_p5">The strip under the editor lists what points at this note. Its second row is the inverse: notes that <em>name</em> this one in ordinary prose without linking it. Clicking one of those does not jump to it - it wraps that first mention in brackets, because the row exists to tell you a link is missing.</p>
+<p data-i18n="t_links_p6">Renaming a note is the one thing that breaks a link addressed by title, so it is also the one thing that offers to fix them. The link table already knows exactly which notes point at the old title, so nothing has to be searched for. You are shown every affected note and its link count before anything changes, and the whole rewrite undoes with a single <code>Ctrl+Z</code>.</p>
 
 <figure class="diagram" id="linkDiagram">
 <svg viewBox="0 0 1060 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="How typed brackets become edges: parse on save into the link table, which feeds the strip, the graph and rename propagation">
@@ -266,7 +278,6 @@
 
 <h3 data-i18n="t_links_h2" id="graphview">The graph</h3>
 <p data-i18n="t_links_p7"><code>Ctrl+Shift+B</code> draws the whole notebook - or one group, when a group header is selected. Every note is a dot colored by its sidebar group and sized by how much links to it; ghosts draw hollow; a locked note wears a dashed ring. Double-click opens the note, right-click carries everything else.</p>
-<p data-i18n="t_links_p8">The layout is a force simulation in the d3-force idiom: each node carries a <em>velocity</em> that decays per unit of time rather than per frame, charge repulsion has a distance floor so close pairs cannot explode, springs pull linked notes together, and a collision force keeps dots from stacking. The solve runs off the UI thread and only the easing touches WPF; per-frame motion goes through <code>TranslateTransform</code> and all edges render as one <code>Path</code> geometry, because canvas coordinates and individual <code>Line</code> elements invalidate layout and a hundred re-arranged elements per frame is exactly what stutter is. Frames ride <code>CompositionTarget.Rendering</code> rather than a timer, so motion stays even when frame times are not.</p>
 <p data-i18n="t_links_p9">Dragging follows the same idiom: the held node is fixed to the pointer while the simulation runs, only its immediate neighborhood is free to react, and everything stops dead on release - movement the user did not ask for reads as random however gently it is tuned. What happens to the rest is a choice with two levels. <b>Pin all Notes</b> is the default for every undecided note: on, nothing moves but what you hold; off, neighbors get out of the way. <b>Lock in place</b> is a per-note decision that outranks all of it - the simulation, every arrangement, a dragged neighbor, even the visualizer's spin - and unlike the pin it is remembered. An arrangement simply lays the unlocked notes out around a locked one and leaves its spot alone.</p>
 <p data-i18n="t_links_p10">Five deterministic arrangements complement the physics: by connection, in a circle, in a grid, by group, and rings by distance from one note - the last one placed on the note's own menu, where "distance from what" needs no explaining. The <b>visualizer</b> (V) is the opposite of an arrangement: it keeps the simulation warm, breathes the spring lengths, and turns the whole layout rigidly about its center, for a graph left running on a second monitor. Pinning is suspended while it runs; locks are not.</p>
 
@@ -321,8 +332,6 @@
 
 <h3 data-i18n="t_links_h3" id="graphlayouts">Where layouts live</h3>
 <p data-i18n="t_links_p11">Node positions persist in a <code>graph_layouts</code> table - <code>(name, note_id, x, y, locked)</code> - in the <b>note database itself</b>, not in application settings. Coordinates mean nothing without the notes they belong to, and KillerNotes opens more than one database; in settings, a layout would follow you into every notebook and try to place notes that are not in it.</p>
-<p data-i18n="t_links_p12">Two kinds of row share the table, told apart only by the name. The empty name is the <em>remembered</em> layout: written when the graph window closes, restored silently the next time it opens, never listed as a choice. Every other name is an arrangement the user saved from the Arrange menu, re-applied or deleted from the same place. A save is a wholesale snapshot in one transaction - never a merge - and it sweeps rows whose note no longer exists. The sweep deliberately does <em>not</em> run when a note is deleted, because deletion is undoable and an undone delete should bring the note back with its place in every saved arrangement intact; loads additionally join against the notes table, so a stale row can never resurrect a deleted note as a node.</p>
-<p data-i18n="t_links_p13">Three guards keep the table honest: a <em>group</em> graph never writes the remembered layout, because it sees a subset and a snapshot save would throw away the position of every note outside the group; a graph window left open across a database switch refuses to write back at all, because its note ids mean something else entirely in the other file; and <code>.knote</code> exports never carry the table - a shared note has no business shipping the coordinates of a notebook the receiver has never seen. Ghosts are not saved either: they have no note id to key against, and they stop being ghosts the moment the note is written.</p>
 </section>
 
 <section class="tech-sec" id="encryption">
@@ -355,7 +364,7 @@
 <h3 data-i18n="t_fmt_h2" id="export">Out</h3>
 <p data-i18n="t_fmt_p2">Any note exports as plain text, as <code>.rtf</code> (WordPad/Word-compatible, images included), or as a standalone theme-styled HTML page built by a purpose-built FlowDocument-to-HTML converter: paragraphs, lists, tables, character formatting, colors, and images embedded as base64 data URIs - one self-contained file.</p>
 <h3 data-i18n="t_fmt_h3" id="vault">Vault export</h3>
-<p data-i18n="t_fmt_p3">The whole database also exports as a folder of <code>.md</code> files. Groups become nested subfolders, and each file opens with YAML front matter carrying title, tags, and created and modified times - readers that do not understand front matter show it as a small block at the top rather than mangling the note. Files are UTF-8 with no BOM, since a BOM shows as stray characters above the first heading in a lot of markdown tooling. Titles are sanitized into filenames with reserved device names and trailing dots and spaces handled, and collisions get a numeric suffix; everything lands in a subfolder named after the open database, so exporting two notepads side by side cannot merge them.</p>
+<p data-i18n="t_fmt_p3">The whole database also exports as a folder of <code>.md</code> files. Groups become nested subfolders, and each file opens with a short block listing the title, tags, and created and modified times - editors that do not recognize it simply show it as text at the top rather than mangling the note. Titles become filenames, with anything Windows will not accept cleaned up and duplicates given a number. Everything lands in a subfolder named after the open database, so exporting two notepads side by side cannot merge them.</p>
 <p data-i18n="t_fmt_p4">Rich-text notes are converted on the way out, so the folder is the whole notepad rather than only the notes that were already markdown. That conversion is lossy in the ways the convert dialog names - tables, images, colored text - but nothing in the database is modified: this writes files and touches no note. A single unreadable note is skipped and counted rather than aborting the run.</p>
 <p data-i18n="t_fmt_p5">It is deliberately one-way and on demand rather than a live sync of a watched folder. Sync means conflict resolution, file-watcher races, and partial writes from other editors, and it would leave a permanent plaintext copy of an encrypted database on disk - which contradicts the reason the database is encrypted at all. Export is explicit, so the user chooses the moment the plaintext exists.</p>
 <h3 data-i18n="t_fmt_h4" id="convert">Converting between formats</h3>
@@ -497,7 +506,7 @@
 </footer>
 <div class="egg-toast" id="eggToast"></div>
 <div class="dlightbox" id="dlightbox" hidden><div class="dlb-inner" id="dlbInner"></div></div>
-<script src="kn-i18n.js?v=10"></script>
+<script src="kn-i18n.js?v=11"></script>
 <script src="kn.js?v=3"></script>
 <script>
 (function(){
@@ -511,12 +520,69 @@
 })();
 </script>
 <script>
+// COLLAPSIBLE OUTLINE. The page has fourteen sections and eighteen subsections, and listing
+// all thirty-two flat made the sidebar a wall you had to read to navigate - the same problem
+// the Help page solved with its accordion.
+//
+// The grouping is built HERE, at runtime, rather than by nesting the markup: the thirty-two
+// links carry t_nav_* keys that must stay byte-identical to the headings they name, so the
+// safest structure is one that never edits them. Wrapping moves the existing nodes, so the
+// scroll-spy below still finds all thirty-two through .outline a, in document order.
+(function(){
+  var nav=document.querySelector('.outline');
+  if(!nav) return;
+  var kids=[].slice.call(nav.children), groups=[], cur=null;
+  kids.forEach(function(a){
+    if(a.tagName!=='A') return;
+    if(a.classList.contains('sub')){
+      if(cur){ cur.subs.appendChild(a); }
+      return;
+    }
+    var g=document.createElement('div'); g.className='ol-group';
+    var head=document.createElement('div'); head.className='ol-head';
+    var subs=document.createElement('div'); subs.className='ol-subs';
+    nav.insertBefore(g,a); head.appendChild(a); g.appendChild(head); g.appendChild(subs);
+    cur={el:g,subs:subs,head:head};
+    groups.push(cur);
+  });
+  // A section with no subsections gets no chevron - an empty disclosure that opens onto
+  // nothing is worse than none at all.
+  groups.forEach(function(g){
+    if(!g.subs.children.length){ g.el.classList.add('ol-leaf'); return; }
+    var t=document.createElement('button');
+    t.className='ol-chev'; t.type='button'; t.setAttribute('aria-expanded','false');
+    t.setAttribute('aria-label','Expand section');
+    t.innerHTML='<svg viewBox="0 0 10 10" width="10" height="10" aria-hidden="true"><path d="M3 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+    t.addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation();
+      var open=g.el.classList.toggle('open');
+      t.setAttribute('aria-expanded',open?'true':'false');
+      g.el.dataset.manual='1';   // a hand-opened section is not auto-closed by scrolling
+    });
+    g.head.appendChild(t);
+  });
+  // Reading a section opens it. Sections you opened by hand stay open; the rest close, so the
+  // sidebar keeps showing where you are rather than growing as you scroll.
+  window.knOutlineReveal=function(a){
+    var g=a&&a.closest?a.closest('.ol-group'):null;
+    groups.forEach(function(x){
+      var open=(x.el===g)||x.el.dataset.manual==='1';
+      x.el.classList.toggle('open',open);
+      var c=x.head.querySelector('.ol-chev');
+      if(c) c.setAttribute('aria-expanded',open?'true':'false');
+    });
+  };
+})();
+</script>
+<script>
 (function(){
   var links=[].slice.call(document.querySelectorAll('.outline a'));
   var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));}).filter(Boolean);
   var sc=document.querySelector('.content-scroll');
   function onScroll(){ var y=(sc?sc.scrollTop:window.scrollY)+100, cur=secs[0]; secs.forEach(function(s){ if(s&&s.offsetTop<=y) cur=s; });
-    links.forEach(function(a){ a.classList.toggle('on', cur && a.getAttribute('href')==='#'+cur.id); }); }
+    var active=null;
+    links.forEach(function(a){ var on=cur && a.getAttribute('href')==='#'+cur.id; a.classList.toggle('on', on); if(on) active=a; });
+    if(active && window.knOutlineReveal) window.knOutlineReveal(active); }
   (sc||window).addEventListener('scroll',onScroll,{passive:true}); onScroll();
 })();
 </script>

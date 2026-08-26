@@ -246,40 +246,62 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Expanded KillerNotes screenshot" aria-hidden="true" tabindex="-1">
   <figure class="lightbox-figure">
     <img id="lightboxImg" src="" alt="">
+    <video id="lightboxVid" controls loop muted playsinline preload="metadata" hidden></video>
     <figcaption id="lightboxCaption"></figcaption>
   </figure>
 </div>
 <div class="egg-toast" id="eggToast"></div>
 
-<script src="kn-i18n.js?v=10"></script>
+<script src="kn-i18n.js?v=11"></script>
 <script src="kn.js?v=3"></script>
 <script>
 (function () {
   // Screenshot strip: tries screenshots/01.png .. NN.png, drops any that 404, and shows a
   // placeholder until at least one loads. Drop real screenshots into screenshots/ to populate it.
+  // One string per slot, used three ways: the alt text, the thumbnail tooltip and the
+  // lightbox caption. Written to describe what is actually in the frame, because for a
+  // screen reader it is the only version of the picture there is.
   var descriptions = [
-    'Interactive keyboard shortcuts map localized in French',
-    'Inline sketch with a Bengali editing context menu',
-    'Dictation recorder transcribing audio into a note',
-    'SketchPad and Dictation tools beside a PowerShell note',
-    'Per-paragraph syntax highlighting across multiple languages',
-    'Embedded photo and SketchPad in the 98SE theme',
-    'KillerNotes About card over a syntax-highlighted note'
+    'Nested client-site groups with tag pills in the sidebar, beside a firewall cutover note holding a settings table and a test plan. The Linked from strip along the bottom lists the notes pointing at this one.',
+    'The link graph running its visualizer: every note a dot, sized by how much links to it and colored by its group, drifting and slowly turning on its own.',
+    'The Killculator docked in the sidebar and the SketchPad open over a PowerShell note, whose syntax highlighting was detected per paragraph.',
+    'The Dictation pad mid-recording: scrub the waveform, right-click to slice or delete a segment, transcribe offline, then embed the audio or print the text into the note. Behind it, a site note with an inline photo and a finished recording embedded in the text.',
+    'A markdown note with its live preview beside the source, and the language menu open on all twelve translations. The interface is running in Hungarian.',
+    'One scratch note holding thirteen languages, each paragraph colored by the language it sniffed, next to the folder picker for exporting the whole database as markdown.',
+    'All three companions at once: the SketchPad drawing over a switch port table, the Dictation pad waiting, and the Killculator in the sidebar.'
   ];
+  // Respect a reduced-motion preference: the poster stands in and nothing plays by itself.
+  var REDUCE = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var MAX = descriptions.length;
   var sbThumbs = document.getElementById('sbThumbs');
   var empty = sbThumbs.querySelector('.sb-empty');
   var lightbox = document.getElementById('lightbox');
   var lightboxImg = document.getElementById('lightboxImg');
+  var lightboxVid = document.getElementById('lightboxVid');
   var lightboxCaption = document.getElementById('lightboxCaption');
   var lastLightboxTrigger = null;
   var loaded = 0;
 
-  function openLightbox(src, description, trigger) {
+  // For a still, src is the image path. For a clip it is the two-digit slot, and the video
+  // element takes over: same caption, same dismissal, controls added because at full size
+  // people expect to be able to scrub and pause.
+  function openLightbox(src, description, trigger, isClip) {
     lastLightboxTrigger = trigger;
-    lightboxImg.src = src;
-    lightboxImg.alt = description;
-    lightboxImg.title = description;
+    if (isClip) {
+      lightboxImg.hidden = true;
+      lightboxVid.hidden = false;
+      lightboxVid.poster = 'screenshots/' + src + '-poster.jpg';
+      lightboxVid.src = 'screenshots/' + src + '.mp4';
+      lightboxVid.title = description;
+      if (!REDUCE) { var p = lightboxVid.play(); if (p && p.catch) p.catch(function () {}); }
+    } else {
+      lightboxVid.pause();
+      lightboxVid.hidden = true;
+      lightboxImg.hidden = false;
+      lightboxImg.src = src;
+      lightboxImg.alt = description;
+      lightboxImg.title = description;
+    }
     lightboxCaption.textContent = description;
     lightbox.setAttribute('aria-hidden', 'false');
     lightbox.classList.add('show');
@@ -289,9 +311,13 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
     if (!lightbox.classList.contains('show')) return;
     lightbox.classList.remove('show');
     lightbox.setAttribute('aria-hidden', 'true');
+    lightboxVid.pause();   // or it keeps playing behind the closed overlay
     if (lastLightboxTrigger) lastLightboxTrigger.focus();
   }
   lightbox.addEventListener('click', closeLightbox);
+  // The backdrop closes on any click, but the video carries real controls - without this,
+  // reaching for pause or the scrubber would dismiss the whole lightbox instead.
+  lightboxVid.addEventListener('click', function (e) { e.stopPropagation(); });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && lightbox.classList.contains('show')) {
       closeLightbox();
@@ -299,30 +325,58 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
     }
   });
 
+  function addThumb(n, nn, description, clipOrImg) {
+    if (empty) { empty.remove(); empty = null; }
+    var isClip = clipOrImg === true;
+    var b = document.createElement('button');
+    b.className = 'sb-thumb'; b.title = description; b.dataset.idx = n;
+    b.setAttribute('aria-label', description);
+    if (isClip) {
+      var v = document.createElement('video');
+      v.poster = 'screenshots/' + nn + '-poster.jpg';
+      v.src = 'screenshots/' + nn + '.mp4';
+      v.loop = true; v.muted = true; v.playsInline = true; v.preload = 'metadata';
+      // The attributes as WELL as the properties: iOS Safari reads muted and playsinline off
+      // the markup when it decides whether an autoplaying video is allowed to start.
+      v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('loop', '');
+      if (!REDUCE) { v.autoplay = true; v.setAttribute('autoplay', ''); }
+      b.appendChild(v);
+      b.addEventListener('click', function () { openLightbox(nn, description, b, true); });
+    } else {
+      b.appendChild(clipOrImg);
+      b.addEventListener('click', function () {
+        openLightbox('screenshots/' + nn + '.png', description, b, false);
+      });
+    }
+    // Insert in numeric order regardless of which slot finishes loading first.
+    var next = null, kids = sbThumbs.children;
+    for (var k = 0; k < kids.length; k++) {
+      if (kids[k].dataset && +kids[k].dataset.idx > n) { next = kids[k]; break; }
+    }
+    sbThumbs.insertBefore(b, next);
+    loaded++;
+    updateFade();
+  }
+
+  // A slot is a CLIP when screenshots/NN-poster.jpg exists; the clip itself is NN.mp4 and the
+  // poster doubles as the still shown before it plays and under prefers-reduced-motion. The
+  // POSTER is what gets probed, not the video: an <img> reports a 404 cleanly through onerror,
+  // where a <video> element's failure handling is inconsistent across browsers. Falling back
+  // to NN.png keeps the original drop-any-that-404 behavior for still slots untouched.
   for (var i = 1; i <= MAX; i++) {
     (function (n) {
-      var src = 'screenshots/' + (n < 10 ? '0' + n : '' + n) + '.png';
-      var img = new Image();
-      img.onload = function () {
-        if (empty) { empty.remove(); empty = null; }
-        var b = document.createElement('button');
-        var description = descriptions[n - 1];
-        b.className = 'sb-thumb'; b.title = description; b.dataset.idx = n;
-        b.setAttribute('aria-label', description);
-        b.appendChild(img);
-        b.addEventListener('click', function () { openLightbox(src, description, b); });
-        // Insert in numeric order regardless of which image finishes loading first.
-        var next = null, kids = sbThumbs.children;
-        for (var k = 0; k < kids.length; k++) {
-          if (kids[k].dataset && +kids[k].dataset.idx > n) { next = kids[k]; break; }
-        }
-        sbThumbs.insertBefore(b, next);
-        loaded++;
-        updateFade();
+      var nn = n < 10 ? '0' + n : '' + n;
+      var description = descriptions[n - 1];
+      var poster = new Image();
+      poster.onload = function () { addThumb(n, nn, description, true); };
+      poster.onerror = function () {
+        var img = new Image();
+        img.onload = function () { addThumb(n, nn, description, img); };
+        img.alt = description;
+        img.title = description;
+        img.src = 'screenshots/' + nn + '.png';
       };
-      img.alt = descriptions[n - 1];
-      img.title = descriptions[n - 1];
-      img.src = src;
+      poster.src = 'screenshots/' + nn + '-poster.jpg';
     })(i);
   }
 

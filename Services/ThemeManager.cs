@@ -287,6 +287,34 @@ namespace KillerNotes.Services
                 double tr = newDict["PanelCornerRadius"] is CornerRadius pcr ? pcr.TopRight : 0.0;
                 newDict["CaptionCloseCornerRadius"] = new CornerRadius(0, tr, 0, 0);
             }
+            // The graph window's canvas tier. Defaults to BackgroundBrush, which keeps the caption
+            // and the field one continuous surface on every rounded theme - the shape that fixed
+            // the window reading as two windows stacked. A theme with a real caption band of its
+            // own (98SE) points this at its white work surface instead.
+            if (!newDict.Contains("GraphCanvasBrush") && newDict.Contains("BackgroundBrush"))
+                newDict["GraphCanvasBrush"] = newDict["BackgroundBrush"];
+            // The mentions strip, tucked into the note's bottom-right corner. Only the TOP-LEFT
+            // and BOTTOM-RIGHT are rounded: the other two sit against the editor's own edges and
+            // must stay square, which is what makes the strip read as growing out of the corner
+            // rather than floating over it.
+            //
+            // DERIVED, not literal. The three borders that make up the strip - the shadow caster,
+            // the strip itself and its grain overlay - each carried a hardcoded "5,0,5,0", so the
+            // strip kept rounded corners on 98SE while every other surface in the window went
+            // square (2026-08-25). Deriving from SmallCornerRadius squares it off on any flat
+            // theme for free, and defaulting it HERE rather than in the theme files is what stops
+            // a key only some themes define from leaking into every theme chosen afterwards.
+            //
+            // The 5 is kept LITERAL rather than derived from SmallCornerRadius. Deriving would
+            // have quietly retuned the strip from 5 to 3 on all twelve rounded themes, which is a
+            // restyle nobody asked for; SmallCornerRadius is only consulted to answer the one
+            // question that matters here - is this theme square.
+            if (!newDict.Contains("MentionsCornerRadius"))
+            {
+                bool square = newDict["SmallCornerRadius"] is CornerRadius mcr && mcr.TopLeft <= 0;
+                double r = square ? 0.0 : 5.0;
+                newDict["MentionsCornerRadius"] = new CornerRadius(r, 0, r, 0);
+            }
             // The FLOATING twin of that radius, for the About/Fonts overlay X and every dialog
             // caption X (DialogCloseButton in Controls.xaml). Those buttons sit INSET from the
             // window corner, so the corner-following shape above gave their hover block one

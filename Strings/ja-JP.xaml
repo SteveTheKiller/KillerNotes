@@ -213,7 +213,7 @@
     <sys:String x:Key="Str_KS_Title">キーボード ショートカット</sys:String>
     <sys:String x:Key="Str_KS_ViewList">リスト</sys:String>
     <sys:String x:Key="Str_KS_ViewKeyboard">キーボード</sys:String>
-    <sys:String x:Key="Str_KS_HoldHint">Ctrl または Shift を押すとそのレイヤーを表示します</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">Ctrl、Shift または Alt を押すとそのレイヤーを表示します</sys:String>
     <sys:String x:Key="Str_KS_ThisList">キーボード ショートカット (この一覧)</sys:String>
     <sys:String x:Key="Str_KS_Rename">開いているノートの名前を変更</sys:String>
     <sys:String x:Key="Str_KS_Search">ノートを検索</sys:String>
@@ -229,12 +229,30 @@
     <sys:String x:Key="Str_KS_BIU">太字 / 斜体 / 下線</sys:String>
     <sys:String x:Key="Str_KS_Strike">取り消し線</sys:String>
     <sys:String x:Key="Str_KS_Mono">等幅 (コード)</sys:String>
-    <sys:String x:Key="Str_KS_Highlight">選択範囲を蛍光ペン (黄)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">選択範囲を蛍光ペン</sys:String>
     <sys:String x:Key="Str_KS_Rule">水平線を挿入</sys:String>
     <sys:String x:Key="Str_KS_Lists">箇条書き / 番号付きリスト</sys:String>
     <sys:String x:Key="Str_KS_Paste">貼り付け - テキスト、画像、表</sys:String>
     <sys:String x:Key="Str_KS_Delete">選択したノートを削除 (一覧内)</sys:String>
     <sys:String x:Key="Str_KS_Esc">オーバーレイを閉じる / 検索をクリア</sys:String>
+    <sys:String x:Key="Str_KS_SecGraph">グラフウィンドウ</sys:String>
+    <sys:String x:Key="Str_KS_GrArrange">配置: つながり順、円形、グリッド、グループ別、距離順</sys:String>
+    <sys:String x:Key="Str_KS_GrVisualizer">ビジュアライザー: グラフをただよわせて回転させる</sys:String>
+    <sys:String x:Key="Str_KS_GrNextShape">次のビジュアライザーの形</sys:String>
+    <sys:String x:Key="Str_KS_GrPin">すべてのノートを置いた位置に固定</sys:String>
+    <sys:String x:Key="Str_KS_GrLock">選択したノートを位置に固定</sys:String>
+    <sys:String x:Key="Str_KS_GrIsolate">ここにリンクしているものだけ表示</sys:String>
+    <sys:String x:Key="Str_KS_GrLabels">ノートのタイトルを表示</sys:String>
+    <sys:String x:Key="Str_KS_GrSelect">表示中をすべて選択 / [[リンク]] としてコピー</sys:String>
+    <sys:String x:Key="Str_KS_GrOpen">ノートを開く / すべて再表示</sys:String>
+    <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_SkTools">ツール: 選択、ペン、直線、矢印、四角、楕円、多角形、塗りつぶし、テキスト、消しゴム、切り抜き、画像</sys:String>
+    <sys:String x:Key="Str_KS_SkUndo">元に戻す / やり直す</sys:String>
+    <sys:String x:Key="Str_KS_SkPaste">クリップボードから画像を貼り付け</sys:String>
+    <sys:String x:Key="Str_KS_SkPrint">描画をノートに出力</sys:String>
+    <sys:String x:Key="Str_KS_SkZoom">キャンバスをズーム</sys:String>
+    <sys:String x:Key="Str_KS_SkDelete">選択範囲を削除</sys:String>
+    <sys:String x:Key="Str_KS_SkClose">多角形を確定 / パッドを閉じる</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">キーボード ショートカット</sys:String>
@@ -601,6 +619,11 @@
     <sys:String x:Key="Str_Sketch_Select">選択 / 移動 (V) - オブジェクトをクリックし、ドラッグで移動、Delete で削除</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">線をまっすぐにする</sys:String>
     <sys:String x:Key="Str_Sketch_Text">テキスト (T) - クリックしてラベルを置き、入力し、Enter で確定 (Shift+Enter で改行)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShape">形</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeFree">自然に</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeSpiral">ひまわり</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">波形に</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeNext">次の形</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLock">位置を固定</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLockTip">固定したノートは何をしても動きません。配置の適用でも、隣のノートに引っ張られても動きません。</sys:String>
     <sys:String x:Key="Str_Kb_LineNumbers">行番号</sys:String>

@@ -48,12 +48,12 @@ winget install killernotes
 
 <table>
 <tr>
-<td width="50%"><img src="docs/main-window.png" alt="Main window"><br><sub>Nested groups, tag pills and search as you type - beside a note whose syntax highlighting is detected per paragraph, thirteen languages in one note.</sub></td>
-<td width="50%"><img src="docs/dictation.png" alt="Dictation"><br><sub>Dictation (Ctrl+M): record, scrub the waveform, transcribe offline, then embed the audio or print the text into the note.</sub></td>
+<td width="50%"><img src="docs/main-window.png" alt="Main window: nested client-site groups with tag pills in the sidebar, beside a firewall cutover note holding a settings table, with the Linked from strip along the bottom"><br><sub>Nested groups, tag pills and search as you type, beside a cutover note holding a real table. The Linked from strip lists every note pointing at this one.</sub></td>
+<td width="50%"><img src="docs/dictation.png" alt="The Dictation pad recording, with the waveform's right-click menu open on slice and copy segment, beside a site note holding an inline photo and an embedded recording"><br><sub>Dictation (Ctrl+M): record, scrub the waveform, slice out a segment, transcribe offline, then embed the audio or print the text into the note.</sub></td>
 </tr>
 <tr>
-<td><img src="docs/shortcuts.png" alt="Keyboard shortcuts"><br><sub>Every function has a shortcut - F1 opens the visual keyboard map. Hold Ctrl or Shift to preview that layer. Shown in French.</sub></td>
-<td><img src="docs/localization.png" alt="Localization"><br><sub>Twelve languages, translated down to the context menus - here Bengali, with a SketchPad drawing printed into the note.</sub></td>
+<td><img src="docs/shortcuts.png" alt="The F1 shortcuts overlay in its keyboard view: a drawn keyboard with every bound key lit and labeled with the action it runs"><br><sub>Every function has a shortcut - F1 opens the visual keyboard map. Hold Ctrl, Shift or Alt to preview that layer. Shown in French.</sub></td>
+<td><img src="docs/localization.png" alt="The interface running in Hungarian with the language menu open on all twelve translations, beside a markdown note showing its live preview next to the source"><br><sub>Twelve languages, translated down to the context menus - here Hungarian. Beside it, a markdown note with its live preview next to the source.</sub></td>
 </tr>
 </table>
 

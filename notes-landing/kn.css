@@ -141,7 +141,7 @@ html[data-theme="light"] .page-title { text-shadow: none; }
 .sb-empty { margin: auto; text-align: center; color: var(--muted); font-family: 'KillerNotes', 'Courier New', monospace; font-size: 14px; letter-spacing: .5px; line-height: 1.5; padding: 20px; }
 .sb-thumb { display: block; width: 100%; padding: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--panel); cursor: zoom-in; box-shadow: 0 2px 6px rgba(0,0,0,0.45); transition: border-color .15s ease, transform .15s ease; }
 .sb-thumb:hover { border-color: var(--accent); transform: translateY(-1px); }
-.sb-thumb img { display: block; width: 100%; height: auto; }
+.sb-thumb img, .sb-thumb video { display: block; width: 100%; height: auto; }
 /* :not(.sb-fade) - .sb-fade sets its own position:absolute (it must stay out of flow to
    overlay instead of taking up flex space); this reset must not clobber that. Equal
    specificity + later source order was winning and dropping the fade divs back into
@@ -184,8 +184,12 @@ html[data-theme="light"] .page-title { text-shadow: none; }
 .lightbox.show { opacity: 1; visibility: visible; transition: opacity .2s ease; }
 .lightbox[hidden] { display: none; }
 .lightbox-figure { margin: 0; max-width: 100%; max-height: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.lightbox img { display: block; max-width: 100%; max-height: calc(100vh - 112px); border-radius: 6px; box-shadow: 0 24px 60px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); transform: scale(.96); transition: transform .2s ease; }
-.lightbox.show img { transform: scale(1); }
+.lightbox img, .lightbox video { display: block; max-width: 100%; max-height: calc(100vh - 112px); border-radius: 6px; box-shadow: 0 24px 60px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); transform: scale(.96); transition: transform .2s ease; }
+.lightbox.show img, .lightbox.show video { transform: scale(1); }
+/* A clip is the one thing in here you interact with, so it gets a normal pointer rather than
+   inheriting the backdrop's zoom-out. */
+.lightbox video { cursor: default; }
+.lightbox [hidden] { display: none; }
 .lightbox figcaption { max-width: min(1100px, 100%); color: #f2f2f2; font-size: 13px; line-height: 1.45; text-align: center; text-shadow: 0 1px 3px #000; }
 
 /* Slim scrollbars: transparent track (no opaque band), no arrow buttons, thumb flat to the ends.

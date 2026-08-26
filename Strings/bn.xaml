@@ -213,7 +213,7 @@
     <sys:String x:Key="Str_KS_Title">কীবোর্ড শর্টকাট</sys:String>
     <sys:String x:Key="Str_KS_ViewList">তালিকা</sys:String>
     <sys:String x:Key="Str_KS_ViewKeyboard">কীবোর্ড</sys:String>
-    <sys:String x:Key="Str_KS_HoldHint">সেই স্তরটি দেখতে Ctrl বা Shift চেপে ধরুন</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">সেই স্তরটি দেখতে Ctrl, Shift বা Alt চেপে ধরুন</sys:String>
     <sys:String x:Key="Str_KS_ThisList">কীবোর্ড শর্টকাট (এই তালিকা)</sys:String>
     <sys:String x:Key="Str_KS_Rename">খোলা নোটের নাম বদলান</sys:String>
     <sys:String x:Key="Str_KS_Search">নোট খুঁজুন</sys:String>
@@ -229,12 +229,30 @@
     <sys:String x:Key="Str_KS_BIU">বোল্ড / ইটালিক / আন্ডারলাইন</sys:String>
     <sys:String x:Key="Str_KS_Strike">স্ট্রাইকথ্রু</sys:String>
     <sys:String x:Key="Str_KS_Mono">মনোস্পেস (কোড)</sys:String>
-    <sys:String x:Key="Str_KS_Highlight">নির্বাচিত অংশ হাইলাইট করুন (হলুদ)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">নির্বাচিত অংশ হাইলাইট করুন</sys:String>
     <sys:String x:Key="Str_KS_Rule">অনুভূমিক রেখা যোগ করুন</sys:String>
     <sys:String x:Key="Str_KS_Lists">বুলেট / সংখ্যায়িত তালিকা</sys:String>
     <sys:String x:Key="Str_KS_Paste">পেস্ট - লেখা, ছবি, টেবিল</sys:String>
     <sys:String x:Key="Str_KS_Delete">নির্বাচিত নোট মুছুন (তালিকায়)</sys:String>
     <sys:String x:Key="Str_KS_Esc">ওভারলে বন্ধ করুন / সার্চ মুছুন</sys:String>
+    <sys:String x:Key="Str_KS_SecGraph">গ্রাফ উইন্ডো</sys:String>
+    <sys:String x:Key="Str_KS_GrArrange">সাজান: সংযোগ, বৃত্ত, গ্রিড, গ্রুপ বা দূরত্ব অনুসারে</sys:String>
+    <sys:String x:Key="Str_KS_GrVisualizer">ভিজ্যুয়ালাইজার: গ্রাফকে ভেসে ঘুরতে দিন</sys:String>
+    <sys:String x:Key="Str_KS_GrNextShape">পরবর্তী ভিজ্যুয়ালাইজার আকৃতি</sys:String>
+    <sys:String x:Key="Str_KS_GrPin">প্রতিটি নোট যেখানে রাখা হয়েছে সেখানে পিন করুন</sys:String>
+    <sys:String x:Key="Str_KS_GrLock">নির্বাচিত নোটগুলি জায়গায় লক করুন</sys:String>
+    <sys:String x:Key="Str_KS_GrIsolate">শুধু যা এখানে লিঙ্ক করে তা দেখান</sys:String>
+    <sys:String x:Key="Str_KS_GrLabels">নোটের শিরোনাম দেখান</sys:String>
+    <sys:String x:Key="Str_KS_GrSelect">দৃশ্যমান সব নির্বাচন করুন / [[লিঙ্ক]] হিসেবে কপি করুন</sys:String>
+    <sys:String x:Key="Str_KS_GrOpen">নোট খুলুন / আবার সব দেখান</sys:String>
+    <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_SkTools">টুল: নির্বাচন, পেন, রেখা, তীর, আয়তক্ষেত্র, উপবৃত্ত, বহুভুজ, ভরাট, টেক্সট, ইরেজার, ক্রপ, ছবি</sys:String>
+    <sys:String x:Key="Str_KS_SkUndo">আনডু / রিডু</sys:String>
+    <sys:String x:Key="Str_KS_SkPaste">ক্লিপবোর্ড থেকে ছবি পেস্ট করুন</sys:String>
+    <sys:String x:Key="Str_KS_SkPrint">অঙ্কনটি নোটে প্রিন্ট করুন</sys:String>
+    <sys:String x:Key="Str_KS_SkZoom">ক্যানভাস জুম করুন</sys:String>
+    <sys:String x:Key="Str_KS_SkDelete">নির্বাচন মুছুন</sys:String>
+    <sys:String x:Key="Str_KS_SkClose">বহুভুজ শেষ করুন / প্যাড বন্ধ করুন</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">কীবোর্ড শর্টকাট</sys:String>
@@ -603,6 +621,11 @@
     <sys:String x:Key="Str_Sketch_Select">নির্বাচন / সরান (V) - বস্তুতে ক্লিক করুন, টেনে সরান, Delete মুছে ফেলে</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">রেখা সোজা করুন</sys:String>
     <sys:String x:Key="Str_Sketch_Text">লেখা (T) - লেবেল বসাতে ক্লিক করুন, টাইপ করুন, Enter নিশ্চিত করে (Shift+Enter নতুন লাইন)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShape">আকৃতি</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeFree">স্বাভাবিকভাবে</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeSpiral">সূর্যমুখী</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">ঢেউয়ের আকারে</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeNext">পরবর্তী আকৃতি</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLock">জায়গায় লক করুন</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLockTip">লক করা নোট কিছুতেই সরে না - বিন্যাসেও নয়, পাশের নোটেও নয়।</sys:String>
     <sys:String x:Key="Str_Kb_LineNumbers">লাইন নং</sys:String>

@@ -24,9 +24,28 @@ namespace KillerNotes.Shell
             // running one long column off the bottom of the screen. The left column takes
             // the extra row when the count is odd.
             int perCol = (ShortcutMap.Length + 1) / 2;
+            string openSection = "";   // the header the current row sits under, "" while in the
+                                       // main-window block, which has no header of its own
             for (int i = 0; i < ShortcutMap.Length; i++)
             {
                 var (keys, action) = ShortcutMap[i];
+
+                // SECTION HEADER: no keys, just a label. The graph and the SketchPad are separate
+                // windows, and without a heading their bare letters read as main-window bindings.
+                if (keys.Length == 0)
+                {
+                    openSection = action;
+                    AddSectionHeader(action, i < perCol ? ShortcutColLeft : ShortcutColRight,
+                                     first: i == 0);
+                    continue;
+                }
+                // A section split across the fold repeats its title at the top of the second
+                // column, the way a newspaper does, rather than stranding half its rows under
+                // nothing. Cheaper than balancing the split on section boundaries, which with
+                // these section sizes would leave the columns badly lopsided.
+                if (i == perCol && openSection.Length > 0)
+                    AddSectionHeader(openSection, ShortcutColRight, first: true);
+
                 var row = new Grid { Margin = new Thickness(0, 0, 0, 6) };
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -42,6 +61,21 @@ namespace KillerNotes.Shell
                 row.Children.Add(desc);
                 (i < perCol ? ShortcutColLeft : ShortcutColRight).Children.Add(row);
             }
+        }
+
+        /// <summary>A section title in the shortcuts list. Accent colored and spaced above, so it
+        /// reads as a break rather than as another binding with a missing key.</summary>
+        private void AddSectionHeader(string labelKey, Panel column, bool first)
+        {
+            var head = new TextBlock
+            {
+                Text = Loc(labelKey),
+                FontSize = 12,
+                FontWeight = FontWeights.Bold,
+                Margin = new Thickness(0, first ? 0 : 10, 0, 6),
+            };
+            head.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryBrush");
+            column.Children.Add(head);
         }
 
         private void Shortcuts_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -130,9 +164,24 @@ namespace KillerNotes.Shell
                     case Key.S: Strike_Click(this, new RoutedEventArgs()); e.Handled = true; return;
                     case Key.M: Mono_Click(this, new RoutedEventArgs()); e.Handled = true; return;
                     case Key.H:
+                        // A REAL highlighter: it sets the text color as well as the ground, and
+                        // that pairing is what lets the ground be an actual yellow.
+                        //
+                        // It used to paint #7A6A00 - a dark olive - and leave the text alone. That
+                        // was the only way ONE background could work everywhere, because the body
+                        // text is near-white on eleven of the thirteen themes and anything bright
+                        // behind it made the words vanish. The cost was a highlighter that was not
+                        // yellow on any theme and did not match its own caption.
+                        //
+                        // Pinning both removes the constraint: black on #FFEB3B is about 14:1 and
+                        // reads the same on Light, 98SE and every dark theme. The background
+                        // SWATCH row is deliberately left alone - those six are a general
+                        // background-color palette, tuned dark on purpose, not highlighter presets.
                         ApplyToSelection(System.Windows.Documents.TextElement.BackgroundProperty,
                             new System.Windows.Media.SolidColorBrush(
-                                System.Windows.Media.Color.FromRgb(0x7A, 0x6A, 0x00)));
+                                System.Windows.Media.Color.FromRgb(0xFF, 0xEB, 0x3B)));
+                        ApplyToSelection(System.Windows.Documents.TextElement.ForegroundProperty,
+                            System.Windows.Media.Brushes.Black);
                         e.Handled = true; return;
                     case Key.R: InsertRule_Click(this, new RoutedEventArgs()); e.Handled = true; return;
                     case Key.J: ConvertSelectionToList(); e.Handled = true; return;

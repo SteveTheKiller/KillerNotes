@@ -76,6 +76,14 @@ namespace KillerNotes.Controls
             // the menu refers to it.
             public double? FixX, FixY;
 
+            // THE SHUFFLE'S TARGET, when the visualizer is cycling shapes. Null means this node is
+            // not being aimed anywhere and the physics alone decides where it goes.
+            //
+            // Held in the SPINNING frame, not in screen space: the spin turns these along with the
+            // positions, so the shape rotates as one piece. Left fixed on screen, the layout would
+            // slide around underneath a stationary template instead.
+            public double? TX, TY;
+
             // LOCKED BY THE USER, from the node's right-click menu. Where FixX/FixY are a
             // transient "the layout may not move this right now", a lock is a decision that
             // outlives the session: nothing moves a locked node - not the simulation, not an
@@ -281,10 +289,26 @@ namespace KillerNotes.Controls
         {
             var grid = new Grid();
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            // A 5px band of window face between the caption and the client area - Win98 never ran
+            // a title bar straight onto the work surface. Nothing is painted here: the row simply
+            // lets the window's own BackgroundBrush through, which is #c0c0c0 on 98SE.
+            //
+            // Left in on the twelve rounded themes rather than keyed off, because there the canvas
+            // IS BackgroundBrush, so the band is the same color as what surrounds it and cannot be
+            // seen. A theme key would need a ThemeManager default to avoid leaking into whichever
+            // theme was picked next, for a gap that is invisible everywhere else anyway.
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(5) });
             grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             grid.Children.Add(BuildCaption(title));
 
             var surface = new Grid();
+            // The CANVAS tier, which is not always the window tier. On the twelve rounded themes
+            // GraphCanvasBrush resolves to BackgroundBrush, so the caption and the field stay one
+            // continuous surface exactly as below - that is deliberate and fixed the "two windows
+            // stacked" look. 98SE is the theme where they genuinely differ: it has a real blue
+            // caption band, so the client area underneath it belongs on the white work surface,
+            // like every other 98SE app and like this app's own note list (2026-08-25).
+            surface.SetResourceReference(Panel.BackgroundProperty, "GraphCanvasBrush");
             surface.Children.Add(_canvas);
             // A legend, because a hollow node is not self-explanatory - "why are some nodes yellow
             // and some hollow?" was the first thing asked about it (2026-08-23).
@@ -348,13 +372,30 @@ namespace KillerNotes.Controls
             // is the discoverable half; a click that did nothing was just a dead glyph.
             _legendHint.MouseLeftButtonUp += (_, _) => RestoreLegend();
             surface.Children.Add(_legendHint);
-            Grid.SetRow(surface, 1);
+            Grid.SetRow(surface, 2);
             grid.Children.Add(surface);
 
-            // ONE SURFACE, and it is BackgroundBrush - the tier the title bar and the app body
-            // share. The caption used to sit on DialogTitleBarBrush over a PaneBrush canvas, which
-            // drew a purple band above a teal field and made the window look like two windows
-            // stacked (2026-08-23).
+            // The canvas' SUNKEN edge - the same four borders the main window's content pane
+            // carries, so the white work surface reads as recessed into the window face rather
+            // than sitting flush on it. That missing recess is why the bevel looked unfinished
+            // beside the main window: the outer sizing frame was there, the client edge was not.
+            //
+            // Siblings of the surface, not children: a bevel nested inside a bordered element
+            // draws inside that border and comes up short. All four brushes are transparent on
+            // the twelve rounded themes, so this draws nothing there.
+            AddSunkenEdge(grid, 2);
+
+            // ONE SURFACE on the twelve rounded themes, and it is BackgroundBrush - the tier the
+            // title bar and the app body share. The caption once sat on a caption band over a
+            // PaneBrush canvas, which drew a purple band above a teal field and made the window
+            // look like two windows stacked (2026-08-23).
+            //
+            // That is still the rule for those themes, and it is still enforced - but by the
+            // BRUSH rather than by hardcoding: DialogTitleBarBrush is transparent on every one of
+            // them, so the caption dissolves into this surface exactly as before. 98SE is the one
+            // theme where the two tiers genuinely differ, and there the band and the white canvas
+            // are both correct (2026-08-25). Do not put Transparent back on the caption: that is
+            // what made the graph the only window with a gray title bar under 98SE.
             // NO opaque child painting the background. The fill has to be on the OUTER border
             // itself, because a Border's CornerRadius rounds only its own background - a child
             // Border filling the same rectangle paints straight over the rounded corners and the
@@ -375,6 +416,29 @@ namespace KillerNotes.Controls
             grain.SetResourceReference(OpacityProperty, "GrainOpacity");
             body.Children.Add(grain);
 
+            // A gray patch UNDER the grip, so the border stays skinny everywhere except the corner
+            // the grab handle lives in - which is how Win98 itself did it. Without it the hatch
+            // sits straight on the white canvas with nothing to read against.
+            //
+            // WindowFrameBrush rather than a new key: this IS the frame face color, and that brush
+            // is already transparent on every theme with no frame, so the patch disappears on the
+            // other twelve without a ThemeManager default to maintain.
+            var gripCorner = new Border
+            {
+                Width = 21, Height = 21,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                IsHitTestVisible = false,
+                SnapsToDevicePixels = true,
+            };
+            gripCorner.SetResourceReference(Border.BackgroundProperty, "WindowFrameBrush");
+            // An edge on the two sides that meet the canvas, so the patch reads as a corner of
+            // chrome rather than a gray smudge on the work surface. Top and left only: the other
+            // two sit against the window frame and have nothing to divide them from.
+            gripCorner.BorderThickness = new Thickness(1, 1, 0, 0);
+            gripCorner.SetResourceReference(Border.BorderBrushProperty, "PaneBevelDarkBrush");
+            body.Children.Add(gripCorner);
+
             // The grip goes INSIDE the card. Parented to the window root it sat out in the 20px
             // transparent shadow halo, floating clear of the window it belongs to (2026-08-23).
             var grip = DialogChrome.ResizeGrip(this);
@@ -394,7 +458,20 @@ namespace KillerNotes.Controls
             // NO ClipToBounds. The drop shadow is an Effect on THIS element, and clipping to the
             // element's own bounds clips the effect with it - which is why the shadow was cut off
             // square (2026-08-23). SketchPad's outer border sets neither, for the same reason.
-            _outerBorder = new Border { Child = body };
+            // THE SHARED WINDOW FRAME, the same builder SketchPad, Dictation and the Whisper
+            // dialog all use. This window was the only companion that never got it, so on 98SE it
+            // sat as a flat slab with no raised edge while every other window in the app wore the
+            // Win98 frame - and WindowEdgeBrush/Thickness below are transparent at zero there, so
+            // there was nothing else drawing an edge either (2026-08-25).
+            //
+            // Every key inside it is transparent at zero thickness by default, so the twelve
+            // rounded themes draw nothing new and look exactly as they did.
+            var framed = new Grid();
+            framed.Children.Add(body);
+            framed.Children.Add(DialogChrome.WindowFrame());
+            DialogChrome.InsetForFrame(body);
+
+            _outerBorder = new Border { Child = framed };
             _outerBorder.SetResourceReference(Border.BorderBrushProperty, "WindowEdgeBrush");
             _outerBorder.SetResourceReference(Border.BorderThicknessProperty, "WindowEdgeThickness");
             _outerBorder.SetResourceReference(Border.BackgroundProperty, "BackgroundBrush");
@@ -457,7 +534,17 @@ namespace KillerNotes.Controls
         /// window you cannot minimize or maximize is a dialog pretending to be a tool.</summary>
         private UIElement BuildCaption(string title)
         {
-            var bar = new Grid { Background = Brushes.Transparent };
+            // DialogTitleBarBrush, which is exactly the two behaviours this needs in one key: the
+            // real caption band on a theme that has one (the UseDialogCaption marker), and a
+            // TRANSPARENT brush on all twelve rounded themes, where the caption and the canvas are
+            // deliberately one surface. Hardcoding Transparent here is what left the graph as the
+            // only window in the app whose title bar stayed window-gray under 98SE while every
+            // other window wore the blue band (2026-08-25).
+            //
+            // Transparent as a BRUSH, never null: the bar has to stay hit-testable or the window
+            // cannot be dragged by its caption.
+            var bar = new Grid();
+            bar.SetResourceReference(Panel.BackgroundProperty, "DialogTitleBarBrush");
             bar.SetResourceReference(HeightProperty, "TitleBarHeight");
             bar.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             bar.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -484,6 +571,29 @@ namespace KillerNotes.Controls
             return bar;
         }
 
+        /// <summary>
+        /// Win32's EDGE_SUNKEN as four borders over one grid cell. Two tones each way - #808080
+        /// then #000000 down the top and left, #ffffff then #c0c0c0 up the bottom and right -
+        /// because a single 2px gray has the right width with the wrong depth.
+        /// </summary>
+        private static void AddSunkenEdge(Grid grid, int row)
+        {
+            void Ring(string brushKey, string thicknessKey, string? marginKey)
+            {
+                var b = new Border { IsHitTestVisible = false };
+                b.SetResourceReference(Border.BorderBrushProperty, brushKey);
+                b.SetResourceReference(Border.BorderThicknessProperty, thicknessKey);
+                if (marginKey != null) b.SetResourceReference(MarginProperty, marginKey);
+                Grid.SetRow(b, row);
+                Panel.SetZIndex(b, 11);
+                grid.Children.Add(b);
+            }
+            Ring("PaneBevelDarkBrush", "PaneBevelLightThickness", null);
+            Ring("PaneBevelLightBrush", "PaneBevelDarkThickness", null);
+            Ring("PaneBevelDark2Brush", "PaneBevel2LightThickness", "PaneBevelInnerMargin");
+            Ring("PaneBevelLight2Brush", "PaneBevel2DarkThickness", "PaneBevelInnerMargin");
+        }
+
         private static Button CaptionButton(string? glyph, string styleKey, Action onClick)
         {
             var b = new Button();
@@ -492,20 +602,92 @@ namespace KillerNotes.Controls
             // glyph in the app - so the close button passes no content.
             if (glyph != null)
             {
-                b.Content = glyph;
-                b.FontFamily = new FontFamily("Segoe MDL2 Assets");
-                b.FontSize = 10;
+                b.Content = CaptionGlyph(glyph);
                 b.SetResourceReference(ForegroundProperty, "CaptionGlyphBrush");
             }
             b.Click += (_, _) => onClick();
             return b;
         }
 
+        /// <summary>
+        /// A caption glyph in BOTH of the app's representations, swapped by the theme - the same
+        /// pair MainWindow.xaml builds for its own minimize and maximize buttons.
+        ///
+        /// This window used to set the button's Content to a bare Segoe MDL2 character, which is
+        /// only the first half. A flat theme collapses CaptionFontGlyphVisibility and shows the
+        /// DRAWN glyph instead, because Win98's minimize is a short bar resting near the bottom of
+        /// the button rather than a vertically centered dash - so on 98SE the graph's minimize sat
+        /// visibly higher than the main window's right beside it (2026-08-25).
+        ///
+        /// The drawn shapes and their offsets are MainWindow's, including the 1px lift on the
+        /// maximize box: a 9px box in a 16px button leaves 3.5px each side and WPF rounds that
+        /// down on top, which reads as the icon sitting low.
+        /// </summary>
+        private static UIElement CaptionGlyph(string fontGlyph)
+        {
+            var host = new Grid();
+            host.SetResourceReference(HeightProperty, "CaptionButtonHeight");
+
+            var font = new TextBlock
+            {
+                Text = fontGlyph,
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                FontSize = 10,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            font.SetResourceReference(TextBlock.FontWeightProperty, "CaptionGlyphWeight");
+            font.SetResourceReference(VisibilityProperty, "CaptionFontGlyphVisibility");
+            host.Children.Add(font);
+
+            // MINIMIZE: a short thick bar on the BOTTOM, not centered.
+            if (fontGlyph == "")
+            {
+                var bar = new System.Windows.Shapes.Rectangle
+                {
+                    Width = 6, Height = 2,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Bottom,
+                    Margin = new Thickness(0, 0, 0, 3),
+                    SnapsToDevicePixels = true,
+                };
+                bar.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "CaptionGlyphBrush");
+                bar.SetResourceReference(VisibilityProperty, "CaptionDrawnGlyphVisibility");
+                host.Children.Add(bar);
+            }
+            else
+            {
+                // MAXIMIZE / RESTORE: a box with a DOUBLED top edge, the era's title-bar stand-in.
+                var box = new Grid
+                {
+                    Width = 9, Height = 9,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 0, 1),
+                    SnapsToDevicePixels = true,
+                };
+                box.SetResourceReference(VisibilityProperty, "CaptionDrawnGlyphVisibility");
+                var outline = new System.Windows.Shapes.Rectangle
+                { StrokeThickness = 1, Fill = Brushes.Transparent };
+                outline.SetResourceReference(System.Windows.Shapes.Shape.StrokeProperty, "CaptionGlyphBrush");
+                box.Children.Add(outline);
+                var cap = new System.Windows.Shapes.Rectangle
+                { Height = 2, VerticalAlignment = VerticalAlignment.Top };
+                cap.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "CaptionGlyphBrush");
+                box.Children.Add(cap);
+                host.Children.Add(box);
+            }
+            return host;
+        }
+
         private void ToggleMaximize() =>
             WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
 
+        // Rebuilds BOTH representations, never a bare glyph string: assigning one here would
+        // replace the two-layer Grid the button was built with, and the drawn 98SE box would
+        // vanish the first time the window was maximized.
         private void SyncMaxGlyph() =>
-            _maxBtn.Content = WindowState == WindowState.Maximized ? "" : "";
+            _maxBtn.Content = CaptionGlyph(WindowState == WindowState.Maximized ? "" : "");
 
         // ── Data ─────────────────────────────────────────────────────────────────────────
 
@@ -597,8 +779,10 @@ namespace KillerNotes.Controls
         /// <summary>Creates every visual ONCE. Nothing here runs again while the window is open.</summary>
         private void BuildVisuals(List<(Node A, Node B)> pairs)
         {
-            var edgeBrush = Res("DimTextBrush", Color.FromRgb(0x80, 0x80, 0x80));
-            var textBrush = Res("TextBrush", Colors.White);
+            // THE TEXT AND THE EDGES TAKE LIVE REFERENCES, not Res() snapshots - see the labels
+            // below. Res is still right for the two that feed drawing LOGIC rather than a single
+            // property: accent is copied onto every node and compared against GroupBrush by the
+            // color-by-group mode, which needs a value it can hold, not a deferred lookup.
             var accent = Res("PrimaryBrush", Color.FromRgb(0xB8, 0x29, 0xFF));
             var ghostBrush = Res("MutedTextBrush", Color.FromRgb(0x88, 0x88, 0x88));
             // ONE frozen shadow for every node. Frozen means WPF can share it across the whole
@@ -615,11 +799,11 @@ namespace KillerNotes.Controls
             // with a rebuilt geometry is a single render-level change.
             _edgeLayer = new System.Windows.Shapes.Path
             {
-                Stroke = edgeBrush,
                 StrokeThickness = 1,
                 Opacity = 0.45,
                 IsHitTestVisible = false,
             };
+            _edgeLayer.SetResourceReference(System.Windows.Shapes.Shape.StrokeProperty, "DimTextBrush");
             _canvas.Children.Add(_edgeLayer);
             foreach (var (a, b) in pairs) _edges.Add((a, b));
 
@@ -648,9 +832,15 @@ namespace KillerNotes.Controls
                 n.Label = new TextBlock
                 {
                     Text = n.Title.Length > 28 ? n.Title[..28] + "..." : n.Title,
-                    Foreground = n.Ghost ? ghostBrush : textBrush,
                     FontSize = 11, IsHitTestVisible = false,
                 };
+                // A LIVE reference, not a snapshot. These labels held whatever TextBrush was
+                // current when the window was built, so opening the graph once under 98SE - the
+                // one theme in the family with BLACK text, where the other twelve are light - left
+                // near-black titles on every dark theme afterwards. It looked like twelve palettes
+                // needing tweaks and was one stale brush (2026-08-25).
+                n.Label.SetResourceReference(TextBlock.ForegroundProperty,
+                                             n.Ghost ? "MutedTextBrush" : "TextBrush");
                 // Measured ONCE. The text never changes, so its width never changes.
                 n.Label.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 // Positioned by transform, never by Canvas.Left/Top - see Paint.
@@ -1169,6 +1359,10 @@ namespace KillerNotes.Controls
         private const double SpinPerSec = 0.10;       // radians, about 60s for a full turn
         private const double BreathPerSec = 0.55;     // radians
         private const double BreathDepth = 0.22;      // +/- share of the ideal link length
+        private double _spinScale = 1;                // fitted link length over the natural one
+        private double _spinEase;                     // 0 to 1, ramps the forces in at the start
+        private const double SpinEaseSecs = 0.5;      // long enough to absorb the fit, short
+                                                      // enough that the graph still feels alive
 
         /// <summary>The nodes allowed to move during this drag: the carried set plus everything
         /// within LiveHops edges of it.</summary>
@@ -1201,6 +1395,12 @@ namespace KillerNotes.Controls
         {
             _visualizer = on;
             _miSpin?.IsChecked = on;
+            // The picker only means anything while the cycle is running.
+            if (_miShape != null)
+            {
+                _miShape.Visibility = on ? Visibility.Visible : Visibility.Collapsed;
+                RefreshShapeMenu();
+            }
             if (on)
             {
                 // FIT TO A CIRCLE FIRST. The ordinary fit fills the box, and a layout that fills a
@@ -1209,6 +1409,13 @@ namespace KillerNotes.Controls
                 // against the sides. Sizing to the inscribed circle means every rotation of the
                 // layout is still inside the box.
                 FitForSpin();
+                // STARTS FREE, on shape 0, so the visualizer opens on the physics-only layout it
+                // always did and the shuffle begins from there - turning it on never yanks the
+                // graph straight into a template. Shape 0 sets no targets, which ClearTargets has
+                // already done, so there is nothing to apply.
+                _shape = 0;
+                _shapeAge = 0;
+                ClearTargets();
                 _legendFade.Stop();
                 DismissLegend();   // nothing to read while it is just running
                 StartLive();
@@ -1216,6 +1423,7 @@ namespace KillerNotes.Controls
             else
             {
                 StopLive();
+                ClearTargets();
                 // Back under whatever the pin toggle says, at wherever the spin left things.
                 ApplyHold();
                 Paint();
@@ -1239,8 +1447,233 @@ namespace KillerNotes.Controls
                 v.Y = cy + (v.Y - cy) * scale;
                 v.VX = 0; v.VY = 0;
             }
+
+            // How far the fitted layout sits from the link length the simulation would pick on its
+            // own, MEASURED rather than accumulated: the visualizer can be toggled repeatedly and a
+            // running product would compound every time. Clamped, so a degenerate layout - one edge,
+            // or every node stacked - cannot hand the physics an absurd target.
+            double natural = NaturalK();
+            double mean = _edges.Count == 0 ? 0 : _edges.Average(e =>
+            {
+                double dx = e.A.X - e.B.X, dy = e.A.Y - e.B.Y;
+                return Math.Sqrt(dx * dx + dy * dy);
+            });
+            _spinScale = mean < 1 || natural < 1 ? 1 : Math.Max(0.5, Math.Min(2.0, mean / natural));
+            _spinEase = 0;
             Paint();
         }
+
+        // ── The shuffle ──────────────────────────────────────────────────────────────────
+
+        private int _shape;                           // 0 is the free, physics-only layout
+        private double _shapeAge;                     // seconds spent in the current shape
+        private const double ShuffleSecs = 22;
+        private bool _shaped;                         // a template is up, not the free layout
+        private const double ShapePull = 0.18;
+        // How much of the ordinary physics survives underneath a template. A SHAPE IS ITSELF A
+        // LAYOUT FORCE, and at full strength the others simply beat it: gravity alone is
+        // 0.022 per pixel of distance from the centre, so on a ring of radius 300 it pulls
+        // 6.6 a frame inward while the pull only answers with 0.18 per pixel of ERROR - the ring
+        // collapsed about 110px before the two balanced, and the repulsion between close
+        // neighbours was stronger still. That is why the first attempt just nudged the blob.
+        private const double ShapedForceMix = 0.35;
+        private const int ShapeCount = 6;
+
+        /// <summary>
+        /// Aims every placeable node at a point. The pull is ADDED to the simulation rather than
+        /// written over it, which is the whole design: the springs and the collision still shape
+        /// the detail, the shape arrives as a drift instead of a snap, and nothing has to stop the
+        /// visualizer to place anything. EaseTo cannot be reused here for exactly that reason - it
+        /// turns the visualizer off so there is only ever one writer.
+        /// </summary>
+        private void SetTargets(List<Node> order, Func<int, int, Point> place)
+        {
+            ClearTargets();
+            for (int i = 0; i < order.Count; i++)
+            {
+                var p = place(i, order.Count);
+                order[i].TX = p.X;
+                order[i].TY = p.Y;
+            }
+        }
+
+        private void ClearTargets()
+        {
+            foreach (var v in _nodes) { v.TX = null; v.TY = null; }
+            _shaped = false;
+        }
+
+        private List<Node> ShapeOrder() =>
+            [.. Placeable().OrderBy(v => v.Group, StringComparer.OrdinalIgnoreCase)
+                           .ThenBy(v => v.Title, StringComparer.OrdinalIgnoreCase)];
+
+        private MenuItem _miShape = null!;
+        private readonly List<MenuItem> _shapeRows = [];
+
+        /// <summary>
+        /// The shape picker, which exists only while the visualizer runs - it is collapsed the rest
+        /// of the time rather than disabled, because outside the visualizer there is no cycle for
+        /// it to describe and a permanently grayed row is just clutter in a menu that is already
+        /// long. Three of the six reuse the Arrange menu's strings: they ARE those shapes, and two
+        /// names for one thing is how a menu starts lying.
+        /// </summary>
+        private void BuildShapeMenu()
+        {
+            _miShape = new MenuItem
+            {
+                Header = Str("Str_Ctx_GraphShape", "Shape"),
+                Visibility = Visibility.Collapsed,
+            };
+            string[] labels =
+            [
+                Str("Str_Ctx_GraphShapeFree", "As it falls"),
+                Str("Str_Ctx_GraphArrangeCircle", "In a circle"),
+                Str("Str_Ctx_GraphArrangeGrid", "In a grid"),
+                Str("Str_Ctx_GraphArrangeGroups", "By group"),
+                Str("Str_Ctx_GraphShapeSpiral", "Sunflower"),
+                Str("Str_Ctx_GraphShapeWave", "Wave"),
+            ];
+            for (int i = 0; i < ShapeCount; i++)
+            {
+                int shape = i;   // captured per row, not the loop variable's final value
+                var row = new MenuItem { Header = labels[i], IsCheckable = true };
+                row.Click += (_, _) =>
+                {
+                    _shape = shape;
+                    _shapeAge = 0;   // picking one restarts its full turn on screen
+                    ApplyShape(shape);
+                    RefreshShapeMenu();
+                };
+                _shapeRows.Add(row);
+                _miShape.Items.Add(row);
+            }
+            _miShape.Items.Add(new Separator());
+            _miShape.Items.Add(MenuRow("", Str("Str_Ctx_GraphShapeNext", "Next shape"), "N",
+                () => { NextShape(); RefreshShapeMenu(); }));
+            // Refreshed on open rather than kept in step from everywhere: the timer changes the
+            // shape on its own, so any state written at click time is stale within a minute.
+            _miShape.SubmenuOpened += (_, _) => RefreshShapeMenu();
+        }
+
+        private void RefreshShapeMenu()
+        {
+            for (int i = 0; i < _shapeRows.Count; i++)
+                _shapeRows[i].IsChecked = i == _shape;
+        }
+
+        /// <summary>Advances to the next shape. Called on the timer and by the N key.</summary>
+        private void NextShape()
+        {
+            _shapeAge = 0;
+            _shape = (_shape + 1) % ShapeCount;
+            ApplyShape(_shape);
+        }
+
+        /// <summary>
+        /// Every shape is sized to the INSCRIBED circle of the usable box, never to the box, so no
+        /// angle of the spin can carry a node outside and leave it grinding along the clamp - the
+        /// same reason FitForSpin exists.
+        /// </summary>
+        private void ApplyShape(int shape)
+        {
+            var order = ShapeOrder();
+            if (order.Count == 0) { ClearTargets(); return; }
+            var (bl, bt, br, bb) = UsableBox();
+            double cx = (bl + br) / 2, cy = (bt + bb) / 2;
+            double rad = Math.Max(40, Math.Min(br - bl, bb - bt) / 2);
+
+            switch (shape)
+            {
+                // FREE: no targets at all - the shape the physics alone makes, which is what the
+                // visualizer showed before it shuffled. Kept in the rotation so the cycle always
+                // returns to the honest layout instead of only ever showing templates.
+                default:
+                    ClearTargets();
+                    break;
+
+                case 1:   // one ring, the Arrange menu's circle
+                    SetTargets(order, (i, n) =>
+                    {
+                        double a = i / (double)Math.Max(1, n) * Math.PI * 2 - Math.PI / 2;
+                        return new Point(cx + Math.Cos(a) * rad, cy + Math.Sin(a) * rad);
+                    });
+                    break;
+
+                case 2:   // rows and columns. The side is rad*sqrt(2), so the grid's own corners
+                          // land exactly on the inscribed circle and it stays in the box.
+                    {
+                        int cols = Math.Max(1, (int)Math.Ceiling(Math.Sqrt(order.Count)));
+                        double side = rad * 1.41421356;
+                        int rows = Math.Max(1, (int)Math.Ceiling(order.Count / (double)cols));
+                        double stepX = cols <= 1 ? 0 : side / (cols - 1);
+                        double stepY = rows <= 1 ? 0 : side / (rows - 1);
+                        SetTargets(order, (i, _) => new Point(
+                            cx - side / 2 + i % cols * stepX,
+                            cy - side / 2 + i / cols * stepY));
+                    }
+                    break;
+
+                case 3:   // a small ring per group, the groups themselves spaced around a larger
+                          // one. The visualizer's answer to "how is this notebook organised".
+                    {
+                        var groups = order.GroupBy(v => v.Ghost ? "￿" : v.Group, StringComparer.OrdinalIgnoreCase)
+                                          .OrderBy(g => g.Key, StringComparer.OrdinalIgnoreCase).ToList();
+                        ClearTargets();
+                        for (int gi = 0; gi < groups.Count; gi++)
+                        {
+                            var members = groups[gi].ToList();
+                            double ga = gi / (double)groups.Count * Math.PI * 2 - Math.PI / 2;
+                            double gr = groups.Count == 1 ? 0 : rad * 0.58;
+                            double gx = cx + Math.Cos(ga) * gr, gy = cy + Math.Sin(ga) * gr;
+                            double mr = Math.Min(rad * 0.34, 18 + members.Count * 4);
+                            for (int mi = 0; mi < members.Count; mi++)
+                            {
+                                if (members.Count == 1) { members[mi].TX = gx; members[mi].TY = gy; continue; }
+                                double a = mi / (double)members.Count * Math.PI * 2;
+                                members[mi].TX = gx + Math.Cos(a) * mr;
+                                members[mi].TY = gy + Math.Sin(a) * mr;
+                            }
+                        }
+                    }
+                    break;
+
+                case 4:   // PHYLLOTAXIS - the golden angle, which is what a sunflower head does.
+                          // Even density at every radius, so it reads as one disc rather than as
+                          // concentric rings, and it turns beautifully.
+                    SetTargets(order, (i, n) =>
+                    {
+                        double a = i * 2.39996322972865332;
+                        double r = rad * Math.Sqrt((i + 0.5) / Math.Max(1, n));
+                        return new Point(cx + Math.Cos(a) * r, cy + Math.Sin(a) * r);
+                    });
+                    break;
+
+                case 5:   // a band across the middle, ordered by how linked a note is, so the hubs
+                          // ride the crests. Kept inside the inscribed circle: the far corner of
+                          // this one sits at about 0.98 of the radius.
+                    {
+                        var byDegree = Placeable().OrderByDescending(v => v.Degree)
+                                                  .ThenBy(v => v.Title, StringComparer.OrdinalIgnoreCase).ToList();
+                        SetTargets(byDegree, (i, n) =>
+                        {
+                            double t = n <= 1 ? 0.5 : i / (double)(n - 1);
+                            return new Point(cx + (t - 0.5) * rad * 1.76,
+                                             cy + Math.Sin(t * Math.PI * 3) * rad * 0.42);
+                        });
+                    }
+                    break;
+            }
+
+            // Derived from what was actually placed rather than set in each branch, so it cannot
+            // drift out of step with the targets it describes.
+            _shaped = _nodes.Any(v => v.TX is not null);
+        }
+
+        /// <summary>The link length the simulation settles at for this window and node count, with
+        /// no fit or breathing applied. One definition, because FitForSpin has to compare the
+        /// layout against the same number LiveTick pushes toward.</summary>
+        private double NaturalK() =>
+            Math.Min(Math.Sqrt(AreaW * AreaH / Math.Max(1, _nodes.Count)) * 0.62, 130);
 
         private void StartLive()
         {
@@ -1267,16 +1700,40 @@ namespace KillerNotes.Controls
             int n = _nodes.Count;
             if (n == 0) { StopLive(); return; }
             var (bl, bt, br, bb) = UsableBox();
-            double w = AreaW, h = AreaH;
-            double k = Math.Min(Math.Sqrt(w * h / n) * 0.62, 130);
+            double k = NaturalK();
+            double alpha = LiveAlpha;
             if (_visualizer)
             {
+                // THE FORCES EASE IN, and this is what stopped the visualizer bouncing four or
+                // five times before it settled into the spin. FitForSpin snaps the layout onto the
+                // inscribed circle; the simulation then pulls it back toward its own equilibrium,
+                // and at full strength that correction lands as a single impulse the light damping
+                // takes several swings to absorb. Spread over half a second it reads as the graph
+                // gathering itself instead.
+                _shapeAge += dt / 60.0;
+                if (_shapeAge >= ShuffleSecs) NextShape();
+
+                _spinEase = Math.Min(1, _spinEase + dt / (60.0 * SpinEaseSecs));
+                alpha *= _spinEase * _spinEase * (3 - 2 * _spinEase);   // smoothstep
+
+                // The other half of that bounce: the fit changed the layout's SIZE, but the
+                // natural link length is computed from the window and the node count and knew
+                // nothing about it - so the springs immediately hauled everything back out to the
+                // unfitted scale. Scaling k by the same factor makes the fitted layout the
+                // equilibrium, and there is almost nothing left to correct.
+                k *= _spinScale;
+
                 // Moving the target link length is what keeps the graph alive. Push on the
                 // springs instead of on the nodes and the motion stays coherent - the whole
                 // structure swells and settles rather than individual nodes twitching.
                 _breath += BreathPerSec * dt / 60.0;
                 k *= 1 + BreathDepth * Math.Sin(_breath);
             }
+            // Repulsion and springs run at reduced strength under a template - enough to keep the
+            // graph breathing and to stop nodes sitting on each other, not enough to erase the
+            // shape. The collision push below is deliberately NOT scaled: overlapping labels are
+            // unreadable whatever the mode.
+            double force = _visualizer && _shaped ? alpha * ShapedForceMix : alpha;
             double k2 = k * k;
             // The centre is needed for gravity and for the spin, both of which only run in the
             // visualizer; during a plain drag the box is used solely for the clamp at the end.
@@ -1298,7 +1755,7 @@ namespace KillerNotes.Controls
                     // is the two radii, since nodes closer than that are overlapping anyway.
                     double floor = a.R + b.R;
                     double eff = Math.Max(d, floor);
-                    double f = k2 / (eff * eff) * LiveAlpha * dt;
+                    double f = k2 / (eff * eff) * force * dt;
                     a.VX += dx / d * f; a.VY += dy / d * f;
                     b.VX -= dx / d * f; b.VY -= dy / d * f;
 
@@ -1320,7 +1777,7 @@ namespace KillerNotes.Controls
                 double dx = a.X - b.X, dy = a.Y - b.Y;
                 double d = Math.Sqrt(dx * dx + dy * dy);
                 if (d < 0.01) continue;
-                double f = (d - k) / d * LiveAlpha * 0.35 * dt;
+                double f = (d - k) / d * force * 0.35 * dt;
                 a.VX -= dx * f; a.VY -= dy * f;
                 b.VX += dx * f; b.VY += dy * f;
             }
@@ -1355,8 +1812,24 @@ namespace KillerNotes.Controls
                 // whole thing off into the corners.
                 if (_visualizer)
                 {
-                    v.VX += (cx - v.X) * Gravity * LiveAlpha * dt;
-                    v.VY += (cy - v.Y) * Gravity * LiveAlpha * dt;
+                    // GRAVITY STANDS DOWN UNDER A TEMPLATE. Its job is to stop the breathing
+                    // carrying the graph off into the corners when nothing else holds it
+                    // together - and a shape holds it together. Left running it fights every
+                    // target that is not at the exact centre, hardest on the ones furthest out,
+                    // which is precisely how a ring gets squashed into a blob.
+                    if (!_shaped)
+                    {
+                        v.VX += (cx - v.X) * Gravity * alpha * dt;
+                        v.VY += (cy - v.Y) * Gravity * alpha * dt;
+                    }
+
+                    // The shape's pull runs at FULL alpha, unlike the forces above: while a
+                    // template is up it is the layout force, not a hint competing with one.
+                    if (v.TX is double tx && v.TY is double ty)
+                    {
+                        v.VX += (tx - v.X) * ShapePull * alpha * dt;
+                        v.VY += (ty - v.Y) * ShapePull * alpha * dt;
+                    }
                 }
                 // Decay raised to dt, so the damping is the same per unit of TIME rather than
                 // per tick - otherwise a slow frame damps far less than two fast ones and the
@@ -1380,6 +1853,15 @@ namespace KillerNotes.Controls
                 double ca = Math.Cos(a), sa = Math.Sin(a);
                 foreach (var v in _nodes)
                 {
+                    // The TARGET turns even for a node that is sitting the rotation out, so that
+                    // releasing or unlocking it hands back a target still aligned with the shape
+                    // rather than one left behind at the angle the spin started from.
+                    if (v.TX is double tx && v.TY is double ty)
+                    {
+                        double tdx = tx - cx, tdy = ty - cy;
+                        v.TX = cx + tdx * ca - tdy * sa;
+                        v.TY = cy + tdx * sa + tdy * ca;
+                    }
                     if (v.Locked || _carried.Contains(v)) continue;
                     double dx = v.X - cx, dy = v.Y - cy;
                     v.X = cx + dx * ca - dy * sa;
@@ -1603,7 +2085,19 @@ namespace KillerNotes.Controls
             if (e.Key == Key.L) { _miLabels.IsChecked = !_miLabels.IsChecked; ApplyLabelVisibility(); e.Handled = true; return; }
             if (e.Key == Key.P) { SetHold(!_hold); e.Handled = true; return; }
             if (e.Key == Key.V) { SetVisualizer(!_visualizer); e.Handled = true; return; }
+            // Skips to the next shape. Only while the visualizer runs - outside it there is no
+            // cycle to advance, and a key that silently did nothing would just look broken.
+            if (e.Key == Key.N && _visualizer) { NextShape(); e.Handled = true; return; }
             // Toggles on what is SELECTED, so K works from the keyboard with no menu open. Mixed
+            // F was advertised on its menu row and on killernotes.net and had NO handler at all -
+            // the one graph key that did nothing when pressed (2026-08-25). Driven from the same
+            // MenuTargets the row uses, which prefers the selection, so it works from the keyboard
+            // without a right-click first, exactly as K does.
+            if (e.Key == Key.F)
+            {
+                if (MenuTargets().Count > 0) { IsolateMenuNode(); e.Handled = true; }
+                return;
+            }
             // selections lock, matching the menu row: the useful direction is the one that makes
             // the whole selection agree.
             if (e.Key == Key.K)
@@ -1721,10 +2215,13 @@ namespace KillerNotes.Controls
             _miShowAll = MenuRow("", Str("Str_Ctx_GraphShowAll", "Show everything"), "Esc",
                 () => { ClearIsolation(); ClearSelection(); });
 
+            BuildShapeMenu();
+
             _canvasMenu.Items.Add(_miArrange);
             _canvasMenu.Items.Add(_miShowAll);
             _canvasMenu.Items.Add(new Separator());
             _canvasMenu.Items.Add(_miSpin);
+            _canvasMenu.Items.Add(_miShape);
             _canvasMenu.Items.Add(_miHold);
             _canvasMenu.Items.Add(_miColor);
             _canvasMenu.Items.Add(_miLabels);

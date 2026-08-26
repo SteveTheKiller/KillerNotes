@@ -121,6 +121,40 @@ namespace KillerNotes.Shell
             new("Delete", "Str_KS_Delete", "Note", [(KbLayer.Base, "Del", "Str_Kb_DeleteNote")]),
             new("Esc", "Str_KS_Esc", "Help", [(KbLayer.Base, "Esc", "Str_KS_Esc")]),
             new("", "", "Edit", [(KbLayer.Base, "Menu", "Str_Kb_CtxMenu")]),
+
+            // ---- OTHER WINDOWS ----
+            //
+            // Everything above is the main window. The graph and the SketchPad are separate
+            // windows with their own key spaces, and their bare letters mean nothing while you
+            // are typing a note - so these carry NO Caps and are list-only. Painting V or G on
+            // the drawn keyboard would say the main window does something it does not.
+            //
+            // A row with empty Keys and a non-empty Label is a SECTION HEADER, which is what
+            // keeps that distinction visible instead of leaving these to read as more main-window
+            // bindings. (The Menu row above has both empty and stays map-only.)
+            //
+            // Deliberately CONSOLIDATED: the twelve SketchPad tools and the five graph
+            // arrangements are one row each. This list was already too long before these were
+            // added, and twenty-six more one-key rows would have made it a dump.
+            new("", "Str_KS_SecGraph", "View", []),
+            new("R / C / G / B / T", "Str_KS_GrArrange", "View", []),
+            new("V", "Str_KS_GrVisualizer", "View", []),
+            new("N", "Str_KS_GrNextShape", "View", []),
+            new("P", "Str_KS_GrPin", "View", []),
+            new("K", "Str_KS_GrLock", "View", []),
+            new("F", "Str_KS_GrIsolate", "View", []),
+            new("L", "Str_KS_GrLabels", "View", []),
+            new("Ctrl+A / Ctrl+C", "Str_KS_GrSelect", "View", []),
+            new("Enter / Esc", "Str_KS_GrOpen", "View", []),
+
+            new("", "Str_KS_SecSketch", "View", []),
+            new("V P L A R O G B T E C I", "Str_KS_SkTools", "View", []),
+            new("Ctrl+Z / Ctrl+Y", "Str_KS_SkUndo", "View", []),
+            new("Ctrl+V", "Str_KS_SkPaste", "View", []),
+            new("Ctrl+Enter", "Str_KS_SkPrint", "View", []),
+            new("Ctrl+Wheel", "Str_KS_SkZoom", "View", []),
+            new("Delete", "Str_KS_SkDelete", "View", []),
+            new("Enter / Esc", "Str_KS_SkClose", "View", []),
         ];
 
         // ---- The two views, derived from the table above ----
@@ -128,9 +162,11 @@ namespace KillerNotes.Shell
         // guaranteed to run after it (initializer order is only unspecified ACROSS partial
         // files, not within one).
 
-        /// <summary>(keys, string-resource key) pairs for the F1 list, in table order.</summary>
+        /// <summary>(keys, string-resource key) pairs for the F1 list, in table order. A pair with
+        /// empty Keys and a Label is a section header; one with both empty is map-only and is
+        /// dropped here.</summary>
         private static readonly (string Keys, string Action)[] ShortcutMap =
-            [.. KsTable.Where(b => b.Keys.Length > 0)
+            [.. KsTable.Where(b => b.Keys.Length > 0 || b.Label.Length > 0)
                    .Select(b => (b.Keys, b.Label))];
 
         /// <summary>key id -> (category, caption resource key), per layer, for the drawn map.

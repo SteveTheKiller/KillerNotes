@@ -214,7 +214,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_Title">Tastenkürzel</sys:String>
     <sys:String x:Key="Str_KS_ViewList">LISTE</sys:String>
     <sys:String x:Key="Str_KS_ViewKeyboard">TASTATUR</sys:String>
-    <sys:String x:Key="Str_KS_HoldHint">Strg oder Umschalt halten, um die Ebene anzuzeigen</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">Strg, Umschalt oder Alt halten, um die Ebene anzuzeigen</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Tastenkürzel (diese Liste)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Offene Notiz umbenennen</sys:String>
     <sys:String x:Key="Str_KS_Search">Notizen durchsuchen</sys:String>
@@ -230,12 +230,30 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_BIU">Fett / kursiv / unterstrichen</sys:String>
     <sys:String x:Key="Str_KS_Strike">Durchgestrichen</sys:String>
     <sys:String x:Key="Str_KS_Mono">Feste Breite (Code)</sys:String>
-    <sys:String x:Key="Str_KS_Highlight">Auswahl hervorheben (gelb)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Auswahl hervorheben</sys:String>
     <sys:String x:Key="Str_KS_Rule">Horizontale Linie einfügen</sys:String>
     <sys:String x:Key="Str_KS_Lists">Aufzählung / nummerierte Liste</sys:String>
     <sys:String x:Key="Str_KS_Paste">Einfügen - Text, Bilder, Tabellen</sys:String>
     <sys:String x:Key="Str_KS_Delete">Ausgewählte Notiz löschen (in der Liste)</sys:String>
     <sys:String x:Key="Str_KS_Esc">Overlay schließen / Suche leeren</sys:String>
+    <sys:String x:Key="Str_KS_SecGraph">Graph-Fenster</sys:String>
+    <sys:String x:Key="Str_KS_GrArrange">Anordnen: nach Verknüpfung, Kreis, Raster, Gruppe oder Abstand</sys:String>
+    <sys:String x:Key="Str_KS_GrVisualizer">Visualisierung: den Graphen treiben und drehen lassen</sys:String>
+    <sys:String x:Key="Str_KS_GrNextShape">Nächste Form der Visualisierung</sys:String>
+    <sys:String x:Key="Str_KS_GrPin">Jede Notiz an ihrem Platz fixieren</sys:String>
+    <sys:String x:Key="Str_KS_GrLock">Ausgewählte Notizen an ihrer Position sperren</sys:String>
+    <sys:String x:Key="Str_KS_GrIsolate">Nur Verknüpftes anzeigen</sys:String>
+    <sys:String x:Key="Str_KS_GrLabels">Notiztitel anzeigen</sys:String>
+    <sys:String x:Key="Str_KS_GrSelect">Alle sichtbaren auswählen / als [[Link]] kopieren</sys:String>
+    <sys:String x:Key="Str_KS_GrOpen">Notiz öffnen / wieder alles anzeigen</sys:String>
+    <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_SkTools">Werkzeuge: Auswahl, Stift, Linie, Pfeil, Rechteck, Ellipse, Polygon, Füllen, Text, Radierer, Zuschneiden, Bild</sys:String>
+    <sys:String x:Key="Str_KS_SkUndo">Rückgängig / Wiederholen</sys:String>
+    <sys:String x:Key="Str_KS_SkPaste">Bild aus der Zwischenablage einfügen</sys:String>
+    <sys:String x:Key="Str_KS_SkPrint">Zeichnung in die Notiz drucken</sys:String>
+    <sys:String x:Key="Str_KS_SkZoom">Zeichenfläche zoomen</sys:String>
+    <sys:String x:Key="Str_KS_SkDelete">Auswahl löschen</sys:String>
+    <sys:String x:Key="Str_KS_SkClose">Polygon abschließen / Pad schließen</sys:String>
 
     <!-- Keyboard map -->
     <sys:String x:Key="Str_Kb_Shortcuts">Tastenkürzel</sys:String>
@@ -603,6 +621,11 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Sketch_Select">Auswählen / verschieben (V) - Objekt anklicken, zum Verschieben ziehen, Entf entfernt es</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Linie begradigen</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Text (T) - klicken, um eine Beschriftung zu setzen, tippen, Eingabe übernimmt sie (Umschalt+Eingabe für eine neue Zeile)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShape">Form</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeFree">Frei</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeSpiral">Sonnenblume</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">Als Welle</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeNext">Nächste Form</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLock">Position sperren</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLockTip">Nichts bewegt eine gesperrte Notiz - keine Anordnung, keine Nachbarn.</sys:String>
     <sys:String x:Key="Str_Kb_LineNumbers">Zeilennr.</sys:String>

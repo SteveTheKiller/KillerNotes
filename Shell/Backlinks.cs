@@ -169,22 +169,36 @@ namespace KillerNotes.Shell
             return e.DesiredSize.Width;
         }
 
-        private TextBlock MakeLabel(string textKey, string tipKey) => new()
+        private TextBlock MakeLabel(string textKey, string tipKey)
         {
-            Text = Loc(textKey),
-            Foreground = (Brush?)TryFindResource("DimTextBrush") ?? Brushes.Gray,
-            FontSize = 11,
-            VerticalAlignment = VerticalAlignment.Center,
-            Margin = new Thickness(0, 0, 8, 0),
-            ToolTip = Loc(tipKey),
-        };
+            var label = new TextBlock
+            {
+                Text = Loc(textKey),
+                FontSize = 11,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 8, 0),
+                ToolTip = Loc(tipKey),
+            };
+            // SetResourceReference, NEVER a TryFindResource snapshot. A snapshot is whatever the
+            // theme happened to be when this strip was first built, and it never changes again -
+            // so the label stayed one theme's color while every chip next to it followed the
+            // switch. That is what made "Linked from" read as near-black on Decay (2026-08-25).
+            label.SetResourceReference(TextBlock.ForegroundProperty, "DimTextBrush");
+            return label;
+        }
 
-        private Border MakeDivider() => new()
+        private Border MakeDivider()
         {
-            Width = 1,
-            Margin = new Thickness(6, 3, 10, 3),
-            Background = (Brush?)TryFindResource("BarEdgeBrush") ?? Brushes.Gray,
-        };
+            var divider = new Border
+            {
+                Width = 1,
+                Margin = new Thickness(6, 3, 10, 3),
+            };
+            // Live, for the same reason as the label above: a snapshot froze the divider at one
+            // theme's edge color and it then read as a dark smear on the dark themes.
+            divider.SetResourceReference(Border.BackgroundProperty, "BarEdgeBrush");
+            return divider;
+        }
 
         /// <summary>One name in the row. A backlink opens the note; a mention LINKS it, because
         /// being told a link is missing makes "add it" the obvious action - Ctrl+Click still just

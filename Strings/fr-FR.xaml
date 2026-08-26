@@ -214,7 +214,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_Title">Raccourcis clavier</sys:String>
     <sys:String x:Key="Str_KS_ViewList">LISTE</sys:String>
     <sys:String x:Key="Str_KS_ViewKeyboard">CLAVIER</sys:String>
-    <sys:String x:Key="Str_KS_HoldHint">maintenez Ctrl ou Shift pour prévisualiser cette couche</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">maintenez Ctrl, Shift ou Alt pour prévisualiser cette couche</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Raccourcis clavier (cette liste)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Renommer la note ouverte</sys:String>
     <sys:String x:Key="Str_KS_Search">Rechercher dans les notes</sys:String>
@@ -230,12 +230,30 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_BIU">Gras / italique / souligné</sys:String>
     <sys:String x:Key="Str_KS_Strike">Barré</sys:String>
     <sys:String x:Key="Str_KS_Mono">Chasse fixe (code)</sys:String>
-    <sys:String x:Key="Str_KS_Highlight">Surligner la sélection (jaune)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Surligner la sélection</sys:String>
     <sys:String x:Key="Str_KS_Rule">Insérer une règle horizontale</sys:String>
     <sys:String x:Key="Str_KS_Lists">Liste à puces / numérotée</sys:String>
     <sys:String x:Key="Str_KS_Paste">Coller - texte, images, tableaux</sys:String>
     <sys:String x:Key="Str_KS_Delete">Supprimer la note sélectionnée (dans la liste)</sys:String>
     <sys:String x:Key="Str_KS_Esc">Fermer le panneau / effacer la recherche</sys:String>
+    <sys:String x:Key="Str_KS_SecGraph">Fenêtre du graphe</sys:String>
+    <sys:String x:Key="Str_KS_GrArrange">Disposer : par lien, en cercle, en grille, par groupe ou par distance</sys:String>
+    <sys:String x:Key="Str_KS_GrVisualizer">Visualiseur : laisser le graphe dériver et tourner</sys:String>
+    <sys:String x:Key="Str_KS_GrNextShape">Forme suivante du visualiseur</sys:String>
+    <sys:String x:Key="Str_KS_GrPin">Fixer chaque note à sa place</sys:String>
+    <sys:String x:Key="Str_KS_GrLock">Verrouiller les notes sélectionnées en place</sys:String>
+    <sys:String x:Key="Str_KS_GrIsolate">Afficher uniquement ce qui pointe ici</sys:String>
+    <sys:String x:Key="Str_KS_GrLabels">Afficher les titres des notes</sys:String>
+    <sys:String x:Key="Str_KS_GrSelect">Tout sélectionner / copier comme [[lien]]</sys:String>
+    <sys:String x:Key="Str_KS_GrOpen">Ouvrir la note / tout réafficher</sys:String>
+    <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_SkTools">Outils : sélection, crayon, ligne, flèche, rectangle, ellipse, polygone, remplissage, texte, gomme, rognage, image</sys:String>
+    <sys:String x:Key="Str_KS_SkUndo">Annuler / rétablir</sys:String>
+    <sys:String x:Key="Str_KS_SkPaste">Coller une image du presse-papiers</sys:String>
+    <sys:String x:Key="Str_KS_SkPrint">Imprimer le dessin dans la note</sys:String>
+    <sys:String x:Key="Str_KS_SkZoom">Zoomer sur le canevas</sys:String>
+    <sys:String x:Key="Str_KS_SkDelete">Supprimer la sélection</sys:String>
+    <sys:String x:Key="Str_KS_SkClose">Terminer un polygone / fermer le bloc</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">Raccourcis clavier</sys:String>
@@ -603,6 +621,11 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Sketch_Select">Sélectionner / déplacer (V) - cliquez un objet, glissez pour le déplacer, Suppr le retire</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Redresser la ligne</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Texte (T) - cliquez pour poser une étiquette, tapez, Entrée pour valider (Maj+Entrée pour une nouvelle ligne)</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShape">Forme</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeFree">Libre</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeSpiral">Tournesol</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">En vague</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeNext">Forme suivante</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLock">Verrouiller en place</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLockTip">Rien ne déplace une note verrouillée - ni une disposition, ni ses voisines.</sys:String>
     <sys:String x:Key="Str_Kb_LineNumbers">Nº lignes</sys:String>

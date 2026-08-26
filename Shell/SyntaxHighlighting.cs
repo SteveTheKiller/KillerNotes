@@ -10,9 +10,19 @@ using System.Windows.Threading;
 
 namespace KillerNotes.Shell
 {
-    // Whole-note, mixed-language syntax highlighting. Detection is deliberately local to each
-    // paragraph: a runbook can contain prose, PowerShell, HTML and JSON without choosing one
-    // language for the document. Highlight spans are transient and removed before serialization.
+    // Whole-note, mixed-language syntax highlighting. Detection is local to each paragraph so a
+    // runbook can hold prose, PowerShell, HTML and JSON without choosing one language for the
+    // document. Highlight spans are transient and removed before serialization.
+    //
+    // Purely local detection is not enough on its own, and both exceptions exist because it
+    // produced a patchwork (2026-08-25):
+    //   - a note that is markdown THROUGHOUT is treated as markdown throughout
+    //     (DocumentLooksMarkdown), or its prose lines detect as nothing and a "- key: value"
+    //     line detects as YAML;
+    //   - context carries between paragraphs, seeded at the top of the document by
+    //     DocumentLanguage() and carrying an open block comment via _syntaxSeen.OpenComment,
+    //     or a file that OPENS with a comment block gets no color until its first line of
+    //     recognisable code.
     public partial class MainWindow
     {
         private const string SyntaxTag = "KillerNotes.SyntaxHighlight";
@@ -67,7 +77,11 @@ namespace KillerNotes.Shell
         // paragraph is skipped on a LONG COMPARE - no TextRange.Text materialisation, no
         // string allocation, nothing. Reading every visible paragraph's text once per scroll
         // FRAME was the sluggishness; scrolling has to feel instant (2026-08-08).
-        private readonly Dictionary<Paragraph, (string Text, CodeLanguage Lang, long Version)> _syntaxSeen = [];
+        // OpenComment: a block comment was still open at the END of this paragraph. Carried
+        // paragraph to paragraph the way a real editor carries per-line lexer state, because a
+        // <# ... #> help header spans a dozen paragraphs and the comment regex only ever sees
+        // one of them at a time.
+        private readonly Dictionary<Paragraph, (string Text, CodeLanguage Lang, long Version, bool OpenComment)> _syntaxSeen = [];
         // Bumped on every edit path (QueueSyntaxHighlighting); a pass revalidates a paragraph
         // by text compare only when its stored version is stale, then re-stamps it.
         private long _syntaxDocVersion;
@@ -262,8 +276,26 @@ namespace KillerNotes.Shell
                     // line that LOOKS like code inherits the language of the lines above it;
                     // blank lines carry the context through; a prose line breaks the block.
                     var context = CodeLanguage.Plain;
+                    bool inComment = false;
                     if (start > 0 && _syntaxSeen.TryGetValue(flat[start - 1], out var seed))
+                    {
                         context = seed.Lang;
+                        inComment = seed.OpenComment;
+                    }
+                    // AT THE TOP OF THE DOCUMENT there is nothing above to inherit from, and the
+                    // carry above is forward-only - so a file that OPENS with a comment block got
+                    // nothing at all. A PowerShell script starting with an eleven line <# .SYNOPSIS
+                    // #> header had its whole header, its #region and every standalone # line left
+                    // uncolored, while the first comment sharing a line with real code came out
+                    // right. That is the "one green comment, the rest inconsistent" report
+                    // (2026-08-25). Seeding with the note's own language gives the top of the file
+                    // the same context the middle of it has always had.
+                    //
+                    // This is only SAFE because of the block-comment tracking below. Seeding alone
+                    // would hand the prose inside <# ... #> to the keyword rules, and "for RMM
+                    // compatibility" would light up "for". Do not do one without the other.
+                    else if (start == 0)
+                        context = DocumentLanguage();
                     for (int i = start; i < flat.Count; i++)
                     {
                         var p = flat[i];
@@ -291,7 +323,8 @@ namespace KillerNotes.Shell
                         if (had && prev.Version == _syntaxDocVersion)
                         {
                             context = prev.Lang;
-                            continue;
+                            inComment = prev.OpenComment;   // or scrolling back over a painted
+                            continue;                        // help block loses the run's state
                         }
                         // ParagraphCodeText, NOT TextRange.Text. The two do not agree about what
                         // the paragraph contains, and every offset below is fed to ResolveOffsets,
@@ -299,7 +332,8 @@ namespace KillerNotes.Shell
                         string text = ParagraphCodeText(p).TrimEnd('\r', '\n');
                         if (had && prev.Text == text)
                         {
-                            _syntaxSeen[p] = (prev.Text, prev.Lang, _syntaxDocVersion);
+                            _syntaxSeen[p] = (prev.Text, prev.Lang, _syntaxDocVersion, prev.OpenComment);
+                            inComment = prev.OpenComment;
                             context = prev.Lang;
                             continue;
                         }
@@ -325,25 +359,48 @@ namespace KillerNotes.Shell
                         if (text.Length > MaxHighlightChars)
                         {
                             // The StackOverflow guard. A giant blob carries the block onward
-                            // rather than breaking it.
-                            _syntaxSeen[p] = (text, context, _syntaxDocVersion);
+                            // rather than breaking it - including an open comment, since the blob
+                            // was never inspected and cannot be known to have closed one.
+                            _syntaxSeen[p] = (text, context, _syntaxDocVersion, inComment);
                             continue;
                         }
                         if (string.IsNullOrWhiteSpace(text))
                         {
-                            _syntaxSeen[p] = (text, context, _syntaxDocVersion);   // blank line inside a block
+                            // blank line inside a block: carries both the language and an open
+                            // comment through, because a help header has blank lines in it
+                            _syntaxSeen[p] = (text, context, _syntaxDocVersion, inComment);
                             continue;
                         }
                         // A markdown note is markdown on every line, so skip detection for one
                         // (Markdown.cs). Detection is per paragraph, and an ordinary prose line
                         // between two headings carries no signal of its own - it came back Plain
                         // and lost its list and emphasis markers while its neighbors kept theirs.
-                        var language = CurrentIsMarkdown ? CodeLanguage.Markdown : DetectLanguage(text);
+                        CodeLanguage language;
+                        if (inComment)
+                        {
+                            // INSIDE a block comment that opened in an earlier paragraph. The whole
+                            // paragraph is comment, whatever it looks like - no detection, no
+                            // keyword rules. This is what keeps prose inside a .SYNOPSIS header
+                            // from being read as code.
+                            language = context;
+                            inComment = !ClosesBlockComment(text, context);
+                            _syntaxSeen[p] = (text, language, _syntaxDocVersion, inComment);
+                            HighlightParagraph(p, text, language, wholeIsComment: true);
+                            continue;
+                        }
+                        language = CurrentIsMarkdown || DocumentLooksMarkdown()
+                            ? CodeLanguage.Markdown
+                            : DetectLanguage(text);
                         if (language == CodeLanguage.Plain && context != CodeLanguage.Plain && LooksLikeCode(text))
                             language = context;
                         context = language;
-                        _syntaxSeen[p] = (text, language, _syntaxDocVersion);
-                        if (language != CodeLanguage.Plain) HighlightParagraph(p, text, language);
+                        // Does this paragraph leave a block comment open? Tested against the
+                        // CONTEXT language when the paragraph has none of its own, because a bare
+                        // "<#" detects as nothing on its own and is exactly the line that opens one.
+                        inComment = OpensBlockComment(text, language != CodeLanguage.Plain ? language : context);
+                        _syntaxSeen[p] = (text, language, _syntaxDocVersion, inComment);
+                        if (language != CodeLanguage.Plain || inComment)
+                            HighlightParagraph(p, text, language, wholeIsComment: false);
                     }
                 }
                 finally { if (changeOpen) Editor.EndChange(); }
@@ -402,11 +459,95 @@ namespace KillerNotes.Shell
             return CodeLanguage.Plain;
         }
 
-        private void HighlightParagraph(Paragraph paragraph, string s, CodeLanguage language)
+        // ── Block comments that span paragraphs ──────────────────────────────────────────
+        //
+        // The comment patterns below are matched against ONE paragraph's text, so a delimiter
+        // pair split across paragraphs can never match: <#[\s\S]*?#> was written for PowerShell
+        // help headers and only ever fired when the whole header sat in a single paragraph.
+        // These two carry the run instead, the way per-line lexer state does in a real editor.
+        //
+        // Only the pairs that genuinely span lines are listed. // and # line comments end at the
+        // newline and need nothing.
+        private static (string Open, string Close) BlockCommentDelims(CodeLanguage language) => language switch
+        {
+            CodeLanguage.PowerShell => ("<#", "#>"),
+            CodeLanguage.CSharp or CodeLanguage.JavaScript or CodeLanguage.TypeScript
+                or CodeLanguage.Css or CodeLanguage.Sql => ("/*", "*/"),
+            CodeLanguage.Html or CodeLanguage.Xaml or CodeLanguage.Xml
+                or CodeLanguage.Vue or CodeLanguage.Markdown => ("<!--", "-->"),
+            _ => ("", ""),
+        };
+
+        /// <summary>True when this paragraph leaves a block comment open at its end. Counts the
+        /// LAST unmatched opener, so a line that opens and closes on itself does not.</summary>
+        private static bool OpensBlockComment(string s, CodeLanguage language)
+        {
+            var (open, close) = BlockCommentDelims(language);
+            if (open.Length == 0) return false;
+            int i = 0;
+            bool inside = false;
+            while (i < s.Length)
+            {
+                int next = inside ? s.IndexOf(close, i, StringComparison.Ordinal)
+                                  : s.IndexOf(open, i, StringComparison.Ordinal);
+                if (next < 0) break;
+                i = next + (inside ? close.Length : open.Length);
+                inside = !inside;
+            }
+            return inside;
+        }
+
+        /// <summary>True when this paragraph closes the block comment that was already open.</summary>
+        private static bool ClosesBlockComment(string s, CodeLanguage language)
+        {
+            var (open, close) = BlockCommentDelims(language);
+            if (close.Length == 0) return true;   // unknown language: do not trap the rest of the note
+            int at = s.IndexOf(close, StringComparison.Ordinal);
+            if (at < 0) return false;
+            // It closed. If it then RE-opens after the close and does not close again, the run
+            // continues, so hand the tail back to the same test.
+            return !OpensBlockComment(s[(at + close.Length)..], language);
+        }
+
+        /// <summary>The note's own language, for seeding the very top of the document where there
+        /// is nothing above to inherit. Bounded: the highlight pass is viewport-scoped on purpose
+        /// and must not walk a whole large note. First real answer wins - a script announces
+        /// itself within a few lines.</summary>
+        private long _docLangVersion = -1;   // long, to match _syntaxDocVersion
+        private CodeLanguage _docLang = CodeLanguage.Plain;
+
+        private CodeLanguage DocumentLanguage()
+        {
+            if (_docLangVersion == _syntaxDocVersion) return _docLang;
+            _docLangVersion = _syntaxDocVersion;
+            _docLang = CodeLanguage.Plain;
+            int scanned = 0;
+            foreach (var p in _syntaxFlat)
+            {
+                if (scanned++ >= MdScanParagraphs) break;
+                string t = ParagraphCodeText(p).TrimEnd('\r', '\n');
+                if (t.Length == 0 || t.Length > MaxHighlightChars) continue;
+                var lang = DetectLanguage(t);
+                if (lang != CodeLanguage.Plain) { _docLang = lang; break; }
+            }
+            return _docLang;
+        }
+
+        private void HighlightParagraph(Paragraph paragraph, string s, CodeLanguage language,
+                                        bool wholeIsComment = false)
         {
             if (string.IsNullOrEmpty(s)) return;
             _syntaxColored.Add(paragraph);
             var tokens = new List<(int Start, int Length, Color Color)>();
+            if (wholeIsComment)
+            {
+                // Every character is inside a comment that opened earlier. One token, no rules -
+                // this is what stops "for RMM compatibility" inside a .SYNOPSIS block from having
+                // its "for" painted as a keyword.
+                tokens.Add((0, s.Length, SynComment));
+                PaintTokens(paragraph, s, tokens, language);
+                return;
+            }
             string comments = language switch
             {
                 // PowerShell is split out for <# ... #> block comments, which comment-based help
@@ -493,6 +634,15 @@ namespace KillerNotes.Shell
                 Add(tokens, s, @"\b[A-Z][A-Za-z0-9_]*\b", SynType);
                 Add(tokens, s, @"\b[A-Za-z_][A-Za-z0-9_]*(?=\s*\()", SynVariable);
             }
+            PaintTokens(paragraph, s, tokens, language);
+        }
+
+        /// <summary>Resolves every token boundary in one walk and paints back to front. Split out
+        /// so the whole-paragraph comment path can reuse it with a single token.</summary>
+        private void PaintTokens(Paragraph paragraph, string s,
+                                 List<(int Start, int Length, Color Color)> tokens,
+                                 CodeLanguage language = CodeLanguage.Plain)
+        {
             if (tokens.Count == 0) return;
 
             // Resolve every boundary in ONE walk, then paint. Two lookups per token, each
@@ -550,6 +700,55 @@ namespace KillerNotes.Shell
         }
 
         /// <summary>Timeout-guarded IsMatch for language detection, same reasoning as Add.</summary>
+        // ── Is the WHOLE note markdown? ──────────────────────────────────────────────────
+        //
+        // CurrentIsMarkdown covers a note whose FORMAT is markdown. This is the other case: a
+        // rich-text note with markdown pasted into it, which is how a README or a runbook
+        // usually arrives.
+        //
+        // Without it, detection runs per paragraph and the note comes out a patchwork. Prose
+        // lines carry no signal and land on Plain, so most of the note is uncolored. A line
+        // shaped like "- Local-only: no account, no telemetry" is indistinguishable from YAML,
+        // so it is detected as YAML and its "no" colors as a boolean. Only the paragraphs that
+        // happen to hold a heading or a fence get markdown rules, so links are colored in some
+        // places and not others. Reported 2026-08-25 as "random words start turning blue", and
+        // it is a DIFFERENT defect from the mid-word offset drift the two were confused for:
+        // every color here landed exactly where its rule matched, on the wrong rule set.
+        //
+        // A FALSE POSITIVE IS CHEAP, a false negative is not. Markdown rules over ordinary
+        // prose match nothing and paint nothing, where per-paragraph guessing actively paints
+        // the wrong language. So one unambiguous marker anywhere is enough to commit.
+        //
+        // Only ATX headings and fences count. Bullets, backticks and numbered lists all occur
+        // in ordinary notes and would drag every list-shaped note into markdown mode.
+        private long _docMdVersion = -1;   // long, to match _syntaxDocVersion
+        private bool _docLooksMarkdown;
+
+        /// <summary>Paragraphs sampled before giving up. The highlight pass is viewport-scoped
+        /// on purpose and must not walk a whole large note to answer this; a markdown document
+        /// declares itself with a heading or a fence long before this many paragraphs.</summary>
+        private const int MdScanParagraphs = 120;
+
+        private bool DocumentLooksMarkdown()
+        {
+            if (_docMdVersion == _syntaxDocVersion) return _docLooksMarkdown;
+            _docMdVersion = _syntaxDocVersion;
+            _docLooksMarkdown = false;
+            int scanned = 0;
+            foreach (var p in _syntaxFlat)
+            {
+                if (scanned++ >= MdScanParagraphs) break;
+                string t = ParagraphCodeText(p);
+                if (t.Length == 0 || t.Length > MaxHighlightChars) continue;
+                if (SafeIsMatch(t, @"^\s*(?:#{1,6}\s+\S|```)", RegexOptions.Multiline))
+                {
+                    _docLooksMarkdown = true;
+                    break;
+                }
+            }
+            return _docLooksMarkdown;
+        }
+
         private static bool SafeIsMatch(string s, string pattern, RegexOptions options = RegexOptions.None)
         {
             try { return Regex.IsMatch(s, pattern, options, SynRegexTimeout); }

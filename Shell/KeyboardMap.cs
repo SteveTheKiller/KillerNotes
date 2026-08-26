@@ -92,6 +92,14 @@ namespace KillerNotes.Shell
             ShortcutListHost.Visibility     = keyboard ? Visibility.Collapsed : Visibility.Visible;
             ShortcutKeyboardHost.Visibility = keyboard ? Visibility.Visible : Visibility.Collapsed;
             ShortcutCardGrid.MaxWidth       = keyboard ? 1000 : 680;   // list: wide enough for both columns
+            // The LIST is fifty rows and wants every pixel, so it stretches and scrolls. The
+            // KEYBOARD is a fixed block about 420px tall, and stretching it left the card running
+            // the full height of the window with the board stranded at the top over a large empty
+            // field - which is what the overlay was doing on a tall window (2026-08-25).
+            // Center sizes the card to the board instead. A window too short for the board still
+            // works: a centered child is arranged at min(desired, available), so the scroller
+            // inside gets the full height and scrolls rather than clipping.
+            ShortcutCardGrid.VerticalAlignment = keyboard ? VerticalAlignment.Center : VerticalAlignment.Stretch;
             KsViewListBtn.SetResourceReference(ForegroundProperty, keyboard ? "MutedTextBrush" : "PrimaryBrush");
             KsViewKeyboardBtn.SetResourceReference(ForegroundProperty, keyboard ? "PrimaryBrush" : "MutedTextBrush");
             if (keyboard) SetKbLayer(KbLayer.Base);
