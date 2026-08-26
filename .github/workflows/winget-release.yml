@@ -36,6 +36,48 @@ jobs:
   submit:
     runs-on: windows-latest
     steps:
+      # Prints what WINGET_TOKEN actually is, so a failure downstream is never guesswork again.
+      # An empty x-oauth-scopes means a FINE-GRAINED token, which authenticates fine, reads fine,
+      # and cannot create the branch komac needs. That failure is reported as
+      # "does not have the correct permissions to execute CreateRef", which reads like something
+      # else entirely. A classic token prints its scopes and must include public_repo.
+      - name: Check WinGet token
+        run: |
+          $headers = @{
+            Authorization = "Bearer $env:GITHUB_TOKEN"
+            Accept = "application/vnd.github+json"
+            "X-GitHub-Api-Version" = "2022-11-28"
+            "User-Agent" = "KillerNotes-WinGet-Release"
+          }
+          try {
+              $r = Invoke-WebRequest -Uri "https://api.github.com/user" -Headers $headers -UseBasicParsing
+              $login = ($r.Content | ConvertFrom-Json).login
+              $scopes = $r.Headers['x-oauth-scopes']
+              $expiry = $r.Headers['github-authentication-token-expiration']
+              Write-Host "login:   $login"
+              Write-Host "scopes:  $scopes"
+              Write-Host "expires: $expiry"
+              if (-not $scopes) {
+                  Write-Host "WARNING: no scopes reported. This is a fine-grained token and it CANNOT push a branch to the winget-pkgs fork. Replace it with a classic PAT carrying public_repo."
+              }
+              elseif ($scopes -notmatch 'public_repo|(^|,\s*)repo(,|$)') {
+                  Write-Host "WARNING: classic token without public_repo or repo. It cannot push a branch to the winget-pkgs fork."
+              }
+          } catch {
+              Write-Host "WARNING: /user returned $($_.Exception.Response.StatusCode.value__). The token is invalid or expired."
+          }
+
+          # Can this token actually write to the fork? This is the exact permission komac needs.
+          try {
+              $f = Invoke-RestMethod -Uri "https://api.github.com/repos/SteveTheKiller/winget-pkgs" -Headers $headers
+              Write-Host "fork push permission: $($f.permissions.push)"
+          } catch {
+              Write-Host "WARNING: cannot read the winget-pkgs fork with this token."
+          }
+        env:
+          GITHUB_TOKEN: ${{ secrets.WINGET_TOKEN }}
+        shell: pwsh
+
       - name: Install Komac
         run: |
           # Authenticated so this does not spend the unauthenticated API allowance, which is
