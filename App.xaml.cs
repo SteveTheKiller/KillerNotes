@@ -474,7 +474,7 @@ namespace KillerNotes
                 {
                     key.SetValue("DisplayName",          AppName);
                     key.SetValue("DisplayVersion",       version);
-                    key.SetValue("Publisher",            "Steve / thekiller.net");
+                    key.SetValue("Publisher",            "Steve the Killer");
                     key.SetValue("InstallLocation",      installDir);
                     key.SetValue("DisplayIcon",          $"{installExe},0");
                     key.SetValue("UninstallString",      $"\"{installExe}\" /uninstall");
@@ -523,7 +523,7 @@ namespace KillerNotes
                 {
                     key.SetValue("DisplayName",          AppName);
                     key.SetValue("DisplayVersion",       version);
-                    key.SetValue("Publisher",            "Steve / thekiller.net");
+                    key.SetValue("Publisher",            "Steve the Killer");
                     key.SetValue("InstallLocation",      InstallDir);
                     key.SetValue("DisplayIcon",          $"{InstallExe},0");
                     key.SetValue("UninstallString",      $"\"{InstallExe}\" /uninstall");
@@ -599,12 +599,13 @@ namespace KillerNotes
                                          MachineExe, StringComparison.OrdinalIgnoreCase);
             if (RelaunchMachineUninstallElevatedIfNeeded(machine)) return;
 
-            var res = MessageBox.Show(
-                "Uninstall KillerNotes from this computer?\n\nYour notes are kept.",
-                $"{AppName} Uninstall",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-            if (res != MessageBoxResult.Yes) return;
+            var confirm = new Controls.ConfirmDialog(
+                "Uninstall KillerNotes?",
+                "Your notes will be kept.",
+                "Uninstall",
+                "Cancel");
+            confirm.ShowDialog();
+            if (!confirm.Confirmed) return;
 
             string startMenuDir = machine
                 ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), AppName)
@@ -642,8 +643,6 @@ namespace KillerNotes
                 UseShellExecute = true
             });
 
-            MessageBox.Show("KillerNotes has been uninstalled. Your notes were kept.", AppName,
-                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         // ============================================================
