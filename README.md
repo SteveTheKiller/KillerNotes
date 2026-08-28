@@ -25,7 +25,7 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 - Password protection: optional SQLCipher AES-256 encryption of the whole database, set, changed, or removed at any time - no recovery for a lost password
 - Sharing: export a note (.knote) or a whole database (.kndb), optionally password protected; both open with a double-click
 - Keyboard-first: every function has a shortcut, F1 opens the visual keyboard map, and the whole app scales for accessibility (Ctrl+Shift +/-)
-- Localized in twelve languages, falling back to English
+- Localized in thirteen languages, falling back to English
 - Thirteen themes including a full 98SE recreation; Dark, Light, Black, and 98SE each carry six accent colors for 33 looks in all
 
 ## Requirements
@@ -53,7 +53,7 @@ winget install killernotes
 </tr>
 <tr>
 <td><img src="docs/shortcuts.png" alt="The F1 shortcuts overlay in its keyboard view: a drawn keyboard with every bound key lit and labeled with the action it runs"><br><sub>Every function has a shortcut - F1 opens the visual keyboard map. Hold Ctrl, Shift or Alt to preview that layer. Shown in French.</sub></td>
-<td><img src="docs/localization.png" alt="The interface running in Hungarian with the language menu open on all twelve translations, beside a markdown note showing its live preview next to the source"><br><sub>Twelve languages, translated down to the context menus - here Hungarian. Beside it, a markdown note with its live preview next to the source.</sub></td>
+<td><img src="docs/localization.png" alt="The interface running in Hungarian with the language menu open on all thirteen translations, beside a markdown note showing its live preview next to the source"><br><sub>Thirteen languages, translated down to the context menus - here Hungarian. Beside it, a markdown note with its live preview next to the source.</sub></td>
 </tr>
 </table>
 

@@ -1,0 +1,778 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- KillerNotes - Italiano (it-IT). Layered over en-US.xaml; omitted keys fall back. -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">Gestisci database</sys:String>
+    <sys:String x:Key="Str_TT_Lock">Protezione con password</sys:String>
+    <sys:String x:Key="Str_TT_About">Informazioni su KillerNotes</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">Comprimi barra laterale (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Espandi barra laterale (F5)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">Scorciatoie da tastiera (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">Tema</sys:String>
+    <sys:String x:Key="Str_TT_Language">Lingua</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Cerca nelle note  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ Nuova nota</sys:String>
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ Nuova</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">Nuova nota (Ctrl+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">Per data di creazione - prima le più vecchie (clic di nuovo per invertire)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">Alfabetico (clic di nuovo per invertire)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">Condividi nota...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">Salva come file .knote (con password facoltativa) da inviare a un collega</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">Esporta nota come...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">Salva una copia come file normale - .txt, .rtf o .html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">Elimina nota</sys:String>
+
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">Inverti ordine</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">Taglia</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">Copia</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">Incolla</sys:String>
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">Grassetto (Ctrl+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">Corsivo (Ctrl+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">Sottolineato (Ctrl+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">Barrato (Ctrl+Shift+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">Monospazio (codice, Ctrl+Shift+M)</sys:String>
+    <sys:String x:Key="Str_TT_AppSize">Scorri per ridimensionare l'intera app</sys:String>
+    <sys:String x:Key="Str_St_AppSize">Dimensione app {0}%</sys:String>
+    <sys:String x:Key="Str_KS_WordWrap">Attiva o disattiva il ritorno a capo</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">Evidenziazione della sintassi</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Numeri di riga (Alt+L)</sys:String>
+    <sys:String x:Key="Str_KS_LineNumbers">Attiva o disattiva i numeri di riga</sys:String>
+    <sys:String x:Key="Str_Kb_LineNumbers">Num. riga</sys:String>
+    <sys:String x:Key="Str_KS_AppSize">Zoom dell'intera app (accessibilità)</sys:String>
+    <sys:String x:Key="Str_St_LineNumOn">Numeri di riga attivati</sys:String>
+    <sys:String x:Key="Str_St_LineNumOff">Numeri di riga disattivati</sys:String>
+
+    <!-- Navigation history -->
+    <sys:String x:Key="Str_Ctx_NavBack">Indietro</sys:String>
+    <sys:String x:Key="Str_Ctx_NavForward">Avanti</sys:String>
+    <sys:String x:Key="Str_TT_NavBack">Torna alla nota da cui si è arrivati</sys:String>
+    <sys:String x:Key="Str_TT_NavForward">Vai di nuovo avanti</sys:String>
+    <sys:String x:Key="Str_KS_NavBack">Indietro alla nota precedente</sys:String>
+    <sys:String x:Key="Str_KS_NavForward">Avanti alla nota successiva</sys:String>
+    <sys:String x:Key="Str_Kb_NavBack">Indietro</sys:String>
+    <sys:String x:Key="Str_Kb_NavForward">Avanti</sys:String>
+    <sys:String x:Key="Str_St_NavNoBack">Non c'è nulla a cui tornare</sys:String>
+    <sys:String x:Key="Str_St_NavNoForward">Non c'è nulla più avanti</sys:String>
+
+    <!-- The linked-from / mentions strip -->
+    <sys:String x:Key="Str_Ctx_HideMentions">Nascondi questa striscia</sys:String>
+    <sys:String x:Key="Str_TT_HideMentions">Nasconde la striscia dei collegamenti in entrata. Alt+M la fa ricomparire.</sys:String>
+    <sys:String x:Key="Str_KS_HideMentions">Mostra o nascondi la striscia dei collegamenti in entrata</sys:String>
+    <sys:String x:Key="Str_Kb_HideMentions">Menzioni</sys:String>
+    <sys:String x:Key="Str_St_MentionsHidden">Striscia dei collegamenti nascosta - Alt+M la mostra di nuovo</sys:String>
+    <sys:String x:Key="Str_St_MentionsShown">Striscia dei collegamenti mostrata</sys:String>
+    <sys:String x:Key="Str_TT_Density">Densità della barra laterale (Ctrl+D) - clic o scorri</sys:String>
+    <sys:String x:Key="Str_KS_Density">Cicla la densità della barra laterale</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">Densità: completa</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">Densità: compatta</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">Densità: minima</sys:String>
+    <sys:String x:Key="Str_St_Undo">Annullato</sys:String>
+    <sys:String x:Key="Str_KS_SortCycle">Cicla l'ordinamento della barra laterale (tempo / A-Z / personalizzato)</sys:String>
+    <sys:String x:Key="Str_KS_NewGroup">Nuovo gruppo (raccoglie le note selezionate)</sys:String>
+    <sys:String x:Key="Str_KS_Theme">Riquadro tema e accento</sys:String>
+    <sys:String x:Key="Str_KS_TitleColor">Colore del titolo (nota selezionata)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Attiva o disattiva il controllo ortografico</sys:String>
+    <sys:String x:Key="Str_KS_Table">Inserisci tabella</sys:String>
+    <!-- Killculator sidebar calculator (F9) -->
+    <sys:String x:Key="Str_KS_Calc">Killculator - Stampa inserisce il risultato nella nota</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrint">Stampa il risultato del Killculator nella nota</sys:String>
+    <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
+    <sys:String x:Key="Str_TT_SketchRail">SketchPad - disegna uno schizzo (F7)</sys:String>
+    <sys:String x:Key="Str_TT_KalcResize">Trascina per ridimensionare il Killculator</sys:String>
+    <sys:String x:Key="Str_TT_Image">Inserisci immagine</sys:String>
+
+    <!-- Themed Windows system menu -->
+    <sys:String x:Key="Str_Sys_Restore">Ripristina</sys:String>
+    <sys:String x:Key="Str_Sys_Move">Sposta</sys:String>
+    <sys:String x:Key="Str_Sys_Size">Dimensione</sys:String>
+    <sys:String x:Key="Str_Sys_Minimize">Riduci a icona</sys:String>
+    <sys:String x:Key="Str_Sys_Maximize">Ingrandisci</sys:String>
+    <sys:String x:Key="Str_Sys_Close">Chiudi</sys:String>
+
+    <!-- Dictation -->
+    <sys:String x:Key="Str_TT_DictationRail">Dettatura - registra e trascrivi (Ctrl+M)</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">Trova in questa nota (Ctrl+F)</sys:String>
+    <sys:String x:Key="Str_KS_Dictation">Dettatura - registra e trascrivi</sys:String>
+    <sys:String x:Key="Str_Kb_Dictation">Detta</sys:String>
+    <sys:String x:Key="Str_Dict_Title">Dettatura</sys:String>
+    <sys:String x:Key="Str_Dict_Close">Chiudi (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+    <sys:String x:Key="Str_Dict_Record">Registra</sys:String>
+    <sys:String x:Key="Str_Dict_Stop">Ferma</sys:String>
+    <sys:String x:Key="Str_Dict_Play">Riproduci</sys:String>
+    <sys:String x:Key="Str_Dict_Transcribe">Trascrivi</sys:String>
+    <sys:String x:Key="Str_Dict_Print">Stampa nella nota</sys:String>
+    <sys:String x:Key="Str_Dict_Embed">Incorpora registrazione</sys:String>
+    <sys:String x:Key="Str_Dict_Ready">Pronto. Registra, poi trascrivi o incorpora l'audio.</sys:String>
+    <sys:String x:Key="Str_Dict_Recording">Registrazione in corso...</sys:String>
+    <sys:String x:Key="Str_Dict_Recorded">Registrato. Trascrivilo, incorporalo, o entrambi.</sys:String>
+    <sys:String x:Key="Str_Dict_Working">Trascrizione in corso...</sys:String>
+    <sys:String x:Key="Str_Dict_Done">Trascritto. Modificalo qui, poi stampalo nella nota.</sys:String>
+    <sys:String x:Key="Str_Dict_Printed">Stampato nella nota.</sys:String>
+    <sys:String x:Key="Str_Dict_Embedded">Registrazione incorporata nella nota.</sys:String>
+    <sys:String x:Key="Str_Dict_NoMic">Impossibile aprire il microfono.</sys:String>
+    <sys:String x:Key="Str_Dict_Empty">Non è stato catturato nulla. Verifica che un microfono sia collegato.</sys:String>
+    <sys:String x:Key="Str_Dict_NoSpeech">Nessun parlato riconosciuto in quella registrazione.</sys:String>
+    <sys:String x:Key="Str_Dict_NoText">Non c'è testo da stampare.</sys:String>
+    <sys:String x:Key="Str_Dict_Failed">Trascrizione non riuscita.</sys:String>
+    <sys:String x:Key="Str_Dict_NoEngine">Nessun riconoscitore vocale installato, quindi la trascrizione non è disponibile. Registrazione e incorporamento funzionano comunque.</sys:String>
+    <sys:String x:Key="Str_Dict_EmbedFailed">Impossibile salvare la registrazione in questa nota.</sys:String>
+    <sys:String x:Key="Str_Dict_Missing">Quella registrazione non è più in questa nota.</sys:String>
+    <sys:String x:Key="Str_Dict_Chip">Registrazione</sys:String>
+    <sys:String x:Key="Str_Dict_ChipTip">Riproduci con la freccia, trascina per spostare, clic destro per modificare o condividere</sys:String>
+
+    <!-- Wordmark -->
+    <sys:String x:Key="Str_Wordmark_A">Killer</sys:String>
+    <sys:String x:Key="Str_Wordmark_B">Notes</sys:String>
+
+    <!-- Shared file picker -->
+    <sys:String x:Key="Str_Btn_Save">Salva</sys:String>
+    <sys:String x:Key="Str_Col_Modified">modificato</sys:String>
+    <sys:String x:Key="Str_Col_Name">nome</sys:String>
+    <sys:String x:Key="Str_Col_Size">dimensione</sys:String>
+    <sys:String x:Key="Str_Dlg_AllFiles">Tutti i file</sys:String>
+    <sys:String x:Key="Str_Dlg_FileName">Nome file:</sys:String>
+    <sys:String x:Key="Str_Dlg_FileType">Tipo di file:</sys:String>
+    <sys:String x:Key="Str_Dlg_NoMatchingFiles">Niente qui corrisponde al tipo di file corrente.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFile">Quel file non esiste.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFolder">Quella cartella non esiste.</sys:String>
+    <sys:String x:Key="Str_Dlg_OverwriteMsg">Sostituire {0}?</sys:String>
+    <sys:String x:Key="Str_Menu_PinPlace">Aggiungi ai percorsi</sys:String>
+    <sys:String x:Key="Str_Menu_UnpinPlace">Rimuovi dai percorsi</sys:String>
+    <sys:String x:Key="Str_QA_Desktop">Desktop</sys:String>
+    <sys:String x:Key="Str_QA_Documents">Documenti</sys:String>
+    <sys:String x:Key="Str_QA_Downloads">Download</sys:String>
+    <sys:String x:Key="Str_QA_Home">Home</sys:String>
+    <sys:String x:Key="Str_QA_Pictures">Immagini</sys:String>
+    <sys:String x:Key="Str_Sum_Counts">{0} cartelle, {1} file</sys:String>
+    <sys:String x:Key="Str_TT_RecentLocations">Posizioni recenti</sys:String>
+    <sys:String x:Key="Str_TT_ShowHidden">Mostra elementi nascosti e di sistema</sys:String>
+    <sys:String x:Key="Str_TT_Up">Su di una cartella</sys:String>
+    <sys:String x:Key="Str_TT_ViewDetails">Vista dettagli</sys:String>
+    <sys:String x:Key="Str_TT_ViewIcons">Vista icone</sys:String>
+    <sys:String x:Key="Str_TT_ViewList">Vista elenco</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrint">Stampa nella nota</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrint">Stampa il risultato in questa nota al cursore (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintSum">Somma</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintEq">Equazione</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintSum">Stampa il risultato in questa nota al cursore (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintEq">Stampa l'intera equazione in questa nota al cursore (Ctrl+Shift+Enter)</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrintEq">Stampa l'equazione del Killculator nella nota</sys:String>
+    <sys:String x:Key="Str_St_CalcNoNote">Apri prima una nota</sys:String>
+    <sys:String x:Key="Str_St_CalcPrinted">Stampato nella nota</sys:String>
+    <sys:String x:Key="Str_St_SketchEmpty">Disegna prima qualcosa</sys:String>
+    <sys:String x:Key="Str_St_SketchUpdated">Schizzo aggiornato</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">Schizzo non stampato - torna alla nota a cui appartiene</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">Colore del testo ed evidenziazione</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">Elenco puntato (Ctrl+Shift+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">Elenco numerato (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">Linea orizzontale (Ctrl+Shift+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">Inserisci tabella (trascina per scegliere la dimensione)</sys:String>
+    <sys:String x:Key="Str_TT_InsertImage">Inserisci immagine da un file</sys:String>
+    <sys:String x:Key="Str_TT_Preview">Anteprima (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">Nascondi barra di formattazione (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">Trascina per spostare - doppio clic per ridurre</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Clic o F6 per ripristinare - trascina per spostare</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">testo</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">evidenzia</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">Accento</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">auto</sys:String>
+    <sys:String x:Key="Str_TT_Auto">Torna al colore del testo del tema</sys:String>
+    <sys:String x:Key="Str_Btn_None">nessuna</sys:String>
+    <sys:String x:Key="Str_TT_None">Rimuovi evidenziazione</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">dimensione</sys:String>
+    <sys:String x:Key="Str_TT_Columns">Colonne</sys:String>
+    <sys:String x:Key="Str_TT_Rows">Righe</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">Inserisci</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">1-50 colonne, 1-200 righe</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">Clicca per iniziare una nuova nota, trascina qui testo o un'immagine, oppure scegline una a sinistra.</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">Solo i file immagine possono essere trascinati in una nota</sys:String>
+    <sys:String x:Key="Str_Untitled">Senza titolo</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">Salvato</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">Appunti occupati - riprova</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">{0} note</sys:String>
+    <sys:String x:Key="Str_St_NoteLoadFailed">Questa nota non si è potuta aprire ed è rimasta invariata: {0}</sys:String>
+    <sys:String x:Key="Str_St_Matches">{0} corrispondenze</sys:String>
+    <sys:String x:Key="Str_St_FindMatches">{0} di {1}</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">Nessuna corrispondenza</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">Corrispondenza precedente (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">Corrispondenza successiva (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">Chiudi (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">Trascina per spostare</sys:String>
+
+    <!-- Search and replace -->
+    <sys:String x:Key="Str_TT_FindCase">Maiuscole/minuscole</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Parola intera</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Espressione regolare</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Sostituisci</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">Tutte</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Sostituisci la corrispondenza corrente (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Sostituisci ogni corrispondenza in questa nota (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">Sostituite {0} corrispondenze</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">Sostituisci in tutte le note</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Sostituisce il termine cercato in ogni nota che lo contiene</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Sostituisci con...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Digita prima un termine di ricerca qui sopra</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">Sostituite {0} corrispondenze in {1} note</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">Sostituire {0} corrispondenze in {1} note?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Ogni "{0}" diventa "{1}". Ctrl+Z le ripristina tutte.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...e altre {0} note</sys:String>
+    <sys:String x:Key="Str_KS_Replace">Trova e sostituisci in questa nota</sys:String>
+    <sys:String x:Key="Str_St_NoteDeleted">Nota eliminata</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">{0} note eliminate</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">Impossibile aprire il database delle note: {0}</sys:String>
+
+    <!-- Network data folder safeguard -->
+    <sys:String x:Key="Str_Btn_OK">OK</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">La cartella dati è in una posizione di rete</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} è su un altro computer. Usare lo stesso database di note da due macchine
+allo stesso tempo non è sicuro; un file di lock lo impedisce, ma ognuno dovrebbe
+tenere il proprio database e condividere le note come file .knote o .kndb.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Aperto in sola lettura</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">Questo database è in uso su {0}, quindi è stato aperto in sola lettura - le
+modifiche non saranno salvate. Se {0} non sta davvero eseguendo KillerNotes
+(dopo un crash, per esempio), elimina il file .lock accanto al database e riaprilo.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Sola lettura - in uso su {0}</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">Eliminare "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">Eliminare {0} note?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z la ripristina.</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">Elimina</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">Annulla</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">Sblocca KillerNotes</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">Password errata - riprova</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">"{0}" è protetto da password.</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">Sblocca</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Nuovo database...</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">conferma</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">Iniziare un nuovo database?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Il database bloccato resta su disco e potrà ancora essere sbloccato se la
+password salta fuori. Senza di essa non c'è modo di recuperarne le note.</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">Inizia nuovo</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">Nuovo database - quello bloccato è conservato come {0}</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">Imposta una password</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Cifra l'intero database delle note (AES-256 tramite SQLCipher).
+Non perderla - non c'è alcun recupero.</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">Cifra</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">Cambia o rimuovi la password</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">Inserisci una nuova password, o lascia entrambe le caselle vuote per rimuovere la protezione.</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">Applica</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">Le password non coincidono - nulla è cambiato</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">Database cifrato</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">Password cambiata</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">Password rimossa - il database non è più cifrato</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">Cambio password non riuscito: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">Aggiungere il database "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">Viene copiato nella cartella dati di KillerNotes e aperto.
+Il database corrente resta disponibile in Gestisci database.</sys:String>
+    <sys:String x:Key="Str_Btn_Add">Aggiungi</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">Aggiunta del database non riuscita: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">Importare "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">Le sue note vengono aggiunte al database corrente.</sys:String>
+    <sys:String x:Key="Str_Btn_Import">Importa</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">Sblocca nota condivisa</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">"{0}" è protetta da una password di condivisione.</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">1 nota importata</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">{0} note importate</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">Importazione non riuscita: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">Proteggere la nota condivisa?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">Facoltativo: il destinatario dovrà inserire questa password per aprirla.
+Lascia entrambe le caselle vuote per condividere senza.</sys:String>
+    <sys:String x:Key="Str_Btn_Share">Condividi</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">Le password non coincidono - nulla è stato condiviso</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">Condiviso in {0}</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">Condivisione non riuscita: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote pronto dove lo hai rilasciato</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">Condivisione con trascinamento non riuscita: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">Importazione non riuscita per {0}: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">1 file importato</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">{0} file importati</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">Esportato in {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">Esportazione non riuscita: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">Tutti i supportati|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Testo (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Testo formattato (*.rtf)|*.rtf|Immagini|*.png;*.jpg;*.jpeg;*.gif;*.bmp|File KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Tutti i file (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">File di testo (*.txt)|*.txt|Testo formattato (*.rtf)|*.rtf|Pagina web (*.html)|*.html</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">Anteprima markdown</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">Anteprima HTML</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">Anteprima non riuscita: {0}</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">Database</sys:String>
+    <sys:String x:Key="Str_Btn_Open">Apri</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">Nuovo database</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">Elimina il database selezionato</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">Apri la cartella dati in Esplora file</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">Rinomina</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">Elimina</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">Copia file</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">Mette il .db negli appunti come file - incollalo in Explorer, Teams o un'email per condividerlo</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">Esporta come .kndb...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">Salva una copia che i colleghi possono aprire in KillerNotes con un doppio clic</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">Mostra in Explorer</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">Seleziona prima un database</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">cifrato</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">attivo</sys:String>
+    <sys:String x:Key="Str_Db_Copied">{0} copiato - incollalo in Explorer, Teams o un'email</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">Copia non riuscita: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">Quel nome contiene caratteri che Windows non consente</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} esiste già</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">{0} rinominato in {1}</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">Rinomina non riuscita: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">Creazione non riuscita: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">Ogni nota al suo interno viene eliminata definitivamente. Non si può annullare.</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">{0} eliminato</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">Eliminazione non riuscita: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">Database KillerNotes (*.kndb)|*.kndb</sys:String>
+
+    <!-- Change data folder -->
+    <sys:String x:Key="Str_TT_DataFolder">Cambia la cartella dati dove sono conservati i database</sys:String>
+    <sys:String x:Key="Str_Db_PickFolderTitle">Scegli la cartella dati di KillerNotes</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">Spostare {0} file di database nella nuova cartella?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">Sposta porta con sé ogni file .db. Lasciali passa alla nuova cartella e tiene i file correnti dove sono.</sys:String>
+    <sys:String x:Key="Str_Btn_Move">Sposta</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">Lasciali</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">La cartella dati ora è {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">La cartella dati ora è {0} - {1} file sono rimasti dov'erano (in uso o già presenti a destinazione)</sys:String>
+
+    <!-- Custom order + groups -->
+    <sys:String x:Key="Str_TT_SortCustom">Ordine personalizzato - trascina le note per disporle</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">Passato all'ordine personalizzato - trascina le note per disporle</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">Gruppo</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">Nuovo gruppo...</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">Nuovo sottogruppo...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">Sottogruppi in cima</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">Mostra i sottogruppi sopra le note del gruppo stesso</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">Rimuovi dal gruppo</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">Rinomina gruppo...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">Elimina gruppo</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">Dai un nome al nuovo gruppo</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">Dai un nome al nuovo sottogruppo</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">Rinomina questo gruppo</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">Eliminare il gruppo "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">Le sue note sono conservate - lasciano soltanto il gruppo.</sys:String>
+    <sys:String x:Key="Str_Btn_Create">Crea</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">Rinomina</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">Un gruppo chiamato {0} esiste già</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">Spostato in {0}</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">Rimosso dal gruppo</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">Gruppo spostato</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">Informazioni su KillerNotes</sys:String>
+    <sys:String x:Key="Str_About_Version">Versione</sys:String>
+    <sys:String x:Key="Str_About_Publisher">Editore</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">Impronta del certificato</sys:String>
+    <sys:String x:Key="Str_About_Sha">SHA-256 DELL'EXE</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Appunti che tengono il passo. Un blocco note cifrato e ricercabile, con testo formattato, immagini in linea, tabelle vere e ricerca istantanea a testo completo, tutto salvato automaticamente in un unico file. Un'utilità </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve"> con licenza GPLv3.</sys:String>
+    <sys:String x:Key="Str_About_Computing">calcolo in corso...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">Aggiornamento disponibile: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">Download in corso...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">Scaricare e installare {0} {1}?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">L'app si chiuderà e si riaprirà automaticamente.</sys:String>
+    <sys:String x:Key="Str_Btn_Update">Aggiorna</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">Scorciatoie da tastiera</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">ELENCO</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">TASTIERA</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">tieni premuto Ctrl, Shift o Alt per vedere quel livello</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">Scorciatoie da tastiera (questo elenco)</sys:String>
+    <sys:String x:Key="Str_KS_Rename">Rinomina la nota aperta</sys:String>
+    <sys:String x:Key="Str_KS_Search">Cerca nelle note</sys:String>
+    <sys:String x:Key="Str_KS_Find">Trova in questa nota</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Attiva o disattiva l'anteprima markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">Mostra / nascondi la barra di formattazione</sys:String>
+    <sys:String x:Key="Str_KS_Export">Esporta la nota aperta (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">Comprimi / espandi la barra laterale</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Schermo intero</sys:String>
+    <sys:String x:Key="Str_KS_About">Informazioni su KillerNotes</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">Nuova nota</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">Apri file come nuove note</sys:String>
+    <sys:String x:Key="Str_KS_Save">Salva ora (il salvataggio automatico funziona comunque)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">Grassetto / corsivo / sottolineato</sys:String>
+    <sys:String x:Key="Str_KS_Strike">Barrato</sys:String>
+    <sys:String x:Key="Str_KS_Mono">Monospazio (codice)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Evidenzia la selezione</sys:String>
+    <sys:String x:Key="Str_KS_Rule">Inserisci linea orizzontale</sys:String>
+    <sys:String x:Key="Str_KS_Lists">Elenco puntato / numerato</sys:String>
+    <sys:String x:Key="Str_KS_Paste">Incolla - testo, immagini, tabelle</sys:String>
+    <sys:String x:Key="Str_KS_Delete">Elimina la nota selezionata (nell'elenco)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">Chiudi il pannello / cancella la ricerca</sys:String>
+    <sys:String x:Key="Str_KS_SecGraph">Finestra del grafo</sys:String>
+    <sys:String x:Key="Str_KS_GrArrange">Disponi: per connessione, cerchio, griglia, gruppo o distanza</sys:String>
+    <sys:String x:Key="Str_KS_GrVisualizer">Visualizzatore: lascia che il grafo vaghi e ruoti</sys:String>
+    <sys:String x:Key="Str_KS_GrNextShape">Prossima forma del visualizzatore</sys:String>
+    <sys:String x:Key="Str_KS_GrPin">Fissa ogni nota dove viene messa</sys:String>
+    <sys:String x:Key="Str_KS_GrLock">Blocca le note selezionate al loro posto</sys:String>
+    <sys:String x:Key="Str_KS_GrIsolate">Mostra solo ciò che è collegato qui</sys:String>
+    <sys:String x:Key="Str_KS_GrLabels">Mostra i titoli delle note</sys:String>
+    <sys:String x:Key="Str_KS_GrSelect">Seleziona tutto il visibile / copia come [[link]]</sys:String>
+    <sys:String x:Key="Str_KS_GrOpen">Apri la nota / mostra di nuovo tutto</sys:String>
+    <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_SkTools">Strumenti: selezione, penna, linea, freccia, rettangolo, ellisse, poligono, riempimento, testo, gomma, ritaglio, immagine</sys:String>
+    <sys:String x:Key="Str_KS_SkUndo">Annulla / ripeti</sys:String>
+    <sys:String x:Key="Str_KS_SkPaste">Incolla un'immagine dagli appunti</sys:String>
+    <sys:String x:Key="Str_KS_SkPrint">Stampa lo schizzo nella nota</sys:String>
+    <sys:String x:Key="Str_KS_SkZoom">Zoom della tela</sys:String>
+    <sys:String x:Key="Str_KS_SkDelete">Elimina la selezione</sys:String>
+    <sys:String x:Key="Str_KS_SkClose">Chiudi un poligono / chiudi il pad</sys:String>
+    <sys:String x:Key="Str_KS_Undo">Annulla / ripeti</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">Taglia / copia</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">Seleziona tutto</sys:String>
+
+    <!-- Keyboard map -->
+    <sys:String x:Key="Str_Kb_Shortcuts">Scorciatoie da tastiera</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">Anteprima markdown/HTML</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">Barra di formattazione</sys:String>
+    <sys:String x:Key="Str_Kb_Export">Esporta la nota aperta</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">Barra laterale</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">Elimina nota (nell'elenco)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">Salva ora</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">Grassetto</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">Corsivo</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">Sottolineato</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">Incolla</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">Evidenzia</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">Linea orizzontale</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">Elenco puntato</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">Elenco numerato</sys:String>
+    <sys:String x:Key="Str_Kb_Cut">Taglia</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">Copia</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">Annulla</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">Ripeti</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">Seleziona tutto</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">Attiva/disattiva tag</sys:String>
+    <sys:String x:Key="Str_Sec_File">File</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">Note</sys:String>
+    <sys:String x:Key="Str_Sec_Format">Formattazione</sys:String>
+    <sys:String x:Key="Str_Sec_View">Visualizza</sys:String>
+    <sys:String x:Key="Str_Sec_Search">Ricerca</sys:String>
+    <sys:String x:Key="Str_Sec_Help">Aiuto</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">Modifica</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check -->
+    <sys:String x:Key="Str_TT_FontSize">Dimensione del testo (scorri per cambiare)</sys:String>
+    <sys:String x:Key="Str_Btn_More">Altro...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">Scegli qualsiasi colore</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">Colore del titolo...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">Colora il titolo di questa nota nell'elenco</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">Reimposta colore del titolo</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">Rileva markdown e HTML</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">Offri un'anteprima quando una nota sembra markdown o HTML (tutte le note)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Rilevamento di markdown e HTML attivato</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Rilevamento di markdown e HTML disattivato</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertList">Converti in elenco</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Trasforma le righe selezionate - o le parole di una frase - in un elenco separato da virgole</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">Selezione in elenco separato da virgole</sys:String>
+    <sys:String x:Key="Str_St_ListMade">{0} valori convertiti in un elenco separato da virgole</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">{0} valori copiati come elenco separato da virgole</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">Seleziona prima alcune righe</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColor">Colore del gruppo...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">Colore del sottogruppo...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">Colora il nome di questo gruppo nella barra laterale</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">Reimposta colore</sys:String>
+    <sys:String x:Key="Str_KS_NewSubgroup">Nuovo sottogruppo (gruppo della nota selezionata)</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">Colore del gruppo (gruppo della nota selezionata)</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">Seleziona prima una nota che sia in un gruppo</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">Ingrandisci / riduci il testo selezionato</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">Zoom dell'editor (Ctrl+0 reimposta)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Zoom {0}%</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">Controllo ortografico attivato per questa nota</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">Nota troppo grande per il controllo ortografico</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">Controllo ortografico disattivato per questa nota</sys:String>
+    <sys:String x:Key="Str_St_WrapOn">Ritorno a capo attivato</sys:String>
+    <sys:String x:Key="Str_St_WrapOff">Ritorno a capo disattivato - scorri per vedere il contenuto largo</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">Ingrandisci testo</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">Riduci testo</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">Reimposta zoom</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list -->
+    <sys:String x:Key="Str_Kb_CtxMenu">Menu contestuale</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">Inizio della nota</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">Fine della nota</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">Parola a sinistra</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">Parola a destra</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">Elimina parola a sinistra</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">Elimina parola a destra</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">Allinea a sinistra</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">Centra</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">Allinea a destra</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">Giustifica</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">Vai all'inizio / alla fine della nota</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">Salta per parole intere</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">Elimina una parola intera</sys:String>
+    <sys:String x:Key="Str_KS_Align">Allinea a sinistra / centro / destra / giustificato</sys:String>
+
+    <!-- Fonts dialog -->
+    <sys:String x:Key="Str_Fonts_Open">Caratteri...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">Caratteri</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">Intestazioni (titoli dei gruppi)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">Barra laterale (titoli delle note)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">Testo della nota</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">Predefinito di KillerNotes</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">Trascina un file .ttf o .otf su questa scheda per aggiungere il tuo carattere.</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">Si applica subito, in tutta l'app. Il testo con un proprio carattere lo conserva.</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Ripristina i predefiniti</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">Quel carattere non può rendere il testo semplice</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">Carattere aggiunto: {0}</sys:String>
+
+    <!-- Localization audit -->
+    <sys:String x:Key="Str_St_SortOldest">Per data di creazione - prima le più vecchie</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">Per data di creazione - prima le più recenti</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">Alfabetico - dalla A alla Z</sys:String>
+    <sys:String x:Key="Str_St_SortZA">Alfabetico - dalla Z alla A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (clic per invertire)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">Ordina per data di creazione</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">Ordina alfabeticamente</sys:String>
+    <sys:String x:Key="Str_St_Ready">Pronto</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Siti dei clienti - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Sostituzione firewall - Veterinario Meadowbrook</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">Ma la volpe col suo balzo ha raggiunto il quieto Fido 0123456789.</sys:String>
+
+    <sys:String x:Key="Str_Dict_Volume">Volume - trascina su o giù</sys:String>
+    <sys:String x:Key="Str_Dict_Pause">Pausa</sys:String>
+    <!-- Speech model chooser -->
+    <sys:String x:Key="Str_Whisper_Title">Modello vocale</sys:String>
+    <sys:String x:Key="Str_Whisper_Blurb">La dettatura integrata di Windows non è molto accurata. KillerNotes può usare invece un modello vocale migliore - funziona interamente su questa macchina e nulla viene caricato in rete. Scegline uno da scaricare.</sys:String>
+    <sys:String x:Key="Str_Whisper_Tiny">Veloce</sys:String>
+    <sys:String x:Key="Str_Whisper_Base">Consigliato</sys:String>
+    <sys:String x:Key="Str_Whisper_Small">Il più accurato</sys:String>
+    <sys:String x:Key="Str_Whisper_Installed">già scaricato</sys:String>
+    <sys:String x:Key="Str_Whisper_Download">Scarica</sys:String>
+    <sys:String x:Key="Str_Whisper_Use">Usa questo</sys:String>
+    <sys:String x:Key="Str_Whisper_Menu">Modello vocale...</sys:String>
+    <sys:String x:Key="Str_Whisper_Unavailable">Questa build non ha modelli vocali - la trascrizione usa il motore di Windows.</sys:String>
+    <sys:String x:Key="Str_Whisper_Starting">Avvio del download...</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">Download annullato.</sys:String>
+    <sys:String x:Key="Str_Whisper_Done">Pronto. La trascrizione userà questo modello d'ora in poi.</sys:String>
+
+    <sys:String x:Key="Str_Dict_EditRec">Modifica registrazione...</sys:String>
+    <sys:String x:Key="Str_Dict_SaveChanges">Salva modifiche</sys:String>
+    <sys:String x:Key="Str_Dict_Editing">Modifica di una registrazione incorporata. Tagliala, poi salva le modifiche.</sys:String>
+    <sys:String x:Key="Str_Dict_Replaced">Registrazione aggiornata.</sys:String>
+    <sys:String x:Key="Str_Dict_Share">Condividi registrazione</sys:String>
+    <sys:String x:Key="Str_Dict_SaveAs">Salva come file...</sys:String>
+    <sys:String x:Key="Str_Dict_CopyFile">Copia come file</sys:String>
+    <sys:String x:Key="Str_Dict_Saved">Registrazione salvata.</sys:String>
+    <sys:String x:Key="Str_Dict_Copied">Registrazione copiata - incollala in un'email, una chat o una cartella.</sys:String>
+    <sys:String x:Key="Str_Dict_Slice">Taglia qui</sys:String>
+    <sys:String x:Key="Str_Dict_CopySeg">Copia segmento</sys:String>
+    <sys:String x:Key="Str_Dict_DeleteSeg">Elimina segmento</sys:String>
+    <sys:String x:Key="Str_Dict_PasteSeg">Incolla segmento qui</sys:String>
+    <sys:String x:Key="Str_Dict_ClearCuts">Cancella i tagli</sys:String>
+    <sys:String x:Key="Str_Dict_UndoEdit">Annulla modifica</sys:String>
+    <sys:String x:Key="Str_Dict_Edited">Modificato. Riascoltalo, o trascrivilo di nuovo.</sys:String>
+
+    <!-- Hyperlinks -->
+    <sys:String x:Key="Str_KS_Link">Inserisci / modifica link</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">Link...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">Indirizzo del link</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">Modifica link - svuota l'indirizzo per scollegare</sys:String>
+    <sys:String x:Key="Str_Btn_Link">Collega</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">Non sembra un indirizzo web</sys:String>
+    <sys:String x:Key="Str_St_LinkNotText">Solo il testo può essere collegato - seleziona parole, non un'immagine o una registrazione</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">Impossibile aprire il link</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">Scegli un colore</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">Preleva un colore da qualsiasi punto dello schermo</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">Clicca, poi clicca un campione per impostarlo al colore corrente</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">Ripristina i campioni predefiniti</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">Clicca per usare questo colore</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">Clicca per impostare questo campione al colore corrente</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">Tag</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">Gestisci tag...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">Clicca per filtrare per questo tag</sys:String>
+    <sys:String x:Key="Str_Tags_Title">Gestisci tag</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">Scegli un colore per il nuovo tag</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">Aggiungi</sys:String>
+    <sys:String x:Key="Str_Btn_Done">Fatto</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">Cambia colore</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">Rinomina</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">Elimina tag</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">Inserisci prima un nome per il tag</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">Un tag con quel nome esiste già</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">Eliminare il tag "{0}"?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">Verrà rimosso da ogni nota. Le note stesse sono conservate.</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">Tag aggiunto: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">Tag rimosso: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">Attiva/disattiva i tag 1-9 sulla nota aperta</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">Gestisci i tag (aggiungi, rinomina, ricolora)</sys:String>
+    <sys:String x:Key="Str_KS_SketchPad">SketchPad - disegna e annota</sys:String>
+
+    <!-- Portable install -->
+    <sys:String x:Key="Str_Btn_Install">Installa KillerNotes</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">Installa</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">Installare KillerNotes nel tuo profilo utente?</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- Collegamento nel menu Start&#x0A;- Compare in Installazione applicazioni</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">Collegamento sul desktop</sys:String>
+
+    <sys:String x:Key="Str_Ctx_SelectAll">Seleziona tutto</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">Nessuna anteprima disponibile</sys:String>
+
+    <!-- SketchPad (F7) tool tips and menu items -->
+    <sys:String x:Key="Str_Sketch_AddImage">Aggiungi un'immagine (I) - trascinane una sul pad, o Ctrl+V per incollare</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">Aggiungi immagine...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">Linea ad arco</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">Freccia - linea con punta (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">Porta in secondo piano</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">Grassetto</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">Secchiello (B) - clicca dentro un'area chiusa per riempirla</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">Cancella tutto</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">Chiudi (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">Copia negli appunti</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">Copia il disegno negli appunti come immagine</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">Elimina</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">Duplica</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">Modifica testo</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">Ellisse (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">Gomma (E) - passa sull'inchiostro, o tocca una forma per rimuoverla</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">Riempi le forme (rettangolo / ellisse)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">Porta in primo piano</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">Linea - retta (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">Colore personalizzato...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">Opacità riempimento / secchiello (clic per ciclare)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">Incolla immagine</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">Penna - a mano libera (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">Poligono (G) - clicca ogni angolo; clicca il primo punto o fai doppio clic per chiudere (Backspace annulla un punto, Esc annulla)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">Stampa nella nota (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">Rettangolo (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">Ripeti (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">Reimposta opacità</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">Seleziona / sposta (V) - clicca un oggetto, trascina per spostarlo, Delete lo rimuove</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">Raddrizza linea</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">Testo (T) - clicca per posizionare un'etichetta, digita, Enter per confermarla (Shift+Enter per una nuova riga)</sys:String>
+    <sys:String x:Key="Str_Sketch_Crop">Ritaglia (C) - trascina un riquadro da tenere, tutto ciò che è fuori viene eliminato (Ctrl+Z lo ripristina)</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Zoom (Ctrl+Rotella) - clic per il 100%, di nuovo per adattare</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" non esiste ancora</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewBody">Crearla come nuova nota e aprirla?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">Aggiornare {0} link in {1} note?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">I link che dicono [[{0}]] diventano [[{1}]]. Un solo Ctrl+Z annulla tutto.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Aggiorna link</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">Aggiornati {0} link in {1} note</sys:String>
+    <sys:String x:Key="Str_Lbl_Backlinks">Collegata da</sys:String>
+    <sys:String x:Key="Str_St_NoBacklinks">Nessuna nota si collega ancora qui</sys:String>
+    <sys:String x:Key="Str_TT_Backlinks">Note che si collegano a questa</sys:String>
+    <sys:String x:Key="Str_Lbl_Mentions">Menzionata in</sys:String>
+    <sys:String x:Key="Str_KS_Graph">Mostra il grafo del gruppo selezionato, o dell'intero taccuino</sys:String>
+    <sys:String x:Key="Str_Kb_Graph">Grafo dei link</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupGraph">Mostra come grafo</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSpin">Visualizzatore</sys:String>
+    <sys:String x:Key="Str_TT_GraphSpin">Lascia che il grafo vaghi e ruoti da solo. Il fissaggio è sospeso mentre è attivo.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphHold">Fissa tutte le note</sys:String>
+    <sys:String x:Key="Str_TT_GraphHold">Tiene ogni nota dove viene messa. Disattivato, trascinare una nota fa spostare le note a cui è collegata.</sys:String>
+    <sys:String x:Key="Str_Lbl_AndMore">E altre {0}...</sys:String>
+    <sys:String x:Key="Str_TT_AndMore">Le altre note che puntano qui</sys:String>
+    <sys:String x:Key="Str_TT_GroupGraph">I link tra le note di questo gruppo, e ciò che raggiungono</sys:String>
+    <sys:String x:Key="Str_St_GraphGroupEmpty">Nessun link in questo gruppo per ora</sys:String>
+    <sys:String x:Key="Str_TT_Mentions">Note che nominano questa senza collegarla</sys:String>
+    <sys:String x:Key="Str_TT_MentionChip">Clicca per collegarla. Ctrl+Clic per aprire la nota.</sys:String>
+    <sys:String x:Key="Str_St_Linked">Collegata</sys:String>
+    <sys:String x:Key="Str_St_MentionGone">Quella nota non menziona più questa</sys:String>
+    <sys:String x:Key="Str_TT_Graph">Grafo di ogni link tra le note</sys:String>
+    <sys:String x:Key="Str_Lbl_Graph">Grafo</sys:String>
+    <sys:String x:Key="Str_St_GraphEmpty">Nessun link per ora - digita [[il titolo di una nota]] per crearne uno</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphOpen">Apri nota</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCreate">Crea questa nota</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCopy">Copia come [[link]]</sys:String>
+    <sys:String x:Key="Str_Graph_Legend">Pieno = una nota, colorata per gruppo.   Contorno = collegata ma non ancora scritta.   Trascina per disporre, clic destro per le opzioni.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrange">Disponi</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeForce">Per connessione</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeCircle">In cerchio</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGrid">In griglia</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGroups">Per gruppo</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShape">Forma</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeFree">Come cade</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeSpiral">Girasole</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">Onda</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeNext">Forma successiva</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Blocca in posizione</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Nulla sposta una nota bloccata - né una disposizione, né le sue vicine.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Salva questa disposizione...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Dimentica disposizione</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Dai un nome a questa disposizione</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">Sostituire "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Le posizioni salvate con quel nome vengono sostituite da quelle ora sullo schermo.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">Dimenticare "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Le note stesse non vengono toccate, solo le posizioni salvate.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphDistance">Disponi per distanza</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShowAll">Mostra tutto</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphColor">Colora per gruppo</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLabels">Mostra etichette</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphGhosts">Mostra le note non ancora scritte</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphIsolate">Mostra solo ciò che è collegato qui</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">Rimuovi grassetto</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">Annulla (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">Dimensione del pennello (clic per ciclare)</sys:String>
+
+    <!-- Markdown notes and vault export (1.3.0) -->
+    <sys:String x:Key="Str_TT_FormatBadge">Questa nota contiene testo markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Nuova nota markdown</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Crea una nota che contiene testo markdown semplice invece di testo formattato</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Converti in markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">Converti in testo formattato</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Esporta tutte le note come markdown</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Scrive ogni nota di questo database in una cartella di file .md</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Converti</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Esporta</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">Convertire "{0}" in markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">La nota diventa testo markdown semplice. Ctrl+Z la ripristina.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">Convertire "{0}" in testo formattato?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">Il markdown viene reso come testo formattato. Ctrl+Z lo ripristina.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">Le tabelle diventano semplici righe di testo</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">Immagini e schizzi vengono persi</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">I colori del testo e delle evidenziazioni vengono persi</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Questa nota è markdown - contiene solo testo, quindi immagini, tabelle, schizzi e registrazioni non possono essere aggiunti</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">Convertita in markdown</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">Convertita in testo formattato</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">Scegli dove scrivere la cartella markdown</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">Esportare tutte le note come markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} note saranno scritte in {1}. I gruppi diventano sottocartelle. Nulla nel database cambia.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Niente da esportare - questo database non ha note</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">Esportate {0} note in {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">Esportate {0} note in {2}, {1} non riuscite</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Esportazione non riuscita: {0}</sys:String>
+
+    <!-- Theme names -->
+    <sys:String x:Key="Str_Theme_Dark">Scuro</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Chiaro</sys:String>
+    <sys:String x:Key="Str_Theme_Black">Nero</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">Sangue</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">Avidità</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">Cianotico</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">Ectoplasma</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Decadimento</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">Malessere</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">Sepolcro</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">Delirio</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">Lutto</sys:String>
+</ResourceDictionary>

@@ -6,6 +6,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.3.1] - Unreleased
 
+### Added
+- Italian localization for the complete app interface and killernotes.net, the thirteenth language.
+
 ### Changed
 - Uninstall now uses the KillerNotes-themed confirmation and identifies the publisher in Installed Apps as Steve the Killer.
 
