@@ -24,7 +24,8 @@ namespace KillerNotes.Shell
             string Keys,
             string Label,
             string Cat,
-            (KbLayer Layer, string Id, string Cap)[] Caps);
+            (KbLayer Layer, string Id, string Cap)[] Caps,
+            bool Listed = true);
 
         private static readonly KsBinding[] KsTable =
         [
@@ -104,13 +105,13 @@ namespace KillerNotes.Shell
                  (KbLayer.CtrlShift, "Equals", "Str_KS_AppSize"),
                  (KbLayer.CtrlShift, "Minus", "Str_KS_AppSize"),
                  (KbLayer.CtrlShift, "D0", "Str_KS_AppSize")]),
-            new("Ctrl+X / C", "Str_KS_CutCopy", "Edit", [(KbLayer.Ctrl, "X", "Str_Kb_Cut"), (KbLayer.Ctrl, "C", "Str_Kb_Copy")]),
-            new("Ctrl+V", "Str_KS_Paste", "Edit", [(KbLayer.Ctrl, "V", "Str_Kb_Paste")]),
-            new("Ctrl+Z / Y", "Str_KS_Undo", "Edit", [(KbLayer.Ctrl, "Z", "Str_Kb_Undo"), (KbLayer.Ctrl, "Y", "Str_Kb_Redo")]),
-            new("Ctrl+A", "Str_KS_SelectAll", "Edit", [(KbLayer.Ctrl, "A", "Str_Kb_SelectAll")]),
-            new("Ctrl+Home / End", "Str_KS_NoteNav", "Edit", [(KbLayer.Ctrl, "Home", "Str_Kb_NoteTop"), (KbLayer.Ctrl, "End", "Str_Kb_NoteEnd")]),
-            new("Ctrl+Left / Right", "Str_KS_WordJump", "Edit", [(KbLayer.Ctrl, "Left", "Str_Kb_WordLeft"), (KbLayer.Ctrl, "Right", "Str_Kb_WordRight")]),
-            new("Ctrl+Bksp / Del", "Str_KS_DelWord", "Edit", [(KbLayer.Ctrl, "Back", "Str_Kb_DelWordL"), (KbLayer.Ctrl, "Del", "Str_Kb_DelWordR")]),
+            new("Ctrl+X / C", "Str_KS_CutCopy", "Edit", [(KbLayer.Ctrl, "X", "Str_Kb_Cut"), (KbLayer.Ctrl, "C", "Str_Kb_Copy")], Listed: false),
+            new("Ctrl+V", "Str_KS_Paste", "Edit", [(KbLayer.Ctrl, "V", "Str_Kb_Paste")], Listed: false),
+            new("Ctrl+Z / Y", "Str_KS_Undo", "Edit", [(KbLayer.Ctrl, "Z", "Str_Kb_Undo"), (KbLayer.Ctrl, "Y", "Str_Kb_Redo")], Listed: false),
+            new("Ctrl+A", "Str_KS_SelectAll", "Edit", [(KbLayer.Ctrl, "A", "Str_Kb_SelectAll")], Listed: false),
+            new("Ctrl+Home / End", "Str_KS_NoteNav", "Edit", [(KbLayer.Ctrl, "Home", "Str_Kb_NoteTop"), (KbLayer.Ctrl, "End", "Str_Kb_NoteEnd")], Listed: false),
+            new("Ctrl+Left / Right", "Str_KS_WordJump", "Edit", [(KbLayer.Ctrl, "Left", "Str_Kb_WordLeft"), (KbLayer.Ctrl, "Right", "Str_Kb_WordRight")], Listed: false),
+            new("Ctrl+Bksp / Del", "Str_KS_DelWord", "Edit", [(KbLayer.Ctrl, "Back", "Str_Kb_DelWordL"), (KbLayer.Ctrl, "Del", "Str_Kb_DelWordR")], Listed: false),
             new("Ctrl+L / E / R / J", "Str_KS_Align", "Format",
                 [
                  (KbLayer.Ctrl, "L", "Str_Kb_AlignL"),
@@ -166,7 +167,7 @@ namespace KillerNotes.Shell
         /// empty Keys and a Label is a section header; one with both empty is map-only and is
         /// dropped here.</summary>
         private static readonly (string Keys, string Action)[] ShortcutMap =
-            [.. KsTable.Where(b => b.Keys.Length > 0 || b.Label.Length > 0)
+            [.. KsTable.Where(b => b.Listed && (b.Keys.Length > 0 || b.Label.Length > 0))
                    .Select(b => (b.Keys, b.Label))];
 
         /// <summary>key id -> (category, caption resource key), per layer, for the drawn map.
