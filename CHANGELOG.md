@@ -10,6 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Italian localization for the complete app interface and killernotes.net, the thirteenth language.
 
 ### Changed
+- An open Markdown or HTML preview now refreshes as its source changes without losing its scroll position.
 - Uninstall now uses the KillerNotes-themed confirmation and identifies the publisher in Installed Apps as Steve the Killer.
 
 ### Fixed

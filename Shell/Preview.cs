@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -6,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Markdig;
 using KillerNotes.Services;
 
@@ -25,6 +27,8 @@ namespace KillerNotes.Shell
         // ActiveX) adds message-loop overhead to the whole window just by existing,
         // so it must never sit idle in the tree.
         private WebBrowser? _previewBrowser;
+        private DispatcherTimer? _previewRefreshTimer;
+        private double? _pendingPreviewScroll;
 
         private WebBrowser PreviewBrowserLazy()
         {
@@ -32,6 +36,7 @@ namespace KillerNotes.Shell
             {
                 _previewBrowser = new WebBrowser();
                 _previewBrowser.Navigating += PreviewBrowser_Navigating;
+                _previewBrowser.LoadCompleted += (_, _) => RestorePreviewScroll();
                 // Born hidden if an overlay is up (airspace, see SetPreviewOverlayHidden).
                 if (ShortcutOverlay.Visibility == Visibility.Visible ||
                     AboutOverlay.Visibility == Visibility.Visible)
@@ -76,7 +81,7 @@ namespace KillerNotes.Shell
 
         /// <summary>Re-applies the note's effective kind; shows/hides the toggle and refreshes an
         /// open pane. Called after a note loads and after every autosave.</summary>
-        private void UpdatePreviewState()
+        private void UpdatePreviewState(bool preserveScroll = false)
         {
             string text = EditorPlainText();
             _docKind = DetectMarkdownGlobally ? DetectDocKind(text) : DocKind.None;
@@ -85,7 +90,26 @@ namespace KillerNotes.Shell
             PreviewMenuItem.IsChecked = _previewOpen;
             PreviewMenuLabel.Text = Loc(_docKind == DocKind.Html ? "Str_TT_PreviewHtml" : "Str_TT_PreviewMd");
             if (!detected && _previewOpen) ClosePreview();
-            else if (_previewOpen) RenderPreview(text);
+            else if (_previewOpen) RenderPreview(text, preserveScroll);
+        }
+
+        private void QueuePreviewRefresh()
+        {
+            if (!_previewOpen || _loadingNote) return;
+            if (_previewRefreshTimer == null)
+            {
+                _previewRefreshTimer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromMilliseconds(250),
+                };
+                _previewRefreshTimer.Tick += (_, _) =>
+                {
+                    _previewRefreshTimer.Stop();
+                    UpdatePreviewState(preserveScroll: true);
+                };
+            }
+            _previewRefreshTimer.Stop();
+            _previewRefreshTimer.Start();
         }
 
         // Cheap heuristics on the plain text. HTML wins when both could match, because
@@ -125,6 +149,8 @@ namespace KillerNotes.Shell
 
         private void ClosePreview()
         {
+            _previewRefreshTimer?.Stop();
+            _pendingPreviewScroll = null;
             _previewOpen = false;
             PreviewMenuItem.IsChecked = false;
             PreviewPane.Visibility = Visibility.Collapsed;
@@ -137,16 +163,46 @@ namespace KillerNotes.Shell
             }
         }
 
-        private void RenderPreview(string text)
+        private void RenderPreview(string text, bool preserveScroll = false)
         {
             try
             {
+                _pendingPreviewScroll = preserveScroll ? PreviewScrollOffset() : null;
                 string body = _docKind == DocKind.Markdown
                     ? Markdown.ToHtml(text, MdPipeline)
                     : StripActiveContent(text);
                 PreviewBrowserLazy().NavigateToString(BuildHtmlShell(body));
             }
             catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_PreviewFailed"), ex.Message); }
+        }
+
+        private double? PreviewScrollOffset()
+        {
+            if (_previewBrowser == null) return null;
+            try
+            {
+                object value = _previewBrowser.InvokeScript("eval", new object[]
+                {
+                    "Math.max(document.documentElement.scrollTop||0,document.body.scrollTop||0)",
+                });
+                return Convert.ToDouble(value, CultureInfo.InvariantCulture);
+            }
+            catch { return null; }
+        }
+
+        private void RestorePreviewScroll()
+        {
+            if (_previewBrowser == null || !_pendingPreviewScroll.HasValue) return;
+            double offset = _pendingPreviewScroll.Value;
+            _pendingPreviewScroll = null;
+            try
+            {
+                _previewBrowser.InvokeScript("eval", new object[]
+                {
+                    "window.scrollTo(0," + offset.ToString(CultureInfo.InvariantCulture) + ")",
+                });
+            }
+            catch { }
         }
 
         // Defuse an HTML note before it reaches the IE engine: strip scripts, event-handler

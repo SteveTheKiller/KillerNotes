@@ -268,7 +268,7 @@ namespace KillerNotes.Shell
                 NotesList.Items.Refresh();
                 _syncingSelection = false;
             }
-            UpdatePreviewState();   // Preview.cs (re-detect + refresh an open pane)
+            UpdatePreviewState(preserveScroll: true);   // Preview.cs (re-detect + refresh an open pane)
         }
 
         private void MarkDirty()
@@ -289,6 +289,7 @@ namespace KillerNotes.Shell
             // anything unless the bar is open and a match is actually being asked for
             // (FindBar.cs).
             InvalidateFindCache();
+            QueuePreviewRefresh();
         }
 
         // Clicking the note title jumps the view back to the top of the note (Dantex's
