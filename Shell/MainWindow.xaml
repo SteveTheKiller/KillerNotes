@@ -890,6 +890,11 @@
                                 <MenuItem Header="{DynamicResource Str_Ctx_NewMarkdownNote}" Icon="&#xE943;"
                                           Click="NewMarkdownNote_Click"
                                           ToolTip="{DynamicResource Str_TT_NewMarkdownNote}"/>
+                                <!-- One row per note in the templates group, built on open
+                                     (Templates.cs). Also lives here for right-clicks on the blank
+                                     sidebar, so a fresh database can reach it. -->
+                                <MenuItem x:Name="TemplateMenu" Header="{DynamicResource Str_Ctx_NewFromTemplate}" Icon="&#xE7C3;"
+                                          ToolTip="{DynamicResource Str_TT_NewFromTemplate}"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_DeleteNote}" Icon="&#xE74D;" Click="DeleteNote_Click"/>
                                 <!-- Trash rows only (1.3.1, Trash.cs). When every selected row is a
                                      trashed note the menu is these two and nothing else; on live
@@ -919,6 +924,10 @@
                                                       InputGestureText="Ctrl+Shift+G"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_SubTop}" Tag="subtop" IsCheckable="True"
                                                       Click="SubgroupsOnTop_Click" ToolTip="{DynamicResource Str_TT_SubTop}"/>
+                                            <!-- Marks this group as the one whose notes are templates
+                                                 (1.3.1, Templates.cs). Checked on open by GroupHeader_RightDown. -->
+                                            <MenuItem Header="{DynamicResource Str_Ctx_TemplatesGroup}" Tag="templates" IsCheckable="True"
+                                                      Click="TemplatesGroup_Click" ToolTip="{DynamicResource Str_TT_TemplatesGroup}"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_RenameGroup}" Icon="&#xE8AC;" Click="RenameGroup_Click"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_GroupColor}" Icon="&#xE790;" Click="GroupColorPick_Click"
                                                       Tag="groupcolor" InputGestureText="Ctrl+Shift+K"

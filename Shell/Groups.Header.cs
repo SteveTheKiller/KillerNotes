@@ -148,6 +148,8 @@ namespace KillerNotes.Shell
                             mi.Header = Loc(g.IsNested ? "Str_Ctx_SubgroupColor" : "Str_Ctx_GroupColor");
                         else if ((mi.Tag as string) == "subtop")
                             mi.IsChecked = App.GetSetting("SubgroupsOnTop") != "0";
+                        else if ((mi.Tag as string) == "templates")
+                            mi.IsChecked = IsTemplatesGroup(g.Path);   // Templates.cs
                     }
         }
 

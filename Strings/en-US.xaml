@@ -847,4 +847,15 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_TT_Checkbox">Checkbox line (Alt+C) - click the box to tick it</sys:String>
     <sys:String x:Key="Str_KS_Checkbox">Add or remove a checkbox on the current lines</sys:String>
     <sys:String x:Key="Str_Kb_Checkbox">Checkbox</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">New note from template</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Copies a note from the templates group. {date}, {time}, {datetime} and {weekday} in it are filled in.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Templates group</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Every note in this group is offered as a template for new notes</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">No templates group yet - right-click a group to mark it</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">The templates group is empty</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} is now the templates group</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Templates group cleared</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">New note from {0}</sys:String>
 </ResourceDictionary>
