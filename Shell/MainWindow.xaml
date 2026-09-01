@@ -2675,12 +2675,11 @@
         <Grid x:Name="ShortcutOverlay" Grid.RowSpan="3" Panel.ZIndex="9100" Visibility="Collapsed"
               Margin="{DynamicResource OverlayBleed}"
               Background="#88000000" MouseLeftButtonDown="ShortcutOverlay_Click">
-            <!-- Stretch WITH a margin, never bare. With no Margin the card runs flush to the
-                 window edges, which puts the close X hard into the corner on top of the resize
-                 zone - it reads as misaligned and is awkward to hit. The margin also keeps the
-                 keyboard map off the window edge on a narrow window. -->
+            <!-- Center the card with a fixed height cap on a large window. The margin keeps it off
+                 the resize zone and still lets it shrink on a narrow or short window. -->
             <Grid x:Name="ShortcutCardGrid" Margin="32"
-                  VerticalAlignment="Stretch" MouseLeftButtonDown="ShortcutCard_Click">
+                  VerticalAlignment="Center" MaxHeight="620"
+                  MouseLeftButtonDown="ShortcutCard_Click">
                 <!-- Radius and shadow follow the theme, not hardcoded 6 / 0.6: a square-cornered
                      flat palette was getting a rounded card with a drop shadow. -->
                 <Border Background="{DynamicResource OverlayWindowBrush}" CornerRadius="{DynamicResource PanelCornerRadius}" IsHitTestVisible="False">
