@@ -181,10 +181,10 @@ namespace KillerNotes.Shell
             if (_previewBrowser == null) return null;
             try
             {
-                object value = _previewBrowser.InvokeScript("eval", new object[]
-                {
+                object value = _previewBrowser.InvokeScript("eval",
+                [
                     "Math.max(document.documentElement.scrollTop||0,document.body.scrollTop||0)",
-                });
+                ]);
                 return Convert.ToDouble(value, CultureInfo.InvariantCulture);
             }
             catch { return null; }
@@ -197,10 +197,10 @@ namespace KillerNotes.Shell
             _pendingPreviewScroll = null;
             try
             {
-                _previewBrowser.InvokeScript("eval", new object[]
-                {
+                _previewBrowser.InvokeScript("eval",
+                [
                     "window.scrollTo(0," + offset.ToString(CultureInfo.InvariantCulture) + ")",
-                });
+                ]);
             }
             catch { }
         }
