@@ -56,7 +56,9 @@ namespace KillerNotes.Shell
 
         /// <summary>Composite-list slot the mouse is pointing at: index of the item the
         /// note would be inserted BEFORE (top half = before that item, bottom = after;
-        /// empty space below the rows = end of list).</summary>
+        /// empty space below the rows = end of list). A group header is one direct drop
+        /// target, so any point on it resolves immediately below the header and files the
+        /// note into that group.</summary>
         private int HitSlot(DragEventArgs e)
         {
             var d = e.OriginalSource as DependencyObject;
@@ -64,6 +66,7 @@ namespace KillerNotes.Shell
             if (d is not ListBoxItem item) return NotesList.Items.Count;
             int idx = NotesList.ItemContainerGenerator.IndexFromContainer(item);
             if (idx < 0) return NotesList.Items.Count;
+            if (item.DataContext is GroupHeader) return idx + 1;
             return e.GetPosition(item).Y < item.ActualHeight / 2 ? idx : idx + 1;
         }
 
@@ -168,7 +171,8 @@ namespace KillerNotes.Shell
             var d = e.OriginalSource as DependencyObject;
             while (d != null && d is not ListBoxItem) d = VisualTreeHelper.GetParent(d);
             if (d is not ListBoxItem item) { ClearInsertionLine(); return; }
-            bool top = e.GetPosition(item).Y < item.ActualHeight / 2;
+            bool top = item.DataContext is not GroupHeader &&
+                e.GetPosition(item).Y < item.ActualHeight / 2;
 
             if (_insertAdorner != null &&
                 ReferenceEquals(_insertAdorner.AdornedElement, item) && _insertAdorner.Top == top) return;
