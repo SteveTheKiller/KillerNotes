@@ -114,6 +114,9 @@ namespace KillerNotes.Shell
                     case Key.M:
                         ToggleBacklinkBar();   // Backlinks.cs (the linked-from / mentions strip)
                         e.Handled = true; return;
+                    case Key.P:
+                        PinShortcut();   // Pin.cs (the selected notes, else the open one)
+                        e.Handled = true; return;
                 }
             }
 

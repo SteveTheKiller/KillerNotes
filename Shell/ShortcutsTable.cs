@@ -56,6 +56,7 @@ namespace KillerNotes.Shell
             new("Alt+Right", "Str_KS_NavForward", "Note", [(KbLayer.Alt, "Right", "Str_Kb_NavForward")]),
             new("Alt+L", "Str_KS_LineNumbers", "View", [(KbLayer.Alt, "L", "Str_Kb_LineNumbers")]),
             new("Alt+M", "Str_KS_HideMentions", "View", [(KbLayer.Alt, "M", "Str_Kb_HideMentions")]),
+            new("Alt+P", "Str_KS_Pin", "Note", [(KbLayer.Alt, "P", "Str_Kb_Pin")]),
             new("Ctrl+N", "Str_KS_NewNote", "Note", [(KbLayer.Ctrl, "N", "Str_KS_NewNote")]),
             new("Ctrl+G", "Str_KS_NewGroup", "Note", [(KbLayer.Ctrl, "G", "Str_KS_NewGroup")]),
             new("Ctrl+T", "Str_KS_ManageTags", "Note", [(KbLayer.Ctrl, "T", "Str_KS_ManageTags")]),

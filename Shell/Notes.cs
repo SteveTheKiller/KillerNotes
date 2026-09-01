@@ -68,6 +68,9 @@ namespace KillerNotes.Shell
             double savedOffset = preserveScroll ? (_notesScroll?.VerticalOffset ?? 0) : 0;
             TagManager.Refresh();   // cheap; keeps chip colors current across db switches
             _notes = NoteStore.List(SearchBox.Text, SortKey);
+            // Pinned notes float to the top of whichever section they sit in (Pin.cs). A stable
+            // sort, so inside the pinned run and the rest the chosen sort order still holds.
+            _notes = [.. _notes.OrderByDescending(n => n.Pinned)];
             TagManager.ApplyChips(_notes);
             foreach (var n in _notes) n.Density = _density;   // sidebar row density (Density.cs)
             // The trash only shows on the unfiltered list (Trash.cs); a search is never
@@ -147,7 +150,7 @@ namespace KillerNotes.Shell
         {
             Note n => string.Join("|", "N", n.Id, n.Title, n.Snippet, n.ModifiedDisplay, n.TitleColor,
                                   n.Tags, n.Notebook, n.GroupDepth, n.GroupColor, n.IsFirstInGroup, n.IsLastInGroup, n.Density, RailSig(n.Rails),
-                                  n.IsDeleted),
+                                  n.IsDeleted, n.Pinned),
             GroupHeader g => string.Join("|", "G", g.Path, g.Name, g.Depth, g.Count, g.Collapsed, g.NameColor, g.Density, RailSig(g.Rails)),
             TrashHeader t => string.Join("|", "T", t.Count, t.Collapsed, t.Density),
             _ => o.GetHashCode().ToString(),

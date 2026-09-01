@@ -52,6 +52,7 @@ namespace KillerNotes.Shell
             PreviewDetectGlobal.Visibility = _noteContextTarget ? Visibility.Visible : Visibility.Collapsed;
             PreviewDetectGlobal.IsChecked = DetectMarkdownGlobally;   // Preview.cs (#14)
             UpdateConvertMenuItem();   // Markdown.cs (labels the row with the conversion direction)
+            UpdatePinMenuItem(selected);   // Pin.cs (Pin or Unpin, for the selection)
             TagsMenu.Items.Clear();
             TagsMenu.IsEnabled = selected.Count > 0;
             if (selected.Count == 0) return;
