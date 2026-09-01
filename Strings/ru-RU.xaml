@@ -1,0 +1,778 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- KillerNotes - Русский (ru-RU). Layered over en-US.xaml; omitted keys fall back. -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">Управление базами данных</sys:String>
+    <sys:String x:Key="Str_TT_Lock">Защита паролем</sys:String>
+    <sys:String x:Key="Str_TT_About">О KillerNotes</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">Свернуть боковую панель (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Развернуть боковую панель (F5)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">Сочетания клавиш (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">Тема</sys:String>
+    <sys:String x:Key="Str_TT_Language">Язык</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Поиск по заметкам  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ Новая заметка</sys:String>
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ Новая</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">Новая заметка (Ctrl+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">По времени создания - сначала старые (нажмите ещё раз, чтобы изменить порядок)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">По алфавиту (нажмите ещё раз, чтобы изменить порядок)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">Поделиться заметкой...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">Сохранить как файл .knote (при желании с паролем), чтобы отправить коллеге</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">Экспортировать заметку как...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">Сохранить копию обычным файлом - .txt, .rtf или .html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">Удалить заметку</sys:String>
+
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">Обратный порядок</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">Вырезать</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">Копировать</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">Вставить</sys:String>
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">Жирный (Ctrl+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">Курсив (Ctrl+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">Подчёркнутый (Ctrl+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">Зачёркнутый (Ctrl+Shift+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">Моноширинный (код, Ctrl+Shift+M)</sys:String>
+    <sys:String x:Key="Str_TT_AppSize">Прокрутите, чтобы изменить размер всего приложения</sys:String>
+    <sys:String x:Key="Str_St_AppSize">Размер приложения {0}%</sys:String>
+    <sys:String x:Key="Str_KS_WordWrap">Переключить перенос строк</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">Подсветка синтаксиса</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Номера строк (Alt+L)</sys:String>
+    <sys:String x:Key="Str_KS_LineNumbers">Переключить номера строк</sys:String>
+    <sys:String x:Key="Str_Kb_LineNumbers">Номера строк</sys:String>
+    <sys:String x:Key="Str_KS_AppSize">Увеличьте масштаб всего приложения (специальные возможности)</sys:String>
+    <sys:String x:Key="Str_St_LineNumOn">Номера строк включены</sys:String>
+    <sys:String x:Key="Str_St_LineNumOff">Номера строк выключены</sys:String>
+
+    <!-- Navigation history -->
+    <sys:String x:Key="Str_Ctx_NavBack">Назад</sys:String>
+    <sys:String x:Key="Str_Ctx_NavForward">Вперёд</sys:String>
+    <sys:String x:Key="Str_TT_NavBack">Вернуться к заметке, откуда вы пришли</sys:String>
+    <sys:String x:Key="Str_TT_NavForward">Снова перейти вперёд</sys:String>
+    <sys:String x:Key="Str_KS_NavBack">Назад к предыдущей заметке</sys:String>
+    <sys:String x:Key="Str_KS_NavForward">Вперёд к следующей заметке</sys:String>
+    <sys:String x:Key="Str_Kb_NavBack">Назад</sys:String>
+    <sys:String x:Key="Str_Kb_NavForward">Вперёд</sys:String>
+    <sys:String x:Key="Str_St_NavNoBack">Некуда возвращаться</sys:String>
+    <sys:String x:Key="Str_St_NavNoForward">Некуда переходить вперёд</sys:String>
+
+    <!-- The linked-from / mentions strip -->
+    <sys:String x:Key="Str_Ctx_HideMentions">Скрыть эту полосу</sys:String>
+    <sys:String x:Key="Str_TT_HideMentions">Скрыть полосу входящих ссылок. Alt+M возвращает её.</sys:String>
+    <sys:String x:Key="Str_KS_HideMentions">Показать или скрыть полосу входящих ссылок</sys:String>
+    <sys:String x:Key="Str_Kb_HideMentions">Упоминания</sys:String>
+    <sys:String x:Key="Str_St_MentionsHidden">Полоса входящих ссылок скрыта - Alt+M показывает её снова</sys:String>
+    <sys:String x:Key="Str_St_MentionsShown">Полоса входящих ссылок показана</sys:String>
+    <sys:String x:Key="Str_TT_Density">Плотность боковой панели (Ctrl+D) - нажмите или прокрутите</sys:String>
+    <sys:String x:Key="Str_KS_Density">Переключать плотность боковой панели</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">Плотность: полная</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">Плотность: компактная</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">Плотность: минимальная</sys:String>
+    <sys:String x:Key="Str_St_Undo">Несделано</sys:String>
+    <sys:String x:Key="Str_KS_SortCycle">Переключать сортировку панели (время / А-Я / своя)</sys:String>
+    <sys:String x:Key="Str_KS_NewGroup">Новая группа (выделенные заметки попадают в неё)</sys:String>
+    <sys:String x:Key="Str_KS_Theme">Меню темы и акцента</sys:String>
+    <sys:String x:Key="Str_KS_TitleColor">Цвет заголовка (выделенная заметка)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Переключить проверку орфографии</sys:String>
+    <sys:String x:Key="Str_KS_Table">Вставить таблицу</sys:String>
+    <!-- Killculator sidebar calculator (F9) -->
+    <sys:String x:Key="Str_KS_Calc">Killculator - Печать переносит результат в заметку</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrint">Напечатать результат Killculator в заметку</sys:String>
+    <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
+    <sys:String x:Key="Str_TT_SketchRail">SketchPad - нарисовать набросок (F7)</sys:String>
+    <sys:String x:Key="Str_TT_KalcResize">Потяните, чтобы изменить размер Killculator</sys:String>
+    <sys:String x:Key="Str_TT_Image">Вставить изображение</sys:String>
+
+    <!-- Themed Windows system menu -->
+    <sys:String x:Key="Str_Sys_Restore">Восстановить</sys:String>
+    <sys:String x:Key="Str_Sys_Move">Переместить</sys:String>
+    <sys:String x:Key="Str_Sys_Size">Размер</sys:String>
+    <sys:String x:Key="Str_Sys_Minimize">Свернуть</sys:String>
+    <sys:String x:Key="Str_Sys_Maximize">Развернуть</sys:String>
+    <sys:String x:Key="Str_Sys_Close">Закрыть</sys:String>
+
+    <!-- Dictation -->
+    <sys:String x:Key="Str_TT_DictationRail">Диктовка - запись и расшифровка (Ctrl+M)</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">Найти в этой заметке (Ctrl+F)</sys:String>
+    <sys:String x:Key="Str_KS_Dictation">Диктовка - запись и расшифровка</sys:String>
+    <sys:String x:Key="Str_Kb_Dictation">Диктовка</sys:String>
+    <sys:String x:Key="Str_Dict_Title">Диктовка</sys:String>
+    <sys:String x:Key="Str_Dict_Close">Закрыть (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+    <sys:String x:Key="Str_Dict_Record">Записать</sys:String>
+    <sys:String x:Key="Str_Dict_Stop">Остановить</sys:String>
+    <sys:String x:Key="Str_Dict_Play">Воспроизвести</sys:String>
+    <sys:String x:Key="Str_Dict_Transcribe">Расшифровать</sys:String>
+    <sys:String x:Key="Str_Dict_Print">Печать в заметку</sys:String>
+    <sys:String x:Key="Str_Dict_Embed">Встроить запись</sys:String>
+    <sys:String x:Key="Str_Dict_Ready">Готово. Запишите, затем расшифруйте или встройте аудио.</sys:String>
+    <sys:String x:Key="Str_Dict_Recording">Запись...</sys:String>
+    <sys:String x:Key="Str_Dict_Recorded">Записано. Расшифруйте, встройте или и то, и другое.</sys:String>
+    <sys:String x:Key="Str_Dict_Working">Расшифровка...</sys:String>
+    <sys:String x:Key="Str_Dict_Done">Расшифровано. Отредактируйте здесь, затем напечатайте в заметку.</sys:String>
+    <sys:String x:Key="Str_Dict_Printed">Напечатано в заметку.</sys:String>
+    <sys:String x:Key="Str_Dict_Embedded">Запись встроена в заметку.</sys:String>
+    <sys:String x:Key="Str_Dict_NoMic">Не удалось открыть микрофон.</sys:String>
+    <sys:String x:Key="Str_Dict_Empty">Ничего не записано. Проверьте, подключён ли микрофон.</sys:String>
+    <sys:String x:Key="Str_Dict_NoSpeech">В этой записи речь не распознана.</sys:String>
+    <sys:String x:Key="Str_Dict_NoText">Нет текста для печати.</sys:String>
+    <sys:String x:Key="Str_Dict_Failed">Расшифровка не удалась.</sys:String>
+    <sys:String x:Key="Str_Dict_NoEngine">Распознаватель речи не установлен, поэтому расшифровка недоступна. Запись и встраивание работают.</sys:String>
+    <sys:String x:Key="Str_Dict_EmbedFailed">Не удалось сохранить запись в эту заметку.</sys:String>
+    <sys:String x:Key="Str_Dict_Missing">Этой записи больше нет в этой заметке.</sys:String>
+    <sys:String x:Key="Str_Dict_Chip">Запись</sys:String>
+    <sys:String x:Key="Str_Dict_ChipTip">Воспроизведение стрелкой, перетащите для перемещения, правый клик - изменить или отправить</sys:String>
+
+    <!-- Wordmark -->
+    <sys:String x:Key="Str_Wordmark_A">Killer</sys:String>
+    <sys:String x:Key="Str_Wordmark_B">Notes</sys:String>
+
+    <!-- Shared file picker -->
+    <sys:String x:Key="Str_Btn_Save">Сохранить</sys:String>
+    <sys:String x:Key="Str_Col_Modified">изменён</sys:String>
+    <sys:String x:Key="Str_Col_Name">имя</sys:String>
+    <sys:String x:Key="Str_Col_Size">размер</sys:String>
+    <sys:String x:Key="Str_Dlg_AllFiles">Все файлы</sys:String>
+    <sys:String x:Key="Str_Dlg_FileName">Имя файла:</sys:String>
+    <sys:String x:Key="Str_Dlg_FileType">Тип файла:</sys:String>
+    <sys:String x:Key="Str_Dlg_NoMatchingFiles">Здесь нет ничего, что подходит под текущий тип файла.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFile">Такого файла не существует.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFolder">Такой папки не существует.</sys:String>
+    <sys:String x:Key="Str_Dlg_OverwriteMsg">Заменить {0}?</sys:String>
+    <sys:String x:Key="Str_Menu_PinPlace">Закрепить в местах</sys:String>
+    <sys:String x:Key="Str_Menu_UnpinPlace">Убрать из мест</sys:String>
+    <sys:String x:Key="Str_QA_Desktop">Рабочий стол</sys:String>
+    <sys:String x:Key="Str_QA_Documents">Документы</sys:String>
+    <sys:String x:Key="Str_QA_Downloads">Загрузки</sys:String>
+    <sys:String x:Key="Str_QA_Home">Домашняя папка</sys:String>
+    <sys:String x:Key="Str_QA_Pictures">Изображения</sys:String>
+    <sys:String x:Key="Str_Sum_Counts">папок: {0}, файлов: {1}</sys:String>
+    <sys:String x:Key="Str_TT_RecentLocations">Недавние места</sys:String>
+    <sys:String x:Key="Str_TT_ShowHidden">Показывать скрытые и системные элементы</sys:String>
+    <sys:String x:Key="Str_TT_Up">На папку вверх</sys:String>
+    <sys:String x:Key="Str_TT_ViewDetails">Таблица</sys:String>
+    <sys:String x:Key="Str_TT_ViewIcons">Значки</sys:String>
+    <sys:String x:Key="Str_TT_ViewList">Список</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrint">Печать в заметку</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrint">Напечатать результат в эту заметку у курсора (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintSum">Сумма</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintEq">Выражение</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintSum">Напечатать результат в эту заметку у курсора (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintEq">Напечатать всё выражение в эту заметку у курсора (Ctrl+Shift+Enter)</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrintEq">Напечатать выражение Killculator в заметку</sys:String>
+    <sys:String x:Key="Str_St_CalcNoNote">Сначала откройте заметку</sys:String>
+    <sys:String x:Key="Str_St_CalcPrinted">Напечатано в заметку</sys:String>
+    <sys:String x:Key="Str_St_SketchEmpty">Сначала нарисуйте что-нибудь</sys:String>
+    <sys:String x:Key="Str_St_SketchUpdated">Набросок обновлён</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">Набросок не напечатан - вернитесь к заметке, которой он принадлежит</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">Цвет текста и маркер</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">Маркированный список (Ctrl+Shift+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">Нумерованный список (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">Горизонтальная линия (Ctrl+Shift+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">Вставить таблицу (потяните, чтобы выбрать размер)</sys:String>
+    <sys:String x:Key="Str_TT_InsertImage">Вставить изображение из файла</sys:String>
+    <sys:String x:Key="Str_TT_Preview">Предпросмотр (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">Скрыть панель форматирования (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">Потяните для перемещения - двойной клик сворачивает</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Нажмите или F6, чтобы вернуть - потяните для перемещения</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">текст</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">маркер</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">Акцент</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">авто</sys:String>
+    <sys:String x:Key="Str_TT_Auto">Вернуть цвет текста темы</sys:String>
+    <sys:String x:Key="Str_Btn_None">нет</sys:String>
+    <sys:String x:Key="Str_TT_None">Убрать маркер</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">размер</sys:String>
+    <sys:String x:Key="Str_TT_Columns">Столбцы</sys:String>
+    <sys:String x:Key="Str_TT_Rows">Строки</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">Вставить</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">1-50 столбцов, 1-200 строк</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">Нажмите, чтобы начать новую заметку, перетащите сюда текст или изображение либо выберите заметку слева.</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">В заметку можно перетаскивать только файлы изображений</sys:String>
+    <sys:String x:Key="Str_Untitled">Без названия</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">Сохранено</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">Буфер обмена занят - попробуйте ещё раз</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">заметок: {0}</sys:String>
+    <sys:String x:Key="Str_St_NoteLoadFailed">Эту заметку не удалось открыть, она оставлена без изменений: {0}</sys:String>
+    <sys:String x:Key="Str_St_Matches">совпадений: {0}</sys:String>
+    <sys:String x:Key="Str_St_FindMatches">{0} из {1}</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">Нет совпадений</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">Предыдущее совпадение (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">Следующее совпадение (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">Закрыть (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">Перетащите для перемещения</sys:String>
+
+    <!-- Search and replace -->
+    <sys:String x:Key="Str_TT_FindCase">Учитывать регистр</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Слово целиком</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Регулярное выражение</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Заменить</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">Вся</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Заменить текущее совпадение (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Заменить все совпадения в этой заметке (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">Заменено совпадений: {0}</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">Заменить во всех заметках</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Заменить искомое во всех заметках, где оно есть</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Заменить на...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Сначала введите поисковый запрос выше</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">Заменено совпадений: {0} в {1} заметках</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">Заменить {0} совпадений в {1} заметках?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Каждое "{0}" станет "{1}". Ctrl+Z вернёт всё обратно.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...и ещё {0} заметок</sys:String>
+    <sys:String x:Key="Str_KS_Replace">Поиск и замена в этой заметке</sys:String>
+    <sys:String x:Key="Str_St_NoteDeleted">Заметка удалена</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">Удалено заметок: {0}</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">Не удалось открыть базу заметок: {0}</sys:String>
+
+    <!-- Network data folder safeguard -->
+    <sys:String x:Key="Str_Btn_OK">OK</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">Папка данных находится в сети</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} находится на другом компьютере. Использовать одну базу заметок с двух
+машин сразу небезопасно; файл блокировки от этого защищает, но у каждого
+должна быть своя база, а заметками стоит делиться как .knote или .kndb.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Открыто только для чтения</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">Эта база используется на {0}, поэтому открыта только для чтения - изменения
+не сохранятся. Если на {0} на самом деле не запущен KillerNotes (например,
+после сбоя), удалите файл .lock рядом с базой и откройте её снова.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Только для чтения - используется на {0}</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">Удалить "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">Удалить {0} заметок?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z вернёт её обратно.</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">Удалить</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">Отмена</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">Разблокировать KillerNotes</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">Неверный пароль - попробуйте ещё раз</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">"{0}" защищена паролем.</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">Разблокировать</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Новая база...</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">подтвердите</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">Начать новую базу?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Заблокированная база остаётся на диске, и её ещё можно будет открыть,
+если пароль найдётся. Без него восстановить её заметки невозможно.</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">Начать заново</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">Новая база - заблокированная сохранена как {0}</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">Задать пароль</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Шифрует всю базу заметок (AES-256 через SQLCipher).
+Не потеряйте его - восстановления нет.</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">Зашифровать</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">Изменить или убрать пароль</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">Введите новый пароль или оставьте оба поля пустыми, чтобы снять защиту.</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">Применить</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">Пароли не совпали - ничего не изменено</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">База зашифрована</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">Пароль изменён</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">Пароль убран - база больше не зашифрована</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">Не удалось изменить пароль: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">Добавить базу "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">Она копируется в вашу папку данных KillerNotes и открывается.
+Текущая база останется доступной в управлении базами.</sys:String>
+    <sys:String x:Key="Str_Btn_Add">Добавить</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">Не удалось добавить базу: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">Импортировать "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">Её заметки добавляются в вашу текущую базу.</sys:String>
+    <sys:String x:Key="Str_Btn_Import">Импорт</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">Разблокировать присланную заметку</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">"{0}" защищена паролем для обмена.</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">Импортирована 1 заметка</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">Импортировано заметок: {0}</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">Импорт не удался: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">Защитить отправляемую заметку?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">Необязательно: получателю придётся ввести этот пароль, чтобы открыть её.
+Оставьте оба поля пустыми, чтобы отправить без пароля.</sys:String>
+    <sys:String x:Key="Str_Btn_Share">Отправить</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">Пароли не совпали - ничего не отправлено</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">Отправлено в {0}</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">Не удалось отправить: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote готов там, куда вы его перетащили</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">Не удалось перетащить: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">Не удалось импортировать {0}: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">Импортирован 1 файл</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">Импортировано файлов: {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">Экспортировано в {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">Не удалось экспортировать: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">Все поддерживаемые|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Текст (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Форматированный текст (*.rtf)|*.rtf|Изображения|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Файлы KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Все файлы (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Текстовый файл (*.txt)|*.txt|Форматированный текст (*.rtf)|*.rtf|Веб-страница (*.html)|*.html</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">Предпросмотр markdown</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">Предпросмотр HTML</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">Не удалось показать предпросмотр: {0}</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">Базы данных</sys:String>
+    <sys:String x:Key="Str_Btn_Open">Открыть</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">Новая база</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">Удалить выбранную базу</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">Открыть папку данных в Explorer</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">Переименовать</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">Удалить</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">Копировать файл</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">Кладёт файл .db в буфер обмена - вставьте в Explorer, Teams или письмо, чтобы поделиться</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">Экспортировать как .kndb...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">Сохранить копию, которую коллеги откроют в KillerNotes двойным щелчком</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">Показать в Explorer</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">Сначала выберите базу</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">зашифрован</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">активна</sys:String>
+    <sys:String x:Key="Str_Db_Copied">{0} скопирован - вставьте в Explorer, Teams или письмо</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">Копирование не удалось: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">В этом имени есть символы, которые Windows не допускает</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} уже существует</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">{0} переименован в {1}</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">Переименование не удалось: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">Не удалось создать: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">Все заметки внутри будут удалены безвозвратно. Это нельзя отменить.</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">{0} удалён</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">Удаление не удалось: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">База KillerNotes (*.kndb)|*.kndb</sys:String>
+
+    <!-- Change data folder -->
+    <sys:String x:Key="Str_TT_DataFolder">Изменить папку данных, где хранятся базы</sys:String>
+    <sys:String x:Key="Str_Db_PickFolderTitle">Выберите папку данных KillerNotes</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">Переместить {0} файлов баз в новую папку?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">Переместить забирает с собой все файлы .db. Оставить переключает на новую папку, а текущие файлы остаются на месте.</sys:String>
+    <sys:String x:Key="Str_Btn_Move">Переместить</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">Оставить</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">Папка данных теперь {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">Папка данных теперь {0} - файлов осталось на месте: {1} (заняты или уже есть в новой папке)</sys:String>
+
+    <!-- Custom order + groups -->
+    <sys:String x:Key="Str_TT_SortCustom">Свой порядок - перетаскивайте заметки</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">Включён свой порядок - перетаскивайте заметки</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">Группа</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">Новая группа...</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">Новая подгруппа...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">Подгруппы сверху</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">Показывать подгруппы над собственными заметками группы</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">Удалить из группы</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">Переименовать группу...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">Удалить группу</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">Назовите новую группу</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">Назовите новую подгруппу</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">Переименуйте эту группу</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">Удалить группу "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">Её заметки сохранятся - они просто покинут группу.</sys:String>
+    <sys:String x:Key="Str_Btn_Create">Создать</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">Переименовать</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">Группа с именем {0} уже существует</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">Перемещено в {0}</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">Удалено из группы</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">Группа перемещена</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">О KillerNotes</sys:String>
+    <sys:String x:Key="Str_About_Version">Версия</sys:String>
+    <sys:String x:Key="Str_About_Publisher">Издатель</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">Отпечаток сертификата</sys:String>
+    <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Заметки, которые поспевают за вами. Зашифрованный блокнот с поиском, форматированным текстом, встроенными изображениями, настоящими таблицами и мгновенным полнотекстовым поиском - всё сохраняется автоматически в одном файле. Утилита GPLv3 от </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
+    <sys:String x:Key="Str_About_Computing">вычисление...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">Доступно обновление: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">Загрузка...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">Загрузить и установить {0} {1}?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">Приложение закроется и откроется снова автоматически.</sys:String>
+    <sys:String x:Key="Str_Btn_Update">Обновить</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">Сочетания клавиш</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">СПИСОК</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">КЛАВИАТУРА</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">удерживайте Ctrl, Shift или Alt, чтобы увидеть этот слой</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">Сочетания клавиш (этот список)</sys:String>
+    <sys:String x:Key="Str_KS_Rename">Переименовать открытую заметку</sys:String>
+    <sys:String x:Key="Str_KS_Search">Поиск по заметкам</sys:String>
+    <sys:String x:Key="Str_KS_Find">Найти в этой заметке</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Переключить предпросмотр markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">Показать / скрыть панель форматирования</sys:String>
+    <sys:String x:Key="Str_KS_Export">Экспортировать открытую заметку (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">Свернуть / развернуть боковую панель</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Полный экран</sys:String>
+    <sys:String x:Key="Str_KS_About">О KillerNotes</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">Новая заметка</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">Открыть файлы как новые заметки</sys:String>
+    <sys:String x:Key="Str_KS_Save">Сохранить сейчас (автосохранение всё равно работает)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">Жирный / курсив / подчёркнутый</sys:String>
+    <sys:String x:Key="Str_KS_Strike">Зачеркнуть</sys:String>
+    <sys:String x:Key="Str_KS_Mono">Моноширинный (код)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Выделить маркером</sys:String>
+    <sys:String x:Key="Str_KS_Rule">Вставить горизонтальную линию</sys:String>
+    <sys:String x:Key="Str_KS_Lists">Маркированный / нумерованный список</sys:String>
+    <sys:String x:Key="Str_KS_Paste">Вставить - текст, изображения, таблицы</sys:String>
+    <sys:String x:Key="Str_KS_Delete">Удалить выбранную заметку (в списке)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">Закрыть окно / очистить поиск</sys:String>
+    <sys:String x:Key="Str_KS_SecGraph">Окно графа</sys:String>
+    <sys:String x:Key="Str_KS_GrArrange">Расположить: по связям, по кругу, сеткой, по группам или по расстоянию</sys:String>
+    <sys:String x:Key="Str_KS_GrVisualizer">Визуализатор: пусть граф плывёт и вращается</sys:String>
+    <sys:String x:Key="Str_KS_GrNextShape">Следующая форма визуализатора</sys:String>
+    <sys:String x:Key="Str_KS_GrPin">Закрепить каждую заметку там, где она поставлена</sys:String>
+    <sys:String x:Key="Str_KS_GrLock">Зафиксировать выбранные заметки на месте</sys:String>
+    <sys:String x:Key="Str_KS_GrIsolate">Показать только то, что ссылается сюда</sys:String>
+    <sys:String x:Key="Str_KS_GrLabels">Показать названия заметок</sys:String>
+    <sys:String x:Key="Str_KS_GrSelect">Выделить всё видимое / скопировать как [[ссылку]]</sys:String>
+    <sys:String x:Key="Str_KS_GrOpen">Открыть заметку / снова показать всё</sys:String>
+    <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_SkTools">Инструменты: выбор, перо, линия, стрелка, прямоугольник, эллипс, многоугольник, заливка, текст, ластик, обрезка, изображение</sys:String>
+    <sys:String x:Key="Str_KS_SkUndo">Отменить / вернуть</sys:String>
+    <sys:String x:Key="Str_KS_SkPaste">Вставить изображение из буфера обмена</sys:String>
+    <sys:String x:Key="Str_KS_SkPrint">Напечатать набросок в заметку</sys:String>
+    <sys:String x:Key="Str_KS_SkZoom">Масштаб холста</sys:String>
+    <sys:String x:Key="Str_KS_SkDelete">Удалить выделенное</sys:String>
+    <sys:String x:Key="Str_KS_SkClose">Завершить многоугольник / закрыть SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_Undo">Отменить / вернуть</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">Вырезать / копировать</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">Выделить всё</sys:String>
+
+    <!-- Keyboard map -->
+    <sys:String x:Key="Str_Kb_Shortcuts">Сочетания клавиш</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">Предпросмотр markdown/HTML</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">Панель форматирования</sys:String>
+    <sys:String x:Key="Str_Kb_Export">Экспорт открытой заметки</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">Боковая панель</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">Удалить заметку (в списке)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">Сохранить сейчас</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">Жирный</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">Курсивный</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">Подчеркнуть</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">Вставить</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">Маркер</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">Горизонтальная линия</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">Маркированный список</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">Нумерованный список</sys:String>
+    <sys:String x:Key="Str_Kb_Cut">Вырезать</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">Копировать</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">Отменить</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">Вернуть</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">Выделить всё</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">Переключить метку</sys:String>
+    <sys:String x:Key="Str_Sec_File">Файл</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">Заметки</sys:String>
+    <sys:String x:Key="Str_Sec_Format">Форматирование</sys:String>
+    <sys:String x:Key="Str_Sec_View">Вид</sys:String>
+    <sys:String x:Key="Str_Sec_Search">Поиск</sys:String>
+    <sys:String x:Key="Str_Sec_Help">Справка</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">Правка</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check -->
+    <sys:String x:Key="Str_TT_FontSize">Размер текста (прокрутите, чтобы изменить)</sys:String>
+    <sys:String x:Key="Str_Btn_More">Ещё...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">Выбрать любой цвет</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">Цвет заголовка...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">Раскрасить заголовок этой заметки в списке</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">Сбросить цвет заголовка</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">Определять markdown и HTML</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">Предлагать предпросмотр, когда заметка похожа на markdown или HTML (все заметки)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Определение markdown и HTML включено</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Определение markdown и HTML выключено</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertList">Преобразовать в список</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Превратить выделенные строки - или слова одного предложения - в список через запятую</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">Выделение в список через запятую</sys:String>
+    <sys:String x:Key="Str_St_ListMade">Значений преобразовано в список через запятую: {0}</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">Значений скопировано списком через запятую: {0}</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">Сначала выделите несколько строк</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColor">Цвет группы...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">Цвет подгруппы...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">Раскрасить имя этой группы на боковой панели</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">Сбросить цвет</sys:String>
+    <sys:String x:Key="Str_KS_NewSubgroup">Новая подгруппа (в группе выбранной заметки)</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">Цвет группы (группа выбранной заметки)</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">Сначала выберите заметку, которая входит в группу</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">Увеличить / уменьшить выделенный текст</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">Масштаб редактора (Ctrl+0 сбрасывает)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Масштаб {0}%</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">Проверка орфографии включена для этой заметки</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">Заметка слишком велика для проверки орфографии</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">Проверка орфографии выключена для этой заметки</sys:String>
+    <sys:String x:Key="Str_St_WrapOn">Перенос строк включён</sys:String>
+    <sys:String x:Key="Str_St_WrapOff">Перенос строк выключен - прокрутите, чтобы увидеть широкое содержимое</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">Крупнее текст</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">Мельче текст</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">Сбросить масштаб</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list -->
+    <sys:String x:Key="Str_Kb_CtxMenu">Контекстное меню</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">В начало заметки</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">В конец заметки</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">Слово влево</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">Слово вправо</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">Удалить слово слева</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">Удалить слово справа</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">По левому краю</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">Центр</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">По правому краю</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">По ширине</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">Перейти в начало / конец заметки</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">Переходить по целым словам</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">Удалить слово целиком</sys:String>
+    <sys:String x:Key="Str_KS_Align">По левому краю / по центру / по правому краю / по ширине</sys:String>
+
+    <!-- Fonts dialog -->
+    <sys:String x:Key="Str_Fonts_Open">Шрифты...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">Шрифты</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">Заголовки (названия групп)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">Боковая панель (названия заметок)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">Текст заметки</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">KillerNotes по умолчанию</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">Перетащите файл .ttf или .otf на эту карточку, чтобы добавить свой шрифт.</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">Применяется сразу во всём приложении. Текст со своим шрифтом сохраняет его.</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Сбросить к значениям по умолчанию</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">Этот шрифт не отображает обычный текст</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">Шрифт добавлен: {0}</sys:String>
+
+    <!-- Localization audit -->
+    <sys:String x:Key="Str_St_SortOldest">По времени создания - сначала старые</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">По времени создания - сначала новые</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">По алфавиту - от А до Я</sys:String>
+    <sys:String x:Key="Str_St_SortZA">По алфавиту - от Я до А</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (нажмите, чтобы изменить порядок)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">Сортировать по времени создания</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">Сортировать по алфавиту</sys:String>
+    <sys:String x:Key="Str_St_Ready">Готово</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Сайты клиентов - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Замена межсетевого экрана - ветклиника Meadowbrook</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">Съешь ещё этих мягких французских булок да выпей чаю 0123456789.</sys:String>
+
+    <sys:String x:Key="Str_Dict_Volume">Громкость - потяните вверх или вниз</sys:String>
+    <sys:String x:Key="Str_Dict_Pause">Пауза</sys:String>
+    <!-- Speech model chooser -->
+    <sys:String x:Key="Str_Whisper_Title">Модель распознавания речи</sys:String>
+    <sys:String x:Key="Str_Whisper_Blurb">Встроенная диктовка Windows не очень точна. KillerNotes может использовать модель получше - она работает целиком на этом компьютере, и ничего никуда не отправляется. Выберите, какую загрузить.</sys:String>
+    <sys:String x:Key="Str_Whisper_Tiny">Быстрая</sys:String>
+    <sys:String x:Key="Str_Whisper_Base">Рекомендуемая</sys:String>
+    <sys:String x:Key="Str_Whisper_Small">Самая точная</sys:String>
+    <sys:String x:Key="Str_Whisper_Installed">уже загружена</sys:String>
+    <sys:String x:Key="Str_Whisper_Download">Загрузить</sys:String>
+    <sys:String x:Key="Str_Whisper_Use">Использовать эту</sys:String>
+    <sys:String x:Key="Str_Whisper_Menu">Модель распознавания речи...</sys:String>
+    <sys:String x:Key="Str_Whisper_Unavailable">В этой сборке нет моделей распознавания речи - расшифровка использует собственный движок Windows.</sys:String>
+    <sys:String x:Key="Str_Whisper_Starting">Начинается загрузка...</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">Загрузка отменена.</sys:String>
+    <sys:String x:Key="Str_Whisper_Done">Готово. Расшифровка теперь будет использовать её.</sys:String>
+
+    <sys:String x:Key="Str_Dict_EditRec">Изменить запись...</sys:String>
+    <sys:String x:Key="Str_Dict_SaveChanges">Сохранить изменения</sys:String>
+    <sys:String x:Key="Str_Dict_Editing">Изменение встроенной записи. Разрежьте её, затем сохраните изменения.</sys:String>
+    <sys:String x:Key="Str_Dict_Replaced">Запись обновлена.</sys:String>
+    <sys:String x:Key="Str_Dict_Share">Отправить запись</sys:String>
+    <sys:String x:Key="Str_Dict_SaveAs">Сохранить в файл...</sys:String>
+    <sys:String x:Key="Str_Dict_CopyFile">Копировать как файл</sys:String>
+    <sys:String x:Key="Str_Dict_Saved">Запись сохранена.</sys:String>
+    <sys:String x:Key="Str_Dict_Copied">Запись скопирована - вставьте её в письмо, чат или папку.</sys:String>
+    <sys:String x:Key="Str_Dict_Slice">Разрезать здесь</sys:String>
+    <sys:String x:Key="Str_Dict_CopySeg">Копировать фрагмент</sys:String>
+    <sys:String x:Key="Str_Dict_DeleteSeg">Удалить фрагмент</sys:String>
+    <sys:String x:Key="Str_Dict_PasteSeg">Вставить фрагмент сюда</sys:String>
+    <sys:String x:Key="Str_Dict_ClearCuts">Убрать разрезы</sys:String>
+    <sys:String x:Key="Str_Dict_UndoEdit">Отменить правку</sys:String>
+    <sys:String x:Key="Str_Dict_Edited">Изменено. Прослушайте или расшифруйте заново.</sys:String>
+
+    <!-- Hyperlinks -->
+    <sys:String x:Key="Str_KS_Link">Вставить / изменить ссылку</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">Ссылка...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">Адрес ссылки</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">Изменить ссылку - очистите адрес, чтобы убрать её</sys:String>
+    <sys:String x:Key="Str_Btn_Link">Ссылка</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">Это не похоже на веб-адрес</sys:String>
+    <sys:String x:Key="Str_St_LinkNotText">Ссылку можно поставить только на текст - выделите слова, а не изображение или запись</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">Не удалось открыть ссылку</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">Выберите цвет</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">Взять цвет с любого места экрана</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">Нажмите, затем нажмите образец, чтобы задать ему текущий цвет</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">Сбросить образцы к значениям по умолчанию</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">Нажмите, чтобы использовать этот цвет</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">Нажмите, чтобы задать этому образцу текущий цвет</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">Метки</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">Управление метками...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">Нажмите, чтобы отфильтровать по этой метке</sys:String>
+    <sys:String x:Key="Str_Tags_Title">Управление метками</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">Выберите цвет для новой метки</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">Добавить</sys:String>
+    <sys:String x:Key="Str_Btn_Done">Готово</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">Изменить цвет</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">Переименовать</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">Удалить метку</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">Сначала введите имя метки</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">Метка с таким именем уже существует</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">Удалить метку "{0}"?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">Она будет убрана из всех заметок. Сами заметки сохранятся.</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">Метка добавлена: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">Метка убрана: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">Переключать метки 1-9 на открытой заметке</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">Управление метками (добавить, переименовать, перекрасить)</sys:String>
+    <sys:String x:Key="Str_KS_SketchPad">SketchPad - рисование и пометки</sys:String>
+
+    <!-- Portable install -->
+    <sys:String x:Key="Str_Btn_Install">Установить KillerNotes</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">Установить</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">Установить KillerNotes в ваш профиль пользователя?</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- Ярлык в меню "Пуск"&#x0A;- Появится в списке установленных программ</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">Ярлык на рабочем столе</sys:String>
+
+    <sys:String x:Key="Str_Ctx_SelectAll">Выделить всё</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">Предпросмотр недоступен</sys:String>
+
+    <!-- SketchPad (F7) tool tips and menu items -->
+    <sys:String x:Key="Str_Sketch_AddImage">Добавить изображение (I) - перетащите его на холст или нажмите Ctrl+V</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">Добавить изображение...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">Дуга</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">Стрелка - линия с наконечником (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">На задний план</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">Жирный</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">Заливка (B) - нажмите внутри замкнутой области, чтобы залить её</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">Очистить всё</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">Закрыть (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">Копировать в буфер обмена</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">Скопировать рисунок в буфер обмена как изображение</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">Удалить</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">Дублировать</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">Изменить текст</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">Эллипс (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">Ластик (E) - проведите по штрихам или коснитесь фигуры, чтобы убрать её</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">Заливать фигуры (прямоугольник / эллипс)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">На передний план</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">Линия - прямая (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">Свой цвет...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">Прозрачность заливки (нажмите, чтобы переключить)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">Вставить изображение</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">Перо - от руки (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">Многоугольник (G) - нажимайте на каждый угол; нажмите первую точку или дважды щёлкните, чтобы замкнуть (Backspace убирает точку, Esc отменяет)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">Печать в заметку (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">Прямоугольник (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">Вернуть (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">Сбросить прозрачность</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">Выбор / перемещение (V) - нажмите объект, потяните, чтобы переместить, Delete убирает его</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">Выпрямить линию</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">Текст (T) - нажмите, чтобы поставить подпись, наберите, Enter завершает (Shift+Enter - новая строка)</sys:String>
+    <sys:String x:Key="Str_Sketch_Crop">Обрезка (C) - потяните рамку, всё за её пределами отсекается (Ctrl+Z возвращает)</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Масштаб (Ctrl+колесо) - нажмите для 100%, ещё раз по размеру окна</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" ещё не существует</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewBody">Создать её как новую заметку и открыть?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">Обновить {0} ссылок в {1} заметках?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">Ссылки вида [[{0}]] станут [[{1}]]. Один Ctrl+Z отменит всё сразу.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Обновить ссылки</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">Обновлено ссылок: {0} в {1} заметках</sys:String>
+    <sys:String x:Key="Str_Lbl_Backlinks">Ссылаются сюда</sys:String>
+    <sys:String x:Key="Str_St_NoBacklinks">Сюда пока никто не ссылается</sys:String>
+    <sys:String x:Key="Str_TT_Backlinks">Заметки, которые ссылаются на эту</sys:String>
+    <sys:String x:Key="Str_Lbl_Mentions">Упоминается в</sys:String>
+    <sys:String x:Key="Str_KS_Graph">Построить граф выбранной группы или всего блокнота</sys:String>
+    <sys:String x:Key="Str_Kb_Graph">Граф ссылок</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupGraph">Показать графом</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSpin">Визуализатор</sys:String>
+    <sys:String x:Key="Str_TT_GraphSpin">Пусть граф сам плывёт и вращается. Закрепление на это время отключается.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphHold">Закрепить все заметки</sys:String>
+    <sys:String x:Key="Str_TT_GraphHold">Держать каждую заметку там, где её поставили. Если выключено, при перетаскивании заметки связанные с ней расступаются.</sys:String>
+    <sys:String x:Key="Str_Lbl_AndMore">И ещё {0}...</sys:String>
+    <sys:String x:Key="Str_TT_AndMore">Остальные заметки, которые указывают сюда</sys:String>
+    <sys:String x:Key="Str_TT_GroupGraph">Связи между заметками этой группы и то, куда они ведут</sys:String>
+    <sys:String x:Key="Str_St_GraphGroupEmpty">В этой группе пока нет связей</sys:String>
+    <sys:String x:Key="Str_TT_Mentions">Заметки, которые называют эту, но не ссылаются на неё</sys:String>
+    <sys:String x:Key="Str_TT_MentionChip">Нажмите, чтобы поставить ссылку. Ctrl+клик открывает заметку.</sys:String>
+    <sys:String x:Key="Str_St_Linked">Ссылка поставлена</sys:String>
+    <sys:String x:Key="Str_St_MentionGone">Та заметка больше не упоминает эту</sys:String>
+    <sys:String x:Key="Str_TT_Graph">Граф всех связей между заметками</sys:String>
+    <sys:String x:Key="Str_Lbl_Graph">Граф</sys:String>
+    <sys:String x:Key="Str_St_GraphEmpty">Связей пока нет - наберите [[название заметки]], чтобы создать</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphOpen">Открыть заметку</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCreate">Создать эту заметку</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCopy">Копировать как [[ссылку]]</sys:String>
+    <sys:String x:Key="Str_Graph_Legend">Залитый = заметка, цвет по группе.   Контур = ссылка есть, но заметка не написана.   Перетаскивайте, чтобы расположить, правый клик - параметры.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrange">Расположить</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeForce">По связям</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeCircle">По кругу</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGrid">Сеткой</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGroups">По группам</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShape">Форма</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeFree">Как ляжет</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeSpiral">Подсолнух</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">Волна</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeNext">Следующая форма</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Зафиксировать на месте</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Зафиксированную заметку ничто не сдвинет - ни расстановка, ни соседи.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Сохранить эту расстановку...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Забыть расстановку</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Назовите эту расстановку</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">Заменить "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Позиции, сохранённые под этим именем, заменяются теми, что сейчас на экране.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">Забыть "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Сами заметки не затрагиваются, только сохранённые позиции.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphDistance">Расположить по расстоянию</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShowAll">Показать всё</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphColor">Цвет по группам</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLabels">Показывать подписи</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphGhosts">Показывать ещё не написанные заметки</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphIsolate">Показать только то, что ссылается сюда</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">Убрать жирность</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">Отменить (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">Размер кисти (нажмите, чтобы переключить)</sys:String>
+
+    <!-- Markdown notes and vault export (1.3.0) -->
+    <sys:String x:Key="Str_TT_FormatBadge">Эта заметка хранит текст в markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Новая заметка markdown</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Создать заметку, которая хранит обычный текст markdown вместо форматированного</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Преобразовать в markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">Преобразовать в форматированный текст</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Экспортировать все заметки как markdown</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Записать каждую заметку этой базы в папку файлов .md</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Преобразовать</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Экспорт</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">Преобразовать "{0}" в markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">Заметка станет обычным текстом markdown. Ctrl+Z вернёт всё обратно.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">Преобразовать "{0}" в форматированный текст?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">Markdown будет отрисован как форматированный текст. Ctrl+Z вернёт всё обратно.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">Таблицы станут обычными строками текста</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">Изображения и наброски будут потеряны</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">Цвета текста и маркера будут потеряны</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Эта заметка в markdown - в ней только текст, поэтому изображения, таблицы, наброски и записи добавить нельзя</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">Преобразовано в markdown</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">Преобразовано в форматированный текст</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">Выберите, куда записать папку markdown</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">Экспортировать все заметки как markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} заметок будет записано в {1}. Группы станут подпапками. В базе ничего не изменится.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Нечего экспортировать - в этой базе нет заметок</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">Экспортировано {0} заметок в {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">Экспортировано {0} заметок в {2}, {1} не удалось</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Не удалось экспортировать: {0}</sys:String>
+
+    <!-- Theme names -->
+    <sys:String x:Key="Str_Theme_Dark">Тёмная</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Светлая</sys:String>
+    <sys:String x:Key="Str_Theme_Black">Чёрная</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">Кровь</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">Алчность</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">Цианоз</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">Эктоплазма</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Распад</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">Недомогание</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">Склеп</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">Бред</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">Траур</sys:String>
+</ResourceDictionary>

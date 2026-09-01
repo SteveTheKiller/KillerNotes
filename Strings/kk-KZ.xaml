@@ -1,0 +1,778 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- KillerNotes - Қазақша (kk-KZ). Layered over en-US.xaml; omitted keys fall back. -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">Дерекқорларды басқару</sys:String>
+    <sys:String x:Key="Str_TT_Lock">Құпия сөзбен қорғау</sys:String>
+    <sys:String x:Key="Str_TT_About">KillerNotes туралы</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">Бүйір панелін жию (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Бүйір панелін жаю (F5)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">Пернелер тіркесімдері (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">Тақырып</sys:String>
+    <sys:String x:Key="Str_TT_Language">Тіл</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Жазбалардан іздеу  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ Жаңа жазба</sys:String>
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ Жаңа</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">Жаңа жазба (Ctrl+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">Жасалу уақыты бойынша - алдымен ескілері (кері реттеу үшін тағы басыңыз)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">Әліпби бойынша (кері реттеу үшін тағы басыңыз)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">Жазбамен бөлісу...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">Әріптесіңізге жіберу үшін .knote файлы ретінде сақтау (қаласаңыз құпия сөзбен)</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">Жазбаны басқаша экспорттау...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">Көшірмесін кәдімгі файл етіп сақтау - .txt, .rtf немесе .html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">Жазбаны жою</sys:String>
+
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">Кері рет</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">Қиып алу</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">Көшіру</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">Қою</sys:String>
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">Қалың (Ctrl+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">Курсив (Ctrl+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">Астын сызу (Ctrl+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">Сызып тастау (Ctrl+Shift+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">Ені бірдей қаріп (код, Ctrl+Shift+M)</sys:String>
+    <sys:String x:Key="Str_TT_AppSize">Бүкіл қолданба өлшемін өзгерту үшін айналдырыңыз</sys:String>
+    <sys:String x:Key="Str_St_AppSize">Қолданба өлшемі {0}%</sys:String>
+    <sys:String x:Key="Str_KS_WordWrap">Жол тасымалын қосу/өшіру</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">Синтаксисті бөлектеу</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Жол нөмірлері (Alt+L)</sys:String>
+    <sys:String x:Key="Str_KS_LineNumbers">Жол нөмірлерін қосу/өшіру</sys:String>
+    <sys:String x:Key="Str_Kb_LineNumbers">Жол нөмірлері</sys:String>
+    <sys:String x:Key="Str_KS_AppSize">Бүкіл қолданбаны үлкейту (қолжетімділік)</sys:String>
+    <sys:String x:Key="Str_St_LineNumOn">Жол нөмірлері қосулы</sys:String>
+    <sys:String x:Key="Str_St_LineNumOff">Жол нөмірлері өшірулі</sys:String>
+
+    <!-- Navigation history -->
+    <sys:String x:Key="Str_Ctx_NavBack">Артқа</sys:String>
+    <sys:String x:Key="Str_Ctx_NavForward">Алға</sys:String>
+    <sys:String x:Key="Str_TT_NavBack">Өзіңіз келген жазбаға оралу</sys:String>
+    <sys:String x:Key="Str_TT_NavForward">Қайта алға өту</sys:String>
+    <sys:String x:Key="Str_KS_NavBack">Алдыңғы жазбаға оралу</sys:String>
+    <sys:String x:Key="Str_KS_NavForward">Келесі жазбаға өту</sys:String>
+    <sys:String x:Key="Str_Kb_NavBack">Артқа</sys:String>
+    <sys:String x:Key="Str_Kb_NavForward">Алға</sys:String>
+    <sys:String x:Key="Str_St_NavNoBack">Оралатын жер жоқ</sys:String>
+    <sys:String x:Key="Str_St_NavNoForward">Алға өтетін жер жоқ</sys:String>
+
+    <!-- The linked-from / mentions strip -->
+    <sys:String x:Key="Str_Ctx_HideMentions">Осы жолақты жасыру</sys:String>
+    <sys:String x:Key="Str_TT_HideMentions">Сілтеме жасаған жазбалар жолағын жасыру. Alt+M оны қайтарады.</sys:String>
+    <sys:String x:Key="Str_KS_HideMentions">Сілтеме жасаған жазбалар жолағын көрсету немесе жасыру</sys:String>
+    <sys:String x:Key="Str_Kb_HideMentions">Аталымдар</sys:String>
+    <sys:String x:Key="Str_St_MentionsHidden">Сілтеме жолағы жасырылды - Alt+M оны қайта көрсетеді</sys:String>
+    <sys:String x:Key="Str_St_MentionsShown">Сілтеме жолағы көрсетілді</sys:String>
+    <sys:String x:Key="Str_TT_Density">Бүйір панелінің тығыздығы (Ctrl+D) - басыңыз немесе айналдырыңыз</sys:String>
+    <sys:String x:Key="Str_KS_Density">Бүйір панелінің тығыздығын ауыстыру</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">Тығыздық: толық</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">Тығыздық: ықшам</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">Тығыздық: ең аз</sys:String>
+    <sys:String x:Key="Str_St_Undo">Кері қайтарылды</sys:String>
+    <sys:String x:Key="Str_KS_SortCycle">Бүйір панелінің сұрыптауын ауыстыру (уақыт / А-Я / өз реті)</sys:String>
+    <sys:String x:Key="Str_KS_NewGroup">Жаңа топ (таңдалған жазбалар соған салынады)</sys:String>
+    <sys:String x:Key="Str_KS_Theme">Тақырып пен акцент мәзірі</sys:String>
+    <sys:String x:Key="Str_KS_TitleColor">Атау түсі (таңдалған жазба)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Емле тексеруді қосу/өшіру</sys:String>
+    <sys:String x:Key="Str_KS_Table">Кесте кірістіру</sys:String>
+    <!-- Killculator sidebar calculator (F9) -->
+    <sys:String x:Key="Str_KS_Calc">Killculator - Шығару нәтижені жазбаға түсіреді</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrint">Killculator нәтижесін жазбаға шығару</sys:String>
+    <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
+    <sys:String x:Key="Str_TT_SketchRail">SketchPad - нобай салу (F7)</sys:String>
+    <sys:String x:Key="Str_TT_KalcResize">Killculator өлшемін өзгерту үшін сүйреңіз</sys:String>
+    <sys:String x:Key="Str_TT_Image">Сурет кірістіру</sys:String>
+
+    <!-- Themed Windows system menu -->
+    <sys:String x:Key="Str_Sys_Restore">Қалпына келтіру</sys:String>
+    <sys:String x:Key="Str_Sys_Move">Жылжыту</sys:String>
+    <sys:String x:Key="Str_Sys_Size">Өлшемі</sys:String>
+    <sys:String x:Key="Str_Sys_Minimize">Қайыру</sys:String>
+    <sys:String x:Key="Str_Sys_Maximize">Жаю</sys:String>
+    <sys:String x:Key="Str_Sys_Close">Жабу</sys:String>
+
+    <!-- Dictation -->
+    <sys:String x:Key="Str_TT_DictationRail">Дауыспен енгізу - жазып алу және мәтінге айналдыру (Ctrl+M)</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">Осы жазбадан табу (Ctrl+F)</sys:String>
+    <sys:String x:Key="Str_KS_Dictation">Дауыспен енгізу - жазып алу және мәтінге айналдыру</sys:String>
+    <sys:String x:Key="Str_Kb_Dictation">Дауыс</sys:String>
+    <sys:String x:Key="Str_Dict_Title">Дауыспен енгізу</sys:String>
+    <sys:String x:Key="Str_Dict_Close">Жабу (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+    <sys:String x:Key="Str_Dict_Record">Жазып алу</sys:String>
+    <sys:String x:Key="Str_Dict_Stop">Тоқтату</sys:String>
+    <sys:String x:Key="Str_Dict_Play">Ойнату</sys:String>
+    <sys:String x:Key="Str_Dict_Transcribe">Мәтінге айналдыру</sys:String>
+    <sys:String x:Key="Str_Dict_Print">Жазбаға шығару</sys:String>
+    <sys:String x:Key="Str_Dict_Embed">Аудиожазбаны ендіру</sys:String>
+    <sys:String x:Key="Str_Dict_Ready">Дайын. Жазып алыңыз, содан кейін мәтінге айналдырыңыз немесе аудионы ендіріңіз.</sys:String>
+    <sys:String x:Key="Str_Dict_Recording">Жазылуда...</sys:String>
+    <sys:String x:Key="Str_Dict_Recorded">Жазып алынды. Мәтінге айналдырыңыз, ендіріңіз немесе екеуін де.</sys:String>
+    <sys:String x:Key="Str_Dict_Working">Мәтінге айналдырылуда...</sys:String>
+    <sys:String x:Key="Str_Dict_Done">Мәтінге айналдырылды. Осы жерде өңдеп, жазбаға шығарыңыз.</sys:String>
+    <sys:String x:Key="Str_Dict_Printed">Жазбаға шығарылды.</sys:String>
+    <sys:String x:Key="Str_Dict_Embedded">Аудиожазба жазбаға ендірілді.</sys:String>
+    <sys:String x:Key="Str_Dict_NoMic">Микрофонды ашу мүмкін болмады.</sys:String>
+    <sys:String x:Key="Str_Dict_Empty">Ештеңе жазылмады. Микрофон қосулы ма, тексеріңіз.</sys:String>
+    <sys:String x:Key="Str_Dict_NoSpeech">Бұл аудиожазбадан сөз танылмады.</sys:String>
+    <sys:String x:Key="Str_Dict_NoText">Шығаратын мәтін жоқ.</sys:String>
+    <sys:String x:Key="Str_Dict_Failed">Мәтінге айналдыру сәтсіз аяқталды.</sys:String>
+    <sys:String x:Key="Str_Dict_NoEngine">Сөзді танушы орнатылмаған, сондықтан мәтінге айналдыру қолжетімсіз. Жазып алу мен ендіру жұмыс істейді.</sys:String>
+    <sys:String x:Key="Str_Dict_EmbedFailed">Аудиожазбаны бұл жазбаға сақтау мүмкін болмады.</sys:String>
+    <sys:String x:Key="Str_Dict_Missing">Ол аудиожазба бұл жазбада бұдан былай жоқ.</sys:String>
+    <sys:String x:Key="Str_Dict_Chip">Аудиожазба</sys:String>
+    <sys:String x:Key="Str_Dict_ChipTip">Көрсеткімен ойнатыңыз, жылжыту үшін сүйреңіз, өңдеу немесе бөлісу үшін оң жақ батырманы басыңыз</sys:String>
+
+    <!-- Wordmark -->
+    <sys:String x:Key="Str_Wordmark_A">Killer</sys:String>
+    <sys:String x:Key="Str_Wordmark_B">Notes</sys:String>
+
+    <!-- Shared file picker -->
+    <sys:String x:Key="Str_Btn_Save">Сақтау</sys:String>
+    <sys:String x:Key="Str_Col_Modified">өзгертілген</sys:String>
+    <sys:String x:Key="Str_Col_Name">атауы</sys:String>
+    <sys:String x:Key="Str_Col_Size">өлшемі</sys:String>
+    <sys:String x:Key="Str_Dlg_AllFiles">Барлық файлдар</sys:String>
+    <sys:String x:Key="Str_Dlg_FileName">Файл атауы:</sys:String>
+    <sys:String x:Key="Str_Dlg_FileType">Файл түрі:</sys:String>
+    <sys:String x:Key="Str_Dlg_NoMatchingFiles">Мұнда ағымдағы файл түріне сәйкес ештеңе жоқ.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFile">Мұндай файл жоқ.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFolder">Мұндай қалта жоқ.</sys:String>
+    <sys:String x:Key="Str_Dlg_OverwriteMsg">{0} ауыстырылсын ба?</sys:String>
+    <sys:String x:Key="Str_Menu_PinPlace">Орындарға бекіту</sys:String>
+    <sys:String x:Key="Str_Menu_UnpinPlace">Орындардан алып тастау</sys:String>
+    <sys:String x:Key="Str_QA_Desktop">Жұмыс үстелі</sys:String>
+    <sys:String x:Key="Str_QA_Documents">Құжаттар</sys:String>
+    <sys:String x:Key="Str_QA_Downloads">Жүктеулер</sys:String>
+    <sys:String x:Key="Str_QA_Home">Басты қалта</sys:String>
+    <sys:String x:Key="Str_QA_Pictures">Суреттер</sys:String>
+    <sys:String x:Key="Str_Sum_Counts">қалталар: {0}, файлдар: {1}</sys:String>
+    <sys:String x:Key="Str_TT_RecentLocations">Соңғы орындар</sys:String>
+    <sys:String x:Key="Str_TT_ShowHidden">Жасырын және жүйелік элементтерді көрсету</sys:String>
+    <sys:String x:Key="Str_TT_Up">Бір қалта жоғары</sys:String>
+    <sys:String x:Key="Str_TT_ViewDetails">Кесте</sys:String>
+    <sys:String x:Key="Str_TT_ViewIcons">Таңбашалар</sys:String>
+    <sys:String x:Key="Str_TT_ViewList">Тізім</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrint">Жазбаға шығару</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrint">Нәтижені осы жазбаға меңзер тұсына шығару (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintSum">Қосынды</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintEq">Өрнек</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintSum">Нәтижені осы жазбаға меңзер тұсына шығару (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintEq">Бүкіл өрнекті осы жазбаға меңзер тұсына шығару (Ctrl+Shift+Enter)</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrintEq">Killculator өрнегін жазбаға шығару</sys:String>
+    <sys:String x:Key="Str_St_CalcNoNote">Алдымен жазба ашыңыз</sys:String>
+    <sys:String x:Key="Str_St_CalcPrinted">Жазбаға шығарылды</sys:String>
+    <sys:String x:Key="Str_St_SketchEmpty">Алдымен бірдеңе салыңыз</sys:String>
+    <sys:String x:Key="Str_St_SketchUpdated">Нобай жаңартылды</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">Нобай шығарылмады - тиесілі жазбасына оралыңыз</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">Мәтін түсі және бояу</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">Таңбаланған тізім (Ctrl+Shift+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">Нөмірленген тізім (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">Көлденең сызық (Ctrl+Shift+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">Кесте кірістіру (өлшемін таңдау үшін сүйреңіз)</sys:String>
+    <sys:String x:Key="Str_TT_InsertImage">Файлдан сурет кірістіру</sys:String>
+    <sys:String x:Key="Str_TT_Preview">Алдын ала қарау (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">Пішімдеу панелін жасыру (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">Жылжыту үшін сүйреңіз - қайыру үшін қос рет басыңыз</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Қайтару үшін басыңыз немесе F6 - жылжыту үшін сүйреңіз</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">мәтін</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">бояу</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">Акцент</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">авто</sys:String>
+    <sys:String x:Key="Str_TT_Auto">Тақырыптың мәтін түсіне оралу</sys:String>
+    <sys:String x:Key="Str_Btn_None">жоқ</sys:String>
+    <sys:String x:Key="Str_TT_None">Бояуды алып тастау</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">өлшемі</sys:String>
+    <sys:String x:Key="Str_TT_Columns">Бағандар</sys:String>
+    <sys:String x:Key="Str_TT_Rows">Жолдар</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">Кірістіру</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">1-50 баған, 1-200 жол</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">Жаңа жазба бастау үшін басыңыз, мұнда мәтін не сурет тастаңыз, немесе сол жақтан біреуін таңдаңыз.</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">Жазбаға тек сурет файлдарын тастауға болады</sys:String>
+    <sys:String x:Key="Str_Untitled">Атауы жоқ</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">Сақталды</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">Алмасу буфері бос емес - тағы көріңіз</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">жазбалар: {0}</sys:String>
+    <sys:String x:Key="Str_St_NoteLoadFailed">Бұл жазбаны ашу мүмкін болмады, ол өзгеріссіз қалдырылды: {0}</sys:String>
+    <sys:String x:Key="Str_St_Matches">сәйкестік: {0}</sys:String>
+    <sys:String x:Key="Str_St_FindMatches">{1} ішінен {0}</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">Сәйкестік жоқ</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">Алдыңғы сәйкестік (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">Келесі сәйкестік (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">Жабу (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">Жылжыту үшін сүйреңіз</sys:String>
+
+    <!-- Search and replace -->
+    <sys:String x:Key="Str_TT_FindCase">Регистрді ескеру</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Тұтас сөз</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Тұрақты өрнек</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Ауыстыру</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">Барлығы</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Ағымдағы сәйкестікті ауыстыру (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Осы жазбадағы барлық сәйкестікті ауыстыру (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">Ауыстырылған сәйкестік: {0}</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">Барлық жазбада ауыстыру</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Ізделген сөзді ол кездесетін әр жазбада ауыстыру</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Мынаған ауыстыру...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Алдымен жоғарыға іздеу сөзін теріңіз</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">{1} жазбада {0} сәйкестік ауыстырылды</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">{1} жазбадағы {0} сәйкестік ауыстырылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Әрбір "{0}" "{1}" болады. Ctrl+Z бәрін қайтарады.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...және тағы {0} жазба</sys:String>
+    <sys:String x:Key="Str_KS_Replace">Осы жазбадан іздеу және ауыстыру</sys:String>
+    <sys:String x:Key="Str_St_NoteDeleted">Жазба жойылды</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">Жойылған жазбалар: {0}</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">Жазбалар дерекқорын ашу мүмкін болмады: {0}</sys:String>
+
+    <!-- Network data folder safeguard -->
+    <sys:String x:Key="Str_Btn_OK">OK</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">Деректер қалтасы желілік орында</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} басқа компьютерде. Бір жазбалар дерекқорын екі машинадан бір мезгілде
+пайдалану қауіпсіз емес; құлып файлы одан қорғайды, бірақ әркімнің өз
+дерекқоры болғаны жөн, ал жазбаларды .knote немесе .kndb етіп бөліскен дұрыс.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Тек оқуға ашылды</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">Бұл дерекқор {0} құрылғысында пайдаланылуда, сондықтан тек оқуға ашылды -
+өзгерістер сақталмайды. Егер {0} шын мәнінде KillerNotes іске қоспаса (мысалы,
+істен шыққаннан кейін), дерекқор жанындағы .lock файлын жойып, қайта ашыңыз.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Тек оқуға - {0} құрылғысында пайдаланылуда</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">"{0}" жойылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">{0} жазба жойылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z оны қайтарады.</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">Жою</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">Болдырмау</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">KillerNotes құлпын ашу</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">Құпия сөз қате - тағы көріңіз</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">"{0}" құпия сөзбен қорғалған.</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">Құлпын ашу</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Жаңа дерекқор...</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">растаңыз</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">Жаңа дерекқор басталсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Құлыпталған дерекқор дискіде қалады және құпия сөз табылса, кейін оны
+ашуға болады. Онсыз жазбаларын қалпына келтіру мүмкін емес.</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">Жаңасын бастау</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">Жаңа дерекқор - құлыпталғаны {0} болып сақталды</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">Құпия сөз орнату</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Бүкіл жазбалар дерекқорын шифрлайды (SQLCipher арқылы AES-256).
+Жоғалтып алмаңыз - қалпына келтіру жоқ.</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">Шифрлау</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">Құпия сөзді өзгерту немесе алып тастау</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">Жаңа құпия сөз енгізіңіз немесе қорғанысты алу үшін екі өрісті де бос қалдырыңыз.</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">Қолдану</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">Құпия сөздер сәйкес келмеді - ештеңе өзгермеді</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">Дерекқор шифрланды</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">Құпия сөз өзгертілді</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">Құпия сөз алынды - дерекқор бұдан былай шифрланбаған</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">Құпия сөзді өзгерту сәтсіз аяқталды: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">"{0}" дерекқоры қосылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">Ол сіздің KillerNotes деректер қалтасына көшіріліп ашылады.
+Ағымдағы дерекқорыңыз дерекқорларды басқаруда қолжетімді болып қала береді.</sys:String>
+    <sys:String x:Key="Str_Btn_Add">Қосу</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">Дерекқорды қосу сәтсіз аяқталды: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">"{0}" импортталсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">Оның жазбалары ағымдағы дерекқорыңызға қосылады.</sys:String>
+    <sys:String x:Key="Str_Btn_Import">Импорттау</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">Бөлісілген жазбаның құлпын ашу</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">"{0}" бөлісу құпия сөзімен қорғалған.</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">1 жазба импортталды</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">Импортталған жазбалар: {0}</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">Импорттау сәтсіз аяқталды: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">Бөлісілетін жазба қорғалсын ба?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">Міндетті емес: алушы оны ашу үшін осы құпия сөзді енгізуі керек.
+Құпия сөзсіз бөлісу үшін екі өрісті де бос қалдырыңыз.</sys:String>
+    <sys:String x:Key="Str_Btn_Share">Бөлісу</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">Құпия сөздер сәйкес келмеді - ештеңе бөлісілмеді</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">{0} ішіне бөлісілді</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">Бөлісу сәтсіз аяқталды: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote сіз тастаған жерде дайын</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">Сүйреп бөлісу сәтсіз аяқталды: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">{0} импорттау сәтсіз аяқталды: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">1 файл импортталды</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">Импортталған файлдар: {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">{0} ішіне экспортталды</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">Экспорттау сәтсіз аяқталды: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">Барлық қолдау көрсетілетін|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Мәтін (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Пішімделген мәтін (*.rtf)|*.rtf|Суреттер|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes файлдары (*.knote, *.kndb)|*.knote;*.kndb|Барлық файлдар (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Мәтіндік файл (*.txt)|*.txt|Пішімделген мәтін (*.rtf)|*.rtf|Веб-бет (*.html)|*.html</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">markdown алдын ала қарау</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">HTML алдын ала қарау</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">Алдын ала қарау сәтсіз аяқталды: {0}</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">Дерекқорлар</sys:String>
+    <sys:String x:Key="Str_Btn_Open">Ашу</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">Жаңа дерекқор</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">Таңдалған дерекқорды жою</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">Деректер қалтасын Explorer ішінде ашу</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">Атауын өзгерту</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">Жою</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">Файлды көшіру</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">.db файлын алмасу буферіне файл ретінде салады - бөлісу үшін Explorer, Teams немесе хатқа қойыңыз</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">.kndb ретінде экспорттау...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">Әріптестер қос рет басып KillerNotes ішінде аша алатын көшірмесін сақтау</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">Explorer ішінде көрсету</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">Алдымен дерекқор таңдаңыз</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">шифрланған</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">белсенді</sys:String>
+    <sys:String x:Key="Str_Db_Copied">{0} көшірілді - Explorer, Teams немесе хатқа қойыңыз</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">Көшіру сәтсіз аяқталды: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">Бұл атауда Windows рұқсат етпейтін таңбалар бар</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} әлдеқашан бар</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">{0} атауы {1} болып өзгертілді</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">Атауын өзгерту сәтсіз аяқталды: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">Жасау сәтсіз аяқталды: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">Ішіндегі әр жазба біржола жойылады. Мұны кері қайтару мүмкін емес.</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">{0} жойылды</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">Жою сәтсіз аяқталды: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">KillerNotes дерекқоры (*.kndb)|*.kndb</sys:String>
+
+    <!-- Change data folder -->
+    <sys:String x:Key="Str_TT_DataFolder">Дерекқорлар сақталатын деректер қалтасын өзгерту</sys:String>
+    <sys:String x:Key="Str_Db_PickFolderTitle">KillerNotes деректер қалтасын таңдаңыз</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">{0} дерекқор файлы жаңа қалтаға жылжытылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">Жылжыту әр .db файлын бірге алып кетеді. Қалдыру жаңа қалтаға ауысады, ал ағымдағы файлдар орнында қалады.</sys:String>
+    <sys:String x:Key="Str_Btn_Move">Жылжыту</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">Қалдыру</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">Деректер қалтасы енді {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">Деректер қалтасы енді {0} - орнында қалған файлдар: {1} (пайдаланылуда немесе жаңа орында бұрыннан бар)</sys:String>
+
+    <!-- Custom order + groups -->
+    <sys:String x:Key="Str_TT_SortCustom">Өз реті - жазбаларды сүйреп реттеңіз</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">Өз ретіне ауысты - жазбаларды сүйреп реттеңіз</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">Топ</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">Жаңа топ...</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">Жаңа ішкі топ...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">Ішкі топтар жоғарыда</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">Ішкі топтарды топтың өз жазбаларынан жоғары көрсету</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">Топтан алу</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">Топ атауын өзгерту...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">Топты жою</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">Жаңа топқа атау беріңіз</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">Жаңа ішкі топқа атау беріңіз</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">Осы топтың атауын өзгертіңіз</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">"{0}" тобы жойылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">Оның жазбалары сақталады - тек топтан шығады.</sys:String>
+    <sys:String x:Key="Str_Btn_Create">Жасау</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">Атын өзгерту</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">{0} деген топ әлдеқашан бар</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">{0} ішіне жылжытылды</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">Топтан алынды</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">Топ жылжытылды</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">KillerNotes туралы</sys:String>
+    <sys:String x:Key="Str_About_Version">Нұсқа</sys:String>
+    <sys:String x:Key="Str_About_Publisher">Шығарушы</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">Сертификат баспасы</sys:String>
+    <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Ілесіп отыратын жазбалар. Іздеуге болатын, шифрланған блокнот: пішімделген мәтін, ішкі суреттер, нағыз кестелер және лезде толық мәтіндік іздеу - бәрі бір файлға автоматты түрде сақталады. GPLv3 </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve"> утилитасы.</sys:String>
+    <sys:String x:Key="Str_About_Computing">есептелуде...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">Жаңарту қолжетімді: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">Жүктелуде...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} жүктеп орнату керек пе?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">Қолданба жабылып, автоматты түрде қайта ашылады.</sys:String>
+    <sys:String x:Key="Str_Btn_Update">Жаңарту</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">Пернелер тіркесімдері</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">ТІЗІМ</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">ПЕРНЕТАҚТА</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">сол қабатты көру үшін Ctrl, Shift немесе Alt басып тұрыңыз</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">Пернелер тіркесімдері (осы тізім)</sys:String>
+    <sys:String x:Key="Str_KS_Rename">Ашық жазбаның атауын өзгерту</sys:String>
+    <sys:String x:Key="Str_KS_Search">Жазбалардан іздеу</sys:String>
+    <sys:String x:Key="Str_KS_Find">Осы жазбадан табу</sys:String>
+    <sys:String x:Key="Str_KS_Preview">markdown/HTML алдын ала қарауын қосу/өшіру</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">Пішімдеу панелін көрсету / жасыру</sys:String>
+    <sys:String x:Key="Str_KS_Export">Ашық жазбаны экспорттау (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">Бүйір панелін жию / жаю</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Толық экран</sys:String>
+    <sys:String x:Key="Str_KS_About">KillerNotes туралы</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">Жаңа жазба</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">Файлдарды жаңа жазба етіп ашу</sys:String>
+    <sys:String x:Key="Str_KS_Save">Қазір сақтау (автосақтау бәрібір жұмыс істейді)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">Қалың / курсив / астын сызу</sys:String>
+    <sys:String x:Key="Str_KS_Strike">Сызып тастау</sys:String>
+    <sys:String x:Key="Str_KS_Mono">Ені бірдей қаріп (код)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Таңдалғанды бояп белгілеу</sys:String>
+    <sys:String x:Key="Str_KS_Rule">Көлденең сызық кірістіру</sys:String>
+    <sys:String x:Key="Str_KS_Lists">Таңбаланған / нөмірленген тізім</sys:String>
+    <sys:String x:Key="Str_KS_Paste">Қою - мәтін, суреттер, кестелер</sys:String>
+    <sys:String x:Key="Str_KS_Delete">Таңдалған жазбаны жою (тізімде)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">Терезені жабу / іздеуді тазарту</sys:String>
+    <sys:String x:Key="Str_KS_SecGraph">Граф терезесі</sys:String>
+    <sys:String x:Key="Str_KS_GrArrange">Реттеу: байланыс бойынша, шеңбермен, тормен, топ бойынша немесе қашықтық бойынша</sys:String>
+    <sys:String x:Key="Str_KS_GrVisualizer">Визуализатор: граф еркін жүзіп, айналсын</sys:String>
+    <sys:String x:Key="Str_KS_GrNextShape">Келесі визуализатор пішіні</sys:String>
+    <sys:String x:Key="Str_KS_GrPin">Әр жазбаны қойылған жерінде бекіту</sys:String>
+    <sys:String x:Key="Str_KS_GrLock">Таңдалған жазбаларды орнында бекіту</sys:String>
+    <sys:String x:Key="Str_KS_GrIsolate">Тек осында сілтейтінді көрсету</sys:String>
+    <sys:String x:Key="Str_KS_GrLabels">Жазба атауларын көрсету</sys:String>
+    <sys:String x:Key="Str_KS_GrSelect">Көрінгеннің бәрін таңдау / [[сілтеме]] етіп көшіру</sys:String>
+    <sys:String x:Key="Str_KS_GrOpen">Жазбаны ашу / бәрін қайта көрсету</sys:String>
+    <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_SkTools">Құралдар: таңдау, қалам, сызық, көрсеткі, тіктөртбұрыш, эллипс, көпбұрыш, толтыру, мәтін, өшіргіш, қиып алу, сурет</sys:String>
+    <sys:String x:Key="Str_KS_SkUndo">Болдырмау / қайталау</sys:String>
+    <sys:String x:Key="Str_KS_SkPaste">Алмасу буферінен сурет қою</sys:String>
+    <sys:String x:Key="Str_KS_SkPrint">Нобайды жазбаға шығару</sys:String>
+    <sys:String x:Key="Str_KS_SkZoom">Кенеп масштабы</sys:String>
+    <sys:String x:Key="Str_KS_SkDelete">Таңдалғанды жою</sys:String>
+    <sys:String x:Key="Str_KS_SkClose">Көпбұрышты аяқтау / SketchPad жабу</sys:String>
+    <sys:String x:Key="Str_KS_Undo">Болдырмау / қайталау</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">Қиып алу / көшіру</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">Бәрін таңдау</sys:String>
+
+    <!-- Keyboard map -->
+    <sys:String x:Key="Str_Kb_Shortcuts">Пернелер тіркесімдері</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">markdown/HTML алдын ала қарауы</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">Пішімдеу панелі</sys:String>
+    <sys:String x:Key="Str_Kb_Export">Ашық жазбаны экспорттау</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">Бүйір панелі</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">Жазбаны жою (тізімде)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">Қазір сақтау</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">Қалың</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">Курсив</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">Астын сызу</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">Қою</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">Бояп белгілеу</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">Көлденең сызық</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">Таңбаланған тізім</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">Нөмірленген тізім</sys:String>
+    <sys:String x:Key="Str_Kb_Cut">Қиып алу</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">Көшіру</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">Болдырмау</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">Қайталау</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">Бәрін таңдау</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">Тегті қосу/алу</sys:String>
+    <sys:String x:Key="Str_Sec_File">Файл</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">Жазбалар</sys:String>
+    <sys:String x:Key="Str_Sec_Format">Пішімдеу</sys:String>
+    <sys:String x:Key="Str_Sec_View">Көрініс</sys:String>
+    <sys:String x:Key="Str_Sec_Search">Іздеу</sys:String>
+    <sys:String x:Key="Str_Sec_Help">Анықтама</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">Өңдеу</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check -->
+    <sys:String x:Key="Str_TT_FontSize">Мәтін өлшемі (өзгерту үшін айналдырыңыз)</sys:String>
+    <sys:String x:Key="Str_Btn_More">Тағы...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">Кез келген түсті таңдау</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">Атау түсі...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">Осы жазбаның атауын тізімде бояу</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">Атау түсін ысыру</sys:String>
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">markdown және HTML анықтау</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">Жазба markdown немесе HTML тәрізді болса, алдын ала қарауды ұсыну (барлық жазбалар)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">markdown және HTML анықтау қосулы</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">markdown және HTML анықтау өшірулі</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertList">Тізімге айналдыру</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Таңдалған жолдарды - немесе бір сөйлемдегі сөздерді - үтірмен бөлінген тізімге айналдыру</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">Таңдалғанды үтірлі тізімге</sys:String>
+    <sys:String x:Key="Str_St_ListMade">Үтірлі тізімге айналдырылған мәндер: {0}</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">Үтірлі тізім етіп көшірілген мәндер: {0}</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">Алдымен бірнеше жол таңдаңыз</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColor">Топ түсі...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">Ішкі топ түсі...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">Осы топтың атауын бүйір панелінде бояу</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">Түсті ысыру</sys:String>
+    <sys:String x:Key="Str_KS_NewSubgroup">Жаңа ішкі топ (таңдалған жазбаның тобында)</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">Топ түсі (таңдалған жазбаның тобы)</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">Алдымен топқа кіретін жазбаны таңдаңыз</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">Таңдалған мәтінді үлкейту / кішірейту</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">Өңдегіш масштабы (Ctrl+0 ысырады)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Масштаб {0}%</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">Осы жазба үшін емле тексеру қосулы</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">Жазба емле тексеру үшін тым үлкен</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">Осы жазба үшін емле тексеру өшірулі</sys:String>
+    <sys:String x:Key="Str_St_WrapOn">Жол тасымалы қосулы</sys:String>
+    <sys:String x:Key="Str_St_WrapOff">Жол тасымалы өшірулі - кең мазмұнды көру үшін айналдырыңыз</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">Мәтінді үлкейту</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">Мәтінді кішірейту</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">Масштабты ысыру</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list -->
+    <sys:String x:Key="Str_Kb_CtxMenu">Мәтінмәндік мәзір</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">Жазбаның басына</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">Жазбаның соңына</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">Сөз солға</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">Сөз оңға</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">Сол жақтағы сөзді жою</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">Оң жақтағы сөзді жою</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">Сол жақ шетке туралау</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">Ортасы</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">Оң жақ шетке туралау</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">Ені бойынша туралау</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">Жазбаның басына / соңына өту</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">Тұтас сөзбен өту</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">Тұтас сөзді жою</sys:String>
+    <sys:String x:Key="Str_KS_Align">Сол жақ / орта / оң жақ / ені бойынша туралау</sys:String>
+
+    <!-- Fonts dialog -->
+    <sys:String x:Key="Str_Fonts_Open">Қаріптер...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">Қаріптер</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">Тақырыптамалар (топ атаулары)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">Бүйір панелі (жазба атаулары)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">Жазба мәтіні</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">KillerNotes әдепкісі</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">Өз қаріпіңізді қосу үшін осы картаға .ttf немесе .otf файлын тастаңыз.</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">Бірден бүкіл қолданбаға қолданылады. Өз қаріпі берілген мәтін оны сақтап қалады.</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Әдепкі мәндерге ысыру</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">Бұл қаріп қарапайым мәтінді көрсете алмайды</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">Қаріп қосылды: {0}</sys:String>
+
+    <!-- Localization audit -->
+    <sys:String x:Key="Str_St_SortOldest">Жасалу уақыты бойынша - алдымен ескілері</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">Жасалу уақыты бойынша - алдымен жаңалары</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">Әліпби бойынша - А-дан Я-ға</sys:String>
+    <sys:String x:Key="Str_St_SortZA">Әліпби бойынша - Я-дан А-ға</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (кері реттеу үшін басыңыз)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">Жасалу уақыты бойынша сұрыптау</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">Әліпби бойынша сұрыптау</sys:String>
+    <sys:String x:Key="Str_St_Ready">Дайын</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Клиент сайттары - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Желіаралық қалқанды ауыстыру - Meadowbrook малдәрігері</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">Әжем сүмбіле айында ұзақ уақыт қызғалдақ өсіріп, жаңбыр мен күн шуағын күтті 0123456789.</sys:String>
+
+    <sys:String x:Key="Str_Dict_Volume">Дыбыс деңгейі - жоғары немесе төмен сүйреңіз</sys:String>
+    <sys:String x:Key="Str_Dict_Pause">Кідірту</sys:String>
+    <!-- Speech model chooser -->
+    <sys:String x:Key="Str_Whisper_Title">Сөзді тану моделі</sys:String>
+    <sys:String x:Key="Str_Whisper_Blurb">Windows жүйесінің ішкі дауыспен енгізуі онша дәл емес. KillerNotes оның орнына жақсырақ сөз тану моделін пайдалана алады - ол толығымен осы компьютерде жұмыс істейді және ешнәрсе жүктеп жіберілмейді. Жүктеу үшін біреуін таңдаңыз.</sys:String>
+    <sys:String x:Key="Str_Whisper_Tiny">Жылдам</sys:String>
+    <sys:String x:Key="Str_Whisper_Base">Ұсынылады</sys:String>
+    <sys:String x:Key="Str_Whisper_Small">Ең дәл</sys:String>
+    <sys:String x:Key="Str_Whisper_Installed">әлдеқашан жүктелген</sys:String>
+    <sys:String x:Key="Str_Whisper_Download">Жүктеу</sys:String>
+    <sys:String x:Key="Str_Whisper_Use">Осыны пайдалану</sys:String>
+    <sys:String x:Key="Str_Whisper_Menu">Сөзді тану моделі...</sys:String>
+    <sys:String x:Key="Str_Whisper_Unavailable">Бұл құрастырымда сөз тану модельдері жоқ - мәтінге айналдыру Windows жүйесінің өз қозғалтқышын пайдаланады.</sys:String>
+    <sys:String x:Key="Str_Whisper_Starting">Жүктеу басталуда...</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">Жүктеу тоқтатылды.</sys:String>
+    <sys:String x:Key="Str_Whisper_Done">Дайын. Мәтінге айналдыру бұдан былай осыны пайдаланады.</sys:String>
+
+    <sys:String x:Key="Str_Dict_EditRec">Аудиожазбаны өңдеу...</sys:String>
+    <sys:String x:Key="Str_Dict_SaveChanges">Өзгерістерді сақтау</sys:String>
+    <sys:String x:Key="Str_Dict_Editing">Ендірілген аудиожазба өңделуде. Тіліңіз, содан кейін өзгерістерді сақтаңыз.</sys:String>
+    <sys:String x:Key="Str_Dict_Replaced">Аудиожазба жаңартылды.</sys:String>
+    <sys:String x:Key="Str_Dict_Share">Аудиожазбамен бөлісу</sys:String>
+    <sys:String x:Key="Str_Dict_SaveAs">Файл етіп сақтау...</sys:String>
+    <sys:String x:Key="Str_Dict_CopyFile">Файл етіп көшіру</sys:String>
+    <sys:String x:Key="Str_Dict_Saved">Аудиожазба сақталды.</sys:String>
+    <sys:String x:Key="Str_Dict_Copied">Аудиожазба көшірілді - оны хатқа, чатқа немесе қалтаға қойыңыз.</sys:String>
+    <sys:String x:Key="Str_Dict_Slice">Осы жерден тілу</sys:String>
+    <sys:String x:Key="Str_Dict_CopySeg">Үзіндіні көшіру</sys:String>
+    <sys:String x:Key="Str_Dict_DeleteSeg">Үзіндіні жою</sys:String>
+    <sys:String x:Key="Str_Dict_PasteSeg">Үзіндіні осы жерге қою</sys:String>
+    <sys:String x:Key="Str_Dict_ClearCuts">Тілімдерді тазарту</sys:String>
+    <sys:String x:Key="Str_Dict_UndoEdit">Өңдеуді болдырмау</sys:String>
+    <sys:String x:Key="Str_Dict_Edited">Өңделді. Тыңдаңыз немесе қайта мәтінге айналдырыңыз.</sys:String>
+
+    <!-- Hyperlinks -->
+    <sys:String x:Key="Str_KS_Link">Сілтеме кірістіру / өңдеу</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">Сілтеме...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">Сілтеме мекенжайы</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">Сілтемені өңдеу - сілтемені алу үшін мекенжайды тазартыңыз</sys:String>
+    <sys:String x:Key="Str_Btn_Link">Сілтеме</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">Бұл веб-мекенжайға ұқсамайды</sys:String>
+    <sys:String x:Key="Str_St_LinkNotText">Тек мәтінге сілтеме беруге болады - сурет не аудиожазба емес, сөздерді таңдаңыз</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">Сілтемені ашу мүмкін болмады</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">Түс таңдаңыз</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">Экранның кез келген жерінен түс алу</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">Басыңыз, содан кейін үлгіні басып, оған ағымдағы түсті беріңіз</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">Үлгілерді әдепкі мәндерге ысыру</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">Осы түсті пайдалану үшін басыңыз</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">Осы үлгіге ағымдағы түсті беру үшін басыңыз</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">Тегтер</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">Тегтерді басқару...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">Осы тег бойынша сүзу үшін басыңыз</sys:String>
+    <sys:String x:Key="Str_Tags_Title">Тегтерді басқару</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">Жаңа тег үшін түс таңдаңыз</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">Қосу</sys:String>
+    <sys:String x:Key="Str_Btn_Done">Дайын</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">Түсті өзгерту</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">Атын өзгерту</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">Тегті жою</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">Алдымен тег атауын енгізіңіз</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">Ондай атаумен тег әлдеқашан бар</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">"{0}" тегі жойылсын ба?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">Ол әр жазбадан алынады. Жазбалардың өзі сақталады.</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">Тег қойылды: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">Тег алынды: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">Ашық жазбада 1-9 тегтерін қосу/алу</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">Тегтерді басқару (қосу, атын өзгерту, түсін ауыстыру)</sys:String>
+    <sys:String x:Key="Str_KS_SketchPad">SketchPad - сурет салу және белгілеу</sys:String>
+
+    <!-- Portable install -->
+    <sys:String x:Key="Str_Btn_Install">KillerNotes орнату</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">Орнату</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">KillerNotes пайдаланушы профиліңізге орнатылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- Бастау мәзіріндегі таңбаша&#x0A;- Бағдарламаларды қосу/жою тізімінде көрінеді</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">Жұмыс үстеліндегі таңбаша</sys:String>
+
+    <sys:String x:Key="Str_Ctx_SelectAll">Бәрін таңдау</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">Алдын ала қарау қолжетімсіз</sys:String>
+
+    <!-- SketchPad (F7) tool tips and menu items -->
+    <sys:String x:Key="Str_Sketch_AddImage">Сурет қосу (I) - оны кенепке сүйреңіз немесе қою үшін Ctrl+V</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">Сурет қосу...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">Доға сызық</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">Көрсеткі - ұшы бар сызық (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">Артқа жіберу</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">Қалың</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">Бояу шелегі (B) - тұйық аймақтың ішін басып, толтырыңыз</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">Бәрін тазарту</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">Жабу (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">Алмасу буферіне көшіру</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">Суретті алмасу буферіне сурет ретінде көшіру</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">Жою</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">Көшірмесін жасау</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">Мәтінді өңдеу</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">Эллипс (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">Өшіргіш (E) - сызық үстінен жүргізіңіз немесе пішінді жою үшін тиіңіз</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">Пішіндерді толтыру (тіктөртбұрыш / эллипс)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">Алдыға шығару</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">Сызық - түзу (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">Өз түсі...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">Толтыру / шелек мөлдірлігі (ауыстыру үшін басыңыз)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">Суретті қою</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">Қалам - еркін (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">Көпбұрыш (G) - әр бұрышты басыңыз; тұйықтау үшін бірінші нүктені басыңыз немесе қос рет басыңыз (Backspace нүктені алады, Esc болдырмайды)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">Жазбаға шығару (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">Тіктөртбұрыш (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">Қайталау (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">Мөлдірлікті ысыру</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">Таңдау / жылжыту (V) - нысанды басыңыз, жылжыту үшін сүйреңіз, Delete оны алады</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">Сызықты түзету</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">Мәтін (T) - жапсырма қою үшін басыңыз, теріңіз, Enter бекітеді (Shift+Enter - жаңа жол)</sys:String>
+    <sys:String x:Key="Str_Sketch_Crop">Қиып алу (C) - қалдыратын аумақты сүйреп белгілеңіз, сыртындағының бәрі кесіледі (Ctrl+Z қайтарады)</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Масштаб (Ctrl+дөңгелек) - 100% үшін басыңыз, тағы бассаңыз шақтайды</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" әлі жоқ</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewBody">Оны жаңа жазба етіп жасап ашу керек пе?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">{1} жазбадағы {0} сілтеме жаңартылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">[[{0}]] деген сілтемелер [[{1}]] болады. Бір Ctrl+Z бәрін болдырмайды.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Сілтемелерді жаңарту</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">{1} жазбада {0} сілтеме жаңартылды</sys:String>
+    <sys:String x:Key="Str_Lbl_Backlinks">Сілтеме жасағандар</sys:String>
+    <sys:String x:Key="Str_St_NoBacklinks">Мұнда әзірге ешбір жазба сілтемейді</sys:String>
+    <sys:String x:Key="Str_TT_Backlinks">Осыған сілтейтін жазбалар</sys:String>
+    <sys:String x:Key="Str_Lbl_Mentions">Аталған жері</sys:String>
+    <sys:String x:Key="Str_KS_Graph">Таңдалған топтың немесе бүкіл дәптердің графын салу</sys:String>
+    <sys:String x:Key="Str_Kb_Graph">Сілтемелер графы</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupGraph">Граф етіп көрсету</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSpin">Визуализатор</sys:String>
+    <sys:String x:Key="Str_TT_GraphSpin">Граф өздігінен жүзіп, айналсын. Ол жүргенде бекіту тоқтатылады.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphHold">Барлық жазбаны бекіту</sys:String>
+    <sys:String x:Key="Str_TT_GraphHold">Әр жазбаны қойылған жерінде ұстау. Өшірулі болса, жазбаны сүйрегенде ол сілтейтін жазбалар жол береді.</sys:String>
+    <sys:String x:Key="Str_Lbl_AndMore">Тағы {0}...</sys:String>
+    <sys:String x:Key="Str_TT_AndMore">Осында сілтейтін қалған жазбалар</sys:String>
+    <sys:String x:Key="Str_TT_GroupGraph">Осы топ жазбаларының арасындағы сілтемелер және олар жететін жерлер</sys:String>
+    <sys:String x:Key="Str_St_GraphGroupEmpty">Бұл топта әзірге сілтеме жоқ</sys:String>
+    <sys:String x:Key="Str_TT_Mentions">Осыны сілтемесіз атап өтетін жазбалар</sys:String>
+    <sys:String x:Key="Str_TT_MentionChip">Сілтеме жасау үшін басыңыз. Жазбаны ашу үшін Ctrl+басу.</sys:String>
+    <sys:String x:Key="Str_St_Linked">Сілтеме жасалды</sys:String>
+    <sys:String x:Key="Str_St_MentionGone">Ол жазба бұдан былай мұны атамайды</sys:String>
+    <sys:String x:Key="Str_TT_Graph">Жазбалар арасындағы барлық сілтеменің графы</sys:String>
+    <sys:String x:Key="Str_Lbl_Graph">Граф</sys:String>
+    <sys:String x:Key="Str_St_GraphEmpty">Әзірге сілтеме жоқ - жасау үшін [[жазба атауы]] деп теріңіз</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphOpen">Жазбаны ашу</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCreate">Осы жазбаны жасау</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCopy">[[сілтеме]] етіп көшіру</sys:String>
+    <sys:String x:Key="Str_Graph_Legend">Толтырылған = жазба, түсі тобы бойынша.   Контурлы = сілтелген, бірақ әлі жазылмаған.   Реттеу үшін сүйреңіз, параметрлер үшін оң жақ батырманы басыңыз.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrange">Реттеу</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeForce">Байланыс бойынша</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeCircle">Шеңбермен</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGrid">Тормен</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGroups">Топ бойынша</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShape">Пішін</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeFree">Қалай түссе</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeSpiral">Күнбағыс</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">Толқын</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeNext">Келесі пішін</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Орнында бекіту</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Бекітілген жазбаны ештеңе қозғалтпайды - реттеу де, көршілері де.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Осы орналасуды сақтау...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Орналасуды ұмыту</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Осы орналасуға атау беріңіз</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">"{0}" ауыстырылсын ба?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Сол атаумен сақталған орындар қазір экранда тұрғандарымен ауыстырылады.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">"{0}" ұмытылсын ба?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Жазбалардың өзіне тиіспейді, тек сақталған орындар.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphDistance">Қашықтық бойынша реттеу</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShowAll">Бәрін көрсету</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphColor">Топ бойынша бояу</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLabels">Жапсырмаларды көрсету</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphGhosts">Әлі жазылмаған жазбаларды көрсету</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphIsolate">Тек осында сілтейтінді көрсету</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">Қалыңдықты алу</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">Болдырмау (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">Қылқалам өлшемі (ауыстыру үшін басыңыз)</sys:String>
+
+    <!-- Markdown notes and vault export (1.3.0) -->
+    <sys:String x:Key="Str_TT_FormatBadge">Бұл жазба markdown мәтінін сақтайды</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Жаңа markdown жазбасы</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Пішімделген мәтіннің орнына қарапайым markdown мәтінін сақтайтын жазба жасау</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">markdown пішіміне айналдыру</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">Пішімделген мәтінге айналдыру</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Барлық жазбаны markdown етіп экспорттау</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Осы дерекқордағы әр жазбаны .md файлдары қалтасына жазу</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Айналдыру</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Экспорттау</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">"{0}" markdown пішіміне айналдырылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">Жазба қарапайым markdown мәтініне айналады. Ctrl+Z оны қайтарады.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">"{0}" пішімделген мәтінге айналдырылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">Markdown пішімделген мәтін болып көрсетіледі. Ctrl+Z оны қайтарады.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">Кестелер қарапайым мәтін жолдарына айналады</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">Суреттер мен нобайлар алынып тасталады</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">Мәтін және бояу түстері алынып тасталады</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Бұл жазба markdown - онда тек мәтін бар, сондықтан суреттер, кестелер, нобайлар мен аудиожазбаларды қосу мүмкін емес</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">markdown пішіміне айналдырылды</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">Пішімделген мәтінге айналдырылды</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">markdown қалтасын қайда жазатыныңызды таңдаңыз</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">Барлық жазба markdown етіп экспортталсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} жазба {1} ішіне жазылады. Топтар ішкі қалталарға айналады. Дерекқорда ештеңе өзгермейді.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Экспорттайтын ештеңе жоқ - бұл дерекқорда жазба жоқ</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">{0} жазба {1} ішіне экспортталды</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">{0} жазба {2} ішіне экспортталды, {1} сәтсіз</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Экспорттау сәтсіз аяқталды: {0}</sys:String>
+
+    <!-- Theme names -->
+    <sys:String x:Key="Str_Theme_Dark">Қараңғы</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Ашық</sys:String>
+    <sys:String x:Key="Str_Theme_Black">Қара</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">Қан</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">Ашкөздік</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">Цианоз</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">Эктоплазма</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Ыдырау</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">Науқастық</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">Кесене</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">Сандырақ</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">Аза</sys:String>
+</ResourceDictionary>
