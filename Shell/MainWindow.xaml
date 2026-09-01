@@ -895,6 +895,9 @@
                                      sidebar, so a fresh database can reach it. -->
                                 <MenuItem x:Name="TemplateMenu" Header="{DynamicResource Str_Ctx_NewFromTemplate}" Icon="&#xE7C3;"
                                           ToolTip="{DynamicResource Str_TT_NewFromTemplate}"/>
+                                <!-- Today's note, opened or created (1.3.1, DailyNote.cs). -->
+                                <MenuItem Header="{DynamicResource Str_Ctx_TodayNote}" Icon="&#xE787;" InputGestureText="Alt+D"
+                                          Click="TodayNote_Click" ToolTip="{DynamicResource Str_TT_TodayNote}"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_DeleteNote}" Icon="&#xE74D;" Click="DeleteNote_Click"/>
                                 <!-- Trash rows only (1.3.1, Trash.cs). When every selected row is a
                                      trashed note the menu is these two and nothing else; on live
@@ -928,6 +931,9 @@
                                                  (1.3.1, Templates.cs). Checked on open by GroupHeader_RightDown. -->
                                             <MenuItem Header="{DynamicResource Str_Ctx_TemplatesGroup}" Tag="templates" IsCheckable="True"
                                                       Click="TemplatesGroup_Click" ToolTip="{DynamicResource Str_TT_TemplatesGroup}"/>
+                                            <!-- Where Alt+D files today's note (1.3.1, DailyNote.cs). -->
+                                            <MenuItem Header="{DynamicResource Str_Ctx_DailyGroup}" Tag="daily" IsCheckable="True"
+                                                      Click="DailyGroup_Click" ToolTip="{DynamicResource Str_TT_DailyGroup}"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_RenameGroup}" Icon="&#xE8AC;" Click="RenameGroup_Click"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_GroupColor}" Icon="&#xE790;" Click="GroupColorPick_Click"
                                                       Tag="groupcolor" InputGestureText="Ctrl+Shift+K"

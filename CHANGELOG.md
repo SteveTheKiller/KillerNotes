@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Added
 - Notes can be pinned to the top of their group or of the loose notes, from the right-click menu or Alt+P.
 - Note templates: mark a group as the templates group from its right-click menu, and every note in it appears under "New note from template". {date}, {time}, {datetime} and {weekday} in a template are filled in on the way.
+- Daily notes: Alt+D opens the note titled with today's date, creating it in a daily notes group of your choosing and from a template named Daily when you have one.
 - Checkbox lines: Alt+C or the format bar puts a box at the start of the line, a click ticks it, and Enter carries on to the next one. They export as markdown task lists and import back.
 - Deleted notes now go to a Trash section at the bottom of the sidebar, where they open read-only and can be restored or deleted permanently. Anything left there for 30 days is purged.
 - F3 and Shift+F3 now continue through matching notes instead of wrapping inside one note (#18).

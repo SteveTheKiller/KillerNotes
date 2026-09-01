@@ -120,6 +120,9 @@ namespace KillerNotes.Shell
                     case Key.C:
                         ToggleChecklist();   // Checklist.cs (a box on the current lines)
                         e.Handled = true; return;
+                    case Key.D:
+                        OpenTodayNote();   // DailyNote.cs (today's note, made if need be)
+                        e.Handled = true; return;
                 }
             }
 

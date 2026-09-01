@@ -150,6 +150,8 @@ namespace KillerNotes.Shell
                             mi.IsChecked = App.GetSetting("SubgroupsOnTop") != "0";
                         else if ((mi.Tag as string) == "templates")
                             mi.IsChecked = IsTemplatesGroup(g.Path);   // Templates.cs
+                        else if ((mi.Tag as string) == "daily")
+                            mi.IsChecked = IsDailyGroup(g.Path);       // DailyNote.cs
                     }
         }
 
