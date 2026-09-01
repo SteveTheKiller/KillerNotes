@@ -500,7 +500,7 @@ namespace KillerNotes.Shell
         /// <summary>True when this paragraph closes the block comment that was already open.</summary>
         private static bool ClosesBlockComment(string s, CodeLanguage language)
         {
-            var (open, close) = BlockCommentDelims(language);
+            var (_, close) = BlockCommentDelims(language);
             if (close.Length == 0) return true;   // unknown language: do not trap the rest of the note
             int at = s.IndexOf(close, StringComparison.Ordinal);
             if (at < 0) return false;
