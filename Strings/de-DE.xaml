@@ -347,7 +347,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_CalcPrintEq">Killculator-Gleichung in die Notiz drucken</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">Zuerst eine Notiz öffnen</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">In Notiz gedruckt</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Strg+Z holt sie zurück.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Sie landet für 30 Tage im Papierkorb. Strg+Z holt sie jetzt zurück.</sys:String>
     <sys:String x:Key="Str_Ctx_RemoveFromGroup">Aus Gruppe entfernen</sys:String>
     <sys:String x:Key="Str_Ctx_RenameGroup">Gruppe umbenennen...</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteGroup">Gruppe löschen</sys:String>
@@ -767,4 +767,61 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Theme_Sepulchre">Grabmal</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Delirium</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Trauer</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Papierkorb</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Gelöschte Notizen warten hier 30 Tage, dann sind sie endgültig weg</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Wiederherstellen</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Endgültig löschen</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Papierkorb leeren</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">Papierkorb leeren?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} Notizen werden endgültig gelöscht. Das kann nicht rückgängig gemacht werden.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">"{0}" endgültig löschen?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">{0} Notizen endgültig löschen?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">Das kann nicht rückgängig gemacht werden.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Notiz wiederhergestellt</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">{0} Notizen wiederhergestellt</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Notiz endgültig gelöscht</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">{0} Notizen endgültig gelöscht</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Papierkorb geleert - {0} Notizen gelöscht</sys:String>
+    <sys:String x:Key="Str_St_InTrash">Diese Notiz ist im Papierkorb. Zum Bearbeiten wiederherstellen.</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">Notiz anheften</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">Notiz lösen</sys:String>
+    <sys:String x:Key="Str_TT_Pin">Diese Notiz oben in ihrer Gruppe halten</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">Angeheftet</sys:String>
+    <sys:String x:Key="Str_St_Pinned">Angeheftet</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">Nicht mehr angeheftet</sys:String>
+    <sys:String x:Key="Str_KS_Pin">Ausgewählte Notiz anheften oder lösen</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">Anheften</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Checkbox-Zeile (Alt+C) - auf das Kästchen klicken, um es abzuhaken</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Checkbox auf den aktuellen Zeilen hinzufügen oder entfernen</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Checkbox</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">Neue Notiz aus Vorlage</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Kopiert eine Notiz aus der Vorlagengruppe. {date}, {time}, {datetime} und {weekday} darin werden ausgefüllt.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Vorlagengruppe</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Jede Notiz in dieser Gruppe wird als Vorlage für neue Notizen angeboten</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">Noch keine Vorlagengruppe - Rechtsklick auf eine Gruppe, um sie festzulegen</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">Die Vorlagengruppe ist leer</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} ist jetzt die Vorlagengruppe</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Vorlagengruppe aufgehoben</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">Neue Notiz aus {0}</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">Heutige Notiz</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">Öffnet die Notiz mit dem heutigen Datum als Titel und legt sie in der Gruppe für Tagesnotizen an. Eine Vorlage namens Daily wird verwendet, falls vorhanden.</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">Gruppe für Tagesnotizen</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">Die heutige Notiz (Alt+D) wird in dieser Gruppe angelegt</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">Tagesnotizen</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">Tagesnotizen landen jetzt in {0}</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">Gruppe für Tagesnotizen aufgehoben</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">Heutige Notiz erstellt</sys:String>
+    <sys:String x:Key="Str_KS_Today">Heutige Notiz öffnen oder erstellen</sys:String>
+    <sys:String x:Key="Str_Kb_Today">Heute</sys:String>
 </ResourceDictionary>

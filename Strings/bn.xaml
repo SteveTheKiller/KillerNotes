@@ -343,7 +343,7 @@
     <sys:String x:Key="Str_KS_CalcPrintEq">Killculator সমীকরণ নোটে প্রিন্ট করুন</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">আগে একটি নোট খুলুন</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">নোটে প্রিন্ট হয়েছে</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z ফিরিয়ে আনে।</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">এটি 30 দিনের জন্য ট্র্যাশে থাকবে। Ctrl+Z চাপলে এখনই ফিরে আসবে।</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">নতুন সাবগ্রুপ...</sys:String>
     <sys:String x:Key="Str_Ctx_SubTop">সাবগ্রুপ উপরে</sys:String>
     <sys:String x:Key="Str_TT_SubTop">গ্রুপের নিজের নোটের উপরে সাবগ্রুপ দেখান</sys:String>
@@ -767,4 +767,61 @@
     <sys:String x:Key="Str_Theme_Sepulchre">সমাধি</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">প্রলাপ</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">শোক</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">ট্র্যাশ</sys:String>
+    <sys:String x:Key="Str_TT_Trash">মুছে ফেলা নোট এখানে 30 দিন থাকে, তারপর চিরতরে চলে যায়</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">পুনরুদ্ধার</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">স্থায়ীভাবে মুছুন</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">ট্র্যাশ খালি করুন</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">ট্র্যাশ খালি করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0}টি নোট চিরতরে চলে যাবে। এটি আর ফেরানো যাবে না।</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">"{0}" স্থায়ীভাবে মুছবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">{0}টি নোট স্থায়ীভাবে মুছবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">এটি আর ফেরানো যাবে না।</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">নোট পুনরুদ্ধার হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">{0}টি নোট পুনরুদ্ধার হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">নোট স্থায়ীভাবে মুছে ফেলা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">{0}টি নোট স্থায়ীভাবে মুছে ফেলা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">ট্র্যাশ খালি হয়েছে - {0}টি নোট চলে গেছে</sys:String>
+    <sys:String x:Key="Str_St_InTrash">এই নোটটি ট্র্যাশে আছে। সম্পাদনা করতে এটি পুনরুদ্ধার করুন।</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">নোট পিন করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">নোট আনপিন করুন</sys:String>
+    <sys:String x:Key="Str_TT_Pin">এই নোটটি তার গ্রুপের শীর্ষে রাখুন</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">পিন করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_Pinned">পিন করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">আনপিন করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_KS_Pin">নির্বাচিত নোট পিন বা আনপিন করুন</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">পিন</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">চেকবক্স লাইন (Alt+C) - টিক দিতে বাক্সে ক্লিক করুন</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">বর্তমান লাইনগুলোয় চেকবক্স যোগ বা সরান</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">চেকবক্স</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">টেমপ্লেট থেকে নতুন নোট</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">টেমপ্লেট গ্রুপ থেকে একটি নোট কপি করে। এতে থাকা {date}, {time}, {datetime} ও {weekday} পূরণ করা হয়।</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">টেমপ্লেট গ্রুপ</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">এই গ্রুপের প্রতিটি নোট নতুন নোটের জন্য টেমপ্লেট হিসেবে ব্যবহার করা যায়</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">এখনও কোনো টেমপ্লেট গ্রুপ নেই - কোনো গ্রুপে ডান ক্লিক করে চিহ্নিত করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">টেমপ্লেট গ্রুপটি খালি</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} এখন টেমপ্লেট গ্রুপ</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">টেমপ্লেট গ্রুপ সাফ করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">{0} থেকে নতুন নোট</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">আজকের নোট</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">আজকের তারিখ শিরোনামে থাকা নোটটি খোলে, না থাকলে দৈনিক নোট গ্রুপে তৈরি করে। Daily নামে কোনো টেমপ্লেট থাকলে সেটি ব্যবহার করা হয়।</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">দৈনিক নোট গ্রুপ</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">আজকের নোট (Alt+D) এই গ্রুপে তৈরি হয়</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">দৈনিক নোট</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">আজকের নোট এখন {0}-এ তৈরি হয়</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">দৈনিক নোট গ্রুপ সাফ করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">আজকের নোট তৈরি হয়েছে</sys:String>
+    <sys:String x:Key="Str_KS_Today">আজকের নোট খুলুন বা তৈরি করুন</sys:String>
+    <sys:String x:Key="Str_Kb_Today">আজ</sys:String>
 </ResourceDictionary>

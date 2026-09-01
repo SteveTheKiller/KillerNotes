@@ -344,7 +344,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_CalcPrintEq">Killculator denklemini nota yazdır</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">Önce bir not açın</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">Nota yazdırıldı</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z geri getirir.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">30 gün boyunca çöp kutusuna taşınır. Ctrl+Z şimdi geri getirir.</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">Yeni alt grup...</sys:String>
     <sys:String x:Key="Str_Ctx_SubTop">Alt gruplar üstte</sys:String>
     <sys:String x:Key="Str_TT_SubTop">Alt grupları grubun kendi notlarının üstünde göster</sys:String>
@@ -766,4 +766,61 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Theme_Sepulchre">Kabir</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Hezeyan</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Yas</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Çöp kutusu</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Silinen notlar burada 30 gün bekler, sonra kalıcı olarak silinir</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Geri yükle</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Kalıcı olarak sil</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Çöp kutusunu boşalt</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">Çöp kutusu boşaltılsın mı?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} not kalıcı olarak silinecek. Bu işlem geri alınamaz.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">"{0}" kalıcı olarak silinsin mi?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">{0} not kalıcı olarak silinsin mi?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">Bu işlem geri alınamaz.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Not geri yüklendi</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">{0} not geri yüklendi</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Not kalıcı olarak silindi</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">{0} not kalıcı olarak silindi</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Çöp kutusu boşaltıldı - {0} not silindi</sys:String>
+    <sys:String x:Key="Str_St_InTrash">Bu not çöp kutusunda. Düzenlemek için geri yükleyin.</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">Notu sabitle</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">Sabitlemeyi kaldır</sys:String>
+    <sys:String x:Key="Str_TT_Pin">Bu notu grubunun en üstünde tutar</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">Sabitlendi</sys:String>
+    <sys:String x:Key="Str_St_Pinned">Sabitlendi</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">Sabitleme kaldırıldı</sys:String>
+    <sys:String x:Key="Str_KS_Pin">Seçili notu sabitle veya sabitlemeyi kaldır</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">Sabitle</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Onay kutusu satırı (Alt+C) - işaretlemek için kutuya tıklayın</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Geçerli satırlara onay kutusu ekle veya kaldır</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Onay kutusu</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">Şablondan yeni not</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Şablonlar grubundaki bir notun kopyasını oluşturur. İçindeki {date}, {time}, {datetime} ve {weekday} otomatik doldurulur.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Şablonlar grubu</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Bu gruptaki her not, yeni notlar için şablon olarak sunulur</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">Henüz şablon grubu yok - işaretlemek için bir gruba sağ tıklayın</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">Şablonlar grubu boş</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} artık şablonlar grubu</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Şablonlar grubu kaldırıldı</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">{0} şablonundan yeni not</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">Bugünün notu</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">Bugünün tarihiyle başlıklı notu açar, gerekiyorsa günlük notlar grubunda oluşturur. Varsa Daily adlı şablon kullanılır.</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">Günlük notlar grubu</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">Bugünün notu (Alt+D) bu grupta oluşturulur</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">Günlük notlar</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">Bugünün notları artık {0} grubuna gidiyor</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">Günlük notlar grubu kaldırıldı</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">Bugünün notu oluşturuldu</sys:String>
+    <sys:String x:Key="Str_KS_Today">Bugünün notunu aç veya oluştur</sys:String>
+    <sys:String x:Key="Str_Kb_Today">Bugün</sys:String>
 </ResourceDictionary>

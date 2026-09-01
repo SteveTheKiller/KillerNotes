@@ -244,7 +244,7 @@ meg újra.</sys:String>
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Törli a következőt: &quot;{0}&quot;?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">Töröl {0} jegyzetet?</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">A Ctrl+Z visszahozza.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">30 napra a kukába kerül. A Ctrl+Z most visszahozza.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Törölje</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Mégse</sys:String>
 
@@ -793,4 +793,61 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Theme_Sepulchre">Sír</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Delírium</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Gyász</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Kuka</sys:String>
+    <sys:String x:Key="Str_TT_Trash">A törölt jegyzetek itt várnak 30 napig, azután véglegesen eltűnnek</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Visszaállítás</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Végleges törlés</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Kuka ürítése</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">Kiüríti a kukát?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} jegyzet véglegesen eltűnik. Ezt nem lehet visszavonni.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">Véglegesen törli a következőt: &quot;{0}&quot;?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">Véglegesen töröl {0} jegyzetet?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">Ezt nem lehet visszavonni.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Jegyzet visszaállítva</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">{0} jegyzet visszaállítva</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Jegyzet véglegesen törölve</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">{0} jegyzet véglegesen törölve</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Kuka kiürítve - {0} jegyzet törölve</sys:String>
+    <sys:String x:Key="Str_St_InTrash">Ez a jegyzet a kukában van. A szerkesztéshez állítsa vissza.</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">Jegyzet kitűzése</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">Kitűzés megszüntetése</sys:String>
+    <sys:String x:Key="Str_TT_Pin">A jegyzetet a csoportja tetején tartja</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">Kitűzve</sys:String>
+    <sys:String x:Key="Str_St_Pinned">Kitűzve</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">Kitűzés megszüntetve</sys:String>
+    <sys:String x:Key="Str_KS_Pin">A kijelölt jegyzet kitűzése vagy a kitűzés megszüntetése</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">Kitűzés</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Jelölőnégyzet sor (Alt+C) - kattintson a négyzetre a bejelöléshez</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Jelölőnégyzet hozzáadása vagy eltávolítása az aktuális sorokon</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Jelölőnégyzet</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">Új jegyzet sablonból</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Másolatot készít egy jegyzetről a sablonok csoportjából. A benne lévő {date}, {time}, {datetime} és {weekday} kitöltésre kerül.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Sablonok csoportja</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Ennek a csoportnak minden jegyzete sablonként ajánlott az új jegyzetekhez</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">Még nincs sablonok csoportja - kattintson jobb gombbal egy csoportra a megjelöléshez</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">A sablonok csoportja üres</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">A(z) {0} mostantól a sablonok csoportja</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Sablonok csoportja törölve</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">Új jegyzet a(z) {0} sablonból</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">Mai jegyzet</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">Megnyitja a mai dátummal címzett jegyzetet, és ha szükséges, létrehozza a napi jegyzetek csoportjában. Ha van, a Daily nevű sablont használja.</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">Napi jegyzetek csoportja</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">A mai jegyzet (Alt+D) ebben a csoportban jön létre</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">Napi jegyzetek</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">A mai jegyzetek mostantól ide kerülnek: {0}</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">Napi jegyzetek csoportja törölve</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">Mai jegyzet létrehozva</sys:String>
+    <sys:String x:Key="Str_KS_Today">A mai jegyzet megnyitása vagy létrehozása</sys:String>
+    <sys:String x:Key="Str_Kb_Today">Ma</sys:String>
 </ResourceDictionary>

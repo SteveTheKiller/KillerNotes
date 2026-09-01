@@ -202,7 +202,7 @@ przykład po awarii), usuń plik .lock obok bazy i otwórz ją ponownie.</sys:St
     <sys:String x:Key="Str_St_ReadOnly">Tylko do odczytu - w użyciu na {0}</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Usunąć "{0}"?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">Usunąć {0} notatek?</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z przywróci ją z powrotem.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Trafia do kosza na 30 dni. Ctrl+Z przywróci ją już teraz.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Usuń</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Anuluj</sys:String>
     <sys:String x:Key="Str_Pw_UnlockHead">Odblokuj KillerNotes</sys:String>
@@ -694,4 +694,61 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Theme_Sepulchre">Grobowiec</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Delirium</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Żałoba</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Kosz</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Usunięte notatki czekają tu 30 dni, a potem znikają na zawsze</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Przywróć</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Usuń trwale</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Opróżnij kosz</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">Opróżnić kosz?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} notatek zniknie na zawsze. Tej operacji nie można cofnąć.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">Usunąć "{0}" trwale?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">Usunąć trwale {0} notatek?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">Tej operacji nie można cofnąć.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Notatka przywrócona</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">Przywrócono {0} notatek</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Notatka usunięta trwale</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">Usunięto trwale {0} notatek</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Kosz opróżniony - zniknęło {0} notatek</sys:String>
+    <sys:String x:Key="Str_St_InTrash">Ta notatka jest w koszu. Przywróć ją, aby edytować.</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">Przypnij notatkę</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">Odepnij notatkę</sys:String>
+    <sys:String x:Key="Str_TT_Pin">Trzyma tę notatkę na górze swojej grupy</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">Przypięta</sys:String>
+    <sys:String x:Key="Str_St_Pinned">Przypięto</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">Odpięto</sys:String>
+    <sys:String x:Key="Str_KS_Pin">Przypnij lub odepnij zaznaczoną notatkę</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">Przypnij</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Wiersz z polem wyboru (Alt+C) - kliknij pole, aby je zaznaczyć</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Dodaj lub usuń pole wyboru w bieżących wierszach</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Checkbox</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">Nowa notatka z szablonu</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Kopiuje notatkę z grupy szablonów. {date}, {time}, {datetime} i {weekday} w niej zostają uzupełnione.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Grupa szablonów</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Każda notatka w tej grupie jest proponowana jako szablon dla nowych notatek</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">Nie wybrano jeszcze grupy szablonów - kliknij grupę prawym przyciskiem, aby ją oznaczyć</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">Grupa szablonów jest pusta</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} jest teraz grupą szablonów</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Wyczyszczono grupę szablonów</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">Nowa notatka z {0}</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">Dzisiejsza notatka</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">Otwiera notatkę zatytułowaną dzisiejszą datą, tworząc ją w grupie notatek dziennych. Jeśli istnieje szablon o nazwie Daily, zostanie użyty.</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">Grupa notatek dziennych</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">Dzisiejsza notatka (Alt+D) jest tworzona w tej grupie</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">Notatki dzienne</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">Dzisiejsze notatki trafiają teraz do {0}</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">Wyczyszczono grupę notatek dziennych</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">Utworzono dzisiejszą notatkę</sys:String>
+    <sys:String x:Key="Str_KS_Today">Otwórz lub utwórz dzisiejszą notatkę</sys:String>
+    <sys:String x:Key="Str_Kb_Today">Dziś</sys:String>
 </ResourceDictionary>

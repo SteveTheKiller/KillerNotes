@@ -343,7 +343,7 @@
     <sys:String x:Key="Str_KS_CalcPrintEq">将 Killculator 算式打印到笔记</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">请先打开一条笔记</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">已打印到笔记</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z 可恢复。</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">笔记会移入回收站，保留 30 天。现在按 Ctrl+Z 即可找回。</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">新建子分组...</sys:String>
     <sys:String x:Key="Str_Ctx_SubTop">子分组置顶</sys:String>
     <sys:String x:Key="Str_TT_SubTop">在分组自身笔记的上方显示子分组</sys:String>
@@ -765,4 +765,61 @@
     <sys:String x:Key="Str_Theme_Sepulchre">陵墓</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">谵妄</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">哀悼</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">回收站</sys:String>
+    <sys:String x:Key="Str_TT_Trash">已删除的笔记会在此保留 30 天，之后彻底删除</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">还原</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">永久删除</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">清空回收站</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">清空回收站?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} 条笔记将被永久删除。此操作无法撤销。</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">永久删除“{0}”?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">永久删除 {0} 条笔记?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">此操作无法撤销。</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">笔记已还原</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">已还原 {0} 条笔记</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">笔记已永久删除</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">已永久删除 {0} 条笔记</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">回收站已清空 - 已删除 {0} 条笔记</sys:String>
+    <sys:String x:Key="Str_St_InTrash">此笔记在回收站中。还原后即可编辑。</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">置顶笔记</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">取消置顶</sys:String>
+    <sys:String x:Key="Str_TT_Pin">让这条笔记始终显示在所属分组的顶部</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">已置顶</sys:String>
+    <sys:String x:Key="Str_St_Pinned">已置顶</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">已取消置顶</sys:String>
+    <sys:String x:Key="Str_KS_Pin">将所选笔记置顶或取消置顶</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">置顶</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">复选框行 (Alt+C) - 点击方框即可勾选</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">在当前行添加或移除复选框</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">复选框</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">从模板新建笔记</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">从模板分组复制一条笔记。其中的 {date}、{time}、{datetime} 和 {weekday} 会被自动填入。</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">模板分组</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">此分组中的每条笔记都可作为新笔记的模板</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">还没有模板分组 - 右键点击某个分组即可设为模板分组</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">模板分组是空的</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} 现在是模板分组</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">已清除模板分组</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">已从 {0} 新建笔记</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">今日笔记</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">打开以今天日期命名的笔记，如果不存在则在每日笔记分组中创建。如果存在名为 Daily 的模板，会使用该模板。</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">每日笔记分组</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">今日笔记 (Alt+D) 会创建在此分组中</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">每日笔记</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">今日笔记现在会创建在 {0} 中</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">已清除每日笔记分组</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">已创建今日笔记</sys:String>
+    <sys:String x:Key="Str_KS_Today">打开或创建今日笔记</sys:String>
+    <sys:String x:Key="Str_Kb_Today">今日</sys:String>
 </ResourceDictionary>

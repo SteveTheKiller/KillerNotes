@@ -343,7 +343,7 @@
     <sys:String x:Key="Str_KS_CalcPrintEq">將 Killculator 算式列印到筆記</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">請先開啟一則筆記</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">已列印到筆記</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z 可復原。</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">它會移到垃圾桶保留 30 天，現在按 Ctrl+Z 可以復原。</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">新增子群組...</sys:String>
     <sys:String x:Key="Str_Ctx_SubTop">子群組置頂</sys:String>
     <sys:String x:Key="Str_TT_SubTop">在群組自身筆記的上方顯示子群組</sys:String>
@@ -767,4 +767,61 @@
     <sys:String x:Key="Str_Theme_Sepulchre">陵墓</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">譫妄</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">哀悼</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">垃圾桶</sys:String>
+    <sys:String x:Key="Str_TT_Trash">已刪除的筆記會在這裡保留 30 天，之後就會永久消失</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">還原</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">永久刪除</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">清空垃圾桶</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">清空垃圾桶?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} 則筆記會永久消失。此動作無法復原。</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">永久刪除「{0}」?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">永久刪除 {0} 則筆記?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">此動作無法復原。</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">筆記已還原</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">已還原 {0} 則筆記</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">筆記已永久刪除</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">已永久刪除 {0} 則筆記</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">垃圾桶已清空 - {0} 則筆記已消失</sys:String>
+    <sys:String x:Key="Str_St_InTrash">這則筆記在垃圾桶中。還原後才能編輯。</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">釘選筆記</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">取消釘選筆記</sys:String>
+    <sys:String x:Key="Str_TT_Pin">讓這則筆記保持在群組頂端</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">已釘選</sys:String>
+    <sys:String x:Key="Str_St_Pinned">已釘選</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">已取消釘選</sys:String>
+    <sys:String x:Key="Str_KS_Pin">釘選或取消釘選所選筆記</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">釘選</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">核取方塊行 (Alt+C) - 按一下方塊即可勾選</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">在目前的行加上或移除核取方塊</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">核取方塊</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">從範本建立新筆記</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">複製範本群組中的筆記，並自動填入其中的 {date}、{time}、{datetime} 與 {weekday}。</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">範本群組</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">這個群組中的每則筆記，都可作為新筆記的範本</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">尚未設定範本群組 - 在群組上按右鍵即可標記</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">範本群組是空的</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} 現在是範本群組</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">已清除範本群組</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">已從 {0} 建立新筆記</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">今日筆記</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">開啟標題為今天日期的筆記，若不存在則在每日筆記群組中建立。若有名為 Daily 的範本，會自動套用。</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">每日筆記群組</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">今日筆記 (Alt+D) 會建立在這個群組中</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">每日筆記</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">今日筆記現在會建立在 {0}</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">已清除每日筆記群組</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">已建立今日筆記</sys:String>
+    <sys:String x:Key="Str_KS_Today">開啟或建立今日筆記</sys:String>
+    <sys:String x:Key="Str_Kb_Today">今天</sys:String>
 </ResourceDictionary>

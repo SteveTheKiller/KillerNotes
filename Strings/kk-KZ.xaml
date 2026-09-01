@@ -255,7 +255,7 @@
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">"{0}" жойылсын ба?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">{0} жазба жойылсын ба?</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z оны қайтарады.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ол 30 күнге себетке ауысады. Ctrl+Z оны қазір қайтарады.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Жою</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Болдырмау</sys:String>
 
@@ -775,4 +775,61 @@
     <sys:String x:Key="Str_Theme_Sepulchre">Кесене</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Сандырақ</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Аза</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Себет</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Жойылған жазбалар мұнда 30 күн күтеді, содан кейін мүлде жойылады</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Қалпына келтіру</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Мүлде жою</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Себетті тазарту</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">Себет тазартылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} жазба мүлде жойылады. Мұны болдырмау мүмкін емес.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">"{0}" мүлде жойылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">{0} жазба мүлде жойылсын ба?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">Мұны болдырмау мүмкін емес.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Жазба қалпына келтірілді</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">Қалпына келтірілген жазбалар: {0}</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Жазба мүлде жойылды</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">Мүлде жойылған жазбалар: {0}</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Себет тазартылды - жойылған жазбалар: {0}</sys:String>
+    <sys:String x:Key="Str_St_InTrash">Бұл жазба себетте. Өңдеу үшін оны қалпына келтіріңіз.</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">Жазбаны бекіту</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">Жазбаны бекітуден алу</sys:String>
+    <sys:String x:Key="Str_TT_Pin">Бұл жазбаны тобының жоғарғы жағында ұстау</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">Бекітілген</sys:String>
+    <sys:String x:Key="Str_St_Pinned">Бекітілді</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">Бекітуден алынды</sys:String>
+    <sys:String x:Key="Str_KS_Pin">Таңдалған жазбаны бекіту немесе бекітуден алу</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">Бекіту</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Чекбокс жолы (Alt+C) - белгілеу үшін қораны басыңыз</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Ағымдағы жолдарда чекбокс қосу немесе алу</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Чекбокс</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">Үлгіден жаңа жазба</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Үлгілер тобынан жазбаны көшіреді. Ондағы {date}, {time}, {datetime} және {weekday} автоматты түрде толтырылады.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Үлгілер тобы</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Бұл топтағы әр жазба жаңа жазбалар үшін үлгі ретінде ұсынылады</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">Үлгілер тобы әлі жоқ - топты белгілеу үшін оны оң жақ батырмамен басыңыз</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">Үлгілер тобы бос</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} енді үлгілер тобы</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Үлгілер тобы тазартылды</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">{0} негізінде жаңа жазба</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">Бүгінгі жазба</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">Бүгінгі күнмен аталған жазбаны ашады, оны күнделікті жазбалар тобында жасайды. Daily деген үлгі болса, сол пайдаланылады.</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">Күнделікті жазбалар тобы</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">Бүгінгі жазба (Alt+D) осы топта жасалады</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">Күнделікті жазбалар</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">Бүгінгі жазбалар енді {0} ішіне түседі</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">Күнделікті жазбалар тобы тазартылды</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">Бүгінгі жазба жасалды</sys:String>
+    <sys:String x:Key="Str_KS_Today">Бүгінгі жазбаны ашу немесе жасау</sys:String>
+    <sys:String x:Key="Str_Kb_Today">Бүгін</sys:String>
 </ResourceDictionary>

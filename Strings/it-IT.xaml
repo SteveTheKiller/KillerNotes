@@ -255,7 +255,7 @@ modifiche non saranno salvate. Se {0} non sta davvero eseguendo KillerNotes
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Eliminare "{0}"?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">Eliminare {0} note?</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z la ripristina.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Si sposta nel cestino per 30 giorni. Ctrl+Z la ripristina subito.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Elimina</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Annulla</sys:String>
 
@@ -775,4 +775,61 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Theme_Sepulchre">Sepolcro</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Delirio</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Lutto</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Cestino</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Le note eliminate restano qui per 30 giorni, poi spariscono per sempre</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Ripristina</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Elimina definitivamente</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Svuota cestino</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">Svuotare il cestino?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} note spariranno per sempre. Non si può annullare.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">Eliminare definitivamente "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">Eliminare definitivamente {0} note?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">Non si può annullare.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Nota ripristinata</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">{0} note ripristinate</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Nota eliminata definitivamente</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">{0} note eliminate definitivamente</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Cestino svuotato - {0} note eliminate</sys:String>
+    <sys:String x:Key="Str_St_InTrash">Questa nota è nel cestino. Ripristinala per modificarla.</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">Fissa nota</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">Rimuovi fissaggio nota</sys:String>
+    <sys:String x:Key="Str_TT_Pin">Tiene questa nota in cima al suo gruppo</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">Fissata</sys:String>
+    <sys:String x:Key="Str_St_Pinned">Fissata</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">Fissaggio rimosso</sys:String>
+    <sys:String x:Key="Str_KS_Pin">Fissa o rimuovi il fissaggio della nota selezionata</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">Fissa</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Riga con casella di controllo (Alt+C) - clicca la casella per selezionarla</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Aggiungi o rimuovi una casella di controllo sulle righe attuali</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Casella</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">Nuova nota da modello</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Copia una nota dal gruppo dei modelli. Compila {date}, {time}, {datetime} e {weekday} che contiene.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Gruppo dei modelli</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Ogni nota di questo gruppo viene offerta come modello per le nuove note</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">Nessun gruppo di modelli ancora - clic destro su un gruppo per contrassegnarlo</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">Il gruppo dei modelli è vuoto</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} è ora il gruppo dei modelli</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Gruppo dei modelli deselezionato</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">Nuova nota da {0}</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">Nota di oggi</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">Apre la nota con il titolo della data di oggi, creandola nel gruppo delle note giornaliere. Se esiste, viene usato un modello chiamato Daily.</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">Gruppo delle note giornaliere</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">La nota di oggi (Alt+D) viene creata in questo gruppo</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">Note giornaliere</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">Le note di oggi ora vanno in {0}</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">Gruppo delle note giornaliere deselezionato</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">Nota di oggi creata</sys:String>
+    <sys:String x:Key="Str_KS_Today">Apri o crea la nota di oggi</sys:String>
+    <sys:String x:Key="Str_Kb_Today">Oggi</sys:String>
 </ResourceDictionary>

@@ -343,7 +343,7 @@
     <sys:String x:Key="Str_KS_CalcPrintEq">Killculator の数式をノートに印刷</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">先にノートを開いてください</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">ノートに印刷しました</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z で元に戻せます。</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">ゴミ箱に移動し、30 日間残ります。今なら Ctrl+Z で元に戻せます。</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">新しいサブグループ...</sys:String>
     <sys:String x:Key="Str_Ctx_SubTop">サブグループを上に</sys:String>
     <sys:String x:Key="Str_TT_SubTop">サブグループをグループ自身のノートの上に表示</sys:String>
@@ -765,4 +765,61 @@
     <sys:String x:Key="Str_Theme_Sepulchre">セパルカー</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">デリリウム</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">モーニング</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">ゴミ箱</sys:String>
+    <sys:String x:Key="Str_TT_Trash">削除したノートはここに 30 日間残り、その後完全に削除されます</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">復元</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">完全に削除</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">ゴミ箱を空にする</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">ゴミ箱を空にしますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} 件のノートが完全に削除されます。この操作は元に戻せません。</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">「{0}」を完全に削除しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">{0} 件のノートを完全に削除しますか?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">この操作は元に戻せません。</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">ノートを復元しました</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">{0} 件のノートを復元しました</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">ノートを完全に削除しました</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">{0} 件のノートを完全に削除しました</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">ゴミ箱を空にしました - {0} 件のノートを削除</sys:String>
+    <sys:String x:Key="Str_St_InTrash">このノートはゴミ箱に入っています。編集するには復元してください。</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">ノートをピン留め</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">ピン留めを解除</sys:String>
+    <sys:String x:Key="Str_TT_Pin">このノートをグループの先頭に固定します</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">ピン留め済み</sys:String>
+    <sys:String x:Key="Str_St_Pinned">ピン留めしました</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">ピン留めを解除しました</sys:String>
+    <sys:String x:Key="Str_KS_Pin">選択したノートのピン留めを切り替え</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">ピン</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">チェックボックス行 (Alt+C) - クリックしてチェックを入れる</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">現在の行にチェックボックスを追加または削除</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">チェックボックス</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">テンプレートから新しいノート</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">テンプレート グループのノートをコピーします。ノート内の {date}、{time}、{datetime}、{weekday} が入力されます。</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">テンプレート グループ</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">このグループの各ノートは、新しいノートのテンプレートとして使えます</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">テンプレート グループがまだありません - グループを右クリックして設定してください</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">テンプレート グループにノートがありません</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} をテンプレート グループにしました</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">テンプレート グループを解除しました</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">{0} から新しいノートを作成しました</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">今日のノート</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">今日の日付をタイトルにしたノートを開き、なければデイリー ノート グループに作成します。Daily という名前のテンプレートがあれば使用されます。</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">デイリー ノート グループ</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">今日のノート (Alt+D) はこのグループに作成されます</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">デイリー ノート</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">今日のノートは {0} に作成されるようになりました</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">デイリー ノート グループを解除しました</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">今日のノートを作成しました</sys:String>
+    <sys:String x:Key="Str_KS_Today">今日のノートを開く、またはなければ作成</sys:String>
+    <sys:String x:Key="Str_Kb_Today">今日</sys:String>
 </ResourceDictionary>

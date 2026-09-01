@@ -345,7 +345,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_CalcPrintEq">Imprimir la ecuación de Killculator en la nota</sys:String>
     <sys:String x:Key="Str_St_CalcNoNote">Abra primero una nota</sys:String>
     <sys:String x:Key="Str_St_CalcPrinted">Impreso en la nota</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z la recupera.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Se mueve a la papelera durante 30 días. Ctrl+Z la recupera ahora.</sys:String>
     <sys:String x:Key="Str_Ctx_NewSubgroup">Nuevo subgrupo...</sys:String>
     <sys:String x:Key="Str_Ctx_SubTop">Subgrupos arriba</sys:String>
     <sys:String x:Key="Str_TT_SubTop">Mostrar los subgrupos encima de las notas del grupo</sys:String>
@@ -768,4 +768,61 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Theme_Sepulchre">Sepulcro</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Delirio</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Luto</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Papelera</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Las notas eliminadas permanecen aquí 30 días y luego desaparecen para siempre</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Restaurar</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Eliminar permanentemente</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Vaciar la papelera</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">¿Vaciar la papelera?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} notas desaparecerán para siempre. Esto no se puede deshacer.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">¿Eliminar "{0}" permanentemente?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">¿Eliminar {0} notas permanentemente?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">Esto no se puede deshacer.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Nota restaurada</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">{0} notas restauradas</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Nota eliminada permanentemente</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">{0} notas eliminadas permanentemente</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Papelera vaciada - {0} notas eliminadas</sys:String>
+    <sys:String x:Key="Str_St_InTrash">Esta nota está en la papelera. Restáurela para editarla.</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">Anclar nota</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">Desanclar nota</sys:String>
+    <sys:String x:Key="Str_TT_Pin">Mantiene esta nota en la parte superior de su grupo</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">Anclada</sys:String>
+    <sys:String x:Key="Str_St_Pinned">Anclada</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">Desanclada</sys:String>
+    <sys:String x:Key="Str_KS_Pin">Anclar o desanclar la nota seleccionada</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">Anclar</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Línea de casilla (Alt+C) - haga clic en la casilla para marcarla</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Agregar o quitar una casilla en las líneas actuales</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Casilla</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">Nueva nota desde plantilla</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Copia una nota del grupo de plantillas. Completa {date}, {time}, {datetime} y {weekday} que contenga.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Grupo de plantillas</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Todas las notas de este grupo se ofrecen como plantilla para notas nuevas</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">Aún no hay grupo de plantillas - haga clic derecho en un grupo para marcarlo</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">El grupo de plantillas está vacío</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} ahora es el grupo de plantillas</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Grupo de plantillas desmarcado</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">Nueva nota desde {0}</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">Nota de hoy</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">Abre la nota titulada con la fecha de hoy, creándola en el grupo de notas diarias. Se usa una plantilla llamada Daily si existe una.</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">Grupo de notas diarias</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">La nota de hoy (Alt+D) se crea en este grupo</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">Notas diarias</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">Las notas de hoy ahora van a {0}</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">Grupo de notas diarias desmarcado</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">Nota de hoy creada</sys:String>
+    <sys:String x:Key="Str_KS_Today">Abrir o crear la nota de hoy</sys:String>
+    <sys:String x:Key="Str_Kb_Today">Hoy</sys:String>
 </ResourceDictionary>

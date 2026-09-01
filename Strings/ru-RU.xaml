@@ -255,7 +255,7 @@
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Удалить "{0}"?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">Удалить {0} заметок?</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z вернёт её обратно.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Она перемещается в корзину на 30 дней. Ctrl+Z вернёт её обратно прямо сейчас.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Удалить</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Отмена</sys:String>
 
@@ -775,4 +775,61 @@
     <sys:String x:Key="Str_Theme_Sepulchre">Склеп</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Бред</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Траур</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Корзина</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Удалённые заметки ждут здесь 30 дней, затем исчезают навсегда</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Восстановить</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Удалить навсегда</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Очистить корзину</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">Очистить корзину?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} заметок будет удалено навсегда. Отменить это нельзя.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">Удалить "{0}" навсегда?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">Удалить {0} заметок навсегда?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">Отменить это нельзя.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Заметка восстановлена</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">Восстановлено заметок: {0}</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Заметка удалена навсегда</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">Удалено навсегда заметок: {0}</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Корзина очищена - удалено заметок: {0}</sys:String>
+    <sys:String x:Key="Str_St_InTrash">Эта заметка в корзине. Восстановите её, чтобы редактировать.</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">Закрепить заметку</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">Открепить заметку</sys:String>
+    <sys:String x:Key="Str_TT_Pin">Держать эту заметку вверху её группы</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">Закреплено</sys:String>
+    <sys:String x:Key="Str_St_Pinned">Закреплено</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">Откреплено</sys:String>
+    <sys:String x:Key="Str_KS_Pin">Закрепить или открепить выбранную заметку</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">Закрепить</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Строка с чекбоксом (Alt+C) - нажмите на квадрат, чтобы отметить</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Добавить или убрать чекбокс на текущих строках</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Чекбокс</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">Новая заметка из шаблона</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Копирует заметку из группы шаблонов. {date}, {time}, {datetime} и {weekday} в ней заполняются автоматически.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Группа шаблонов</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Каждая заметка в этой группе предлагается как шаблон для новых заметок</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">Группы шаблонов пока нет - нажмите правой кнопкой на группу, чтобы отметить её</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">Группа шаблонов пуста</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} теперь группа шаблонов</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Группа шаблонов сброшена</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">Новая заметка из {0}</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">Заметка на сегодня</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">Открывает заметку с названием в виде сегодняшней даты, создавая её в группе ежедневных заметок. Если есть шаблон с именем Daily, используется он.</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">Группа ежедневных заметок</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">Заметка на сегодня (Alt+D) создаётся в этой группе</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">Ежедневные заметки</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">Заметки на сегодня теперь идут в {0}</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">Группа ежедневных заметок сброшена</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">Создана заметка на сегодня</sys:String>
+    <sys:String x:Key="Str_KS_Today">Открыть или создать заметку на сегодня</sys:String>
+    <sys:String x:Key="Str_Kb_Today">Сегодня</sys:String>
 </ResourceDictionary>

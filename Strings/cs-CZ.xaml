@@ -138,7 +138,7 @@ pádu aplikace), odstraňte soubor .lock vedle databáze a otevřete ji znovu.</
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Smazat „{0}"?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">Smazat {0} poznámek?</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z ji vrátí zpět.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Přesune se do koše na 30 dní. Ctrl+Z ji vrátí zpět hned.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Smazat</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Zrušit</sys:String>
 
@@ -764,4 +764,61 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Theme_Sepulchre">Hrobka</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Delirium</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Smutek</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Koš</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Smazané poznámky tu čekají 30 dní, poté zmizí navždy</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Obnovit</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Smazat trvale</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Vyprázdnit koš</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">Vyprázdnit koš?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} poznámek zmizí navždy. Tuto akci nelze vrátit zpět.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">Smazat "{0}" trvale?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">Smazat trvale {0} poznámek?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">Tuto akci nelze vrátit zpět.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Poznámka obnovena</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">Obnoveno poznámek: {0}</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Poznámka trvale smazána</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">Trvale smazáno poznámek: {0}</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Koš vyprázdněn - zmizelo poznámek: {0}</sys:String>
+    <sys:String x:Key="Str_St_InTrash">Tato poznámka je v koši. Obnovte ji, abyste ji mohli upravit.</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">Připnout poznámku</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">Odepnout poznámku</sys:String>
+    <sys:String x:Key="Str_TT_Pin">Udrží tuto poznámku nahoře v její skupině</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">Připnuto</sys:String>
+    <sys:String x:Key="Str_St_Pinned">Připnuto</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">Odepnuto</sys:String>
+    <sys:String x:Key="Str_KS_Pin">Připnout nebo odepnout vybranou poznámku</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">Připnout</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Řádek se zaškrtávacím polem (Alt+C) - kliknutím na pole jej zaškrtnete</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Přidat nebo odebrat zaškrtávací pole na aktuálních řádcích</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Checkbox</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">Nová poznámka ze šablony</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Zkopíruje poznámku ze skupiny šablon. {date}, {time}, {datetime} a {weekday} se v ní doplní.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Skupina šablon</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Každá poznámka v této skupině je nabídnuta jako šablona pro nové poznámky</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">Zatím není vybraná skupina šablon - pravým tlačítkem klikněte na skupinu a označte ji</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">Skupina šablon je prázdná</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} je nyní skupina šablon</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Skupina šablon zrušena</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">Nová poznámka z {0}</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">Dnešní poznámka</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">Otevře poznámku nazvanou dnešním datem a vytvoří ji ve skupině denních poznámek. Pokud existuje šablona s názvem Daily, použije se.</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">Skupina denních poznámek</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">Dnešní poznámka (Alt+D) se vytváří v této skupině</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">Denní poznámky</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">Dnešní poznámky nyní míří do {0}</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">Skupina denních poznámek zrušena</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">Vytvořena dnešní poznámka</sys:String>
+    <sys:String x:Key="Str_KS_Today">Otevřít nebo vytvořit dnešní poznámku</sys:String>
+    <sys:String x:Key="Str_Kb_Today">Dnes</sys:String>
 </ResourceDictionary>
