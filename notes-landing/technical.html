@@ -90,8 +90,10 @@
 <button class="lang-item" data-lang="fr">Fran&#231;ais</button>
 <button class="lang-item" data-lang="it">Italiano</button>
 <button class="lang-item" data-lang="ja">&#26085;&#26412;&#35486;</button>
+<button class="lang-item" data-lang="kk">&#1178;&#1072;&#1079;&#1072;&#1179;&#1096;&#1072;</button>
 <button class="lang-item" data-lang="pl">Polski</button>
 <button class="lang-item" data-lang="hu">Magyar</button>
+<button class="lang-item" data-lang="ru">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</button>
 <button class="lang-item" data-lang="tr">T&#252;rk&#231;e</button>
 <button class="lang-item" data-lang="zh-cn">&#20013;&#25991; (&#31616;&#20307;)</button>
 <button class="lang-item" data-lang="zh">&#20013;&#25991; (&#32321;&#39636;)</button>
@@ -413,7 +415,7 @@
 
 <section class="tech-sec" id="localization">
 <h2 data-i18n="t_loc_h">Localization</h2>
-<p data-i18n="t_loc_p1">The interface ships in thirteen languages: English, Bengali, Czech, German, Spanish, French, Hungarian, Italian, Japanese, Polish, Turkish, Simplified Chinese and Traditional Chinese. Switching is live - no restart, no relaunch - because every string is a <code>DynamicResource</code> lookup against a merged ResourceDictionary that is swapped in place, the same mechanism the themes use.</p>
+<p data-i18n="t_loc_p1">The interface ships in fifteen languages: English, Bengali, Czech, German, Spanish, French, Hungarian, Italian, Japanese, Kazakh, Polish, Russian, Turkish, Simplified Chinese and Traditional Chinese. Switching is live - no restart, no relaunch - because every string is a <code>DynamicResource</code> lookup against a merged ResourceDictionary that is swapped in place, the same mechanism the themes use.</p>
 <p data-i18n="t_loc_p2">Translation covers the whole surface, not just the menus: dialogs, tooltips, context menus, the status bar, the keyboard-shortcut overlay and its visual keyboard map. The shortcut <i>keycaps</i> stay in English on purpose - a key is a physical thing, and translating "Ctrl" helps nobody - while their descriptions are translated.</p>
 <p data-i18n="t_loc_p3">Each locale is one XAML file in <code>Strings/</code>, so adding a language means adding a file and an entry to the picker, with no code change. Missing keys fall back to en-US rather than rendering blank, so a partial translation degrades to English instead of breaking the layout.</p>
 </section>
@@ -450,7 +452,7 @@
 <tr><td data-i18n="t_spec_r11k">Syntax highlighting</td><td data-i18n="t_spec_r11v">16 languages, detected per paragraph; applied as TextEffects, stored text unchanged</td></tr>
 <tr><td data-i18n="t_spec_r12k">Drawing</td><td data-i18n="t_spec_r12v">SketchPad vector object list, flattened to an image in the note and reopenable for editing</td></tr>
 <tr><td data-i18n="t_spec_r13k">Themes</td><td data-i18n="t_spec_r13v">13 (98SE, Black, Blood, Cyanotic, Dark, Decay, Delirium, Ectoplasm, Greed, Light, Malaise, Mourning, Sepulchre), live-switchable with per-theme accents</td></tr>
-<tr><td data-i18n="t_spec_r14k">Languages</td><td data-i18n="t_spec_r14v">13 (en, bn, cs, de, es, fr, hu, it, ja, pl, tr, zh-Hans, zh-Hant), live-switchable, en-US fallback</td></tr>
+<tr><td data-i18n="t_spec_r14k">Languages</td><td data-i18n="t_spec_r14v">15 (en, bn, cs, de, es, fr, hu, it, ja, kk, pl, ru, tr, zh-Hans, zh-Hant), live-switchable, en-US fallback</td></tr>
 <tr><td data-i18n="t_spec_r15k">Share formats</td><td data-i18n="t_spec_r15v">.knote (single note), .kndb (whole database), HKCU file associations</td></tr>
 <tr><td data-i18n="t_spec_r16k">Import</td><td data-i18n="t_spec_r16v">.txt, .log, .md, .html, .htm, .rtf, png/jpg/jpeg/gif/bmp images</td></tr>
 <tr><td data-i18n="t_spec_r17k">Export</td><td data-i18n="t_spec_r17v">.txt, .rtf, self-contained .html; notes also share as .knote</td></tr>
