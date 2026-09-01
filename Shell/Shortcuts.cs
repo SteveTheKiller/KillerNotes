@@ -117,6 +117,9 @@ namespace KillerNotes.Shell
                     case Key.P:
                         PinShortcut();   // Pin.cs (the selected notes, else the open one)
                         e.Handled = true; return;
+                    case Key.C:
+                        ToggleChecklist();   // Checklist.cs (a box on the current lines)
+                        e.Handled = true; return;
                 }
             }
 

@@ -842,4 +842,9 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_Unpinned">Unpinned</sys:String>
     <sys:String x:Key="Str_KS_Pin">Pin or unpin the selected note</sys:String>
     <sys:String x:Key="Str_Kb_Pin">Pin</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Checkbox line (Alt+C) - click the box to tick it</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Add or remove a checkbox on the current lines</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Checkbox</sys:String>
 </ResourceDictionary>

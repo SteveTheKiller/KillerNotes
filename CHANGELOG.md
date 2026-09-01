@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Added
 - Notes can be pinned to the top of their group or of the loose notes, from the right-click menu or Alt+P.
+- Checkbox lines: Alt+C or the format bar puts a box at the start of the line, a click ticks it, and Enter carries on to the next one. They export as markdown task lists and import back.
 - Deleted notes now go to a Trash section at the bottom of the sidebar, where they open read-only and can be restored or deleted permanently. Anything left there for 30 days is purged.
 - F3 and Shift+F3 now continue through matching notes instead of wrapping inside one note (#18).
 - The title bar now shows which notes database is open.

@@ -30,6 +30,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using Markdig;
+using Markdig.Extensions.TaskLists;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 // Block and Inline are declared in BOTH Markdig.Syntax and System.Windows.Documents, and this
@@ -175,6 +176,18 @@ namespace KillerNotes.Services
                     break;
                 }
 
+                case ListBlock list when IsTaskList(list):
+                {
+                    // A task list is checkbox lines, not bullets: each item becomes a plain
+                    // paragraph opening with the box glyph, which ConvertInline makes from the
+                    // marker. A bullet in front of a box would be two markers for one thing.
+                    foreach (var item in list.OfType<ListItemBlock>())
+                        foreach (var child in item)
+                            foreach (var b in ConvertBlock(child, base_))
+                                yield return b;
+                    break;
+                }
+
                 case ListBlock list:
                 {
                     var l = new List
@@ -231,6 +244,18 @@ namespace KillerNotes.Services
             }
         }
 
+        /// <summary>True when every item of a list opens with a task-list marker.</summary>
+        private static bool IsTaskList(ListBlock list)
+        {
+            bool any = false;
+            foreach (var item in list.OfType<ListItemBlock>())
+            {
+                if (item.FirstOrDefault() is not LeafBlock leaf || leaf.Inline?.FirstChild is not TaskList) return false;
+                any = true;
+            }
+            return any;
+        }
+
         private static void AppendInlines(InlineCollection target, ContainerInline? inlines)
         {
             if (inlines == null) return;
@@ -245,6 +270,12 @@ namespace KillerNotes.Services
             {
                 case LiteralInline lit:
                     yield return new Run(lit.Content.ToString());
+                    break;
+
+                // The task-list marker becomes the box glyph the editor's checklists use
+                // (Checklist.cs); the literal that follows already carries the space.
+                case TaskList task:
+                    yield return new Run((task.Checked ? Checklist.Checked : Checklist.Empty).ToString());
                     break;
 
                 case CodeInline code:
@@ -365,7 +396,9 @@ namespace KillerNotes.Services
                     }
                     string body = InlinesToMarkdown(p.Inlines);
                     if (body.Trim().Length == 0) { sb.Append('\n'); break; }
-                    sb.Append(indent).Append(body).Append("\n\n");
+                    // A checkbox line goes out in task-list syntax, so Obsidian and GitHub draw
+                    // a real box for it and the glyph never reaches the file.
+                    sb.Append(indent).Append(Checklist.ToMarkdownLine(body)).Append("\n\n");
                     break;
                 }
 
@@ -386,7 +419,18 @@ namespace KillerNotes.Services
                         var lines = inner.ToString().TrimEnd('\n').Split('\n');
                         for (int i = 0; i < lines.Length; i++)
                         {
-                            if (i == 0) sb.Append(indent).Append(marker).Append(lines[i].TrimStart()).Append('\n');
+                            if (i == 0)
+                            {
+                                // A bulleted line that carries a box is a task item. The
+                                // paragraph writer above has already turned its glyph into
+                                // "- [ ] ", which is a complete marker, so no bullet goes in
+                                // front of it.
+                                string first = lines[i].TrimStart();
+                                if (!ordered && Checklist.Of(first, true) != Checklist.State.None)
+                                    sb.Append(indent).Append(first).Append('\n');
+                                else
+                                    sb.Append(indent).Append(marker).Append(first).Append('\n');
+                            }
                             else if (lines[i].Trim().Length == 0) sb.Append('\n');
                             else sb.Append(indent).Append("  ").Append(lines[i]).Append('\n');
                         }

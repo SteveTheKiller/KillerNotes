@@ -32,6 +32,7 @@ namespace KillerNotes.Shell
             InitSyntaxHighlighting();
             InitWikiLinks();        // WikiLinkNav.cs (Ctrl+Click a [[link]] to follow it)
             InitWikiLinkComplete(); // WikiLinkComplete.cs (title picker after "[[")
+            InitChecklist();        // Checklist.cs (checkbox lines: click to flip, Enter continues)
             InitEditorClipboard();   // cut that cannot lose the race for the clipboard (Editor.Clipboard.cs, #16)
 
             // Drag-and-drop: text drops are native RichTextBox behavior; image files and

@@ -215,6 +215,7 @@ namespace KillerNotes.Shell
             SetVisible(FmtListSeparator, true);
             SetVisible(FmtBulletsBtn, true);
             SetVisible(FmtNumberingBtn, true);
+            SetVisible(FmtCheckBtn, true);
             SetVisible(FmtInsertSeparator, true);
             SetVisible(FmtRuleBtn, true);
             SetVisible(TableBtn, true);

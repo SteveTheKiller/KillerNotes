@@ -57,6 +57,7 @@ namespace KillerNotes.Shell
             new("Alt+L", "Str_KS_LineNumbers", "View", [(KbLayer.Alt, "L", "Str_Kb_LineNumbers")]),
             new("Alt+M", "Str_KS_HideMentions", "View", [(KbLayer.Alt, "M", "Str_Kb_HideMentions")]),
             new("Alt+P", "Str_KS_Pin", "Note", [(KbLayer.Alt, "P", "Str_Kb_Pin")]),
+            new("Alt+C", "Str_KS_Checkbox", "Format", [(KbLayer.Alt, "C", "Str_Kb_Checkbox")]),
             new("Ctrl+N", "Str_KS_NewNote", "Note", [(KbLayer.Ctrl, "N", "Str_KS_NewNote")]),
             new("Ctrl+G", "Str_KS_NewGroup", "Note", [(KbLayer.Ctrl, "G", "Str_KS_NewGroup")]),
             new("Ctrl+T", "Str_KS_ManageTags", "Note", [(KbLayer.Ctrl, "T", "Str_KS_ManageTags")]),
