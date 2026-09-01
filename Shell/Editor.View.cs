@@ -23,6 +23,9 @@ namespace KillerNotes.Shell
         private static readonly int[] FontSizes = [10, 11, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48];
         private double _editorZoom = 1.0;
         private bool _syncingFontSizeSlider;
+        private DispatcherTimer? _fontSizeApplyTimer;
+        private int _pendingFontSize;
+        private long _pendingFontSizeNote = -1;
         private int _viewportAnchorOffset;
         private double _viewportAnchorY;
         private long _viewportAnchorNote = -1;
@@ -49,6 +52,15 @@ namespace KillerNotes.Shell
             Editor.SizeChanged += (_, e) =>
             {
                 if (e.WidthChanged) RestoreViewportAnchorAfterReflow();
+            };
+            _fontSizeApplyTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(150),
+            };
+            _fontSizeApplyTimer.Tick += (_, _) =>
+            {
+                _fontSizeApplyTimer.Stop();
+                if (_pendingFontSizeNote == _currentId) ApplyFontSize(_pendingFontSize);
             };
             // Keep the size dropdown showing the size under the caret/selection.
             Editor.SelectionChanged += (_, _) => UpdateFontSizeDisplay();
@@ -116,6 +128,7 @@ namespace KillerNotes.Shell
 
         private void FontSizeBtn_Click(object sender, RoutedEventArgs e)
         {
+            _fontSizeApplyTimer?.Stop();
             double size = Editor.Selection.GetPropertyValue(TextElement.FontSizeProperty) is double d ? d : 13;
             _syncingFontSizeSlider = true;
             FontSizeSlider.Value = Math.Max(FontSizeSlider.Minimum, Math.Min(FontSizeSlider.Maximum, Math.Round(size)));
@@ -131,7 +144,11 @@ namespace KillerNotes.Shell
             if (_syncingFontSizeSlider || FontSizeSliderValue == null) return;
             int size = (int)Math.Round(e.NewValue);
             FontSizeSliderValue.Text = size.ToString();
-            if (FontSizePopup.IsOpen) ApplyFontSize(size);
+            if (!FontSizePopup.IsOpen || _fontSizeApplyTimer == null) return;
+            _pendingFontSize = size;
+            _pendingFontSizeNote = _currentId;
+            _fontSizeApplyTimer.Stop();
+            _fontSizeApplyTimer.Start();
         }
 
         // Hover the dropdown and scroll to step through the size ladder - no click needed.

@@ -14,6 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 - Maximizing or restoring the window now keeps the same part of a long note in view (#21).
+- The font-size slider now stays responsive while formatting large selections (#19).
 
 ## [1.3.0] - 2026-08-26
 
