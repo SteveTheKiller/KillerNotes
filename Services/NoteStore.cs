@@ -215,6 +215,7 @@ namespace KillerNotes.Services
             if (!readOnly)
             {
                 EnsureSchema();
+                PurgeTrash(TrashDays);   // trashed notes nobody restored are gone after a month
                 if (network) AcquireLock();
             }
         }
@@ -405,6 +406,17 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
             // before 1.3.0. Existing notes are all rich text, so the default needs no rewrite.
             if (!have.Contains("format"))
                 Exec("ALTER TABLE notes ADD COLUMN format INTEGER NOT NULL DEFAULT 0");
+            // 1.3.1: pinned notes sort to the top of their sidebar section. Presentation state
+            // like sort_order, so it lives only here and never travels in a shared .knote.
+            if (!have.Contains("pinned"))
+                Exec("ALTER TABLE notes ADD COLUMN pinned INTEGER NOT NULL DEFAULT 0");
+            // 1.3.1: the trash. '' = live; otherwise the timestamp the note was deleted at, in
+            // the same yyyy-MM-dd HH:mm:ss form as created/modified so a string compare orders
+            // it. Every live-notes query filters on it, and PurgeTrash drops rows older than
+            // TrashDays. A build older than this one never selects the column and so shows a
+            // trashed note as an ordinary note, which loses nothing.
+            if (!have.Contains("deleted"))
+                Exec("ALTER TABLE notes ADD COLUMN deleted TEXT NOT NULL DEFAULT ''");
             if (have.Contains("preview_mode"))
             {
                 try { Exec("ALTER TABLE notes DROP COLUMN preview_mode"); }
@@ -453,7 +465,7 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
                 "custom"       => "sort_order ASC, id ASC",
                 _              => "created ASC, id ASC",
             };
-            const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax";
+            const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax, pinned, deleted";
 
             using var cmd = _db.CreateCommand();
             if (!string.IsNullOrWhiteSpace(search))
@@ -473,33 +485,143 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
                     cmd.Parameters.AddWithValue($"$w{i}", "%" + EscapeLike(words[i]) + "%");
                 }
                 string where = clauses.Count > 0 ? string.Join(" AND ", clauses) : "1";
-                cmd.CommandText = $"SELECT {cols} FROM notes WHERE {where} ORDER BY {order}";
+                // Trashed notes never match a search: the trash is a place you go to, not a
+                // place results come from.
+                cmd.CommandText = $"SELECT {cols} FROM notes WHERE deleted = '' AND {where} ORDER BY {order}";
             }
             else
             {
-                cmd.CommandText = $"SELECT {cols} FROM notes ORDER BY {order}";
+                cmd.CommandText = $"SELECT {cols} FROM notes WHERE deleted = '' ORDER BY {order}";
             }
 
             using var r = cmd.ExecuteReader();
-            while (r.Read())
-            {
-                results.Add(new Note
-                {
-                    Id       = r.GetInt64(0),
-                    Title    = r.GetString(1),
-                    Notebook = r.GetString(2),
-                    Tags     = r.GetString(3),
-                    Created  = ParseTs(r.GetString(4)),
-                    Modified = ParseTs(r.GetString(5)),
-                    Snippet  = FirstLine(r.IsDBNull(6) ? "" : r.GetString(6)),
-                    TitleColor = r.IsDBNull(7) ? "" : r.GetString(7),
-                    SpellCheck = !r.IsDBNull(8) && r.GetInt64(8) != 0,
-                    SortOrder  = r.IsDBNull(9) ? 0 : (int)r.GetInt64(9),
-                    Format     = r.IsDBNull(10) ? 0 : (int)r.GetInt64(10),
-                    SyntaxHighlight = !r.IsDBNull(11) && r.GetInt64(11) != 0,
-                });
-            }
+            while (r.Read()) results.Add(ReadListRow(r));
             return results;
+        }
+
+        private static Note ReadListRow(SqliteDataReader r) => new()
+        {
+            Id       = r.GetInt64(0),
+            Title    = r.GetString(1),
+            Notebook = r.GetString(2),
+            Tags     = r.GetString(3),
+            Created  = ParseTs(r.GetString(4)),
+            Modified = ParseTs(r.GetString(5)),
+            Snippet  = FirstLine(r.IsDBNull(6) ? "" : r.GetString(6)),
+            TitleColor = r.IsDBNull(7) ? "" : r.GetString(7),
+            SpellCheck = !r.IsDBNull(8) && r.GetInt64(8) != 0,
+            SortOrder  = r.IsDBNull(9) ? 0 : (int)r.GetInt64(9),
+            Format     = r.IsDBNull(10) ? 0 : (int)r.GetInt64(10),
+            SyntaxHighlight = !r.IsDBNull(11) && r.GetInt64(11) != 0,
+            Pinned     = !r.IsDBNull(12) && r.GetInt64(12) != 0,
+            Deleted    = r.IsDBNull(13) || r.GetString(13).Length == 0 ? null : ParseTs(r.GetString(13)),
+        };
+
+        // ---- Trash (1.3.1) ----
+        // Delete moves a note to the trash rather than dropping the row; the row keeps its id,
+        // content, group, tags and payloads, so Restore is a one-column update and nothing has
+        // to be re-inserted. Rows older than TrashDays are purged on the next open.
+
+        public const int TrashDays = 30;
+
+        /// <summary>Trashed notes, most recently deleted first, with the same metadata List
+        /// carries so they can render as ordinary sidebar rows.</summary>
+        public static List<Note> ListTrash()
+        {
+            var results = new List<Note>();
+            if (_db == null) return results;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax, pinned, deleted " +
+                              "FROM notes WHERE deleted <> '' ORDER BY deleted DESC, id DESC";
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) results.Add(ReadListRow(r));
+            return results;
+        }
+
+        /// <summary>Moves a note to the trash. Its links stay in note_links but every live query
+        /// filters them out, so the graph and backlinks forget the note until it is restored.</summary>
+        public static void Trash(long id)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET deleted = $d WHERE id = $id AND deleted = ''";
+            cmd.Parameters.AddWithValue("$d", Ts(DateTime.Now));
+            cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Brings a trashed note back exactly as it was, group and order included.</summary>
+        public static void Restore(long id)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET deleted = '' WHERE id = $id";
+            cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Drops a note for good, payloads included. Unlike Delete this is not meant to
+        /// be undone, so the sketches, recordings and links keyed on the id go with it.</summary>
+        public static void DeleteForever(long id)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var tx = _db.BeginTransaction();
+            foreach (string sql in new[]
+                     {
+                         "DELETE FROM sketches WHERE note_id = $id",
+                         "DELETE FROM recordings WHERE note_id = $id",
+                         "DELETE FROM note_links WHERE src = $id",
+                         "DELETE FROM notes WHERE id = $id",
+                     })
+            {
+                using var cmd = _db.CreateCommand();
+                cmd.Transaction = tx;
+                cmd.CommandText = sql;
+                cmd.Parameters.AddWithValue("$id", id);
+                cmd.ExecuteNonQuery();
+            }
+            tx.Commit();
+        }
+
+        /// <summary>Permanently deletes every trashed note. Returns how many went.</summary>
+        public static int EmptyTrash()
+        {
+            if (_db == null || IsReadOnly) return 0;
+            var ids = ListTrash().Select(n => n.Id).ToList();
+            foreach (long id in ids) DeleteForever(id);
+            return ids.Count;
+        }
+
+        /// <summary>Permanently deletes trashed notes older than the given number of days.
+        /// Called on open, so a note nobody restored is gone after TrashDays. Returns the count.</summary>
+        public static int PurgeTrash(int days)
+        {
+            if (_db == null || IsReadOnly) return 0;
+            string cutoff = Ts(DateTime.Now.AddDays(-days));
+            var ids = new List<long>();
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.CommandText = "SELECT id FROM notes WHERE deleted <> '' AND deleted < $c";
+                cmd.Parameters.AddWithValue("$c", cutoff);
+                using var r = cmd.ExecuteReader();
+                while (r.Read()) ids.Add(r.GetInt64(0));
+            }
+            foreach (long id in ids) DeleteForever(id);
+            return ids.Count;
+        }
+
+        // ---- Pinned notes (1.3.1) ----
+
+        /// <summary>Pins or unpins a note. Presentation only: modified is untouched so pinning
+        /// never reorders a time-sorted sidebar or makes the note look edited.</summary>
+        public static void SetPinned(long id, bool pinned)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET pinned = $p WHERE id = $id";
+            cmd.Parameters.AddWithValue("$p", pinned ? 1 : 0);
+            cmd.Parameters.AddWithValue("$id", id);
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>Creates an empty note. format is 0 for rich text, 1 for markdown; it
@@ -777,13 +899,15 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
             public string Modified = "";
             public int CaretPos;      // reading position (1.1.4): restored with the row so
             public double ScrollPos;  // an undone delete reopens where the note was left
+            public bool Pinned;       // 1.3.1
+            public string Deleted = "";   // 1.3.1: '' = live, else the trash timestamp
         }
 
         public static NoteRow? CaptureRow(long id)
         {
             if (_db == null) return null;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos, syntax " +
+            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos, syntax, pinned, deleted " +
                               "FROM notes WHERE id = $id";
             cmd.Parameters.AddWithValue("$id", id);
             using var r = cmd.ExecuteReader();
@@ -804,6 +928,8 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
                 CaretPos   = r.IsDBNull(11) ? 0 : (int)r.GetInt64(11),
                 ScrollPos  = r.IsDBNull(12) ? 0 : r.GetDouble(12),
                 SyntaxHighlight = !r.IsDBNull(13) && r.GetInt64(13) != 0,
+                Pinned     = !r.IsDBNull(14) && r.GetInt64(14) != 0,
+                Deleted    = r.IsDBNull(15) ? "" : r.GetString(15),
             };
         }
 
@@ -811,8 +937,10 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
         {
             if (_db == null || IsReadOnly) return;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "INSERT INTO notes(id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos, syntax) " +
-                              "VALUES($id, $t, $nb, $tg, $cr, $md, $pl, $ct, $tc, $sp, $so, $cp, $scp, $sy)";
+            cmd.CommandText = "INSERT INTO notes(id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos, syntax, pinned, deleted) " +
+                              "VALUES($id, $t, $nb, $tg, $cr, $md, $pl, $ct, $tc, $sp, $so, $cp, $scp, $sy, $pn, $dl)";
+            cmd.Parameters.AddWithValue("$pn", n.Pinned ? 1 : 0);
+            cmd.Parameters.AddWithValue("$dl", n.Deleted);
             cmd.Parameters.AddWithValue("$id", n.Id);
             cmd.Parameters.AddWithValue("$t", n.Title);
             cmd.Parameters.AddWithValue("$nb", n.Notebook);
@@ -967,8 +1095,8 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
                 // compares n.id <> NULL, which is never true, and every backlink disappears the
                 // moment the title has no owner - which silently disabled both callers.
                 "SELECT n.id, n.title FROM note_links l JOIN notes n ON n.id = l.src " +
-                "WHERE l.target = $t COLLATE NOCASE " +
-                "  AND n.id <> COALESCE((SELECT id FROM notes WHERE title = $t COLLATE NOCASE LIMIT 1), -1) " +
+                "WHERE l.target = $t COLLATE NOCASE AND n.deleted = '' " +
+                "  AND n.id <> COALESCE((SELECT id FROM notes WHERE title = $t COLLATE NOCASE AND deleted = '' LIMIT 1), -1) " +
                 "ORDER BY n.title COLLATE NOCASE";
             cmd.Parameters.AddWithValue("$t", title);
             using var r = cmd.ExecuteReader();
@@ -995,7 +1123,7 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
             using var cmd = _db.CreateCommand();
             cmd.CommandText =
                 "SELECT id, title FROM notes " +
-                "WHERE plain LIKE $q ESCAPE '\\' " +
+                "WHERE plain LIKE $q ESCAPE '\\' AND deleted = '' " +
                 "  AND title <> $t COLLATE NOCASE " +
                 "  AND id NOT IN (SELECT src FROM note_links WHERE target = $t COLLATE NOCASE) " +
                 "ORDER BY modified DESC LIMIT $n";
@@ -1014,7 +1142,7 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
         {
             if (_db == null || string.IsNullOrWhiteSpace(title)) return -1;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT id FROM notes WHERE title = $t COLLATE NOCASE ORDER BY id LIMIT 1";
+            cmd.CommandText = "SELECT id FROM notes WHERE title = $t COLLATE NOCASE AND deleted = '' ORDER BY id LIMIT 1";
             cmd.Parameters.AddWithValue("$t", title.Trim());
             return cmd.ExecuteScalar() is long id ? id : -1;
         }
@@ -1028,8 +1156,12 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
             if (_db == null) return list;
             using var cmd = _db.CreateCommand();
             cmd.CommandText =
+                // A trashed note neither links out nor can be linked to: its outbound edges
+                // drop with the inner join on the source, and a target it owned becomes a
+                // ghost again until it is restored.
                 "SELECT l.src, COALESCE(n.id, -1), l.target FROM note_links l " +
-                "LEFT JOIN notes n ON n.title = l.target COLLATE NOCASE";
+                "JOIN notes s ON s.id = l.src AND s.deleted = '' " +
+                "LEFT JOIN notes n ON n.title = l.target COLLATE NOCASE AND n.deleted = ''";
             using var r = cmd.ExecuteReader();
             while (r.Read())
                 list.Add((r.GetInt64(0), r.GetInt64(1), r.IsDBNull(2) ? "" : r.GetString(2)));
@@ -1043,8 +1175,8 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
             if (_db == null) return list;
             using var cmd = _db.CreateCommand();
             cmd.CommandText = string.IsNullOrWhiteSpace(prefix)
-                ? "SELECT id, title FROM notes WHERE title <> '' ORDER BY modified DESC LIMIT $n"
-                : "SELECT id, title FROM notes WHERE title LIKE $p ESCAPE '\\' AND title <> '' " +
+                ? "SELECT id, title FROM notes WHERE title <> '' AND deleted = '' ORDER BY modified DESC LIMIT $n"
+                : "SELECT id, title FROM notes WHERE title LIKE $p ESCAPE '\\' AND title <> '' AND deleted = '' " +
                   "ORDER BY length(title), title COLLATE NOCASE LIMIT $n";
             if (!string.IsNullOrWhiteSpace(prefix))
                 cmd.Parameters.AddWithValue("$p", "%" + EscapeLike(prefix.Trim()) + "%");
@@ -1757,11 +1889,14 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 // Same treatment for the syntax toggle, probed on its own: a file shared by a
                 // build between the format column and this one has one but not the other.
                 string synCol = srcCols.Contains("syntax") ? "syntax" : "0";
+                // A whole-database .kndb from 1.3.1 or later carries its trash; a shared file
+                // should hand over the notes the sender can see, not the ones they threw away.
+                string live = srcCols.Contains("deleted") ? " WHERE deleted = ''" : "";
 
                 using var read = src.CreateCommand();
                 read.CommandText = extras
-                    ? $"SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck, {fmtCol}, {synCol} FROM notes"
-                    : $"SELECT title, notebook, tags, created, modified, content, plain, '', 0, {fmtCol}, {synCol} FROM notes";
+                    ? $"SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck, {fmtCol}, {synCol} FROM notes{live}"
+                    : $"SELECT title, notebook, tags, created, modified, content, plain, '', 0, {fmtCol}, {synCol} FROM notes{live}";
                 using var r = read.ExecuteReader();
                 int count = 0;
                 while (r.Read())

@@ -39,13 +39,19 @@ namespace KillerNotes.Shell
             // Acts on the whole multi-selection, not just the anchor row (#7): the
             // check reflects "every selected note has this tag", and toggling brings
             // all of them to the same state.
+            var selected = NotesList.SelectedItems.Cast<Note>().ToList();
+            // Inside the trash the menu is two rows, restore and delete for good (Trash.cs).
+            // First, because it resets every other row's visibility before the lines below
+            // decide theirs.
+            bool trash = selected.Count > 0 && selected.All(n => n.IsDeleted);
+            ApplyTrashMenuMode(trash);
+            if (trash) return;
             // This setting belongs to the note-row menu, not the blank sidebar surface.
             // The ListBox owns one shared ContextMenu, so use the right-click hit captured
             // before the popup opened to hide this row for background clicks.
             PreviewDetectGlobal.Visibility = _noteContextTarget ? Visibility.Visible : Visibility.Collapsed;
             PreviewDetectGlobal.IsChecked = DetectMarkdownGlobally;   // Preview.cs (#14)
             UpdateConvertMenuItem();   // Markdown.cs (labels the row with the conversion direction)
-            var selected = NotesList.SelectedItems.Cast<Note>().ToList();
             TagsMenu.Items.Clear();
             TagsMenu.IsEnabled = selected.Count > 0;
             if (selected.Count == 0) return;

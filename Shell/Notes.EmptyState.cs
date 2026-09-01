@@ -62,9 +62,12 @@ namespace KillerNotes.Shell
             else DeleteNoteWithConfirm(n);
         }
 
-        // Shared by the context menu and the Delete key (Shortcuts.cs).
+        // Shared by the context menu and the Delete key (Shortcuts.cs). Delete moves the note
+        // to the trash (Trash.cs); on a note already there it deletes for good.
         private void DeleteNoteWithConfirm(Note n)
         {
+            if (n.IsDeleted) { DeleteForeverWithConfirm([n]); return; }
+
             var dlg = new ConfirmDialog(
                 string.Format(Loc("Str_Dlg_DeleteNoteHead"), n.Title),
                 Loc("Str_Dlg_DeleteNoteBody"),
@@ -72,26 +75,28 @@ namespace KillerNotes.Shell
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
-            if (n.Id == _currentId) SaveNotePosition();   // freshest caret/scroll into the row first
-            var snap = NoteStore.CaptureRow(n.Id);   // for Ctrl+Z (ActionUndo.cs)
-            NoteStore.Delete(n.Id);
             if (n.Id == _currentId)
             {
-                _currentId = -1;
-                _dirty = false;
-                RebuildLineNumbers();   // collapse the gutter - nothing else schedules a pass here
+                SaveCurrentNote(refreshList: false);   // the trash keeps the note, so keep its last edit too
+                SaveNotePosition();                    // freshest caret/scroll into the row first
             }
-            if (snap != null)
-                PushUndo(() => { NoteStore.RestoreRow(snap); RefreshList(); });
+            NoteStore.Trash(n.Id);
+            if (n.Id == _currentId) CloseCurrentNote();   // Trash.cs
+            long id = n.Id;
+            PushUndo(() => { NoteStore.Restore(id); RefreshList(); });   // ActionUndo.cs
             RefreshList();
             StatusText.Text = Loc("Str_St_NoteDeleted");
             OpenStartupNote();   // never drop back to the empty screen
         }
 
-        // Mass delete for a Ctrl/Shift multi-selection: one confirm, one list refresh.
+        // Mass delete for a Ctrl/Shift multi-selection: one confirm, one list refresh. A
+        // selection made entirely inside the trash deletes for good; a mixed one trashes the
+        // live notes and leaves the trashed ones where they are.
         private void DeleteNotesWithConfirm(List<Note> notes)
         {
             if (notes.Count == 0) return;
+            if (notes.All(x => x.IsDeleted)) { DeleteForeverWithConfirm(notes); return; }
+            notes = notes.Where(x => !x.IsDeleted).ToList();
             if (notes.Count == 1) { DeleteNoteWithConfirm(notes[0]); return; }
 
             var dlg = new ConfirmDialog(
@@ -101,20 +106,18 @@ namespace KillerNotes.Shell
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
-            if (notes.Any(x => x.Id == _currentId)) SaveNotePosition();   // freshest caret/scroll into the row first
-            var snaps = notes.Select(x => NoteStore.CaptureRow(x.Id)).Where(s => s != null).Select(s => s!).ToList();
-            foreach (var n in notes)
+            if (notes.Any(x => x.Id == _currentId))
             {
-                NoteStore.Delete(n.Id);
-                if (n.Id == _currentId)
-                {
-                    _currentId = -1;
-                    _dirty = false;
-                    RebuildLineNumbers();   // collapse the gutter - nothing else schedules a pass here
-                }
+                SaveCurrentNote(refreshList: false);
+                SaveNotePosition();   // freshest caret/scroll into the row first
             }
-            if (snaps.Count > 0)
-                PushUndo(() => { foreach (var s in snaps) NoteStore.RestoreRow(s); RefreshList(); });
+            var ids = notes.Select(x => x.Id).ToList();
+            foreach (long id in ids)
+            {
+                NoteStore.Trash(id);
+                if (id == _currentId) CloseCurrentNote();   // Trash.cs
+            }
+            PushUndo(() => { foreach (long id in ids) NoteStore.Restore(id); RefreshList(); });
             RefreshList();
             StatusText.Text = string.Format(Loc("Str_St_NotesDeleted"), notes.Count);
             OpenStartupNote();   // never drop back to the empty screen

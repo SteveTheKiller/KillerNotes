@@ -277,7 +277,7 @@ example), delete the .lock file beside the database and reopen it.</sys:String>
     <!-- Delete note confirm -->
     <sys:String x:Key="Str_Dlg_DeleteNoteHead">Delete "{0}"?</sys:String>
     <sys:String x:Key="Str_Dlg_DeleteNotesHead">Delete {0} notes?</sys:String>
-    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ctrl+Z brings it back.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">It moves to the trash for 30 days. Ctrl+Z brings it back now.</sys:String>
     <sys:String x:Key="Str_Btn_Delete">Delete</sys:String>
     <sys:String x:Key="Str_Btn_Cancel">Cancel</sys:String>
 
@@ -814,4 +814,22 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Theme_Sepulchre">Sepulchre</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Delirium</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Mourning</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Trash</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Deleted notes wait here for 30 days, then go for good</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Restore</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Delete permanently</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Empty trash</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">Empty the trash?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} notes will be gone for good. There is no undo for this.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">Delete "{0}" permanently?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">Delete {0} notes permanently?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">There is no undo for this.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Note restored</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">{0} notes restored</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Note deleted permanently</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">{0} notes deleted permanently</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Trash emptied - {0} notes gone</sys:String>
+    <sys:String x:Key="Str_St_InTrash">This note is in the trash. Restore it to edit.</sys:String>
 </ResourceDictionary>

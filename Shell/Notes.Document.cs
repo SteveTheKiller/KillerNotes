@@ -21,7 +21,10 @@ namespace KillerNotes.Shell
 
         private void OpenNote(long id)
         {
-            var meta = _notes.FirstOrDefault(n => n.Id == id);
+            // A trashed note opens too, read-only (Trash.cs): reading what you threw away is
+            // the whole point of a trash, and restore is one right-click away.
+            var meta = _notes.FirstOrDefault(n => n.Id == id)
+                    ?? _trashNotes.FirstOrDefault(n => n.Id == id);
             if (meta == null) return;
 
             // Record the note being left BEFORE _currentId moves on. Every navigation in the app
@@ -50,6 +53,7 @@ namespace KillerNotes.Shell
             // rather than a second query, and must be set before the load so a markdown blob is
             // never handed to the XamlPackage deserializer.
             _currentFormat = meta.Format;
+            SetTrashReadOnly(meta.IsDeleted);   // Trash.cs - before ApplyFormatMode, which reads it
             if (CurrentIsMarkdown)
             {
                 LoadMarkdownIntoEditor(blob);   // Markdown.cs
@@ -100,6 +104,7 @@ namespace KillerNotes.Shell
             UpdatePreviewState();   // Preview.cs (md/html detection for this note)
             LinkSketchPayloads(id);   // SketchPad: re-attach sketch strokes to their images (Editor.cs)
             // Last, so the message is not overwritten by anything above it.
+            if (_currentInTrash) StatusText.Text = Loc("Str_St_InTrash");
             if (_loadFailed) StatusText.Text = string.Format(Loc("Str_St_NoteLoadFailed"), _loadError);
         }
 
@@ -273,7 +278,8 @@ namespace KillerNotes.Shell
 
         private void MarkDirty()
         {
-            if (_loadingNote || _applyingSyntax || _currentId < 0) return;
+            // A trashed note is read-only (Trash.cs): nothing done to it on screen may reach the save.
+            if (_loadingNote || _applyingSyntax || _currentId < 0 || _currentInTrash) return;
             _dirty = true;
             _lastActionWasOrg = false;   // a text edit is now the most recent undoable thing (ActionUndo.cs)
             _saveTimer.Stop();

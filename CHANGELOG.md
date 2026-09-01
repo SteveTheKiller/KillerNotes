@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.3.1] - Unreleased
 
 ### Added
+- Deleted notes now go to a Trash section at the bottom of the sidebar, where they open read-only and can be restored or deleted permanently. Anything left there for 30 days is purged.
 - F3 and Shift+F3 now continue through matching notes instead of wrapping inside one note (#18).
 - The title bar now shows which notes database is open.
 - Italian localization for the complete app interface and killernotes.net, the thirteenth language.

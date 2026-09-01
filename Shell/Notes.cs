@@ -70,6 +70,11 @@ namespace KillerNotes.Shell
             _notes = NoteStore.List(SearchBox.Text, SortKey);
             TagManager.ApplyChips(_notes);
             foreach (var n in _notes) n.Density = _density;   // sidebar row density (Density.cs)
+            // The trash only shows on the unfiltered list (Trash.cs); a search is never
+            // answered from it.
+            _trashNotes = string.IsNullOrWhiteSpace(SearchBox.Text) ? NoteStore.ListTrash() : [];
+            TagManager.ApplyChips(_trashNotes);
+            foreach (var n in _trashNotes) n.Density = _density;
 
             if (!ReferenceEquals(NotesList.ItemsSource, _sidebarItems))
                 NotesList.ItemsSource = _sidebarItems;
@@ -133,6 +138,7 @@ namespace KillerNotes.Shell
         {
             Note n => "N" + n.Id,
             GroupHeader g => "G" + g.Path,
+            TrashHeader => "T",
             _ => "?" + o.GetHashCode(),
         };
 
@@ -140,8 +146,10 @@ namespace KillerNotes.Shell
         private static string RowSig(object o) => o switch
         {
             Note n => string.Join("|", "N", n.Id, n.Title, n.Snippet, n.ModifiedDisplay, n.TitleColor,
-                                  n.Tags, n.Notebook, n.GroupDepth, n.GroupColor, n.IsFirstInGroup, n.IsLastInGroup, n.Density, RailSig(n.Rails)),
+                                  n.Tags, n.Notebook, n.GroupDepth, n.GroupColor, n.IsFirstInGroup, n.IsLastInGroup, n.Density, RailSig(n.Rails),
+                                  n.IsDeleted),
             GroupHeader g => string.Join("|", "G", g.Path, g.Name, g.Depth, g.Count, g.Collapsed, g.NameColor, g.Density, RailSig(g.Rails)),
+            TrashHeader t => string.Join("|", "T", t.Count, t.Collapsed, t.Density),
             _ => o.GetHashCode().ToString(),
         };
 

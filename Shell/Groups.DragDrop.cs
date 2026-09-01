@@ -25,7 +25,7 @@ namespace KillerNotes.Shell
         private bool HandleNoteDragOver(DragEventArgs e)
         {
             if (!_noteDragOut || !e.Data.GetDataPresent(NoteIdFormat)) return false;
-            if (!string.IsNullOrWhiteSpace(SearchBox.Text))
+            if (!string.IsNullOrWhiteSpace(SearchBox.Text) || IsTrashRow(RowUnder(e)))   // Trash.cs
             {
                 e.Effects = DragDropEffects.None;
                 ClearInsertionLine();
@@ -48,9 +48,9 @@ namespace KillerNotes.Shell
             ClearInsertionLine();
             e.Handled = true;
             _noteReordered = true;   // Sharing.cs: no "drag ready" flash for an in-list drop
-            if (string.IsNullOrWhiteSpace(SearchBox.Text) &&
+            if (string.IsNullOrWhiteSpace(SearchBox.Text) && !IsTrashRow(RowUnder(e)) &&
                 e.Data.GetData(NoteIdFormat) is long id)
-                ApplyReorderDrop(id, HitSlot(e));
+                ApplyReorderDrop(id, ClampSlotAboveTrash(HitSlot(e)));   // Trash.cs: never file into the trash
             return true;
         }
 

@@ -887,6 +887,13 @@
                                           Click="NewMarkdownNote_Click"
                                           ToolTip="{DynamicResource Str_TT_NewMarkdownNote}"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_DeleteNote}" Icon="&#xE74D;" Click="DeleteNote_Click"/>
+                                <!-- Trash rows only (1.3.1, Trash.cs). When every selected row is a
+                                     trashed note the menu is these two and nothing else; on live
+                                     notes they stay collapsed. NotesContextMenu_Opened swaps them. -->
+                                <MenuItem x:Name="RestoreItem" Header="{DynamicResource Str_Ctx_Restore}" Icon="&#xE7A7;"
+                                          Click="RestoreNote_Click" Visibility="Collapsed"/>
+                                <MenuItem x:Name="DeleteForeverItem" Header="{DynamicResource Str_Ctx_DeleteForever}" Icon="&#xE74D;"
+                                          Click="DeleteForever_Click" Visibility="Collapsed"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
                         <ListBox.Resources>
@@ -944,8 +951,35 @@
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
+                            <!-- The Trash section header (1.3.1, Trash.cs): last row of the sidebar,
+                                 only while the trash holds something. Same shape as a group header
+                                 so it reads as a section, with a bin glyph in place of a color. -->
+                            <DataTemplate DataType="{x:Type models:TrashHeader}">
+                                <Border Background="Transparent" Padding="{Binding HeaderPadding}" Margin="{Binding HeaderMargin}"
+                                        MouseLeftButtonDown="TrashHeader_Press"
+                                        MouseLeftButtonUp="TrashHeader_Click"
+                                        ToolTip="{DynamicResource Str_TT_Trash}">
+                                    <Border.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="{DynamicResource Str_Ctx_EmptyTrash}" Icon="&#xE74D;" Click="EmptyTrash_Click"/>
+                                        </ContextMenu>
+                                    </Border.ContextMenu>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                                   VerticalAlignment="Center" Margin="0,0,8,0"
+                                                   Foreground="{DynamicResource DimTextBrush}"/>
+                                        <TextBlock Text="{DynamicResource Str_Trash}" FontSize="18" FontWeight="Bold"
+                                                   FontFamily="{DynamicResource HeaderFont}"
+                                                   Foreground="{DynamicResource MutedTextBrush}"
+                                                   VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{Binding CountDisplay}" FontSize="10" Margin="6,0,0,0"
+                                                   VerticalAlignment="Center" Foreground="{DynamicResource DimTextBrush}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
                             <DataTemplate DataType="{x:Type models:Note}">
-                                <StackPanel>
+                                <!-- A trashed row is dimmed (RowOpacity), everything else about it unchanged. -->
+                                <StackPanel Opacity="{Binding RowOpacity}">
                                   <!-- Title row. The content-type cue is docked right of the title
                                        rather than beside the date, so it survives every density -
                                        Minimal shows the title and nothing else. -->

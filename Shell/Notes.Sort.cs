@@ -110,7 +110,8 @@ namespace KillerNotes.Shell
             // The removal re-fires SelectionChanged, so it runs under the sync guard.
             if (e.AddedItems.Count > 0)
             {
-                var headers = e.AddedItems.OfType<Models.GroupHeader>().ToList();
+                var headers = e.AddedItems.Cast<object>()
+                    .Where(o => o is Models.GroupHeader or Models.TrashHeader).ToList();
                 if (headers.Count > 0)
                 {
                     bool prev = _syncingSelection;
@@ -141,7 +142,7 @@ namespace KillerNotes.Shell
             _noteContextTarget = d is ListBoxItem { DataContext: Note };
             if (d is ListBoxItem item && !item.IsSelected)
             {
-                if (item.DataContext is Models.GroupHeader) return;   // headers: own menu (#4)
+                if (item.DataContext is Models.GroupHeader or Models.TrashHeader) return;   // headers: own menu (#4)
                 NotesList.SelectedItems.Clear();
                 item.IsSelected = true;
             }

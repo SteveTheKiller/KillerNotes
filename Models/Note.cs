@@ -61,6 +61,28 @@ namespace KillerNotes.Models
         public bool SyntaxHighlight { get; set; }
         public int SortOrder { get; set; }             // global custom-order position (#4)
 
+        // Pinned (1.3.1): sorts to the top of its sidebar section and shows a pin glyph on the
+        // row. Notifying because the toggle edits the displayed row in place (#13 rule).
+        private bool _pinned;
+        public bool Pinned
+        {
+            get => _pinned;
+            set
+            {
+                if (_pinned == value) return;
+                _pinned = value;
+                OnChanged(nameof(Pinned));
+                OnChanged(nameof(PinVisibility));
+            }
+        }
+        public Visibility PinVisibility => Pinned ? Visibility.Visible : Visibility.Collapsed;
+
+        // Trash (1.3.1): when the note was deleted, null for a live note. Trashed rows render
+        // dimmed under the Trash header and open read-only until restored.
+        public DateTime? Deleted { get; set; }
+        public bool IsDeleted => Deleted != null;
+        public double RowOpacity => IsDeleted ? 0.55 : 1.0;
+
         // Content type (1.3.0): 0 = rich text, the content blob is a XamlPackage; 1 = markdown,
         // the blob is UTF-8 markdown text. Notifying because converting a note edits the live
         // sidebar row in place, and a non-notifying property changed that way never repaints
@@ -112,7 +134,9 @@ namespace KillerNotes.Models
         // sidebar so they read as nested under the group header. InGroup drives the indent + stripe
         // visibility; GroupColor is set by BuildSidebarItems from the parent group, so the stripe
         // matches a colored group, else the template falls back to a muted theme stripe.
-        public bool InGroup => Notebook.Length > 0;
+        // A trashed note keeps its group in the database (restore puts it straight back) but
+        // renders under the Trash header, so it must not draw that group's stripe there.
+        public bool InGroup => Notebook.Length > 0 && !IsDeleted;
         public bool ShowGroupStripe => InGroup;
         // First/last member of the group (set by BuildSidebarItems) so the connector line can cap
         // its top and bottom cleanly - the segment is bounded to this group instead of running on.
@@ -251,5 +275,36 @@ namespace KillerNotes.Models
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+
+    /// <summary>The Trash section header at the bottom of the sidebar (1.3.1). One per
+    /// database, present only while the trash holds something. Not selectable: a click
+    /// toggles collapse, right-click offers Empty trash (Trash.cs). Carries the same
+    /// binding surface as GroupHeader so the shared row container template finds every
+    /// property it asks for, with the stripe and rails switched off.</summary>
+    public class TrashHeader
+    {
+        public int Count { get; set; }
+        public bool Collapsed { get; set; }
+        public int Density { get; set; }
+        public string CountDisplay => Count == 0 ? "" : Count.ToString();
+        public Thickness HeaderPadding => new(0, Density == 0 ? 2 : 0, 0, 0);
+        public Thickness HeaderMargin => Density switch
+        {
+            0 => new Thickness(0, 6, 0, -2),
+            1 => new Thickness(0, 4, 0, -4),
+            _ => new Thickness(0, 2, 0, -5),
+        };
+
+        // Row container bindings (see the ListBoxItem template in MainWindow.xaml).
+        public int Depth => 0;
+        public bool IsNested => false;
+        public double GutterWidth => 0;
+        public List<GroupRail> Rails { get; } = [];
+        public bool ShowGroupStripe => false;
+        public bool IsFirstInGroup => false;
+        public bool IsLastInGroup => false;
+        public bool HasGroupColor => false;
+        public Brush? GroupColorBrush => null;
     }
 }

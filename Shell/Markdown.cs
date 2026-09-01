@@ -73,9 +73,10 @@ namespace KillerNotes.Shell
         private void ApplyFormatMode()
         {
             bool md = CurrentIsMarkdown;
-            // The format bar has no meaning over plain text. Collapsed rather than disabled:
-            // a row of dead buttons invites clicking them.
-            FormatBar?.Visibility = md ? Visibility.Collapsed : Visibility.Visible;
+            // The format bar has no meaning over plain text, nor over a trashed note that is
+            // read-only (Trash.cs). Collapsed rather than disabled: a row of dead buttons
+            // invites clicking them.
+            FormatBar?.Visibility = md || _currentInTrash ? Visibility.Collapsed : Visibility.Visible;
         }
 
         /// <summary>True when the open note is markdown and therefore cannot hold the object the

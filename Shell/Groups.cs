@@ -58,7 +58,14 @@ namespace KillerNotes.Shell
 
             _groups = NoteStore.ListGroupTree();
             bool anyGrouped = _notes.Any(n => n.Notebook.Length > 0);
-            if (_groups.Count == 0 && !anyGrouped) return _notes;
+            if (_groups.Count == 0 && !anyGrouped)
+            {
+                // Flat list, but the trash still hangs off the bottom when it holds something.
+                if (_trashNotes.Count == 0) return _notes;
+                var flat = new List<object>(_notes);
+                AppendTrashSection(flat);   // Trash.cs
+                return flat;
+            }
 
             // Children bucketed by parent path, each bucket left in stored (sort_order) order.
             var childrenOf = new Dictionary<string, List<(string Path, string Parent, bool Collapsed, string Color)>>(StringComparer.OrdinalIgnoreCase);
@@ -187,6 +194,7 @@ namespace KillerNotes.Shell
                 Emit((path, "", false, ""), 0, rootAncestors);
 
             foreach (var n in _notes) if (n.Notebook.Length == 0) { n.GroupDepth = 0; items.Add(n); }
+            AppendTrashSection(items);   // Trash.cs: the Trash header and its notes, last of all
             return items;
         }
 
