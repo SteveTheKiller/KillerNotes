@@ -5,7 +5,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Threading;
 using KillerNotes.Controls;
+using KillerNotes.Models;
+using KillerNotes.Services;
 
 namespace KillerNotes.Shell
 {
@@ -221,14 +224,53 @@ namespace KillerNotes.Shell
             catch (ArgumentException) { return null; }
         }
 
-        /// <summary>Step to the next or previous match, wrapping at either end.</summary>
+        /// <summary>Step to the next or previous match, continuing through matching notes.</summary>
         private void StepFind(int delta)
         {
+            bool pastEnd = _findHits.Count == 0 ||
+                           (delta > 0 && _findIndex >= _findHits.Count - 1) ||
+                           (delta < 0 && _findIndex <= 0);
+            if (pastEnd && TryStepFindToNote(delta)) return;
             if (_findHits.Count == 0) return;
+
             _findIndex = ((_findIndex + delta) % _findHits.Count + _findHits.Count) % _findHits.Count;
             ScrollToCurrentFind();
             UpdateFindCount();
             RepaintFindMatches();
+        }
+
+        private bool TryStepFindToNote(int delta)
+        {
+            if (_findTerm.Length == 0 || !NoteStore.IsOpen) return false;
+
+            // The sidebar is the visible result set for cross-note find. Save first so its
+            // content search sees the current edit, then keep the sidebar query synchronized.
+            SaveCurrentNote(refreshList: false);
+            if (!string.Equals(SearchBox.Text, _findTerm, StringComparison.Ordinal))
+                SearchBox.Text = _findTerm;
+            else
+                RefreshList();
+
+            if (_notes.Count == 0) return false;
+            int current = _notes.FindIndex(n => n.Id == _currentId);
+            int next = current < 0
+                ? (delta > 0 ? 0 : _notes.Count - 1)
+                : ((current + delta) % _notes.Count + _notes.Count) % _notes.Count;
+            if (_notes[next].Id == _currentId) return false;
+
+            long targetId = _notes[next].Id;
+            OpenNote(targetId);
+            _syncingSelection = true;
+            NotesList.SelectedItem = _sidebarItems.FirstOrDefault(o => o is Note n && n.Id == targetId);
+            _syncingSelection = false;
+
+            RunFind();
+            if (_findHits.Count > 0 && delta < 0) _findIndex = _findHits.Count - 1;
+            UpdateFindCount();
+            RepaintFindMatches();
+            ScrollToCurrentFind();
+            Dispatcher.BeginInvoke(new Action(ScrollToCurrentFind), DispatcherPriority.Loaded);
+            return true;
         }
 
         /// <summary>
