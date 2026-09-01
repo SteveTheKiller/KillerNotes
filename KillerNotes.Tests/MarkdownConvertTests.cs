@@ -275,6 +275,23 @@ namespace KillerNotes.Tests
             Assert.Contains("- two", result);
         });
 
+        [Fact]
+        public void NestedListsTablesAndLinksSurviveARoundTrip() => Sta.Run(() =>
+        {
+            const string source =
+                "- parent\n  - child\n\n" +
+                "| Name | Link |\n| --- | --- |\n" +
+                "| KillerNotes | [site](https://killernotes.net) |\n";
+
+            string result = MarkdownConvert.FromDocument(MarkdownConvert.ToDocument(source, Base));
+
+            Assert.Contains("parent", result);
+            Assert.Contains("child", result);
+            Assert.Contains("Name", result);
+            Assert.Contains("KillerNotes", result);
+            Assert.Contains("[site](https://killernotes.net", result);
+        });
+
         // ---- helpers ----
 
         private static Paragraph FirstParagraph(string markdown) =>
