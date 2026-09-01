@@ -1,3 +1,4 @@
+using System.IO;
 using System.Windows;
 using KillerNotes.Features.Security;
 using KillerNotes.Services;   // NoteStore, for the resume hint's database check
@@ -35,6 +36,8 @@ namespace KillerNotes.Shell
 
         void ISecurityHost.LoadNotes()
         {
+            ActiveDatabaseText.Text = Path.GetFileNameWithoutExtension(NoteStore.ActiveDbFile);
+            ActiveDatabaseText.ToolTip = NoteStore.ActiveDbFile;
             // Before the list is built, so the sidebar and the note about to open both read the
             // migrated blobs. On the UI thread, which the XamlPackage writer requires, and a
             // no-op on a database that has already been through it (MarkdownMigration.cs).

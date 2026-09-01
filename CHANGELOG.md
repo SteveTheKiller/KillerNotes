@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.3.1] - Unreleased
 
 ### Added
+- The title bar now shows which notes database is open.
 - Italian localization for the complete app interface and killernotes.net, the thirteenth language.
 
 ### Changed
