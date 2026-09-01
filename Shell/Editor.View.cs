@@ -8,6 +8,7 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using KillerNotes.Controls;
 using KillerNotes.Models;
 using KillerNotes.Services;
@@ -22,6 +23,11 @@ namespace KillerNotes.Shell
         private static readonly int[] FontSizes = [10, 11, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48];
         private double _editorZoom = 1.0;
         private bool _syncingFontSizeSlider;
+        private int _viewportAnchorOffset;
+        private double _viewportAnchorY;
+        private long _viewportAnchorNote = -1;
+        private int _viewportRestoreToken;
+        private bool _restoringViewportAnchor;
 
         /// <summary>Called once from InitEditor: restores the remembered editor zoom and
         /// wires Ctrl+wheel. Zoom is a view setting (LayoutTransform), not note content.</summary>
@@ -33,10 +39,61 @@ namespace KillerNotes.Shell
                 Editor.LayoutTransform = new ScaleTransform(_editorZoom, _editorZoom);
             }
             Editor.PreviewMouseWheel += Editor_PreviewMouseWheel;
+            Editor.AddHandler(ScrollViewer.ScrollChangedEvent,
+                new ScrollChangedEventHandler((_, e) =>
+                {
+                    if (!_restoringViewportAnchor && e.VerticalChange != 0 &&
+                        e.ExtentHeightChange == 0 && e.ViewportHeightChange == 0)
+                        CaptureViewportAnchor();
+                }));
+            Editor.SizeChanged += (_, e) =>
+            {
+                if (e.WidthChanged) RestoreViewportAnchorAfterReflow();
+            };
             // Keep the size dropdown showing the size under the caret/selection.
             Editor.SelectionChanged += (_, _) => UpdateFontSizeDisplay();
             InitSelectionTextOverlay();   // 98SE white-on-navy selection (EditorSelectionText.cs)
             InitFindBar();                // in-note find match highlights (FindBar.cs)
+        }
+
+        private void CaptureViewportAnchor()
+        {
+            if (_currentId < 0 || Editor.Document == null) return;
+            var point = Editor.GetPositionFromPoint(new Point(2, 2), snapToText: true);
+            if (point == null) return;
+            _viewportAnchorOffset = Editor.Document.ContentStart.GetOffsetToPosition(point);
+            _viewportAnchorY = point.GetCharacterRect(LogicalDirection.Forward).Top;
+            _viewportAnchorNote = _currentId;
+        }
+
+        private void RestoreViewportAnchorAfterReflow()
+        {
+            if (_viewportAnchorNote != _currentId || _viewportAnchorOffset <= 0) return;
+            int token = ++_viewportRestoreToken;
+            int tries = 0;
+
+            void Restore()
+            {
+                if (token != _viewportRestoreToken || _viewportAnchorNote != _currentId) return;
+                var point = Editor.Document.ContentStart.GetPositionAtOffset(_viewportAnchorOffset);
+                if (point == null) return;
+
+                Rect rect = point.GetCharacterRect(LogicalDirection.Forward);
+                if (!rect.IsEmpty)
+                {
+                    _restoringViewportAnchor = true;
+                    Editor.ScrollToVerticalOffset(Math.Max(0,
+                        Editor.VerticalOffset + rect.Top - _viewportAnchorY));
+                    _restoringViewportAnchor = false;
+                }
+
+                if (++tries >= 4) return;
+                var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(60) };
+                timer.Tick += (_, _) => { timer.Stop(); Restore(); };
+                timer.Start();
+            }
+
+            Dispatcher.BeginInvoke(new Action(Restore), DispatcherPriority.Loaded);
         }
 
         private void Editor_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
