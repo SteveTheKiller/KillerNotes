@@ -824,4 +824,15 @@
     <sys:String x:Key="Str_St_TodayCreated">已建立今日筆記</sys:String>
     <sys:String x:Key="Str_KS_Today">開啟或建立今日筆記</sys:String>
     <sys:String x:Key="Str_Kb_Today">今天</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">版本歷史...</sys:String>
+    <sys:String x:Key="Str_TT_History">這則筆記的歷史版本，會在你編輯時保留。選一個即可還原。</sys:String>
+    <sys:String x:Key="Str_KS_History">檢視目前筆記的版本歷史</sys:String>
+    <sys:String x:Key="Str_Kb_History">歷史</sys:String>
+    <sys:String x:Key="Str_Hist_Title">版本歷史</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">目前還沒有歷史版本。每次你回到這則筆記並修改後，都會保留一個版本。</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} 個版本。離開筆記 {1} 分鐘後會保留新版本，僅保留最新的 {2} 個。</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">還原這個版本</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">已還原至 {0} 的版本。被取代的內容也保留在歷史中。</sys:String>
 </ResourceDictionary>

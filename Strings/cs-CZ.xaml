@@ -821,4 +821,15 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Vytvořena dnešní poznámka</sys:String>
     <sys:String x:Key="Str_KS_Today">Otevřít nebo vytvořit dnešní poznámku</sys:String>
     <sys:String x:Key="Str_Kb_Today">Dnes</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">Historie verzí...</sys:String>
+    <sys:String x:Key="Str_TT_History">Starší verze této poznámky, ukládané při práci. Vyberte jednu a vraťte ji zpět.</sys:String>
+    <sys:String x:Key="Str_KS_History">Historie verzí otevřené poznámky</sys:String>
+    <sys:String x:Key="Str_Kb_History">Historie</sys:String>
+    <sys:String x:Key="Str_Hist_Title">Historie verzí</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">Zatím žádné starší verze. Jedna se uloží pokaždé, když se vrátíte k této poznámce a změníte ji.</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} verzí. Nová se uloží po {1} minutách mimo poznámku; zůstává nejnovějších {2}.</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">Obnovit tuto verzi</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">Obnovena verze z {0}. Nahrazený text je také v historii.</sys:String>
 </ResourceDictionary>

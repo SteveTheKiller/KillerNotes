@@ -824,4 +824,15 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Heutige Notiz erstellt</sys:String>
     <sys:String x:Key="Str_KS_Today">Heutige Notiz öffnen oder erstellen</sys:String>
     <sys:String x:Key="Str_Kb_Today">Heute</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">Versionsverlauf...</sys:String>
+    <sys:String x:Key="Str_TT_History">Frühere Versionen dieser Notiz, aufbewahrt während der Arbeit. Wählen Sie eine aus, um sie zurückzuholen.</sys:String>
+    <sys:String x:Key="Str_KS_History">Versionsverlauf der geöffneten Notiz</sys:String>
+    <sys:String x:Key="Str_Kb_History">Verlauf</sys:String>
+    <sys:String x:Key="Str_Hist_Title">Versionsverlauf</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">Noch keine früheren Versionen. Eine wird aufbewahrt, sobald Sie zu dieser Notiz zurückkehren und sie ändern.</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} Versionen. Eine neue wird nach {1} Minuten Abwesenheit von der Notiz aufbewahrt; die neuesten {2} bleiben erhalten.</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">Diese Version wiederherstellen</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">Version vom {0} wiederhergestellt. Der ersetzte Text ist ebenfalls im Verlauf.</sys:String>
 </ResourceDictionary>

@@ -825,4 +825,15 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Nota de hoy creada</sys:String>
     <sys:String x:Key="Str_KS_Today">Abrir o crear la nota de hoy</sys:String>
     <sys:String x:Key="Str_Kb_Today">Hoy</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">Historial de versiones...</sys:String>
+    <sys:String x:Key="Str_TT_History">Versiones anteriores de esta nota, conservadas mientras trabaja. Elija una para restaurarla.</sys:String>
+    <sys:String x:Key="Str_KS_History">Historial de versiones de la nota abierta</sys:String>
+    <sys:String x:Key="Str_Kb_History">Historial</sys:String>
+    <sys:String x:Key="Str_Hist_Title">Historial de versiones</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">Aún no hay versiones anteriores. Se conserva una cada vez que vuelve a esta nota y la modifica.</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} versiones. Se conserva una nueva tras {1} minutos fuera de la nota; se mantienen las {2} más recientes.</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">Restaurar esta versión</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">Versión del {0} restaurada. El texto que reemplazó también está en el historial.</sys:String>
 </ResourceDictionary>

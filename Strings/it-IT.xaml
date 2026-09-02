@@ -832,4 +832,15 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Nota di oggi creata</sys:String>
     <sys:String x:Key="Str_KS_Today">Apri o crea la nota di oggi</sys:String>
     <sys:String x:Key="Str_Kb_Today">Oggi</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">Cronologia delle versioni...</sys:String>
+    <sys:String x:Key="Str_TT_History">Versioni precedenti di questa nota, conservate mentre lavori. Scegline una per ripristinarla.</sys:String>
+    <sys:String x:Key="Str_KS_History">Cronologia delle versioni della nota aperta</sys:String>
+    <sys:String x:Key="Str_Kb_History">Cronologia</sys:String>
+    <sys:String x:Key="Str_Hist_Title">Cronologia delle versioni</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">Ancora nessuna versione precedente. Una viene conservata ogni volta che torni a questa nota e la modifichi.</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} versioni. Una nuova viene conservata dopo {1} minuti di assenza dalla nota; restano le {2} più recenti.</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">Ripristina questa versione</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">Versione del {0} ripristinata. Anche il testo che ha sostituito è nella cronologia.</sys:String>
 </ResourceDictionary>

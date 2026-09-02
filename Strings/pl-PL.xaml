@@ -751,4 +751,15 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Utworzono dzisiejszą notatkę</sys:String>
     <sys:String x:Key="Str_KS_Today">Otwórz lub utwórz dzisiejszą notatkę</sys:String>
     <sys:String x:Key="Str_Kb_Today">Dziś</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">Historia wersji...</sys:String>
+    <sys:String x:Key="Str_TT_History">Wcześniejsze wersje tej notatki, zachowywane podczas pracy. Wybierz jedną, aby ją przywrócić.</sys:String>
+    <sys:String x:Key="Str_KS_History">Historia wersji otwartej notatki</sys:String>
+    <sys:String x:Key="Str_Kb_History">Historia</sys:String>
+    <sys:String x:Key="Str_Hist_Title">Historia wersji</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">Nie ma jeszcze wcześniejszych wersji. Jedna jest zachowywana za każdym razem, gdy wracasz do tej notatki i ją zmieniasz.</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} wersji. Nowa wersja jest zachowywana po {1} minutach nieobecności przy notatce; zachowywane są najnowsze {2}.</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">Przywróć tę wersję</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">Przywrócono wersję z {0}. Zastąpiony tekst też jest w historii.</sys:String>
 </ResourceDictionary>

@@ -832,4 +832,15 @@
     <sys:String x:Key="Str_St_TodayCreated">Создана заметка на сегодня</sys:String>
     <sys:String x:Key="Str_KS_Today">Открыть или создать заметку на сегодня</sys:String>
     <sys:String x:Key="Str_Kb_Today">Сегодня</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">История версий...</sys:String>
+    <sys:String x:Key="Str_TT_History">Более ранние версии этой заметки, сохраняются по мере работы. Выберите нужную, чтобы вернуть её.</sys:String>
+    <sys:String x:Key="Str_KS_History">История версий открытой заметки</sys:String>
+    <sys:String x:Key="Str_Kb_History">История</sys:String>
+    <sys:String x:Key="Str_Hist_Title">История версий</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">Пока нет более ранних версий. Новая сохраняется каждый раз, когда вы возвращаетесь к этой заметке и меняете её.</sys:String>
+    <sys:String x:Key="Str_Hist_Count">Версий: {0}. Новая сохраняется через {1} минут отсутствия у заметки; остаются последние {2}.</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">Восстановить эту версию</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">Восстановлена версия от {0}. Заменённый текст тоже сохранён в истории.</sys:String>
 </ResourceDictionary>

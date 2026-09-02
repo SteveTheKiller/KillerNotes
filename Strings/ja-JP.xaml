@@ -822,4 +822,15 @@
     <sys:String x:Key="Str_St_TodayCreated">今日のノートを作成しました</sys:String>
     <sys:String x:Key="Str_KS_Today">今日のノートを開く、またはなければ作成</sys:String>
     <sys:String x:Key="Str_Kb_Today">今日</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">バージョン履歴...</sys:String>
+    <sys:String x:Key="Str_TT_History">このノートの以前のバージョンです。作業中に保存されます。選択すると復元できます。</sys:String>
+    <sys:String x:Key="Str_KS_History">開いているノートのバージョン履歴を表示</sys:String>
+    <sys:String x:Key="Str_Kb_History">履歴</sys:String>
+    <sys:String x:Key="Str_Hist_Title">バージョン履歴</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">まだ以前のバージョンはありません。このノートに戻って変更するたびに保存されます。</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} 件のバージョン。ノートから {1} 分離れると新しいバージョンが保存され、最新の {2} 件が保持されます。</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">このバージョンを復元</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">{0} のバージョンを復元しました。置き換えられた内容も履歴に残っています。</sys:String>
 </ResourceDictionary>

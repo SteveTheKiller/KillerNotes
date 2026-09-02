@@ -850,4 +850,15 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_TodayCreated">Mai jegyzet létrehozva</sys:String>
     <sys:String x:Key="Str_KS_Today">A mai jegyzet megnyitása vagy létrehozása</sys:String>
     <sys:String x:Key="Str_Kb_Today">Ma</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">Verzióelőzmények...</sys:String>
+    <sys:String x:Key="Str_TT_History">A jegyzet korábbi verziói, munka közben mentve. Válasszon egyet a visszaállításhoz.</sys:String>
+    <sys:String x:Key="Str_KS_History">A megnyitott jegyzet verzióelőzményei</sys:String>
+    <sys:String x:Key="Str_Kb_History">Előzmények</sys:String>
+    <sys:String x:Key="Str_Hist_Title">Verzióelőzmények</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">Még nincs korábbi verzió. Egy akkor mentődik, amikor visszatér ehhez a jegyzethez és módosítja.</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} verzió. Új verzió mentődik, ha {1} percig távol van a jegyzettől; a legújabb {2} marad meg.</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">Verzió visszaállítása</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">A(z) {0} időpontban mentett verzió visszaállítva. A lecserélt szöveg is megtalálható az előzmények között.</sys:String>
 </ResourceDictionary>

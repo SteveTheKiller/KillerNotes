@@ -823,4 +823,15 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Bugünün notu oluşturuldu</sys:String>
     <sys:String x:Key="Str_KS_Today">Bugünün notunu aç veya oluştur</sys:String>
     <sys:String x:Key="Str_Kb_Today">Bugün</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">Sürüm geçmişi...</sys:String>
+    <sys:String x:Key="Str_TT_History">Bu notun önceki sürümleri, siz çalışırken saklanır. Birini seçip geri getirin.</sys:String>
+    <sys:String x:Key="Str_KS_History">Açık notun sürüm geçmişi</sys:String>
+    <sys:String x:Key="Str_Kb_History">Geçmiş</sys:String>
+    <sys:String x:Key="Str_Hist_Title">Sürüm geçmişi</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">Henüz önceki sürüm yok. Bu nota dönüp değişiklik yaptığınızda bir sürüm saklanır.</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} sürüm. Nottan {1} dakika uzak kalındığında yeni bir sürüm saklanır; en yeni {2} tanesi kalır.</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">Bu sürümü geri yükle</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">{0} tarihli sürüm geri yüklendi. Yerini alan metin de geçmişte duruyor.</sys:String>
 </ResourceDictionary>

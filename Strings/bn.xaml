@@ -824,4 +824,15 @@
     <sys:String x:Key="Str_St_TodayCreated">আজকের নোট তৈরি হয়েছে</sys:String>
     <sys:String x:Key="Str_KS_Today">আজকের নোট খুলুন বা তৈরি করুন</sys:String>
     <sys:String x:Key="Str_Kb_Today">আজ</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">ভার্সন ইতিহাস...</sys:String>
+    <sys:String x:Key="Str_TT_History">এই নোটের আগের ভার্সনগুলো, কাজ করার সময় সংরক্ষিত হয়। একটি বেছে নিয়ে ফিরিয়ে আনুন।</sys:String>
+    <sys:String x:Key="Str_KS_History">খোলা নোটের ভার্সন ইতিহাস দেখুন</sys:String>
+    <sys:String x:Key="Str_Kb_History">ইতিহাস</sys:String>
+    <sys:String x:Key="Str_Hist_Title">ভার্সন ইতিহাস</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">এখনও কোনো আগের ভার্সন নেই। আপনি এই নোটে ফিরে এসে পরিবর্তন করলে একটি করে সংরক্ষিত হয়।</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0}টি ভার্সন। নোট থেকে {1} মিনিট দূরে থাকলে একটি নতুন ভার্সন সংরক্ষিত হয়; সবশেষ {2}টি রাখা হয়।</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">এই ভার্সনটি পুনরুদ্ধার করুন</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">{0} তারিখের ভার্সনটি পুনরুদ্ধার করা হয়েছে। প্রতিস্থাপিত লেখাটিও ইতিহাসে আছে।</sys:String>
 </ResourceDictionary>
