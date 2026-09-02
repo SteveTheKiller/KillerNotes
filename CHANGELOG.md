@@ -25,6 +25,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Uninstall now uses the KillerNotes-themed confirmation and identifies the publisher in Installed Apps as Steve the Killer.
 
 ### Fixed
+- On the Sepulchre theme the theme picker's radio ring, dot and label no longer vanish into the row's hover highlight; they turn white while hovered.
 - Dropping a note directly onto a group now always moves it into that group (#17).
 - Maximizing or restoring the window now keeps the same part of a long note in view (#21).
 - The font-size slider now stays responsive while formatting large selections (#19).

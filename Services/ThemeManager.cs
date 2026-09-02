@@ -202,6 +202,11 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "BevelDarkThickness", new Thickness(0));
             if (!newDict.Contains("SortButtonBrush") && newDict.Contains("PaneBrush"))
                 newDict["SortButtonBrush"] = newDict["PaneBrush"];
+            // The theme picker's ring, dot and label while HOVERED. Defaults to the accent so
+            // nothing changes; a theme whose accent equals its hover fill (Sepulchre) overrides
+            // it, or the radio vanishes into its own highlight. KillerPDF's key.
+            if (!newDict.Contains("RadioHoverFgBrush") && newDict.Contains("PrimaryBrush"))
+                newDict["RadioHoverFgBrush"] = newDict["PrimaryBrush"];
             // The 1px line ringing the window (RootBorder). Same as the app border unless a theme
             // says otherwise - 98SE makes it transparent, because on a beveled theme it lands
             // outside the dark bottom/right bevel as a bright stripe.

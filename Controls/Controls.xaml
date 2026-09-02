@@ -903,7 +903,17 @@
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsChecked" Value="True"><Setter TargetName="dot" Property="Visibility" Value="Visible"/><Setter TargetName="ring" Property="Stroke" Value="{DynamicResource PrimaryBrush}"/><Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/></Trigger>
-                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ring" Property="Stroke" Value="{DynamicResource PrimaryBrush}"/><Setter TargetName="bd" Property="Background" Value="{DynamicResource RowHoverBrush}"/></Trigger>
+                <!-- Hovered: the ring takes RadioHoverFgBrush, which ThemeManager aliases to
+                     PrimaryBrush so twelve themes are unchanged. Sepulchre's accent IS its hover
+                     fill, so it sets the key to white or the ring vanishes into the row. -->
+                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ring" Property="Stroke" Value="{DynamicResource RadioHoverFgBrush}"/><Setter TargetName="bd" Property="Background" Value="{DynamicResource RowHoverBrush}"/></Trigger>
+                <!-- Checked AND hovered: dot and label follow the same key. Declared last so it wins both single triggers. -->
+                <MultiTrigger>
+                    <MultiTrigger.Conditions><Condition Property="IsChecked" Value="True"/><Condition Property="IsMouseOver" Value="True"/></MultiTrigger.Conditions>
+                    <Setter TargetName="ring" Property="Stroke" Value="{DynamicResource RadioHoverFgBrush}"/>
+                    <Setter TargetName="dot" Property="Fill" Value="{DynamicResource RadioHoverFgBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource RadioHoverFgBrush}"/>
+                </MultiTrigger>
             </ControlTemplate.Triggers>
         </ControlTemplate></Setter.Value></Setter>
     </Style>
