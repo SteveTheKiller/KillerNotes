@@ -29,9 +29,25 @@ namespace KillerNotes.Shell
         private void RunScheduledBackup()
         {
             if (!NoteStore.IsOpen || NoteStore.IsReadOnly || NoteStore.DemoDbFile != null) return;
+            if (!BackupService.IsDue(NoteStore.ActiveDbFile, DateTime.Now)) return;
+            RunBackup();
+        }
+
+        /// <summary>Alt+B (Shortcuts.cs): a backup right now, schedule or no schedule, as long
+        /// as a folder has been chosen in Manage databases.</summary>
+        private void BackupNowShortcut()
+        {
+            if (!NoteStore.IsOpen || NoteStore.DemoDbFile != null) return;
+            if (NoteStore.IsReadOnly) { FlashStatus(string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner)); return; }
+            if (BackupService.Folder == null) { FlashStatus(Loc("Str_St_NoBackupFolder")); return; }
+            RunBackup();
+        }
+
+        private void RunBackup()
+        {
             string db = NoteStore.ActiveDbFile;
             var now = DateTime.Now;
-            if (!BackupService.IsDue(db, now) || BackupService.Folder is not string folder) return;
+            if (BackupService.Folder is not string folder) return;
 
             SaveCurrentNote(refreshList: false);   // the copy should hold what is on screen
             try

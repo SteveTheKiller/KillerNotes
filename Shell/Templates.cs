@@ -92,16 +92,29 @@ namespace KillerNotes.Shell
                 .ToList();
         }
 
-        // ---- The submenu (NotesContextMenu_Opened, Tags.cs) ----
+        // ---- The submenu (NotesContextMenu_Opened, Tags.cs) and the Alt+T flyout ----
 
-        private void BuildTemplateMenu()
+        private void BuildTemplateMenu() => FillTemplateMenu(TemplateMenu);
+
+        /// <summary>Alt+T (Shortcuts.cs): the same rows as the submenu, as a flyout anchored to
+        /// the New note button - the control that makes notes, so the menu opens where the
+        /// action lives rather than at a fixed spot.</summary>
+        private void TemplateShortcut()
         {
-            TemplateMenu.Items.Clear();
+            if (!NoteStore.IsOpen) return;
+            var menu = new ContextMenu { PlacementTarget = NewNoteBtn, Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom };
+            FillTemplateMenu(menu);
+            menu.IsOpen = true;
+        }
+
+        private void FillTemplateMenu(ItemsControl menu)
+        {
+            menu.Items.Clear();
             var templates = TemplateNotes();
             if (templates.Count == 0)
             {
                 // One disabled row saying why, so an empty submenu never reads as broken.
-                TemplateMenu.Items.Add(new MenuItem
+                menu.Items.Add(new MenuItem
                 {
                     Header = BuildMenuRow(null, null,
                         Loc(TemplatesGroupPath() == null ? "Str_Ctx_NoTemplatesGroup" : "Str_Ctx_NoTemplates"), null),
@@ -128,7 +141,7 @@ namespace KillerNotes.Shell
                     TitleBox.Focus();   // the copied title is a starting point; typing replaces it
                     TitleBox.SelectAll();
                 };
-                TemplateMenu.Items.Add(item);
+                menu.Items.Add(item);
             }
         }
 

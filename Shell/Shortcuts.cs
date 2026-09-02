@@ -134,6 +134,15 @@ namespace KillerNotes.Shell
                     case Key.O:
                         ToggleOutline();   // Headings.cs (the outline pane)
                         e.Handled = true; return;
+                    case Key.T:
+                        TemplateShortcut();   // Templates.cs (a flyout of the templates group)
+                        e.Handled = true; return;
+                    case Key.B:
+                        BackupNowShortcut();   // Backup.cs (a copy now, schedule or not)
+                        e.Handled = true; return;
+                    case Key.Delete:
+                        GoToTrash();   // Trash.cs (open the Trash section on its first note)
+                        e.Handled = true; return;
                 }
             }
 

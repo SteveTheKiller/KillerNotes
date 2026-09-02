@@ -94,6 +94,22 @@ namespace KillerNotes.Shell
             RefreshList(preserveScroll: true);
         }
 
+        /// <summary>Alt+Delete (Shortcuts.cs): opens the Trash section and lands on its first
+        /// note, read-only, so what was thrown away is one key away from being read back.</summary>
+        private void GoToTrash()
+        {
+            if (!NoteStore.IsOpen) return;
+            if (_trashNotes.Count == 0 && NoteStore.ListTrash().Count == 0) { FlashStatus(Loc("Str_St_TrashEmpty")); return; }
+            App.SetSetting(TrashCollapsedSetting, "0");
+            if (SearchBox.Text.Length > 0) SearchBox.Text = "";   // the trash never shows while searching
+            RefreshList(preserveScroll: true);
+            var first = _sidebarItems.OfType<Note>().FirstOrDefault(n => n.IsDeleted);
+            if (first == null) return;
+            SaveCurrentNote(refreshList: false);
+            OpenNote(first.Id);
+            SelectNoteInList(first.Id);   // WikiLinkNav.cs: selects and scrolls the row into view
+        }
+
         // ---- Menu (NotesContextMenu_Opened, Tags.cs) ----
 
         /// <summary>Swaps the shared note menu between its ordinary rows and the two trash rows.

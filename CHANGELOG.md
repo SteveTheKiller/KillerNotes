@@ -7,14 +7,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.3.1] - Unreleased
 
 ### Added
-- Scheduled backups: Manage databases gains a Backups dialog to pick a folder, an interval and how many copies to keep. Copies are the database as it is, password and all, and one can be restored as a new database.
+- Scheduled backups: Manage databases gains a Backups dialog to pick a folder, an interval and how many copies to keep. Copies are the database as it is, password and all, and one can be restored as a new database. Alt+B takes a copy right away.
 - Headings and an outline: Alt+1, 2 and 3 make a line a heading, Alt+0 puts it back, and the H button on the format bar steps through them. Alt+O opens an outline of the note's headings beside it; click one to jump there. Headings now export to markdown as headings.
 - Version history: earlier versions of a note are kept as you work, one per sitting plus one before any conversion or replace-all, up to 50. Alt+H or the right-click menu shows them with a preview and puts one back.
 - Notes can be pinned to the top of their group or of the loose notes, from the right-click menu or Alt+P.
-- Note templates: mark a group as the templates group from its right-click menu, and every note in it appears under "New note from template". {date}, {time}, {datetime} and {weekday} in a template are filled in on the way.
+- Note templates: mark a group as the templates group from its right-click menu, and every note in it appears under "New note from template" and on Alt+T. {date}, {time}, {datetime} and {weekday} in a template are filled in on the way.
 - Daily notes: Alt+D opens the note titled with today's date, creating it in a daily notes group of your choosing and from a template named Daily when you have one.
 - Checkbox lines: Alt+C or the format bar puts a box at the start of the line, a click ticks it, and Enter carries on to the next one. They export as markdown task lists and import back.
-- Deleted notes now go to a Trash section at the bottom of the sidebar, where they open read-only and can be restored or deleted permanently. Anything left there for 30 days is purged.
+- Deleted notes now go to a Trash section at the bottom of the sidebar, where they open read-only and can be restored or deleted permanently. Anything left there for 30 days is purged. Alt+Delete opens the trash.
 - F3 and Shift+F3 now continue through matching notes instead of wrapping inside one note (#18).
 - The title bar now shows which notes database is open.
 - Italian localization for the complete app interface and killernotes.net, the thirteenth language.
