@@ -33,7 +33,9 @@ namespace KillerNotes.Shell
             return spread <= 24;
         }
 
-        private static void NormalizeThemeColors(FlowDocument doc)
+        // Internal so the version-history preview (HistoryDialog) shows an old version in the
+        // live theme's colors, the same way the editor shows the current one.
+        internal static void NormalizeThemeColors(FlowDocument doc)
         {
             doc.ClearValue(FlowDocument.ForegroundProperty);
             doc.ClearValue(FlowDocument.BackgroundProperty);

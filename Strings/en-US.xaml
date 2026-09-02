@@ -871,4 +871,15 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Created today's note</sys:String>
     <sys:String x:Key="Str_KS_Today">Open or create today's note</sys:String>
     <sys:String x:Key="Str_Kb_Today">Today</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">Version history...</sys:String>
+    <sys:String x:Key="Str_TT_History">Earlier versions of this note, kept as you work. Pick one to bring it back.</sys:String>
+    <sys:String x:Key="Str_KS_History">Version history of the open note</sys:String>
+    <sys:String x:Key="Str_Kb_History">History</sys:String>
+    <sys:String x:Key="Str_Hist_Title">Version history</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">No earlier versions yet. One is kept each time you come back to this note and change it.</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} versions. A new one is kept after {1} minutes away from the note; the newest {2} stay.</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">Restore this version</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">Restored the version from {0}. The text it replaced is in the history too.</sys:String>
 </ResourceDictionary>

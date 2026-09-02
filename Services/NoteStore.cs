@@ -331,11 +331,27 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
     PRIMARY KEY(name, note_id)
 ) WITHOUT ROWID;";
 
+        // Version history (1.3.1): earlier states of a note, kept as it is edited. Its own
+        // constant rather than part of SchemaSql because ExportNote runs SchemaSql to shape a
+        // .knote, and a shared note should carry the note, not the sender's drafts of it.
+        private const string HistorySql = @"
+CREATE TABLE IF NOT EXISTS note_history(
+    id      INTEGER PRIMARY KEY,
+    note_id INTEGER NOT NULL,
+    saved   TEXT    NOT NULL,
+    title   TEXT    NOT NULL DEFAULT '',
+    format  INTEGER NOT NULL DEFAULT 0,
+    content BLOB,
+    plain   TEXT    NOT NULL DEFAULT ''
+);
+CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
+
         private static void EnsureSchema()
         {
             bool hadTags = TableExists("tags");
             Exec(SchemaSql);
             Exec(GraphLayoutSql);
+            Exec(HistorySql);
             EnsureColumns();
             // Seed ONLY when the tags table was just created: user customizations and
             // deletions must never resurrect.
@@ -571,6 +587,7 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
                          "DELETE FROM sketches WHERE note_id = $id",
                          "DELETE FROM recordings WHERE note_id = $id",
                          "DELETE FROM note_links WHERE src = $id",
+                         "DELETE FROM note_history WHERE note_id = $id",
                          "DELETE FROM notes WHERE id = $id",
                      })
             {
@@ -658,6 +675,7 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
         public static void SetFormat(long id, int format, byte[] content, string plain)
         {
             if (_db == null || IsReadOnly) return;
+            Snapshot(id, force: true);   // a conversion is lossy; the note as it was is worth a version
             using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE notes SET format = $f, content = $c, plain = $p, modified = $m WHERE id = $id";
             cmd.Parameters.AddWithValue("$f", format);
@@ -680,6 +698,7 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
         public static void Save(long id, string title, byte[] content, string plain)
         {
             if (_db == null || IsReadOnly) return;
+            Snapshot(id, force: false);   // the text being replaced becomes a version when it is old enough
             using var cmd = _db.CreateCommand();
             cmd.CommandText = "UPDATE notes SET title = $t, content = $c, plain = $p, modified = $m WHERE id = $id";
             cmd.Parameters.AddWithValue("$t", title);
@@ -688,6 +707,152 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
             cmd.Parameters.AddWithValue("$m", Ts(DateTime.Now));
             cmd.Parameters.AddWithValue("$id", id);
             cmd.ExecuteNonQuery();
+        }
+
+        // ---- Version history (1.3.1) ----
+        // A version is the note's text as it stood BEFORE a save replaced it, stamped with the
+        // time that text was last written. Not every autosave makes one: the 2 second timer
+        // would turn a paragraph of typing into forty versions. Instead the outgoing text is
+        // kept when the newest version is older than HistoryInterval, so the list reads as one
+        // entry per sitting, plus a forced one before anything lossy (a format conversion, a
+        // global replace, a restore). Identical text is never kept twice, and the oldest
+        // versions fall off past HistoryCap.
+
+        public static TimeSpan HistoryInterval = TimeSpan.FromMinutes(10);
+        public const int HistoryCap = 50;
+
+        public readonly struct HistoryEntry(long id, DateTime saved, string title, int format, int size)
+        {
+            public readonly long Id = id;
+            public readonly DateTime Saved = saved;
+            public readonly string Title = title;
+            public readonly int Format = format;
+            public readonly int Size = size;   // content bytes, for the list row
+        }
+
+        /// <summary>A note's versions, newest first. Metadata only; LoadVersion reads a body.</summary>
+        public static List<HistoryEntry> ListHistory(long noteId)
+        {
+            var list = new List<HistoryEntry>();
+            if (_db == null) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT id, saved, title, format, length(content) FROM note_history " +
+                              "WHERE note_id = $n ORDER BY saved DESC, id DESC";
+            cmd.Parameters.AddWithValue("$n", noteId);
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+                list.Add(new HistoryEntry(r.GetInt64(0), ParseTs(r.GetString(1)),
+                    r.IsDBNull(2) ? "" : r.GetString(2), r.IsDBNull(3) ? 0 : (int)r.GetInt64(3),
+                    r.IsDBNull(4) ? 0 : (int)r.GetInt64(4)));
+            return list;
+        }
+
+        public static (string Title, int Format, byte[]? Content, string Plain)? LoadVersion(long versionId)
+        {
+            if (_db == null) return null;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT title, format, content, plain FROM note_history WHERE id = $id";
+            cmd.Parameters.AddWithValue("$id", versionId);
+            using var r = cmd.ExecuteReader();
+            if (!r.Read()) return null;
+            return (r.IsDBNull(0) ? "" : r.GetString(0),
+                    r.IsDBNull(1) ? 0 : (int)r.GetInt64(1),
+                    r[2] is byte[] b && b.Length > 0 ? b : null,
+                    r.IsDBNull(3) ? "" : r.GetString(3));
+        }
+
+        /// <summary>Keeps the note's current text as a version. Skipped when the note is empty,
+        /// when the newest version already holds the same bytes, or (unless forced) when the
+        /// newest version is younger than HistoryInterval. Returns true when one was written.</summary>
+        public static bool Snapshot(long noteId, bool force)
+        {
+            if (_db == null || IsReadOnly) return false;
+
+            // The cheap check first: on every autosave this is the only query that runs.
+            string? newestSaved = null;
+            long newestId = -1;
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.CommandText = "SELECT id, saved FROM note_history WHERE note_id = $n ORDER BY saved DESC, id DESC LIMIT 1";
+                cmd.Parameters.AddWithValue("$n", noteId);
+                using var r = cmd.ExecuteReader();
+                if (r.Read()) { newestId = r.GetInt64(0); newestSaved = r.GetString(1); }
+            }
+
+            string title, plain, modified;
+            int format;
+            byte[]? content;
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.CommandText = "SELECT title, format, content, plain, modified FROM notes WHERE id = $id";
+                cmd.Parameters.AddWithValue("$id", noteId);
+                using var r = cmd.ExecuteReader();
+                if (!r.Read()) return false;
+                title    = r.IsDBNull(0) ? "" : r.GetString(0);
+                format   = r.IsDBNull(1) ? 0 : (int)r.GetInt64(1);
+                content  = r[2] is byte[] b && b.Length > 0 ? b : null;
+                plain    = r.IsDBNull(3) ? "" : r.GetString(3);
+                modified = r.IsDBNull(4) ? "" : r.GetString(4);
+            }
+            if (content == null) return false;   // nothing written yet
+
+            if (!force && newestSaved != null && DateTime.Now - ParseTs(newestSaved) < HistoryInterval) return false;
+
+            if (newestId >= 0)
+            {
+                using var cmd = _db.CreateCommand();
+                cmd.CommandText = "SELECT content FROM note_history WHERE id = $id";
+                cmd.Parameters.AddWithValue("$id", newestId);
+                if (cmd.ExecuteScalar() is byte[] prev && prev.AsSpan().SequenceEqual(content)) return false;
+            }
+
+            using (var ins = _db.CreateCommand())
+            {
+                // Stamped with when this text was last written, not with now: the list should
+                // read "the note as of 14:05", which is the moment it stopped looking like this.
+                ins.CommandText = "INSERT INTO note_history(note_id, saved, title, format, content, plain) " +
+                                  "VALUES ($n, $s, $t, $f, $c, $p)";
+                ins.Parameters.AddWithValue("$n", noteId);
+                ins.Parameters.AddWithValue("$s", modified.Length > 0 ? modified : Ts(DateTime.Now));
+                ins.Parameters.AddWithValue("$t", title);
+                ins.Parameters.AddWithValue("$f", format);
+                ins.Parameters.AddWithValue("$c", content);
+                ins.Parameters.AddWithValue("$p", plain);
+                ins.ExecuteNonQuery();
+            }
+            using (var trim = _db.CreateCommand())
+            {
+                trim.CommandText = "DELETE FROM note_history WHERE note_id = $n AND id NOT IN " +
+                                   "(SELECT id FROM note_history WHERE note_id = $n ORDER BY saved DESC, id DESC LIMIT $cap)";
+                trim.Parameters.AddWithValue("$n", noteId);
+                trim.Parameters.AddWithValue("$cap", HistoryCap);
+                trim.ExecuteNonQuery();
+            }
+            return true;
+        }
+
+        /// <summary>Makes a version the note's current text again. The text being replaced is
+        /// kept as a version first, so a restore is itself restorable. False when the version
+        /// does not exist or belongs to another note.</summary>
+        public static bool RestoreVersion(long noteId, long versionId)
+        {
+            if (_db == null || IsReadOnly) return false;
+            using (var chk = _db.CreateCommand())
+            {
+                chk.CommandText = "SELECT count(*) FROM note_history WHERE id = $v AND note_id = $n";
+                chk.Parameters.AddWithValue("$v", versionId);
+                chk.Parameters.AddWithValue("$n", noteId);
+                if ((long)chk.ExecuteScalar()! == 0) return false;
+            }
+            Snapshot(noteId, force: true);
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "UPDATE notes SET title = h.title, format = h.format, content = h.content, plain = h.plain, modified = $m " +
+                              "FROM (SELECT title, format, content, plain FROM note_history WHERE id = $v) AS h WHERE notes.id = $n";
+            cmd.Parameters.AddWithValue("$m", Ts(DateTime.Now));
+            cmd.Parameters.AddWithValue("$v", versionId);
+            cmd.Parameters.AddWithValue("$n", noteId);
+            cmd.ExecuteNonQuery();
+            return true;
         }
 
         /// <summary>Markdown notes whose content is still raw source rather than a XamlPackage,
@@ -965,8 +1130,10 @@ CREATE TABLE IF NOT EXISTS graph_layouts(
         {
             if (_db == null || IsReadOnly) return;
             string now = Ts(DateTime.Now);
+            var list = updates.ToList();
+            foreach (var (id, _, _) in list) Snapshot(id, force: true);   // a replace touches many notes at once; every one keeps its text
             using var tx = _db.BeginTransaction();
-            foreach (var (id, content, plain) in updates)
+            foreach (var (id, content, plain) in list)
             {
                 using var cmd = _db.CreateCommand();
                 cmd.Transaction = tx;

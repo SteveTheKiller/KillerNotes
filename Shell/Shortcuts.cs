@@ -123,6 +123,9 @@ namespace KillerNotes.Shell
                     case Key.D:
                         OpenTodayNote();   // DailyNote.cs (today's note, made if need be)
                         e.Handled = true; return;
+                    case Key.H:
+                        HistoryShortcut();   // History.cs (earlier versions of the open note)
+                        e.Handled = true; return;
                 }
             }
 
