@@ -60,6 +60,7 @@ namespace KillerNotes.Shell
             InitAppScale();                                      // AppScale.cs (restore app-wide size)
             InitLineNumbers();                                   // LineNumbers.cs (optional gutter)
             InitOutline();                                       // Headings.cs (outline pane state)
+            InitBackupSchedule();                                // Backup.cs (quarter-hour due check)
             InitBacklinkBar();                                   // Backlinks.cs (Alt+M hide state)
             InitDensity();                                       // Density.cs (restore sidebar row density)
             InitFonts();                                         // Fonts.cs (restore header/content fonts)
@@ -79,6 +80,9 @@ namespace KillerNotes.Shell
                     OpenDatabase();               // Security.cs (unlock prompt if encrypted)
                     HandlePendingOpenFile();      // Sharing.cs (double-clicked .kndb/.knote)
                     if (DemoMode && DemoFresh) GenerateDemoNotes();   // DemoMode.cs (--demo, fresh db only)
+                    // After the window is idle, so a due backup never delays the first paint.
+                    Dispatcher.BeginInvoke(new Action(RunScheduledBackup),   // Backup.cs
+                        System.Windows.Threading.DispatcherPriority.ApplicationIdle);
                 }), System.Windows.Threading.DispatcherPriority.Background);
             };
         }

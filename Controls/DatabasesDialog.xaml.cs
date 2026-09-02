@@ -296,6 +296,19 @@ namespace KillerNotes.Controls
             catch (Exception ex) { DlgStatus.Text = string.Format(Loc("Str_Db_DeleteFailed"), ex.Message); }
         }
 
+        // Backups of the selected database (the active one when nothing is selected). The
+        // store is closed while this dialog is up, so Back up now copies the file; a restore
+        // lands as a new database and is selected here for the user to open.
+        private void Backups_Click(object sender, RoutedEventArgs e)
+        {
+            string db = SelectedFile ?? NoteStore.ActiveDbFile;
+            var dlg = new BackupDialog(db) { Owner = this };
+            dlg.ShowDialog();
+            RefreshDbList(select: dlg.RestoredDatabase ?? db);
+            if (dlg.RestoredDatabase != null)
+                DlgStatus.Text = string.Format(Loc("Str_Bk_Restored"), dlg.RestoredDatabase);
+        }
+
         private void Explorer_Click(object sender, RoutedEventArgs e)
         {
             try

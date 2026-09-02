@@ -1956,6 +1956,26 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             }
         }
 
+        // ---- Backups (1.3.1, BackupService.cs) ----
+
+        /// <summary>Copies the open database to destPath through SQLite's backup API, so the
+        /// copy is consistent even while notes are being edited. The destination is keyed with
+        /// the same password, which makes the copy open exactly like the original.</summary>
+        public static void BackupTo(string destPath)
+        {
+            if (_db == null) throw new InvalidOperationException("database not open");
+            if (File.Exists(destPath)) File.Delete(destPath);
+            var csb = new SqliteConnectionStringBuilder { DataSource = destPath };
+            if (_password != null) csb.Password = _password;
+            try
+            {
+                using var dest = new SqliteConnection(csb.ConnectionString);
+                dest.Open();
+                _db.BackupDatabase(dest);
+            }
+            finally { SqliteConnection.ClearAllPools(); }   // release the destination file handle
+        }
+
         // ---- Sharing (.knote export / .knote and .kndb import) ----
         // A .knote is just a KillerNotes database containing one note, optionally
         // SQLCipher-encrypted with a share password - the same engine opens both.

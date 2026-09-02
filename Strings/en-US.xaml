@@ -896,4 +896,30 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Kb_Outline">Outline</sys:String>
     <sys:String x:Key="Str_Outline_Title">OUTLINE</sys:String>
     <sys:String x:Key="Str_Outline_Empty">No headings yet. Alt+1 turns the current line into one.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Backups</sys:String>
+    <sys:String x:Key="Str_TT_Backups">Scheduled backups of the selected database</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">Back up on a schedule while KillerNotes is running</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Backup folder</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Browse...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Choose the backup folder</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">How often</sys:String>
+    <sys:String x:Key="Str_Bk_6h">Every 6 hours</sys:String>
+    <sys:String x:Key="Str_Bk_12h">Every 12 hours</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Daily</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Weekly</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Copies to keep</sys:String>
+    <sys:String x:Key="Str_Bk_Note">A copy is the database as it is: a password-protected database gives a copy that opens with the same password.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">No backups of this database in the folder yet.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Pick a folder first.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Last backup: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">No backup yet.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Back up now</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Restore as new database</sys:String>
+    <sys:String x:Key="Str_Bk_Done">Backed up to {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">Backup failed: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">Restored as {0}. Open it from the list to use it.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">Backed up to {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">Backup failed: {0}</sys:String>
 </ResourceDictionary>

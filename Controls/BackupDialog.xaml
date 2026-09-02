@@ -1,0 +1,156 @@
+<!-- Backups (1.3.1, BackupService.cs): where copies of the database go, how often, how many to
+     keep, the copies that exist, Back up now, and Restore as a new database. Opened from the
+     Databases dialog. Same dialog chrome as its siblings. -->
+<Window x:Class="KillerNotes.Controls.BackupDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:KillerNotes.Controls"
+        Title="KillerNotes"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        SnapsToDevicePixels="True"
+        Width="520" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        ShowInTaskbar="False">
+
+    <ContentControl x:Name="RootBorder" Opacity="0" Style="{StaticResource DialogCard}">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <local:DialogTitleBar Grid.Row="0" Subtitle="{DynamicResource Str_Bk_Title}"
+                                      CloseRequested="Close_Click"/>
+
+                <StackPanel Grid.Row="1" Margin="24,16,24,12">
+                    <TextBlock x:Name="DbName" FontSize="12" Margin="0,0,0,10"
+                               Foreground="{DynamicResource MutedTextBrush}"/>
+
+                    <CheckBox x:Name="EnableBox" Content="{DynamicResource Str_Bk_Enable}"
+                              Click="Setting_Changed"/>
+
+                    <!-- Folder row -->
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="FolderBox" Grid.Column="0" Height="26" IsReadOnly="True"
+                                 Style="{StaticResource EditFieldTextBox}"
+                                 ToolTip="{DynamicResource Str_Bk_Folder}"/>
+                        <Button x:Name="BrowseBtn" Grid.Column="1" Content="{DynamicResource Str_Btn_Browse}" Click="Browse_Click"
+                                Style="{StaticResource SurfaceButton}" Margin="8,0,0,0" Padding="12,0" Height="26"/>
+                    </Grid>
+
+                    <!-- Interval and copies -->
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{DynamicResource Str_Bk_Interval}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource MutedTextBrush}" FontSize="11.5" Margin="0,0,8,0"/>
+                        <ComboBox x:Name="IntervalBox" Grid.Column="1" Style="{StaticResource KnCombo}"
+                                  ItemContainerStyle="{StaticResource KnComboItem}" Height="26"
+                                  SelectionChanged="Setting_Changed">
+                            <ComboBoxItem Content="{DynamicResource Str_Bk_6h}" Tag="6"/>
+                            <ComboBoxItem Content="{DynamicResource Str_Bk_12h}" Tag="12"/>
+                            <ComboBoxItem Content="{DynamicResource Str_Bk_Daily}" Tag="24"/>
+                            <ComboBoxItem Content="{DynamicResource Str_Bk_Weekly}" Tag="168"/>
+                        </ComboBox>
+                        <TextBlock Grid.Column="2" Text="{DynamicResource Str_Bk_Keep}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource MutedTextBrush}" FontSize="11.5" Margin="14,0,8,0"/>
+                        <ComboBox x:Name="KeepBox" Grid.Column="3" Style="{StaticResource KnCombo}"
+                                  ItemContainerStyle="{StaticResource KnComboItem}" Height="26"
+                                  SelectionChanged="Setting_Changed">
+                            <ComboBoxItem Content="5" Tag="5"/>
+                            <ComboBoxItem Content="10" Tag="10"/>
+                            <ComboBoxItem Content="20" Tag="20"/>
+                            <ComboBoxItem Content="50" Tag="50"/>
+                        </ComboBox>
+                    </Grid>
+
+                    <TextBlock Text="{DynamicResource Str_Bk_Note}" Foreground="{DynamicResource DimTextBrush}"
+                               FontSize="10.5" Margin="0,8,0,10" TextWrapping="Wrap"/>
+
+                    <!-- The copies that exist: a CLIENT AREA like the Databases list. -->
+                    <Grid>
+                        <Border IsHitTestVisible="False" Background="{DynamicResource PaneBrush}"
+                                CornerRadius="{DynamicResource ControlCornerRadius}"
+                                Effect="{DynamicResource PaneShadowEffect}"/>
+                        <Border Background="{DynamicResource PaneBrush}"
+                                BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
+                                CornerRadius="{DynamicResource ControlCornerRadius}">
+                            <Grid>
+                                <ListBox x:Name="BackupList" Height="150" Background="Transparent" BorderThickness="0"
+                                         HorizontalContentAlignment="Stretch" Margin="4"
+                                         SelectionChanged="BackupList_SelectionChanged">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Padding" Value="8,5"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border x:Name="bg" Background="Transparent"
+                                                                CornerRadius="{DynamicResource SmallCornerRadius}"
+                                                                Padding="{TemplateBinding Padding}">
+                                                            <ContentPresenter/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="bg" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsSelected" Value="True">
+                                                                <Setter TargetName="bg" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                                                                <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
+                                <TextBlock x:Name="EmptyText" Text="{DynamicResource Str_Bk_Empty}"
+                                           Foreground="{DynamicResource DimTextBrush}" FontSize="11.5"
+                                           TextWrapping="Wrap" TextAlignment="Center" Margin="24"
+                                           VerticalAlignment="Center" Visibility="Collapsed"/>
+                            </Grid>
+                        </Border>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource PaneBevelDarkBrush}"
+                                BorderThickness="{DynamicResource BevelLightThickness}"/>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource PaneBevelLightBrush}"
+                                BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                        <Border IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
+                                Opacity="{DynamicResource GrainOpacity}"
+                                Background="{DynamicResource GrainTileBrush}"/>
+                    </Grid>
+                    <TextBlock x:Name="DlgStatus" Foreground="{DynamicResource DimTextBrush}"
+                               FontSize="10.5" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!-- Buttons: Back up now left; Restore and Done right -->
+                <Grid Grid.Row="2" Margin="24,0,24,18">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Button x:Name="BackupNowBtn" Content="{DynamicResource Str_Btn_BackupNow}" Click="BackupNow_Click"
+                                Style="{StaticResource SurfaceButton}" Padding="12,0" Height="28"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="RestoreBtn" Content="{DynamicResource Str_Btn_RestoreBackup}" Click="Restore_Click"
+                                Style="{StaticResource SurfaceButton}" Padding="12,0" Height="28" Margin="0,0,8,0" IsEnabled="False"/>
+                        <Button x:Name="DoneBtn" Content="{DynamicResource Str_Btn_Done}" Click="Close_Click"
+                                Style="{StaticResource OutlineButton}" Width="80"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+    </ContentControl>
+</Window>
