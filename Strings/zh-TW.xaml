@@ -875,4 +875,14 @@
     <sys:String x:Key="Str_Bk_Restored">已還原為 {0}。從清單中開啟即可使用。</sys:String>
     <sys:String x:Key="Str_St_BackedUp">已備份到 {0}</sys:String>
     <sys:String x:Key="Str_St_BackupFailed">備份失敗: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">從範本建立新筆記</sys:String>
+    <sys:String x:Key="Str_Kb_Template">範本</sys:String>
+    <sys:String x:Key="Str_KS_Trash">開啟垃圾桶並選取第一則筆記</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">垃圾桶</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">垃圾桶是空的</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">立即備份資料庫</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">備份</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">還沒有備份資料夾。在管理資料庫中前往備份，選擇一個。</sys:String>
 </ResourceDictionary>

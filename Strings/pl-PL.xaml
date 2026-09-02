@@ -802,4 +802,14 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Bk_Restored">Przywrócono jako {0}. Otwórz ją z listy, aby jej użyć.</sys:String>
     <sys:String x:Key="Str_St_BackedUp">Utworzono kopię zapasową w {0}</sys:String>
     <sys:String x:Key="Str_St_BackupFailed">Tworzenie kopii zapasowej nie powiodło się: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">Nowa notatka z szablonu</sys:String>
+    <sys:String x:Key="Str_Kb_Template">Szablon</sys:String>
+    <sys:String x:Key="Str_KS_Trash">Otwórz kosz przy jego pierwszej notatce</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">Kosz</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">Kosz jest pusty</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">Utwórz kopię zapasową bazy danych teraz</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">Kopia</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">Nie wybrano jeszcze folderu kopii zapasowych. Przejdź do Zarządzaj bazami danych, potem Kopie zapasowe, aby go wybrać.</sys:String>
 </ResourceDictionary>

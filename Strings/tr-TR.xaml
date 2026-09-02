@@ -874,4 +874,14 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Bk_Restored">{0} olarak geri yüklendi. Kullanmak için listeden açın.</sys:String>
     <sys:String x:Key="Str_St_BackedUp">{0} konumuna yedeklendi</sys:String>
     <sys:String x:Key="Str_St_BackupFailed">Yedekleme başarısız: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">Şablondan yeni not</sys:String>
+    <sys:String x:Key="Str_Kb_Template">Şablon</sys:String>
+    <sys:String x:Key="Str_KS_Trash">Çöp kutusunu ilk notuyla aç</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">Çöp</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">Çöp kutusu boş</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">Veritabanını şimdi yedekle</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">Yedek</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">Henüz bir yedekleme klasörü seçilmedi. Veritabanlarını yönet, ardından Yedeklemeler bölümünden birini seçin.</sys:String>
 </ResourceDictionary>

@@ -883,4 +883,14 @@
     <sys:String x:Key="Str_Bk_Restored">{0} ретінде қалпына келтірілді. Пайдалану үшін оны тізімнен ашыңыз.</sys:String>
     <sys:String x:Key="Str_St_BackedUp">{0} ішіне сақтық көшірме жасалды</sys:String>
     <sys:String x:Key="Str_St_BackupFailed">Сақтық көшірме жасау сәтсіз аяқталды: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">Үлгіден жаңа жазба</sys:String>
+    <sys:String x:Key="Str_Kb_Template">Үлгі</sys:String>
+    <sys:String x:Key="Str_KS_Trash">Себетті бірінші жазбасынан ашу</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">Себет</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">Себет бос</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">Дерекқордың сақтық көшірмесін қазір жасау</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">Көшірме</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">Сақтық көшірме қалтасы әлі таңдалмаған. Дерекқорларды басқару, содан соң Сақтық көшірмелер бөлімін ашып, қалтаны сол жерден таңдаңыз.</sys:String>
 </ResourceDictionary>

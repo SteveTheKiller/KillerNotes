@@ -875,4 +875,14 @@
     <sys:String x:Key="Str_Bk_Restored">{0} হিসেবে পুনরুদ্ধার করা হয়েছে। ব্যবহার করতে তালিকা থেকে এটি খুলুন।</sys:String>
     <sys:String x:Key="Str_St_BackedUp">{0}-এ ব্যাকআপ নেওয়া হয়েছে</sys:String>
     <sys:String x:Key="Str_St_BackupFailed">ব্যাকআপ ব্যর্থ: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">টেমপ্লেট থেকে নতুন নোট</sys:String>
+    <sys:String x:Key="Str_Kb_Template">টেমপ্লেট</sys:String>
+    <sys:String x:Key="Str_KS_Trash">ট্র্যাশ খুলুন এবং প্রথম নোট বেছে নিন</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">ট্র্যাশ</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">ট্র্যাশ খালি</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">এখনই ডেটাবেস ব্যাকআপ করুন</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">ব্যাকআপ</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">এখনও কোনো ব্যাকআপ ফোল্ডার নেই। ডেটাবেস পরিচালনা থেকে ব্যাকআপে গিয়ে একটি বেছে নিন।</sys:String>
 </ResourceDictionary>

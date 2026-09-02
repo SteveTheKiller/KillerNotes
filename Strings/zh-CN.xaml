@@ -873,4 +873,14 @@
     <sys:String x:Key="Str_Bk_Restored">已还原为 {0}。从列表中打开即可使用。</sys:String>
     <sys:String x:Key="Str_St_BackedUp">已备份到 {0}</sys:String>
     <sys:String x:Key="Str_St_BackupFailed">备份失败: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">从模板新建笔记</sys:String>
+    <sys:String x:Key="Str_Kb_Template">模板</sys:String>
+    <sys:String x:Key="Str_KS_Trash">打开回收站并选中第一条笔记</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">回收站</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">回收站是空的</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">立即备份数据库</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">备份</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">还没有备份文件夹。在管理数据库中前往备份，选择一个。</sys:String>
 </ResourceDictionary>

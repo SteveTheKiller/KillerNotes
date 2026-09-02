@@ -872,4 +872,14 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Bk_Restored">Obnoveno jako {0}. Otevřete ji ze seznamu a použijte.</sys:String>
     <sys:String x:Key="Str_St_BackedUp">Zálohováno do {0}</sys:String>
     <sys:String x:Key="Str_St_BackupFailed">Zálohování selhalo: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">Nová poznámka ze šablony</sys:String>
+    <sys:String x:Key="Str_Kb_Template">Šablona</sys:String>
+    <sys:String x:Key="Str_KS_Trash">Otevřít koš na jeho první poznámce</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">Koš</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">Koš je prázdný</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">Zálohovat databázi nyní</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">Záloha</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">Zatím není vybraná složka pro zálohy. Přejděte do Spravovat databáze, pak Zálohy, a vyberte ji.</sys:String>
 </ResourceDictionary>

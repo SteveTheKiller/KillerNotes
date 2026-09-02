@@ -875,4 +875,14 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Bk_Restored">Restaurée sous {0}. Ouvrez-la depuis la liste pour l'utiliser.</sys:String>
     <sys:String x:Key="Str_St_BackedUp">Sauvegardée dans {0}</sys:String>
     <sys:String x:Key="Str_St_BackupFailed">Échec de la sauvegarde : {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">Nouvelle note depuis un modèle</sys:String>
+    <sys:String x:Key="Str_Kb_Template">Modèle</sys:String>
+    <sys:String x:Key="Str_KS_Trash">Ouvrir la corbeille sur sa première note</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">Corbeille</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">La corbeille est vide</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">Sauvegarder la base de données maintenant</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">Sauvegarde</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">Pas encore de dossier de sauvegarde. Gérer les bases de données, puis Sauvegardes, en choisir un.</sys:String>
 </ResourceDictionary>

@@ -873,4 +873,14 @@
     <sys:String x:Key="Str_Bk_Restored">{0} として復元しました。使用するには一覧から開いてください。</sys:String>
     <sys:String x:Key="Str_St_BackedUp">{0} にバックアップしました</sys:String>
     <sys:String x:Key="Str_St_BackupFailed">バックアップに失敗しました: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">テンプレートから新しいノート</sys:String>
+    <sys:String x:Key="Str_Kb_Template">テンプレート</sys:String>
+    <sys:String x:Key="Str_KS_Trash">ゴミ箱を最初のノートで開く</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">ゴミ箱</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">ゴミ箱は空です</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">データベースを今すぐバックアップする</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">バックアップ</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">バックアップ フォルダーがまだありません。データベースの管理を開き、バックアップでフォルダーを選択してください。</sys:String>
 </ResourceDictionary>

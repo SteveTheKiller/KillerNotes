@@ -883,4 +883,14 @@
     <sys:String x:Key="Str_Bk_Restored">Восстановлено как {0}. Откройте её из списка, чтобы использовать.</sys:String>
     <sys:String x:Key="Str_St_BackedUp">Резервная копия создана в {0}</sys:String>
     <sys:String x:Key="Str_St_BackupFailed">Не удалось создать резервную копию: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">Новая заметка из шаблона</sys:String>
+    <sys:String x:Key="Str_Kb_Template">Шаблон</sys:String>
+    <sys:String x:Key="Str_KS_Trash">Открыть корзину на первой заметке</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">Корзина</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">Корзина пуста</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">Создать резервную копию базы сейчас</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">Копия</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">Папка для резервных копий пока не выбрана. Откройте Управление базами данных, затем Резервные копии и выберите там папку.</sys:String>
 </ResourceDictionary>

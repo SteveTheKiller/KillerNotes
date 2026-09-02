@@ -875,4 +875,14 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Bk_Restored">Wiederhergestellt als {0}. Öffnen Sie sie aus der Liste, um sie zu verwenden.</sys:String>
     <sys:String x:Key="Str_St_BackedUp">Gesichert nach {0}</sys:String>
     <sys:String x:Key="Str_St_BackupFailed">Sicherung fehlgeschlagen: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">Neue Notiz aus Vorlage</sys:String>
+    <sys:String x:Key="Str_Kb_Template">Vorlage</sys:String>
+    <sys:String x:Key="Str_KS_Trash">Papierkorb bei seiner ersten Notiz öffnen</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">Papierkorb</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">Der Papierkorb ist leer</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">Datenbank jetzt sichern</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">Sicherung</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">Noch kein Sicherungsordner. Datenbanken verwalten, dann Sicherungen, einen auswählen.</sys:String>
 </ResourceDictionary>
