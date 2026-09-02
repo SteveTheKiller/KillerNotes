@@ -42,7 +42,7 @@ namespace KillerNotes.Shell
         private void OpenFilesDialog()   // Ctrl+O
         {
             if (!NoteStore.IsOpen) return;
-            var dlg = new Microsoft.Win32.OpenFileDialog
+            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Open)
             {
                 Multiselect = true,
                 Filter = Loc("Str_Filter_Open"),
@@ -207,7 +207,7 @@ namespace KillerNotes.Shell
         {
             SaveCurrentNote(refreshList: false);   // export what is on screen, not a stale copy
 
-            var dlg = new Microsoft.Win32.SaveFileDialog
+            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Save)
             {
                 FileName = SafeFileName(n.Title) + ".txt",
                 Filter = Loc("Str_Filter_Save"),

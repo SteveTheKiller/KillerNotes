@@ -164,7 +164,7 @@ namespace KillerNotes.Controls
         private void ExportMenu_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedFile is not string name) { DlgStatus.Text = Loc("Str_Db_SelectFirst"); return; }
-            var dlg = new Microsoft.Win32.SaveFileDialog
+            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Save)
             {
                 Filter = Loc("Str_Filter_Kndb"),
                 FileName = Path.GetFileNameWithoutExtension(name) + ".kndb",

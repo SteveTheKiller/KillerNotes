@@ -122,7 +122,7 @@ namespace KillerNotes.Shell
             if (n == null) return;
             SaveCurrentNote(refreshList: false);   // share what is on screen, not a stale copy
 
-            var dlg = new Microsoft.Win32.SaveFileDialog
+            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Save)
             {
                 Filter = "KillerNotes shared note (*.knote)|*.knote",
                 FileName = SafeFileName(n.Title) + ".knote",
