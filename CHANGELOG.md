@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.3.1] - Unreleased
 
 ### Added
+- Headings and an outline: Alt+1, 2 and 3 make a line a heading, Alt+0 puts it back, and the H button on the format bar steps through them. Alt+O opens an outline of the note's headings beside it; click one to jump there. Headings now export to markdown as headings.
 - Version history: earlier versions of a note are kept as you work, one per sitting plus one before any conversion or replace-all, up to 50. Alt+H or the right-click menu shows them with a preview and puts one back.
 - Notes can be pinned to the top of their group or of the loose notes, from the right-click menu or Alt+P.
 - Note templates: mark a group as the templates group from its right-click menu, and every note in it appears under "New note from template". {date}, {time}, {datetime} and {weekday} in a template are filled in on the way.

@@ -126,6 +126,14 @@ namespace KillerNotes.Shell
                     case Key.H:
                         HistoryShortcut();   // History.cs (earlier versions of the open note)
                         e.Handled = true; return;
+                    // Headings (Headings.cs): Alt+1..3 set the level, Alt+0 is normal text.
+                    case Key.D1 or Key.NumPad1: SetHeadingLevel(1); e.Handled = true; return;
+                    case Key.D2 or Key.NumPad2: SetHeadingLevel(2); e.Handled = true; return;
+                    case Key.D3 or Key.NumPad3: SetHeadingLevel(3); e.Handled = true; return;
+                    case Key.D0 or Key.NumPad0: SetHeadingLevel(0); e.Handled = true; return;
+                    case Key.O:
+                        ToggleOutline();   // Headings.cs (the outline pane)
+                        e.Handled = true; return;
                 }
             }
 

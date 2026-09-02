@@ -11,11 +11,12 @@
 // markdown has no syntax for. Losses() names them up front so a caller can put the list in
 // front of the user before anything is rewritten, rather than discovering it afterward.
 //
-// Headings are deliberately NOT reverse-engineered from font size on the way out. A large bold
-// paragraph might be a heading or might be a large bold paragraph, and guessing wrong rewrites
-// the user's document. Markdown to rich sets a heading's size from a base the caller supplies,
-// so headings survive a round trip that stays inside one note; a rich note authored by hand
-// keeps its paragraphs as paragraphs.
+// Headings go both ways since 1.3.1, on one convention (Services/Headings.cs): a heading is a
+// bold paragraph at one of three sizes scaled from the base. Markdown to rich makes that shape
+// from "# Title"; rich to markdown recognizes exactly that shape and writes the marker back. A
+// paragraph that is merely large and bold by hand stays a paragraph unless it happens to sit on
+// a heading size, which is also when it looks like one; that is the editor's own definition
+// rather than a guess.
 //
 // Hyperlinks are held to the same three schemes Links.cs allows. A markdown file is untrusted
 // input once it can arrive by import or from a vault folder, so a javascript: or file: URL must
@@ -57,7 +58,7 @@ namespace KillerNotes.Services
         // Heading sizes as multiples of the editor's base font size. Markdown has six levels;
         // past h3 the differences are small on purpose so a deep outline does not turn into
         // body text that happens to be bold.
-        private static readonly double[] HeadingScale = [1.85, 1.55, 1.32, 1.16, 1.06, 1.0];
+        private static readonly double[] HeadingScale = Headings.Scale;   // one definition for the whole app
 
         private const string CodeFont = "Consolas";
 
@@ -372,7 +373,10 @@ namespace KillerNotes.Services
         public static string FromDocument(FlowDocument doc)
         {
             var sb = new StringBuilder();
-            foreach (var block in doc.Blocks) WriteBlock(sb, block, 0);
+            // The base a heading's size is measured against: the document's own when it carries
+            // one (ToDocument sets it), else the editor's, which is what a stored note lived in.
+            double base_ = doc.ReadLocalValue(FlowDocument.FontSizeProperty) is double b && b > 0 ? b : Headings.DefaultBase;
+            foreach (var block in doc.Blocks) WriteBlock(sb, block, 0, base_);
             // Collapse the run of blank lines block writing leaves behind, and end with exactly
             // one newline so the file is well formed for git and for other markdown editors.
             string text = sb.ToString().Replace("\r\n", "\n");
@@ -380,7 +384,7 @@ namespace KillerNotes.Services
             return text.Trim('\n') + "\n";
         }
 
-        private static void WriteBlock(StringBuilder sb, WpfBlock block, int depth)
+        private static void WriteBlock(StringBuilder sb, WpfBlock block, int depth, double base_)
         {
             string indent = new(' ', depth * 2);
             switch (block)
@@ -392,6 +396,15 @@ namespace KillerNotes.Services
                     if (p.Inlines.Count == 0 && p.BorderThickness.Bottom > 0)
                     {
                         sb.Append(indent).Append("---\n\n");
+                        break;
+                    }
+                    // A heading (Headings.cs) goes out as its marker plus plain words: the bold
+                    // is the heading's own shape, not emphasis to write as asterisks.
+                    int level = Headings.LevelOf(p, base_);
+                    if (level > 0)
+                    {
+                        sb.Append(indent).Append('#', level).Append(' ')
+                          .Append(PlainText(p.Inlines).Trim()).Append("\n\n");
                         break;
                     }
                     string body = InlinesToMarkdown(p.Inlines);
@@ -412,7 +425,7 @@ namespace KillerNotes.Services
                     {
                         string marker = ordered ? n++.ToString(CultureInfo.InvariantCulture) + ". " : "- ";
                         var inner = new StringBuilder();
-                        foreach (var b in item.Blocks) WriteBlock(inner, b, depth + 1);
+                        foreach (var b in item.Blocks) WriteBlock(inner, b, depth + 1, base_);
 
                         // The first line carries the marker; continuation lines line up under it
                         // so a nested list stays nested when the markdown is re-parsed.
@@ -444,7 +457,7 @@ namespace KillerNotes.Services
                     // The quote shape ToDocument produces: a left border and nothing else.
                     bool quote = sec.BorderThickness.Left > 0;
                     var inner = new StringBuilder();
-                    foreach (var b in sec.Blocks) WriteBlock(inner, b, depth);
+                    foreach (var b in sec.Blocks) WriteBlock(inner, b, depth, base_);
                     if (!quote) { sb.Append(inner); break; }
                     foreach (string line in inner.ToString().TrimEnd('\n').Split('\n'))
                         sb.Append(indent).Append(line.Length == 0 ? ">" : "> " + line).Append('\n');
@@ -462,7 +475,7 @@ namespace KillerNotes.Services
                             var cells = row.Cells.Select(c =>
                             {
                                 var cb = new StringBuilder();
-                                foreach (var b in c.Blocks) WriteBlock(cb, b, 0);
+                                foreach (var b in c.Blocks) WriteBlock(cb, b, 0, base_);
                                 return cb.ToString().Replace('\n', ' ').Trim();
                             });
                             string line = string.Join(" | ", cells).Trim();
@@ -474,6 +487,24 @@ namespace KillerNotes.Services
                 case BlockUIContainer:
                     // An embedded control or image with no text to preserve.
                     break;
+            }
+        }
+
+        /// <summary>The words of a run of inlines with no markup at all, for heading lines.</summary>
+        private static string PlainText(InlineCollection inlines)
+        {
+            var sb = new StringBuilder();
+            foreach (var inline in inlines) AppendPlain(sb, inline);
+            return sb.ToString();
+        }
+
+        private static void AppendPlain(StringBuilder sb, WpfInline inline)
+        {
+            switch (inline)
+            {
+                case Run r: sb.Append(r.Text); break;
+                case LineBreak: sb.Append(' '); break;
+                case Span sp: foreach (var i in sp.Inlines) AppendPlain(sb, i); break;
             }
         }
 

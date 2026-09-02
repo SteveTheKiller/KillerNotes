@@ -94,6 +94,7 @@ namespace KillerNotes.Shell
             ApplyTitleColor(meta);
             RefreshBacklinks();   // Backlinks.cs - "linked from" is per note, so it reloads with one
             ShowEditor(true);
+            RefreshOutline();     // Headings.cs - the outline is per note too
             // The TextSelection object SURVIVES Blocks.Clear() + range.Load and renormalizes its
             // pointers into the NEW note's content - so switching notes could carry a ghost
             // selection that highlighted arbitrary text in the note being opened (seen as opaque
@@ -291,6 +292,7 @@ namespace KillerNotes.Shell
         private void Editor_TextChanged(object sender, TextChangedEventArgs e)
         {
             MarkDirty();
+            QueueOutlineRefresh();   // Headings.cs (debounced; no-op while the pane is closed)
             // Only marks the find bar's flattened copy of the note stale - it does not re-walk
             // anything unless the bar is open and a match is actually being asked for
             // (FindBar.cs).

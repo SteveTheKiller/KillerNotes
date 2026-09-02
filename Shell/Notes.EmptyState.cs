@@ -135,6 +135,8 @@ namespace KillerNotes.Shell
             {
                 PreviewMenuItem.Visibility = Visibility.Collapsed;
                 ClosePreview();   // Preview.cs
+                OutlineList.Children.Clear();   // Headings.cs - no note, no outline
+                OutlineEmpty.Visibility = Visibility.Collapsed;
             }
         }
 

@@ -364,6 +364,11 @@
                         <Button x:Name="LineNumBtn" Style="{StaticResource RailButton}" Content="&#xEA37;"
                                 Margin="0,0,0,10" Click="LineNumbers_Click"
                                 ToolTip="{DynamicResource Str_TT_LineNumbers}"/>
+                        <!-- Outline of the open note's headings (Headings.cs / Alt+O). E700 = the
+                             stacked-lines glyph; accent-colored while the pane is open. -->
+                        <Button x:Name="OutlineRailBtn" Style="{StaticResource RailButton}" Content="&#xE700;"
+                                Margin="0,0,0,10" Click="Outline_Click"
+                                ToolTip="{DynamicResource Str_TT_Outline}"/>
                         <!-- Graph of the wikilinks between notes (GraphWindow.cs). An app-specific
                              toggle, so it sits ABOVE the universal ? / language / theme trio the
                              whole family keeps in the same place. E9D9 = the node-graph glyph. -->
@@ -1718,6 +1723,13 @@
                     <!-- Checkbox line (1.3.1, Checklist.cs): a box at the head of the line, clickable. -->
                     <Button x:Name="FmtCheckBtn" Style="{StaticResource FmtButton}" Content="&#xE73A;" ToolTip="{DynamicResource Str_TT_Checkbox}"
                             Click="Checkbox_Click"/>
+                    <!-- Heading (1.3.1, Headings.cs): each click steps the line through h1, h2, h3
+                         and back to normal text. A drawn H, since MDL2 has no heading glyph. -->
+                    <Button x:Name="FmtHeadingBtn" Style="{StaticResource FmtButton}" ToolTip="{DynamicResource Str_TT_Heading}"
+                            Click="Heading_Click">
+                        <TextBlock Text="H" FontFamily="Segoe UI" FontWeight="Bold" FontSize="14"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
                     <Rectangle x:Name="FmtInsertSeparator" Style="{StaticResource FmtSeparator}"/>
                     <Button x:Name="FmtRuleBtn" Style="{StaticResource FmtButton}" Content="&#xE738;" ToolTip="{DynamicResource Str_TT_Rule}"
                             Click="InsertRule_Click"/>
@@ -1787,6 +1799,8 @@
                         <ColumnDefinition x:Name="GutterCol" Width="0"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition x:Name="PreviewCol" Width="0"/>
+                        <!-- The outline of headings (Headings.cs / Alt+O), 0-wide until opened. -->
+                        <ColumnDefinition x:Name="OutlineCol" Width="0"/>
                     </Grid.ColumnDefinitions>
                     <!-- Line-number gutter (LineNumbers.cs): a Canvas whose numbers are positioned to
                          each paragraph; GutterCol stays 0-wide until the gutter is toggled on. -->
@@ -1942,6 +1956,44 @@
                             Background="{DynamicResource SurfaceBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
                             Margin="0,0,8,8"/>
+                    <!-- ══════════ OUTLINE (Headings.cs) ══════════ -->
+                    <!-- The open note's headings, one row per heading indented by level; a click
+                         scrolls the editor there. Same pane treatment as the preview beside it.
+                         Rows are built in code (RefreshOutline) with the OutlineRow style below. -->
+                    <Border x:Name="OutlinePane" Grid.Column="3" Visibility="Collapsed"
+                            Background="{DynamicResource SurfaceBrush}"
+                            BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
+                            Margin="0,0,8,8">
+                        <Border.Resources>
+                            <Style x:Key="OutlineRow" TargetType="Border">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}"/>
+                                <Setter Property="Margin" Value="4,0"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource RowHoverBrush}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Resources>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="{DynamicResource Str_Outline_Title}" FontSize="10.5"
+                                       FontWeight="SemiBold" Margin="14,8,8,4"
+                                       Foreground="{DynamicResource DimTextBrush}"/>
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Disabled">
+                                <StackPanel x:Name="OutlineList" Margin="0,2,0,8"/>
+                            </ScrollViewer>
+                            <TextBlock x:Name="OutlineEmpty" Grid.Row="1" Text="{DynamicResource Str_Outline_Empty}"
+                                       Foreground="{DynamicResource DimTextBrush}" FontSize="11"
+                                       TextWrapping="Wrap" TextAlignment="Center" Margin="16"
+                                       VerticalAlignment="Center" Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
                 </Grid>
 
                 <!-- ══════════ BACKLINKS (Backlinks.cs) ══════════ -->

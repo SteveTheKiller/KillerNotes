@@ -882,4 +882,18 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Hist_Count">{0} versions. A new one is kept after {1} minutes away from the note; the newest {2} stay.</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">Restore this version</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Restored the version from {0}. The text it replaced is in the history too.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Heading: each click steps the line through levels 1 to 3 and back (Alt+1, 2, 3; Alt+0 for normal text)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">Heading level 1, 2 or 3 on the current lines</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Back to normal text</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Heading</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Normal</sys:String>
+    <sys:String x:Key="Str_St_Heading">Heading {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Normal text</sys:String>
+    <sys:String x:Key="Str_TT_Outline">Outline of the note's headings (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Show or hide the outline of headings</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Outline</sys:String>
+    <sys:String x:Key="Str_Outline_Title">OUTLINE</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">No headings yet. Alt+1 turns the current line into one.</sys:String>
 </ResourceDictionary>

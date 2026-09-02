@@ -60,6 +60,13 @@ namespace KillerNotes.Shell
             new("Alt+C", "Str_KS_Checkbox", "Format", [(KbLayer.Alt, "C", "Str_Kb_Checkbox")]),
             new("Alt+D", "Str_KS_Today", "Note", [(KbLayer.Alt, "D", "Str_Kb_Today")]),
             new("Alt+H", "Str_KS_History", "Note", [(KbLayer.Alt, "H", "Str_Kb_History")]),
+            new("Alt+1 / 2 / 3", "Str_KS_Headings", "Format",
+                [
+                 (KbLayer.Alt, "D1", "Str_Kb_Heading"),
+                 (KbLayer.Alt, "D2", "Str_Kb_Heading"),
+                 (KbLayer.Alt, "D3", "Str_Kb_Heading")]),
+            new("Alt+0", "Str_KS_HeadingOff", "Format", [(KbLayer.Alt, "D0", "Str_Kb_Normal")]),
+            new("Alt+O", "Str_KS_Outline", "View", [(KbLayer.Alt, "O", "Str_Kb_Outline")]),
             new("Ctrl+N", "Str_KS_NewNote", "Note", [(KbLayer.Ctrl, "N", "Str_KS_NewNote")]),
             new("Ctrl+G", "Str_KS_NewGroup", "Note", [(KbLayer.Ctrl, "G", "Str_KS_NewGroup")]),
             new("Ctrl+T", "Str_KS_ManageTags", "Note", [(KbLayer.Ctrl, "T", "Str_KS_ManageTags")]),
