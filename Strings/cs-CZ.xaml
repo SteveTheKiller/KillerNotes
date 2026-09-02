@@ -832,4 +832,44 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Hist_Count">{0} verzí. Nová se uloží po {1} minutách mimo poznámku; zůstává nejnovějších {2}.</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">Obnovit tuto verzi</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Obnovena verze z {0}. Nahrazený text je také v historii.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Nadpis: každým kliknutím řádek postupně projde úrovněmi 1 až 3 a zpět (Alt+1, 2, 3; Alt+0 pro normální text)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">Nadpis úrovně 1, 2 nebo 3 na aktuálních řádcích</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Zpět na normální text</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Nadpis</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Normální</sys:String>
+    <sys:String x:Key="Str_St_Heading">Nadpis {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Normální text</sys:String>
+    <sys:String x:Key="Str_TT_Outline">Osnova nadpisů poznámky (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Zobrazit nebo skrýt osnovu nadpisů</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Osnova</sys:String>
+    <sys:String x:Key="Str_Outline_Title">OSNOVA</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Zatím žádné nadpisy. Alt+1 udělá z aktuálního řádku nadpis.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Zálohy</sys:String>
+    <sys:String x:Key="Str_TT_Backups">Plánované zálohy vybrané databáze</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">Zálohovat podle plánu, dokud KillerNotes běží</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Složka pro zálohy</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Procházet...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Zvolte složku pro zálohy</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">Jak často</sys:String>
+    <sys:String x:Key="Str_Bk_6h">Každých 6 hodin</sys:String>
+    <sys:String x:Key="Str_Bk_12h">Každých 12 hodin</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Denně</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Týdně</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Kolik kopií uchovat</sys:String>
+    <sys:String x:Key="Str_Bk_Note">Kopie je databáze v aktuálním stavu: databáze chráněná heslem dá kopii, která se otevře stejným heslem.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">V této složce zatím nejsou žádné zálohy této databáze.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Nejprve vyberte složku.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Poslední záloha: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">Zatím žádná záloha.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Zálohovat nyní</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Obnovit jako novou databázi</sys:String>
+    <sys:String x:Key="Str_Bk_Done">Zálohováno do {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">Zálohování selhalo: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">Obnoveno jako {0}. Otevřete ji ze seznamu a použijte.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">Zálohováno do {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">Zálohování selhalo: {0}</sys:String>
 </ResourceDictionary>

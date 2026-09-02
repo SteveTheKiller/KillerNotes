@@ -835,4 +835,44 @@
     <sys:String x:Key="Str_Hist_Count">{0} 個版本。離開筆記 {1} 分鐘後會保留新版本，僅保留最新的 {2} 個。</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">還原這個版本</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">已還原至 {0} 的版本。被取代的內容也保留在歷史中。</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">標題: 每次點擊都會讓目前行依序變成1、2、3級標題，然後再變回普通文字 (Alt+1、2、3。恢復普通文字用 Alt+0)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">將目前行設為1、2或3級標題</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">恢復為普通文字</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">標題</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">普通</sys:String>
+    <sys:String x:Key="Str_St_Heading">標題 {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">普通文字</sys:String>
+    <sys:String x:Key="Str_TT_Outline">筆記標題的大綱 (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">顯示或隱藏標題大綱</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">大綱</sys:String>
+    <sys:String x:Key="Str_Outline_Title">大綱</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">還沒有標題。Alt+1 可以把目前行變成標題。</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">備份</sys:String>
+    <sys:String x:Key="Str_TT_Backups">所選資料庫的定時備份</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">KillerNotes 執行時依排程自動備份</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">備份資料夾</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">瀏覽...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">選擇備份資料夾</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">頻率</sys:String>
+    <sys:String x:Key="Str_Bk_6h">每 6 小時</sys:String>
+    <sys:String x:Key="Str_Bk_12h">每 12 小時</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">每天</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">每週</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">保留的副本數</sys:String>
+    <sys:String x:Key="Str_Bk_Note">備份保留的是當下的資料庫原樣。如果資料庫設有密碼保護，備份也需要用同一組密碼才能開啟。</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">這個資料夾裡還沒有這個資料庫的備份。</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">請先選擇一個資料夾。</sys:String>
+    <sys:String x:Key="Str_Bk_Last">上次備份: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">還沒有備份過。</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">立即備份</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">還原為新資料庫</sys:String>
+    <sys:String x:Key="Str_Bk_Done">已備份到 {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">備份失敗: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">已還原為 {0}。從清單中開啟即可使用。</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">已備份到 {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">備份失敗: {0}</sys:String>
 </ResourceDictionary>

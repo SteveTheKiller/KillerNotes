@@ -835,4 +835,44 @@
     <sys:String x:Key="Str_Hist_Count">{0}টি ভার্সন। নোট থেকে {1} মিনিট দূরে থাকলে একটি নতুন ভার্সন সংরক্ষিত হয়; সবশেষ {2}টি রাখা হয়।</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">এই ভার্সনটি পুনরুদ্ধার করুন</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">{0} তারিখের ভার্সনটি পুনরুদ্ধার করা হয়েছে। প্রতিস্থাপিত লেখাটিও ইতিহাসে আছে।</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">শিরোনাম: প্রতিবার ক্লিকে লাইনটি 1 থেকে 3 নম্বর স্তরের শিরোনামের মধ্যে ঘোরে, তারপর আবার ফিরে আসে (Alt+1, 2, 3; সাধারণ পাঠ্যের জন্য Alt+0)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">বর্তমান লাইনগুলিকে 1, 2 বা 3 নম্বর স্তরের শিরোনাম করুন</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">সাধারণ পাঠ্যে ফিরুন</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">শিরোনাম</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">সাধারণ</sys:String>
+    <sys:String x:Key="Str_St_Heading">শিরোনাম {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">সাধারণ পাঠ্য</sys:String>
+    <sys:String x:Key="Str_TT_Outline">নোটের শিরোনামগুলির রূপরেখা (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">শিরোনামের রূপরেখা দেখান বা লুকান</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">রূপরেখা</sys:String>
+    <sys:String x:Key="Str_Outline_Title">রূপরেখা</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">এখনও কোনো শিরোনাম নেই। Alt+1 বর্তমান লাইনটিকে শিরোনাম করে দেয়।</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">ব্যাকআপ</sys:String>
+    <sys:String x:Key="Str_TT_Backups">নির্বাচিত ডেটাবেসের নির্ধারিত ব্যাকআপ</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">KillerNotes চলাকালীন নির্ধারিত সময়ে ব্যাকআপ নিন</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">ব্যাকআপ ফোল্ডার</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">ব্রাউজ...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">ব্যাকআপ ফোল্ডার বেছে নিন</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">কত ঘন ঘন</sys:String>
+    <sys:String x:Key="Str_Bk_6h">প্রতি 6 ঘণ্টায়</sys:String>
+    <sys:String x:Key="Str_Bk_12h">প্রতি 12 ঘণ্টায়</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">প্রতিদিন</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">সাপ্তাহিক</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">যত কপি রাখা হবে</sys:String>
+    <sys:String x:Key="Str_Bk_Note">কপিটি সেই মুহূর্তের ডেটাবেসের হুবহু রূপ। পাসওয়ার্ড-সুরক্ষিত ডেটাবেসের কপিও একই পাসওয়ার্ড দিয়ে খোলে।</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">এই ফোল্ডারে এই ডেটাবেসের এখনও কোনো ব্যাকআপ নেই।</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">প্রথমে একটি ফোল্ডার বেছে নিন।</sys:String>
+    <sys:String x:Key="Str_Bk_Last">সর্বশেষ ব্যাকআপ: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">এখনও কোনো ব্যাকআপ হয়নি।</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">এখনই ব্যাকআপ নিন</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">নতুন ডেটাবেস হিসেবে পুনরুদ্ধার করুন</sys:String>
+    <sys:String x:Key="Str_Bk_Done">{0}-এ ব্যাকআপ নেওয়া হয়েছে</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">ব্যাকআপ ব্যর্থ: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">{0} হিসেবে পুনরুদ্ধার করা হয়েছে। ব্যবহার করতে তালিকা থেকে এটি খুলুন।</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">{0}-এ ব্যাকআপ নেওয়া হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">ব্যাকআপ ব্যর্থ: {0}</sys:String>
 </ResourceDictionary>

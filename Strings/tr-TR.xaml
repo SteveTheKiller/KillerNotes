@@ -834,4 +834,44 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Hist_Count">{0} sürüm. Nottan {1} dakika uzak kalındığında yeni bir sürüm saklanır; en yeni {2} tanesi kalır.</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">Bu sürümü geri yükle</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">{0} tarihli sürüm geri yüklendi. Yerini alan metin de geçmişte duruyor.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Başlık: her tıklamada satır 1, 2 ve 3. düzeyler arasında ilerler, sonra normale döner (Alt+1, 2, 3; normal metin için Alt+0)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">Geçerli satırlarda 1, 2 veya 3. düzey başlık</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Normal metne dön</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Başlık</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Normal</sys:String>
+    <sys:String x:Key="Str_St_Heading">Başlık {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Normal metin</sys:String>
+    <sys:String x:Key="Str_TT_Outline">Notun başlıklarının anahatı (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Başlıkların anahatını göster veya gizle</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Anahat</sys:String>
+    <sys:String x:Key="Str_Outline_Title">ANAHAT</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Henüz başlık yok. Alt+1 geçerli satırı başlığa dönüştürür.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Yedeklemeler</sys:String>
+    <sys:String x:Key="Str_TT_Backups">Seçili veritabanının zamanlanmış yedekleri</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">KillerNotes çalışırken zamanlanmış şekilde yedekle</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Yedekleme klasörü</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Gözat...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Yedekleme klasörünü seçin</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">Sıklık</sys:String>
+    <sys:String x:Key="Str_Bk_6h">6 saatte bir</sys:String>
+    <sys:String x:Key="Str_Bk_12h">12 saatte bir</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Günlük</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Haftalık</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Saklanacak kopya sayısı</sys:String>
+    <sys:String x:Key="Str_Bk_Note">Kopya, veritabanının o anki halidir: parola korumalı bir veritabanından alınan kopya aynı parolayla açılır.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">Bu klasörde bu veritabanının henüz yedeği yok.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Önce bir klasör seçin.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Son yedekleme: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">Henüz yedekleme yok.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Şimdi yedekle</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Yeni veritabanı olarak geri yükle</sys:String>
+    <sys:String x:Key="Str_Bk_Done">{0} konumuna yedeklendi</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">Yedekleme başarısız: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">{0} olarak geri yüklendi. Kullanmak için listeden açın.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">{0} konumuna yedeklendi</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">Yedekleme başarısız: {0}</sys:String>
 </ResourceDictionary>

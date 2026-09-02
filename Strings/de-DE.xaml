@@ -835,4 +835,44 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Hist_Count">{0} Versionen. Eine neue wird nach {1} Minuten Abwesenheit von der Notiz aufbewahrt; die neuesten {2} bleiben erhalten.</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">Diese Version wiederherstellen</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Version vom {0} wiederhergestellt. Der ersetzte Text ist ebenfalls im Verlauf.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Überschrift: Jeder Klick schaltet die Zeile durch die Ebenen 1 bis 3 und wieder zurück (Alt+1, 2, 3; Alt+0 für normalen Text)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">Überschriftsebene 1, 2 oder 3 auf den aktuellen Zeilen</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Zurück zu normalem Text</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Überschrift</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Normal</sys:String>
+    <sys:String x:Key="Str_St_Heading">Überschrift {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Normaler Text</sys:String>
+    <sys:String x:Key="Str_TT_Outline">Gliederung der Überschriften der Notiz (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Gliederung der Überschriften ein- oder ausblenden</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Gliederung</sys:String>
+    <sys:String x:Key="Str_Outline_Title">GLIEDERUNG</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Noch keine Überschriften. Alt+1 macht die aktuelle Zeile zu einer.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Sicherungen</sys:String>
+    <sys:String x:Key="Str_TT_Backups">Geplante Sicherungen der ausgewählten Datenbank</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">Nach Zeitplan sichern, während KillerNotes läuft</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Sicherungsordner</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Durchsuchen...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Sicherungsordner auswählen</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">Wie oft</sys:String>
+    <sys:String x:Key="Str_Bk_6h">Alle 6 Stunden</sys:String>
+    <sys:String x:Key="Str_Bk_12h">Alle 12 Stunden</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Täglich</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Wöchentlich</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Aufzubewahrende Kopien</sys:String>
+    <sys:String x:Key="Str_Bk_Note">Eine Kopie ist die Datenbank, wie sie ist: Eine passwortgeschützte Datenbank ergibt eine Kopie, die sich mit demselben Passwort öffnen lässt.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">Noch keine Sicherungen dieser Datenbank in diesem Ordner.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Wählen Sie zuerst einen Ordner.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Letzte Sicherung: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">Noch keine Sicherung.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Jetzt sichern</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Als neue Datenbank wiederherstellen</sys:String>
+    <sys:String x:Key="Str_Bk_Done">Gesichert nach {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">Sicherung fehlgeschlagen: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">Wiederhergestellt als {0}. Öffnen Sie sie aus der Liste, um sie zu verwenden.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">Gesichert nach {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">Sicherung fehlgeschlagen: {0}</sys:String>
 </ResourceDictionary>

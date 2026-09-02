@@ -843,4 +843,44 @@
     <sys:String x:Key="Str_Hist_Count">{0} нұсқа. Жазбадан {1} минут қашық болғанда жаңа нұсқа сақталады; ең соңғы {2} нұсқа қалады.</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">Осы нұсқаны қалпына келтіру</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">{0} кезіндегі нұсқа қалпына келтірілді. Ауыстырылған мәтін де тарихта сақталған.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Тақырыптама: әрбір басу жолды 1-ден 3-ке дейінгі деңгейлер арқылы өткізіп, қайта қалыпты мәтінге келтіреді (Alt+1, 2, 3; қалыпты мәтін үшін Alt+0)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">Ағымдағы жолдарда 1, 2 немесе 3-деңгей тақырыптама</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Қалыпты мәтінге қайту</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Тақырыптама</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Қалыпты</sys:String>
+    <sys:String x:Key="Str_St_Heading">Тақырыптама {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Қалыпты мәтін</sys:String>
+    <sys:String x:Key="Str_TT_Outline">Жазба тақырыптамаларының құрылымы (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Тақырыптамалар құрылымын көрсету немесе жасыру</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Құрылым</sys:String>
+    <sys:String x:Key="Str_Outline_Title">ҚҰРЫЛЫМ</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Әзірге тақырыптама жоқ. Alt+1 ағымдағы жолды тақырыптамаға айналдырады.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Сақтық көшірмелер</sys:String>
+    <sys:String x:Key="Str_TT_Backups">Таңдалған дерекқордың кесте бойынша сақтық көшірмелері</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">KillerNotes жұмыс істеп тұрғанда кесте бойынша сақтық көшірме жасау</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Сақтық көшірме қалтасы</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Шолу...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Сақтық көшірме қалтасын таңдаңыз</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">Қаншалықты жиі</sys:String>
+    <sys:String x:Key="Str_Bk_6h">Әр 6 сағат сайын</sys:String>
+    <sys:String x:Key="Str_Bk_12h">Әр 12 сағат сайын</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Күн сайын</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Апта сайын</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Сақталатын көшірмелер саны</sys:String>
+    <sys:String x:Key="Str_Bk_Note">Көшірме - дерекқордың сол кездегі күйі: құпия сөзбен қорғалған дерекқордан алынған көшірме сол құпия сөзбен ашылады.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">Бұл қалтада осы дерекқордың сақтық көшірмесі әлі жоқ.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Алдымен қалта таңдаңыз.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Соңғы сақтық көшірме: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">Сақтық көшірме әлі жоқ.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Қазір сақтық көшірме жасау</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Жаңа дерекқор ретінде қалпына келтіру</sys:String>
+    <sys:String x:Key="Str_Bk_Done">{0} ішіне сақтық көшірме жасалды</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">Сақтық көшірме жасау сәтсіз аяқталды: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">{0} ретінде қалпына келтірілді. Пайдалану үшін оны тізімнен ашыңыз.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">{0} ішіне сақтық көшірме жасалды</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">Сақтық көшірме жасау сәтсіз аяқталды: {0}</sys:String>
 </ResourceDictionary>

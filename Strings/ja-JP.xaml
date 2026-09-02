@@ -833,4 +833,44 @@
     <sys:String x:Key="Str_Hist_Count">{0} 件のバージョン。ノートから {1} 分離れると新しいバージョンが保存され、最新の {2} 件が保持されます。</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">このバージョンを復元</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">{0} のバージョンを復元しました。置き換えられた内容も履歴に残っています。</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">見出し: クリックするたびに行が見出しレベル1から3まで進み、また戻ります (Alt+1、2、3。通常のテキストに戻すには Alt+0)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">現在の行を見出しレベル1、2、3のいずれかにします</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">通常のテキストに戻す</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">見出し</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">通常</sys:String>
+    <sys:String x:Key="Str_St_Heading">見出し {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">通常のテキスト</sys:String>
+    <sys:String x:Key="Str_TT_Outline">ノート内の見出しのアウトライン (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">見出しのアウトラインを表示または非表示</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">アウトライン</sys:String>
+    <sys:String x:Key="Str_Outline_Title">アウトライン</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">まだ見出しがありません。Alt+1 で現在の行を見出しにできます。</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">バックアップ</sys:String>
+    <sys:String x:Key="Str_TT_Backups">選択したデータベースの定期バックアップ</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">KillerNotes の実行中にスケジュールに従ってバックアップします</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">バックアップ フォルダー</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">参照...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">バックアップ フォルダーを選択</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">頻度</sys:String>
+    <sys:String x:Key="Str_Bk_6h">6時間ごと</sys:String>
+    <sys:String x:Key="Str_Bk_12h">12時間ごと</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">毎日</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">毎週</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">保持するコピー数</sys:String>
+    <sys:String x:Key="Str_Bk_Note">コピーはその時点のデータベースをそのまま保存したものです。パスワードで保護されたデータベースの場合、コピーも同じパスワードで開きます。</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">このフォルダーにはまだこのデータベースのバックアップがありません。</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">先にフォルダーを選択してください。</sys:String>
+    <sys:String x:Key="Str_Bk_Last">前回のバックアップ: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">まだバックアップがありません。</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">今すぐバックアップ</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">新しいデータベースとして復元</sys:String>
+    <sys:String x:Key="Str_Bk_Done">{0} にバックアップしました</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">バックアップに失敗しました: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">{0} として復元しました。使用するには一覧から開いてください。</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">{0} にバックアップしました</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">バックアップに失敗しました: {0}</sys:String>
 </ResourceDictionary>

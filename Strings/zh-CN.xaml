@@ -833,4 +833,44 @@
     <sys:String x:Key="Str_Hist_Count">{0} 个版本。离开笔记 {1} 分钟后会保留一个新版本，最新的 {2} 个会保留。</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">还原此版本</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">已还原到 {0} 的版本。被替换的内容也保留在历史记录中。</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">标题: 每次点击都会让当前行依次变成1、2、3级标题，然后再变回普通文本 (Alt+1、2、3。恢复普通文本用 Alt+0)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">把当前行设为1、2或3级标题</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">恢复为普通文本</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">标题</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">普通</sys:String>
+    <sys:String x:Key="Str_St_Heading">标题 {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">普通文本</sys:String>
+    <sys:String x:Key="Str_TT_Outline">笔记标题的大纲 (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">显示或隐藏标题大纲</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">大纲</sys:String>
+    <sys:String x:Key="Str_Outline_Title">大纲</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">还没有标题。Alt+1 可以把当前行变成标题。</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">备份</sys:String>
+    <sys:String x:Key="Str_TT_Backups">所选数据库的定时备份</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">KillerNotes 运行时按计划自动备份</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">备份文件夹</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">浏览...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">选择备份文件夹</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">频率</sys:String>
+    <sys:String x:Key="Str_Bk_6h">每 6 小时</sys:String>
+    <sys:String x:Key="Str_Bk_12h">每 12 小时</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">每天</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">每周</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">保留的副本数</sys:String>
+    <sys:String x:Key="Str_Bk_Note">备份保存的是当时的数据库原样。如果数据库有密码保护，备份也需要用同一个密码才能打开。</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">该文件夹中还没有这个数据库的备份。</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">请先选择一个文件夹。</sys:String>
+    <sys:String x:Key="Str_Bk_Last">上次备份: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">还没有备份过。</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">立即备份</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">还原为新数据库</sys:String>
+    <sys:String x:Key="Str_Bk_Done">已备份到 {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">备份失败: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">已还原为 {0}。从列表中打开即可使用。</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">已备份到 {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">备份失败: {0}</sys:String>
 </ResourceDictionary>

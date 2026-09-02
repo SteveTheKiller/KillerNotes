@@ -843,4 +843,44 @@
     <sys:String x:Key="Str_Hist_Count">Версий: {0}. Новая сохраняется через {1} минут отсутствия у заметки; остаются последние {2}.</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">Восстановить эту версию</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Восстановлена версия от {0}. Заменённый текст тоже сохранён в истории.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Заголовок: каждый клик переключает строку по уровням с 1 по 3 и обратно (Alt+1, 2, 3; Alt+0 для обычного текста)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">Заголовок уровня 1, 2 или 3 на текущих строках</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Вернуть обычный текст</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Заголовок</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Обычный</sys:String>
+    <sys:String x:Key="Str_St_Heading">Заголовок {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Обычный текст</sys:String>
+    <sys:String x:Key="Str_TT_Outline">Структура заголовков заметки (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Показать или скрыть структуру заголовков</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Структура</sys:String>
+    <sys:String x:Key="Str_Outline_Title">СТРУКТУРА</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Пока нет заголовков. Alt+1 сделает текущую строку заголовком.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Резервные копии</sys:String>
+    <sys:String x:Key="Str_TT_Backups">Резервное копирование выбранной базы по расписанию</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">Резервное копирование по расписанию, пока KillerNotes запущен</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Папка для резервных копий</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Обзор...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Выберите папку для резервных копий</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">Как часто</sys:String>
+    <sys:String x:Key="Str_Bk_6h">Каждые 6 часов</sys:String>
+    <sys:String x:Key="Str_Bk_12h">Каждые 12 часов</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Ежедневно</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Еженедельно</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Сколько копий хранить</sys:String>
+    <sys:String x:Key="Str_Bk_Note">Копия - это база в её текущем состоянии: копия базы, защищённой паролем, открывается тем же паролем.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">В этой папке пока нет резервных копий этой базы.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Сначала выберите папку.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Последняя резервная копия: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">Резервных копий пока нет.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Создать копию сейчас</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Восстановить как новую базу</sys:String>
+    <sys:String x:Key="Str_Bk_Done">Резервная копия создана в {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">Не удалось создать резервную копию: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">Восстановлено как {0}. Откройте её из списка, чтобы использовать.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">Резервная копия создана в {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">Не удалось создать резервную копию: {0}</sys:String>
 </ResourceDictionary>

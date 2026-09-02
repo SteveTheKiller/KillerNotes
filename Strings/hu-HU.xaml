@@ -861,4 +861,44 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Hist_Count">{0} verzió. Új verzió mentődik, ha {1} percig távol van a jegyzettől; a legújabb {2} marad meg.</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">Verzió visszaállítása</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">A(z) {0} időpontban mentett verzió visszaállítva. A lecserélt szöveg is megtalálható az előzmények között.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Címsor: minden kattintás továbblépteti a sort az 1., 2. és 3. szinten, majd vissza a normál szövegre (Alt+1, 2, 3; Alt+0 a normál szöveghez)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">1., 2. vagy 3. szintű címsor az aktuális sorokon</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Vissza normál szövegre</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Címsor</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Normál</sys:String>
+    <sys:String x:Key="Str_St_Heading">Címsor {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Normál szöveg</sys:String>
+    <sys:String x:Key="Str_TT_Outline">A jegyzet címsorainak vázlata (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Címsorok vázlatának megjelenítése vagy elrejtése</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Vázlat</sys:String>
+    <sys:String x:Key="Str_Outline_Title">VÁZLAT</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Még nincs címsor. Az Alt+1 az aktuális sorból címsort csinál.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Biztonsági mentések</sys:String>
+    <sys:String x:Key="Str_TT_Backups">A kiválasztott adatbázis ütemezett mentései</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">Mentés ütemezés szerint, amíg a KillerNotes fut</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Mentési mappa</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Tallózás...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Válassza ki a mentési mappát</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">Gyakoriság</sys:String>
+    <sys:String x:Key="Str_Bk_6h">6 óránként</sys:String>
+    <sys:String x:Key="Str_Bk_12h">12 óránként</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Naponta</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Hetente</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Megőrzendő mentések száma</sys:String>
+    <sys:String x:Key="Str_Bk_Note">A mentés az adatbázis aktuális állapota: egy jelszóval védett adatbázisból készült mentés ugyanazzal a jelszóval nyílik meg.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">Ebben a mappában még nincs mentés erről az adatbázisról.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Először válasszon mappát.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Utolsó mentés: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">Még nincs mentés.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Mentés most</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Visszaállítás új adatbázisként</sys:String>
+    <sys:String x:Key="Str_Bk_Done">Mentve ide: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">A mentés sikertelen: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">Visszaállítva mint {0}. A használatához nyissa meg a listából.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">Mentve ide: {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">A mentés sikertelen: {0}</sys:String>
 </ResourceDictionary>

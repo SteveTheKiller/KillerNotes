@@ -762,4 +762,44 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Hist_Count">{0} wersji. Nowa wersja jest zachowywana po {1} minutach nieobecności przy notatce; zachowywane są najnowsze {2}.</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">Przywróć tę wersję</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Przywrócono wersję z {0}. Zastąpiony tekst też jest w historii.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Nagłówek: każde kliknięcie przełącza wiersz między poziomami 1 i 3, a potem wraca (Alt+1, 2, 3; Alt+0 dla zwykłego tekstu)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">Nagłówek poziomu 1, 2 lub 3 w bieżących wierszach</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Powrót do zwykłego tekstu</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Nagłówek</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Zwykły</sys:String>
+    <sys:String x:Key="Str_St_Heading">Nagłówek {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Zwykły tekst</sys:String>
+    <sys:String x:Key="Str_TT_Outline">Konspekt nagłówków notatki (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Pokaż lub ukryj konspekt nagłówków</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Konspekt</sys:String>
+    <sys:String x:Key="Str_Outline_Title">KONSPEKT</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Nie ma jeszcze nagłówków. Alt+1 zamienia bieżący wiersz w nagłówek.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Kopie zapasowe</sys:String>
+    <sys:String x:Key="Str_TT_Backups">Zaplanowane kopie zapasowe wybranej bazy danych</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">Twórz kopie zapasowe według harmonogramu, gdy KillerNotes jest uruchomiony</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Folder kopii zapasowych</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Przeglądaj...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Wybierz folder kopii zapasowych</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">Jak często</sys:String>
+    <sys:String x:Key="Str_Bk_6h">Co 6 godzin</sys:String>
+    <sys:String x:Key="Str_Bk_12h">Co 12 godzin</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Codziennie</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Co tydzień</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Kopie do zachowania</sys:String>
+    <sys:String x:Key="Str_Bk_Note">Kopia to baza danych w takiej postaci, w jakiej jest: baza danych chroniona hasłem daje kopię otwieraną tym samym hasłem.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">W tym folderze nie ma jeszcze kopii zapasowych tej bazy danych.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Najpierw wybierz folder.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Ostatnia kopia zapasowa: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">Nie ma jeszcze kopii zapasowej.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Utwórz kopię zapasową teraz</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Przywróć jako nową bazę danych</sys:String>
+    <sys:String x:Key="Str_Bk_Done">Utworzono kopię zapasową w {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">Tworzenie kopii zapasowej nie powiodło się: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">Przywrócono jako {0}. Otwórz ją z listy, aby jej użyć.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">Utworzono kopię zapasową w {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">Tworzenie kopii zapasowej nie powiodło się: {0}</sys:String>
 </ResourceDictionary>

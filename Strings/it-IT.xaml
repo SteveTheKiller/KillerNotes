@@ -843,4 +843,44 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Hist_Count">{0} versioni. Una nuova viene conservata dopo {1} minuti di assenza dalla nota; restano le {2} più recenti.</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">Ripristina questa versione</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Versione del {0} ripristinata. Anche il testo che ha sostituito è nella cronologia.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Titolo: ogni clic fa avanzare la riga tra i livelli 1 e 3 e poi ricomincia (Alt+1, 2, 3; Alt+0 per il testo normale)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">Titolo di livello 1, 2 o 3 sulle righe attuali</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Torna al testo normale</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Titolo</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Normale</sys:String>
+    <sys:String x:Key="Str_St_Heading">Titolo {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Testo normale</sys:String>
+    <sys:String x:Key="Str_TT_Outline">Struttura dei titoli della nota (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Mostra o nascondi la struttura dei titoli</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Struttura</sys:String>
+    <sys:String x:Key="Str_Outline_Title">STRUTTURA</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Ancora nessun titolo. Alt+1 trasforma la riga attuale in un titolo.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Backup</sys:String>
+    <sys:String x:Key="Str_TT_Backups">Backup pianificati del database selezionato</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">Esegui il backup in base a una pianificazione mentre KillerNotes è aperto</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Cartella di backup</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Sfoglia...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Scegli la cartella di backup</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">Frequenza</sys:String>
+    <sys:String x:Key="Str_Bk_6h">Ogni 6 ore</sys:String>
+    <sys:String x:Key="Str_Bk_12h">Ogni 12 ore</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Giornaliero</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Settimanale</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Copie da conservare</sys:String>
+    <sys:String x:Key="Str_Bk_Note">Una copia è il database così com'è: un database protetto da password produce una copia che si apre con la stessa password.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">Ancora nessun backup di questo database nella cartella.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Scegli prima una cartella.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Ultimo backup: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">Ancora nessun backup.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Esegui backup ora</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Ripristina come nuovo database</sys:String>
+    <sys:String x:Key="Str_Bk_Done">Backup eseguito in {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">Backup non riuscito: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">Ripristinato come {0}. Aprilo dall'elenco per usarlo.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">Backup eseguito in {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">Backup non riuscito: {0}</sys:String>
 </ResourceDictionary>

@@ -835,4 +835,44 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Hist_Count">{0} versions. Une nouvelle est conservée après {1} minutes loin de la note ; les {2} plus récentes restent.</sys:String>
     <sys:String x:Key="Str_Btn_RestoreVersion">Restaurer cette version</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Version du {0} restaurée. Le texte qu'elle a remplacé est aussi dans l'historique.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Titre : chaque clic fait passer la ligne par les niveaux 1 à 3, puis revient (Alt+1, 2, 3 ; Alt+0 pour le texte normal)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">Titre de niveau 1, 2 ou 3 sur les lignes actuelles</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Revenir au texte normal</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Titre</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Normal</sys:String>
+    <sys:String x:Key="Str_St_Heading">Titre {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Texte normal</sys:String>
+    <sys:String x:Key="Str_TT_Outline">Plan des titres de la note (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Afficher ou masquer le plan des titres</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Plan</sys:String>
+    <sys:String x:Key="Str_Outline_Title">PLAN</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Pas encore de titres. Alt+1 transforme la ligne actuelle en titre.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Sauvegardes</sys:String>
+    <sys:String x:Key="Str_TT_Backups">Sauvegardes programmées de la base de données sélectionnée</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">Sauvegarder selon une planification tant que KillerNotes est ouvert</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Dossier de sauvegarde</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Parcourir...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Choisir le dossier de sauvegarde</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">Fréquence</sys:String>
+    <sys:String x:Key="Str_Bk_6h">Toutes les 6 heures</sys:String>
+    <sys:String x:Key="Str_Bk_12h">Toutes les 12 heures</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Quotidienne</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Hebdomadaire</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Copies à conserver</sys:String>
+    <sys:String x:Key="Str_Bk_Note">Une copie est la base de données telle quelle : une base de données protégée par mot de passe donne une copie qui s'ouvre avec le même mot de passe.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">Pas encore de sauvegarde de cette base de données dans ce dossier.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Choisissez d'abord un dossier.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Dernière sauvegarde : {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">Pas encore de sauvegarde.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Sauvegarder maintenant</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Restaurer comme nouvelle base de données</sys:String>
+    <sys:String x:Key="Str_Bk_Done">Sauvegardée dans {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">Échec de la sauvegarde : {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">Restaurée sous {0}. Ouvrez-la depuis la liste pour l'utiliser.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">Sauvegardée dans {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">Échec de la sauvegarde : {0}</sys:String>
 </ResourceDictionary>
