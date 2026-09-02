@@ -155,7 +155,7 @@ namespace KillerNotes.Shell
                 string text = TextOf(p);
                 int level = md ? Headings.LevelOfMarkdown(text) : Headings.LevelOf(p, base_);
                 if (level == 0) continue;
-                string label = (md ? text.Substring(level + 1) : text).Trim();
+                string label = (md ? text[(level + 1)..] : text).Trim();
                 if (label.Length == 0) continue;
 
                 var tb = new TextBlock

@@ -90,7 +90,7 @@ namespace KillerNotes.Services
                 if (!m.Success || !string.Equals(name[..m.Index], stem, StringComparison.OrdinalIgnoreCase)) continue;
                 list.Add(new FileInfo(path));
             }
-            return list.OrderByDescending(f => Path.GetFileNameWithoutExtension(f.Name), StringComparer.Ordinal).ToList();
+            return [.. list.OrderByDescending(f => Path.GetFileNameWithoutExtension(f.Name), StringComparer.Ordinal)];
         }
 
         /// <summary>Deletes all but the newest `keep` backups of the database. Returns the count removed.</summary>

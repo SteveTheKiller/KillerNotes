@@ -21,7 +21,7 @@ namespace KillerNotes.Controls
         }
 
         private readonly string _dbFile;
-        private bool _loading = true;   // the combos fire SelectionChanged while being set up
+        private readonly bool _loading = true;   // the combos fire SelectionChanged while being set up
 
         /// <summary>The database file a restore created, or null.</summary>
         public string? RestoredDatabase { get; private set; }

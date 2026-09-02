@@ -87,9 +87,8 @@ namespace KillerNotes.Shell
         {
             string? path = TemplatesGroupPath();
             if (path == null) return [];
-            return NoteStore.List(null, "title-asc")
-                .Where(n => string.Equals(n.Notebook, path, StringComparison.OrdinalIgnoreCase))
-                .ToList();
+            return [.. NoteStore.List(null, "title-asc")
+                .Where(n => string.Equals(n.Notebook, path, StringComparison.OrdinalIgnoreCase))];
         }
 
         // ---- The submenu (NotesContextMenu_Opened, Tags.cs) and the Alt+T flyout ----

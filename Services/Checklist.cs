@@ -66,8 +66,8 @@ namespace KillerNotes.Services
         /// <summary>A markdown line with its box flipped. Unchanged when it has none.</summary>
         public static string ToggleMarkdown(string line) => Of(line, true) switch
         {
-            State.Unchecked => MdChecked + line.Substring(MdEmpty.Length),
-            State.Checked   => MdEmpty + line.Substring(MdChecked.Length),
+            State.Unchecked => MdChecked + line[MdEmpty.Length..],
+            State.Checked   => MdEmpty + line[MdChecked.Length..],
             _ => line,
         };
 
@@ -77,7 +77,7 @@ namespace KillerNotes.Services
         {
             var state = Of(richLine, false);
             if (state == State.None) return richLine;
-            return (state == State.Checked ? MdChecked : MdEmpty) + richLine.Substring(1).TrimStart();
+            return (state == State.Checked ? MdChecked : MdEmpty) + richLine[1..].TrimStart();
         }
     }
 }

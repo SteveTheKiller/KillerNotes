@@ -174,7 +174,7 @@ namespace KillerNotes.Shell
                 d = System.Windows.Media.VisualTreeHelper.GetParent(d);
             // A trashed note is not draggable: it has no place in the order and should not be
             // handed to Explorer as a .knote either (Trash.cs).
-            return (d as System.Windows.Controls.ListBoxItem)?.DataContext is Note { IsDeleted: false } n ? n : null;
+            return d is System.Windows.Controls.ListBoxItem { DataContext: Note { IsDeleted: false } n } ? n : null;
         }
 
         private void NotesList_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)

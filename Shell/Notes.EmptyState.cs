@@ -96,7 +96,7 @@ namespace KillerNotes.Shell
         {
             if (notes.Count == 0) return;
             if (notes.All(x => x.IsDeleted)) { DeleteForeverWithConfirm(notes); return; }
-            notes = notes.Where(x => !x.IsDeleted).ToList();
+            notes = [.. notes.Where(x => !x.IsDeleted)];
             if (notes.Count == 1) { DeleteNoteWithConfirm(notes[0]); return; }
 
             var dlg = new ConfirmDialog(

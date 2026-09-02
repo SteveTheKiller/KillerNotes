@@ -820,14 +820,12 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 ins.Parameters.AddWithValue("$p", plain);
                 ins.ExecuteNonQuery();
             }
-            using (var trim = _db.CreateCommand())
-            {
-                trim.CommandText = "DELETE FROM note_history WHERE note_id = $n AND id NOT IN " +
-                                   "(SELECT id FROM note_history WHERE note_id = $n ORDER BY saved DESC, id DESC LIMIT $cap)";
-                trim.Parameters.AddWithValue("$n", noteId);
-                trim.Parameters.AddWithValue("$cap", HistoryCap);
-                trim.ExecuteNonQuery();
-            }
+            using var trim = _db.CreateCommand();
+            trim.CommandText = "DELETE FROM note_history WHERE note_id = $n AND id NOT IN " +
+                               "(SELECT id FROM note_history WHERE note_id = $n ORDER BY saved DESC, id DESC LIMIT $cap)";
+            trim.Parameters.AddWithValue("$n", noteId);
+            trim.Parameters.AddWithValue("$cap", HistoryCap);
+            trim.ExecuteNonQuery();
             return true;
         }
 

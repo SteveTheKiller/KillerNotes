@@ -127,7 +127,7 @@ namespace KillerNotes.Shell
         }
 
         private List<Note> SelectedTrashNotes() =>
-            NotesList.SelectedItems.OfType<Note>().Where(n => n.IsDeleted).ToList();
+            [.. NotesList.SelectedItems.OfType<Note>().Where(n => n.IsDeleted)];
 
         private void RestoreNote_Click(object sender, RoutedEventArgs e) => RestoreNotes(SelectedTrashNotes());
 

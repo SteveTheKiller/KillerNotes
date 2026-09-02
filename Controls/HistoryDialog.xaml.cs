@@ -77,7 +77,7 @@ namespace KillerNotes.Controls
         }
 
         private NoteStore.HistoryEntry? Selected =>
-            (VersionList.SelectedItem as ListBoxItem)?.Tag is NoteStore.HistoryEntry e ? e : null;
+            VersionList.SelectedItem is ListBoxItem { Tag: NoteStore.HistoryEntry e } ? e : null;
 
         private void VersionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

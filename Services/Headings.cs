@@ -73,7 +73,7 @@ namespace KillerNotes.Services
         public static string SetMarkdownLevel(string line, int level)
         {
             int current = LevelOfMarkdown(line);
-            string body = current > 0 ? line.Substring(current + 1) : line;
+            string body = current > 0 ? line[(current + 1)..] : line;
             return level <= 0 ? body : new string('#', Math.Min(6, level)) + " " + body;
         }
     }
