@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>killernotes</id>
+    <version>REPLACE_VERSION</version>
+    <packageSourceUrl>https://github.com/SteveTheKiller/KillerNotes</packageSourceUrl>
+    <owners>SteveTheKiller</owners>
+    <title>KillerNotes</title>
+    <authors>Steve the Killer</authors>
+    <projectUrl>https://killernotes.net</projectUrl>
+    <iconUrl>https://cdn.jsdelivr.net/gh/SteveTheKiller/KillerNotes@vREPLACE_VERSION/Resources/kn-icon.ico</iconUrl>
+    <licenseUrl>https://github.com/SteveTheKiller/KillerNotes/blob/main/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectSourceUrl>https://github.com/SteveTheKiller/KillerNotes</projectSourceUrl>
+    <docsUrl>https://github.com/SteveTheKiller/KillerNotes/blob/main/README.md</docsUrl>
+    <bugTrackerUrl>https://github.com/SteveTheKiller/KillerNotes/issues</bugTrackerUrl>
+    <tags>notes notepad encrypted sqlite markdown dictation portable</tags>
+    <summary>Encrypted notepad for Windows. No account, no cloud, no telemetry.</summary>
+    <description>Notes that keep up. A searchable, organized replacement for the 80-tab Notepad workflow: rich notes with inline images and tables, instant full-text search, and optional password protection for the whole database.
+
+- Rich text editor: bold, italic, lists, tables, rules, adjustable font size, a full color picker with a desktop-wide eyedropper, inline images, per-note title color, spell check, word wrap toggle and an optional line-number column
+- Search everywhere: search-as-you-type across titles, text and tags, plus Ctrl+F find in the open note that never touches the note or its undo stack
+- Organize: named, collapsible, colorable groups nested to any depth; color-coded tags with a pill filter; sort by time, title or drag-and-drop order; three row densities; sidebar Ctrl+Z undoes group moves, reorders and deletes
+- Syntax highlighting detected paragraph by paragraph, so one note mixes prose with PowerShell, JSON, SQL, C#, Python and ten more without picking a language
+- Hyperlinks: Ctrl+K links the selection, typed URLs auto-link, links survive pasting from browsers and Word, and only web and mail addresses ever open
+- Dictation (Ctrl+M): record and transcribe entirely on your machine with a downloadable speech model, then print the text, embed the recording as an inline playable chip, or both; recordings store as lossless FLAC and export to WAV or MP3
+- Recording editing on the waveform itself: slice, copy, delete and paste segments with undo, then save back over the original
+- SketchPad (F7): pen, shapes, fill, text labels and eraser on single keys; print the drawing inline and double-click it later to keep editing
+- Killculator (F9): a themed calculator under the notes list that prints the result or the whole running equation into the note
+- Custom fonts for header, sidebar and note text independently, from any installed font or a dropped .ttf/.otf
+- Autosave on pause, note switch and close; notes reopen at their saved cursor and scroll position, with a split-pane preview for markdown and sanitized HTML
+- Storage: one SQLite database in a configurable location, portable next to the exe if you like, with create, rename, switch and relocate in the Manage databases dialog
+- Scheduled backups: pick a folder, an interval and how many copies to keep, or take a copy right away with Alt+B; a copy restores as a new database
+- Password protection: optional SQLCipher AES-256 encryption of the whole database, set, changed or removed at any time, with no recovery for a lost password
+- Sharing: export a note (.knote) or a whole database (.kndb), optionally password protected, both opening with a double-click
+- Keyboard-first: every function has a shortcut, F1 opens the visual keyboard map, and the whole app scales for accessibility from 70% to 250%
+- Thirteen themes including a full 98SE recreation; Dark, Light, Black and 98SE each carry six accent colors for 33 looks in all
+- Localized in thirteen languages, falling back to English
+- One self-contained Windows EXE, no runtime install; installs per-user or for all users, or runs portable
+- GPLv3, local-only, no account, no telemetry
+    </description>
+    <releaseNotes>https://github.com/SteveTheKiller/KillerNotes/releases/tag/vREPLACE_VERSION</releaseNotes>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>
