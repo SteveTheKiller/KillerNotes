@@ -33,6 +33,7 @@ namespace KillerNotes
         {
             HookCrashLogging();   // CrashLog.cs - first, so it covers startup itself
             base.OnStartup(e);
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             // Silent install: KillerNotes.exe /silent
             // Installs machine-wide to Program Files, no UI. Used by winget/choco/RMM.
@@ -48,6 +49,7 @@ namespace KillerNotes
             if (e.Args.Length > 0 &&
                 string.Equals(e.Args[0], "/uninstall", StringComparison.OrdinalIgnoreCase))
             {
+                Services.ThemeManager.InitializeInstallerTheme();
                 Uninstall();
                 Shutdown();
                 return;
@@ -130,6 +132,7 @@ namespace KillerNotes
                     StringComparison.OrdinalIgnoreCase))
                 RegisterFileAssociations();
 
+            Services.ThemeManager.InitializeInstallerTheme();
             OfferInstallConflictRepair();
 
             // GPU rendering, like KillerPDF (no SoftwareOnly here): the format bar and pane
@@ -145,7 +148,8 @@ namespace KillerNotes
             Services.LocaleManager.Initialize();   // layers Strings/en-US.xaml (+ saved locale)
 
             ShutdownMode = ShutdownMode.OnLastWindowClose;
-            new KillerNotes.Shell.MainWindow().Show();
+            MainWindow = new KillerNotes.Shell.MainWindow();
+            MainWindow.Show();
         }
 
         // ============================================================
@@ -379,8 +383,12 @@ namespace KillerNotes
             if (!runningMachine && !runningUser) return;
 
             string other = runningMachine ? "per-user" : "all-users";
-            if (MessageBox.Show($"KillerNotes is installed twice. Remove the other {other} copy now?\n\nYour notes and settings will not be removed.",
-                $"{AppName} installation conflict", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+            var confirm = new Controls.ConfirmDialog(
+                $"{AppName} installation conflict",
+                $"KillerNotes is installed twice. Remove the other {other} copy now?\n\nYour notes and settings will not be removed.",
+                "Yes", "No") { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+            confirm.ShowDialog();
+            if (!confirm.Confirmed) return;
 
             if (runningMachine) RemovePerUserInstall();
             else
@@ -534,9 +542,17 @@ namespace KillerNotes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Installation failed:\n{ex.Message}", AppName,
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowInstallError($"Installation failed:\n{ex.Message}");
             }
+        }
+
+        private static void ShowInstallError(string message)
+        {
+            var dialog = new Controls.ConfirmDialog(AppName, message,
+                Current.TryFindResource("Str_Btn_OK") as string ?? "OK", showCancel: false)
+            { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+            if (Current.MainWindow?.IsVisible == true) dialog.Owner = Current.MainWindow;
+            dialog.ShowDialog();
         }
 
         private static void CreateShortcut(string lnkPath, string targetPath)
@@ -587,8 +603,7 @@ namespace KillerNotes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Uninstall could not request administrator access:\n{ex.Message}",
-                    AppName, MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowInstallError($"Uninstall could not request administrator access:\n{ex.Message}");
             }
             return true;
         }
@@ -603,7 +618,7 @@ namespace KillerNotes
                 "Uninstall KillerNotes?",
                 "Your notes will be kept.",
                 "Uninstall",
-                "Cancel");
+                "Cancel") { WindowStartupLocation = WindowStartupLocation.CenterScreen };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 

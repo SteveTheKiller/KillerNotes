@@ -23,7 +23,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - On first launch, the interface follows the Windows display language when it is supported.
 - The shortcut list now focuses on app-specific commands instead of repeating standard Windows editing keys.
 - An open Markdown or HTML preview now refreshes as its source changes without losing its scroll position.
-- Uninstall now uses the KillerNotes-themed confirmation and identifies the publisher in Installed Apps as Steve the Killer.
+- Standalone install and uninstall dialogs use Black/Purple; installer errors use themed dialogs. Installed Apps identifies the publisher as Steve the Killer.
 
 ### Fixed
 - Import, export, sharing and database export now use the family file picker, with complete filename tooltips.

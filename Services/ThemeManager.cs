@@ -91,6 +91,18 @@ namespace KillerNotes.Services
             LoadDict(_current);
         }
 
+        /// <summary>Build the standalone installer palette without reading or changing saved settings.</summary>
+        internal static void InitializeInstallerTheme()
+        {
+            var previousAccent = _blackAccent;
+            try
+            {
+                _blackAccent = Accent.Purple;
+                LoadDict(Theme.Black);
+            }
+            finally { _blackAccent = previousAccent; }
+        }
+
         /// <summary>Change theme, persist the choice, and repaint.</summary>
         public static void Apply(Theme theme)
         {
