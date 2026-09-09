@@ -96,7 +96,8 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
   .features h2 { font-size: 20px; margin-bottom: 20px; }
 }
 /* Package manager commands */
-.package-commands { display: flex; flex-direction: column; gap: 2px; width: 100%; max-width: 360px; margin: 0; text-align: left; }
+.package-commands { display: flex; flex-direction: column; gap: 2px; width: 100%; max-width: 360px; margin: 0; text-align: center; }
+.package-commands .install-intro { margin: 0 0 4px; font: 13px/1.5 'Segoe UI', sans-serif; color: var(--text2); }
 .package-commands pre { min-width: 0; margin: 0; padding: 2px 0; border: 0; border-radius: 0; background: transparent; color: var(--text); overflow-x: auto; }
 .package-commands code { font: 13px/1.6 Consolas, 'Courier New', monospace; white-space: pre; user-select: all; }
 .package-commands .manager { color: var(--accent); font-weight: 700; }
@@ -182,6 +183,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <a href="https://github.com/SteveTheKiller/KillerNotes/releases/latest/download/KillerNotes.exe" class="download-btn"><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg><span data-i18n="download">Download for Windows</span></a>
 </div>
 <div class="package-commands">
+<p class="install-intro" data-i18n="package_install_intro">Or install from your terminal:</p>
 <pre><code><span class="manager">winget</span> <span class="verb">install</span> killernotes</code></pre>
 <pre><code><span class="manager">choco</span> <span class="verb">install</span> killernotes</code></pre>
 </div>
