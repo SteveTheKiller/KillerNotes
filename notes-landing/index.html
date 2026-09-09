@@ -96,12 +96,11 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
   .features h2 { font-size: 20px; margin-bottom: 20px; }
 }
 /* Package manager commands */
-.package-commands { display: grid; grid-template-columns: 56px max-content; justify-content: center; align-items: center; gap: 2px 12px; width: 100%; max-width: 360px; margin: 0; text-align: center; }
-.package-commands .terminal-icon { grid-row: 1 / 3; width: 56px; height: 56px; }
-.package-commands pre { min-width: 0; margin: 0 auto; padding: 2px 10px; border: 0; border-radius: 3px; background: rgba(0, 0, 0, 0.22); color: var(--text); overflow-x: auto; }
+.package-commands { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 980px; margin: 22px auto 0; text-align: left; }
+.package-commands pre { flex: 1 1 300px; min-width: 0; margin: 0; padding: 12px 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text); overflow-x: auto; }
 .package-commands code { font: 13px/1.6 Consolas, 'Courier New', monospace; white-space: pre; user-select: all; }
 .package-commands .manager { color: var(--accent); font-weight: 700; }
-.package-commands .verb { color: var(--text2); }
+.package-commands .verb { color: var(--muted); }
 </style>
 </head>
 <body>
@@ -197,6 +196,10 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <div class="row"><span class="k">sha256</span>&nbsp;<span class="v hash"><span>b32fd14d07254c25d5e314fde2e52a62</span><span>3463e7f92e16f3f71972f50e66987e55</span></span></div>
 <p class="note" data-i18n="hero_note">Free, open source, GPLv3<br>No agent, no account, no subscription.<br>No telemetry is sent and no ads... ever.</p>
 </div>
+</div>
+<div class="package-commands">
+<pre><code><span class="manager">winget</span> <span class="verb">install</span> killernotes</code></pre>
+<pre><code><span class="manager">choco</span> <span class="verb">install</span> killernotes</code></pre>
 </div>
 <div class="hero-blurbs">
 <div class="blurb"><h3 data-i18n="b3_t">By a field tech, for field techs</h3><p data-i18n="b3_d">KillerNotes is built by a working field tech and used on real client benches every day. The things that end up in it are the things that matter most: credentials, config snippets, license keys, and the personal client details you jot down between jobs. One password locks the whole database, so none of it sits in plain text on a machine other people can get to.</p><p data-i18n="b3_d2">It answers to nobody but you: everything stays on your machine, and the whole thing is GPLv3 open source with the <a href="https://github.com/SteveTheKiller/KillerNotes/issues" target="_blank" rel="noopener">issues page</a> open to anyone.</p><p data-i18n="b3_d3">Read the story behind it on the <a href="about.html">About</a> page.</p></div>
