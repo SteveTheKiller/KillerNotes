@@ -3,6 +3,7 @@
 // zh = Traditional Chinese (zh-Hant), zh-cn = Simplified Chinese (zh-Hans).
 var I18N = {
  "it": {
+  "package_install_intro": "Oppure installa dal terminale:",
   "hp_pin": "Note fissate<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>, oppure <b>Fissa nota</b> nel menu contestuale, tiene una nota in cima al suo gruppo, o in cima alle note sciolte se non è in nessuno. Un piccolo indicatore di fissaggio segna la riga. Le note fissate seguono comunque l'ordinamento scelto tra loro, e <code>Ctrl+Z</code> rimuove il fissaggio.",
   "hp_tpl": "Modelli<span class=\"kbd\">Alt+T</span><span class=\"chev\">&#9656;</span>",
@@ -466,6 +467,7 @@ var I18N = {
   "tech_sub": "Come funziona davvero il blocco note: archiviazione, ricerca, cifratura e i formati di condivisione."
  },
  "hu": {
+  "package_install_intro": "Vagy telepítse a terminálból:",
   "hp_pin": "Kitűzött jegyzetek<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "Az <code>Alt+P</code>, vagy a jobbklikk menü <b>Jegyzet kitűzése</b> parancsa, a jegyzetet a csoportja tetején tartja, vagy ha egyikben sincs, a szabad jegyzetek tetején. A sort egy kis rajzszeg jelöli. A kitűzött jegyzetek egymás között továbbra is a választott sorrendet követik, a <code>Ctrl+Z</code> pedig leveszi a kitűzést.",
   "hp_tpl": "Sablonok<span class=\"kbd\">Alt+T</span><span class=\"chev\">&#9656;</span>",
@@ -930,6 +932,7 @@ var I18N = {
  },
 
  "pl": {
+  "package_install_intro": "Lub zainstaluj z terminala:",
   "hp_pin": "Przypięte notatki<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>, lub <b>Przypnij notatkę</b> z menu pod prawym przyciskiem myszy, utrzymuje notatkę na górze jej grupy, a jeśli nie należy do żadnej - na górze luźnych notatek. Wiersz oznacza mała pinezka. Przypięte notatki nadal są sortowane między sobą według wybranego porządku, a <code>Ctrl+Z</code> odpina.",
   "hp_tpl": "Szablony<span class=\"kbd\">Alt+T</span><span class=\"chev\">&#9656;</span>",
@@ -1393,6 +1396,7 @@ var I18N = {
   "tech_sub": "Jak notatnik naprawdę działa: przechowywanie, wyszukiwanie, szyfrowanie i formaty udostępniania.",
  },
  "cs": {
+  "package_install_intro": "Nebo nainstalujte z terminálu:",
   "hp_pin": "Připnuté poznámky<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>, nebo <b>Připnout poznámku</b> v místní nabídce, drží poznámku nahoře její skupiny, nebo nahoře mezi volnými poznámkami, pokud v žádné není. Řádek označuje malý špendlík. Připnuté poznámky se mezi sebou stále řadí podle zvoleného řazení a <code>Ctrl+Z</code> je odepne.",
   "hp_tpl": "Šablony<span class=\"kbd\">Alt+T</span><span class=\"chev\">&#9656;</span>",
@@ -1856,6 +1860,7 @@ var I18N = {
   "tech_sub": "Jak poznámkový blok skutečně funguje: úložiště, vyhledávání, šifrování a formáty sdílení.",
  },
  "es": {
+  "package_install_intro": "O instala desde tu terminal:",
   "hp_pin": "Notas ancladas<span class=\"kbd\">Alt+P</span><span class=\"chev\">▸</span>",
   "hp_pin_1": "<code>Alt+P</code>, o <b>Anclar nota</b> en el menú contextual, mantiene una nota en la parte superior de su grupo, o en la parte superior de las notas sueltas si no está en ninguno. Un pequeño icono de ancla marca la fila. Las notas ancladas siguen el orden que elegiste entre ellas, y <code>Ctrl+Z</code> las desancla.",
   "hp_tpl": "Plantillas<span class=\"kbd\">Alt+T</span><span class=\"chev\">▸</span>",
@@ -2320,6 +2325,7 @@ var I18N = {
   "tech_sub": "Cómo funciona realmente el bloc de notas: almacenamiento, búsqueda, cifrado y los formatos de compartición."
  },
  "de": {
+  "package_install_intro": "Oder über das Terminal installieren:",
   "hp_pin": "Angeheftete Notizen<span class=\"kbd\">Alt+P</span><span class=\"chev\">▸</span>",
   "hp_pin_1": "<code>Alt+P</code> oder <b>Notiz anheften</b> im Rechtsklick-Menü hält eine Notiz oben in ihrer Gruppe, oder oben bei den losen Notizen, wenn sie in keiner ist. Ein kleines Anheft-Symbol markiert die Zeile. Angeheftete Notizen folgen weiterhin der gewählten Sortierung untereinander, und <code>Ctrl+Z</code> löst das Anheften wieder.",
   "hp_tpl": "Vorlagen<span class=\"kbd\">Alt+T</span><span class=\"chev\">▸</span>",
@@ -2784,6 +2790,7 @@ var I18N = {
   "tech_sub": "Wie der Notizblock wirklich funktioniert: Speicherung, Suche, Verschlüsselung und die Freigabeformate."
  },
  "fr": {
+  "package_install_intro": "Ou installez depuis votre terminal :",
   "hp_pin": "Notes épinglées<span class=\"kbd\">Alt+P</span><span class=\"chev\">▸</span>",
   "hp_pin_1": "<code>Alt+P</code>, ou <b>Épingler la note</b> dans le menu contextuel, garde une note en haut de son groupe, ou en haut des notes libres si elle n'est dans aucun groupe. Une petite épingle marque la ligne. Les notes épinglées suivent toujours le tri choisi entre elles, et <code>Ctrl+Z</code> désépingle.",
   "hp_tpl": "Modèles<span class=\"kbd\">Alt+T</span><span class=\"chev\">▸</span>",
@@ -3248,6 +3255,7 @@ var I18N = {
   "tech_sub": "Comment le bloc-notes fonctionne vraiment : stockage, recherche, chiffrement et formats de partage."
  },
  "ja": {
+  "package_install_intro": "またはターミナルからインストール：",
   "hp_pin": "ピン留めしたノート<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>、または右クリックメニューの<b>ノートをピン留め</b>で、ノートをそのグループの先頭に固定します。どのグループにも属さないノートの場合は、グループ外のノートの先頭に固定されます。行には小さなピンの印が付きます。ピン留めしたノート同士は選んだ並べ替え順のままで、<code>Ctrl+Z</code>で固定を解除できます。",
   "hp_tpl": "テンプレート<span class=\"kbd\">Alt+T</span><span class=\"chev\">&#9656;</span>",
@@ -3712,6 +3720,7 @@ var I18N = {
   "tech_sub": "このノートが実際にどう動くか: ストレージ、検索、暗号化、そして共有フォーマット。"
  },
  "tr": {
+  "package_install_intro": "Veya terminalinizden yükleyin:",
   "hp_pin": "Sabitlenmiş notlar<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>, ya da sağ tık menüsündeki <b>Notu sabitle</b>, bir notu grubunun en üstünde, hiçbir gruba ait değilse serbest notların en üstünde tutar. Satırı küçük bir toplu iğne işaretler. Sabitlenmiş notlar kendi aralarında yine seçtiğiniz sıralamayı izler, <code>Ctrl+Z</code> ise sabitlemeyi kaldırır.",
   "hp_tpl": "Şablonlar<span class=\"kbd\">Alt+T</span><span class=\"chev\">&#9656;</span>",
@@ -4176,6 +4185,7 @@ var I18N = {
   "tech_sub": "Not defterinin gerçekte nasıl çalıştığı: depolama, arama, şifreleme ve paylaşım biçimleri."
  },
  "zh": {
+  "package_install_intro": "或從終端機安裝：",
   "hp_pin": "釘選筆記<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>，或右鍵選單中的<b>釘選筆記</b>，會把筆記固定在所屬群組的最上方；若不屬於任何群組，則固定在散置筆記的最上方。列上會出現一個小圖釘標記。釘選的筆記彼此之間仍依你選擇的排序方式排列，<code>Ctrl+Z</code> 可取消釘選。",
   "hp_tpl": "範本<span class=\"kbd\">Alt+T</span><span class=\"chev\">&#9656;</span>",
@@ -4640,6 +4650,7 @@ var I18N = {
   "tech_sub": "這款記事本實際的運作方式：儲存、搜尋、加密與分享格式。"
  },
  "zh-cn": {
+  "package_install_intro": "或从终端安装：",
   "hp_pin": "置顶笔记<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>，或右键菜单中的<b>置顶笔记</b>，会把笔记固定在所属分组的最上方；若不属于任何分组，则固定在散落笔记的最上方。该行会显示一个小图钉标记。置顶的笔记之间仍按你选择的排序方式排列，<code>Ctrl+Z</code> 可取消置顶。",
   "hp_tpl": "模板<span class=\"kbd\">Alt+T</span><span class=\"chev\">&#9656;</span>",
@@ -5104,6 +5115,7 @@ var I18N = {
   "tech_sub": "记事本的实际运作方式：存储、搜索、加密和分享格式。"
  },
  "bn": {
+  "package_install_intro": "অথবা টার্মিনাল থেকে ইনস্টল করুন:",
   "hp_pin": "পিন করা নোট<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>, বা রাইট-ক্লিক মেনুর <b>নোট পিন করুন</b>, একটি নোটকে তার গ্রুপের সবার উপরে রাখে, আর কোনো গ্রুপে না থাকলে আলগা নোটগুলোর সবার উপরে। সারিতে একটি ছোট পিন চিহ্ন দেখা যায়। পিন করা নোটগুলো নিজেদের মধ্যে আপনার বেছে নেওয়া সাজানোর ক্রমই মেনে চলে, আর <code>Ctrl+Z</code> পিন সরিয়ে দেয়।",
   "hp_tpl": "টেমপ্লেট<span class=\"kbd\">Alt+T</span><span class=\"chev\">&#9656;</span>",
@@ -5568,6 +5580,7 @@ var I18N = {
   "tech_sub": "নোটপ্যাডটি আসলে কীভাবে কাজ করে: স্টোরেজ, সার্চ, এনক্রিপশন আর শেয়ারিং ফরম্যাট।"
  },
  "ru": {
+  "package_install_intro": "Или установите через терминал:",
   "hp_pin": "Закреплённые заметки<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code> или <b>Закрепить заметку</b> в контекстном меню удерживает заметку вверху её группы, а если она ни в одной группе - вверху отдельных заметок. Строку отмечает маленькая булавка. Закреплённые заметки по-прежнему сортируются между собой по выбранному порядку, а <code>Ctrl+Z</code> открепляет.",
   "hp_tpl": "Шаблоны<span class=\"kbd\">Alt+T</span><span class=\"chev\">&#9656;</span>",
@@ -6031,6 +6044,7 @@ var I18N = {
   "tech_sub": "Как блокнот работает на самом деле: хранение, поиск, шифрование и форматы обмена."
  },
  "kk": {
+  "package_install_intro": "Немесе терминал арқылы орнатыңыз:",
   "hp_pin": "Бекітілген жазбалар<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code> немесе оң жақ мәзірдегі <b>Жазбаны бекіту</b> жазбаны өз тобының жоғарғы жағында, ал ол ешбір топта болмаса, бос жазбалардың жоғарғы жағында ұстайды. Жолды кішкентай түйреуіш белгілейді. Бекітілген жазбалар өзара таңдалған рет бойынша сұрыпталуын жалғастырады, ал <code>Ctrl+Z</code> бекітуден алады.",
   "hp_tpl": "Үлгілер<span class=\"kbd\">Alt+T</span><span class=\"chev\">&#9656;</span>",
