@@ -41,6 +41,12 @@ WinGet:
 winget install killernotes
 ```
 
+Chocolatey:
+
+```powershell
+choco install killernotes
+```
+
 - Prebuilt binary: <https://github.com/SteveTheKiller/KillerNotes/releases/latest/download/KillerNotes.exe>
 - Source (GPL3 corresponding source for this release): <https://github.com/SteveTheKiller/KillerNotes/releases/latest>
 
