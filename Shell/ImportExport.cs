@@ -217,6 +217,7 @@ namespace KillerNotes.Shell
             try
             {
                 var doc = LoadNoteDocument(n.Id);
+                bool imagesSkipped = false;
                 switch (Path.GetExtension(dlg.FileName).ToLowerInvariant())
                 {
                     case ".rtf":
@@ -226,12 +227,39 @@ namespace KillerNotes.Shell
                     case ".html":
                         File.WriteAllText(dlg.FileName, DocumentToHtml(doc, n.Title), Encoding.UTF8);
                         break;
+                    case ".md":
+                        // Markdown notes: the editor is a per-line paragraph view of the source, so
+                        // just dump its plain text - the walker would double-space that shape.
+                        // Rich-text notes: run the FlowDocument through the markdown walker, which
+                        // extracts inline images to a sibling <name>.assets/ folder.
+                        if (NoteStore.GetFormat(n.Id) == Note.FormatMarkdown)
+                        {
+                            File.WriteAllText(dlg.FileName,
+                                new TextRange(doc.ContentStart, doc.ContentEnd).Text, Encoding.UTF8);
+                        }
+                        else
+                        {
+                            var (md, skipped) = MarkdownWriter.FromDocument(doc, dlg.FileName);
+                            File.WriteAllText(dlg.FileName, md, Encoding.UTF8);
+                            imagesSkipped = skipped;
+                        }
+                        break;
+                    case ".knote":
+                        // Full-fidelity shared-note format. No password prompt on this path
+                        // (Sharing.cs > ShareNote_Click is the encrypted flow); the Save As
+                        // path writes an unencrypted .knote the same way drag-out does, so a
+                        // techs's fastest way to make a copy of a note as a file matches
+                        // what they already get by dragging one out of the list.
+                        NoteStore.ExportNote(n.Id, dlg.FileName, password: null);
+                        break;
                     default:
                         File.WriteAllText(dlg.FileName,
                             new TextRange(doc.ContentStart, doc.ContentEnd).Text, Encoding.UTF8);
                         break;
                 }
-                StatusText.Text = string.Format(Loc("Str_St_ExportedTo"), dlg.FileName);
+                StatusText.Text = imagesSkipped
+                    ? string.Format(Loc("Str_St_ExportedToImgSkip"), dlg.FileName)
+                    : string.Format(Loc("Str_St_ExportedTo"), dlg.FileName);
             }
             catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_ExportFailed"), ex.Message); }
         }

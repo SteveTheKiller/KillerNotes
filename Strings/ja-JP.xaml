@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
@@ -104,12 +104,13 @@
     <sys:String x:Key="Str_Pw_WrongPw">パスワードが違います - もう一度お試しください</sys:String>
     <sys:String x:Key="Str_Pw_Protected">「{0}」はパスワードで保護されています。</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">ロック解除</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">新しいデータベース...</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">確認</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">新しいデータベースを開始しますか?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">ロックされたデータベースはディスクに残り、パスワードが見つかれば後で
 ロック解除できます。パスワードなしでノートを復元する方法はありません。</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">新規開始</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">新しいデータベース - ロックされたものは {0} として保持されます</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">パスワードを設定</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">ノート データベース全体を暗号化します (SQLCipher による AES-256)。
@@ -153,9 +154,10 @@
     <sys:String x:Key="Str_St_Imported1">1 個のファイルをインポートしました</sys:String>
     <sys:String x:Key="Str_St_ImportedN">{0} 個のファイルをインポートしました</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">{0} にエクスポートしました</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">{0} にエクスポートしました (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">エクスポートに失敗しました: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">対応するすべての形式|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|テキスト (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|リッチ テキスト (*.rtf)|*.rtf|画像|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes ファイル (*.knote, *.kndb)|*.knote;*.kndb|すべてのファイル (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">テキスト ファイル (*.txt)|*.txt|リッチ テキスト (*.rtf)|*.rtf|Web ページ (*.html)|*.html</sys:String>
+    <sys:String x:Key="Str_Filter_Save">テキスト ファイル (*.txt)|*.txt|リッチ テキスト (*.rtf)|*.rtf|Web ページ (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">Markdown プレビュー</sys:String>
@@ -883,4 +885,7 @@
     <sys:String x:Key="Str_KS_BackupNow">データベースを今すぐバックアップする</sys:String>
     <sys:String x:Key="Str_Kb_Backup">バックアップ</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">バックアップ フォルダーがまだありません。データベースの管理を開き、バックアップでフォルダーを選択してください。</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
 </ResourceDictionary>

@@ -1797,7 +1797,7 @@
                 <Grid x:Name="EditorArea" Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition x:Name="GutterCol" Width="0"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition x:Name="EditorCol" Width="*"/>
                         <ColumnDefinition x:Name="PreviewCol" Width="0"/>
                         <!-- The outline of headings (Headings.cs / Alt+O), 0-wide until opened. -->
                         <ColumnDefinition x:Name="OutlineCol" Width="0"/>
@@ -1908,8 +1908,12 @@
                                         </StackPanel>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem x:Name="PreviewMenuItem" IsCheckable="True"
-                                          Click="TogglePreview_Click" Visibility="Collapsed">
+                                <!-- Preview mode picker: three-state, one radio-style pick at a time.
+                                     Source (raw), Rendered (WYSIWYG), Split (both). F4 cycles them.
+                                     The WebBrowser (Preview.cs) is instantiated when Rendered or Split
+                                     becomes active and disposed on return to Source, keeping the IE
+                                     ActiveX message-loop overhead out of idle windows. -->
+                                <MenuItem x:Name="PreviewMenuItem" Visibility="Collapsed">
                                     <MenuItem.Header>
                                         <StackPanel Orientation="Horizontal">
                                             <Grid Width="20" Height="16">
@@ -1919,6 +1923,16 @@
                                             <TextBlock x:Name="PreviewMenuLabel" Text="Preview"/>
                                         </StackPanel>
                                     </MenuItem.Header>
+                                    <MenuItem x:Name="PreviewSourceMenuItem" IsCheckable="True"
+                                              Click="PreviewSource_Click"
+                                              Header="{DynamicResource Str_Preview_Source}"
+                                              InputGestureText="F4"/>
+                                    <MenuItem x:Name="PreviewRenderedMenuItem" IsCheckable="True"
+                                              Click="PreviewRendered_Click"
+                                              Header="{DynamicResource Str_Preview_Rendered}"/>
+                                    <MenuItem x:Name="PreviewSplitMenuItem" IsCheckable="True"
+                                              Click="PreviewSplit_Click"
+                                              Header="{DynamicResource Str_Preview_Split}"/>
                                 </MenuItem>
                                 <!-- Recording actions (Editor.Dictation.cs). Collapsed unless the
                                      right-click landed on an embedded recording chip. -->

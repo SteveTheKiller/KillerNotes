@@ -14,14 +14,29 @@ using KillerNotes.Services;
 namespace KillerNotes.Shell
 {
     // Optional markdown/HTML preview. When the note's plain text looks like markdown or
-    // HTML, a preview toggle appears in the format bar; opening it splits the editor and
-    // renders through the built-in WPF WebBrowser (IE engine). Markdown converts via
-    // Markdig; HTML notes are defused first (no scripts, handlers, frames, or js: URLs).
+    // HTML, a Preview submenu appears in the format bar with three picks: Source (raw),
+    // Rendered (the WYSIWYG page), and Split (both side by side). F4 cycles them. The
+    // rendered page draws through the built-in WPF WebBrowser (IE engine). Markdown
+    // converts via Markdig; HTML notes are defused first (no scripts, handlers, frames,
+    // or js: URLs). The last picked mode persists per app - a note that opens as
+    // undetected always starts in Source.
     public partial class MainWindow
     {
         private enum DocKind { None, Markdown, Html }
         private DocKind _docKind = DocKind.None;
-        private bool _previewOpen;
+
+        // Source: editor full width, no browser.  Rendered: browser full width, editor
+        // hidden.  Split: both side by side (the pre-1.3.2 shape). Persisted app-wide
+        // under the PreviewMode setting, so a tech who lives in Rendered gets Rendered
+        // on the next detected note without re-picking every time.
+        private enum PreviewMode { Source, Rendered, Split }
+        private PreviewMode _previewMode = PreviewMode.Source;
+
+        // Legacy shorthand: everything that used to ask "is the pane open" wants to know
+        // "am I in Rendered or Split", so a computed alias keeps those call sites working.
+        private bool _previewOpen => _previewMode != PreviewMode.Source;
+
+        private const string PreviewModeSettingKey = "PreviewMode";
 
         // Created on first preview open, disposed on close: a hosted WebBrowser (IE
         // ActiveX) adds message-loop overhead to the whole window just by existing,
@@ -79,18 +94,30 @@ namespace KillerNotes.Shell
             FlashStatus(Loc(on ? "Str_St_PreviewGlobalOn" : "Str_St_PreviewGlobalOff"));
         }
 
-        /// <summary>Re-applies the note's effective kind; shows/hides the toggle and refreshes an
-        /// open pane. Called after a note loads and after every autosave.</summary>
+        /// <summary>Re-applies the note's effective kind; shows/hides the picker and refreshes an
+        /// open pane. Called after a note loads and after every autosave. On a note that stops
+        /// being detected mid-edit, the mode snaps back to Source and the browser is torn down
+        /// exactly as it would be on an explicit pick.</summary>
         private void UpdatePreviewState(bool preserveScroll = false)
         {
             string text = EditorPlainText();
             _docKind = DetectMarkdownGlobally ? DetectDocKind(text) : DocKind.None;
             bool detected = _docKind != DocKind.None;
             PreviewMenuItem.Visibility = detected ? Visibility.Visible : Visibility.Collapsed;
-            PreviewMenuItem.IsChecked = _previewOpen;
             PreviewMenuLabel.Text = Loc(_docKind == DocKind.Html ? "Str_TT_PreviewHtml" : "Str_TT_PreviewMd");
-            if (!detected && _previewOpen) ClosePreview();
+            SyncPreviewMenuChecks();
+            if (!detected && _previewOpen) SetPreviewMode(PreviewMode.Source, persist: false);
             else if (_previewOpen) RenderPreview(text, preserveScroll);
+        }
+
+        /// <summary>Marks the current mode on the three-way submenu and clears the others.
+        /// One is always shown as picked so the picker never looks empty.</summary>
+        private void SyncPreviewMenuChecks()
+        {
+            if (PreviewSourceMenuItem == null) return;   // defensive - InitializeComponent may not have run
+            PreviewSourceMenuItem.IsChecked   = _previewMode == PreviewMode.Source;
+            PreviewRenderedMenuItem.IsChecked = _previewMode == PreviewMode.Rendered;
+            PreviewSplitMenuItem.IsChecked    = _previewMode == PreviewMode.Split;
         }
 
         private void QueuePreviewRefresh()
@@ -137,30 +164,70 @@ namespace KillerNotes.Shell
             return strong >= 1 ? DocKind.Markdown : DocKind.None;
         }
 
-        private void TogglePreview_Click(object sender, RoutedEventArgs e)
+        // Three submenu picks - one radio-style choice at a time. Each drives the same
+        // SetPreviewMode; the click handlers exist only because MenuItem.Click needs a
+        // named target.
+        private void PreviewSource_Click(object sender, RoutedEventArgs e)   => SetPreviewMode(PreviewMode.Source);
+        private void PreviewRendered_Click(object sender, RoutedEventArgs e) => SetPreviewMode(PreviewMode.Rendered);
+        private void PreviewSplit_Click(object sender, RoutedEventArgs e)    => SetPreviewMode(PreviewMode.Split);
+
+        /// <summary>F4 handler. Cycles Source -> Rendered -> Split -> Source on a detected
+        /// note, and is a no-op on an undetected one so the key never fires blind.</summary>
+        private void CyclePreviewMode()
         {
-            if (_previewOpen) { ClosePreview(); return; }
-            _previewOpen = true;
-            PreviewMenuItem.IsChecked = true;
-            PreviewPane.Visibility = Visibility.Visible;
-            PreviewCol.Width = new GridLength(1, GridUnitType.Star);
-            RenderPreview(EditorPlainText());
+            if (PreviewMenuItem.Visibility != Visibility.Visible) return;
+            PreviewMode next = _previewMode switch
+            {
+                PreviewMode.Source   => PreviewMode.Rendered,
+                PreviewMode.Rendered => PreviewMode.Split,
+                _                    => PreviewMode.Source,
+            };
+            SetPreviewMode(next);
         }
 
-        private void ClosePreview()
+        /// <summary>Applies a mode change: swaps the two column widths, toggles the editor's
+        /// visibility, and brings up or tears down the WebBrowser. The IE ActiveX control
+        /// stays out of the tree whenever the mode is Source so an idle window carries no
+        /// hosted-native overhead.</summary>
+        private void SetPreviewMode(PreviewMode mode, bool persist = true)
         {
-            _previewRefreshTimer?.Stop();
-            _pendingPreviewScroll = null;
-            _previewOpen = false;
-            PreviewMenuItem.IsChecked = false;
-            PreviewPane.Visibility = Visibility.Collapsed;
-            PreviewCol.Width = new GridLength(0);
-            if (_previewBrowser != null)
+            if (mode == _previewMode) { SyncPreviewMenuChecks(); return; }
+            _previewMode = mode;
+            switch (mode)
             {
-                PreviewPane.Child = null;
-                _previewBrowser.Dispose();
-                _previewBrowser = null;
+                case PreviewMode.Source:
+                    _previewRefreshTimer?.Stop();
+                    _pendingPreviewScroll = null;
+                    EditorCol.Width = new GridLength(1, GridUnitType.Star);
+                    Editor.Visibility = Visibility.Visible;
+                    PreviewCol.Width = new GridLength(0);
+                    PreviewPane.Visibility = Visibility.Collapsed;
+                    if (_previewBrowser != null)
+                    {
+                        PreviewPane.Child = null;
+                        _previewBrowser.Dispose();
+                        _previewBrowser = null;
+                    }
+                    break;
+
+                case PreviewMode.Rendered:
+                    EditorCol.Width = new GridLength(0);
+                    Editor.Visibility = Visibility.Collapsed;
+                    PreviewCol.Width = new GridLength(1, GridUnitType.Star);
+                    PreviewPane.Visibility = Visibility.Visible;
+                    RenderPreview(EditorPlainText());
+                    break;
+
+                case PreviewMode.Split:
+                    EditorCol.Width = new GridLength(1, GridUnitType.Star);
+                    Editor.Visibility = Visibility.Visible;
+                    PreviewCol.Width = new GridLength(1, GridUnitType.Star);
+                    PreviewPane.Visibility = Visibility.Visible;
+                    RenderPreview(EditorPlainText());
+                    break;
             }
+            SyncPreviewMenuChecks();
+            if (persist) App.SetSetting(PreviewModeSettingKey, mode.ToString());
         }
 
         private void RenderPreview(string text, bool preserveScroll = false)
@@ -277,6 +344,19 @@ namespace KillerNotes.Shell
             return "<!DOCTYPE html><html><head>" +
                 "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"/><meta charset=\"utf-8\"/>" +
                 "<style>" +
+                // Scrollbar recolor: IE11's -ms- properties are the only ones the WebBrowser control
+                // honors - Chromium/Firefox spellings don't apply in IE mode. Face is the accent, track
+                // is the pane color, the 3D shading columns collapse to the same accent so the bar
+                // reads as one solid lozenge instead of the beveled Win98 default. Applied to html AND
+                // body (IE reads either depending on the doctype).
+                $"html,body{{scrollbar-face-color:{accent};scrollbar-track-color:{bg};" +
+                $"scrollbar-arrow-color:{bg};scrollbar-highlight-color:{accent};" +
+                $"scrollbar-shadow-color:{accent};scrollbar-3dlight-color:{accent};" +
+                $"scrollbar-darkshadow-color:{bg}}}" +
+                // Kill horizontal scroll on the outer page - a long inline token could otherwise
+                // introduce a horizontal bar the whole reading area doesn't need. Code blocks that
+                // want to scroll horizontally keep their own overflow-x:auto below.
+                "html{overflow-x:hidden}body{overflow-x:hidden}" +
                 $"body{{background:{bg} url({GrainDataUri()}) repeat;color:{fg};" +
                 "font-family:'Segoe UI',sans-serif;font-size:13px;margin:12px}}" +
                 $"a{{color:{accent}}}" +

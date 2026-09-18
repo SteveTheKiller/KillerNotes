@@ -286,12 +286,13 @@ example), delete the .lock file beside the database and reopen it.</sys:String>
     <sys:String x:Key="Str_Pw_WrongPw">Wrong password - try again</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" is password protected.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Unlock</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New database...</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">confirm</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Start a new database?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">The locked database stays on disk and can still be unlocked later if the
 password turns up. There is no way to recover its notes without it.</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">Start new</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">New database - the locked one is kept as {0}</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">Set a password</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Encrypts the whole notes database (AES-256 via SQLCipher).
@@ -335,14 +336,18 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_Imported1">1 file imported</sys:String>
     <sys:String x:Key="Str_St_ImportedN">{0} files imported</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">Exported to {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">Exported to {0} (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Export failed: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">All supported|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Text (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Rich text (*.rtf)|*.rtf|Images|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes files (*.knote, *.kndb)|*.knote;*.kndb|All files (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">Text file (*.txt)|*.txt|Rich text (*.rtf)|*.rtf|Web page (*.html)|*.html</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Text file (*.txt)|*.txt|Rich text (*.rtf)|*.rtf|Web page (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">Preview markdown</sys:String>
     <sys:String x:Key="Str_TT_PreviewHtml">Preview HTML</sys:String>
     <sys:String x:Key="Str_St_PreviewFailed">Preview failed: {0}</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
 
     <!-- Databases dialog -->
     <sys:String x:Key="Str_Db_Title">Databases</sys:String>

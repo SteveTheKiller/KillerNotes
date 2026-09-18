@@ -134,7 +134,7 @@ namespace KillerNotes.Shell
             else
             {
                 PreviewMenuItem.Visibility = Visibility.Collapsed;
-                ClosePreview();   // Preview.cs
+                SetPreviewMode(PreviewMode.Source, persist: false);   // Preview.cs - tear down the browser
                 OutlineList.Children.Clear();   // Headings.cs - no note, no outline
                 OutlineEmpty.Visibility = Visibility.Collapsed;
             }

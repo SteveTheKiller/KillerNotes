@@ -17,12 +17,14 @@ namespace KillerNotes.Controls
         }
 
         public bool Confirmed { get; private set; }
-        public bool ExtraClicked { get; private set; }   // the optional third button (escape hatch)
+        public bool ExtraClicked { get; private set; }    // the first extra button (e.g. "New database...")
+        public bool Extra2Clicked { get; private set; }   // the second extra button (e.g. "Open another...")
         public string Password { get; private set; } = "";
         public string PasswordConfirm { get; private set; } = "";
 
         public PasswordDialog(string heading, string detail, string confirmText,
-                              bool showConfirm = false, string? extraText = null)
+                              bool showConfirm = false, string? extraText = null,
+                              string? extra2Text = null, bool showCancel = true)
         {
             InitializeComponent();
             Loaded += (_, _) => { Anim.FadeIn(RootBorder); PwBox.Focus(); };
@@ -36,16 +38,34 @@ namespace KillerNotes.Controls
                 ConfirmLabel.Visibility = Visibility.Visible;
                 PwConfirmBox.Visibility = Visibility.Visible;
             }
+            if (!showCancel)
+            {
+                // The title-bar X still closes the dialog and delivers the Cancel outcome
+                // (DialogTitleBar > CloseRequested -> Cancel_Click), so an explicit Cancel
+                // button is redundant on flows where the escape hatches make the row wide.
+                CancelButton.Visibility = Visibility.Collapsed;
+            }
             if (!string.IsNullOrEmpty(extraText))
             {
                 ExtraButton.Content = extraText;
                 ExtraButton.Visibility = Visibility.Visible;
+            }
+            if (!string.IsNullOrEmpty(extra2Text))
+            {
+                Extra2Button.Content = extra2Text;
+                Extra2Button.Visibility = Visibility.Visible;
             }
         }
 
         private void Extra_Click(object sender, RoutedEventArgs e)
         {
             ExtraClicked = true;
+            Close();
+        }
+
+        private void Extra2_Click(object sender, RoutedEventArgs e)
+        {
+            Extra2Clicked = true;
             Close();
         }
 

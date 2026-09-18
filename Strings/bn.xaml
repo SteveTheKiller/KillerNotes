@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
@@ -104,12 +104,13 @@
     <sys:String x:Key="Str_Pw_WrongPw">ভুল পাসওয়ার্ড - আবার চেষ্টা করুন</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" পাসওয়ার্ড দিয়ে সুরক্ষিত।</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">আনলক</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">নতুন ডেটাবেস...</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">নিশ্চিত করুন</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">নতুন ডেটাবেস শুরু করবেন?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">লক করা ডেটাবেসটি ডিস্কে থেকে যায়; পাসওয়ার্ড পাওয়া গেলে পরে আনলক করা যাবে।
 পাসওয়ার্ড ছাড়া এর নোটগুলো ফিরে পাওয়ার কোনো উপায় নেই।</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">নতুন শুরু করুন</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">নতুন ডেটাবেস - লক করা ডেটাবেসটি {0} নামে রাখা আছে</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">একটি পাসওয়ার্ড দিন</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">পুরো নোট ডেটাবেস এনক্রিপ্ট করে (SQLCipher-এর মাধ্যমে AES-256)।
@@ -153,9 +154,10 @@
     <sys:String x:Key="Str_St_Imported1">১টি ফাইল ইমপোর্ট হয়েছে</sys:String>
     <sys:String x:Key="Str_St_ImportedN">{0}টি ফাইল ইমপোর্ট হয়েছে</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">{0}-এ এক্সপোর্ট হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">{0}-এ এক্সপোর্ট হয়েছে (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">এক্সপোর্ট ব্যর্থ: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">সব সমর্থিত|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|টেক্সট (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|রিচ টেক্সট (*.rtf)|*.rtf|ছবি|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes ফাইল (*.knote, *.kndb)|*.knote;*.kndb|সব ফাইল (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">টেক্সট ফাইল (*.txt)|*.txt|রিচ টেক্সট (*.rtf)|*.rtf|ওয়েব পেজ (*.html)|*.html</sys:String>
+    <sys:String x:Key="Str_Filter_Save">টেক্সট ফাইল (*.txt)|*.txt|রিচ টেক্সট (*.rtf)|*.rtf|ওয়েব পেজ (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">মার্কডাউন প্রিভিউ</sys:String>
@@ -885,4 +887,7 @@
     <sys:String x:Key="Str_KS_BackupNow">এখনই ডেটাবেস ব্যাকআপ করুন</sys:String>
     <sys:String x:Key="Str_Kb_Backup">ব্যাকআপ</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">এখনও কোনো ব্যাকআপ ফোল্ডার নেই। ডেটাবেস পরিচালনা থেকে ব্যাকআপে গিয়ে একটি বেছে নিন।</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
 </ResourceDictionary>

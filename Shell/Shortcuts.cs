@@ -254,7 +254,7 @@ namespace KillerNotes.Shell
                 case Key.F4:
                     if (PreviewMenuItem.Visibility == Visibility.Visible)
                     {
-                        TogglePreview_Click(this, new RoutedEventArgs());   // Preview.cs
+                        CyclePreviewMode();   // Preview.cs - Source -> Rendered -> Split -> Source
                         e.Handled = true;
                     }
                     break;

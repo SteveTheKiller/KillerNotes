@@ -50,17 +50,18 @@
                               FontSize="12" Foreground="{StaticResource MutedTextBrush}"/>
                 </StackPanel>
 
-                <!-- Buttons -->
+                <!-- Buttons. MinWidth+Padding instead of fixed Width so a longer label
+                     (translation, or a caption like "Start new") is not clipped. -->
                 <StackPanel Grid.Row="2" Orientation="Horizontal"
                             HorizontalAlignment="Right" Margin="24,0,24,20">
                     <Button x:Name="CancelButton" Content="Cancel" Click="Cancel_Click"
                             Style="{StaticResource SurfaceButton}"
-                            Width="80" Margin="0,0,8,0"/>
+                            MinWidth="80" Padding="16,4" Margin="0,0,8,0"/>
                     <!-- OutlineButton (family standard, like KillerScan's Scan button):
                          accent outline at rest, fills solid on hover -->
                     <Button x:Name="OkButton" Content="Install" Click="OK_Click"
                             Style="{StaticResource OutlineButton}"
-                            Width="80"/>
+                            MinWidth="80" Padding="16,4"/>
                 </StackPanel>
             </Grid>
     </ContentControl>

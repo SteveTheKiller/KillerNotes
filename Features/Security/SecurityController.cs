@@ -103,13 +103,39 @@ namespace KillerNotes.Features.Security
                 var dlg = new PasswordDialog(heading,
                     string.Format(_host.Loc("Str_Pw_Protected"), NoteStore.ActiveDbFile),
                     _host.Loc("Str_Btn_Unlock"),
-                    extraText: _host.Loc("Str_Pw_NewDbBtn")) { Owner = _host.Window };
+                    extraText: _host.Loc("Str_Pw_NewDbBtn"),
+                    extra2Text: _host.Loc("Str_Btn_OpenOther"),
+                    showCancel: false) { Owner = _host.Window };
                 dlg.ShowDialog();
 
                 if (dlg.ExtraClicked)
                 {
                     if (StartFreshDatabase()) return true;
                     continue;   // declined the confirm - back to the unlock prompt
+                }
+                if (dlg.Extra2Clicked)
+                {
+                    // Switch to a different existing database: Manage databases picks it,
+                    // the ActiveDatabase setting flips, and the loop re-prompts for the new
+                    // file's password. A canceled pick just falls back to the current file.
+                    // If the picked file isn't encrypted, open it here instead - PromptUnlock
+                    // is only for encrypted ones, and prompting for a password against a
+                    // no-password DB would be a dead-end.
+                    var pick = new DatabasesDialog { Owner = _host.Window };
+                    pick.ShowDialog();
+                    if (pick.SelectedDatabase != null &&
+                        !string.Equals(pick.SelectedDatabase, NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase))
+                    {
+                        App.SetSetting("ActiveDatabase", pick.SelectedDatabase);
+                        _dbPassword = null;
+                        heading = _host.Loc("Str_Pw_UnlockHead");   // fresh file - reset the wrong-password heading
+                        if (!NoteStore.IsEncrypted())
+                        {
+                            NoteStore.Open();
+                            return true;
+                        }
+                    }
+                    continue;
                 }
                 if (!dlg.Confirmed)
                 {
