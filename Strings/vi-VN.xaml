@@ -1,0 +1,944 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ================================================================
+         KillerNotes  -  English (en-US) strings.
+         x:Key values are looked up at runtime - never change them.
+         Other locales layer over this file; any key they omit falls back here.
+         {0}/{1} placeholders are filled in by the app - keep them.
+         ================================================================ -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">Quản lý cơ sở dữ liệu</sys:String>
+    <sys:String x:Key="Str_TT_Lock">Bảo vệ bằng mật khẩu</sys:String>
+    <sys:String x:Key="Str_TT_About">Giới thiệu về KillerPDF (F12)</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">Thu gọn thanh bên (F9)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Mở rộng thanh bên (F9)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">Phím tắt (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">Chủ đề</sys:String>
+    <sys:String x:Key="Str_TT_Language">Ngôn ngữ</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Tìm kiếm ghi chú  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ Ghi chú mới</sys:String>
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ Mới</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">Ghi chú mới (Ctrl+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">Theo thời gian tạo - cũ nhất trước (nhấp lại để đảo ngược)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">Theo bảng chữ cái (nhấp lại để đảo ngược)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">Chia sẻ ghi chú...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">Lưu thành tệp .knote (có thể bảo vệ bằng mật khẩu) để gửi cho đồng nghiệp</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">Xuất ghi chú dưới dạng...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">Lưu bản sao dưới dạng tệp thông thường - .txt, .rtf hoặc .html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">Xóa ghi chú</sys:String>
+
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">Đảo ngược thứ tự</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">Cắt</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">Sao chép</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">Dán</sys:String>
+
+    <!-- Theme flyout -->
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">Đậm (Ctrl+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">Nghiêng (Ctrl+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">Gạch chân (Ctrl+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">Gạch ngang (Ctrl+Shift+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">Đơn cách (mã, Ctrl+Shift+M)</sys:String>
+    <!-- 1.1.0 additions (grouped here for convenience; keys resolve regardless of position) -->
+    <sys:String x:Key="Str_TT_AppSize">Cuộn để thay đổi kích thước toàn bộ ứng dụng (Ctrl+Shift++/-/0)</sys:String>
+    <sys:String x:Key="Str_St_AppSize">Kích thước ứng dụng {0}%</sys:String>
+    <sys:String x:Key="Str_KS_WordWrap">Bật/tắt ngắt dòng</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">Tô sáng cú pháp</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Số dòng (Alt+L)</sys:String>
+    <sys:String x:Key="Str_KS_LineNumbers">Bật/tắt số dòng</sys:String>
+    <sys:String x:Key="Str_Kb_LineNumbers">Số dòng</sys:String>
+    <sys:String x:Key="Str_KS_AppSize">Thu phóng toàn bộ ứng dụng (trợ năng)</sys:String>
+    <sys:String x:Key="Str_St_LineNumOn">Đã bật số dòng</sys:String>
+    <sys:String x:Key="Str_St_LineNumOff">Đã tắt số dòng</sys:String>
+
+    <!-- Navigation history (NoteHistory.cs). The gestures are the browser's, so the wording is
+         the browser's too - anything more inventive would only obscure what they do. -->
+    <sys:String x:Key="Str_Ctx_NavBack">Quay lại</sys:String>
+    <sys:String x:Key="Str_Ctx_NavForward">Tiến tới</sys:String>
+    <sys:String x:Key="Str_TT_NavBack">Quay lại ghi chú trước đó</sys:String>
+    <sys:String x:Key="Str_TT_NavForward">Tiến tới lần nữa</sys:String>
+    <sys:String x:Key="Str_KS_NavBack">Quay lại ghi chú trước</sys:String>
+    <sys:String x:Key="Str_KS_NavForward">Tiến tới ghi chú tiếp theo</sys:String>
+    <sys:String x:Key="Str_Kb_NavBack">Quay lại</sys:String>
+    <sys:String x:Key="Str_Kb_NavForward">Tiến tới</sys:String>
+    <sys:String x:Key="Str_St_NavNoBack">Không còn mục nào để quay lại</sys:String>
+    <sys:String x:Key="Str_St_NavNoForward">Không còn mục nào để tiến tới</sys:String>
+
+    <!-- The linked-from / mentions strip (Backlinks.cs) -->
+    <sys:String x:Key="Str_Ctx_HideMentions">Ẩn dải này</sys:String>
+    <sys:String x:Key="Str_TT_HideMentions">Ẩn dải liên kết đến. Alt+M sẽ hiện lại.</sys:String>
+    <sys:String x:Key="Str_KS_HideMentions">Hiện hoặc ẩn dải liên kết đến</sys:String>
+    <sys:String x:Key="Str_Kb_HideMentions">Đề cập</sys:String>
+    <sys:String x:Key="Str_St_MentionsHidden">Đã ẩn dải liên kết đến - Alt+M để hiện lại</sys:String>
+    <sys:String x:Key="Str_St_MentionsShown">Đã hiện dải liên kết đến</sys:String>
+    <sys:String x:Key="Str_TT_Density">Mật độ thanh bên (Ctrl+D) - nhấp hoặc cuộn</sys:String>
+    <sys:String x:Key="Str_KS_Density">Chuyển đổi mật độ thanh bên</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">Mật độ: đầy đủ</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">Mật độ: gọn</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">Mật độ: tối thiểu</sys:String>
+    <sys:String x:Key="Str_St_Undo">Đã hoàn tác</sys:String>
+    <sys:String x:Key="Str_KS_SortCycle">Chuyển kiểu sắp xếp thanh bên (thời gian / A-Z / tùy chỉnh)</sys:String>
+    <sys:String x:Key="Str_KS_NewGroup">Nhóm mới (đưa các ghi chú đã chọn vào nhóm)</sys:String>
+    <sys:String x:Key="Str_KS_Theme">Bảng chọn chủ đề và màu nhấn</sys:String>
+    <sys:String x:Key="Str_KS_TitleColor">Màu tiêu đề (ghi chú đã chọn)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Bật/tắt kiểm tra chính tả</sys:String>
+    <sys:String x:Key="Str_KS_Table">Chèn bảng</sys:String>
+    <!-- Killculator sidebar calculator (F9) -->
+    <sys:String x:Key="Str_KS_Calc">Killculator - In đưa kết quả vào ghi chú</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrint">In kết quả Killculator vào ghi chú</sys:String>
+    <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
+    <sys:String x:Key="Str_TT_SketchRail">SketchPad - vẽ phác thảo (F7)</sys:String>
+    <sys:String x:Key="Str_TT_KalcResize">Kéo để đổi kích thước Killculator</sys:String>
+    <!-- Title of the image picker (Editor.Insert.cs and the SketchPad's add-image button). It was
+         never defined, so the dialog's caption rendered the key name itself. -->
+    <sys:String x:Key="Str_TT_Image">Chèn hình ảnh</sys:String>
+
+    <!-- ==== Themed Windows system menu (Shell/SystemMenu.cs - caption right-click, Alt+Space) ==== -->
+    <sys:String x:Key="Str_Sys_Restore">Khôi phục</sys:String>
+    <sys:String x:Key="Str_Sys_Move">Di chuyển</sys:String>
+    <sys:String x:Key="Str_Sys_Size">Kích thước</sys:String>
+    <sys:String x:Key="Str_Sys_Minimize">Thu nhỏ</sys:String>
+    <sys:String x:Key="Str_Sys_Maximize">Phóng to</sys:String>
+    <sys:String x:Key="Str_Sys_Close">Đóng</sys:String>
+
+    <!-- ==== Dictation (F10) - Controls/Dictation/DictationWindow.cs, Shell/Editor.Dictation.cs ==== -->
+    <sys:String x:Key="Str_TT_DictationRail">Đọc chính tả - ghi âm và chuyển thành văn bản (Ctrl+M)</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">Tìm trong ghi chú này (Ctrl+F)</sys:String>
+    <sys:String x:Key="Str_KS_Dictation">Đọc chính tả - ghi âm và chuyển thành văn bản</sys:String>
+    <sys:String x:Key="Str_Kb_Dictation">Đọc chính tả</sys:String>
+    <sys:String x:Key="Str_Dict_Title">Đọc chính tả</sys:String>
+    <sys:String x:Key="Str_Dict_Close">Đóng (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+    <sys:String x:Key="Str_Dict_Record">Ghi âm</sys:String>
+    <sys:String x:Key="Str_Dict_Stop">Dừng</sys:String>
+    <sys:String x:Key="Str_Dict_Play">Phát</sys:String>
+    <sys:String x:Key="Str_Dict_Transcribe">Chuyển thành văn bản</sys:String>
+    <sys:String x:Key="Str_Dict_Print">In vào ghi chú</sys:String>
+    <sys:String x:Key="Str_Dict_Embed">Nhúng bản ghi âm</sys:String>
+    <sys:String x:Key="Str_Dict_Ready">Sẵn sàng. Hãy ghi âm, rồi chuyển thành văn bản hoặc nhúng âm thanh.</sys:String>
+    <sys:String x:Key="Str_Dict_Recording">Đang ghi âm...</sys:String>
+    <sys:String x:Key="Str_Dict_Recorded">Đã ghi âm. Hãy chuyển thành văn bản, nhúng hoặc thực hiện cả hai.</sys:String>
+    <sys:String x:Key="Str_Dict_Working">Đang chuyển thành văn bản...</sys:String>
+    <sys:String x:Key="Str_Dict_Done">Đã chuyển thành văn bản. Chỉnh sửa tại đây rồi in vào ghi chú.</sys:String>
+    <sys:String x:Key="Str_Dict_Printed">Đã in vào ghi chú.</sys:String>
+    <sys:String x:Key="Str_Dict_Embedded">Đã nhúng bản ghi âm vào ghi chú.</sys:String>
+    <sys:String x:Key="Str_Dict_NoMic">Không thể mở micrô.</sys:String>
+    <sys:String x:Key="Str_Dict_Empty">Không thu được nội dung nào. Hãy kiểm tra micrô đã được kết nối.</sys:String>
+    <sys:String x:Key="Str_Dict_NoSpeech">Không nhận dạng được giọng nói trong bản ghi âm này.</sys:String>
+    <sys:String x:Key="Str_Dict_NoText">Không có văn bản để in.</sys:String>
+    <sys:String x:Key="Str_Dict_Failed">Chuyển thành văn bản thất bại.</sys:String>
+    <sys:String x:Key="Str_Dict_NoEngine">Chưa cài đặt bộ nhận dạng giọng nói nên không thể chuyển thành văn bản. Ghi âm và nhúng vẫn hoạt động.</sys:String>
+    <sys:String x:Key="Str_Dict_EmbedFailed">Không thể lưu bản ghi âm vào ghi chú này.</sys:String>
+    <sys:String x:Key="Str_Dict_Missing">Bản ghi âm đó không còn trong ghi chú này.</sys:String>
+    <sys:String x:Key="Str_Dict_Chip">Bản ghi âm</sys:String>
+    <sys:String x:Key="Str_Dict_ChipTip">Phát bằng mũi tên, kéo để di chuyển, nhấp chuột phải để chỉnh sửa hoặc chia sẻ</sys:String>
+
+    <!-- The app's own wordmark, split into the family's two runs: neutral first word, accent
+         second. Shared chrome compiled from another app's source (the file picker) reads these
+         so it names the HOST app instead of the app it was written in. -->
+    <sys:String x:Key="Str_Wordmark_A">Killer</sys:String>
+    <sys:String x:Key="Str_Wordmark_B">PDF</sys:String>
+
+    <!-- ==== Shared file picker (KillerPDF/Controls/FileDialog, linked into this project) ====
+         The picker is compiled from KillerPDF's source, but it resolves its strings against the
+         HOST app's dictionary - so without these it renders its own key names on screen, which is
+         what "Str_QA_Home" and "Str_Sum_Counts" in the dialog were. Wording copied verbatim from
+         KillerPDF/Strings/en-US.xaml so the two apps read identically. -->
+    <sys:String x:Key="Str_Btn_Save">Lưu</sys:String>
+    <sys:String x:Key="Str_Col_Modified">đã sửa đổi</sys:String>
+    <sys:String x:Key="Str_Col_Name">tên</sys:String>
+    <sys:String x:Key="Str_Col_Size">kích thước</sys:String>
+    <sys:String x:Key="Str_Dlg_AllFiles">Tất cả các tệp</sys:String>
+    <sys:String x:Key="Str_Dlg_FileName">Tên tệp:</sys:String>
+    <sys:String x:Key="Str_Dlg_FileType">Loại tệp:</sys:String>
+    <sys:String x:Key="Str_Dlg_NoMatchingFiles">Không có mục nào khớp với loại tệp hiện tại.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFile">Tệp đó không tồn tại.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFolder">Thư mục đó không tồn tại.</sys:String>
+    <sys:String x:Key="Str_Dlg_OverwriteMsg">Thay thế {0}?</sys:String>
+    <sys:String x:Key="Str_Menu_PinPlace">Ghim vào danh mục</sys:String>
+    <sys:String x:Key="Str_Menu_UnpinPlace">Xóa khỏi danh mục</sys:String>
+    <sys:String x:Key="Str_QA_Desktop">Màn hình nền</sys:String>
+    <sys:String x:Key="Str_QA_Documents">Tài liệu</sys:String>
+    <sys:String x:Key="Str_QA_Downloads">Tải xuống</sys:String>
+    <sys:String x:Key="Str_QA_Home">Trang chủ</sys:String>
+    <sys:String x:Key="Str_QA_Pictures">Hình ảnh</sys:String>
+    <sys:String x:Key="Str_Sum_Counts">{0} thư mục, {1} tệp</sys:String>
+    <sys:String x:Key="Str_TT_RecentLocations">Vị trí gần đây</sys:String>
+    <sys:String x:Key="Str_TT_ShowHidden">Hiển thị các mục ẩn và hệ thống</sys:String>
+    <sys:String x:Key="Str_TT_Up">Lên một thư mục</sys:String>
+    <sys:String x:Key="Str_TT_ViewDetails">Chế độ xem chi tiết</sys:String>
+    <sys:String x:Key="Str_TT_ViewIcons">Chế độ xem biểu tượng</sys:String>
+    <sys:String x:Key="Str_TT_ViewList">Chế độ xem danh sách</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrint">In vào ghi chú</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrint">In kết quả vào ghi chú này tại con trỏ (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintSum">Tổng</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintEq">Phương trình</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintSum">In kết quả vào ghi chú này tại con trỏ (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintEq">In toàn bộ phương trình vào ghi chú này tại con trỏ (Ctrl+Shift+Enter)</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrintEq">In phương trình Killculator vào ghi chú</sys:String>
+    <sys:String x:Key="Str_St_CalcNoNote">Trước tiên hãy mở một ghi chú</sys:String>
+    <sys:String x:Key="Str_St_CalcPrinted">Đã in vào ghi chú</sys:String>
+    <sys:String x:Key="Str_St_SketchEmpty">Trước tiên hãy vẽ nội dung</sys:String>
+    <sys:String x:Key="Str_St_SketchUpdated">Đã cập nhật bản phác thảo</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">Chưa in bản phác thảo - hãy quay lại ghi chú chứa nó</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">Màu chữ và tô sáng</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">Danh sách dấu đầu dòng (Ctrl+Shift+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">Danh sách đánh số (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">Đường kẻ ngang (Ctrl+Shift+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">Chèn bảng (kéo để chọn kích thước)</sys:String>
+    <sys:String x:Key="Str_TT_InsertImage">Chèn hình ảnh từ tệp</sys:String>
+    <sys:String x:Key="Str_TT_Preview">Xem trước (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">Ẩn thanh định dạng (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">Kéo để di chuyển - nhấp đúp để thu nhỏ</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Nhấp hoặc nhấn F6 để khôi phục - kéo để di chuyển</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">văn bản</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">Đánh dấu</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">Màu nhấn</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">tự động</sys:String>
+    <sys:String x:Key="Str_TT_Auto">Trở về màu chữ của chủ đề</sys:String>
+    <sys:String x:Key="Str_Btn_None">không</sys:String>
+    <sys:String x:Key="Str_TT_None">Xóa tô sáng</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">kích thước</sys:String>
+    <sys:String x:Key="Str_TT_Columns">Cột</sys:String>
+    <sys:String x:Key="Str_TT_Rows">Hàng</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">Chèn</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">1-50 cột, 1-200 hàng</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">Nhấp để bắt đầu ghi chú mới, thả văn bản hoặc hình ảnh vào đây, hoặc chọn một ghi chú bên trái.</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">Chỉ có thể thả tệp hình ảnh vào ghi chú</sys:String>
+    <sys:String x:Key="Str_Untitled">Không tiêu đề</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">Đã lưu</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">Bảng tạm đang bận - hãy thử lại</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">{0} ghi chú</sys:String>
+    <!-- The note's stored content would not deserialize. It is left unloaded rather than
+         opened empty, and saving is blocked so the content on disk is not overwritten. -->
+    <sys:String x:Key="Str_St_NoteLoadFailed">Không thể mở ghi chú này và nội dung không bị thay đổi: {0}</sys:String>
+    <sys:String x:Key="Str_St_Matches">{0} kết quả</sys:String>
+    <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
+         this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->
+    <sys:String x:Key="Str_St_FindMatches">{0} trên {1}</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">Không có kết quả</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">Kết quả trước (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">Kết quả tiếp theo (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">Đóng (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">Kéo để di chuyển</sys:String>
+
+    <!-- Search and replace (#14): in-note replace row + match options, and the sidebar's
+         cross-note replace. -->
+    <sys:String x:Key="Str_TT_FindCase">Phân biệt chữ hoa chữ thường</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Toàn bộ từ</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Biểu thức chính quy</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Thay thế</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">Tất cả</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Thay thế kết quả hiện tại (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Thay thế mọi kết quả trong ghi chú này (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">Đã thay thế {0} kết quả</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">Thay thế trong tất cả ghi chú</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Thay thế cụm từ tìm kiếm trong mọi ghi chú có chứa nó</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Thay bằng...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Trước tiên hãy nhập cụm từ tìm kiếm ở trên</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">Đã thay thế {0} kết quả trong {1} ghi chú</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">Thay thế {0} kết quả trong {1} ghi chú?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Mọi "{0}" sẽ thành "{1}". Ctrl+Z sẽ hoàn tác tất cả.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...và thêm {0} ghi chú</sys:String>
+    <sys:String x:Key="Str_KS_Replace">Tìm và thay thế trong ghi chú này</sys:String>
+
+    <sys:String x:Key="Str_St_NoteDeleted">Đã xóa ghi chú</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">Đã xóa {0} ghi chú</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">Không thể mở cơ sở dữ liệu ghi chú: {0}</sys:String>
+
+    <!-- Network data folder safeguard -->
+    <sys:String x:Key="Str_Btn_OK">OK</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">Thư mục dữ liệu nằm trên mạng</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} nằm trên một máy tính khác. Sử dụng một cơ sở dữ liệu ghi chú từ hai máy
+cùng lúc không an toàn; tệp khóa giúp bảo vệ, nhưng mỗi người nên giữ cơ sở
+dữ liệu riêng và chia sẻ ghi chú dưới dạng tệp .knote hoặc .kndb.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Đã mở ở chế độ chỉ đọc</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">Cơ sở dữ liệu này đang được sử dụng trên {0}, nên được mở ở chế độ chỉ đọc - các thay đổi sẽ không
+được lưu. Nếu {0} thực tế không chạy KillerNotes (ví dụ sau khi gặp sự cố),
+hãy xóa tệp .lock bên cạnh cơ sở dữ liệu rồi mở lại.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Chỉ đọc - đang được sử dụng trên {0}</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">Xóa "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">Xóa {0} ghi chú?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Ghi chú sẽ được chuyển vào thùng rác trong 30 ngày. Ctrl+Z sẽ khôi phục ngay.</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">Xóa</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">Hủy</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">Mở khóa KillerNotes</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">Sai mật khẩu - hãy thử lại</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">"{0}" được bảo vệ bằng mật khẩu.</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">Mở khóa</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Mới</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">xác nhận</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">Bắt đầu cơ sở dữ liệu mới?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Cơ sở dữ liệu bị khóa vẫn nằm trên đĩa và có thể mở khóa sau nếu tìm thấy
+mật khẩu. Không có cách nào khôi phục ghi chú nếu thiếu mật khẩu.</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">Bắt đầu mới</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Mở...</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">Cơ sở dữ liệu mới - cơ sở dữ liệu bị khóa được giữ lại dưới tên {0}</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">Đặt mật khẩu</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Mã hóa toàn bộ cơ sở dữ liệu ghi chú (AES-256 qua SQLCipher).
+Không được làm mất mật khẩu - không thể khôi phục.</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">Mã hóa</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">Thay đổi hoặc xóa mật khẩu</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">Nhập mật khẩu mới hoặc để trống cả hai ô để xóa bảo vệ.</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">Áp dụng</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">Mật khẩu không khớp - không có gì thay đổi</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">Đã mã hóa cơ sở dữ liệu</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">Đã thay đổi mật khẩu</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">Đã xóa mật khẩu - cơ sở dữ liệu không còn được mã hóa</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">Thay đổi mật khẩu thất bại: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">Thêm cơ sở dữ liệu "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">Cơ sở dữ liệu được sao chép vào thư mục dữ liệu KillerNotes và mở.
+Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệu.</sys:String>
+    <sys:String x:Key="Str_Btn_Add">Thêm</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">Thêm cơ sở dữ liệu thất bại: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">Nhập "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">Các ghi chú trong đó được thêm vào cơ sở dữ liệu hiện tại.</sys:String>
+    <sys:String x:Key="Str_Btn_Import">Nhập</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">Mở khóa ghi chú được chia sẻ</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">"{0}" được bảo vệ bằng mật khẩu chia sẻ.</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">Đã nhập 1 ghi chú</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">Đã nhập {0} ghi chú</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">Nhập thất bại: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">Bảo vệ ghi chú được chia sẻ?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">Tùy chọn: người nhận phải nhập mật khẩu này để mở.
+Để trống cả hai ô để chia sẻ không cần mật khẩu.</sys:String>
+    <sys:String x:Key="Str_Btn_Share">Chia sẻ</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">Mật khẩu không khớp - chưa chia sẻ gì</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">Đã chia sẻ tới {0}</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">Chia sẻ thất bại: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote đã sẵn sàng tại nơi bạn thả</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">Chia sẻ bằng kéo thả thất bại: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">Nhập {0} thất bại: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">Đã nhập 1 tệp</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">Đã nhập {0} tệp</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">Đã xuất tới {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">Đã xuất tới {0} (bỏ qua hình ảnh)</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">Xuất thất bại: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">Tất cả định dạng hỗ trợ|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Văn bản (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Văn bản có định dạng (*.rtf)|*.rtf|Hình ảnh|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Tệp KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Tất cả tệp (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Tệp văn bản (*.txt)|*.txt|Văn bản có định dạng (*.rtf)|*.rtf|Trang web (*.html)|*.html|Markdown (*.md)|*.md|Ghi chú KillerNotes (*.knote)|*.knote</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">Xem trước markdown</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">Xem trước HTML</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">Xem trước thất bại: {0}</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Nguồn</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Đã kết xuất</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Chia đôi</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">Cơ sở dữ liệu</sys:String>
+    <sys:String x:Key="Str_Btn_Open">Mở</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">Cơ sở dữ liệu mới</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">Xóa cơ sở dữ liệu đã chọn</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">Mở thư mục dữ liệu trong File Explorer</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">Đổi tên</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">Xóa</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">Sao chép tệp</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">Đặt tệp .db vào bảng tạm - dán vào Explorer, Teams hoặc email để chia sẻ</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">Xuất dưới dạng .kndb...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">Lưu bản sao để đồng nghiệp có thể nhấp đúp mở trong KillerNotes</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">Hiện trong Explorer</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">Trước tiên hãy chọn một cơ sở dữ liệu</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">đã mã hóa</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">đang hoạt động</sys:String>
+    <sys:String x:Key="Str_Db_Copied">Đã sao chép {0} - dán vào Explorer, Teams hoặc email</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">Sao chép thất bại: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">Tên đó chứa ký tự Windows không cho phép</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} đã tồn tại</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">Đã đổi tên {0} thành {1}</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">Đổi tên thất bại: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">Tạo thất bại: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">Mọi ghi chú bên trong sẽ bị xóa vĩnh viễn. Không thể hoàn tác.</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">Đã xóa {0}</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">Xóa thất bại: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">Cơ sở dữ liệu KillerNotes (*.kndb)|*.kndb</sys:String>
+
+    <!-- Change data folder (#6) -->
+    <sys:String x:Key="Str_TT_DataFolder">Thay đổi thư mục dữ liệu lưu cơ sở dữ liệu</sys:String>
+    <!-- No product name: the caption already prefixes it, so it read "KillerNotes  Choose the
+         KillerNotes data folder". -->
+    <sys:String x:Key="Str_Db_PickFolderTitle">Chọn thư mục dữ liệu KillerNotes</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">Di chuyển {0} tệp cơ sở dữ liệu sang thư mục mới?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">Di chuyển sẽ mang theo mọi tệp .db. Để lại sẽ chuyển sang thư mục mới và giữ các tệp hiện tại ở vị trí cũ.</sys:String>
+    <sys:String x:Key="Str_Btn_Move">Di chuyển</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">Để lại</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">Thư mục dữ liệu hiện là {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">Thư mục dữ liệu hiện là {0} - {1} tệp bị để lại (đang được sử dụng hoặc đã tồn tại tại đích)</sys:String>
+
+    <!-- Custom order + groups (#4) -->
+    <sys:String x:Key="Str_TT_SortCustom">Thứ tự tùy chỉnh - kéo ghi chú để sắp xếp</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">Đã chuyển sang thứ tự tùy chỉnh - kéo ghi chú để sắp xếp</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">Nhóm phần đã chọn</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">Nhóm mới...</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">Nhóm con mới...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">Nhóm con ở trên</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">Hiện nhóm con phía trên các ghi chú của nhóm</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">Xóa khỏi nhóm</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">Đổi tên nhóm...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">Xóa nhóm</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">Đặt tên nhóm mới</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">Đặt tên nhóm con mới</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">Đổi tên nhóm này</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">Xóa nhóm "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">Các ghi chú vẫn được giữ lại - chúng chỉ rời khỏi nhóm.</sys:String>
+    <sys:String x:Key="Str_Btn_Create">Tạo</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">Đổi tên</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">Nhóm tên {0} đã tồn tại</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">Đã chuyển tới {0}</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">Đã xóa khỏi nhóm</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">Đã di chuyển nhóm</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">Giới thiệu KillerNotes</sys:String>
+    <sys:String x:Key="Str_About_Version">PHIÊN BẢN</sys:String>
+    <sys:String x:Key="Str_About_Publisher">NHÀ PHÁT HÀNH</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">VÂN TAY CHỨNG THƯ</sys:String>
+    <sys:String x:Key="Str_About_Sha">SHA-256 CỦA EXE</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Ghi chú luôn theo kịp. Sổ ghi chú có thể tìm kiếm và mã hóa, hỗ trợ văn bản có định dạng, hình ảnh nội tuyến, bảng thực và tìm kiếm toàn văn tức thì, tất cả tự động lưu trong một tệp. Một tiện ích GPLv3 </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
+    <sys:String x:Key="Str_About_Computing">Đang tính toán...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">Có bản cập nhật: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">Đang tải xuống...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">Tải xuống và cài đặt {0} {1}?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">Ứng dụng sẽ tự động đóng và mở lại.</sys:String>
+    <sys:String x:Key="Str_Btn_Update">Cập nhật</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">Phím tắt bàn phím</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">DANH SÁCH</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">BÀN PHÍM</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">Giữ phím Ctrl, Shift hoặc Alt để xem trước lớp đó - di chuột qua phím sáng để xem hành động của phím đó</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">Danh sách phím tắt này</sys:String>
+    <sys:String x:Key="Str_KS_Rename">Đổi tên ghi chú đang mở</sys:String>
+    <sys:String x:Key="Str_KS_Search">Tìm kiếm ghi chú</sys:String>
+    <sys:String x:Key="Str_KS_Find">Tìm / tìm kiếm</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Bật/tắt xem trước markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">Hiện / ẩn thanh định dạng</sys:String>
+    <sys:String x:Key="Str_KS_Export">Xuất ghi chú đang mở (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">Thu gọn / mở rộng thanh bên</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Toàn màn hình</sys:String>
+    <sys:String x:Key="Str_KS_About">Hộp thoại giới thiệu</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">Ghi chú mới</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">Mở tệp thành ghi chú mới</sys:String>
+    <sys:String x:Key="Str_KS_Save">Lưu ngay (tự động lưu vẫn chạy)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">Đậm / nghiêng / gạch chân</sys:String>
+    <sys:String x:Key="Str_KS_Strike">Gạch ngang</sys:String>
+    <sys:String x:Key="Str_KS_Mono">Đơn cách (mã)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Tô sáng vùng chọn</sys:String>
+    <sys:String x:Key="Str_KS_Rule">Chèn đường kẻ ngang</sys:String>
+    <sys:String x:Key="Str_KS_Lists">Danh sách dấu đầu dòng / đánh số</sys:String>
+    <sys:String x:Key="Str_KS_Paste">Dán hình ảnh / văn bản</sys:String>
+    <sys:String x:Key="Str_KS_Delete">Xóa ghi chú đã chọn (trong danh sách)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">Đóng lớp phủ / xóa tìm kiếm</sys:String>
+    <sys:String x:Key="Str_KS_SecGraph">Cửa sổ đồ thị</sys:String>
+    <sys:String x:Key="Str_KS_GrArrange">Sắp xếp: theo kết nối, vòng tròn, lưới, nhóm hoặc khoảng cách</sys:String>
+    <sys:String x:Key="Str_KS_GrVisualizer">Trình trực quan hóa: để đồ thị trôi và xoay</sys:String>
+    <sys:String x:Key="Str_KS_GrNextShape">Hình dạng trực quan hóa tiếp theo</sys:String>
+    <sys:String x:Key="Str_KS_GrPin">Ghim mọi ghi chú tại vị trí đặt</sys:String>
+    <sys:String x:Key="Str_KS_GrLock">Khóa các ghi chú đã chọn tại chỗ</sys:String>
+    <sys:String x:Key="Str_KS_GrIsolate">Chỉ hiện nội dung liên kết tới đây</sys:String>
+    <sys:String x:Key="Str_KS_GrLabels">Hiện tiêu đề ghi chú</sys:String>
+    <sys:String x:Key="Str_KS_GrSelect">Chọn tất cả nội dung hiển thị / sao chép dưới dạng [[liên kết]]</sys:String>
+    <sys:String x:Key="Str_KS_GrOpen">Mở ghi chú / hiện lại mọi thứ</sys:String>
+    <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_SkTools">Công cụ: chọn, bút, đường thẳng, mũi tên, hình chữ nhật, hình elip, đa giác, tô màu, văn bản, tẩy, cắt, hình ảnh</sys:String>
+    <sys:String x:Key="Str_KS_SkUndo">Hoàn tác / làm lại</sys:String>
+    <sys:String x:Key="Str_KS_SkPaste">Dán hình ảnh từ bảng tạm</sys:String>
+    <sys:String x:Key="Str_KS_SkPrint">In bản phác thảo vào ghi chú</sys:String>
+    <sys:String x:Key="Str_KS_SkZoom">Thu phóng khung vẽ</sys:String>
+    <sys:String x:Key="Str_KS_SkDelete">Xóa vùng chọn</sys:String>
+    <sys:String x:Key="Str_KS_SkClose">Hoàn tất đa giác / đóng bảng vẽ</sys:String>
+    <sys:String x:Key="Str_KS_Undo">Hoàn tác</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">Cắt / sao chép</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">Chọn toàn bộ văn bản trên trang</sys:String>
+
+    <!-- Keyboard map (short keycap captions + section names) -->
+    <sys:String x:Key="Str_Kb_Shortcuts">Phím tắt</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">Xem trước Markdown/HTML</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">Thanh định dạng</sys:String>
+    <sys:String x:Key="Str_Kb_Export">Xuất ghi chú đang mở</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">Thanh bên</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">Xóa ghi chú (trong danh sách)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">Lưu ngay</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">Đậm</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">Nghiêng</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">Gạch chân</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">Dán</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">Tô sáng</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">Đường kẻ ngang</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">Danh sách dấu đầu dòng</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">Danh sách đánh số</sys:String>
+
+    <sys:String x:Key="Str_Kb_Cut">Cắt</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">Sao chép</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">Hoàn tác</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">Làm lại</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">Chọn tất cả</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">Bật/tắt thẻ</sys:String>
+    <sys:String x:Key="Str_Sec_File">Tệp</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">Ghi chú</sys:String>
+    <sys:String x:Key="Str_Sec_Format">Định dạng</sys:String>
+    <sys:String x:Key="Str_Sec_View">Xem</sys:String>
+    <sys:String x:Key="Str_Sec_Search">Tìm kiếm</sys:String>
+    <sys:String x:Key="Str_Sec_Help">Trợ giúp</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">Chỉnh sửa</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
+    <sys:String x:Key="Str_TT_FontSize">Cỡ chữ (cuộn để thay đổi)</sys:String>
+    <sys:String x:Key="Str_Btn_More">Thêm...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">Chọn màu bất kỳ</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">Màu tiêu đề...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">Tô màu tiêu đề ghi chú này trong danh sách</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">Đặt lại màu tiêu đề</sys:String>
+    <!-- App-wide off switch for the markdown/HTML detection (1.1.7, #14). The detector itself
+         now requires a strong markdown signal, so plain-text checklists no longer trip it; this
+         is for anyone who wants it to stop guessing entirely. -->
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">Phát hiện markdown và HTML</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">Đề xuất xem trước khi ghi chú trông giống markdown hoặc HTML (mọi ghi chú)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Đã bật phát hiện Markdown và HTML</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Đã tắt phát hiện Markdown và HTML</sys:String>
+    <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
+    <sys:String x:Key="Str_Ctx_ConvertList">Chuyển thành danh sách</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Chuyển các dòng đã chọn - hoặc các từ trong một câu - thành danh sách phân tách bằng dấu phẩy</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">Vùng chọn thành danh sách dấu phẩy</sys:String>
+    <sys:String x:Key="Str_St_ListMade">Đã chuyển {0} giá trị thành danh sách dấu phẩy</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">Đã sao chép {0} giá trị dưới dạng danh sách dấu phẩy</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">Trước tiên hãy chọn một số dòng</sys:String>
+    <!-- Per-group name color (1.0.3, issue #8), mirrors the per-note title color -->
+    <sys:String x:Key="Str_Ctx_GroupColor">Màu nhóm...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">Màu nhóm con...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">Tô màu tên nhóm này trong thanh bên</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">Đặt lại màu</sys:String>
+    <!-- Subgroup + group-color keyboard shortcuts (1.1.0), acting on the selected note's group -->
+    <sys:String x:Key="Str_KS_NewSubgroup">Nhóm con mới (nhóm của ghi chú đã chọn)</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">Màu nhóm (nhóm của ghi chú đã chọn)</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">Trước tiên hãy chọn ghi chú nằm trong một nhóm</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">Phóng to / thu nhỏ văn bản đã chọn</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">Thu phóng trình soạn thảo (Ctrl+0 để đặt lại)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Thu phóng {0}%</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">Đã bật kiểm tra chính tả cho ghi chú này</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">Ghi chú quá lớn để kiểm tra chính tả</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">Đã tắt kiểm tra chính tả cho ghi chú này</sys:String>
+    <sys:String x:Key="Str_St_WrapOn">Đã bật ngắt dòng</sys:String>
+    <sys:String x:Key="Str_St_WrapOff">Đã tắt ngắt dòng - cuộn để xem nội dung rộng</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">Phóng to chữ</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">Thu nhỏ chữ</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">Đặt lại thu phóng</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">Menu ngữ cảnh</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">Đầu ghi chú</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">Cuối ghi chú</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">Từ bên trái</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">Từ bên phải</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">Xóa từ bên trái</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">Xóa từ bên phải</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">Căn trái</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">Căn giữa</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">Căn phải</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">Căn đều</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">Đi tới đầu / cuối ghi chú</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">Di chuyển theo từng từ</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">Xóa toàn bộ một từ</sys:String>
+    <sys:String x:Key="Str_KS_Align">Căn trái / giữa / phải / đều</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">Phông chữ...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">Phông chữ</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">Tiêu đề (tên nhóm)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">Thanh bên (tiêu đề ghi chú)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">Văn bản ghi chú</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">Mặc định của KillerNotes</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">Thả tệp .ttf hoặc .otf vào thẻ này để thêm phông chữ riêng.</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">Áp dụng ngay cho toàn ứng dụng. Văn bản đã được gán phông chữ riêng vẫn giữ nguyên.</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Đặt lại về mặc định</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">Phông chữ đó không thể hiển thị văn bản thuần</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">Đã thêm phông chữ: {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">Theo thời gian tạo - cũ nhất trước</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">Theo thời gian tạo - mới nhất trước</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">Theo bảng chữ cái - A đến Z</sys:String>
+    <sys:String x:Key="Str_St_SortZA">Theo bảng chữ cái - Z đến A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (nhấp để đảo ngược)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">Sắp xếp theo thời gian tạo</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">Sắp xếp theo bảng chữ cái</sys:String>
+    <sys:String x:Key="Str_St_Ready">Sẵn sàng</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Trang khách hàng - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Thay tường lửa - Meadowbrook Vet</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">Con cáo nâu nhanh nhẹn nhảy qua chú chó lười 0123456789.</sys:String>
+
+    <sys:String x:Key="Str_Dict_Volume">Âm lượng - kéo lên hoặc xuống</sys:String>
+    <sys:String x:Key="Str_Dict_Pause">Tạm dừng</sys:String>
+    <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
+    <sys:String x:Key="Str_Whisper_Title">Mô hình giọng nói</sys:String>
+    <sys:String x:Key="Str_Whisper_Blurb">Tính năng đọc chính tả tích hợp của Windows không thật chính xác. KillerNotes có thể dùng mô hình giọng nói tốt hơn - mô hình chạy hoàn toàn trên máy này và không tải gì lên. Hãy chọn một mô hình để tải xuống.</sys:String>
+    <sys:String x:Key="Str_Whisper_Tiny">Nhanh</sys:String>
+    <sys:String x:Key="Str_Whisper_Base">Khuyên dùng</sys:String>
+    <sys:String x:Key="Str_Whisper_Small">Chính xác nhất</sys:String>
+    <sys:String x:Key="Str_Whisper_Installed">đã tải xuống</sys:String>
+    <sys:String x:Key="Str_Whisper_Download">Tải xuống</sys:String>
+    <sys:String x:Key="Str_Whisper_Use">Dùng mô hình này</sys:String>
+    <sys:String x:Key="Str_Whisper_Menu">Mô hình giọng nói...</sys:String>
+    <sys:String x:Key="Str_Whisper_Unavailable">Bản dựng này không có mô hình giọng nói - quá trình chuyển thành văn bản dùng bộ máy của Windows.</sys:String>
+    <sys:String x:Key="Str_Whisper_Starting">Đang bắt đầu tải xuống...</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">Đã hủy tải xuống.</sys:String>
+    <sys:String x:Key="Str_Whisper_Done">Sẵn sàng. Từ giờ quá trình chuyển thành văn bản sẽ dùng mô hình này.</sys:String>
+
+    <sys:String x:Key="Str_Dict_EditRec">Chỉnh sửa bản ghi âm...</sys:String>
+    <sys:String x:Key="Str_Dict_SaveChanges">Lưu thay đổi</sys:String>
+    <sys:String x:Key="Str_Dict_Editing">Đang chỉnh sửa bản ghi âm đã nhúng. Hãy cắt rồi lưu thay đổi.</sys:String>
+    <sys:String x:Key="Str_Dict_Replaced">Đã cập nhật bản ghi âm.</sys:String>
+    <sys:String x:Key="Str_Dict_Share">Chia sẻ bản ghi âm</sys:String>
+    <sys:String x:Key="Str_Dict_SaveAs">Lưu thành tệp...</sys:String>
+    <sys:String x:Key="Str_Dict_CopyFile">Sao chép dưới dạng tệp</sys:String>
+    <sys:String x:Key="Str_Dict_Saved">Đã lưu bản ghi âm.</sys:String>
+    <sys:String x:Key="Str_Dict_Copied">Đã sao chép bản ghi âm - dán vào email, cuộc trò chuyện hoặc thư mục.</sys:String>
+    <sys:String x:Key="Str_Dict_Slice">Cắt tại đây</sys:String>
+    <sys:String x:Key="Str_Dict_CopySeg">Sao chép đoạn</sys:String>
+    <sys:String x:Key="Str_Dict_DeleteSeg">Xóa đoạn</sys:String>
+    <sys:String x:Key="Str_Dict_PasteSeg">Dán đoạn tại đây</sys:String>
+    <sys:String x:Key="Str_Dict_ClearCuts">Xóa các điểm cắt</sys:String>
+    <sys:String x:Key="Str_Dict_UndoEdit">Hoàn tác chỉnh sửa</sys:String>
+    <sys:String x:Key="Str_Dict_Edited">Đã chỉnh sửa. Phát lại hoặc chuyển thành văn bản lần nữa.</sys:String>
+
+    <!-- Floating images and recordings (Editor.Float.cs, 1.2.0). No strings: floating has no menu
+         item and no wording - dragging an object IS the gesture. -->
+
+    <!-- Hyperlinks (Links.cs, 1.1.3) -->
+    <sys:String x:Key="Str_KS_Link">Chèn / chỉnh sửa liên kết</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">Liên kết...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">Địa chỉ liên kết</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">Chỉnh sửa liên kết - xóa địa chỉ để bỏ liên kết</sys:String>
+    <sys:String x:Key="Str_Btn_Link">Liên kết</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">Địa chỉ này có vẻ không phải địa chỉ web</sys:String>
+    <sys:String x:Key="Str_St_LinkNotText">Chỉ văn bản mới có thể được liên kết - hãy chọn từ, không chọn hình ảnh hoặc bản ghi âm</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">Không thể mở liên kết</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">Chọn màu</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">Chọn màu từ bất kỳ đâu trên màn hình</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">Nhấp, rồi nhấp một mẫu màu để đặt thành màu hiện tại</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">Đặt lại mẫu màu về mặc định</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">Nhấp để dùng màu này</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">Nhấp để đặt mẫu này thành màu hiện tại</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">Thẻ</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">Quản lý thẻ...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">Nhấp để lọc theo thẻ này</sys:String>
+    <sys:String x:Key="Str_Tags_Title">Quản lý thẻ</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">Chọn màu cho thẻ mới</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">Thêm</sys:String>
+    <sys:String x:Key="Str_Btn_Done">Xong</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">Đổi màu</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">Đổi tên</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">Xóa thẻ</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">Trước tiên hãy nhập tên thẻ</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">Thẻ có tên đó đã tồn tại</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">Xóa thẻ "{0}"?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">Thẻ sẽ bị xóa khỏi mọi ghi chú. Các ghi chú vẫn được giữ lại.</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">Đã gắn thẻ: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">Đã bỏ thẻ: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">Bật/tắt thẻ 1-9 trên ghi chú đang mở</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">Quản lý thẻ (thêm, đổi tên, đổi màu)</sys:String>
+    <sys:String x:Key="Str_KS_SketchPad">SketchPad - vẽ và chú thích</sys:String>
+
+    <!-- Portable install (family install system) -->
+    <sys:String x:Key="Str_Btn_Install">Cài đặt KillerNotes</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">Cài đặt</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">Cài đặt KillerNotes vào hồ sơ người dùng của bạn?</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- Lối tắt menu Bắt đầu&#10;- Xuất hiện trong Thêm/Xóa chương trình</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">Thêm lối tắt trên màn hình nền</sys:String>
+
+    <sys:String x:Key="Str_Ctx_SelectAll">Chọn tất cả</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">Không có bản xem trước</sys:String>
+
+    <!-- ==== SketchPad (F7) tool tips and menu items ====
+         These were only ever inline English fallbacks in Controls/Sketch/*.cs, so the pad
+         was the one window that stayed English in all ten languages. Defined here they
+         behave like every other string: translatable, with en-US as the fallback.
+         (2026-08-07) -->
+    <sys:String x:Key="Str_Sketch_AddImage">Thêm hình ảnh (I) - kéo hình vào bảng vẽ hoặc nhấn Ctrl+V để dán</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">Thêm hình ảnh...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">Đường cung</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">Mũi tên - đường thẳng có đầu mũi tên (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">Đưa ra sau</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">Đậm</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">Thùng sơn (B) - nhấp trong vùng kín để tô tràn</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">Xóa tất cả</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">Đóng (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">Sao chép vào bảng tạm</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">Sao chép bản vẽ vào bảng tạm dưới dạng hình ảnh</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">Xóa</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">Nhân bản</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">Chỉnh sửa văn bản</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">Hình elip (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">Tẩy (E) - quét qua nét mực hoặc chạm vào hình để xóa</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">Tô hình (hình chữ nhật / hình elip)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">Đưa lên trước</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">Đường thẳng (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">Màu tùy chỉnh...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">Độ mờ tô / thùng sơn (nhấp để chuyển)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">Dán hình ảnh</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">Bút - vẽ tự do (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">Đa giác (G) - nhấp từng góc; nhấp điểm đầu hoặc nhấp đúp để đóng (Backspace hoàn tác một điểm, Esc hủy)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">In vào ghi chú (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">Hình chữ nhật (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">Làm lại (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">Đặt lại độ mờ</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">Chọn / di chuyển (V) - nhấp một đối tượng, kéo để di chuyển, Delete để xóa</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">Làm thẳng đường</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">Văn bản (T) - nhấp để đặt nhãn, nhập, Enter để xác nhận (Shift+Enter để xuống dòng)</sys:String>
+    <sys:String x:Key="Str_Sketch_Crop">Cắt (C) - kéo khung để giữ, mọi thứ bên ngoài sẽ bị cắt (Ctrl+Z để khôi phục)</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Thu phóng (Ctrl+Wheel) - nhấp để về 100%, nhấp lại để vừa khung</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" chưa tồn tại</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewBody">Tạo thành ghi chú mới và mở?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">Cập nhật {0} liên kết trong {1} ghi chú?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">Các liên kết [[{0}]] sẽ thành [[{1}]]. Một lần Ctrl+Z sẽ hoàn tác toàn bộ.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Cập nhật liên kết</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">Đã cập nhật {0} liên kết trong {1} ghi chú</sys:String>
+    <sys:String x:Key="Str_Lbl_Backlinks">Được liên kết từ</sys:String>
+    <sys:String x:Key="Str_St_NoBacklinks">Chưa có ghi chú nào liên kết tới đây</sys:String>
+    <sys:String x:Key="Str_TT_Backlinks">Các ghi chú liên kết tới ghi chú này</sys:String>
+    <sys:String x:Key="Str_Lbl_Mentions">Được đề cập trong</sys:String>
+    <sys:String x:Key="Str_KS_Graph">Vẽ đồ thị nhóm đã chọn hoặc toàn bộ sổ ghi chú</sys:String>
+    <sys:String x:Key="Str_Kb_Graph">Đồ thị liên kết</sys:String>
+
+    <sys:String x:Key="Str_Ctx_GroupGraph">Hiện dưới dạng đồ thị</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSpin">Trình trực quan hóa</sys:String>
+    <sys:String x:Key="Str_TT_GraphSpin">Để đồ thị tự trôi và xoay. Tính năng ghim tạm dừng khi chạy.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphHold">Ghim tất cả ghi chú</sys:String>
+    <sys:String x:Key="Str_TT_GraphHold">Giữ mọi ghi chú tại vị trí đặt. Khi tắt, kéo một ghi chú sẽ khiến các ghi chú liên kết dịch ra.</sys:String>
+    <!-- {0} is how many names did not fit in the strip. -->
+    <sys:String x:Key="Str_Lbl_AndMore">Và thêm {0}...</sys:String>
+    <sys:String x:Key="Str_TT_AndMore">Các ghi chú còn lại trỏ tới đây</sys:String>
+    <sys:String x:Key="Str_TT_GroupGraph">Các liên kết giữa ghi chú của nhóm này và nội dung chúng dẫn tới</sys:String>
+    <sys:String x:Key="Str_St_GraphGroupEmpty">Nhóm này chưa có liên kết</sys:String>
+    <sys:String x:Key="Str_TT_Mentions">Các ghi chú nhắc tên ghi chú này mà không liên kết</sys:String>
+    <sys:String x:Key="Str_TT_MentionChip">Nhấp để liên kết. Ctrl+Nhấp để mở ghi chú.</sys:String>
+    <sys:String x:Key="Str_St_Linked">Đã liên kết</sys:String>
+    <sys:String x:Key="Str_St_MentionGone">Ghi chú đó không còn nhắc tới ghi chú này</sys:String>
+    <sys:String x:Key="Str_TT_Graph">Đồ thị mọi liên kết giữa các ghi chú</sys:String>
+    <sys:String x:Key="Str_Lbl_Graph">Đồ thị</sys:String>
+    <sys:String x:Key="Str_St_GraphEmpty">Chưa có liên kết - nhập [[tiêu đề ghi chú]] để tạo</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphOpen">Mở ghi chú</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCreate">Tạo ghi chú này</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCopy">Sao chép dưới dạng [[liên kết]]</sys:String>
+    <sys:String x:Key="Str_Graph_Legend">Tô kín = ghi chú, có màu theo nhóm. Viền = đã liên kết nhưng chưa viết. Kéo để sắp xếp, nhấp chuột phải để xem tùy chọn.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrange">Sắp xếp</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeForce">Theo kết nối</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeCircle">Theo vòng tròn</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGrid">Theo lưới</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGroups">Theo nhóm</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShape">Hình dạng</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeFree">Tự do</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeSpiral">Hoa hướng dương</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">Sóng</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeNext">Hình tiếp theo</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Khóa tại chỗ</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Không gì di chuyển được ghi chú đã khóa - cả cách sắp xếp lẫn ghi chú lân cận.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Lưu cách sắp xếp này...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Quên cách sắp xếp</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Đặt tên cách sắp xếp này</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">Thay thế "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Các vị trí lưu dưới tên đó sẽ được thay bằng vị trí đang hiển thị.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">Quên "{0}"?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Các ghi chú không bị thay đổi, chỉ xóa vị trí đã lưu.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphDistance">Sắp xếp theo khoảng cách</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShowAll">Hiện mọi thứ</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphColor">Tô màu theo nhóm</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLabels">Hiện nhãn</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphGhosts">Hiện ghi chú chưa được viết</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphIsolate">Chỉ hiện nội dung liên kết tới đây</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">Bỏ đậm</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">Hoàn tác (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">Cỡ bút (nhấp để chuyển)</sys:String>
+
+    <!-- Markdown notes and vault export (1.3.0) -->
+    <sys:String x:Key="Str_TT_FormatBadge">Ghi chú này lưu văn bản markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Ghi chú markdown mới</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Tạo ghi chú lưu văn bản markdown thuần thay vì văn bản có định dạng</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Chuyển thành markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">Chuyển thành văn bản có định dạng</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Xuất tất cả ghi chú dưới dạng markdown</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Ghi mọi ghi chú trong cơ sở dữ liệu này vào một thư mục tệp .md</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Chuyển đổi</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Xuất</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">Chuyển "{0}" thành markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">Ghi chú sẽ thành văn bản markdown thuần. Ctrl+Z sẽ khôi phục.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">Chuyển "{0}" thành văn bản có định dạng?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">Markdown được kết xuất thành văn bản có định dạng. Ctrl+Z sẽ khôi phục.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">Bảng sẽ thành các dòng văn bản thuần</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">Hình ảnh và bản phác thảo sẽ bị loại bỏ</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">Màu chữ và màu tô sáng sẽ bị loại bỏ</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Ghi chú này là markdown - chỉ chứa văn bản nên không thể thêm hình ảnh, bảng, bản phác thảo hoặc bản ghi âm</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">Đã chuyển thành markdown</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">Đã chuyển thành văn bản có định dạng</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">Chọn nơi ghi thư mục markdown</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">Xuất tất cả ghi chú dưới dạng markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} ghi chú sẽ được ghi vào {1}. Nhóm trở thành thư mục con. Cơ sở dữ liệu không thay đổi.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Không có gì để xuất - cơ sở dữ liệu này không có ghi chú</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">Đã xuất {0} ghi chú tới {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">Đã xuất {0} ghi chú tới {2}, {1} thất bại</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Xuất thất bại: {0}</sys:String>
+
+    <!-- Theme names. Shared key for key with the rest of the family; 98SE is the same in
+         every locale because the enum member SE98 cannot start with a digit. -->
+    <sys:String x:Key="Str_Theme_Dark">Tối</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Sáng</sys:String>
+    <sys:String x:Key="Str_Theme_Black">Đen tuyền</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">Máu</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">Lòng tham</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">Tím tái</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">Chất ngoại cảm</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Phân hủy</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">Khó ở</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">Hầm mộ</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">Mê sảng</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">Tang lễ</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Thùng rác</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Ghi chú đã xóa nằm đây 30 ngày rồi bị xóa vĩnh viễn</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Khôi phục</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Xóa vĩnh viễn</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Dọn sạch thùng rác</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">Dọn sạch thùng rác?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} ghi chú sẽ bị xóa vĩnh viễn. Không thể hoàn tác.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">Xóa vĩnh viễn "{0}"?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">Xóa vĩnh viễn {0} ghi chú?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">Không thể hoàn tác.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Đã khôi phục ghi chú</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">Đã khôi phục {0} ghi chú</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Đã xóa vĩnh viễn ghi chú</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">Đã xóa vĩnh viễn {0} ghi chú</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Đã dọn thùng rác - xóa {0} ghi chú</sys:String>
+    <sys:String x:Key="Str_St_InTrash">Ghi chú này nằm trong thùng rác. Hãy khôi phục để chỉnh sửa.</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">Ghim ghi chú</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">Bỏ ghim ghi chú</sys:String>
+    <sys:String x:Key="Str_TT_Pin">Giữ ghi chú này ở đầu nhóm</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">Đã ghim</sys:String>
+    <sys:String x:Key="Str_St_Pinned">Đã ghim</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">Đã bỏ ghim</sys:String>
+    <sys:String x:Key="Str_KS_Pin">Ghim hoặc bỏ ghim ghi chú đã chọn</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">Ghim</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Dòng hộp kiểm (Alt+C) - nhấp hộp để đánh dấu</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Thêm hoặc xóa hộp kiểm trên các dòng hiện tại</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Hộp kiểm</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">Ghi chú mới từ mẫu</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Sao chép ghi chú từ nhóm mẫu. {date}, {time}, {datetime} và {weekday} sẽ được điền.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Nhóm mẫu</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Mọi ghi chú trong nhóm này được dùng làm mẫu cho ghi chú mới</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">Chưa có nhóm mẫu - nhấp chuột phải vào một nhóm để đánh dấu</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">Nhóm mẫu đang trống</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} hiện là nhóm mẫu</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Đã xóa nhóm mẫu</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">Ghi chú mới từ {0}</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">Ghi chú hôm nay</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">Mở ghi chú có tiêu đề là ngày hôm nay, tạo trong nhóm ghi chú hằng ngày nếu chưa có. Sẽ dùng mẫu tên Daily nếu có.</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">Nhóm ghi chú hằng ngày</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">Ghi chú hôm nay (Alt+D) được tạo trong nhóm này</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">Ghi chú hằng ngày</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">Ghi chú hôm nay giờ được đưa vào {0}</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">Đã xóa nhóm ghi chú hằng ngày</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">Đã tạo ghi chú hôm nay</sys:String>
+    <sys:String x:Key="Str_KS_Today">Mở hoặc tạo ghi chú hôm nay</sys:String>
+    <sys:String x:Key="Str_Kb_Today">Hôm nay</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">Lịch sử phiên bản...</sys:String>
+    <sys:String x:Key="Str_TT_History">Các phiên bản trước của ghi chú này được lưu khi bạn làm việc. Chọn một phiên bản để khôi phục.</sys:String>
+    <sys:String x:Key="Str_KS_History">Lịch sử phiên bản của ghi chú đang mở</sys:String>
+    <sys:String x:Key="Str_Kb_History">Lịch sử</sys:String>
+    <sys:String x:Key="Str_Hist_Title">Lịch sử phiên bản</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">Chưa có phiên bản cũ. Một phiên bản được lưu mỗi khi bạn quay lại ghi chú này và thay đổi nó.</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} phiên bản. Một phiên bản mới được lưu sau khi rời ghi chú {1} phút; giữ lại {2} phiên bản mới nhất.</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">Khôi phục phiên bản này</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">Đã khôi phục phiên bản từ {0}. Văn bản bị thay thế cũng nằm trong lịch sử.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Tiêu đề: mỗi lần nhấp chuyển dòng qua các cấp 1 đến 3 rồi trở lại (Alt+1, 2, 3; Alt+0 cho văn bản thường)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">Tiêu đề cấp 1, 2 hoặc 3 trên các dòng hiện tại</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Trở về văn bản thường</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Tiêu đề</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Thường</sys:String>
+    <sys:String x:Key="Str_St_Heading">Tiêu đề {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Văn bản thường</sys:String>
+    <sys:String x:Key="Str_TT_Outline">Dàn ý các tiêu đề của ghi chú (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Hiện hoặc ẩn dàn ý tiêu đề</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Dàn ý</sys:String>
+    <sys:String x:Key="Str_Outline_Title">DÀN Ý</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Chưa có tiêu đề. Alt+1 biến dòng hiện tại thành tiêu đề.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Bản sao lưu</sys:String>
+    <sys:String x:Key="Str_TT_Backups">Sao lưu theo lịch cho cơ sở dữ liệu đã chọn</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">Sao lưu theo lịch khi KillerNotes đang chạy</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Thư mục sao lưu</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Duyệt...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Chọn thư mục sao lưu</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">Tần suất</sys:String>
+    <sys:String x:Key="Str_Bk_6h">Mỗi 6 giờ</sys:String>
+    <sys:String x:Key="Str_Bk_12h">Mỗi 12 giờ</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Hằng ngày</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Hằng tuần</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Số bản sao cần giữ</sys:String>
+    <sys:String x:Key="Str_Bk_Note">Bản sao là nguyên trạng cơ sở dữ liệu: cơ sở dữ liệu được bảo vệ bằng mật khẩu tạo ra bản sao mở bằng cùng mật khẩu.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">Chưa có bản sao lưu của cơ sở dữ liệu này trong thư mục.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Trước tiên hãy chọn thư mục.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Bản sao lưu gần nhất: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">Chưa có bản sao lưu.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Sao lưu ngay</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Khôi phục thành cơ sở dữ liệu mới</sys:String>
+    <sys:String x:Key="Str_Bk_Done">Đã sao lưu tới {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">Sao lưu thất bại: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">Đã khôi phục thành {0}. Mở từ danh sách để sử dụng.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">Đã sao lưu tới {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">Sao lưu thất bại: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">Ghi chú mới từ mẫu</sys:String>
+    <sys:String x:Key="Str_Kb_Template">Mẫu</sys:String>
+    <sys:String x:Key="Str_KS_Trash">Mở thùng rác tại ghi chú đầu tiên</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">Thùng rác</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">Thùng rác đang trống</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">Sao lưu cơ sở dữ liệu ngay</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">Sao lưu</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">Chưa có thư mục sao lưu. Vào Quản lý cơ sở dữ liệu, rồi Bản sao lưu để chọn.</sys:String>
+
+</ResourceDictionary>

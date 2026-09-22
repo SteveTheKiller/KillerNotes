@@ -43,6 +43,7 @@ namespace KillerNotes.Shell
             (Services.Locale.PlPL, "Polski",      "pl-PL"),
             (Services.Locale.RuRU, "Русский",     "ru-RU"),
             (Services.Locale.TrTR, "Türkçe",     "tr-TR"),
+            (Services.Locale.ViVN, "Tiếng Việt", "vi-VN"),
             (Services.Locale.ZhCN, "中文 (简体)", "zh-CN"),
             (Services.Locale.ZhTW, "中文 (繁體)", "zh-TW"),
         ];
