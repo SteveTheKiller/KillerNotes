@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="hc">
+<head>
+<meta charset="utf-8">
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem('knotes-theme');if(t){d.setAttribute('data-theme',t);if({dark:1,light:1,hc:1}[t]){var v=localStorage.getItem('knotes-av');if(v){var s=v.split('|');d.style.setProperty('--accent',s[0]);d.style.setProperty('--btn',s[1]);}}}}catch(e){}})();</script>
+<link rel="preload" href="brand/KillerNotes.ttf" as="font" type="font/ttf" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="darkreader-lock">
+<title>KillerNotes MCP</title>
+<link rel="canonical" href="https://killernotes.net/mcp">
+<meta name="description" content="Use KillerNotes search from an AI agent through KillerMCP.">
+<link rel="icon" type="image/x-icon" href="brand/kn-icon.ico">
+<script defer src="https://koya.thekiller.net/script.js" data-website-id="9cbd0ccf-b6de-4fb3-a9fe-a166c151fa3f"></script>
+<link rel="stylesheet" href="kn.css?v=15">
+<style>
+.page-hero { text-align:center; padding:44px 16px 18px; }
+.page-hero p { color:var(--muted); font-size:15px; margin-top:8px; }
+.content-inner { max-width:880px; margin:0 auto; padding:0 28px 56px; }
+.sb-tabs .on { border-bottom:0; }
+.outline { padding:8px 0; }
+.outline a { display:block; padding:8px 16px 8px 18px; font-size:13px; color:var(--text2); border-left:2px solid transparent; }
+.outline a:hover { color:var(--text); background:color-mix(in srgb, var(--accent) 8%, transparent); filter:none; }
+.mcp-example { display:block; overflow-wrap:anywhere; margin:12px 0; padding:12px 16px; border:1px solid var(--pane-border); border-radius:6px; background:var(--panel); color:var(--text); font-family:Consolas,monospace; }
+@media (max-width:600px) { .content-inner { padding:0 16px 36px; } }
+</style>
+</head>
+<body>
+<div class="topbar">
+<a href="index.html" class="tb-home" title="KillerNotes home"><img class="tb-icon" src="brand/kn-icon.png" alt="KillerNotes" width="44" height="44"><img class="wm-logo tb-wm" src="brand/killernotes-logo-dark-purple.svg" alt="KillerNotes"></a>
+<a class="tb-dl" href="https://github.com/SteveTheKiller/KillerNotes/releases/latest/download/KillerNotes.exe"><svg viewBox="0 0 24 24"><path d="M11 4h2v7h3l-4 5-4-5h3V4zM5 18h14v2H5z"/></svg><span data-i18n="nav_dl">Download</span></a>
+<span class="tb-spacer"></span>
+<nav class="tb-nav"><a href="help.html" data-i18n="nav_help">How-to</a><a href="technical.html" data-i18n="nav_tech">Technical</a><a href="mcp.html" class="on">MCP</a><a href="about.html" data-i18n="nav_about">About</a></nav>
+<div class="tgrp" role="group" aria-label="Theme">
+<button class="swatch sw-dark" data-theme="dark" title="Dark"></button><button class="swatch sw-light" data-theme="light" title="Light"></button><button class="swatch sw-hc" data-theme="hc" title="Black"></button><button class="swatch sw-blood" data-theme="blood" title="Blood"></button><button class="swatch sw-greed" data-theme="greed" title="Greed"></button><button class="swatch sw-cyanotic" data-theme="cyanotic" title="Cyanotic"></button><button class="swatch sw-ectoplasm" data-theme="ectoplasm" title="Ectoplasm"></button><button class="swatch sw-decay" data-theme="decay" title="Decay"></button><button class="swatch sw-malaise" data-theme="malaise" title="Malaise"></button><button class="swatch sw-sepulchre" data-theme="sepulchre" title="Sepulchre"></button><button class="swatch sw-delirium" data-theme="delirium" title="Delirium"></button><button class="swatch sw-mourning" data-theme="mourning" title="Mourning"></button>
+</div>
+<div class="acc-fly accent-switch" id="accentSwitch"><button class="acc-toggle" id="accentToggle" aria-haspopup="true" aria-expanded="false" title="Accent color"></button><div class="acc-pop" id="accentPop" hidden role="group" aria-label="Accent color"><span class="acc-pop-label" data-i18n="accent_label">accent:</span><button class="acc" data-accent="red" style="background:#DD504B;color:#DD504B" title="Red"></button><button class="acc" data-accent="orange" style="background:#E8962C;color:#E8962C" title="Orange"></button><button class="acc" data-accent="green" style="background:#1EA54C;color:#1EA54C" title="Green"></button><button class="acc" data-accent="teal" style="background:#1FB8A8;color:#1FB8A8" title="Teal"></button><button class="acc" data-accent="blue" style="background:#50AEE8;color:#50AEE8" title="Blue"></button><button class="acc" data-accent="purple" style="background:#B982E3;color:#B982E3" title="Purple"></button></div></div>
+<div class="lang-switch" role="group" aria-label="Language"><button class="lang-toggle" id="langToggle" aria-haspopup="true" aria-expanded="false" title="Language" aria-label="Language">&#127760;</button><div class="lang-menu" id="langMenu" hidden><button class="lang-item" data-lang="en">English</button><button class="lang-item" data-lang="bn">&#2476;&#2494;&#2434;&#2482;&#2494;</button><button class="lang-item" data-lang="cs">&#268;e&#353;tina</button><button class="lang-item" data-lang="de">Deutsch</button><button class="lang-item" data-lang="es">Espa&#241;ol</button><button class="lang-item" data-lang="fr">Fran&#231;ais</button><button class="lang-item" data-lang="it">Italiano</button><button class="lang-item" data-lang="ja">&#26085;&#26412;&#35486;</button><button class="lang-item" data-lang="kk">&#1178;&#1072;&#1079;&#1072;&#1179;&#1096;&#1072;</button><button class="lang-item" data-lang="pl">Polski</button><button class="lang-item" data-lang="hu">Magyar</button><button class="lang-item" data-lang="ru">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</button><button class="lang-item" data-lang="tr">T&#252;rk&#231;e</button><button class="lang-item" data-lang="vi">Ti&#7871;ng Vi&#7879;t</button><button class="lang-item" data-lang="zh-cn">&#20013;&#25991; (&#31616;&#20307;)</button><button class="lang-item" data-lang="zh">&#20013;&#25991; (&#32321;&#39636;)</button></div></div>
+</div>
+<div class="shell"><div class="content"><div class="content-scroll"><div class="content-inner">
+<section class="page-hero"><span class="page-title">KillerNotes MCP</span><p>Find the right note from your agent.</p></section>
+<div class="about-card" id="search"><h2>What it does</h2><p>KillerMCP gives your agent a read-only KillerNotes search tool. Ask for notes by title, tag, or text and get matching snippets back without opening the app yourself.</p><span class="mcp-example">killer find my notes about the office network</span><p>The search reads your local notes database. Encrypted databases cannot currently be unlocked through MCP.</p></div>
+<div class="about-card" id="connection"><h2>One connection for the family</h2><p>KillerNotes is part of KillerMCP, the shared connection for KillerTools and the Killer apps. You install KillerMCP once. It finds supported apps on your computer and makes their tools available to your agent.</p><p>The installer and KillerNotes integration are still in development. Setup instructions and a download link will appear here when they are ready for release.</p></div>
+</div></div></div><aside class="sidebar"><div class="sb-tabs"><span class="on">MCP</span></div><nav class="outline"><a href="#search">What it does</a><a href="#connection">One connection</a></nav></aside></div>
+<footer class="statusbar"><span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener">Source on GitHub</a> &middot; Part of <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span><span class="right">&copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span></footer>
+<div class="egg-toast" id="eggToast"></div>
+<script src="kn-i18n.js?v=14"></script><script src="kn.js?v=5"></script>
+</body>
+</html>
