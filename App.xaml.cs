@@ -31,6 +31,18 @@ namespace KillerNotes
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (e.Args.Length > 0 && string.Equals(e.Args[0], "--cli", StringComparison.OrdinalIgnoreCase))
+            {
+                using var output = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
+                using var error = new StreamWriter(Console.OpenStandardError()) { AutoFlush = true };
+                Console.SetOut(output);
+                Console.SetError(error);
+                var cliArgs = new string[e.Args.Length - 1];
+                Array.Copy(e.Args, 1, cliArgs, 0, cliArgs.Length);
+                Shutdown(KillerNotes.Cli.Program.Main(cliArgs));
+                return;
+            }
+
             HookCrashLogging();   // CrashLog.cs - first, so it covers startup itself
             base.OnStartup(e);
             ShutdownMode = ShutdownMode.OnExplicitShutdown;

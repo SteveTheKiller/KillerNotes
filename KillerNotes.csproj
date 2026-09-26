@@ -8,6 +8,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <StartupObject>KillerNotes.App</StartupObject>
     <ApplicationIcon>Resources\kn-icon.ico</ApplicationIcon>
     <Version>1.3.1</Version>
     <FileVersion>1.3.1.0</FileVersion>
@@ -34,6 +35,7 @@
   <ItemGroup>
     <Compile Remove="KillerNotes.Tests\**\*.cs" />
     <Compile Remove="KillerNotes.Cli\**\*.cs" />
+    <Compile Include="KillerNotes.Cli\Program.cs" />
     <EmbeddedResource Remove="KillerNotes.Tests\**\*" />
     <EmbeddedResource Remove="KillerNotes.Cli\**\*" />
     <None Remove="KillerNotes.Tests\**\*" />

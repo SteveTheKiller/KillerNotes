@@ -98,8 +98,8 @@ namespace KillerNotes.Tests
             using var _ = new TempStore();
             long id = NoteStore.Create("Network plan");
             NoteStore.Save(id, "Network plan", Blob, "Subnet details");
-            string executable = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "KillerNotes.Cli.exe");
-            var start = new ProcessStartInfo(executable, $"search subnet --database \"{NoteStore.DbPath}\"")
+            string executable = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "KillerNotes.exe");
+            var start = new ProcessStartInfo(executable, $"--cli search subnet --database \"{NoteStore.DbPath}\"")
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,

@@ -20,6 +20,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KillerNotes.csproj" />
-    <ProjectReference Include="..\KillerNotes.Cli\KillerNotes.Cli.csproj" />
   </ItemGroup>
 </Project>
