@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.3.1] - Unreleased
 
 ### Added
+- Read-only note search is available through the new command-line interface.
 - Scheduled backups: Manage databases gains a Backups dialog to pick a folder, an interval and how many copies to keep. Copies are the database as it is, password and all, and one can be restored as a new database. Alt+B takes a copy right away.
 - Headings and an outline: Alt+1, 2 and 3 make a line a heading, Alt+0 puts it back, and the H button on the format bar steps through them. Alt+O opens an outline of the note's headings beside it; click one to jump there. Headings now export to markdown as headings.
 - Version history: earlier versions of a note are kept as you work, one per sitting plus one before any conversion or replace-all, up to 50. Alt+H or the right-click menu shows them with a preview and puts one back.

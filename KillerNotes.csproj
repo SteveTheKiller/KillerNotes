@@ -33,8 +33,11 @@
        Killendar.Tests in Killendar.csproj). -->
   <ItemGroup>
     <Compile Remove="KillerNotes.Tests\**\*.cs" />
+    <Compile Remove="KillerNotes.Cli\**\*.cs" />
     <EmbeddedResource Remove="KillerNotes.Tests\**\*" />
+    <EmbeddedResource Remove="KillerNotes.Cli\**\*" />
     <None Remove="KillerNotes.Tests\**\*" />
+    <None Remove="KillerNotes.Cli\**\*" />
   </ItemGroup>
 
   <ItemGroup>

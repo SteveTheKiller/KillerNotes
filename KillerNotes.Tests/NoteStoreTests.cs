@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using KillerNotes.Services;
+using KillerNotes.Cli;
 using Microsoft.Data.Sqlite;
 using Xunit;
 
@@ -56,6 +59,61 @@ namespace KillerNotes.Tests
     public sealed class NoteStoreTests
     {
         private static readonly byte[] Blob = Encoding.UTF8.GetBytes("not a real XamlPackage, just bytes");
+
+        [Fact]
+        public void CliSearchReadsMatchingNotesWithoutChangingDatabase()
+        {
+            using var _ = new TempStore();
+            long matching = NoteStore.Create("Network plan");
+            NoteStore.Save(matching, "Network plan", Blob, "Subnet details for the office");
+            long unrelated = NoteStore.Create("Shopping");
+            NoteStore.Save(unrelated, "Shopping", Blob, "Milk and bread");
+            byte[] Snapshot()
+            {
+                using var file = new FileStream(NoteStore.DbPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                using var hash = SHA256.Create();
+                return hash.ComputeHash(file);
+            }
+            var before = Snapshot();
+
+            var matches = Program.Search(NoteStore.DbPath, "subnet office", 10);
+
+            Assert.Equal(matching, Assert.Single(matches).Id);
+            Assert.Equal(before, Snapshot());
+        }
+
+        [Fact]
+        public void CliSearchDoesNotReadEncryptedNotesWithoutKey()
+        {
+            using var _ = new TempStore("secret");
+            long id = NoteStore.Create("Private");
+            NoteStore.Save(id, "Private", Blob, "Hidden detail");
+
+            Assert.Throws<SqliteException>(() => Program.Search(NoteStore.DbPath, "private", 10));
+        }
+
+        [Fact]
+        public void CliProcessReturnsSearchResultsAsJson()
+        {
+            using var _ = new TempStore();
+            long id = NoteStore.Create("Network plan");
+            NoteStore.Save(id, "Network plan", Blob, "Subnet details");
+            string executable = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "KillerNotes.Cli.exe");
+            var start = new ProcessStartInfo(executable, $"search subnet --database \"{NoteStore.DbPath}\"")
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+            };
+            using var process = Process.Start(start)!;
+            string output = process.StandardOutput.ReadToEnd();
+            string error = process.StandardError.ReadToEnd();
+            Assert.True(process.WaitForExit(10000), "KillerNotes CLI timed out");
+            Assert.True(process.ExitCode == 0, error);
+            Assert.Contains("\"id\":" + id, output);
+            Assert.Contains("Network plan", output);
+        }
 
         // ---- CRUD / listing ----
 
