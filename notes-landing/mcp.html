@@ -11,9 +11,15 @@
 <meta name="description" content="Use KillerNotes search from an AI agent through KillerMCP.">
 <link rel="icon" type="image/x-icon" href="brand/kn-icon.ico">
 <script defer src="https://koya.thekiller.net/script.js" data-website-id="9cbd0ccf-b6de-4fb3-a9fe-a166c151fa3f"></script>
-<link rel="stylesheet" href="kn.css?v=15">
+<link rel="stylesheet" href="kn.css?v=16">
 <style>
-.page-hero { text-align:center; padding:44px 16px 18px; }
+.page-hero { text-align:center; padding:38px 16px 22px; }
+.mcp-brand { display:flex; align-items:center; justify-content:center; gap:14px; }
+.mcp-icon-pair { position:relative; flex:0 0 92px; width:92px; height:82px; }
+.mcp-family-icon { position:absolute; left:0; top:0; width:76px; height:76px; object-fit:contain; filter:drop-shadow(0 4px 7px rgba(0,0,0,.5)); }
+.mcp-app-icon { position:absolute; right:14px; bottom:13px; width:40px; height:40px; object-fit:contain; filter:drop-shadow(0 3px 5px rgba(0,0,0,.45)); }
+.mcp-brand-wordmark { width:min(360px,66vw); height:auto; }
+.mcp-suffix { font-family:'KillerNotes','Courier New',monospace; font-size:clamp(27px,4vw,40px); color:var(--text); }
 .page-hero p { color:var(--muted); font-size:15px; margin-top:8px; }
 .content-inner { max-width:880px; margin:0 auto; padding:0 28px 56px; }
 .sb-tabs .on { border-bottom:0; }
@@ -21,15 +27,51 @@
 .outline a { display:block; padding:8px 16px 8px 18px; font-size:13px; color:var(--text2); border-left:2px solid transparent; }
 .outline a:hover { color:var(--text); background:color-mix(in srgb, var(--accent) 8%, transparent); filter:none; }
 .mcp-example { display:block; overflow-wrap:anywhere; margin:12px 0; padding:12px 16px; border:1px solid var(--pane-border); border-radius:6px; background:var(--panel); color:var(--text); font-family:Consolas,monospace; }
-@media (max-width:600px) { .content-inner { padding:0 16px 36px; } }
+.connection-actions { display:grid; gap:10px; margin:14px 0; }
+.connection-action,.connection-actions code { display:block; overflow-wrap:anywhere; padding:11px 14px; border:1px solid var(--pane-border); border-radius:6px; background:var(--panel); color:var(--text); font-family:Consolas,monospace; }
+.connection-action { width:max-content; border-color:var(--accent); color:var(--accent); font-weight:700; }
+.example-grid,.mcp-facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:14px; }
+.example-grid .mcp-example { margin:0; }
+.mcp-fact { padding:14px 16px; border:1px solid var(--pane-border); border-radius:6px; background:var(--panel); }
+.mcp-fact strong { display:block; margin-bottom:5px; color:var(--text); }
+.mcp-fact span { color:var(--muted); line-height:1.55; }
+.mcp-title-row { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.mcp-github { display:grid; place-items:center; flex:0 0 38px; width:38px; height:38px; color:var(--muted); border:1px solid var(--pane-border); border-radius:50%; background:transparent; transition:transform .12s,color .12s,box-shadow .12s; }
+.mcp-github:hover,.mcp-github:focus-visible { color:var(--accent); transform:translateY(-2px); box-shadow:0 6px 14px rgba(0,0,0,.28); filter:none; }
+.mcp-github svg { width:22px; height:22px; fill:currentColor; }
+.install-state { display:inline-flex; align-items:center; min-height:40px; padding:0 16px; margin:2px 0 16px; border:1px solid var(--pane-border); border-radius:6px; background:var(--panel); color:var(--muted); font-weight:700; }
+.install-steps { margin:0; padding-left:24px; display:grid; gap:10px; }
+@media (max-width:600px) { .content-inner { padding:0 16px 36px; } .mcp-brand { gap:8px; } .mcp-icon-pair { flex-basis:72px; width:72px; height:64px; } .mcp-family-icon { width:58px; height:58px; } .mcp-app-icon { right:10px; bottom:10px; width:32px; height:32px; } }
+@media (max-width:600px) { .example-grid,.mcp-facts { grid-template-columns:1fr; } }
+</style>
+<style>
+.content-inner > .about-card { transition:transform .12s ease,border-color .15s ease,box-shadow .15s ease; }
+.content-inner > .about-card:hover { transform:translateY(-3px); border-color:color-mix(in srgb,var(--accent) 72%,var(--pane-border)); box-shadow:0 18px 36px rgba(0,0,0,.45); }
+html[data-theme="light"] .content-inner > .about-card:hover { box-shadow:0 18px 36px rgba(0,0,0,.22); }
+</style>
+<style>
+.content-inner{max-width:1360px;padding:0 18px 36px}
+.mcp-page-grid{display:grid;grid-template-columns:minmax(300px,.72fr) minmax(0,1.55fr);gap:16px;align-items:start}
+.mcp-side-column,.mcp-main-column{display:grid;gap:16px}
+.mcp-page-grid .about-card{margin:0;padding:18px 20px;transition:transform .12s ease,border-color .15s ease,box-shadow .15s ease}.mcp-page-grid .about-card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--accent) 72%,var(--pane-border));box-shadow:0 18px 36px rgba(0,0,0,.45)}html[data-theme="light"] .mcp-page-grid .about-card:hover{box-shadow:0 18px 36px rgba(0,0,0,.22)}
+.mcp-page-grid .about-card h2{margin-bottom:10px}
+.mcp-page-grid .about-card p{margin:8px 0;line-height:1.5}
+.mcp-title-row{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.mcp-title-row h2{margin:0}
+.mcp-title-row .mcp-github{position:static;display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;margin:-4px 0 -4px;color:var(--muted);border:0;border-radius:50%;background:transparent;filter:drop-shadow(0 4px 6px rgba(0,0,0,.42));transition:transform .12s,color .12s,filter .12s}
+.mcp-title-row .mcp-github svg{width:30px;height:30px;fill:currentColor}
+.mcp-title-row .mcp-github:hover,.mcp-title-row .mcp-github:focus-visible{color:var(--accent);transform:translateY(-2px) scale(1.08);box-shadow:none;filter:drop-shadow(0 7px 8px rgba(0,0,0,.48))}
+@media(max-width:760px){.mcp-page-grid{grid-template-columns:1fr}.mcp-side-column,.mcp-main-column{gap:14px}}
+@media(max-width:600px){.content-inner{padding:0 10px 28px}.mcp-page-grid .about-card{padding:16px}.mcp-title-row .mcp-github{flex-basis:44px;width:44px;height:44px}.mcp-title-row .mcp-github svg{width:27px;height:27px}}
 </style>
 </head>
 <body>
 <div class="topbar">
 <a href="index.html" class="tb-home" title="KillerNotes home"><img class="tb-icon" src="brand/kn-icon.png" alt="KillerNotes" width="44" height="44"><img class="wm-logo tb-wm" src="brand/killernotes-logo-dark-purple.svg" alt="KillerNotes"></a>
 <a class="tb-dl" href="https://github.com/SteveTheKiller/KillerNotes/releases/latest/download/KillerNotes.exe"><svg viewBox="0 0 24 24"><path d="M11 4h2v7h3l-4 5-4-5h3V4zM5 18h14v2H5z"/></svg><span data-i18n="nav_dl">Download</span></a>
+<a class="tb-mcp-link on" href="mcp.html" aria-current="page" aria-label="KillerMCP"><img src="mcp.png" alt="" aria-hidden="true"><span class="tb-mcp-wordmark"><span>Killer</span><span class="tb-mcp-accent">MCP</span></span></a>
 <span class="tb-spacer"></span>
-<nav class="tb-nav"><a href="help.html" data-i18n="nav_help">How-to</a><a href="technical.html" data-i18n="nav_tech">Technical</a><a href="mcp.html" class="on">MCP</a><a href="about.html" data-i18n="nav_about">About</a></nav>
+<nav class="tb-nav"><a href="help.html" data-i18n="nav_help">How-to</a><a href="technical.html" data-i18n="nav_tech">Technical</a><a href="about.html" data-i18n="nav_about">About</a></nav>
 <div class="tgrp" role="group" aria-label="Theme">
 <button class="swatch sw-dark" data-theme="dark" title="Dark"></button><button class="swatch sw-light" data-theme="light" title="Light"></button><button class="swatch sw-hc" data-theme="hc" title="Black"></button><button class="swatch sw-blood" data-theme="blood" title="Blood"></button><button class="swatch sw-greed" data-theme="greed" title="Greed"></button><button class="swatch sw-cyanotic" data-theme="cyanotic" title="Cyanotic"></button><button class="swatch sw-ectoplasm" data-theme="ectoplasm" title="Ectoplasm"></button><button class="swatch sw-decay" data-theme="decay" title="Decay"></button><button class="swatch sw-malaise" data-theme="malaise" title="Malaise"></button><button class="swatch sw-sepulchre" data-theme="sepulchre" title="Sepulchre"></button><button class="swatch sw-delirium" data-theme="delirium" title="Delirium"></button><button class="swatch sw-mourning" data-theme="mourning" title="Mourning"></button>
 </div>
@@ -37,10 +79,15 @@
 <div class="lang-switch" role="group" aria-label="Language"><button class="lang-toggle" id="langToggle" aria-haspopup="true" aria-expanded="false" title="Language" aria-label="Language">&#127760;</button><div class="lang-menu" id="langMenu" hidden><button class="lang-item" data-lang="en">English</button><button class="lang-item" data-lang="bn">&#2476;&#2494;&#2434;&#2482;&#2494;</button><button class="lang-item" data-lang="cs">&#268;e&#353;tina</button><button class="lang-item" data-lang="de">Deutsch</button><button class="lang-item" data-lang="es">Espa&#241;ol</button><button class="lang-item" data-lang="fr">Fran&#231;ais</button><button class="lang-item" data-lang="it">Italiano</button><button class="lang-item" data-lang="ja">&#26085;&#26412;&#35486;</button><button class="lang-item" data-lang="kk">&#1178;&#1072;&#1079;&#1072;&#1179;&#1096;&#1072;</button><button class="lang-item" data-lang="pl">Polski</button><button class="lang-item" data-lang="hu">Magyar</button><button class="lang-item" data-lang="ru">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</button><button class="lang-item" data-lang="tr">T&#252;rk&#231;e</button><button class="lang-item" data-lang="vi">Ti&#7871;ng Vi&#7879;t</button><button class="lang-item" data-lang="zh-cn">&#20013;&#25991; (&#31616;&#20307;)</button><button class="lang-item" data-lang="zh">&#20013;&#25991; (&#32321;&#39636;)</button></div></div>
 </div>
 <div class="shell"><div class="content"><div class="content-scroll"><div class="content-inner">
-<section class="page-hero"><span class="page-title">KillerNotes MCP</span><p>Find the right note from your agent.</p></section>
-<div class="about-card" id="search"><h2>What it does</h2><p>KillerMCP gives your agent a read-only KillerNotes search tool. Ask for notes by title, tag, or text and get matching snippets back without opening the app yourself.</p><span class="mcp-example">killer find my notes about the office network</span><p>The search reads your local notes database. Encrypted databases cannot currently be unlocked through MCP.</p></div>
-<div class="about-card" id="connection"><h2>One connection for the family</h2><p>KillerNotes is part of KillerMCP, the shared connection for KillerTools and the Killer apps. You install KillerMCP once. It finds supported apps on your computer and makes their tools available to your agent.</p><p>The installer and KillerNotes integration are still in development. Setup instructions and a download link will appear here when they are ready for release.</p></div>
-</div></div></div><aside class="sidebar"><div class="sb-tabs"><span class="on">MCP</span></div><nav class="outline"><a href="#search">What it does</a><a href="#connection">One connection</a></nav></aside></div>
+<section class="page-hero"><div class="mcp-brand"><span class="mcp-icon-pair"><img class="mcp-family-icon" src="mcp.png" alt="KillerMCP"><img class="mcp-app-icon" src="brand/kn-icon.png" alt="KillerNotes"></span><img class="wm-logo mcp-brand-wordmark" src="brand/killernotes-logo-dark-purple.svg" alt="KillerNotes"><span class="mcp-suffix">MCP</span></div><p>Find the right note from your agent.</p></section>
+<div class="mcp-page-grid"><div class="mcp-side-column"><div class="about-card" id="install"><div class="mcp-title-row"><h2>Install KillerMCP</h2><a class="mcp-github" href="https://github.com/SteveTheKiller/KillerMCP" target="_blank" rel="noopener" aria-label="KillerMCP on GitHub" title="KillerMCP on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.29 3.44 9.77 8.2 11.36.6.11.82-.26.82-.58v-2.04c-3.34.72-4.04-1.61-4.04-1.61-.55-1.38-1.34-1.75-1.34-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.17 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0112 6.8c1.02 0 2.05.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.65 1.65.24 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.82.58A12 12 0 0024 12.5C24 5.87 18.63.5 12 .5z"/></svg></a></div><p>KillerMCP includes all 81 KillerTools utilities plus tools from supported Killer apps in one local connection. The installer detects KillerNotes and registers that shared connection with supported agent clients.</p><span class="install-state" aria-disabled="true">Windows installer v0.1.0 coming soon</span><ol class="install-steps"><li><strong>Download and run KillerMCP Setup.</strong></li><li><strong>Let setup connect your agent.</strong> It registers KillerMCP with Codex, Claude Code, Claude Desktop, Cursor, GitHub Copilot, Gemini CLI, and Windsurf when found. No source checkout, Node installation, or manual command list is required.</li><li><strong>Open a new agent chat and ask.</strong> Available tools are discovered automatically.</li></ol></div>
+<div class="about-card" id="hosted"><h2>Optional hosted KillerTools connection</h2><p>The hosted endpoint provides 64 browser based KillerTools utilities without an installation. It does not provide access to KillerNotes or any files on your computer.</p><div class="connection-actions"><a class="connection-action" href="https://mcp.killertools.net" target="_blank" rel="noopener">https://mcp.killertools.net</a><code>codex mcp add killertools --url https://mcp.killertools.net</code><code>claude mcp add --transport http killertools https://mcp.killertools.net</code></div></div></div><div class="mcp-main-column">
+<div class="about-card" id="examples"><h2>Try asking</h2><p><code>killer</code> is the shortest form. Your agent can infer KillerNotes from a clear notes request. Use <code>killernotes</code> when you want to make the app explicit.</p><div class="example-grid"><span class="mcp-example">killer find my notes about the office network</span><span class="mcp-example">killer search my notes for DHCP</span><span class="mcp-example">killernotes find notes tagged onboarding</span><span class="mcp-example">killer show the first 5 notes mentioning Contoso</span></div></div>
+<div class="about-card" id="tools"><h2>What it can do</h2><p>KillerMCP currently provides one bounded, read-only KillerNotes search tool.</p><div class="mcp-facts"><div class="mcp-fact"><strong>Search titles</strong><span>Find notes whose title matches the requested text.</span></div><div class="mcp-fact"><strong>Search tags and text</strong><span>Match note tags and content, then return useful snippets.</span></div><div class="mcp-fact"><strong>Limit the result</strong><span>Return from 1 to 20 matches. The default is 10.</span></div><div class="mcp-fact"><strong>Make no changes</strong><span>The tool cannot create, edit, move, or delete notes.</span></div></div></div>
+<div class="about-card" id="privacy"><h2>Data safety and permissions</h2><p>The KillerNotes search runs locally through the installed app. It reads the active local notes database and returns only the bounded matches to the MCP client and its agent. The hosted Cloudflare Worker never receives this notes search.</p><p>Your MCP client and model provider can still receive the search request and returned titles, tags, and snippets. Apply that provider's data handling rules, and do not request client or confidential material unless its use is allowed.</p></div>
+<div class="about-card" id="architecture"><h2>How it works</h2><p>KillerMCP is an open-source local runtime. It starts one MCP connection, detects installed Killer apps, and exposes only the adapters supported by those installed versions. For this page, it calls the KillerNotes command line search and validates the bounded JSON response.</p><p>The optional public endpoint is a separate open-source MCP server running as a Cloudflare Worker. Tool requests sent to that URL are processed on Cloudflare, and lookup tools may contact their named public data sources. It cannot reach the local KillerNotes database.</p></div>
+<div class="about-card" id="limits"><h2>Current limits</h2><p>Queries are limited to 200 characters and responses to 20 matches. Encrypted KillerNotes databases cannot currently be unlocked through MCP. The public installer is still being prepared and has not been released.</p></div>
+</div></div></div></div></div><aside class="sidebar"><div class="sb-tabs"><span class="on">MCP</span></div><nav class="outline"><a href="#install">Install</a><a href="#hosted">Hosted option</a><a href="#examples">Examples</a><a href="#tools">What it can do</a><a href="#privacy">Data safety</a><a href="#architecture">How it works</a><a href="#limits">Current limits</a></nav></aside></div>
 <footer class="statusbar"><span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener">Source on GitHub</a> &middot; Part of <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span><span class="right">&copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span></footer>
 <div class="egg-toast" id="eggToast"></div>
 <script src="kn-i18n.js?v=14"></script><script src="kn.js?v=5"></script>
