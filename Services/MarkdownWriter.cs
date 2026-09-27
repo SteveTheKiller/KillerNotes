@@ -245,7 +245,7 @@ namespace KillerNotes.Services
                             return;
                         }
                     }
-                    rows.Add(row.Cells.Select(CellToPlain).ToArray());
+                    rows.Add([.. row.Cells.Select(CellToPlain)]);
                 }
             }
             if (rows.Count == 0) return;

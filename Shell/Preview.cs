@@ -34,7 +34,7 @@ namespace KillerNotes.Shell
 
         // Legacy shorthand: everything that used to ask "is the pane open" wants to know
         // "am I in Rendered or Split", so a computed alias keeps those call sites working.
-        private bool _previewOpen => _previewMode != PreviewMode.Source;
+        private bool PreviewOpen => _previewMode != PreviewMode.Source;
 
         private const string PreviewModeSettingKey = "PreviewMode";
 
@@ -106,8 +106,8 @@ namespace KillerNotes.Shell
             PreviewMenuItem.Visibility = detected ? Visibility.Visible : Visibility.Collapsed;
             PreviewMenuLabel.Text = Loc(_docKind == DocKind.Html ? "Str_TT_PreviewHtml" : "Str_TT_PreviewMd");
             SyncPreviewMenuChecks();
-            if (!detected && _previewOpen) SetPreviewMode(PreviewMode.Source, persist: false);
-            else if (_previewOpen) RenderPreview(text, preserveScroll);
+            if (!detected && PreviewOpen) SetPreviewMode(PreviewMode.Source, persist: false);
+            else if (PreviewOpen) RenderPreview(text, preserveScroll);
         }
 
         /// <summary>Marks the current mode on the three-way submenu and clears the others.
@@ -122,7 +122,7 @@ namespace KillerNotes.Shell
 
         private void QueuePreviewRefresh()
         {
-            if (!_previewOpen || _loadingNote) return;
+            if (!PreviewOpen || _loadingNote) return;
             if (_previewRefreshTimer == null)
             {
                 _previewRefreshTimer = new DispatcherTimer

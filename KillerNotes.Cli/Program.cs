@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Json;
 using KillerNotes.Services;
 using Microsoft.Data.Sqlite;
 
+#pragma warning disable IDE0130
 namespace KillerNotes.Cli
 {
     [DataContract]
@@ -115,3 +116,4 @@ namespace KillerNotes.Cli
         private static string EscapeLike(string value) => value.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");
     }
 }
+#pragma warning restore IDE0130
