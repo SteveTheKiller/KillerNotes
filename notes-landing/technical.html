@@ -11,12 +11,26 @@
 <meta name="description" content="How KillerNotes works under the hood: SQLite storage with FTS5 full-text search, SQLCipher AES-256 encryption, XamlPackage rich content, and the .knote/.kndb sharing formats.">
 <link rel="icon" type="image/x-icon" href="brand/kn-icon.ico">
 <script defer src="https://koya.thekiller.net/script.js" data-website-id="9cbd0ccf-b6de-4fb3-a9fe-a166c151fa3f"></script>
-<link rel="stylesheet" href="kn.css?v=16">
+<link rel="stylesheet" href="kn.css?v=18">
 <style>
 .page-hero { text-align: center; padding: 44px 16px 8px; }
 .page-hero .wm-logo { height: clamp(46px, 8vw, 76px); width: auto; margin: 0 auto 8px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.55)); }
 .page-hero p { color: var(--muted); font-size: 15px; margin-top: 4px; }
-.content-inner { max-width: 880px; margin: 0 auto; padding: 0 28px 56px; }
+.content-inner { max-width: 1440px; margin: 0 auto; padding: 0 28px 56px; }
+.tech-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(480px, 5fr); gap: 18px; align-items: start; }
+.tech-column { display: grid; gap: 18px; min-width: 0; }
+.tech-sec { min-width: 0; margin: 0; padding: 20px 22px; border: 1px solid var(--pane-border); border-top: 2px solid var(--sel, var(--accent)); border-radius: 10px; background: var(--modal) url('grain.png?v=2') repeat; background-size: 256px 256px; scroll-margin-top: 84px; }
+.tech-sec > :first-child { margin-top: 0; }
+.tech-sec > :last-child { margin-bottom: 0; }
+.tech-sec table { width: 100%; }
+.tech-sec code { overflow-wrap: anywhere; }
+.model-table tr { display: grid; grid-template-columns: minmax(92px, .8fr) minmax(150px, 1.25fr) minmax(64px, .55fr); }
+.model-table th:nth-child(4), .model-table td:nth-child(4) { grid-column: 1 / -1; }
+.model-table th:nth-child(4) { display: none; }
+.model-table td:first-child { width: auto; }
+.model-table td:nth-child(-n+3) { white-space: nowrap; overflow-wrap: normal; }
+.model-table td:nth-child(4) { padding-top: 9px; padding-bottom: 11px; border-top: 1px dotted var(--pane-border); }
+@media (max-width: 1050px) { .tech-grid { grid-template-columns: 1fr; } }
 .sb-tabs .on { border-bottom: 0; }
 .outline { padding: 8px 0; overflow-y: auto; flex: 1; min-height: 0; }
 .outline a { display: block; padding: 8px 16px 8px 18px; font-size: 13px; color: var(--text2); border-left: 2px solid transparent; }
@@ -39,7 +53,7 @@
 @media (max-width: 900px) { .outline { display:flex; flex-direction:row; flex-wrap:wrap; padding:8px; gap:4px; } .outline a { border-left:0; border-radius:5px; padding:6px 10px; } .outline a.on { border-left:0; } .outline a.sub { display:none; } }
 </style>
 </head>
-<body>
+<body class="compact-sidebar">
 
 <div class="topbar">
 <a href="index.html" class="tb-home" title="KillerNotes home">
@@ -114,6 +128,9 @@
 <p data-i18n="tech_sub">How the notepad actually works: storage, search, encryption, and the sharing formats.</p>
 </section>
 
+<div class="tech-grid">
+<div class="tech-column">
+
 <section class="tech-sec" id="architecture">
 <h2 data-i18n="t_arch_h">Architecture</h2>
 <p data-i18n="t_arch_p1"><b>KillerNotes</b> is a native Windows app written in C# and WPF on .NET Framework 4.8 (x64). There is no web view wrapping a JavaScript app and no runtime to install on Windows 10/11 - it is the same stack as the rest of the KillerTools family, sharing the KillerUI chrome: custom title bar, thirteen live-switchable themes with accent colors, film grain, and the family status bar.</p>
@@ -147,58 +164,45 @@
 <p data-i18n="t_store_p4">Sketches and dictation recordings sit in side tables keyed to the note rather than inside its XamlPackage. Audio is far larger than the note that references it, and inlining it would make every load and save of that note carry it; the note keeps only a small marker. Both are encrypted with the rest of the database when a password is set.</p>
 
 <figure class="diagram" id="flowDiagram">
-<svg viewBox="0 0 1060 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow: editor to database to shares">
+<svg viewBox="0 0 620 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow: editor to database to shares">
 <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
 <g font-family="Consolas, monospace">
-<!-- Editor -->
-<rect x="10" y="90" width="190" height="120" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="105" y="118" text-anchor="middle" font-size="15" fill="var(--accent)">Editor</text>
-<text x="105" y="144" text-anchor="middle" font-size="12" fill="var(--text)">WPF RichTextBox</text>
-<text x="105" y="164" text-anchor="middle" font-size="12" fill="var(--muted)">FlowDocument</text>
-<text x="105" y="184" text-anchor="middle" font-size="12" fill="var(--muted)">images + tables inline</text>
-<!-- autosave arrow: caption above, trigger list stacked below so nothing
-     runs under the next box -->
-<line x1="200" y1="150" x2="299" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
-<text x="250" y="140" text-anchor="middle" font-size="12" fill="var(--accent)">autosave</text>
-<text x="250" y="168" text-anchor="middle" font-size="10.5" fill="var(--muted)">2s pause</text>
-<text x="250" y="183" text-anchor="middle" font-size="10.5" fill="var(--muted)">note switch</text>
-<text x="250" y="198" text-anchor="middle" font-size="10.5" fill="var(--muted)">alt-tab / close</text>
-<!-- One note, three forms -->
-<rect x="305" y="70" width="235" height="160" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="422" y="96" text-anchor="middle" font-size="14" fill="var(--accent)">One note, three forms</text>
-<rect x="320" y="110" width="205" height="30" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
-<text x="422" y="130" text-anchor="middle" font-size="12" fill="var(--text)">title + timestamps</text>
-<rect x="320" y="146" width="205" height="30" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
-<text x="422" y="166" text-anchor="middle" font-size="12" fill="var(--text)">XamlPackage blob (rich)</text>
-<rect x="320" y="182" width="205" height="30" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
-<text x="422" y="202" text-anchor="middle" font-size="12" fill="var(--text)">plain-text shadow copy</text>
-<!-- arrow to db -->
-<line x1="540" y1="150" x2="598" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
-<!-- encryption envelope -->
-<rect x="605" y="30" width="280" height="240" rx="10" fill="none" stroke="var(--accent)" stroke-dasharray="6 5"/>
-<text x="745" y="52" text-anchor="middle" font-size="11" fill="var(--accent)">SQLCipher AES-256 (optional)</text>
-<!-- database -->
-<rect x="625" y="66" width="240" height="184" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="745" y="92" text-anchor="middle" font-size="14" fill="var(--accent)">notes.db (SQLite)</text>
-<rect x="643" y="108" width="204" height="34" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
-<text x="745" y="130" text-anchor="middle" font-size="12" fill="var(--text)">notes table</text>
-<text x="745" y="160" text-anchor="middle" font-size="10" fill="var(--muted)">&#8645; external-content triggers</text>
-<rect x="643" y="172" width="204" height="34" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
-<text x="745" y="194" text-anchor="middle" font-size="12" fill="var(--text)">FTS5 full-text index</text>
-<text x="745" y="234" text-anchor="middle" font-size="10" fill="var(--muted)">%APPDATA%\KillerNotes</text>
-<!-- share fan-out -->
-<line x1="885" y1="110" x2="938" y2="75" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="885" y1="150" x2="938" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="885" y1="190" x2="938" y2="225" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
-<rect x="942" y="50" width="108" height="46" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="996" y="70" text-anchor="middle" font-size="12" fill="var(--accent)">.knote</text>
-<text x="996" y="87" text-anchor="middle" font-size="10" fill="var(--muted)">one torn-off note</text>
-<rect x="942" y="127" width="108" height="46" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="996" y="147" text-anchor="middle" font-size="12" fill="var(--accent)">.kndb</text>
-<text x="996" y="164" text-anchor="middle" font-size="10" fill="var(--muted)">whole notepad</text>
-<rect x="942" y="204" width="108" height="46" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="996" y="224" text-anchor="middle" font-size="12" fill="var(--accent)">.txt .rtf .html</text>
-<text x="996" y="241" text-anchor="middle" font-size="10" fill="var(--muted)">plain exports</text>
+<rect x="110" y="20" width="400" height="120" rx="10" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="310" y="55" text-anchor="middle" font-size="20" fill="var(--accent)">Editor</text>
+<text x="310" y="85" text-anchor="middle" font-size="16" fill="var(--text)">WPF RichTextBox + FlowDocument</text>
+<text x="310" y="112" text-anchor="middle" font-size="14" fill="var(--muted)">rich text, images, and tables</text>
+<line x1="310" y1="140" x2="310" y2="200" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>
+<text x="330" y="166" font-size="14" fill="var(--accent)">autosave</text>
+<text x="330" y="186" font-size="12" fill="var(--muted)">2s pause, switch, alt-tab, close</text>
+<rect x="110" y="205" width="400" height="190" rx="10" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="310" y="238" text-anchor="middle" font-size="19" fill="var(--accent)">One note, three forms</text>
+<rect x="140" y="258" width="340" height="34" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="310" y="281" text-anchor="middle" font-size="15" fill="var(--text)">title + timestamps</text>
+<rect x="140" y="302" width="340" height="34" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="310" y="325" text-anchor="middle" font-size="15" fill="var(--text)">XamlPackage blob (rich)</text>
+<rect x="140" y="346" width="340" height="34" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="310" y="369" text-anchor="middle" font-size="15" fill="var(--text)">plain-text shadow copy</text>
+<line x1="310" y1="395" x2="310" y2="445" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="90" y="450" width="440" height="210" rx="12" fill="none" stroke="var(--accent)" stroke-dasharray="7 6"/>
+<text x="310" y="478" text-anchor="middle" font-size="14" fill="var(--accent)">optional SQLCipher AES-256 envelope</text>
+<rect x="115" y="495" width="390" height="140" rx="9" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="310" y="528" text-anchor="middle" font-size="19" fill="var(--accent)">notes.db (SQLite)</text>
+<rect x="145" y="546" width="330" height="32" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="310" y="568" text-anchor="middle" font-size="15" fill="var(--text)">notes table</text>
+<text x="310" y="595" text-anchor="middle" font-size="12" fill="var(--muted)">&#8645; external-content triggers</text>
+<rect x="145" y="604" width="330" height="24" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="310" y="621" text-anchor="middle" font-size="13" fill="var(--text)">FTS5 full-text index</text>
+<line x1="310" y1="660" x2="310" y2="705" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>
+<text x="310" y="695" text-anchor="middle" font-size="12" fill="var(--muted)">share or export</text>
+<rect x="20" y="710" width="180" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="110" y="737" text-anchor="middle" font-size="16" fill="var(--accent)">.knote</text>
+<text x="110" y="758" text-anchor="middle" font-size="12" fill="var(--muted)">one note</text>
+<rect x="220" y="710" width="180" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="310" y="737" text-anchor="middle" font-size="16" fill="var(--accent)">.kndb</text>
+<text x="310" y="758" text-anchor="middle" font-size="12" fill="var(--muted)">whole notepad</text>
+<rect x="420" y="710" width="180" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="510" y="737" text-anchor="middle" font-size="15" fill="var(--accent)">.txt .rtf .html</text>
+<text x="510" y="758" text-anchor="middle" font-size="12" fill="var(--muted)">plain exports</text>
 </g>
 </svg>
 <figcaption data-i18n="t_store_fig1">The life of a note: the editor commits every change into one SQLite file, the search index stays in sync by trigger, encryption wraps the whole file, and shares tear off from there.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
@@ -230,52 +234,40 @@
 <p data-i18n="t_links_p6">Renaming a note is the one thing that breaks a link addressed by title, so it is also the one thing that offers to fix them. The link table already knows exactly which notes point at the old title, so nothing has to be searched for. You are shown every affected note and its link count before anything changes, and the whole rewrite undoes with a single <code>Ctrl+Z</code>.</p>
 
 <figure class="diagram" id="linkDiagram">
-<svg viewBox="0 0 1060 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="How typed brackets become edges: parse on save into the link table, which feeds the strip, the graph and rename propagation">
+<svg viewBox="0 0 620 820" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="How typed brackets become edges: parse on save into the link table, which feeds the strip, the graph and rename propagation">
 <defs><marker id="arrL" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
 <g font-family="Consolas, monospace">
-<!-- the note being typed -->
-<rect x="10" y="80" width="205" height="140" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="112" y="108" text-anchor="middle" font-size="14" fill="var(--accent)">A note being typed</text>
-<text x="112" y="138" text-anchor="middle" font-size="12" fill="var(--text)">ping the</text>
-<text x="112" y="156" text-anchor="middle" font-size="12" fill="var(--accent)">[[Firewall]]</text>
-<text x="112" y="174" text-anchor="middle" font-size="12" fill="var(--text)">before lunch</text>
-<text x="112" y="202" text-anchor="middle" font-size="10" fill="var(--muted)">plain-text shadow copy</text>
-<!-- save arrow -->
-<line x1="215" y1="150" x2="288" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrL)"/>
-<text x="252" y="140" text-anchor="middle" font-size="12" fill="var(--accent)">every save</text>
-<!-- the parser -->
-<rect x="293" y="80" width="220" height="140" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="403" y="108" text-anchor="middle" font-size="14" fill="var(--accent)">parse</text>
-<text x="403" y="136" text-anchor="middle" font-size="11" fill="var(--text)">[[Target]] or [[Target|label]]</text>
-<text x="403" y="156" text-anchor="middle" font-size="11" fill="var(--muted)">never crosses a line ending</text>
-<text x="403" y="174" text-anchor="middle" font-size="11" fill="var(--muted)">duplicates collapse to one</text>
-<text x="403" y="192" text-anchor="middle" font-size="11" fill="var(--muted)">document bytes untouched</text>
-<!-- arrow to table -->
-<line x1="513" y1="150" x2="586" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrL)"/>
-<!-- the link table -->
-<rect x="591" y="52" width="240" height="196" rx="8" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="711" y="78" text-anchor="middle" font-size="14" fill="var(--accent)">note_links (src, target)</text>
-<rect x="609" y="92" width="204" height="26" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
-<text x="711" y="110" text-anchor="middle" font-size="12" fill="var(--text)">1  Firewall</text>
-<rect x="609" y="124" width="204" height="26" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
-<text x="711" y="142" text-anchor="middle" font-size="12" fill="var(--text)">1  Server Rack</text>
-<rect x="609" y="156" width="204" height="26" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
-<text x="711" y="174" text-anchor="middle" font-size="12" fill="var(--text)">7  Firewall</text>
-<text x="711" y="208" text-anchor="middle" font-size="10" fill="var(--muted)">a cache: rewritten wholesale per save</text>
-<text x="711" y="226" text-anchor="middle" font-size="10" fill="var(--muted)">targets are titles, resolved late</text>
-<!-- fan-out -->
-<line x1="831" y1="105" x2="898" y2="72" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrL)"/>
-<line x1="831" y1="150" x2="898" y2="150" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrL)"/>
-<line x1="831" y1="195" x2="898" y2="228" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrL)"/>
-<rect x="902" y="46" width="148" height="48" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="976" y="66" text-anchor="middle" font-size="12" fill="var(--accent)">backlinks strip</text>
-<text x="976" y="84" text-anchor="middle" font-size="10" fill="var(--muted)">what links here</text>
-<rect x="902" y="126" width="148" height="48" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="976" y="146" text-anchor="middle" font-size="12" fill="var(--accent)">the graph</text>
-<text x="976" y="164" text-anchor="middle" font-size="10" fill="var(--muted)">edges, by title</text>
-<rect x="902" y="206" width="148" height="48" rx="6" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="976" y="226" text-anchor="middle" font-size="12" fill="var(--accent)">rename propagation</text>
-<text x="976" y="244" text-anchor="middle" font-size="10" fill="var(--muted)">the exact set to rewrite</text>
+<rect x="90" y="20" width="440" height="135" rx="10" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="310" y="53" text-anchor="middle" font-size="19" fill="var(--accent)">A note being typed</text>
+<text x="310" y="88" text-anchor="middle" font-size="16" fill="var(--text)">ping the <tspan fill="var(--accent)">[[Firewall]]</tspan> before lunch</text>
+<text x="310" y="120" text-anchor="middle" font-size="13" fill="var(--muted)">plain-text shadow copy</text>
+<line x1="310" y1="155" x2="310" y2="215" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrL)"/>
+<text x="330" y="188" font-size="14" fill="var(--accent)">every save</text>
+<rect x="90" y="220" width="440" height="150" rx="10" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="310" y="253" text-anchor="middle" font-size="19" fill="var(--accent)">Parse wikilinks</text>
+<text x="310" y="284" text-anchor="middle" font-size="15" fill="var(--text)">[[Target]] or [[Target|label]]</text>
+<text x="310" y="312" text-anchor="middle" font-size="13" fill="var(--muted)">never crosses a line ending</text>
+<text x="310" y="334" text-anchor="middle" font-size="13" fill="var(--muted)">duplicates collapse, document bytes stay untouched</text>
+<line x1="310" y1="370" x2="310" y2="430" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrL)"/>
+<rect x="90" y="435" width="440" height="205" rx="10" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="310" y="469" text-anchor="middle" font-size="19" fill="var(--accent)">note_links (source, target)</text>
+<rect x="135" y="490" width="350" height="32" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="310" y="512" text-anchor="middle" font-size="15" fill="var(--text)">1  Firewall</text>
+<rect x="135" y="532" width="350" height="32" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="310" y="554" text-anchor="middle" font-size="15" fill="var(--text)">1  Server Rack</text>
+<rect x="135" y="574" width="350" height="32" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
+<text x="310" y="596" text-anchor="middle" font-size="15" fill="var(--text)">7  Firewall</text>
+<text x="310" y="625" text-anchor="middle" font-size="12" fill="var(--muted)">rewritten on save, targets resolved by title</text>
+<line x1="310" y1="640" x2="310" y2="690" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrL)"/>
+<rect x="10" y="695" width="190" height="88" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="105" y="730" text-anchor="middle" font-size="16" fill="var(--accent)">backlinks strip</text>
+<text x="105" y="756" text-anchor="middle" font-size="12" fill="var(--muted)">what links here</text>
+<rect x="215" y="695" width="190" height="88" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="310" y="730" text-anchor="middle" font-size="16" fill="var(--accent)">the graph</text>
+<text x="310" y="756" text-anchor="middle" font-size="12" fill="var(--muted)">edges by title</text>
+<rect x="420" y="695" width="190" height="88" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="515" y="730" text-anchor="middle" font-size="15" fill="var(--accent)">rename propagation</text>
+<text x="515" y="756" text-anchor="middle" font-size="12" fill="var(--muted)">exact notes to rewrite</text>
 </g>
 </svg>
 <figcaption data-i18n="t_links_fig1">The pointing, end to end: brackets in the text become rows in a per-database table on every save, and everything else - the strip, the graph, the rename offer - only ever reads those rows.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
@@ -287,49 +279,44 @@
 <p data-i18n="t_links_p10">Five deterministic arrangements complement the physics: by connection, in a circle, in a grid, by group, and rings by distance from one note - the last one placed on the note's own menu, where "distance from what" needs no explaining. The <b>visualizer</b> (V) is the opposite of an arrangement: it keeps the simulation warm, breathes the spring lengths, and turns the whole layout rigidly about its center, for a graph left running on a second monitor. Pinning is suspended while it runs; locks are not.</p>
 
 <figure class="diagram" id="graphAnatomy">
-<svg viewBox="0 0 1060 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Anatomy of the graph: sized hubs, group colors, hollow ghosts, dashed lock rings">
+<svg viewBox="0 0 620 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Anatomy of the graph: sized hubs, group colors, hollow ghosts, dashed lock rings">
 <g font-family="Consolas, monospace">
-<!-- edges first, under the dots -->
 <g stroke="var(--pane-border)" stroke-width="1.5">
-<line x1="180" y1="105" x2="330" y2="175"/>
-<line x1="175" y1="250" x2="330" y2="175"/>
-<line x1="330" y1="175" x2="475" y2="95"/>
-<line x1="330" y1="175" x2="490" y2="255"/>
-<line x1="180" y1="105" x2="175" y2="250"/>
+<line x1="150" y1="105" x2="310" y2="190"/>
+<line x1="145" y1="280" x2="310" y2="190"/>
+<line x1="310" y1="190" x2="470" y2="105"/>
+<line x1="310" y1="190" x2="480" y2="280"/>
+<line x1="150" y1="105" x2="145" y2="280"/>
 </g>
-<!-- ordinary node, group A -->
-<circle cx="180" cy="105" r="13" fill="var(--accent)"/>
-<text x="180" y="84" text-anchor="middle" font-size="11" fill="var(--text)">VPN</text>
-<!-- ordinary node, group B -->
-<circle cx="175" cy="250" r="13" fill="var(--muted)"/>
-<text x="175" y="281" text-anchor="middle" font-size="11" fill="var(--text)">Server Rack</text>
-<!-- the hub -->
-<circle cx="330" cy="175" r="24" fill="var(--accent)"/>
-<text x="330" y="215" text-anchor="middle" font-size="11" fill="var(--text)">Firewall</text>
-<!-- locked node: dashed ring outside the fill -->
-<circle cx="475" cy="95" r="13" fill="var(--muted)"/>
-<circle cx="475" cy="95" r="19" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="475" y="66" text-anchor="middle" font-size="11" fill="var(--text)">Vault</text>
-<!-- ghost: hollow, linked but not written -->
-<circle cx="490" cy="255" r="12" fill="none" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="3 3"/>
-<text x="490" y="286" text-anchor="middle" font-size="11" fill="var(--muted)">Zero Trust</text>
-<!-- callouts -->
-<g stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 3">
-<line x1="360" y1="168" x2="640" y2="70"/>
-<line x1="496" y1="90" x2="640" y2="140"/>
-<line x1="504" y1="250" x2="640" y2="210"/>
-<line x1="192" y1="98" x2="640" y2="280"/>
-</g>
-<g font-size="12">
-<text x="650" y="62" fill="var(--accent)">sized by inbound links</text>
-<text x="650" y="80" fill="var(--muted)" font-size="11">the hub of a notebook is visible at a glance</text>
-<text x="650" y="132" fill="var(--accent)">dashed ring: locked in place</text>
-<text x="650" y="150" fill="var(--muted)" font-size="11">nothing moves it, and the lock is remembered</text>
-<text x="650" y="202" fill="var(--accent)">hollow: linked, not written yet</text>
-<text x="650" y="220" fill="var(--muted)" font-size="11">opening a ghost offers to create the note</text>
-<text x="650" y="272" fill="var(--accent)">color: the sidebar group</text>
-<text x="650" y="290" fill="var(--muted)" font-size="11">the same brushes the group headers use</text>
-</g>
+<circle cx="150" cy="105" r="16" fill="var(--accent)"/>
+<text x="150" y="76" text-anchor="middle" font-size="15" fill="var(--text)">VPN</text>
+<circle cx="145" cy="280" r="16" fill="var(--muted)"/>
+<text x="145" y="316" text-anchor="middle" font-size="15" fill="var(--text)">Server Rack</text>
+<circle cx="310" cy="190" r="31" fill="var(--accent)"/>
+<text x="310" y="238" text-anchor="middle" font-size="15" fill="var(--text)">Firewall</text>
+<circle cx="470" cy="105" r="16" fill="var(--muted)"/>
+<circle cx="470" cy="105" r="25" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="470" y="68" text-anchor="middle" font-size="15" fill="var(--text)">Vault</text>
+<circle cx="480" cy="280" r="16" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4"/>
+<text x="480" y="316" text-anchor="middle" font-size="15" fill="var(--muted)">Zero Trust</text>
+<line x1="55" y1="355" x2="565" y2="355" stroke="var(--pane-border)"/>
+<rect x="45" y="385" width="530" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<circle cx="78" cy="416" r="19" fill="var(--accent)"/>
+<text x="115" y="410" font-size="16" fill="var(--accent)">Size shows inbound links</text>
+<text x="115" y="431" font-size="13" fill="var(--muted)">the notebook hub stands out at a glance</text>
+<rect x="45" y="460" width="530" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<circle cx="78" cy="491" r="13" fill="var(--muted)"/>
+<circle cx="78" cy="491" r="20" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="115" y="485" font-size="16" fill="var(--accent)">Dashed ring means locked</text>
+<text x="115" y="506" font-size="13" fill="var(--muted)">nothing moves it, and the lock is remembered</text>
+<rect x="45" y="535" width="530" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<circle cx="78" cy="566" r="15" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4"/>
+<text x="115" y="560" font-size="16" fill="var(--accent)">Hollow means linked, not written</text>
+<text x="115" y="581" font-size="13" fill="var(--muted)">opening the ghost offers to create the note</text>
+<rect x="45" y="610" width="530" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<circle cx="78" cy="641" r="15" fill="var(--accent)"/>
+<text x="115" y="635" font-size="16" fill="var(--accent)">Color follows the sidebar group</text>
+<text x="115" y="656" font-size="13" fill="var(--muted)">nodes reuse the group header brushes</text>
 </g>
 </svg>
 <figcaption data-i18n="t_links_fig2">Anatomy of the graph. Everything it shows is derived: size from the link table, color from the sidebar groups, hollowness from a title no note owns yet.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
@@ -338,6 +325,35 @@
 <h3 data-i18n="t_links_h3" id="graphlayouts">Where layouts live</h3>
 <p data-i18n="t_links_p11">Node positions persist in a <code>graph_layouts</code> table - <code>(name, note_id, x, y, locked)</code> - in the <b>note database itself</b>, not in application settings. Coordinates mean nothing without the notes they belong to, and KillerNotes opens more than one database; in settings, a layout would follow you into every notebook and try to place notes that are not in it.</p>
 </section>
+
+<section class="tech-sec" id="specs">
+<h2 data-i18n="t_spec_h">Specs</h2>
+<table class="spec-table">
+<tr><th data-i18n="t_spec_r1k">Spec</th><th data-i18n="t_spec_r1v">Value</th></tr>
+<tr><td data-i18n="t_spec_r2k">Platform</td><td data-i18n="t_spec_r2v">Windows 10/11, x64</td></tr>
+<tr><td data-i18n="t_spec_r3k">Stack</td><td data-i18n="t_spec_r3v">C# / WPF on .NET Framework 4.8 (no runtime install on Win 10/11)</td></tr>
+<tr><td data-i18n="t_spec_r4k">Storage</td><td data-i18n="t_spec_r4v">SQLite via Microsoft.Data.Sqlite; one database file per notepad in a configurable data folder (default %APPDATA%\KillerNotes)</td></tr>
+<tr><td data-i18n="t_spec_r5k">Search</td><td data-i18n="t_spec_r5v">SQLite FTS5, external-content index, prefix matching as you type</td></tr>
+<tr><td data-i18n="t_spec_r6k">Encryption</td><td data-i18n="t_spec_r6v">SQLCipher (AES-256), whole-database, opt-in per database</td></tr>
+<tr><td data-i18n="t_spec_r7k">Rich content</td><td data-i18n="t_spec_r7v">WPF FlowDocument stored as XamlPackage blobs (images + tables round-trip)</td></tr>
+<tr><td data-i18n="t_spec_r8k">Markdown</td><td data-i18n="t_spec_r8v">Markdig, advanced extensions, raw HTML disabled</td></tr>
+<tr><td data-i18n="t_spec_r9k">Audio</td><td data-i18n="t_spec_r9v">winmm waveIn/waveOut capture and playback at 16 kHz mono; stored as FLAC, exports to WAV or MP3</td></tr>
+<tr><td data-i18n="t_spec_r10k">Speech</td><td data-i18n="t_spec_r10v">whisper.cpp offline, model downloaded on demand (75-466 MB); System.Speech fallback</td></tr>
+<tr><td data-i18n="t_spec_r11k">Syntax highlighting</td><td data-i18n="t_spec_r11v">16 languages, detected per paragraph; applied as TextEffects, stored text unchanged</td></tr>
+<tr><td data-i18n="t_spec_r12k">Drawing</td><td data-i18n="t_spec_r12v">SketchPad vector object list, flattened to an image in the note and reopenable for editing</td></tr>
+<tr><td data-i18n="t_spec_r13k">Themes</td><td data-i18n="t_spec_r13v">13 (98SE, Black, Blood, Cyanotic, Dark, Decay, Delirium, Ectoplasm, Greed, Light, Malaise, Mourning, Sepulchre), live-switchable with per-theme accents</td></tr>
+<tr><td data-i18n="t_spec_r14k">Languages</td><td data-i18n="t_spec_r14v">16 (en, bn, cs, de, es, fr, hu, it, ja, kk, pl, ru, tr, vi, zh-Hans, zh-Hant), live-switchable, en-US fallback</td></tr>
+<tr><td data-i18n="t_spec_r15k">Share formats</td><td data-i18n="t_spec_r15v">.knote (single note), .kndb (whole database), HKCU file associations</td></tr>
+<tr><td data-i18n="t_spec_r16k">Import</td><td data-i18n="t_spec_r16v">.txt, .log, .md, .html, .htm, .rtf, png/jpg/jpeg/gif/bmp images</td></tr>
+<tr><td data-i18n="t_spec_r17k">Export</td><td data-i18n="t_spec_r17v">.txt, .rtf, self-contained .html; notes also share as .knote</td></tr>
+<tr><td data-i18n="t_spec_r18k">Network use</td><td data-i18n="t_spec_r18v">None, except the About panel's version check and optional self-update download (GitHub)</td></tr>
+<tr><td data-i18n="t_spec_r19k">Distribution</td><td data-i18n="t_spec_r19v">Single signed exe (~8.5 MB); portable, per-user install, or /silent machine-wide</td></tr>
+<tr><td data-i18n="t_spec_r20k">License</td><td data-i18n="t_spec_r20v">GPLv3; source zip attached to every release</td></tr>
+</table>
+</section>
+
+</div>
+<div class="tech-column">
 
 <section class="tech-sec" id="encryption">
 <h2 data-i18n="t_enc_h">Encryption</h2>
@@ -388,7 +404,7 @@
 <p data-i18n="t_audio_p3">Transcription uses <b>whisper.cpp</b> (MIT) running locally. It replaced System.Speech, which is SAPI's desktop dictation engine - a command-and-control model from the Windows 7 era that was not misconfigured but simply at its ceiling, producing confident nonsense on unfamiliar words rather than admitting uncertainty. System.Speech remains as the fallback when no model is installed.</p>
 <p data-i18n="t_audio_p4">The whisper natives are about 1.3 MB and ship inside the exe. The <i>model</i> is 75 to 466 MB, so it is downloaded on demand from whisper.cpp's own repository, into your local app data, after you pick a size. Nothing is downloaded without being asked, and nothing is uploaded at any point - the audio never leaves the machine.</p>
 <p data-i18n="t_audio_p5">Three models are offered. The chooser names the file each one downloads, so a copy on disk can always be identified and checked against upstream:</p>
-<table class="spec-table">
+<table class="spec-table model-table">
 <tr><th data-i18n="t_audio_r1k">Choice</th><th data-i18n="t_audio_r1v">File</th><th data-i18n="t_audio_r1x2">Size</th><th data-i18n="t_audio_r1x3">Notes</th></tr>
 <tr><td data-i18n="t_audio_r2k">Fast</td><td data-i18n="t_audio_r2v"><code>ggml-tiny.en.bin</code></td><td data-i18n="t_audio_r2x2">75 MB</td><td data-i18n="t_audio_r2x3">Fastest. A clear step up from Windows dictation, but weaker on names and technical terms.</td></tr>
 <tr><td data-i18n="t_audio_r3k">Recommended</td><td data-i18n="t_audio_r3v"><code>ggml-base.en.bin</code></td><td data-i18n="t_audio_r3x2">142 MB</td><td data-i18n="t_audio_r3x3">The usual choice. Accurate enough to correct rather than rewrite, and quick on most machines.</td></tr>
@@ -438,31 +454,8 @@
 </ul>
 </section>
 
-<section class="tech-sec" id="specs">
-<h2 data-i18n="t_spec_h">Specs</h2>
-<table class="spec-table">
-<tr><th data-i18n="t_spec_r1k">Spec</th><th data-i18n="t_spec_r1v">Value</th></tr>
-<tr><td data-i18n="t_spec_r2k">Platform</td><td data-i18n="t_spec_r2v">Windows 10/11, x64</td></tr>
-<tr><td data-i18n="t_spec_r3k">Stack</td><td data-i18n="t_spec_r3v">C# / WPF on .NET Framework 4.8 (no runtime install on Win 10/11)</td></tr>
-<tr><td data-i18n="t_spec_r4k">Storage</td><td data-i18n="t_spec_r4v">SQLite via Microsoft.Data.Sqlite; one database file per notepad in a configurable data folder (default %APPDATA%\KillerNotes)</td></tr>
-<tr><td data-i18n="t_spec_r5k">Search</td><td data-i18n="t_spec_r5v">SQLite FTS5, external-content index, prefix matching as you type</td></tr>
-<tr><td data-i18n="t_spec_r6k">Encryption</td><td data-i18n="t_spec_r6v">SQLCipher (AES-256), whole-database, opt-in per database</td></tr>
-<tr><td data-i18n="t_spec_r7k">Rich content</td><td data-i18n="t_spec_r7v">WPF FlowDocument stored as XamlPackage blobs (images + tables round-trip)</td></tr>
-<tr><td data-i18n="t_spec_r8k">Markdown</td><td data-i18n="t_spec_r8v">Markdig, advanced extensions, raw HTML disabled</td></tr>
-<tr><td data-i18n="t_spec_r9k">Audio</td><td data-i18n="t_spec_r9v">winmm waveIn/waveOut capture and playback at 16 kHz mono; stored as FLAC, exports to WAV or MP3</td></tr>
-<tr><td data-i18n="t_spec_r10k">Speech</td><td data-i18n="t_spec_r10v">whisper.cpp offline, model downloaded on demand (75-466 MB); System.Speech fallback</td></tr>
-<tr><td data-i18n="t_spec_r11k">Syntax highlighting</td><td data-i18n="t_spec_r11v">16 languages, detected per paragraph; applied as TextEffects, stored text unchanged</td></tr>
-<tr><td data-i18n="t_spec_r12k">Drawing</td><td data-i18n="t_spec_r12v">SketchPad vector object list, flattened to an image in the note and reopenable for editing</td></tr>
-<tr><td data-i18n="t_spec_r13k">Themes</td><td data-i18n="t_spec_r13v">13 (98SE, Black, Blood, Cyanotic, Dark, Decay, Delirium, Ectoplasm, Greed, Light, Malaise, Mourning, Sepulchre), live-switchable with per-theme accents</td></tr>
-<tr><td data-i18n="t_spec_r14k">Languages</td><td data-i18n="t_spec_r14v">15 (en, bn, cs, de, es, fr, hu, it, ja, kk, pl, ru, tr, zh-Hans, zh-Hant), live-switchable, en-US fallback</td></tr>
-<tr><td data-i18n="t_spec_r15k">Share formats</td><td data-i18n="t_spec_r15v">.knote (single note), .kndb (whole database), HKCU file associations</td></tr>
-<tr><td data-i18n="t_spec_r16k">Import</td><td data-i18n="t_spec_r16v">.txt, .log, .md, .html, .htm, .rtf, png/jpg/jpeg/gif/bmp images</td></tr>
-<tr><td data-i18n="t_spec_r17k">Export</td><td data-i18n="t_spec_r17v">.txt, .rtf, self-contained .html; notes also share as .knote</td></tr>
-<tr><td data-i18n="t_spec_r18k">Network use</td><td data-i18n="t_spec_r18v">None, except the About panel's version check and optional self-update download (GitHub)</td></tr>
-<tr><td data-i18n="t_spec_r19k">Distribution</td><td data-i18n="t_spec_r19v">Single signed exe (~8.5 MB); portable, per-user install, or /silent machine-wide</td></tr>
-<tr><td data-i18n="t_spec_r20k">License</td><td data-i18n="t_spec_r20v">GPLv3; source zip attached to every release</td></tr>
-</table>
-</section>
+</div>
+</div>
 
 </div>
 </div>
@@ -511,7 +504,7 @@
 </footer>
 <div class="egg-toast" id="eggToast"></div>
 <div class="dlightbox" id="dlightbox" hidden><div class="dlb-inner" id="dlbInner"></div></div>
-<script src="kn-i18n.js?v=14"></script>
+<script src="kn-i18n.js?v=15"></script>
 <script src="kn.js?v=5"></script>
 <script>
 (function(){

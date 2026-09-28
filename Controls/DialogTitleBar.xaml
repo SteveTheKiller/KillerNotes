@@ -40,6 +40,8 @@
                  caption X, and that is what put a red block on every dialog card and started the
                  alignment chase of 2026-08-23. Do not reintroduce a caption button on a card. -->
             <Button Content="{DynamicResource AboutCloseGlyph}" Click="Close_Click"
+                    ToolTip="{DynamicResource Str_Sys_Close}"
+                    AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                     HorizontalAlignment="Right" VerticalAlignment="Center"
                     Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                     Style="{StaticResource OverlayCloseButton}"/>

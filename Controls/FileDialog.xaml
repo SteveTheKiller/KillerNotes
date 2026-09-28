@@ -154,6 +154,8 @@
                     <!-- The family dialog close - see the note in DialogTitleBar.xaml. Same markup
                          as KillerShell, KillerScan and the KillerUI kit. -->
                     <Button Content="{DynamicResource AboutCloseGlyph}" Click="Cancel_Click"
+                            ToolTip="{DynamicResource Str_Sys_Close}"
+                            AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                             HorizontalAlignment="Right" VerticalAlignment="Center"
                             Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                             Style="{StaticResource OverlayCloseButton}">
@@ -223,6 +225,7 @@
                          the sunken bevel below IS the field's edge, and the flat 1px line drew a
                          SECOND line right beside it along the top. (2026-08-07) -->
                     <TextBox x:Name="PathBox" Height="22" Style="{StaticResource DarkTextBox}"
+                             AutomationProperties.Name="{Binding Text, RelativeSource={RelativeSource Self}}"
                              Background="{DynamicResource TextFieldBrush}"
                              BorderBrush="{DynamicResource InputEdgeBrush}"
                              FontFamily="Consolas" FontSize="12" Padding="8,0,26,0"
@@ -488,6 +491,7 @@
                         </Grid>
                         <Grid>
                             <ListBox x:Name="FileList" Background="Transparent" BorderThickness="0" Padding="2,4"
+                                     AutomationProperties.Name="{DynamicResource Str_Col_Name}"
                                      ItemContainerStyle="{StaticResource PickerRow}"
                                      ItemTemplate="{StaticResource RowTemplate}"
                                      ItemsPanel="{StaticResource PanelStack}"
@@ -538,6 +542,7 @@
                 <!-- Same 22 and centered as the address bar, for the same reason. -->
                 <Grid Grid.Row="0" Grid.Column="1" Height="22" VerticalAlignment="Center">
                     <TextBox x:Name="FileNameBox" Height="22"
+                             AutomationProperties.Name="{DynamicResource Str_Dlg_FileName}"
                              Style="{StaticResource DarkTextBox}"
                              Background="{DynamicResource TextFieldBrush}"
                              BorderBrush="{DynamicResource InputEdgeBrush}"
@@ -554,6 +559,7 @@
                 <!-- 22, matching the file name box directly above it and the address bar. It was
                      28, so the two fields that read as a pair were visibly different heights. -->
                 <ComboBox x:Name="FilterCombo" Grid.Row="1" Grid.Column="1" Height="22" Margin="0,6,0,0"
+                          AutomationProperties.Name="{DynamicResource Str_Dlg_FileType}"
                           Style="{StaticResource DarkComboBox}"
                           SelectionChanged="Filter_SelectionChanged"/>
             </Grid>

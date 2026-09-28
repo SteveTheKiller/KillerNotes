@@ -858,7 +858,7 @@
     <sys:String x:Key="Str_KS_Outline">Показать или скрыть структуру заголовков</sys:String>
     <sys:String x:Key="Str_Kb_Outline">Структура</sys:String>
     <sys:String x:Key="Str_Outline_Title">СТРУКТУРА</sys:String>
-    <sys:String x:Key="Str_Outline_Empty">Пока нет заголовков. Alt+1 сделает текущую строку заголовком.</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Нажмите Alt+O, чтобы скрыть эту панель.</sys:String>
 
     <!-- Backups (1.3.1) -->
     <sys:String x:Key="Str_Bk_Title">Резервные копии</sys:String>

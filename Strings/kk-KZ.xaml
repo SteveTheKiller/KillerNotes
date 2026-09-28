@@ -858,7 +858,7 @@
     <sys:String x:Key="Str_KS_Outline">Тақырыптамалар құрылымын көрсету немесе жасыру</sys:String>
     <sys:String x:Key="Str_Kb_Outline">Құрылым</sys:String>
     <sys:String x:Key="Str_Outline_Title">ҚҰРЫЛЫМ</sys:String>
-    <sys:String x:Key="Str_Outline_Empty">Әзірге тақырыптама жоқ. Alt+1 ағымдағы жолды тақырыптамаға айналдырады.</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Бұл тақтаны жасыру үшін Alt+O пернелерін басыңыз.</sys:String>
 
     <!-- Backups (1.3.1) -->
     <sys:String x:Key="Str_Bk_Title">Сақтық көшірмелер</sys:String>

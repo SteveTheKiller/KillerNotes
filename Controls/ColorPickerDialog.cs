@@ -260,6 +260,7 @@ namespace KillerNotes.Controls
                 Content = CrosshairIcon(), ToolTip = L("Str_TT_Eyedropper", "Pick a color from anywhere on screen"),
                 Cursor = Cursors.Cross, Template = MakeBtnTemplate()
             };
+            System.Windows.Automation.AutomationProperties.SetName(eyedrop, L("Str_TT_Eyedropper", "Pick a color from anywhere on screen"));
             eyedrop.Click += (_, _) => RunEyedropper();
             inputRow.Children.Add(eyedrop);
             panel.Children.Add(inputRow);

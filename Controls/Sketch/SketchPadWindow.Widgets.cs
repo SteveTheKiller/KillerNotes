@@ -18,6 +18,7 @@ namespace KillerNotes.Controls.Sketch
         private static void Tip(FrameworkElement fe, string tip)
         {
             fe.ToolTip = tip;
+            System.Windows.Automation.AutomationProperties.SetName(fe, tip);
             ToolTipService.SetInitialShowDelay(fe, 350);
             ToolTipService.SetShowDuration(fe, 12000);
             ToolTipService.SetShowOnDisabled(fe, true);

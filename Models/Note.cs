@@ -20,8 +20,15 @@ namespace KillerNotes.Models
         public string Title
         {
             get => _title;
-            set { if (_title == value) return; _title = value; OnChanged(nameof(Title)); }
+            set
+            {
+                if (_title == value) return;
+                _title = value;
+                OnChanged(nameof(Title));
+                OnChanged(nameof(AutomationName));
+            }
         }
+        public string AutomationName => Title;
         public string Notebook { get; set; } = "";
         public string Tags { get; set; } = "";
         public DateTime Created { get; set; }
@@ -215,6 +222,7 @@ namespace KillerNotes.Models
         public double GutterWidth => Depth * 14;
         public List<GroupRail> Rails { get; set; } = [];
         public string Name { get; set; } = "";
+        public string AutomationName => Name;
         public int Count { get; set; }
         public bool Collapsed { get; set; }
         private string _nameColor = "";
@@ -284,6 +292,7 @@ namespace KillerNotes.Models
     /// property it asks for, with the stripe and rails switched off.</summary>
     public class TrashHeader
     {
+        public string AutomationName => Application.Current?.TryFindResource("Str_Trash")?.ToString() ?? "Trash";
         public int Count { get; set; }
         public bool Collapsed { get; set; }
         public int Density { get; set; }

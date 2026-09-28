@@ -850,7 +850,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_Outline">Afficher ou masquer le plan des titres</sys:String>
     <sys:String x:Key="Str_Kb_Outline">Plan</sys:String>
     <sys:String x:Key="Str_Outline_Title">PLAN</sys:String>
-    <sys:String x:Key="Str_Outline_Empty">Pas encore de titres. Alt+1 transforme la ligne actuelle en titre.</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Appuyez sur Alt+O pour masquer ce panneau.</sys:String>
 
     <!-- Backups (1.3.1) -->
     <sys:String x:Key="Str_Bk_Title">Sauvegardes</sys:String>

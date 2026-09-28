@@ -17,7 +17,9 @@
     </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
-        <Style x:Key="FmtButton" TargetType="Button" BasedOn="{StaticResource AnnotationBarButton}"/>
+        <Style x:Key="FmtButton" TargetType="Button" BasedOn="{StaticResource AnnotationBarButton}">
+            <Setter Property="AutomationProperties.Name" Value="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"/>
+        </Style>
         <Style x:Key="FmtSeparator" TargetType="Rectangle" BasedOn="{StaticResource AnnotationBarSeparator}"/>
         <!-- LIST / KEYBOARD caption toggle in the shortcuts overlay header; the active
              one's Foreground is driven from code (KeyboardMap.cs ApplyShortcutView) -->
@@ -193,7 +195,8 @@
                      shape, with the theme choosing via CaptionFontGlyphVisibility /
                      CaptionDrawnGlyphVisibility. Defaults keep the font glyph on all twelve other
                      themes; a beveled theme shows the drawn one and hides the character. -->
-                <Button x:Name="MinimizeBtn" Foreground="{DynamicResource CaptionGlyphBrush}" Click="MinimizeBtn_Click" Style="{StaticResource ChromeButton}">
+                <Button x:Name="MinimizeBtn" Foreground="{DynamicResource CaptionGlyphBrush}" Click="MinimizeBtn_Click" Style="{StaticResource ChromeButton}"
+                        ToolTip="{DynamicResource Str_Sys_Minimize}">
                     <!-- Height pinned to the button. Without it this Grid auto-sizes to its own
                          contents and VerticalAlignment="Bottom" on the bar below has nothing to sit
                          at the bottom of, so the bar rendered dead center no matter what margin it
@@ -214,7 +217,8 @@
                                    Visibility="{DynamicResource CaptionDrawnGlyphVisibility}"/>
                     </Grid>
                 </Button>
-                <Button x:Name="MaximizeBtn" Foreground="{DynamicResource CaptionGlyphBrush}" Click="MaximizeBtn_Click" Style="{StaticResource ChromeButton}">
+                <Button x:Name="MaximizeBtn" Foreground="{DynamicResource CaptionGlyphBrush}" Click="MaximizeBtn_Click" Style="{StaticResource ChromeButton}"
+                        ToolTip="{DynamicResource Str_Sys_Maximize}">
                     <Grid>
                         <TextBlock Text="&#xE922;" FontFamily="Segoe MDL2 Assets" FontSize="10"
                                    FontWeight="{DynamicResource CaptionGlyphWeight}"
@@ -231,7 +235,8 @@
                         </Grid>
                     </Grid>
                 </Button>
-                <Button x:Name="CloseBtn" Click="CloseBtn_Click" Style="{StaticResource ChromeCloseButton}">
+                <Button x:Name="CloseBtn" Click="CloseBtn_Click" Style="{StaticResource ChromeCloseButton}"
+                        ToolTip="{DynamicResource Str_Sys_Close}">
                 </Button>
             </StackPanel>
 
@@ -495,6 +500,7 @@
                                             </TextBlock.Style>
                                         </TextBlock>
                                         <TextBox x:Name="SearchBox" Background="Transparent" BorderThickness="0"
+                                                 AutomationProperties.Name="{DynamicResource Str_Sec_Search}"
                                                  Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
                                                  SelectionBrush="{DynamicResource TextSelectionBrush}" SelectionOpacity="{DynamicResource TextSelectionOpacity}"
                                  SelectionTextBrush="{DynamicResource TextSelectionTextBrush}"
@@ -615,6 +621,7 @@
                                      fixed widths. The active button carries a direction arrow
                                      (up = ascending) that flips when clicked again (Notes.cs). -->
                                 <Button x:Name="SortTimeBtn" Style="{StaticResource SurfaceButton}"
+                                        AutomationProperties.Name="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"
                                         Background="{DynamicResource SortButtonBrush}"
                                         BorderBrush="{DynamicResource OutlineBtnBrush}"
                                         Margin="8,0,0,0" Click="SortTimeBtn_Click" Width="40" Padding="0"
@@ -628,6 +635,7 @@
                                     </StackPanel>
                                 </Button>
                                 <Button x:Name="SortAlphaBtn" Style="{StaticResource SurfaceButton}"
+                                        AutomationProperties.Name="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"
                                         Background="{DynamicResource SortButtonBrush}"
                                         BorderBrush="{DynamicResource OutlineBtnBrush}"
                                         Margin="6,0,0,0" Click="SortAlphaBtn_Click" Width="40" Padding="0"
@@ -643,6 +651,7 @@
                                 <!-- Custom order (#4): manual arrangement, no direction arrow;
                                      dragging a note in any sort switches here (Groups.cs) -->
                                 <Button x:Name="SortCustomBtn" Style="{StaticResource SurfaceButton}"
+                                        AutomationProperties.Name="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"
                                         Background="{DynamicResource SortButtonBrush}"
                                         BorderBrush="{DynamicResource OutlineBtnBrush}"
                                         Margin="6,0,0,0" Click="SortCustomBtn_Click" Width="34" Padding="0"
@@ -683,6 +692,7 @@
                          (search + New note + sort) and the calculator in the row below are controls
                          on the window face, not a client area, and must stay the panel color. -->
                     <ListBox x:Name="NotesList" Background="{DynamicResource ListPaneBrush}" BorderThickness="0"
+                             AutomationProperties.Name="{DynamicResource Str_Sec_Notes}"
                              HorizontalContentAlignment="Stretch" SelectionMode="Extended"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                              VirtualizingPanel.ScrollUnit="Pixel"
@@ -694,6 +704,7 @@
                              DragLeave="NotesList_DragLeave">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
+                                <Setter Property="AutomationProperties.Name" Value="{Binding AutomationName}"/>
                                 <Setter Property="Padding" Value="8,6"/>
                                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                                 <Setter Property="Template">
@@ -1497,6 +1508,7 @@
                 <!-- Note title + faint rule dividing it from the content -->
                 <StackPanel x:Name="TitleArea" Grid.Row="0">
                 <TextBox x:Name="TitleBox" Margin="12,10,12,4"
+                         AutomationProperties.Name="{Binding Text, RelativeSource={RelativeSource Self}}"
                          Background="Transparent" BorderThickness="0"
                          Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
                          SelectionBrush="{DynamicResource TextSelectionBrush}" SelectionOpacity="{DynamicResource TextSelectionOpacity}"
@@ -1806,6 +1818,7 @@
                          each paragraph; GutterCol stays 0-wide until the gutter is toggled on. -->
                     <Canvas x:Name="LineGutter" Grid.Column="0" ClipToBounds="True" Margin="2,0,0,8"/>
                     <RichTextBox x:Name="Editor" Grid.Column="1" Padding="8,0,8,8"
+                                 AutomationProperties.Name="{DynamicResource Str_Sec_Notes}"
                                  FontFamily="{DynamicResource ContentFont}"
                                  Background="Transparent" BorderThickness="0"
                                  Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"

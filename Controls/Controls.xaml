@@ -951,6 +951,7 @@
     </Style>
 
     <Style x:Key="ThemeSwatch" TargetType="Button">
+        <Setter Property="AutomationProperties.Name" Value="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
         <Setter Property="Width" Value="15"/>
         <Setter Property="Height" Value="15"/>
         <Setter Property="Margin" Value="2,0"/>
@@ -979,6 +980,7 @@
     <SolidColorBrush x:Key="DangerRed" Color="#e04444"/>
 
     <Style x:Key="ChromeButton" TargetType="Button">
+        <Setter Property="AutomationProperties.Name" Value="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -1393,6 +1395,7 @@
          glyph turns the accent color on hover. Set Content to the glyph; override
          FontFamily/FontSize for text glyphs like the "?" help button. -->
     <Style x:Key="RailButton" TargetType="Button">
+        <Setter Property="AutomationProperties.Name" Value="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <!-- 20 logical hugs the 16px glyphs; the RailW=24 column (Sidebar.cs) leaves only

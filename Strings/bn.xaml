@@ -850,7 +850,7 @@
     <sys:String x:Key="Str_KS_Outline">শিরোনামের রূপরেখা দেখান বা লুকান</sys:String>
     <sys:String x:Key="Str_Kb_Outline">রূপরেখা</sys:String>
     <sys:String x:Key="Str_Outline_Title">রূপরেখা</sys:String>
-    <sys:String x:Key="Str_Outline_Empty">এখনও কোনো শিরোনাম নেই। Alt+1 বর্তমান লাইনটিকে শিরোনাম করে দেয়।</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">এই প্যানেল লুকাতে Alt+O চাপুন।</sys:String>
 
     <!-- Backups (1.3.1) -->
     <sys:String x:Key="Str_Bk_Title">ব্যাকআপ</sys:String>

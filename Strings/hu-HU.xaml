@@ -876,7 +876,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_KS_Outline">Címsorok vázlatának megjelenítése vagy elrejtése</sys:String>
     <sys:String x:Key="Str_Kb_Outline">Vázlat</sys:String>
     <sys:String x:Key="Str_Outline_Title">VÁZLAT</sys:String>
-    <sys:String x:Key="Str_Outline_Empty">Még nincs címsor. Az Alt+1 az aktuális sorból címsort csinál.</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Az Alt+O billentyűvel elrejtheti ezt a panelt.</sys:String>
 
     <!-- Backups (1.3.1) -->
     <sys:String x:Key="Str_Bk_Title">Biztonsági mentések</sys:String>

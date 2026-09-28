@@ -3,8 +3,8 @@
 </p>
 
 Notes that keep up. A searchable, organized replacement for the 80-tab Notepad workflow:
-rich notes with inline images and tables, instant full-text search, and optional
-password protection for the whole database.
+rich notes with inline images and tables, instant full-text search, scheduled backups
+with safe restore, and optional password protection for the whole database.
 
 Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 
@@ -22,6 +22,7 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 - Custom fonts for header, sidebar, and note text independently - any installed font, or drop a .ttf/.otf onto the card
 - Autosave on pause, note switch, and close; notes reopen at their saved cursor and scroll position. Split-pane preview for markdown and (sanitized) HTML notes
 - Storage: one SQLite database in a configurable location (portable next to the exe if you like), with create/rename/switch/relocate in the Manage databases dialog
+- Scheduled backups: choose a folder and interval, keep a set number of copies, take one immediately with Alt+B, and restore any backup as a new database without overwriting the original
 - Password protection: optional SQLCipher AES-256 encryption of the whole database, set, changed, or removed at any time - no recovery for a lost password
 - Sharing: export a note (.knote) or a whole database (.kndb), optionally password protected; both open with a double-click
 - Keyboard-first: every function has a shortcut, F1 opens the visual keyboard map, and the whole app scales for accessibility (Ctrl+Shift +/-)

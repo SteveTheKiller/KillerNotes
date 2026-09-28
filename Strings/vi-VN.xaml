@@ -903,7 +903,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_KS_Outline">Hiện hoặc ẩn dàn ý tiêu đề</sys:String>
     <sys:String x:Key="Str_Kb_Outline">Dàn ý</sys:String>
     <sys:String x:Key="Str_Outline_Title">DÀN Ý</sys:String>
-    <sys:String x:Key="Str_Outline_Empty">Chưa có tiêu đề. Alt+1 biến dòng hiện tại thành tiêu đề.</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Nhấn Alt+O để ẩn ngăn này.</sys:String>
 
     <!-- Backups (1.3.1) -->
     <sys:String x:Key="Str_Bk_Title">Bản sao lưu</sys:String>

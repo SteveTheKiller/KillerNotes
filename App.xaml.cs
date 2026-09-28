@@ -162,6 +162,7 @@ namespace KillerNotes
             ShutdownMode = ShutdownMode.OnLastWindowClose;
             MainWindow = new KillerNotes.Shell.MainWindow();
             MainWindow.Show();
+            StartMcpPipeServer();
         }
 
         // ============================================================

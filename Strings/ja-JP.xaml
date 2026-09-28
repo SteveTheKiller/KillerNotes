@@ -848,7 +848,7 @@
     <sys:String x:Key="Str_KS_Outline">見出しのアウトラインを表示または非表示</sys:String>
     <sys:String x:Key="Str_Kb_Outline">アウトライン</sys:String>
     <sys:String x:Key="Str_Outline_Title">アウトライン</sys:String>
-    <sys:String x:Key="Str_Outline_Empty">まだ見出しがありません。Alt+1 で現在の行を見出しにできます。</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Alt+O を押すと、このペインを非表示にできます。</sys:String>
 
     <!-- Backups (1.3.1) -->
     <sys:String x:Key="Str_Bk_Title">バックアップ</sys:String>

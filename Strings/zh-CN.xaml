@@ -848,7 +848,7 @@
     <sys:String x:Key="Str_KS_Outline">显示或隐藏标题大纲</sys:String>
     <sys:String x:Key="Str_Kb_Outline">大纲</sys:String>
     <sys:String x:Key="Str_Outline_Title">大纲</sys:String>
-    <sys:String x:Key="Str_Outline_Empty">还没有标题。Alt+1 可以把当前行变成标题。</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">按 Alt+O 隐藏此窗格。</sys:String>
 
     <!-- Backups (1.3.1) -->
     <sys:String x:Key="Str_Bk_Title">备份</sys:String>

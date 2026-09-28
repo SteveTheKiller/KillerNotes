@@ -77,6 +77,7 @@ namespace KillerNotes.Controls
                 // so name + meta stay readable. In the Light accents that fill and the
                 // accent/muted text are the same hue, so a selected row was unreadable.
                 var item = new ListBoxItem { Tag = name, Content = row };
+                System.Windows.Automation.AutomationProperties.SetName(item, name);
                 SetRowColors(nameText, meta, active, selected: false);
                 item.Selected   += (_, _) => SetRowColors(nameText, meta, active, selected: true);
                 item.Unselected += (_, _) => SetRowColors(nameText, meta, active, selected: false);

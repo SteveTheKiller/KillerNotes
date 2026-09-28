@@ -129,7 +129,7 @@ namespace KillerNotes.Shell
 
         // PNG re-encode like InsertImageAtCaret: a decoded, frozen BitmapImage is the
         // only shape the XamlPackage serializer reliably persists.
-        private static long ImportImage(string path)
+        internal static long ImportImage(string path)
         {
             var raw = new BitmapImage();
             raw.BeginInit();

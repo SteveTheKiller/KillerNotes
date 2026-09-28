@@ -6,34 +6,37 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.3.1] - Unreleased
 
+1.3.1 adds backups and recovery, version history, trash, reusable note workflows, and deep KillerMCP integration.
+
 ### Added
-- Read-only note search is available through the installed app's command-line interface.
 - Scheduled backups: Manage databases gains a Backups dialog to pick a folder, an interval and how many copies to keep. Copies are the database as it is, password and all, and one can be restored as a new database. Alt+B takes a copy right away.
-- Headings and an outline: Alt+1, 2 and 3 make a line a heading, Alt+0 puts it back, and the H button on the format bar steps through them. Alt+O opens an outline of the note's headings beside it; click one to jump there. Headings now export to markdown as headings.
 - Version history: earlier versions of a note are kept as you work, one per sitting plus one before any conversion or replace-all, up to 50. Alt+H or the right-click menu shows them with a preview and puts one back.
-- Notes can be pinned to the top of their group or of the loose notes, from the right-click menu or Alt+P.
+- Deleted notes now go to a Trash section at the bottom of the sidebar, where they open read-only and can be restored or deleted permanently. Anything left there for 30 days is purged. Alt+Delete opens the trash (#20).
 - Note templates: mark a group as the templates group from its right-click menu, and every note in it appears under "New note from template" and on Alt+T. {date}, {time}, {datetime} and {weekday} in a template are filled in on the way.
 - Daily notes: Alt+D opens the note titled with today's date, creating it in a daily notes group of your choosing and from a template named Daily when you have one.
+- Headings and an outline: Alt+1, 2 and 3 make a line a heading, Alt+0 puts it back, and the H button on the format bar steps through them. Alt+O opens an outline of the note's headings beside it; click one to jump there. Headings now export to markdown as headings.
+- KillerMCP can search, inspect, create, edit, organize, color, import, and export notes through the open app.
+- Italian, Russian, Kazakh, and Vietnamese localizations bring the complete app interface and killernotes.net to 16 languages.
 - Checkbox lines: Alt+C or the format bar puts a box at the start of the line, a click ticks it, and Enter carries on to the next one. They export as markdown task lists and import back.
-- Deleted notes now go to a Trash section at the bottom of the sidebar, where they open read-only and can be restored or deleted permanently. Anything left there for 30 days is purged. Alt+Delete opens the trash.
+- Notes can be pinned to the top of their group or of the loose notes, from the right-click menu or Alt+P.
 - F3 and Shift+F3 now continue through matching notes instead of wrapping inside one note (#18).
 - The title bar now shows which notes database is open.
-- Vietnamese localization for the complete app interface and killernotes.net.
-- Italian localization for the complete app interface and killernotes.net, the thirteenth language.
 
 ### Changed
+- Technical page diagrams now use portrait layouts so their labels stay readable in the two-column page.
 - On first launch, the interface follows the Windows display language when it is supported.
-- The shortcut list now focuses on app-specific commands instead of repeating standard Windows editing keys.
 - An open Markdown or HTML preview now refreshes as its source changes without losing its scroll position.
+- The shortcut list now focuses on app-specific commands instead of repeating standard Windows editing keys.
 - Standalone install and uninstall dialogs use Black/Purple; installer errors use themed dialogs. Installed Apps identifies the publisher as Steve the Killer.
 
 ### Fixed
-- Import, export, sharing and database export now use the family file picker, with complete filename tooltips.
-- On the Sepulchre and Mourning themes the theme picker's radio ring, dot and label no longer vanish into the row's hover highlight; they turn white while hovered.
-- Dropping a note directly onto a group now always moves it into that group (#17).
+- Screen readers now identify the note list, editor, title, window controls, icon buttons, sorting controls, and custom dialog controls instead of announcing unlabeled glyphs or model class names (#22).
+- Chocolatey package now installs the app instead of leaving the download in the Chocolatey tools folder.
 - Maximizing or restoring the window now keeps the same part of a long note in view (#21).
 - The font-size slider now stays responsive while formatting large selections (#19).
-- Chocolatey package now installs the app instead of leaving the download in the Chocolatey tools folder.
+- Dropping a note directly onto a group now always moves it into that group (#17).
+- Import, export, sharing and database export now use the family file picker, with complete filename tooltips.
+- On the Sepulchre and Mourning themes the theme picker's radio ring, dot and label no longer vanish into the row's hover highlight; they turn white while hovered.
 
 ## [1.3.0] - 2026-08-26
 

@@ -271,6 +271,7 @@ namespace KillerNotes.Controls
                 Cursor = Cursors.Hand,
                 ToolTip = tooltip,
             };
+            System.Windows.Automation.AutomationProperties.SetName(glyph, tooltip);
             if (Application.Current?.TryFindResource("OverlayCloseButton") is Style s) glyph.Style = s;
             glyph.SetResourceReference(ContentControl.ContentProperty, "AboutCloseGlyph");
             glyph.SetResourceReference(FrameworkElement.WidthProperty, "AboutCloseWidth");

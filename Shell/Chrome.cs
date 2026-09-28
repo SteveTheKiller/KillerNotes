@@ -184,6 +184,7 @@ namespace KillerNotes.Shell
             ApplyCornerState();
             // Maximize glyph (Segoe MDL2) toggles to a restore glyph when maximized.
             MaximizeBtn?.Content = WindowState == WindowState.Maximized ? "" : "";
+            MaximizeBtn?.ToolTip = FindResource(WindowState == WindowState.Maximized ? "Str_Sys_Restore" : "Str_Sys_Maximize");
         }
 
         // ---- Content fade-in on open (RootGrid starts at Opacity=0 in XAML) ----
