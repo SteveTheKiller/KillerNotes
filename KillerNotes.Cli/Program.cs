@@ -248,7 +248,7 @@ namespace KillerNotes.Cli
             {
                 Id = row.GetInt64(0), Title = row.GetString(1), Group = row.GetString(2), Tags = row.GetString(3),
                 Created = row.GetString(4), Modified = row.GetString(5), Format = FormatName(row.GetInt64(6)),
-                Pinned = row.GetInt64(7) != 0, Content = content.Length <= cap ? content : content.Remove(cap), Truncated = content.Length > cap,
+                Pinned = row.GetInt64(7) != 0, Content = content.Length <= cap ? content : content[..cap], Truncated = content.Length > cap,
             };
         }
 
