@@ -150,6 +150,14 @@ Step "Running Release tests"
 dotnet test (Join-Path $PSScriptRoot 'KillerNotes.Tests\KillerNotes.Tests.csproj') -c Release --nologo -v quiet
 if ($LASTEXITCODE -ne 0) { Fail 'Release tests failed - fix them before releasing' }
 
+# The CLI source is embedded into the single app exe, but its small console host is also a
+# separate project. Build and start that host so framework differences cannot hide a broken CLI.
+dotnet build (Join-Path $PSScriptRoot 'KillerNotes.Cli\KillerNotes.Cli.csproj') -c Release --no-restore --nologo -v quiet
+if ($LASTEXITCODE -ne 0) { Fail 'Release CLI build failed - fix it before releasing' }
+$cliExe = Join-Path $PSScriptRoot 'KillerNotes.Cli\bin\Release\net48\KillerNotes.Cli.exe'
+& $cliExe --help | Out-Null
+if ($LASTEXITCODE -ne 0) { Fail 'Release CLI smoke test failed - fix it before releasing' }
+
 # --- 3c. Translations ---
 # Every localization must carry the complete English key set. Placeholders have to match too:
 # a translation can load perfectly and still throw at runtime when string.Format is handed a
