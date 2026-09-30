@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 - Copied text now keeps its links, lists and emphasis when pasted into browsers, mail clients and Office.
+- Pasting web or chat text with links now keeps its paragraphs instead of joining them into one.
 
 ## [1.3.1] - 2026-09-27
 

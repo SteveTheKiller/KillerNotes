@@ -202,6 +202,12 @@ namespace KillerNotes.Shell
                     {
                         switch (inl)
                         {
+                            case ParagraphMark:
+                                // A block boundary in the source (p, div, li, heading) starts a
+                                // real paragraph, so pasted text keeps its paragraphs instead of
+                                // arriving as one paragraph held together by line breaks.
+                                at = at.InsertParagraphBreak();
+                                break;
                             case Hyperlink h:
                                 var linkRun = h.Inlines.FirstInline as Run;
                                 var nh = new Hyperlink(new Run(linkRun?.Text ?? ""), at) { NavigateUri = h.NavigateUri };
@@ -273,6 +279,14 @@ namespace KillerNotes.Shell
                 result.Add(new LineBreak());
                 lastWasBreak = true;
             }
+            void ParagraphBreak()
+            {
+                FlushText();
+                if (result.Count == 0 || result[^1] is ParagraphMark) return;
+                if (result[^1] is LineBreak) result[^1] = new ParagraphMark();
+                else result.Add(new ParagraphMark());
+                lastWasBreak = true;
+            }
             void Append(string raw)
             {
                 var t = Regex.Replace(System.Net.WebUtility.HtmlDecode(raw), @"\s+", " ");
@@ -334,13 +348,16 @@ namespace KillerNotes.Shell
                     case "u": under = closing ? Math.Max(0, under - 1) : under + 1; break;
                     case "br": Break(); break;
                     case "p" or "div" or "li" or "tr" or "h1" or "h2" or "h3" or "h4" or "h5" or "h6" or "table" or "ul" or "ol":
-                        Break();   // block boundary either way
+                        ParagraphBreak();   // block boundary either way
                         break;
                 }
             }
             FlushText();
-            while (result.Count > 0 && result[^1] is LineBreak) result.RemoveAt(result.Count - 1);
+            while (result.Count > 0 && result[^1] is LineBreak or ParagraphMark) result.RemoveAt(result.Count - 1);
             return result;
         }
+
+        /// <summary>Marks a paragraph boundary in the converted paste; never inserted itself.</summary>
+        private sealed class ParagraphMark : Run { }
     }
 }
