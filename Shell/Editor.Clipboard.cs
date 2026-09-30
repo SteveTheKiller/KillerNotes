@@ -98,6 +98,22 @@ namespace KillerNotes.Shell
             }
             catch { /* as above */ }
 
+            try
+            {
+                // HTML is what browsers, mail clients and Office prefer, and unlike WPF's RTF
+                // it keeps hyperlinks as real links instead of blue text. The selection is
+                // rebuilt as its own document so partial paragraphs render cleanly.
+                var doc = new FlowDocument();
+                using var copy = new MemoryStream();
+                range.Save(copy, DataFormats.XamlPackage);
+                copy.Position = 0;
+                new TextRange(doc.ContentStart, doc.ContentEnd).Load(copy, DataFormats.XamlPackage);
+                string fragment = KillerNotes.Services.HtmlExport.FragmentFromDocument(doc);
+                if (fragment.Length > 0)
+                    data.SetData(DataFormats.Html, KillerNotes.Services.HtmlExport.ClipboardEnvelope(fragment));
+            }
+            catch { /* as above */ }
+
             // copy:true so the content survives the app closing, same as the native copy.
             // Six tries over ~180ms; clipboard listeners hold the lock for single-digit
             // milliseconds, so one retry usually wins.

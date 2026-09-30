@@ -4,6 +4,11 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2] - Unreleased
+
+### Fixed
+- Copied text now keeps its links, lists and emphasis when pasted into browsers, mail clients and Office.
+
 ## [1.3.1] - 2026-09-27
 
 1.3.1 adds backups and recovery, version history, trash, reusable note workflows, and deep KillerMCP integration.
