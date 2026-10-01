@@ -20,7 +20,9 @@ namespace KillerNotes.Shell
             {
                 var overlay = KeyboardOverlay;
                 if (overlay == null) return;
-                if (e.NewFocus is UIElement element && overlay.IsAncestorOf(element)) return;
+                DependencyObject? target = e.NewFocus as DependencyObject;
+                while (target is FrameworkContentElement content) target = content.Parent;
+                if (target is UIElement element && (element == overlay || overlay.IsAncestorOf(element))) return;
                 e.Handled = true;
             };
             PreviewTextInput += (_, e) =>
