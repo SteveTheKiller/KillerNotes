@@ -91,6 +91,7 @@ namespace KillerNotes.Tests
         {
             Assert.Equal("Az", BodyTags.CompletionQuery("[#Az]", 4));
             Assert.Null(BodyTags.CompletionQuery("`[#Az]`", 5));
+            Assert.Null(BodyTags.CompletionQuery("[#Az](https://example.org)", 4));
             Assert.Null(BodyTags.CompletionQuery("[#Azure]", 4));
         }
 

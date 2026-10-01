@@ -55,6 +55,8 @@ namespace KillerNotes.Services
             if (offset < text.Length && Regex.IsMatch(text[offset].ToString(), @"[\p{L}\p{N}_.-]")) return null;
             int open = offset == 0 ? -1 : text.LastIndexOf('[', offset - 1);
             if (open < 0 || (open > 0 && text[open - 1] == '[')) return null;
+            int close = text.IndexOf(']', offset);
+            if (close >= 0 && close + 1 < text.Length && text[close + 1] == '(') return null;
             int escapes = 0;
             for (int i = open - 1; i >= 0 && text[i] == '\\'; i--) escapes++;
             if (escapes % 2 != 0) return null;
