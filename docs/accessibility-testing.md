@@ -27,7 +27,7 @@ separate Windows test account if you need to isolate your existing settings.
 | With F1 open, type text and try Ctrl+N, Delete and formatting shortcuts | The note and notebook remain unchanged. |
 | In F1, use arrows and Tab/Shift+Tab | Arrows navigate each column; Tab moves between columns and help controls. Background controls cannot receive focus. All rows can be brought into view. |
 | Close F1 with Escape, F1, the close button or a backdrop click | Focus returns to the previous control; the note caret and selection are preserved. |
-| Open and close F1 repeatedly | No stale disabled controls or delayed close animation interferes with the next opening. |
+| Open and close F1 repeatedly | No stale blocked controls or delayed close animation interferes with the next opening. |
 | Open F1 from the note list or title field | Closing returns focus to that same control. |
 | Switch F1 to Keyboard view, close and reopen | Keyboard view remains selected. Focus stays inside help. The List button provides access to the readable shortcut list. |
 | Press Alt+O in a note containing headings | Focus moves to the first outline entry and its heading text is announced. |
@@ -103,7 +103,10 @@ NVDA; automation tests cannot establish screen-reader behaviour.
 Compare the build with 1.3.2 in Light, Dark and 98SE themes, plus the user's normal
 theme. Check normal and increased app scaling. The existing two-column shortcuts
 layout, outline text, menu row layout, colours and fonts should remain intact.
-Only focused navigation rows gain a theme-coloured outline. Verify scrolling,
+Opening F1 must not give the notes list a gray disabled background or change its
+theme colours; only the existing overlay dimming should apply. Background mouse
+clicks and attempts to focus the editor through the screen reader must not escape
+help. Only focused navigation rows gain a theme-coloured outline. Verify scrolling,
 mouse hover and backdrop dismissal, including when the preview is visible.
 
 ## Validation status
