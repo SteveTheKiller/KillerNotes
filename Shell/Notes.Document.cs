@@ -226,6 +226,15 @@ namespace KillerNotes.Shell
             // this note, and WikiRename.cs offers to rewrite them once the box is done with.
             string titleWas = _notes.FirstOrDefault(n => n.Id == _currentId)?.Title ?? "";
             NoteStore.Save(_currentId, TitleBox.Text, blob, storedPlain);
+            var bodyTags = BodyTags.Parse(bodyText);
+            bool addedTag = false;
+            foreach (string tag in bodyTags)
+                if (!TagManager.Order.Any(t => string.Equals(t.Name, tag, StringComparison.OrdinalIgnoreCase)))
+                {
+                    NoteStore.AddTag(tag, "#9A9A9A");
+                    addedTag = true;
+                }
+            if (addedTag) TagManager.Refresh();
             RecordRename(_currentId, titleWas, TitleBox.Text);   // WikiRename.cs
             // Wikilinks are re-derived from the text every save, so an edge appears the moment a
             // link is typed and disappears the moment it is deleted. Parsed from bodyText, NOT
@@ -248,6 +257,7 @@ namespace KillerNotes.Shell
             // updating only the _notes instance redrew the stale displayed row, and since
             // that save cleared _dirty, the 2s timer's full refresh never ran either, so
             // a new title/snippet never appeared in the sidebar.
+            string manualTags = NoteStore.GetNoteTags(_currentId);
             string plain = storedPlain.TrimStart();   // matches the DB's substr snippet, labels included
             int nl = plain.IndexOfAny(['\r', '\n']);
             if (nl >= 0) plain = plain[..nl];
@@ -259,6 +269,10 @@ namespace KillerNotes.Shell
                     meta.Title = TitleBox.Text;
                     meta.Modified = DateTime.Now;
                     meta.Snippet = snippet;
+                    meta.ManualTags = manualTags;
+                    meta.BodyTags = string.Join(", ", bodyTags);
+                    meta.Tags = BodyTags.Merge(meta.ManualTags, meta.BodyTags);
+                    TagManager.BuildChips(meta);
                 }
 
             if (refreshList)

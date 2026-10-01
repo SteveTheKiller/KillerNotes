@@ -102,6 +102,7 @@ namespace KillerNotes.Shell
             new("Ctrl+Shift+A", "Str_KS_Theme", "View", [(KbLayer.CtrlShift, "A", "Str_KS_Theme")]),
             new("Ctrl+D", "Str_KS_Density", "View", [(KbLayer.Ctrl, "D", "Str_KS_Density")]),
             new("Ctrl+Enter", "Str_KS_CalcPrint", "Note", [(KbLayer.Ctrl, "Enter", "Str_KS_CalcPrint")]),
+            new("Ctrl+Enter (inside a tag)", "Str_KS_BodyTag", "Note", []),
             new("Ctrl+Shift+Enter", "Str_KS_CalcPrintEq", "Note", [(KbLayer.CtrlShift, "Enter", "Str_KS_CalcPrintEq")]),
             new("Ctrl+1 - 9", "Str_KS_Tags", "Note",
                 [

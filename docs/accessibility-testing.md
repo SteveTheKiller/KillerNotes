@@ -55,6 +55,28 @@ and return focus to the table button. Check invalid dimensions, and confirm the
 existing mouse hover/click and press-drag-release gestures still work.
 Ctrl+Shift+T should continue to insert a 3 x 3 table.
 
+## Body tags
+
+Use `[#Azure,#EntraId,#PIM]` in rich-text or Markdown notes. Spaces after commas
+are allowed; names can contain letters, numbers, underscores, dots and hyphens.
+The tags become available after autosave. Manual tag assignments stay separate:
+removing a bracketed tag leaves a matching manual assignment intact. Body tags
+must be removed by editing the body, rather than toggling them in the Tags menu.
+Fenced/indented code, inline code, escaped groups and Markdown links are ignored.
+
+Place the caret on each individual tag and press Ctrl+Enter. The menu should
+focus its first item and list at most five other matching notes, most recently
+modified first. Match whole tag names without regard to case; exclude trashed
+notes and the current note. Enter opens the chosen note and focuses its body.
+Escape restores the original caret. With no matches, the focused menu item
+announces that there are no other notes with that tag. Outside tags, existing
+Ctrl+Enter behaviour is unchanged, including the calculator command.
+
+Check tags beyond the first 120 characters, duplicates, removal, search/filter,
+manual assignment/undo, restart, and conversion between rich text and Markdown.
+Tag definitions can be renamed/deleted in Manage tags, but occurrences in the
+body remain authoritative and must be edited there too.
+
 ## Visual and mouse checks
 
 Compare the build with 1.3.2 in Light, Dark and 98SE themes, plus the user's normal

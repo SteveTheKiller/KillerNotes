@@ -481,7 +481,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 "custom"       => "sort_order ASC, id ASC",
                 _              => "created ASC, id ASC",
             };
-            const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax, pinned, deleted";
+            const string cols = "id, title, notebook, tags, created, modified, plain, title_color, spellcheck, sort_order, format, syntax, pinned, deleted";
 
             using var cmd = _db.CreateCommand();
             if (!string.IsNullOrWhiteSpace(search))
@@ -515,23 +515,31 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             return results;
         }
 
-        private static Note ReadListRow(SqliteDataReader r) => new()
+        private static Note ReadListRow(SqliteDataReader r)
         {
-            Id       = r.GetInt64(0),
-            Title    = r.GetString(1),
-            Notebook = r.GetString(2),
-            Tags     = r.GetString(3),
-            Created  = ParseTs(r.GetString(4)),
-            Modified = ParseTs(r.GetString(5)),
-            Snippet  = FirstLine(r.IsDBNull(6) ? "" : r.GetString(6)),
-            TitleColor = r.IsDBNull(7) ? "" : r.GetString(7),
-            SpellCheck = !r.IsDBNull(8) && r.GetInt64(8) != 0,
-            SortOrder  = r.IsDBNull(9) ? 0 : (int)r.GetInt64(9),
-            Format     = r.IsDBNull(10) ? 0 : (int)r.GetInt64(10),
-            SyntaxHighlight = !r.IsDBNull(11) && r.GetInt64(11) != 0,
-            Pinned     = !r.IsDBNull(12) && r.GetInt64(12) != 0,
-            Deleted    = r.IsDBNull(13) || r.GetString(13).Length == 0 ? null : ParseTs(r.GetString(13)),
-        };
+            string plain = r.IsDBNull(6) ? "" : r.GetString(6);
+            string bodyTags = string.Join(", ", BodyTags.Parse(plain));
+            string snippet = FirstLine(plain.Length > 120 ? plain.Substring(0, 120) : plain);
+            return new Note
+            {
+                Id       = r.GetInt64(0),
+                Title    = r.GetString(1),
+                Notebook = r.GetString(2),
+                ManualTags = r.GetString(3),
+                BodyTags = bodyTags,
+                Tags     = BodyTags.Merge(r.GetString(3), bodyTags),
+                Created  = ParseTs(r.GetString(4)),
+                Modified = ParseTs(r.GetString(5)),
+                Snippet  = snippet,
+                TitleColor = r.IsDBNull(7) ? "" : r.GetString(7),
+                SpellCheck = !r.IsDBNull(8) && r.GetInt64(8) != 0,
+                SortOrder  = r.IsDBNull(9) ? 0 : (int)r.GetInt64(9),
+                Format     = r.IsDBNull(10) ? 0 : (int)r.GetInt64(10),
+                SyntaxHighlight = !r.IsDBNull(11) && r.GetInt64(11) != 0,
+                Pinned     = !r.IsDBNull(12) && r.GetInt64(12) != 0,
+                Deleted    = r.IsDBNull(13) || r.GetString(13).Length == 0 ? null : ParseTs(r.GetString(13)),
+            };
+        }
 
         // ---- Trash (1.3.1) ----
         // Delete moves a note to the trash rather than dropping the row; the row keeps its id,
@@ -547,7 +555,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             var results = new List<Note>();
             if (_db == null) return results;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax, pinned, deleted " +
+            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, title_color, spellcheck, sort_order, format, syntax, pinned, deleted " +
                               "FROM notes WHERE deleted <> '' ORDER BY deleted DESC, id DESC";
             using var r = cmd.ExecuteReader();
             while (r.Read()) results.Add(ReadListRow(r));
@@ -1822,6 +1830,15 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             Walk("");
             SetGroupOrders(order);
             return true;
+        }
+
+        public static string GetNoteTags(long id)
+        {
+            if (_db == null) return "";
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT tags FROM notes WHERE id = $id";
+            cmd.Parameters.AddWithValue("$id", id);
+            return cmd.ExecuteScalar() as string ?? "";
         }
 
         public static void SetNoteTags(long id, string tags)

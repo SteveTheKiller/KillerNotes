@@ -180,6 +180,13 @@ namespace KillerNotes.Shell
                 return;
             }
 
+            if (ctrl && !shift && !Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)
+                && e.Key == Key.Return && Editor.IsKeyboardFocusWithin && OpenBodyTagMenu())
+            {
+                e.Handled = true;
+                return;
+            }
+
             // Ctrl+Enter prints the Killculator readout into the note; Ctrl+Shift+Enter prints the
             // whole running equation (Killculator.cs).
             if (_kalcOpen && ctrl && e.Key == Key.Return)
