@@ -3,8 +3,10 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace KillerNotes.Shell
 {
@@ -28,7 +30,7 @@ namespace KillerNotes.Shell
         private void InitEditorClipboard()
         {
             // Instance bindings win over the RichTextBox's class-level editing commands,
-            // so both Ctrl+X/Ctrl+C and the context menu route here.
+            // so Ctrl+X/Ctrl+C route here. The context menu also handles image copies.
             Editor.CommandBindings.Add(new CommandBinding(
                 ApplicationCommands.Cut, EditorCut_Executed, EditorCut_CanExecute));
             Editor.CommandBindings.Add(new CommandBinding(
@@ -64,6 +66,24 @@ namespace KillerNotes.Shell
             if (!TrySetClipboardFromSelection()) FlashStatus(Loc("Str_St_ClipBusy"));
         }
 
+        private void EditorCopyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (_ctxObject is Image { Source: BitmapSource bitmap })
+            {
+                var data = new DataObject();
+                data.SetImage(bitmap);
+                for (int i = 0; i < 6; i++)
+                {
+                    try { Clipboard.SetDataObject(data, true); return; }
+                    catch (ExternalException) { System.Threading.Thread.Sleep(30); }
+                }
+                FlashStatus(Loc("Str_St_ClipBusy"));
+                return;
+            }
+            if (!Editor.Selection.IsEmpty && !TrySetClipboardFromSelection())
+                FlashStatus(Loc("Str_St_ClipBusy"));
+        }
+
         /// <summary>Serializes the selection to the formats WPF's native copy produces and
         /// pushes them to the clipboard, retrying while another process holds it. Returns
         /// false only if the clipboard stayed locked through every attempt.</summary>
@@ -97,7 +117,6 @@ namespace KillerNotes.Shell
                 data.SetData(DataFormats.XamlPackage, pkg);
             }
             catch { /* as above */ }
-
             try
             {
                 // HTML is what browsers, mail clients and Office prefer, and unlike WPF's RTF

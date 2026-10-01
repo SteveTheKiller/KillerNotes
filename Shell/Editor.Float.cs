@@ -395,6 +395,7 @@ namespace KillerNotes.Shell
         private void Editor_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             bool onObject = _ctxObject != null;
+            EditorCopyMenuItem.IsEnabled = _ctxObject is Image { Source: System.Windows.Media.Imaging.BitmapSource } || !Editor.Selection.IsEmpty;
             // Whitespace does not count: "convert to list" on a selected space is a no-op that looks
             // like a broken command.
             bool hasText = !Editor.Selection.IsEmpty && !string.IsNullOrWhiteSpace(Editor.Selection.Text);

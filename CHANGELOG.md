@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.3.2] - Unreleased
 
 ### Fixed
+- Copy on a note image now places the image on the clipboard.
 - Copied text now keeps its links, lists and emphasis when pasted into browsers, mail clients and Office.
 - Pasting web or chat text with links now keeps its paragraphs instead of joining them into one.
 

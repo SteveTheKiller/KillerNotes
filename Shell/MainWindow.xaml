@@ -1866,7 +1866,7 @@
                                     </Style>
                                 </ContextMenu.Resources>
                                 <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
+                                <MenuItem x:Name="EditorCopyMenuItem" Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;" Click="EditorCopyMenuItem_Click" InputGestureText="Ctrl+C"/>
                                 <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
                                 <MenuItem x:Name="ConvertListMenuItem"
                                           Header="{DynamicResource Str_Ctx_ConvertList}" Icon="&#xE8FD;" Click="ConvertToList_Click"
