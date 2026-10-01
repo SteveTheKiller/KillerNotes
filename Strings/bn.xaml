@@ -644,6 +644,8 @@
     <sys:String x:Key="Str_St_NavNoForward">এগিয়ে যাওয়ার মতো কিছু নেই</sys:String>
     <sys:String x:Key="Str_Ctx_HideMentions">এই স্ট্রিপটি লুকান</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">লিঙ্ক-উৎস স্ট্রিপটি লুকায়। Alt+M আবার ফিরিয়ে আনে।</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">লিঙ্ক-উৎস স্ট্রিপটি কোণে গুটিয়ে রাখে</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">লিঙ্ক-উৎস স্ট্রিপটি দেখায়</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">লিঙ্ক-উৎস স্ট্রিপ দেখান বা লুকান</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">উল্লেখ</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">লিঙ্ক-উৎস স্ট্রিপ লুকানো হয়েছে - Alt+M আবার দেখায়</sys:String>

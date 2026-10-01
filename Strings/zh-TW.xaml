@@ -644,6 +644,8 @@
     <sys:String x:Key="Str_St_NavNoForward">沒有可前進的筆記</sys:String>
     <sys:String x:Key="Str_Ctx_HideMentions">隱藏這個條帶</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">隱藏連結來源條帶。Alt+M 可以讓它回來。</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">將連結來源條帶收合到角落</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">顯示連結來源條帶</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">顯示或隱藏連結來源條帶</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">提及</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">連結來源條帶已隱藏 - Alt+M 可再次顯示</sys:String>

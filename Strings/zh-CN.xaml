@@ -642,6 +642,8 @@
     <sys:String x:Key="Str_St_NavNoForward">没有可前进的笔记</sys:String>
     <sys:String x:Key="Str_Ctx_HideMentions">隐藏这个条带</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">隐藏链接来源条带。Alt+M 可以让它回来。</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">将链接来源条带收起到角落</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">显示链接来源条带</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">显示或隐藏链接来源条带</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">提及</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">链接来源条带已隐藏 - Alt+M 再次显示</sys:String>

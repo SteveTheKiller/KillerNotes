@@ -641,6 +641,8 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_NavNoForward">Není kam jít vpřed</sys:String>
     <sys:String x:Key="Str_Ctx_HideMentions">Skrýt tento pruh</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">Skryje pruh příchozích odkazů. Alt+M jej vrátí.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Sbalí pruh příchozích odkazů do rohu</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Zobrazí pruh příchozích odkazů</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">Zobrazit nebo skrýt pruh příchozích odkazů</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">Zmínky</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Pruh příchozích odkazů skryt - Alt+M jej zase zobrazí</sys:String>

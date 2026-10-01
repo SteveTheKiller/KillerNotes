@@ -67,6 +67,8 @@
     <!-- The linked-from / mentions strip -->
     <sys:String x:Key="Str_Ctx_HideMentions">Осы жолақты жасыру</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">Сілтеме жасаған жазбалар жолағын жасыру. Alt+M оны қайтарады.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Сілтеме жасаған жазбалар жолағын бұрышқа жинау</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Сілтеме жасаған жазбалар жолағын көрсету</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">Сілтеме жасаған жазбалар жолағын көрсету немесе жасыру</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">Аталымдар</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Сілтеме жолағы жасырылды - Alt+M оны қайта көрсетеді</sys:String>

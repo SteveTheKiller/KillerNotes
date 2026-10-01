@@ -642,6 +642,8 @@
     <sys:String x:Key="Str_St_NavNoForward">進む先がありません</sys:String>
     <sys:String x:Key="Str_Ctx_HideMentions">この帯を隠す</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">リンク元の帯を隠します。Alt+M で戻ります。</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">リンク元の帯を隅にたたみます</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">リンク元の帯を表示します</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">リンク元の帯の表示を切り替え</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">言及</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">リンク元の帯を隠しました - Alt+M で再表示</sys:String>

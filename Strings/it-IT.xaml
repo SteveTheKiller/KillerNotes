@@ -67,6 +67,8 @@
     <!-- The linked-from / mentions strip -->
     <sys:String x:Key="Str_Ctx_HideMentions">Nascondi questa striscia</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">Nasconde la striscia dei collegamenti in entrata. Alt+M la fa ricomparire.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Comprime la striscia dei collegamenti in entrata nell'angolo</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Mostra la striscia dei collegamenti in entrata</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">Mostra o nascondi la striscia dei collegamenti in entrata</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">Menzioni</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Striscia dei collegamenti nascosta - Alt+M la mostra di nuovo</sys:String>

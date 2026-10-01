@@ -23,6 +23,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using KillerNotes.Services;
 
@@ -34,7 +35,53 @@ namespace KillerNotes.Shell
         /// who does not want the strip does not want to dismiss it once per launch.</summary>
         private bool _backlinkBarHidden;
 
-        private void InitBacklinkBar() => _backlinkBarHidden = App.GetSetting("HideBacklinkBar") == "1";
+        private void InitBacklinkBar()
+        {
+            _backlinkBarHidden = App.GetSetting("HideBacklinkBar") == "1";
+            _backlinkCollapsed = App.GetSetting("CollapseBacklinkBar") == "1";
+            BacklinkRowClip.Width = _backlinkCollapsed ? 0 : double.NaN;
+            BacklinkRow.Opacity = _backlinkCollapsed ? 0 : 1;
+        }
+
+        /// <summary>Folded down to its chevron and count, from the chevron at the strip's left
+        /// end. Unlike Alt+M this leaves something on screen to bring it back with, so it is the
+        /// everyday way to get the strip out of the note's corner. Remembered across restarts.
+        /// </summary>
+        private bool _backlinkCollapsed;
+
+        private void BacklinkCollapse_Click(object sender, RoutedEventArgs e)
+        {
+            _backlinkCollapsed = !_backlinkCollapsed;
+            App.SetSetting("CollapseBacklinkBar", _backlinkCollapsed ? "1" : "0");
+            UpdateBacklinkCollapseChrome();
+
+            // Slide the names in or out of the corner. The base value is set FIRST and the
+            // animation runs over it with FillBehavior.Stop, so when it ends the row is left on
+            // its real state: 0 when folded, Auto (NaN) when open so later re-layouts still size
+            // it to its chips.
+            BacklinkRow.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            double full = BacklinkRow.DesiredSize.Width;
+            double from = BacklinkRowClip.ActualWidth;
+            double to = _backlinkCollapsed ? 0 : full;
+            BacklinkRowClip.Width = _backlinkCollapsed ? 0 : double.NaN;
+            BacklinkRow.Opacity = _backlinkCollapsed ? 0 : 1;
+            var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
+            var dur = TimeSpan.FromMilliseconds(200);
+            BacklinkRowClip.BeginAnimation(WidthProperty,
+                new DoubleAnimation(from, to, dur) { EasingFunction = ease, FillBehavior = FillBehavior.Stop });
+            BacklinkRow.BeginAnimation(OpacityProperty,
+                new DoubleAnimation(_backlinkCollapsed ? 1 : 0, _backlinkCollapsed ? 0 : 1, dur)
+                { EasingFunction = ease, FillBehavior = FillBehavior.Stop });
+        }
+
+        /// <summary>The chevron's direction and tooltip, and the count shown while folded.</summary>
+        private void UpdateBacklinkCollapseChrome()
+        {
+            BacklinkCollapseBtn.Content = _backlinkCollapsed ? "\uE76B" : "\uE76C";
+            BacklinkCollapseBtn.ToolTip = Loc(_backlinkCollapsed ? "Str_TT_ExpandMentions" : "Str_TT_CollapseMentions");
+            BacklinkCount.Text = _strip.Count.ToString();
+            BacklinkCount.Visibility = _backlinkCollapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
 
         private void HideBacklinkBar_Click(object sender, RoutedEventArgs e) => ToggleBacklinkBar();
 
@@ -88,7 +135,7 @@ namespace KillerNotes.Shell
         private double StripBudget()
         {
             double host = BacklinkHost?.ActualWidth ?? 0;
-            return host <= 0 ? 0 : host * 0.6 - 24;
+            return host <= 0 ? 0 : host * 0.6 - 50;   // 16 padding plus the 26px chevron
         }
 
         /// <summary>Re-lays the row out when the pane resizes, so widening the window promotes
@@ -110,6 +157,7 @@ namespace KillerNotes.Shell
                 return;
             }
             BacklinkBar.Visibility = Visibility.Visible;
+            UpdateBacklinkCollapseChrome();
 
             double budget = StripBudget();
             if (budget <= 0)

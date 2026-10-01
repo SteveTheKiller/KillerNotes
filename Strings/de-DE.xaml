@@ -644,6 +644,8 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_St_NavNoForward">Nichts zum Vorwärtsgehen</sys:String>
     <sys:String x:Key="Str_Ctx_HideMentions">Diese Leiste ausblenden</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">Blendet die Leiste der eingehenden Links aus. Alt+M holt sie zurück.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Klappt die Leiste der eingehenden Links in die Ecke ein</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Zeigt die Leiste der eingehenden Links</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">Leiste der eingehenden Links ein- oder ausblenden</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">Erwähnt</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Leiste der eingehenden Links ausgeblendet - Alt+M zeigt sie wieder</sys:String>

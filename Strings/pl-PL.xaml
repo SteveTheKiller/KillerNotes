@@ -599,6 +599,8 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_NavNoForward">Nie ma dokąd przejść dalej</sys:String>
     <sys:String x:Key="Str_Ctx_HideMentions">Ukryj ten pasek</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">Ukrywa pasek łączy przychodzących. Alt+M go przywraca.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Zwija pasek łączy przychodzących do rogu</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Pokazuje pasek łączy przychodzących</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">Pokaż lub ukryj pasek łączy przychodzących</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">Wzmianki</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Pasek łączy przychodzących ukryty - Alt+M pokazuje go ponownie</sys:String>

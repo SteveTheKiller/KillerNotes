@@ -2116,7 +2116,21 @@
                              of this panel, because overflow has to be decided chip by chip - with
                              the two lists as nested StackPanels the row could only ever drop a
                              whole group at a time. -->
-                        <StackPanel x:Name="BacklinkRow" Orientation="Horizontal" Margin="10,5"/>
+                        <!-- The chevron folds the names away into the corner and back (Backlinks.cs
+                             ToggleBacklinkCollapse, animated). Folded, only the chevron and the count
+                             stay, so the strip is still there to reopen. Alt+M still hides it whole. -->
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="BacklinkCollapseBtn" Style="{StaticResource FmtButton}"
+                                    Width="22" MinWidth="0" Height="22" Margin="4,0,0,0" Padding="0"
+                                    VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" FontSize="9"
+                                    Content="&#xE76C;" Click="BacklinkCollapse_Click"/>
+                            <TextBlock x:Name="BacklinkCount" Visibility="Collapsed" FontSize="11"
+                                       Margin="2,0,10,0" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource DimTextBrush}"/>
+                            <Border x:Name="BacklinkRowClip" ClipToBounds="True">
+                                <StackPanel x:Name="BacklinkRow" Orientation="Horizontal" Margin="6,5,10,5"/>
+                            </Border>
+                        </StackPanel>
                         <!-- Grain LAST and hit-test invisible, so it covers the buttons rather
                              than sitting under them - the family rule that a pane's texture goes
                              over its contents. Without it this was the one flat surface in the

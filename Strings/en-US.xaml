@@ -76,6 +76,8 @@
     <!-- The linked-from / mentions strip (Backlinks.cs) -->
     <sys:String x:Key="Str_Ctx_HideMentions">Hide this strip</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">Hide the linked-from strip. Alt+M brings it back.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Fold the linked-from strip into the corner</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Show the linked-from strip</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">Show or hide the linked-from strip</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">Mentions</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Linked-from strip hidden - Alt+M shows it again</sys:String>

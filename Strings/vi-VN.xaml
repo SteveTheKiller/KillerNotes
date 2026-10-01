@@ -76,6 +76,8 @@
     <!-- The linked-from / mentions strip (Backlinks.cs) -->
     <sys:String x:Key="Str_Ctx_HideMentions">Ẩn dải này</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">Ẩn dải liên kết đến. Alt+M sẽ hiện lại.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Thu gọn dải liên kết đến vào góc</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Hiện dải liên kết đến</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">Hiện hoặc ẩn dải liên kết đến</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">Đề cập</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Đã ẩn dải liên kết đến - Alt+M để hiện lại</sys:String>

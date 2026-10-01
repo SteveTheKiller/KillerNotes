@@ -11,6 +11,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Added
 - A mode button on the format bar shows whether the preview is in Source, Rendered or Split view, and cycles it like F4.
 - The divider between the note and the preview in Split view can be dragged to change their widths.
+- A chevron on the linked-from strip folds it into the corner of the note with a short slide, leaving its count to reopen it.
 - Home, End, Page Up, Page Down and the arrow keys scroll the rendered preview. Ctrl+Home / End now appears in the F1 shortcut list.
 
 ### Fixed

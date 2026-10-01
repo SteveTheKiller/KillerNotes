@@ -67,6 +67,8 @@
     <!-- The linked-from / mentions strip -->
     <sys:String x:Key="Str_Ctx_HideMentions">Скрыть эту полосу</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">Скрыть полосу входящих ссылок. Alt+M возвращает её.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Свернуть полосу входящих ссылок в угол</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Показать полосу входящих ссылок</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">Показать или скрыть полосу входящих ссылок</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">Упоминания</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Полоса входящих ссылок скрыта - Alt+M показывает её снова</sys:String>

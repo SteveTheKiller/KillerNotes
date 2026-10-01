@@ -643,6 +643,8 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_NavNoForward">İleri gidilecek bir şey yok</sys:String>
     <sys:String x:Key="Str_Ctx_HideMentions">Bu şeridi gizle</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">Bağlantı şeridini gizler. Alt+M geri getirir.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Bağlantı şeridini köşeye katlar</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Bağlantı şeridini gösterir</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">Bağlantı şeridini göster veya gizle</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">Anmalar</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Bağlantı şeridi gizlendi - Alt+M yeniden gösterir</sys:String>

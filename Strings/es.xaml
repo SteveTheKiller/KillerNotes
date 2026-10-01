@@ -645,6 +645,8 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_NavNoForward">No hay nada adelante</sys:String>
     <sys:String x:Key="Str_Ctx_HideMentions">Ocultar esta barra</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">Oculta la barra de enlaces entrantes. Alt+M la vuelve a mostrar.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Pliega la barra de enlaces entrantes en la esquina</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Muestra la barra de enlaces entrantes</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">Mostrar u ocultar la barra de enlaces entrantes</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">Menciones</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Barra de enlaces entrantes oculta - Alt+M la muestra de nuevo</sys:String>

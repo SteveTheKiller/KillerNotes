@@ -644,6 +644,8 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_St_NavNoForward">Rien en avant</sys:String>
     <sys:String x:Key="Str_Ctx_HideMentions">Masquer ce bandeau</sys:String>
     <sys:String x:Key="Str_TT_HideMentions">Masque le bandeau des liens entrants. Alt+M le ramène.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Replie le bandeau des liens entrants dans le coin</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Affiche le bandeau des liens entrants</sys:String>
     <sys:String x:Key="Str_KS_HideMentions">Afficher ou masquer le bandeau des liens entrants</sys:String>
     <sys:String x:Key="Str_Kb_HideMentions">Mentions</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Bandeau des liens entrants masqué - Alt+M le réaffiche</sys:String>
