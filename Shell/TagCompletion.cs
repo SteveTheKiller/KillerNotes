@@ -120,6 +120,7 @@ namespace KillerNotes.Shell
                     _tagList.UpdateLayout();
                     if (_tagList.ItemContainerGenerator.ContainerFromIndex(0) is ListBoxItem item) item.Focus();
                     break;
+                case Key.Enter when _tagList.IsKeyboardFocusWithin:
                 case Key.Tab:
                     AcceptTagCompletion();
                     break;
