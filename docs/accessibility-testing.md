@@ -131,3 +131,9 @@ mouse hover and backdrop dismissal, including when the preview is visible.
 Local source checks: changed XAML parses, string references resolve, and
 `git diff --check` passes. Windows compilation, the existing test suite, visual
 comparison, and JAWS/NVDA tests are pending.
+
+### Notes list Tab order
+
+- Press Alt+N and use Up/Down to select a note. Tab should reach its first tag button directly, without silent stops on the group-line or tag-list containers.
+- Repeat with a note that has no tags. Tab should leave the note row without stopping on empty containers.
+- Shift+Tab should traverse the tag buttons in reverse and return to the note row.

@@ -755,7 +755,7 @@
                                                          parent's line runs down the left of its child subgroups (containment).
                                                          Zero width for top-level rows, so top level looks exactly as before. -->
                                                     <ItemsControl Grid.Column="0" ItemsSource="{Binding Rails}"
-                                                                  IsHitTestVisible="False" VerticalAlignment="Stretch">
+                                                                  IsHitTestVisible="False" Focusable="False" IsTabStop="False" VerticalAlignment="Stretch">
                                                         <!-- Horizontal stack of 14px level slots; a horizontal StackPanel
                                                              stretches its children to full row height, so the lines are
                                                              continuous (not choppy) down abutting rows. -->
@@ -1155,7 +1155,8 @@
                                     </TextBlock>
                                     <!-- Tag pills (Services/TagManager.BuildChips); click filters by tag.
                                          Empty chip list renders zero height. -->
-                                    <ItemsControl ItemsSource="{Binding Chips}" Visibility="{Binding ChipsVisibility}">
+                                    <ItemsControl ItemsSource="{Binding Chips}" Visibility="{Binding ChipsVisibility}"
+                                                  Focusable="False" IsTabStop="False">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
