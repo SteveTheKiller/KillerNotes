@@ -24,6 +24,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Markdown notes always offer the preview and F4, even when their text has no headings, links or bold.
 - The database name in the title bar is white in the 98SE theme.
 - SketchPad no longer opens with a horizontal scrollbar. The blank sheet fills the window it opens in.
+- The outline pane now runs to the edges of the note with film grain and a rounded bottom corner like the rest of the editor.
 
 ## [1.3.1] - 2026-09-27
 
