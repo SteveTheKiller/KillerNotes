@@ -31,6 +31,7 @@ namespace KillerNotes.Shell
             InitWordWrap();      // remembered word-wrap toggle (below)
             InitSyntaxHighlighting();
             InitWikiLinks();        // WikiLinkNav.cs (Ctrl+Click a [[link]] to follow it)
+            InitTagCompletion();
             InitWikiLinkComplete(); // WikiLinkComplete.cs (title picker after "[[")
             InitChecklist();        // Checklist.cs (checkbox lines: click to flip, Enter continues)
             InitEditorClipboard();   // cut that cannot lose the race for the clipboard (Editor.Clipboard.cs, #16)

@@ -31,6 +31,8 @@ namespace KillerNotes.Models
         public string AutomationName => Title;
         public string Notebook { get; set; } = "";
         public string Tags { get; set; } = "";
+        internal string ManualTags { get; set; } = "";
+        internal string BodyTags { get; set; } = "";
         public DateTime Created { get; set; }
         private DateTime _modified;
         public DateTime Modified

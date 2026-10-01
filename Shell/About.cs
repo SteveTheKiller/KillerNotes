@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Automation;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using KillerNotes.Controls;
@@ -59,7 +60,40 @@ namespace KillerNotes.Shell
 
         bool IAboutHost.DemoPreview => DemoMode;
 
-        void IAboutHost.ShowCard() => FadeOverlayIn(AboutOverlay);
+        private IInputElement? _aboutPreviousFocus;
+
+        void IAboutHost.ShowCard()
+        {
+            HideShortcutsOverlay();
+            _aboutPreviousFocus = Keyboard.FocusedElement;
+            BlockOverlayBackground(AboutOverlay);
+            AutomationProperties.SetName(AboutVersionBlock,
+                Loc("Str_About_Title") + ", " + Loc("Str_About_Version") + ": " + AboutVersionBlock.Text);
+            FadeOverlayIn(AboutOverlay);
+            AboutOverlay.UpdateLayout();
+            AboutVersionBlock.Focus();
+        }
+
+        private void HideAboutOverlay()
+        {
+            if (AboutOverlay.Visibility != Visibility.Visible) return;
+            AboutOverlay.BeginAnimation(OpacityProperty, null);
+            AboutOverlay.Visibility = Visibility.Collapsed;
+            ReleaseOverlayBackground();
+            SetPreviewOverlayHidden(false);
+            if (_aboutPreviousFocus is UIElement previous && previous.IsVisible && previous.IsEnabled)
+                previous.Focus();
+            else if (_currentId >= 0) FocusNoteBody();
+            else NotesList.Focus();
+            _aboutPreviousFocus = null;
+        }
+
+        private void AboutVersion_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter && e.Key != Key.Space) return;
+            _about.OpenReleaseNotes();
+            e.Handled = true;
+        }
 
         // ---- Overlay fade (shared with the shortcuts overlay: Shortcuts.cs, Fonts.cs) ----
 
@@ -72,6 +106,7 @@ namespace KillerNotes.Shell
 
         private void FadeOverlayOut(UIElement o)
         {
+            if (o == AboutOverlay) { HideAboutOverlay(); return; }
             var a = new DoubleAnimation(o.Opacity, 0, new Duration(TimeSpan.FromMilliseconds(Anim.FadeMs)))
             {
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }

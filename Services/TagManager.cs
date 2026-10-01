@@ -69,13 +69,14 @@ namespace KillerNotes.Services
         /// list refresh so a 50-note toggle repaints once, not 50 times).</summary>
         internal static void SetAssigned(Note note, string tag, bool assigned)
         {
-            var parts = NoteStore.SplitTags(note.Tags).ToList();
+            var parts = NoteStore.SplitTags(NoteStore.GetNoteTags(note.Id)).ToList();
             int idx = parts.FindIndex(p => string.Equals(p, tag, StringComparison.OrdinalIgnoreCase));
             if (assigned) { if (idx < 0) parts.Add(tag); else return; }
             else { if (idx >= 0) parts.RemoveAt(idx); else return; }
 
-            note.Tags = string.Join(", ", parts);
-            NoteStore.SetNoteTags(note.Id, note.Tags);
+            note.ManualTags = string.Join(", ", parts);
+            NoteStore.SetNoteTags(note.Id, note.ManualTags);
+            note.Tags = BodyTags.Merge(note.ManualTags, note.BodyTags);
             BuildChips(note);
         }
     }

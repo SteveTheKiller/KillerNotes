@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Input;
 using KillerNotes.Models;
@@ -14,6 +16,20 @@ namespace KillerNotes.Shell
         private void InitShortcuts()
         {
             PreviewKeyDown += Shortcuts_PreviewKeyDown;
+            PreviewGotKeyboardFocus += (_, e) =>
+            {
+                var overlay = KeyboardOverlay;
+                if (overlay == null) return;
+                DependencyObject? target = e.NewFocus as DependencyObject;
+                while (target is FrameworkContentElement content) target = content.Parent;
+                if (target is UIElement element && (element == overlay || overlay.IsAncestorOf(element))) return;
+                e.Handled = true;
+            };
+            PreviewTextInput += (_, e) =>
+            {
+                if (KeyboardOverlay is UIElement overlay && !overlay.IsKeyboardFocusWithin)
+                    e.Handled = true;
+            };
             PreviewKeyUp += (_, _) => KbSyncLayerFromModifiers();   // KeyboardMap.cs
             BuildShortcutRows();
         }
@@ -59,13 +75,15 @@ namespace KillerNotes.Shell
 
                 row.Children.Add(key);
                 row.Children.Add(desc);
-                (i < perCol ? ShortcutColLeft : ShortcutColRight).Children.Add(row);
+                var item = new ListBoxItem { Content = row };
+                AutomationProperties.SetName(item, keys + ": " + Loc(action));
+                (i < perCol ? ShortcutColLeft : ShortcutColRight).Items.Add(item);
             }
         }
 
         /// <summary>A section title in the shortcuts list. Accent colored and spaced above, so it
         /// reads as a break rather than as another binding with a missing key.</summary>
-        private void AddSectionHeader(string labelKey, Panel column, bool first)
+        private void AddSectionHeader(string labelKey, ListBox column, bool first)
         {
             var head = new TextBlock
             {
@@ -75,11 +93,43 @@ namespace KillerNotes.Shell
                 Margin = new Thickness(0, first ? 0 : 10, 0, 6),
             };
             head.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryBrush");
-            column.Children.Add(head);
+            column.Items.Add(new ListBoxItem { Content = head, IsEnabled = false, Focusable = false });
         }
 
         private void Shortcuts_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            // Help owns the keyboard while open; editing shortcuts must not reach the note.
+            if (ShortcutOverlay.Visibility == Visibility.Visible)
+            {
+                if (e.Key == Key.F1 || e.Key == Key.Escape)
+                {
+                    HideShortcutsOverlay();
+                    e.Handled = true;
+                }
+                else if (e.Key == Key.F12)
+                {
+                    HideShortcutsOverlay();
+                    ShowAboutOverlay();
+                    e.Handled = true;
+                }
+                else if (!ShortcutOverlay.IsKeyboardFocusWithin)
+                {
+                    if (ShortcutListHost.Visibility == Visibility.Visible) FocusShortcutList();
+                    else KsViewListBtn.Focus();
+                    e.Handled = true;
+                }
+                return;
+            }
+            if (AboutOverlay.Visibility == Visibility.Visible)
+            {
+                if (e.Key == Key.F12 || e.Key == Key.Escape) HideAboutOverlay();
+                else if (e.Key == Key.F1) { HideAboutOverlay(); ToggleShortcutsOverlay(); }
+                else if (!AboutOverlay.IsKeyboardFocusWithin) AboutVersionBlock.Focus();
+                else return;
+                e.Handled = true;
+                return;
+            }
+            if (TagCompletionKey(e)) return;
             KbSyncLayerFromModifiers();   // KeyboardMap.cs (holding Ctrl/Shift previews a layer)
             bool ctrl  = Keyboard.Modifiers.HasFlag(ModifierKeys.Control);
             bool shift = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
@@ -108,6 +158,10 @@ namespace KillerNotes.Shell
                     // Browser back/forward, on the keys every browser uses (NoteHistory.cs).
                     case Key.Left:  NavBack();    e.Handled = true; return;
                     case Key.Right: NavForward(); e.Handled = true; return;
+                    case Key.N:
+                        FocusNotesList(); e.Handled = true; return;
+                    case Key.E:
+                        FocusNoteBody(); e.Handled = true; return;
                     case Key.L:
                         LineNumbers_Click(this, new RoutedEventArgs());   // LineNumbers.cs
                         e.Handled = true; return;
@@ -158,6 +212,13 @@ namespace KillerNotes.Shell
                 && !Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
             {
                 OpenDictation();   // Editor.Dictation.cs (modeless mic + transcription window)
+                e.Handled = true;
+                return;
+            }
+
+            if (ctrl && !shift && !Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)
+                && e.Key == Key.Return && Editor.IsKeyboardFocusWithin && OpenBodyTagMenu())
+            {
                 e.Handled = true;
                 return;
             }
@@ -423,15 +484,87 @@ namespace KillerNotes.Shell
         // The "?" rail button (same as F1).
         private void ShortcutHelp_Click(object sender, RoutedEventArgs e) => ToggleShortcutsOverlay();
 
+        private IInputElement? _shortcutPreviousFocus;
+        private readonly List<UIElement> _overlayBlockedElements = [];
+
+        private UIElement? KeyboardOverlay => ShortcutOverlay.Visibility == Visibility.Visible ? ShortcutOverlay
+            : AboutOverlay.Visibility == Visibility.Visible ? AboutOverlay : null;
+
+        private void BlockOverlayBackground(UIElement overlay)
+        {
+            foreach (UIElement child in RootGrid.Children)
+            {
+                if (child == overlay || !child.IsHitTestVisible) continue;
+                _overlayBlockedElements.Add(child);
+                child.SetCurrentValue(IsHitTestVisibleProperty, false);
+            }
+        }
+
+        private void ReleaseOverlayBackground()
+        {
+            foreach (var child in _overlayBlockedElements)
+                child.SetCurrentValue(IsHitTestVisibleProperty, true);
+            _overlayBlockedElements.Clear();
+        }
+
         private void ToggleShortcutsOverlay()
         {
             if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return; }
             if (AboutOverlay.Visibility == Visibility.Visible) FadeOverlayOut(AboutOverlay);
+            _shortcutPreviousFocus = Keyboard.FocusedElement;
+            BlockOverlayBackground(ShortcutOverlay);
             ApplyPersistedShortcutView();   // KeyboardMap.cs (LIST or KEYBOARD, remembered)
             FadeOverlayIn(ShortcutOverlay); // About.cs (also hides the preview browser - airspace)
+            ShortcutOverlay.UpdateLayout();
+            if (ShortcutListHost.Visibility == Visibility.Visible) FocusShortcutList();
+            else KsViewListBtn.Focus();
         }
 
-        private void HideShortcutsOverlay() => FadeOverlayOut(ShortcutOverlay);
+        private void FocusShortcutList()
+        {
+            if (ShortcutColLeft.Items.Count == 0) { KsViewListBtn.Focus(); return; }
+            ShortcutColLeft.SelectedIndex = 0;
+            ((ListBoxItem)ShortcutColLeft.Items[0]).Focus();
+        }
+
+        private void HideShortcutsOverlay()
+        {
+            if (ShortcutOverlay.Visibility != Visibility.Visible) return;
+            // Close immediately so a second F1 press cannot race the closing animation.
+            ShortcutOverlay.BeginAnimation(OpacityProperty, null);
+            ShortcutOverlay.Visibility = Visibility.Collapsed;
+            ReleaseOverlayBackground();
+            SetPreviewOverlayHidden(false);
+            if (_shortcutPreviousFocus is UIElement previous && previous.IsVisible && previous.IsEnabled)
+                previous.Focus();
+            else if (_currentId >= 0) FocusNoteBody();
+            else NotesList.Focus();
+            _shortcutPreviousFocus = null;
+        }
+
+        private void FocusNotesList()
+        {
+            if (_sidebarCollapsed) ToggleSidebar();
+            NotesList.UpdateLayout();
+            if (NotesList.SelectedItem != null)
+            {
+                NotesList.ScrollIntoView(NotesList.SelectedItem);
+                NotesList.UpdateLayout();
+                if (NotesList.ItemContainerGenerator.ContainerFromItem(NotesList.SelectedItem) is ListBoxItem item)
+                {
+                    item.Focus();
+                    return;
+                }
+            }
+            NotesList.Focus();
+        }
+
+        private void FocusNoteBody()
+        {
+            if (_currentId < 0) return;
+            if (_previewMode == PreviewMode.Rendered) SetPreviewMode(PreviewMode.Source);
+            Editor.Focus();
+        }
 
         private void ShortcutOverlay_Click(object sender, MouseButtonEventArgs e) => HideShortcutsOverlay();
         private void ShortcutCard_Click(object sender, MouseButtonEventArgs e) => e.Handled = true;
@@ -451,6 +584,12 @@ namespace KillerNotes.Shell
         // Returns false when nothing consumed it, so the key still reaches the editor.
         private bool HandleEscape()
         {
+            if (TableSizePopup.IsOpen)
+            {
+                TableSizePopup.IsOpen = false;
+                TableBtn.Focus();
+                return true;
+            }
             if (_kalcOpen) { CloseKalc(); return true; }   // Killculator.cs
             if (FontsOverlay.Visibility == Visibility.Visible) { HideFontsOverlay(); return true; }   // Fonts.cs
             if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return true; }

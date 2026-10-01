@@ -23,11 +23,12 @@ namespace KillerNotes.Shell
 
         // ---- Chip click: filter the list by that tag (FTS-backed; Esc clears) ----
 
-        private void TagChip_Click(object sender, MouseButtonEventArgs e)
+        private void TagChip_Click(object sender, RoutedEventArgs e)
         {
             if (sender is FrameworkElement { DataContext: TagChip chip })
             {
                 SearchBox.Text = chip.Name;
+                FocusNotesList();
                 e.Handled = true;
             }
         }
@@ -137,7 +138,12 @@ namespace KillerNotes.Shell
         /// <summary>Adds/removes the tag on the note; returns true when now assigned.</summary>
         private bool ToggleTag(Note note, string tag)
         {
-            var snap = new List<(long Id, string Tags)> { (note.Id, note.Tags) };
+            if (NoteStore.SplitTags(note.BodyTags).Contains(tag, StringComparer.OrdinalIgnoreCase))
+            {
+                FlashStatus(Loc("Str_BodyTag_Edit"));
+                return true;
+            }
+            var snap = new List<(long Id, string Tags)> { (note.Id, NoteStore.GetNoteTags(note.Id)) };
             bool nowAssigned = !TagManager.HasTag(note, tag);
             TagManager.SetAssigned(note, tag, nowAssigned);
             _syncingSelection = true;
@@ -162,8 +168,13 @@ namespace KillerNotes.Shell
         private bool ToggleTagOnNotes(List<Note> notes, string tag)
         {
             if (notes.Count == 1) return ToggleTag(notes[0], tag);
+            if (notes.Any(n => NoteStore.SplitTags(n.BodyTags).Contains(tag, StringComparer.OrdinalIgnoreCase)))
+            {
+                FlashStatus(Loc("Str_BodyTag_Edit"));
+                return true;
+            }
 
-            var snap = notes.Select(n => (n.Id, n.Tags)).ToList();
+            var snap = notes.Select(n => (n.Id, NoteStore.GetNoteTags(n.Id))).ToList();
             bool assign = notes.Any(n => !TagManager.HasTag(n, tag));
             foreach (var n in notes) TagManager.SetAssigned(n, tag, assign);
             _syncingSelection = true;

@@ -151,6 +151,10 @@ namespace KillerNotes.Shell
             internal PreviewScriptBridge(MainWindow owner) => _owner = owner;
             public void CyclePreview() =>
                 _owner.Dispatcher.BeginInvoke(new Action(_owner.CyclePreviewMode), DispatcherPriority.Background);
+            public void FocusNotes() =>
+                _owner.Dispatcher.BeginInvoke(new Action(_owner.FocusNotesList), DispatcherPriority.Background);
+            public void FocusBody() =>
+                _owner.Dispatcher.BeginInvoke(new Action(_owner.FocusNoteBody), DispatcherPriority.Background);
         }
 
         private void QueuePreviewRefresh()
@@ -411,6 +415,8 @@ namespace KillerNotes.Shell
                 // F4 while the page has focus: hand it to the app (Preview.cs PreviewScriptBridge).
                 "document.onkeydown=function(e){e=e||window.event;var k=e.keyCode,p=document.getElementById('kn-page');" +
                 "if(k==115){try{window.external.CyclePreview()}catch(x){}return false}" +
+                "if(e.altKey&&!e.ctrlKey&&!e.shiftKey&&k==78){try{window.external.FocusNotes()}catch(x){}return false}" +
+                "if(e.altKey&&!e.ctrlKey&&!e.shiftKey&&k==69){try{window.external.FocusBody()}catch(x){}return false}" +
                 // Reading keys for the page. The page scrolls inside kn-page (for the rounded corners),
                 // which the browser does not drive from the keyboard on its own.
                 "var d={36:-1e9,35:1e9,33:-p.clientHeight*0.9,34:p.clientHeight*0.9,38:-40,40:40,32:e.shiftKey?-p.clientHeight*0.9:p.clientHeight*0.9}[k];" +

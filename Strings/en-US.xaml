@@ -940,4 +940,13 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_BackupNow">Back up the database now</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Backup</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">No backup folder yet. Manage databases, then Backups, picks one.</sys:String>
+    <sys:String x:Key="Str_KS_FocusNotes">Focus the note list</sys:String>
+    <sys:String x:Key="Str_KS_FocusBody">Focus the note body</sys:String>
+    <sys:String x:Key="Str_A11y_NoteBody">Note body</sys:String>
+    <sys:String x:Key="Str_BodyTag_Menu">Recent notes tagged {0}</sys:String>
+    <sys:String x:Key="Str_BodyTag_Empty">No other notes tagged {0}</sys:String>
+    <sys:String x:Key="Str_BodyTag_Edit">This tag comes from the note body. Edit its bracketed tag to remove it.</sys:String>
+    <sys:String x:Key="Str_KS_BodyTag">Recent notes for the tag at the caret</sys:String>
+    <sys:String x:Key="Str_TagComplete_Title">Tag suggestions</sys:String>
+    <sys:String x:Key="Str_TagComplete_Count">{0} tag suggestions. Down Arrow to browse; Tab to complete.</sys:String>
 </ResourceDictionary>

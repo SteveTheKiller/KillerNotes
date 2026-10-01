@@ -16,6 +16,7 @@
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -120,10 +121,22 @@ namespace KillerNotes.Shell
 
         private void ToggleOutline()
         {
+            bool hadFocus = OutlineList.IsKeyboardFocusWithin;
             _outlineOpen = !_outlineOpen;
             App.SetSetting(OutlineSetting, _outlineOpen ? "1" : "0");
             ApplyOutlineState();
-            if (_outlineOpen) RefreshOutline();
+            if (_outlineOpen)
+            {
+                RefreshOutline();
+                OutlineList.UpdateLayout();
+                if (OutlineList.Items.Count > 0)
+                {
+                    OutlineList.SelectedIndex = 0;
+                    ((ListBoxItem)OutlineList.Items[0]).Focus();
+                }
+                else OutlineList.Focus();
+            }
+            else if (hadFocus) FocusNoteBody();
         }
 
         private void ApplyOutlineState()
@@ -149,7 +162,9 @@ namespace KillerNotes.Shell
         private void RefreshOutline()
         {
             if (!_outlineOpen) return;
-            OutlineList.Children.Clear();
+            bool hadFocus = OutlineList.IsKeyboardFocusWithin;
+            var selectedParagraph = (OutlineList.SelectedItem as ListBoxItem)?.Tag;
+            OutlineList.Items.Clear();
             if (_currentId < 0) { OutlineEmpty.Visibility = Visibility.Collapsed; return; }
 
             bool md = CurrentIsMarkdown;
@@ -184,10 +199,33 @@ namespace KillerNotes.Shell
                 };
                 var target = p;
                 row.MouseLeftButtonUp += (_, _) => JumpToParagraph(target);
-                OutlineList.Children.Add(row);
+                var item = new ListBoxItem { Content = row, Tag = target };
+                AutomationProperties.SetName(item, label);
+                OutlineList.Items.Add(item);
+                if (ReferenceEquals(target, selectedParagraph)) item.IsSelected = true;
                 count++;
             }
             OutlineEmpty.Visibility = count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            if (hadFocus)
+            {
+                if (OutlineList.SelectedItem is ListBoxItem selected) selected.Focus();
+                else OutlineList.Focus();
+            }
+        }
+
+        private void OutlineList_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.Enter || e.Key == Key.Space) &&
+                OutlineList.SelectedItem is ListBoxItem { Tag: Paragraph paragraph })
+            {
+                JumpToParagraph(paragraph);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Escape)
+            {
+                FocusNoteBody();
+                e.Handled = true;
+            }
         }
 
         /// <summary>Scrolls the editor so the heading sits at the top and puts the caret on it.</summary>

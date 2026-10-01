@@ -17,6 +17,39 @@
     </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
+        <Style x:Key="NavigationList" TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="Once"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Grid>
+                                        <ContentPresenter/>
+                                        <Border x:Name="focus" BorderThickness="1" BorderBrush="Transparent" IsHitTestVisible="False"/>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                            <Setter TargetName="focus" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="FmtButton" TargetType="Button" BasedOn="{StaticResource AnnotationBarButton}">
             <Setter Property="AutomationProperties.Name" Value="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"/>
         </Style>
@@ -722,7 +755,7 @@
                                                          parent's line runs down the left of its child subgroups (containment).
                                                          Zero width for top-level rows, so top level looks exactly as before. -->
                                                     <ItemsControl Grid.Column="0" ItemsSource="{Binding Rails}"
-                                                                  IsHitTestVisible="False" VerticalAlignment="Stretch">
+                                                                  IsHitTestVisible="False" Focusable="False" IsTabStop="False" VerticalAlignment="Stretch">
                                                         <!-- Horizontal stack of 14px level slots; a horizontal StackPanel
                                                              stretches its children to full row height, so the lines are
                                                              continuous (not choppy) down abutting rows. -->
@@ -1122,18 +1155,29 @@
                                     </TextBlock>
                                     <!-- Tag pills (Services/TagManager.BuildChips); click filters by tag.
                                          Empty chip list renders zero height. -->
-                                    <ItemsControl ItemsSource="{Binding Chips}" Visibility="{Binding ChipsVisibility}">
+                                    <ItemsControl ItemsSource="{Binding Chips}" Visibility="{Binding ChipsVisibility}"
+                                                  Focusable="False" IsTabStop="False">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Background="{Binding Background}" CornerRadius="{DynamicResource SmallCornerRadius}" Padding="5,1" Margin="0,3,4,0"
-                                                        Cursor="Hand" MouseLeftButtonUp="TagChip_Click"
+                                                <Button Content="{Binding Name}" Background="{Binding Background}"
+                                                        Foreground="{Binding Foreground}" FontSize="9" FontWeight="SemiBold"
+                                                        Padding="5,1" Margin="0,3,4,0" BorderThickness="0"
+                                                        Cursor="Hand" Click="TagChip_Click"
+                                                        AutomationProperties.Name="{Binding Name}"
                                                         ToolTip="{DynamicResource Str_TT_TagChip}">
-                                                    <TextBlock Text="{Binding Name}" Foreground="{Binding Foreground}"
-                                                               FontSize="9" FontWeight="SemiBold"/>
-                                                </Border>
+                                                    <Button.Template>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border Background="{TemplateBinding Background}"
+                                                                    CornerRadius="{DynamicResource SmallCornerRadius}"
+                                                                    Padding="{TemplateBinding Padding}">
+                                                                <ContentPresenter/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Button.Template>
+                                                </Button>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
@@ -1749,14 +1793,16 @@
                          on a cell inserts that rows x cols table (Editor.cs). -->
                     <Button x:Name="TableBtn" Style="{StaticResource FmtButton}" Content="&#xE8A9;"
                             ToolTip="{DynamicResource Str_TT_Table}"
-                            PreviewMouseLeftButtonDown="TableBtn_MouseDown"/>
+                            PreviewMouseLeftButtonDown="TableBtn_MouseDown" Click="TableBtn_Click"/>
                     <Popup x:Name="TableSizePopup" PlacementTarget="{Binding ElementName=TableBtn}"
                            Placement="Bottom" StaysOpen="False" AllowsTransparency="True" VerticalOffset="4">
                         <Border Background="{DynamicResource MenuBackgroundBrush}"
                                 BorderBrush="{DynamicResource MenuBorderBrush}"
                                 BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" Padding="10,8" Margin="12">
                             <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
-                            <StackPanel>
+                            <StackPanel KeyboardNavigation.TabNavigation="Cycle"
+                                        KeyboardNavigation.ControlTabNavigation="Cycle"
+                                        PreviewKeyDown="TableSizePicker_PreviewKeyDown">
                                 <UniformGrid x:Name="TableSizeCells" Columns="8"/>
                                 <TextBlock x:Name="TableSizeLabel" Text="{DynamicResource Str_Lbl_Size}" Foreground="{DynamicResource DimTextBrush}"
                                            FontSize="10" HorizontalAlignment="Center" Margin="0,6,0,0"/>
@@ -1765,12 +1811,14 @@
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBox x:Name="TblColsBox" Style="{StaticResource DarkTextBox}" Text="4"
                                              Width="34" FontSize="11" Padding="4,2" KeyDown="TblCustom_KeyDown"
-                                             ToolTip="{DynamicResource Str_TT_Columns}"/>
+                                             ToolTip="{DynamicResource Str_TT_Columns}"
+                                             AutomationProperties.Name="{DynamicResource Str_TT_Columns}"/>
                                     <TextBlock Text=" x " Foreground="{DynamicResource DimTextBrush}"
                                                FontSize="11" VerticalAlignment="Center"/>
                                     <TextBox x:Name="TblRowsBox" Style="{StaticResource DarkTextBox}" Text="3"
                                              Width="34" FontSize="11" Padding="4,2" KeyDown="TblCustom_KeyDown"
-                                             ToolTip="{DynamicResource Str_TT_Rows}"/>
+                                             ToolTip="{DynamicResource Str_TT_Rows}"
+                                             AutomationProperties.Name="{DynamicResource Str_TT_Rows}"/>
                                     <Button Content="{DynamicResource Str_Btn_Insert}" Style="{StaticResource SurfaceButton}"
                                             FontSize="11" Padding="8,2" Margin="8,0,0,0"
                                             Click="TblCustomInsert_Click"/>
@@ -1825,7 +1873,7 @@
                          each paragraph; GutterCol stays 0-wide until the gutter is toggled on. -->
                     <Canvas x:Name="LineGutter" Grid.Column="0" ClipToBounds="True" Margin="2,0,0,8"/>
                     <RichTextBox x:Name="Editor" Grid.Column="1" Padding="8,0,8,8"
-                                 AutomationProperties.Name="{DynamicResource Str_Sec_Notes}"
+                                 AutomationProperties.Name="{DynamicResource Str_A11y_NoteBody}"
                                  FontFamily="{DynamicResource ContentFont}"
                                  Background="Transparent" BorderThickness="0"
                                  Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
@@ -2025,7 +2073,9 @@
                                        Foreground="{DynamicResource DimTextBrush}"/>
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
                                           HorizontalScrollBarVisibility="Disabled">
-                                <StackPanel x:Name="OutlineList" Margin="0,2,0,8"/>
+                                <ListBox x:Name="OutlineList" Margin="0,2,0,8" Style="{StaticResource NavigationList}"
+                                          AutomationProperties.Name="{DynamicResource Str_Outline_Title}"
+                                          PreviewKeyDown="OutlineList_PreviewKeyDown"/>
                             </ScrollViewer>
                             <TextBlock x:Name="OutlineEmpty" Grid.Row="1" Text="{DynamicResource Str_Outline_Empty}"
                                        Foreground="{DynamicResource DimTextBrush}" FontSize="11"
@@ -2543,6 +2593,8 @@
              row, which is inset for the window frame, so without it the dim stops short and the
              frame stays bright - a lit 5px ring around a dimmed window. 0 when there is no frame. -->
         <Grid x:Name="AboutOverlay" Grid.RowSpan="3" Panel.ZIndex="9000" Visibility="Collapsed"
+              KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle"
+              AutomationProperties.Name="{DynamicResource Str_About_Title}"
               Margin="{DynamicResource OverlayBleed}"
               Background="#88000000" MouseLeftButtonDown="AboutOverlay_Click">
             <!-- No fixed width: the SHA-256 line never wraps, so it sizes the info panel and
@@ -2606,6 +2658,7 @@
                              from the card's top edge in both cases. (2026-08-07) -->
                         <Button Grid.RowSpan="2" Content="{DynamicResource AboutCloseGlyph}"
                                 Click="AboutClose_Click" Style="{StaticResource OverlayCloseButton}"
+                                AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
@@ -2674,18 +2727,18 @@
                                                  italic hard right. Bottom-aligned so the two sizes share a
                                                  baseline. Only the version text is clickable. -->
                                             <Grid Margin="0,1,0,0">
-                                                <TextBlock x:Name="AboutVersionBlock" Foreground="{DynamicResource PrimaryBrush}"
+                                                <TextBlock x:Name="AboutVersionBlock" Focusable="True" PreviewKeyDown="AboutVersion_PreviewKeyDown" Foreground="{DynamicResource PrimaryBrush}"
                                                            FontFamily="Consolas" FontSize="13" Cursor="Hand"
                                                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                                            MouseLeftButtonUp="AboutVersion_Click"/>
-                                                <TextBlock x:Name="AboutReleaseDateBlock" Foreground="{DynamicResource MutedTextBrush}"
+                                                <TextBlock x:Name="AboutReleaseDateBlock" Focusable="True" Foreground="{DynamicResource MutedTextBrush}"
                                                            FontFamily="Consolas" FontSize="11" FontStyle="Italic"
                                                            HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                             </Grid>
                                         </StackPanel>
                                         <StackPanel Margin="0,0,0,10">
                                             <TextBlock Text="{DynamicResource Str_About_Publisher}" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
-                                            <TextBlock x:Name="AboutPublisherBlock" Foreground="{DynamicResource TextBrush}" FontSize="12" Margin="0,1,0,0"/>
+                                            <TextBlock x:Name="AboutPublisherBlock" Focusable="True" Foreground="{DynamicResource TextBrush}" FontSize="12" Margin="0,1,0,0"/>
                                             <!-- Shown only on an exe signed by Steve. The alias is an accent link to
                                                  thekiller.net; "AKA" stays muted so the eye lands on the name. -->
                                             <TextBlock x:Name="AboutAkaBlock" Visibility="Collapsed" Foreground="{DynamicResource MutedTextBrush}"
@@ -2693,11 +2746,11 @@
                                         </StackPanel>
                                         <StackPanel Margin="0,0,0,10">
                                             <TextBlock Text="{DynamicResource Str_About_Thumbprint}" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
-                                            <TextBlock x:Name="AboutThumbprintBlock" Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11" TextWrapping="Wrap" Margin="0,1,0,0"/>
+                                            <TextBlock x:Name="AboutThumbprintBlock" Focusable="True" Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11" TextWrapping="Wrap" Margin="0,1,0,0"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,0,0,10">
                                             <TextBlock Text="{DynamicResource Str_About_Sha}" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
-                                            <TextBlock x:Name="AboutSha256Block" Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11" TextWrapping="NoWrap" Margin="0,1,0,0"/>
+                                            <TextBlock x:Name="AboutSha256Block" Focusable="True" Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11" TextWrapping="NoWrap" Margin="0,1,0,0"/>
                                         </StackPanel>
                                     </StackPanel>
                                     <!-- SUNKEN bevel: the brushes are crossed relative to a raised
@@ -2860,6 +2913,8 @@
 
         <!-- Shortcuts overlay (F1): same card language as About; mutually exclusive with it -->
         <Grid x:Name="ShortcutOverlay" Grid.RowSpan="3" Panel.ZIndex="9100" Visibility="Collapsed"
+              KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle"
+              AutomationProperties.Name="{DynamicResource Str_KS_Title}"
               Margin="{DynamicResource OverlayBleed}"
               Background="#88000000" MouseLeftButtonDown="ShortcutOverlay_Click">
             <!-- Center the card with a fixed height cap on a large window. The margin keeps it off
@@ -2881,7 +2936,7 @@
                                 Opacity="{DynamicResource GrainOpacity}" Background="{DynamicResource GrainTileBrush}"/>
                         <!-- Close X: a direct child of the card grid (matches the working About overlay)
                              so it sits at the card's top-right corner and always receives the click. -->
-                        <Button Content="{DynamicResource AboutCloseGlyph}" Click="ShortcutClose_Click"
+                        <Button Content="{DynamicResource AboutCloseGlyph}" Click="ShortcutClose_Click" AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                                 Style="{StaticResource OverlayCloseButton}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
@@ -2910,8 +2965,8 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <StackPanel x:Name="ShortcutColLeft" Grid.Column="0"/>
-                                <StackPanel x:Name="ShortcutColRight" Grid.Column="1" Margin="20,0,0,0"/>
+                                <ListBox x:Name="ShortcutColLeft" Grid.Column="0" Style="{StaticResource NavigationList}" AutomationProperties.Name="{DynamicResource Str_KS_Title}"/>
+                                <ListBox x:Name="ShortcutColRight" Grid.Column="1" Margin="20,0,0,0" Style="{StaticResource NavigationList}" AutomationProperties.Name="{DynamicResource Str_KS_Title}"/>
                             </Grid>
                             <!-- KEYBOARD view - generated by KeyboardMap.cs, hidden until toggled -->
                             <StackPanel x:Name="ShortcutKeyboardHost" Visibility="Collapsed"/>
