@@ -2002,7 +2002,7 @@
                     <Border x:Name="OutlinePane" Grid.Column="3" Visibility="Collapsed"
                             Background="{DynamicResource SurfaceBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
-                            Margin="0,0,8,8">
+                            Margin="0">
                         <Border.Resources>
                             <Style x:Key="OutlineRow" TargetType="Border">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -2031,6 +2031,11 @@
                                        Foreground="{DynamicResource DimTextBrush}" FontSize="11"
                                        TextWrapping="Wrap" TextAlignment="Center" Margin="16"
                                        VerticalAlignment="Center" Visibility="Collapsed"/>
+                            <!-- Grain LAST and hit-test invisible, over the contents like every other
+                                 pane. Its corners follow the pane's (Headings.cs ApplyOutlineState). -->
+                            <Border x:Name="OutlineGrain" Grid.RowSpan="2" IsHitTestVisible="False"
+                                    Opacity="{DynamicResource GrainOpacity}"
+                                    Background="{DynamicResource GrainTileBrush}"/>
                         </Grid>
                     </Border>
                 </Grid>

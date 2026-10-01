@@ -130,6 +130,11 @@ namespace KillerNotes.Shell
         {
             OutlinePane.Visibility = _outlineOpen ? Visibility.Visible : Visibility.Collapsed;
             OutlineCol.Width = new GridLength(_outlineOpen ? 220 : 0);
+            // The pane runs to the editor card's right and bottom edges, so it takes the card's
+            // rounded corners on that side instead of leaving a square block inside them.
+            var r = TryFindResource("PanelCornerRadius") is CornerRadius cr ? cr : new CornerRadius(4);
+            OutlinePane.CornerRadius = new CornerRadius(0, r.TopRight, r.BottomRight, 0);
+            OutlineGrain.CornerRadius = OutlinePane.CornerRadius;
             OutlineRailBtn.SetResourceReference(ForegroundProperty, _outlineOpen ? "PrimaryBrush" : "TextBrush");
         }
 
