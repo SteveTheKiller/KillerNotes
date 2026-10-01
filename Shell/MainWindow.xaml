@@ -1161,12 +1161,22 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Background="{Binding Background}" CornerRadius="{DynamicResource SmallCornerRadius}" Padding="5,1" Margin="0,3,4,0"
-                                                        Cursor="Hand" MouseLeftButtonUp="TagChip_Click"
+                                                <Button Content="{Binding Name}" Background="{Binding Background}"
+                                                        Foreground="{Binding Foreground}" FontSize="9" FontWeight="SemiBold"
+                                                        Padding="5,1" Margin="0,3,4,0" BorderThickness="0"
+                                                        Cursor="Hand" Click="TagChip_Click"
+                                                        AutomationProperties.Name="{Binding Name}"
                                                         ToolTip="{DynamicResource Str_TT_TagChip}">
-                                                    <TextBlock Text="{Binding Name}" Foreground="{Binding Foreground}"
-                                                               FontSize="9" FontWeight="SemiBold"/>
-                                                </Border>
+                                                    <Button.Template>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border Background="{TemplateBinding Background}"
+                                                                    CornerRadius="{DynamicResource SmallCornerRadius}"
+                                                                    Padding="{TemplateBinding Padding}">
+                                                                <ContentPresenter/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Button.Template>
+                                                </Button>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>

@@ -108,6 +108,13 @@ must not edit the background. Escape, F12, Close and backdrop dismissal restore
 the previous focus. Test repeated opening and F1/About transitions; background
 colours must stay themed. Check JAWS and NVDA separately.
 
+## Sidebar tag chips
+
+From a note row, Tab to each tag chip. JAWS/NVDA should announce its tag name and
+button role. Enter and Space should filter notes by that tag and return focus to
+the notes list. Check mouse clicks still filter, and compare pill colours, font,
+padding and spacing with the previous build.
+
 ## Visual and mouse checks
 
 Compare the build with 1.3.2 in Light, Dark and 98SE themes, plus the user's normal

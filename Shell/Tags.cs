@@ -23,11 +23,12 @@ namespace KillerNotes.Shell
 
         // ---- Chip click: filter the list by that tag (FTS-backed; Esc clears) ----
 
-        private void TagChip_Click(object sender, MouseButtonEventArgs e)
+        private void TagChip_Click(object sender, RoutedEventArgs e)
         {
             if (sender is FrameworkElement { DataContext: TagChip chip })
             {
                 SearchBox.Text = chip.Name;
+                FocusNotesList();
                 e.Handled = true;
             }
         }
