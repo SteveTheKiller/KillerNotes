@@ -940,4 +940,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_BackupNow">Back up the database now</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Backup</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">No backup folder yet. Manage databases, then Backups, picks one.</sys:String>
+    <sys:String x:Key="Str_KS_FocusNotes">Focus the note list</sys:String>
+    <sys:String x:Key="Str_KS_FocusBody">Focus the note body</sys:String>
+    <sys:String x:Key="Str_A11y_NoteBody">Note body</sys:String>
 </ResourceDictionary>

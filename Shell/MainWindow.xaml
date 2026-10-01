@@ -17,6 +17,39 @@
     </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
+        <Style x:Key="NavigationList" TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="Once"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Grid>
+                                        <ContentPresenter/>
+                                        <Border x:Name="focus" BorderThickness="1" BorderBrush="Transparent" IsHitTestVisible="False"/>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                            <Setter TargetName="focus" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="FmtButton" TargetType="Button" BasedOn="{StaticResource AnnotationBarButton}">
             <Setter Property="AutomationProperties.Name" Value="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"/>
         </Style>
@@ -1825,7 +1858,7 @@
                          each paragraph; GutterCol stays 0-wide until the gutter is toggled on. -->
                     <Canvas x:Name="LineGutter" Grid.Column="0" ClipToBounds="True" Margin="2,0,0,8"/>
                     <RichTextBox x:Name="Editor" Grid.Column="1" Padding="8,0,8,8"
-                                 AutomationProperties.Name="{DynamicResource Str_Sec_Notes}"
+                                 AutomationProperties.Name="{DynamicResource Str_A11y_NoteBody}"
                                  FontFamily="{DynamicResource ContentFont}"
                                  Background="Transparent" BorderThickness="0"
                                  Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
@@ -2025,7 +2058,9 @@
                                        Foreground="{DynamicResource DimTextBrush}"/>
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
                                           HorizontalScrollBarVisibility="Disabled">
-                                <StackPanel x:Name="OutlineList" Margin="0,2,0,8"/>
+                                <ListBox x:Name="OutlineList" Margin="0,2,0,8" Style="{StaticResource NavigationList}"
+                                          AutomationProperties.Name="{DynamicResource Str_Outline_Title}"
+                                          PreviewKeyDown="OutlineList_PreviewKeyDown"/>
                             </ScrollViewer>
                             <TextBlock x:Name="OutlineEmpty" Grid.Row="1" Text="{DynamicResource Str_Outline_Empty}"
                                        Foreground="{DynamicResource DimTextBrush}" FontSize="11"
@@ -2860,6 +2895,8 @@
 
         <!-- Shortcuts overlay (F1): same card language as About; mutually exclusive with it -->
         <Grid x:Name="ShortcutOverlay" Grid.RowSpan="3" Panel.ZIndex="9100" Visibility="Collapsed"
+              KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle"
+              AutomationProperties.Name="{DynamicResource Str_KS_Title}"
               Margin="{DynamicResource OverlayBleed}"
               Background="#88000000" MouseLeftButtonDown="ShortcutOverlay_Click">
             <!-- Center the card with a fixed height cap on a large window. The margin keeps it off
@@ -2881,7 +2918,7 @@
                                 Opacity="{DynamicResource GrainOpacity}" Background="{DynamicResource GrainTileBrush}"/>
                         <!-- Close X: a direct child of the card grid (matches the working About overlay)
                              so it sits at the card's top-right corner and always receives the click. -->
-                        <Button Content="{DynamicResource AboutCloseGlyph}" Click="ShortcutClose_Click"
+                        <Button Content="{DynamicResource AboutCloseGlyph}" Click="ShortcutClose_Click" AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                                 Style="{StaticResource OverlayCloseButton}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
@@ -2910,8 +2947,8 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <StackPanel x:Name="ShortcutColLeft" Grid.Column="0"/>
-                                <StackPanel x:Name="ShortcutColRight" Grid.Column="1" Margin="20,0,0,0"/>
+                                <ListBox x:Name="ShortcutColLeft" Grid.Column="0" Style="{StaticResource NavigationList}" AutomationProperties.Name="{DynamicResource Str_KS_Title}"/>
+                                <ListBox x:Name="ShortcutColRight" Grid.Column="1" Margin="20,0,0,0" Style="{StaticResource NavigationList}" AutomationProperties.Name="{DynamicResource Str_KS_Title}"/>
                             </Grid>
                             <!-- KEYBOARD view - generated by KeyboardMap.cs, hidden until toggled -->
                             <StackPanel x:Name="ShortcutKeyboardHost" Visibility="Collapsed"/>

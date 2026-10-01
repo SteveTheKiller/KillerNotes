@@ -1,0 +1,27 @@
+name: Accessibility test build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [accessibility-keyboard-navigation]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build
+        run: dotnet build KillerNotes.csproj -c Release
+      - name: Test
+        run: dotnet test KillerNotes.Tests/KillerNotes.Tests.csproj -c Release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KillerNotes-accessibility-test
+          path: bin/Release/net48/
+          if-no-files-found: error

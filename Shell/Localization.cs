@@ -103,8 +103,8 @@ namespace KillerNotes.Shell
         private void RelocalizeDynamicUi()
         {
             // Shortcut rows (list view) are built from ShortcutMap into two columns - clear both and rebuild.
-            ShortcutColLeft.Children.Clear();
-            ShortcutColRight.Children.Clear();
+            ShortcutColLeft.Items.Clear();
+            ShortcutColRight.Items.Clear();
             BuildShortcutRows();                     // Shortcuts.cs
 
             // Keyboard map: rebuilt lazily on next open; if already built, repaint the

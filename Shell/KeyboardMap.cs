@@ -81,7 +81,11 @@ namespace KillerNotes.Shell
 
         // ---- View toggle (LIST / KEYBOARD) ----
 
-        private void KsViewList_Click(object sender, RoutedEventArgs e) => ApplyShortcutView(keyboard: false, persist: true);
+        private void KsViewList_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyShortcutView(keyboard: false, persist: true);
+            FocusShortcutList();
+        }
         private void KsViewKeyboard_Click(object sender, RoutedEventArgs e) => ApplyShortcutView(keyboard: true, persist: true);
 
         /// <summary>Shows the list or the keyboard inside the shortcuts card. Called on

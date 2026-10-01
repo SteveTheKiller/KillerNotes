@@ -57,6 +57,8 @@ namespace KillerNotes.Shell
             // nothing to learn; the mouse thumb buttons do the same thing (NoteHistory.cs).
             new("Alt+Left", "Str_KS_NavBack", "Note", [(KbLayer.Alt, "Left", "Str_Kb_NavBack")]),
             new("Alt+Right", "Str_KS_NavForward", "Note", [(KbLayer.Alt, "Right", "Str_Kb_NavForward")]),
+            new("Alt+N", "Str_KS_FocusNotes", "View", [(KbLayer.Alt, "N", "Str_KS_FocusNotes")]),
+            new("Alt+E", "Str_KS_FocusBody", "View", [(KbLayer.Alt, "E", "Str_KS_FocusBody")]),
             new("Alt+L", "Str_KS_LineNumbers", "View", [(KbLayer.Alt, "L", "Str_Kb_LineNumbers")]),
             new("Alt+M", "Str_KS_HideMentions", "View", [(KbLayer.Alt, "M", "Str_Kb_HideMentions")]),
             new("Alt+P", "Str_KS_Pin", "Note", [(KbLayer.Alt, "P", "Str_Kb_Pin")]),
