@@ -16,7 +16,9 @@ Each language is a single XAML `ResourceDictionary` in the `Strings/` folder, na
 - `Strings/it-IT.xaml` - Italian
 - `Strings/ja-JP.xaml` - Japanese
 - `Strings/kk-KZ.xaml` - Kazakh
+- `Strings/nb-NO.xaml` - Norwegian (Bokmål)
 - `Strings/pl-PL.xaml` - Polish
+- `Strings/pt-BR.xaml` - Portuguese (Brazil)
 - `Strings/ru-RU.xaml` - Russian
 - `Strings/tr-TR.xaml` - Turkish
 - `Strings/uk-UA.xaml` - Ukrainian

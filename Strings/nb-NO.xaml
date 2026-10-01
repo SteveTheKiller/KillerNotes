@@ -1,0 +1,941 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ================================================================
+         KillerNotes  -  Norsk bokmål (nb-NO) strings.
+         x:Key values are looked up at runtime - never change them.
+         Other locales layer over this file; any key they omit falls back here.
+         {0}/{1} placeholders are filled in by the app - keep them.
+         ================================================================ -->
+
+    <!-- Title bar / chrome -->
+    <sys:String x:Key="Str_TT_Databases">Administrer databaser</sys:String>
+    <sys:String x:Key="Str_TT_Lock">Passordbeskyttelse</sys:String>
+    <sys:String x:Key="Str_TT_About">Om KillerNotes</sys:String>
+
+    <!-- Sidebar + rail -->
+    <sys:String x:Key="Str_TT_CollapseSidebar">Skjul sidepanelet (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Vis sidepanelet (F5)</sys:String>
+    <sys:String x:Key="Str_TT_Shortcuts">Hurtigtaster (F1)</sys:String>
+    <sys:String x:Key="Str_TT_Theme">Tema</sys:String>
+    <sys:String x:Key="Str_TT_Language">Språk</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Søk i notater  (F3)</sys:String>
+    <sys:String x:Key="Str_Btn_NewNote">+ Nytt notat</sys:String>
+    <sys:String x:Key="Str_Btn_NewNoteShort">+ Ny</sys:String>
+    <sys:String x:Key="Str_TT_NewNote">Nytt notat (Ctrl+N)</sys:String>
+    <sys:String x:Key="Str_TT_SortTime">Etter opprettelsestidspunkt - eldste først (klikk igjen for å snu)</sys:String>
+    <sys:String x:Key="Str_TT_SortAlpha">Alfabetisk (klikk igjen for å snu)</sys:String>
+    <sys:String x:Key="Str_Ctx_ShareNote">Del notat...</sys:String>
+    <sys:String x:Key="Str_TT_ShareNote">Lagre som en .knote-fil (eventuelt passordbeskyttet) som kan sendes til en kollega</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportNote">Eksporter notat som...</sys:String>
+    <sys:String x:Key="Str_TT_ExportNote">Lagre en kopi som en vanlig fil - .txt, .rtf eller .html (F8)</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteNote">Slett notat</sys:String>
+
+    <!-- Sidebar sort menu -->
+    <sys:String x:Key="Str_Ctx_ReverseOrder">Snu rekkefølgen</sys:String>
+
+    <!-- Shared edit menu -->
+    <sys:String x:Key="Str_Ctx_Cut">Klipp ut</sys:String>
+    <sys:String x:Key="Str_Ctx_Copy">Kopier</sys:String>
+    <sys:String x:Key="Str_Ctx_Paste">Lim inn</sys:String>
+
+    <!-- Theme flyout -->
+
+    <!-- Format bar -->
+    <sys:String x:Key="Str_TT_Bold">Fet (Ctrl+B)</sys:String>
+    <sys:String x:Key="Str_TT_Italic">Kursiv (Ctrl+I)</sys:String>
+    <sys:String x:Key="Str_TT_Underline">Understreking (Ctrl+U)</sys:String>
+    <sys:String x:Key="Str_TT_Strike">Gjennomstreking (Ctrl+Shift+S)</sys:String>
+    <sys:String x:Key="Str_TT_Mono">Tekst med fast bredde (kode, Ctrl+Shift+M)</sys:String>
+    <!-- 1.1.0 additions (grouped here for convenience; keys resolve regardless of position) -->
+    <sys:String x:Key="Str_TT_AppSize">Rull for å endre størrelsen på hele appen</sys:String>
+    <sys:String x:Key="Str_St_AppSize">Appstørrelse {0} %</sys:String>
+    <sys:String x:Key="Str_KS_WordWrap">Slå tekstbryting av eller på</sys:String>
+    <sys:String x:Key="Str_KS_Syntax">Syntaksutheving</sys:String>
+    <sys:String x:Key="Str_TT_LineNumbers">Linjenumre (Alt+L)</sys:String>
+    <sys:String x:Key="Str_KS_LineNumbers">Slå linjenumre av eller på</sys:String>
+    <sys:String x:Key="Str_Kb_LineNumbers">Linjenr.</sys:String>
+    <sys:String x:Key="Str_KS_AppSize">Zoom hele appen (tilgjengelighet)</sys:String>
+    <sys:String x:Key="Str_St_LineNumOn">Linjenumre er på</sys:String>
+    <sys:String x:Key="Str_St_LineNumOff">Linjenumre er av</sys:String>
+
+    <!-- Navigation history (NoteHistory.cs). The gestures are the browser's, so the wording is
+         the browser's too - anything more inventive would only obscure what they do. -->
+    <sys:String x:Key="Str_Ctx_NavBack">Tilbake</sys:String>
+    <sys:String x:Key="Str_Ctx_NavForward">Fremover</sys:String>
+    <sys:String x:Key="Str_TT_NavBack">Gå tilbake til notatet du kom fra</sys:String>
+    <sys:String x:Key="Str_TT_NavForward">Gå fremover igjen</sys:String>
+    <sys:String x:Key="Str_KS_NavBack">Tilbake til forrige notat</sys:String>
+    <sys:String x:Key="Str_KS_NavForward">Fremover til neste notat</sys:String>
+    <sys:String x:Key="Str_Kb_NavBack">Tilbake</sys:String>
+    <sys:String x:Key="Str_Kb_NavForward">Fremover</sys:String>
+    <sys:String x:Key="Str_St_NavNoBack">Ingenting å gå tilbake til</sys:String>
+    <sys:String x:Key="Str_St_NavNoForward">Ingenting å gå fremover til</sys:String>
+
+    <!-- The linked-from / mentions strip (Backlinks.cs) -->
+    <sys:String x:Key="Str_Ctx_HideMentions">Skjul denne stripen</sys:String>
+    <sys:String x:Key="Str_TT_HideMentions">Skjul stripen «Lenket fra». Alt+M henter den tilbake.</sys:String>
+    <sys:String x:Key="Str_TT_CollapseMentions">Fold stripen «Lenket fra» sammen i hjørnet</sys:String>
+    <sys:String x:Key="Str_TT_ExpandMentions">Vis stripen «Lenket fra»</sys:String>
+    <sys:String x:Key="Str_KS_HideMentions">Vis eller skjul stripen «Lenket fra»</sys:String>
+    <sys:String x:Key="Str_Kb_HideMentions">Omtaler</sys:String>
+    <sys:String x:Key="Str_St_MentionsHidden">Stripen «Lenket fra» er skjult - Alt+M viser den igjen</sys:String>
+    <sys:String x:Key="Str_St_MentionsShown">Stripen «Lenket fra» vises</sys:String>
+    <sys:String x:Key="Str_TT_Density">Tetthet i sidepanelet (Ctrl+D) - klikk eller rull</sys:String>
+    <sys:String x:Key="Str_KS_Density">Bytt tetthet i sidepanelet</sys:String>
+    <sys:String x:Key="Str_St_DensityFull">Tetthet: full</sys:String>
+    <sys:String x:Key="Str_St_DensityCompact">Tetthet: kompakt</sys:String>
+    <sys:String x:Key="Str_St_DensityMin">Tetthet: minimal</sys:String>
+    <sys:String x:Key="Str_St_Undo">Angret</sys:String>
+    <sys:String x:Key="Str_KS_SortCycle">Bytt sortering i sidepanelet (tid / A-Å / egendefinert)</sys:String>
+    <sys:String x:Key="Str_KS_NewGroup">Ny gruppe (valgte notater legges i den)</sys:String>
+    <sys:String x:Key="Str_KS_Theme">Tema og aksentfarge</sys:String>
+    <sys:String x:Key="Str_KS_TitleColor">Tittelfarge (valgt notat)</sys:String>
+    <sys:String x:Key="Str_KS_Spell">Slå stavekontroll av eller på</sys:String>
+    <sys:String x:Key="Str_KS_Table">Sett inn tabell</sys:String>
+    <!-- Killculator sidebar calculator (F9) -->
+    <sys:String x:Key="Str_KS_Calc">Killculator - «Skriv ut» legger resultatet inn i notatet</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrint">Skriv Killculator-resultatet ut i notatet</sys:String>
+    <sys:String x:Key="Str_TT_CalcRail">Killculator (F9)</sys:String>
+    <sys:String x:Key="Str_TT_SketchRail">SketchPad - tegn en skisse (F7)</sys:String>
+    <sys:String x:Key="Str_TT_KalcResize">Dra for å endre størrelsen på Killculator</sys:String>
+    <!-- Title of the image picker (Editor.Insert.cs and the SketchPad's add-image button). It was
+         never defined, so the dialog's caption rendered the key name itself. -->
+    <sys:String x:Key="Str_TT_Image">Sett inn bilde</sys:String>
+
+    <!-- ==== Themed Windows system menu (Shell/SystemMenu.cs - caption right-click, Alt+Space) ==== -->
+    <sys:String x:Key="Str_Sys_Restore">Gjenopprett</sys:String>
+    <sys:String x:Key="Str_Sys_Move">Flytt</sys:String>
+    <sys:String x:Key="Str_Sys_Size">Størrelse</sys:String>
+    <sys:String x:Key="Str_Sys_Minimize">Minimer</sys:String>
+    <sys:String x:Key="Str_Sys_Maximize">Maksimer</sys:String>
+    <sys:String x:Key="Str_Sys_Close">Lukk</sys:String>
+
+    <!-- ==== Dictation (F10) - Controls/Dictation/DictationWindow.cs, Shell/Editor.Dictation.cs ==== -->
+    <sys:String x:Key="Str_TT_DictationRail">Diktering - ta opp og transkriber (Ctrl+M)</sys:String>
+    <sys:String x:Key="Str_TT_FindRail">Finn i dette notatet (Ctrl+F)</sys:String>
+    <sys:String x:Key="Str_KS_Dictation">Diktering - ta opp og transkriber</sys:String>
+    <sys:String x:Key="Str_Kb_Dictation">Dikter</sys:String>
+    <sys:String x:Key="Str_Dict_Title">Diktering</sys:String>
+    <sys:String x:Key="Str_Dict_Close">Lukk (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
+    <sys:String x:Key="Str_Dict_Record">Ta opp</sys:String>
+    <sys:String x:Key="Str_Dict_Stop">Stopp</sys:String>
+    <sys:String x:Key="Str_Dict_Play">Spill av</sys:String>
+    <sys:String x:Key="Str_Dict_Transcribe">Transkriber</sys:String>
+    <sys:String x:Key="Str_Dict_Print">Skriv ut i notatet</sys:String>
+    <sys:String x:Key="Str_Dict_Embed">Bygg inn opptak</sys:String>
+    <sys:String x:Key="Str_Dict_Ready">Klar. Ta opp, og transkriber eller bygg inn lyden.</sys:String>
+    <sys:String x:Key="Str_Dict_Recording">Tar opp...</sys:String>
+    <sys:String x:Key="Str_Dict_Recorded">Opptaket er ferdig. Transkriber det, bygg det inn, eller begge deler.</sys:String>
+    <sys:String x:Key="Str_Dict_Working">Transkriberer...</sys:String>
+    <sys:String x:Key="Str_Dict_Done">Transkribert. Rediger teksten her, og skriv den deretter ut i notatet.</sys:String>
+    <sys:String x:Key="Str_Dict_Printed">Skrevet ut i notatet.</sys:String>
+    <sys:String x:Key="Str_Dict_Embedded">Opptaket er bygd inn i notatet.</sys:String>
+    <sys:String x:Key="Str_Dict_NoMic">Kunne ikke åpne mikrofonen.</sys:String>
+    <sys:String x:Key="Str_Dict_Empty">Ingenting ble tatt opp. Kontroller at en mikrofon er tilkoblet.</sys:String>
+    <sys:String x:Key="Str_Dict_NoSpeech">Ingen tale ble gjenkjent i opptaket.</sys:String>
+    <sys:String x:Key="Str_Dict_NoText">Det er ingen tekst å skrive ut.</sys:String>
+    <sys:String x:Key="Str_Dict_Failed">Transkriberingen mislyktes.</sys:String>
+    <sys:String x:Key="Str_Dict_NoEngine">Ingen talegjenkjenner er installert, så transkribering er ikke tilgjengelig. Opptak og innbygging fungerer fortsatt.</sys:String>
+    <sys:String x:Key="Str_Dict_EmbedFailed">Opptaket kunne ikke lagres i dette notatet.</sys:String>
+    <sys:String x:Key="Str_Dict_Missing">Opptaket finnes ikke lenger i dette notatet.</sys:String>
+    <sys:String x:Key="Str_Dict_Chip">Opptak</sys:String>
+    <sys:String x:Key="Str_Dict_ChipTip">Spill av med pilen, dra for å flytte, høyreklikk for å redigere eller dele</sys:String>
+
+    <!-- The app's own wordmark, split into the family's two runs: neutral first word, accent
+         second. Shared chrome compiled from another app's source (the file picker) reads these
+         so it names the HOST app instead of the app it was written in. -->
+    <sys:String x:Key="Str_Wordmark_A">Killer</sys:String>
+    <sys:String x:Key="Str_Wordmark_B">Notes</sys:String>
+
+    <!-- ==== Shared file picker (KillerPDF/Controls/FileDialog, linked into this project) ====
+         The picker is compiled from KillerPDF's source, but it resolves its strings against the
+         HOST app's dictionary - so without these it renders its own key names on screen, which is
+         what "Str_QA_Home" and "Str_Sum_Counts" in the dialog were. Wording copied verbatim from
+         KillerPDF/Strings/en-US.xaml so the two apps read identically. -->
+    <sys:String x:Key="Str_Btn_Save">Lagre</sys:String>
+    <sys:String x:Key="Str_Col_Modified">endret</sys:String>
+    <sys:String x:Key="Str_Col_Name">navn</sys:String>
+    <sys:String x:Key="Str_Col_Size">størrelse</sys:String>
+    <sys:String x:Key="Str_Dlg_AllFiles">Alle filer</sys:String>
+    <sys:String x:Key="Str_Dlg_FileName">Filnavn:</sys:String>
+    <sys:String x:Key="Str_Dlg_FileType">Filtype:</sys:String>
+    <sys:String x:Key="Str_Dlg_NoMatchingFiles">Ingenting her samsvarer med gjeldende filtype.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFile">Filen finnes ikke.</sys:String>
+    <sys:String x:Key="Str_Dlg_NoSuchFolder">Mappen finnes ikke.</sys:String>
+    <sys:String x:Key="Str_Dlg_OverwriteMsg">Vil du erstatte {0}?</sys:String>
+    <sys:String x:Key="Str_Menu_PinPlace">Fest til steder</sys:String>
+    <sys:String x:Key="Str_Menu_UnpinPlace">Fjern fra steder</sys:String>
+    <sys:String x:Key="Str_QA_Desktop">Skrivebord</sys:String>
+    <sys:String x:Key="Str_QA_Documents">Dokumenter</sys:String>
+    <sys:String x:Key="Str_QA_Downloads">Nedlastinger</sys:String>
+    <sys:String x:Key="Str_QA_Home">Hjem</sys:String>
+    <sys:String x:Key="Str_QA_Pictures">Bilder</sys:String>
+    <sys:String x:Key="Str_Sum_Counts">{0} mappe(r), {1} fil(er)</sys:String>
+    <sys:String x:Key="Str_TT_RecentLocations">Nylige steder</sys:String>
+    <sys:String x:Key="Str_TT_ShowHidden">Vis skjulte elementer og systemelementer</sys:String>
+    <sys:String x:Key="Str_TT_Up">Opp én mappe</sys:String>
+    <sys:String x:Key="Str_TT_ViewDetails">Detaljvisning</sys:String>
+    <sys:String x:Key="Str_TT_ViewIcons">Ikonvisning</sys:String>
+    <sys:String x:Key="Str_TT_ViewList">Listevisning</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrint">Skriv ut i notatet</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrint">Skriv resultatet inn i dette notatet ved markøren (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintSum">Sum</sys:String>
+    <sys:String x:Key="Str_Btn_CalcPrintEq">Likning</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintSum">Skriv resultatet inn i dette notatet ved markøren (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_TT_CalcPrintEq">Skriv hele likningen inn i dette notatet ved markøren (Ctrl+Shift+Enter)</sys:String>
+    <sys:String x:Key="Str_KS_CalcPrintEq">Skriv Killculator-likningen ut i notatet</sys:String>
+    <sys:String x:Key="Str_St_CalcNoNote">Åpne et notat først</sys:String>
+    <sys:String x:Key="Str_St_CalcPrinted">Skrevet ut i notatet</sys:String>
+    <sys:String x:Key="Str_St_SketchEmpty">Tegn noe først</sys:String>
+    <sys:String x:Key="Str_St_SketchUpdated">Skissen er oppdatert</sys:String>
+    <sys:String x:Key="Str_St_SketchWrongNote">Skissen ble ikke skrevet ut - gå tilbake til notatet den hører til</sys:String>
+    <sys:String x:Key="Str_TT_TextColor">Tekstfarge og utheving</sys:String>
+    <sys:String x:Key="Str_TT_Bullets">Punktliste (Ctrl+Shift+L)</sys:String>
+    <sys:String x:Key="Str_TT_Numbering">Nummerert liste (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_TT_Rule">Horisontal strek (Ctrl+Shift+R)</sys:String>
+    <sys:String x:Key="Str_TT_Table">Sett inn tabell (dra for å velge størrelse)</sys:String>
+    <sys:String x:Key="Str_TT_InsertImage">Sett inn bilde fra en fil</sys:String>
+    <sys:String x:Key="Str_TT_Preview">Forhåndsvisning (F4)</sys:String>
+    <sys:String x:Key="Str_TT_HideBar">Skjul formateringslinjen (F6)</sys:String>
+    <sys:String x:Key="Str_TT_FmtGrip">Dra for å flytte - dobbeltklikk for å minimere</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Klikk eller trykk F6 for å gjenopprette - dra for å flytte</sys:String>
+
+    <!-- Color popup -->
+    <sys:String x:Key="Str_Lbl_TextColor">tekst</sys:String>
+    <sys:String x:Key="Str_Lbl_Highlight">utheving</sys:String>
+    <sys:String x:Key="Str_TT_AccentSwatch">Aksent</sys:String>
+    <sys:String x:Key="Str_Btn_Auto">auto</sys:String>
+    <sys:String x:Key="Str_TT_Auto">Tilbake til temaets tekstfarge</sys:String>
+    <sys:String x:Key="Str_Btn_None">ingen</sys:String>
+    <sys:String x:Key="Str_TT_None">Fjern utheving</sys:String>
+
+    <!-- Table size popup -->
+    <sys:String x:Key="Str_Lbl_Size">størrelse</sys:String>
+    <sys:String x:Key="Str_TT_Columns">Kolonner</sys:String>
+    <sys:String x:Key="Str_TT_Rows">Rader</sys:String>
+    <sys:String x:Key="Str_Btn_Insert">Sett inn</sys:String>
+    <sys:String x:Key="Str_St_CustomRange">1-50 kolonner, 1-200 rader</sys:String>
+
+    <!-- Editor / empty state -->
+    <sys:String x:Key="Str_EmptyHint">Klikk for å starte et nytt notat, slipp tekst eller et bilde her, eller velg et notat til venstre.</sys:String>
+    <sys:String x:Key="Str_St_OnlyImages">Bare bildefiler kan slippes i et notat</sys:String>
+    <sys:String x:Key="Str_Untitled">Uten tittel</sys:String>
+
+    <!-- Status bar messages -->
+    <sys:String x:Key="Str_St_Saved">Lagret</sys:String>
+    <sys:String x:Key="Str_St_ClipBusy">Utklippstavlen er opptatt - prøv igjen</sys:String>
+    <sys:String x:Key="Str_St_NotesCount">{0} notater</sys:String>
+    <!-- The note's stored content would not deserialize. It is left unloaded rather than
+         opened empty, and saving is blocked so the content on disk is not overwritten. -->
+    <sys:String x:Key="Str_St_NoteLoadFailed">Dette notatet kunne ikke åpnes og ble latt være uendret: {0}</sys:String>
+    <sys:String x:Key="Str_St_Matches">{0} treff</sys:String>
+    <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
+         this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->
+    <sys:String x:Key="Str_St_FindMatches">{0} av {1}</sys:String>
+    <sys:String x:Key="Str_St_FindNoMatches">Ingen treff</sys:String>
+    <sys:String x:Key="Str_TT_FindPrev">Forrige treff (Shift+F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindNext">Neste treff (F3)</sys:String>
+    <sys:String x:Key="Str_TT_FindClose">Lukk (Esc)</sys:String>
+    <sys:String x:Key="Str_TT_FindGrip">Dra for å flytte</sys:String>
+
+    <!-- Search and replace (#14): in-note replace row + match options, and the sidebar's
+         cross-note replace. -->
+    <sys:String x:Key="Str_TT_FindCase">Skill mellom store og små bokstaver</sys:String>
+    <sys:String x:Key="Str_TT_FindWord">Hele ord</sys:String>
+    <sys:String x:Key="Str_TT_FindRegex">Regulært uttrykk</sys:String>
+    <sys:String x:Key="Str_Btn_Replace">Erstatt</sys:String>
+    <sys:String x:Key="Str_Btn_ReplaceAll">Alle</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceOne">Erstatt gjeldende treff (Enter)</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceAll">Erstatt alle treff i dette notatet (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_St_Replaced">Erstattet {0} treff</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplace">Erstatt i alle notater</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Erstatt søketermen i alle notater som inneholder den</sys:String>
+    <sys:String x:Key="Str_ReplacePlaceholder">Erstatt med...</sys:String>
+    <sys:String x:Key="Str_St_ReplaceNeedsTerm">Skriv inn en søketerm ovenfor først</sys:String>
+    <sys:String x:Key="Str_St_ReplacedNotes">Erstattet {0} treff i {1} notater</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllHead">Erstatte {0} treff i {1} notater?</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceAllBody">Hver «{0}» blir til «{1}». Ctrl+Z setter alt tilbake.</sys:String>
+    <sys:String x:Key="Str_Dlg_ReplaceMore">...og {0} notater til</sys:String>
+    <sys:String x:Key="Str_KS_Replace">Finn og erstatt i dette notatet</sys:String>
+    <sys:String x:Key="Str_St_NoteDeleted">Notatet er slettet</sys:String>
+    <sys:String x:Key="Str_St_NotesDeleted">{0} notater er slettet</sys:String>
+    <sys:String x:Key="Str_St_OpenDbFailed">Kunne ikke åpne notatdatabasen: {0}</sys:String>
+
+    <!-- Network data folder safeguard -->
+    <sys:String x:Key="Str_Btn_OK">OK</sys:String>
+    <sys:String x:Key="Str_Net_WarnHead">Datamappen ligger på en nettverksplassering</sys:String>
+    <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} ligger på en annen datamaskin. Det er ikke trygt å bruke én notatdatabase fra to maskiner samtidig.
+En låsefil beskytter mot dette, men hver person bør ha sin egen database og dele notater som .knote- eller .kndb-filer.</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyHead">Åpnet skrivebeskyttet</sys:String>
+    <sys:String x:Key="Str_Net_ReadOnlyBody" xml:space="preserve">Denne databasen er i bruk på {0}, så den ble åpnet skrivebeskyttet - endringer blir ikke lagret.
+Hvis {0} egentlig ikke kjører KillerNotes (for eksempel etter en krasj), kan du slette .lock-filen ved siden av databasen og åpne den på nytt.</sys:String>
+    <sys:String x:Key="Str_St_ReadOnly">Skrivebeskyttet - i bruk på {0}</sys:String>
+
+    <!-- Delete note confirm -->
+    <sys:String x:Key="Str_Dlg_DeleteNoteHead">Slette «{0}»?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNotesHead">Slette {0} notater?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteNoteBody">Det flyttes til papirkurven i 30 dager. Ctrl+Z henter det tilbake nå.</sys:String>
+    <sys:String x:Key="Str_Btn_Delete">Slett</sys:String>
+    <sys:String x:Key="Str_Btn_Cancel">Avbryt</sys:String>
+
+    <!-- Password / unlock flow -->
+    <sys:String x:Key="Str_Pw_UnlockHead">Lås opp KillerNotes</sys:String>
+    <sys:String x:Key="Str_Pw_WrongPw">Feil passord - prøv igjen</sys:String>
+    <sys:String x:Key="Str_Pw_Protected">«{0}» er passordbeskyttet.</sys:String>
+    <sys:String x:Key="Str_Btn_Unlock">Lås opp</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Ny</sys:String>
+    <sys:String x:Key="Str_Lbl_Confirm">bekreft</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshHead">Starte en ny database?</sys:String>
+    <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Den låste databasen blir liggende på disken og kan fortsatt låses opp senere hvis passordet dukker opp.
+Det er ikke mulig å gjenopprette notatene uten det.</sys:String>
+    <sys:String x:Key="Str_Btn_StartNew">Start ny</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Åpne...</sys:String>
+    <sys:String x:Key="Str_St_FreshDb">Ny database - den låste er beholdt som {0}</sys:String>
+    <sys:String x:Key="Str_Pw_SetHead">Angi et passord</sys:String>
+    <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Krypterer hele notatdatabasen (AES-256 via SQLCipher).
+Ikke mist det - det finnes ingen gjenoppretting.</sys:String>
+    <sys:String x:Key="Str_Btn_Encrypt">Krypter</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeHead">Endre eller fjern passord</sys:String>
+    <sys:String x:Key="Str_Pw_ChangeBody">Skriv inn et nytt passord, eller la begge feltene stå tomme for å fjerne beskyttelsen.</sys:String>
+    <sys:String x:Key="Str_Btn_Apply">Bruk</sys:String>
+    <sys:String x:Key="Str_St_PwMismatch">Passordene var ikke like - ingenting ble endret</sys:String>
+    <sys:String x:Key="Str_St_Encrypted">Databasen er kryptert</sys:String>
+    <sys:String x:Key="Str_St_PwChanged">Passordet er endret</sys:String>
+    <sys:String x:Key="Str_St_PwRemoved">Passordet er fjernet - databasen er ikke lenger kryptert</sys:String>
+    <sys:String x:Key="Str_St_PwFailed">Passordendringen mislyktes: {0}</sys:String>
+
+    <!-- Sharing (.knote / .kndb) -->
+    <sys:String x:Key="Str_Dlg_AddDbHead">Legge til databasen «{0}»?</sys:String>
+    <sys:String x:Key="Str_Dlg_AddDbBody" xml:space="preserve">Den kopieres inn i KillerNotes-datamappen din og åpnes.
+Den nåværende databasen er fortsatt tilgjengelig under «Administrer databaser».</sys:String>
+    <sys:String x:Key="Str_Btn_Add">Legg til</sys:String>
+    <sys:String x:Key="Str_St_AddDbFailed">Kunne ikke legge til databasen: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteHead">Importere «{0}»?</sys:String>
+    <sys:String x:Key="Str_Dlg_ImportNoteBody">Notatene legges til i den nåværende databasen din.</sys:String>
+    <sys:String x:Key="Str_Btn_Import">Importer</sys:String>
+    <sys:String x:Key="Str_Pw_SharedHead">Lås opp delt notat</sys:String>
+    <sys:String x:Key="Str_Pw_SharedBody">«{0}» er beskyttet med et delingspassord.</sys:String>
+    <sys:String x:Key="Str_St_NoteImported1">1 notat er importert</sys:String>
+    <sys:String x:Key="Str_St_NoteImportedN">{0} notater er importert</sys:String>
+    <sys:String x:Key="Str_St_ImportFailed">Importen mislyktes: {0}</sys:String>
+    <sys:String x:Key="Str_Pw_ShareHead">Beskytte det delte notatet?</sys:String>
+    <sys:String x:Key="Str_Pw_ShareBody" xml:space="preserve">Valgfritt: mottakeren må skrive inn dette passordet for å åpne det.
+La begge feltene stå tomme for å dele uten passord.</sys:String>
+    <sys:String x:Key="Str_Btn_Share">Del</sys:String>
+    <sys:String x:Key="Str_St_NothingShared">Passordene var ikke like - ingenting ble delt</sys:String>
+    <sys:String x:Key="Str_St_SharedTo">Delt til {0}</sys:String>
+    <sys:String x:Key="Str_St_ShareFailed">Delingen mislyktes: {0}</sys:String>
+    <sys:String x:Key="Str_St_DragReady">{0}.knote er klar der du slapp den</sys:String>
+    <sys:String x:Key="Str_St_DragFailed">Deling med dra og slipp mislyktes: {0}</sys:String>
+
+    <!-- Import / export (ordinary files) -->
+    <sys:String x:Key="Str_St_ImportFailedFile">Importen mislyktes for {0}: {1}</sys:String>
+    <sys:String x:Key="Str_St_Imported1">1 fil er importert</sys:String>
+    <sys:String x:Key="Str_St_ImportedN">{0} filer er importert</sys:String>
+    <sys:String x:Key="Str_St_ExportedTo">Eksportert til {0}</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">Eksportert til {0} (bilder ble hoppet over)</sys:String>
+    <sys:String x:Key="Str_St_ExportFailed">Eksporten mislyktes: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Open">Alle støttede|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Tekst (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Rik tekst (*.rtf)|*.rtf|Bilder|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes-filer (*.knote, *.kndb)|*.knote;*.kndb|Alle filer (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Tekstfil (*.txt)|*.txt|Rik tekst (*.rtf)|*.rtf|Nettside (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes-notat (*.knote)|*.knote</sys:String>
+
+    <!-- Preview -->
+    <sys:String x:Key="Str_TT_PreviewMd">Forhåndsvis Markdown</sys:String>
+    <sys:String x:Key="Str_TT_PreviewHtml">Forhåndsvis HTML</sys:String>
+    <sys:String x:Key="Str_St_PreviewFailed">Forhåndsvisningen mislyktes: {0}</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Kilde</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Gjengitt</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Delt</sys:String>
+
+    <!-- Databases dialog -->
+    <sys:String x:Key="Str_Db_Title">Databaser</sys:String>
+    <sys:String x:Key="Str_Btn_Open">Åpne</sys:String>
+    <sys:String x:Key="Str_TT_NewDb">Ny database</sys:String>
+    <sys:String x:Key="Str_TT_DeleteDb">Slett valgt database</sys:String>
+    <sys:String x:Key="Str_TT_Explorer">Åpne datamappen i Filutforsker</sys:String>
+    <sys:String x:Key="Str_Ctx_Rename">Gi nytt navn</sys:String>
+    <sys:String x:Key="Str_Ctx_Delete">Slett</sys:String>
+    <sys:String x:Key="Str_Ctx_CopyFile">Kopier fil</sys:String>
+    <sys:String x:Key="Str_TT_CopyFile">Legger .db-filen på utklippstavlen som en fil - lim den inn i Filutforsker, Teams eller en e-post for å dele den</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportKndb">Eksporter som .kndb...</sys:String>
+    <sys:String x:Key="Str_TT_ExportKndb">Lagre en kopi som kolleger kan dobbeltklikke for å åpne i KillerNotes</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">Vis i Filutforsker</sys:String>
+    <sys:String x:Key="Str_Db_SelectFirst">Velg en database først</sys:String>
+    <sys:String x:Key="Str_Db_FlagEncrypted">kryptert</sys:String>
+    <sys:String x:Key="Str_Db_FlagActive">aktiv</sys:String>
+    <sys:String x:Key="Str_Db_Copied">{0} er kopiert - lim den inn i Filutforsker, Teams eller en e-post</sys:String>
+    <sys:String x:Key="Str_Db_CopyFailed">Kopieringen mislyktes: {0}</sys:String>
+    <sys:String x:Key="Str_Db_BadName">Navnet inneholder tegn som Windows ikke tillater</sys:String>
+    <sys:String x:Key="Str_Db_Exists">{0} finnes allerede</sys:String>
+    <sys:String x:Key="Str_Db_Renamed">{0} har fått nytt navn: {1}</sys:String>
+    <sys:String x:Key="Str_Db_RenameFailed">Kunne ikke gi nytt navn: {0}</sys:String>
+    <sys:String x:Key="Str_Db_CreateFailed">Kunne ikke opprette: {0}</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteDbBody">Alle notater i den slettes permanent. Dette kan ikke angres.</sys:String>
+    <sys:String x:Key="Str_Db_Deleted">{0} er slettet</sys:String>
+    <sys:String x:Key="Str_Db_DeleteFailed">Slettingen mislyktes: {0}</sys:String>
+    <sys:String x:Key="Str_Filter_Kndb">KillerNotes-database (*.kndb)|*.kndb</sys:String>
+
+    <!-- Change data folder (#6) -->
+    <sys:String x:Key="Str_TT_DataFolder">Endre datamappen der databasene lagres</sys:String>
+    <!-- No product name: the caption already prefixes it, so it read "KillerNotes  Choose the
+         KillerNotes data folder". -->
+    <sys:String x:Key="Str_Db_PickFolderTitle">Velg KillerNotes-datamappen</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsHead">Flytte {0} databasefil(er) til den nye mappen?</sys:String>
+    <sys:String x:Key="Str_Dlg_MoveDbsBody">«Flytt» tar med alle .db-filer. «La stå» bytter til den nye mappen og lar de nåværende filene bli liggende.</sys:String>
+    <sys:String x:Key="Str_Btn_Move">Flytt</sys:String>
+    <sys:String x:Key="Str_Btn_LeaveFiles">La stå</sys:String>
+    <sys:String x:Key="Str_Db_FolderChanged">Datamappen er nå {0}</sys:String>
+    <sys:String x:Key="Str_Db_FolderChangedPartial">Datamappen er nå {0} - {1} fil(er) ble igjen (i bruk eller finnes allerede på målet)</sys:String>
+
+    <!-- Custom order + groups (#4) -->
+    <sys:String x:Key="Str_TT_SortCustom">Egendefinert rekkefølge - dra notater for å ordne dem</sys:String>
+    <sys:String x:Key="Str_St_CustomOrderOn">Byttet til egendefinert rekkefølge - dra notater for å ordne dem</sys:String>
+    <sys:String x:Key="Str_Ctx_Group">Gruppe</sys:String>
+    <sys:String x:Key="Str_Ctx_NewGroup">Ny gruppe...</sys:String>
+    <sys:String x:Key="Str_Ctx_NewSubgroup">Ny undergruppe...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubTop">Undergrupper øverst</sys:String>
+    <sys:String x:Key="Str_TT_SubTop">Vis undergrupper over gruppens egne notater</sys:String>
+    <sys:String x:Key="Str_Ctx_RemoveFromGroup">Fjern fra gruppe</sys:String>
+    <sys:String x:Key="Str_Ctx_RenameGroup">Gi gruppen nytt navn...</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteGroup">Slett gruppe</sys:String>
+    <sys:String x:Key="Str_Dlg_NewGroupHead">Gi den nye gruppen et navn</sys:String>
+    <sys:String x:Key="Str_Dlg_NewSubgroupHead">Gi den nye undergruppen et navn</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameGroupHead">Gi denne gruppen nytt navn</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupHead">Slette gruppen «{0}»?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteGroupBody">Notatene beholdes - de forlater bare gruppen.</sys:String>
+    <sys:String x:Key="Str_Btn_Create">Opprett</sys:String>
+    <sys:String x:Key="Str_Btn_Rename">Gi nytt navn</sys:String>
+    <sys:String x:Key="Str_Grp_Exists">En gruppe med navnet {0} finnes allerede</sys:String>
+    <sys:String x:Key="Str_St_MovedToGroup">Flyttet til {0}</sys:String>
+    <sys:String x:Key="Str_St_RemovedFromGroup">Fjernet fra gruppen</sys:String>
+    <sys:String x:Key="Str_St_GroupMoved">Gruppen er flyttet</sys:String>
+
+    <!-- About overlay -->
+    <sys:String x:Key="Str_About_Title">Om KillerNotes</sys:String>
+    <sys:String x:Key="Str_About_Version">Versjon</sys:String>
+    <sys:String x:Key="Str_About_Publisher">Utgiver</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">Sertifikatets tommelavtrykk</sys:String>
+    <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notater som holder tritt. En søkbar, kryptert notisblokk med rik tekst, innebygde bilder, ekte tabeller og umiddelbart fulltekstsøk, alt lagret automatisk i én enkelt fil. Et GPLv3- </sys:String>
+    <sys:String x:Key="Str_About_DescB" xml:space="preserve"> verktøy.</sys:String>
+    <sys:String x:Key="Str_About_Computing">beregner...</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvail">Oppdatering tilgjengelig: {0}</sys:String>
+    <sys:String x:Key="Str_About_Downloading">Laster ned...</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateHead">Laste ned og installere {0} {1}?</sys:String>
+    <sys:String x:Key="Str_Dlg_UpdateBody">Appen lukkes og åpnes automatisk igjen.</sys:String>
+    <sys:String x:Key="Str_Btn_Update">Oppdater</sys:String>
+
+    <!-- Shortcuts overlay (list view) -->
+    <sys:String x:Key="Str_KS_Title">Hurtigtaster</sys:String>
+    <sys:String x:Key="Str_KS_ViewList">LISTE</sys:String>
+    <sys:String x:Key="Str_KS_ViewKeyboard">TASTATUR</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">hold inne Ctrl, Shift eller Alt for å forhåndsvise det laget</sys:String>
+    <sys:String x:Key="Str_KS_ThisList">Hurtigtaster (denne listen)</sys:String>
+    <sys:String x:Key="Str_KS_Rename">Gi det åpne notatet nytt navn</sys:String>
+    <sys:String x:Key="Str_KS_Search">Søk i notater</sys:String>
+    <sys:String x:Key="Str_KS_Find">Finn i dette notatet</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Slå Markdown/HTML-forhåndsvisning av eller på</sys:String>
+    <sys:String x:Key="Str_KS_FormatBar">Vis / skjul formateringslinjen</sys:String>
+    <sys:String x:Key="Str_KS_Export">Eksporter det åpne notatet (.txt / .rtf / .html)</sys:String>
+    <sys:String x:Key="Str_KS_Sidebar">Skjul / vis sidepanelet</sys:String>
+    <sys:String x:Key="Str_KS_Fullscreen">Fullskjerm</sys:String>
+    <sys:String x:Key="Str_KS_About">Om KillerNotes</sys:String>
+    <sys:String x:Key="Str_KS_NewNote">Nytt notat</sys:String>
+    <sys:String x:Key="Str_KS_OpenFiles">Åpne filer som nye notater</sys:String>
+    <sys:String x:Key="Str_KS_Save">Lagre nå (automatisk lagring kjører uansett)</sys:String>
+    <sys:String x:Key="Str_KS_BIU">Fet / kursiv / understreking</sys:String>
+    <sys:String x:Key="Str_KS_Strike">Gjennomstreking</sys:String>
+    <sys:String x:Key="Str_KS_Mono">Fast bredde (kode)</sys:String>
+    <sys:String x:Key="Str_KS_Highlight">Uthev markeringen</sys:String>
+    <sys:String x:Key="Str_KS_Rule">Sett inn horisontal strek</sys:String>
+    <sys:String x:Key="Str_KS_Lists">Punktliste / nummerert liste</sys:String>
+    <sys:String x:Key="Str_KS_Paste">Lim inn - tekst, bilder, tabeller</sys:String>
+    <sys:String x:Key="Str_KS_Delete">Slett det valgte notatet (i listen)</sys:String>
+    <sys:String x:Key="Str_KS_Esc">Lukk overlegg / tøm søk</sys:String>
+    <sys:String x:Key="Str_KS_SecGraph">Grafvindu</sys:String>
+    <sys:String x:Key="Str_KS_GrArrange">Ordne: etter tilknytning, sirkel, rutenett, gruppe eller avstand</sys:String>
+    <sys:String x:Key="Str_KS_GrVisualizer">Visualisering: la grafen drive og rotere</sys:String>
+    <sys:String x:Key="Str_KS_GrNextShape">Neste form i visualiseringen</sys:String>
+    <sys:String x:Key="Str_KS_GrPin">Fest hvert notat der det plasseres</sys:String>
+    <sys:String x:Key="Str_KS_GrLock">Lås de valgte notatene på plass</sys:String>
+    <sys:String x:Key="Str_KS_GrIsolate">Vis bare det som lenker hit</sys:String>
+    <sys:String x:Key="Str_KS_GrLabels">Vis notattitler</sys:String>
+    <sys:String x:Key="Str_KS_GrSelect">Velg alle synlige / kopier som [[lenke]]</sys:String>
+    <sys:String x:Key="Str_KS_GrOpen">Åpne notatet / vis alt igjen</sys:String>
+    <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
+    <sys:String x:Key="Str_KS_SkTools">Verktøy: velg, penn, linje, pil, rektangel, ellipse, polygon, fyll, tekst, viskelær, beskjær, bilde</sys:String>
+    <sys:String x:Key="Str_KS_SkUndo">Angre / gjør om</sys:String>
+    <sys:String x:Key="Str_KS_SkPaste">Lim inn et bilde fra utklippstavlen</sys:String>
+    <sys:String x:Key="Str_KS_SkPrint">Skriv skissen ut i notatet</sys:String>
+    <sys:String x:Key="Str_KS_SkZoom">Zoom lerretet</sys:String>
+    <sys:String x:Key="Str_KS_SkDelete">Slett markeringen</sys:String>
+    <sys:String x:Key="Str_KS_SkClose">Fullfør en polygon / lukk tegneflaten</sys:String>
+    <sys:String x:Key="Str_KS_Undo">Angre / gjør om</sys:String>
+    <sys:String x:Key="Str_KS_CutCopy">Klipp ut / kopier</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">Merk alt</sys:String>
+
+    <!-- Keyboard map (short keycap captions + section names) -->
+    <sys:String x:Key="Str_Kb_Shortcuts">Hurtigtaster</sys:String>
+    <sys:String x:Key="Str_Kb_Preview">Markdown/HTML-forhåndsvisning</sys:String>
+    <sys:String x:Key="Str_Kb_FormatBar">Formateringslinje</sys:String>
+    <sys:String x:Key="Str_Kb_Export">Eksporter det åpne notatet</sys:String>
+    <sys:String x:Key="Str_Kb_Sidebar">Sidepanel</sys:String>
+    <sys:String x:Key="Str_Kb_DeleteNote">Slett notat (i listen)</sys:String>
+    <sys:String x:Key="Str_Kb_SaveNow">Lagre nå</sys:String>
+    <sys:String x:Key="Str_Kb_Bold">Fet</sys:String>
+    <sys:String x:Key="Str_Kb_Italic">Kursiv</sys:String>
+    <sys:String x:Key="Str_Kb_Underline">Understreking</sys:String>
+    <sys:String x:Key="Str_Kb_Paste">Lim inn</sys:String>
+    <sys:String x:Key="Str_Kb_Highlight">Uthev</sys:String>
+    <sys:String x:Key="Str_Kb_Rule">Horisontal strek</sys:String>
+    <sys:String x:Key="Str_Kb_Bullets">Punktliste</sys:String>
+    <sys:String x:Key="Str_Kb_Numbered">Nummerert liste</sys:String>
+    <sys:String x:Key="Str_Kb_Cut">Klipp ut</sys:String>
+    <sys:String x:Key="Str_Kb_Copy">Kopier</sys:String>
+    <sys:String x:Key="Str_Kb_Undo">Angre</sys:String>
+    <sys:String x:Key="Str_Kb_Redo">Gjør om</sys:String>
+    <sys:String x:Key="Str_Kb_SelectAll">Merk alt</sys:String>
+    <sys:String x:Key="Str_Kb_Tag">Slå merke av/på</sys:String>
+    <sys:String x:Key="Str_Sec_File">Fil</sys:String>
+    <sys:String x:Key="Str_Sec_Notes">Notater</sys:String>
+    <sys:String x:Key="Str_Sec_Format">Formatering</sys:String>
+    <sys:String x:Key="Str_Sec_View">Visning</sys:String>
+    <sys:String x:Key="Str_Sec_Search">Søk</sys:String>
+    <sys:String x:Key="Str_Sec_Help">Hjelp</sys:String>
+    <sys:String x:Key="Str_Sec_Edit">Redigering</sys:String>
+
+    <!-- Font size / zoom / colors / title color / spell check (1.0.1, #1) -->
+    <sys:String x:Key="Str_TT_FontSize">Tekststørrelse (rull for å endre)</sys:String>
+    <sys:String x:Key="Str_Btn_More">Mer...</sys:String>
+    <sys:String x:Key="Str_TT_MoreColors">Velg hvilken som helst farge</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColor">Tittelfarge...</sys:String>
+    <sys:String x:Key="Str_TT_TitleColor">Farg tittelen på dette notatet i listen</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">Tilbakestill tittelfarge</sys:String>
+    <!-- App-wide off switch for the markdown/HTML detection (1.1.7, #14). The detector itself
+         now requires a strong markdown signal, so plain-text checklists no longer trip it; this
+         is for anyone who wants it to stop guessing entirely. -->
+    <sys:String x:Key="Str_Ctx_PreviewGlobal">Gjenkjenn Markdown og HTML</sys:String>
+    <sys:String x:Key="Str_TT_PreviewGlobal">Tilby forhåndsvisning når et notat ser ut som Markdown eller HTML (alle notater)</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOn">Gjenkjenning av Markdown og HTML er på</sys:String>
+    <sys:String x:Key="Str_St_PreviewGlobalOff">Gjenkjenning av Markdown og HTML er av</sys:String>
+    <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
+    <sys:String x:Key="Str_Ctx_ConvertList">Konverter til liste</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Gjør de valgte linjene - eller ordene i én setning - om til en kommaseparert liste</sys:String>
+    <sys:String x:Key="Str_KS_ConvertList">Markering til kommaliste</sys:String>
+    <sys:String x:Key="Str_St_ListMade">{0} verdier er konvertert til en kommaliste</sys:String>
+    <sys:String x:Key="Str_St_ListCopied">{0} verdier er kopiert som en kommaliste</sys:String>
+    <sys:String x:Key="Str_St_ListNoSel">Velg noen linjer først</sys:String>
+    <!-- Per-group name color (1.0.3, issue #8), mirrors the per-note title color -->
+    <sys:String x:Key="Str_Ctx_GroupColor">Gruppefarge...</sys:String>
+    <sys:String x:Key="Str_Ctx_SubgroupColor">Undergruppefarge...</sys:String>
+    <sys:String x:Key="Str_TT_GroupColor">Farg navnet på denne gruppen i sidepanelet</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupColorReset">Tilbakestill farge</sys:String>
+    <!-- Subgroup + group-color keyboard shortcuts (1.1.0), acting on the selected note's group -->
+    <sys:String x:Key="Str_KS_NewSubgroup">Ny undergruppe (det valgte notatets gruppe)</sys:String>
+    <sys:String x:Key="Str_KS_GroupColor">Gruppefarge (det valgte notatets gruppe)</sys:String>
+    <sys:String x:Key="Str_St_PickGroupFirst">Velg et notat som ligger i en gruppe først</sys:String>
+    <sys:String x:Key="Str_KS_FontSize">Forstørr / forminsk valgt tekst</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">Zoom redigeringsfeltet (Ctrl+0 tilbakestiller)</sys:String>
+    <sys:String x:Key="Str_St_Zoom">Zoom {0} %</sys:String>
+    <sys:String x:Key="Str_St_SpellOn">Stavekontroll er på for dette notatet</sys:String>
+    <sys:String x:Key="Str_St_SpellTooBig">Notatet er for stort for stavekontroll</sys:String>
+    <sys:String x:Key="Str_St_SpellOff">Stavekontroll er av for dette notatet</sys:String>
+    <sys:String x:Key="Str_St_WrapOn">Tekstbryting er på</sys:String>
+    <sys:String x:Key="Str_St_WrapOff">Tekstbryting er av - rull for å se bredt innhold</sys:String>
+    <sys:String x:Key="Str_Kb_FontUp">Forstørr tekst</sys:String>
+    <sys:String x:Key="Str_Kb_FontDown">Forminsk tekst</sys:String>
+    <sys:String x:Key="Str_Kb_ZoomReset">Tilbakestill zoom</sys:String>
+
+    <!-- Editor built-ins on the keyboard map + shortcut list (1.1.2) -->
+    <sys:String x:Key="Str_Kb_CtxMenu">Hurtigmeny</sys:String>
+    <sys:String x:Key="Str_Kb_NoteTop">Toppen av notatet</sys:String>
+    <sys:String x:Key="Str_Kb_NoteEnd">Slutten av notatet</sys:String>
+    <sys:String x:Key="Str_Kb_WordLeft">Ord til venstre</sys:String>
+    <sys:String x:Key="Str_Kb_WordRight">Ord til høyre</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordL">Slett ord til venstre</sys:String>
+    <sys:String x:Key="Str_Kb_DelWordR">Slett ord til høyre</sys:String>
+    <sys:String x:Key="Str_Kb_AlignL">Venstrejuster</sys:String>
+    <sys:String x:Key="Str_Kb_AlignC">Midtstill</sys:String>
+    <sys:String x:Key="Str_Kb_AlignR">Høyrejuster</sys:String>
+    <sys:String x:Key="Str_Kb_AlignJ">Blokkjuster</sys:String>
+    <sys:String x:Key="Str_KS_NoteNav">Hopp til toppen / slutten av notatet</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Forhåndsvisning: hopp til toppen / slutten av siden</sys:String>
+    <sys:String x:Key="Str_KS_WordJump">Hopp ett helt ord om gangen</sys:String>
+    <sys:String x:Key="Str_KS_DelWord">Slett et helt ord</sys:String>
+    <sys:String x:Key="Str_KS_Align">Venstrejuster / midtstill / høyrejuster / blokkjuster</sys:String>
+
+    <!-- Fonts dialog (Fonts.cs, 1.1.2): header + note-text font slots -->
+    <sys:String x:Key="Str_Fonts_Open">Skrifttyper...</sys:String>
+    <sys:String x:Key="Str_Fonts_Title">Skrifttyper</sys:String>
+    <sys:String x:Key="Str_Fonts_Headers">Overskrifter (gruppetitler)</sys:String>
+    <sys:String x:Key="Str_Fonts_Sidebar">Sidepanel (notattitler)</sys:String>
+    <sys:String x:Key="Str_Fonts_Content">Notattekst</sys:String>
+    <sys:String x:Key="Str_Fonts_Default">KillerNotes-standard</sys:String>
+    <sys:String x:Key="Str_Fonts_DropHint">Slipp en .ttf- eller .otf-fil på dette kortet for å legge til din egen skrifttype.</sys:String>
+    <sys:String x:Key="Str_Fonts_Note">Gjelder umiddelbart i hele appen. Tekst som har fått sin egen skrifttype beholder den.</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Tilbakestill til standard</sys:String>
+    <sys:String x:Key="Str_Fonts_Bad">Denne skrifttypen kan ikke gjengi vanlig tekst</sys:String>
+    <sys:String x:Key="Str_St_FontAdded">Skrifttype lagt til: {0}</sys:String>
+
+    <!-- Localization audit (1.1.2): sort status/tooltips, status-bar Ready, font previews -->
+    <sys:String x:Key="Str_St_SortOldest">Etter opprettelsestidspunkt - eldste først</sys:String>
+    <sys:String x:Key="Str_St_SortNewest">Etter opprettelsestidspunkt - nyeste først</sys:String>
+    <sys:String x:Key="Str_St_SortAZ">Alfabetisk - A til Å</sys:String>
+    <sys:String x:Key="Str_St_SortZA">Alfabetisk - Å til A</sys:String>
+    <sys:String x:Key="Str_TT_ClickReverse">{0} (klikk for å snu)</sys:String>
+    <sys:String x:Key="Str_TT_SortTimeOff">Sorter etter opprettelsestidspunkt</sys:String>
+    <sys:String x:Key="Str_TT_SortAlphaOff">Sorter alfabetisk</sys:String>
+    <sys:String x:Key="Str_St_Ready">Klar</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevHead">Kundenettsteder - AaBbCc 123</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Brannmurbytte - Meadowbrook Vet</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevText">Et lite fjes av en kjapp ræv hopper over den late hunden 0123456789.</sys:String>
+
+    <sys:String x:Key="Str_Dict_Volume">Volum - dra opp eller ned</sys:String>
+    <sys:String x:Key="Str_Dict_Pause">Pause</sys:String>
+    <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
+    <sys:String x:Key="Str_Whisper_Title">Talemodell</sys:String>
+    <sys:String x:Key="Str_Whisper_Blurb">Windows' innebygde diktering er ikke særlig nøyaktig. KillerNotes kan bruke en bedre talemodell i stedet - den kjører helt på denne maskinen, og ingenting lastes opp. Velg en å laste ned.</sys:String>
+    <sys:String x:Key="Str_Whisper_Tiny">Rask</sys:String>
+    <sys:String x:Key="Str_Whisper_Base">Anbefalt</sys:String>
+    <sys:String x:Key="Str_Whisper_Small">Mest nøyaktig</sys:String>
+    <sys:String x:Key="Str_Whisper_Installed">allerede lastet ned</sys:String>
+    <sys:String x:Key="Str_Whisper_Download">Last ned</sys:String>
+    <sys:String x:Key="Str_Whisper_Use">Bruk denne</sys:String>
+    <sys:String x:Key="Str_Whisper_Menu">Talemodell...</sys:String>
+    <sys:String x:Key="Str_Whisper_Unavailable">Denne versjonen har ingen talemodeller - transkribering bruker Windows' egen motor.</sys:String>
+    <sys:String x:Key="Str_Whisper_Starting">Starter nedlasting...</sys:String>
+    <sys:String x:Key="Str_Whisper_Canceled">Nedlastingen er avbrutt.</sys:String>
+    <sys:String x:Key="Str_Whisper_Done">Klar. Transkribering bruker denne fra nå av.</sys:String>
+
+    <sys:String x:Key="Str_Dict_EditRec">Rediger opptak...</sys:String>
+    <sys:String x:Key="Str_Dict_SaveChanges">Lagre endringer</sys:String>
+    <sys:String x:Key="Str_Dict_Editing">Redigerer et innebygd opptak. Del det opp, og lagre deretter endringene.</sys:String>
+    <sys:String x:Key="Str_Dict_Replaced">Opptaket er oppdatert.</sys:String>
+    <sys:String x:Key="Str_Dict_Share">Del opptak</sys:String>
+    <sys:String x:Key="Str_Dict_SaveAs">Lagre som fil...</sys:String>
+    <sys:String x:Key="Str_Dict_CopyFile">Kopier som fil</sys:String>
+    <sys:String x:Key="Str_Dict_Saved">Opptaket er lagret.</sys:String>
+    <sys:String x:Key="Str_Dict_Copied">Opptaket er kopiert - lim det inn i en e-post, en chat eller en mappe.</sys:String>
+    <sys:String x:Key="Str_Dict_Slice">Del opp her</sys:String>
+    <sys:String x:Key="Str_Dict_CopySeg">Kopier segment</sys:String>
+    <sys:String x:Key="Str_Dict_DeleteSeg">Slett segment</sys:String>
+    <sys:String x:Key="Str_Dict_PasteSeg">Lim inn segment her</sys:String>
+    <sys:String x:Key="Str_Dict_ClearCuts">Fjern oppdelinger</sys:String>
+    <sys:String x:Key="Str_Dict_UndoEdit">Angre redigering</sys:String>
+    <sys:String x:Key="Str_Dict_Edited">Redigert. Spill det av, eller transkriber det på nytt.</sys:String>
+
+    <!-- Floating images and recordings (Editor.Float.cs, 1.2.0). No strings: floating has no menu
+         item and no wording - dragging an object IS the gesture. -->
+
+    <!-- Hyperlinks (Links.cs, 1.1.3) -->
+    <sys:String x:Key="Str_KS_Link">Sett inn / rediger lenke</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">Lenke...</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkAdd">Lenkeadresse</sys:String>
+    <sys:String x:Key="Str_Dlg_LinkEdit">Rediger lenke - tøm adressen for å fjerne lenken</sys:String>
+    <sys:String x:Key="Str_Btn_Link">Lenke</sys:String>
+    <sys:String x:Key="Str_St_LinkBad">Det ser ikke ut som en nettadresse</sys:String>
+    <sys:String x:Key="Str_St_LinkNotText">Bare tekst kan lenkes - merk ord, ikke et bilde eller et opptak</sys:String>
+    <sys:String x:Key="Str_St_LinkFailed">Kunne ikke åpne lenken</sys:String>
+    <sys:String x:Key="Str_Dlg_PickColor">Velg en farge</sys:String>
+    <sys:String x:Key="Str_TT_Eyedropper">Velg en farge fra et hvilket som helst sted på skjermen</sys:String>
+    <sys:String x:Key="Str_TT_ReplaceSwatch">Klikk, og klikk deretter på en fargeprøve for å sette den til gjeldende farge</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">Tilbakestill fargeprøvene til standard</sys:String>
+    <sys:String x:Key="Str_TT_SwatchUse">Klikk for å bruke denne fargen</sys:String>
+    <sys:String x:Key="Str_TT_SwatchReplace">Klikk for å sette denne fargeprøven til gjeldende farge</sys:String>
+
+    <!-- Tags -->
+    <sys:String x:Key="Str_Ctx_Tags">Merker</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageTags">Administrer merker...</sys:String>
+    <sys:String x:Key="Str_TT_TagChip">Klikk for å filtrere etter dette merket</sys:String>
+    <sys:String x:Key="Str_Tags_Title">Administrer merker</sys:String>
+    <sys:String x:Key="Str_TT_TagPickColor">Velg en farge for det nye merket</sys:String>
+    <sys:String x:Key="Str_Btn_TagAdd">Legg til</sys:String>
+    <sys:String x:Key="Str_Btn_Done">Ferdig</sys:String>
+    <sys:String x:Key="Str_TT_TagRecolor">Endre farge</sys:String>
+    <sys:String x:Key="Str_TT_TagRename">Gi nytt navn</sys:String>
+    <sys:String x:Key="Str_TT_TagDelete">Slett merke</sys:String>
+    <sys:String x:Key="Str_Tags_NeedName">Skriv inn et merkenavn først</sys:String>
+    <sys:String x:Key="Str_Tags_Exists">Et merke med dette navnet finnes allerede</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteHead">Slette merket «{0}»?</sys:String>
+    <sys:String x:Key="Str_Tags_DeleteBody">Det fjernes fra alle notater. Selve notatene beholdes.</sys:String>
+    <sys:String x:Key="Str_St_TagAdded">Merket: {0}</sys:String>
+    <sys:String x:Key="Str_St_TagRemoved">Merke fjernet: {0}</sys:String>
+    <sys:String x:Key="Str_KS_Tags">Slå merke 1-9 av/på for det åpne notatet</sys:String>
+    <sys:String x:Key="Str_KS_ManageTags">Administrer merker (legg til, gi nytt navn, endre farge)</sys:String>
+    <sys:String x:Key="Str_KS_SketchPad">SketchPad - tegn og kommenter</sys:String>
+
+    <!-- Portable install (family install system) -->
+    <sys:String x:Key="Str_Btn_Install">Installer KillerNotes</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">Installer</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">Installere KillerNotes i brukerprofilen din?</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- Snarvei i Start-menyen&#x0A;- Vises i Legg til eller fjern programmer</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">Snarvei på skrivebordet</sys:String>
+
+    <sys:String x:Key="Str_Ctx_SelectAll">Merk alt</sys:String>
+
+    <sys:String x:Key="Str_Dlg_NoPreview">Ingen forhåndsvisning tilgjengelig</sys:String>
+
+    <!-- ==== SketchPad (F7) tool tips and menu items ====
+         These were only ever inline English fallbacks in Controls/Sketch/*.cs, so the pad
+         was the one window that stayed English in all ten languages. Defined here they
+         behave like every other string: translatable, with en-US as the fallback.
+         (2026-08-07) -->
+    <sys:String x:Key="Str_Sketch_AddImage">Legg til et bilde (I) - dra ett til tegneflaten, eller lim inn med Ctrl+V</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImageMenu">Legg til bilde...</sys:String>
+    <sys:String x:Key="Str_Sketch_Arc">Buelinje</sys:String>
+    <sys:String x:Key="Str_Sketch_Arrow">Pil - linje med pilspiss (A)</sys:String>
+    <sys:String x:Key="Str_Sketch_Back">Send bakerst</sys:String>
+    <sys:String x:Key="Str_Sketch_Bold">Fet</sys:String>
+    <sys:String x:Key="Str_Sketch_Bucket">Malingsbøtte (B) - klikk inne i et lukket område for å fylle det</sys:String>
+    <sys:String x:Key="Str_Sketch_Clear">Tøm alt</sys:String>
+    <sys:String x:Key="Str_Sketch_Close">Lukk (Esc)</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImage">Kopier til utklippstavlen</sys:String>
+    <sys:String x:Key="Str_Sketch_CopyImageTip">Kopier tegningen til utklippstavlen som et bilde</sys:String>
+    <sys:String x:Key="Str_Sketch_Delete">Slett</sys:String>
+    <sys:String x:Key="Str_Sketch_Duplicate">Dupliser</sys:String>
+    <sys:String x:Key="Str_Sketch_EditText">Rediger tekst</sys:String>
+    <sys:String x:Key="Str_Sketch_Ellipse">Ellipse (O)</sys:String>
+    <sys:String x:Key="Str_Sketch_Eraser">Viskelær (E) - stryk over strek, eller berør en figur for å fjerne den</sys:String>
+    <sys:String x:Key="Str_Sketch_Fill">Fyll figurer (rektangel / ellipse)</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">Bring fremst</sys:String>
+    <sys:String x:Key="Str_Sketch_Line">Linje - rett (L)</sys:String>
+    <sys:String x:Key="Str_Sketch_MoreColors">Egendefinert farge...</sys:String>
+    <sys:String x:Key="Str_Sketch_Opacity">Gjennomsiktighet for fyll / malingsbøtte (klikk for å bytte)</sys:String>
+    <sys:String x:Key="Str_Sketch_PasteImage">Lim inn bilde</sys:String>
+    <sys:String x:Key="Str_Sketch_Pen">Penn - frihånd (P)</sys:String>
+    <sys:String x:Key="Str_Sketch_Polygon">Polygon (G) - klikk på hvert hjørne; klikk på det første punktet eller dobbeltklikk for å lukke (Backspace angrer et punkt, Esc avbryter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Print">Skriv ut i notatet (Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str_Sketch_Rect">Rektangel (R)</sys:String>
+    <sys:String x:Key="Str_Sketch_Redo">Gjør om (Ctrl+Y)</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">Tilbakestill gjennomsiktighet</sys:String>
+    <sys:String x:Key="Str_Sketch_Select">Velg / flytt (V) - klikk på et objekt, dra for å flytte det, Delete fjerner det</sys:String>
+    <sys:String x:Key="Str_Sketch_Straighten">Rett ut linje</sys:String>
+    <sys:String x:Key="Str_Sketch_Text">Tekst (T) - klikk for å plassere en etikett, skriv, Enter for å sette den (Shift+Enter for ny linje)</sys:String>
+    <sys:String x:Key="Str_Sketch_Crop">Beskjær (C) - dra en boks for å beholde, alt utenfor fjernes (Ctrl+Z gjenoppretter det)</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Zoom (Ctrl+hjul) - klikk for 100 %, igjen for å tilpasse</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewHead">«{0}» finnes ikke ennå</sys:String>
+    <sys:String x:Key="Str_Dlg_WikiNewBody">Opprette det som et nytt notat og åpne det?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksHead">Oppdatere {0} lenker i {1} notater?</sys:String>
+    <sys:String x:Key="Str_Dlg_RenameLinksBody">Lenker som sier [[{0}]] blir til [[{1}]]. Én Ctrl+Z angrer hele endringen.</sys:String>
+    <sys:String x:Key="Str_Btn_UpdateLinks">Oppdater lenker</sys:String>
+    <sys:String x:Key="Str_St_RenameLinks">Oppdaterte {0} lenker i {1} notater</sys:String>
+    <sys:String x:Key="Str_Lbl_Backlinks">Lenket fra</sys:String>
+    <sys:String x:Key="Str_St_NoBacklinks">Ingen notater lenker hit ennå</sys:String>
+    <sys:String x:Key="Str_TT_Backlinks">Notater som lenker til dette</sys:String>
+    <sys:String x:Key="Str_Lbl_Mentions">Nevnt i</sys:String>
+    <sys:String x:Key="Str_KS_Graph">Vis den valgte gruppen, eller hele notatboken, som graf</sys:String>
+    <sys:String x:Key="Str_Kb_Graph">Lenkegraf</sys:String>
+    <sys:String x:Key="Str_Ctx_GroupGraph">Vis som graf</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSpin">Visualisering</sys:String>
+    <sys:String x:Key="Str_TT_GraphSpin">La grafen drive og rotere av seg selv. Festing er satt på pause mens den kjører.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphHold">Fest alle notater</sys:String>
+    <sys:String x:Key="Str_TT_GraphHold">Behold hvert notat der det plasseres. Når dette er av, flytter notatene det lenker til seg ut av veien når du drar et notat.</sys:String>
+    <!-- {0} is how many names did not fit in the strip. -->
+    <sys:String x:Key="Str_Lbl_AndMore">Og {0} til...</sys:String>
+    <sys:String x:Key="Str_TT_AndMore">Resten av notatene som peker hit</sys:String>
+    <sys:String x:Key="Str_TT_GroupGraph">Lenkene mellom notatene i denne gruppen, og det de når</sys:String>
+    <sys:String x:Key="Str_St_GraphGroupEmpty">Ingen lenker i denne gruppen ennå</sys:String>
+    <sys:String x:Key="Str_TT_Mentions">Notater som nevner dette uten å lenke til det</sys:String>
+    <sys:String x:Key="Str_TT_MentionChip">Klikk for å lenke det. Ctrl+klikk for å åpne notatet.</sys:String>
+    <sys:String x:Key="Str_St_Linked">Lenket</sys:String>
+    <sys:String x:Key="Str_St_MentionGone">Det notatet nevner ikke lenger dette</sys:String>
+    <sys:String x:Key="Str_TT_Graph">Graf over alle lenker mellom notater</sys:String>
+    <sys:String x:Key="Str_Lbl_Graph">Graf</sys:String>
+    <sys:String x:Key="Str_St_GraphEmpty">Ingen lenker ennå - skriv [[en notattittel]] for å lage en</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphOpen">Åpne notat</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCreate">Opprett dette notatet</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphCopy">Kopier som [[lenke]]</sys:String>
+    <sys:String x:Key="Str_Graph_Legend">Fylt = et notat, farget etter gruppen.   Omriss = lenket, men ikke skrevet ennå.   Dra for å ordne, høyreklikk for valg.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrange">Ordne</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeForce">Etter tilknytning</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeCircle">I en sirkel</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGrid">I et rutenett</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphArrangeGroups">Etter gruppe</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShape">Form</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeFree">Som det faller</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeSpiral">Solsikke</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">Bølge</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeNext">Neste form</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLock">Lås på plass</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLockTip">Ingenting flytter et låst notat - verken en ordning eller naboene.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphSaveArrange">Lagre denne ordningen...</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphForget">Glem ordningen</sys:String>
+    <sys:String x:Key="Str_Dlg_GraphSaveArrangeHead">Gi denne ordningen et navn</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteHead">Erstatte «{0}»?</sys:String>
+    <sys:String x:Key="Str_Graph_OverwriteBody">Posisjonene som er lagret under dette navnet, erstattes av de som vises på skjermen nå.</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetHead">Glemme «{0}»?</sys:String>
+    <sys:String x:Key="Str_Graph_ForgetBody">Selve notatene berøres ikke, bare de lagrede posisjonene.</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphDistance">Ordne etter avstand</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShowAll">Vis alt</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphColor">Farg etter gruppe</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphLabels">Vis etiketter</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphGhosts">Vis notater som ikke er skrevet ennå</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphIsolate">Vis bare det som lenker hit</sys:String>
+    <sys:String x:Key="Str_Sketch_Unbold">Fjern fet</sys:String>
+    <sys:String x:Key="Str_Sketch_Undo">Angre (Ctrl+Z)</sys:String>
+    <sys:String x:Key="Str_Sketch_Width">Penselstørrelse (klikk for å bytte)</sys:String>
+
+    <!-- Markdown notes and vault export (1.3.0) -->
+    <sys:String x:Key="Str_TT_FormatBadge">Dette notatet lagrer Markdown-tekst</sys:String>
+    <sys:String x:Key="Str_Ctx_NewMarkdownNote">Nytt Markdown-notat</sys:String>
+    <sys:String x:Key="Str_TT_NewMarkdownNote">Opprett et notat som lagrer ren Markdown-tekst i stedet for rik tekst</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToMarkdown">Konverter til Markdown</sys:String>
+    <sys:String x:Key="Str_Ctx_ConvertToRich">Konverter til rik tekst</sys:String>
+    <sys:String x:Key="Str_Ctx_ExportVault">Eksporter alle notater som Markdown</sys:String>
+    <sys:String x:Key="Str_TT_ExportVault">Skriv hvert notat i denne databasen til en mappe med .md-filer</sys:String>
+    <sys:String x:Key="Str_Btn_Convert">Konverter</sys:String>
+    <sys:String x:Key="Str_Btn_Export">Eksporter</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownHead">Konvertere «{0}» til Markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToMarkdownBody">Notatet blir ren Markdown-tekst. Ctrl+Z setter det tilbake.</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichHead">Konvertere «{0}» til rik tekst?</sys:String>
+    <sys:String x:Key="Str_Dlg_ToRichBody">Markdown gjengis som formatert tekst. Ctrl+Z setter det tilbake.</sys:String>
+    <sys:String x:Key="Str_MdLoss_Tables">Tabeller blir til vanlige tekstlinjer</sys:String>
+    <sys:String x:Key="Str_MdLoss_Images">Bilder og skisser fjernes</sys:String>
+    <sys:String x:Key="Str_MdLoss_Colors">Tekst- og uthevingsfarger fjernes</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Dette notatet er Markdown - det inneholder bare tekst, så bilder, tabeller, skisser og opptak kan ikke legges til</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToMarkdown">Konvertert til Markdown</sys:String>
+    <sys:String x:Key="Str_St_ConvertedToRich">Konvertert til rik tekst</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPickFolder">Velg hvor Markdown-mappen skal skrives</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultHead">Eksportere alle notater som Markdown?</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultBody">{0} notater skrives til {1}. Grupper blir til undermapper. Ingenting i databasen endres.</sys:String>
+    <sys:String x:Key="Str_St_VaultEmpty">Ingenting å eksportere - databasen har ingen notater</sys:String>
+    <sys:String x:Key="Str_St_VaultDone">Eksporterte {0} notater til {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDonePartial">Eksporterte {0} notater til {2}, {1} mislyktes</sys:String>
+    <sys:String x:Key="Str_St_VaultFailed">Eksporten mislyktes: {0}</sys:String>
+
+    <!-- Theme names. Shared key for key with the rest of the family; 98SE is the same in
+         every locale because the enum member SE98 cannot start with a digit. -->
+    <sys:String x:Key="Str_Theme_Dark">Mørk</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Lys</sys:String>
+    <sys:String x:Key="Str_Theme_Black">Svart</sys:String>
+    <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
+    <sys:String x:Key="Str_Theme_Blood">Blod</sys:String>
+    <sys:String x:Key="Str_Theme_Greed">Grådighet</sys:String>
+    <sys:String x:Key="Str_Theme_Cyanotic">Cyanotisk</sys:String>
+    <sys:String x:Key="Str_Theme_Ectoplasm">Ektoplasma</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Forfall</sys:String>
+    <sys:String x:Key="Str_Theme_Malaise">Ubehag</sys:String>
+    <sys:String x:Key="Str_Theme_Sepulchre">Gravkammer</sys:String>
+    <sys:String x:Key="Str_Theme_Delirium">Delirium</sys:String>
+    <sys:String x:Key="Str_Theme_Mourning">Sorg</sys:String>
+
+    <!-- Trash (1.3.1) -->
+    <sys:String x:Key="Str_Trash">Papirkurv</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Slettede notater blir liggende her i 30 dager, og forsvinner så for godt</sys:String>
+    <sys:String x:Key="Str_Ctx_Restore">Gjenopprett</sys:String>
+    <sys:String x:Key="Str_Ctx_DeleteForever">Slett permanent</sys:String>
+    <sys:String x:Key="Str_Ctx_EmptyTrash">Tøm papirkurven</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashHead">Tømme papirkurven?</sys:String>
+    <sys:String x:Key="Str_Dlg_EmptyTrashBody">{0} notater forsvinner for godt. Dette kan ikke angres.</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverHead">Slette «{0}» permanent?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverNHead">Slette {0} notater permanent?</sys:String>
+    <sys:String x:Key="Str_Dlg_DeleteForeverBody">Dette kan ikke angres.</sys:String>
+    <sys:String x:Key="Str_St_NoteRestored">Notatet er gjenopprettet</sys:String>
+    <sys:String x:Key="Str_St_NotesRestored">{0} notater er gjenopprettet</sys:String>
+    <sys:String x:Key="Str_St_NoteGone">Notatet er slettet permanent</sys:String>
+    <sys:String x:Key="Str_St_NotesGone">{0} notater er slettet permanent</sys:String>
+    <sys:String x:Key="Str_St_TrashEmptied">Papirkurven er tømt - {0} notater borte</sys:String>
+    <sys:String x:Key="Str_St_InTrash">Dette notatet ligger i papirkurven. Gjenopprett det for å redigere.</sys:String>
+
+    <!-- Pinned notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_PinNote">Fest notat</sys:String>
+    <sys:String x:Key="Str_Ctx_UnpinNote">Løsne notat</sys:String>
+    <sys:String x:Key="Str_TT_Pin">Behold dette notatet øverst i gruppen</sys:String>
+    <sys:String x:Key="Str_TT_PinBadge">Festet</sys:String>
+    <sys:String x:Key="Str_St_Pinned">Festet</sys:String>
+    <sys:String x:Key="Str_St_Unpinned">Løsnet</sys:String>
+    <sys:String x:Key="Str_KS_Pin">Fest eller løsne det valgte notatet</sys:String>
+    <sys:String x:Key="Str_Kb_Pin">Fest</sys:String>
+
+    <!-- Checklists (1.3.1) -->
+    <sys:String x:Key="Str_TT_Checkbox">Avkrysningslinje (Alt+C) - klikk på boksen for å krysse av</sys:String>
+    <sys:String x:Key="Str_KS_Checkbox">Legg til eller fjern en avkrysningsboks på gjeldende linjer</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Avkrysning</sys:String>
+
+    <!-- Templates (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_NewFromTemplate">Nytt notat fra mal</sys:String>
+    <sys:String x:Key="Str_TT_NewFromTemplate">Kopierer et notat fra malgruppen. {date}, {time}, {datetime} og {weekday} i det fylles ut.</sys:String>
+    <sys:String x:Key="Str_Ctx_TemplatesGroup">Malgruppe</sys:String>
+    <sys:String x:Key="Str_TT_TemplatesGroup">Alle notater i denne gruppen tilbys som maler for nye notater</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplatesGroup">Ingen malgruppe ennå - høyreklikk på en gruppe for å merke den</sys:String>
+    <sys:String x:Key="Str_Ctx_NoTemplates">Malgruppen er tom</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOn">{0} er nå malgruppen</sys:String>
+    <sys:String x:Key="Str_St_TemplatesOff">Malgruppen er fjernet</sys:String>
+    <sys:String x:Key="Str_St_FromTemplate">Nytt notat fra {0}</sys:String>
+
+    <!-- Daily notes (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_TodayNote">Dagens notat</sys:String>
+    <sys:String x:Key="Str_TT_TodayNote">Åpner notatet med dagens dato som tittel, og oppretter det i gruppen for daglige notater. En mal som heter «Daglig» brukes hvis den finnes.</sys:String>
+    <sys:String x:Key="Str_Ctx_DailyGroup">Gruppe for daglige notater</sys:String>
+    <sys:String x:Key="Str_TT_DailyGroup">Dagens notat (Alt+D) opprettes i denne gruppen</sys:String>
+    <sys:String x:Key="Str_Grp_Daily">Daglige notater</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Daglig</sys:String>
+    <sys:String x:Key="Str_St_DailyOn">Dagens notater havner nå i {0}</sys:String>
+    <sys:String x:Key="Str_St_DailyOff">Gruppen for daglige notater er fjernet</sys:String>
+    <sys:String x:Key="Str_St_TodayCreated">Dagens notat er opprettet</sys:String>
+    <sys:String x:Key="Str_KS_Today">Åpne eller opprett dagens notat</sys:String>
+    <sys:String x:Key="Str_Kb_Today">I dag</sys:String>
+
+    <!-- Version history (1.3.1) -->
+    <sys:String x:Key="Str_Ctx_History">Versjonslogg...</sys:String>
+    <sys:String x:Key="Str_TT_History">Tidligere versjoner av dette notatet, lagret mens du jobber. Velg en for å hente den tilbake.</sys:String>
+    <sys:String x:Key="Str_KS_History">Versjonslogg for det åpne notatet</sys:String>
+    <sys:String x:Key="Str_Kb_History">Logg</sys:String>
+    <sys:String x:Key="Str_Hist_Title">Versjonslogg</sys:String>
+    <sys:String x:Key="Str_Hist_Empty">Ingen tidligere versjoner ennå. Én lagres hver gang du kommer tilbake til dette notatet og endrer det.</sys:String>
+    <sys:String x:Key="Str_Hist_Count">{0} versjoner. En ny lagres etter {1} minutter borte fra notatet; de nyeste {2} beholdes.</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreVersion">Gjenopprett denne versjonen</sys:String>
+    <sys:String x:Key="Str_St_VersionRestored">Gjenopprettet versjonen fra {0}. Teksten den erstattet, ligger også i loggen.</sys:String>
+
+    <!-- Headings and the outline (1.3.1) -->
+    <sys:String x:Key="Str_TT_Heading">Overskrift: hvert klikk går gjennom nivå 1 til 3 og tilbake (Alt+1, 2, 3; Alt+0 for vanlig tekst)</sys:String>
+    <sys:String x:Key="Str_KS_Headings">Overskriftsnivå 1, 2 eller 3 på gjeldende linjer</sys:String>
+    <sys:String x:Key="Str_KS_HeadingOff">Tilbake til vanlig tekst</sys:String>
+    <sys:String x:Key="Str_Kb_Heading">Overskrift</sys:String>
+    <sys:String x:Key="Str_Kb_Normal">Normal</sys:String>
+    <sys:String x:Key="Str_St_Heading">Overskrift {0}</sys:String>
+    <sys:String x:Key="Str_St_HeadingOff">Vanlig tekst</sys:String>
+    <sys:String x:Key="Str_TT_Outline">Disposisjon av notatets overskrifter (Alt+O)</sys:String>
+    <sys:String x:Key="Str_KS_Outline">Vis eller skjul disposisjonen av overskrifter</sys:String>
+    <sys:String x:Key="Str_Kb_Outline">Disposisjon</sys:String>
+    <sys:String x:Key="Str_Outline_Title">DISPOSISJON</sys:String>
+    <sys:String x:Key="Str_Outline_Empty">Trykk Alt+O for å skjule dette panelet.</sys:String>
+
+    <!-- Backups (1.3.1) -->
+    <sys:String x:Key="Str_Bk_Title">Sikkerhetskopier</sys:String>
+    <sys:String x:Key="Str_TT_Backups">Planlagte sikkerhetskopier av den valgte databasen</sys:String>
+    <sys:String x:Key="Str_Bk_Enable">Ta sikkerhetskopi etter en tidsplan mens KillerNotes kjører</sys:String>
+    <sys:String x:Key="Str_Bk_Folder">Mappe for sikkerhetskopier</sys:String>
+    <sys:String x:Key="Str_Btn_Browse">Bla gjennom...</sys:String>
+    <sys:String x:Key="Str_Bk_PickFolderTitle">Velg mappen for sikkerhetskopier</sys:String>
+    <sys:String x:Key="Str_Bk_Interval">Hvor ofte</sys:String>
+    <sys:String x:Key="Str_Bk_6h">Hver 6. time</sys:String>
+    <sys:String x:Key="Str_Bk_12h">Hver 12. time</sys:String>
+    <sys:String x:Key="Str_Bk_Daily">Daglig</sys:String>
+    <sys:String x:Key="Str_Bk_Weekly">Ukentlig</sys:String>
+    <sys:String x:Key="Str_Bk_Keep">Kopier som beholdes</sys:String>
+    <sys:String x:Key="Str_Bk_Note">En kopi er databasen slik den er: en passordbeskyttet database gir en kopi som åpnes med det samme passordet.</sys:String>
+    <sys:String x:Key="Str_Bk_Empty">Ingen sikkerhetskopier av denne databasen i mappen ennå.</sys:String>
+    <sys:String x:Key="Str_Bk_NoFolder">Velg en mappe først.</sys:String>
+    <sys:String x:Key="Str_Bk_Last">Siste sikkerhetskopi: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Never">Ingen sikkerhetskopi ennå.</sys:String>
+    <sys:String x:Key="Str_Btn_BackupNow">Ta sikkerhetskopi nå</sys:String>
+    <sys:String x:Key="Str_Btn_RestoreBackup">Gjenopprett som ny database</sys:String>
+    <sys:String x:Key="Str_Bk_Done">Sikkerhetskopi tatt til {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Failed">Sikkerhetskopieringen mislyktes: {0}</sys:String>
+    <sys:String x:Key="Str_Bk_Restored">Gjenopprettet som {0}. Åpne den fra listen for å bruke den.</sys:String>
+    <sys:String x:Key="Str_St_BackedUp">Sikkerhetskopi tatt til {0}</sys:String>
+    <sys:String x:Key="Str_St_BackupFailed">Sikkerhetskopieringen mislyktes: {0}</sys:String>
+
+    <!-- Shortcuts for templates, the trash and backups (1.3.1) -->
+    <sys:String x:Key="Str_KS_Template">Nytt notat fra en mal</sys:String>
+    <sys:String x:Key="Str_Kb_Template">Mal</sys:String>
+    <sys:String x:Key="Str_KS_Trash">Åpne papirkurven på det første notatet</sys:String>
+    <sys:String x:Key="Str_Kb_Trash">Papirkurv</sys:String>
+    <sys:String x:Key="Str_St_TrashEmpty">Papirkurven er tom</sys:String>
+    <sys:String x:Key="Str_KS_BackupNow">Ta sikkerhetskopi av databasen nå</sys:String>
+    <sys:String x:Key="Str_Kb_Backup">Sikkerhetskopi</sys:String>
+    <sys:String x:Key="Str_St_NoBackupFolder">Ingen mappe for sikkerhetskopier ennå. Velg en under «Administrer databaser» og deretter «Sikkerhetskopier».</sys:String>
+</ResourceDictionary>
