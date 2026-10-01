@@ -189,6 +189,10 @@ namespace KillerNotes.Controls.Sketch
             // old "resize the window, get more paper" behaviour by growing the logical size to the
             // viewport whenever the view is at 100%.
             SetCanvasSize(_canvasW, _canvasH);
+            // A blank pad asks for no minimum: whatever size it opens to is 100%, so the paper
+            // fills the viewport exactly instead of scrolling sideways when the window is
+            // narrower than the default sheet. A crop still sets a real size.
+            _canvasBaseW = _canvasBaseH = 1;
 
             BuildUi();
             SetTool(Tool.Pen);

@@ -23,6 +23,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Converting a note to markdown no longer puts a backslash before every underscore, asterisk and bracket.
 - Markdown notes always offer the preview and F4, even when their text has no headings, links or bold.
 - The database name in the title bar is white in the 98SE theme.
+- SketchPad no longer opens with a horizontal scrollbar. The blank sheet fills the window it opens in.
 
 ## [1.3.1] - 2026-09-27
 
