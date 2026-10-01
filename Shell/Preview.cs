@@ -1,14 +1,11 @@
 using System;
-using System.Globalization;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Markdig;
 using KillerNotes.Services;
 
 namespace KillerNotes.Shell
@@ -16,10 +13,10 @@ namespace KillerNotes.Shell
     // Optional markdown/HTML preview. When the note's plain text looks like markdown or
     // HTML, a Preview submenu appears in the format bar with three picks: Source (raw),
     // Rendered (the WYSIWYG page), and Split (both side by side). F4 cycles them. The
-    // rendered page draws through the built-in WPF WebBrowser (IE engine). Markdown
-    // converts via Markdig; HTML notes are defused first (no scripts, handlers, frames,
-    // or js: URLs). The last picked mode persists per app - a note that opens as
-    // undetected always starts in Source.
+    // rendered page is a WPF FlowDocument, drawn by WPF like every other surface: markdown
+    // converts through MarkdownConvert, HTML through HtmlConvert, and neither runs
+    // anything. The last picked mode persists per app - a note that opens as undetected
+    // always starts in Source.
     public partial class MainWindow
     {
         private enum DocKind { None, Markdown, Html }
@@ -38,52 +35,97 @@ namespace KillerNotes.Shell
 
         private const string PreviewModeSettingKey = "PreviewMode";
 
-        // Created on first preview open, disposed on close: a hosted WebBrowser (IE
-        // ActiveX) adds message-loop overhead to the whole window just by existing,
-        // so it must never sit idle in the tree.
-        private WebBrowser? _previewBrowser;
+        // Created on first preview open and dropped on Source, so an idle window carries no
+        // second document. Read-only viewer with selection, so Ctrl+A / Ctrl+C still work.
+        private FlowDocumentScrollViewer? _previewViewer;
         private DispatcherTimer? _previewRefreshTimer;
-        private double? _pendingPreviewScroll;
 
-        private WebBrowser PreviewBrowserLazy()
+        // The preview's body size and face, matching what the page used before.
+        private const double PreviewFontSize = 13;
+        private const string PreviewFont = "Segoe UI";
+
+        private FlowDocumentScrollViewer PreviewViewerLazy()
         {
-            if (_previewBrowser == null)
+            if (_previewViewer == null)
             {
-                _previewBrowser = new WebBrowser();
-                _previewBrowser.Navigating += PreviewBrowser_Navigating;
-                _previewBrowser.LoadCompleted += (_, _) =>
+                _previewViewer = new FlowDocumentScrollViewer
                 {
-                    RestorePreviewScroll();
-                    // Rendered mode hides the editor, so give the page the keyboard: Home, End,
-                    // Page Up/Down and the arrows then scroll the preview.
-                    if (_previewMode == PreviewMode.Rendered) _previewBrowser?.Focus();
+                    IsToolBarVisible = false,
+                    IsSelectionEnabled = true,
+                    Focusable = true,
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                    Background = Brushes.Transparent,
                 };
-                // F4 pressed while the page has focus never reaches WPF (the browser is a
-                // native window), so the page forwards it through this bridge.
-                _previewBrowser.ObjectForScripting = new PreviewScriptBridge(this);
-                // Born hidden if an overlay is up (airspace, see SetPreviewOverlayHidden).
-                if (ShortcutOverlay.Visibility == Visibility.Visible ||
-                    AboutOverlay.Visibility == Visibility.Visible)
-                    _previewBrowser.Visibility = Visibility.Hidden;
-                PreviewPane.Child = _previewBrowser;
+                _previewViewer.SetResourceReference(Control.ForegroundProperty, "TextBrush");
+                _previewViewer.AddHandler(Hyperlink.RequestNavigateEvent,
+                    new System.Windows.Navigation.RequestNavigateEventHandler(PreviewLink_RequestNavigate));
+                _previewViewer.PreviewKeyDown += PreviewViewer_PreviewKeyDown;
+
+                // The same film grain every other surface carries, behind the text.
+                var grain = new Border { IsHitTestVisible = false };
+                grain.SetResourceReference(Border.BackgroundProperty, "GrainTileBrush");
+                grain.SetResourceReference(UIElement.OpacityProperty, "GrainOpacity");
+                grain.SetBinding(Border.CornerRadiusProperty,
+                    new System.Windows.Data.Binding(nameof(Border.CornerRadius)) { Source = PreviewPane });
+
+                var host = new Grid();
+                host.Children.Add(grain);
+                host.Children.Add(_previewViewer);
+                PreviewPane.Child = host;
             }
-            return _previewBrowser;
+            return _previewViewer;
         }
 
-        /// <summary>The preview WebBrowser is a hosted NATIVE window, so it draws over
-        /// every WPF element in its rectangle - including the F1/About overlays (WPF
-        /// airspace). The overlay fade helpers (About.cs) hide the browser for the
-        /// duration; Hidden (not Collapsed) keeps the split layout from shifting.</summary>
-        private void SetPreviewOverlayHidden(bool hidden)
+        private ScrollViewer? PreviewScroller() =>
+            _previewViewer?.Template?.FindName("PART_ContentHost", _previewViewer) as ScrollViewer;
+
+        /// <summary>Reading keys for the preview: Home, End, Page Up/Down, the arrows and Space
+        /// scroll it, the same set the editor answers to.</summary>
+        private void PreviewViewer_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (_previewBrowser == null) return;
-            _previewBrowser.Visibility = hidden ? Visibility.Hidden : Visibility.Visible;
+            var sv = PreviewScroller();
+            if (sv == null || Keyboard.Modifiers.HasFlag(ModifierKeys.Control) ||
+                Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)) return;
+            bool shift = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+            switch (e.Key)
+            {
+                case Key.Home:     sv.ScrollToTop(); break;
+                case Key.End:      sv.ScrollToBottom(); break;
+                case Key.PageUp:   sv.PageUp(); break;
+                case Key.PageDown: sv.PageDown(); break;
+                case Key.Up:       sv.ScrollToVerticalOffset(sv.VerticalOffset - 40); break;
+                case Key.Down:     sv.ScrollToVerticalOffset(sv.VerticalOffset + 40); break;
+                case Key.Space:    if (shift) sv.PageUp(); else sv.PageDown(); break;
+                default: return;
+            }
+            e.Handled = true;
         }
 
-        // DisableHtml: raw HTML embedded inside markdown is ignored rather than rendered,
-        // so the markdown path can never smuggle active content past StripActiveContent.
-        private static readonly MarkdownPipeline MdPipeline =
-            new MarkdownPipelineBuilder().UseAdvancedExtensions().DisableHtml().Build();
+        // Clicked links open in the default browser. The converters only ever make http,
+        // https and mailto links, so nothing else can arrive here.
+        private void PreviewLink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            e.Handled = true;
+            if (e.Uri == null) return;
+            try
+            {
+                System.Diagnostics.Process.Start(
+                    new System.Diagnostics.ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            }
+            catch { /* no browser - ignore */ }
+        }
+
+        /// <summary>Rounds the preview's outer corners to match the note pane. Split sits on the
+        /// right, so it owns the two right corners; Rendered fills the pane and also owns the
+        /// bottom-left. The top-left always meets the editor or the format bar.</summary>
+        private void ApplyPreviewCorners()
+        {
+            var r = TryFindResource("PanelCornerRadius") is CornerRadius cr ? cr : new CornerRadius(4);
+            PreviewPane.CornerRadius = _previewMode == PreviewMode.Rendered
+                ? new CornerRadius(0, r.TopRight, r.BottomRight, r.BottomLeft)
+                : new CornerRadius(0, r.TopRight, r.BottomRight, 0);
+        }
 
         private string EditorPlainText() =>
             new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd).Text;
@@ -141,17 +183,6 @@ namespace KillerNotes.Shell
         }
 
         private void PreviewModeBtn_Click(object sender, RoutedEventArgs e) => CyclePreviewMode();
-
-        /// <summary>Script bridge for the preview page. Deferred through the dispatcher because
-        /// a mode change can dispose the very browser that is calling in.</summary>
-        [System.Runtime.InteropServices.ComVisible(true)]
-        public sealed class PreviewScriptBridge
-        {
-            private readonly MainWindow _owner;
-            internal PreviewScriptBridge(MainWindow owner) => _owner = owner;
-            public void CyclePreview() =>
-                _owner.Dispatcher.BeginInvoke(new Action(_owner.CyclePreviewMode), DispatcherPriority.Background);
-        }
 
         private void QueuePreviewRefresh()
         {
@@ -219,9 +250,7 @@ namespace KillerNotes.Shell
         }
 
         /// <summary>Applies a mode change: swaps the two column widths, toggles the editor's
-        /// visibility, and brings up or tears down the WebBrowser. The IE ActiveX control
-        /// stays out of the tree whenever the mode is Source so an idle window carries no
-        /// hosted-native overhead.</summary>
+        /// visibility, and brings up or drops the preview viewer.</summary>
         private void SetPreviewMode(PreviewMode mode, bool persist = true)
         {
             if (mode == _previewMode) { SyncPreviewMenuChecks(); return; }
@@ -230,16 +259,17 @@ namespace KillerNotes.Shell
             {
                 case PreviewMode.Source:
                     _previewRefreshTimer?.Stop();
-                    _pendingPreviewScroll = null;
                     EditorCol.Width = new GridLength(1, GridUnitType.Star);
                     Editor.Visibility = Visibility.Visible;
                     PreviewCol.Width = new GridLength(0);
                     PreviewPane.Visibility = Visibility.Collapsed;
-                    if (_previewBrowser != null)
+                    if (_previewViewer != null)
                     {
+                        // Focus leaving with the viewer would land nowhere, so hand it to the note.
+                        bool hadFocus = _previewViewer.IsKeyboardFocusWithin;
+                        _previewViewer = null;
                         PreviewPane.Child = null;
-                        _previewBrowser.Dispose();
-                        _previewBrowser = null;
+                        if (hadFocus) Editor.Focus();
                     }
                     break;
 
@@ -273,177 +303,91 @@ namespace KillerNotes.Shell
         {
             try
             {
-                _pendingPreviewScroll = preserveScroll ? PreviewScrollOffset() : null;
-                string body = _docKind == DocKind.Markdown
-                    ? Markdown.ToHtml(text, MdPipeline)
-                    : StripActiveContent(text);
-                PreviewBrowserLazy().NavigateToString(BuildHtmlShell(body));
+                var viewer = PreviewViewerLazy();
+                double? keep = preserveScroll ? PreviewScroller()?.VerticalOffset : null;
+
+                FlowDocument doc = _docKind == DocKind.Markdown
+                    ? MarkdownConvert.ToDocument(text, PreviewFontSize, tables: true)
+                    : HtmlConvert.ToDocument(text, PreviewFontSize);
+                doc.FontFamily = new FontFamily(PreviewFont);
+                doc.PagePadding = new Thickness(12, 12, 18, 12);
+                doc.Background = Brushes.Transparent;
+                doc.SetResourceReference(FlowDocument.ForegroundProperty, "TextBrush");
+                StylePreviewBlocks(doc.Blocks);
+
+                ApplyPreviewCorners();
+                viewer.Document = doc;
+
+                if (keep.HasValue)
+                    Dispatcher.BeginInvoke(new Action(() => PreviewScroller()?.ScrollToVerticalOffset(keep.Value)),
+                        DispatcherPriority.Loaded);
+                // Rendered mode hides the editor, so give the preview the keyboard: Home, End,
+                // Page Up/Down and the arrows then scroll it.
+                if (_previewMode == PreviewMode.Rendered && !preserveScroll)
+                    Dispatcher.BeginInvoke(new Action(() => _previewViewer?.Focus()), DispatcherPriority.Input);
             }
             catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_PreviewFailed"), ex.Message); }
         }
 
-        private double? PreviewScrollOffset()
+        /// <summary>Theme-live colors for the converted document: links take the accent, code
+        /// takes the code tint. Resource references, so a theme switch restyles them in place.</summary>
+        private static void StylePreviewBlocks(BlockCollection blocks)
         {
-            if (_previewBrowser == null) return null;
-            try
+            foreach (var block in blocks)
             {
-                object value = _previewBrowser.InvokeScript("eval",
-                [
-                    "(document.getElementById('kn-page')||document.documentElement).scrollTop||0",
-                ]);
-                return Convert.ToDouble(value, CultureInfo.InvariantCulture);
+                switch (block)
+                {
+                    case Paragraph p:
+                        if (IsCodeFont(p.FontFamily)) p.SetResourceReference(TextElement.BackgroundProperty, "CardBorderBrush");
+                        StylePreviewInlines(p.Inlines);
+                        break;
+                    case Section s:
+                        StylePreviewBlocks(s.Blocks);
+                        break;
+                    case List l:
+                        foreach (var li in l.ListItems) StylePreviewBlocks(li.Blocks);
+                        break;
+                    case Table t:
+                        t.SetResourceReference(Block.BorderBrushProperty, "CardBorderBrush");
+                        foreach (var g in t.RowGroups)
+                            foreach (var row in g.Rows)
+                                foreach (var cell in row.Cells)
+                                {
+                                    cell.SetResourceReference(TableCell.BorderBrushProperty, "CardBorderBrush");
+                                    StylePreviewBlocks(cell.Blocks);
+                                }
+                        break;
+                }
             }
-            catch { return null; }
         }
 
-        private void RestorePreviewScroll()
+        private static void StylePreviewInlines(InlineCollection inlines)
         {
-            if (_previewBrowser == null || !_pendingPreviewScroll.HasValue) return;
-            double offset = _pendingPreviewScroll.Value;
-            _pendingPreviewScroll = null;
-            try
+            foreach (var inline in inlines)
             {
-                _previewBrowser.InvokeScript("eval",
-                [
-                    "(document.getElementById('kn-page')||document.documentElement).scrollTop=" + offset.ToString(CultureInfo.InvariantCulture),
-                ]);
+                switch (inline)
+                {
+                    case Hyperlink h:
+                        h.SetResourceReference(TextElement.ForegroundProperty, "PrimaryBrush");
+                        StylePreviewInlines(h.Inlines);
+                        break;
+                    case Span s:
+                        StylePreviewInlines(s.Inlines);
+                        break;
+                    case Run r when r.ReadLocalValue(TextElement.FontFamilyProperty) is FontFamily f && IsCodeFont(f):
+                        r.SetResourceReference(TextElement.BackgroundProperty, "CardBorderBrush");
+                        break;
+                }
             }
-            catch { }
         }
 
-        // Defuse an HTML note before it reaches the IE engine: strip scripts, event-handler
-        // attributes, frames/objects, and javascript: URLs. Belt and braces - the pane is a
-        // viewer, never a place where a pasted page gets to run.
-        private static string StripActiveContent(string html)
-        {
-            html = Regex.Replace(html, @"<script[\s\S]*?</script\s*>", "", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"<script[^>]*>", "", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"<(iframe|frame|object|embed|applet)[\s\S]*?(</\1\s*>|/>)", "",
-                RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"\son\w+\s*=\s*(""[^""]*""|'[^']*'|[^\s>]+)", "", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"javascript\s*:", "blocked:", RegexOptions.IgnoreCase);
-            return html;
-        }
+        private static bool IsCodeFont(FontFamily? f) =>
+            f != null && f.Source.IndexOf("Consolas", StringComparison.OrdinalIgnoreCase) >= 0;
 
-        /// <summary>The window's film grain as a tiled PNG data URI, so the preview carries the
-        /// same texture as every other surface.
-        ///
-        /// Everywhere else the grain is a GrainTileBrush layered over the content in a Border. The
-        /// preview cannot do that: its content is a hosted WebBrowser, a native window that draws
-        /// over any WPF element in its rectangle (airspace), so an overlay would be invisible. The
-        /// tile is therefore regenerated here and baked into the page's CSS background.
-        ///
-        /// Same seed and same distribution as Chrome.ApplyGrainTexture, so the two match. The one
-        /// difference is that GrainOpacity is multiplied into each pixel's alpha up front, because
-        /// CSS cannot fade a background image the way the WPF overlay's Opacity does.
-        ///
-        /// Deterministic, so it is built once and cached for the process.
-        /// </summary>
-        private static string? _grainUri;
-
-        private static string GrainDataUri()
-        {
-            if (_grainUri != null) return _grainUri;
-
-            const int size = 256;
-            double opacity = Application.Current.TryFindResource("GrainOpacity") is double o ? o : 0.24;
-
-            var bmp = new WriteableBitmap(size, size, 96, 96, PixelFormats.Bgra32, null);
-            var pixels = new byte[size * size * 4];   // starts fully transparent
-            var rng = new Random(1337);               // same seed as the WPF tile
-            for (int i = 0; i < pixels.Length; i += 4)
-            {
-                if (rng.Next(3) != 0) continue;       // ~33% pixel density
-                bool bright = rng.Next(2) == 0;       // half bright, half dark
-                byte v = bright ? (byte)rng.Next(190, 255) : (byte)rng.Next(0, 50);
-                byte a = (byte)rng.Next(35, 95);
-                pixels[i] = pixels[i + 1] = pixels[i + 2] = v;
-                pixels[i + 3] = (byte)(a * opacity);  // bake the overlay opacity in
-            }
-            bmp.WritePixels(new Int32Rect(0, 0, size, size), pixels, size * 4, 0);
-
-            using var ms = new MemoryStream();
-            var enc = new PngBitmapEncoder();
-            enc.Frames.Add(BitmapFrame.Create(bmp));
-            enc.Save(ms);
-            _grainUri = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-            return _grainUri;
-        }
-
-        // Wraps the body in a shell styled from the live theme so the preview reads as part
-        // of the pane. IE=edge meta keeps the WebBrowser control in IE11 mode, not IE7.
-        private string BuildHtmlShell(string body)
-        {
-            // SurfaceBrush, not PaneBrush: the preview matches the format bar - a step darker than
-            // the note and a step lighter than the window - so it reads as chrome, not more paper.
-            string bg     = BrushHex("SurfaceBrush", "#0d0d0d");
-            string fg     = BrushHex("TextBrush", "#e0e0e0");
-            string accent = BrushHex("PrimaryBrush", "#B982E3");
-            string border = BrushHex("CardBorderBrush", "#3a3a3a");
-            // The browser is a native window, so WPF cannot round or texture it. The page instead
-            // paints the pane color around a rounded inner page, and draws its own slim scrollbar
-            // so the gutter keeps the grain and matches the editor's thumb.
-            string outer  = BrushHex("BackgroundBrush", bg);   // what shows past the note pane's rounded corner
-            var radius = TryFindResource("PanelCornerRadius") is CornerRadius cr ? cr : new CornerRadius(4);
-            string grain = GrainDataUri();
-            string css = string.Format(CultureInfo.InvariantCulture,
-                "border-radius:0 {0}px {1}px 0", radius.TopRight, radius.BottomRight);
-            return "<!DOCTYPE html><html><head>" +
-                "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"/><meta charset=\"utf-8\"/>" +
-                "<style>" +
-                $"html{{background:{outer} url({grain}) repeat;height:100%;overflow:hidden;-ms-overflow-style:none}}" +
-                "body{margin:0;height:100%;overflow:hidden;-ms-overflow-style:none}" +
-                $"#kn-page{{position:absolute;top:0;left:0;right:0;bottom:0;overflow-x:hidden;overflow-y:auto;" +
-                $"-ms-overflow-style:none;box-sizing:border-box;padding:12px 18px 12px 12px;" +
-                $"background:{bg} url({grain}) repeat;color:{fg};{css};" +
-                "font-family:'Segoe UI',sans-serif;font-size:13px}" +
-                $"#kn-thumb{{position:absolute;right:3px;width:5px;border-radius:3px;background:{accent};display:none;cursor:default}}" +
-                $"a{{color:{accent}}}" +
-                $"code,pre{{font-family:Consolas,monospace;background:{border};border-radius:3px;padding:1px 4px}}" +
-                "pre{padding:8px;overflow-x:auto}" +
-                $"table{{border-collapse:collapse}}th,td{{border:1px solid {border};padding:3px 8px}}" +
-                $"blockquote{{border-left:3px solid {accent};margin-left:0;padding-left:10px}}" +
-                "img{max-width:100%}" +
-                // Context menu off at DOCUMENT level: right-click otherwise pops the IE
-                // engine's native menu (Back/Print/View source), which cannot be themed.
-                "</style></head><body><div id=\"kn-page\">" + body + "</div><div id=\"kn-thumb\"></div>" +
-                "<script>document.oncontextmenu=function(){return false};" +
-                // F4 while the page has focus: hand it to the app (Preview.cs PreviewScriptBridge).
-                "document.onkeydown=function(e){e=e||window.event;var k=e.keyCode,p=document.getElementById('kn-page');" +
-                "if(k==115){try{window.external.CyclePreview()}catch(x){}return false}" +
-                // Reading keys for the page. The page scrolls inside kn-page (for the rounded corners),
-                // which the browser does not drive from the keyboard on its own.
-                "var d={36:-1e9,35:1e9,33:-p.clientHeight*0.9,34:p.clientHeight*0.9,38:-40,40:40,32:e.shiftKey?-p.clientHeight*0.9:p.clientHeight*0.9}[k];" +
-                "if(d!==undefined&&!e.ctrlKey&&!e.altKey){p.scrollTop+=d;return false}};" +
-                "(function(){var p=document.getElementById('kn-page'),t=document.getElementById('kn-thumb');" +
-                "function u(){var h=p.clientHeight,s=p.scrollHeight;if(s<=h+1){t.style.display='none';return}" +
-                "var th=Math.max(24,h*h/s);t.style.display='block';t.style.height=th+'px';" +
-                "t.style.top=(p.scrollTop/(s-h))*(h-th)+'px'}" +
-                "p.onscroll=u;window.onresize=u;window.onload=u;setTimeout(u,300);u();" +
-                "t.onmousedown=function(e){e=e||window.event;var y=e.clientY,st=p.scrollTop;" +
-                "document.onmousemove=function(m){m=m||window.event;var h=p.clientHeight,s=p.scrollHeight;" +
-                "p.scrollTop=st+(m.clientY-y)*(s-h)/(h-t.offsetHeight);return false};" +
-                "document.onmouseup=function(){document.onmousemove=null;document.onmouseup=null};return false}})();" +
-                "</script></body></html>";
-        }
-
+        // Theme color as #RRGGBB for the HTML export (ImportExport.cs).
         private string BrushHex(string key, string fallback) =>
             TryFindResource(key) is System.Windows.Media.SolidColorBrush b
                 ? $"#{b.Color.R:X2}{b.Color.G:X2}{b.Color.B:X2}"
                 : fallback;
-
-        // Clicked links open in the default browser instead of navigating the pane.
-        // e.Uri is null for NavigateToString content - let that through.
-        private void PreviewBrowser_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
-        {
-            if (e.Uri == null) return;
-            e.Cancel = true;
-            try
-            {
-                System.Diagnostics.Process.Start(
-                    new System.Diagnostics.ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
-            }
-            catch { /* no browser - ignore */ }
-        }
     }
 }

@@ -11,6 +11,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Ukrainian localization.
 - Norwegian (Bokmål) and Brazilian Portuguese localization.
 
+### Changed
+- The markdown and HTML preview is now drawn by the app itself instead of the Internet Explorer engine, so it follows the theme and grain and keeps its rounded corners.
+
+### Fixed
+- Pressing F4 to leave the preview no longer crashes with an "Unknown Hard Error".
+
 ## [1.3.2] - 2026-09-30
 
 1.3.2 polishes copy and paste, markdown conversion, the markdown and HTML preview, and undo.

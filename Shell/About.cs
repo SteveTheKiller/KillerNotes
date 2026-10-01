@@ -65,7 +65,6 @@ namespace KillerNotes.Shell
 
         private void FadeOverlayIn(UIElement o)
         {
-            SetPreviewOverlayHidden(true);   // Preview.cs (airspace: the browser draws over overlays)
             o.Visibility = Visibility.Visible;
             Anim.FadeIn(o);
         }
@@ -78,10 +77,6 @@ namespace KillerNotes.Shell
             };
             a.Completed += (_, _) => o.Visibility = Visibility.Collapsed;
             o.BeginAnimation(UIElement.OpacityProperty, a);
-            // Bring the preview back only once no overlay is left up (F12 from the F1
-            // view swaps overlays; the incoming fade re-hides it immediately).
-            bool otherUp = (o == AboutOverlay ? ShortcutOverlay : AboutOverlay).Visibility == Visibility.Visible;
-            if (!otherUp) SetPreviewOverlayHidden(false);
         }
 
         // ---- Handlers ----

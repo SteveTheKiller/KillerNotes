@@ -39,6 +39,9 @@ using Markdig.Syntax.Inlines;
 // names are aliased and neither bare name is used anywhere below.
 using MdBlock = Markdig.Syntax.Block;
 using MdInline = Markdig.Syntax.Inlines.Inline;
+using MdTable = Markdig.Extensions.Tables.Table;
+using MdTableRow = Markdig.Extensions.Tables.TableRow;
+using MdTableCell = Markdig.Extensions.Tables.TableCell;
 using WpfBlock = System.Windows.Documents.Block;
 using WpfInline = System.Windows.Documents.Inline;
 
@@ -68,8 +71,9 @@ namespace KillerNotes.Services
 
         /// <summary>Renders markdown into a FlowDocument. baseFontSize is the editor's current
         /// size; headings and code scale from it so a converted note matches the note around it
-        /// instead of carrying a hardcoded point size.</summary>
-        public static FlowDocument ToDocument(string markdown, double baseFontSize)
+        /// instead of carrying a hardcoded point size. tables builds real tables (the preview);
+        /// off, a table flattens to its cell text, which is what note conversion stores.</summary>
+        public static FlowDocument ToDocument(string markdown, double baseFontSize, bool tables = false)
         {
             var doc = new FlowDocument();
             if (baseFontSize > 0) doc.FontSize = baseFontSize;
@@ -86,7 +90,7 @@ namespace KillerNotes.Services
             }
 
             foreach (var block in parsed)
-                foreach (var b in ConvertBlock(block, base_))
+                foreach (var b in ConvertBlock(block, base_, tables))
                     doc.Blocks.Add(b);
 
             if (doc.Blocks.Count == 0) doc.Blocks.Add(new Paragraph());
@@ -110,7 +114,7 @@ namespace KillerNotes.Services
             return p;
         }
 
-        private static IEnumerable<WpfBlock> ConvertBlock(MdBlock block, double base_)
+        private static IEnumerable<WpfBlock> ConvertBlock(MdBlock block, double base_, bool tables)
         {
             switch (block)
             {
@@ -170,7 +174,7 @@ namespace KillerNotes.Services
                         BorderBrush = new SolidColorBrush(Color.FromArgb(0x60, 0x80, 0x80, 0x80)),
                     };
                     foreach (var child in quote)
-                        foreach (var b in ConvertBlock(child, base_))
+                        foreach (var b in ConvertBlock(child, base_, tables))
                             sec.Blocks.Add(b);
                     if (sec.Blocks.Count == 0) sec.Blocks.Add(new Paragraph());
                     yield return sec;
@@ -184,7 +188,7 @@ namespace KillerNotes.Services
                     // marker. A bullet in front of a box would be two markers for one thing.
                     foreach (var item in list.OfType<ListItemBlock>())
                         foreach (var child in item)
-                            foreach (var b in ConvertBlock(child, base_))
+                            foreach (var b in ConvertBlock(child, base_, tables))
                                 yield return b;
                     break;
                 }
@@ -204,7 +208,7 @@ namespace KillerNotes.Services
                     {
                         var li = new ListItem();
                         foreach (var child in item)
-                            foreach (var b in ConvertBlock(child, base_))
+                            foreach (var b in ConvertBlock(child, base_, tables))
                                 li.Blocks.Add(b);
                         if (li.Blocks.Count == 0) li.Blocks.Add(new Paragraph());
                         l.ListItems.Add(li);
@@ -224,13 +228,52 @@ namespace KillerNotes.Services
                     break;
                 }
 
+                case MdTable mt when tables:
+                {
+                    var rule = new SolidColorBrush(Color.FromArgb(0x60, 0x80, 0x80, 0x80));
+                    var table = new Table
+                    {
+                        CellSpacing = 0,
+                        Margin = new Thickness(0, 0, 0, 8),
+                        BorderBrush = rule,
+                        BorderThickness = new Thickness(1, 1, 0, 0),
+                    };
+                    var group = new TableRowGroup();
+                    table.RowGroups.Add(group);
+                    foreach (var row in mt.OfType<MdTableRow>())
+                    {
+                        var tr = new TableRow();
+                        foreach (var cell in row.OfType<MdTableCell>())
+                        {
+                            var tc = new TableCell
+                            {
+                                BorderBrush = rule,
+                                BorderThickness = new Thickness(0, 0, 1, 1),
+                                Padding = new Thickness(8, 3, 8, 3),
+                            };
+                            if (row.IsHeader) tc.FontWeight = FontWeights.Bold;
+                            foreach (var child in cell)
+                                foreach (var b in ConvertBlock(child, base_, tables))
+                                {
+                                    b.Margin = new Thickness(0);
+                                    tc.Blocks.Add(b);
+                                }
+                            if (tc.Blocks.Count == 0) tc.Blocks.Add(new Paragraph());
+                            tr.Cells.Add(tc);
+                        }
+                        group.Rows.Add(tr);
+                    }
+                    yield return table;
+                    break;
+                }
+
                 case ContainerBlock container:
                 {
                     // Anything else that holds blocks (a table from the advanced extensions, a
                     // custom container) is flattened to its children rather than dropped, so no
                     // text disappears even when the structure has no FlowDocument equivalent.
                     foreach (var child in container)
-                        foreach (var b in ConvertBlock(child, base_))
+                        foreach (var b in ConvertBlock(child, base_, tables))
                             yield return b;
                     break;
                 }
