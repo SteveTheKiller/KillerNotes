@@ -29,7 +29,7 @@ namespace KillerNotes.Services
                 if (groups.Count == 0) return result;
                 var document = Markdown.Parse(text, Pipeline);
                 var code = document.Descendants().Where(n => n is CodeBlock || n is CodeInline)
-                    .Select(n => n.Span).ToList();
+                    .Select(n => new SourceSpan(n.Span.Start, CodeEnd(n, text))).ToList();
                 foreach (Match group in groups)
                 {
                     int escapes = 0;
@@ -42,6 +42,15 @@ namespace KillerNotes.Services
             }
             catch (RegexMatchTimeoutException) { }
             return result;
+        }
+
+        private static int CodeEnd(MarkdownObject node, string text)
+        {
+            if (node is not CodeBlock block || block.Lines.Count == 0) return node.Span.End;
+            // An unfinished fence may end before its final content line in the syntax tree.
+            int position = block.Lines.Lines[block.Lines.Count - 1].Position;
+            int end = text.IndexOf('\n', position);
+            return Math.Max(node.Span.End, end < 0 ? text.Length - 1 : end);
         }
 
         internal static string[] Parse(string? text) =>
