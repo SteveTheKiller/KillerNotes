@@ -423,6 +423,7 @@
     <sys:String x:Key="Str_Kb_AlignR">靠右對齊</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">左右對齊</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">跳至筆記開頭 / 結尾</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">預覽：跳到頁面頂端 / 結尾</sys:String>
     <sys:String x:Key="Str_KS_WordJump">逐詞跳轉</sys:String>
     <sys:String x:Key="Str_KS_DelWord">刪除整個詞</sys:String>
     <sys:String x:Key="Str_KS_Align">靠左 / 置中 / 靠右 / 左右對齊</sys:String>

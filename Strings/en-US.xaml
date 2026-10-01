@@ -561,6 +561,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Kb_AlignR">Align right</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">Justify</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Jump to the top / end of the note</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Preview: jump to the top / end of the page</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Jump by whole words</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Delete a whole word</sys:String>
     <sys:String x:Key="Str_KS_Align">Align left / center / right / justify</sys:String>

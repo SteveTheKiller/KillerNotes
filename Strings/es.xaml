@@ -423,6 +423,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Kb_AlignR">Alinear derecha</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">Justificar</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Saltar al inicio / fin de la nota</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Vista previa: ir al principio o al final de la página</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Saltar por palabras</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Borrar una palabra entera</sys:String>
     <sys:String x:Key="Str_KS_Align">Alinear izq. / centro / der. / justificar</sys:String>

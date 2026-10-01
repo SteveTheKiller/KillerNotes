@@ -528,6 +528,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Kb_AlignR">Allinea a destra</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">Giustifica</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Vai all'inizio / alla fine della nota</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Anteprima: vai all'inizio o alla fine della pagina</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Salta per parole intere</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Elimina una parola intera</sys:String>
     <sys:String x:Key="Str_KS_Align">Allinea a sinistra / centro / destra / giustificato</sys:String>

@@ -421,6 +421,7 @@
     <sys:String x:Key="Str_Kb_AlignR">右对齐</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">两端对齐</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">跳到笔记开头 / 结尾</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">预览：跳到页面顶部 / 末尾</sys:String>
     <sys:String x:Key="Str_KS_WordJump">按词跳转</sys:String>
     <sys:String x:Key="Str_KS_DelWord">删除整个词</sys:String>
     <sys:String x:Key="Str_KS_Align">左 / 居中 / 右 / 两端对齐</sys:String>

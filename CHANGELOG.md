@@ -6,10 +6,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.3.2] - Unreleased
 
+1.3.2 polishes copy and paste, the markdown and HTML preview, and undo.
+
+### Added
+- A mode button on the format bar shows whether the preview is in Source, Rendered or Split view, and cycles it like F4.
+- The divider between the note and the preview in Split view can be dragged to change their widths.
+- Home, End, Page Up, Page Down and the arrow keys scroll the rendered preview. Ctrl+Home / End now appears in the F1 shortcut list.
+
 ### Fixed
 - Copy on a note image now places the image on the clipboard.
 - Copied text now keeps its links, lists and emphasis when pasted into browsers, mail clients and Office.
 - Pasting web or chat text with links now keeps its paragraphs instead of joining them into one.
+- F4 now works after clicking into the preview.
+- The preview now fills its pane to the edges, with rounded corners, film grain and a slim scrollbar that match the editor.
 - Holding Ctrl+Z no longer undoes several organizational actions at once.
 
 ## [1.3.1] - 2026-09-27

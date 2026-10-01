@@ -413,6 +413,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Kb_AlignR">Zarovnat vpravo</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">Do bloku</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Přejít na začátek / konec poznámky</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Náhled: přejít na začátek nebo konec stránky</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Přeskakovat po celých slovech</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Smazat celé slovo</sys:String>
     <sys:String x:Key="Str_KS_Align">Zarovnat vlevo / na střed / vpravo / do bloku</sys:String>

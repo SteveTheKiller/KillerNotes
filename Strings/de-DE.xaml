@@ -422,6 +422,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Kb_AlignR">Rechtsbündig</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">Blocksatz</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Zum Anfang / Ende der Notiz springen</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Vorschau: zum Anfang / Ende der Seite springen</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Wortweise springen</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Ganzes Wort löschen</sys:String>
     <sys:String x:Key="Str_KS_Align">Links / zentriert / rechts / Blocksatz</sys:String>

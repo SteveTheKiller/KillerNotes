@@ -51,7 +51,16 @@ namespace KillerNotes.Shell
             {
                 _previewBrowser = new WebBrowser();
                 _previewBrowser.Navigating += PreviewBrowser_Navigating;
-                _previewBrowser.LoadCompleted += (_, _) => RestorePreviewScroll();
+                _previewBrowser.LoadCompleted += (_, _) =>
+                {
+                    RestorePreviewScroll();
+                    // Rendered mode hides the editor, so give the page the keyboard: Home, End,
+                    // Page Up/Down and the arrows then scroll the preview.
+                    if (_previewMode == PreviewMode.Rendered) _previewBrowser?.Focus();
+                };
+                // F4 pressed while the page has focus never reaches WPF (the browser is a
+                // native window), so the page forwards it through this bridge.
+                _previewBrowser.ObjectForScripting = new PreviewScriptBridge(this);
                 // Born hidden if an overlay is up (airspace, see SetPreviewOverlayHidden).
                 if (ShortcutOverlay.Visibility == Visibility.Visible ||
                     AboutOverlay.Visibility == Visibility.Visible)
@@ -104,6 +113,7 @@ namespace KillerNotes.Shell
             _docKind = DetectMarkdownGlobally ? DetectDocKind(text) : DocKind.None;
             bool detected = _docKind != DocKind.None;
             PreviewMenuItem.Visibility = detected ? Visibility.Visible : Visibility.Collapsed;
+            PreviewModeBtn.Visibility = PreviewMenuItem.Visibility;
             PreviewMenuLabel.Text = Loc(_docKind == DocKind.Html ? "Str_TT_PreviewHtml" : "Str_TT_PreviewMd");
             SyncPreviewMenuChecks();
             if (!detected && PreviewOpen) SetPreviewMode(PreviewMode.Source, persist: false);
@@ -118,6 +128,26 @@ namespace KillerNotes.Shell
             PreviewSourceMenuItem.IsChecked   = _previewMode == PreviewMode.Source;
             PreviewRenderedMenuItem.IsChecked = _previewMode == PreviewMode.Rendered;
             PreviewSplitMenuItem.IsChecked    = _previewMode == PreviewMode.Split;
+            // The format-bar chip names the current mode, so it is always visible which view is up.
+            PreviewModeText.Text = Loc(_previewMode switch
+            {
+                PreviewMode.Rendered => "Str_Preview_Rendered",
+                PreviewMode.Split    => "Str_Preview_Split",
+                _                    => "Str_Preview_Source",
+            });
+        }
+
+        private void PreviewModeBtn_Click(object sender, RoutedEventArgs e) => CyclePreviewMode();
+
+        /// <summary>Script bridge for the preview page. Deferred through the dispatcher because
+        /// a mode change can dispose the very browser that is calling in.</summary>
+        [System.Runtime.InteropServices.ComVisible(true)]
+        public sealed class PreviewScriptBridge
+        {
+            private readonly MainWindow _owner;
+            internal PreviewScriptBridge(MainWindow owner) => _owner = owner;
+            public void CyclePreview() =>
+                _owner.Dispatcher.BeginInvoke(new Action(_owner.CyclePreviewMode), DispatcherPriority.Background);
         }
 
         private void QueuePreviewRefresh()
@@ -226,6 +256,12 @@ namespace KillerNotes.Shell
                     RenderPreview(EditorPlainText());
                     break;
             }
+            // Only Split has a draggable divider, and only Split needs the limits that keep either
+            // side from being dragged away to nothing. The other modes set a column to 0.
+            bool split = mode == PreviewMode.Split;
+            EditorCol.MinWidth = split ? 200 : 0;
+            PreviewCol.MinWidth = split ? 200 : 0;
+            PreviewSplitter.Visibility = split ? Visibility.Visible : Visibility.Collapsed;
             SyncPreviewMenuChecks();
             if (persist) App.SetSetting(PreviewModeSettingKey, mode.ToString());
         }
@@ -250,7 +286,7 @@ namespace KillerNotes.Shell
             {
                 object value = _previewBrowser.InvokeScript("eval",
                 [
-                    "Math.max(document.documentElement.scrollTop||0,document.body.scrollTop||0)",
+                    "(document.getElementById('kn-page')||document.documentElement).scrollTop||0",
                 ]);
                 return Convert.ToDouble(value, CultureInfo.InvariantCulture);
             }
@@ -266,7 +302,7 @@ namespace KillerNotes.Shell
             {
                 _previewBrowser.InvokeScript("eval",
                 [
-                    "window.scrollTo(0," + offset.ToString(CultureInfo.InvariantCulture) + ")",
+                    "(document.getElementById('kn-page')||document.documentElement).scrollTop=" + offset.ToString(CultureInfo.InvariantCulture),
                 ]);
             }
             catch { }
@@ -341,24 +377,24 @@ namespace KillerNotes.Shell
             string fg     = BrushHex("TextBrush", "#e0e0e0");
             string accent = BrushHex("PrimaryBrush", "#B982E3");
             string border = BrushHex("CardBorderBrush", "#3a3a3a");
+            // The browser is a native window, so WPF cannot round or texture it. The page instead
+            // paints the pane color around a rounded inner page, and draws its own slim scrollbar
+            // so the gutter keeps the grain and matches the editor's thumb.
+            string outer  = BrushHex("BackgroundBrush", bg);   // what shows past the note pane's rounded corner
+            var radius = TryFindResource("PanelCornerRadius") is CornerRadius cr ? cr : new CornerRadius(4);
+            string grain = GrainDataUri();
+            string css = string.Format(CultureInfo.InvariantCulture,
+                "border-radius:0 {0}px {1}px 0", radius.TopRight, radius.BottomRight);
             return "<!DOCTYPE html><html><head>" +
                 "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"/><meta charset=\"utf-8\"/>" +
                 "<style>" +
-                // Scrollbar recolor: IE11's -ms- properties are the only ones the WebBrowser control
-                // honors - Chromium/Firefox spellings don't apply in IE mode. Face is the accent, track
-                // is the pane color, the 3D shading columns collapse to the same accent so the bar
-                // reads as one solid lozenge instead of the beveled Win98 default. Applied to html AND
-                // body (IE reads either depending on the doctype).
-                $"html,body{{scrollbar-face-color:{accent};scrollbar-track-color:{bg};" +
-                $"scrollbar-arrow-color:{bg};scrollbar-highlight-color:{accent};" +
-                $"scrollbar-shadow-color:{accent};scrollbar-3dlight-color:{accent};" +
-                $"scrollbar-darkshadow-color:{bg}}}" +
-                // Kill horizontal scroll on the outer page - a long inline token could otherwise
-                // introduce a horizontal bar the whole reading area doesn't need. Code blocks that
-                // want to scroll horizontally keep their own overflow-x:auto below.
-                "html{overflow-x:hidden}body{overflow-x:hidden}" +
-                $"body{{background:{bg} url({GrainDataUri()}) repeat;color:{fg};" +
-                "font-family:'Segoe UI',sans-serif;font-size:13px;margin:12px}}" +
+                $"html{{background:{outer} url({grain}) repeat;height:100%;overflow:hidden;-ms-overflow-style:none}}" +
+                "body{margin:0;height:100%;overflow:hidden;-ms-overflow-style:none}" +
+                $"#kn-page{{position:absolute;top:0;left:0;right:0;bottom:0;overflow-x:hidden;overflow-y:auto;" +
+                $"-ms-overflow-style:none;box-sizing:border-box;padding:12px 18px 12px 12px;" +
+                $"background:{bg} url({grain}) repeat;color:{fg};{css};" +
+                "font-family:'Segoe UI',sans-serif;font-size:13px}" +
+                $"#kn-thumb{{position:absolute;right:3px;width:5px;border-radius:3px;background:{accent};display:none;cursor:default}}" +
                 $"a{{color:{accent}}}" +
                 $"code,pre{{font-family:Consolas,monospace;background:{border};border-radius:3px;padding:1px 4px}}" +
                 "pre{padding:8px;overflow-x:auto}" +
@@ -366,12 +402,26 @@ namespace KillerNotes.Shell
                 $"blockquote{{border-left:3px solid {accent};margin-left:0;padding-left:10px}}" +
                 "img{max-width:100%}" +
                 // Context menu off at DOCUMENT level: right-click otherwise pops the IE
-                // engine's native menu (Back/Print/View source), which cannot be themed -
-                // suppressing it is the only clean option. Document level matters: a body
-                // attribute misses clicks in the empty space past the content, where the
-                // event targets the root element. Ctrl+A / Ctrl+C still work.
-                "</style></head><body>" + body +
-                "<script>document.oncontextmenu=function(){return false};</script></body></html>";
+                // engine's native menu (Back/Print/View source), which cannot be themed.
+                "</style></head><body><div id=\"kn-page\">" + body + "</div><div id=\"kn-thumb\"></div>" +
+                "<script>document.oncontextmenu=function(){return false};" +
+                // F4 while the page has focus: hand it to the app (Preview.cs PreviewScriptBridge).
+                "document.onkeydown=function(e){e=e||window.event;var k=e.keyCode,p=document.getElementById('kn-page');" +
+                "if(k==115){try{window.external.CyclePreview()}catch(x){}return false}" +
+                // Reading keys for the page. The page scrolls inside kn-page (for the rounded corners),
+                // which the browser does not drive from the keyboard on its own.
+                "var d={36:-1e9,35:1e9,33:-p.clientHeight*0.9,34:p.clientHeight*0.9,38:-40,40:40,32:e.shiftKey?-p.clientHeight*0.9:p.clientHeight*0.9}[k];" +
+                "if(d!==undefined&&!e.ctrlKey&&!e.altKey){p.scrollTop+=d;return false}};" +
+                "(function(){var p=document.getElementById('kn-page'),t=document.getElementById('kn-thumb');" +
+                "function u(){var h=p.clientHeight,s=p.scrollHeight;if(s<=h+1){t.style.display='none';return}" +
+                "var th=Math.max(24,h*h/s);t.style.display='block';t.style.height=th+'px';" +
+                "t.style.top=(p.scrollTop/(s-h))*(h-th)+'px'}" +
+                "p.onscroll=u;window.onresize=u;window.onload=u;setTimeout(u,300);u();" +
+                "t.onmousedown=function(e){e=e||window.event;var y=e.clientY,st=p.scrollTop;" +
+                "document.onmousemove=function(m){m=m||window.event;var h=p.clientHeight,s=p.scrollHeight;" +
+                "p.scrollTop=st+(m.clientY-y)*(s-h)/(h-t.offsetHeight);return false};" +
+                "document.onmouseup=function(){document.onmousemove=null;document.onmouseup=null};return false}})();" +
+                "</script></body></html>";
         }
 
         private string BrushHex(string key, string fallback) =>

@@ -525,6 +525,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Kb_AlignR">Igazítsa jobbra</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">Indokolja meg</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Ugrás a jegyzet tetejére/végére</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Előnézet: ugrás az oldal elejére / végére</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Ugrás az egész szavakra</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Teljes szó törlése</sys:String>
     <sys:String x:Key="Str_KS_Align">Igazítás balra / középre / jobbra / igazítás</sys:String>

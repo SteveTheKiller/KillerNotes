@@ -423,6 +423,7 @@
     <sys:String x:Key="Str_Kb_AlignR">ডানে সারিবদ্ধ</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">জাস্টিফাই</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">নোটের শুরু / শেষে যান</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">প্রিভিউ: পৃষ্ঠার শুরু / শেষে যান</sys:String>
     <sys:String x:Key="Str_KS_WordJump">শব্দ ধরে ধরে যান</sys:String>
     <sys:String x:Key="Str_KS_DelWord">পুরো শব্দ মুছুন</sys:String>
     <sys:String x:Key="Str_KS_Align">বাঁয়ে / মাঝে / ডানে / জাস্টিফাই</sys:String>

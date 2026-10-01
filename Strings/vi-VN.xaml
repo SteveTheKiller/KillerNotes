@@ -563,6 +563,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Kb_AlignR">Căn phải</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">Căn đều</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Đi tới đầu / cuối ghi chú</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Xem trước: đến đầu / cuối trang</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Di chuyển theo từng từ</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Xóa toàn bộ một từ</sys:String>
     <sys:String x:Key="Str_KS_Align">Căn trái / giữa / phải / đều</sys:String>

@@ -528,6 +528,7 @@
     <sys:String x:Key="Str_Kb_AlignR">Оң жақ шетке туралау</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">Ені бойынша туралау</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Жазбаның басына / соңына өту</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Алдын ала қарау: беттің басына / соңына өту</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Тұтас сөзбен өту</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Тұтас сөзді жою</sys:String>
     <sys:String x:Key="Str_KS_Align">Сол жақ / орта / оң жақ / ені бойынша туралау</sys:String>

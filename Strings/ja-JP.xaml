@@ -421,6 +421,7 @@
     <sys:String x:Key="Str_Kb_AlignR">右揃え</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">両端揃え</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">ノートの先頭 / 末尾へ移動</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">プレビュー: ページの先頭 / 末尾へ移動</sys:String>
     <sys:String x:Key="Str_KS_WordJump">単語単位で移動</sys:String>
     <sys:String x:Key="Str_KS_DelWord">単語をまとめて削除</sys:String>
     <sys:String x:Key="Str_KS_Align">左 / 中央 / 右 / 両端揃え</sys:String>

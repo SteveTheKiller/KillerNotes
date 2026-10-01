@@ -528,6 +528,7 @@
     <sys:String x:Key="Str_Kb_AlignR">По правому краю</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">По ширине</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Перейти в начало / конец заметки</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Предпросмотр: к началу или концу страницы</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Переходить по целым словам</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Удалить слово целиком</sys:String>
     <sys:String x:Key="Str_KS_Align">По левому краю / по центру / по правому краю / по ширине</sys:String>

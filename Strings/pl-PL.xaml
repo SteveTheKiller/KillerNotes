@@ -451,6 +451,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Kb_AlignR">Wyrównaj do prawej</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">Wyjustuj</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Przejdź na początek / koniec notatki</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Podgląd: przejdź na początek lub koniec strony</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Przeskakuj o całe słowa</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Usuń całe słowo</sys:String>
     <sys:String x:Key="Str_KS_Align">Wyrównaj do lewej / wyśrodkuj / do prawej / wyjustuj</sys:String>

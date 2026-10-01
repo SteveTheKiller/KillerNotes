@@ -422,6 +422,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Kb_AlignR">Sağa hizala</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">İki yana yasla</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Notun başına / sonuna atla</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Önizleme: sayfanın başına / sonuna git</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Kelime kelime atla</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Bütün kelimeyi sil</sys:String>
     <sys:String x:Key="Str_KS_Align">Sola / ortaya / sağa hizala / yasla</sys:String>

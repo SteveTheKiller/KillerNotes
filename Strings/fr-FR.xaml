@@ -422,6 +422,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Kb_AlignR">Aligner à droite</sys:String>
     <sys:String x:Key="Str_Kb_AlignJ">Justifier</sys:String>
     <sys:String x:Key="Str_KS_NoteNav">Aller au début / à la fin de la note</sys:String>
+    <sys:String x:Key="Str_KS_PreviewTopEnd">Aperçu : aller au début ou à la fin de la page</sys:String>
     <sys:String x:Key="Str_KS_WordJump">Sauter de mot en mot</sys:String>
     <sys:String x:Key="Str_KS_DelWord">Supprimer un mot entier</sys:String>
     <sys:String x:Key="Str_KS_Align">Aligner gauche / centre / droite / justifié</sys:String>

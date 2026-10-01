@@ -41,6 +41,9 @@ namespace KillerNotes.Shell
             // group header selected it graphs that group, otherwise the whole notebook.
             new("Ctrl+Shift+B", "Str_KS_Graph", "View", [(KbLayer.CtrlShift, "B", "Str_Kb_Graph")]),
             new("F4", "Str_KS_Preview", "View", [(KbLayer.Base, "F4", "Str_Kb_Preview")]),
+            // The rendered preview's reading keys (Preview.cs page script). In the editor these keys
+            // keep their line meaning; Ctrl+Home / End below jumps the note itself.
+            new("Home / End", "Str_KS_PreviewTopEnd", "View", [(KbLayer.Base, "Home", "Str_Kb_NoteTop"), (KbLayer.Base, "End", "Str_Kb_NoteEnd")]),
             new("F5", "Str_KS_Sidebar", "View", [(KbLayer.Base, "F5", "Str_Kb_Sidebar")]),
             new("F6", "Str_KS_FormatBar", "View", [(KbLayer.Base, "F6", "Str_Kb_FormatBar")]),
             new("F7 / Ctrl+Shift+D", "Str_KS_SketchPad", "View", [(KbLayer.Base, "F7", "Str_KS_SketchPad"), (KbLayer.CtrlShift, "D", "Str_KS_SketchPad")]),
@@ -123,7 +126,7 @@ namespace KillerNotes.Shell
             new("Ctrl+V", "Str_KS_Paste", "Edit", [(KbLayer.Ctrl, "V", "Str_Kb_Paste")], Listed: false),
             new("Ctrl+Z / Y", "Str_KS_Undo", "Edit", [(KbLayer.Ctrl, "Z", "Str_Kb_Undo"), (KbLayer.Ctrl, "Y", "Str_Kb_Redo")], Listed: false),
             new("Ctrl+A", "Str_KS_SelectAll", "Edit", [(KbLayer.Ctrl, "A", "Str_Kb_SelectAll")], Listed: false),
-            new("Ctrl+Home / End", "Str_KS_NoteNav", "Edit", [(KbLayer.Ctrl, "Home", "Str_Kb_NoteTop"), (KbLayer.Ctrl, "End", "Str_Kb_NoteEnd")], Listed: false),
+            new("Ctrl+Home / End", "Str_KS_NoteNav", "Edit", [(KbLayer.Ctrl, "Home", "Str_Kb_NoteTop"), (KbLayer.Ctrl, "End", "Str_Kb_NoteEnd")]),
             new("Ctrl+Left / Right", "Str_KS_WordJump", "Edit", [(KbLayer.Ctrl, "Left", "Str_Kb_WordLeft"), (KbLayer.Ctrl, "Right", "Str_Kb_WordRight")], Listed: false),
             new("Ctrl+Bksp / Del", "Str_KS_DelWord", "Edit", [(KbLayer.Ctrl, "Back", "Str_Kb_DelWordL"), (KbLayer.Ctrl, "Del", "Str_Kb_DelWordR")], Listed: false),
             new("Ctrl+L / E / R / J", "Str_KS_Align", "Format",
