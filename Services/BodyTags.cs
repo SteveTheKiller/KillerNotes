@@ -18,6 +18,9 @@ namespace KillerNotes.Services
             @"(?<!\[)\[\s*#" + Name + @"(?:\s*,\s*#" + Name + @")*\s*\](?![\](])",
             RegexOptions.Compiled, TimeSpan.FromMilliseconds(250));
         private static readonly Regex Tag = new("#(" + Name + ")", RegexOptions.Compiled);
+        private static readonly Regex PartialGroup = new(
+            @"^\[[ \t]*(?:#" + Name + @"[ \t]*,[ \t]*)*#(?<query>[\p{L}\p{N}_.-]*)$",
+            RegexOptions.Compiled, TimeSpan.FromMilliseconds(250));
 
         internal static List<(int Start, int Length, string Name)> Spans(string? text)
         {
@@ -27,9 +30,7 @@ namespace KillerNotes.Services
             {
                 var groups = Group.Matches(text);
                 if (groups.Count == 0) return result;
-                var document = Markdown.Parse(text, Pipeline);
-                var code = document.Descendants().Where(n => n is CodeBlock || n is CodeInline)
-                    .Select(n => new SourceSpan(n.Span.Start, CodeEnd(n, text))).ToList();
+                var code = CodeSpans(text);
                 foreach (Match group in groups)
                 {
                     int escapes = 0;
@@ -43,6 +44,32 @@ namespace KillerNotes.Services
             catch (RegexMatchTimeoutException) { }
             return result;
         }
+
+        private static List<SourceSpan> CodeSpans(string text) =>
+            Markdown.Parse(text, Pipeline).Descendants().Where(n => n is CodeBlock || n is CodeInline)
+                .Select(n => new SourceSpan(n.Span.Start, CodeEnd(n, text))).ToList();
+
+        internal static string? CompletionQuery(string text, int offset)
+        {
+            if (offset < 0 || offset > text.Length) return null;
+            if (offset < text.Length && Regex.IsMatch(text[offset].ToString(), @"[\p{L}\p{N}_.-]")) return null;
+            int open = offset == 0 ? -1 : text.LastIndexOf('[', offset - 1);
+            if (open < 0 || (open > 0 && text[open - 1] == '[')) return null;
+            int escapes = 0;
+            for (int i = open - 1; i >= 0 && text[i] == '\\'; i--) escapes++;
+            if (escapes % 2 != 0) return null;
+            try
+            {
+                var match = PartialGroup.Match(text.Substring(open, offset - open));
+                if (!match.Success || CodeSpans(text).Any(s => open <= s.End && offset > s.Start)) return null;
+                return match.Groups["query"].Value;
+            }
+            catch (RegexMatchTimeoutException) { return null; }
+        }
+
+        internal static string[] Suggestions(IEnumerable<string> tags, string query) =>
+            tags.Where(t => Regex.IsMatch(t, "^" + Name + "$") && t.StartsWith(query, StringComparison.OrdinalIgnoreCase))
+                .Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(t => t, StringComparer.OrdinalIgnoreCase).ToArray();
 
         private static int CodeEnd(MarkdownObject node, string text)
         {

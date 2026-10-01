@@ -77,6 +77,26 @@ manual assignment/undo, restart, and conversion between rich text and Markdown.
 Tag definitions can be renamed/deleted in Manage tags, but occurrences in the
 body remain authoritative and must be edited there too.
 
+## Tag autocomplete
+
+Create existing tags using Manage tags, then type `[#` in a rich-text or Markdown
+note. Suggestions should appear A-Z without moving focus from the editor.
+Typing narrows the list by prefix, ignoring case; the suggestion count is a
+polite live-region announcement. Down Arrow moves focus to the first suggestion,
+and Up/Down announce individual tag names. Tab completes the selected name and
+returns the caret to the editor. It inserts no comma or closing bracket.
+Escape dismisses without changing the text or caret. With no matches, continue
+typing a new tag normally. Suggestions only include names supported by bracketed
+tags (letters, numbers, underscores, dots and hyphens).
+
+Test `[#Azure,#` and spaces after commas, Tab directly from the editor, selection
+followed by Tab, typing/Backspace while browsing suggestions, mouse selection,
+Escape, outside clicks, moving the caret away, opening another note and F1.
+Check ordinary headings, wikilinks, escaped brackets and code blocks/spans never
+trigger suggestions. Check Ctrl+Z undoes completion as one action and existing
+wikilink completion still works. Run all focus/announcement tests with JAWS and
+NVDA; automation tests cannot establish screen-reader behaviour.
+
 ## Visual and mouse checks
 
 Compare the build with 1.3.2 in Light, Dark and 98SE themes, plus the user's normal

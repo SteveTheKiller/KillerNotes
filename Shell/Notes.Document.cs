@@ -26,6 +26,8 @@ namespace KillerNotes.Shell
             var meta = _notes.FirstOrDefault(n => n.Id == id)
                     ?? _trashNotes.FirstOrDefault(n => n.Id == id);
             if (meta == null) return;
+            if (_tagPopup != null) _tagPopup.IsOpen = false;
+            _tagDismissed = true;
 
             // Record the note being left BEFORE _currentId moves on. Every navigation in the app
             // funnels through here, which is the whole reason back/forward can be complete

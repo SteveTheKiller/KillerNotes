@@ -94,6 +94,7 @@ namespace KillerNotes.Shell
                 }
                 return;
             }
+            if (TagCompletionKey(e)) return;
             KbSyncLayerFromModifiers();   // KeyboardMap.cs (holding Ctrl/Shift previews a layer)
             bool ctrl  = Keyboard.Modifiers.HasFlag(ModifierKeys.Control);
             bool shift = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);

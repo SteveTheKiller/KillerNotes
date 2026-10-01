@@ -947,4 +947,6 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_BodyTag_Empty">No other notes tagged {0}</sys:String>
     <sys:String x:Key="Str_BodyTag_Edit">This tag comes from the note body. Edit its bracketed tag to remove it.</sys:String>
     <sys:String x:Key="Str_KS_BodyTag">Recent notes for the tag at the caret</sys:String>
+    <sys:String x:Key="Str_TagComplete_Title">Tag suggestions</sys:String>
+    <sys:String x:Key="Str_TagComplete_Count">{0} tag suggestions. Down Arrow to browse; Tab to complete.</sys:String>
 </ResourceDictionary>

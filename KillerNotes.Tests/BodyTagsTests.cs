@@ -60,6 +60,48 @@ namespace KillerNotes.Tests
                 Deleted = new DateTime(2026, 2, 2) });
             Assert.Equal(new long[] { 7, 6, 5, 4, 3 }, BodyTags.RecentNotes(notes, "Azure", 8).Select(n => n.Id));
         }
+
+        [Theory]
+        [InlineData("[#", "")]
+        [InlineData("[#Az", "Az")]
+        [InlineData("[#Azure, #En", "En")]
+        [InlineData("[#Azure,#P", "P")]
+        public void CompletesOnlyTheCurrentTag(string text, string expected)
+        {
+            Assert.Equal(expected, BodyTags.CompletionQuery(text, text.Length));
+        }
+
+        [Theory]
+        [InlineData("#")]
+        [InlineData("# Heading")]
+        [InlineData("[[#Az")]
+        [InlineData("\\[#Az")]
+        [InlineData("[#Azure] text #")]
+        [InlineData("[ordinary text #")]
+        [InlineData("[#Azure,invalid,#")]
+        [InlineData("```\n[#Az")]
+        [InlineData("    [#Az")]
+        public void DoesNotCompleteOutsideTagGroups(string text)
+        {
+            Assert.Null(BodyTags.CompletionQuery(text, text.Length));
+        }
+
+        [Fact]
+        public void CompletionWorksBeforeClosingBracketButNotInsideCodeOrMidToken()
+        {
+            Assert.Equal("Az", BodyTags.CompletionQuery("[#Az]", 4));
+            Assert.Null(BodyTags.CompletionQuery("`[#Az]`", 5));
+            Assert.Null(BodyTags.CompletionQuery("[#Azure]", 4));
+        }
+
+        [Fact]
+        public void SuggestionsAreAlphabeticalAndNarrowByPrefix()
+        {
+            string[] tags = { "PIM", "azure", "EntraId", "Azure", "AzureAD", "two words" };
+            Assert.Equal(new[] { "azure", "AzureAD", "EntraId", "PIM" }, BodyTags.Suggestions(tags, ""));
+            Assert.Equal(new[] { "azure", "AzureAD" }, BodyTags.Suggestions(tags, "AZ"));
+            Assert.Empty(BodyTags.Suggestions(tags, "Unknown"));
+        }
     }
 
     [Collection(NoteStoreCollection.Name)]
