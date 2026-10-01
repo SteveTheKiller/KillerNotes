@@ -84,7 +84,8 @@ note. Suggestions should appear A-Z without moving focus from the editor.
 Typing narrows the list by prefix, ignoring case; the suggestion count is a
 polite live-region announcement. Down Arrow moves focus to the first suggestion,
 and Up/Down announce individual tag names. Tab completes the selected name and
-returns the caret to the editor. It inserts no comma or closing bracket.
+returns the caret to the editor. Enter while the suggestion list has focus does
+the same, without inserting a newline. It inserts no comma or closing bracket.
 Escape dismisses without changing the text or caret. With no matches, continue
 typing a new tag normally. Suggestions only include names supported by bracketed
 tags (letters, numbers, underscores, dots and hyphens).
