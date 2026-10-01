@@ -21,6 +21,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The preview now fills its pane to the edges, with rounded corners, film grain and a slim scrollbar that match the editor.
 - Holding Ctrl+Z no longer undoes several organizational actions at once.
 - Converting a note to markdown no longer puts a backslash before every underscore, asterisk and bracket.
+- Markdown notes always offer the preview and F4, even when their text has no headings, links or bold.
 
 ## [1.3.1] - 2026-09-27
 

@@ -110,7 +110,10 @@ namespace KillerNotes.Shell
         private void UpdatePreviewState(bool preserveScroll = false)
         {
             string text = EditorPlainText();
-            _docKind = DetectMarkdownGlobally ? DetectDocKind(text) : DocKind.None;
+            // A note stored as markdown is markdown whatever its text looks like, so it always
+            // gets the preview and F4. Detection only guesses for rich-text notes.
+            _docKind = CurrentIsMarkdown ? DocKind.Markdown
+                : DetectMarkdownGlobally ? DetectDocKind(text) : DocKind.None;
             bool detected = _docKind != DocKind.None;
             PreviewMenuItem.Visibility = detected ? Visibility.Visible : Visibility.Collapsed;
             PreviewModeBtn.Visibility = PreviewMenuItem.Visibility;
