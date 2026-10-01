@@ -8401,3 +8401,131 @@ I18N.pt = {
  "tech_kicker": "Técnico",
  "tech_sub": "Como o bloco de notas realmente funciona: armazenamento, pesquisa, criptografia e formatos de compartilhamento."
 };
+
+/* Language count update: nineteen locales. */
+if (I18N["it"]) Object.assign(I18N["it"], {
+ "f_lang_t": "19 lingue",
+ "f_lang_d": "L'intera interfaccia è tradotta in 19 lingue, commutabili dal vivo senza riavvio. Lo stesso insieme in cui è disponibile il sito web.",
+ "hp_72": "<code>Ctrl+Shift+A</code> apre il riquadro dei temi: tredici temi con colori d'accento, cambiati dal vivo. L'interfaccia parla 19 lingue e ricade sull'inglese per tutto ciò che non è tradotto.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), commutabili dal vivo, ripiego su en-US",
+ "t_loc_p1": "L'interfaccia è disponibile in 19 lingue: inglese, bengalese, ceco, tedesco, spagnolo, francese, ungherese, italiano, giapponese, kazako, norvegese (bokmål), polacco, portoghese brasiliano, russo, turco, ucraino, vietnamita, cinese semplificato e cinese tradizionale. Il cambio è dal vivo - nessun riavvio, nessun rilancio - perché ogni stringa è una ricerca <code>DynamicResource</code> su un ResourceDictionary unito che viene sostituito in loco, lo stesso meccanismo usato dai temi."
+});
+if (I18N["hu"]) Object.assign(I18N["hu"], {
+ "f_lang_t": "19 nyelv",
+ "f_lang_d": "A teljes felület 19 nyelvre van lefordítva, újraindítás nélkül élőben kapcsolható. Ugyanaz a készlet, amelyet a webhely szállít.",
+ "hp_72": "A <code>Ctrl+Shift+A</code> megnyitja a témát: tizenhárom téma kiemelő színekkel, élőben váltva. A felület 19 nyelven beszél, és minden lefordítatlan esetében angolra esik vissza.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), élőben válthatók, en-US visszaeséssel",
+ "t_loc_p1": "A felület 19 nyelven érhető el: angol, bengáli, cseh, német, spanyol, francia, magyar, olasz, japán, kazah, norvég (bokmål), lengyel, brazil portugál, orosz, török, ukrán, vietnámi, egyszerűsített kínai és hagyományos kínai. A váltás élőben történik - nincs újraindítás, nincs újbóli elindítás -, mert minden karakterlánc egy <code>DynamicResource</code> keresés egy helyben kicserélt, összefésült ResourceDictionary ellen, ugyanazzal a mechanizmussal, amit a témák használnak."
+});
+if (I18N["pl"]) Object.assign(I18N["pl"], {
+ "f_lang_t": "19 języków",
+ "f_lang_d": "Cały interfejs jest przetłumaczony na 19 języków, przełączanych na żywo bez restartu. Ten sam zestaw, w którym wychodzi strona internetowa.",
+ "hp_72": "<code>Ctrl+Shift+A</code> otwiera menu motywów: trzynaście motywów z kolorami akcentu, przełączanych na żywo. Interfejs mówi w 19 językach, a dla wszystkiego nieprzetłumaczonego wraca do angielskiego.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), przełączane na żywo, z powrotem do en-US",
+ "t_loc_p1": "Interfejs jest dostarczany w 19 językach: angielskim, bengalskim, czeskim, niemieckim, hiszpańskim, francuskim, węgierskim, włoskim, japońskim, kazachskim, norweskim (bokmål), polskim, portugalskim brazylijskim, rosyjskim, tureckim, ukraińskim, wietnamskim, chińskim uproszczonym i chińskim tradycyjnym. Przełączanie działa na żywo - bez restartu, bez ponownego uruchamiania - ponieważ każdy napis to wyszukanie <code>DynamicResource</code> w scalonym ResourceDictionary, który jest podmieniany w miejscu, tym samym mechanizmem, z którego korzystają motywy."
+});
+if (I18N["cs"]) Object.assign(I18N["cs"], {
+ "f_lang_t": "19 jazyků",
+ "f_lang_d": "Celé rozhraní je přeloženo do 19 jazyků, přepínatelných za běhu bez restartu. Stejná sada, v jaké vychází web.",
+ "hp_72": "<code>Ctrl+Shift+A</code> otevře vyskakovací nabídku motivů: třináct motivů s akcentovými barvami, přepínaných živě. Rozhraní mluví 19 jazyky a u čehokoli nepřeloženého se vrací k angličtině.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), přepínatelné živě, záloha en-US",
+ "t_loc_p1": "Rozhraní se dodává v 19 jazycích: angličtina, bengálština, čeština, němčina, španělština, francouzština, maďarština, italština, japonština, kazaština, norština (bokmål), polština, brazilská portugalština, ruština, turečtina, ukrajinština, vietnamština, zjednodušená čínština a tradiční čínština. Přepínání je živé - bez restartu, bez znovuspuštění - protože každý řetězec je vyhledání přes <code>DynamicResource</code> ve sloučeném ResourceDictionary, který se vymění na místě, tedy stejným mechanismem, jaký používají motivy."
+});
+if (I18N["es"]) Object.assign(I18N["es"], {
+ "f_lang_t": "19 idiomas",
+ "f_lang_d": "Toda la interfaz está traducida a 19 idiomas, conmutables al instante sin reiniciar. El mismo conjunto en el que se publica el sitio web.",
+ "hp_72": "<code>Ctrl+Shift+A</code> abre el menu de temas: trece temas con colores de acento, cambiados en vivo. La interfaz habla 19 idiomas y recurre al ingles para lo que no este traducido.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), cambiables en vivo, con respaldo en en-US",
+ "t_loc_p1": "La interfaz se entrega en 19 idiomas: inglés, bengalí, checo, alemán, español, francés, húngaro, italiano, japonés, kazajo, noruego (bokmål), polaco, portugués de Brasil, ruso, turco, ucraniano, vietnamita, chino simplificado y chino tradicional. El cambio es en vivo - sin reiniciar, sin relanzar - porque cada cadena es una búsqueda <code>DynamicResource</code> contra un ResourceDictionary combinado que se sustituye en su sitio, el mismo mecanismo que usan los temas."
+});
+if (I18N["de"]) Object.assign(I18N["de"], {
+ "f_lang_t": "19 Sprachen",
+ "f_lang_d": "Die gesamte Oberfläche ist in 19 Sprachen übersetzt, live umschaltbar ohne Neustart. Dieselbe Auswahl wie auf der Website.",
+ "hp_72": "<code>Ctrl+Shift+A</code> offnet das Design-Flyout: dreizehn Designs mit Akzentfarben, live umgeschaltet. Die Oberflache spricht 19 Sprachen und greift fur nicht Ubersetztes auf Englisch zuruck.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), live umschaltbar, Fallback auf en-US",
+ "t_loc_p1": "Die Oberfläche wird in 19 Sprachen ausgeliefert: Englisch, Bengalisch, Tschechisch, Deutsch, Spanisch, Französisch, Ungarisch, Italienisch, Japanisch, Kasachisch, Norwegisch (Bokmål), Polnisch, brasilianisches Portugiesisch, Russisch, Türkisch, Ukrainisch, Vietnamesisch, vereinfachtes Chinesisch und traditionelles Chinesisch. Der Wechsel ist live - kein Neustart, kein Neuöffnen - weil jede Zeichenkette ein <code>DynamicResource</code>-Lookup gegen ein zusammengeführtes ResourceDictionary ist, das an Ort und Stelle ausgetauscht wird, derselbe Mechanismus, den die Themes verwenden."
+});
+if (I18N["fr"]) Object.assign(I18N["fr"], {
+ "f_lang_t": "19 langues",
+ "f_lang_d": "Toute l'interface est traduite en 19 langues, changeables à la volée sans redémarrage. Le même ensemble que celui du site web.",
+ "hp_72": "<code>Ctrl+Shift+A</code> ouvre le menu des themes : treize themes avec couleurs d'accent, changes en direct. L'interface parle 19 langues et revient a l'anglais pour tout ce qui n'est pas traduit.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), commutables en direct, repli sur en-US",
+ "t_loc_p1": "L'interface est livrée en 19 langues : anglais, bengali, tchèque, allemand, espagnol, français, hongrois, italien, japonais, kazakh, norvégien (bokmål), polonais, portugais brésilien, russe, turc, ukrainien, vietnamien, chinois simplifié et chinois traditionnel. Le changement est en direct - pas de redémarrage, pas de relance - parce que chaque chaîne est une recherche <code>DynamicResource</code> contre un ResourceDictionary fusionné remplacé sur place, le même mécanisme que celui des thèmes."
+});
+if (I18N["ja"]) Object.assign(I18N["ja"], {
+ "f_lang_t": "19の言語",
+ "f_lang_d": "インターフェース全体が19の言語に翻訳され、再起動なしでその場で切り替えられます。ウェブサイトと同じ言語セットです。",
+ "hp_72": "<code>Ctrl+Shift+A</code> でテーマフライアウトが開きます。アクセントカラー付きの 13 テーマをライブで切り替えられます。インターフェイスは 19 言語に対応し、未翻訳の部分は英語にフォールバックします。",
+ "t_spec_r14v": "19（en、bn、cs、de、es、fr、hu、it、ja、kk、nb、pl、pt-BR、ru、tr、uk、vi、zh-Hans、zh-Hant）、ライブ切り替え、en-US にフォールバック",
+ "t_loc_p1": "インターフェイスは 19 の言語で提供されます: 英語、ベンガル語、チェコ語、ドイツ語、スペイン語、フランス語、ハンガリー語、イタリア語、日本語、カザフ語、ノルウェー語（ブークモール）、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、ウクライナ語、ベトナム語、簡体中国語、繁体中国語。切り替えはライブで、再起動も起動し直しも要りません。すべての文字列が、その場で差し替えられるマージ済み ResourceDictionary に対する <code>DynamicResource</code> の参照だからです。テーマとまったく同じ仕組みです。"
+});
+if (I18N["tr"]) Object.assign(I18N["tr"], {
+ "f_lang_t": "19 dil",
+ "f_lang_d": "Arayüzün tamamı 19 dile çevrildi; yeniden başlatmadan anında değiştirilebilir. Web sitesiyle aynı dil seti.",
+ "hp_72": "<code>Ctrl+Shift+A</code> tema acilir menusunu acar: vurgu renkleriyle on uc tema, canli olarak degistirilir. Arayuz 19 dil konusur ve cevrilmemis her sey icin Ingilizceye doner.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), anında değiştirilebilir, en-US yedeği",
+ "t_loc_p1": "Arayüz 19 dilde gelir: İngilizce, Bengalce, Çekçe, Almanca, İspanyolca, Fransızca, Macarca, İtalyanca, Japonca, Kazakça, Norveççe (Bokmål), Lehçe, Brezilya Portekizcesi, Rusça, Türkçe, Ukraynaca, Vietnamca, Basitleştirilmiş Çince ve Geleneksel Çince. Değiştirme canlıdır - yeniden başlatma yok, yeniden çalıştırma yok - çünkü her dize, yerinde değiştirilen birleştirilmiş bir ResourceDictionary'e karşı bir <code>DynamicResource</code> aramasıdır; temaların kullandığı düzeneğin aynısı."
+});
+if (I18N["zh"]) Object.assign(I18N["zh"], {
+ "f_lang_t": "19種語言",
+ "f_lang_d": "整個介面已翻譯成19種語言，無需重啟即可即時切換。與網站提供的語言相同。",
+ "hp_72": "<code>Ctrl+Shift+A</code> 開啟主題浮出功能表：十三種帶強調色的主題，即時切換。介面支援19種語言，未翻譯的內容會退回英文。",
+ "t_spec_r14v": "19 種（en、bn、cs、de、es、fr、hu、it、ja、kk、nb、pl、pt-BR、ru、tr、uk、vi、zh-Hans、zh-Hant），可即時切換，退回 en-US",
+ "t_loc_p1": "介面隨附19種語言：英文、孟加拉文、捷克文、德文、西班牙文、法文、匈牙利文、義大利文、日文、哈薩克文、挪威文（博克馬爾）、波蘭文、巴西葡萄牙文、俄文、土耳其文、烏克蘭文、越南文、簡體中文與繁體中文。切換是即時的 - 不必重新啟動，也不必重開 - 因為每一個字串都是對一個就地替換的合併 ResourceDictionary 做 <code>DynamicResource</code> 查詢，和主題用的是同一套機制。"
+});
+if (I18N["zh-cn"]) Object.assign(I18N["zh-cn"], {
+ "f_lang_t": "19种语言",
+ "f_lang_d": "整个界面已翻译成19种语言，无需重启即可实时切换。与网站提供的语言相同。",
+ "hp_72": "<code>Ctrl+Shift+A</code> 打开主题弹出菜单：十三种带强调色的主题，实时切换。界面支持19种语言，未翻译的内容会回退到英文。",
+ "t_spec_r14v": "19 种（en、bn、cs、de、es、fr、hu、it、ja、kk、nb、pl、pt-BR、ru、tr、uk、vi、zh-Hans、zh-Hant），可实时切换，回退到 en-US",
+ "t_loc_p1": "界面随附19种语言：英语、孟加拉语、捷克语、德语、西班牙语、法语、匈牙利语、意大利语、日语、哈萨克语、挪威语（博克马尔）、波兰语、巴西葡萄牙语、俄语、土耳其语、乌克兰语、越南语、简体中文和繁体中文。切换是实时的 - 不必重启，也不必重新打开 - 因为每一个字符串都是对一个就地替换的合并 ResourceDictionary 做 <code>DynamicResource</code> 查询，和主题用的是同一套机制。"
+});
+if (I18N["bn"]) Object.assign(I18N["bn"], {
+ "f_lang_t": "19টি ভাষা",
+ "f_lang_d": "পুরো ইন্টারফেস 19টি ভাষায় অনূদিত, রিস্টার্ট ছাড়াই সঙ্গে সঙ্গে পরিবর্তনযোগ্য। ওয়েবসাইট যে ভাষাগুলোতে আসে সেই একই সেট।",
+ "hp_72": "<code>Ctrl+Shift+A</code> থিম ফ্লাইআউট খোলে: অ্যাকসেন্ট রঙসহ তেরোটি থিম, লাইভ পরিবর্তনযোগ্য। ইন্টারফেস 19টি ভাষায় কথা বলে এবং অনূদিত নয় এমন কিছুর জন্য ইংরেজিতে ফিরে যায়।",
+ "t_spec_r14v": "১৯টি (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), লাইভ বদলানো যায়, en-US বিকল্প",
+ "t_loc_p1": "ইন্টারফেসটি 19টি ভাষায় আসে: ইংরেজি, বাংলা, চেক, জার্মান, স্প্যানিশ, ফরাসি, হাঙ্গেরীয়, ইতালীয়, জাপানি, কাজাখ, নরওয়েজীয় (বোকমাল), পোলিশ, ব্রাজিলীয় পর্তুগিজ, রুশ, তুর্কি, ইউক্রেনীয়, ভিয়েতনামী, সরলীকৃত চীনা আর ঐতিহ্যবাহী চীনা। বদলানো হয় লাইভ - রিস্টার্ট নেই, নতুন করে চালু করাও নেই - কারণ প্রতিটি স্ট্রিং একটি মার্জ করা ResourceDictionary-র বিপরীতে একটি <code>DynamicResource</code> খোঁজ, আর সেই ডিকশনারিটি জায়গামতোই বদলে দেওয়া হয়, থিম যে ব্যবস্থাটি ব্যবহার করে ঠিক সেটিই।"
+});
+if (I18N["ru"]) Object.assign(I18N["ru"], {
+ "f_lang_t": "19 языков",
+ "f_lang_d": "Весь интерфейс переведён на 19 языков, переключаемых на лету без перезапуска. Тот же набор, в котором выходит и сайт.",
+ "hp_72": "<code>Ctrl+Shift+A</code> открывает меню тем: тринадцать тем с акцентными цветами, переключаемых на лету. Интерфейс говорит на 19 языках и откатывается к английскому для всего непереведённого.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), переключаются на лету, откат к en-US",
+ "t_loc_p1": "Интерфейс поставляется на 19 языках: английском, бенгальском, венгерском, испанском, итальянском, казахском, вьетнамском, китайском упрощённом, китайском традиционном, немецком, норвежском (букмол), польском, португальском (бразильском), русском, турецком, украинском, французском, чешском и японском. Переключение живое - без перезапуска и повторного открытия - потому что каждая строка - это поиск через <code>DynamicResource</code> в объединённом ResourceDictionary, который подменяется на месте, тем же механизмом, что и темы."
+});
+if (I18N["kk"]) Object.assign(I18N["kk"], {
+ "f_lang_t": "19 тіл",
+ "f_lang_d": "Бүкіл интерфейс 19 тілге аударылған, қайта іске қоспай тірідей ауысады. Сайт шығатын дәл сол жиынтық.",
+ "hp_72": "<code>Ctrl+Shift+A</code> тақырып мәзірін ашады: акцент түстері бар, тірідей ауысатын он үш тақырып. Интерфейс 19 тілде сөйлейді және аударылмағанның бәрі үшін ағылшыншаға қайтады.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), тірідей ауысады, en-US сақтық нұсқасы",
+ "t_loc_p1": "Интерфейс 19 тілде шығады: ағылшын, бенгал, венгр, жапон, испан, итальян, қазақ, вьетнам, қытай жеңілдетілген, қытай дәстүрлі, неміс, норвег (букмол), орыс, поляк, бразилиялық португал, түрік, украин, француз және чех. Ауыстыру тірідей - қайта іске қосудың да, қайта ашудың да қажеті жоқ - өйткені әр жол орнында ауыстырылатын біріктірілген ResourceDictionary ішінен <code>DynamicResource</code> арқылы ізделеді, бұл тақырыптар пайдаланатын дәл сол механизм."
+});
+if (I18N["vi"]) Object.assign(I18N["vi"], {
+ "f_lang_t": "19 ngôn ngữ",
+ "f_lang_d": "Toàn bộ giao diện được dịch sang 19 ngôn ngữ, có thể chuyển đổi trực tiếp mà không cần khởi động lại. Bộ ngôn ngữ giống như trang web cung cấp.",
+ "hp_72": "<code>Ctrl+Shift+A</code> mở menu giao diện chủ đề: mười ba chủ đề với các màu nhấn, thay đổi trực tiếp. Giao diện hỗ trợ 19 ngôn ngữ và sẽ sử dụng tiếng Anh cho bất kỳ nội dung nào chưa được dịch.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), có thể chuyển trực tiếp, dự phòng bằng en-US",
+ "t_loc_p1": "Giao diện có sẵn bằng 19 ngôn ngữ: Tiếng Anh, Tiếng Bengal, Tiếng Séc, Tiếng Đức, Tiếng Tây Ban Nha, Tiếng Pháp, Tiếng Hungary, Tiếng Ý, Tiếng Nhật, Tiếng Kazakh, Tiếng Na Uy (Bokmål), Tiếng Ba Lan, Tiếng Bồ Đào Nha (Brazil), Tiếng Nga, Tiếng Thổ Nhĩ Kỳ, Tiếng Ukraina, Tiếng Việt, Tiếng Trung Giản thể và Tiếng Trung Phồn thể. Việc chuyển đổi xảy ra ngay lập tức - không cần khởi động lại, không cần mở lại - vì mỗi chuỗi là một <code>DynamicResource</code> tra cứu từ một ResourceDictionary hợp nhất được thay thế tại chỗ, cùng cơ chế mà các chủ đề sử dụng."
+});
+if (I18N["uk"]) Object.assign(I18N["uk"], {
+ "f_lang_t": "Дев'ятнадцять мов",
+ "f_lang_d": "Весь інтерфейс перекладено дев'ятнадцятьма мовами з перемиканням наживо без перезапуску. Той самий набір, що й у вебсайту.",
+ "hp_72": "<code>Ctrl+Shift+A</code> відкриває випадне меню тем: тринадцять тем з акцентними кольорами, що перемикаються наживо. Інтерфейс розмовляє дев'ятнадцятьма мовами й повертається до англійської для всього неперекладеного.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), перемикання наживо, резервна en-US",
+ "t_loc_p1": "Інтерфейс постачається дев'ятнадцятьма мовами: англійською, бенгальською, чеською, німецькою, іспанською, французькою, угорською, італійською, японською, казахською, норвезькою (букмол), польською, бразильською португальською, російською, турецькою, українською, в'єтнамською, спрощеною китайською та традиційною китайською. Перемикання відбувається наживо - без перезапуску, без повторного відкриття - бо кожен рядок - це пошук <code>DynamicResource</code> у злитому ResourceDictionary, який підмінюється на місці, тим самим механізмом, що й теми."
+});
+if (I18N["nb"]) Object.assign(I18N["nb"], {
+ "f_lang_t": "19 språk",
+ "f_lang_d": "Hele grensesnittet er oversatt til 19 språk, som kan byttes live uten omstart. Det samme settet som nettstedet leveres på.",
+ "hp_72": "<code>Ctrl+Shift+A</code> åpner temapanelet: tretten temaer med aksentfarger, byttet live. Grensesnittet støtter 19 språk og faller tilbake til engelsk for alt som ikke er oversatt.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), live-bytte, reserve til en-US",
+ "t_loc_p1": "Grensesnittet leveres på 19 språk: engelsk, bengali, tsjekkisk, tysk, spansk, fransk, ungarsk, italiensk, japansk, kasakhisk, norsk bokmål, polsk, brasiliansk portugisisk, russisk, tyrkisk, ukrainsk, vietnamesisk, forenklet kinesisk og tradisjonell kinesisk. Byttet skjer live - ingen omstart, ingen ny start - fordi hver streng er et <code>DynamicResource</code>-oppslag mot en sammenslått ResourceDictionary som byttes ut på stedet, den samme mekanismen som temaene bruker."
+});
+if (I18N["pt"]) Object.assign(I18N["pt"], {
+ "f_lang_t": "19 idiomas",
+ "f_lang_d": "Toda a interface está traduzida para 19 idiomas, alternáveis ao vivo sem reiniciar. O mesmo conjunto em que o site é publicado.",
+ "hp_72": "<code>Ctrl+Shift+A</code> abre o menu de temas: treze temas com cores de destaque, trocados ao vivo. A interface fala 19 idiomas e volta ao inglês para tudo que não estiver traduzido.",
+ "t_spec_r14v": "19 (en, bn, cs, de, es, fr, hu, it, ja, kk, nb, pl, pt-BR, ru, tr, uk, vi, zh-Hans, zh-Hant), alternáveis ao vivo, fallback para en-US",
+ "t_loc_p1": "A interface é distribuída em 19 idiomas: inglês, bengali, tcheco, alemão, espanhol, francês, húngaro, italiano, japonês, cazaque, norueguês (bokmål), polonês, português do Brasil, russo, turco, ucraniano, vietnamita, chinês simplificado e chinês tradicional. A troca é ao vivo - sem reinício, sem reabrir - porque cada string é uma consulta <code>DynamicResource</code> em um ResourceDictionary mesclado que é substituído no próprio lugar, o mesmo mecanismo que os temas usam."
+});
