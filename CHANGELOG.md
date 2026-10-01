@@ -4,9 +4,9 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.3.2] - Unreleased
+## [1.3.2] - 2026-09-30
 
-1.3.2 polishes copy and paste, the markdown and HTML preview, and undo.
+1.3.2 polishes copy and paste, markdown conversion, the markdown and HTML preview, and undo.
 
 ### Added
 - A mode button on the format bar shows whether the preview is in Source, Rendered or Split view, and cycles it like F4.
@@ -14,17 +14,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Home, End, Page Up, Page Down and the arrow keys scroll the rendered preview. Ctrl+Home / End now appears in the F1 shortcut list.
 
 ### Fixed
-- Copy on a note image now places the image on the clipboard.
 - Copied text now keeps its links, lists and emphasis when pasted into browsers, mail clients and Office.
 - Pasting web or chat text with links now keeps its paragraphs instead of joining them into one.
-- F4 now works after clicking into the preview.
-- The preview now fills its pane to the edges, with rounded corners, film grain and a slim scrollbar that match the editor.
-- Holding Ctrl+Z no longer undoes several organizational actions at once.
 - Converting a note to markdown no longer puts a backslash before every underscore, asterisk and bracket.
+- Holding Ctrl+Z no longer undoes several organizational actions at once.
 - Markdown notes always offer the preview and F4, even when their text has no headings, links or bold.
-- The database name in the title bar is white in the 98SE theme.
-- SketchPad no longer opens with a horizontal scrollbar. The blank sheet fills the window it opens in.
+- F4 now works after clicking into the preview.
+- Copy on a note image now places the image on the clipboard.
+- The preview now fills its pane to the edges, with rounded corners, film grain and a slim scrollbar that match the editor.
 - The outline pane now runs to the edges of the note with film grain and a rounded bottom corner like the rest of the editor.
+- SketchPad no longer opens with a horizontal scrollbar. The blank sheet fills the window it opens in.
+- The database name in the title bar is white in the 98SE theme.
 
 ## [1.3.1] - 2026-09-27
 
