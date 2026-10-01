@@ -169,7 +169,7 @@
                 <TextBlock x:Name="ActiveDatabaseText" MaxWidth="240" Margin="12,0,6,0"
                            VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
                            FontFamily="Consolas" FontSize="10"
-                           Foreground="{DynamicResource MutedTextBrush}"/>
+                           Foreground="{DynamicResource TitleMetaBrush}"/>
                 <!-- E8F1 (Library, a row of books): reads as "your notepads". E8B7 renders
                      as a missing-glyph box on some Segoe MDL2 / Fluent Icons versions, and
                      E8E5 (OpenFile) read as a document, not a database.

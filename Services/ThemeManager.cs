@@ -224,6 +224,10 @@ namespace KillerNotes.Services
             // outside the dark bottom/right bevel as a bright stripe.
             if (!newDict.Contains("WindowEdgeBrush") && newDict.Contains("AppBorderBrush"))
                 newDict["WindowEdgeBrush"] = newDict["AppBorderBrush"];
+            // The open database name in the title bar. Muted unless a theme needs it to read
+            // against a colored caption (98SE draws it white on the blue title bar).
+            if (!newDict.Contains("TitleMetaBrush") && newDict.Contains("MutedTextBrush"))
+                newDict["TitleMetaBrush"] = newDict["MutedTextBrush"];
             // RootBorder's thickness. It is the PARENT of everything, so its border sits OUTSIDE
             // the bevel layer - a transparent brush is not enough to hide it, because the window's
             // own Background then shows through the same 1px band. A beveled theme sets this to 0
