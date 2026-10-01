@@ -11,6 +11,8 @@ namespace KillerNotes.Services
 {
     internal static class BodyTags
     {
+        private static readonly MarkdownPipeline Pipeline = new MarkdownPipelineBuilder()
+            .UsePreciseSourceLocation().Build();
         private const string Name = @"[\p{L}\p{N}_][\p{L}\p{N}_.-]*";
         private static readonly Regex Group = new(
             @"(?<!\[)\[\s*#" + Name + @"(?:\s*,\s*#" + Name + @")*\s*\](?![\](])",
@@ -25,7 +27,7 @@ namespace KillerNotes.Services
             {
                 var groups = Group.Matches(text);
                 if (groups.Count == 0) return result;
-                var document = Markdown.Parse(text);
+                var document = Markdown.Parse(text, Pipeline);
                 var code = document.Descendants().Where(n => n is CodeBlock || n is CodeInline)
                     .Select(n => n.Span).ToList();
                 foreach (Match group in groups)
