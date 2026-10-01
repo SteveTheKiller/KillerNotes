@@ -18,13 +18,14 @@ namespace KillerNotes.Shell
             PreviewKeyDown += Shortcuts_PreviewKeyDown;
             PreviewGotKeyboardFocus += (_, e) =>
             {
-                if (ShortcutOverlay.Visibility != Visibility.Visible) return;
-                if (e.NewFocus is UIElement element && ShortcutOverlay.IsAncestorOf(element)) return;
+                var overlay = KeyboardOverlay;
+                if (overlay == null) return;
+                if (e.NewFocus is UIElement element && overlay.IsAncestorOf(element)) return;
                 e.Handled = true;
             };
             PreviewTextInput += (_, e) =>
             {
-                if (ShortcutOverlay.Visibility == Visibility.Visible && !ShortcutOverlay.IsKeyboardFocusWithin)
+                if (KeyboardOverlay is UIElement overlay && !overlay.IsKeyboardFocusWithin)
                     e.Handled = true;
             };
             PreviewKeyUp += (_, _) => KbSyncLayerFromModifiers();   // KeyboardMap.cs
@@ -103,12 +104,27 @@ namespace KillerNotes.Shell
                     HideShortcutsOverlay();
                     e.Handled = true;
                 }
+                else if (e.Key == Key.F12)
+                {
+                    HideShortcutsOverlay();
+                    ShowAboutOverlay();
+                    e.Handled = true;
+                }
                 else if (!ShortcutOverlay.IsKeyboardFocusWithin)
                 {
                     if (ShortcutListHost.Visibility == Visibility.Visible) FocusShortcutList();
                     else KsViewListBtn.Focus();
                     e.Handled = true;
                 }
+                return;
+            }
+            if (AboutOverlay.Visibility == Visibility.Visible)
+            {
+                if (e.Key == Key.F12 || e.Key == Key.Escape) HideAboutOverlay();
+                else if (e.Key == Key.F1) { HideAboutOverlay(); ToggleShortcutsOverlay(); }
+                else if (!AboutOverlay.IsKeyboardFocusWithin) AboutVersionBlock.Focus();
+                else return;
+                e.Handled = true;
                 return;
             }
             if (TagCompletionKey(e)) return;
@@ -467,19 +483,34 @@ namespace KillerNotes.Shell
         private void ShortcutHelp_Click(object sender, RoutedEventArgs e) => ToggleShortcutsOverlay();
 
         private IInputElement? _shortcutPreviousFocus;
-        private readonly List<UIElement> _shortcutBlockedElements = [];
+        private readonly List<UIElement> _overlayBlockedElements = [];
+
+        private UIElement? KeyboardOverlay => ShortcutOverlay.Visibility == Visibility.Visible ? ShortcutOverlay
+            : AboutOverlay.Visibility == Visibility.Visible ? AboutOverlay : null;
+
+        private void BlockOverlayBackground(UIElement overlay)
+        {
+            foreach (UIElement child in RootGrid.Children)
+            {
+                if (child == overlay || !child.IsHitTestVisible) continue;
+                _overlayBlockedElements.Add(child);
+                child.SetCurrentValue(IsHitTestVisibleProperty, false);
+            }
+        }
+
+        private void ReleaseOverlayBackground()
+        {
+            foreach (var child in _overlayBlockedElements)
+                child.SetCurrentValue(IsHitTestVisibleProperty, true);
+            _overlayBlockedElements.Clear();
+        }
 
         private void ToggleShortcutsOverlay()
         {
             if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return; }
             if (AboutOverlay.Visibility == Visibility.Visible) FadeOverlayOut(AboutOverlay);
             _shortcutPreviousFocus = Keyboard.FocusedElement;
-            foreach (UIElement child in RootGrid.Children)
-            {
-                if (child == ShortcutOverlay || !child.IsHitTestVisible) continue;
-                _shortcutBlockedElements.Add(child);
-                child.SetCurrentValue(IsHitTestVisibleProperty, false);
-            }
+            BlockOverlayBackground(ShortcutOverlay);
             ApplyPersistedShortcutView();   // KeyboardMap.cs (LIST or KEYBOARD, remembered)
             FadeOverlayIn(ShortcutOverlay); // About.cs (also hides the preview browser - airspace)
             ShortcutOverlay.UpdateLayout();
@@ -500,9 +531,7 @@ namespace KillerNotes.Shell
             // Close immediately so a second F1 press cannot race the closing animation.
             ShortcutOverlay.BeginAnimation(OpacityProperty, null);
             ShortcutOverlay.Visibility = Visibility.Collapsed;
-            foreach (var child in _shortcutBlockedElements)
-                child.SetCurrentValue(IsHitTestVisibleProperty, true);
-            _shortcutBlockedElements.Clear();
+            ReleaseOverlayBackground();
             SetPreviewOverlayHidden(false);
             if (_shortcutPreviousFocus is UIElement previous && previous.IsVisible && previous.IsEnabled)
                 previous.Focus();

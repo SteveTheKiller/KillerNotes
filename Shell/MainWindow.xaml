@@ -2582,6 +2582,8 @@
              row, which is inset for the window frame, so without it the dim stops short and the
              frame stays bright - a lit 5px ring around a dimmed window. 0 when there is no frame. -->
         <Grid x:Name="AboutOverlay" Grid.RowSpan="3" Panel.ZIndex="9000" Visibility="Collapsed"
+              KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle"
+              AutomationProperties.Name="{DynamicResource Str_About_Title}"
               Margin="{DynamicResource OverlayBleed}"
               Background="#88000000" MouseLeftButtonDown="AboutOverlay_Click">
             <!-- No fixed width: the SHA-256 line never wraps, so it sizes the info panel and
@@ -2645,6 +2647,7 @@
                              from the card's top edge in both cases. (2026-08-07) -->
                         <Button Grid.RowSpan="2" Content="{DynamicResource AboutCloseGlyph}"
                                 Click="AboutClose_Click" Style="{StaticResource OverlayCloseButton}"
+                                AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
@@ -2713,18 +2716,18 @@
                                                  italic hard right. Bottom-aligned so the two sizes share a
                                                  baseline. Only the version text is clickable. -->
                                             <Grid Margin="0,1,0,0">
-                                                <TextBlock x:Name="AboutVersionBlock" Foreground="{DynamicResource PrimaryBrush}"
+                                                <TextBlock x:Name="AboutVersionBlock" Focusable="True" PreviewKeyDown="AboutVersion_PreviewKeyDown" Foreground="{DynamicResource PrimaryBrush}"
                                                            FontFamily="Consolas" FontSize="13" Cursor="Hand"
                                                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                                            MouseLeftButtonUp="AboutVersion_Click"/>
-                                                <TextBlock x:Name="AboutReleaseDateBlock" Foreground="{DynamicResource MutedTextBrush}"
+                                                <TextBlock x:Name="AboutReleaseDateBlock" Focusable="True" Foreground="{DynamicResource MutedTextBrush}"
                                                            FontFamily="Consolas" FontSize="11" FontStyle="Italic"
                                                            HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                             </Grid>
                                         </StackPanel>
                                         <StackPanel Margin="0,0,0,10">
                                             <TextBlock Text="{DynamicResource Str_About_Publisher}" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
-                                            <TextBlock x:Name="AboutPublisherBlock" Foreground="{DynamicResource TextBrush}" FontSize="12" Margin="0,1,0,0"/>
+                                            <TextBlock x:Name="AboutPublisherBlock" Focusable="True" Foreground="{DynamicResource TextBrush}" FontSize="12" Margin="0,1,0,0"/>
                                             <!-- Shown only on an exe signed by Steve. The alias is an accent link to
                                                  thekiller.net; "AKA" stays muted so the eye lands on the name. -->
                                             <TextBlock x:Name="AboutAkaBlock" Visibility="Collapsed" Foreground="{DynamicResource MutedTextBrush}"
@@ -2732,11 +2735,11 @@
                                         </StackPanel>
                                         <StackPanel Margin="0,0,0,10">
                                             <TextBlock Text="{DynamicResource Str_About_Thumbprint}" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
-                                            <TextBlock x:Name="AboutThumbprintBlock" Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11" TextWrapping="Wrap" Margin="0,1,0,0"/>
+                                            <TextBlock x:Name="AboutThumbprintBlock" Focusable="True" Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11" TextWrapping="Wrap" Margin="0,1,0,0"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,0,0,10">
                                             <TextBlock Text="{DynamicResource Str_About_Sha}" Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="10"/>
-                                            <TextBlock x:Name="AboutSha256Block" Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11" TextWrapping="NoWrap" Margin="0,1,0,0"/>
+                                            <TextBlock x:Name="AboutSha256Block" Focusable="True" Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11" TextWrapping="NoWrap" Margin="0,1,0,0"/>
                                         </StackPanel>
                                     </StackPanel>
                                     <!-- SUNKEN bevel: the brushes are crossed relative to a raised

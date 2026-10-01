@@ -98,6 +98,16 @@ trigger suggestions. Check Ctrl+Z undoes completion as one action and existing
 wikilink completion still works. Run all focus/announcement tests with JAWS and
 NVDA; automation tests cannot establish screen-reader behaviour.
 
+## About overlay
+
+Press F12 from the editor, title and notes list. Focus should move to the version
+text and announce About plus the version. Tab/Shift+Tab should stay inside About
+and reach its information, links, update button when available, and named Close
+button. Enter/Space on the version opens release notes. Typing and note shortcuts
+must not edit the background. Escape, F12, Close and backdrop dismissal restore
+the previous focus. Test repeated opening and F1/About transitions; background
+colours must stay themed. Check JAWS and NVDA separately.
+
 ## Visual and mouse checks
 
 Compare the build with 1.3.2 in Light, Dark and 98SE themes, plus the user's normal
