@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.3.3] - Unreleased
 
 ### Added
+- Added yellow and magenta accents to the neutral and 98SE themes.
 - Ukrainian localization.
 
 ## [1.3.2] - 2026-09-30

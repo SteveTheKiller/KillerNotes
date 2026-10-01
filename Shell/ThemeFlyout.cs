@@ -18,13 +18,13 @@ namespace KillerNotes.Shell
             Theme.Malaise, Theme.Sepulchre, Theme.Delirium, Theme.Mourning
         ];
         private static readonly (Accent Accent, string Color)[] DarkStripColors =
-        [(Accent.Red,"#DD504B"),(Accent.Orange,"#E8962C"),(Accent.Green,"#1EA54C"),(Accent.Teal,"#1FB8A8"),(Accent.Blue,"#4580D9"),(Accent.Purple,"#B982E3")];
+        [(Accent.Red,"#DD504B"),(Accent.Orange,"#E8962C"), (Accent.Yellow, "#EAD900"),(Accent.Green,"#1EA54C"),(Accent.Teal,"#1FB8A8"),(Accent.Blue,"#4580D9"),(Accent.Purple,"#B982E3"), (Accent.Magenta, "#FF52C9")];
         private static readonly (Accent Accent, string Color)[] LightStripColors =
-        [(Accent.Red,"#931A1A"),(Accent.Orange,"#C7710F"),(Accent.Green,"#1B5E20"),(Accent.Teal,"#0D827E"),(Accent.Blue,"#18608E"),(Accent.Purple,"#5A1690")];
+        [(Accent.Red,"#931A1A"),(Accent.Orange,"#C7710F"), (Accent.Yellow, "#EAD900"),(Accent.Green,"#1B5E20"),(Accent.Teal,"#0D827E"),(Accent.Blue,"#18608E"),(Accent.Purple,"#5A1690"), (Accent.Magenta, "#A60070")];
         private static readonly (Accent Accent, string Color)[] BlackStripColors =
-        [(Accent.Red,"#FF2929"),(Accent.Orange,"#FF910A"),(Accent.Green,"#00FF66"),(Accent.Teal,"#0AFFE7"),(Accent.Blue,"#298DFF"),(Accent.Purple,"#B829FF")];
+        [(Accent.Red,"#FF2929"),(Accent.Orange,"#FF910A"), (Accent.Yellow, "#FFEB00"),(Accent.Green,"#00FF66"),(Accent.Teal,"#0AFFE7"),(Accent.Blue,"#298DFF"),(Accent.Purple,"#B829FF"), (Accent.Magenta, "#FF2BBD")];
         private static readonly (Accent Accent, string Color)[] SE98StripColors =
-        [(Accent.Red,"#800040"),(Accent.Orange,"#A05000"),(Accent.Green,"#006000"),(Accent.Teal,"#008080"),(Accent.Blue,"#000080"),(Accent.Purple,"#5A376E")];
+        [(Accent.Red,"#800040"),(Accent.Orange,"#A05000"), (Accent.Yellow, "#EAD900"),(Accent.Green,"#006000"),(Accent.Teal,"#008080"),(Accent.Blue,"#000080"),(Accent.Purple,"#5A376E"), (Accent.Magenta, "#750052")];
         private readonly Dictionary<Theme, RadioButton> _themeRadios = [];
         private readonly List<Border> _accentStripDots = [];
         private Grid? _accentStripHost;
@@ -131,7 +131,7 @@ namespace KillerNotes.Shell
                 Background = (Brush)FindResource("MenuBorderBrush")
             });
             _accentStrip = new Grid { Margin = new Thickness(7, 6, 2, 6) };
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 8; i++)
             {
                 _accentStrip.RowDefinitions.Add(new RowDefinition());
                 var dot = new Border
@@ -140,7 +140,7 @@ namespace KillerNotes.Shell
                     Width = 26,
                     Height = double.NaN,
                     VerticalAlignment = VerticalAlignment.Stretch,
-                    Margin = new Thickness(0, 0, 0, i == 5 ? 0 : 8)
+                    Margin = new Thickness(0, 0, 0, i == 7 ? 0 : 8)
                 };
                 dot.MouseLeftButtonUp += AccentDot_Click;
                 Grid.SetRow(dot, i);
@@ -230,6 +230,9 @@ namespace KillerNotes.Shell
             for (int i = 0; i < _accentStripDots.Count; i++)
             {
                 _accentStripDots[i].Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colors[i].Color));
+                _accentStripDots[i].Effect = colors[i].Accent == Accent.Yellow && (family is Theme.Light or Theme.SE98)
+                    ? new System.Windows.Media.Effects.DropShadowEffect { Color = Colors.Black, BlurRadius = 4, ShadowDepth = 1, Opacity = 0.45 }
+                    : null;
                 _accentStripDots[i].Tag = colors[i].Accent;
             }
             _stripFamily = family;

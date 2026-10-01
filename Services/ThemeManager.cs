@@ -14,7 +14,7 @@ namespace KillerNotes.Services
     // Accent-hue variants for the accent-capable families (Dark, Light, Black).
     // Green is the base theme (no overlay); the others apply a small overlay
     // dictionary that recolors only the accent-family keys.
-    public enum Accent { Green, Red, Blue, Purple, Orange, Teal }
+    public enum Accent { Green, Red, Blue, Purple, Orange, Teal, Yellow, Magenta }
 
     /// <summary>
     /// Builds a complete color palette per theme and publishes it as MergedDictionaries[0] in a
