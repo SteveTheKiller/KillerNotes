@@ -25,7 +25,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The preview now fills its pane to the edges, with rounded corners, film grain and a slim scrollbar that match the editor.
 - The outline pane now runs to the edges of the note with film grain and a rounded bottom corner like the rest of the editor.
 - SketchPad no longer opens with a horizontal scrollbar. The blank sheet fills the window it opens in.
-- On Greed, Blood and Cyanotic, menus, the format bar and the boxes inside About now sit a clear step darker than the window instead of blending into it.
+- On Greed, Blood and Cyanotic, menus and the format bar now sit a clear step darker than the window instead of blending into it.
+- The boxes inside About now use the note pane color, like the rest of the app.
 - The database name in the title bar is white in the 98SE theme.
 
 ## [1.3.1] - 2026-09-27

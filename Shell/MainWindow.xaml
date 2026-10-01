@@ -2638,7 +2638,7 @@
                             <!-- Info panel - context-menu fill and grain, lifted above the card. Named:
                                  the header binds its width to this panel (see above). -->
                             <Grid x:Name="AboutInfoGrid">
-                                <Border Background="{DynamicResource MenuBackgroundBrush}" CornerRadius="{DynamicResource ControlCornerRadius}" IsHitTestVisible="False">
+                                <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="{DynamicResource ControlCornerRadius}" IsHitTestVisible="False">
                                     <Border.Effect>
                                         <DropShadowEffect Color="Black" BlurRadius="14" ShadowDepth="2" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                                     </Border.Effect>
@@ -2661,7 +2661,7 @@
                                      edge to edge instead of stopping at the padding. Grain sits BEHIND the
                                      text here, not over it as in a menu template - there is no selection
                                      fill to cover it, and Consolas at 11 stays crisp underneath nothing. -->
-                                <Border Background="{DynamicResource MenuBackgroundBrush}" BorderBrush="{DynamicResource PaneBorderBrush}"
+                                <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource PaneBorderBrush}"
                                         BorderThickness="1"
                                         CornerRadius="{DynamicResource ControlCornerRadius}">
                                   <Grid>
