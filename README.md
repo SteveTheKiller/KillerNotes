@@ -20,8 +20,9 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 - SketchPad (F7): pen, shapes, fill, text labels and eraser on single keys; print the drawing inline and double-click it later to keep editing. Dragged images and recordings lift out of the text and snap to a grid with the paragraph wrapping around them
 - Killculator (F9): a themed calculator under the notes list that prints the result or the whole running equation into the note
 - Custom fonts for header, sidebar, and note text independently - any installed font, or drop a .ttf/.otf onto the card
-- Autosave on pause, note switch, and close; notes reopen at their saved cursor and scroll position. Split-pane preview for markdown and (sanitized) HTML notes
+- Autosave on pause, note switch, and close; notes reopen at their saved cursor and scroll position. Markdown and (sanitized) HTML notes preview on their own or side by side, with an adjustable divider
 - Storage: one SQLite database in a configurable location (portable next to the exe if you like), with create/rename/switch/relocate in the Manage databases dialog
+- Version history (Alt+H), a 30-day trash, note templates (Alt+T), daily notes (Alt+D), headings with an outline (Alt+O), checkbox lines, and pinned notes
 - Scheduled backups: choose a folder and interval, keep a set number of copies, take one immediately with Alt+B, and restore any backup as a new database without overwriting the original
 - Password protection: optional SQLCipher AES-256 encryption of the whole database, set, changed, or removed at any time - no recovery for a lost password
 - Sharing: export a note (.knote) or a whole database (.kndb), optionally password protected; both open with a double-click
