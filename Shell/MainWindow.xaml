@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 65624)
+Total output lines: 3005
+
 <Window x:Class="KillerNotes.Shell.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -1341,257 +1344,7 @@
                                                     </Grid>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="cb" Property="Background" Value="{DynamicResource PrimaryBrush}"/>
-                                                            <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
-                                                        </Trigger>
-                                                        <Trigger Property="IsPressed" Value="True">
-                                                            <Setter TargetName="cb" Property="Background" Value="{DynamicResource PrimaryPressedBrush}"/>
-                                                            <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
-                                                            <Setter TargetName="bevelLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
-                                                            <Setter TargetName="bevelDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                    <!-- Operator / clear keys: accent text via a Setter (not a local
-                                         value) so the template's pressed-state on-accent text wins. -->
-                                    <Style x:Key="KalcBtnOp" TargetType="Button" BasedOn="{StaticResource KalcBtn}">
-                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
-                                    </Style>
-                                </Grid.Resources>
-                                <!-- Grid, not StackPanel: only the KEYPAD row is star-sized, so a
-                                     grip drag grows or shrinks the buttons while the header, readout
-                                     and print row keep their natural heights. A StackPanel gives
-                                     every child its natural height and the extra space goes nowhere. -->
-                                <Grid>
-                                    <!-- No header row. The "Killculator" caption and its close X were
-                                         both redundant - the rail's calculator button sits right
-                                         beside the pad and toggles it - and the row they occupied is
-                                         better spent on the notes list above. -->
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>   <!-- readout -->
-                                        <RowDefinition Height="*"/>      <!-- keypad, takes the slack -->
-                                        <RowDefinition Height="Auto"/>   <!-- print row -->
-                                    </Grid.RowDefinitions>
-                                    <!-- Readout -->
-                                    <!-- Named: Killculator.cs tightens MinHeight/Margin here, and the
-                                         display's FontSize, when the pad is dragged short. -->
-                                    <!-- PaneBrush, not SurfaceBrush: an LCD readout is a client area, and on a
-                                         beveled theme SurfaceBrush is the button-face gray, so the readout was
-                                         the same color as the keys around it. PaneBrush is the white client
-                                         surface there and the content pane color everywhere else. -->
-                                    <Border x:Name="KalcReadout" Grid.Row="0" Background="{DynamicResource PaneBrush}" BorderBrush="{DynamicResource InputBorderBrush}"
-                                            BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" MinHeight="54" Margin="3,0,3,8">
-                                        <Grid>
-                                            <TextBlock x:Name="KalcDisplay" Text="0" FontFamily="Consolas" FontSize="30"
-                                                       Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Right"
-                                                       VerticalAlignment="Center" Margin="14,4" TextTrimming="CharacterEllipsis"/>
-                                            <!-- SUNKEN, so the readout reads as a recessed LCD against the raised keys.
-                                                 The bevel pair is deliberately CROSSED here: the dark brush takes the
-                                                 LIGHT thickness (top/left) and the light brush the DARK one
-                                                 (bottom/right). That inversion is what makes a 98SE control look
-                                                 pressed into the panel instead of standing out of it - the same swap a
-                                                 key performs while it is held. Placed INSIDE the readout border rather
-                                                 than wrapped around it, so Killculator.cs can keep setting MinHeight
-                                                 and Margin on KalcReadout directly when the pad is dragged short.
-
-                                                 Margin="-1" because of that nesting. KalcReadout has BorderThickness=1,
-                                                 so its content area - and therefore an unmargined child - is inset a
-                                                 pixel on every side, and the bevel came out 2px short in both
-                                                 dimensions, stopping before the corners. The negative margin pushes it
-                                                 back out over that 1px band so it rings the control instead of the
-                                                 content. Same defect, same fix as the About card's info panel. -->
-                                            <Border IsHitTestVisible="False" Margin="-1" BorderBrush="{DynamicResource BevelDarkBrush}"
-                                                    BorderThickness="{DynamicResource BevelLightThickness}"/>
-                                            <Border IsHitTestVisible="False" Margin="-1" BorderBrush="{DynamicResource BevelLightBrush}"
-                                                    BorderThickness="{DynamicResource BevelDarkThickness}"/>
-                                        </Grid>
-                                    </Border>
-                                    <!-- Keypad. Star row, so this is what a grip drag resizes. -->
-                                    <UniformGrid Grid.Row="1" Rows="5" Columns="4">
-                                        <Button Style="{StaticResource KalcBtnOp}" Tag="clear" Click="Kalc_Key" Content="C"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="neg" Click="Kalc_Key" Content="&#x00B1;"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="pct" Click="Kalc_Key" Content="%"/>
-                                        <Button Style="{StaticResource KalcBtnOp}" Tag="div" Click="Kalc_Key" Content="&#x00F7;"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="7" Click="Kalc_Key" Content="7"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="8" Click="Kalc_Key" Content="8"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="9" Click="Kalc_Key" Content="9"/>
-                                        <Button Style="{StaticResource KalcBtnOp}" Tag="mul" Click="Kalc_Key" Content="&#x00D7;"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="4" Click="Kalc_Key" Content="4"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="5" Click="Kalc_Key" Content="5"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="6" Click="Kalc_Key" Content="6"/>
-                                        <Button Style="{StaticResource KalcBtnOp}" Tag="sub" Click="Kalc_Key" Content="&#x2212;"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="1" Click="Kalc_Key" Content="1"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="2" Click="Kalc_Key" Content="2"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="3" Click="Kalc_Key" Content="3"/>
-                                        <Button Style="{StaticResource KalcBtnOp}" Tag="add" Click="Kalc_Key" Content="+"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="0" Click="Kalc_Key" Content="0"/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="dot" Click="Kalc_Key" Content="."/>
-                                        <Button Style="{StaticResource KalcBtn}" Tag="back" Click="Kalc_Key" Content="&#x232B;"
-                                                FontFamily="Segoe UI Symbol"/>
-                                        <Button Style="{StaticResource KalcBtnAccent}" Tag="eq" Click="Kalc_Key" Content="="/>
-                                    </UniformGrid>
-                                    <!-- Print row (slim): = / Enter computes, then Sum (Ctrl+Enter) drops
-                                         the readout and Equation (Ctrl+Shift+Enter) drops the whole
-                                         running equation into the note. -->
-                                    <UniformGrid Grid.Row="2" Columns="2" Margin="3,8,3,0">
-                                        <Button Style="{StaticResource KalcBtnAccent}" Tag="print" Click="Kalc_Key"
-                                                Height="32" MinHeight="0" Margin="0,0,3,0" ToolTip="{DynamicResource Str_TT_CalcPrintSum}">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <TextBlock Text="&#xE749;" FontFamily="Segoe MDL2 Assets" FontSize="12"
-                                                           VerticalAlignment="Center" Margin="0,0,6,0"/>
-                                                <TextBlock Text="{DynamicResource Str_Btn_CalcPrintSum}" FontSize="12" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </Button>
-                                        <Button Style="{StaticResource KalcBtnAccent}" Tag="printeq" Click="Kalc_Key"
-                                                Height="32" MinHeight="0" Margin="3,0,0,0" ToolTip="{DynamicResource Str_TT_CalcPrintEq}">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <TextBlock Text="&#xE749;" FontFamily="Segoe MDL2 Assets" FontSize="12"
-                                                           VerticalAlignment="Center" Margin="0,0,6,0"/>
-                                                <TextBlock Text="{DynamicResource Str_Btn_CalcPrintEq}" FontSize="12" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </Button>
-                                    </UniformGrid>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Border>
-                    </Grid>
-                </DockPanel>
-                </Grid>
-            </Grid>
-
-
-            <!-- Zero-size anchor at (rail right edge + 4px, row bottom). Its grid column is
-                 explicitly zero-width, so this 4px positioning margin cannot create a seam
-                 between the rail and editor. Both rail flyouts
-                 open with built-in Placement=Top against it: popup bottom on the anchor's
-                 top, left edges aligned. Pure layout - no custom placement callback, whose
-                 device-pixel coordinate space made popup positions drift with DPI and
-                 popup size. Only the per-template shadow-halo offsets remain. -->
-            <Border x:Name="RailFlyoutAnchor" Grid.Column="1" Width="0" Height="0"
-                    HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,0,0,0"
-                    IsHitTestVisible="False"/>
-
-            <!-- Editor pane - the lightest tier, lifted above the chrome with an outward drop
-                 shadow, flush to the title bar and footer so the shadow overlays them rather
-                 than adding gap (same treatment as the KillerPDF/KillerScan content pane) -->
-            <!-- Shadow caster: an empty twin border carries the pane's drop shadow. With
-                 software rendering, an Effect on an ancestor re-renders the whole subtree
-                 through the effect on every keystroke - typing lag - so the content pane
-                 below stays effect-free. -->
-            <!-- NO Effect on this pane, ever. The downward cast onto the footer is the gradient
-                 band BELOW, drawn as geometry. A DropShadowEffect on a pane-sized element went
-                 through every failure mode today: a shared keyed effect's dynamic opacity died
-                 with a closed dialog window (shadow gone), through a BitmapCache the blur
-                 rendered as a hard 5px stripe, and bare, the shader surface dropped out at some
-                 accessibility-zoom scales and not others - gone at 102% magnification, back
-                 at 104 (2026-08-08). Geometry cannot do any of that. -->
-            <Border x:Name="ContentPane" Grid.Column="2" Background="{DynamicResource PaneBrush}"
-                    BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
-                    CornerRadius="{DynamicResource PanelCornerRadius}" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="9"/>
-            <!-- NOTHING CASTS ONTO THE FOOTER. KillerScan and KillerPDF are the family baseline
-                 and neither hangs anything into its footer row; KillerShell and Killendar carry
-                 PaneShadowOpacity 0 and cast nothing either. KillerNotes was the only app in the
-                 family that did, and it read as a taller, darker footer rather than as a shadow:
-                 a 20px skirt at 37.6% black over a 24px row covered 83% of it, so the band looked
-                 like about 44px of chrome (2026-08-24). The footer row itself was always 24px in
-                 all five apps - the height was never the difference, this was.
-
-                 PaneShadowOpacity itself STAYS. It is not a footer setting: the Dictation window,
-                 the Whisper model dialog, the graph window and the SketchPad all key their card
-                 shadows off it, and 98SE still flattens all of them by setting it to 0. -->
-            <!-- The pane's SUNKEN edge, drawn over the pane's own border so the client area reads as
-                 recessed into the window face - the Notepad/Explorer look. Siblings rather than
-                 children of the pane, because a bevel nested inside a bordered element draws inside
-                 that border and comes up short (the same defect the Killculator readout had). They
-                 carry the pane's margin so they land exactly on it. Both brushes are transparent by
-                 default, so this draws nothing on the other twelve themes. -->
-            <Border Grid.Column="2" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="11" IsHitTestVisible="False"
-                    BorderBrush="{DynamicResource PaneBevelDarkBrush}" BorderThickness="{DynamicResource PaneBevelLightThickness}"/>
-            <Border Grid.Column="2" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="11" IsHitTestVisible="False"
-                    BorderBrush="{DynamicResource PaneBevelLightBrush}" BorderThickness="{DynamicResource PaneBevelDarkThickness}"/>
-            <!-- The INNER half of the sunken edge. Win32's EDGE_SUNKEN is two tones - #808080 then
-                 #000000 down the top/left, #ffffff then the face color up the bottom/right - and a
-                 single 2px gray has the right width with the wrong depth. Transparent at zero
-                 thickness by default. (2026-08-07, measured against Notepad) -->
-            <Border Grid.Column="2" Margin="{DynamicResource ContentPaneInnerMargin}" Panel.ZIndex="11" IsHitTestVisible="False"
-                    BorderBrush="{DynamicResource PaneBevelDark2Brush}" BorderThickness="{DynamicResource PaneBevel2LightThickness}"/>
-            <Border Grid.Column="2" Margin="{DynamicResource ContentPaneInnerMargin}" Panel.ZIndex="11" IsHitTestVisible="False"
-                    BorderBrush="{DynamicResource PaneBevelLight2Brush}" BorderThickness="{DynamicResource PaneBevel2DarkThickness}"/>
-            <Border Grid.Column="2" Background="{DynamicResource PaneBrush}"
-                    BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
-                    CornerRadius="{DynamicResource PanelCornerRadius}" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="10">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <!-- Film grain over the whole pane (behind content, clipped to the rounded corners) -->
-                <Border Grid.RowSpan="2" IsHitTestVisible="False" Opacity="0.20" Panel.ZIndex="-1" CornerRadius="{DynamicResource ControlCornerRadius}">
-                    <Border.Background>
-                        <ImageBrush x:Name="GrainBrush" TileMode="Tile"
-                                    ViewportUnits="Absolute" Viewport="0,0,256,256" Stretch="None"/>
-                    </Border.Background>
-                </Border>
-
-                <!-- Note title + faint rule dividing it from the content -->
-                <StackPanel x:Name="TitleArea" Grid.Row="0">
-                <TextBox x:Name="TitleBox" Margin="12,10,12,4"
-                         AutomationProperties.Name="{Binding Text, RelativeSource={RelativeSource Self}}"
-                         Background="Transparent" BorderThickness="0"
-                         Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
-                         SelectionBrush="{DynamicResource TextSelectionBrush}" SelectionOpacity="{DynamicResource TextSelectionOpacity}"
-                                 SelectionTextBrush="{DynamicResource TextSelectionTextBrush}"
-                         FontSize="17" FontWeight="SemiBold"
-                         TextChanged="TitleBox_TextChanged"
-                         LostKeyboardFocus="TitleBox_LostKeyboardFocus"
-                         PreviewMouseLeftButtonDown="TitleBox_PreviewMouseLeftButtonDown">
-                    <!-- Explicit menu: the framework's built-in editing menu ignores the app's
-                         implicit ContextMenu/MenuItem styles, so it renders unthemed -->
-                    <TextBox.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
-                            <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
-                            <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
-                        </ContextMenu>
-                    </TextBox.ContextMenu>
-                </TextBox>
-                <!-- 0 top / 3 bottom, not 2/0: with no bottom clearance the rule sat on the body
-                     text's ascenders (2026-08-08). The title's own 4px bottom margin
-                     keeps its descenders clear above. -->
-                <Border Height="1" Margin="12,0,12,3" Opacity="0.5"
-                        Background="{DynamicResource CardBorderBrush}"/>
-                </StackPanel>
-
-                <!-- Floating format bar using the KillerUI annotation-bar contract: pops out of
-                     the top beside the title, slides horizontally by its grip (edge-anchored
-                     or center-parked, position persisted), and minimizes to a grip-dots peek
-                     strip - chevron, F6, or double-click the grip/peek (FormatBar.cs) -->
-                <Border x:Name="FormatBar" Grid.Row="0" Panel.ZIndex="30"
-                        VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,8,0"
-                        shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                        Background="{DynamicResource BgFlyout}"
-                        BorderBrush="{DynamicResource BarEdgeBrush}" BorderThickness="{DynamicResource BarEdgeThickness}"
-                        CornerRadius="{DynamicResource FlyoutCornerRadius}" Padding="{DynamicResource BarPadding}"
-                        Effect="{StaticResource ShadowBar}">
-                    <!-- Cache the bar + its shadow as a bitmap: with software rendering the
-                         shadow would otherwise re-render on every keystroke it overlaps -->
-                    <Border.CacheMode>
-                        <BitmapCache/>
-                    </Border.CacheMode>
-                    <!-- BarEdge* turn this from a floating card into a Win98 taskbar: a raised strip
-                         with a white top/left highlight, so the tool buttons read as sitting ON it.
-                         The defaults are the 1px PaneBorderBrush edge the bar has always had, so
-                         the other twelve themes are untouched. -->
-                <Grid>
-                    <!-- Classic raised frame: transparent in modern themes, a 2px light left edge
-                         and dark right/bottom edge in 98SE. No top edge by design - the bar hangs
-                         off the title bar and is flush there.
-                         Margin -2 cancels the bar's Padding="2": without it these sit two pixels
+                                                            <Setter TargetName="cb" Property="Back…5624 tokens truncated…Margin -2 cancels the bar's Padding="2": without it these sit two pixels
                          inside the bar and the bevel floats away from the edge it is meant to be.
                          The grain overlay below cancels the same padding the same way. -->
                     <Border Panel.ZIndex="20" IsHitTestVisible="False" Margin="-2"
@@ -1782,14 +1535,16 @@
                          on a cell inserts that rows x cols table (Editor.cs). -->
                     <Button x:Name="TableBtn" Style="{StaticResource FmtButton}" Content="&#xE8A9;"
                             ToolTip="{DynamicResource Str_TT_Table}"
-                            PreviewMouseLeftButtonDown="TableBtn_MouseDown"/>
+                            PreviewMouseLeftButtonDown="TableBtn_MouseDown" Click="TableBtn_Click"/>
                     <Popup x:Name="TableSizePopup" PlacementTarget="{Binding ElementName=TableBtn}"
                            Placement="Bottom" StaysOpen="False" AllowsTransparency="True" VerticalOffset="4">
                         <Border Background="{DynamicResource MenuBackgroundBrush}"
                                 BorderBrush="{DynamicResource MenuBorderBrush}"
                                 BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" Padding="10,8" Margin="12">
                             <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
-                            <StackPanel>
+                            <StackPanel KeyboardNavigation.TabNavigation="Cycle"
+                                        KeyboardNavigation.ControlTabNavigation="Cycle"
+                                        PreviewKeyDown="TableSizePicker_PreviewKeyDown">
                                 <UniformGrid x:Name="TableSizeCells" Columns="8"/>
                                 <TextBlock x:Name="TableSizeLabel" Text="{DynamicResource Str_Lbl_Size}" Foreground="{DynamicResource DimTextBrush}"
                                            FontSize="10" HorizontalAlignment="Center" Margin="0,6,0,0"/>
@@ -1798,12 +1553,14 @@
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBox x:Name="TblColsBox" Style="{StaticResource DarkTextBox}" Text="4"
                                              Width="34" FontSize="11" Padding="4,2" KeyDown="TblCustom_KeyDown"
-                                             ToolTip="{DynamicResource Str_TT_Columns}"/>
+                                             ToolTip="{DynamicResource Str_TT_Columns}"
+                                             AutomationProperties.Name="{DynamicResource Str_TT_Columns}"/>
                                     <TextBlock Text=" x " Foreground="{DynamicResource DimTextBrush}"
                                                FontSize="11" VerticalAlignment="Center"/>
                                     <TextBox x:Name="TblRowsBox" Style="{StaticResource DarkTextBox}" Text="3"
                                              Width="34" FontSize="11" Padding="4,2" KeyDown="TblCustom_KeyDown"
-                                             ToolTip="{DynamicResource Str_TT_Rows}"/>
+                                             ToolTip="{DynamicResource Str_TT_Rows}"
+                                             AutomationProperties.Name="{DynamicResource Str_TT_Rows}"/>
                                     <Button Content="{DynamicResource Str_Btn_Insert}" Style="{StaticResource SurfaceButton}"
                                             FontSize="11" Padding="8,2" Margin="8,0,0,0"
                                             Click="TblCustomInsert_Click"/>

@@ -44,6 +44,17 @@ separate Windows test account if you need to isolate your existing settings.
 | Press Alt+E with no note open | No note is created and no exception occurs. |
 | Use AltGr characters in the note | Existing AltGr typing still works; Ctrl+Alt must not trigger the new navigation shortcuts. |
 
+## Table picker
+
+In a rich-text note, focus the table button and test Enter and Space separately.
+Columns should receive focus with its value selected. Tab and Shift+Tab should
+cycle through Columns, Rows and Insert, with the field names announced. Enter
+in either field or activation of Insert should insert the requested size and
+return focus to the editor. Escape should close the picker without inserting
+and return focus to the table button. Check invalid dimensions, and confirm the
+existing mouse hover/click and press-drag-release gestures still work.
+Ctrl+Shift+T should continue to insert a 3 x 3 table.
+
 ## Visual and mouse checks
 
 Compare the build with 1.3.2 in Light, Dark and 98SE themes, plus the user's normal

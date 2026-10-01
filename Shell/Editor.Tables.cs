@@ -8,6 +8,7 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using KillerNotes.Controls;
 using KillerNotes.Models;
 using KillerNotes.Services;
@@ -173,6 +174,24 @@ namespace KillerNotes.Shell
         // MouseEnter/MouseUp to the popup cells instead of dying inside the button.
         private void TableBtn_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            OpenTableSizePicker();
+            e.Handled = true;
+        }
+
+        private void TableBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentId < 0) return;
+            OpenTableSizePicker();
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (!TableSizePopup.IsOpen) return;
+                TblColsBox.Focus();
+                TblColsBox.SelectAll();
+            }), DispatcherPriority.Input);
+        }
+
+        private void OpenTableSizePicker()
+        {
             if (_currentId < 0) return;
             _tblCols = _tblRows = 0;
             TableSizeLabel.Text = Loc("Str_Lbl_Size");   // same key as its XAML default
@@ -181,6 +200,13 @@ namespace KillerNotes.Shell
             TableSizePopup.IsOpen = true;
             _tblOpenedAt = Environment.TickCount;
             if (TableSizePopup.Child is UIElement ch) Anim.FadeIn(ch);
+        }
+
+        private void TableSizePicker_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Escape) return;
+            TableSizePopup.IsOpen = false;
+            TableBtn.Focus();
             e.Handled = true;
         }
 
