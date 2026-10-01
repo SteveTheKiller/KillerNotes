@@ -358,8 +358,14 @@ namespace KillerNotes.Shell
                 // Ctrl+Z while the editor has focus and edits left; once its history is spent the
                 // key falls through to the remaining organizational actions. (ActionUndo.cs)
                 case Key.Z when ctrl && !shift:
-                    if (_lastActionWasOrg && _actionUndo.Count > 0) { PerformActionUndo(); e.Handled = true; break; }
-                    if (Editor.IsKeyboardFocusWithin && Editor.CanUndo) break;   // fall through to the RichTextBox
+                    // One press, one organizational undo. A held key auto-repeats, and each repeat
+                    // popped another entry, so a slightly long press restored several deleted notes
+                    // or moves at once. Text undo in the editor keeps the normal repeat.
+                    bool orgFirst = _lastActionWasOrg && _actionUndo.Count > 0;
+                    bool editorOwns = !orgFirst && Editor.IsKeyboardFocusWithin && Editor.CanUndo;
+                    if (e.IsRepeat && !editorOwns) { e.Handled = true; break; }
+                    if (orgFirst) { PerformActionUndo(); e.Handled = true; break; }
+                    if (editorOwns) break;   // fall through to the RichTextBox
                     if (PerformActionUndo()) e.Handled = true;
                     break;
                 // Ctrl+D: cycle sidebar row density (moved off F10 when the calculator took it).
