@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
@@ -35,6 +36,11 @@ namespace KillerNotes.Shell
                 item.Click += (_, _) =>
                 {
                     chosen = true;
+                    if (!_notes.Any(n => n.Id == note.Id))
+                    {
+                        SearchBox.Text = "";
+                        RefreshList(preserveScroll: true);
+                    }
                     OpenNote(note.Id);
                     SelectNoteInList(note.Id);
                     FocusNoteBody();
