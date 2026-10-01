@@ -27,7 +27,7 @@ Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 - Password protection: optional SQLCipher AES-256 encryption of the whole database, set, changed, or removed at any time - no recovery for a lost password
 - Sharing: export a note (.knote) or a whole database (.kndb), optionally password protected; both open with a double-click
 - Keyboard-first: every function has a shortcut, F1 opens the visual keyboard map, and the whole app scales for accessibility (Ctrl+Shift +/-)
-- Localized in sixteen languages, falling back to English
+- Localized in seventeen languages, falling back to English
 - Thirteen themes including a full 98SE recreation; Dark, Light, Black, and 98SE each carry six accent colors for 33 looks in all
 
 ## Requirements
