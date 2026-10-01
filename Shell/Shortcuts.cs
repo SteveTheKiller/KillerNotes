@@ -16,6 +16,17 @@ namespace KillerNotes.Shell
         private void InitShortcuts()
         {
             PreviewKeyDown += Shortcuts_PreviewKeyDown;
+            PreviewGotKeyboardFocus += (_, e) =>
+            {
+                if (ShortcutOverlay.Visibility != Visibility.Visible) return;
+                if (e.NewFocus is UIElement element && ShortcutOverlay.IsAncestorOf(element)) return;
+                e.Handled = true;
+            };
+            PreviewTextInput += (_, e) =>
+            {
+                if (ShortcutOverlay.Visibility == Visibility.Visible && !ShortcutOverlay.IsKeyboardFocusWithin)
+                    e.Handled = true;
+            };
             PreviewKeyUp += (_, _) => KbSyncLayerFromModifiers();   // KeyboardMap.cs
             BuildShortcutRows();
         }
@@ -90,6 +101,12 @@ namespace KillerNotes.Shell
                 if (e.Key == Key.F1 || e.Key == Key.Escape)
                 {
                     HideShortcutsOverlay();
+                    e.Handled = true;
+                }
+                else if (!ShortcutOverlay.IsKeyboardFocusWithin)
+                {
+                    if (ShortcutListHost.Visibility == Visibility.Visible) FocusShortcutList();
+                    else KsViewListBtn.Focus();
                     e.Handled = true;
                 }
                 return;
@@ -450,20 +467,18 @@ namespace KillerNotes.Shell
         private void ShortcutHelp_Click(object sender, RoutedEventArgs e) => ToggleShortcutsOverlay();
 
         private IInputElement? _shortcutPreviousFocus;
-        private readonly List<UIElement> _shortcutDisabledElements = [];
+        private readonly List<UIElement> _shortcutBlockedElements = [];
 
         private void ToggleShortcutsOverlay()
         {
             if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return; }
             if (AboutOverlay.Visibility == Visibility.Visible) FadeOverlayOut(AboutOverlay);
             _shortcutPreviousFocus = Keyboard.FocusedElement;
-            // The native ListBox template uses this brush when disabled. Keep the themed background.
-            NotesList.Resources[SystemColors.ControlBrushKey] = NotesList.Background;
             foreach (UIElement child in RootGrid.Children)
             {
-                if (child == ShortcutOverlay || !child.IsEnabled) continue;
-                _shortcutDisabledElements.Add(child);
-                child.SetCurrentValue(IsEnabledProperty, false);
+                if (child == ShortcutOverlay || !child.IsHitTestVisible) continue;
+                _shortcutBlockedElements.Add(child);
+                child.SetCurrentValue(IsHitTestVisibleProperty, false);
             }
             ApplyPersistedShortcutView();   // KeyboardMap.cs (LIST or KEYBOARD, remembered)
             FadeOverlayIn(ShortcutOverlay); // About.cs (also hides the preview browser - airspace)
@@ -485,10 +500,9 @@ namespace KillerNotes.Shell
             // Close immediately so a second F1 press cannot race the closing animation.
             ShortcutOverlay.BeginAnimation(OpacityProperty, null);
             ShortcutOverlay.Visibility = Visibility.Collapsed;
-            foreach (var child in _shortcutDisabledElements)
-                child.SetCurrentValue(IsEnabledProperty, true);
-            _shortcutDisabledElements.Clear();
-            NotesList.Resources.Remove(SystemColors.ControlBrushKey);
+            foreach (var child in _shortcutBlockedElements)
+                child.SetCurrentValue(IsHitTestVisibleProperty, true);
+            _shortcutBlockedElements.Clear();
             SetPreviewOverlayHidden(false);
             if (_shortcutPreviousFocus is UIElement previous && previous.IsVisible && previous.IsEnabled)
                 previous.Focus();
