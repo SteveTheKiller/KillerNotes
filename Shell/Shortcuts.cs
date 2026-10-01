@@ -531,6 +531,12 @@ namespace KillerNotes.Shell
         // Returns false when nothing consumed it, so the key still reaches the editor.
         private bool HandleEscape()
         {
+            if (TableSizePopup.IsOpen)
+            {
+                TableSizePopup.IsOpen = false;
+                TableBtn.Focus();
+                return true;
+            }
             if (_kalcOpen) { CloseKalc(); return true; }   // Killculator.cs
             if (FontsOverlay.Visibility == Visibility.Visible) { HideFontsOverlay(); return true; }   // Fonts.cs
             if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return true; }
