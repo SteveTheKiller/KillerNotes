@@ -449,6 +449,8 @@ namespace KillerNotes.Shell
             if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return; }
             if (AboutOverlay.Visibility == Visibility.Visible) FadeOverlayOut(AboutOverlay);
             _shortcutPreviousFocus = Keyboard.FocusedElement;
+            // The native ListBox template uses this brush when disabled. Keep the themed background.
+            NotesList.Resources[SystemColors.ControlBrushKey] = NotesList.Background;
             foreach (UIElement child in RootGrid.Children)
             {
                 if (child == ShortcutOverlay || !child.IsEnabled) continue;
@@ -478,6 +480,7 @@ namespace KillerNotes.Shell
             foreach (var child in _shortcutDisabledElements)
                 child.SetCurrentValue(IsEnabledProperty, true);
             _shortcutDisabledElements.Clear();
+            NotesList.Resources.Remove(SystemColors.ControlBrushKey);
             SetPreviewOverlayHidden(false);
             if (_shortcutPreviousFocus is UIElement previous && previous.IsVisible && previous.IsEnabled)
                 previous.Focus();
