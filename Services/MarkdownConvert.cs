@@ -603,15 +603,35 @@ namespace KillerNotes.Services
             }
         }
 
-        // Only the characters that would change the meaning of a line are escaped. Escaping
-        // every special character makes ordinary prose unreadable in the file, which defeats
-        // the point of storing markdown at all.
+        // Escapes only what would turn this text into markdown it was not. A backslash stays
+        // literal unless ASCII punctuation follows it, a run of * or _ is escaped only where it
+        // can open or close emphasis, and [ only when a ] follows it. Escaping every special
+        // character turned rules like "Sign-off: ____" into a wall of backslashes.
         private static string EscapeMarkdown(string s)
         {
             var sb = new StringBuilder(s.Length);
-            foreach (char c in s)
+            for (int i = 0; i < s.Length; i++)
             {
-                if (c is '\\' or '`' or '*' or '_' or '[' or ']') sb.Append('\\');
+                char c = s[i];
+                if (c is '*' or '_')
+                {
+                    int end = i;
+                    while (end < s.Length && s[end] == c) end++;
+                    bool openBefore = i == 0 || char.IsWhiteSpace(s[i - 1]) || char.IsPunctuation(s[i - 1]);
+                    bool openAfter = end == s.Length || char.IsWhiteSpace(s[end]) || char.IsPunctuation(s[end]);
+                    // * can make emphasis inside a word; _ only at a word edge.
+                    bool live = c == '*'
+                        ? !(i == 0 || char.IsWhiteSpace(s[i - 1])) || !(end == s.Length || char.IsWhiteSpace(s[end]))
+                        : openBefore != openAfter;
+                    for (int k = i; k < end; k++) { if (live) sb.Append('\\'); sb.Append(c); }
+                    i = end - 1;
+                    continue;
+                }
+                if (c == '`'
+                    || (c == '[' && s.IndexOf(']', i + 1) >= 0)
+                    || (c == '\\' && i + 1 < s.Length && s[i + 1] < 128
+                        && (char.IsPunctuation(s[i + 1]) || char.IsSymbol(s[i + 1]))))
+                    sb.Append('\\');
                 sb.Append(c);
             }
             return sb.ToString();

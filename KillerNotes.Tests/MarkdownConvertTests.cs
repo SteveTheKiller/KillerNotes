@@ -292,6 +292,22 @@ namespace KillerNotes.Tests
             Assert.Contains("[site](https://killernotes.net", result);
         });
 
+        [Fact]
+        public void PlainProseIsNotEscaped() => Sta.Run(() =>
+        {
+            var doc = new FlowDocument(new Paragraph(new Run("Sign-off: ____ for snake_case and 2 * 3")));
+            Assert.Equal("Sign-off: ____ for snake_case and 2 * 3", MarkdownConvert.FromDocument(doc).Trim());
+        });
+
+        [Fact]
+        public void TextThatWouldFormEmphasisIsEscaped() => Sta.Run(() =>
+        {
+            var doc = new FlowDocument(new Paragraph(new Run("_not italic_ and *not bold*")));
+            string md = MarkdownConvert.FromDocument(doc).Trim();
+            Assert.Equal("\\_not italic\\_ and \\*not bold\\*", md);
+            Assert.Equal("_not italic_ and *not bold*", TextOf(FirstParagraph(md)));
+        });
+
         // ---- helpers ----
 
         private static Paragraph FirstParagraph(string markdown) =>
