@@ -167,6 +167,17 @@ namespace KillerNotes.Shell
             NotesList.Loaded += (_, _) =>
                 Dispatcher.BeginInvoke(new System.Action(ResolveAndUpdateNotesFade),
                                        System.Windows.Threading.DispatcherPriority.Loaded);
+            NotesList.PreviewMouseWheel += NotesList_PreviewMouseWheel;
+        }
+
+        // Pixel scrolling makes the stock wheel step 48px, under one row per notch. Move by the
+        // wheel delta instead, the same step the shortcuts overlay uses.
+        private void NotesList_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            _notesScroll ??= FindDescendant<ScrollViewer>(NotesList);
+            if (_notesScroll == null || _notesScroll.ScrollableHeight <= 0) return;
+            _notesScroll.ScrollToVerticalOffset(_notesScroll.VerticalOffset - e.Delta);
+            e.Handled = true;
         }
 
         private void NotesScroll_Changed(object sender, ScrollChangedEventArgs e)
