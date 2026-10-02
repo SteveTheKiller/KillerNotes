@@ -166,6 +166,7 @@ namespace KillerNotes.Shell
 
         private void NotesList_DragOver(object sender, DragEventArgs e)
         {
+            AutoScrollNotesDuringDrag(e);        // Sidebar.cs: reach groups above or below the view
             if (HandleNoteDragOver(e)) return;   // Groups.cs: our own note = reorder (#4)
             if (HandleGroupDragOver(e)) return;  // Groups.cs: dragging a group = reorder / re-nest (1.1.0)
             if (!_noteDragOut && NoteStore.IsOpen &&

@@ -170,6 +170,26 @@ namespace KillerNotes.Shell
             NotesList.PreviewMouseWheel += NotesList_PreviewMouseWheel;
         }
 
+        // Dragging near the top or bottom edge of the notes list scrolls it, faster the closer the
+        // pointer gets to the edge. DragOver keeps firing while the pointer rests, so holding at
+        // the edge keeps scrolling.
+        private const double DragScrollZone = 40;
+        private const double DragScrollMaxStep = 24;
+
+        private void AutoScrollNotesDuringDrag(DragEventArgs e)
+        {
+            _notesScroll ??= FindDescendant<ScrollViewer>(NotesList);
+            if (_notesScroll == null || _notesScroll.ScrollableHeight <= 0) return;
+            double y = e.GetPosition(_notesScroll).Y;
+            double height = _notesScroll.ActualHeight;
+            double step = 0;
+            if (y < DragScrollZone)
+                step = -DragScrollMaxStep * (1 - Math.Max(0, y) / DragScrollZone);
+            else if (y > height - DragScrollZone)
+                step = DragScrollMaxStep * (1 - Math.Max(0, height - y) / DragScrollZone);
+            if (step != 0) _notesScroll.ScrollToVerticalOffset(_notesScroll.VerticalOffset + step);
+        }
+
         // Pixel scrolling makes the stock wheel step 48px, under one row per notch. Move by the
         // wheel delta instead, the same step the shortcuts overlay uses.
         private void NotesList_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)

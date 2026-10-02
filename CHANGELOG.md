@@ -11,6 +11,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Ukrainian localization.
 - Norwegian (Bokmål) localization.
 - Brazilian Portuguese localization.
+- Dragging a note to the top or bottom edge of the notes list scrolls it, so groups out of view can be reached.
 
 ### Changed
 - The markdown and HTML preview is now drawn by the app itself instead of the Internet Explorer engine, so it follows the theme and grain and keeps its rounded corners.
