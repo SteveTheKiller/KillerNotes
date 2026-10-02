@@ -9,7 +9,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Added
 - Added yellow and magenta accents to the neutral and 98SE themes.
 - Ukrainian localization.
-- Norwegian (Bokmål) and Brazilian Portuguese localization.
+- Norwegian (Bokmål) localization.
+- Brazilian Portuguese localization.
 
 ### Changed
 - The markdown and HTML preview is now drawn by the app itself instead of the Internet Explorer engine, so it follows the theme and grain and keeps its rounded corners.
