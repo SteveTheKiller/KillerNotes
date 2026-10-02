@@ -17,6 +17,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 - Pressing F4 to leave the preview no longer crashes with an "Unknown Hard Error".
+- The notes list no longer fades its last row when scrolled all the way to the bottom.
 
 ## [1.3.2] - 2026-09-30
 

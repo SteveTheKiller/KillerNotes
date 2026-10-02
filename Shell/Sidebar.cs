@@ -171,7 +171,9 @@ namespace KillerNotes.Shell
 
         private void NotesScroll_Changed(object sender, ScrollChangedEventArgs e)
         {
-            if (_notesScroll == null && e.OriginalSource is ScrollViewer sv) _notesScroll = sv;
+            // Only the list's own ScrollViewer counts; a nested one inside a row must not be adopted.
+            _notesScroll ??= FindDescendant<ScrollViewer>(NotesList);
+            if (!ReferenceEquals(e.OriginalSource, _notesScroll)) return;
             UpdateNotesFade();
         }
 
@@ -183,12 +185,29 @@ namespace KillerNotes.Shell
             UpdateNotesFade();
         }
 
+        /// <summary>True when the list's last row is realized and its bottom edge is inside the
+        /// visible area of the list's ScrollViewer.</summary>
+        private bool LastNoteRowInView()
+        {
+            if (_notesScroll == null || NotesList.Items.Count == 0) return false;
+            if (NotesList.ItemContainerGenerator.ContainerFromIndex(NotesList.Items.Count - 1)
+                    is not FrameworkElement last || !last.IsVisible) return false;
+            try
+            {
+                var bottom = last.TransformToAncestor(_notesScroll).Transform(new Point(0, last.ActualHeight));
+                return bottom.Y <= _notesScroll.ActualHeight + 1;
+            }
+            catch (InvalidOperationException) { return false; }   // not under this viewer
+        }
+
         private void UpdateNotesFade()
         {
             if (_notesScroll == null || NotesFade == null || NotesTopFade == null) return;
             bool overflow = _notesScroll.ScrollableHeight > 0.5;
             bool atTop = _notesScroll.VerticalOffset <= 0.5;
-            bool atBottom = _notesScroll.VerticalOffset >= _notesScroll.ScrollableHeight - 0.5;
+            // The list virtualizes with pixel scrolling, so ScrollableHeight is an estimate that can
+            // sit past the real end; the last row being fully in view is the reliable bottom test.
+            bool atBottom = _notesScroll.VerticalOffset >= _notesScroll.ScrollableHeight - 1 || LastNoteRowInView();
 
             // Fade the list pixels themselves to transparent. An overlay can only match a flat
             // sidebar; on horizontal chrome gradients it becomes a visibly different rectangle.
