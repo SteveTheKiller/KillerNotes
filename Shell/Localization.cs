@@ -55,7 +55,14 @@ namespace KillerNotes.Shell
         {
             menu.Items.Clear();
             var current = Services.LocaleManager.Current;
-            var panel = new StackPanel { Margin = new Thickness(10, 10, 10, 10) };
+            var columns = new StackPanel { Orientation = Orientation.Horizontal,
+                                           Margin = new Thickness(10, 10, 10, 10) };
+            var left = new StackPanel { Width = 200 };
+            var right = new StackPanel { Width = 200, Margin = new Thickness(14, 0, 0, 0) };
+            columns.Children.Add(left);
+            columns.Children.Add(right);
+            int half = (Languages.Length + 1) / 2;
+            int index = 0;
 
             foreach (var (loc, name, code) in Languages)
             {
@@ -85,9 +92,9 @@ namespace KillerNotes.Shell
                     IsChecked = loc == current,
                 };
                 item.Checked += Lang_Click;
-                panel.Children.Add(item);
+                (index++ < half ? left : right).Children.Add(item);
             }
-            menu.Items.Add(panel);
+            menu.Items.Add(columns);
         }
 
         private void Lang_Click(object sender, RoutedEventArgs e)
