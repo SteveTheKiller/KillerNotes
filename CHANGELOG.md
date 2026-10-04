@@ -24,6 +24,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The mouse wheel scrolls the notes list a full step per notch again.
 - The Fonts... row in the theme menu lines up with the themes above it and has room underneath.
 - Text stays sharp at app sizes other than 100%.
+- Pinned places in the file picker can be dragged into a new order.
 - Install and uninstall windows now show the film grain and the app icon in the title bar.
 - The uninstaller has its own taskbar button, labeled "Uninstall KillerNotes", with the app icon.
 
