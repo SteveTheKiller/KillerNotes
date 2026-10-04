@@ -16,6 +16,13 @@
             Height="{DynamicResource DialogTitleBarHeight}"
             MouseLeftButtonDown="Bar_MouseLeftButtonDown">
         <Grid Margin="{DynamicResource TitleBarPadding}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <!-- The app icon leads the caption, as it does in the main title bar. -->
+            <Image Source="pack://application:,,,/Resources/kn-icon.png" IsHitTestVisible="False"
+                   Width="{DynamicResource TitleIconSize}" Height="{DynamicResource TitleIconSize}"
+                   Margin="{DynamicResource TitleIconMargin}" VerticalAlignment="Center"
+                   RenderOptions.BitmapScalingMode="HighQuality"/>
+            <Grid VerticalAlignment="Center">
             <TextBlock x:Name="PlainTitle" Text="KillerNotes"
                        VerticalAlignment="Center" HorizontalAlignment="Left" IsHitTestVisible="False"
                        FontWeight="Bold" FontSize="11"
@@ -31,6 +38,8 @@
                 </StackPanel>
                 <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run Text="Notes" FontSize="19.5" FontWeight="Bold" Foreground="{DynamicResource AccentLogo}"/><Run x:Name="SubtitleRun" FontSize="18" Foreground="{DynamicResource MutedTextBrush}"/></TextBlock>
             </Grid>
+            </Grid>
+            </StackPanel>
             <!-- THE FAMILY DIALOG CLOSE. Identical markup to KillerShell's ConfirmDialog,
                  KillerScan's InputDialog and the KillerUI kit: OverlayCloseButton, AboutCloseGlyph,
                  the AboutClose* box, centered. The kit states the rule - only the GLYPH reddens on

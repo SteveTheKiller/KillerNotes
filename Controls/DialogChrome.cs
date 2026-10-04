@@ -98,17 +98,7 @@ namespace KillerNotes.Controls
                 HorizontalAlignment = HorizontalAlignment.Left,
             };
             flatRow.SetResourceReference(UIElement.VisibilityProperty, "PlainTitleVisibility");
-            var icon = new Image
-            {
-                Source = new System.Windows.Media.Imaging.BitmapImage(
-                    new System.Uri("pack://application:,,,/Resources/kn-icon.png")),
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-            RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.HighQuality);
-            icon.SetResourceReference(FrameworkElement.WidthProperty, "TitleIconSize");
-            icon.SetResourceReference(FrameworkElement.HeightProperty, "TitleIconSize");
-            icon.SetResourceReference(FrameworkElement.MarginProperty, "TitleIconMargin");
-            flatRow.Children.Add(icon);
+            flatRow.Children.Add(TitleIcon());
             var plain = new TextBlock
             {
                 Text = subtitle.Length > 0 ? "KillerNotes - " + subtitle : "KillerNotes",
@@ -123,9 +113,17 @@ namespace KillerNotes.Controls
 
             // -- Wordmark caption: shadow copy first, offset a pixel and blurred, so the mark
             //    lifts off the band.
+            //    The app icon leads it, as it does in the main window's title bar.
             var wf = Res("WordmarkFont") as FontFamily;
+            var markRow = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            markRow.SetResourceReference(UIElement.VisibilityProperty, "WordmarkVisibility");
+            markRow.Children.Add(TitleIcon());
             var mark = new Grid { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center };
-            mark.SetResourceReference(UIElement.VisibilityProperty, "WordmarkVisibility");
             var shadowInk = new SolidColorBrush(Color.FromArgb(0xD8, 0, 0, 0));
             var shadow = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(1, 2, 0, 0) };
             if (Res("IconShadowOpacity") is double sop) shadow.Opacity = sop;
@@ -139,9 +137,26 @@ namespace KillerNotes.Controls
             // stayed perfectly readable. Chrome text is the band's own color by definition. The
             // subtitle still reads as secondary because it is lighter weight and a size down.
             mark.Children.Add(Text(wf, subtitle, "ChromeTextBrush", "AccentLogo", "ChromeTextBrush"));
-            host.Children.Add(mark);
+            markRow.Children.Add(mark);
+            host.Children.Add(markRow);
 
             return host;
+        }
+
+        /// <summary>The app icon at the main title bar's size and spacing.</summary>
+        private static Image TitleIcon()
+        {
+            var icon = new Image
+            {
+                Source = new System.Windows.Media.Imaging.BitmapImage(
+                    new System.Uri("pack://application:,,,/Resources/kn-icon.png")),
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.HighQuality);
+            icon.SetResourceReference(FrameworkElement.WidthProperty, "TitleIconSize");
+            icon.SetResourceReference(FrameworkElement.HeightProperty, "TitleIconSize");
+            icon.SetResourceReference(FrameworkElement.MarginProperty, "TitleIconMargin");
+            return icon;
         }
 
         private static TextBlock Text(FontFamily? wf, string subtitle,

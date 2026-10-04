@@ -458,6 +458,20 @@ namespace KillerNotes.Shell
 
         private void ApplyGrainTexture()
         {
+            var bmp = PublishGrainTile();
+
+            // Paint into whichever named grain brushes exist in your XAML (all optional).
+            foreach (var name in new[] { "GrainBrush", "TitleGrainBrush", "ToolbarGrainBrush", "StatusGrainBrush", "FlyoutGrainBrush" })
+                if (FindName(name) is ImageBrush ib) ib.ImageSource = bmp;
+        }
+
+        /// <summary>
+        /// Generates the grain tile and publishes it as the app-level GrainTileBrush. App startup
+        /// calls this too, so dialogs shown before any main window exists (install, uninstall,
+        /// install repair) are textured like the rest of the app.
+        /// </summary>
+        internal static BitmapSource PublishGrainTile()
+        {
             const int size = 256;
             var bmp = new WriteableBitmap(size, size, 96, 96, PixelFormats.Bgra32, null);
             var pixels = new byte[size * size * 4]; // start fully transparent
@@ -475,10 +489,6 @@ namespace KillerNotes.Shell
             }
             bmp.WritePixels(new Int32Rect(0, 0, size, size), pixels, size * 4, 0);
 
-            // Paint into whichever named grain brushes exist in your XAML (all optional).
-            foreach (var name in new[] { "GrainBrush", "TitleGrainBrush", "ToolbarGrainBrush", "StatusGrainBrush", "FlyoutGrainBrush" })
-                if (FindName(name) is ImageBrush ib) ib.ImageSource = bmp;
-
             // The keyed resource brush is auto-frozen, so its ImageSource can't be set in place.
             // Swap in a fresh frozen brush - DynamicResource consumers re-resolve automatically.
             var grainTile = new ImageBrush(bmp)
@@ -490,6 +500,7 @@ namespace KillerNotes.Shell
             };
             grainTile.Freeze();
             Application.Current.Resources["GrainTileBrush"] = grainTile;
+            return bmp;
         }
     }
 }

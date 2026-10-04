@@ -46,6 +46,7 @@ namespace KillerNotes
             HookCrashLogging();   // CrashLog.cs - first, so it covers startup itself
             base.OnStartup(e);
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            KillerNotes.Shell.MainWindow.PublishGrainTile();   // install and uninstall dialogs open before any main window
 
             // Silent install: KillerNotes.exe /silent
             // Installs machine-wide to Program Files, no UI. Used by winget/choco/RMM.
