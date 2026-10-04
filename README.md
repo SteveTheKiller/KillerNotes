@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://killernotes.net"><img src="docs/wordmark.png" width="640" alt="KillerNotes - Free Encrypted Notepad"></a>
+  <a href="https://killernotes.net"><img src="docs/wordmark.png" height="180" alt="KillerNotes - Free Encrypted Notepad"></a>
 </p>
 
 Notes that keep up. A searchable, organized replacement for the 80-tab Notepad workflow:
