@@ -171,6 +171,7 @@ namespace KillerNotes.Services
             {
                 Source = new Uri($"pack://application:,,,/Themes/{name}.xaml")
             };
+            bool themeOwnsRadioHover = newDict.Contains("RadioHoverFgBrush");
 
             // Material tokens: defaults only. A theme that states its own keeps them, which is
             // how 98SE stays flat (no shadows, hard 2px frame, raised bevels) without a branch
@@ -737,6 +738,8 @@ namespace KillerNotes.Services
                     };
                     foreach (object key in accentDict.Keys)
                         newDict[key] = accentDict[key];
+                    if (!themeOwnsRadioHover && !accentDict.Contains("RadioHoverFgBrush"))
+                        newDict["RadioHoverFgBrush"] = newDict["PrimaryBrush"];
                 }
                 catch { /* overlay file not present - base theme stands */ }
             }
