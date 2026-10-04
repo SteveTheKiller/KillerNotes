@@ -112,8 +112,8 @@ namespace KillerNotes.Services
                 for (int i = 0; i < html.Length; )
                 {
                     int lt = html.IndexOf('<', i);
-                    if (lt < 0) { Text(html.Substring(i)); break; }
-                    if (lt > i) Text(html.Substring(i, lt - i));
+                    if (lt < 0) { Text(html[i..]); break; }
+                    if (lt > i) Text(html[i..lt]);
 
                     if (string.CompareOrdinal(html, lt, "<!--", 0, 4) == 0)
                     {
@@ -122,13 +122,13 @@ namespace KillerNotes.Services
                         continue;
                     }
                     int gt = html.IndexOf('>', lt + 1);
-                    if (gt < 0) { Text(html.Substring(lt)); break; }
+                    if (gt < 0) { Text(html[lt..]); break; }
                     string tag = html.Substring(lt + 1, gt - lt - 1).Trim();
                     i = gt + 1;
                     if (tag.Length == 0 || tag[0] == '!' || tag[0] == '?') continue;
 
                     bool closing = tag[0] == '/';
-                    string name = TagName.Match(closing ? tag.Substring(1).TrimStart() : tag).Value.ToLowerInvariant();
+                    string name = TagName.Match(closing ? tag[1..].TrimStart() : tag).Value.ToLowerInvariant();
                     if (name.Length == 0) { Text("<" + tag + ">"); continue; }
 
                     if (!closing && SkipTags.Contains(name))
@@ -365,14 +365,14 @@ namespace KillerNotes.Services
 
             private void PopThrough(string tag)
             {
-                foreach (var c in _containers)
+                foreach (var (_, currentTag, _) in _containers)
                 {
-                    if (c.Tag != tag) continue;
+                    if (currentTag != tag) continue;
                     while (_containers.Count > 0)
                     {
-                        var top = _containers.Pop();
-                        FillEmpty(top.Blocks);
-                        if (top.Tag == tag) return;
+                        var (blocks, topTag, _) = _containers.Pop();
+                        FillEmpty(blocks);
+                        if (topTag == tag) return;
                     }
                 }
             }
@@ -433,7 +433,7 @@ namespace KillerNotes.Services
                 {
                     // Preformatted text keeps its spacing; the newline right after <pre> is not content.
                     t = t.Replace("\r\n", "\n").Replace('\r', '\n');
-                    if (_para == null && t.StartsWith("\n")) t = t.Substring(1);
+                    if (_para == null && t.StartsWith("\n")) t = t[1..];
                     if (t.Length == 0) return;
                     string[] lines = t.Split('\n');
                     for (int i = 0; i < lines.Length; i++)
