@@ -69,6 +69,22 @@ namespace KillerNotes.Shell
             // bottom cut off words (2026-08-08). Sub-pixel layout under a
             // transform is exactly what rounding-off is for; at 1.0 it comes back on.
             ScaleHost.UseLayoutRounding = scale == 1.0;
+
+            // The window runs Display + ClearType, which pixel-snaps glyphs and color-fringes
+            // them for maximum crispness at 1:1. Under a fractional scale those snapped stems
+            // land on partial device pixels and the text goes soft. Ideal + Grayscale positions
+            // glyphs at sub-pixel precision and stays smooth at any scale; at exactly 1.0 the
+            // window's own crisp setting comes back.
+            if (scale == 1.0)
+            {
+                ScaleHost.ClearValue(TextOptions.TextFormattingModeProperty);
+                ScaleHost.ClearValue(TextOptions.TextRenderingModeProperty);
+            }
+            else
+            {
+                TextOptions.SetTextFormattingMode(ScaleHost, TextFormattingMode.Ideal);
+                TextOptions.SetTextRenderingMode(ScaleHost, TextRenderingMode.Grayscale);
+            }
             RefreshSidebarWidth();   // Sidebar.cs: panel keeps its on-screen width; the rail scales with the app
             RebuildLineNumbers();    // LineNumbers.cs: gutter numbers track the app zoom
             if (persist)
