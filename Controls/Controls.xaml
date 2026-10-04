@@ -790,25 +790,14 @@
                         <Trigger Property="Role" Value="TopLevelHeader">
                             <Setter TargetName="SubArrow" Property="Visibility" Value="Visible"/>
                         </Trigger>
-                        <!-- SELECTION, not a gray wash - solid SelectionBg fill with SelectionFg
-                             text, the same treatment a selected tool or tab gets. The gesture and
-                             chevron are recolored too: they are MutedTextBrush at rest, which is
-                             unreadable on a saturated fill. Family standard, see KillerUI.
-                             (2026-07-30) -->
+                        <!-- Hover uses the menu wash and its contrast text brush. -->
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter TargetName="bg" Property="Background" Value="{DynamicResource SelectionBg}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
-                            <Setter TargetName="Gesture" Property="Foreground" Value="{DynamicResource SelectionFg}"/>
-                            <Setter TargetName="SubArrow" Property="Foreground" Value="{DynamicResource SelectionFg}"/>
-                            <!-- The ICON and the CHECK need it too, and were the two parts left out.
-                                 Both are pinned at rest - the icon to DimTextBrush, the check to
-                                 PrimaryBrush - and neither survives a saturated fill: on the yellow
-                                 SelectionBg the icon vanished outright (reported 2026-08-23, seen on
-                                 "Delete note"). The icon's brush is the TextElement.Foreground
-                                 ATTACHED property, not Foreground, because that is what the presenter
-                                 carries so a bare glyph string inherits it. -->
-                            <Setter TargetName="IconPresenter" Property="TextElement.Foreground" Value="{DynamicResource SelectionFg}"/>
-                            <Setter TargetName="Check" Property="Foreground" Value="{DynamicResource SelectionFg}"/>
+                            <Setter TargetName="bg" Property="Background" Value="{DynamicResource MenuHoverBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ComboHighlightTextBrush}"/>
+                            <Setter TargetName="Gesture" Property="Foreground" Value="{DynamicResource ComboHighlightTextBrush}"/>
+                            <Setter TargetName="SubArrow" Property="Foreground" Value="{DynamicResource ComboHighlightTextBrush}"/>
+                            <Setter TargetName="IconPresenter" Property="TextElement.Foreground" Value="{DynamicResource ComboHighlightTextBrush}"/>
+                            <Setter TargetName="Check" Property="Foreground" Value="{DynamicResource ComboHighlightTextBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="bg" Property="Opacity" Value="0.4"/>

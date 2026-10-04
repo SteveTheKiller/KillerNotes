@@ -779,6 +779,7 @@ namespace KillerNotes.Services
             // overlay above - continue to win outright.
             if (!newDict.Contains("TextSelectionBrush") && newDict.Contains("PrimaryBrush"))
                 newDict["TextSelectionBrush"] = newDict["PrimaryBrush"];
+            SetIfAbsent(newDict, "ComboHighlightTextBrush", newDict["PrimaryBrush"]);
 
             // AccentLogo (title-bar wordmark) and BgFlyout (format bar) are KillerPDF-vocabulary
             // keys that only the newer themes declare. Rather than hand-adding them to the six

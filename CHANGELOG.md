@@ -15,6 +15,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Added a silent uninstall, `/uninstall-silent`, registered as the quiet uninstall so WinGet and other package managers can remove KillerNotes without a prompt.
 
 ### Changed
+- Menu rows now show accent text and icons on the theme's hover color.
 - The language menu now shows its 19 languages in two columns.
 - The markdown and HTML preview is now drawn by the app itself instead of the Internet Explorer engine, so it follows the theme and grain and keeps its rounded corners.
 
