@@ -100,6 +100,8 @@ namespace KillerNotes.Shell
                 Text = "\uE8D2",                      // MDL2 Font, the glyph KillerShell uses
                 FontFamily = new FontFamily("Segoe MDL2 Assets"),
                 FontSize = 12,
+                Width = 16,                           // the radio ring's column, so the glyph centers under it
+                TextAlignment = TextAlignment.Center,
                 Margin = new Thickness(0, 0, 8, 0),
                 VerticalAlignment = VerticalAlignment.Center,
             });
@@ -114,6 +116,10 @@ namespace KillerNotes.Shell
             {
                 Content = row,
                 Style = (Style)FindResource("MenuRowButton"),
+                // Same inset as a ThemeRadio row (picker margin 12, row margin -8, padding 10), so
+                // the glyph and label line up with the rings and names above, plus room under it.
+                Padding = new Thickness(10, 5, 10, 5),
+                Margin = new Thickness(4, 0, 2, 6),
             };
             fonts.Click += FontsRow_Click;
             ThemeMenu.Items.Add(fonts);
