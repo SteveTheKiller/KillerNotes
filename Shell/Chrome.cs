@@ -111,27 +111,16 @@ namespace KillerNotes.Shell
             bool rounded = !flush && WindowState == WindowState.Normal && ThemeManager.Current != Theme.SE98;
             if (_cornersRounded == rounded) return;
             _cornersRounded = rounded;
-            ApplyWindowCorners(rounded);
-            // BOTH layers, not just DWM: RootBorder draws its own WindowCornerRadius, and on a
-            // flush window that app-drawn rounding still notched the corners whatever the DWM
-            // preference said - the corners stayed partially rounded when snapped or
-            // fullscreen (2026-08-08). SetResourceReference on the way back, so the
-            // radius stays theme-reactive when floating.
+            bool nativeCorners = ApplyWindowCorners(rounded);
+            // Keep the client square and let DWM draw the only curved window edge.
             if (RootBorder != null)
             {
-                if (flush) RootBorder.CornerRadius = new CornerRadius(0);
+                RootBorder.CornerRadius = new CornerRadius(0);
+                if (nativeCorners) RootBorder.BorderBrush = Brushes.Transparent;
                 else RootBorder.SetResourceReference(
-                    System.Windows.Controls.Border.CornerRadiusProperty, "WindowCornerRadius");
+                    System.Windows.Controls.Border.BorderBrushProperty, "WindowEdgeBrush");
             }
-            // And the caption close's hover block, whose top-right rounds WITH the window
-            // corner (CaptionCloseCornerRadius is corner-following by design) - on a flush
-            // window it kept its curve against a now-square corner, so the close button's
-            // right corner stayed round (2026-08-08). A WINDOW-LOCAL resource
-            // override, so every dialog's caption resolves the theme value untouched;
-            // removing it falls straight back to the theme, and DynamicResource consumers
-            // re-resolve on both edges.
-            if (flush) Resources["CaptionCloseCornerRadius"] = new CornerRadius(0);
-            else Resources.Remove("CaptionCloseCornerRadius");
+            Resources["CaptionCloseCornerRadius"] = new CornerRadius(0);
         }
 
         [DllImport("user32.dll")]
@@ -160,16 +149,16 @@ namespace KillerNotes.Shell
             catch { return false; }
         }
 
-        private void ApplyWindowCorners(bool rounded)
+        private bool ApplyWindowCorners(bool rounded)
         {
             try
             {
                 var hwnd = new WindowInteropHelper(this).Handle;
-                if (hwnd == IntPtr.Zero) return;
+                if (hwnd == IntPtr.Zero) return false;
                 int pref = rounded ? DWMWCP_ROUND : DWMWCP_DONOTROUND;
-                DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, ref pref, sizeof(int));
+                return DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, ref pref, sizeof(int)) == 0;
             }
-            catch { /* pre-Win11: no rounded-corner API */ }
+            catch { return false; } // pre-Win11: no rounded-corner API
         }
 
         protected override void OnStateChanged(EventArgs e)
