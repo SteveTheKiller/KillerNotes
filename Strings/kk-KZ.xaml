@@ -634,6 +634,7 @@
 
     <!-- Portable install -->
     <sys:String x:Key="Str_Btn_Install">KillerNotes орнату</sys:String>
+    <sys:String x:Key="Str_Portable">ТАСЫМАЛДЫ</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Орнату</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">KillerNotes пайдаланушы профиліңізге орнатылсын ба?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Бастау мәзіріндегі таңбаша&#x0A;- Бағдарламаларды қосу/жою тізімінде көрінеді</sys:String>

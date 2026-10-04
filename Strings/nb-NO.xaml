@@ -668,6 +668,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Btn_Install">Installer KillerNotes</sys:String>
+    <sys:String x:Key="Str_Portable">PORTABEL</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Installer</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Installere KillerNotes i brukerprofilen din?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Snarvei i Start-menyen&#x0A;- Vises i Legg til eller fjern programmer</sys:String>

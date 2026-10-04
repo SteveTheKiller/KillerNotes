@@ -670,6 +670,7 @@
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Btn_Install">Встановити KillerNotes</sys:String>
+    <sys:String x:Key="Str_Portable">ПОРТАТИВНИЙ</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Встановити</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Встановити KillerNotes у ваш профіль користувача?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Ярлик у меню «Пуск»&#x0A;- З'являється в «Установка й видалення програм»</sys:String>

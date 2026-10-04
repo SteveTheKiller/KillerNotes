@@ -634,6 +634,7 @@
 
     <!-- Portable install -->
     <sys:String x:Key="Str_Btn_Install">Установить KillerNotes</sys:String>
+    <sys:String x:Key="Str_Portable">ПОРТАБЕЛЬНЫЙ</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Установить</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Установить KillerNotes в ваш профиль пользователя?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Ярлык в меню "Пуск"&#x0A;- Появится в списке установленных программ</sys:String>

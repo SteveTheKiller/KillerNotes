@@ -634,6 +634,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
 
     <!-- Portable install -->
     <sys:String x:Key="Str_Btn_Install">Installa KillerNotes</sys:String>
+    <sys:String x:Key="Str_Portable">PORTATILE</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Installa</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Installare KillerNotes nel tuo profilo utente?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Collegamento nel menu Start&#x0A;- Compare in Installazione applicazioni</sys:String>

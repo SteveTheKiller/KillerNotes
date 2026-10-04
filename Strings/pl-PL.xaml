@@ -542,6 +542,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_KS_ManageTags">Zarządzaj tagami (dodawanie, zmiana nazwy i koloru)</sys:String>
     <sys:String x:Key="Str_KS_SketchPad">SketchPad - rysuj i opisuj</sys:String>
     <sys:String x:Key="Str_Btn_Install">Zainstaluj KillerNotes</sys:String>
+    <sys:String x:Key="Str_Portable">PRZENOŚNA</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Zainstaluj</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Zainstalować KillerNotes w profilu użytkownika?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Skrót w menu Start&#x0A;- Widoczna w Dodaj/Usuń programy</sys:String>

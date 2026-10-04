@@ -672,6 +672,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Btn_Install">Cài đặt KillerNotes</sys:String>
+    <sys:String x:Key="Str_Portable">DI ĐỘNG</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Cài đặt</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Cài đặt KillerNotes vào hồ sơ người dùng của bạn?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Lối tắt menu Bắt đầu&#10;- Xuất hiện trong Thêm/Xóa chương trình</sys:String>

@@ -670,6 +670,7 @@ Leave both boxes empty to share without one.</sys:String>
 
     <!-- Portable install (family install system) -->
     <sys:String x:Key="Str_Btn_Install">Install KillerNotes</sys:String>
+    <sys:String x:Key="Str_Portable">PORTABLE</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Install</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Install KillerNotes to your user profile?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Start Menu shortcut&#x0A;- Appears in Add/Remove Programs</sys:String>

@@ -2443,7 +2443,7 @@
                 <StackPanel x:Name="PortableBadge" Grid.Column="0" Grid.ColumnSpan="3" Panel.ZIndex="3"
                             Orientation="Horizontal"
                             HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-                    <Button x:Name="InstallBtn" Content="{DynamicResource Str_Btn_Install}" Click="Install_Click"
+                    <Button x:Name="InstallBtn" Content="{DynamicResource Str_Portable}" ToolTip="{DynamicResource Str_Btn_Install}" Click="Install_Click"
                             Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
                             FontSize="10" Padding="8,1" VerticalAlignment="Center">
                         <Button.Resources>
