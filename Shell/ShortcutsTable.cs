@@ -180,13 +180,6 @@ namespace KillerNotes.Shell
         // guaranteed to run after it (initializer order is only unspecified ACROSS partial
         // files, not within one).
 
-        /// <summary>(keys, string-resource key) pairs for the F1 list, in table order. A pair with
-        /// empty Keys and a Label is a section header; one with both empty is map-only and is
-        /// dropped here.</summary>
-        private static readonly (string Keys, string Action)[] ShortcutMap =
-            [.. KsTable.Where(b => b.Listed && (b.Keys.Length > 0 || b.Label.Length > 0))
-                   .Select(b => (b.Keys, b.Label))];
-
         /// <summary>key id -> (category, caption resource key), per layer, for the drawn map.
         /// Categories map 1:1 to the KnCat* theme brushes; captions resolve through Loc() so
         /// language switches repaint.</summary>

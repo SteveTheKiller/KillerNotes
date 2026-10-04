@@ -18,33 +18,48 @@ namespace KillerNotes.Shell
             BuildShortcutRows();
         }
 
+        /// <summary>Category order for the list, the same order the keyboard map reads.</summary>
+        private static readonly string[] ShortcutCatOrder = ["File", "Note", "Format", "Edit", "Search", "View", "Help"];
+
         private void BuildShortcutRows()
         {
-            // Split the list across two columns so all ~48 rows fit the card instead of
-            // running one long column off the bottom of the screen. The left column takes
-            // the extra row when the count is odd.
-            int perCol = (ShortcutMap.Length + 1) / 2;
-            string openSection = "";   // the header the current row sits under, "" while in the
-                                       // main-window block, which has no header of its own
-            for (int i = 0; i < ShortcutMap.Length; i++)
+            // Main-window bindings are grouped by category, each under a heading in that
+            // category's KnCat* color, the color its keys carry on the keyboard map (KillerPDF's
+            // list). The graph and SketchPad sections follow in table order under accent headings,
+            // since they are other windows rather than categories.
+            var items = new List<(string Keys, string Label, string? Cat)>();   // empty Keys = heading
+            int split = Array.FindIndex(KsTable, b => b.Keys.Length == 0 && b.Label.Length > 0);
+            var main = (split < 0 ? KsTable : KsTable.Take(split))
+                .Where(b => b.Listed && b.Keys.Length > 0).ToList();
+            foreach (string cat in ShortcutCatOrder.Concat(main.Select(b => b.Cat)).Distinct())
             {
-                var (keys, action) = ShortcutMap[i];
+                var rows = main.Where(b => b.Cat == cat).ToList();
+                if (rows.Count == 0) continue;
+                items.Add(("", KbSectionKeyFor(cat), cat));
+                items.AddRange(rows.Select(b => (b.Keys, b.Label, (string?)cat)));
+            }
+            if (split >= 0)
+                foreach (var b in KsTable.Skip(split).Where(b => b.Listed && (b.Keys.Length > 0 || b.Label.Length > 0)))
+                    items.Add((b.Keys, b.Label, null));
 
-                // SECTION HEADER: no keys, just a label. The graph and the SketchPad are separate
-                // windows, and without a heading their bare letters read as main-window bindings.
+            // Two columns so the list fits the card; the left takes the extra row when odd.
+            int perCol = (items.Count + 1) / 2;
+            (string Label, string? Cat)? open = null;   // the heading the current row sits under
+            for (int i = 0; i < items.Count; i++)
+            {
+                var (keys, label, cat) = items[i];
+                Panel column = i < perCol ? ShortcutColLeft : ShortcutColRight;
+
                 if (keys.Length == 0)
                 {
-                    openSection = action;
-                    AddSectionHeader(action, i < perCol ? ShortcutColLeft : ShortcutColRight,
-                                     first: i == 0);
+                    open = (label, cat);
+                    AddSectionHeader(label, cat, column, first: i == 0 || i == perCol);
                     continue;
                 }
                 // A section split across the fold repeats its title at the top of the second
-                // column, the way a newspaper does, rather than stranding half its rows under
-                // nothing. Cheaper than balancing the split on section boundaries, which with
-                // these section sizes would leave the columns badly lopsided.
-                if (i == perCol && openSection.Length > 0)
-                    AddSectionHeader(openSection, ShortcutColRight, first: true);
+                // column, the way a newspaper does, rather than stranding half its rows.
+                if (i == perCol && open is { } o)
+                    AddSectionHeader(o.Label, o.Cat, ShortcutColRight, first: true);
 
                 var row = new Grid { Margin = new Thickness(0, 0, 0, 6) };
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
@@ -53,19 +68,20 @@ namespace KillerNotes.Shell
                 var key = new TextBlock { Text = keys, FontFamily = new System.Windows.Media.FontFamily("Consolas"), FontSize = 12 };
                 key.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryBrush");
 
-                var desc = new TextBlock { Text = Loc(action), FontSize = 12, TextWrapping = TextWrapping.Wrap };
+                var desc = new TextBlock { Text = Loc(label), FontSize = 12, TextWrapping = TextWrapping.Wrap };
                 desc.SetResourceReference(TextBlock.ForegroundProperty, "TextBrush");
                 Grid.SetColumn(desc, 1);
 
                 row.Children.Add(key);
                 row.Children.Add(desc);
-                (i < perCol ? ShortcutColLeft : ShortcutColRight).Children.Add(row);
+                column.Children.Add(row);
             }
         }
 
-        /// <summary>A section title in the shortcuts list. Accent colored and spaced above, so it
-        /// reads as a break rather than as another binding with a missing key.</summary>
-        private void AddSectionHeader(string labelKey, Panel column, bool first)
+        /// <summary>A section title in the shortcuts list, in its category's KnCat* color (or the
+        /// accent for the other-window sections) and spaced above, so it reads as a break rather
+        /// than as another binding with a missing key.</summary>
+        private void AddSectionHeader(string labelKey, string? cat, Panel column, bool first)
         {
             var head = new TextBlock
             {
@@ -74,7 +90,7 @@ namespace KillerNotes.Shell
                 FontWeight = FontWeights.Bold,
                 Margin = new Thickness(0, first ? 0 : 10, 0, 6),
             };
-            head.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryBrush");
+            head.SetResourceReference(TextBlock.ForegroundProperty, cat != null ? "KnCat" + cat : "PrimaryBrush");
             column.Children.Add(head);
         }
 
