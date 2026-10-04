@@ -21,6 +21,7 @@ namespace KillerNotes.Controls
         public ConfirmDialog()
         {
             InitializeComponent();
+            TaskbarIdentity.Track(this);
             Loaded += (_, _) => Anim.FadeIn(RootBorder);
         }
 

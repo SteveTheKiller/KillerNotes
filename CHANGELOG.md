@@ -23,6 +23,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The notes list no longer fades its last row when scrolled all the way to the bottom.
 - The mouse wheel scrolls the notes list a full step per notch again.
 - Install and uninstall windows now show the film grain and the app icon in the title bar.
+- The uninstaller has its own taskbar button, labeled "Uninstall KillerNotes", with the app icon.
 
 ## [1.3.2] - 2026-09-30
 

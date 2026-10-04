@@ -66,6 +66,7 @@ namespace KillerNotes
             {
                 bool silent = string.Equals(e.Args[0], "/uninstall-silent", StringComparison.OrdinalIgnoreCase);
                 if (!silent) Services.ThemeManager.InitializeInstallerTheme();
+                Controls.TaskbarIdentity.UseUninstall();
                 Uninstall(silent);
                 Shutdown();
                 return;
