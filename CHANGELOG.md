@@ -12,6 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Norwegian (Bokmål) localization.
 - Brazilian Portuguese localization.
 - Dragging a note to the top or bottom edge of the notes list scrolls it, so groups out of view can be reached.
+- Added a silent uninstall, `/uninstall-silent`, registered as the quiet uninstall so WinGet and other package managers can remove KillerNotes without a prompt.
 
 ### Changed
 - The language menu now shows its 19 languages in two columns.

@@ -58,12 +58,15 @@ namespace KillerNotes
                 return;
             }
 
-            // Uninstall flag (called by Add/Remove Programs)
+            // Uninstall flags (Add/Remove Programs runs /uninstall; package managers run
+            // /uninstall-silent, the registered QuietUninstallString, which shows no UI)
             if (e.Args.Length > 0 &&
-                string.Equals(e.Args[0], "/uninstall", StringComparison.OrdinalIgnoreCase))
+                (string.Equals(e.Args[0], "/uninstall", StringComparison.OrdinalIgnoreCase) ||
+                 string.Equals(e.Args[0], "/uninstall-silent", StringComparison.OrdinalIgnoreCase)))
             {
-                Services.ThemeManager.InitializeInstallerTheme();
-                Uninstall();
+                bool silent = string.Equals(e.Args[0], "/uninstall-silent", StringComparison.OrdinalIgnoreCase);
+                if (!silent) Services.ThemeManager.InitializeInstallerTheme();
+                Uninstall(silent);
                 Shutdown();
                 return;
             }
@@ -500,7 +503,7 @@ namespace KillerNotes
                     key.SetValue("InstallLocation",      installDir);
                     key.SetValue("DisplayIcon",          $"{installExe},0");
                     key.SetValue("UninstallString",      $"\"{installExe}\" /uninstall");
-                    key.SetValue("QuietUninstallString", $"\"{installExe}\" /uninstall");
+                    key.SetValue("QuietUninstallString", $"\"{installExe}\" /uninstall-silent");
                     key.SetValue("NoModify",             1);
                     key.SetValue("NoRepair",             1);
                 }
@@ -549,7 +552,7 @@ namespace KillerNotes
                     key.SetValue("InstallLocation",      InstallDir);
                     key.SetValue("DisplayIcon",          $"{InstallExe},0");
                     key.SetValue("UninstallString",      $"\"{InstallExe}\" /uninstall");
-                    key.SetValue("QuietUninstallString", $"\"{InstallExe}\" /uninstall");
+                    key.SetValue("QuietUninstallString", $"\"{InstallExe}\" /uninstall-silent");
                     key.SetValue("NoModify",             1);
                     key.SetValue("NoRepair",             1);
                 }
@@ -594,7 +597,7 @@ namespace KillerNotes
         // Uninstall (Add/Remove Programs). Removes the installed exe, shortcuts, file
         // associations, and registry entries. The notes databases in %APPDATA%\KillerNotes
         // are user data and are deliberately KEPT.
-        private static bool RelaunchMachineUninstallElevatedIfNeeded(bool machine)
+        private static bool RelaunchMachineUninstallElevatedIfNeeded(bool machine, bool silent)
         {
             if (!machine) return false;
             try
@@ -605,7 +608,7 @@ namespace KillerNotes
                     return false;
 
                 Process.Start(new ProcessStartInfo(
-                    Process.GetCurrentProcess().MainModule!.FileName, "/uninstall")
+                    Process.GetCurrentProcess().MainModule!.FileName, silent ? "/uninstall-silent" : "/uninstall")
                 {
                     UseShellExecute = true,
                     Verb = "runas",
@@ -617,24 +620,29 @@ namespace KillerNotes
             }
             catch (Exception ex)
             {
-                ShowInstallError($"Uninstall could not request administrator access:\n{ex.Message}");
+                string message = $"Uninstall could not request administrator access:\n{ex.Message}";
+                if (silent) Console.Error.WriteLine(message);
+                else ShowInstallError(message);
             }
             return true;
         }
 
-        private static void Uninstall()
+        private static void Uninstall(bool silent)
         {
             bool machine = string.Equals(Process.GetCurrentProcess().MainModule?.FileName,
                                          MachineExe, StringComparison.OrdinalIgnoreCase);
-            if (RelaunchMachineUninstallElevatedIfNeeded(machine)) return;
+            if (RelaunchMachineUninstallElevatedIfNeeded(machine, silent)) return;
 
-            var confirm = new Controls.ConfirmDialog(
-                "Uninstall KillerNotes?",
-                "Your notes will be kept.",
-                "Uninstall",
-                "Cancel") { WindowStartupLocation = WindowStartupLocation.CenterScreen };
-            confirm.ShowDialog();
-            if (!confirm.Confirmed) return;
+            if (!silent)
+            {
+                var confirm = new Controls.ConfirmDialog(
+                    "Uninstall KillerNotes?",
+                    "Your notes will be kept.",
+                    "Uninstall",
+                    "Cancel") { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+                confirm.ShowDialog();
+                if (!confirm.Confirmed) return;
+            }
 
             string startMenuDir = machine
                 ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), AppName)
