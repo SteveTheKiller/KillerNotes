@@ -7,36 +7,38 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.3.3] - Unreleased
 
 ### Added
-- Added yellow and magenta accents to the neutral and 98SE themes.
-- Ukrainian localization.
-- Norwegian (Bokmål) localization.
-- Brazilian Portuguese localization.
+- The note's link strip now includes outgoing links, including targets that do not exist yet.
+- Fenced Markdown code blocks use their declared language for syntax highlighting.
 - Dragging a note to the top or bottom edge of the notes list scrolls it, so groups out of view can be reached.
 - Added a silent uninstall, `/uninstall-silent`, registered as the quiet uninstall so WinGet and other package managers can remove KillerNotes without a prompt.
+- Ukrainian, Norwegian (Bokmål), and Brazilian Portuguese localization.
+- Added yellow and magenta accents to the neutral and 98SE themes.
+- Syntax audit logs include timing for tokenizing, resolving positions, painting, and complete highlight passes.
 
 ### Changed
+- The markdown and HTML preview is now drawn by the app itself instead of the Internet Explorer engine, so it follows the theme and grain and keeps its rounded corners.
 - Menu rows now show accent text and icons on the theme's hover color.
 - The language menu now shows its 19 languages in two columns.
-- The markdown and HTML preview is now drawn by the app itself instead of the Internet Explorer engine, so it follows the theme and grain and keeps its rounded corners.
 - Selected states now use subtle gradients outside 98SE, Light buttons have softer gray borders, and yellow wordmarks match their accent.
 
 ### Fixed
-- The theme picker's divider updates when switching themes.
+- Pressing F4 to leave the preview no longer crashes with an "Unknown Hard Error".
+- Restoring an older note title offers to update incoming links through the rename dialog.
 - Previews render Markdown and HTML together and preserve angle-bracket placeholders and code examples.
 - Removed the preview's inset frame and restored dragging its split-view divider.
-- Pressing F4 to leave the preview no longer crashes with an "Unknown Hard Error".
-- The notes list no longer fades its last row when scrolled all the way to the bottom.
 - The mouse wheel scrolls the notes list a full step per notch again.
-- The Fonts... row in the theme menu lines up with the themes above it and has room underneath.
+- The notes list no longer fades its last row when scrolled all the way to the bottom.
 - Text stays sharp at app sizes other than 100%.
 - Pinned places in the file picker can be dragged into a new order.
+- The theme picker's divider updates when switching themes.
+- Improved menu, selection, and footer text contrast, with subtle gray Delirium dividers.
+- Selected language and theme rows keep the active accent on hover.
+- The Fonts... row in the theme menu lines up with the themes above it and has room underneath.
 - The shortcuts list groups bindings under category headings in the same colors as the keyboard map.
 - The portable footer button reads PORTABLE, like KillerPDF and KillerScan, and its tooltip offers the install.
 - Install and uninstall windows now show the film grain and the app icon in the title bar.
 - The uninstaller has its own taskbar button, labeled "Uninstall KillerNotes", with the app icon.
-- Selected language and theme rows keep the active accent on hover.
 - Main window and dialog title bar icons now use sharp size-matched images.
-- Improved menu, selection, and footer text contrast, with subtle gray Delirium dividers.
 
 ## [1.3.2] - 2026-09-30
 
