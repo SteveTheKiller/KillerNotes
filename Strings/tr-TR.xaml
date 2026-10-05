@@ -893,4 +893,5 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Preview_Source">Source</sys:String>
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Lbl_OutgoingLinks">Giden bağlantılar</sys:String>
 </ResourceDictionary>

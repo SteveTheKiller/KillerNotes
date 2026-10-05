@@ -1247,6 +1247,21 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             tx.Commit();
         }
 
+        /// <summary>Distinct outgoing targets, including links whose notes do not exist yet.</summary>
+        public static List<(long Id, string Title)> OutgoingLinks(long source)
+        {
+            var list = new List<(long, string)>();
+            if (_db == null) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT COALESCE((SELECT n.id FROM notes n WHERE n.title = l.target COLLATE NOCASE " +
+                "AND n.deleted = '' ORDER BY n.id LIMIT 1), -1), l.target FROM note_links l " +
+                "JOIN notes s ON s.id = l.src WHERE l.src = $s AND s.deleted = '' ORDER BY l.target COLLATE NOCASE";
+            cmd.Parameters.AddWithValue("$s", source);
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) list.Add((r.GetInt64(0), r.GetString(1)));
+            return list;
+        }
+
         /// <summary>Notes that link TO the given note, by its title. The backlinks panel.</summary>
         public static List<(long Id, string Title)> Backlinks(string title)
         {

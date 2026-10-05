@@ -941,4 +941,5 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_BackupNow">Back up the database now</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Backup</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">No backup folder yet. Manage databases, then Backups, picks one.</sys:String>
+    <sys:String x:Key="Str_Lbl_OutgoingLinks">Links to</sys:String>
 </ResourceDictionary>

@@ -98,7 +98,7 @@ namespace KillerNotes.Shell
         /// <summary>One entry in the strip. Cached so a window resize can re-lay-out the row
         /// without going back to the database - the contents have not changed, only the space.
         /// </summary>
-        private sealed record StripItem(long Id, string Title, bool Mention);
+        private sealed record StripItem(long Id, string Title, bool Mention, bool Outgoing = false);
 
         private readonly List<StripItem> _strip = [];
 
@@ -117,6 +117,8 @@ namespace KillerNotes.Shell
 
             foreach (var (id, t) in NoteStore.Backlinks(title))
                 _strip.Add(new StripItem(id, string.IsNullOrWhiteSpace(t) ? Loc("Str_Untitled") : t, false));
+            foreach (var (id, t) in NoteStore.OutgoingLinks(_currentId))
+                _strip.Add(new StripItem(id, t, false, true));
             foreach (var (id, t) in NoteStore.UnlinkedMentions(title))
                 _strip.Add(new StripItem(id, string.IsNullOrWhiteSpace(t) ? Loc("Str_Untitled") : t, true));
 
@@ -172,11 +174,8 @@ namespace KillerNotes.Shell
             // Labels first, and they are never dropped - a row of bare names with no idea which
             // are links and which are mentions is worse than showing fewer names.
             double used = 0;
-            bool anyLink = _strip.Any(i => !i.Mention);
-            if (anyLink) used += AddFixed(MakeLabel("Str_Lbl_Backlinks", "Str_TT_Backlinks"));
-
             int shown = 0;
-            bool dividerDone = false;
+            int previousGroup = -1;
             // Reserve room for the overflow button up front when there is any real chance of
             // needing it. Measuring the row twice to find out exactly would cost a second pass
             // for a button whose width barely varies.
@@ -184,18 +183,21 @@ namespace KillerNotes.Shell
 
             foreach (var it in _strip)
             {
-                if (it.Mention && !dividerDone)
-                {
-                    dividerDone = true;
-                    // The divider and the second label only appear once something is actually
-                    // going to sit after them.
-                    if (anyLink && shown > 0) used += AddFixed(MakeDivider());
-                    used += AddFixed(MakeLabel("Str_Lbl_Mentions", "Str_TT_Mentions"));
-                }
-
+                int group = it.Mention ? 2 : it.Outgoing ? 1 : 0;
                 var chip = BuildChip(it);
                 double w = Measured(chip);
-                if (shown > 0 && used + w > budget - reserve) break;
+                string label = group == 2 ? "Str_Lbl_Mentions" : group == 1 ? "Str_Lbl_OutgoingLinks" : "Str_Lbl_Backlinks";
+                string tip = group == 2 ? "Str_TT_Mentions" : group == 1 ? "Str_Lbl_OutgoingLinks" : "Str_TT_Backlinks";
+                var groupLabel = MakeLabel(label, tip);
+                double groupWidth = group != previousGroup ? Measured(groupLabel) + (shown > 0 ? Measured(MakeDivider()) : 0) : 0;
+                if (shown > 0 && used + groupWidth + w > budget - reserve) break;
+                if (group != previousGroup)
+                {
+                    if (shown > 0) used += AddFixed(MakeDivider());
+                    used += AddFixed(groupLabel);
+                    previousGroup = group;
+                }
+
                 BacklinkRow.Children.Add(chip);
                 used += w;
                 shown++;
@@ -270,6 +272,11 @@ namespace KillerNotes.Shell
 
         private void ChipActivated(StripItem it)
         {
+            if (it.Outgoing)
+            {
+                FollowWikiLink(it.Title);
+                return;
+            }
             if (!it.Mention || (Keyboard.Modifiers & ModifierKeys.Control) != 0)
             {
                 SaveCurrentNote(refreshList: false);
@@ -298,12 +305,18 @@ namespace KillerNotes.Shell
             more.Click += (_, _) =>
             {
                 var menu = new ContextMenu { PlacementTarget = more, Placement = PlacementMode.Top };
-                bool sep = false;
+                int previousGroup = -1;
                 foreach (var it in rest)
                 {
                     // One separator where the links end and the mentions begin, so the menu keeps
                     // the distinction the row's two labels were making.
-                    if (it.Mention && !sep && rest.Any(r => !r.Mention)) { sep = true; menu.Items.Add(new Separator()); }
+                    int group = it.Mention ? 2 : it.Outgoing ? 1 : 0;
+                    if (group != previousGroup)
+                    {
+                        if (previousGroup >= 0) menu.Items.Add(new Separator());
+                        menu.Items.Add(new MenuItem { Header = Loc(group == 2 ? "Str_Lbl_Mentions" : group == 1 ? "Str_Lbl_OutgoingLinks" : "Str_Lbl_Backlinks"), IsEnabled = false });
+                        previousGroup = group;
+                    }
                     var mi = new MenuItem
                     {
                         Header = it.Title,

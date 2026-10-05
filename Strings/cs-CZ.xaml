@@ -891,4 +891,5 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Preview_Source">Source</sys:String>
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Lbl_OutgoingLinks">Odkazuje na</sys:String>
 </ResourceDictionary>

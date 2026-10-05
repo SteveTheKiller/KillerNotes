@@ -941,4 +941,5 @@
     <sys:String x:Key="Str_KS_BackupNow">Створити копію бази зараз</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Копія</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Папку резервних копій ще не вибрано. Виберіть її в «Керування базами даних», розділ «Резервні копії».</sys:String>
+    <sys:String x:Key="Str_Lbl_OutgoingLinks">Посилання на</sys:String>
 </ResourceDictionary>

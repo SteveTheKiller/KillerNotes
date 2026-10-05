@@ -939,4 +939,5 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_KS_BackupNow">Ta sikkerhetskopi av databasen nå</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Sikkerhetskopi</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Ingen mappe for sikkerhetskopier ennå. Velg en under «Administrer databaser» og deretter «Sikkerhetskopier».</sys:String>
+    <sys:String x:Key="Str_Lbl_OutgoingLinks">Lenker til</sys:String>
 </ResourceDictionary>

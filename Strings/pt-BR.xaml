@@ -941,4 +941,5 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_KS_BackupNow">Fazer backup do banco de dados agora</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Backup</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Ainda não há pasta de backup. Gerenciar bancos de dados e depois Backups permite escolher uma.</sys:String>
+    <sys:String x:Key="Str_Lbl_OutgoingLinks">Links para</sys:String>
 </ResourceDictionary>

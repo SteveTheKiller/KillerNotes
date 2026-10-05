@@ -945,4 +945,5 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Kb_Backup">Sao lưu</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Chưa có thư mục sao lưu. Vào Quản lý cơ sở dữ liệu, rồi Bản sao lưu để chọn.</sys:String>
 
+    <sys:String x:Key="Str_Lbl_OutgoingLinks">Liên kết đến</sys:String>
 </ResourceDictionary>

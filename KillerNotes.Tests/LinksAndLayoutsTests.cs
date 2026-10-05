@@ -22,6 +22,27 @@ namespace KillerNotes.Tests
 
         public void Dispose() => _store.Dispose();
 
+        [Fact]
+        public void OutgoingLinksResolveLiveTargetsAndKeepMissingTargets()
+        {
+            long source = NoteStore.Create("Source");
+            long target = NoteStore.Create("Target");
+            NoteStore.SetLinks(source, WikiLinks.Parse("[[target]] [[TARGET]] [[Missing]]"));
+            var links = NoteStore.OutgoingLinks(source);
+            Assert.Equal(2, links.Count);
+            Assert.Contains(links, link => link.Id == target && link.Title == "target");
+            Assert.Contains(links, link => link.Id == -1 && link.Title == "Missing");
+            NoteStore.Trash(target);
+            Assert.All(NoteStore.OutgoingLinks(source), link => Assert.Equal(-1, link.Id));
+            NoteStore.Restore(target);
+            Assert.Contains(NoteStore.OutgoingLinks(source), link => link.Id == target);
+            NoteStore.Trash(source);
+            Assert.Empty(NoteStore.OutgoingLinks(source));
+            NoteStore.Restore(source);
+            NoteStore.SetLinks(source, WikiLinks.Parse("[[Other]]"));
+            Assert.Equal("Other", Assert.Single(NoteStore.OutgoingLinks(source)).Title);
+        }
+
         // ── note_links ───────────────────────────────────────────────────────────────────
 
         [Fact]
