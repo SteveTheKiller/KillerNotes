@@ -203,12 +203,12 @@ namespace KillerNotes.Shell
             _previewRefreshTimer.Start();
         }
 
-        // Cheap heuristics on the plain text. HTML wins when both could match, because
-        // real HTML usually contains markdown-ish characters too.
+        // HTML detection requires real HTML tags outside Markdown code spans and fences.
+        // Angle-bracket placeholders in technical notes are ordinary text.
         private static DocKind DetectDocKind(string t)
         {
             if (string.IsNullOrWhiteSpace(t)) return DocKind.None;
-            if (Regex.Matches(t, @"</?[a-zA-Z][a-zA-Z0-9]*(\s[^<>]*)?>").Count >= 3) return DocKind.Html;
+            if (PreviewDocument.HasHtml(t)) return DocKind.Html;
 
             // STRONG signals: syntax nobody types unless they mean markdown. One is enough.
             int strong = 0;
@@ -306,9 +306,7 @@ namespace KillerNotes.Shell
                 var viewer = PreviewViewerLazy();
                 double? keep = preserveScroll ? PreviewScroller()?.VerticalOffset : null;
 
-                FlowDocument doc = _docKind == DocKind.Markdown
-                    ? MarkdownConvert.ToDocument(text, PreviewFontSize, tables: true)
-                    : HtmlConvert.ToDocument(text, PreviewFontSize);
+                FlowDocument doc = PreviewDocument.Render(text, PreviewFontSize);
                 doc.FontFamily = new FontFamily(PreviewFont);
                 doc.PagePadding = new Thickness(12, 12, 18, 12);
                 doc.Background = Brushes.Transparent;

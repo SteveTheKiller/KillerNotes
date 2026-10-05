@@ -21,6 +21,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Selected states now use subtle gradients outside 98SE, Light buttons have softer gray borders, and yellow wordmarks match their accent.
 
 ### Fixed
+- Previews render Markdown and HTML together and preserve angle-bracket placeholders and code examples.
 - Pressing F4 to leave the preview no longer crashes with an "Unknown Hard Error".
 - The notes list no longer fades its last row when scrolled all the way to the bottom.
 - The mouse wheel scrolls the notes list a full step per notch again.
