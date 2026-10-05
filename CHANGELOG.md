@@ -32,6 +32,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Install and uninstall windows now show the film grain and the app icon in the title bar.
 - The uninstaller has its own taskbar button, labeled "Uninstall KillerNotes", with the app icon.
 - Selected language and theme rows keep the active accent on hover.
+- The title bar icon now uses a sharp size-matched image.
 
 ## [1.3.2] - 2026-09-30
 

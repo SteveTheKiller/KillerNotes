@@ -23,6 +23,15 @@ namespace KillerNotes.Shell
         public MainWindow()
         {
             InitializeComponent();
+            var titleFrames = System.Windows.Media.Imaging.BitmapDecoder.Create(
+                new System.Uri("pack://application:,,,/Resources/kn-icon.ico"),
+                System.Windows.Media.Imaging.BitmapCreateOptions.None,
+                System.Windows.Media.Imaging.BitmapCacheOption.OnLoad).Frames;
+            void RefreshTitleIcon() => TitleIcon.Source = titleFrames
+                .OrderBy(frame => System.Math.Abs(frame.PixelWidth - TitleIcon.ActualWidth * System.Windows.Media.VisualTreeHelper.GetDpi(TitleIcon).DpiScaleX))
+                .First();
+            TitleIcon.Loaded += (_, _) => RefreshTitleIcon();
+            TitleIcon.SizeChanged += (_, _) => RefreshTitleIcon();
 
             _about    = new AboutController(this);               // Features/About
             _security = new SecurityController(this);            // Features/Security

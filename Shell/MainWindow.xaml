@@ -130,7 +130,7 @@
                         PreviewMouseWheel="AppSizeBtn_MouseWheel"
                         MouseLeftButtonDown="LogoBar_MouseLeftButtonDown"
                         ToolTip="{DynamicResource Str_TT_AppSize}">
-                <Image Source="pack://application:,,,/Resources/kn-icon.png"
+                <Image x:Name="TitleIcon"
                        Width="{DynamicResource TitleIconSize}" Height="{DynamicResource TitleIconSize}"
                        VerticalAlignment="Center" Margin="{DynamicResource TitleIconMargin}"
                        RenderOptions.BitmapScalingMode="HighQuality"/>
