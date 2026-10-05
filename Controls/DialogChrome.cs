@@ -1,10 +1,12 @@
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 
 // Shared title-bar chrome for the floating dialogs (1.2.0).
 //
@@ -148,15 +150,24 @@ namespace KillerNotes.Controls
         {
             var icon = new Image
             {
-                Source = new System.Windows.Media.Imaging.BitmapImage(
-                    new System.Uri("pack://application:,,,/Resources/kn-icon.png")),
                 VerticalAlignment = VerticalAlignment.Center,
             };
-            RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.HighQuality);
             icon.SetResourceReference(FrameworkElement.WidthProperty, "TitleIconSize");
             icon.SetResourceReference(FrameworkElement.HeightProperty, "TitleIconSize");
             icon.SetResourceReference(FrameworkElement.MarginProperty, "TitleIconMargin");
+            SharpenTitleIcon(icon);
             return icon;
+        }
+
+        internal static void SharpenTitleIcon(Image icon)
+        {
+            var frames = BitmapDecoder.Create(new Uri("pack://application:,,,/Resources/kn-icon.ico"),
+                BitmapCreateOptions.None, BitmapCacheOption.OnLoad).Frames;
+            void Refresh() => icon.Source = frames.OrderBy(frame =>
+                Math.Abs(frame.PixelWidth - icon.ActualWidth * VisualTreeHelper.GetDpi(icon).DpiScaleX)).First();
+            icon.Loaded += (_, _) => Refresh();
+            icon.SizeChanged += (_, _) => Refresh();
+            RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.HighQuality);
         }
 
         private static TextBlock Text(FontFamily? wf, string subtitle,

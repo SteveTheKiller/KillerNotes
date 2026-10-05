@@ -18,7 +18,7 @@
         <Grid Margin="{DynamicResource TitleBarPadding}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <!-- The app icon leads the caption, as it does in the main title bar. -->
-            <Image Source="pack://application:,,,/Resources/kn-icon.png" IsHitTestVisible="False"
+            <Image x:Name="TitleIcon" IsHitTestVisible="False"
                    Width="{DynamicResource TitleIconSize}" Height="{DynamicResource TitleIconSize}"
                    Margin="{DynamicResource TitleIconMargin}" VerticalAlignment="Center"
                    RenderOptions.BitmapScalingMode="HighQuality"/>

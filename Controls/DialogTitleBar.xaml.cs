@@ -26,6 +26,7 @@ namespace KillerNotes.Controls
         public DialogTitleBar()
         {
             InitializeComponent();
+            DialogChrome.SharpenTitleIcon(TitleIcon);
         }
 
         private void ApplySubtitle(string? sub)
