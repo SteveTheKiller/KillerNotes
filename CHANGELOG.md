@@ -33,6 +33,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The uninstaller has its own taskbar button, labeled "Uninstall KillerNotes", with the app icon.
 - Selected language and theme rows keep the active accent on hover.
 - Main window and dialog title bar icons now use sharp size-matched images.
+- Delirium context-menu dividers now use subtle gray.
 
 ## [1.3.2] - 2026-09-30
 

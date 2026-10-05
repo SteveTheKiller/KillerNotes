@@ -743,6 +743,8 @@ namespace KillerNotes.Services
                 }
                 catch { /* overlay file not present - base theme stands */ }
             }
+            SetIfAbsent(newDict, "MenuSeparatorBrush", newDict["MenuBorderBrush"]);
+            SetIfAbsent(newDict, "SketchMenuSeparatorBrush", newDict["CardBorderBrush"]);
             // DO NOT enable IsInactiveSelectionHighlightEnabled on the editors, and do not try to
             // theme SystemColors.InactiveSelectionHighlightBrushKey to support it. Both were tried
             // on 2026-08-08: WPF's inactive highlight paints the USER'S WINDOWS ACCENT COLOR at

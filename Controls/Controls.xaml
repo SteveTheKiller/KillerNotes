@@ -831,7 +831,9 @@
          the implicit style is themed. Family gap noted in code/CLAUDE.md; Killendar has
          the same alias. -->
     <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator"
-           BasedOn="{StaticResource ThemedSeparator}"/>
+           BasedOn="{StaticResource ThemedSeparator}">
+        <Setter Property="Background" Value="{DynamicResource MenuSeparatorBrush}"/>
+    </Style>
 
     <!-- Card Border -->
     <Style x:Key="Card" TargetType="Border">

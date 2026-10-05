@@ -415,7 +415,7 @@ namespace KillerNotes.Controls.Sketch
             var line = new FrameworkElementFactory(typeof(Border));
             line.SetValue(Border.HeightProperty, 1.0);
             line.SetValue(Border.MarginProperty, new Thickness(12, 4, 12, 4));
-            line.SetResourceReference(Border.BackgroundProperty, "CardBorderBrush");
+            line.SetResourceReference(Border.BackgroundProperty, "SketchMenuSeparatorBrush");
             return new Separator { Template = new ControlTemplate(typeof(Separator)) { VisualTree = line } };
         }
 
