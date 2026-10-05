@@ -56,6 +56,8 @@ namespace KillerNotes.Shell
                     HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
                     VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                     Background = Brushes.Transparent,
+                    BorderThickness = new Thickness(0),
+                    BorderBrush = Brushes.Transparent,
                 };
                 _previewViewer.SetResourceReference(Control.ForegroundProperty, "TextBrush");
                 _previewViewer.AddHandler(Hyperlink.RequestNavigateEvent,
@@ -116,15 +118,13 @@ namespace KillerNotes.Shell
             catch { /* no browser - ignore */ }
         }
 
-        /// <summary>Rounds the preview's outer corners to match the note pane. Split sits on the
-        /// right, so it owns the two right corners; Rendered fills the pane and also owns the
-        /// bottom-left. The top-left always meets the editor or the format bar.</summary>
+        /// <summary>The top meets the format bar; only the outer bottom corners are rounded.</summary>
         private void ApplyPreviewCorners()
         {
             var r = TryFindResource("PanelCornerRadius") is CornerRadius cr ? cr : new CornerRadius(4);
             PreviewPane.CornerRadius = _previewMode == PreviewMode.Rendered
-                ? new CornerRadius(0, r.TopRight, r.BottomRight, r.BottomLeft)
-                : new CornerRadius(0, r.TopRight, r.BottomRight, 0);
+                ? new CornerRadius(0, 0, r.BottomRight, r.BottomLeft)
+                : new CornerRadius(0, 0, r.BottomRight, 0);
         }
 
         private string EditorPlainText() =>
@@ -292,6 +292,7 @@ namespace KillerNotes.Shell
             // Only Split has a draggable divider, and only Split needs the limits that keep either
             // side from being dragged away to nothing. The other modes set a column to 0.
             bool split = mode == PreviewMode.Split;
+            PreviewDividerCol.Width = new GridLength(split ? 6 : 0);
             EditorCol.MinWidth = split ? 200 : 0;
             PreviewCol.MinWidth = split ? 200 : 0;
             PreviewSplitter.Visibility = split ? Visibility.Visible : Visibility.Collapsed;

@@ -22,6 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 - Previews render Markdown and HTML together and preserve angle-bracket placeholders and code examples.
+- Removed the preview's inset frame and restored dragging its split-view divider.
 - Pressing F4 to leave the preview no longer crashes with an "Unknown Hard Error".
 - The notes list no longer fades its last row when scrolled all the way to the bottom.
 - The mouse wheel scrolls the notes list a full step per notch again.

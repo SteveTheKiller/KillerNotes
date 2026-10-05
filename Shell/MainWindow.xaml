@@ -1817,6 +1817,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition x:Name="GutterCol" Width="0"/>
                         <ColumnDefinition x:Name="EditorCol" Width="*"/>
+                        <ColumnDefinition x:Name="PreviewDividerCol" Width="0"/>
                         <ColumnDefinition x:Name="PreviewCol" Width="0"/>
                         <!-- The outline of headings (Headings.cs / Alt+O), 0-wide until opened. -->
                         <ColumnDefinition x:Name="OutlineCol" Width="0"/>
@@ -1983,19 +1984,26 @@
                          (PaneBrush) and a step lighter than the window (BackgroundBrush), so the
                          preview reads as chrome beside the paper rather than as more paper. Its
                          outer corners follow the pane (Preview.cs ApplyPreviewCorners). -->
-                    <Border x:Name="PreviewPane" Grid.Column="2" Visibility="Collapsed"
+                    <Border x:Name="PreviewPane" Grid.Column="3" Visibility="Collapsed"
                             Background="{DynamicResource SurfaceBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
-                            Padding="5,0,0,0" Margin="0"/>
-                    <!-- Split-mode divider (Preview.cs SetPreviewMode), on the preview's left padding. -->
-                    <GridSplitter x:Name="PreviewSplitter" Grid.Column="2" Width="6" HorizontalAlignment="Left"
-                                  VerticalAlignment="Stretch" ResizeDirection="Columns" ResizeBehavior="PreviousAndCurrent"
-                                  Background="Transparent" Cursor="SizeWE" Focusable="False" Visibility="Collapsed"/>
+                            Padding="0" Margin="0"/>
+                    <!-- The divider has its own column so its hit area cannot overlap the viewer. -->
+                    <GridSplitter x:Name="PreviewSplitter" Grid.Column="2" Panel.ZIndex="50"
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                  ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"
+                                  Background="Transparent" Cursor="SizeWE" Focusable="False" Visibility="Collapsed">
+                        <GridSplitter.Template>
+                            <ControlTemplate TargetType="GridSplitter">
+                                <Border Background="{TemplateBinding Background}"/>
+                            </ControlTemplate>
+                        </GridSplitter.Template>
+                    </GridSplitter>
                     <!-- ══════════ OUTLINE (Headings.cs) ══════════ -->
                     <!-- The open note's headings, one row per heading indented by level; a click
                          scrolls the editor there. Same pane treatment as the preview beside it.
                          Rows are built in code (RefreshOutline) with the OutlineRow style below. -->
-                    <Border x:Name="OutlinePane" Grid.Column="3" Visibility="Collapsed"
+                    <Border x:Name="OutlinePane" Grid.Column="4" Visibility="Collapsed"
                             Background="{DynamicResource SurfaceBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
                             Margin="0">
