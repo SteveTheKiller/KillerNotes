@@ -45,6 +45,7 @@ namespace KillerNotes.Shell
             dlg.ShowDialog();
             if (dlg.ChosenVersion < 0) return;
 
+            string titleBefore = NoteStore.CaptureRow(id)?.Title ?? "";
             if (!NoteStore.RestoreVersion(id, dlg.ChosenVersion)) return;
             // Links are derived from the text on every save; the restored text has its own.
             if (NoteStore.LoadVersion(dlg.ChosenVersion) is { } v)
@@ -55,6 +56,9 @@ namespace KillerNotes.Shell
             else { OpenNote(id); SelectNoteInList(id); }
             RefreshBacklinks();
             FlashStatus(string.Format(Loc("Str_St_VersionRestored"), dlg.ChosenSaved.ToString("yyyy-MM-dd HH:mm")));
+            string titleAfter = _notes.FirstOrDefault(n => n.Id == id)?.Title ?? "";
+            RecordRename(id, titleBefore, titleAfter);
+            FlushPendingRename();
         }
     }
 }
