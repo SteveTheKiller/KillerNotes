@@ -129,13 +129,14 @@ namespace KillerNotes.Shell
         {
             _accentStripHost = new Grid { Width = 0, ClipToBounds = true };
             Grid.SetColumn(_accentStripHost, 1);
-            _accentStripHost.Children.Add(new Border
+            var divider = new Border
             {
                 Width = 1,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Margin = new Thickness(0, 6, 0, 6),
-                Background = (Brush)FindResource("MenuBorderBrush")
-            });
+            };
+            divider.SetResourceReference(Border.BackgroundProperty, "MenuBorderBrush");
+            _accentStripHost.Children.Add(divider);
             _accentStrip = new Grid { Margin = new Thickness(7, 6, 2, 6) };
             for (int i = 0; i < 8; i++)
             {

@@ -21,6 +21,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Selected states now use subtle gradients outside 98SE, Light buttons have softer gray borders, and yellow wordmarks match their accent.
 
 ### Fixed
+- The theme picker's divider updates when switching themes.
 - Previews render Markdown and HTML together and preserve angle-bracket placeholders and code examples.
 - Removed the preview's inset frame and restored dragging its split-view divider.
 - Pressing F4 to leave the preview no longer crashes with an "Unknown Hard Error".
