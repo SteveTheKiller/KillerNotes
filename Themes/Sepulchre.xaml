@@ -72,7 +72,7 @@
 
     <SolidColorBrush x:Key="RowAltBrush" Color="#18ffffff" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
-<SolidColorBrush x:Key="RowHoverBrush" Color="#4faaa8" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+<SolidColorBrush x:Key="RowHoverBrush" Color="#387877" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
 <LinearGradientBrush x:Key="SelectionBg" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#487074" Offset="0"/><GradientStop Color="#204A4D" Offset="1"/></LinearGradientBrush>
 
@@ -104,4 +104,5 @@
 
     <LinearGradientBrush x:Key="TitleBarBrush" StartPoint="0,0.5" EndPoint="1,0.5" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"><GradientStop Color="#25282b" Offset="0" /><GradientStop Color="#2c5458" Offset="1" /></LinearGradientBrush>
 
+    <SolidColorBrush x:Key="ComboHighlightTextBrush" Color="#FFFFFF"/>
 </ResourceDictionary>
