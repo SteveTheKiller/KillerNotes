@@ -38,6 +38,20 @@ namespace KillerNotes.Shell
         private static readonly object _auditGate = new();
         private static int _auditMismatches;
 
+        private static void AuditTiming(string stage, double milliseconds, int count)
+        {
+            try
+            {
+                lock (_auditGate)
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(AuditLogPath)!);
+                    File.AppendAllText(AuditLogPath, string.Format(CultureInfo.InvariantCulture,
+                        "{0:yyyy-MM-dd HH:mm:ss.fff} timing {1}: {2:F3} ms, count={3}\n", DateTime.Now, stage, milliseconds, count));
+                }
+            }
+            catch { }
+        }
+
         private static string AuditLogPath => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "KillerNotes", "syntax-audit.log");

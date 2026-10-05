@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -92,6 +93,30 @@ namespace KillerNotes.Shell
         private readonly Dictionary<Paragraph, int> _syntaxFlatIndex = [];
         private bool _syntaxFlatDirty = true;
         private bool _syntaxRepaintQueued;
+        private long _fenceVersion = -1;
+        private KillerNotes.Services.MarkdownFence _fenceReader = new();
+        private readonly List<CodeLanguage?> _fenceLanguages = [];
+        private readonly List<List<(int Start, string Text, string? Language)>> _fenceParts = [];
+
+        private CodeLanguage? FenceLanguageAt(int index)
+        {
+            if (_fenceVersion != _syntaxDocVersion)
+            {
+                _fenceVersion = _syntaxDocVersion;
+                _fenceReader = new KillerNotes.Services.MarkdownFence();
+                _fenceLanguages.Clear();
+                _fenceParts.Clear();
+            }
+            while (_fenceLanguages.Count <= index)
+            {
+                string text = ParagraphCodeText(_syntaxFlat[_fenceLanguages.Count]).TrimEnd('\r', '\n');
+                var parts = _fenceReader.ReadParagraph(text);
+                _fenceParts.Add(parts);
+                string? name = parts[parts.Count - 1].Language;
+                _fenceLanguages.Add(name == null ? null : Enum.TryParse(name, out CodeLanguage language) ? language : CodeLanguage.Plain);
+            }
+            return _fenceLanguages[index];
+        }
         // Never tokenise a pathological paragraph. net48's regex engine matches recursively on
         // the thread stack, and one enormous paragraph (a whole script pasted as LineBreaks, a
         // minified blob) is how the paste crashed with a StackOverflowException. VS Code caps
@@ -224,6 +249,7 @@ namespace KillerNotes.Shell
         private void ApplySyntaxHighlighting()
         {
             if (_applyingSyntax) return;
+            var passWatch = SyntaxAudit ? Stopwatch.StartNew() : null;
             _applyingSyntax = true;
             try
             {
@@ -330,7 +356,10 @@ namespace KillerNotes.Shell
                         // the paragraph contains, and every offset below is fed to ResolveOffsets,
                         // which walks pointer contexts. See the note on ParagraphCodeText.
                         string text = ParagraphCodeText(p).TrimEnd('\r', '\n');
-                        if (had && prev.Text == text)
+                        bool markdown = CurrentIsMarkdown || DocumentLooksMarkdown();
+                        CodeLanguage? fenced = markdown ? FenceLanguageAt(i) : null;
+                        CodeLanguage effective = fenced ?? (markdown ? CodeLanguage.Markdown : DetectLanguage(text));
+                        if (had && prev.Text == text && !markdown)
                         {
                             _syntaxSeen[p] = (prev.Text, prev.Lang, _syntaxDocVersion, prev.OpenComment);
                             inComment = prev.OpenComment;
@@ -376,6 +405,24 @@ namespace KillerNotes.Shell
                         // between two headings carries no signal of its own - it came back Plain
                         // and lost its list and emphasis markers while its neighbors kept theirs.
                         CodeLanguage language;
+                        if (markdown)
+                        {
+                            var tokens = new List<(int Start, int Length, Color Color)>();
+                            foreach (var part in _fenceParts[i])
+                            {
+                                CodeLanguage partLanguage = part.Language == null ? CodeLanguage.Markdown :
+                                    Enum.TryParse(part.Language, out CodeLanguage parsed) ? parsed : CodeLanguage.Plain;
+                                if (partLanguage == CodeLanguage.Markdown || partLanguage != context) inComment = false;
+                                bool comment = inComment;
+                                inComment = comment ? !ClosesBlockComment(part.Text, partLanguage) : OpensBlockComment(part.Text, partLanguage);
+                                context = partLanguage;
+                                foreach (var token in CollectSyntaxTokens(part.Text, partLanguage, comment))
+                                    tokens.Add((part.Start + token.Start, token.Length, token.Color));
+                            }
+                            _syntaxSeen[p] = (text, context, _syntaxDocVersion, inComment);
+                            if (tokens.Count > 0) { _syntaxColored.Add(p); PaintTokens(p, text, tokens, context); }
+                            continue;
+                        }
                         if (inComment)
                         {
                             // INSIDE a block comment that opened in an earlier paragraph. The whole
@@ -388,10 +435,8 @@ namespace KillerNotes.Shell
                             HighlightParagraph(p, text, language, wholeIsComment: true);
                             continue;
                         }
-                        language = CurrentIsMarkdown || DocumentLooksMarkdown()
-                            ? CodeLanguage.Markdown
-                            : DetectLanguage(text);
-                        if (language == CodeLanguage.Plain && context != CodeLanguage.Plain && LooksLikeCode(text))
+                        language = effective;
+                        if (!markdown && language == CodeLanguage.Plain && context != CodeLanguage.Plain && LooksLikeCode(text))
                             language = context;
                         context = language;
                         // Does this paragraph leave a block comment open? Tested against the
@@ -405,7 +450,11 @@ namespace KillerNotes.Shell
                 }
                 finally { if (changeOpen) Editor.EndChange(); }
             }
-            finally { _applyingSyntax = false; }
+            finally
+            {
+                _applyingSyntax = false;
+                if (passWatch != null) AuditTiming("pass", passWatch.Elapsed.TotalMilliseconds, _syntaxFlat.Count);
+            }
         }
 
         /// <summary>Index in the flat paragraph list of the paragraph under the editor's top-left
@@ -536,17 +585,23 @@ namespace KillerNotes.Shell
         private void HighlightParagraph(Paragraph paragraph, string s, CodeLanguage language,
                                         bool wholeIsComment = false)
         {
-            if (string.IsNullOrEmpty(s)) return;
             _syntaxColored.Add(paragraph);
+            PaintTokens(paragraph, s, CollectSyntaxTokens(s, language, wholeIsComment), language);
+        }
+
+        private static List<(int Start, int Length, Color Color)> CollectSyntaxTokens(string s, CodeLanguage language, bool wholeIsComment)
+        {
             var tokens = new List<(int Start, int Length, Color Color)>();
+            if (string.IsNullOrEmpty(s) || language == CodeLanguage.Plain) return tokens;
+            var tokenWatch = SyntaxAudit ? Stopwatch.StartNew() : null;
             if (wholeIsComment)
             {
                 // Every character is inside a comment that opened earlier. One token, no rules -
                 // this is what stops "for RMM compatibility" inside a .SYNOPSIS block from having
                 // its "for" painted as a keyword.
                 tokens.Add((0, s.Length, SynComment));
-                PaintTokens(paragraph, s, tokens, language);
-                return;
+                if (tokenWatch != null) AuditTiming("tokenize", tokenWatch.Elapsed.TotalMilliseconds, s.Length);
+                return tokens;
             }
             string comments = language switch
             {
@@ -634,7 +689,8 @@ namespace KillerNotes.Shell
                 Add(tokens, s, @"\b[A-Z][A-Za-z0-9_]*\b", SynType);
                 Add(tokens, s, @"\b[A-Za-z_][A-Za-z0-9_]*(?=\s*\()", SynVariable);
             }
-            PaintTokens(paragraph, s, tokens, language);
+            if (tokenWatch != null) AuditTiming("tokenize", tokenWatch.Elapsed.TotalMilliseconds, s.Length);
+            return tokens;
         }
 
         /// <summary>Resolves every token boundary in one walk and paints back to front. Split out
@@ -644,12 +700,14 @@ namespace KillerNotes.Shell
                                  CodeLanguage language = CodeLanguage.Plain)
         {
             if (tokens.Count == 0) return;
+            var watch = SyntaxAudit ? Stopwatch.StartNew() : null;
 
             // Resolve every boundary in ONE walk, then paint. Two lookups per token, each
             // restarting from ContentStart, was the hot spot on a long paragraph.
             var offsets = new SortedSet<int>();
             foreach (var t in tokens) { offsets.Add(t.Start); offsets.Add(t.Start + t.Length); }
             var at = ResolveOffsets(paragraph, offsets);
+            if (watch != null) { AuditTiming("resolve", watch.Elapsed.TotalMilliseconds, tokens.Count); watch.Restart(); }
 
             // Still back to front: ApplyPropertyValue splits runs, and painting from the end means
             // the structural churn happens behind the pointers still waiting to be used.
@@ -668,6 +726,7 @@ namespace KillerNotes.Shell
 
             // Prove it, when asked to. Reads the finished paragraph back and compares what carries
             // a syntax color against what the tokenizer asked for (SyntaxAudit.cs). Off by default.
+            if (watch != null) AuditTiming("paint", watch.Elapsed.TotalMilliseconds, tokens.Count);
             if (SyntaxAudit) AuditParagraph(paragraph, s, tokens, language);
         }
 
