@@ -927,7 +927,7 @@ namespace KillerNotes.SharedPicker
         /// </summary>
         private int _pickerIconSize = 32;
         private int _pickerWheelDelta;
-        private static readonly int[] PickerIconSizes = { 16, 32, 48, 96 };
+        private static readonly int[] PickerIconSizes = [16, 32, 48, 96];
 
         private void ChangePickerView(int delta)
         {
@@ -1109,7 +1109,7 @@ namespace KillerNotes.SharedPicker
             DragMove();
         }
 
-        private readonly List<string> _keyboardHistory = new();
+        private readonly List<string> _keyboardHistory = [];
         private int _keyboardHistoryIndex = -1;
         private bool _keyboardHistoryTravel;
 

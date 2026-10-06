@@ -182,7 +182,7 @@ namespace KillerNotes.Shell
                         foreach (string key in new[] { TemplatesGroupSetting, DailyGroupSetting })
                         {
                             string? chosen = DbScopedSetting(key);
-                            if (chosen != null && (string.Equals(chosen, path, StringComparison.OrdinalIgnoreCase) || chosen.StartsWith(path + NoteStore.GroupSep, StringComparison.OrdinalIgnoreCase))) SetDbScopedSetting(key, renamed + chosen.Substring(path.Length));
+                            if (chosen != null && (string.Equals(chosen, path, StringComparison.OrdinalIgnoreCase) || chosen.StartsWith(path + NoteStore.GroupSep, StringComparison.OrdinalIgnoreCase))) SetDbScopedSetting(key, renamed + chosen[path.Length..]);
                         }
                         result.Content = renamed;
                     }

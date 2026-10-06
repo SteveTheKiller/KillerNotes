@@ -18,17 +18,17 @@ namespace KillerNotes.Shell
 
         private static Border CreateDatabaseLoadingOverlay(string text)
         {
+            var rotation = new RotateTransform();
             var spinner = new Ellipse
             {
                 Width = 34, Height = 34, StrokeThickness = 3,
                 StrokeDashArray = [5.5, 3.5],
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Margin = new Thickness(0, 0, 0, 14),
-                RenderTransformOrigin = new Point(0.5, 0.5)
+                RenderTransformOrigin = new Point(0.5, 0.5),
+                Stroke = Brushes.White,
+                RenderTransform = rotation
             };
-            spinner.Stroke = Brushes.White;
-            var rotation = new RotateTransform();
-            spinner.RenderTransform = rotation;
             rotation.BeginAnimation(RotateTransform.AngleProperty,
                 new DoubleAnimation(0, 360, new Duration(TimeSpan.FromSeconds(0.9)))
                 { RepeatBehavior = RepeatBehavior.Forever });

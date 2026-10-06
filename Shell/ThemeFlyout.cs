@@ -233,7 +233,7 @@ namespace KillerNotes.Shell
             _ => DarkStripColors,
         };
 
-        private static readonly Dictionary<(Theme, Accent), Brush> AccentStripBrushes = new();
+        private static readonly Dictionary<(Theme, Accent), Brush> AccentStripBrushes = [];
 
         private static Brush AccentStripBrush(Theme family, Accent accent, string flatColor)
         {

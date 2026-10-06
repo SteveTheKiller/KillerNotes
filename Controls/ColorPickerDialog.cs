@@ -387,7 +387,7 @@ namespace KillerNotes.Controls
                 Left = SystemParameters.VirtualScreenLeft, Top = SystemParameters.VirtualScreenTop,
                 Width = SystemParameters.VirtualScreenWidth, Height = SystemParameters.VirtualScreenHeight, Owner = this
             };
-            Action pickPixel = () =>
+            void PickPixel()
             {
                 // GetCursorPos returns physical screen pixels; the desktop DC's GetPixel uses the same
                 // space, so this is correct regardless of per-monitor DPI scaling.
@@ -401,12 +401,12 @@ namespace KillerNotes.Controls
                     return;
                 }
                 capture.DialogResult = false; capture.Close();
-            };
-            capture.MouseLeftButtonDown += (_, _) => pickPixel();
+            }
+            capture.MouseLeftButtonDown += (_, _) => PickPixel();
             capture.KeyDown += (_, e) =>
             {
                 if (e.Key == Key.Escape) { capture.DialogResult = false; e.Handled = true; }
-                else if (e.Key == Key.Enter) { pickPixel(); e.Handled = true; }
+                else if (e.Key == Key.Enter) { PickPixel(); e.Handled = true; }
                 else if (e.Key is Key.Left or Key.Right or Key.Up or Key.Down)
                 {
                     if (GetCursorPos(out POINT pt))
