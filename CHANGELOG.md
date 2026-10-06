@@ -25,6 +25,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The language menu now shows its 19 languages in two columns.
 - Selected states and accent picker pills use matching gradients outside 98SE, Light buttons have softer gray borders, and yellow wordmarks match their accent.
 - Menu rows now show accent text and icons on the theme's hover color.
+- Line numbers use a numbered-row icon to distinguish them from the heading outline.
 
 ### Fixed
 - Pressing F4 to leave the preview no longer crashes with an "Unknown Hard Error".

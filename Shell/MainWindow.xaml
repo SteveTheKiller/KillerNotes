@@ -363,12 +363,35 @@
                         <Button x:Name="DensityBtn" Style="{StaticResource RailButton}" Content="&#xE8A1;"
                                 Margin="0,0,0,10" Click="Density_Click" PreviewMouseWheel="Density_MouseWheel"
                                 ToolTip="{DynamicResource Str_TT_Density}"/>
-                        <!-- Line-number gutter toggle (LineNumbers.cs / Alt+L). RailButton renders
-                             Content AS a glyph (Text=TemplateBinding Content), so this must be
-                             Content, not a child element. EA37 = the numbered-list glyph. -->
-                        <Button x:Name="LineNumBtn" Style="{StaticResource RailButton}" Content="&#xEA37;"
+                        <!-- Numbered rows distinguish the gutter toggle from the heading outline. -->
+                        <Button x:Name="LineNumBtn"
                                 Margin="0,0,0,10" Click="LineNumbers_Click"
-                                ToolTip="{DynamicResource Str_TT_LineNumbers}"/>
+                                ToolTip="{DynamicResource Str_TT_LineNumbers}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource RailButton}">
+                                    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="Transparent">
+                                                    <Grid Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <Grid.Effect>
+                                                            <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="2" Direction="270" Opacity="{DynamicResource IconShadowOpacity}"/>
+                                                        </Grid.Effect>
+                                                        <TextBlock Text="1&#xA;2" FontFamily="Consolas" FontSize="8" LineHeight="8" LineStackingStrategy="BlockLineHeight" Foreground="{TemplateBinding Foreground}"/>
+                                                        <Path Data="M 7,4 L 16,4 M 7,12 L 16,12" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                                                    </Grid>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="Tag" Value="on"><Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/></Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True"><Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/></Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                         <!-- Outline of the open note's headings (Headings.cs / Alt+O). E700 = the
                              stacked-lines glyph; accent-colored while the pane is open. -->
                         <Button x:Name="OutlineRailBtn" Style="{StaticResource RailButton}" Content="&#xE700;"
