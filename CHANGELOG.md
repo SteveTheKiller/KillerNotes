@@ -6,6 +6,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.4.1] - Unreleased
 
+### Fixed
+- Moved the shortcuts guide link away from the close button.
+
 ## [1.4.0] - 2026-10-06
 
 1.4.0 replaces the legacy preview engine, adds outgoing links and code highlighting, and improves editing, recovery, and navigation.

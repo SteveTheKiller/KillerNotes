@@ -2972,7 +2972,7 @@
                                     <Button x:Name="KsViewKeyboardBtn" Style="{StaticResource KsTabBtn}"
                                             Content="{DynamicResource Str_KS_ViewKeyboard}" Click="KsViewKeyboard_Click"/>
                                 </StackPanel>
-                            <TextBlock Grid.Column="2" FontSize="12" Margin="12,0,0,0" MaxWidth="210"
+                            <TextBlock Grid.Column="2" FontSize="12" Margin="12,0,24,0" MaxWidth="210"
                                        HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right" TextWrapping="Wrap">
                                 <Hyperlink NavigateUri="https://killernotes.net/help.html#shortcuts"
                                            RequestNavigate="Hyperlink_RequestNavigate"
