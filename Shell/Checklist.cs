@@ -48,7 +48,7 @@ namespace KillerNotes.Shell
         /// takes them all off. A collapsed selection means the caret's line.</summary>
         private void ToggleChecklist()
         {
-            if (_currentId < 0 || _currentInTrash) return;
+            if (_currentId < 0 || _currentInTrash || NoteStore.IsReadOnly) return;
             var paras = ParagraphsInSelection();
             if (paras.Count == 0) return;
             bool md = CurrentIsMarkdown;
@@ -175,7 +175,7 @@ namespace KillerNotes.Shell
             // Plain single click only: Ctrl+Click is the wikilink gesture, and a double-click
             // over the box is a word selection the editor should keep.
             if (Keyboard.Modifiers != ModifierKeys.None || e.ClickCount != 1) return;
-            if (_currentId < 0 || _currentInTrash) return;
+            if (_currentId < 0 || _currentInTrash || NoteStore.IsReadOnly) return;
             var p = BoxUnder(e.GetPosition(Editor));
             if (p == null) return;
             e.Handled = true;   // the caret stays where it was
@@ -185,7 +185,7 @@ namespace KillerNotes.Shell
         private void Checklist_MouseMove(object sender, MouseEventArgs e)
         {
             if (Keyboard.Modifiers != ModifierKeys.None) return;   // Ctrl: the wikilink hand
-            bool over = _currentId >= 0 && !_currentInTrash && BoxUnder(e.GetPosition(Editor)) != null;
+            bool over = _currentId >= 0 && !_currentInTrash && !NoteStore.IsReadOnly && BoxUnder(e.GetPosition(Editor)) != null;
             if (over) { Editor.Cursor = Cursors.Hand; _checkHand = true; }
             else if (_checkHand) { Editor.Cursor = null; _checkHand = false; }
         }
@@ -195,7 +195,7 @@ namespace KillerNotes.Shell
         private void Checklist_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Return || Keyboard.Modifiers != ModifierKeys.None) return;
-            if (_currentId < 0 || _currentInTrash || WikiPopupOpen) return;
+            if (_currentId < 0 || _currentInTrash || NoteStore.IsReadOnly || WikiPopupOpen) return;
             if (Editor.CaretPosition.Paragraph is not Paragraph p) return;
             bool md = CurrentIsMarkdown;
             string text = TextOf(p);

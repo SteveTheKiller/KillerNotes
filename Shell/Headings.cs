@@ -32,7 +32,7 @@ namespace KillerNotes.Shell
         /// text for 0. A collapsed selection means the caret's line.</summary>
         private void SetHeadingLevel(int level)
         {
-            if (_currentId < 0 || _currentInTrash) return;
+            if (_currentId < 0 || _currentInTrash || NoteStore.IsReadOnly) return;
             var paras = ParagraphsInSelection();   // Checklist.cs
             if (paras.Count == 0) return;
             level = Math.Max(0, Math.Min(Headings.MaxLevel, level));
@@ -56,7 +56,7 @@ namespace KillerNotes.Shell
         /// <summary>The format bar button: normal -> h1 -> h2 -> h3 -> normal on the caret's line.</summary>
         private void Heading_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentId < 0 || _currentInTrash) return;
+            if (_currentId < 0 || _currentInTrash || NoteStore.IsReadOnly) return;
             int current = Editor.CaretPosition.Paragraph is Paragraph p ? HeadingLevelOf(p) : 0;
             SetHeadingLevel((current + 1) % (Headings.MaxLevel + 1));
         }

@@ -22,6 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Selected states now use subtle gradients outside 98SE, Light buttons have softer gray borders, and yellow wordmarks match their accent.
 
 ### Fixed
+- Read-only notebooks reject checklist and heading changes.
 - Templates and daily notes use the latest title edits immediately.
 - Cross-note replacement handles formatted text correctly and keeps links accurate through undo (#14).
 - Fixed picker, dialog, Graph, and SketchPad frame corners and close-button hover contrast.
