@@ -2711,19 +2711,19 @@
                                         <DropShadowEffect Color="Black" BlurRadius="14" ShadowDepth="2" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                                     </Border.Effect>
                                 </Border>
-                                <!-- ONE tone, 1px. This is a grouping box on a card, not a client
-                                     area - Win98 gives it the shallowest recess it has, the same
-                                     one a status-bar cell gets. The full two-tone PaneBevel* pair
-                                     belongs to things you scroll and type into (the notes list, the
-                                     editor, the file list); putting it here drew a black rule with
-                                     a gray one beside it and read as two stripes rather than an
-                                     edge. (2026-08-07) -->
+                                <!-- Match the sidebar's two-tone recessed edge in 98SE. -->
                                 <Border Panel.ZIndex="3" IsHitTestVisible="False"
                                         BorderBrush="{DynamicResource PaneBevelDarkBrush}"
-                                        BorderThickness="{DynamicResource FooterCellLightThickness}"/>
+                                        BorderThickness="{DynamicResource PaneBevelLightThickness}"/>
                                 <Border Panel.ZIndex="3" IsHitTestVisible="False"
                                         BorderBrush="{DynamicResource PaneBevelLightBrush}"
-                                        BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
+                                        BorderThickness="{DynamicResource PaneBevelDarkThickness}"/>
+                                <Border Panel.ZIndex="3" IsHitTestVisible="False" Margin="{DynamicResource PaneBevelInnerMargin}"
+                                        BorderBrush="{DynamicResource PaneBevelDark2Brush}"
+                                        BorderThickness="{DynamicResource PaneBevel2LightThickness}"/>
+                                <Border Panel.ZIndex="3" IsHitTestVisible="False" Margin="{DynamicResource PaneBevelInnerMargin}"
+                                        BorderBrush="{DynamicResource PaneBevelLight2Brush}"
+                                        BorderThickness="{DynamicResource PaneBevel2DarkThickness}"/>
                                 <!-- Same fill as a context menu, film grain included. The padding moved
                                      off the Border onto the StackPanel so the grain tile covers the panel
                                      edge to edge instead of stopping at the padding. Grain sits BEHIND the
@@ -2768,15 +2768,6 @@
                                             <TextBlock x:Name="AboutSha256Block" Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11" TextWrapping="NoWrap" Margin="0,1,0,0"/>
                                         </StackPanel>
                                     </StackPanel>
-                                    <!-- SUNKEN bevel: the brushes are crossed relative to a raised
-                                         control - dark on the top/left, light on the bottom/right -
-                                         which is how Win98 drew a recessed client area. The same swap
-                                         Controls.xaml does on a pressed button. Transparent and
-                                         zero-thickness on the other twelve themes, so it draws nothing. -->
-                                    <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}"
-                                            BorderThickness="4,4,0,0"/>
-                                    <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
-                                            BorderThickness="{DynamicResource BevelDarkThickness}"/>
                                   </Grid>
                                 </Border>
                             </Grid>

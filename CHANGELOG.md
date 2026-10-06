@@ -47,7 +47,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The shortcuts list uses the keyboard map's category colors throughout, with the in-note find section in the left column and an aligned online help link in both views.
 - Selected language and theme rows keep the active accent on hover.
 - The theme picker's divider updates when switching themes.
-- The theme menu's Fonts row has compact spacing and a faint fading divider; 98SE keeps flat accent swatches and a properly beveled link strip.
+- The theme menu's Fonts row has compact spacing and a faint fading divider; 98SE keeps flat accent swatches, a beveled link strip, and About panel edges matching the sidebar.
 - The uninstaller has its own taskbar button, labeled "Uninstall KillerNotes", with the app icon.
 - Install and uninstall windows now show the film grain and the app icon in the title bar.
 - Main window and dialog title bar icons now use sharp size-matched images.
