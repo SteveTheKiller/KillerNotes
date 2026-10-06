@@ -44,7 +44,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Fixed picker, dialog, Graph, and SketchPad frame corners, close-button hover contrast, and the corner alignment of SketchPad and Dictation close buttons.
 - Restored slider tracks and corrected selected note titles, database names and metadata, dialog selection, menu hover, toolbar icon, and footer contrast across themes, with subtle gray Delirium dividers.
 - The notes list keeps rounded selection corners at narrow widths and no longer fades its last row at the bottom.
-- The shortcuts list groups bindings under category headings in the same colors as the keyboard map.
+- The shortcuts list uses the keyboard map's category colors throughout, with the in-note find section in the left column.
 - Selected language and theme rows keep the active accent on hover.
 - The theme picker's divider updates when switching themes.
 - The Fonts... row in the theme menu lines up with the themes above it and has room underneath.

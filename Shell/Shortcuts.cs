@@ -26,8 +26,7 @@ namespace KillerNotes.Shell
         {
             // Main-window bindings are grouped by category, each under a heading in that
             // category's KnCat* color, the color its keys carry on the keyboard map (KillerPDF's
-            // list). The graph and SketchPad sections follow in table order under accent headings,
-            // since they are other windows rather than categories.
+            // list). Tool and dialog sections retain their category colors as well.
             var items = new List<(string Keys, string Label, string? Cat)>();   // empty Keys = heading
             int split = Array.FindIndex(KsTable, b => b.Keys.Length == 0 && b.Label.Length > 0);
             var main = (split < 0 ? KsTable : KsTable.Take(split))
@@ -41,15 +40,17 @@ namespace KillerNotes.Shell
             }
             if (split >= 0)
                 foreach (var b in KsTable.Skip(split).Where(b => b.Listed && (b.Keys.Length > 0 || b.Label.Length > 0)))
-                    items.Add((b.Keys, b.Label, null));
+                    items.Add((b.Keys, b.Label, b.Cat));
 
             // Two columns so the list fits the card; the left takes the extra row when odd.
             int perCol = (items.Count + 1) / 2;
             (string Label, string? Cat)? open = null;   // the heading the current row sits under
+            bool findSection = false;
             for (int i = 0; i < items.Count; i++)
             {
                 var (keys, label, cat) = items[i];
-                Panel column = i < perCol ? ShortcutColLeft : ShortcutColRight;
+                if (keys.Length == 0) findSection = label == "Str_KS_Find";
+                Panel column = i < perCol || findSection ? ShortcutColLeft : ShortcutColRight;
 
                 if (keys.Length == 0)
                 {
@@ -79,8 +80,8 @@ namespace KillerNotes.Shell
             }
         }
 
-        /// <summary>A section title in the shortcuts list, in its category's KnCat* color (or the
-        /// accent for the other-window sections) and spaced above, so it reads as a break rather
+        /// <summary>A section title in the shortcuts list, in its category's KnCat* color and
+        /// spaced above, so it reads as a break rather
         /// than as another binding with a missing key.</summary>
         private void AddSectionHeader(string labelKey, string? cat, Panel column, bool first)
         {
