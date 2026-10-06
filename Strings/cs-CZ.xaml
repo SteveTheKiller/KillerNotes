@@ -841,7 +841,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Obnovena verze z {0}. Nahrazený text je také v historii.</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">Nadpis: každým kliknutím řádek postupně projde úrovněmi 1 až 3 a zpět (Alt+1, 2, 3; Alt+0 pro normální text)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">Úroveň nadpisu (Alt+1, Alt+2, Alt+3; Alt+0 pro normální text)</sys:String>
     <sys:String x:Key="Str_KS_Headings">Nadpis úrovně 1, 2 nebo 3 na aktuálních řádcích</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">Zpět na normální text</sys:String>
     <sys:String x:Key="Str_Kb_Heading">Nadpis</sys:String>
@@ -910,4 +910,6 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_KS_PickerPreview">Zobrazit nebo skrýt panel náhledu</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">Předchozí nebo další složka</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Poznámky k vydání</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimalizovat panel nástrojů</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">Obnovit panel nástrojů</sys:String>
 </ResourceDictionary>

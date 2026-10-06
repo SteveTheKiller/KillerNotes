@@ -1,11 +1,14 @@
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Threading;
 using KillerNotes.Controls;
+using KillerNotes.Services;
 
 namespace KillerNotes.Shell
 {
@@ -31,6 +34,7 @@ namespace KillerNotes.Shell
 
         private void InitFormatBar()
         {
+            InitializeFormatBarMenus();
             var inv = CultureInfo.InvariantCulture;
             if (double.TryParse(App.GetSetting("FmtBarFrac"), NumberStyles.Float, inv, out double f) &&
                 f >= 0 && f <= 1)
@@ -290,6 +294,77 @@ namespace KillerNotes.Shell
                 else Restore();
             }
             App.SetSetting("FmtBarMin", _fmtMinimized ? "1" : "0");
+        }
+
+        private void InitializeFormatBarMenus()
+        {
+            var menu = new ContextMenu();
+            menu.PreviewKeyDown += FormatBarMenu_KeyDown;
+            FormatBar.ContextMenu = menu;
+            FormatBar.ContextMenuOpening += (_, e) =>
+            {
+                var source = e.OriginalSource as DependencyObject;
+                while (source != null && source is not Button)
+                    source = source is Visual ? VisualTreeHelper.GetParent(source) : LogicalTreeHelper.GetParent(source);
+                if (source is Button { ContextMenu: not null }) return;
+                menu.Items.Clear();
+                if (source == FmtHeadingBtn)
+                {
+                    for (int level = 1; level <= 3; level++)
+                    {
+                        int chosen = level;
+                        var item = new MenuItem { Header = string.Format(Loc("Str_St_Heading"), level), InputGestureText = "Alt+" + level, Tag = level,
+                            IsEnabled = NoteStore.IsOpen && !NoteStore.IsReadOnly && !_currentInTrash };
+                        item.Click += (_, _) => SetHeadingLevel(chosen);
+                        menu.Items.Add(item);
+                    }
+                    var normal = new MenuItem { Header = Loc("Str_St_HeadingOff"), InputGestureText = "Alt+0", Tag = 0,
+                        IsEnabled = NoteStore.IsOpen && !NoteStore.IsReadOnly && !_currentInTrash };
+                    normal.Click += (_, _) => SetHeadingLevel(0);
+                    menu.Items.Add(normal);
+                    menu.Items.Add(new Separator());
+                }
+                menu.Items.Add(FormatBarMinimizeItem());
+            };
+            foreach (var button in FmtButtons.Children.OfType<Button>().Where(b => b.ContextMenu != null))
+            {
+                var owned = button.ContextMenu!;
+                owned.PreviewKeyDown += FormatBarMenu_KeyDown;
+                var minimize = FormatBarMinimizeItem();
+                owned.Items.Add(new Separator());
+                owned.Items.Add(minimize);
+                owned.Opened += (_, _) => minimize.SetResourceReference(HeaderedItemsControl.HeaderProperty,
+                    _fmtMinimized ? "Str_Ctx_RestoreToolbar" : "Str_Ctx_MinimizeToolbar");
+            }
+        }
+
+        private void FormatBarMenu_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (sender is not ContextMenu menu) return;
+            var key = e.Key == System.Windows.Input.Key.System ? e.SystemKey : e.Key;
+            var mods = System.Windows.Input.Keyboard.Modifiers;
+            if (mods == System.Windows.Input.ModifierKeys.None && key == System.Windows.Input.Key.F6)
+            {
+                e.Handled = true;
+                if (!e.IsRepeat) { menu.IsOpen = false; ToggleFormatBar(); }
+            }
+            else if (ReferenceEquals(menu, FormatBar.ContextMenu) && mods == System.Windows.Input.ModifierKeys.Alt &&
+                     key >= System.Windows.Input.Key.D0 && key <= System.Windows.Input.Key.D3)
+            {
+                var item = menu.Items.OfType<MenuItem>().FirstOrDefault(i => i.Tag is int level && level == key - System.Windows.Input.Key.D0);
+                if (item?.IsEnabled != true) return;
+                e.Handled = true;
+                if (!e.IsRepeat) { menu.IsOpen = false; item.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent, item)); }
+            }
+        }
+
+        private MenuItem FormatBarMinimizeItem()
+        {
+            var item = new MenuItem { InputGestureText = "F6" };
+            item.SetResourceReference(HeaderedItemsControl.HeaderProperty,
+                _fmtMinimized ? "Str_Ctx_RestoreToolbar" : "Str_Ctx_MinimizeToolbar");
+            item.Click += FormatBarToggle_Click;
+            return item;
         }
 
         private void FormatBarToggle_Click(object sender, RoutedEventArgs e) => ToggleFormatBar();

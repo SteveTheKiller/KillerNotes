@@ -842,7 +842,7 @@
     <sys:String x:Key="Str_St_VersionRestored">{0} のバージョンを復元しました。置き換えられた内容も履歴に残っています。</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">見出し: クリックするたびに行が見出しレベル1から3まで進み、また戻ります (Alt+1、2、3。通常のテキストに戻すには Alt+0)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">見出しレベル (Alt+1、Alt+2、Alt+3; 通常のテキストは Alt+0)</sys:String>
     <sys:String x:Key="Str_KS_Headings">現在の行を見出しレベル1、2、3のいずれかにします</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">通常のテキストに戻す</sys:String>
     <sys:String x:Key="Str_Kb_Heading">見出し</sys:String>
@@ -911,4 +911,6 @@
     <sys:String x:Key="Str_KS_PickerPreview">プレビュー ペインを表示または非表示</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">前または次のフォルダー</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">リリースノート</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">ツールバーを最小化</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">ツールバーを復元</sys:String>
 </ResourceDictionary>

@@ -842,7 +842,7 @@
     <sys:String x:Key="Str_St_VersionRestored">已还原到 {0} 的版本。被替换的内容也保留在历史记录中。</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">标题: 每次点击都会让当前行依次变成1、2、3级标题，然后再变回普通文本 (Alt+1、2、3。恢复普通文本用 Alt+0)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">标题级别 (Alt+1、Alt+2、Alt+3; 普通文本用 Alt+0)</sys:String>
     <sys:String x:Key="Str_KS_Headings">把当前行设为1、2或3级标题</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">恢复为普通文本</sys:String>
     <sys:String x:Key="Str_Kb_Heading">标题</sys:String>
@@ -911,4 +911,6 @@
     <sys:String x:Key="Str_KS_PickerPreview">显示或隐藏预览窗格</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">上一个或下一个文件夹</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">发行说明</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">最小化工具栏</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">还原工具栏</sys:String>
 </ResourceDictionary>

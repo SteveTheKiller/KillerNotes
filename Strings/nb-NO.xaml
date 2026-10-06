@@ -892,7 +892,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Gjenopprettet versjonen fra {0}. Teksten den erstattet, ligger også i loggen.</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">Overskrift: hvert klikk går gjennom nivå 1 til 3 og tilbake (Alt+1, 2, 3; Alt+0 for vanlig tekst)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">Overskriftsnivå (Alt+1, Alt+2, Alt+3; Alt+0 for vanlig tekst)</sys:String>
     <sys:String x:Key="Str_KS_Headings">Overskriftsnivå 1, 2 eller 3 på gjeldende linjer</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">Tilbake til vanlig tekst</sys:String>
     <sys:String x:Key="Str_Kb_Heading">Overskrift</sys:String>
@@ -958,4 +958,6 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_KS_PickerPreview">Vis eller skjul forhåndsvisningsruten</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">Forrige eller neste mappe</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Versjonsmerknader</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimer verktøylinjen</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">Gjenopprett verktøylinjen</sys:String>
 </ResourceDictionary>

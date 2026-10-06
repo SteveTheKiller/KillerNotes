@@ -844,7 +844,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Version vom {0} wiederhergestellt. Der ersetzte Text ist ebenfalls im Verlauf.</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">Überschrift: Jeder Klick schaltet die Zeile durch die Ebenen 1 bis 3 und wieder zurück (Alt+1, 2, 3; Alt+0 für normalen Text)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">Überschriftenebene (Alt+1, Alt+2, Alt+3; Alt+0 für normalen Text)</sys:String>
     <sys:String x:Key="Str_KS_Headings">Überschriftsebene 1, 2 oder 3 auf den aktuellen Zeilen</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">Zurück zu normalem Text</sys:String>
     <sys:String x:Key="Str_Kb_Heading">Überschrift</sys:String>
@@ -913,4 +913,6 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_PickerPreview">Vorschaubereich ein- oder ausblenden</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">Vorheriger oder nächster Ordner</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Versionshinweise</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">Symbolleiste minimieren</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">Symbolleiste wiederherstellen</sys:String>
 </ResourceDictionary>

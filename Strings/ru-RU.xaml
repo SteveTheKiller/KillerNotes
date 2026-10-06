@@ -852,7 +852,7 @@
     <sys:String x:Key="Str_St_VersionRestored">Восстановлена версия от {0}. Заменённый текст тоже сохранён в истории.</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">Заголовок: каждый клик переключает строку по уровням с 1 по 3 и обратно (Alt+1, 2, 3; Alt+0 для обычного текста)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">Уровень заголовка (Alt+1, Alt+2, Alt+3; Alt+0 для обычного текста)</sys:String>
     <sys:String x:Key="Str_KS_Headings">Заголовок уровня 1, 2 или 3 на текущих строках</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">Вернуть обычный текст</sys:String>
     <sys:String x:Key="Str_Kb_Heading">Заголовок</sys:String>
@@ -921,4 +921,6 @@
     <sys:String x:Key="Str_KS_PickerPreview">Показать или скрыть панель предварительного просмотра</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">Предыдущая или следующая папка</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Примечания к выпуску</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">Свернуть панель инструментов</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">Восстановить панель инструментов</sys:String>
 </ResourceDictionary>

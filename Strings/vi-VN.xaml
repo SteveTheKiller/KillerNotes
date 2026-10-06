@@ -897,7 +897,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_St_VersionRestored">Đã khôi phục phiên bản từ {0}. Văn bản bị thay thế cũng nằm trong lịch sử.</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">Tiêu đề: mỗi lần nhấp chuyển dòng qua các cấp 1 đến 3 rồi trở lại (Alt+1, 2, 3; Alt+0 cho văn bản thường)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">Cấp tiêu đề (Alt+1, Alt+2, Alt+3; Alt+0 cho văn bản thường)</sys:String>
     <sys:String x:Key="Str_KS_Headings">Tiêu đề cấp 1, 2 hoặc 3 trên các dòng hiện tại</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">Trở về văn bản thường</sys:String>
     <sys:String x:Key="Str_Kb_Heading">Tiêu đề</sys:String>
@@ -964,4 +964,6 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_KS_PickerPreview">Hiển thị hoặc ẩn ngăn xem trước</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">Thư mục trước hoặc tiếp theo</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Ghi chú phát hành</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">Thu nhỏ thanh công cụ</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">Khôi phục thanh công cụ</sys:String>
 </ResourceDictionary>

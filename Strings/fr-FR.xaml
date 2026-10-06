@@ -844,7 +844,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Version du {0} restaurée. Le texte qu'elle a remplacé est aussi dans l'historique.</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">Titre : chaque clic fait passer la ligne par les niveaux 1 à 3, puis revient (Alt+1, 2, 3 ; Alt+0 pour le texte normal)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">Niveau de titre (Alt+1, Alt+2, Alt+3 ; Alt+0 pour le texte normal)</sys:String>
     <sys:String x:Key="Str_KS_Headings">Titre de niveau 1, 2 ou 3 sur les lignes actuelles</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">Revenir au texte normal</sys:String>
     <sys:String x:Key="Str_Kb_Heading">Titre</sys:String>
@@ -913,4 +913,6 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_PickerPreview">Afficher ou masquer le volet d’aperçu</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">Dossier précédent ou suivant</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Notes de version</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">Réduire la barre d’outils</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">Restaurer la barre d’outils</sys:String>
 </ResourceDictionary>

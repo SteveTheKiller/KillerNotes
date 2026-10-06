@@ -852,7 +852,7 @@
     <sys:String x:Key="Str_St_VersionRestored">{0} кезіндегі нұсқа қалпына келтірілді. Ауыстырылған мәтін де тарихта сақталған.</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">Тақырыптама: әрбір басу жолды 1-ден 3-ке дейінгі деңгейлер арқылы өткізіп, қайта қалыпты мәтінге келтіреді (Alt+1, 2, 3; қалыпты мәтін үшін Alt+0)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">Тақырыптама деңгейі (Alt+1, Alt+2, Alt+3; қалыпты мәтін үшін Alt+0)</sys:String>
     <sys:String x:Key="Str_KS_Headings">Ағымдағы жолдарда 1, 2 немесе 3-деңгей тақырыптама</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">Қалыпты мәтінге қайту</sys:String>
     <sys:String x:Key="Str_Kb_Heading">Тақырыптама</sys:String>
@@ -921,4 +921,6 @@
     <sys:String x:Key="Str_KS_PickerPreview">Алдын ала қарау тақтасын көрсету немесе жасыру</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">Алдыңғы немесе келесі қалта</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Шығарылым ескертпелері</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">Құралдар тақтасын кішірейту</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">Құралдар тақтасын қалпына келтіру</sys:String>
 </ResourceDictionary>

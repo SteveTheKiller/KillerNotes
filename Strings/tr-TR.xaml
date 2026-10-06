@@ -843,7 +843,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">{0} tarihli sürüm geri yüklendi. Yerini alan metin de geçmişte duruyor.</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">Başlık: her tıklamada satır 1, 2 ve 3. düzeyler arasında ilerler, sonra normale döner (Alt+1, 2, 3; normal metin için Alt+0)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">Başlık düzeyi (Alt+1, Alt+2, Alt+3; normal metin için Alt+0)</sys:String>
     <sys:String x:Key="Str_KS_Headings">Geçerli satırlarda 1, 2 veya 3. düzey başlık</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">Normal metne dön</sys:String>
     <sys:String x:Key="Str_Kb_Heading">Başlık</sys:String>
@@ -912,4 +912,6 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_PickerPreview">Önizleme bölmesini göster veya gizle</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">Önceki veya sonraki klasör</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Sürüm notları</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">Araç çubuğunu simge durumuna küçült</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">Araç çubuğunu geri yükle</sys:String>
 </ResourceDictionary>

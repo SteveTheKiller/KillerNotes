@@ -771,7 +771,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_VersionRestored">Przywrócono wersję z {0}. Zastąpiony tekst też jest w historii.</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">Nagłówek: każde kliknięcie przełącza wiersz między poziomami 1 i 3, a potem wraca (Alt+1, 2, 3; Alt+0 dla zwykłego tekstu)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">Poziom nagłówka (Alt+1, Alt+2, Alt+3; Alt+0 dla zwykłego tekstu)</sys:String>
     <sys:String x:Key="Str_KS_Headings">Nagłówek poziomu 1, 2 lub 3 w bieżących wierszach</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">Powrót do zwykłego tekstu</sys:String>
     <sys:String x:Key="Str_Kb_Heading">Nagłówek</sys:String>
@@ -840,4 +840,6 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_KS_PickerPreview">Pokaż lub ukryj okienko podglądu</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">Poprzedni lub następny folder</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Informacje o wydaniu</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimalizuj pasek narzędzi</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">Przywróć pasek narzędzi</sys:String>
 </ResourceDictionary>

@@ -844,7 +844,7 @@
     <sys:String x:Key="Str_St_VersionRestored">{0} তারিখের ভার্সনটি পুনরুদ্ধার করা হয়েছে। প্রতিস্থাপিত লেখাটিও ইতিহাসে আছে।</sys:String>
 
     <!-- Headings and the outline (1.3.1) -->
-    <sys:String x:Key="Str_TT_Heading">শিরোনাম: প্রতিবার ক্লিকে লাইনটি 1 থেকে 3 নম্বর স্তরের শিরোনামের মধ্যে ঘোরে, তারপর আবার ফিরে আসে (Alt+1, 2, 3; সাধারণ পাঠ্যের জন্য Alt+0)</sys:String>
+    <sys:String x:Key="Str_TT_Heading">শিরোনামের স্তর (Alt+1, Alt+2, Alt+3; সাধারণ পাঠ্যের জন্য Alt+0)</sys:String>
     <sys:String x:Key="Str_KS_Headings">বর্তমান লাইনগুলিকে 1, 2 বা 3 নম্বর স্তরের শিরোনাম করুন</sys:String>
     <sys:String x:Key="Str_KS_HeadingOff">সাধারণ পাঠ্যে ফিরুন</sys:String>
     <sys:String x:Key="Str_Kb_Heading">শিরোনাম</sys:String>
@@ -913,4 +913,6 @@
     <sys:String x:Key="Str_KS_PickerPreview">প্রিভিউ প্যান দেখান বা লুকান</sys:String>
     <sys:String x:Key="Str_KS_PickerHistory">আগের বা পরের ফোল্ডার</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">রিলিজ নোট</sys:String>
+    <sys:String x:Key="Str_Ctx_MinimizeToolbar">টুলবার ছোট করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_RestoreToolbar">টুলবার পুনরুদ্ধার করুন</sys:String>
 </ResourceDictionary>

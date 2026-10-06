@@ -8,7 +8,9 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:kui="clr-namespace:KillerNotes.Controls"
-                    xmlns:picker="clr-namespace:KillerNotes.Controls">
+                    xmlns:picker="clr-namespace:KillerNotes.Controls"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <kui:TooltipTextConverter x:Key="TooltipTextConverter"/>
 
     <!-- Shared film-grain tile. ImageSource is assigned once at startup (Chrome.ApplyGrainTexture)
          so global styles - like the context menus - can layer the same grain as the chrome/flyouts. -->
@@ -34,6 +36,7 @@
 
     <!-- Global themed tooltip. Implicit (no key) so every tooltip app-wide picks it up. -->
     <Style TargetType="ToolTip">
+        <Setter Property="kui:TooltipTextConverter.WrapContent" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}"/>
@@ -53,7 +56,13 @@
                         <Border.Effect>
                             <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Direction="270" Opacity="0.45"/>
                         </Border.Effect>
-                        <ContentPresenter/>
+                        <ContentPresenter>
+                            <ContentPresenter.Resources>
+                                <DataTemplate DataType="{x:Type sys:String}">
+                                    <TextBlock Text="{Binding Converter={StaticResource TooltipTextConverter}}" MaxWidth="300" TextWrapping="Wrap"/>
+                                </DataTemplate>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
