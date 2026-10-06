@@ -194,6 +194,24 @@ namespace KillerNotes.Shell
         // wheel delta instead, the same step the shortcuts overlay uses.
         private void NotesList_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
+            // WPF can route the wheel to the focused list after the pointer has moved
+            // over the note. Send both phases through the editor's actual scroller.
+            if (!NotesList.IsMouseOver)
+            {
+                if (!Editor.IsMouseOver || FindScroller(Editor) is not ScrollViewer editorScroll) return;
+                e.Handled = true;
+                var wheel = new System.Windows.Input.MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+                {
+                    RoutedEvent = System.Windows.Input.Mouse.PreviewMouseWheelEvent
+                };
+                editorScroll.RaiseEvent(wheel);
+                if (!wheel.Handled)
+                {
+                    wheel.RoutedEvent = System.Windows.Input.Mouse.MouseWheelEvent;
+                    editorScroll.RaiseEvent(wheel);
+                }
+                return;
+            }
             _notesScroll ??= FindDescendant<ScrollViewer>(NotesList);
             if (_notesScroll == null || _notesScroll.ScrollableHeight <= 0) return;
             _notesScroll.ScrollToVerticalOffset(_notesScroll.VerticalOffset - e.Delta);

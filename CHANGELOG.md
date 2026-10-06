@@ -37,7 +37,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Templates and daily notes use the latest title edits immediately.
 - Previews render Markdown and HTML together and preserve angle-bracket placeholders and code examples.
 - Removed the preview's inset frame and restored dragging its split-view divider.
-- The mouse wheel scrolls the notes list a full step per notch again.
+- The mouse wheel scrolls the notes list a full step per notch again and scrolls the note under the pointer after sidebar selection.
 - Text stays sharp at app sizes other than 100%.
 - Pinned places in the file picker can be dragged into a new order.
 - Ctrl+wheel changes picker views and icon sizes, and image previews keep their texture and thumbnail shadow.
