@@ -2941,8 +2941,14 @@
                                             Content="{DynamicResource Str_KS_ViewKeyboard}" Click="KsViewKeyboard_Click"/>
                                 </StackPanel>
                             </Grid>
-                            <!-- Rows are built in code (Shortcuts.cs BuildShortcutRows). Two columns keep
-                                 the ~48-row list inside the card instead of running off the bottom. -->
+                            <TextBlock FontSize="12" Margin="0,0,0,12">
+                                <Hyperlink NavigateUri="https://killernotes.net/help.html#shortcuts"
+                                           RequestNavigate="Hyperlink_RequestNavigate"
+                                           Foreground="{DynamicResource PrimaryBrush}">
+                                    <Run Text="{DynamicResource Str_KS_OnlineHelp}"/>
+                                </Hyperlink>
+                            </TextBlock>
+                            <!-- Rows are built in code (Shortcuts.cs BuildShortcutRows). -->
                             <Grid x:Name="ShortcutListHost">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>

@@ -915,4 +915,5 @@
     <sys:String x:Key="Str_KS_ReleaseNotes">版本資訊</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">最小化工具列</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">還原工具列</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">線上鍵盤快速鍵指南</sys:String>
 </ResourceDictionary>

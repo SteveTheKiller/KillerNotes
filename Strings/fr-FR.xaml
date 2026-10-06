@@ -915,4 +915,5 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Notes de version</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Réduire la barre d’outils</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Restaurer la barre d’outils</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Guide des raccourcis clavier en ligne</sys:String>
 </ResourceDictionary>

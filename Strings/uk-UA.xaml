@@ -962,4 +962,5 @@
     <sys:String x:Key="Str_KS_ReleaseNotes">Примітки до випуску</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Згорнути панель інструментів</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Відновити панель інструментів</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Онлайн-посібник із клавіатурних скорочень</sys:String>
 </ResourceDictionary>

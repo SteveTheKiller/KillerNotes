@@ -914,4 +914,5 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Sürüm notları</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Araç çubuğunu simge durumuna küçült</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Araç çubuğunu geri yükle</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Çevrimiçi klavye kısayolu kılavuzu</sys:String>
 </ResourceDictionary>

@@ -923,4 +923,5 @@
     <sys:String x:Key="Str_KS_ReleaseNotes">Примечания к выпуску</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Свернуть панель инструментов</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Восстановить панель инструментов</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Онлайн-руководство по сочетаниям клавиш</sys:String>
 </ResourceDictionary>

@@ -966,4 +966,5 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_KS_ReleaseNotes">Ghi chú phát hành</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Thu nhỏ thanh công cụ</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Khôi phục thanh công cụ</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Hướng dẫn phím tắt trực tuyến</sys:String>
 </ResourceDictionary>

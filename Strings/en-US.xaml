@@ -962,4 +962,5 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Release notes</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimize toolbar</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Restore toolbar</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Online shortcut guide</sys:String>
 </ResourceDictionary>

@@ -923,4 +923,5 @@
     <sys:String x:Key="Str_KS_ReleaseNotes">Шығарылым ескертпелері</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Құралдар тақтасын кішірейту</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Құралдар тақтасын қалпына келтіру</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Пернетақта тіркесімдерінің онлайн нұсқаулығы</sys:String>
 </ResourceDictionary>
