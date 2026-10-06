@@ -419,6 +419,8 @@
                      it shows a hint instead when the selection is not an image. -->
                 <Grid x:Name="PreviewPane" Grid.Column="4" Visibility="Collapsed">
                     <Border Background="{DynamicResource PaneBrush}" CornerRadius="{DynamicResource ControlCornerRadius}"/>
+                    <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}" IsHitTestVisible="False"/>
                     <Border Panel.ZIndex="9" IsHitTestVisible="False" BorderBrush="{DynamicResource PaneBevelDarkBrush}"
                             BorderThickness="{DynamicResource PaneBevelLightThickness}"/>
                     <Border Panel.ZIndex="9" IsHitTestVisible="False" BorderBrush="{DynamicResource PaneBevelLightBrush}"
@@ -435,7 +437,12 @@
                          150dpi photo measures well under the pane, DownOnly refuses to scale UP,
                          and the preview renders as a postage stamp in the middle of the pane. -->
                     <Image x:Name="PreviewImage" Margin="8" Stretch="Uniform"
-                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                           RenderOptions.BitmapScalingMode="HighQuality">
+                        <Image.Effect>
+                            <DropShadowEffect Color="Black" BlurRadius="12" ShadowDepth="3" Direction="270"
+                                              Opacity="{DynamicResource PaneShadowOpacity}" RenderingBias="Quality"/>
+                        </Image.Effect>
+                    </Image>
                     <TextBlock x:Name="PreviewHint" Margin="12" TextWrapping="Wrap"
                                HorizontalAlignment="Center" VerticalAlignment="Center"
                                TextAlignment="Center" FontSize="11"
