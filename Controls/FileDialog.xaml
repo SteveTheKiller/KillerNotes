@@ -81,7 +81,7 @@
              frame that extra invisible pixel sat OUTSIDE the frame, so the picker's edge measured
              one wider than the main window's and its outermost pixel was the card background
              rather than the frame. (2026-08-07) -->
-        <Border x:Name="RootBorder" BorderBrush="{DynamicResource WindowEdgeBrush}"
+        <kui:PickerBorder x:Name="RootBorder" BorderBrush="{DynamicResource WindowEdgeBrush}"
                 BorderThickness="{DynamicResource WindowEdgeThickness}"
                 Background="{DynamicResource BackgroundBrush}"
                 CornerRadius="{DynamicResource PanelCornerRadius}" Margin="{DynamicResource DialogHaloMargin}">
@@ -158,7 +158,7 @@
                             AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                             HorizontalAlignment="Right" VerticalAlignment="Center"
                             Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
-                            Style="{StaticResource OverlayCloseButton}">
+                            Style="{StaticResource ChromeCloseButton}">
                     </Button>
                 </Grid>
             </Border>
@@ -702,7 +702,7 @@
                     BorderBrush="{DynamicResource FrameOuterDarkBrush}"
                     BorderThickness="{DynamicResource FrameOuterDarkThickness}"/>
             </Grid>
-        </Border>
+        </kui:PickerBorder>
 
         <!-- Raised edge, as SIBLINGS of the card sharing its Margin so they land on its outer
              edge rather than inside its 1px border. Transparent and zero-thickness in every theme

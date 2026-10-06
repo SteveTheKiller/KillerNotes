@@ -22,6 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Selected states now use subtle gradients outside 98SE, Light buttons have softer gray borders, and yellow wordmarks match their accent.
 
 ### Fixed
+- Fixed picker corners and close-button hover contrast.
 - Pressing F4 to leave the preview no longer crashes with an "Unknown Hard Error".
 - Restoring an older note title offers to update incoming links through the rename dialog.
 - Previews render Markdown and HTML together and preserve angle-bracket placeholders and code examples.
