@@ -8,7 +8,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:kui="clr-namespace:KillerNotes.Controls"
-                    xmlns:picker="clr-namespace:KillerNotes.SharedPicker">
+                    xmlns:picker="clr-namespace:KillerNotes.Controls">
 
     <!-- Shared film-grain tile. ImageSource is assigned once at startup (Chrome.ApplyGrainTexture)
          so global styles - like the context menus - can layer the same grain as the chrome/flyouts. -->

@@ -10,7 +10,7 @@
 <Window x:Class="KillerNotes.SharedPicker.FileDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:kui="clr-namespace:KillerNotes.SharedPicker"
+        xmlns:kui="clr-namespace:KillerNotes.Controls"
         Title="KillerNotes"
         Width="720" Height="520" MinWidth="560" MinHeight="420"
         WindowStyle="None" ResizeMode="CanResize" ShowInTaskbar="False"

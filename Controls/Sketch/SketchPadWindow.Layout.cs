@@ -30,7 +30,7 @@ namespace KillerNotes.Controls.Sketch
             // before Loaded's re-assert, and on 98SE a 20px halo with an effect attached
             // rendered ghost shadow in the band the theme says must not exist (2026-08-08).
             bool flatAtBuild = TryFindResource("UseDialogCaption") != null;
-            _outerBorder = new KillerNotes.SharedPicker.PickerBorder
+            _outerBorder = new KillerNotes.Controls.PickerBorder
             {
                 BorderThickness = new Thickness(1),
                 CornerRadius = CardRadius(),
@@ -432,7 +432,7 @@ namespace KillerNotes.Controls.Sketch
             canvasGrainB.SetResourceReference(Border.BackgroundProperty, "GrainTileBrush");
             canvasGrainB.SetResourceReference(UIElement.OpacityProperty, "GrainOpacity");
             canvasStack.Children.Add(canvasGrainB);
-            var frame = new KillerNotes.SharedPicker.PickerBorder
+            var frame = new KillerNotes.Controls.PickerBorder
             {
                 BorderThickness = new Thickness(1),
                 Child = canvasStack,

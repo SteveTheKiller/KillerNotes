@@ -464,7 +464,7 @@ namespace KillerNotes.Controls
             framed.Children.Add(DialogChrome.WindowFrame());
             DialogChrome.InsetForFrame(body);
 
-            _outerBorder = new KillerNotes.SharedPicker.PickerBorder { Child = framed };
+            _outerBorder = new KillerNotes.Controls.PickerBorder { Child = framed };
             _outerBorder.SetResourceReference(Border.BorderBrushProperty, "WindowEdgeBrush");
             _outerBorder.SetResourceReference(Border.BorderThicknessProperty, "WindowEdgeThickness");
             _outerBorder.SetResourceReference(Border.BackgroundProperty, "BackgroundBrush");
