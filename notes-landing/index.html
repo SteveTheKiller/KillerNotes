@@ -282,13 +282,13 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
   // lightbox caption. Written to describe what is actually in the frame, because for a
   // screen reader it is the only version of the picture there is.
   var descriptionKeys = [
-    ['f_groups_t', 'f_tags_t', 'f_richtext_t'],
+    ['f_groups_t', 'f_richtext_t', 'f_themes_t'],
     ['f_graph_t'],
-    ['f_kalc_t', 'f_sketch_t', 'f_syntax_t'],
-    ['f_dictation_t', 'f_float_t'],
-    ['f_preview_t', 'f_lang_t'],
+    ['f_syntax_t', 'f_hotkeys_t'],
+    ['f_syntax_t', 'f_tags_t', 'f_groups_t'],
+    ['f_richtext_t', 'f_lang_t', 'f_themes_t'],
     ['f_syntax_t', 'f_export_t'],
-    ['f_sketch_t', 'f_dictation_t', 'f_kalc_t']
+    ['f_sketch_t', 'f_dictation_t', 'f_syntax_t']
   ];
   function descriptionFor(n) {
     return descriptionKeys[n - 1].map(function (key) {

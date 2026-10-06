@@ -52,12 +52,12 @@ choco install killernotes
 
 <table>
 <tr>
-<td width="50%"><img src="docs/main-window.png" alt="Main window: nested client-site groups with tag pills in the sidebar, beside a firewall cutover note holding a settings table, with the Linked from strip along the bottom"><br><sub>Nested groups, tag pills and search as you type, beside a cutover note holding a real table. The Linked from strip lists every note pointing at this one.</sub></td>
-<td width="50%"><img src="docs/dictation.png" alt="The Dictation pad recording, with the waveform's right-click menu open on slice and copy segment, beside a site note holding an inline photo and an embedded recording"><br><sub>Dictation (Ctrl+M): record, scrub the waveform, slice out a segment, transcribe offline, then embed the audio or print the text into the note.</sub></td>
+<td width="50%"><img src="notes-landing/screenshots/01.png" alt="Black theme with a magenta accent: nested client groups, a firewall settings table, incoming links, and the theme picker"><br><sub>A firewall cutover note with a real table, nested client groups, and incoming links. The theme picker shows Black with a magenta accent.</sub></td>
+<td width="50%"><img src="notes-landing/screenshots/04.png" alt="Mixed-language code highlighting with the note context menu and color-coded tag submenu open"><br><sub>Code highlighting across mixed snippets, with note actions, keyboard hints, and color-coded tags in the context menu.</sub></td>
 </tr>
 <tr>
-<td><img src="docs/shortcuts.png" alt="The F1 shortcuts overlay in its keyboard view: a drawn keyboard with every bound key lit and labeled with the action it runs"><br><sub>Every function has a shortcut - F1 opens the visual keyboard map. Hold Ctrl, Shift or Alt to preview that layer. Shown in French.</sub></td>
-<td><img src="docs/localization.png" alt="The Hungarian interface with the language menu open, beside a Markdown note and its preview"><br><sub>Live language switching, including context menus, beside a Markdown note and its preview.</sub></td>
+<td><img src="notes-landing/screenshots/05.png" alt="98SE theme with a magenta accent, an inline photo, and the two-column language menu showing nineteen languages"><br><sub>Inline photos and nineteen languages, switchable live from a two-column menu. Shown in the 98SE theme.</sub></td>
+<td><img src="notes-landing/screenshots/07.png" alt="SketchPad drawing, Dictation waveform, and offline speech-model selection over a highlighted YAML note with an embedded audio clip"><br><sub>SketchPad and Dictation beside a code note with embedded audio. Download a speech model to transcribe recordings entirely on your machine.</sub></td>
 </tr>
 </table>
 
