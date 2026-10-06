@@ -21,7 +21,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Changed
 - The markdown and HTML preview is now drawn by the app itself instead of the Internet Explorer engine, so it follows the theme and grain and keeps its rounded corners.
 - The language menu now shows its 19 languages in two columns.
-- Selected states now use subtle gradients outside 98SE, Light buttons have softer gray borders, and yellow wordmarks match their accent.
+- Selected states and accent picker pills use matching gradients outside 98SE, Light buttons have softer gray borders, and yellow wordmarks match their accent.
 - Menu rows now show accent text and icons on the theme's hover color.
 
 ### Fixed

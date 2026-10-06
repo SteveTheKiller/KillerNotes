@@ -231,12 +231,36 @@ namespace KillerNotes.Shell
             _ => DarkStripColors,
         };
 
+        private static readonly Dictionary<(Theme, Accent), Brush> AccentStripBrushes = new();
+
+        private static Brush AccentStripBrush(Theme family, Accent accent, string flatColor)
+        {
+            if (AccentStripBrushes.TryGetValue((family, accent), out var cached)) return cached;
+            Brush brush;
+            if (family == Theme.SE98)
+                brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(flatColor));
+            else
+            {
+                string path = accent == Accent.Green
+                    ? $"Themes/{family}.xaml"
+                    : $"Themes/Accents/{family}/{accent}.xaml";
+                var palette = new ResourceDictionary
+                {
+                    Source = new Uri($"/KillerNotes;component/{path}", UriKind.Relative)
+                };
+                brush = ((Brush)palette["SelectionBg"]).CloneCurrentValue();
+            }
+            brush.Freeze();
+            AccentStripBrushes[(family, accent)] = brush;
+            return brush;
+        }
+
         private void PopulateAccentStrip(Theme family)
         {
             var colors = StripColorsFor(family);
             for (int i = 0; i < _accentStripDots.Count; i++)
             {
-                _accentStripDots[i].Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colors[i].Color));
+                _accentStripDots[i].Background = AccentStripBrush(family, colors[i].Accent, colors[i].Color);
                 _accentStripDots[i].Effect = colors[i].Accent == Accent.Yellow && (family is Theme.Light or Theme.SE98)
                     ? new System.Windows.Media.Effects.DropShadowEffect { Color = Colors.Black, BlurRadius = 4, ShadowDepth = 1, Opacity = 0.45 }
                     : null;
