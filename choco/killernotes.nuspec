@@ -24,6 +24,7 @@
 - Organize: named, collapsible, colorable groups nested to any depth; color-coded tags with a pill filter; sort by time, title or drag-and-drop order; three row densities; sidebar Ctrl+Z undoes group moves, reorders and deletes
 - Syntax highlighting detected paragraph by paragraph, so one note mixes prose with PowerShell, JSON, SQL, C#, Python and ten more without picking a language
 - Hyperlinks: Ctrl+K links the selection, typed URLs auto-link, links survive pasting from browsers and Word, and only web and mail addresses ever open
+- Wikilinks between notes, with incoming and outgoing links, links to notes that do not exist yet, a graph and a heading outline
 - Dictation (Ctrl+M): record and transcribe entirely on your machine with a downloadable speech model, then print the text, embed the recording as an inline playable chip, or both; recordings store as lossless FLAC and export to WAV or MP3
 - Recording editing on the waveform itself: slice, copy, delete and paste segments with undo, then save back over the original
 - SketchPad (F7): pen, shapes, fill, text labels and eraser on single keys; print the drawing inline and double-click it later to keep editing
@@ -35,8 +36,9 @@
 - Scheduled backups: pick a folder, an interval and how many copies to keep, or take a copy right away with Alt+B; a copy restores as a new database
 - Password protection: optional SQLCipher AES-256 encryption of the whole database, set, changed or removed at any time, with no recovery for a lost password
 - Sharing: export a note (.knote) or a whole database (.kndb), optionally password protected, both opening with a double-click
+- Command line for search, editing, sharing, export, templates, groups, tags, recovery and backups
 - Keyboard-first: every function has a shortcut, F1 opens the visual keyboard map, and the whole app scales for accessibility from 70% to 250%
-- Thirteen themes including a full 98SE recreation; Dark, Light, Black and 98SE each carry six accent colors for 33 looks in all
+- Thirteen themes including a full 98SE recreation; Dark, Light, Black and 98SE each carry eight accent colors for 41 looks in all
 - Localized in nineteen languages, falling back to English
 - One self-contained Windows EXE, no runtime install; installs per-user or for all users, or runs portable
 - GPLv3, local-only, no account, no telemetry
