@@ -402,13 +402,6 @@ namespace KillerNotes.Controls
             // card comes out square (2026-08-23; the same trap BuildCanvas documents).
             var body = new Grid();
             body.Children.Add(grid);
-            // The content still has to be clipped to the radius, and ClipToBounds cannot do it -
-            // it clips to the rectangle. A rounded geometry, resized with the window.
-            body.SizeChanged += (_, e) =>
-            {
-                double r = CardRadius().TopLeft;
-                body.Clip = new RectangleGeometry(new Rect(e.NewSize), r, r);
-            };
             // Grain LAST and hit-test invisible, so it covers the caption and the canvas alike -
             // the family rule that a pane's texture goes over its contents, not under them.
             var grain = new Border { IsHitTestVisible = false };
@@ -471,7 +464,7 @@ namespace KillerNotes.Controls
             framed.Children.Add(DialogChrome.WindowFrame());
             DialogChrome.InsetForFrame(body);
 
-            _outerBorder = new Border { Child = framed };
+            _outerBorder = new KillerNotes.SharedPicker.PickerBorder { Child = framed };
             _outerBorder.SetResourceReference(Border.BorderBrushProperty, "WindowEdgeBrush");
             _outerBorder.SetResourceReference(Border.BorderThicknessProperty, "WindowEdgeThickness");
             _outerBorder.SetResourceReference(Border.BackgroundProperty, "BackgroundBrush");

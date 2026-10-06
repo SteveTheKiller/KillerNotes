@@ -30,7 +30,7 @@ namespace KillerNotes.Controls.Sketch
             // before Loaded's re-assert, and on 98SE a 20px halo with an effect attached
             // rendered ghost shadow in the band the theme says must not exist (2026-08-08).
             bool flatAtBuild = TryFindResource("UseDialogCaption") != null;
-            _outerBorder = new Border
+            _outerBorder = new KillerNotes.SharedPicker.PickerBorder
             {
                 BorderThickness = new Thickness(1),
                 CornerRadius = CardRadius(),
@@ -432,20 +432,7 @@ namespace KillerNotes.Controls.Sketch
             canvasGrainB.SetResourceReference(Border.BackgroundProperty, "GrainTileBrush");
             canvasGrainB.SetResourceReference(UIElement.OpacityProperty, "GrainOpacity");
             canvasStack.Children.Add(canvasGrainB);
-            // A Border's ClipToBounds clips to its RECTANGLE, not to its CornerRadius, so the
-            // canvas underneath kept painting square corners through the rounded frame. Clip the
-            // content to a rounded geometry of its own instead, resized with the pane.
-            // Radius comes from the theme (ControlCornerRadius, 0 on a squared-off theme) instead of
-            // a hardcoded 4, so 98SE gets real square corners like every other pane.
-            canvasStack.ClipToBounds = false;
-            canvasStack.SizeChanged += (_, e) =>
-            {
-                double r = Application.Current?.TryFindResource("ControlCornerRadius") is CornerRadius cr
-                    ? cr.TopLeft : 4;
-                canvasStack.Clip = new RectangleGeometry(new Rect(e.NewSize), r, r);
-            };
-
-            var frame = new Border
+            var frame = new KillerNotes.SharedPicker.PickerBorder
             {
                 BorderThickness = new Thickness(1),
                 Child = canvasStack,
@@ -465,6 +452,8 @@ namespace KillerNotes.Controls.Sketch
             };
             _frameShadow.SetResourceReference(Border.CornerRadiusProperty, "ControlCornerRadius");
             _frameShadow.SetResourceReference(Border.BackgroundProperty, "PaneBrush");
+            _frameShadow.SetResourceReference(Border.BorderBrushProperty, "PaneBrush");
+            _frameShadow.SetResourceReference(Border.BorderThicknessProperty, "AboutPanelBorderThickness");
 
             var frameHost = new Grid();
             frameHost.Children.Add(_frameShadow);
