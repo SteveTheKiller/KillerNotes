@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:models="clr-namespace:KillerNotes.Models"
+        xmlns:controls="clr-namespace:KillerNotes.Controls"
         Title="KillerNotes"
         Icon="pack://application:,,,/Resources/kn-icon.ico"
         WindowStyle="None" Background="{DynamicResource BackgroundBrush}"
@@ -17,6 +18,7 @@
     </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
+        <controls:SelectedTitleConverter x:Key="SelectedTitleConverter"/>
         <Style x:Key="FmtButton" TargetType="Button" BasedOn="{StaticResource AnnotationBarButton}">
             <Setter Property="AutomationProperties.Name" Value="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"/>
         </Style>
@@ -1088,27 +1090,25 @@
                                     <!-- Colored per note when TitleColor is set; the DataTrigger keeps
                                          uncolored titles on the theme-reactive TextBrush (1.0.1, #1) -->
                                     <TextBlock Text="{Binding Title}" FontSize="13" TextTrimming="CharacterEllipsis"
+                                               Tag="{DynamicResource SelectionBg}"
                                                FontFamily="{DynamicResource SidebarFont}"
                                                ToolTip="{Binding Title}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                                                 <Style.Triggers>
-                                                    <!-- Selected row text rides SelectionFg, the foreground each theme
-                                                         pairs with its own selection fill. This was hardcoded #FFFFFF on
-                                                         the assumption the fill is always a dark accent, which is true
-                                                         of the six original palettes (all of which set SelectionFg to
-                                                         #ffffff, so they are unchanged) but not of the palette-lab
-                                                         themes: Malaise picks #ead900 as its accent, giving a bright
-                                                         yellow row that white text vanishes into. Those themes compute
-                                                         SelectionFg from the accent's luminance, so it comes back
-                                                         charcoal. First, so a per-note title color (next trigger) still
-                                                         wins while the row is selected - a colored title keeps its color. -->
-                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
-                                                        <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
-                                                    </DataTrigger>
                                                     <DataTrigger Binding="{Binding HasTitleColor}" Value="True">
                                                         <Setter Property="Foreground" Value="{Binding TitleBrush}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                        <Setter Property="Foreground">
+                                                            <Setter.Value>
+                                                                <MultiBinding Converter="{StaticResource SelectedTitleConverter}">
+                                                                    <Binding Path="TitleBrush"/>
+                                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                                </MultiBinding>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -2153,9 +2153,9 @@
                              ToggleBacklinkCollapse, animated). Folded, only the chevron and the count
                              stay, so the strip is still there to reopen. Alt+M still hides it whole. -->
                         <StackPanel Orientation="Horizontal">
-                            <Button x:Name="BacklinkCollapseBtn" Style="{StaticResource FmtButton}"
+                            <Button x:Name="BacklinkCollapseBtn" Style="{StaticResource RailButton}"
                                     Width="22" MinWidth="0" Height="22" Margin="4,0,0,0" Padding="0"
-                                    VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" FontSize="9"
+                                    VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" FontSize="12"
                                     Content="&#xE76C;" Click="BacklinkCollapse_Click"/>
                             <TextBlock x:Name="BacklinkCount" Visibility="Collapsed" FontSize="11"
                                        Margin="2,0,10,0" VerticalAlignment="Center"
