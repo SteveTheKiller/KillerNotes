@@ -82,6 +82,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">筆記已刪除</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">已刪除 {0} 則筆記</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">無法開啟筆記資料庫: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">正在開啟筆記資料庫...</sys:String>
     <sys:String x:Key="Str_Btn_OK">確定</sys:String>
     <sys:String x:Key="Str_Net_WarnHead">資料夾位於網路位置</sys:String>
     <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} 位於另一台電腦。同時從兩台機器使用同一個筆記資料庫並不安全；

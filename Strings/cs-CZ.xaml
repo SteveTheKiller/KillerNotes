@@ -124,6 +124,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Poznámka smazána</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">Smazáno poznámek: {0}</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Nepodařilo se otevřít databázi poznámek: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Otevírání databáze poznámek...</sys:String>
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>
     <sys:String x:Key="Str_Net_WarnHead">Složka s daty je v síťovém umístění</sys:String>
     <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} je na jiném počítači. Používat jednu databázi poznámek ze dvou počítačů

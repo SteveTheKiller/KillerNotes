@@ -241,6 +241,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Жазба жойылды</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">Жойылған жазбалар: {0}</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Жазбалар дерекқорын ашу мүмкін болмады: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Жазбалар дерекқоры ашылуда...</sys:String>
 
     <!-- Network data folder safeguard -->
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>

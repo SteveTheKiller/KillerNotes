@@ -80,15 +80,20 @@ namespace KillerNotes.Shell
                 // Portable badge (family install system): hidden when running from the
                 // installed location, and in demo mode so screenshots stay clean.
                 if (App.IsPortable() && !DemoMode) PortableBadge.Visibility = Visibility.Visible;
+                var loading = ShowDatabaseLoading();
                 // Deferred, NOT called inline: Loaded fires synchronously inside Show(),
                 // and canceling the unlock prompt calls Close() - a reentrant Close()
                 // during Show() throws (this was a real crash). Dispatching lets Show()
                 // finish first; the prompt appears right after first paint.
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    OpenDatabase();               // Security.cs (unlock prompt if encrypted)
-                    HandlePendingOpenFile();      // Sharing.cs (double-clicked .kndb/.knote)
-                    if (DemoMode && DemoFresh) GenerateDemoNotes();   // DemoMode.cs (--demo, fresh db only)
+                    try
+                    {
+                        OpenDatabase();               // Security.cs (unlock prompt if encrypted)
+                        HandlePendingOpenFile();      // Sharing.cs (double-clicked .kndb/.knote)
+                        if (DemoMode && DemoFresh) GenerateDemoNotes();   // DemoMode.cs (--demo, fresh db only)
+                    }
+                    finally { HideDatabaseLoading(loading); }
                     // After the window is idle, so a due backup never delays the first paint.
                     Dispatcher.BeginInvoke(new Action(RunScheduledBackup),   // Backup.cs
                         System.Windows.Threading.DispatcherPriority.ApplicationIdle);

@@ -82,6 +82,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Notiz gelöscht</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} Notizen gelöscht</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Notizdatenbank konnte nicht geöffnet werden: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Notizdatenbank wird geöffnet...</sys:String>
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>
     <sys:String x:Key="Str_Net_WarnHead">Datenordner liegt auf einem Netzwerkpfad</sys:String>
     <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} liegt auf einem anderen Computer. Eine Notizdatenbank von zwei Rechnern

@@ -264,6 +264,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Đã xóa ghi chú</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">Đã xóa {0} ghi chú</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Không thể mở cơ sở dữ liệu ghi chú: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Đang mở cơ sở dữ liệu ghi chú...</sys:String>
 
     <!-- Network data folder safeguard -->
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>

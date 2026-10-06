@@ -82,6 +82,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">ノートを削除しました</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} 件のノートを削除しました</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">ノート データベースを開けませんでした: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">ノート データベースを開いています...</sys:String>
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>
     <sys:String x:Key="Str_Net_WarnHead">データ フォルダーがネットワーク上にあります</sys:String>
     <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} は別のコンピューター上にあります。1 つのノート データベースを 2 台から同時に

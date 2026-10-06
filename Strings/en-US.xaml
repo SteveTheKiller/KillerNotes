@@ -263,6 +263,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Note deleted</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} notes deleted</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Could not open the notes database: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Opening notes database...</sys:String>
 
     <!-- Network data folder safeguard -->
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>

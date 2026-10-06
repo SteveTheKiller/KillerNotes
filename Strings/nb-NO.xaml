@@ -263,6 +263,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Notatet er slettet</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} notater er slettet</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Kunne ikke åpne notatdatabasen: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Åpner notatdatabasen...</sys:String>
 
     <!-- Network data folder safeguard -->
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>

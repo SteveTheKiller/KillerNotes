@@ -229,6 +229,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Megjegyzés törölve</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} jegyzet törölve</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Nem sikerült megnyitni a jegyzetadatbázist: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Jegyzetadatbázis megnyitása...</sys:String>
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>
     <sys:String x:Key="Str_Net_WarnHead">Az adatmappa hálózati helyen van</sys:String>
     <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">A(z) {0} egy másik számítógépen van. Egy jegyzetadatbázist két gépről egyszerre

@@ -82,6 +82,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Not silindi</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} not silindi</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Not veritabanı açılamadı: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Not veritabanı açılıyor...</sys:String>
     <sys:String x:Key="Str_Btn_OK">Tamam</sys:String>
     <sys:String x:Key="Str_Net_WarnHead">Veri klasörü bir ağ konumunda</sys:String>
     <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} başka bir bilgisayarda. Bir not veritabanını iki makineden aynı anda

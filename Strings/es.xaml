@@ -82,6 +82,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Nota eliminada</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} notas eliminadas</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">No se pudo abrir la base de datos de notas: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Abriendo la base de datos de notas...</sys:String>
     <sys:String x:Key="Str_Btn_OK">Aceptar</sys:String>
     <sys:String x:Key="Str_Net_WarnHead">La carpeta de datos está en una ubicación de red</sys:String>
     <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} está en otro equipo. Usar una base de notas desde dos máquinas a la vez

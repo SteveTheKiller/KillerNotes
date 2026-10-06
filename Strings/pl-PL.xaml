@@ -190,6 +190,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Usunięto notatkę</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">Usunięto notatki: {0}</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Nie udało się otworzyć bazy notatek: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Otwieranie bazy notatek...</sys:String>
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>
     <sys:String x:Key="Str_Net_WarnHead">Folder danych znajduje się w lokalizacji sieciowej</sys:String>
     <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} znajduje się na innym komputerze. Używanie jednej bazy notatek z dwóch

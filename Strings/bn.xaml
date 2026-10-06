@@ -82,6 +82,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">নোট মুছে ফেলা হয়েছে</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0}টি নোট মুছে ফেলা হয়েছে</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">নোট ডেটাবেস খোলা যায়নি: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">নোট ডেটাবেস খোলা হচ্ছে...</sys:String>
     <sys:String x:Key="Str_Btn_OK">ঠিক আছে</sys:String>
     <sys:String x:Key="Str_Net_WarnHead">ডেটা ফোল্ডারটি একটি নেটওয়ার্ক অবস্থানে আছে</sys:String>
     <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} অন্য একটি কম্পিউটারে আছে। একটি নোট ডেটাবেস একসঙ্গে দুটি মেশিন থেকে

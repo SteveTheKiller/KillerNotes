@@ -82,6 +82,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Note supprimée</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} notes supprimées</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Impossible d'ouvrir la base de notes : {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Ouverture de la base de notes...</sys:String>
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>
     <sys:String x:Key="Str_Net_WarnHead">Le dossier de données est sur un emplacement réseau</sys:String>
     <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} se trouve sur un autre ordinateur. Utiliser une base de notes depuis deux

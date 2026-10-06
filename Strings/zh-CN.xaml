@@ -82,6 +82,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">笔记已删除</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">已删除 {0} 条笔记</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">无法打开笔记数据库: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">正在打开笔记数据库...</sys:String>
     <sys:String x:Key="Str_Btn_OK">确定</sys:String>
     <sys:String x:Key="Str_Net_WarnHead">数据文件夹位于网络位置</sys:String>
     <sys:String x:Key="Str_Net_WarnBody" xml:space="preserve">{0} 在另一台计算机上。同时从两台机器使用同一个笔记数据库并不安全；

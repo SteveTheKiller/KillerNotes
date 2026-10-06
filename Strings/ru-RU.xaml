@@ -241,6 +241,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Заметка удалена</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">Удалено заметок: {0}</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Не удалось открыть базу заметок: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Открытие базы заметок...</sys:String>
 
     <!-- Network data folder safeguard -->
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>

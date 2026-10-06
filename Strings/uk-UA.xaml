@@ -263,6 +263,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Нотатку видалено</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">Видалено нотаток: {0}</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Не вдалося відкрити базу нотаток: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Відкриття бази нотаток...</sys:String>
 
     <!-- Network data folder safeguard -->
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>

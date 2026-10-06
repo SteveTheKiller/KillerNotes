@@ -241,6 +241,7 @@
     <sys:String x:Key="Str_St_NoteDeleted">Nota eliminata</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} note eliminate</sys:String>
     <sys:String x:Key="Str_St_OpenDbFailed">Impossibile aprire il database delle note: {0}</sys:String>
+    <sys:String x:Key="Str_Busy_OpeningDatabase">Apertura del database delle note...</sys:String>
 
     <!-- Network data folder safeguard -->
     <sys:String x:Key="Str_Btn_OK">OK</sys:String>
