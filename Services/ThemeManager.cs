@@ -368,6 +368,9 @@ namespace KillerNotes.Services
             // caption band, and keep the smaller bare-glyph box it always had when it does not.
             newDict["AboutCloseWidth"] = flatCaption ? newDict["CaptionButtonWidth"] : 28.0;
             newDict["AboutCloseHeight"] = flatCaption ? newDict["CaptionButtonHeight"] : 26.0;
+            double toolCaptionHeight = newDict["TitleBarHeight"] is double toolHeight ? toolHeight : 36.0;
+            newDict["ToolWindowCloseMargin"] = flatCaption ? new Thickness(0) :
+                new Thickness(0, 0, Math.Max(0, (toolCaptionHeight - 28.0) / 2), 0);
             // The DIALOG caption close's box, same non-flat numbers as the About card's. The
             // dialog band is DialogTitleBarHeight (28), not the main bar's 36: riding
             // CaptionButtonWidth/Height (44x36) overflowed the band, and the oversized hover

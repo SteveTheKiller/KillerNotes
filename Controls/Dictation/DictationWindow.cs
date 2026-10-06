@@ -312,6 +312,7 @@ namespace KillerNotes.Controls.Dictation
             var head = new Grid();
             head.Children.Add(caption);
             var close = DialogChrome.CloseGlyph(L("Str_Dict_Close", "Close (Esc)"), Close);
+            close.SetResourceReference(MarginProperty, "ToolWindowCloseMargin");
             DialogShortcuts.Describe(close, "Esc");
             head.Children.Add(close);
             band.Child = head;

@@ -144,6 +144,7 @@ namespace KillerNotes.Controls.Sketch
             // It used to be a child of the card with a 48px spacer reserved here, which is why it
             // sat hard against the top edge instead of centered in the bar.
             Grid.SetColumn(_closeBtn, 1);
+            _closeBtn.SetResourceReference(FrameworkElement.MarginProperty, "ToolWindowCloseMargin");
             titleBar.Children.Add(_closeBtn);
 
             Grid.SetRow(titleBar, 0);
