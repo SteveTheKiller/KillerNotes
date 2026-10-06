@@ -25,7 +25,7 @@ namespace KillerNotes.Shell
                 Margin = new Thickness(0, 0, 0, 14),
                 RenderTransformOrigin = new Point(0.5, 0.5)
             };
-            spinner.SetResourceReference(Shape.StrokeProperty, "PrimaryBrush");
+            spinner.Stroke = Brushes.White;
             var rotation = new RotateTransform();
             spinner.RenderTransform = rotation;
             rotation.BeginAnimation(RotateTransform.AngleProperty,

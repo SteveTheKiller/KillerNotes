@@ -23,6 +23,7 @@
          above and reverses on press, exactly like every other button in this theme.
          Close is a black glyph on the same face, not a red one: Win98 had no red close. -->
     <SolidColorBrush x:Key="CaptionButtonBrush" Color="#c0c0c0" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="CaptionPressedTextBrush" Color="#000000"/>
     <SolidColorBrush x:Key="CaptionCloseBrush" Color="#000000" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
     <SolidColorBrush x:Key="CaptionCloseHoverBrush" Color="#00000000" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
     <SolidColorBrush x:Key="CaptionCloseHoverFgBrush" Color="#000000" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />

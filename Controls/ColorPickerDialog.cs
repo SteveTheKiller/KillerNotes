@@ -400,7 +400,9 @@ namespace KillerNotes.Controls
             // ChipFaceBrush / ChipEdgeBrush, matching Chip(). These were PaneBrush and
             // InputBorderBrush, so the first arm or disarm flipped the chip back to the client
             // color and undid the button face it was built with.
-            _replaceBtn.Background = _replaceArmed ? R("RowSelectedBrush") : R("ChipFaceBrush");
+            _replaceBtn.Background = _replaceArmed ? R("SelectionBg") : R("ChipFaceBrush");
+            if (_replaceBtn.Child is Grid content && content.Children[0] is TextBlock glyph)
+                glyph.SetResourceReference(TextBlock.ForegroundProperty, _replaceArmed ? "SelectionFg" : "TextBrush");
             _replaceBtn.SetResourceReference(Border.BorderBrushProperty, _replaceArmed ? "PrimaryBrush" : "ChipEdgeBrush");
         }
 
@@ -468,12 +470,17 @@ namespace KillerNotes.Controls
         private UIElement CrosshairIcon()
         {
             var g = new Grid { Width = 14, Height = 14 };
-            var fg = R("TextBrush");
-            g.Children.Add(new Rectangle { Width = 1.4, Fill = fg, HorizontalAlignment = HorizontalAlignment.Center });
-            g.Children.Add(new Rectangle { Height = 1.4, Fill = fg, VerticalAlignment = VerticalAlignment.Center });
-            g.Children.Add(new Ellipse { Width = 8, Height = 8, Stroke = fg, StrokeThickness = 1.4,
+            var vertical = new Rectangle { Width = 1.4, HorizontalAlignment = HorizontalAlignment.Center };
+            var horizontal = new Rectangle { Height = 1.4, VerticalAlignment = VerticalAlignment.Center };
+            var ring = new Ellipse { Width = 8, Height = 8, StrokeThickness = 1.4,
                 HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center,
-                Fill = Brushes.Transparent });
+                Fill = Brushes.Transparent };
+            foreach (var shape in new Shape[] { vertical, horizontal, ring })
+                shape.SetBinding(shape is Ellipse ? Shape.StrokeProperty : Shape.FillProperty,
+                    new Binding("Foreground") { RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(Button), 1) });
+            g.Children.Add(vertical);
+            g.Children.Add(horizontal);
+            g.Children.Add(ring);
             return g;
         }
 
@@ -513,7 +520,7 @@ namespace KillerNotes.Controls
 
             // Unified hover, respecting Replace's armed highlight.
             b.MouseEnter += (_, _) => { if (b != _replaceBtn || !_replaceArmed) b.Background = R("ChipHoverBrush"); };
-            b.MouseLeave += (_, _) => { b.Background = (b == _replaceBtn && _replaceArmed) ? R("RowSelectedBrush") : R("ChipFaceBrush"); };
+            b.MouseLeave += (_, _) => { b.Background = (b == _replaceBtn && _replaceArmed) ? R("SelectionBg") : R("ChipFaceBrush"); };
             return b;
         }
 
@@ -579,12 +586,16 @@ namespace KillerNotes.Controls
             root.AppendChild(cp);
 
             var t = new ControlTemplate(typeof(Button)) { VisualTree = root };
+            var normal = new Trigger { Property = System.Windows.Controls.Primitives.ButtonBase.IsPressedProperty, Value = false };
+            normal.Setters.Add(new Setter(Control.ForegroundProperty, R("TextBrush")));
+            t.Triggers.Add(normal);
             var hover = new Trigger { Property = UIElement.IsMouseOverProperty, Value = true };
             hover.Setters.Add(new Setter(Border.BackgroundProperty, R("ChipHoverBrush"), "face"));
             t.Triggers.Add(hover);
             // Pressed reverses the bevel, the same swap every other button in the family performs.
             var pressed = new Trigger { Property = System.Windows.Controls.Primitives.ButtonBase.IsPressedProperty, Value = true };
-            pressed.Setters.Add(new Setter(Border.BackgroundProperty, R("RowSelectedBrush"), "face"));
+            pressed.Setters.Add(new Setter(Border.BackgroundProperty, R("SelectionBg"), "face"));
+            pressed.Setters.Add(new Setter(Control.ForegroundProperty, R("SelectionFg")));
             pressed.Setters.Add(new Setter(Border.BorderBrushProperty, R("BevelDarkBrush"), "bLight"));
             pressed.Setters.Add(new Setter(Border.BorderBrushProperty, R("BevelLightBrush"), "bDark"));
             t.Triggers.Add(pressed);

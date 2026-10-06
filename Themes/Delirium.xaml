@@ -19,7 +19,7 @@
     <SolidColorBrush x:Key="SelectionAccent"       Color="#dd8500" po:Freeze="True"/>
     <SolidColorBrush x:Key="RadioAccent"           Color="#5fce00" po:Freeze="True"/>
     <SolidColorBrush x:Key="DangerRed"             Color="#dd4641" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SliderTrack"           Color="#352a66" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SliderTrack"           Color="#b4b6b1" po:Freeze="True"/>
     <SolidColorBrush x:Key="SettingsOpenRowBg"     Color="#9c630e" po:Freeze="True"/>
     <SolidColorBrush x:Key="WarnBrush"             Color="#5fce00" po:Freeze="True"/>
     <SolidColorBrush x:Key="OkBrush"               Color="#cf1020" po:Freeze="True"/>

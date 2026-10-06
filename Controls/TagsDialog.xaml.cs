@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using KillerNotes.Services;
@@ -75,7 +76,10 @@ namespace KillerNotes.Controls
             grid.Children.Add(swatch);
 
             var label = new TextBlock { Text = name, VerticalAlignment = VerticalAlignment.Center };
-            label.SetResourceReference(TextBlock.ForegroundProperty, "TextBrush");
+            label.SetBinding(TextBlock.ForegroundProperty, new Binding("Foreground")
+            {
+                RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(ListBoxItem), 1)
+            });
             Grid.SetColumn(label, 1);
             grid.Children.Add(label);
 

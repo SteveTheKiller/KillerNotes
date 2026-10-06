@@ -73,8 +73,8 @@
                 <Setter Property="Background" Value="{DynamicResource RowHoverBrush}"/>
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource SelectionBg}"/>
+                <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -95,7 +95,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
                 <Setter Property="Effect">
                     <Setter.Value>
                         <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="0" Opacity="0.7"/>
@@ -200,12 +200,8 @@
                             <Setter Property="Foreground" Value="{DynamicResource OutlineHoverTextBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <!-- Pale accent press tint (the per-theme OutlinePressedBrush, defined
-                                 in every theme for exactly this and previously unused). Readable
-                                 accent text on it in every theme; RowSelectedBrush here was the
-                                 solid accent in Light, hiding the text on press too. -->
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource OutlinePressedBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource OutlineBtnBrush}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource SelectionBg}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
                             <Setter TargetName="bevelLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
                             <Setter TargetName="bevelDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
                         </Trigger>
@@ -934,8 +930,14 @@
                                           VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Bd" Property="Background" Value="{DynamicResource MenuHoverBrush}"/></Trigger>
-                        <Trigger Property="IsPressed"   Value="True"><Setter TargetName="Bd" Property="Background" Value="{DynamicResource RowSelectedBrush}"/></Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource MenuHoverBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ComboHighlightTextBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SelectionBg}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -1014,8 +1016,9 @@
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource CaptionHoverBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SelectionBg}"/>
                             <!-- Pressed reverses the bevel, the same swap the other button styles use -->
+                            <Setter Property="Foreground" Value="{DynamicResource CaptionPressedTextBrush}"/>
                             <Setter TargetName="capLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
                             <Setter TargetName="capDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
                         </Trigger>
@@ -1051,7 +1054,8 @@
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SelectionBg}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
                             <Setter TargetName="bTopLeft" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
                             <Setter TargetName="bTopLeft" Property="BorderThickness" Value="{DynamicResource BevelLightThickness}"/>
                             <Setter TargetName="bBotRight" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
@@ -1120,7 +1124,7 @@
                                         <ControlTemplate TargetType="Thumb">
                                             <Grid>
                                                 <Border Background="{DynamicResource SurfaceBrush}"
-                                                        BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                                                        BorderBrush="{DynamicResource MutedTextBrush}" BorderThickness="1"
                                                         CornerRadius="{DynamicResource SmallCornerRadius}"/>
                                                 <Border IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}"
                                                         BorderThickness="{DynamicResource BevelLightThickness}"/>
@@ -1452,7 +1456,7 @@
                 <ControlTemplate TargetType="CheckBox">
                     <StackPanel Orientation="Horizontal" Background="Transparent">
                         <Border x:Name="box" Width="15" Height="15" CornerRadius="3" VerticalAlignment="Center"
-                                Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1">
+                                Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource MutedTextBrush}" BorderThickness="1">
                             <TextBlock x:Name="check" Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="10"
                                        Foreground="{DynamicResource OnPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                         </Border>
@@ -1502,7 +1506,7 @@
                         <Border x:Name="ring" Width="15" Height="15" CornerRadius="8"
                                 VerticalAlignment="Top" Margin="0,2,0,0"
                                 Background="{DynamicResource SurfaceBrush}"
-                                BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1">
+                                BorderBrush="{DynamicResource MutedTextBrush}" BorderThickness="1">
                             <Grid>
                                 <Ellipse x:Name="well" Fill="{DynamicResource RadioWellBrush}" Margin="0"/>
                                 <Border x:Name="dot" Width="7" Height="7" CornerRadius="4"
@@ -1564,10 +1568,11 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="True">
                             <Setter TargetName="ItemBd" Property="Background" Value="{DynamicResource MenuHoverBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ComboHighlightTextBrush}"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="ItemBd" Property="Background" Value="{DynamicResource PrimaryBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
+                            <Setter TargetName="ItemBd" Property="Background" Value="{DynamicResource SelectionBg}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
