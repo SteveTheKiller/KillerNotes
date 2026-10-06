@@ -41,7 +41,7 @@ namespace KillerNotes.Services
             if (match.Groups[1].Value[0] == '`' && info.Contains("`")) return null;
             _marker = match.Groups[1].Value[0];
             _length = match.Groups[1].Length;
-            string[] names = info.Split(new[] { ' ', '\t', '{' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] names = info.Split([' ', '\t', '{'], StringSplitOptions.RemoveEmptyEntries);
             string name = names.Length > 0 ? names[0] : "";
             _language = name.ToLowerInvariant() switch
             {

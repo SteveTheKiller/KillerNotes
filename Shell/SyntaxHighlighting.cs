@@ -112,7 +112,7 @@ namespace KillerNotes.Shell
                 string text = ParagraphCodeText(_syntaxFlat[_fenceLanguages.Count]).TrimEnd('\r', '\n');
                 var parts = _fenceReader.ReadParagraph(text);
                 _fenceParts.Add(parts);
-                string? name = parts[parts.Count - 1].Language;
+                string? name = parts[^1].Language;
                 _fenceLanguages.Add(name == null ? null : Enum.TryParse(name, out CodeLanguage language) ? language : CodeLanguage.Plain);
             }
             return _fenceLanguages[index];
