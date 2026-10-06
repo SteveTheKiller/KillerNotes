@@ -25,6 +25,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Fixed picker, dialog, Graph, and SketchPad frame corners and close-button hover contrast.
 - Pressing F4 to leave the preview no longer crashes with an "Unknown Hard Error".
 - Restoring an older note title offers to update incoming links through the rename dialog.
+- Restoring the oldest saved version works when history is full.
 - Previews render Markdown and HTML together and preserve angle-bracket placeholders and code examples.
 - Removed the preview's inset frame and restored dragging its split-view divider.
 - The mouse wheel scrolls the notes list a full step per notch again.

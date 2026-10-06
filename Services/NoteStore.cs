@@ -842,15 +842,18 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 chk.Parameters.AddWithValue("$n", noteId);
                 if ((long)chk.ExecuteScalar()! == 0) return false;
             }
+            // Keeping the current state can prune the selected oldest version at the cap.
+            if (LoadVersion(versionId) is not { } selected) return false;
             Snapshot(noteId, force: true);
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "UPDATE notes SET title = h.title, format = h.format, content = h.content, plain = h.plain, modified = $m " +
-                              "FROM (SELECT title, format, content, plain FROM note_history WHERE id = $v) AS h WHERE notes.id = $n";
+            cmd.CommandText = "UPDATE notes SET title = $t, format = $f, content = $c, plain = $p, modified = $m WHERE id = $n";
+            cmd.Parameters.AddWithValue("$t", selected.Title);
+            cmd.Parameters.AddWithValue("$f", selected.Format);
+            cmd.Parameters.AddWithValue("$c", (object?)selected.Content ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("$p", selected.Plain);
             cmd.Parameters.AddWithValue("$m", Ts(DateTime.Now));
-            cmd.Parameters.AddWithValue("$v", versionId);
             cmd.Parameters.AddWithValue("$n", noteId);
-            cmd.ExecuteNonQuery();
-            return true;
+            return cmd.ExecuteNonQuery() > 0;
         }
 
         /// <summary>Markdown notes whose content is still raw source rather than a XamlPackage,

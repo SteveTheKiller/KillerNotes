@@ -113,6 +113,26 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void RestoringTheOldestVersionAtTheCapKeepsItsContent()
+        {
+            using var _ = new TempStore();
+            using var __ = Interval(TimeSpan.Zero);
+            long id = NoteStore.Create("Draft");
+            for (int i = 0; i <= NoteStore.HistoryCap; i++)
+                NoteStore.Save(id, "Title " + i, B("version " + i), "version " + i);
+
+            var oldest = NoteStore.ListHistory(id).Last();
+            var selected = NoteStore.LoadVersion(oldest.Id)!.Value;
+            Assert.True(NoteStore.RestoreVersion(id, oldest.Id));
+
+            Assert.Equal(selected.Content, NoteStore.LoadContent(id));
+            Assert.Equal(oldest.Title, NoteStore.List().Single().Title);
+            Assert.Equal(NoteStore.HistoryCap, NoteStore.ListHistory(id).Count);
+            Assert.Equal(B("version " + NoteStore.HistoryCap),
+                NoteStore.LoadVersion(NoteStore.ListHistory(id).First().Id)!.Value.Content);
+        }
+
+        [Fact]
         public void RestoreRefusesAnotherNotesVersion()
         {
             using var _ = new TempStore();

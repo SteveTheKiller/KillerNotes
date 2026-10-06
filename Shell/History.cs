@@ -46,9 +46,10 @@ namespace KillerNotes.Shell
             if (dlg.ChosenVersion < 0) return;
 
             string titleBefore = NoteStore.CaptureRow(id)?.Title ?? "";
+            var selected = NoteStore.LoadVersion(dlg.ChosenVersion);
             if (!NoteStore.RestoreVersion(id, dlg.ChosenVersion)) return;
             // Links are derived from the text on every save; the restored text has its own.
-            if (NoteStore.LoadVersion(dlg.ChosenVersion) is { } v)
+            if (selected is { } v)
                 NoteStore.SetLinks(id, WikiLinks.Parse(v.Plain));
 
             RefreshList(preserveScroll: true);
