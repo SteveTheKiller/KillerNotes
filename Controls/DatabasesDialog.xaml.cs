@@ -87,9 +87,7 @@ namespace KillerNotes.Controls
                 row.Children.Add(nameText);
                 row.Children.Add(meta);
 
-                // A selected row fills with the accent (RowSelectedBrush); force white text
-                // so name + meta stay readable. In the Light accents that fill and the
-                // accent/muted text are the same hue, so a selected row was unreadable.
+                // Database rows use a matched fill and foreground, including their metadata.
                 var item = new ListBoxItem { Tag = name, Content = row };
                 System.Windows.Automation.AutomationProperties.SetName(item, name);
                 SetRowColors(nameText, meta, active, selected: false);
@@ -104,28 +102,18 @@ namespace KillerNotes.Controls
             DlgStatus.Text = NoteStore.DbDir;
         }
 
-        // Selection fills the row with the accent. Unselected: active db name in the accent,
-        // others normal.
         private static void SetRowColors(TextBlock name, TextBlock meta, bool active, bool selected)
         {
             if (selected)
             {
-                // SelectionFg, NOT Brushes.White. The ListBoxItem trigger in the XAML already sets
-                // SelectionFg for exactly this reason, but a local value on the child TextBlock
-                // beats an inherited one, so hardcoding white here silently defeated it - which is
-                // why the row still came out white on yellow after that trigger was added. On a
-                // theme that selects with a bright accent (Ectoplasm's RowSelectedBrush is
-                // #ead900) white is invisible; all thirteen themes define SelectionFg.
-                name.SetResourceReference(TextBlock.ForegroundProperty, "SelectionFg");
-                meta.SetResourceReference(TextBlock.ForegroundProperty, "SelectionFg");
-                // Subordinate to the name by opacity rather than a second hardcoded colour, so it
-                // stays legible whatever SelectionFg resolves to.
-                meta.Opacity = 0.78;
+                name.SetResourceReference(TextBlock.ForegroundProperty, "DatabaseSelectionTextBrush");
+                meta.SetResourceReference(TextBlock.ForegroundProperty, "DatabaseSelectionTextBrush");
+                meta.Opacity = 1.0;
             }
             else
             {
-                name.SetResourceReference(TextBlock.ForegroundProperty, active ? "PrimaryBrush" : "TextBrush");
-                meta.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
+                name.SetResourceReference(TextBlock.ForegroundProperty, active ? "DatabaseActiveTextBrush" : "TextBrush");
+                meta.SetResourceReference(TextBlock.ForegroundProperty, "DatabaseMetadataBrush");
                 meta.Opacity = 1.0;
             }
         }
@@ -215,14 +203,15 @@ namespace KillerNotes.Controls
                 MinWidth = 160,
                 Padding = new Thickness(2, 0, 2, 0),
                 BorderThickness = new Thickness(1),
-                Background = Brushes.Transparent,
             };
             box.SetResourceReference(TextBox.FontFamilyProperty, "SidebarFont");
+            box.SetResourceReference(TextBox.BackgroundProperty, "PaneBrush");
             box.SetResourceReference(TextBox.ForegroundProperty, "TextBrush");
             box.SetResourceReference(TextBox.CaretBrushProperty, "TextBrush");
             box.SetResourceReference(TextBox.BorderBrushProperty, "PrimaryBrush");
-            box.SetResourceReference(TextBox.SelectionBrushProperty, "PrimaryBrush");
-            box.SelectionOpacity = 0.35;
+            box.SetResourceReference(TextBox.SelectionBrushProperty, "DatabaseSelectionBrush");
+            box.SetResourceReference(TextBox.SelectionTextBrushProperty, "DatabaseSelectionTextBrush");
+            box.SelectionOpacity = 1.0;
 
             bool done = false;   // guard: Enter commits, then LostFocus fires again
             void Finish(bool commit)
