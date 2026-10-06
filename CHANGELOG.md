@@ -41,7 +41,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Ctrl+wheel changes picker views and icon sizes, and image previews keep their texture and thumbnail shadow.
 - Fixed picker, dialog, Graph, and SketchPad frame corners and close-button hover contrast.
 - Restored slider tracks and corrected database names and metadata, dialog selection, menu hover, toolbar icon, and footer contrast across themes, with subtle gray Delirium dividers.
-- The notes list no longer fades its last row when scrolled all the way to the bottom.
+- The notes list keeps rounded selection corners at narrow widths and no longer fades its last row at the bottom.
 - The shortcuts list groups bindings under category headings in the same colors as the keyboard map.
 - Selected language and theme rows keep the active accent on hover.
 - The theme picker's divider updates when switching themes.

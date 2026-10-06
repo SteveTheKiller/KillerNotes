@@ -706,6 +706,7 @@
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="AutomationProperties.Name" Value="{Binding AutomationName}"/>
                                 <Setter Property="Padding" Value="8,6"/>
+                                <Setter Property="MaxWidth" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"/>
                                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
