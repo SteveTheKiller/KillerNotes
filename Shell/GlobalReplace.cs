@@ -50,7 +50,7 @@ namespace KillerNotes.Shell
             SaveCurrentNote(refreshList: false);
 
             // ---- Scan: which notes, and how many matches in each ----
-            var affected = new List<(long Id, string Title, FlowDocument Doc,
+            var affected = new List<(long Id, string Title, string BodyBefore, FlowDocument Doc,
                                      List<(int Start, int Length)> Hits,
                                      List<(int Offset, TextPointer Start, int Length)> Runs)>();
             foreach (var note in NoteStore.List(term))
@@ -63,7 +63,7 @@ namespace KillerNotes.Shell
                 var (plain, runs) = FlattenDoc(doc);
                 var hits = LiteralHits(plain, term);
                 if (hits.Count == 0) continue;
-                affected.Add((note.Id, note.Title, doc, hits, runs));
+                affected.Add((note.Id, note.Title, plain, doc, hits, runs));
             }
             if (affected.Count == 0) { FlashStatus(Loc("Str_St_FindNoMatches")); return; }
 
@@ -107,18 +107,23 @@ namespace KillerNotes.Shell
                 updates.Add((a.Id, ms.ToArray(), stored));
             }
             NoteStore.UpdateContents(updates);
+            foreach (var a in affected)
+                NoteStore.SetLinks(a.Id, WikiLinks.Parse(new TextRange(a.Doc.ContentStart, a.Doc.ContentEnd).Text));
 
             long openId = _currentId;
             bool touchedOpen = openId >= 0 && affected.Any(a => a.Id == openId);
             RefreshList();
             if (touchedOpen) OpenNote(openId);
+            RefreshBacklinks();
 
             PushUndo(() =>
             {
                 NoteStore.RestoreContents(before);
+                foreach (var a in affected) NoteStore.SetLinks(a.Id, WikiLinks.Parse(a.BodyBefore));
                 long cur = _currentId;
                 RefreshList();
                 if (cur >= 0 && before.Any(r => r.Id == cur)) OpenNote(cur);
+                RefreshBacklinks();
             });
 
             FlashStatus(string.Format(Loc("Str_St_ReplacedNotes"), total, affected.Count));
@@ -189,7 +194,7 @@ namespace KillerNotes.Shell
             for (int i = hits.Count - 1; i >= 0; i--)
             {
                 var a = PointerAt(runs, hits[i].Start);
-                var b = a?.GetPositionAtOffset(hits[i].Length, LogicalDirection.Forward);
+                var b = PointerAt(runs, hits[i].Start + hits[i].Length, end: true);
                 if (a == null || b == null) continue;
                 new TextRange(a, b).Text = repl;
             }
@@ -197,20 +202,22 @@ namespace KillerNotes.Shell
 
         /// <summary>Offset back to a live TextPointer through the run map - the same binary
         /// search as the find bar's PointerForOffset, against a caller-owned map.</summary>
-        private static TextPointer? PointerAt(List<(int Offset, TextPointer Start, int Length)> runs, int offset)
+        private static TextPointer? PointerAt(List<(int Offset, TextPointer Start, int Length)> runs, int offset, bool end = false)
         {
+            int lookup = end ? offset - 1 : offset;
             int lo = 0, hi = runs.Count - 1, found = -1;
             while (lo <= hi)
             {
                 int mid = (lo + hi) / 2;
                 var (rOffset, _, rLength) = runs[mid];
-                if (offset < rOffset) hi = mid - 1;
-                else if (offset >= rOffset + rLength) lo = mid + 1;
+                if (lookup < rOffset) hi = mid - 1;
+                else if (lookup >= rOffset + rLength) lo = mid + 1;
                 else { found = mid; break; }
             }
             if (found < 0) return null;
             var (runOffset, runStart, _) = runs[found];
-            return runStart.GetPositionAtOffset(offset - runOffset, LogicalDirection.Forward);
+            return runStart.GetPositionAtOffset(offset - runOffset,
+                end ? LogicalDirection.Backward : LogicalDirection.Forward);
         }
 
         /// <summary>A note's sketch text labels from its stored payloads, one per line - the
