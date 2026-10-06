@@ -29,7 +29,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <local:DialogTitleBar Grid.Row="0" Subtitle="{DynamicResource Str_Hist_Title}"
+                <local:DialogTitleBar x:Name="TitleBar" Grid.Row="0" Subtitle="{DynamicResource Str_Hist_Title}"
                                       CloseRequested="Close_Click"/>
 
                 <!-- Body: versions on the left, the selected one on the right. -->

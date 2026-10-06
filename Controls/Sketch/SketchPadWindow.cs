@@ -197,6 +197,20 @@ namespace KillerNotes.Controls.Sketch
             BuildUi();
             SetTool(Tool.Pen);
             UpdateUndoButtons();
+            SketchBind(_canvas, "Ctrl+Shift+Up", Key.Up, () => Reorder(_sel!, true), ModifierKeys.Control | ModifierKeys.Shift, () => _sel != null);
+            SketchBind(_canvas, "Ctrl+Shift+Down", Key.Down, () => Reorder(_sel!, false), ModifierKeys.Control | ModifierKeys.Shift, () => _sel != null);
+            SketchBind(_canvas, "Ctrl+D", Key.D, () => Duplicate(_sel!), ModifierKeys.Control, () => _sel != null);
+            SketchBind(_canvas, "Ctrl+Shift+A", Key.A, () => StartArc(_sel!), ModifierKeys.Control | ModifierKeys.Shift,
+                () => _sel != null && (_sel.Kind is SketchKind.Line or SketchKind.Arrow) && _sel.Pts.Count < 6);
+            SketchBind(_canvas, "Ctrl+Shift+L", Key.L, () => Straighten(_sel!), ModifierKeys.Control | ModifierKeys.Shift,
+                () => _sel != null && (_sel.Kind is SketchKind.Line or SketchKind.Arrow) && _sel.Pts.Count >= 6);
+            SketchBind(_canvas, "Ctrl+Shift+O", Key.O, () => { PushUndo(); _sel!.Opacity = 1; _wheelObj = null; RenderCanvas(); },
+                ModifierKeys.Control | ModifierKeys.Shift, () => _sel?.Kind == SketchKind.Image);
+            SketchBind(_canvas, "F10", Key.F10, () => BeginTextEntry(new Point(_sel!.X, _sel.Y), _sel),
+                ModifierKeys.None, () => _sel?.Kind == SketchKind.Text);
+            SketchBind(_canvas, "Ctrl+B", Key.B, () => { PushUndo(); _sel!.Bold = !_sel.Bold; RenderCanvas(); },
+                ModifierKeys.Control, () => _sel?.Kind == SketchKind.Text);
+            DialogShortcuts.Describe(_closeBtn, "Esc / Alt+F4");
 
             // Drag an image file (or a raw bitmap) anywhere onto the pad to drop it in at that point.
             AllowDrop = true;
@@ -231,6 +245,7 @@ namespace KillerNotes.Controls.Sketch
             Closed += (_, _) => KillerNotes.Services.ThemeManager.ThemeChanged -= OnThemeChanged;
             KeyDown += (_, e) =>
             {
+                if (e.Handled || Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)) return;
                 if (_textBox != null) return;   // the inline text editor owns the keyboard while a label is open
                 bool ctrl = (Keyboard.Modifiers & ModifierKeys.Control) != 0;
                 bool shift = (Keyboard.Modifiers & ModifierKeys.Shift) != 0;

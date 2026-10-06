@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Input;
 
 // KillerUI kit.
 namespace KillerNotes.Controls
@@ -21,6 +22,10 @@ namespace KillerNotes.Controls
         public ConfirmDialog()
         {
             InitializeComponent();
+            DialogShortcuts.Button(this, OkButton, "Enter", Key.Enter);
+            DialogShortcuts.Bind(this, TitleBar, "Esc", Key.Escape, ModifierKeys.None, () => Cancel_Click(this, new RoutedEventArgs()));
+            DialogShortcuts.Describe(CancelButton, "Esc");
+            DialogShortcuts.Bind(this, Check1, "Alt+C", Key.C, ModifierKeys.Alt, () => Check1.IsChecked = Check1.IsChecked != true);
             TaskbarIdentity.Track(this);
             Loaded += (_, _) => Anim.FadeIn(RootBorder);
         }

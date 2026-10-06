@@ -33,7 +33,7 @@ namespace KillerNotes.Shell
                 string label = g.Path.Replace(NoteStore.GroupSep, " / ");
                 var item = new MenuItem
                 {
-                    Header = BuildMenuRow(check, null, label, null),   // Tags.cs (shared row layout)
+                    Header = BuildMenuRow(check, null, label, "Enter"),   // Tags.cs (shared row layout)
                     Padding = new Thickness(6, 5, 14, 5),
                     HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 };
@@ -47,7 +47,7 @@ namespace KillerNotes.Shell
             {
                 var remove = new MenuItem
                 {
-                    Header = BuildMenuRow(null, null, Loc("Str_Ctx_RemoveFromGroup"), null),
+                    Header = BuildMenuRow(null, null, Loc("Str_Ctx_RemoveFromGroup"), "Enter"),
                     Padding = new Thickness(6, 5, 14, 5),
                     HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 };
@@ -57,7 +57,7 @@ namespace KillerNotes.Shell
 
             var create = new MenuItem
             {
-                Header = BuildMenuRow(null, null, Loc("Str_Ctx_NewGroup"), null),
+                Header = BuildMenuRow(null, null, Loc("Str_Ctx_NewGroup"), "Ctrl+G"),
                 Padding = new Thickness(6, 6, 14, 6),
                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
             };

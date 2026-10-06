@@ -127,7 +127,7 @@ namespace KillerNotes.Shell
             {
                 var item = new MenuItem
                 {
-                    Header = BuildMenuRow(null, null, t.Title, null),   // Tags.cs (shared row layout)
+                    Header = BuildMenuRow(null, null, t.Title, "Enter"),   // Tags.cs (shared row layout)
                     Padding = new Thickness(6, 5, 14, 5),
                     HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 };

@@ -896,4 +896,21 @@
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">বহির্গামী লিঙ্ক</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">নিয়ন্ত্রণগুলোর মধ্যে যান এবং ফোকাস করা পছন্দটি সক্রিয় করুন</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">খোঁজার সময় পরবর্তী বা আগের মিল</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">ক্যালকুলেটরে ফোকাস থাকলে সংখ্যা ও অপারেটর লিখুন</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">ক্যালকুলেটর সাফ করুন</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">ক্যালকুলেটরের মানের চিহ্ন পরিবর্তন করুন</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">শতাংশ গণনা করুন</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">নিশ্চিতকরণের বিকল্প চালু বা বন্ধ করুন</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">রিচ টেক্সট ও Markdown-এর মধ্যে রূপান্তর করুন</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">নির্বাচিত স্পিচ মডেল ডাউনলোড বা ব্যবহার করুন</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">রেকর্ডিংয়ে পেছনে বা সামনে যান</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">ফোকাস করা রঙের নমুনাটি প্রয়োগ করুন</sys:String>
+    <sys:String x:Key="Str_KS_Picker">ফাইল নির্বাচক</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">ফোল্ডারের পাথে ফোকাস করুন</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">ফোল্ডারের বিষয়বস্তু রিফ্রেশ করুন</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">প্রিভিউ প্যান দেখান বা লুকান</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">আগের বা পরের ফোল্ডার</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">রিলিজ নোট</sys:String>
 </ResourceDictionary>

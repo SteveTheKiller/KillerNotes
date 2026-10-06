@@ -947,4 +947,21 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_St_NoBackupFolder">Chưa có thư mục sao lưu. Vào Quản lý cơ sở dữ liệu, rồi Bản sao lưu để chọn.</sys:String>
 
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Liên kết đến</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Di chuyển giữa các điều khiển và kích hoạt lựa chọn đang có tiêu điểm</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Kết quả khớp tiếp theo hoặc trước đó khi tìm kiếm</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Nhập số và toán tử khi máy tính đang có tiêu điểm</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Xóa nội dung máy tính</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Đổi dấu giá trị trên máy tính</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Tính phần trăm</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Bật hoặc tắt tùy chọn xác nhận</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Chuyển đổi giữa văn bản có định dạng và Markdown</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Tải xuống hoặc dùng mô hình giọng nói đã chọn</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Tua lùi hoặc tiến trong bản ghi</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Áp dụng ô màu đang có tiêu điểm</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Bộ chọn tệp</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Đặt tiêu điểm vào đường dẫn thư mục</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Làm mới nội dung thư mục</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Hiển thị hoặc ẩn ngăn xem trước</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Thư mục trước hoặc tiếp theo</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Ghi chú phát hành</sys:String>
 </ResourceDictionary>

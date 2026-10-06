@@ -134,7 +134,11 @@ namespace KillerNotes.Shell
         // header was right-clicked rather than trusting DataContext propagation.
         private GroupHeader? _ctxGroup;
 
-        private void GroupHeader_RightDown(object sender, MouseButtonEventArgs e)
+        private void GroupHeader_RightDown(object sender, MouseButtonEventArgs e) => UpdateGroupHeaderMenu(sender);
+
+        private void GroupHeader_ContextMenuOpening(object sender, ContextMenuEventArgs e) => UpdateGroupHeaderMenu(sender);
+
+        private void UpdateGroupHeaderMenu(object sender)
         {
             var fe = sender as FrameworkElement;
             _ctxGroup = fe?.DataContext as GroupHeader;
@@ -220,6 +224,7 @@ namespace KillerNotes.Shell
 
         private GroupHeader? ResolveKeyboardGroup()
         {
+            if (Keyboard.FocusedElement is FrameworkElement { DataContext: GroupHeader focusedGroup }) return focusedGroup;
             var groups = NotesList.SelectedItems.OfType<Note>()
                 .Select(n => n.Notebook).Where(g => g.Length > 0)
                 .Distinct(StringComparer.OrdinalIgnoreCase).ToList();

@@ -100,6 +100,7 @@ namespace KillerNotes.Controls
             (_h, _s, _v) = RgbToHsv(initial);
             BuildUi();
             SyncFromHsv();
+            PreviewKeyDown += ColorShortcut_KeyDown;
             // No window-level Escape/Enter handler. The Cancel button is IsCancel and the OK button
             // IsDefault (see BuildUi), so WPF already routes both keys for us. The handler that used
             // to live here duplicated that: Escape ran DialogResult=false AND Close(), and assigning
@@ -226,6 +227,19 @@ namespace KillerNotes.Controls
             _svArea.MouseLeftButtonDown += (s, e) => { _svArea.CaptureMouse(); SvPick(e.GetPosition(svGrid)); };
             _svArea.MouseMove += (s, e) => { if (e.LeftButton == MouseButtonState.Pressed) SvPick(e.GetPosition(svGrid)); };
             _svArea.MouseLeftButtonUp += (s, e) => _svArea.ReleaseMouseCapture();
+            _svArea.Focusable = true;
+            _svArea.ToolTip = L("Str_Dlg_PickColor", "Pick a color") + " (Alt+S, arrows)";
+            _svArea.KeyDown += (_, e) =>
+            {
+                if (Keyboard.Modifiers is not (ModifierKeys.None or ModifierKeys.Shift)) return;
+                double step = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) ? 0.1 : 0.01;
+                if (e.Key == Key.Left) _s = Math.Max(0, _s - step);
+                else if (e.Key == Key.Right) _s = Math.Min(1, _s + step);
+                else if (e.Key == Key.Down) _v = Math.Max(0, _v - step);
+                else if (e.Key == Key.Up) _v = Math.Min(1, _v + step);
+                else return;
+                SyncFromHsv(); e.Handled = true;
+            };
             pickRow.Children.Add(_svArea);
 
             var hueRect = new Rectangle { Width = HueW, Height = SvH, Fill = HueStripBrush() };
@@ -241,6 +255,17 @@ namespace KillerNotes.Controls
             hueArea.MouseLeftButtonDown += (s, e) => { hueArea.CaptureMouse(); HuePick(e.GetPosition(hueRect)); };
             hueArea.MouseMove += (s, e) => { if (e.LeftButton == MouseButtonState.Pressed) HuePick(e.GetPosition(hueRect)); };
             hueArea.MouseLeftButtonUp += (s, e) => hueArea.ReleaseMouseCapture();
+            hueArea.Focusable = true;
+            hueArea.ToolTip = L("Str_Dlg_PickColor", "Pick a color") + " (Alt+H, Up/Down)";
+            hueArea.KeyDown += (_, e) =>
+            {
+                if (Keyboard.Modifiers is not (ModifierKeys.None or ModifierKeys.Shift)) return;
+                if (e.Key is not (Key.Up or Key.Down)) return;
+                double step = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) ? 10 : 1;
+                _h = (_h + (e.Key == Key.Up ? -step : step) + 360) % 360;
+                SyncFromHsv(); e.Handled = true;
+            };
+            _keyboardHueArea = hueArea;
             pickRow.Children.Add(hueArea);
             panel.Children.Add(pickRow);
 
@@ -262,6 +287,8 @@ namespace KillerNotes.Controls
             };
             System.Windows.Automation.AutomationProperties.SetName(eyedrop, L("Str_TT_Eyedropper", "Pick a color from anywhere on screen"));
             eyedrop.Click += (_, _) => RunEyedropper();
+            eyedrop.ToolTip = L("Str_TT_Eyedropper", "Pick a color from anywhere on screen") + " (Alt+E)";
+            System.Windows.Automation.AutomationProperties.SetAcceleratorKey(eyedrop, "Alt+E");
             inputRow.Children.Add(eyedrop);
             panel.Children.Add(inputRow);
 
@@ -282,10 +309,14 @@ namespace KillerNotes.Controls
             // is lost for a screen reader or a first-time user hovering them.
             _replaceBtn = Chip("", L("Str_TT_ReplaceSwatch", "Click, then click a swatch to set it to the current color"));
             _replaceBtn.HorizontalAlignment = HorizontalAlignment.Left;
-            _replaceBtn.MouseLeftButtonUp += (_, _) => { _replaceArmed = !_replaceArmed; UpdateReplaceChip(); RebuildSavedRow(); };
+            _replaceBtn.MouseLeftButtonUp += (_, _) => ToggleSwatchReplace();
+            _replaceBtn.ToolTip = L("Str_TT_ReplaceSwatch", "Replace a saved swatch") + " (Alt+R)";
+            EnableColorChipKeys(_replaceBtn, ToggleSwatchReplace);
             var resetBtn = Chip("", L("Str_TT_ResetSwatches", "Reset swatches to defaults"));
             resetBtn.HorizontalAlignment = HorizontalAlignment.Right;
-            resetBtn.MouseLeftButtonUp += (_, _) => { StoreSaved([.. DefaultSwatches]); _replaceArmed = false; UpdateReplaceChip(); RebuildSavedRow(); };
+            resetBtn.MouseLeftButtonUp += (_, _) => ResetSavedSwatches();
+            resetBtn.ToolTip = L("Str_TT_ResetSwatches", "Reset swatches to defaults") + " (Alt+D)";
+            EnableColorChipKeys(resetBtn, ResetSavedSwatches);
             swHeader.Children.Add(_replaceBtn);
             swHeader.Children.Add(resetBtn);
             panel.Children.Add(swHeader);
@@ -356,7 +387,7 @@ namespace KillerNotes.Controls
                 Left = SystemParameters.VirtualScreenLeft, Top = SystemParameters.VirtualScreenTop,
                 Width = SystemParameters.VirtualScreenWidth, Height = SystemParameters.VirtualScreenHeight, Owner = this
             };
-            capture.MouseLeftButtonDown += (_, _) =>
+            Action pickPixel = () =>
             {
                 // GetCursorPos returns physical screen pixels; the desktop DC's GetPixel uses the same
                 // space, so this is correct regardless of per-monitor DPI scaling.
@@ -371,11 +402,27 @@ namespace KillerNotes.Controls
                 }
                 capture.DialogResult = false; capture.Close();
             };
-            capture.KeyDown += (_, e) => { if (e.Key == Key.Escape) { capture.DialogResult = false; capture.Close(); } };
+            capture.MouseLeftButtonDown += (_, _) => pickPixel();
+            capture.KeyDown += (_, e) =>
+            {
+                if (e.Key == Key.Escape) { capture.DialogResult = false; e.Handled = true; }
+                else if (e.Key == Key.Enter) { pickPixel(); e.Handled = true; }
+                else if (e.Key is Key.Left or Key.Right or Key.Up or Key.Down)
+                {
+                    if (GetCursorPos(out POINT pt))
+                    {
+                        int step = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) ? 10 : 1;
+                        SetCursorPos(pt.X + (e.Key == Key.Right ? step : e.Key == Key.Left ? -step : 0), pt.Y + (e.Key == Key.Down ? step : e.Key == Key.Up ? -step : 0));
+                    }
+                    e.Handled = true;
+                }
+            };
             capture.ShowDialog();
         }
 
         // ---- Saved swatches ----
+        [DllImport("user32.dll")]
+        private static extern bool SetCursorPos(int x, int y);
 
         // Shared with the SketchPad tool strip so both show the same slots and the picker's
         // Replace / Reset edits them for both.
@@ -420,18 +467,41 @@ namespace KillerNotes.Controls
                         ? L("Str_TT_SwatchReplace", "Click to set this swatch to the current color")
                         : L("Str_TT_SwatchUse", "Click to use this color") };
                 if (_replaceArmed) sw.SetResourceReference(Border.BorderBrushProperty, "PrimaryBrush"); else sw.BorderBrush = R("InputBorderBrush");
-                sw.MouseLeftButtonUp += (_, _) =>
-                {
-                    if (_replaceArmed)
-                    {
-                        var list = LoadSaved();
-                        if (idx < list.Count) { list[idx] = HsvToRgb(_h, _s, _v); StoreSaved(list); }
-                        _replaceArmed = false; UpdateReplaceChip(); RebuildSavedRow();
-                    }
-                    else SetFromColor(c);
-                };
+                sw.ToolTip = sw.ToolTip + " (Alt+" + (idx + 1) + ")";
+                sw.MouseLeftButtonUp += (_, _) => UseSavedSwatch(idx);
+                EnableColorChipKeys(sw, () => UseSavedSwatch(idx));
                 _savedRow.Children.Add(sw);
             }
+        }
+
+        private Border _keyboardHueArea = null!;
+
+        private void ToggleSwatchReplace() { _replaceArmed = !_replaceArmed; UpdateReplaceChip(); RebuildSavedRow(); }
+        private void ResetSavedSwatches() { StoreSaved([.. DefaultSwatches]); _replaceArmed = false; UpdateReplaceChip(); RebuildSavedRow(); }
+        private void UseSavedSwatch(int index)
+        {
+            var saved = LoadSaved(); if (index < 0 || index >= saved.Count) return;
+            if (_replaceArmed) { saved[index] = HsvToRgb(_h, _s, _v); StoreSaved(saved); _replaceArmed = false; UpdateReplaceChip(); RebuildSavedRow(); }
+            else SetFromColor(saved[index]);
+        }
+        private static void EnableColorChipKeys(Border chip, Action action)
+        {
+            chip.Focusable = true;
+            System.Windows.Automation.AutomationProperties.SetName(chip, chip.ToolTip?.ToString() ?? "");
+            chip.KeyDown += (_, e) => { if (Keyboard.Modifiers == ModifierKeys.None && e.Key is Key.Space or Key.Enter) { if (!e.IsRepeat) action(); e.Handled = true; } };
+        }
+        private void ColorShortcut_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers != ModifierKeys.Alt) return;
+            Key key = e.Key == Key.System ? e.SystemKey : e.Key;
+            if (key == Key.E) { if (!e.IsRepeat) RunEyedropper(); }
+            else if (key == Key.R) { if (!e.IsRepeat) ToggleSwatchReplace(); }
+            else if (key == Key.D) { if (!e.IsRepeat) ResetSavedSwatches(); }
+            else if (key == Key.S) _svArea.Focus();
+            else if (key == Key.H) _keyboardHueArea.Focus();
+            else if (key >= Key.D1 && key <= Key.D9) { if (!e.IsRepeat) UseSavedSwatch(key - Key.D1); }
+            else return;
+            e.Handled = true;
         }
 
         // ---- Small themed control builders ----

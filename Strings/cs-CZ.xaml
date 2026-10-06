@@ -893,4 +893,21 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Odkazuje na</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Přecházet mezi ovládacími prvky a aktivovat vybranou možnost</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Další nebo předchozí shoda při hledání</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Zadávat čísla a operátory, když má kalkulačka fokus</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Vymazat kalkulačku</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Změnit znaménko hodnoty kalkulačky</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Vypočítat procento</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Přepnout možnost v potvrzovacím dialogu</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Převést mezi formátovaným textem a Markdownem</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Stáhnout nebo použít vybraný model řeči</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Posunout se v nahrávce zpět nebo vpřed</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Použít vzorek barvy s fokusem</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Výběr souboru</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Přejít na cestu ke složce</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Obnovit obsah složky</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Zobrazit nebo skrýt panel náhledu</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Předchozí nebo další složka</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Poznámky k vydání</sys:String>
 </ResourceDictionary>

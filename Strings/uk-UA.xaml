@@ -943,4 +943,21 @@
     <sys:String x:Key="Str_Kb_Backup">Копія</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Папку резервних копій ще не вибрано. Виберіть її в «Керування базами даних», розділ «Резервні копії».</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Посилання на</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Перехід між елементами керування та активація вибраного елемента</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Наступний або попередній збіг під час пошуку</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Введення чисел і операторів, коли калькулятор у фокусі</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Очистити калькулятор</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Змінити знак значення калькулятора</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Обчислити відсоток</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Увімкнути або вимкнути параметр підтвердження</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Перетворити між форматованим текстом і Markdown</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Завантажити або використати вибрану модель мовлення</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Перемотати запис назад або вперед</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Застосувати зразок кольору у фокусі</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Вибір файлу</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Перейти до поля шляху до папки</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Оновити вміст папки</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Показати або приховати панель попереднього перегляду</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Попередня або наступна папка</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Примітки до випуску</sys:String>
 </ResourceDictionary>

@@ -941,4 +941,21 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Sikkerhetskopi</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Ingen mappe for sikkerhetskopier ennå. Velg en under «Administrer databaser» og deretter «Sikkerhetskopier».</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Lenker til</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Flytt mellom kontroller og aktiver valget som har fokus</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Neste eller forrige treff under søk</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Skriv inn tall og operatorer når kalkulatoren har fokus</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Tøm kalkulatoren</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Bytt fortegn på kalkulatorverdien</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Beregn en prosentandel</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Slå bekreftelsesvalget av eller på</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Konverter mellom rik tekst og Markdown</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Last ned eller bruk den valgte talemodellen</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Gå bakover eller fremover i opptaket</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Bruk fargeprøven som har fokus</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Filvelger</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Sett fokus på mappebanen</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Oppdater mappeinnholdet</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Vis eller skjul forhåndsvisningsruten</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Forrige eller neste mappe</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Versjonsmerknader</sys:String>
 </ResourceDictionary>

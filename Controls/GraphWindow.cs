@@ -279,6 +279,27 @@ namespace KillerNotes.Controls
             // one meant the graph never settled while the window was being resized.
             SizeChanged += (_, _) => { _resizeSettle.Stop(); _resizeSettle.Start(); };
             KeyDown += OnKey;
+            DialogShortcuts.Bind(this, _miColor, "Y", Key.Y, ModifierKeys.None, () => { _miColor.IsChecked = !_miColor.IsChecked; ApplyNodeColors(); });
+            DialogShortcuts.Bind(this, _miGhosts, "H", Key.H, ModifierKeys.None, () => { _miGhosts.IsChecked = !_miGhosts.IsChecked; ApplyGhostVisibility(); });
+            DialogShortcuts.Bind(this, _miArrange, "Alt+A", Key.A, ModifierKeys.Alt, () => OpenGraphChoices(_miArrange));
+            DialogShortcuts.Bind(this, _miShape, "Alt+S", Key.S, ModifierKeys.Alt, () => OpenGraphChoices(_miShape), () => _visualizer);
+            DialogShortcuts.Bind(this, _canvas, "S", Key.S, ModifierKeys.None, SaveArrangementPrompt, () => SameDb && !NoteStore.IsReadOnly);
+            DialogShortcuts.Bind(this, _canvas, "Alt+F", Key.F, ModifierKeys.Alt, () =>
+            {
+                RefreshArrangeMenu();
+                OpenGraphChoices(_miArrange);
+                foreach (var item in _miArrange.Items)
+                    if (item is MenuItem row && Equals(row.Header, Str("Str_Ctx_GraphForget", "Forget arrangement"))) row.IsSubmenuOpen = true;
+            }, () => SameDb && !NoteStore.IsReadOnly && NoteStore.ListGraphLayouts().Count > 0);
+        }
+
+        private void OpenGraphChoices(MenuItem item)
+        {
+            _canvasMenu.PlacementTarget = _canvas;
+            _canvasMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            _canvasMenu.IsOpen = true;
+            item.IsSubmenuOpen = true;
+            item.Focus();
         }
 
         // ── Chrome ───────────────────────────────────────────────────────────────────────
@@ -362,6 +383,7 @@ namespace KillerNotes.Controls
                 ToolTip = _legend.Text,
             };
             _legendHint.SetResourceReference(TextBlock.ForegroundProperty, "DimTextBrush");
+            DialogShortcuts.Bind(this, _legendHint, "Alt+L", Key.L, ModifierKeys.Alt, RestoreLegend);
             // Lights on hover, so it says it is worth pointing at rather than looking like a
             // stray character.
             _legendHint.MouseEnter += (_, _) =>
@@ -1530,6 +1552,13 @@ namespace KillerNotes.Controls
             {
                 int shape = i;   // captured per row, not the loop variable's final value
                 var row = new MenuItem { Header = labels[i], IsCheckable = true };
+                DialogShortcuts.Bind(this, row, "Alt+" + (shape + 1), Key.D1 + shape, ModifierKeys.Alt, () =>
+                {
+                    _shape = shape;
+                    _shapeAge = 0;
+                    ApplyShape(shape);
+                    RefreshShapeMenu();
+                }, () => _visualizer);
                 row.Click += (_, _) =>
                 {
                     _shape = shape;
@@ -2046,6 +2075,7 @@ namespace KillerNotes.Controls
 
         private void OnKey(object sender, KeyEventArgs e)
         {
+            if (e.Handled || Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)) return;
             // Esc is "show everything" and NOTHING ELSE. It used to fall through to closing the
             // window, which contradicted the menu row that advertises it as Show everything and
             // meant the key for undoing a view could also throw the window away (2026-08-23).
@@ -2209,6 +2239,11 @@ namespace KillerNotes.Controls
                 () => { ClearIsolation(); ClearSelection(); });
 
             BuildShapeMenu();
+            foreach (var item in _menu.Items.Cast<object>().Concat(_miArrange.Items.Cast<object>()))
+                if (item is MenuItem row && !string.IsNullOrEmpty(row.InputGestureText)) DialogShortcuts.Describe(row, row.InputGestureText);
+            DialogShortcuts.Describe(_miLabels, "L");
+            DialogShortcuts.Describe(_miHold, "P");
+            DialogShortcuts.Describe(_miSpin, "V");
 
             _canvasMenu.Items.Add(_miArrange);
             _canvasMenu.Items.Add(_miShowAll);
@@ -2350,6 +2385,7 @@ namespace KillerNotes.Controls
         private static MenuItem ArrangeRow(string header, string gesture, UIElement icon, Action onClick)
         {
             var mi = new MenuItem { Header = header, InputGestureText = gesture, Icon = icon };
+            if (!string.IsNullOrEmpty(gesture)) DialogShortcuts.Describe(mi, gesture);
             mi.Click += (_, _) => onClick();
             return mi;
         }
@@ -2521,22 +2557,26 @@ namespace KillerNotes.Controls
                     // Captured per iteration on purpose: the handler outlives this loop.
                     string pick = name;
                     var row = new MenuItem { Header = pick };
+                    DialogShortcuts.Describe(row, "Alt+A, ↑/↓, Enter");
                     row.Click += (_, _) => ApplyLayout(pick);
                     _miArrange.Items.Add(row);
                 }
             }
             _miArrange.Items.Add(new Separator());
             var save = new MenuItem { Header = Str("Str_Ctx_GraphSaveArrange", "Save this arrangement...") };
+            DialogShortcuts.Describe(save, "S");
             save.Click += (_, _) => SaveArrangementPrompt();
             _miArrange.Items.Add(save);
 
             if (saved.Count > 0)
             {
                 var forget = new MenuItem { Header = Str("Str_Ctx_GraphForget", "Forget arrangement") };
+                DialogShortcuts.Describe(forget, "Alt+F");
                 foreach (string name in saved)
                 {
                     string drop = name;
                     var row = new MenuItem { Header = drop };
+                    DialogShortcuts.Describe(row, "Alt+F, ↑/↓, Enter");
                     row.Click += (_, _) => ForgetArrangement(drop);
                     forget.Items.Add(row);
                 }
@@ -2799,6 +2839,7 @@ namespace KillerNotes.Controls
         {
             var mi = new MenuItem { Header = header, Icon = glyph, InputGestureText = gesture };
             if (tip != null) mi.ToolTip = tip;
+            if (!string.IsNullOrEmpty(gesture)) DialogShortcuts.Describe(mi, gesture);
             mi.Click += (_, _) => onClick();
             return mi;
         }

@@ -44,6 +44,7 @@ namespace KillerNotes.Shell
         private static void ContextMenuOpenedPlacement(object sender, RoutedEventArgs e)
         {
             if (sender is not ContextMenu menu) return;
+            DescribeMenuShortcuts(menu);
             // Only the ones left on the default. A menu that asks for a specific placement - the
             // font size and color popups open Bottom against their button, per the family rule
             // that a flyout anchors to the control that opened it - is deliberate and is left

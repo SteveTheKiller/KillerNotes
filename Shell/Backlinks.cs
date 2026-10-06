@@ -78,7 +78,7 @@ namespace KillerNotes.Shell
         private void UpdateBacklinkCollapseChrome()
         {
             BacklinkCollapseBtn.Content = _backlinkCollapsed ? "\uE76B" : "\uE76C";
-            BacklinkCollapseBtn.ToolTip = Loc(_backlinkCollapsed ? "Str_TT_ExpandMentions" : "Str_TT_CollapseMentions");
+            BacklinkCollapseBtn.ToolTip = Loc(_backlinkCollapsed ? "Str_TT_ExpandMentions" : "Str_TT_CollapseMentions") + " (Alt+Z)";
             BacklinkCount.Text = _strip.Count.ToString();
             BacklinkCount.Visibility = _backlinkCollapsed ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -266,6 +266,7 @@ namespace KillerNotes.Shell
                 ToolTip = it.Mention ? Loc("Str_TT_MentionChip") : null,
             };
             if (Application.Current?.TryFindResource("SurfaceButton") is Style s) chip.Style = s;
+            Controls.DialogShortcuts.Describe(chip, "Space / Ctrl+Space");
             chip.Click += (_, _) => ChipActivated(it);
             return chip;
         }
@@ -302,6 +303,7 @@ namespace KillerNotes.Shell
                 ToolTip = Loc("Str_TT_AndMore"),
             };
             if (Application.Current?.TryFindResource("SurfaceButton") is Style s) more.Style = s;
+            Controls.DialogShortcuts.Describe(more, "Space");
             more.Click += (_, _) =>
             {
                 var menu = new ContextMenu { PlacementTarget = more, Placement = PlacementMode.Top };
@@ -320,6 +322,7 @@ namespace KillerNotes.Shell
                     var mi = new MenuItem
                     {
                         Header = it.Title,
+                        InputGestureText = "Enter",
                         ToolTip = it.Mention ? Loc("Str_TT_MentionChip") : null,
                     };
                     var captured = it;

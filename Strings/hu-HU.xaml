@@ -922,4 +922,21 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Kimenő hivatkozások</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Váltás a vezérlők között és a fókuszban lévő lehetőség aktiválása</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Következő vagy előző találat keresés közben</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Számok és műveleti jelek bevitele, amikor a számológép van fókuszban</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">A számológép törlése</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">A számológép értékének előjelváltása</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Százalék számítása</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">A megerősítési lehetőség be- vagy kikapcsolása</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Átalakítás formázott szöveg és Markdown között</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">A kiválasztott beszédmodell letöltése vagy használata</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Vissza- vagy előrelépés a felvételben</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">A fókuszban lévő színminta alkalmazása</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Fájlválasztó</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">A mappa elérési útjának fókuszba helyezése</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">A mappa tartalmának frissítése</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Az előnézeti panel megjelenítése vagy elrejtése</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Előző vagy következő mappa</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Kiadási megjegyzések</sys:String>
 </ResourceDictionary>

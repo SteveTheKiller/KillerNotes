@@ -897,4 +897,21 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Enlaces a</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Moverse entre controles y activar la opción con el foco</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Coincidencia siguiente o anterior durante la búsqueda</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Introducir números y operadores cuando la calculadora tiene el foco</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Borrar la calculadora</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Cambiar el signo del valor de la calculadora</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Calcular un porcentaje</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Activar o desactivar la opción de confirmación</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Convertir entre texto enriquecido y Markdown</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Descargar o usar el modelo de voz seleccionado</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Retroceder o avanzar en la grabación</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Aplicar la muestra de color con el foco</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Selector de archivos</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Enfocar la ruta de la carpeta</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Actualizar el contenido de la carpeta</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Mostrar u ocultar el panel de vista previa</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Carpeta anterior o siguiente</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Notas de la versión</sys:String>
 </ResourceDictionary>

@@ -160,6 +160,7 @@ namespace KillerNotes.SharedPicker
         {
             _mode = mode;
             InitializeComponent();
+            InitializePickerKeyboard();
             Loaded += (_, _) => Anim.FadeIn(RootFade);
 
             // Size and placement remembered separately from the folder picker: this dialog is a
@@ -540,6 +541,7 @@ namespace KillerNotes.SharedPicker
         private void Places_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             _placesMenuPlace = ItemUnder<PickerPlace>(e.OriginalSource as DependencyObject);
+            if (_placesMenuPlace == null && e.CursorLeft < 0) _placesMenuPlace = PlacesList.SelectedItem as PickerPlace;
             // Drives are dynamic, not pinned - nothing to remove; empty space likewise.
             if (_placesMenuPlace is not { Pinned: true }) e.Handled = true;
         }
@@ -560,6 +562,7 @@ namespace KillerNotes.SharedPicker
         private void Files_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             _filesMenuEntry = ItemUnder<PickerEntry>(e.OriginalSource as DependencyObject);
+            if (_filesMenuEntry == null && e.CursorLeft < 0) _filesMenuEntry = FileList.SelectedItem as PickerEntry;
             if (_filesMenuEntry is not { IsFolder: true }) e.Handled = true;   // only folders pin
         }
 
@@ -599,6 +602,11 @@ namespace KillerNotes.SharedPicker
         private void NavigateTo(string dir)
         {
             if (string.IsNullOrWhiteSpace(dir) || !Directory.Exists(dir)) return;
+            if (!_keyboardHistoryTravel && (_keyboardHistoryIndex < 0 || !string.Equals(_keyboardHistory[_keyboardHistoryIndex], dir, StringComparison.OrdinalIgnoreCase)))
+            {
+                if (_keyboardHistoryIndex + 1 < _keyboardHistory.Count) _keyboardHistory.RemoveRange(_keyboardHistoryIndex + 1, _keyboardHistory.Count - _keyboardHistoryIndex - 1);
+                _keyboardHistory.Add(dir); _keyboardHistoryIndex = _keyboardHistory.Count - 1;
+            }
 
             _navigating = true;
             _currentDir  = dir;
@@ -1099,6 +1107,76 @@ namespace KillerNotes.SharedPicker
             // resizing, until a click. (2026-07-30)
             e.Handled = true;
             DragMove();
+        }
+
+        private readonly List<string> _keyboardHistory = new();
+        private int _keyboardHistoryIndex = -1;
+        private bool _keyboardHistoryTravel;
+
+        private void InitializePickerKeyboard()
+        {
+            PreviewKeyDown += PickerShortcut_KeyDown;
+            foreach (var item in new[] { (UpButton, "Str_TT_Up", "Alt+Up"), (RecentsBtn, "Str_TT_RecentLocations", "F4 / Alt+Down"),
+                (ShowHiddenBtn, "Str_TT_ShowHidden", "Alt+H"), (ViewListBtn, "Str_TT_ViewList", "Ctrl+Shift+5"),
+                (ViewIconsBtn, "Str_TT_ViewIcons", "Ctrl+Shift+1 through Ctrl+Shift+4"), (ViewDetailsBtn, "Str_TT_ViewDetails", "Ctrl+Shift+6") })
+            {
+                item.Item1.ToolTip = Loc(item.Item2) + " (" + item.Item3 + ")";
+                System.Windows.Automation.AutomationProperties.SetAcceleratorKey(item.Item1, item.Item3);
+            }
+            PathBox.ToolTip = Loc("Str_KS_PickerLocation") + " (Ctrl+L / Alt+D)";
+            PlacesList.ToolTip = Loc("Str_Menu_PinPlace") + " (Alt+Q, Alt+B, Alt+Shift+B, Ctrl+Shift+Up/Down)";
+            PreviewPane.ToolTip = Regex.Replace(Loc("Str_TT_Preview"), @"\s*\(F4\)", "") + " (Alt+P)";
+            if (FileList.ContextMenu?.Items[0] is MenuItem pin) pin.InputGestureText = "Alt+B";
+            if (PlacesList.ContextMenu?.Items[0] is MenuItem unpin) unpin.InputGestureText = "Alt+Shift+B";
+        }
+
+        private void PickerShortcut_KeyDown(object sender, KeyEventArgs e)
+        {
+            Key key = e.Key == Key.System ? e.SystemKey : e.Key;
+            ModifierKeys mods = Keyboard.Modifiers;
+            bool handled = true;
+            if ((mods == ModifierKeys.Control && key == Key.L) || (mods == ModifierKeys.Alt && key == Key.D)) { PathBox.Focus(); PathBox.SelectAll(); }
+            else if (mods == ModifierKeys.Alt && key == Key.Up) Up_Click(this, new RoutedEventArgs());
+            else if (mods == ModifierKeys.Alt && key is Key.Left or Key.Right)
+            {
+                int next = _keyboardHistoryIndex + (key == Key.Left ? -1 : 1);
+                if (next >= 0 && next < _keyboardHistory.Count && Directory.Exists(_keyboardHistory[next]))
+                {
+                    _keyboardHistoryIndex = next; _keyboardHistoryTravel = true;
+                    try { NavigateTo(_keyboardHistory[next]); } finally { _keyboardHistoryTravel = false; }
+                }
+            }
+            else if (mods == ModifierKeys.None && key == Key.F5) NavigateTo(_currentDir);
+            else if ((mods == ModifierKeys.None && key == Key.F4) || (mods == ModifierKeys.Alt && key == Key.Down && !FilterCombo.IsKeyboardFocusWithin)) { RecentsBtn_Click(this, new RoutedEventArgs()); RecentsList.Focus(); }
+            else if (mods == ModifierKeys.Alt && key == Key.H) { if (!e.IsRepeat) ShowHidden_Click(this, new RoutedEventArgs()); }
+            else if (mods == ModifierKeys.Alt && key == Key.Q) PlacesList.Focus();
+            else if (mods == ModifierKeys.Alt && key == Key.P)
+            {
+                if (!e.IsRepeat) { ShowPreview = !ShowPreview; PreviewPane.Visibility = ShowPreview ? Visibility.Visible : Visibility.Collapsed; PreviewGapCol.Width = new GridLength(ShowPreview ? 8 : 0); PreviewCol.Width = new GridLength(ShowPreview ? 220 : 0); UpdatePreview(); }
+            }
+            else if (mods == (ModifierKeys.Control | ModifierKeys.Shift) && key >= Key.D1 && key <= Key.D4)
+            {
+                _pickerIconSize = PickerIconSizes[Key.D4 - key];
+                SetView(1);
+            }
+            else if (mods == (ModifierKeys.Control | ModifierKeys.Shift) && key is Key.D5 or Key.D6) SetView(key == Key.D5 ? 0 : 2);
+            else if (mods == ModifierKeys.Alt && key is Key.D1 or Key.D2 or Key.D3) SetSort(key - Key.D1);
+            else if (mods == ModifierKeys.Alt && key == Key.B) { if (!e.IsRepeat) PinPlace(FileList.SelectedItem is PickerEntry { IsFolder: true } folder ? folder.FullPath : _currentDir); }
+            else if (mods == (ModifierKeys.Alt | ModifierKeys.Shift) && key == Key.B) { if (!e.IsRepeat) { _placesMenuPlace = PlacesList.SelectedItem as PickerPlace; UnpinPlace_Click(this, new RoutedEventArgs()); } }
+            else if (mods == (ModifierKeys.Control | ModifierKeys.Shift) && PlacesList.IsKeyboardFocusWithin && key is Key.Up or Key.Down)
+            {
+                if (PlacesList.SelectedItem is PickerPlace { Pinned: true } selected)
+                {
+                    int from = Places.IndexOf(selected), to = from + (key == Key.Up ? -1 : 1);
+                    if (to >= 0 && to < Places.Count && Places[to].Pinned) { Places.Move(from, to); SavePinOrder(); }
+                }
+            }
+            else if (mods == ModifierKeys.None && key == Key.Enter && FileList.IsKeyboardFocusWithin)
+            {
+                if (FileList.SelectedItem is PickerEntry { IsFolder: true } folder) NavigateTo(folder.FullPath); else Accept();
+            }
+            else handled = false;
+            if (handled) e.Handled = true;
         }
 
         protected override void OnKeyDown(KeyEventArgs e)

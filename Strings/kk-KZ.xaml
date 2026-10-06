@@ -904,4 +904,21 @@
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Осы жазбадан шығатын сілтемелер</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Басқару элементтері арасында ауысу және фокустағы таңдауды іске қосу</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Іздеу кезінде келесі немесе алдыңғы сәйкестікке өту</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Калькулятор фокуста болғанда сандар мен амалдарды енгізу</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Калькуляторды тазалау</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Калькулятор мәнінің таңбасын өзгерту</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Пайызды есептеу</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Растау параметрін қосу немесе өшіру</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Пішімделген мәтін мен Markdown арасында түрлендіру</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Таңдалған сөзді тану моделін жүктеу немесе пайдалану</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Жазбада артқа немесе алға жылжу</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Фокустағы түс үлгісін қолдану</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Файл таңдау</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Қалта жолына фокус қою</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Қалта мазмұнын жаңарту</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Алдын ала қарау тақтасын көрсету немесе жасыру</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Алдыңғы немесе келесі қалта</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Шығарылым ескертпелері</sys:String>
 </ResourceDictionary>

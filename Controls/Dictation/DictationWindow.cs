@@ -120,6 +120,22 @@ namespace KillerNotes.Controls.Dictation
             { CaptionHeight = 0, ResizeBorderThickness = new Thickness(TryFindResource("UseDialogCaption") != null ? 4 : 8), GlassFrameThickness = new Thickness(0), CornerRadius = new CornerRadius(0) });
 
             BuildUi();
+            DialogShortcuts.Button(this, _recordBtn, "Alt+R", Key.R, ModifierKeys.Alt);
+            DialogShortcuts.Button(this, _playBtn, "Alt+P", Key.P, ModifierKeys.Alt);
+            DialogShortcuts.Button(this, _transcribeBtn, "Alt+T", Key.T, ModifierKeys.Alt);
+            DialogShortcuts.Button(this, _printBtn, "Ctrl+Enter", Key.Enter, ModifierKeys.Control);
+            DialogShortcuts.Button(this, _embedBtn, "Alt+E", Key.E, ModifierKeys.Alt);
+            void WaveKey(string gesture, Key key, string action) => DialogShortcuts.Bind(this, _wave,
+                gesture, key, ModifierKeys.Alt, () => WaveAction(action), () => _wav != null && !DictationRecorder.IsRecording && !_transcribing);
+            WaveKey("Alt+S", Key.S, "slice");
+            WaveKey("Alt+C", Key.C, "copy");
+            WaveKey("Alt+D", Key.D, "delete");
+            WaveKey("Alt+V", Key.V, "paste");
+            WaveKey("Alt+L", Key.L, "clear");
+            WaveKey("Alt+Z", Key.Z, "undo");
+            WaveKey("Alt+Left", Key.Left, "back");
+            WaveKey("Alt+Right", Key.Right, "forward");
+            DialogShortcuts.Describe(_wave, "Alt+S / Alt+C / Alt+D / Alt+V / Alt+L / Alt+Z / Alt+Left / Alt+Right");
 
             // Margins are Thickness values and cannot be resource references, so a live theme
             // switch re-applies them; grain and the caption swap are resource-driven already.
@@ -295,7 +311,9 @@ namespace KillerNotes.Controls.Dictation
             // and insets it with CaptionButtonsMargin, so it is the identical button.
             var head = new Grid();
             head.Children.Add(caption);
-            head.Children.Add(DialogChrome.CloseGlyph(L("Str_Dict_Close", "Close (Esc)"), Close));
+            var close = DialogChrome.CloseGlyph(L("Str_Dict_Close", "Close (Esc)"), Close);
+            DialogShortcuts.Describe(close, "Esc");
+            head.Children.Add(close);
             band.Child = head;
             Grid.SetRow(band, 0);
             return band;
@@ -397,6 +415,12 @@ namespace KillerNotes.Controls.Dictation
                 AcceptsReturn = true, TextWrapping = TextWrapping.Wrap, FontSize = 13,
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                 Style = S("DarkTextBox"),
+            };
+            _transcript.PreviewKeyDown += (_, e) =>
+            {
+                if (e.Key != Key.Enter || Keyboard.Modifiers != ModifierKeys.Control || !_printBtn.IsEnabled) return;
+                PrintText();
+                e.Handled = true;
             };
             // Overridden on the INSTANCE, not in DarkTextBox: that style is shared by every text
             // field in the app and an input edge is right for those. Here the transcript reads as
@@ -627,6 +651,26 @@ namespace KillerNotes.Controls.Dictation
 
         /// <summary>One undo level, taken before every destructive edit.</summary>
         private byte[]? _undo;
+        private bool _transcribing;
+
+        private void WaveAction(string action)
+        {
+            if (_wav == null || DictationRecorder.IsRecording || _transcribing) return;
+            _menuFraction = Math.Max(0, _wave.Progress);
+            _wave.SelectedSegment = _wave.SegmentAt(_menuFraction);
+            var (from, to) = _wave.SegmentBounds(_wave.SelectedSegment);
+            switch (action)
+            {
+                case "slice": _wave.AddCut(_menuFraction); _wave.SelectedSegment = -1; break;
+                case "copy": _clip = WavEdit.Extract(_wav, MsAt(from), MsAt(to)); break;
+                case "delete": if (_wave.Cuts.Count > 0) ApplyEdit(WavEdit.Remove(_wav, MsAt(from), MsAt(to)), from); break;
+                case "paste": if (_clip != null) ApplyEdit(WavEdit.Insert(_wav, MsAt(_menuFraction), _clip), _menuFraction); break;
+                case "clear": _wave.ClearCuts(); break;
+                case "undo": if (_undo != null) { _wav = _undo; _undo = null; RefreshAfterEdit(0); } break;
+                case "back": SeekTo(Math.Max(0, _menuFraction - 0.05)); break;
+                case "forward": SeekTo(Math.Min(1, _menuFraction + 0.05)); break;
+            }
+        }
 
         private void ShowWaveMenu()
         {
@@ -673,6 +717,13 @@ namespace KillerNotes.Controls.Dictation
         private static MenuItem Item(string header, string? glyph, Action run)
         {
             var mi = new MenuItem { Header = header };
+            string? gesture = header == L("Str_Dict_Slice", "Slice here") ? "Alt+S"
+                : header == L("Str_Dict_CopySeg", "Copy segment") ? "Alt+C"
+                : header == L("Str_Dict_DeleteSeg", "Delete segment") ? "Alt+D"
+                : header == L("Str_Dict_PasteSeg", "Paste segment here") ? "Alt+V"
+                : header == L("Str_Dict_ClearCuts", "Clear slices") ? "Alt+L"
+                : header == L("Str_Dict_UndoEdit", "Undo edit") ? "Alt+Z" : null;
+            if (gesture != null) DialogShortcuts.Describe(mi, gesture);
             if (glyph != null)
                 mi.Icon = new TextBlock { Text = glyph, FontFamily = new FontFamily("Segoe MDL2 Assets"), FontSize = 13 };
             mi.Click += (_, _) => run();
@@ -821,6 +872,7 @@ namespace KillerNotes.Controls.Dictation
             }
 
             _transcribeBtn.IsEnabled = false;
+            _transcribing = true;
             _status.Text = L("Str_Dict_Working", "Transcribing...");
             byte[] wav = _wav;
 
@@ -833,6 +885,7 @@ namespace KillerNotes.Controls.Dictation
                 Dispatcher.Invoke(() =>
                 {
                     _transcribeBtn.IsEnabled = true;
+                    _transcribing = false;
                     if (text == null)
                     {
                         _status.Text = err ?? L("Str_Dict_Failed", "Transcription failed.");

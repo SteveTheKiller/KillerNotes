@@ -943,4 +943,21 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Backup</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Ainda não há pasta de backup. Gerenciar bancos de dados e depois Backups permite escolher uma.</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Links para</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Mover entre controles e ativar a opção em foco</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Próxima correspondência ou anterior durante a busca</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Inserir números e operadores quando a calculadora estiver em foco</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Limpar a calculadora</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Inverter o sinal do valor da calculadora</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Calcular uma porcentagem</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Ativar ou desativar a opção de confirmação</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Converter entre texto formatado e Markdown</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Baixar ou usar o modelo de fala selecionado</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Retroceder ou avançar na gravação</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Aplicar a amostra de cor em foco</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Seletor de arquivos</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Focar o caminho da pasta</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Atualizar o conteúdo da pasta</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Mostrar ou ocultar o painel de visualização</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Pasta anterior ou seguinte</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Notas da versão</sys:String>
 </ResourceDictionary>

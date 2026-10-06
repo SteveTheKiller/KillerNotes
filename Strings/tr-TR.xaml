@@ -895,4 +895,21 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Giden bağlantılar</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Denetimler arasında geçiş yap ve odaktaki seçeneği etkinleştir</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Arama sırasında sonraki veya önceki eşleşme</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Hesap makinesi odaktayken sayı ve işleç gir</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Hesap makinesini temizle</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Hesap makinesindeki değerin işaretini değiştir</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Yüzde hesapla</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Onay seçeneğini aç veya kapat</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Zengin metin ile Markdown arasında dönüştür</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Seçili konuşma modelini indir veya kullan</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Kayıtta geri veya ileri git</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Odaktaki renk örneğini uygula</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Dosya seçici</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Klasör yoluna odaklan</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Klasör içeriğini yenile</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Önizleme bölmesini göster veya gizle</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Önceki veya sonraki klasör</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Sürüm notları</sys:String>
 </ResourceDictionary>

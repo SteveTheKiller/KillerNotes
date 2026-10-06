@@ -894,4 +894,21 @@
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">链接到</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">在控件间移动并激活当前获得焦点的选项</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">查找时转到下一个或上一个匹配项</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">计算器获得焦点时输入数字和运算符</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">清空计算器</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">切换计算器数值的正负号</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">计算百分比</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">切换确认选项</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">在富文本与 Markdown 之间转换</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">下载或使用所选语音模型</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">在录音中后退或前进</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">应用当前获得焦点的色样</sys:String>
+    <sys:String x:Key="Str_KS_Picker">文件选择器</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">将焦点移到文件夹路径</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">刷新文件夹内容</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">显示或隐藏预览窗格</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">上一个或下一个文件夹</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">发行说明</sys:String>
 </ResourceDictionary>

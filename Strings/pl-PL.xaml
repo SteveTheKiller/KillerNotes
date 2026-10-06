@@ -823,4 +823,21 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Linki do</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Przechodź między kontrolkami i aktywuj wybór z fokusem</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Następne lub poprzednie dopasowanie podczas wyszukiwania</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Wprowadzaj liczby i operatory, gdy kalkulator ma fokus</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Wyczyść kalkulator</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Zmień znak wartości kalkulatora</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Oblicz procent</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Włącz lub wyłącz opcję potwierdzenia</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Konwertuj między tekstem sformatowanym a Markdown</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Pobierz lub użyj wybranego modelu mowy</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Przewiń nagranie wstecz lub do przodu</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Zastosuj próbkę koloru z fokusem</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Wybór pliku</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Ustaw fokus na ścieżce folderu</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Odśwież zawartość folderu</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Pokaż lub ukryj okienko podglądu</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Poprzedni lub następny folder</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Informacje o wydaniu</sys:String>
 </ResourceDictionary>

@@ -53,6 +53,7 @@ namespace KillerNotes.Shell
             new("Ctrl+F10", "Str_KS_SortCycle", "View", [(KbLayer.Ctrl, "F10", "Str_KS_SortCycle")]),
             new("F11", "Str_KS_Fullscreen", "View", [(KbLayer.Base, "F11", "Str_KS_Fullscreen")]),
             new("F12", "Str_KS_About", "Help", [(KbLayer.Base, "F12", "Str_KS_About")]),
+            new("Shift+F12", "Str_KS_ReleaseNotes", "Help", []),
             // The Alt layer. Alt+Left/Right are the browser's own back and forward, so they cost
             // nothing to learn; the mouse thumb buttons do the same thing (NoteHistory.cs).
             new("Alt+Left", "Str_KS_NavBack", "Note", [(KbLayer.Alt, "Left", "Str_Kb_NavBack")]),
@@ -122,13 +123,13 @@ namespace KillerNotes.Shell
                  (KbLayer.CtrlShift, "Equals", "Str_KS_AppSize"),
                  (KbLayer.CtrlShift, "Minus", "Str_KS_AppSize"),
                  (KbLayer.CtrlShift, "D0", "Str_KS_AppSize")]),
-            new("Ctrl+X / C", "Str_KS_CutCopy", "Edit", [(KbLayer.Ctrl, "X", "Str_Kb_Cut"), (KbLayer.Ctrl, "C", "Str_Kb_Copy")], Listed: false),
-            new("Ctrl+V", "Str_KS_Paste", "Edit", [(KbLayer.Ctrl, "V", "Str_Kb_Paste")], Listed: false),
-            new("Ctrl+Z / Y", "Str_KS_Undo", "Edit", [(KbLayer.Ctrl, "Z", "Str_Kb_Undo"), (KbLayer.Ctrl, "Y", "Str_Kb_Redo")], Listed: false),
-            new("Ctrl+A", "Str_KS_SelectAll", "Edit", [(KbLayer.Ctrl, "A", "Str_Kb_SelectAll")], Listed: false),
+            new("Ctrl+X / C", "Str_KS_CutCopy", "Edit", [(KbLayer.Ctrl, "X", "Str_Kb_Cut"), (KbLayer.Ctrl, "C", "Str_Kb_Copy")]),
+            new("Ctrl+V", "Str_KS_Paste", "Edit", [(KbLayer.Ctrl, "V", "Str_Kb_Paste")]),
+            new("Ctrl+Z / Y", "Str_KS_Undo", "Edit", [(KbLayer.Ctrl, "Z", "Str_Kb_Undo"), (KbLayer.Ctrl, "Y", "Str_Kb_Redo")]),
+            new("Ctrl+A", "Str_KS_SelectAll", "Edit", [(KbLayer.Ctrl, "A", "Str_Kb_SelectAll")]),
             new("Ctrl+Home / End", "Str_KS_NoteNav", "Edit", [(KbLayer.Ctrl, "Home", "Str_Kb_NoteTop"), (KbLayer.Ctrl, "End", "Str_Kb_NoteEnd")]),
-            new("Ctrl+Left / Right", "Str_KS_WordJump", "Edit", [(KbLayer.Ctrl, "Left", "Str_Kb_WordLeft"), (KbLayer.Ctrl, "Right", "Str_Kb_WordRight")], Listed: false),
-            new("Ctrl+Bksp / Del", "Str_KS_DelWord", "Edit", [(KbLayer.Ctrl, "Back", "Str_Kb_DelWordL"), (KbLayer.Ctrl, "Del", "Str_Kb_DelWordR")], Listed: false),
+            new("Ctrl+Left / Right", "Str_KS_WordJump", "Edit", [(KbLayer.Ctrl, "Left", "Str_Kb_WordLeft"), (KbLayer.Ctrl, "Right", "Str_Kb_WordRight")]),
+            new("Ctrl+Bksp / Del", "Str_KS_DelWord", "Edit", [(KbLayer.Ctrl, "Back", "Str_Kb_DelWordL"), (KbLayer.Ctrl, "Del", "Str_Kb_DelWordR")]),
             new("Ctrl+L / E / R / J", "Str_KS_Align", "Format",
                 [
                  (KbLayer.Ctrl, "L", "Str_Kb_AlignL"),
@@ -139,6 +140,8 @@ namespace KillerNotes.Shell
             new("Delete", "Str_KS_Delete", "Note", [(KbLayer.Base, "Del", "Str_Kb_DeleteNote")]),
             new("Esc", "Str_KS_Esc", "Help", [(KbLayer.Base, "Esc", "Str_KS_Esc")]),
             new("", "", "Edit", [(KbLayer.Base, "Menu", "Str_Kb_CtxMenu")]),
+
+            .. ActionShortcutRows(),
 
             // ---- OTHER WINDOWS ----
             //
@@ -173,6 +176,31 @@ namespace KillerNotes.Shell
             new("Ctrl+Wheel", "Str_KS_SkZoom", "View", []),
             new("Delete", "Str_KS_SkDelete", "View", []),
             new("Enter / Esc", "Str_KS_SkClose", "View", []),
+            .. DialogShortcutRows(),
+            .. PickerShortcutRows(),
+            new("", "Str_Kb_CtxMenu", "Help", []),
+            new("Shift+F10 / Menu", "Str_Kb_CtxMenu", "Help", []),
+            new("Up / Down / Enter / Esc", "Str_Kb_CtxMenu", "Help", []),
+            new("Tab / Shift+Tab / Space / Enter", "Str_KS_ControlNavigation", "Help", []),
+            new("Space / Enter", "Str_TT_TagChip", "Note", []),
+            new("Space / Enter", "Str_Ctx_Group", "Note", []),
+            new("Space / Ctrl+Space", "Str_TT_MentionChip", "Note", []),
+            new("", "Str_KS_Find", "Search", []),
+            new("F3 / Shift+F3 / Enter / Shift+Enter", "Str_KS_FindMatches", "Search", []),
+            new("Enter", "Str_TT_ReplaceOne", "Search", []),
+            new("Ctrl+Enter", "Str_TT_ReplaceAll", "Search", []),
+            new("", "Str_KS_Calc", "View", []),
+            new("0 - 9 / + / - / * / / / . / Enter / Backspace", "Str_KS_CalcInput", "View", []),
+            new("C / Delete", "Str_KS_CalcClear", "View", []),
+            new("N", "Str_KS_CalcNegate", "View", []),
+            new("Shift+5", "Str_KS_CalcPercent", "View", []),
+            new("", "Str_Sys_Close", "View", []),
+            new("Alt+Space, R", "Str_Sys_Restore", "View", []),
+            new("Alt+Space, M", "Str_Sys_Move", "View", []),
+            new("Alt+Space, S", "Str_Sys_Size", "View", []),
+            new("Alt+Space, N", "Str_Sys_Minimize", "View", []),
+            new("Alt+Space, X", "Str_Sys_Maximize", "View", []),
+            new("Alt+F4 / Alt+Space, C", "Str_Sys_Close", "View", []),
         ];
 
         // ---- The two views, derived from the table above ----

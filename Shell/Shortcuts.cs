@@ -15,6 +15,7 @@ namespace KillerNotes.Shell
         {
             PreviewKeyDown += Shortcuts_PreviewKeyDown;
             PreviewKeyUp += (_, _) => KbSyncLayerFromModifiers();   // KeyboardMap.cs
+            InitializeActionShortcutSurfaces();
             BuildShortcutRows();
         }
 
@@ -65,7 +66,7 @@ namespace KillerNotes.Shell
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
-                var key = new TextBlock { Text = keys, FontFamily = new System.Windows.Media.FontFamily("Consolas"), FontSize = 12 };
+                var key = new TextBlock { Text = keys, FontFamily = new System.Windows.Media.FontFamily("Consolas"), FontSize = 12, TextWrapping = TextWrapping.Wrap };
                 key.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryBrush");
 
                 var desc = new TextBlock { Text = Loc(label), FontSize = 12, TextWrapping = TextWrapping.Wrap };
@@ -107,6 +108,13 @@ namespace KillerNotes.Shell
             // below safe on those layouts: they are reached only with Alt and NOT Ctrl, so
             // AltGr can never trigger one.
             if (ctrl && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)) return;
+            if (HandleActionShortcut(e)) return;
+            if (Keyboard.Modifiers == ModifierKeys.Shift && e.Key == Key.F12)
+            {
+                if (!e.IsRepeat) _about.OpenReleaseNotes();
+                e.Handled = true;
+                return;
+            }
 
             // ── The Alt layer ────────────────────────────────────────────────────────────
             //
@@ -180,7 +188,7 @@ namespace KillerNotes.Shell
 
             // Ctrl+Enter prints the Killculator readout into the note; Ctrl+Shift+Enter prints the
             // whole running equation (Killculator.cs).
-            if (_kalcOpen && ctrl && e.Key == Key.Return)
+            if (_kalcOpen && KalcPanel.IsKeyboardFocusWithin && ctrl && e.Key == Key.Return)
             {
                 if (shift) KalcPrintEquation(); else KalcPrint();
                 e.Handled = true;

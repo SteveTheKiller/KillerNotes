@@ -42,11 +42,18 @@ namespace KillerNotes.Controls.Sketch
             };
             Tip(b, tooltip);
             b.Click += (_, _) => SetTool(tool);
+            string gesture = tool switch
+            {
+                Tool.Select => "V", Tool.Pen => "P", Tool.Line => "L", Tool.Arrow => "A",
+                Tool.Rect => "R", Tool.Ellipse => "O", Tool.Polygon => "G", Tool.Bucket => "B",
+                Tool.Text => "T", Tool.Eraser => "E", Tool.Crop => "C", _ => "",
+            };
+            if (gesture.Length > 0) DialogShortcuts.Describe(b, gesture);
             _toolBtns[tool] = b;
             return b;
         }
 
-        private static Button ActionButton(UIElement content, string tooltip, Action onClick)
+        private Button ActionButton(UIElement content, string tooltip, Action onClick)
         {
             var b = new Button
             {
@@ -55,8 +62,22 @@ namespace KillerNotes.Controls.Sketch
             };
             Tip(b, tooltip);
             b.Click += (_, _) => onClick();
+            switch (onClick.Method.Name)
+            {
+                case nameof(OpenColorPicker): SketchBind(b, "F4", Key.F4, onClick); break;
+                case nameof(ToggleZoomFit): SketchBind(b, "F5", Key.F5, onClick); break;
+                case nameof(ClearAll): SketchBind(b, "F8", Key.F8, onClick); break;
+                case nameof(AddImageFromFile): DialogShortcuts.Describe(b, "I"); break;
+                case nameof(Undo): DialogShortcuts.Describe(b, "Ctrl+Z"); break;
+                case nameof(Redo): DialogShortcuts.Describe(b, "Ctrl+Y / Ctrl+Shift+Z"); break;
+            }
             return b;
         }
+
+        private void SketchBind(FrameworkElement control, string gesture, Key key, Action action,
+                                ModifierKeys modifiers = ModifierKeys.None, Func<bool>? allowed = null)
+            => DialogShortcuts.Bind(this, control, gesture, key, modifiers, action,
+                () => _textBox == null && (allowed?.Invoke() ?? true));
 
         private static Border Separator()
         {
@@ -76,6 +97,7 @@ namespace KillerNotes.Controls.Sketch
             };
             Tip(b, L("Str_Sketch_Fill", "Fill shapes (rectangle / ellipse)"));
             b.Click += (_, _) => ToggleFill();
+            SketchBind(b, "F6", Key.F6, ToggleFill);
             return b;
         }
 
@@ -90,6 +112,7 @@ namespace KillerNotes.Controls.Sketch
             };
             Tip(b, L("Str_Sketch_Opacity", "Fill / bucket opacity (click to cycle)"));
             b.Click += (_, _) => CycleOpacity();
+            SketchBind(b, "F3", Key.F3, CycleOpacity);
             return b;
         }
 
@@ -105,6 +128,7 @@ namespace KillerNotes.Controls.Sketch
             };
             Tip(_widthBtn, L("Str_Sketch_Width", "Brush size (click to cycle)"));
             _widthBtn.Click += (_, _) => CycleWidth();
+            SketchBind(_widthBtn, "F2", Key.F2, CycleWidth);
             return _widthBtn;
         }
 
@@ -300,6 +324,16 @@ namespace KillerNotes.Controls.Sketch
             b.SetResourceReference(Border.BorderBrushProperty, "InputBorderBrush");
             Tip(b, $"#{c.R:X2}{c.G:X2}{c.B:X2}");
             b.MouseLeftButtonUp += (_, _) => PickColor(c);
+            b.Focusable = true;
+            DialogShortcuts.Describe(b, "Enter / Space");
+            b.KeyDown += (_, e) =>
+            {
+                if (Keyboard.Modifiers == ModifierKeys.None && e.Key is Key.Enter or Key.Space)
+                {
+                    PickColor(c);
+                    e.Handled = true;
+                }
+            };
             return b;
         }
 

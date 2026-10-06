@@ -52,12 +52,8 @@ namespace KillerNotes.Controls.Dictation
 
             Opacity = 0;
             Loaded += (_, _) => Anim.FadeIn(this);
-            PreviewKeyDown += (_, e) =>
-            {
-                if (e.Key != Key.Escape) return;
-                Cancel();
-                e.Handled = true;
-            };
+            DialogShortcuts.Button(this, _goBtn, "Enter", Key.Enter);
+            DialogShortcuts.Button(this, _cancelBtn, "Esc", Key.Escape);
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
@@ -217,6 +213,7 @@ namespace KillerNotes.Controls.Dictation
             // untrue. CloseGlyph carries the dual glyph, the caption face and the tunnelling click
             // handler (the band's DragMove otherwise swallows it) in one place.
             var close = DialogChrome.CloseGlyph(L("Str_Btn_Cancel", "Cancel"), Cancel);
+            DialogShortcuts.Describe(close, "Esc");
 
             var grid = new Grid();
             grid.Children.Add(caption);
@@ -227,6 +224,7 @@ namespace KillerNotes.Controls.Dictation
 
         private void BuildChoices()
         {
+            int number = 0;
             foreach (var (id, file, mb, note) in WhisperSpeech.Catalog)
             {
                 bool have = WhisperSpeech.IsInstalled(file);
@@ -273,6 +271,7 @@ namespace KillerNotes.Controls.Dictation
                 var radio = new RadioButton
                 {
                     Content = stack,
+                    ToolTip = NameOf(id),
                     GroupName = "whisper",
                     Tag = id,
                     IsChecked = id == _choice,
@@ -282,6 +281,9 @@ namespace KillerNotes.Controls.Dictation
                     VerticalContentAlignment = VerticalAlignment.Center,
                 };
                 radio.SetResourceReference(ForegroundProperty, "TextBrush");
+                int choiceNumber = ++number;
+                DialogShortcuts.Bind(this, radio, "Alt+" + choiceNumber, Key.D1 + choiceNumber - 1,
+                    ModifierKeys.Alt, () => radio.IsChecked = true);
                 radio.Checked += (s, _) =>
                 {
                     if (s is RadioButton rb && rb.Tag is string t) _choice = t;

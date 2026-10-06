@@ -31,7 +31,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <local:DialogTitleBar Grid.Row="0" CloseRequested="Cancel_Click"/>
+                <local:DialogTitleBar x:Name="TitleBar" Grid.Row="0" CloseRequested="Cancel_Click"/>
 
                 <!-- Body (defaults are placeholders; the configurable ctor overwrites them) -->
                 <StackPanel Grid.Row="1" Margin="24,20,24,16">

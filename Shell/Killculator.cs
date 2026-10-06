@@ -223,6 +223,9 @@ namespace KillerNotes.Shell
             {
                 >= Key.NumPad0 and <= Key.NumPad9 => ((char)('0' + (key - Key.NumPad0))).ToString(),
                 >= Key.D0 and <= Key.D9 when !shift => ((char)('0' + (key - Key.D0))).ToString(),
+                Key.C or Key.Delete when !shift => "clear",
+                Key.N when !shift => "neg",
+                Key.D5 when shift => "pct",
                 Key.D8 when shift => "mul",            // Shift+8 = *
                 Key.OemPlus when shift => "add",       // Shift+= = +
                 Key.OemPlus => "eq",                   // = computes

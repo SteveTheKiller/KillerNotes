@@ -69,8 +69,8 @@ namespace KillerNotes.Shell
 
             // No Separator here: implicit Separator styles don't reach menu separators, so
             // WPF drew the default light line ("white line"). A tighter-padded item reads
-            // fine without one. Its shortcut (F7) is right-aligned like the rest.
-            var manageHead = BuildMenuRow(check: null, swatch: null, Loc("Str_Ctx_ManageTags"), "F7");
+            // fine without one. Its shortcut (Ctrl+T) is right-aligned like the rest.
+            var manageHead = BuildMenuRow(check: null, swatch: null, Loc("Str_Ctx_ManageTags"), "Ctrl+T");
             var manage = new MenuItem { Header = manageHead, Padding = new Thickness(6, 6, 14, 6), HorizontalContentAlignment = HorizontalAlignment.Stretch };
             manage.Click += (_, _) => OpenTagsDialog();
             TagsMenu.Items.Add(manage);
@@ -92,7 +92,7 @@ namespace KillerNotes.Shell
                 Background = swatchBrush, VerticalAlignment = VerticalAlignment.Center,
             };
 
-            var head = BuildMenuRow(check, swatch, name, number <= 9 ? "Ctrl+" + number : null);
+            var head = BuildMenuRow(check, swatch, name, number <= 9 ? "Ctrl+" + number : "Enter");
             var item = new MenuItem { Header = head, StaysOpenOnClick = true, Padding = new Thickness(6, 5, 14, 5), HorizontalContentAlignment = HorizontalAlignment.Stretch };
             item.Click += (_, _) =>
             {

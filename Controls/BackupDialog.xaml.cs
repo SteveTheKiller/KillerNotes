@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using KillerNotes.Services;
 
 namespace KillerNotes.Controls
@@ -33,6 +34,20 @@ namespace KillerNotes.Controls
         {
             _dbFile = dbFile;
             InitializeComponent();
+            DialogShortcuts.Button(this, BrowseBtn, "Ctrl+O", Key.O, ModifierKeys.Control);
+            DialogShortcuts.Button(this, BackupNowBtn, "Ctrl+B", Key.B, ModifierKeys.Control);
+            DialogShortcuts.Button(this, RestoreBtn, "Ctrl+R", Key.R, ModifierKeys.Control);
+            DialogShortcuts.Button(this, DoneBtn, "Enter", Key.Enter);
+            DialogShortcuts.Bind(this, DoneBtn, "Esc", Key.Escape, ModifierKeys.None, Close);
+            DialogShortcuts.Describe(DoneBtn, "Enter / Esc");
+            DialogShortcuts.Describe(TitleBar, "Esc");
+            DialogShortcuts.Bind(this, EnableBox, "Alt+E", Key.E, ModifierKeys.Alt, () =>
+            {
+                EnableBox.IsChecked = EnableBox.IsChecked != true;
+                Setting_Changed(this, new RoutedEventArgs());
+            });
+            DialogShortcuts.Bind(this, IntervalBox, "Alt+I", Key.I, ModifierKeys.Alt, () => { IntervalBox.Focus(); IntervalBox.IsDropDownOpen = true; });
+            DialogShortcuts.Bind(this, KeepBox, "Alt+K", Key.K, ModifierKeys.Alt, () => { KeepBox.Focus(); KeepBox.IsDropDownOpen = true; });
             Loaded += (_, _) => Anim.FadeIn(RootBorder);
 
             DbName.Text = dbFile;

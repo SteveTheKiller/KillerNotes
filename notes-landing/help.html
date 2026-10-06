@@ -35,10 +35,10 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 .acc-body code { font-family: Consolas, monospace; font-size: 12.5px; background: var(--panel); padding: 1px 6px; border-radius: 4px; color: var(--text); }
 .kbd-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 44px; align-items: start; }
 .kbd-col { min-width: 0; }
-.kbd-group { display: grid; grid-template-columns: max-content 1fr; column-gap: 18px; row-gap: 6px; align-items: baseline; margin-bottom: 22px; }
+.kbd-group { display: grid; grid-template-columns: minmax(100px,130px) minmax(0,1fr); column-gap: 18px; row-gap: 6px; align-items: baseline; margin-bottom: 22px; }
 .kbd-group h4 { grid-column: 1 / -1; font-family: 'KillerNotes', 'Courier New', monospace; font-size: 15px; letter-spacing: .5px; color: var(--accent); font-weight: normal; margin-bottom: 4px; text-shadow: 0 2px 5px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
 .kbd-row { display: contents; }
-.kbd-row .k { font-family: Consolas, monospace; font-size: 12px; color: var(--text2); }
+.kbd-row .k { overflow-wrap: anywhere; font-family: Consolas, monospace; font-size: 12px; color: var(--text2); }
 .kbd-row .d { font-size: 13px; color: var(--text); }
 .sb-tabs .on { border-bottom: 0; }
 .outline { padding: 8px 0; overflow-y: auto; flex: 1; min-height: 0; }
@@ -224,8 +224,8 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 
 <h2 class="help-cat" id="shortcuts" data-i18n="hp_75">Keyboard shortcuts</h2>
 <p style="font-size:13.5px; color:var(--muted); margin:0 2px 16px;" data-i18n="hp_76">The same map lives in the app under <code>F1</code>, including a visual keyboard view that lights up each layer.</p>
-<!-- Interactive keyboard map: same binding tables as the in-app F1 KEYBOARD view
-     (English only, like the static list below; ported from the KillerPDF help page). -->
+<script src="shortcuts.generated.js?v=1"></script>
+<!-- The list and keyboard map use the app's generated shortcut registry. -->
 <style>
 .kbmap { --kc-file:#00fff9; --kc-note:#ff2975; --kc-format:#ffd319; --kc-view:#f222ff; --kc-search:#00b3ff; --kc-edit:#ff901f; --kc-help:#39ff14; margin: 0 0 30px; }
 html[data-theme="light"] .kbmap { --kc-file:#009e99; --kc-note:#d1105a; --kc-format:#a67c00; --kc-view:#a316b5; --kc-search:#0077b3; --kc-edit:#cc6a00; --kc-help:#128c07; }
@@ -263,47 +263,7 @@ html[data-theme="light"] .kbmap { --kc-file:#009e99; --kc-note:#d1105a; --kc-for
 </div>
 <script>
 (function(){
-var KBL = {
-base: { F1:['help','Keyboard shortcuts'], F2:['note','Rename the open note'], F3:['search','Search notes'],
-  F4:['view','Markdown/HTML preview'], F5:['view','Sidebar'], F6:['view','Format bar'],
-  F7:['view','SketchPad (drawing companion)'], F8:['file','Export the open note'],
-  F9:['view','Killculator'], F10:['view','Dictation (record, transcribe, embed)'],
-  F11:['view','Fullscreen'], F12:['help','About KillerNotes'],
-  Del:['note','Delete note (in the list)'], Esc:['help','Close overlay / clear search'],
-  Menu:['edit','Context menu'], Home:['view','Top of the preview page'], End:['view','End of the preview page'] },
-ctrl: { N:['note','New note'], O:['file','Open files as new notes'], S:['file','Save now'],
-  F:['search','Find in this note'], H:['search','Find and replace in this note'],
-  B:['format','Bold'], I:['format','Italic'], U:['format','Underline'],
-  X:['edit','Cut'], C:['edit','Copy'], V:['edit','Paste'], Z:['edit','Undo'], Y:['edit','Redo'], A:['edit','Select all'],
-  D:['view','Cycle sidebar density'], G:['note','New group (files selected notes into it)'],
-  T:['note','Manage tags (add, rename, recolor)'], K:['format','Insert / edit link'],
-  M:['view','Dictation (record and transcribe)'], F10:['view','Cycle sidebar sort (time / A-Z / custom)'],
-  Enter:['note','Print the Killculator result to the note'],
-  D1:['note','Toggle tag'], D2:['note','Toggle tag'], D3:['note','Toggle tag'], D4:['note','Toggle tag'],
-  D5:['note','Toggle tag'], D6:['note','Toggle tag'], D7:['note','Toggle tag'], D8:['note','Toggle tag'],
-  D9:['note','Toggle tag'], D0:['view','Reset editor zoom'],
-  Home:['edit','Top of note'], End:['edit','End of note'],
-  Left:['edit','Word left'], Right:['edit','Word right'],
-  Back:['edit','Delete word left'], Del:['edit','Delete word right'],
-  L:['format','Align left'], E:['format','Center'], R:['format','Align right'], J:['format','Justify'],
-  LBr:['format','Shrink text'], RBr:['format','Grow text'] },
-ctrlshift: { S:['format','Strikethrough'], M:['format','Monospace (code)'], H:['format','Highlight'],
-  R:['format','Horizontal rule'], L:['format','Bulleted list'], N:['format','Numbered list'],
-  J:['format','Selection to comma list'], G:['note','New subgroup (selected note\'s group)'],
-  K:['note','Group color (selected note\'s group)'], W:['view','Toggle word wrap'],
-  C:['note','Title color (selected note)'], P:['format','Toggle spell check (this note)'],
-  T:['format','Insert table'], A:['view','Theme and accent flyout'],
-  B:['view','Link graph'], D:['view','SketchPad (drawing companion)'], E:['format','Syntax highlighting'],
-  Period:['format','Grow text'], Comma:['format','Shrink text'],
-  Equals:['view','Zoom the whole app'], Minus:['view','Zoom the whole app'], D0:['view','Reset app zoom'],
-  Enter:['note','Print the whole Killculator equation'] },
-alt: { Left:['note','Back to the previous note'], Right:['note','Forward to the next note'],
-  L:['view','Toggle line numbers'], M:['view','Show or hide the linked-from strip'],
-  P:['note','Pin or unpin the selected note'], C:['format','Checkbox on the current lines'],
-  D:['note','Open or create today\'s note'], H:['note','Version history of the open note'],
-  D1:['format','Heading 1'], D2:['format','Heading 2'], D3:['format','Heading 3'], D0:['format','Normal text'],
-  O:['view','Show or hide the outline of headings'], T:['note','New note from a template'],
-  Del:['note','Open the trash on its first note'], B:['file','Back up the database now'] } };
+var KBL = window.KN_HELP.layers;
 var CATNAME = { file:'FILE', note:'NOTES', format:'FORMATTING', view:'VIEW', search:'SEARCH', edit:'EDITING', help:'HELP' };
 var KBROWS = [
 [['Esc','Esc',1],['',0.8],['F1','F1',1],['F2','F2',1],['F3','F3',1],['F4','F4',1],['',0.6],['F5','F5',1],['F6','F6',1],['F7','F7',1],['F8','F8',1],['',0.6],['F9','F9',1],['F10','F10',1],['F11','F11',1],['F12','F12',1]],
@@ -390,94 +350,39 @@ fit();
 window.addEventListener('resize', fit);
 })();
 </script>
-<!-- Shortcut tables are English only, matching the in-app keycaps (and the KillerPDF help page). -->
-<div class="kbd-cols">
-<div class="kbd-col">
-<div class="kbd-group"><h4>Function keys</h4>
-<div class="kbd-row"><span class="k">F1</span><span class="d">Keyboard shortcuts overlay</span></div>
-<div class="kbd-row"><span class="k">F2</span><span class="d">Rename the open note</span></div>
-<div class="kbd-row"><span class="k">F3</span><span class="d">Search every note (steps matches while find is open)</span></div>
-<div class="kbd-row"><span class="k">F4</span><span class="d">Toggle markdown/HTML preview</span></div>
-<div class="kbd-row"><span class="k">Home / End</span><span class="d">Top / end of the preview page</span></div>
-<div class="kbd-row"><span class="k">F5</span><span class="d">Collapse / expand the sidebar</span></div>
-<div class="kbd-row"><span class="k">F6</span><span class="d">Show / hide the format bar</span></div>
-<div class="kbd-row"><span class="k">F7 / Ctrl+Shift+D</span><span class="d">SketchPad (drawing companion)</span></div>
-<div class="kbd-row"><span class="k">F8</span><span class="d">Export the open note (.txt / .rtf / .html)</span></div>
-<div class="kbd-row"><span class="k">F9</span><span class="d">Killculator</span></div>
-<div class="kbd-row"><span class="k">F10 / Ctrl+M</span><span class="d">Dictation (record, transcribe, embed)</span></div>
-<div class="kbd-row"><span class="k">F11</span><span class="d">Fullscreen (Esc also leaves)</span></div>
-<div class="kbd-row"><span class="k">F12</span><span class="d">About KillerNotes</span></div>
-</div>
-<div class="kbd-group"><h4>Alt</h4>
-<div class="kbd-row"><span class="k">Alt+Left</span><span class="d">Back to the previous note</span></div>
-<div class="kbd-row"><span class="k">Alt+Right</span><span class="d">Forward to the next note</span></div>
-<div class="kbd-row"><span class="k">Alt+L</span><span class="d">Toggle line numbers</span></div>
-<div class="kbd-row"><span class="k">Alt+M</span><span class="d">Show or hide the linked-from strip</span></div>
-<div class="kbd-row"><span class="k">Alt+P</span><span class="d">Pin or unpin the selected note</span></div>
-<div class="kbd-row"><span class="k">Alt+C</span><span class="d">Checkbox on the current lines</span></div>
-<div class="kbd-row"><span class="k">Alt+D</span><span class="d">Open or create today's note</span></div>
-<div class="kbd-row"><span class="k">Alt+H</span><span class="d">Version history of the open note</span></div>
-<div class="kbd-row"><span class="k">Alt+1 / 2 / 3</span><span class="d">Heading level 1, 2 or 3</span></div>
-<div class="kbd-row"><span class="k">Alt+0</span><span class="d">Back to normal text</span></div>
-<div class="kbd-row"><span class="k">Alt+O</span><span class="d">Show or hide the outline of headings</span></div>
-<div class="kbd-row"><span class="k">Alt+T</span><span class="d">New note from a template</span></div>
-<div class="kbd-row"><span class="k">Alt+Delete</span><span class="d">Open the trash on its first note</span></div>
-<div class="kbd-row"><span class="k">Alt+B</span><span class="d">Back up the database now</span></div>
-</div>
-<div class="kbd-group"><h4>Ctrl</h4>
-<div class="kbd-row"><span class="k">Ctrl+N</span><span class="d">New note</span></div>
-<div class="kbd-row"><span class="k">Ctrl+G</span><span class="d">New group (files selected notes into it)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+T</span><span class="d">Manage tags (add, rename, recolor)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+F</span><span class="d">Find in this note (F3 / Shift+F3 step matches)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+H</span><span class="d">Find and replace in this note</span></div>
-<div class="kbd-row"><span class="k">Ctrl+K</span><span class="d">Insert / edit link (Ctrl+Click opens)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+F10</span><span class="d">Cycle sidebar sort (time / A-Z / custom)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+O</span><span class="d">Open files as new notes</span></div>
-<div class="kbd-row"><span class="k">Ctrl+S</span><span class="d">Save now (autosave runs anyway)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+D</span><span class="d">Cycle sidebar density</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Enter</span><span class="d">Print the Killculator result to the note</span></div>
-<div class="kbd-row"><span class="k">Ctrl+1 - 9</span><span class="d">Toggle tags 1-9 on the open note</span></div>
-<div class="kbd-row"><span class="k">Ctrl+B / I / U</span><span class="d">Bold / italic / underline</span></div>
-<div class="kbd-row"><span class="k">Ctrl+X / C / V</span><span class="d">Cut / copy / paste (text, images, tables)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Z / Y</span><span class="d">Undo / redo (editor and sidebar)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+A</span><span class="d">Select all</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Home / End</span><span class="d">Jump to the top / end of the note</span></div>
-<div class="kbd-row"><span class="k">Ctrl+&#8592; / &#8594;</span><span class="d">Jump by whole words</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Bksp / Del</span><span class="d">Delete a whole word</span></div>
-<div class="kbd-row"><span class="k">Ctrl+L / E / R / J</span><span class="d">Align left / center / right / justify</span></div>
-<div class="kbd-row"><span class="k">Ctrl+] / [</span><span class="d">Grow / shrink selected text</span></div>
-</div>
-</div>
-<div class="kbd-col">
-<div class="kbd-group"><h4>Ctrl+Shift</h4>
-<div class="kbd-row"><span class="k">Ctrl+Shift+S</span><span class="d">Strikethrough</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+M</span><span class="d">Monospace (code)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+H</span><span class="d">Highlight selection (yellow)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+R</span><span class="d">Insert horizontal rule</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+L / N</span><span class="d">Bulleted / numbered list</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+J</span><span class="d">Selection to comma list</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+T</span><span class="d">Insert table</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+G</span><span class="d">New subgroup (selected note's group)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+K</span><span class="d">Group color (selected note's group)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+C</span><span class="d">Title color (selected note)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+P</span><span class="d">Toggle spell check (this note)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+W</span><span class="d">Toggle word wrap</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+B</span><span class="d">Link graph (the selected group, or everything)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+E</span><span class="d">Toggle syntax highlighting (this note)</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+A</span><span class="d">Theme and accent flyout</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+Enter</span><span class="d">Print the whole Killculator equation</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift+&gt; / &lt;</span><span class="d">Grow / shrink selected text</span></div>
-<div class="kbd-row"><span class="k">Ctrl+Shift +/- / 0</span><span class="d">Zoom the whole app (accessibility)</span></div>
-</div>
-<div class="kbd-group"><h4>Everything else</h4>
-<div class="kbd-row"><span class="k">Ctrl+Wheel / Ctrl+0</span><span class="d">Zoom editor text (Ctrl+0 resets)</span></div>
-<div class="kbd-row"><span class="k">Tilt / Shift+Wheel</span><span class="d">Scroll sideways (word wrap off)</span></div>
-<div class="kbd-row"><span class="k">Delete</span><span class="d">Delete the selected note (in the list)</span></div>
-<div class="kbd-row"><span class="k">Menu key</span><span class="d">Context menu at the cursor</span></div>
-<div class="kbd-row"><span class="k">Esc</span><span class="d">Close overlay / Killculator / clear search</span></div>
-</div>
-</div>
-</div>
+<!-- Shortcut labels match the English app resources. -->
+<div class="kbd-cols" id="shortcutList"></div>
+<script>
+(function () {
+  var container = document.getElementById('shortcutList');
+  var column = document.createElement('div'); column.className = 'kbd-col'; container.appendChild(column);
+  var secondColumn = document.createElement('div'); secondColumn.className = 'kbd-col'; container.appendChild(secondColumn);
+  var groups = {}, groupCount = 0;
+  window.KN_HELP.rows.forEach(function (row) {
+    if (!row.listed || !row.label || !row.keys) return;
+    var category = row.category;
+    var groupKey = row.scope + '|' + category;
+    if (!groups[groupKey]) {
+      var group = document.createElement('div'); group.className = 'kbd-group';
+      var heading = document.createElement('h4'); heading.textContent = row.scope === 'Main window' ? category.toUpperCase() : row.scope;
+      group.appendChild(heading); (groupCount++ % 2 ? secondColumn : column).appendChild(group); groups[groupKey] = group;
+    }
+    var line = document.createElement('div'); line.className = 'kbd-row';
+    var key = document.createElement('span'); key.className = 'k'; key.textContent = row.keys;
+    var label = document.createElement('span'); label.className = 'd'; label.textContent = row.label;
+    line.appendChild(key); line.appendChild(label); groups[groupKey].appendChild(line);
+  });
+})();
+</script>
+
+<h2 class="help-cat" id="cli">Command line</h2>
+<div class="acc-item open">
+<div class="acc-body" style="max-height:none"><div class="acc-body-inner">
+<p>Run <code>KillerNotes.exe --cli --help</code> to list the commands. Read commands can use an explicit database path. Commands that change notes, export files or use app settings require KillerNotes to be open and unlocked.</p>
+<p>Output is JSON. Export paths must be new absolute paths. Use an empty quoted value to clear tags or a group, reset a title color or create a blank markdown note. Format conversion keeps a history snapshot and requires <code>--allow-loss</code> when rich formatting would be lost.</p>
+<pre id="cliHelp" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
+</div></div></div>
+<script>document.getElementById('cliHelp').textContent = window.KN_HELP.cli.join('\n');</script>
 
 </div>
 </div>
@@ -541,6 +446,7 @@ window.addEventListener('resize', fit);
 <a href="#hp_113" class="sub" data-i18n="hp_113">The file picker is ours, not Windows'</a>
 <a href="#hp_73" class="sub" data-i18n="hp_73">Portable by default</a>
 <a href="#shortcuts" data-i18n="hp_75">Keyboard shortcuts</a>
+<a href="#cli">Command line</a>
 </nav>
 </aside>
 </div>

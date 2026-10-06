@@ -894,4 +894,21 @@
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">リンク先</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">コントロール間を移動し、フォーカスのある選択肢を実行</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">検索中に次または前の一致へ移動</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">電卓にフォーカスがあるときに数値と演算子を入力</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">電卓をクリア</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">電卓の値の符号を反転</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">パーセントを計算</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">確認オプションを切り替え</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">リッチ テキストと Markdown の間で変換</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">選択した音声モデルをダウンロードまたは使用</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">録音内を後方または前方に移動</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">フォーカスのある色見本を適用</sys:String>
+    <sys:String x:Key="Str_KS_Picker">ファイル選択</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">フォルダーのパスにフォーカスを移動</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">フォルダーの内容を更新</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">プレビュー ペインを表示または非表示</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">前または次のフォルダー</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">リリースノート</sys:String>
 </ResourceDictionary>

@@ -896,4 +896,21 @@
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">連結至</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">在控制項間移動並啟用目前取得焦點的選項</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">尋找時前往下一個或上一個符合項目</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">計算機取得焦點時輸入數字和運算子</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">清除計算機</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">切換計算機數值的正負號</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">計算百分比</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">切換確認選項</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">在格式化文字與 Markdown 之間轉換</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">下載或使用所選語音模型</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">在錄音中往後或往前移動</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">套用目前取得焦點的色樣</sys:String>
+    <sys:String x:Key="Str_KS_Picker">檔案選擇器</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">將焦點移到資料夾路徑</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">重新整理資料夾內容</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">顯示或隱藏預覽窗格</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">上一個或下一個資料夾</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">版本資訊</sys:String>
 </ResourceDictionary>

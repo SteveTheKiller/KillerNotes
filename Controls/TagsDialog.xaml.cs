@@ -44,6 +44,16 @@ namespace KillerNotes.Controls
         public TagsDialog()
         {
             InitializeComponent();
+            DialogShortcuts.Button(this, AddBtn, "Ctrl+N", Key.N, ModifierKeys.Control);
+            DialogShortcuts.Bind(this, AddBtn, "Enter", Key.Enter, ModifierKeys.None, () => Add_Click(this, new RoutedEventArgs()));
+            DialogShortcuts.Describe(AddBtn, "Enter / Ctrl+N");
+            DialogShortcuts.Button(this, DoneBtn, "Esc", Key.Escape);
+            DialogShortcuts.Describe(TitleBar, "Esc");
+            DialogShortcuts.Bind(this, NewColorSwatch, "Alt+N", Key.N, ModifierKeys.Alt, () => NewColorSwatch_Click(this, null!));
+            DialogShortcuts.Bind(this, TagList, "F2", Key.F2, ModifierKeys.None, () => InvokeSelectedRow(1));
+            DialogShortcuts.Bind(this, TagList, "Alt+C", Key.C, ModifierKeys.Alt, () => InvokeSelectedRow(0));
+            DialogShortcuts.Bind(this, TagList, "Ctrl+D", Key.D, ModifierKeys.Control, () => InvokeSelectedRow(2));
+            DialogShortcuts.Describe(TagList, "F2 / Alt+C / Ctrl+D");
             Loaded += (_, _) => Anim.FadeIn(RootBorder);
             NewColorSwatch.Background = BrushFromHex(_newColor);
             Refresh();
@@ -85,9 +95,9 @@ namespace KillerNotes.Controls
 
             var actions = new StackPanel { Orientation = Orientation.Horizontal };
             Grid.SetColumn(actions, 2);
-            actions.Children.Add(RowButton("", Loc("Str_TT_TagRecolor"), () => RecolorTag(name)));
-            actions.Children.Add(RowButton("", Loc("Str_TT_TagRename"),  () => BeginRename(grid, label, name)));
-            actions.Children.Add(RowButton("", Loc("Str_TT_TagDelete"),  () => DeleteTag(name)));
+            actions.Children.Add(RowButton("", Loc("Str_TT_TagRecolor"), () => RecolorTag(name), "Alt+C"));
+            actions.Children.Add(RowButton("", Loc("Str_TT_TagRename"),  () => BeginRename(grid, label, name), "F2"));
+            actions.Children.Add(RowButton("", Loc("Str_TT_TagDelete"),  () => DeleteTag(name), "Ctrl+D"));
             grid.Children.Add(actions);
 
             var row = new ListBoxItem { Content = grid, Tag = name, HorizontalContentAlignment = HorizontalAlignment.Stretch };
@@ -97,10 +107,13 @@ namespace KillerNotes.Controls
             // Right-click menu: Rename / Change color / Delete (themed like the rest).
             var menu = new ContextMenu();
             var miRename = new MenuItem { Header = Loc("Str_TT_TagRename"), Icon = "\uE8AC" };
+            DialogShortcuts.Describe(miRename, "F2");
             miRename.Click += (_, _) => BeginRename(grid, label, name);
             var miColor = new MenuItem { Header = Loc("Str_TT_TagRecolor"), Icon = "\uE790" };
+            DialogShortcuts.Describe(miColor, "Alt+C");
             miColor.Click += (_, _) => RecolorTag(name);
             var miDelete = new MenuItem { Header = Loc("Str_TT_TagDelete"), Icon = "\uE74D" };
+            DialogShortcuts.Describe(miDelete, "Ctrl+D");
             miDelete.Click += (_, _) => DeleteTag(name);
             menu.Items.Add(miRename);
             menu.Items.Add(miColor);
@@ -109,7 +122,15 @@ namespace KillerNotes.Controls
             return row;
         }
 
-        private Button RowButton(string glyph, string tip, Action onClick)
+        private void InvokeSelectedRow(int index)
+        {
+            if (TagList.SelectedItem is not ListBoxItem { Content: Grid grid }) return;
+            if (grid.Children.OfType<StackPanel>().FirstOrDefault() is not StackPanel actions) return;
+            if (actions.Children[index] is Button button && button.IsEnabled)
+                button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent, button));
+        }
+
+        private Button RowButton(string glyph, string tip, Action onClick, string gesture)
         {
             var b = new Button
             {
@@ -118,6 +139,7 @@ namespace KillerNotes.Controls
                 ToolTip = tip, Style = TryFindResource("SurfaceButton") as Style,
             };
             b.Click += (_, _) => onClick();
+            DialogShortcuts.Describe(b, gesture);
             return b;
         }
 
@@ -138,7 +160,7 @@ namespace KillerNotes.Controls
 
         private void NewNameBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter) Add_Click(sender, e);
+            if (e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.None) { Add_Click(sender, e); e.Handled = true; }
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -199,8 +221,9 @@ namespace KillerNotes.Controls
             }
             box.KeyDown += (_, e) =>
             {
-                if (e.Key == Key.Enter) Commit(true);
-                else if (e.Key == Key.Escape) Commit(false);
+                if (Keyboard.Modifiers != ModifierKeys.None) return;
+                if (e.Key == Key.Enter) { Commit(true); e.Handled = true; }
+                else if (e.Key == Key.Escape) { Commit(false); e.Handled = true; }
             };
             box.LostFocus += (_, _) => Commit(true);
         }

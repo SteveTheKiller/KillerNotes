@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Input;
 
 // ============================================================
 // THEMED WINDOWS SYSTEM MENU
@@ -147,6 +148,15 @@ namespace KillerNotes.Shell
                                          danger ? "DangerRed" : "MutedTextBrush");
                 mi.Icon = ico;
 
+                string gesture = cmd switch { SC_RESTORE => "R", SC_MOVE => "M", SC_SIZE => "S", SC_MINIMIZE => "N", SC_MAXIMIZE => "X", _ => "C" };
+                mi.InputGestureText = cmd == SC_CLOSE ? "Alt+F4 / C" : gesture;
+                menu.KeyDown += (_, e) =>
+                {
+                    if (Keyboard.Modifiers != ModifierKeys.None || e.Key.ToString() != gesture || !mi.IsEnabled) return;
+                    menu.IsOpen = false;
+                    SendSysCommand(cmd);
+                    e.Handled = true;
+                };
                 mi.Click += (_, _) => SendSysCommand(cmd);
                 menu.Items.Add(mi);
                 return mi;

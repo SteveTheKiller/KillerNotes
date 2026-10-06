@@ -356,7 +356,17 @@ namespace KillerNotes.Shell
         // straight into Outlook, Teams or Explorer.
 
         /// <summary>The recording the context menu was opened on, or -1.</summary>
-        private int CtxRecordingOrd() => _ctxObject is Border b && b.Tag is int ord ? ord : -1;
+        private int CtxRecordingOrd()
+        {
+            if (_ctxObject is Border b && b.Tag is int ord) return ord;
+            DependencyObject? parent = Editor.CaretPosition?.Parent;
+            while (parent != null)
+            {
+                if (parent is InlineUIContainer { Child: Border { Tag: int caretOrdinal } }) return caretOrdinal;
+                parent = parent is FrameworkContentElement content ? content.Parent : LogicalTreeHelper.GetParent(parent);
+            }
+            return -1;
+        }
 
         /// <summary>Converts stored audio to whatever format the chosen filename asks for, or
         /// returns it unchanged when it already matches. Null means the conversion was not possible,

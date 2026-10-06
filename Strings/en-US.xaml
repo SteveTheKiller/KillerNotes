@@ -943,4 +943,21 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Backup</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">No backup folder yet. Manage databases, then Backups, picks one.</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Links to</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Move between controls and activate the focused choice</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Next or previous match while finding</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Enter numbers and operators while the calculator has focus</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Clear the calculator</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Negate the calculator value</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Calculate a percentage</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Toggle the confirmation option</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Convert between rich text and Markdown</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Download or use the selected speech model</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Seek backward or forward in the recording</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Apply the focused color swatch</sys:String>
+    <sys:String x:Key="Str_KS_Picker">File picker</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Focus the folder path</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Refresh folder contents</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Show or hide the preview pane</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Previous or next folder</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Release notes</sys:String>
 </ResourceDictionary>

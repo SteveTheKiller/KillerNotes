@@ -896,4 +896,21 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Liens vers</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Passer d’un contrôle à l’autre et activer le choix qui a le focus</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Correspondance suivante ou précédente pendant la recherche</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Saisir des nombres et des opérateurs lorsque la calculatrice a le focus</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Effacer la calculatrice</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Changer le signe de la valeur de la calculatrice</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Calculer un pourcentage</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Activer ou désactiver l’option de confirmation</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Convertir entre texte enrichi et Markdown</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Télécharger ou utiliser le modèle vocal sélectionné</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Reculer ou avancer dans l’enregistrement</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Appliquer la couleur de la case qui a le focus</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Sélecteur de fichiers</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Placer le focus sur le chemin du dossier</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Actualiser le contenu du dossier</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Afficher ou masquer le volet d’aperçu</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Dossier précédent ou suivant</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Notes de version</sys:String>
 </ResourceDictionary>

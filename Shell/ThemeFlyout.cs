@@ -121,6 +121,8 @@ namespace KillerNotes.Shell
                 Padding = new Thickness(10, 5, 10, 5),
                 Margin = new Thickness(4, 0, 2, 6),
             };
+            row.Children.Add(new TextBlock { Text = "Alt+X", Margin = new Thickness(16, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center });
+            Controls.DialogShortcuts.Describe(fonts, "Alt+X");
             fonts.Click += FontsRow_Click;
             ThemeMenu.Items.Add(fonts);
         }

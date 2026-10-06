@@ -158,7 +158,7 @@ namespace KillerNotes.Cli
 
         private static void PrintHelp()
         {
-            Console.WriteLine("KillerNotes CLI read-only commands:");
+            Console.WriteLine("KillerNotes CLI commands:");
             Console.WriteLine("  search <query> [--limit 1..50] [--database absolute.db]");
             Console.WriteLine("  list [--group name] [--tag name] [--limit 1..50] [--database absolute.db]");
             Console.WriteLine("  get <id> [--max-chars 1..50000] [--database absolute.db]");
@@ -170,10 +170,24 @@ namespace KillerNotes.Cli
             Console.WriteLine("  set-group-color --name path --color color");
             Console.WriteLine("  set-title-color --id id --color color");
             Console.WriteLine("  import-image --path absolute-image [--group name]");
-            Console.WriteLine("  export --id id --output new-absolute-path.(txt|md|html|knote)");
+            Console.WriteLine("  export --id id --output new-absolute-path.(txt|md|html|rtf|knote)");
+            Console.WriteLine("  share --id id --output new-absolute-path.knote [--password password]");
+            Console.WriteLine("  export-all --output new-absolute-folder");
+            Console.WriteLine("  detect-markdown [--value on|off]");
+            Console.WriteLine("  convert --id id --format markdown|rich [--allow-loss]");
+            Console.WriteLine("  templates | create-from-template --template-id id [--title title] [--group name]");
+            Console.WriteLine("  today | trash-list | trash|restore|pin|unpin --id id");
+            Console.WriteLine("  version-get|version-restore --id id --version-id id");
+            Console.WriteLine("  rename-group --name path --new-name leaf | delete-group --name path --confirm");
+            Console.WriteLine("  tag-definitions | create-tag --name name [--color color]");
+            Console.WriteLine("  rename-tag --name name --new-name name | delete-tag --name name --confirm");
+            Console.WriteLine("  set-tag-color --name name --color color");
+            Console.WriteLine("  template-group|daily-group [--name path-or-empty]");
+            Console.WriteLine("  backup-now --output new-absolute-path.kndb");
+            Console.WriteLine("  permanent-delete --id trashed-id --confirm | empty-trash --confirm");
         }
 
-        private static bool IsWriteCommand(string command) => command is "create" or "update" or "create-group" or "set-group-color" or "set-title-color" or "import-image" or "export";
+        private static bool IsWriteCommand(string command) => command is "create" or "update" or "create-group" or "set-group-color" or "set-title-color" or "import-image" or "export" or "share" or "export-all" or "detect-markdown" or "convert" or "templates" or "create-from-template" or "today" or "trash-list" or "trash" or "restore" or "pin" or "unpin" or "version-get" or "version-restore" or "rename-group" or "delete-group" or "tag-definitions" or "create-tag" or "rename-tag" or "delete-tag" or "set-tag-color" or "template-group" or "daily-group" or "backup-now" or "permanent-delete" or "empty-trash";
 
         private static int ForwardWrite(string[] args)
         {

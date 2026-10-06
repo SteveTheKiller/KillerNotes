@@ -404,6 +404,19 @@ namespace KillerNotes.Controls.Sketch
         private static MenuItem Mi(string text, int icon, Action onClick)
         {
             var mi = new MenuItem { Header = text };
+            string? gesture = text == L("Str_Sketch_Delete", "Delete") ? "Delete"
+                : text == L("Str_Sketch_Front", "Bring to front") ? "Ctrl+Shift+Up"
+                : text == L("Str_Sketch_Back", "Send to back") ? "Ctrl+Shift+Down"
+                : text == L("Str_Sketch_Duplicate", "Duplicate") ? "Ctrl+D"
+                : text == L("Str_Sketch_Straighten", "Straighten line") ? "Ctrl+Shift+L"
+                : text == L("Str_Sketch_Arc", "Arc line") ? "Ctrl+Shift+A"
+                : text == L("Str_Sketch_ResetOpacity", "Reset opacity") ? "Ctrl+Shift+O"
+                : text == L("Str_Sketch_EditText", "Edit text") ? "F10"
+                : text == L("Str_Sketch_Bold", "Bold") || text == L("Str_Sketch_Unbold", "Remove bold") ? "Ctrl+B"
+                : text == L("Str_Sketch_AddImageMenu", "Add image...") ? "I"
+                : text == L("Str_Sketch_PasteImage", "Paste image") ? "Ctrl+V"
+                : text == L("Str_Sketch_Clear", "Clear all") ? "F8" : null;
+            if (gesture != null) DialogShortcuts.Describe(mi, gesture);
             if (icon != 0) mi.Icon = char.ConvertFromUtf32(icon);
             mi.Click += (_, _) => onClick();
             return mi;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using KillerNotes.Services;
 
 namespace KillerNotes.Controls
@@ -37,6 +38,10 @@ namespace KillerNotes.Controls
         {
             _noteId = noteId;
             InitializeComponent();
+            DialogShortcuts.Button(this, RestoreBtn, "Enter", Key.Enter);
+            DialogShortcuts.Bind(this, RestoreBtn, "Ctrl+R", Key.R, ModifierKeys.Control, () => Restore_Click(this, new RoutedEventArgs()));
+            DialogShortcuts.Describe(RestoreBtn, "Enter / Ctrl+R");
+            DialogShortcuts.Bind(this, TitleBar, "Esc", Key.Escape, ModifierKeys.None, Close);
             Loaded += (_, _) => Anim.FadeIn(RootBorder);
             Refresh();
         }

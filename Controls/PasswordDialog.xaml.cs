@@ -27,6 +27,11 @@ namespace KillerNotes.Controls
                               string? extra2Text = null, bool showCancel = true)
         {
             InitializeComponent();
+            DialogShortcuts.Button(this, OkButton, "Enter", Key.Enter);
+            DialogShortcuts.Bind(this, TitleBar, "Esc", Key.Escape, ModifierKeys.None, () => Cancel_Click(this, new RoutedEventArgs()));
+            DialogShortcuts.Describe(CancelButton, "Esc");
+            DialogShortcuts.Button(this, ExtraButton, "Ctrl+N", Key.N, ModifierKeys.Control);
+            DialogShortcuts.Button(this, Extra2Button, "Ctrl+O", Key.O, ModifierKeys.Control);
             Loaded += (_, _) => { Anim.FadeIn(RootBorder); PwBox.Focus(); };
 
             HeadingText.Text = heading;
@@ -85,7 +90,7 @@ namespace KillerNotes.Controls
 
         private void PwBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter) OK_Click(sender, e);
+            if (e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.None) { OK_Click(sender, e); e.Handled = true; }
         }
     }
 }

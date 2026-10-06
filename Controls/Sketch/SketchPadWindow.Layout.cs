@@ -314,6 +314,8 @@ namespace KillerNotes.Controls.Sketch
             g.FontSize = 8;
             var b = ActionButton(g, L("Str_Btn_More", "More..."), () => RailStep(dir));
             b.Width = 42; b.Height = 14;
+            SketchBind(b, dir < 0 ? "Alt+Up" : "Alt+Down", dir < 0 ? Key.Up : Key.Down,
+                () => RailStep(dir), ModifierKeys.Alt);
             b.Visibility = Visibility.Collapsed;
             return b;
         }
@@ -503,11 +505,13 @@ namespace KillerNotes.Controls.Sketch
 
             var copy = new Button { Content = L("Str_Sketch_CopyImage", "Copy to clipboard"), MinWidth = 110, Height = 30, Margin = new Thickness(0, 0, 8, 0), Style = Application.Current.TryFindResource("OutlineButton") as Style };
             Tip(copy, L("Str_Sketch_CopyImageTip", "Copy the drawing to the clipboard as an image"));
+            SketchBind(copy, "Ctrl+C", Key.C, CopyToClipboard, ModifierKeys.Control);
             copy.Click += (_, _) => CopyToClipboard();
             actions.Children.Add(copy);
 
             var print = new Button { Content = L("Str_Btn_CalcPrint", "Print to note"), MinWidth = 110, Height = 30, IsDefault = true, Style = Application.Current.TryFindResource("OutlineButton") as Style };
             Tip(print, L("Str_Sketch_Print", "Print to note (Ctrl+Enter)"));
+            DialogShortcuts.Describe(print, "Ctrl+Enter");
             print.Click += (_, _) => _print(_objects, _canvasW, _canvasH);
             actions.Children.Add(print);
 

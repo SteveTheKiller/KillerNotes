@@ -896,4 +896,21 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Verlinkt auf</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Zwischen Steuerelementen wechseln und die fokussierte Auswahl aktivieren</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Nächster oder vorheriger Treffer bei der Suche</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Zahlen und Operatoren eingeben, wenn der Rechner den Fokus hat</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Rechner löschen</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Vorzeichen des Rechnerwerts wechseln</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Prozentwert berechnen</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Bestätigungsoption umschalten</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Zwischen Rich-Text und Markdown umwandeln</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Ausgewähltes Sprachmodell herunterladen oder verwenden</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">In der Aufnahme zurück- oder vorspringen</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Fokussiertes Farbfeld anwenden</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Dateiauswahl</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Ordnerpfad fokussieren</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Ordnerinhalt aktualisieren</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Vorschaubereich ein- oder ausblenden</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Vorheriger oder nächster Ordner</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Versionshinweise</sys:String>
 </ResourceDictionary>

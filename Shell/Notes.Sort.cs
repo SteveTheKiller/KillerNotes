@@ -68,6 +68,9 @@ namespace KillerNotes.Shell
                 ? string.Format(Loc("Str_TT_ClickReverse"), Loc(_sortAsc ? "Str_St_SortAZ" : "Str_St_SortZA"))
                 : Loc("Str_TT_SortAlphaOff");
             SortCustomBtn.ToolTip = Loc("Str_TT_SortCustom");
+            SortTimeBtn.ToolTip += " (Alt+4)";
+            SortAlphaBtn.ToolTip += " (Alt+5)";
+            SortCustomBtn.ToolTip += " (Alt+6)";
         }
 
         // The three sort buttons share a right-click menu (MainWindow.xaml SortMenu) that
@@ -83,11 +86,11 @@ namespace KillerNotes.Shell
                 // The reverse action and its separator only apply to a directional sort.
                 if (obj is Separator sep) { sep.Visibility = directional ? Visibility.Visible : Visibility.Collapsed; continue; }
                 if (obj is not MenuItem item) continue;
-                if (item.Tag as string == "reverse") { item.Visibility = directional ? Visibility.Visible : Visibility.Collapsed; continue; }
+                if (item.Tag as string == "reverse") { item.Visibility = directional ? Visibility.Visible : Visibility.Collapsed; item.InputGestureText = "Alt+7"; continue; }
                 bool active = (item.Tag as string) == _sortField;
                 if (active) item.SetResourceReference(ForegroundProperty, "PrimaryBrush");
                 else item.ClearValue(ForegroundProperty);   // fall back to the style so hover still accents
-                item.InputGestureText = active && directional ? (_sortAsc ? "↑" : "↓") : "";
+                item.InputGestureText = item.Tag as string switch { "created" => "Alt+4", "title" => "Alt+5", "custom" => "Alt+6", _ => "" };
             }
         }
 

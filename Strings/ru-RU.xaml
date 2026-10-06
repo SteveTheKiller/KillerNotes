@@ -904,4 +904,21 @@
     <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
     <sys:String x:Key="Str_Preview_Split">Split</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Ссылки на</sys:String>
+    <sys:String x:Key="Str_KS_ControlNavigation">Переход между элементами управления и активация выбранного элемента</sys:String>
+    <sys:String x:Key="Str_KS_FindMatches">Следующее или предыдущее совпадение при поиске</sys:String>
+    <sys:String x:Key="Str_KS_CalcInput">Ввод чисел и операторов, когда калькулятор в фокусе</sys:String>
+    <sys:String x:Key="Str_KS_CalcClear">Очистить калькулятор</sys:String>
+    <sys:String x:Key="Str_KS_CalcNegate">Изменить знак значения калькулятора</sys:String>
+    <sys:String x:Key="Str_KS_CalcPercent">Вычислить процент</sys:String>
+    <sys:String x:Key="Str_KS_DialogOption">Включить или выключить параметр подтверждения</sys:String>
+    <sys:String x:Key="Str_KS_ConvertFormat">Преобразовать между форматированным текстом и Markdown</sys:String>
+    <sys:String x:Key="Str_KS_WhisperAction">Загрузить или использовать выбранную модель распознавания речи</sys:String>
+    <sys:String x:Key="Str_KS_DictationSeek">Перемотать запись назад или вперёд</sys:String>
+    <sys:String x:Key="Str_KS_SketchSwatch">Применить образец цвета в фокусе</sys:String>
+    <sys:String x:Key="Str_KS_Picker">Выбор файла</sys:String>
+    <sys:String x:Key="Str_KS_PickerLocation">Перейти к полю пути к папке</sys:String>
+    <sys:String x:Key="Str_KS_PickerRefresh">Обновить содержимое папки</sys:String>
+    <sys:String x:Key="Str_KS_PickerPreview">Показать или скрыть панель предварительного просмотра</sys:String>
+    <sys:String x:Key="Str_KS_PickerHistory">Предыдущая или следующая папка</sys:String>
+    <sys:String x:Key="Str_KS_ReleaseNotes">Примечания к выпуску</sys:String>
 </ResourceDictionary>

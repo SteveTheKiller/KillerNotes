@@ -64,13 +64,13 @@
                     </Setter>
                 </Style>
             </ContextMenu.Resources>
-            <MenuItem Tag="created" Icon="&#xE823;" Header="{DynamicResource Str_TT_SortTimeOff}" Click="SortMenuItem_Click"/>
-            <MenuItem Tag="title" Icon="&#xE8CB;" Header="{DynamicResource Str_TT_SortAlphaOff}" Click="SortMenuItem_Click"/>
-            <MenuItem Tag="custom" Icon="&#xE76F;" Header="{DynamicResource Str_TT_SortCustom}" Click="SortMenuItem_Click"/>
+            <MenuItem Tag="created" InputGestureText="Alt+4" Icon="&#xE823;" Header="{DynamicResource Str_TT_SortTimeOff}" Click="SortMenuItem_Click"/>
+            <MenuItem Tag="title" InputGestureText="Alt+5" Icon="&#xE8CB;" Header="{DynamicResource Str_TT_SortAlphaOff}" Click="SortMenuItem_Click"/>
+            <MenuItem Tag="custom" InputGestureText="Alt+6" Icon="&#xE76F;" Header="{DynamicResource Str_TT_SortCustom}" Click="SortMenuItem_Click"/>
             <!-- Reverse the active sort's direction. Hidden for custom order, which has
                  no direction (SortMenu_Opened collapses this and the separator). -->
             <Separator/>
-            <MenuItem Tag="reverse" Icon="&#xE895;" Header="{DynamicResource Str_Ctx_ReverseOrder}" Click="SortMenuItem_Click"/>
+            <MenuItem Tag="reverse" InputGestureText="Alt+7" Icon="&#xE895;" Header="{DynamicResource Str_Ctx_ReverseOrder}" Click="SortMenuItem_Click"/>
         </ContextMenu>
     </Window.Resources>
 
@@ -346,7 +346,7 @@
                                  or adding a more accurate one later, was impossible. -->
                             <Button.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="{DynamicResource Str_Whisper_Menu}" Icon="&#xE720;"
+                                    <MenuItem InputGestureText="Alt+Q" Header="{DynamicResource Str_Whisper_Menu}" Icon="&#xE720;"
                                               Click="SpeechModel_Click"/>
                                 </ContextMenu>
                             </Button.ContextMenu>
@@ -876,54 +876,54 @@
                                 <!-- Earlier versions of the note (1.3.1, History.cs). -->
                                 <MenuItem Header="{DynamicResource Str_Ctx_History}" Icon="&#xE81C;" InputGestureText="Alt+H"
                                           Click="History_Click" ToolTip="{DynamicResource Str_TT_History}"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_ShareNote}" Icon="&#xE72D;" Click="ShareNote_Click"
+                                <MenuItem InputGestureText="Alt+S" Header="{DynamicResource Str_Ctx_ShareNote}" Icon="&#xE72D;" Click="ShareNote_Click"
                                           ToolTip="{DynamicResource Str_TT_ShareNote}"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_ExportNote}" Icon="&#xE74E;" Click="ExportNoteAs_Click"
+                                <MenuItem InputGestureText="F8" Header="{DynamicResource Str_Ctx_ExportNote}" Icon="&#xE74E;" Click="ExportNoteAs_Click"
                                           ToolTip="{DynamicResource Str_TT_ExportNote}"/>
                                 <!-- Whole database to a folder of .md files (1.3.0, VaultExport.cs).
                                      Not a per-note action despite sitting on the note menu; the
                                      label says "all notes" so the scope is on the row itself. -->
-                                <MenuItem Header="{DynamicResource Str_Ctx_ExportVault}" Icon="&#xE838;" Click="ExportVault_Click"
+                                <MenuItem InputGestureText="Alt+E" Header="{DynamicResource Str_Ctx_ExportVault}" Icon="&#xE838;" Click="ExportVault_Click"
                                           ToolTip="{DynamicResource Str_TT_ExportVault}"/>
                                 <!-- One toggle row per defined tag, built on open (Tags.cs) -->
-                                <MenuItem x:Name="TagsMenu" Header="{DynamicResource Str_Ctx_Tags}" Icon="&#xE8EC;"/>
+                                <MenuItem InputGestureText="Alt+K" x:Name="TagsMenu" Header="{DynamicResource Str_Ctx_Tags}" Icon="&#xE8EC;"/>
                                 <!-- One row per group + remove + new, built on open (Groups.cs, #4) -->
-                                <MenuItem x:Name="GroupMenu" Header="{DynamicResource Str_Ctx_Group}" Icon="&#xE8B7;"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_TitleColor}" Icon="&#xE8D3;" Click="TitleColorPick_Click"
+                                <MenuItem InputGestureText="Alt+G" x:Name="GroupMenu" Header="{DynamicResource Str_Ctx_Group}" Icon="&#xE8B7;"/>
+                                <MenuItem InputGestureText="Ctrl+Shift+C" Header="{DynamicResource Str_Ctx_TitleColor}" Icon="&#xE8D3;" Click="TitleColorPick_Click"
                                           ToolTip="{DynamicResource Str_TT_TitleColor}"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_TitleColorReset}" Icon="&#xE894;" Click="TitleColorReset_Click"/>
+                                <MenuItem InputGestureText="Alt+R" Header="{DynamicResource Str_Ctx_TitleColorReset}" Icon="&#xE894;" Click="TitleColorReset_Click"/>
                                 <!-- App-wide off switch for the markdown/HTML detection (#14). The
                                      detector itself is the real fix (Preview.cs requires a strong
                                      signal now); this is here for anyone who wants it to stop
                                      guessing entirely. Checked on open by NotesContextMenu_Opened. -->
-                                <MenuItem x:Name="PreviewDetectGlobal" Header="{DynamicResource Str_Ctx_PreviewGlobal}"
+                                <MenuItem InputGestureText="Alt+V" x:Name="PreviewDetectGlobal" Header="{DynamicResource Str_Ctx_PreviewGlobal}"
                                           Icon="&#xE8A1;" IsCheckable="True" Click="PreviewDetectGlobal_Click"
                                           ToolTip="{DynamicResource Str_TT_PreviewGlobal}"/>
                                 <!-- Rich text to markdown and back (1.3.0). The header text flips
                                      to name the direction, set on open by NotesContextMenu_Opened,
                                      because it depends on the right-clicked note's format. -->
-                                <MenuItem x:Name="ConvertFormatItem" Icon="&#xE8AB;" Click="ConvertFormat_Click"/>
+                                <MenuItem InputGestureText="Alt+F" x:Name="ConvertFormatItem" Icon="&#xE8AB;" Click="ConvertFormat_Click"/>
                                 <!-- The only way to START a markdown note. Convert handles notes
                                      that already exist; without this the format is unreachable
                                      from a clean database. -->
-                                <MenuItem Header="{DynamicResource Str_Ctx_NewMarkdownNote}" Icon="&#xE943;"
+                                <MenuItem InputGestureText="Alt+N" Header="{DynamicResource Str_Ctx_NewMarkdownNote}" Icon="&#xE943;"
                                           Click="NewMarkdownNote_Click"
                                           ToolTip="{DynamicResource Str_TT_NewMarkdownNote}"/>
                                 <!-- One row per note in the templates group, built on open
                                      (Templates.cs). Also lives here for right-clicks on the blank
                                      sidebar, so a fresh database can reach it. -->
-                                <MenuItem x:Name="TemplateMenu" Header="{DynamicResource Str_Ctx_NewFromTemplate}" Icon="&#xE7C3;"
+                                <MenuItem InputGestureText="Alt+T" x:Name="TemplateMenu" Header="{DynamicResource Str_Ctx_NewFromTemplate}" Icon="&#xE7C3;"
                                           ToolTip="{DynamicResource Str_TT_NewFromTemplate}"/>
                                 <!-- Today's note, opened or created (1.3.1, DailyNote.cs). -->
                                 <MenuItem Header="{DynamicResource Str_Ctx_TodayNote}" Icon="&#xE787;" InputGestureText="Alt+D"
                                           Click="TodayNote_Click" ToolTip="{DynamicResource Str_TT_TodayNote}"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_DeleteNote}" Icon="&#xE74D;" Click="DeleteNote_Click"/>
+                                <MenuItem InputGestureText="Delete" Header="{DynamicResource Str_Ctx_DeleteNote}" Icon="&#xE74D;" Click="DeleteNote_Click"/>
                                 <!-- Trash rows only (1.3.1, Trash.cs). When every selected row is a
                                      trashed note the menu is these two and nothing else; on live
                                      notes they stay collapsed. NotesContextMenu_Opened swaps them. -->
-                                <MenuItem x:Name="RestoreItem" Header="{DynamicResource Str_Ctx_Restore}" Icon="&#xE7A7;"
+                                <MenuItem InputGestureText="Ctrl+F8" x:Name="RestoreItem" Header="{DynamicResource Str_Ctx_Restore}" Icon="&#xE7A7;"
                                           Click="RestoreNote_Click" Visibility="Collapsed"/>
-                                <MenuItem x:Name="DeleteForeverItem" Header="{DynamicResource Str_Ctx_DeleteForever}" Icon="&#xE74D;"
+                                <MenuItem InputGestureText="Ctrl+F9" x:Name="DeleteForeverItem" Header="{DynamicResource Str_Ctx_DeleteForever}" Icon="&#xE74D;"
                                           Click="DeleteForever_Click" Visibility="Collapsed"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
@@ -937,31 +937,32 @@
                                 <!-- Padding/Margin come from the model so the compact densities
                                      (Ctrl+D) trim the header spacing too, not just the note rows. -->
                                 <Border Background="Transparent" Padding="{Binding HeaderPadding}" Margin="{Binding HeaderMargin}"
+                                        Focusable="True" KeyDown="SidebarHeader_KeyDown" AutomationProperties.AcceleratorKey="Space / Enter" ToolTip="Space / Enter"
                                         MouseLeftButtonDown="GroupHeader_Press"
                                         MouseLeftButtonUp="GroupHeader_Click"
-                                        MouseRightButtonDown="GroupHeader_RightDown">
+                                        MouseRightButtonDown="GroupHeader_RightDown" ContextMenuOpening="GroupHeader_ContextMenuOpening">
                                     <Border.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Header="{DynamicResource Str_Ctx_NewSubgroup}" Icon="&#xE8F4;" Click="NewSubgroup_Click"
                                                       InputGestureText="Ctrl+Shift+G"/>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_SubTop}" Tag="subtop" IsCheckable="True"
+                                            <MenuItem InputGestureText="Ctrl+F3" Header="{DynamicResource Str_Ctx_SubTop}" Tag="subtop" IsCheckable="True"
                                                       Click="SubgroupsOnTop_Click" ToolTip="{DynamicResource Str_TT_SubTop}"/>
                                             <!-- Marks this group as the one whose notes are templates
                                                  (1.3.1, Templates.cs). Checked on open by GroupHeader_RightDown. -->
-                                            <MenuItem Header="{DynamicResource Str_Ctx_TemplatesGroup}" Tag="templates" IsCheckable="True"
+                                            <MenuItem InputGestureText="Ctrl+F4" Header="{DynamicResource Str_Ctx_TemplatesGroup}" Tag="templates" IsCheckable="True"
                                                       Click="TemplatesGroup_Click" ToolTip="{DynamicResource Str_TT_TemplatesGroup}"/>
                                             <!-- Where Alt+D files today's note (1.3.1, DailyNote.cs). -->
-                                            <MenuItem Header="{DynamicResource Str_Ctx_DailyGroup}" Tag="daily" IsCheckable="True"
+                                            <MenuItem InputGestureText="Ctrl+F5" Header="{DynamicResource Str_Ctx_DailyGroup}" Tag="daily" IsCheckable="True"
                                                       Click="DailyGroup_Click" ToolTip="{DynamicResource Str_TT_DailyGroup}"/>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_RenameGroup}" Icon="&#xE8AC;" Click="RenameGroup_Click"/>
+                                            <MenuItem InputGestureText="Ctrl+F2" Header="{DynamicResource Str_Ctx_RenameGroup}" Icon="&#xE8AC;" Click="RenameGroup_Click"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_GroupColor}" Icon="&#xE790;" Click="GroupColorPick_Click"
                                                       Tag="groupcolor" InputGestureText="Ctrl+Shift+K"
                                                       ToolTip="{DynamicResource Str_TT_GroupColor}"/>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_GroupColorReset}" Icon="&#xE894;" Click="GroupColorReset_Click"/>
+                                            <MenuItem InputGestureText="Ctrl+F6" Header="{DynamicResource Str_Ctx_GroupColorReset}" Icon="&#xE894;" Click="GroupColorReset_Click"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_GroupGraph}" Icon="&#xE9D9;" Click="GroupGraph_Click"
                                                       InputGestureText="Ctrl+Shift+B"
                                                       ToolTip="{DynamicResource Str_TT_GroupGraph}"/>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_DeleteGroup}" Icon="&#xE74D;" Click="DeleteGroup_Click"/>
+                                            <MenuItem InputGestureText="Ctrl+F7" Header="{DynamicResource Str_Ctx_DeleteGroup}" Icon="&#xE74D;" Click="DeleteGroup_Click"/>
                                         </ContextMenu>
                                     </Border.ContextMenu>
                                     <!-- No chevron: the colored spine (the container line) is the group's
@@ -994,12 +995,14 @@
                                  so it reads as a section, with a bin glyph in place of a color. -->
                             <DataTemplate DataType="{x:Type models:TrashHeader}">
                                 <Border Background="Transparent" Padding="{Binding HeaderPadding}" Margin="{Binding HeaderMargin}"
+                                        Focusable="True" KeyDown="SidebarHeader_KeyDown" AutomationProperties.AcceleratorKey="Space / Enter"
                                         MouseLeftButtonDown="TrashHeader_Press"
                                         MouseLeftButtonUp="TrashHeader_Click"
-                                        ToolTip="{DynamicResource Str_TT_Trash}">
+                                        >
+                                    <Border.ToolTip><StackPanel><TextBlock Text="{DynamicResource Str_TT_Trash}"/><TextBlock Text="Space / Enter"/></StackPanel></Border.ToolTip>
                                     <Border.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_EmptyTrash}" Icon="&#xE74D;" Click="EmptyTrash_Click"/>
+                                            <MenuItem InputGestureText="Ctrl+F11" Header="{DynamicResource Str_Ctx_EmptyTrash}" Icon="&#xE74D;" Click="EmptyTrash_Click"/>
                                         </ContextMenu>
                                     </Border.ContextMenu>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -1129,8 +1132,10 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Border Background="{Binding Background}" CornerRadius="{DynamicResource SmallCornerRadius}" Padding="5,1" Margin="0,3,4,0"
+                                                        Focusable="True" KeyDown="TagChip_KeyDown" AutomationProperties.AcceleratorKey="Space / Enter"
                                                         Cursor="Hand" MouseLeftButtonUp="TagChip_Click"
-                                                        ToolTip="{DynamicResource Str_TT_TagChip}">
+                                                        >
+                                                    <Border.ToolTip><StackPanel><TextBlock Text="{DynamicResource Str_TT_TagChip}"/><TextBlock Text="Space / Enter"/></StackPanel></Border.ToolTip>
                                                     <TextBlock Text="{Binding Name}" Foreground="{Binding Foreground}"
                                                                FontSize="9" FontWeight="SemiBold"/>
                                                 </Border>
@@ -1947,11 +1952,11 @@
                                     <MenuItem x:Name="PreviewSourceMenuItem" IsCheckable="True"
                                               Click="PreviewSource_Click"
                                               Header="{DynamicResource Str_Preview_Source}"
-                                              InputGestureText="F4"/>
-                                    <MenuItem x:Name="PreviewRenderedMenuItem" IsCheckable="True"
+                                              InputGestureText="Ctrl+Shift+F6"/>
+                                    <MenuItem InputGestureText="Ctrl+Shift+F7" x:Name="PreviewRenderedMenuItem" IsCheckable="True"
                                               Click="PreviewRendered_Click"
                                               Header="{DynamicResource Str_Preview_Rendered}"/>
-                                    <MenuItem x:Name="PreviewSplitMenuItem" IsCheckable="True"
+                                    <MenuItem InputGestureText="Ctrl+Shift+F8" x:Name="PreviewSplitMenuItem" IsCheckable="True"
                                               Click="PreviewSplit_Click"
                                               Header="{DynamicResource Str_Preview_Split}"/>
                                 </MenuItem>
@@ -1965,14 +1970,14 @@
                                         </ControlTemplate>
                                     </MenuItem.Template>
                                 </MenuItem>
-                                <MenuItem x:Name="RecEditMenuItem" Icon="&#xE70F;"
+                                <MenuItem InputGestureText="Ctrl+Shift+F9" x:Name="RecEditMenuItem" Icon="&#xE70F;"
                                           Header="{DynamicResource Str_Dict_EditRec}" Click="RecEdit_Click"
                                           Visibility="Collapsed"/>
                                 <MenuItem x:Name="RecShareMenuItem" Icon="&#xE72D;"
                                           Header="{DynamicResource Str_Dict_Share}" Visibility="Collapsed">
-                                    <MenuItem x:Name="RecSaveAsMenuItem" Icon="&#xE74E;"
+                                    <MenuItem InputGestureText="Ctrl+Shift+F10" x:Name="RecSaveAsMenuItem" Icon="&#xE74E;"
                                               Header="{DynamicResource Str_Dict_SaveAs}" Click="RecSaveAs_Click"/>
-                                    <MenuItem x:Name="RecCopyFileMenuItem" Icon="&#xE8C8;"
+                                    <MenuItem InputGestureText="Ctrl+Shift+F11" x:Name="RecCopyFileMenuItem" Icon="&#xE8C8;"
                                               Header="{DynamicResource Str_Dict_CopyFile}" Click="RecCopyFile_Click"/>
                                 </MenuItem>
                             </ContextMenu>
@@ -2853,7 +2858,7 @@
                                        FontSize="10.5" TextWrapping="Wrap"/>
                             <TextBlock Text="{DynamicResource Str_Fonts_Note}" Foreground="{DynamicResource DimTextBrush}"
                                        FontSize="10.5" TextWrapping="Wrap" Margin="0,4,0,12"/>
-                            <Button Content="{DynamicResource Str_Fonts_Reset}" Click="FontsReset_Click"
+                            <Button x:Name="FontsResetBtn" Content="{DynamicResource Str_Fonts_Reset}" Click="FontsReset_Click"
                                     Style="{StaticResource OutlineButton}" FontSize="11" Padding="10,4"
                                     HorizontalAlignment="Left"/>
                         </StackPanel>

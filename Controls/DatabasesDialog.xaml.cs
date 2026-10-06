@@ -36,6 +36,20 @@ namespace KillerNotes.Controls
         public DatabasesDialog()
         {
             InitializeComponent();
+            DialogShortcuts.Button(this, NewBtn, "Ctrl+N", Key.N, ModifierKeys.Control);
+            DialogShortcuts.Button(this, DeleteBtn, "Ctrl+D", Key.D, ModifierKeys.Control);
+            DialogShortcuts.Button(this, OpenBtn, "Enter", Key.Enter);
+            DialogShortcuts.Bind(this, OpenBtn, "Ctrl+O", Key.O, ModifierKeys.Control, () => Open_Click(this, new RoutedEventArgs()));
+            DialogShortcuts.Describe(OpenBtn, "Enter / Ctrl+O");
+            DialogShortcuts.Button(this, ExplorerBtn, "Alt+E", Key.E, ModifierKeys.Alt);
+            DialogShortcuts.Button(this, DataFolderBtn, "Alt+F", Key.F, ModifierKeys.Alt);
+            DialogShortcuts.Button(this, BackupsBtn, "Ctrl+B", Key.B, ModifierKeys.Control);
+            DialogShortcuts.Bind(this, RenameItem, "F2", Key.F2, ModifierKeys.None, () => RenameMenu_Click(this, new RoutedEventArgs()));
+            DialogShortcuts.Describe(DeleteItem, "Ctrl+D");
+            DialogShortcuts.Bind(this, CopyItem, "Alt+C", Key.C, ModifierKeys.Alt, () => CopyFileMenu_Click(this, new RoutedEventArgs()));
+            DialogShortcuts.Bind(this, ExportItem, "Ctrl+E", Key.E, ModifierKeys.Control, () => ExportMenu_Click(this, new RoutedEventArgs()));
+            DialogShortcuts.Bind(this, RevealItem, "Ctrl+R", Key.R, ModifierKeys.Control, () => RevealMenu_Click(this, new RoutedEventArgs()));
+            DialogShortcuts.Bind(this, TitleBar, "Esc", Key.Escape, ModifierKeys.None, Close);
             Loaded += (_, _) => Anim.FadeIn(RootBorder);
             RefreshDbList();
         }
