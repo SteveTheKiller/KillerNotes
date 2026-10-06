@@ -58,14 +58,14 @@
                                  MouseDoubleClick="DbList_MouseDoubleClick"
                                  PreviewMouseRightButtonDown="DbList_PreviewMouseRightButtonDown">
                             <ListBox.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem x:Name="RenameItem" Header="{DynamicResource Str_Ctx_Rename}" Icon="&#xE8AC;" Click="RenameMenu_Click"/>
-                                    <MenuItem x:Name="DeleteItem" Header="{DynamicResource Str_Ctx_Delete}" Icon="&#xE74D;" Click="Delete_Click"/>
-                                    <MenuItem x:Name="CopyItem" Header="{DynamicResource Str_Ctx_CopyFile}" Icon="&#xE8C8;" Click="CopyFileMenu_Click"
+                                <ContextMenu PreviewKeyDown="DbMenu_PreviewKeyDown">
+                                    <MenuItem x:Name="RenameItem" Header="{DynamicResource Str_Ctx_Rename}" Icon="&#xE8AC;" Click="RenameMenu_Click" InputGestureText="F2"/>
+                                    <MenuItem x:Name="DeleteItem" Header="{DynamicResource Str_Ctx_Delete}" Icon="&#xE74D;" Click="Delete_Click" InputGestureText="Ctrl+D"/>
+                                    <MenuItem x:Name="CopyItem" Header="{DynamicResource Str_Ctx_CopyFile}" Icon="&#xE8C8;" Click="CopyFileMenu_Click" InputGestureText="Alt+C"
                                               ToolTip="{DynamicResource Str_TT_CopyFile}"/>
-                                    <MenuItem x:Name="ExportItem" Header="{DynamicResource Str_Ctx_ExportKndb}" Icon="&#xE74E;" Click="ExportMenu_Click"
+                                    <MenuItem x:Name="ExportItem" Header="{DynamicResource Str_Ctx_ExportKndb}" Icon="&#xE74E;" Click="ExportMenu_Click" InputGestureText="Ctrl+E"
                                               ToolTip="{DynamicResource Str_TT_ExportKndb}"/>
-                                    <MenuItem x:Name="RevealItem" Header="{DynamicResource Str_Ctx_Reveal}" Icon="&#xE838;" Click="RevealMenu_Click"/>
+                                    <MenuItem x:Name="RevealItem" Header="{DynamicResource Str_Ctx_Reveal}" Icon="&#xE838;" Click="RevealMenu_Click" InputGestureText="Ctrl+R"/>
                                 </ContextMenu>
                             </ListBox.ContextMenu>
                             <ListBox.ItemContainerStyle>

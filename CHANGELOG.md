@@ -9,7 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.4.0 replaces the legacy preview engine, adds outgoing links and code highlighting, and improves editing, recovery, and navigation.
 
 ### Added
-- Keyboard access now covers note actions, dialogs, and tools, with matching menu hints and a synchronized shortcut guide; the CLI adds sharing, export, templates, recovery, groups, tags, and backups.
+- Keyboard access now covers note actions, dialogs, and tools, including database context menus, with matching menu hints and a synchronized shortcut guide; the CLI adds sharing, export, templates, recovery, groups, tags, and backups.
 - The note's link strip now includes outgoing links, including targets that do not exist yet.
 - Fenced Markdown code blocks use their declared language for syntax highlighting.
 - A dimmed loading overlay shows while the startup database and initial note open.

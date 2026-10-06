@@ -54,6 +54,31 @@ namespace KillerNotes.Controls
             RefreshDbList();
         }
 
+        private void DbMenu_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            Key key = e.Key == Key.System ? e.SystemKey : e.Key;
+            if (SelectedItem == null || sender is not ContextMenu menu) return;
+            (MenuItem Item, Key Key, ModifierKeys Modifiers)[] bindings =
+            [
+                (RenameItem, Key.F2, ModifierKeys.None),
+                (DeleteItem, Key.D, ModifierKeys.Control),
+                (CopyItem, Key.C, ModifierKeys.Alt),
+                (ExportItem, Key.E, ModifierKeys.Control),
+                (RevealItem, Key.R, ModifierKeys.Control)
+            ];
+            foreach (var binding in bindings)
+                if (DialogShortcuts.TryInvoke(binding.Item, key, Keyboard.Modifiers, binding.Key, binding.Modifiers, () =>
+                {
+                    if (e.IsRepeat) return;
+                    menu.IsOpen = false;
+                    binding.Item.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent, binding.Item));
+                }))
+                {
+                    e.Handled = true;
+                    return;
+                }
+        }
+
         private void RefreshDbList(string? select = null)
         {
             DbList.Items.Clear();
