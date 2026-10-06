@@ -5,7 +5,7 @@
     <sys:Double x:Key="GrainOpacity">0.28</sys:Double>
     <sys:Double x:Key="IconShadowOpacity">0.9</sys:Double>
 
-    <SolidColorBrush x:Key="TextFooter"            Color="#a0ffe6" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TextFooter"            Color="#a9c6c3" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowSelectedBrush"      Color="#c85c77" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuTextBrush"         Color="#f4f4f0" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlinePressedBrush"   Color="#c15a74" po:Freeze="True"/>
@@ -103,4 +103,5 @@
 
     <SolidColorBrush x:Key="TitleBarBrush" Color="#3b3642" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
+  <SolidColorBrush x:Key="FooterBackgroundBrush" Color="#3b3642"/>
 </ResourceDictionary>

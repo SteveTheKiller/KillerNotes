@@ -51,7 +51,9 @@ namespace KillerNotes.Shell
             ThemeMenu.Items.Clear();
             _themeRadios.Clear();
             _accentStripDots.Clear();
-            var picker = new Grid { Margin = new Thickness(12,10,3,10) };
+            var picker = new Grid { Margin = new Thickness(12,10,3,2) };
+            picker.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            picker.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             picker.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             picker.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             var panel = new StackPanel { Width = 120 };
@@ -66,6 +68,28 @@ namespace KillerNotes.Shell
                 panel.Children.Add(radio);
             }
             picker.Children.Add(BuildAccentStrip());
+            var fontsDivider = new Border
+            {
+                Height = 1,
+                Margin = new Thickness(0, 4, 0, 0),
+                Opacity = 0.18,
+                IsHitTestVisible = false,
+                OpacityMask = new LinearGradientBrush
+                {
+                    StartPoint = new Point(0, 0), EndPoint = new Point(1, 0),
+                    GradientStops =
+                    {
+                        new GradientStop(Colors.Transparent, 0),
+                        new GradientStop(Colors.Black, 0.15),
+                        new GradientStop(Colors.Black, 0.85),
+                        new GradientStop(Colors.Transparent, 1),
+                    },
+                },
+            };
+            fontsDivider.SetResourceReference(Border.BackgroundProperty, "TextBrush");
+            Grid.SetRow(fontsDivider, 1);
+            Grid.SetColumnSpan(fontsDivider, 2);
+            picker.Children.Add(fontsDivider);
             ThemeMenu.Items.Add(new ScrollViewer
             {
                 Content = picker,
@@ -74,21 +98,6 @@ namespace KillerNotes.Shell
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled
             });
             UpdateAccentStrip(animate: false);
-            // Fonts... - the entry the flyout rework dropped. The whole Fonts overlay
-            // (FontsOverlay, the combos, font import) and its FontsRow_Click handler survived
-            // the rework untouched; only the row that opened it vanished, which orphaned the
-            // feature for all of 1.2.0's development and left help.html describing a door
-            // that no longer existed. The ItemContainerStyle above gives this row the same
-            // PanelMenuItem look as every other flyout row.
-            // BOTH items carry EXPLICIT styles, and that is load-bearing, not cosmetic: the
-            // flyout's ItemContainerStyle is TargetType=MenuItem, and WPF applies it to EVERY
-            // container it generates - including a Separator, where the TargetType mismatch
-            // THROWS as the menu opens. A bare `new Separator()` here crashed the app on the
-            // first theme-button click (2026-08-08). An explicit local style stops the
-            // ItemContainerStyle from being applied; the keyed alias keeps it themed, and the
-            // implicit MenuItem style gives the Fonts row real hover chrome instead of
-            // PanelMenuItem's bare ContentPresenter.
-            ThemeMenu.Items.Add(new Separator { Style = (Style)FindResource(MenuItem.SeparatorStyleKey) });
             // The row is a Button in MenuRowButton style, matching KillerShell's flyout: MDL2
             // glyph then a Consolas label, hover on the row. As a MenuItem it took the implicit
             // MenuItem chrome and painted the whole row a solid accent bar with no icon.
@@ -149,9 +158,13 @@ namespace KillerNotes.Shell
                     Width = 26,
                     Height = double.NaN,
                     VerticalAlignment = VerticalAlignment.Stretch,
-                    Margin = new Thickness(0, 0, 0, i == 7 ? 0 : 8)
+                    Margin = new Thickness(0, 0, 0, i == 7 ? 0 : 8),
+                    RenderTransformOrigin = new Point(0.5, 0.5),
+                    RenderTransform = new ScaleTransform()
                 };
                 dot.MouseLeftButtonUp += AccentDot_Click;
+                dot.MouseEnter += (_, _) => RingAccentStrip();
+                dot.MouseLeave += (_, _) => RingAccentStrip();
                 Grid.SetRow(dot, i);
                 _accentStripDots.Add(dot);
                 _accentStrip.Children.Add(dot);
@@ -263,9 +276,6 @@ namespace KillerNotes.Shell
             for (int i = 0; i < _accentStripDots.Count; i++)
             {
                 _accentStripDots[i].Background = AccentStripBrush(family, colors[i].Accent, colors[i].Color);
-                _accentStripDots[i].Effect = colors[i].Accent == Accent.Yellow && (family is Theme.Light or Theme.SE98)
-                    ? new System.Windows.Media.Effects.DropShadowEffect { Color = Colors.Black, BlurRadius = 4, ShadowDepth = 1, Opacity = 0.45 }
-                    : null;
                 _accentStripDots[i].Tag = colors[i].Accent;
             }
             _stripFamily = family;
@@ -278,7 +288,22 @@ namespace KillerNotes.Shell
             var ring = TryFindResource("TextBrush") as Brush ?? Brushes.White;
             var chosen = ThemeManager.AccentChoiceFor(_stripFamily);
             foreach (var dot in _accentStripDots)
-                dot.BorderBrush = dot.Tag is Accent accent && accent == chosen ? ring : Brushes.Transparent;
+            {
+                dot.BorderBrush = dot.IsMouseOver || (dot.Tag is Accent accent && accent == chosen)
+                    ? ring : Brushes.Transparent;
+                bool pop = dot.IsMouseOver && _stripFamily != Theme.SE98;
+                if (dot.RenderTransform is ScaleTransform scale)
+                {
+                    scale.BeginAnimation(ScaleTransform.ScaleXProperty,
+                        new DoubleAnimation(pop ? 1.06 : 1, TimeSpan.FromMilliseconds(100)));
+                    scale.BeginAnimation(ScaleTransform.ScaleYProperty,
+                        new DoubleAnimation(pop ? 1.03 : 1, TimeSpan.FromMilliseconds(100)));
+                }
+                dot.Effect = pop
+                    ? new System.Windows.Media.Effects.DropShadowEffect
+                    { Color = Colors.Black, BlurRadius = 4, ShadowDepth = 1, Opacity = 0.25 }
+                    : null;
+            }
         }
 
         private void UpdateAccentStrip(bool animate)

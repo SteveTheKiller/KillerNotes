@@ -5,7 +5,7 @@
     <sys:Double x:Key="GrainOpacity">0.3</sys:Double>
     <sys:Double x:Key="IconShadowOpacity">1.0</sys:Double>
 
-    <SolidColorBrush x:Key="TextFooter"            Color="#e2e4e0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TextFooter"            Color="#b4b6b1" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowSelectedBrush"      Color="#ae6d0a" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuTextBrush"         Color="#f4f4f0" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlinePressedBrush"   Color="#a96a0b" po:Freeze="True"/>
@@ -101,4 +101,5 @@
     <LinearGradientBrush x:Key="TitleBarBrush" StartPoint="0,0.5" EndPoint="1,0.5" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"><GradientStop Color="#641d25" Offset="0" /><GradientStop Color="#2f2853" Offset="1" /></LinearGradientBrush>
 
     <SolidColorBrush x:Key="ComboHighlightTextBrush" Color="#F4F4F0"/>
+  <LinearGradientBrush x:Key="FooterBackgroundBrush" StartPoint="0,0.5" EndPoint="1,0.5"><GradientStop Color="#3c2027" Offset="0"/><GradientStop Color="#29243b" Offset="1"/></LinearGradientBrush>
 </ResourceDictionary>

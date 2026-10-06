@@ -830,6 +830,8 @@ namespace KillerNotes.Services
                 newDict["BgFlyout"] = newDict["MenuBackgroundBrush"];
             // About and Keyboard Shortcuts are miniature app windows, not menus or content cards.
             // Keep the exact live outer-window brush object, including material-theme gradients.
+            if (!newDict.Contains("FooterBackgroundBrush"))
+                newDict["FooterBackgroundBrush"] = newDict["BackgroundBrush"];
             newDict["OverlayWindowBrush"] = newDict["BackgroundBrush"];
             // Close caption button. Read AFTER the accent overlay so it tracks the live accent.
             // The caption close is RED AT REST and fills a red BLOCK with a white glyph on hover.

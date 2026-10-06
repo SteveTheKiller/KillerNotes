@@ -5,7 +5,7 @@
     <sys:Double x:Key="GrainOpacity">0.3</sys:Double>
     <sys:Double x:Key="IconShadowOpacity">1.0</sys:Double>
 
-    <SolidColorBrush x:Key="TextFooter"            Color="#e2e4e0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TextFooter"            Color="#b4b6b1" po:Freeze="True"/>
     <!-- Match the shared selection pair: solid Ectoplasm yellow with near-black text. -->
     <SolidColorBrush x:Key="RowSelectedBrush"      Color="#ead900" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuTextBrush"         Color="#f4f4f0" po:Freeze="True"/>
@@ -100,4 +100,5 @@
     <LinearGradientBrush x:Key="TitleBarBrush" StartPoint="0,0.5" EndPoint="1,0.5" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"><GradientStop Color="#5e1764" Offset="0" /><GradientStop Color="#25232b" Offset="1" /></LinearGradientBrush>
 
     <SolidColorBrush x:Key="ComboHighlightTextBrush" Color="#F4F4F0"/>
+  <LinearGradientBrush x:Key="FooterBackgroundBrush" StartPoint="0,0.5" EndPoint="1,0.5"><GradientStop Color="#38233b" Offset="0"/><GradientStop Color="#25232b" Offset="1"/></LinearGradientBrush>
 </ResourceDictionary>

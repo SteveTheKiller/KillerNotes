@@ -1005,7 +1005,19 @@
                                                         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding HasColor}" Value="True">
-                                                                <Setter Property="Foreground" Value="{Binding NameBrush}"/>
+                                                                <Setter Property="Foreground">
+                                                                    <Setter.Value>
+                                                                        <MultiBinding Converter="{StaticResource SelectedTitleConverter}">
+                                                                            <Binding Path="NameBrush"/>
+                                                                            <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                                            <Binding Path="Background" RelativeSource="{RelativeSource AncestorType=ListBox}"/>
+                                                                            <Binding Path="Background" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                                                                        </MultiBinding>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                                <Setter Property="Tag" Value="{DynamicResource RowHoverBrush}"/>
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -1090,7 +1102,6 @@
                                     <!-- Colored per note when TitleColor is set; the DataTrigger keeps
                                          uncolored titles on the theme-reactive TextBrush (1.0.1, #1) -->
                                     <TextBlock Text="{Binding Title}" FontSize="13" TextTrimming="CharacterEllipsis"
-                                               Tag="{DynamicResource SelectionBg}"
                                                FontFamily="{DynamicResource SidebarFont}"
                                                ToolTip="{Binding Title}">
                                         <TextBlock.Style>
@@ -1098,14 +1109,29 @@
                                                 <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding HasTitleColor}" Value="True">
-                                                        <Setter Property="Foreground" Value="{Binding TitleBrush}"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
                                                         <Setter Property="Foreground">
                                                             <Setter.Value>
                                                                 <MultiBinding Converter="{StaticResource SelectedTitleConverter}">
                                                                     <Binding Path="TitleBrush"/>
                                                                     <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                                    <Binding Path="Background" RelativeSource="{RelativeSource AncestorType=ListBox}"/>
+                                                                    <Binding Path="Background" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                                                                </MultiBinding>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                        <Setter Property="Tag" Value="{DynamicResource RowHoverBrush}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                        <Setter Property="Tag" Value="{DynamicResource SelectionBg}"/>
+                                                        <Setter Property="Foreground">
+                                                            <Setter.Value>
+                                                                <MultiBinding Converter="{StaticResource SelectedTitleConverter}">
+                                                                    <Binding Path="TitleBrush"/>
+                                                                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
+                                                                    <Binding Path="Background" RelativeSource="{RelativeSource AncestorType=ListBox}"/>
+                                                                    <Binding Path="Background" RelativeSource="{RelativeSource AncestorType=Window}"/>
                                                                 </MultiBinding>
                                                             </Setter.Value>
                                                         </Setter>
@@ -2165,6 +2191,14 @@
                                 <StackPanel x:Name="BacklinkRow" Orientation="Horizontal" Margin="6,5,10,5"/>
                             </Border>
                         </StackPanel>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevelLightBrush}"
+                                BorderThickness="{DynamicResource MenuBevelLightThickness}" Margin="{DynamicResource MenuBevelInnerMargin}"/>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevelDarkBrush}"
+                                BorderThickness="{DynamicResource MenuBevelDarkThickness}" Margin="{DynamicResource MenuBevelInnerMargin}"/>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevel2LightBrush}"
+                                BorderThickness="{DynamicResource MenuBevel2LightThickness}"/>
+                        <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevel2DarkBrush}"
+                                BorderThickness="{DynamicResource MenuBevel2DarkThickness}"/>
                         <!-- Grain LAST and hit-test invisible, so it covers the buttons rather
                              than sitting under them - the family rule that a pane's texture goes
                              over its contents. Without it this was the one flat surface in the
@@ -2425,7 +2459,7 @@
         <!-- ZIndex -1 so the content pane's shadow lands on the footer rather than being painted
              over by it. The footer is pushed down rather than the content row raised, which would
              also put it above the overlays declared later. -->
-        <Border Grid.Row="2" Panel.ZIndex="-1" Background="{DynamicResource BackgroundBrush}">
+        <Border Grid.Row="2" Panel.ZIndex="-1" Background="{DynamicResource FooterBackgroundBrush}">
             <Grid>
             <!-- The status bar's own SLIGHT recess. Win98 status bars are sunk a hair into the
                  window face - much shallower than a client area, which is why this is its own
