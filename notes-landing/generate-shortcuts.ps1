@@ -5,18 +5,29 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $appRoot = Split-Path $PSScriptRoot -Parent
-[xml]$resources = [IO.File]::ReadAllText((Join-Path $appRoot 'Strings\en-US.xaml'))
-$labels = @{}
-foreach ($node in $resources.ResourceDictionary.ChildNodes) {
-    if ($node.NodeType -ne 'Element') { continue }
-    $key = $node.GetAttribute('Key', 'http://schemas.microsoft.com/winfx/2006/xaml')
-    if ($key) { $labels[$key] = $node.InnerText }
+$localeFiles = [ordered]@{
+    en='en-US.xaml'; it='it-IT.xaml'; vi='vi-VN.xaml'; hu='hu-HU.xaml'; pl='pl-PL.xaml'; cs='cs-CZ.xaml'
+    es='es.xaml'; de='de-DE.xaml'; fr='fr-FR.xaml'; tr='tr-TR.xaml'; zh='zh-TW.xaml'; 'zh-cn'='zh-CN.xaml'
+    bn='bn.xaml'; ja='ja-JP.xaml'; ru='ru-RU.xaml'; kk='kk-KZ.xaml'; uk='uk-UA.xaml'; nb='nb-NO.xaml'; pt='pt-BR.xaml'
+}
+$dictionaries = [ordered]@{}
+foreach ($locale in $localeFiles.Keys) {
+    [xml]$resources = [IO.File]::ReadAllText((Join-Path $appRoot "Strings\$($localeFiles[$locale])"))
+    $dictionary = @{}
+    foreach ($node in $resources.ResourceDictionary.ChildNodes) {
+        if ($node.NodeType -ne 'Element') { continue }
+        $key = $node.GetAttribute('Key', 'http://schemas.microsoft.com/winfx/2006/xaml')
+        if ($key) { $dictionary[$key] = $node.InnerText }
+    }
+    $dictionaries[$locale] = $dictionary
 }
 function Get-Label([string]$key) {
     if (!$key) { return '' }
-    if (!$labels.ContainsKey($key)) { throw "Missing English label: $key" }
+    if (!$labels.ContainsKey($key)) { throw "Missing $locale label: $key" }
     return $labels[$key]
 }
+function Get-LocalizedHelp([string]$locale) {
+$labels = $dictionaries[$locale]
 $rows = [Collections.Generic.List[object]]::new()
 $layers = [ordered]@{ base=[ordered]@{}; ctrl=[ordered]@{}; ctrlshift=[ordered]@{}; alt=[ordered]@{} }
 $pattern = 'new\("(?<keys>[^"]*)",\s*"(?<label>[^"]*)",\s*"(?<category>[^"]+)",\s*\[(?<caps>[\s\S]*?)\](?:,\s*Listed:\s*(?<listed>false))?\)'
@@ -44,17 +55,26 @@ foreach ($match in [regex]::Matches($actions, $actionPattern)) {
     $layer = if ($match.Groups['mods'].Value -match 'Alt') { 'alt' } elseif ($match.Groups['mods'].Value -match 'Shift') { 'ctrlshift' } else { 'ctrl' }
     $layers[$layer][$match.Groups['id'].Value] = @($row.category, $row.label)
 }
+$categories = [ordered]@{}
+foreach ($entry in ([ordered]@{ file='Str_Sec_File'; note='Str_Sec_Notes'; format='Str_Sec_Format'; view='Str_Sec_View'; search='Str_Sec_Search'; edit='Str_Sec_Edit'; help='Str_Sec_Help' }).GetEnumerator()) {
+    $categories[$entry.Key] = Get-Label $entry.Value
+}
+return [ordered]@{ rows=@($rows.ToArray()); layers=$layers; categories=$categories; hint=(Get-Label 'Str_KS_HoldHint') }
+}
+$locales = [ordered]@{}
+foreach ($locale in $localeFiles.Keys) { $locales[$locale] = Get-LocalizedHelp $locale }
 $program = [IO.File]::ReadAllText((Join-Path $appRoot 'KillerNotes.Cli\Program.cs'))
 $help = [regex]::Match($program, 'private static void PrintHelp\(\)\s*\{(?<body>[\s\S]*?)\n\s*\}').Groups['body'].Value
 $cli = @([regex]::Matches($help, 'Console.WriteLine\("(?<text>(?:\\.|[^"\\])*)"\)') | ForEach-Object { [regex]::Unescape($_.Groups['text'].Value) })
-if ($rows.Count -lt 60 -or $cli.Count -lt 10) { throw 'Shortcut or CLI extraction is incomplete' }
-$data = [ordered]@{ rows=@($rows.ToArray()); layers=$layers; cli=$cli }
-$content = "/* Generated from the app shortcut registries, English strings and CLI help. */`nwindow.KN_HELP=" + ($data | ConvertTo-Json -Depth 7 -Compress) + ";`n"
+if ($locales.en.rows.Count -lt 60 -or $cli.Count -lt 10) { throw 'Shortcut or CLI extraction is incomplete' }
+$data = [ordered]@{ rows=$locales.en.rows; layers=$locales.en.layers; cli=$cli; locales=$locales }
+$content = "/* Generated from the app shortcut registries, every Strings dictionary and CLI help. */`nwindow.KN_HELP=" + ($data | ConvertTo-Json -Depth 9 -Compress) + ";`n"
+$content = $content.Replace("'", '\u0027').Replace('<', '\u003c').Replace('>', '\u003e').Replace('&', '\u0026')
 if ($content.IndexOf([char]0x2013) -ge 0 -or $content.IndexOf([char]0x2014) -ge 0) { throw 'Prohibited dash in generated content' }
 if ($Check) {
     if (!(Test-Path -LiteralPath $Output) -or [IO.File]::ReadAllText($Output) -cne $content) { throw 'Generated help is stale. Run generate-shortcuts.ps1' }
-    Write-Host "Generated help is current ($($rows.Count) rows, $($cli.Count) CLI lines)"
+    Write-Host "Generated help is current ($($locales.en.rows.Count) rows, $($locales.Count) locales, $($cli.Count) CLI lines)"
 } else {
     [IO.File]::WriteAllText($Output, $content, [Text.UTF8Encoding]::new($false))
-    Write-Host "Generated help ($($rows.Count) rows, $($cli.Count) CLI lines)"
+    Write-Host "Generated help ($($locales.en.rows.Count) rows, $($locales.Count) locales, $($cli.Count) CLI lines)"
 }

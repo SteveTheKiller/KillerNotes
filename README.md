@@ -8,27 +8,23 @@ with safe restore, and optional password protection for the whole database.
 
 Target: .NET Framework 4.8, x64, WPF. Builds on Windows (MSBuild/Visual Studio).
 
+See the [help page](https://killernotes.net/help.html) for workflows and shortcuts, and the [technical page](https://killernotes.net/technical.html) for storage, rendering, and security details.
+
 ## Features
 
-- Rich text editor: bold, italic, lists, tables, rules, adjustable font size, a full color picker with a desktop-wide eyedropper, inline images, per-note title color and spell check, word wrap toggle, and an optional line-number column
-- Search everywhere: search-as-you-type across titles, text, and tags (substring match, so `02` finds `A/002/45`), plus Ctrl+F find in the open note that never touches the note or its undo stack
-- Organize: named, collapsible, colorable groups nested to any depth; color-coded tags with a pill filter; sort by time, title, or drag-and-drop custom order; three row densities; sidebar Ctrl+Z undoes group moves, reorders, and deletes
-- Syntax highlighting detected paragraph by paragraph, so one note mixes prose with PowerShell, JSON, SQL, C#, Python and ten more without picking a language - token colors are never baked into the saved note
-- Hyperlinks: Ctrl+K links the selection, typed URLs auto-link, links survive pasting from browsers and Word; only web and mail addresses ever open
-- Dictation (Ctrl+M): record, transcribe entirely on your machine with a downloadable speech model, then print the text, embed the recording as an inline playable chip, or both - recordings store as lossless FLAC and export to WAV or MP3
-- Recording editing: the waveform is the editing surface - slice, copy, delete, and paste segments with undo, then save back over the original
-- SketchPad (F7): pen, shapes, fill, text labels and eraser on single keys; print the drawing inline and double-click it later to keep editing. Dragged images and recordings lift out of the text and snap to a grid with the paragraph wrapping around them
-- Killculator (F9): a themed calculator under the notes list that prints the result or the whole running equation into the note
-- Custom fonts for header, sidebar, and note text independently - any installed font, or drop a .ttf/.otf onto the card
-- Autosave on pause, note switch, and close; notes reopen at their saved cursor and scroll position. Markdown and (sanitized) HTML notes preview on their own or side by side, with an adjustable divider
-- Storage: one SQLite database in a configurable location (portable next to the exe if you like), with create/rename/switch/relocate in the Manage databases dialog
-- Version history (Alt+H), a 30-day trash, note templates (Alt+T), daily notes (Alt+D), headings with an outline (Alt+O), checkbox lines, and pinned notes
-- Scheduled backups: choose a folder and interval, keep a set number of copies, take one immediately with Alt+B, and restore any backup as a new database without overwriting the original
-- Password protection: optional SQLCipher AES-256 encryption of the whole database, set, changed, or removed at any time - no recovery for a lost password
-- Sharing: export a note (.knote) or a whole database (.kndb), optionally password protected; both open with a double-click
-- Keyboard-first: every function has a shortcut, F1 opens the visual keyboard map, and the whole app scales for accessibility (Ctrl+Shift +/-)
-- Localized in nineteen languages, falling back to English
-- Thirteen themes including a full 98SE recreation; Dark, Light, Black, and 98SE each carry six accent colors for 33 looks in all
+- Rich text with images, tables, lists, checkboxes, spell check, custom fonts, title colors, and optional line numbers
+- Search titles, text, and tags as you type; find and replace within a note or across notes
+- Nested groups, colored tags, pinned notes, drag-and-drop ordering, templates, and daily notes
+- Incoming and outgoing wikilinks, including links to notes that do not exist yet, plus a graph and heading outline
+- Paragraph-level code highlighting and language-aware fenced Markdown code blocks
+- Native Markdown and HTML preview with Source, Rendered, and adjustable Split views, following the active theme without a browser engine
+- Autosave, saved cursor positions, version history, a 30-day trash, and scheduled backups that restore into a new database
+- Multiple SQLite databases with optional SQLCipher AES-256 encryption; password-protected note (.knote) and database (.kndb) sharing
+- Offline dictation (Ctrl+M) with downloadable speech models, waveform editing, inline audio, and WAV or MP3 export
+- Editable inline drawings with SketchPad (F7), floating images and recordings, and the Killculator (F9)
+- Keyboard access throughout, contextual menu hints, an F1 keyboard map, and whole-app accessibility scaling
+- CLI support for search, editing, sharing, export, templates, groups, tags, recovery, and backups; run `KillerNotes --cli --help` for commands
+- Nineteen languages and thirteen themes; eight accents on Dark, Light, Black, and 98SE give 41 looks
 
 ## Requirements
 
@@ -61,7 +57,7 @@ choco install killernotes
 </tr>
 <tr>
 <td><img src="docs/shortcuts.png" alt="The F1 shortcuts overlay in its keyboard view: a drawn keyboard with every bound key lit and labeled with the action it runs"><br><sub>Every function has a shortcut - F1 opens the visual keyboard map. Hold Ctrl, Shift or Alt to preview that layer. Shown in French.</sub></td>
-<td><img src="docs/localization.png" alt="The interface running in Hungarian with the language menu open on all sixteen translations, beside a markdown note showing its live preview next to the source"><br><sub>Sixteen languages, translated down to the context menus - here Hungarian. Beside it, a markdown note with its live preview next to the source.</sub></td>
+<td><img src="docs/localization.png" alt="The Hungarian interface with the language menu open, beside a Markdown note and its preview"><br><sub>Live language switching, including context menus, beside a Markdown note and its preview.</sub></td>
 </tr>
 </table>
 
@@ -72,7 +68,7 @@ choco install killernotes
 | Microsoft.Data.Sqlite.Core | ADO.NET SQLite wrapper (managed) |
 | SQLitePCLRaw.provider.e_sqlcipher | Managed P/Invoke shim to the SQLCipher native (static provider - the bundle's dynamic loader breaks under Costura) |
 | SQLCipher + LibTomCrypt (vendored) | The encryption native itself, built from upstream source in `third_party/sqlcipher/` after the NuGet lib package line was deprecated |
-| Markdig | Markdown to HTML for the preview pane (managed, MIT) |
+| Markdig | Parses Markdown for native preview and rich text conversion (managed, MIT) |
 | PolySharp | net48 polyfills for modern C# syntax (compile-time only) |
 | libFLAC | Lossless storage for embedded recordings (native, BSD-3-Clause) |
 | libmp3lame | MP3 export only, never storage (native, LGPL-2.1 - source shipped with every release) |
@@ -80,8 +76,8 @@ choco install killernotes
 
 The three audio natives are cross-compiled from their upstream release tarballs rather than
 taken from a mirror; the tarballs, hashes and exact build commands are in
-`third_party/audio/README.md`. Speech models are downloaded on demand from whisper.cpp's own
-repository, not bundled. All of it is optional at build time - with `third_party/audio/`
+`third_party/audio/README.md`. Speech models are downloaded on demand from whisper.cpp's model
+repository on Hugging Face, not bundled. All of it is optional at build time - with `third_party/audio/`
 empty the app still builds and runs, storing recordings as WAV and transcribing with the
 Windows engine.
 

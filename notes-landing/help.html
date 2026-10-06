@@ -180,14 +180,14 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 <div class="acc-item"><button class="acc-head" data-i18n="hp_full">Fullscreen<span class="kbd">F11</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_full_b"><code>F11</code> fills the whole screen, taskbar included. Nothing is hidden - the title bar, the caption buttons and the footer all stay where they are, so there is no way to get stranded in it. <code>F11</code> again or <code>Esc</code> comes back, to whatever the window was doing before.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_84">Sideways scrolling<span class="kbd">Tilt / Shift+Wheel</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_85">With word wrap off, the tilt wheel pans wide tables and images left and right, and <code>Shift+Wheel</code> does the same on mice without a tilt wheel. <code>Ctrl+Wheel</code> stays text zoom.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_110">Syntax highlighting<span class="kbd">Ctrl+Shift+E</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_111">Turn it on per note from the note's right-click menu, or with <code>Ctrl+Shift+E</code>. Code is detected paragraph by paragraph rather than for the whole note, so one runbook can mix plain prose with PowerShell, HTML, XAML, XML, Vue, JSON, YAML, Markdown, SQL, C#, Python, JavaScript, TypeScript, CSS and Bash - without you picking a language anywhere.</p><p data-i18n="hp_112">Prose keeps the normal note color, and the colors refresh as you edit. They are never written into the saved note: the highlighting is a view of the text, so a note stays exactly as you typed it when exported or shared.</p></div></div></div>
-<div class="acc-item"><button class="acc-head" data-i18n="hp_50">Markdown &amp; HTML preview<span class="kbd">F4</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_51">Notes that look like markdown or HTML get a split-pane preview on <code>F4</code>. Markdown renders through Markdig; HTML is sanitized first - scripts and event handlers never run.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_50">Markdown &amp; HTML preview<span class="kbd">F4</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="site_preview_current">F4 cycles Source, Rendered and Split for Markdown and HTML. The native WPF preview follows the theme and grain; scripts never run.</p><p data-i18n="site_fence_current">For fenced Markdown code, write the language after the opening fence, such as <code>```powershell</code>. The declared language controls highlighting.</p><p data-i18n="site_toolbar_current">Right-click the format bar to minimize or restore it (<code>F6</code>). Right-click Heading for levels 1, 2, 3 or normal text (<code>Alt+1</code>, <code>Alt+2</code>, <code>Alt+3</code>, <code>Alt+0</code>); color tools keep their own options.</p></div></div></div>
 <!-- New in 1.3.0. Translated in every kn-i18n.js locale. -->
 <div class="acc-item"><button class="acc-head" data-i18n="hp_md">Markdown notes<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_md_1">A note is either rich text or markdown. <b>New markdown note</b> in the notes right-click menu makes one, and the same menu converts an existing note in either direction, one note at a time.</p><p data-i18n="hp_md_2">A markdown note is plain text, so it holds text and nothing else. Images, tables, sketches and embedded recordings are refused with a line in the status bar rather than being swallowed at the next save, and the format bar hides itself. Dictation still prints its transcript, because a transcript is text.</p><p data-i18n="hp_md_3">Converting to markdown names what will not survive - tables, images, colored text - before it rewrites anything. Markdown back to rich text loses nothing. Either way <code>Ctrl+Z</code> restores the original bytes exactly rather than converting a second time, which would hand back something subtly different.</p></div></div></div>
 
 <!-- New in 1.3.0. Translated in every kn-i18n.js locale. -->
 <h2 class="help-cat" id="links" data-i18n="hp_links">Linked notes &amp; the graph</h2>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_wiki">Linking one note to another<span class="kbd">[[</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_wiki_1">Type <code>[[</code> in a note and a list of your note titles appears; keep typing to narrow it and press <code>Enter</code> to insert the link. <code>Ctrl+Click</code> a link to follow it.</p><p data-i18n="hp_wiki_2">A link can point at a note that does not exist yet, which is the point: write the link while the thought is there and make the note later. Following a dead link offers to create it, already titled.</p><p data-i18n="hp_wiki_3"><code>Alt+Left</code> and <code>Alt+Right</code> step back and forward through the notes you have visited, as do the thumb buttons on a mouse - so following a chain of links is not a one-way trip.</p></div></div></div>
-<div class="acc-item"><button class="acc-head" data-i18n="hp_ment">What links here<span class="kbd">Alt+M</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_ment_1">A strip tucked into the bottom right of the note lists everything pointing at it. Click one to go there.</p><p data-i18n="hp_ment_2">It also lists notes that merely <b>name</b> this one without linking it. Click one of those and the link is made for you; <code>Ctrl+Click</code> just goes there instead. When there are more than fit, the rest collapse into an <b>And X more...</b> button. <code>Alt+M</code> hides the strip.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_ment">What links here<span class="kbd">Alt+M</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="site_links_current">The note's link strip lists incoming and outgoing links, including targets not created yet. Click a link to open its note.</p><p data-i18n="hp_ment_2">It also lists notes that merely <b>name</b> this one without linking it. Click one of those and the link is made for you; <code>Ctrl+Click</code> just goes there instead. When there are more than fit, the rest collapse into an <b>And X more...</b> button. <code>Alt+M</code> hides the strip.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_graph">The link graph<span class="kbd">Ctrl+Shift+B</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_graph_1"><code>Ctrl+Shift+B</code> opens a graph of every link in the notebook, or of just one group when a group header is selected. Each note is a dot, colored by its group and sized by how much links to it; a title that is linked but not written yet draws as an outline. Double-click a dot to open the note.</p><p data-i18n="hp_graph_2">Five arrangements from the right-click menu: <b>by connection</b>, <b>in a circle</b>, <b>in a grid</b>, <b>by group</b>, and <b>rings by distance</b> from whichever note you right-clicked. Drag a dot, or a whole selection, and it stays where you drop it.</p><p data-i18n="hp_graph_3"><b>Pin all Notes</b> (<code>P</code>) decides what happens to everything else while you drag: on, nothing moves but what you are holding; off, the notes it links to get out of the way. <b>Lock in place</b> (<code>K</code>, on a note's right-click menu) is stronger and per note - nothing moves a locked note, not an arrangement and not its neighbors, and the lock is remembered.</p><p data-i18n="hp_graph_4">The graph reopens exactly as you left it. <b>Save this arrangement...</b> in the Arrange menu keeps a named layout you can come back to, and <b>Forget arrangement</b> drops one. Layouts live in the notebook they belong to, so they never follow you into another database.</p><p data-i18n="hp_graph_5"><b>Show only what links here</b> (<code>F</code>) narrows the graph to one note and its neighbors; <code>Esc</code> shows everything again. <b>Visualizer</b> (<code>V</code>) leaves the graph drifting and slowly turning on its own, which is worth leaving on a second monitor.</p></div></div></div>
 
 <h2 class="help-cat" id="killculator" data-i18n="hp_52">Killculator</h2>
@@ -219,12 +219,12 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 <div class="acc-item"><button class="acc-head" data-i18n="hp_69">The sidebar rail<span class="kbd">F5</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_70"><code>F5</code> collapses the sidebar to a thin rail of icons - Killculator, SketchPad, dictation, density, line numbers, shortcuts, language, and theme stay one click away. <code>F9</code> reopens the sidebar automatically when the Killculator needs the room.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_71">Themes &amp; languages<span class="kbd">Ctrl+Shift+A</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_72"><code>Ctrl+Shift+A</code> opens the theme flyout: thirteen themes with accent colors, switched live. The interface speaks nineteen languages and falls back to English for anything untranslated.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_77">Custom fonts<span class="kbd">Ctrl+Shift+A</span><span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_78">Open the theme flyout (<code>Ctrl+Shift+A</code>) and hit <b>Fonts...</b> - three slots swap independently: Headers (group titles), Sidebar (note rows), and Note text (the editor). Pick any installed font, or drop a .ttf or .otf file straight onto the card to add your own.</p><p data-i18n="hp_79">Everything applies live, and rolling the mouse wheel over a dropdown steps through fonts one at a time so you can shop by eye. A readability guard keeps symbol fonts like Wingdings from wrecking the app.</p><p data-i18n="hp_80">The shipped defaults: typewriter headers, Segoe UI in the sidebar, and Bahnschrift for note text. One click resets all three.</p></div></div></div>
-<div class="acc-item"><button class="acc-head" data-i18n="hp_113">The file picker is ours, not Windows'<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_114">Every Open and Save in the app uses KillerNotes' own picker rather than the Windows one, so it follows your theme instead of opening a bright Explorer window in the middle of a dark app. List, icon and detail views, sortable columns, and a hidden-files toggle.</p><p data-i18n="hp_115">The left column is <b>bookmarks</b>, not a folder tree: right-click any folder in the list and choose <b>Bookmark place</b> to pin it, right-click a bookmark to remove it. Picking an image also gets thumbnails in the list and a preview pane, so you are not choosing from filenames alone.</p></div></div></div>
+<div class="acc-item"><button class="acc-head" data-i18n="hp_113">The file picker is ours, not Windows'<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_114">Every Open and Save in the app uses KillerNotes' own picker rather than the Windows one, so it follows your theme instead of opening a bright Explorer window in the middle of a dark app. List, icon and detail views, sortable columns, and a hidden-files toggle.</p><p data-i18n="hp_115">The left column is <b>bookmarks</b>, not a folder tree: right-click any folder in the list and choose <b>Bookmark place</b> to pin it, right-click a bookmark to remove it. Picking an image also gets thumbnails in the list and a preview pane, so you are not choosing from filenames alone.</p><p data-i18n="site_picker_current">In the file picker, <code>Ctrl+Wheel</code> changes views and icon sizes. Drag bookmarked places to reorder them; image previews show a thumbnail.</p></div></div></div>
 <div class="acc-item"><button class="acc-head" data-i18n="hp_73">Portable by default<span class="chev">&#9656;</span></button><div class="acc-body"><div class="acc-body-inner"><p data-i18n="hp_74">The exe runs from anywhere with no install. A PORTABLE badge in the status bar offers a per-user install (Start Menu, Add/Remove entry) if you want one; <code>KillerNotes.exe /silent</code> does a machine-wide install for RMM deployment.</p></div></div></div>
 
 <h2 class="help-cat" id="shortcuts" data-i18n="hp_75">Keyboard shortcuts</h2>
 <p style="font-size:13.5px; color:var(--muted); margin:0 2px 16px;" data-i18n="hp_76">The same map lives in the app under <code>F1</code>, including a visual keyboard view that lights up each layer.</p>
-<script src="shortcuts.generated.js?v=1"></script>
+<script src="shortcuts.generated.js?v=2"></script>
 <!-- The list and keyboard map use the app's generated shortcut registry. -->
 <style>
 .kbmap { --kc-file:#00fff9; --kc-note:#ff2975; --kc-format:#ffd319; --kc-view:#f222ff; --kc-search:#00b3ff; --kc-edit:#ff901f; --kc-help:#39ff14; margin: 0 0 30px; }
@@ -252,19 +252,23 @@ html[data-theme="light"] .kbmap { --kc-file:#009e99; --kc-note:#d1105a; --kc-for
 </style>
 <div class="kbmap">
 <div class="kbmap-layers">
-<button data-kblayer="base" class="on">BASE</button>
+<button data-kblayer="base" class="on" data-i18n="site_kb_base">BASE</button>
 <button data-kblayer="ctrl">CTRL</button>
 <button data-kblayer="ctrlshift">CTRL+SHIFT</button>
 <button data-kblayer="alt">ALT</button>
-<span class="kbmap-hint">Hold Ctrl, Shift or Alt to preview that layer - hover a lit key for its action</span>
+<span class="kbmap-hint">Hold Ctrl, Shift or Alt to preview that layer</span>
 </div>
 <div class="kbmap-scroll"><div class="kbmap-board" id="kbmapBoard"></div></div>
 <div class="kbmap-detail" id="kbmapDetail">&nbsp;</div>
 </div>
 <script>
 (function(){
-var KBL = window.KN_HELP.layers;
-var CATNAME = { file:'FILE', note:'NOTES', format:'FORMATTING', view:'VIEW', search:'SEARCH', edit:'EDITING', help:'HELP' };
+function currentGuide() {
+  var lang = document.documentElement.getAttribute('lang') || 'en';
+  lang = lang === 'zh-Hant' ? 'zh' : lang === 'zh-Hans' ? 'zh-cn' : lang;
+  return window.KN_HELP.locales[lang] || window.KN_HELP.locales.en;
+}
+var KBL, CATNAME;
 var KBROWS = [
 [['Esc','Esc',1],['',0.8],['F1','F1',1],['F2','F2',1],['F3','F3',1],['F4','F4',1],['',0.6],['F5','F5',1],['F6','F6',1],['F7','F7',1],['F8','F8',1],['',0.6],['F9','F9',1],['F10','F10',1],['F11','F11',1],['F12','F12',1]],
 [['Grave','`',1],['D1','1',1],['D2','2',1],['D3','3',1],['D4','4',1],['D5','5',1],['D6','6',1],['D7','7',1],['D8','8',1],['D9','9',1],['D0','0',1],['Minus','-',1],['Equals','=',1],['Back','&#9003;',2],['',0.6],['Ins','Ins',1],['Home','Home',1],['PgUp','PgUp',1]],
@@ -338,7 +342,14 @@ function sync(e){
 }
 window.addEventListener('keydown', sync);
 window.addEventListener('keyup', sync);
-paint();
+function localizeKeyboard() {
+  var guide = currentGuide();
+  KBL = guide.layers; CATNAME = guide.categories;
+  document.querySelector('.kbmap-hint').textContent = guide.hint;
+  paint();
+}
+localizeKeyboard();
+new MutationObserver(localizeKeyboard).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
 // Scale the board down to the column width instead of scrolling, like the app's Viewbox.
 function fit(){
   var wrap = board.parentNode;
@@ -350,21 +361,26 @@ fit();
 window.addEventListener('resize', fit);
 })();
 </script>
-<!-- Shortcut labels match the English app resources. -->
+<!-- Shortcut labels match the localized app resources. -->
 <div class="kbd-cols" id="shortcutList"></div>
 <script>
 (function () {
   var container = document.getElementById('shortcutList');
+  function render() {
+  var lang = document.documentElement.getAttribute('lang') || 'en';
+  lang = lang === 'zh-Hant' ? 'zh' : lang === 'zh-Hans' ? 'zh-cn' : lang;
+  var guide = window.KN_HELP.locales[lang] || window.KN_HELP.locales.en;
+  container.textContent = '';
   var column = document.createElement('div'); column.className = 'kbd-col'; container.appendChild(column);
   var secondColumn = document.createElement('div'); secondColumn.className = 'kbd-col'; container.appendChild(secondColumn);
   var groups = {}, groupCount = 0;
-  window.KN_HELP.rows.forEach(function (row) {
+  guide.rows.forEach(function (row) {
     if (!row.listed || !row.label || !row.keys) return;
     var category = row.category;
     var groupKey = row.scope + '|' + category;
     if (!groups[groupKey]) {
       var group = document.createElement('div'); group.className = 'kbd-group';
-      var heading = document.createElement('h4'); heading.textContent = row.scope === 'Main window' ? category.toUpperCase() : row.scope;
+      var heading = document.createElement('h4'); heading.textContent = row.scope === 'Main window' ? guide.categories[category].toUpperCase() : row.scope;
       group.appendChild(heading); (groupCount++ % 2 ? secondColumn : column).appendChild(group); groups[groupKey] = group;
     }
     var line = document.createElement('div'); line.className = 'kbd-row';
@@ -372,17 +388,19 @@ window.addEventListener('resize', fit);
     var label = document.createElement('span'); label.className = 'd'; label.textContent = row.label;
     line.appendChild(key); line.appendChild(label); groups[groupKey].appendChild(line);
   });
+  }
+  render();
+  new MutationObserver(render).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
 })();
 </script>
 
-<h2 class="help-cat" id="cli">Command line</h2>
+<h2 class="help-cat" id="cli" data-i18n="site_cli_h">Command line</h2>
 <div class="acc-item open">
 <div class="acc-body" style="max-height:none"><div class="acc-body-inner">
-<p>Run <code>KillerNotes.exe --cli --help</code> to list the commands. Read commands can use an explicit database path. Commands that change notes, export files or use app settings require KillerNotes to be open and unlocked.</p>
-<p>Output is JSON. Export paths must be new absolute paths. Use an empty quoted value to clear tags or a group, reset a title color or create a blank markdown note. Format conversion keeps a history snapshot and requires <code>--allow-loss</code> when rich formatting would be lost.</p>
+<p data-i18n="site_cli_current">Run <code>KillerNotes.exe --cli --help</code> for commands. Output is JSON. Reads can specify <code>--database</code>; changes, exports and app settings require the app open and unlocked. Use new absolute export paths, empty quoted values to clear fields, and <code>--allow-loss</code> for lossy conversion. Command names and options below are fixed syntax.</p>
 <pre id="cliHelp" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
 </div></div></div>
-<script>document.getElementById('cliHelp').textContent = window.KN_HELP.cli.join('\n');</script>
+<script>document.getElementById('cliHelp').textContent = window.KN_HELP.cli.slice(1).join('\n');</script>
 
 </div>
 </div>
@@ -451,12 +469,12 @@ window.addEventListener('resize', fit);
 </aside>
 </div>
 <footer class="statusbar">
-<span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener">Source on GitHub</a> &middot; Part of <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span>
+<span class="left"><a href="https://github.com/SteveTheKiller/KillerNotes" target="_blank" rel="noopener">Source on GitHub</a> &middot; <span data-i18n="ui_part">Part of</span> <a href="https://killertools.net" target="_blank" rel="noopener">killertools.net</a></span>
 <span class="right"><span id="verEgg" title="click me">v1.3.2</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
 </footer>
 <div class="egg-toast" id="eggToast"></div>
-<script src="kn-i18n.js?v=14"></script>
-<script src="kn.js?v=5"></script>
+<script src="kn-i18n.js?v=16"></script>
+<script src="kn.js?v=6"></script>
 <script>
 // COLLAPSIBLE OUTLINE. The page has twelve sections and forty-four subsections, and listing
 // all fifty-six flat made the sidebar a wall you had to read to navigate.

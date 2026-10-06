@@ -2,6 +2,70 @@
    Page-specific behavior (screenshot strip, outline scroll-spy) stays inline per page. */
 (function () {
   var root = document.documentElement;
+  var originalTitle = document.title;
+  var UI_EN = { ui_theme:'Theme', ui_language:'Language', ui_close:'Close', ui_copy:'Copy', ui_accent:'Accent color', ui_expand:'Expand section', ui_click:'click me', ui_image:'Expanded KillerNotes screenshot', ui_egg:'All 80 Notepad tabs may finally rest in peace.', ui_red:'Red', ui_orange:'Orange', ui_yellow:'Yellow', ui_green:'Green', ui_teal:'Teal', ui_blue:'Blue', ui_purple:'Purple', ui_magenta:'Magenta' };
+  function uiText(key) {
+    var lang = root.getAttribute('lang');
+    lang = lang === 'zh-Hant' ? 'zh' : lang === 'zh-Hans' ? 'zh-cn' : lang;
+    return (I18N && I18N[lang] && I18N[lang][key]) || UI_EN[key];
+  }
+  function localizedText(key) {
+    var lang = root.getAttribute('lang');
+    lang = lang === 'zh-Hant' ? 'zh' : lang === 'zh-Hans' ? 'zh-cn' : lang;
+    var value = (I18N && I18N[lang] && I18N[lang][key]) || (EN && EN[key]) || '';
+    var holder = document.createElement('span'); holder.innerHTML = value;
+    holder.querySelectorAll('.kbd,.chev,.zoom-hint').forEach(function (n) { n.remove(); });
+    return holder.textContent.trim();
+  }
+  function localizeChrome() {
+    var labels = { Theme:'ui_theme', 'Choose theme':'ui_theme', Language:'ui_language', Close:'ui_close', Copy:'ui_copy', 'Accent color':'ui_accent', 'Expand section':'ui_expand', 'click me':'ui_click', 'Expanded KillerNotes screenshot':'ui_image', Red:'ui_red', Orange:'ui_orange', Yellow:'ui_yellow', Green:'ui_green', Teal:'ui_teal', Blue:'ui_blue', Purple:'ui_purple', Magenta:'ui_magenta' };
+    ['title', 'aria-label'].forEach(function (attr) {
+      document.querySelectorAll('[' + attr + ']').forEach(function (n) {
+        var mark = 'data-ui-' + attr;
+        var key = n.getAttribute(mark) || labels[n.getAttribute(attr)];
+        if (key) { n.setAttribute(mark, key); n.setAttribute(attr, uiText(key)); }
+      });
+    });
+    document.querySelectorAll('[data-ui-caption]').forEach(function (n) {
+      var text = localizedText(n.getAttribute('data-ui-caption'));
+      if (text && n.textContent !== text) n.textContent = text;
+    });
+    document.querySelectorAll('.diagram').forEach(function (figure) {
+      var svg = figure.querySelector('svg'), caption = figure.querySelector('figcaption');
+      if (svg && caption) {
+        var text = localizedText(caption.getAttribute('data-i18n'));
+        if (text) svg.setAttribute('aria-label', text);
+      }
+      figure.querySelectorAll('text[data-fit-width]').forEach(function (n) {
+        if (!n.getComputedTextLength) return;
+        n.removeAttribute('textLength'); n.removeAttribute('lengthAdjust');
+        var width = Number(n.getAttribute('data-fit-width'));
+        if (n.getComputedTextLength() > width) {
+          n.setAttribute('textLength', width); n.setAttribute('lengthAdjust', 'spacingAndGlyphs');
+        }
+      });
+    });
+    var page = window.location.pathname.split('/').pop();
+    var key = page === 'help.html' || page === 'help' ? 'nav_help' : page === 'technical.html' || page === 'technical' ? 'nav_tech' : page === 'about.html' || page === 'about' ? 'nav_about' : null;
+    var title = root.getAttribute('lang') === 'en' ? originalTitle : key ? 'KillerNotes | ' + localizedText(key) : page.indexOf('mcp') >= 0 ? 'KillerNotes | KillerMCP' : 'KillerNotes | ' + localizedText('f_crypt_t');
+    if (document.title !== title) document.title = title;
+    var intro = document.querySelector('.page-hero p[data-i18n], .tagline[data-i18n]');
+    if (page.indexOf('mcp') >= 0) {
+      var language = root.getAttribute('lang'); language = language === 'zh-Hant' ? 'zh' : language === 'zh-Hans' ? 'zh-cn' : language;
+      var mcpDescription = (I18N[language] && I18N[language].ui_mcp_description) || 'Create, organize, search, color, import, and export local KillerNotes notes from an AI agent through KillerMCP.';
+      document.querySelectorAll('meta[name="description"],meta[property="og:description"],meta[name="twitter:description"]').forEach(function (n) { n.setAttribute('content', mcpDescription); });
+    }
+    if (intro) {
+      var description = localizedText(intro.getAttribute('data-i18n'));
+      document.querySelectorAll('meta[name="description"],meta[property="og:description"],meta[name="twitter:description"]').forEach(function (n) { n.setAttribute('content', description); });
+    }
+    document.querySelectorAll('meta[property="og:title"],meta[name="twitter:title"]').forEach(function (n) { n.setAttribute('content', title); });
+    document.querySelectorAll('footer .left a:first-child').forEach(function (n) {
+      var lang = root.getAttribute('lang'); lang = lang === 'zh-Hant' ? 'zh' : lang === 'zh-Hans' ? 'zh-cn' : lang;
+      var text = (I18N[lang] && I18N[lang].footer_src) || 'Source on GitHub';
+      if (n.textContent !== text) n.textContent = text;
+    });
+  }
   var THEMES = ['dark','light','hc','blood','greed','cyanotic','ectoplasm','decay','malaise','sepulchre','delirium','mourning'];
   var NEUTRAL = ['dark','light','hc'];
   var THEMED = ['blood','greed','cyanotic','ectoplasm','decay','malaise','sepulchre','delirium','mourning'];  // fixed-color wordmark art
@@ -104,7 +168,7 @@
       if (p) { d.style.background = p[0]; d.style.color = p[0]; }
       d.setAttribute('aria-pressed', d.dataset.accent === name ? 'true' : 'false');
     });
-    if (accToggle) { accToggle.style.background = pair[0]; accToggle.title = 'Accent color'; }
+    if (accToggle) { accToggle.style.background = pair[0]; accToggle.title = uiText('ui_accent'); }
     try { localStorage.setItem('knotes-accent', name); } catch (e) {}
     updateLogos();
   }
@@ -237,6 +301,7 @@
     });
     langItems.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false'); });
     if (langToggle) langToggle.innerHTML = FLAGS[lang] || FLAGS.en;
+    localizeChrome();
     try { localStorage.setItem('knotes-lang', lang); } catch (e) {}
   }
   function closeLangMenu() { if (langMenu) { langMenu.hidden = true; langToggle.setAttribute('aria-expanded', 'false'); } }
@@ -268,7 +333,7 @@
       (function (el) { setTimeout(function () { el.remove(); }, (dur + 0.8) * 1000); })(d);
     }
     if (eggToast) {
-      eggToast.textContent = 'All 80 Notepad tabs may finally rest in peace.';
+      eggToast.textContent = uiText('ui_egg');
       eggToast.classList.add('show');
       clearTimeout(verEgg._t);
       verEgg._t = setTimeout(function () { eggToast.classList.remove('show'); }, 2800);
@@ -285,4 +350,5 @@
   curAccent = savedAccent;
   setTheme(savedTheme);
   applyLang(savedLang);
+  new MutationObserver(localizeChrome).observe(document.body, { childList:true, subtree:true });
 })();
