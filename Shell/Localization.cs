@@ -58,8 +58,28 @@ namespace KillerNotes.Shell
             var columns = new StackPanel { Orientation = Orientation.Horizontal,
                                            Margin = new Thickness(10, 10, 10, 10) };
             var left = new StackPanel { Width = 200 };
-            var right = new StackPanel { Width = 200, Margin = new Thickness(14, 0, 0, 0) };
+            var right = new StackPanel { Width = 200 };
+            var divider = new Border
+            {
+                Width = 1,
+                Margin = new Thickness(6, 8, 7, 8),
+                Opacity = 0.18,
+                IsHitTestVisible = false,
+                OpacityMask = new LinearGradientBrush
+                {
+                    StartPoint = new Point(0, 0), EndPoint = new Point(0, 1),
+                    GradientStops =
+                    {
+                        new GradientStop(Colors.Transparent, 0),
+                        new GradientStop(Colors.Black, 0.15),
+                        new GradientStop(Colors.Black, 0.85),
+                        new GradientStop(Colors.Transparent, 1),
+                    },
+                },
+            };
+            divider.SetResourceReference(Border.BackgroundProperty, "TextBrush");
             columns.Children.Add(left);
+            columns.Children.Add(divider);
             columns.Children.Add(right);
             int half = (Languages.Length + 1) / 2;
             int index = 0;

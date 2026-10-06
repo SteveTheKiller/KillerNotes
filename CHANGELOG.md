@@ -22,7 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Changed
 - The markdown and HTML preview is now drawn by the app itself instead of the Internet Explorer engine, so it follows the theme and grain and keeps its rounded corners.
 - Hover descriptions and shortcuts appear on separate wrapped rows; the format bar has a right-click menu, with heading levels available directly.
-- The language menu now shows its 19 languages in two columns.
+- The language menu shows its 19 languages in two columns with a faint divider that fades at both ends.
 - Selected states, accent picker pills, and filled or hovered buttons use gradients outside 98SE, Light buttons have softer gray borders, and yellow wordmarks match their accent.
 - Menu rows now show accent text and icons on the theme's hover color.
 - Line numbers use a numbered-row icon to distinguish them from the heading outline.
