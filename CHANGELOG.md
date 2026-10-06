@@ -12,7 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Keyboard access now covers note actions, dialogs, and tools, including database context menus, with matching menu hints and a synchronized shortcut guide; the CLI adds sharing, export, templates, recovery, groups, tags, and backups.
 - The note's link strip now includes outgoing links, including targets that do not exist yet.
 - Fenced Markdown code blocks use their declared language for syntax highlighting.
-- A dimmed loading overlay shows while the startup database and initial note open.
+- A dimmed loading overlay shows while the startup database and initial note open, hiding the empty-note prompt until loading finishes.
 - Dragging a note to the top or bottom edge of the notes list scrolls it, so groups out of view can be reached.
 - Ukrainian, Norwegian (Bokmål), and Brazilian Portuguese localization.
 - Added a silent uninstall, `/uninstall-silent`, registered as the quiet uninstall so WinGet and other package managers can remove KillerNotes without a prompt.

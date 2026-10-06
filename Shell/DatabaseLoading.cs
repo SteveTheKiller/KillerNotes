@@ -11,6 +11,7 @@ namespace KillerNotes.Shell
         private Border ShowDatabaseLoading()
         {
             var overlay = CreateDatabaseLoadingOverlay(Loc("Str_Busy_OpeningDatabase"));
+            EmptyState.Opacity = 0;
             FrameHost.Children.Add(overlay);
             return overlay;
         }
@@ -60,6 +61,7 @@ namespace KillerNotes.Shell
                 spinner.RenderTransform is RotateTransform rotation)
                 rotation.BeginAnimation(RotateTransform.AngleProperty, null);
             FrameHost.Children.Remove(overlay);
+            EmptyState.ClearValue(OpacityProperty);
         }
     }
 }
