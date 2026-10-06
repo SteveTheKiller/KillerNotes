@@ -45,12 +45,12 @@ namespace KillerNotes.Shell
         private void OpenTodayNote()
         {
             if (!NoteStore.IsOpen) return;
+            SaveCurrentNote(refreshList: false);
             string title = TodayTitle();
 
             long id = NoteStore.ResolveTitle(title);
             if (id >= 0)
             {
-                SaveCurrentNote(refreshList: false);
                 if (SearchBox.Text.Length > 0) SearchBox.Text = "";   // a filter could be hiding it
                 OpenNote(id);
                 SelectNoteInList(id);   // WikiLinkNav.cs
@@ -80,7 +80,6 @@ namespace KillerNotes.Shell
                 string.Equals(t.Title, tplName, StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(t.Title, "Daily", StringComparison.OrdinalIgnoreCase));
 
-            SaveCurrentNote(refreshList: false);
             if (tpl != null)
             {
                 id = CreateFromTemplate(tpl.Id, title, group, open: false);   // Templates.cs

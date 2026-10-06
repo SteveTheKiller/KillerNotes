@@ -157,10 +157,10 @@ namespace KillerNotes.Shell
                 FlashStatus(string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner));
                 return -1;
             }
+            SaveCurrentNote(refreshList: false);   // the template itself may be the open note
             var tpl = NoteStore.List().FirstOrDefault(n => n.Id == templateId);
             if (tpl == null) return -1;
 
-            SaveCurrentNote(refreshList: false);   // the template itself may be the open note
             var now = DateTime.Now;
             string newTitle = title ?? TemplateText.Expand(tpl.Title, now);
             long id = NoteStore.Create(newTitle, tpl.Format);
