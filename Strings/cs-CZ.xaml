@@ -912,5 +912,5 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Poznámky k vydání</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimalizovat panel nástrojů</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Obnovit panel nástrojů</sys:String>
-    <sys:String x:Key="Str_KS_OnlineHelp">Online průvodce klávesovými zkratkami</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Kompletní příručka &amp; návody online</sys:String>
 </ResourceDictionary>

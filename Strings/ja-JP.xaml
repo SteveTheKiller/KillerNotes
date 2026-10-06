@@ -913,5 +913,5 @@
     <sys:String x:Key="Str_KS_ReleaseNotes">リリースノート</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">ツールバーを最小化</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">ツールバーを復元</sys:String>
-    <sys:String x:Key="Str_KS_OnlineHelp">オンラインのキーボードショートカットガイド</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">完全ガイド &amp; 使い方 (オンライン)</sys:String>
 </ResourceDictionary>

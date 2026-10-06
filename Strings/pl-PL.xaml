@@ -842,5 +842,5 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Informacje o wydaniu</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimalizuj pasek narzędzi</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Przywróć pasek narzędzi</sys:String>
-    <sys:String x:Key="Str_KS_OnlineHelp">Internetowy przewodnik po skrótach klawiaturowych</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Pełny przewodnik &amp; poradniki online</sys:String>
 </ResourceDictionary>

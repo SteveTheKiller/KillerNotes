@@ -915,5 +915,5 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Versionshinweise</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Symbolleiste minimieren</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Symbolleiste wiederherstellen</sys:String>
-    <sys:String x:Key="Str_KS_OnlineHelp">Online-Anleitung zu Tastenkürzeln</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Vollständige Anleitung &amp; Tutorials online</sys:String>
 </ResourceDictionary>

@@ -923,5 +923,5 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Note di rilascio</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Riduci la barra degli strumenti</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Ripristina la barra degli strumenti</sys:String>
-    <sys:String x:Key="Str_KS_OnlineHelp">Guida online alle scorciatoie da tastiera</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Guida online completa e come-fare</sys:String>
 </ResourceDictionary>

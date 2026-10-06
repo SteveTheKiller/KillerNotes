@@ -962,5 +962,5 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Notas da versão</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimizar barra de ferramentas</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Restaurar barra de ferramentas</sys:String>
-    <sys:String x:Key="Str_KS_OnlineHelp">Guia online de atalhos de teclado</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Guia completo &amp; tutoriais online</sys:String>
 </ResourceDictionary>

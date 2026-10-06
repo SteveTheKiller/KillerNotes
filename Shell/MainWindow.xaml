@@ -2930,24 +2930,31 @@
                                       PreviewMouseWheel="ShortcutScroller_PreviewMouseWheel">
                         <StackPanel Margin="24,18,24,18">
                             <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
                                 <TextBlock Text="{DynamicResource Str_KS_Title}" Foreground="{DynamicResource TextBrush}"
-                                           FontFamily="Consolas" FontSize="15" FontWeight="Bold"/>
+                                           FontFamily="Consolas" FontSize="15" FontWeight="Bold"
+                                           VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,12,0"/>
                                 <!-- LIST / KEYBOARD view toggle (KeyboardMap.cs) -->
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
-                                            VerticalAlignment="Center" Margin="0,0,36,0">
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
                                     <Button x:Name="KsViewListBtn" Style="{StaticResource KsTabBtn}"
                                             Content="{DynamicResource Str_KS_ViewList}" Click="KsViewList_Click" Margin="0,0,12,0"/>
                                     <Button x:Name="KsViewKeyboardBtn" Style="{StaticResource KsTabBtn}"
                                             Content="{DynamicResource Str_KS_ViewKeyboard}" Click="KsViewKeyboard_Click"/>
                                 </StackPanel>
-                            </Grid>
-                            <TextBlock FontSize="12" Margin="0,0,0,12">
+                            <TextBlock Grid.Column="2" FontSize="12" Margin="12,0,0,0" MaxWidth="210"
+                                       HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right" TextWrapping="Wrap">
                                 <Hyperlink NavigateUri="https://killernotes.net/help.html#shortcuts"
                                            RequestNavigate="Hyperlink_RequestNavigate"
                                            Foreground="{DynamicResource PrimaryBrush}">
                                     <Run Text="{DynamicResource Str_KS_OnlineHelp}"/>
                                 </Hyperlink>
                             </TextBlock>
+                            </Grid>
                             <!-- Rows are built in code (Shortcuts.cs BuildShortcutRows). -->
                             <Grid x:Name="ShortcutListHost">
                                 <Grid.ColumnDefinitions>

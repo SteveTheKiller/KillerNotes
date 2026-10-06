@@ -915,5 +915,5 @@
     <sys:String x:Key="Str_KS_ReleaseNotes">রিলিজ নোট</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">টুলবার ছোট করুন</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">টুলবার পুনরুদ্ধার করুন</sys:String>
-    <sys:String x:Key="Str_KS_OnlineHelp">অনলাইন কীবোর্ড শর্টকাট নির্দেশিকা</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">সম্পূর্ণ গাইড ও অনলাইন নির্দেশিকা</sys:String>
 </ResourceDictionary>

@@ -913,5 +913,5 @@
     <sys:String x:Key="Str_KS_ReleaseNotes">发行说明</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">最小化工具栏</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">还原工具栏</sys:String>
-    <sys:String x:Key="Str_KS_OnlineHelp">在线键盘快捷键指南</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">完整指南和在线教程</sys:String>
 </ResourceDictionary>

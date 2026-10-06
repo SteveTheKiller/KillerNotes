@@ -941,5 +941,5 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_KS_ReleaseNotes">Kiadási megjegyzések</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Eszköztár kis méretre állítása</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Eszköztár visszaállítása</sys:String>
-    <sys:String x:Key="Str_KS_OnlineHelp">Online billentyűparancs-útmutató</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Teljes útmutató és leírás online</sys:String>
 </ResourceDictionary>

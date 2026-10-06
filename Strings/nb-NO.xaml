@@ -960,5 +960,5 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Versjonsmerknader</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimer verktøylinjen</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Gjenopprett verktøylinjen</sys:String>
-    <sys:String x:Key="Str_KS_OnlineHelp">Nettveiledning for hurtigtaster</sys:String>
+    <sys:String x:Key="Str_KS_OnlineHelp">Full veiledning &amp; fremgangsmåter på nett</sys:String>
 </ResourceDictionary>
