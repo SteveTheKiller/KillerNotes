@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.4.1] - Unreleased
 
 ### Fixed
+- Note scrolling matches the sidebar's wheel speed, including at different editor zoom levels.
 - Moved the shortcuts guide link away from the close button.
 
 ## [1.4.0] - 2026-10-06

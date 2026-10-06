@@ -110,8 +110,13 @@ namespace KillerNotes.Shell
 
         private void Editor_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (!Keyboard.Modifiers.HasFlag(ModifierKeys.Control)) return;
-            SetEditorZoom(_editorZoom + (e.Delta > 0 ? 0.1 : -0.1));
+            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+                SetEditorZoom(_editorZoom + (e.Delta > 0 ? 0.1 : -0.1));
+            else
+            {
+                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift)) return;
+                Editor.ScrollToVerticalOffset(Editor.VerticalOffset - e.Delta / _editorZoom);
+            }
             e.Handled = true;
         }
 
