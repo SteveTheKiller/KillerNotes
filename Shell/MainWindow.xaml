@@ -1830,7 +1830,8 @@
                         <TextBlock x:Name="PreviewModeText" FontFamily="Segoe UI" FontSize="11" VerticalAlignment="Center"/>
                     </Button>
                     <Rectangle x:Name="FmtEndSeparator" Style="{StaticResource FmtSeparator}"/>
-                    <Button Style="{StaticResource FmtButton}" Content="&#xE70E;" FontSize="10"
+                    <Button Style="{StaticResource RailButton}" Content="&#xE70E;" FontSize="12"
+                            Width="22" Height="22" VerticalAlignment="Center"
                             ToolTip="{DynamicResource Str_TT_HideBar}" Click="FormatBarToggle_Click"/>
                 </WrapPanel>
                 </Grid>
