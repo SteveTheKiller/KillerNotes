@@ -281,6 +281,7 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "TitleWordmarkSize", 17.0);
             SetIfAbsent(newDict, "TitleWordmarkBoldSize", 22.0);
             SetIfAbsent(newDict, "WordmarkEmbossOpacity", 0.0);
+            SetIfAbsent(newDict, "WordmarkAccentShadowOpacity", 0.0);
             // A Win98-style caption has no logotype in it - just the icon and the window's name in
             // plain bold. Swapping the wordmark out for that on a flat theme is both more authentic
             // and removes the whole problem of fitting a two-size logotype into an 18px bar.

@@ -12,8 +12,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Trash retention is configurable in Manage Databases, including an option to disable automatic cleanup (#20).
 - Dialog fields, tag controls, Help, About, Fonts, the outline, templates and table picker support keyboard and screen-reader use, with focus restored on close (#22). (Thanks @digitaldarragh)
 - Note scrolling matches the sidebar's wheel speed, including at different editor zoom levels.
-- Shared theme colors, dropdown highlights, footers, title styling and shadows match the family palette, including cream Blood, Greed and Cyanotic wordmarks. Database selection text stays readable across gradient fills.
-- Light/Yellow uses true yellow for the wordmark, accent lines and radio buttons, with neutral dark text instead of olive brown.
+- Shared theme colors, dropdown highlights, footers, title styling and shadows match the family palette, including cream Blood, Greed and Cyanotic wordmarks. Database selection text stays readable across gradient fills. Rail flyouts sit 8 pixels from the rail and bottom content edges.
+- Light/Yellow uses true yellow for the wordmark, accent lines and radio buttons, with neutral dark text instead of olive brown. Only the yellow wordmark accent has a shadow.
 - 98SE Red is a true maroon again, so it no longer looks like Magenta.
 - Moved the shortcuts guide link away from the close button.
 - Technical diagrams remain readable in the two-column layout and when enlarged (#23).
