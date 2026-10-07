@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Fixed
 - Moving notes between groups keeps the sidebar at its current scroll position (#17).
 - Light wordmarks match the family shadow settings. Only the yellow accent keeps its shadow.
+- Menus open immediately and retain their existing closing fades.
 
 ## [1.4.1] - 2026-10-07
 
