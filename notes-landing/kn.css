@@ -393,6 +393,7 @@ html:not([data-theme="light"]) .codeblock { background-color: color-mix(in srgb,
 .dlightbox:not([open]) { display: none; }
 .dlightbox::backdrop { background: var(--fade); }
 .dlb-inner { max-height: calc(100dvh - 28px); padding: 16px; overflow: auto; }
+#dlbInner:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .dlb-inner svg { display: block; width: 100%; min-width: 440px; height: auto; }
 .dlb-close { position: sticky; top: 0; z-index: 1; display: block; width: 34px; height: 34px; margin-left: auto; border: 1px solid var(--pane-border); border-radius: 6px; background: var(--modal); color: var(--text); font-size: 24px; line-height: 1; cursor: pointer; }
 .dlb-close:hover { border-color: var(--accent); color: var(--accent); }
