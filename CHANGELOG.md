@@ -4,15 +4,15 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.4.1] - Unreleased
+## [1.4.1] - 2026-10-06
+
+1.4.1 corrects note scrolling and theme contrast.
 
 ### Fixed
-- Light/Yellow uses true yellow for the wordmark, accent lines and radio buttons, with neutral dark text instead of olive brown.
-- Dropdown highlight text uses the right color in Dark/Yellow, Light/Purple and Light/Yellow.
-- 98SE Red is a true maroon again, so it no longer looks like Magenta.
-- Delirium, Ectoplasm and Sepulchre footers match the window background again.
-- Shared theme colors, control states, title styling and shadows match the family palette, including cream Blood, Greed and Cyanotic wordmarks.
 - Note scrolling matches the sidebar's wheel speed, including at different editor zoom levels.
+- Shared theme colors, dropdown highlights, footers, title styling and shadows match the family palette, including cream Blood, Greed and Cyanotic wordmarks. Database selection text stays readable across gradient fills.
+- Light/Yellow uses true yellow for the wordmark, accent lines and radio buttons, with neutral dark text instead of olive brown.
+- 98SE Red is a true maroon again, so it no longer looks like Magenta.
 - Moved the shortcuts guide link away from the close button.
 
 ## [1.4.0] - 2026-10-06
