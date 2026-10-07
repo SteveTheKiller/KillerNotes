@@ -52,7 +52,7 @@
                     <Border Background="{DynamicResource PaneBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                             CornerRadius="{DynamicResource ControlCornerRadius}">
-                        <ListBox x:Name="TagList" Height="200" Background="Transparent" BorderThickness="0"
+                        <ListBox x:Name="TagList" Height="200" Background="Transparent" BorderThickness="0" AutomationProperties.Name="{DynamicResource Str_Ctx_Tags}"
                                  HorizontalContentAlignment="Stretch" Margin="4">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
@@ -103,13 +103,14 @@
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <!-- EditFieldTextBox (Controls.xaml): the search-box look - flat
                              SearchFieldBrush, themed focus border, sunken bevel on 98SE. -->
-                        <TextBox x:Name="NewNameBox" Width="180" Height="26"
+                        <TextBox x:Name="NewNameBox" Width="180" Height="26" AutomationProperties.Name="{DynamicResource Str_Tags_NeedName}"
                                  Style="{StaticResource EditFieldTextBox}"
                                  KeyDown="NewNameBox_KeyDown"/>
-                        <Border x:Name="NewColorSwatch" Width="26" Height="26"
-                                CornerRadius="{DynamicResource SmallCornerRadius}" Margin="8,0,0,0"
+                        <Button x:Name="NewColorSwatch" Width="26" Height="26"
+                                Style="{StaticResource SurfaceButton}" Padding="0" Margin="8,0,0,0"
+                                AutomationProperties.Name="{DynamicResource Str_TT_TagPickColor}"
                                 Cursor="Hand" BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1"
-                                MouseLeftButtonUp="NewColorSwatch_Click" ToolTip="{DynamicResource Str_TT_TagPickColor}"/>
+                                Click="NewColorSwatch_Click" ToolTip="{DynamicResource Str_TT_TagPickColor}"/>
                         <Button x:Name="AddBtn" Content="{DynamicResource Str_Btn_TagAdd}" Click="Add_Click"
                                 Style="{StaticResource SurfaceButton}" Margin="8,0,0,0" Padding="12,0" Height="26"/>
                     </StackPanel>

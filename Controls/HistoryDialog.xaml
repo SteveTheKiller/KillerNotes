@@ -50,7 +50,7 @@
                         <Border Background="{DynamicResource PaneBrush}"
                                 BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                                 CornerRadius="{DynamicResource ControlCornerRadius}">
-                            <ListBox x:Name="VersionList" Background="Transparent" BorderThickness="0"
+                            <ListBox x:Name="VersionList" Background="Transparent" BorderThickness="0" AutomationProperties.Name="{DynamicResource Str_Hist_Title}"
                                      HorizontalContentAlignment="Stretch" Margin="4"
                                      SelectionChanged="VersionList_SelectionChanged"
                                      MouseDoubleClick="VersionList_MouseDoubleClick">
@@ -102,6 +102,7 @@
                                 CornerRadius="{DynamicResource ControlCornerRadius}">
                             <Grid>
                                 <RichTextBox x:Name="Preview" IsReadOnly="True" IsDocumentEnabled="False"
+                                             AutomationProperties.Name="{DynamicResource Str_Hist_Title}"
                                              Background="Transparent" BorderThickness="0" Margin="8"
                                              Foreground="{DynamicResource TextBrush}"
                                              FontFamily="{DynamicResource ContentFont}" FontSize="13"

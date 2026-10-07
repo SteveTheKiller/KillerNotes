@@ -68,6 +68,7 @@ namespace KillerNotes.Controls
                 row.Children.Add(when);
                 row.Children.Add(meta);
                 var item = new ListBoxItem { Tag = v, Content = row, ToolTip = v.Title.Length > 0 ? v.Title : null };
+                System.Windows.Automation.AutomationProperties.SetName(item, when.Text + meta.Text + " " + v.Title);
                 VersionList.Items.Add(item);
             }
 

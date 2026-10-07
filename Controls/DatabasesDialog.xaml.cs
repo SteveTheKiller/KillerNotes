@@ -231,6 +231,7 @@ namespace KillerNotes.Controls
                 Padding = new Thickness(2, 0, 2, 0),
                 BorderThickness = new Thickness(1),
             };
+            box.SetResourceReference(System.Windows.Automation.AutomationProperties.NameProperty, "Str_Ctx_Rename");
             box.SetResourceReference(TextBox.FontFamilyProperty, "SidebarFont");
             box.SetResourceReference(TextBox.BackgroundProperty, "PaneBrush");
             box.SetResourceReference(TextBox.ForegroundProperty, "TextBrush");

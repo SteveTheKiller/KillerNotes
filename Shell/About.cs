@@ -77,7 +77,7 @@ namespace KillerNotes.Shell
 
         private void FadeOverlayOut(UIElement o)
         {
-            if (o == AboutOverlay || o == ShortcutOverlay)
+            if (o == AboutOverlay || o == ShortcutOverlay || o == FontsOverlay)
             {
                 CloseKeyboardOverlay(o);
                 return;

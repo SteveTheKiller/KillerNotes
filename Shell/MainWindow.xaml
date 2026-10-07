@@ -636,7 +636,7 @@
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
-                                        <TextBox x:Name="SidebarReplaceBox" Background="Transparent" BorderThickness="0"
+                                        <TextBox x:Name="SidebarReplaceBox" Background="Transparent" BorderThickness="0" AutomationProperties.Name="{DynamicResource Str_ReplacePlaceholder}"
                                                  Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
                                                  SelectionBrush="{DynamicResource TextSelectionBrush}" SelectionOpacity="{DynamicResource TextSelectionOpacity}"
                                                  SelectionTextBrush="{DynamicResource TextSelectionTextBrush}"
@@ -1771,7 +1771,7 @@
                                                 <TextBlock x:Name="FontSizeSliderValue" Text="13" HorizontalAlignment="Right"
                                                            Foreground="{DynamicResource TextBrush}" FontFamily="Consolas" FontSize="11"/>
                                             </Grid>
-                                            <Slider x:Name="FontSizeSlider" Minimum="8" Maximum="72" Value="13"
+                                            <Slider x:Name="FontSizeSlider" Minimum="8" Maximum="72" Value="13" AutomationProperties.Name="{DynamicResource Str_TT_FontSize}"
                                                     TickFrequency="1" IsSnapToTickEnabled="True"
                                                     ValueChanged="FontSizeSlider_ValueChanged"/>
                                         </StackPanel>
@@ -2401,7 +2401,7 @@
                                     <Border Panel.ZIndex="2" IsHitTestVisible="False"
                                             BorderBrush="{DynamicResource PaneBevelLightBrush}"
                                             BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
-                                    <TextBox x:Name="FindBox" VerticalAlignment="Center" Width="220"
+                                    <TextBox x:Name="FindBox" VerticalAlignment="Center" Width="220" AutomationProperties.Name="{DynamicResource Str_KS_Find}"
                                              Background="Transparent" BorderThickness="0" FontSize="12"
                                              Padding="6,0,6,0" VerticalContentAlignment="Center"
                                              Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
@@ -2480,7 +2480,7 @@
                                     <Border Panel.ZIndex="2" IsHitTestVisible="False"
                                             BorderBrush="{DynamicResource PaneBevelLightBrush}"
                                             BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
-                                    <TextBox x:Name="ReplaceBox" VerticalAlignment="Center"
+                                    <TextBox x:Name="ReplaceBox" VerticalAlignment="Center" AutomationProperties.Name="{DynamicResource Str_ReplacePlaceholder}"
                                              Width="{Binding ActualWidth, ElementName=FindBox}"
                                              Background="Transparent" BorderThickness="0" FontSize="12"
                                              Padding="6,0,6,0" VerticalContentAlignment="Center"
@@ -2900,7 +2900,8 @@
              Killculator title), Sidebar (note titles), and Note text (the editor default).
              Same card chrome as the shortcuts overlay; drop a .ttf/.otf on the card to
              import it. -->
-        <Grid x:Name="FontsOverlay" Grid.RowSpan="3" Panel.ZIndex="9200" Visibility="Collapsed"
+        <Grid x:Name="FontsOverlay" Grid.RowSpan="3" Panel.ZIndex="9200" Visibility="Collapsed" AutomationProperties.Name="{DynamicResource Str_Fonts_Title}"
+              KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle"
               Margin="{DynamicResource OverlayBleed}"
               Background="#88000000" MouseLeftButtonDown="FontsOverlay_Click">
             <Grid MinWidth="400" MaxWidth="400" VerticalAlignment="Center"
@@ -2939,6 +2940,8 @@
                              NOT Row 0: a child still measures into an Auto row (About card's note). -->
                         <Button Grid.RowSpan="2" Content="{DynamicResource AboutCloseGlyph}"
                                 Click="FontsClose_Click" Style="{StaticResource OverlayCloseButton}"
+                                AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
+                                AutomationProperties.AcceleratorKey="Esc" ToolTip="{DynamicResource Str_Sys_Close}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
@@ -2950,7 +2953,7 @@
                                        Visibility="{DynamicResource WordmarkVisibility}"/>
                             <TextBlock Text="{DynamicResource Str_Fonts_Headers}" Foreground="{DynamicResource DimTextBrush}"
                                        FontSize="10" Margin="0,0,0,4"/>
-                            <ComboBox x:Name="FontHeaderCombo" Style="{StaticResource KnCombo}" Height="26"
+                            <ComboBox x:Name="FontHeaderCombo" Style="{StaticResource KnCombo}" Height="26" AutomationProperties.Name="{DynamicResource Str_Fonts_Headers}"
                                       SelectionChanged="FontCombo_Changed" PreviewMouseWheel="FontCombo_Wheel">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -2966,7 +2969,7 @@
                                        Margin="2,7,0,14" TextTrimming="CharacterEllipsis"/>
                             <TextBlock Text="{DynamicResource Str_Fonts_Sidebar}" Foreground="{DynamicResource DimTextBrush}"
                                        FontSize="10" Margin="0,0,0,4"/>
-                            <ComboBox x:Name="FontSidebarCombo" Style="{StaticResource KnCombo}" Height="26"
+                            <ComboBox x:Name="FontSidebarCombo" Style="{StaticResource KnCombo}" Height="26" AutomationProperties.Name="{DynamicResource Str_Fonts_Sidebar}"
                                       SelectionChanged="FontCombo_Changed" PreviewMouseWheel="FontCombo_Wheel">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -2980,7 +2983,7 @@
                                        Margin="2,7,0,14" TextTrimming="CharacterEllipsis"/>
                             <TextBlock Text="{DynamicResource Str_Fonts_Content}" Foreground="{DynamicResource DimTextBrush}"
                                        FontSize="10" Margin="0,0,0,4"/>
-                            <ComboBox x:Name="FontContentCombo" Style="{StaticResource KnCombo}" Height="26"
+                            <ComboBox x:Name="FontContentCombo" Style="{StaticResource KnCombo}" Height="26" AutomationProperties.Name="{DynamicResource Str_Fonts_Content}"
                                       SelectionChanged="FontCombo_Changed" PreviewMouseWheel="FontCombo_Wheel">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>

@@ -175,10 +175,32 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
+        public void ClosingFontsReleasesBackgroundControlsThroughTheSharedFocusScope() => Sta.Run(() =>
+        {
+            var window = (MainWindow)FormatterServices.GetUninitializedObject(typeof(MainWindow));
+            var overlay = new Grid { Visibility = Visibility.Visible };
+            var background = new Button();
+            var root = new Grid(); root.Children.Add(background); root.Children.Add(overlay);
+            var scope = new OverlayFocusScope();
+            scope.Open(root, overlay, background);
+            void Field(string name, object value) => typeof(MainWindow).GetField(name, Private)!.SetValue(window, value);
+            Field("_overlayFocus", scope);
+            Field("FontsOverlay", overlay);
+            Field("Editor", new RichTextBox());
+            Field("NotesList", new ListBox());
+
+            typeof(MainWindow).GetMethod("FadeOverlayOut", Private)!.Invoke(window, new object[] { overlay });
+
+            Assert.Null(scope.ActiveOverlay);
+            Assert.True(background.IsHitTestVisible);
+            Assert.Equal(Visibility.Collapsed, overlay.Visibility);
+        });
+
+        [Fact]
         public void OverlayCloseGlyphsHaveLocalizedButtonNames() => Sta.Run(() =>
         {
             var document = XDocument.Load(SourcePath());
-            foreach (string handler in new[] { "AboutClose_Click", "ShortcutClose_Click" })
+            foreach (string handler in new[] { "AboutClose_Click", "ShortcutClose_Click", "FontsClose_Click" })
             {
                 var source = document.Descendants().Single(e => (string?)e.Attribute("Click") == handler);
                 var element = new XElement(source.Name,

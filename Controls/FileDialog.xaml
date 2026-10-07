@@ -291,7 +291,7 @@
                                 <Grid>
                                     <Border IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
                                             Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
-                                    <ListBox x:Name="RecentsList" Background="Transparent" BorderThickness="0" Padding="2,4"
+                                    <ListBox x:Name="RecentsList" Background="Transparent" BorderThickness="0" Padding="2,4" AutomationProperties.Name="{DynamicResource Str_TT_RecentLocations}"
                                              Width="{Binding ActualWidth, ElementName=PathBox}" MaxHeight="260"
                                              ItemContainerStyle="{StaticResource PickerRow}"
                                              SelectionChanged="RecentsList_SelectionChanged"
@@ -362,7 +362,7 @@
                     <Border Panel.ZIndex="9" IsHitTestVisible="False" Margin="{DynamicResource PaneBevelInnerMargin}"
                             BorderBrush="{DynamicResource PaneBevelLight2Brush}"
                             BorderThickness="{DynamicResource PaneBevel2DarkThickness}"/>
-                    <ListBox x:Name="PlacesList" Background="Transparent" BorderThickness="0" Padding="2,4"
+                    <ListBox x:Name="PlacesList" Background="Transparent" BorderThickness="0" Padding="2,4" AutomationProperties.Name="{DynamicResource Str_Sec_File}"
                              ItemContainerStyle="{StaticResource PickerPlaceRow}" SelectionChanged="Places_SelectionChanged"
                              ContextMenuOpening="Places_ContextMenuOpening"
                              PreviewMouseLeftButtonDown="Places_PreviewMouseLeftButtonDown" PreviewMouseMove="Places_PreviewMouseMove"

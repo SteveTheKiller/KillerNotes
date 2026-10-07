@@ -101,6 +101,7 @@ namespace KillerNotes.Controls
             grid.Children.Add(actions);
 
             var row = new ListBoxItem { Content = grid, Tag = name, HorizontalContentAlignment = HorizontalAlignment.Stretch };
+            System.Windows.Automation.AutomationProperties.SetName(row, name);
             // Double-click the row to rename inline (as well as the rename button).
             row.MouseDoubleClick += (_, _) => BeginRename(grid, label, name);
 
@@ -139,13 +140,14 @@ namespace KillerNotes.Controls
                 ToolTip = tip, Style = TryFindResource("SurfaceButton") as Style,
             };
             b.Click += (_, _) => onClick();
+            System.Windows.Automation.AutomationProperties.SetName(b, tip);
             DialogShortcuts.Describe(b, gesture);
             return b;
         }
 
         // ---- Add ----
 
-        private void NewColorSwatch_Click(object sender, MouseButtonEventArgs e)
+        private void NewColorSwatch_Click(object sender, RoutedEventArgs e)
         {
             var dlg = new ColorPickerDialog(this, ColorFromHex(_newColor)) { Owner = this };
             // Confirmed, not ShowDialog() == true: the picker's close fade nulls DialogResult
@@ -204,6 +206,7 @@ namespace KillerNotes.Controls
                 CaretBrush = BrushFromResource("TextBrush"), Padding = new Thickness(4, 0, 4, 0),
                 Margin = new Thickness(0, 0, 8, 0),
             };
+            box.SetResourceReference(System.Windows.Automation.AutomationProperties.NameProperty, "Str_TT_TagRename");
             Grid.SetColumn(box, 1);
             label.Visibility = Visibility.Collapsed;
             grid.Children.Add(box);

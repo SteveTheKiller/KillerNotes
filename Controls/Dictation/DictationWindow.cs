@@ -417,6 +417,7 @@ namespace KillerNotes.Controls.Dictation
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                 Style = S("DarkTextBox"),
             };
+            _transcript.SetResourceReference(System.Windows.Automation.AutomationProperties.NameProperty, "Str_Dict_Title");
             _transcript.PreviewKeyDown += (_, e) =>
             {
                 if (e.Key != Key.Enter || Keyboard.Modifiers != ModifierKeys.Control || !_printBtn.IsEnabled) return;

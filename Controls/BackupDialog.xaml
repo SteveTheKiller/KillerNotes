@@ -42,7 +42,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox x:Name="FolderBox" Grid.Column="0" Height="26" IsReadOnly="True"
+                        <TextBox x:Name="FolderBox" Grid.Column="0" Height="26" IsReadOnly="True" AutomationProperties.Name="{DynamicResource Str_Bk_Folder}"
                                  Style="{StaticResource EditFieldTextBox}"
                                  ToolTip="{DynamicResource Str_Bk_Folder}"/>
                         <Button x:Name="BrowseBtn" Grid.Column="1" Content="{DynamicResource Str_Btn_Browse}" Click="Browse_Click"
@@ -59,7 +59,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{DynamicResource Str_Bk_Interval}" VerticalAlignment="Center"
                                    Foreground="{DynamicResource MutedTextBrush}" FontSize="11.5" Margin="0,0,8,0"/>
-                        <ComboBox x:Name="IntervalBox" Grid.Column="1" Style="{StaticResource KnCombo}"
+                        <ComboBox x:Name="IntervalBox" Grid.Column="1" Style="{StaticResource KnCombo}" AutomationProperties.Name="{DynamicResource Str_Bk_Interval}"
                                   ItemContainerStyle="{StaticResource KnComboItem}" Height="26"
                                   SelectionChanged="Setting_Changed">
                             <ComboBoxItem Content="{DynamicResource Str_Bk_6h}" Tag="6"/>
@@ -69,7 +69,7 @@
                         </ComboBox>
                         <TextBlock Grid.Column="2" Text="{DynamicResource Str_Bk_Keep}" VerticalAlignment="Center"
                                    Foreground="{DynamicResource MutedTextBrush}" FontSize="11.5" Margin="14,0,8,0"/>
-                        <ComboBox x:Name="KeepBox" Grid.Column="3" Style="{StaticResource KnCombo}"
+                        <ComboBox x:Name="KeepBox" Grid.Column="3" Style="{StaticResource KnCombo}" AutomationProperties.Name="{DynamicResource Str_Bk_Keep}"
                                   ItemContainerStyle="{StaticResource KnComboItem}" Height="26"
                                   SelectionChanged="Setting_Changed">
                             <ComboBoxItem Content="5" Tag="5"/>
@@ -91,7 +91,7 @@
                                 BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                                 CornerRadius="{DynamicResource ControlCornerRadius}">
                             <Grid>
-                                <ListBox x:Name="BackupList" Height="150" Background="Transparent" BorderThickness="0"
+                                <ListBox x:Name="BackupList" Height="150" Background="Transparent" BorderThickness="0" AutomationProperties.Name="{DynamicResource Str_Bk_Title}"
                                          HorizontalContentAlignment="Stretch" Margin="4"
                                          SelectionChanged="BackupList_SelectionChanged">
                                     <ListBox.ItemContainerStyle>

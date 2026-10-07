@@ -111,7 +111,9 @@ namespace KillerNotes.Controls
                 meta.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
                 row.Children.Add(name);
                 row.Children.Add(meta);
-                BackupList.Items.Add(new ListBoxItem { Tag = f.FullName, Content = row });
+                var item = new ListBoxItem { Tag = f.FullName, Content = row };
+                System.Windows.Automation.AutomationProperties.SetName(item, name.Text + meta.Text);
+                BackupList.Items.Add(item);
             }
             EmptyText.Visibility = backups.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             RestoreBtn.IsEnabled = false;

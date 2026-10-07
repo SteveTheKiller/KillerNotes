@@ -165,7 +165,9 @@ namespace KillerNotes.Shell
             SyncFontCombos();
             if (AboutOverlay.Visibility == Visibility.Visible) FadeOverlayOut(AboutOverlay);
             if (ShortcutOverlay.Visibility == Visibility.Visible) FadeOverlayOut(ShortcutOverlay);
+            _overlayFocus.Open(RootGrid, FontsOverlay, Keyboard.FocusedElement);
             FadeOverlayIn(FontsOverlay);
+            FontHeaderCombo.Focus();
         }
 
         private void HideFontsOverlay() => FadeOverlayOut(FontsOverlay);

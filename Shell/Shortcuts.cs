@@ -25,7 +25,7 @@ namespace KillerNotes.Shell
             };
             PreviewTextInput += (_, e) =>
             {
-                if (_overlayFocus.ActiveOverlay != null) e.Handled = true;
+                if (_overlayFocus.ActiveOverlay != null && _overlayFocus.ActiveOverlay != FontsOverlay) e.Handled = true;
             };
             PreviewKeyUp += (_, _) => KbSyncLayerFromModifiers();   // KeyboardMap.cs
             InitializeActionShortcutSurfaces();
@@ -498,6 +498,7 @@ namespace KillerNotes.Shell
             }
             if (_overlayFocus.ActiveOverlay == ShortcutOverlay) KsViewListBtn.Focus();
             else if (_overlayFocus.ActiveOverlay == AboutOverlay) AboutCloseButton.Focus();
+            else if (_overlayFocus.ActiveOverlay == FontsOverlay) FontHeaderCombo.Focus();
         }
 
         private void CloseKeyboardOverlay(UIElement overlay)
@@ -533,6 +534,8 @@ namespace KillerNotes.Shell
             }
             else if (overlay == AboutOverlay && modifiers == ModifierKeys.Control && e.Key == Key.F1)
                 HandleActionShortcut(e);
+            else if (overlay == FontsOverlay && modifiers == ModifierKeys.Control && e.Key == Key.F12)
+                HandleActionShortcut(e);
             else if (modifiers == ModifierKeys.Shift && e.Key == Key.F12)
             {
                 if (!e.IsRepeat) _about.OpenReleaseNotes();
@@ -543,7 +546,7 @@ namespace KillerNotes.Shell
                 FocusKeyboardOverlay();
                 e.Handled = true;
             }
-            else if (!OverlayFocusScope.IsNavigationKey(e.Key, modifiers)) e.Handled = true;
+            else if (overlay != FontsOverlay && !OverlayFocusScope.IsNavigationKey(e.Key, modifiers)) e.Handled = true;
             return true;
         }
 
