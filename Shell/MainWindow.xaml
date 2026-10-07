@@ -784,7 +784,7 @@
                                                          parent's line runs down the left of its child subgroups (containment).
                                                          Zero width for top-level rows, so top level looks exactly as before. -->
                                                     <ItemsControl Grid.Column="0" ItemsSource="{Binding Rails}"
-                                                                  IsHitTestVisible="False" VerticalAlignment="Stretch">
+                                                                  IsHitTestVisible="False" Focusable="False" IsTabStop="False" VerticalAlignment="Stretch">
                                                         <!-- Horizontal stack of 14px level slots; a horizontal StackPanel
                                                              stretches its children to full row height, so the lines are
                                                              continuous (not choppy) down abutting rows. -->
@@ -1211,20 +1211,38 @@
                                     </TextBlock>
                                     <!-- Tag pills (Services/TagManager.BuildChips); click filters by tag.
                                          Empty chip list renders zero height. -->
-                                    <ItemsControl ItemsSource="{Binding Chips}" Visibility="{Binding ChipsVisibility}">
+                                    <ItemsControl ItemsSource="{Binding Chips}" Visibility="{Binding ChipsVisibility}"
+                                                  Focusable="False" IsTabStop="False">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Background="{Binding Background}" CornerRadius="{DynamicResource SmallCornerRadius}" Padding="5,1" Margin="0,3,4,0"
-                                                        Focusable="True" KeyDown="TagChip_KeyDown" AutomationProperties.AcceleratorKey="Space / Enter"
-                                                        Cursor="Hand" MouseLeftButtonUp="TagChip_Click"
-                                                        >
-                                                    <Border.ToolTip><StackPanel><TextBlock Text="{DynamicResource Str_TT_TagChip}"/><TextBlock Text="Space / Enter"/></StackPanel></Border.ToolTip>
+                                                <Button Background="{Binding Background}" Padding="5,1" Margin="0,3,4,0"
+                                                        BorderThickness="0" Cursor="Hand" Click="TagChip_Click"
+                                                        AutomationProperties.Name="{Binding Name}"
+                                                        AutomationProperties.HelpText="{DynamicResource Str_TT_TagChip}">
+                                                    <Button.Template>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Grid>
+                                                                <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource SmallCornerRadius}"
+                                                                        Padding="{TemplateBinding Padding}">
+                                                                    <ContentPresenter/>
+                                                                </Border>
+                                                                <Border x:Name="KeyboardFocus" BorderBrush="Transparent" BorderThickness="1"
+                                                                        CornerRadius="{DynamicResource SmallCornerRadius}" IsHitTestVisible="False"/>
+                                                            </Grid>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                                                    <Setter TargetName="KeyboardFocus" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Button.Template>
+                                                    <Button.ToolTip><StackPanel><TextBlock Text="{DynamicResource Str_TT_TagChip}"/><TextBlock Text="Space / Enter"/></StackPanel></Button.ToolTip>
                                                     <TextBlock Text="{Binding Name}" Foreground="{Binding Foreground}"
                                                                FontSize="9" FontWeight="SemiBold"/>
-                                                </Border>
+                                                </Button>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
@@ -1840,14 +1858,16 @@
                          on a cell inserts that rows x cols table (Editor.cs). -->
                     <Button x:Name="TableBtn" Style="{StaticResource FmtButton}" Content="&#xE8A9;"
                             ToolTip="{DynamicResource Str_TT_Table}"
-                            PreviewMouseLeftButtonDown="TableBtn_MouseDown"/>
+                            PreviewMouseLeftButtonDown="TableBtn_MouseDown" Click="TableBtn_Click"/>
                     <Popup x:Name="TableSizePopup" PlacementTarget="{Binding ElementName=TableBtn}"
                            Placement="Bottom" StaysOpen="False" AllowsTransparency="True" VerticalOffset="4">
                         <Border Background="{DynamicResource MenuBackgroundBrush}"
                                 BorderBrush="{DynamicResource MenuBorderBrush}"
                                 BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" Padding="10,8" Margin="12">
                             <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
-                            <StackPanel>
+                            <StackPanel KeyboardNavigation.TabNavigation="Cycle"
+                                        KeyboardNavigation.ControlTabNavigation="Cycle"
+                                        PreviewKeyDown="TableSizePicker_PreviewKeyDown">
                                 <UniformGrid x:Name="TableSizeCells" Columns="8"/>
                                 <TextBlock x:Name="TableSizeLabel" Text="{DynamicResource Str_Lbl_Size}" Foreground="{DynamicResource DimTextBrush}"
                                            FontSize="10" HorizontalAlignment="Center" Margin="0,6,0,0"/>
@@ -1856,12 +1876,14 @@
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBox x:Name="TblColsBox" Style="{StaticResource DarkTextBox}" Text="4"
                                              Width="34" FontSize="11" Padding="4,2" KeyDown="TblCustom_KeyDown"
-                                             ToolTip="{DynamicResource Str_TT_Columns}"/>
+                                             ToolTip="{DynamicResource Str_TT_Columns}"
+                                             AutomationProperties.Name="{DynamicResource Str_TT_Columns}"/>
                                     <TextBlock Text=" x " Foreground="{DynamicResource DimTextBrush}"
                                                FontSize="11" VerticalAlignment="Center"/>
                                     <TextBox x:Name="TblRowsBox" Style="{StaticResource DarkTextBox}" Text="3"
                                              Width="34" FontSize="11" Padding="4,2" KeyDown="TblCustom_KeyDown"
-                                             ToolTip="{DynamicResource Str_TT_Rows}"/>
+                                             ToolTip="{DynamicResource Str_TT_Rows}"
+                                             AutomationProperties.Name="{DynamicResource Str_TT_Rows}"/>
                                     <Button Content="{DynamicResource Str_Btn_Insert}" Style="{StaticResource SurfaceButton}"
                                             FontSize="11" Padding="8,2" Margin="8,0,0,0"
                                             Click="TblCustomInsert_Click"/>
@@ -2121,7 +2143,34 @@
                                        Foreground="{DynamicResource DimTextBrush}"/>
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
                                           HorizontalScrollBarVisibility="Disabled">
-                                <StackPanel x:Name="OutlineList" Margin="0,2,0,8"/>
+                                <ListBox x:Name="OutlineList" Margin="0,2,0,8" Style="{StaticResource ShortcutNavigationList}"
+                                         AutomationProperties.Name="{DynamicResource Str_Outline_Title}"
+                                         PreviewKeyDown="OutlineList_PreviewKeyDown">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Grid>
+                                                            <ContentPresenter/>
+                                                            <Border x:Name="KeyboardFocus" BorderThickness="1" BorderBrush="Transparent"
+                                                                    Margin="4,0" IsHitTestVisible="False"/>
+                                                        </Grid>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                                <Setter TargetName="KeyboardFocus" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
                             </ScrollViewer>
                             <TextBlock x:Name="OutlineEmpty" Grid.Row="1" Text="{DynamicResource Str_Outline_Empty}"
                                        Foreground="{DynamicResource DimTextBrush}" FontSize="11"
