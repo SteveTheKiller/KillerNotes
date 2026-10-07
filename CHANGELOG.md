@@ -6,11 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.4.1] - Unreleased
 
-1.4.1 corrects note scrolling and theme contrast.
+1.4.1 improves keyboard access, note scrolling and theme contrast.
 
 ### Fixed
-- Help and About contain keyboard focus, restore it on close, and expose readable shortcut rows and close buttons (#22). (Thanks @digitaldarragh)
-- Shortcut controls expose their localized action names to screen readers (#22).
+- Help, About, the outline, templates, table picker and tag chips support keyboard and screen-reader use, with focus restored on close (#22). (Thanks @digitaldarragh)
 - Note scrolling matches the sidebar's wheel speed, including at different editor zoom levels.
 - Shared theme colors, dropdown highlights, footers, title styling and shadows match the family palette, including cream Blood, Greed and Cyanotic wordmarks. Database selection text stays readable across gradient fills.
 - Light/Yellow uses true yellow for the wordmark, accent lines and radio buttons, with neutral dark text instead of olive brown.

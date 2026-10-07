@@ -162,14 +162,6 @@ namespace KillerNotes.Shell
             e.Handled = true;
         }
 
-        private void TagChip_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (Keyboard.Modifiers != ModifierKeys.None || e.Key is not (Key.Space or Key.Enter)) return;
-            if (sender is not FrameworkElement { DataContext: TagChip chip }) return;
-            SearchBox.Text = chip.Name;
-            e.Handled = true;
-        }
-
         private void RunNoteAction(RoutedEventHandler action)
         {
             if (!NoteStore.IsOpen) return;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using KillerNotes.Controls;
 using KillerNotes.Models;
@@ -23,7 +22,7 @@ namespace KillerNotes.Shell
 
         // ---- Chip click: filter the list by that tag (FTS-backed; Esc clears) ----
 
-        private void TagChip_Click(object sender, MouseButtonEventArgs e)
+        private void TagChip_Click(object sender, RoutedEventArgs e)
         {
             if (sender is FrameworkElement { DataContext: TagChip chip })
             {

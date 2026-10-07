@@ -20,8 +20,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Threading;
 using KillerNotes.Models;
 using KillerNotes.Services;
 
@@ -102,35 +105,59 @@ namespace KillerNotes.Shell
         {
             if (!NoteStore.IsOpen) return;
             var menu = new ContextMenu { PlacementTarget = NewNoteBtn, Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom };
+            var previousFocus = Keyboard.FocusedElement;
+            bool templateChosen = false;
             FillTemplateMenu(menu);
+            menu.AddHandler(MenuItem.ClickEvent, new RoutedEventHandler((_, e) =>
+            {
+                if (e.OriginalSource is MenuItem { Tag: long }) templateChosen = true;
+            }));
+            menu.Opened += (_, _) => menu.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (menu.IsOpen)
+                    menu.Items.OfType<MenuItem>().FirstOrDefault(item => item.IsEnabled && item.Focusable)?.Focus();
+            }), DispatcherPriority.Input);
+            menu.Closed += (_, _) => menu.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (templateChosen) return;
+                if (previousFocus is UIElement previous && previous.IsVisible && previous.IsEnabled)
+                    previous.Focus();
+                else if (previousFocus is ContentElement content && content.IsEnabled && content.Focusable)
+                    content.Focus();
+            }), DispatcherPriority.Input);
             menu.IsOpen = true;
         }
 
         private void FillTemplateMenu(ItemsControl menu)
         {
             menu.Items.Clear();
+            AutomationProperties.SetName(menu, Loc("Str_Ctx_NewFromTemplate"));
             var templates = TemplateNotes();
             if (templates.Count == 0)
             {
                 // One disabled row saying why, so an empty submenu never reads as broken.
-                menu.Items.Add(new MenuItem
+                string explanation = Loc(TemplatesGroupPath() == null ? "Str_Ctx_NoTemplatesGroup" : "Str_Ctx_NoTemplates");
+                var emptyItem = new MenuItem
                 {
-                    Header = BuildMenuRow(null, null,
-                        Loc(TemplatesGroupPath() == null ? "Str_Ctx_NoTemplatesGroup" : "Str_Ctx_NoTemplates"), null),
+                    Header = BuildMenuRow(null, null, explanation, null),
                     IsEnabled = false,
                     Padding = new Thickness(6, 5, 14, 5),
                     HorizontalContentAlignment = HorizontalAlignment.Stretch,
-                });
+                };
+                AutomationProperties.SetName(emptyItem, explanation);
+                menu.Items.Add(emptyItem);
                 return;
             }
             foreach (var t in templates)
             {
                 var item = new MenuItem
                 {
+                    Tag = t.Id,
                     Header = BuildMenuRow(null, null, t.Title, "Enter"),   // Tags.cs (shared row layout)
                     Padding = new Thickness(6, 5, 14, 5),
                     HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 };
+                AutomationProperties.SetName(item, t.Title);
                 long id = t.Id;
                 string title = t.Title;
                 item.Click += (_, _) =>
