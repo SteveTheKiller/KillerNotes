@@ -1,6 +1,8 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Windows.Media;
 using System.Xml.Linq;
 using Xunit;
 
@@ -12,24 +14,26 @@ namespace KillerNotes.Tests
         private static readonly XNamespace W = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
 
         [Fact]
-        public void DeliriumOverridesOnlyMenuDividerColors()
+        public void AllThemesDeclareOpaqueMenuDividersAndDeliriumKeepsMatchingSketchGray()
         {
             string root = FindRepoRoot();
             foreach (string path in Directory.GetFiles(Path.Combine(root, "Themes"), "*.xaml"))
             {
                 var resources = XDocument.Load(path).Root!.Elements().ToList();
                 var divider = resources.SingleOrDefault(item => (string?)item.Attribute(X + "Key") == "MenuSeparatorBrush");
+                Assert.NotNull(divider);
+                Color dividerColor = OpaqueColor(divider!);
                 if (Path.GetFileNameWithoutExtension(path) == "Delirium")
                 {
-                    Assert.NotNull(divider);
-                    Assert.Equal("#666666", (string?)divider!.Attribute("Color"));
+                    Assert.Equal(Color.FromRgb(0x66, 0x66, 0x66), dividerColor);
                     var sketch = resources.Single(item => (string?)item.Attribute(X + "Key") == "SketchMenuSeparatorBrush");
-                    Assert.Equal("StaticResource", sketch.Name.LocalName);
-                    Assert.Equal("MenuSeparatorBrush", (string?)sketch.Attribute("ResourceKey"));
+                    if (sketch.Name.LocalName == "StaticResource")
+                        Assert.Equal("MenuSeparatorBrush", (string?)sketch.Attribute("ResourceKey"));
+                    else
+                        Assert.Equal(dividerColor, OpaqueColor(sketch));
                 }
                 else
                 {
-                    Assert.Null(divider);
                     Assert.DoesNotContain(resources, item => (string?)item.Attribute(X + "Key") == "SketchMenuSeparatorBrush");
                     Assert.Contains(resources, item => (string?)item.Attribute(X + "Key") == "MenuBorderBrush");
                 }
@@ -63,6 +67,15 @@ namespace KillerNotes.Tests
 
         private static string? Background(XElement style) =>
             (string?)style.Elements(W + "Setter").Single(setter => (string?)setter.Attribute("Property") == "Background").Attribute("Value");
+
+        private static Color OpaqueColor(XElement brush)
+        {
+            Assert.Equal(W + "SolidColorBrush", brush.Name);
+            var color = (Color)ColorConverter.ConvertFromString((string)brush.Attribute("Color")!);
+            Assert.Equal((byte)255, color.A);
+            Assert.Equal(1d, double.Parse((string?)brush.Attribute("Opacity") ?? "1", CultureInfo.InvariantCulture));
+            return color;
+        }
 
         private static string FindRepoRoot()
         {
