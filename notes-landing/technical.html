@@ -11,7 +11,7 @@
 <meta name="description" content="How KillerNotes works under the hood: SQLite storage with FTS5 full-text search, SQLCipher AES-256 encryption, XamlPackage rich content, and the .knote/.kndb sharing formats.">
 <link rel="icon" type="image/x-icon" href="brand/kn-icon.ico">
 <script defer src="https://koya.thekiller.net/script.js" data-website-id="9cbd0ccf-b6de-4fb3-a9fe-a166c151fa3f"></script>
-<link rel="stylesheet" href="kn.css?v=18">
+<link rel="stylesheet" href="kn.css?v=19">
 <style>
 .page-hero { text-align: center; padding: 44px 16px 8px; }
 .page-hero .wm-logo { height: clamp(46px, 8vw, 76px); width: auto; margin: 0 auto 8px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.55)); }
@@ -31,6 +31,10 @@
 .model-table td:nth-child(-n+3) { white-space: nowrap; overflow-wrap: normal; }
 .model-table td:nth-child(4) { padding-top: 9px; padding-bottom: 11px; border-top: 1px dotted var(--pane-border); }
 @media (max-width: 1050px) { .tech-grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px) {
+  .content-inner { padding-left: 8px; padding-right: 8px; }
+  .tech-sec { padding-left: 8px; padding-right: 8px; }
+}
 .sb-tabs .on { border-bottom: 0; }
 .outline { padding: 8px 0; overflow-y: auto; flex: 1; min-height: 0; }
 .outline a { display: block; padding: 8px 16px 8px 18px; font-size: 13px; color: var(--text2); border-left: 2px solid transparent; }
@@ -164,7 +168,8 @@
 <p data-i18n="t_store_p4">Sketches and dictation recordings sit in side tables keyed to the note rather than inside its XamlPackage. Audio is far larger than the note that references it, and inlining it would make every load and save of that note carry it; the note keeps only a small marker. Both are encrypted with the rest of the database when a password is set.</p>
 
 <figure class="diagram" id="flowDiagram">
-<svg viewBox="0 0 620 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow: editor to database to shares">
+<button class="diagram-open" type="button" aria-haspopup="dialog" aria-labelledby="flowCaption">
+<svg viewBox="80 0 460 990" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow: editor to database to shares" aria-hidden="true">
 <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
 <g font-family="Consolas, monospace">
 <rect x="110" y="20" width="400" height="120" rx="10" fill="var(--panel)" stroke="var(--pane-border)"/>
@@ -172,8 +177,8 @@
 <text x="310" y="85" text-anchor="middle" font-size="16" fill="var(--text)">WPF RichTextBox + FlowDocument</text>
 <text data-i18n="diagram_1" x="310" y="112" text-anchor="middle" font-size="14" fill="var(--muted)" data-fit-width="380">rich text, images, and tables</text>
 <line x1="310" y1="140" x2="310" y2="200" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>
-<text data-i18n="t_nav_autosave" x="330" y="166" font-size="14" fill="var(--accent)">autosave</text>
-<text data-i18n="diagram_2" x="330" y="186" font-size="12" fill="var(--muted)" data-fit-width="260">2s pause, switch, alt-tab, close</text>
+<text data-i18n="t_nav_autosave" x="320" y="166" font-size="14" fill="var(--accent)" data-fit-width="210">autosave</text>
+<text data-i18n="diagram_2" x="320" y="186" font-size="14" fill="var(--muted)" data-fit-width="210">2s pause, switch, alt-tab, close</text>
 <rect x="110" y="205" width="400" height="190" rx="10" fill="var(--panel)" stroke="var(--pane-border)"/>
 <text data-i18n="diagram_3" x="310" y="238" text-anchor="middle" font-size="19" fill="var(--accent)" data-fit-width="380">One note, three forms</text>
 <rect x="140" y="258" width="340" height="34" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
@@ -189,23 +194,24 @@
 <text x="310" y="528" text-anchor="middle" font-size="19" fill="var(--accent)">notes.db (SQLite)</text>
 <rect x="145" y="546" width="330" height="32" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
 <text data-i18n="diagram_8" x="310" y="568" text-anchor="middle" font-size="15" fill="var(--text)" data-fit-width="380">notes table</text>
-<text data-i18n="diagram_9" x="310" y="595" text-anchor="middle" font-size="12" fill="var(--muted)" data-fit-width="380">&#8645; external-content triggers</text>
+<text data-i18n="diagram_9" x="310" y="595" text-anchor="middle" font-size="14" fill="var(--muted)" data-fit-width="380">&#8645; external-content triggers</text>
 <rect x="145" y="604" width="330" height="24" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
-<text data-i18n="diagram_10" x="310" y="621" text-anchor="middle" font-size="13" fill="var(--text)" data-fit-width="380">FTS5 full-text index</text>
-<line x1="310" y1="660" x2="310" y2="705" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>
-<text data-i18n="diagram_11" x="310" y="695" text-anchor="middle" font-size="12" fill="var(--muted)" data-fit-width="380">share or export</text>
-<rect x="20" y="710" width="180" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="110" y="737" text-anchor="middle" font-size="16" fill="var(--accent)">.knote</text>
-<text data-i18n="diagram_12" x="110" y="758" text-anchor="middle" font-size="12" fill="var(--muted)" data-fit-width="380">one note</text>
-<rect x="220" y="710" width="180" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="310" y="737" text-anchor="middle" font-size="16" fill="var(--accent)">.kndb</text>
-<text data-i18n="diagram_13" x="310" y="758" text-anchor="middle" font-size="12" fill="var(--muted)" data-fit-width="380">whole notepad</text>
-<rect x="420" y="710" width="180" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text x="510" y="737" text-anchor="middle" font-size="15" fill="var(--accent)">.txt .rtf .html</text>
-<text data-i18n="diagram_14" x="510" y="758" text-anchor="middle" font-size="12" fill="var(--muted)" data-fit-width="380">plain exports</text>
+<text data-i18n="diagram_10" x="310" y="621" text-anchor="middle" font-size="15" fill="var(--text)" data-fit-width="380">FTS5 full-text index</text>
+<line x1="310" y1="660" x2="310" y2="690" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>
+<text data-i18n="diagram_11" x="310" y="718" text-anchor="middle" font-size="14" fill="var(--muted)" data-fit-width="380">share or export</text>
+<rect x="120" y="730" width="380" height="68" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="310" y="758" text-anchor="middle" font-size="17" fill="var(--accent)">.knote</text>
+<text data-i18n="diagram_12" x="310" y="780" text-anchor="middle" font-size="14" fill="var(--muted)" data-fit-width="350">one note</text>
+<rect x="120" y="814" width="380" height="68" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="310" y="842" text-anchor="middle" font-size="17" fill="var(--accent)">.kndb</text>
+<text data-i18n="diagram_13" x="310" y="864" text-anchor="middle" font-size="14" fill="var(--muted)" data-fit-width="350">whole notepad</text>
+<rect x="120" y="898" width="380" height="68" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text x="310" y="926" text-anchor="middle" font-size="17" fill="var(--accent)">.txt .rtf .html</text>
+<text data-i18n="diagram_14" x="310" y="948" text-anchor="middle" font-size="14" fill="var(--muted)" data-fit-width="350">plain exports</text>
 </g>
 </svg>
-<figcaption data-i18n="t_store_fig1">The life of a note: the editor commits every change into one SQLite file, the search index stays in sync by trigger, encryption wraps the whole file, and shares tear off from there.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
+</button>
+<figcaption id="flowCaption" data-i18n="t_store_fig1">The life of a note: the editor commits every change into one SQLite file, the search index stays in sync by trigger, encryption wraps the whole file, and shares tear off from there.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
 </figure>
 
 <h3 data-i18n="t_store_h1" id="autosave">Autosave</h3>
@@ -235,20 +241,21 @@
 <p data-i18n="t_links_p6">Renaming a note is the one thing that breaks a link addressed by title, so it is also the one thing that offers to fix them. The link table already knows exactly which notes point at the old title, so nothing has to be searched for. You are shown every affected note and its link count before anything changes, and the whole rewrite undoes with a single <code>Ctrl+Z</code>.</p>
 
 <figure class="diagram" id="linkDiagram">
-<svg viewBox="0 0 620 820" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="How typed brackets become edges: parse on save into the link table, which feeds the strip, the graph and rename propagation">
+<button class="diagram-open" type="button" aria-haspopup="dialog" aria-labelledby="linkCaption">
+<svg viewBox="80 0 460 1030" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="How typed brackets become edges: parse on save into the link table, which feeds the strip, the graph and rename propagation" aria-hidden="true">
 <defs><marker id="arrL" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
 <g font-family="Consolas, monospace">
 <rect x="90" y="20" width="440" height="135" rx="10" fill="var(--panel)" stroke="var(--pane-border)"/>
 <text data-i18n="diagram_15" x="310" y="53" text-anchor="middle" font-size="19" fill="var(--accent)" data-fit-width="380">A note being typed</text>
 <text x="310" y="88" text-anchor="middle" font-size="16" fill="var(--text)"><tspan fill="var(--accent)">[[Firewall]]</tspan></text>
-<text data-i18n="diagram_6" x="310" y="120" text-anchor="middle" font-size="13" fill="var(--muted)" data-fit-width="380">plain-text shadow copy</text>
+<text data-i18n="diagram_6" x="310" y="120" text-anchor="middle" font-size="15" fill="var(--muted)" data-fit-width="380">plain-text shadow copy</text>
 <line x1="310" y1="155" x2="310" y2="215" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrL)"/>
-<text data-i18n="diagram_16" x="330" y="188" font-size="14" fill="var(--accent)" data-fit-width="260">every save</text>
+<text data-i18n="diagram_16" x="320" y="188" font-size="14" fill="var(--accent)" data-fit-width="210">every save</text>
 <rect x="90" y="220" width="440" height="150" rx="10" fill="var(--panel)" stroke="var(--pane-border)"/>
 <text data-i18n="diagram_17" x="310" y="253" text-anchor="middle" font-size="19" fill="var(--accent)" data-fit-width="380">Parse wikilinks</text>
 <text x="310" y="284" text-anchor="middle" font-size="15" fill="var(--text)">[[Target]] / [[Target|label]]</text>
-<text data-i18n="diagram_18" x="310" y="312" text-anchor="middle" font-size="13" fill="var(--muted)" data-fit-width="380">never crosses a line ending</text>
-<text data-i18n="diagram_19" x="310" y="334" text-anchor="middle" font-size="13" fill="var(--muted)" data-fit-width="380">duplicates collapse, document bytes stay untouched</text>
+<text data-i18n="diagram_18" x="310" y="312" text-anchor="middle" font-size="15" fill="var(--muted)" data-fit-width="380">never crosses a line ending</text>
+<text data-i18n="diagram_19" x="310" y="334" text-anchor="middle" font-size="15" fill="var(--muted)" data-fit-width="380">duplicates collapse, document bytes stay untouched</text>
 <line x1="310" y1="370" x2="310" y2="430" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrL)"/>
 <rect x="90" y="435" width="440" height="205" rx="10" fill="var(--panel)" stroke="var(--pane-border)"/>
 <text x="310" y="469" text-anchor="middle" font-size="19" fill="var(--accent)">note_links (source, target)</text>
@@ -258,20 +265,21 @@
 <text x="310" y="554" text-anchor="middle" font-size="15" fill="var(--text)">1  Server Rack</text>
 <rect x="135" y="574" width="350" height="32" rx="5" fill="var(--modal)" stroke="var(--pane-border)"/>
 <text x="310" y="596" text-anchor="middle" font-size="15" fill="var(--text)">7  Firewall</text>
-<text data-i18n="diagram_20" x="310" y="625" text-anchor="middle" font-size="12" fill="var(--muted)" data-fit-width="380">rewritten on save, targets resolved by title</text>
-<line x1="310" y1="640" x2="310" y2="690" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrL)"/>
-<rect x="10" y="695" width="190" height="88" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text data-i18n="diagram_21" x="105" y="730" text-anchor="middle" font-size="16" fill="var(--accent)" data-fit-width="180">backlinks strip</text>
-<text data-ui-caption="hp_ment" x="105" y="756" text-anchor="middle" font-size="12" fill="var(--muted)">what links here</text>
-<rect x="215" y="695" width="190" height="88" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text data-i18n="t_links_h2" x="310" y="730" text-anchor="middle" font-size="16" fill="var(--accent)">the graph</text>
-<text data-i18n="diagram_22" x="310" y="756" text-anchor="middle" font-size="12" fill="var(--muted)" data-fit-width="380">edges by title</text>
-<rect x="420" y="695" width="190" height="88" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
-<text data-i18n="diagram_23" x="515" y="730" text-anchor="middle" font-size="15" fill="var(--accent)" data-fit-width="180">rename propagation</text>
-<text data-i18n="diagram_24" x="515" y="756" text-anchor="middle" font-size="12" fill="var(--muted)" data-fit-width="180">exact notes to rewrite</text>
+<text data-i18n="diagram_20" x="310" y="625" text-anchor="middle" font-size="14" fill="var(--muted)" data-fit-width="380">rewritten on save, targets resolved by title</text>
+<line x1="310" y1="640" x2="310" y2="685" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrL)"/>
+<rect x="120" y="700" width="380" height="88" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text data-i18n="diagram_21" x="310" y="738" text-anchor="middle" font-size="17" fill="var(--accent)" data-fit-width="350">backlinks strip</text>
+<text data-ui-caption="hp_ment" x="310" y="765" text-anchor="middle" font-size="14" fill="var(--muted)" data-fit-width="350">what links here</text>
+<rect x="120" y="808" width="380" height="88" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text data-i18n="t_links_h2" x="310" y="846" text-anchor="middle" font-size="17" fill="var(--accent)" data-fit-width="350">the graph</text>
+<text data-i18n="diagram_22" x="310" y="873" text-anchor="middle" font-size="14" fill="var(--muted)" data-fit-width="350">edges by title</text>
+<rect x="120" y="916" width="380" height="88" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<text data-i18n="diagram_23" x="310" y="954" text-anchor="middle" font-size="17" fill="var(--accent)" data-fit-width="350">rename propagation</text>
+<text data-i18n="diagram_24" x="310" y="981" text-anchor="middle" font-size="14" fill="var(--muted)" data-fit-width="350">exact notes to rewrite</text>
 </g>
 </svg>
-<figcaption data-i18n="t_links_fig1">The pointing, end to end: brackets in the text become rows in a per-database table on every save, and everything else - the strip, the graph, the rename offer - only ever reads those rows.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
+</button>
+<figcaption id="linkCaption" data-i18n="t_links_fig1">The pointing, end to end: brackets in the text become rows in a per-database table on every save, and everything else - the strip, the graph, the rename offer - only ever reads those rows.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
 </figure>
 
 <h3 data-i18n="t_links_h2" id="graphview">The graph</h3>
@@ -280,7 +288,8 @@
 <p data-i18n="t_links_p10">Five deterministic arrangements complement the physics: by connection, in a circle, in a grid, by group, and rings by distance from one note - the last one placed on the note's own menu, where "distance from what" needs no explaining. The <b>visualizer</b> (V) is the opposite of an arrangement: it keeps the simulation warm, breathes the spring lengths, and turns the whole layout rigidly about its center, for a graph left running on a second monitor. Pinning is suspended while it runs; locks are not.</p>
 
 <figure class="diagram" id="graphAnatomy">
-<svg viewBox="0 0 620 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Anatomy of the graph: sized hubs, group colors, hollow ghosts, dashed lock rings">
+<button class="diagram-open" type="button" aria-haspopup="dialog" aria-labelledby="graphCaption">
+<svg viewBox="80 0 460 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Anatomy of the graph: sized hubs, group colors, hollow ghosts, dashed lock rings" aria-hidden="true">
 <g font-family="Consolas, monospace">
 <g stroke="var(--pane-border)" stroke-width="1.5">
 <line x1="150" y1="105" x2="310" y2="190"/>
@@ -300,27 +309,28 @@
 <text x="470" y="68" text-anchor="middle" font-size="15" fill="var(--text)">Vault</text>
 <circle cx="480" cy="280" r="16" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4"/>
 <text x="480" y="316" text-anchor="middle" font-size="15" fill="var(--muted)">Zero Trust</text>
-<line x1="55" y1="355" x2="565" y2="355" stroke="var(--pane-border)"/>
-<rect x="45" y="385" width="530" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
-<circle cx="78" cy="416" r="19" fill="var(--accent)"/>
-<text data-i18n="diagram_25" x="115" y="410" font-size="16" fill="var(--accent)" data-fit-width="435">Size shows inbound links</text>
-<text data-i18n="diagram_26" x="115" y="431" font-size="13" fill="var(--muted)" data-fit-width="435">the notebook hub stands out at a glance</text>
-<rect x="45" y="460" width="530" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
-<circle cx="78" cy="491" r="13" fill="var(--muted)"/>
-<circle cx="78" cy="491" r="20" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
-<text data-i18n="diagram_27" x="115" y="485" font-size="16" fill="var(--accent)" data-fit-width="435">Dashed ring means locked</text>
-<text data-i18n="diagram_28" x="115" y="506" font-size="13" fill="var(--muted)" data-fit-width="435">nothing moves it, and the lock is remembered</text>
-<rect x="45" y="535" width="530" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
-<circle cx="78" cy="566" r="15" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4"/>
-<text data-i18n="diagram_29" x="115" y="560" font-size="16" fill="var(--accent)" data-fit-width="435">Hollow means linked, not written</text>
-<text data-i18n="diagram_30" x="115" y="581" font-size="13" fill="var(--muted)" data-fit-width="435">opening the ghost offers to create the note</text>
-<rect x="45" y="610" width="530" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
-<circle cx="78" cy="641" r="15" fill="var(--accent)"/>
-<text data-i18n="diagram_31" x="115" y="635" font-size="16" fill="var(--accent)" data-fit-width="435">Color follows the sidebar group</text>
-<text data-i18n="diagram_32" x="115" y="656" font-size="13" fill="var(--muted)" data-fit-width="435">nodes reuse the group header brushes</text>
+<line x1="90" y1="355" x2="530" y2="355" stroke="var(--pane-border)"/>
+<rect x="90" y="385" width="440" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<circle cx="120" cy="416" r="19" fill="var(--accent)"/>
+<text data-i18n="diagram_25" x="160" y="410" font-size="16" fill="var(--accent)" data-fit-width="355">Size shows inbound links</text>
+<text data-i18n="diagram_26" x="160" y="431" font-size="15" fill="var(--muted)" data-fit-width="355">the notebook hub stands out at a glance</text>
+<rect x="90" y="460" width="440" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<circle cx="120" cy="491" r="13" fill="var(--muted)"/>
+<circle cx="120" cy="491" r="20" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
+<text data-i18n="diagram_27" x="160" y="485" font-size="16" fill="var(--accent)" data-fit-width="355">Dashed ring means locked</text>
+<text data-i18n="diagram_28" x="160" y="506" font-size="15" fill="var(--muted)" data-fit-width="355">nothing moves it, and the lock is remembered</text>
+<rect x="90" y="535" width="440" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<circle cx="120" cy="566" r="15" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4"/>
+<text data-i18n="diagram_29" x="160" y="560" font-size="16" fill="var(--accent)" data-fit-width="355">Hollow means linked, not written</text>
+<text data-i18n="diagram_30" x="160" y="581" font-size="15" fill="var(--muted)" data-fit-width="355">opening the ghost offers to create the note</text>
+<rect x="90" y="610" width="440" height="62" rx="7" fill="var(--panel)" stroke="var(--pane-border)"/>
+<circle cx="120" cy="641" r="15" fill="var(--accent)"/>
+<text data-i18n="diagram_31" x="160" y="635" font-size="16" fill="var(--accent)" data-fit-width="355">Color follows the sidebar group</text>
+<text data-i18n="diagram_32" x="160" y="656" font-size="15" fill="var(--muted)" data-fit-width="355">nodes reuse the group header brushes</text>
 </g>
 </svg>
-<figcaption data-i18n="t_links_fig2">Anatomy of the graph. Everything it shows is derived: size from the link table, color from the sidebar groups, hollowness from a title no note owns yet.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
+</button>
+<figcaption id="graphCaption" data-i18n="t_links_fig2">Anatomy of the graph. Everything it shows is derived: size from the link table, color from the sidebar groups, hollowness from a title no note owns yet.<span class="zoom-hint">Click the diagram to enlarge.</span></figcaption>
 </figure>
 
 <h3 data-i18n="t_links_h3" id="graphlayouts">Where layouts live</h3>
@@ -505,18 +515,38 @@
 <span class="right"><span id="verEgg" title="click me">v1.4.0</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
 </footer>
 <div class="egg-toast" id="eggToast"></div>
-<div class="dlightbox" id="dlightbox" hidden><div class="dlb-inner" id="dlbInner"></div></div>
+<dialog class="dlightbox" id="dlightbox" aria-labelledby="dlbCaption">
+<div class="dlb-inner">
+<button class="dlb-close" id="dlbClose" type="button" aria-label="Close">&times;</button>
+<p class="dlb-caption" id="dlbCaption"></p>
+<div id="dlbInner"></div>
+</div>
+</dialog>
 <script src="kn-i18n.js?v=16"></script>
 <script src="kn.js?v=6"></script>
 <script>
 (function(){
-  // Click a diagram to enlarge it (clone the SVG into the overlay; click anywhere to close).
   var lb=document.getElementById('dlightbox'), inner=document.getElementById('dlbInner');
-  [].slice.call(document.querySelectorAll('.diagram svg')).forEach(function(svg){
-    svg.addEventListener('click',function(){ inner.innerHTML=''; inner.appendChild(svg.cloneNode(true)); lb.hidden=false; });
+  var caption=document.getElementById('dlbCaption'), close=document.getElementById('dlbClose');
+  var trigger=null;
+  [].slice.call(document.querySelectorAll('.diagram-open')).forEach(function(button){
+    button.addEventListener('click',function(){
+      trigger=button;
+      inner.textContent='';
+      var svg=button.querySelector('svg').cloneNode(true);
+      svg.removeAttribute('aria-hidden');
+      inner.appendChild(svg);
+      caption.textContent=svg.getAttribute('aria-label');
+      lb.showModal();
+      close.focus();
+    });
   });
-  lb.addEventListener('click',function(){ lb.hidden=true; });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') lb.hidden=true; });
+  close.addEventListener('click',function(){ lb.close(); });
+  lb.addEventListener('click',function(e){ if(e.target===lb) lb.close(); });
+  lb.addEventListener('close',function(){
+    inner.textContent='';
+    if(trigger) trigger.focus();
+  });
 })();
 </script>
 <script>

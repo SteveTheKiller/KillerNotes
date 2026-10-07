@@ -376,14 +376,28 @@ html[data-theme="light"] .tech-sec h3 { text-shadow: none; }
 /* Technical cards match the app's textured context-menu surface. */
 .codeblock, .cli-demo, .diagram { background: var(--modal) url('grain.png?v=2') repeat; background-size: 256px 256px; }
 html:not([data-theme="light"]) .codeblock { background-color: color-mix(in srgb, var(--modal) 65%, #000); border-color: color-mix(in srgb, var(--text) 28%, var(--modal)); border-left-color: var(--accent); }
-.diagram svg { width: 100%; height: auto; display: block; cursor: zoom-in; }
+.diagram-open { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; cursor: zoom-in; overflow-x: auto; }
+.diagram-open svg { display: block; width: min(100%, 540px); height: auto; margin-inline: auto; }
+.diagram-open:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 5px; }
 .diagram figcaption { font-size: 12.5px; line-height: 1.55; color: var(--muted); margin-top: 10px; }
 .diagram .zoom-hint { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
-/* Click-to-enlarge overlay for the flowcharts (tap the diagram, or its enlarged copy, to close) */
-.dlightbox { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 18px; background: var(--fade); cursor: zoom-out; }
-.dlightbox[hidden] { display: none; }
-.dlb-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; box-shadow: 0 22px 60px rgba(0,0,0,0.5); }
-.dlb-inner svg { display: block; width: min(1080px, 94vw); height: auto; max-height: 88vh; }
+@media (max-width: 560px) {
+  .diagram { padding: 8px; }
+  .diagram-open svg { width: 100%; max-width: none; margin: 0; }
+  .diagram-open text[font-size="14"] { font-size: 17px; }
+  .diagram-open text[font-size="15"] { font-size: 18px; }
+  .diagram-open text[font-size="16"] { font-size: 19px; }
+  .diagram-open text[font-size="17"] { font-size: 19px; }
+}
+.dlightbox { position: fixed; inset: 0; width: min(720px, calc(100vw - 28px)); max-width: none; max-height: calc(100dvh - 28px); margin: auto; padding: 0; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text); box-shadow: 0 22px 60px rgba(0,0,0,0.5); overflow: hidden; }
+.dlightbox:not([open]) { display: none; }
+.dlightbox::backdrop { background: var(--fade); }
+.dlb-inner { max-height: calc(100dvh - 28px); padding: 16px; overflow: auto; }
+.dlb-inner svg { display: block; width: 100%; min-width: 440px; height: auto; }
+.dlb-close { position: sticky; top: 0; z-index: 1; display: block; width: 34px; height: 34px; margin-left: auto; border: 1px solid var(--pane-border); border-radius: 6px; background: var(--modal); color: var(--text); font-size: 24px; line-height: 1; cursor: pointer; }
+.dlb-close:hover { border-color: var(--accent); color: var(--accent); }
+.dlb-close:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.dlb-caption { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
 /* Arrow-bulleted lists, shared by the hero blurbs and the technical sections */
 .blurb-list { list-style: none; margin-bottom: 11px; }
 .blurb-list li { font-size: 13.5px; color: var(--muted); line-height: 1.55; padding-left: 16px; position: relative; margin-bottom: 6px; }

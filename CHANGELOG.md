@@ -15,6 +15,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Light/Yellow uses true yellow for the wordmark, accent lines and radio buttons, with neutral dark text instead of olive brown.
 - 98SE Red is a true maroon again, so it no longer looks like Magenta.
 - Moved the shortcuts guide link away from the close button.
+- Technical diagrams remain readable in the two-column layout and when enlarged (#23).
 
 ## [1.4.0] - 2026-10-06
 
