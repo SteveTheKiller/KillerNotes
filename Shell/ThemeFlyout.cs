@@ -34,6 +34,17 @@ namespace KillerNotes.Shell
         private const double AccentStripWidth = 39;
         private const double AccentStripSlideMs = 180;
 
+        private void RailMenu_Opening(object sender, ContextMenuEventArgs e)
+        {
+            e.Handled = true;
+            if (sender == LangButton) { LangButton_Click(sender, e); return; }
+            if (sender == ThemeButton) { OpenThemeMenu(); return; }
+            if (sender is not FrameworkElement { ContextMenu: { } menu }) return;
+            FlyoutPlacement.UsePane(ContentPane);
+            FlyoutPlacement.Attach(menu, (UIElement)sender);
+            menu.IsOpen = true;
+        }
+
         private void ThemeButton_Click(object sender, RoutedEventArgs e) => OpenThemeMenu();
         private void UpdateThemeSwatchSelection() { }
         private void OpenThemeMenu()

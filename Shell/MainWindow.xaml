@@ -379,7 +379,7 @@
                              other app-specific tools, above the universal ? / language / theme
                              block, per the locked family rail order. -->
                         <Button x:Name="DictationRailBtn" Style="{StaticResource RailButton}" Content="&#xE720;"
-                                Margin="0,0,0,10" Click="DictationRail_Click"
+                                Margin="0,0,0,10" Click="DictationRail_Click" ContextMenuOpening="RailMenu_Opening"
                                 ToolTip="{DynamicResource Str_TT_DictationRail}">
                             <!-- Right-click: the speech model. The chooser is offered once, the
                                  first time a transcription would otherwise use Windows' engine,
@@ -451,7 +451,7 @@
                              opens the locale menu upward (Localization.cs BuildLanguageMenu fills it
                              on click). Family standard, in preference to the bare E774 globe. -->
                         <Button x:Name="LangButton" Style="{StaticResource RailButton}" Content="&#xF2B7;"
-                                Margin="0,0,0,10" Click="LangButton_Click"
+                                Margin="0,0,0,10" Click="LangButton_Click" ContextMenuOpening="RailMenu_Opening"
                                 ToolTip="{DynamicResource Str_TT_Language}">
                             <Button.ContextMenu>
                                 <ContextMenu x:Name="LangMenu">
@@ -467,7 +467,7 @@
                              MenuItem's template is a bare ContentPresenter: no menu hover
                              chrome around the swatch panels. -->
                         <Button x:Name="ThemeButton" Style="{StaticResource RailButton}" Content="&#xE790;"
-                                Click="SidebarThemeBtn_Click" ToolTip="{DynamicResource Str_TT_Theme}">
+                                Click="SidebarThemeBtn_Click" ContextMenuOpening="RailMenu_Opening" ToolTip="{DynamicResource Str_TT_Theme}">
                             <Button.ContextMenu>
                                 <ContextMenu x:Name="ThemeMenu">
                                     <ContextMenu.Template><ControlTemplate TargetType="ContextMenu"><Grid><Border Style="{StaticResource FlyoutCard}"><Grid><ItemsPresenter/><Border Style="{StaticResource FlyoutGrain}"/></Grid></Border><Border IsHitTestVisible="False" Margin="22,18,22,26" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/><Border IsHitTestVisible="False" Margin="22,18,22,26" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/></Grid></ControlTemplate></ContextMenu.Template>

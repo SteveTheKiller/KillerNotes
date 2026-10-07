@@ -12,6 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Sidebar sort mode and direction are remembered between launches and kept when creating notes (#25).
 - Moving notes between groups keeps the sidebar at its current scroll position (#17).
 - Light wordmarks match the family shadow settings. Only the yellow accent keeps its shadow.
+- Rail right-click menus align 8 pixels from the side and bottom content edges.
 
 ## [1.4.1] - 2026-10-07
 
