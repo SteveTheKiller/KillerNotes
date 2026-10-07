@@ -27,6 +27,9 @@ namespace KillerNotes.Shell
                     ?? _trashNotes.FirstOrDefault(n => n.Id == id);
             if (meta == null) return;
 
+            CancelPendingFontSize();
+            _fontSizeDragging = false;
+
             // Record the note being left BEFORE _currentId moves on. Every navigation in the app
             // funnels through here, which is the whole reason back/forward can be complete
             // without each call site opting in (NoteHistory.cs).
@@ -171,6 +174,7 @@ namespace KillerNotes.Shell
         /// <summary>Persists the open note (title, XamlPackage blob, plain text for search).</summary>
         private void SaveCurrentNote(bool refreshList = true)
         {
+            FlushPendingFontSize();
             _saveTimer.Stop();
             if (_currentId < 0 || !_dirty || !NoteStore.IsOpen) return;
             if (_loadFailed) return;   // the editor is empty because the load failed (OpenNote)

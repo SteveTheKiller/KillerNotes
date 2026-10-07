@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Ink;
 using System.Windows.Input;
@@ -26,6 +27,9 @@ namespace KillerNotes.Shell
         private DispatcherTimer? _fontSizeApplyTimer;
         private int _pendingFontSize;
         private long _pendingFontSizeNote = -1;
+        private TextPointer? _pendingFontSizeStart;
+        private TextPointer? _pendingFontSizeEnd;
+        private bool _fontSizeDragging;
         private int _viewportAnchorOffset;
         private double _viewportAnchorY;
         private long _viewportAnchorNote = -1;
@@ -53,15 +57,7 @@ namespace KillerNotes.Shell
             {
                 if (e.WidthChanged) RestoreViewportAnchorAfterReflow();
             };
-            _fontSizeApplyTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(150),
-            };
-            _fontSizeApplyTimer.Tick += (_, _) =>
-            {
-                _fontSizeApplyTimer.Stop();
-                if (_pendingFontSizeNote == _currentId) ApplyFontSize(_pendingFontSize);
-            };
+            InitFontSizeSlider();
             // Keep the size dropdown showing the size under the caret/selection.
             Editor.SelectionChanged += (_, _) => UpdateFontSizeDisplay();
             InitSelectionTextOverlay();   // 98SE white-on-navy selection (EditorSelectionText.cs)
@@ -133,7 +129,7 @@ namespace KillerNotes.Shell
 
         private void FontSizeBtn_Click(object sender, RoutedEventArgs e)
         {
-            _fontSizeApplyTimer?.Stop();
+            FlushPendingFontSize();
             double size = Editor.Selection.GetPropertyValue(TextElement.FontSizeProperty) is double d ? d : 13;
             _syncingFontSizeSlider = true;
             FontSizeSlider.Value = Math.Max(FontSizeSlider.Minimum, Math.Min(FontSizeSlider.Maximum, Math.Round(size)));
@@ -150,10 +146,63 @@ namespace KillerNotes.Shell
             int size = (int)Math.Round(e.NewValue);
             FontSizeSliderValue.Text = size.ToString();
             if (!FontSizePopup.IsOpen || _fontSizeApplyTimer == null) return;
+            QueueFontSize(size);
+        }
+
+        private void InitFontSizeSlider()
+        {
+            _fontSizeApplyTimer = new DispatcherTimer(DispatcherPriority.Background, Editor.Dispatcher)
+            {
+                Interval = TimeSpan.FromMilliseconds(150),
+            };
+            _fontSizeApplyTimer.Tick += (_, _) => FlushPendingFontSize();
+            FontSizeSlider.AddHandler(Thumb.DragStartedEvent, new DragStartedEventHandler((_, _) =>
+            {
+                _fontSizeDragging = true;
+                _fontSizeApplyTimer.Stop();
+            }), handledEventsToo: true);
+            FontSizeSlider.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler((_, _) =>
+            {
+                _fontSizeDragging = false;
+                if (_pendingFontSizeNote >= 0) _fontSizeApplyTimer.Start();
+            }), handledEventsToo: true);
+            FontSizePopup.Closed += (_, _) =>
+            {
+                _fontSizeDragging = false;
+                FlushPendingFontSize();
+            };
+            CancelPendingFontSize();
+        }
+
+        private void QueueFontSize(int size)
+        {
             _pendingFontSize = size;
             _pendingFontSizeNote = _currentId;
-            _fontSizeApplyTimer.Stop();
-            _fontSizeApplyTimer.Start();
+            _pendingFontSizeStart = Editor.Selection.Start;
+            _pendingFontSizeEnd = Editor.Selection.End;
+            _fontSizeApplyTimer?.Stop();
+            // A pause while holding the thumb must not reformat a huge selection mid-drag.
+            if (!_fontSizeDragging) _fontSizeApplyTimer?.Start();
+        }
+
+        private void FlushPendingFontSize()
+        {
+            if (_fontSizeDragging) return;
+            bool apply = _pendingFontSizeNote >= 0 && _pendingFontSizeNote == _currentId &&
+                         !Editor.IsReadOnly && !_loadingNote && !_currentInTrash &&
+                         _pendingFontSizeStart != null && _pendingFontSizeEnd != null &&
+                         _pendingFontSizeStart.CompareTo(Editor.Selection.Start) == 0 &&
+                         _pendingFontSizeEnd.CompareTo(Editor.Selection.End) == 0;
+            int size = _pendingFontSize;
+            CancelPendingFontSize();
+            if (apply) ApplyFontSize(size, focusEditor: false);
+        }
+
+        private void CancelPendingFontSize()
+        {
+            _fontSizeApplyTimer?.Stop();
+            _pendingFontSizeNote = -1;
+            _pendingFontSizeStart = _pendingFontSizeEnd = null;
         }
 
         // Hover the dropdown and scroll to step through the size ladder - no click needed.
@@ -161,15 +210,16 @@ namespace KillerNotes.Shell
         {
             e.Handled = true;
             if (_currentId < 0) return;
+            FlushPendingFontSize();
             double cur = Editor.Selection.GetPropertyValue(TextElement.FontSizeProperty) is double d ? d : 13;
             int idx = ClosestSizeIndex(cur) + (e.Delta > 0 ? 1 : -1);
             idx = Math.Max(0, Math.Min(FontSizes.Length - 1, idx));
             ApplyFontSize(FontSizes[idx]);
         }
 
-        private void ApplyFontSize(int size)
+        private void ApplyFontSize(int size, bool focusEditor = true)
         {
-            ApplyToSelection(TextElement.FontSizeProperty, (double)size);
+            ApplyToSelection(TextElement.FontSizeProperty, (double)size, focusEditor);
             FontSizeText.Text = size.ToString();
         }
 

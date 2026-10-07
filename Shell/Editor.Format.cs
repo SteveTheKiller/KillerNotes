@@ -163,12 +163,12 @@ namespace KillerNotes.Shell
             ApplyToSelection(TextElement.FontFamilyProperty, new FontFamily(mono ? "Segoe UI" : "Consolas"));
         }
 
-        private void ApplyToSelection(DependencyProperty prop, object? value)
+        private void ApplyToSelection(DependencyProperty prop, object? value, bool focusEditor = true)
         {
             if (_currentId < 0) return;
             Editor.Selection.ApplyPropertyValue(prop, value);
             MarkDirty();
-            Editor.Focus();
+            if (focusEditor) Editor.Focus();
         }
 
         // ---- Horizontal rule ----

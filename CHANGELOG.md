@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.4.2] - Unreleased
 
 ### Fixed
+- Font-size slider drags apply the final size once on release, keeping large selections responsive while dragging (#19).
 - Sidebar sort mode and direction are remembered between launches and kept when creating notes (#25).
 - Moving notes between groups keeps the sidebar at its current scroll position (#17).
 - Menus open immediately and retain their existing closing fades.
