@@ -1,12 +1,11 @@
 // ═══════════════════════════════════════════════════════════
-//  TRASH  -  deleted notes wait thirty days before they are gone
+//  TRASH  -  recoverable deleted notes with configurable retention
 // ═══════════════════════════════════════════════════════════
 //
 // Delete used to drop the row and lean on Ctrl+Z for regret, which only lasted the session.
 // Now a delete stamps notes.deleted and the note moves under a Trash header at the bottom of
 // the sidebar, dimmed, where it opens read-only and can be restored or deleted for good. The
-// store purges anything older than NoteStore.TrashDays on open, so the trash never grows
-// without bound and nobody has to remember to empty it.
+// store applies the retention preference on open. Zero disables automatic cleanup.
 //
 // Restore is a one-column update, which is why a trashed note keeps its group, tags, order,
 // sketches and recordings: there is nothing to re-insert and nothing to lose. Ctrl+Z after a

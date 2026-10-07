@@ -777,7 +777,10 @@
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">ট্র্যাশ</sys:String>
-    <sys:String x:Key="Str_TT_Trash">মুছে ফেলা নোট এখানে 30 দিন থাকে, তারপর চিরতরে চলে যায়</sys:String>
+    <sys:String x:Key="Str_TT_Trash">মুছে ফেলা নোট এখানে পুনরুদ্ধার বা স্থায়ীভাবে মুছে ফেলা যায়।</sys:String>
+    <sys:String x:Key="Str_Trash_Retention">মুছে ফেলা নোট রাখার সময় (দিন)</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionHelp">0 দিলে স্বয়ংক্রিয় পরিষ্কার বন্ধ হয়। পরের বার ডেটাবেস খোলার সময় প্রযোজ্য হবে।</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionInvalid">0 থেকে 3650-এর মধ্যে একটি পূর্ণসংখ্যা লিখুন।</sys:String>
     <sys:String x:Key="Str_Ctx_Restore">পুনরুদ্ধার</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteForever">স্থায়ীভাবে মুছুন</sys:String>
     <sys:String x:Key="Str_Ctx_EmptyTrash">ট্র্যাশ খালি করুন</sys:String>

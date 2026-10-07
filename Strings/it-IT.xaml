@@ -785,7 +785,10 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">Cestino</sys:String>
-    <sys:String x:Key="Str_TT_Trash">Le note eliminate restano qui per 30 giorni, poi spariscono per sempre</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Qui puoi ripristinare le note eliminate o cancellarle definitivamente.</sys:String>
+    <sys:String x:Key="Str_Trash_Retention">Conserva le note eliminate (giorni)</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionHelp">0 disattiva la pulizia automatica. La modifica si applica alla prossima apertura di un database.</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionInvalid">Inserisci un numero intero da 0 a 3650.</sys:String>
     <sys:String x:Key="Str_Ctx_Restore">Ripristina</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteForever">Elimina definitivamente</sys:String>
     <sys:String x:Key="Str_Ctx_EmptyTrash">Svuota cestino</sys:String>

@@ -830,7 +830,10 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">Thùng rác</sys:String>
-    <sys:String x:Key="Str_TT_Trash">Ghi chú đã xóa nằm đây 30 ngày rồi bị xóa vĩnh viễn</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Bạn có thể khôi phục ghi chú đã xóa tại đây hoặc xóa vĩnh viễn.</sys:String>
+    <sys:String x:Key="Str_Trash_Retention">Giữ ghi chú đã xóa (ngày)</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionHelp">0 tắt tự động dọn dẹp. Thay đổi có hiệu lực vào lần mở cơ sở dữ liệu tiếp theo.</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionInvalid">Nhập một số nguyên từ 0 đến 3650.</sys:String>
     <sys:String x:Key="Str_Ctx_Restore">Khôi phục</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteForever">Xóa vĩnh viễn</sys:String>
     <sys:String x:Key="Str_Ctx_EmptyTrash">Dọn sạch thùng rác</sys:String>

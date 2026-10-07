@@ -827,7 +827,10 @@
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">Кошик</sys:String>
-    <sys:String x:Key="Str_TT_Trash">Видалені нотатки чекають тут 30 днів, а потім зникають назавжди</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Тут видалені нотатки можна відновити або видалити назавжди.</sys:String>
+    <sys:String x:Key="Str_Trash_Retention">Зберігати видалені нотатки (днів)</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionHelp">0 вимикає автоматичне очищення. Зміна застосовується під час наступного відкриття бази даних.</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionInvalid">Введіть ціле число від 0 до 3650.</sys:String>
     <sys:String x:Key="Str_Ctx_Restore">Відновити</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteForever">Видалити назавжди</sys:String>
     <sys:String x:Key="Str_Ctx_EmptyTrash">Очистити кошик</sys:String>

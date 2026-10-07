@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.4.1 improves keyboard access, note scrolling and theme contrast.
 
 ### Fixed
+- Trash retention is configurable in Manage Databases, including an option to disable automatic cleanup (#20).
 - Help, About, the outline, templates, table picker and tag chips support keyboard and screen-reader use, with focus restored on close (#22). (Thanks @digitaldarragh)
 - Note scrolling matches the sidebar's wheel speed, including at different editor zoom levels.
 - Shared theme colors, dropdown highlights, footers, title styling and shadows match the family palette, including cream Blood, Greed and Cyanotic wordmarks. Database selection text stays readable across gradient fills.

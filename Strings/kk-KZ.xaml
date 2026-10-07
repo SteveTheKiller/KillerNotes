@@ -785,7 +785,10 @@
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">Себет</sys:String>
-    <sys:String x:Key="Str_TT_Trash">Жойылған жазбалар мұнда 30 күн күтеді, содан кейін мүлде жойылады</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Жойылған жазбаларды осы жерден қалпына келтіруге немесе біржола жоюға болады.</sys:String>
+    <sys:String x:Key="Str_Trash_Retention">Жойылған жазбаларды сақтау (күн)</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionHelp">0 автоматты тазалауды өшіреді. Өзгеріс дерекқор келесі рет ашылғанда қолданылады.</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionInvalid">0 мен 3650 аралығындағы бүтін санды енгізіңіз.</sys:String>
     <sys:String x:Key="Str_Ctx_Restore">Қалпына келтіру</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteForever">Мүлде жою</sys:String>
     <sys:String x:Key="Str_Ctx_EmptyTrash">Себетті тазарту</sys:String>

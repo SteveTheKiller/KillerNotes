@@ -777,7 +777,10 @@
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">垃圾桶</sys:String>
-    <sys:String x:Key="Str_TT_Trash">已刪除的筆記會在這裡保留 30 天，之後就會永久消失</sys:String>
+    <sys:String x:Key="Str_TT_Trash">你可以在此還原已刪除的筆記或將其永久刪除。</sys:String>
+    <sys:String x:Key="Str_Trash_Retention">保留已刪除的筆記（天）</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionHelp">0 表示關閉自動清理。變更將在下次開啟資料庫時生效。</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionInvalid">請輸入 0 到 3650 之間的整數。</sys:String>
     <sys:String x:Key="Str_Ctx_Restore">還原</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteForever">永久刪除</sys:String>
     <sys:String x:Key="Str_Ctx_EmptyTrash">清空垃圾桶</sys:String>

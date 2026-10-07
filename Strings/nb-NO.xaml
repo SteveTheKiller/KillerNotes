@@ -825,7 +825,10 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">Papirkurv</sys:String>
-    <sys:String x:Key="Str_TT_Trash">Slettede notater blir liggende her i 30 dager, og forsvinner så for godt</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Slettede notater kan gjenopprettes her eller slettes for godt.</sys:String>
+    <sys:String x:Key="Str_Trash_Retention">Behold slettede notater (dager)</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionHelp">0 slår av automatisk opprydding. Endringen gjelder neste gang en database åpnes.</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionInvalid">Skriv inn et heltall fra 0 til 3650.</sys:String>
     <sys:String x:Key="Str_Ctx_Restore">Gjenopprett</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteForever">Slett permanent</sys:String>
     <sys:String x:Key="Str_Ctx_EmptyTrash">Tøm papirkurven</sys:String>

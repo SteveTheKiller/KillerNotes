@@ -803,7 +803,10 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">Kuka</sys:String>
-    <sys:String x:Key="Str_TT_Trash">A törölt jegyzetek itt várnak 30 napig, azután véglegesen eltűnnek</sys:String>
+    <sys:String x:Key="Str_TT_Trash">A törölt jegyzetek itt visszaállíthatók vagy véglegesen törölhetők.</sys:String>
+    <sys:String x:Key="Str_Trash_Retention">Törölt jegyzetek megőrzése (nap)</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionHelp">A 0 kikapcsolja az automatikus törlést. A következő adatbázis-megnyitáskor lép érvénybe.</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionInvalid">Adjon meg egy egész számot 0 és 3650 között.</sys:String>
     <sys:String x:Key="Str_Ctx_Restore">Visszaállítás</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteForever">Végleges törlés</sys:String>
     <sys:String x:Key="Str_Ctx_EmptyTrash">Kuka ürítése</sys:String>

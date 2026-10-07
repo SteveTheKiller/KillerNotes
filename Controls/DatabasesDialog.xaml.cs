@@ -22,6 +22,7 @@ namespace KillerNotes.Controls
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
+            SaveTrashRetention();
             if (Anim.FadeOutAndClose(this, ref _closeFaded)) { e.Cancel = true; return; }
             base.OnClosing(e);
         }
@@ -36,6 +37,7 @@ namespace KillerNotes.Controls
         public DatabasesDialog()
         {
             InitializeComponent();
+            TrashRetentionBox.Text = TrashRetention.Days.ToString(System.Globalization.CultureInfo.InvariantCulture);
             DialogShortcuts.Button(this, NewBtn, "Ctrl+N", Key.N, ModifierKeys.Control);
             DialogShortcuts.Button(this, DeleteBtn, "Ctrl+D", Key.D, ModifierKeys.Control);
             DialogShortcuts.Button(this, OpenBtn, "Enter", Key.Enter);
@@ -399,10 +401,25 @@ namespace KillerNotes.Controls
 
         private void Open_Click(object sender, RoutedEventArgs e)
         {
+            if (!SaveTrashRetention()) { TrashRetentionBox.Focus(); return; }
             if (SelectedFile is not string name) { DlgStatus.Text = Loc("Str_Db_SelectFirst"); return; }
             SelectedDatabase = name;
             DialogResult = true;
         }
+
+        private bool SaveTrashRetention()
+        {
+            if (!TrashRetention.TryParse(TrashRetentionBox.Text, out int days))
+            {
+                DlgStatus.Text = Loc("Str_Trash_RetentionInvalid");
+                return false;
+            }
+            if (days != TrashRetention.Days)
+                App.SetSetting(TrashRetention.DaysSetting, days.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            return true;
+        }
+
+        private void TrashRetention_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => SaveTrashRetention();
 
         private void Close_Click(object sender, RoutedEventArgs e) => Close();
     }

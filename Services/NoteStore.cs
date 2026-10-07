@@ -215,7 +215,7 @@ namespace KillerNotes.Services
             if (!readOnly)
             {
                 EnsureSchema();
-                PurgeTrash(TrashDays);   // trashed notes nobody restored are gone after a month
+                PurgeTrash(TrashRetention.Days);
                 if (network) AcquireLock();
             }
         }
@@ -428,8 +428,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 Exec("ALTER TABLE notes ADD COLUMN pinned INTEGER NOT NULL DEFAULT 0");
             // 1.3.1: the trash. '' = live; otherwise the timestamp the note was deleted at, in
             // the same yyyy-MM-dd HH:mm:ss form as created/modified so a string compare orders
-            // it. Every live-notes query filters on it, and PurgeTrash drops rows older than
-            // TrashDays. A build older than this one never selects the column and so shows a
+            // it. Every live-notes query filters on it, and PurgeTrash applies the configured
+            // retention period. A build older than this one never selects the column and so shows a
             // trashed note as an ordinary note, which loses nothing.
             if (!have.Contains("deleted"))
                 Exec("ALTER TABLE notes ADD COLUMN deleted TEXT NOT NULL DEFAULT ''");
@@ -536,9 +536,9 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         // ---- Trash (1.3.1) ----
         // Delete moves a note to the trash rather than dropping the row; the row keeps its id,
         // content, group, tags and payloads, so Restore is a one-column update and nothing has
-        // to be re-inserted. Rows older than TrashDays are purged on the next open.
+        // to be re-inserted. Automatic cleanup runs on open unless retention is set to zero.
 
-        public const int TrashDays = 30;
+        public const int TrashDays = TrashRetention.DefaultDays;
 
         /// <summary>Trashed notes, most recently deleted first, with the same metadata List
         /// carries so they can render as ordinary sidebar rows.</summary>
@@ -610,10 +610,10 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         }
 
         /// <summary>Permanently deletes trashed notes older than the given number of days.
-        /// Called on open, so a note nobody restored is gone after TrashDays. Returns the count.</summary>
+        /// Called on open. Zero disables automatic cleanup. Returns the count.</summary>
         public static int PurgeTrash(int days)
         {
-            if (_db == null || IsReadOnly) return 0;
+            if (_db == null || IsReadOnly || days <= 0) return 0;
             string cutoff = Ts(DateTime.Now.AddDays(-days));
             var ids = new List<long>();
             using (var cmd = _db.CreateCommand())

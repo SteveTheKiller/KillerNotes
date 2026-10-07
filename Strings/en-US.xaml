@@ -827,7 +827,10 @@ Leave both boxes empty to share without one.</sys:String>
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">Trash</sys:String>
-    <sys:String x:Key="Str_TT_Trash">Deleted notes wait here for 30 days, then go for good</sys:String>
+    <sys:String x:Key="Str_TT_Trash">Deleted notes can be restored here or permanently deleted.</sys:String>
+    <sys:String x:Key="Str_Trash_Retention">Keep deleted notes (days)</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionHelp">0 disables automatic cleanup. Applies the next time a database opens.</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionInvalid">Enter a whole number from 0 to 3650.</sys:String>
     <sys:String x:Key="Str_Ctx_Restore">Restore</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteForever">Delete permanently</sys:String>
     <sys:String x:Key="Str_Ctx_EmptyTrash">Empty trash</sys:String>

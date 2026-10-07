@@ -775,7 +775,10 @@
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">回收站</sys:String>
-    <sys:String x:Key="Str_TT_Trash">已删除的笔记会在此保留 30 天，之后彻底删除</sys:String>
+    <sys:String x:Key="Str_TT_Trash">你可以在此恢复已删除的笔记或将其永久删除。</sys:String>
+    <sys:String x:Key="Str_Trash_Retention">保留已删除的笔记（天）</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionHelp">0 表示关闭自动清理。更改将在下次打开数据库时生效。</sys:String>
+    <sys:String x:Key="Str_Trash_RetentionInvalid">请输入 0 到 3650 之间的整数。</sys:String>
     <sys:String x:Key="Str_Ctx_Restore">还原</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteForever">永久删除</sys:String>
     <sys:String x:Key="Str_Ctx_EmptyTrash">清空回收站</sys:String>
