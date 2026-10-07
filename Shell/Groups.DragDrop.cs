@@ -136,7 +136,7 @@ namespace KillerNotes.Shell
                 NoteStore.SetNoteOrders(undoOrders);
                 RefreshList(preserveScroll: true);
             });
-            RefreshList();
+            RefreshList(preserveScroll: true);
         }
 
         /// <summary>Lays sort_order down from the current on-screen arrangement when custom order
