@@ -251,12 +251,8 @@ namespace KillerNotes.Shell
             else
                 RefreshList();
 
-            if (_notes.Count == 0) return false;
-            int current = _notes.FindIndex(n => n.Id == _currentId);
-            int next = current < 0
-                ? (delta > 0 ? 0 : _notes.Count - 1)
-                : ((current + delta) % _notes.Count + _notes.Count) % _notes.Count;
-            if (_notes[next].Id == _currentId) return false;
+            int next = FindNextNoteIndex(delta);
+            if (next < 0) return false;
 
             long targetId = _notes[next].Id;
             OpenNote(targetId);
@@ -271,6 +267,45 @@ namespace KillerNotes.Shell
             ScrollToCurrentFind();
             Dispatcher.BeginInvoke(new Action(ScrollToCurrentFind), DispatcherPriority.Loaded);
             return true;
+        }
+
+        internal int FindNextNoteIndex(int delta)
+        {
+            if (_notes.Count == 0 || _findTerm.Length == 0) return -1;
+            int current = _notes.FindIndex(n => n.Id == _currentId);
+            int direction = delta > 0 ? 1 : -1;
+            int next = current < 0 ? (direction > 0 ? 0 : _notes.Count - 1)
+                : (current + direction + _notes.Count) % _notes.Count;
+            var hits = new List<(int Start, int Length)>();
+            for (int visited = 0; visited < _notes.Count; visited++)
+            {
+                var note = _notes[next];
+                if (note.Id != _currentId)
+                {
+                    // Sidebar results also match titles, tags, and sketch labels. Only open a
+                    // note when its actual editor text has a hit under the find bar's options.
+                    byte[]? blob = NoteStore.LoadContent(note.Id);
+                    FlowDocument? doc = null;
+                    try
+                    {
+                        if (note.Format == 1)
+                        {
+                            doc = new FlowDocument();
+                            MarkdownBlob.Fill(doc, MarkdownBlob.Decode(blob));
+                        }
+                        else if (blob != null) doc = LoadDocBlob(blob);
+                    }
+                    catch { }   // an unreadable candidate must not interrupt navigation
+                    if (doc != null)
+                    {
+                        hits.Clear();
+                        CollectFindHits(FlattenDoc(doc).Plain, hits);
+                        if (hits.Count > 0) return next;
+                    }
+                }
+                next = (next + direction + _notes.Count) % _notes.Count;
+            }
+            return -1;
         }
 
         /// <summary>
