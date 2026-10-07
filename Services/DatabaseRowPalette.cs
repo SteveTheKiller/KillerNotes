@@ -17,10 +17,20 @@ namespace KillerNotes.Services
                 (byte)(selected.R + (255 - selected.R) * .04),
                 (byte)(selected.G + (255 - selected.G) * .04),
                 (byte)(selected.B + (255 - selected.B) * .04));
+            var selectedText = Readable((SolidColorBrush)palette["TextBrush"], top, selected);
+            if (Contrast(Over(selectedText.Color, top), top) < 4.5 ||
+                Contrast(Over(selectedText.Color, selected), selected) < 4.5)
+            {
+                selectedText = Readable((SolidColorBrush)palette["TextBrush"], selected);
+                // Limit the highlight so one foreground remains readable across both gradient stops.
+                while (Contrast(Over(selectedText.Color, top), top) < 4.5)
+                    top = Color.FromRgb((byte)Math.Max(selected.R, top.R - 1),
+                        (byte)Math.Max(selected.G, top.G - 1), (byte)Math.Max(selected.B, top.B - 1));
+            }
             Brush fill = flat ? new SolidColorBrush(selected) : new LinearGradientBrush(top, selected, 90);
             fill.Freeze();
             palette["DatabaseSelectionBrush"] = fill;
-            palette["DatabaseSelectionTextBrush"] = Readable((SolidColorBrush)palette["TextBrush"], top, selected);
+            palette["DatabaseSelectionTextBrush"] = selectedText;
             palette["DatabaseActiveTextBrush"] = Readable((SolidColorBrush)palette["PrimaryBrush"], pane, hover);
             palette["DatabaseMetadataBrush"] = Readable((SolidColorBrush)palette["MutedTextBrush"], pane, hover);
         }
