@@ -90,14 +90,8 @@ namespace KillerNotes.Shell
             foreach (var binding in ActionShortcuts())
             {
                 if (binding.Surface == null || FindName(binding.Surface) is not FrameworkElement surface) continue;
-                System.Windows.Automation.AutomationProperties.SetAcceleratorKey(surface, binding.Gesture);
+                DescribeSurface(surface, binding.Label, binding.Gesture);
                 if (surface is MenuItem menu) menu.InputGestureText = binding.Gesture;
-                var tip = new StackPanel();
-                var text = new TextBlock();
-                text.SetResourceReference(TextBlock.TextProperty, binding.Label);
-                tip.Children.Add(text);
-                tip.Children.Add(new TextBlock { Text = binding.Gesture });
-                surface.ToolTip = tip;
             }
         }
 
@@ -126,6 +120,7 @@ namespace KillerNotes.Shell
 
         private static void DescribeSurface(FrameworkElement surface, string label, string gesture)
         {
+            surface.SetResourceReference(System.Windows.Automation.AutomationProperties.NameProperty, label);
             System.Windows.Automation.AutomationProperties.SetAcceleratorKey(surface, gesture);
             var tip = new StackPanel();
             var text = new TextBlock();

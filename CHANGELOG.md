@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.4.1 corrects note scrolling and theme contrast.
 
 ### Fixed
+- Shortcut controls expose their localized action names to screen readers (#22).
 - Note scrolling matches the sidebar's wheel speed, including at different editor zoom levels.
 - Shared theme colors, dropdown highlights, footers, title styling and shadows match the family palette, including cream Blood, Greed and Cyanotic wordmarks. Database selection text stays readable across gradient fills.
 - Light/Yellow uses true yellow for the wordmark, accent lines and radio buttons, with neutral dark text instead of olive brown.
