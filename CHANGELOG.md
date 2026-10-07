@@ -4,7 +4,7 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.4.2] - Unreleased
+## [1.4.2] - 2026-10-07
 
 ### Fixed
 - Cross-note find skips results without a matching body hit, including title-only matches and unreadable notes (#18).
