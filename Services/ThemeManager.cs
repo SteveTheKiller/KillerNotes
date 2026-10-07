@@ -805,27 +805,18 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "CaptionPressedTextBrush", newDict["SelectionFg"]);
             DatabaseRowPalette.Complete(newDict);
 
-            // AccentLogo (title-bar wordmark) and BgFlyout (format bar) are KillerPDF-vocabulary
-            // keys that only the newer themes declare. Rather than hand-adding them to the six
-            // original palettes, default them from colors those palettes already define, AFTER
-            // the accent overlay so the wordmark tracks the live accent. A theme that sets either
-            // key itself keeps its own value - this is what preserves 98SE's yellow wordmark and
-            // its raised-gray flyout, and Ectoplasm's and Decay's overrides.
-            //
-            // The wordmark follows HeaderLineBrush, NOT PrimaryBrush. On Blood, Greed and Cyanotic
-            // the palette deliberately sets PrimaryBrush to #ffffff - white is those
-            // themes' button fill - and keeps the signature color (#e8485a / #3fbf6f / #3aa0d8)
-            // in HeaderLineBrush. Sourcing the logo from PrimaryBrush painted those three white.
-            // HeaderLineBrush is the accent on every theme and in all 21 accent overlays.
+            // Preserve the explicit wordmark color after the accent overlay, including the
+            // cream RGB palettes. Older dictionaries fall back to their header accent.
             if (!newDict.Contains("AccentLogo") && newDict.Contains("HeaderLineBrush"))
                 newDict["AccentLogo"] = newDict["HeaderLineBrush"];
             // Dialog caption band. Resolved HERE, after the accent overlay, so it picks up the
             // accent's gradient rather than the base theme's - the 98SE overlays each restate
             // TitleBarBrush, and reading it before the merge left the SketchPad, Dictation and
             // Databases captions green while the main window went red.
-            newDict["DialogTitleBarBrush"] = newDict.Contains("UseDialogCaption") && newDict.Contains("TitleBarBrush")
-                ? newDict["TitleBarBrush"]
-                : new SolidColorBrush(Colors.Transparent);
+            if (!newDict.Contains("DialogTitleBarBrush"))
+                newDict["DialogTitleBarBrush"] = newDict.Contains("UseDialogCaption") && newDict.Contains("TitleBarBrush")
+                    ? newDict["TitleBarBrush"]
+                    : new SolidColorBrush(Colors.Transparent);
             if (!newDict.Contains("BgFlyout") && newDict.Contains("MenuBackgroundBrush"))
                 newDict["BgFlyout"] = newDict["MenuBackgroundBrush"];
             // About and Keyboard Shortcuts are miniature app windows, not menus or content cards.
