@@ -1,6 +1,8 @@
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Input;
+using KillerNotes.Controls;
 using KillerNotes.Models;
 using KillerNotes.Services;
 
@@ -11,9 +13,20 @@ namespace KillerNotes.Shell
     // Ctrl+ combos cover the conventions other apps set (Ctrl+N, Ctrl+F, Ctrl+S).
     public partial class MainWindow
     {
+        private readonly OverlayFocusScope _overlayFocus = new();
+
         private void InitShortcuts()
         {
             PreviewKeyDown += Shortcuts_PreviewKeyDown;
+            PreviewGotKeyboardFocus += (_, e) =>
+            {
+                if (_overlayFocus.ActiveOverlay != null && !_overlayFocus.Contains(e.NewFocus as DependencyObject))
+                    e.Handled = true;
+            };
+            PreviewTextInput += (_, e) =>
+            {
+                if (_overlayFocus.ActiveOverlay != null) e.Handled = true;
+            };
             PreviewKeyUp += (_, _) => KbSyncLayerFromModifiers();   // KeyboardMap.cs
             InitializeActionShortcutSurfaces();
             BuildShortcutRows();
@@ -50,7 +63,7 @@ namespace KillerNotes.Shell
             {
                 var (keys, label, cat) = items[i];
                 if (keys.Length == 0) findSection = label == "Str_KS_Find";
-                Panel column = i < perCol || findSection ? ShortcutColLeft : ShortcutColRight;
+                ListBox column = i < perCol || findSection ? ShortcutColLeft : ShortcutColRight;
 
                 if (keys.Length == 0)
                 {
@@ -76,14 +89,22 @@ namespace KillerNotes.Shell
 
                 row.Children.Add(key);
                 row.Children.Add(desc);
-                column.Children.Add(row);
+                string section = open is { } heading ? Loc(heading.Label) + ": " : "";
+                column.Items.Add(CreateShortcutItem(row, section + keys + ": " + Loc(label)));
             }
+        }
+
+        private static ListBoxItem CreateShortcutItem(UIElement row, string name)
+        {
+            var item = new ListBoxItem { Content = row };
+            AutomationProperties.SetName(item, name);
+            return item;
         }
 
         /// <summary>A section title in the shortcuts list, in its category's KnCat* color and
         /// spaced above, so it reads as a break rather
         /// than as another binding with a missing key.</summary>
-        private void AddSectionHeader(string labelKey, string? cat, Panel column, bool first)
+        private void AddSectionHeader(string labelKey, string? cat, ListBox column, bool first)
         {
             var head = new TextBlock
             {
@@ -93,11 +114,12 @@ namespace KillerNotes.Shell
                 Margin = new Thickness(0, first ? 0 : 10, 0, 6),
             };
             head.SetResourceReference(TextBlock.ForegroundProperty, cat != null ? "KnCat" + cat : "PrimaryBrush");
-            column.Children.Add(head);
+            column.Items.Add(new ListBoxItem { Content = head, IsEnabled = false, Focusable = false });
         }
 
         private void Shortcuts_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (HandleKeyboardOverlay(e)) return;
             KbSyncLayerFromModifiers();   // KeyboardMap.cs (holding Ctrl/Shift previews a layer)
             bool ctrl  = Keyboard.Modifiers.HasFlag(ModifierKeys.Control);
             bool shift = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
@@ -453,10 +475,77 @@ namespace KillerNotes.Shell
             if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return; }
             if (AboutOverlay.Visibility == Visibility.Visible) FadeOverlayOut(AboutOverlay);
             ApplyPersistedShortcutView();   // KeyboardMap.cs (LIST or KEYBOARD, remembered)
-            FadeOverlayIn(ShortcutOverlay); // About.cs (also hides the preview browser - airspace)
+            _overlayFocus.Open(RootGrid, ShortcutOverlay, Keyboard.FocusedElement);
+            FadeOverlayIn(ShortcutOverlay);
+            FocusKeyboardOverlay();
         }
 
-        private void HideShortcutsOverlay() => FadeOverlayOut(ShortcutOverlay);
+        private void HideShortcutsOverlay()
+        {
+            if (ShortcutOverlay.Visibility == Visibility.Visible) CloseKeyboardOverlay(ShortcutOverlay);
+        }
+
+        private void FocusKeyboardOverlay()
+        {
+            if (_overlayFocus.ActiveOverlay == ShortcutOverlay && ShortcutListHost.Visibility == Visibility.Visible)
+            {
+                ShortcutColLeft.UpdateLayout();
+                if (OverlayFocusScope.FirstAction(ShortcutColLeft) is ListBoxItem item)
+                {
+                    item.Focus();
+                    return;
+                }
+            }
+            if (_overlayFocus.ActiveOverlay == ShortcutOverlay) KsViewListBtn.Focus();
+            else if (_overlayFocus.ActiveOverlay == AboutOverlay) AboutCloseButton.Focus();
+        }
+
+        private void CloseKeyboardOverlay(UIElement overlay)
+        {
+            var previous = _overlayFocus.Close(overlay);
+            if (OverlayFocusScope.CanRestore(previous) && Keyboard.Focus(previous) == previous) return;
+            if (_previewViewer?.IsVisible == true) _previewViewer.Focus();
+            else if (Editor.IsVisible) Editor.Focus();
+            else NotesList.Focus();
+        }
+
+        private bool HandleKeyboardOverlay(KeyEventArgs e)
+        {
+            var overlay = _overlayFocus.ActiveOverlay;
+            if (overlay == null) return false;
+            var modifiers = Keyboard.Modifiers;
+            if (modifiers == ModifierKeys.None && e.Key is Key.F1 or Key.F12 or Key.Escape)
+            {
+                if (!e.IsRepeat)
+                {
+                    if (e.Key == Key.Escape || e.Key == Key.F1 && overlay == ShortcutOverlay ||
+                        e.Key == Key.F12 && overlay == AboutOverlay) CloseKeyboardOverlay(overlay);
+                    else if (e.Key == Key.F1) { CloseKeyboardOverlay(overlay); ToggleShortcutsOverlay(); }
+                    else { CloseKeyboardOverlay(overlay); ShowAboutOverlay(); }
+                }
+                e.Handled = true;
+            }
+            else if (overlay == ShortcutOverlay && modifiers == (ModifierKeys.Control | ModifierKeys.Shift) &&
+                e.Key is Key.F1 or Key.F2)
+            {
+                HandleActionShortcut(e);
+                FocusKeyboardOverlay();
+            }
+            else if (overlay == AboutOverlay && modifiers == ModifierKeys.Control && e.Key == Key.F1)
+                HandleActionShortcut(e);
+            else if (modifiers == ModifierKeys.Shift && e.Key == Key.F12)
+            {
+                if (!e.IsRepeat) _about.OpenReleaseNotes();
+                e.Handled = true;
+            }
+            else if (!_overlayFocus.Contains(Keyboard.FocusedElement as DependencyObject))
+            {
+                FocusKeyboardOverlay();
+                e.Handled = true;
+            }
+            else if (!OverlayFocusScope.IsNavigationKey(e.Key, modifiers)) e.Handled = true;
+            return true;
+        }
 
         private void ShortcutOverlay_Click(object sender, MouseButtonEventArgs e) => HideShortcutsOverlay();
         private void ShortcutCard_Click(object sender, MouseButtonEventArgs e) => e.Handled = true;

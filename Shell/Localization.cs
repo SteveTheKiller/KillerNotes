@@ -133,9 +133,10 @@ namespace KillerNotes.Shell
         private void RelocalizeDynamicUi()
         {
             // Shortcut rows (list view) are built from KsTable into two columns - clear both and rebuild.
-            ShortcutColLeft.Children.Clear();
-            ShortcutColRight.Children.Clear();
+            ShortcutColLeft.Items.Clear();
+            ShortcutColRight.Items.Clear();
             BuildShortcutRows();                     // Shortcuts.cs
+            if (_overlayFocus.ActiveOverlay == ShortcutOverlay) FocusKeyboardOverlay();
 
             // Keyboard map: rebuilt lazily on next open; if already built, repaint the
             // current layer so keycap captions pick up the new language.

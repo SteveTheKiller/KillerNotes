@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.4.1 corrects note scrolling and theme contrast.
 
 ### Fixed
+- Help and About contain keyboard focus, restore it on close, and expose readable shortcut rows and close buttons (#22). (Thanks @digitaldarragh)
 - Shortcut controls expose their localized action names to screen readers (#22).
 - Note scrolling matches the sidebar's wheel speed, including at different editor zoom levels.
 - Shared theme colors, dropdown highlights, footers, title styling and shadows match the family palette, including cream Blood, Greed and Cyanotic wordmarks. Database selection text stays readable across gradient fills.

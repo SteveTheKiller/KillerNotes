@@ -104,6 +104,7 @@ namespace KillerNotes.Shell
             KsViewKeyboardBtn.SetResourceReference(ForegroundProperty, keyboard ? "PrimaryBrush" : "MutedTextBrush");
             if (keyboard) SetKbLayer(KbLayer.Base);
             if (persist) App.SetSetting(KsViewSetting, keyboard ? "keyboard" : "list");
+            if (_overlayFocus.ActiveOverlay == ShortcutOverlay) FocusKeyboardOverlay();
         }
 
         private void ApplyPersistedShortcutView() =>

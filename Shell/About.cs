@@ -59,7 +59,13 @@ namespace KillerNotes.Shell
 
         bool IAboutHost.DemoPreview => DemoMode;
 
-        void IAboutHost.ShowCard() => FadeOverlayIn(AboutOverlay);
+        void IAboutHost.ShowCard()
+        {
+            HideShortcutsOverlay();
+            _overlayFocus.Open(RootGrid, AboutOverlay, Keyboard.FocusedElement);
+            FadeOverlayIn(AboutOverlay);
+            FocusKeyboardOverlay();
+        }
 
         // ---- Overlay fade (shared with the shortcuts overlay: Shortcuts.cs, Fonts.cs) ----
 
@@ -71,6 +77,11 @@ namespace KillerNotes.Shell
 
         private void FadeOverlayOut(UIElement o)
         {
+            if (o == AboutOverlay || o == ShortcutOverlay)
+            {
+                CloseKeyboardOverlay(o);
+                return;
+            }
             var a = new DoubleAnimation(o.Opacity, 0, new Duration(TimeSpan.FromMilliseconds(Anim.FadeMs)))
             {
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }

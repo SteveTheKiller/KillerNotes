@@ -18,6 +18,42 @@
     </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
+        <Style x:Key="ShortcutNavigationList" TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="Once"/>
+            <Setter Property="ItemsPanel"><Setter.Value><ItemsPanelTemplate><StackPanel/></ItemsPanelTemplate></Setter.Value></Setter>
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBox"><ItemsPresenter/></ControlTemplate></Setter.Value></Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Grid>
+                                        <ContentPresenter/>
+                                        <Border x:Name="KeyboardFocus" BorderThickness="1" BorderBrush="Transparent"
+                                                Margin="0,0,0,6" IsHitTestVisible="False"/>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                            <Setter TargetName="KeyboardFocus" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <controls:SelectedTitleConverter x:Key="SelectedTitleConverter"/>
         <Style x:Key="FmtButton" TargetType="Button" BasedOn="{StaticResource AnnotationBarButton}">
             <Setter Property="AutomationProperties.Name" Value="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"/>
@@ -2611,6 +2647,8 @@
              row, which is inset for the window frame, so without it the dim stops short and the
              frame stays bright - a lit 5px ring around a dimmed window. 0 when there is no frame. -->
         <Grid x:Name="AboutOverlay" Grid.RowSpan="3" Panel.ZIndex="9000" Visibility="Collapsed"
+              KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle"
+              AutomationProperties.Name="{DynamicResource Str_About_Title}"
               Margin="{DynamicResource OverlayBleed}"
               Background="#88000000" MouseLeftButtonDown="AboutOverlay_Click">
             <!-- No fixed width: the SHA-256 line never wraps, so it sizes the info panel and
@@ -2672,8 +2710,9 @@
                              the card on all twelve of those themes. Spanning both rows takes it out
                              of the measurement; AboutCloseMargin already positions it correctly
                              from the card's top edge in both cases. (2026-08-07) -->
-                        <Button Grid.RowSpan="2" Content="{DynamicResource AboutCloseGlyph}"
+                        <Button x:Name="AboutCloseButton" Grid.RowSpan="2" Content="{DynamicResource AboutCloseGlyph}"
                                 Click="AboutClose_Click" Style="{StaticResource OverlayCloseButton}"
+                                AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
@@ -2924,6 +2963,8 @@
 
         <!-- Shortcuts overlay (F1): same card language as About; mutually exclusive with it -->
         <Grid x:Name="ShortcutOverlay" Grid.RowSpan="3" Panel.ZIndex="9100" Visibility="Collapsed"
+              KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle"
+              AutomationProperties.Name="{DynamicResource Str_KS_Title}"
               Margin="{DynamicResource OverlayBleed}"
               Background="#88000000" MouseLeftButtonDown="ShortcutOverlay_Click">
             <!-- Center the card with a fixed height cap on a large window. The margin keeps it off
@@ -2946,6 +2987,7 @@
                         <!-- Close X: a direct child of the card grid (matches the working About overlay)
                              so it sits at the card's top-right corner and always receives the click. -->
                         <Button Content="{DynamicResource AboutCloseGlyph}" Click="ShortcutClose_Click"
+                                AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                                 Style="{StaticResource OverlayCloseButton}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
@@ -2987,8 +3029,10 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <StackPanel x:Name="ShortcutColLeft" Grid.Column="0"/>
-                                <StackPanel x:Name="ShortcutColRight" Grid.Column="1" Margin="20,0,0,0"/>
+                                <ListBox x:Name="ShortcutColLeft" Grid.Column="0" Style="{StaticResource ShortcutNavigationList}"
+                                         AutomationProperties.Name="{DynamicResource Str_KS_Title}"/>
+                                <ListBox x:Name="ShortcutColRight" Grid.Column="1" Margin="20,0,0,0" Style="{StaticResource ShortcutNavigationList}"
+                                         AutomationProperties.Name="{DynamicResource Str_KS_Title}"/>
                             </Grid>
                             <!-- KEYBOARD view - generated by KeyboardMap.cs, hidden until toggled -->
                             <StackPanel x:Name="ShortcutKeyboardHost" Visibility="Collapsed"/>
