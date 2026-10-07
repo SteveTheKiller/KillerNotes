@@ -28,6 +28,22 @@ namespace KillerNotes.Controls
     {
         private static object? Res(string key) => Application.Current?.TryFindResource(key);
 
+        internal static Border TitleGrain()
+        {
+            var grain = new Border { IsHitTestVisible = false };
+            grain.SetResourceReference(Border.BackgroundProperty, "GrainTileBrush");
+            grain.SetResourceReference(UIElement.OpacityProperty, "GrainOpacity");
+            return grain;
+        }
+
+        internal static Grid GrainedTitle(UIElement content)
+        {
+            var host = new Grid();
+            host.Children.Add(TitleGrain());
+            host.Children.Add(content);
+            return host;
+        }
+
         /// <summary>
         /// THE window frame - the 5px sizing border, built once and dropped into any window's root
         /// Grid as its last child. Callers also set their content's Margin to WindowFramePadding so

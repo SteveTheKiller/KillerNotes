@@ -125,6 +125,9 @@ namespace KillerNotes.Controls.Sketch
             titleBar.SetResourceReference(FrameworkElement.HeightProperty, "TitleBarHeight");
             titleBar.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             titleBar.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            var titleGrain = KillerNotes.Controls.DialogChrome.TitleGrain();
+            Grid.SetColumnSpan(titleGrain, 2);
+            titleBar.Children.Add(titleGrain);
             titleBar.MouseLeftButtonDown += (_, e) =>
             {
                 if (e.ChangedButton != MouseButton.Left) return;

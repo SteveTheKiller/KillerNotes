@@ -116,6 +116,9 @@
                  palettes look unchanged. -->
             <Border Grid.Row="0" Height="{DynamicResource DialogTitleBarHeight}"
                     Background="{DynamicResource DialogTitleBarBrush}" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid>
+                    <Border IsHitTestVisible="False" Background="{DynamicResource GrainTileBrush}"
+                            Opacity="{DynamicResource GrainOpacity}"/>
                 <Grid Margin="{DynamicResource TitleBarPadding}">
                     <!-- The plain caption, shown on a theme that declares a Win98-style bar. Without
                          it this dialog kept the typewriter wordmark while every other window swapped,
@@ -161,6 +164,7 @@
                             Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                             Style="{StaticResource ChromeCloseButton}">
                     </Button>
+                </Grid>
                 </Grid>
             </Border>
 

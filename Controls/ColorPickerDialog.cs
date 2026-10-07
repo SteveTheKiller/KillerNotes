@@ -126,7 +126,7 @@ namespace KillerNotes.Controls
                 ? cr : new CornerRadius(6);
             double shadowOp = Application.Current.TryFindResource("FlyoutShadowOpacity") is double so ? so : 0.55;
 
-            var card = new Border
+            var card = new PickerBorder
             {
                 // BackgroundBrush, the window face - NOT SurfaceBrush. SurfaceBrush is the raised
                 // material used for panes and bars (Sepulchre's brown), so this dialog was the one
@@ -193,7 +193,7 @@ namespace KillerNotes.Controls
             };
             // ChromeTextBrush: the caption sits on the title band, which is dark on several themes.
             title.SetResourceReference(TextBlock.ForegroundProperty, "ChromeTextBrush");
-            titleBand.Child = title;
+            titleBand.Child = DialogChrome.GrainedTitle(title);
 
             // The band goes above the padded content, so it reaches the card's edges.
             var cardRows = new Grid();

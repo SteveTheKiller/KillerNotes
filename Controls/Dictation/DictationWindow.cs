@@ -190,7 +190,7 @@ namespace KillerNotes.Controls.Dictation
 
         private void BuildUi()
         {
-            _outerBorder = new Border
+            _outerBorder = new PickerBorder
             {
                 BorderThickness = new Thickness(1),
                 CornerRadius = Application.Current.TryFindResource("WindowCornerRadius") is CornerRadius r ? r : new CornerRadius(7),
@@ -315,7 +315,7 @@ namespace KillerNotes.Controls.Dictation
             close.SetResourceReference(MarginProperty, "ToolWindowCloseMargin");
             DialogShortcuts.Describe(close, "Esc");
             head.Children.Add(close);
-            band.Child = head;
+            band.Child = DialogChrome.GrainedTitle(head);
             Grid.SetRow(band, 0);
             return band;
         }

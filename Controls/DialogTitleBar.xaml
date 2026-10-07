@@ -15,6 +15,9 @@
     <Border Background="{DynamicResource DialogTitleBarBrush}"
             Height="{DynamicResource DialogTitleBarHeight}"
             MouseLeftButtonDown="Bar_MouseLeftButtonDown">
+        <Grid>
+            <Border IsHitTestVisible="False" Background="{DynamicResource GrainTileBrush}"
+                    Opacity="{DynamicResource GrainOpacity}"/>
         <Grid Margin="{DynamicResource TitleBarPadding}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <!-- The app icon leads the caption, as it does in the main title bar. -->
@@ -54,6 +57,7 @@
                     HorizontalAlignment="Right" VerticalAlignment="Center"
                     Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                     Style="{StaticResource OverlayCloseButton}"/>
+        </Grid>
         </Grid>
     </Border>
 </UserControl>

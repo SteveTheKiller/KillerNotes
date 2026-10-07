@@ -70,7 +70,7 @@ namespace KillerNotes.Controls.Dictation
 
         private void BuildUi()
         {
-            var outer = new Border
+            var outer = new PickerBorder
             {
                 BorderThickness = new Thickness(1),
                 CornerRadius = Application.Current.TryFindResource("WindowCornerRadius") is CornerRadius r ? r : new CornerRadius(7),
@@ -218,7 +218,7 @@ namespace KillerNotes.Controls.Dictation
             var grid = new Grid();
             grid.Children.Add(caption);
             grid.Children.Add(close);
-            band.Child = grid;
+            band.Child = DialogChrome.GrainedTitle(grid);
             return band;
         }
 
