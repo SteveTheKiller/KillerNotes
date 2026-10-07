@@ -44,6 +44,8 @@ namespace KillerNotes.Shell
         {
             if (!_notesInit)
             {
+                (_sortField, _sortAsc) = ParseSortPreference(App.GetSetting("SidebarSort"));
+                UpdateSortButtons();
                 _notesInit = true;
                 _saveTimer.Tick += (_, _) => { _saveTimer.Stop(); SaveCurrentNote(); };
                 _statusTimer.Tick += (_, _) => { _statusTimer.Stop(); if (NoteStore.IsOpen) StatusText.Text = DefaultStatus(); };

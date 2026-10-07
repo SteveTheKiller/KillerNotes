@@ -19,6 +19,17 @@ namespace KillerNotes.Shell
     {
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e) => RefreshList();
 
+        internal static (string Field, bool Ascending) ParseSortPreference(string? value) => value switch
+        {
+            "created-asc" => ("created", true),
+            "title-asc" => ("title", true),
+            "title-desc" => ("title", false),
+            "custom" => ("custom", false),
+            _ => ("created", false),
+        };
+
+        private void RememberSort() => App.SetSetting("SidebarSort", SortKey);
+
         // Dedicated sort buttons: clicking the inactive one activates it (its default
         // direction); clicking the active one reverses direction. Custom order (#4) has
         // no direction - clicking it again is a no-op.
@@ -40,6 +51,7 @@ namespace KillerNotes.Shell
             if (field == "custom" && _sortField != "custom") SeedCustomOrderIfNeeded();
             if (_sortField == field) { if (field != "custom") _sortAsc = !_sortAsc; }
             else { _sortField = field; _sortAsc = defaultAsc; }
+            RememberSort();
             UpdateSortButtons();
             RefreshList();
             StatusText.Text = _sortField switch

@@ -97,6 +97,7 @@ namespace KillerNotes.Shell
             {
                 SeedCustomOrderIfNeeded(force: true);
                 _sortField = "custom";
+                RememberSort();
                 UpdateSortButtons();
                 FlashStatus(Loc("Str_St_CustomOrderOn"));
             }

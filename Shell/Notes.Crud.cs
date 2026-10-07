@@ -31,15 +31,8 @@ namespace KillerNotes.Shell
             if (!NoteStore.IsOpen) return;
             SaveCurrentNote(refreshList: false);
             _currentId = NoteStore.Create(Loc("Str_Untitled"), format);
-            // Creating is a chronological action: switch to newest-first so the new row
-            // has one predictable home even if the user was browsing A-Z or custom order.
-            _sortField = "created";
-            _sortAsc = false;
-            UpdateSortButtons();
             SearchBox.Text = "";   // a filtered list would hide the new note
-            // Newest-first places the note at the head of the loose-note section, after
-            // any pinned group trees. Reveal it explicitly because those groups may be
-            // taller than the viewport and otherwise leave the selected row off-screen.
+            // Keep the chosen sort and reveal the new row wherever it belongs.
             RefreshList(preserveScroll: true);
             OpenNote(_currentId);
             _syncingSelection = true;
