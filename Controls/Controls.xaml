@@ -544,7 +544,6 @@
 
     <!-- Context Menu (grain + rounding + shadow match the theme flyout) -->
     <Style TargetType="ContextMenu">
-        <Setter Property="kui:MenuAnimation.OpenImmediately" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <!-- Display formatting, and layout rounding so the menu cannot land on a fractional
              offset - which would put every glyph in it at a subpixel origin however well the
@@ -575,7 +574,6 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ContextMenu">
-                    <!-- Paint the menu surface immediately. -->
                     <!-- The margin IS the room the drop shadow renders into: the popup is sized to
                          this card plus the margin and then clips to its own bounds, so anything the
                          shadow throws beyond it is cut off square. Sized to the shadow below rather
@@ -631,6 +629,27 @@
                         <Border IsHitTestVisible="False" BorderBrush="{DynamicResource MenuBevel2DarkBrush}"
                                 BorderThickness="{DynamicResource MenuBevel2DarkThickness}"/>
                     </Grid>
+                <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="ContextMenu.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <!-- FillBehavior=Stop, and the base Opacity above is 1. See the
+                                         note on MenuRoot: a HOLDING animation leaves the property
+                                         permanently animated even once it is sitting at 1.0, and
+                                         WPF then keeps compositing this subtree through an
+                                         intermediate surface for as long as the menu is open,
+                                         which softens every glyph. Stopping hands the property
+                                         back to the base value and the menu renders on the
+                                         ordinary path. Ported from KillerShell, which hit and
+                                         diagnosed this on 2026-08-09. -->
+                                    <DoubleAnimation Storyboard.TargetName="MenuRoot" Storyboard.TargetProperty="Opacity"
+                                                     From="0" To="1" Duration="0:0:0.15" FillBehavior="Stop">
+                                        <DoubleAnimation.EasingFunction><QuadraticEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -701,7 +720,7 @@
                             <!-- Offsets carry the -16,-12 halo compensation on top of the -4 gap this
                                  popup already wanted, so the submenu card sits where it always did. -->
                             <Popup x:Name="SubPopup" AllowsTransparency="True" Placement="Right"
-                                   HorizontalOffset="-20" VerticalOffset="-12" Focusable="False" PopupAnimation="Fade" kui:MenuAnimation.OpenImmediately="True"
+                                   HorizontalOffset="-20" VerticalOffset="-12" Focusable="False" PopupAnimation="Fade"
                                    IsOpen="{TemplateBinding IsSubmenuOpen}">
                                 <!-- Halo sized to the 22/4 shadow below - see the note on MenuRoot. -->
                                 <Grid Margin="22,18,22,26">
