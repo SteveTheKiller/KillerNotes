@@ -11,7 +11,7 @@ using System.Windows.Threading;
 
 namespace KillerNotes.Shell
 {
-    // Whole-note, mixed-language syntax highlighting. Detection is local to each paragraph so a
+    // Whole-note, mixed-language syntax highlighting. Detection is local to each logical line so a
     // runbook can hold prose, PowerShell, HTML and JSON without choosing one language for the
     // document. Highlight spans are transient and removed before serialization.
     //
@@ -82,7 +82,7 @@ namespace KillerNotes.Shell
         // paragraph to paragraph the way a real editor carries per-line lexer state, because a
         // <# ... #> help header spans a dozen paragraphs and the comment regex only ever sees
         // one of them at a time.
-        private readonly Dictionary<Paragraph, (string Text, CodeLanguage Lang, long Version, bool OpenComment)> _syntaxSeen = [];
+        private readonly Dictionary<Paragraph, (string Text, CodeLanguage Lang, long Version, bool OpenComment, CodeLanguage InputLang, bool InputComment)> _syntaxSeen = [];
         // Bumped on every edit path (QueueSyntaxHighlighting); a pass revalidates a paragraph
         // by text compare only when its stored version is stale, then re-stamps it.
         private long _syntaxDocVersion;
@@ -357,11 +357,12 @@ namespace KillerNotes.Shell
                         // which walks pointer contexts. See the note on ParagraphCodeText.
                         string text = ParagraphCodeText(p).TrimEnd('\r', '\n');
                         bool markdown = CurrentIsMarkdown || DocumentLooksMarkdown();
-                        CodeLanguage? fenced = markdown ? FenceLanguageAt(i) : null;
-                        CodeLanguage effective = fenced ?? (markdown ? CodeLanguage.Markdown : DetectLanguage(text));
-                        if (had && prev.Text == text && !markdown)
+                        if (markdown) FenceLanguageAt(i);
+                        var inputLanguage = context;
+                        bool inputComment = inComment;
+                        if (had && prev.Text == text && !markdown && prev.InputLang == context && prev.InputComment == inComment)
                         {
-                            _syntaxSeen[p] = (prev.Text, prev.Lang, _syntaxDocVersion, prev.OpenComment);
+                            _syntaxSeen[p] = (prev.Text, prev.Lang, _syntaxDocVersion, prev.OpenComment, inputLanguage, inputComment);
                             inComment = prev.OpenComment;
                             context = prev.Lang;
                             continue;
@@ -390,21 +391,20 @@ namespace KillerNotes.Shell
                             // The StackOverflow guard. A giant blob carries the block onward
                             // rather than breaking it - including an open comment, since the blob
                             // was never inspected and cannot be known to have closed one.
-                            _syntaxSeen[p] = (text, context, _syntaxDocVersion, inComment);
+                            _syntaxSeen[p] = (text, context, _syntaxDocVersion, inComment, inputLanguage, inputComment);
                             continue;
                         }
                         if (string.IsNullOrWhiteSpace(text))
                         {
                             // blank line inside a block: carries both the language and an open
                             // comment through, because a help header has blank lines in it
-                            _syntaxSeen[p] = (text, context, _syntaxDocVersion, inComment);
+                            _syntaxSeen[p] = (text, context, _syntaxDocVersion, inComment, inputLanguage, inputComment);
                             continue;
                         }
                         // A markdown note is markdown on every line, so skip detection for one
                         // (Markdown.cs). Detection is per paragraph, and an ordinary prose line
                         // between two headings carries no signal of its own - it came back Plain
                         // and lost its list and emphasis markers while its neighbors kept theirs.
-                        CodeLanguage language;
                         if (markdown)
                         {
                             var tokens = new List<(int Start, int Length, Color Color)>();
@@ -419,33 +419,17 @@ namespace KillerNotes.Shell
                                 foreach (var token in CollectSyntaxTokens(part.Text, partLanguage, comment))
                                     tokens.Add((part.Start + token.Start, token.Length, token.Color));
                             }
-                            _syntaxSeen[p] = (text, context, _syntaxDocVersion, inComment);
+                            _syntaxSeen[p] = (text, context, _syntaxDocVersion, inComment, inputLanguage, inputComment);
                             if (tokens.Count > 0) { _syntaxColored.Add(p); PaintTokens(p, text, tokens, context); }
                             continue;
                         }
-                        if (inComment)
+                        var mixedTokens = CollectMixedSyntaxTokens(text, ref context, ref inComment);
+                        _syntaxSeen[p] = (text, context, _syntaxDocVersion, inComment, inputLanguage, inputComment);
+                        if (mixedTokens.Count > 0)
                         {
-                            // INSIDE a block comment that opened in an earlier paragraph. The whole
-                            // paragraph is comment, whatever it looks like - no detection, no
-                            // keyword rules. This is what keeps prose inside a .SYNOPSIS header
-                            // from being read as code.
-                            language = context;
-                            inComment = !ClosesBlockComment(text, context);
-                            _syntaxSeen[p] = (text, language, _syntaxDocVersion, inComment);
-                            HighlightParagraph(p, text, language, wholeIsComment: true);
-                            continue;
+                            _syntaxColored.Add(p);
+                            PaintTokens(p, text, mixedTokens, context);
                         }
-                        language = effective;
-                        if (!markdown && language == CodeLanguage.Plain && context != CodeLanguage.Plain && LooksLikeCode(text))
-                            language = context;
-                        context = language;
-                        // Does this paragraph leave a block comment open? Tested against the
-                        // CONTEXT language when the paragraph has none of its own, because a bare
-                        // "<#" detects as nothing on its own and is exactly the line that opens one.
-                        inComment = OpensBlockComment(text, language != CodeLanguage.Plain ? language : context);
-                        _syntaxSeen[p] = (text, language, _syntaxDocVersion, inComment);
-                        if (language != CodeLanguage.Plain || inComment)
-                            HighlightParagraph(p, text, language, wholeIsComment: false);
                     }
                 }
                 finally { if (changeOpen) Editor.EndChange(); }
@@ -481,9 +465,43 @@ namespace KillerNotes.Shell
             Sql, CSharp, Python, JavaScript, TypeScript, Css, Bash
         }
 
+        // Pasting or Shift+Enter can put an entire runbook in one paragraph. Its LineBreaks
+        // are language boundaries just like paragraphs: a YAML separator must not choose the
+        // lexer for nearby PowerShell, and prose must not inherit tokens from a command.
+        private static List<(int Start, int Length, Color Color)> CollectMixedSyntaxTokens(
+            string text, ref CodeLanguage context, ref bool inComment)
+        {
+            var tokens = new List<(int Start, int Length, Color Color)>();
+            int start = 0;
+            while (start < text.Length)
+            {
+                int end = text.IndexOf('\n', start);
+                if (end < 0) end = text.Length;
+                string line = text.Substring(start, end - start).TrimEnd('\r');
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    bool comment = inComment;
+                    if (comment) inComment = !ClosesBlockComment(line, context);
+                    else
+                    {
+                        var language = DetectLanguage(line);
+                        if (language == CodeLanguage.Plain && context != CodeLanguage.Plain && LooksLikeCode(line))
+                            language = context;
+                        context = language;
+                        inComment = OpensBlockComment(line, context);
+                    }
+                    foreach (var token in CollectSyntaxTokens(line, context, comment))
+                        tokens.Add((start + token.Start, token.Length, token.Color));
+                }
+                start = end + 1;
+            }
+            return tokens;
+        }
+
         private static CodeLanguage DetectLanguage(string s)
         {
             if (string.IsNullOrWhiteSpace(s)) return CodeLanguage.Plain;
+            if (SafeIsMatch(s, @"^\s*<#")) return CodeLanguage.PowerShell;
             if (SafeIsMatch(s, @"<template\b|<script\b[^>]*\bsetup\b|<style\b[^>]*\bscoped\b|\bv-(?:if|for|bind|on|model)\b|(?:^|\s)[:@][\w-]+=", RegexOptions.IgnoreCase)) return CodeLanguage.Vue;
             if (SafeIsMatch(s, @"\bxmlns(?::\w+)?\s*=|\bx:Class\s*=|\bx:Key\s*=|\{(?:Binding|StaticResource|DynamicResource)\b|</?(?:Grid|StackPanel|DockPanel|ResourceDictionary|Window|UserControl)\b")) return CodeLanguage.Xaml;
             if (SafeIsMatch(s, @"<!DOCTYPE\s+html|</?(?:html|head|body|div|span|script|style|a|p|table|form|input|button|section|article)\b", RegexOptions.IgnoreCase)) return CodeLanguage.Html;
