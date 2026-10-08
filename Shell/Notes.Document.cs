@@ -94,6 +94,7 @@ namespace KillerNotes.Shell
             _loadingNote = false;
             _dirty = false;
             ApplySpellCheck(meta.SpellCheck);   // Editor.cs (per-note flag, off by default)
+            RefreshFindAfterNoteLoad();   // one search over the final document, never its load notifications
             ApplyTitleColor(meta);
             RefreshBacklinks();   // Backlinks.cs - "linked from" is per note, so it reloads with one
             ShowEditor(true);

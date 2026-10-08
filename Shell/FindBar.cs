@@ -24,7 +24,7 @@ namespace KillerNotes.Shell
     // lay out and format every line it crosses, which is minutes of Not Responding on a big note.
     // This file never does that. Finding matches is a CONTENT walk - TextPointer.GetTextInRun over
     // the symbol tree - which reads what is already in memory and forces no layout at all, so it
-    // is safe to run across the whole document. The only viewport-limited thing here is the
+    // is safe once per edit burst, not once per formatting notification. The viewport-limited work is
     // PAINTING, which is limited because drawing is per-frame work, not because reading is unsafe.
     //
     // The document is never modified. Matches are drawn by an adorner, exactly as
@@ -52,6 +52,7 @@ namespace KillerNotes.Shell
         private string _findPlain = "";
         private bool _findPlainStale = true;
         private readonly List<(int Offset, TextPointer Start, int Length)> _findRuns = [];
+        private DispatcherOperation? _findRefreshOperation;
 
         private const double FindBarMs = 160;
 
@@ -80,7 +81,29 @@ namespace KillerNotes.Shell
         private void InvalidateFindCache()
         {
             _findPlainStale = true;
-            if (_findOpen) RunFind(keepIndex: true);
+            // Loading and theme/syntax formatting can notify once per run. Scanning the whole
+            // note inside each notification makes a large note's load quadratic (#26).
+            if (!_findOpen || _loadingNote || _findRefreshOperation != null) return;
+            _findRefreshOperation = Editor.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                _findRefreshOperation = null;
+                if (_findOpen && !_loadingNote) RunFind(keepIndex: true);
+            }), DispatcherPriority.Background);
+        }
+
+        private void CancelFindRefresh()
+        {
+            _findRefreshOperation?.Abort();
+            _findRefreshOperation = null;
+        }
+
+        private void RefreshFindAfterNoteLoad()
+        {
+            CancelFindRefresh();
+            _findPlainStale = true;
+            _findHits.Clear();
+            _findIndex = -1;
+            if (_findOpen) RunFind();
         }
 
         /// <summary>
@@ -150,6 +173,8 @@ namespace KillerNotes.Shell
         /// </summary>
         private void RunFind(bool keepIndex = false)
         {
+            CancelFindRefresh();
+            if (_loadingNote) return;
             int wasAt = keepIndex && _findIndex >= 0 && _findIndex < _findHits.Count
                         ? _findHits[_findIndex].Start : -1;
 
@@ -227,6 +252,7 @@ namespace KillerNotes.Shell
         /// <summary>Step to the next or previous match, continuing through matching notes.</summary>
         private void StepFind(int delta)
         {
+            if (_findPlainStale) RunFind(keepIndex: true);
             bool pastEnd = _findHits.Count == 0 ||
                            (delta > 0 && _findIndex >= _findHits.Count - 1) ||
                            (delta < 0 && _findIndex <= 0);
@@ -351,8 +377,17 @@ namespace KillerNotes.Shell
 
         // ── Open / close ─────────────────────────────────────────
 
+        private void RepaintFindAfterThemeChange()
+            => Editor.Dispatcher.BeginInvoke(new Action(RepaintFindMatches), DispatcherPriority.Loaded);
+
         private void InitFindBar()
         {
+            ThemeManager.ThemeChanged += RepaintFindAfterThemeChange;
+            Closed += (_, _) =>
+            {
+                CancelFindRefresh();
+                ThemeManager.ThemeChanged -= RepaintFindAfterThemeChange;
+            };
             Editor.Loaded += (_, _) =>
             {
                 var layer = AdornerLayer.GetAdornerLayer(Editor);
@@ -523,6 +558,7 @@ namespace KillerNotes.Shell
         {
             if (!_findOpen) return;
             _findOpen = false;
+            CancelFindRefresh();
             FindRailBtn.Tag = null;   // clear the rail toggle's lit state
 
             // The replace row does not survive a close: the next Ctrl+F opens plain find, and
@@ -616,6 +652,7 @@ namespace KillerNotes.Shell
         private void ReplaceCurrent_Click(object sender, RoutedEventArgs e)
         {
             if (Services.NoteStore.IsReadOnly) return;
+            if (_findPlainStale) RunFind(keepIndex: true);
             if (_findIndex < 0 || _findIndex >= _findHits.Count) return;
 
             var hit = _findHits[_findIndex];
@@ -624,12 +661,11 @@ namespace KillerNotes.Shell
             var b = a?.GetPositionAtOffset(hit.Length, LogicalDirection.Forward);
             if (a == null || b == null) return;
 
-            // The edit fires TextChanged, whose InvalidateFindCache re-runs the find with
-            // keepIndex - which would land back INSIDE the replacement whenever it still
-            // contains the term ("a" -> "aa"). Step explicitly to the first hit past the
-            // replacement instead, so repeated clicks always move forward.
+            // Refresh after the edit before choosing the next match. The next hit must be
+            // past the replacement even when it still contains the term ("a" -> "aa").
             int resumeAt = hit.Start + repl.Length;
             new TextRange(a, b).Text = repl;
+            RunFind();
 
             if (_findHits.Count > 0)
             {
@@ -648,6 +684,7 @@ namespace KillerNotes.Shell
         private void ReplaceAll_Click(object sender, RoutedEventArgs e)
         {
             if (Services.NoteStore.IsReadOnly) return;
+            if (_findPlainStale) RunFind(keepIndex: true);
             if (_findHits.Count == 0) return;
 
             // The find pass counts OVERLAPPING matches; a replace can only consume each
@@ -678,6 +715,8 @@ namespace KillerNotes.Shell
             }
             finally { Editor.EndChange(); }
 
+            RunFind();
+
             FlashStatus(string.Format(Loc("Str_St_Replaced"), hits.Count));
         }
 
@@ -705,7 +744,7 @@ namespace KillerNotes.Shell
         }
 
         // Read by the adorner, which lives outside this class.
-        internal bool FindIsOpen => _findOpen;
+        internal bool FindIsOpen => _findOpen && !_loadingNote && !_findPlainStale;
         internal IReadOnlyList<(int Start, int Length)> FindHits => _findHits;
         internal int FindCurrentIndex => _findIndex;
         internal TextPointer? FindPointerFor(int offset) => PointerForOffset(offset);
@@ -742,10 +781,11 @@ namespace KillerNotes.Shell
         {
             if (!_win.FindIsOpen || _win.FindHits.Count == 0 || !_rtb.IsLoaded) return;
 
-            Brush fill = Application.Current?.TryFindResource("FindMatchBrush") as Brush
+            Brush fill = _rtb.TryFindResource("FindMatchBrush") as Brush
                          ?? new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0xD5, 0x4F));
-            Brush current = Application.Current?.TryFindResource("FindCurrentMatchBrush") as Brush
+            Brush current = _rtb.TryFindResource("FindCurrentMatchBrush") as Brush
                             ?? new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x8A, 0x00));
+            var outline = new Pen(_rtb.TryFindResource("TextBrush") as Brush ?? Brushes.Black, 2);
 
             // The visible slice, as offsets. Everything outside it is skipped without ever asking
             // for its rectangle, which is what keeps this off the formatting path.
@@ -761,18 +801,23 @@ namespace KillerNotes.Shell
                 var (start, length) = _win.FindHits[i];
                 TextPointer? a = _win.FindPointerFor(start);
                 if (a == null || a.CompareTo(topPos) < 0 || a.CompareTo(bottomPos) > 0) continue;
-                TextPointer? b = a.GetPositionAtOffset(length, LogicalDirection.Forward);
+                // Resolve the end through the run map too: symbol offsets include formatting
+                // boundaries. Never request a rectangle below the visible slice for a long hit.
+                TextPointer? b = _win.FindPointerFor(start + length - 1)
+                    ?.GetPositionAtOffset(1, LogicalDirection.Forward);
                 if (b == null) continue;
 
                 Rect ra = a.GetCharacterRect(LogicalDirection.Forward);
-                Rect rb = b.GetCharacterRect(LogicalDirection.Backward);
+                Rect rb = b.CompareTo(bottomPos) > 0 ? Rect.Empty
+                    : b.GetCharacterRect(LogicalDirection.Backward);
                 if (ra.IsEmpty) continue;
 
                 // One rectangle per match, and only when it did not wrap: a wrapped match would
                 // need a band per visual line, and asking for those means walking lines. A
                 // wrapped hit is drawn as its first line only rather than paying that price.
                 double right = (rb.IsEmpty || Math.Abs(rb.Top - ra.Top) > 0.5) ? _rtb.ActualWidth : rb.Right;
-                dc.DrawRectangle(i == _win.FindCurrentIndex ? current : fill, null,
+                dc.DrawRectangle(i == _win.FindCurrentIndex ? current : fill,
+                                 i == _win.FindCurrentIndex ? outline : null,
                                  new Rect(ra.Left, ra.Top, Math.Max(1, right - ra.Left), ra.Height));
             }
 
