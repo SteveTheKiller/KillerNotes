@@ -6,6 +6,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.4.4] - Unreleased
 
+### Fixed
+- Submenus attach consistently to their opening rows, with native direction and screen-edge placement.
+
 ## [1.4.3] - 2026-10-08
 
 ### Fixed

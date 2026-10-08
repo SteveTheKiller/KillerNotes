@@ -717,10 +717,9 @@
                             <!-- Submenu popup, same chrome + grain as the ContextMenu template.
                                  OverridesDefaultStyle discards WPF's stock submenu Popup, so a
                                  template without this part can never open its children. -->
-                            <!-- Offsets carry the -16,-12 halo compensation on top of the -4 gap this
-                                 popup already wanted, so the submenu card sits where it always did. -->
-                            <Popup x:Name="SubPopup" AllowsTransparency="True" Placement="Right"
-                                   HorizontalOffset="-20" VerticalOffset="-12" Focusable="False" PopupAnimation="Fade"
+                            <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Right"
+                                   PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                   HorizontalOffset="-2" VerticalOffset="-3" Focusable="False" PopupAnimation="Fade"
                                    IsOpen="{TemplateBinding IsSubmenuOpen}">
                                 <!-- Halo sized to the 22/4 shadow below - see the note on MenuRoot. -->
                                 <Grid Margin="22,18,22,26">
