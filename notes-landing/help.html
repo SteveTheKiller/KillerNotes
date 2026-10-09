@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <script>/* Apply saved theme + accent before first paint to avoid a reload flash */(function(){try{var d=document.documentElement,t=localStorage.getItem('knotes-theme');if(t){d.setAttribute('data-theme',t);if({dark:1,light:1,hc:1}[t]){var v=localStorage.getItem('knotes-av');if(v){var s=v.split('|');d.style.setProperty('--accent',s[0]);d.style.setProperty('--btn',s[1]);}}}}catch(e){}})();</script>
-<link rel="preload" href="brand/KillerNotes.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="brand/Iceland-Regular.ttf" as="font" type="font/ttf" crossorigin><link rel="preload" href="brand/FreckleFace-Regular.ttf" as="font" type="font/ttf" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="darkreader-lock">
 <title>KillerNotes - Help &amp; How-To</title>
@@ -18,7 +18,7 @@
 .page-hero p { color: var(--muted); font-size: 15px; margin-top: 4px; }
 .page-hero .legend { font-size: 13px; margin-top: 4px; color: var(--text2); }
 .content-inner { max-width: 880px; margin: 0 auto; padding: 0 28px 56px; }
-.help-cat { font-family: 'KillerNotes', 'Courier New', monospace; font-size: 18px; font-weight: normal; letter-spacing: .5px; color: var(--accent); margin: 30px 2px 12px; padding-top: 6px; scroll-margin-top: 74px; text-shadow: 0 2px 5px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
+.help-cat { font-family: var(--kt-font-section); font-size: 18px; font-weight: normal; letter-spacing: .5px; color: var(--accent); margin: 30px 2px 12px; padding-top: 6px; scroll-margin-top: 74px; text-shadow: 0 2px 5px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
 .help-cat:first-of-type { margin-top: 18px; }
 html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { text-shadow: none; }
 .acc-item { border: 1px solid var(--dragline); border-radius: 8px; margin-bottom: 10px; background: var(--modal) url('grain.png') repeat; background-size: 256px 256px; overflow: hidden; }
@@ -36,7 +36,7 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 .kbd-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 44px; align-items: start; }
 .kbd-col { min-width: 0; }
 .kbd-group { display: grid; grid-template-columns: minmax(100px,130px) minmax(0,1fr); column-gap: 18px; row-gap: 6px; align-items: baseline; margin-bottom: 22px; }
-.kbd-group h4 { grid-column: 1 / -1; font-family: 'KillerNotes', 'Courier New', monospace; font-size: 15px; letter-spacing: .5px; color: var(--accent); font-weight: normal; margin-bottom: 4px; text-shadow: 0 2px 5px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
+.kbd-group h4 { grid-column: 1 / -1; font-family: var(--kt-font-section); font-size: 15px; letter-spacing: .5px; color: var(--accent); font-weight: normal; margin-bottom: 4px; text-shadow: 0 2px 5px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
 .kbd-row { display: contents; }
 .kbd-row .k { overflow-wrap: anywhere; font-family: Consolas, monospace; font-size: 12px; color: var(--text2); }
 .kbd-row .d { font-size: 13px; color: var(--text); }

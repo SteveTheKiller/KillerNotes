@@ -46,12 +46,32 @@ a { color: var(--accent); text-decoration: none; }
 a:hover { filter: brightness(1.15); }
 
 /* ---- Wordmark (rendered as text in the app's typewriter font: Killer in --text, Notes in --accent) ---- */
+/* Family header faces: Iceland and Freckle Face, both OFL, licenses in brand/. KtKiller is
+   the "Killer" half of the wordmarks, KtAccent the app-name half. Iceland draws small for its
+   em, so size-adjust brings its line widths back to what the old typewriter face set. */
 @font-face {
-  font-family: 'KillerNotes';
-  src: url('brand/KillerNotes.ttf') format('truetype');
+  font-family: 'KtKiller';
+  src: url('brand/Iceland-Regular.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: block;
+  size-adjust: 110%;
+}
+@font-face {
+  font-family: 'KtAccent';
+  src: url('brand/FreckleFace-Regular.ttf') format('truetype');
   font-weight: normal; font-style: normal; font-display: block;
 }
-.wm-logo { display: inline-block; width: auto; white-space: nowrap; line-height: 1; font-family: 'KillerNotes', 'Courier New', monospace; font-weight: normal; letter-spacing: 1px;
+/* Header font roles. Each role points at one of the two faces; swap a role between
+   var(--kt-font-killer) and var(--kt-font-accent) to try it across the site. In a text
+   wordmark the accent half is 1.55em with a 0.01em lift: capitals 2.0x "Killer", no gap. */
+:root {
+  --kt-font-killer: 'KtKiller', 'Courier New', monospace;
+  --kt-font-accent: 'KtAccent', 'Courier New', monospace;
+  --kt-font-page-title: var(--kt-font-accent);   /* page kickers and big page headings */
+  --kt-font-card-title: var(--kt-font-killer);   /* card and section headings */
+  --kt-font-section: var(--kt-font-killer);      /* small accent subheadings and labels */
+  --kt-font-ui: var(--kt-font-killer);           /* top bar navigation and the KillerMCP link */
+}
+.wm-logo { display: inline-block; width: auto; white-space: nowrap; line-height: 1; font-family: var(--kt-font-killer); font-weight: normal; letter-spacing: 1px;
   text-shadow: 0 3px 8px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
 .wm-logo .wmk { color: var(--text); }
 .wm-logo .wms { color: var(--accent); font-size: 1.3em; font-weight: bold;
@@ -65,7 +85,7 @@ html[data-theme="greed"] .wm-logo .wms,
 html[data-theme="cyanotic"] .wm-logo .wms { color: #B982E3; }
 
 /* ---- Page title kicker (sits above the wordmark on sub-pages), same typewriter font ---- */
-.page-title { display: block; text-align: center; font-family: 'KillerNotes', 'Courier New', monospace; font-size: clamp(30px, 5.2vw, 48px); letter-spacing: 1px; color: var(--text); margin: 0 auto 2px; line-height: 1.1;
+.page-title { display: block; text-align: center; font-family: var(--kt-font-page-title); font-size: clamp(30px, 5.2vw, 48px); letter-spacing: 1px; color: var(--text); margin: 0 auto 2px; line-height: 1.1;
   /* white version (dark / colored themes): heavy drop shadow */
   text-shadow: 0 3px 8px rgba(0,0,0,0.7), 0 1px 2px rgba(0,0,0,0.6); }
 /* black version (light theme): no heavy shadow */
@@ -161,7 +181,7 @@ body.compact-sidebar .outline a:hover { color: var(--text); background: color-mi
 /* Bottom fade while the strip overflows and isn't scrolled to the last shot (toggled in JS),
    matching the app sidebar: the mask reveals the grainy sidebar behind, so grain stays intact. */
 .sb-thumbs.faded { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent); }
-.sb-empty { margin: auto; text-align: center; color: var(--muted); font-family: 'KillerNotes', 'Courier New', monospace; font-size: 14px; letter-spacing: .5px; line-height: 1.5; padding: 20px; }
+.sb-empty { margin: auto; text-align: center; color: var(--muted); font-family: var(--kt-font-section); font-size: 14px; letter-spacing: .5px; line-height: 1.5; padding: 20px; }
 .sb-thumb { display: block; width: 100%; padding: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--panel); cursor: zoom-in; box-shadow: 0 2px 6px rgba(0,0,0,0.45); transition: border-color .15s ease, transform .15s ease; }
 .sb-thumb:hover { border-color: var(--accent); transform: translateY(-1px); }
 .sb-thumb img, .sb-thumb video { display: block; width: 100%; height: auto; }
@@ -298,7 +318,7 @@ body.compact-sidebar .outline a:hover { color: var(--text); background: color-mi
 
 /* ============ Header nav + appearance flyout (shared) ============ */
 .tb-nav { display: inline-flex; align-items: center; gap: 1px; }
-.tb-nav a { font-family: 'KillerNotes', 'Courier New', monospace; color: var(--text2); font-size: 18px; font-weight: normal; letter-spacing: .3px; line-height: 1.2; padding: 6px 11px; border-radius: 6px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+.tb-nav a { font-family: var(--kt-font-ui); color: var(--text2); font-size: 18px; font-weight: normal; letter-spacing: .3px; line-height: 1.2; padding: 6px 11px; border-radius: 6px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
 html[data-theme="light"] .tb-nav a { text-shadow: none; }
 .tb-nav a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 12%, transparent); filter: none; }
 .tb-nav a.on { color: var(--accent); }
@@ -309,13 +329,17 @@ html[data-theme="light"] .tb-nav a { text-shadow: none; }
 .tb-dl svg { width: 14px; height: 14px; fill: currentColor; }
 
 /* Shared KillerMCP topbar link */
-.tb-mcp-link { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 3px 10px; border: 1px solid var(--accent); border-radius: 6px; background: transparent; color: var(--text); font-family: 'KillerNotes', 'Courier New', monospace; font-size: 16px; line-height: 1; text-decoration: none; white-space: nowrap; box-shadow: 0 3px 8px rgba(0,0,0,0.25); transition: transform 0.12s, box-shadow 0.15s, border-color 0.12s; }
+.tb-mcp-link { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 3px 10px; border: 1px solid var(--accent); border-radius: 6px; background: transparent; color: var(--text); font-family: var(--kt-font-ui); font-size: 16px; line-height: 1; text-decoration: none; white-space: nowrap; box-shadow: 0 3px 8px rgba(0,0,0,0.25); transition: transform 0.12s, box-shadow 0.15s, border-color 0.12s; }
 .tb-mcp-link:hover { color: var(--text); border-color: color-mix(in srgb, var(--accent) 72%, var(--text)); transform: translateY(-1px); box-shadow: 0 7px 14px rgba(0,0,0,0.4); filter: none; }
 .tb-mcp-link.on { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent), 0 3px 8px rgba(0,0,0,0.25); }
 .tb-mcp-link img { width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
 .tb-mcp-wordmark { display: inline-flex; align-items: baseline; }
-.tb-mcp-accent { color: var(--accent); font-size: 1.2em; text-shadow: 0 1px 2px rgba(0,0,0,0.45); }
+.tb-mcp-wordmark > span:first-child { font-family: var(--kt-font-killer); }
+.tb-mcp-accent { position: relative; top: -0.01em; color: var(--accent); font-family: var(--kt-font-accent); font-size: 1.55em; line-height: 1; text-shadow: 0 1px 2px rgba(0,0,0,0.45); }
 html[data-theme="light"] .tb-mcp-accent { text-shadow: none; }
+/* KillerMCP named inside a heading: same 2.0x rule as every wordmark */
+.killermcp-wordmark { white-space: nowrap; font-family: var(--kt-font-killer); }
+.killermcp-accent { position: relative; top: -0.01em; font-family: var(--kt-font-accent); font-size: 1.55em; line-height: 1; }
 
 /* Accent flyout: one dot in the header opens a small popup of accents */
 .acc-fly { position: relative; display: inline-flex; align-items: center; }
@@ -358,10 +382,10 @@ html[data-theme="light"] .tb-mcp-accent { text-shadow: none; }
 /* ============ Technical page ============ */
 .tech-sec { margin-bottom: 30px; scroll-margin-top: 74px; }
 /* Universal content-header style: typewriter wordmark font across all pages */
-.tech-sec h2, .about-card h2 { font-family: 'KillerNotes', 'Courier New', monospace; font-size: 24px; font-weight: normal; letter-spacing: .5px; margin: 6px 0 12px; color: var(--text); }
+.tech-sec h2, .about-card h2 { font-family: var(--kt-font-card-title); font-size: 24px; font-weight: normal; letter-spacing: .5px; margin: 6px 0 12px; color: var(--text); }
 .tech-sec h2, .about-card h2, .features h2 { text-shadow: 0 1px 1px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.32); }
 html[data-theme="light"] .tech-sec h2, html[data-theme="light"] .about-card h2, html[data-theme="light"] .features h2 { text-shadow: none; }
-.tech-sec h3 { font-family: 'KillerNotes', 'Courier New', monospace; font-size: 15px; font-weight: normal; letter-spacing: .5px; color: var(--accent); margin: 16px 0 7px;
+.tech-sec h3 { font-family: var(--kt-font-section); font-size: 15px; font-weight: normal; letter-spacing: .5px; color: var(--accent); margin: 16px 0 7px;
   text-shadow: 0 2px 5px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
 html[data-theme="light"] .tech-sec h3 { text-shadow: none; }
 .tech-sec p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 11px; }
