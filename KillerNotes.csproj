@@ -101,6 +101,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\kn-icon.ico" />
+    <Resource Include="Resources\app-icon-master.png" />
     <Resource Include="Resources\kn-icon.png" />
     <!-- Per-filetype icons for the .knote/.kndb associations (extracted to AppData at
          startup so Explorer has an .ico path to read) -->

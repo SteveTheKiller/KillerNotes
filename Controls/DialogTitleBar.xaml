@@ -11,7 +11,8 @@
      - Dragging the bar moves the owning window; the host wires CloseRequested. -->
 <UserControl x:Class="KillerNotes.Controls.DialogTitleBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:icons="clr-namespace:KillerNotes.Controls">
     <Border Background="{DynamicResource DialogTitleBarBrush}"
             Height="{DynamicResource DialogTitleBarHeight}"
             MouseLeftButtonDown="Bar_MouseLeftButtonDown">
@@ -21,10 +22,10 @@
         <Grid Margin="{DynamicResource TitleBarPadding}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <!-- The app icon leads the caption, as it does in the main title bar. -->
-            <Image x:Name="TitleIcon" IsHitTestVisible="False"
+            <icons:AppIcon x:Name="TitleIcon" IsHitTestVisible="False"
                    Width="{DynamicResource TitleIconSize}" Height="{DynamicResource TitleIconSize}"
                    Margin="{DynamicResource TitleIconMargin}" VerticalAlignment="Center"
-                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                   RenderOptions.BitmapScalingMode="NearestNeighbor"/>
             <Grid VerticalAlignment="Center">
             <TextBlock x:Name="PlainTitle" Text="KillerNotes"
                        VerticalAlignment="Center" HorizontalAlignment="Left" IsHitTestVisible="False"

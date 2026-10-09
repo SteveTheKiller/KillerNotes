@@ -164,7 +164,7 @@ namespace KillerNotes.Controls
         /// <summary>The app icon at the main title bar's size and spacing.</summary>
         private static Image TitleIcon()
         {
-            var icon = new Image
+            var icon = new KillerNotes.Controls.AppIcon
             {
                 VerticalAlignment = VerticalAlignment.Center,
             };
@@ -179,11 +179,8 @@ namespace KillerNotes.Controls
         {
             var frames = BitmapDecoder.Create(new Uri("pack://application:,,,/Resources/kn-icon.ico"),
                 BitmapCreateOptions.None, BitmapCacheOption.OnLoad).Frames;
-            void Refresh() => icon.Source = frames.OrderBy(frame =>
-                Math.Abs(frame.PixelWidth - icon.ActualWidth * VisualTreeHelper.GetDpi(icon).DpiScaleX)).First();
-            icon.Loaded += (_, _) => Refresh();
-            icon.SizeChanged += (_, _) => Refresh();
-            RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.HighQuality);
+            icon.Source = frames[0];
+            RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
         }
 
         private static TextBlock Text(FontFamily? wf, string subtitle,

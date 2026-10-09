@@ -1,6 +1,7 @@
 <Window x:Class="KillerNotes.Shell.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:icons="clr-namespace:KillerNotes.Controls"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:models="clr-namespace:KillerNotes.Models"
         xmlns:controls="clr-namespace:KillerNotes.Controls"
@@ -168,10 +169,10 @@
                         PreviewMouseWheel="AppSizeBtn_MouseWheel"
                         MouseLeftButtonDown="LogoBar_MouseLeftButtonDown"
                         ToolTip="{DynamicResource Str_TT_AppSize}">
-                <Image x:Name="TitleIcon"
+                <icons:AppIcon x:Name="TitleIcon"
                        Width="{DynamicResource TitleIconSize}" Height="{DynamicResource TitleIconSize}"
                        VerticalAlignment="Center" Margin="{DynamicResource TitleIconMargin}"
-                       RenderOptions.BitmapScalingMode="HighQuality"/>
+                       RenderOptions.BitmapScalingMode="NearestNeighbor"/>
                 <!-- Plain caption text, Win98 style: icon then the window name in bold. Collapsed on
                      every theme that does not set UseDialogCaption, where the wordmark shows instead. -->
                 <!-- TitleTextMargin lifts the caption a pixel. Its font's cap height does not sit
@@ -2778,12 +2779,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Source="pack://application:,,,/Resources/kn-icon.png" Width="58" Height="58"
-                                       Margin="0,0,15,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality">
-                                    <Image.Effect>
+                                <icons:AppIcon Grid.Column="0" Source="pack://application:,,,/Resources/kn-icon.ico" Width="58" Height="58"
+                                       Margin="0,0,15,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="NearestNeighbor">
+                                    <icons:AppIcon.Effect>
                                         <DropShadowEffect Color="Black" BlurRadius="12" ShadowDepth="3" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
-                                    </Image.Effect>
-                                </Image>
+                                    </icons:AppIcon.Effect>
+                                </icons:AppIcon>
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                     <Grid Margin="0,0,0,4" HorizontalAlignment="Left">
                                         <TextBlock FontFamily="{DynamicResource WordmarkFont}" Margin="1,2,0,0" IsHitTestVisible="False"

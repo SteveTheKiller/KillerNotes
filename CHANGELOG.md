@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.4.4] - Unreleased
 
 ### Fixed
+- Kept app icons sharp at fractional display DPI and app zoom by caching exact pixel sizes from a covering source and aligning the final draw to device pixels.
 - Mixed notes highlight commands independently of prose and separators, including pasted lines within one paragraph.
 - Submenus attach consistently to their opening rows, with native direction and screen-edge placement.
 
