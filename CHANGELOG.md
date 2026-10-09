@@ -6,6 +6,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.4.4] - Unreleased
 
+### Added
+- Added a Film Grain switch to the theme menu. It is on by default, and turning it off removes the grain texture from every surface.
+
 ### Changed
 - The website's headings and wordmarks use Iceland and Freckle Face in place of the typewriter font.
 

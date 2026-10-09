@@ -824,6 +824,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Theme_Sepulchre">Sepulcro</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Delírio</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Luto</sys:String>
+    <sys:String x:Key="Str_Theme_FilmGrain">Granulação de filme</sys:String>
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">Lixeira</sys:String>

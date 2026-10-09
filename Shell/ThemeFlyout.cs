@@ -101,6 +101,20 @@ namespace KillerNotes.Shell
             Grid.SetRow(fontsDivider, 1);
             Grid.SetColumnSpan(fontsDivider, 2);
             picker.Children.Add(fontsDivider);
+            // Film Grain: one switch for the grain texture on every surface (Services/FilmGrain.cs),
+            // under the divider and above the Fonts row.
+            picker.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            var filmGrain = new CheckBox
+            {
+                Style = (Style)FindResource("ThemeCheck"),
+                IsChecked = FilmGrain.Enabled,
+                Margin = new Thickness(0, 8, 0, 4),
+            };
+            filmGrain.SetResourceReference(ContentControl.ContentProperty, "Str_Theme_FilmGrain");
+            filmGrain.Click += (_, _) => FilmGrain.Set(filmGrain.IsChecked == true);
+            Grid.SetRow(filmGrain, 2);
+            Grid.SetColumnSpan(filmGrain, 2);
+            picker.Children.Add(filmGrain);
             ThemeMenu.Items.Add(new ScrollViewer
             {
                 Content = picker,

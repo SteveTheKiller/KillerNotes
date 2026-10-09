@@ -162,6 +162,7 @@ namespace KillerNotes
             Services.ThemeManager.GetSetting = GetSetting;
             Services.ThemeManager.SetSetting = SetSetting;
             Services.ThemeManager.Initialize();
+            Services.FilmGrain.Initialize();       // after the theme, before the window is built
             Services.LocaleManager.Initialize();   // layers Strings/en-US.xaml (+ saved locale)
 
             ShutdownMode = ShutdownMode.OnLastWindowClose;

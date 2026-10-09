@@ -824,6 +824,7 @@
     <sys:String x:Key="Str_Theme_Sepulchre">Гробниця</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Марення</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Жалоба</sys:String>
+    <sys:String x:Key="Str_Theme_FilmGrain">Зернистість плівки</sys:String>
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">Кошик</sys:String>

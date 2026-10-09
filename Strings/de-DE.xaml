@@ -774,6 +774,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Theme_Sepulchre">Grabmal</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Delirium</sys:String>
     <sys:String x:Key="Str_Theme_Mourning">Trauer</sys:String>
+    <sys:String x:Key="Str_Theme_FilmGrain">Filmkorn</sys:String>
 
     <!-- Trash (1.3.1) -->
     <sys:String x:Key="Str_Trash">Papierkorb</sys:String>
