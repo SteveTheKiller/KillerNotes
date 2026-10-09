@@ -14,7 +14,7 @@ namespace KillerNotes.Controls
             var preferred = values[0] as SolidColorBrush ?? Brushes.White;
             Color[] ColorsOf(object value) => value switch
             {
-                GradientBrush gradient => gradient.GradientStops.Select(s => s.Color).ToArray(),
+                GradientBrush gradient => [.. gradient.GradientStops.Select(s => s.Color)],
                 SolidColorBrush solid => [solid.Color],
                 _ => []
             };
@@ -25,7 +25,7 @@ namespace KillerNotes.Controls
                 Color pane = ColorsOf(values[2]).FirstOrDefault();
                 Color surface = DatabaseRowPalette.Over(pane, window);
                 backgrounds = backgrounds.Length == 0 ? [surface]
-                    : backgrounds.Select(bg => DatabaseRowPalette.Over(bg, surface)).ToArray();
+                    : [.. backgrounds.Select(bg => DatabaseRowPalette.Over(bg, surface))];
             }
             if (backgrounds.Length == 0) return preferred;
             double Score(Color color) => backgrounds.Min(bg => DatabaseRowPalette.Contrast(

@@ -8,7 +8,7 @@ namespace KillerNotes.Controls
 {
     public sealed class OverlayFocusScope
     {
-        private readonly List<UIElement> _blocked = new();
+        private readonly List<UIElement> _blocked = [];
         private IInputElement? _previous;
         public UIElement? ActiveOverlay { get; private set; }
 

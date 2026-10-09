@@ -477,7 +477,7 @@ namespace KillerNotes.Shell
             {
                 int end = text.IndexOf('\n', start);
                 if (end < 0) end = text.Length;
-                string line = text.Substring(start, end - start).TrimEnd('\r');
+                string line = text[start..end].TrimEnd('\r');
                 if (!string.IsNullOrWhiteSpace(line))
                 {
                     bool comment = inComment;
