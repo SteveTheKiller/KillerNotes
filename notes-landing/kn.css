@@ -45,7 +45,7 @@ body > * { position: relative; z-index: 1; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { filter: brightness(1.15); }
 
-/* ---- Wordmark (rendered as text in the app's typewriter font: Killer in --text, Notes in --accent) ---- */
+/* ---- Wordmark (rendered as text in the family header faces: Killer in --text, Notes in --accent) ---- */
 /* Family header faces: Iceland and Freckle Face, both OFL, licenses in brand/. KtKiller is
    the "Killer" half of the wordmarks, KtAccent the app-name half. Iceland draws small for its
    em, so size-adjust brings its line widths back to what the old typewriter face set. */
@@ -84,7 +84,7 @@ html[data-theme="blood"] .wm-logo .wms,
 html[data-theme="greed"] .wm-logo .wms,
 html[data-theme="cyanotic"] .wm-logo .wms { color: #B982E3; }
 
-/* ---- Page title kicker (sits above the wordmark on sub-pages), same typewriter font ---- */
+/* ---- Page title kicker (sits above the wordmark on sub-pages), page-title face ---- */
 .page-title { display: block; text-align: center; font-family: var(--kt-font-page-title); font-size: clamp(30px, 5.2vw, 48px); letter-spacing: 1px; color: var(--text); margin: 0 auto 2px; line-height: 1.1;
   /* white version (dark / colored themes): heavy drop shadow */
   text-shadow: 0 3px 8px rgba(0,0,0,0.7), 0 1px 2px rgba(0,0,0,0.6); }
@@ -381,7 +381,7 @@ html[data-theme="light"] .tb-mcp-accent { text-shadow: none; }
 
 /* ============ Technical page ============ */
 .tech-sec { margin-bottom: 30px; scroll-margin-top: 74px; }
-/* Universal content-header style: typewriter wordmark font across all pages */
+/* Universal content-header style: card-title face across all pages */
 .tech-sec h2, .about-card h2 { font-family: var(--kt-font-card-title); font-size: 24px; font-weight: normal; letter-spacing: .5px; margin: 6px 0 12px; color: var(--text); }
 .tech-sec h2, .about-card h2, .features h2 { text-shadow: 0 1px 1px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.32); }
 html[data-theme="light"] .tech-sec h2, html[data-theme="light"] .about-card h2, html[data-theme="light"] .features h2 { text-shadow: none; }
