@@ -198,7 +198,8 @@ namespace KillerNotes.Controls
             notes.SetResourceReference(TextElement.FontFamilyProperty, "WordmarkAccentFont");
             notes.SetResourceReference(TextElement.FontSizeProperty, "TitleWordmarkBoldSize");
             var sub = new Run(subtitle.Length > 0 ? "  " + subtitle : "");
-            sub.SetResourceReference(TextElement.FontSizeProperty, "TitleWordmarkSize");
+            sub.SetResourceReference(TextElement.FontFamilyProperty, "BrandSansFont");
+            sub.SetResourceReference(TextElement.FontSizeProperty, "TitleSubtitleSize");
 
             if (flat != null) { killer.Foreground = flat; notes.Foreground = flat; sub.Foreground = flat; }
             else

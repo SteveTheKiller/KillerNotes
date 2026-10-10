@@ -278,8 +278,11 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "TitleBarHeight", 36.0);
             SetIfAbsent(newDict, "CaptionButtonWidth", 44.0);
             SetIfAbsent(newDict, "CaptionButtonHeight", 36.0);
-            SetIfAbsent(newDict, "TitleWordmarkSize", 17.0);
-            SetIfAbsent(newDict, "TitleWordmarkBoldSize", 22.0);
+            SetIfAbsent(newDict, "TitleWordmarkSize", 12.09);
+            SetIfAbsent(newDict, "TitleWordmarkBoldSize", 21.52);
+            // A caption subtitle sits beside the wordmark in Killer Sans, at the size the "Killer"
+            // run would have in that face, so it follows each theme's title size.
+            newDict["TitleSubtitleSize"] = Math.Round((double)newDict["TitleWordmarkSize"] * 0.689 / 0.49, 2);
             SetIfAbsent(newDict, "WordmarkEmbossOpacity", 0.0);
             SetIfAbsent(newDict, "WordmarkAccentShadowOpacity", 0.0);
             // A Win98-style caption has no logotype in it - just the icon and the window's name in

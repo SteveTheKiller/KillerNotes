@@ -1,4 +1,4 @@
-Copyright (c) 2012, Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved Font Name 'Freckle Face'
+Copyright 2019 The Lacquer Project Authors (https://github.com/Lacquer-Font/Lacquer)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
