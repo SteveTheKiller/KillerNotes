@@ -46,12 +46,12 @@ a { color: var(--accent); text-decoration: none; }
 a:hover { filter: brightness(1.15); }
 
 /* ---- Wordmark (rendered as text in the family header faces: Killer in --text, Notes in --accent) ---- */
-/* Family header faces: Iceland and Freckle Face, both OFL, licenses in brand/. KtKiller is
-   the "Killer" half of the wordmarks, KtAccent the app-name half. Iceland draws small for its
+/* Family header faces: Killer Sans and Freckle Face, both OFL, licenses in brand/. KtKiller is
+   the "Killer" half of the wordmarks, KtAccent the app-name half. Killer Sans draws small for its
    em, so size-adjust brings its line widths back to what the old typewriter face set. */
 @font-face {
   font-family: 'KtKiller';
-  src: url('brand/Iceland-Regular.ttf') format('truetype');
+  src: url('brand/KillerSans-Regular.ttf') format('truetype');
   font-weight: normal; font-style: normal; font-display: block;
   size-adjust: 110%;
 }
