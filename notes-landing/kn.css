@@ -62,7 +62,7 @@ a:hover { filter: brightness(1.15); }
 }
 /* Header font roles. Each role points at one of the two faces; swap a role between
    var(--kt-font-killer) and var(--kt-font-accent) to try it across the site. In a text
-   wordmark the accent half is 1.55em with a 0.01em lift: capitals 2.0x "Killer", no gap. */
+   wordmark the accent half is 1.201em with a 0.01em lift: capitals 1.55x "Killer", no gap. */
 :root {
   --kt-font-killer: 'KtKiller', 'Courier New', monospace;
   --kt-font-accent: 'KtAccent', 'Courier New', monospace;
@@ -335,11 +335,11 @@ html[data-theme="light"] .tb-nav a { text-shadow: none; }
 .tb-mcp-link img { width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
 .tb-mcp-wordmark { display: inline-flex; align-items: baseline; }
 .tb-mcp-wordmark > span:first-child { font-family: var(--kt-font-killer); }
-.tb-mcp-accent { position: relative; top: -0.01em; color: var(--accent); font-family: var(--kt-font-accent); font-size: 1.55em; line-height: 1; text-shadow: 0 1px 2px rgba(0,0,0,0.45); }
+.tb-mcp-accent { position: relative; top: -0.01em; color: var(--accent); font-family: var(--kt-font-accent); font-size: 1.201em; line-height: 1; text-shadow: 0 1px 2px rgba(0,0,0,0.45); }
 html[data-theme="light"] .tb-mcp-accent { text-shadow: none; }
-/* KillerMCP named inside a heading: same 2.0x rule as every wordmark */
+/* KillerMCP named inside a heading: same 1.55x rule as every wordmark */
 .killermcp-wordmark { white-space: nowrap; font-family: var(--kt-font-killer); }
-.killermcp-accent { position: relative; top: -0.01em; font-family: var(--kt-font-accent); font-size: 1.55em; line-height: 1; }
+.killermcp-accent { position: relative; top: -0.01em; font-family: var(--kt-font-accent); font-size: 1.201em; line-height: 1; }
 
 /* Accent flyout: one dot in the header opens a small popup of accents */
 .acc-fly { position: relative; display: inline-flex; align-items: center; }

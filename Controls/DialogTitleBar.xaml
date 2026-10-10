@@ -38,9 +38,9 @@
                 <StackPanel Orientation="Horizontal" Margin="1,2,0,0"
                             Opacity="{DynamicResource IconShadowOpacity}">
                     <StackPanel.Effect><BlurEffect Radius="3"/></StackPanel.Effect>
-                    <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="16.5"><Run Text="Killer" Foreground="#D8000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="23.25" Foreground="#D8000000"/><Run x:Name="ShadowSubtitleRun" FontSize="18" Foreground="#D8000000"/></TextBlock>
+                    <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="16.5"><Run Text="Killer" Foreground="#D8000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="18.02" Foreground="#D8000000"/><Run x:Name="ShadowSubtitleRun" FontSize="18" Foreground="#D8000000"/></TextBlock>
                 </StackPanel>
-                <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="16.5"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="23.25" Foreground="{DynamicResource AccentLogo}"/><Run x:Name="SubtitleRun" FontSize="18" Foreground="{DynamicResource MutedTextBrush}"/></TextBlock>
+                <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="16.5"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="18.02" Foreground="{DynamicResource AccentLogo}"/><Run x:Name="SubtitleRun" FontSize="18" Foreground="{DynamicResource MutedTextBrush}"/></TextBlock>
             </Grid>
             </Grid>
             </StackPanel>
