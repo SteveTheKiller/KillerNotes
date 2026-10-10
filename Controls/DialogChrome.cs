@@ -194,7 +194,8 @@ namespace KillerNotes.Controls
             if (wf != null) tb.FontFamily = wf;
 
             var killer = new Run("Killer");
-            var notes = new Run("Notes") { FontWeight = FontWeights.Bold };
+            var notes = new Run("Notes");
+            notes.SetResourceReference(TextElement.FontFamilyProperty, "WordmarkAccentFont");
             notes.SetResourceReference(TextElement.FontSizeProperty, "TitleWordmarkBoldSize");
             var sub = new Run(subtitle.Length > 0 ? "  " + subtitle : "");
             sub.SetResourceReference(TextElement.FontSizeProperty, "TitleWordmarkSize");

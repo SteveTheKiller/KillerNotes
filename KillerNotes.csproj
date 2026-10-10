@@ -108,6 +108,8 @@
     <Resource Include="Resources\kn-note.ico" />
     <Resource Include="Resources\kn-db.ico" />
     <Resource Include="Fonts\KillerNotes.ttf" />
+    <Resource Include="Fonts\Iceland-Regular.ttf" />
+    <Resource Include="Fonts\FreckleFace-Regular.ttf" />
 	<Resource Include="Resources\open_hand.cur" />
 	<Resource Include="Resources\closed_hand.cur" />
   </ItemGroup>

@@ -141,9 +141,9 @@
                              two-run split is preserved: neutral first word, accent second.
                              There is no "The " - that is Killendar's logotype flourish, not this
                              family's, and it read as nonsense on every other app. -->
-                        <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15" Margin="1,2,0,0" Opacity="{DynamicResource IconShadowOpacity}">
+                        <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="16.5" Margin="1,2,0,0" Opacity="{DynamicResource IconShadowOpacity}">
                             <TextBlock.Effect><BlurEffect Radius="3"/></TextBlock.Effect>
-                            <Run x:Name="TitleShadowA" Text="{DynamicResource Str_Wordmark_A}" Foreground="#D8000000"/><Run x:Name="TitleShadowB" Text="{DynamicResource Str_Wordmark_B}" FontSize="19.5" FontWeight="Bold" Foreground="#D8000000"/><Run x:Name="TitleSubShadow" FontSize="18" Foreground="#D8000000"/>
+                            <Run x:Name="TitleShadowA" Text="{DynamicResource Str_Wordmark_A}" Foreground="#D8000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" x:Name="TitleShadowB" Text="{DynamicResource Str_Wordmark_B}" FontSize="23.25" Foreground="#D8000000"/><Run x:Name="TitleSubShadow" FontSize="18" Foreground="#D8000000"/>
                         </TextBlock>
                         <!-- The caller's Title rides HERE, to the right of the wordmark, the same
                              shape SketchPad / Databases / Dictation use. It used to be a heading in
@@ -151,8 +151,8 @@
                              the content area as if it were part of the file list.
                              ChromeTextBrush, not MutedTextBrush: muted is mixed against the CONTENT
                              surface and vanishes on a theme that paints a real caption band. -->
-                        <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="15">
-                            <Run x:Name="TitleWordA" Text="{DynamicResource Str_Wordmark_A}" Foreground="{DynamicResource ChromeTextBrush}"/><Run x:Name="TitleWordB" Text="{DynamicResource Str_Wordmark_B}" FontSize="19.5" FontWeight="Bold" Foreground="{DynamicResource AccentLogo}"/><Run x:Name="TitleSub" FontSize="18" Foreground="{DynamicResource ChromeTextBrush}"/>
+                        <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="16.5">
+                            <Run x:Name="TitleWordA" Text="{DynamicResource Str_Wordmark_A}" Foreground="{DynamicResource ChromeTextBrush}"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" x:Name="TitleWordB" Text="{DynamicResource Str_Wordmark_B}" FontSize="23.25" Foreground="{DynamicResource AccentLogo}"/><Run x:Name="TitleSub" FontSize="18" Foreground="{DynamicResource ChromeTextBrush}"/>
                         </TextBlock>
                     </Grid>
                     <!-- The family dialog close - see the note in DialogTitleBar.xaml. Same markup

@@ -20,14 +20,15 @@
     <!-- Floors the scrollbar thumb at a grabbable minimum. -->
     <kui:ThumbViewportFloorConverter x:Key="ThumbFloor"/>
 
-    <!-- Typewriter wordmark font (bundled in Fonts/). The face name after '#' must match the
-         font's internal family name; keep it as-is if you copy KillerScan's Fonts/ verbatim. -->
-    <FontFamily x:Key="WordmarkFont">/KillerNotes;component/Fonts/#Typewriter - a602 (dead postman 2004)</FontFamily>
+    <!-- Family wordmark faces, bundled in Fonts/ (both OFL, licenses beside them): Iceland
+         for "Killer", Freckle Face for the app name. -->
+    <FontFamily x:Key="WordmarkFont">/KillerNotes;component/Fonts/#Iceland</FontFamily>
+    <FontFamily x:Key="WordmarkAccentFont">/KillerNotes;component/Fonts/#Freckle Face</FontFamily>
     <!-- User-swappable slots (Fonts.cs, 1.1.2). The wordmark above never changes - it is
          the logo - but HeaderFont (group titles, Killculator title) and ContentFont (the
          editor default) can be overridden at the Application level by the Fonts dialog;
          these entries are the killer defaults it falls back to. -->
-    <FontFamily x:Key="HeaderFont">/KillerNotes;component/Fonts/#Typewriter - a602 (dead postman 2004)</FontFamily>
+    <FontFamily x:Key="HeaderFont">/KillerNotes;component/Fonts/#Iceland</FontFamily>
     <FontFamily x:Key="SidebarFont">Segoe UI</FontFamily>
     <!-- Bahnschrift: stock DIN face on Win10/11, pairs with the typewriter headers;
          Segoe UI fallback for editions without it. The sidebar deliberately stays
