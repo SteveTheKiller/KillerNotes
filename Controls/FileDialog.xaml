@@ -195,7 +195,7 @@
                                  than InputBorderBrush so a beveled theme drops the flat outline and
                                  the raised edge IS the button's edge. Bevel inverts while pressed. -->
                             <Grid>
-                                <Border x:Name="ub" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource ButtonEdgeBrush}"
+                                <Border x:Name="ubRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=ub}" BorderThickness="{Binding BorderThickness, ElementName=ub}" BorderBrush="{Binding Background, ElementName=ub}" Margin="{Binding Margin, ElementName=ub}" Visibility="{Binding Visibility, ElementName=ub}" Opacity="{Binding Opacity, ElementName=ub}"/><Border x:Name="ub" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource ButtonEdgeBrush}"
                                         BorderThickness="1" CornerRadius="{DynamicResource ControlCornerRadius}">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
@@ -253,7 +253,7 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
-                                                <Border x:Name="rb" Background="{DynamicResource ChipFaceBrush}"
+                                                <Border x:Name="rbRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=rb}" BorderThickness="{Binding BorderThickness, ElementName=rb}" BorderBrush="{Binding Background, ElementName=rb}" Margin="{Binding Margin, ElementName=rb}" Visibility="{Binding Visibility, ElementName=rb}" Opacity="{Binding Opacity, ElementName=rb}"/><Border x:Name="rb" Background="{DynamicResource ChipFaceBrush}"
                                                         BorderBrush="{DynamicResource ButtonEdgeBrush}" BorderThickness="1"
                                                         CornerRadius="{DynamicResource SmallCornerRadius}"/>
                                                 <Border x:Name="rbLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>

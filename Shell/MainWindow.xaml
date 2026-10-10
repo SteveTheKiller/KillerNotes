@@ -1360,7 +1360,7 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Grid>
-                                                        <Border x:Name="cb" Background="{TemplateBinding Background}"
+                                                        <Border x:Name="cbRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=cb}" BorderThickness="{Binding BorderThickness, ElementName=cb}" BorderBrush="{Binding Background, ElementName=cb}" Margin="{Binding Margin, ElementName=cb}" Visibility="{Binding Visibility, ElementName=cb}" Opacity="{Binding Opacity, ElementName=cb}"/><Border x:Name="cb" Background="{TemplateBinding Background}"
                                                                 BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"
                                                                 CornerRadius="{DynamicResource PanelCornerRadius}" SnapsToDevicePixels="True"/>
                                                         <!-- Hover as an accent TINT, not a swap to RowHoverBrush. On 98SE
@@ -1411,7 +1411,7 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Grid>
-                                                        <Border x:Name="cb" Background="{TemplateBinding Background}"
+                                                        <Border x:Name="cbRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=cb}" BorderThickness="{Binding BorderThickness, ElementName=cb}" BorderBrush="{Binding Background, ElementName=cb}" Margin="{Binding Margin, ElementName=cb}" Visibility="{Binding Visibility, ElementName=cb}" Opacity="{Binding Opacity, ElementName=cb}"/><Border x:Name="cb" Background="{TemplateBinding Background}"
                                                                 BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1.5"
                                                                 CornerRadius="{DynamicResource PanelCornerRadius}" SnapsToDevicePixels="True">
                                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>

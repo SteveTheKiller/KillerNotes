@@ -192,7 +192,7 @@
                          flat outline sits, so a beveled theme replaces the outline rather than
                          drawing a second line inside it. -->
                     <Grid>
-                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                        <Border x:Name="borderRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=border}" BorderThickness="{Binding BorderThickness, ElementName=border}" BorderBrush="{Binding Background, ElementName=border}" Margin="{Binding Margin, ElementName=border}" Visibility="{Binding Visibility, ElementName=border}" Opacity="{Binding Opacity, ElementName=border}"/><Border x:Name="border" Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -251,7 +251,7 @@
                          they were drawn within the 1px edge and the 12,6 padding, so the raised
                          edge appeared around the text instead of around the button. -->
                     <Grid>
-                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                        <Border x:Name="borderRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=border}" BorderThickness="{Binding BorderThickness, ElementName=border}" BorderBrush="{Binding Background, ElementName=border}" Margin="{Binding Margin, ElementName=border}" Visibility="{Binding Visibility, ElementName=border}" Opacity="{Binding Opacity, ElementName=border}"/><Border x:Name="border" Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
