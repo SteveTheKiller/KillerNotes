@@ -107,7 +107,7 @@ html[data-theme="light"] .page-title { text-shadow: none; }
 .tb-home { display: inline-flex; align-items: center; gap: 9px; color: var(--text); }
 .tb-home:hover { filter: none; }
 .tb-icon { width: 36px; height: 36px; border-radius: 9px; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.55)); }
-.tb-wm { height: 26px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+.tb-wm { height: 26px; transform: translateY(4px); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
 .tb-sub { font-size: 12px; color: var(--muted); font-family: Consolas, monospace; }
 .tb-spacer { flex: 1; }
 .help-link { color: var(--accent); font-size: 13px; font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 6px; padding: 4px 12px; }
