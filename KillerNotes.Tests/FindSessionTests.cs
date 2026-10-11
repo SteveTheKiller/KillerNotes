@@ -123,6 +123,51 @@ namespace KillerNotes.Tests
             Assert.Null(shell.Pending);
         });
 
+        [Theory]
+        [InlineData("x")]
+        [InlineData("andand")]
+        [InlineData("")]
+        public void ReplacementRepaintsTheAttachedAdornerWithoutScrolling(string replacement) => Sta.Run(() =>
+        {
+            using var shell = new FindEditor();
+            System.Windows.Input.InputMethod.SetIsInputMethodEnabled(shell.Editor, false);
+            shell.Editor.Document = Document(80);
+            ((TextBox)shell.Get("ReplaceBox")!).Text = replacement;
+            shell.Call("RunFind", false);
+            var host = new Window
+            {
+                Content = new AdornerDecorator { Child = shell.Editor },
+                Width = 640, Height = 320, Left = -32000, Top = -32000,
+                ShowActivated = false, ShowInTaskbar = false, WindowStyle = WindowStyle.None,
+            };
+            try
+            {
+                host.Show();
+                Pump();
+                var adorner = new FindMatchAdorner(shell.Editor, shell.Window);
+                AdornerLayer.GetAdornerLayer(shell.Editor)!.Add(adorner);
+                Pump();
+                Assert.True(GeometryDrawings(VisualTreeHelper.GetDrawing(adorner)).Count() > 1);
+                for (int pass = 0; pass < 3; pass++)
+                {
+                    double offset = shell.Editor.VerticalOffset;
+                    shell.Call("ReplaceCurrent_Click", shell.Window, new RoutedEventArgs());
+                    Pump();
+                    Assert.False(shell.Stale);
+                    Assert.Null(shell.Pending);
+                    Assert.Equal(offset, shell.Editor.VerticalOffset);
+                    var shapes = GeometryDrawings(VisualTreeHelper.GetDrawing(adorner)).ToList();
+                    Assert.True(shapes.Count > 1, "Replacement left the attached match overlay empty.");
+                    Assert.Single(shapes, shape => shape.Pen != null);
+                }
+            }
+            finally
+            {
+                host.Close();
+                Dispatcher.CurrentDispatcher.InvokeShutdown();
+            }
+        });
+
         [Fact]
         public void ActiveMatchHasAnOutlineAcrossThemeChangesAndScrolling() => Sta.Run(() =>
         {

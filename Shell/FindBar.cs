@@ -372,7 +372,7 @@ namespace KillerNotes.Shell
             var layer = AdornerLayer.GetAdornerLayer(Editor);
             if (layer?.GetAdorners(Editor) is { } list)
                 foreach (var a in list)
-                    if (a is FindMatchAdorner f) { f.InvalidateVisual(); return; }
+                    if (a is FindMatchAdorner f) { f.RepaintAfterLayout(); return; }
         }
 
         // ── Open / close ─────────────────────────────────────────
@@ -759,6 +759,7 @@ namespace KillerNotes.Shell
     {
         private readonly RichTextBox _rtb;
         private readonly MainWindow _win;
+        private DispatcherOperation? _repaintOperation;
 
         public FindMatchAdorner(RichTextBox rtb, MainWindow win) : base(rtb)
         {
@@ -775,6 +776,19 @@ namespace KillerNotes.Shell
         {
             try { RenderMatches(dc); }
             catch { }   // a render pass must never take the app down
+        }
+
+        internal void RepaintAfterLayout()
+        {
+            InvalidateVisual();
+            // A replacement refreshes the hits before WPF has refreshed its text view.
+            // The first render can therefore be empty; repaint once after layout settles.
+            if (_repaintOperation != null) return;
+            _repaintOperation = Dispatcher.BeginInvoke(new Action(() =>
+            {
+                _repaintOperation = null;
+                InvalidateVisual();
+            }), DispatcherPriority.Loaded);
         }
 
         private void RenderMatches(DrawingContext dc)
