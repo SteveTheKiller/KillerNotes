@@ -16,6 +16,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Kept app icons sharp at fractional display DPI and app zoom by caching exact pixel sizes from a covering source and aligning the final draw to device pixels.
 - Mixed notes highlight commands independently of prose and separators, including pasted lines within one paragraph.
 - Submenus attach consistently to their opening rows, with native direction and screen-edge placement.
+- The active sort button is filled with the selection color, so it stands out in the Light, 98SE, Greed and Cyanotic themes (#25).
 
 ## [1.4.3] - 2026-10-08
 

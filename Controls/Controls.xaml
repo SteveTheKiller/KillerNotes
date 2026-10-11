@@ -289,6 +289,12 @@
                             <Setter TargetName="bevelLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
                             <Setter TargetName="bevelDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
                         </Trigger>
+                        <!-- A selected toggle (Tag "selected", e.g. the active sort) keeps its
+                             SelectionBg fill under hover and press, so its SelectionFg glyph never
+                             lands on the light hover face. Placed after both so it wins. -->
+                        <Trigger Property="Tag" Value="selected">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource SelectionBg}"/>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4"/>
                             <Setter Property="Cursor" Value="Arrow"/>

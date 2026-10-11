@@ -62,14 +62,14 @@ namespace KillerNotes.Shell
             };
         }
 
-        /// <summary>Accent-colors the active sort button, shows its direction arrow
+        /// <summary>Marks the active sort button, shows its direction arrow
         /// (up = ascending), and keeps tooltips truthful.</summary>
         private void UpdateSortButtons()
         {
             bool time = _sortField == "created", alpha = _sortField == "title", custom = _sortField == "custom";
-            SortTimeBtn.SetResourceReference(ForegroundProperty, time ? "PrimaryBrush" : "TextBrush");
-            SortAlphaBtn.SetResourceReference(ForegroundProperty, alpha ? "PrimaryBrush" : "TextBrush");
-            SortCustomBtn.SetResourceReference(ForegroundProperty, custom ? "PrimaryBrush" : "TextBrush");
+            MarkSortButton(SortTimeBtn, time);
+            MarkSortButton(SortAlphaBtn, alpha);
+            MarkSortButton(SortCustomBtn, custom);
             string arrow = _sortAsc ? "↑" : "↓";
             SortTimeArrow.Text  = time ? arrow : "";
             SortAlphaArrow.Text = alpha ? arrow : "";
@@ -83,6 +83,18 @@ namespace KillerNotes.Shell
             SortTimeBtn.ToolTip += " (Alt+4)";
             SortAlphaBtn.ToolTip += " (Alt+5)";
             SortCustomBtn.ToolTip += " (Alt+6)";
+        }
+
+        // The active sort takes the family selected pair (SelectionBg fill, SelectionFg glyph),
+        // the same way KillerScan marks its current view and Killendar its calendar tab. A glyph
+        // tint alone vanished wherever the accent sits next to the text color: Light, 98SE,
+        // Greed and Cyanotic. Tag "selected" keeps the fill under hover (SurfaceButton). The
+        // rest go back to the sort strip's own face so the inactive look is unchanged.
+        private static void MarkSortButton(Button btn, bool on)
+        {
+            btn.SetResourceReference(BackgroundProperty, on ? "SelectionBg" : "SortButtonBrush");
+            btn.SetResourceReference(ForegroundProperty, on ? "SelectionFg" : "TextBrush");
+            btn.Tag = on ? "selected" : null;
         }
 
         // The three sort buttons share a right-click menu (MainWindow.xaml SortMenu) that
