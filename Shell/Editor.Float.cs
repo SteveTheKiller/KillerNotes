@@ -398,7 +398,7 @@ namespace KillerNotes.Shell
             EditorCopyMenuItem.IsEnabled = _ctxObject is Image { Source: System.Windows.Media.Imaging.BitmapSource } || !Editor.Selection.IsEmpty;
             // Whitespace does not count: "convert to list" on a selected space is a no-op that looks
             // like a broken command.
-            bool hasText = !Editor.Selection.IsEmpty && !string.IsNullOrWhiteSpace(Editor.Selection.Text);
+            bool hasText = !Editor.Selection.IsEmpty && SelectionHasVisibleText();
 
             Visibility txt = onObject ? Visibility.Collapsed : Visibility.Visible;
 
@@ -419,6 +419,25 @@ namespace KillerNotes.Shell
             WordWrapMenuItem.Visibility = txt;
             SpellCheckMenuItem.Visibility = txt;
             if (onObject) PreviewMenuItem.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary>True as soon as the selection holds one non-whitespace character. Walks the
+        /// selection run by run and stops at the first hit, where Selection.Text built the whole
+        /// selected text on every right-click; with a select-all on a long note that stalled the
+        /// menu (#19).</summary>
+        private bool SelectionHasVisibleText()
+        {
+            TextPointer end = Editor.Selection.End;
+            for (TextPointer? p = Editor.Selection.Start; p != null && p.CompareTo(end) < 0;
+                 p = p.GetNextContextPosition(LogicalDirection.Forward))
+            {
+                if (p.GetPointerContext(LogicalDirection.Forward) != TextPointerContext.Text) continue;
+                string run = p.GetTextInRun(LogicalDirection.Forward);
+                int len = Math.Min(run.Length, p.GetOffsetToPosition(end));
+                for (int i = 0; i < len; i++)
+                    if (!char.IsWhiteSpace(run[i])) return true;
+            }
+            return false;
         }
 
         /// <summary>

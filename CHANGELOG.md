@@ -13,6 +13,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The wordmarks use Punktype and Lacquer, and the interface text, headings and footers use Killer Sans, in place of the typewriter font in the app and on the website.
 
 ### Fixed
+- Cut and copy finish as soon as the text is on the clipboard instead of stalling for seconds and reporting a busy clipboard, and right-clicking a large selection opens the menu promptly (#19).
 - Kept app icons sharp at fractional display DPI and app zoom by caching exact pixel sizes from a covering source and aligning the final draw to device pixels.
 - Mixed notes highlight commands independently of prose and separators, including pasted lines within one paragraph.
 - Submenus attach consistently to their opening rows, with native direction and screen-edge placement.
