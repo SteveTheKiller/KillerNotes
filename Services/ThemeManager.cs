@@ -431,7 +431,7 @@ namespace KillerNotes.Services
             newDict["DialogCloseMargin"] = flatCaption
                 ? new Thickness(0, System.Math.Max(0, (dlgH - btnH) / 2.0), 4, 0)
                 : new Thickness(0, 6, 6, 0);
-            SetIfAbsent(newDict, "TitleIconSize", 25.0);
+            SetIfAbsent(newDict, "TitleIconSize", 27.0);
             SetIfAbsent(newDict, "TitleIconMargin", new Thickness(0, 0, 7, 0));
             SetIfAbsent(newDict, "TitleBarPadding", new Thickness(14, 0, 0, 0));
             // The main window logo (icon + wordmark) sits 5px off the top-left corner, as in KillerPDF.

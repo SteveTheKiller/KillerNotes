@@ -23,6 +23,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Active and hovered sidebar rail icons show the yellow accent with a dark halo on the Light theme's Yellow accent, instead of near-black.
 - The wordmark has a soft shadow on the Light theme too, so it no longer looks thin on the light title bar, and the dark themes use the same lighter shadow as the rest of the Killer Tools family.
 - "Killer" in the title bar wordmark uses the main text color, so it reads as strongly as in the rest of the family.
+- The title bar icon is 27px and has its own 27px image, so it is a little larger and sharper.
 
 ## [1.4.3] - 2026-10-08
 
