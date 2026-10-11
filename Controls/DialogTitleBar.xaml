@@ -39,7 +39,7 @@
                   Visibility="{DynamicResource WordmarkVisibility}">
                 <Grid.RenderTransform><TranslateTransform Y="-5"/></Grid.RenderTransform>
                 <StackPanel Orientation="Horizontal" Margin="1,2,0,0"
-                            Opacity="{DynamicResource IconShadowOpacity}">
+                            Opacity="{DynamicResource WordmarkShadowOpacity}">
                     <StackPanel.Effect><BlurEffect Radius="3"/></StackPanel.Effect>
                     <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}"><Run Text="Killer" Foreground="#D8000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="#D8000000"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="ShadowSubtitleRun" FontSize="18" Foreground="#D8000000"/></TextBlock>
                 </StackPanel>

@@ -152,7 +152,7 @@ namespace KillerNotes.Controls
             };
             var shadowInk = new SolidColorBrush(Color.FromArgb(0xD8, 0, 0, 0));
             var shadow = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(1, 2, 0, 0) };
-            if (Res("IconShadowOpacity") is double sop) shadow.Opacity = sop;
+            if (Res("WordmarkShadowOpacity") is double sop) shadow.Opacity = sop;
             shadow.Effect = new BlurEffect { Radius = 3 };
             shadow.Children.Add(Text(wf, subtitle, "", "", "", shadowInk));
             mark.Children.Add(shadow);

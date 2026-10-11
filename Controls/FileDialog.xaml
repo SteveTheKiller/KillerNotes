@@ -142,7 +142,7 @@
                              two-run split is preserved: neutral first word, accent second.
                              There is no "The " - that is Killendar's logotype flourish, not this
                              family's, and it read as nonsense on every other app. -->
-                        <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}" Margin="1,2,0,0" Opacity="{DynamicResource IconShadowOpacity}">
+                        <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}" Margin="1,2,0,0" Opacity="{DynamicResource WordmarkShadowOpacity}">
                             <TextBlock.Effect><BlurEffect Radius="3"/></TextBlock.Effect>
                             <Run x:Name="TitleShadowA" Text="{DynamicResource Str_Wordmark_A}" Foreground="#D8000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" x:Name="TitleShadowB" Text="{DynamicResource Str_Wordmark_B}" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="#D8000000"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="TitleSubShadow" FontSize="18" Foreground="#D8000000"/>
                         </TextBlock>

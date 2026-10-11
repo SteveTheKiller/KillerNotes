@@ -192,13 +192,13 @@
                       Visibility="{DynamicResource WordmarkVisibility}">
                     <Grid.RenderTransform><TranslateTransform Y="-5"/></Grid.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="1,2,0,0"
-                                Opacity="{DynamicResource IconShadowOpacity}">
+                                Opacity="{DynamicResource WordmarkShadowOpacity}">
                         <StackPanel.Effect><BlurEffect Radius="3"/></StackPanel.Effect>
                         <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}"><Run Text="Killer" Foreground="#D8000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="#D8000000"/></TextBlock>
                     </StackPanel>
                     <!-- Hard 1px offset copy, NO blur: a stroke-like emboss that gives the wordmark
                          a little depth on a flat theme, which switches the blurred shadow above off
-                         via IconShadowOpacity. WordmarkEmbossOpacity is 0 on every other theme, so
+                         via WordmarkShadowOpacity. WordmarkEmbossOpacity is 0 on every other theme, so
                          they keep the soft shadow alone and nothing doubles up. -->
                     <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}"
                                Margin="1,1,0,0" IsHitTestVisible="False"
@@ -2794,7 +2794,7 @@
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                     <Grid Margin="0,0,0,4" HorizontalAlignment="Left">
                                         <TextBlock FontFamily="{DynamicResource WordmarkFont}" Margin="1,2,0,0" IsHitTestVisible="False"
-                                                   Opacity="{DynamicResource IconShadowOpacity}"><TextBlock.Effect><BlurEffect Radius="2"/></TextBlock.Effect><Run Text="Killer" FontSize="17.21" Foreground="#C0000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="25.85" Foreground="#C0000000"/></TextBlock>
+                                                   Opacity="{DynamicResource WordmarkShadowOpacity}"><TextBlock.Effect><BlurEffect Radius="2"/></TextBlock.Effect><Run Text="Killer" FontSize="17.21" Foreground="#C0000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="25.85" Foreground="#C0000000"/></TextBlock>
                                         <TextBlock FontFamily="{DynamicResource WordmarkFont}" Margin="1,2,0,0" IsHitTestVisible="False"
                                                    Opacity="{DynamicResource WordmarkAccentShadowOpacity}"><TextBlock.Effect><BlurEffect Radius="3"/></TextBlock.Effect><Run Text="Killer" FontSize="17.21" Foreground="Transparent"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="25.85" Foreground="Black"/></TextBlock>
                                         <TextBlock FontFamily="{DynamicResource WordmarkFont}"><Run Text="Killer" FontSize="17.21" Foreground="{DynamicResource TextBrush}"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="25.85" Foreground="{DynamicResource AccentLogo}"/></TextBlock>
