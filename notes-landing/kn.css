@@ -46,9 +46,11 @@ a { color: var(--accent); text-decoration: none; }
 a:hover { filter: brightness(1.15); }
 
 /* ---- Wordmark (rendered as text in the family header faces: Killer in --text, Notes in --accent) ---- */
-/* Family header faces: Killer Sans and Freckle Face, both OFL, licenses in brand/. KtKiller is
-   the "Killer" half of the wordmarks, KtAccent the app-name half. Killer Sans draws small for its
-   em, so size-adjust brings its line widths back to what the old typewriter face set. */
+/* Family faces, licenses in brand/. Text wordmarks pair Punktype (KtPunk, commercial license)
+   for "Killer" with Lacquer (KtAccent, OFL) for the app name, as the apps do. Headings, navigation
+   and labels use Killer Sans (KtKiller, OFL). Killer Sans draws small for its em, so size-adjust
+   brings its line widths back to what the old typewriter face set; KtPunk is scaled so its "K"
+   matches a KtKiller capital. */
 @font-face {
   font-family: 'KtKiller';
   src: url('brand/KillerSans-Regular.ttf') format('truetype');
@@ -56,22 +58,29 @@ a:hover { filter: brightness(1.15); }
   size-adjust: 110%;
 }
 @font-face {
+  font-family: 'KtPunk';
+  src: url('brand/Punktype.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: block;
+  size-adjust: 78.2%;
+}
+@font-face {
   font-family: 'KtAccent';
-  src: url('brand/FreckleFace-Regular.ttf') format('truetype');
+  src: url('brand/Lacquer-Regular.ttf') format('truetype');
   font-weight: normal; font-style: normal; font-display: block;
 }
-/* Header font roles. Each role points at one of the two faces; swap a role between
-   var(--kt-font-killer) and var(--kt-font-accent) to try it across the site. In a text
-   wordmark the accent half is 1.201em with a 0.01em lift: capitals 1.55x "Killer", no gap. */
+/* Header font roles. Each heading role points at Killer Sans; swap one to var(--kt-font-accent)
+   to try Lacquer there instead. In a text wordmark "Killer" is var(--kt-font-wordmark) and the
+   app name is 1.28em of var(--kt-font-accent): capitals 1.55x "Killer", no gap, no lift. */
 :root {
   --kt-font-killer: 'KtKiller', 'Courier New', monospace;
-  --kt-font-accent: 'KtAccent', 'Courier New', monospace;
-  --kt-font-page-title: var(--kt-font-accent);   /* page kickers and big page headings */
+  --kt-font-wordmark: 'KtPunk', 'KtKiller', 'Courier New', monospace;
+  --kt-font-accent: 'KtAccent', 'KtKiller', 'Courier New', monospace;
+  --kt-font-page-title: var(--kt-font-killer);   /* page kickers and big page headings */
   --kt-font-card-title: var(--kt-font-killer);   /* card and section headings */
   --kt-font-section: var(--kt-font-killer);      /* small accent subheadings and labels */
   --kt-font-ui: var(--kt-font-killer);           /* top bar navigation and the KillerMCP link */
 }
-.wm-logo { display: inline-block; width: auto; white-space: nowrap; line-height: 1; font-family: var(--kt-font-killer); font-weight: normal; letter-spacing: 1px;
+.wm-logo { display: inline-block; width: auto; white-space: nowrap; line-height: 1; font-family: var(--kt-font-wordmark); font-weight: normal; letter-spacing: 1px;
   text-shadow: 0 3px 8px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5); }
 .wm-logo .wmk { color: var(--text); }
 .wm-logo .wms { color: var(--accent); font-size: 1.3em; font-weight: bold;
@@ -98,7 +107,7 @@ html[data-theme="light"] .page-title { text-shadow: none; }
 .tb-home { display: inline-flex; align-items: center; gap: 9px; color: var(--text); }
 .tb-home:hover { filter: none; }
 .tb-icon { width: 36px; height: 36px; border-radius: 9px; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.55)); }
-.tb-wm { height: 22px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+.tb-wm { height: 26px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
 .tb-sub { font-size: 12px; color: var(--muted); font-family: Consolas, monospace; }
 .tb-spacer { flex: 1; }
 .help-link { color: var(--accent); font-size: 13px; font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 6px; padding: 4px 12px; }
@@ -301,7 +310,7 @@ body.compact-sidebar .outline a:hover { color: var(--text); background: color-mi
   body .mcp-brand .mcp-suffix { font-size: clamp(22px, 7vw, 28px); }
   .topbar { min-height: 0; padding: 8px 12px; gap: 8px 9px; justify-content: center; }
   .tb-icon { width: 30px; height: 30px; }
-  .tb-wm { height: 18px; }
+  .tb-wm { height: 21px; }
   .tb-spacer { display: none; }
   /* Row 1: home logo on the left, download button pushed to the right */
   .tb-dl { margin-left: auto; padding: 7px 13px; font-size: 12px; }
@@ -334,12 +343,12 @@ html[data-theme="light"] .tb-nav a { text-shadow: none; }
 .tb-mcp-link.on { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent), 0 3px 8px rgba(0,0,0,0.25); }
 .tb-mcp-link img { width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
 .tb-mcp-wordmark { display: inline-flex; align-items: baseline; }
-.tb-mcp-wordmark > span:first-child { font-family: var(--kt-font-killer); }
-.tb-mcp-accent { position: relative; top: -0.01em; color: var(--accent); font-family: var(--kt-font-accent); font-size: 1.201em; line-height: 1; text-shadow: 0 1px 2px rgba(0,0,0,0.45); }
+.tb-mcp-wordmark > span:first-child { font-family: var(--kt-font-wordmark); }
+.tb-mcp-accent { position: relative; top: 0; color: var(--accent); font-family: var(--kt-font-accent); font-size: 1.28em; line-height: 1; text-shadow: 0 1px 2px rgba(0,0,0,0.45); }
 html[data-theme="light"] .tb-mcp-accent { text-shadow: none; }
 /* KillerMCP named inside a heading: same 1.55x rule as every wordmark */
-.killermcp-wordmark { white-space: nowrap; font-family: var(--kt-font-killer); }
-.killermcp-accent { position: relative; top: -0.01em; font-family: var(--kt-font-accent); font-size: 1.201em; line-height: 1; }
+.killermcp-wordmark { white-space: nowrap; font-family: var(--kt-font-wordmark); }
+.killermcp-accent { position: relative; top: 0; font-family: var(--kt-font-accent); font-size: 1.28em; line-height: 1; }
 
 /* Accent flyout: one dot in the header opens a small popup of accents */
 .acc-fly { position: relative; display: inline-flex; align-items: center; }
@@ -351,7 +360,7 @@ html[data-theme="light"] .tb-mcp-accent { text-shadow: none; }
 .acc-pop .acc-pop-label { font-size: 11px; font-family: Consolas, monospace; color: var(--muted); margin-right: 1px; }
 
 /* ============ Landing hero info block (replaces the terminal) ============ */
-.hero-info { background: color-mix(in srgb, var(--modal) 80%, transparent) url('grain.png?v=2') repeat; background-size: 256px 256px; -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); border: 1px solid var(--pane-border); border-left: 2px solid var(--tab-edge); border-right: 2px solid var(--tab-edge); border-radius: 8px; box-shadow: 0 14px 32px rgba(0,0,0,0.4); padding: 15px 14px; font-family: Consolas, monospace; font-size: 13px; line-height: 1.9; flex: 0 0 auto; width: 310px; transition: transform 0.12s, box-shadow 0.15s, border-color 0.12s; }
+.hero-info { background: color-mix(in srgb, var(--modal) 80%, transparent) url('grain.png?v=2') repeat; background-size: 256px 256px; -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); border: 1px solid var(--pane-border); border-left: 2px solid var(--tab-edge); border-right: 2px solid var(--tab-edge); border-radius: 8px; box-shadow: 0 14px 32px rgba(0,0,0,0.4); padding: 15px 14px; font-family: Consolas, monospace; font-size: 13px; line-height: 1.9; flex: 0 0 auto; width: max-content; max-width: 100%; transition: transform 0.12s, box-shadow 0.15s, border-color 0.12s; }
 .hero-info:hover { border-left-color: var(--accent); border-right-color: var(--accent); }
 .hero-info:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); border-top-color: var(--dragline); border-bottom-color: var(--dragline); }
 .hero-info .row { display: flex; gap: 8px; }
@@ -361,7 +370,7 @@ html[data-theme="light"] .tb-mcp-accent { text-shadow: none; }
    midpoint when the box is narrow, or sits on one line when there is room - never ragged. */
 .hero-info .hash { color: var(--muted); min-width: 0; font-size: 11.5px; letter-spacing: -0.2px; line-height: 1.5; align-self: center; }
 .hero-info .hash span { display: block; }
-.hero-info .note { margin-top: 11px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; line-height: 1.55; color: var(--muted); }
+.hero-info .note { width: 0; min-width: 100%; margin-top: 11px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; line-height: 1.55; color: var(--muted); }
 
 /* ============ About page ============ */
 .about-card { background: var(--modal) url('grain.png?v=2') repeat; background-size: 256px 256px; border: 1px solid var(--pane-border); border-radius: 10px; padding: 22px 24px; margin-bottom: 18px; }
@@ -479,7 +488,7 @@ html[data-theme="cyanotic"] .spec-table th { background: var(--chrome); color: v
   }
 
   .content-inner { width: 100%; }
-  .hero-info { width: min(310px, 100%); }
+  .hero-info { width: max-content; max-width: 100%; }
   .mcp-page-grid,
   .mcp-side-column,
   .mcp-main-column,

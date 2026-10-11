@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <script>/* Apply saved theme + accent before first paint to avoid a reload flash */(function(){try{var d=document.documentElement,t=localStorage.getItem('knotes-theme');if(t){d.setAttribute('data-theme',t);if({dark:1,light:1,hc:1}[t]){var v=localStorage.getItem('knotes-av');if(v){var s=v.split('|');d.style.setProperty('--accent',s[0]);d.style.setProperty('--btn',s[1]);}}}}catch(e){}})();</script>
-<link rel="preload" href="brand/KillerSans-Regular.ttf" as="font" type="font/ttf" crossorigin><link rel="preload" href="brand/FreckleFace-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="brand/KillerSans-Regular.ttf" as="font" type="font/ttf" crossorigin><link rel="preload" href="brand/Punktype.ttf" as="font" type="font/ttf" crossorigin><link rel="preload" href="brand/Lacquer-Regular.ttf" as="font" type="font/ttf" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="darkreader-lock">
 <title>KillerNotes - About</title>
@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="kn.css?v=18">
 <style>
 .page-hero { text-align: center; padding: 44px 16px 8px; }
-.page-hero .wm-logo { height: clamp(46px, 8vw, 76px); width: auto; margin: 0 auto 8px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.55)); }
+.page-hero .wm-logo { height: clamp(55px, 9.5vw, 91px); width: auto; margin: 0 auto 8px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.55)); }
 .page-hero p { color: var(--muted); font-size: 15px; margin-top: 4px; }
 .content-inner { max-width: 880px; margin: 0 auto; padding: 0 28px 56px; }
 .sb-tabs .on { border-bottom: 0; }
@@ -30,7 +30,7 @@
 .also-card:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); filter: none; }
 .also-icon { width: 46px; height: 46px; border-radius: 9px; flex-shrink: 0; }
 .also-body { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; min-width: 0; }
-.also-wm { height: 30px; width: auto; display: block; max-width: 100%; object-fit: contain; object-position: left center; }
+.also-wm { height: 36px; width: auto; display: block; max-width: 100%; object-fit: contain; object-position: left center; }
 .also-wm.light { display: none; }
 html[data-theme="light"] .also-wm.dark { display: none; }
 html[data-theme="light"] .also-wm.light { display: block; }
