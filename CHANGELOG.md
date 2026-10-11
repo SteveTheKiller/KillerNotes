@@ -10,7 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Added a Film Grain switch to the theme menu. It is on by default, and turning it off removes the grain texture from every surface.
 
 ### Changed
-- The wordmarks and headings in the app and on the website use Killer Sans and Freckle Face in place of the typewriter font.
+- The wordmarks use Punktype and Lacquer, and the interface text, headings and footers use Killer Sans, in place of the typewriter font in the app and on the website.
 
 ### Fixed
 - Kept app icons sharp at fractional display DPI and app zoom by caching exact pixel sizes from a covering source and aligning the final draw to device pixels.
