@@ -68,14 +68,14 @@ a:hover { filter: brightness(1.15); }
   src: url('brand/Lacquer-Regular.ttf') format('truetype');
   font-weight: normal; font-style: normal; font-display: block;
 }
-/* Header font roles. Each heading role points at Killer Sans; swap one to var(--kt-font-accent)
-   to try Lacquer there instead. In a text wordmark "Killer" is var(--kt-font-wordmark) and the
+/* Header font roles. Lacquer is the primary heading face (page titles) and Killer Sans the
+   secondary one (card and section headings, navigation); swap a role between the two to try it. In a text wordmark "Killer" is var(--kt-font-wordmark) and the
    app name is 1.28em of var(--kt-font-accent): capitals 1.55x "Killer", no gap, no lift. */
 :root {
   --kt-font-killer: 'KtKiller', 'Courier New', monospace;
   --kt-font-wordmark: 'KtPunk', 'KtKiller', 'Courier New', monospace;
   --kt-font-accent: 'KtAccent', 'KtKiller', 'Courier New', monospace;
-  --kt-font-page-title: var(--kt-font-killer);   /* page kickers and big page headings */
+  --kt-font-page-title: var(--kt-font-accent);   /* page kickers and big page headings */
   --kt-font-card-title: var(--kt-font-killer);   /* card and section headings */
   --kt-font-section: var(--kt-font-killer);      /* small accent subheadings and labels */
   --kt-font-ui: var(--kt-font-killer);           /* top bar navigation and the KillerMCP link */
