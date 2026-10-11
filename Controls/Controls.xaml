@@ -1439,29 +1439,36 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Background="Transparent">
-                        <TextBlock Text="{TemplateBinding Content}"
-                                   FontFamily="{TemplateBinding FontFamily}"
-                                   FontSize="{TemplateBinding FontSize}"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="2" Direction="270" Opacity="{DynamicResource IconShadowOpacity}"/>
-                            </TextBlock.Effect>
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-                                    <Style.Triggers>
-                                        <!-- Family pattern (KillerShell/Killendar): Tag="on" lights a
-                                             toggle whose feature is active, in the accent. -->
-                                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" Value="on">
-                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
-                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
+                        <Grid>
+                            <!-- Light/Yellow: the active or hovered glyph shows the yellow accent with the wordmark's
+                                 dark halo behind it, so it reads on white. WordmarkAccentShadowOpacity is 0 on every
+                                 other theme, which leaves both extra layers invisible. -->
+                            <TextBlock Text="{TemplateBinding Content}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#D8000000" IsHitTestVisible="False" Opacity="{DynamicResource WordmarkAccentShadowOpacity}"><TextBlock.RenderTransform><TranslateTransform X="1" Y="2"/></TextBlock.RenderTransform><TextBlock.Effect><BlurEffect Radius="3"/></TextBlock.Effect><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" Value="on"><Setter Property="Visibility" Value="Visible"/></DataTrigger><DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="2" Direction="270" Opacity="{DynamicResource IconShadowOpacity}"/>
+                                </TextBlock.Effect>
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                                        <Style.Triggers>
+                                            <!-- Family pattern (KillerShell/Killendar): Tag="on" lights a
+                                                 toggle whose feature is active, in the accent. -->
+                                            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" Value="on">
+                                                <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Text="{TemplateBinding Content}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource AccentLogo}" IsHitTestVisible="False" Opacity="{DynamicResource WordmarkAccentShadowOpacity}"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" Value="on"><Setter Property="Visibility" Value="Visible"/></DataTrigger><DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

@@ -19,6 +19,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Submenus attach consistently to their opening rows, with native direction and screen-edge placement.
 - The active sort button is filled with the selection color, so it stands out in the Light, 98SE, Greed and Cyanotic themes (#25).
 - Dialog title wordmarks keep the main window's dark halo behind the app name on the Light theme's Yellow accent, so the yellow no longer fades into the title bar.
+- Active and hovered sidebar rail icons show the yellow accent with a dark halo on the Light theme's Yellow accent, instead of near-black.
 
 ## [1.4.3] - 2026-10-08
 
