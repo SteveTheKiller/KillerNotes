@@ -152,6 +152,9 @@
                              the content area as if it were part of the file list.
                              ChromeTextBrush, not MutedTextBrush: muted is mixed against the CONTENT
                              surface and vanishes on a theme that paints a real caption band. -->
+                        <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}" Margin="1,2,0,0" IsHitTestVisible="False" Opacity="{DynamicResource WordmarkAccentShadowOpacity}"><TextBlock.Effect><BlurEffect Radius="3"/></TextBlock.Effect>
+                            <Run Text="{DynamicResource Str_Wordmark_A}" Foreground="Transparent"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="{DynamicResource Str_Wordmark_B}" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="#D8000000"/><Run FontFamily="{DynamicResource BrandSansFont}" FontSize="18" Foreground="Transparent"/>
+                        </TextBlock>
                         <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}">
                             <Run x:Name="TitleWordA" Text="{DynamicResource Str_Wordmark_A}" Foreground="{DynamicResource ChromeTextBrush}"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" x:Name="TitleWordB" Text="{DynamicResource Str_Wordmark_B}" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="{DynamicResource AccentLogo}"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="TitleSub" FontSize="18" Foreground="{DynamicResource ChromeTextBrush}"/>
                         </TextBlock>

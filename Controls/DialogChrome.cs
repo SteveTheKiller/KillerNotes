@@ -156,6 +156,15 @@ namespace KillerNotes.Controls
             shadow.Effect = new BlurEffect { Radius = 3 };
             shadow.Children.Add(Text(wf, subtitle, "", "", "", shadowInk));
             mark.Children.Add(shadow);
+            // Light/Yellow: the accent half is yellow on a light band, so it gets the same dark
+            // halo the main window's wordmark has. WordmarkAccentShadowOpacity is 0 everywhere else.
+            var accentShadow = Text(wf, subtitle, "", "", "", Brushes.Transparent);
+            if (accentShadow.Inlines.ElementAtOrDefault(1) is Run accentRun) accentRun.Foreground = shadowInk;
+            accentShadow.Margin = new Thickness(1, 2, 0, 0);
+            accentShadow.IsHitTestVisible = false;
+            accentShadow.Effect = new BlurEffect { Radius = 3 };
+            accentShadow.SetResourceReference(UIElement.OpacityProperty, "WordmarkAccentShadowOpacity");
+            mark.Children.Add(accentShadow);
 
             // The subtitle takes ChromeTextBrush too, NOT MutedTextBrush. Muted is a color mixed
             // against the CONTENT surface; on a theme that paints a real caption band (98SE's green)
