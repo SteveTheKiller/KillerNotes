@@ -27,6 +27,8 @@ namespace KillerNotes.Controls
         {
             InitializeComponent();
             DialogChrome.SharpenTitleIcon(TitleIcon);
+            // Above the dialog body, so the wordmark's drips hang over it instead of under it.
+            Panel.SetZIndex(this, 1);
         }
 
         private void ApplySubtitle(string? sub)

@@ -108,6 +108,7 @@
     <Resource Include="Resources\kn-note.ico" />
     <Resource Include="Resources\kn-db.ico" />
     <Resource Include="Fonts\KillerSans-Regular.ttf" />
+    <Resource Include="Fonts\KillerSansUI-Regular.ttf" />
     <Resource Include="Fonts\Punktype.ttf" />
     <Resource Include="Fonts\Lacquer-Regular.ttf" />
 	<Resource Include="Resources\open_hand.cur" />

@@ -30,6 +30,9 @@ namespace KillerNotes.Services
     /// </summary>
     public static class ThemeManager
     {
+        /// <summary>Killer Sans UI (Killer Sans scaled to Segoe UI proportions) with the Segoe fallback stack.</summary>
+        internal static readonly FontFamily KillerSansUiStack = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Killer Sans UI, Segoe UI, Microsoft JhengHei UI, Nirmala UI");
+        internal static readonly FontFamily KillerSansFont = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Killer Sans");
         // ---- Persistence hooks (optional). Default: in-memory only. ----
         public static Func<string, string?> GetSetting { get; set; } = _ => null;
         public static Action<string, string> SetSetting { get; set; } = (_, _) => { };
@@ -257,7 +260,7 @@ namespace KillerNotes.Services
             // Caption height and the transparent halo a dialog leaves around itself for its drop
             // shadow. A flat theme wants a short caption and NO halo - the halo is where the resize
             // grab lives, so an invisible one puts the grab handle outside the visible window.
-            SetIfAbsent(newDict, "DialogTitleBarHeight", 28.0);
+            SetIfAbsent(newDict, "DialogTitleBarHeight", 32.0);
             SetIfAbsent(newDict, "DialogHaloMargin", new Thickness(10));
             // The About card's caption band, gated on the same UseDialogCaption flag as the brush
             // above. 0 on every theme that does not ask for a caption, so their cards keep the exact
@@ -275,14 +278,14 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "CaptionButtonMargin", new Thickness(0));
             // Title bar geometry. A beveled theme wants the short Win98 caption with buttons that
             // fill it; everything else keeps the 36px bar and 44x36 hit targets it always had.
-            SetIfAbsent(newDict, "TitleBarHeight", 36.0);
+            SetIfAbsent(newDict, "TitleBarHeight", 32.0);
             SetIfAbsent(newDict, "CaptionButtonWidth", 44.0);
-            SetIfAbsent(newDict, "CaptionButtonHeight", 36.0);
-            SetIfAbsent(newDict, "TitleWordmarkSize", 12.09);
-            SetIfAbsent(newDict, "TitleWordmarkBoldSize", 21.52);
-            // A caption subtitle sits beside the wordmark in Killer Sans, at the size the "Killer"
-            // run would have in that face, so it follows each theme's title size.
-            newDict["TitleSubtitleSize"] = Math.Round((double)newDict["TitleWordmarkSize"] * 0.689 / 0.49, 2);
+            SetIfAbsent(newDict, "CaptionButtonHeight", 32.0);
+            SetIfAbsent(newDict, "TitleWordmarkSize", 15.0);
+            SetIfAbsent(newDict, "TitleWordmarkBoldSize", 22.52);
+            // A caption subtitle sits beside the wordmark in Killer Sans at the titlebar filename size,
+            // the same 18 KillerPDF uses for its dialog qualifiers.
+            newDict["TitleSubtitleSize"] = 18.0;
             SetIfAbsent(newDict, "WordmarkEmbossOpacity", 0.0);
             SetIfAbsent(newDict, "WordmarkAccentShadowOpacity", 0.0);
             // A Win98-style caption has no logotype in it - just the icon and the window's name in
@@ -293,7 +296,10 @@ namespace KillerNotes.Services
             newDict["PlainTitleVisibility"] = flatCaption ? Visibility.Visible : Visibility.Collapsed;
             // The caption's own font. MS Sans Serif is the real Win98 UI face and still ships with
             // Windows; Tahoma is the fallback if it ever stops resolving.
-            SetIfAbsent(newDict, "ChromeFontFamily", new FontFamily("Segoe UI"));
+            SetIfAbsent(newDict, "ChromeFontFamily", KillerSansUiStack);
+            // The UI face: Killer Sans UI over the Segoe stack, except a flat caption theme, which keeps
+            // its classic caption font throughout.
+            SetIfAbsent(newDict, "UiFont", flatCaption ? newDict["ChromeFontFamily"] : KillerSansUiStack);
             // Extra gap before the close button. Win98 sat minimize and maximize flush together and
             // pushed close a couple of pixels clear of them.
             SetIfAbsent(newDict, "CaptionCloseGap", new Thickness(0));
@@ -428,6 +434,21 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "TitleIconSize", 25.0);
             SetIfAbsent(newDict, "TitleIconMargin", new Thickness(0, 0, 7, 0));
             SetIfAbsent(newDict, "TitleBarPadding", new Thickness(14, 0, 0, 0));
+            // The main window logo (icon + wordmark) sits 5px off the top-left corner, as in KillerPDF.
+            // A flat caption keeps its classic inset.
+            SetIfAbsent(newDict, "TitleLogoMargin", flatCaption ? newDict["TitleBarPadding"] : new Thickness(4, 3, 0, 0));
+            // A dialog caption's wordmark sits 6px in from the card edge, as in KillerPDF.
+            SetIfAbsent(newDict, "DialogTitleMargin", flatCaption ? newDict["TitleBarPadding"] : new Thickness(6, 0, 0, 0));
+            // The titlebar database name sits on the wordmark baseline: Killer Sans, dropped 2px to meet the
+            // bottom of "Killer". A flat caption keeps the caption font beside its plain title.
+            SetIfAbsent(newDict, "FileNameFont", flatCaption ? newDict["ChromeFontFamily"] : KillerSansFont);
+            SetIfAbsent(newDict, "FileNameFontSize", flatCaption ? 11.0 : 18.0);
+            if (!newDict.Contains("FileNameTransform"))
+            {
+                var fileNameShift = new TranslateTransform(0, flatCaption ? 0 : 2);
+                fileNameShift.Freeze();
+                newDict["FileNameTransform"] = fileNameShift;
+            }
             // The editor pane's inset. The default keeps the family's 8px right gutter and a FLUSH
             // top, and that is correct on the themes that blend: their title bar, the strip behind
             // the content row and the footer are all the same chrome tier, so the pane meeting the

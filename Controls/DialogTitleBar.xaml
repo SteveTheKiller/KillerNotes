@@ -19,7 +19,7 @@
         <Grid>
             <Border IsHitTestVisible="False" Background="{DynamicResource GrainTileBrush}"
                     Opacity="{DynamicResource GrainOpacity}"/>
-        <Grid Margin="{DynamicResource TitleBarPadding}">
+        <Grid Margin="{DynamicResource DialogTitleMargin}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <!-- The app icon leads the caption, as it does in the main title bar. -->
             <icons:AppIcon x:Name="TitleIcon" IsHitTestVisible="False"
@@ -33,14 +33,17 @@
                        FontFamily="{DynamicResource ChromeFontFamily}"
                        Foreground="{DynamicResource ChromeTextBrush}"
                        Visibility="{DynamicResource PlainTitleVisibility}"/>
-            <Grid HorizontalAlignment="Left" VerticalAlignment="Center"
+            <!-- Same geometry as the main title bar: negative margins keep Lacquer's deep descent out
+                 of the layout so the drips are never clipped, and the 2px lift. -->
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,-18,0,-22"
                   Visibility="{DynamicResource WordmarkVisibility}">
+                <Grid.RenderTransform><TranslateTransform Y="-5"/></Grid.RenderTransform>
                 <StackPanel Orientation="Horizontal" Margin="1,2,0,0"
                             Opacity="{DynamicResource IconShadowOpacity}">
                     <StackPanel.Effect><BlurEffect Radius="3"/></StackPanel.Effect>
-                    <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="11.73"><Run Text="Killer" Foreground="#D8000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="17.62" Foreground="#D8000000"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="ShadowSubtitleRun" FontSize="18" Foreground="#D8000000"/></TextBlock>
+                    <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}"><Run Text="Killer" Foreground="#D8000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="#D8000000"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="ShadowSubtitleRun" FontSize="18" Foreground="#D8000000"/></TextBlock>
                 </StackPanel>
-                <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="11.73"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="17.62" Foreground="{DynamicResource AccentLogo}"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="SubtitleRun" FontSize="18" Foreground="{DynamicResource MutedTextBrush}"/></TextBlock>
+                <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}"><Run Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" Text="Notes" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="{DynamicResource AccentLogo}"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="SubtitleRun" FontSize="18" Foreground="{DynamicResource MutedTextBrush}"/></TextBlock>
             </Grid>
             </Grid>
             </StackPanel>

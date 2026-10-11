@@ -115,7 +115,7 @@
                  identical to BackgroundBrush on the themes that do not, which is why the other
                  palettes look unchanged. -->
             <Border Grid.Row="0" Height="{DynamicResource DialogTitleBarHeight}"
-                    Background="{DynamicResource DialogTitleBarBrush}" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    Background="{DynamicResource DialogTitleBarBrush}" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" Panel.ZIndex="1">
                 <Grid>
                     <Border IsHitTestVisible="False" Background="{DynamicResource GrainTileBrush}"
                             Opacity="{DynamicResource GrainOpacity}"/>
@@ -133,7 +133,8 @@
                         <Run x:Name="TitlePlainA" Text="{DynamicResource Str_Wordmark_A}"/><Run x:Name="TitlePlainB" Text="{DynamicResource Str_Wordmark_B}"/><Run x:Name="TitlePlainSub"/>
                     </TextBlock>
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Left" IsHitTestVisible="False"
-                          Visibility="{DynamicResource WordmarkVisibility}">
+                          Visibility="{DynamicResource WordmarkVisibility}" Margin="0,-18,0,-22">
+                        <Grid.RenderTransform><TranslateTransform Y="-5"/></Grid.RenderTransform>
                         <!-- The wordmark is the HOST app's, not this file's. This dialog is compiled
                              into several apps as linked source, so a hardcoded name showed
                              "KillerPDF" inside KillerNotes. Str_Wordmark_A / _B come from whichever
@@ -141,9 +142,9 @@
                              two-run split is preserved: neutral first word, accent second.
                              There is no "The " - that is Killendar's logotype flourish, not this
                              family's, and it read as nonsense on every other app. -->
-                        <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="11.73" Margin="1,2,0,0" Opacity="{DynamicResource IconShadowOpacity}">
+                        <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}" Margin="1,2,0,0" Opacity="{DynamicResource IconShadowOpacity}">
                             <TextBlock.Effect><BlurEffect Radius="3"/></TextBlock.Effect>
-                            <Run x:Name="TitleShadowA" Text="{DynamicResource Str_Wordmark_A}" Foreground="#D8000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" x:Name="TitleShadowB" Text="{DynamicResource Str_Wordmark_B}" FontSize="17.62" Foreground="#D8000000"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="TitleSubShadow" FontSize="18" Foreground="#D8000000"/>
+                            <Run x:Name="TitleShadowA" Text="{DynamicResource Str_Wordmark_A}" Foreground="#D8000000"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" x:Name="TitleShadowB" Text="{DynamicResource Str_Wordmark_B}" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="#D8000000"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="TitleSubShadow" FontSize="18" Foreground="#D8000000"/>
                         </TextBlock>
                         <!-- The caller's Title rides HERE, to the right of the wordmark, the same
                              shape SketchPad / Databases / Dictation use. It used to be a heading in
@@ -151,8 +152,8 @@
                              the content area as if it were part of the file list.
                              ChromeTextBrush, not MutedTextBrush: muted is mixed against the CONTENT
                              surface and vanishes on a theme that paints a real caption band. -->
-                        <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="11.73">
-                            <Run x:Name="TitleWordA" Text="{DynamicResource Str_Wordmark_A}" Foreground="{DynamicResource ChromeTextBrush}"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" x:Name="TitleWordB" Text="{DynamicResource Str_Wordmark_B}" FontSize="17.62" Foreground="{DynamicResource AccentLogo}"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="TitleSub" FontSize="18" Foreground="{DynamicResource ChromeTextBrush}"/>
+                        <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}">
+                            <Run x:Name="TitleWordA" Text="{DynamicResource Str_Wordmark_A}" Foreground="{DynamicResource ChromeTextBrush}"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" x:Name="TitleWordB" Text="{DynamicResource Str_Wordmark_B}" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="{DynamicResource AccentLogo}"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="TitleSub" FontSize="18" Foreground="{DynamicResource ChromeTextBrush}"/>
                         </TextBlock>
                     </Grid>
                     <!-- The family dialog close - see the note in DialogTitleBar.xaml. Same markup
@@ -233,7 +234,7 @@
                              AutomationProperties.Name="{Binding Text, RelativeSource={RelativeSource Self}}"
                              Background="{DynamicResource TextFieldBrush}"
                              BorderBrush="{DynamicResource InputEdgeBrush}"
-                             FontFamily="Consolas" FontSize="12" Padding="8,0,26,0"
+                             FontFamily="{DynamicResource UiFont}" FontSize="12" Padding="8,0,26,0"
                              VerticalContentAlignment="Center" KeyDown="PathBox_KeyDown"/>
                     <Border IsHitTestVisible="False" BorderBrush="{DynamicResource PaneBevelDarkBrush}"
                             BorderThickness="{DynamicResource FooterCellLightThickness}"/>
@@ -298,7 +299,7 @@
                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding}" FontFamily="Consolas" FontSize="12"
+                                                <TextBlock Text="{Binding}" FontFamily="{DynamicResource UiFont}" FontSize="12"
                                                            TextTrimming="CharacterEllipsis"/>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -380,7 +381,7 @@
                                     <Image Source="{Binding Icon}" Width="16" Height="16" VerticalAlignment="Center"
                                            Margin="0,0,8,0" SnapsToDevicePixels="True"
                                            RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-                                    <TextBlock Text="{Binding Label}" FontFamily="Consolas" FontSize="12" VerticalAlignment="Center"
+                                    <TextBlock Text="{Binding Label}" FontFamily="{DynamicResource UiFont}" FontSize="12" VerticalAlignment="Center"
                                                TextTrimming="CharacterEllipsis"/>
                                 </StackPanel>
                             </DataTemplate>
@@ -524,7 +525,7 @@
                                 </ListBox.ContextMenu>
                             </ListBox>
                             <TextBlock x:Name="EmptyHint" Text="{DynamicResource Str_Dlg_NoMatchingFiles}" Visibility="Collapsed"
-                                       Foreground="{DynamicResource DimTextBrush}" FontFamily="Consolas" FontSize="11"
+                                       Foreground="{DynamicResource DimTextBrush}" FontFamily="{DynamicResource UiFont}" FontSize="11"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"
                                        TextAlignment="Center" Margin="20"/>
                         </Grid>
@@ -547,7 +548,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource Str_Dlg_FileName}" VerticalAlignment="Center"
-                           Margin="0,0,10,0" Foreground="{DynamicResource MutedTextBrush}" FontFamily="Consolas" FontSize="11"/>
+                           Margin="0,0,10,0" Foreground="{DynamicResource MutedTextBrush}" FontFamily="{DynamicResource UiFont}" FontSize="11"/>
                 <!-- Left padding 5, not 8: a TextBox's content host carries its own ~2px inset
                      (WPF's TextBoxView), so at 8 the name started visibly right of the filter
                      combo's text directly below it (combo padding is 7 with no inherent inset).
@@ -560,7 +561,7 @@
                              Style="{StaticResource DarkTextBox}"
                              Background="{DynamicResource TextFieldBrush}"
                              BorderBrush="{DynamicResource InputEdgeBrush}"
-                             FontFamily="Consolas" FontSize="12" Padding="5,0,8,0"
+                             FontFamily="{DynamicResource UiFont}" FontSize="12" Padding="5,0,8,0"
                              VerticalContentAlignment="Center" KeyDown="FileNameBox_KeyDown"/>
                     <Border IsHitTestVisible="False" BorderBrush="{DynamicResource PaneBevelDarkBrush}"
                             BorderThickness="{DynamicResource FooterCellLightThickness}"/>
@@ -569,7 +570,7 @@
                 </Grid>
 
                 <TextBlock x:Name="FilterLabel" Grid.Row="1" Grid.Column="0" Text="{DynamicResource Str_Dlg_FileType}" VerticalAlignment="Center"
-                           Margin="0,8,10,0" Foreground="{DynamicResource MutedTextBrush}" FontFamily="Consolas" FontSize="11"/>
+                           Margin="0,8,10,0" Foreground="{DynamicResource MutedTextBrush}" FontFamily="{DynamicResource UiFont}" FontSize="11"/>
                 <!-- 22, matching the file name box directly above it and the address bar. It was
                      28, so the two fields that read as a pair were visibly different heights. -->
                 <ComboBox x:Name="FilterCombo" Grid.Row="1" Grid.Column="1" Height="22" Margin="0,6,0,0"
@@ -592,9 +593,9 @@
                      (2026-08-07) -->
                 <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,12,0"
                             Visibility="{DynamicResource DialogInlineSelVisibility}">
-                    <TextBlock x:Name="SelName" FontFamily="Consolas" FontSize="12" Foreground="{DynamicResource TextBrush}"
+                    <TextBlock x:Name="SelName" FontFamily="{DynamicResource UiFont}" FontSize="12" Foreground="{DynamicResource TextBrush}"
                                TextTrimming="CharacterEllipsis"/>
-                    <TextBlock x:Name="SelMeta" FontFamily="Consolas" FontSize="10" Foreground="{DynamicResource MutedTextBrush}"
+                    <TextBlock x:Name="SelMeta" FontFamily="{DynamicResource UiFont}" FontSize="10" Foreground="{DynamicResource MutedTextBrush}"
                                TextTrimming="CharacterEllipsis" Margin="0,2,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
@@ -636,7 +637,7 @@
                                 BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
                         <TextBlock Text="{Binding Text, ElementName=SelName}"
                                    Margin="{DynamicResource FooterCellPadding}"
-                                   FontFamily="Consolas" FontSize="11" VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource UiFont}" FontSize="11" VerticalAlignment="Center"
                                    Foreground="{DynamicResource TextBrush}"
                                    TextTrimming="CharacterEllipsis"/>
                     </Grid>
@@ -651,7 +652,7 @@
                                 BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
                         <TextBlock Text="{Binding Text, ElementName=SelMeta}"
                                    Margin="{DynamicResource FooterCellPadding}"
-                                   FontFamily="Consolas" FontSize="11" VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource UiFont}" FontSize="11" VerticalAlignment="Center"
                                    Foreground="{DynamicResource MutedTextBrush}"
                                    TextTrimming="CharacterEllipsis"/>
 

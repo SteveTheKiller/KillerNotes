@@ -141,7 +141,15 @@ namespace KillerNotes.Controls
             };
             markRow.SetResourceReference(UIElement.VisibilityProperty, "WordmarkVisibility");
             markRow.Children.Add(TitleIcon());
-            var mark = new Grid { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center };
+            // Main title bar geometry: negative margins keep Lacquer's deep descent out of the layout
+            // so the caption never clips the drips, plus the same 2px lift.
+            var mark = new Grid
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, -18, 0, -22),
+                RenderTransform = new TranslateTransform(0, -5),
+            };
             var shadowInk = new SolidColorBrush(Color.FromArgb(0xD8, 0, 0, 0));
             var shadow = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(1, 2, 0, 0) };
             if (Res("IconShadowOpacity") is double sop) shadow.Opacity = sop;
