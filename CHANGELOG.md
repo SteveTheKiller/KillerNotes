@@ -4,7 +4,7 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.4.4] - Unreleased
+## [1.5.0] - Unreleased
 
 ### Added
 - Added a Film Grain switch to the theme menu. It is on by default, and turning it off removes the grain texture from every surface.
