@@ -47,7 +47,7 @@ namespace KillerNotes.Controls
             CancelButton.Visibility = showCancel ? Visibility.Visible : Visibility.Collapsed;
             if (!string.IsNullOrEmpty(check1Label))
             {
-                Check1.Content    = check1Label;
+                Check1.Content    = new System.Windows.Controls.TextBlock { Text = check1Label, TextWrapping = TextWrapping.Wrap };
                 Check1.IsChecked  = check1Initial;
                 Check1.Visibility = Visibility.Visible;
             }
@@ -57,6 +57,8 @@ namespace KillerNotes.Controls
         // notice with a single button. The amber darkens on a light card so it keeps its contrast.
         private void ApplyNotice()
         {
+            FitHeading();
+            FitCheckLabels();
             bool confirmation = CancelButton.Visibility == Visibility.Visible;
             System.Windows.Media.Brush brush;
             if (confirmation)
@@ -74,6 +76,39 @@ namespace KillerNotes.Controls
             NoticeGlyph.Text = confirmation ? "!" : "i";
             NoticeGlyph.Foreground = brush;
             NoticeRing.BorderBrush = brush;
+        }
+
+        // Long checkbox labels wrap inside the dialog body instead of running past its edge.
+        private void FitCheckLabels()
+        {
+            foreach (var box in new[] { Check1 })
+                if (box.Content is System.Windows.Controls.TextBlock label && box.Parent is FrameworkElement body && body.ActualWidth > 0)
+                    label.MaxWidth = System.Math.Max(80, body.ActualWidth - box.Margin.Left - box.Margin.Right - 40);
+        }
+
+        // A heading is one short line. Text after its first line break moves into the detail, and
+        // a first line too long for a heading stays body-sized instead of shouting.
+        private void FitHeading()
+        {
+            string text = HeadingText.Text ?? "";
+            int lineBreak = text.IndexOf('\n');
+            if (lineBreak >= 0)
+            {
+                string rest = text.Substring(lineBreak + 1).Trim();
+                HeadingText.Text = text.Substring(0, lineBreak).TrimEnd('\r');
+                if (rest.Length > 0)
+                {
+                    string existing = DetailText.Visibility == Visibility.Visible ? DetailText.Text : "";
+                    DetailText.Text = string.IsNullOrEmpty(existing) ? rest : rest + "\n\n" + existing;
+                    DetailText.Visibility = Visibility.Visible;
+                }
+            }
+            if ((HeadingText.Text ?? "").Length > 90)
+            {
+                HeadingText.ClearValue(System.Windows.Controls.TextBlock.FontFamilyProperty);
+                HeadingText.ClearValue(System.Windows.Media.TextOptions.TextFormattingModeProperty);
+                HeadingText.FontSize = 13;
+            }
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)
