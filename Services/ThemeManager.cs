@@ -802,8 +802,7 @@ namespace KillerNotes.Services
             {
                 if (theme == Theme.SE98 || brush is not SolidColorBrush solid) return brush;
                 var c = solid.Color;
-                var top = Color.FromArgb(c.A, (byte)(c.R + (255 - c.R) * 0.12),
-                    (byte)(c.G + (255 - c.G) * 0.12), (byte)(c.B + (255 - c.B) * 0.12));
+                var top = c;
                 var bottom = Color.FromArgb(c.A, (byte)(c.R * 0.84), (byte)(c.G * 0.84), (byte)(c.B * 0.84));
                 var gradient = new LinearGradientBrush(top, bottom, 90);
                 gradient.Freeze();

@@ -26,6 +26,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The wordmark has a soft shadow on the Light theme too, so it no longer looks thin on the light title bar, and the dark themes use the same lighter shadow as the rest of the Killer Tools family.
 - "Killer" in the title bar wordmark uses the main text color, so it reads as strongly as in the rest of the family.
 - The title bar icon is 27px and has its own 27px image, so it is a little larger and sharper.
+- Button gradients start at the outline color and darken toward the bottom, so a hovered button no longer looks darker than its border.
 - Long checkbox labels in dialogs wrap instead of running past the edge.
 
 ## [1.4.3] - 2026-10-08
