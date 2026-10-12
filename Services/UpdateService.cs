@@ -134,6 +134,7 @@ namespace KillerNotes.Services
                     string appKey    = hive + @"\Software\" + AppInfo.DisplayName;
                     regLines =
                         $"reg add \"{uninstall}\" /v DisplayVersion /t REG_SZ /d \"{newVersion}\" /f >nul 2>&1\r\n" +
+                        $"reg add \"{uninstall}\" /v Publisher /t REG_SZ /d \"Steve the Killer\" /f >nul 2>&1\r\n" +
                         $"reg add \"{appKey}\" /v Version /t REG_SZ /d \"{newVersion}\" /f >nul 2>&1\r\n";
                 }
             }
