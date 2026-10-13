@@ -2007,6 +2007,40 @@
                                 <MenuItem x:Name="LinkMenuItem"
                                           Header="{DynamicResource Str_Ctx_Link}" Icon="&#xE71B;" Click="LinkMenu_Click"
                                           InputGestureText="Ctrl+K"/>
+                                <!-- Table actions (Editor.TableEdit.cs). Collapsed unless the
+                                     right-click landed in a table cell. -->
+                                <MenuItem x:Name="TableSeparator" IsHitTestVisible="False" Focusable="False"
+                                          Height="9" Visibility="Collapsed">
+                                    <MenuItem.Template>
+                                        <ControlTemplate TargetType="MenuItem">
+                                            <Border Height="1" Margin="10,4" Background="{DynamicResource MenuBorderBrush}"/>
+                                        </ControlTemplate>
+                                    </MenuItem.Template>
+                                </MenuItem>
+                                <MenuItem x:Name="TableMenuItem" Header="{DynamicResource Str_Ctx_Table}" Icon="&#xE8A9;"
+                                          Visibility="Collapsed">
+                                    <MenuItem x:Name="TblRowAboveMenuItem" Header="{DynamicResource Str_Ctx_TblRowAbove}" Icon="&#xE74A;" Click="TableRowAbove_Click"
+                                              InputGestureText="Ctrl+Shift+1"/>
+                                    <MenuItem x:Name="TblRowBelowMenuItem" Header="{DynamicResource Str_Ctx_TblRowBelow}" Icon="&#xE74B;" Click="TableRowBelow_Click"
+                                              InputGestureText="Ctrl+Shift+2"/>
+                                    <MenuItem x:Name="TblColLeftMenuItem" Header="{DynamicResource Str_Ctx_TblColLeft}" Icon="&#xE72B;" Click="TableColLeft_Click"
+                                              InputGestureText="Ctrl+Shift+3"/>
+                                    <MenuItem x:Name="TblColRightMenuItem" Header="{DynamicResource Str_Ctx_TblColRight}" Icon="&#xE72A;" Click="TableColRight_Click"
+                                              InputGestureText="Ctrl+Shift+4"/>
+                                    <MenuItem IsHitTestVisible="False" Focusable="False" Height="9">
+                                        <MenuItem.Template>
+                                            <ControlTemplate TargetType="MenuItem">
+                                                <Border Height="1" Margin="10,4" Background="{DynamicResource MenuBorderBrush}"/>
+                                            </ControlTemplate>
+                                        </MenuItem.Template>
+                                    </MenuItem>
+                                    <MenuItem x:Name="TblDelRowMenuItem" Header="{DynamicResource Str_Ctx_TblDelRow}" Icon="&#xE738;" Click="TableDelRow_Click"
+                                              InputGestureText="Ctrl+Shift+7"/>
+                                    <MenuItem x:Name="TblDelColMenuItem" Header="{DynamicResource Str_Ctx_TblDelCol}" Icon="&#xE738;" Click="TableDelCol_Click"
+                                              InputGestureText="Ctrl+Shift+8"/>
+                                    <MenuItem x:Name="TblDeleteMenuItem" Header="{DynamicResource Str_Ctx_TblDelete}" Icon="&#xE74D;" Click="TableDelete_Click"
+                                              InputGestureText="Ctrl+Shift+9"/>
+                                </MenuItem>
                                 <MenuItem x:Name="DocToggleSeparator" IsHitTestVisible="False" Focusable="False" Height="9">
                                     <MenuItem.Template>
                                         <ControlTemplate TargetType="MenuItem">

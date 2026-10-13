@@ -525,6 +525,14 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_St_PreviewGlobalOff">Detecção de Markdown e HTML desativada</sys:String>
     <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
     <sys:String x:Key="Str_Ctx_ConvertList">Converter em lista</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Tabela</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Inserir linha acima</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Inserir linha abaixo</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Inserir coluna à esquerda</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Inserir coluna à direita</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Excluir linha</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Excluir coluna</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Excluir tabela</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Transformar as linhas selecionadas - ou as palavras de uma frase - em uma lista separada por vírgulas</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Seleção para lista separada por vírgulas</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} valores convertidos em lista separada por vírgulas</sys:String>

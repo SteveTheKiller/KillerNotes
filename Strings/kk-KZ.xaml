@@ -494,6 +494,14 @@
     <sys:String x:Key="Str_St_PreviewGlobalOn">markdown және HTML анықтау қосулы</sys:String>
     <sys:String x:Key="Str_St_PreviewGlobalOff">markdown және HTML анықтау өшірулі</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertList">Тізімге айналдыру</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Кесте</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Жоғарыға жол кірістіру</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Төменге жол кірістіру</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Сол жаққа баған кірістіру</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Оң жаққа баған кірістіру</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Жолды жою</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Бағанды жою</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Кестені жою</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Таңдалған жолдарды - немесе бір сөйлемдегі сөздерді - үтірмен бөлінген тізімге айналдыру</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Таңдалғанды үтірлі тізімге</sys:String>
     <sys:String x:Key="Str_St_ListMade">Үтірлі тізімге айналдырылған мәндер: {0}</sys:String>

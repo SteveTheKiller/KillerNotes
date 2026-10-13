@@ -63,6 +63,13 @@ namespace KillerNotes.Shell
             new("Alt+8", Key.D8, ModifierKeys.Alt, "Str_TT_SidebarReplace", "Search", w => w.SidebarReplace_Click(w, new RoutedEventArgs()), "SidebarReplaceBtn"),
             new("Alt+9", Key.D9, ModifierKeys.Alt, "Str_TT_SidebarReplaceAll", "Search", w => w.SidebarReplaceAll_Click(w, new RoutedEventArgs())),
             new("Alt+7", Key.D7, ModifierKeys.Alt, "Str_Ctx_ReverseOrder", "View", w => w.SortMenuItem_Click(new MenuItem { Tag = "reverse" }, new RoutedEventArgs())),
+            new("Ctrl+Shift+1", Key.D1, ModifierKeys.Control | ModifierKeys.Shift, "Str_Ctx_TblRowAbove", "Format", w => w.RunTableAction(w.TableRowAbove_Click), "TblRowAboveMenuItem"),
+            new("Ctrl+Shift+2", Key.D2, ModifierKeys.Control | ModifierKeys.Shift, "Str_Ctx_TblRowBelow", "Format", w => w.RunTableAction(w.TableRowBelow_Click), "TblRowBelowMenuItem"),
+            new("Ctrl+Shift+3", Key.D3, ModifierKeys.Control | ModifierKeys.Shift, "Str_Ctx_TblColLeft", "Format", w => w.RunTableAction(w.TableColLeft_Click), "TblColLeftMenuItem"),
+            new("Ctrl+Shift+4", Key.D4, ModifierKeys.Control | ModifierKeys.Shift, "Str_Ctx_TblColRight", "Format", w => w.RunTableAction(w.TableColRight_Click), "TblColRightMenuItem"),
+            new("Ctrl+Shift+7", Key.D7, ModifierKeys.Control | ModifierKeys.Shift, "Str_Ctx_TblDelRow", "Format", w => w.RunTableAction(w.TableDelRow_Click), "TblDelRowMenuItem"),
+            new("Ctrl+Shift+8", Key.D8, ModifierKeys.Control | ModifierKeys.Shift, "Str_Ctx_TblDelCol", "Format", w => w.RunTableAction(w.TableDelCol_Click), "TblDelColMenuItem"),
+            new("Ctrl+Shift+9", Key.D9, ModifierKeys.Control | ModifierKeys.Shift, "Str_Ctx_TblDelete", "Format", w => w.RunTableAction(w.TableDelete_Click), "TblDeleteMenuItem"),
         ];
 
         private static IEnumerable<KsBinding> ActionShortcutRows() =>

@@ -417,6 +417,14 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_PreviewGlobalOn">Wykrywanie markdown i HTML włączone</sys:String>
     <sys:String x:Key="Str_St_PreviewGlobalOff">Wykrywanie markdown i HTML wyłączone</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertList">Zamień na listę</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Tabela</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Wstaw wiersz powyżej</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Wstaw wiersz poniżej</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Wstaw kolumnę z lewej</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Wstaw kolumnę z prawej</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Usuń wiersz</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Usuń kolumnę</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Usuń tabelę</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Zamienia zaznaczone wiersze - albo słowa w jednym zdaniu - na listę rozdzieloną przecinkami</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Zaznaczenie na listę z przecinkami</sys:String>
     <sys:String x:Key="Str_St_ListMade">Zamieniono {0} wartości na listę z przecinkami</sys:String>

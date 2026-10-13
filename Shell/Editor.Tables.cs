@@ -266,29 +266,7 @@ namespace KillerNotes.Shell
             // A table cannot survive in a markdown note's stored text (Markdown.cs).
             if (RejectsObject()) return;
 
-            var table = new Table { CellSpacing = 0, Margin = new Thickness(0, 6, 0, 6) };
-            table.SetResourceReference(Table.BorderBrushProperty, "CardBorderBrush");
-            table.BorderThickness = new Thickness(1, 1, 0, 0);
-
-            for (int c = 0; c < cols; c++) table.Columns.Add(new TableColumn());
-
-            var group = new TableRowGroup();
-            for (int r = 0; r < rows; r++)
-            {
-                var row = new TableRow();
-                for (int c = 0; c < cols; c++)
-                {
-                    var cell = new TableCell(new Paragraph(new Run("")))
-                    {
-                        BorderThickness = new Thickness(0, 0, 1, 1),
-                        Padding = new Thickness(6, 3, 6, 3),
-                    };
-                    cell.SetResourceReference(TableCell.BorderBrushProperty, "CardBorderBrush");
-                    row.Cells.Add(cell);
-                }
-                group.Rows.Add(row);
-            }
-            table.RowGroups.Add(group);
+            Table table = BuildTable(rows, cols);   // Editor.TableEdit.cs, shared with table paste
 
             var para = Editor.CaretPosition.Paragraph;
             if (para != null && para.Parent is FlowDocument doc) doc.Blocks.InsertAfter(para, table);

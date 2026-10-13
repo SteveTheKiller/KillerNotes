@@ -388,6 +388,14 @@
     <sys:String x:Key="Str_TT_TitleColor">为此笔记在列表中的标题着色</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColorReset">重置标题颜色</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertList">转换为列表</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">表格</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">在上方插入行</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">在下方插入行</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">在左侧插入列</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">在右侧插入列</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">删除行</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">删除列</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">删除表格</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">将所选行转换为逗号分隔的列表</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">所选内容转为逗号列表</sys:String>
     <sys:String x:Key="Str_St_ListMade">已将 {0} 个值转换为逗号列表</sys:String>

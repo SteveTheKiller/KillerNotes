@@ -389,6 +389,14 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_TT_TitleColor">Colorer le titre de cette note dans la liste</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColorReset">Réinitialiser la couleur du titre</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertList">Convertir en liste</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Tableau</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Insérer une ligne au-dessus</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Insérer une ligne en dessous</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Insérer une colonne à gauche</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Insérer une colonne à droite</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Supprimer la ligne</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Supprimer la colonne</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Supprimer le tableau</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Transformer les lignes sélectionnées en liste séparée par des virgules</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Sélection en liste séparée par des virgules</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} valeurs converties en liste séparée par des virgules</sys:String>

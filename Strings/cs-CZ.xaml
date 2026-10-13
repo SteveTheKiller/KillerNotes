@@ -375,6 +375,14 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColorReset">Obnovit barvu názvu</sys:String>
     <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
     <sys:String x:Key="Str_Ctx_ConvertList">Převést na seznam</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Tabulka</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Vložit řádek nad</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Vložit řádek pod</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Vložit sloupec vlevo</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Vložit sloupec vpravo</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Odstranit řádek</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Odstranit sloupec</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Odstranit tabulku</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Převede vybrané řádky - nebo slova v jedné větě - na seznam oddělený čárkami</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Výběr na seznam s čárkami</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} hodnot převedeno na seznam s čárkami</sys:String>

@@ -7,6 +7,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.5.0] - Unreleased
 
 ### Added
+- Pasting tab separated, space separated or CSV data into a table fills its cells from the caret, adding rows and columns as needed.
+- Right-clicking in a table opens a Table menu to insert rows above or below, insert columns left or right, and delete a row, a column or the whole table. Each action also has a shortcut, Ctrl+Shift+1 to 4 for inserting and Ctrl+Shift+7 to 9 for deleting.
 - Added a Film Grain switch to the theme menu. It is on by default, and turning it off removes the grain texture from every surface.
 
 ### Changed
@@ -15,6 +17,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 - Cut and copy finish as soon as the text is on the clipboard instead of stalling for seconds and reporting a busy clipboard, and right-clicking a large selection opens the menu promptly (#19).
+- A table copied from a web page, Excel or Word pastes as a table with all of its rows, instead of as lines of text.
+- Selecting a table and pressing Delete or Backspace removes the table instead of leaving an empty grid behind.
 - Search highlights stay visible after replacing a match without needing to scroll (#27).
 - Kept app icons sharp at fractional display DPI and app zoom by caching exact pixel sizes from a covering source and aligning the final draw to device pixels.
 - Mixed notes highlight commands independently of prose and separators, including pasted lines within one paragraph.

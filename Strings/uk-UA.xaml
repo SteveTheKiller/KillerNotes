@@ -525,6 +525,14 @@
     <sys:String x:Key="Str_St_PreviewGlobalOff">Розпізнавання Markdown і HTML вимкнено</sys:String>
     <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
     <sys:String x:Key="Str_Ctx_ConvertList">Перетворити на список</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Таблиця</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Вставити рядок вище</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Вставити рядок нижче</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Вставити стовпець ліворуч</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Вставити стовпець праворуч</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Видалити рядок</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Видалити стовпець</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Видалити таблицю</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Перетворити вибрані рядки - або слова одного речення - на список через кому</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Виділене у список через кому</sys:String>
     <sys:String x:Key="Str_St_ListMade">Значень перетворено на список через кому: {0}</sys:String>

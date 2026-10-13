@@ -487,6 +487,14 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_PreviewGlobalOff">Markdown és HTML észlelés kikapcsolva</sys:String>
     <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
     <sys:String x:Key="Str_Ctx_ConvertList">Konvertálás listára</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Táblázat</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Sor beszúrása fölé</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Sor beszúrása alá</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Oszlop beszúrása balra</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Oszlop beszúrása jobbra</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Sor törlése</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Oszlop törlése</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Táblázat törlése</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">A kijelölt sorokat - vagy egy mondatban lévő szavakat - vesszővel elválasztott listává alakítsa</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Kijelölés vesszős listára</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} érték vesszős listává konvertálva</sys:String>

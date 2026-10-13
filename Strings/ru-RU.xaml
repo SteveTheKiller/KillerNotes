@@ -494,6 +494,14 @@
     <sys:String x:Key="Str_St_PreviewGlobalOn">Определение markdown и HTML включено</sys:String>
     <sys:String x:Key="Str_St_PreviewGlobalOff">Определение markdown и HTML выключено</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertList">Преобразовать в список</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Таблица</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Вставить строку выше</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Вставить строку ниже</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Вставить столбец слева</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Вставить столбец справа</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Удалить строку</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Удалить столбец</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Удалить таблицу</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Превратить выделенные строки - или слова одного предложения - в список через запятую</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Выделение в список через запятую</sys:String>
     <sys:String x:Key="Str_St_ListMade">Значений преобразовано в список через запятую: {0}</sys:String>

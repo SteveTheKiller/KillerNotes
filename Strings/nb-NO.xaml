@@ -523,6 +523,14 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_St_PreviewGlobalOff">Gjenkjenning av Markdown og HTML er av</sys:String>
     <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
     <sys:String x:Key="Str_Ctx_ConvertList">Konverter til liste</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Tabell</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Sett inn rad over</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Sett inn rad under</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Sett inn kolonne til venstre</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Sett inn kolonne til høyre</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Slett rad</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Slett kolonne</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Slett tabell</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Gjør de valgte linjene - eller ordene i én setning - om til en kommaseparert liste</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Markering til kommaliste</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} verdier er konvertert til en kommaliste</sys:String>

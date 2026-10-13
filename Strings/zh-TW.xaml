@@ -389,6 +389,14 @@
     <sys:String x:Key="Str_Ctx_TitleColorReset">重設標題色彩</sys:String>
     <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
     <sys:String x:Key="Str_Ctx_ConvertList">轉換為清單</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">表格</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">在上方插入列</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">在下方插入列</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">在左側插入欄</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">在右側插入欄</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">刪除列</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">刪除欄</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">刪除表格</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">將選取的行轉為以逗號分隔的清單</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">選取範圍轉為逗號清單</sys:String>
     <sys:String x:Key="Str_St_ListMade">已將 {0} 個值轉為逗號清單</sys:String>

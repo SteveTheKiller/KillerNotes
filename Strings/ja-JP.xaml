@@ -388,6 +388,14 @@
     <sys:String x:Key="Str_TT_TitleColor">一覧でこのノートのタイトルに色を付けます</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColorReset">タイトルの色をリセット</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertList">リストに変換</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">表</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">上に行を挿入</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">下に行を挿入</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">左に列を挿入</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">右に列を挿入</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">行を削除</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">列を削除</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">表を削除</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">選択した行をカンマ区切りのリストに変換します</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">選択範囲をカンマ区切りリストに</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} 個の値をカンマ区切りリストに変換しました</sys:String>

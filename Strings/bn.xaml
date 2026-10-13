@@ -389,6 +389,14 @@
     <sys:String x:Key="Str_Ctx_TitleColorReset">শিরোনামের রং রিসেট করুন</sys:String>
     <!-- Convert selection to a comma-separated list -->
     <sys:String x:Key="Str_Ctx_ConvertList">তালিকায় রূপান্তর করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">টেবিল</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">উপরে সারি যোগ করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">নিচে সারি যোগ করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">বাঁয়ে কলাম যোগ করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">ডানে কলাম যোগ করুন</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">সারি মুছুন</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">কলাম মুছুন</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">টেবিল মুছুন</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">নির্বাচিত লাইনগুলোকে কমা দিয়ে আলাদা তালিকায় পরিণত করুন</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">নির্বাচন কমা তালিকায়</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0}টি মান কমা তালিকায় রূপান্তর হয়েছে</sys:String>

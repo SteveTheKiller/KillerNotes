@@ -494,6 +494,14 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_St_PreviewGlobalOn">Rilevamento di markdown e HTML attivato</sys:String>
     <sys:String x:Key="Str_St_PreviewGlobalOff">Rilevamento di markdown e HTML disattivato</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertList">Converti in elenco</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Tabella</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Inserisci riga sopra</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Inserisci riga sotto</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Inserisci colonna a sinistra</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Inserisci colonna a destra</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Elimina riga</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Elimina colonna</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Elimina tabella</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Trasforma le righe selezionate - o le parole di una frase - in un elenco separato da virgole</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Selezione in elenco separato da virgole</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} valori convertiti in un elenco separato da virgole</sys:String>

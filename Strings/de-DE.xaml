@@ -389,6 +389,14 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_TT_TitleColor">Den Titel dieser Notiz in der Liste einfärben</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColorReset">Titelfarbe zurücksetzen</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertList">In Liste umwandeln</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Tabelle</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Zeile oberhalb einfügen</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Zeile unterhalb einfügen</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Spalte links einfügen</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Spalte rechts einfügen</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Zeile löschen</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Spalte löschen</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Tabelle löschen</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Die ausgewählten Zeilen in eine kommagetrennte Liste umwandeln</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Auswahl in Komma-Liste</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} Werte in eine Komma-Liste umgewandelt</sys:String>

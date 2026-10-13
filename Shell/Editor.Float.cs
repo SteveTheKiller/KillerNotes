@@ -419,6 +419,7 @@ namespace KillerNotes.Shell
             WordWrapMenuItem.Visibility = txt;
             SpellCheckMenuItem.Visibility = txt;
             if (onObject) PreviewMenuItem.Visibility = Visibility.Collapsed;
+            UpdateTableMenu(onObject);   // Editor.TableEdit.cs
         }
 
         /// <summary>True as soon as the selection holds one non-whitespace character. Walks the

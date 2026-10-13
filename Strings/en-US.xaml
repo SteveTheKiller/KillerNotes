@@ -525,6 +525,14 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_PreviewGlobalOff">Markdown and HTML detection off</sys:String>
     <!-- Convert selection to a comma-separated list (1.0.3, Ctrl+Shift+J) -->
     <sys:String x:Key="Str_Ctx_ConvertList">Convert to list</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Table</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Insert row above</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Insert row below</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Insert column left</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Insert column right</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Delete row</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Delete column</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Delete table</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Turn the selected lines - or the words in one sentence - into a comma-separated list</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Selection to comma list</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} values converted to a comma list</sys:String>

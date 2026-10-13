@@ -390,6 +390,14 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_TT_TitleColor">Colorear el título de esta nota en la lista</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColorReset">Restablecer color del título</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertList">Convertir en lista</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Tabla</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Insertar fila arriba</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Insertar fila abajo</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Insertar columna a la izquierda</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Insertar columna a la derecha</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Eliminar fila</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Eliminar columna</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Eliminar tabla</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Convierte las líneas seleccionadas en una lista separada por comas</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Selección a lista separada por comas</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} valores convertidos en una lista separada por comas</sys:String>

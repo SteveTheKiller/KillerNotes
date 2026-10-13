@@ -25,6 +25,7 @@ namespace KillerNotes.Shell
             InitLinks();         // Links.cs (clickable + pasted + Ctrl+K hyperlinks)
             InitTiltWheel();     // TiltWheel.cs (WM_MOUSEHWHEEL + Shift+wheel, issue #9)
             InitTableSizePicker();
+            InitTableEditing();  // Editor.TableEdit.cs (table paste, delete, Table menu)
             InitFormatBar();
             InitImageResize();   // click-to-resize handles on note images (ImageResize.cs)
             InitEditorView();    // remembered zoom + Ctrl+wheel (below)
@@ -56,6 +57,11 @@ namespace KillerNotes.Shell
 
         private void Editor_OnPaste(object sender, DataObjectPastingEventArgs e)
         {
+            // Copied tables, and rows of data pasted into a table (Editor.TableEdit.cs). A
+            // KillerNotes copy (XamlPackage) keeps the native paste unless it lands in a table.
+            if ((!e.DataObject.GetDataPresent(DataFormats.XamlPackage) || CellAt(Editor.Selection.Start) != null) &&
+                TryPasteTable(e)) return;
+
             // CherryTree and browsers put links on the clipboard as HTML + plain text
             // with no RTF - and WPF's native paste has no HTML path, so those links
             // died to plain text. Convert the HTML ourselves when it carries links

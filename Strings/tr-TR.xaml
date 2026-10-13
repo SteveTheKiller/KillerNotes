@@ -389,6 +389,14 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_TT_TitleColor">Bu notun başlığını listede renklendir</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColorReset">Başlık rengini sıfırla</sys:String>
     <sys:String x:Key="Str_Ctx_ConvertList">Listeye dönüştür</sys:String>
+    <sys:String x:Key="Str_Ctx_Table">Tablo</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowAbove">Üste satır ekle</sys:String>
+    <sys:String x:Key="Str_Ctx_TblRowBelow">Alta satır ekle</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColLeft">Sola sütun ekle</sys:String>
+    <sys:String x:Key="Str_Ctx_TblColRight">Sağa sütun ekle</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelRow">Satırı sil</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelCol">Sütunu sil</sys:String>
+    <sys:String x:Key="Str_Ctx_TblDelete">Tabloyu sil</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Seçili satırları virgülle ayrılmış bir listeye dönüştür</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Seçimi virgüllü listeye dönüştür</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} değer virgüllü listeye dönüştürüldü</sys:String>
