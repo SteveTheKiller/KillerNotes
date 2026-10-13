@@ -21,6 +21,8 @@ namespace KillerFamily.Accessibility
             "OwnedName", typeof(BindingBase), typeof(AccessibleControls));
         private static readonly DependencyProperty TrackedTooltipProperty = DependencyProperty.RegisterAttached(
             "TrackedTooltip", typeof(bool), typeof(AccessibleControls), new PropertyMetadata(false));
+        private static readonly DependencyProperty TrackedLoadProperty = DependencyProperty.RegisterAttached(
+            "TrackedLoad", typeof(bool), typeof(AccessibleControls), new PropertyMetadata(false));
         private static readonly DependencyPropertyDescriptor TooltipDescriptor =
             DependencyPropertyDescriptor.FromProperty(FrameworkElement.ToolTipProperty, typeof(Control));
 
@@ -28,21 +30,37 @@ namespace KillerFamily.Accessibility
         {
             if (_initialized) return;
             _initialized = true;
-            EventManager.RegisterClassHandler(typeof(Control), FrameworkElement.LoadedEvent,
-                new RoutedEventHandler(OnControlLoaded), true);
+            EventManager.RegisterClassHandler(typeof(Control), FrameworkElement.SizeChangedEvent,
+                new SizeChangedEventHandler(OnControlSizeChanged), true);
+        }
+
+        private static void OnControlSizeChanged(object sender, SizeChangedEventArgs args)
+        {
+            if (sender is not Control control) return;
+            // A class Loaded handler alone does not make WPF broadcast Loaded to every child.
+            // The first layout attaches an instance handler, including for later popup content.
+            if (!(bool)control.GetValue(TrackedLoadProperty))
+            {
+                control.Loaded += OnControlLoaded;
+                control.SetValue(TrackedLoadProperty, true);
+            }
+            Prepare(control);
         }
 
         private static void OnControlLoaded(object sender, RoutedEventArgs args)
         {
             var control = sender as Control;
-            if (control == null || !ReferenceEquals(args.OriginalSource, control)) return;
+            if (control == null) return;
             Prepare(control);
+            if (control is Window window)
+                window.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ApplicationIdle,
+                    new Action(() => AccessibilityAudit.Record(window)));
         }
 
         internal static void Prepare(Control control)
         {
             // The focus adorner is shown by WPF for keyboard navigation, without changing layout.
-            if (control.Focusable && control.FocusVisualStyle == null)
+            if (control is not Window && control.Focusable && control.FocusVisualStyle == null)
                 control.SetCurrentValue(Control.FocusVisualStyleProperty, FocusStyle);
 
             UpdateName(control);
@@ -62,6 +80,12 @@ namespace KillerFamily.Accessibility
                 control.ClearValue(OwnedNameProperty);
                 return;
             }
+            if (!(bool)control.GetValue(TrackedTooltipProperty))
+            {
+                TooltipDescriptor.AddValueChanged(control, OnTooltipChanged);
+                control.Unloaded += OnControlUnloaded;
+                control.SetValue(TrackedTooltipProperty, true);
+            }
             if (!IsReadable(ReadText(control.ToolTip)))
             {
                 if (owned) BindingOperations.ClearBinding(control, AutomationProperties.NameProperty);
@@ -76,12 +100,6 @@ namespace KillerFamily.Accessibility
                 : new Binding(nameof(FrameworkElement.ToolTip)) { Source = control, Converter = TooltipName };
             BindingOperations.SetBinding(control, AutomationProperties.NameProperty, binding);
             control.SetValue(OwnedNameProperty, binding);
-            if (!(bool)control.GetValue(TrackedTooltipProperty))
-            {
-                TooltipDescriptor.AddValueChanged(control, OnTooltipChanged);
-                control.Unloaded += OnControlUnloaded;
-                control.SetValue(TrackedTooltipProperty, true);
-            }
         }
 
         private static TextBlock? FindTextBlock(object? value)
@@ -104,7 +122,7 @@ namespace KillerFamily.Accessibility
 
         private static void OnControlUnloaded(object sender, RoutedEventArgs args)
         {
-            if (sender is not Control control || !ReferenceEquals(args.OriginalSource, control)) return;
+            if (sender is not Control control) return;
             TooltipDescriptor.RemoveValueChanged(control, OnTooltipChanged);
             control.Unloaded -= OnControlUnloaded;
             control.SetValue(TrackedTooltipProperty, false);
