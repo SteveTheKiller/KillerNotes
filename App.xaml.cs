@@ -61,8 +61,7 @@ namespace KillerNotes
             if (e.Args.Length > 0 &&
                 string.Equals(e.Args[0], "/silent", StringComparison.OrdinalIgnoreCase))
             {
-                DoSilentInstall();
-                Shutdown(0);
+                Shutdown(DoSilentInstall());
                 return;
             }
 
@@ -477,10 +476,11 @@ namespace KillerNotes
         }
 
         // Silent (machine-wide) install -- used by winget / choco / RMM
-        private static void DoSilentInstall()
+        private static int DoSilentInstall()
         {
             try
             {
+                using var installLease = KillerFamily.Deployment.InstallerExitCodes.Acquire(AppName);
                 string installDir = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), AppName);
                 string installExe = Path.Combine(installDir, ExeName);
@@ -522,11 +522,12 @@ namespace KillerNotes
                 // accounts can read them. This pass runs elevated by definition.
                 RegisterFileAssociations(Registry.LocalMachine, installExe,
                     Path.Combine(installDir, "icons"));
+                return KillerFamily.Deployment.InstallerExitCodes.Success;
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine($"Silent install failed: {ex.Message}");
-                Environment.Exit(1);
+                return KillerFamily.Deployment.InstallerExitCodes.FromException(ex);
             }
         }
 
