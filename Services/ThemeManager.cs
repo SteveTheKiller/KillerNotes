@@ -480,6 +480,7 @@ namespace KillerNotes.Services
             // below it. Those are controls sitting on the window face, and painting them the client
             // color makes the whole sidebar look like one big edit field.
             SetIfAbsent(newDict, "ListPaneBrush", new SolidColorBrush(Colors.Transparent));
+            if (!newDict.Contains("ContentPaneBrush")) newDict["ContentPaneBrush"] = newDict["PaneBrush"];
             // The notes list's top and bottom scroll fades. 1 keeps them; a retro theme sets 0.
             // Opacity rather than Visibility because Sidebar.cs drives Visibility from scroll
             // position - overriding that would fight the code every time the list moves.

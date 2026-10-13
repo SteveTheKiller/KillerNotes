@@ -1575,7 +1575,7 @@
                  rendered as a hard 5px stripe, and bare, the shader surface dropped out at some
                  accessibility-zoom scales and not others - gone at 102% magnification, back
                  at 104 (2026-08-08). Geometry cannot do any of that. -->
-            <Border x:Name="ContentPane" Grid.Column="2" Background="{DynamicResource PaneBrush}"
+            <Border x:Name="ContentPane" Grid.Column="2" Background="{DynamicResource ContentPaneBrush}"
                     BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                     CornerRadius="{DynamicResource PanelCornerRadius}" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="9"/>
             <!-- NOTHING CASTS ONTO THE FOOTER. KillerScan and KillerPDF are the family baseline
@@ -1607,7 +1607,7 @@
                     BorderBrush="{DynamicResource PaneBevelDark2Brush}" BorderThickness="{DynamicResource PaneBevel2LightThickness}"/>
             <Border Grid.Column="2" Margin="{DynamicResource ContentPaneInnerMargin}" Panel.ZIndex="11" IsHitTestVisible="False"
                     BorderBrush="{DynamicResource PaneBevelLight2Brush}" BorderThickness="{DynamicResource PaneBevel2DarkThickness}"/>
-            <Border Grid.Column="2" Background="{DynamicResource PaneBrush}"
+            <Border Grid.Column="2" Background="{DynamicResource ContentPaneBrush}"
                     BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                     CornerRadius="{DynamicResource PanelCornerRadius}" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="10">
             <Grid>
