@@ -63,6 +63,7 @@ namespace KillerNotes.Shell
             InitSidebar();                                       // Sidebar.cs (restore collapsed state)
             InitShortcuts();                                     // Shortcuts.cs (hotkeys + F1 overlay)
             InitAppScale();                                      // AppScale.cs (restore app-wide size)
+            InitPreviewMinimum();
             InitLineNumbers();                                   // LineNumbers.cs (optional gutter)
             InitOutline();                                       // Headings.cs (outline pane state)
             InitBackupSchedule();                                // Backup.cs (quarter-hour due check)

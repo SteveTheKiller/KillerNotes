@@ -296,8 +296,41 @@ namespace KillerNotes.Shell
             EditorCol.MinWidth = split ? 200 : 0;
             PreviewCol.MinWidth = split ? 200 : 0;
             PreviewSplitter.Visibility = split ? Visibility.Visible : Visibility.Collapsed;
+            QueuePreviewMinimum();
             SyncPreviewMenuChecks();
             if (persist) App.SetSetting(PreviewModeSettingKey, mode.ToString());
+        }
+
+        private bool _previewMinimumQueued;
+
+        private void InitPreviewMinimum()
+        {
+            ScaleHost.LayoutUpdated += (_, _) => QueuePreviewMinimum();
+        }
+
+        private double PreviewMinimumWidth()
+        {
+            if (_previewMode != PreviewMode.Split) return 720;
+            double scale = _appScale > 0 ? _appScale : 1;
+            double chrome = RootBorder.BorderThickness.Left + RootBorder.BorderThickness.Right
+                + RootGrid.Margin.Left + RootGrid.Margin.Right;
+            double paneChrome = ContentPane.Margin.Left + ContentPane.Margin.Right
+                + ContentPane.BorderThickness.Left + ContentPane.BorderThickness.Right;
+            double columns = SidebarCol.ActualWidth + GutterCol.ActualWidth + OutlineCol.ActualWidth
+                + PreviewDividerCol.Width.Value + EditorCol.MinWidth + PreviewCol.MinWidth;
+            return Math.Max(720, Math.Ceiling(chrome + (columns + paneChrome) * scale));
+        }
+
+        private void QueuePreviewMinimum()
+        {
+            if (_previewMinimumQueued || Math.Abs(MinWidth - PreviewMinimumWidth()) < 0.5) return;
+            _previewMinimumQueued = true;
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                _previewMinimumQueued = false;
+                double minimum = PreviewMinimumWidth();
+                if (Math.Abs(MinWidth - minimum) >= 0.5) MinWidth = minimum;
+            }), DispatcherPriority.Background);
         }
 
         private void RenderPreview(string text, bool preserveScroll = false)
