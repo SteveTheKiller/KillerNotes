@@ -3,8 +3,3 @@ root = true
 # Shared family sources keep the KillerFamily namespace so every app carries the same file.
 [{Controls/AccessibilityAudit.cs,Controls/AccessibleControls.cs,Services/InstallerExitCodes.cs}]
 dotnet_diagnostic.IDE0130.severity = none
-
-# These collections pass a comparer or stream to the constructor. "Collection initialization can
-# be simplified" would rewrite them as [with(...)], which needs the preview language version.
-[{Services/HtmlConvert.cs,Services/Sketch.cs,Services/TagManager.cs,SharedPicker/ShellIcons.cs,Shell/Templates.cs,Shell/VaultExport.cs}]
-dotnet_diagnostic.IDE0028.severity = none
