@@ -9808,3 +9808,203 @@ I18N["zh-cn"].ui_mcp_description = "通过 KillerMCP，从 AI 智能体创建、
 I18N["zh"].ui_mcp_description = "透過 KillerMCP，從 AI 智慧代理建立、整理、搜尋、著色、匯入和匯出本機 KillerNotes 筆記。";
 I18N["vi"].ui_mcp_description = "Tạo, tổ chức, tìm, tô màu, nhập và xuất ghi chú KillerNotes cục bộ từ tác nhân AI thông qua KillerMCP.";
 I18N["bn"].ui_mcp_description = "KillerMCP দিয়ে AI এজেন্ট থেকে স্থানীয় KillerNotes নোট তৈরি, সাজানো, খোঁজা, রঙ করা, আমদানি ও রপ্তানি করুন.";
+
+// Current release site facts.
+Object.assign(I18N["it"], {
+  "t_arch_p1": "Richiede .NET Framework 4.8 (x64). Le altre dipendenze dell'app sono incluse in un unico eseguibile. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Le note si salvano dopo una pausa nella digitazione, al cambio di nota e alla chiusura. Ctrl+S salva subito.",
+  "t_links_p1": "Digita <code>[[</code> in una nota e appare un elenco dei titoli delle tue note; continua a digitare per restringerlo e premi <code>Enter</code> per inserire il link. <code>Ctrl+Clic</code> su un link per seguirlo. Un link può puntare a una nota che non esiste ancora, ed è proprio questo il punto: scrivi il link mentre il pensiero c'è e crea la nota dopo. Seguire un link morto offre di crearla, già intitolata.",
+  "f_richtext_d": "Incolla screenshot in linea, inserisci tabelle vere, e formatta con grassetto, corsivo, colori, elenchi, monospazio e linee. Ritorno a capo, numeri di riga, controllo ortografico per nota e un selettore di colori completo con contagocce su tutto il desktop - tutto su scorciatoie. Incolla dati di un foglio di calcolo o CSV nelle celle e usa il menu Tabella per aggiungere o rimuovere righe e colonne.",
+  "hp_41": "Inserisci una vera tabella dalla barra di formattazione o con <code>Ctrl+Shift+T</code>. Righe e colonne si aggiungono e si rimuovono dal menu del clic destro, e le tabelle incollate da Excel, Word o una pagina web arrivano come tabelle, non come testo. Incolla dati di un foglio di calcolo o CSV nelle celle e usa il menu Tabella per aggiungere o rimuovere righe e colonne.",
+  "site_themes_current": "13 temi, 41 aspetti: Dark, Light, Black e 98SE offrono ciascuno otto colori di accento. Le sfumature seguono il tema; 98SE resta piatto. Il menu dei temi permette di attivare o disattivare la grana della pellicola.",
+  "hp_72": "<code>Ctrl+Shift+A</code> apre il riquadro dei temi: tredici temi con colori d'accento, cambiati dal vivo. L'interfaccia parla 19 lingue e ricade sull'inglese per tutto ciò che non è tradotto. Il menu dei temi permette di attivare o disattivare la grana della pellicola.",
+  "hp_80": "Intestazioni (titoli dei gruppi): Killer Sans; Barra laterale (titoli delle note): Killer Sans UI; Testo della nota: Bahnschrift"
+});
+Object.assign(I18N["hu"], {
+  "t_arch_p1": ".NET Framework 4.8 (x64) szükséges. Az alkalmazás többi függősége egyetlen futtatható fájlban van. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "A jegyzetek gépelési szünet után, jegyzetváltáskor és bezáráskor mentődnek. A Ctrl+S azonnal ment.",
+  "t_links_p1": "Írja be a <code>[[</code> jelet egy jegyzetbe, és megjelenik a jegyzetcímek listája; gépeljen tovább a szűkítéshez, majd nyomja meg az <code>Enter</code> billentyűt a hivatkozás beszúrásához. A <code>Ctrl+Click</code> követi a hivatkozást. A hivatkozás mutathat olyan jegyzetre is, amely még nem létezik - éppen ez a lényege: írja meg a hivatkozást, amíg a gondolat megvan, a jegyzetet pedig készítse el később. Egy holt hivatkozás követésekor a program felajánlja a létrehozását, már címmel együtt.",
+  "f_richtext_d": "Illessze be a képernyőképeket, szúrjon be valódi táblázatokat, és formázza félkövérrel, dőlt betűvel, színekkel, listákkal, szóközzel és szabályokkal. Tördelés, sorszámok, jegyzetenkénti helyesírás-ellenőrzés és teljes színválasztó az asztalon található szemcseppentővel - mindez gyorsbillentyűkkel. Illesszen táblázat- vagy CSV-adatokat a cellákba, és a Táblázat menüvel adjon hozzá vagy töröljön sorokat és oszlopokat.",
+  "hp_41": "Szúrjon be egy valós táblázatot a formátumsávból vagy a <code>Ctrl+Shift+T</code>-ból. A sorokat és oszlopokat a rendszer hozzáadja és eltávolítja a jobb gombbal kattintó menüből, az Excelből, Wordből vagy weboldalról beillesztett táblázatok pedig nem szövegként, hanem táblázatként jelennek meg. Illesszen táblázat- vagy CSV-adatokat a cellákba, és a Táblázat menüvel adjon hozzá vagy töröljön sorokat és oszlopokat.",
+  "site_themes_current": "13 téma, 41 megjelenés: a Dark, Light, Black és 98SE egyenként nyolc kiemelőszínt kínál. Az átmenetek követik a témát; a 98SE sík marad. A témamenüben be- és kikapcsolható a filmszemcsézettség.",
+  "hp_72": "A <code>Ctrl+Shift+A</code> megnyitja a témát: tizenhárom téma kiemelő színekkel, élőben váltva. A felület 19 nyelven beszél, és minden lefordítatlan esetében angolra esik vissza. A témamenüben be- és kikapcsolható a filmszemcsézettség.",
+  "hp_80": "Fejlécek (csoportcímek): Killer Sans; Oldalsáv (megjegyzések címei): Killer Sans UI; Megjegyzés szövege: Bahnschrift"
+});
+Object.assign(I18N["pl"], {
+  "t_arch_p1": "Wymaga .NET Framework 4.8 (x64). Pozostałe zależności aplikacji są zawarte w jednym pliku wykonywalnym. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Notatki zapisują się po przerwie w pisaniu, przy zmianie notatki i zamknięciu. Ctrl+S zapisuje od razu.",
+  "t_links_p1": "Wpisz <code>[[</code> w notatce, a pojawi się lista tytułów twoich notatek; pisz dalej, aby ją zawęzić, i naciśnij <code>Enter</code>, aby wstawić odnośnik. <code>Ctrl+Click</code> na odnośniku przenosi do notatki. Odnośnik może wskazywać notatkę, która jeszcze nie istnieje - i o to właśnie chodzi: zapisz odnośnik, póki myśl jest świeża, a notatkę utwórz później. Przejście martwym odnośnikiem proponuje jej utworzenie, od razu z tytułem.",
+  "f_richtext_d": "Wklejaj zrzuty ekranu prosto do treści, wstawiaj prawdziwe tabele i formatuj pogrubieniem, kursywą, kolorami, listami, czcionką o stałej szerokości i liniami poziomymi. Zawijanie wierszy, numery wierszy, sprawdzanie pisowni dla każdej notatki i pełny wybór kolorów z próbnikiem obejmującym cały pulpit - wszystko na skrótach klawiszowych. Wklej dane arkusza lub CSV do komórek i użyj menu Tabela, aby dodawać lub usuwać wiersze i kolumny.",
+  "hp_41": "Wstaw prawdziwą tabelę z paska formatowania albo przez <code>Ctrl+Shift+T</code>. Wiersze i kolumny dodaje się i usuwa z menu prawego przycisku, a tabele wklejone z Excela, Worda lub strony internetowej wchodzą jako tabele, nie jako tekst. Wklej dane arkusza lub CSV do komórek i użyj menu Tabela, aby dodawać lub usuwać wiersze i kolumny.",
+  "site_themes_current": "13 motywów, 41 wyglądów: Dark, Light, Black i 98SE oferują po osiem kolorów akcentu. Gradienty stosują motyw; 98SE pozostaje płaski. Menu motywów pozwala włączyć lub wyłączyć ziarno filmowe.",
+  "hp_72": "<code>Ctrl+Shift+A</code> otwiera menu motywów: trzynaście motywów z kolorami akcentu, przełączanych na żywo. Interfejs mówi w 19 językach, a dla wszystkiego nieprzetłumaczonego wraca do angielskiego. Menu motywów pozwala włączyć lub wyłączyć ziarno filmowe.",
+  "hp_80": "Nagłówki (tytuły grup): Killer Sans; Pasek boczny (tytuły notatek): Killer Sans UI; Tekst notatki: Bahnschrift"
+});
+Object.assign(I18N["cs"], {
+  "t_arch_p1": "Vyžaduje .NET Framework 4.8 (x64). Ostatní závislosti aplikace jsou zabalené v jednom spustitelném souboru. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Poznámky se ukládají po pauze v psaní, při přepnutí poznámky a při zavření. Ctrl+S uloží ihned.",
+  "t_links_p1": "Napište v poznámce <code>[[</code> a objeví se seznam názvů vašich poznámek; pište dál, abyste jej zúžili, a stiskněte <code>Enter</code> pro vložení odkazu. <code>Ctrl+Click</code> na odkaz vás na něj přenese. Odkaz může mířit na poznámku, která ještě neexistuje - právě o to jde: napište odkaz, dokud je myšlenka čerstvá, a poznámku vytvořte později. Při otevření mrtvého odkazu aplikace nabídne její vytvoření, rovnou i s názvem.",
+  "f_richtext_d": "Vkládejte snímky obrazovky přímo do textu, vkládejte skutečné tabulky a formátujte tučným písmem, kurzívou, barvami, seznamy, neproporcionálním písmem a linkami. Zalamování řádků, čísla řádků, kontrola pravopisu pro každou poznámku a plná paleta barev s kapátkem přes celou plochu - vše na klávesových zkratkách. Vložte data z tabulky nebo CSV do buněk a pomocí nabídky Tabulka přidávejte nebo odstraňujte řádky a sloupce.",
+  "hp_41": "Vložte skutečnou tabulku z panelu formátování nebo pomocí <code>Ctrl+Shift+T</code>. Řádky a sloupce se přidávají a odebírají z nabídky pravého tlačítka a tabulky vložené z Excelu, Wordu nebo webové stránky přijdou jako tabulky, ne jako text. Vložte data z tabulky nebo CSV do buněk a pomocí nabídky Tabulka přidávejte nebo odstraňujte řádky a sloupce.",
+  "site_themes_current": "13 motivů, 41 vzhledů: Dark, Light, Black a 98SE nabízejí každý osm barev akcentu. Přechody sledují motiv; 98SE zůstává plochý. Nabídka motivů umožňuje zapnout nebo vypnout filmové zrno.",
+  "hp_72": "<code>Ctrl+Shift+A</code> otevře vyskakovací nabídku motivů: třináct motivů s akcentovými barvami, přepínaných živě. Rozhraní mluví 19 jazyky a u čehokoli nepřeloženého se vrací k angličtině. Nabídka motivů umožňuje zapnout nebo vypnout filmové zrno.",
+  "hp_80": "Nadpisy (názvy skupin): Killer Sans; Postranní panel (názvy poznámek): Killer Sans UI; Text poznámky: Bahnschrift"
+});
+Object.assign(I18N["es"], {
+  "t_arch_p1": "Requiere .NET Framework 4.8 (x64). Las demás dependencias de la aplicación se incluyen en un único ejecutable. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Las notas se guardan tras una pausa al escribir, al cambiar de nota y al cerrar. Ctrl+S guarda inmediatamente.",
+  "t_links_p1": "Escriba <code>[[</code> en una nota y aparecerá una lista con los títulos de sus notas; siga escribiendo para acotarla y pulse <code>Enter</code> para insertar el enlace. <code>Ctrl+Click</code> sobre un enlace lo sigue. Un enlace puede apuntar a una nota que aún no existe, y esa es precisamente la idea: escriba el enlace mientras tiene la idea fresca y cree la nota más tarde. Al seguir un enlace roto se le ofrece crearla, ya titulada.",
+  "f_richtext_d": "Pega capturas de pantalla en línea, inserta tablas reales y da formato con negrita, cursiva, colores, listas, monoespaciado y líneas. Ajuste de línea, números de línea, corrección ortográfica por nota y un selector de color completo con cuentagotas para todo el escritorio, todo con atajos de teclado. Pega datos de una hoja de cálculo o CSV en las celdas y usa el menú Tabla para añadir o eliminar filas y columnas.",
+  "hp_41": "Inserta una tabla real desde la barra de formato o con <code>Ctrl+Shift+T</code>. Las filas y columnas se añaden y quitan desde el menú contextual, y las tablas pegadas desde Excel, Word o una página web entran como tablas, no como texto. Pega datos de una hoja de cálculo o CSV en las celdas y usa el menú Tabla para añadir o eliminar filas y columnas.",
+  "site_themes_current": "13 temas, 41 apariencias: Dark, Light, Black y 98SE ofrecen ocho colores de acento cada uno. Los degradados siguen el tema; 98SE permanece plano. El menú de temas permite activar o desactivar Grano de película.",
+  "hp_72": "<code>Ctrl+Shift+A</code> abre el menu de temas: trece temas con colores de acento, cambiados en vivo. La interfaz habla 19 idiomas y recurre al ingles para lo que no este traducido. El menú de temas permite activar o desactivar Grano de película.",
+  "hp_80": "Encabezados (títulos de grupo): Killer Sans; Barra lateral (títulos de nota): Killer Sans UI; Texto de las notas: Bahnschrift"
+});
+Object.assign(I18N["de"], {
+  "t_arch_p1": "Erfordert .NET Framework 4.8 (x64). Die übrigen Abhängigkeiten der App sind in einer ausführbaren Datei enthalten. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Notizen werden nach einer Schreibpause, beim Notizwechsel und beim Schließen gespeichert. Ctrl+S speichert sofort.",
+  "t_links_p1": "Tippen Sie <code>[[</code> in eine Notiz, und eine Liste Ihrer Notiztitel erscheint; tippen Sie weiter, um sie einzugrenzen, und drücken Sie <code>Enter</code>, um den Link einzufügen. <code>Ctrl+Click</code> auf einen Link folgt ihm. Ein Link darf auf eine Notiz zeigen, die es noch nicht gibt - genau darum geht es: Schreiben Sie den Link, solange der Gedanke da ist, und legen Sie die Notiz später an. Folgt man einem toten Link, wird das Anlegen angeboten, bereits mit Titel.",
+  "f_richtext_d": "Füge Screenshots direkt ein, erstelle echte Tabellen und formatiere mit Fett, Kursiv, Farben, Listen, Monospace und Linien. Zeilenumbruch, Zeilennummern, Rechtschreibprüfung pro Notiz und ein vollwertiger Farbwähler mit desktopweiter Pipette - alles per Hotkey. Fügen Sie Tabellen- oder CSV-Daten in Zellen ein. Über das Tabellenmenü können Sie Zeilen und Spalten hinzufügen oder entfernen.",
+  "hp_41": "Füge eine echte Tabelle über die Formatleiste oder <code>Ctrl+Shift+T</code> ein. Zeilen und Spalten werden über das Rechtsklick-Menü hinzugefügt und entfernt, und aus Excel, Word oder einer Webseite eingefügte Tabellen kommen als Tabellen an, nicht als Text. Fügen Sie Tabellen- oder CSV-Daten in Zellen ein. Über das Tabellenmenü können Sie Zeilen und Spalten hinzufügen oder entfernen.",
+  "site_themes_current": "13 Themen, 41 Varianten: Dark, Light, Black und 98SE bieten jeweils acht Akzentfarben. Verläufe folgen dem Thema; 98SE bleibt flach. Im Themenmenü lässt sich Filmkorn ein- oder ausschalten.",
+  "hp_72": "<code>Ctrl+Shift+A</code> offnet das Design-Flyout: dreizehn Designs mit Akzentfarben, live umgeschaltet. Die Oberflache spricht 19 Sprachen und greift fur nicht Ubersetztes auf Englisch zuruck. Im Themenmenü lässt sich Filmkorn ein- oder ausschalten.",
+  "hp_80": "Überschriften (Gruppentitel): Killer Sans; Seitenleiste (Notiztitel): Killer Sans UI; Notiztext: Bahnschrift"
+});
+Object.assign(I18N["fr"], {
+  "t_arch_p1": "Nécessite .NET Framework 4.8 (x64). Les autres dépendances de l'application sont regroupées dans un seul exécutable. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Les notes sont enregistrées après une pause de saisie, lors d'un changement de note et à la fermeture. Ctrl+S enregistre immédiatement.",
+  "t_links_p1": "Tapez <code>[[</code> dans une note et la liste de vos titres de notes apparaît ; continuez à taper pour la réduire et appuyez sur <code>Enter</code> pour insérer le lien. <code>Ctrl+Click</code> sur un lien permet de le suivre. Un lien peut pointer vers une note qui n'existe pas encore, et c'est tout l'intérêt : écrivez le lien tant que l'idée est là et créez la note plus tard. Suivre un lien mort propose de la créer, déjà intitulée.",
+  "f_richtext_d": "Collez des captures d'écran en ligne, insérez de vrais tableaux et mettez en forme avec gras, italique, couleurs, listes, monospace et filets. Retour à la ligne, numéros de ligne, correction orthographique par note et un sélecteur de couleurs complet avec pipette sur tout le bureau - le tout au clavier. Collez des données de feuille de calcul ou CSV dans les cellules. Le menu Tableau permet d'ajouter ou de supprimer des lignes et colonnes.",
+  "hp_41": "Insérez un vrai tableau depuis la barre de mise en forme ou <code>Ctrl+Shift+T</code>. Les lignes et colonnes s'ajoutent et se suppriment depuis le menu contextuel, et les tableaux collés depuis Excel, Word ou une page web arrivent en tableaux, pas en texte. Collez des données de feuille de calcul ou CSV dans les cellules. Le menu Tableau permet d'ajouter ou de supprimer des lignes et colonnes.",
+  "site_themes_current": "13 thèmes, 41 apparences : Dark, Light, Black et 98SE offrent chacun huit couleurs d'accent. Les dégradés suivent le thème ; 98SE reste plat. Le menu des thèmes permet d'activer ou de désactiver le grain de film.",
+  "hp_72": "<code>Ctrl+Shift+A</code> ouvre le menu des themes : treize themes avec couleurs d'accent, changes en direct. L'interface parle 19 langues et revient a l'anglais pour tout ce qui n'est pas traduit. Le menu des thèmes permet d'activer ou de désactiver le grain de film.",
+  "hp_80": "En-têtes (titres de groupe): Killer Sans; Barre latérale (titres des notes): Killer Sans UI; Texte des notes: Bahnschrift"
+});
+Object.assign(I18N["ja"], {
+  "t_arch_p1": ".NET Framework 4.8 (x64) が必要です。その他の依存コンポーネントは1つの実行ファイルに同梱されています。 C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "入力を休止したとき、ノートを切り替えたとき、閉じるときに保存します。Ctrl+S はすぐに保存します。",
+  "t_links_p1": "ノートで <code>[[</code> と入力するとノートのタイトル一覧が表示されます。続けて入力すると絞り込まれ、<code>Enter</code> でリンクを挿入します。リンクを <code>Ctrl+Click</code> するとそこへ移動します。 リンク先はまだ存在しないノートでもかまいません。それがこの仕組みの狙いです。思いついたときにリンクだけ書いておき、ノートは後から作ります。存在しないリンクをたどると、タイトルが入った状態で作成するかどうか尋ねられます。",
+  "f_richtext_d": "スクリーンショットをそのまま貼り付け、本物の表を挿入し、太字・斜体・色・リスト・等幅・罫線で書式設定。折り返し、行番号、ノートごとのスペルチェック、デスクトップ全体から拾えるスポイト付きのフルカラーピッカーまで、すべてホットキーで。 表計算や CSV のデータをセルに貼り付け、テーブルメニューで行や列を追加、削除できます。",
+  "hp_41": "書式バーまたは<code>Ctrl+Shift+T</code>から本物の表を挿入できます。行と列は右クリックメニューから追加・削除でき、Excel、Word、Webページから貼り付けた表は、テキストではなく表のまま取り込まれます。 表計算や CSV のデータをセルに貼り付け、テーブルメニューで行や列を追加、削除できます。",
+  "site_themes_current": "13テーマ、41通りの外観。Dark、Light、Black、98SE はそれぞれ8色のアクセントを選べます。グラデーションはテーマに従い、98SE は単色です。 テーマメニューでフィルムグレインをオンまたはオフにできます。",
+  "hp_72": "<code>Ctrl+Shift+A</code> でテーマフライアウトが開きます。アクセントカラー付きの 13 テーマをライブで切り替えられます。インターフェイスは 19 言語に対応し、未翻訳の部分は英語にフォールバックします。 テーマメニューでフィルムグレインをオンまたはオフにできます。",
+  "hp_80": "見出し（グループ名）: Killer Sans; サイドバー（ノートのタイトル）: Killer Sans UI; ノート本文: Bahnschrift"
+});
+Object.assign(I18N["tr"], {
+  "t_arch_p1": ".NET Framework 4.8 (x64) gerektirir. Uygulamanın diğer bağımlılıkları tek bir yürütülebilir dosyada paketlenir. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Notlar yazmaya ara verildiğinde, not değiştirildiğinde ve kapatırken kaydedilir. Ctrl+S hemen kaydeder.",
+  "t_links_p1": "Bir notta <code>[[</code> yazın; not başlıklarınızın listesi açılır. Yazmaya devam ederek listeyi daraltın ve bağlantıyı eklemek için <code>Enter</code> tuşuna basın. Bir bağlantıya <code>Ctrl+Click</code> yaparak onu izleyin. Bir bağlantı henüz var olmayan bir notu gösterebilir; asıl amaç da bu: düşünce aklınızdayken bağlantıyı yazın, notu sonra oluşturun. Ölü bir bağlantıyı izlediğinizde, başlığı hazır biçimde notu oluşturmanız önerilir.",
+  "f_richtext_d": "Ekran görüntülerini satır içine yapıştırın, gerçek tablolar ekleyin; kalın, italik, renkler, listeler, eş aralıklı ve çizgilerle biçimlendirin. Sözcük kaydırma, satır numaraları, not başına yazım denetimi ve masaüstü genelinde damlalıklı tam renk seçici - hepsi kısayollarla. Elektronik tablo veya CSV verilerini hücrelere yapıştırın; Tablo menüsüyle satır ve sütun ekleyip kaldırın.",
+  "hp_41": "Biçim çubuğundan ya da <code>Ctrl+Shift+T</code> ile gerçek bir tablo ekleyin. Satırlar ve sütunlar sağ tık menüsünden eklenir ve kaldırılır; Excel'den, Word'den veya bir web sayfasından yapıştırılan tablolar metin olarak değil, tablo olarak gelir. Elektronik tablo veya CSV verilerini hücrelere yapıştırın; Tablo menüsüyle satır ve sütun ekleyip kaldırın.",
+  "site_themes_current": "13 tema, 41 görünüm: Dark, Light, Black ve 98SE sekizer vurgu rengi sunar. Geçişler temayı izler; 98SE düz kalır. Tema menüsünden Film Tanesi açılıp kapatılabilir.",
+  "hp_72": "<code>Ctrl+Shift+A</code> tema acilir menusunu acar: vurgu renkleriyle on uc tema, canli olarak degistirilir. Arayuz 19 dil konusur ve cevrilmemis her sey icin Ingilizceye doner. Tema menüsünden Film Tanesi açılıp kapatılabilir.",
+  "hp_80": "Başlıklar (grup adları): Killer Sans; Kenar çubuğu (not başlıkları): Killer Sans UI; Not metni: Bahnschrift"
+});
+Object.assign(I18N["zh"], {
+  "t_arch_p1": "需要 .NET Framework 4.8 (x64)。應用程式的其他相依元件都封裝在單一執行檔中。 C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "停止輸入、切換筆記或關閉時會儲存筆記。Ctrl+S 可立即儲存。",
+  "t_links_p1": "在筆記中輸入 <code>[[</code>，就會列出你的筆記標題；繼續輸入可縮小範圍，按 <code>Enter</code> 插入連結。<code>Ctrl+Click</code> 連結即可前往。 連結可以指向還不存在的筆記，這正是重點：趁著念頭還在就把連結寫下來，筆記稍後再建。前往一個空連結時，程式會提議替你建立，標題已經填好。",
+  "f_richtext_d": "內嵌貼上螢幕截圖、插入真正的表格，用粗體、斜體、色彩、清單、等寬與分隔線排版。自動換行、行號、逐筆記拼字檢查，以及含全桌面滴管的完整色彩選擇器，全都支援快速鍵。 將試算表或 CSV 資料貼入儲存格，並使用表格選單新增或刪除列與欄。",
+  "hp_41": "從格式列或 <code>Ctrl+Shift+T</code> 插入真正的表格。列與欄可從右鍵選單新增或移除；從 Excel、Word 或網頁貼上的表格會以表格形式進來，而不是純文字。 將試算表或 CSV 資料貼入儲存格，並使用表格選單新增或刪除列與欄。",
+  "site_themes_current": "13種佈景主題，41種外觀：Dark、Light、Black 和 98SE 各提供8種強調色。漸層遵循佈景主題，98SE 保持純色。 主題選單可開啟或關閉膠片顆粒。",
+  "hp_72": "<code>Ctrl+Shift+A</code> 開啟主題浮出功能表：十三種帶強調色的主題，即時切換。介面支援19種語言，未翻譯的內容會退回英文。 主題選單可開啟或關閉膠片顆粒。",
+  "hp_80": "標題（群組名稱）: Killer Sans; 側欄（筆記標題）: Killer Sans UI; 筆記內文: Bahnschrift"
+});
+Object.assign(I18N["zh-cn"], {
+  "t_arch_p1": "需要 .NET Framework 4.8 (x64)。应用的其他依赖组件都封装在单一可执行文件中。 C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "停止输入、切换笔记或关闭时会保存笔记。Ctrl+S 可立即保存。",
+  "t_links_p1": "在笔记中输入 <code>[[</code>，就会列出你的笔记标题；继续输入可以缩小范围，按 <code>Enter</code> 插入链接。<code>Ctrl+Click</code> 链接即可前往。 链接可以指向还不存在的笔记，这正是重点：趁着念头还在就把链接写下来，笔记稍后再建。前往一个空链接时，程序会提议替你创建，标题已经填好。",
+  "f_richtext_d": "内联粘贴截图、插入真正的表格，用粗体、斜体、颜色、列表、等宽和分隔线排版。自动换行、行号、逐笔记拼写检查，以及带全桌面取色器的完整调色盘，全部支持快捷键。 将电子表格或 CSV 数据粘贴到单元格，并使用表格菜单添加或删除行与列。",
+  "hp_41": "从格式栏或 <code>Ctrl+Shift+T</code> 插入真正的表格。行列的增删都在右键菜单里，从 Excel、Word 或网页粘贴的表格会以表格形式进入，而不是纯文本。 将电子表格或 CSV 数据粘贴到单元格，并使用表格菜单添加或删除行与列。",
+  "site_themes_current": "13种主题，41种外观：Dark、Light、Black 和 98SE 各提供8种强调色。渐变遵循主题，98SE 保持纯色。 主题菜单可开启或关闭胶片颗粒。",
+  "hp_72": "<code>Ctrl+Shift+A</code> 打开主题弹出菜单：十三种带强调色的主题，实时切换。界面支持19种语言，未翻译的内容会回退到英文。 主题菜单可开启或关闭胶片颗粒。",
+  "hp_80": "标题（组名）: Killer Sans; 侧栏（笔记标题）: Killer Sans UI; 笔记正文: Bahnschrift"
+});
+Object.assign(I18N["bn"], {
+  "t_arch_p1": ".NET Framework 4.8 (x64) প্রয়োজন। অ্যাপের অন্য নির্ভরতাগুলো একটি এক্সিকিউটেবল ফাইলে প্যাক করা আছে। C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "লেখার বিরতির পরে, নোট বদলানোর সময় এবং বন্ধ করার সময় নোট সংরক্ষিত হয়। Ctrl+S সঙ্গে সঙ্গে সংরক্ষণ করে।",
+  "t_links_p1": "নোটে <code>[[</code> লিখলেই আপনার নোটের শিরোনামের তালিকা আসে; লেখা চালিয়ে গেলে তালিকা ছোট হয়, আর <code>Enter</code> চাপলে লিঙ্কটি বসে যায়। লিঙ্কে <code>Ctrl+Click</code> করলে সেখানে চলে যাবেন। লিঙ্ক এমন নোটেও যেতে পারে যা এখনও নেই, আর সেটাই আসল কথা: ভাবনা যতক্ষণ আছে ততক্ষণে লিঙ্কটা লিখে রাখুন, নোট পরে বানান। মৃত লিঙ্ক অনুসরণ করলে শিরোনাম বসানো অবস্থায় নোটটি তৈরি করার প্রস্তাব আসে।",
+  "f_richtext_d": "স্ক্রিনশট সরাসরি পেস্ট করুন, আসল টেবিল যোগ করুন, আর বোল্ড, ইটালিক, রং, তালিকা, মনোস্পেস ও রেখা দিয়ে ফরম্যাট করুন। ওয়ার্ড র‍্যাপ, লাইন নম্বর, নোট-প্রতি বানান পরীক্ষা, এবং ডেস্কটপজুড়ে আইড্রপারসহ পূর্ণ কালার পিকার - সবই হটকিতে। স্প্রেডশিট বা CSV ডেটা ঘরে পেস্ট করুন এবং টেবিল মেনু দিয়ে সারি ও কলাম যোগ বা মুছুন।",
+  "hp_41": "ফরম্যাট বার থেকে বা <code>Ctrl+Shift+T</code> দিয়ে সত্যিকারের টেবিল যোগ করুন। সারি ও কলাম রাইট-ক্লিক মেনু থেকে যোগ ও বাদ হয়, আর Excel, Word বা কোনো ওয়েব পেজ থেকে পেস্ট করা টেবিল টেবিল হিসেবেই আসে, টেক্সট নয়। স্প্রেডশিট বা CSV ডেটা ঘরে পেস্ট করুন এবং টেবিল মেনু দিয়ে সারি ও কলাম যোগ বা মুছুন।",
+  "site_themes_current": "13টি থিম, 41টি চেহারা: Dark, Light, Black ও 98SE প্রতিটিতে আটটি অ্যাকসেন্ট রঙ আছে। গ্রেডিয়েন্ট থিম অনুসরণ করে; 98SE সমতল থাকে। থিম মেনু থেকে ফিল্ম গ্রেইন চালু বা বন্ধ করা যায়।",
+  "hp_72": "<code>Ctrl+Shift+A</code> থিম ফ্লাইআউট খোলে: অ্যাকসেন্ট রঙসহ তেরোটি থিম, লাইভ পরিবর্তনযোগ্য। ইন্টারফেস 19টি ভাষায় কথা বলে এবং অনূদিত নয় এমন কিছুর জন্য ইংরেজিতে ফিরে যায়। থিম মেনু থেকে ফিল্ম গ্রেইন চালু বা বন্ধ করা যায়।",
+  "hp_80": "শিরোনাম (গ্রুপের নাম): Killer Sans; সাইডবার (নোটের শিরোনাম): Killer Sans UI; নোটের লেখা: Bahnschrift"
+});
+Object.assign(I18N["ru"], {
+  "t_arch_p1": "Требуется .NET Framework 4.8 (x64). Остальные зависимости приложения включены в один исполняемый файл. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Заметки сохраняются после паузы ввода, при смене заметки и закрытии. Ctrl+S сохраняет сразу.",
+  "t_links_p1": "Наберите <code>[[</code> в заметке - и появится список названий ваших заметок; продолжайте печатать, чтобы сузить его, и нажмите <code>Enter</code>, чтобы вставить ссылку. <code>Ctrl+щелчок</code> по ссылке переходит по ней. Ссылка может указывать на заметку, которой ещё нет, и в этом весь смысл: напишите ссылку, пока мысль здесь, а заметку сделайте позже. Переход по несуществующей ссылке предложит создать её, уже с названием.",
+  "f_richtext_d": "Вставляйте снимки экрана прямо в текст, вставляйте настоящие таблицы и форматируйте жирным, курсивом, цветами, списками, моноширинным шрифтом и линиями. Перенос строк, номера строк, проверка орфографии для каждой заметки и полный выбор цвета с пипеткой по всему экрану - всё на горячих клавишах. Вставляйте данные электронной таблицы или CSV в ячейки и добавляйте либо удаляйте строки и столбцы через меню «Таблица».",
+  "hp_41": "Вставьте настоящую таблицу с панели форматирования или через <code>Ctrl+Shift+T</code>. Строки и столбцы добавляются и удаляются из контекстного меню, а таблицы, вставленные из Excel, Word или веб-страницы, приходят таблицами, а не текстом. Вставляйте данные электронной таблицы или CSV в ячейки и добавляйте либо удаляйте строки и столбцы через меню «Таблица».",
+  "site_themes_current": "13 тем, 41 вариант: Dark, Light, Black и 98SE предлагают по восемь акцентных цветов. Градиенты следуют теме; 98SE остаётся плоской. В меню тем можно включить или выключить зернистость плёнки.",
+  "hp_72": "<code>Ctrl+Shift+A</code> открывает меню тем: тринадцать тем с акцентными цветами, переключаемых на лету. Интерфейс говорит на 19 языках и откатывается к английскому для всего непереведённого. В меню тем можно включить или выключить зернистость плёнки.",
+  "hp_80": "Заголовки (названия групп): Killer Sans; Боковая панель (названия заметок): Killer Sans UI; Текст заметки: Bahnschrift"
+});
+Object.assign(I18N["kk"], {
+  "t_arch_p1": ".NET Framework 4.8 (x64) қажет. Қолданбаның басқа тәуелділіктері бір орындалатын файлға біріктірілген. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Жазбалар терудегі үзілістен кейін, жазбаны ауыстырғанда және жапқанда сақталады. Ctrl+S дереу сақтайды.",
+  "t_links_p1": "Жазбада <code>[[</code> теріңіз, сонда жазба атауларыңыздың тізімі шығады; тарылту үшін тере беріңіз, сілтемені кірістіру үшін <code>Enter</code> басыңыз. Сілтеме бойынша өту үшін оны <code>Ctrl+шерту</code> арқылы басыңыз. Сілтеме әлі жоқ жазбаға да нұсқай алады, мәні де сонда: ой келіп тұрғанда сілтемені жазып қойыңыз да, жазбаны кейін жасаңыз. Жоқ сілтеме бойынша өту оны атауымен бірге жасауды ұсынады.",
+  "f_richtext_d": "Экран түсірмелерін мәтін ішіне қойыңыз, шынайы кестелер кірістіріңіз және қалың, көлбеу, түстер, тізімдер, ені бірдей қаріп және сызықтармен пішімдеңіз. Сөзді тасымалдау, жол нөмірлері, әр жазбаға емле тексеруі және жұмыс үстелін түгел қамтитын пипеткасы бар толық түс таңдағышы - бәрі жылдам пернелерде. Электрондық кесте немесе CSV деректерін ұяшықтарға қойып, Кесте мәзірімен жолдар мен бағандарды қосыңыз немесе жойыңыз.",
+  "hp_41": "Пішімдеу тақтасынан немесе <code>Ctrl+Shift+T</code> арқылы нағыз кесте кірістіріңіз. Жолдар мен бағандар оң жақ мәзірден қосылады және жойылады, ал Excel, Word немесе веб-беттен қойылған кестелер мәтін емес, кесте болып келеді. Электрондық кесте немесе CSV деректерін ұяшықтарға қойып, Кесте мәзірімен жолдар мен бағандарды қосыңыз немесе жойыңыз.",
+  "site_themes_current": "13 тақырып, 41 көрініс: Dark, Light, Black және 98SE әрқайсысы сегіз екпін түсін ұсынады. Градиенттер тақырыпқа сай; 98SE біртегіс қалады. Тақырыптар мәзірінде пленка түйіршігін қосуға немесе өшіруге болады.",
+  "hp_72": "<code>Ctrl+Shift+A</code> тақырып мәзірін ашады: акцент түстері бар, тірідей ауысатын он үш тақырып. Интерфейс 19 тілде сөйлейді және аударылмағанның бәрі үшін ағылшыншаға қайтады. Тақырыптар мәзірінде пленка түйіршігін қосуға немесе өшіруге болады.",
+  "hp_80": "Тақырыптамалар (топ атаулары): Killer Sans; Бүйір панелі (жазба атаулары): Killer Sans UI; Жазба мәтіні: Bahnschrift"
+});
+Object.assign(I18N["vi"], {
+  "t_arch_p1": "Cần .NET Framework 4.8 (x64). Các thành phần phụ thuộc khác được đóng gói trong một tệp thực thi. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Ghi chú được lưu sau khi ngừng gõ, khi chuyển ghi chú và khi đóng. Ctrl+S lưu ngay.",
+  "t_links_p1": "Gõ <code>[[</code> trong một ghi chú và một danh sách các tiêu đề ghi chú của bạn sẽ xuất hiện; tiếp tục gõ để thu hẹp và nhấn <code>Enter</code> để chèn liên kết. <code>Ctrl+Click</code> một liên kết để mở nó. Một liên kết có thể trỏ đến một ghi chú chưa tồn tại, đó chính là mục đích: hãy viết liên kết khi ý tưởng còn ở đó và tạo ghi chú sau. Theo một liên kết chết sẽ gợi ý tạo nó, đã có tiêu đề sẵn.",
+  "f_richtext_d": "Dán ảnh chụp màn hình trực tiếp, chèn bảng thực, và định dạng với chữ đậm, chữ nghiêng, màu sắc, danh sách, kiểu chữ monospace, và các đường kẻ. Ngắt dòng tự động, đánh số dòng, kiểm tra chính tả từng ghi chú, và bộ chọn màu đầy đủ với công cụ chọn màu trên toàn màn hình - tất cả đều có phím tắt. Dán dữ liệu bảng tính hoặc CSV vào các ô và dùng menu Bảng để thêm hoặc xóa hàng, cột.",
+  "hp_41": "Chèn một bảng thực từ thanh định dạng hoặc <code>Ctrl+Shift+T</code>. Các hàng và cột được thêm và xóa từ menu nhấp chuột phải, và các bảng dán từ Excel, Word hoặc một trang web sẽ xuất hiện dưới dạng bảng, không phải văn bản. Dán dữ liệu bảng tính hoặc CSV vào các ô và dùng menu Bảng để thêm hoặc xóa hàng, cột.",
+  "site_themes_current": "13 chủ đề, 41 diện mạo: Dark, Light, Black và 98SE có tám màu nhấn mỗi chủ đề. Chuyển sắc theo chủ đề; 98SE giữ màu phẳng. Menu chủ đề cho phép bật hoặc tắt hạt phim.",
+  "hp_72": "<code>Ctrl+Shift+A</code> mở menu giao diện chủ đề: mười ba chủ đề với các màu nhấn, thay đổi trực tiếp. Giao diện hỗ trợ 19 ngôn ngữ và sẽ sử dụng tiếng Anh cho bất kỳ nội dung nào chưa được dịch. Menu chủ đề cho phép bật hoặc tắt hạt phim.",
+  "hp_80": "Tiêu đề (tên nhóm): Killer Sans; Thanh bên (tiêu đề ghi chú): Killer Sans UI; Văn bản ghi chú: Bahnschrift"
+});
+Object.assign(I18N["uk"], {
+  "t_arch_p1": "Потрібен .NET Framework 4.8 (x64). Інші залежності програми входять до одного виконуваного файлу. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Нотатки зберігаються після паузи введення, під час зміни нотатки й закриття. Ctrl+S зберігає відразу.",
+  "t_links_p1": "Наберіть <code>[[</code> у нотатці, і з'явиться список назв ваших нотаток; продовжуйте набирати, щоб звузити його, і натисніть <code>Enter</code>, щоб вставити посилання. <code>Ctrl+клацання</code> за посиланням переходить за ним. Посилання може вказувати на нотатку, якої ще не існує, і в цьому й суть: напишіть посилання, поки думка свіжа, а нотатку створіть пізніше. Перехід за мертвим посиланням пропонує створити її вже з назвою.",
+  "f_richtext_d": "Вставляйте знімки екрана в текст, додавайте справжні таблиці й форматуйте жирним, курсивом, кольорами, списками, моноширинним шрифтом і лініями. Перенесення рядків, номери рядків, перевірка правопису для кожної нотатки та повний вибір кольору з піпеткою на весь робочий стіл - усе на гарячих клавішах. Вставляйте дані електронної таблиці або CSV у клітинки й додавайте чи видаляйте рядки та стовпці через меню «Таблиця».",
+  "hp_41": "Вставте справжню таблицю з панелі форматування або через <code>Ctrl+Shift+T</code>. Рядки й стовпці додаються та видаляються з контекстного меню, а таблиці, вставлені з Excel, Word чи вебсторінки, потрапляють як таблиці, а не текст. Вставляйте дані електронної таблиці або CSV у клітинки й додавайте чи видаляйте рядки та стовпці через меню «Таблиця».",
+  "site_themes_current": "13 тем, 41 вигляд: Dark, Light, Black і 98SE пропонують по вісім акцентних кольорів. Градієнти відповідають темі; 98SE залишається плоскою. У меню тем можна ввімкнути або вимкнути зернистість плівки.",
+  "hp_72": "<code>Ctrl+Shift+A</code> відкриває випадне меню тем: тринадцять тем з акцентними кольорами, що перемикаються наживо. Інтерфейс розмовляє дев'ятнадцятьма мовами й повертається до англійської для всього неперекладеного. У меню тем можна ввімкнути або вимкнути зернистість плівки.",
+  "hp_80": "Заголовки (назви груп): Killer Sans; Бічна панель (назви нотаток): Killer Sans UI; Текст нотатки: Bahnschrift"
+});
+Object.assign(I18N["nb"], {
+  "t_arch_p1": "Krever .NET Framework 4.8 (x64). Appens øvrige avhengigheter er pakket i én kjørbar fil. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "Notater lagres etter en skrivepause, når du bytter notat og ved lukking. Ctrl+S lagrer straks.",
+  "t_links_p1": "Skriv <code>[[</code> i et notat, så vises en liste over notattitlene dine; fortsett å skrive for å begrense den, og trykk <code>Enter</code> for å sette inn lenken. <code>Ctrl+Klikk</code> på en lenke for å følge den. En lenke kan peke på et notat som ikke finnes ennå, og det er poenget: skriv lenken mens tanken er der, og lag notatet senere. Når du følger en død lenke, blir du spurt om du vil opprette den, ferdig med tittel.",
+  "f_richtext_d": "Lim inn skjermbilder på linjen, sett inn ekte tabeller og formater med fet, kursiv, farger, lister, tekst med fast bredde og streker. Tekstbryting, linjenumre, stavekontroll per notat og en full fargevelger med pipette over hele skrivebordet - alt på hurtigtaster. Lim inn regneark- eller CSV-data i tabellceller, og bruk Tabell-menyen til å legge til eller fjerne rader og kolonner.",
+  "hp_41": "Sett inn en ekte tabell fra formateringslinjen eller med <code>Ctrl+Shift+T</code>. Rader og kolonner legges til og fjernes fra høyreklikkmenyen, og tabeller som limes inn fra Excel, Word eller en nettside, kommer inn som tabeller, ikke som tekst. Lim inn regneark- eller CSV-data i tabellceller, og bruk Tabell-menyen til å legge til eller fjerne rader og kolonner.",
+  "site_themes_current": "13 temaer, 41 utseender: Dark, Light, Black og 98SE tilbyr åtte aksentfarger hver. Gradienter følger temaet; 98SE forblir flatt. Temamenyen kan slå filmkorn av eller på.",
+  "hp_72": "<code>Ctrl+Shift+A</code> åpner temapanelet: tretten temaer med aksentfarger, byttet live. Grensesnittet støtter 19 språk og faller tilbake til engelsk for alt som ikke er oversatt. Temamenyen kan slå filmkorn av eller på.",
+  "hp_80": "Overskrifter (gruppetitler): Killer Sans; Sidepanel (notattitler): Killer Sans UI; Notattekst: Bahnschrift"
+});
+Object.assign(I18N["pt"], {
+  "t_arch_p1": "Requer .NET Framework 4.8 (x64). As outras dependências do aplicativo estão incluídas em um único executável. C# / WPF, SQLite FTS5, SQLCipher AES-256.",
+  "t_spec_r3v": "C# / WPF / .NET Framework 4.8 (x64)",
+  "f_notepad_d": "As notas são salvas após uma pausa na digitação, ao trocar de nota e ao fechar. Ctrl+S salva imediatamente.",
+  "t_links_p1": "Digite <code>[[</code> em uma nota e uma lista com os títulos das suas notas aparece; continue digitando para restringi-la e pressione <code>Enter</code> para inserir o link. <code>Ctrl+Clique</code> em um link para segui-lo. Um link pode apontar para uma nota que ainda não existe, e esse é o objetivo: escreva o link enquanto a ideia está fresca e crie a nota depois. Seguir um link morto oferece criá-la, já com o título.",
+  "f_richtext_d": "Cole capturas de tela em linha, insira tabelas de verdade e formate com negrito, itálico, cores, listas, monoespaçado e linhas horizontais. Quebra de linha, números de linha, verificação ortográfica por nota e um seletor de cores completo com conta-gotas para a área de trabalho inteira, tudo em atalhos de teclado. Cole dados de planilha ou CSV nas células e use o menu Tabela para adicionar ou remover linhas e colunas.",
+  "hp_41": "Insira uma tabela de verdade pela barra de formatação ou com <code>Ctrl+Shift+T</code>. Linhas e colunas são adicionadas e removidas pelo menu de clique direito, e tabelas coladas do Excel, do Word ou de uma página da web entram como tabelas, não como texto. Cole dados de planilha ou CSV nas células e use o menu Tabela para adicionar ou remover linhas e colunas.",
+  "site_themes_current": "13 temas, 41 visuais: Dark, Light, Black e 98SE oferecem oito cores de destaque cada. Os gradientes acompanham o tema; 98SE permanece plano. O menu de temas permite ativar ou desativar o grão de filme.",
+  "hp_72": "<code>Ctrl+Shift+A</code> abre o menu de temas: treze temas com cores de destaque, trocados ao vivo. A interface fala 19 idiomas e volta ao inglês para tudo que não estiver traduzido. O menu de temas permite ativar ou desativar o grão de filme.",
+  "hp_80": "Cabeçalhos (títulos de grupos): Killer Sans; Barra lateral (títulos das notas): Killer Sans UI; Texto da nota: Bahnschrift"
+});

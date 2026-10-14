@@ -137,7 +137,7 @@
 
 <section class="tech-sec" id="architecture">
 <h2 data-i18n="t_arch_h">Architecture</h2>
-<p data-i18n="t_arch_p1"><b>KillerNotes</b> is a native Windows app written in C# and WPF on .NET Framework 4.8 (x64). There is no web view wrapping a JavaScript app and no runtime to install on Windows 10/11 - it is the same stack as the rest of the KillerTools family, sharing the KillerUI chrome: custom title bar, thirteen live-switchable themes with accent colors, film grain, and the family status bar.</p>
+<p data-i18n="t_arch_p1">Requires .NET Framework 4.8 (x64). The app's other dependencies are packaged in one executable. C# / WPF, SQLite FTS5, SQLCipher AES-256.</p>
 <p data-i18n="t_arch_p2">The editor is a WPF RichTextBox working on a real FlowDocument, which is what makes inline images and true tables first-class citizens rather than attachments. Everything else - search, storage, encryption, sharing - lives underneath it in a SQLite database.</p>
 </section>
 
@@ -230,7 +230,7 @@
 
 <section class="tech-sec" id="links">
 <h2 data-i18n="t_links_h">Linked notes &amp; the graph</h2>
-<p data-i18n="t_links_p1">Since 1.3.0 notes can point at each other. Type <code>[[</code> and a title - <code>[[Firewall]]</code> - and that text is a link: <code>Ctrl+Click</code> follows it, the note it names lists it as an inbound link, and the graph draws it as an edge. Nothing about the note's stored bytes changes to make this work, which is the part worth explaining.</p>
+<p data-i18n="t_links_p1">Type <code>[[</code> in a note and a list of your note titles appears; keep typing to narrow it and press <code>Enter</code> to insert the link. <code>Ctrl+Click</code> a link to follow it. A link can point at a note that does not exist yet, which is the point: write the link while the thought is there and make the note later. Following a dead link offers to create it, already titled.</p>
 <p data-i18n="site_links_current">The note's link strip lists incoming and outgoing links, including targets not created yet. Click a link to open its note.</p>
 
 <h3 data-i18n="t_links_h1" id="wikilinks">Wikilinks and the link table</h3>
@@ -342,7 +342,7 @@
 <table class="spec-table">
 <tr><th data-i18n="t_spec_r1k">Spec</th><th data-i18n="t_spec_r1v">Value</th></tr>
 <tr><td data-i18n="t_spec_r2k">Platform</td><td data-i18n="t_spec_r2v">Windows 10/11, x64</td></tr>
-<tr><td data-i18n="t_spec_r3k">Stack</td><td data-i18n="t_spec_r3v">C# / WPF on .NET Framework 4.8 (no runtime install on Win 10/11)</td></tr>
+<tr><td data-i18n="t_spec_r3k">Stack</td><td data-i18n="t_spec_r3v">C# / WPF / .NET Framework 4.8 (x64)</td></tr>
 <tr><td data-i18n="t_spec_r4k">Storage</td><td data-i18n="t_spec_r4v">SQLite via Microsoft.Data.Sqlite; one database file per notepad in a configurable data folder (default %APPDATA%\KillerNotes)</td></tr>
 <tr><td data-i18n="t_spec_r5k">Search</td><td data-i18n="t_spec_r5v">SQLite FTS5, external-content index, prefix matching as you type</td></tr>
 <tr><td data-i18n="t_spec_r6k">Encryption</td><td data-i18n="t_spec_r6v">SQLCipher (AES-256), whole-database, opt-in per database</td></tr>
@@ -522,7 +522,7 @@
 <div id="dlbInner" role="region" aria-labelledby="dlbCaption" tabindex="0"></div>
 </div>
 </dialog>
-<script src="kn-i18n.js?v=16"></script>
+<script src="kn-i18n.js?v=17"></script>
 <script src="kn.js?v=6"></script>
 <script>
 (function(){

@@ -217,9 +217,9 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <section class="features">
 <h2 data-i18n="features_h">What it does</h2>
 <div class="feature-grid">
-<div class="feature-card"><h3 data-i18n="f_notepad_t">One notepad, not 80 tabs</h3><p data-i18n="f_notepad_d">Every note lives in one local database and saves itself on every pause, note switch, and close. Nothing is lost to a reboot or a crash.</p></div>
+<div class="feature-card"><h3 data-i18n="f_notepad_t">One notepad, not 80 tabs</h3><p data-i18n="f_notepad_d">Notes save after a typing pause, when switching notes, and on close. Ctrl+S saves immediately.</p></div>
 <div class="feature-card"><h3 data-i18n="f_search_t">Instant search</h3><p data-i18n="f_search_d">Full-text search across every note as you type, on a SQLite FTS5 index. Sort by date or title, or arrange notes in your own custom order, and three sidebar densities fit more notes on screen.</p></div>
-<div class="feature-card"><h3 data-i18n="f_richtext_t">Rich text that keeps up</h3><p data-i18n="f_richtext_d">Paste screenshots inline, insert real tables, and format with bold, italic, colors, lists, monospace, and rules. Word wrap, line numbers, per-note spell check, and a full color picker with a desktop-wide eyedropper - all on hotkeys.</p></div>
+<div class="feature-card"><h3 data-i18n="f_richtext_t">Rich text that keeps up</h3><p data-i18n="f_richtext_d">Paste screenshots inline, insert real tables, and format with bold, italic, colors, lists, monospace, and rules. Word wrap, line numbers, per-note spell check, and a full color picker with a desktop-wide eyedropper - all on hotkeys. Paste spreadsheet or CSV data into table cells, and use the Table menu to add or remove rows and columns.</p></div>
 <div class="feature-card"><h3 data-i18n="f_crypt_t">Encrypted at rest</h3><p data-i18n="f_crypt_d">Set a password and the whole database is encrypted with SQLCipher (AES-256): notes, images, index, everything. Change or remove it from the title-bar lock anytime.</p></div>
 <div class="feature-card"><h3 data-i18n="f_tags_t">Color-coded tags</h3><p data-i18n="f_tags_d">Tag notes with colored labels, Outlook-style. Tags show as sidebar pills, and a click filters to that tag. Definitions travel inside shared files, and Ctrl+T manages them across every note.</p></div>
 <div class="feature-card"><h3 data-i18n="f_groups_t">Groups &amp; subgroups</h3><p data-i18n="f_groups_d">Drag notes into the order that matters, or file them into named groups per client or project - nested to any depth with subgroups. A parent's colored line runs down its children, headers collapse with a click, groups travel inside shared .kndb files, and Ctrl+Z undoes any move.</p></div>
@@ -239,7 +239,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <div class="feature-card"><h3 data-i18n="f_preview_t">Markdown &amp; HTML preview</h3><p data-i18n="site_preview_current">F4 cycles Source, Rendered and Split for Markdown and HTML. The native WPF preview follows the theme and grain; scripts never run.</p></div>
 <div class="feature-card"><h3 data-i18n="f_hotkeys_t">Hotkeys &amp; keyboard map</h3><p data-i18n="f_hotkeys_d">Everything has a key. F1 opens the shortcuts overlay with a full visual keyboard map; hold Ctrl or Shift to preview what each key does.</p></div>
 <div class="feature-card"><h3 data-i18n="f_install_t">Portable or installed</h3><p data-i18n="f_install_d">Runs portable from a USB stick, or one-click installs per-user with no admin. A /silent switch handles RMM and winget rollouts, and uninstall always keeps your notes.</p></div>
-<div class="feature-card"><h3 data-i18n="f_themes_t">Themes &amp; accents</h3><p data-i18n="site_themes_current">13 themes, 41 looks: Dark, Light, Black and 98SE each offer eight accent colors. Gradients follow the theme; 98SE stays flat.</p></div>
+<div class="feature-card"><h3 data-i18n="f_themes_t">Themes &amp; accents</h3><p data-i18n="site_themes_current">13 themes, 41 looks: Dark, Light, Black and 98SE each offer eight accent colors. Gradients follow the theme; 98SE stays flat. The theme menu can turn Film Grain on or off.</p></div>
 <div class="feature-card"><h3 data-i18n="f_lang_t">Nineteen languages</h3><p data-i18n="f_lang_d">The whole interface is translated into nineteen languages, switchable live without a restart. The same set the website ships in.</p></div>
 </div>
 </section>
@@ -271,7 +271,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 </div>
 <div class="egg-toast" id="eggToast"></div>
 
-<script src="kn-i18n.js?v=16"></script>
+<script src="kn-i18n.js?v=17"></script>
 <script src="kn.js?v=6"></script>
 <script src="feature-carousel.js?v=2"></script>
 <script>
@@ -293,7 +293,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
   function descriptionFor(n) {
     return descriptionKeys[n - 1].map(function (key) {
       var heading = document.querySelector('[data-i18n="' + key + '"]');
-      return heading ? heading.textContent : var(--kt-font-card-title);
+      return heading ? heading.textContent : '';
     }).join(' · ');
   }
   function refreshDescriptions() {
