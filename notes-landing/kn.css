@@ -584,11 +584,28 @@ html[data-theme="cyanotic"] .spec-table th { background: var(--chrome); color: v
 }
 
 /* Preserve the lettering size when using the taller Lacquer SVG canvas. */
+/* Center visible artwork at the width of the download controls. */
+body .hero .hero-lockup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  max-width: calc(2 * 360px + 40px);
+  gap: clamp(10px, 2vw, 22px);
+  align-items: center;
+  margin-inline: auto;
+}
+body .hero .hero-icon-frame,
+body .hero .hero-wordmark-frame { display: block; position: relative; min-width: 0; }
+body .hero .hero-icon-frame { flex: calc(879 / 885) 1 0; aspect-ratio: 879 / 885; }
+body .hero .hero-wordmark-frame { flex: calc(7608.007914285715 / 1682.1389345454545) 1 0; aspect-ratio: 7608.007914285715 / 1682.1389345454545; }
+body .hero .hero-lockup .hero-icon {
+  position: absolute; width: calc(100% * 926 / 879); height: auto;
+  max-width: none; margin: 0; left: calc(-100% * 16 / 879); top: calc(-100% * 14 / 885);
+}
 body .hero .hero-lockup img.wm-logo {
-  height: clamp(116.25px, 21.6164vw, 225.2344px);
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
+  position: absolute; width: calc(100% * 7688 / 7608.007914285715); height: auto;
+  max-width: none; margin: 0; left: calc(-100% * 40 / 7608.007914285715); top: calc(-100% * 59.42834545454548 / 1682.1389345454545);
 }
 body .page-hero > img.wm-logo,
 body img.help-wm {
@@ -601,7 +618,6 @@ body img.tb-wm { height: 47.2266px; }
 body img.also-wm { height: 65.3906px; }
 body .engine-lockup img.wm-logo { height: 81.7383px; }
 @media (max-width: 600px) {
-  body .hero .hero-lockup img.wm-logo { width: min(100%, 580px); height: auto; max-width: 100%; }
   body img.tb-wm { height: 38.1445px; }
   body .engine-lockup img.wm-logo { height: 65.3906px; }
 }
@@ -622,8 +638,3 @@ body .docs-nav-label { font-family: var(--kt-font-page-title); font-size: var(--
 body .sb-tabs { font-family: var(--kt-font-page-title); font-size: 14px; }
 body .outline a { font-family: var(--kt-font-ui); font-size: var(--kt-nav-size); }
 body .outline a.sub { font-size: 12px; }
-@media (min-width: 601px) {
-  body .hero .hero-lockup { flex-wrap: nowrap; }
-  body .hero .hero-lockup .hero-icon { flex: 0 0 auto; }
-  body .hero .hero-lockup img.wm-logo { min-width: 0; flex-shrink: 1; }
-}

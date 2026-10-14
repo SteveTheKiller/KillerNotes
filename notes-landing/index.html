@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Searchable, encrypted notes with rich text, images, tables, scheduled backups with safe restore, AES-256 protection, and .knote sharing.">
 <meta name="twitter:image" content="https://killernotes.net/og-image.png">
 <script defer src="https://koya.thekiller.net/script.js" data-website-id="9cbd0ccf-b6de-4fb3-a9fe-a166c151fa3f"></script>
-<link rel="stylesheet" href="kn.css?v=19">
+<link rel="stylesheet" href="kn.css?v=20">
 <link rel="stylesheet" href="feature-carousel.css?v=2">
 <style>
 /* ---- Page-specific (landing) ---- */
@@ -175,8 +175,8 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 
 <section class="hero">
 <div class="hero-lockup">
-<img class="hero-icon" src="kn-icon.png" alt="" aria-hidden="true" width="230" height="230">
-<img class="wm-logo" src="brand/killernotes-logo-dark-purple.svg" alt="KillerNotes">
+<span class="hero-icon-frame"><img class="hero-icon" src="kn-icon.png" alt="" aria-hidden="true" width="230" height="230"></span>
+<span class="hero-wordmark-frame"><img class="wm-logo" src="brand/killernotes-logo-dark-purple.svg" alt="KillerNotes"></span>
 </div>
 <p class="tagline" data-i18n="tagline">One searchable, encrypted notepad instead of 80 Notepad tabs - rich text, inline images, real tables, and every note always saved, shareable as tear-off .knote files.</p>
 <div class="hero-grid">
@@ -436,5 +436,6 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
   updateFade();
 })();
 </script>
+<script src="brand-layout.js?v=1"></script>
 </body>
 </html>
