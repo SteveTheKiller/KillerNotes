@@ -9,6 +9,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:kui="clr-namespace:KillerNotes.Controls"
                     xmlns:picker="clr-namespace:KillerNotes.Controls"
+                    xmlns:snap="clr-namespace:KillerFamily.Windowing"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <kui:TooltipTextConverter x:Key="TooltipTextConverter"/>
 
@@ -1048,9 +1049,20 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource CaptionHoverBrush}"/>
                         </Trigger>
+                        <!-- Snap layouts put the maximize button in the non-client area, where WPF
+                             sees no mouse, so SnapLayouts reports hover and press itself. -->
+                        <Trigger Property="snap:SnapLayouts.IsHovered" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource CaptionHoverBrush}"/>
+                        </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SelectionBg}"/>
                             <!-- Pressed reverses the bevel, the same swap the other button styles use -->
+                            <Setter Property="Foreground" Value="{DynamicResource CaptionPressedTextBrush}"/>
+                            <Setter TargetName="capLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
+                            <Setter TargetName="capDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
+                        </Trigger>
+                        <Trigger Property="snap:SnapLayouts.IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SelectionBg}"/>
                             <Setter Property="Foreground" Value="{DynamicResource CaptionPressedTextBrush}"/>
                             <Setter TargetName="capLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
                             <Setter TargetName="capDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>

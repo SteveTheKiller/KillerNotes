@@ -10,6 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Pasting tab separated, space separated or CSV data into a table fills its cells from the caret, adding rows and columns as needed.
 - Right-clicking in a table opens a Table menu to insert rows above or below, insert columns left or right, and delete a row, a column or the whole table. Each action also has a shortcut, Ctrl+Shift+1 to 4 for inserting and Ctrl+Shift+7 to 9 for deleting.
 - Added a Film Grain switch to the theme menu. It is on by default, and turning it off removes the grain texture from every surface.
+- Added the Windows 11 snap layouts menu to the maximize button.
 
 ### Changed
 - The wordmarks use Punktype and Lacquer, and the interface text, headings and footers use Killer Sans, in place of the typewriter font in the app and on the website.

@@ -7,6 +7,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using KillerFamily.Windowing;
 using KillerNotes.Controls;
 using KillerNotes.Services;
 
@@ -42,6 +43,9 @@ namespace KillerNotes.Shell
         {
             var hwnd = new WindowInteropHelper(this).Handle;
             HwndSource.FromHwnd(hwnd)?.AddHook(WndProc);
+            // Windows 11 snap layouts flyout on the maximize button. Added after WindowChrome's
+            // hook, so it answers WM_NCHITTEST first.
+            SnapLayouts.Attach(this, MaximizeBtn);
             ApplyCornerState();
             ApplyThemeBorder(this);
             // Aero-snap leaves WindowState at Normal, so corner squaring cannot ride
