@@ -18,6 +18,12 @@ namespace KillerFamily.Deployment
         internal const int Busy = 1618;
         internal const int SecurityRejected = 1625;
 
+#if NET8_0_OR_GREATER
+        private static readonly System.Buffers.SearchValues<char> PathSeparators = System.Buffers.SearchValues.Create("\\/");
+#else
+        private static readonly char[] PathSeparators = ['\\', '/'];
+#endif
+
         internal static int FromException(Exception error)
         {
             for (Exception? current = error; current != null; current = current.InnerException)
@@ -34,9 +40,16 @@ namespace KillerFamily.Deployment
             return Failure;
         }
 
+        private static bool ContainsPathSeparator(string value) =>
+#if NET8_0_OR_GREATER
+            value.AsSpan().ContainsAny(PathSeparators);
+#else
+            value.IndexOfAny(PathSeparators) >= 0;
+#endif
+
         internal static IDisposable Acquire(string product)
         {
-            if (string.IsNullOrWhiteSpace(product) || product.IndexOfAny(['\\', '/']) >= 0)
+            if (string.IsNullOrWhiteSpace(product) || ContainsPathSeparator(product))
                 throw new ArgumentException("A product name is required.", nameof(product));
             var mutex = new Mutex(false, @"Global\KillerTools-Install-" + product);
             bool owned;
