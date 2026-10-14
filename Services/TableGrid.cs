@@ -54,7 +54,7 @@ namespace KillerNotes.Services
             {
                 int end = Math.Max(LastEndOf(html, "table"), LastEndOf(html, "tr"));
                 if (end < start) return null;
-                string outside = html.Substring(0, start) + " " + html.Substring(end);
+                string outside = html[..start] + " " + html[end..];
                 if (!string.IsNullOrWhiteSpace(Decode(StripTags(outside)))) return null;
             }
 
@@ -81,7 +81,7 @@ namespace KillerNotes.Services
                 row = null;
             }
 
-            foreach (Match m in Token.Matches(html.Substring(start)))
+            foreach (Match m in Token.Matches(html[start..]))
             {
                 if (m.Groups["text"].Success) { cell?.Append(m.Groups["text"].Value); continue; }
                 if (!m.Groups["tag"].Success) continue;
@@ -105,14 +105,14 @@ namespace KillerNotes.Services
                         break;
                     case "tr" when outer:
                         CloseRow();
-                        if (!close) row = new List<string>();
+                        if (!close) row = [];
                         break;
                     case "td" when outer:
                     case "th" when outer:
                         CloseCell();
                         if (!close)
                         {
-                            row ??= new List<string>();
+                            row ??= [];
                             cell = new StringBuilder();
                             Match sp = ColSpan.Match(m.Groups["attrs"].Value);
                             span = sp.Success ? Math.Max(1, Math.Min(50, int.Parse(sp.Groups["n"].Value))) : 1;
@@ -134,7 +134,7 @@ namespace KillerNotes.Services
                 if (finished) break;
             }
             CloseRow();
-            return Finish(rows.Select(r => r.ToArray()).ToList());
+            return Finish([.. rows.Select(r => r.ToArray())]);
         }
 
         /// <summary>Plain clipboard text as rows of cells: tab separated, CSV, or columns
@@ -147,7 +147,7 @@ namespace KillerNotes.Services
             if (lines.Count == 0) return null;
 
             if (lines.Any(l => l.IndexOf('\t') >= 0))
-                return Finish(lines.Select(l => l.Split('\t').Select(c => c.Trim()).ToArray()).ToList());
+                return Finish([.. lines.Select(l => l.Split('\t').Select(c => c.Trim()).ToArray())]);
 
             if (lines.All(l => l.IndexOf(',') >= 0))
                 return Finish(ParseCsv(text));
@@ -155,7 +155,7 @@ namespace KillerNotes.Services
             bool wide = lines.Any(l => Regex.IsMatch(l.Trim(), @"\s{2,}"));
             if (!wide && lines.Count == 1) return null;
             var split = new Regex(wide ? @"\s{2,}" : @"\s+");
-            return Finish(lines.Select(l => split.Split(l.Trim())).ToList());
+            return Finish([.. lines.Select(l => split.Split(l.Trim()))]);
         }
 
         /// <summary>RFC 4180 style: quoted fields may hold commas, doubled quotes and line
@@ -176,8 +176,8 @@ namespace KillerNotes.Services
             void EndRow()
             {
                 EndField();
-                if (row.Count > 1 || row[0].Length > 0) rows.Add(row.ToArray());
-                row = new List<string>();
+                if (row.Count > 1 || row[0].Length > 0) rows.Add([.. row]);
+                row = [];
             }
 
             for (int i = 0; i < text.Length; i++)
@@ -207,11 +207,11 @@ namespace KillerNotes.Services
 
         private static List<string[]>? Finish(List<string[]> rows)
         {
-            rows = rows.Where(r => r.Length > 0).ToList();
+            rows = [.. rows.Where(r => r.Length > 0)];
             if (rows.Count == 0) return null;
             int cols = rows.Max(r => r.Length);
             if (cols == 0 || (rows.Count == 1 && cols == 1)) return null;
-            return rows.Select(r => r.Length == cols ? r : r.Concat(Enumerable.Repeat("", cols - r.Length)).ToArray()).ToList();
+            return [.. rows.Select(r => r.Length == cols ? r : [.. r.Concat(Enumerable.Repeat("", cols - r.Length))])];
         }
 
         private static int IndexOfTag(string html, string tag)

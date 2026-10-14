@@ -36,7 +36,7 @@ namespace KillerFamily.Deployment
 
         internal static IDisposable Acquire(string product)
         {
-            if (string.IsNullOrWhiteSpace(product) || product.IndexOfAny(new[] { '\\', '/' }) >= 0)
+            if (string.IsNullOrWhiteSpace(product) || product.IndexOfAny(['\\', '/']) >= 0)
                 throw new ArgumentException("A product name is required.", nameof(product));
             var mutex = new Mutex(false, @"Global\KillerTools-Install-" + product);
             bool owned;

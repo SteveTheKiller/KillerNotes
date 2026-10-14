@@ -49,8 +49,7 @@ namespace KillerFamily.Accessibility
 
         private static void OnControlLoaded(object sender, RoutedEventArgs args)
         {
-            var control = sender as Control;
-            if (control == null) return;
+            if (sender is not Control control) return;
             Prepare(control);
             if (control is Window window)
                 window.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ApplicationIdle,

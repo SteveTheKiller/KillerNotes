@@ -295,12 +295,12 @@ namespace KillerNotes.Shell
             TextPointer start = Editor.Selection.Start, end = Editor.Selection.End;
             var covered = Tables(Editor.Document.Blocks).Where(t =>
             {
-                TableCell[] cells = AllRows(t).SelectMany(r => r.Cells).ToArray();
+                TableCell[] cells = [.. AllRows(t).SelectMany(r => r.Cells)];
                 // A one-cell table only goes when the selection reaches past it, so selecting the
                 // text of its single cell and deleting still just clears the text.
                 return cells.Length > 0 &&
                        start.CompareTo(cells[0].ContentStart) <= 0 &&
-                       end.CompareTo(cells[cells.Length - 1].ContentEnd) >= 0 &&
+                       end.CompareTo(cells[^1].ContentEnd) >= 0 &&
                        (cells.Length > 1 || start.CompareTo(t.ContentStart) < 0 || end.CompareTo(t.ContentEnd) > 0);
             }).ToList();
             if (covered.Count == 0) return;

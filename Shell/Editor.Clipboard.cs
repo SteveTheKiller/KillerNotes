@@ -54,8 +54,7 @@ namespace KillerNotes.Shell
             Editor.CommandBindings.Add(new CommandBinding(
                 ApplicationCommands.Copy, EditorCopy_Executed, EditorCopy_CanExecute));
             // Last chance to make a copy outlive the app if every background flush lost.
-            if (Application.Current != null)
-                Application.Current.Exit += (_, _) => TryFlushClipboard();
+            Application.Current?.Exit += (_, _) => TryFlushClipboard();
         }
 
         /// <summary>Hands the data object to the clipboard, retrying briefly while another
