@@ -585,6 +585,8 @@ html[data-theme="cyanotic"] .spec-table th { background: var(--chrome); color: v
 
 /* Preserve the lettering size when using the taller Lacquer SVG canvas. */
 /* Center visible artwork at the width of the download controls. */
+body .hero { padding-top: 28px; }
+body .hero .tagline { margin-top: 28px; }
 body .hero .hero-lockup {
   display: flex;
   flex-direction: row;
