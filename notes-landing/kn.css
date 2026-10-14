@@ -76,8 +76,8 @@ a:hover { filter: brightness(1.15); }
   --kt-font-wordmark: 'KtPunk', 'KtKiller', 'Courier New', monospace;
   --kt-font-accent: 'KtAccent', 'KtKiller', 'Courier New', monospace;
   --kt-font-page-title: var(--kt-font-accent);   /* page kickers and big page headings */
-  --kt-font-card-title: var(--kt-font-killer);   /* card and section headings */
-  --kt-font-section: var(--kt-font-killer);      /* small accent subheadings and labels */
+  --kt-font-card-title: var(--kt-font-accent);   /* card and section headings */
+  --kt-font-section: var(--kt-font-accent);      /* small accent subheadings and labels */
   --kt-font-ui: var(--kt-font-killer);           /* top bar navigation and the KillerMCP link */
 }
 .wm-logo { display: inline-block; width: auto; white-space: nowrap; line-height: 1; font-family: var(--kt-font-wordmark); font-weight: normal; letter-spacing: 1px;
@@ -581,4 +581,49 @@ html[data-theme="cyanotic"] .spec-table th { background: var(--chrome); color: v
   body .mcp-brand .mcp-icon-pair { flex-basis: 72px !important; width: 72px !important; height: 64px !important; }
   body .mcp-brand .mcp-family-icon { width: 58px !important; height: 58px !important; }
   body .mcp-brand .mcp-app-icon { right: 10px !important; bottom: 6px !important; width: 32px !important; height: 32px !important; }
+}
+
+/* Preserve the lettering size when using the taller Lacquer SVG canvas. */
+body .hero .hero-lockup img.wm-logo {
+  height: clamp(116.25px, 21.6164vw, 225.2344px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+body .page-hero > img.wm-logo,
+body img.help-wm {
+  height: clamp(99.9023px, 17.2559vw, 165.293px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+body img.tb-wm { height: 47.2266px; }
+body img.also-wm { height: 65.3906px; }
+body .engine-lockup img.wm-logo { height: 81.7383px; }
+@media (max-width: 600px) {
+  body .hero .hero-lockup img.wm-logo { width: min(100%, 580px); height: auto; max-width: 100%; }
+  body img.tb-wm { height: 38.1445px; }
+  body .engine-lockup img.wm-logo { height: 65.3906px; }
+}
+
+/* Shared reading sizes for help, technical pages and engine documentation. */
+:root { --kt-body-size: 14px; --kt-body-leading: 1.7; --kt-heading-size: 24px; --kt-subheading-size: 15px; --kt-nav-size: 13px; }
+body .engine-doc { font-size: var(--kt-body-size); line-height: var(--kt-body-leading); }
+body .engine-doc .doc-lede { font-size: var(--kt-body-size); }
+body .engine-doc p { margin: 0 0 11px; }
+body .engine-doc h2 { font-size: var(--kt-heading-size); margin: 12px 0 8px; padding-top: 0; }
+body .engine-doc h3 { font-size: var(--kt-subheading-size); margin: 16px 0 7px; }
+body .engine-doc ul, body .engine-doc ol { margin: 0 0 11px; padding-left: 28px; }
+body .engine-doc li { margin: 0 0 3px; }
+body .engine-doc pre { margin: 10px 0 14px; padding: 13px 16px; }
+body .docs-nav a { font-family: var(--kt-font-ui); font-size: var(--kt-nav-size); }
+body .docs-nav .page-outline a { font-size: 12px; }
+body .docs-nav-label { font-family: var(--kt-font-page-title); font-size: var(--kt-subheading-size); font-weight: normal; }
+body .sb-tabs { font-family: var(--kt-font-page-title); font-size: 14px; }
+body .outline a { font-family: var(--kt-font-ui); font-size: var(--kt-nav-size); }
+body .outline a.sub { font-size: 12px; }
+@media (min-width: 601px) {
+  body .hero .hero-lockup { flex-wrap: nowrap; }
+  body .hero .hero-lockup .hero-icon { flex: 0 0 auto; }
+  body .hero .hero-lockup img.wm-logo { min-width: 0; flex-shrink: 1; }
 }
