@@ -137,6 +137,13 @@ namespace KillerNotes.Shell
             double fontSize = Editor.FontSize * zoom;   // match the editor text (gutter is outside its zoom transform)
             var fontFamily = GutterFont;
             double h = LineGutter.ActualHeight;
+            // One body-text line in the editor's own face, and one gutter number. A taller line
+            // (a heading) drops its number to the bottom of that line so it sits beside the text
+            // rather than up in the heading's extra ascent.
+            double bodyLine = fontSize * Editor.FontFamily.LineSpacing;
+            double numberLine = fontSize * fontFamily.LineSpacing;
+            TextBlock? previous = null;
+            double previousTop = double.NegativeInfinity;
 
             // Place numbers for the visible blocks only. Finding the first visible block and
             // reading rects for the on-screen ones is the ONLY layout this file touches.
@@ -175,9 +182,17 @@ namespace KillerNotes.Shell
                         FontSize = fontSize,
                     };
                     tb.SetResourceReference(TextElement.ForegroundProperty, "DimTextBrush");
-                    Canvas.SetTop(tb, p.Y);
+                    double top = p.Y + Math.Max(0, rect.Height - bodyLine);
+                    // A block shorter than a number (a horizontal rule) would print its number
+                    // over the next line's: the short block's number moves up to end where the
+                    // next one starts, so the line beside real text keeps its place.
+                    if (previous != null && top - previousTop < numberLine)
+                        Canvas.SetTop(previous, top - numberLine);
+                    Canvas.SetTop(tb, top);
                     Canvas.SetRight(tb, 4);
                     LineGutter.Children.Add(tb);
+                    previous = tb;
+                    previousTop = top;
                 }
             }
             catch { /* layout not ready or an odd document - skip this pass, never crash */ }
