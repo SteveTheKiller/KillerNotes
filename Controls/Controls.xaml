@@ -884,7 +884,8 @@
         <Setter Property="HorizontalAlignment" Value="Stretch"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RadioButton">
             <Border x:Name="bd" Background="Transparent" CornerRadius="3" Margin="-8,0,2,0" Padding="10,4">
-                <DockPanel LastChildFill="True"><Grid Width="16" Height="16" Margin="0,0,8,0" DockPanel.Dock="Left">
+                <!-- One pixel down (0,1,8,-1) so the indicator centers on the label's capital height; Killer Sans sits low in its line box. The row height does not change. -->
+                <DockPanel LastChildFill="True"><Grid Width="16" Height="16" Margin="0,1,8,-1" DockPanel.Dock="Left">
                     <!-- The WELL behind the ring. A Win98 radio is a white sunken circle with the
                          dot inside it, not a hollow ring on the panel face - small, but it is the
                          difference between reading as a control and reading as an outline.
@@ -921,7 +922,8 @@
         <Setter Property="HorizontalAlignment" Value="Stretch"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="CheckBox">
             <Border x:Name="bd" Background="Transparent" CornerRadius="3" Margin="-8,0,2,0" Padding="10,4">
-                <DockPanel LastChildFill="True"><Grid Width="16" Height="16" Margin="0,0,8,0" DockPanel.Dock="Left">
+                <!-- One pixel down (0,1,8,-1) so the indicator centers on the label's capital height; Killer Sans sits low in its line box. The row height does not change. -->
+                <DockPanel LastChildFill="True"><Grid Width="16" Height="16" Margin="0,1,8,-1" DockPanel.Dock="Left">
                     <Border CornerRadius="{DynamicResource ControlCornerRadius}" x:Name="well" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource RadioWellBrush}"/>
                     <Border CornerRadius="{DynamicResource ControlCornerRadius}" x:Name="ring" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{DynamicResource DimTextBrush}" BorderThickness="1"/>
                     <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="10" x:Name="dot" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}" Visibility="Collapsed"/>
