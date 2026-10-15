@@ -6,6 +6,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.5.1] - Unreleased
 
+### Changed
+- Note titles in the sidebar are slightly larger, so they stand apart from the preview line and date under them.
+
 ### Fixed
 - Screen readers no longer read toolbar, format bar, menu and title bar icons as unreadable symbols.
 - Turning off Film Grain removes the grain from the note pane too.

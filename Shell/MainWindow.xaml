@@ -1148,7 +1148,7 @@
                                     </TextBlock>
                                     <!-- Colored per note when TitleColor is set; the DataTrigger keeps
                                          uncolored titles on the theme-reactive TextBrush (1.0.1, #1) -->
-                                    <TextBlock Text="{Binding Title}" FontSize="13" TextTrimming="CharacterEllipsis"
+                                    <TextBlock Text="{Binding Title}" FontSize="15" TextTrimming="CharacterEllipsis"
                                                FontFamily="{DynamicResource SidebarFont}"
                                                ToolTip="{Binding Title}">
                                         <TextBlock.Style>
