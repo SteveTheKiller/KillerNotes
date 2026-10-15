@@ -1,0 +1,1439 @@
+﻿Field,Type,English,Bangla,Czech,German,Spanish,Hungarian,Italian,Japanese,Kazakh,Turkish,Ukrainian,Vietnamese (Vietnam),Portuguese (Brazil),Polish,Norwegian (Bokmål),Chinese (Simplified),Chinese (Traditional),French,Russian
+ProductName,Text,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes
+Description,Text,"One searchable, encrypted notepad instead of 80 Notepad tabs - rich text, inline images, real tables, and every note always saved, shareable as tear-off .knote files.
+
+Free, open source, GPLv3. No agent, no account, no subscription. No telemetry is sent and no ads... ever.
+
+One notepad, not 80 tabs
+Notes save after a typing pause, when switching notes, and on close. Ctrl+S saves immediately.
+
+Instant search
+Full-text search across every note as you type, on a SQLite FTS5 index. Sort by date or title, or arrange notes in your own custom order, and three sidebar densities fit more notes on screen.
+
+Rich text that keeps up
+Paste screenshots inline, insert real tables, and format with bold, italic, colors, lists, monospace, and rules. Word wrap, line numbers, per-note spell check, and a full color picker with a desktop-wide eyedropper - all on hotkeys. Paste spreadsheet or CSV data into table cells, and use the Table menu to add or remove rows and columns.
+
+Encrypted at rest
+Set a password and the whole database is encrypted with SQLCipher (AES-256): notes, images, index, everything. Change or remove it from the title-bar lock anytime.
+
+Color-coded tags
+Tag notes with colored labels, Outlook-style. Tags show as sidebar pills, and a click filters to that tag. Definitions travel inside shared files, and Ctrl+T manages them across every note.
+
+Groups & subgroups
+Drag notes into the order that matters, or file them into named groups per client or project - nested to any depth with subgroups. A parent's colored line runs down its children, headers collapse with a click, groups travel inside shared .kndb files, and Ctrl+Z undoes any move.
+
+Tear-off sharing
+Right-click to share a note as a .knote file, optionally password-protected, or drag it straight out to Teams, Outlook, or a folder. Whole databases travel as .kndb.
+
+Multiple databases
+Keep separate notepads per client or job. Create, switch, and export them from one dialog, and a received .kndb opens with a double-click. Point the data folder anywhere.
+
+Scheduled backups
+Choose a backup folder, run copies every 6 or 12 hours, daily, or weekly, and set how many to keep. Back up immediately with Alt+B, then restore any copy as a new database without overwriting the original.
+
+Linked notes & a graph of them
+Type [[ to link one note to another, including notes you have not written yet - following a dead link offers to create it. Each note lists what points at it, and Ctrl+Shift+B draws the whole notebook as a graph you can arrange, lock notes into place on, and save layouts of. It reopens exactly as you left it.
+The note's link strip lists incoming and outgoing links, including targets not created yet. Click a link to open its note.
+
+Dictation & transcription
+F10 (or Ctrl+M) opens a recording pad: capture audio, scrub and slice the waveform, then transcribe it offline - the speech recognition runs on your machine, nothing is uploaded. Embed the clip in the note as a playable chip, or print the transcript as text. Recordings are stored as FLAC and export to WAV or MP3.
+
+SketchPad drawing
+Draw right on a note: F7 (or Ctrl+Shift+D) opens a modeless SketchPad with pen, line, arrow, shapes, polygon, paint bucket, text labels, and an eraser. Print to note stamps it inline at the caret, and it stays editable - double-click any image in a note to reopen and mark it up.
+
+The Killculator
+A themed calculator that slides up from the sidebar (F9). Type an equation on the number keys, then Print Sum (Ctrl+Enter) drops the result into your note, or Print Equation (Ctrl+Shift+Enter) drops the whole running equation - no more copy-pasting out of calc.exe.
+
+Opens your files
+Ctrl+O or drop files in: .txt, .log, and .md become notes, .rtf keeps its formatting, .html carries a rendered preview, and images land inline. Each file becomes its own note.
+
+Export
+Export any note as plain text, rich text (.rtf) with images intact, or a standalone theme-styled web page with images embedded.
+
+Note & group colors
+Right-click to color a note's title or a group's name in the sidebar, with a live preview as you pick - a fast cue for the notes you reach for most. Colors travel inside shared files and reset in one click.
+
+Syntax highlighting
+Ctrl+Shift+E colors code in a note across sixteen languages - PowerShell, Python, SQL, Bash, C#, JavaScript, TypeScript, CSS, HTML, XAML, XML, Vue, JSON, YAML, Markdown and plain text. The language is detected per paragraph, so one scratch note full of mixed snippets colors every block correctly with no language picker.
+
+Float images & clips
+Drag an image or a recording out of the text and it floats: text wraps down the side, it snaps to a twelve-column grid so pictures on different lines line up, and dropping one onto a table widens the column to fit.
+
+Real hyperlinks
+Ctrl+K links the selection or edits the link under the caret, Ctrl+Click opens it, and typed URLs auto-link. Links survive pasting from browsers, Word and other note apps - and only web and mail addresses ever open.
+
+Markdown & HTML preview
+F4 cycles Source, Rendered and Split for Markdown and HTML. The native WPF preview follows the theme and grain; scripts never run.
+
+Hotkeys & keyboard map
+Everything has a key. F1 opens the shortcuts overlay with a full visual keyboard map; hold Ctrl, Shift or Alt to preview what each key does.
+
+Themes & accents
+13 themes, 41 looks: Dark, Light, Black and 98SE each offer eight accent colors. Gradients follow the theme; 98SE stays flat. The theme menu can turn Film Grain on or off.
+
+Nineteen languages
+The whole interface is translated into nineteen languages, switchable live without a restart. The same set the website ships in.","৮০টি Notepad ট্যাবের বদলে একটিমাত্র সার্চযোগ্য, এনক্রিপ্টেড নোটপ্যাড - রিচ টেক্সট, ইনলাইন ছবি, সত্যিকারের টেবিল, আর প্রতিটি নোট সবসময় সেভ থাকে, শেয়ারযোগ্য টিয়ার-অফ .knote ফাইল হিসেবে।
+
+ফ্রি, ওপেন সোর্স, GPLv3 কোনো এজেন্ট নেই, কোনো অ্যাকাউন্ট নেই, কোনো সাবস্ক্রিপশন নেই। কোনো টেলিমেট্রি পাঠানো হয় না, কোনো বিজ্ঞাপন নেই... কখনোই না।
+
+একটি নোটপ্যাড, ৮০টি ট্যাব নয়
+লেখার বিরতির পরে, নোট বদলানোর সময় এবং বন্ধ করার সময় নোট সংরক্ষিত হয়। Ctrl+S সঙ্গে সঙ্গে সংরক্ষণ করে।
+
+তাৎক্ষণিক সার্চ
+SQLite FTS5 সূচকে, টাইপ করতে করতেই সব নোটে পূর্ণ-পাঠ্য অনুসন্ধান। তারিখ বা শিরোনাম অনুযায়ী সাজান, বা নিজের কাস্টম ক্রমে রাখুন; তিনটি সাইডবার ঘনত্বে পর্দায় আরও বেশি নোট ধরে।
+
+রিচ টেক্সট যা তাল মিলিয়ে চলে
+স্ক্রিনশট সরাসরি পেস্ট করুন, আসল টেবিল যোগ করুন, আর বোল্ড, ইটালিক, রং, তালিকা, মনোস্পেস ও রেখা দিয়ে ফরম্যাট করুন। ওয়ার্ড র‍্যাপ, লাইন নম্বর, নোট-প্রতি বানান পরীক্ষা, এবং ডেস্কটপজুড়ে আইড্রপারসহ পূর্ণ কালার পিকার - সবই হটকিতে। স্প্রেডশিট বা CSV ডেটা ঘরে পেস্ট করুন এবং টেবিল মেনু দিয়ে সারি ও কলাম যোগ বা মুছুন।
+
+রেস্টে এনক্রিপ্টেড
+একটি পাসওয়ার্ড দিন, আর পুরো ডেটাবেস SQLCipher (AES-256) দিয়ে এনক্রিপ্ট হয়ে যায়: নোট, ছবি, ইনডেক্স, সবকিছু। টাইটেল-বারের লক থেকে যেকোনো সময় বদলান বা সরান।
+
+রঙ-কোডেড ট্যাগ
+Outlook-স্টাইলে রঙিন লেবেল দিয়ে নোট ট্যাগ করুন। ট্যাগ সাইডবারে পিল হিসেবে দেখায়, আর একটি ক্লিকে সেই ট্যাগে ফিল্টার হয়। সংজ্ঞাগুলো শেয়ার করা ফাইলের ভেতরেই চলে যায়, আর Ctrl+T প্রতিটি নোট জুড়ে সেগুলো পরিচালনা করে।
+
+গ্রুপ & সাবগ্রুপ
+নোটগুলো দরকারি ক্রমে টেনে সাজান, বা ক্লায়েন্ট কিংবা প্রজেক্ট অনুযায়ী নামযুক্ত গ্রুপে রাখুন - সাবগ্রুপে যেকোনো গভীরতায় নেস্টেড। মূল গ্রুপের রঙিন রেখা তার সন্তানদের পাশ দিয়ে নামে, হেডার এক ক্লিকে ভাঁজ হয়, গ্রুপ শেয়ার করা .kndb ফাইলের সাথে যায়, আর Ctrl+Z যেকোনো সরানো ফিরিয়ে আনে।
+
+টিয়ার-অফ শেয়ারিং
+রাইট-ক্লিক করে একটি নোট .knote ফাইল হিসেবে শেয়ার করুন, চাইলে পাসওয়ার্ড-সুরক্ষিত, কিংবা সরাসরি Teams, Outlook বা কোনো ফোল্ডারে টেনে নিন। পুরো ডেটাবেস .kndb হিসেবে চলে যায়।
+
+একাধিক ডেটাবেস
+প্রতি ক্লায়েন্ট বা কাজের জন্য আলাদা নোটপ্যাড রাখুন। একটি ডায়ালগ থেকেই তৈরি, বদল ও এক্সপোর্ট করুন, আর পাওয়া একটি .kndb ডাবল-ক্লিকে খুলে যায়। ডেটা ফোল্ডার যেখানে খুশি রাখুন।
+
+নির্ধারিত ব্যাকআপ
+একটি ব্যাকআপ ফোল্ডার বেছে নিন, প্রতি ৬ বা ১২ ঘণ্টা, প্রতিদিন বা প্রতি সপ্তাহে কপি তৈরি করুন এবং কতটি রাখা হবে তা ঠিক করুন। Alt+B সঙ্গে সঙ্গে ব্যাকআপ নেয়, আর মূল ডেটাবেস ওভাররাইট না করে যেকোনো কপি নতুন ডেটাবেস হিসেবে পুনরুদ্ধার করা যায়।
+
+লিঙ্ক করা নোট ও তাদের গ্রাফ
+এক নোটকে অন্য নোটের সঙ্গে লিঙ্ক করতে [[ লিখুন, এমন নোটও চলে যা আপনি এখনও লেখেননি - মৃত লিঙ্ক অনুসরণ করলে সেটি তৈরি করার প্রস্তাব আসে। প্রতিটি নোট দেখায় কী কী তার দিকে নির্দেশ করে, আর Ctrl+Shift+B গোটা নোটবুককে একটি গ্রাফ হিসেবে আঁকে যা আপনি সাজাতে পারেন, যেখানে নোট জায়গায় লক করতে পারেন এবং বিন্যাস সংরক্ষণ করতে পারেন। ঠিক যেভাবে ছেড়ে গিয়েছিলেন সেভাবেই আবার খোলে।
+নোটের লিংক বারে আসা ও যাওয়া লিংক দেখা যায়, এখনও তৈরি না হওয়া গন্তব্যও থাকে। নোট খুলতে লিংকে ক্লিক করুন।
+
+ডিক্টেশন ও ট্রান্সক্রিপশন
+F10 (বা Ctrl+M) একটি রেকর্ডিং প্যাড খোলে: অডিও ধরুন, ওয়েভফর্ম স্ক্রাব ও কাটুন, তারপর অফলাইনেই ট্রান্সক্রাইব করুন - স্পিচ রিকগনিশন আপনার মেশিনেই চলে, কিছুই আপলোড হয় না। ক্লিপটি নোটে বাজানো যায় এমন চিপ হিসেবে বসান, বা ট্রান্সক্রিপ্ট টেক্সট হিসেবে প্রিন্ট করুন। রেকর্ডিং FLAC-এ সংরক্ষিত হয় এবং WAV বা MP3-তে এক্সপোর্ট হয়।
+
+SketchPad অঙ্কন
+সরাসরি একটি নোটের উপর আঁকুন: F7 (বা Ctrl+Shift+D) একটি মোডলেস SketchPad খোলে - পেন, রেখা, তীর, আকৃতি, বহুভুজ, রঙের বালতি, টেক্সট লেবেল এবং একটি ইরেজার সহ। নোটে প্রিন্ট এটিকে কার্সারে বসায়, এবং এটি সম্পাদনযোগ্য থাকে - নোটের যেকোনো ছবিতে ডাবল-ক্লিক করে সেটি আবার খুলে চিহ্নিত করুন।
+
+Killculator
+সাইডবার থেকে উঠে আসা একটি থিম-সঙ্গত ক্যালকুলেটর (F9)। সংখ্যা কী দিয়ে একটি সমীকরণ টাইপ করুন, তারপর যোগফল প্রিন্ট (Ctrl+Enter) ফলাফল আপনার নোটে বসায়, অথবা সমীকরণ প্রিন্ট (Ctrl+Shift+Enter) পুরো বিস্তৃত সমীকরণটি বসায় - calc.exe থেকে আর কপি-পেস্ট নয়।
+
+আপনার ফাইল খোলে
+Ctrl+O চাপুন বা ফাইল ড্রপ করুন: .txt, .log ও .md নোট হয়ে যায়, .rtf তার ফরম্যাটিং রাখে, .html রেন্ডার করা প্রিভিউ বহন করে, আর ছবি ইনলাইনে বসে। প্রতিটি ফাইল নিজের আলাদা নোট হয়।
+
+এক্সপোর্ট
+যেকোনো নোট প্লেইন টেক্সট, ছবি অক্ষত রেখে রিচ টেক্সট (.rtf), কিংবা ছবি এমবেড করা একটি স্বতন্ত্র থিম-স্টাইলড ওয়েব পেজ হিসেবে এক্সপোর্ট করুন।
+
+নোট & গ্রুপের রং
+ডান-ক্লিক করে সাইডবারে নোটের শিরোনাম বা গ্রুপের নাম রঙিন করুন; বাছাই করার সময় লাইভ প্রিভিউ - সবচেয়ে ব্যবহৃত নোটগুলোর দ্রুত চিহ্ন। রং শেয়ার করা ফাইলের সাথে যায় এবং এক ক্লিকে রিসেট হয়।
+
+সিনট্যাক্স হাইলাইটিং
+Ctrl+Shift+E ১৬টি ভাষায় নোটের কোড রঙিন করে - PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript ও আরও। ভাষা প্রতি অনুচ্ছেদে আলাদাভাবে শনাক্ত হয়, তাই মিশ্র স্নিপেটে ভরা একটি নোটও ভাষা নির্বাচক ছাড়াই প্রতিটি ব্লক ঠিকভাবে রঙিন করে।
+
+ছবি ও ক্লিপ ভাসান
+টেক্সট থেকে একটি ছবি বা রেকর্ডিং টেনে বার করলে সেটি ভেসে যায়: লেখা তার পাশ দিয়ে মুড়ে যায়, বারো-কলামের গ্রিডে স্ন্যাপ করে যাতে আলাদা লাইনের ছবিগুলো এক সারিতে বসে, আর টেবিলের উপর ছাড়লে কলামটি চওড়া হয়ে জায়গা করে দেয়।
+
+সত্যিকারের হাইপারলিংক
+Ctrl+K নির্বাচনকে লিংক করে বা কার্সারের নিচের লিংক সম্পাদনা করে, Ctrl+Click খোলে, আর টাইপ করা URL নিজেই লিংক হয়ে যায়। ব্রাউজার, Word ও অন্য নোট অ্যাপ থেকে পেস্ট করলেও লিংক টিকে থাকে - এবং কেবল ওয়েব ও মেইল ঠিকানাই খোলে।
+
+Markdown & HTML প্রিভিউ
+F4 Markdown ও HTML-এর সোর্স, রেন্ডার করা ও বিভক্ত দৃশ্য বদলায়। নেটিভ WPF প্রিভিউ থিম ও দানাদার আবহ অনুসরণ করে; স্ক্রিপ্ট কখনও চলে না।
+
+হটকি & কীবোর্ড ম্যাপ
+সবকিছুরই একটি কী আছে। F1 একটি পূর্ণ ভিজ্যুয়াল কীবোর্ড ম্যাপ সহ শর্টকাট ওভারলে খোলে; Ctrl, Shift বা Alt ধরে রাখলে প্রতিটি কী কী করে তার প্রিভিউ দেখায়।
+
+থিম & অ্যাকসেন্ট
+13টি থিম, 41টি চেহারা: Dark, Light, Black ও 98SE প্রতিটিতে আটটি অ্যাকসেন্ট রঙ আছে। গ্রেডিয়েন্ট থিম অনুসরণ করে; 98SE সমতল থাকে। থিম মেনু থেকে ফিল্ম গ্রেইন চালু বা বন্ধ করা যায়।
+
+19টি ভাষা
+পুরো ইন্টারফেস 19টি ভাষায় অনূদিত, রিস্টার্ট ছাড়াই সঙ্গে সঙ্গে পরিবর্তনযোগ্য। ওয়েবসাইট যে ভাষাগুলোতে আসে সেই একই সেট।","Jeden prohledávatelný, šifrovaný poznámkový blok místo 80 karet Poznámkového bloku - formátovaný text, vložené obrázky, skutečné tabulky a každá poznámka vždy uložená, sdílitelná jako odtržitelné soubory .knote.
+
+Zdarma, open source, GPLv3 Žádný agent, žádný účet, žádné předplatné. Neodesílá se žádná telemetrie a žádné reklamy... nikdy.
+
+Jeden poznámkový blok, ne 80 karet
+Poznámky se ukládají po pauze v psaní, při přepnutí poznámky a při zavření. Ctrl+S uloží ihned.
+
+Okamžité vyhledávání
+Fulltextové vyhledávání napříč všemi poznámkami během psaní, na indexu SQLite FTS5. Řaďte podle data nebo názvu, nebo si poznámky uspořádejte ve vlastním pořadí, a tři hustoty postranního panelu vejdou na obrazovku více poznámek.
+
+Formátovaný text, který drží krok
+Vkládejte snímky obrazovky přímo do textu, vkládejte skutečné tabulky a formátujte tučným písmem, kurzívou, barvami, seznamy, neproporcionálním písmem a linkami. Zalamování řádků, čísla řádků, kontrola pravopisu pro každou poznámku a plná paleta barev s kapátkem přes celou plochu - vše na klávesových zkratkách. Vložte data z tabulky nebo CSV do buněk a pomocí nabídky Tabulka přidávejte nebo odstraňujte řádky a sloupce.
+
+Šifrováno v klidu
+Nastavte heslo a celá databáze je zašifrována pomocí SQLCipher (AES-256): poznámky, obrázky, index, všechno. Změňte jej nebo odeberte ze zámku na záhlaví okna kdykoli.
+
+Barevně rozlišené štítky
+Označte poznámky barevnými štítky, ve stylu Outlooku. Štítky se zobrazují jako pilulky v postranním panelu a kliknutí odfiltruje na daný štítek. Definice putují uvnitř sdílených souborů a Ctrl+T je spravuje napříč všemi poznámkami.
+
+Skupiny & podskupiny
+Přetáhněte poznámky do pořadí, na kterém záleží, nebo je zařaďte do pojmenovaných skupin podle klienta či projektu - vnořené do libovolné hloubky pomocí podskupin. Barevná linka rodiče vede dolů skrz jeho potomky, záhlaví se sbalí kliknutím, skupiny putují uvnitř sdílených souborů .kndb a Ctrl+Z vrátí jakýkoli přesun zpět.
+
+Odtržitelné sdílení
+Klikněte pravým tlačítkem a sdílejte poznámku jako soubor .knote, volitelně chráněný heslem, nebo ji přetáhněte přímo do Teams, Outlooku nebo složky. Celé databáze putují jako .kndb.
+
+Více databází
+Udržujte oddělené poznámkové bloky pro každého klienta nebo zakázku. Vytvářejte, přepínejte a exportujte je z jednoho dialogu a přijatý .kndb se otevře dvojklikem. Nasměrujte datovou složku kamkoli.
+
+Plánované zálohy
+Vyberte složku pro zálohy, vytvářejte kopie každých 6 nebo 12 hodin, denně či týdně a určete, kolik jich zachovat. Alt+B vytvoří zálohu ihned a libovolnou kopii lze obnovit jako novou databázi bez přepsání originálu.
+
+Propojené poznámky a jejich graf
+Napište [[ a propojte jednu poznámku s druhou, i s takovou, kterou jste ještě nenapsali - při otevření mrtvého odkazu aplikace nabídne její vytvoření. Každá poznámka vypisuje, co na ni míří, a Ctrl+Shift+B vykreslí celý zápisník jako graf, který můžete uspořádat, zamknout v něm poznámky na místě a ukládat jeho rozvržení. Otevře se přesně tak, jak jste jej opustili.
+Lišta odkazů uvádí příchozí i odchozí odkazy včetně dosud nevytvořených cílů. Kliknutím na odkaz otevřete poznámku.
+
+Diktování a přepis
+F10 (nebo Ctrl+M) otevře nahrávací panel: nahrajte zvuk, projděte a ořízněte křivku a pak jej přepište offline - rozpoznávání řeči běží na vašem počítači, nic se nikam neodesílá. Klip vložte do poznámky jako přehratelnou kapsli, nebo do ní vytiskněte přepis. Nahrávky se ukládají ve FLAC a exportují do WAV nebo MP3.
+
+Kreslení ve SketchPadu
+Kreslete přímo na poznámku: F7 (nebo Ctrl+Shift+D) otevře nemodální SketchPad s perem, čárou, šipkou, tvary, mnohoúhelníkem, plechovkou barvy, textovými popisky a gumou. Vytisknout do poznámky jej vloží přímo do textu na pozici kurzoru a zůstane upravitelný - dvojklikem na libovolný obrázek v poznámce jej znovu otevřete a upravíte.
+
+Killculator
+Kalkulačka ve stylu motivu, která se vysouvá z postranního panelu (F9). Napište rovnici na číselných klávesách, poté Vytisknout součet (Ctrl+Enter) vloží výsledek do vaší poznámky, nebo Vytisknout rovnici (Ctrl+Shift+Enter) vloží celou průběžnou rovnici - žádné další kopírování z calc.exe.
+
+Otevírá vaše soubory
+Ctrl+O nebo přetáhněte soubory dovnitř: .txt, .log a .md se stanou poznámkami, .rtf si zachová své formátování, .html nese vykreslený náhled a obrázky se vloží přímo do textu. Každý soubor se stane vlastní poznámkou.
+
+Export
+Exportujte libovolnou poznámku jako prostý text, formátovaný text (.rtf) s neporušenými obrázky nebo samostatnou webovou stránku ve stylu motivu s vloženými obrázky.
+
+Barvy poznámek & skupin
+Klikněte pravým tlačítkem a obarvěte název poznámky nebo název skupiny v postranním panelu, s živým náhledem během výběru - rychlé vodítko pro poznámky, po kterých saháte nejčastěji. Barvy putují uvnitř sdílených souborů a resetují se jedním kliknutím.
+
+Zvýrazňování syntaxe
+Ctrl+Shift+E obarví kód v poznámce v 16 jazycích - PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript a dalších. Jazyk se rozpozná pro každý odstavec zvlášť, takže i poznámka plná různorodých úryvků obarví každý blok správně a bez výběru jazyka.
+
+Plovoucí obrázky a klipy
+Vytáhněte obrázek nebo nahrávku z textu a začne plavat: text ji obtéká po straně, přichytává se k mřížce o dvanácti sloupcích, takže obrázky na různých řádcích lícují, a puštění nad tabulkou rozšíří sloupec tak, aby se vešla.
+
+Opravdové hypertextové odkazy
+Ctrl+K vytvoří odkaz z výběru nebo upraví odkaz pod kurzorem, Ctrl+kliknutí jej otevře a napsané URL se propojí samy. Odkazy přežijí vložení z prohlížeče, Wordu i jiných poznámkových aplikací - a otevřou se jen webové a e-mailové adresy.
+
+Náhled Markdownu & HTML
+F4 přepíná Zdroj, Vykreslení a Rozdělení pro Markdown a HTML. Nativní náhled WPF sleduje motiv a zrno; skripty se nikdy nespouštějí.
+
+Klávesové zkratky & mapa klávesnice
+Všechno má klávesu. F1 otevře překryv se zkratkami s úplnou vizuální mapou klávesnice; podržte Ctrl, Shift nebo Alt pro náhled toho, co každá klávesa dělá.
+
+Motivy & akcenty
+13 motivů, 41 vzhledů: Dark, Light, Black a 98SE nabízejí každý osm barev akcentu. Přechody sledují motiv; 98SE zůstává plochý. Nabídka motivů umožňuje zapnout nebo vypnout filmové zrno.
+
+19 jazyků
+Celé rozhraní je přeloženo do 19 jazyků, přepínatelných za běhu bez restartu. Stejná sada, v jaké vychází web.","Ein durchsuchbarer, verschlüsselter Notizblock statt 80 Notepad-Tabs - Rich Text, eingebettete Bilder, echte Tabellen und jede Notiz immer gespeichert, teilbar als abtrennbare .knote-Dateien.
+
+Kostenlos, Open Source, GPLv3. Kein Agent, kein Konto, kein Abo. Keine Telemetrie und keine Werbung... niemals.
+
+Ein Notizblock, nicht 80 Tabs
+Notizen werden nach einer Schreibpause, beim Notizwechsel und beim Schließen gespeichert. Ctrl+S speichert sofort.
+
+Sofortsuche
+Volltextsuche über alle Notizen beim Tippen, auf einem SQLite-FTS5-Index. Sortiere nach Datum oder Titel, ordne die Notizen in eigener Reihenfolge an, und drei Seitenleisten-Dichten bringen mehr Notizen auf den Schirm.
+
+Rich Text, der mithält
+Füge Screenshots direkt ein, erstelle echte Tabellen und formatiere mit Fett, Kursiv, Farben, Listen, Monospace und Linien. Zeilenumbruch, Zeilennummern, Rechtschreibprüfung pro Notiz und ein vollwertiger Farbwähler mit desktopweiter Pipette - alles per Hotkey. Fügen Sie Tabellen- oder CSV-Daten in Zellen ein. Über das Tabellenmenü können Sie Zeilen und Spalten hinzufügen oder entfernen.
+
+Verschlüsselt im Ruhezustand
+Setz ein Passwort und die gesamte Datenbank wird mit SQLCipher (AES-256) verschlüsselt: Notizen, Bilder, Index, alles. Ändere oder entferne es jederzeit über das Schloss in der Titelleiste.
+
+Farbcodierte Tags
+Versieh Notizen mit farbigen Labels, im Outlook-Stil. Tags erscheinen als Pills in der Seitenleiste, und ein Klick filtert nach diesem Tag. Definitionen reisen in geteilten Dateien mit, und Ctrl+T verwaltet sie über alle Notizen hinweg.
+
+Gruppen & Untergruppen
+Zieh Notizen in die Reihenfolge, die zählt, oder ordne sie in benannte Gruppen pro Kunde oder Projekt - mit Untergruppen beliebig tief verschachtelt. Die farbige Linie der Elterngruppe läuft an ihren Kindern entlang, Kopfzeilen klappen mit einem Klick zu, Gruppen reisen in geteilten .kndb-Dateien mit, und Strg+Z macht jede Verschiebung rückgängig.
+
+Abtrennbares Teilen
+Per Rechtsklick teilst du eine Notiz als .knote-Datei, optional passwortgeschützt, oder ziehst sie direkt nach Teams, Outlook oder in einen Ordner. Ganze Datenbanken reisen als .kndb.
+
+Mehrere Datenbanken
+Halte separate Notizbücher pro Kunde oder Auftrag. Erstelle, wechsle und exportiere sie über einen einzigen Dialog, und eine empfangene .kndb öffnet sich per Doppelklick. Leg den Datenordner ab, wo du willst.
+
+Geplante Sicherungen
+Wähle einen Sicherungsordner, erstelle Kopien alle 6 oder 12 Stunden, täglich oder wöchentlich und lege fest, wie viele erhalten bleiben. Alt+B sichert sofort, und jede Kopie lässt sich als neue Datenbank wiederherstellen, ohne das Original zu überschreiben.
+
+Verknüpfte Notizen und ein Graph davon
+Tippen Sie [[, um eine Notiz mit einer anderen zu verknüpfen, auch mit Notizen, die Sie noch nicht geschrieben haben - folgt man einem toten Link, wird das Anlegen angeboten. Jede Notiz listet auf, was auf sie zeigt, und Ctrl+Shift+B zeichnet das ganze Notizbuch als Graphen, den Sie anordnen können, in dem Sie Notizen an ihrem Platz sperren und dessen Layouts Sie speichern können. Er öffnet sich genau so wieder, wie Sie ihn verlassen haben.
+Die Linkleiste zeigt eingehende und ausgehende Links, auch zu noch nicht erstellten Zielen. Klicke einen Link an, um die Notiz zu öffnen.
+
+Diktat & Transkription
+F10 (oder Ctrl+M) öffnet ein Aufnahmefeld: Audio aufnehmen, die Wellenform durchfahren und schneiden, dann offline transkribieren - die Spracherkennung läuft auf deinem Rechner, nichts wird hochgeladen. Den Clip als abspielbaren Chip in die Notiz einbetten oder das Transkript als Text hineinschreiben. Aufnahmen liegen als FLAC vor und lassen sich als WAV oder MP3 exportieren.
+
+SketchPad-Zeichnung
+Zeichne direkt auf einer Notiz: F7 (oder Ctrl+Shift+D) öffnet ein nicht-modales SketchPad mit Stift, Linie, Pfeil, Formen, Polygon, Farbeimer, Textbeschriftungen und einem Radierer. In Notiz drucken fügt es an der Einfügemarke ein, und es bleibt bearbeitbar - doppelklicke ein beliebiges Bild in einer Notiz, um es erneut zu öffnen und zu markieren.
+
+Der Killculator
+Ein Rechner im App-Design, der aus der Seitenleiste hochfährt (F9). Tippe eine Gleichung auf den Zifferntasten, dann legt Summe drucken (Ctrl+Enter) das Ergebnis in deine Notiz, oder Gleichung drucken (Ctrl+Shift+Enter) die ganze ausgeschriebene Gleichung - kein Kopieren aus calc.exe mehr.
+
+Öffnet deine Dateien
+Ctrl+O oder Dateien hineinziehen: .txt, .log und .md werden zu Notizen, .rtf behält seine Formatierung, .html bringt eine gerenderte Vorschau mit, und Bilder landen inline. Jede Datei wird zu ihrer eigenen Notiz.
+
+Export
+Exportiere jede Notiz als reinen Text, als Rich Text (.rtf) mit erhaltenen Bildern oder als eigenständige, im Theme gestylte Webseite mit eingebetteten Bildern.
+
+Notiz- & Gruppenfarben
+Färbe per Rechtsklick den Titel einer Notiz oder den Namen einer Gruppe in der Seitenleiste, mit Live-Vorschau beim Auswählen - ein schnelles Signal für die Notizen, die du am häufigsten brauchst. Farben reisen in geteilten Dateien mit und lassen sich mit einem Klick zurücksetzen.
+
+Syntaxhervorhebung
+Ctrl+Shift+E färbt Code in einer Notiz in 16 Sprachen - PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript und mehr. Die Sprache wird pro Absatz erkannt, sodass selbst eine Kritzelnotiz voller gemischter Schnipsel jeden Block korrekt einfärbt - ohne Sprachauswahl.
+
+Bilder & Clips schweben lassen
+Zieh ein Bild oder eine Aufnahme aus dem Text heraus und es schwebt: Der Text umfließt es seitlich, es rastet in ein Zwölf-Spalten-Raster ein, sodass Bilder in verschiedenen Zeilen zueinander ausgerichtet sind, und ein Ablegen auf einer Tabelle verbreitert die Spalte passend.
+
+Echte Hyperlinks
+Ctrl+K verlinkt die Auswahl oder bearbeitet den Link unter dem Cursor, Ctrl+Klick öffnet ihn, und getippte URLs werden automatisch zu Links. Links überstehen das Einfügen aus Browsern, Word und anderen Notiz-Apps - und nur Web- und Mail-Adressen werden geöffnet.
+
+Markdown- & HTML-Vorschau
+F4 wechselt für Markdown und HTML zwischen Quelle, Darstellung und geteilter Ansicht. Die native WPF-Vorschau folgt Thema und Körnung; Skripte werden nie ausgeführt.
+
+Hotkeys & Tastaturbelegung
+Alles hat eine Taste. F1 öffnet das Kürzel-Overlay mit einer vollständigen visuellen Tastaturkarte; halte Ctrl, Shift oder Alt, um eine Vorschau zu sehen, was jede Taste macht.
+
+Themes & Akzente
+13 Themen, 41 Varianten: Dark, Light, Black und 98SE bieten jeweils acht Akzentfarben. Verläufe folgen dem Thema; 98SE bleibt flach. Im Themenmenü lässt sich Filmkorn ein- oder ausschalten.
+
+19 Sprachen
+Die gesamte Oberfläche ist in 19 Sprachen übersetzt, live umschaltbar ohne Neustart. Dieselbe Auswahl wie auf der Website.","Un bloc de notas cifrado y con búsqueda en lugar de 80 pestañas del Bloc de notas: texto enriquecido, imágenes en línea, tablas reales y cada nota siempre guardada, compartible como archivos .knote desprendibles.
+
+Gratis, código abierto, GPLv3. Sin agente, sin cuenta, sin suscripción. No se envía telemetría ni hay anuncios... nunca.
+
+Un bloc de notas, no 80 pestañas
+Las notas se guardan tras una pausa al escribir, al cambiar de nota y al cerrar. Ctrl+S guarda inmediatamente.
+
+Búsqueda instantánea
+Búsqueda de texto completo en todas las notas mientras escribes, sobre un índice SQLite FTS5. Ordena por fecha o título, u organiza las notas en tu propio orden personalizado, y tres densidades de la barra lateral muestran más notas en pantalla.
+
+Texto enriquecido que sigue el ritmo
+Pega capturas de pantalla en línea, inserta tablas reales y da formato con negrita, cursiva, colores, listas, monoespaciado y líneas. Ajuste de línea, números de línea, corrección ortográfica por nota y un selector de color completo con cuentagotas para todo el escritorio, todo con atajos de teclado. Pega datos de una hoja de cálculo o CSV en las celdas y usa el menú Tabla para añadir o eliminar filas y columnas.
+
+Cifrado en reposo
+Establece una contraseña y toda la base de datos se cifra con SQLCipher (AES-256): notas, imágenes, índice, todo. Cámbiala o quítala desde el candado de la barra de título cuando quieras.
+
+Etiquetas por colores
+Etiqueta las notas con marcas de color, al estilo de Outlook. Las etiquetas aparecen como píldoras en la barra lateral, y un clic filtra por esa etiqueta. Las definiciones viajan dentro de los archivos compartidos, y Ctrl+T las gestiona en todas las notas.
+
+Grupos & subgrupos
+Arrastra las notas al orden que importa, o archívalas en grupos con nombre por cliente o proyecto, anidados a cualquier profundidad con subgrupos. La línea de color del grupo padre recorre sus hijos, los encabezados se contraen con un clic, los grupos viajan dentro de archivos .kndb compartidos y Ctrl+Z deshace cualquier movimiento.
+
+Compartir desprendible
+Haz clic derecho para compartir una nota como archivo .knote, con contraseña opcional, o arrástrala directamente a Teams, Outlook o una carpeta. Las bases de datos completas viajan como .kndb.
+
+Múltiples bases de datos
+Mantén blocs de notas separados por cliente o trabajo. Créalos, cámbialos y expórtalos desde un solo cuadro de diálogo, y un .kndb recibido se abre con doble clic. Apunta la carpeta de datos a donde quieras.
+
+Copias de seguridad programadas
+Elige una carpeta de copias, créalas cada 6 o 12 horas, a diario o cada semana, y decide cuántas conservar. Alt+B crea una copia de inmediato y cualquier copia puede restaurarse como una base nueva sin sobrescribir la original.
+
+Notas enlazadas y un grafo de ellas
+Escriba [[ para enlazar una nota con otra, incluidas notas que aún no ha escrito: al seguir un enlace roto se le ofrece crearla. Cada nota enumera lo que apunta a ella, y Ctrl+Shift+B dibuja todo el cuaderno como un grafo que puede disponer, en el que puede bloquear notas en su sitio y del que puede guardar distribuciones. Se reabre exactamente como lo dejó.
+La barra de enlaces muestra enlaces entrantes y salientes, incluidos destinos aún no creados. Haz clic en un enlace para abrir su nota.
+
+Dictado y transcripción
+F10 (o Ctrl+M) abre un panel de grabación: captura el audio, recorre y recorta la forma de onda y transcríbelo sin conexión: el reconocimiento de voz corre en tu máquina, no se sube nada. Inserta el clip en la nota como una cápsula reproducible, o imprime la transcripción como texto. Las grabaciones se guardan en FLAC y se exportan a WAV o MP3.
+
+Dibujo con SketchPad
+Dibuja directamente sobre una nota: F7 (o Ctrl+Shift+D) abre un SketchPad no modal con lápiz, línea, flecha, formas, polígono, cubo de pintura, etiquetas de texto y una goma. Imprimir en la nota lo inserta en el cursor, y sigue siendo editable - haz doble clic en cualquier imagen de una nota para reabrirla y anotarla.
+
+La Killculator
+Una calculadora con estilo que se despliega desde la barra lateral (F9). Escribe una ecuación con las teclas numéricas y luego Imprimir suma (Ctrl+Enter) coloca el resultado en tu nota, o Imprimir ecuación (Ctrl+Shift+Enter) coloca toda la ecuación desarrollada - se acabó copiar y pegar desde calc.exe.
+
+Abre tus archivos
+Ctrl+O o suelta archivos: .txt, .log y .md se convierten en notas, .rtf conserva su formato, .html incluye una vista previa renderizada y las imágenes aterrizan en línea. Cada archivo se convierte en su propia nota.
+
+Exportar
+Exporta cualquier nota como texto plano, texto enriquecido (.rtf) con las imágenes intactas, o una página web independiente con el estilo del tema y las imágenes incrustadas.
+
+Colores de notas & grupos
+Haz clic derecho para colorear el título de una nota o el nombre de un grupo en la barra lateral, con vista previa en vivo mientras eliges, una señal rápida para las notas que más usas. Los colores viajan dentro de los archivos compartidos y se restablecen con un solo clic.
+
+Resaltado de sintaxis
+Ctrl+Shift+E colorea el código de una nota en 16 lenguajes: PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript y más. El lenguaje se detecta por párrafo, así que una nota de borrador llena de fragmentos mezclados colorea cada bloque correctamente sin selector de lenguaje.
+
+Flota imágenes y clips
+Arrastra una imagen o una grabación fuera del texto y flotará: el texto la rodea por el lado, se ajusta a una rejilla de doce columnas para que las imágenes de distintas líneas queden alineadas, y soltarla sobre una tabla ensancha la columna para que quepa.
+
+Hipervínculos de verdad
+Ctrl+K enlaza la selección o edita el enlace bajo el cursor, Ctrl+Clic lo abre y las URL escritas se enlazan solas. Los enlaces sobreviven al pegado desde navegadores, Word y otras apps de notas, y solo se abren direcciones web y de correo.
+
+Vista previa de Markdown & HTML
+F4 alterna entre Fuente, Renderizado y Dividido para Markdown y HTML. La vista previa WPF nativa sigue el tema y el grano; los scripts nunca se ejecutan.
+
+Atajos & mapa de teclado
+Todo tiene una tecla. F1 abre la superposición de atajos con un mapa visual completo del teclado; mantén Ctrl, Shift o Alt para previsualizar qué hace cada tecla.
+
+Temas & acentos
+13 temas, 41 apariencias: Dark, Light, Black y 98SE ofrecen ocho colores de acento cada uno. Los degradados siguen el tema; 98SE permanece plano. El menú de temas permite activar o desactivar Grano de película.
+
+19 idiomas
+Toda la interfaz está traducida a 19 idiomas, conmutables al instante sin reiniciar. El mismo conjunto en el que se publica el sitio web.","Egy kereshető, titkosított jegyzettömb a 80 Jegyzettömb lap helyett - formázott szöveg, soron belüli képek, valódi táblázatok és minden mindig mentett jegyzet, megosztható letéphető .knote fájlként.
+
+Ingyenes, nyílt forráskódú, GPLv3. Nincs ügyintéző, nincs fiók, nincs előfizetés. Nem küldenek telemetriát és nincsenek hirdetések... soha.
+
+Egy jegyzettömb, nem 80 lap
+A jegyzetek gépelési szünet után, jegyzetváltáskor és bezáráskor mentődnek. A Ctrl+S azonnal ment.
+
+Azonnali keresés
+Teljes szöveges keresés minden jegyzetben gépelés közben, egy SQLite FTS5 indexen. Válogass dátum vagy cím szerint, vagy rendezd el a jegyzeteket saját egyéni sorrendben, és a három oldalsáv sűrűsége több jegyzetet is elfér a képernyőn.
+
+Gazdag szöveg, amely lépést tart
+Illessze be a képernyőképeket, szúrjon be valódi táblázatokat, és formázza félkövérrel, dőlt betűvel, színekkel, listákkal, szóközzel és szabályokkal. Tördelés, sorszámok, jegyzetenkénti helyesírás-ellenőrzés és teljes színválasztó az asztalon található szemcseppentővel - mindez gyorsbillentyűkkel. Illesszen táblázat- vagy CSV-adatokat a cellákba, és a Táblázat menüvel adjon hozzá vagy töröljön sorokat és oszlopokat.
+
+Nyugalomban titkosítva
+Állítson be egy jelszót, és az egész adatbázis SQLCipherrel (AES-256) titkosítva lesz: jegyzetek, képek, index, minden. Bármikor módosítsa vagy távolítsa el a címsor zárolásából.
+
+Színes címkék
+Jelölje meg a jegyzeteket színes címkékkel, Outlook-stílusban. A címkék oldalsávként jelennek meg, és egy kattintás erre a címkére szűrődik. A definíciók a megosztott fájlokon belül mozognak, a Ctrl+T pedig minden jegyzetben kezeli őket.
+
+Csoportok és alcsoportok
+Húzza a jegyzeteket a fontos sorrendbe, vagy rögzítse azokat elnevezett csoportokba kliensenként vagy projektenként - alcsoportokkal tetszőleges mélységig beágyazva. A szülő színes vonala végigfut a gyermekein, a fejlécek egy kattintással összeomlanak, a csoportok a megosztott .kndb fájlokba utaznak, a Ctrl+Z pedig minden mozdulatot visszavon.
+
+Letéphető megosztás
+Kattintson a jobb gombbal egy jegyzet megosztásához .knote fájlként (opcionálisan jelszóval védett), vagy húzza ki közvetlenül a Teamsbe, az Outlookba vagy egy mappába. Az egész adatbázisok .kndb néven utaznak.
+
+Több adatbázis
+Ügyfelenként vagy munkánként tartson külön jegyzettömböt. Hozzon létre, váltson át és exportáljon őket egy párbeszédpanelen, és a kapott .kndb dupla kattintással megnyílik. Irányítsa az adatmappát bárhová.
+
+Ütemezett biztonsági mentések
+Válasszon mentési mappát, készítsen másolatot 6 vagy 12 óránként, naponta vagy hetente, és állítsa be, hány példány maradjon meg. Az Alt+B azonnal ment, bármely másolat pedig új adatbázisként állítható vissza az eredeti felülírása nélkül.
+
+Összekapcsolt jegyzetek és a gráfjuk
+Írja be a [[ jelet, hogy egyik jegyzetet a másikhoz kapcsolja, akár olyanhoz is, amelyet még nem írt meg - egy holt hivatkozás követésekor a program felajánlja a létrehozását. Minden jegyzet felsorolja, mi mutat rá, a Ctrl+Shift+B pedig gráfként rajzolja ki az egész jegyzettömböt, amelyet elrendezhet, amelyen jegyzeteket rögzíthet a helyükre, és amelynek elrendezéseit mentheti. Pontosan úgy nyílik meg újra, ahogy hagyta.
+A hivatkozássáv bejövő és kimenő hivatkozásokat sorol fel, még nem létrehozott célokat is. Kattints egy hivatkozásra a jegyzet megnyitásához.
+
+Diktálás és átírás
+F10 (vagy Ctrl+M) megnyit egy rögzítőlapot: rögzítse a hangot, súrolja és szeletelje fel a hullámformát, majd offline átírja - a beszédfelismerés fut a gépen, semmi sem kerül feltöltésre. Illessze be a klipet a jegyzetbe lejátszható chipként, vagy nyomtassa ki az átiratot szövegként. A felvételeket FLAC formátumban tárolja, és WAV vagy MP3 formátumba exportálja.
+
+SketchPad rajz
+Rajzoljon jobbra a jegyzetre: Az F7 (vagy a Ctrl+Shift+D) egy modell nélküli SketchPad-et nyit meg tollal, vonallal, nyíllal, alakzatokkal, sokszöggel, festékes vödörrel, szöveges címkékkel és radírral. A Nyomtatás jegyzetre funkcióval beépíti a jegyzetbe, és szerkeszthető marad - kattintson duplán a jegyzet bármelyik képére az újranyitáshoz és a megjelöléshez.
+
+A Killculator
+Tematikus számológép, amely az oldalsávról felfelé csúszik (F9). Írjon be egy egyenletet a számbillentyűkre, majd az Összeg nyomtatása (Ctrl+Enter) bedobja az eredményt a jegyzetébe, vagy a Print Equation (Ctrl+Shift+Enter) a teljes futó egyenletet eldobja - nincs többé másolása a calc.exe fájlból.
+
+Megnyitja a fájlokat
+A Ctrl+O billentyűkombináció vagy a .txt, .log és .md fájlok bedobása jegyzetté válik, az .rtf megőrzi formázását, a .html megjeleníti a megjelenített előnézetet, a képek pedig sorba kerülnek. Minden fájl külön jegyzetté válik.
+
+Exportálás
+Exportálhat bármilyen jegyzetet egyszerű szövegként, formázott szövegként (.rtf) sértetlen képekkel, vagy önálló téma-stílusú weboldalra beágyazott képekkel.
+
+Megjegyzés és csoportos színek
+Kattintson a jobb gombbal egy jegyzet vagy egy csoport nevének kiszínezéséhez az oldalsávban, és a választás közbeni élő előnézetben - gyors jelzés a legtöbb jegyzethez. A színek a megosztott fájlokban utaznak, és egyetlen kattintással visszaállnak.
+
+Szintaxis kiemelés
+Ctrl+Shift+E színkód egy jegyzetben 16 nyelven - PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript és még sok más. A nyelvet bekezdésenként észleli a rendszer, így egy vegyes kivonatokkal teli kaparó jegyzet minden blokkot helyesen színez nyelvválasztó nélkül.
+
+Float képek és klipek
+Húzza ki a képet vagy egy felvételt a szövegből, és az lebeg: a szöveg az oldalra tekeredik, tizenkét oszlopos rácsra pattan, így a különböző sorokon lévő képek sorba rendeződnek, az egyik táblázatra ejtése pedig kiszélesíti az oszlopot, hogy illeszkedjen.
+
+Valódi hiperhivatkozások
+A Ctrl+K billentyűkombináció összekapcsolja a kijelölést vagy szerkeszti a mutató alatti hivatkozást, a Ctrl+kattintás pedig megnyitja, és a beírt URL-címek automatikusan összekapcsolódnak. A hivatkozások túlélik a böngészőkből, Wordből és más jegyzetalkalmazásokból történő beillesztést - és csak a web- és e-mail-címek nyílnak meg.
+
+Markdown és HTML előnézet
+Az F4 vált a Forrás, Megjelenített és Osztott nézet között Markdown és HTML esetén. A natív WPF-előnézet követi a témát és a szemcsézettséget; szkriptek soha nem futnak.
+
+Gyorsbillentyűk és billentyűzet térkép
+Mindennek van kulcsa. Az F1 megnyitja a billentyűkombinációt egy teljes vizuális billentyűzettérképpel; tartsa lenyomva a Ctrl, a Shift vagy az Alt billentyűt az egyes billentyűk működésének előnézetéhez.
+
+Témák és hangsúlyok
+13 téma, 41 megjelenés: a Dark, Light, Black és 98SE egyenként nyolc kiemelőszínt kínál. Az átmenetek követik a témát; a 98SE sík marad. A témamenüben be- és kikapcsolható a filmszemcsézettség.
+
+19 nyelv
+A teljes felület 19 nyelvre van lefordítva, újraindítás nélkül élőben kapcsolható. Ugyanaz a készlet, amelyet a webhely szállít.","Un solo blocco note cifrato e ricercabile invece di 80 schede di Notepad - testo formattato, immagini in linea, tabelle vere e ogni nota sempre salvata, condivisibile come file .knote a strappo.
+
+Gratuito, open source, GPLv3. Nessun agente, nessun account, nessun abbonamento. Nessuna telemetria inviata e nessuna pubblicità... mai.
+
+Un solo blocco note, non 80 schede
+Le note si salvano dopo una pausa nella digitazione, al cambio di nota e alla chiusura. Ctrl+S salva subito.
+
+Ricerca istantanea
+Ricerca full-text in ogni nota mentre digiti, su un indice SQLite FTS5. Ordina per data o titolo, o disponi le note in un tuo ordine personalizzato, e tre densità della barra laterale fanno stare più note sullo schermo.
+
+Testo formattato che tiene il passo
+Incolla screenshot in linea, inserisci tabelle vere, e formatta con grassetto, corsivo, colori, elenchi, monospazio e linee. Ritorno a capo, numeri di riga, controllo ortografico per nota e un selettore di colori completo con contagocce su tutto il desktop - tutto su scorciatoie. Incolla dati di un foglio di calcolo o CSV nelle celle e usa il menu Tabella per aggiungere o rimuovere righe e colonne.
+
+Cifrato a riposo
+Imposta una password e l'intero database è cifrato con SQLCipher (AES-256): note, immagini, indice, tutto. Cambiala o rimuovila dal lucchetto della barra del titolo in qualsiasi momento.
+
+Tag con codice colore
+Applica alle note etichette colorate, in stile Outlook. I tag appaiono come pillole nella barra laterale, e un clic filtra su quel tag. Le definizioni viaggiano dentro i file condivisi, e Ctrl+T li gestisce per tutte le note.
+
+Gruppi e sottogruppi
+Trascina le note nell'ordine che conta, o archiviale in gruppi con nome per cliente o progetto - annidati a qualsiasi profondità con i sottogruppi. La linea colorata di un padre scende lungo i suoi figli, le intestazioni si comprimono con un clic, i gruppi viaggiano dentro i file .kndb condivisi, e Ctrl+Z annulla qualsiasi spostamento.
+
+Condivisione a strappo
+Clic destro per condividere una nota come file .knote, opzionalmente protetto da password, o trascinala direttamente in Teams, Outlook o una cartella. Interi database viaggiano come .kndb.
+
+Più database
+Tieni blocchi note separati per cliente o lavoro. Creali, cambiali ed esportali da un'unica finestra, e un .kndb ricevuto si apre con un doppio clic. Punta la cartella dati dove vuoi.
+
+Backup programmati
+Scegli una cartella di backup, crea copie ogni 6 o 12 ore, ogni giorno o ogni settimana e decidi quante conservarne. Esegui subito un backup con Alt+B, quindi ripristina qualsiasi copia come nuovo database senza sovrascrivere l'originale.
+
+Note collegate e un loro grafo
+Digita [[ per collegare una nota a un'altra, incluse note non ancora scritte - seguire un link morto offre di crearle. Ogni nota elenca cosa la punta, e Ctrl+Shift+B disegna l'intero taccuino come un grafo che puoi disporre, su cui bloccare le note in posizione e di cui salvare i layout. Si riapre esattamente come lo hai lasciato.
+La barra dei collegamenti elenca link in entrata e in uscita, inclusi destinatari non ancora creati. Clicca un link per aprire la nota.
+
+Dettatura e trascrizione
+F10 (o Ctrl+M) apre un pannello di registrazione: cattura l'audio, scorri e taglia la forma d'onda, poi trascrivila offline - il riconoscimento vocale gira sulla tua macchina, nulla viene caricato in rete. Incorpora la clip nella nota come chip riproducibile, o stampa la trascrizione come testo. Le registrazioni sono conservate come FLAC ed esportano in WAV o MP3.
+
+Disegno con lo SketchPad
+Disegna direttamente su una nota: F7 (o Ctrl+Shift+D) apre uno SketchPad non modale con penna, linea, freccia, forme, poligono, secchiello, etichette di testo e una gomma. Stampa nella nota lo imprime in linea al cursore, e resta modificabile - doppio clic su qualsiasi immagine in una nota per riaprirla e annotarla.
+
+Il Killculator
+Una calcolatrice a tema che sale dalla barra laterale (F9). Digita un'equazione sui tasti numerici, poi Stampa somma (Ctrl+Enter) inserisce il risultato nella tua nota, o Stampa equazione (Ctrl+Shift+Enter) inserisce l'intera equazione in corso - basta copia-incolla da calc.exe.
+
+Apre i tuoi file
+Ctrl+O o trascina i file dentro: .txt, .log e .md diventano note, .rtf mantiene la formattazione, .html porta un'anteprima renderizzata, e le immagini atterrano in linea. Ogni file diventa la propria nota.
+
+Esportazione
+Esporta qualsiasi nota come testo semplice, testo formattato (.rtf) con le immagini intatte, o una pagina web autonoma nello stile del tema con le immagini incorporate.
+
+Colori di note e gruppi
+Clic destro per colorare il titolo di una nota o il nome di un gruppo nella barra laterale, con un'anteprima dal vivo mentre scegli - un segnale rapido per le note che usi di più. I colori viaggiano dentro i file condivisi e si reimpostano con un clic.
+
+Evidenziazione della sintassi
+Ctrl+Shift+E colora il codice in una nota in 16 linguaggi - PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript e altri. Il linguaggio è rilevato per paragrafo, quindi una nota di appunti piena di frammenti misti colora ogni blocco correttamente senza selettore di linguaggio.
+
+Immagini e clip flottanti
+Trascina un'immagine o una registrazione fuori dal testo e fluttua: il testo scorre lungo il lato, si aggancia a una griglia a dodici colonne così le immagini su righe diverse si allineano, e rilasciarne una su una tabella allarga la colonna per farcela stare.
+
+Veri collegamenti ipertestuali
+Ctrl+K collega la selezione o modifica il link sotto il cursore, Ctrl+Clic lo apre, e gli URL digitati si collegano da soli. I link sopravvivono all'incollaggio da browser, Word e altre app di note - e solo gli indirizzi web e di posta si aprono.
+
+Anteprima markdown e HTML
+F4 passa tra Sorgente, Reso e Affiancato per Markdown e HTML. L'anteprima WPF nativa segue tema e grana; gli script non vengono eseguiti.
+
+Scorciatoie e mappa della tastiera
+Tutto ha un tasto. F1 apre il pannello delle scorciatoie con una mappa visiva completa della tastiera; tieni premuto Ctrl, Shift o Alt per vedere cosa fa ogni tasto.
+
+Temi e accenti
+13 temi, 41 aspetti: Dark, Light, Black e 98SE offrono ciascuno otto colori di accento. Le sfumature seguono il tema; 98SE resta piatto. Il menu dei temi permette di attivare o disattivare la grana della pellicola.
+
+19 lingue
+L'intera interfaccia è tradotta in 19 lingue, commutabili dal vivo senza riavvio. Lo stesso insieme in cui è disponibile il sito web.","80個のメモ帳タブの代わりに、検索可能で暗号化された1つのノートを。リッチテキスト、インライン画像、本格的な表に対応し、すべてのメモは常に保存され、切り離せる.knoteファイルとして共有できます。
+
+無料、オープンソース、GPLv3 エージェント不要、アカウント不要、サブスクリプション不要。テレメトリ送信なし、広告なし... 永遠に。
+
+80タブではなく、1つのノート
+入力を休止したとき、ノートを切り替えたとき、閉じるときに保存します。Ctrl+S はすぐに保存します。
+
+瞬時に検索
+SQLite FTS5 インデックスで、入力しながら全ノートを全文検索。日付やタイトルで並べ替え、独自のカスタム順にも配置でき、3 段階のサイドバー密度でより多くのノートを一画面に表示できます。
+
+ついてくるリッチテキスト
+スクリーンショットをそのまま貼り付け、本物の表を挿入し、太字・斜体・色・リスト・等幅・罫線で書式設定。折り返し、行番号、ノートごとのスペルチェック、デスクトップ全体から拾えるスポイト付きのフルカラーピッカーまで、すべてホットキーで。 表計算や CSV のデータをセルに貼り付け、テーブルメニューで行や列を追加、削除できます。
+
+保存時に暗号化
+パスワードを設定すれば、データベース全体が SQLCipher (AES-256) で暗号化されます。ノート、画像、インデックス、そのすべてを。タイトルバーのロックからいつでも変更・解除できます。
+
+色分けタグ
+Outlook 風に、色付きラベルでノートにタグ付け。タグはサイドバーにピルとして表示され、クリックでそのタグに絞り込みます。定義は共有ファイルの中に一緒に持ち運ばれ、Ctrl+T で全ノートにわたって管理できます。
+
+グループ & サブグループ
+ノートを大事な順にドラッグしたり、顧客やプロジェクトごとの名前付きグループに整理したり。サブグループで何階層でも入れ子にできます。親グループの色付きラインが子の左を走り、ヘッダーはクリックで折りたたみ。グループは共有 .kndb ファイルの中を一緒に移動し、Ctrl+Z でどの移動も元に戻せます。
+
+切り離して共有
+右クリックでノートを .knote ファイルとして共有 (任意でパスワード保護)、または Teams、Outlook、フォルダーへそのままドラッグアウト。データベース全体は .kndb として持ち運べます。
+
+複数データベース
+クライアントや案件ごとに別々のノートパッドを保持。ひとつのダイアログから作成、切り替え、エクスポートでき、受け取った .kndb はダブルクリックで開きます。データフォルダーはどこにでも指定可能。
+
+スケジュールバックアップ
+バックアップ先を選び、6時間または12時間ごと、毎日、毎週の間隔と保存数を設定できます。Alt+Bですぐにバックアップし、元のデータベースを上書きせずに任意のコピーを新しいデータベースとして復元できます。
+
+リンクされたノートとそのグラフ
+[[ と入力すればノート同士をリンクできます。まだ書いていないノートも対象で、存在しないリンクをたどると作成するかどうか尋ねられます。各ノートには何がそれを指しているかが並び、Ctrl+Shift+B でノートブック全体がグラフとして描かれます。並べ替えたり、ノートを位置に固定したり、配置を保存したりできます。閉じたときのままの状態で開き直します。
+リンク欄には受信・送信リンクが表示され、まだ作成されていない宛先も含まれます。リンクをクリックするとノートが開きます。
+
+音声入力と文字起こし
+F10 (または Ctrl+M) で録音パッドが開きます。音声を録音し、波形をスクラブして切り取り、オフラインで文字起こし - 音声認識はこのマシン上で動作し、何もアップロードされません。クリップは再生可能なチップとしてノートに埋め込むか、文字起こしをテキストとして書き出せます。録音は FLAC で保存され、WAV や MP3 に書き出せます。
+
+SketchPad 描画
+ノートに直接描画: F7 (または Ctrl+Shift+D) でモードレスの SketchPad が開き、ペン、線、矢印、図形、多角形、塗りつぶし、テキストラベル、消しゴムが使えます。ノートに印刷でカーソル位置に挿入され、編集可能なまま - ノート内の画像をダブルクリックすれば再度開いて描き込めます。
+
+Killculator
+サイドバーからせり上がるテーマ対応の電卓 (F9)。数字キーで式を入力し、合計を印刷 (Ctrl+Enter) で結果を、数式を印刷 (Ctrl+Shift+Enter) で展開した式全体をノートに挿入します。calc.exe からのコピペはもう不要です。
+
+あなたのファイルを開く
+Ctrl+O、またはファイルをドロップするだけ。.txt、.log、.md はノートになり、.rtf は書式を保ち、.html はレンダリングプレビューを備え、画像はインラインで配置されます。各ファイルがそれぞれ独立したノートになります。
+
+エクスポート
+任意のノートを、プレーンテキスト、画像をそのまま保持したリッチテキスト (.rtf)、または画像を埋め込んだテーマ適用済みの独立した Web ページとしてエクスポート。
+
+ノート & グループの色
+右クリックでノートのタイトルやグループ名をサイドバーで色付け。選んでいる間もライブプレビューされ、よく使うノートがひと目で分かります。色は共有ファイルの中を一緒に移動し、ワンクリックでリセットできます。
+
+シンタックスハイライト
+Ctrl+Shift+E でノート内のコードを 16 の言語で色分けします - PowerShell、Python、SQL、Bash、YAML、JSON、XAML、HTML、XML、CSS、JavaScript、TypeScript など。言語は段落ごとに判別されるため、断片が入り混じったメモでも言語を選ばずに各ブロックが正しく色分けされます。
+
+画像とクリップをフロート
+画像や録音を本文からドラッグして取り出すとフロートします。テキストがその横に回り込み、12 列のグリッドにスナップするので別々の行の画像もきれいに揃い、表の上にドロップすると列がその幅に合わせて広がります。
+
+本物のハイパーリンク
+Ctrl+K で選択範囲をリンクに、またはカーソル位置のリンクを編集し、Ctrl+Click で開きます。入力した URL は自動でリンクになります。ブラウザや Word、他のノートアプリから貼り付けてもリンクは保持され、開くのは Web とメールのアドレスだけです。
+
+Markdown & HTMLプレビュー
+F4 で Markdown と HTML のソース、表示、分割を切り替えます。ネイティブ WPF プレビューはテーマと粒状感に従い、スクリプトは実行しません。
+
+ホットキー & キーボードマップ
+すべてにキーが割り当てられています。F1 で完全なビジュアルキーボードマップ付きのショートカットオーバーレイを開き、Ctrl、Shift、Alt を押し続けると各キーの動作をプレビューできます。
+
+テーマ & アクセント
+13テーマ、41通りの外観。Dark、Light、Black、98SE はそれぞれ8色のアクセントを選べます。グラデーションはテーマに従い、98SE は単色です。 テーマメニューでフィルムグレインをオンまたはオフにできます。
+
+19の言語
+インターフェース全体が19の言語に翻訳され、再起動なしでその場で切り替えられます。ウェブサイトと同じ言語セットです。","80 Notepad қойындысының орнына іздеуге болатын, шифрланған бір блокнот - пішімделген мәтін, ішкі суреттер, шынайы кестелер және әрқашан сақталған әр жазба, жұлып берілетін .knote файлдары арқылы бөлісуге болады.
+
+Тегін, ашық бастапқы код, GPLv3. Агент жоқ, тіркелгі жоқ, жазылым жоқ. Телеметрия жіберілмейді және жарнама жоқ... ешқашан.
+
+80 қойынды емес, бір блокнот
+Жазбалар терудегі үзілістен кейін, жазбаны ауыстырғанда және жапқанда сақталады. Ctrl+S дереу сақтайды.
+
+Лездік іздеу
+SQLite FTS5 индексінде теру барысында барлық жазба бойынша толық мәтіндік іздеу. Күні немесе атауы бойынша сұрыптаңыз не жазбаларды өз ретіңізбен реттеңіз, ал бүйір панелінің үш тығыздығы экранға көбірек жазба сыйғызады.
+
+Ілесіп отыратын пішімделген мәтін
+Экран түсірмелерін мәтін ішіне қойыңыз, шынайы кестелер кірістіріңіз және қалың, көлбеу, түстер, тізімдер, ені бірдей қаріп және сызықтармен пішімдеңіз. Сөзді тасымалдау, жол нөмірлері, әр жазбаға емле тексеруі және жұмыс үстелін түгел қамтитын пипеткасы бар толық түс таңдағышы - бәрі жылдам пернелерде. Электрондық кесте немесе CSV деректерін ұяшықтарға қойып, Кесте мәзірімен жолдар мен бағандарды қосыңыз немесе жойыңыз.
+
+Тыныштықта шифрланған
+Құпия сөз орнатыңыз, сонда бүкіл дерекқор SQLCipher (AES-256) арқылы шифрланады: жазбалар, суреттер, индекс, бәрі. Оны кез келген уақытта тақырып жолағындағы құлыптан өзгертіңіз немесе алып тастаңыз.
+
+Түспен белгіленген тегтер
+Жазбаларды Outlook стиліндегі түрлі-түсті жапсырмалармен белгілеңіз. Тегтер бүйір панелінде дөңгелек болып көрінеді, ал басу сол тег бойынша сүзеді. Анықтамалар ортақ файлдардың ішінде жүреді, ал Ctrl+T оларды барлық жазба бойынша басқарады.
+
+Топтар және ішкі топтар
+Жазбаларды маңызды ретке сүйреңіз немесе оларды әр клиент не жобаға арналған атаулы топтарға салыңыз - ішкі топтармен кез келген тереңдікке кірістіріледі. Аталықтың түрлі-түсті сызығы балаларынан төмен қарай жүреді, тақырыптамалар бір басумен жиналады, топтар ортақ .kndb файлдарының ішінде жүреді, ал Ctrl+Z кез келген жылжытуды қайтарады.
+
+Жұлып беріп бөлісу
+Жазбаны .knote файлы етіп, қалауыңызша құпия сөзбен қорғап бөлісу үшін оң жақ түймемен басыңыз немесе оны тікелей Teams, Outlook не қалтаға сүйреп шығарыңыз. Бүтін дерекқорлар .kndb болып жүреді.
+
+Бірнеше дерекқор
+Әр клиентке немесе жұмысқа бөлек блокнот ұстаңыз. Оларды бір терезеден жасаңыз, ауыстырыңыз және экспорттаңыз, ал алынған .kndb қос рет басқанда ашылады. Деректер қалтасын қалаған жеріңізге бағыттаңыз.
+
+Жоспарланған сақтық көшірмелер
+Сақтық көшірме қалтасын таңдаңыз, көшірмелерді әр 6 немесе 12 сағат сайын, күнделікті не апта сайын жасап, қанша көшірме сақталатынын белгілеңіз. Alt+B бірден көшірме жасайды, ал кез келген көшірмені түпнұсқаны алмастырмай жаңа дерекқор ретінде қалпына келтіруге болады.
+
+Байланысқан жазбалар және олардың графы
+Бір жазбаны екіншісіне, соның ішінде әлі жазбаған жазбаларға да сілтеу үшін [[ теріңіз - жоқ сілтеме бойынша өту оны жасауды ұсынады. Әр жазба өзіне не нұсқайтынын тізеді, ал Ctrl+Shift+B бүкіл дәптерді граф етіп салады, оны реттеуге, жазбаларды орнында бекітуге және орналасуларын сақтауға болады. Ол тап сіз қалдырған күйінде қайта ашылады.
+Сілтеме жолағы кіріс және шығыс сілтемелерді, әлі жасалмаған нысандарды да көрсетеді. Жазбаны ашу үшін сілтемені басыңыз.
+
+Дауыспен енгізу және мәтінге айналдыру
+F10 (немесе Ctrl+M) жазып алу тақтасын ашады: аудио түсіріңіз, толқын пішінін аралап, тіліңіз, содан кейін оны желіден тыс мәтінге айналдырыңыз - сөзді тану сіздің құрылғыңызда орындалады, ештеңе жіберілмейді. Үзіндіні жазбаға ойнатылатын жапсырма етіп ендіріңіз немесе мәтінін мәтін етіп шығарыңыз. Аудиожазбалар FLAC болып сақталады және WAV не MP3 болып экспортталады.
+
+SketchPad сурет салу
+Жазбаның үстіне тікелей сурет салыңыз: F7 (немесе Ctrl+Shift+D) қаламы, сызығы, көрсеткісі, пішіндері, көпбұрышы, бояу шелегі, мәтін жапсырмалары және өшіргіші бар режимсіз SketchPad ашады. Жазбаға шығару оны меңзер тұсына басады, әрі ол өңделетін күйде қалады - жазбадағы кез келген суретті қайта ашып, белгі салу үшін оны қос рет басыңыз.
+
+Killculator
+Бүйір панелінен шығып тұратын, тақырыпқа сай калькулятор (F9). Теңдеуді сан пернелерінде теріңіз, сосын Қосындыны шығару (Ctrl+Enter) нәтижені жазбаңызға түсіреді, ал Теңдеуді шығару (Ctrl+Shift+Enter) бүкіл теңдеуді түсіреді - calc.exe ішінен көшіріп-қоюдың қажеті жоқ.
+
+Файлдарыңызды ашады
+Ctrl+O басыңыз немесе файлдарды тастаңыз: .txt, .log және .md жазбаға айналады, .rtf пішімдеуін сақтайды, .html көрсетілген алдын ала қарауын алып жүреді, ал суреттер ішіне түседі. Әр файл өз жазбасына айналады.
+
+Экспорт
+Кез келген жазбаны қарапайым мәтін, суреттері бүтін пішімделген мәтін (.rtf) немесе суреттері ендірілген, тақырып стиліндегі дербес веб-бет етіп экспорттаңыз.
+
+Жазба және топ түстері
+Бүйір панелінде жазбаның атауын немесе топтың атын бояу үшін оң жақ түймемен басыңыз, таңдау кезінде тірі алдын ала қараумен - ең жиі баратын жазбаларыңызға жылдам белгі. Түстер ортақ файлдардың ішінде жүреді және бір басумен ысырылады.
+
+Синтаксисті бөлектеу
+Ctrl+Shift+E жазбадағы кодты 16 тілде бояйды - PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript және басқалары. Тіл әр абзац бойынша анықталады, сондықтан аралас үзінділерге толы бір жоба жазба әр блокты тіл таңдағышсыз дұрыс бояйды.
+
+Суреттер мен үзінділерді қалқыту
+Суретті немесе аудиожазбаны мәтіннен сүйреп шығарсаңыз, ол қалқиды: мәтін бүйірінен ағып өтеді, ол он екі бағанды торға тартылады, сондықтан әртүрлі жолдағы суреттер тураланады, ал біреуін кестеге тастау бағанды соған сай кеңейтеді.
+
+Нағыз гиперсілтемелер
+Ctrl+K таңдалғанды сілтеме етеді немесе меңзер астындағы сілтемені өңдейді, Ctrl+шерту оны ашады, ал терілген URL мекенжайлары өздігінен сілтемеге айналады. Сілтемелер браузерлерден, Word-тан және басқа жазба қолданбаларынан қоюдан кейін де сақталады - әрі тек веб және пошта мекенжайлары ашылады.
+
+markdown және HTML алдын ала қарауы
+F4 Markdown және HTML үшін Бастапқы, Көрсетілген және Бөлінген көріністерді ауыстырады. Жергілікті WPF алдын ала көрінісі тақырып пен түйіршікті текстураны сақтайды; скрипттер ешқашан орындалмайды.
+
+Жылдам пернелер және пернетақта картасы
+Бәрінің пернесі бар. F1 толық көрнекі пернетақта картасы бар тіркесімдер жапсырмасын ашады; әр перне не істейтінін көру үшін Ctrl, Shift немесе Alt басып тұрыңыз.
+
+Тақырыптар және акценттер
+13 тақырып, 41 көрініс: Dark, Light, Black және 98SE әрқайсысы сегіз екпін түсін ұсынады. Градиенттер тақырыпқа сай; 98SE біртегіс қалады. Тақырыптар мәзірінде пленка түйіршігін қосуға немесе өшіруге болады.
+
+19 тіл
+Бүкіл интерфейс 19 тілге аударылған, қайта іске қоспай тірідей ауысады. Сайт шығатын дәл сол жиынтық.","80 Not Defteri sekmesi yerine tek bir aranabilir, şifreli not defteri - zengin metin, satır içi görseller, gerçek tablolar ve her zaman kaydedilen, koparılabilir .knote dosyaları olarak paylaşılabilen notlar.
+
+Ücretsiz, açık kaynak, GPLv3. Ajan yok, hesap yok, abonelik yok. Telemetri gönderilmez, reklam da yok... asla.
+
+80 sekme değil, tek bir not defteri
+Notlar yazmaya ara verildiğinde, not değiştirildiğinde ve kapatırken kaydedilir. Ctrl+S hemen kaydeder.
+
+Anında arama
+Siz yazarken tüm notlarda tam metin arama, SQLite FTS5 dizini üzerinde. Tarihe veya başlığa göre sıralayın ya da notları kendi özel sıranıza dizin; üç kenar çubuğu yoğunluğu ekrana daha fazla not sığdırır.
+
+Yetişebilen zengin metin
+Ekran görüntülerini satır içine yapıştırın, gerçek tablolar ekleyin; kalın, italik, renkler, listeler, eş aralıklı ve çizgilerle biçimlendirin. Sözcük kaydırma, satır numaraları, not başına yazım denetimi ve masaüstü genelinde damlalıklı tam renk seçici - hepsi kısayollarla. Elektronik tablo veya CSV verilerini hücrelere yapıştırın; Tablo menüsüyle satır ve sütun ekleyip kaldırın.
+
+Beklerken şifreli
+Bir parola belirleyin, tüm veritabanı SQLCipher (AES-256) ile şifrelensin: notlar, görseller, dizin, her şey. Başlık çubuğundaki kilitten dilediğiniz zaman değiştirin ya da kaldırın.
+
+Renk kodlu etiketler
+Notları Outlook tarzı renkli etiketlerle etiketleyin. Etiketler kenar çubuğunda rozet olarak görünür ve bir tıkla o etikete göre filtreler. Tanımlar paylaşılan dosyaların içinde seyahat eder, Ctrl+T ise bunları her notta yönetir.
+
+Gruplar & alt gruplar
+Notları önem taşıyan sıraya sürükleyin ya da müşteri veya proje bazında adlandırılmış gruplara yerleştirin - alt gruplarla istediğiniz kadar derin iç içe. Üst grubun renkli çizgisi alt öğeleri boyunca iner, başlıklar tek tıkla daralır, gruplar paylaşılan .kndb dosyalarında birlikte taşınır ve Ctrl+Z her taşımayı geri alır.
+
+Koparılabilir paylaşım
+Bir notu .knote dosyası olarak, isteğe bağlı olarak parola korumalı biçimde paylaşmak için sağ tıklayın ya da doğrudan Teams'e, Outlook'a veya bir klasöre sürükleyin. Tüm veritabanları .kndb olarak seyahat eder.
+
+Birden fazla veritabanı
+Her müşteri veya iş için ayrı not defterleri tutun. Bunları tek bir iletişim kutusundan oluşturun, aralarında geçiş yapın ve dışa aktarın; gelen bir .kndb çift tıkla açılır. Veri klasörünü istediğiniz yere yönlendirin.
+
+Zamanlanmış yedekler
+Bir yedekleme klasörü seçin, kopyaları 6 veya 12 saatte bir, günlük ya da haftalık oluşturun ve kaç kopyanın saklanacağını belirleyin. Alt+B hemen yedek alır ve herhangi bir kopya özgün veritabanının üzerine yazmadan yeni bir veritabanı olarak geri yüklenebilir.
+
+Bağlantılı notlar ve bunların grafiği
+Bir notu başka bir nota bağlamak için [[ yazın; henüz yazmadığınız notlar da olabilir - ölü bir bağlantıyı izlediğinizde onu oluşturmanız önerilir. Her not kendisine işaret edenleri listeler ve Ctrl+Shift+B tüm defteri, yerleştirebileceğiniz, notları yerine kilitleyebileceğiniz ve düzenlerini kaydedebileceğiniz bir grafik olarak çizer. Tam bıraktığınız gibi yeniden açılır.
+Bağlantı şeridi, henüz oluşturulmamış hedefler dahil gelen ve giden bağlantıları gösterir. Notu açmak için bağlantıya tıklayın.
+
+Dikte ve deşifre
+F10 (veya Ctrl+M) bir kayıt panelini açar: sesi kaydedin, dalga formunu tarayıp kırpın, ardından çevrimdışı deşifre edin - konuşma tanıma kendi makinenizde çalışır, hiçbir şey yüklenmez. Klibi nota çalınabilir bir kapsül olarak gömün ya da deşifre metnini nota yazdırın. Kayıtlar FLAC olarak saklanır, WAV veya MP3 olarak dışa aktarılır.
+
+SketchPad cizimi
+Doğrudan bir notun üzerine çizin: F7 (veya Ctrl+Shift+D) kalem, çizgi, ok, şekiller, çokgen, boya kovası, metin etiketleri ve silgi içeren kipsiz bir SketchPad açar. Nota yazdır onu imleçte ekler ve düzenlenebilir kalır - bir nottaki herhangi bir görsele çift tıklayıp yeniden açarak işaretleyebilirsiniz.
+
+Killculator
+Kenar çubuğundan yukarı kayan, temaya uygun bir hesap makinesi (F9). Sayı tuşlarıyla bir denklem yazın; Toplamı yazdır (Ctrl+Enter) sonucu notunuza, Denklemi yazdır (Ctrl+Shift+Enter) ise açılmış tüm denklemi bırakır - artık calc.exe'den kopyala-yapıştır yok.
+
+Dosyalarınızı açar
+Ctrl+O ya da dosyaları içine bırakın: .txt, .log ve .md nota dönüşür, .rtf biçimlendirmesini korur, .html işlenmiş bir önizleme taşır ve görseller satır içine iner. Her dosya kendi notu olur.
+
+Dışa aktarma
+Herhangi bir notu düz metin, görselleri korunmuş zengin metin (.rtf) ya da görselleri gömülü, tema stilinde bağımsız bir web sayfası olarak dışa aktarın.
+
+Not & grup renkleri
+Sağ tıklayıp bir notun başlığını veya bir grubun adını kenar çubuğunda renklendirin; seçerken canlı önizleme gösterilir - en çok kullandığınız notlar için hızlı bir işaret. Renkler paylaşılan dosyalarda birlikte taşınır ve tek tıkla sıfırlanır.
+
+Sözdizimi renklendirme
+Ctrl+Shift+E bir nottaki kodu 16 dilde renklendirir - PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript ve dahası. Dil her paragraf için ayrı algılanır, böylece karışık parçacıklarla dolu bir karalama notu bile dil seçicisi olmadan her bloğu doğru renklendirir.
+
+Görselleri ve klipleri yüzdürün
+Bir görseli veya kaydı metinden dışarı sürükleyin, yüzmeye başlasın: metin yanından akar, on iki sütunluk bir ızgaraya oturur - böylece farklı satırlardaki görseller hizalanır - ve bir tablonun üzerine bırakıldığında sütun sığacak kadar genişler.
+
+Gerçek köprüler
+Ctrl+K seçimi bağlar ya da imlecin altındaki bağlantıyı düzenler, Ctrl+Click açar, yazılan adresler kendiliğinden bağlantıya dönüşür. Tarayıcıdan, Word'den ve diğer not uygulamalarından yapıştırırken bağlantılar korunur - ve yalnızca web ile e-posta adresleri açılır.
+
+Markdown & HTML önizleme
+F4, Markdown ve HTML için Kaynak, İşlenmiş ve Bölünmüş görünümleri arasında geçiş yapar. Yerel WPF önizlemesi tema ve dokuyu izler; betikler asla çalışmaz.
+
+Kısayol tuşları & klavye haritası
+Her şeyin bir tuşu var. F1, tam görsel klavye haritasıyla kısayol katmanını açar; her tuşun ne yaptığını önizlemek için Ctrl, Shift ya da Alt'ı basılı tutun.
+
+Temalar & vurgular
+13 tema, 41 görünüm: Dark, Light, Black ve 98SE sekizer vurgu rengi sunar. Geçişler temayı izler; 98SE düz kalır. Tema menüsünden Film Tanesi açılıp kapatılabilir.
+
+19 dil
+Arayüzün tamamı 19 dile çevrildi; yeniden başlatmadan anında değiştirilebilir. Web sitesiyle aynı dil seti.","Один зашифрований блокнот із пошуком замість 80 вкладок Notepad - форматований текст, зображення в тексті, справжні таблиці й кожна нотатка завжди збережена, з можливістю ділитися відривними файлами .knote.
+
+Безкоштовно, відкритий код, GPLv3. Без агента, без облікового запису, без підписки. Телеметрія не надсилається, реклами немає... ніколи.
+
+Один блокнот, а не 80 вкладок
+Нотатки зберігаються після паузи введення, під час зміни нотатки й закриття. Ctrl+S зберігає відразу.
+
+Миттєвий пошук
+Повнотекстовий пошук по всіх нотатках під час набору на індексі SQLite FTS5. Сортуйте за датою чи назвою або розташовуйте нотатки у власному порядку, а три щільності бічної панелі вміщують більше нотаток на екрані.
+
+Форматований текст, що не відстає
+Вставляйте знімки екрана в текст, додавайте справжні таблиці й форматуйте жирним, курсивом, кольорами, списками, моноширинним шрифтом і лініями. Перенесення рядків, номери рядків, перевірка правопису для кожної нотатки та повний вибір кольору з піпеткою на весь робочий стіл - усе на гарячих клавішах. Вставляйте дані електронної таблиці або CSV у клітинки й додавайте чи видаляйте рядки та стовпці через меню «Таблиця».
+
+Шифрування у стані спокою
+Встановіть пароль, і вся база даних шифрується за допомогою SQLCipher (AES-256): нотатки, зображення, індекс, усе. Змінюйте чи видаляйте його будь-коли через замок у рядку заголовка.
+
+Кольорові мітки
+Позначайте нотатки кольоровими мітками, як в Outlook. Мітки показуються пігулками на бічній панелі, а клацання фільтрує за міткою. Визначення подорожують у спільних файлах, а Ctrl+T керує ними в усіх нотатках.
+
+Групи та підгрупи
+Перетягуйте нотатки в потрібний порядок або розкладайте їх по іменованих групах для кожного клієнта чи проєкту - з вкладенням будь-якої глибини через підгрупи. Кольорова лінія батьківської групи йде вниз по дочірніх, заголовки згортаються клацанням, групи подорожують у спільних файлах .kndb, а Ctrl+Z скасовує будь-яке переміщення.
+
+Відривний спільний доступ
+Клацніть правою кнопкою, щоб поділитися нотаткою як файлом .knote, за бажанням із захистом паролем, або перетягніть її прямо в Teams, Outlook чи теку. Цілі бази даних подорожують як .kndb.
+
+Кілька баз даних
+Тримайте окремі блокноти для кожного клієнта чи завдання. Створюйте, перемикайте й експортуйте їх в одному діалозі, а отриманий .kndb відкривається подвійним клацанням. Вказуйте теку даних де завгодно.
+
+Резервні копії за розкладом
+Виберіть теку для резервних копій, створюйте копії кожні 6 чи 12 годин, щодня або щотижня й задайте, скільки зберігати. Створюйте копію одразу через Alt+B, а потім відновлюйте будь-яку копію як нову базу даних без перезапису оригіналу.
+
+Зв'язані нотатки та їхній граф
+Наберіть [[, щоб пов'язати одну нотатку з іншою, зокрема з тими, які ви ще не написали - перехід за мертвим посиланням пропонує створити її. Кожна нотатка перелічує те, що на неї вказує, а Ctrl+Shift+B малює весь блокнот як граф, який можна розташовувати, фіксувати в ньому нотатки на місці та зберігати макети. Він відкривається саме так, як ви його залишили.
+Смуга посилань показує вхідні й вихідні посилання, включно з ще не створеними цілями. Натисніть посилання, щоб відкрити нотатку.
+
+Диктування та транскрибування
+F10 (або Ctrl+M) відкриває панель запису: захоплюйте аудіо, перемотуйте й розрізайте форму хвилі, а потім транскрибуйте її офлайн - розпізнавання мовлення працює на вашій машині, нічого не вивантажується. Вбудуйте кліп у нотатку як відтворюваний значок або надрукуйте транскрипцію як текст. Записи зберігаються як FLAC і експортуються у WAV чи MP3.
+
+Малювання в SketchPad
+Малюйте прямо на нотатці: F7 (або Ctrl+Shift+D) відкриває немодальний SketchPad з пером, лінією, стрілкою, фігурами, багатокутником, відром з фарбою, текстовими написами й гумкою. «Надрукувати в нотатку» вставляє малюнок у текст на місці курсора, і він лишається редагованим - двічі клацніть будь-яке зображення в нотатці, щоб знову відкрити й розмітити його.
+
+Killculator
+Тематичний калькулятор, що висувається з бічної панелі (F9). Наберіть рівняння на цифрових клавішах, а потім «Надрукувати суму» (Ctrl+Enter) вставляє результат у вашу нотатку, або «Надрукувати рівняння» (Ctrl+Shift+Enter) вставляє все поточне рівняння - більше жодного копіювання з calc.exe.
+
+Відкриває ваші файли
+Ctrl+O або киньте файли: .txt, .log і .md стають нотатками, .rtf зберігає форматування, .html має відтворений попередній перегляд, а зображення потрапляють у текст. Кожен файл стає окремою нотаткою.
+
+Експорт
+Експортуйте будь-яку нотатку як простий текст, форматований текст (.rtf) зі збереженими зображеннями або окрему веб-сторінку в стилі теми з вбудованими зображеннями.
+
+Кольори нотаток і груп
+Клацніть правою кнопкою, щоб розфарбувати назву нотатки чи ім'я групи на бічній панелі з попереднім переглядом під час вибору - швидкий орієнтир для нотаток, до яких ви звертаєтеся найчастіше. Кольори подорожують у спільних файлах і скидаються одним клацанням.
+
+Підсвічування синтаксису
+Ctrl+Shift+E розфарбовує код у нотатці шістнадцятьма мовами - PowerShell, Python, SQL, Bash, C#, JavaScript, TypeScript, CSS, HTML, XAML, XML, Vue, JSON, YAML, Markdown і простий текст. Мова визначається для кожного абзацу, тож одна чернетка, повна змішаних фрагментів, правильно розфарбовує кожен блок без вибору мови.
+
+Плаваючі зображення та кліпи
+Перетягніть зображення чи запис з тексту, і він плаває: текст обтікає збоку, він прилипає до дванадцятиколонкової сітки, щоб малюнки в різних рядках вирівнювалися, а скидання на таблицю розширює стовпець під нього.
+
+Справжні гіперпосилання
+Ctrl+K робить посилання з виділеного або редагує посилання під курсором, Ctrl+клацання відкриває його, а набрані URL автоматично стають посиланнями. Посилання переживають вставлення з браузерів, Word та інших програм для нотаток - а відкриваються лише веб-адреси й адреси пошти.
+
+Попередній перегляд Markdown і HTML
+F4 перемикає Джерело, Відображення та Розділений вигляд для Markdown і HTML. Нативний перегляд WPF дотримується теми й зернистості; скрипти ніколи не виконуються.
+
+Гарячі клавіші та карта клавіатури
+Усе має клавішу. F1 відкриває накладання скорочень із повною візуальною картою клавіатури; утримуйте Ctrl, Shift чи Alt, щоб побачити, що робить кожна клавіша.
+
+Теми та акценти
+13 тем, 41 вигляд: Dark, Light, Black і 98SE пропонують по вісім акцентних кольорів. Градієнти відповідають темі; 98SE залишається плоскою. У меню тем можна ввімкнути або вимкнути зернистість плівки.
+
+Дев'ятнадцять мов
+Весь інтерфейс перекладено дев'ятнадцятьма мовами з перемиканням наживо без перезапуску. Той самий набір, що й у вебсайту.","Một sổ tay có thể tìm kiếm, được mã hóa thay vì 80 tab Notepad - văn bản phong phú, hình ảnh nhúng, bảng thực sự, và mọi ghi chú luôn được lưu, có thể chia sẻ dưới dạng tệp .knote có thể tách ra.
+
+Miễn phí, mã nguồn mở, GPLv3. Không cần đại lý, không cần tài khoản, không cần đăng ký. Không gửi dữ liệu điều khiển từ xa và không có quảng cáo... bao giờ.
+
+Một sổ ghi chép, không phải 80 tab
+Ghi chú được lưu sau khi ngừng gõ, khi chuyển ghi chú và khi đóng. Ctrl+S lưu ngay.
+
+Tìm kiếm tức thì
+Tìm kiếm toàn văn qua mọi ghi chú khi bạn gõ, trên chỉ mục SQLite FTS5. Sắp xếp theo ngày hoặc tiêu đề, hoặc sắp xếp ghi chú theo thứ tự tùy chỉnh của bạn, và ba mật độ thanh bên giúp hiển thị nhiều ghi chú hơn trên màn hình.
+
+Văn bản phong phú theo kịp
+Dán ảnh chụp màn hình trực tiếp, chèn bảng thực, và định dạng với chữ đậm, chữ nghiêng, màu sắc, danh sách, kiểu chữ monospace, và các đường kẻ. Ngắt dòng tự động, đánh số dòng, kiểm tra chính tả từng ghi chú, và bộ chọn màu đầy đủ với công cụ chọn màu trên toàn màn hình - tất cả đều có phím tắt. Dán dữ liệu bảng tính hoặc CSV vào các ô và dùng menu Bảng để thêm hoặc xóa hàng, cột.
+
+Được mã hóa khi lưu trữ
+Đặt mật khẩu và toàn bộ cơ sở dữ liệu được mã hóa bằng SQLCipher (AES-256): ghi chú, hình ảnh, chỉ mục, mọi thứ. Thay đổi hoặc xóa nó từ nút khóa trên thanh tiêu đề bất cứ lúc nào.
+
+Nhãn mã màu
+Gắn nhãn cho ghi chú bằng các nhãn màu, theo kiểu Outlook. Nhãn hiển thị dưới dạng viên thuốc ở thanh bên, và nhấp vào sẽ lọc theo nhãn đó. Các định nghĩa được lưu trong các tệp chia sẻ, và Ctrl+T quản lý chúng trên mọi ghi chú.
+
+Nhóm & phân nhóm
+Kéo các ghi chú vào thứ tự quan trọng, hoặc lưu chúng vào các nhóm có tên theo khách hàng hoặc dự án - có thể lồng vào bất kỳ độ sâu nào với các nhóm con. Dòng màu của nhóm cha chạy xuống các nhóm con, tiêu đề có thể thu gọn bằng một cú nhấp, các nhóm có thể di chuyển trong các tệp .kndb được chia sẻ, và Ctrl+Z hoàn tác bất kỳ thao tác di chuyển nào.
+
+Chia sẻ rách
+Nhấp chuột phải để chia sẻ một ghi chú dưới dạng tệp .knote, có thể được bảo vệ bằng mật khẩu, hoặc kéo trực tiếp ra Teams, Outlook hoặc một thư mục. Toàn bộ cơ sở dữ liệu di chuyển dưới dạng .kndb.
+
+Nhiều cơ sở dữ liệu
+Giữ các sổ ghi chú riêng biệt cho từng khách hàng hoặc công việc. Tạo, chuyển đổi và xuất chúng từ một hộp thoại, và một tệp .kndb nhận được sẽ mở bằng cách nhấp đúp. Đặt thư mục dữ liệu ở bất kỳ đâu.
+
+Sao lưu theo lịch
+Chọn thư mục sao lưu, tạo bản sao mỗi 6 hoặc 12 giờ, hằng ngày hoặc hằng tuần, rồi đặt số lượng cần giữ. Alt+B sao lưu ngay và mọi bản sao đều có thể được khôi phục thành cơ sở dữ liệu mới mà không ghi đè bản gốc.
+
+Ghi chú có liên kết & một biểu đồ của chúng
+Gõ [[ để liên kết một ghi chú với ghi chú khác, bao gồm cả những ghi chú bạn chưa viết - theo một liên kết chết sẽ đề nghị tạo nó. Mỗi ghi chú liệt kê những ghi chú trỏ đến nó, và Ctrl+Shift+B vẽ toàn bộ sổ tay dưới dạng một đồ thị mà bạn có thể sắp xếp, khóa ghi chú vào vị trí, và lưu bố cục. Nó mở lại chính xác như bạn đã để nó.
+Dải liên kết hiển thị liên kết đến và đi, kể cả đích chưa được tạo. Nhấp liên kết để mở ghi chú.
+
+Nhập liệu bằng giọng nói & chép lại
+F10 (hoặc Ctrl+M) mở bảng ghi âm: ghi âm, chỉnh sửa và cắt sóng âm, sau đó chuyển đổi thành văn bản ngoại tuyến - nhận dạng giọng nói chạy trên máy của bạn, không có gì được tải lên. Nhúng đoạn ghi âm vào ghi chú dưới dạng chip có thể phát được, hoặc in bản ghi âm dưới dạng văn bản. Các bản ghi âm được lưu dưới định dạng FLAC và có thể xuất ra WAV hoặc MP3.
+
+Vẽ trên SketchPad
+Vẽ trực tiếp trên ghi chú: F7 (hoặc Ctrl+Shift+D) mở một SketchPad không mô hình với bút, đường thẳng, mũi tên, hình dạng, đa giác, bình sơn, nhãn văn bản và cục tẩy. In vào ghi chú sẽ đóng dấu nó ngay tại con trỏ, và nó vẫn có thể chỉnh sửa được - nhấp đúp vào bất kỳ hình ảnh nào trong ghi chú để mở lại và đánh dấu nó.
+
+Máy tính giết người
+Một máy tính theo chủ đề trượt lên từ thanh bên (F9). Gõ một phương trình trên các phím số, sau đó In Tổng (Ctrl+Enter) sẽ thả kết quả vào ghi chú của bạn, hoặc In Phương Trình (Ctrl+Shift+Enter) sẽ thả toàn bộ phương trình đang chạy - không cần sao chép-dán từ calc.exe nữa.
+
+Mở các tệp của bạn
+Ctrl+O hoặc kéo tập tin vào: .txt, .log và .md sẽ trở thành ghi chú, .rtf giữ nguyên định dạng, .html hiển thị bản xem trước đã render, và hình ảnh được chèn vào trong. Mỗi tập tin trở thành một ghi chú riêng.
+
+Xuất khẩu
+Xuất bất kỳ ghi chú nào dưới dạng văn bản thuần, văn bản định dạng phong phú (.rtf) với hình ảnh nguyên vẹn, hoặc một trang web độc lập theo chủ đề với hình ảnh được nhúng.
+
+Ghi chú & màu nhóm
+Nhấp chuột phải để tô màu tiêu đề của một ghi chú hoặc tên của một nhóm trong thanh bên, với bản xem trước trực tiếp khi bạn chọn - một dấu hiệu nhanh cho những ghi chú bạn sử dụng nhiều nhất. Màu sắc sẽ đi theo trong các tệp được chia sẻ và có thể đặt lại chỉ với một cú nhấp chuột.
+
+Đánh dấu cú pháp
+Ctrl+Shift+E tô màu code trong một ghi chú trên 16 ngôn ngữ - PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript và nhiều hơn nữa. Ngôn ngữ được phát hiện theo từng đoạn, vì vậy một ghi chú thử nghiệm đầy các đoạn code hỗn hợp sẽ tô màu mỗi khối chính xác mà không cần bộ chọn ngôn ngữ.
+
+Ảnh & clip nổi
+Kéo một hình ảnh hoặc bản ghi âm ra khỏi văn bản và nó sẽ nổi: văn bản quấn xuống bên cạnh, nó tự chụp vào lưới mười hai cột để các hình ảnh trên các dòng khác nhau thẳng hàng, và thả vào bảng sẽ làm rộng cột để vừa khít.
+
+Liên kết thực
+Ctrl+K liên kết phần được chọn hoặc chỉnh sửa liên kết dưới con trỏ, Ctrl+Click mở liên kết đó, và các URL đã gõ sẽ tự động liên kết. Liên kết vẫn tồn tại khi dán từ trình duyệt, Word và các ứng dụng ghi chú khác - và chỉ các địa chỉ web và email mới có thể mở.
+
+Xem trước Markdown & HTML
+F4 chuyển giữa Nguồn, Kết xuất và Chia đôi cho Markdown và HTML. Bản xem trước WPF gốc theo chủ đề và hiệu ứng hạt; tập lệnh không bao giờ chạy.
+
+Phím tắt & bản đồ bàn phím
+Mọi thứ đều có một phím. F1 mở lớp phủ các phím tắt với bản đồ bàn phím trực quan đầy đủ; giữ Ctrl, Shift hoặc Alt để xem trước chức năng của từng phím.
+
+Chủ đề & dấu nhấn
+13 chủ đề, 41 diện mạo: Dark, Light, Black và 98SE có tám màu nhấn mỗi chủ đề. Chuyển sắc theo chủ đề; 98SE giữ màu phẳng. Menu chủ đề cho phép bật hoặc tắt hạt phim.
+
+19 ngôn ngữ
+Toàn bộ giao diện được dịch sang 19 ngôn ngữ, có thể chuyển đổi trực tiếp mà không cần khởi động lại. Bộ ngôn ngữ giống như trang web cung cấp.","Um bloco de notas pesquisável e criptografado no lugar de 80 abas do Bloco de Notas: texto rico, imagens em linha, tabelas de verdade e cada nota sempre salva, compartilhável em arquivos .knote destacáveis.
+
+Gratuito, código aberto, GPLv3. Sem agente, sem conta, sem assinatura. Nenhuma telemetria é enviada e nunca há anúncios.
+
+Um bloco de notas, não 80 abas
+As notas são salvas após uma pausa na digitação, ao trocar de nota e ao fechar. Ctrl+S salva imediatamente.
+
+Pesquisa instantânea
+Pesquisa de texto completo em todas as notas enquanto você digita, sobre um índice SQLite FTS5. Ordene por data ou título, ou organize as notas na sua própria ordem personalizada, e três densidades da barra lateral mostram mais notas na tela.
+
+Texto rico que acompanha você
+Cole capturas de tela em linha, insira tabelas de verdade e formate com negrito, itálico, cores, listas, monoespaçado e linhas horizontais. Quebra de linha, números de linha, verificação ortográfica por nota e um seletor de cores completo com conta-gotas para a área de trabalho inteira, tudo em atalhos de teclado. Cole dados de planilha ou CSV nas células e use o menu Tabela para adicionar ou remover linhas e colunas.
+
+Criptografado em repouso
+Defina uma senha e o banco de dados inteiro é criptografado com SQLCipher (AES-256): notas, imagens, índice, tudo. Altere ou remova pelo cadeado da barra de título a qualquer momento.
+
+Marcadores coloridos
+Marque as notas com rótulos coloridos, no estilo do Outlook. Os marcadores aparecem como pílulas na barra lateral, e um clique filtra por aquele marcador. As definições viajam dentro dos arquivos compartilhados, e Ctrl+T os gerencia em todas as notas.
+
+Grupos & subgrupos
+Arraste as notas para a ordem que importa, ou arquive-as em grupos nomeados por cliente ou projeto, aninhados em qualquer profundidade com subgrupos. A linha colorida de um pai desce pelos filhos, os cabeçalhos se recolhem com um clique, os grupos viajam dentro dos arquivos .kndb compartilhados, e Ctrl+Z desfaz qualquer movimento.
+
+Compartilhamento destacável
+Clique com o botão direito para compartilhar uma nota como arquivo .knote, opcionalmente protegido por senha, ou arraste-a direto para o Teams, o Outlook ou uma pasta. Bancos de dados inteiros viajam como .kndb.
+
+Vários bancos de dados
+Mantenha cadernos separados por cliente ou trabalho. Crie, troque e exporte a partir de uma única caixa de diálogo, e um .kndb recebido abre com um clique duplo. Aponte a pasta de dados para onde quiser.
+
+Backups agendados
+Escolha uma pasta de backup, faça cópias a cada 6 ou 12 horas, diárias ou semanais, e defina quantas manter. Faça backup na hora com Alt+B e restaure qualquer cópia como um novo banco de dados sem sobrescrever o original.
+
+Notas com links & um grafo delas
+Digite [[ para ligar uma nota a outra, inclusive notas que você ainda não escreveu: seguir um link morto oferece criá-la. Cada nota lista o que aponta para ela, e Ctrl+Shift+B desenha o caderno inteiro como um grafo que você pode organizar, travar notas no lugar e salvar layouts. Ele reabre exatamente como você o deixou.
+A faixa de links mostra links de entrada e saída, incluindo destinos ainda não criados. Clique em um link para abrir a nota.
+
+Ditado & transcrição
+F10 (ou Ctrl+M) abre um bloco de gravação: capture áudio, percorra e corte a forma de onda, e então transcreva offline: o reconhecimento de fala roda na sua máquina, nada é enviado. Incorpore o clipe na nota como um chip reproduzível, ou imprima a transcrição como texto. As gravações são armazenadas como FLAC e exportadas para WAV ou MP3.
+
+Desenho no SketchPad
+Desenhe direto em uma nota: F7 (ou Ctrl+Shift+D) abre um SketchPad não modal com caneta, linha, seta, formas, polígono, balde de tinta, rótulos de texto e borracha. Imprimir na nota o carimba na linha, no cursor, e ele continua editável: dê um clique duplo em qualquer imagem de uma nota para reabrir e fazer anotações.
+
+O Killculator
+Uma calculadora com tema que desliza para cima a partir da barra lateral (F9). Digite uma equação nas teclas numéricas, e então Imprimir soma (Ctrl+Enter) coloca o resultado na sua nota, ou Imprimir equação (Ctrl+Shift+Enter) coloca a equação inteira em andamento. Chega de copiar e colar do calc.exe.
+
+Abre os seus arquivos
+Ctrl+O ou solte arquivos: .txt, .log e .md viram notas, .rtf mantém a formatação, .html traz uma prévia renderizada e as imagens entram na linha. Cada arquivo vira uma nota própria.
+
+Exportar
+Exporte qualquer nota como texto simples, texto rico (.rtf) com imagens intactas ou uma página web independente com o estilo do tema e imagens incorporadas.
+
+Cores de notas & grupos
+Clique com o botão direito para colorir o título de uma nota ou o nome de um grupo na barra lateral, com prévia ao vivo enquanto você escolhe, uma dica rápida para as notas que você mais usa. As cores viajam dentro dos arquivos compartilhados e são redefinidas com um clique.
+
+Realce de sintaxe
+Ctrl+Shift+E colore o código de uma nota em dezesseis linguagens: PowerShell, Python, SQL, Bash, C#, JavaScript, TypeScript, CSS, HTML, XAML, XML, Vue, JSON, YAML, Markdown e texto simples. A linguagem é detectada por parágrafo, então uma nota de rascunho cheia de trechos misturados colore cada bloco corretamente, sem seletor de linguagem.
+
+Imagens & clipes flutuantes
+Arraste uma imagem ou uma gravação para fora do texto e ela flutua: o texto a contorna ao lado, ela se ajusta a uma grade de doze colunas para que figuras em linhas diferentes se alinhem, e soltar uma em uma tabela alarga a coluna para caber.
+
+Hiperlinks de verdade
+Ctrl+K cria o link da seleção ou edita o link sob o cursor, Ctrl+Clique o abre, e URLs digitadas viram links automaticamente. Os links sobrevivem à colagem de navegadores, do Word e de outros aplicativos de notas, e só endereços web e de e-mail chegam a abrir.
+
+Prévia de markdown & HTML
+F4 alterna entre Fonte, Renderizado e Dividido para Markdown e HTML. A prévia WPF nativa acompanha o tema e a textura; scripts nunca são executados.
+
+Atalhos & mapa do teclado
+Tudo tem uma tecla. F1 abre a tela de atalhos com um mapa visual completo do teclado; segure Ctrl, Shift ou Alt para ver o que cada tecla faz.
+
+Temas & destaques
+13 temas, 41 visuais: Dark, Light, Black e 98SE oferecem oito cores de destaque cada. Os gradientes acompanham o tema; 98SE permanece plano. O menu de temas permite ativar ou desativar o grão de filme.
+
+19 idiomas
+Toda a interface está traduzida para 19 idiomas, alternáveis ao vivo sem reiniciar. O mesmo conjunto em que o site é publicado.","Jeden przeszukiwalny, szyfrowany notatnik zamiast 80 kart Notatnika - formatowany tekst, obrazy w treści, prawdziwe tabele i każda notatka zawsze zapisana, do udostępniania jako odrywane pliki .knote.
+
+Bezpłatny, open source, GPLv3. Bez agenta, bez konta, bez subskrypcji. Bez telemetrii i bez reklam... nigdy.
+
+Jeden notatnik, nie 80 kart
+Notatki zapisują się po przerwie w pisaniu, przy zmianie notatki i zamknięciu. Ctrl+S zapisuje od razu.
+
+Błyskawiczne wyszukiwanie
+Pełnotekstowe wyszukiwanie we wszystkich notatkach podczas pisania, na indeksie SQLite FTS5. Sortuj według daty lub tytułu, albo ułóż notatki we własnej kolejności, a trzy gęstości panelu bocznego mieszczą więcej notatek na ekranie.
+
+Formatowany tekst, który nadąża
+Wklejaj zrzuty ekranu prosto do treści, wstawiaj prawdziwe tabele i formatuj pogrubieniem, kursywą, kolorami, listami, czcionką o stałej szerokości i liniami poziomymi. Zawijanie wierszy, numery wierszy, sprawdzanie pisowni dla każdej notatki i pełny wybór kolorów z próbnikiem obejmującym cały pulpit - wszystko na skrótach klawiszowych. Wklej dane arkusza lub CSV do komórek i użyj menu Tabela, aby dodawać lub usuwać wiersze i kolumny.
+
+Szyfrowany w spoczynku
+Ustaw hasło, a cała baza danych jest szyfrowana przez SQLCipher (AES-256): notatki, obrazy, indeks, wszystko. Zmień je lub usuń z kłódki na pasku tytułu w dowolnym momencie.
+
+Kolorowe etykiety
+Oznaczaj notatki kolorowymi etykietami, w stylu Outlooka. Etykiety pokazują się jako plakietki w panelu bocznym, a kliknięcie filtruje do danej etykiety. Definicje podróżują wewnątrz udostępnianych plików, a Ctrl+T zarządza nimi we wszystkich notatkach.
+
+Grupy & podgrupy
+Przeciągaj notatki w kolejność, która ma znaczenie, albo układaj je w nazwane grupy według klienta lub projektu - zagnieżdżane na dowolną głębokość dzięki podgrupom. Kolorowa linia rodzica biegnie w dół przez jego elementy potomne, nagłówki zwijają się kliknięciem, grupy podróżują wewnątrz udostępnianych plików .kndb, a Ctrl+Z cofa każdy ruch.
+
+Udostępnianie przez odrywanie
+Kliknij prawym przyciskiem, aby udostępnić notatkę jako plik .knote, opcjonalnie chroniony hasłem, albo przeciągnij ją prosto do Teams, Outlooka lub folderu. Całe bazy danych podróżują jako .kndb.
+
+Wiele baz danych
+Prowadź osobne notatniki dla każdego klienta lub zlecenia. Twórz, przełączaj i eksportuj je z jednego okna, a otrzymany plik .kndb otwiera się dwuklikiem. Wskaż folder danych gdziekolwiek chcesz.
+
+Zaplanowane kopie zapasowe
+Wybierz folder kopii, uruchamiaj je co 6 lub 12 godzin, codziennie albo co tydzień i określ, ile zachować. Alt+B tworzy kopię od razu, a każdą kopię można przywrócić jako nową bazę bez nadpisywania oryginału.
+
+Powiązane notatki i ich graf
+Wpisz [[, aby połączyć jedną notatkę z drugą, także z taką, której jeszcze nie napisano - przejście martwym odnośnikiem proponuje jej utworzenie. Każda notatka wymienia to, co na nią wskazuje, a Ctrl+Shift+B rysuje cały notatnik jako graf, który można rozmieszczać, blokować w nim notatki w miejscu i zapisywać jego układy. Otwiera się dokładnie tak, jak go zostawiono.
+Pasek linków pokazuje linki przychodzące i wychodzące, także do jeszcze nieutworzonych celów. Kliknij link, aby otworzyć notatkę.
+
+Dyktowanie & transkrypcja
+F10 (lub Ctrl+M) otwiera panel nagrywania: nagraj dźwięk, przejrzyj i potnij kształt fali, a potem transkrybuj offline - rozpoznawanie mowy działa na twoim komputerze, nic nie jest wysyłane. Osadź klip w notatce jako odtwarzalną plakietkę albo wydrukuj transkrypcję jako tekst. Nagrania są przechowywane jako FLAC i eksportują się do WAV lub MP3.
+
+Rysowanie w SketchPadzie
+Rysuj wprost na notatce: F7 (lub Ctrl+Shift+D) otwiera niemodalny SketchPad z piórem, linią, strzałką, kształtami, wielokątem, wiadrem z farbą, etykietami tekstowymi i gumką. Drukuj do notatki wstawia rysunek w miejscu kursora i pozostaje on edytowalny - kliknij dwukrotnie dowolny obraz w notatce, aby otworzyć go ponownie i nanieść poprawki.
+
+Killculator
+Kalkulator w stylu motywu, który wysuwa się z panelu bocznego (F9). Wpisz równanie na klawiszach numerycznych, po czym Drukuj wynik (Ctrl+Enter) wstawia rezultat do notatki, a Drukuj równanie (Ctrl+Shift+Enter) wstawia całe bieżące równanie - koniec z kopiowaniem z calc.exe.
+
+Otwiera twoje pliki
+Ctrl+O albo upuść pliki: .txt, .log i .md stają się notatkami, .rtf zachowuje formatowanie, .html niesie wyrenderowany podgląd, a obrazy lądują w treści. Każdy plik staje się osobną notatką.
+
+Eksport
+Eksportuj dowolną notatkę jako zwykły tekst, tekst formatowany (.rtf) z nienaruszonymi obrazami albo samodzielną stronę internetową w stylu motywu z osadzonymi obrazami.
+
+Kolory notatek & grup
+Kliknij prawym przyciskiem, aby pokolorować tytuł notatki lub nazwę grupy w panelu bocznym, z podglądem na żywo podczas wybierania - szybka wskazówka dla notatek, po które sięgasz najczęściej. Kolory podróżują wewnątrz udostępnianych plików i resetują się jednym kliknięciem.
+
+Kolorowanie składni
+Ctrl+Shift+E koloruje kod w notatce w 16 językach - PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript i innych. Język jest wykrywany dla każdego akapitu osobno, więc nawet notatka pełna mieszanych fragmentów koloruje każdy blok poprawnie, bez wybierania języka.
+
+Pływające obrazy & klipy
+Wyciągnij obraz lub nagranie z tekstu, a zacznie pływać: tekst opływa je z boku, przyciąga się do dwunastokolumnowej siatki, więc obrazki w różnych wierszach się wyrównują, a upuszczenie na tabelę poszerza kolumnę tak, aby się zmieściło.
+
+Prawdziwe hiperłącza
+Ctrl+K tworzy łącze z zaznaczenia lub edytuje łącze pod kursorem, Ctrl+kliknięcie je otwiera, a wpisane adresy URL łączą się same. Łącza przeżywają wklejanie z przeglądarek, Worda i innych aplikacji do notatek - a otwierają się wyłącznie adresy internetowe i e-mailowe.
+
+Podgląd Markdown & HTML
+F4 przełącza Źródło, Renderowanie i Podział dla Markdown i HTML. Natywny podgląd WPF stosuje motyw i ziarno; skrypty nigdy się nie wykonują.
+
+Skróty & mapa klawiatury
+Wszystko ma swój klawisz. F1 otwiera nakładkę skrótów z pełną wizualną mapą klawiatury; przytrzymaj Ctrl, Shift lub Alt, aby podejrzeć, co robi każdy klawisz.
+
+Motywy & akcenty
+13 motywów, 41 wyglądów: Dark, Light, Black i 98SE oferują po osiem kolorów akcentu. Gradienty stosują motyw; 98SE pozostaje płaski. Menu motywów pozwala włączyć lub wyłączyć ziarno filmowe.
+
+19 języków
+Cały interfejs jest przetłumaczony na 19 języków, przełączanych na żywo bez restartu. Ten sam zestaw, w którym wychodzi strona internetowa.","Én søkbar, kryptert notatblokk i stedet for 80 Notisblokk-faner - rik tekst, bilder på linjen, ekte tabeller og hvert notat alltid lagret, kan deles som .knote-filer.
+
+Gratis, åpen kildekode, GPLv3. Ingen agent, ingen konto, intet abonnement. Ingen telemetri sendes og ingen reklame... aldri.
+
+Én notatblokk, ikke 80 faner
+Notater lagres etter en skrivepause, når du bytter notat og ved lukking. Ctrl+S lagrer straks.
+
+Umiddelbart søk
+Fulltekstsøk i hvert notat mens du skriver, på en SQLite FTS5-indeks. Sorter etter dato eller tittel, eller ordne notatene i din egen rekkefølge, og tre tettheter i sidepanelet får plass til flere notater på skjermen.
+
+Rik tekst som henger med
+Lim inn skjermbilder på linjen, sett inn ekte tabeller og formater med fet, kursiv, farger, lister, tekst med fast bredde og streker. Tekstbryting, linjenumre, stavekontroll per notat og en full fargevelger med pipette over hele skrivebordet - alt på hurtigtaster. Lim inn regneark- eller CSV-data i tabellceller, og bruk Tabell-menyen til å legge til eller fjerne rader og kolonner.
+
+Kryptert i hvile
+Sett et passord, så krypteres hele databasen med SQLCipher (AES-256): notater, bilder, indeks, alt. Endre eller fjern det fra låsen i tittellinjen når som helst.
+
+Fargekodede etiketter
+Merk notater med fargede etiketter, som i Outlook. Etiketter vises som piller i sidepanelet, og et klikk filtrerer på den etiketten. Definisjonene følger med i delte filer, og Ctrl+T administrerer dem på tvers av alle notater.
+
+Grupper og undergrupper
+Dra notater inn i den rekkefølgen som betyr noe, eller legg dem i navngitte grupper per kunde eller prosjekt - nestet til hvilken som helst dybde med undergrupper. Overgruppens fargede linje går ned gjennom barna, overskrifter skjules med et klikk, grupper følger med i delte .kndb-filer, og Ctrl+Z angrer enhver flytting.
+
+Deling som å rive av et ark
+Høyreklikk for å dele et notat som en .knote-fil, eventuelt passordbeskyttet, eller dra det rett ut til Teams, Outlook eller en mappe. Hele databaser følger med som .kndb.
+
+Flere databaser
+Ha separate notatblokker per kunde eller oppdrag. Opprett, bytt og eksporter dem fra én dialog, og en mottatt .kndb åpnes med dobbeltklikk. Pek datamappen hvor som helst.
+
+Planlagte sikkerhetskopier
+Velg en sikkerhetskopimappe, kjør kopier hver 6. eller 12. time, daglig eller ukentlig, og bestem hvor mange som skal beholdes. Ta en sikkerhetskopi med en gang med Alt+B, og gjenopprett så en hvilken som helst kopi som en ny database uten å overskrive originalen.
+
+Lenkede notater og en graf over dem
+Skriv [[ for å lenke ett notat til et annet, også notater du ikke har skrevet ennå - når du følger en død lenke, blir du spurt om du vil opprette den. Hvert notat viser hva som peker på det, og Ctrl+Shift+B tegner hele notatboken som en graf du kan ordne, låse notater fast i og lagre layouter av. Den åpnes igjen akkurat slik du forlot den.
+Lenkefeltet viser inngående og utgående lenker, også til mål som ennå ikke er opprettet. Klikk en lenke for å åpne notatet.
+
+Diktering og transkribering
+F10 (eller Ctrl+M) åpner en opptaksblokk: ta opp lyd, spol og del opp bølgeformen, og transkriber den så frakoblet - talegjenkjenningen kjører på din maskin, ingenting lastes opp. Bygg inn klippet i notatet som en avspillbar brikke, eller skriv ut transkripsjonen som tekst. Opptak lagres som FLAC og eksporteres til WAV eller MP3.
+
+Tegning med SketchPad
+Tegn rett på et notat: F7 (eller Ctrl+Shift+D) åpner en ikke-modal SketchPad med penn, linje, pil, former, mangekant, malerbøtte, tekstetiketter og et viskelær. Skriv ut i notatet stempler den inn på linjen ved markøren, og den kan fortsatt redigeres - dobbeltklikk på et hvilket som helst bilde i et notat for å åpne det igjen og tegne på det.
+
+Killculator
+En tematisert kalkulator som glir opp fra sidepanelet (F9). Skriv en likning på talltastene, så legger Skriv ut sum (Ctrl+Enter) resultatet i notatet ditt, eller Skriv ut likning (Ctrl+Shift+Enter) legger hele den løpende likningen - ikke mer kopiering ut av calc.exe.
+
+Åpner filene dine
+Ctrl+O eller slipp filer inn: .txt, .log og .md blir notater, .rtf beholder formateringen, .html får en gjengitt forhåndsvisning, og bilder havner på linjen. Hver fil blir et eget notat.
+
+Eksport
+Eksporter hvilket som helst notat som ren tekst, rik tekst (.rtf) med bilder intakt, eller en frittstående nettside i temaets stil med bilder innebygd.
+
+Notat- og gruppefarger
+Høyreklikk for å farge tittelen til et notat eller navnet til en gruppe i sidepanelet, med direkte forhåndsvisning mens du velger - et raskt signal for notatene du strekker deg etter oftest. Farger følger med i delte filer og tilbakestilles med ett klikk.
+
+Syntaksutheving
+Ctrl+Shift+E farger kode i et notat på tvers av seksten språk - PowerShell, Python, SQL, Bash, C#, JavaScript, TypeScript, CSS, HTML, XAML, XML, Vue, JSON, YAML, Markdown og ren tekst. Språket oppdages per avsnitt, så ett kladdenotat fullt av blandede utdrag får hver blokk riktig farget uten språkvelger.
+
+Flytende bilder og klipp
+Dra et bilde eller et opptak ut av teksten, så flyter det: teksten bryter langs siden, det fester seg til et rutenett med tolv kolonner slik at bilder på ulike linjer står på linje, og å slippe et på en tabell utvider kolonnen så det passer.
+
+Ekte hyperlenker
+Ctrl+K lenker markeringen eller redigerer lenken under markøren, Ctrl+Klikk åpner den, og skrevne URL-er lenkes automatisk. Lenker overlever innliming fra nettlesere, Word og andre notatapper - og bare nett- og e-postadresser åpnes noen gang.
+
+Forhåndsvisning av markdown og HTML
+F4 veksler mellom Kilde, Gjengitt og Delt for Markdown og HTML. Den native WPF-forhåndsvisningen følger tema og korn; skript kjøres aldri.
+
+Hurtigtaster og tastaturkart
+Alt har en tast. F1 åpner hurtigtastoverlegget med et fullt visuelt tastaturkart; hold inne Ctrl, Shift eller Alt for å forhåndsvise hva hver tast gjør.
+
+Temaer og aksenter
+13 temaer, 41 utseender: Dark, Light, Black og 98SE tilbyr åtte aksentfarger hver. Gradienter følger temaet; 98SE forblir flatt. Temamenyen kan slå filmkorn av eller på.
+
+19 språk
+Hele grensesnittet er oversatt til 19 språk, som kan byttes live uten omstart. Det samme settet som nettstedet leveres på.","一个可搜索、加密的记事本，取代 80 个 Notepad 标签页 - 富文本、内嵌图片、真正的表格，每条笔记始终自动保存，可作为可撕下的 .knote 文件分享。
+
+免费、开源、GPLv3 无代理、无账户、无订阅。不发送任何遥测数据，永远没有广告。
+
+一个记事本，而非 80 个标签页
+停止输入、切换笔记或关闭时会保存笔记。Ctrl+S 可立即保存。
+
+即时搜索
+基于 SQLite FTS5 索引，边输入边对所有笔记进行全文搜索。可按日期或标题排序，或按自己的自定义顺序排列，三档侧栏密度让屏幕容纳更多笔记。
+
+跟得上节奏的富文本
+内联粘贴截图、插入真正的表格，用粗体、斜体、颜色、列表、等宽和分隔线排版。自动换行、行号、逐笔记拼写检查，以及带全桌面取色器的完整调色盘，全部支持快捷键。 将电子表格或 CSV 数据粘贴到单元格，并使用表格菜单添加或删除行与列。
+
+静态加密
+设置密码后，整个数据库都会用 SQLCipher（AES-256）加密：笔记、图片、索引，一切尽在其中。随时可从标题栏的锁图标更改或移除密码。
+
+彩色标签
+用彩色标签为笔记打标，Outlook 风格。标签以侧栏胶囊形式显示，点击即可筛选出该标签的笔记。标签定义随共享文件一同传递，Ctrl+T 可跨所有笔记统一管理。
+
+分组 & 子分组
+把笔记拖成想要的顺序，或按客户、项目归入命名分组，子分组可无限嵌套。父分组的彩色线条沿子项延伸，标题一点即折叠，分组随共享的 .kndb 文件一起走，Ctrl+Z 可撤销任何移动。
+
+撕下即分享
+右键即可将笔记以 .knote 文件分享，可选加密保护，或直接拖到 Teams、Outlook 或文件夹中。整个数据库以 .kndb 形式传递。
+
+多数据库
+为每个客户或任务保留独立的记事本。在一个对话框中创建、切换和导出，收到的 .kndb 双击即可打开。数据文件夹可指向任意位置。
+
+定时备份
+选择备份文件夹，设置每 6 或 12 小时、每天或每周创建副本，并决定保留数量。按 Alt+B 可立即备份，任何副本都能还原为新数据库，不会覆盖原始数据库。
+
+链接笔记与它们的图谱
+输入 [[ 就能把一条笔记链接到另一条，包括还没写的笔记 - 前往空链接时会提议替你创建。每条笔记都会列出有什么指向它，而 Ctrl+Shift+B 会把整个笔记本画成一张图谱，你可以排列它、把笔记锁在原位，也能保存布局。它会照你离开时的样子重新打开。
+笔记链接栏显示传入和传出链接，包括尚未创建的目标。点击链接可打开笔记。
+
+语音听写与转录
+F10（或 Ctrl+M）打开录音面板：录制音频、拖动并裁剪波形，然后离线转录-语音识别在本机运行，不上传任何内容。可将音频以可播放的胶囊嵌入笔记，或把转录文本打印进去。录音以 FLAC 保存，并可导出为 WAV 或 MP3。
+
+SketchPad 绘图
+直接在笔记上绘图：F7（或 Ctrl+Shift+D）打开非模态的 SketchPad，具备笔、线条、箭头、图形、多边形、油漆桶、文本标签和橡皮擦。打印到笔记会把它插入光标处，并保持可编辑 - 双击笔记中的任何图片即可重新打开并标注。
+
+Killculator
+从侧边栏向上滑出的主题化计算器 (F9)。用数字键输入算式，然后打印合计 (Ctrl+Enter) 会把结果放入你的笔记，或打印算式 (Ctrl+Shift+Enter) 放入完整的展开算式 - 不必再从 calc.exe 复制粘贴。
+
+打开你的文件
+Ctrl+O 或直接拖入文件：.txt、.log 和 .md 会变成笔记，.rtf 保留其格式，.html 带来渲染后的预览，图片则内联呈现。每个文件都会成为一条独立的笔记。
+
+导出
+可将任意笔记导出为纯文本、保留图片的富文本（.rtf），或图片内嵌、带主题样式的独立网页。
+
+笔记 & 分组颜色
+右键为笔记标题或分组名称在侧栏着色，挑选时实时预览，是常用笔记的快速标识。颜色随共享文件一起走，一键即可重置。
+
+语法高亮
+Ctrl+Shift+E 可为笔记中的代码着色，支持 16 种语言-PowerShell、Python、SQL、Bash、YAML、JSON、XAML、HTML、XML、CSS、JavaScript、TypeScript 等。语言按段落逐段识别，因此一篇混杂各种片段的草稿笔记也能正确着色，无需选择语言。
+
+浮动图片与录音
+把图片或录音从正文中拖出即可浮动：文字会沿其一侧环绕，并吸附到十二列网格上，使不同行的图片彼此对齐；拖到表格上时，列宽会自动扩展以容纳它。
+
+真正的超链接
+Ctrl+K 为选中内容添加链接或编辑光标处的链接，Ctrl+Click 打开，输入的网址会自动成为链接。从浏览器、Word 和其他笔记应用粘贴时链接依然保留-且只有网页和邮件地址会被打开。
+
+Markdown&HTML 预览
+F4 在 Markdown 和 HTML 的源码、渲染和分栏视图间切换。原生 WPF 预览遵循主题和颗粒纹理，绝不运行脚本。
+
+快捷键&键盘映射
+一切皆有快捷键。F1 打开快捷键浮层，附带完整的可视化键盘图；按住 Ctrl、Shift 或 Alt 即可预览每个按键的功能。
+
+主题&强调色
+13种主题，41种外观：Dark、Light、Black 和 98SE 各提供8种强调色。渐变遵循主题，98SE 保持纯色。 主题菜单可开启或关闭胶片颗粒。
+
+19种语言
+整个界面已翻译成19种语言，无需重启即可实时切换。与网站提供的语言相同。","一個可搜尋、加密的記事本，取代 80 個記事本分頁 - 支援豐富文字、內嵌圖片、真正的表格，每則筆記永遠自動儲存，還能撕下成 .knote 檔分享。
+
+免費、開源、GPLv3 沒有代理程式、不用帳號、免訂閱。不送出任何遙測資料，也沒有廣告……永遠沒有。
+
+一個記事本，不是 80 個分頁
+停止輸入、切換筆記或關閉時會儲存筆記。Ctrl+S 可立即儲存。
+
+即時搜尋
+以 SQLite FTS5 索引，邊輸入邊對所有筆記全文搜尋。可依日期或標題排序，或依自己的自訂順序排列，三段側欄密度讓畫面容納更多筆記。
+
+跟得上腳步的豐富文字
+內嵌貼上螢幕截圖、插入真正的表格，用粗體、斜體、色彩、清單、等寬與分隔線排版。自動換行、行號、逐筆記拼字檢查，以及含全桌面滴管的完整色彩選擇器，全都支援快速鍵。 將試算表或 CSV 資料貼入儲存格，並使用表格選單新增或刪除列與欄。
+
+靜態加密
+設定密碼後，整個資料庫都以 SQLCipher（AES-256）加密：筆記、圖片、索引，一應俱全。隨時可從標題列的鎖頭更改或移除密碼。
+
+色彩標籤
+用彩色標籤為筆記加註，Outlook 風格。標籤在側邊欄以膠囊呈現，點一下即可篩出該標籤。定義隨分享檔案一起攜帶，Ctrl+T 則統一管理所有筆記的標籤。
+
+群組 & 子群組
+把筆記拖成想要的順序，或依客戶、專案歸入命名群組，子群組可無限巢狀。父群組的彩色線條沿子項延伸，標題一按即收合，群組隨共享的 .kndb 檔案一起走，Ctrl+Z 可復原任何移動。
+
+撕下即分享
+右鍵即可將筆記分享為 .knote 檔案，並可選擇加密保護，或直接拖曳到 Teams、Outlook 或資料夾。整個資料庫則以 .kndb 攜帶。
+
+多個資料庫
+為每位客戶或每項工作保留獨立的記事本。在單一對話框中建立、切換與匯出，收到的 .kndb 只要按兩下就能開啟。資料夾位置可任意指定。
+
+排程備份
+選擇備份資料夾，設定每 6 或 12 小時、每天或每週建立副本，並決定保留數量。按 Alt+B 可立即備份，任何副本都能還原為新的資料庫，不會覆寫原始資料庫。
+
+連結筆記與它們的圖譜
+輸入 [[ 就能把一則筆記連到另一則，包括還沒寫的筆記 - 前往空連結時會提議替你建立。每則筆記都會列出有什麼指向它，而 Ctrl+Shift+B 會把整本筆記本畫成一張圖譜，你可以排列它、把筆記鎖在原位，也能儲存版面。它會照你離開時的樣子重新開啟。
+筆記連結列顯示傳入和傳出連結，包括尚未建立的目標。點擊連結可開啟筆記。
+
+語音聽寫與轉錄
+F10（或 Ctrl+M）開啟錄音面板：錄製音訊、拖曳並裁切波形，然後離線轉錄-語音辨識在本機執行，不會上傳任何內容。可將音訊以可播放的膠囊嵌入筆記，或把轉錄文字列印進去。錄音以 FLAC 儲存，並可匯出為 WAV 或 MP3。
+
+SketchPad 繪圖
+直接在筆記上繪圖：F7（或 Ctrl+Shift+D）開啟非強制回應的 SketchPad，具備筆、線條、箭頭、圖形、多邊形、油漆桶、文字標籤與橡皮擦。列印到筆記會把它插入游標處，且維持可編輯 - 對筆記中的任何圖片按兩下即可重新開啟並標註。
+
+Killculator
+從側邊欄向上滑出的主題化計算機 (F9)。用數字鍵輸入算式，接著列印總和 (Ctrl+Enter) 會把結果放入你的筆記，或列印算式 (Ctrl+Shift+Enter) 放入完整的展開算式 - 不必再從 calc.exe 複製貼上。
+
+開啟你的檔案
+按 Ctrl+O 或直接把檔案拖進來：.txt、.log 與 .md 會變成筆記，.rtf 保留格式，.html 帶入算繪後的預覽，圖片則行內落位。每個檔案各自成為一則筆記。
+
+匯出
+可將任何筆記匯出為純文字、含圖片的 RTF 檔（.rtf），或圖片內嵌、套用主題樣式的獨立網頁。
+
+筆記 & 群組色彩
+右鍵為筆記標題或群組名稱在側欄上色，挑選時即時預覽，是常用筆記的快速標記。色彩隨共享檔案一起走，一鍵即可重設。
+
+語法高亮
+Ctrl+Shift+E 可為筆記中的程式碼上色，支援 16 種語言-PowerShell、Python、SQL、Bash、YAML、JSON、XAML、HTML、XML、CSS、JavaScript、TypeScript 等。語言逐段偵測，因此一篇混雜各種片段的草稿筆記也能正確上色，無需選擇語言。
+
+浮動圖片與錄音
+把圖片或錄音從內文中拖出即可浮動：文字會沿其一側環繞，並吸附到十二欄格線上，使不同行的圖片彼此對齊；拖到表格上時，欄寬會自動加寬以容納它。
+
+真正的超連結
+Ctrl+K 為選取內容加上連結或編輯游標處的連結，Ctrl+Click 開啟，輸入的網址會自動成為連結。從瀏覽器、Word 和其他筆記應用貼上時連結依然保留-且只有網頁與郵件位址會被開啟。
+
+Markdown 與 HTML 預覽
+F4 在 Markdown 和 HTML 的原始碼、呈現和分欄檢視間切換。原生 WPF 預覽遵循佈景主題和顆粒紋理，絕不執行指令碼。
+
+快速鍵與鍵盤對照圖
+每項操作都有對應按鍵。F1 開啟快捷鍵疊層，附完整的視覺化鍵盤圖；按住 Ctrl、Shift 或 Alt 即可預覽每個鍵的作用。
+
+主題與強調色
+13種佈景主題，41種外觀：Dark、Light、Black 和 98SE 各提供8種強調色。漸層遵循佈景主題，98SE 保持純色。 主題選單可開啟或關閉膠片顆粒。
+
+19種語言
+整個介面已翻譯成19種語言，無需重啟即可即時切換。與網站提供的語言相同。","Un seul bloc-notes chiffré et interrogeable au lieu de 80 onglets Notepad - texte enrichi, images intégrées, vraies tableaux, et chaque note toujours enregistrée, partageable sous forme de fichiers .knote détachables.
+
+Gratuit, open source, GPLv3. Pas d'agent, pas de compte, pas d'abonnement. Aucune télémétrie envoyée et aucune pub... jamais.
+
+Un bloc-notes, pas 80 onglets
+Les notes sont enregistrées après une pause de saisie, lors d'un changement de note et à la fermeture. Ctrl+S enregistre immédiatement.
+
+Recherche instantanée
+Recherche plein texte dans toutes les notes au fil de la frappe, sur un index SQLite FTS5. Triez par date ou par titre, organisez les notes dans votre propre ordre, et trois densités de barre latérale affichent plus de notes à l'écran.
+
+Un texte enrichi qui suit le rythme
+Collez des captures d'écran en ligne, insérez de vrais tableaux et mettez en forme avec gras, italique, couleurs, listes, monospace et filets. Retour à la ligne, numéros de ligne, correction orthographique par note et un sélecteur de couleurs complet avec pipette sur tout le bureau - le tout au clavier. Collez des données de feuille de calcul ou CSV dans les cellules. Le menu Tableau permet d'ajouter ou de supprimer des lignes et colonnes.
+
+Chiffré au repos
+Définissez un mot de passe et toute la base est chiffrée avec SQLCipher (AES-256) : notes, images, index, tout. Modifiez-le ou supprimez-le depuis le cadenas de la barre de titre à tout moment.
+
+Étiquettes en couleur
+Étiquetez vos notes avec des libellés colorés, façon Outlook. Les tags apparaissent en pastilles dans la barre latérale, et un clic filtre sur ce tag. Les définitions voyagent à l'intérieur des fichiers partagés, et Ctrl+T les gère sur l'ensemble de vos notes.
+
+Groupes & sous-groupes
+Glissez vos notes dans l'ordre qui compte, ou classez-les dans des groupes nommés par client ou projet, imbriqués sans limite grâce aux sous-groupes. La ligne colorée du groupe parent longe ses enfants, les en-têtes se replient d'un clic, les groupes voyagent dans les fichiers .kndb partagés, et Ctrl+Z annule chaque déplacement.
+
+Partage détachable
+Faites un clic droit pour partager une note en fichier .knote, éventuellement protégé par mot de passe, ou glissez-la directement vers Teams, Outlook ou un dossier. Les bases entières voyagent en .kndb.
+
+Bases multiples
+Gardez des blocs-notes séparés par client ou par mission. Créez-les, changez-en et exportez-les depuis une seule boîte de dialogue, et un .kndb reçu s'ouvre d'un double-clic. Pointez le dossier de données où vous voulez.
+
+Sauvegardes programmées
+Choisissez un dossier de sauvegarde, créez des copies toutes les 6 ou 12 heures, chaque jour ou chaque semaine, et définissez combien en conserver. Alt+B lance une sauvegarde immédiate et chaque copie peut être restaurée comme nouvelle base sans écraser l'originale.
+
+Notes liées et un graphe de celles-ci
+Tapez [[ pour lier une note à une autre, y compris des notes que vous n'avez pas encore écrites : suivre un lien mort propose de la créer. Chaque note énumère ce qui pointe vers elle, et Ctrl+Shift+B dessine le carnet entier sous forme de graphe que vous pouvez disposer, sur lequel verrouiller des notes en place et dont vous pouvez enregistrer les mises en page. Il se rouvre exactement tel que vous l'avez laissé.
+La bande de liens affiche les liens entrants et sortants, y compris les cibles pas encore créées. Cliquez sur un lien pour ouvrir sa note.
+
+Dictée & transcription
+F10 (ou Ctrl+M) ouvre un pavé d'enregistrement : capturez l'audio, parcourez et découpez la forme d'onde, puis transcrivez hors ligne - la reconnaissance vocale tourne sur votre machine, rien n'est envoyé. Intégrez le clip dans la note sous forme de pastille lisible, ou imprimez-y la transcription. Les enregistrements sont stockés en FLAC et s'exportent en WAV ou MP3.
+
+Dessin SketchPad
+Dessinez directement sur une note : F7 (ou Ctrl+Shift+D) ouvre un SketchPad non modal avec crayon, ligne, flèche, formes, polygone, pot de peinture, étiquettes de texte et une gomme. Imprimer dans la note l'insère au curseur, et il reste modifiable - double-cliquez sur n'importe quelle image d'une note pour la rouvrir et l'annoter.
+
+Le Killculator
+Une calculatrice au style de l'appli qui surgit depuis la barre latérale (F9). Tapez une équation sur le pavé numérique, puis Imprimer la somme (Ctrl+Enter) dépose le résultat dans votre note, ou Imprimer l'équation (Ctrl+Shift+Enter) dépose toute l'équation détaillée - fini le copier-coller depuis calc.exe.
+
+Ouvre vos fichiers
+Ctrl+O ou déposez vos fichiers : .txt, .log et .md deviennent des notes, .rtf conserve sa mise en forme, .html emporte un aperçu rendu, et les images arrivent en ligne. Chaque fichier devient sa propre note.
+
+Export
+Exportez n'importe quelle note en texte brut, en texte enrichi (.rtf) avec images intactes, ou en page web autonome au style du thème avec images intégrées.
+
+Couleurs de notes & de groupes
+Un clic droit colore le titre d'une note ou le nom d'un groupe dans la barre latérale, avec un aperçu en direct pendant le choix - un repère rapide pour les notes que vous ouvrez le plus. Les couleurs voyagent dans les fichiers partagés et se réinitialisent en un clic.
+
+Coloration syntaxique
+Ctrl+Shift+E colore le code d'une note dans 16 langages - PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript et d'autres. Le langage est détecté paragraphe par paragraphe : une note de brouillon pleine d'extraits mélangés colore donc chaque bloc correctement, sans sélecteur de langage.
+
+Faire flotter images & clips
+Faites glisser une image ou un enregistrement hors du texte et il flotte : le texte l'habille sur le côté, il s'aligne sur une grille de douze colonnes pour que des images de lignes différentes se calent entre elles, et le déposer sur un tableau élargit la colonne à sa taille.
+
+De vrais hyperliens
+Ctrl+K transforme la sélection en lien ou modifie le lien sous le curseur, Ctrl+Clic l'ouvre, et les URL saisies deviennent des liens automatiquement. Les liens survivent au collage depuis un navigateur, Word ou une autre appli de notes - et seules les adresses web et mail s'ouvrent.
+
+Aperçu Markdown & HTML
+F4 alterne entre Source, Rendu et Vue partagée pour Markdown et HTML. L'aperçu WPF natif suit le thème et le grain ; les scripts ne s'exécutent jamais.
+
+Raccourcis & plan du clavier
+Tout a sa touche. F1 ouvre la superposition des raccourcis avec une carte clavier visuelle complète ; maintenez Ctrl, Shift ou Alt pour prévisualiser l'action de chaque touche.
+
+Thèmes & accents
+13 thèmes, 41 apparences : Dark, Light, Black et 98SE offrent chacun huit couleurs d'accent. Les dégradés suivent le thème ; 98SE reste plat. Le menu des thèmes permet d'activer ou de désactiver le grain de film.
+
+19 langues
+Toute l'interface est traduite en 19 langues, changeables à la volée sans redémarrage. Le même ensemble que celui du site web.","Один блокнот с поиском и шифрованием вместо 80 вкладок Блокнота - форматированный текст, встроенные изображения, настоящие таблицы и каждая заметка всегда сохранена, с обменом отрывными файлами .knote.
+
+Бесплатно, открытый исходный код, GPLv3. Ни агента, ни учётной записи, ни подписки. Телеметрия не отправляется и рекламы нет... никогда.
+
+Один блокнот, а не 80 вкладок
+Заметки сохраняются после паузы ввода, при смене заметки и закрытии. Ctrl+S сохраняет сразу.
+
+Мгновенный поиск
+Полнотекстовый поиск по всем заметкам во время набора, на индексе SQLite FTS5. Сортируйте по дате или названию либо расставьте заметки в своём порядке, а три плотности боковой панели вмещают на экран больше заметок.
+
+Форматированный текст, который поспевает
+Вставляйте снимки экрана прямо в текст, вставляйте настоящие таблицы и форматируйте жирным, курсивом, цветами, списками, моноширинным шрифтом и линиями. Перенос строк, номера строк, проверка орфографии для каждой заметки и полный выбор цвета с пипеткой по всему экрану - всё на горячих клавишах. Вставляйте данные электронной таблицы или CSV в ячейки и добавляйте либо удаляйте строки и столбцы через меню «Таблица».
+
+Зашифровано в покое
+Задайте пароль - и вся база данных шифруется через SQLCipher (AES-256): заметки, изображения, индекс, всё. Меняйте или снимайте его замком в заголовке окна в любой момент.
+
+Цветные метки
+Помечайте заметки цветными ярлыками, как в Outlook. Метки показываются кружками в боковой панели, а нажатие фильтрует по этой метке. Определения путешествуют внутри общих файлов, а Ctrl+T управляет ими по всем заметкам.
+
+Группы и подгруппы
+Перетащите заметки в нужный порядок или разложите их по именованным группам для каждого клиента или проекта - вложенным на любую глубину через подгруппы. Цветная линия родителя идёт вниз по его детям, заголовки сворачиваются одним нажатием, группы путешествуют внутри общих файлов .kndb, а Ctrl+Z отменяет любое перемещение.
+
+Отрывной обмен
+Нажмите правой кнопкой, чтобы передать заметку файлом .knote, при желании защищённым паролем, или вытяните её прямо в Teams, Outlook или папку. Целые базы данных путешествуют как .kndb.
+
+Несколько баз данных
+Держите отдельные блокноты для каждого клиента или задания. Создавайте, переключайте и экспортируйте их из одного окна, а полученный .kndb открывается двойным нажатием. Укажите папку данных где угодно.
+
+Резервные копии по расписанию
+Выберите папку, создавайте копии каждые 6 или 12 часов, ежедневно или еженедельно и задайте, сколько копий хранить. Alt+B запускает копирование сразу, а любую копию можно восстановить как новую базу без перезаписи оригинала.
+
+Связанные заметки и граф по ним
+Наберите [[, чтобы связать одну заметку с другой, включая заметки, которых вы ещё не написали - переход по несуществующей ссылке предложит её создать. Каждая заметка перечисляет то, что на неё указывает, а Ctrl+Shift+B рисует весь блокнот графом, который можно расставлять, фиксировать в нём заметки и сохранять раскладки. Он открывается ровно таким, каким вы его оставили.
+Панель ссылок показывает входящие и исходящие ссылки, включая ещё не созданные цели. Нажмите ссылку, чтобы открыть заметку.
+
+Диктовка и расшифровка
+F10 (или Ctrl+M) открывает панель записи: захватывайте звук, перематывайте и разрезайте форму волны, затем расшифруйте её офлайн - распознавание речи работает на вашей машине, ничего никуда не отправляется. Встройте фрагмент в заметку проигрываемой полоской или напечатайте расшифровку текстом. Записи хранятся в FLAC и экспортируются в WAV или MP3.
+
+Рисование в SketchPad
+Рисуйте прямо на заметке: F7 (или Ctrl+Shift+D) открывает немодальный SketchPad с пером, линией, стрелкой, фигурами, многоугольником, заливкой, текстовыми подписями и ластиком. Печать в заметку впечатывает рисунок у курсора, и он остаётся редактируемым - дважды нажмите на любое изображение в заметке, чтобы снова открыть его и разметить.
+
+Killculator
+Калькулятор в стиле темы, выдвигающийся из боковой панели (F9). Наберите уравнение на цифровых клавишах, затем Печать суммы (Ctrl+Enter) вставит результат в вашу заметку, а Печать уравнения (Ctrl+Shift+Enter) вставит всё уравнение целиком - больше не нужно копировать из calc.exe.
+
+Открывает ваши файлы
+Ctrl+O или перетащите файлы: .txt, .log и .md становятся заметками, .rtf сохраняет форматирование, .html несёт отрисованный предпросмотр, а изображения ложатся встроенными. Каждый файл становится своей заметкой.
+
+Экспорт
+Экспортируйте любую заметку обычным текстом, форматированным текстом (.rtf) с сохранёнными изображениями или самостоятельной веб-страницей в стиле темы со встроенными изображениями.
+
+Цвета заметок и групп
+Нажмите правой кнопкой, чтобы раскрасить название заметки или имя группы в боковой панели, с живым предпросмотром во время выбора - быстрая подсказка для заметок, к которым вы тянетесь чаще всего. Цвета путешествуют внутри общих файлов и сбрасываются одним нажатием.
+
+Подсветка синтаксиса
+Ctrl+Shift+E раскрашивает код в заметке на 16 языках - PowerShell, Python, SQL, Bash, YAML, JSON, XAML, HTML, XML, CSS, JavaScript, TypeScript и другие. Язык определяется для каждого абзаца, поэтому одна черновая заметка, полная смешанных фрагментов, раскрашивает каждый блок правильно и без выбора языка.
+
+Плавающие изображения и записи
+Вытяните изображение или запись из текста - и оно поплывёт: текст обтекает его сбоку, оно привязывается к сетке из двенадцати колонок, поэтому картинки на разных строках выравниваются, а сброс на таблицу расширяет колонку под него.
+
+Настоящие гиперссылки
+Ctrl+K делает ссылкой выделенное или правит ссылку под курсором, Ctrl+щелчок открывает её, а набранные URL становятся ссылками автоматически. Ссылки переживают вставку из браузеров, Word и других приложений для заметок - и открываются только веб-адреса и адреса почты.
+
+Предпросмотр markdown и HTML
+F4 переключает Исходник, Отображение и Разделённый вид для Markdown и HTML. Нативный просмотр WPF следует теме и зернистости; скрипты никогда не выполняются.
+
+Горячие клавиши и карта клавиатуры
+У всего есть клавиша. F1 открывает наложение с сочетаниями и полной визуальной картой клавиатуры; удерживайте Ctrl, Shift или Alt, чтобы посмотреть, что делает каждая клавиша.
+
+Темы и акценты
+13 тем, 41 вариант: Dark, Light, Black и 98SE предлагают по восемь акцентных цветов. Градиенты следуют теме; 98SE остаётся плоской. В меню тем можно включить или выключить зернистость плёнки.
+
+19 языков
+Весь интерфейс переведён на 19 языков, переключаемых на лету без перезапуска. Тот же набор, в котором выходит и сайт."
+WhatsNew,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures1,Text,"Rich text with inline images, real tables, colors, syntax highlighting, and rules","ইনলাইন ছবি, সত্যিকারের টেবিল, রঙ, সিনট্যাক্স হাইলাইটিং আর রুলসহ রিচ টেক্সট","Formátovaný text s vloženými obrázky, skutečnými tabulkami, barvami, zvýrazňováním syntaxe a linkami","Rich Text mit eingebetteten Bildern, echten Tabellen, Farben, Syntaxhervorhebung und Trennlinien","Texto enriquecido con imágenes en línea, tablas reales, colores, resaltado de sintaxis y líneas","Bővített szöveg soron belüli képekkel, valódi táblázatokkal, színekkel, szintaktikai kiemeléssel és szabályokkal","Testo formattato con immagini in linea, tabelle vere, colori, evidenziazione della sintassi e linee",インライン画像、本格的な表、色、構文ハイライト、罫線を備えたリッチテキスト,"Ішкі суреттері, шынайы кестелері, түстері, синтаксисті бөлектеуі және сызықтары бар пішімделген мәтін","Satır içi görseller, gerçek tablolar, renkler, sözdizimi vurgulama ve çizgilerle zengin metin","Форматований текст із зображеннями в тексті, справжніми таблицями, кольорами, підсвічуванням синтаксису та лініями","Văn bản phong phú với hình ảnh nội tuyến, bảng thực, màu sắc, nổi bật cú pháp và các quy tắc","Texto rico com imagens em linha, tabelas de verdade, cores, realce de sintaxe e linhas horizontais","Formatowany tekst z obrazami w treści, prawdziwymi tabelami, kolorami, kolorowaniem składni i liniami poziomymi","Rik tekst med bilder på linjen, ekte tabeller, farger, syntaksutheving og streker",支持内嵌图片、真正表格、颜色、语法高亮和分隔线的富文本,豐富文字，支援內嵌圖片、真正的表格、色彩、語法上色與分隔線,"Texte enrichi avec images intégrées, vrais tableaux, couleurs, coloration syntaxique et filets","Форматированный текст со встроенными изображениями, настоящими таблицами, цветами, подсветкой синтаксиса и линиями"
+ProductFeatures2,Text,Named note groups - nested to any depth - and drag-and-drop custom order,নামযুক্ত নোট গ্রুপ - সাবগ্রুপে যেকোনো গভীরতায় নেস্টেড - এবং টেনে-এনে কাস্টম ক্রম,Pojmenované skupiny poznámek - vnořené do libovolné hloubky - a vlastní řazení pomocí přetažení,Benannte Notizgruppen - beliebig tief verschachtelt - und eigene Reihenfolge per Drag-and-drop,Grupos de notas con nombre - anidados a cualquier profundidad - y orden personalizado arrastrando y soltando,Elnevezett jegyzetcsoportok - tetszőleges mélységig beágyazva - és húzással egyéni sorrendben,Gruppi di note con nome - annidati a qualsiasi profondità - e ordine personalizzato con trascinamento,名前付きノートグループ (サブグループで何階層でも入れ子に) とドラッグ＆ドロップのカスタム順,Атаулы жазба топтары - кез келген тереңдікке кірістірілген - және сүйреп апарумен жасалған өз реті,Adlandırılmış not grupları - alt gruplarla istediğiniz kadar derin - ve sürükle-bırak özel sıralama,Іменовані групи нотаток - вкладені на будь-яку глибину - і власний порядок перетягуванням,Nhóm ghi chú có tên - có thể lồng sâu bất kỳ mức nào - và kéo thả theo thứ tự tùy chỉnh,"Grupos de notas com nome, aninhados em qualquer profundidade, e ordem personalizada de arrastar e soltar",Nazwane grupy notatek - zagnieżdżane na dowolną głębokość - i własna kolejność ustawiana przeciąganiem,Navngitte notatgrupper - nestet til hvilken som helst dybde - og egen rekkefølge med dra og slipp,命名笔记分组（子分组可无限嵌套）与拖放自定义排序,命名筆記群組（子群組可無限巢狀）與拖放自訂排序,Groupes de notes nommés - imbriqués sans limite de profondeur - et ordre personnalisé par glisser-déposer,Именованные группы заметок - вложенные на любую глубину - и свой порядок перетаскиванием
+ProductFeatures3,Text,A slide-up Killculator that prints results straight into the note,"স্লাইড হয়ে ওঠা Killculator, যা ফলাফল সরাসরি নোটে প্রিন্ট করে","Vysouvací Killculator, který tiskne výsledky přímo do poznámky","Ein aufschiebbarer Killculator, der Ergebnisse direkt in die Notiz druckt",Una Killculator deslizante que imprime los resultados directamente en la nota,"Egy felcsúsztatható Killculator, amely az eredményeket közvetlenül a jegyzetbe nyomtatja",Un Killculator a scomparsa che stampa i risultati direttamente nella nota,結果をそのままノートに印字するスライド式 Killculator,"Нәтижелерді тікелей жазбаға шығаратын, шығып тұратын Killculator",Sonuçları doğrudan nota yazdıran kayarak açılan Killculator,"Висувний Killculator, що друкує результати прямо в нотатку",Máy tính Killculator trượt lên in kết quả trực tiếp vào ghi chú,Um Killculator que desliza para cima e imprime os resultados direto na nota,"Wysuwany Killculator, który drukuje wyniki prosto do notatki",En utskyvbar Killculator som skriver resultatene rett inn i notatet,滑出式 Killculator，可把计算结果直接打印进笔记,滑出式 Killculator，可把計算結果直接列印進筆記,Un Killculator coulissant qui imprime les résultats directement dans la note,"Выдвижной Killculator, который печатает результаты прямо в заметку"
+ProductFeatures4,Text,A SketchPad that draws right on a note and prints in as an editable image,SketchPad দিয়ে সরাসরি নোটের উপর আঁকুন; সম্পাদনাযোগ্য ছবি হিসেবে নোটে বসে যায়,SketchPad kreslí přímo na poznámku a vytiskne se do ní jako upravitelný obrázek,"Ein SketchPad, das direkt auf der Notiz zeichnet und als bearbeitbares Bild eingefügt wird",Un SketchPad que dibuja directamente sobre la nota y se imprime como una imagen editable,"Egy SketchPad, amely közvetlenül egy jegyzetre rajzol, és szerkeszthető képként nyomtatja ki.",Uno SketchPad che disegna direttamente su una nota e si stampa come immagine modificabile,ノートに直接描ける SketchPad。編集可能な画像としてそのまま印字,Жазбаның үстіне тікелей сурет салатын және өңделетін сурет болып шығатын SketchPad,Doğrudan notun üzerine çizen ve düzenlenebilir bir görsel olarak nota basılan SketchPad,"SketchPad, що малює просто на нотатці й вставляється як редаговане зображення",Bảng vẽ SketchPad vẽ trực tiếp trên ghi chú và in ra dưới dạng hình ảnh có thể chỉnh sửa,Um SketchPad que desenha direto em uma nota e é impresso como imagem editável,"SketchPad, który rysuje wprost na notatce i drukuje się do niej jako edytowalny obraz",En SketchPad som tegner rett på et notat og skrives inn som et redigerbart bilde,SketchPad 可直接在笔记上绘图，并作为可编辑的图片打印进去,SketchPad 可直接在筆記上繪圖，並作為可編輯的圖片列印進去,Un SketchPad qui dessine directement sur la note et s'y imprime en image modifiable,"SketchPad, который рисует прямо на заметке и впечатывается редактируемым изображением"
+ProductFeatures5,Text,Share single notes as .knote files or whole databases as .kndb - with optional share passwords,একক নোট .knote ফাইল হিসেবে বা পুরো ডেটাবেস .kndb হিসেবে শেয়ার করুন - ঐচ্ছিক শেয়ার পাসওয়ার্ডসহ,Sdílejte jednotlivé poznámky jako soubory .knote nebo celé databáze jako .kndb - s volitelnými hesly pro sdílení,Einzelne Notizen als .knote-Dateien teilen oder ganze Datenbanken als .kndb - mit optionalen Freigabe-Passwörtern,"Comparte notas individuales como archivos .knote o bases de datos completas como .kndb, con contraseñas de compartición opcionales",Egyetlen jegyzet megosztása .knote fájlként vagy egész adatbázis .kndb formátumban - opcionális megosztási jelszavakkal,Condividi singole note come file .knote o interi database come .kndb - con password di condivisione facoltative,単一メモを.knoteファイルとして、データベース全体を.kndbとして共有 - 共有パスワードの設定も可能,Жеке жазбаларды .knote файлы етіп немесе бүтін дерекқорларды .kndb етіп бөлісіңіз - қалауыңызша бөлісу құпия сөздерімен,Tek notları .knote dosyaları veya tüm veritabanlarını .kndb olarak paylaşın - isteğe bağlı paylaşım parolalarıyla,Діліться окремими нотатками як файлами .knote або цілими базами даних як .kndb - з необов'язковими паролями спільного доступу,Chia sẻ từng ghi chú dưới dạng tệp .knote hoặc toàn bộ cơ sở dữ liệu dưới dạng .kndb - với tùy chọn mật khẩu chia sẻ,"Compartilhe notas avulsas como arquivos .knote ou bancos de dados inteiros como .kndb, com senhas de compartilhamento opcionais",Udostępniaj pojedyncze notatki jako pliki .knote albo całe bazy danych jako .kndb - z opcjonalnymi hasłami udostępniania,Del enkeltnotater som .knote-filer eller hele databaser som .kndb - med valgfrie delingspassord,将单条笔记作为 .knote 文件分享，或将整个数据库作为 .kndb 分享 - 可选设置分享密码,將單則筆記分享為 .knote 檔，或整個資料庫分享為 .kndb - 並可選擇加上分享密碼,Partagez des notes seules sous forme de fichiers .knote ou des bases entières en .kndb - avec mots de passe de partage optionnels,Передавайте отдельные заметки файлами .knote или целые базы данных как .kndb - при желании с паролями для обмена
+ProductFeatures6,Text,"Dictate and transcribe recordings, and embed the text or the recording itself into your notes.","রেকর্ডিং ডিক্টেট ও ট্রান্সক্রাইব করুন, আর টেক্সট বা রেকর্ডিংটাই নোটে যুক্ত করুন।",Diktujte a přepisujte nahrávky a vkládejte do poznámek text nebo samotnou nahrávku.,Aufnahmen diktieren und transkribieren - und den Text oder die Aufnahme selbst in die Notizen einbetten.,"Dicta y transcribe grabaciones, e incrusta en tus notas el texto o la propia grabación.","Diktáljon és írjon át felvételeket, és ágyazza be a szöveget vagy magát a felvételt a jegyzeteibe.","Detta e trascrivi registrazioni, e incorpora il testo o la registrazione stessa nelle tue note.",録音を口述・文字起こしして、テキストまたは録音そのものをノートに埋め込み。,"Аудиожазбаларды дауыспен жазып, мәтінге айналдырыңыз және мәтінді не аудиожазбаның өзін жазбаларыңызға ендіріңіз.",Kayıtları dikte edip metne dökün; metni veya kaydın kendisini notlarınıza gömün.,Диктуйте й транскрибуйте записи та вбудовуйте в нотатки текст або сам запис.,"Đọc chép và chuyển ghi âm thành văn bản, sau đó nhúng văn bản hoặc chính bản ghi âm vào ghi chú của bạn.","Dite e transcreva gravações, e incorpore o texto ou a própria gravação nas suas notas.",Dyktuj i transkrybuj nagrania oraz osadzaj w notatkach tekst albo samo nagranie.,"Dikter og transkriber opptak, og bygg inn teksten eller selve opptaket i notatene dine.",口述并转写录音，把文字或录音本身嵌入笔记。,口述並轉錄錄音，將文字或錄音本身嵌入筆記。,"Dictez et transcrivez des enregistrements, puis insérez dans vos notes le texte ou l'enregistrement lui-même.","Диктуйте и расшифровывайте записи, встраивайте в свои заметки текст или саму запись."
+ProductFeatures7,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures8,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures9,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures10,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures11,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures12,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures13,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures14,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures15,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures16,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures17,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures18,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures19,Text,,,,,,,,,,,,,,,,,,,
+ProductFeatures20,Text,,,,,,,,,,,,,,,,,,,
+ShortDescription,Text,"One searchable, encrypted notepad instead of 80 Notepad tabs - rich text, inline images, real tables, and every note always saved, shareable as tear-off .knote files.","৮০টি Notepad ট্যাবের বদলে একটিমাত্র সার্চযোগ্য, এনক্রিপ্টেড নোটপ্যাড - রিচ টেক্সট, ইনলাইন ছবি, সত্যিকারের টেবিল, আর প্রতিটি নোট সবসময় সেভ থাকে, শেয়ারযোগ্য টিয়ার-অফ .knote ফাইল হিসেবে।","Jeden prohledávatelný, šifrovaný poznámkový blok místo 80 karet Poznámkového bloku - formátovaný text, vložené obrázky, skutečné tabulky a každá poznámka vždy uložená, sdílitelná jako odtržitelné soubory .knote.","Ein durchsuchbarer, verschlüsselter Notizblock statt 80 Notepad-Tabs - Rich Text, eingebettete Bilder, echte Tabellen und jede Notiz immer gespeichert, teilbar als abtrennbare .knote-Dateien.","Un bloc de notas cifrado y con búsqueda en lugar de 80 pestañas del Bloc de notas: texto enriquecido, imágenes en línea, tablas reales y cada nota siempre guardada, compartible como archivos .knote desprendibles.","Egy kereshető, titkosított jegyzettömb a 80 Jegyzettömb lap helyett - formázott szöveg, soron belüli képek, valódi táblázatok és minden mindig mentett jegyzet, megosztható letéphető .knote fájlként.","Un solo blocco note cifrato e ricercabile invece di 80 schede di Notepad - testo formattato, immagini in linea, tabelle vere e ogni nota sempre salvata, condivisibile come file .knote a strappo.",80個のメモ帳タブの代わりに、検索可能で暗号化された1つのノートを。リッチテキスト、インライン画像、本格的な表に対応し、すべてのメモは常に保存され、切り離せる.knoteファイルとして共有できます。,"80 Notepad қойындысының орнына іздеуге болатын, шифрланған бір блокнот - пішімделген мәтін, ішкі суреттер, шынайы кестелер және әрқашан сақталған әр жазба, жұлып берілетін .knote файлдары арқылы бөлісуге болады.","80 Not Defteri sekmesi yerine tek bir aranabilir, şifreli not defteri - zengin metin, satır içi görseller, gerçek tablolar ve her zaman kaydedilen, koparılabilir .knote dosyaları olarak paylaşılabilen notlar.","Один зашифрований блокнот із пошуком замість 80 вкладок Notepad - форматований текст, зображення в тексті, справжні таблиці й кожна нотатка завжди збережена, з можливістю ділитися відривними файлами .knote.","Một sổ tay có thể tìm kiếm, được mã hóa thay vì 80 tab Notepad - văn bản phong phú, hình ảnh nhúng, bảng thực sự, và mọi ghi chú luôn được lưu, có thể chia sẻ dưới dạng tệp .knote có thể tách ra.","Um bloco de notas pesquisável e criptografado no lugar de 80 abas do Bloco de Notas: texto rico, imagens em linha, tabelas de verdade e cada nota sempre salva, compartilhável em arquivos .knote destacáveis.","Jeden przeszukiwalny, szyfrowany notatnik zamiast 80 kart Notatnika - formatowany tekst, obrazy w treści, prawdziwe tabele i każda notatka zawsze zapisana, do udostępniania jako odrywane pliki .knote.","Én søkbar, kryptert notatblokk i stedet for 80 Notisblokk-faner - rik tekst, bilder på linjen, ekte tabeller og hvert notat alltid lagret, kan deles som .knote-filer.",一个可搜索、加密的记事本，取代 80 个 Notepad 标签页 - 富文本、内嵌图片、真正的表格，每条笔记始终自动保存，可作为可撕下的 .knote 文件分享。,一個可搜尋、加密的記事本，取代 80 個記事本分頁 - 支援豐富文字、內嵌圖片、真正的表格，每則筆記永遠自動儲存，還能撕下成 .knote 檔分享。,"Un seul bloc-notes chiffré et interrogeable au lieu de 80 onglets Notepad - texte enrichi, images intégrées, vraies tableaux, et chaque note toujours enregistrée, partageable sous forme de fichiers .knote détachables.","Один блокнот с поиском и шифрованием вместо 80 вкладок Блокнота - форматированный текст, встроенные изображения, настоящие таблицы и каждая заметка всегда сохранена, с обменом отрывными файлами .knote."
+SearchTerms1,Text,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad,notepad
+SearchTerms2,Text,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking
+SearchTerms3,Text,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes
+SearchTerms4,Text,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes
+SearchTerms5,Text,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown
+SearchTerms6,Text,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT
+SearchTerms7,Text,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes
+Applicable license terms,Text,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes
+Copyright,Text,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer
+DevelopedBy,Text,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer
+RequirementsMinimum1,Text,.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows)
+RequirementsMinimum2,Text,,,,,,,,,,,,,,,,,,,
+RequirementsMinimum3,Text,,,,,,,,,,,,,,,,,,,
+RequirementsMinimum4,Text,,,,,,,,,,,,,,,,,,,
+RequirementsMinimum5,Text,,,,,,,,,,,,,,,,,,,
+RequirementsMinimum6,Text,,,,,,,,,,,,,,,,,,,
+RequirementsMinimum7,Text,,,,,,,,,,,,,,,,,,,
+RequirementsMinimum8,Text,,,,,,,,,,,,,,,,,,,
+RequirementsMinimum9,Text,,,,,,,,,,,,,,,,,,,
+RequirementsMinimum10,Text,,,,,,,,,,,,,,,,,,,
+RequirementsMinimum11,Text,,,,,,,,,,,,,,,,,,,
+RequirementsRecommended1,Text,,,,,,,,,,,,,,,,,,,
+RequirementsRecommended2,Text,,,,,,,,,,,,,,,,,,,
+RequirementsRecommended3,Text,,,,,,,,,,,,,,,,,,,
+RequirementsRecommended4,Text,,,,,,,,,,,,,,,,,,,
+RequirementsRecommended5,Text,,,,,,,,,,,,,,,,,,,
+RequirementsRecommended6,Text,,,,,,,,,,,,,,,,,,,
+RequirementsRecommended7,Text,,,,,,,,,,,,,,,,,,,
+RequirementsRecommended8,Text,,,,,,,,,,,,,,,,,,,
+RequirementsRecommended9,Text,,,,,,,,,,,,,,,,,,,
+RequirementsRecommended10,Text,,,,,,,,,,,,,,,,,,,
+RequirementsRecommended11,Text,,,,,,,,,,,,,,,,,,,
+StoreLogos1,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png
+StoreLogos2,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,,,,,,,,,,,,,,,,,,,
+Screenshots1,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png
+Screenshots2,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png
+Screenshots3,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png
+Screenshots4,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png
+Screenshots5,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png
+Screenshots6,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png
+Screenshots7,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,,,,,,,,,,,,,,,,,,,
+Screenshots8,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,,,,,,,,,,,,,,,,,,,
+Screenshots9,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,,,,,,,,,,,,,,,,,,,
+Screenshots10,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,,,,,,,,,,,,,,,,,,,
+HeroArts,Text,,,,,,,,,,,,,,,,,,,
+Trailers,Text,,,,,,,,,,,,,,,,,,,
