@@ -101,7 +101,7 @@ namespace KillerFamily.Windowing
                 _button = button;
             }
 
-            internal IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+            internal IntPtr WndProc(IntPtr _, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
             {
                 bool onButton = wParam == new IntPtr(HTMAXBUTTON);
                 switch (msg)
