@@ -24,7 +24,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Selecting a table and pressing Delete or Backspace removes the table instead of leaving an empty grid behind.
 - In Split preview the window can no longer be made narrow enough to push the preview past its right edge at larger app zoom levels or with the sidebar and outline open.
 - Silent installs refuse an exe without a valid signature and exit with a specific Windows code when another install is already running, access is denied, the disk is full or the install is cancelled, instead of always exiting with 1.
-- Icon-only buttons give screen readers the name from their tooltip, and controls reached with the keyboard show a dotted focus outline.
+- Icon-only buttons give screen readers the name from their tooltip, including tooltips with formatted text, and controls reached with the keyboard show a dotted focus outline, drawn just outside small icon buttons so it no longer covers the icon.
 - Search highlights stay visible after replacing a match without needing to scroll (#27).
 - Kept app icons sharp at fractional display DPI and app zoom by caching exact pixel sizes from a covering source and aligning the final draw to device pixels.
 - Mixed notes highlight commands independently of prose and separators, including pasted lines within one paragraph.
