@@ -80,22 +80,13 @@ jobs:
 
       - name: Install Komac
         run: |
-          # Authenticated so this does not spend the unauthenticated API allowance, which is
-          # shared per runner IP and which a release-triggered run has usually already burned.
-          # KillerPDF 1.7.5 failed right here on "API rate limit exceeded", before komac ran.
-          $headers = @{
-            Authorization = "Bearer $env:GITHUB_TOKEN"
-            Accept = "application/vnd.github+json"
-            "X-GitHub-Api-Version" = "2022-11-28"
-            "User-Agent" = "KillerNotes-WinGet-Release"
-          }
-          $tag = (Invoke-RestMethod "https://api.github.com/repos/russellbanks/Komac/releases/latest" -Headers $headers).tag_name
+          # Pinned. Komac 2.17 (2026-10-14) stopped writing manifests for --dry-run --output,
+          # which failed every release after it. Move the pin only after a release succeeds with it.
+          $tag = 'v2.16.0'
           $ver = $tag.TrimStart('v')
           $url = "https://github.com/russellbanks/Komac/releases/download/$tag/komac-$ver-x86_64-pc-windows-msvc.exe"
           Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP\komac.exe"
           Add-Content $env:GITHUB_PATH $env:RUNNER_TEMP
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         shell: pwsh
 
       - name: Submit to WinGet
