@@ -531,7 +531,9 @@ window.addEventListener('resize', fit);
 </script>
 <script>
 (function(){
-  var items=[].slice.call(document.querySelectorAll('.acc-item'));
+  // Only items with a head take part: the always-open Command line card has none, and
+  // without this filter it threw here and left the outline links and scroll spy unwired.
+  var items=[].slice.call(document.querySelectorAll('.acc-item')).filter(function(it){ return it.querySelector('.acc-head'); });
   items.forEach(function(it){ var h=it.querySelector('.acc-head'), b=it.querySelector('.acc-body');
     // Anchor id from the head's i18n key ("hp_9"), so the sidebar's sub-links can target
     // every accordion item without the markup carrying three dozen hand-written ids.
