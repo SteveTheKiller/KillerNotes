@@ -1,5 +1,5 @@
 root = true
 
 # Shared family sources keep the KillerFamily namespace so every app carries the same file.
-[{Controls/AccessibilityAudit.cs,Controls/AccessibleControls.cs,Services/InstallerExitCodes.cs}]
+[{Controls/AccessibilityAudit.cs,Controls/AccessibleControls.cs,Controls/SnapLayouts.cs,Services/InstallerExitCodes.cs}]
 dotnet_diagnostic.IDE0130.severity = none
