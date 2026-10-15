@@ -50,6 +50,9 @@ namespace KillerNotes.Shell
             // (covers both window resizes and sidebar-splitter drags).
             if (FormatBar.Parent is FrameworkElement hostEl)
                 hostEl.SizeChanged += (_, _) => PositionFormatBar();
+            // The bar also changes width on its own (the preview chip appears on a markdown
+            // note), and the title has to move with its edge.
+            FormatBar.SizeChanged += (_, _) => ClearTitleOfFormatBar();
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -225,9 +228,10 @@ namespace KillerNotes.Shell
                 : FormatBar.Margin.Left;
             double before = left - own.Left;           // room between the pane edge and the bar
             double after = hw - own.Right - (left + bw);   // room between the bar and the far edge
-            TitleBox.Margin = before >= after
+            var room = before >= after
                 ? new Thickness(own.Left, own.Top, Math.Max(own.Right, hw - left + Gap), own.Bottom)
                 : new Thickness(Math.Max(own.Left, left + bw + Gap), own.Top, own.Right, own.Bottom);
+            if (room != TitleBox.Margin) TitleBox.Margin = room;
         }
 
         /// <summary>The canonical KillerPDF annotation-bar host wraps rather than discarding
