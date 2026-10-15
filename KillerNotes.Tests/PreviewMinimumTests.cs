@@ -15,7 +15,7 @@ namespace KillerNotes.Tests
         public void SplitPreviewStaysInsideTheViewportWithScaleAndAuxiliaryColumns() => Sta.Run(() =>
         {
             foreach (double scale in new[] { .7, 1, 1.5, 2.5 })
-            foreach (double sidebar in new[] { 24, Math.Max(280 / scale, 160), Math.Max(480 / scale, 160) })
+            foreach (double sidebar in new[] { 24, Math.Max(300 / scale, 160), Math.Max(480 / scale, 160) })
             foreach (double auxiliary in new[] { 0, 268 })
             foreach (double ratio in new[] { .05, .95 })
             {

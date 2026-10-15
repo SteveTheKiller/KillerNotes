@@ -19,7 +19,13 @@ namespace KillerNotes.Shell
         // logical width is this divided by the app scale (AppScale.cs), so the sidebar keeps
         // the same on-screen width when the whole UI is zoomed instead of widening and sliding
         // the icon rail out from under the cursor.
-        private double _sidebarBaseWidth = 280;
+        private double _sidebarBaseWidth = SidebarDefaultWidth;
+
+        // First-run sidebar width and the drag bounds, all in SCREEN px. The dragged width is
+        // remembered across runs in the "SidebarWidth" setting.
+        private const double SidebarDefaultWidth = 300;
+        private const double SidebarMinWidth = 230;
+        private const double SidebarMaxWidth = 480;
 
         // Rail column width, LOGICAL units (scales with the app zoom). Kept tight to the
         // 20-logical RailButtons + their 2px inset so the strip hugs the icons instead of
@@ -75,11 +81,14 @@ namespace KillerNotes.Shell
             App.SetSetting("SidebarCollapsed", _sidebarCollapsed ? "1" : "0");
         }
 
-        /// <summary>Restores the persisted collapsed state; call once from the constructor.</summary>
+        /// <summary>Restores the persisted width and collapsed state; call once from the constructor.</summary>
         private void InitSidebar()
         {
+            if (double.TryParse(App.GetSetting("SidebarWidth"), NumberStyles.Float,
+                    CultureInfo.InvariantCulture, out double width))
+                _sidebarBaseWidth = Math.Min(SidebarMaxWidth, Math.Max(SidebarMinWidth, width));
             _sidebarCollapsed = App.GetSetting("SidebarCollapsed") == "1";
-            if (_sidebarCollapsed) ApplySidebarState();
+            ApplySidebarState();
             InitNotesFade();
             // "New note" label steps down as its column narrows; SizeChanged fires on the
             // first layout too, so the initial wording is set without an extra call.
@@ -99,8 +108,8 @@ namespace KillerNotes.Shell
             if (_sidebarCollapsed) return;
 
             double s = _appScale <= 0 ? 1 : _appScale;
-            double min = Math.Max(230 / s, PanelMinLogical);
-            double max = Math.Max(480 / s, min);
+            double min = Math.Max(SidebarMinWidth / s, PanelMinLogical);
+            double max = Math.Max(SidebarMaxWidth / s, min);
             double next = Math.Max(min, Math.Min(max, SidebarCol.ActualWidth + e.HorizontalChange));
             if (Math.Abs(next - SidebarCol.ActualWidth) < 0.5) return;
 
@@ -112,14 +121,15 @@ namespace KillerNotes.Shell
             SidebarCol.Width = new GridLength(next);
         }
 
-        /// <summary>Records the drag result as the new base width. Without this, the next width
-        /// re-apply - a language switch refreshing the collapse tooltip, or a zoom change - snapped
-        /// the sidebar back to the stale remembered width.</summary>
+        /// <summary>Records the drag result as the new base width and saves it for the next run.
+        /// Without this, the next width re-apply - a language switch refreshing the collapse
+        /// tooltip, or a zoom change - snapped the sidebar back to the stale remembered width.</summary>
         private void SidebarResizeGrip_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             double s = _appScale <= 0 ? 1 : _appScale;
-            if (!_sidebarCollapsed && SidebarCol.ActualWidth > 0)
-                _sidebarBaseWidth = SidebarCol.ActualWidth * s;
+            if (_sidebarCollapsed || SidebarCol.ActualWidth <= 0) return;
+            _sidebarBaseWidth = SidebarCol.ActualWidth * s;
+            App.SetSetting("SidebarWidth", _sidebarBaseWidth.ToString("0.##", CultureInfo.InvariantCulture));
         }
 
         // ---- Responsive "New note" button ----
@@ -383,7 +393,7 @@ namespace KillerNotes.Shell
         /// state. The PANEL divides by the app scale so it keeps a fixed ON-SCREEN width while
         /// the UI zooms (AppScale.cs); the RAIL stays a constant RailW LOGICAL so it scales
         /// with the app and its (scaling) icons never clip - bigger zoom, bigger targets. At
-        /// scale 1.0 these are the original 280 / 230-480 / RailW values, so nothing changes
+        /// scale 1.0 these are the remembered width / 230-480 / RailW values, so nothing changes
         /// until the app is zoomed. Called on collapse/expand and on every scale change.</summary>
         internal void RefreshSidebarWidth()
         {
@@ -399,8 +409,8 @@ namespace KillerNotes.Shell
             {
                 // Screen-constant bounds, floored at the logical minimum the toolbar
                 // needs (Max keeps Min <= Max when the zoom pushes 480/s under it).
-                SidebarCol.MinWidth = Math.Max(230 / s, PanelMinLogical);
-                SidebarCol.MaxWidth = Math.Max(480 / s, SidebarCol.MinWidth);
+                SidebarCol.MinWidth = Math.Max(SidebarMinWidth / s, PanelMinLogical);
+                SidebarCol.MaxWidth = Math.Max(SidebarMaxWidth / s, SidebarCol.MinWidth);
                 SidebarCol.Width = new GridLength(ExpandedLogicalWidth(s));
             }
         }

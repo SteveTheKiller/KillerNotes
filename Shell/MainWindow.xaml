@@ -302,7 +302,7 @@
         <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}"/>
         <Grid x:Name="ScaleHost" Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="SidebarCol" Width="280" MinWidth="230" MaxWidth="480"/>
+                <ColumnDefinition x:Name="SidebarCol" Width="300" MinWidth="230" MaxWidth="480"/>
                 <!-- Zero-width popup-anchor lane. RailFlyoutAnchor may render past this point,
                      but it must not reserve space between the 24px rail and the editor pane. -->
                 <ColumnDefinition Width="0"/>

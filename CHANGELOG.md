@@ -11,6 +11,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Changed
 - Note titles in the sidebar are slightly larger, so they stand apart from the preview line and date under them.
+- The sidebar starts 20px wider, and the width you drag it to is remembered the next time KillerNotes opens.
 
 ### Fixed
 - Screen readers no longer read toolbar, format bar, menu and title bar icons as unreadable symbols.
