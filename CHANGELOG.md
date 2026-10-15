@@ -50,6 +50,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The outline lists the # headings of a note detected as markdown, not only of notes saved as markdown.
 - Line numbers sit beside the text on heading lines and no longer crowd the next line after a horizontal rule.
 - The current find match is as see-through as the other matches and is marked by its outline, so the word it points at stays readable.
+- The keyboard shortcut categories on the 98SE theme use the darker Light theme colors, so the headings and keys are readable on the gray background.
 
 ## [1.4.3] - 2026-10-08
 
