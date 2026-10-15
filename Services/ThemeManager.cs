@@ -300,6 +300,11 @@ namespace KillerNotes.Services
             // The UI face: Killer Sans UI over the Segoe stack, except a flat caption theme, which keeps
             // its classic caption font throughout.
             SetIfAbsent(newDict, "UiFont", flatCaption ? newDict["ChromeFontFamily"] : KillerSansUiStack);
+            // The sidebar slot: Killer Sans UI, the family UI face (hinted, Segoe UI line metrics),
+            // over the Segoe stack. Completed here rather than in Controls.xaml so 98SE can state its
+            // own face; a font picked in Fonts still overrides it from the top-level dictionary.
+            SetIfAbsent(newDict, "SidebarFont", new FontFamily(new Uri("pack://application:,,,/"),
+                "/KillerNotes;component/Fonts/#Killer Sans UI, Segoe UI"));
             // Extra gap before the close button. Win98 sat minimize and maximize flush together and
             // pushed close a couple of pixels clear of them.
             SetIfAbsent(newDict, "CaptionCloseGap", new Thickness(0));

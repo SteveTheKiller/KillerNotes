@@ -42,10 +42,15 @@
     <!-- The blurred shadow is off here (IconShadowOpacity 0 - the theme is flat), so the
          wordmark gets the hard 1px offset copy instead: a stroke, not a glow. -->
     <sys:Double x:Key="WordmarkEmbossOpacity" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">1</sys:Double>
-    <!-- Tahoma, NOT "MS Sans Serif": MS Sans Serif is a raster .FON, and WPF cannot render bitmap
-         fonts - it silently falls back to a default serif, which is why the captions came out in
-         the wrong face. Tahoma is TrueType, shipped with Windows, and is the Win98-era UI font. -->
-    <FontFamily x:Key="ChromeFontFamily" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">Tahoma</FontFamily>
+    <!-- Microsoft Sans Serif, the TrueType Win98 UI face that KillerPDF uses. NOT the raster
+         "MS Sans Serif" .FON: WPF cannot render bitmap fonts and silently falls back to a serif. -->
+    <FontFamily x:Key="ChromeFontFamily" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">Microsoft Sans Serif</FontFamily>
+    <FontFamily x:Key="UiFont" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">Microsoft Sans Serif</FontFamily>
+    <FontFamily x:Key="SidebarFont" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">Microsoft Sans Serif</FontFamily>
+    <FontFamily x:Key="MenuFontFamily" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">Microsoft Sans Serif</FontFamily>
+    <sys:Double x:Key="MenuFontSize" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">11</sys:Double>
+    <FontFamily x:Key="FooterStatusFont" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">Consolas</FontFamily>
+    <FontFamily x:Key="FooterMetaFont" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">Consolas</FontFamily>
     <Thickness x:Key="CaptionCloseGap" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">2,0,0,0</Thickness>
     <!-- The 2 at the top is the WindowFrameThickness, which MainWindow paints as a RowSpan=3
          overlay at ZIndex 9000 covering the top 2px of the caption. Insetting by it centers the

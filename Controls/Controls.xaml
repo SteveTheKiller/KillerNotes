@@ -32,9 +32,7 @@
          editor default) can be overridden at the Application level by the Fonts dialog;
          these entries are the killer defaults it falls back to. -->
     <FontFamily x:Key="HeaderFont">/KillerNotes;component/Fonts/#Killer Sans</FontFamily>
-    <!-- The sidebar default is Killer Sans UI, the family UI face (hinted, Segoe UI line metrics),
-         over the Segoe stack. -->
-    <FontFamily x:Key="SidebarFont">/KillerNotes;component/Fonts/#Killer Sans UI, Segoe UI</FontFamily>
+    <!-- SidebarFont is completed by ThemeManager so 98SE can state its own face. -->
     <!-- Bahnschrift: stock DIN face on Win10/11, pairs with the typewriter headers;
          Segoe UI fallback for editions without it. -->
     <FontFamily x:Key="ContentFont">Bahnschrift, Segoe UI</FontFamily>

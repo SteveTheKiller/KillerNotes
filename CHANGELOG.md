@@ -18,6 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The Malaise theme's note pane is a shade darker than the window around it, in the app and on the website.
 
 ### Fixed
+- On the 98SE theme, the interface, sidebar, menus and dialog captions use Microsoft Sans Serif, as in KillerPDF, instead of Killer Sans and Tahoma.
 - Cut and copy finish as soon as the text is on the clipboard instead of stalling for seconds and reporting a busy clipboard, and right-clicking a large selection opens the menu promptly (#19).
 - A table copied from a web page, Excel or Word pastes as a table with all of its rows, instead of as lines of text.
 - Selecting a table and pressing Delete or Backspace removes the table instead of leaving an empty grid behind.
