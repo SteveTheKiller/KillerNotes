@@ -397,10 +397,10 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Appunti che tengono il passo. Un blocco note cifrato e ricercabile, con testo formattato, immagini in linea, tabelle vere e ricerca istantanea a testo completo, tutto salvato automaticamente in un unico file. Un'utilità </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> con licenza GPLv3.</sys:String>
     <sys:String x:Key="Str_About_Computing">calcolo in corso...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Aggiornamento disponibile: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Aggiornamento disponibile: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Download in corso...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">Scaricare e installare {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">L'app si chiuderà e si riaprirà automaticamente.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">Scaricare e installare {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">L'app si chiuderà e si riaprirà automaticamente.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aggiorna</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">All'avvio cerca aggiornamenti</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">È disponibile {0} {1}</sys:String>

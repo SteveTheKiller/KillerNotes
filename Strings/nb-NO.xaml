@@ -422,10 +422,10 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notater som holder tritt. En søkbar, kryptert notisblokk med rik tekst, innebygde bilder, ekte tabeller og umiddelbart fulltekstsøk, alt lagret automatisk i én enkelt fil. Et GPLv3- </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> verktøy.</sys:String>
     <sys:String x:Key="Str_About_Computing">beregner...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Oppdatering tilgjengelig: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Oppdatering tilgjengelig: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Laster ned...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">Laste ned og installere {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">Appen lukkes og åpnes automatisk igjen.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">Laste ned og installere {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">Appen lukkes og åpnes automatisk igjen.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Oppdater</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Se etter oppdateringer ved oppstart</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} er tilgjengelig</sys:String>

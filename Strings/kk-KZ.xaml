@@ -397,10 +397,10 @@
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Ілесіп отыратын жазбалар. Іздеуге болатын, шифрланған блокнот: пішімделген мәтін, ішкі суреттер, нағыз кестелер және лезде толық мәтіндік іздеу - бәрі бір файлға автоматты түрде сақталады. GPLv3 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> утилитасы.</sys:String>
     <sys:String x:Key="Str_About_Computing">есептелуде...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Жаңарту қолжетімді: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Жаңарту қолжетімді: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Жүктелуде...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} жүктеп орнату керек пе?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">Қолданба жабылып, автоматты түрде қайта ашылады.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">{0} {1} жүктеп орнату керек пе?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">Қолданба жабылып, автоматты түрде қайта ашылады.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Жаңарту</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Іске қосылғанда жаңартуларды тексеру</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} қолжетімді</sys:String>

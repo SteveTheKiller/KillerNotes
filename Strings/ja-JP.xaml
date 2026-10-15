@@ -206,10 +206,10 @@
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">追いつくノート。リッチ テキスト、インライン画像、本物の表、瞬時の全文検索を備えた、検索可能で暗号化されたメモ帳。すべて単一のファイルに自動保存されます。GPLv3 の </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> ユーティリティ。</sys:String>
     <sys:String x:Key="Str_About_Computing">計算中...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">更新があります: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">更新があります: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">ダウンロード中...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} をダウンロードしてインストールしますか?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">アプリは自動的に終了して再起動します。</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">{0} {1} をダウンロードしてインストールしますか?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">アプリは自動的に終了して再起動します。</sys:String>
     <sys:String x:Key="Str_Btn_Update">更新</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">起動時に更新を確認する</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} が利用可能です</sys:String>

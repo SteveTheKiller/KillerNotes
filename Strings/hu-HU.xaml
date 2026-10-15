@@ -386,10 +386,10 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Jegyzetek, amelyek lépést tartanak. Kereshető, titkosított jegyzettömb formázott szöveggel, soron belüli képekkel, valódi táblázatokkal és azonnali teljes szöveges kereséssel, mindezt automatikusan egyetlen fájlba mentve. Egy GPLv3 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> hasznosság.</sys:String>
     <sys:String x:Key="Str_About_Computing">számítástechnika...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Frissítés elérhető: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Frissítés elérhető: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Letöltés...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">Letölti és telepíti a következőt: {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">Az alkalmazás automatikusan bezárul, majd újra megnyílik.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">Letölti és telepíti a következőt: {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">Az alkalmazás automatikusan bezárul, majd újra megnyílik.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Frissítés</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Frissítések keresése indításkor</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Elérhető a {0} {1}</sys:String>

@@ -282,10 +282,10 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Poznámky, které stačí tempu. Prohledávatelný šifrovaný poznámkový blok s formátovaným textem, vloženými obrázky, skutečnými tabulkami a okamžitým fulltextovým hledáním, vše automaticky ukládané do jediného souboru. Nástroj </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> s licencí GPLv3.</sys:String>
     <sys:String x:Key="Str_About_Computing">počítá se...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Dostupná aktualizace: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Dostupná aktualizace: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Stahování...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">Stáhnout a nainstalovat {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">Aplikace se automaticky zavře a znovu otevře.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">Stáhnout a nainstalovat {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">Aplikace se automaticky zavře a znovu otevře.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aktualizovat</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Kontrolovat aktualizace při spuštění</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Je k dispozici {0} {1}</sys:String>

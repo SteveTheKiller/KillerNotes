@@ -326,10 +326,10 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notatki, które nadążają. Przeszukiwalny, szyfrowany notatnik z tekstem sformatowanym, obrazami w treści, prawdziwymi tabelami i błyskawicznym wyszukiwaniem pełnotekstowym, zapisywany automatycznie w jednym pliku. Narzędzie GPLv3 od </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
     <sys:String x:Key="Str_About_Computing">obliczanie...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Dostępna aktualizacja: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Dostępna aktualizacja: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Pobieranie...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">Pobrać i zainstalować {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">Aplikacja zamknie się i otworzy ponownie automatycznie.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">Pobrać i zainstalować {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">Aplikacja zamknie się i otworzy ponownie automatycznie.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aktualizuj</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Sprawdzaj aktualizacje przy uruchamianiu</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Dostępny jest {0} {1}</sys:String>

@@ -207,10 +207,10 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notizen, die mithalten. Ein durchsuchbarer, verschlüsselter Notizblock mit Rich Text, eingebetteten Bildern, echten Tabellen und sofortiger Volltextsuche, alles automatisch in einer einzigen Datei gespeichert. Ein GPLv3-Dienstprogramm von </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
     <sys:String x:Key="Str_About_Computing">wird berechnet...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Update verfügbar: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Update verfügbar: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Wird heruntergeladen...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} herunterladen und installieren?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">Die App wird automatisch geschlossen und neu geöffnet.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">{0} {1} herunterladen und installieren?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">Die App wird automatisch geschlossen und neu geöffnet.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aktualisieren</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Beim Start nach Updates suchen</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} ist verfügbar</sys:String>

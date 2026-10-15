@@ -206,10 +206,10 @@
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">跟得上腳步的筆記。可搜尋、加密的記事本，具備格式文字、內嵌圖片、真正的表格，以及即時全文搜尋，全部自動儲存在單一檔案中。GPLv3 授權的 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> 工具。</sys:String>
     <sys:String x:Key="Str_About_Computing">計算中...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">有可用更新: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">有可用更新: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">下載中...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">下載並安裝 {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">應用程式會自動關閉並重新開啟。</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">下載並安裝 {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">應用程式會自動關閉並重新開啟。</sys:String>
     <sys:String x:Key="Str_Btn_Update">更新</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">啟動時檢查更新</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} 已推出</sys:String>

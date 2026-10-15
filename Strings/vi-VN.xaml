@@ -425,10 +425,10 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Ghi chú luôn theo kịp. Sổ ghi chú có thể tìm kiếm và mã hóa, hỗ trợ văn bản có định dạng, hình ảnh nội tuyến, bảng thực và tìm kiếm toàn văn tức thì, tất cả tự động lưu trong một tệp. Một tiện ích GPLv3 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
     <sys:String x:Key="Str_About_Computing">Đang tính toán...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Có bản cập nhật: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Có bản cập nhật: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Đang tải xuống...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">Tải xuống và cài đặt {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">Ứng dụng sẽ tự động đóng và mở lại.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">Tải xuống và cài đặt {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">Ứng dụng sẽ tự động đóng và mở lại.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Cập nhật</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Kiểm tra cập nhật khi khởi động</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Phiên bản {0} {1} đã có sẵn</sys:String>

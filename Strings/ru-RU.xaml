@@ -397,10 +397,10 @@
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Заметки, которые поспевают за вами. Зашифрованный блокнот с поиском, форматированным текстом, встроенными изображениями, настоящими таблицами и мгновенным полнотекстовым поиском - всё сохраняется автоматически в одном файле. Утилита GPLv3 от </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
     <sys:String x:Key="Str_About_Computing">вычисление...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Доступно обновление: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Доступно обновление: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Загрузка...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">Загрузить и установить {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">Приложение закроется и откроется снова автоматически.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">Загрузить и установить {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">Приложение закроется и откроется снова автоматически.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Обновить</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Проверять обновления при запуске</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Доступен {0} {1}</sys:String>

@@ -208,10 +208,10 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notas que siguen el ritmo. Un bloc de notas cifrado y con búsqueda, con texto enriquecido, imágenes insertadas, tablas reales y búsqueda instantánea de texto completo, todo guardado automáticamente en un solo archivo. Una utilidad </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> con licencia GPLv3.</sys:String>
     <sys:String x:Key="Str_About_Computing">calculando...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Actualización disponible: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Actualización disponible: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Descargando...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">¿Descargar e instalar {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">La aplicación se cerrará y volverá a abrir automáticamente.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">¿Descargar e instalar {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">La aplicación se cerrará y volverá a abrir automáticamente.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Actualizar</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Buscar actualizaciones al iniciar</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} está disponible</sys:String>

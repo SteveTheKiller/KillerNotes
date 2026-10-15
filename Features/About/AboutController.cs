@@ -46,7 +46,7 @@ namespace KillerNotes.Features.About
             if (tag is null || _updating) return;
 
             _updateTag          = tag;
-            _host.UpdateText    = string.Format(_host.Loc("Str_About_UpdateAvail"), tag);
+            _host.UpdateText    = string.Format(_host.Loc("Str_About_UpdateAvailable"), tag);
             _host.UpdateVisible = true;
 
             // Never stack the prompt on a dialog the user already has open.
@@ -117,7 +117,7 @@ namespace KillerNotes.Features.About
             if (tag is null || _updating) return;
 
             _updateTag          = tag;
-            _host.UpdateText    = string.Format(_host.Loc("Str_About_UpdateAvail"), tag);
+            _host.UpdateText    = string.Format(_host.Loc("Str_About_UpdateAvailable"), tag);
             _host.UpdateVisible = true;
         }
 
@@ -130,9 +130,10 @@ namespace KillerNotes.Features.About
             if (string.IsNullOrEmpty(tag) || _updating) return;
 
             var dlg = new ConfirmDialog(
-                string.Format(_host.Loc("Str_Dlg_UpdateHead"), AppInfo.DisplayName, tag),
-                _host.Loc("Str_Dlg_UpdateBody"),
-                _host.Loc("Str_Btn_Update")) { Owner = _host.Window };
+                string.Format(_host.Loc("Str_About_UpdateHeading"), AppInfo.DisplayName, tag),
+                _host.Loc("Str_About_UpdateDetail"),
+                _host.Loc("Str_About_UpdateNow"),
+                _host.Loc("Str_Btn_Cancel")) { Owner = _host.Window };
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
             await InstallAsync(tag!);
@@ -154,7 +155,7 @@ namespace KillerNotes.Features.About
             {
                 _updating           = false;
                 _host.UpdateEnabled = true;
-                _host.UpdateText    = string.Format(_host.Loc("Str_About_UpdateAvail"), tag);
+                _host.UpdateText    = string.Format(_host.Loc("Str_About_UpdateAvailable"), tag);
                 WebLink.Open(UpdateService.ReleasesUrl);
                 return;
             }
@@ -171,7 +172,7 @@ namespace KillerNotes.Features.About
                 UpdateService.DiscardDownload(newExe);
                 _updating           = false;
                 _host.UpdateEnabled = true;
-                _host.UpdateText    = string.Format(_host.Loc("Str_About_UpdateAvail"), tag);
+                _host.UpdateText    = string.Format(_host.Loc("Str_About_UpdateAvailable"), tag);
             }
         }
     }

@@ -424,10 +424,10 @@
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Нотатки, що встигають за вами. Зашифрований блокнот із пошуком, форматованим текстом, вбудованими зображеннями, справжніми таблицями та миттєвим повнотекстовим пошуком, усе автоматично зберігається в одному файлі. Утиліта GPLv3 від </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
     <sys:String x:Key="Str_About_Computing">обчислення...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Доступне оновлення: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Доступне оновлення: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Завантаження...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">Завантажити й встановити {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">Застосунок закриється та відкриється знову автоматично.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">Завантажити й встановити {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">Застосунок закриється та відкриється знову автоматично.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Оновити</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Перевіряти оновлення під час запуску</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Доступний {0} {1}</sys:String>

@@ -206,10 +206,10 @@
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">তাল মিলিয়ে চলা নোট। রিচ টেক্সট, ইনলাইন ছবি, সত্যিকারের টেবিল এবং তাৎক্ষণিক পূর্ণ-টেক্সট সার্চসহ একটি খোঁজযোগ্য, এনক্রিপ্ট করা নোটপ্যাড, সবকিছু স্বয়ংক্রিয়ভাবে একটি ফাইলে সংরক্ষিত। একটি GPLv3 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> ইউটিলিটি।</sys:String>
     <sys:String x:Key="Str_About_Computing">গণনা চলছে...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">আপডেট আছে: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">আপডেট আছে: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">ডাউনলোড হচ্ছে...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} ডাউনলোড করে ইনস্টল করবেন?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">অ্যাপটি নিজে থেকে বন্ধ হয়ে আবার খুলবে।</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">{0} {1} ডাউনলোড করে ইনস্টল করবেন?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">অ্যাপটি নিজে থেকে বন্ধ হয়ে আবার খুলবে।</sys:String>
     <sys:String x:Key="Str_Btn_Update">আপডেট</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">অ্যাপ চালু হলে আপডেট পরীক্ষা করুন</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} উপলব্ধ</sys:String>

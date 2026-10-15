@@ -207,10 +207,10 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Ayak uyduran notlar. Zengin metin, satır içi resimler, gerçek tablolar ve anında tam metin aramasıyla aranabilir, şifreli bir not defteri; tümü tek bir dosyada otomatik olarak kaydedilir. GPLv3 lisanslı bir </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> aracı.</sys:String>
     <sys:String x:Key="Str_About_Computing">hesaplanıyor...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Güncelleme var: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Güncelleme var: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">İndiriliyor...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} indirilip kurulsun mu?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">Uygulama otomatik olarak kapanıp yeniden açılır.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">{0} {1} indirilip kurulsun mu?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">Uygulama otomatik olarak kapanıp yeniden açılır.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Güncelle</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Başlangıçta güncellemeleri denetle</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} kullanılabilir</sys:String>

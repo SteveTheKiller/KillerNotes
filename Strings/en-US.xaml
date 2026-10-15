@@ -424,10 +424,10 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notes that keep up. A searchable, encrypted notepad with rich text, inline images, real tables, and instant full-text search, all saved automatically in a single file. A GPLv3 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> utility.</sys:String>
     <sys:String x:Key="Str_About_Computing">computing...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Update available: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Update available: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Downloading...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">Download and install {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">The app will close and reopen automatically.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">Download and install {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">The app will close and reopen automatically.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Update</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Check for updates on startup</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} is available</sys:String>

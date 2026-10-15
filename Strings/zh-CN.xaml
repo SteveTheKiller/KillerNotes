@@ -206,10 +206,10 @@
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">跟得上节奏的笔记。一款可搜索的加密记事本，支持富文本、内嵌图片、真正的表格和即时全文搜索，全部自动保存在单个文件中。GPLv3 许可的 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> 工具。</sys:String>
     <sys:String x:Key="Str_About_Computing">计算中...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">有可用更新: {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">有可用更新: {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">下载中...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">下载并安装 {0} {1}?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">应用会自动关闭并重新打开。</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">下载并安装 {0} {1}?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">应用会自动关闭并重新打开。</sys:String>
     <sys:String x:Key="Str_Btn_Update">更新</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">启动时检查更新</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} 已发布</sys:String>

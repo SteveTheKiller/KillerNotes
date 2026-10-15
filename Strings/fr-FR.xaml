@@ -207,10 +207,10 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Des notes qui suivent le rythme. Un bloc-notes chiffré et interrogeable, avec texte enrichi, images intégrées, vrais tableaux et recherche plein texte instantanée, le tout enregistré automatiquement dans un seul fichier. Un utilitaire </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> sous licence GPLv3.</sys:String>
     <sys:String x:Key="Str_About_Computing">calcul...</sys:String>
-    <sys:String x:Key="Str_About_UpdateAvail">Mise à jour disponible : {0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateAvailable">Mise à jour disponible : {0}</sys:String>
     <sys:String x:Key="Str_About_Downloading">Téléchargement...</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateHead">Télécharger et installer {0} {1} ?</sys:String>
-    <sys:String x:Key="Str_Dlg_UpdateBody">L'application se fermera et se rouvrira automatiquement.</sys:String>
+    <sys:String x:Key="Str_About_UpdateHeading">Télécharger et installer {0} {1} ?</sys:String>
+    <sys:String x:Key="Str_About_UpdateDetail">L'application se fermera et se rouvrira automatiquement.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Mettre à jour</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Rechercher les mises à jour au démarrage</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} est disponible</sys:String>
