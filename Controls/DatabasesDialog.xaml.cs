@@ -85,10 +85,14 @@ namespace KillerNotes.Controls
         {
             DbList.Items.Clear();
             Directory.CreateDirectory(NoteStore.DbDir);
+            // --demo exists for screenshots, so it lists only its own scratch database: the
+            // user's real database names, sizes and dates must never appear in a capture.
+            bool demo = NoteStore.DemoDbFile != null;
             foreach (string f in Directory.GetFiles(NoteStore.DbDir, "*.db").OrderBy(x => x))
             {
                 var fi = new FileInfo(f);
                 string name = fi.Name;
+                if (demo && !string.Equals(name, NoteStore.DemoDbFile, StringComparison.OrdinalIgnoreCase)) continue;
                 bool active = string.Equals(name, NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase);
                 bool enc = NoteStore.IsEncryptedFile(f);
 
@@ -126,7 +130,23 @@ namespace KillerNotes.Controls
                         : active)
                     DbList.SelectedItem = item;
             }
-            DlgStatus.Text = NoteStore.DbDir;
+            DlgStatus.Text = demo ? WithoutProfile(NoteStore.DbDir) : NoteStore.DbDir;
+        }
+
+        /// <summary>The folder with the user's profile path written as %APPDATA% or
+        /// %USERPROFILE%, so a demo capture does not show the Windows account name.</summary>
+        private static string WithoutProfile(string path)
+        {
+            foreach (var (variable, folder) in new[]
+            {
+                ("%APPDATA%", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)),
+                ("%USERPROFILE%", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)),
+            })
+            {
+                if (folder.Length > 0 && path.StartsWith(folder, StringComparison.OrdinalIgnoreCase))
+                    return variable + path.Substring(folder.Length);
+            }
+            return path;
         }
 
         private static void SetRowColors(TextBlock name, TextBlock meta, bool active, bool selected)
