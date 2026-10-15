@@ -1617,7 +1617,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Film grain over the whole pane (behind content, clipped to the rounded corners) -->
-                <Border Grid.RowSpan="2" IsHitTestVisible="False" Opacity="0.20" Panel.ZIndex="-1" CornerRadius="{DynamicResource ControlCornerRadius}">
+                <Border Grid.RowSpan="2" IsHitTestVisible="False" Opacity="0.20" Visibility="{DynamicResource FilmGrainVisibility}" Panel.ZIndex="-1" CornerRadius="{DynamicResource ControlCornerRadius}">
                     <Border.Background>
                         <ImageBrush x:Name="GrainBrush" TileMode="Tile"
                                     ViewportUnits="Absolute" Viewport="0,0,256,256" Stretch="None"/>
