@@ -22,7 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - A table copied from a web page, Excel or Word pastes as a table with all of its rows, instead of as lines of text.
 - Selecting a table and pressing Delete or Backspace removes the table instead of leaving an empty grid behind.
 - In Split preview the window can no longer be made narrow enough to push the preview past its right edge at larger app zoom levels or with the sidebar and outline open.
-- Silent installs exit with a specific Windows code when another install is already running, access is denied, the disk is full or the install is cancelled, instead of always exiting with 1.
+- Silent installs refuse an exe without a valid signature and exit with a specific Windows code when another install is already running, access is denied, the disk is full or the install is cancelled, instead of always exiting with 1.
 - Icon-only buttons give screen readers the name from their tooltip, and controls reached with the keyboard show a dotted focus outline.
 - Search highlights stay visible after replacing a match without needing to scroll (#27).
 - Kept app icons sharp at fractional display DPI and app zoom by caching exact pixel sizes from a covering source and aligning the final draw to device pixels.

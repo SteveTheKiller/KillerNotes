@@ -482,6 +482,16 @@ namespace KillerNotes
             try
             {
                 using var installLease = KillerFamily.Deployment.InstallerExitCodes.Acquire(AppName);
+
+                // An unsigned or tampered exe must not be able to write itself into
+                // Program Files, least of all while elevated.
+                var (valid, _, _) = Services.CodeSignature.GetSignerInfo();
+                if (!valid)
+                {
+                    Console.Error.WriteLine("Silent install refused: EXE has no valid Authenticode signature.");
+                    return KillerFamily.Deployment.InstallerExitCodes.SecurityRejected;
+                }
+
                 string installDir = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), AppName);
                 string installExe = Path.Combine(installDir, ExeName);
