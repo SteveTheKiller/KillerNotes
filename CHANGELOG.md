@@ -19,7 +19,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Every context-menu action shows an icon beside its keyboard shortcut, including the graph, SketchPad, recording, format bar and file picker menus, and the syntax, word wrap and spell check rows keep their icon in the same column as the rest.
 
 ### Fixed
-- On the 98SE theme, the interface, sidebar, menus and dialog captions use Microsoft Sans Serif, as in KillerPDF, instead of Killer Sans and Tahoma.
+- On the 98SE theme, the interface, sidebar, menus and dialog captions use Microsoft Sans Serif instead of Killer Sans and Tahoma.
 - Cut and copy finish as soon as the text is on the clipboard instead of stalling for seconds and reporting a busy clipboard, and right-clicking a large selection opens the menu promptly (#19).
 - A table copied from a web page, Excel or Word pastes as a table with all of its rows, instead of as lines of text.
 - Selecting a table and pressing Delete or Backspace removes the table instead of leaving an empty grid behind.

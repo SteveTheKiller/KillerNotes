@@ -42,7 +42,7 @@
     <!-- The blurred shadow is off here (IconShadowOpacity 0 - the theme is flat), so the
          wordmark gets the hard 1px offset copy instead: a stroke, not a glow. -->
     <sys:Double x:Key="WordmarkEmbossOpacity" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">1</sys:Double>
-    <!-- Microsoft Sans Serif, the TrueType Win98 UI face that KillerPDF uses. NOT the raster
+    <!-- Microsoft Sans Serif, the TrueType Win98 UI face. NOT the raster
          "MS Sans Serif" .FON: WPF cannot render bitmap fonts and silently falls back to a serif. -->
     <FontFamily x:Key="ChromeFontFamily" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">Microsoft Sans Serif</FontFamily>
     <FontFamily x:Key="UiFont" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">Microsoft Sans Serif</FontFamily>
