@@ -1,8 +1,10 @@
 #nullable enable
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Security;
+using System.Security.Principal;
 using System.Threading;
 
 namespace KillerFamily.Deployment
@@ -38,6 +40,41 @@ namespace KillerFamily.Deployment
                     return code;
             }
             return Failure;
+        }
+
+        /// <summary>
+        /// A machine-wide silent install writes to Program Files. Run without admin rights, as the
+        /// Microsoft Store runs installers, it relaunches the same exe with the same arguments
+        /// through UAC and returns that copy's exit code. A build that fails <paramref name="trusted"/>
+        /// is refused before any prompt, and a declined prompt returns Cancelled. Returns null when
+        /// the process is already elevated and should install itself.
+        /// </summary>
+        internal static int? ElevateIfNeeded(string arguments, Func<bool> trusted)
+        {
+            using (var identity = WindowsIdentity.GetCurrent())
+            {
+                if (new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator)) return null;
+            }
+            if (!trusted()) return SecurityRejected;
+            try
+            {
+                using var current = Process.GetCurrentProcess();
+                string? path = current.MainModule?.FileName;
+                if (string.IsNullOrEmpty(path)) return Failure;
+                using var elevated = Process.Start(new ProcessStartInfo(path, arguments)
+                {
+                    UseShellExecute = true,
+                    Verb = "runas",
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                });
+                if (elevated == null) return Failure;
+                elevated.WaitForExit();
+                return elevated.ExitCode;
+            }
+            catch (Exception error)
+            {
+                return FromException(error);
+            }
         }
 
         private static bool ContainsPathSeparator(string value) =>
