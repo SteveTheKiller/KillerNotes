@@ -58,7 +58,8 @@ namespace KillerNotes
             KillerNotes.Shell.MainWindow.PublishGrainTile();   // install and uninstall dialogs open before any main window
 
             // Silent install: KillerNotes.exe /silent
-            // Installs machine-wide to Program Files, no UI. Used by winget/choco/RMM.
+            // No UI. With admin rights (winget/choco/RMM) it installs machine-wide to Program
+            // Files; without them (the Microsoft Store) it installs for the current user.
             if (e.Args.Length > 0 &&
                 string.Equals(e.Args[0], "/silent", StringComparison.OrdinalIgnoreCase))
             {
@@ -476,15 +477,9 @@ namespace KillerNotes
             Application.Current.Shutdown();
         }
 
-        // Silent (machine-wide) install -- used by winget / choco / RMM
+        // Silent install, used by winget / choco / RMM and the Microsoft Store
         private static int DoSilentInstall()
         {
-            // Without admin rights, as the Microsoft Store installs, the install relaunches
-            // itself elevated through UAC and returns that copy's exit code.
-            int? elevated = KillerFamily.Deployment.InstallerExitCodes.ElevateIfNeeded(
-                "/silent", () => Services.CodeSignature.GetSignerInfo().valid);
-            if (elevated.HasValue) return elevated.Value;
-
             try
             {
                 using var installLease = KillerFamily.Deployment.InstallerExitCodes.Acquire(AppName);
@@ -496,6 +491,14 @@ namespace KillerNotes
                 {
                     Console.Error.WriteLine("Silent install refused: EXE has no valid Authenticode signature.");
                     return KillerFamily.Deployment.InstallerExitCodes.SecurityRejected;
+                }
+
+                // Without admin rights, as the Microsoft Store runs installers, this is the normal
+                // per-user install with no prompt. The app never needs admin rights.
+                if (!KillerFamily.Deployment.InstallerExitCodes.IsElevated())
+                {
+                    InstallForCurrentUser(wantDesktop: false);
+                    return KillerFamily.Deployment.InstallerExitCodes.Success;
                 }
 
                 string installDir = Path.Combine(
@@ -553,41 +556,48 @@ namespace KillerNotes
         {
             try
             {
-                Directory.CreateDirectory(InstallDir);
-                string src = Process.GetCurrentProcess().MainModule!.FileName;
-                File.Copy(src, InstallExe, overwrite: true);
-
-                Directory.CreateDirectory(StartMenuDir);
-                CreateShortcut(StartMenuLnk, InstallExe);
-                if (wantDesktop)
-                    CreateShortcut(DesktopLnk, InstallExe);
-
-                string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "";
-
-                using (var key = Registry.CurrentUser.CreateSubKey(@"Software\KillerNotes"))
-                {
-                    key.SetValue("Installed",   1);
-                    key.SetValue("InstallPath", InstallExe);
-                    key.SetValue("Version",     version);
-                }
-
-                using (var key = Registry.CurrentUser.CreateSubKey(
-                    @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes"))
-                {
-                    key.SetValue("DisplayName",          AppName);
-                    key.SetValue("DisplayVersion",       version);
-                    key.SetValue("Publisher",            "Steve the Killer");
-                    key.SetValue("InstallLocation",      InstallDir);
-                    key.SetValue("DisplayIcon",          $"{InstallExe},0");
-                    key.SetValue("UninstallString",      $"\"{InstallExe}\" /uninstall");
-                    key.SetValue("QuietUninstallString", $"\"{InstallExe}\" /uninstall-silent");
-                    key.SetValue("NoModify",             1);
-                    key.SetValue("NoRepair",             1);
-                }
+                InstallForCurrentUser(wantDesktop);
             }
             catch (Exception ex)
             {
                 ShowInstallError($"Installation failed:\n{ex.Message}");
+            }
+        }
+
+        /// <summary>The per-user install itself, shared by the Install button and a silent install
+        /// without admin rights. Failures propagate to the caller.</summary>
+        private static void InstallForCurrentUser(bool wantDesktop)
+        {
+            Directory.CreateDirectory(InstallDir);
+            string src = Process.GetCurrentProcess().MainModule!.FileName;
+            File.Copy(src, InstallExe, overwrite: true);
+
+            Directory.CreateDirectory(StartMenuDir);
+            CreateShortcut(StartMenuLnk, InstallExe);
+            if (wantDesktop)
+                CreateShortcut(DesktopLnk, InstallExe);
+
+            string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "";
+
+            using (var key = Registry.CurrentUser.CreateSubKey(@"Software\KillerNotes"))
+            {
+                key.SetValue("Installed",   1);
+                key.SetValue("InstallPath", InstallExe);
+                key.SetValue("Version",     version);
+            }
+
+            using (var key = Registry.CurrentUser.CreateSubKey(
+                @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes"))
+            {
+                key.SetValue("DisplayName",          AppName);
+                key.SetValue("DisplayVersion",       version);
+                key.SetValue("Publisher",            "Steve the Killer");
+                key.SetValue("InstallLocation",      InstallDir);
+                key.SetValue("DisplayIcon",          $"{InstallExe},0");
+                key.SetValue("UninstallString",      $"\"{InstallExe}\" /uninstall");
+                key.SetValue("QuietUninstallString", $"\"{InstallExe}\" /uninstall-silent");
+                key.SetValue("NoModify",             1);
+                key.SetValue("NoRepair",             1);
             }
         }
 
