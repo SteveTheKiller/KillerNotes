@@ -49,6 +49,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The format bar no longer covers the note title when it is moved to the left or the middle of the pane, and a long title stops short of the bar instead of running under it.
 - The outline lists the # headings of a note detected as markdown, not only of notes saved as markdown.
 - Line numbers sit beside the text on heading lines and no longer crowd the next line after a horizontal rule.
+- The current find match is as see-through as the other matches and is marked by its outline, so the word it points at stays readable.
 
 ## [1.4.3] - 2026-10-08
 

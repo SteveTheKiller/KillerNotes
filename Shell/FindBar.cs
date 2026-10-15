@@ -797,8 +797,11 @@ namespace KillerNotes.Shell
 
             Brush fill = _rtb.TryFindResource("FindMatchBrush") as Brush
                          ?? new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0xD5, 0x4F));
+            // The bands paint OVER the text, so the current one stays as see-through as the rest
+            // and is told apart by its outline: at 0xAA it hid the very word it pointed at, worst
+            // on themes with orange text (Mourning).
             Brush current = _rtb.TryFindResource("FindCurrentMatchBrush") as Brush
-                            ?? new SolidColorBrush(Color.FromArgb(0xAA, 0xFF, 0x8A, 0x00));
+                            ?? new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0x8A, 0x00));
             var outline = new Pen(_rtb.TryFindResource("TextBrush") as Brush ?? Brushes.Black, 2);
 
             // The visible slice, as offsets. Everything outside it is skipped without ever asking
