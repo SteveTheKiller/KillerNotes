@@ -300,6 +300,9 @@ namespace KillerNotes.Services
             // The UI face: Killer Sans UI over the Segoe stack, except a flat caption theme, which keeps
             // its classic caption font throughout.
             SetIfAbsent(newDict, "UiFont", flatCaption ? newDict["ChromeFontFamily"] : KillerSansUiStack);
+            // Context menus, as in every family app: Killer Sans UI at 12. 98SE states its own face and size.
+            SetIfAbsent(newDict, "MenuFontFamily", KillerSansUiStack);
+            SetIfAbsent(newDict, "MenuFontSize", 12.0);
             // The sidebar slot: Killer Sans UI, the family UI face (hinted, Segoe UI line metrics),
             // over the Segoe stack. Completed here rather than in Controls.xaml so 98SE can state its
             // own face; a font picked in Fonts still overrides it from the top-level dictionary.

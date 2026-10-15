@@ -580,6 +580,8 @@
         <Setter Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MenuFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource MenuFontSize}"/>
         <Setter Property="Padding" Value="0,4"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -671,7 +673,8 @@
         <!-- TextBrush, not MenuTextBrush: menu items are body text, not secondary labels.
              Family standard, see KillerUI/README.md surface rules. -->
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MenuFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource MenuFontSize}"/>
         <!-- 8 on the left, not 24: the icon gutter provides the inset now. -->
         <Setter Property="Padding" Value="8,6,10,6"/>
         <Setter Property="Template">

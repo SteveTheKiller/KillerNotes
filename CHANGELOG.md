@@ -43,6 +43,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Long checkbox labels in dialogs wrap instead of running past the edge.
 - Centered website logos with space above and below and corrected current features, runtime requirements and documentation.
 - Menu separators draw their divider line instead of leaving an empty gap.
+- Context menus use Killer Sans UI like the rest of the interface instead of Segoe UI.
 
 ## [1.4.3] - 2026-10-08
 
