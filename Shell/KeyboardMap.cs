@@ -17,7 +17,7 @@ namespace KillerNotes.Shell
     // the active theme. Holding a real Ctrl / Shift previews that layer.
     public partial class MainWindow
     {
-        private enum KbLayer { Base, Ctrl, CtrlShift, Alt }
+        private enum KbLayer { Base, Ctrl, CtrlShift, Alt, AltShift }
 
         private KbLayer _kbLayer = KbLayer.Base;
         private bool _kbBuilt;
@@ -57,7 +57,7 @@ namespace KillerNotes.Shell
         private static readonly (KbLayer Layer, string Caption)[] KbLayerButtons =
         [
             (KbLayer.Base, "BASE"), (KbLayer.Ctrl, "CTRL"), (KbLayer.CtrlShift, "CTRL+SHIFT"),
-            (KbLayer.Alt, "ALT"),
+            (KbLayer.Alt, "ALT"), (KbLayer.AltShift, "ALT+SHIFT"),
         ];
 
         // Modifier keycaps that light up per layer (they define it rather than carry a binding).
@@ -71,6 +71,7 @@ namespace KillerNotes.Shell
             [KbLayer.Ctrl] = ["Ctrl", "RCtrl"],
             [KbLayer.CtrlShift] = ["Ctrl", "RCtrl", "Shift", "RShift"],
             [KbLayer.Alt] = ["Alt", "RAlt"],
+            [KbLayer.AltShift] = ["Alt", "RAlt", "Shift", "RShift"],
         };
 
         private static string KbSectionKeyFor(string cat) => cat switch
@@ -370,6 +371,7 @@ namespace KillerNotes.Shell
             // rather than the Alt one - matching which layer its keystrokes can actually reach.
             var layer = m.HasFlag(ModifierKeys.Control) && m.HasFlag(ModifierKeys.Shift) ? KbLayer.CtrlShift
                       : m.HasFlag(ModifierKeys.Control) ? KbLayer.Ctrl
+                      : m.HasFlag(ModifierKeys.Alt) && m.HasFlag(ModifierKeys.Shift) ? KbLayer.AltShift
                       : m.HasFlag(ModifierKeys.Alt) ? KbLayer.Alt
                       : KbLayer.Base;
             if (layer != _kbLayer) SetKbLayer(layer);

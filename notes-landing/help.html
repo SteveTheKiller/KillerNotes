@@ -224,7 +224,7 @@ html[data-theme="light"] .help-cat, html[data-theme="light"] .kbd-group h4 { tex
 
 <h2 class="help-cat" id="shortcuts" data-i18n="hp_75">Keyboard shortcuts</h2>
 <p style="font-size:13.5px; color:var(--muted); margin:0 2px 16px;" data-i18n="hp_76">The same map lives in the app under <code>F1</code>, including a visual keyboard view that lights up each layer.</p>
-<script src="shortcuts.generated.js?v=3"></script>
+<script src="shortcuts.generated.js?v=4"></script>
 <!-- The list and keyboard map use the app's generated shortcut registry. -->
 <style>
 .kbmap { --kc-file:#00fff9; --kc-note:#ff2975; --kc-format:#ffd319; --kc-view:#f222ff; --kc-search:#00b3ff; --kc-edit:#ff901f; --kc-help:#39ff14; margin: 0 0 30px; }
@@ -256,6 +256,7 @@ html[data-theme="light"] .kbmap { --kc-file:#009e99; --kc-note:#d1105a; --kc-for
 <button data-kblayer="ctrl">CTRL</button>
 <button data-kblayer="ctrlshift">CTRL+SHIFT</button>
 <button data-kblayer="alt">ALT</button>
+<button data-kblayer="altshift">ALT+SHIFT</button>
 <span class="kbmap-hint">Hold Ctrl, Shift or Alt to preview that layer</span>
 </div>
 <div class="kbmap-scroll"><div class="kbmap-board" id="kbmapBoard"></div></div>
@@ -276,7 +277,7 @@ var KBROWS = [
 [['Caps','Caps',1.8],['A','A',1],['S','S',1],['D','D',1],['F','F',1],['G','G',1],['H','H',1],['J','J',1],['K','K',1],['L','L',1],['Semi',';',1],['Quote','\'',1],['Enter','Enter',2.2]],
 [['Shift','Shift',2.3],['Z','Z',1],['X','X',1],['C','C',1],['V','V',1],['B','B',1],['N','N',1],['M','M',1],['Comma',',',1],['Period','.',1],['Slash','/',1],['RShift','Shift',2.7],['',1.6],['Up','&#8593;',1]],
 [['Ctrl','Ctrl',1.5],['Win','Win',1.2],['Alt','Alt',1.5],['Space','',6.8],['RAlt','Alt',1.5],['Menu','&#9776;',1],['RCtrl','Ctrl',1.5],['',0.6],['Left','&#8592;',1],['Down','&#8595;',1],['Right','&#8594;',1]]];
-var MODS = { base:[], ctrl:['Ctrl','RCtrl'], ctrlshift:['Ctrl','RCtrl','Shift','RShift'], alt:['Alt','RAlt'] };
+var MODS = { base:[], ctrl:['Ctrl','RCtrl'], ctrlshift:['Ctrl','RCtrl','Shift','RShift'], alt:['Alt','RAlt'], altshift:['Alt','RAlt','Shift','RShift'] };
 var U = 46, board = document.getElementById('kbmapBoard'), detail = document.getElementById('kbmapDetail');
 var layer = 'base', keys = {}, hover = null;
 function startMarquee(h){   // a cut-off caption scrolls, marquee-style
@@ -337,7 +338,7 @@ document.querySelectorAll('.kbmap-layers button').forEach(function(b){
 function sync(e){
   // Alt is checked before Ctrl so AltGr (which reports ctrlKey AND altKey) previews the Alt
   // layer rather than the Ctrl one.
-  var l = e.altKey ? 'alt' : e.ctrlKey && e.shiftKey ? 'ctrlshift' : e.ctrlKey ? 'ctrl' : 'base';
+  var l = e.altKey && e.shiftKey && !e.ctrlKey ? 'altshift' : e.altKey ? 'alt' : e.ctrlKey && e.shiftKey ? 'ctrlshift' : e.ctrlKey ? 'ctrl' : 'base';
   if (l !== layer) { layer = l; paint(); }
 }
 window.addEventListener('keydown', sync);

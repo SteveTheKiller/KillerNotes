@@ -29,7 +29,7 @@ function Get-Label([string]$key) {
 function Get-LocalizedHelp([string]$locale) {
 $labels = $dictionaries[$locale]
 $rows = [Collections.Generic.List[object]]::new()
-$layers = [ordered]@{ base=[ordered]@{}; ctrl=[ordered]@{}; ctrlshift=[ordered]@{}; alt=[ordered]@{} }
+$layers = [ordered]@{ base=[ordered]@{}; ctrl=[ordered]@{}; ctrlshift=[ordered]@{}; alt=[ordered]@{}; altshift=[ordered]@{} }
 $pattern = 'new\("(?<keys>[^"]*)",\s*"(?<label>[^"]*)",\s*"(?<category>[^"]+)",\s*\[(?<caps>[\s\S]*?)\](?:,\s*Listed:\s*(?<listed>false))?\)'
 foreach ($name in @('ShortcutsTable.cs', 'DialogShortcutRows.cs', 'PickerShortcutRows.cs')) {
     $path = Join-Path $appRoot "Shell\$name"
@@ -52,7 +52,7 @@ $actionPattern = 'new\("(?<keys>[^"]+)",\s*Key\.(?<id>\w+),\s*(?<mods>ModifierKe
 foreach ($match in [regex]::Matches($actions, $actionPattern)) {
     $row = [ordered]@{ keys=$match.Groups['keys'].Value; label=(Get-Label $match.Groups['label'].Value); scope='Main window'; category=$match.Groups['category'].Value.ToLowerInvariant(); listed=$true }
     $rows.Add($row)
-    $layer = if ($match.Groups['mods'].Value -match 'Alt') { 'alt' } elseif ($match.Groups['mods'].Value -match 'Shift') { 'ctrlshift' } else { 'ctrl' }
+    $layer = if ($match.Groups['mods'].Value -match 'Alt' -and $match.Groups['mods'].Value -match 'Shift') { 'altshift' } elseif ($match.Groups['mods'].Value -match 'Alt') { 'alt' } elseif ($match.Groups['mods'].Value -match 'Shift') { 'ctrlshift' } else { 'ctrl' }
     $layers[$layer][$match.Groups['id'].Value] = @($row.category, $row.label)
 }
 $categories = [ordered]@{}

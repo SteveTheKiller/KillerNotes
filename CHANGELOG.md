@@ -6,6 +6,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.5.1] - Unreleased
 
+### Added
+- Alt+Shift+G turns Film Grain on or off. It is listed in the shortcuts overlay, and the keyboard map has a new Alt+Shift layer for it.
+
 ### Changed
 - Note titles in the sidebar are slightly larger, so they stand apart from the preview line and date under them.
 

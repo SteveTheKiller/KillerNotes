@@ -27,7 +27,7 @@ namespace KillerNotes.Tests
             var table = (Array)typeof(MainWindow).GetField("KsTable", StaticPrivate)!.GetValue(null)!;
             var map = (IDictionary)typeof(MainWindow).GetField("KbMap", StaticPrivate)!.GetValue(null)!;
             Assert.True(table.Length > 150);
-            Assert.Equal(4, map.Count);
+            Assert.Equal(5, map.Count);
             foreach (DictionaryEntry layer in map) Assert.NotEmpty((IDictionary)layer.Value!);
         }
 

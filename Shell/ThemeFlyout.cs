@@ -32,6 +32,7 @@ namespace KillerNotes.Shell
         private Grid? _accentStrip;
         private Theme _stripFamily = Theme.Dark;
         private bool _stripOpen;
+        private CheckBox? _filmGrainCheck;
         private const double AccentStripWidth = 39;
         private const double AccentStripSlideMs = 180;
 
@@ -113,6 +114,8 @@ namespace KillerNotes.Shell
             };
             filmGrain.SetResourceReference(ContentControl.ContentProperty, "Str_Theme_FilmGrain");
             filmGrain.Click += (_, _) => FilmGrain.Set(filmGrain.IsChecked == true);
+            Controls.DialogShortcuts.Describe(filmGrain, "Alt+Shift+G");
+            _filmGrainCheck = filmGrain;
             Grid.SetRow(filmGrain, 2);
             Grid.SetColumnSpan(filmGrain, 2);
             picker.Children.Add(filmGrain);
@@ -160,6 +163,13 @@ namespace KillerNotes.Shell
             Controls.DialogShortcuts.Describe(fonts, "Alt+X");
             fonts.Click += FontsRow_Click;
             ThemeMenu.Items.Add(fonts);
+        }
+
+        // Alt+Shift+G: Film Grain on or off, kept in step with the theme menu's check box.
+        private void ToggleFilmGrain()
+        {
+            FilmGrain.Set(!FilmGrain.Enabled);
+            _filmGrainCheck?.IsChecked = FilmGrain.Enabled;
         }
 
         private Grid BuildAccentStrip()

@@ -34,6 +34,7 @@ namespace KillerNotes.Shell
             new("Alt+Y", Key.Y, ModifierKeys.Alt, "Str_TT_FontSize", "Format", w => w.FontSizeBtn_Click(w.FontSizeBtn, new RoutedEventArgs()), "FontSizeBtn"),
             new("Alt+X", Key.X, ModifierKeys.Alt, "Str_Fonts_Open", "View", w => w.OpenFontsDialog()),
             new("Alt+Z", Key.Z, ModifierKeys.Alt, "Str_TT_CollapseMentions", "View", w => w.BacklinkCollapse_Click(w.BacklinkCollapseBtn, new RoutedEventArgs()), "BacklinkCollapseBtn"),
+            new("Alt+Shift+G", Key.G, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Theme_FilmGrain", "View", w => w.ToggleFilmGrain()),
             new("Ctrl+F1", Key.F1, ModifierKeys.Control, "Str_Btn_Update", "Help", w => w.AboutUpdateButton_Click(w, new RoutedEventArgs()), "AboutUpdateButton"),
             new("Ctrl+F2", Key.F2, ModifierKeys.Control, "Str_Ctx_RenameGroup", "Note", w => w.RunGroupAction(w.RenameGroup_Click)),
             new("Ctrl+F3", Key.F3, ModifierKeys.Control, "Str_Ctx_SubTop", "Note", w => w.RunGroupAction(w.SubgroupsOnTop_Click)),
@@ -75,6 +76,7 @@ namespace KillerNotes.Shell
         private static IEnumerable<KsBinding> ActionShortcutRows() =>
             ActionShortcuts().Select(b => new KsBinding(b.Gesture, b.Label, b.Category,
                 [(b.Modifiers == ModifierKeys.Alt ? KbLayer.Alt :
+                  b.Modifiers == (ModifierKeys.Alt | ModifierKeys.Shift) ? KbLayer.AltShift :
                   b.Modifiers.HasFlag(ModifierKeys.Shift) ? KbLayer.CtrlShift : KbLayer.Ctrl,
                   b.Key.ToString(), b.Label)]));
 
