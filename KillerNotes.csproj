@@ -18,7 +18,7 @@
     <!-- Shown in the About card beside the version so a user can tell how old their build
          is. Keep the prior release date during development. On release day, match the date
          on this version's CHANGELOG section; release.ps1 preflight enforces that match. -->
-    <ReleaseDate>2026-10-14</ReleaseDate>
+    <ReleaseDate>2026-10-15</ReleaseDate>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 
