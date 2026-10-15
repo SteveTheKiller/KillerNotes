@@ -616,11 +616,11 @@ body img.help-wm {
   max-width: 100%;
   object-fit: contain;
 }
-body img.tb-wm { height: 47.2266px; }
+body img.tb-wm { height: 47.2266px; margin: -1.5089px 0 -3.0071px; }  /* the canvas above and below the lettering takes no room in the bar */
 body img.also-wm { height: 65.3906px; }
 body .engine-lockup img.wm-logo { height: 81.7383px; }
 @media (max-width: 600px) {
-  body img.tb-wm { height: 38.1445px; }
+  body img.tb-wm { height: 38.1445px; margin: -1.2187px 0 -2.4288px; }
   body .engine-lockup img.wm-logo { height: 65.3906px; }
 }
 
