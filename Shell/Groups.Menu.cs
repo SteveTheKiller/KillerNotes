@@ -48,6 +48,7 @@ namespace KillerNotes.Shell
                 var remove = new MenuItem
                 {
                     Header = BuildMenuRow(null, null, Loc("Str_Ctx_RemoveFromGroup"), "Enter"),
+                    Icon = "\uE738",
                     Padding = new Thickness(6, 5, 14, 5),
                     HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 };
@@ -58,6 +59,7 @@ namespace KillerNotes.Shell
             var create = new MenuItem
             {
                 Header = BuildMenuRow(null, null, Loc("Str_Ctx_NewGroup"), "Ctrl+G"),
+                Icon = "\uE8F4",
                 Padding = new Thickness(6, 6, 14, 6),
                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
             };

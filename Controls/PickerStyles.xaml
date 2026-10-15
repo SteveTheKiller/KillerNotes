@@ -70,11 +70,11 @@
     </Style>
 
     <ContextMenu x:Key="TextInputContextMenu" x:Shared="False">
-        <MenuItem Command="ApplicationCommands.Cut"   Header="{DynamicResource Str_Ctx_Cut}"/>
-        <MenuItem Command="ApplicationCommands.Copy"  Header="{DynamicResource Str_Ctx_Copy}"/>
-        <MenuItem Command="ApplicationCommands.Paste" Header="{DynamicResource Str_Ctx_Paste}"/>
+        <MenuItem Command="ApplicationCommands.Cut"   Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;"/>
+        <MenuItem Command="ApplicationCommands.Copy"  Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;"/>
+        <MenuItem Command="ApplicationCommands.Paste" Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;"/>
         <Separator/>
-        <MenuItem Command="ApplicationCommands.SelectAll" Header="{DynamicResource Str_Ctx_SelectAll}"/>
+        <MenuItem Command="ApplicationCommands.SelectAll" Header="{DynamicResource Str_Ctx_SelectAll}" Icon="&#xE8B3;"/>
     </ContextMenu>
 
     <!-- The places / bookmarks rail. Same template as PickerRow but tight: the rail is a

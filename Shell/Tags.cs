@@ -70,7 +70,7 @@ namespace KillerNotes.Shell
             // WPF drew the default light line ("white line"). A tighter-padded item reads
             // fine without one. Its shortcut (Ctrl+T) is right-aligned like the rest.
             var manageHead = BuildMenuRow(check: null, swatch: null, Loc("Str_Ctx_ManageTags"), "Ctrl+T");
-            var manage = new MenuItem { Header = manageHead, Padding = new Thickness(6, 6, 14, 6), HorizontalContentAlignment = HorizontalAlignment.Stretch };
+            var manage = new MenuItem { Header = manageHead, Icon = "\uE8EC", Padding = new Thickness(6, 6, 14, 6), HorizontalContentAlignment = HorizontalAlignment.Stretch };
             manage.Click += (_, _) => OpenTagsDialog();
             TagsMenu.Items.Add(manage);
         }

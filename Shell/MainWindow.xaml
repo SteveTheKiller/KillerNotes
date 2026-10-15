@@ -1017,14 +1017,14 @@
                                         <ContextMenu>
                                             <MenuItem Header="{DynamicResource Str_Ctx_NewSubgroup}" Icon="&#xE8F4;" Click="NewSubgroup_Click"
                                                       InputGestureText="Ctrl+Shift+G"/>
-                                            <MenuItem InputGestureText="Ctrl+F3" Header="{DynamicResource Str_Ctx_SubTop}" Tag="subtop" IsCheckable="True"
+                                            <MenuItem InputGestureText="Ctrl+F3" Header="{DynamicResource Str_Ctx_SubTop}" Icon="&#xE74A;" Tag="subtop" IsCheckable="True"
                                                       Click="SubgroupsOnTop_Click" ToolTip="{DynamicResource Str_TT_SubTop}"/>
                                             <!-- Marks this group as the one whose notes are templates
                                                  (1.3.1, Templates.cs). Checked on open by GroupHeader_RightDown. -->
-                                            <MenuItem InputGestureText="Ctrl+F4" Header="{DynamicResource Str_Ctx_TemplatesGroup}" Tag="templates" IsCheckable="True"
+                                            <MenuItem InputGestureText="Ctrl+F4" Header="{DynamicResource Str_Ctx_TemplatesGroup}" Icon="&#xE7C3;" Tag="templates" IsCheckable="True"
                                                       Click="TemplatesGroup_Click" ToolTip="{DynamicResource Str_TT_TemplatesGroup}"/>
                                             <!-- Where Alt+D files today's note (1.3.1, DailyNote.cs). -->
-                                            <MenuItem InputGestureText="Ctrl+F5" Header="{DynamicResource Str_Ctx_DailyGroup}" Tag="daily" IsCheckable="True"
+                                            <MenuItem InputGestureText="Ctrl+F5" Header="{DynamicResource Str_Ctx_DailyGroup}" Icon="&#xE787;" Tag="daily" IsCheckable="True"
                                                       Click="DailyGroup_Click" ToolTip="{DynamicResource Str_TT_DailyGroup}"/>
                                             <MenuItem InputGestureText="Ctrl+F2" Header="{DynamicResource Str_Ctx_RenameGroup}" Icon="&#xE8AC;" Click="RenameGroup_Click"/>
                                             <MenuItem Header="{DynamicResource Str_Ctx_GroupColor}" Icon="&#xE790;" Click="GroupColorPick_Click"
@@ -2048,68 +2048,35 @@
                                         </ControlTemplate>
                                     </MenuItem.Template>
                                 </MenuItem>
-                                <MenuItem x:Name="SyntaxHighlightMenuItem"
+                                <MenuItem x:Name="SyntaxHighlightMenuItem" Icon="&#xE943;"
+                                          Header="{DynamicResource Str_KS_Syntax}"
                                           IsCheckable="True" Click="SyntaxHighlight_Click"
-                                          InputGestureText="Ctrl+Shift+E">
-                                    <MenuItem.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Grid Width="20" Height="16">
-                                                <TextBlock Text="&lt;/&gt;" FontFamily="Consolas" FontSize="11" FontWeight="Bold"
-                                                           TextAlignment="Center" VerticalAlignment="Center"/>
-                                            </Grid>
-                                            <TextBlock Text="{DynamicResource Str_KS_Syntax}"/>
-                                        </StackPanel>
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <MenuItem x:Name="WordWrapMenuItem"
+                                          InputGestureText="Ctrl+Shift+E"/>
+                                <MenuItem x:Name="WordWrapMenuItem" Icon="&#xE751;"
+                                          Header="{DynamicResource Str_KS_WordWrap}"
                                           IsCheckable="True" Click="WordWrap_Click"
-                                          InputGestureText="Ctrl+Shift+W">
-                                    <MenuItem.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Grid Width="20" Height="16">
-                                                <TextBlock Text="&#x21B5;" FontFamily="Segoe UI Symbol" FontSize="15"
-                                                           TextAlignment="Center" VerticalAlignment="Center" Margin="0,-2,0,0"/>
-                                            </Grid>
-                                            <TextBlock Text="{DynamicResource Str_KS_WordWrap}"/>
-                                        </StackPanel>
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <MenuItem x:Name="SpellCheckMenuItem"
+                                          InputGestureText="Ctrl+Shift+W"/>
+                                <MenuItem x:Name="SpellCheckMenuItem" Icon="&#xF87B;"
+                                          Header="{DynamicResource Str_KS_Spell}"
                                           IsCheckable="True" Click="Spell_Click"
-                                          InputGestureText="Ctrl+Shift+P">
-                                    <MenuItem.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Grid Width="20" Height="16">
-                                                <TextBlock Text="abc" FontFamily="Segoe UI" FontSize="10" FontWeight="SemiBold"
-                                                           TextAlignment="Center" VerticalAlignment="Center"/>
-                                            </Grid>
-                                            <TextBlock Text="{DynamicResource Str_KS_Spell}"/>
-                                        </StackPanel>
-                                    </MenuItem.Header>
-                                </MenuItem>
+                                          InputGestureText="Ctrl+Shift+P"/>
                                 <!-- Preview mode picker: three-state, one radio-style pick at a time.
                                      Source (raw), Rendered (WYSIWYG), Split (both). F4 cycles them.
                                      The WebBrowser (Preview.cs) is instantiated when Rendered or Split
                                      becomes active and disposed on return to Source, keeping the IE
                                      ActiveX message-loop overhead out of idle windows. -->
-                                <MenuItem x:Name="PreviewMenuItem" Visibility="Collapsed">
+                                <MenuItem x:Name="PreviewMenuItem" Icon="&#xE890;" InputGestureText="F4" Visibility="Collapsed">
                                     <MenuItem.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Grid Width="20" Height="16">
-                                                <TextBlock Text="&#xE890;" FontFamily="Segoe MDL2 Assets" FontSize="13"
-                                                           TextAlignment="Center" VerticalAlignment="Center"/>
-                                            </Grid>
-                                            <TextBlock x:Name="PreviewMenuLabel" Text="Preview"/>
-                                        </StackPanel>
+                                        <TextBlock x:Name="PreviewMenuLabel" Text="Preview"/>
                                     </MenuItem.Header>
-                                    <MenuItem x:Name="PreviewSourceMenuItem" IsCheckable="True"
+                                    <MenuItem x:Name="PreviewSourceMenuItem" Icon="&#xE8A5;" IsCheckable="True"
                                               Click="PreviewSource_Click"
                                               Header="{DynamicResource Str_Preview_Source}"
                                               InputGestureText="Ctrl+Shift+F6"/>
-                                    <MenuItem InputGestureText="Ctrl+Shift+F7" x:Name="PreviewRenderedMenuItem" IsCheckable="True"
+                                    <MenuItem InputGestureText="Ctrl+Shift+F7" x:Name="PreviewRenderedMenuItem" Icon="&#xE7B3;" IsCheckable="True"
                                               Click="PreviewRendered_Click"
                                               Header="{DynamicResource Str_Preview_Rendered}"/>
-                                    <MenuItem InputGestureText="Ctrl+Shift+F8" x:Name="PreviewSplitMenuItem" IsCheckable="True"
+                                    <MenuItem InputGestureText="Ctrl+Shift+F8" x:Name="PreviewSplitMenuItem" Icon="&#xE89A;" IsCheckable="True"
                                               Click="PreviewSplit_Click"
                                               Header="{DynamicResource Str_Preview_Split}"/>
                                 </MenuItem>

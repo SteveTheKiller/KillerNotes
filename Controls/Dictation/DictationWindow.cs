@@ -702,7 +702,7 @@ namespace KillerNotes.Controls.Dictation
             menu.Items.Add(paste);
 
             if (_wave.Cuts.Count > 0)
-                menu.Items.Add(Item(L("Str_Dict_ClearCuts", "Clear slices"), null, () => _wave.ClearCuts()));
+                menu.Items.Add(Item(L("Str_Dict_ClearCuts", "Clear slices"), "\uE894", () => _wave.ClearCuts()));
 
             var undo = Item(L("Str_Dict_UndoEdit", "Undo edit"), "", () =>
             {

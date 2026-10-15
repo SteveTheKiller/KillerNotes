@@ -313,12 +313,12 @@ namespace KillerNotes.Shell
                     for (int level = 1; level <= 3; level++)
                     {
                         int chosen = level;
-                        var item = new MenuItem { Header = string.Format(Loc("Str_St_Heading"), level), InputGestureText = "Alt+" + level, Tag = level,
+                        var item = new MenuItem { Header = string.Format(Loc("Str_St_Heading"), level), Icon = "\uE8D2", InputGestureText = "Alt+" + level, Tag = level,
                             IsEnabled = NoteStore.IsOpen && !NoteStore.IsReadOnly && !_currentInTrash };
                         item.Click += (_, _) => SetHeadingLevel(chosen);
                         menu.Items.Add(item);
                     }
-                    var normal = new MenuItem { Header = Loc("Str_St_HeadingOff"), InputGestureText = "Alt+0", Tag = 0,
+                    var normal = new MenuItem { Header = Loc("Str_St_HeadingOff"), Icon = "\uE8D3", InputGestureText = "Alt+0", Tag = 0,
                         IsEnabled = NoteStore.IsOpen && !NoteStore.IsReadOnly && !_currentInTrash };
                     normal.Click += (_, _) => SetHeadingLevel(0);
                     menu.Items.Add(normal);
@@ -333,8 +333,12 @@ namespace KillerNotes.Shell
                 var minimize = FormatBarMinimizeItem();
                 owned.Items.Add(new Separator());
                 owned.Items.Add(minimize);
-                owned.Opened += (_, _) => minimize.SetResourceReference(HeaderedItemsControl.HeaderProperty,
-                    _fmtMinimized ? "Str_Ctx_RestoreToolbar" : "Str_Ctx_MinimizeToolbar");
+                owned.Opened += (_, _) =>
+                {
+                    minimize.SetResourceReference(HeaderedItemsControl.HeaderProperty,
+                        _fmtMinimized ? "Str_Ctx_RestoreToolbar" : "Str_Ctx_MinimizeToolbar");
+                    minimize.Icon = _fmtMinimized ? "\uE70D" : "\uE70E";
+                };
             }
         }
 
@@ -360,7 +364,7 @@ namespace KillerNotes.Shell
 
         private MenuItem FormatBarMinimizeItem()
         {
-            var item = new MenuItem { InputGestureText = "F6" };
+            var item = new MenuItem { InputGestureText = "F6", Icon = _fmtMinimized ? "\uE70D" : "\uE70E" };
             item.SetResourceReference(HeaderedItemsControl.HeaderProperty,
                 _fmtMinimized ? "Str_Ctx_RestoreToolbar" : "Str_Ctx_MinimizeToolbar");
             item.Click += FormatBarToggle_Click;

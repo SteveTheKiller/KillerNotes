@@ -367,25 +367,25 @@ namespace KillerNotes.Controls.Sketch
             if (hit != null)
             {
                 menu.Items.Add(Mi(L("Str_Sketch_Delete", "Delete"), 0xE74D, () => RemoveObject(hit)));
-                menu.Items.Add(Mi(L("Str_Sketch_Front", "Bring to front"), 0, () => Reorder(hit, true)));
-                menu.Items.Add(Mi(L("Str_Sketch_Back", "Send to back"), 0, () => Reorder(hit, false)));
+                menu.Items.Add(Mi(L("Str_Sketch_Front", "Bring to front"), 0xE74A, () => Reorder(hit, true)));
+                menu.Items.Add(Mi(L("Str_Sketch_Back", "Send to back"), 0xE74B, () => Reorder(hit, false)));
                 menu.Items.Add(Mi(L("Str_Sketch_Duplicate", "Duplicate"), 0xE8C8, () => Duplicate(hit)));
                 if (hit.Kind is SketchKind.Line or SketchKind.Arrow)
                 {
                     menu.Items.Add(Sep());
-                    if (hit.Pts.Count >= 6) menu.Items.Add(Mi(L("Str_Sketch_Straighten", "Straighten line"), 0, () => Straighten(hit)));
-                    else menu.Items.Add(Mi(L("Str_Sketch_Arc", "Arc line"), 0, () => StartArc(hit)));
+                    if (hit.Pts.Count >= 6) menu.Items.Add(Mi(L("Str_Sketch_Straighten", "Straighten line"), 0xE738, () => Straighten(hit)));
+                    else menu.Items.Add(Mi(L("Str_Sketch_Arc", "Arc line"), 0xE7AD, () => StartArc(hit)));
                 }
                 if (hit.Kind == SketchKind.Image)
                 {
                     menu.Items.Add(Sep());
-                    menu.Items.Add(Mi(L("Str_Sketch_ResetOpacity", "Reset opacity"), 0, () => { PushUndo(); hit.Opacity = 1; _wheelObj = null; RenderCanvas(); }));
+                    menu.Items.Add(Mi(L("Str_Sketch_ResetOpacity", "Reset opacity"), 0xE72C, () => { PushUndo(); hit.Opacity = 1; _wheelObj = null; RenderCanvas(); }));
                 }
                 if (hit.Kind == SketchKind.Text)
                 {
                     menu.Items.Add(Sep());
                     menu.Items.Add(Mi(L("Str_Sketch_EditText", "Edit text"), 0xE70F, () => BeginTextEntry(new Point(hit.X, hit.Y), hit)));
-                    menu.Items.Add(Mi(hit.Bold ? L("Str_Sketch_Unbold", "Remove bold") : L("Str_Sketch_Bold", "Bold"), 0, () => { PushUndo(); hit.Bold = !hit.Bold; RenderCanvas(); }));
+                    menu.Items.Add(Mi(hit.Bold ? L("Str_Sketch_Unbold", "Remove bold") : L("Str_Sketch_Bold", "Bold"), 0xE8DD, () => { PushUndo(); hit.Bold = !hit.Bold; RenderCanvas(); }));
                 }
             }
             else

@@ -1537,6 +1537,7 @@ namespace KillerNotes.Controls
             _miShape = new MenuItem
             {
                 Header = Str("Str_Ctx_GraphShape", "Shape"),
+                Icon = "\uE81E",
                 Visibility = Visibility.Collapsed,
             };
             string[] labels =
@@ -1552,6 +1553,16 @@ namespace KillerNotes.Controls
             {
                 int shape = i;   // captured per row, not the loop variable's final value
                 var row = new MenuItem { Header = labels[i], IsCheckable = true };
+                // The four shapes the Arrange menu also offers carry its drawn miniatures.
+                row.Icon = shape switch
+                {
+                    0 => (object)IconArrangeForce(),
+                    1 => IconArrangeCircle(),
+                    2 => IconArrangeGrid(),
+                    3 => IconArrangeGroups(),
+                    4 => "\uE706",
+                    _ => "\uE9D2",
+                };
                 DialogShortcuts.Bind(this, row, "Alt+" + (shape + 1), Key.D1 + shape, ModifierKeys.Alt, () =>
                 {
                     _shape = shape;
@@ -1570,7 +1581,7 @@ namespace KillerNotes.Controls
                 _miShape.Items.Add(row);
             }
             _miShape.Items.Add(new Separator());
-            _miShape.Items.Add(MenuRow("", Str("Str_Ctx_GraphShapeNext", "Next shape"), "N",
+            _miShape.Items.Add(MenuRow("\uE72A", Str("Str_Ctx_GraphShapeNext", "Next shape"), "N",
                 () => { NextShape(); RefreshShapeMenu(); }));
             // Refreshed on open rather than kept in step from everywhere: the timer changes the
             // shape on its own, so any state written at click time is stale within a minute.
@@ -2167,6 +2178,7 @@ namespace KillerNotes.Controls
             _miLock = new MenuItem
             {
                 Header = Str("Str_Ctx_GraphLock", "Lock in place"),
+                Icon = "\uE72E",
                 IsCheckable = true,
                 InputGestureText = "K",
                 ToolTip = Str("Str_Ctx_GraphLockTip",
@@ -2200,7 +2212,7 @@ namespace KillerNotes.Controls
             // but it is bad at "read every title in order" - two questions, two layouts. Circle
             // and grid are deterministic, so they are also the way to get a graph back to
             // something legible after it has been dragged into a mess.
-            _miArrange = new MenuItem { Header = Str("Str_Ctx_GraphArrange", "Arrange") };
+            _miArrange = new MenuItem { Header = Str("Str_Ctx_GraphArrange", "Arrange"), Icon = "\uE8A9" };
             _miArrange.Items.Add(ArrangeRow(Str("Str_Ctx_GraphArrangeForce", "By connection"), "R", IconArrangeForce(), ArrangeForce));
             _miArrange.Items.Add(ArrangeRow(Str("Str_Ctx_GraphArrangeCircle", "In a circle"), "C", IconArrangeCircle(), ArrangeCircle));
             _miArrange.Items.Add(ArrangeRow(Str("Str_Ctx_GraphArrangeGrid", "In a grid"), "G", IconArrangeGrid(), ArrangeGrid));
@@ -2211,15 +2223,16 @@ namespace KillerNotes.Controls
             // can be saved and forgotten while this window is up, and a menu built once in the
             // constructor would go stale the first time either happened.
             _miArrange.SubmenuOpened += (_, _) => RefreshArrangeMenu();
-            _miColor = new MenuItem { Header = Str("Str_Ctx_GraphColor", "Color by group"), IsCheckable = true, IsChecked = true };
+            _miColor = new MenuItem { Header = Str("Str_Ctx_GraphColor", "Color by group"), Icon = "\uE790", IsCheckable = true, IsChecked = true };
             _miColor.Click += (_, _) => ApplyNodeColors();
-            _miLabels = new MenuItem { Header = Str("Str_Ctx_GraphLabels", "Show labels"), IsCheckable = true, IsChecked = true, InputGestureText = "L" };
+            _miLabels = new MenuItem { Header = Str("Str_Ctx_GraphLabels", "Show labels"), Icon = "\uE97E", IsCheckable = true, IsChecked = true, InputGestureText = "L" };
             _miLabels.Click += (_, _) => ApplyLabelVisibility();
-            _miGhosts = new MenuItem { Header = Str("Str_Ctx_GraphGhosts", "Show notes not written yet"), IsCheckable = true, IsChecked = true };
+            _miGhosts = new MenuItem { Header = Str("Str_Ctx_GraphGhosts", "Show notes not written yet"), Icon = "\uE7B3", IsCheckable = true, IsChecked = true };
             _miGhosts.Click += (_, _) => ApplyGhostVisibility();
             _miHold = new MenuItem
             {
                 Header = Str("Str_Ctx_GraphHold", "Pin all Notes"),
+                Icon = "\uE718",
                 IsCheckable = true,
                 IsChecked = _hold,
                 InputGestureText = "P",
@@ -2229,13 +2242,14 @@ namespace KillerNotes.Controls
             _miSpin = new MenuItem
             {
                 Header = Str("Str_Ctx_GraphSpin", "Visualizer"),
+                Icon = "\uE768",
                 IsCheckable = true,
                 IsChecked = false,
                 InputGestureText = "V",
                 ToolTip = Str("Str_TT_GraphSpin", "Let the graph drift and turn on its own. Pinning is suspended while it runs."),
             };
             _miSpin.Click += (_, _) => SetVisualizer(_miSpin.IsChecked);
-            _miShowAll = MenuRow("", Str("Str_Ctx_GraphShowAll", "Show everything"), "Esc",
+            _miShowAll = MenuRow("\uE9A6", Str("Str_Ctx_GraphShowAll", "Show everything"), "Esc",
                 () => { ClearIsolation(); ClearSelection(); });
 
             BuildShapeMenu();
@@ -2563,14 +2577,14 @@ namespace KillerNotes.Controls
                 }
             }
             _miArrange.Items.Add(new Separator());
-            var save = new MenuItem { Header = Str("Str_Ctx_GraphSaveArrange", "Save this arrangement...") };
+            var save = new MenuItem { Header = Str("Str_Ctx_GraphSaveArrange", "Save this arrangement..."), Icon = "\uE74E" };
             DialogShortcuts.Describe(save, "S");
             save.Click += (_, _) => SaveArrangementPrompt();
             _miArrange.Items.Add(save);
 
             if (saved.Count > 0)
             {
-                var forget = new MenuItem { Header = Str("Str_Ctx_GraphForget", "Forget arrangement") };
+                var forget = new MenuItem { Header = Str("Str_Ctx_GraphForget", "Forget arrangement"), Icon = "\uE74D" };
                 DialogShortcuts.Describe(forget, "Alt+F");
                 foreach (string name in saved)
                 {
