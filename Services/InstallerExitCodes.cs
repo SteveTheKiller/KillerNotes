@@ -74,7 +74,8 @@ namespace KillerFamily.Deployment
             if (!owned)
             {
                 mutex.Dispose();
-                throw new Win32Exception(Busy, "Another installation of this application is in progress.");
+                // Windows supplies this message in the user's language.
+                throw new Win32Exception(Busy);
             }
             return new Lease(mutex);
         }
