@@ -18,7 +18,8 @@ Killendar's `third_party/sqlcipher/`; rebuild once, copy to both, keep the hashe
 | SQLCipher | 4.18.0 community (SQLite 3.53.4) |
 | LibTomCrypt | 1.18.2 |
 | Toolchain | llvm-mingw 20260616 (clang 22.1.8), ucrt |
-| e_sqlcipher.dll sha256 | `e327c328c633e5ec36aabe4ca11a55ab280d05b8940632d692f574ff6e3ed695` |
+| e_sqlcipher.dll sha256 | `8dcbb9626c123a272eee2e06064355020771cae4eef4e76beebbfedf760c1b2b` |
+| Signature | Authenticode, Certum code signing, DigiCert timestamp. Sign again after every rebuild; the Microsoft Store requires every PE file the app runs to be signed. |
 
 Source tarballs (verify before building):
 
