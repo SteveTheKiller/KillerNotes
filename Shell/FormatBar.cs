@@ -27,6 +27,7 @@ namespace KillerNotes.Shell
         private bool _fmtShownOnce;              // pop-in runs once per launch
         private (double StartX, double OrigLeft)? _fmtDrag;
         private DateTime _fmtPeekRestoredAt = DateTime.MinValue;   // swallows the double-click tail
+        private Thickness? _titleMargin;          // the title's own margin, before it makes room for the bar
 
         private const double FmtPeekHeight = 9;
         private const double FmtEdgeGapDefault = 8;
@@ -123,6 +124,7 @@ namespace KillerNotes.Shell
                 double left = Math.Max(0, Math.Min(free, origLeft + dx));
                 FormatBar.HorizontalAlignment = HorizontalAlignment.Left;
                 FormatBar.Margin = new Thickness(left, FormatBar.Margin.Top, 0, 0);
+                ClearTitleOfFormatBar();
             };
             grip.MouseLeftButtonUp += (s, e) =>
             {
@@ -200,6 +202,32 @@ namespace KillerNotes.Shell
                     ? new Thickness(0, top, gap, 0)
                     : new Thickness(gap, top, 0, 0);
             }
+            ClearTitleOfFormatBar();
+        }
+
+        /// <summary>The expanded bar sits beside the title, so the title gives up the side the bar
+        /// is on: docked left or parked mid-pane it used to cover the title outright, and docked
+        /// right it hid the end of a long one. The title keeps whichever side of the bar has more
+        /// room. The minimized strip fits inside the title's top margin and needs none.</summary>
+        private void ClearTitleOfFormatBar()
+        {
+            _titleMargin ??= TitleBox.Margin;
+            var own = _titleMargin.Value;
+            if (_fmtMinimized || FormatBar.Parent is not FrameworkElement host || FormatBar.ActualWidth <= 0)
+            {
+                TitleBox.Margin = own;
+                return;
+            }
+            const double Gap = 8;
+            double hw = host.ActualWidth, bw = FormatBar.ActualWidth;
+            double left = FormatBar.HorizontalAlignment == HorizontalAlignment.Right
+                ? hw - bw - FormatBar.Margin.Right
+                : FormatBar.Margin.Left;
+            double before = left - own.Left;           // room between the pane edge and the bar
+            double after = hw - own.Right - (left + bw);   // room between the bar and the far edge
+            TitleBox.Margin = before >= after
+                ? new Thickness(own.Left, own.Top, Math.Max(own.Right, hw - left + Gap), own.Bottom)
+                : new Thickness(Math.Max(own.Left, left + bw + Gap), own.Top, own.Right, own.Bottom);
         }
 
         /// <summary>The canonical KillerPDF annotation-bar host wraps rather than discarding
@@ -241,6 +269,7 @@ namespace KillerNotes.Shell
             double minH = FmtPeekHeight
                 + FormatBar.BorderThickness.Top + FormatBar.BorderThickness.Bottom;
             _fmtMinimized = !_fmtMinimized;
+            if (_fmtMinimized) ClearTitleOfFormatBar();
 
             if (_fmtMinimized)
             {
