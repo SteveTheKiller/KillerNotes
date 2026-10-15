@@ -7,6 +7,7 @@ using System.Windows.Media;
 using KillerNotes.Controls;
 using KillerNotes.Controls.Dictation;
 using KillerNotes.Services;
+using KillerFamily.Accessibility;
 
 // Dictation (F8). A modeless companion window, opened from the sidebar rail, that records the
 // microphone and transcribes it offline. Two ways into the note: the transcript as text at the
@@ -265,7 +266,7 @@ namespace KillerNotes.Shell
 
             // Play glyph rather than a framed button: the chip IS the frame, and a button inside a
             // button reads as two controls. MDL2 E768 = Play.
-            var play = new TextBlock
+            var play = new Glyph
             {
                 Text = char.ConvertFromUtf32(0xE768),
                 FontFamily = new FontFamily("Segoe MDL2 Assets"),

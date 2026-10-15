@@ -1,6 +1,7 @@
 <Window x:Class="KillerNotes.Shell.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:a11y="clr-namespace:KillerFamily.Accessibility"
         xmlns:icons="clr-namespace:KillerNotes.Controls"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:models="clr-namespace:KillerNotes.Models"
@@ -254,7 +255,7 @@
                              below, and a TextBlock with no alignment stretches to that height and
                              paints its text at the TOP - which put the minimize dash on the top
                              edge of the button on every non-beveled theme. -->
-                        <TextBlock Text="&#xE921;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                        <a11y:Glyph Text="&#xE921;" FontFamily="Segoe MDL2 Assets" FontSize="10"
                                    HorizontalAlignment="Center" VerticalAlignment="Center"
                                    FontWeight="{DynamicResource CaptionGlyphWeight}"
                                    Visibility="{DynamicResource CaptionFontGlyphVisibility}"/>
@@ -268,7 +269,7 @@
                 <Button x:Name="MaximizeBtn" Foreground="{DynamicResource CaptionGlyphBrush}" Click="MaximizeBtn_Click" Style="{StaticResource ChromeButton}"
                         ToolTip="{DynamicResource Str_Sys_Maximize}">
                     <Grid>
-                        <TextBlock Text="&#xE922;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                        <a11y:Glyph Text="&#xE922;" FontFamily="Segoe MDL2 Assets" FontSize="10"
                                    FontWeight="{DynamicResource CaptionGlyphWeight}"
                                    Visibility="{DynamicResource CaptionFontGlyphVisibility}"/>
                         <!-- A rectangle with a DOUBLED top edge - the era's title-bar stand-in.
@@ -545,7 +546,7 @@
                                          reserved for the rail's find-in-this-note toggle. -->
                                     <!-- 14, not 11. The field's height is fixed at 26 on the Border, so
                                          the glyph can grow without the box growing with it. -->
-                                    <TextBlock Grid.Column="0" Text="&#xE773;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                    <a11y:Glyph Grid.Column="0" Text="&#xE773;" FontFamily="Segoe MDL2 Assets" FontSize="14"
                                                Foreground="{DynamicResource DimTextBrush}" Margin="8,0,5,0" VerticalAlignment="Center"/>
                                     <Grid Grid.Column="1">
                                         <TextBlock Text="{DynamicResource Str_SearchPlaceholder}" Foreground="{DynamicResource DimTextBrush}"
@@ -699,7 +700,7 @@
                                         ToolTip="{DynamicResource Str_TT_SortTime}"
                                         ContextMenu="{StaticResource SortMenu}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="&#xE823;" FontFamily="Segoe MDL2 Assets" FontSize="13"
+                                        <a11y:Glyph Text="&#xE823;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                                    VerticalAlignment="Center"/>
                                         <TextBlock x:Name="SortTimeArrow" Text="&#x2191;" FontFamily="Segoe UI"
                                                    FontSize="10" VerticalAlignment="Center" Margin="2,0,0,0"/>
@@ -728,7 +729,7 @@
                                         Margin="6,0,0,0" Click="SortCustomBtn_Click" Width="34" Padding="0"
                                         ToolTip="{DynamicResource Str_TT_SortCustom}"
                                         ContextMenu="{StaticResource SortMenu}">
-                                    <TextBlock Text="&#xE76F;" FontFamily="Segoe MDL2 Assets" FontSize="13"
+                                    <a11y:Glyph Text="&#xE76F;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                                VerticalAlignment="Center"/>
                                 </Button>
                             </StackPanel>
@@ -1090,7 +1091,7 @@
                                         </ContextMenu>
                                     </Border.ContextMenu>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                        <a11y:Glyph Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="14"
                                                    VerticalAlignment="Center" Margin="0,0,8,0"
                                                    Foreground="{DynamicResource DimTextBrush}"/>
                                         <TextBlock Text="{DynamicResource Str_Trash}" FontSize="{DynamicResource HeaderFontSize}" FontWeight="{DynamicResource HeaderFontWeight}"
@@ -1111,11 +1112,11 @@
                                   <DockPanel LastChildFill="True">
                                     <!-- Pinned rows only (1.3.1, Pin.cs): a small pin at the right edge.
                                          Docked first so it sits outside the MD badge. -->
-                                    <TextBlock DockPanel.Dock="Right" Text="&#xE718;" FontFamily="Segoe MDL2 Assets"
+                                    <a11y:Glyph DockPanel.Dock="Right" Text="&#xE718;" FontFamily="Segoe MDL2 Assets"
                                                FontSize="10" VerticalAlignment="Center" Margin="6,0,2,0"
                                                ToolTip="{DynamicResource Str_TT_PinBadge}"
                                                Visibility="{Binding PinVisibility}">
-                                        <TextBlock.Style>
+                                        <a11y:Glyph.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
                                                 <Style.Triggers>
@@ -1125,8 +1126,8 @@
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
+                                        </a11y:Glyph.Style>
+                                    </a11y:Glyph>
                                     <!-- Markdown rows only (1.3.0). Collapsed for rich text, so every
                                          note that existed before this looks exactly as it did. -->
                                     <TextBlock DockPanel.Dock="Right" Text="MD" FontSize="9"
@@ -1526,7 +1527,7 @@
                                         <Button Style="{StaticResource KalcBtnAccent}" Tag="print" Click="Kalc_Key"
                                                 Height="32" MinHeight="0" Margin="0,0,3,0" ToolTip="{DynamicResource Str_TT_CalcPrintSum}">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <TextBlock Text="&#xE749;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                                <a11y:Glyph Text="&#xE749;" FontFamily="Segoe MDL2 Assets" FontSize="12"
                                                            VerticalAlignment="Center" Margin="0,0,6,0"/>
                                                 <TextBlock Text="{DynamicResource Str_Btn_CalcPrintSum}" FontSize="12" VerticalAlignment="Center"/>
                                             </StackPanel>
@@ -1534,7 +1535,7 @@
                                         <Button Style="{StaticResource KalcBtnAccent}" Tag="printeq" Click="Kalc_Key"
                                                 Height="32" MinHeight="0" Margin="3,0,0,0" ToolTip="{DynamicResource Str_TT_CalcPrintEq}">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <TextBlock Text="&#xE749;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                                <a11y:Glyph Text="&#xE749;" FontFamily="Segoe MDL2 Assets" FontSize="12"
                                                            VerticalAlignment="Center" Margin="0,0,6,0"/>
                                                 <TextBlock Text="{DynamicResource Str_Btn_CalcPrintEq}" FontSize="12" VerticalAlignment="Center"/>
                                             </StackPanel>
@@ -1792,7 +1793,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Name="FontSizeText" Text="13" FontFamily="{DynamicResource UiFont}" FontSize="11"
                                        VerticalAlignment="Center"/>
-                            <TextBlock Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="7"
+                            <a11y:Glyph Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="7"
                                        Margin="3,2,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
@@ -2378,7 +2379,7 @@
                                 </Grid>
                             </Border>
 
-                            <TextBlock Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                            <a11y:Glyph Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="12"
                                        VerticalAlignment="Center" Margin="0,0,6,0" IsHitTestVisible="False"
                                        Foreground="{DynamicResource MutedTextBrush}"/>
 

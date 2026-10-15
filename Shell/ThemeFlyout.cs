@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using KillerNotes.Services;
+using KillerFamily.Accessibility;
 
 namespace KillerNotes.Shell
 {
@@ -129,7 +130,7 @@ namespace KillerNotes.Shell
             // The explicit Style is what keeps the TargetType=MenuItem ItemContainerStyle from
             // being applied to it - the same rule the Separator above follows.
             var row = new StackPanel { Orientation = Orientation.Horizontal };
-            row.Children.Add(new TextBlock
+            row.Children.Add(new Glyph
             {
                 Text = "\uE8D2",                      // MDL2 Font, the glyph KillerShell uses
                 FontFamily = new FontFamily("Segoe MDL2 Assets"),

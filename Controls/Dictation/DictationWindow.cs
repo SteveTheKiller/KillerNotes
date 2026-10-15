@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Shell;
 using System.Windows.Threading;
 using KillerNotes.Services;
+using KillerFamily.Accessibility;
 
 namespace KillerNotes.Controls.Dictation
 {
@@ -727,7 +728,7 @@ namespace KillerNotes.Controls.Dictation
                 : header == L("Str_Dict_UndoEdit", "Undo edit") ? "Alt+Z" : null;
             if (gesture != null) DialogShortcuts.Describe(mi, gesture);
             if (glyph != null)
-                mi.Icon = new TextBlock { Text = glyph, FontFamily = new FontFamily("Segoe MDL2 Assets"), FontSize = 13 };
+                mi.Icon = new Glyph { Text = glyph, FontFamily = new FontFamily("Segoe MDL2 Assets"), FontSize = 13 };
             mi.Click += (_, _) => run();
             return mi;
         }

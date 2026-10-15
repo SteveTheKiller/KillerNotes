@@ -50,6 +50,7 @@ using System.Windows.Shapes;
 using System.Windows.Shell;
 using System.Windows.Threading;
 using KillerNotes.Services;
+using KillerFamily.Accessibility;
 
 namespace KillerNotes.Controls
 {
@@ -643,7 +644,7 @@ namespace KillerNotes.Controls
             var host = new Grid();
             host.SetResourceReference(HeightProperty, "CaptionButtonHeight");
 
-            var font = new TextBlock
+            var font = new Glyph
             {
                 Text = fontGlyph,
                 FontFamily = new FontFamily("Segoe MDL2 Assets"),

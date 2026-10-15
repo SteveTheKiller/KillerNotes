@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using KillerFamily.Accessibility;
 
 namespace KillerNotes.Controls
 {
@@ -575,7 +576,7 @@ namespace KillerNotes.Controls
             // the bevel back over the chip's own 1px border so it rings the button instead of
             // sitting inside it. Draws nothing where the bevel brushes are transparent.
             var content = new Grid();
-            content.Children.Add(new TextBlock { Text = glyph, Foreground = R("TextBrush"), FontSize = 12,
+            content.Children.Add(new Glyph { Text = glyph, Foreground = R("TextBrush"), FontSize = 12,
                 FontFamily = new FontFamily("Segoe MDL2 Assets"),
                 HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center });
             var light = new Border { IsHitTestVisible = false, Margin = new Thickness(-1) };

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -22,6 +23,7 @@ namespace KillerFamily.Accessibility
         private static readonly IMultiValueConverter RunsName = new RunsNameConverter();
         private static Style? _focusStyle;
         private static Style? _compactFocusStyle;
+        private static DataTemplate? _glyphTemplate;
         private static readonly DependencyProperty OwnedNameProperty = DependencyProperty.RegisterAttached(
             "OwnedName", typeof(BindingBase), typeof(AccessibleControls));
         private static readonly DependencyProperty TrackedTooltipProperty = DependencyProperty.RegisterAttached(
@@ -66,6 +68,13 @@ namespace KillerFamily.Accessibility
             // The focus adorner is shown by WPF for keyboard navigation, without changing layout.
             if (control is not Window && control.Focusable && control.FocusVisualStyle == null)
                 control.SetCurrentValue(Control.FocusVisualStyleProperty, IsCompact(control) ? CompactFocusStyle : FocusStyle);
+
+            // An icon given as string content ("&#xE8BB;") is drawn by the content presenter's
+            // own TextBlock, which UI Automation reads out as a private-use character. Drawing it
+            // through a Glyph keeps the same text on screen and leaves the name to the control.
+            if (control is ContentControl glyphHost && glyphHost.Content is string glyphText &&
+                IsGlyph(glyphText) && glyphHost.ContentTemplate == null && glyphHost.ContentTemplateSelector == null)
+                glyphHost.SetCurrentValue(ContentControl.ContentTemplateProperty, GlyphTemplate);
 
             UpdateName(control);
         }
@@ -195,6 +204,27 @@ namespace KillerFamily.Accessibility
             return false;
         }
 
+        private static bool IsGlyph(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return false;
+            foreach (char character in text)
+                if (!char.IsWhiteSpace(character) &&
+                    CharUnicodeInfo.GetUnicodeCategory(character) != UnicodeCategory.PrivateUse)
+                    return false;
+            return true;
+        }
+
+        private static DataTemplate GlyphTemplate => _glyphTemplate ??= BuildGlyphTemplate();
+
+        private static DataTemplate BuildGlyphTemplate()
+        {
+            var glyph = new FrameworkElementFactory(typeof(Glyph));
+            glyph.SetBinding(TextBlock.TextProperty, new Binding());
+            var template = new DataTemplate { VisualTree = glyph };
+            template.Seal();
+            return template;
+        }
+
         private static Style FocusStyle => _focusStyle ??= BuildFocusStyle(2);
 
         /// <summary>
@@ -245,6 +275,31 @@ namespace KillerFamily.Accessibility
 
             public object[] ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo culture) =>
                 [];
+        }
+    }
+
+    /// <summary>
+    /// An icon drawn from a symbol font. The control it decorates carries the name, so the
+    /// glyph stays out of the automation tree instead of being read as a private-use character.
+    /// </summary>
+    internal sealed class Glyph : TextBlock
+    {
+        public Glyph()
+        {
+            // A subclass misses the implicit TextBlock style in scope; reference it explicitly.
+            // A Style set on the element replaces this reference, as it would on a TextBlock.
+            SetResourceReference(StyleProperty, typeof(TextBlock));
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer() => new GlyphAutomationPeer(this);
+
+        private sealed class GlyphAutomationPeer : TextBlockAutomationPeer
+        {
+            internal GlyphAutomationPeer(TextBlock owner) : base(owner) { }
+
+            protected override bool IsControlElementCore() => false;
+
+            protected override bool IsContentElementCore() => false;
         }
     }
 }
