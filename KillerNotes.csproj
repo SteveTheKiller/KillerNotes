@@ -4,7 +4,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net48</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>latest</LangVersion>
+    <!-- The C# version of the .NET SDK that release.ps1 and CI build with. "latest" is newer in
+         Visual Studio, which then suggests syntax the release build cannot compile. -->
+    <LangVersion>14.0</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
