@@ -395,6 +395,24 @@ if ($DryRun) {
     $techNew  = Edit-SiteFact $techNew '(Single signed exe \(~)[0-9.]+ MB'            ('${1}' + $exeMB) 'the Specs table size'
     if ($techNew -ne $techRaw) { [System.IO.File]::WriteAllText($techPath, $techNew) }
 
+    # kn-i18n.js repeats both of those size statements in every translation. Only the English
+    # HTML used to be rewritten here, so all eighteen translations still said 8.2 to 9.0 MB
+    # while English said 9.4. Every translated definition is updated, each locale keeps its
+    # own decimal separator, and a line the pattern cannot read stops the release.
+    $i18nPath  = Join-Path $siteDir 'kn-i18n.js'
+    $i18nRaw   = [System.IO.File]::ReadAllText($i18nPath)
+    $sizeParts = ($exeMB -replace ' MB$', '') -split '[.,]'
+    $sizeRegex = '(?m)^(\s*"(?:t_dist_p1|t_spec_r19v)":\s*"[^\r\n]*?)[0-9]+([.,])[0-9]+(\s*(?:MB|\u041C\u0411))'
+    $sizeLines = [regex]::Matches($i18nRaw, '(?m)^\s*"(?:t_dist_p1|t_spec_r19v)":').Count
+    $sizeHits  = [regex]::Matches($i18nRaw, $sizeRegex).Count
+    if ($sizeLines -eq 0 -or $sizeHits -ne $sizeLines) {
+        Fail "Landing page: kn-i18n.js has $sizeLines translated exe size lines but only $sizeHits matched. Update the pattern in release.ps1 (step 7b)."
+    }
+    $i18nNew = [regex]::Replace($i18nRaw, $sizeRegex, [System.Text.RegularExpressions.MatchEvaluator]{
+        param($m) $m.Groups[1].Value + $sizeParts[0] + $m.Groups[2].Value + $sizeParts[1] + $m.Groups[3].Value
+    })
+    if ($i18nNew -ne $i18nRaw) { [System.IO.File]::WriteAllText($i18nPath, $i18nNew) }
+
     foreach ($page in 'index.html', 'about.html', 'help.html', 'technical.html') {
         $p   = Join-Path $siteDir $page
         $raw = [System.IO.File]::ReadAllText($p)
