@@ -400,6 +400,10 @@ namespace KillerNotes.Shell
             return new Paragraph(run);
         }
 
+        /// <summary>A rich-text heading in the shape Alt+1 to Alt+3 make (Services/Headings.cs).</summary>
+        private static Paragraph DemoH(string text, int level) =>
+            new(new Run(text) { FontWeight = FontWeights.Bold, FontSize = Headings.SizeFor(level, Headings.DefaultBase) });
+
         private static Paragraph DemoMono(string text)
         {
             var p = new Paragraph(new Run(text)) { FontFamily = new FontFamily("Consolas") };
@@ -551,14 +555,18 @@ namespace KillerNotes.Shell
 
         private static FlowDocument DemoOnboarding()
         {
+            // The one demo note with real headings, so the outline pane (Alt+O) has something to list.
             var d = new FlowDocument();
-            d.Blocks.Add(DemoP("Day-one checklist for a new bench tech:"));
+            d.Blocks.Add(DemoH("Day one", 1));
+            d.Blocks.Add(DemoP("Accounts and kit for a new bench tech:"));
             d.Blocks.Add(DemoList(
                 "RMM console account + MFA",
                 "PSA / ticketing login, assign to triage queue",
                 "Bench image USB (kept in the top drawer, re-image monthly)",
-                "Label maker tape - we standardize on 12mm",
-                "Read the escalation matrix BEFORE the first after-hours call"));
+                "Label maker tape - we standardize on 12mm"));
+            d.Blocks.Add(DemoH("Before the first call", 2));
+            d.Blocks.Add(DemoList("Read the escalation matrix BEFORE the first after-hours call"));
+            d.Blocks.Add(DemoH("First week", 2));
             d.Blocks.Add(DemoP("Shadow a senior on the first two site visits. No exceptions.", bold: true));
             return d;
         }
@@ -727,7 +735,7 @@ namespace KillerNotes.Shell
         {
             var d = new FlowDocument();
             d.Blocks.Add(DemoP("Reference shots off the bench. Photographed on the phone and pasted straight into the note.", bold: true));
-            AddPhoto(d, "old_artist_shot_square.jpg", "Bench overview at the start of the week.");
+            AddPhoto(d, "old_artist_shot_square.jpg", "The bench tech at the start of the week.");
             d.Blocks.Add(DemoRule());
             AddPhoto(d, "whatanoddthingtodo.png", "Filed under: things the last tech did.");
             d.Blocks.Add(DemoRule());
