@@ -39,4 +39,47 @@ jobs:
 
           # Pack and push
           choco pack choco\killernotes.nuspec --out "$env:RUNNER_TEMP"
-          choco push "$env:RUNNER_TEMP\killernotes.$version.nupkg" --source https://push.chocolatey.org --api-key $env:CHOCO_API_KEY
+          if ($LASTEXITCODE -ne 0) { throw "choco pack failed." }
+          $package = "$env:RUNNER_TEMP\killernotes.$version.nupkg"
+          choco push $package --source https://push.chocolatey.org --api-key $env:CHOCO_API_KEY
+          if ($LASTEXITCODE -ne 0) { throw "choco push failed." }
+          "CHOCO_VERSION=$version" >> $env:GITHUB_ENV
+          "CHOCO_PACKAGE=$package" >> $env:GITHUB_ENV
+
+      # A successful push is not an accepted package. Chocolatey validates it later, and its
+      # validator sometimes fails with "We were unable to find a package" while its own service
+      # is degraded; its instruction is to upload the package again. Watch the result, re-push
+      # once on a failure, and fail this job if validation still fails so it never goes unnoticed.
+      - name: Wait for Chocolatey validation
+        shell: pwsh
+        timeout-minutes: 170
+        env:
+          CHOCO_API_KEY: ${{ secrets.CHOCOLATEY_API_KEY }}
+        run: |
+          $page = "https://community.chocolatey.org/packages/killernotes/$env:CHOCO_VERSION"
+          $repushed = $false
+          $pendingSinceRepush = $false
+          $deadline = (Get-Date).AddMinutes(160)
+          while ((Get-Date) -lt $deadline) {
+              Start-Sleep -Seconds 300
+              try {
+                  $html = (Invoke-WebRequest $page -UseBasicParsing -TimeoutSec 90).Content
+              } catch {
+                  Write-Host "Package page unavailable: $($_.Exception.Message). Retrying."
+                  continue
+              }
+              $state = [regex]::Match($html, 'Validation Testing (Passed|Failed|Pending)').Groups[1].Value
+              Write-Host "$(Get-Date -Format HH:mm:ss) validation: $(if ($state) { $state } else { 'not shown' })"
+              if ($state -eq 'Passed') { exit 0 }
+              if ($state -eq 'Pending' -and $repushed) { $pendingSinceRepush = $true }
+              if ($state -ne 'Failed') { continue }
+              if (-not $repushed) {
+                  Write-Host "Validation failed. Pushing the same package again as Chocolatey instructs."
+                  choco push $env:CHOCO_PACKAGE --source https://push.chocolatey.org --api-key $env:CHOCO_API_KEY
+                  if ($LASTEXITCODE -ne 0) { throw "Re-push to Chocolatey failed." }
+                  $repushed = $true
+              } elseif ($pendingSinceRepush) {
+                  throw "Chocolatey validation failed twice. See $page"
+              }
+          }
+          throw "Chocolatey validation did not pass within 160 minutes. See $page"
