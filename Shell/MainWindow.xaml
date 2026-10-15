@@ -1685,7 +1685,7 @@
                     <Border Panel.ZIndex="20" IsHitTestVisible="False" Margin="-2"
                             BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="0,0,2,2"/>
                     <!-- Film grain across the bar, KillerPDF-style; stays put when minimized -->
-                    <Border IsHitTestVisible="False" CornerRadius="{DynamicResource FlyoutCornerRadius}" Margin="-2"
+                    <Border IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=FormatBar}" Margin="-2"
                             Opacity="{DynamicResource GrainOpacity}"
                             Background="{DynamicResource GrainTileBrush}"/>
 

@@ -50,6 +50,7 @@ namespace KillerNotes.Shell
             // (covers both window resizes and sidebar-splitter drags).
             if (FormatBar.Parent is FrameworkElement hostEl)
                 hostEl.SizeChanged += (_, _) => PositionFormatBar();
+            ThemeManager.ThemeChanged += UpdateFormatBarCorners;
             // The bar also changes width on its own (the preview chip appears on a markdown
             // note), and the title has to move with its edge.
             FormatBar.SizeChanged += (_, _) => ClearTitleOfFormatBar();
@@ -128,6 +129,7 @@ namespace KillerNotes.Shell
                 FormatBar.HorizontalAlignment = HorizontalAlignment.Left;
                 FormatBar.Margin = new Thickness(left, FormatBar.Margin.Top, 0, 0);
                 ClearTitleOfFormatBar();
+                UpdateFormatBarCorners();
             };
             grip.MouseLeftButtonUp += (s, e) =>
             {
@@ -206,6 +208,27 @@ namespace KillerNotes.Shell
                     : new Thickness(gap, top, 0, 0);
             }
             ClearTitleOfFormatBar();
+            UpdateFormatBarCorners();
+        }
+
+        /// <summary>The bar hangs from the pane's top edge, so its top corners are square where they
+        /// meet that edge. A top corner rounds only when the bar sits flush against the pane's side,
+        /// where it fills the pane's own rounded corner (ControlCornerRadius, as the pane's grain
+        /// layer uses). The bottom corners follow the theme's flyout radius.</summary>
+        private void UpdateFormatBarCorners()
+        {
+            if (FormatBar.Parent is not FrameworkElement host) return;
+            var flyout = TryFindResource("FlyoutCornerRadius") is CornerRadius fr ? fr : new CornerRadius(6);
+            var pane = TryFindResource("ControlCornerRadius") is CornerRadius pr ? pr : new CornerRadius(0);
+            double hw = host.ActualWidth, bw = FormatBar.ActualWidth;
+            double left = FormatBar.HorizontalAlignment == HorizontalAlignment.Right
+                ? hw - bw - FormatBar.Margin.Right
+                : FormatBar.Margin.Left;
+            bool atLeft = bw > 0 && left <= 0.5;
+            bool atRight = bw > 0 && hw - (left + bw) <= 0.5;
+            var radius = new CornerRadius(atLeft ? pane.TopLeft : 0, atRight ? pane.TopRight : 0,
+                flyout.BottomRight, flyout.BottomLeft);
+            if (FormatBar.CornerRadius != radius) FormatBar.CornerRadius = radius;
         }
 
         /// <summary>The expanded bar sits beside the title, so the title gives up the side the bar
