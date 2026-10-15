@@ -212,11 +212,12 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} herunterladen und installieren?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">Die App wird automatisch geschlossen und neu geöffnet.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aktualisieren</sys:String>
-    <sys:String x:Key="Str_Btn_NotNow">Nicht jetzt</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Beim Start nach Updates suchen</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateHead">{0} {1} ist verfügbar</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Möchten Sie diese Version jetzt herunterladen und installieren? Die App wird geschlossen und automatisch neu geöffnet.</sys:String>
-    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Beim Start immer nach Updates suchen</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} ist verfügbar</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateDetail">Möchten Sie diese Version jetzt herunterladen und installieren? Die App wird geschlossen und automatisch neu geöffnet.</sys:String>
+    <sys:String x:Key="Str_About_UpdateNow">Aktualisieren</sys:String>
+    <sys:String x:Key="Str_About_NotNow">Nicht jetzt</sys:String>
+    <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Beim Start immer nach Updates suchen</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Tastenkürzel</sys:String>

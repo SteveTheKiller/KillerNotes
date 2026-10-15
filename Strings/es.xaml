@@ -213,11 +213,12 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateHead">¿Descargar e instalar {0} {1}?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">La aplicación se cerrará y volverá a abrir automáticamente.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Actualizar</sys:String>
-    <sys:String x:Key="Str_Btn_NotNow">Ahora no</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Buscar actualizaciones al iniciar</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateHead">{0} {1} está disponible</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateBody">¿Quieres descargarlo e instalarlo ahora? La aplicación se cerrará y volverá a abrirse automáticamente.</sys:String>
-    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Buscar siempre actualizaciones al iniciar</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} está disponible</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateDetail">¿Quieres descargarlo e instalarlo ahora? La aplicación se cerrará y volverá a abrirse automáticamente.</sys:String>
+    <sys:String x:Key="Str_About_UpdateNow">Actualizar</sys:String>
+    <sys:String x:Key="Str_About_NotNow">Ahora no</sys:String>
+    <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Buscar siempre actualizaciones al iniciar</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Atajos de teclado</sys:String>

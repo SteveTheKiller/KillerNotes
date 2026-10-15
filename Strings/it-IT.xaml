@@ -402,11 +402,12 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateHead">Scaricare e installare {0} {1}?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">L'app si chiuderà e si riaprirà automaticamente.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aggiorna</sys:String>
-    <sys:String x:Key="Str_Btn_NotNow">Non ora</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">All'avvio cerca aggiornamenti</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateHead">È disponibile {0} {1}</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Vuoi scaricarlo e installarlo ora? L'app si chiuderà e si riaprirà automaticamente.</sys:String>
-    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">All'avvio controlla sempre aggiornamenti</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateHeading">È disponibile {0} {1}</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateDetail">Vuoi scaricarlo e installarlo ora? L'app si chiuderà e si riaprirà automaticamente.</sys:String>
+    <sys:String x:Key="Str_About_UpdateNow">Aggiorna</sys:String>
+    <sys:String x:Key="Str_About_NotNow">Non ora</sys:String>
+    <sys:String x:Key="Str_About_AlwaysCheckOnStartup">All'avvio controlla sempre aggiornamenti</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Scorciatoie da tastiera</sys:String>

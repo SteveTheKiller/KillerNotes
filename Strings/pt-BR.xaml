@@ -429,11 +429,12 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateHead">Baixar e instalar {0} {1}?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">O aplicativo será fechado e reaberto automaticamente.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Atualizar</sys:String>
-    <sys:String x:Key="Str_Btn_NotNow">Agora não</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Verificar atualizações ao iniciar</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateHead">O {0} {1} está disponível</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Deseja baixá-lo e instalá-lo agora? O aplicativo será fechado e reaberto automaticamente.</sys:String>
-    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Sempre verificar ao iniciar</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateHeading">O {0} {1} está disponível</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateDetail">Deseja baixá-lo e instalá-lo agora? O aplicativo será fechado e reaberto automaticamente.</sys:String>
+    <sys:String x:Key="Str_About_UpdateNow">Atualizar</sys:String>
+    <sys:String x:Key="Str_About_NotNow">Agora não</sys:String>
+    <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Sempre verificar ao iniciar</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Atalhos de teclado</sys:String>

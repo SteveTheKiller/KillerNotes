@@ -429,11 +429,12 @@
     <sys:String x:Key="Str_Dlg_UpdateHead">Завантажити й встановити {0} {1}?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">Застосунок закриється та відкриється знову автоматично.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Оновити</sys:String>
-    <sys:String x:Key="Str_Btn_NotNow">Не зараз</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Перевіряти оновлення під час запуску</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateHead">Доступний {0} {1}</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Завантажити та встановити зараз? Програма закриється та відкриється знову автоматично.</sys:String>
-    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Завжди перевіряти під час запуску</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateHeading">Доступний {0} {1}</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateDetail">Завантажити та встановити зараз? Програма закриється та відкриється знову автоматично.</sys:String>
+    <sys:String x:Key="Str_About_UpdateNow">Оновити</sys:String>
+    <sys:String x:Key="Str_About_NotNow">Не зараз</sys:String>
+    <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Завжди перевіряти під час запуску</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Сполучення клавіш</sys:String>

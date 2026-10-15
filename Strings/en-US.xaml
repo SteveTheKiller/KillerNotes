@@ -429,11 +429,12 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateHead">Download and install {0} {1}?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">The app will close and reopen automatically.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Update</sys:String>
-    <sys:String x:Key="Str_Btn_NotNow">Not now</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Check for updates on startup</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateHead">{0} {1} is available</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Would you like to download and install it now? The app will close and reopen automatically.</sys:String>
-    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Always check on startup</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} is available</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateDetail">Would you like to download and install it now? The app will close and reopen automatically.</sys:String>
+    <sys:String x:Key="Str_About_UpdateNow">Update</sys:String>
+    <sys:String x:Key="Str_About_NotNow">Not now</sys:String>
+    <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Always check on startup</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Keyboard shortcuts</sys:String>

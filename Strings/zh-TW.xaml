@@ -211,11 +211,12 @@
     <sys:String x:Key="Str_Dlg_UpdateHead">下載並安裝 {0} {1}?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">應用程式會自動關閉並重新開啟。</sys:String>
     <sys:String x:Key="Str_Btn_Update">更新</sys:String>
-    <sys:String x:Key="Str_Btn_NotNow">稍後再說</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">啟動時檢查更新</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateHead">{0} {1} 已推出</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateBody">要立即下載並安裝嗎？應用程式將關閉並自動重新開啟。</sys:String>
-    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">啟動時一律檢查更新</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} 已推出</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateDetail">要立即下載並安裝嗎？應用程式將關閉並自動重新開啟。</sys:String>
+    <sys:String x:Key="Str_About_UpdateNow">更新</sys:String>
+    <sys:String x:Key="Str_About_NotNow">稍後再說</sys:String>
+    <sys:String x:Key="Str_About_AlwaysCheckOnStartup">啟動時一律檢查更新</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">鍵盤快速鍵</sys:String>

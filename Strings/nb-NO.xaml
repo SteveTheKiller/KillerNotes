@@ -427,11 +427,12 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateHead">Laste ned og installere {0} {1}?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">Appen lukkes og åpnes automatisk igjen.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Oppdater</sys:String>
-    <sys:String x:Key="Str_Btn_NotNow">Ikke nå</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Se etter oppdateringer ved oppstart</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateHead">{0} {1} er tilgjengelig</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Vil du laste den ned og installere den nå? Appen lukkes og åpnes på nytt automatisk.</sys:String>
-    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Se alltid etter ved oppstart</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} er tilgjengelig</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateDetail">Vil du laste den ned og installere den nå? Appen lukkes og åpnes på nytt automatisk.</sys:String>
+    <sys:String x:Key="Str_About_UpdateNow">Oppdater</sys:String>
+    <sys:String x:Key="Str_About_NotNow">Ikke nå</sys:String>
+    <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Se alltid etter ved oppstart</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Hurtigtaster</sys:String>

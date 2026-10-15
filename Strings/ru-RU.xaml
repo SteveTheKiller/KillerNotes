@@ -402,11 +402,12 @@
     <sys:String x:Key="Str_Dlg_UpdateHead">Загрузить и установить {0} {1}?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">Приложение закроется и откроется снова автоматически.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Обновить</sys:String>
-    <sys:String x:Key="Str_Btn_NotNow">Не сейчас</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Проверять обновления при запуске</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateHead">Доступен {0} {1}</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Хотите скачать и установить его сейчас? Приложение закроется и снова откроется автоматически.</sys:String>
-    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Всегда проверять обновления при запуске</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateHeading">Доступен {0} {1}</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateDetail">Хотите скачать и установить его сейчас? Приложение закроется и снова откроется автоматически.</sys:String>
+    <sys:String x:Key="Str_About_UpdateNow">Обновить</sys:String>
+    <sys:String x:Key="Str_About_NotNow">Не сейчас</sys:String>
+    <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Всегда проверять обновления при запуске</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Сочетания клавиш</sys:String>

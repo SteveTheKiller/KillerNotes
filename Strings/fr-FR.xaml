@@ -212,11 +212,12 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateHead">Télécharger et installer {0} {1} ?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">L'application se fermera et se rouvrira automatiquement.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Mettre à jour</sys:String>
-    <sys:String x:Key="Str_Btn_NotNow">Pas maintenant</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Rechercher les mises à jour au démarrage</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateHead">{0} {1} est disponible</sys:String>
-    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Voulez-vous le télécharger et l'installer maintenant ? L'application se fermera et rouvrira automatiquement.</sys:String>
-    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Toujours rechercher les mises à jour au démarrage</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} est disponible</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateDetail">Voulez-vous le télécharger et l'installer maintenant ? L'application se fermera et rouvrira automatiquement.</sys:String>
+    <sys:String x:Key="Str_About_UpdateNow">Mettre à jour</sys:String>
+    <sys:String x:Key="Str_About_NotNow">Pas maintenant</sys:String>
+    <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Toujours rechercher les mises à jour au démarrage</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Raccourcis clavier</sys:String>
