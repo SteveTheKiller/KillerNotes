@@ -13,8 +13,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Added the Windows 11 snap layouts menu to the maximize button.
 
 ### Changed
-- The wordmarks use Punktype and Lacquer, and the interface text, headings and footers use Killer Sans, in place of the typewriter font in the app and on the website.
-- Confirm, install and uninstall dialogs use the family setup dialog layout, with a notice icon, a larger Killer Sans heading and evenly sized buttons.
+- The wordmarks use Punktype and Lacquer, the sidebar group and Trash headings use Lacquer, and the interface text and footers use Killer Sans, in place of the typewriter font in the app and on the website.
+- Confirm, install and uninstall dialogs use the family setup dialog layout, with a notice icon, a larger Lacquer heading and evenly sized buttons.
 - The Malaise theme's note pane is a shade darker than the window around it, in the app and on the website.
 - Every context-menu action shows an icon beside its keyboard shortcut, including the graph, SketchPad, recording, format bar and file picker menus, and the syntax, word wrap and spell check rows keep their icon in the same column as the rest.
 

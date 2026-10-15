@@ -50,8 +50,28 @@ namespace KillerNotes.Shell
         private static void ApplyFontSlot(string setting, string resKey)
         {
             var fam = ResolveFamily(App.GetSetting(setting) ?? "");
-            if (fam is null) Application.Current.Resources.Remove(resKey);   // Controls.xaml default
+            if (fam is null) Application.Current.Resources.Remove(resKey);   // shipped default
             else Application.Current.Resources[resKey] = fam;
+            if (resKey == "HeaderFont") ApplyHeaderMetrics(fam is not null);
+        }
+
+        /// <summary>The Lacquer header default is regular weight at 15 with a pulled-in bottom
+        /// margin (ThemeManager). A picked header font gets the bold 18 headings it always had.</summary>
+        private static void ApplyHeaderMetrics(bool custom)
+        {
+            var res = Application.Current.Resources;
+            if (custom)
+            {
+                res["HeaderFontWeight"] = FontWeights.Bold;
+                res["HeaderFontSize"] = 18.0;
+                res["HeaderTextMargin"] = new Thickness(0);
+            }
+            else
+            {
+                res.Remove("HeaderFontWeight");
+                res.Remove("HeaderFontSize");
+                res.Remove("HeaderTextMargin");
+            }
         }
 
         private static FontFamily? ResolveFamily(string v)

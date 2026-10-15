@@ -32,6 +32,7 @@ namespace KillerNotes.Services
     {
         /// <summary>Killer Sans UI (Killer Sans scaled to Segoe UI proportions) with the Segoe fallback stack.</summary>
         internal static readonly FontFamily KillerSansUiStack = new(new Uri("pack://application:,,,/"), "./Fonts/#Killer Sans UI, Segoe UI, Microsoft JhengHei UI, Nirmala UI");
+        internal static readonly FontFamily LacquerHeadingStack = new(new Uri("pack://application:,,,/"), "./Fonts/#Lacquer, ./Fonts/#Killer Sans UI, Segoe UI, Microsoft JhengHei UI, Nirmala UI");
         internal static readonly FontFamily KillerSansFont = new(new Uri("pack://application:,,,/"), "./Fonts/#Killer Sans");
         // ---- Persistence hooks (optional). Default: in-memory only. ----
         public static Func<string, string?> GetSetting { get; set; } = _ => null;
@@ -308,6 +309,16 @@ namespace KillerNotes.Services
             // own face; a font picked in Fonts still overrides it from the top-level dictionary.
             SetIfAbsent(newDict, "SidebarFont", new FontFamily(new Uri("pack://application:,,,/"),
                 "/KillerNotes;component/Fonts/#Killer Sans UI, Segoe UI"));
+            // The header slot (group and Trash headings): Lacquer, the app-name face of the wordmark.
+            // It has no bold cut, so it is set at its regular weight, at 20 so its capitals stand above
+            // the note titles; the bottom margin takes back part of the room its drips reserve so the
+            // header rows stay compact in every density. 98SE keeps Killer Sans bold at 18. A font
+            // picked in Fonts overrides all four from the top-level dictionary (Fonts.cs).
+            SetIfAbsent(newDict, "HeaderFont", new FontFamily(new Uri("pack://application:,,,/"),
+                flatCaption ? "/KillerNotes;component/Fonts/#Killer Sans" : "/KillerNotes;component/Fonts/#Lacquer"));
+            SetIfAbsent(newDict, "HeaderFontWeight", flatCaption ? FontWeights.Bold : FontWeights.Normal);
+            SetIfAbsent(newDict, "HeaderFontSize", flatCaption ? 18.0 : 20.0);
+            SetIfAbsent(newDict, "HeaderTextMargin", flatCaption ? new Thickness(0) : new Thickness(0, 0, 0, -4));
             // Extra gap before the close button. Win98 sat minimize and maximize flush together and
             // pushed close a couple of pixels clear of them.
             SetIfAbsent(newDict, "CaptionCloseGap", new Thickness(0));
@@ -450,6 +461,10 @@ namespace KillerNotes.Services
             // The titlebar database name sits on the wordmark baseline: Killer Sans, dropped 2px to meet the
             // bottom of "Killer". A flat caption keeps the caption font beside its plain title.
             SetIfAbsent(newDict, "FileNameFont", flatCaption ? newDict["ChromeFontFamily"] : KillerSansFont);
+            // Primary headings (dialog headings, page and period titles): Lacquer, the app-name face of
+            // the wordmark, falling back to Killer Sans UI for scripts Lacquer does not cover. 98SE keeps
+            // Killer Sans. Secondary headings, the footer and the interface stay Killer Sans.
+            SetIfAbsent(newDict, "HeadingFont", flatCaption ? KillerSansFont : LacquerHeadingStack);
             SetIfAbsent(newDict, "FileNameFontSize", flatCaption ? 11.0 : 18.0);
             if (!newDict.Contains("FileNameTransform"))
             {

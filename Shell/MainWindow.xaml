@@ -1041,8 +1041,8 @@
                                          indicator; clicking the header toggles collapse and the line grows down
                                          through the notes / shrinks back to the header. -->
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"
-                                                       FontFamily="{DynamicResource HeaderFont}"
+                                            <TextBlock Text="{Binding Name}" FontSize="{DynamicResource HeaderFontSize}" FontWeight="{DynamicResource HeaderFontWeight}"
+                                                       FontFamily="{DynamicResource HeaderFont}" Margin="{DynamicResource HeaderTextMargin}"
                                                        VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
                                                 <!-- Colored per group when NameColor is set; the DataTrigger keeps
                                                      uncolored names on the theme-reactive TextBrush (issue #8) -->
@@ -1093,8 +1093,8 @@
                                         <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="14"
                                                    VerticalAlignment="Center" Margin="0,0,8,0"
                                                    Foreground="{DynamicResource DimTextBrush}"/>
-                                        <TextBlock Text="{DynamicResource Str_Trash}" FontSize="18" FontWeight="Bold"
-                                                   FontFamily="{DynamicResource HeaderFont}"
+                                        <TextBlock Text="{DynamicResource Str_Trash}" FontSize="{DynamicResource HeaderFontSize}" FontWeight="{DynamicResource HeaderFontWeight}"
+                                                   FontFamily="{DynamicResource HeaderFont}" Margin="{DynamicResource HeaderTextMargin}"
                                                    Foreground="{DynamicResource MutedTextBrush}"
                                                    VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                                         <TextBlock Text="{Binding CountDisplay}" FontSize="10" Margin="6,0,0,0"
@@ -2977,7 +2977,7 @@
                             <!-- Fixed preview heights: fonts differ wildly in line height, and a
                                  resizing card made wheel-browsing feel like the window was jumping -->
                             <TextBlock Text="{DynamicResource Str_Fonts_PrevHead}" FontFamily="{DynamicResource HeaderFont}"
-                                       FontSize="17" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"
+                                       FontSize="17" FontWeight="{DynamicResource HeaderFontWeight}" Foreground="{DynamicResource PrimaryBrush}"
                                        Height="30" ClipToBounds="True"
                                        Margin="2,7,0,14" TextTrimming="CharacterEllipsis"/>
                             <TextBlock Text="{DynamicResource Str_Fonts_Sidebar}" Foreground="{DynamicResource DimTextBrush}"

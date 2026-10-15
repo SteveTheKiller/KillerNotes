@@ -43,7 +43,7 @@
                     <StackPanel Grid.Column="1">
                     <TextBlock x:Name="HeadingText" Text="Install KillerNotes to your user profile?"
                                Foreground="{StaticResource TextBrush}"
-                               FontFamily="{DynamicResource BrandSansFont}" FontSize="18"
+                               FontFamily="{DynamicResource HeadingFont}" FontSize="18"
                                                TextOptions.TextFormattingMode="Ideal" TextWrapping="Wrap"/>
                     <TextBlock x:Name="DetailText" Foreground="{StaticResource MutedTextBrush}"
                                FontSize="12" LineHeight="19" TextWrapping="Wrap" Margin="0,10,0,0">
