@@ -85,4 +85,7 @@ jobs:
                   throw "Chocolatey validation failed twice. See $page"
               }
           }
-          throw "Chocolatey validation did not pass within 160 minutes. See $page"
+          # Chocolatey's queue often takes longer than this. The package is already pushed, so a
+          # validation that is still pending is a warning, not a failed release.
+          Write-Host "::warning::Chocolatey validation was still pending after 160 minutes. The package was pushed. See $page"
+          exit 0
