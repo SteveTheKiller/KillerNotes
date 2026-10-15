@@ -152,10 +152,14 @@ namespace KillerNotes.Shell
         private void UpdatePreviewState(bool preserveScroll = false)
         {
             string text = EditorPlainText();
+            var previousKind = _docKind;
             // A note stored as markdown is markdown whatever its text looks like, so it always
             // gets the preview and F4. Detection only guesses for rich-text notes.
             _docKind = CurrentIsMarkdown ? DocKind.Markdown
                 : DetectMarkdownGlobally ? DetectDocKind(text) : DocKind.None;
+            // The outline reads # headings from a detected markdown note (Headings.cs), and it is
+            // built before this runs on a note load, so a change of kind rebuilds it.
+            if (_docKind != previousKind) RefreshOutline();
             bool detected = _docKind != DocKind.None;
             PreviewMenuItem.Visibility = detected ? Visibility.Visible : Visibility.Collapsed;
             PreviewModeBtn.Visibility = PreviewMenuItem.Visibility;

@@ -47,6 +47,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Menu separators draw their divider line instead of leaving an empty gap.
 - Context menus use Killer Sans UI like the rest of the interface instead of Segoe UI.
 - The format bar no longer covers the note title when it is moved to the left or the middle of the pane, and a long title stops short of the bar instead of running under it.
+- The outline lists the # headings of a note detected as markdown, not only of notes saved as markdown.
 
 ## [1.4.3] - 2026-10-08
 

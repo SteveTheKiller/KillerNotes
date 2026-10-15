@@ -167,15 +167,19 @@ namespace KillerNotes.Shell
             OutlineList.Items.Clear();
             if (_currentId < 0) { OutlineEmpty.Visibility = Visibility.Collapsed; return; }
 
-            bool md = CurrentIsMarkdown;
+            // A rich-text note the preview detects as markdown (Preview.cs) lists its # headings
+            // too, as the preview shows them, alongside any heading-styled paragraphs.
+            bool storedMd = CurrentIsMarkdown;
+            bool readMd = storedMd || _docKind == DocKind.Markdown;
             double base_ = Editor.FontSize;
             int count = 0;
             foreach (var p in AllParagraphs(Editor.Document.Blocks))   // Checklist.cs
             {
                 string text = TextOf(p);
-                int level = md ? Headings.LevelOfMarkdown(text) : Headings.LevelOf(p, base_);
+                int mdLevel = readMd ? Headings.LevelOfMarkdown(text) : 0;
+                int level = mdLevel > 0 ? mdLevel : storedMd ? 0 : Headings.LevelOf(p, base_);
                 if (level == 0) continue;
-                string label = (md ? text[(level + 1)..] : text).Trim();
+                string label = (mdLevel > 0 ? text[(mdLevel + 1)..] : text).Trim();
                 if (label.Length == 0) continue;
 
                 var tb = new TextBlock
