@@ -287,6 +287,11 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateHead">Stáhnout a nainstalovat {0} {1}?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">Aplikace se automaticky zavře a znovu otevře.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aktualizovat</sys:String>
+    <sys:String x:Key="Str_Btn_NotNow">Teď ne</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateCheck">Kontrolovat aktualizace při spuštění</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateHead">Je k dispozici {0} {1}</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Chcete jej nyní stáhnout a nainstalovat? Aplikace se zavře a automaticky znovu otevře.</sys:String>
+    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Vždy kontrolovat aktualizace při spuštění</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Klávesové zkratky</sys:String>

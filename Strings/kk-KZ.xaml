@@ -402,6 +402,11 @@
     <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} жүктеп орнату керек пе?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">Қолданба жабылып, автоматты түрде қайта ашылады.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Жаңарту</sys:String>
+    <sys:String x:Key="Str_Btn_NotNow">Қазір емес</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateCheck">Іске қосылғанда жаңартуларды тексеру</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateHead">{0} {1} қолжетімді</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Оны қазір жүктеп, орнатқыңыз келе ме? Қолданба автоматты түрде жабылып, қайта ашылады.</sys:String>
+    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Іске қосылғанда жаңартуларды әрдайым тексеру</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Пернелер тіркесімдері</sys:String>

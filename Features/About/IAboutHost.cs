@@ -34,6 +34,9 @@ namespace KillerNotes.Features.About
         bool UpdateVisible { set; }
         bool UpdateEnabled { set; }
 
+        /// <summary>The "Check for updates on startup" checkbox, first of the card's checkboxes.</summary>
+        bool StartupUpdateCheck { set; }
+
         /// <summary>True under --demo, where the card is rendered in its signed state so marketing
         /// captures from an unsigned local build match the release (DemoMode.cs).</summary>
         bool DemoPreview { get; }

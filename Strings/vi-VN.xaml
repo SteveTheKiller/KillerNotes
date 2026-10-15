@@ -430,6 +430,11 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Dlg_UpdateHead">Tải xuống và cài đặt {0} {1}?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">Ứng dụng sẽ tự động đóng và mở lại.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Cập nhật</sys:String>
+    <sys:String x:Key="Str_Btn_NotNow">Để sau</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateCheck">Kiểm tra cập nhật khi khởi động</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateHead">Phiên bản {0} {1} đã có sẵn</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Bạn có muốn tải xuống và cài đặt ngay bây giờ không? Ứng dụng sẽ tự động đóng và mở lại.</sys:String>
+    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Luôn kiểm tra khi khởi động</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Phím tắt bàn phím</sys:String>

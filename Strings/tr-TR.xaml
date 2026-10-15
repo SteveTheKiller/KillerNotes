@@ -212,6 +212,11 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} indirilip kurulsun mu?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">Uygulama otomatik olarak kapanıp yeniden açılır.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Güncelle</sys:String>
+    <sys:String x:Key="Str_Btn_NotNow">Şimdi değil</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateCheck">Başlangıçta güncellemeleri denetle</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateHead">{0} {1} kullanılabilir</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Şimdi indirip yüklemek ister misiniz? Uygulama kapanacak ve otomatik olarak yeniden açılacak.</sys:String>
+    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Başlangıçta her zaman güncellemeleri denetle</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">Klavye kısayolları</sys:String>

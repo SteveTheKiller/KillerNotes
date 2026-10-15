@@ -211,6 +211,11 @@
     <sys:String x:Key="Str_Dlg_UpdateHead">{0} {1} ডাউনলোড করে ইনস্টল করবেন?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">অ্যাপটি নিজে থেকে বন্ধ হয়ে আবার খুলবে।</sys:String>
     <sys:String x:Key="Str_Btn_Update">আপডেট</sys:String>
+    <sys:String x:Key="Str_Btn_NotNow">এখন নয়</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateCheck">অ্যাপ চালু হলে আপডেট পরীক্ষা করুন</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateHead">{0} {1} উপলব্ধ</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateBody">এখনই এটি ডাউনলোড করে ইনস্টল করবেন? অ্যাপটি বন্ধ হয়ে স্বয়ংক্রিয়ভাবে আবার খুলবে।</sys:String>
+    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">অ্যাপ চালু হলে সর্বদা আপডেট পরীক্ষা করুন</sys:String>
 
     <!-- Shortcuts overlay (list view) -->
     <sys:String x:Key="Str_KS_Title">কীবোর্ড শর্টকাট</sys:String>

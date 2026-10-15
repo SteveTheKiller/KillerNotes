@@ -331,6 +331,11 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateHead">Pobrać i zainstalować {0} {1}?</sys:String>
     <sys:String x:Key="Str_Dlg_UpdateBody">Aplikacja zamknie się i otworzy ponownie automatycznie.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aktualizuj</sys:String>
+    <sys:String x:Key="Str_Btn_NotNow">Nie teraz</sys:String>
+    <sys:String x:Key="Str_About_StartupUpdateCheck">Sprawdzaj aktualizacje przy uruchamianiu</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateHead">Dostępny jest {0} {1}</sys:String>
+    <sys:String x:Key="Str_Dlg_StartupUpdateBody">Czy chcesz go teraz pobrać i zainstalować? Aplikacja zamknie się i otworzy ponownie automatycznie.</sys:String>
+    <sys:String x:Key="Str_Dlg_AlwaysCheckOnStartup">Zawsze sprawdzaj aktualizacje przy uruchamianiu</sys:String>
     <sys:String x:Key="Str_KS_Title">Skróty klawiaturowe</sys:String>
     <sys:String x:Key="Str_KS_ViewList">LISTA</sys:String>
     <sys:String x:Key="Str_KS_ViewKeyboard">KLAWIATURA</sys:String>

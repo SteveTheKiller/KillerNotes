@@ -57,6 +57,8 @@ namespace KillerNotes.Shell
 
         bool IAboutHost.UpdateEnabled { set => AboutUpdateButton.IsEnabled = value; }
 
+        bool IAboutHost.StartupUpdateCheck { set => AboutStartupUpdateCheck.IsChecked = value; }
+
         bool IAboutHost.DemoPreview => DemoMode;
 
         void IAboutHost.ShowCard()
@@ -100,6 +102,9 @@ namespace KillerNotes.Shell
         private void AboutVersion_Click(object sender, MouseButtonEventArgs e) => _about.OpenReleaseNotes();
 
         private void AboutUpdateButton_Click(object sender, RoutedEventArgs e) => _about.Update();
+
+        private void AboutStartupUpdateCheck_Click(object sender, RoutedEventArgs e)
+            => _about.SetStartupCheck(AboutStartupUpdateCheck.IsChecked == true);
 
         private void AboutLink_Navigate(object sender, RequestNavigateEventArgs e)
         {

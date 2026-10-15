@@ -91,6 +91,8 @@ namespace KillerNotes.Shell
                         if (DemoMode && DemoFresh) GenerateDemoNotes();   // DemoMode.cs (--demo, fresh db only)
                     }
                     finally { HideDatabaseLoading(loading); }
+                    // After the unlock prompt, so an update offer never stacks on it (About.cs).
+                    _about.CheckOnStartup();
                     // After the window is idle, so a due backup never delays the first paint.
                     Dispatcher.BeginInvoke(new Action(RunScheduledBackup),   // Backup.cs
                         System.Windows.Threading.DispatcherPriority.ApplicationIdle);

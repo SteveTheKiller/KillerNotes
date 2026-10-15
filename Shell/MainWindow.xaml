@@ -2873,6 +2873,13 @@
                                 </Border>
                             </Grid>
 
+                            <!-- About options sit below the identity pane, the startup check first. -->
+                            <StackPanel Margin="0,12,0,0" HorizontalAlignment="Left">
+                                <CheckBox x:Name="AboutStartupUpdateCheck"
+                                          Content="{DynamicResource Str_About_StartupUpdateCheck}"
+                                          FontSize="11" Click="AboutStartupUpdateCheck_Click"/>
+                            </StackPanel>
+
                             <!-- Update notice: shown only when a newer release is found -->
                             <Button x:Name="AboutUpdateButton" Visibility="Collapsed" Margin="0,14,0,0"
                                     HorizontalAlignment="Left" Cursor="Hand" Click="AboutUpdateButton_Click">
