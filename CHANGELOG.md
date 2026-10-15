@@ -18,6 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Confirm, install and uninstall dialogs use the family setup dialog layout, with a notice icon, a larger Lacquer heading and evenly sized buttons.
 - The Malaise theme's note pane is a shade darker than the window around it, in the app and on the website.
 - Every context-menu action shows an icon beside its keyboard shortcut, including the graph, SketchPad, recording, format bar and file picker menus, and the syntax, word wrap and spell check rows keep their icon in the same column as the rest.
+- The Light theme draws a softer shadow under the toolbars.
 
 ### Fixed
 - On the 98SE theme, the interface, sidebar, menus and dialog captions use Microsoft Sans Serif instead of Killer Sans and Tahoma.
