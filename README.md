@@ -52,12 +52,12 @@ choco install killernotes
 
 <table>
 <tr>
-<td width="50%"><img src="notes-landing/screenshots/01.png" alt="Black theme with a magenta accent: nested client groups, a firewall settings table, incoming links, and the theme picker"><br><sub>A firewall cutover note with a real table, nested client groups, and incoming links. The theme picker shows Black with a magenta accent.</sub></td>
-<td width="50%"><img src="notes-landing/screenshots/04.png" alt="Mixed-language code highlighting with the note context menu and color-coded tag submenu open"><br><sub>Code highlighting across mixed snippets, with note actions, keyboard hints, and color-coded tags in the context menu.</sub></td>
+<td width="50%"><img src="notes-landing/screenshots/01.png" alt="Greed theme: a switch port table, the Killculator with a result, and nested client groups"><br><sub>A switch port map as a real table, with the Killculator open beside nested client groups.</sub></td>
+<td width="50%"><img src="notes-landing/screenshots/02.png" alt="Black theme with the note graph window over a networking index note"><br><sub>Linked notes and the graph of them, each note colored by its group.</sub></td>
 </tr>
 <tr>
-<td><img src="notes-landing/screenshots/05.png" alt="98SE theme with a magenta accent, an inline photo, and the two-column language menu showing nineteen languages"><br><sub>Inline photos and nineteen languages, switchable live from a two-column menu. Shown in the 98SE theme.</sub></td>
-<td><img src="notes-landing/screenshots/07.png" alt="SketchPad drawing, Dictation waveform, and offline speech-model selection over a highlighted YAML note with an embedded audio clip"><br><sub>SketchPad and Dictation beside a code note with embedded audio. Download a speech model to transcribe recordings entirely on your machine.</sub></td>
+<td><img src="notes-landing/screenshots/06.png" alt="SketchPad with shapes drawn and the Dictation window, both over a rack elevation note in the Light theme with film grain off"><br><sub>SketchPad and Dictation open together over a note, in the Light theme with film grain off.</sub></td>
+<td><img src="notes-landing/screenshots/10.png" alt="98SE theme with the keyboard shortcut map open"><br><sub>Every shortcut on a live keyboard map, shown in the 98SE theme.</sub></td>
 </tr>
 </table>
 
