@@ -72,9 +72,11 @@ namespace KillerFamily.Accessibility
             // An icon given as string content ("&#xE8BB;") is drawn by the content presenter's
             // own TextBlock, which UI Automation reads out as a private-use character. Drawing it
             // through a Glyph keeps the same text on screen and leaves the name to the control.
+            // A selector rather than a template: when the content later becomes anything else
+            // (a toolbar swapping in an icon and label panel), the presenter's default applies.
             if (control is ContentControl glyphHost && glyphHost.Content is string glyphText &&
                 IsGlyph(glyphText) && glyphHost.ContentTemplate == null && glyphHost.ContentTemplateSelector == null)
-                glyphHost.SetCurrentValue(ContentControl.ContentTemplateProperty, GlyphTemplate);
+                glyphHost.SetCurrentValue(ContentControl.ContentTemplateSelectorProperty, GlyphTemplates);
 
             UpdateName(control);
         }
@@ -214,6 +216,8 @@ namespace KillerFamily.Accessibility
             return true;
         }
 
+        private static readonly DataTemplateSelector GlyphTemplates = new GlyphTemplateSelector();
+
         private static DataTemplate GlyphTemplate => _glyphTemplate ??= BuildGlyphTemplate();
 
         private static DataTemplate BuildGlyphTemplate()
@@ -259,6 +263,12 @@ namespace KillerFamily.Accessibility
             return style;
         }
 
+        private sealed class GlyphTemplateSelector : DataTemplateSelector
+        {
+            public override DataTemplate? SelectTemplate(object? item, DependencyObject container) =>
+                item is string text && IsGlyph(text) ? GlyphTemplate : null;
+        }
+
         private sealed class TooltipNameConverter : IValueConverter
         {
             public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
@@ -282,13 +292,16 @@ namespace KillerFamily.Accessibility
     /// An icon drawn from a symbol font. The control it decorates carries the name, so the
     /// glyph stays out of the automation tree instead of being read as a private-use character.
     /// </summary>
-    internal sealed class Glyph : TextBlock
+    public sealed class Glyph : TextBlock
     {
-        public Glyph()
+        protected override void OnInitialized(EventArgs e)
         {
-            // A subclass misses the implicit TextBlock style in scope; reference it explicitly.
-            // A Style set on the element replaces this reference, as it would on a TextBlock.
-            SetResourceReference(StyleProperty, typeof(TextBlock));
+            base.OnInitialized(e);
+            // A subclass misses the implicit TextBlock style in scope, so it is referenced here.
+            // A TextBlock created by a template does not take implicit styles from outside it, and
+            // an explicit Style wins, so in both cases the glyph is left exactly as a TextBlock is.
+            if (TemplatedParent == null && ReadLocalValue(StyleProperty) == DependencyProperty.UnsetValue)
+                SetResourceReference(StyleProperty, typeof(TextBlock));
         }
 
         protected override AutomationPeer OnCreateAutomationPeer() => new GlyphAutomationPeer(this);
