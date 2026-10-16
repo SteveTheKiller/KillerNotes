@@ -72,13 +72,13 @@
   // Per-family palette copied from the app: [ Accent (bright: text/links/logo/outlines), SelectionBg (darker fill: solid buttons, selected tab edges) ].
   var ACCENTS = {
     dark:  { red:['#DD504B','#5E1C1C'], orange:['#E8962C','#F29A28'], yellow:['#EAD900','#F2E500'], green:['#1EA54C','#1C5E38'], teal:['#1FB8A8','#1C5E5C'], blue:['#50AEE8','#1C3B5E'], purple:['#B982E3','#411C5E'], magenta:['#FF52C9','#FF2BBD'] },
-    light: { red:['#931A1A','#931A1A'], orange:['#C7710F','#C7710F'], yellow:['#766600','#766600'], green:['#1B5E20','#1B5E20'], teal:['#0D827E','#0D827E'], blue:['#18608E','#18608E'], purple:['#5A1690','#5A1690'], magenta:['#A60070','#A60070'] },
+    light: { red:['#931A1A','#931A1A'], orange:['#C7710F','#C7710F'], yellow:['#F2C500','#F2C500'], green:['#1B5E20','#1B5E20'], teal:['#0D827E','#0D827E'], blue:['#18608E','#18608E'], purple:['#5A1690','#5A1690'], magenta:['#A60070','#A60070'] },
     hc:    { red:['#FF2929','#FF2929'], orange:['#FF910A','#FF910A'], yellow:['#FFEB00','#FFEB00'], green:['#00FF66','#00FF66'], teal:['#0AFFE7','#0AFFE7'], blue:['#298DFF','#298DFF'], purple:['#B829FF','#B829FF'], magenta:['#FF2BBD','#FF2BBD'] }
   };
   // SelectionBg (muted accent) for inactive tab/card edges; brightens to accent on hover. Mirrors KillerTools themes.ts.
   var SEL = {
     dark:  { red:'#5E1C1C', orange:'#5E3B16', yellow:'#2A2908', green:'#1C5E38', teal:'#1C5E5C', blue:'#1C3B5E', purple:'#411C5E', magenta:'#2A0D24' },
-    light: { red:'#931A1A', orange:'#C7710F', yellow:'#766600', green:'#1B5E20', teal:'#0D827E', blue:'#18608E', purple:'#5A1690', magenta:'#A60070' },
+    light: { red:'#931A1A', orange:'#C7710F', yellow:'#F2C500', green:'#1B5E20', teal:'#0D827E', blue:'#18608E', purple:'#5A1690', magenta:'#A60070' },
     hc:    { red:'#380000', orange:'#4E2900', yellow:'#2E2B00', green:'#003314', teal:'#003832', blue:'#0A2C50', purple:'#250038', magenta:'#2E0022' }
   };
   function famFor(t) { return t === 'light' ? 'light' : t === 'hc' ? 'hc' : 'dark'; }
@@ -153,6 +153,7 @@
     curAccent = name;
     var pair = ACCENTS[fam][name];
     var neutral = NEUTRAL.indexOf(theme) >= 0;
+    root.toggleAttribute('data-yellow-outline', neutral && fam === 'light' && name === 'yellow');
     if (neutral) {
       root.style.setProperty('--accent', pair[0]);
       root.style.setProperty('--btn', pair[1]);
