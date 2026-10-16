@@ -3,7 +3,7 @@
 (function () {
   var root = document.documentElement;
   var originalTitle = document.title;
-  var UI_EN = { ui_theme:'Theme', ui_language:'Language', ui_close:'Close', ui_copy:'Copy', ui_accent:'Accent color', ui_expand:'Expand section', ui_click:'click me', ui_image:'Expanded KillerNotes screenshot', ui_egg:'All 80 Notepad tabs may finally rest in peace.', ui_red:'Red', ui_orange:'Orange', ui_yellow:'Yellow', ui_green:'Green', ui_teal:'Teal', ui_blue:'Blue', ui_purple:'Purple', ui_magenta:'Magenta' };
+  var UI_EN = { ui_theme:'Theme', ui_language:'Language', ui_close:'Close', ui_copy:'Copy', ui_accent:'Accent color', ui_expand:'Expand section', ui_click:'click me', ui_image:'Expanded KillerNotes screenshot', ui_egg:'All 80 Notepad tabs may finally rest in peace.', ui_red:'Red', ui_orange:'Orange', ui_yellow:'Yellow', ui_green:'Green', ui_teal:'Teal', ui_blue:'Blue', ui_purple:'Purple', ui_magenta:'Magenta', mcp_gh:'KillerMCP on GitHub' };
   function uiText(key) {
     var lang = root.getAttribute('lang');
     lang = lang === 'zh-Hant' ? 'zh' : lang === 'zh-Hans' ? 'zh-cn' : lang;
@@ -18,13 +18,32 @@
     return holder.textContent.trim();
   }
   function localizeChrome() {
-    var labels = { Theme:'ui_theme', 'Choose theme':'ui_theme', Language:'ui_language', Close:'ui_close', Copy:'ui_copy', 'Accent color':'ui_accent', 'Expand section':'ui_expand', 'click me':'ui_click', 'Expanded KillerNotes screenshot':'ui_image', Red:'ui_red', Orange:'ui_orange', Yellow:'ui_yellow', Green:'ui_green', Teal:'ui_teal', Blue:'ui_blue', Purple:'ui_purple', Magenta:'ui_magenta' };
+    var labels = { Theme:'ui_theme', 'Choose theme':'ui_theme', Language:'ui_language', Close:'ui_close', Copy:'ui_copy', 'Accent color':'ui_accent', 'Expand section':'ui_expand', 'click me':'ui_click', 'Expanded KillerNotes screenshot':'ui_image', Red:'ui_red', Orange:'ui_orange', Yellow:'ui_yellow', Green:'ui_green', Teal:'ui_teal', Blue:'ui_blue', Purple:'ui_purple', Magenta:'ui_magenta', 'KillerMCP on GitHub':'mcp_gh' };
     ['title', 'aria-label'].forEach(function (attr) {
       document.querySelectorAll('[' + attr + ']').forEach(function (n) {
         var mark = 'data-ui-' + attr;
         var key = n.getAttribute(mark) || labels[n.getAttribute(attr)];
         if (key) { n.setAttribute(mark, key); n.setAttribute(attr, uiText(key)); }
       });
+    });
+    // The release script rewrites the hero facts by matching the plain English label spans,
+    // so those labels carry no data-i18n and are translated here instead.
+    var heroLang = root.getAttribute('lang'); heroLang = heroLang === 'zh-Hant' ? 'zh' : heroLang === 'zh-Hans' ? 'zh-cn' : heroLang;
+    var heroDict = (I18N && I18N[heroLang]) || {};
+    document.querySelectorAll('.hero-info .row').forEach(function (row) {
+      var label = row.querySelector('.k'), value = row.querySelector('.v');
+      if (label) {
+        if (!label.hasAttribute('data-en-label')) label.setAttribute('data-en-label', label.textContent.trim());
+        var english = label.getAttribute('data-en-label');
+        var labelText = heroDict['ui_' + english] || english;
+        if (label.textContent !== labelText) label.textContent = labelText;
+      }
+      if (value && !value.classList.contains('hash')) {
+        if (!value.hasAttribute('data-en-value')) value.setAttribute('data-en-value', value.textContent);
+        var englishValue = value.getAttribute('data-en-value');
+        var valueText = heroDict.kn_single_exe ? englishValue.replace(/single exe$/, heroDict.kn_single_exe) : englishValue;
+        if (value.textContent !== valueText) value.textContent = valueText;
+      }
     });
     document.querySelectorAll('[data-ui-caption]').forEach(function (n) {
       var text = localizedText(n.getAttribute('data-ui-caption'));
@@ -223,7 +242,7 @@
     var pill = document.createElement('div'); pill.className = 'pill';
     var grip = document.createElement('span'); grip.className = 'grip'; grip.setAttribute('aria-hidden', 'true');
     pill.appendChild(grip);
-    var blbl = document.createElement('span'); blbl.className = 'lbl'; blbl.textContent = 'accent:';
+    var blbl = document.createElement('span'); blbl.className = 'lbl'; blbl.setAttribute('data-i18n', 'accent_label'); blbl.textContent = 'accent:';
     pill.appendChild(blbl);
     accDots.forEach(function (d) { pill.appendChild(d); });
     var bx = document.createElement('button'); bx.className = 'x'; bx.setAttribute('aria-label', 'Close'); bx.innerHTML = '&times;';

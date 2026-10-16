@@ -14,24 +14,41 @@
   var rail = document.createElement('div');
   var tabs = [];
   var index = 0;
+  var labels = {
+    "en": ["Product features", "Previous feature", "Next feature", "Choose a feature"],
+    "bn": ["পণ্যের বৈশিষ্ট্য", "আগের বৈশিষ্ট্য", "পরের বৈশিষ্ট্য", "একটি বৈশিষ্ট্য বেছে নিন"],
+    "cs": ["Funkce produktu", "Předchozí funkce", "Další funkce", "Vybrat funkci"],
+    "de": ["Produktfunktionen", "Vorherige Funktion", "Nächste Funktion", "Funktion auswählen"],
+    "es": ["Funciones del producto", "Función anterior", "Función siguiente", "Elegir una función"],
+    "fr": ["Fonctionnalités du produit", "Fonctionnalité précédente", "Fonctionnalité suivante", "Choisir une fonctionnalité"],
+    "hu": ["A termék funkciói", "Előző funkció", "Következő funkció", "Funkció kiválasztása"],
+    "it": ["Funzionalità del prodotto", "Funzionalità precedente", "Funzionalità successiva", "Scegli una funzionalità"],
+    "ja": ["製品の機能", "前の機能", "次の機能", "機能を選択"],
+    "kk": ["Өнім мүмкіндіктері", "Алдыңғы мүмкіндік", "Келесі мүмкіндік", "Мүмкіндікті таңдау"],
+    "nb": ["Produktfunksjoner", "Forrige funksjon", "Neste funksjon", "Velg en funksjon"],
+    "pl": ["Funkcje produktu", "Poprzednia funkcja", "Następna funkcja", "Wybierz funkcję"],
+    "pt": ["Recursos do produto", "Recurso anterior", "Próximo recurso", "Escolher um recurso"],
+    "ru": ["Возможности продукта", "Предыдущая возможность", "Следующая возможность", "Выбрать возможность"],
+    "tr": ["Ürün özellikleri", "Önceki özellik", "Sonraki özellik", "Bir özellik seçin"],
+    "uk": ["Можливості продукту", "Попередня можливість", "Наступна можливість", "Вибрати можливість"],
+    "vi": ["Tính năng sản phẩm", "Tính năng trước", "Tính năng tiếp theo", "Chọn một tính năng"],
+    "zh-cn": ["产品功能", "上一个功能", "下一个功能", "选择功能"],
+    "zh": ["產品功能", "上一個功能", "下一個功能", "選擇功能"]
+  };
 
   carousel.className = 'feature-carousel';
   carousel.setAttribute('aria-roledescription', 'carousel');
-  carousel.setAttribute('aria-label', 'Product features');
   controls.className = 'feature-carousel-controls';
   previous.className = 'feature-carousel-arrow';
   previous.type = 'button';
-  previous.setAttribute('aria-label', 'Previous feature');
   previous.innerHTML = '&#8592;';
   count.className = 'feature-carousel-count';
   count.setAttribute('aria-hidden', 'true');
   next.className = 'feature-carousel-arrow';
   next.type = 'button';
-  next.setAttribute('aria-label', 'Next feature');
   next.innerHTML = '&#8594;';
   rail.className = 'feature-carousel-rail';
   rail.setAttribute('role', 'tablist');
-  rail.setAttribute('aria-label', 'Choose a feature');
 
   grid.parentNode.insertBefore(carousel, grid);
   controls.appendChild(previous);
@@ -62,6 +79,21 @@
     rail.appendChild(tab);
     tabs.push(tab);
   });
+
+  function labelSet() {
+    var lang = (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
+    if (lang.indexOf('zh') === 0) lang = /hant|tw|hk|^zh$/.test(lang) ? 'zh' : 'zh-cn';
+    else lang = lang.split('-')[0];
+    return labels[lang] || labels.en;
+  }
+
+  function localizeControls() {
+    var text = labelSet();
+    carousel.setAttribute('aria-label', text[0]);
+    previous.setAttribute('aria-label', text[1]);
+    next.setAttribute('aria-label', text[2]);
+    rail.setAttribute('aria-label', text[3]);
+  }
 
   function refreshLabels() {
     cards.forEach(function (card, cardIndex) {
@@ -101,6 +133,11 @@
     characterData: true,
     childList: true
   });
+  new MutationObserver(localizeControls).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['lang']
+  });
+  localizeControls();
   show(0, false);
 })();
 
