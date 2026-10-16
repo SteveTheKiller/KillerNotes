@@ -33,6 +33,7 @@ namespace KillerNotes
         protected override void OnStartup(StartupEventArgs e)
         {
             KillerFamily.Accessibility.AccessibleControls.Initialize();
+            KillerFamily.Theming.AccentShadow.Initialize();
             if (e.Args.Length > 0 && string.Equals(e.Args[0], "--cli", StringComparison.OrdinalIgnoreCase))
             {
                 using var output = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };

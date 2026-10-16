@@ -14,6 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The sidebar starts 20px wider, and the width you drag it to is remembered the next time KillerNotes opens.
 
 ### Fixed
+- On the Light theme's Yellow accent, buttons, links, tabs and accent icons stay yellow with a dark shadow behind yellow text and icons, instead of turning near-black.
 - Screen readers no longer read toolbar, format bar, menu and title bar icons as unreadable symbols.
 - Turning off Film Grain removes the grain from the note pane too.
 - The format bar's top corners are square where it hangs from the top of the note pane, and round only when the bar sits flush in a corner of the pane.

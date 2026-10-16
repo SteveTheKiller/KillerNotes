@@ -2,12 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
 
-    <SolidColorBrush x:Key="PrimaryBrush"        Color="#262626" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#3D3D3D" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#141414" po:Freeze="True"/>
+    <!-- The accent stays yellow. Yellow text and glyphs read on the light surfaces through the dark
+         shadow Controls/AccentShadow.cs draws behind them while WordmarkAccentShadowOpacity is above 0. -->
+    <SolidColorBrush x:Key="PrimaryBrush"        Color="#F2C500" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#FFD43B" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#D9B000" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OnPrimaryBrush"      Color="#24231C" po:Freeze="True"/>
     <SolidColorBrush x:Key="HeaderLineBrush"     Color="#F2C500" po:Freeze="True"/>
-    <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#262626" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#262626" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#F2C500" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#F2C500" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowSelectedBrush"    Color="#FFD94D" po:Freeze="True"/>
     <LinearGradientBrush x:Key="SelectionBg" StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#FFF5A3" Offset="0"/><GradientStop Color="#FFD43B" Offset="1"/></LinearGradientBrush>
     <SolidColorBrush x:Key="OutlinePressedBrush" Color="#FFF5A3" po:Freeze="True"/>
