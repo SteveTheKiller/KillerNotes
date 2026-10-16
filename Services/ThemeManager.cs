@@ -311,14 +311,16 @@ namespace KillerNotes.Services
                 "/KillerNotes;component/Fonts/#Killer Sans UI, Segoe UI"));
             // The header slot (group and Trash headings): Lacquer, the app-name face of the wordmark.
             // It has no bold cut, so it is set at its regular weight, at 20 so its capitals stand above
-            // the note titles; the bottom margin takes back part of the room its drips reserve so the
-            // header rows stay compact in every density. 98SE keeps Killer Sans bold at 18. A font
-            // picked in Fonts overrides all four from the top-level dictionary (Fonts.cs).
+            // the note titles. Lacquer's line box sits its capitals low, so the negative TOP margin
+            // raises the text 5px to center the capitals in the header row (and in its hover and
+            // focus highlight), and the margins together give back 4px of the room its drips
+            // reserve, keeping the rows compact in every density. 98SE keeps Killer Sans bold at 18. A font picked in Fonts
+            // overrides all four from the top-level dictionary (Fonts.cs).
             SetIfAbsent(newDict, "HeaderFont", new FontFamily(new Uri("pack://application:,,,/"),
                 flatCaption ? "/KillerNotes;component/Fonts/#Killer Sans" : "/KillerNotes;component/Fonts/#Lacquer"));
             SetIfAbsent(newDict, "HeaderFontWeight", flatCaption ? FontWeights.Bold : FontWeights.Normal);
             SetIfAbsent(newDict, "HeaderFontSize", flatCaption ? 18.0 : 20.0);
-            SetIfAbsent(newDict, "HeaderTextMargin", flatCaption ? new Thickness(0) : new Thickness(0, 0, 0, -4));
+            SetIfAbsent(newDict, "HeaderTextMargin", flatCaption ? new Thickness(0) : new Thickness(0, -5, 0, 1));
             // Extra gap before the close button. Win98 sat minimize and maximize flush together and
             // pushed close a couple of pixels clear of them.
             SetIfAbsent(newDict, "CaptionCloseGap", new Thickness(0));
