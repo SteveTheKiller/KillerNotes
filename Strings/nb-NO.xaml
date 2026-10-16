@@ -654,6 +654,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Bare tekst kan lenkes - merk ord, ikke et bilde eller et opptak</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Kunne ikke åpne lenken</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Velg en farge</sys:String>
+    <sys:String x:Key="Str_Color_Name">Farge</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Velg en farge fra et hvilket som helst sted på skjermen</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Klikk, og klikk deretter på en fargeprøve for å sette den til gjeldende farge</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Tilbakestill fargeprøvene til standard</sys:String>
@@ -715,7 +716,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Sketch_Ellipse">Ellipse (O)</sys:String>
     <sys:String x:Key="Str_Sketch_Eraser">Viskelær (E) - stryk over strek, eller berør en figur for å fjerne den</sys:String>
     <sys:String x:Key="Str_Sketch_Fill">Fyll figurer (rektangel / ellipse)</sys:String>
-    <sys:String x:Key="Str_Sketch_Front">Bring fremst</sys:String>
+    <sys:String x:Key="Str_Sketch_Front">Flytt fremst</sys:String>
     <sys:String x:Key="Str_Sketch_Line">Linje - rett (L)</sys:String>
     <sys:String x:Key="Str_Sketch_MoreColors">Egendefinert farge...</sys:String>
     <sys:String x:Key="Str_Sketch_Opacity">Gjennomsiktighet for fyll / malingsbøtte (klikk for å bytte)</sys:String>

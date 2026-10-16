@@ -105,13 +105,13 @@
     <sys:String x:Key="Str_Pw_WrongPw">密码错误 - 请重试</sys:String>
     <sys:String x:Key="Str_Pw_Protected">“{0}”受密码保护。</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">解锁</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">新建</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">确认</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">开始新的数据库?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">锁定的数据库仍保留在磁盘上，若日后找到密码仍可解锁。
 没有密码就无法恢复其中的笔记。</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">开始新建</sys:String>
-    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">打开...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">新数据库 - 锁定的数据库保留为 {0}</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">设置密码</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">加密整个笔记数据库 (通过 SQLCipher 的 AES-256)。
@@ -158,7 +158,7 @@
     <sys:String x:Key="Str_St_ExportedToImgSkip">已导出到 {0} (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">导出失败: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">所有支持的格式|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|文本 (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|富文本 (*.rtf)|*.rtf|图片|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes 文件 (*.knote, *.kndb)|*.knote;*.kndb|所有文件 (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">文本文件 (*.txt)|*.txt|富文本 (*.rtf)|*.rtf|网页 (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
+    <sys:String x:Key="Str_Filter_Save">文本文件 (*.txt)|*.txt|富文本 (*.rtf)|*.rtf|网页 (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes 笔记 (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">预览 Markdown</sys:String>
@@ -402,7 +402,7 @@
     <sys:String x:Key="Str_Ctx_TblDelRow">删除行</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelCol">删除列</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">删除表格</sys:String>
-    <sys:String x:Key="Str_TT_ConvertList">将所选行转换为逗号分隔的列表</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">将所选行（或一句话中的各个词）转换为逗号分隔的列表</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">所选内容转为逗号列表</sys:String>
     <sys:String x:Key="Str_St_ListMade">已将 {0} 个值转换为逗号列表</sys:String>
     <sys:String x:Key="Str_St_ListCopied">已将 {0} 个值复制为逗号列表</sys:String>
@@ -477,6 +477,7 @@
     <sys:String x:Key="Str_St_LinkBad">这看起来不像网址</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">无法打开链接</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">选择颜色</sys:String>
+    <sys:String x:Key="Str_Color_Name">颜色</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">从屏幕任意位置拾取颜色</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">点击后再点击某个色块，将其设为当前颜色</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">将色块重置为默认值</sys:String>
@@ -841,7 +842,7 @@
     <sys:String x:Key="Str_Ctx_DailyGroup">每日笔记分组</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">今日笔记 (Alt+D) 会创建在此分组中</sys:String>
     <sys:String x:Key="Str_Grp_Daily">每日笔记</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">每日</sys:String>
     <sys:String x:Key="Str_St_DailyOn">今日笔记现在会创建在 {0} 中</sys:String>
     <sys:String x:Key="Str_St_DailyOff">已清除每日笔记分组</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">已创建今日笔记</sys:String>
@@ -908,9 +909,9 @@
     <sys:String x:Key="Str_KS_BackupNow">立即备份数据库</sys:String>
     <sys:String x:Key="Str_Kb_Backup">备份</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">还没有备份文件夹。在管理数据库中前往备份，选择一个。</sys:String>
-    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
-    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
-    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Preview_Source">源码</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">渲染</sys:String>
+    <sys:String x:Key="Str_Preview_Split">分屏</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">链接到</sys:String>
     <sys:String x:Key="Str_KS_ControlNavigation">在控件间移动并激活当前获得焦点的选项</sys:String>
     <sys:String x:Key="Str_KS_FindMatches">查找时转到下一个或上一个匹配项</sys:String>

@@ -105,13 +105,13 @@
     <sys:String x:Key="Str_Pw_WrongPw">ভুল পাসওয়ার্ড - আবার চেষ্টা করুন</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" পাসওয়ার্ড দিয়ে সুরক্ষিত।</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">আনলক</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">নতুন</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">নিশ্চিত করুন</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">নতুন ডেটাবেস শুরু করবেন?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">লক করা ডেটাবেসটি ডিস্কে থেকে যায়; পাসওয়ার্ড পাওয়া গেলে পরে আনলক করা যাবে।
 পাসওয়ার্ড ছাড়া এর নোটগুলো ফিরে পাওয়ার কোনো উপায় নেই।</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">নতুন শুরু করুন</sys:String>
-    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">খুলুন...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">নতুন ডেটাবেস - লক করা ডেটাবেসটি {0} নামে রাখা আছে</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">একটি পাসওয়ার্ড দিন</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">পুরো নোট ডেটাবেস এনক্রিপ্ট করে (SQLCipher-এর মাধ্যমে AES-256)।
@@ -158,7 +158,7 @@
     <sys:String x:Key="Str_St_ExportedToImgSkip">{0}-এ এক্সপোর্ট হয়েছে (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">এক্সপোর্ট ব্যর্থ: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">সব সমর্থিত|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|টেক্সট (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|রিচ টেক্সট (*.rtf)|*.rtf|ছবি|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes ফাইল (*.knote, *.kndb)|*.knote;*.kndb|সব ফাইল (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">টেক্সট ফাইল (*.txt)|*.txt|রিচ টেক্সট (*.rtf)|*.rtf|ওয়েব পেজ (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
+    <sys:String x:Key="Str_Filter_Save">টেক্সট ফাইল (*.txt)|*.txt|রিচ টেক্সট (*.rtf)|*.rtf|ওয়েব পেজ (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes নোট (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">মার্কডাউন প্রিভিউ</sys:String>
@@ -479,6 +479,7 @@
     <sys:String x:Key="Str_St_LinkBad">এটা ওয়েব ঠিকানার মতো দেখাচ্ছে না</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">লিঙ্ক খোলা গেল না</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">একটি রং বাছুন</sys:String>
+    <sys:String x:Key="Str_Color_Name">রং</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">স্ক্রিনের যেকোনো জায়গা থেকে একটি রং বাছুন</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">ক্লিক করুন, তারপর কোনো সোয়াচে ক্লিক করে সেটিকে বর্তমান রঙে সেট করুন</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">সোয়াচগুলো ডিফল্টে রিসেট করুন</sys:String>
@@ -843,7 +844,7 @@
     <sys:String x:Key="Str_Ctx_DailyGroup">দৈনিক নোট গ্রুপ</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">আজকের নোট (Alt+D) এই গ্রুপে তৈরি হয়</sys:String>
     <sys:String x:Key="Str_Grp_Daily">দৈনিক নোট</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">দৈনিক</sys:String>
     <sys:String x:Key="Str_St_DailyOn">আজকের নোট এখন {0}-এ তৈরি হয়</sys:String>
     <sys:String x:Key="Str_St_DailyOff">দৈনিক নোট গ্রুপ সাফ করা হয়েছে</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">আজকের নোট তৈরি হয়েছে</sys:String>
@@ -910,9 +911,9 @@
     <sys:String x:Key="Str_KS_BackupNow">এখনই ডেটাবেস ব্যাকআপ করুন</sys:String>
     <sys:String x:Key="Str_Kb_Backup">ব্যাকআপ</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">এখনও কোনো ব্যাকআপ ফোল্ডার নেই। ডেটাবেস পরিচালনা থেকে ব্যাকআপে গিয়ে একটি বেছে নিন।</sys:String>
-    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
-    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
-    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Preview_Source">সোর্স</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">রেন্ডার করা</sys:String>
+    <sys:String x:Key="Str_Preview_Split">পাশাপাশি</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">বহির্গামী লিঙ্ক</sys:String>
     <sys:String x:Key="Str_KS_ControlNavigation">নিয়ন্ত্রণগুলোর মধ্যে যান এবং ফোকাস করা পছন্দটি সক্রিয় করুন</sys:String>
     <sys:String x:Key="Str_KS_FindMatches">খোঁজার সময় পরবর্তী বা আগের মিল</sys:String>

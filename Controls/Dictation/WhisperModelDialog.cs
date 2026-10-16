@@ -34,7 +34,7 @@ namespace KillerNotes.Controls.Dictation
 
         internal WhisperModelDialog(Window? owner)
         {
-            Title = "KillerNotes - Speech model";
+            Title = "KillerNotes - " + L("Str_Whisper_Title", "Speech model");
             WindowStyle = WindowStyle.None;
             AllowsTransparency = true;
             ResizeMode = ResizeMode.NoResize;

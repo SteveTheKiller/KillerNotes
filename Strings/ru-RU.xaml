@@ -267,13 +267,13 @@
     <sys:String x:Key="Str_Pw_WrongPw">Неверный пароль - попробуйте ещё раз</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" защищена паролем.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Разблокировать</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Новая</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">подтвердите</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Начать новую базу?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Заблокированная база остаётся на диске, и её ещё можно будет открыть,
 если пароль найдётся. Без него восстановить её заметки невозможно.</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">Начать заново</sys:String>
-    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Открыть...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">Новая база - заблокированная сохранена как {0}</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">Задать пароль</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Шифрует всю базу заметок (AES-256 через SQLCipher).
@@ -320,7 +320,7 @@
     <sys:String x:Key="Str_St_ExportedToImgSkip">Экспортировано в {0} (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Не удалось экспортировать: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Все поддерживаемые|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Текст (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Форматированный текст (*.rtf)|*.rtf|Изображения|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Файлы KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Все файлы (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">Текстовый файл (*.txt)|*.txt|Форматированный текст (*.rtf)|*.rtf|Веб-страница (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Текстовый файл (*.txt)|*.txt|Форматированный текст (*.rtf)|*.rtf|Веб-страница (*.html)|*.html|Markdown (*.md)|*.md|Заметка KillerNotes (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">Предпросмотр markdown</sys:String>
@@ -620,6 +620,7 @@
     <sys:String x:Key="Str_St_LinkNotText">Ссылку можно поставить только на текст - выделите слова, а не изображение или запись</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Не удалось открыть ссылку</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Выберите цвет</sys:String>
+    <sys:String x:Key="Str_Color_Name">Цвет</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Взять цвет с любого места экрана</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Нажмите, затем нажмите образец, чтобы задать ему текущий цвет</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Сбросить образцы к значениям по умолчанию</sys:String>
@@ -851,7 +852,7 @@
     <sys:String x:Key="Str_Ctx_DailyGroup">Группа ежедневных заметок</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">Заметка на сегодня (Alt+D) создаётся в этой группе</sys:String>
     <sys:String x:Key="Str_Grp_Daily">Ежедневные заметки</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Ежедневная</sys:String>
     <sys:String x:Key="Str_St_DailyOn">Заметки на сегодня теперь идут в {0}</sys:String>
     <sys:String x:Key="Str_St_DailyOff">Группа ежедневных заметок сброшена</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Создана заметка на сегодня</sys:String>
@@ -918,9 +919,9 @@
     <sys:String x:Key="Str_KS_BackupNow">Создать резервную копию базы сейчас</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Копия</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Папка для резервных копий пока не выбрана. Откройте Управление базами данных, затем Резервные копии и выберите там папку.</sys:String>
-    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
-    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
-    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Код</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Просмотр</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Рядом</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Ссылки на</sys:String>
     <sys:String x:Key="Str_KS_ControlNavigation">Переход между элементами управления и активация выбранного элемента</sys:String>
     <sys:String x:Key="Str_KS_FindMatches">Следующее или предыдущее совпадение при поиске</sys:String>

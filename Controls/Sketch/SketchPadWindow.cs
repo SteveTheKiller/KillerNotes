@@ -115,7 +115,7 @@ namespace KillerNotes.Controls.Sketch
         public SketchPadWindow(Window? owner, Action<IReadOnlyList<SketchObject>, int, int> print)
         {
             _print = print;
-            Title = "KillerNotes - SketchPad";
+            Title = "KillerNotes - " + L("Str_Sketch_Title", "SketchPad");
             WindowStyle = WindowStyle.None;
             AllowsTransparency = true;                 // rounded card + shadow halo need a transparent window
             ResizeMode = ResizeMode.CanResize;

@@ -267,13 +267,13 @@ modifiche non saranno salvate. Se {0} non sta davvero eseguendo KillerNotes
     <sys:String x:Key="Str_Pw_WrongPw">Password errata - riprova</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" è protetto da password.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Sblocca</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Nuova</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">conferma</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Iniziare un nuovo database?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Il database bloccato resta su disco e potrà ancora essere sbloccato se la
 password salta fuori. Senza di essa non c'è modo di recuperarne le note.</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">Inizia nuovo</sys:String>
-    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Apri...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">Nuovo database - quello bloccato è conservato come {0}</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">Imposta una password</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Cifra l'intero database delle note (AES-256 tramite SQLCipher).
@@ -320,7 +320,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_St_ExportedToImgSkip">Esportato in {0} (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Esportazione non riuscita: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Tutti i supportati|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Testo (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Testo formattato (*.rtf)|*.rtf|Immagini|*.png;*.jpg;*.jpeg;*.gif;*.bmp|File KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Tutti i file (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">File di testo (*.txt)|*.txt|Testo formattato (*.rtf)|*.rtf|Pagina web (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
+    <sys:String x:Key="Str_Filter_Save">File di testo (*.txt)|*.txt|Testo formattato (*.rtf)|*.rtf|Pagina web (*.html)|*.html|Markdown (*.md)|*.md|Nota KillerNotes (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">Anteprima markdown</sys:String>
@@ -620,6 +620,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Solo il testo può essere collegato - seleziona parole, non un'immagine o una registrazione</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Impossibile aprire il link</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Scegli un colore</sys:String>
+    <sys:String x:Key="Str_Color_Name">Colore</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Preleva un colore da qualsiasi punto dello schermo</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Clicca, poi clicca un campione per impostarlo al colore corrente</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Ripristina i campioni predefiniti</sys:String>
@@ -791,7 +792,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Theme_Greed">Avidità</sys:String>
     <sys:String x:Key="Str_Theme_Cyanotic">Cianotico</sys:String>
     <sys:String x:Key="Str_Theme_Ectoplasm">Ectoplasma</sys:String>
-    <sys:String x:Key="Str_Theme_Decay">Decadimento</sys:String>
+    <sys:String x:Key="Str_Theme_Decay">Decadenza</sys:String>
     <sys:String x:Key="Str_Theme_Malaise">Malessere</sys:String>
     <sys:String x:Key="Str_Theme_Sepulchre">Sepolcro</sys:String>
     <sys:String x:Key="Str_Theme_Delirium">Delirio</sys:String>
@@ -851,7 +852,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Ctx_DailyGroup">Gruppo delle note giornaliere</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">La nota di oggi (Alt+D) viene creata in questo gruppo</sys:String>
     <sys:String x:Key="Str_Grp_Daily">Note giornaliere</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Giornaliera</sys:String>
     <sys:String x:Key="Str_St_DailyOn">Le note di oggi ora vanno in {0}</sys:String>
     <sys:String x:Key="Str_St_DailyOff">Gruppo delle note giornaliere deselezionato</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Nota di oggi creata</sys:String>
@@ -918,9 +919,9 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_KS_BackupNow">Esegui il backup del database ora</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Backup</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Ancora nessuna cartella di backup. Gestisci database, poi Backup, sceglierne una.</sys:String>
-    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
-    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
-    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Sorgente</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Anteprima</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Affiancato</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Collegamenti a</sys:String>
     <sys:String x:Key="Str_KS_ControlNavigation">Spostarsi tra i controlli e attivare la scelta con il focus</sys:String>
     <sys:String x:Key="Str_KS_FindMatches">Corrispondenza successiva o precedente durante la ricerca</sys:String>

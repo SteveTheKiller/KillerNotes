@@ -105,13 +105,13 @@
     <sys:String x:Key="Str_Pw_WrongPw">密碼錯誤 - 請再試一次</sys:String>
     <sys:String x:Key="Str_Pw_Protected">「{0}」受密碼保護。</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">解鎖</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">新增</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">確認</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">開始新的資料庫?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">鎖定的資料庫仍留在磁碟上，日後找到密碼仍可解鎖。
 沒有密碼就無法救回其中的筆記。</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">開始新的</sys:String>
-    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">開啟...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">新資料庫 - 鎖定的資料庫保留為 {0}</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">設定密碼</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">加密整個筆記資料庫 (透過 SQLCipher 的 AES-256)。
@@ -158,7 +158,7 @@
     <sys:String x:Key="Str_St_ExportedToImgSkip">已匯出到 {0} (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">匯出失敗: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">所有支援的格式|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|文字 (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|RTF 文件 (*.rtf)|*.rtf|圖片|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes 檔案 (*.knote, *.kndb)|*.knote;*.kndb|所有檔案 (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">文字檔 (*.txt)|*.txt|RTF 文件 (*.rtf)|*.rtf|網頁 (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
+    <sys:String x:Key="Str_Filter_Save">文字檔 (*.txt)|*.txt|RTF 文件 (*.rtf)|*.rtf|網頁 (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes 筆記 (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">預覽 Markdown</sys:String>
@@ -403,7 +403,7 @@
     <sys:String x:Key="Str_Ctx_TblDelRow">刪除列</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelCol">刪除欄</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">刪除表格</sys:String>
-    <sys:String x:Key="Str_TT_ConvertList">將選取的行轉為以逗號分隔的清單</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">將選取的行（或一句話中的各個字詞）轉為以逗號分隔的清單</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">選取範圍轉為逗號清單</sys:String>
     <sys:String x:Key="Str_St_ListMade">已將 {0} 個值轉為逗號清單</sys:String>
     <sys:String x:Key="Str_St_ListCopied">已將 {0} 個值以逗號清單複製</sys:String>
@@ -479,6 +479,7 @@
     <sys:String x:Key="Str_St_LinkBad">這看起來不像網址</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">無法開啟連結</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">選擇色彩</sys:String>
+    <sys:String x:Key="Str_Color_Name">顏色</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">從螢幕上任何位置選取色彩</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">按一下，再按一個色票，即可將其設為目前的色彩</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">將色票重設為預設值</sys:String>
@@ -843,7 +844,7 @@
     <sys:String x:Key="Str_Ctx_DailyGroup">每日筆記群組</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">今日筆記 (Alt+D) 會建立在這個群組中</sys:String>
     <sys:String x:Key="Str_Grp_Daily">每日筆記</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">每日</sys:String>
     <sys:String x:Key="Str_St_DailyOn">今日筆記現在會建立在 {0}</sys:String>
     <sys:String x:Key="Str_St_DailyOff">已清除每日筆記群組</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">已建立今日筆記</sys:String>
@@ -910,9 +911,9 @@
     <sys:String x:Key="Str_KS_BackupNow">立即備份資料庫</sys:String>
     <sys:String x:Key="Str_Kb_Backup">備份</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">還沒有備份資料夾。在管理資料庫中前往備份，選擇一個。</sys:String>
-    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
-    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
-    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Preview_Source">原始碼</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">預覽</sys:String>
+    <sys:String x:Key="Str_Preview_Split">分割</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">連結至</sys:String>
     <sys:String x:Key="Str_KS_ControlNavigation">在控制項間移動並啟用目前取得焦點的選項</sys:String>
     <sys:String x:Key="Str_KS_FindMatches">尋找時前往下一個或上一個符合項目</sys:String>

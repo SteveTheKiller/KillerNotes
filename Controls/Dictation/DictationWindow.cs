@@ -76,7 +76,7 @@ namespace KillerNotes.Controls.Dictation
             _printText = printText;
             _embedAudio = embedAudio;
 
-            Title = "KillerNotes - Dictation";
+            Title = "KillerNotes - " + L("Str_Dict_Title", "Dictation");
             WindowStyle = WindowStyle.None;
             AllowsTransparency = true;
             ResizeMode = ResizeMode.CanResize;

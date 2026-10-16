@@ -148,13 +148,13 @@ pádu aplikace), odstraňte soubor .lock vedle databáze a otevřete ji znovu.</
     <sys:String x:Key="Str_Pw_WrongPw">Nesprávné heslo - zkuste to znovu</sys:String>
     <sys:String x:Key="Str_Pw_Protected">„{0}" je chráněna heslem.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Odemknout</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Nová</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">potvrdit</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Začít novou databázi?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Uzamčená databáze zůstane na disku a lze ji později odemknout, pokud se
 heslo najde. Bez něj nelze její poznámky nijak obnovit.</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">Začít novou</sys:String>
-    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Otevřít...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">Nová databáze - uzamčená je zachována jako {0}</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">Nastavit heslo</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Zašifruje celou databázi poznámek (AES-256 přes SQLCipher).
@@ -201,7 +201,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_ExportedToImgSkip">Exportováno do {0} (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Export selhal: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Vše podporované|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Text (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Formátovaný text (*.rtf)|*.rtf|Obrázky|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Soubory KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Všechny soubory (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">Textový soubor (*.txt)|*.txt|Formátovaný text (*.rtf)|*.rtf|Webová stránka (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Textový soubor (*.txt)|*.txt|Formátovaný text (*.rtf)|*.rtf|Webová stránka (*.html)|*.html|Markdown (*.md)|*.md|Poznámka KillerNotes (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">Náhled markdownu</sys:String>
@@ -468,6 +468,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_LinkBad">Toto nevypadá jako webová adresa</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Odkaz se nepodařilo otevřít</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Vyberte barvu</sys:String>
+    <sys:String x:Key="Str_Color_Name">Barva</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Vyberte barvu odkudkoli na obrazovce</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Klikněte, poté klikněte na vzorník a nastavte jej na aktuální barvu</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Obnovit vzorníky na výchozí</sys:String>
@@ -821,7 +822,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <!-- Checklists (1.3.1) -->
     <sys:String x:Key="Str_TT_Checkbox">Řádek se zaškrtávacím polem (Alt+C) - kliknutím na pole jej zaškrtnete</sys:String>
     <sys:String x:Key="Str_KS_Checkbox">Přidat nebo odebrat zaškrtávací pole na aktuálních řádcích</sys:String>
-    <sys:String x:Key="Str_Kb_Checkbox">Checkbox</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Zaškrtávací políčko</sys:String>
 
     <!-- Templates (1.3.1) -->
     <sys:String x:Key="Str_Ctx_NewFromTemplate">Nová poznámka ze šablony</sys:String>
@@ -840,7 +841,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Ctx_DailyGroup">Skupina denních poznámek</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">Dnešní poznámka (Alt+D) se vytváří v této skupině</sys:String>
     <sys:String x:Key="Str_Grp_Daily">Denní poznámky</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Denní</sys:String>
     <sys:String x:Key="Str_St_DailyOn">Dnešní poznámky nyní míří do {0}</sys:String>
     <sys:String x:Key="Str_St_DailyOff">Skupina denních poznámek zrušena</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Vytvořena dnešní poznámka</sys:String>
@@ -907,9 +908,9 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_KS_BackupNow">Zálohovat databázi nyní</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Záloha</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Zatím není vybraná složka pro zálohy. Přejděte do Spravovat databáze, pak Zálohy, a vyberte ji.</sys:String>
-    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
-    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
-    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Zdroj</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Vykreslené</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Vedle sebe</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Odkazuje na</sys:String>
     <sys:String x:Key="Str_KS_ControlNavigation">Přecházet mezi ovládacími prvky a aktivovat vybranou možnost</sys:String>
     <sys:String x:Key="Str_KS_FindMatches">Další nebo předchozí shoda při hledání</sys:String>

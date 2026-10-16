@@ -106,13 +106,13 @@ y vuelva a abrirla.</sys:String>
     <sys:String x:Key="Str_Pw_WrongPw">Contraseña incorrecta - inténtelo de nuevo</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" está protegida con contraseña.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Desbloquear</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Nueva</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">confirmar</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">¿Empezar una base de datos nueva?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">La base de datos bloqueada permanece en el disco y podrá desbloquearse más
 adelante si aparece la contraseña. Sin ella, sus notas no se pueden recuperar.</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">Empezar de nuevo</sys:String>
-    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Abrir...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">Base de datos nueva - la bloqueada se conserva como {0}</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">Establecer una contraseña</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Cifra toda la base de datos de notas (AES-256 mediante SQLCipher).
@@ -160,7 +160,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_ExportedToImgSkip">Exportado a {0} (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Error al exportar: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Todos los admitidos|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Texto (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Texto enriquecido (*.rtf)|*.rtf|Imágenes|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Archivos de KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Todos los archivos (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">Archivo de texto (*.txt)|*.txt|Texto enriquecido (*.rtf)|*.rtf|Página web (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Archivo de texto (*.txt)|*.txt|Texto enriquecido (*.rtf)|*.rtf|Página web (*.html)|*.html|Markdown (*.md)|*.md|Nota de KillerNotes (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">Vista previa de markdown</sys:String>
@@ -479,6 +479,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_LinkBad">Eso no parece una dirección web</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">No se pudo abrir el enlace</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Elija un color</sys:String>
+    <sys:String x:Key="Str_Color_Name">Color</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Elegir un color de cualquier parte de la pantalla</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Haga clic y luego en una muestra para asignarle el color actual</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Restablecer las muestras a los valores predeterminados</sys:String>
@@ -844,7 +845,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Ctx_DailyGroup">Grupo de notas diarias</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">La nota de hoy (Alt+D) se crea en este grupo</sys:String>
     <sys:String x:Key="Str_Grp_Daily">Notas diarias</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Diaria</sys:String>
     <sys:String x:Key="Str_St_DailyOn">Las notas de hoy ahora van a {0}</sys:String>
     <sys:String x:Key="Str_St_DailyOff">Grupo de notas diarias desmarcado</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Nota de hoy creada</sys:String>
@@ -911,9 +912,9 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_BackupNow">Hacer copia de seguridad de la base de datos ahora</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Backup</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Aún no hay carpeta de copias de seguridad. Administrar bases de datos, luego Copias de seguridad, elegir una.</sys:String>
-    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
-    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
-    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Código</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Vista previa</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Dividido</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Enlaces a</sys:String>
     <sys:String x:Key="Str_KS_ControlNavigation">Moverse entre controles y activar la opción con el foco</sys:String>
     <sys:String x:Key="Str_KS_FindMatches">Coincidencia siguiente o anterior durante la búsqueda</sys:String>

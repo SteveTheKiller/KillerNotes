@@ -210,13 +210,13 @@ przykład po awarii), usuń plik .lock obok bazy i otwórz ją ponownie.</sys:St
     <sys:String x:Key="Str_Pw_WrongPw">Nieprawidłowe hasło - spróbuj ponownie</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" jest chroniona hasłem.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Odblokuj</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Nowa</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">potwierdź</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Utworzyć nową bazę danych?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Zablokowana baza pozostaje na dysku i nadal będzie można ją odblokować, jeśli
 hasło się odnajdzie. Bez niego nie ma sposobu na odzyskanie jej notatek.</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">Utwórz nową</sys:String>
-    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Otwórz...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">Nowa baza danych - zablokowana została zachowana jako {0}</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">Ustaw hasło</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Szyfruje całą bazę notatek (AES-256 przez SQLCipher).
@@ -259,7 +259,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_ExportedToImgSkip">Wyeksportowano do {0} (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Eksport nie powiódł się: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Wszystkie obsługiwane|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Tekst (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Tekst sformatowany (*.rtf)|*.rtf|Obrazy|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Pliki KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Wszystkie pliki (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">Plik tekstowy (*.txt)|*.txt|Tekst sformatowany (*.rtf)|*.rtf|Strona internetowa (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Plik tekstowy (*.txt)|*.txt|Tekst sformatowany (*.rtf)|*.rtf|Strona internetowa (*.html)|*.html|Markdown (*.md)|*.md|Notatka KillerNotes (*.knote)|*.knote</sys:String>
     <sys:String x:Key="Str_TT_PreviewMd">Podgląd markdown</sys:String>
     <sys:String x:Key="Str_TT_PreviewHtml">Podgląd HTML</sys:String>
     <sys:String x:Key="Str_St_PreviewFailed">Podgląd nie powiódł się: {0}</sys:String>
@@ -532,6 +532,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Łącze można wstawić tylko w tekście - zaznacz słowa, nie obraz ani nagranie</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Nie udało się otworzyć łącza</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Wybierz kolor</sys:String>
+    <sys:String x:Key="Str_Color_Name">Kolor</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Pobierz kolor z dowolnego miejsca na ekranie</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Kliknij, a następnie kliknij próbkę, aby ustawić w niej bieżący kolor</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Przywróć domyślne próbki</sys:String>
@@ -751,7 +752,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <!-- Checklists (1.3.1) -->
     <sys:String x:Key="Str_TT_Checkbox">Wiersz z polem wyboru (Alt+C) - kliknij pole, aby je zaznaczyć</sys:String>
     <sys:String x:Key="Str_KS_Checkbox">Dodaj lub usuń pole wyboru w bieżących wierszach</sys:String>
-    <sys:String x:Key="Str_Kb_Checkbox">Checkbox</sys:String>
+    <sys:String x:Key="Str_Kb_Checkbox">Pole wyboru</sys:String>
 
     <!-- Templates (1.3.1) -->
     <sys:String x:Key="Str_Ctx_NewFromTemplate">Nowa notatka z szablonu</sys:String>
@@ -770,7 +771,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Ctx_DailyGroup">Grupa notatek dziennych</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">Dzisiejsza notatka (Alt+D) jest tworzona w tej grupie</sys:String>
     <sys:String x:Key="Str_Grp_Daily">Notatki dzienne</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Dzienna</sys:String>
     <sys:String x:Key="Str_St_DailyOn">Dzisiejsze notatki trafiają teraz do {0}</sys:String>
     <sys:String x:Key="Str_St_DailyOff">Wyczyszczono grupę notatek dziennych</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Utworzono dzisiejszą notatkę</sys:String>
@@ -837,9 +838,9 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_KS_BackupNow">Utwórz kopię zapasową bazy danych teraz</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Kopia</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Nie wybrano jeszcze folderu kopii zapasowych. Przejdź do Zarządzaj bazami danych, potem Kopie zapasowe, aby go wybrać.</sys:String>
-    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
-    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
-    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Źródło</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Podgląd</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Obok siebie</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Linki do</sys:String>
     <sys:String x:Key="Str_KS_ControlNavigation">Przechodź między kontrolkami i aktywuj wybór z fokusem</sys:String>
     <sys:String x:Key="Str_KS_FindMatches">Następne lub poprzednie dopasowanie podczas wyszukiwania</sys:String>

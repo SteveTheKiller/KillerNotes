@@ -254,13 +254,13 @@ meg újra.</sys:String>
     <sys:String x:Key="Str_Pw_WrongPw">Hibás jelszó - próbálja újra</sys:String>
     <sys:String x:Key="Str_Pw_Protected">&quot;{0}&quot; jelszóval védett.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Oldja fel</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Új</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">erősítse meg</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Új adatbázist indítani?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">A zárolt adatbázis a lemezen marad, és később is feloldható, ha a
 jelszó jelenik meg. Enélkül nincs mód a jegyzetek helyreállítására.</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">Kezdj újat</sys:String>
-    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Megnyitás...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">Új adatbázis - a zárolt adatbázis a következőként lesz megtartva: {0}</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">Állítson be egy jelszót</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Titkosítja a teljes jegyzetadatbázist (AES-256 SQLCipheren keresztül).
@@ -306,8 +306,8 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_ExportedTo">Exportálva ide: {0}</sys:String>
     <sys:String x:Key="Str_St_ExportedToImgSkip">Exportálva ide: {0} (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Az exportálás sikertelen: {0}</sys:String>
-    <sys:String x:Key="Str_Filter_Open">Minden támogatott|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Szöveg (*.txt, *.log, *.md)|*.txt;*.md)|*.txt;*.html| *.htm)|*.html;*.htm|Rich text (*.rtf)|*.rtf|Képek|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes fájlok (*.knote, *.kndb)|*.knote;*.kndb|Minden fájl (*.*)</sys:String>
-    <sys:String x:Key="Str_Filter_Save">Szövegfájl (*.txt)|*.txt|Rich text (*.rtf)|*.rtf|Weboldal (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
+    <sys:String x:Key="Str_Filter_Open">Minden támogatott|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Szöveg (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Formázott szöveg (*.rtf)|*.rtf|Képek|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes fájlok (*.knote, *.kndb)|*.knote;*.kndb|Minden fájl (*.*)|*.*</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Szövegfájl (*.txt)|*.txt|Formázott szöveg (*.rtf)|*.rtf|Weboldal (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes jegyzet (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">Előnézeti leértékelés</sys:String>
@@ -610,14 +610,15 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
 
     <!-- Hyperlinks (Links.cs, 1.1.3) -->
     <sys:String x:Key="Str_KS_Link">Hivatkozás beszúrása/szerkesztése</sys:String>
-    <sys:String x:Key="Str_Ctx_Link">Link...</sys:String>
+    <sys:String x:Key="Str_Ctx_Link">Hivatkozás...</sys:String>
     <sys:String x:Key="Str_Dlg_LinkAdd">Link címe</sys:String>
     <sys:String x:Key="Str_Dlg_LinkEdit">Link szerkesztése - törölje a címet a kapcsolat megszüntetéséhez</sys:String>
-    <sys:String x:Key="Str_Btn_Link">Link</sys:String>
+    <sys:String x:Key="Str_Btn_Link">Hivatkozás</sys:String>
     <sys:String x:Key="Str_St_LinkBad">Ez nem úgy néz ki, mint egy webcím</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Csak szöveg csatolható - válasszon szavakat, ne egy képet vagy felvételt</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Nem sikerült megnyitni a linket</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Válasszon egy színt</sys:String>
+    <sys:String x:Key="Str_Color_Name">Szín</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Válasszon egy színt a képernyő bármely pontjáról</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Kattintson, majd kattintson egy színmintára az aktuális színre állításához</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Állítsa vissza a színtárakat az alapértelmezett értékekre</sys:String>
@@ -802,7 +803,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_VaultDonePartial">{0} jegyzet exportálva ide: {2}, {1} sikertelen</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Az exportálás sikertelen: {0}</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Sötét</sys:String>
-    <sys:String x:Key="Str_Theme_Light">Világos</sys:String>
+    <sys:String x:Key="Str_Theme_Light">Fény</sys:String>
     <sys:String x:Key="Str_Theme_Black">Fekete</sys:String>
     <sys:String x:Key="Str_Theme_SE98">98SE</sys:String>
     <sys:String x:Key="Str_Theme_Blood">Vér</sys:String>
@@ -869,7 +870,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Ctx_DailyGroup">Napi jegyzetek csoportja</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">A mai jegyzet (Alt+D) ebben a csoportban jön létre</sys:String>
     <sys:String x:Key="Str_Grp_Daily">Napi jegyzetek</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Napi</sys:String>
     <sys:String x:Key="Str_St_DailyOn">A mai jegyzetek mostantól ide kerülnek: {0}</sys:String>
     <sys:String x:Key="Str_St_DailyOff">Napi jegyzetek csoportja törölve</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Mai jegyzet létrehozva</sys:String>
@@ -936,9 +937,9 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_KS_BackupNow">Az adatbázis mentése most</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Mentés</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Még nincs kiválasztva mentési mappa. Lépjen az Adatbázisok kezelése, majd a Biztonsági mentések menüpontra, és válasszon egyet.</sys:String>
-    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
-    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
-    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Forrás</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Megjelenített</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Osztott</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Kimenő hivatkozások</sys:String>
     <sys:String x:Key="Str_KS_ControlNavigation">Váltás a vezérlők között és a fókuszban lévő lehetőség aktiválása</sys:String>
     <sys:String x:Key="Str_KS_FindMatches">Következő vagy előző találat keresés közben</sys:String>

@@ -656,6 +656,7 @@
     <sys:String x:Key="Str_St_LinkNotText">Посилання можна додати лише до тексту - виділіть слова, а не зображення чи запис</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Не вдалося відкрити посилання</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Виберіть колір</sys:String>
+    <sys:String x:Key="Str_Color_Name">Колір</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Взяти колір будь-де на екрані</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Клацніть, а потім клацніть зразок, щоб задати йому поточний колір</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Скинути зразки до типових</sys:String>
@@ -893,7 +894,7 @@
     <sys:String x:Key="Str_Ctx_DailyGroup">Група щоденних нотаток</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">Нотатка на сьогодні (Alt+D) створюється в цій групі</sys:String>
     <sys:String x:Key="Str_Grp_Daily">Щоденні нотатки</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Щоденна</sys:String>
     <sys:String x:Key="Str_St_DailyOn">Нотатки на сьогодні тепер потрапляють у {0}</sys:String>
     <sys:String x:Key="Str_St_DailyOff">Групу щоденних нотаток скинуто</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Створено нотатку на сьогодні</sys:String>

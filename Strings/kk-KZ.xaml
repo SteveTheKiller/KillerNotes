@@ -267,13 +267,13 @@
     <sys:String x:Key="Str_Pw_WrongPw">Құпия сөз қате - тағы көріңіз</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" құпия сөзбен қорғалған.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Құлпын ашу</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Жаңа</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">растаңыз</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Жаңа дерекқор басталсын ба?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Құлыпталған дерекқор дискіде қалады және құпия сөз табылса, кейін оны
 ашуға болады. Онсыз жазбаларын қалпына келтіру мүмкін емес.</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">Жаңасын бастау</sys:String>
-    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Ашу...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">Жаңа дерекқор - құлыпталғаны {0} болып сақталды</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">Құпия сөз орнату</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Бүкіл жазбалар дерекқорын шифрлайды (SQLCipher арқылы AES-256).
@@ -320,7 +320,7 @@
     <sys:String x:Key="Str_St_ExportedToImgSkip">{0} ішіне экспортталды (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Экспорттау сәтсіз аяқталды: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Барлық қолдау көрсетілетін|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Мәтін (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Пішімделген мәтін (*.rtf)|*.rtf|Суреттер|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes файлдары (*.knote, *.kndb)|*.knote;*.kndb|Барлық файлдар (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">Мәтіндік файл (*.txt)|*.txt|Пішімделген мәтін (*.rtf)|*.rtf|Веб-бет (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Мәтіндік файл (*.txt)|*.txt|Пішімделген мәтін (*.rtf)|*.rtf|Веб-бет (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes жазбасы (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">markdown алдын ала қарау</sys:String>
@@ -620,6 +620,7 @@
     <sys:String x:Key="Str_St_LinkNotText">Тек мәтінге сілтеме беруге болады - сурет не аудиожазба емес, сөздерді таңдаңыз</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Сілтемені ашу мүмкін болмады</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Түс таңдаңыз</sys:String>
+    <sys:String x:Key="Str_Color_Name">Түс</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Экранның кез келген жерінен түс алу</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Басыңыз, содан кейін үлгіні басып, оған ағымдағы түсті беріңіз</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Үлгілерді әдепкі мәндерге ысыру</sys:String>
@@ -851,7 +852,7 @@
     <sys:String x:Key="Str_Ctx_DailyGroup">Күнделікті жазбалар тобы</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">Бүгінгі жазба (Alt+D) осы топта жасалады</sys:String>
     <sys:String x:Key="Str_Grp_Daily">Күнделікті жазбалар</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Күнделікті</sys:String>
     <sys:String x:Key="Str_St_DailyOn">Бүгінгі жазбалар енді {0} ішіне түседі</sys:String>
     <sys:String x:Key="Str_St_DailyOff">Күнделікті жазбалар тобы тазартылды</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Бүгінгі жазба жасалды</sys:String>
@@ -918,9 +919,9 @@
     <sys:String x:Key="Str_KS_BackupNow">Дерекқордың сақтық көшірмесін қазір жасау</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Көшірме</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Сақтық көшірме қалтасы әлі таңдалмаған. Дерекқорларды басқару, содан соң Сақтық көшірмелер бөлімін ашып, қалтаны сол жерден таңдаңыз.</sys:String>
-    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
-    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
-    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Бастапқы код</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Көрініс</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Қатар</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Осы жазбадан шығатын сілтемелер</sys:String>
     <sys:String x:Key="Str_KS_ControlNavigation">Басқару элементтері арасында ауысу және фокустағы таңдауды іске қосу</sys:String>
     <sys:String x:Key="Str_KS_FindMatches">Іздеу кезінде келесі немесе алдыңғы сәйкестікке өту</sys:String>

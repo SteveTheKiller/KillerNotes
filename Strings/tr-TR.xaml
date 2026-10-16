@@ -106,13 +106,13 @@ yeniden açın.</sys:String>
     <sys:String x:Key="Str_Pw_WrongPw">Yanlış parola - yeniden deneyin</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" parola korumalı.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Kilidi aç</sys:String>
-    <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
+    <sys:String x:Key="Str_Pw_NewDbBtn">Yeni</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">onayla</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Yeni bir veritabanı başlatılsın mı?</sys:String>
     <sys:String x:Key="Str_Dlg_FreshBody" xml:space="preserve">Kilitli veritabanı diskte kalır ve parola bulunursa daha sonra açılabilir.
 Parola olmadan notlarını kurtarmanın bir yolu yoktur.</sys:String>
     <sys:String x:Key="Str_Btn_StartNew">Yeni başlat</sys:String>
-    <sys:String x:Key="Str_Btn_OpenOther">Open...</sys:String>
+    <sys:String x:Key="Str_Btn_OpenOther">Aç...</sys:String>
     <sys:String x:Key="Str_St_FreshDb">Yeni veritabanı - kilitli olan {0} olarak saklanıyor</sys:String>
     <sys:String x:Key="Str_Pw_SetHead">Parola belirle</sys:String>
     <sys:String x:Key="Str_Pw_SetBody" xml:space="preserve">Tüm not veritabanını şifreler (SQLCipher ile AES-256).
@@ -159,7 +159,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_ExportedToImgSkip">{0} konumuna dışa aktarıldı (images skipped)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Dışa aktarma başarısız: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Desteklenen tümü|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Metin (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Zengin metin (*.rtf)|*.rtf|Resimler|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes dosyaları (*.knote, *.kndb)|*.knote;*.kndb|Tüm dosyalar (*.*)|*.*</sys:String>
-    <sys:String x:Key="Str_Filter_Save">Metin dosyası (*.txt)|*.txt|Zengin metin (*.rtf)|*.rtf|Web sayfası (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes note (*.knote)|*.knote</sys:String>
+    <sys:String x:Key="Str_Filter_Save">Metin dosyası (*.txt)|*.txt|Zengin metin (*.rtf)|*.rtf|Web sayfası (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes notu (*.knote)|*.knote</sys:String>
 
     <!-- Preview -->
     <sys:String x:Key="Str_TT_PreviewMd">Markdown önizlemesi</sys:String>
@@ -478,6 +478,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_LinkBad">Bu bir web adresine benzemiyor</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Bağlantı açılamadı</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Bir renk seçin</sys:String>
+    <sys:String x:Key="Str_Color_Name">Renk</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Ekranın herhangi bir yerinden renk seçin</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Tıklayın, ardından geçerli renge ayarlamak için bir renk örneğine tıklayın</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Renk örneklerini varsayılanlara sıfırla</sys:String>
@@ -842,7 +843,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Ctx_DailyGroup">Günlük notlar grubu</sys:String>
     <sys:String x:Key="Str_TT_DailyGroup">Bugünün notu (Alt+D) bu grupta oluşturulur</sys:String>
     <sys:String x:Key="Str_Grp_Daily">Günlük notlar</sys:String>
-    <sys:String x:Key="Str_DailyTemplate">Daily</sys:String>
+    <sys:String x:Key="Str_DailyTemplate">Günlük</sys:String>
     <sys:String x:Key="Str_St_DailyOn">Bugünün notları artık {0} grubuna gidiyor</sys:String>
     <sys:String x:Key="Str_St_DailyOff">Günlük notlar grubu kaldırıldı</sys:String>
     <sys:String x:Key="Str_St_TodayCreated">Bugünün notu oluşturuldu</sys:String>
@@ -909,9 +910,9 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_BackupNow">Veritabanını şimdi yedekle</sys:String>
     <sys:String x:Key="Str_Kb_Backup">Yedek</sys:String>
     <sys:String x:Key="Str_St_NoBackupFolder">Henüz bir yedekleme klasörü seçilmedi. Veritabanlarını yönet, ardından Yedeklemeler bölümünden birini seçin.</sys:String>
-    <sys:String x:Key="Str_Preview_Source">Source</sys:String>
-    <sys:String x:Key="Str_Preview_Rendered">Rendered</sys:String>
-    <sys:String x:Key="Str_Preview_Split">Split</sys:String>
+    <sys:String x:Key="Str_Preview_Source">Kaynak</sys:String>
+    <sys:String x:Key="Str_Preview_Rendered">Önizleme</sys:String>
+    <sys:String x:Key="Str_Preview_Split">Bölünmüş</sys:String>
     <sys:String x:Key="Str_Lbl_OutgoingLinks">Giden bağlantılar</sys:String>
     <sys:String x:Key="Str_KS_ControlNavigation">Denetimler arasında geçiş yap ve odaktaki seçeneği etkinleştir</sys:String>
     <sys:String x:Key="Str_KS_FindMatches">Arama sırasında sonraki veya önceki eşleşme</sys:String>

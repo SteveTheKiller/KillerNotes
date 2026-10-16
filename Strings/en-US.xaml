@@ -656,6 +656,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Only text can be linked - select words, not an image or recording</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Couldn't open the link</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Pick a color</sys:String>
+    <sys:String x:Key="Str_Color_Name">Color</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Pick a color from anywhere on screen</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Click, then click a swatch to set it to the current color</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Reset swatches to defaults</sys:String>

@@ -656,6 +656,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_St_LinkNotText">Somente texto pode receber link - selecione palavras, não uma imagem ou gravação</sys:String>
     <sys:String x:Key="Str_St_LinkFailed">Não foi possível abrir o link</sys:String>
     <sys:String x:Key="Str_Dlg_PickColor">Escolher uma cor</sys:String>
+    <sys:String x:Key="Str_Color_Name">Cor</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Escolher uma cor de qualquer lugar da tela</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Clique e depois clique em uma amostra para defini-la com a cor atual</sys:String>
     <sys:String x:Key="Str_TT_ResetSwatches">Redefinir as amostras para o padrão</sys:String>

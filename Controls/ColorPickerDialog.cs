@@ -85,7 +85,7 @@ namespace KillerNotes.Controls
 
         public ColorPickerDialog(Window? owner, Color initial)
         {
-            Title = "KillerNotes - Color";
+            Title = "KillerNotes - " + L("Str_Color_Name", "Color");
             Width = 300;
             SizeToContent = SizeToContent.Height;
             WindowStyle = WindowStyle.None;
