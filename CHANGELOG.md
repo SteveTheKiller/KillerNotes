@@ -24,6 +24,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The format bar's top corners are square where it hangs from the top of the note pane, and round only when the bar sits flush in a corner of the pane.
 - The website top bar no longer leaves extra space under the wordmark and buttons.
 - Theme and language radio buttons and the Film Grain checkbox line up with their labels again.
+- On the website, text on accent-colored buttons, tabs and highlights switches to white or near-black for contrast, so it is never white on yellow.
 
 ## [1.5.0] - 2026-10-15
 

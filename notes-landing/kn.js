@@ -82,6 +82,12 @@
     hc:    { red:'#380000', orange:'#4E2900', yellow:'#2E2B00', green:'#003314', teal:'#003832', blue:'#0A2C50', purple:'#250038', magenta:'#2E0022' }
   };
   function famFor(t) { return t === 'light' ? 'light' : t === 'hc' ? 'hc' : 'dark'; }
+  // Text on an accent fill uses white or near-black, whichever contrasts more with that fill.
+  function readableOn(hex) {
+    var lum = function (h) { var c = [1, 3, 5].map(function (i) { var v = parseInt(h.substr(i, 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+    var l = lum(hex), dark = lum('#1e1f22');
+    return (1.05 / (l + 0.05)) >= ((l + 0.05) / (dark + 0.05)) ? '#ffffff' : '#1e1f22';
+  }
 
   var swatches = [].slice.call(document.querySelectorAll('.swatch'));
   var accDots  = [].slice.call(document.querySelectorAll('.acc'));
@@ -158,11 +164,15 @@
       root.style.setProperty('--accent', pair[0]);
       root.style.setProperty('--btn', pair[1]);
       root.style.setProperty('--sel', (SEL[fam] && SEL[fam][name]) || pair[1]);
+      root.style.setProperty('--btn-text', readableOn(pair[1]));
+      root.style.setProperty('--accent-text', readableOn(pair[0]));
       try { localStorage.setItem('knotes-av', pair[0] + '|' + pair[1]); } catch (e) {}
     } else {
       root.style.removeProperty('--accent');
       root.style.removeProperty('--btn');
       root.style.removeProperty('--sel');
+      root.style.removeProperty('--btn-text');
+      root.style.removeProperty('--accent-text');
     }
     accDots.forEach(function (d) {
       var p = ACCENTS[fam][d.dataset.accent];
