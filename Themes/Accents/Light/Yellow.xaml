@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
 
-    <!-- The accent stays yellow. Yellow text and glyphs read on the light surfaces through the dark
-         shadow Controls/AccentShadow.cs draws behind them while WordmarkAccentShadowOpacity is above 0. -->
+    <!-- The accent stays yellow. Yellow text and glyphs read on the light surfaces through the thin gray
+         outline Controls/AccentShadow.cs draws around them while WordmarkAccentShadowOpacity is above 0. -->
     <SolidColorBrush x:Key="PrimaryBrush"        Color="#F2C500" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#FFD43B" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#D9B000" po:Freeze="True"/>
