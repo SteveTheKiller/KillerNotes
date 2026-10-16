@@ -314,8 +314,8 @@ namespace KillerNotes.Services
             // the note titles. Lacquer's line box sits its capitals low, so the negative TOP margin
             // raises the text 5px to center the capitals in the header row (and in its hover and
             // focus highlight), and the margins together give back 4px of the room its drips
-            // reserve, keeping the rows compact in every density. 98SE keeps Killer Sans bold at 18. A font picked in Fonts
-            // overrides all four from the top-level dictionary (Fonts.cs).
+            // reserve, keeping the rows compact in every density. 98SE keeps Killer Sans bold at
+            // 18. A font picked in Fonts overrides all four from the top-level dictionary (Fonts.cs).
             SetIfAbsent(newDict, "HeaderFont", new FontFamily(new Uri("pack://application:,,,/"),
                 flatCaption ? "/KillerNotes;component/Fonts/#Killer Sans" : "/KillerNotes;component/Fonts/#Lacquer"));
             SetIfAbsent(newDict, "HeaderFontWeight", flatCaption ? FontWeights.Bold : FontWeights.Normal);
