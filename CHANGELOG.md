@@ -8,10 +8,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Added
 - Alt+Shift+G turns Film Grain on or off. It is listed in the shortcuts overlay, and the keyboard map has a new Alt+Shift layer for it.
+- The website's top bar has a Microsoft Store button on every page, and the MCP page has a Microsoft Store button for KillerMCP.
 
 ### Changed
 - Note titles in the sidebar are slightly larger, so they stand apart from the preview line and date under them.
 - The sidebar starts 20px wider, and the width you drag it to is remembered the next time KillerNotes opens.
+- The website's top bar Download button uses the same font and height as the other top bar buttons.
 
 ### Fixed
 - On the Light theme's Yellow accent, buttons, links, tabs and accent icons stay yellow with a thin gray outline around yellow text and icons, instead of turning near-black.
@@ -27,6 +29,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - On the website, text on accent-colored buttons, tabs and highlights switches to white or near-black for contrast, so it is never white on yellow.
 - Theme names, the preview modes, the unlock dialog buttons and other labels that were still in English are translated in every language, and the Hungarian Open dialog lists file types correctly again.
 - The website's MCP page, release details, contact cards, carousel controls and remaining labels are translated in every language.
+- On phones, the website's logo, download hash, Technical model table and file paths fit the screen instead of making the page scroll sideways.
 
 ## [1.5.0] - 2026-10-15
 
