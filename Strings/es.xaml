@@ -935,4 +935,12 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimizar barra de herramientas</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Restaurar barra de herramientas</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Guía completa y tutoriales en línea</sys:String>
+    <sys:String x:Key="Str_Scroll_Up">Desplazar hacia arriba</sys:String>
+    <sys:String x:Key="Str_Scroll_Down">Desplazar hacia abajo</sys:String>
+    <sys:String x:Key="Str_Scroll_Left">Desplazar hacia la izquierda</sys:String>
+    <sys:String x:Key="Str_Scroll_Right">Desplazar hacia la derecha</sys:String>
+    <sys:String x:Key="Str_Scroll_PageUp">Una página hacia arriba</sys:String>
+    <sys:String x:Key="Str_Scroll_PageDown">Una página hacia abajo</sys:String>
+    <sys:String x:Key="Str_Scroll_PageLeft">Una página hacia la izquierda</sys:String>
+    <sys:String x:Key="Str_Scroll_PageRight">Una página hacia la derecha</sys:String>
 </ResourceDictionary>

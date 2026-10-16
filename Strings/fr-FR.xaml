@@ -934,4 +934,12 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Réduire la barre d’outils</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Restaurer la barre d’outils</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Guide complet et tutoriels en ligne</sys:String>
+    <sys:String x:Key="Str_Scroll_Up">Défiler vers le haut</sys:String>
+    <sys:String x:Key="Str_Scroll_Down">Défiler vers le bas</sys:String>
+    <sys:String x:Key="Str_Scroll_Left">Défiler vers la gauche</sys:String>
+    <sys:String x:Key="Str_Scroll_Right">Défiler vers la droite</sys:String>
+    <sys:String x:Key="Str_Scroll_PageUp">Page vers le haut</sys:String>
+    <sys:String x:Key="Str_Scroll_PageDown">Page vers le bas</sys:String>
+    <sys:String x:Key="Str_Scroll_PageLeft">Page vers la gauche</sys:String>
+    <sys:String x:Key="Str_Scroll_PageRight">Page vers la droite</sys:String>
 </ResourceDictionary>

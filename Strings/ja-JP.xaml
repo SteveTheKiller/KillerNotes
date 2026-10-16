@@ -932,4 +932,12 @@
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">ツールバーを最小化</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">ツールバーを復元</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">完全ガイド &amp; 使い方 (オンライン)</sys:String>
+    <sys:String x:Key="Str_Scroll_Up">上へスクロール</sys:String>
+    <sys:String x:Key="Str_Scroll_Down">下へスクロール</sys:String>
+    <sys:String x:Key="Str_Scroll_Left">左へスクロール</sys:String>
+    <sys:String x:Key="Str_Scroll_Right">右へスクロール</sys:String>
+    <sys:String x:Key="Str_Scroll_PageUp">1 ページ上へ</sys:String>
+    <sys:String x:Key="Str_Scroll_PageDown">1 ページ下へ</sys:String>
+    <sys:String x:Key="Str_Scroll_PageLeft">1 ページ左へ</sys:String>
+    <sys:String x:Key="Str_Scroll_PageRight">1 ページ右へ</sys:String>
 </ResourceDictionary>

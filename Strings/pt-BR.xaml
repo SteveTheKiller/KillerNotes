@@ -981,4 +981,12 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimizar barra de ferramentas</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Restaurar barra de ferramentas</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Guia completo &amp; tutoriais online</sys:String>
+    <sys:String x:Key="Str_Scroll_Up">Rolar para cima</sys:String>
+    <sys:String x:Key="Str_Scroll_Down">Rolar para baixo</sys:String>
+    <sys:String x:Key="Str_Scroll_Left">Rolar para a esquerda</sys:String>
+    <sys:String x:Key="Str_Scroll_Right">Rolar para a direita</sys:String>
+    <sys:String x:Key="Str_Scroll_PageUp">Uma página acima</sys:String>
+    <sys:String x:Key="Str_Scroll_PageDown">Uma página abaixo</sys:String>
+    <sys:String x:Key="Str_Scroll_PageLeft">Uma página à esquerda</sys:String>
+    <sys:String x:Key="Str_Scroll_PageRight">Uma página à direita</sys:String>
 </ResourceDictionary>

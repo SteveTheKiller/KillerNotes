@@ -960,4 +960,12 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Eszköztár kis méretre állítása</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Eszköztár visszaállítása</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Teljes útmutató és leírás online</sys:String>
+    <sys:String x:Key="Str_Scroll_Up">Görgetés felfelé</sys:String>
+    <sys:String x:Key="Str_Scroll_Down">Görgetés lefelé</sys:String>
+    <sys:String x:Key="Str_Scroll_Left">Görgetés balra</sys:String>
+    <sys:String x:Key="Str_Scroll_Right">Görgetés jobbra</sys:String>
+    <sys:String x:Key="Str_Scroll_PageUp">Egy oldallal feljebb</sys:String>
+    <sys:String x:Key="Str_Scroll_PageDown">Egy oldallal lejjebb</sys:String>
+    <sys:String x:Key="Str_Scroll_PageLeft">Egy oldallal balra</sys:String>
+    <sys:String x:Key="Str_Scroll_PageRight">Egy oldallal jobbra</sys:String>
 </ResourceDictionary>

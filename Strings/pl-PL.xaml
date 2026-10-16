@@ -861,4 +861,12 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimalizuj pasek narzędzi</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Przywróć pasek narzędzi</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Pełny przewodnik &amp; poradniki online</sys:String>
+    <sys:String x:Key="Str_Scroll_Up">Przewiń w górę</sys:String>
+    <sys:String x:Key="Str_Scroll_Down">Przewiń w dół</sys:String>
+    <sys:String x:Key="Str_Scroll_Left">Przewiń w lewo</sys:String>
+    <sys:String x:Key="Str_Scroll_Right">Przewiń w prawo</sys:String>
+    <sys:String x:Key="Str_Scroll_PageUp">Strona w górę</sys:String>
+    <sys:String x:Key="Str_Scroll_PageDown">Strona w dół</sys:String>
+    <sys:String x:Key="Str_Scroll_PageLeft">Strona w lewo</sys:String>
+    <sys:String x:Key="Str_Scroll_PageRight">Strona w prawo</sys:String>
 </ResourceDictionary>

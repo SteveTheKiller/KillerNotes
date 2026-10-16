@@ -931,4 +931,12 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimalizovat panel nástrojů</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Obnovit panel nástrojů</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Kompletní příručka &amp; návody online</sys:String>
+    <sys:String x:Key="Str_Scroll_Up">Posunout nahoru</sys:String>
+    <sys:String x:Key="Str_Scroll_Down">Posunout dolů</sys:String>
+    <sys:String x:Key="Str_Scroll_Left">Posunout doleva</sys:String>
+    <sys:String x:Key="Str_Scroll_Right">Posunout doprava</sys:String>
+    <sys:String x:Key="Str_Scroll_PageUp">O stránku nahoru</sys:String>
+    <sys:String x:Key="Str_Scroll_PageDown">O stránku dolů</sys:String>
+    <sys:String x:Key="Str_Scroll_PageLeft">O stránku doleva</sys:String>
+    <sys:String x:Key="Str_Scroll_PageRight">O stránku doprava</sys:String>
 </ResourceDictionary>

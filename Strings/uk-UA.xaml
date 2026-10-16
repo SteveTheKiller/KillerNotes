@@ -981,4 +981,12 @@
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Згорнути панель інструментів</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Відновити панель інструментів</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Повний посібник &amp; настанови онлайн</sys:String>
+    <sys:String x:Key="Str_Scroll_Up">Прокрутити вгору</sys:String>
+    <sys:String x:Key="Str_Scroll_Down">Прокрутити вниз</sys:String>
+    <sys:String x:Key="Str_Scroll_Left">Прокрутити ліворуч</sys:String>
+    <sys:String x:Key="Str_Scroll_Right">Прокрутити праворуч</sys:String>
+    <sys:String x:Key="Str_Scroll_PageUp">На сторінку вгору</sys:String>
+    <sys:String x:Key="Str_Scroll_PageDown">На сторінку вниз</sys:String>
+    <sys:String x:Key="Str_Scroll_PageLeft">На сторінку ліворуч</sys:String>
+    <sys:String x:Key="Str_Scroll_PageRight">На сторінку праворуч</sys:String>
 </ResourceDictionary>

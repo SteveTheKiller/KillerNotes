@@ -358,7 +358,7 @@
                              re-dock these buttons and swap their commands but had no way to turn
                              the triangles, and a horizontal bar showed up/down arrows. -->
                         <RepeatButton x:Name="LineUp" DockPanel.Dock="Top" Focusable="False" IsTabStop="False"
-                                      Command="ScrollBar.LineUpCommand" Content="0"
+                                      Command="ScrollBar.LineUpCommand" AutomationProperties.Name="{DynamicResource Str_Scroll_Up}" Content="0"
                                       Width="{DynamicResource ScrollArrowSize}" Height="{DynamicResource ScrollArrowSize}">
                             <RepeatButton.Template>
                                 <ControlTemplate TargetType="RepeatButton">
@@ -396,7 +396,7 @@
                             </RepeatButton.Template>
                         </RepeatButton>
                         <RepeatButton x:Name="LineDown" DockPanel.Dock="Bottom" Focusable="False" IsTabStop="False"
-                                      Command="ScrollBar.LineDownCommand" Content="180"
+                                      Command="ScrollBar.LineDownCommand" AutomationProperties.Name="{DynamicResource Str_Scroll_Down}" Content="180"
                                       Width="{DynamicResource ScrollArrowSize}" Height="{DynamicResource ScrollArrowSize}">
                             <RepeatButton.Template>
                                 <ControlTemplate TargetType="RepeatButton">
@@ -446,14 +446,14 @@
                                 </MultiBinding>
                             </Track.ViewportSize>
                             <Track.DecreaseRepeatButton>
-                                <RepeatButton x:Name="PageBack" Command="ScrollBar.PageUpCommand" Focusable="False" IsTabStop="False">
+                                <RepeatButton x:Name="PageBack" Command="ScrollBar.PageUpCommand" AutomationProperties.Name="{DynamicResource Str_Scroll_PageUp}" Focusable="False" IsTabStop="False">
                                     <RepeatButton.Template>
                                         <ControlTemplate TargetType="RepeatButton"><Border Background="Transparent"/></ControlTemplate>
                                     </RepeatButton.Template>
                                 </RepeatButton>
                             </Track.DecreaseRepeatButton>
                             <Track.IncreaseRepeatButton>
-                                <RepeatButton x:Name="PageForward" Command="ScrollBar.PageDownCommand" Focusable="False" IsTabStop="False">
+                                <RepeatButton x:Name="PageForward" Command="ScrollBar.PageDownCommand" AutomationProperties.Name="{DynamicResource Str_Scroll_PageDown}" Focusable="False" IsTabStop="False">
                                     <RepeatButton.Template>
                                         <ControlTemplate TargetType="RepeatButton"><Border Background="Transparent"/></ControlTemplate>
                                     </RepeatButton.Template>
@@ -513,14 +513,18 @@
                         <Trigger Property="Orientation" Value="Horizontal">
                             <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="False"/>
                             <Setter TargetName="PageBack"    Property="Command" Value="ScrollBar.PageLeftCommand"/>
+                            <Setter TargetName="PageBack"    Property="AutomationProperties.Name" Value="{DynamicResource Str_Scroll_PageLeft}"/>
                             <Setter TargetName="PageForward" Property="Command" Value="ScrollBar.PageRightCommand"/>
+                            <Setter TargetName="PageForward" Property="AutomationProperties.Name" Value="{DynamicResource Str_Scroll_PageRight}"/>
                             <!-- Re-dock the line buttons to the ends of a horizontal bar and turn the
                                  triangles to match. Commands change too: LineUp/LineDown are the
                                  vertical names, LineLeft/LineRight the horizontal ones. -->
                             <Setter TargetName="LineUp"   Property="DockPanel.Dock" Value="Left"/>
                             <Setter TargetName="LineDown" Property="DockPanel.Dock" Value="Right"/>
                             <Setter TargetName="LineUp"   Property="Command" Value="ScrollBar.LineLeftCommand"/>
+                            <Setter TargetName="LineUp"   Property="AutomationProperties.Name" Value="{DynamicResource Str_Scroll_Left}"/>
                             <Setter TargetName="LineDown" Property="Command" Value="ScrollBar.LineRightCommand"/>
+                            <Setter TargetName="LineDown" Property="AutomationProperties.Name" Value="{DynamicResource Str_Scroll_Right}"/>
                             <!-- Rotation in degrees: 270 points the triangle left, 90 right. -->
                             <Setter TargetName="LineUp"   Property="Content" Value="270"/>
                             <Setter TargetName="LineDown" Property="Content" Value="90"/>

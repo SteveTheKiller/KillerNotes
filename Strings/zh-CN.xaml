@@ -932,4 +932,12 @@
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">最小化工具栏</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">还原工具栏</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">完整指南和在线教程</sys:String>
+    <sys:String x:Key="Str_Scroll_Up">向上滚动</sys:String>
+    <sys:String x:Key="Str_Scroll_Down">向下滚动</sys:String>
+    <sys:String x:Key="Str_Scroll_Left">向左滚动</sys:String>
+    <sys:String x:Key="Str_Scroll_Right">向右滚动</sys:String>
+    <sys:String x:Key="Str_Scroll_PageUp">向上翻页</sys:String>
+    <sys:String x:Key="Str_Scroll_PageDown">向下翻页</sys:String>
+    <sys:String x:Key="Str_Scroll_PageLeft">向左翻页</sys:String>
+    <sys:String x:Key="Str_Scroll_PageRight">向右翻页</sys:String>
 </ResourceDictionary>

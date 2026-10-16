@@ -933,4 +933,12 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Araç çubuğunu simge durumuna küçült</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Araç çubuğunu geri yükle</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Tam kılavuz ve çevrimiçi rehber</sys:String>
+    <sys:String x:Key="Str_Scroll_Up">Yukarı kaydır</sys:String>
+    <sys:String x:Key="Str_Scroll_Down">Aşağı kaydır</sys:String>
+    <sys:String x:Key="Str_Scroll_Left">Sola kaydır</sys:String>
+    <sys:String x:Key="Str_Scroll_Right">Sağa kaydır</sys:String>
+    <sys:String x:Key="Str_Scroll_PageUp">Bir sayfa yukarı</sys:String>
+    <sys:String x:Key="Str_Scroll_PageDown">Bir sayfa aşağı</sys:String>
+    <sys:String x:Key="Str_Scroll_PageLeft">Bir sayfa sola</sys:String>
+    <sys:String x:Key="Str_Scroll_PageRight">Bir sayfa sağa</sys:String>
 </ResourceDictionary>
