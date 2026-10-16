@@ -166,7 +166,7 @@
                             AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                             HorizontalAlignment="Right" VerticalAlignment="Center"
                             Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
-                            Style="{StaticResource ChromeCloseButton}">
+                            Style="{StaticResource OverlayCloseButton}">
                     </Button>
                 </Grid>
                 </Grid>

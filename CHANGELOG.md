@@ -19,6 +19,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The exe's file properties show Steve the Killer as the copyright holder instead of leaving it blank.
 - Screen readers no longer read toolbar, format bar, menu and title bar icons as unreadable symbols.
 - Turning off Film Grain removes the grain from the note pane too.
+- The file picker's close button turns red on hover without filling a red block, like every other dialog's close.
+- Group and Trash headings in the sidebar sit centered in their row and its highlight instead of low against the bottom edge.
 - The format bar's top corners are square where it hangs from the top of the note pane, and round only when the bar sits flush in a corner of the pane.
 - The website top bar no longer leaves extra space under the wordmark and buttons.
 - Theme and language radio buttons and the Film Grain checkbox line up with their labels again.
