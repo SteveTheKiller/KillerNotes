@@ -255,9 +255,14 @@ namespace KillerFamily.Accessibility
         /// </summary>
         private static Style CompactFocusStyle => _compactFocusStyle ??= BuildFocusStyle(-3);
 
-        private static bool IsCompact(Control control) =>
+        private static bool IsCompact(FrameworkElement control) =>
             control.ActualWidth > 0 && control.ActualHeight > 0 &&
             (control.ActualWidth < CompactSize || control.ActualHeight < CompactSize);
+
+        /// <summary>The family focus ring for a focusable element that is not a Control, such as a
+        /// code-built appointment chip. Controls receive theirs automatically.</summary>
+        internal static Style FocusStyleFor(FrameworkElement element) =>
+            IsCompact(element) ? CompactFocusStyle : FocusStyle;
 
         private const double CompactSize = 21;
 
