@@ -26,6 +26,7 @@ namespace KillerNotes.Shell
             InitTiltWheel();     // TiltWheel.cs (WM_MOUSEHWHEEL + Shift+wheel, issue #9)
             InitTableSizePicker();
             InitTableEditing();  // Editor.TableEdit.cs (table paste, delete, Table menu)
+            InitRuleGuard();     // Editor.Rules.cs (the caret never rests inside a horizontal rule, #28)
             InitFormatBar();
             InitImageResize();   // click-to-resize handles on note images (ImageResize.cs)
             InitEditorView();    // remembered zoom + Ctrl+wheel (below)
