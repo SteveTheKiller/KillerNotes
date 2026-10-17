@@ -134,26 +134,45 @@
                          whatever the palette says. All 15 accent files set PrimaryHoverBrush ==
                          PrimaryBrush, so the old brush swap was a no-op and this button had never
                          shown a hover. Ported from KillerShell. (2026-07-30) -->
-                    <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}">
-                        <Grid>
-                            <Border x:Name="tint" CornerRadius="{DynamicResource ControlCornerRadius}" Background="Transparent"/>
-                            <Border x:Name="bevelLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
-                            <Border x:Name="bevelDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
-                            <ContentPresenter Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </Border>
+                    <Grid>
+                        <!-- Raised: a soft shadow on item-free SIBLINGS under the face (an effect on the face
+                             itself would rasterize the caption and lose ClearType). Hover lifts the button
+                             higher, press sets it down. BarShadowOpacity is 0 on 98SE, which stays flat. -->
+                        <Border x:Name="liftRest" IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
+                                Background="Black" Opacity="{DynamicResource BarShadowOpacity}">
+                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="1.5" BlurRadius="5" RenderingBias="Quality"/></Border.Effect>
+                        </Border>
+                        <Border x:Name="liftHover" IsHitTestVisible="False" Visibility="Collapsed" CornerRadius="{DynamicResource ControlCornerRadius}"
+                                Background="Black" Opacity="{DynamicResource BarShadowOpacity}">
+                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="3.5" BlurRadius="10" RenderingBias="Quality"/></Border.Effect>
+                        </Border>
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}">
+                            <Grid>
+                                <Border x:Name="tint" CornerRadius="{DynamicResource ControlCornerRadius}" Background="Transparent"/>
+                                <Border x:Name="bevelLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                                <Border x:Name="bevelDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="tint" Property="Background" Value="#2EFFFFFF"/>
+                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="liftHover" Property="Visibility" Value="Visible"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="tint" Property="Background" Value="#38000000"/>
                             <Setter TargetName="bevelLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
                             <Setter TargetName="bevelDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
+                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>
+                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -193,6 +212,17 @@
                          flat outline sits, so a beveled theme replaces the outline rather than
                          drawing a second line inside it. -->
                     <Grid>
+                        <!-- Raised: a soft shadow on item-free SIBLINGS under the face (an effect on the face
+                             itself would rasterize the caption and lose ClearType). Hover lifts the button
+                             higher, press sets it down. BarShadowOpacity is 0 on 98SE, which stays flat. -->
+                        <Border x:Name="liftRest" IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
+                                Background="Transparent" BorderBrush="Black" BorderThickness="1" Opacity="{DynamicResource BarShadowOpacity}">
+                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="1.5" BlurRadius="5" RenderingBias="Quality"/></Border.Effect>
+                        </Border>
+                        <Border x:Name="liftHover" IsHitTestVisible="False" Visibility="Collapsed" CornerRadius="{DynamicResource ControlCornerRadius}"
+                                Background="Black" Opacity="{DynamicResource BarShadowOpacity}">
+                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="3.5" BlurRadius="10" RenderingBias="Quality"/></Border.Effect>
+                        </Border>
                         <Border x:Name="borderRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=border}" BorderThickness="{Binding BorderThickness, ElementName=border}" BorderBrush="{Binding Background, ElementName=border}" Margin="{Binding Margin, ElementName=border}" Visibility="{Binding Visibility, ElementName=border}" Opacity="{Binding Opacity, ElementName=border}"/><Border x:Name="border" Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
@@ -210,15 +240,21 @@
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource OutlineHoverBrush}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource OutlineHoverBrush}"/>
                             <Setter Property="Foreground" Value="{DynamicResource OutlineHoverTextBrush}"/>
+                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="liftHover" Property="Visibility" Value="Visible"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource SelectionBg}"/>
                             <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
                             <Setter TargetName="bevelLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
                             <Setter TargetName="bevelDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
+                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>
+                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -253,6 +289,17 @@
                          they were drawn within the 1px edge and the 12,6 padding, so the raised
                          edge appeared around the text instead of around the button. -->
                     <Grid>
+                        <!-- Raised: a soft shadow on item-free SIBLINGS under the face (an effect on the face
+                             itself would rasterize the caption and lose ClearType). Hover lifts the button
+                             higher, press sets it down. BarShadowOpacity is 0 on 98SE, which stays flat. -->
+                        <Border x:Name="liftRest" IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
+                                Background="Black" Opacity="{DynamicResource BarShadowOpacity}">
+                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="1.5" BlurRadius="5" RenderingBias="Quality"/></Border.Effect>
+                        </Border>
+                        <Border x:Name="liftHover" IsHitTestVisible="False" Visibility="Collapsed" CornerRadius="{DynamicResource ControlCornerRadius}"
+                                Background="Black" Opacity="{DynamicResource BarShadowOpacity}">
+                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="3.5" BlurRadius="10" RenderingBias="Quality"/></Border.Effect>
+                        </Border>
                         <Border x:Name="borderRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=border}" BorderThickness="{Binding BorderThickness, ElementName=border}" BorderBrush="{Binding Background, ElementName=border}" Margin="{Binding Margin, ElementName=border}" Visibility="{Binding Visibility, ElementName=border}" Opacity="{Binding Opacity, ElementName=border}"/><Border x:Name="border" Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
@@ -282,11 +329,15 @@
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource SurfaceHoverBrush}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource OutlineBtnBrush}"/>
                             <Setter Property="Foreground" Value="{DynamicResource SurfaceHoverFg}"/>
+                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="liftHover" Property="Visibility" Value="Visible"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource SurfaceBrush}"/>
                             <Setter TargetName="bevelLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
                             <Setter TargetName="bevelDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
+                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                         <!-- A selected toggle (Tag "selected", e.g. the active sort) keeps its
                              SelectionBg fill under hover and press, so its SelectionFg glyph never
@@ -297,6 +348,8 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4"/>
                             <Setter Property="Cursor" Value="Arrow"/>
+                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
