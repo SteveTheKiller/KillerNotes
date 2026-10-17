@@ -12,7 +12,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace KillerFamily.Accessibility
 {
@@ -245,18 +244,10 @@ namespace KillerFamily.Accessibility
 
         private static Style BuildFocusStyle(double inset)
         {
-            var grid = new FrameworkElementFactory(typeof(Grid));
-            foreach (var stroke in new[] { Tuple.Create(SystemColors.WindowTextBrushKey, 3.0),
-                                          Tuple.Create(SystemColors.WindowBrushKey, 1.0) })
-            {
-                var outline = new FrameworkElementFactory(typeof(Rectangle));
-                outline.SetValue(FrameworkElement.MarginProperty, new Thickness(inset));
-                outline.SetValue(Shape.StrokeThicknessProperty, stroke.Item2);
-                outline.SetValue(Shape.StrokeDashArrayProperty, new DoubleCollection { 2, 2 });
-                outline.SetResourceReference(Shape.StrokeProperty, stroke.Item1);
-                grid.AppendChild(outline);
-            }
-            var template = new ControlTemplate(typeof(Control)) { VisualTree = grid };
+            var ring = new FrameworkElementFactory(typeof(FocusRing));
+            ring.SetValue(FrameworkElement.MarginProperty, new Thickness(inset));
+            ring.SetValue(FocusRing.InsetProperty, inset);
+            var template = new ControlTemplate(typeof(Control)) { VisualTree = ring };
             var style = new Style(typeof(Control));
             style.Setters.Add(new Setter(Control.TemplateProperty, template));
             style.Seal();
@@ -285,6 +276,87 @@ namespace KillerFamily.Accessibility
 
             public object[] ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo culture) =>
                 [];
+        }
+    }
+
+    /// <summary>
+    /// The keyboard focus outline: a thin solid ring in the theme accent, rounded like the
+    /// controls. When the accent is too faint against the window surfaces to read as an
+    /// outline, the ring uses the text color instead, and High Contrast uses the system
+    /// highlight. WPF builds a new outline each time focus moves, so it follows theme changes.
+    /// </summary>
+    internal sealed class FocusRing : Border
+    {
+        internal static readonly DependencyProperty InsetProperty = DependencyProperty.Register(
+            nameof(Inset), typeof(double), typeof(FocusRing), new PropertyMetadata(0.0));
+
+        private const double RingThickness = 2;
+        private const double MinimumContrast = 3;
+
+        public FocusRing()
+        {
+            BorderThickness = new Thickness(RingThickness);
+            SnapsToDevicePixels = true;
+            IsHitTestVisible = false;
+            Loaded += (_, _) => Apply();
+        }
+
+        internal double Inset
+        {
+            get => (double)GetValue(InsetProperty);
+            set => SetValue(InsetProperty, value);
+        }
+
+        private void Apply()
+        {
+            BorderBrush = RingBrush();
+            double radius = TryFindResource("ControlCornerRadius") is CornerRadius corner ? corner.TopLeft : 0;
+            // An outline inside the control sits on a smaller curve, one outside it on a larger one.
+            CornerRadius = new CornerRadius(radius <= 0 ? 0 : Math.Max(0, radius - Inset));
+        }
+
+        private Brush RingBrush()
+        {
+            if (SystemParameters.HighContrast) return SystemColors.HighlightBrush;
+            Brush? text = TryFindResource("TextBrush") as Brush;
+            if (TryFindResource("PrimaryBrush") is SolidColorBrush accent)
+            {
+                var surfaces = new[] { "BackgroundBrush", "PaneBrush" }
+                    .SelectMany(key => SurfaceColors(TryFindResource(key) as Brush)).ToList();
+                if (surfaces.All(surface => Contrast(Over(accent.Color, surface), surface) >= MinimumContrast))
+                    return accent;
+            }
+            return text ?? SystemColors.WindowTextBrush;
+        }
+
+        private static IEnumerable<Color> SurfaceColors(Brush? brush) => brush switch
+        {
+            SolidColorBrush solid => new[] { solid.Color },
+            GradientBrush gradient => gradient.GradientStops.Select(stop => stop.Color),
+            _ => Enumerable.Empty<Color>(),
+        };
+
+        private static Color Over(Color top, Color bottom)
+        {
+            double alpha = top.A / 255.0;
+            byte Mix(byte a, byte b) => (byte)Math.Round(a * alpha + b * (1 - alpha));
+            return Color.FromRgb(Mix(top.R, bottom.R), Mix(top.G, bottom.G), Mix(top.B, bottom.B));
+        }
+
+        private static double Contrast(Color a, Color b)
+        {
+            double la = Luminance(a), lb = Luminance(b);
+            return (Math.Max(la, lb) + 0.05) / (Math.Min(la, lb) + 0.05);
+        }
+
+        private static double Luminance(Color color)
+        {
+            double Channel(byte value)
+            {
+                double c = value / 255.0;
+                return c <= 0.03928 ? c / 12.92 : Math.Pow((c + 0.055) / 1.055, 2.4);
+            }
+            return 0.2126 * Channel(color.R) + 0.7152 * Channel(color.G) + 0.0722 * Channel(color.B);
         }
     }
 
