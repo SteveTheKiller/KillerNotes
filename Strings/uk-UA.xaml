@@ -445,7 +445,7 @@
     <sys:String x:Key="Str_KS_Rename">Перейменувати відкриту нотатку</sys:String>
     <sys:String x:Key="Str_KS_Search">Пошук нотаток</sys:String>
     <sys:String x:Key="Str_KS_Find">Знайти в цій нотатці</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Перегляд Markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Показати або сховати перегляд Markdown/HTML</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Показати / сховати панель форматування</sys:String>
     <sys:String x:Key="Str_KS_Export">Експортувати відкриту нотатку (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Згорнути / розгорнути бічну панель</sys:String>

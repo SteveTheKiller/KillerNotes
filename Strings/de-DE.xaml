@@ -50,7 +50,7 @@
     <sys:String x:Key="Str_TT_Preview">Vorschau (F4)</sys:String>
     <sys:String x:Key="Str_TT_HideBar">Formatleiste ausblenden (F6)</sys:String>
     <sys:String x:Key="Str_TT_FmtGrip">Zum Verschieben ziehen - Doppelklick zum Minimieren</sys:String>
-    <sys:String x:Key="Str_TT_FmtPeek">Zum Verschieben ziehen - Doppelklick oder F6 zum Wiederherstellen</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Klick oder F6 zum Wiederherstellen - zum Verschieben ziehen</sys:String>
 
     <!-- Color popup -->
     <sys:String x:Key="Str_Lbl_TextColor">Text</sys:String>
@@ -156,7 +156,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_St_Imported1">1 Datei importiert</sys:String>
     <sys:String x:Key="Str_St_ImportedN">{0} Dateien importiert</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">Exportiert nach {0}</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">Exportiert nach {0} (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">Exportiert nach {0} (Bilder übersprungen)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Export fehlgeschlagen: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Alle unterstützten|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Text (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Rich Text (*.rtf)|*.rtf|Bilder|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes-Dateien (*.knote, *.kndb)|*.knote;*.kndb|Alle Dateien (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">Textdatei (*.txt)|*.txt|Rich Text (*.rtf)|*.rtf|Webseite (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes-Notiz (*.knote)|*.knote</sys:String>
@@ -200,7 +200,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
 
     <!-- About overlay -->
     <sys:String x:Key="Str_About_Title">Über KillerNotes</sys:String>
-    <sys:String x:Key="Str_About_Version">Fassung</sys:String>
+    <sys:String x:Key="Str_About_Version">Version</sys:String>
     <sys:String x:Key="Str_About_Publisher">Herausgeber</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Zertifikat-Fingerabdruck</sys:String>
     <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
@@ -403,7 +403,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelRow">Zeile löschen</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelCol">Spalte löschen</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Tabelle löschen</sys:String>
-    <sys:String x:Key="Str_TT_ConvertList">Die ausgewählten Zeilen in eine kommagetrennte Liste umwandeln</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Die ausgewählten Zeilen oder die Wörter eines Satzes in eine kommagetrennte Liste umwandeln</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Auswahl in Komma-Liste</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} Werte in eine Komma-Liste umgewandelt</sys:String>
     <sys:String x:Key="Str_St_ListCopied">{0} Werte als Komma-Liste kopiert</sys:String>
@@ -466,7 +466,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Alphabetisch sortieren</sys:String>
     <sys:String x:Key="Str_St_Ready">Bereit</sys:String>
     <sys:String x:Key="Str_Fonts_PrevHead">Kundenstandorte - AaBbCc 123</sys:String>
-    <sys:String x:Key="Str_Fonts_PrevSidebar">Firewall-Tausch - Tierklinik</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Firewall-Tausch - Meadowbrook Tierklinik</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">Franz jagt im komplett verwahrlosten Taxi quer durch Bayern. 0123456789.</sys:String>
 
     <!-- Hyperlinks (Links.cs, 1.1.3) -->

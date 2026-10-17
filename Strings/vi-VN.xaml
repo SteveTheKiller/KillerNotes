@@ -15,8 +15,8 @@
     <sys:String x:Key="Str_TT_About">Giới thiệu về KillerNotes</sys:String>
 
     <!-- Sidebar + rail -->
-    <sys:String x:Key="Str_TT_CollapseSidebar">Thu gọn thanh bên (F9)</sys:String>
-    <sys:String x:Key="Str_TT_ExpandSidebar">Mở rộng thanh bên (F9)</sys:String>
+    <sys:String x:Key="Str_TT_CollapseSidebar">Thu gọn thanh bên (F5)</sys:String>
+    <sys:String x:Key="Str_TT_ExpandSidebar">Mở rộng thanh bên (F5)</sys:String>
     <sys:String x:Key="Str_TT_Shortcuts">Phím tắt (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Chủ đề</sys:String>
     <sys:String x:Key="Str_TT_Language">Ngôn ngữ</sys:String>
@@ -49,7 +49,7 @@
     <sys:String x:Key="Str_TT_Strike">Gạch ngang (Ctrl+Shift+S)</sys:String>
     <sys:String x:Key="Str_TT_Mono">Đơn cách (mã, Ctrl+Shift+M)</sys:String>
     <!-- 1.1.0 additions (grouped here for convenience; keys resolve regardless of position) -->
-    <sys:String x:Key="Str_TT_AppSize">Cuộn để thay đổi kích thước toàn bộ ứng dụng (Ctrl+Shift++/-/0)</sys:String>
+    <sys:String x:Key="Str_TT_AppSize">Cuộn để thay đổi kích thước toàn bộ ứng dụng</sys:String>
     <sys:String x:Key="Str_St_AppSize">Kích thước ứng dụng {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Bật/tắt ngắt dòng</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Tô sáng cú pháp</sys:String>
@@ -148,7 +148,7 @@
          second. Shared chrome compiled from another app's source (the file picker) reads these
          so it names the HOST app instead of the app it was written in. -->
     <sys:String x:Key="Str_Wordmark_A">Killer</sys:String>
-    <sys:String x:Key="Str_Wordmark_B">PDF</sys:String>
+    <sys:String x:Key="Str_Wordmark_B">Notes</sys:String>
 
     <!-- ==== Shared file picker (KillerPDF/Controls/FileDialog, linked into this project) ====
          The picker is compiled from KillerPDF's source, but it resolves its strings against the
@@ -441,17 +441,17 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_KS_Title">Phím tắt bàn phím</sys:String>
     <sys:String x:Key="Str_KS_ViewList">DANH SÁCH</sys:String>
     <sys:String x:Key="Str_KS_ViewKeyboard">BÀN PHÍM</sys:String>
-    <sys:String x:Key="Str_KS_HoldHint">Giữ phím Ctrl, Shift hoặc Alt để xem trước lớp đó - di chuột qua phím sáng để xem hành động của phím đó</sys:String>
+    <sys:String x:Key="Str_KS_HoldHint">Giữ phím Ctrl, Shift hoặc Alt để xem trước lớp đó</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Danh sách phím tắt này</sys:String>
     <sys:String x:Key="Str_KS_Rename">Đổi tên ghi chú đang mở</sys:String>
     <sys:String x:Key="Str_KS_Search">Tìm kiếm ghi chú</sys:String>
-    <sys:String x:Key="Str_KS_Find">Tìm / tìm kiếm</sys:String>
+    <sys:String x:Key="Str_KS_Find">Tìm trong ghi chú này</sys:String>
     <sys:String x:Key="Str_KS_Preview">Bật/tắt xem trước markdown/HTML</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Hiện / ẩn thanh định dạng</sys:String>
     <sys:String x:Key="Str_KS_Export">Xuất ghi chú đang mở (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Thu gọn / mở rộng thanh bên</sys:String>
     <sys:String x:Key="Str_KS_Fullscreen">Toàn màn hình</sys:String>
-    <sys:String x:Key="Str_KS_About">Hộp thoại giới thiệu</sys:String>
+    <sys:String x:Key="Str_KS_About">Giới thiệu KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Ghi chú mới</sys:String>
     <sys:String x:Key="Str_KS_OpenFiles">Mở tệp thành ghi chú mới</sys:String>
     <sys:String x:Key="Str_KS_Save">Lưu ngay (tự động lưu vẫn chạy)</sys:String>
@@ -461,7 +461,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_KS_Highlight">Tô sáng vùng chọn</sys:String>
     <sys:String x:Key="Str_KS_Rule">Chèn đường kẻ ngang</sys:String>
     <sys:String x:Key="Str_KS_Lists">Danh sách dấu đầu dòng / đánh số</sys:String>
-    <sys:String x:Key="Str_KS_Paste">Dán hình ảnh / văn bản</sys:String>
+    <sys:String x:Key="Str_KS_Paste">Dán - văn bản, hình ảnh, bảng</sys:String>
     <sys:String x:Key="Str_KS_Delete">Xóa ghi chú đã chọn (trong danh sách)</sys:String>
     <sys:String x:Key="Str_KS_Esc">Đóng lớp phủ / xóa tìm kiếm</sys:String>
     <sys:String x:Key="Str_KS_SecGraph">Cửa sổ đồ thị</sys:String>
@@ -482,9 +482,9 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_KS_SkZoom">Thu phóng khung vẽ</sys:String>
     <sys:String x:Key="Str_KS_SkDelete">Xóa vùng chọn</sys:String>
     <sys:String x:Key="Str_KS_SkClose">Hoàn tất đa giác / đóng bảng vẽ</sys:String>
-    <sys:String x:Key="Str_KS_Undo">Hoàn tác</sys:String>
+    <sys:String x:Key="Str_KS_Undo">Hoàn tác / làm lại</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Cắt / sao chép</sys:String>
-    <sys:String x:Key="Str_KS_SelectAll">Chọn toàn bộ văn bản trên trang</sys:String>
+    <sys:String x:Key="Str_KS_SelectAll">Chọn tất cả</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">Phím tắt</sys:String>

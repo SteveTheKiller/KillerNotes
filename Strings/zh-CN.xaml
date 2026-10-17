@@ -155,7 +155,7 @@
     <sys:String x:Key="Str_St_Imported1">已导入 1 个文件</sys:String>
     <sys:String x:Key="Str_St_ImportedN">已导入 {0} 个文件</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">已导出到 {0}</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">已导出到 {0} (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">已导出到 {0} (已跳过图片)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">导出失败: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">所有支持的格式|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|文本 (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|富文本 (*.rtf)|*.rtf|图片|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes 文件 (*.knote, *.kndb)|*.knote;*.kndb|所有文件 (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">文本文件 (*.txt)|*.txt|富文本 (*.rtf)|*.rtf|网页 (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes 笔记 (*.knote)|*.knote</sys:String>

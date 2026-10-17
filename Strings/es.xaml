@@ -50,7 +50,7 @@
     <sys:String x:Key="Str_TT_Preview">Vista previa (F4)</sys:String>
     <sys:String x:Key="Str_TT_HideBar">Ocultar barra de formato (F6)</sys:String>
     <sys:String x:Key="Str_TT_FmtGrip">Arrastre para mover - doble clic para minimizar</sys:String>
-    <sys:String x:Key="Str_TT_FmtPeek">Arrastre para mover - doble clic o F6 para restaurar</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Arrastre para mover - clic o F6 para restaurar</sys:String>
 
     <!-- Color popup -->
     <sys:String x:Key="Str_Lbl_TextColor">texto</sys:String>
@@ -157,7 +157,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_Imported1">1 archivo importado</sys:String>
     <sys:String x:Key="Str_St_ImportedN">{0} archivos importados</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">Exportado a {0}</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">Exportado a {0} (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">Exportado a {0} (imágenes omitidas)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Error al exportar: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Todos los admitidos|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Texto (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Texto enriquecido (*.rtf)|*.rtf|Imágenes|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Archivos de KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Todos los archivos (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">Archivo de texto (*.txt)|*.txt|Texto enriquecido (*.rtf)|*.rtf|Página web (*.html)|*.html|Markdown (*.md)|*.md|Nota de KillerNotes (*.knote)|*.knote</sys:String>
@@ -292,7 +292,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Btn_Install">Instalar KillerNotes</sys:String>
     <sys:String x:Key="Str_Portable">PORTÁTIL</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Instalar</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallMsg">Instalar KillerNotes en tu perfil de usuario?</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">¿Instalar KillerNotes en tu perfil de usuario?</sys:String>
     <sys:String x:Key="Str_Dlg_InstallBullets">- Acceso directo en el menu Inicio&#x0A;- Aparece en Agregar o quitar programas</sys:String>
     <sys:String x:Key="Str_Chk_Desktop">Acceso directo en el escritorio</sys:String>
 
@@ -404,7 +404,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelRow">Eliminar fila</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelCol">Eliminar columna</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Eliminar tabla</sys:String>
-    <sys:String x:Key="Str_TT_ConvertList">Convierte las líneas seleccionadas en una lista separada por comas</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Convierte las líneas seleccionadas, o las palabras de una oración, en una lista separada por comas</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Selección a lista separada por comas</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} valores convertidos en una lista separada por comas</sys:String>
     <sys:String x:Key="Str_St_ListCopied">{0} valores copiados como lista separada por comas</sys:String>
@@ -467,7 +467,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Ordenar alfabéticamente</sys:String>
     <sys:String x:Key="Str_St_Ready">Listo</sys:String>
     <sys:String x:Key="Str_Fonts_PrevHead">Sitios de clientes - AaBbCc 123</sys:String>
-    <sys:String x:Key="Str_Fonts_PrevSidebar">Cambio de firewall - Clínica Vet</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">Cambio de firewall - Meadowbrook Vet</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">El veloz murciélago hindú comía feliz cardillo y kiwi. 0123456789.</sys:String>
 
     <!-- Hyperlinks (Links.cs, 1.1.3) -->

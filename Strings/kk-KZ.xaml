@@ -317,7 +317,7 @@
     <sys:String x:Key="Str_St_Imported1">1 файл импортталды</sys:String>
     <sys:String x:Key="Str_St_ImportedN">Импортталған файлдар: {0}</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">{0} ішіне экспортталды</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">{0} ішіне экспортталды (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">{0} ішіне экспортталды (суреттер өткізілді)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Экспорттау сәтсіз аяқталды: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Барлық қолдау көрсетілетін|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Мәтін (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Пішімделген мәтін (*.rtf)|*.rtf|Суреттер|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes файлдары (*.knote, *.kndb)|*.knote;*.kndb|Барлық файлдар (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">Мәтіндік файл (*.txt)|*.txt|Пішімделген мәтін (*.rtf)|*.rtf|Веб-бет (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes жазбасы (*.knote)|*.knote</sys:String>
@@ -392,7 +392,7 @@
     <sys:String x:Key="Str_About_Title">KillerNotes туралы</sys:String>
     <sys:String x:Key="Str_About_Version">Нұсқа</sys:String>
     <sys:String x:Key="Str_About_Publisher">Шығарушы</sys:String>
-    <sys:String x:Key="Str_About_Thumbprint">Сертификат баспасы</sys:String>
+    <sys:String x:Key="Str_About_Thumbprint">Сертификаттың саусақ ізі</sys:String>
     <sys:String x:Key="Str_About_Sha">EXE SHA-256</sys:String>
     <sys:String x:Key="Str_About_DescA" xml:space="preserve">Ілесіп отыратын жазбалар. Іздеуге болатын, шифрланған блокнот: пішімделген мәтін, ішкі суреттер, нағыз кестелер және лезде толық мәтіндік іздеу - бәрі бір файлға автоматты түрде сақталады. GPLv3 </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> утилитасы.</sys:String>
@@ -494,7 +494,7 @@
     <sys:String x:Key="Str_TT_MoreColors">Кез келген түсті таңдау</sys:String>
     <sys:String x:Key="Str_Ctx_TitleColor">Атау түсі...</sys:String>
     <sys:String x:Key="Str_TT_TitleColor">Осы жазбаның атауын тізімде бояу</sys:String>
-    <sys:String x:Key="Str_Ctx_TitleColorReset">Атау түсін ысыру</sys:String>
+    <sys:String x:Key="Str_Ctx_TitleColorReset">Атау түсін қалпына келтіру</sys:String>
     <sys:String x:Key="Str_Ctx_PreviewGlobal">markdown және HTML анықтау</sys:String>
     <sys:String x:Key="Str_TT_PreviewGlobal">Жазба markdown немесе HTML тәрізді болса, алдын ала қарауды ұсыну (барлық жазбалар)</sys:String>
     <sys:String x:Key="Str_St_PreviewGlobalOn">markdown және HTML анықтау қосулы</sys:String>
@@ -521,7 +521,7 @@
     <sys:String x:Key="Str_KS_GroupColor">Топ түсі (таңдалған жазбаның тобы)</sys:String>
     <sys:String x:Key="Str_St_PickGroupFirst">Алдымен топқа кіретін жазбаны таңдаңыз</sys:String>
     <sys:String x:Key="Str_KS_FontSize">Таңдалған мәтінді үлкейту / кішірейту</sys:String>
-    <sys:String x:Key="Str_KS_Zoom">Өңдегіш масштабы (Ctrl+0 ысырады)</sys:String>
+    <sys:String x:Key="Str_KS_Zoom">Өңдегіш масштабы (Ctrl+0 бастапқыға қайтарады)</sys:String>
     <sys:String x:Key="Str_St_Zoom">Масштаб {0}%</sys:String>
     <sys:String x:Key="Str_St_SpellOn">Осы жазба үшін емле тексеру қосулы</sys:String>
     <sys:String x:Key="Str_St_SpellTooBig">Жазба емле тексеру үшін тым үлкен</sys:String>
@@ -559,7 +559,7 @@
     <sys:String x:Key="Str_Fonts_Default">KillerNotes әдепкісі</sys:String>
     <sys:String x:Key="Str_Fonts_DropHint">Өз қаріпіңізді қосу үшін осы картаға .ttf немесе .otf файлын тастаңыз.</sys:String>
     <sys:String x:Key="Str_Fonts_Note">Бірден бүкіл қолданбаға қолданылады. Өз қаріпі берілген мәтін оны сақтап қалады.</sys:String>
-    <sys:String x:Key="Str_Fonts_Reset">Әдепкі мәндерге ысыру</sys:String>
+    <sys:String x:Key="Str_Fonts_Reset">Әдепкі мәндерге қайтару</sys:String>
     <sys:String x:Key="Str_Fonts_Bad">Бұл қаріп қарапайым мәтінді көрсете алмайды</sys:String>
     <sys:String x:Key="Str_St_FontAdded">Қаріп қосылды: {0}</sys:String>
 
@@ -623,7 +623,7 @@
     <sys:String x:Key="Str_Color_Name">Түс</sys:String>
     <sys:String x:Key="Str_TT_Eyedropper">Экранның кез келген жерінен түс алу</sys:String>
     <sys:String x:Key="Str_TT_ReplaceSwatch">Басыңыз, содан кейін үлгіні басып, оған ағымдағы түсті беріңіз</sys:String>
-    <sys:String x:Key="Str_TT_ResetSwatches">Үлгілерді әдепкі мәндерге ысыру</sys:String>
+    <sys:String x:Key="Str_TT_ResetSwatches">Үлгілерді әдепкі мәндерге қайтару</sys:String>
     <sys:String x:Key="Str_TT_SwatchUse">Осы түсті пайдалану үшін басыңыз</sys:String>
     <sys:String x:Key="Str_TT_SwatchReplace">Осы үлгіге ағымдағы түсті беру үшін басыңыз</sys:String>
 

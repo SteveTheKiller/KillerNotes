@@ -50,7 +50,7 @@
     <sys:String x:Key="Str_TT_Preview">Önizleme (F4)</sys:String>
     <sys:String x:Key="Str_TT_HideBar">Biçim çubuğunu gizle (F6)</sys:String>
     <sys:String x:Key="Str_TT_FmtGrip">Taşımak için sürükleyin - küçültmek için çift tıklayın</sys:String>
-    <sys:String x:Key="Str_TT_FmtPeek">Taşımak için sürükleyin - geri getirmek için çift tıklayın veya F6</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">Taşımak için sürükleyin - geri getirmek için tıklayın veya F6</sys:String>
 
     <!-- Color popup -->
     <sys:String x:Key="Str_Lbl_TextColor">metin</sys:String>
@@ -156,7 +156,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_Imported1">1 dosya içe aktarıldı</sys:String>
     <sys:String x:Key="Str_St_ImportedN">{0} dosya içe aktarıldı</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">{0} konumuna dışa aktarıldı</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">{0} konumuna dışa aktarıldı (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">{0} konumuna dışa aktarıldı (görseller atlandı)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Dışa aktarma başarısız: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Desteklenen tümü|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Metin (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Zengin metin (*.rtf)|*.rtf|Resimler|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes dosyaları (*.knote, *.kndb)|*.knote;*.kndb|Tüm dosyalar (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">Metin dosyası (*.txt)|*.txt|Zengin metin (*.rtf)|*.rtf|Web sayfası (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes notu (*.knote)|*.knote</sys:String>
@@ -288,12 +288,13 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Sec_Help">Yardım</sys:String>
 
     <!-- Portable install (family install system) -->
-    <sys:String x:Key="Str_Btn_Install">KillerNotes'u yukle</sys:String>
+    <sys:String x:Key="Str_Btn_Install">KillerNotes'u yükle</sys:String>
     <sys:String x:Key="Str_Portable">TAŞINABİLİR</sys:String>
-    <sys:String x:Key="Str_Btn_DoInstall">Yukle</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallMsg">KillerNotes kullanici profilinize yuklensin mi?</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallBullets">- Baslat menusu kisayolu&#x0A;- Program ekle/kaldir icinde gorunur</sys:String>
-    <sys:String x:Key="Str_Chk_Desktop">Masaustu kisayolu</sys:String>
+    <sys:String x:Key="Str_Btn_DoInstall">Yükle</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallMsg">KillerNotes kullanıcı profilinize yüklensin mi?</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- Başlat menüsü kısayolu
+- Program ekle/kaldır içinde görünür</sys:String>
+    <sys:String x:Key="Str_Chk_Desktop">Masaüstü kısayolu</sys:String>
 
     <!-- New note (short) -->
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Yeni</sys:String>
@@ -403,7 +404,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelRow">Satırı sil</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelCol">Sütunu sil</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Tabloyu sil</sys:String>
-    <sys:String x:Key="Str_TT_ConvertList">Seçili satırları virgülle ayrılmış bir listeye dönüştür</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Seçili satırları veya tek bir cümledeki sözcükleri virgülle ayrılmış bir listeye dönüştür</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Seçimi virgüllü listeye dönüştür</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} değer virgüllü listeye dönüştürüldü</sys:String>
     <sys:String x:Key="Str_St_ListCopied">{0} değer virgüllü liste olarak kopyalandı</sys:String>
@@ -519,7 +520,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Kb_Dictation">Dikte et</sys:String>
     <sys:String x:Key="Str_Dict_Title">Dikte</sys:String>
     <sys:String x:Key="Str_Dict_Close">Kapat (Esc)</sys:String>
-    <sys:String x:Key="Str_Dict_Record">Kaydet</sys:String>
+    <sys:String x:Key="Str_Dict_Record">Kaydı başlat</sys:String>
     <sys:String x:Key="Str_Dict_Stop">Durdur</sys:String>
     <sys:String x:Key="Str_Dict_Play">Oynat</sys:String>
     <sys:String x:Key="Str_Dict_Transcribe">Yazıya dök</sys:String>
@@ -609,7 +610,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <!-- SketchPad (F7) tools, added 2026-08-07. These lived only as inline English
          fallbacks in Controls/Sketch/*.cs, so the pad stayed English in every language.
          The shortcut letters in parentheses are real key bindings and stay Latin. -->
-    <sys:String x:Key="Str_Sketch_AddImage">Görsel ekle (I) - panoya sürükleyin veya yapıştırmak için Ctrl+V</sys:String>
+    <sys:String x:Key="Str_Sketch_AddImage">Görsel ekle (I) - SketchPad'e sürükleyin veya yapıştırmak için Ctrl+V</sys:String>
     <sys:String x:Key="Str_Sketch_AddImageMenu">Görsel ekle...</sys:String>
     <sys:String x:Key="Str_Sketch_Arc">Yay çizgisi</sys:String>
     <sys:String x:Key="Str_Sketch_Arrow">Ok - uçlu çizgi (A)</sys:String>

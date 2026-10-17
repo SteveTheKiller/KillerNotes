@@ -50,7 +50,7 @@
     <sys:String x:Key="Str_TT_Preview">প্রিভিউ (F4)</sys:String>
     <sys:String x:Key="Str_TT_HideBar">ফরম্যাট বার লুকান (F6)</sys:String>
     <sys:String x:Key="Str_TT_FmtGrip">সরাতে টেনে আনুন - ছোট করতে ডাবল ক্লিক করুন</sys:String>
-    <sys:String x:Key="Str_TT_FmtPeek">সরাতে টেনে আনুন - ফিরিয়ে আনতে ডাবল ক্লিক বা F6</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">সরাতে টেনে আনুন - ফিরিয়ে আনতে ক্লিক বা F6</sys:String>
 
     <!-- Color popup -->
     <sys:String x:Key="Str_Lbl_TextColor">লেখা</sys:String>
@@ -155,7 +155,7 @@
     <sys:String x:Key="Str_St_Imported1">১টি ফাইল ইমপোর্ট হয়েছে</sys:String>
     <sys:String x:Key="Str_St_ImportedN">{0}টি ফাইল ইমপোর্ট হয়েছে</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">{0}-এ এক্সপোর্ট হয়েছে</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">{0}-এ এক্সপোর্ট হয়েছে (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">{0}-এ এক্সপোর্ট হয়েছে (ছবি বাদ দেওয়া হয়েছে)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">এক্সপোর্ট ব্যর্থ: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">সব সমর্থিত|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|টেক্সট (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|রিচ টেক্সট (*.rtf)|*.rtf|ছবি|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes ফাইল (*.knote, *.kndb)|*.knote;*.kndb|সব ফাইল (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">টেক্সট ফাইল (*.txt)|*.txt|রিচ টেক্সট (*.rtf)|*.rtf|ওয়েব পেজ (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes নোট (*.knote)|*.knote</sys:String>
@@ -403,7 +403,7 @@
     <sys:String x:Key="Str_Ctx_TblDelRow">সারি মুছুন</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelCol">কলাম মুছুন</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">টেবিল মুছুন</sys:String>
-    <sys:String x:Key="Str_TT_ConvertList">নির্বাচিত লাইনগুলোকে কমা দিয়ে আলাদা তালিকায় পরিণত করুন</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">নির্বাচিত লাইনগুলোকে - বা একটি বাক্যের শব্দগুলোকে - কমা দিয়ে আলাদা তালিকায় পরিণত করুন</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">নির্বাচন কমা তালিকায়</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0}টি মান কমা তালিকায় রূপান্তর হয়েছে</sys:String>
     <sys:String x:Key="Str_St_ListCopied">{0}টি মান কমা তালিকা হিসেবে কপি হয়েছে</sys:String>
@@ -467,7 +467,7 @@
     <sys:String x:Key="Str_TT_SortAlphaOff">বর্ণানুক্রমে সাজান</sys:String>
     <sys:String x:Key="Str_St_Ready">প্রস্তুত</sys:String>
     <sys:String x:Key="Str_Fonts_PrevHead">ক্লায়েন্ট সাইট - AaBbCc 123</sys:String>
-    <sys:String x:Key="Str_Fonts_PrevSidebar">ফায়ারওয়াল বদল - ভেট ক্লিনিক</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">ফায়ারওয়াল বদল - Meadowbrook Vet</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">আমার সোনার বাংলা The quick brown fox 0123456789.</sys:String>
 
     <!-- Hyperlinks (Links.cs, 1.1.3) -->
@@ -637,7 +637,7 @@
     <sys:String x:Key="Str_Sketch_Print">নোটে ছাপুন (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_Sketch_Rect">আয়তক্ষেত্র (R)</sys:String>
     <sys:String x:Key="Str_Sketch_Redo">পুনরায় করুন (Ctrl+Y)</sys:String>
-    <sys:String x:Key="Str_Sketch_ResetOpacity">স্বচ্ছতা রিসেট</sys:String>
+    <sys:String x:Key="Str_Sketch_ResetOpacity">অস্বচ্ছতা রিসেট</sys:String>
     <sys:String x:Key="Str_Sketch_Select">নির্বাচন / সরান (V) - বস্তুতে ক্লিক করুন, টেনে সরান, Delete মুছে ফেলে</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">রেখা সোজা করুন</sys:String>
     <sys:String x:Key="Str_Sketch_Text">লেখা (T) - লেবেল বসাতে ক্লিক করুন, টাইপ করুন, Enter নিশ্চিত করে (Shift+Enter নতুন লাইন)</sys:String>

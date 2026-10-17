@@ -317,7 +317,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_St_Imported1">1 file importato</sys:String>
     <sys:String x:Key="Str_St_ImportedN">{0} file importati</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">Esportato in {0}</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">Esportato in {0} (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">Esportato in {0} (immagini saltate)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Esportazione non riuscita: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Tutti i supportati|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Testo (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Testo formattato (*.rtf)|*.rtf|Immagini|*.png;*.jpg;*.jpeg;*.gif;*.bmp|File KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Tutti i file (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">File di testo (*.txt)|*.txt|Testo formattato (*.rtf)|*.rtf|Pagina web (*.html)|*.html|Markdown (*.md)|*.md|Nota KillerNotes (*.knote)|*.knote</sys:String>

@@ -50,7 +50,7 @@
     <sys:String x:Key="Str_TT_Preview">プレビュー (F4)</sys:String>
     <sys:String x:Key="Str_TT_HideBar">書式バーを隠す (F6)</sys:String>
     <sys:String x:Key="Str_TT_FmtGrip">ドラッグで移動 - ダブルクリックで最小化</sys:String>
-    <sys:String x:Key="Str_TT_FmtPeek">ドラッグで移動 - ダブルクリックまたは F6 で復元</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">クリックまたは F6 で復元 - ドラッグで移動</sys:String>
 
     <!-- Color popup -->
     <sys:String x:Key="Str_Lbl_TextColor">文字</sys:String>
@@ -155,7 +155,7 @@
     <sys:String x:Key="Str_St_Imported1">1 個のファイルをインポートしました</sys:String>
     <sys:String x:Key="Str_St_ImportedN">{0} 個のファイルをインポートしました</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">{0} にエクスポートしました</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">{0} にエクスポートしました (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">{0} にエクスポートしました (画像はスキップ)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">エクスポートに失敗しました: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">対応するすべての形式|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|テキスト (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|リッチ テキスト (*.rtf)|*.rtf|画像|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes ファイル (*.knote, *.kndb)|*.knote;*.kndb|すべてのファイル (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">テキスト ファイル (*.txt)|*.txt|リッチ テキスト (*.rtf)|*.rtf|Web ページ (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes ノート (*.knote)|*.knote</sys:String>

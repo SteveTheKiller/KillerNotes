@@ -421,7 +421,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_About_Publisher">Editor</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Impressão digital do certificado</sys:String>
     <sys:String x:Key="Str_About_Sha">SHA-256 do EXE</sys:String>
-    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notas que acompanham você. Um bloco de notas pesquisável e criptografado, com texto formatado, imagens no texto, tabelas de verdade e pesquisa instantânea em todo o texto, tudo salvo automaticamente em um único arquivo. Um utilitário GPLv3 do </sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Notas que acompanham você. Um bloco de notas pesquisável e criptografado, com texto formatado, imagens no texto, tabelas reais e pesquisa instantânea em todo o texto, tudo salvo automaticamente em um único arquivo. Um utilitário GPLv3 do </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
     <sys:String x:Key="Str_About_Computing">calculando...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Atualização disponível: {0}</sys:String>

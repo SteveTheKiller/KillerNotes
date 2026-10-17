@@ -50,7 +50,7 @@
     <sys:String x:Key="Str_TT_Preview">預覽 (F4)</sys:String>
     <sys:String x:Key="Str_TT_HideBar">隱藏格式列 (F6)</sys:String>
     <sys:String x:Key="Str_TT_FmtGrip">拖曳移動 - 按兩下最小化</sys:String>
-    <sys:String x:Key="Str_TT_FmtPeek">拖曳移動 - 按兩下或按 F6 還原</sys:String>
+    <sys:String x:Key="Str_TT_FmtPeek">拖曳移動 - 按一下或按 F6 還原</sys:String>
 
     <!-- Color popup -->
     <sys:String x:Key="Str_Lbl_TextColor">文字</sys:String>
@@ -155,7 +155,7 @@
     <sys:String x:Key="Str_St_Imported1">已匯入 1 個檔案</sys:String>
     <sys:String x:Key="Str_St_ImportedN">已匯入 {0} 個檔案</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">已匯出到 {0}</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">已匯出到 {0} (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">已匯出到 {0} (已略過圖片)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">匯出失敗: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">所有支援的格式|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|文字 (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|RTF 文件 (*.rtf)|*.rtf|圖片|*.png;*.jpg;*.jpeg;*.gif;*.bmp|KillerNotes 檔案 (*.knote, *.kndb)|*.knote;*.kndb|所有檔案 (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">文字檔 (*.txt)|*.txt|RTF 文件 (*.rtf)|*.rtf|網頁 (*.html)|*.html|Markdown (*.md)|*.md|KillerNotes 筆記 (*.knote)|*.knote</sys:String>
@@ -467,7 +467,7 @@
     <sys:String x:Key="Str_TT_SortAlphaOff">依字母排序</sys:String>
     <sys:String x:Key="Str_St_Ready">就緒</sys:String>
     <sys:String x:Key="Str_Fonts_PrevHead">客戶站點 - AaBbCc 123</sys:String>
-    <sys:String x:Key="Str_Fonts_PrevSidebar">防火牆更換 - 動物醫院</sys:String>
+    <sys:String x:Key="Str_Fonts_PrevSidebar">防火牆更換 - Meadowbrook 動物醫院</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">敏捷的棕色狐狸跳過懶狗 The quick brown fox 0123456789.</sys:String>
 
     <!-- Hyperlinks (Links.cs, 1.1.3) -->

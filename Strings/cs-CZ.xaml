@@ -198,7 +198,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_Imported1">1 soubor importován</sys:String>
     <sys:String x:Key="Str_St_ImportedN">Importováno souborů: {0}</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">Exportováno do {0}</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">Exportováno do {0} (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">Exportováno do {0} (obrázky přeskočeny)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Export selhal: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Vše podporované|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Text (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Formátovaný text (*.rtf)|*.rtf|Obrázky|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Soubory KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Všechny soubory (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">Textový soubor (*.txt)|*.txt|Formátovaný text (*.rtf)|*.rtf|Webová stránka (*.html)|*.html|Markdown (*.md)|*.md|Poznámka KillerNotes (*.knote)|*.knote</sys:String>
@@ -279,7 +279,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_About_Publisher">Vydavatel</sys:String>
     <sys:String x:Key="Str_About_Thumbprint">Otisk certifikátu</sys:String>
     <sys:String x:Key="Str_About_Sha">SHA-256 souboru EXE</sys:String>
-    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Poznámky, které stačí tempu. Prohledávatelný šifrovaný poznámkový blok s formátovaným textem, vloženými obrázky, skutečnými tabulkami a okamžitým fulltextovým hledáním, vše automaticky ukládané do jediného souboru. Nástroj </sys:String>
+    <sys:String x:Key="Str_About_DescA" xml:space="preserve">Poznámky, které stačí tempu. Prohledávatelný šifrovaný poznámkový blok s formátovaným textem, vloženými obrázky, skutečnými tabulkami a okamžitým fulltextovým hledáním, vše automaticky ukládané do jediného souboru. Nástroj GPLv3 od </sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> s licencí GPLv3.</sys:String>
     <sys:String x:Key="Str_About_Computing">počítá se...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Dostupná aktualizace: {0}</sys:String>

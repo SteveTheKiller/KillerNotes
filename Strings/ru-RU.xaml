@@ -78,7 +78,7 @@
     <sys:String x:Key="Str_St_DensityFull">Плотность: полная</sys:String>
     <sys:String x:Key="Str_St_DensityCompact">Плотность: компактная</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Плотность: минимальная</sys:String>
-    <sys:String x:Key="Str_St_Undo">Несделано</sys:String>
+    <sys:String x:Key="Str_St_Undo">Отменено</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Переключать сортировку панели (время / А-Я / своя)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Новая группа (выделенные заметки попадают в неё)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Меню темы и акцента</sys:String>
@@ -317,7 +317,7 @@
     <sys:String x:Key="Str_St_Imported1">Импортирован 1 файл</sys:String>
     <sys:String x:Key="Str_St_ImportedN">Импортировано файлов: {0}</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">Экспортировано в {0}</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">Экспортировано в {0} (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">Экспортировано в {0} (изображения пропущены)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Не удалось экспортировать: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Все поддерживаемые|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Текст (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Форматированный текст (*.rtf)|*.rtf|Изображения|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Файлы KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Все файлы (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">Текстовый файл (*.txt)|*.txt|Форматированный текст (*.rtf)|*.rtf|Веб-страница (*.html)|*.html|Markdown (*.md)|*.md|Заметка KillerNotes (*.knote)|*.knote</sys:String>
@@ -339,7 +339,7 @@
     <sys:String x:Key="Str_TT_CopyFile">Кладёт файл .db в буфер обмена - вставьте в Explorer, Teams или письмо, чтобы поделиться</sys:String>
     <sys:String x:Key="Str_Ctx_ExportKndb">Экспортировать как .kndb...</sys:String>
     <sys:String x:Key="Str_TT_ExportKndb">Сохранить копию, которую коллеги откроют в KillerNotes двойным щелчком</sys:String>
-    <sys:String x:Key="Str_Ctx_Reveal">Показать в Explorer</sys:String>
+    <sys:String x:Key="Str_Ctx_Reveal">Показать в Проводнике</sys:String>
     <sys:String x:Key="Str_Db_SelectFirst">Сначала выберите базу</sys:String>
     <sys:String x:Key="Str_Db_FlagEncrypted">зашифрован</sys:String>
     <sys:String x:Key="Str_Db_FlagActive">активна</sys:String>

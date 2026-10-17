@@ -156,7 +156,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_St_Imported1">1 fichier importé</sys:String>
     <sys:String x:Key="Str_St_ImportedN">{0} fichiers importés</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">Exporté vers {0}</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">Exporté vers {0} (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">Exporté vers {0} (images ignorées)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Échec de l'export : {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Tous les formats pris en charge|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Texte (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Texte enrichi (*.rtf)|*.rtf|Images|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Fichiers KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Tous les fichiers (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">Fichier texte (*.txt)|*.txt|Texte enrichi (*.rtf)|*.rtf|Page web (*.html)|*.html|Markdown (*.md)|*.md|Note KillerNotes (*.knote)|*.knote</sys:String>
@@ -292,7 +292,8 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Portable">PORTABLE</sys:String>
     <sys:String x:Key="Str_Btn_DoInstall">Installer</sys:String>
     <sys:String x:Key="Str_Dlg_InstallMsg">Installer KillerNotes dans votre profil utilisateur ?</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallBullets">- Raccourci du menu Demarrer&#x0A;- Apparait dans Ajouter/Supprimer des programmes</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallBullets">- Raccourci du menu Démarrer
+- Apparaît dans Ajouter/Supprimer des programmes</sys:String>
     <sys:String x:Key="Str_Chk_Desktop">Raccourci sur le bureau</sys:String>
 
     <!-- New note (short label) -->
@@ -403,7 +404,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelRow">Supprimer la ligne</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelCol">Supprimer la colonne</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Supprimer le tableau</sys:String>
-    <sys:String x:Key="Str_TT_ConvertList">Transformer les lignes sélectionnées en liste séparée par des virgules</sys:String>
+    <sys:String x:Key="Str_TT_ConvertList">Transformer les lignes sélectionnées, ou les mots d'une phrase, en liste séparée par des virgules</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Sélection en liste séparée par des virgules</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} valeurs converties en liste séparée par des virgules</sys:String>
     <sys:String x:Key="Str_St_ListCopied">{0} valeurs copiées en liste séparée par des virgules</sys:String>
@@ -684,7 +685,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_TT_AndMore">Le reste des notes qui pointent ici</sys:String>
     <sys:String x:Key="Str_TT_GroupGraph">Les liens entre les notes de ce groupe, et ce qu'ils atteignent</sys:String>
     <sys:String x:Key="Str_TT_Mentions">Notes qui nomment celle-ci sans la lier</sys:String>
-    <sys:String x:Key="Str_TT_MentionChip">Cliquez pour créer le lien. Ctrl+Click pour ouvrir la note.</sys:String>
+    <sys:String x:Key="Str_TT_MentionChip">Cliquez pour créer le lien. Ctrl+Clic pour ouvrir la note.</sys:String>
     <sys:String x:Key="Str_St_Linked">Liée</sys:String>
     <sys:String x:Key="Str_St_MentionGone">Cette note ne mentionne plus celle-ci</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrange">Disposer</sys:String>

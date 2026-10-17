@@ -256,7 +256,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_Imported1">Zaimportowano 1 plik</sys:String>
     <sys:String x:Key="Str_St_ImportedN">Zaimportowano pliki: {0}</sys:String>
     <sys:String x:Key="Str_St_ExportedTo">Wyeksportowano do {0}</sys:String>
-    <sys:String x:Key="Str_St_ExportedToImgSkip">Wyeksportowano do {0} (images skipped)</sys:String>
+    <sys:String x:Key="Str_St_ExportedToImgSkip">Wyeksportowano do {0} (pominięto obrazy)</sys:String>
     <sys:String x:Key="Str_St_ExportFailed">Eksport nie powiódł się: {0}</sys:String>
     <sys:String x:Key="Str_Filter_Open">Wszystkie obsługiwane|*.txt;*.log;*.md;*.html;*.htm;*.rtf;*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.knote;*.kndb|Tekst (*.txt, *.log, *.md)|*.txt;*.log;*.md|HTML (*.html, *.htm)|*.html;*.htm|Tekst sformatowany (*.rtf)|*.rtf|Obrazy|*.png;*.jpg;*.jpeg;*.gif;*.bmp|Pliki KillerNotes (*.knote, *.kndb)|*.knote;*.kndb|Wszystkie pliki (*.*)|*.*</sys:String>
     <sys:String x:Key="Str_Filter_Save">Plik tekstowy (*.txt)|*.txt|Tekst sformatowany (*.rtf)|*.rtf|Strona internetowa (*.html)|*.html|Markdown (*.md)|*.md|Notatka KillerNotes (*.knote)|*.knote</sys:String>
@@ -599,7 +599,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShape">Kształt</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShapeFree">Swobodnie</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShapeSpiral">Słonecznik</sys:String>
-    <sys:String x:Key="Str_Ctx_GraphShapeWave">W fali</sys:String>
+    <sys:String x:Key="Str_Ctx_GraphShapeWave">Fala</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShapeNext">Następny kształt</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLock">Zablokuj w miejscu</sys:String>
     <sys:String x:Key="Str_Ctx_GraphLockTip">Zablokowanej notatki nic nie przesunie - ani układ, ani sąsiedzi.</sys:String>
