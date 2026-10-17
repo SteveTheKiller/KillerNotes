@@ -36,6 +36,7 @@ namespace KillerNotes
             KillerFamily.Theming.AccentShadow.Initialize();
             if (e.Args.Length > 0 && string.Equals(e.Args[0], "--cli", StringComparison.OrdinalIgnoreCase))
             {
+                Services.CliConsole.AttachToParent();
                 using var output = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
                 using var error = new StreamWriter(Console.OpenStandardError()) { AutoFlush = true };
                 Console.SetOut(output);
@@ -442,6 +443,7 @@ namespace KillerNotes
             try { if (Directory.Exists(StartMenuDir)) Directory.Delete(StartMenuDir, true); } catch { }
             try { if (File.Exists(DesktopLnk)) File.Delete(DesktopLnk); } catch { }
             try { if (Directory.Exists(InstallDir)) Directory.Delete(InstallDir, true); } catch { }
+            Services.CommandLinePath.Unregister(InstallDir, machine: false);
             try
             {
                 using var key = Registry.CurrentUser.OpenSubKey(@"Software\KillerNotes", writable: true);
@@ -467,6 +469,7 @@ namespace KillerNotes
             UnregisterFileAssociations(Registry.LocalMachine);
             try { if (Directory.Exists(common)) Directory.Delete(common, true); } catch { }
             try { if (Directory.Exists(MachineDir)) Directory.Delete(MachineDir, true); } catch { }
+            Services.CommandLinePath.Unregister(MachineDir, machine: true);
         }
 
         /// <summary>Installs KillerNotes, then relaunches from the installed location.</summary>
@@ -512,6 +515,7 @@ namespace KillerNotes
                 Directory.CreateDirectory(installDir);
                 string src = Process.GetCurrentProcess().MainModule!.FileName;
                 File.Copy(src, installExe, overwrite: true);
+                Services.CommandLinePath.Register(installDir, machine: true);
 
                 Directory.CreateDirectory(startMenuDir);
                 CreateShortcut(startMenuLnk, installExe);
@@ -572,6 +576,7 @@ namespace KillerNotes
             Directory.CreateDirectory(InstallDir);
             string src = Process.GetCurrentProcess().MainModule!.FileName;
             File.Copy(src, InstallExe, overwrite: true);
+            Services.CommandLinePath.Register(InstallDir, machine: false);
 
             Directory.CreateDirectory(StartMenuDir);
             CreateShortcut(StartMenuLnk, InstallExe);
@@ -691,6 +696,7 @@ namespace KillerNotes
             try { File.Delete(Path.Combine(startMenuDir, $"{AppName}.lnk")); } catch { }
             try { Directory.Delete(startMenuDir, recursive: false); } catch { }
             if (!machine) try { File.Delete(DesktopLnk); } catch { }
+            Services.CommandLinePath.Unregister(targetDir, machine);
 
             // Delete only the scope represented by the executable Add/Remove Programs launched.
             var hive = machine ? Registry.LocalMachine : Registry.CurrentUser;
