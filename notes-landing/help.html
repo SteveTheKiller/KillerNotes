@@ -399,7 +399,7 @@ window.addEventListener('resize', fit);
 <h2 class="help-cat" id="cli" data-i18n="site_cli_h">Command line</h2>
 <div class="acc-item open">
 <div class="acc-body" style="max-height:none"><div class="acc-body-inner">
-<p data-i18n="site_cli_current">Run <code>KillerNotes.exe --cli --help</code> for commands. Output is JSON. Reads can specify <code>--database</code>; changes, exports and app settings require the app open and unlocked. Use new absolute export paths, empty quoted values to clear fields, and <code>--allow-loss</code> for lossy conversion. Command names and options below are fixed syntax.</p>
+<p data-i18n="site_cli_current">Run <code>killernotes --cli --help</code> for commands. Output is JSON. Reads can specify <code>--database</code>; changes, exports and app settings require the app open and unlocked. Use new absolute export paths, empty quoted values to clear fields, and <code>--allow-loss</code> for lossy conversion. Command names and options below are fixed syntax. An installed copy is on PATH, so it can be run from any new terminal. A portable copy is not, so run it by its file name instead.</p>
 <pre id="cliHelp" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
 </div></div></div>
 <script>document.getElementById('cliHelp').textContent = window.KN_HELP.cli.slice(1).join('\n');</script>

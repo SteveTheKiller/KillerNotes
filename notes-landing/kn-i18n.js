@@ -8541,7 +8541,7 @@ Object.assign(I18N["it"], {
 "site_themes_current": "13 temi, 41 aspetti: Dark, Light, Black e 98SE offrono ciascuno otto colori di accento. Le sfumature seguono il tema; 98SE resta piatto.",
 "site_privacy_current": "Note e audio restano locali salvo esportazione o condivisione. Nessun account, cloud, telemetria o pubblicità. Gli aggiornamenti usano GitHub; i modelli vocali si scaricano da Hugging Face solo su richiesta.",
 "site_cli_h": "Riga di comando",
-"site_cli_current": "Esegui <code>KillerNotes.exe --cli --help</code> per i comandi. L'output è JSON. Le letture possono indicare <code>--database</code>; modifiche, esportazioni e impostazioni richiedono l'app aperta e sbloccata. Usa nuovi percorsi assoluti per esportare, valori vuoti tra virgolette per cancellare i campi e <code>--allow-loss</code> per conversioni con perdita. Nomi e opzioni sotto sono sintassi fissa.",
+"site_cli_current": "Esegui <code>killernotes --cli --help</code> per i comandi. L'output è JSON. Le letture possono indicare <code>--database</code>; modifiche, esportazioni e impostazioni richiedono l'app aperta e sbloccata. Usa nuovi percorsi assoluti per esportare, valori vuoti tra virgolette per cancellare i campi e <code>--allow-loss</code> per conversioni con perdita. Nomi e opzioni sotto sono sintassi fissa. Una copia installata è nel PATH, quindi si avvia da qualsiasi nuovo terminale. Una copia portatile non lo è: avviala con il nome del file.",
 "site_uninstall_current": "<code>/silent</code> installa per tutti gli utenti. <code>/uninstall</code> rimuove l'app; <code>/uninstall-silent</code> la rimuove senza richiesta. Le note restano.",
 "site_kb_base": "Base"
 });
@@ -8556,7 +8556,7 @@ Object.assign(I18N["de"], {
 "site_themes_current": "13 Themen, 41 Varianten: Dark, Light, Black und 98SE bieten jeweils acht Akzentfarben. Verläufe folgen dem Thema; 98SE bleibt flach.",
 "site_privacy_current": "Notizen und Audio bleiben lokal, sofern du sie nicht exportierst oder teilst. Kein Konto, Cloud-Sync, Telemetrie oder Werbung. Updates nutzen GitHub; Sprachmodelle werden nur auf Wunsch von Hugging Face geladen.",
 "site_cli_h": "Befehlszeile",
-"site_cli_current": "Zeige die Befehle mit <code>KillerNotes.exe --cli --help</code>. Die Ausgabe ist JSON. Lesezugriffe können <code>--database</code> angeben; Änderungen, Exporte und App-Einstellungen benötigen die geöffnete, entsperrte App. Verwende neue absolute Exportpfade, leere Werte in Anführungszeichen zum Löschen von Feldern und <code>--allow-loss</code> für verlustbehaftete Konvertierung. Befehlsnamen und Optionen unten sind feste Syntax.",
+"site_cli_current": "Zeige die Befehle mit <code>killernotes --cli --help</code>. Die Ausgabe ist JSON. Lesezugriffe können <code>--database</code> angeben; Änderungen, Exporte und App-Einstellungen benötigen die geöffnete, entsperrte App. Verwende neue absolute Exportpfade, leere Werte in Anführungszeichen zum Löschen von Feldern und <code>--allow-loss</code> für verlustbehaftete Konvertierung. Befehlsnamen und Optionen unten sind feste Syntax. Eine installierte Kopie liegt im PATH und lässt sich daher aus jedem neuen Terminal aufrufen. Eine portable Kopie liegt nicht im PATH, starte sie daher über den Dateinamen.",
 "site_uninstall_current": "<code>/silent</code> installiert für alle Benutzer. <code>/uninstall</code> entfernt die App; <code>/uninstall-silent</code> entfernt sie ohne Rückfrage. Notizen bleiben erhalten.",
 "site_kb_base": "Basis"
 });
@@ -8571,7 +8571,7 @@ Object.assign(I18N["fr"], {
 "site_themes_current": "13 thèmes, 41 apparences : Dark, Light, Black et 98SE offrent chacun huit couleurs d'accent. Les dégradés suivent le thème ; 98SE reste plat.",
 "site_privacy_current": "Notes et audio restent locaux sauf si vous les exportez ou partagez. Aucun compte, cloud, télémétrie ni publicité. Les mises à jour utilisent GitHub ; les modèles vocaux se téléchargent depuis Hugging Face uniquement sur demande.",
 "site_cli_h": "Ligne de commande",
-"site_cli_current": "Exécutez <code>KillerNotes.exe --cli --help</code> pour afficher les commandes. La sortie est en JSON. Les lectures peuvent indiquer <code>--database</code> ; modifications, exports et réglages nécessitent l'application ouverte et déverrouillée. Utilisez de nouveaux chemins absolus pour exporter, des valeurs vides entre guillemets pour effacer les champs et <code>--allow-loss</code> pour une conversion avec perte. Les noms et options ci-dessous sont une syntaxe fixe.",
+"site_cli_current": "Exécutez <code>killernotes --cli --help</code> pour afficher les commandes. La sortie est en JSON. Les lectures peuvent indiquer <code>--database</code> ; modifications, exports et réglages nécessitent l'application ouverte et déverrouillée. Utilisez de nouveaux chemins absolus pour exporter, des valeurs vides entre guillemets pour effacer les champs et <code>--allow-loss</code> pour une conversion avec perte. Les noms et options ci-dessous sont une syntaxe fixe. Une copie installée est dans le PATH, elle peut donc être lancée depuis n'importe quel nouveau terminal. Une copie portable n'y est pas : lancez-la par son nom de fichier.",
 "site_uninstall_current": "<code>/silent</code> installe pour tous les utilisateurs. <code>/uninstall</code> supprime l'application ; <code>/uninstall-silent</code> le fait sans confirmation. Les notes sont conservées.",
 "site_kb_base": "Base"
 });
@@ -8586,7 +8586,7 @@ Object.assign(I18N["es"], {
 "site_themes_current": "13 temas, 41 apariencias: Dark, Light, Black y 98SE ofrecen ocho colores de acento cada uno. Los degradados siguen el tema; 98SE permanece plano.",
 "site_privacy_current": "Notas y audio permanecen locales salvo que los exportes o compartas. Sin cuenta, nube, telemetría ni anuncios. Las actualizaciones usan GitHub; los modelos de voz se descargan de Hugging Face solo cuando se solicitan.",
 "site_cli_h": "Línea de comandos",
-"site_cli_current": "Ejecuta <code>KillerNotes.exe --cli --help</code> para ver los comandos. La salida es JSON. Las lecturas pueden indicar <code>--database</code>; los cambios, exportaciones y ajustes requieren la aplicación abierta y desbloqueada. Usa nuevas rutas absolutas para exportar, valores vacíos entre comillas para borrar campos y <code>--allow-loss</code> para convertir con pérdida. Los nombres y opciones de abajo son sintaxis fija.",
+"site_cli_current": "Ejecuta <code>killernotes --cli --help</code> para ver los comandos. La salida es JSON. Las lecturas pueden indicar <code>--database</code>; los cambios, exportaciones y ajustes requieren la aplicación abierta y desbloqueada. Usa nuevas rutas absolutas para exportar, valores vacíos entre comillas para borrar campos y <code>--allow-loss</code> para convertir con pérdida. Los nombres y opciones de abajo son sintaxis fija. Una copia instalada está en el PATH, así que puede ejecutarse desde cualquier terminal nueva. Una copia portátil no lo está, así que ejecútala por el nombre del archivo.",
 "site_uninstall_current": "<code>/silent</code> instala para todos los usuarios. <code>/uninstall</code> elimina la aplicación; <code>/uninstall-silent</code> lo hace sin confirmación. Las notas se conservan.",
 "site_kb_base": "Base"
 });
@@ -8601,7 +8601,7 @@ Object.assign(I18N["pt"], {
 "site_themes_current": "13 temas, 41 visuais: Dark, Light, Black e 98SE oferecem oito cores de destaque cada. Os gradientes acompanham o tema; 98SE permanece plano.",
 "site_privacy_current": "Notas e áudio ficam locais, salvo quando exportados ou compartilhados. Sem conta, nuvem, telemetria ou anúncios. Atualizações usam GitHub; modelos de voz são baixados do Hugging Face somente quando solicitados.",
 "site_cli_h": "Linha de comando",
-"site_cli_current": "Execute <code>KillerNotes.exe --cli --help</code> para listar os comandos. A saída é JSON. Leituras podem indicar <code>--database</code>; alterações, exportações e configurações exigem o aplicativo aberto e desbloqueado. Use novos caminhos absolutos para exportar, valores vazios entre aspas para limpar campos e <code>--allow-loss</code> para conversão com perda. Nomes e opções abaixo são sintaxe fixa.",
+"site_cli_current": "Execute <code>killernotes --cli --help</code> para listar os comandos. A saída é JSON. Leituras podem indicar <code>--database</code>; alterações, exportações e configurações exigem o aplicativo aberto e desbloqueado. Use novos caminhos absolutos para exportar, valores vazios entre aspas para limpar campos e <code>--allow-loss</code> para conversão com perda. Nomes e opções abaixo são sintaxe fixa. Uma cópia instalada está no PATH, então pode ser executada em qualquer terminal novo. Uma cópia portátil não está, então execute-a pelo nome do arquivo.",
 "site_uninstall_current": "<code>/silent</code> instala para todos os usuários. <code>/uninstall</code> remove o aplicativo; <code>/uninstall-silent</code> remove sem confirmação. As notas são mantidas.",
 "site_kb_base": "Base"
 });
@@ -8616,7 +8616,7 @@ Object.assign(I18N["nb"], {
 "site_themes_current": "13 temaer, 41 utseender: Dark, Light, Black og 98SE tilbyr åtte aksentfarger hver. Gradienter følger temaet; 98SE forblir flatt.",
 "site_privacy_current": "Notater og lyd forblir lokale med mindre du eksporterer eller deler dem. Ingen konto, sky, telemetri eller annonser. Oppdateringer bruker GitHub; talemodeller lastes ned fra Hugging Face bare på forespørsel.",
 "site_cli_h": "Kommandolinje",
-"site_cli_current": "Kjør <code>KillerNotes.exe --cli --help</code> for kommandoer. Utdata er JSON. Lesing kan angi <code>--database</code>; endringer, eksport og innstillinger krever at appen er åpen og låst opp. Bruk nye absolutte eksportbaner, tomme verdier i anførselstegn for å tømme felt og <code>--allow-loss</code> for konvertering med tap. Navn og alternativer nedenfor er fast syntaks.",
+"site_cli_current": "Kjør <code>killernotes --cli --help</code> for kommandoer. Utdata er JSON. Lesing kan angi <code>--database</code>; endringer, eksport og innstillinger krever at appen er åpen og låst opp. Bruk nye absolutte eksportbaner, tomme verdier i anførselstegn for å tømme felt og <code>--allow-loss</code> for konvertering med tap. Navn og alternativer nedenfor er fast syntaks. En installert kopi ligger i PATH, så den kan kjøres fra alle nye terminaler. En bærbar kopi gjør ikke det, så kjør den med filnavnet.",
 "site_uninstall_current": "<code>/silent</code> installerer for alle brukere. <code>/uninstall</code> fjerner appen; <code>/uninstall-silent</code> gjør det uten spørsmål. Notater beholdes.",
 "site_kb_base": "Grunnlag"
 });
@@ -8631,7 +8631,7 @@ Object.assign(I18N["cs"], {
 "site_themes_current": "13 motivů, 41 vzhledů: Dark, Light, Black a 98SE nabízejí každý osm barev akcentu. Přechody sledují motiv; 98SE zůstává plochý.",
 "site_privacy_current": "Poznámky a zvuk zůstávají místní, dokud je neexportujete nebo nesdílíte. Žádný účet, cloud, telemetrie ani reklamy. Aktualizace používají GitHub; řečové modely se stahují z Hugging Face jen na vyžádání.",
 "site_cli_h": "Příkazový řádek",
-"site_cli_current": "Spusťte <code>KillerNotes.exe --cli --help</code> pro seznam příkazů. Výstup je JSON. Čtení může uvést <code>--database</code>; změny, exporty a nastavení vyžadují otevřenou a odemčenou aplikaci. Používejte nové absolutní exportní cesty, prázdné hodnoty v uvozovkách pro vymazání polí a <code>--allow-loss</code> pro ztrátový převod. Názvy a přepínače níže mají pevnou syntaxi.",
+"site_cli_current": "Spusťte <code>killernotes --cli --help</code> pro seznam příkazů. Výstup je JSON. Čtení může uvést <code>--database</code>; změny, exporty a nastavení vyžadují otevřenou a odemčenou aplikaci. Používejte nové absolutní exportní cesty, prázdné hodnoty v uvozovkách pro vymazání polí a <code>--allow-loss</code> pro ztrátový převod. Názvy a přepínače níže mají pevnou syntaxi. Nainstalovaná kopie je v PATH, takže ji lze spustit z libovolného nového terminálu. Přenosná kopie v PATH není, spusťte ji proto podle názvu souboru.",
 "site_uninstall_current": "<code>/silent</code> instaluje pro všechny uživatele. <code>/uninstall</code> odebere aplikaci; <code>/uninstall-silent</code> ji odebere bez dotazu. Poznámky zůstanou.",
 "site_kb_base": "Základní"
 });
@@ -8646,7 +8646,7 @@ Object.assign(I18N["pl"], {
 "site_themes_current": "13 motywów, 41 wyglądów: Dark, Light, Black i 98SE oferują po osiem kolorów akcentu. Gradienty stosują motyw; 98SE pozostaje płaski.",
 "site_privacy_current": "Notatki i dźwięk pozostają lokalne, chyba że je wyeksportujesz lub udostępnisz. Bez konta, chmury, telemetrii i reklam. Aktualizacje używają GitHub; modele mowy pobierają się z Hugging Face tylko na żądanie.",
 "site_cli_h": "Wiersz poleceń",
-"site_cli_current": "Uruchom <code>KillerNotes.exe --cli --help</code>, aby wyświetlić polecenia. Wynik ma format JSON. Odczyt może wskazać <code>--database</code>; zmiany, eksporty i ustawienia wymagają otwartej, odblokowanej aplikacji. Używaj nowych bezwzględnych ścieżek eksportu, pustych wartości w cudzysłowach do czyszczenia pól i <code>--allow-loss</code> do stratnej konwersji. Nazwy i opcje poniżej mają stałą składnię.",
+"site_cli_current": "Uruchom <code>killernotes --cli --help</code>, aby wyświetlić polecenia. Wynik ma format JSON. Odczyt może wskazać <code>--database</code>; zmiany, eksporty i ustawienia wymagają otwartej, odblokowanej aplikacji. Używaj nowych bezwzględnych ścieżek eksportu, pustych wartości w cudzysłowach do czyszczenia pól i <code>--allow-loss</code> do stratnej konwersji. Nazwy i opcje poniżej mają stałą składnię. Zainstalowana kopia jest w PATH, więc można ją uruchomić w dowolnym nowym terminalu. Kopia przenośna nie jest, więc uruchom ją po nazwie pliku.",
 "site_uninstall_current": "<code>/silent</code> instaluje dla wszystkich użytkowników. <code>/uninstall</code> usuwa aplikację; <code>/uninstall-silent</code> usuwa bez pytania. Notatki zostają.",
 "site_kb_base": "Podstawowe"
 });
@@ -8661,7 +8661,7 @@ Object.assign(I18N["hu"], {
 "site_themes_current": "13 téma, 41 megjelenés: a Dark, Light, Black és 98SE egyenként nyolc kiemelőszínt kínál. Az átmenetek követik a témát; a 98SE sík marad.",
 "site_privacy_current": "A jegyzetek és a hang helyben maradnak, amíg nem exportálod vagy osztod meg őket. Nincs fiók, felhő, telemetria vagy reklám. A frissítések GitHubot használnak; a beszédmodellek csak kérésre töltődnek le a Hugging Face-ről.",
 "site_cli_h": "Parancssor",
-"site_cli_current": "A parancsokhoz futtasd: <code>KillerNotes.exe --cli --help</code>. A kimenet JSON. Olvasásnál megadható a <code>--database</code>; módosításokhoz, exporthoz és beállításokhoz megnyitott, feloldott alkalmazás kell. Használj új abszolút exportútvonalakat, üres idézőjeles értékeket mezők törléséhez és <code>--allow-loss</code> kapcsolót veszteséges átalakításhoz. Az alábbi nevek és kapcsolók rögzített szintaxisúak.",
+"site_cli_current": "A parancsokhoz futtasd: <code>killernotes --cli --help</code>. A kimenet JSON. Olvasásnál megadható a <code>--database</code>; módosításokhoz, exporthoz és beállításokhoz megnyitott, feloldott alkalmazás kell. Használj új abszolút exportútvonalakat, üres idézőjeles értékeket mezők törléséhez és <code>--allow-loss</code> kapcsolót veszteséges átalakításhoz. Az alábbi nevek és kapcsolók rögzített szintaxisúak. A telepített példány szerepel a PATH-ban, ezért bármelyik új terminálból indítható. A hordozható példány nincs a PATH-ban, ezért a fájlnevével indítsd.",
 "site_uninstall_current": "A <code>/silent</code> minden felhasználónak telepít. A <code>/uninstall</code> eltávolítja az alkalmazást; a <code>/uninstall-silent</code> kérdés nélkül teszi ezt. A jegyzetek megmaradnak.",
 "site_kb_base": "Alap"
 });
@@ -8676,7 +8676,7 @@ Object.assign(I18N["tr"], {
 "site_themes_current": "13 tema, 41 görünüm: Dark, Light, Black ve 98SE sekizer vurgu rengi sunar. Geçişler temayı izler; 98SE düz kalır.",
 "site_privacy_current": "Notlar ve ses, dışa aktarmadıkça veya paylaşmadıkça yerel kalır. Hesap, bulut eşitleme, telemetri veya reklam yoktur. Güncellemeler GitHub kullanır; konuşma modelleri yalnızca istendiğinde Hugging Face'den indirilir.",
 "site_cli_h": "Komut satırı",
-"site_cli_current": "Komutlar için <code>KillerNotes.exe --cli --help</code> çalıştırın. Çıktı JSON'dur. Okuma <code>--database</code> belirtebilir; değişiklikler, dışa aktarma ve ayarlar uygulamanın açık ve kilitsiz olmasını gerektirir. Yeni mutlak dışa aktarma yolları, alanları temizlemek için tırnak içinde boş değerler ve kayıplı dönüşüm için <code>--allow-loss</code> kullanın. Aşağıdaki adlar ve seçenekler sabit sözdizimidir.",
+"site_cli_current": "Komutlar için <code>killernotes --cli --help</code> çalıştırın. Çıktı JSON'dur. Okuma <code>--database</code> belirtebilir; değişiklikler, dışa aktarma ve ayarlar uygulamanın açık ve kilitsiz olmasını gerektirir. Yeni mutlak dışa aktarma yolları, alanları temizlemek için tırnak içinde boş değerler ve kayıplı dönüşüm için <code>--allow-loss</code> kullanın. Aşağıdaki adlar ve seçenekler sabit sözdizimidir. Yüklü kopya PATH üzerindedir, bu yüzden yeni açılan her terminalden çalıştırılabilir. Taşınabilir kopya PATH üzerinde değildir, bu yüzden dosya adıyla çalıştırın.",
 "site_uninstall_current": "<code>/silent</code> tüm kullanıcılar için kurar. <code>/uninstall</code> uygulamayı kaldırır; <code>/uninstall-silent</code> sormadan kaldırır. Notlar korunur.",
 "site_kb_base": "Temel"
 });
@@ -8691,7 +8691,7 @@ Object.assign(I18N["ru"], {
 "site_themes_current": "13 тем, 41 вариант: Dark, Light, Black и 98SE предлагают по восемь акцентных цветов. Градиенты следуют теме; 98SE остаётся плоской.",
 "site_privacy_current": "Заметки и аудио остаются локальными, пока вы их не экспортируете или не поделитесь ими. Нет аккаунта, облака, телеметрии и рекламы. Обновления используют GitHub; речевые модели скачиваются с Hugging Face только по запросу.",
 "site_cli_h": "Командная строка",
-"site_cli_current": "Запустите <code>KillerNotes.exe --cli --help</code> для списка команд. Вывод в JSON. При чтении можно указать <code>--database</code>; изменения, экспорт и настройки требуют открытого и разблокированного приложения. Используйте новые абсолютные пути экспорта, пустые значения в кавычках для очистки полей и <code>--allow-loss</code> для преобразования с потерями. Имена и параметры ниже имеют фиксированный синтаксис.",
+"site_cli_current": "Запустите <code>killernotes --cli --help</code> для списка команд. Вывод в JSON. При чтении можно указать <code>--database</code>; изменения, экспорт и настройки требуют открытого и разблокированного приложения. Используйте новые абсолютные пути экспорта, пустые значения в кавычках для очистки полей и <code>--allow-loss</code> для преобразования с потерями. Имена и параметры ниже имеют фиксированный синтаксис. Установленная копия находится в PATH, поэтому её можно запустить в любом новом терминале. Портативная копия в PATH не добавляется, поэтому запускайте её по имени файла.",
 "site_uninstall_current": "<code>/silent</code> устанавливает для всех пользователей. <code>/uninstall</code> удаляет приложение; <code>/uninstall-silent</code> удаляет без запроса. Заметки сохраняются.",
 "site_kb_base": "Основные"
 });
@@ -8706,7 +8706,7 @@ Object.assign(I18N["uk"], {
 "site_themes_current": "13 тем, 41 вигляд: Dark, Light, Black і 98SE пропонують по вісім акцентних кольорів. Градієнти відповідають темі; 98SE залишається плоскою.",
 "site_privacy_current": "Нотатки й аудіо залишаються локальними, доки ви їх не експортуєте чи не поширите. Без облікового запису, хмари, телеметрії й реклами. Оновлення використовують GitHub; мовленнєві моделі завантажуються з Hugging Face лише на запит.",
 "site_cli_h": "Командний рядок",
-"site_cli_current": "Виконайте <code>KillerNotes.exe --cli --help</code> для списку команд. Вивід у JSON. Для читання можна вказати <code>--database</code>; зміни, експорт і налаштування потребують відкритого й розблокованого застосунку. Використовуйте нові абсолютні шляхи експорту, порожні значення в лапках для очищення полів і <code>--allow-loss</code> для перетворення з втратами. Назви й параметри нижче мають фіксований синтаксис.",
+"site_cli_current": "Виконайте <code>killernotes --cli --help</code> для списку команд. Вивід у JSON. Для читання можна вказати <code>--database</code>; зміни, експорт і налаштування потребують відкритого й розблокованого застосунку. Використовуйте нові абсолютні шляхи експорту, порожні значення в лапках для очищення полів і <code>--allow-loss</code> для перетворення з втратами. Назви й параметри нижче мають фіксований синтаксис. Встановлена копія є в PATH, тому її можна запустити в будь-якому новому терміналі. Портативної копії в PATH немає, тому запускайте її за іменем файлу.",
 "site_uninstall_current": "<code>/silent</code> встановлює для всіх користувачів. <code>/uninstall</code> видаляє застосунок; <code>/uninstall-silent</code> видаляє без запиту. Нотатки зберігаються.",
 "site_kb_base": "Основні"
 });
@@ -8721,7 +8721,7 @@ Object.assign(I18N["kk"], {
 "site_themes_current": "13 тақырып, 41 көрініс: Dark, Light, Black және 98SE әрқайсысы сегіз екпін түсін ұсынады. Градиенттер тақырыпқа сай; 98SE біртегіс қалады.",
 "site_privacy_current": "Жазбалар мен аудио экспорттағанша не бөліскенше жергілікті қалады. Тіркелгі, бұлт, телеметрия не жарнама жоқ. Жаңарту GitHub арқылы; сөйлеу модельдері Hugging Face-тен тек сұратқанда жүктеледі.",
 "site_cli_h": "Пәрмен жолы",
-"site_cli_current": "Пәрмендер үшін <code>KillerNotes.exe --cli --help</code> орындаңыз. Шығыс JSON пішімінде. Оқу <code>--database</code> көрсете алады; өзгерістер, экспорт пен баптаулар үшін қолданба ашық әрі құлпы ашылған болуы керек. Жаңа абсолютті экспорт жолдарын, өрістерді тазалау үшін тырнақшадағы бос мәндерді және жоғалтатын түрлендіру үшін <code>--allow-loss</code> қолданыңыз. Төмендегі атаулар мен параметрлердің синтаксисі тұрақты.",
+"site_cli_current": "Пәрмендер үшін <code>killernotes --cli --help</code> орындаңыз. Шығыс JSON пішімінде. Оқу <code>--database</code> көрсете алады; өзгерістер, экспорт пен баптаулар үшін қолданба ашық әрі құлпы ашылған болуы керек. Жаңа абсолютті экспорт жолдарын, өрістерді тазалау үшін тырнақшадағы бос мәндерді және жоғалтатын түрлендіру үшін <code>--allow-loss</code> қолданыңыз. Төмендегі атаулар мен параметрлердің синтаксисі тұрақты. Орнатылған көшірме PATH ішінде тұрады, сондықтан оны кез келген жаңа терминалдан іске қосуға болады. Портативті көшірме PATH ішінде болмайды, сондықтан оны файл атымен іске қосыңыз.",
 "site_uninstall_current": "<code>/silent</code> барлық пайдаланушыға орнатады. <code>/uninstall</code> қолданбаны жояды; <code>/uninstall-silent</code> сұрамай жояды. Жазбалар сақталады.",
 "site_kb_base": "Негізгі"
 });
@@ -8736,7 +8736,7 @@ Object.assign(I18N["ja"], {
 "site_themes_current": "13テーマ、41通りの外観。Dark、Light、Black、98SE はそれぞれ8色のアクセントを選べます。グラデーションはテーマに従い、98SE は単色です。",
 "site_privacy_current": "ノートと音声はエクスポートや共有をしない限りローカルに残ります。アカウント、クラウド同期、テレメトリ、広告はありません。更新には GitHub を使い、音声モデルは要求した場合だけ Hugging Face からダウンロードします。",
 "site_cli_h": "コマンドライン",
-"site_cli_current": "<code>KillerNotes.exe --cli --help</code> でコマンドを表示します。出力は JSON です。読み取りには <code>--database</code> を指定できます。変更、エクスポート、設定には起動してロック解除したアプリが必要です。新しい絶対パスを出力先に使い、空の引用符付き値で項目を消去し、情報が失われる変換には <code>--allow-loss</code> を指定します。以下のコマンド名とオプションは固定構文です。",
+"site_cli_current": "<code>killernotes --cli --help</code> でコマンドを表示します。出力は JSON です。読み取りには <code>--database</code> を指定できます。変更、エクスポート、設定には起動してロック解除したアプリが必要です。新しい絶対パスを出力先に使い、空の引用符付き値で項目を消去し、情報が失われる変換には <code>--allow-loss</code> を指定します。以下のコマンド名とオプションは固定構文です。インストール版は PATH に登録されるため、新しく開いたターミナルのどこからでも実行できます。ポータブル版は PATH に登録されないので、ファイル名を指定して実行してください。",
 "site_uninstall_current": "<code>/silent</code> は全ユーザー向けにインストールします。<code>/uninstall</code> はアプリを削除し、<code>/uninstall-silent</code> は確認なしで削除します。ノートは保持されます。",
 "site_kb_base": "基本"
 });
@@ -8751,7 +8751,7 @@ Object.assign(I18N["zh-cn"], {
 "site_themes_current": "13种主题，41种外观：Dark、Light、Black 和 98SE 各提供8种强调色。渐变遵循主题，98SE 保持纯色。",
 "site_privacy_current": "笔记和音频保留在本地，除非自行导出或分享。无需账户，没有云同步、遥测或广告。更新使用 GitHub，语音模型仅在请求时从 Hugging Face 下载。",
 "site_cli_h": "命令行",
-"site_cli_current": "运行 <code>KillerNotes.exe --cli --help</code> 查看命令。输出为 JSON。读取可指定 <code>--database</code>；修改、导出和设置要求应用已打开且解锁。导出使用新的绝对路径，清空字段使用引号内的空值，有损转换使用 <code>--allow-loss</code>。以下命令名和选项是固定语法。",
+"site_cli_current": "运行 <code>killernotes --cli --help</code> 查看命令。输出为 JSON。读取可指定 <code>--database</code>；修改、导出和设置要求应用已打开且解锁。导出使用新的绝对路径，清空字段使用引号内的空值，有损转换使用 <code>--allow-loss</code>。以下命令名和选项是固定语法。已安装的版本会加入 PATH，因此可在任何新打开的终端中运行。便携版不会加入 PATH，请改用文件名运行。",
 "site_uninstall_current": "<code>/silent</code> 为所有用户安装。<code>/uninstall</code> 卸载应用，<code>/uninstall-silent</code> 无提示卸载。笔记保留。",
 "site_kb_base": "基本"
 });
@@ -8766,7 +8766,7 @@ Object.assign(I18N["zh"], {
 "site_themes_current": "13種佈景主題，41種外觀：Dark、Light、Black 和 98SE 各提供8種強調色。漸層遵循佈景主題，98SE 保持純色。",
 "site_privacy_current": "筆記和音訊保留在本機，除非自行匯出或分享。不需帳戶，沒有雲端同步、遙測或廣告。更新使用 GitHub，語音模型僅在要求時從 Hugging Face 下載。",
 "site_cli_h": "命令列",
-"site_cli_current": "執行 <code>KillerNotes.exe --cli --help</code> 查看命令。輸出為 JSON。讀取可指定 <code>--database</code>；修改、匯出和設定要求應用程式已開啟且解鎖。匯出使用新的絕對路徑，清空欄位使用引號內的空值，有損轉換使用 <code>--allow-loss</code>。以下命令名稱和選項是固定語法。",
+"site_cli_current": "執行 <code>killernotes --cli --help</code> 查看命令。輸出為 JSON。讀取可指定 <code>--database</code>；修改、匯出和設定要求應用程式已開啟且解鎖。匯出使用新的絕對路徑，清空欄位使用引號內的空值，有損轉換使用 <code>--allow-loss</code>。以下命令名稱和選項是固定語法。已安裝的版本會加入 PATH，因此可在任何新開啟的終端機中執行。可攜式版本不會加入 PATH，請改用檔名執行。",
 "site_uninstall_current": "<code>/silent</code> 為所有使用者安裝。<code>/uninstall</code> 移除應用程式，<code>/uninstall-silent</code> 無提示移除。筆記保留。",
 "site_kb_base": "基本"
 });
@@ -8781,7 +8781,7 @@ Object.assign(I18N["vi"], {
 "site_themes_current": "13 chủ đề, 41 diện mạo: Dark, Light, Black và 98SE có tám màu nhấn mỗi chủ đề. Chuyển sắc theo chủ đề; 98SE giữ màu phẳng.",
 "site_privacy_current": "Ghi chú và âm thanh ở trên máy trừ khi bạn xuất hoặc chia sẻ. Không tài khoản, đám mây, đo từ xa hay quảng cáo. Cập nhật dùng GitHub; mô hình giọng nói chỉ tải từ Hugging Face khi được yêu cầu.",
 "site_cli_h": "Dòng lệnh",
-"site_cli_current": "Chạy <code>KillerNotes.exe --cli --help</code> để xem lệnh. Đầu ra là JSON. Lệnh đọc có thể chỉ định <code>--database</code>; thay đổi, xuất và cài đặt cần ứng dụng mở và đã mở khóa. Dùng đường dẫn tuyệt đối mới để xuất, giá trị rỗng trong dấu ngoặc kép để xóa trường và <code>--allow-loss</code> để chuyển đổi mất dữ liệu. Tên lệnh và tùy chọn dưới đây là cú pháp cố định.",
+"site_cli_current": "Chạy <code>killernotes --cli --help</code> để xem lệnh. Đầu ra là JSON. Lệnh đọc có thể chỉ định <code>--database</code>; thay đổi, xuất và cài đặt cần ứng dụng mở và đã mở khóa. Dùng đường dẫn tuyệt đối mới để xuất, giá trị rỗng trong dấu ngoặc kép để xóa trường và <code>--allow-loss</code> để chuyển đổi mất dữ liệu. Tên lệnh và tùy chọn dưới đây là cú pháp cố định. Bản đã cài đặt nằm trong PATH nên có thể chạy từ mọi terminal mới. Bản portable không nằm trong PATH, nên hãy chạy nó bằng tên tệp.",
 "site_uninstall_current": "<code>/silent</code> cài cho mọi người dùng. <code>/uninstall</code> gỡ ứng dụng; <code>/uninstall-silent</code> gỡ không hỏi. Ghi chú được giữ lại.",
 "site_kb_base": "Cơ bản"
 });
@@ -8796,7 +8796,7 @@ Object.assign(I18N["bn"], {
 "site_themes_current": "13টি থিম, 41টি চেহারা: Dark, Light, Black ও 98SE প্রতিটিতে আটটি অ্যাকসেন্ট রঙ আছে। গ্রেডিয়েন্ট থিম অনুসরণ করে; 98SE সমতল থাকে।",
 "site_privacy_current": "রপ্তানি বা শেয়ার না করলে নোট ও অডিও স্থানীয় থাকে। অ্যাকাউন্ট, ক্লাউড সিঙ্ক, টেলিমেট্রি বা বিজ্ঞাপন নেই। আপডেট GitHub ব্যবহার করে; কণ্ঠ মডেল শুধু চাইলে Hugging Face থেকে নামে।",
 "site_cli_h": "কমান্ড লাইন",
-"site_cli_current": "কমান্ড দেখতে <code>KillerNotes.exe --cli --help</code> চালান। আউটপুট JSON। পড়ার জন্য <code>--database</code> দেওয়া যায়; পরিবর্তন, রপ্তানি ও সেটিংসে অ্যাপ খোলা ও আনলক থাকা চাই। রপ্তানিতে নতুন পূর্ণ পথ, ক্ষেত্র মুছতে উদ্ধৃতির মধ্যে খালি মান এবং তথ্য হারানো রূপান্তরে <code>--allow-loss</code> ব্যবহার করুন। নিচের কমান্ড নাম ও বিকল্প স্থির সিনট্যাক্স।",
+"site_cli_current": "কমান্ড দেখতে <code>killernotes --cli --help</code> চালান। আউটপুট JSON। পড়ার জন্য <code>--database</code> দেওয়া যায়; পরিবর্তন, রপ্তানি ও সেটিংসে অ্যাপ খোলা ও আনলক থাকা চাই। রপ্তানিতে নতুন পূর্ণ পথ, ক্ষেত্র মুছতে উদ্ধৃতির মধ্যে খালি মান এবং তথ্য হারানো রূপান্তরে <code>--allow-loss</code> ব্যবহার করুন। নিচের কমান্ড নাম ও বিকল্প স্থির সিনট্যাক্স। ইনস্টল করা কপি PATH-এ থাকে, তাই যেকোনো নতুন টার্মিনাল থেকে চালানো যায়। পোর্টেবল কপি PATH-এ থাকে না, তাই ফাইলের নাম দিয়ে চালান।",
 "site_uninstall_current": "<code>/silent</code> সব ব্যবহারকারীর জন্য ইনস্টল করে। <code>/uninstall</code> অ্যাপ সরায়; <code>/uninstall-silent</code> না জিজ্ঞেস করেই সরায়। নোট থাকে।",
 "site_kb_base": "মূল"
 });
