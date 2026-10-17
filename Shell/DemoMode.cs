@@ -203,6 +203,17 @@ namespace KillerNotes.Shell
                 "Photograph the receipt at the counter, do not save it for later", "Mileage log is in the shared drive", "Personal-card parts need the PO number in the memo"),
                 tags: "Follow-up", group: P("Admin"), titleColor: SLATE);
 
+            // ---- Long-form notes ----
+            // Full-page notes with headings, paragraphs, tables and lists, so screenshots and
+            // the outline, find and preview features have real documents to work on.
+            Add("Northwind Dental - quarterly review", 2, DemoQuarterlyReview(), tags: "On-site, Reference", group: P("Client sites", "Northwind Dental"), titleColor: TEAL);
+            Add("Oakfield Law - server migration plan", 9, DemoMigrationPlan(), tags: "Follow-up, Network", group: P("Client sites", "Oakfield Law"), titleColor: INDIGO);
+            Add("Meadowbrook Vet - outage review", 4, DemoOutageReview(), tags: "Urgent, Follow-up", group: P("Client sites", "Meadowbrook Vet"), titleColor: RED);
+            Add("Laptop triage flow", 13, DemoLaptopTriage(), tags: "Reference", group: P("Bench reference", "Hardware"));
+            Add("M365 offboarding", 8, DemoOffboarding(), tags: "Reference", group: P("Bench reference", "PowerShell"), titleColor: GREEN);
+            Add("Wi-Fi survey - findings report", 5, DemoSurveyReport(), tags: "On-site, Reference", group: P("Projects", "Wi-Fi survey"), titleColor: BLUE);
+            Add("Team meeting - weekly notes", 1, DemoMeetingNotes(), tags: "Follow-up", group: P("Admin"), titleColor: SLATE);
+
             // ---- Preview detection, three ways (1.1.7, #14) ----
             // Click down the list to see the difference: the runbook offers a Preview button, the
             // banner detects as HTML, and the checklist offers nothing - it has dash bullets and
@@ -568,6 +579,203 @@ namespace KillerNotes.Shell
             d.Blocks.Add(DemoList("Read the escalation matrix BEFORE the first after-hours call"));
             d.Blocks.Add(DemoH("First week", 2));
             d.Blocks.Add(DemoP("Shadow a senior on the first two site visits. No exceptions.", bold: true));
+            return d;
+        }
+
+        private static List DemoSteps(params string[] items)
+        {
+            var list = new List { MarkerStyle = TextMarkerStyle.Decimal };
+            foreach (var i in items) list.ListItems.Add(new ListItem(new Paragraph(new Run(i))));
+            return list;
+        }
+
+        private static FlowDocument DemoQuarterlyReview()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoH("Q3 review - Northwind Dental", 1));
+            d.Blocks.Add(DemoP("Two offices, 22 workstations, one imaging server and a NAS. Overall the quarter was quiet: no outages, two hardware failures handled under warranty, and the backup warnings from July are resolved."));
+            d.Blocks.Add(DemoH("System status", 2));
+            d.Blocks.Add(DemoTable(
+                ["System", "Status", "Notes"],
+                ["Workstations (22)", "Healthy", "All on the current feature update"],
+                ["Imaging server", "Watch", "Second NIC still drops after reboots"],
+                ["NAS backups", "Healthy", "Nightly + weekly offsite, restore tested 9/14"],
+                ["Firewall", "Healthy", "Firmware current, subscriptions renew in March"],
+                ["UPS (MDF)", "Replaced", "New batteries installed during the site visit"],
+                ["Wi-Fi", "Healthy", "Guest network isolated, 3 APs"]));
+            d.Blocks.Add(DemoH("What happened this quarter", 2));
+            d.Blocks.Add(DemoList(
+                "Front desk PC replaced after the SSD failed (warranty, next-day part)",
+                "Hygienist laptop keyboard replaced under warranty",
+                "Backup job warnings traced to a full retention volume and cleared",
+                "Two phishing emails reported by staff, both blocked before any clicks",
+                "New operatory 4 drop terminated and labeled"));
+            d.Blocks.Add(DemoH("Recommendations", 2));
+            d.Blocks.Add(DemoP("The imaging server is five years old and is the only single point of failure left on site. Budget for a replacement in Q1 and keep the current box as a cold spare until then."));
+            d.Blocks.Add(DemoList(
+                "Replace the imaging server in Q1 (quote attached to the ticket)",
+                "Move the remaining two Windows 10 machines before support ends",
+                "Add a second NAS volume so retention stops running out"));
+            d.Blocks.Add(DemoRule());
+            d.Blocks.Add(DemoP("Next review: first week of January. Office manager wants the quote before the holiday close.", color: "#c9a227"));
+            return d;
+        }
+
+        private static FlowDocument DemoMigrationPlan()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoH("File server migration", 1));
+            d.Blocks.Add(DemoP("Moving the document share off the old tower server and onto the new host before the lease on the old hardware ends. Users keep the same drive letters, so nothing changes on their side except speed."));
+            d.Blocks.Add(DemoH("Scope", 2));
+            d.Blocks.Add(DemoList(
+                "1.4 TB of case files across 3 shares",
+                "Print queues for 4 printers",
+                "Scheduled scan-to-folder for the copier",
+                "Nightly backup job repointed to the new host"));
+            d.Blocks.Add(DemoH("Timeline", 2));
+            d.Blocks.Add(DemoTable(
+                ["When", "Task", "Owner"],
+                ["Mon", "Build the new host, join the domain, patch", "Bench"],
+                ["Tue-Thu", "Pre-seed the shares with a robocopy mirror", "Bench"],
+                ["Fri 18:00", "Freeze the old shares to read-only", "On-site"],
+                ["Fri 18:30", "Final delta copy and permission check", "On-site"],
+                ["Fri 20:00", "Swap the DNS alias, remap printers", "On-site"],
+                ["Sat AM", "Spot-check with the office manager", "On-site"]));
+            d.Blocks.Add(DemoH("Risks", 2));
+            d.Blocks.Add(DemoList(
+                "Long paths in the archive share may fail the copy; run the path report first",
+                "The copier caches the old server name and needs its address book updated",
+                "One partner works weekends and must be told about the read-only window"));
+            d.Blocks.Add(DemoH("Rollback", 2));
+            d.Blocks.Add(DemoP("If anything is wrong Saturday morning, point the DNS alias back at the old server and lift the read-only flag. The old tower stays powered for two weeks.", bold: true));
+            return d;
+        }
+
+        private static FlowDocument DemoOutageReview()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoH("Internet outage review", 1));
+            d.Blocks.Add(DemoP("The clinic lost internet for 2 hours 40 minutes on a Tuesday morning. Phones, the practice management system and card payments were all down. This note records what happened and what changes so it does not happen again."));
+            d.Blocks.Add(DemoH("Timeline", 2));
+            d.Blocks.Add(DemoTable(
+                ["Time", "Event"],
+                ["07:52", "Front desk reports no internet and dead phones"],
+                ["08:05", "Remote check: firewall up, WAN link down"],
+                ["08:20", "ISP ticket opened, no outage in the area"],
+                ["08:45", "Tech on site, modem lights normal"],
+                ["09:30", "Found the modem on a power strip that tripped overnight"],
+                ["10:32", "Modem moved to the UPS, service restored"]));
+            d.Blocks.Add(DemoH("Root cause", 2));
+            d.Blocks.Add(DemoP("The ISP modem was plugged into a surge strip under the front desk instead of the UPS in the rack. The strip tripped when the cleaners ran a floor buffer on the same circuit. Everything else was on battery and stayed up, which is why the firewall looked healthy."));
+            d.Blocks.Add(DemoH("Actions", 2));
+            d.Blocks.Add(DemoSteps(
+                "Move the modem and its power brick onto the rack UPS (done)",
+                "Label the rack circuit and the front desk circuit",
+                "Add a WAN-down alert so the first call is ours, not the clinic's",
+                "Quote a 4G failover link for the payment terminals"));
+            d.Blocks.Add(DemoRule());
+            d.Blocks.Add(DemoP("Practice manager signed off on the failover quote. Order this week.", color: "#3f9b56"));
+            return d;
+        }
+
+        private static FlowDocument DemoLaptopTriage()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoH("Laptop triage", 1));
+            d.Blocks.Add(DemoP("Work every laptop that lands on the bench in this order. It catches the cheap fixes before anyone opens the case."));
+            d.Blocks.Add(DemoH("Intake", 2));
+            d.Blocks.Add(DemoSteps(
+                "Photograph the laptop and the charger, note the serial",
+                "Ask what changed right before the problem started",
+                "Check warranty status before touching anything",
+                "Back up the user profile if the disk still reads"));
+            d.Blocks.Add(DemoH("Common symptoms", 2));
+            d.Blocks.Add(DemoTable(
+                ["Symptom", "Check first", "Usual fix"],
+                ["No power", "Charger LED, different charger", "Charger or DC jack"],
+                ["Power, no display", "External monitor", "Reseat RAM, then panel cable"],
+                ["Slow boot", "Disk health, startup apps", "SSD swap or cleanup"],
+                ["Random shutdowns", "Fan noise, temps", "Clean the heatsink, new paste"],
+                ["Wi-Fi drops", "Driver date, power saving", "Update driver, disable NIC sleep"],
+                ["Battery won't charge", "Battery report", "Battery replacement"]));
+            d.Blocks.Add(DemoH("Before it goes back", 2));
+            d.Blocks.Add(DemoList(
+                "Windows Update fully current, one reboot after",
+                "Run the battery report and attach it to the ticket",
+                "Clean the keyboard and screen",
+                "Label the charger with the asset tag"));
+            return d;
+        }
+
+        private static FlowDocument DemoOffboarding()
+        {
+            var d = new FlowDocument { Tag = SyntaxTag };
+            d.Blocks.Add(DemoH("M365 offboarding", 1));
+            d.Blocks.Add(DemoP("Run these in order when someone leaves. Connect first and confirm you are in the right tenant before changing anything."));
+            d.Blocks.Add(DemoH("Block and convert", 2));
+            d.Blocks.Add(DemoMono("Connect-ExchangeOnline; Get-OrganizationConfig | Select DisplayName"));
+            d.Blocks.Add(DemoMono("Update-MgUser -UserId user@contoso.example -AccountEnabled:$false"));
+            d.Blocks.Add(DemoMono("Revoke-MgUserSignInSession -UserId user@contoso.example"));
+            d.Blocks.Add(DemoMono("Set-Mailbox user@contoso.example -Type Shared"));
+            d.Blocks.Add(DemoH("Hand over the data", 2));
+            d.Blocks.Add(DemoMono("Add-MailboxPermission user@contoso.example -User manager@contoso.example -AccessRights FullAccess"));
+            d.Blocks.Add(DemoMono("Set-Mailbox user@contoso.example -ForwardingSMTPAddress manager@contoso.example"));
+            d.Blocks.Add(DemoList(
+                "Move the OneDrive files to the manager before the 30-day retention runs out",
+                "Remove the license only after the mailbox shows as Shared",
+                "Pull the device from Intune and wipe it if it is company-owned"));
+            d.Blocks.Add(DemoRule());
+            d.Blocks.Add(DemoP("Write the date, the manager and the forwarding end date on the ticket.", color: "#3f9b56"));
+            return d;
+        }
+
+        private static FlowDocument DemoSurveyReport()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoH("Warehouse Wi-Fi survey", 1));
+            d.Blocks.Add(DemoP("Walked the warehouse and office with the survey laptop during a normal shift, so forklifts and the scanners were all in use. Coverage in the office is fine. The warehouse floor needs two more access points and the loading dock needs its own."));
+            d.Blocks.Add(DemoH("Readings by area", 2));
+            d.Blocks.Add(DemoTable(
+                ["Area", "Signal", "Clients", "Verdict"],
+                ["Office", "-52 dBm", "18", "Good"],
+                ["Break room", "-61 dBm", "6", "Good"],
+                ["Aisles 1-4", "-68 dBm", "12", "Marginal"],
+                ["Aisles 5-9", "-79 dBm", "9", "Poor"],
+                ["Loading dock", "-84 dBm", "4", "Dead spot"],
+                ["Yard", "none", "0", "Out of scope"]));
+            d.Blocks.Add(DemoH("Recommendations", 2));
+            d.Blocks.Add(DemoSteps(
+                "Add one AP above aisle 3 and one above aisle 7, mounted below the racking",
+                "Add an outdoor-rated AP at the dock door",
+                "Move the scanners to 5 GHz only once the new APs are up",
+                "Re-survey after install and compare against these numbers"));
+            d.Blocks.Add(DemoP("Metal racking blocks 5 GHz badly, so AP height matters more than count. Mount them at the top of the aisle, not the ceiling.", bold: true));
+            return d;
+        }
+
+        private static FlowDocument DemoMeetingNotes()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoH("Weekly team meeting", 1));
+            d.Blocks.Add(DemoP("Short one this week. Ticket volume is down, two projects are waiting on parts, and the on-call swap for next month is settled."));
+            d.Blocks.Add(DemoH("Ticket queue", 2));
+            d.Blocks.Add(DemoTable(
+                ["Queue", "Open", "Oldest", "Change"],
+                ["Triage", "6", "1 day", "-4"],
+                ["Bench", "9", "6 days", "+2"],
+                ["Projects", "4", "3 weeks", "0"],
+                ["Waiting on client", "11", "2 weeks", "-3"]));
+            d.Blocks.Add(DemoH("Projects", 2));
+            d.Blocks.Add(DemoList(
+                "Oakfield file server migration is set for Friday night",
+                "Meadowbrook 4G failover is ordered, install next week",
+                "Warehouse Wi-Fi needs the quote approved before ordering APs",
+                "Northwind imaging server replacement goes into the Q1 budget"));
+            d.Blocks.Add(DemoH("Action items", 2));
+            d.Blocks.Add(DemoSteps(
+                "Bench: clear the three laptops waiting on batteries",
+                "On-site: confirm the Oakfield partner knows about the read-only window",
+                "Everyone: close tickets waiting on the client for more than two weeks"));
             return d;
         }
 
