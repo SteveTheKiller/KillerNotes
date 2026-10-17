@@ -38,6 +38,25 @@ namespace KillerFamily.Accessibility
             _initialized = true;
             EventManager.RegisterClassHandler(typeof(Control), FrameworkElement.SizeChangedEvent,
                 new SizeChangedEventHandler(OnControlSizeChanged), true);
+            // WPF still gives Tab focus to a hyperlink whose TextBlock is collapsed: an invisible
+            // stop that a screen reader announces as the window. Focus moves on past it instead.
+            EventManager.RegisterClassHandler(typeof(System.Windows.Documents.Hyperlink),
+                System.Windows.Input.Keyboard.PreviewGotKeyboardFocusEvent,
+                new System.Windows.Input.KeyboardFocusChangedEventHandler(OnHyperlinkPreviewGotFocus));
+        }
+
+        private static void OnHyperlinkPreviewGotFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs args)
+        {
+            if (sender is not System.Windows.Documents.Hyperlink link || !ReferenceEquals(args.NewFocus, link)) return;
+            DependencyObject? host = link.Parent;
+            while (host is FrameworkContentElement content) host = content.Parent;
+            if (host is not UIElement element || element.IsVisible) return;
+            args.Handled = true;
+            var direction = (System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Shift) != 0
+                ? System.Windows.Input.FocusNavigationDirection.Previous
+                : System.Windows.Input.FocusNavigationDirection.Next;
+            link.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Input,
+                new Action(() => link.MoveFocus(new System.Windows.Input.TraversalRequest(direction))));
         }
 
         private static void OnControlSizeChanged(object sender, SizeChangedEventArgs args)
