@@ -2634,13 +2634,13 @@
                             BorderThickness="{DynamicResource FooterCellDarkThickness}" Panel.ZIndex="2"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"
                             Margin="{DynamicResource FooterCellPadding}">
-                    <TextBlock x:Name="VersionLabel" Text="v1.3.1"
+                    <TextBlock x:Name="VersionLabel" Opacity="0.75" Text="v1.3.1"
                                Foreground="{DynamicResource TextFooter}" FontFamily="{DynamicResource BrandSansFont}"
                                FontSize="16" TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center" Margin="0,0,12,0"
                                Cursor="Hand" ToolTip="{DynamicResource Str_TT_About}"
                                MouseLeftButtonUp="VersionLabel_Click"/>
                     <!-- 14px trailing margin keeps the copyright clear of the corner grip (family standard) -->
-                    <TextBlock FontSize="16" TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center"
+                    <TextBlock Opacity="0.75" FontSize="16" TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center"
                                FontFamily="{DynamicResource BrandSansFont}" Margin="0,0,14,0">
                         <Run Text="&#x00A9; 2026 " Foreground="{DynamicResource TextFooter}"/>
                         <Hyperlink NavigateUri="https://thekiller.net"

@@ -9,15 +9,15 @@
     <SolidColorBrush x:Key="RowSelectedBrush"    Color="#44ffffff" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuTextBrush"       Color="#d7d7cf" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlinePressedBrush" Color="#44ffffff" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbBrush"      Color="#55dd8500" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#dd8500" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbBrush"      Color="#55f29200" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#f29200" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="BgCanvas"              Color="#343344" po:Freeze="True"/>
     <SolidColorBrush x:Key="BgRecentPanel"         Color="#2e3134" po:Freeze="True"/>
     <SolidColorBrush x:Key="SortButtonBrush"       Color="#2a2c2f" po:Freeze="True"/>
     <SolidColorBrush x:Key="AccentLogo" Color="#FFDD8500" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SelectionAccent"       Color="#dd8500" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RadioAccent" Color="#FFDD8500" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionAccent"       Color="#f29200" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RadioAccent" Color="#FFF29200" po:Freeze="True"/>
     <SolidColorBrush x:Key="DangerRed"             Color="#dd4641" po:Freeze="True"/>
     <SolidColorBrush x:Key="SliderTrack"           Color="#b4b6b1" po:Freeze="True"/>
     <SolidColorBrush x:Key="SettingsOpenRowBg"     Color="#9c630e" po:Freeze="True"/>
@@ -32,7 +32,7 @@
     <SolidColorBrush x:Key="KnCatSearch" Color="#00b3ff" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatHelp"   Color="#39ff14" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatEdit"   Color="#ff901f" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PrimaryBrush" Color="#dd8500" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#f29200" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
     <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#e29929" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
@@ -42,9 +42,9 @@
 
 <SolidColorBrush x:Key="OnPrimaryBrush" Color="#1e1f22" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
-    <SolidColorBrush x:Key="OutlineBtnBrush" Color="#dd8500" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="OutlineBtnBrush" Color="#f29200" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
-    <SolidColorBrush x:Key="InputHoverBrush" Color="#dd8500" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="InputHoverBrush" Color="#f29200" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
     <LinearGradientBrush x:Key="BackgroundBrush" StartPoint="0,0.5" EndPoint="1,0.5" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"><GradientStop Color="#641d25" Offset="0" /><GradientStop Color="#2f2853" Offset="1" /></LinearGradientBrush>
 

@@ -2,18 +2,18 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
     <!-- Black family - PURPLE accent overlay. -->
-    <SolidColorBrush x:Key="PrimaryBrush"        Color="#B829FF" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#B829FF" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#B829FF" po:Freeze="True"/>
-    <SolidColorBrush x:Key="HeaderLineBrush"     Color="#B829FF" po:Freeze="True"/>
-    <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#B829FF" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#B829FF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PrimaryBrush"        Color="#BD37FF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#BD37FF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#BD37FF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="HeaderLineBrush"     Color="#BD37FF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#BD37FF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#BD37FF" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowSelectedBrush"    Color="#200833" po:Freeze="True"/>
     <LinearGradientBrush x:Key="SelectionBg"         po:Freeze="True" StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#562071" Offset="0"/><GradientStop Color="#360751" Offset="1"/></LinearGradientBrush>
     <SolidColorBrush x:Key="OutlinePressedBrush" Color="#200833" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbBrush"    Color="#88B829FF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbBrush"    Color="#88BD37FF" po:Freeze="True"/>
     <SolidColorBrush x:Key="ComboHighlightTextBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="AccentLogo"        Color="#B829FF" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SelectionAccent" Color="#B829FF" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RadioAccent"     Color="#B829FF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionAccent" Color="#BD37FF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RadioAccent"     Color="#BD37FF" po:Freeze="True"/>
 </ResourceDictionary>

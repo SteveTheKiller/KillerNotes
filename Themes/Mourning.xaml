@@ -9,15 +9,15 @@
     <SolidColorBrush x:Key="RowSelectedBrush"    Color="#44ffffff" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuTextBrush"       Color="#d7d7cf" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlinePressedBrush" Color="#44ffffff" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbBrush"      Color="#55ff6f91" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#ff6f91" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbBrush"      Color="#55ffa9bd" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#ffa9bd" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="BgCanvas"              Color="#554c5d" po:Freeze="True"/>
     <SolidColorBrush x:Key="BgRecentPanel"         Color="#3c3841" po:Freeze="True"/>
     <SolidColorBrush x:Key="SortButtonBrush"       Color="#554c5d" po:Freeze="True"/>
     <SolidColorBrush x:Key="AccentLogo"            Color="#ff6f91" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SelectionAccent" Color="#FFFF6F91" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RadioAccent" Color="#FFFF6F91" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionAccent" Color="#FFFFA9BD" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RadioAccent" Color="#FFFFA9BD" po:Freeze="True"/>
     <SolidColorBrush x:Key="DangerRed"             Color="#dd4641" po:Freeze="True"/>
     <SolidColorBrush x:Key="SliderTrack"           Color="#cf5f7a" po:Freeze="True"/>
     <SolidColorBrush x:Key="SettingsOpenRowBg"     Color="#b2556c" po:Freeze="True"/>
@@ -32,7 +32,7 @@
     <SolidColorBrush x:Key="KnCatSearch" Color="#00b3ff" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatHelp"   Color="#39ff14" po:Freeze="True"/>
     <SolidColorBrush x:Key="KnCatEdit"   Color="#ff901f" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PrimaryBrush" Color="#ff6f91" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#ffa9bd" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
     <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#ff86a2" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 

@@ -7,15 +7,15 @@
     <sys:Double x:Key="IconShadowOpacity">0.9</sys:Double>
 
     <!-- Accent -->
-    <SolidColorBrush x:Key="PrimaryBrush" Color="#1ea54c" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
-    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#1ea54c" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
-    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#1ea54c" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
-    <SolidColorBrush x:Key="HeaderLineBrush" Color="#1ea54c" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#22bb56" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#22bb56" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#22bb56" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="HeaderLineBrush" Color="#22bb56" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
     <!-- Near-black, matching the Black family. This is the text ON a filled accent button, and
          Dark's accents are mid-tone rather than deep: white measures 2.38 to 3.94 across the six
          (blue, teal, orange and purple all under 3), near-black measures 5.32 to 8.83. -->
     <SolidColorBrush x:Key="OnPrimaryBrush" Color="#0a0a0a" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
-    <SolidColorBrush x:Key="OutlineBtnBrush" Color="#1ea54c" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="OutlineBtnBrush" Color="#22bb56" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
     <SolidColorBrush x:Key="InputHoverBrush" Color="#707070" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
     <SolidColorBrush x:Key="TextFooter"          Color="#858585" po:Freeze="True"/>
 
@@ -30,9 +30,9 @@
 
     <!-- Text -->
     <SolidColorBrush x:Key="TextBrush" Color="#e0e0e0" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
-    <SolidColorBrush x:Key="MutedTextBrush" Color="#a0a0a0" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="MutedTextBrush" Color="#a3a3a3" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
     <SolidColorBrush x:Key="ChromeTextBrush" Color="#b6b6b6" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
-    <SolidColorBrush x:Key="DimTextBrush" Color="#6a6a6a" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="DimTextBrush" Color="#858585" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
     <!-- Grid rows -->
     <SolidColorBrush x:Key="RowAltBrush" Color="#18FFFFFF" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
@@ -46,11 +46,11 @@
 <SolidColorBrush x:Key="InputBorderBrush" Color="#2e2e2e" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#1e1e1e" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 <SolidColorBrush x:Key="MenuBorderBrush" Color="#404040" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
-    <SolidColorBrush x:Key="MenuTextBrush"       Color="#a0a0a0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="MenuTextBrush"       Color="#a3a3a3" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuHoverBrush" Color="#404040" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
     <SolidColorBrush x:Key="OutlinePressedBrush" Color="#0d2a18" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbBrush"    Color="#551ea54c" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#1ea54c" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbBrush"    Color="#5522bb56" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#22bb56" po:Freeze="True"/>
     <!-- Folder-picker tree elbows. The family value, shared with KillerPDF/KillerShell/Killendar. -->
 
     <!-- KillerNotes keyboard-map category colors (product-specific) -->
@@ -78,8 +78,8 @@
 
     <SolidColorBrush x:Key="ComboHighlightTextBrush" Color="#E0E0E0"/>
     <SolidColorBrush x:Key="AccentLogo"     Color="#1ea54c" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RadioAccent"    Color="#1ea54c" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SelectionAccent" Color="#1ea54c" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RadioAccent"    Color="#22bb56" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionAccent" Color="#22bb56" po:Freeze="True"/>
     <sys:Double x:Key="PaneShadowOpacity" xmlns:sys="clr-namespace:System;assembly=mscorlib">0.6</sys:Double>
     <SolidColorBrush x:Key="SurfaceHoverBrush" Color="#FF404040" po:Freeze="True"/>
     <sys:Double x:Key="TitleBarHeight" xmlns:sys="clr-namespace:System;assembly=mscorlib">32</sys:Double>
