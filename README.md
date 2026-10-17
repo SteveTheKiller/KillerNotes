@@ -52,12 +52,12 @@ choco install killernotes
 
 <table>
 <tr>
-<td width="50%"><img src="notes-landing/screenshots/01.png" alt="Greed theme: a switch port table, the Killculator with a result, and nested client groups"><br><sub>A switch port map as a real table, with the Killculator open beside nested client groups.</sub></td>
+<td width="50%"><img src="notes-landing/screenshots/01.png" alt="Ectoplasm theme with a quarterly review note and its heading outline open"><br><sub>A full client review with tables and headings, and the outline pane listing every section.</sub></td>
 <td width="50%"><img src="notes-landing/screenshots/02.png" alt="Black theme with the note graph window over a networking index note"><br><sub>Linked notes and the graph of them, each note colored by its group.</sub></td>
 </tr>
 <tr>
-<td><img src="notes-landing/screenshots/06.png" alt="SketchPad reopening a rack elevation sketch to mark up the next change, with the Dictation window, in the Mourning theme with film grain off"><br><sub>SketchPad and Dictation open together over a note, in the Mourning theme with film grain off.</sub></td>
-<td><img src="notes-landing/screenshots/10.png" alt="98SE theme with the keyboard shortcut map open"><br><sub>Every shortcut on a live keyboard map, shown in the 98SE theme.</sub></td>
+<td><img src="notes-landing/screenshots/05.png" alt="Decay theme with SketchPad open beside a Wi-Fi survey report, sketching access point coverage"><br><sub>SketchPad open beside a Wi-Fi survey report, marking up access point coverage.</sub></td>
+<td><img src="notes-landing/screenshots/06.png" alt="Malaise theme in Japanese with the Dictation window over weekly meeting notes"><br><sub>Dictation open over meeting notes, with the app running in Japanese.</sub></td>
 </tr>
 </table>
 
