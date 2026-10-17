@@ -5,15 +5,16 @@
     <SolidColorBrush x:Key="PrimaryBrush"        Color="#FF7C77" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#FF7C77" po:Freeze="True"/>
     <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#FF7C77" po:Freeze="True"/>
-    <SolidColorBrush x:Key="HeaderLineBrush"     Color="#FF7C77" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PrimaryFillBaseBrush" Color="#EA524C" po:Freeze="True"/>
+    <SolidColorBrush x:Key="HeaderLineBrush"     Color="#EA524C" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#FF7C77" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#FF7C77" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#EA524C" po:Freeze="True"/>
     <SolidColorBrush x:Key="RowSelectedBrush"    Color="#2A0D0D" po:Freeze="True"/>
     <LinearGradientBrush x:Key="SelectionBg"         po:Freeze="True" StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#753838" Offset="0"/><GradientStop Color="#4E1010" Offset="1"/></LinearGradientBrush>
     <SolidColorBrush x:Key="OutlinePressedBrush" Color="#2A0D0D" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbBrush"      Color="#55FF7C77" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbBrush"      Color="#55EA524C" po:Freeze="True"/>
     <SolidColorBrush x:Key="ComboHighlightTextBrush" Color="#E0E0E0"/>
     <SolidColorBrush x:Key="AccentLogo"        Color="#DD504B" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SelectionAccent" Color="#FF7C77" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SelectionAccent" Color="#EA524C" po:Freeze="True"/>
     <SolidColorBrush x:Key="RadioAccent"     Color="#FF7C77" po:Freeze="True"/>
 </ResourceDictionary>

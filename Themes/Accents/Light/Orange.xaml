@@ -1,20 +1,24 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
-    <!-- Light family - ORANGE accent overlay. -->
-    <SolidColorBrush x:Key="PrimaryBrush"        Color="#90520B" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#90520B" po:Freeze="True"/>
-    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#90520B" po:Freeze="True"/>
-    <SolidColorBrush x:Key="HeaderLineBrush"     Color="#90520B" po:Freeze="True"/>
-    <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#90520B" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#90520B" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#90520B" po:Freeze="True"/>
-    <LinearGradientBrush x:Key="SelectionBg"         po:Freeze="True" StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#A96517" Offset="0"/><GradientStop Color="#AD5C00" Offset="1"/></LinearGradientBrush>
-    <SolidColorBrush x:Key="OutlinePressedBrush" Color="#F8E5CE" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ScrollThumbBrush"    Color="#8890520B" po:Freeze="True"/>
-    <SolidColorBrush x:Key="ComboHighlightTextBrush" Color="#1A1A1A"/>
-    <SolidColorBrush x:Key="OutlineHoverTextBrush" Color="#17171B"/>
-    <SolidColorBrush x:Key="AccentLogo"        Color="#C7710F" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SelectionAccent" Color="#90520B" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RadioAccent"     Color="#90520B" po:Freeze="True"/>
+
+    <!-- The accent stays orange. Orange text and glyphs read on the light surfaces through the thin gray
+         outline Controls/AccentShadow.cs draws around them while WordmarkAccentShadowOpacity is above 0. -->
+    <SolidColorBrush x:Key="PrimaryBrush"        Color="#E8962C" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PrimaryHoverBrush"   Color="#F2A445" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#D4831C" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OnPrimaryBrush"      Color="#24231C" po:Freeze="True"/>
+    <SolidColorBrush x:Key="HeaderLineBrush"     Color="#E8962C" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OutlineBtnBrush"     Color="#E8962C" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#E8962C" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#F0A040" po:Freeze="True"/>
+    <LinearGradientBrush x:Key="SelectionBg" StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#FBE7CC" Offset="0"/><GradientStop Color="#F2A445" Offset="1"/></LinearGradientBrush>
+    <SolidColorBrush x:Key="OutlinePressedBrush" Color="#FBE7CC" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ScrollThumbBrush"    Color="#88707070" po:Freeze="True"/>
+  <SolidColorBrush x:Key="SelectionFg" Color="#24231C"/>
+  <SolidColorBrush x:Key="SelectionAccent" Color="#E8962C"/>
+  <SolidColorBrush x:Key="RadioAccent" Color="#E8962C"/>
+    <SolidColorBrush x:Key="AccentLogo" Color="#E8962C" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ComboHighlightTextBrush" Color="#262626" po:Freeze="True"/>
+    <sys:Double x:Key="WordmarkAccentShadowOpacity" xmlns:sys="clr-namespace:System;assembly=mscorlib">0.9</sys:Double>
 </ResourceDictionary>

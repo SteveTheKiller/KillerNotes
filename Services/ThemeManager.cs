@@ -834,7 +834,8 @@ namespace KillerNotes.Services
                 gradient.Freeze();
                 return gradient;
             }
-            newDict["PrimaryFillBrush"] = ButtonFill((Brush)newDict["PrimaryBrush"]);
+            // A palette can fill buttons with a deeper shade than its accent text (PrimaryFillBaseBrush).
+            newDict["PrimaryFillBrush"] = ButtonFill((Brush)(newDict.Contains("PrimaryFillBaseBrush") ? newDict["PrimaryFillBaseBrush"] : newDict["PrimaryBrush"]));
             newDict["OutlineHoverBrush"] = ButtonFill((Brush)newDict["OutlineHoverBrush"]);
 
             // Text selection color, HERE and not with the other selection keys above, for exactly

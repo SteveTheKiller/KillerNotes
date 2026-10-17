@@ -90,18 +90,21 @@
   var THEMED = ['blood','greed','cyanotic','ectoplasm','decay','malaise','sepulchre','delirium','mourning'];  // fixed-color wordmark art
   // Per-family palette copied from the app: [ Accent (bright: text/links/logo/outlines), SelectionBg (darker fill: solid buttons, selected tab edges) ].
   var ACCENTS = {
-    dark:  { red:['#DD504B','#5E1C1C'], orange:['#E8962C','#F29A28'], yellow:['#EAD900','#F2E500'], green:['#1EA54C','#1C5E38'], teal:['#1FB8A8','#1C5E5C'], blue:['#50AEE8','#1C3B5E'], purple:['#B982E3','#411C5E'], magenta:['#FF52C9','#FF2BBD'] },
-    light: { red:['#931A1A','#931A1A'], orange:['#C7710F','#C7710F'], yellow:['#F2C500','#F2C500'], green:['#1B5E20','#1B5E20'], teal:['#0D827E','#0D827E'], blue:['#18608E','#18608E'], purple:['#5A1690','#5A1690'], magenta:['#A60070','#A60070'] },
-    hc:    { red:['#FF2929','#FF2929'], orange:['#FF910A','#FF910A'], yellow:['#FFEB00','#FFEB00'], green:['#00FF66','#00FF66'], teal:['#0AFFE7','#0AFFE7'], blue:['#298DFF','#298DFF'], purple:['#B829FF','#B829FF'], magenta:['#FF2BBD','#FF2BBD'] }
+    dark:  { red:['#FF7C77','#5E1C1C'], orange:['#E8962C','#F29A28'], yellow:['#EAD900','#F2E500'], green:['#22BB56','#1C5E38'], teal:['#1FB8A8','#1C5E5C'], blue:['#50AEE8','#1C3B5E'], purple:['#C08FE6','#411C5E'], magenta:['#FF6CD1','#FF2BBD'] },
+    light: { red:['#901A1A','#901A1A'], orange:['#E8962C','#E8962C'], yellow:['#F2C500','#F2C500'], green:['#18541D','#18541D'], teal:['#085250','#085250'], blue:['#134D73','#134D73'], purple:['#5A1690','#5A1690'], magenta:['#8F0061','#8F0061'] },
+    hc:    { red:['#FF3131','#FF3131'], orange:['#FF910A','#FF910A'], yellow:['#FFEB00','#FFEB00'], green:['#00FF66','#00FF66'], teal:['#0AFFE7','#0AFFE7'], blue:['#298DFF','#298DFF'], purple:['#C34AFF','#C34AFF'], magenta:['#FF2BBD','#FF2BBD'] }
   };
   // SelectionBg (muted accent) for inactive tab/card edges; brightens to accent on hover. Mirrors KillerTools themes.ts.
   var SEL = {
     dark:  { red:'#5E1C1C', orange:'#5E3B16', yellow:'#2A2908', green:'#1C5E38', teal:'#1C5E5C', blue:'#1C3B5E', purple:'#411C5E', magenta:'#2A0D24' },
-    light: { red:'#931A1A', orange:'#C7710F', yellow:'#F2C500', green:'#1B5E20', teal:'#0D827E', blue:'#18608E', purple:'#5A1690', magenta:'#A60070' },
+    light: { red:'#901A1A', orange:'#E8962C', yellow:'#F2C500', green:'#18541D', teal:'#085250', blue:'#134D73', purple:'#5A1690', magenta:'#8F0061' },
     hc:    { red:'#380000', orange:'#4E2900', yellow:'#2E2B00', green:'#003314', teal:'#003832', blue:'#0A2C50', purple:'#250038', magenta:'#2E0022' }
   };
   function famFor(t) { return t === 'light' ? 'light' : t === 'hc' ? 'hc' : 'dark'; }
   // Text on an accent fill uses white or near-black, whichever contrasts more with that fill.
+  // Swatches and filled buttons use a deeper red than the dark red accent text, which stays light for contrast.
+  var FILL = { '#FF7C77': '#EA524C' };
+  function fillOf(hex) { return FILL[String(hex).toUpperCase()] || hex; }
   function readableOn(hex) {
     var lum = function (h) { var c = [1, 3, 5].map(function (i) { var v = parseInt(h.substr(i, 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
     var l = lum(hex), dark = lum('#1e1f22');
@@ -172,13 +175,13 @@
     ['dark', 'light', 'hc'].forEach(function (neutralTheme) {
       var preview = ACCENTS[neutralTheme][name];
       if (preview) document.querySelectorAll('.sw-' + neutralTheme).forEach(function (dot) {
-        dot.style.setProperty('--sw-accent', neutralTheme === 'light' && name === 'yellow' ? 'linear-gradient(#FFF5A3, #FFD43B)' : preview[0]);
+        dot.style.setProperty('--sw-accent', neutralTheme === 'light' && name === 'yellow' ? 'linear-gradient(#FFF5A3, #FFD43B)' : fillOf(preview[0]));
       });
     });
     curAccent = name;
     var pair = ACCENTS[fam][name];
     var neutral = NEUTRAL.indexOf(theme) >= 0;
-    root.toggleAttribute('data-yellow-outline', neutral && fam === 'light' && name === 'yellow');
+    root.toggleAttribute('data-yellow-outline', neutral && fam === 'light' && (name === 'yellow' || name === 'orange'));
     if (neutral) {
       root.style.setProperty('--accent', pair[0]);
       root.style.setProperty('--btn', pair[1]);
@@ -195,10 +198,10 @@
     }
     accDots.forEach(function (d) {
       var p = ACCENTS[fam][d.dataset.accent];
-      if (p) { d.style.background = p[0]; d.style.color = p[0]; }
+      if (p) { d.style.background = fillOf(p[0]); d.style.color = fillOf(p[0]); }
       d.setAttribute('aria-pressed', d.dataset.accent === name ? 'true' : 'false');
     });
-    if (accToggle) { accToggle.style.background = pair[0]; accToggle.title = uiText('ui_accent'); }
+    if (accToggle) { accToggle.style.background = fillOf(pair[0]); accToggle.title = uiText('ui_accent'); }
     try { localStorage.setItem('knotes-accent', name); } catch (e) {}
     updateLogos();
   }
@@ -381,4 +384,86 @@
   setTheme(savedTheme);
   applyLang(savedLang);
   new MutationObserver(localizeChrome).observe(document.body, { childList:true, subtree:true });
+})();
+/* Top bar fit: the bar never wraps. When it runs out of room, the Microsoft Store and KillerMCP
+   buttons shrink to their logos first, then the navigation links move into a More menu from the
+   end, then the Download button drops its label, and last the Store and KillerMCP buttons join
+   the menu. Re-measured on resize, font load and language changes. */
+(function () {
+  var bar = document.querySelector('.topbar');
+  if (!bar || !window.MutationObserver) return;
+  var nav = bar.querySelector('.tb-nav');
+  var more = document.createElement('div');
+  more.className = 'tb-more';
+  more.hidden = true;
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'tb-more-toggle';
+  btn.setAttribute('aria-haspopup', 'true');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.setAttribute('aria-label', 'More');
+  btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>';
+  var menu = document.createElement('div');
+  menu.className = 'lang-menu tb-more-menu';
+  menu.hidden = true;
+  more.appendChild(btn);
+  more.appendChild(menu);
+  if (nav && nav.parentNode === bar) bar.insertBefore(more, nav.nextSibling); else bar.appendChild(more);
+
+  function mark(el) {
+    if (!el) return null;
+    var m = document.createComment('tb-slot');
+    el.parentNode.insertBefore(m, el.nextSibling);
+    return { el: el, slot: m };
+  }
+  var links = nav ? [].slice.call(nav.children).map(mark) : [];
+  var extras = [bar.querySelector('.tb-mcp-link'), bar.querySelector('.tb-store')].filter(function (e) { return e && e.parentNode === bar; }).map(mark);
+  var all = links.concat(extras);
+  var busy = false;
+
+  function over() { return bar.scrollWidth > bar.clientWidth + 1; }
+  function close() { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
+  function fit() {
+    busy = true;
+    close();
+    all.forEach(function (m) { m.slot.parentNode.insertBefore(m.el, m.slot); });
+    bar.classList.remove('tb-compact', 'tb-dl-icon');
+    more.hidden = true;
+    if (over()) bar.classList.add('tb-compact');
+    if (over()) {
+      more.hidden = false;
+      for (var i = links.length - 1; i >= 0 && over(); i--) menu.insertBefore(links[i].el, menu.firstChild);
+      if (over()) bar.classList.add('tb-dl-icon');
+      for (var j = 0; j < extras.length && over(); j++) menu.appendChild(extras[j].el);
+      if (!menu.children.length) more.hidden = true;
+    }
+    observer.takeRecords();
+    busy = false;
+  }
+  var queued = false;
+  function queue() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function () { queued = false; fit(); });
+  }
+  var observer = new MutationObserver(function () { if (!busy) queue(); });
+  observer.observe(bar, { subtree: true, childList: true, characterData: true });
+  window.addEventListener('resize', queue);
+  // Logos, flags and fonts change widths without a DOM change, so watch every item's size too.
+  if (window.ResizeObserver) {
+    var sizes = new ResizeObserver(function () { if (!busy) queue(); });
+    sizes.observe(bar);
+    [].forEach.call(bar.children, function (c) { sizes.observe(c); });
+  }
+  window.addEventListener('load', queue);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(queue);
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = menu.hidden;
+    menu.hidden = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', function (e) { if (!menu.hidden && !more.contains(e.target)) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { close(); btn.focus(); } });
+  fit();
 })();
