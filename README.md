@@ -56,7 +56,7 @@ choco install killernotes
 <td width="50%"><img src="notes-landing/screenshots/02.png" alt="Black theme with the note graph window over a networking index note"><br><sub>Linked notes and the graph of them, each note colored by its group.</sub></td>
 </tr>
 <tr>
-<td><img src="notes-landing/screenshots/06.png" alt="SketchPad with shapes drawn and the Dictation window, both over a rack elevation note in the Light theme with film grain off"><br><sub>SketchPad and Dictation open together over a note, in the Light theme with film grain off.</sub></td>
+<td><img src="notes-landing/screenshots/06.png" alt="SketchPad reopening a rack elevation sketch to mark up the next change, with the Dictation window, in the Mourning theme with film grain off"><br><sub>SketchPad and Dictation open together over a note, in the Mourning theme with film grain off.</sub></td>
 <td><img src="notes-landing/screenshots/10.png" alt="98SE theme with the keyboard shortcut map open"><br><sub>Every shortcut on a live keyboard map, shown in the 98SE theme.</sub></td>
 </tr>
 </table>
