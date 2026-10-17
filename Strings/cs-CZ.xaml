@@ -341,6 +341,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_KS_Undo">Zpět / znovu</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Vyjmout / kopírovat</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Vybrat vše</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Opustit editor poznámky (Tab píše do poznámky)</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">Klávesové zkratky</sys:String>
@@ -363,6 +364,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Kb_Undo">Zpět</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Znovu</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Vybrat vše</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Opustit poznámku</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Přepnout štítek</sys:String>
     <sys:String x:Key="Str_Sec_File">Soubor</sys:String>
     <sys:String x:Key="Str_Sec_Notes">Poznámky</sys:String>

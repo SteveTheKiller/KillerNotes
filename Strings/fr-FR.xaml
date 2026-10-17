@@ -378,6 +378,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_Undo">Annuler / rétablir</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Couper / copier</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Tout sélectionner</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Quitter l'éditeur de note (Tab écrit dans la note)</sys:String>
 
     <!-- Keyboard map - editing + tag -->
     <sys:String x:Key="Str_Kb_Cut">Couper</sys:String>
@@ -385,6 +386,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Kb_Undo">Annuler</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Rétablir</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Tout sélectionner</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Quitter la note</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Activer/désactiver l'étiquette</sys:String>
     <sys:String x:Key="Str_Sec_Edit">Édition</sys:String>
 

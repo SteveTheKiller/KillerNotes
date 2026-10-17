@@ -376,6 +376,7 @@
     <sys:String x:Key="Str_KS_Undo">復原 / 取消復原</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">剪下 / 複製</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">全選</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">離開筆記編輯器（Tab 在筆記中輸入）</sys:String>
 
     <!-- Keyboard map - additions -->
     <sys:String x:Key="Str_Kb_Cut">剪下</sys:String>
@@ -383,6 +384,7 @@
     <sys:String x:Key="Str_Kb_Undo">復原</sys:String>
     <sys:String x:Key="Str_Kb_Redo">取消復原</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">全選</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">離開筆記</sys:String>
     <sys:String x:Key="Str_Kb_Tag">切換標籤</sys:String>
     <sys:String x:Key="Str_Sec_Edit">編輯</sys:String>
 

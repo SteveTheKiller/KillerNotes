@@ -457,6 +457,7 @@
     <sys:String x:Key="Str_KS_Undo">Отменить / вернуть</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Вырезать / копировать</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Выделить всё</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Выйти из редактора заметки (Tab печатает в заметке)</sys:String>
 
     <!-- Keyboard map -->
     <sys:String x:Key="Str_Kb_Shortcuts">Сочетания клавиш</sys:String>
@@ -479,6 +480,7 @@
     <sys:String x:Key="Str_Kb_Undo">Отменить</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Вернуть</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Выделить всё</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Выйти из заметки</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Переключить метку</sys:String>
     <sys:String x:Key="Str_Sec_File">Файл</sys:String>
     <sys:String x:Key="Str_Sec_Notes">Заметки</sys:String>

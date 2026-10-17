@@ -377,6 +377,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_Undo">Rückgängig / Wiederholen</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Ausschneiden / Kopieren</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Alles auswählen</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Notizeditor verlassen (Tab schreibt in die Notiz)</sys:String>
 
     <!-- Keyboard map (additions) -->
     <sys:String x:Key="Str_Kb_Cut">Ausschneiden</sys:String>
@@ -384,6 +385,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Kb_Undo">Rückgängig</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Wiederholen</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Alles auswählen</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Notiz verlassen</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Tag umschalten</sys:String>
     <sys:String x:Key="Str_Sec_Edit">Bearbeiten</sys:String>
 

@@ -127,6 +127,7 @@ namespace KillerNotes.Shell
             new("Ctrl+V", "Str_KS_Paste", "Edit", [(KbLayer.Ctrl, "V", "Str_Kb_Paste")]),
             new("Ctrl+Z / Y", "Str_KS_Undo", "Edit", [(KbLayer.Ctrl, "Z", "Str_Kb_Undo"), (KbLayer.Ctrl, "Y", "Str_Kb_Redo")]),
             new("Ctrl+A", "Str_KS_SelectAll", "Edit", [(KbLayer.Ctrl, "A", "Str_Kb_SelectAll")]),
+            new("Ctrl+Tab", "Str_KS_LeaveEditor", "Edit", [(KbLayer.Ctrl, "Tab", "Str_Kb_LeaveEditor")]),
             new("Ctrl+Home / End", "Str_KS_NoteNav", "Edit", [(KbLayer.Ctrl, "Home", "Str_Kb_NoteTop"), (KbLayer.Ctrl, "End", "Str_Kb_NoteEnd")]),
             new("Ctrl+Left / Right", "Str_KS_WordJump", "Edit", [(KbLayer.Ctrl, "Left", "Str_Kb_WordLeft"), (KbLayer.Ctrl, "Right", "Str_Kb_WordRight")]),
             new("Ctrl+Bksp / Del", "Str_KS_DelWord", "Edit", [(KbLayer.Ctrl, "Back", "Str_Kb_DelWordL"), (KbLayer.Ctrl, "Del", "Str_Kb_DelWordR")]),

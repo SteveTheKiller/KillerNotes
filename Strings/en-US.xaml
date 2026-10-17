@@ -484,6 +484,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_Undo">Undo / redo</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Cut / copy</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Select all</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Leave the note editor (Tab types in the note)</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">Keyboard shortcuts</sys:String>
@@ -506,6 +507,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Kb_Undo">Undo</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Redo</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Select all</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Leave note</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Toggle tag</sys:String>
     <sys:String x:Key="Str_Sec_File">File</sys:String>
     <sys:String x:Key="Str_Sec_Notes">Notes</sys:String>

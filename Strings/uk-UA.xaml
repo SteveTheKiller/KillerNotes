@@ -484,6 +484,7 @@
     <sys:String x:Key="Str_KS_Undo">Скасувати / повторити</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Вирізати / копіювати</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Виділити все</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Вийти з редактора нотатки (Tab друкує в нотатці)</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">Сполучення клавіш</sys:String>
@@ -506,6 +507,7 @@
     <sys:String x:Key="Str_Kb_Undo">Скасувати</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Повторити</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Виділити все</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Вийти з нотатки</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Перемкнути тег</sys:String>
     <sys:String x:Key="Str_Sec_File">Файл</sys:String>
     <sys:String x:Key="Str_Sec_Notes">Нотатки</sys:String>

@@ -484,6 +484,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_KS_Undo">Desfazer / refazer</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Recortar / copiar</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Selecionar tudo</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Sair do editor de notas (Tab digita na nota)</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">Atalhos de teclado</sys:String>
@@ -506,6 +507,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Kb_Undo">Desfazer</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Refazer</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Selecionar tudo</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Sair da nota</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Alternar marcador</sys:String>
     <sys:String x:Key="Str_Sec_File">Arquivo</sys:String>
     <sys:String x:Key="Str_Sec_Notes">Notas</sys:String>

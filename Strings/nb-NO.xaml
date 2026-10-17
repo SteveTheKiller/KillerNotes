@@ -482,6 +482,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_KS_Undo">Angre / gjør om</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Klipp ut / kopier</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Merk alt</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Forlat notatredigeringen (Tab skriver i notatet)</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">Hurtigtaster</sys:String>
@@ -504,6 +505,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Kb_Undo">Angre</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Gjør om</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Merk alt</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Forlat notatet</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Slå merke av/på</sys:String>
     <sys:String x:Key="Str_Sec_File">Fil</sys:String>
     <sys:String x:Key="Str_Sec_Notes">Notater</sys:String>

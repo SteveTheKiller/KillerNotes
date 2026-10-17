@@ -378,6 +378,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_Undo">Geri al / yinele</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Kes / kopyala</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Tümünü seç</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Not düzenleyiciden çık (Tab nota yazar)</sys:String>
 
     <!-- Keyboard map (additional) -->
     <sys:String x:Key="Str_Kb_Cut">Kes</sys:String>
@@ -385,6 +386,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Kb_Undo">Geri al</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Yinele</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Tümünü seç</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Nottan çık</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Etiketi aç/kapat</sys:String>
     <sys:String x:Key="Str_Sec_Edit">Düzenleme</sys:String>
 

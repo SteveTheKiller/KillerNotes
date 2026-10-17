@@ -376,6 +376,7 @@
     <sys:String x:Key="Str_KS_Undo">元に戻す / やり直し</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">切り取り / コピー</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">すべて選択</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">ノートエディターから移動 (Tab はノートに入力)</sys:String>
 
     <!-- Keyboard map (additional keycaps + section) -->
     <sys:String x:Key="Str_Kb_Cut">切り取り</sys:String>
@@ -383,6 +384,7 @@
     <sys:String x:Key="Str_Kb_Undo">元に戻す</sys:String>
     <sys:String x:Key="Str_Kb_Redo">やり直し</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">すべて選択</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">ノートから移動</sys:String>
     <sys:String x:Key="Str_Kb_Tag">タグの切り替え</sys:String>
     <sys:String x:Key="Str_Sec_Edit">編集</sys:String>
 

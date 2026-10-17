@@ -457,6 +457,7 @@
     <sys:String x:Key="Str_KS_Undo">Болдырмау / қайталау</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Қиып алу / көшіру</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Бәрін таңдау</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Жазба редакторынан шығу (Tab жазбаға жазады)</sys:String>
 
     <!-- Keyboard map -->
     <sys:String x:Key="Str_Kb_Shortcuts">Пернелер тіркесімдері</sys:String>
@@ -479,6 +480,7 @@
     <sys:String x:Key="Str_Kb_Undo">Болдырмау</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Қайталау</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Бәрін таңдау</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Жазбадан шығу</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Тегті қосу/алу</sys:String>
     <sys:String x:Key="Str_Sec_File">Файл</sys:String>
     <sys:String x:Key="Str_Sec_Notes">Жазбалар</sys:String>

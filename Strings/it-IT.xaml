@@ -457,6 +457,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_KS_Undo">Annulla / ripeti</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Taglia / copia</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Seleziona tutto</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Esci dall'editor della nota (Tab scrive nella nota)</sys:String>
 
     <!-- Keyboard map -->
     <sys:String x:Key="Str_Kb_Shortcuts">Scorciatoie da tastiera</sys:String>
@@ -479,6 +480,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Kb_Undo">Annulla</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Ripeti</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Seleziona tutto</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Esci dalla nota</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Attiva/disattiva tag</sys:String>
     <sys:String x:Key="Str_Sec_File">File</sys:String>
     <sys:String x:Key="Str_Sec_Notes">Note</sys:String>

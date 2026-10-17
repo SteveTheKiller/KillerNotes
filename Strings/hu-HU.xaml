@@ -446,6 +446,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_KS_Undo">Visszavonás / újra</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Kivágás / másolás</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Válassza ki az összeset</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Kilépés a jegyzetszerkesztőből (a Tab a jegyzetbe ír)</sys:String>
 
     <!-- Keyboard map (short keycap captions + section names) -->
     <sys:String x:Key="Str_Kb_Shortcuts">Billentyűparancsok</sys:String>
@@ -468,6 +469,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Kb_Undo">Visszavonás</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Újra</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Válassza ki az összeset</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Kilépés a jegyzetből</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Címke váltása</sys:String>
     <sys:String x:Key="Str_Sec_File">Fájl</sys:String>
     <sys:String x:Key="Str_Sec_Notes">Notes</sys:String>

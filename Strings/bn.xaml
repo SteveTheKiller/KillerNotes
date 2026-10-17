@@ -376,6 +376,7 @@
     <sys:String x:Key="Str_KS_Undo">আনডু / রিডু</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">কাট / কপি</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">সব নির্বাচন করুন</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">নোট এডিটর থেকে বের হন (Tab নোটে লেখে)</sys:String>
 
     <!-- Keyboard map (additional) -->
     <sys:String x:Key="Str_Kb_Cut">কাট</sys:String>
@@ -383,6 +384,7 @@
     <sys:String x:Key="Str_Kb_Undo">আনডু</sys:String>
     <sys:String x:Key="Str_Kb_Redo">রিডু</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">সব নির্বাচন করুন</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">নোট থেকে বের হন</sys:String>
     <sys:String x:Key="Str_Kb_Tag">ট্যাগ টগল করুন</sys:String>
     <sys:String x:Key="Str_Sec_Edit">সম্পাদনা</sys:String>
 

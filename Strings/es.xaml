@@ -378,6 +378,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_Undo">Deshacer / rehacer</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Cortar / copiar</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Seleccionar todo</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Salir del editor de notas (Tab escribe en la nota)</sys:String>
 
     <!-- Keyboard map (additional) -->
     <sys:String x:Key="Str_Kb_Cut">Cortar</sys:String>
@@ -385,6 +386,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Kb_Undo">Deshacer</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Rehacer</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Seleccionar todo</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Salir de nota</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Alternar etiqueta</sys:String>
     <sys:String x:Key="Str_Sec_Edit">Edición</sys:String>
 

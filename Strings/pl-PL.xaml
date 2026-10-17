@@ -384,6 +384,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_KS_Undo">Cofnij / ponów</sys:String>
     <sys:String x:Key="Str_KS_CutCopy">Wytnij / kopiuj</sys:String>
     <sys:String x:Key="Str_KS_SelectAll">Zaznacz wszystko</sys:String>
+    <sys:String x:Key="Str_KS_LeaveEditor">Opuść edytor notatki (Tab pisze w notatce)</sys:String>
     <sys:String x:Key="Str_Kb_Shortcuts">Skróty klawiaturowe</sys:String>
     <sys:String x:Key="Str_Kb_Preview">Podgląd markdown/HTML</sys:String>
     <sys:String x:Key="Str_Kb_FormatBar">Pasek formatowania</sys:String>
@@ -404,6 +405,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Kb_Undo">Cofnij</sys:String>
     <sys:String x:Key="Str_Kb_Redo">Ponów</sys:String>
     <sys:String x:Key="Str_Kb_SelectAll">Zaznacz wszystko</sys:String>
+    <sys:String x:Key="Str_Kb_LeaveEditor">Opuść notatkę</sys:String>
     <sys:String x:Key="Str_Kb_Tag">Przełącz tag</sys:String>
     <sys:String x:Key="Str_Sec_File">Plik</sys:String>
     <sys:String x:Key="Str_Sec_Notes">Notatki</sys:String>
