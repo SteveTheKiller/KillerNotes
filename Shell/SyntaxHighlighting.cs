@@ -485,7 +485,11 @@ namespace KillerNotes.Shell
                     else
                     {
                         var language = DetectLanguage(line);
-                        if (language == CodeLanguage.Plain && context != CodeLanguage.Plain && LooksLikeCode(line))
+                        // "# text" detects as a markdown heading, but inside PowerShell, Python, Bash
+                        // or YAML it is a comment and the code around it keeps its language.
+                        if (language == CodeLanguage.Markdown && UsesHashComments(context) && line.TrimStart().StartsWith("#"))
+                            language = context;
+                        else if (language == CodeLanguage.Plain && context != CodeLanguage.Plain && LooksLikeCode(line))
                             language = context;
                         context = language;
                         inComment = OpensBlockComment(line, context);
@@ -509,6 +513,9 @@ namespace KillerNotes.Shell
             if (SafeIsMatch(s, @"^\s*[\[{].*[:\]}]", RegexOptions.Singleline) && SafeIsMatch(s, @"""[^""]+""\s*:")) return CodeLanguage.Json;
             if (SafeIsMatch(s, @"^\s*(?:---|\.\.\.)\s*$|^\s*(?:-\s+)?[A-Za-z_][\w.-]*\s*:\s*(?:\S.*)?$", RegexOptions.Multiline)) return CodeLanguage.Yaml;
             if (SafeIsMatch(s, @"^\s*(?:#{1,6}\s+\S|```\w*\s*$|>\s+\S|\[[^\]]+\]\([^)]+\)|(?:[-*_]\s*){3,}$)|\*\*[^*\r\n]+\*\*|`[^`\r\n]+`", RegexOptions.Multiline)) return CodeLanguage.Markdown;
+            // Bash before PowerShell: "export PATH=$HOME/bin" has a $NAME, which the PowerShell
+            // rule below would claim, so a shell line in a mixed note came out as PowerShell.
+            if (SafeIsMatch(s, @"^\s*(?:export|local|readonly)\s+[A-Za-z_]\w*=|^\s*(?:if|while)\s+\[\[?\s|^\s*(?:fi|esac|done)\s*$", RegexOptions.Multiline)) return CodeLanguage.Bash;
             // The verb list mirrors the PowerShell token pattern in HighlightParagraph - keep the
             // two in step. The short original missed real cmdlets outright: "Publish-Module -Path
             // ..." detected as nothing at all (2026-08-08).
@@ -581,6 +588,14 @@ namespace KillerNotes.Shell
         /// and must not walk a whole large note. First real answer wins - a script announces
         /// itself within a few lines.</summary>
         private long _docLangVersion = -1;   // long, to match _syntaxDocVersion
+        private static bool UsesHashComments(CodeLanguage language) =>
+            language is CodeLanguage.PowerShell or CodeLanguage.Python or CodeLanguage.Bash or CodeLanguage.Yaml;
+
+        /// <summary>A language that marks a line as code. Markdown and YAML are left out: README
+        /// prose detects as both, and neither should stop a pasted README reading as markdown.</summary>
+        private static bool IsCodeLanguage(CodeLanguage language) =>
+            language is not (CodeLanguage.Plain or CodeLanguage.Markdown or CodeLanguage.Yaml);
+
         private CodeLanguage _docLang = CodeLanguage.Plain;
 
         private CodeLanguage DocumentLanguage()
@@ -595,6 +610,9 @@ namespace KillerNotes.Shell
                 string t = ParagraphCodeText(p).TrimEnd('\r', '\n');
                 if (t.Length == 0 || t.Length > MaxHighlightChars) continue;
                 var lang = DetectLanguage(t);
+                // A "# comment" opening a script detects as a markdown heading; the code under it
+                // decides the language, and markdown is only the answer when nothing else is found.
+                if (lang == CodeLanguage.Markdown) { if (_docLang == CodeLanguage.Plain) _docLang = lang; continue; }
                 if (lang != CodeLanguage.Plain) { _docLang = lang; break; }
             }
             return _docLang;
@@ -812,18 +830,39 @@ namespace KillerNotes.Shell
             _docMdVersion = _syntaxDocVersion;
             _docLooksMarkdown = false;
             int scanned = 0;
+            bool heading = false;
             foreach (var p in _syntaxFlat)
             {
                 if (scanned++ >= MdScanParagraphs) break;
                 string t = ParagraphCodeText(p);
                 if (t.Length == 0 || t.Length > MaxHighlightChars) continue;
-                if (SafeIsMatch(t, @"^\s*(?:#{1,6}\s+\S|```)", RegexOptions.Multiline))
+                if (SafeIsMatch(t, @"^\s*```", RegexOptions.Multiline))
                 {
                     _docLooksMarkdown = true;
-                    break;
+                    return true;
                 }
+                heading = heading || SafeIsMatch(t, @"^\s*#{1,6}\s+\S", RegexOptions.Multiline);
             }
+            // A heading alone is not enough when the note also holds code: "# Restart the
+            // service" is a comment in a script, and committing the whole note to markdown left
+            // every PowerShell, SQL and Python line in it uncolored. Each line then keeps its own
+            // language instead.
+            _docLooksMarkdown = heading && !HasCodeLines();
             return _docLooksMarkdown;
+        }
+
+        private bool HasCodeLines()
+        {
+            int scanned = 0;
+            foreach (var p in _syntaxFlat)
+            {
+                if (scanned++ >= MdScanParagraphs) break;
+                string t = ParagraphCodeText(p);
+                if (t.Length == 0 || t.Length > MaxHighlightChars) continue;
+                foreach (string line in t.Split('\n'))
+                    if (!string.IsNullOrWhiteSpace(line) && IsCodeLanguage(DetectLanguage(line.TrimEnd('\r')))) return true;
+            }
+            return false;
         }
 
         private static bool SafeIsMatch(string s, string pattern, RegexOptions options = RegexOptions.None)

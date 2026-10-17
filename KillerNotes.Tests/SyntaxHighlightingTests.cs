@@ -21,6 +21,8 @@ namespace KillerNotes.Tests
         private static readonly Color Variable = Color.FromRgb(156, 220, 254);
         private static readonly Color Type = Color.FromRgb(78, 201, 176);
         private static readonly Color Operator = Color.FromRgb(197, 134, 192);
+        private static readonly Color Keyword = Color.FromRgb(86, 156, 214);
+        private static readonly Color Comment = Color.FromRgb(106, 153, 85);
 
         [Theory]
         [InlineData(false)]
@@ -47,6 +49,36 @@ namespace KillerNotes.Tests
             using var shell = new SyntaxEditor(softBreaks, "<#", "for compatibility", "#>", Command, Prose);
             shell.Paint();
             shell.AssertColor("for compatibility", Color.FromRgb(106, 153, 85));
+            shell.AssertColor("Get-Mailbox", Type);
+            shell.AssertPlain(Prose);
+        });
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void EachLineOfAMixedLanguageNoteKeepsItsOwnLanguage(bool softBreaks) => Sta.Run(() =>
+        {
+            // A "# comment" line looks like a markdown heading. It must not turn the whole note
+            // into markdown, and inside PowerShell it is a comment, not a heading.
+            using var shell = new SyntaxEditor(softBreaks, Command, "# Who can manage the group",
+                "SELECT Name FROM Users WHERE Active = 1;", "def check(user):", "    return len(user)",
+                "export PATH=$HOME/bin", Prose);
+            shell.Paint();
+            shell.AssertColor("Get-Mailbox", Type);
+            shell.AssertColor("# Who can manage the group", Comment);
+            shell.AssertColor("SELECT", Keyword);
+            shell.AssertColor("def", Keyword);
+            shell.AssertColor("return", Keyword);
+            shell.AssertColor("export", Keyword);
+            shell.AssertPlain(Prose);
+        });
+
+        [Fact]
+        public void ACommentAtTheTopTakesTheLanguageOfTheCodeBelowIt() => Sta.Run(() =>
+        {
+            using var shell = new SyntaxEditor(false, "# Check the mailbox policy", Command, Prose);
+            shell.Paint();
+            shell.AssertColor("# Check the mailbox policy", Comment);
             shell.AssertColor("Get-Mailbox", Type);
             shell.AssertPlain(Prose);
         });
