@@ -30,6 +30,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The exe's file properties show Steve the Killer as the copyright holder instead of leaving it blank.
 - Screen readers no longer read toolbar, format bar, menu and title bar icons as unreadable symbols, and every part of each scroll bar now has a name.
 - Tab no longer stops on hidden links, which screen readers announced as the window.
+- Screen readers and accessibility checkers no longer report empty text or the hidden parts of scroll bars as items on screen.
 - Turning off Film Grain removes the grain from the note pane too.
 - The file picker's close button turns red on hover without filling a red block, like every other dialog's close.
 - Group and Trash headings in the sidebar sit centered in their row and its highlight instead of low against the bottom edge.

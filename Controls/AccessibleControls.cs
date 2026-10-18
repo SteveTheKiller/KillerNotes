@@ -43,6 +43,19 @@ namespace KillerFamily.Accessibility
             EventManager.RegisterClassHandler(typeof(System.Windows.Documents.Hyperlink),
                 System.Windows.Input.Keyboard.PreviewGotKeyboardFocusEvent,
                 new System.Windows.Input.KeyboardFocusChangedEventHandler(OnHyperlinkPreviewGotFocus));
+            // An element with no size still reports itself on screen, which Accessibility Insights
+            // fails as a null bounding rectangle: a scroll bar's page button at the end of its
+            // track, an arrow button a theme hides, an empty status line. FromClip has UI
+            // Automation report an element with no visible area as off screen.
+            foreach (var type in new[] { typeof(TextBlock), typeof(RepeatButton) })
+            {
+                try
+                {
+                    AutomationProperties.IsOffscreenBehaviorProperty.OverrideMetadata(type,
+                        new FrameworkPropertyMetadata(IsOffscreenBehavior.FromClip));
+                }
+                catch (Exception error) when (error is ArgumentException or InvalidOperationException) { }
+            }
         }
 
         private static void OnHyperlinkPreviewGotFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs args)
