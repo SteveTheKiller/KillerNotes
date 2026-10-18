@@ -464,6 +464,8 @@ var I18N = {
   "ak_3": "Editor PDF open source per Windows",
   "ak_ks": "Scanner di rete open source per Windows",
   "ak_kf": "Shell Windows open source per utenti esperti",
+  "ak_kb": "Banco di diagnosi e riparazione open source per Windows",
+  "ak_kst": "Album di screenshot cifrato open source per Windows",
   "ak_kd": "Calendario cifrato open source per Windows",
   "tech_kicker": "Tecnica",
   "tech_sub": "Come funziona davvero il blocco note: archiviazione, ricerca, cifratura e i formati di condivisione."
@@ -930,6 +932,8 @@ var I18N = {
   "ak_3": "Nyílt forráskódú PDF-szerkesztő Windowshoz",
   "ak_ks": "Nyílt forráskódú hálózati szkenner Windowshoz",
   "ak_kf": "Nyílt forráskódú Windows shell haladó felhasználóknak",
+  "ak_kb": "Nyílt forráskódú diagnosztikai és javítóeszköz Windowshoz",
+  "ak_kst": "Nyílt forráskódú, titkosított képernyőkép-album Windowshoz",
   "ak_kd": "Nyílt forráskódú, titkosított naptár Windowshoz",
   "tech_kicker": "Műszaki",
   "tech_sub": "Hogyan működik a jegyzettömb valójában: tárolás, keresés, titkosítás és megosztási formátumok."
@@ -1397,6 +1401,8 @@ var I18N = {
   "ak_3": "Otwartoźródłowy edytor PDF dla Windows",
   "ak_ks": "Otwartoźródłowy skaner sieci dla Windows",
   "ak_kf": "Otwartoźródłowa powłoka Windows dla zaawansowanych użytkowników",
+  "ak_kb": "Otwartoźródłowe narzędzie do diagnostyki i naprawy dla Windows",
+  "ak_kst": "Otwartoźródłowy szyfrowany album zrzutów ekranu dla Windows",
   "ak_kd": "Otwartoźródłowy szyfrowany kalendarz dla Windows",
   "tech_kicker": "Szczegóły techniczne",
   "tech_sub": "Jak notatnik naprawdę działa: przechowywanie, wyszukiwanie, szyfrowanie i formaty udostępniania.",
@@ -1863,6 +1869,8 @@ var I18N = {
   "ak_3": "Open-source PDF editor pro Windows",
   "ak_ks": "Open-source síťový skener pro Windows",
   "ak_kf": "Open-source Windows shell pro pokročilé uživatele",
+        "ak_kb": "Nástroj pro diagnostiku a opravy s otevřeným zdrojem pro Windows",
+        "ak_kst": "Šifrované album snímků obrazovky s otevřeným zdrojem pro Windows",
         "ak_kd": "Šifrovaný kalendář pro Windows s otevřeným zdrojem",
   "tech_kicker": "Technické",
   "tech_sub": "Jak poznámkový blok skutečně funguje: úložiště, vyhledávání, šifrování a formáty sdílení.",
@@ -2330,6 +2338,8 @@ var I18N = {
   "ak_3": "Editor de PDF de código abierto para Windows",
   "ak_ks": "Escáner de red de código abierto para Windows",
   "ak_kf": "Shell de Windows de código abierto para usuarios avanzados",
+        "ak_kb": "Banco de diagnóstico y reparación de código abierto para Windows",
+        "ak_kst": "Álbum de capturas de pantalla cifrado de código abierto para Windows",
         "ak_kd": "Calendario cifrado y de código abierto para Windows",
   "tech_kicker": "Técnico",
   "tech_sub": "Cómo funciona realmente el bloc de notas: almacenamiento, búsqueda, cifrado y los formatos de compartición."
@@ -2797,6 +2807,8 @@ var I18N = {
   "ak_3": "Open-Source-PDF-Editor für Windows",
   "ak_ks": "Open-Source-Netzwerkscanner für Windows",
   "ak_kf": "Open-Source-Windows-Shell für Power-User",
+        "ak_kb": "Open-Source-Werkbank für Diagnose und Reparatur unter Windows",
+        "ak_kst": "Verschlüsseltes Open-Source-Screenshot-Album für Windows",
         "ak_kd": "Quelloffener, verschlüsselter Kalender für Windows",
   "tech_kicker": "Technik",
   "tech_sub": "Wie der Notizblock wirklich funktioniert: Speicherung, Suche, Verschlüsselung und die Freigabeformate."
@@ -3264,6 +3276,8 @@ var I18N = {
   "ak_3": "Éditeur PDF open source pour Windows",
   "ak_ks": "Scanner réseau open source pour Windows",
   "ak_kf": "Shell Windows open source pour utilisateurs avancés",
+        "ak_kb": "Atelier de diagnostic et de réparation open source pour Windows",
+        "ak_kst": "Album de captures d’écran chiffré open source pour Windows",
         "ak_kd": "Agenda chiffré et open source pour Windows",
   "tech_kicker": "Technique",
   "tech_sub": "Comment le bloc-notes fonctionne vraiment : stockage, recherche, chiffrement et formats de partage."
@@ -3731,6 +3745,8 @@ var I18N = {
   "ak_3": "Windows向けオープンソースPDFエディタ",
   "ak_ks": "Windows向けオープンソースネットワークスキャナー",
   "ak_kf": "Windows パワーユーザー向けオープンソースシェル",
+        "ak_kb": "Windows 用オープンソース診断・修復ワークベンチ",
+        "ak_kst": "Windows 用オープンソース暗号化スクリーンショットアルバム",
         "ak_kd": "Windows 向けのオープンソース暗号化カレンダー",
   "tech_kicker": "技術情報",
   "tech_sub": "このノートが実際にどう動くか: ストレージ、検索、暗号化、そして共有フォーマット。"
@@ -4198,6 +4214,8 @@ var I18N = {
   "ak_3": "Windows için açık kaynaklı PDF düzenleyici",
   "ak_ks": "Windows için açık kaynaklı ağ tarayıcı",
   "ak_kf": "İleri kullanıcılar için açık kaynaklı Windows kabuğu",
+        "ak_kb": "Windows için açık kaynaklı arıza tespit ve onarım aracı",
+        "ak_kst": "Windows için açık kaynaklı, şifreli ekran görüntüsü albümü",
         "ak_kd": "Windows için açık kaynaklı, şifreli takvim",
   "tech_kicker": "Teknik",
   "tech_sub": "Not defterinin gerçekte nasıl çalıştığı: depolama, arama, şifreleme ve paylaşım biçimleri."
@@ -4665,6 +4683,8 @@ var I18N = {
   "ak_3": "Windows 開放原始碼 PDF 編輯器",
   "ak_ks": "Windows 開放原始碼網路掃描器",
   "ak_kf": "Windows 進階使用者的開放原始碼 Shell",
+        "ak_kb": "適用於 Windows 的開源診斷與修復工作台",
+        "ak_kst": "適用於 Windows 的開源加密螢幕截圖相簿",
         "ak_kd": "Windows 上的開源加密行事曆",
   "tech_kicker": "技術",
   "tech_sub": "這款記事本實際的運作方式：儲存、搜尋、加密與分享格式。"
@@ -5132,6 +5152,8 @@ var I18N = {
   "ak_3": "Windows 开源 PDF 编辑器",
   "ak_ks": "Windows 开源网络扫描器",
   "ak_kf": "Windows 高级用户的开源 Shell",
+        "ak_kb": "适用于 Windows 的开源诊断与修复工作台",
+        "ak_kst": "适用于 Windows 的开源加密截图相册",
         "ak_kd": "Windows 上的开源加密日历",
   "tech_kicker": "技术",
   "tech_sub": "记事本的实际运作方式：存储、搜索、加密和分享格式。"
@@ -5599,6 +5621,8 @@ var I18N = {
   "ak_3": "Windows-এর জন্য ওপেন-সোর্স PDF এডিটর",
   "ak_ks": "Windows-এর জন্য ওপেন-সোর্স নেটওয়ার্ক স্ক্যানার",
   "ak_kf": "Windows পাওয়ার ইউজারদের জন্য ওপেন-সোর্স শেল",
+        "ak_kb": "Windows-এর জন্য ওপেন-সোর্স ডায়াগনসিস ও মেরামতের ওয়ার্কবেঞ্চ",
+        "ak_kst": "Windows-এর জন্য ওপেন-সোর্স এনক্রিপ্টেড স্ক্রিনশট অ্যালবাম",
         "ak_kd": "উইন্ডোজের জন্য ওপেন-সোর্স এনক্রিপ্টেড ক্যালেন্ডার",
   "tech_kicker": "টেকনিক্যাল",
   "tech_sub": "নোটপ্যাডটি আসলে কীভাবে কাজ করে: স্টোরেজ, সার্চ, এনক্রিপশন আর শেয়ারিং ফরম্যাট।"
@@ -6065,6 +6089,8 @@ var I18N = {
   "ak_3": "Редактор PDF с открытым исходным кодом для Windows",
   "ak_ks": "Сетевой сканер с открытым исходным кодом для Windows",
   "ak_kf": "Оболочка Windows с открытым исходным кодом для опытных пользователей",
+  "ak_kb": "Инструмент диагностики и ремонта с открытым кодом для Windows",
+  "ak_kst": "Зашифрованный альбом скриншотов с открытым кодом для Windows",
   "ak_kd": "Зашифрованный календарь с открытым исходным кодом для Windows",
   "tech_kicker": "Техническая",
   "tech_sub": "Как блокнот работает на самом деле: хранение, поиск, шифрование и форматы обмена."
@@ -6531,6 +6557,8 @@ var I18N = {
   "ak_3": "Windows үшін ашық бастапқы кодты PDF редакторы",
   "ak_ks": "Windows үшін ашық бастапқы кодты желі сканері",
   "ak_kf": "Тәжірибелі пайдаланушыларға арналған ашық бастапқы кодты Windows қабықшасы",
+  "ak_kb": "Windows үшін ашық бастапқы кодты диагностика және жөндеу құралы",
+  "ak_kst": "Windows үшін ашық бастапқы кодты шифрланған скриншот альбомы",
   "ak_kd": "Windows үшін ашық бастапқы кодты шифрланған күнтізбе",
   "tech_kicker": "Техникалық",
   "tech_sub": "Блокнот шын мәнінде қалай жұмыс істейді: сақтау, іздеу, шифрлау және бөлісу пішімдері."
@@ -6997,6 +7025,8 @@ var I18N = {
   "ak_3": "Trình chỉnh sửa PDF mã nguồn mở cho Windows",
   "ak_ks": "Trình quét mạng mã nguồn mở cho Windows",
   "ak_kf": "Windows shell mã nguồn mở cho người dùng nâng cao",
+  "ak_kb": "Bàn làm việc chẩn đoán và sửa chữa mã nguồn mở cho Windows",
+  "ak_kst": "Album ảnh chụp màn hình mã hóa mã nguồn mở cho Windows",
   "ak_kd": "Lịch mã hóa mã nguồn mở cho Windows",
   "tech_kicker": "Kỹ thuật",
   "tech_sub": "Cách mà sổ tay thực sự hoạt động: lưu trữ, tìm kiếm, mã hóa và các định dạng chia sẻ."
@@ -7465,6 +7495,8 @@ I18N.uk = {
  "ak_3": "PDF-редактор з відкритим кодом для Windows",
  "ak_ks": "Мережевий сканер з відкритим кодом для Windows",
  "ak_kf": "Оболонка Windows з відкритим кодом для досвідчених користувачів",
+ "ak_kb": "Інструмент діагностики та ремонту з відкритим кодом для Windows",
+ "ak_kst": "Зашифрований альбом знімків екрана з відкритим кодом для Windows",
  "ak_kd": "Зашифрований календар з відкритим кодом для Windows",
  "tech_kicker": "Технічні деталі",
  "tech_sub": "Як насправді працює блокнот: зберігання, пошук, шифрування та формати спільного доступу."
@@ -7931,6 +7963,8 @@ I18N.nb = {
  "ak_3": "PDF-redigerer med åpen kildekode for Windows",
  "ak_ks": "Nettverksskanner med åpen kildekode for Windows",
  "ak_kf": "Windows-skall med åpen kildekode for avanserte brukere",
+ "ak_kb": "Verktøy for feilsøking og reparasjon med åpen kildekode for Windows",
+ "ak_kst": "Kryptert skjermbildealbum med åpen kildekode for Windows",
  "ak_kd": "Kryptert kalender med åpen kildekode for Windows",
  "tech_kicker": "Teknisk",
  "tech_sub": "Hvordan notatblokka faktisk fungerer: lagring, søk, kryptering og delingsformatene."
@@ -8397,6 +8431,8 @@ I18N.pt = {
  "ak_3": "Editor de PDF de código aberto para Windows",
  "ak_ks": "Scanner de rede de código aberto para Windows",
  "ak_kf": "Shell do Windows de código aberto para usuários avançados",
+ "ak_kb": "Bancada de diagnóstico e reparo de código aberto para Windows",
+ "ak_kst": "Álbum de capturas de tela criptografado de código aberto para Windows",
  "ak_kd": "Agenda criptografada de código aberto para Windows",
  "tech_kicker": "Técnico",
  "tech_sub": "Como o bloco de notas realmente funciona: armazenamento, pesquisa, criptografia e formatos de compartilhamento."

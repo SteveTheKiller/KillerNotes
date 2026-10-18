@@ -14,6 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Added the install folder to PATH for installed copies, so `killernotes --cli` runs from any new terminal and prints its results there. Uninstalling removes it again.
 - The shortcuts overlay lists Ctrl+Tab, which moves keyboard focus out of the note while Tab keeps typing in it.
 - The `create` and `update` commands take `--content-file` for Markdown longer than a command line can hold.
+- The website's About page lists KillerBench and KillerShot under Also try.
 
 ### Changed
 - Note titles in the sidebar are slightly larger, so they stand apart from the preview line and date under them.
