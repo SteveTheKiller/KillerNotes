@@ -35,7 +35,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The website's text and accent colors read at 4.5:1 contrast or better in every theme, and a narrow top bar shrinks the Microsoft Store and MCP buttons to their logos and moves links into a More menu instead of wrapping.
 - On the website's Light theme with the Yellow or Orange accent, links, headings and labels keep their color with a thin gray outline instead of turning olive or brown.
 - The exe's file properties show Steve the Killer as the copyright holder instead of leaving it blank.
-- Screen readers no longer read toolbar, format bar, menu and title bar icons as unreadable symbols, and every part of each scroll bar now has a name.
+- Screen readers no longer read toolbar, format bar, menu and title bar icons as unreadable symbols, and every part of each scroll bar now has a name. File-picker rows announce folder and file names.
 - Tab no longer stops on hidden links, which screen readers announced as the window.
 - Screen readers and accessibility checkers no longer report empty text or the hidden parts of scroll bars as items on screen.
 - Each group of option buttons is one Tab stop that lands on the selected option, and the arrow keys move between its options.

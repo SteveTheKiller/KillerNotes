@@ -8,6 +8,8 @@ namespace KillerNotes.SharedPicker
         public string Label { get; } = label;
         public string Path  { get; } = path;
 
+        public override string ToString() => Label;
+
         /// <summary>True for a user-pinned (removable) entry; drives are dynamic and never pinned.</summary>
         public bool Pinned { get; } = pinned;
 
@@ -27,6 +29,8 @@ namespace KillerNotes.SharedPicker
         public bool     IsFolder  { get; } = isFolder;
         public long     SizeBytes { get; } = sizeBytes;
         public DateTime Modified  { get; } = modified;
+
+        public override string ToString() => Name;
 
         public string Glyph         => IsFolder ? GlyphFolder : GlyphFile;
 
