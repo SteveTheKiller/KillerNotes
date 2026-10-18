@@ -50,8 +50,8 @@
                         <Border Background="{DynamicResource PaneBrush}"
                                 BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                                 CornerRadius="{DynamicResource ControlCornerRadius}">
-                            <ListBox x:Name="VersionList" Background="Transparent" BorderThickness="0" AutomationProperties.Name="{DynamicResource Str_Hist_Title}"
-                                     HorizontalContentAlignment="Stretch" Margin="4"
+                            <ListBox x:Name="VersionList" Style="{StaticResource ShadowListBox}" Background="Transparent" BorderThickness="0" AutomationProperties.Name="{DynamicResource Str_Hist_Title}"
+                                     HorizontalContentAlignment="Stretch" Padding="4"
                                      SelectionChanged="VersionList_SelectionChanged"
                                      MouseDoubleClick="VersionList_MouseDoubleClick">
                                 <ListBox.ItemContainerStyle>

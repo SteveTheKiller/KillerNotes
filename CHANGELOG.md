@@ -18,7 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The website's About page lists KillerBench and KillerShot under Also try, with larger app icons.
 
 ### Changed
-- Note, editor and outline scroll shadows extend beneath the scrollbars; 98SE stays flat.
+- Note, editor, outline and dialog-list scroll shadows extend beneath the scrollbars; 98SE stays flat.
 - Rail buttons and the collapse arrow sit centered across the rail on either side, with the same space toward the sidebar and the edge, and the arrow is larger. The side choices in the rail's right-click menu show a picture of each position.
 - Note titles in the sidebar are slightly larger, so they stand apart from the preview line and date under them.
 - The sidebar starts 20px wider, and the width you drag it to is remembered the next time KillerNotes opens.
