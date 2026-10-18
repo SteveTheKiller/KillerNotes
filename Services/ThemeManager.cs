@@ -460,7 +460,7 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "TitleLogoMargin", flatCaption ? newDict["TitleBarPadding"] : new Thickness(4, 3, 0, 0));
             // A dialog caption's wordmark sits 6px in from the card edge, as in KillerPDF.
             SetIfAbsent(newDict, "DialogTitleMargin", flatCaption ? newDict["TitleBarPadding"] : new Thickness(6, 0, 0, 0));
-            // The titlebar database name sits on the wordmark baseline: Killer Sans, dropped 2px to meet the
+            // The titlebar database name sits on the wordmark baseline: Killer Sans, dropped 1px to meet the
             // bottom of "Killer". A flat caption keeps the caption font beside its plain title.
             SetIfAbsent(newDict, "FileNameFont", flatCaption ? newDict["ChromeFontFamily"] : KillerSansFont);
             // Primary headings (dialog headings, page and period titles): Lacquer, the app-name face of
@@ -470,7 +470,7 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "FileNameFontSize", flatCaption ? 11.0 : 18.0);
             if (!newDict.Contains("FileNameTransform"))
             {
-                var fileNameShift = new TranslateTransform(0, flatCaption ? 0 : 2);
+                var fileNameShift = new TranslateTransform(0, flatCaption ? 0 : 1);
                 fileNameShift.Freeze();
                 newDict["FileNameTransform"] = fileNameShift;
             }

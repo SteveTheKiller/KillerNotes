@@ -52,6 +52,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Theme names, the preview modes, the unlock dialog buttons and other labels that were still in English are translated in every language, and the Hungarian Open dialog lists file types correctly again.
 - The website's MCP page, release details, contact cards, carousel controls and remaining labels are translated in every language.
 - On phones, the website's logo, download hash, Technical model table and file paths fit the screen instead of making the page scroll sideways.
+- The database name in the title bar sits on the baseline of Killer in the wordmark instead of 1px below it.
 
 ## [1.5.0] - 2026-10-15
 
