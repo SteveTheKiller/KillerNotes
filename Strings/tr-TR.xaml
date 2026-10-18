@@ -236,6 +236,10 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Biçim çubuğunu göster / gizle</sys:String>
     <sys:String x:Key="Str_KS_Export">Açık notu dışa aktar (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Kenar çubuğunu daralt / genişlet</sys:String>
+    <sys:String x:Key="Str_Sidebar">KENAR ÇUBUĞU</sys:String>
+    <sys:String x:Key="Str_Sidebar_Left">Sol</sys:String>
+    <sys:String x:Key="Str_Sidebar_Right">Sağ</sys:String>
+    <sys:String x:Key="Str_KS_SidebarSide">Kenar çubuğunu sola / sağa taşı</sys:String>
     <sys:String x:Key="Str_KS_Fullscreen">Tam ekran</sys:String>
     <sys:String x:Key="Str_KS_About">KillerNotes hakkında</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Yeni not</sys:String>

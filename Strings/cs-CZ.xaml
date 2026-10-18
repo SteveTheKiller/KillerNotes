@@ -311,6 +311,10 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Zobrazit / skrýt panel formátování</sys:String>
     <sys:String x:Key="Str_KS_Export">Exportovat otevřenou poznámku (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Sbalit / rozbalit postranní panel</sys:String>
+    <sys:String x:Key="Str_Sidebar">POSTRANNÍ PANEL</sys:String>
+    <sys:String x:Key="Str_Sidebar_Left">Vlevo</sys:String>
+    <sys:String x:Key="Str_Sidebar_Right">Vpravo</sys:String>
+    <sys:String x:Key="Str_KS_SidebarSide">Postranní panel vlevo / vpravo</sys:String>
     <sys:String x:Key="Str_KS_Fullscreen">Celá obrazovka</sys:String>
     <sys:String x:Key="Str_KS_About">O aplikaci KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Nová poznámka</sys:String>

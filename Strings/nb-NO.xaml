@@ -452,6 +452,10 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Vis / skjul formateringslinjen</sys:String>
     <sys:String x:Key="Str_KS_Export">Eksporter det åpne notatet (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Skjul / vis sidepanelet</sys:String>
+    <sys:String x:Key="Str_Sidebar">SIDEPANEL</sys:String>
+    <sys:String x:Key="Str_Sidebar_Left">Venstre</sys:String>
+    <sys:String x:Key="Str_Sidebar_Right">Høyre</sys:String>
+    <sys:String x:Key="Str_KS_SidebarSide">Flytt sidepanelet til venstre / høyre</sys:String>
     <sys:String x:Key="Str_KS_Fullscreen">Fullskjerm</sys:String>
     <sys:String x:Key="Str_KS_About">Om KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Nytt notat</sys:String>

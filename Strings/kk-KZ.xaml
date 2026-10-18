@@ -427,6 +427,10 @@
     <sys:String x:Key="Str_KS_FormatBar">Пішімдеу панелін көрсету / жасыру</sys:String>
     <sys:String x:Key="Str_KS_Export">Ашық жазбаны экспорттау (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Бүйір панелін жию / жаю</sys:String>
+    <sys:String x:Key="Str_Sidebar">БҮЙІРЛІК ПАНЕЛЬ</sys:String>
+    <sys:String x:Key="Str_Sidebar_Left">Сол</sys:String>
+    <sys:String x:Key="Str_Sidebar_Right">Оң</sys:String>
+    <sys:String x:Key="Str_KS_SidebarSide">Бүйірлік панельді солға / оңға жылжыту</sys:String>
     <sys:String x:Key="Str_KS_Fullscreen">Толық экран</sys:String>
     <sys:String x:Key="Str_KS_About">KillerNotes туралы</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Жаңа жазба</sys:String>

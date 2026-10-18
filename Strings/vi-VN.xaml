@@ -455,6 +455,10 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_KS_FormatBar">Hiện / ẩn thanh định dạng</sys:String>
     <sys:String x:Key="Str_KS_Export">Xuất ghi chú đang mở (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Thu gọn / mở rộng thanh bên</sys:String>
+    <sys:String x:Key="Str_Sidebar">THANH BÊN</sys:String>
+    <sys:String x:Key="Str_Sidebar_Left">Trái</sys:String>
+    <sys:String x:Key="Str_Sidebar_Right">Phải</sys:String>
+    <sys:String x:Key="Str_KS_SidebarSide">Di chuyển thanh bên trái / phải</sys:String>
     <sys:String x:Key="Str_KS_Fullscreen">Toàn màn hình</sys:String>
     <sys:String x:Key="Str_KS_About">Giới thiệu KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Ghi chú mới</sys:String>

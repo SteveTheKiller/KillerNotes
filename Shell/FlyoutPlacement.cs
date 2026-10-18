@@ -44,6 +44,10 @@ namespace KillerNotes.Shell
 
         internal static void UsePane(FrameworkElement pane) => _pane = pane;
 
+        /// <summary>True when the sidebar docks right: the rail is then on the pane's right
+        /// edge, so flyouts take the bottom-right corner instead (SidebarDock.cs).</summary>
+        internal static bool RailOnRight { get; set; }
+
         internal static void Attach(Popup popup, UIElement _)
         {
             popup.PlacementTarget = _pane;
@@ -76,7 +80,9 @@ namespace KillerNotes.Shell
             {
                 Style = Application.Current?.TryFindResource("FlyoutCard") as Style
             }.Margin;
-            double x = VisibleCardInset - halo.Left;
+            double x = RailOnRight
+                ? targetSize.Width - popupSize.Width + halo.Right - VisibleCardInset
+                : VisibleCardInset - halo.Left;
             double y = targetSize.Height - popupSize.Height + halo.Bottom - VisibleCardInset;
 
             // A flyout taller than the pane would otherwise start above it and run over the

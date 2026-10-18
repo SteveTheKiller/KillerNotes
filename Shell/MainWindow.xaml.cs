@@ -69,6 +69,7 @@ namespace KillerNotes.Shell
             InitEditor();                                        // Editor.cs (paste handler, Ctrl+S)
             InitDictation();                                     // Editor.Dictation.cs (recording-chip clicks)
             InitSidebar();                                       // Sidebar.cs (restore collapsed state)
+            InitSidebarSide();                                   // SidebarDock.cs (left or right)
             InitShortcuts();                                     // Shortcuts.cs (hotkeys + F1 overlay)
             InitAppScale();                                      // AppScale.cs (restore app-wide size)
             InitPreviewMinimum();

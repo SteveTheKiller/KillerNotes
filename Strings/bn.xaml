@@ -235,6 +235,10 @@
     <sys:String x:Key="Str_KS_FormatBar">ফরম্যাট বার দেখান / লুকান</sys:String>
     <sys:String x:Key="Str_KS_Export">খোলা নোট এক্সপোর্ট করুন (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">সাইডবার সংকুচিত / প্রসারিত করুন</sys:String>
+    <sys:String x:Key="Str_Sidebar">সাইডবার</sys:String>
+    <sys:String x:Key="Str_Sidebar_Left">বাঁ দিকে</sys:String>
+    <sys:String x:Key="Str_Sidebar_Right">ডান দিকে</sys:String>
+    <sys:String x:Key="Str_KS_SidebarSide">সাইডবার বাঁয়ে / ডানে</sys:String>
     <sys:String x:Key="Str_KS_Fullscreen">পূর্ণ স্ক্রিন</sys:String>
     <sys:String x:Key="Str_KS_About">KillerNotes সম্পর্কে</sys:String>
     <sys:String x:Key="Str_KS_NewNote">নতুন নোট</sys:String>

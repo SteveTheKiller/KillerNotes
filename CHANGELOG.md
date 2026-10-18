@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.5.1] - Unreleased
 
 ### Added
+- Added a right-hand position for the sidebar and its rail, picked from the rail's right-click menu or with Alt+Shift+Left and Alt+Shift+Right. The arrow of the side the sidebar is already on collapses or expands it.
 - Added Start with Windows to the About card. It starts KillerNotes minimized on the taskbar when you sign in, and stays off until you turn it on.
 - Added Close to system tray to the About card. With it on, closing the window keeps KillerNotes running in the notification area, where its icon brings the window back or exits; it stays off until you turn it on.
 - Alt+Shift+G turns Film Grain on or off. It is listed in the shortcuts overlay, and the keyboard map has a new Alt+Shift layer for it.
@@ -17,6 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The website's About page lists KillerBench and KillerShot under Also try, with larger app icons.
 
 ### Changed
+- Rail buttons and the collapse arrow sit centered across the rail on either side, with the same space toward the sidebar and the edge, and the arrow is larger. The side choices in the rail's right-click menu show a picture of each position.
 - Note titles in the sidebar are slightly larger, so they stand apart from the preview line and date under them.
 - The sidebar starts 20px wider, and the width you drag it to is remembered the next time KillerNotes opens.
 - The website's top bar Download button uses the same font and height as the other top bar buttons.

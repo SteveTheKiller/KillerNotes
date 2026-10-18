@@ -454,6 +454,10 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Mostrar / ocultar a barra de formatação</sys:String>
     <sys:String x:Key="Str_KS_Export">Exportar a nota aberta (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Recolher / expandir a barra lateral</sys:String>
+    <sys:String x:Key="Str_Sidebar">BARRA LATERAL</sys:String>
+    <sys:String x:Key="Str_Sidebar_Left">Esquerda</sys:String>
+    <sys:String x:Key="Str_Sidebar_Right">Direita</sys:String>
+    <sys:String x:Key="Str_KS_SidebarSide">Mover barra lateral para a esquerda / direita</sys:String>
     <sys:String x:Key="Str_KS_Fullscreen">Tela inteira</sys:String>
     <sys:String x:Key="Str_KS_About">Sobre o KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Nova nota</sys:String>

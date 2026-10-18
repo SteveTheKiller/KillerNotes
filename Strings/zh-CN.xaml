@@ -235,6 +235,10 @@
     <sys:String x:Key="Str_KS_FormatBar">显示 / 隐藏格式栏</sys:String>
     <sys:String x:Key="Str_KS_Export">导出当前笔记 (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">折叠 / 展开侧边栏</sys:String>
+    <sys:String x:Key="Str_Sidebar">侧边栏</sys:String>
+    <sys:String x:Key="Str_Sidebar_Left">左侧</sys:String>
+    <sys:String x:Key="Str_Sidebar_Right">右侧</sys:String>
+    <sys:String x:Key="Str_KS_SidebarSide">侧边栏移到左 / 右侧</sys:String>
     <sys:String x:Key="Str_KS_Fullscreen">全屏</sys:String>
     <sys:String x:Key="Str_KS_About">关于 KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">新建笔记</sys:String>

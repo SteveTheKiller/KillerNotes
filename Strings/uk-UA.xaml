@@ -454,6 +454,10 @@
     <sys:String x:Key="Str_KS_FormatBar">Показати / сховати панель форматування</sys:String>
     <sys:String x:Key="Str_KS_Export">Експортувати відкриту нотатку (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Згорнути / розгорнути бічну панель</sys:String>
+    <sys:String x:Key="Str_Sidebar">БІЧНА ПАНЕЛЬ</sys:String>
+    <sys:String x:Key="Str_Sidebar_Left">Ліворуч</sys:String>
+    <sys:String x:Key="Str_Sidebar_Right">Праворуч</sys:String>
+    <sys:String x:Key="Str_KS_SidebarSide">Перемістити бічну панель ліворуч / праворуч</sys:String>
     <sys:String x:Key="Str_KS_Fullscreen">Повноекранний режим</sys:String>
     <sys:String x:Key="Str_KS_About">Про KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Нова нотатка</sys:String>

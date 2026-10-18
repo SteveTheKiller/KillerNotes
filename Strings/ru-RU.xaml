@@ -427,6 +427,10 @@
     <sys:String x:Key="Str_KS_FormatBar">Показать / скрыть панель форматирования</sys:String>
     <sys:String x:Key="Str_KS_Export">Экспортировать открытую заметку (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Свернуть / развернуть боковую панель</sys:String>
+    <sys:String x:Key="Str_Sidebar">БОКОВАЯ ПАНЕЛЬ</sys:String>
+    <sys:String x:Key="Str_Sidebar_Left">Слева</sys:String>
+    <sys:String x:Key="Str_Sidebar_Right">Справа</sys:String>
+    <sys:String x:Key="Str_KS_SidebarSide">Перемещение боковой панели влево / вправо</sys:String>
     <sys:String x:Key="Str_KS_Fullscreen">Полный экран</sys:String>
     <sys:String x:Key="Str_KS_About">О KillerNotes</sys:String>
     <sys:String x:Key="Str_KS_NewNote">Новая заметка</sys:String>

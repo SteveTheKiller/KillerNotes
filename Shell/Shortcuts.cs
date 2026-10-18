@@ -139,6 +139,16 @@ namespace KillerNotes.Shell
                 return;
             }
 
+            // Alt+Shift+Left / Right: which side the sidebar docks to (SidebarDock.cs). The arrow
+            // of the side it is already on collapses or expands it instead.
+            if (e.Key == Key.System && Keyboard.Modifiers == (ModifierKeys.Alt | ModifierKeys.Shift)
+                && e.SystemKey is Key.Left or Key.Right)
+            {
+                if (!e.IsRepeat) SidebarSideShortcut(e.SystemKey == Key.Right);
+                e.Handled = true;
+                return;
+            }
+
             // ── The Alt layer ────────────────────────────────────────────────────────────
             //
             // Alt+key arrives as Key.System with the real key in SystemKey (Alt traditionally

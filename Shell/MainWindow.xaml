@@ -319,8 +319,9 @@
 
             <!-- Sidebar = collapsible panel + permanent icon rail on the CONTENT-PANE lip
                  (KillerPDF pattern: the icons live on the sidebar's inner edge, right next
-                 to the document, in both states - they never move on collapse). -->
-            <Grid Grid.Column="0">
+                 to the document, in both states - they never move on collapse). On a right-hand
+                 sidebar both grids mirror (SidebarDock.cs), so the rail stays on the lip. -->
+            <Grid x:Name="SidebarHost" Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition x:Name="RailCol" Width="24"/>
@@ -367,14 +368,14 @@
                      The rail column is a constant LOGICAL RailW=24 (Sidebar.cs), so it widens
                      with the app zoom and its scaling icons never clip - and it hugs the
                      20-logical buttons so high zoom doesn't scale up empty air. -->
-                <Grid Grid.Column="1">
-                    <!-- The asymmetric 2px margin shifts centered elements 1px toward the
-                         pane, matching the family rail's optical glyph alignment. -->
+                <Grid Grid.Column="1" Background="Transparent" MouseRightButtonUp="SidebarRail_MouseRightButtonUp">
+                    <!-- Centered with no lean, so every glyph has the same space to the grab
+                         handle as to the editor pane. -->
                     <Button x:Name="SidebarToggleBtn" Style="{StaticResource RailButton}"
-                            Content="&#xE76B;" FontSize="12"
-                            VerticalAlignment="Top" HorizontalAlignment="Center" Margin="2,10,0,0"
+                            Content="&#xE76B;" FontSize="16"
+                            VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0"
                             Click="SidebarToggle_Click" ToolTip="{DynamicResource Str_TT_CollapseSidebar}"/>
-                    <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="2,0,0,6">
+                    <StackPanel x:Name="RailStack" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,6">
                         <!-- Killculator toggle (Killculator.cs / F9). E1D0 = the calculator glyph. -->
                         <Button x:Name="KalcRailBtn" Style="{StaticResource RailButton}" Content="&#xE1D0;"
                                 Margin="0,0,0,10" Click="KalcRail_Click"
@@ -503,7 +504,7 @@
                          starts exactly 8px in. The header's right edge therefore lines up with the
                          left edge of the scrollbar underneath. The list itself is deliberately not
                          inset - its scrollbar should stay on the panel edge. -->
-                    <StackPanel DockPanel.Dock="Top" Margin="0,0,8,0">
+                    <StackPanel x:Name="SidebarHeaderBlock" DockPanel.Dock="Top" Margin="0,0,8,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>

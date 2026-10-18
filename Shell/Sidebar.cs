@@ -110,7 +110,9 @@ namespace KillerNotes.Shell
             double s = _appScale <= 0 ? 1 : _appScale;
             double min = Math.Max(SidebarMinWidth / s, PanelMinLogical);
             double max = Math.Max(SidebarMaxWidth / s, min);
-            double next = Math.Max(min, Math.Min(max, SidebarCol.ActualWidth + e.HorizontalChange));
+            // On a right-hand sidebar the grip is on the panel's left edge, so dragging left widens it.
+            double change = _sidebarRight ? -e.HorizontalChange : e.HorizontalChange;
+            double next = Math.Max(min, Math.Min(max, SidebarCol.ActualWidth + change));
             if (Math.Abs(next - SidebarCol.ActualWidth) < 0.5) return;
 
             // Straight to the column, no animation: a tween would lag the pointer. The bounds
@@ -338,10 +340,7 @@ namespace KillerNotes.Shell
                 SidebarResizeGrip.IsEnabled = true;
             }
 
-            // Chevron points toward where the panel goes (char casts: literal PUA glyphs
-            // do not survive tooling).
-            SidebarToggleBtn.Content = ((char)(_sidebarCollapsed ? 0xE76C : 0xE76B)).ToString();
-            SidebarToggleBtn.ToolTip = Loc(_sidebarCollapsed ? "Str_TT_ExpandSidebar" : "Str_TT_CollapseSidebar");
+            UpdateSidebarChevron();
 
             // Collapsed = just the rail (RailW logical, scales with the app); expanded = the
             // remembered on-screen width converted to logical.
@@ -362,7 +361,9 @@ namespace KillerNotes.Shell
             double panelW = SidebarPanel.ActualWidth > 8
                 ? SidebarPanel.ActualWidth
                 : Math.Max(0, ExpandedLogicalWidth(s) - RailW - 8);   // total logical minus the logical rail and left margin
-            SidebarPanel.HorizontalAlignment = HorizontalAlignment.Left;
+            // Pinned to the window edge, so the clip eats the rail side and the panel slides
+            // under the rail on either side.
+            SidebarPanel.HorizontalAlignment = _sidebarRight ? HorizontalAlignment.Right : HorizontalAlignment.Left;
             SidebarPanel.Width = panelW;
 
             // Slide the column width (WPF has no built-in GridLength animation - GridLengthAnimation.cs).
@@ -387,6 +388,15 @@ namespace KillerNotes.Shell
                 if (_sidebarCollapsed) SidebarPanel.Visibility = Visibility.Collapsed;
             };
             SidebarCol.BeginAnimation(ColumnDefinition.WidthProperty, anim);
+        }
+
+        /// <summary>The chevron points toward where the panel goes, which flips with the side
+        /// (char casts: literal PUA glyphs do not survive tooling).</summary>
+        private void UpdateSidebarChevron()
+        {
+            bool pointRight = _sidebarCollapsed != _sidebarRight;
+            SidebarToggleBtn.Content = ((char)(pointRight ? 0xE76C : 0xE76B)).ToString();
+            SidebarToggleBtn.ToolTip = Loc(_sidebarCollapsed ? "Str_TT_ExpandSidebar" : "Str_TT_CollapseSidebar");
         }
 
         /// <summary>Sets the sidebar column and icon-rail widths for the current collapsed
