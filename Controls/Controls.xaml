@@ -10,8 +10,9 @@
                     xmlns:kui="clr-namespace:KillerNotes.Controls"
                     xmlns:picker="clr-namespace:KillerNotes.Controls"
                     xmlns:snap="clr-namespace:KillerFamily.Windowing"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <kui:TooltipTextConverter x:Key="TooltipTextConverter"/>
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:kl="clr-namespace:KillerFamily.Layout">
+    <kl:TooltipTextConverter x:Key="TooltipTextConverter"/>
 
     <!-- Shared film-grain tile. ImageSource is assigned once at startup (Chrome.ApplyGrainTexture)
          so global styles - like the context menus - can layer the same grain as the chrome/flyouts. -->
@@ -38,7 +39,7 @@
 
     <!-- Global themed tooltip. Implicit (no key) so every tooltip app-wide picks it up. -->
     <Style TargetType="ToolTip">
-        <Setter Property="kui:TooltipTextConverter.WrapContent" Value="True"/>
+        <Setter Property="kl:TooltipTextConverter.WrapContent" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}"/>
@@ -56,7 +57,7 @@
                             CornerRadius="{DynamicResource ControlCornerRadius}"
                             Padding="{TemplateBinding Padding}">
                         <Border.Effect>
-                            <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Direction="270" Opacity="0.45"/>
+                            <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                         </Border.Effect>
                         <ContentPresenter>
                             <ContentPresenter.Resources>

@@ -1,13 +1,19 @@
+#nullable enable
 using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Windows.Data;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
-namespace KillerNotes.Controls
+namespace KillerFamily.Layout
 {
-    internal sealed class TooltipTextConverter : IValueConverter
+    /// <summary>
+    /// Keeps the family hover popup compact. A string tooltip is shown through Convert, which moves a
+    /// trailing shortcut such as "(Ctrl+S)" onto its own line, and WrapContent makes the text blocks
+    /// inside a structured tooltip wrap at 300 px instead of running across the screen.
+    /// </summary>
+    public sealed class TooltipTextConverter : IValueConverter
     {
         public static readonly DependencyProperty WrapContentProperty = DependencyProperty.RegisterAttached(
             "WrapContent", typeof(bool), typeof(TooltipTextConverter), new PropertyMetadata(false, OnWrapContentChanged));
