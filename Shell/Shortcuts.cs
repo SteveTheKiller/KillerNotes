@@ -18,11 +18,7 @@ namespace KillerNotes.Shell
         private void InitShortcuts()
         {
             PreviewKeyDown += Shortcuts_PreviewKeyDown;
-            PreviewGotKeyboardFocus += (_, e) =>
-            {
-                if (_overlayFocus.ActiveOverlay != null && !_overlayFocus.Contains(e.NewFocus as DependencyObject))
-                    e.Handled = true;
-            };
+            new KillerFamily.Accessibility.OverlayFocus(this).Track(ShortcutOverlay, AboutOverlay, FontsOverlay);
             PreviewTextInput += (_, e) =>
             {
                 if (_overlayFocus.ActiveOverlay != null && _overlayFocus.ActiveOverlay != FontsOverlay) e.Handled = true;
