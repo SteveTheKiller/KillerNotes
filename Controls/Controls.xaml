@@ -12,6 +12,9 @@
                     xmlns:picker="clr-namespace:KillerNotes.Controls"
                     xmlns:snap="clr-namespace:KillerFamily.Windowing"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ScrollShadows.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
     <kl:TooltipTextConverter x:Key="TooltipTextConverter"/>
 
     <!-- Shared film-grain tile. ImageSource is assigned once at startup (Chrome.ApplyGrainTexture)

@@ -89,7 +89,7 @@ namespace KillerNotes.Shell
                 _sidebarBaseWidth = Math.Min(SidebarMaxWidth, Math.Max(SidebarMinWidth, width));
             _sidebarCollapsed = App.GetSetting("SidebarCollapsed") == "1";
             ApplySidebarState();
-            InitNotesFade();
+            InitNotesScrolling();
             // "New note" label steps down as its column narrows; SizeChanged fires on the
             // first layout too, so the initial wording is set without an extra call.
             SidebarPanel.SizeChanged += (_, _) => UpdateNewNoteLabel();
@@ -162,22 +162,14 @@ namespace KillerNotes.Shell
                  + NewNoteBtn.BorderThickness.Left + NewNoteBtn.BorderThickness.Right + 2;
         }
 
-        // ---- Notes-list edge fades ----
-        // Each overlay appears only while more content exists in its direction.
+        // ---- Notes-list wheel and drag scrolling ----
 
         private ScrollViewer? _notesScroll;
 
-        private void InitNotesFade()
+        private void InitNotesScrolling()
         {
-            // ScrollChanged bubbles from the list's own ScrollViewer and fires on scroll, on
-            // extent changes (list (re)populated), and on viewport changes (resize) - the one
-            // hook that covers every case. Resolve the ScrollViewer from the event the first
-            // time it fires: it is guaranteed present then, unlike at Loaded. The overlay's look
-            // (chrome + grain + fade mask) lives in the XAML and follows the theme itself.
-            NotesList.AddHandler(ScrollViewer.ScrollChangedEvent,
-                new ScrollChangedEventHandler(NotesScroll_Changed));
             NotesList.Loaded += (_, _) =>
-                Dispatcher.BeginInvoke(new System.Action(ResolveAndUpdateNotesFade),
+                Dispatcher.BeginInvoke(new System.Action(ResolveNotesScroller),
                                        System.Windows.Threading.DispatcherPriority.Loaded);
             NotesList.PreviewMouseWheel += NotesList_PreviewMouseWheel;
         }
@@ -230,82 +222,10 @@ namespace KillerNotes.Shell
             e.Handled = true;
         }
 
-        private void NotesScroll_Changed(object sender, ScrollChangedEventArgs e)
-        {
-            // Only the list's own ScrollViewer counts; a nested one inside a row must not be adopted.
-            _notesScroll ??= FindDescendant<ScrollViewer>(NotesList);
-            if (!ReferenceEquals(e.OriginalSource, _notesScroll)) return;
-            UpdateNotesFade();
-        }
-
-        /// <summary>Resolve the list's ScrollViewer (once) and refresh the fade. Also called
-        /// after a list rebuild, when no ScrollChanged is guaranteed.</summary>
-        internal void ResolveAndUpdateNotesFade()
+        // Resolve the list scroller for wheel and drag scrolling. Edge cues now live in its template.
+        internal void ResolveNotesScroller()
         {
             _notesScroll ??= FindDescendant<ScrollViewer>(NotesList);
-            UpdateNotesFade();
-        }
-
-        /// <summary>True when the list's last row is realized and its bottom edge is inside the
-        /// visible area of the list's ScrollViewer.</summary>
-        private bool LastNoteRowInView()
-        {
-            if (_notesScroll == null || NotesList.Items.Count == 0) return false;
-            if (NotesList.ItemContainerGenerator.ContainerFromIndex(NotesList.Items.Count - 1)
-                    is not FrameworkElement last || !last.IsVisible) return false;
-            try
-            {
-                var bottom = last.TransformToAncestor(_notesScroll).Transform(new Point(0, last.ActualHeight));
-                return bottom.Y <= _notesScroll.ActualHeight + 1;
-            }
-            catch (InvalidOperationException) { return false; }   // not under this viewer
-        }
-
-        private void UpdateNotesFade()
-        {
-            if (_notesScroll == null || NotesFade == null || NotesTopFade == null) return;
-            bool overflow = _notesScroll.ScrollableHeight > 0.5;
-            bool atTop = _notesScroll.VerticalOffset <= 0.5;
-            // The list virtualizes with pixel scrolling, so ScrollableHeight is an estimate that can
-            // sit past the real end; the last row being fully in view is the reliable bottom test.
-            bool atBottom = _notesScroll.VerticalOffset >= _notesScroll.ScrollableHeight - 1 || LastNoteRowInView();
-
-            // Fade the list pixels themselves to transparent. An overlay can only match a flat
-            // sidebar; on horizontal chrome gradients it becomes a visibly different rectangle.
-            // Transparency reveals the exact grain and gradient already behind the list.
-            // A theme can switch the scroll fades off entirely (EdgeFadeOpacity 0) - a soft gradient
-            // hint is a modern idiom and wrong on a retro one, where a list ends at a hard edge.
-            // It has to be handled HERE rather than on the NotesTopFade/NotesFade borders: those two
-            // are dead (see the bottom of this method), and the fade is really an OpacityMask on the
-            // list itself, so a Border-level opacity key never reaches it.
-            if (Application.Current?.TryFindResource("EdgeFadeOpacity") is double fadeOp && fadeOp <= 0)
-            {
-                NotesList.OpacityMask = null;
-                NotesTopFade.Visibility = Visibility.Collapsed;
-                NotesFade.Visibility = Visibility.Collapsed;
-                return;
-            }
-
-            bool fadeTop = overflow && !atTop;
-            bool fadeBottom = overflow && !atBottom;
-            var mask = new LinearGradientBrush { StartPoint = new Point(0, 0), EndPoint = new Point(0, 1) };
-            if (fadeTop)
-            {
-                mask.GradientStops.Add(new GradientStop(Colors.Transparent, 0));
-                mask.GradientStops.Add(new GradientStop(Colors.Black, .045));
-            }
-            else mask.GradientStops.Add(new GradientStop(Colors.Black, 0));
-            if (fadeBottom)
-            {
-                mask.GradientStops.Add(new GradientStop(Colors.Black, .955));
-                mask.GradientStops.Add(new GradientStop(Colors.Transparent, 1));
-            }
-            else mask.GradientStops.Add(new GradientStop(Colors.Black, 1));
-            NotesList.OpacityMask = mask;
-
-            // Retained as named layout elements for compatibility, but no longer painted.
-            NotesTopFade.Visibility = Visibility.Collapsed;
-            NotesFade.Visibility = Visibility.Collapsed;
         }
 
         private static T? FindDescendant<T>(DependencyObject root) where T : DependencyObject
