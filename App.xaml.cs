@@ -244,8 +244,8 @@ namespace KillerNotes
         {
             if (MainWindow is not KillerNotes.Shell.MainWindow win) return;
 
-            if (win.WindowState == WindowState.Minimized) win.WindowState = WindowState.Normal;
-            win.Activate();
+            // Also brings it back from the notification area (Close to system tray).
+            win.ShowFromTray();
             win.Topmost = true; win.Topmost = false;   // foreground nudge past focus rules
 
             if (string.IsNullOrEmpty(path) || !File.Exists(path)) return;

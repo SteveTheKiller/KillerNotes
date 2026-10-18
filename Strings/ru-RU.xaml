@@ -404,6 +404,10 @@
     <sys:String x:Key="Str_Btn_Update">Обновить</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Проверять обновления при запуске</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Запускать вместе с Windows</sys:String>
+    <sys:String x:Key="Str_About_CloseToTray">Сворачивать в системный трей при закрытии</sys:String>
+    <sys:String x:Key="Str_About_CloseToTrayHint">Если включено, после закрытия окна приложение продолжает работать в области уведомлений.</sys:String>
+    <sys:String x:Key="Str_Tray_Open">Открыть {0}</sys:String>
+    <sys:String x:Key="Str_Tray_Exit">Выход</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Доступен {0} {1}</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Хотите скачать и установить его сейчас? Приложение закроется и снова откроется автоматически.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Обновить</sys:String>

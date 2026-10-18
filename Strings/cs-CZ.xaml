@@ -289,6 +289,10 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aktualizovat</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Kontrolovat aktualizace při spuštění</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Spouštět se systémem Windows</sys:String>
+    <sys:String x:Key="Str_About_CloseToTray">Zavírat do oznamovací oblasti</sys:String>
+    <sys:String x:Key="Str_About_CloseToTrayHint">Když je tato volba zapnutá, zavření okna nechá aplikaci běžet v oznamovací oblasti.</sys:String>
+    <sys:String x:Key="Str_Tray_Open">Otevřít {0}</sys:String>
+    <sys:String x:Key="Str_Tray_Exit">Ukončit</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Je k dispozici {0} {1}</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Chcete jej nyní stáhnout a nainstalovat? Aplikace se zavře a automaticky znovu otevře.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Aktualizovat</sys:String>

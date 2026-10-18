@@ -214,6 +214,10 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Güncelle</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Başlangıçta güncellemeleri denetle</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Windows ile başlat</sys:String>
+    <sys:String x:Key="Str_About_CloseToTray">Sistem tepsisine kapat</sys:String>
+    <sys:String x:Key="Str_About_CloseToTrayHint">Bu açıkken pencereyi kapatmak uygulamayı bildirim alanında çalışır durumda tutar.</sys:String>
+    <sys:String x:Key="Str_Tray_Open">{0} uygulamasını aç</sys:String>
+    <sys:String x:Key="Str_Tray_Exit">Çıkış</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} kullanılabilir</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Şimdi indirip yüklemek ister misiniz? Uygulama kapanacak ve otomatik olarak yeniden açılacak.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Güncelle</sys:String>

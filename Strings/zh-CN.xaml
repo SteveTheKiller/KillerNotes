@@ -213,6 +213,10 @@
     <sys:String x:Key="Str_Btn_Update">更新</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">启动时检查更新</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Windows 启动时运行</sys:String>
+    <sys:String x:Key="Str_About_CloseToTray">关闭时最小化到系统托盘</sys:String>
+    <sys:String x:Key="Str_About_CloseToTrayHint">开启后，关闭窗口时应用会继续在通知区域运行。</sys:String>
+    <sys:String x:Key="Str_Tray_Open">打开 {0}</sys:String>
+    <sys:String x:Key="Str_Tray_Exit">退出</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} 已发布</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">是否立即下载并安装？应用将关闭并自动重新打开。</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">更新</sys:String>

@@ -213,6 +213,10 @@
     <sys:String x:Key="Str_Btn_Update">আপডেট</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">অ্যাপ চালু হলে আপডেট পরীক্ষা করুন</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Windows চালু হলে চালু করুন</sys:String>
+    <sys:String x:Key="Str_About_CloseToTray">সিস্টেম ট্রেতে বন্ধ করুন</sys:String>
+    <sys:String x:Key="Str_About_CloseToTrayHint">এটি চালু থাকলে, উইন্ডো বন্ধ করলেও অ্যাপটি নোটিফিকেশন এরিয়াতে চলতে থাকে।</sys:String>
+    <sys:String x:Key="Str_Tray_Open">{0} খুলুন</sys:String>
+    <sys:String x:Key="Str_Tray_Exit">প্রস্থান</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} উপলব্ধ</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">এখনই এটি ডাউনলোড করে ইনস্টল করবেন? অ্যাপটি বন্ধ হয়ে স্বয়ংক্রিয়ভাবে আবার খুলবে।</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">আপডেট</sys:String>

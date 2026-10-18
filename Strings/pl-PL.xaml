@@ -333,6 +333,10 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aktualizuj</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Sprawdzaj aktualizacje przy uruchamianiu</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Uruchamiaj razem z Windows</sys:String>
+    <sys:String x:Key="Str_About_CloseToTray">Zamykaj do zasobnika systemowego</sys:String>
+    <sys:String x:Key="Str_About_CloseToTrayHint">Gdy ta opcja jest włączona, zamknięcie okna pozostawia aplikację uruchomioną w obszarze powiadomień.</sys:String>
+    <sys:String x:Key="Str_Tray_Open">Otwórz {0}</sys:String>
+    <sys:String x:Key="Str_Tray_Exit">Zakończ</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Dostępny jest {0} {1}</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Czy chcesz go teraz pobrać i zainstalować? Aplikacja zamknie się i otworzy ponownie automatycznie.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Aktualizuj</sys:String>

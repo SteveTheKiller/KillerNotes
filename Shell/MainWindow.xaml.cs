@@ -20,9 +20,17 @@ namespace KillerNotes.Shell
     // ============================================================
     public partial class MainWindow : Window
     {
+        /// <summary>Close to system tray (Shell/CloseToTray.cs): hides the window to the notification
+        /// area from the first line of OnClosing when the About option is on.</summary>
+        private readonly KillerFamily.Shell.CloseToTray _tray;
+
+        /// <summary>A second launch brings the window back, from the notification area too.</summary>
+        internal void ShowFromTray() => _tray.ShowWindow();
+
         public MainWindow()
         {
             InitializeComponent();
+            _tray = KillerFamily.Shell.CloseToTray.Attach(this, Services.AppInfo.DisplayName, Loc, () => AboutController.CloseToTrayEnabled);
             var titleFrames = System.Windows.Media.Imaging.BitmapDecoder.Create(
                 new System.Uri("pack://application:,,,/Resources/kn-icon.ico"),
                 System.Windows.Media.Imaging.BitmapCreateOptions.None,

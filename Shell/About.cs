@@ -59,6 +59,7 @@ namespace KillerNotes.Shell
 
         bool IAboutHost.StartupUpdateCheck { set => AboutStartupUpdateCheck.IsChecked = value; }
         bool IAboutHost.StartWithWindows   { set => AboutStartWithWindows.IsChecked = value; }
+        bool IAboutHost.CloseToTray        { set => AboutCloseToTray.IsChecked = value; }
 
         bool IAboutHost.DemoPreview => DemoMode;
 
@@ -109,6 +110,9 @@ namespace KillerNotes.Shell
 
         private void AboutStartWithWindows_Click(object sender, RoutedEventArgs e)
             => _about.SetStartWithWindows(AboutStartWithWindows.IsChecked == true);
+
+        private void AboutCloseToTray_Click(object sender, RoutedEventArgs e)
+            => _about.SetCloseToTray(AboutCloseToTray.IsChecked == true);
 
         private void AboutLink_Navigate(object sender, RequestNavigateEventArgs e)
         {

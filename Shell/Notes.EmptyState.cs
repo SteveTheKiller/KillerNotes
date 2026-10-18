@@ -143,6 +143,8 @@ namespace KillerNotes.Shell
         // Save on close; Chrome.cs saves window placement in OnClosed.
         protected override void OnClosing(CancelEventArgs e)
         {
+            // Close to system tray: hide before the fade, the note save and closing the store.
+            if (_tray.HideInstead(e)) return;
             if (!_closeFadeComplete && IsLoaded && RootGrid.Opacity > 0.01)
             {
                 e.Cancel = true;

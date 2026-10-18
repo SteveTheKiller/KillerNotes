@@ -2882,6 +2882,10 @@
                                 <CheckBox x:Name="AboutStartWithWindows"
                                           Content="{DynamicResource Str_About_StartWithWindows}"
                                           FontSize="11" Margin="0,6,0,0" Click="AboutStartWithWindows_Click"/>
+                                <CheckBox x:Name="AboutCloseToTray"
+                                          Content="{DynamicResource Str_About_CloseToTray}"
+                                          ToolTip="{DynamicResource Str_About_CloseToTrayHint}"
+                                          FontSize="11" Margin="0,6,0,0" Click="AboutCloseToTray_Click"/>
                             </StackPanel>
 
                             <!-- Update notice: shown only when a newer release is found -->

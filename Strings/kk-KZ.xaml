@@ -404,6 +404,10 @@
     <sys:String x:Key="Str_Btn_Update">Жаңарту</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Іске қосылғанда жаңартуларды тексеру</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Windows-пен бірге іске қосу</sys:String>
+    <sys:String x:Key="Str_About_CloseToTray">Жүйелік науаға жабу</sys:String>
+    <sys:String x:Key="Str_About_CloseToTrayHint">Қосулы болса, терезені жапқанда қолданба хабарландыру аймағында жұмысын жалғастырады.</sys:String>
+    <sys:String x:Key="Str_Tray_Open">{0} ашу</sys:String>
+    <sys:String x:Key="Str_Tray_Exit">Шығу</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} қолжетімді</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Оны қазір жүктеп, орнатқыңыз келе ме? Қолданба автоматты түрде жабылып, қайта ашылады.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Жаңарту</sys:String>

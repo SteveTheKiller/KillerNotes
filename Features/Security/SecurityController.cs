@@ -139,7 +139,9 @@ namespace KillerNotes.Features.Security
                 }
                 if (!dlg.Confirmed)
                 {
-                    if (exitOnCancel) _host.Window.Close();
+                    // Quit outright: a plain Close would only hide the window when Close to system
+                    // tray is on, leaving a locked app running in the notification area.
+                    if (exitOnCancel) System.Windows.Application.Current.Shutdown();
                     return false;
                 }
                 try
