@@ -274,7 +274,6 @@ namespace KillerNotes.SharedPicker
             BuildPlaces();
             PlacesList.ItemsSource = Places;
             FileList.ItemsSource   = Entries;
-            InitPlacesFades();
             ApplyView();
 
             // A seeded FileName can be a bare name ("export.ics"), a full path, or empty.
@@ -682,36 +681,6 @@ namespace KillerNotes.SharedPicker
         // underneath. Folders are navigated in the list; folders worth keeping are right-clicked
         // and pinned here.
 
-        private void InitPlacesFades()
-        {
-            // Edge fades follow the scroll position (KillerShell TreePanel.cs). ScrollChanged is
-            // handled at the ListBox rather than dug out of its template: it bubbles, so the
-            // inner ScrollViewer is reached without needing to have found it first. Loaded and
-            // SizeChanged cover the passes where nothing scrolled but the extent moved. No
-            // scrollbar lift: horizontal scrolling is disabled on this list.
-            PlacesList.AddHandler(ScrollViewer.ScrollChangedEvent,
-                new ScrollChangedEventHandler((_, _) => SyncPlacesEdgeFades()));
-            PlacesList.SizeChanged += (_, _) => SyncPlacesEdgeFades();
-            PlacesList.Loaded      += (_, _) => SyncPlacesEdgeFades();
-        }
-
-        /// <summary>Places-list twin of SyncTreeEdgeFades: same ramp, same rules.</summary>
-        private void SyncPlacesEdgeFades()
-        {
-            var sv = FindDescendant<ScrollViewer>(PlacesList);
-            if (sv == null) return;
-
-            PlacesFadeTop.Opacity    = Ramp(sv.VerticalOffset, PlacesFadeTop.Height, 18);
-            PlacesFadeBottom.Opacity = Ramp(sv.ExtentHeight - sv.ViewportHeight - sv.VerticalOffset,
-                                            PlacesFadeBottom.Height, 22);
-        }
-
-        // Height is NaN until the border has been laid out, hence the fallback.
-        private static double Ramp(double distance, double height, double fallback)
-        {
-            double h = double.IsNaN(height) || height <= 0 ? fallback : height;
-            return Math.Min(1, Math.Max(0, distance) / h);
-        }
 
         private static T? FindDescendant<T>(DependencyObject root) where T : DependencyObject
         {
