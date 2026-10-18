@@ -106,6 +106,8 @@ namespace KillerNotes.Cli
 
         public static int Main(string[] args)
         {
+            if (args.Length > 1 && args[args.Length - 1] == "--json")
+                args = args.Take(args.Length - 1).ToArray();
             if (args.Length == 1 && args[0] == "--help") { PrintHelp(); return 0; }
             try
             {
@@ -158,6 +160,7 @@ namespace KillerNotes.Cli
 
         private static void PrintHelp()
         {
+            Console.WriteLine("Output is JSON by default; an optional trailing --json is accepted.");
             Console.WriteLine("KillerNotes CLI commands:");
             Console.WriteLine("Usage: killernotes <command> [options]");
             Console.WriteLine("  search <query> [--limit 1..50] [--database absolute.db]");

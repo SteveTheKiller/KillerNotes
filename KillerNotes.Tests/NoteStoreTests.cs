@@ -92,14 +92,16 @@ namespace KillerNotes.Tests
             Assert.Throws<SqliteException>(() => Program.Search(NoteStore.DbPath, "private", 10));
         }
 
-        [Fact]
-        public void CliProcessReturnsSearchResultsAsJson()
+        [Theory]
+        [InlineData("")]
+        [InlineData(" --json")]
+        public void CliProcessReturnsSearchResultsAsJson(string outputOption)
         {
             using var _ = new TempStore();
             long id = NoteStore.Create("Network plan");
             NoteStore.Save(id, "Network plan", Blob, "Subnet details");
             string executable = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "KillerNotes.exe");
-            var start = new ProcessStartInfo(executable, $"--cli search subnet --database \"{NoteStore.DbPath}\"")
+            var start = new ProcessStartInfo(executable, $"--cli search subnet --database \"{NoteStore.DbPath}\"{outputOption}")
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,
