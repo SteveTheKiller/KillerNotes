@@ -166,7 +166,7 @@ namespace KillerFamily.Windowing
             {
                 var track = new TRACKMOUSEEVENT
                 {
-                    cbSize = (uint)Marshal.SizeOf(typeof(TRACKMOUSEEVENT)),
+                    cbSize = (uint)Marshal.SizeOf<TRACKMOUSEEVENT>(),
                     dwFlags = TME_LEAVE | TME_NONCLIENT,
                     hwndTrack = _hwnd,
                 };
