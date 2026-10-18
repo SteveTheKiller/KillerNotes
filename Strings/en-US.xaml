@@ -430,6 +430,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">The app will close and reopen automatically.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Update</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Check for updates on startup</sys:String>
+    <sys:String x:Key="Str_About_StartWithWindows">Start with Windows</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} is available</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Would you like to download and install it now? The app will close and reopen automatically.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Update</sys:String>

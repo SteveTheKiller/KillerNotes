@@ -213,6 +213,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">L'application se fermera et se rouvrira automatiquement.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Mettre à jour</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Rechercher les mises à jour au démarrage</sys:String>
+    <sys:String x:Key="Str_About_StartWithWindows">Lancer au démarrage de Windows</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} est disponible</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Voulez-vous le télécharger et l'installer maintenant ? L'application se fermera et rouvrira automatiquement.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Mettre à jour</sys:String>

@@ -159,6 +159,8 @@ namespace KillerNotes
             if (!string.Equals(Process.GetCurrentProcess().MainModule?.FileName, MachineExe,
                     StringComparison.OrdinalIgnoreCase))
                 RegisterFileAssociations();
+            // Start with Windows (About card): keep the Run value pointing at this exe.
+            KillerFamily.Deployment.StartupRegistration.Refresh(Services.AppInfo.DisplayName);
 
             Services.ThemeManager.InitializeInstallerTheme();
             OfferInstallConflictRepair();
@@ -178,6 +180,9 @@ namespace KillerNotes
 
             ShutdownMode = ShutdownMode.OnLastWindowClose;
             MainWindow = new KillerNotes.Shell.MainWindow();
+            // Started from the Run value: open minimized on the taskbar.
+            if (KillerFamily.Deployment.StartupRegistration.HasMinimizedArgument(e.Args))
+                KillerFamily.Deployment.StartupRegistration.StartMinimized(MainWindow);
             MainWindow.Show();
             StartMcpPipeServer();
         }
@@ -697,6 +702,7 @@ namespace KillerNotes
             try { Directory.Delete(startMenuDir, recursive: false); } catch { }
             if (!machine) try { File.Delete(DesktopLnk); } catch { }
             Services.CommandLinePath.Unregister(targetDir, machine);
+            KillerFamily.Deployment.StartupRegistration.Remove(Services.AppInfo.DisplayName);
 
             // Delete only the scope represented by the executable Add/Remove Programs launched.
             var hive = machine ? Registry.LocalMachine : Registry.CurrentUser;

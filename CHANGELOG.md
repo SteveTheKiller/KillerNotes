@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.5.1] - Unreleased
 
 ### Added
+- Added Start with Windows to the About card. It starts KillerNotes minimized on the taskbar when you sign in, and stays off until you turn it on.
 - Alt+Shift+G turns Film Grain on or off. It is listed in the shortcuts overlay, and the keyboard map has a new Alt+Shift layer for it.
 - The website's top bar has a Microsoft Store button on every page, and the MCP page has a Microsoft Store button for KillerMCP.
 - Added the install folder to PATH for installed copies, so `killernotes --cli` runs from any new terminal and prints its results there. Uninstalling removes it again.

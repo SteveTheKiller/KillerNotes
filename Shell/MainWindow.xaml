@@ -2879,6 +2879,9 @@
                                 <CheckBox x:Name="AboutStartupUpdateCheck"
                                           Content="{DynamicResource Str_About_StartupUpdateCheck}"
                                           FontSize="11" Click="AboutStartupUpdateCheck_Click"/>
+                                <CheckBox x:Name="AboutStartWithWindows"
+                                          Content="{DynamicResource Str_About_StartWithWindows}"
+                                          FontSize="11" Margin="0,6,0,0" Click="AboutStartWithWindows_Click"/>
                             </StackPanel>
 
                             <!-- Update notice: shown only when a newer release is found -->

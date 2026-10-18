@@ -430,6 +430,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">O aplicativo será fechado e reaberto automaticamente.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Atualizar</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Verificar atualizações ao iniciar</sys:String>
+    <sys:String x:Key="Str_About_StartWithWindows">Iniciar com o Windows</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">O {0} {1} está disponível</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Deseja baixá-lo e instalá-lo agora? O aplicativo será fechado e reaberto automaticamente.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Atualizar</sys:String>

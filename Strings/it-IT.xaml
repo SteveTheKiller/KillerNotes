@@ -403,6 +403,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">L'app si chiuderà e si riaprirà automaticamente.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aggiorna</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">All'avvio cerca aggiornamenti</sys:String>
+    <sys:String x:Key="Str_About_StartWithWindows">Avvia all'avvio di Windows</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">È disponibile {0} {1}</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Vuoi scaricarlo e installarlo ora? L'app si chiuderà e si riaprirà automaticamente.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Aggiorna</sys:String>

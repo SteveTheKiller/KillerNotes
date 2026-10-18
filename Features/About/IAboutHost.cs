@@ -37,6 +37,10 @@ namespace KillerNotes.Features.About
         /// <summary>The "Check for updates on startup" checkbox, first of the card's checkboxes.</summary>
         bool StartupUpdateCheck { set; }
 
+        /// <summary>The "Start with Windows" checkbox, under the update checkbox. Off until the user
+        /// turns it on.</summary>
+        bool StartWithWindows { set; }
+
         /// <summary>True under --demo, where the card is rendered in its signed state so marketing
         /// captures from an unsigned local build match the release (DemoMode.cs).</summary>
         bool DemoPreview { get; }

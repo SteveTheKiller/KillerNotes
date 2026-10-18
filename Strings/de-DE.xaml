@@ -213,6 +213,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">Die App wird automatisch geschlossen und neu geöffnet.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Aktualisieren</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Beim Start nach Updates suchen</sys:String>
+    <sys:String x:Key="Str_About_StartWithWindows">Mit Windows starten</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} ist verfügbar</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Möchten Sie diese Version jetzt herunterladen und installieren? Die App wird geschlossen und automatisch neu geöffnet.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Aktualisieren</sys:String>
