@@ -9,7 +9,8 @@ The recipe reproduces SQLitePCL.raw's own build (github.com/ericsink/cb): the SQ
 amalgamation compiled with the LibTomCrypt crypto provider and AES-256-CBC, so the file
 format, KDF (PBKDF2-HMAC-SHA512, 256000 iterations) and defaults are identical -
 databases created under the old package open unchanged. The same DLL is vendored in
-Killendar's `third_party/sqlcipher/`; rebuild once, copy to both, keep the hashes equal.
+Killendar's and KillerShot's `third_party/sqlcipher/`; rebuild once, copy to all three, keep
+the hashes equal.
 
 ## Current binary
 
