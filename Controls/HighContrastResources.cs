@@ -143,7 +143,7 @@ namespace KillerFamily.Accessibility
             Brushes(System.Windows.Media.Brushes.Transparent, "CaptionButtonBrush");
             foreach (string key in new[] { "GrainOpacity", "PaneShadowOpacity", "BarShadowOpacity",
                 "FlyoutShadowOpacity", "ShortcutShadowOpacity", "WordmarkShadowOpacity", "WordmarkEmbossOpacity",
-                "WordmarkAccentShadowOpacity" }) d[key] = 0.0;
+                "WordmarkAccentShadowOpacity", "IconShadowOpacity", "AboutShadowOpacity", "SelectedTileShadowOpacity" }) d[key] = 0.0;
             _overlay = d;
             Publish();
         }
