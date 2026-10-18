@@ -349,23 +349,24 @@ namespace KillerFamily.Accessibility
     }
 
     /// <summary>
-    /// The keyboard focus outline: a thin solid ring in the theme accent, rounded like the
-    /// controls. When the accent is too faint against the window surfaces to read as an
-    /// outline, the ring uses the text color instead, and High Contrast uses the system
-    /// highlight. WPF builds a new outline each time focus moves, so it follows theme changes.
+    /// The keyboard focus outline: a thin dotted ring in the theme accent, one pixel on and one
+    /// off, rounded like the controls. When the accent is too faint against the window surfaces
+    /// to read as an outline, the ring uses the text color instead, and High Contrast uses the
+    /// system highlight. WPF builds a new outline each time focus moves, so it follows theme
+    /// changes.
     /// </summary>
-    internal sealed class FocusRing : Border
+    internal sealed class FocusRing : FrameworkElement
     {
         internal static readonly DependencyProperty InsetProperty = DependencyProperty.Register(
             nameof(Inset), typeof(double), typeof(FocusRing), new PropertyMetadata(0.0));
 
-        private const double RingThickness = 2;
         private const double MinimumContrast = 3;
+        private double _radius;
 
         public FocusRing()
         {
-            BorderThickness = new Thickness(RingThickness);
             SnapsToDevicePixels = true;
+            UseLayoutRounding = true;
             IsHitTestVisible = false;
             Loaded += (_, _) => Apply();
         }
@@ -376,12 +377,45 @@ namespace KillerFamily.Accessibility
             set => SetValue(InsetProperty, value);
         }
 
+        /// <summary>The ring's color, chosen when it loads.</summary>
+        internal Brush? Stroke { get; private set; }
+
+        internal double StrokeThickness => 1;
+
+        /// <summary>One pixel on, one pixel off.</summary>
+        internal DoubleCollection DashArray { get; } = new DoubleCollection { 1, 1 };
+
         private void Apply()
         {
-            BorderBrush = RingBrush();
+            Stroke = RingBrush();
             double radius = TryFindResource("ControlCornerRadius") is CornerRadius corner ? corner.TopLeft : 0;
             // An outline inside the control sits on a smaller curve, one outside it on a larger one.
-            CornerRadius = new CornerRadius(radius <= 0 ? 0 : Math.Max(0, radius - Inset));
+            _radius = radius <= 0 ? 0 : Math.Max(0, radius - Inset);
+            InvalidateVisual();
+        }
+
+        // The dots are placed on whole device pixels rather than drawn with a dashed pen, whose
+        // dashes fall between pixels and smear into a faint solid line. A rounded ring leaves out
+        // its corner pixels.
+        protected override void OnRender(DrawingContext dc)
+        {
+            if (Stroke == null) return;
+            var dpi = VisualTreeHelper.GetDpi(this);
+            double px = StrokeThickness / dpi.DpiScaleX, py = StrokeThickness / dpi.DpiScaleY;
+            int w = (int)Math.Round(ActualWidth / px), h = (int)Math.Round(ActualHeight / py);
+            if (w < 3 || h < 3) return;
+            int skip = _radius > 0 ? 1 : 0;
+            int step = (int)(DashArray[0] + DashArray[1]);
+            for (int x = skip; x < w - skip; x += step)
+            {
+                dc.DrawRectangle(Stroke, null, new Rect(x * px, 0, px, py));
+                dc.DrawRectangle(Stroke, null, new Rect(x * px, (h - 1) * py, px, py));
+            }
+            for (int y = 1 + skip + 1; y < h - 1 - skip; y += step)
+            {
+                dc.DrawRectangle(Stroke, null, new Rect(0, y * py, px, py));
+                dc.DrawRectangle(Stroke, null, new Rect((w - 1) * px, y * py, px, py));
+            }
         }
 
         private Brush RingBrush()
