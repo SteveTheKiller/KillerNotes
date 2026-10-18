@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using KillerNotes.Services;
@@ -11,6 +12,9 @@ namespace KillerNotes.Controls
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (SystemParameters.HighContrast)
+                return values.Length > 1 && values[1] is SolidColorBrush selected && selected.Color == SystemColors.HighlightColor
+                    ? SystemColors.HighlightTextBrush : SystemColors.WindowTextBrush;
             var preferred = values[0] as SolidColorBrush ?? Brushes.White;
             Color[] ColorsOf(object value) => value switch
             {

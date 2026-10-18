@@ -26,6 +26,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Primary, outline and secondary buttons sit raised on a soft shadow that lifts on hover and sets down when pressed. 98SE keeps its flat beveled buttons.
 
 ### Fixed
+- Windows contrast themes now use system colors, including custom note and group titles, without changing saved colors or theme preferences.
 - The cursor can no longer land inside a horizontal rule, so text typed after moving up or down past a rule no longer comes out tiny (#28).
 - The window opens fully on screen on a small or high-scaling display, or when its saved size came from a bigger monitor, instead of running off the edges.
 - In a note that mixes languages, syntax highlighting colors each line in its own language. A `# comment` line no longer switches the whole note to markdown, comments inside a script stay comments, and a shell line such as `export PATH=$HOME/bin` reads as Bash instead of PowerShell.

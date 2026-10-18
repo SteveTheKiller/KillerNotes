@@ -30,6 +30,8 @@ namespace KillerNotes.Shell
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += (_, _) => SystemParameters.StaticPropertyChanged += OnSystemContrastChanged;
+            Unloaded += (_, _) => SystemParameters.StaticPropertyChanged -= OnSystemContrastChanged;
             _tray = KillerFamily.Shell.CloseToTray.Attach(this, Services.AppInfo.DisplayName, Loc, () => AboutController.CloseToTrayEnabled);
             var titleFrames = System.Windows.Media.Imaging.BitmapDecoder.Create(
                 new System.Uri("pack://application:,,,/Resources/kn-icon.ico"),

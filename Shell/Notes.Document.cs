@@ -168,8 +168,20 @@ namespace KillerNotes.Shell
         /// theme-reactive default when the note has no title color.</summary>
         private void ApplyTitleColor(Note meta)
         {
-            if (meta.TitleBrush is Brush b) TitleBox.Foreground = b;
+            if (!SystemParameters.HighContrast && meta.TitleBrush is Brush b) TitleBox.Foreground = b;
             else TitleBox.SetResourceReference(ForegroundProperty, "TextBrush");
+        }
+
+        private void OnSystemContrastChanged(object? sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName != nameof(SystemParameters.HighContrast)) return;
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                RefreshList(preserveScroll: true);
+                var current = _notes.FirstOrDefault(n => n.Id == _currentId)
+                    ?? _trashNotes.FirstOrDefault(n => n.Id == _currentId);
+                if (current != null) ApplyTitleColor(current);
+            }));
         }
 
         /// <summary>Persists the open note (title, XamlPackage blob, plain text for search).</summary>

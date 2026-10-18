@@ -20,7 +20,16 @@ namespace KillerNotes.Services
         internal static void Initialize()
         {
             Enabled = ThemeManager.GetSetting(SettingKey) != "0";
+            SystemParameters.StaticPropertyChanged -= OnSystemColorsChanged;
+            SystemParameters.StaticPropertyChanged += OnSystemColorsChanged;
             Publish();
+        }
+
+        private static void OnSystemColorsChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs args)
+        {
+            var app = Application.Current;
+            if (app == null || app.Dispatcher.HasShutdownStarted) return;
+            app.Dispatcher.BeginInvoke(new System.Action(Publish));
         }
 
         /// <summary>Shows or hides the grain on every surface and saves the choice.</summary>
@@ -37,9 +46,10 @@ namespace KillerNotes.Services
         {
             var resources = Application.Current?.Resources;
             if (resources == null) return;
-            if (Enabled) resources.Remove("GrainOpacity");
+            bool visible = Enabled && !SystemParameters.HighContrast;
+            if (visible) resources.Remove("GrainOpacity");
             else resources["GrainOpacity"] = 0.0;
-            resources["FilmGrainVisibility"] = Enabled ? Visibility.Visible : Visibility.Collapsed;
+            resources["FilmGrainVisibility"] = visible ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }
