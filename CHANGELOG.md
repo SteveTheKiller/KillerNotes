@@ -22,6 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 - The cursor can no longer land inside a horizontal rule, so text typed after moving up or down past a rule no longer comes out tiny (#28).
+- The window opens fully on screen on a small or high-scaling display, or when its saved size came from a bigger monitor, instead of running off the edges.
 - In a note that mixes languages, syntax highlighting colors each line in its own language. A `# comment` line no longer switches the whole note to markdown, comments inside a script stay comments, and a shell line such as `export PATH=$HOME/bin` reads as Bash instead of PowerShell.
 - On the Light theme's Yellow and Orange accents, buttons, links, tabs and accent icons keep their color with a thin gray outline around accent text and icons, instead of turning near-black or brown.
 - Gray, menu and accent text reads at 4.5:1 contrast or better in every theme and accent, and the footer's version and copyright are slightly dimmed.
