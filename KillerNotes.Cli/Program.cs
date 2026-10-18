@@ -164,8 +164,8 @@ namespace KillerNotes.Cli
             Console.WriteLine("  get <id> [--max-chars 1..50000] [--database absolute.db]");
             Console.WriteLine("  groups|tags|stats [--database absolute.db]");
             Console.WriteLine("  backlinks|links|history <id> [--limit 1..50] [--database absolute.db]");
-            Console.WriteLine("  create --title title --content markdown [--group name] [--tags names] [--title-color color]");
-            Console.WriteLine("  update --id id [--title title] [--content markdown] [--group name] [--tags names] [--title-color color]");
+            Console.WriteLine("  create --title title (--content markdown | --content-file absolute.md) [--group name] [--tags names] [--title-color color]");
+            Console.WriteLine("  update --id id [--title title] [--content markdown | --content-file absolute.md] [--group name] [--tags names] [--title-color color]");
             Console.WriteLine("  create-group --name name [--parent path] [--color color]");
             Console.WriteLine("  set-group-color --name path --color color");
             Console.WriteLine("  set-title-color --id id --color color");
@@ -193,6 +193,7 @@ namespace KillerNotes.Cli
         {
             try
             {
+                args = InlineContentFile(args);
                 using var pipe = new NamedPipeClientStream(".", $"KillerNotes-MCP-{Process.GetCurrentProcess().SessionId}", PipeDirection.InOut);
                 pipe.Connect(3000);
                 byte[] request = Serialize(new McpRequest { Arguments = args });
@@ -207,6 +208,23 @@ namespace KillerNotes.Cli
             }
             catch (TimeoutException) { Console.Error.WriteLine("Open and unlock KillerNotes before using write commands"); return 1; }
             catch (IOException ex) { Console.Error.WriteLine("KillerNotes bridge failed: " + ex.Message); return 1; }
+        }
+
+        // A command line holds about 32,000 characters, so longer Markdown can come from a file.
+        // The file is read here and sent to KillerNotes as ordinary --content.
+        private static string[] InlineContentFile(string[] args)
+        {
+            int index = Array.IndexOf(args, "--content-file");
+            if (index < 0) return args;
+            if (index + 1 >= args.Length) throw new ArgumentException("--content-file needs a path");
+            if (Array.IndexOf(args, "--content") >= 0) throw new ArgumentException("Use --content or --content-file, not both");
+            string path = args[index + 1];
+            if (!Path.IsPathRooted(path) || !File.Exists(path)) throw new ArgumentException("--content-file must name an existing file by its absolute path");
+            if (new FileInfo(path).Length > 2_000_000) throw new ArgumentException("--content-file is larger than a note can hold");
+            string[] inlined = [.. args];
+            inlined[index] = "--content";
+            inlined[index + 1] = File.ReadAllText(path, Encoding.UTF8);
+            return inlined;
         }
 
         private static int UsageError()
