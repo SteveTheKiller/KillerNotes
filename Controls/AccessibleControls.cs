@@ -72,6 +72,22 @@ namespace KillerFamily.Accessibility
                 new Action(() => link.MoveFocus(new System.Windows.Input.TraversalRequest(direction))));
         }
 
+        // Tab into a radio group lands on its selected option, as in Windows, rather than on the
+        // option that last had focus or the first one. Only for the keyboard: a click focuses the
+        // option it lands on.
+        private static void OnRadioGroupPreviewGotFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs args)
+        {
+            if (sender is not Panel group || args.NewFocus is not RadioButton target || target.IsChecked == true) return;
+            if (args.OldFocus is Visual old && group.IsAncestorOf(old)) return;
+            if (System.Windows.Input.InputManager.Current.MostRecentInputDevice is not System.Windows.Input.KeyboardDevice) return;
+            var selected = group.Children.OfType<RadioButton>()
+                .FirstOrDefault(option => option.IsChecked == true && option.IsEnabled && option.IsVisible);
+            if (selected == null) return;
+            args.Handled = true;
+            selected.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Input,
+                new Action(() => selected.Focus()));
+        }
+
         private static void OnControlSizeChanged(object sender, SizeChangedEventArgs args)
         {
             if (sender is not Control control) return;
@@ -99,6 +115,19 @@ namespace KillerFamily.Accessibility
             // The focus adorner is shown by WPF for keyboard navigation, without changing layout.
             if (control is not Window && control.Focusable && control.FocusVisualStyle == null)
                 control.SetCurrentValue(Control.FocusVisualStyleProperty, IsCompact(control) ? CompactFocusStyle : FocusStyle);
+
+            // A group of radio buttons is one Tab stop, as everywhere else in Windows, and the arrow
+            // keys move between its options. Menus and flyouts, which are not hosted in the window
+            // itself, keep their own keyboard handling.
+            if (control is RadioButton radio && VisualTreeHelper.GetParent(radio) is Panel group &&
+                PresentationSource.FromVisual(radio)?.RootVisual is Window && group.Children.Count > 1 &&
+                group.ReadLocalValue(System.Windows.Input.KeyboardNavigation.TabNavigationProperty) == DependencyProperty.UnsetValue &&
+                group.Children.Cast<UIElement>().All(child => child is RadioButton option && option.GroupName == radio.GroupName))
+            {
+                System.Windows.Input.KeyboardNavigation.SetTabNavigation(group, System.Windows.Input.KeyboardNavigationMode.Once);
+                System.Windows.Input.KeyboardNavigation.SetDirectionalNavigation(group, System.Windows.Input.KeyboardNavigationMode.Cycle);
+                group.PreviewGotKeyboardFocus += OnRadioGroupPreviewGotFocus;
+            }
 
             // An icon given as string content ("&#xE8BB;") is drawn by the content presenter's
             // own TextBlock, which UI Automation reads out as a private-use character. Drawing it
