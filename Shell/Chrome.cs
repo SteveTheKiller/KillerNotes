@@ -448,55 +448,17 @@ namespace KillerNotes.Shell
         }
 
         // ---- Film grain ----
-        // A mix of bright AND dark specks (~33% density) so the texture reads on both dark and
-        // light themes. One bitmap, shared across every named grain brush and the keyed
-        // GrainTileBrush resource (used by the context menus). Same seed = identical pattern.
+        // The family grain tile (Controls/GrainTexture.cs), shared across every named grain brush
+        // and the keyed GrainTileBrush resource, and repainted when the theme or accent changes.
 
-        private void ApplyGrainTexture()
-        {
-            var bmp = PublishGrainTile();
-
-            // Paint into whichever named grain brushes exist in your XAML (all optional).
-            foreach (var name in new[] { "GrainBrush", "TitleGrainBrush", "ToolbarGrainBrush", "StatusGrainBrush", "FlyoutGrainBrush" })
-                if (FindName(name) is ImageBrush ib) ib.ImageSource = bmp;
-        }
+        private void ApplyGrainTexture() => Controls.GrainTexture.Apply(this,
+            "GrainBrush", "TitleGrainBrush", "ToolbarGrainBrush", "StatusGrainBrush", "FlyoutGrainBrush");
 
         /// <summary>
-        /// Generates the grain tile and publishes it as the app-level GrainTileBrush. App startup
-        /// calls this too, so dialogs shown before any main window exists (install, uninstall,
-        /// install repair) are textured like the rest of the app.
+        /// Publishes the grain tile as the app-level GrainTileBrush. App startup calls this too, so
+        /// dialogs shown before any main window exists (install, uninstall, install repair) are
+        /// textured like the rest of the app.
         /// </summary>
-        internal static BitmapSource PublishGrainTile()
-        {
-            const int size = 256;
-            var bmp = new WriteableBitmap(size, size, 96, 96, PixelFormats.Bgra32, null);
-            var pixels = new byte[size * size * 4]; // start fully transparent
-            var rng = new Random(1337);
-            for (int i = 0; i < pixels.Length; i += 4)
-            {
-                if (rng.Next(3) != 0) continue;        // ~33% pixel density
-                bool bright = rng.Next(2) == 0;         // half bright, half dark
-                byte v = bright ? (byte)rng.Next(190, 255) : (byte)rng.Next(0, 50);
-                byte a = (byte)rng.Next(35, 95);        // alpha for subtlety
-                pixels[i]     = v;
-                pixels[i + 1] = v;
-                pixels[i + 2] = v;
-                pixels[i + 3] = a;
-            }
-            bmp.WritePixels(new Int32Rect(0, 0, size, size), pixels, size * 4, 0);
-
-            // The keyed resource brush is auto-frozen, so its ImageSource can't be set in place.
-            // Swap in a fresh frozen brush - DynamicResource consumers re-resolve automatically.
-            var grainTile = new ImageBrush(bmp)
-            {
-                TileMode = TileMode.Tile,
-                ViewportUnits = BrushMappingMode.Absolute,
-                Viewport = new System.Windows.Rect(0, 0, size, size),
-                Stretch = Stretch.None
-            };
-            grainTile.Freeze();
-            Application.Current.Resources["GrainTileBrush"] = grainTile;
-            return bmp;
-        }
+        internal static BitmapSource PublishGrainTile() => Controls.GrainTexture.Publish();
     }
 }
