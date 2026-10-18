@@ -34,15 +34,20 @@ namespace KillerNotes
         {
             KillerFamily.Accessibility.AccessibleControls.Initialize();
             KillerFamily.Theming.AccentShadow.Initialize();
-            if (e.Args.Length > 0 && string.Equals(e.Args[0], "--cli", StringComparison.OrdinalIgnoreCase))
+            var cliArgs = KillerFamily.CommandLine.CommandLineEntry.GetArguments(e.Args,
+                ["search", "list", "get", "groups", "tags", "backlinks", "links", "history", "stats",
+                 "create", "update", "create-group", "set-group-color", "set-title-color", "import-image",
+                 "export", "share", "export-all", "detect-markdown", "convert", "templates", "create-from-template",
+                 "today", "trash-list", "trash", "restore", "pin", "unpin", "version-get", "version-restore",
+                 "rename-group", "delete-group", "tag-definitions", "create-tag", "rename-tag", "delete-tag",
+                 "set-tag-color", "template-group", "daily-group", "backup-now", "permanent-delete", "empty-trash"]);
+            if (cliArgs != null)
             {
                 Services.CliConsole.AttachToParent();
                 using var output = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
                 using var error = new StreamWriter(Console.OpenStandardError()) { AutoFlush = true };
                 Console.SetOut(output);
                 Console.SetError(error);
-                var cliArgs = new string[e.Args.Length - 1];
-                Array.Copy(e.Args, 1, cliArgs, 0, cliArgs.Length);
                 Shutdown(KillerNotes.Cli.Program.Main(cliArgs));
                 return;
             }

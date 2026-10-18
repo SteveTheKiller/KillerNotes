@@ -8,13 +8,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Added
 - Added a right-hand position for the sidebar and its rail, picked from the rail's right-click menu or with Alt+Shift+Left and Alt+Shift+Right. The arrow of the side the sidebar is already on collapses or expands it.
+- The `create` and `update` commands take `--content-file` for Markdown longer than a command line can hold.
+- Installed copies add their folder to PATH, so commands such as `killernotes list` run from any new terminal. `killernotes --help` lists commands, and `--cli` stays compatible. Portable copies run from their folder or full path. Uninstalling removes the installed PATH entry.
 - Added Start with Windows to the About card. It starts KillerNotes minimized on the taskbar when you sign in, and stays off until you turn it on.
 - Added Close to system tray to the About card. With it on, closing the window keeps KillerNotes running in the notification area, where its icon brings the window back or exits; it stays off until you turn it on.
+- The shortcuts overlay lists Ctrl+Tab, which moves keyboard focus out of the note while Tab keeps typing in it.
 - Alt+Shift+G turns Film Grain on or off. It is listed in the shortcuts overlay, and the keyboard map has a new Alt+Shift layer for it.
 - The website's top bar has a Microsoft Store button on every page, and the MCP page has a Microsoft Store button for KillerMCP.
-- Added the install folder to PATH for installed copies, so `killernotes --cli` runs from any new terminal and prints its results there. Uninstalling removes it again.
-- The shortcuts overlay lists Ctrl+Tab, which moves keyboard focus out of the note while Tab keeps typing in it.
-- The `create` and `update` commands take `--content-file` for Markdown longer than a command line can hold.
 - The website's About page lists KillerBench and KillerShot under Also try, with larger app icons.
 
 ### Changed

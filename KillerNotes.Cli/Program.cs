@@ -159,6 +159,7 @@ namespace KillerNotes.Cli
         private static void PrintHelp()
         {
             Console.WriteLine("KillerNotes CLI commands:");
+            Console.WriteLine("Usage: killernotes <command> [options]");
             Console.WriteLine("  search <query> [--limit 1..50] [--database absolute.db]");
             Console.WriteLine("  list [--group name] [--tag name] [--limit 1..50] [--database absolute.db]");
             Console.WriteLine("  get <id> [--max-chars 1..50000] [--database absolute.db]");
@@ -229,7 +230,7 @@ namespace KillerNotes.Cli
 
         private static int UsageError()
         {
-            Console.Error.WriteLine("Run KillerNotes --cli --help for supported commands.");
+            Console.Error.WriteLine("Run killernotes --help for supported commands.");
             return 2;
         }
 
