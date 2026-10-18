@@ -52,8 +52,8 @@
                     <Border Background="{DynamicResource PaneBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                             CornerRadius="{DynamicResource ControlCornerRadius}">
-                        <ListBox x:Name="TagList" Style="{StaticResource ShadowListBox}" Height="208" Background="Transparent" BorderThickness="0" AutomationProperties.Name="{DynamicResource Str_Ctx_Tags}"
-                                 HorizontalContentAlignment="Stretch" Padding="4">
+                        <ListBox x:Name="TagList" Height="200" Background="Transparent" BorderThickness="0" AutomationProperties.Name="{DynamicResource Str_Ctx_Tags}"
+                                 HorizontalContentAlignment="Stretch" Margin="4">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>

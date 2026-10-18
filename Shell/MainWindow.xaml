@@ -764,7 +764,7 @@
                          it always has. It fills THE LIST ONLY, deliberately: the header above it
                          (search + New note + sort) and the calculator in the row below are controls
                          on the window face, not a client area, and must stay the panel color. -->
-                    <ListBox x:Name="NotesList" Style="{StaticResource ShadowListBox}" Background="{DynamicResource ListPaneBrush}" BorderThickness="0"
+                    <ListBox x:Name="NotesList" Background="{DynamicResource ListPaneBrush}" BorderThickness="0"
                              AutomationProperties.Name="{DynamicResource Str_Sec_Notes}"
                              HorizontalContentAlignment="Stretch" SelectionMode="Extended"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -1262,6 +1262,42 @@
                             </DataTemplate>
                         </ListBox.Resources>
                     </ListBox>
+                    <!-- Top counterpart to NotesFade: appears only after the list has moved away
+                         from its first row, matching KillerShell/KillerPDF's bidirectional hint. -->
+                    <Border x:Name="NotesTopFade" Height="28" VerticalAlignment="Top" Margin="0,0,12,0"
+                            Opacity="{DynamicResource EdgeFadeOpacity}"
+                            IsHitTestVisible="False" Visibility="Collapsed">
+                        <Border.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#FF000000" Offset="0"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                        <Grid>
+                            <Border Background="{DynamicResource SurfaceBrush}"/>
+                            <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
+                        </Grid>
+                    </Border>
+                    <!-- Bottom fade overlay: the last rows fade into the chrome while the list
+                         overflows and is not at the bottom (Sidebar.cs toggles Visibility). Inset
+                         12px on the right to clear the scrollbar. The overlay IS the chrome -
+                         BackgroundBrush + the same grain - under a top-transparent to bottom-opaque
+                         mask, so it fades into an exact match for the sidebar/footer (never darker,
+                         grain intact) rather than a flat black patch. -->
+                    <Border x:Name="NotesFade" Height="28" VerticalAlignment="Bottom" Margin="0,0,12,0"
+                            Opacity="{DynamicResource EdgeFadeOpacity}"
+                            IsHitTestVisible="False" Visibility="Collapsed">
+                        <Border.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#00000000" Offset="0"/>
+                                <GradientStop Color="#FF000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                        <Grid>
+                            <Border Background="{DynamicResource SurfaceBrush}"/>
+                            <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
+                        </Grid>
+                    </Border>
 
                     <!-- Killculator (F9): a themed adding-machine docked in the row BELOW the notes
                          list, so the list shrinks and stays visible above it. Opaque + grain to read
@@ -1927,7 +1963,6 @@
                                  HorizontalScrollBarVisibility="Auto"
                                  TextChanged="Editor_TextChanged">
                         <RichTextBox.Resources>
-                            <Style TargetType="ScrollViewer" BasedOn="{StaticResource ShadowScrollViewer}"/>
                             <!-- The default ScrollViewer corner (where the H and V scrollbars meet, shown
                                  with word wrap off) fills with SystemColors.ControlBrush - a light gray that
                                  reads as a white square on the dark theme. Make it transparent so the note
@@ -2119,7 +2154,7 @@
                             <TextBlock Grid.Row="0" Text="{DynamicResource Str_Outline_Title}" FontSize="10.5"
                                        FontWeight="SemiBold" Margin="14,8,8,4"
                                        Foreground="{DynamicResource DimTextBrush}"/>
-                            <ScrollViewer Grid.Row="1" Style="{StaticResource ShadowScrollViewer}" VerticalScrollBarVisibility="Auto"
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
                                           HorizontalScrollBarVisibility="Disabled">
                                 <ListBox x:Name="OutlineList" Margin="0,2,0,8" Style="{StaticResource ShortcutNavigationList}"
                                          AutomationProperties.Name="{DynamicResource Str_Outline_Title}"

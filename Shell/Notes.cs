@@ -103,8 +103,9 @@ namespace KillerNotes.Shell
                 Dispatcher.BeginInvoke(new System.Action(() =>
                     _notesScroll?.ScrollToVerticalOffset(Math.Min(savedOffset, _notesScroll.ScrollableHeight))),
                     System.Windows.Threading.DispatcherPriority.Loaded);
-            // Resolve the scroller after a list rebuild has laid out.
-            Dispatcher.BeginInvoke(new System.Action(ResolveNotesScroller),
+            // Re-evaluate the sidebar bottom fade once this rebuild has laid out (Sidebar.cs):
+            // a load/refresh that overflows should fade without waiting for a scroll.
+            Dispatcher.BeginInvoke(new System.Action(ResolveAndUpdateNotesFade),
                                    System.Windows.Threading.DispatcherPriority.Loaded);
         }
 

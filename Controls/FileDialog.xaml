@@ -295,7 +295,7 @@
                                 <Grid>
                                     <Border IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
                                             Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
-                                    <ListBox x:Name="RecentsList" Style="{StaticResource ShadowListBox}" Background="Transparent" BorderThickness="0" Padding="2,4" AutomationProperties.Name="{DynamicResource Str_TT_RecentLocations}"
+                                    <ListBox x:Name="RecentsList" Background="Transparent" BorderThickness="0" Padding="2,4" AutomationProperties.Name="{DynamicResource Str_TT_RecentLocations}"
                                              Width="{Binding ActualWidth, ElementName=PathBox}" MaxHeight="260"
                                              ItemContainerStyle="{StaticResource PickerRow}"
                                              SelectionChanged="RecentsList_SelectionChanged"
@@ -366,7 +366,7 @@
                     <Border Panel.ZIndex="9" IsHitTestVisible="False" Margin="{DynamicResource PaneBevelInnerMargin}"
                             BorderBrush="{DynamicResource PaneBevelLight2Brush}"
                             BorderThickness="{DynamicResource PaneBevel2DarkThickness}"/>
-                    <ListBox x:Name="PlacesList" Style="{StaticResource ShadowListBox}" Background="Transparent" BorderThickness="0" Padding="2,4" AutomationProperties.Name="{DynamicResource Str_Sec_File}"
+                    <ListBox x:Name="PlacesList" Background="Transparent" BorderThickness="0" Padding="2,4" AutomationProperties.Name="{DynamicResource Str_Sec_File}"
                              ItemContainerStyle="{StaticResource PickerPlaceRow}" SelectionChanged="Places_SelectionChanged"
                              ContextMenuOpening="Places_ContextMenuOpening"
                              PreviewMouseLeftButtonDown="Places_PreviewMouseLeftButtonDown" PreviewMouseMove="Places_PreviewMouseMove"
@@ -390,6 +390,36 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+                    <!-- Edge fades for the places list (2026-07-30): rows dissolve
+                         at both ends unless the list is flush there. Same surface, same ramp
+                         (SyncPlacesEdgeFades); no scrollbar lift needed - horizontal scrolling
+                         is disabled on this list. -->
+                    <Border x:Name="PlacesFadeTop" Height="18" Opacity="0"
+                            VerticalAlignment="Top" Margin="0,0,12,0" IsHitTestVisible="False">
+                        <Border.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#FF000000" Offset="0"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                        <Grid>
+                            <Border Background="{DynamicResource BackgroundBrush}"/>
+                            <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
+                        </Grid>
+                    </Border>
+                    <Border x:Name="PlacesFadeBottom" Height="22" Opacity="0"
+                            VerticalAlignment="Bottom" Margin="0,0,12,0" IsHitTestVisible="False">
+                        <Border.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#00000000" Offset="0"/>
+                                <GradientStop Color="#FF000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                        <Grid>
+                            <Border Background="{DynamicResource BackgroundBrush}"/>
+                            <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
+                        </Grid>
+                    </Border>
                 </Grid>
 
                 <!-- Preview pane: the selected image at size, so choosing a picture is not a guess
@@ -478,7 +508,7 @@
                             </Button>
                         </Grid>
                         <Grid>
-                            <ListBox x:Name="FileList" Style="{StaticResource ShadowListBox}" Background="Transparent" BorderThickness="0" Padding="2,4"
+                            <ListBox x:Name="FileList" Background="Transparent" BorderThickness="0" Padding="2,4"
                                      AutomationProperties.Name="{DynamicResource Str_Col_Name}"
                                      ItemContainerStyle="{StaticResource PickerRow}"
                                      ItemTemplate="{StaticResource RowTemplate}"

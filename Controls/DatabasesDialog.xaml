@@ -52,9 +52,9 @@
                     <Border Background="{DynamicResource PaneBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                             CornerRadius="{DynamicResource ControlCornerRadius}">
-                        <ListBox x:Name="DbList" Style="{StaticResource ShadowListBox}" Height="178" Background="Transparent" BorderThickness="0"
+                        <ListBox x:Name="DbList" Height="170" Background="Transparent" BorderThickness="0"
                                  AutomationProperties.Name="{DynamicResource Str_Db_Title}"
-                                 HorizontalContentAlignment="Stretch" Padding="4"
+                                 HorizontalContentAlignment="Stretch" Margin="4"
                                  MouseDoubleClick="DbList_MouseDoubleClick"
                                  PreviewMouseRightButtonDown="DbList_PreviewMouseRightButtonDown">
                             <ListBox.ContextMenu>

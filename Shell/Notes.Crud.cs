@@ -48,7 +48,7 @@ namespace KillerNotes.Shell
                         // ListBox to reveal it beneath what may be a tall group section.
                         NotesList.UpdateLayout();
                         NotesList.ScrollIntoView(newRow);
-                        ResolveNotesScroller();
+                        ResolveAndUpdateNotesFade();
                     }
                 }), DispatcherPriority.Loaded);
             if (focusTitle) { TitleBox.Focus(); TitleBox.SelectAll(); }
