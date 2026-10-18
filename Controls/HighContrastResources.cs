@@ -122,7 +122,7 @@ namespace KillerFamily.Accessibility
                 "CardBorderBrush", "PaneBorderBrush", "AppBorderBrush", "InputBorderBrush", "InputHoverBrush",
                 "MenuBorderBrush", "MenuSeparatorBrush", "ButtonEdgeBrush", "WindowEdgeBrush", "DialogFrameBrush",
                 "SurfaceButtonEdgeBrush", "KsCatFile", "KsCatTools", "KsCatEdit", "KsCatNav", "KsCatView",
-                "KsCatSearch", "KsCatHelp", "KsCatOcr");
+                "KsCatSearch", "KsCatHelp", "KsCatOcr", "KsCatAppt", "KsCatTabs");
             Brushes(SystemColors.WindowTextBrush, "CaptionCloseBrush", "AboutCloseFg", "OutlineTextBrush", "TitleMetaBrush",
                 "DatabaseActiveTextBrush", "DatabaseMetadataBrush", "InputEdgeBrush", "PaneEdgeBrush", "BarEdgeBrush",
                 "BarSepBrush", "ChipEdgeBrush", "AboutPanelEdgeBrush", "ConsoleTextBrush",
