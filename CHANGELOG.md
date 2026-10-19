@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Added
 - Added a right-hand position for the sidebar and its rail, picked from the rail's right-click menu or with Alt+Shift+Left and Alt+Shift+Right. The arrow of the side the sidebar is already on collapses or expands it.
+- Rail buttons can be dragged into any order, which is remembered. Theme, language and shortcuts stay together at the bottom of the rail.
 - The `create` and `update` commands take `--content-file` for Markdown longer than a command line can hold.
 - Installed copies add their folder to PATH, so commands such as `killernotes list` run from any new terminal. `killernotes --help` lists commands, and `--cli` stays compatible. Portable copies run from their folder or full path. Uninstalling removes the installed PATH entry.
 - Added Start with Windows to the About card. It starts KillerNotes minimized on the taskbar when you sign in, and stays off until you turn it on.

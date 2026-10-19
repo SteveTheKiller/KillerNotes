@@ -453,7 +453,7 @@
                         <Button x:Name="GraphRailBtn" Style="{StaticResource RailButton}" Content="&#xE9D9;"
                                 Margin="0,0,0,10" Click="Graph_Click"
                                 ToolTip="{DynamicResource Str_TT_Graph}"/>
-                        <Button Style="{StaticResource RailButton}" Content="?"
+                        <Button x:Name="ShortcutsRailBtn" Style="{StaticResource RailButton}" Content="?"
                                 FontFamily="Consolas" FontSize="18" Margin="0,0,0,10"
                                 Click="ShortcutHelp_Click" ToolTip="{DynamicResource Str_TT_Shortcuts}"/>
                         <!-- F2B7 (LocaleLanguage - globe with characters in front): language picker,

@@ -99,7 +99,21 @@ namespace KillerNotes.Shell
             }
         }
 
-        // The rail's right-click menu: which side the sidebar docks to. Its buttons keep their own.
+        /// <summary>The family rail order (RailOrder.cs): theme, language and shortcuts hold the
+        /// rail's corner, and the other rail buttons can be dragged into any order.</summary>
+        private void InitRailOrder()
+        {
+            RailOrder.Attach(RailStack,
+                new FrameworkElement[] { ThemeButton, LangButton, ShortcutsRailBtn },
+                new FrameworkElement[]
+                {
+                    KalcRailBtn, SketchRailBtn, DictationRailBtn, FindRailBtn, DensityBtn,
+                    LineNumBtn, OutlineRailBtn, GraphRailBtn,
+                },
+                App.GetSetting("RailOrder"), value => App.SetSetting("RailOrder", value));
+        }
+
+        // The rail's right-click menu selects the sidebar's docking side. Its buttons keep their own.
         private void SidebarRail_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             for (var node = e.OriginalSource as DependencyObject; node != null && !ReferenceEquals(node, sender);
