@@ -133,6 +133,13 @@ Write-Host "Release date: $releaseDate"
 
 Write-Host 'Preflight OK'
 
+# The Microsoft Store listing installs the versioned installer the Cloudflare Worker serves from
+# the GitHub release. Check the Store credentials and that no submission is in progress now, so a
+# problem stops the release before anything is built or published.
+$storeScript = Join-Path $PSScriptRoot 'store\Submit-StoreRelease.ps1'
+$storeArgs = @{ ProductId = 'XP8JR4WJK03BJP'; PackageUrl = "https://killernotes.net/store/$Version/KillerNotes.exe" }
+& $storeScript @storeArgs -PreflightOnly
+
 # --- 3. Vulnerable package scan (required at every release, see csproj) ---
 Step "Scanning for vulnerable packages"
 dotnet restore | Out-Null
@@ -488,6 +495,16 @@ if ($LASTEXITCODE -ne 0) {
 # Write-Warning, so seven releases (1.1.0 through 1.1.6) never reached winget and it sat on
 # 1.0.1 unnoticed. As a workflow the failure is a red X on the Actions tab instead, and it can
 # be retried with workflow_dispatch without cutting a new release.
+
+Step "Submitting $Tag to the Microsoft Store"
+# The GitHub release is already published, so a Store failure is reported with the exact retry
+# command rather than failing the release.
+try { & $storeScript @storeArgs }
+catch {
+    Write-Host "WARNING: The Microsoft Store submission did not finish: $($_.Exception.Message)" -ForegroundColor Yellow
+    Write-Host "Retry only the Store step with:" -ForegroundColor Yellow
+    Write-Host "  & '$storeScript' -ProductId $($storeArgs.ProductId) -PackageUrl $($storeArgs.PackageUrl)" -ForegroundColor Yellow
+}
 
 Step "Done"
 Write-Host "Release $Tag published:"
