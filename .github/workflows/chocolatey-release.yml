@@ -46,7 +46,19 @@ jobs:
               if ($url -notmatch '^https?://') { continue }
               if (([uri]$url).Host -eq 'raw.githubusercontent.com') { $problems += "$field uses raw.githubusercontent.com, which Chocolatey does not accept: $url"; continue }
               try { $null = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 60 }
-              catch { $problems += "$field did not load: $url ($($_.Exception.Message))" }
+              catch {
+                  # jsDelivr refuses some GitHub runner addresses with 403 although the file is there and
+                  # Chocolatey's moderators load it. For our own jsDelivr links, confirm the file is in the
+                  # repo at that tag instead, which is exactly what jsDelivr serves.
+                  $gh = [regex]::Match($url, '^https://cdn\.jsdelivr\.net/gh/SteveTheKiller/[^@/]+@([^/]+)/(.+)$')
+                  if ($gh.Success) {
+                      $ref = $gh.Groups[1].Value
+                      git fetch --quiet --depth 1 origin "+refs/tags/${ref}:refs/tags/${ref}" 2>$null
+                      git cat-file -e "${ref}:$($gh.Groups[2].Value)" 2>$null
+                      if ($LASTEXITCODE -eq 0) { Write-Host "::warning::$field did not load from this runner ($($_.Exception.Message)), but the file is in the repo at ${ref}: $url"; continue }
+                  }
+                  $problems += "$field did not load: $url ($($_.Exception.Message))"
+              }
           }
           if ($problems) { $problems | ForEach-Object { Write-Host "::error::$_" }; throw "The nuspec has links Chocolatey moderation will reject." }
 
