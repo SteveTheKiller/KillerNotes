@@ -93,7 +93,14 @@ namespace KillerNotes.Services
             return [.. list.OrderByDescending(f => Path.GetFileNameWithoutExtension(f.Name), StringComparer.Ordinal)];
         }
 
-        /// <summary>Deletes all but the newest `keep` backups of the database. Returns the count removed.</summary>
+        private static readonly Regex PendingSuffix = new(@"-\d{4}-\d{2}-\d{2}-\d{4}(?:-\d{2,})?\.kndb\.[0-9a-f]{32}\.tmp$", RegexOptions.Compiled);
+
+        // A partial copy younger than this may still be in progress, possibly from another host
+        // backing up to the same shared folder.
+        private static readonly TimeSpan PendingGrace = TimeSpan.FromDays(1);
+
+        /// <summary>Deletes all but the newest `keep` backups of the database, and any partial
+        /// copy a killed backup left behind. Returns the count of backups removed.</summary>
         public static int Prune(string folder, string dbFile, int keep)
         {
             int removed = 0;
@@ -101,7 +108,25 @@ namespace KillerNotes.Services
             {
                 try { old.Delete(); removed++; } catch { /* a locked file waits for the next pass */ }
             }
+            RemoveStalePending(folder, dbFile);
             return removed;
+        }
+
+        private static void RemoveStalePending(string folder, string dbFile)
+        {
+            if (!Directory.Exists(folder)) return;
+            string stem = Stem(dbFile);
+            foreach (string path in Directory.GetFiles(folder, stem + "-*.tmp"))
+            {
+                string name = Path.GetFileName(path);
+                var m = PendingSuffix.Match(name);
+                if (!m.Success || !string.Equals(name[..m.Index], stem, StringComparison.OrdinalIgnoreCase)) continue;
+                try
+                {
+                    if (DateTime.UtcNow - File.GetLastWriteTimeUtc(path) > PendingGrace) File.Delete(path);
+                }
+                catch { /* a locked file waits for the next pass */ }
+            }
         }
 
         // ---- Doing it ----

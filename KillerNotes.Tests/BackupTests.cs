@@ -60,6 +60,32 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void PruneClearsPartialCopiesLeftByAKilledBackup()
+        {
+            string Make(string name, TimeSpan age)
+            {
+                string path = Path.Combine(_dir, name);
+                File.WriteAllText(path, "x");
+                File.SetLastWriteTimeUtc(path, DateTime.UtcNow - age);
+                return path;
+            }
+            string guid = Guid.NewGuid().ToString("N");
+            string stale = Make($"notes-2026-09-01-1200.kndb.{guid}.tmp", TimeSpan.FromDays(2));
+            string staleNumbered = Make($"notes-2026-09-01-1200-01.kndb.{guid}.tmp", TimeSpan.FromDays(2));
+            string inProgress = Make($"notes-2026-09-02-1200.kndb.{guid}.tmp", TimeSpan.FromMinutes(1));
+            string otherDb = Make($"other-2026-09-01-1200.kndb.{guid}.tmp", TimeSpan.FromDays(2));
+            string unrelated = Make("notes-2026-09-01-1200.kndb.mine.tmp", TimeSpan.FromDays(2));
+
+            BackupService.Prune(_dir, "notes.db", 2);
+
+            Assert.False(File.Exists(stale));
+            Assert.False(File.Exists(staleNumbered));
+            Assert.True(File.Exists(inProgress));   // possibly another host's backup still running
+            Assert.True(File.Exists(otherDb));
+            Assert.True(File.Exists(unrelated));
+        }
+
+        [Fact]
         public void DueWhenNeverBackedUpOrOlderThanTheInterval()
         {
             Assert.True(BackupService.IsDue(null, 24, When));
