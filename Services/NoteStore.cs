@@ -119,8 +119,14 @@ namespace KillerNotes.Services
                 File.SetAttributes(path, FileAttributes.Hidden);
                 return stream;
             }
-            catch (IOException) { stream?.Dispose(); return null; }
-            catch (UnauthorizedAccessException) { stream?.Dispose(); return null; }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException ||
+                                       ex is NotSupportedException || ex is ArgumentException ||
+                                       ex is System.Security.SecurityException)
+            {
+                // No reservation, so the database opens read-only instead of failing to open.
+                stream?.Dispose();
+                return null;
+            }
         }
 
         private static void ReleaseLock()
