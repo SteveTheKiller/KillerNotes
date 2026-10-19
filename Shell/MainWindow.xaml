@@ -681,7 +681,7 @@
                                  pinning a width defeats it entirely - the label collapses to "+"
                                  while the button stays put, so it plus the sort trio overrun the
                                  column and clip. MinWidth keeps a bare "+" a comfortable target. -->
-                            <Button x:Name="NewNoteBtn" Grid.Column="0" Style="{StaticResource OutlineButton}"
+                            <Button x:Name="NewNoteBtn" Grid.Column="0" Style="{StaticResource PrimaryButton}"
                                     Content="{DynamicResource Str_Btn_NewNote}" Click="NewNote_Click" HorizontalAlignment="Left"
                                     Height="30" MinWidth="34" Padding="14,5" FontSize="13"
                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -696,7 +696,6 @@
                                 <Button x:Name="SortTimeBtn" Style="{StaticResource SurfaceButton}"
                                         AutomationProperties.Name="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"
                                         Background="{DynamicResource SortButtonBrush}"
-                                        BorderBrush="{DynamicResource OutlineBtnBrush}"
                                         Margin="8,0,0,0" Click="SortTimeBtn_Click" Width="40" Padding="0"
                                         ToolTip="{DynamicResource Str_TT_SortTime}"
                                         ContextMenu="{StaticResource SortMenu}">
@@ -710,7 +709,6 @@
                                 <Button x:Name="SortAlphaBtn" Style="{StaticResource SurfaceButton}"
                                         AutomationProperties.Name="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"
                                         Background="{DynamicResource SortButtonBrush}"
-                                        BorderBrush="{DynamicResource OutlineBtnBrush}"
                                         Margin="6,0,0,0" Click="SortAlphaBtn_Click" Width="40" Padding="0"
                                         ToolTip="{DynamicResource Str_TT_SortAlpha}"
                                         ContextMenu="{StaticResource SortMenu}">
@@ -726,7 +724,6 @@
                                 <Button x:Name="SortCustomBtn" Style="{StaticResource SurfaceButton}"
                                         AutomationProperties.Name="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"
                                         Background="{DynamicResource SortButtonBrush}"
-                                        BorderBrush="{DynamicResource OutlineBtnBrush}"
                                         Margin="6,0,0,0" Click="SortCustomBtn_Click" Width="34" Padding="0"
                                         ToolTip="{DynamicResource Str_TT_SortCustom}"
                                         ContextMenu="{StaticResource SortMenu}">
