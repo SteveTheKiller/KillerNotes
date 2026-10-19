@@ -3,7 +3,7 @@
 (function () {
   var root = document.documentElement;
   var originalTitle = document.title;
-  var UI_EN = { ui_theme:'Theme', ui_language:'Language', ui_close:'Close', ui_copy:'Copy', ui_accent:'Accent color', ui_expand:'Expand section', ui_click:'click me', ui_image:'Expanded KillerNotes screenshot', ui_egg:'All 80 Notepad tabs may finally rest in peace.', ui_red:'Red', ui_orange:'Orange', ui_yellow:'Yellow', ui_green:'Green', ui_teal:'Teal', ui_blue:'Blue', ui_purple:'Purple', ui_magenta:'Magenta', mcp_gh:'KillerMCP on GitHub' };
+  var UI_EN = { ui_theme:'Theme', ui_language:'Language', ui_close:'Close', ui_more:'More', ui_copy:'Copy', ui_accent:'Accent color', ui_expand:'Expand section', ui_click:'click me', ui_image:'Expanded KillerNotes screenshot', ui_egg:'All 80 Notepad tabs may finally rest in peace.', ui_red:'Red', ui_orange:'Orange', ui_yellow:'Yellow', ui_green:'Green', ui_teal:'Teal', ui_blue:'Blue', ui_purple:'Purple', ui_magenta:'Magenta', mcp_gh:'KillerMCP on GitHub' };
   function uiText(key) {
     var lang = root.getAttribute('lang');
     lang = lang === 'zh-Hant' ? 'zh' : lang === 'zh-Hans' ? 'zh-cn' : lang;
@@ -18,7 +18,7 @@
     return holder.textContent.trim();
   }
   function localizeChrome() {
-    var labels = { Theme:'ui_theme', 'Choose theme':'ui_theme', Language:'ui_language', Close:'ui_close', Copy:'ui_copy', 'Accent color':'ui_accent', 'Expand section':'ui_expand', 'click me':'ui_click', 'Expanded KillerNotes screenshot':'ui_image', Red:'ui_red', Orange:'ui_orange', Yellow:'ui_yellow', Green:'ui_green', Teal:'ui_teal', Blue:'ui_blue', Purple:'ui_purple', Magenta:'ui_magenta', 'KillerMCP on GitHub':'mcp_gh' };
+    var labels = { Theme:'ui_theme', 'Choose theme':'ui_theme', Language:'ui_language', Close:'ui_close', More:'ui_more', Copy:'ui_copy', 'Accent color':'ui_accent', 'Expand section':'ui_expand', 'click me':'ui_click', 'Expanded KillerNotes screenshot':'ui_image', Red:'ui_red', Orange:'ui_orange', Yellow:'ui_yellow', Green:'ui_green', Teal:'ui_teal', Blue:'ui_blue', Purple:'ui_purple', Magenta:'ui_magenta', 'KillerMCP on GitHub':'mcp_gh' };
     ['title', 'aria-label'].forEach(function (attr) {
       document.querySelectorAll('[' + attr + ']').forEach(function (n) {
         var mark = 'data-ui-' + attr;
