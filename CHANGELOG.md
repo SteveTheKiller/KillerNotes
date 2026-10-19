@@ -4,7 +4,7 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.5.1] - Unreleased
+## [1.5.1] - 2026-10-19
 
 ### Added
 - Added a right-hand position for the sidebar and its rail, picked from the rail's right-click menu or with Alt+Shift+Left and Alt+Shift+Right. The arrow of the side the sidebar is already on collapses or expands it.
