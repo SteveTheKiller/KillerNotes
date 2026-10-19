@@ -6,6 +6,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.5.2] - Unreleased
 
+### Fixed
+- The footer copyright sits a few pixels further from the corner grip instead of running into it.
+
 ## [1.5.1] - 2026-10-19
 
 ### Added
