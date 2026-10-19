@@ -108,7 +108,7 @@ namespace KillerNotes.Cli
         {
             if (args.Length > 1 && args[args.Length - 1] == "--json")
                 args = args.Take(args.Length - 1).ToArray();
-            if (args.Length == 1 && args[0] == "--help") { PrintHelp(); return 0; }
+            if (args.Length >= 1 && args[0] == "--help") { PrintHelp(); return 0; }
             try
             {
                 var values = args.ToList();
@@ -216,12 +216,12 @@ namespace KillerNotes.Cli
 
         // A command line holds about 32,000 characters, so longer Markdown can come from a file.
         // The file is read here and sent to KillerNotes as ordinary --content.
-        private static string[] InlineContentFile(string[] args)
+        internal static string[] InlineContentFile(string[] args)
         {
-            int index = Array.IndexOf(args, "--content-file");
+            int index = OptionIndex(args, "--content-file");
             if (index < 0) return args;
             if (index + 1 >= args.Length) throw new ArgumentException("--content-file needs a path");
-            if (Array.IndexOf(args, "--content") >= 0) throw new ArgumentException("Use --content or --content-file, not both");
+            if (OptionIndex(args, "--content") >= 0) throw new ArgumentException("Use --content or --content-file, not both");
             string path = args[index + 1];
             if (!Path.IsPathRooted(path) || !File.Exists(path)) throw new ArgumentException("--content-file must name an existing file by its absolute path");
             if (new FileInfo(path).Length > 2_000_000) throw new ArgumentException("--content-file is larger than a note can hold");
@@ -229,6 +229,18 @@ namespace KillerNotes.Cli
             inlined[index] = "--content";
             inlined[index + 1] = File.ReadAllText(path, Encoding.UTF8);
             return inlined;
+        }
+
+        // Where an option name sits after the command. Every write option takes a value, so the
+        // token after a name is its value and is never read as a name, even when it starts with --.
+        private static int OptionIndex(string[] args, string name)
+        {
+            for (int i = 1; i < args.Length; i++)
+            {
+                if (args[i] == name) return i;
+                if (args[i].StartsWith("--", StringComparison.Ordinal)) i++;
+            }
+            return -1;
         }
 
         private static int UsageError()
