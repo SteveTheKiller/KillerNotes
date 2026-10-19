@@ -50,7 +50,8 @@ namespace KillerNotes.Shell
         private void SidebarToolbar_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (SortBtns.ActualWidth <= 0) return;
-            bool wrap = e.NewSize.Width < MeasureNewNoteWidth("+") + SortBtns.ActualWidth + 12;
+            double plus = Math.Max(NewNoteBtn.MinWidth, MeasureNewNoteWidth("+"));
+            bool wrap = SidebarToolbarWraps(e.NewSize.Width, plus, SortBtns.ActualWidth);
             if (wrap == (Grid.GetRow(SortBtns) == 1)) return;
             if (wrap)
             {
@@ -59,6 +60,7 @@ namespace KillerNotes.Shell
                 Grid.SetColumnSpan(SortBtns, 2);
                 SortBtns.HorizontalAlignment = HorizontalAlignment.Left;
                 SortBtns.Margin = new Thickness(-8, 8, 0, 0);   // cancels SortTimeBtn's 8px lead-in
+                SortBtns.Height = NewNoteBtn.Height;   // its own row no longer stretches it to the button's height
             }
             else
             {
@@ -67,9 +69,15 @@ namespace KillerNotes.Shell
                 Grid.SetColumnSpan(SortBtns, 1);
                 SortBtns.HorizontalAlignment = HorizontalAlignment.Right;
                 SortBtns.Margin = new Thickness(0);
+                SortBtns.ClearValue(HeightProperty);
             }
             UpdateNewNoteLabel();   // the button's column just changed shape - re-pick now
         }
+
+        /// <summary>True when even a bare "+" New note button cannot share the row with the
+        /// sort buttons. Until then the label steps down instead of the row wrapping.</summary>
+        internal static bool SidebarToolbarWraps(double toolbarWidth, double plusButtonWidth, double sortButtonsWidth)
+            => toolbarWidth < plusButtonWidth + sortButtonsWidth;
 
         private void SidebarToggle_Click(object sender, RoutedEventArgs e) => ToggleSidebar();
 
