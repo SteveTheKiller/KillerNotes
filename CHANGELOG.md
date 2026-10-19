@@ -22,6 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Film grain is softer and shows on every theme, Black included. Its specks come in many shades, and some lean toward a color opposite the theme accent, such as purple on green and orange-brown on blue and red.
 - Rail buttons and the collapse arrow sit centered across the rail on either side, with the same space toward the sidebar and the edge, and the arrow is larger. The side choices in the rail's right-click menu show a picture of each position.
 - Note titles in the sidebar are slightly larger, so they stand apart from the preview line and date under them.
+- The New note button is filled with the theme accent so it stands out from the quieter sort buttons, and shrinks to + before the sort buttons would wrap under it.
 - The sidebar starts 20px wider, and the width you drag it to is remembered the next time KillerNotes opens.
 - The website's top bar Download button uses the same font and height as the other top bar buttons.
 - The keyboard focus outline is a thin one-pixel dotted ring in the theme accent instead of a thick dotted line, and uses the text color where the accent would be too faint to see.
