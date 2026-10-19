@@ -32,6 +32,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Editing a recording stays with its original note, even after switching notes, and cannot replace audio in another database.
 - Network databases reserve one writer before changes begin, and a crashed app releases the reservation.
 - Backups made in the same minute keep separate snapshots, and a failed backup does not replace an earlier copy.
+- Importing a shared note or database is all or nothing, so a file that fails partway no longer leaves some of its notes behind.
 - Malformed MCP requests no longer crash the app.
 - Windows contrast themes now use system colors, including custom note and group titles, without changing saved colors or theme preferences.
 - The cursor can no longer land inside a horizontal rule, so text typed after moving up or down past a rule no longer comes out tiny (#28).

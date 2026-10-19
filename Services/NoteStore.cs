@@ -2123,10 +2123,14 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     ? $"SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck, {fmtCol}, {synCol}, id FROM notes{live}"
                     : $"SELECT title, notebook, tags, created, modified, content, plain, '', 0, {fmtCol}, {synCol}, id FROM notes{live}";
                 using var r = read.ExecuteReader();
+                // All or nothing: a file that fails partway leaves the open database untouched,
+                // so a retry does not duplicate the notes that came in before the failure.
+                using var tx = _db!.BeginTransaction();
                 int count = 0;
                 while (r.Read())
                 {
                     using var ins = _db!.CreateCommand();
+                    ins.Transaction = tx;
                     // sort_order appends (see Create) so imports keep a custom arrangement intact.
                     ins.CommandText =
                         "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format, syntax, sort_order) " +
@@ -2164,6 +2168,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                         foreach (var (n, c) in defs) AddTag(n, c);
                     }
                 }
+                tx.Commit();
                 return count;
             }
             finally { SqliteConnection.ClearAllPools(); }
