@@ -106,5 +106,33 @@ namespace KillerNotes.Tests
             Assert.True(File.Exists(Path.Combine(NoteStore.DbDir, restored)));
             Assert.NotEqual(NoteStore.ActiveDbFile, restored);   // never over the original
         }
+
+        [Fact]
+        public void BackupsInTheSameMinuteKeepBothSnapshots()
+        {
+            using var store = new TempStore();
+            string folder = Path.Combine(_dir, "same-minute");
+            NoteStore.Create("First");
+            string first = BackupService.BackupNow(folder, NoteStore.ActiveDbFile, When, keep: 2);
+            NoteStore.Create("Second");
+            string second = BackupService.BackupNow(folder, NoteStore.ActiveDbFile, When.AddSeconds(5), keep: 2);
+
+            Assert.NotEqual(first, second);
+            Assert.True(File.Exists(first));
+            Assert.True(File.Exists(second));
+            Assert.Equal(2, BackupService.ListBackups(folder, NoteStore.ActiveDbFile).Count);
+            Assert.Equal(1, CountNotes(first));
+            Assert.Equal(2, CountNotes(second));
+        }
+
+        private static long CountNotes(string path)
+        {
+            using var db = new SqliteConnection(new SqliteConnectionStringBuilder
+            { DataSource = path, Mode = SqliteOpenMode.ReadOnly }.ConnectionString);
+            db.Open();
+            using var cmd = db.CreateCommand();
+            cmd.CommandText = "SELECT count(*) FROM notes";
+            return (long)cmd.ExecuteScalar()!;
+        }
     }
 }

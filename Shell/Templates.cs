@@ -225,6 +225,7 @@ namespace KillerNotes.Shell
             if (tpl.SpellCheck) NoteStore.SetSpellCheck(id, true);
             var sketches = NoteStore.LoadSketches(templateId);
             if (sketches.Count > 0) NoteStore.SaveSketches(id, sketches);
+            NoteStore.CopyRecordings(templateId, id);
             if (group != null) NoteStore.SetNoteGroup(id, group);
 
             if (open)

@@ -125,5 +125,68 @@ namespace KillerNotes.Tests
             var error = Assert.Throws<TargetInvocationException>(() => Execute(shell, "version-get", "--id", second.ToString(), "--version-id", version.ToString()));
             Assert.IsType<InvalidOperationException>(error.InnerException);
         });
+
+        [Fact]
+        public void NoteCreatedFromTemplateKeepsEmbeddedRecording() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            long template = NoteStore.Create("Template");
+            var document = new FlowDocument(new Paragraph(new Run("Audio note")));
+            using var stream = new MemoryStream();
+            new TextRange(document.ContentStart, document.ContentEnd).Save(stream, DataFormats.XamlPackage);
+            NoteStore.Save(template, "Template", stream.ToArray(), "Audio note");
+            byte[] recording = [4, 3, 2, 1];
+            Assert.Equal(0, NoteStore.AddRecording(template, recording, 900));
+
+            var shell = DetachedShell();
+            long copy = (long)typeof(MainWindow).GetMethod("CreateFromTemplate", PrivateInstance)!
+                .Invoke(shell, new object?[] { template, "Copy", null, false })!;
+            Assert.Equal(recording, NoteStore.LoadRecordingRaw(copy, 0));
+            Assert.Equal(900, NoteStore.LoadRecordingIndex(copy)[0]);
+        });
+
+        [Fact]
+        public void SavingAnEditedRecordingAfterSwitchingNotesUpdatesItsOriginalNote() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            long original = NoteStore.Create("Original");
+            long current = NoteStore.Create("Current");
+            byte[] oldOriginal = [1, 2, 3, 4];
+            byte[] oldCurrent = [5, 6, 7, 8];
+            byte[] edited = [9, 10, 11, 12];
+            NoteStore.AddRecording(original, oldOriginal, 100);
+            NoteStore.AddRecording(current, oldCurrent, 100);
+
+            var shell = DetachedShell();
+            typeof(MainWindow).GetField("_currentId", PrivateInstance)!.SetValue(shell, current);
+            typeof(MainWindow).GetMethod("EmbedRecordingInNote", PrivateInstance)!
+                .Invoke(shell, new object[] { edited, 200, 0, original, NoteStore.DbPath });
+
+            Assert.Equal(edited, NoteStore.LoadRecordingRaw(original, 0));
+            Assert.Equal(oldCurrent, NoteStore.LoadRecordingRaw(current, 0));
+        });
+
+        [Fact]
+        public void SavingAnEditAfterSwitchingDatabasesCannotReplaceAnotherRecording() => Sta.Run(() =>
+        {
+            string originalDatabase;
+            using (new TempStore())
+            {
+                long original = NoteStore.Create("Original");
+                NoteStore.AddRecording(original, [1, 2, 3, 4], 100);
+                originalDatabase = NoteStore.DbPath;
+            }
+
+            using var currentStore = new TempStore();
+            long current = NoteStore.Create("Current");
+            byte[] currentAudio = [5, 6, 7, 8];
+            NoteStore.AddRecording(current, currentAudio, 100);
+            var shell = DetachedShell();
+            typeof(MainWindow).GetField("_currentId", PrivateInstance)!.SetValue(shell, current);
+            Assert.Throws<TargetInvocationException>(() =>
+                typeof(MainWindow).GetMethod("EmbedRecordingInNote", PrivateInstance)!
+                    .Invoke(shell, new object[] { new byte[] { 9, 10 }, 200, 0, current, originalDatabase }));
+            Assert.Equal(currentAudio, NoteStore.LoadRecordingRaw(current, 0));
+        });
     }
 }

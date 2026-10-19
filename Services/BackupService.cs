@@ -74,7 +74,7 @@ namespace KillerNotes.Services
         public static string FileNameFor(string dbFile, DateTime when) =>
             $"{Stem(dbFile)}-{when.ToString("yyyy-MM-dd-HHmm", CultureInfo.InvariantCulture)}.kndb";
 
-        private static readonly Regex StampSuffix = new(@"-\d{4}-\d{2}-\d{2}-\d{4}$", RegexOptions.Compiled);
+        private static readonly Regex StampSuffix = new(@"-\d{4}-\d{2}-\d{2}-\d{4}(?:-\d{2,})?$", RegexOptions.Compiled);
 
         /// <summary>The backups of one database in a folder, newest first, by the stamp in the
         /// name rather than the file time so a copied-in file sorts where it belongs.</summary>
@@ -112,13 +112,20 @@ namespace KillerNotes.Services
         {
             Directory.CreateDirectory(folder);
             string dest = Path.Combine(folder, FileNameFor(dbFile, now));
-            if (NoteStore.IsOpen && string.Equals(dbFile, NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase))
+            string basePath = Path.Combine(folder, Path.GetFileNameWithoutExtension(dest));
+            for (int n = 1; File.Exists(dest); n++) dest = $"{basePath}-{n:D2}.kndb";
+            string pending = dest + "." + Guid.NewGuid().ToString("N") + ".tmp";
+            try
             {
-                NoteStore.BackupTo(dest);   // the live connection: consistent, and keyed like the source
+                if (NoteStore.IsOpen && string.Equals(dbFile, NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase))
+                    NoteStore.BackupTo(pending);   // the live connection: consistent, and keyed like the source
+                else
+                    File.Copy(Path.Combine(NoteStore.DbDir, dbFile), pending);
+                File.Move(pending, dest);
             }
-            else
+            finally
             {
-                File.Copy(Path.Combine(NoteStore.DbDir, dbFile), dest, overwrite: true);
+                if (File.Exists(pending)) File.Delete(pending);
             }
             RememberBackup(dbFile, now);
             Prune(folder, dbFile, keep);

@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
-using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 using System.Threading;
 using KillerNotes.Cli;
 
@@ -11,6 +11,24 @@ namespace KillerNotes
     public partial class App
     {
         internal static string McpPipeName => $"KillerNotes-MCP-{Process.GetCurrentProcess().SessionId}";
+
+        internal static McpRequest? ReadMcpRequest(BinaryReader reader)
+        {
+            try
+            {
+                int length = reader.ReadInt32();
+                if (length < 1 || length > 2_000_000) return null;
+                byte[] payload = reader.ReadBytes(length);
+                if (payload.Length != length) return null;
+                return Program.Deserialize<McpRequest>(payload);
+            }
+            catch (Exception ex) when (ex is IOException || ex is InvalidDataException ||
+                                       ex is SerializationException || ex is System.Xml.XmlException ||
+                                       ex is ArgumentException)
+            {
+                return null;
+            }
+        }
 
         private void StartMcpPipeServer()
         {
@@ -23,9 +41,8 @@ namespace KillerNotes
                         using var pipe = new NamedPipeServerStream(McpPipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.None);
                         pipe.WaitForConnection();
                         var reader = new BinaryReader(pipe, System.Text.Encoding.UTF8, true);
-                        int requestLength = reader.ReadInt32();
-                        if (requestLength < 1 || requestLength > 2_000_000) throw new InvalidDataException("Invalid request length");
-                        var request = Program.Deserialize<McpRequest>(reader.ReadBytes(requestLength));
+                        var request = ReadMcpRequest(reader);
+                        if (request == null) continue;
                         McpResponse response;
                         try
                         {

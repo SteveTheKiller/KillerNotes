@@ -223,6 +223,70 @@ namespace KillerNotes.Tests
             Assert.Single(NoteStore.LoadSketches(id));
         }
 
+        [Fact]
+        public void SharedNoteAndDatabaseImportKeepSketchesAndRecordings()
+        {
+            string folder = Path.Combine(Path.GetTempPath(), "KillerNotesTests", Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(folder);
+            string shared = Path.Combine(folder, "shared.knote");
+            string backup = Path.Combine(folder, "backup.kndb");
+            byte[] sketch = [1, 2, 3];
+            byte[] recording = [9, 8, 7, 6];
+            try
+            {
+                using (new TempStore())
+                {
+                    long id = NoteStore.Create("with attachments");
+                    NoteStore.SaveSketches(id, new Dictionary<int, byte[]> { [2] = sketch });
+                    Assert.Equal(0, NoteStore.AddRecording(id, recording, 1250));
+                    NoteStore.ExportNote(id, shared, null);
+                    NoteStore.BackupTo(backup);
+                }
+
+                foreach (string source in new[] { shared, backup })
+                {
+                    using var receiver = new TempStore();
+                    NoteStore.Create("already here");
+                    Assert.Equal(1, NoteStore.ImportNotes(source, null));
+                    long id = NoteStore.List().Single(n => n.Title == "with attachments").Id;
+                    Assert.Equal(sketch, NoteStore.LoadSketches(id)[2]);
+                    Assert.Equal(recording, NoteStore.LoadRecordingRaw(id, 0));
+                    Assert.Equal(1250, NoteStore.LoadRecordingIndex(id)[0]);
+                }
+            }
+            finally
+            {
+                SqliteConnection.ClearAllPools();
+                try { Directory.Delete(folder, recursive: true); } catch { }
+            }
+        }
+
+        [Fact]
+        public void DatabaseLeaseAllowsOnlyOneWriterAndRecoversAfterClose()
+        {
+            string folder = Path.Combine(Path.GetTempPath(), "KillerNotesTests", Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(folder);
+            string path = Path.Combine(folder, "notes.db.lock");
+            try
+            {
+                using (var first = NoteStore.TryAcquireLock(path))
+                {
+                    Assert.NotNull(first);
+                    Assert.Null(NoteStore.TryAcquireLock(path));
+                }
+                using (var next = NoteStore.TryAcquireLock(path))
+                {
+                    Assert.NotNull(next);
+                    Assert.Null(NoteStore.TryAcquireLock(Path.Combine(folder, "missing", "notes.db.lock")));
+                }
+            }
+            finally
+            {
+                if (File.Exists(path)) File.SetAttributes(path, FileAttributes.Normal);
+                try { Directory.Delete(folder, recursive: true); } catch { }
+            }
+        }
+
         // ---- SQLCipher: open / key check ----
 
         [Fact]

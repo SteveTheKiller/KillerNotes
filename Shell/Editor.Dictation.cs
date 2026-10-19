@@ -174,32 +174,31 @@ namespace KillerNotes.Shell
         /// is far larger than the note itself, and inlining would make every load and save of that
         /// note carry it. The chip holds only the ordinal.
         /// </summary>
-        private void EmbedRecordingInNote(byte[] wav, int durationMs, int replaceOrd)
+        private void EmbedRecordingInNote(byte[] wav, int durationMs, int replaceOrd, long editNoteId, string? editDatabase)
         {
-            if (_currentId < 0) return;
-            // Markdown notes store text, so the chip and its side-table row would be orphaned at
-            // the next save (Markdown.cs). Transcribing to text is unaffected and still the
-            // useful path here - only embedding the audio itself is refused.
-            if (RejectsObject()) return;
-
             // Editing an existing recording overwrites it in place and refreshes the chip that is
             // already in the note, rather than leaving the original behind next to a second copy.
-            // Which ordinal (or none) comes FROM THE PAD on this call - held here it went stale and
-            // a brand-new take silently overwrote a recording edited earlier.
             if (replaceOrd >= 0)
             {
-                if (!NoteStore.ReplaceRecording(_currentId, replaceOrd, wav, durationMs)) return;
+                if (editNoteId < 0 || !string.Equals(editDatabase, NoteStore.DbPath, StringComparison.OrdinalIgnoreCase) ||
+                    !NoteStore.ReplaceRecording(editNoteId, replaceOrd, wav, durationMs))
+                    throw new InvalidOperationException(Loc("Str_Dict_Missing"));
 
-                StopEmbeddedPlayback();          // the old audio may still be loaded
-                // Located by ordinal, never re-added: a chip may have been floated or the note
-                // reloaded since the pad opened, and adding a fallback chip is what produced a
-                // duplicate before.
-                var target = FindChip(replaceOrd);
-                target?.Child = BuildChipBody(replaceOrd, durationMs);
-                MarkDirty();
-                StatusText.Text = Loc("Str_Dict_Replaced");
+                if (_currentId == editNoteId)
+                {
+                    StopEmbeddedPlayback();          // the old audio may still be loaded
+                    var target = FindChip(replaceOrd);
+                    target?.Child = BuildChipBody(replaceOrd, durationMs);
+                    MarkDirty();
+                    StatusText.Text = Loc("Str_Dict_Replaced");
+                }
                 return;
             }
+
+            if (_currentId < 0) return;
+            // Markdown notes store text, so the chip and its side-table row would be orphaned at
+            // the next save (Markdown.cs). Transcribing to text is unaffected.
+            if (RejectsObject()) return;
 
             int ord = NoteStore.AddRecording(_currentId, wav, durationMs);
             if (ord < 0) { StatusText.Text = Loc("Str_Dict_EmbedFailed"); return; }
@@ -424,7 +423,7 @@ namespace KillerNotes.Shell
             if (wav == null) { StatusText.Text = Loc("Str_Dict_Missing"); return; }
 
             OpenDictation();
-            _dictation?.LoadForEdit(wav, ord);
+            _dictation?.LoadForEdit(wav, ord, _currentId, NoteStore.DbPath);
         }
 
         private string RecordingFileName(int ord, byte[] data) =>

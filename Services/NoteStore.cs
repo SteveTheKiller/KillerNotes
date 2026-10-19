@@ -75,7 +75,7 @@ namespace KillerNotes.Services
         // not actually using it.
 
         private static string LockPath => DbPath + ".lock";
-        private static bool _ownsLock;
+        private static FileStream? _lockStream;
         private static string? _ownedLockPath;   // captured at acquire: DbPath can change before Close
 
         /// <summary>True for UNC paths and paths on drives Windows reports as network.</summary>
@@ -92,45 +92,42 @@ namespace KillerNotes.Services
             catch { return false; }
         }
 
-        /// <summary>Machine name inside a lock file another host wrote, or null when the
-        /// lock is absent, unreadable, or this machine's own (stale from a crash here -
-        /// the single-instance mutex already proves no other local process holds it).</summary>
-        private static string? ForeignLockOwner()
+        private static string ReadLockOwner(string path)
         {
             try
             {
-                if (!File.Exists(LockPath)) return null;
-                string host = (File.ReadAllText(LockPath).Split('\n')[0] ?? "").Trim();
-                if (host.Length == 0) return null;
-                return string.Equals(host, Environment.MachineName, StringComparison.OrdinalIgnoreCase)
-                    ? null : host;
+                using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                using var reader = new StreamReader(file);
+                string host = (reader.ReadLine() ?? "").Trim();
+                return host.Length > 0 ? host : "another instance";
             }
-            catch { return null; }
+            catch { return "another instance"; }
         }
 
-        private static void AcquireLock()
+        internal static FileStream? TryAcquireLock(string path)
         {
+            FileStream? stream = null;
             try
             {
-                // A stale lock this machine left after a crash may be hidden, and
-                // WriteAllText cannot overwrite a hidden file.
-                if (File.Exists(LockPath))
-                    File.SetAttributes(LockPath, FileAttributes.Normal);
-                File.WriteAllText(LockPath,
-                    Environment.MachineName + "\n" +
-                    Environment.UserName + "\n" +
-                    DateTime.UtcNow.ToString("o"));
-                File.SetAttributes(LockPath, FileAttributes.Hidden);
-                _ownsLock = true;
-                _ownedLockPath = LockPath;
+                // The open handle reserves the single writer across hosts. A crash releases it.
+                stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+                stream.SetLength(0);
+                byte[] owner = System.Text.Encoding.UTF8.GetBytes(Environment.MachineName + "\n" +
+                    Environment.UserName + "\n" + DateTime.UtcNow.ToString("o"));
+                stream.Write(owner, 0, owner.Length);
+                stream.Flush(true);
+                File.SetAttributes(path, FileAttributes.Hidden);
+                return stream;
             }
-            catch { _ownsLock = false; _ownedLockPath = null; }
+            catch (IOException) { stream?.Dispose(); return null; }
+            catch (UnauthorizedAccessException) { stream?.Dispose(); return null; }
         }
 
         private static void ReleaseLock()
         {
-            if (!_ownsLock) return;
-            _ownsLock = false;
+            if (_lockStream == null) return;
+            _lockStream.Dispose();
+            _lockStream = null;
             string? path = _ownedLockPath;
             _ownedLockPath = null;
             if (path == null) return;
@@ -139,7 +136,7 @@ namespace KillerNotes.Services
                 File.SetAttributes(path, FileAttributes.Normal);
                 File.Delete(path);
             }
-            catch { /* a leftover lock names this machine and is treated as stale */ }
+            catch { /* a leftover file can be claimed after its handle closes */ }
         }
 
         // ---- Open / close ----
@@ -185,8 +182,14 @@ namespace KillerNotes.Services
             Directory.CreateDirectory(DbDir);
 
             bool network = IsNetworkPath(DbDir);
-            string? owner = network ? ForeignLockOwner() : null;
-            bool readOnly = owner != null && File.Exists(DbPath);
+            if (network)
+            {
+                _lockStream = TryAcquireLock(LockPath);
+                if (_lockStream != null) _ownedLockPath = LockPath;
+                else if (!File.Exists(DbPath)) throw new IOException("Network database lock unavailable");
+            }
+            bool readOnly = network && _lockStream == null;
+            string? owner = readOnly ? ReadLockOwner(LockPath) : null;
 
             var csb = new SqliteConnectionStringBuilder { DataSource = DbPath };
             if (readOnly) csb.Mode = SqliteOpenMode.ReadOnly;
@@ -205,6 +208,7 @@ namespace KillerNotes.Services
             catch
             {
                 db.Dispose();
+                ReleaseLock();
                 SqliteConnection.ClearAllPools();
                 throw;
             }
@@ -214,9 +218,12 @@ namespace KillerNotes.Services
             ReadOnlyOwner = readOnly ? owner : null;
             if (!readOnly)
             {
-                EnsureSchema();
-                PurgeTrash(TrashRetention.Days);
-                if (network) AcquireLock();
+                try
+                {
+                    EnsureSchema();
+                    PurgeTrash(TrashRetention.Days);
+                }
+                catch { Close(); throw; }
             }
         }
 
@@ -1006,6 +1013,18 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             using var r = cmd.ExecuteReader();
             while (r.Read()) map[(int)r.GetInt64(0)] = (int)r.GetInt64(1);
             return map;
+        }
+
+        /// <summary>Copies a note's recording payloads and ordinals to a new note.</summary>
+        public static void CopyRecordings(long sourceNoteId, long targetNoteId)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "INSERT INTO recordings(note_id, ord, payload, duration) " +
+                              "SELECT $target, ord, payload, duration FROM recordings WHERE note_id = $source";
+            cmd.Parameters.AddWithValue("$target", targetNoteId);
+            cmd.Parameters.AddWithValue("$source", sourceNoteId);
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>Drops every recording for a note. Called when the note itself is deleted, so
@@ -2036,6 +2055,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 ins.Parameters.AddWithValue("$fmt", r.IsDBNull(9) ? 0 : r.GetInt64(9));
                 ins.Parameters.AddWithValue("$sy", r.IsDBNull(10) ? 0 : r.GetInt64(10));
                 ins.ExecuteNonQuery();
+                CopyNoteAttachments(_db!, dest, id, LastInsertedId(dest), true, true);
 
                 // Carry the note's tag definitions (name + color) so its chips keep their
                 // colors on the receiving machine; the receiver's own defs win on import.
@@ -2095,11 +2115,13 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 // A whole-database .kndb from 1.3.1 or later carries its trash; a shared file
                 // should hand over the notes the sender can see, not the ones they threw away.
                 string live = srcCols.Contains("deleted") ? " WHERE deleted = ''" : "";
+                bool hasSketches = HasTable(src, "sketches");
+                bool hasRecordings = HasTable(src, "recordings");
 
                 using var read = src.CreateCommand();
                 read.CommandText = extras
-                    ? $"SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck, {fmtCol}, {synCol} FROM notes{live}"
-                    : $"SELECT title, notebook, tags, created, modified, content, plain, '', 0, {fmtCol}, {synCol} FROM notes{live}";
+                    ? $"SELECT title, notebook, tags, created, modified, content, plain, title_color, spellcheck, {fmtCol}, {synCol}, id FROM notes{live}"
+                    : $"SELECT title, notebook, tags, created, modified, content, plain, '', 0, {fmtCol}, {synCol}, id FROM notes{live}";
                 using var r = read.ExecuteReader();
                 int count = 0;
                 while (r.Read())
@@ -2121,6 +2143,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     ins.Parameters.AddWithValue("$fmt", r.IsDBNull(9) ? 0 : r.GetInt64(9));
                     ins.Parameters.AddWithValue("$sy", r.IsDBNull(10) ? 0 : r.GetInt64(10));
                     ins.ExecuteNonQuery();
+                    CopyNoteAttachments(src, _db!, r.GetInt64(11), LastInsertedId(_db!), hasSketches, hasRecordings);
                     count++;
                 }
 
@@ -2144,6 +2167,50 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 return count;
             }
             finally { SqliteConnection.ClearAllPools(); }
+        }
+
+        private static bool HasTable(SqliteConnection db, string name)
+        {
+            using var cmd = db.CreateCommand();
+            cmd.CommandText = "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = $name";
+            cmd.Parameters.AddWithValue("$name", name);
+            return (long)cmd.ExecuteScalar()! > 0;
+        }
+
+        private static long LastInsertedId(SqliteConnection db)
+        {
+            using var cmd = db.CreateCommand();
+            cmd.CommandText = "SELECT last_insert_rowid()";
+            return (long)cmd.ExecuteScalar()!;
+        }
+
+        private static void CopyNoteAttachments(SqliteConnection source, SqliteConnection target,
+            long sourceId, long targetId, bool sketches, bool recordings)
+        {
+            if (sketches) Copy(false);
+            if (recordings) Copy(true);
+
+            void Copy(bool hasDuration)
+            {
+                using var read = source.CreateCommand();
+                read.CommandText = hasDuration
+                    ? "SELECT ord, payload, duration FROM recordings WHERE note_id = $id"
+                    : "SELECT ord, payload FROM sketches WHERE note_id = $id";
+                read.Parameters.AddWithValue("$id", sourceId);
+                using var rows = read.ExecuteReader();
+                while (rows.Read())
+                {
+                    using var insert = target.CreateCommand();
+                    insert.CommandText = hasDuration
+                        ? "INSERT INTO recordings(note_id, ord, payload, duration) VALUES ($id, $ord, $payload, $duration)"
+                        : "INSERT INTO sketches(note_id, ord, payload) VALUES ($id, $ord, $payload)";
+                    insert.Parameters.AddWithValue("$id", targetId);
+                    insert.Parameters.AddWithValue("$ord", rows.GetInt64(0));
+                    insert.Parameters.AddWithValue("$payload", rows.GetValue(1));
+                    if (hasDuration) insert.Parameters.AddWithValue("$duration", rows.GetInt64(2));
+                    insert.ExecuteNonQuery();
+                }
+            }
         }
 
         // ---- Helpers ----

@@ -27,6 +27,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Primary, outline and secondary buttons sit raised on a soft shadow that lifts on hover and sets down when pressed. 98SE keeps its flat beveled buttons.
 
 ### Fixed
+- Shared notes and imported databases keep editable sketches and embedded audio; notes made from templates keep their audio too.
+- Editing a recording stays with its original note, even after switching notes, and cannot replace audio in another database.
+- Network databases reserve one writer before changes begin, and a crashed app releases the reservation.
+- Backups made in the same minute keep separate snapshots, and a failed backup does not replace an earlier copy.
+- Malformed MCP requests no longer crash the app.
 - Windows contrast themes now use system colors, including custom note and group titles, without changing saved colors or theme preferences.
 - The cursor can no longer land inside a horizontal rule, so text typed after moving up or down past a rule no longer comes out tiny (#28).
 - The window opens fully on screen on a small or high-scaling display, or when its saved size came from a bigger monitor, instead of running off the edges.

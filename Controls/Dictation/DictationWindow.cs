@@ -23,10 +23,8 @@ namespace KillerNotes.Controls.Dictation
     internal sealed class DictationWindow : Window
     {
         private readonly Action<string> _printText;
-        /// <summary>(wav, durationMs, replaceOrd) - replaceOrd is -1 to add a new recording, or the
-        /// ordinal of the one being edited. Passed per call rather than held by the host, so it
-        /// cannot go stale between opening the pad and pressing Embed.</summary>
-        private readonly Action<byte[], int, int> _embedAudio;
+        /// <summary>The edit ordinal, note, and database travel together when the pad saves.</summary>
+        private readonly Action<byte[], int, int, long, string?> _embedAudio;
 
         private Border _outerBorder = null!, _bevelLight = null!, _bevelDark = null!;
         private Grid _body = null!;   // the padded content grid, for live margin re-apply on theme switch
@@ -71,7 +69,7 @@ namespace KillerNotes.Controls.Dictation
         private int _durationMs;
         private bool _closeFaded;
 
-        internal DictationWindow(Window? owner, Action<string> printText, Action<byte[], int, int> embedAudio)
+        internal DictationWindow(Window? owner, Action<string> printText, Action<byte[], int, int, long, string?> embedAudio)
         {
             _printText = printText;
             _embedAudio = embedAudio;
@@ -589,6 +587,8 @@ namespace KillerNotes.Controls.Dictation
             // a fresh recording after having opened one to edit left Embed still pointed at the old
             // ordinal, so it overwrote that instead of adding.
             _editOrd = -1;
+            _editNoteId = -1;
+            _editDatabase = null;
             _embedBtn.Content = L("Str_Dict_Embed", "Embed recording");
 
             _wave.Clear();
@@ -603,7 +603,7 @@ namespace KillerNotes.Controls.Dictation
         /// slicing works on it exactly as on a fresh take; re-embedding overwrites the original
         /// rather than adding a second copy (Editor.Dictation.cs).
         /// </summary>
-        internal void LoadForEdit(byte[] wav, int ord)
+        internal void LoadForEdit(byte[] wav, int ord, long noteId, string database)
         {
             if (DictationRecorder.IsRecording) return;   // never clobber a take in progress
 
@@ -612,6 +612,8 @@ namespace KillerNotes.Controls.Dictation
             // overwrote the recording that had been opened for editing hours earlier instead of
             // being added. The window knows when that context ends; the host does not.
             _editOrd = ord;
+            _editNoteId = noteId;
+            _editDatabase = database;
             _wav = wav;
             _durationMs = WavEdit.DurationMs(wav);
             _undo = null;                 // the edit history belongs to the previous take
@@ -774,6 +776,8 @@ namespace KillerNotes.Controls.Dictation
         /// Embed overwrites or adds. Reset whenever recording starts, because a new take is a new
         /// recording however the pad was opened.</summary>
         private int _editOrd = -1;
+        private long _editNoteId = -1;
+        private string? _editDatabase;
 
         /// <summary>Play / Pause / Resume, on the one button. Which of the three it is comes from
         /// the player's own state rather than a flag kept here, so the caption cannot drift out of
@@ -920,7 +924,7 @@ namespace KillerNotes.Controls.Dictation
             if (_wav == null) return;
             try
             {
-                _embedAudio(_wav, _durationMs, _editOrd);
+                _embedAudio(_wav, _durationMs, _editOrd, _editNoteId, _editDatabase);
                 _status.Text = L("Str_Dict_Embedded", "Recording embedded in the note.");
                 // Disabled after a successful embed: the take stays loaded so it can still be
                 // played or transcribed, and pressing Embed a second time would put a DUPLICATE
