@@ -2971,7 +2971,12 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
-                        <StackPanel Grid.Row="1" Margin="18,14,18,18">
+                        <ScrollViewer Grid.Row="1" Style="{StaticResource OverlayScrollViewer}"
+                                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <ScrollViewer.Resources>
+                                <Style x:Key="OverlayVerticalScrollBar" TargetType="ScrollBar" BasedOn="{StaticResource OverlayCloseClearScrollBar}"/>
+                            </ScrollViewer.Resources>
+                        <StackPanel Margin="18,14,18,18">
                             <!-- Inner title hides when the caption band already says it (flat
                                  themes) - WordmarkVisibility is the existing fancy-vs-flat switch. -->
                             <TextBlock Text="{DynamicResource Str_Fonts_Title}" Foreground="{DynamicResource TextBrush}"
@@ -3029,6 +3034,7 @@
                                     Style="{StaticResource OutlineButton}" FontSize="11" Padding="10,4"
                                     HorizontalAlignment="Left"/>
                         </StackPanel>
+                        </ScrollViewer>
                     </Grid>
                 </Border>
                 <!-- Bevels as siblings of the card, so they land on its outer edge. -->
@@ -3071,9 +3077,12 @@
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
                         <ScrollViewer x:Name="ShortcutScroller" VerticalScrollBarVisibility="Auto"
-                                      HorizontalScrollBarVisibility="Disabled"
+                                      HorizontalScrollBarVisibility="Disabled" Style="{StaticResource OverlayScrollViewer}"
                                       CanContentScroll="False" PanningMode="VerticalOnly" Focusable="False"
                                       PreviewMouseWheel="ShortcutScroller_PreviewMouseWheel">
+                            <ScrollViewer.Resources>
+                                <Style x:Key="OverlayVerticalScrollBar" TargetType="ScrollBar" BasedOn="{StaticResource OverlayCloseClearScrollBar}"/>
+                            </ScrollViewer.Resources>
                         <StackPanel Margin="24,18,24,18">
                             <Grid Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>

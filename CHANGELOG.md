@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.5.2] - Unreleased
 
 ### Fixed
+- The shortcuts and font cards scroll at their outer edges, show when more content is out of view, and keep scroll bars clear of Close.
 - The footer copyright sits a few pixels further from the corner grip instead of running into it.
 
 ## [1.5.1] - 2026-10-19

@@ -13,6 +13,7 @@
                      overwrite this entry at startup, which killed every StaticResource into it -
                      the picker's PickerViewBtn, FolderTreeItem, row templates and file icons. -->
                 <ResourceDictionary Source="Controls/PickerStyles.xaml"/>
+                <ResourceDictionary Source="Controls/OverlayScrollViewer.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

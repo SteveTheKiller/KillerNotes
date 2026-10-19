@@ -1,0 +1,65 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:icons="clr-namespace:KillerNotes.Controls">
+<icons:ScrollEdgeVisibilityConverter x:Key="OverlayScrollEdgeVisibility"/>
+        <Style x:Key="OverlayVerticalScrollBar" TargetType="ScrollBar" BasedOn="{StaticResource {x:Type ScrollBar}}"/>
+        <Style x:Key="OverlayCloseClearScrollBar" TargetType="ScrollBar" BasedOn="{StaticResource OverlayVerticalScrollBar}">
+            <!-- The fixed Close hit area ends 32px below the card's top edge. -->
+            <Setter Property="Margin" Value="0,32,0,0"/>
+        </Style>
+        <!-- KillerShell's vertical edge cues, with body spacing inside the viewport. -->
+        <Style x:Key="OverlayScrollViewer" TargetType="ScrollViewer">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollViewer">
+                        <Grid Background="{TemplateBinding Background}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Margin="{TemplateBinding Padding}"
+                                                    CanContentScroll="{TemplateBinding CanContentScroll}"/>
+                            <Border Grid.ColumnSpan="2" Height="24" VerticalAlignment="Top" IsHitTestVisible="False"
+                                    Opacity="{DynamicResource EdgeFadeOpacity}" BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="0,1,0,0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#50000000" Offset="0"/>
+                                        <GradientStop Color="#22000000" Offset="0.35"/>
+                                        <GradientStop Color="#00000000" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Visibility>
+                                    <MultiBinding Converter="{StaticResource OverlayScrollEdgeVisibility}" ConverterParameter="Start">
+                                        <Binding Path="VerticalOffset" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        <Binding Path="ScrollableHeight" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    </MultiBinding>
+                                </Border.Visibility>
+                            </Border>
+                            <Border Grid.ColumnSpan="2" Height="28" VerticalAlignment="Bottom" IsHitTestVisible="False"
+                                    Opacity="{DynamicResource EdgeFadeOpacity}">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#00000000" Offset="0"/>
+                                        <GradientStop Color="#22000000" Offset="0.65"/>
+                                        <GradientStop Color="#50000000" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Visibility>
+                                    <MultiBinding Converter="{StaticResource OverlayScrollEdgeVisibility}" ConverterParameter="End">
+                                        <Binding Path="VerticalOffset" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        <Binding Path="ScrollableHeight" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    </MultiBinding>
+                                </Border.Visibility>
+                            </Border>
+                            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="1" Style="{DynamicResource OverlayVerticalScrollBar}"
+                                       Orientation="Vertical" Cursor="Arrow" Minimum="0" Maximum="{TemplateBinding ScrollableHeight}"
+                                       ViewportSize="{TemplateBinding ViewportHeight}"
+                                       Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+</ResourceDictionary>
+
