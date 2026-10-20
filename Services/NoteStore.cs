@@ -1964,8 +1964,13 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
 
         /// <summary>Changes the password using the supplied filesystem replacement operation.</summary>
         public static void SetPassword(string? newPassword, Action<string, string, string> replaceFile)
+            => SetPassword(newPassword, replaceFile, File.Delete);
+
+        /// <summary>Changes the password using supplied replacement and owned restoration-copy deletion operations.</summary>
+        public static void SetPassword(string? newPassword, Action<string, string, string> replaceFile, Action<string> deleteRestorationCopy)
         {
             if (replaceFile == null) throw new ArgumentNullException(nameof(replaceFile));
+            if (deleteRestorationCopy == null) throw new ArgumentNullException(nameof(deleteRestorationCopy));
             if (_db == null) throw new InvalidOperationException("database not open");
             if (IsReadOnly) throw new InvalidOperationException("database is open read-only");
             if (string.IsNullOrEmpty(newPassword)) newPassword = null;
@@ -1997,7 +2002,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             string bak = DbPath + ".bak";
             try
             {
-                ReplaceWithRetry(tmp, DbPath, bak, replaceFile);
+                ReplaceWithRetry(tmp, DbPath, bak, replaceFile, deleteRestorationCopy);
             }
             catch (Exception swapError)
             {
@@ -2005,13 +2010,14 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 // complete copies until the old database has actually reopened.
                 try
                 {
-                    RestoreReplacementDestination(DbPath, bak);
+                    RestoreReplacementDestination(DbPath, bak, deleteRestorationCopy);
                     using var existing = new FileStream(DbPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     Open(oldPassword);
                 }
                 catch (Exception recoveryError)
                 {
-                    throw new IOException("The database could not reopen after the password change failed. Recovery files were kept.",
+                    throw new IOException("The database could not reopen after the password change failed. Recovery files were kept. Backup: " + bak
+                        + ". Staged: " + tmp + ". Swap: " + swapError.Message + " Recovery: " + recoveryError.Message,
                         new AggregateException(swapError, recoveryError));
                 }
                 try { File.Delete(tmp); } catch { /* best effort */ }
@@ -2027,18 +2033,18 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         /// If Replace never succeeds, falls back to a plain move-based swap - Replace
         /// needs simultaneous exclusive access to all three paths, while the moves need
         /// one file at a time and restore the original if the second move fails.</summary>
-        private static void ReplaceWithRetry(string source, string dest, string backup, Action<string, string, string> replaceFile)
+        private static void ReplaceWithRetry(string source, string dest, string backup, Action<string, string, string> replaceFile, Action<string> deleteRestorationCopy)
         {
             for (int attempt = 1; attempt <= 8; attempt++)
             {
                 try { replaceFile(source, dest, backup); return; }
                 catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
                 {
-                    RestoreReplacementDestination(dest, backup);
+                    RestoreReplacementDestination(dest, backup, deleteRestorationCopy);
                     System.Threading.Thread.Sleep(150 * attempt);   // ~150ms .. 1.2s
                 }
             }
-            RestoreReplacementDestination(dest, backup);
+            RestoreReplacementDestination(dest, backup, deleteRestorationCopy);
             if (File.Exists(backup)) File.Delete(backup);   // the original is present at dest
             File.Move(dest, backup);
             try { File.Move(source, dest); }
@@ -2049,13 +2055,37 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             }
         }
 
-        private static void RestoreReplacementDestination(string destination, string backup)
+        private static void RestoreReplacementDestination(string destination, string backup, Action<string> deleteRestorationCopy)
         {
             if (File.Exists(destination)) return;
             if (!File.Exists(backup)) throw new IOException("The original database is unavailable. Recovery files were kept.");
             string restored = destination + ".restore-" + Guid.NewGuid().ToString("N");
-            File.Copy(backup, restored);
-            File.Move(restored, destination);
+            using var input = new FileStream(backup, FileMode.Open, FileAccess.Read, FileShare.Read);
+            bool ownsRestored = false;
+            try
+            {
+                using (var output = new FileStream(restored, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+                {
+                    ownsRestored = true;
+                    input.CopyTo(output);
+                    output.Flush(flushToDisk: true);
+                }
+                File.Move(restored, destination);
+                ownsRestored = false;
+            }
+            catch (Exception recoveryError)
+            {
+                if (ownsRestored)
+                {
+                    try { deleteRestorationCopy(restored); }
+                    catch (Exception cleanupError)
+                    {
+                        throw new IOException("The temporary database restoration copy could not be removed. Retained: " + restored,
+                            new AggregateException(recoveryError, cleanupError));
+                    }
+                }
+                throw;
+            }
         }
 
         // ---- Backups (1.3.1, BackupService.cs) ----

@@ -11,7 +11,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Updated SQLCipher to 4.19.0, FLAC to 1.5.0, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
 - The editor's dotted keyboard focus outline sits above the first text row.
 - Failed saves keep edits open for retry or text/RTF export, block transitions that would discard them, and commit note content, links, history and sketch data together.
-- Failed password changes preserve the original database and complete recovery copies.
+- Failed password changes preserve the original database and complete recovery copies, and report temporary copies that cannot be removed.
 - Installing and reopening waits for the previous app to exit so the installed copy opens reliably.
 - Failed self-updates retain complete executable copies and a recovery report.
 - Uninstall and duplicate-install cleanup preserve databases and other user files inside the installation folder.
