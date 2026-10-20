@@ -83,10 +83,11 @@ namespace KillerNotes.Services
         [StructLayout(LayoutKind.Sequential)]
         private struct WhisperContextParams
         {
-            [MarshalAs(UnmanagedType.I1)] public bool use_gpu;
-            [MarshalAs(UnmanagedType.I1)] public bool flash_attn;
+            // Native C++ bools are one byte. Keep this returned struct blittable on .NET Framework.
+            public byte use_gpu;
+            public byte flash_attn;
             public int gpu_device;
-            [MarshalAs(UnmanagedType.I1)] public bool dtw_token_timestamps;
+            public byte dtw_token_timestamps;
             public int dtw_aheads_preset;
             public int dtw_n_top;
             public IntPtr dtw_aheads_n;
@@ -99,6 +100,13 @@ namespace KillerNotes.Services
 
         [DllImport(Dll, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         private static extern IntPtr whisper_init_from_file_with_params(string path, WhisperContextParams p);
+
+        internal static IntPtr CreateContext(string model)
+        {
+            var parameters = whisper_context_default_params();
+            parameters.use_gpu = 0;
+            return whisper_init_from_file_with_params(model, parameters);
+        }
 
         [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
         private static extern void whisper_free(IntPtr ctx);
@@ -168,10 +176,7 @@ namespace KillerNotes.Services
             IntPtr blob = IntPtr.Zero;
             try
             {
-                var cp = whisper_context_default_params();
-                cp.use_gpu = false;      // CPU only: no GPU backend is bundled, and asking for one
-                                         // on a machine without it costs a slow probe at startup.
-                ctx = whisper_init_from_file_with_params(model, cp);
+                ctx = CreateContext(model);
                 if (ctx == IntPtr.Zero) { LastError = "The speech model could not be loaded."; return null; }
 
                 // Whisper prints to stdout by default, which in a WPF app goes nowhere useful and
