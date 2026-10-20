@@ -684,7 +684,7 @@
                              (screen-constant sidebar) and one row can't hold everything - the
                              sort trio then drops under the New-note button instead of clipping
                              (Sidebar.cs SidebarToolbar_SizeChanged). -->
-                        <Grid x:Name="SidebarToolbar" Margin="0" SizeChanged="SidebarToolbar_SizeChanged">
+                        <Grid x:Name="SidebarToolbar" Margin="0,0,0,2" SizeChanged="SidebarToolbar_SizeChanged">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition x:Name="NewNoteCol" Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
@@ -693,14 +693,10 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <!-- NO fixed Width. The button must size to whichever label
-                                 UpdateNewNoteLabel picked ("+ New note" / "+ New" / "+"): that
-                                 step-down exists so the button SHRINKS as the sidebar narrows, and
-                                 pinning a width defeats it entirely - the label collapses to "+"
-                                 while the button stays put, so it plus the sort trio overrun the
-                                 column and clip. MinWidth keeps a bare "+" a comfortable target. -->
+                            <!-- Fill the remaining column while the label steps down as the
+                                 sidebar narrows. No fixed Width: the sort buttons keep their space. -->
                             <Button x:Name="NewNoteBtn" Grid.Column="0" Style="{StaticResource PrimaryButton}"
-                                    Content="{DynamicResource Str_Btn_NewNote}" Click="NewNote_Click" HorizontalAlignment="Left"
+                                    Content="{DynamicResource Str_Btn_NewNote}" Click="NewNote_Click" HorizontalAlignment="Stretch"
                                     Height="30" MinWidth="34" Padding="14,5" FontSize="13"
                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                                     ToolTip="{DynamicResource Str_TT_NewNote}"/>

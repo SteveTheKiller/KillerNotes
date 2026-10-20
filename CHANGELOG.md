@@ -26,7 +26,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The footer copyright sits further from the corner grip.
 
 ### Changed
-- Moved note search beside the title-bar wordmark, with Replace expanding into an aligned second row and tighter spacing above and below New note.
+- Moved note search beside the title-bar wordmark, with Replace expanding into an aligned second row. New note fills the available row width with tighter vertical spacing.
 - Updated SQLCipher to 4.19.0, FLAC to 1.5.0, Whisper to 1.9.5, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
 
 ## [1.5.1] - 2026-10-19
