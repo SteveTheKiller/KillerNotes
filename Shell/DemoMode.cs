@@ -45,13 +45,7 @@ namespace KillerNotes.Shell
                 // Demo sketches: persist any editable SketchPad payload an image in this doc carries,
                 // keyed by the image's ordinal in document order - the same link OpenNote uses to
                 // re-attach strokes on load (Editor.cs), so a printed demo sketch reopens editable.
-                var sketchByOrd = new Dictionary<int, byte[]>();
-                int sOrd = 0;
-                foreach (var im in EnumerateImages(doc.Blocks))
-                {
-                    if (Sketch.TryGetData(im, out var payload)) sketchByOrd[sOrd] = payload;
-                    sOrd++;
-                }
+                var sketchByOrd = Sketch.Capture(doc.Blocks);
                 if (sketchByOrd.Count > 0) NoteStore.SaveSketches(id, sketchByOrd);
                 // DemoDocMono marks its documents so the code-oriented demo notes open with
                 // highlighting on. The Tag is an in-memory hint only - it is not serialized

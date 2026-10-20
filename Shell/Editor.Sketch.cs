@@ -141,47 +141,11 @@ namespace KillerNotes.Shell
 
         // Images in document order - the shared walk that gives save and load matching ordinals.
         private static IEnumerable<Image> EnumerateImages(IEnumerable<Block> blocks)
-        {
-            foreach (var b in blocks)
-            {
-                switch (b)
-                {
-                    case BlockUIContainer buc when buc.Child is Image img:
-                        yield return img;
-                        break;
-                    case Paragraph p:
-                        foreach (var inline in p.Inlines)
-                            if (inline is InlineUIContainer iuc && iuc.Child is Image pimg)
-                                yield return pimg;
-                        break;
-                    case List list:
-                        foreach (var li in list.ListItems)
-                            foreach (var img in EnumerateImages(li.Blocks))
-                                yield return img;
-                        break;
-                    case Table t:
-                        foreach (var g in t.RowGroups)
-                            foreach (var row in g.Rows)
-                                foreach (var cell in row.Cells)
-                                    foreach (var img in EnumerateImages(cell.Blocks))
-                                        yield return img;
-                        break;
-                }
-            }
-        }
+            => Sketch.Images(blocks);
 
         // On save: persist the ISF of every image we know is a sketch, keyed by its ordinal.
         private void SaveSketchPayloads(long id)
-        {
-            var byOrd = new Dictionary<int, byte[]>();
-            int ord = 0;
-            foreach (var img in EnumerateImages(Editor.Document.Blocks))
-            {
-                if (Sketch.TryGetData(img, out var payload)) byOrd[ord] = payload;
-                ord++;
-            }
-            NoteStore.SaveSketches(id, byOrd);
-        }
+            => NoteStore.SaveSketches(id, Sketch.Capture(Editor.Document.Blocks));
 
         /// <summary>Text labels inside the note's sketches, one per line. Appended to the note's
         /// stored plain text on save so a label like "IDF-2, port 14" makes the note searchable;
@@ -200,16 +164,7 @@ namespace KillerNotes.Shell
         // On load: re-attach saved strokes to images by the same ordinal, so a reloaded sketch is
         // editable again (double-click opens the editor with its strokes).
         private void LinkSketchPayloads(long id)
-        {
-            var byOrd = NoteStore.LoadSketches(id);
-            if (byOrd.Count == 0) return;
-            int ord = 0;
-            foreach (var img in EnumerateImages(Editor.Document.Blocks))
-            {
-                if (byOrd.TryGetValue(ord, out var payload)) Sketch.SetData(img, payload);
-                ord++;
-            }
-        }
+            => Sketch.Link(Editor.Document.Blocks, NoteStore.LoadSketches(id));
 
         /// <summary>A rule or table as the document's last block traps the caret - there is
         /// no position after it to click into, so the end of the note stops being editable.

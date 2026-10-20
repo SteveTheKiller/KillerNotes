@@ -1,4 +1,7 @@
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Documents;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -34,6 +37,81 @@ namespace KillerNotes.Services
         }
 
         public static bool TryGetData(Image img, out byte[] payload) => _data.TryGetValue(img, out payload);
+
+        public static IEnumerable<Image> Images(IEnumerable<Block> blocks)
+            => WalkBlocks(blocks, legacy: false);
+
+        private static IEnumerable<Image> WalkBlocks(IEnumerable<Block> blocks, bool legacy)
+        {
+            foreach (var block in blocks)
+            {
+                if (block is BlockUIContainer { Child: Image image }) yield return image;
+                else if (block is Paragraph paragraph)
+                    foreach (var inline in paragraph.Inlines)
+                        foreach (var child in WalkInline(inline, legacy)) yield return child;
+                else if (block is Section section && !legacy)
+                {
+                    foreach (var child in WalkBlocks(section.Blocks, legacy)) yield return child;
+                }
+                else if (block is List list)
+                {
+                    foreach (var item in list.ListItems)
+                        foreach (var child in WalkBlocks(item.Blocks, legacy)) yield return child;
+                }
+                else if (block is Table table)
+                {
+                    foreach (var group in table.RowGroups)
+                        foreach (var row in group.Rows)
+                            foreach (var cell in row.Cells)
+                                foreach (var child in WalkBlocks(cell.Blocks, legacy)) yield return child;
+                }
+            }
+        }
+
+        private static IEnumerable<Image> WalkInline(Inline inline, bool legacy)
+        {
+            if (inline is InlineUIContainer { Child: Image image }) yield return image;
+            else if (!legacy && inline is Span span)
+            {
+                foreach (var nested in span.Inlines)
+                    foreach (var child in WalkInline(nested, legacy)) yield return child;
+            }
+            else if (!legacy && inline is AnchoredBlock anchor)
+            {
+                foreach (var child in WalkBlocks(anchor.Blocks, legacy)) yield return child;
+            }
+        }
+
+        // Existing nonnegative keys retain the original walk's associations. Negative
+        // keys count only images that the original walk could not reach, in document
+        // order. This also survives export/import without a schema or blob migration.
+        private static IEnumerable<(Image Image, int Key)> KeyedImages(IEnumerable<Block> blocks)
+        {
+            var snapshot = blocks.ToList();
+            var legacy = WalkBlocks(snapshot, legacy: true).Select((image, index) => (image, index))
+                .ToDictionary(pair => pair.image, pair => pair.index);
+            int nested = -1;
+            foreach (var image in Images(snapshot))
+                yield return (image, legacy.TryGetValue(image, out int key) ? key : nested--);
+        }
+
+        public static Dictionary<int, byte[]> Capture(IEnumerable<Block> blocks)
+        {
+            var result = new Dictionary<int, byte[]>();
+            foreach (var (image, key) in KeyedImages(blocks))
+            {
+                if (TryGetData(image, out var payload)) result[key] = payload;
+            }
+            return result;
+        }
+
+        public static void Link(IEnumerable<Block> blocks, IReadOnlyDictionary<int, byte[]> payloads)
+        {
+            foreach (var (image, key) in KeyedImages(blocks))
+            {
+                if (payloads.TryGetValue(key, out var payload)) SetData(image, payload);
+            }
+        }
 
         public static byte[] StrokesToIsf(StrokeCollection strokes)
         {
