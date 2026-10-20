@@ -12,9 +12,9 @@
     <UseWPF>true</UseWPF>
     <StartupObject>KillerNotes.App</StartupObject>
     <ApplicationIcon>Resources\kn-icon.ico</ApplicationIcon>
-    <Version>1.5.2</Version>
-    <FileVersion>1.5.2.0</FileVersion>
-    <AssemblyVersion>1.5.2.0</AssemblyVersion>
+    <Version>1.6.0</Version>
+    <FileVersion>1.6.0.0</FileVersion>
+    <AssemblyVersion>1.6.0.0</AssemblyVersion>
     <Authors>Steve the Killer</Authors>
     <Copyright>Copyright (c) 2026 Steve the Killer</Copyright>
     <!-- Shown in the About card beside the version so a user can tell how old their build
