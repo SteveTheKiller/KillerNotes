@@ -160,6 +160,8 @@ namespace KillerNotes.Shell
                         sb.Append(run);
                     }
                 }
+                else if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.EmbeddedElement)
+                    sb.Append(DocumentReplacement.ObjectBoundary);
                 else if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementEnd
                          && p.Parent is Paragraph)
                 {
@@ -180,7 +182,8 @@ namespace KillerNotes.Shell
             {
                 int hit = plain.IndexOf(term, at, StringComparison.OrdinalIgnoreCase);
                 if (hit < 0) break;
-                hits.Add((hit, term.Length));
+                if (plain.IndexOf(DocumentReplacement.ObjectBoundary, hit, term.Length) < 0)
+                    hits.Add((hit, term.Length));
                 at = hit + term.Length;
             }
             return hits;
@@ -195,7 +198,7 @@ namespace KillerNotes.Shell
             {
                 var a = PointerAt(runs, hits[i].Start);
                 var b = PointerAt(runs, hits[i].Start + hits[i].Length, end: true);
-                if (a == null || b == null) continue;
+                if (a == null || b == null || DocumentReplacement.ContainsObject(a, b)) continue;
                 new TextRange(a, b).Text = repl;
             }
         }

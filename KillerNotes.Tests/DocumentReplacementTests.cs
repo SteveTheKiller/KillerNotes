@@ -8,6 +8,28 @@ namespace KillerNotes.Tests
     public class DocumentReplacementTests
     {
         [Theory]
+        [InlineData(2, false)]
+        [InlineData(3, false)]
+        [InlineData(2, true)]
+        [InlineData(3, true)]
+        public void ReplacementCannotConsumeAnEmbeddedObject(int length, bool recording) => Sta.Run(() =>
+        {
+            var paragraph = new Paragraph(new Run("a"));
+            System.Windows.FrameworkElement image = recording ? new Button() : new Image();
+            var container = new InlineUIContainer(image);
+            paragraph.Inlines.Add(container);
+            paragraph.Inlines.Add(new Run("b"));
+            var editor = new RichTextBox(new FlowDocument(paragraph));
+            DocumentReplacement.Apply(editor, new[] { (0, length, "X") });
+            Assert.Same(container, image.Parent);
+            Assert.Contains(container, System.Linq.Enumerable.Cast<Inline>(paragraph.Inlines));
+            Assert.Contains("a", new TextRange(editor.Document.ContentStart, editor.Document.ContentEnd).Text);
+            Assert.Contains("b", new TextRange(editor.Document.ContentStart, editor.Document.ContentEnd).Text);
+            DocumentReplacement.Apply(editor, new[] { (2, 1, "B") });
+            Assert.Contains("B", new TextRange(editor.Document.ContentStart, editor.Document.ContentEnd).Text);
+        });
+
+        [Theory]
         [InlineData("ab", "(a)(?=b)", 0, 1, "$1$1", "aa")]
         [InlineData("ab", "(?<=a)(b)", 1, 1, "$1$1", "bb")]
         [InlineData("abc", "b", 1, 1, "$`-$&-$'-$_", "a-b-c-abc")]

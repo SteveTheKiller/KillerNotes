@@ -110,8 +110,8 @@ namespace KillerNotes.Shell
         /// Flatten the document to a string, recording where each text run landed in it.
         ///
         /// GetTextInRun is a CONTENT read - it never forces layout - so this is safe over the
-        /// whole note however large. Embedded objects (images, recording chips) contribute no
-        /// characters, which is correct: there is nothing in them to match.
+        /// whole note however large. Embedded objects separate searchable text so a replacement
+        /// cannot consume an image or recording between two text runs.
         /// </summary>
         private void RebuildFindPlain()
         {
@@ -130,6 +130,8 @@ namespace KillerNotes.Shell
                         sb.Append(run);
                     }
                 }
+                else if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.EmbeddedElement)
+                    sb.Append(DocumentReplacement.ObjectBoundary);
                 else if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementEnd
                          && p.Parent is Paragraph)
                 {
@@ -213,7 +215,7 @@ namespace KillerNotes.Shell
                 var rx = TryBuildFindRegex();
                 if (rx == null) return;   // invalid pattern: zero hits, the count line reads no matches
                 foreach (System.Text.RegularExpressions.Match m in rx.Matches(plain))
-                    if (m.Length > 0)     // an empty match cannot be stepped or replaced
+                    if (m.Length > 0 && plain.IndexOf(DocumentReplacement.ObjectBoundary, m.Index, m.Length) < 0)
                         hits.Add((m.Index, m.Length));
                 return;
             }
@@ -224,7 +226,8 @@ namespace KillerNotes.Shell
             {
                 int hit = plain.IndexOf(_findTerm, at, cmp);
                 if (hit < 0) break;
-                if (!_findWord || IsWholeWordAt(plain, hit, _findTerm.Length))
+                if (plain.IndexOf(DocumentReplacement.ObjectBoundary, hit, _findTerm.Length) < 0 &&
+                    (!_findWord || IsWholeWordAt(plain, hit, _findTerm.Length)))
                     hits.Add((hit, _findTerm.Length));
                 at = hit + 1;   // overlapping matches count, the same as a text editor's do
             }

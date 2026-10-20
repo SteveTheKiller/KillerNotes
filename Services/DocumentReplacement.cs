@@ -6,6 +6,17 @@ namespace KillerNotes.Services
 {
     internal static class DocumentReplacement
     {
+        internal const char ObjectBoundary = '\uFFFC';
+
+        internal static bool ContainsObject(TextPointer start, TextPointer end)
+        {
+            for (TextPointer? p = start; p != null && p.CompareTo(end) < 0;
+                p = p.GetNextContextPosition(LogicalDirection.Forward))
+                if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.EmbeddedElement)
+                    return true;
+            return false;
+        }
+
         public static string Substitute(System.Text.RegularExpressions.Regex regex, string input,
             int start, int length, string replacement)
         {
@@ -27,7 +38,8 @@ namespace KillerNotes.Services
                     if (length > 0) runs.Add((offset, p, length));
                     offset += length;
                 }
-                else if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementEnd && p.Parent is Paragraph)
+                else if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.EmbeddedElement ||
+                    (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementEnd && p.Parent is Paragraph))
                     offset++;
             }
             editor.BeginChange();
@@ -38,7 +50,8 @@ namespace KillerNotes.Services
                     var edit = edits[i];
                     var start = At(runs, edit.Start);
                     var end = At(runs, edit.Start + edit.Length, end: true);
-                    if (start != null && end != null) new TextRange(start, end).Text = edit.Text;
+                    if (start != null && end != null && !ContainsObject(start, end))
+                        new TextRange(start, end).Text = edit.Text;
                 }
             }
             finally { editor.EndChange(); }

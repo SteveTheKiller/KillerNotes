@@ -8,12 +8,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 - Failed saves keep edits open for retry or text/RTF export, block transitions that would discard them, and commit note content, links, history and sketch data together.
+- Failed password changes preserve the original database and complete recovery copies.
 - Uninstall and duplicate-install cleanup preserve databases and other user files inside the installation folder.
 - Same-named databases keep separate backup retention and preserve ambiguous older backups.
 - Floating a sketch keeps its editable drawing when the note is saved and reopened.
 - Markdown notes keep list and table text when saving and paste rich content as plain text.
 - SketchPad printing stays bound to its original database and note, and refuses a deleted edit target.
-- Replace and Replace All consume whole matches across formatting boundaries, preserve regex context and capture substitutions, and keep one-step undo.
+- Replace and Replace All consume whole text matches across formatting, preserve embedded images and recordings, retain regex context and captures, and keep one-step undo.
 - A CLI or MCP client that stops reading a large reply no longer blocks later clients.
 - Switching databases clears Back and Forward history; reopening the same database preserves it.
 - Preview sizing respects the current monitor's work area and relaxes split-pane limits on constrained displays.
