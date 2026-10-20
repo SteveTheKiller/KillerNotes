@@ -18,6 +18,7 @@ namespace KillerNotes.Features.Security
 
         private string? _dbPassword;     // password of the open db, reused for silent reopens
         private string? _pendingStatus;  // status line to show after the list refresh
+        private string? _openedDatabase;
 
         internal SecurityController(ISecurityHost host) => _host = host;
 
@@ -59,6 +60,12 @@ namespace KillerNotes.Features.Security
 
             WarnNetworkFolder();
             WarnReadOnly();
+            string database = Path.GetFullPath(NoteStore.DbPath);
+            if (!string.Equals(database, _openedDatabase, StringComparison.OrdinalIgnoreCase))
+            {
+                _host.ClearNavigation();
+                _openedDatabase = database;
+            }
             _host.ApplyReadOnlyState();
             _host.LoadNotes();
             _host.ShowLockState(NoteStore.HasPassword);

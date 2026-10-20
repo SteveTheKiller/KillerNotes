@@ -17,6 +17,8 @@ namespace KillerNotes.Features.Security
         /// always opens into a note.</summary>
         void LoadNotes();
 
+        void ClearNavigation();
+
         /// <summary>Drops the editor's current note - what it was showing belongs to a database that
         /// is about to be closed.</summary>
         void ClearEditor();

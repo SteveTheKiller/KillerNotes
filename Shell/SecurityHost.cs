@@ -47,6 +47,8 @@ namespace KillerNotes.Shell
             OpenStartupNote();   // Notes.cs - the app always opens into a note
         }
 
+        void ISecurityHost.ClearNavigation() => ClearNavHistory();
+
         void ISecurityHost.ApplyReadOnlyState()
         {
             bool ro = NoteStore.IsReadOnly;
@@ -69,17 +71,12 @@ namespace KillerNotes.Shell
 
         // ---- Entry points the rest of the shell calls ----
 
-        // BOTH wrappers clear the navigation history, and this is the only place that does it.
-        // The back stack holds bare note ids, which mean nothing outside the file they came from -
-        // carried across a switch, id 7 stops being the note you visited and becomes whatever note
-        // 7 happens to be in the new database, so Back would teleport somewhere you never were.
-        // Every switch path in the app (Sharing.cs, DatabasesDialog, the controller's own round
-        // trip) comes through here to bring the new file up, so clearing here covers all of them.
+        // The controller clears navigation at each successful database change, including
+        // its own Manage databases round trip, which does not pass through these wrappers.
 
         /// <summary>Opens the active database at launch (MainWindow ctor); canceling exits.</summary>
         private void OpenDatabase()
         {
-            ClearNavHistory();   // NoteHistory.cs
             _security.OpenAtLaunch();
         }
 
@@ -87,7 +84,6 @@ namespace KillerNotes.Shell
         /// Manage databases round trip). Returns false when the unlock was canceled.</summary>
         private bool OpenDatabase(bool exitOnCancel)
         {
-            ClearNavHistory();   // NoteHistory.cs
             return _security.Open(exitOnCancel);
         }
 
