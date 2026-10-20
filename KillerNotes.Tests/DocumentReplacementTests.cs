@@ -7,6 +7,19 @@ namespace KillerNotes.Tests
 {
     public class DocumentReplacementTests
     {
+        [Theory]
+        [InlineData("ab", "(a)(?=b)", 0, 1, "$1$1", "aa")]
+        [InlineData("ab", "(?<=a)(b)", 1, 1, "$1$1", "bb")]
+        [InlineData("abc", "b", 1, 1, "$`-$&-$'-$_", "a-b-c-abc")]
+        [InlineData("ab", "^(a)(?=b)", 0, 1, "$1!", "a!")]
+        [InlineData("ab", "(?<=a)(b)$", 1, 1, "$1!", "b!")]
+        public void RegexReplacementKeepsTheOriginalInputContext(string input, string pattern,
+            int start, int length, string replacement, string expected)
+        {
+            Assert.Equal(expected, DocumentReplacement.Substitute(
+                new System.Text.RegularExpressions.Regex(pattern), input, start, length, replacement));
+        }
+
         [Fact]
         public void ReplaceCanCrossParagraphAndHyperlinkBoundaries() => Sta.Run(() =>
         {

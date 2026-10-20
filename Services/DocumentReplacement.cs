@@ -6,6 +6,15 @@ namespace KillerNotes.Services
 {
     internal static class DocumentReplacement
     {
+        public static string Substitute(System.Text.RegularExpressions.Regex regex, string input,
+            int start, int length, string replacement)
+        {
+            var match = regex.Match(input, start);
+            try { return match.Success && match.Index == start && match.Length == length
+                ? match.Result(replacement) : replacement; }
+            catch (System.ArgumentException) { return replacement; }
+        }
+
         public static void Apply(RichTextBox editor, IReadOnlyList<(int Start, int Length, string Text)> edits)
         {
             var runs = new List<(int Offset, TextPointer Start, int Length)>();

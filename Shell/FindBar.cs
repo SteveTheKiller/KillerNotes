@@ -643,9 +643,7 @@ namespace KillerNotes.Shell
             if (!_findRegex) return repl;
             var rx = TryBuildFindRegex();
             if (rx == null) return repl;
-            var m = rx.Match(_findPlain, hit.Start, hit.Length);
-            try { return m.Success ? m.Result(repl) : repl; }
-            catch (ArgumentException) { return repl; }   // malformed substitution: keep it literal
+            return DocumentReplacement.Substitute(rx, _findPlain, hit.Start, hit.Length, repl);
         }
 
         /// <summary>Replaces the CURRENT match and steps to the next one.</summary>
