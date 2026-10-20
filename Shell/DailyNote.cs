@@ -45,7 +45,7 @@ namespace KillerNotes.Shell
         private void OpenTodayNote()
         {
             if (!NoteStore.IsOpen) return;
-            SaveCurrentNote(refreshList: false);
+            if (!SaveCurrentNote(refreshList: false)) return;
             string title = TodayTitle();
 
             long id = NoteStore.ResolveTitle(title);

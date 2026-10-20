@@ -280,7 +280,7 @@ namespace KillerNotes.Shell
             }
             if (!it.Mention || (Keyboard.Modifiers & ModifierKeys.Control) != 0)
             {
-                SaveCurrentNote(refreshList: false);
+                if (!SaveCurrentNote(refreshList: false)) return;
                 OpenNote(it.Id);
                 SelectNoteInList(it.Id);   // WikiLinkNav.cs
                 return;
@@ -419,7 +419,7 @@ namespace KillerNotes.Shell
         private void ShowGraph(string? groupPath, string? groupName = null)
         {
             if (!NoteStore.IsOpen) return;
-            SaveCurrentNote(refreshList: false);   // so a link typed seconds ago is already an edge
+            if (!SaveCurrentNote(refreshList: false)) return;
 
             var win = new Controls.GraphWindow(
                 id =>

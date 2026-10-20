@@ -1005,4 +1005,5 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Scroll_PageDown">Xuống một trang</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">Sang trái một trang</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">Sang phải một trang</sys:String>
+    <sys:String x:Key="Str_St_SaveFailed">Lưu thất bại: {0}. Nội dung chỉnh sửa của bạn vẫn đang mở. Nhấn Ctrl+S để thử lại hoặc F8 để xuất dưới dạng văn bản hoặc RTF.</sys:String>
 </ResourceDictionary>

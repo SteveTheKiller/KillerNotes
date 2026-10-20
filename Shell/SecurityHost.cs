@@ -27,11 +27,11 @@ namespace KillerNotes.Shell
         private long _resumeNoteId = -1;
         private string _resumeDb = "";
 
-        void ISecurityHost.SaveOpenNote()
+        bool ISecurityHost.SaveOpenNote()
         {
             _resumeDb = NoteStore.ActiveDbFile;
             _resumeNoteId = _currentId;
-            SaveCurrentNote(refreshList: false);   // Notes.cs
+            return SaveCurrentNote(refreshList: false);
         }
 
         void ISecurityHost.LoadNotes()

@@ -954,4 +954,5 @@
     <sys:String x:Key="Str_Scroll_PageDown">向下翻頁</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">向左翻頁</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">向右翻頁</sys:String>
+    <sys:String x:Key="Str_St_SaveFailed">儲存失敗：{0}。您的編輯內容仍保持開啟狀態。按 Ctrl+S 重試，或按 F8 匯出為文字或 RTF。</sys:String>
 </ResourceDictionary>

@@ -50,7 +50,7 @@ namespace KillerNotes.Shell
                 Directory.CreateDirectory(NoteStore.DbDir);
                 File.Copy(path, Path.Combine(NoteStore.DbDir, name));
 
-                SaveCurrentNote(refreshList: false);
+                if (!SaveCurrentNote(refreshList: false)) return;
                 string prevFile = NoteStore.ActiveDbFile;
                 NoteStore.Close();
                 App.SetSetting("ActiveDatabase", name);
@@ -120,7 +120,7 @@ namespace KillerNotes.Shell
             var n = ((sender as System.Windows.Controls.MenuItem)?.DataContext as Note)
                     ?? NotesList.SelectedItem as Note;
             if (n == null) return;
-            SaveCurrentNote(refreshList: false);   // share what is on screen, not a stale copy
+            if (!SaveCurrentNote(refreshList: false)) return;
 
             var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Save)
             {
@@ -191,7 +191,7 @@ namespace KillerNotes.Shell
             _noteDragCandidate = null;
             try
             {
-                SaveCurrentNote(refreshList: false);   // the dragged note may be the open one
+                if (!SaveCurrentNote(refreshList: false)) return;
                 string dir = Path.Combine(Path.GetTempPath(), "KillerNotes");
                 Directory.CreateDirectory(dir);
                 string path = Path.Combine(dir, SafeFileName(note.Title) + ".knote");

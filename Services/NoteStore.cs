@@ -708,11 +708,26 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             return v is byte[] b && b.Length > 0 ? b : null;
         }
 
+        public static void SaveEditorState(long id, string title, byte[] content, string plain,
+            IEnumerable<string> links, IReadOnlyDictionary<int, byte[]> sketches)
+        {
+            if (_db == null || IsReadOnly) throw new InvalidOperationException("The database is not writable.");
+            using var tx = _db.BeginTransaction();
+            Save(id, title, content, plain, tx);
+            SetLinks(id, links, tx);
+            SaveSketches(id, sketches, tx);
+            tx.Commit();
+        }
+
         public static void Save(long id, string title, byte[] content, string plain)
+            => Save(id, title, content, plain, null);
+
+        private static void Save(long id, string title, byte[] content, string plain, SqliteTransaction? transaction)
         {
             if (_db == null || IsReadOnly) return;
-            Snapshot(id, force: false);   // the text being replaced becomes a version when it is old enough
+            Snapshot(id, force: false, transaction);
             using var cmd = _db.CreateCommand();
+            cmd.Transaction = transaction;
             cmd.CommandText = "UPDATE notes SET title = $t, content = $c, plain = $p, modified = $m WHERE id = $id";
             cmd.Parameters.AddWithValue("$t", title);
             cmd.Parameters.AddWithValue("$c", content);
@@ -778,6 +793,9 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         /// when the newest version already holds the same bytes, or (unless forced) when the
         /// newest version is younger than HistoryInterval. Returns true when one was written.</summary>
         public static bool Snapshot(long noteId, bool force)
+            => Snapshot(noteId, force, null);
+
+        private static bool Snapshot(long noteId, bool force, SqliteTransaction? transaction)
         {
             if (_db == null || IsReadOnly) return false;
 
@@ -786,6 +804,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             long newestId = -1;
             using (var cmd = _db.CreateCommand())
             {
+                cmd.Transaction = transaction;
                 cmd.CommandText = "SELECT id, saved FROM note_history WHERE note_id = $n ORDER BY saved DESC, id DESC LIMIT 1";
                 cmd.Parameters.AddWithValue("$n", noteId);
                 using var r = cmd.ExecuteReader();
@@ -797,6 +816,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             byte[]? content;
             using (var cmd = _db.CreateCommand())
             {
+                cmd.Transaction = transaction;
                 cmd.CommandText = "SELECT title, format, content, plain, modified FROM notes WHERE id = $id";
                 cmd.Parameters.AddWithValue("$id", noteId);
                 using var r = cmd.ExecuteReader();
@@ -814,6 +834,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             if (newestId >= 0)
             {
                 using var cmd = _db.CreateCommand();
+                cmd.Transaction = transaction;
                 cmd.CommandText = "SELECT content FROM note_history WHERE id = $id";
                 cmd.Parameters.AddWithValue("$id", newestId);
                 if (cmd.ExecuteScalar() is byte[] prev && prev.AsSpan().SequenceEqual(content)) return false;
@@ -823,6 +844,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             {
                 // Stamped with when this text was last written, not with now: the list should
                 // read "the note as of 14:05", which is the moment it stopped looking like this.
+                ins.Transaction = transaction;
                 ins.CommandText = "INSERT INTO note_history(note_id, saved, title, format, content, plain) " +
                                   "VALUES ($n, $s, $t, $f, $c, $p)";
                 ins.Parameters.AddWithValue("$n", noteId);
@@ -834,6 +856,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 ins.ExecuteNonQuery();
             }
             using var trim = _db.CreateCommand();
+            trim.Transaction = transaction;
             trim.CommandText = "DELETE FROM note_history WHERE note_id = $n AND id NOT IN " +
                                "(SELECT id FROM note_history WHERE note_id = $n ORDER BY saved DESC, id DESC LIMIT $cap)";
             trim.Parameters.AddWithValue("$n", noteId);
@@ -916,8 +939,17 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         public static void SaveSketches(long noteId, IReadOnlyDictionary<int, byte[]> byOrdinal)
         {
             if (_db == null || IsReadOnly) return;
+            using var tx = _db.BeginTransaction();
+            SaveSketches(noteId, byOrdinal, tx);
+            tx.Commit();
+        }
+
+        private static void SaveSketches(long noteId, IReadOnlyDictionary<int, byte[]> byOrdinal, SqliteTransaction transaction)
+        {
+            if (_db == null || IsReadOnly) return;
             using (var del = _db.CreateCommand())
             {
+                del.Transaction = transaction;
                 del.CommandText = "DELETE FROM sketches WHERE note_id = $id";
                 del.Parameters.AddWithValue("$id", noteId);
                 del.ExecuteNonQuery();
@@ -925,6 +957,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             foreach (var kv in byOrdinal)
             {
                 using var ins = _db.CreateCommand();
+                ins.Transaction = transaction;
                 ins.CommandText = "INSERT INTO sketches(note_id, ord, payload) VALUES ($id, $o, $p)";
                 ins.Parameters.AddWithValue("$id", noteId);
                 ins.Parameters.AddWithValue("$o", kv.Key);
@@ -1252,6 +1285,13 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         {
             if (_db == null || IsReadOnly) return;
             using var tx = _db.BeginTransaction();
+            SetLinks(src, targets, tx);
+            tx.Commit();
+        }
+
+        private static void SetLinks(long src, IEnumerable<string> targets, SqliteTransaction tx)
+        {
+            if (_db == null || IsReadOnly) return;
             using (var del = _db.CreateCommand())
             {
                 del.Transaction = tx;
@@ -1272,7 +1312,6 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 ins.Parameters.AddWithValue("$t", target);
                 ins.ExecuteNonQuery();
             }
-            tx.Commit();
         }
 
         /// <summary>Distinct outgoing targets, including links whose notes do not exist yet.</summary>

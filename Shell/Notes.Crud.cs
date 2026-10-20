@@ -29,7 +29,7 @@ namespace KillerNotes.Shell
         private void CreateNewNote(bool focusTitle, int format = 0)
         {
             if (!NoteStore.IsOpen) return;
-            SaveCurrentNote(refreshList: false);
+            if (!SaveCurrentNote(refreshList: false)) return;
             _currentId = NoteStore.Create(Loc("Str_Untitled"), format);
             SearchBox.Text = "";   // a filtered list would hide the new note
             // Keep the chosen sort and reveal the new row wherever it belongs.

@@ -999,4 +999,5 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Scroll_PageDown">Side ned</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">Side til venstre</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">Side til høyre</sys:String>
+    <sys:String x:Key="Str_St_SaveFailed">Lagring mislyktes: {0}. Endringene dine er fortsatt åpne. Trykk Ctrl+S for å prøve igjen, eller F8 for å eksportere som tekst eller RTF.</sys:String>
 </ResourceDictionary>

@@ -104,7 +104,7 @@ namespace KillerNotes.Shell
             RefreshList(preserveScroll: true);
             var first = _sidebarItems.OfType<Note>().FirstOrDefault(n => n.IsDeleted);
             if (first == null) return;
-            SaveCurrentNote(refreshList: false);
+            if (!SaveCurrentNote(refreshList: false)) return;
             OpenNote(first.Id);
             SelectNoteInList(first.Id);   // WikiLinkNav.cs: selects and scrolls the row into view
         }

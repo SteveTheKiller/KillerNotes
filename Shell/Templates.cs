@@ -184,7 +184,7 @@ namespace KillerNotes.Shell
                 FlashStatus(string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner));
                 return -1;
             }
-            SaveCurrentNote(refreshList: false);   // the template itself may be the open note
+            if (!SaveCurrentNote(refreshList: false)) return -1;
             var tpl = NoteStore.List().FirstOrDefault(n => n.Id == templateId);
             if (tpl == null) return -1;
 

@@ -955,4 +955,5 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Scroll_PageDown">Page vers le bas</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">Page vers la gauche</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">Page vers la droite</sys:String>
+    <sys:String x:Key="Str_St_SaveFailed">Échec de l'enregistrement : {0}. Vos modifications sont toujours ouvertes. Appuyez sur Ctrl+S pour réessayer ou sur F8 pour exporter au format texte ou RTF.</sys:String>
 </ResourceDictionary>

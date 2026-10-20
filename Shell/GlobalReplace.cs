@@ -47,7 +47,7 @@ namespace KillerNotes.Shell
 
             // The open note takes part from the database like every other note, so its edits
             // must be on disk first; it is reloaded below if it was touched.
-            SaveCurrentNote(refreshList: false);
+            if (!SaveCurrentNote(refreshList: false)) return;
 
             // ---- Scan: which notes, and how many matches in each ----
             var affected = new List<(long Id, string Title, string BodyBefore, FlowDocument Doc,

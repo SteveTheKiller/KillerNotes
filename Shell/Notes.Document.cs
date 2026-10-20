@@ -21,6 +21,7 @@ namespace KillerNotes.Shell
 
         private void OpenNote(long id)
         {
+            if (_currentId >= 0 && id != _currentId && !SaveCurrentNote(refreshList: false)) return;
             // A trashed note opens too, read-only (Trash.cs): reading what you threw away is
             // the whole point of a trash, and restore is one right-click away.
             var meta = _notes.FirstOrDefault(n => n.Id == id)
@@ -185,12 +186,26 @@ namespace KillerNotes.Shell
         }
 
         /// <summary>Persists the open note (title, XamlPackage blob, plain text for search).</summary>
-        private void SaveCurrentNote(bool refreshList = true)
+        private bool SaveCurrentNote(bool refreshList = true)
+        {
+            try { return SaveCurrentNoteCore(refreshList); }
+            catch (Exception ex) when (ex is Microsoft.Data.Sqlite.SqliteException || ex is IOException ||
+                ex is UnauthorizedAccessException || ex is InvalidOperationException)
+            {
+                _dirty = true;
+                _statusTimer.Stop();
+                StatusText.Text = string.Format(Loc("Str_St_SaveFailed"), ex.Message);
+                return false;
+            }
+        }
+
+        private bool SaveCurrentNoteCore(bool refreshList)
         {
             FlushPendingFontSize();
             _saveTimer.Stop();
-            if (_currentId < 0 || !_dirty || !NoteStore.IsOpen) return;
-            if (_loadFailed) return;   // the editor is empty because the load failed (OpenNote)
+            if (_currentId < 0 || !_dirty) return true;
+            if (!NoteStore.IsOpen || NoteStore.IsReadOnly) throw new InvalidOperationException("The database is not writable.");
+            if (_loadFailed) return false;
 
             // NEVER serialize mid-drag. A float drag re-parents the Floater between paragraphs on
             // every mouse move (ReanchorFloater) and appends anchor paragraphs as it goes
@@ -207,7 +222,7 @@ namespace KillerNotes.Shell
             if (_dragFloater != null || _armedObject != null || _dragDial != null)
             {
                 _saveTimer.Start();
-                return;
+                return false;
             }
 
             byte[] blob;
@@ -242,17 +257,16 @@ namespace KillerNotes.Shell
             // the old title. Wikilinks target titles, so a rename orphans every link that named
             // this note, and WikiRename.cs offers to rewrite them once the box is done with.
             string titleWas = _notes.FirstOrDefault(n => n.Id == _currentId)?.Title ?? "";
-            NoteStore.Save(_currentId, TitleBox.Text, blob, storedPlain);
+            NoteStore.SaveEditorState(_currentId, TitleBox.Text, blob, storedPlain,
+                WikiLinks.Parse(bodyText), Sketch.Capture(Editor.Document.Blocks));
             RecordRename(_currentId, titleWas, TitleBox.Text);   // WikiRename.cs
             // Wikilinks are re-derived from the text every save, so an edge appears the moment a
             // link is typed and disappears the moment it is deleted. Parsed from bodyText, NOT
             // storedPlain: the sketch labels appended to the stored copy are diagram captions, and
             // a "[[...]]" typed into a drawing is not a link between notes.
-            NoteStore.SetLinks(_currentId, WikiLinks.Parse(bodyText));
             RefreshBacklinks();   // Backlinks.cs - a rename or a new inbound link changes the strip
             // No repaint here any more. The document was never unpainted, so there is nothing to
             // restore and the incremental cache is still warm.
-            SaveSketchPayloads(_currentId);   // SketchPad: persist sketch strokes by image ordinal (Editor.cs)
             _dirty = false;
 
             // ALWAYS sync the in-memory row too: OpenNote reads titles from this list, so
@@ -292,6 +306,7 @@ namespace KillerNotes.Shell
                 _syncingSelection = false;
             }
             UpdatePreviewState(preserveScroll: true);   // Preview.cs (re-detect + refresh an open pane)
+            return true;
         }
 
         private void MarkDirty()

@@ -952,4 +952,5 @@
     <sys:String x:Key="Str_Scroll_PageDown">1 ページ下へ</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">1 ページ左へ</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">1 ページ右へ</sys:String>
+    <sys:String x:Key="Str_St_SaveFailed">保存に失敗しました: {0}。編集内容は開いたままです。Ctrl+S を押して再試行するか、F8 を押してテキスト形式または RTF 形式でエクスポートしてください。</sys:String>
 </ResourceDictionary>

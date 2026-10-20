@@ -59,6 +59,7 @@ namespace KillerNotes.Shell
         /// the other, open it without recording.</summary>
         private void NavStep(List<long> from, List<long> onto, string emptyMsg)
         {
+            if (!SaveCurrentNote(refreshList: false)) return;
             long target = -1;
             while (from.Count > 0)
             {
@@ -75,7 +76,6 @@ namespace KillerNotes.Shell
                 if (onto.Count > NavDepth) onto.RemoveAt(0);
             }
 
-            SaveCurrentNote(refreshList: false);
             _navReplaying = true;
             try
             {

@@ -962,4 +962,5 @@
     <sys:String x:Key="Str_Scroll_PageDown">На страницу вниз</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">На страницу влево</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">На страницу вправо</sys:String>
+    <sys:String x:Key="Str_St_SaveFailed">Не удалось сохранить: {0}. Ваши изменения по-прежнему открыты. Нажмите Ctrl+S, чтобы повторить попытку, или F8 для экспорта в текстовый формат или RTF.</sys:String>
 </ResourceDictionary>

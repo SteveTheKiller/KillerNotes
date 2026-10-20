@@ -187,7 +187,7 @@ namespace KillerNotes.Features.Security
 
         internal void ShowDatabases()
         {
-            _host.SaveOpenNote();
+            if (!_host.SaveOpenNote()) return;
             string prevFile = NoteStore.ActiveDbFile;
             NoteStore.Close();
 
@@ -215,7 +215,7 @@ namespace KillerNotes.Features.Security
         internal void ToggleLock()
         {
             if (!NoteStore.IsOpen) return;
-            _host.SaveOpenNote();
+            if (!_host.SaveOpenNote()) return;
 
             try
             {

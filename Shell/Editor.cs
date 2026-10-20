@@ -47,8 +47,7 @@ namespace KillerNotes.Shell
             // Ctrl+S saves immediately (autosave runs 2s after the last change anyway).
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, (_, _) =>
             {
-                SaveCurrentNote();
-                StatusText.Text = Loc("Str_St_Saved");
+                if (SaveCurrentNote()) StatusText.Text = Loc("Str_St_Saved");
             }));
         }
 

@@ -951,4 +951,5 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Scroll_PageDown">O stránku dolů</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">O stránku doleva</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">O stránku doprava</sys:String>
+    <sys:String x:Key="Str_St_SaveFailed">Uložení se nezdařilo: {0}. Vaše úpravy jsou stále otevřené. Stiskněte Ctrl+S a zkuste to znovu, nebo F8 pro export do textu či RTF.</sys:String>
 </ResourceDictionary>

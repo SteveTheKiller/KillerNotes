@@ -63,6 +63,8 @@ namespace KillerNotes.Shell
 
         bool IAboutHost.DemoPreview => DemoMode;
 
+        bool IAboutHost.SaveOpenNote() => SaveCurrentNote(refreshList: false);
+
         void IAboutHost.ShowCard()
         {
             HideShortcutsOverlay();

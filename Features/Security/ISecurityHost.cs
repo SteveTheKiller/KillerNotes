@@ -11,7 +11,7 @@ namespace KillerNotes.Features.Security
         void ShowLockState(bool encrypted);
 
         /// <summary>Flushes the open note before the store is closed or swapped underneath it.</summary>
-        void SaveOpenNote();
+        bool SaveOpenNote();
 
         /// <summary>Rebuilds the note list from the freshly opened store and opens a note; the app
         /// always opens into a note.</summary>

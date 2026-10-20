@@ -954,4 +954,5 @@
     <sys:String x:Key="Str_Scroll_PageDown">এক পৃষ্ঠা নিচে</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">এক পৃষ্ঠা বাঁয়ে</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">এক পৃষ্ঠা ডানে</sys:String>
+    <sys:String x:Key="Str_St_SaveFailed">সংরক্ষণ ব্যর্থ: {0}। আপনার সম্পাদনাগুলো এখনও খোলা আছে। আবার চেষ্টা করতে Ctrl+S চাপুন, অথবা টেক্সট বা RTF হিসেবে রপ্তানি করতে F8 চাপুন।</sys:String>
 </ResourceDictionary>

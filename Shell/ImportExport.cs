@@ -56,7 +56,7 @@ namespace KillerNotes.Shell
         private void ImportFiles(string[] paths)
         {
             if (!NoteStore.IsOpen) return;
-            SaveCurrentNote(refreshList: false);
+            if (!SaveCurrentNote(refreshList: false)) return;
 
             int made = 0;
             long lastId = -1;
@@ -206,7 +206,9 @@ namespace KillerNotes.Shell
 
         private void ExportNoteAs(Note n)
         {
-            SaveCurrentNote(refreshList: false);   // export what is on screen, not a stale copy
+            bool saved = SaveCurrentNote(refreshList: false);
+            if (!saved && n.Id != _currentId) return;
+            if (!saved && (_loadFailed || _dragFloater != null || _armedObject != null || _dragDial != null)) return;
 
             var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Save)
             {
@@ -217,7 +219,7 @@ namespace KillerNotes.Shell
 
             try
             {
-                var doc = LoadNoteDocument(n.Id);
+                var doc = saved ? LoadNoteDocument(n.Id) : Editor.Document;
                 bool imagesSkipped = false;
                 switch (Path.GetExtension(dlg.FileName).ToLowerInvariant())
                 {
@@ -233,7 +235,7 @@ namespace KillerNotes.Shell
                         // just dump its plain text - the walker would double-space that shape.
                         // Rich-text notes: run the FlowDocument through the markdown walker, which
                         // extracts inline images to a sibling <name>.assets/ folder.
-                        if (NoteStore.GetFormat(n.Id) == Note.FormatMarkdown)
+                        if (saved ? NoteStore.GetFormat(n.Id) == Note.FormatMarkdown : CurrentIsMarkdown)
                         {
                             File.WriteAllText(dlg.FileName,
                                 new TextRange(doc.ContentStart, doc.ContentEnd).Text, Encoding.UTF8);
@@ -246,6 +248,7 @@ namespace KillerNotes.Shell
                         }
                         break;
                     case ".knote":
+                        if (!saved) return;
                         // Full-fidelity shared-note format. No password prompt on this path
                         // (Sharing.cs > ShareNote_Click is the encrypted flow); the Save As
                         // path writes an unencrypted .knote the same way drag-out does, so a

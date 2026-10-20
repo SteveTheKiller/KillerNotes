@@ -115,7 +115,7 @@ namespace KillerNotes.Shell
 
             // Flush first. Converting from a stale blob would throw away whatever is on screen
             // but not yet saved, which for the open note is the most recent thing the user did.
-            if (note.Id == _currentId) SaveCurrentNote(refreshList: false);
+            if (note.Id == _currentId && !SaveCurrentNote(refreshList: false)) return;
 
             if (note.IsMarkdown) ConvertToRich(note);
             else ConvertToMarkdown(note);

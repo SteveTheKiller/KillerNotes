@@ -1001,4 +1001,5 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Scroll_PageDown">Page down</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">Page left</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">Page right</sys:String>
+    <sys:String x:Key="Str_St_SaveFailed">Save failed: {0}. Your edits are still open. Press Ctrl+S to retry, or F8 to export text or RTF.</sys:String>
 </ResourceDictionary>

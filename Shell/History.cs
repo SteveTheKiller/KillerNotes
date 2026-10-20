@@ -39,7 +39,7 @@ namespace KillerNotes.Shell
             if (!NoteStore.IsOpen) return;
             // What is on screen should be the note's current state before the list is read,
             // and a chosen version must not be overwritten by a stale autosave afterwards.
-            if (id == _currentId) SaveCurrentNote(refreshList: false);
+            if (id == _currentId && !SaveCurrentNote(refreshList: false)) return;
 
             var dlg = new HistoryDialog(id) { Owner = this };
             dlg.ShowDialog();

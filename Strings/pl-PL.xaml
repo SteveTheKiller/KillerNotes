@@ -881,4 +881,5 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Scroll_PageDown">Strona w dół</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">Strona w lewo</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">Strona w prawo</sys:String>
+    <sys:String x:Key="Str_St_SaveFailed">Nie udało się zapisać: {0}. Twoje zmiany są nadal otwarte. Naciśnij Ctrl+S, aby spróbować ponownie, lub F8, aby wyeksportować jako tekst lub RTF.</sys:String>
 </ResourceDictionary>

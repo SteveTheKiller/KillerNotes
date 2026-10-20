@@ -74,7 +74,7 @@ namespace KillerNotes.Shell
             long id = NoteStore.ResolveTitle(target);
             if (id >= 0)
             {
-                SaveCurrentNote(refreshList: false);   // do not lose the edit that is on screen
+                if (!SaveCurrentNote(refreshList: false)) return;
                 OpenNote(id);
                 SelectNoteInList(id);
                 return;
@@ -93,7 +93,7 @@ namespace KillerNotes.Shell
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
-            SaveCurrentNote(refreshList: false);
+            if (!SaveCurrentNote(refreshList: false)) return;
             long created = NoteStore.Create(target);
             if (created < 0) return;
             RefreshList();

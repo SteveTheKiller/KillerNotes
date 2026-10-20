@@ -32,7 +32,9 @@ namespace KillerNotes.Shell
             InitializeComponent();
             Loaded += (_, _) => SystemParameters.StaticPropertyChanged += OnSystemContrastChanged;
             Unloaded += (_, _) => SystemParameters.StaticPropertyChanged -= OnSystemContrastChanged;
-            _tray = KillerFamily.Shell.CloseToTray.Attach(this, Services.AppInfo.DisplayName, Loc, () => AboutController.CloseToTrayEnabled);
+            _tray = KillerFamily.Shell.CloseToTray.Attach(this, Services.AppInfo.DisplayName, Loc,
+                () => AboutController.CloseToTrayEnabled, () => SaveCurrentNote(refreshList: false));
+            Application.Current.SessionEnding += (_, e) => { if (!SaveCurrentNote(refreshList: false)) e.Cancel = true; };
             var titleFrames = System.Windows.Media.Imaging.BitmapDecoder.Create(
                 new System.Uri("pack://application:,,,/Resources/kn-icon.ico"),
                 System.Windows.Media.Imaging.BitmapCreateOptions.None,
@@ -131,8 +133,8 @@ namespace KillerNotes.Shell
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
+            if (!SaveCurrentNote(refreshList: false)) return;
             PortableBadge.Visibility = Visibility.Collapsed;
-            SaveCurrentNote(refreshList: false);   // Notes.cs - flush the open note before the relaunch
             App.InstallAndRelaunch(wantDesktop: dlg.Check1Checked);
         }
     }

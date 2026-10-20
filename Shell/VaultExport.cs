@@ -37,7 +37,7 @@ namespace KillerNotes.Shell
             if (!NoteStore.IsOpen) return;
 
             // Export what is on screen, not a stale copy - same rule as ExportNoteAs.
-            SaveCurrentNote(refreshList: false);
+            if (!SaveCurrentNote(refreshList: false)) return;
 
             var notes = NoteStore.List();
             if (notes.Count == 0)

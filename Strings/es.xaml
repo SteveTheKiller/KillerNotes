@@ -955,4 +955,5 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Scroll_PageDown">Una página hacia abajo</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">Una página hacia la izquierda</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">Una página hacia la derecha</sys:String>
+    <sys:String x:Key="Str_St_SaveFailed">Error al guardar: {0}. Sus cambios siguen abiertos. Pulse Ctrl+S para reintentar o F8 para exportar como texto o RTF.</sys:String>
 </ResourceDictionary>

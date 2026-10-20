@@ -10,6 +10,19 @@ namespace KillerNotes.Tests
     public class DatabaseNavigationTests
     {
         [Fact]
+        public void FailedEditorSavePreventsDatabaseAndPasswordTransitions()
+        {
+            using var source = new TempStore();
+            var host = new Host { SaveResult = false };
+            var controller = new SecurityController(host);
+            controller.ShowDatabases();
+            Assert.True(NoteStore.IsOpen);
+            controller.ToggleLock();
+            Assert.True(NoteStore.IsOpen);
+            Assert.Equal(2, host.SaveCalls);
+        }
+
+        [Fact]
         public void EverySuccessfulDatabaseChangeClearsHistoryButReopeningTheSameFileKeepsIt()
         {
             using var source = new TempStore();
@@ -34,11 +47,13 @@ namespace KillerNotes.Tests
         {
             public readonly List<long> Back = new();
             public readonly List<long> Forward = new();
-            public Window Window => null!;
+            public bool SaveResult = true;
+            public int SaveCalls;
+            public Window Window => throw new System.InvalidOperationException("Unexpected dialog");
             public string Loc(string key) => key;
             public void SetStatus(string text) { }
             public void ShowLockState(bool encrypted) { }
-            public void SaveOpenNote() { }
+            public bool SaveOpenNote() { SaveCalls++; return SaveResult; }
             public void LoadNotes() { }
             public void ClearEditor() { }
             public void ApplyReadOnlyState() { }

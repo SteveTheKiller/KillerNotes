@@ -185,6 +185,13 @@ namespace KillerNotes.Features.About
             {
                 // Declining UAC throws Win32Exception 1223, so the shutdown only happens once the
                 // helper is actually running - otherwise the app would close without updating.
+                if (!_host.SaveOpenNote())
+                {
+                    _updating = false;
+                    _host.UpdateEnabled = true;
+                    _host.UpdateText = string.Format(_host.Loc("Str_About_UpdateAvailable"), tag);
+                    return;
+                }
                 UpdateService.StartSwap(newExe, tag!.TrimStart('v', 'V'));
                 System.Windows.Application.Current.Shutdown();
             }

@@ -49,7 +49,7 @@ namespace KillerNotes.Shell
             var now = DateTime.Now;
             if (BackupService.Folder is not string folder) return;
 
-            SaveCurrentNote(refreshList: false);   // the copy should hold what is on screen
+            if (!SaveCurrentNote(refreshList: false)) return;
             try
             {
                 string path = BackupService.BackupNow(folder, db, now, BackupService.Keep);

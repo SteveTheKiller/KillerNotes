@@ -271,7 +271,7 @@ namespace KillerNotes.Shell
 
             // The sidebar is the visible result set for cross-note find. Save first so its
             // content search sees the current edit, then keep the sidebar query synchronized.
-            SaveCurrentNote(refreshList: false);
+            if (!SaveCurrentNote(refreshList: false)) return false;
             if (!string.Equals(SearchBox.Text, _findTerm, StringComparison.Ordinal))
                 SearchBox.Text = _findTerm;
             else

@@ -149,7 +149,7 @@ namespace KillerNotes.Shell
             }
 
             if (_syncingSelection) return;
-            SaveCurrentNote(refreshList: false);
+            if (!SaveCurrentNote(refreshList: false)) { SelectNoteInList(_currentId); return; }
             // Extended mode: only a single selection opens a note; Ctrl/Shift multi-
             // selection (for mass delete) leaves the current note in the editor.
             if (NotesList.SelectedItems.Count == 1 && NotesList.SelectedItem is Note n) OpenNote(n.Id);

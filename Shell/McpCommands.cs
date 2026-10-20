@@ -31,7 +31,7 @@ namespace KillerNotes.Shell
             var values = args.Skip(1).ToList();
             if (TryExecuteMcpAction(command, values, out string actionJson)) return actionJson;
             if (NoteStore.IsReadOnly && command != "export") throw new InvalidOperationException("The database is read-only");
-            SaveCurrentNote(refreshList: false);
+            if (!SaveCurrentNote(refreshList: false)) throw new IOException(StatusText.Text);
             McpCommandResult result;
             switch (command)
             {
@@ -144,7 +144,7 @@ namespace KillerNotes.Shell
 
         private void ExportForMcp(Note note, string output)
         {
-            if (_currentId == note.Id) SaveCurrentNote(false);
+            if (_currentId == note.Id && !SaveCurrentNote(false)) throw new IOException(StatusText.Text);
             byte[] blob = NoteStore.LoadContent(note.Id) ?? [];
             var doc = note.Format == Note.FormatMarkdown ? MarkdownConvert.ToDocument(MarkdownBlob.Decode(blob), 14) : LoadNoteDocument(note.Id);
             switch (Path.GetExtension(output).ToLowerInvariant())

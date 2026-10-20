@@ -52,6 +52,7 @@ namespace KillerFamily.Shell
         private readonly string _appName;
         private readonly Func<string, string> _loc;
         private readonly Func<bool> _isEnabled;
+        private readonly Func<bool>? _canExit;
         private readonly HwndSource _source;
         private readonly uint _taskbarCreated;
         private readonly IntPtr _icon;
@@ -75,15 +76,16 @@ namespace KillerFamily.Shell
         /// <summary>Prepares the icon for <paramref name="window"/>, whose OnClosing override calls
         /// HideInstead. <paramref name="isEnabled"/> is asked on every close; <paramref name="loc"/>
         /// looks up Str_Tray_Open and Str_Tray_Exit.</summary>
-        internal static CloseToTray Attach(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled)
-            => new(window, appName, loc, isEnabled);
+        internal static CloseToTray Attach(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled, Func<bool>? canExit = null)
+            => new(window, appName, loc, isEnabled, canExit);
 
-        private CloseToTray(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled)
+        private CloseToTray(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled, Func<bool>? canExit)
         {
             _window = window;
             _appName = appName;
             _loc = loc;
             _isEnabled = isEnabled;
+            _canExit = canExit;
             // WS_POPUP, never shown. A message-only window would miss TaskbarCreated, which is
             // how the icon comes back after Explorer restarts.
             _source = new HwndSource(new HwndSourceParameters(appName + "TrayIcon") { WindowStyle = unchecked((int)0x80000000), Width = 0, Height = 0 });
@@ -100,6 +102,7 @@ namespace KillerFamily.Shell
         /// <summary>Quits the app from anywhere without hiding to the tray.</summary>
         internal void Exit()
         {
+            if (_canExit?.Invoke() == false) { ShowWindow(); return; }
             _exiting = true;
             HideIcon();
             Application.Current.Shutdown();

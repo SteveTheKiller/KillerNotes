@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.5.2] - Unreleased
 
 ### Fixed
+- Failed saves keep edits open for retry or text/RTF export, block transitions that would discard them, and commit note content, links, history and sketch data together.
 - Uninstall and duplicate-install cleanup preserve databases and other user files inside the installation folder.
 - Same-named databases keep separate backup retention and preserve ambiguous older backups.
 - Floating a sketch keeps its editable drawing when the note is saved and reopened.

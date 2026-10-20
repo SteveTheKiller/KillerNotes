@@ -77,7 +77,7 @@ namespace KillerNotes.Shell
 
             if (n.Id == _currentId)
             {
-                SaveCurrentNote(refreshList: false);   // the trash keeps the note, so keep its last edit too
+                if (!SaveCurrentNote(refreshList: false)) return;
                 SaveNotePosition();                    // freshest caret/scroll into the row first
             }
             NoteStore.Trash(n.Id);
@@ -108,7 +108,7 @@ namespace KillerNotes.Shell
 
             if (notes.Any(x => x.Id == _currentId))
             {
-                SaveCurrentNote(refreshList: false);
+                if (!SaveCurrentNote(refreshList: false)) return;
                 SaveNotePosition();   // freshest caret/scroll into the row first
             }
             var ids = notes.Select(x => x.Id).ToList();
@@ -150,6 +150,14 @@ namespace KillerNotes.Shell
         {
             // Close to system tray: hide before the fade, the note save and closing the store.
             if (_tray.HideInstead(e)) return;
+            if (!SaveCurrentNote(refreshList: false))
+            {
+                e.Cancel = true;
+                RootGrid.BeginAnimation(UIElement.OpacityProperty, null);
+                RootGrid.Opacity = 1;
+                _closeFadeComplete = false;
+                return;
+            }
             if (!_closeFadeComplete && IsLoaded && RootGrid.Opacity > 0.01)
             {
                 e.Cancel = true;
@@ -166,7 +174,6 @@ namespace KillerNotes.Shell
                 RootGrid.BeginAnimation(UIElement.OpacityProperty, fade);
                 return;
             }
-            SaveCurrentNote(refreshList: false);
             NoteStore.Close();
             base.OnClosing(e);
         }

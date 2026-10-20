@@ -51,5 +51,7 @@ namespace KillerNotes.Features.About
 
         /// <summary>Fades the About card in.</summary>
         void ShowCard();
+
+        bool SaveOpenNote();
     }
 }
