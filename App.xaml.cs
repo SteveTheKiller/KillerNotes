@@ -32,6 +32,13 @@ namespace KillerNotes
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            var installRelaunch = new Services.InstallRelaunch();
+            if (installRelaunch.TryRunHelper(e.Args, Process.GetCurrentProcess().MainModule?.FileName ?? "", out int helperExit))
+            {
+                Shutdown(helperExit);
+                return;
+            }
+
             KillerFamily.Accessibility.AccessibleControls.Initialize();
             KillerFamily.Theming.AccentShadow.Initialize();
             var cliArgs = KillerFamily.CommandLine.CommandLineEntry.GetArguments(e.Args,
@@ -488,8 +495,8 @@ namespace KillerNotes
         {
             DoInstall(wantDesktop);
 
-            Process.Start(new ProcessStartInfo(InstallExe));
-            Application.Current.Shutdown();
+            if (!new Services.InstallRelaunch().StartInstalled(InstallExe, () => Current.Shutdown()))
+                throw new InvalidOperationException("The installed copy could not be started.");
         }
 
         // Silent install, used by winget / choco / RMM and the Microsoft Store
