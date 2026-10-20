@@ -22,6 +22,7 @@ namespace KillerNotes.Shell
         private void InitEditor()
         {
             DataObject.AddPastingHandler(Editor, Editor_OnPaste);
+            MarkdownEditing.Attach(Editor, () => CurrentIsMarkdown);
             InitLinks();         // Links.cs (clickable + pasted + Ctrl+K hyperlinks)
             InitTiltWheel();     // TiltWheel.cs (WM_MOUSEHWHEEL + Shift+wheel, issue #9)
             InitTableSizePicker();
@@ -58,6 +59,7 @@ namespace KillerNotes.Shell
 
         private void Editor_OnPaste(object sender, DataObjectPastingEventArgs e)
         {
+            if (CurrentIsMarkdown) return;   // MarkdownEditing projects every paste to text.
             // Copied tables, and rows of data pasted into a table (Editor.TableEdit.cs). A
             // KillerNotes copy (XamlPackage) keeps the native paste unless it lands in a table.
             if ((!e.DataObject.GetDataPresent(DataFormats.XamlPackage) || CellAt(Editor.Selection.Start) != null) &&

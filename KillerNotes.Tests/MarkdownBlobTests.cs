@@ -150,5 +150,78 @@ namespace KillerNotes.Tests
             MarkdownBlob.Fill(doc, "");
             Assert.Single(doc.Blocks);
         });
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void NativeListsKeepTheirTextAcrossSaveAndReopen(bool numbered) => Sta.Run(() =>
+        {
+            var editor = new System.Windows.Controls.RichTextBox();
+            editor.Document.Blocks.Clear();
+            MarkdownBlob.Fill(editor.Document, "keep this text");
+            editor.SelectAll();
+            var command = numbered ? EditingCommands.ToggleNumbering : EditingCommands.ToggleBullets;
+            command.Execute(null, editor);
+            Assert.Single(editor.Document.Blocks.OfType<List>());
+            Assert.Equal("keep this text", Roundtrip(MarkdownBlob.TextOf(editor.Document)));
+        });
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void MarkdownEditorRefusesNativeListCommands(bool numbered) => Sta.Run(() =>
+        {
+            var editor = new System.Windows.Controls.RichTextBox();
+            MarkdownEditing.Attach(editor, () => true);
+            editor.Document.Blocks.Clear();
+            MarkdownBlob.Fill(editor.Document, "keep this text");
+            editor.SelectAll();
+            var command = numbered ? EditingCommands.ToggleNumbering : EditingCommands.ToggleBullets;
+            command.Execute(null, editor);
+            Assert.Empty(editor.Document.Blocks.OfType<List>());
+            Assert.Equal("keep this text", MarkdownBlob.TextOf(editor.Document));
+        });
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void RichPasteIsPlainTextInMarkdownOnly(bool markdown) => Sta.Run(() =>
+        {
+            var editor = new System.Windows.Controls.RichTextBox();
+            MarkdownEditing.Attach(editor, () => markdown);
+            var data = new DataObject();
+            data.SetData(DataFormats.Rtf, @"{\rtf1\ansi rich text}");
+            data.SetData(DataFormats.UnicodeText, "first\tcell\r\nsecond row");
+            var paste = new DataObjectPastingEventArgs(data, false, DataFormats.Rtf);
+            editor.RaiseEvent(paste);
+            Assert.Equal(markdown ? DataFormats.UnicodeText : DataFormats.Rtf, paste.FormatToApply);
+            Assert.Equal("first\tcell\r\nsecond row", paste.DataObject.GetData(DataFormats.UnicodeText));
+        });
+
+        [Fact]
+        public void RichTablePasteWithoutTextKeepsEveryCellAcrossSave() => Sta.Run(() =>
+        {
+            var source = new FlowDocument();
+            var table = new Table();
+            var group = new TableRowGroup();
+            var row = new TableRow();
+            row.Cells.Add(new TableCell(new Paragraph(new Run("first"))));
+            row.Cells.Add(new TableCell(new Section(new Paragraph(new Run("second")))));
+            group.Rows.Add(row);
+            table.RowGroups.Add(group);
+            source.Blocks.Add(table);
+            using var package = new MemoryStream();
+            new TextRange(source.ContentStart, source.ContentEnd).Save(package, DataFormats.XamlPackage);
+            package.Position = 0;
+            var editor = new System.Windows.Controls.RichTextBox();
+            MarkdownEditing.Attach(editor, () => true);
+            var paste = new DataObjectPastingEventArgs(
+                new DataObject(DataFormats.XamlPackage, package), false, DataFormats.XamlPackage);
+            editor.RaiseEvent(paste);
+            Assert.False(paste.CommandCancelled);
+            Assert.Equal(DataFormats.UnicodeText, paste.FormatToApply);
+            string text = (string)paste.DataObject.GetData(DataFormats.UnicodeText);
+            Assert.Equal("first\tsecond", Roundtrip(text));
+        });
     }
 }

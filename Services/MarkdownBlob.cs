@@ -44,14 +44,48 @@ namespace KillerNotes.Services
 
         /// <summary>The document's text as it should be stored, paragraphs joined by \n.</summary>
         public static string TextOf(FlowDocument doc)
+            => TextOfBlocks(doc.Blocks);
+
+        private static string TextOfBlocks(BlockCollection blocks)
         {
             var sb = new StringBuilder();
             bool first = true;
-            foreach (var block in doc.Blocks)
+            foreach (var block in blocks)
             {
                 if (!first) sb.Append('\n');
                 first = false;
-                if (block is Paragraph p) AppendParagraph(sb, p);
+                switch (block)
+                {
+                    case Paragraph p: AppendParagraph(sb, p); break;
+                    case Section section: sb.Append(TextOfBlocks(section.Blocks)); break;
+                    case List list:
+                        bool firstItem = true;
+                        foreach (var item in list.ListItems)
+                        {
+                            if (!firstItem) sb.Append('\n');
+                            firstItem = false;
+                            sb.Append(TextOfBlocks(item.Blocks));
+                        }
+                        break;
+                    case Table table:
+                        bool firstRow = true;
+                        foreach (var group in table.RowGroups)
+                            foreach (var row in group.Rows)
+                            {
+                                if (!firstRow) sb.Append('\n');
+                                firstRow = false;
+                                bool firstCell = true;
+                                foreach (var cell in row.Cells)
+                                {
+                                    if (!firstCell) sb.Append('\t');
+                                    firstCell = false;
+                                    sb.Append(TextOfBlocks(cell.Blocks));
+                                }
+                            }
+                        break;
+                    default:
+                        throw new System.InvalidOperationException("Markdown cannot save this document object.");
+                }
             }
             return sb.ToString();
         }
@@ -72,6 +106,9 @@ namespace KillerNotes.Services
                         // wanted here: a markdown note carries its own link syntax as characters
                         // in the Run, so there is no URL to recover off the element.
                         case Span s: Walk(s.Inlines); break;
+                        case AnchoredBlock anchor: sb.Append(TextOfBlocks(anchor.Blocks)); break;
+                        default:
+                            throw new System.InvalidOperationException("Markdown cannot save this inline object.");
                     }
                 }
             }

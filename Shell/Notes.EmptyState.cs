@@ -128,11 +128,16 @@ namespace KillerNotes.Shell
         private void ShowEditor(bool visible)
         {
             EmptyState.Visibility = visible ? Visibility.Collapsed : Visibility.Visible;
-            TitleArea.Visibility = FormatBar.Visibility = Editor.Visibility =
+            TitleArea.Visibility = Editor.Visibility =
                 visible ? Visibility.Visible : Visibility.Collapsed;
-            if (visible) PopInFormatBar();   // FormatBar.cs (first show only)
+            if (visible)
+            {
+                ApplyFormatMode();
+                if (FormatBar.Visibility == Visibility.Visible) PopInFormatBar();
+            }
             else
             {
+                FormatBar.Visibility = Visibility.Collapsed;
                 PreviewMenuItem.Visibility = Visibility.Collapsed;
                 SetPreviewMode(PreviewMode.Source, persist: false);   // Preview.cs - tear down the browser
                 OutlineList.Items.Clear();   // Headings.cs - no note, no outline
