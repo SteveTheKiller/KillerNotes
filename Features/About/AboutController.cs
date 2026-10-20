@@ -197,7 +197,7 @@ namespace KillerNotes.Features.About
             }
             catch
             {
-                UpdateService.DiscardDownload(newExe);
+                // A failed helper launch retains the verified download for recovery.
                 _updating           = false;
                 _host.UpdateEnabled = true;
                 _host.UpdateText    = string.Format(_host.Loc("Str_About_UpdateAvailable"), tag);
