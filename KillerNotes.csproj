@@ -83,7 +83,7 @@
          provider binds via plain DllImport, satisfied by SqlCipherBootstrap's preload. The .Core
          ADO.NET wrapper stays managed. Run the vulnerable-package scan (dotnet list package with
          the vulnerable and include-transitive flags) at every release. -->
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.13" />
     <PackageReference Include="SQLitePCLRaw.provider.e_sqlcipher" Version="2.1.11" />
     <!-- The x64 SQLCipher native itself is VENDORED (third_party\sqlcipher\e_sqlcipher.dll,
          built from upstream source - see the README there), embedded as a resource and
@@ -91,7 +91,7 @@
          natives. It replaces the SQLitePCLRaw.lib.e_sqlcipher package, whose whole line
          was deprecated upstream (legacy, unmaintained) in 2025. -->
     <!-- Markdown to HTML for the optional preview pane (managed, no natives, MIT) -->
-    <PackageReference Include="Markdig" Version="1.3.2" />
+    <PackageReference Include="Markdig" Version="1.4.2" />
     <!-- net48 polyfills so the kit's collection expressions / range operators compile -->
     <PackageReference Include="PolySharp" Version="1.16.0">
       <PrivateAssets>all</PrivateAssets>
@@ -127,6 +127,8 @@
     <EmbeddedResource Include="third_party\sqlcipher\e_sqlcipher.dll">
       <LogicalName>KillerNotes.SqlCipherNative.e_sqlcipher.dll</LogicalName>
     </EmbeddedResource>
+    <Content Include="third_party\sqlcipher\LICENSE-*.txt" CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <!-- Audio codec natives (AudioNativeBootstrap), same embed-and-self-extract route as SQLCipher

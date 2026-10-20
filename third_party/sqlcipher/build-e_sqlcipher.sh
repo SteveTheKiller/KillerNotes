@@ -7,7 +7,7 @@
 # amalgamation-generation step that must run first.
 set -e
 TC=./llvm-mingw-20260616-ucrt-ubuntu-22.04-x86_64/bin
-SC=./sqlcipher-4.18.0
+SC=./sqlcipher-4.19.0
 LTC=./libtomcrypt-1.18.2/src
 
 LTC_FILES="
