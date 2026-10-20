@@ -14,7 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Floating a sketch keeps its editable drawing when the note is saved and reopened.
 - Markdown notes keep list and table text when saving and paste rich content as plain text.
 - SketchPad printing stays bound to its original database and note, and refuses a deleted edit target.
-- Replace and Replace All consume whole text matches across formatting, preserve embedded images and recordings, retain regex context and captures, and keep one-step undo.
+- Replace and Replace All consume whole text matches across formatting, preserve embedded images and recordings, retain regex context and captures, and keep one-step undo. Large formatted notes use efficient match lookup.
 - A CLI or MCP client that stops reading a large reply no longer blocks later clients.
 - Switching databases clears Back and Forward history; reopening the same database preserves it.
 - Preview sizing respects the current monitor's work area and relaxes split-pane limits on constrained displays.

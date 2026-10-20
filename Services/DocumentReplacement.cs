@@ -60,10 +60,17 @@ namespace KillerNotes.Services
         private static TextPointer? At(List<(int Offset, TextPointer Start, int Length)> runs, int offset, bool end = false)
         {
             int lookup = end ? offset - 1 : offset;
-            foreach (var run in runs)
-                if (lookup >= run.Offset && lookup < run.Offset + run.Length)
+            int lo = 0, hi = runs.Count - 1;
+            while (lo <= hi)
+            {
+                int mid = lo + (hi - lo) / 2;
+                var run = runs[mid];
+                if (lookup < run.Offset) hi = mid - 1;
+                else if (lookup >= run.Offset + run.Length) lo = mid + 1;
+                else
                     return run.Start.GetPositionAtOffset(offset - run.Offset,
                         end ? LogicalDirection.Backward : LogicalDirection.Forward);
+            }
             return null;
         }
     }

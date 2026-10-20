@@ -7,6 +7,23 @@ namespace KillerNotes.Tests
 {
     public class DocumentReplacementTests
     {
+        [Fact]
+        public void ReplaceAllResolvesManyFormattedRunsWithoutOffsetDrift() => Sta.Run(() =>
+        {
+            const int count = 2048;
+            var paragraph = new Paragraph();
+            var edits = new (int, int, string)[count];
+            for (int i = 0; i < count; i++)
+            {
+                paragraph.Inlines.Add(new Bold(new Run("ab ")));
+                edits[i] = (i * 3, 2, "X");
+            }
+            var editor = new RichTextBox(new FlowDocument(paragraph));
+            DocumentReplacement.Apply(editor, edits);
+            Assert.Equal(string.Concat(System.Linq.Enumerable.Repeat("X ", count)) + "\r\n",
+                new TextRange(editor.Document.ContentStart, editor.Document.ContentEnd).Text);
+        });
+
         [Theory]
         [InlineData(2, false)]
         [InlineData(3, false)]
