@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 - Offline transcription quiets native output without overwriting its context settings.
-- Updated SQLCipher to 4.19.0, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
+- Updated SQLCipher to 4.19.0, FLAC to 1.5.0, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
 - The editor's dotted keyboard focus outline sits above the first text row.
 - Failed saves keep edits open for retry or text/RTF export, block transitions that would discard them, and commit note content, links, history and sketch data together.
 - Failed password changes preserve the original database and complete recovery copies.
