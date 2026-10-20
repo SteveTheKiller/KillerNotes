@@ -272,31 +272,38 @@ namespace KillerNotes.Shell
         private void UpdateNotesFade()
         {
             if (_notesScroll == null || NotesFade == null || NotesTopFade == null) return;
+            NotesList.OpacityMask = null;
+            NotesTopFade.Visibility = Visibility.Collapsed;
+            NotesFade.Visibility = Visibility.Collapsed;
+            if (_notesScroll.Template.FindName("PART_ScrollContentPresenter", _notesScroll)
+                    is not ScrollContentPresenter viewport) return;
             bool overflow = _notesScroll.ScrollableHeight > 0.5;
             bool atTop = _notesScroll.VerticalOffset <= 0.5;
             // The list virtualizes with pixel scrolling, so ScrollableHeight is an estimate that can
             // sit past the real end; the last row being fully in view is the reliable bottom test.
             bool atBottom = _notesScroll.VerticalOffset >= _notesScroll.ScrollableHeight - 1 || LastNoteRowInView();
 
-            // Fade the list pixels themselves to transparent. An overlay can only match a flat
-            // sidebar; on horizontal chrome gradients it becomes a visibly different rectangle.
-            // Transparency reveals the exact grain and gradient already behind the list.
-            // A theme can switch the scroll fades off entirely (EdgeFadeOpacity 0) - a soft gradient
-            // hint is a modern idiom and wrong on a retro one, where a list ends at a hard edge.
-            // It has to be handled HERE rather than on the NotesTopFade/NotesFade borders: those two
-            // are dead (see the bottom of this method), and the fade is really an OpacityMask on the
-            // list itself, so a Border-level opacity key never reaches it.
+            // Only content fades. The viewport and scrollbars are siblings, so neither scrollbar
+            // can inherit the mask. Transparency preserves the sidebar's actual grain and gradient.
             if (Application.Current?.TryFindResource("EdgeFadeOpacity") is double fadeOp && fadeOp <= 0)
             {
-                NotesList.OpacityMask = null;
-                NotesTopFade.Visibility = Visibility.Collapsed;
-                NotesFade.Visibility = Visibility.Collapsed;
+                viewport.OpacityMask = null;
                 return;
             }
 
             bool fadeTop = overflow && !atTop;
             bool fadeBottom = overflow && !atBottom;
-            var mask = new LinearGradientBrush { StartPoint = new Point(0, 0), EndPoint = new Point(0, 1) };
+            if (!fadeTop && !fadeBottom)
+            {
+                viewport.OpacityMask = null;
+                return;
+            }
+            var mask = new LinearGradientBrush
+            {
+                MappingMode = BrushMappingMode.Absolute,
+                StartPoint = new Point(0, 0),
+                EndPoint = new Point(0, viewport.ActualHeight)
+            };
             if (fadeTop)
             {
                 mask.GradientStops.Add(new GradientStop(Colors.Transparent, 0));
@@ -309,11 +316,8 @@ namespace KillerNotes.Shell
                 mask.GradientStops.Add(new GradientStop(Colors.Transparent, 1));
             }
             else mask.GradientStops.Add(new GradientStop(Colors.Black, 1));
-            NotesList.OpacityMask = mask;
-
-            // Retained as named layout elements for compatibility, but no longer painted.
-            NotesTopFade.Visibility = Visibility.Collapsed;
-            NotesFade.Visibility = Visibility.Collapsed;
+            mask.Freeze();
+            viewport.OpacityMask = mask;
         }
 
         private static T? FindDescendant<T>(DependencyObject root) where T : DependencyObject
