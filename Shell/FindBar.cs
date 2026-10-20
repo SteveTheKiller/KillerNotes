@@ -702,11 +702,11 @@ namespace KillerNotes.Shell
             // TextChanged storm until EndChange, so the cache invalidation runs once.
             var edits = new List<(int Start, int Length, string Text)>();
             for (int i = 0; i < hits.Count; i++) edits.Add((hits[i].Start, hits[i].Length, repls[i]));
-            DocumentReplacement.Apply(Editor, edits);
+            int applied = DocumentReplacement.Apply(Editor, edits);
 
             RunFind();
 
-            FlashStatus(string.Format(Loc("Str_St_Replaced"), hits.Count));
+            FlashStatus(string.Format(Loc("Str_St_Replaced"), applied));
         }
 
         /// <summary>Toggles one of the three match options; the family Tag="on" lights it.</summary>

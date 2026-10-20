@@ -26,9 +26,10 @@ namespace KillerNotes.Services
             catch (System.ArgumentException) { return replacement; }
         }
 
-        public static void Apply(RichTextBox editor, IReadOnlyList<(int Start, int Length, string Text)> edits)
+        public static int Apply(RichTextBox editor, IReadOnlyList<(int Start, int Length, string Text)> edits)
         {
             var runs = new List<(int Offset, TextPointer Start, int Length)>();
+            var separators = new Dictionary<int, (TextPointer Start, TextPointer End)>();
             int offset = 0;
             for (TextPointer? p = editor.Document.ContentStart; p != null; p = p.GetNextContextPosition(LogicalDirection.Forward))
             {
@@ -38,28 +39,39 @@ namespace KillerNotes.Services
                     if (length > 0) runs.Add((offset, p, length));
                     offset += length;
                 }
-                else if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.EmbeddedElement ||
-                    (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementEnd && p.Parent is Paragraph))
+                else if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementEnd && p.Parent is Paragraph)
+                {
+                    separators[offset] = (p, p.GetNextInsertionPosition(LogicalDirection.Forward) ?? p);
+                    offset++;
+                }
+                else if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.EmbeddedElement)
                     offset++;
             }
+            int applied = 0;
             editor.BeginChange();
             try
             {
                 for (int i = edits.Count - 1; i >= 0; i--)
                 {
                     var edit = edits[i];
-                    var start = At(runs, edit.Start);
-                    var end = At(runs, edit.Start + edit.Length, end: true);
+                    var start = At(runs, separators, edit.Start);
+                    var end = At(runs, separators, edit.Start + edit.Length, end: true);
                     if (start != null && end != null && !ContainsObject(start, end))
+                    {
                         new TextRange(start, end).Text = edit.Text;
+                        applied++;
+                    }
                 }
             }
             finally { editor.EndChange(); }
+            return applied;
         }
 
-        private static TextPointer? At(List<(int Offset, TextPointer Start, int Length)> runs, int offset, bool end = false)
+        private static TextPointer? At(List<(int Offset, TextPointer Start, int Length)> runs,
+            Dictionary<int, (TextPointer Start, TextPointer End)> separators, int offset, bool end = false)
         {
             int lookup = end ? offset - 1 : offset;
+            if (separators.TryGetValue(lookup, out var separator)) return end ? separator.End : separator.Start;
             int lo = 0, hi = runs.Count - 1;
             while (lo <= hi)
             {

@@ -7,6 +7,19 @@ namespace KillerNotes.Tests
 {
     public class DocumentReplacementTests
     {
+        [Theory]
+        [InlineData(0, 4, "Xdef\r\n")]
+        [InlineData(3, 4, "abcX\r\n")]
+        [InlineData(3, 1, "abcXdef\r\n")]
+        public void ReplaceConsumesMatchesWithParagraphSeparatorEndpoints(int start, int length, string expected) => Sta.Run(() =>
+        {
+            var document = new FlowDocument(new Paragraph(new Run("abc")));
+            document.Blocks.Add(new Paragraph(new Run("def")));
+            var editor = new RichTextBox(document);
+            Assert.Equal(1, DocumentReplacement.Apply(editor, new[] { (start, length, "X") }));
+            Assert.Equal(expected, new TextRange(document.ContentStart, document.ContentEnd).Text);
+        });
+
         [Fact]
         public void ReplaceAllResolvesManyFormattedRunsWithoutOffsetDrift() => Sta.Run(() =>
         {
@@ -37,12 +50,12 @@ namespace KillerNotes.Tests
             paragraph.Inlines.Add(container);
             paragraph.Inlines.Add(new Run("b"));
             var editor = new RichTextBox(new FlowDocument(paragraph));
-            DocumentReplacement.Apply(editor, new[] { (0, length, "X") });
+            Assert.Equal(0, DocumentReplacement.Apply(editor, new[] { (0, length, "X") }));
             Assert.Same(container, image.Parent);
             Assert.Contains(container, System.Linq.Enumerable.Cast<Inline>(paragraph.Inlines));
             Assert.Contains("a", new TextRange(editor.Document.ContentStart, editor.Document.ContentEnd).Text);
             Assert.Contains("b", new TextRange(editor.Document.ContentStart, editor.Document.ContentEnd).Text);
-            DocumentReplacement.Apply(editor, new[] { (2, 1, "B") });
+            Assert.Equal(1, DocumentReplacement.Apply(editor, new[] { (2, 1, "B") }));
             Assert.Contains("B", new TextRange(editor.Document.ContentStart, editor.Document.ContentEnd).Text);
         });
 

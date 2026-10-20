@@ -16,7 +16,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Updated SQLCipher to 4.19.0, FLAC to 1.5.0, Whisper to 1.9.5, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
 - Floating a sketch keeps its editable drawing when the note is saved and reopened.
 - Markdown notes keep list and table text when saving and paste rich content as plain text.
-- Replace and Replace All consume whole text matches across formatting, preserve embedded images and recordings, retain regex context and captures, and keep one-step undo. Large formatted notes use efficient match lookup.
+- Replace and Replace All handle complete matches across formatting and paragraph breaks, preserve images and recordings, retain regex context and captures, and support one-step undo and large formatted notes. (#14)
 - A CLI or MCP client that stops reading a large reply no longer blocks later clients.
 - Switching databases clears Back and Forward history; reopening the same database preserves it.
 - Offline transcription starts correctly, preserves its settings, and opens models from folders with non-English names.
