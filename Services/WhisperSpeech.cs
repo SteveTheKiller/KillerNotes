@@ -30,7 +30,24 @@ namespace KillerNotes.Services
         /// <summary>True when the natives are present, whether or not a model is installed.</summary>
         internal static bool Available
         {
-            get { AudioNativeBootstrap.EnsureLoaded(); return AudioNativeBootstrap.WhisperAvailable; }
+            get
+            {
+                AudioNativeBootstrap.EnsureLoaded();
+                return AudioNativeBootstrap.WhisperAvailable && NativeVersion == SupportedNativeVersion;
+            }
+        }
+
+        internal const string SupportedNativeVersion = "1.9.5";
+
+        internal static string NativeVersion
+        {
+            get
+            {
+                try { return Marshal.PtrToStringAnsi(whisper_version()) ?? ""; }
+                catch (DllNotFoundException) { return ""; }
+                catch (EntryPointNotFoundException) { return ""; }
+                catch (BadImageFormatException) { return ""; }
+            }
         }
 
         // ---- models ----
@@ -80,6 +97,9 @@ namespace KillerNotes.Services
 
         private const string Dll = "libwhisper.dll";
 
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr whisper_version();
+
         [StructLayout(LayoutKind.Sequential)]
         private struct WhisperContextParams
         {
@@ -98,8 +118,9 @@ namespace KillerNotes.Services
         [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
         private static extern WhisperContextParams whisper_context_default_params();
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        private static extern IntPtr whisper_init_from_file_with_params(string path, WhisperContextParams p);
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr whisper_init_from_file_with_params(
+            [MarshalAs(UnmanagedType.LPUTF8Str)] string path, WhisperContextParams p);
 
         internal static IntPtr CreateContext(string model)
         {
@@ -134,7 +155,7 @@ namespace KillerNotes.Services
         /// than this reserved buffer. Recheck its size when updating the native library.</summary>
         private const int ParamsBlobSize = 4096;
 
-        // Byte offsets into whisper_full_params for whisper.cpp 1.7.4. Only the flags that quieten
+        // Byte offsets into whisper_full_params for whisper.cpp 1.9.5. Only the flags that quieten
         // console output are touched; the five preceding ints and four bools retain their defaults.
         private const int OffPrintSpecial = 24;
         private const int OffPrintProgress = 25;

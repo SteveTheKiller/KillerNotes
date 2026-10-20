@@ -15,6 +15,10 @@ namespace KillerNotes.Tests
     public sealed class WhisperInteropTests : IClassFixture<WhisperNativeFixture>
     {
         [Fact]
+        public void EmbeddedNativeMatchesTheReviewedAbiVersion() =>
+            Assert.Equal(WhisperSpeech.SupportedNativeVersion, WhisperSpeech.NativeVersion);
+
+        [Fact]
         public void MissingModelReturnsFailureWithoutAMarshalingException()
         {
             string absent = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,

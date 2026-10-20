@@ -101,3 +101,47 @@ by the previous 1.4.3 DLL without changing its samples. Multithreading remains d
 preserving the previous single-threaded behavior. The old source archive remains as
 legacy provenance. This is an unsigned development rebuild; signing, packaging and real
 hardware recording checks remain release gates.
+
+## Offline speech recognition
+
+The four MIT-licensed speech DLLs are built together from whisper.cpp 1.9.5,
+commit `d1be6fde11ac6e0407606b4e42fe72d34add8037`. The retained source archive
+`whisper.cpp-1.9.5.tar.gz` comes from
+`https://codeload.github.com/ggml-org/whisper.cpp/tar.gz/d1be6fde11ac6e0407606b4e42fe72d34add8037`.
+Its locally calculated SHA-256 is
+`645445da884df6dbd52b30f82d7be7c01d1767c938714e477e786b88d529e9f4`.
+The previous 1.7.4 archive remains for provenance.
+
+| DLL | SHA-256 |
+|---|---|
+| `ggml-base.dll` | `a228f0da665455eea98c1826539e28bf0f9045584c97205e06e80a14d6d0ad42` |
+| `ggml-cpu.dll` | `9e6b13528dd85f25bff7cf888ddcec49a440c49cbae0b85a3b6e23d6c1976875` |
+| `ggml.dll` | `3782042c887cc96f7b494765ffceece482a1cc8fc0704e95e7533d1ea643cbda` |
+| `libwhisper.dll` | `5ee14bcc32c4ffeea8628824a14a98304c59df65c6742b17fd5173b3f7b3f537` |
+
+Rebuild on Linux with CMake 4.2.3, make and llvm-mingw 20260616 (ucrt, x86_64).
+Extract the archive into a scratch directory, then apply `whisper-windows-utf8.patch`
+inside its source directory with `git apply`. This patch enables Windows wide-path
+loading under MinGW and preserves UTF-16 surrogate pairs. From that source directory:
+
+```sh
+export PATH=/path/to/llvm-mingw-20260616-ucrt-ubuntu-22.04-x86_64/bin:$PATH
+cmake -S . -B ../whisper-build -G 'Unix Makefiles' \
+  -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_SYSTEM_PROCESSOR=AMD64 \
+  -DCMAKE_C_COMPILER=x86_64-w64-mingw32-clang \
+  -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-clang++ \
+  -DCMAKE_RC_COMPILER=x86_64-w64-mingw32-windres \
+  -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DWHISPER_BUILD_IS_DEV=OFF \
+  -DGGML_NATIVE=OFF -DGGML_OPENMP=OFF -DGGML_CUDA=OFF -DGGML_VULKAN=OFF \
+  -DGGML_BLAS=OFF -DGGML_BACKEND_DL=OFF \
+  -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_CURL=OFF \
+  '-DCMAKE_SHARED_LINKER_FLAGS=-static-libgcc -static-libstdc++'
+cmake --build ../whisper-build -j4
+# Copy the four DLLs from the build tree, then llvm-strip each copy.
+```
+
+The managed interop requires native version 1.9.5. Native initialization and parameter
+checks run on .NET Framework 4.8. A full transcription of the upstream JFK sample
+with the author's tiny.en model also passes from a non-English folder name. These
+are unsigned development binaries; packaging, signing and microphone checks remain
+release gates.

@@ -1,0 +1,38 @@
+diff --git a/src/whisper.cpp b/src/whisper.cpp
+--- a/src/whisper.cpp
++++ b/src/whisper.cpp
+@@ -41,7 +41,7 @@
+ #include <vector>
+ 
+-#ifdef _MSC_VER
++#ifdef _WIN32
+ #include <codecvt>
+ #endif
+ 
+ #if defined(WHISPER_BIG_ENDIAN)
+@@ -3731,10 +3731,10 @@
+ struct whisper_context * whisper_init_from_file_with_params_no_state(const char * path_model, struct whisper_context_params params) {
+     WHISPER_LOG_INFO("%s: loading model from '%s'\n", __func__, path_model);
+-#ifdef _MSC_VER
++#ifdef _WIN32
+     // Convert UTF-8 path to wide string (UTF-16) for Windows, resolving character encoding issues.
+-    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
++    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+     std::wstring path_model_wide = converter.from_bytes(path_model);
+-    auto fin = std::ifstream(path_model_wide, std::ios::binary);
++    auto fin = std::ifstream(path_model_wide.c_str(), std::ios::binary);
+ #else
+     auto fin = std::ifstream(path_model, std::ios::binary);
+ #endif
+@@ -4879,8 +4879,8 @@
+     WHISPER_LOG_INFO("%s: loading VAD model from '%s'\n", __func__, path_model);
+-#ifdef _MSC_VER
+-    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
++#ifdef _WIN32
++    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+     std::wstring path_model_wide = converter.from_bytes(path_model);
+-    auto fin = std::ifstream(path_model_wide, std::ios::binary);
++    auto fin = std::ifstream(path_model_wide.c_str(), std::ios::binary);
+ #else
+     auto fin = std::ifstream(path_model, std::ios::binary);
+ #endif
