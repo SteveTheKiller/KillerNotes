@@ -11,6 +11,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Same-named databases keep separate backup retention and preserve ambiguous older backups.
 - Floating a sketch keeps its editable drawing when the note is saved and reopened.
 - Markdown notes keep list and table text when saving and paste rich content as plain text.
+- Replace and Replace All consume whole matches across formatting boundaries and keep one-step undo.
 - Sidebar fades leave the scrollbar clear, disappear at the start and end of the list, and stay off in 98SE.
 - The shortcuts and font cards scroll at their outer edges, show when more content is out of view, and keep scroll bars clear of Close.
 - The footer copyright sits a few pixels further from the corner grip instead of running into it.

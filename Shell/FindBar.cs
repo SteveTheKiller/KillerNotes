@@ -657,14 +657,11 @@ namespace KillerNotes.Shell
 
             var hit = _findHits[_findIndex];
             string repl = ReplacementFor(hit);
-            var a = PointerForOffset(hit.Start);
-            var b = a?.GetPositionAtOffset(hit.Length, LogicalDirection.Forward);
-            if (a == null || b == null) return;
 
             // Refresh after the edit before choosing the next match. The next hit must be
             // past the replacement even when it still contains the term ("a" -> "aa").
             int resumeAt = hit.Start + repl.Length;
-            new TextRange(a, b).Text = repl;
+            DocumentReplacement.Apply(Editor, new[] { (hit.Start, hit.Length, repl) });
             RunFind();
 
             if (_findHits.Count > 0)
@@ -702,18 +699,9 @@ namespace KillerNotes.Shell
 
             // BeginChange batches everything inside into a single undo unit and holds the
             // TextChanged storm until EndChange, so the cache invalidation runs once.
-            Editor.BeginChange();
-            try
-            {
-                for (int i = hits.Count - 1; i >= 0; i--)
-                {
-                    var a = PointerForOffset(hits[i].Start);
-                    var b = a?.GetPositionAtOffset(hits[i].Length, LogicalDirection.Forward);
-                    if (a == null || b == null) continue;
-                    new TextRange(a, b).Text = repls[i];
-                }
-            }
-            finally { Editor.EndChange(); }
+            var edits = new List<(int Start, int Length, string Text)>();
+            for (int i = 0; i < hits.Count; i++) edits.Add((hits[i].Start, hits[i].Length, repls[i]));
+            DocumentReplacement.Apply(Editor, edits);
 
             RunFind();
 
