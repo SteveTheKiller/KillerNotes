@@ -244,9 +244,9 @@ namespace KillerNotes.Shell
                 double sx = src?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
                 double sy = src?.CompositionTarget?.TransformToDevice.M22 ?? 1.0;
                 if (!double.IsNaN(MinWidth) && MinWidth > 0)
-                    mmi.ptMinTrackSize.x = (int)Math.Ceiling(MinWidth * sx);
+                    mmi.ptMinTrackSize.x = (int)Math.Min(mmi.ptMaxTrackSize.x, Math.Ceiling(MinWidth * sx));
                 if (!double.IsNaN(MinHeight) && MinHeight > 0)
-                    mmi.ptMinTrackSize.y = (int)Math.Ceiling(MinHeight * sy);
+                    mmi.ptMinTrackSize.y = (int)Math.Min(mmi.ptMaxTrackSize.y, Math.Ceiling(MinHeight * sy));
 
                 Marshal.StructureToPtr(mmi, lParam, true);
             }

@@ -15,6 +15,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Replace and Replace All consume whole matches across formatting boundaries, preserve regex context and capture substitutions, and keep one-step undo.
 - A CLI or MCP client that stops reading a large reply no longer blocks later clients.
 - Switching databases clears Back and Forward history; reopening the same database preserves it.
+- Preview sizing respects the current monitor's work area and relaxes split-pane limits on constrained displays.
 - Sidebar fades leave the scrollbar clear, disappear at the start and end of the list, and stay off in 98SE.
 - The shortcuts and font cards scroll at their outer edges, show when more content is out of view, and keep scroll bars clear of Close.
 - The footer copyright sits a few pixels further from the corner grip instead of running into it.

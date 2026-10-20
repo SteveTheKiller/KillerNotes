@@ -305,11 +305,13 @@ namespace KillerNotes.Shell
             if (persist) App.SetSetting(PreviewModeSettingKey, mode.ToString());
         }
 
-        private bool _previewMinimumQueued;
+        private readonly WindowMinimumPolicy _previewMinimumPolicy = new();
 
         private void InitPreviewMinimum()
         {
             ScaleHost.LayoutUpdated += (_, _) => QueuePreviewMinimum();
+            LocationChanged += (_, _) => QueuePreviewMinimum();
+            StateChanged += (_, _) => QueuePreviewMinimum();
         }
 
         private double PreviewMinimumWidth()
@@ -321,20 +323,36 @@ namespace KillerNotes.Shell
             double paneChrome = ContentPane.Margin.Left + ContentPane.Margin.Right
                 + ContentPane.BorderThickness.Left + ContentPane.BorderThickness.Right;
             double columns = SidebarCol.ActualWidth + GutterCol.ActualWidth + OutlineCol.ActualWidth
-                + PreviewDividerCol.Width.Value + EditorCol.MinWidth + PreviewCol.MinWidth;
+                + PreviewDividerCol.Width.Value + 400;
             return Math.Max(720, Math.Ceiling(chrome + (columns + paneChrome) * scale));
         }
 
         private void QueuePreviewMinimum()
         {
-            if (_previewMinimumQueued || Math.Abs(MinWidth - PreviewMinimumWidth()) < 0.5) return;
-            _previewMinimumQueued = true;
-            Dispatcher.BeginInvoke(new Action(() =>
+            if (_previewMode == PreviewMode.Split && EditorArea.ActualWidth > 0)
             {
-                _previewMinimumQueued = false;
-                double minimum = PreviewMinimumWidth();
-                if (Math.Abs(MinWidth - minimum) >= 0.5) MinWidth = minimum;
-            }), DispatcherPriority.Background);
+                double width = EditorArea.ActualWidth;
+                bool constrained = PreviewMinimumWidth() > PreviewWorkAreaWidth();
+                GutterCol.MaxWidth = constrained ? width * .15 : double.PositiveInfinity;
+                OutlineCol.MaxWidth = constrained ? width * .3 : double.PositiveInfinity;
+                double remaining = Math.Max(0, width - Math.Min(GutterCol.ActualWidth, GutterCol.MaxWidth)
+                    - Math.Min(OutlineCol.ActualWidth, OutlineCol.MaxWidth) - PreviewDividerCol.Width.Value);
+                EditorCol.MinWidth = PreviewCol.MinWidth = constrained ? Math.Min(200, remaining / 2) : 200;
+            }
+            else
+            {
+                GutterCol.MaxWidth = OutlineCol.MaxWidth = double.PositiveInfinity;
+            }
+            _previewMinimumPolicy.Queue(this, PreviewMinimumWidth, PreviewWorkAreaWidth);
+        }
+
+        private double PreviewWorkAreaWidth()
+        {
+            IntPtr monitor = MonitorFromWindow(new System.Windows.Interop.WindowInteropHelper(this).Handle, MONITOR_DEFAULTTONEAREST);
+            var info = new MONITORINFO { cbSize = System.Runtime.InteropServices.Marshal.SizeOf(typeof(MONITORINFO)) };
+            if (monitor == IntPtr.Zero || !GetMonitorInfo(monitor, ref info)) return SystemParameters.WorkArea.Width;
+            double scale = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformToDevice.M11 ?? 1;
+            return Math.Max(1, (info.rcWork.right - info.rcWork.left) / scale);
         }
 
         private void RenderPreview(string text, bool preserveScroll = false)
