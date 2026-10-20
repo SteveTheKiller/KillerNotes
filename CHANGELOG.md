@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.5.2] - Unreleased
 
 ### Fixed
+- The editor's dotted keyboard focus outline sits above the first text row.
 - Failed saves keep edits open for retry or text/RTF export, block transitions that would discard them, and commit note content, links, history and sketch data together.
 - Failed password changes preserve the original database and complete recovery copies.
 - Uninstall and duplicate-install cleanup preserve databases and other user files inside the installation folder.

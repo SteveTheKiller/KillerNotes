@@ -21,6 +21,15 @@ namespace KillerNotes.Shell
     {
         private void InitEditor()
         {
+            var focusRing = new FrameworkElementFactory(typeof(KillerFamily.Accessibility.FocusRing));
+            focusRing.SetValue(FrameworkElement.MarginProperty, new Thickness(2, -2, 2, 2));
+            focusRing.SetValue(KillerFamily.Accessibility.FocusRing.InsetProperty, 2.0);
+            var focusStyle = new Style(typeof(Control));
+            focusStyle.Setters.Add(new Setter(Control.TemplateProperty,
+                new ControlTemplate(typeof(Control)) { VisualTree = focusRing }));
+            focusStyle.Seal();
+            Editor.FocusVisualStyle = focusStyle;
+
             DataObject.AddPastingHandler(Editor, Editor_OnPaste);
             MarkdownEditing.Attach(Editor, () => CurrentIsMarkdown);
             InitLinks();         // Links.cs (clickable + pasted + Ctrl+K hyperlinks)
