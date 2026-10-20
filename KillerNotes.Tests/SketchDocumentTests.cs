@@ -14,6 +14,28 @@ namespace KillerNotes.Tests
     public class SketchDocumentTests
     {
         [Fact]
+        public void OpenSketchCannotPrintIntoAnotherDatabaseWithTheSameNoteId()
+        {
+            using var first = new TempStore();
+            long original = NoteStore.Create("A");
+            var session = new SketchSession(original);
+            Assert.True(session.CanPrint(original));
+            NoteStore.Close();
+            NoteStore.DemoDbFile = "other.db";
+            NoteStore.Open();
+            long other = NoteStore.Create("B");
+            Assert.Equal(original, other);
+            Assert.False(session.CanPrint(other));
+            NoteStore.Close();
+            NoteStore.DemoDbFile = "test.db";
+            NoteStore.Open();
+            Assert.True(session.CanPrint(original));
+            Assert.False(session.CanPrint(original + 1));
+            NoteStore.Close();
+            Assert.False(session.CanPrint(original));
+        }
+
+        [Fact]
         public void LegacyOrdinalsStayWithTheirImagesWhenNestedImagesPrecedeThem() => Sta.Run(() =>
         {
             var nested = new Image();

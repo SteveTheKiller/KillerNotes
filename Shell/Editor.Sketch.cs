@@ -37,12 +37,12 @@ namespace KillerNotes.Shell
         // the caret; double-clicking a placed sketch edits THAT one and Print replaces it in place.
         private SketchPadWindow? _sketchPad;
         private Image? _sketchEditTarget;   // the placed sketch being edited in place; null = Print makes a new one
-        private long _sketchNoteId = -1;    // the note this pad session belongs to - Print refuses any other
+        private SketchSession? _sketchSession;
 
         // Fresh open (F7 / Ctrl+Shift+D / rail button): new-sketch mode - Print stamps at the caret.
         private void OpenSketchPad()
         {
-            _sketchEditTarget = null;
+            if (_sketchPad == null) _sketchEditTarget = null;
             ShowSketchPad();
         }
 
@@ -50,6 +50,7 @@ namespace KillerNotes.Shell
         private void OpenSketchPadForEdit(Image target, IReadOnlyList<SketchObject> objects)
         {
             ShowSketchPad();
+            _sketchSession = new SketchSession(_currentId);
             _sketchEditTarget = target;
             int w = 0, h = 0;
             if (target.Source is System.Windows.Media.Imaging.BitmapSource bs) { w = bs.PixelWidth; h = bs.PixelHeight; }   // the flattened bitmap is the drawn canvas size
@@ -62,6 +63,7 @@ namespace KillerNotes.Shell
         {
             if (target.Source is not System.Windows.Media.Imaging.BitmapSource bs) return;
             ShowSketchPad();
+            _sketchSession = new SketchSession(_currentId);
             _sketchEditTarget = target;
             _sketchPad!.LoadImageAsBackdrop(bs);
         }
@@ -70,13 +72,13 @@ namespace KillerNotes.Shell
         {
             // Every entry point (fresh open, edit sketch, edit image) comes through here, so this
             // is where the session binds to the OPEN note. Print checks it before stamping.
-            _sketchNoteId = _currentId;
             if (_sketchPad == null)
             {
+                _sketchSession = new SketchSession(_currentId);
                 _sketchPad = new SketchPadWindow(this, PrintSketchToNote);
                 _sketchPad.Closed += (_, _) =>
                 {
-                    _sketchPad = null; _sketchEditTarget = null; _sketchNoteId = -1;
+                    _sketchPad = null; _sketchEditTarget = null; _sketchSession = null;
                     SketchRailBtn.Tag = null;
                 };
                 _sketchPad.Show();
@@ -102,7 +104,9 @@ namespace KillerNotes.Shell
             // fallthrough below stamped the drawing into WHATEVER note was open at that moment -
             // one note's sketch appearing inside an unrelated note (2026-08-08). A session prints
             // only into the note it was opened from.
-            if (_currentId != _sketchNoteId) { StatusText.Text = Loc("Str_St_SketchWrongNote"); return; }
+            if (_sketchSession?.CanPrint(_currentId) != true) { StatusText.Text = Loc("Str_St_SketchWrongNote"); return; }
+            if (_currentInTrash || (_sketchEditTarget != null && !ImageInDocument(_sketchEditTarget)))
+            { StatusText.Text = Loc("Str_St_SketchWrongNote"); return; }
             if (objects.Count == 0) { StatusText.Text = Loc("Str_St_SketchEmpty"); return; }
             // A markdown note stores text, so the flattened image would be lost at the next save
             // (Markdown.cs). The pad itself stays usable - its copy-to-clipboard still works.
