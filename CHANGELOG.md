@@ -7,7 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.5.2] - Unreleased
 
 ### Fixed
-- Sidebar fades leave the scrollbar clear and disappear at the start and end of the list.
+- Sidebar fades leave the scrollbar clear, disappear at the start and end of the list, and stay off in 98SE.
 - The shortcuts and font cards scroll at their outer edges, show when more content is out of view, and keep scroll bars clear of Close.
 - The footer copyright sits a few pixels further from the corner grip instead of running into it.
 - A silent install or update that finds KillerNotes running exits with 1618, which Intune, Configuration Manager and RMM tools retry, instead of a general failure.

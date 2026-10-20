@@ -245,6 +245,7 @@ namespace KillerNotes.Shell
         /// previously resolved DynamicResource value across an in-place dictionary update.</summary>
         private void ApplyThemeElevation()
         {
+            ResolveAndUpdateNotesFade();
             if (ThemeManager.Current == Theme.SE98)
             {
                 ContentPane.Effect = null;
