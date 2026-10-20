@@ -97,7 +97,12 @@ namespace KillerNotes.Services
             using var hash = SHA256.Create();
             string identity = BitConverter.ToString(hash.ComputeHash(Encoding.UTF8.GetBytes(
                 authority.ToUpperInvariant() + "|" + path.ToUpperInvariant()))).Replace("-", "");
-            return Stem(dbFile) + "~" + identity;
+            // Reserve the timestamp, a full int collision counter, extension and pending GUID
+            // within Windows' 255-character filename component limit.
+            string label = Stem(dbFile);
+            if (label.Length > 120)
+                label = label.Substring(0, char.IsHighSurrogate(label[119]) ? 119 : 120);
+            return label + "~" + identity;
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]

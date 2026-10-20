@@ -29,6 +29,27 @@ namespace KillerNotes.Tests
         private static readonly DateTime When = new(2026, 9, 1, 14, 5, 0);
 
         [Fact]
+        public void LongDatabaseNamesBackUpTwiceAndRestore()
+        {
+            using var store = new TempStore();
+            NoteStore.Create("Long name content");
+            string source = store.DbPath;
+            NoteStore.Close();
+            string file = new string('n', 133) + ".db";
+            File.Move(source, Path.Combine(NoteStore.DbDir, file));
+            NoteStore.DemoDbFile = file;
+            NoteStore.Open();
+            string folder = Path.Combine(_dir, "long-names");
+            string first = BackupService.BackupNow(folder, file, When, 2);
+            string second = BackupService.BackupNow(folder, file, When, 2);
+            Assert.NotEqual(first, second);
+            Assert.Equal(2, BackupService.ListBackups(folder, file).Count);
+            Assert.Equal(1, CountNotes(second));
+            string restored = BackupService.RestoreToDataFolder(second, When);
+            Assert.True(File.Exists(Path.Combine(NoteStore.DbDir, restored)));
+        }
+
+        [Fact]
         public void SameNamedSourcesRetainIndependentRestorableBackups()
         {
             string folder = Path.Combine(_dir, "shared-backups");

@@ -10,7 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Failed saves keep edits open for retry or text/RTF export, block transitions that would discard them, and commit note content, links, history and sketch data together.
 - Failed password changes preserve the original database and complete recovery copies.
 - Uninstall and duplicate-install cleanup preserve databases and other user files inside the installation folder.
-- Same-named databases keep separate backup retention and preserve ambiguous older backups.
+- Same-named databases keep separate backup retention, preserve ambiguous older backups, and support long database names.
 - Floating a sketch keeps its editable drawing when the note is saved and reopened.
 - Markdown notes keep list and table text when saving and paste rich content as plain text.
 - SketchPad printing stays bound to its original database and note, and refuses a deleted edit target.
