@@ -11,7 +11,7 @@ using KillerNotes.Services;
 namespace KillerNotes.Shell
 {
     // ═══════════════════════════════════════════════════════════
-    //  CROSS-NOTE REPLACE (#14) - the sidebar's replace row
+    //  CROSS-NOTE REPLACE (#14) - the second title-bar row
     // ═══════════════════════════════════════════════════════════
     // The sidebar search box already answers "which notes carry this text"; this row is the
     // write half: replace that term inside every note that carries it. The term is taken
@@ -27,13 +27,13 @@ namespace KillerNotes.Shell
     // app-level undo entry (ActionUndo.cs): Ctrl+Z after a 40-note replace puts all 40 back.
     public partial class MainWindow
     {
-        /// <summary>The magnifier-row toggle: shows or hides the replace row.</summary>
+        /// <summary>Shows the cross-note replace row directly beneath Search.</summary>
         private void SidebarReplace_Click(object sender, RoutedEventArgs e)
         {
             bool open = SidebarReplaceRow.Visibility != Visibility.Visible;
             SidebarReplaceRow.Visibility = open ? Visibility.Visible : Visibility.Collapsed;
             SidebarReplaceBtn.Tag = open ? "on" : null;
-            if (!open) return;
+            if (!open) { SidebarReplaceBtn.Focus(); return; }
             if (SearchBox.Text.Length == 0) SearchBox.Focus();
             else SidebarReplaceBox.Focus();
         }

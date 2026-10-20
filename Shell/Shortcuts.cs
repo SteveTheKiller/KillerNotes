@@ -582,6 +582,7 @@ namespace KillerNotes.Shell
             // once, and if the sidebar's came first then Esc with the find bar open would clear
             // the cross-note search and leave the find bar sitting there.
             if (_findOpen) { CloseFindBar(); return true; }   // FindBar.cs
+            if (SidebarReplaceRow.Visibility == Visibility.Visible) { SidebarReplace_Click(this, new RoutedEventArgs()); return true; }
             if (OutlineList.IsKeyboardFocusWithin) { FocusEditorFromOutline(); return true; }
             if (SearchBox.IsKeyboardFocusWithin || SearchBox.Text.Length > 0)
             {

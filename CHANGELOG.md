@@ -7,27 +7,27 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.5.2] - Unreleased
 
 ### Fixed
-- Failed saves keep edits open for retry or text/RTF export, block transitions that would discard them, and commit note content, links, history and sketch data together.
+- Failed saves preserve unsaved edits for retry or text/RTF export, block actions that would discard them, and save note content, links, history and sketches together.
 - Failed password changes preserve the original database and complete recovery copies, and report temporary copies that cannot be removed.
 - Uninstall and duplicate-install cleanup preserve databases and other user files inside the installation folder.
 - Same-named databases keep separate backup retention, preserve ambiguous older backups, and support long database names.
-- SketchPad printing stays bound to its original database and note, and refuses a deleted edit target.
 - Failed self-updates retain complete executable copies and a recovery report.
-- Updated SQLCipher to 4.19.0, FLAC to 1.5.0, Whisper to 1.9.5, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
-- Floating a sketch keeps its editable drawing when the note is saved and reopened.
-- Markdown notes keep list and table text when saving and paste rich content as plain text.
+- Markdown notes preserve list and table text when saving and paste rich content as plain text.
+- Sketches retain editable drawings after floating and stay bound to their original database and note when printed.
 - Replace and Replace All handle complete matches across formatting and paragraph breaks, preserve images and recordings, retain regex context and captures, and support one-step undo and large formatted notes. (#14)
 - A CLI or MCP client that stops reading a large reply no longer blocks later clients.
 - Switching databases clears Back and Forward history; reopening the same database preserves it.
 - Offline transcription starts correctly, preserves its settings, and opens models from folders with non-English names.
-- Installing and reopening waits for the previous app to exit so the installed copy opens reliably.
-- A silent install or update that finds KillerNotes running exits with 1618, which Intune, Configuration Manager and RMM tools retry, instead of a general failure.
+- Install handoffs wait for the previous app to exit; silent installs and updates return retryable code 1618 when KillerNotes is running.
 - Chocolatey publishing reports failure when validation is still failing after a retry.
 - Preview sizing respects the current monitor's work area and relaxes split-pane limits on constrained displays.
 - The editor's dotted keyboard focus outline sits above the first text row.
-- Sidebar fades leave the scrollbar clear, disappear at the start and end of the list, and stay off in 98SE.
-- The shortcuts and font cards scroll at their outer edges, show when more content is out of view, and keep scroll bars clear of Close.
-- The footer copyright sits a few pixels further from the corner grip instead of running into it.
+- Sidebar fades stop at scroll limits and stay off in 98SE; shortcut and font cards show overflow and keep scrollbars clear of Close.
+- The footer copyright sits further from the corner grip.
+
+### Changed
+- Moved note search beside the title-bar wordmark, with Replace expanding into an aligned second row and tighter spacing above and below New note.
+- Updated SQLCipher to 4.19.0, FLAC to 1.5.0, Whisper to 1.9.5, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
 
 ## [1.5.1] - 2026-10-19
 

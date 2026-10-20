@@ -155,9 +155,18 @@
              of window face either side. A negative margin, so it is 0 by default and the band is
              exactly as wide as the content on every other theme. (2026-08-07) -->
         <!-- ZIndex 1 so the wordmark's drips can hang into the top of the content row below. -->
-        <Grid Grid.Row="0" Height="{DynamicResource TitleBarHeight}" Background="{DynamicResource TitleBarBrush}"
+        <Grid x:Name="NotesTitleBar" Grid.Row="0" Background="{DynamicResource TitleBarBrush}"
               Margin="{DynamicResource TitleBarBleed}" Panel.ZIndex="1">
-            <Border IsHitTestVisible="False" Opacity="{DynamicResource GrainOpacity}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition x:Name="TitleSearchColumn" Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.ColumnSpan="3" Grid.RowSpan="2" IsHitTestVisible="False" Opacity="{DynamicResource GrainOpacity}">
                 <Border.Background>
                     <ImageBrush x:Name="TitleGrainBrush" TileMode="Tile" ViewportUnits="Absolute"
                                 Viewport="0,0,256,256" Stretch="None"/>
@@ -211,7 +220,173 @@
                 </Grid>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+            <Grid x:Name="TitleSearchSlot" Grid.Column="1" Height="{DynamicResource TitleBarHeight}">
+                        <Grid x:Name="TitleNoteSearch" Width="280"
+                              MaxWidth="{Binding ActualWidth, ElementName=TitleSearchSlot}"
+                              Height="24" MaxHeight="{Binding ActualHeight, ElementName=TitleSearchSlot}"
+                              HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,8,0"
+                              shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <!-- Search box (KillerScan pattern): magnifier + placeholder, compact -->
+                            <Border Grid.Column="0" VerticalAlignment="Stretch"
+                                    Background="{DynamicResource SearchFieldBrush}" BorderThickness="1" CornerRadius="{DynamicResource ControlCornerRadius}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+                                        <Style.Triggers>
+                                            <!-- Hover first, focus second so a focused box keeps the accent border -->
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <!-- Sunken edge: the search box is an edit field, and a Win98
+                                         edit field is recessed. Crossed against the pane bevel
+                                         thicknesses, transparent on the other twelve. Spans both
+                                         columns and sits above them so it rings the whole field. -->
+                                    <Border Grid.ColumnSpan="2" Panel.ZIndex="2" IsHitTestVisible="False"
+                                            BorderBrush="{DynamicResource PaneBevelDarkBrush}"
+                                            BorderThickness="{DynamicResource FooterCellLightThickness}"/>
+                                    <Border Grid.ColumnSpan="2" Panel.ZIndex="2" IsHitTestVisible="False"
+                                            BorderBrush="{DynamicResource PaneBevelLightBrush}"
+                                            BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
+                                    <!-- E773, not the E71C filter funnel: this box searches across every
+                                         note, so it reads as global find. E721, the plain magnifier, is
+                                         reserved for the rail's find-in-this-note toggle. -->
+                                    <!-- 14, not 11. The field's height is fixed at 26 on the Border, so
+                                         the glyph can grow without the box growing with it. -->
+                                    <a11y:Glyph Grid.Column="0" Text="&#xE773;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                               Foreground="{DynamicResource DimTextBrush}" Margin="8,0,5,0" VerticalAlignment="Center"/>
+                                    <Grid Grid.Column="1">
+                                        <TextBlock Text="{DynamicResource Str_SearchPlaceholder}" Foreground="{DynamicResource DimTextBrush}"
+                                                   FontSize="12" VerticalAlignment="Center" IsHitTestVisible="False" Margin="0,0,8,0">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <!-- Empty AND unfocused, not empty alone. On the text
+                                                             condition by itself the hint stayed put when the box
+                                                             was clicked into, and the caret sits at x=0 - right
+                                                             on the S of the hint, which reads as a misplaced
+                                                             cursor rather than an empty field. -->
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding Text, ElementName=SearchBox}" Value=""/>
+                                                                <Condition Binding="{Binding IsKeyboardFocusWithin, ElementName=SearchBox}" Value="False"/>
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBox x:Name="SearchBox" Background="Transparent" BorderThickness="0"
+                                                 AutomationProperties.Name="{DynamicResource Str_Sec_Search}"
+                                                 Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
+                                                 SelectionBrush="{DynamicResource TextSelectionBrush}" SelectionOpacity="{DynamicResource TextSelectionOpacity}"
+                                 SelectionTextBrush="{DynamicResource TextSelectionTextBrush}"
+                                                 FontSize="12" Padding="0,0,8,0" VerticalContentAlignment="Center"
+                                                 TextChanged="SearchBox_TextChanged">
+                                            <!-- Explicit menu: the framework's built-in editing menu ignores the app's
+                                                 implicit ContextMenu/MenuItem styles, so it renders unthemed -->
+                                            <TextBox.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
+                                                    <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
+                                                    <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
+                                                </ContextMenu>
+                                            </TextBox.ContextMenu>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                            <!-- Cross-note replace toggle (GlobalReplace.cs). Lit (Tag="on")
+                                 while its row below is open. -->
+                            <Button x:Name="SidebarReplaceBtn" Grid.Column="1" Click="SidebarReplace_Click"
+                                    Style="{StaticResource RailButton}" FontSize="12" Width="24" Height="24"
+                                    Margin="4,0,0,0" VerticalAlignment="Center" Content="&#xE8AB;"
+                                    ToolTip="{DynamicResource Str_TT_SidebarReplace}"/>
+                        </Grid>
+            </Grid>
+                        <!-- Cross-note replace row (GlobalReplace.cs): replaces the search term
+                             above inside every note that carries it, behind a confirmation that
+                             names each note and its match count. One transaction, one undo. -->
+                        <Grid x:Name="SidebarReplaceRow" Grid.Row="1" Grid.Column="1" Visibility="Collapsed"
+                              Width="280" MaxWidth="{Binding ActualWidth, ElementName=TitleSearchSlot}"
+                              HorizontalAlignment="Left" Margin="12,0,8,4"
+                              shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Height="26" VerticalAlignment="Center"
+                                    Background="{DynamicResource SearchFieldBrush}" BorderThickness="1"
+                                    CornerRadius="{DynamicResource ControlCornerRadius}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Border Panel.ZIndex="2" IsHitTestVisible="False"
+                                            BorderBrush="{DynamicResource PaneBevelDarkBrush}"
+                                            BorderThickness="{DynamicResource FooterCellLightThickness}"/>
+                                    <Border Panel.ZIndex="2" IsHitTestVisible="False"
+                                            BorderBrush="{DynamicResource PaneBevelLightBrush}"
+                                            BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
+                                    <Grid>
+                                        <TextBlock Text="{DynamicResource Str_ReplacePlaceholder}" Foreground="{DynamicResource DimTextBrush}"
+                                                   FontSize="12" VerticalAlignment="Center" IsHitTestVisible="False" Margin="8,0,8,0">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding Text, ElementName=SidebarReplaceBox}" Value=""/>
+                                                                <Condition Binding="{Binding IsKeyboardFocusWithin, ElementName=SidebarReplaceBox}" Value="False"/>
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBox x:Name="SidebarReplaceBox" Background="Transparent" BorderThickness="0" AutomationProperties.Name="{DynamicResource Str_ReplacePlaceholder}"
+                                                 Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
+                                                 SelectionBrush="{DynamicResource TextSelectionBrush}" SelectionOpacity="{DynamicResource TextSelectionOpacity}"
+                                                 SelectionTextBrush="{DynamicResource TextSelectionTextBrush}"
+                                                 FontSize="12" Padding="8,0,8,0" VerticalContentAlignment="Center"/>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                            <Button Grid.Column="1" Click="SidebarReplaceAll_Click"
+                                    Style="{StaticResource OutlineButton}" FontSize="11" Height="24"
+                                    Padding="8,0" Margin="4,0,0,0" VerticalContentAlignment="Center"
+                                    Content="{DynamicResource Str_Btn_ReplaceAll}"
+                                    ToolTip="{DynamicResource Str_TT_SidebarReplaceAll}"/>
+                        </Grid>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right"
                         Margin="{DynamicResource CaptionButtonsMargin}"
                         shell:WindowChrome.IsHitTestVisibleInChrome="True">
                 <TextBlock x:Name="ActiveDatabaseText" MaxWidth="240" Margin="12,0,6,0"
@@ -505,168 +680,11 @@
                          left edge of the scrollbar underneath. The list itself is deliberately not
                          inset - its scrollbar should stay on the panel edge. -->
                     <StackPanel x:Name="SidebarHeaderBlock" DockPanel.Dock="Top" Margin="0,0,8,0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <!-- Search box (KillerScan pattern): magnifier + placeholder, compact -->
-                            <Border Grid.Column="0" Height="26" VerticalAlignment="Center"
-                                    Background="{DynamicResource SearchFieldBrush}" BorderThickness="1" CornerRadius="{DynamicResource ControlCornerRadius}">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
-                                        <Style.Triggers>
-                                            <!-- Hover first, focus second so a focused box keeps the accent border -->
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
-                                            </Trigger>
-                                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <!-- Sunken edge: the search box is an edit field, and a Win98
-                                         edit field is recessed. Crossed against the pane bevel
-                                         thicknesses, transparent on the other twelve. Spans both
-                                         columns and sits above them so it rings the whole field. -->
-                                    <Border Grid.ColumnSpan="2" Panel.ZIndex="2" IsHitTestVisible="False"
-                                            BorderBrush="{DynamicResource PaneBevelDarkBrush}"
-                                            BorderThickness="{DynamicResource FooterCellLightThickness}"/>
-                                    <Border Grid.ColumnSpan="2" Panel.ZIndex="2" IsHitTestVisible="False"
-                                            BorderBrush="{DynamicResource PaneBevelLightBrush}"
-                                            BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
-                                    <!-- E773, not the E71C filter funnel: this box searches across every
-                                         note, so it reads as global find. E721, the plain magnifier, is
-                                         reserved for the rail's find-in-this-note toggle. -->
-                                    <!-- 14, not 11. The field's height is fixed at 26 on the Border, so
-                                         the glyph can grow without the box growing with it. -->
-                                    <a11y:Glyph Grid.Column="0" Text="&#xE773;" FontFamily="Segoe MDL2 Assets" FontSize="14"
-                                               Foreground="{DynamicResource DimTextBrush}" Margin="8,0,5,0" VerticalAlignment="Center"/>
-                                    <Grid Grid.Column="1">
-                                        <TextBlock Text="{DynamicResource Str_SearchPlaceholder}" Foreground="{DynamicResource DimTextBrush}"
-                                                   FontSize="12" VerticalAlignment="Center" IsHitTestVisible="False" Margin="0,0,8,0">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <!-- Empty AND unfocused, not empty alone. On the text
-                                                             condition by itself the hint stayed put when the box
-                                                             was clicked into, and the caret sits at x=0 - right
-                                                             on the S of the hint, which reads as a misplaced
-                                                             cursor rather than an empty field. -->
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding Text, ElementName=SearchBox}" Value=""/>
-                                                                <Condition Binding="{Binding IsKeyboardFocusWithin, ElementName=SearchBox}" Value="False"/>
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </MultiDataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                        <TextBox x:Name="SearchBox" Background="Transparent" BorderThickness="0"
-                                                 AutomationProperties.Name="{DynamicResource Str_Sec_Search}"
-                                                 Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
-                                                 SelectionBrush="{DynamicResource TextSelectionBrush}" SelectionOpacity="{DynamicResource TextSelectionOpacity}"
-                                 SelectionTextBrush="{DynamicResource TextSelectionTextBrush}"
-                                                 FontSize="12" Padding="0,0,8,0" VerticalContentAlignment="Center"
-                                                 TextChanged="SearchBox_TextChanged">
-                                            <!-- Explicit menu: the framework's built-in editing menu ignores the app's
-                                                 implicit ContextMenu/MenuItem styles, so it renders unthemed -->
-                                            <TextBox.ContextMenu>
-                                                <ContextMenu>
-                                                    <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
-                                                    <MenuItem Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
-                                                    <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
-                                                </ContextMenu>
-                                            </TextBox.ContextMenu>
-                                        </TextBox>
-                                    </Grid>
-                                </Grid>
-                            </Border>
-                            <!-- Cross-note replace toggle (GlobalReplace.cs). Lit (Tag="on")
-                                 while its row below is open. -->
-                            <Button x:Name="SidebarReplaceBtn" Grid.Column="1" Click="SidebarReplace_Click"
-                                    Style="{StaticResource RailButton}" FontSize="12" Width="24" Height="24"
-                                    Margin="4,0,0,0" VerticalAlignment="Center" Content="&#xE8AB;"
-                                    ToolTip="{DynamicResource Str_TT_SidebarReplace}"/>
-                        </Grid>
-                        <!-- Cross-note replace row (GlobalReplace.cs): replaces the search term
-                             above inside every note that carries it, behind a confirmation that
-                             names each note and its match count. One transaction, one undo. -->
-                        <Grid x:Name="SidebarReplaceRow" Visibility="Collapsed" Margin="0,6,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Height="26" VerticalAlignment="Center"
-                                    Background="{DynamicResource SearchFieldBrush}" BorderThickness="1"
-                                    CornerRadius="{DynamicResource ControlCornerRadius}">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
-                                            </Trigger>
-                                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <Grid>
-                                    <Border Panel.ZIndex="2" IsHitTestVisible="False"
-                                            BorderBrush="{DynamicResource PaneBevelDarkBrush}"
-                                            BorderThickness="{DynamicResource FooterCellLightThickness}"/>
-                                    <Border Panel.ZIndex="2" IsHitTestVisible="False"
-                                            BorderBrush="{DynamicResource PaneBevelLightBrush}"
-                                            BorderThickness="{DynamicResource FooterCellDarkThickness}"/>
-                                    <Grid>
-                                        <TextBlock Text="{DynamicResource Str_ReplacePlaceholder}" Foreground="{DynamicResource DimTextBrush}"
-                                                   FontSize="12" VerticalAlignment="Center" IsHitTestVisible="False" Margin="8,0,8,0">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding Text, ElementName=SidebarReplaceBox}" Value=""/>
-                                                                <Condition Binding="{Binding IsKeyboardFocusWithin, ElementName=SidebarReplaceBox}" Value="False"/>
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </MultiDataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                        <TextBox x:Name="SidebarReplaceBox" Background="Transparent" BorderThickness="0" AutomationProperties.Name="{DynamicResource Str_ReplacePlaceholder}"
-                                                 Foreground="{DynamicResource TextBrush}" CaretBrush="{DynamicResource TextBrush}"
-                                                 SelectionBrush="{DynamicResource TextSelectionBrush}" SelectionOpacity="{DynamicResource TextSelectionOpacity}"
-                                                 SelectionTextBrush="{DynamicResource TextSelectionTextBrush}"
-                                                 FontSize="12" Padding="8,0,8,0" VerticalContentAlignment="Center"/>
-                                    </Grid>
-                                </Grid>
-                            </Border>
-                            <Button Grid.Column="1" Click="SidebarReplaceAll_Click"
-                                    Style="{StaticResource OutlineButton}" FontSize="11" Height="24"
-                                    Padding="8,0" Margin="4,0,0,0" VerticalContentAlignment="Center"
-                                    Content="{DynamicResource Str_Btn_ReplaceAll}"
-                                    ToolTip="{DynamicResource Str_TT_SidebarReplaceAll}"/>
-                        </Grid>
                         <!-- Second Auto row: at high app zoom the panel's LOGICAL width shrinks
                              (screen-constant sidebar) and one row can't hold everything - the
                              sort trio then drops under the New-note button instead of clipping
                              (Sidebar.cs SidebarToolbar_SizeChanged). -->
-                        <Grid x:Name="SidebarToolbar" Margin="0,8,0,8" SizeChanged="SidebarToolbar_SizeChanged">
+                        <Grid x:Name="SidebarToolbar" Margin="0" SizeChanged="SidebarToolbar_SizeChanged">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition x:Name="NewNoteCol" Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
