@@ -75,6 +75,37 @@ namespace KillerNotes
             }
         }
 
+        internal static bool WriteMcpResponse(Stream stream, byte[] payload, TimeSpan timeout)
+            => WriteMcpResponseAsync(stream, payload, timeout).GetAwaiter().GetResult();
+
+        private static async System.Threading.Tasks.Task<bool> WriteMcpResponseAsync(Stream stream, byte[] payload, TimeSpan timeout)
+        {
+            try
+            {
+                byte[] frame = new byte[4 + payload.Length];
+                Buffer.BlockCopy(BitConverter.GetBytes(payload.Length), 0, frame, 0, 4);
+                Buffer.BlockCopy(payload, 0, frame, 4, payload.Length);
+                var pending = stream.WriteAsync(frame, 0, frame.Length);
+                using var deadline = new CancellationTokenSource();
+                var delay = System.Threading.Tasks.Task.Delay(timeout, deadline.Token);
+                if (await System.Threading.Tasks.Task.WhenAny(pending, delay).ConfigureAwait(false) != pending)
+                {
+                    stream.Dispose();
+                    try { await pending.ConfigureAwait(false); }
+                    catch (IOException) { }
+                    catch (ObjectDisposedException) { }
+                    catch (OperationCanceledException) { }
+                    return false;
+                }
+                deadline.Cancel();
+                await pending.ConfigureAwait(false);
+                return true;
+            }
+            catch (IOException) { return false; }
+            catch (ObjectDisposedException) { return false; }
+            catch (OperationCanceledException) { return false; }
+        }
+
         private void StartMcpPipeServer()
         {
             var thread = new Thread(() =>
@@ -96,8 +127,7 @@ namespace KillerNotes
                         }
                         catch (Exception ex) { response = new McpResponse { Success = false, Error = ex.Message }; }
                         byte[] payload = Program.Serialize(response);
-                        var writer = new BinaryWriter(pipe, System.Text.Encoding.UTF8, true);
-                        writer.Write(payload.Length); writer.Write(payload); writer.Flush();
+                        WriteMcpResponse(pipe, payload, McpRequestTimeout);
                     }
                     catch (IOException) { }
                     catch (ObjectDisposedException) { return; }

@@ -7,6 +7,69 @@ namespace KillerNotes.Tests
 {
     public sealed class McpPipeTests
     {
+        [Fact]
+        public async System.Threading.Tasks.Task ClientThatStopsReadingDoesNotBlockTheNextClient()
+        {
+            string name = "KillerNotes-test-" + System.Guid.NewGuid().ToString("N");
+            var pipes = new System.Collections.Concurrent.ConcurrentBag<System.IO.Pipes.NamedPipeServerStream>();
+            using var stop = new System.Threading.CancellationTokenSource();
+            var server = System.Threading.Tasks.Task.Run(async () =>
+            {
+                try
+                {
+                    bool dropped = false;
+                    for (int i = 0; i < 2; i++)
+                    {
+                        using var pipe = new System.IO.Pipes.NamedPipeServerStream(name, System.IO.Pipes.PipeDirection.InOut,
+                            1, System.IO.Pipes.PipeTransmissionMode.Byte, System.IO.Pipes.PipeOptions.Asynchronous, 4096, 4096);
+                        pipes.Add(pipe);
+                        await pipe.WaitForConnectionAsync(stop.Token);
+                        bool written = App.WriteMcpResponse(pipe, i == 0 ? new byte[8 * 1024 * 1024] : new byte[] { 42 },
+                            System.TimeSpan.FromMilliseconds(300));
+                        if (i == 0) dropped = !written;
+                        else return dropped && written;
+                    }
+                }
+                catch (System.OperationCanceledException) { }
+                catch (System.ObjectDisposedException) { }
+                catch (IOException) { }
+                return false;
+            });
+            using var stalled = new System.IO.Pipes.NamedPipeClientStream(".", name, System.IO.Pipes.PipeDirection.InOut);
+            using var next = new System.IO.Pipes.NamedPipeClientStream(".", name, System.IO.Pipes.PipeDirection.InOut,
+                System.IO.Pipes.PipeOptions.Asynchronous);
+            try
+            {
+                stalled.Connect(3000);
+                next.Connect(3000);
+                byte[] response = new byte[5];
+                var read = System.Threading.Tasks.Task.Run(async () =>
+                {
+                    int count = 0;
+                    while (count < response.Length)
+                    {
+                        int n = await next.ReadAsync(response, count, response.Length - count);
+                        if (n == 0) break;
+                        count += n;
+                    }
+                    return count;
+                });
+                Assert.Same(read, await System.Threading.Tasks.Task.WhenAny(read, System.Threading.Tasks.Task.Delay(3000)));
+                Assert.Equal(5, await read);
+                Assert.Equal(new byte[] { 1, 0, 0, 0, 42 }, response);
+                Assert.Same(server, await System.Threading.Tasks.Task.WhenAny(server, System.Threading.Tasks.Task.Delay(3000)));
+                Assert.True(await server);
+            }
+            finally
+            {
+                stop.Cancel();
+                stalled.Dispose();
+                next.Dispose();
+                foreach (var pipe in pipes) pipe.Dispose();
+                Assert.Same(server, await System.Threading.Tasks.Task.WhenAny(server, System.Threading.Tasks.Task.Delay(5000)));
+            }
+        }
+
         [Theory]
         [InlineData(0, "")]
         [InlineData(2_000_001, "")]
