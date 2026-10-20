@@ -157,7 +157,12 @@ namespace KillerNotes.Tests
             {
                 release.Set();
                 if (parent != null && !parent.WaitForExit(10000)) { parent.Kill(); parent.WaitForExit(5000); }
-                try { Directory.Delete(root, true); } catch (IOException) { }
+                Assert.True(SpinWait.SpinUntil(() =>
+                {
+                    try { Directory.Delete(root, true); return true; }
+                    catch (IOException) { return false; }
+                    catch (UnauthorizedAccessException) { return false; }
+                }, 5000), "Owned handoff fixture files remained in use after process exit.");
             }
         }
 
