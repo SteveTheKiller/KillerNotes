@@ -450,9 +450,9 @@ namespace KillerNotes
         private static void RemovePerUserInstall()
         {
             try { if (File.Exists(StartMenuLnk)) File.Delete(StartMenuLnk); } catch { }
-            try { if (Directory.Exists(StartMenuDir)) Directory.Delete(StartMenuDir, true); } catch { }
+            try { if (Directory.Exists(StartMenuDir)) Directory.Delete(StartMenuDir, false); } catch { }
             try { if (File.Exists(DesktopLnk)) File.Delete(DesktopLnk); } catch { }
-            try { if (Directory.Exists(InstallDir)) Directory.Delete(InstallDir, true); } catch { }
+            KillerFamily.Deployment.InstalledFileCleanup.Remove(InstallDir, InstalledFiles);
             Services.CommandLinePath.Unregister(InstallDir, machine: false);
             try
             {
@@ -477,8 +477,9 @@ namespace KillerNotes
             try { Registry.LocalMachine.DeleteSubKeyTree(
                 @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes", false); } catch { }
             UnregisterFileAssociations(Registry.LocalMachine);
-            try { if (Directory.Exists(common)) Directory.Delete(common, true); } catch { }
-            try { if (Directory.Exists(MachineDir)) Directory.Delete(MachineDir, true); } catch { }
+            try { File.Delete(Path.Combine(common, $"{AppName}.lnk")); } catch { }
+            try { if (Directory.Exists(common)) Directory.Delete(common, false); } catch { }
+            KillerFamily.Deployment.InstalledFileCleanup.Remove(MachineDir, InstalledFiles);
             Services.CommandLinePath.Unregister(MachineDir, machine: true);
         }
 
@@ -681,6 +682,8 @@ namespace KillerNotes
             return true;
         }
 
+        private static readonly string[] InstalledFiles = { ExeName, @"icons\kn-note.ico", @"icons\kn-db.ico" };
+
         private static void Uninstall(bool silent)
         {
             bool machine = string.Equals(Process.GetCurrentProcess().MainModule?.FileName,
@@ -728,7 +731,7 @@ namespace KillerNotes
             File.WriteAllText(bat,
                 "@echo off\r\n" +
                 "ping -n 3 127.0.0.1 >nul\r\n" +
-                $"rmdir /s /q \"{targetDir}\"\r\n" +
+                KillerFamily.Deployment.InstalledFileCleanup.RemovalBatch(targetDir, InstalledFiles) +
                 "del \"%~f0\"\r\n");
             Process.Start(new ProcessStartInfo("cmd.exe", $"/c \"{bat}\"")
             {
