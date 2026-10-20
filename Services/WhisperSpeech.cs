@@ -106,8 +106,8 @@ namespace KillerNotes.Services
         // whisper_full_params is a large struct whose layout shifts between releases, and getting it
         // wrong corrupts the stack silently. It is therefore never declared here: the defaults are
         // fetched as an opaque blob, the few fields that matter are poked by offset, and the blob is
-        // handed straight back. Offsets come from whisper.h for the PINNED version - see the version
-        // check below, which refuses to run against anything else.
+        // handed straight back. Offsets come from whisper.h for the pinned version; update the
+        // native library and its reviewed ABI together.
         [DllImport(Dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "whisper_full_default_params")]
         private static extern void whisper_full_default_params_raw(IntPtr outParams, int strategy);
 
@@ -122,17 +122,32 @@ namespace KillerNotes.Services
 
         private const int StrategyGreedy = 0;
 
-        /// <summary>Generous over-allocation for whisper_full_params. The struct is a few hundred
-        /// bytes; 4KB costs nothing and removes any chance of the native writing past the end of it
-        /// if a future build grows the struct.</summary>
+        /// <summary>Storage for the reviewed Windows x64 whisper_full_params ABI, which is smaller
+        /// than this reserved buffer. Recheck its size when updating the native library.</summary>
         private const int ParamsBlobSize = 4096;
 
         // Byte offsets into whisper_full_params for whisper.cpp 1.7.4. Only the flags that quieten
-        // the console and disable timestamps are touched - everything else keeps its default.
-        private const int OffPrintSpecial = 8;
-        private const int OffPrintProgress = 9;
-        private const int OffPrintRealtime = 10;
-        private const int OffPrintTimestamps = 11;
+        // console output are touched; the five preceding ints and four bools retain their defaults.
+        private const int OffPrintSpecial = 24;
+        private const int OffPrintProgress = 25;
+        private const int OffPrintRealtime = 26;
+        private const int OffPrintTimestamps = 27;
+
+        internal static IntPtr CreateParameters()
+        {
+            IntPtr blob = Marshal.AllocHGlobal(ParamsBlobSize);
+            try
+            {
+                for (int i = 0; i < ParamsBlobSize; i += 8) Marshal.WriteInt64(blob, i, 0);
+                whisper_full_default_params_raw(blob, StrategyGreedy);
+                Marshal.WriteByte(blob, OffPrintSpecial, 0);
+                Marshal.WriteByte(blob, OffPrintProgress, 0);
+                Marshal.WriteByte(blob, OffPrintRealtime, 0);
+                Marshal.WriteByte(blob, OffPrintTimestamps, 0);
+                return blob;
+            }
+            catch { Marshal.FreeHGlobal(blob); throw; }
+        }
 
         /// <summary>
         /// Transcribes 16-bit PCM WAV. Returns null when whisper cannot be used at all, so the
@@ -159,16 +174,9 @@ namespace KillerNotes.Services
                 ctx = whisper_init_from_file_with_params(model, cp);
                 if (ctx == IntPtr.Zero) { LastError = "The speech model could not be loaded."; return null; }
 
-                blob = Marshal.AllocHGlobal(ParamsBlobSize);
-                for (int i = 0; i < ParamsBlobSize; i += 8) Marshal.WriteInt64(blob, i, 0);
-                whisper_full_default_params_raw(blob, StrategyGreedy);
-
                 // Whisper prints to stdout by default, which in a WPF app goes nowhere useful and
                 // costs time formatting strings nobody sees.
-                Marshal.WriteByte(blob, OffPrintSpecial, 0);
-                Marshal.WriteByte(blob, OffPrintProgress, 0);
-                Marshal.WriteByte(blob, OffPrintRealtime, 0);
-                Marshal.WriteByte(blob, OffPrintTimestamps, 0);
+                blob = CreateParameters();
 
                 if (whisper_full(ctx, blob, samples, samples.Length) != 0)
                 { LastError = "Transcription failed."; return null; }
