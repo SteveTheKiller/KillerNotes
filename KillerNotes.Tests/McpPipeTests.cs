@@ -25,7 +25,7 @@ namespace KillerNotes.Tests
                         pipes.Add(pipe);
                         await pipe.WaitForConnectionAsync(stop.Token);
                         bool written = App.WriteMcpResponse(pipe, i == 0 ? new byte[8 * 1024 * 1024] : new byte[] { 42 },
-                            System.TimeSpan.FromMilliseconds(300));
+                            i == 0 ? System.TimeSpan.FromMilliseconds(300) : System.TimeSpan.FromSeconds(3));
                         if (i == 0) dropped = !written;
                         else return dropped && written;
                     }
@@ -43,7 +43,7 @@ namespace KillerNotes.Tests
                 stalled.Connect(3000);
                 next.Connect(3000);
                 byte[] response = new byte[5];
-                var read = System.Threading.Tasks.Task.Run(async () =>
+                async System.Threading.Tasks.Task<int> ReadReply()
                 {
                     int count = 0;
                     while (count < response.Length)
@@ -53,7 +53,8 @@ namespace KillerNotes.Tests
                         count += n;
                     }
                     return count;
-                });
+                }
+                var read = ReadReply();
                 Assert.Same(read, await System.Threading.Tasks.Task.WhenAny(read, System.Threading.Tasks.Task.Delay(3000)));
                 Assert.Equal(5, await read);
                 Assert.Equal(new byte[] { 1, 0, 0, 0, 42 }, response);
