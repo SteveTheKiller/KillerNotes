@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Fixed
 - The shortcuts and font cards scroll at their outer edges, show when more content is out of view, and keep scroll bars clear of Close.
 - The footer copyright sits a few pixels further from the corner grip instead of running into it.
+- A silent install or update that finds KillerNotes running exits with 1618, which Intune, Configuration Manager and RMM tools retry, instead of a general failure.
 
 ## [1.5.1] - 2026-10-19
 
