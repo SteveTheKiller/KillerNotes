@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.5.2] - Unreleased
 
 ### Fixed
+- Same-named databases keep separate backup retention and preserve ambiguous older backups.
 - Floating a sketch keeps its editable drawing when the note is saved and reopened.
 - Markdown notes keep list and table text when saving and paste rich content as plain text.
 - Sidebar fades leave the scrollbar clear, disappear at the start and end of the list, and stay off in 98SE.

@@ -24,6 +24,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.Win32.SafeHandles;
 using System.Text.RegularExpressions;
 
 namespace KillerNotes.Services
@@ -72,22 +76,51 @@ namespace KillerNotes.Services
         public static string Stem(string dbFile) => Path.GetFileNameWithoutExtension(dbFile);
 
         public static string FileNameFor(string dbFile, DateTime when) =>
-            $"{Stem(dbFile)}-{when.ToString("yyyy-MM-dd-HHmm", CultureInfo.InvariantCulture)}.kndb";
+            $"{GroupStem(dbFile)}-{when.ToString("yyyy-MM-dd-HHmm", CultureInfo.InvariantCulture)}.kndb";
+
+        public static string GroupStem(string dbFile)
+        {
+            string path = Path.GetFullPath(Path.Combine(NoteStore.DbDir, dbFile));
+            if (File.Exists(path))
+            {
+                using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+                var resolved = new StringBuilder(32768);
+                uint count = GetFinalPathNameByHandle(file.SafeFileHandle, resolved, (uint)resolved.Capacity, 0);
+                if (count == 0 || count >= resolved.Capacity) throw new IOException("Cannot identify backup source.");
+                path = resolved.ToString();
+            }
+            if (path.StartsWith(@"\\?\UNC\", StringComparison.OrdinalIgnoreCase)) path = @"\\" + path.Substring(8);
+            else if (path.StartsWith(@"\\?\", StringComparison.Ordinal)) path = path.Substring(4);
+            string authority = path.StartsWith(@"\\", StringComparison.Ordinal) ? "network" :
+                Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography", "MachineGuid", null) as string
+                    ?? throw new IOException("Cannot identify the local backup source machine.");
+            using var hash = SHA256.Create();
+            string identity = BitConverter.ToString(hash.ComputeHash(Encoding.UTF8.GetBytes(
+                authority.ToUpperInvariant() + "|" + path.ToUpperInvariant()))).Replace("-", "");
+            return Stem(dbFile) + "~" + identity;
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern uint GetFinalPathNameByHandle(SafeFileHandle file, StringBuilder path, uint length, uint flags);
 
         private static readonly Regex StampSuffix = new(@"-\d{4}-\d{2}-\d{2}-\d{4}(?:-\d{2,})?$", RegexOptions.Compiled);
 
         /// <summary>The backups of one database in a folder, newest first, by the stamp in the
         /// name rather than the file time so a copied-in file sorts where it belongs.</summary>
-        public static List<FileInfo> ListBackups(string folder, string dbFile)
+        public static List<FileInfo> ListBackups(string folder, string dbFile, bool includeLegacy = true)
         {
             var list = new List<FileInfo>();
             if (!Directory.Exists(folder)) return list;
-            string stem = Stem(dbFile);
-            foreach (string path in Directory.GetFiles(folder, stem + "-*.kndb"))
+            string stem = GroupStem(dbFile);
+            string legacy = Stem(dbFile);
+            foreach (string path in Directory.GetFiles(folder, "*.kndb"))
             {
                 string name = Path.GetFileNameWithoutExtension(path);
                 var m = StampSuffix.Match(name);
-                if (!m.Success || !string.Equals(name[..m.Index], stem, StringComparison.OrdinalIgnoreCase)) continue;
+                if (!m.Success) continue;
+                string owner = name[..m.Index];
+                if (!string.Equals(owner, stem, StringComparison.OrdinalIgnoreCase) &&
+                    !(includeLegacy && string.Equals(owner, legacy, StringComparison.OrdinalIgnoreCase))) continue;
                 list.Add(new FileInfo(path));
             }
             return [.. list.OrderByDescending(f => Path.GetFileNameWithoutExtension(f.Name), StringComparer.Ordinal)];
@@ -104,7 +137,7 @@ namespace KillerNotes.Services
         public static int Prune(string folder, string dbFile, int keep)
         {
             int removed = 0;
-            foreach (var old in ListBackups(folder, dbFile).Skip(Math.Max(1, keep)))
+            foreach (var old in ListBackups(folder, dbFile, includeLegacy: false).Skip(Math.Max(1, keep)))
             {
                 try { old.Delete(); removed++; } catch { /* a locked file waits for the next pass */ }
             }
@@ -115,7 +148,7 @@ namespace KillerNotes.Services
         private static void RemoveStalePending(string folder, string dbFile)
         {
             if (!Directory.Exists(folder)) return;
-            string stem = Stem(dbFile);
+            string stem = GroupStem(dbFile);
             foreach (string path in Directory.GetFiles(folder, stem + "-*.tmp"))
             {
                 string name = Path.GetFileName(path);
@@ -163,6 +196,7 @@ namespace KillerNotes.Services
         {
             string name = Path.GetFileNameWithoutExtension(backupPath);
             string stem = StampSuffix.Replace(name, "");
+            stem = Regex.Replace(stem, @"~[0-9A-F]{64}$", "", RegexOptions.IgnoreCase);
             Directory.CreateDirectory(NoteStore.DbDir);
             string baseName = $"{stem}-restored-{now.ToString("yyyyMMdd-HHmm", CultureInfo.InvariantCulture)}";
             string file = baseName + ".db";

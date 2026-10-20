@@ -29,9 +29,38 @@ namespace KillerNotes.Tests
         private static readonly DateTime When = new(2026, 9, 1, 14, 5, 0);
 
         [Fact]
+        public void SameNamedSourcesRetainIndependentRestorableBackups()
+        {
+            string folder = Path.Combine(_dir, "shared-backups");
+            string first;
+            string second;
+            using (var source = new TempStore())
+            {
+                NoteStore.Create("Source A");
+                first = BackupService.BackupNow(folder, NoteStore.ActiveDbFile, When, 1);
+            }
+            using (var source = new TempStore())
+            {
+                NoteStore.Create("Source B");
+                second = BackupService.BackupNow(folder, NoteStore.ActiveDbFile, When.AddDays(1), 1);
+                Assert.True(File.Exists(first), "Source B pruned source A's only recovery copy");
+                foreach (var pair in new[] { (first, "Source A"), (second, "Source B") })
+                {
+                    string restored = BackupService.RestoreToDataFolder(pair.Item1, When.AddDays(2));
+                    NoteStore.Close();
+                    NoteStore.DemoDbFile = restored;
+                    NoteStore.Open();
+                    Assert.Equal(pair.Item2, Assert.Single(NoteStore.List()).Title);
+                }
+            }
+        }
+
+        [Fact]
         public void BackupNamesCarryTheStemAndTheStamp()
         {
-            Assert.Equal("notes-2026-09-01-1405.kndb", BackupService.FileNameFor("notes.db", When));
+            string name = BackupService.FileNameFor("notes.db", When);
+            Assert.StartsWith("notes~", name);
+            Assert.EndsWith("-2026-09-01-1405.kndb", name);
             Assert.Equal("work", BackupService.Stem("work.db"));
         }
 
@@ -50,12 +79,16 @@ namespace KillerNotes.Tests
         public void PruneKeepsTheNewestCopies()
         {
             for (int d = 1; d <= 6; d++)
-                File.WriteAllText(Path.Combine(_dir, $"notes-2026-09-0{d}-1200.kndb"), "x");
+                File.WriteAllText(Path.Combine(_dir, BackupService.FileNameFor("notes.db", new DateTime(2026, 9, d, 12, 0, 0))), "x");
+            string legacy = Path.Combine(_dir, "notes-2026-09-01-1200.kndb");
+            File.WriteAllText(legacy, "ambiguous legacy backup");
             File.WriteAllText(Path.Combine(_dir, "other-2026-09-01-1200.kndb"), "x");
 
             Assert.Equal(4, BackupService.Prune(_dir, "notes.db", 2));
-            var left = BackupService.ListBackups(_dir, "notes.db").Select(f => f.Name).ToList();
-            Assert.Equal(["notes-2026-09-06-1200.kndb", "notes-2026-09-05-1200.kndb"], left);
+            var left = BackupService.ListBackups(_dir, "notes.db", includeLegacy: false).Select(f => f.Name).ToList();
+            Assert.Equal(new[] { BackupService.FileNameFor("notes.db", new DateTime(2026, 9, 6, 12, 0, 0)),
+                BackupService.FileNameFor("notes.db", new DateTime(2026, 9, 5, 12, 0, 0)) }, left);
+            Assert.True(File.Exists(legacy));
             Assert.True(File.Exists(Path.Combine(_dir, "other-2026-09-01-1200.kndb")));   // untouched
         }
 
@@ -70,8 +103,9 @@ namespace KillerNotes.Tests
                 return path;
             }
             string guid = Guid.NewGuid().ToString("N");
-            string stale = Make($"notes-2026-09-01-1200.kndb.{guid}.tmp", TimeSpan.FromDays(2));
-            string staleNumbered = Make($"notes-2026-09-01-1200-01.kndb.{guid}.tmp", TimeSpan.FromDays(2));
+            string stem = BackupService.GroupStem("notes.db");
+            string stale = Make($"{stem}-2026-09-01-1200.kndb.{guid}.tmp", TimeSpan.FromDays(2));
+            string staleNumbered = Make($"{stem}-2026-09-01-1200-01.kndb.{guid}.tmp", TimeSpan.FromDays(2));
             string inProgress = Make($"notes-2026-09-02-1200.kndb.{guid}.tmp", TimeSpan.FromMinutes(1));
             string otherDb = Make($"other-2026-09-01-1200.kndb.{guid}.tmp", TimeSpan.FromDays(2));
             string unrelated = Make("notes-2026-09-01-1200.kndb.mine.tmp", TimeSpan.FromDays(2));
