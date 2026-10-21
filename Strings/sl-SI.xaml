@@ -527,6 +527,10 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevSidebar">Zamenjava požarnega zidu: Meadowbrook Vet</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">Šerif bo za vajo spet kuhal domače žgance. 0123456789.</sys:String>
     <sys:String x:Key="Str_Dict_Volume">Glasnost: povlecite gor ali dol</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Predvajaj ali začasno ustavi</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Glasneje</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Tišje</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Glasnost {0} %</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Premor</sys:String>
     <sys:String x:Key="Str_Whisper_Title">Govorni model</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Vgrajeno narekovanje sistema Windows ni zelo natančno. KillerNotes lahko uporabi boljši govorni model, ki v celoti deluje v tem računalniku in ničesar ne pošilja v splet. Izberite model za prenos.</sys:String>

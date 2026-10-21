@@ -625,6 +625,10 @@
     <sys:String x:Key="Str_Fonts_PrevText">Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів! 0123456789.</sys:String>
 
     <sys:String x:Key="Str_Dict_Volume">Гучність - перетягніть угору або вниз</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Відтворити або призупинити</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Гучніше</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Тихіше</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Гучність {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Пауза</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Модель мовлення</sys:String>

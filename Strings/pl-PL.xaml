@@ -508,6 +508,10 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevSidebar">Wymiana zapory - Lecznica Meadowbrook</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">Pchnąć w tę łódź jeża lub ośm skrzyń fig 0123456789.</sys:String>
     <sys:String x:Key="Str_Dict_Volume">Głośność - przeciągnij w górę lub w dół</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Odtwórz lub wstrzymaj</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Głośniej</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Ciszej</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Głośność {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Wstrzymaj</sys:String>
     <sys:String x:Key="Str_Whisper_Title">Model mowy</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Wbudowane dyktowanie systemu Windows nie jest zbyt dokładne. KillerNotes może zamiast niego użyć lepszego modelu mowy - działa on w całości na tym komputerze i nic nie jest wysyłane. Wybierz jeden do pobrania.</sys:String>

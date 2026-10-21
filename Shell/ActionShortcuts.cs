@@ -54,6 +54,11 @@ namespace KillerNotes.Shell
             new("Ctrl+Shift+F6", Key.F6, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Source", "View", w => w.PreviewSource_Click(w, new RoutedEventArgs()), "PreviewSourceMenuItem"),
             new("Ctrl+Shift+F7", Key.F7, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Rendered", "View", w => w.PreviewRendered_Click(w, new RoutedEventArgs()), "PreviewRenderedMenuItem"),
             new("Ctrl+Shift+F8", Key.F8, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Split", "View", w => w.PreviewSplit_Click(w, new RoutedEventArgs()), "PreviewSplitMenuItem"),
+            // The recording beside the caret: the keyboard route to the chip's own play glyph and
+            // volume knob, which only the mouse can reach inside the editor.
+            new("Alt+Shift+P", Key.P, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_PlayPause", "Note", w => w.RunRecordingAction(w.RecPlayPause_Click), "RecPlayPauseMenuItem"),
+            new("Alt+Shift+Up", Key.Up, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_VolumeUp", "Note", w => w.RunRecordingAction(w.RecVolumeUp_Click), "RecVolumeUpMenuItem"),
+            new("Alt+Shift+Down", Key.Down, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_VolumeDown", "Note", w => w.RunRecordingAction(w.RecVolumeDown_Click), "RecVolumeDownMenuItem"),
             new("Ctrl+Shift+F9", Key.F9, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_EditRec", "Note", w => w.RunRecordingAction(w.RecEdit_Click), "RecEditMenuItem"),
             new("Ctrl+Shift+F10", Key.F10, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_SaveAs", "File", w => w.RunRecordingAction(w.RecSaveAs_Click), "RecSaveAsMenuItem"),
             new("Ctrl+Shift+F11", Key.F11, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_CopyFile", "File", w => w.RunRecordingAction(w.RecCopyFile_Click), "RecCopyFileMenuItem"),

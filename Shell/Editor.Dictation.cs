@@ -373,6 +373,33 @@ namespace KillerNotes.Shell
             return null;
         }
 
+        // ---- keyboard transport (U009) ----
+        // The chip's play glyph and volume knob answer only to the mouse: the editor owns keyboard
+        // focus, so nothing inside a note can take it. With the caret beside a recording, the
+        // note's context menu (Apps key or Shift+F10) offers the same controls.
+
+        private void RecPlayPause_Click(object sender, RoutedEventArgs e)
+        {
+            if (CtxRecording() is not { } rec || FindChip(rec.Hash) is not { } chip) return;
+            ToggleEmbeddedRecording(rec.Hash, chip);
+        }
+
+        private void RecVolumeUp_Click(object sender, RoutedEventArgs e) => StepVolume(+0.1);
+        private void RecVolumeDown_Click(object sender, RoutedEventArgs e) => StepVolume(-0.1);
+
+        /// <summary>Changes playback volume by a tenth, turns every knob to match, remembers it,
+        /// and says the new level on the status line.</summary>
+        private void StepVolume(double delta)
+        {
+            DictationPlayer.Volume = Math.Max(0, Math.Min(1, DictationPlayer.Volume + delta));
+            foreach (var el in DescendantElements(Editor.Document))
+                if (el is Border { Tag: RecordingRef, Child: Grid g } && g.Children.Count > 3 && g.Children[3] is Border dial)
+                    UpdateDial(dial);
+            // A playback preference, not note content: no MarkDirty, same as dragging the knob.
+            App.SetSetting("DictationVolume", DictationPlayer.Volume.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+            StatusText.Text = string.Format(Loc("Str_Dict_VolumeAt"), (int)Math.Round(DictationPlayer.Volume * 100));
+        }
+
         /// <summary>The stored bytes of the recording the context menu is about, or null with the
         /// status line explaining why.</summary>
         private (RecordingRef Rec, byte[] Data)? CtxRecordingData()

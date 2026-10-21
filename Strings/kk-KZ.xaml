@@ -592,6 +592,10 @@
     <sys:String x:Key="Str_Fonts_PrevText">Әжем сүмбіле айында ұзақ уақыт қызғалдақ өсіріп, жаңбыр мен күн шуағын күтті 0123456789.</sys:String>
 
     <sys:String x:Key="Str_Dict_Volume">Дыбыс деңгейі - жоғары немесе төмен сүйреңіз</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Ойнату немесе кідірту</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Дыбысты арттыру</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Дыбысты азайту</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Дыбыс деңгейі {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Кідірту</sys:String>
     <!-- Speech model chooser -->
     <sys:String x:Key="Str_Whisper_Title">Сөзді тану моделі</sys:String>

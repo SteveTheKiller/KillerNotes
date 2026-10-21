@@ -587,6 +587,10 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Fonts_PrevText">A gyors barna róka átugrik a lusta kutyán 0123456789.</sys:String>
 
     <sys:String x:Key="Str_Dict_Volume">Hangerő - húzza felfelé vagy lefelé</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Lejátszás vagy szünet</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Hangosítás</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Halkítás</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Hangerő: {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Szünet</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Beszédmodell</sys:String>

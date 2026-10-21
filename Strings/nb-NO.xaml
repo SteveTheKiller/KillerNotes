@@ -623,6 +623,10 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">Et lite fjes av en kjapp ræv hopper over den late hunden 0123456789.</sys:String>
 
     <sys:String x:Key="Str_Dict_Volume">Volum - dra opp eller ned</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Spill av eller pause</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Volum opp</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Volum ned</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Volum {0} %</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pause</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Talemodell</sys:String>

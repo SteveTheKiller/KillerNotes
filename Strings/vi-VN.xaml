@@ -627,6 +627,10 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Fonts_PrevText">Con cáo nâu nhanh nhẹn nhảy qua chú chó lười 0123456789.</sys:String>
 
     <sys:String x:Key="Str_Dict_Volume">Âm lượng - kéo lên hoặc xuống</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Phát hoặc tạm dừng</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Tăng âm lượng</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Giảm âm lượng</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Âm lượng {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Tạm dừng</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Mô hình giọng nói</sys:String>

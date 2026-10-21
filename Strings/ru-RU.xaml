@@ -592,6 +592,10 @@
     <sys:String x:Key="Str_Fonts_PrevText">Съешь ещё этих мягких французских булок да выпей чаю 0123456789.</sys:String>
 
     <sys:String x:Key="Str_Dict_Volume">Громкость - потяните вверх или вниз</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Воспроизвести или приостановить</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Громче</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Тише</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Громкость {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Пауза</sys:String>
     <!-- Speech model chooser -->
     <sys:String x:Key="Str_Whisper_Title">Модель распознавания речи</sys:String>

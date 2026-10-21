@@ -405,8 +405,14 @@ namespace KillerNotes.Shell
             // Sharing is offered on recordings only. An image is already shareable by copying it,
             // but a recording chip is a marker whose audio lives in the database - there is no other
             // way to get the file out.
-            bool onRecording = _ctxObject is Border rb && rb.Tag is RecordingRef && rb.Child is Grid;
+            // The recording under the pointer, or beside the caret when the menu was opened from
+            // the keyboard - the only keyboard route to a recording's controls.
+            bool onRecording = (_ctxObject is Border rb && rb.Tag is RecordingRef && rb.Child is Grid) ||
+                               (_ctxObject == null && CtxRecording() != null);
             RecSeparator.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
+            RecPlayPauseMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
+            RecVolumeUpMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
+            RecVolumeDownMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
             RecEditMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
             RecShareMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
 

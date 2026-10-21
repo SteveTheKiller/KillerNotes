@@ -51,6 +51,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Added
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.
+- Recordings can be played, paused and turned up or down from the keyboard with the caret beside them: Alt+Shift+P, Alt+Shift+Up and Alt+Shift+Down, also on the note's context menu.
 
 ### Changed
 - Title-bar search highlights each word and shows body-match and matching-note totals. Find in this note stays local; confirmed cross-note Replace opens in the same solid, grained panel, animates without expanding the title bar, and closes when clicking elsewhere.

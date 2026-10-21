@@ -625,6 +625,10 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">The quick brown fox jumps over the lazy dog 0123456789.</sys:String>
 
     <sys:String x:Key="Str_Dict_Volume">Volume - drag up or down</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Play or pause</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Volume up</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Volume down</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Volume {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pause</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Speech model</sys:String>

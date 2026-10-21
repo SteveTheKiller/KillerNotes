@@ -2135,6 +2135,15 @@
                                         </ControlTemplate>
                                     </MenuItem.Template>
                                 </MenuItem>
+                                <MenuItem InputGestureText="Alt+Shift+P" x:Name="RecPlayPauseMenuItem" Icon="&#xE768;"
+                                          Header="{DynamicResource Str_Dict_PlayPause}" Click="RecPlayPause_Click"
+                                          Visibility="Collapsed"/>
+                                <MenuItem InputGestureText="Alt+Shift+Up" x:Name="RecVolumeUpMenuItem" Icon="&#xE995;" StaysOpenOnClick="True"
+                                          Header="{DynamicResource Str_Dict_VolumeUp}" Click="RecVolumeUp_Click"
+                                          Visibility="Collapsed"/>
+                                <MenuItem InputGestureText="Alt+Shift+Down" x:Name="RecVolumeDownMenuItem" Icon="&#xE993;" StaysOpenOnClick="True"
+                                          Header="{DynamicResource Str_Dict_VolumeDown}" Click="RecVolumeDown_Click"
+                                          Visibility="Collapsed"/>
                                 <MenuItem InputGestureText="Ctrl+Shift+F9" x:Name="RecEditMenuItem" Icon="&#xE70F;"
                                           Header="{DynamicResource Str_Dict_EditRec}" Click="RecEdit_Click"
                                           Visibility="Collapsed"/>

@@ -592,6 +592,10 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">Ma la volpe col suo balzo ha raggiunto il quieto Fido 0123456789.</sys:String>
 
     <sys:String x:Key="Str_Dict_Volume">Volume - trascina su o giù</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Riproduci o metti in pausa</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Alza il volume</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Abbassa il volume</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Volume {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pausa</sys:String>
     <!-- Speech model chooser -->
     <sys:String x:Key="Str_Whisper_Title">Modello vocale</sys:String>

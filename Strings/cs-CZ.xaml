@@ -582,6 +582,10 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_TT_ViewIcons">Zobrazení ikon</sys:String>
     <sys:String x:Key="Str_TT_ViewList">Zobrazení seznamu</sys:String>
     <sys:String x:Key="Str_Dict_Volume">Hlasitost - tažením nahoru nebo dolů</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Přehrát nebo pozastavit</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Zesílit</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Zeslabit</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Hlasitost {0} %</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pozastavit</sys:String>
     <sys:String x:Key="Str_Whisper_Title">Model řeči</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Vestavěné diktování Windows není příliš přesné. KillerNotes může místo něj použít lepší model řeči - běží zcela na tomto počítači a nic se neodesílá. Vyberte si jeden ke stažení.</sys:String>

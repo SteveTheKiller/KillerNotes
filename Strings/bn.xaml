@@ -585,6 +585,10 @@
     <sys:String x:Key="Str_TT_ViewIcons">আইকন ভিউ</sys:String>
     <sys:String x:Key="Str_TT_ViewList">তালিকা ভিউ</sys:String>
     <sys:String x:Key="Str_Dict_Volume">ভলিউম - উপরে বা নিচে টেনে আনুন</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">চালান বা থামান</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">ভলিউম বাড়ান</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">ভলিউম কমান</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">ভলিউম {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">বিরতি</sys:String>
     <sys:String x:Key="Str_Whisper_Title">স্পিচ মডেল</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Windows-এর নিজস্ব ডিকটেশন খুব নির্ভুল নয়। KillerNotes এর বদলে আরও ভালো একটি স্পিচ মডেল ব্যবহার করতে পারে - এটি পুরোপুরি এই মেশিনেই চলে, কিছুই আপলোড হয় না। ডাউনলোড করতে একটি বাছুন।</sys:String>

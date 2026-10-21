@@ -585,6 +585,10 @@
     <sys:String x:Key="Str_TT_ViewIcons">圖示檢視</sys:String>
     <sys:String x:Key="Str_TT_ViewList">清單檢視</sys:String>
     <sys:String x:Key="Str_Dict_Volume">音量 - 上下拖曳</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">播放或暫停</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">提高音量</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">降低音量</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">音量 {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">暫停</sys:String>
     <sys:String x:Key="Str_Whisper_Title">語音模型</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Windows 內建的口述功能不太準確。KillerNotes 可以改用更好的語音模型 - 它完全在這台電腦上執行，不會上傳任何資料。請挑選一個下載。</sys:String>

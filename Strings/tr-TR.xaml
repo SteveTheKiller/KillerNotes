@@ -585,6 +585,10 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_TT_ViewIcons">Simge görünümü</sys:String>
     <sys:String x:Key="Str_TT_ViewList">Liste görünümü</sys:String>
     <sys:String x:Key="Str_Dict_Volume">Ses düzeyi - yukarı veya aşağı sürükleyin</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Oynat veya duraklat</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Sesi aç</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Sesi kıs</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Ses düzeyi %{0}</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Duraklat</sys:String>
     <sys:String x:Key="Str_Whisper_Title">Konuşma modeli</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Windows'un yerleşik diktesi pek isabetli değil. KillerNotes bunun yerine daha iyi bir konuşma modeli kullanabilir - tamamen bu makinede çalışır ve hiçbir şey karşıya yüklenmez. İndirmek için birini seçin.</sys:String>

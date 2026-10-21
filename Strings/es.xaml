@@ -585,6 +585,10 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_TT_ViewIcons">Vista de iconos</sys:String>
     <sys:String x:Key="Str_TT_ViewList">Vista de lista</sys:String>
     <sys:String x:Key="Str_Dict_Volume">Volumen - arrastre arriba o abajo</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Reproducir o pausar</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Subir volumen</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Bajar volumen</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Volumen {0} %</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pausar</sys:String>
     <sys:String x:Key="Str_Whisper_Title">Modelo de voz</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">El dictado integrado de Windows no es muy preciso. KillerNotes puede usar un modelo de voz mejor - se ejecuta por completo en este equipo y no se envía nada. Elija uno para descargarlo.</sys:String>

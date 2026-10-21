@@ -625,6 +625,10 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Fonts_PrevText">Um pequeno jabuti xereta viu dez cegonhas felizes 0123456789.</sys:String>
 
     <sys:String x:Key="Str_Dict_Volume">Volume - arraste para cima ou para baixo</sys:String>
+    <sys:String x:Key="Str_Dict_PlayPause">Reproduzir ou pausar</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeUp">Aumentar volume</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeDown">Diminuir volume</sys:String>
+    <sys:String x:Key="Str_Dict_VolumeAt">Volume {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pausar</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Modelo de fala</sys:String>
