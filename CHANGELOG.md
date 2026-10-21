@@ -56,6 +56,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Recordings can be played, paused and turned up or down from the keyboard with the caret beside them: Alt+Shift+P, Alt+Shift+Up and Alt+Shift+Down, also on the note's context menu.
 
 ### Changed
+- The link graph opens about four times faster in large notebooks.
 - Title-bar search highlights each word and shows body-match and matching-note totals. Find in this note stays local; confirmed cross-note Replace opens in the same solid, grained panel, animates without expanding the title bar, and closes when clicking elsewhere.
 - Updated SQLCipher to 4.19.0, FLAC to 1.5.0, Whisper to 1.9.5, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
 - Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.

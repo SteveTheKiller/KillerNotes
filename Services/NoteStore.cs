@@ -1575,17 +1575,32 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         {
             var list = new List<(long, long, string)>();
             if (_db == null) return list;
+            // Targets are resolved here, through one dictionary of folded titles, not with a SQL
+            // join on COLLATE KNFOLD: a custom collation cannot use an index, so that join compared
+            // every link with every title and took ten minutes on 50,000 notes. The oldest note
+            // wins a shared title, the same rule as ResolveTitle.
+            var byTitle = new Dictionary<string, long>(StringComparer.Ordinal);
+            using (var titles = _db.CreateCommand())
+            {
+                titles.CommandText = "SELECT id, title FROM notes WHERE deleted = '' ORDER BY id";
+                using var t = titles.ExecuteReader();
+                while (t.Read())
+                {
+                    string key = TextFold.Fold(t.IsDBNull(1) ? "" : t.GetString(1));
+                    if (!byTitle.ContainsKey(key)) byTitle[key] = t.GetInt64(0);
+                }
+            }
             using var cmd = _db.CreateCommand();
-            cmd.CommandText =
-                // A trashed note neither links out nor can be linked to: its outbound edges
-                // drop with the inner join on the source, and a target it owned becomes a
-                // ghost again until it is restored.
-                "SELECT l.src, COALESCE(n.id, -1), l.target FROM note_links l " +
-                "JOIN notes s ON s.id = l.src AND s.deleted = '' " +
-                "LEFT JOIN notes n ON n.title = l.target COLLATE KNFOLD AND n.deleted = ''";
+            // A trashed note neither links out nor can be linked to: its outbound edges drop with
+            // the inner join on the source, and a target it owned becomes a ghost again until it
+            // is restored (only live titles are in the dictionary).
+            cmd.CommandText = "SELECT l.src, l.target FROM note_links l JOIN notes s ON s.id = l.src AND s.deleted = ''";
             using var r = cmd.ExecuteReader();
             while (r.Read())
-                list.Add((r.GetInt64(0), r.GetInt64(1), r.IsDBNull(2) ? "" : r.GetString(2)));
+            {
+                string target = r.IsDBNull(1) ? "" : r.GetString(1);
+                list.Add((r.GetInt64(0), byTitle.TryGetValue(TextFold.Fold(target), out long id) ? id : -1, target));
+            }
             return list;
         }
 

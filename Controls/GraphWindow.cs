@@ -796,8 +796,17 @@ namespace KillerNotes.Controls
             BuildVisuals(pairs);
         }
 
-        private static Brush Res(string key, Color fallback) =>
-            Application.Current?.TryFindResource(key) as Brush ?? new SolidColorBrush(fallback);
+        /// <summary>A theme brush as a FROZEN snapshot. Thousands of dots share it, and an unfrozen
+        /// brush keeps a list of every element using it, so sharing one cost time that grew with
+        /// the square of the node count.</summary>
+        private static Brush Res(string key, Color fallback)
+        {
+            var brush = Application.Current?.TryFindResource(key) as Brush ?? new SolidColorBrush(fallback);
+            if (brush.IsFrozen || !brush.CanFreeze) return brush;
+            brush = brush.Clone();
+            brush.Freeze();
+            return brush;
+        }
 
         /// <summary>Creates every visual ONCE. Nothing here runs again while the window is open.</summary>
         private void BuildVisuals(List<(Node A, Node B)> pairs)

@@ -57,6 +57,15 @@ namespace KillerNotes.Tests.Perf
                 Measure(results, "search rare word", 5, () => NoteStore.List(PerfDataset.RareWord));
                 Measure(results, "search two words", 5, () => NoteStore.List("café backup"));
 
+                // What every note open and save refreshes: its links out, links in and mentions.
+                var middle = NoteStore.List().Single(n => n.Title == "Note " + (size / 2));
+                Measure(results, "backlinks panel (one note)", 5, () =>
+                {
+                    NoteStore.OutgoingLinks(middle.Id);
+                    NoteStore.Backlinks(middle.Title);
+                    NoteStore.UnlinkedMentions(middle.Title);
+                });
+
                 long longId = NoteStore.List().Single(n => n.Title == PerfDataset.LongNote).Id;
                 Sta.Run(() => UiScenarios(results, longId));
 
