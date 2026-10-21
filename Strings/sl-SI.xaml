@@ -970,8 +970,10 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Prejeto</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Obdrži ikono v sistemski vrstici</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Meni ikone ima Hitri zapisek, ikona pa ostane, ko je okno odprto.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Bližnjica za hitri zapisek</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Bližnjica za hitri zapisek:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Izklopljeno</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} že uporablja drug program, zato bližnjica ostane izklopljena.</sys:String>
+    <sys:String x:Key="Str_About_HotkeyInUse">{0} (v uporabi)</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} je večji od 50 MB in ni bil uvožen.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} je bil že uvožen brez sprememb, zato je odprt njegov zapisek.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} je bil odprt pravkar in se ne uvozi dvakrat.</sys:String>

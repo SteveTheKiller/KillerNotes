@@ -1064,8 +1064,10 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Bandeja de entrada</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Mantener un icono en la bandeja del sistema</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">El menú del icono tiene Nota rápida y se mantiene mientras la ventana está abierta.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Atajo de nota rápida</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Atajo de nota rápida:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Desactivado</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} ya lo usa otra aplicación, así que el atajo queda desactivado.</sys:String>
+    <sys:String x:Key="Str_About_HotkeyInUse">{0} (en uso)</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} pesa más de 50 MB y no se importó.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} ya se importó sin cambios, así que su nota está abierta.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} se abrió hace un momento y no se importa dos veces.</sys:String>

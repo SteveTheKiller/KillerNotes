@@ -147,11 +147,21 @@ namespace KillerNotes.Tests
         [InlineData(null, false)]
         [InlineData("", false)]
         [InlineData("Win+Alt+N", true)]
-        [InlineData("Win+Alt+J", false)]    // offered once, before the choice became one key
+        [InlineData("Win+Alt+J", true)]
+        [InlineData("Win+Alt+Z", true)]
+        [InlineData("Win+Alt+K", false)]    // Windows: mute in calls
         [InlineData("Ctrl+Alt+N", false)]   // AltGr+N on international layouts
         [InlineData("junk", false)]
         public void OnlyTheOfferedShortcutsAreAccepted(string? stored, bool valid) =>
             Assert.Equal(valid, QuickNoteHotkey.TryParse(stored, out _, out _));
+
+        [Fact]
+        public void TheShortcutIsWinAltNUntilChangedOrTurnedOff()
+        {
+            Assert.Equal("Win+Alt+N", QuickNoteHotkey.Effective(null));
+            Assert.Equal("", QuickNoteHotkey.Effective(""));
+            Assert.Equal("Win+Alt+Q", QuickNoteHotkey.Effective("Win+Alt+Q"));
+        }
 
         [Fact]
         public void QuickNoteLaunchesAreRecognizedAndForwarded()

@@ -1110,8 +1110,10 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Inbox</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Keep an icon in the system tray</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">The icon's menu has Quick note, and it stays while the window is open.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Quick note shortcut</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Quick note shortcut:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Off</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} is already used by another app, so the shortcut stays off.</sys:String>
+    <sys:String x:Key="Str_About_HotkeyInUse">{0} (in use)</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} is over 50 MB and was not imported.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} was imported before and has not changed, so its note is open.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} was opened a moment ago and is not imported twice.</sys:String>

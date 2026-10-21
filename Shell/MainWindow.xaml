@@ -3036,11 +3036,21 @@
                                           Content="{DynamicResource Str_About_KeepTrayIcon}" ContentTemplate="{StaticResource AboutOptionText}"
                                           ToolTip="{DynamicResource Str_About_KeepTrayIconHint}"
                                           FontSize="11" Click="AboutKeepTrayIcon_Click"/>
-                                <!-- One fixed shortcut, off by default. The key is not translated. -->
-                                <CheckBox x:Name="AboutQuickHotkey" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"
-                                          FontSize="11" Click="AboutQuickHotkey_Click">
-                                    <TextBlock TextWrapping="Wrap"><Run Text="{DynamicResource Str_About_QuickHotkey}"/><Run Text=" (Win+Alt+N)"/></TextBlock>
-                                </CheckBox>
+                                <!-- Five Win+Alt shortcuts, Win+Alt+N by default. The list greys out any
+                                     another app holds each time it opens. The label wraps in long
+                                     translations so the combo keeps its width. -->
+                                <Grid Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="AboutQuickHotkeyLabel" Text="{DynamicResource Str_About_QuickHotkey}" FontSize="11" TextWrapping="Wrap"
+                                               VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
+                                    <ComboBox x:Name="AboutQuickHotkeyCombo" Grid.Column="1" Style="{StaticResource KnCombo}" ItemContainerStyle="{StaticResource KnComboItem}"
+                                              Height="24" MinWidth="96" Margin="8,0,0,0" FontSize="11"
+                                              SelectionChanged="AboutQuickHotkey_Changed" DropDownOpened="AboutQuickHotkey_DropDownOpened"
+                                              AutomationProperties.LabeledBy="{Binding ElementName=AboutQuickHotkeyLabel}"/>
+                                </Grid>
                                 <!-- Bottom: Lock now's automatic triggers (LockNow.cs). They only act on a
                                      notepad with a password. -->
                                 <CheckBox x:Name="AboutLockWithWindows" Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Center"

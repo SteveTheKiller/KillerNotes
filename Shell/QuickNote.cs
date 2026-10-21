@@ -10,7 +10,7 @@
 // Ways in, all ending in ShowQuickNote:
 //   - the tray icon's menu (Close to system tray, or "Keep an icon in the system tray"),
 //   - the taskbar jump list and KillerNotes.exe --quick-note (a running copy gets it by pipe),
-//   - an optional global shortcut, off by default and limited to Win+Alt choices.
+//   - a global shortcut, Win+Alt+N by default, limited to five Win+Alt choices or off.
 //
 // A locked or read-only notepad keeps the draft in the window with the reason and, when locked,
 // an Unlock button. Esc closes and keeps the draft for next time; it lives in memory only, never
@@ -167,7 +167,7 @@ namespace KillerNotes.Shell
                 }
                 _quickNote?.Close();
             };
-            string? saved = App.GetSetting(QuickNoteHotkey.Setting);
+            string saved = QuickNoteHotkey.Effective(App.GetSetting(QuickNoteHotkey.Setting));
             string? taken = RegisterQuickHotkey(saved);
             // Taken since last time (another app started first): the choice stays, the card says so.
             InitQuickNoteOptions(taken == null ? null : string.Format(taken, saved));
@@ -196,15 +196,20 @@ namespace KillerNotes.Shell
             catch (Exception ex) when (ex is COMException or InvalidOperationException) { /* the taskbar is optional */ }
         }
 
-        /// <summary>Registers the Win+Alt+N shortcut. Returns the "already taken" message
+        /// <summary>Registers the chosen Win+Alt shortcut. Returns the "already taken" message
         /// when another app holds it, null otherwise (including off).</summary>
         private string? RegisterQuickHotkey(string? choice)
         {
             if (_hotkeySource != null) UnregisterHotKey(_hotkeySource.Handle, HotkeyId);
             if (!QuickNoteHotkey.TryParse(choice, out uint modifiers, out uint key)) return null;
+            return RegisterHotKey(HotkeySource().Handle, HotkeyId, modifiers, key) ? null : Loc("Str_About_HotkeyTaken");
+        }
+
+        /// <summary>Its own hidden window, so the shortcut works while the main one is in the tray.</summary>
+        private HwndSource HotkeySource()
+        {
             if (_hotkeySource == null)
             {
-                // Its own hidden window, so the shortcut works while the main one is in the tray.
                 _hotkeySource = new HwndSource(new HwndSourceParameters("KillerNotesQuickNote") { WindowStyle = unchecked((int)0x80000000), Width = 0, Height = 0 });
                 _hotkeySource.AddHook((IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) =>
                 {
@@ -212,7 +217,19 @@ namespace KillerNotes.Shell
                     return IntPtr.Zero;
                 });
             }
-            return RegisterHotKey(_hotkeySource.Handle, HotkeyId, modifiers, key) ? null : Loc("Str_About_HotkeyTaken");
+            return _hotkeySource;
+        }
+
+        /// <summary>True when another app holds the shortcut right now: registers it under a spare
+        /// id and lets it go again. Our own current shortcut is never "in use".</summary>
+        private bool HotkeyHeldElsewhere(string choice)
+        {
+            if (choice == QuickNoteHotkey.Effective(App.GetSetting(QuickNoteHotkey.Setting))
+                || !QuickNoteHotkey.TryParse(choice, out uint modifiers, out uint key)) return false;
+            const int ProbeId = HotkeyId + 1;
+            if (!RegisterHotKey(HotkeySource().Handle, ProbeId, modifiers, key)) return true;
+            UnregisterHotKey(HotkeySource().Handle, ProbeId);
+            return false;
         }
 
         // ---- About card options ----
@@ -224,9 +241,27 @@ namespace KillerNotes.Shell
             _initializingQuickOptions = true;
             AboutKeepTrayIcon.IsChecked = KeepTrayIcon;
             AboutShowTips.IsChecked = App.GetSetting(ShowTipsSetting) != "0";   // SaveState.cs
-            AboutQuickHotkey.IsChecked = QuickNoteHotkey.TryParse(App.GetSetting(QuickNoteHotkey.Setting), out _, out _);
+            string current = QuickNoteHotkey.Effective(App.GetSetting(QuickNoteHotkey.Setting));
+            AboutQuickHotkeyCombo.Items.Clear();
+            AboutQuickHotkeyCombo.Items.Add(new System.Windows.Controls.ComboBoxItem { Content = Loc("Str_About_HotkeyOff"), Tag = "" });
+            foreach (string choice in QuickNoteHotkey.Choices)
+                AboutQuickHotkeyCombo.Items.Add(new System.Windows.Controls.ComboBoxItem { Content = choice, Tag = choice });
+            AboutQuickHotkeyCombo.SelectedIndex = Math.Max(0, Array.IndexOf(QuickNoteHotkey.Choices, current) + 1);
             if (hotkeyNote != null) SetHotkeyNote(hotkeyNote);
             _initializingQuickOptions = false;
+        }
+
+        /// <summary>Greys out the shortcuts another app holds each time the list opens, since
+        /// other apps come and go while KillerNotes runs.</summary>
+        private void AboutQuickHotkey_DropDownOpened(object sender, EventArgs e)
+        {
+            foreach (var item in AboutQuickHotkeyCombo.Items.OfType<System.Windows.Controls.ComboBoxItem>())
+            {
+                if (item.Tag is not string choice || choice.Length == 0) continue;
+                bool held = HotkeyHeldElsewhere(choice);
+                item.IsEnabled = !held;
+                item.Content = held ? string.Format(Loc("Str_About_HotkeyInUse"), choice) : choice;
+            }
         }
 
         private void SetHotkeyNote(string? note)
@@ -241,17 +276,18 @@ namespace KillerNotes.Shell
             _tray.RefreshIcon();
         }
 
-        private void AboutQuickHotkey_Click(object sender, RoutedEventArgs e)
+        private void AboutQuickHotkey_Changed(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (_initializingQuickOptions) return;
-            string choice = AboutQuickHotkey.IsChecked == true ? QuickNoteHotkey.Shortcut : "";
+            if (_initializingQuickOptions || AboutQuickHotkeyCombo.SelectedItem is not System.Windows.Controls.ComboBoxItem { Tag: string choice }) return;
             string? taken = RegisterQuickHotkey(choice);
             if (taken != null)
             {
-                // Taken by another app: say so and untick rather than leave a dead shortcut.
+                // Taken between opening the list and picking: say so and go back to off.
                 RegisterQuickHotkey(null);
                 App.SetSetting(QuickNoteHotkey.Setting, "");
-                AboutQuickHotkey.IsChecked = false;
+                _initializingQuickOptions = true;
+                AboutQuickHotkeyCombo.SelectedIndex = 0;
+                _initializingQuickOptions = false;
                 SetHotkeyNote(string.Format(taken, choice));
                 return;
             }

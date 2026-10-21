@@ -1063,8 +1063,10 @@
     <sys:String x:Key="Str_Grp_Inbox">收件匣</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">在系統匣中保留圖示</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">圖示選單中有快速筆記，視窗開啟時圖示也會保留。</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">快速筆記快速鍵</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">快速筆記快速鍵：</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">關閉</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} 已被其他應用程式使用，因此快速鍵保持關閉。</sys:String>
+    <sys:String x:Key="Str_About_HotkeyInUse">{0}（已被使用）</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} 超過 50 MB，未匯入。</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} 先前已匯入且未變更，因此開啟了它的筆記。</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} 剛剛開啟過，不會重複匯入。</sys:String>

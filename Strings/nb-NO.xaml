@@ -1108,8 +1108,10 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Innboks</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Behold et ikon i systemstatusfeltet</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Ikonets meny har Hurtignotat, og ikonet blir værende mens vinduet er åpent.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Snarvei for hurtignotat</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Snarvei for hurtignotat:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Av</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} brukes allerede av en annen app, så snarveien forblir av.</sys:String>
+    <sys:String x:Key="Str_About_HotkeyInUse">{0} (i bruk)</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} er over 50 MB og ble ikke importert.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} er importert før uten endringer, så notatet er åpnet.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} ble åpnet for et øyeblikk siden og importeres ikke to ganger.</sys:String>

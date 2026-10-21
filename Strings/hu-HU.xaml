@@ -1089,8 +1089,10 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Grp_Inbox">Beérkezett</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Ikon megtartása az értesítési területen</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Az ikon menüjében van Gyorsjegyzet, és az ikon nyitott ablaknál is megmarad.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Gyorsjegyzet billentyűparancsa</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Gyorsjegyzet billentyűparancsa:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Ki</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">A(z) {0} parancsot már egy másik alkalmazás használja, ezért a billentyűparancs kikapcsolva marad.</sys:String>
+    <sys:String x:Key="Str_About_HotkeyInUse">{0} (foglalt)</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">A(z) {0} nagyobb 50 MB-nál, ezért nem lett importálva.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">A(z) {0} már változatlanul importálva volt, ezért a jegyzete nyílt meg.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">A(z) {0} az imént lett megnyitva, és nem importálódik kétszer.</sys:String>

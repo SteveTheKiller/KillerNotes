@@ -1063,8 +1063,10 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Gelen kutusu</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Sistem tepsisinde simge bırak</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Simgenin menüsünde Hızlı not var ve simge pencere açıkken de kalır.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Hızlı not kısayolu</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Hızlı not kısayolu:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Kapalı</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} başka bir uygulama tarafından kullanılıyor, bu yüzden kısayol kapalı kalıyor.</sys:String>
+    <sys:String x:Key="Str_About_HotkeyInUse">{0} (kullanımda)</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} 50 MB'tan büyük ve içe aktarılmadı.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} daha önce değişmeden içe aktarılmıştı, bu yüzden notu açıldı.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} az önce açıldı ve iki kez içe aktarılmaz.</sys:String>

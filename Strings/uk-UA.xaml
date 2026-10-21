@@ -1110,8 +1110,10 @@
     <sys:String x:Key="Str_Grp_Inbox">Вхідні</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Тримати значок в області сповіщень</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">У меню значка є «Швидка нотатка», і значок лишається, поки вікно відкрите.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Сполучення для швидкої нотатки</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Сполучення для швидкої нотатки:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Вимк.</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} вже використовує інший застосунок, тому сполучення залишиться вимкненим.</sys:String>
+    <sys:String x:Key="Str_About_HotkeyInUse">{0} (зайнято)</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} більший за 50 МБ і не імпортований.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} уже імпортовано без змін, тому відкрито його нотатку.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} відкрито щойно, і він не імпортується двічі.</sys:String>

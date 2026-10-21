@@ -118,14 +118,17 @@ namespace KillerNotes.Services
         }
     }
 
-    /// <summary>The global quick-note shortcut. Off by default, and one fixed key rather than a
-    /// choice: Win+Alt because Ctrl+Alt is AltGr on international keyboards and would steal a
-    /// character from typing everywhere. The setting stores the key itself, so a later key
-    /// change does not turn the shortcut on for someone who left it off.</summary>
+    /// <summary>The global quick-note shortcut choices, Win+Alt+N by default. Only Win+Alt
+    /// combinations are offered, because Ctrl+Alt (with Shift or not) is AltGr on international
+    /// keyboards and would steal a character from typing everywhere. Windows itself uses Win+Alt
+    /// with B, D, G, K, R and T, so none of those are offered.</summary>
     internal static class QuickNoteHotkey
     {
         public const string Setting = "QuickNoteHotkey";
-        public const string Shortcut = "Win+Alt+N";
+        public static readonly string[] Choices = ["Win+Alt+N", "Win+Alt+Q", "Win+Alt+J", "Win+Alt+Y", "Win+Alt+Z"];
+
+        /// <summary>The shortcut in force: never set means the default, an empty value means off.</summary>
+        public static string Effective(string? stored) => stored ?? Choices[0];
 
         private const uint ModAlt = 0x0001, ModWin = 0x0008, ModNoRepeat = 0x4000;
 
@@ -133,9 +136,9 @@ namespace KillerNotes.Services
         {
             modifiers = 0;
             key = 0;
-            if (stored != Shortcut) return false;
+            if (stored == null || Array.IndexOf(Choices, stored) < 0) return false;
             modifiers = ModWin | ModAlt | ModNoRepeat;
-            key = 'N';   // a letter is its own virtual-key code
+            key = stored[stored.Length - 1];   // a letter is its own virtual-key code
             return true;
         }
     }

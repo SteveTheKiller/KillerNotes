@@ -1063,8 +1063,10 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Eingang</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Symbol im Infobereich behalten</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Das Menü des Symbols enthält Schnellnotiz, und es bleibt, während das Fenster offen ist.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Tastenkürzel für Schnellnotiz</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Tastenkürzel für Schnellnotiz:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Aus</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} wird schon von einer anderen App benutzt, deshalb bleibt das Tastenkürzel aus.</sys:String>
+    <sys:String x:Key="Str_About_HotkeyInUse">{0} (belegt)</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} ist größer als 50 MB und wurde nicht importiert.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} wurde schon unverändert importiert, deshalb ist seine Notiz geöffnet.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} wurde gerade erst geöffnet und wird nicht doppelt importiert.</sys:String>
