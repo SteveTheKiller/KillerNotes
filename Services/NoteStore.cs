@@ -235,6 +235,7 @@ namespace KillerNotes.Services
                 {
                     EnsureSchema();
                     PurgeTrash(TrashRetention.Days);
+                    IndexUnlinkedNotes();
                 }
                 catch { Close(); throw; }
             }
@@ -2419,8 +2420,14 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     ins.Parameters.AddWithValue("$fmt", r.IsDBNull(9) ? 0 : r.GetInt64(9));
                     ins.Parameters.AddWithValue("$sy", r.IsDBNull(10) ? 0 : r.GetInt64(10));
                     ins.ExecuteNonQuery();
-                    CopyNoteAttachments(src, _db!, r.GetInt64(11), LastInsertedId(_db!), hasSketches, hasRecordings);
-                    if (hasPayloads) CopyPayloads(src, _db!, tx, Attachments.MarkersIn(r.GetValue(5) as byte[]));
+                    long newId = LastInsertedId(_db!);
+                    CopyNoteAttachments(src, _db!, r.GetInt64(11), newId, hasSketches, hasRecordings);
+                    var markers = Attachments.MarkersIn(r.GetValue(5) as byte[]);
+                    if (hasPayloads) CopyPayloads(src, _db!, tx, markers);
+                    // Index its wikilinks now, as a save would: without this an imported note
+                    // had no backlinks or graph edges until it was opened and edited.
+                    var labels = SketchLabels(src, r.GetInt64(11), markers, hasPayloads, hasSketches);
+                    SetLinks(newId, WikiLinks.Parse(WithoutSketchLabels(r.GetString(6), labels)), tx);
                     count++;
                 }
 
@@ -2460,6 +2467,73 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             using var cmd = db.CreateCommand();
             cmd.CommandText = "SELECT last_insert_rowid()";
             return (long)cmd.ExecuteScalar()!;
+        }
+
+        /// <summary>Indexes the wikilinks of notes that mention [[...]] but have none recorded:
+        /// notes imported before imports indexed links (1.6.0). Cheap when there is nothing to
+        /// do: one filtered query over the plain text.</summary>
+        private static void IndexUnlinkedNotes()
+        {
+            var rows = new List<(long Id, string Plain, byte[]? Content)>();
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "SELECT id, plain, content FROM notes WHERE instr(plain, '[[') > 0 " +
+                                  "AND id NOT IN (SELECT src FROM note_links)";
+                using var r = cmd.ExecuteReader();
+                while (r.Read()) rows.Add((r.GetInt64(0), r.GetString(1), r.GetValue(2) as byte[]));
+            }
+            if (rows.Count == 0) return;
+            using var tx = _db.BeginTransaction();
+            foreach (var (id, plain, content) in rows)
+            {
+                var labels = SketchLabels(_db, id, Attachments.MarkersIn(content), hasPayloads: true, hasLegacySketches: true);
+                var links = WikiLinks.Parse(WithoutSketchLabels(plain, labels));
+                if (links.Count > 0) SetLinks(id, links, tx);
+            }
+            tx.Commit();
+        }
+
+        /// <summary>The text labels inside a source note's sketches, one line each: the lines a
+        /// save appends to the stored plain text for search (Editor.Sketch.cs).</summary>
+        private static List<string> SketchLabels(SqliteConnection src, long noteId, IEnumerable<string> markers,
+            bool hasPayloads, bool hasLegacySketches)
+        {
+            var payloads = new List<byte[]>();
+            if (hasPayloads)
+                foreach (string hash in markers)
+                {
+                    using var cmd = src.CreateCommand();
+                    cmd.CommandText = "SELECT payload FROM attachments WHERE hash = $h AND kind = 1";
+                    cmd.Parameters.AddWithValue("$h", hash);
+                    if (cmd.ExecuteScalar() is byte[] p) payloads.Add(p);
+                }
+            if (payloads.Count == 0 && hasLegacySketches)
+            {
+                using var cmd = src.CreateCommand();
+                cmd.CommandText = "SELECT payload FROM sketches WHERE note_id = $id ORDER BY ord";
+                cmd.Parameters.AddWithValue("$id", noteId);
+                using var rows = cmd.ExecuteReader();
+                while (rows.Read()) if (rows.GetValue(0) is byte[] p) payloads.Add(p);
+            }
+            var lines = new List<string>();
+            foreach (var payload in payloads)
+                foreach (var o in Models.SketchModel.Deserialize(payload))
+                    if (o.Kind == Models.SketchKind.Text && !string.IsNullOrWhiteSpace(o.Text))
+                        lines.AddRange(o.Text!.Trim().Split('\n'));
+            return lines;
+        }
+
+        /// <summary>Stored plain text minus the sketch label lines a save appended to it, so a
+        /// [[...]] drawn in a sketch is not taken for a link. Left whole when the tail does not
+        /// match those labels exactly.</summary>
+        private static string WithoutSketchLabels(string plain, List<string> labels)
+        {
+            if (labels.Count == 0) return plain;
+            var lines = plain.Split('\n');
+            if (lines.Length <= labels.Count) return plain;
+            var tail = lines.Skip(lines.Length - labels.Count).OrderBy(l => l, StringComparer.Ordinal);
+            if (!tail.SequenceEqual(labels.OrderBy(l => l, StringComparer.Ordinal), StringComparer.Ordinal)) return plain;
+            return string.Join("\n", lines.Take(lines.Length - labels.Count));
         }
 
         /// <summary>Copies the named payloads between databases. Content-addressed, so a payload
