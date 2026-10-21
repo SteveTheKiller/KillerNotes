@@ -647,6 +647,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Dict_SaveChanges">Lưu thay đổi</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Đang chỉnh sửa bản ghi âm đã nhúng. Hãy cắt rồi lưu thay đổi.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Đã cập nhật bản ghi âm.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Bản ghi âm được khôi phục ở cuối ghi chú này: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Chia sẻ bản ghi âm</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Lưu thành tệp...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Sao chép dưới dạng tệp</sys:String>

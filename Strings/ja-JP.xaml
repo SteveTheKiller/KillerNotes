@@ -601,6 +601,7 @@
     <sys:String x:Key="Str_Dict_SaveChanges">変更を保存</sys:String>
     <sys:String x:Key="Str_Dict_Editing">埋め込まれた録音を編集しています。分割してから変更を保存してください。</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">録音を更新しました。</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">このノートの末尾に復元した録音: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">録音を共有</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">ファイルとして保存...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">ファイルとしてコピー</sys:String>

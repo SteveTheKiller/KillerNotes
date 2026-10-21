@@ -603,6 +603,7 @@
     <sys:String x:Key="Str_Dict_SaveChanges">পরিবর্তন সংরক্ষণ করুন</sys:String>
     <sys:String x:Key="Str_Dict_Editing">যুক্ত করা একটি রেকর্ডিং সম্পাদনা হচ্ছে। কেটে নিন, তারপর পরিবর্তন সংরক্ষণ করুন।</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">রেকর্ডিং আপডেট হয়েছে।</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">এই নোটের শেষে পুনরুদ্ধার করা রেকর্ডিং: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">রেকর্ডিং শেয়ার করুন</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">ফাইল হিসেবে সংরক্ষণ...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">ফাইল হিসেবে কপি করুন</sys:String>

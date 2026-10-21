@@ -612,6 +612,7 @@
     <sys:String x:Key="Str_Dict_SaveChanges">Өзгерістерді сақтау</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Ендірілген аудиожазба өңделуде. Тіліңіз, содан кейін өзгерістерді сақтаңыз.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Аудиожазба жаңартылды.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Осы жазбаның соңына қалпына келтірілген аудиожазбалар: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Аудиожазбамен бөлісу</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Файл етіп сақтау...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Файл етіп көшіру</sys:String>

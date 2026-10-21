@@ -545,6 +545,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Shrani spremembe</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Urejanje vdelanega posnetka. Razdelite ga, nato shranite spremembe.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Posnetek je posodobljen.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Posnetki, obnovljeni na koncu tega zapiska: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Deli posnetek</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Shrani kot datoteko...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Kopiraj kot datoteko</sys:String>

@@ -601,6 +601,7 @@
     <sys:String x:Key="Str_Dict_SaveChanges">保存更改</sys:String>
     <sys:String x:Key="Str_Dict_Editing">正在编辑已嵌入的录音。切分后保存更改。</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">录音已更新。</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">已在此笔记末尾恢复的录音：{0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">分享录音</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">另存为文件...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">复制为文件</sys:String>

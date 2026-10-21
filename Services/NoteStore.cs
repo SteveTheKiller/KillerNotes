@@ -1128,19 +1128,32 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             return ord;
         }
 
-        /// <summary>Overwrites an existing recording in place, keeping its ordinal so the chip
-        /// already in the note still points at it. Used when a recording is reopened in the pad and
-        /// re-embedded after editing.</summary>
-        public static bool ReplaceRecording(long noteId, int ord, byte[] wav, int durationMs)
+        /// <summary>Points a stored note's recording at an edited take, for a recording re-embedded
+        /// from the pad after its note was closed. The previous take is kept as a version first.
+        /// False when the note does not contain that recording.</summary>
+        internal static bool ReplaceRecordingMarker(long noteId, string oldHash, Attachment replacement)
         {
-            if (_db == null || IsReadOnly || wav.Length == 0) return false;
-            using var cmd = _db.CreateCommand();
-            cmd.CommandText = "UPDATE recordings SET payload = $p, duration = $d WHERE note_id = $id AND ord = $o";
-            cmd.Parameters.AddWithValue("$p", AudioCodec.ForStorage(wav));
-            cmd.Parameters.AddWithValue("$d", durationMs);
-            cmd.Parameters.AddWithValue("$id", noteId);
-            cmd.Parameters.AddWithValue("$o", ord);
-            return cmd.ExecuteNonQuery() > 0;
+            if (_db == null || IsReadOnly) return false;
+            if (LoadContent(noteId) is not { } content ||
+                Attachments.ReplaceMarker(content,
+                    Attachments.Marker(AttachmentKind.Recording, oldHash),
+                    Attachments.Marker(AttachmentKind.Recording, replacement.Hash)) is not { } rewritten)
+                return false;
+            using var tx = _db.BeginTransaction();
+            PutAttachments(new[] { replacement }, tx);
+            Snapshot(noteId, force: true, tx);
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.Transaction = tx;
+                cmd.CommandText = "UPDATE notes SET content = $c, modified = $m WHERE id = $id";
+                cmd.Parameters.AddWithValue("$c", rewritten);
+                cmd.Parameters.AddWithValue("$m", Ts(DateTime.Now));
+                cmd.Parameters.AddWithValue("$id", noteId);
+                cmd.ExecuteNonQuery();
+            }
+            SweepAttachments(tx);
+            tx.Commit();
+            return true;
         }
 
         /// <summary>One recording as 16-bit PCM WAV, whatever it is stored as, or null if that

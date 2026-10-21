@@ -612,6 +612,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Salva modifiche</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Modifica di una registrazione incorporata. Tagliala, poi salva le modifiche.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Registrazione aggiornata.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Registrazioni recuperate alla fine di questa nota: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Condividi registrazione</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Salva come file...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Copia come file</sys:String>

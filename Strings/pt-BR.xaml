@@ -645,6 +645,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Salvar alterações</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Editando uma gravação incorporada. Corte-a e depois salve as alterações.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Gravação atualizada.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Gravações recuperadas no final desta nota: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Compartilhar gravação</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Salvar como arquivo...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Copiar como arquivo</sys:String>

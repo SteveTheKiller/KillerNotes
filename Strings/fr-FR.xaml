@@ -603,6 +603,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Enregistrer les modifications</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Modification d'un enregistrement intégré. Découpez-le, puis enregistrez vos modifications.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Enregistrement mis à jour.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Enregistrements récupérés à la fin de cette note : {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Partager l'enregistrement</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Enregistrer comme fichier...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Copier comme fichier</sys:String>

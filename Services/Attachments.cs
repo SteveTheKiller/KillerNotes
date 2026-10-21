@@ -89,6 +89,32 @@ namespace KillerNotes.Services
             return found;
         }
 
+        /// <summary>A stored rich note with one marker swapped for another, without loading it
+        /// into an editor. Null when the package does not contain the old marker.</summary>
+        internal static byte[]? ReplaceMarker(byte[] content, string oldMarker, string newMarker)
+        {
+            using var ms = new MemoryStream();
+            ms.Write(content, 0, content.Length);
+            bool replaced = false;
+            using (var package = Package.Open(ms, FileMode.Open, FileAccess.ReadWrite))
+            {
+                foreach (var part in package.GetParts())
+                {
+                    if (!part.Uri.OriginalString.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase)) continue;
+                    string xaml;
+                    using (var reader = new StreamReader(part.GetStream(FileMode.Open, FileAccess.Read)))
+                        xaml = reader.ReadToEnd();
+                    string attribute = "ToolTip=\"" + oldMarker + "\"";
+                    if (xaml.IndexOf(attribute, StringComparison.Ordinal) < 0) continue;
+                    using var stream = part.GetStream(FileMode.Create, FileAccess.Write);
+                    using var writer = new StreamWriter(stream, new UTF8Encoding(false));
+                    writer.Write(xaml.Replace(attribute, "ToolTip=\"" + newMarker + "\""));
+                    replaced = true;
+                }
+            }
+            return replaced ? ms.ToArray() : null;
+        }
+
         /// <summary>MarkersIn as a JSON array, for the SQLite reference triggers (json_each).</summary>
         internal static string MarkersJson(byte[]? content)
         {

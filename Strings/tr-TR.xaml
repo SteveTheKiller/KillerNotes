@@ -603,6 +603,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Değişiklikleri kaydet</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Gömülü bir kayıt düzenleniyor. Dilimleyin, sonra değişikliklerinizi kaydedin.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Kayıt güncellendi.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Bu notun sonuna geri yüklenen kayıtlar: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Kaydı paylaş</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Dosya olarak kaydet...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Dosya olarak kopyala</sys:String>

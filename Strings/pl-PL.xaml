@@ -526,6 +526,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Zapisz zmiany</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Edytowanie osadzonego nagrania. Potnij je, a następnie zapisz zmiany.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Nagranie zaktualizowane.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Nagrania odzyskane na końcu tej notatki: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Udostępnij nagranie</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Zapisz jako plik...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Kopiuj jako plik</sys:String>

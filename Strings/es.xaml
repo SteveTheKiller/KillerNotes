@@ -603,6 +603,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Guardar cambios</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Editando una grabación insertada. Córtela y luego guarde los cambios.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Grabación actualizada.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Grabaciones recuperadas al final de esta nota: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Compartir grabación</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Guardar como archivo...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Copiar como archivo</sys:String>

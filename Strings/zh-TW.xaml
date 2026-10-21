@@ -603,6 +603,7 @@
     <sys:String x:Key="Str_Dict_SaveChanges">儲存變更</sys:String>
     <sys:String x:Key="Str_Dict_Editing">正在編輯內嵌的錄音。切段後再儲存變更。</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">錄音已更新。</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">已在此筆記末尾復原的錄音：{0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">分享錄音</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">另存為檔案...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">複製為檔案</sys:String>

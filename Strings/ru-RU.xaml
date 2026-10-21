@@ -612,6 +612,7 @@
     <sys:String x:Key="Str_Dict_SaveChanges">Сохранить изменения</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Изменение встроенной записи. Разрежьте её, затем сохраните изменения.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Запись обновлена.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Записи, восстановленные в конце этой заметки: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Отправить запись</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Сохранить в файл...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Копировать как файл</sys:String>

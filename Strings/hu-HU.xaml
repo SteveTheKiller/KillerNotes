@@ -607,6 +607,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Dict_SaveChanges">Módosítások mentése</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Beágyazott felvétel szerkesztése. Szeletelje fel, majd mentse el a módosításokat.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Felvétel frissítve.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">A jegyzet végére visszaállított felvételek: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Felvétel megosztása</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Mentés fájlként...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Másolás fájlként</sys:String>

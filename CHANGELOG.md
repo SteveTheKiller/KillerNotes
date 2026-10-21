@@ -31,6 +31,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Reordering or canceling a note drag no longer leaves an unencrypted copy of the note in the temp folder; files for drags out of the app are cleared on the next start.
 - Renaming or deleting a tag updates every note or none of them when a write fails.
 - Sketches keep their own editable drawing when other images are added or removed, and restoring a version brings back the drawings it was saved with.
+- Embedded recordings keep their playback chip after saving, restoring a version plays the take it was saved with, and recordings lost by earlier versions reappear at the end of their note.
 
 ### Added
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.

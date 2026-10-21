@@ -126,7 +126,7 @@ namespace KillerNotes.Shell
             while (d != null)
             {
                 if (d is Image img) return img;
-                if (d is Border b && b.Tag is int && b.Child is Grid) return b;   // recording chip
+                if (d is Border b && b.Tag is RecordingRef && b.Child is Grid) return b;   // recording chip
                 if (d is RichTextBox) break;
                 // Same visual/logical boundary problem the chip click walk has: a few steps up, the
                 // walk leaves the visual tree into the FlowDocument's ContentElements, which
@@ -405,7 +405,7 @@ namespace KillerNotes.Shell
             // Sharing is offered on recordings only. An image is already shareable by copying it,
             // but a recording chip is a marker whose audio lives in the database - there is no other
             // way to get the file out.
-            bool onRecording = _ctxObject is Border rb && rb.Tag is int && rb.Child is Grid;
+            bool onRecording = _ctxObject is Border rb && rb.Tag is RecordingRef && rb.Child is Grid;
             RecSeparator.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
             RecEditMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
             RecShareMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;

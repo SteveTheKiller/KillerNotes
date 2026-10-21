@@ -600,6 +600,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Uložit změny</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Upravujete vloženou nahrávku. Rozdělte ji a poté uložte změny.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Nahrávka aktualizována.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Nahrávky obnovené na konci této poznámky: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Sdílet nahrávku</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Uložit jako soubor...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Kopírovat jako soubor</sys:String>

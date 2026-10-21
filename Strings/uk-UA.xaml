@@ -645,6 +645,7 @@
     <sys:String x:Key="Str_Dict_SaveChanges">Зберегти зміни</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Редагування вбудованого запису. Розріжте його, а потім збережіть зміни.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Запис оновлено.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Записи, відновлені в кінці цієї нотатки: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Поділитися записом</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Зберегти як файл...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Копіювати як файл</sys:String>

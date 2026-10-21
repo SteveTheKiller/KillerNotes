@@ -602,6 +602,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Änderungen speichern</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Eine eingebettete Aufnahme wird bearbeitet. Schneiden Sie sie, dann speichern Sie Ihre Änderungen.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Aufnahme aktualisiert.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Am Ende dieser Notiz wiederhergestellte Aufnahmen: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Aufnahme teilen</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Als Datei speichern...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Als Datei kopieren</sys:String>

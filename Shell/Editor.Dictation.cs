@@ -35,7 +35,7 @@ namespace KillerNotes.Shell
         // showing it.
         private System.Windows.Threading.DispatcherTimer? _recTimer;
         private Border? _recChip;
-        private int _recOrd = -1;
+        private string? _recHash;
         private string _recTotalText = "";
 
         /// <summary>
@@ -109,13 +109,13 @@ namespace KillerNotes.Shell
             DependencyObject? d = e.OriginalSource as DependencyObject;
             while (d != null)
             {
-                if (d is Border b && b.Tag is int ord && b.Child is Grid)
+                if (d is Border b && b.Tag is RecordingRef rec && b.Child is Grid)
                 {
                     // ONLY the play glyph plays. The chip used to be one big button, which left
                     // nowhere to take hold of it once floated - the rest of it is the grab handle
                     // now (Editor.Float.cs).
                     if (!ReferenceEquals(e.OriginalSource, ChipParts(b).glyph)) return;
-                    ToggleEmbeddedRecording(ord, b);
+                    ToggleEmbeddedRecording(rec.Hash, b);
                     e.Handled = true;
                     // Collapse the block selection the editor would otherwise paint across the
                     // chip - the same deferred trick the image handler uses.
@@ -169,65 +169,70 @@ namespace KillerNotes.Shell
         }
 
         /// <summary>
-        /// "Embed recording": store the WAV in the note's side table and drop a chip at the caret
-        /// that plays it. The audio is NOT inlined into the note's XamlPackage - a minute of speech
-        /// is far larger than the note itself, and inlining would make every load and save of that
-        /// note carry it. The chip holds only the ordinal.
+        /// "Embed recording": drop a chip at the caret that plays it. The audio is NOT inlined into
+        /// the note's XamlPackage - a minute of speech is far larger than the note itself, and
+        /// inlining would make every load and save of that note carry it. It is stored once by
+        /// content hash when the note is saved (Editor.RecordingStore.cs); the chip names it.
         /// </summary>
-        private void EmbedRecordingInNote(byte[] wav, int durationMs, int replaceOrd, long editNoteId, string? editDatabase)
+        private void EmbedRecordingInNote(byte[] wav, int durationMs, string? replaceHash, long editNoteId, string? editDatabase)
         {
-            // Editing an existing recording overwrites it in place and refreshes the chip that is
-            // already in the note, rather than leaving the original behind next to a second copy.
-            if (replaceOrd >= 0)
+            if (wav.Length == 0) { StatusText.Text = Loc("Str_Dict_EmbedFailed"); return; }
+            var recording = new Attachment(AttachmentKind.Recording, AudioCodec.ForStorage(wav), durationMs);
+
+            // Editing an existing recording replaces it where it sits rather than leaving the
+            // original behind next to a second copy. The earlier take stays in the note's history.
+            if (replaceHash != null)
             {
-                if (editNoteId < 0 || !string.Equals(editDatabase, NoteStore.DbPath, StringComparison.OrdinalIgnoreCase) ||
-                    !NoteStore.ReplaceRecording(editNoteId, replaceOrd, wav, durationMs))
+                if (editNoteId < 0 || !string.Equals(editDatabase, NoteStore.DbPath, StringComparison.OrdinalIgnoreCase))
                     throw new InvalidOperationException(Loc("Str_Dict_Missing"));
 
                 if (_currentId == editNoteId)
                 {
+                    var target = FindChip(replaceHash) ?? throw new InvalidOperationException(Loc("Str_Dict_Missing"));
                     StopEmbeddedPlayback();          // the old audio may still be loaded
-                    var target = FindChip(replaceOrd);
-                    target?.Child = BuildChipBody(replaceOrd, durationMs);
+                    Remember(recording);
+                    target.Tag = new RecordingRef(recording.Hash, durationMs);
+                    target.Child = BuildChipBody(recording.Hash, durationMs);
                     MarkDirty();
                     StatusText.Text = Loc("Str_Dict_Replaced");
                 }
+                // The pad outlived a note switch: rewrite the stored note it came from.
+                else if (!NoteStore.ReplaceRecordingMarker(editNoteId, replaceHash, recording))
+                    throw new InvalidOperationException(Loc("Str_Dict_Missing"));
                 return;
             }
 
             if (_currentId < 0) return;
-            // Markdown notes store text, so the chip and its side-table row would be orphaned at
-            // the next save (Markdown.cs). Transcribing to text is unaffected.
+            // Markdown notes store text, so the chip would be lost at the next save (Markdown.cs).
+            // Transcribing to text is unaffected.
             if (RejectsObject()) return;
 
-            int ord = NoteStore.AddRecording(_currentId, wav, durationMs);
-            if (ord < 0) { StatusText.Text = Loc("Str_Dict_EmbedFailed"); return; }
-
+            Remember(recording);
             var caret = Editor.CaretPosition ?? Editor.Document.ContentEnd;
-            new InlineUIContainer(BuildRecordingChip(ord, durationMs), caret);
+            new InlineUIContainer(BuildRecordingChip(recording.Hash, durationMs), caret);
             MarkDirty();
             Editor.Focus();
         }
 
         /// <summary>The inline playback chip. Click the play glyph to play, drag the rest of it to
-        /// place it; the ordinal rides in Tag so a chip reloaded from a saved note still knows which
-        /// recording it belongs to.</summary>
-        private Border BuildRecordingChip(int ord, int durationMs)
+        /// place it; the recording's hash rides in Tag while the note is open, and as a marker when
+        /// it is stored (Editor.RecordingStore.cs).</summary>
+        private Border BuildRecordingChip(string hash, int durationMs)
         {
             var chip = new Border
             {
-                Child = BuildChipBody(ord, durationMs),
+                Child = BuildChipBody(hash, durationMs),
                 Padding = new Thickness(8, 3, 8, 3),
                 Margin = new Thickness(0, 2, 0, 2),
                 BorderThickness = new Thickness(1),
                 // No Hand cursor on the chip as a whole - only the play glyph carries one, because
                 // only the play glyph is a button. Floating swaps this for SizeAll.
-                Tag = ord,
+                Tag = new RecordingRef(hash, durationMs),
                 ToolTip = Loc("Str_Dict_ChipTip"),
             };
             chip.SetResourceReference(Border.BorderBrushProperty, "OutlineBtnBrush");
             chip.SetResourceReference(Border.BackgroundProperty, "PaneBrush");
-            if (Application.Current.TryFindResource("ControlCornerRadius") is CornerRadius cr)
+            if (Application.Current?.TryFindResource("ControlCornerRadius") is CornerRadius cr)
                 chip.CornerRadius = cr;
 
             // NO mouse handler here. The chip lives in an InlineUIContainer inside an EDITABLE
@@ -241,7 +246,7 @@ namespace KillerNotes.Shell
         /// <summary>The chip's contents, separate from its frame so that re-editing a recording can
         /// refresh the waveform and duration in place without replacing the chip itself - which
         /// would lose where the user had positioned it.</summary>
-        private Grid BuildChipBody(int ord, int durationMs)
+        private Grid BuildChipBody(string hash, int durationMs)
         {
             var label = new TextBlock
             {
@@ -283,7 +288,7 @@ namespace KillerNotes.Shell
             // element in the document throws "Cannot serialize a non-public type" the moment the
             // note is saved or swapped. Path/Geometry are public framework types, so the chip
             // survives the round trip. Same envelope either way, just baked into geometry.
-            byte[]? chipWav = NoteStore.LoadRecording(_currentId, ord);
+            byte[]? chipWav = AudioCodec.ToPcm(RecordingPayload(hash)?.Payload);
             Geometry env = WaveformGeometry(chipWav == null ? []
                                                             : DictationRecorder.EnvelopeOf(chipWav, 70),
                                             ChipWaveW, ChipWaveH);
@@ -355,17 +360,26 @@ namespace KillerNotes.Shell
         // package - a new dependency for something "copy as file" already covers, since it pastes
         // straight into Outlook, Teams or Explorer.
 
-        /// <summary>The recording the context menu was opened on, or -1.</summary>
-        private int CtxRecordingOrd()
+        /// <summary>The recording the context menu was opened on, or null.</summary>
+        private RecordingRef? CtxRecording()
         {
-            if (_ctxObject is Border b && b.Tag is int ord) return ord;
+            if (_ctxObject is Border { Tag: RecordingRef rec }) return rec;
             DependencyObject? parent = Editor.CaretPosition?.Parent;
             while (parent != null)
             {
-                if (parent is InlineUIContainer { Child: Border { Tag: int caretOrdinal } }) return caretOrdinal;
+                if (parent is InlineUIContainer { Child: Border { Tag: RecordingRef atCaret } }) return atCaret;
                 parent = parent is FrameworkContentElement content ? content.Parent : LogicalTreeHelper.GetParent(parent);
             }
-            return -1;
+            return null;
+        }
+
+        /// <summary>The stored bytes of the recording the context menu is about, or null with the
+        /// status line explaining why.</summary>
+        private (RecordingRef Rec, byte[] Data)? CtxRecordingData()
+        {
+            if (CtxRecording() is not { } rec) return null;
+            if (RecordingPayload(rec.Hash)?.Payload is not { } data) { StatusText.Text = Loc("Str_Dict_Missing"); return null; }
+            return (rec, data);
         }
 
         /// <summary>Converts stored audio to whatever format the chosen filename asks for, or
@@ -391,12 +405,12 @@ namespace KillerNotes.Shell
             };
         }
 
-        /// <summary>Finds the chip for an ordinal by walking the document, for when a remembered
+        /// <summary>Finds the chip for a recording by walking the document, for when a remembered
         /// reference has gone stale.</summary>
-        private Border? FindChip(int ord)
+        private Border? FindChip(string hash)
         {
             foreach (var el in DescendantElements(Editor.Document))
-                if (el is Border b && b.Tag is int t && t == ord && b.Child is Grid) return b;
+                if (el is Border { Tag: RecordingRef rec } b && rec.Hash == hash && b.Child is Grid) return b;
             return null;
         }
 
@@ -417,17 +431,18 @@ namespace KillerNotes.Shell
         /// editing state is kept here - the pad owns it and hands it back on Embed.</summary>
         private void RecEdit_Click(object sender, RoutedEventArgs e)
         {
-            int ord = CtxRecordingOrd();
-            if (ord < 0) return;
-            byte[]? wav = NoteStore.LoadRecording(_currentId, ord);
+            if (CtxRecordingData() is not var (rec, data)) return;
+            byte[]? wav = AudioCodec.ToPcm(data);
             if (wav == null) { StatusText.Text = Loc("Str_Dict_Missing"); return; }
 
             OpenDictation();
-            _dictation?.LoadForEdit(wav, ord, _currentId, NoteStore.DbPath);
+            _dictation?.LoadForEdit(wav, rec.Hash, _currentId, NoteStore.DbPath);
         }
 
-        private string RecordingFileName(int ord, byte[] data) =>
-            Sanitize(TitleBox.Text) + "-" + ord + AudioCodec.ExtensionFor(data);
+        /// <summary>The note's title plus a short slice of the recording's hash, so two takes in
+        /// one note never share a filename.</summary>
+        private string RecordingFileName(RecordingRef rec, byte[] data) =>
+            Sanitize(TitleBox.Text) + "-" + rec.Hash.Substring(0, 8) + AudioCodec.ExtensionFor(data);
 
         private static string Sanitize(string s)
         {
@@ -438,12 +453,9 @@ namespace KillerNotes.Shell
 
         private void RecSaveAs_Click(object sender, RoutedEventArgs e)
         {
-            int ord = CtxRecordingOrd();
-            if (ord < 0) return;
             // RAW, not decoded: exporting should hand over the stored FLAC rather than a WAV
             // inflated back out of it.
-            byte[]? data = NoteStore.LoadRecordingRaw(_currentId, ord);
-            if (data == null) { StatusText.Text = Loc("Str_Dict_Missing"); return; }
+            if (CtxRecordingData() is not var (rec, data)) return;
 
             // Offer every format this build can actually produce, with whatever the recording is
             // already stored as listed first so the default costs no conversion. FLAC only appears
@@ -460,7 +472,7 @@ namespace KillerNotes.Shell
             var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Save)
             {
                 Title = Loc("Str_Dict_SaveAs"),
-                FileName = RecordingFileName(ord, data),
+                FileName = RecordingFileName(rec, data),
                 DefaultExt = stored,
                 Filter = string.Join("|", formats),
             };
@@ -483,10 +495,7 @@ namespace KillerNotes.Shell
         /// it pasteable into an email, a chat window or a folder.</summary>
         private void RecCopyFile_Click(object sender, RoutedEventArgs e)
         {
-            int ord = CtxRecordingOrd();
-            if (ord < 0) return;
-            byte[]? data = NoteStore.LoadRecordingRaw(_currentId, ord);
-            if (data == null) { StatusText.Text = Loc("Str_Dict_Missing"); return; }
+            if (CtxRecordingData() is not var (rec, data)) return;
 
             try
             {
@@ -494,7 +503,7 @@ namespace KillerNotes.Shell
                 // with another note's recording of the same number.
                 string dir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "KillerNotes", "share");
                 System.IO.Directory.CreateDirectory(dir);
-                string path = System.IO.Path.Combine(dir, RecordingFileName(ord, data));
+                string path = System.IO.Path.Combine(dir, RecordingFileName(rec, data));
                 System.IO.File.WriteAllBytes(path, data);
 
                 var files = new System.Collections.Specialized.StringCollection { path };
@@ -598,9 +607,9 @@ namespace KillerNotes.Shell
         /// <summary>Click on a chip: start it, or pause/resume the one already running. Clicking a
         /// DIFFERENT chip stops the current one first - two recordings talking over each other is
         /// never what was meant.</summary>
-        private void ToggleEmbeddedRecording(int ord, Border chip)
+        private void ToggleEmbeddedRecording(string hash, Border chip)
         {
-            if (DictationPlayer.IsOpen && _recOrd == ord && ReferenceEquals(_recChip, chip))
+            if (DictationPlayer.IsOpen && _recHash == hash && ReferenceEquals(_recChip, chip))
             {
                 // MDL2 E768 Play / E769 Pause.
                 var (glyph, _, _) = ChipParts(chip);
@@ -620,15 +629,15 @@ namespace KillerNotes.Shell
             }
 
             StopEmbeddedPlayback();
-            PlayEmbeddedRecording(ord, chip);
+            PlayEmbeddedRecording(hash, chip);
         }
 
         /// <summary>Plays an embedded recording, with the chip acting as the transport: the waveform
         /// fills as it plays and the duration counts up. See DictationPlayer for why playback is
         /// winmm rather than MediaPlayer or SoundPlayer.</summary>
-        private void PlayEmbeddedRecording(int ord, Border chip)
+        private void PlayEmbeddedRecording(string hash, Border chip)
         {
-            byte[]? wav = NoteStore.LoadRecording(_currentId, ord);
+            byte[]? wav = AudioCodec.ToPcm(RecordingPayload(hash)?.Payload);
             if (wav == null) { StatusText.Text = Loc("Str_Dict_Missing"); return; }
 
             var (glyph, played, label) = ChipParts(chip);
@@ -640,7 +649,7 @@ namespace KillerNotes.Shell
             }
 
             _recChip = chip;
-            _recOrd = ord;
+            _recHash = hash;
             _recTotalText = label?.Text ?? "";
             glyph?.Text = char.ConvertFromUtf32(0xE769);   // Pause
 
@@ -678,7 +687,7 @@ namespace KillerNotes.Shell
                 if (label != null && _recTotalText.Length > 0) label.Text = _recTotalText;
                 _recChip = null;
             }
-            _recOrd = -1;
+            _recHash = null;
         }
     }
 }

@@ -643,6 +643,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Dict_SaveChanges">Lagre endringer</sys:String>
     <sys:String x:Key="Str_Dict_Editing">Redigerer et innebygd opptak. Del det opp, og lagre deretter endringene.</sys:String>
     <sys:String x:Key="Str_Dict_Replaced">Opptaket er oppdatert.</sys:String>
+    <sys:String x:Key="Str_Dict_Recovered">Opptak gjenopprettet nederst i dette notatet: {0}</sys:String>
     <sys:String x:Key="Str_Dict_Share">Del opptak</sys:String>
     <sys:String x:Key="Str_Dict_SaveAs">Lagre som fil...</sys:String>
     <sys:String x:Key="Str_Dict_CopyFile">Kopier som fil</sys:String>

@@ -13,7 +13,7 @@ namespace KillerNotes.Shell
     public partial class MainWindow
     {
         /// <summary>Look up a localized string; falls back to the key name if missing.</summary>
-        private string Loc(string key) => Application.Current.TryFindResource(key) as string ?? key;
+        private string Loc(string key) => Application.Current?.TryFindResource(key) as string ?? key;
 
         // ---- Language menu (rail button next to the theme picker) ----
 
