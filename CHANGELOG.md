@@ -29,6 +29,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Regex Find stops a runaway pattern after one second and says so, without changing the note.
 - HTML export and rich copy encode link addresses safely and keep only web and email links live; other links keep their text.
 - Reordering or canceling a note drag no longer leaves an unencrypted copy of the note in the temp folder; files for drags out of the app are cleared on the next start.
+- Renaming or deleting a tag updates every note or none of them when a write fails.
 
 ### Added
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.

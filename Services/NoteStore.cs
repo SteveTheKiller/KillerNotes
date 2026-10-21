@@ -1608,27 +1608,35 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         public static void RenameTag(string oldName, string newName)
         {
             if (_db == null || IsReadOnly) return;
+            // One transaction for the definition and every note: a failed note write must not
+            // leave a library where the definition and the notes disagree.
+            using var tx = _db.BeginTransaction();
             using (var cmd = _db.CreateCommand())
             {
+                cmd.Transaction = tx;
                 cmd.CommandText = "UPDATE tags SET name = $new WHERE name = $old";
                 cmd.Parameters.AddWithValue("$new", newName);
                 cmd.Parameters.AddWithValue("$old", oldName);
                 cmd.ExecuteNonQuery();
             }
-            RewriteTagInNotes(oldName, newName);
+            RewriteTagInNotes(oldName, newName, tx);
+            tx.Commit();
         }
 
         /// <summary>Deletes a tag definition and removes it from every note's CSV.</summary>
         public static void DeleteTag(string name)
         {
             if (_db == null || IsReadOnly) return;
+            using var tx = _db.BeginTransaction();   // all or nothing, as RenameTag
             using (var cmd = _db.CreateCommand())
             {
+                cmd.Transaction = tx;
                 cmd.CommandText = "DELETE FROM tags WHERE name = $n";
                 cmd.Parameters.AddWithValue("$n", name);
                 cmd.ExecuteNonQuery();
             }
-            RewriteTagInNotes(name, null);
+            RewriteTagInNotes(name, null, tx);
+            tx.Commit();
         }
 
         // ---- Custom order + groups (#4) ----
@@ -1937,11 +1945,12 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         // Renames (newName != null) or removes (null) one tag inside every note's CSV.
         // C#-side rewrite on purpose: CSV surgery in SQL is fragile, and note counts
         // are small. The FTS triggers keep the index in sync on each UPDATE.
-        private static void RewriteTagInNotes(string name, string? newName)
+        private static void RewriteTagInNotes(string name, string? newName, SqliteTransaction tx)
         {
             var rows = new List<(long Id, string Tags)>();
             using (var cmd = _db!.CreateCommand())
             {
+                cmd.Transaction = tx;
                 cmd.CommandText = "SELECT id, tags FROM notes WHERE tags <> ''";
                 using var r = cmd.ExecuteReader();
                 while (r.Read()) rows.Add((r.GetInt64(0), r.GetString(1)));
@@ -1960,7 +1969,13 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     }
                     else outParts.Add(p);
                 }
-                if (hit) SetNoteTags(id, string.Join(", ", outParts));
+                if (!hit) continue;
+                using var update = _db.CreateCommand();
+                update.Transaction = tx;
+                update.CommandText = "UPDATE notes SET tags = $t WHERE id = $id";
+                update.Parameters.AddWithValue("$t", string.Join(", ", outParts));
+                update.Parameters.AddWithValue("$id", id);
+                update.ExecuteNonQuery();
             }
         }
 
