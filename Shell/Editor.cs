@@ -91,6 +91,7 @@ namespace KillerNotes.Shell
                 // gridlines clash. Let WPF's native paste do the clipboard->document conversion
                 // (it handles HTML tables, RTF, and images), then re-run the note's own theme
                 // normalization once it lands (the same neutral-color rule as note load).
+                AcceptPastedAttachments(e.DataObject);   // copied sketch and recording payloads (Editor.RecordingStore.cs)
                 Dispatcher.BeginInvoke(new Action(NormalizePastedContent),
                     System.Windows.Threading.DispatcherPriority.Background);
                 return;
@@ -111,6 +112,7 @@ namespace KillerNotes.Shell
             if (_currentId < 0) return;
             NormalizeThemeColors(Editor.Document);
             foreach (var block in Editor.Document.Blocks.ToList()) NormalizePastedBlock(block);
+            AdoptPastedAttachments();   // Editor.RecordingStore.cs
             MarkDirty();
         }
 

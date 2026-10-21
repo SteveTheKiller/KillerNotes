@@ -115,6 +115,45 @@ namespace KillerNotes.Services
             return replaced ? ms.ToArray() : null;
         }
 
+        /// <summary>Payloads as one blob for the clipboard: count, then kind, duration, length
+        /// and bytes for each.</summary>
+        internal static byte[] Encode(IEnumerable<Attachment> attachments)
+        {
+            var list = new List<Attachment>(attachments);
+            using var ms = new MemoryStream();
+            using var w = new BinaryWriter(ms);
+            w.Write(list.Count);
+            foreach (var a in list)
+            {
+                w.Write((int)a.Kind);
+                w.Write(a.DurationMs);
+                w.Write(a.Payload.Length);
+                w.Write(a.Payload);
+            }
+            w.Flush();
+            return ms.ToArray();
+        }
+
+        /// <summary>Reverses Encode. Hashes are recomputed from the bytes, so a damaged or forged
+        /// envelope can never claim a payload under someone else's name.</summary>
+        internal static List<Attachment> Decode(byte[] blob)
+        {
+            var list = new List<Attachment>();
+            using var r = new BinaryReader(new MemoryStream(blob, writable: false));
+            int count = r.ReadInt32();
+            if (count < 0 || count > 10_000) throw new InvalidDataException("attachment count");
+            for (int i = 0; i < count; i++)
+            {
+                var kind = (AttachmentKind)r.ReadInt32();
+                int duration = r.ReadInt32();
+                int length = r.ReadInt32();
+                if (kind is not (AttachmentKind.Sketch or AttachmentKind.Recording) || length < 0 || length > blob.Length)
+                    throw new InvalidDataException("attachment entry");
+                list.Add(new Attachment(kind, r.ReadBytes(length), duration));
+            }
+            return list;
+        }
+
         /// <summary>MarkersIn as a JSON array, for the SQLite reference triggers (json_each).</summary>
         internal static string MarkersJson(byte[]? content)
         {

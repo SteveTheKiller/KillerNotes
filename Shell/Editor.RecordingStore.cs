@@ -62,28 +62,109 @@ namespace KillerNotes.Shell
         internal byte[] SerializeRichDocument(List<Attachment> attachments)
         {
             attachments.AddRange(Sketch.CaptureAttachments(Editor.Document.Blocks));
+            foreach (var (_, chip) in ChipContainers(Editor.Document))
+            {
+                var rec = (RecordingRef)chip.Tag;
+                if ((_recordingsSaved == null || !_recordingsSaved.Contains(rec.Hash)) && RecordingPayload(rec.Hash) is { } payload)
+                    attachments.Add(payload);
+            }
+            return WithChipsAsMarkers(() =>
+            {
+                var range = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd);
+                using var ms = new MemoryStream();
+                range.Save(ms, DataFormats.XamlPackage);
+                return ms.ToArray();
+            });
+        }
+
+        /// <summary>Runs a serialization with every chip replaced by its marked picture, and puts
+        /// the chips back before returning, whatever happens.</summary>
+        private T WithChipsAsMarkers<T>(Func<T> serialize)
+        {
             var swapped = new List<(TextElement Container, Border Chip)>();
             _swappingChips = true;
             try
             {
                 foreach (var (container, chip) in ChipContainers(Editor.Document))
                 {
-                    var rec = (RecordingRef)chip.Tag;
-                    if ((_recordingsSaved == null || !_recordingsSaved.Contains(rec.Hash)) && RecordingPayload(rec.Hash) is { } payload)
-                        attachments.Add(payload);
-                    SetChild(container, MarkerPicture(chip, rec));
+                    SetChild(container, MarkerPicture(chip, (RecordingRef)chip.Tag));
                     swapped.Add((container, chip));
                 }
-                var range = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd);
-                using var ms = new MemoryStream();
-                range.Save(ms, DataFormats.XamlPackage);
-                return ms.ToArray();
+                return serialize();
             }
             finally
             {
                 foreach (var (container, chip) in swapped) SetChild(container, chip);
                 _swappingChips = false;
             }
+        }
+
+        /// <summary>Every recording marker picture in the open note becomes a live chip. Returns
+        /// the hashes revived.</summary>
+        private List<string> ReviveMarkerPictures()
+        {
+            var revived = new List<string>();
+            _swappingChips = true;
+            try
+            {
+                foreach (var (container, image) in MarkerPictures(Editor.Document))
+                {
+                    Attachments.TryParseMarker(image.ToolTip, out _, out string hash);
+                    int duration = RecordingPayload(hash)?.DurationMs ?? 0;
+                    SetChild(container, BuildRecordingChip(hash, duration));
+                    revived.Add(hash);
+                }
+            }
+            finally { _swappingChips = false; }
+            return revived;
+        }
+
+        // ---- Copy and paste (U002) ----
+        // A copy carries the payloads its markers name in a private format, so the paste can
+        // rebuild editable sketches and playable chips even in another database.
+
+        internal const string AttachmentsFormat = "KillerNotes.Attachments";
+
+        /// <summary>Payloads offered by the paste in progress, until NormalizePastedContent
+        /// adopts them.</summary>
+        private Dictionary<string, Attachment>? _pastedAttachments;
+
+        /// <summary>The payloads a copied package names, for the clipboard.</summary>
+        private byte[] AttachmentEnvelope(byte[] package, IEnumerable<Attachment> sketches)
+        {
+            var bySketch = sketches.GroupBy(a => a.Hash).ToDictionary(g => g.Key, g => g.First());
+            var carried = new List<Attachment>();
+            foreach (string hash in Attachments.MarkersIn(package))
+            {
+                if (bySketch.TryGetValue(hash, out var sketch)) carried.Add(sketch);
+                else if (RecordingPayload(hash) is { } recording) carried.Add(recording);
+                else if (NoteStore.GetAttachment(hash) is { } stored) carried.Add(stored);
+            }
+            return Attachments.Encode(carried);
+        }
+
+        /// <summary>Called as a paste starts: keeps whatever payloads the copy carried.</summary>
+        internal void AcceptPastedAttachments(IDataObject data)
+        {
+            _pastedAttachments = null;
+            try
+            {
+                if (!data.GetDataPresent(AttachmentsFormat) || data.GetData(AttachmentsFormat) is not MemoryStream ms) return;
+                _pastedAttachments = Attachments.Decode(ms.ToArray()).GroupBy(a => a.Hash).ToDictionary(g => g.Key, g => g.First());
+            }
+            catch { _pastedAttachments = null; /* a foreign or damaged envelope: pictures stay pictures */ }
+        }
+
+        /// <summary>After the paste lands: pasted sketches get their drawings back and pasted
+        /// recording pictures become chips again.</summary>
+        private void AdoptPastedAttachments()
+        {
+            var offered = _pastedAttachments ?? new Dictionary<string, Attachment>();
+            _pastedAttachments = null;
+            foreach (var recording in offered.Values.Where(a => a.Kind == AttachmentKind.Recording)) Remember(recording);
+            Sketch.Link(Editor.Document.Blocks, new Dictionary<int, byte[]>(),
+                hash => offered.TryGetValue(hash, out var a) ? a : NoteStore.GetAttachment(hash));
+            ReviveMarkerPictures();
         }
 
         /// <summary>After SerializeRichDocument's bytes are stored.</summary>
@@ -100,19 +181,7 @@ namespace KillerNotes.Shell
         {
             _recordingCache = null;
             _dropLegacyRecordings = false;
-            _recordingsSaved = new HashSet<string>(StringComparer.Ordinal);
-            _swappingChips = true;
-            try
-            {
-                foreach (var (container, image) in MarkerPictures(Editor.Document))
-                {
-                    Attachments.TryParseMarker(image.ToolTip, out _, out string hash);
-                    int duration = RecordingPayload(hash)?.DurationMs ?? 0;
-                    SetChild(container, BuildRecordingChip(hash, duration));
-                    _recordingsSaved.Add(hash);
-                }
-            }
-            finally { _swappingChips = false; }
+            _recordingsSaved = new HashSet<string>(ReviveMarkerPictures(), StringComparer.Ordinal);
 
             if (_recordingsSaved.Count > 0 || NoteStore.IsReadOnly || _currentInTrash) return;
             var legacy = NoteStore.LoadRecordingIndex(noteId);
