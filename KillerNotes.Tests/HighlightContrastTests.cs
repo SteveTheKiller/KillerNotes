@@ -33,6 +33,19 @@ namespace KillerNotes.Tests
             Assert.Equal(DependencyProperty.UnsetValue, runs.Single(r => r.Text == " plain").ReadLocalValue(TextElement.ForegroundProperty));
         });
 
+        [Fact]
+        public void TextOnADarkGroundStillFollowsTheTheme() => Sta.Run(() =>
+        {
+            // A background swatch (dark teal) over text whose color is only the save-time theme's.
+            var swatched = new Run("swatch") { Background = new SolidColorBrush(Color.FromRgb(0x08, 0x4D, 0x6E)) };
+            var doc = Reload(new FlowDocument(new Paragraph(swatched)) { Foreground = Brushes.White });
+
+            MainWindow.NormalizeThemeColors(doc);
+
+            var run = doc.Blocks.OfType<Paragraph>().SelectMany(p => Runs(p.Inlines)).Single(r => r.Text == "swatch");
+            Assert.Equal(DependencyProperty.UnsetValue, run.ReadLocalValue(TextElement.ForegroundProperty));
+        });
+
         private static FlowDocument Reload(FlowDocument doc)
         {
             using var ms = new MemoryStream();

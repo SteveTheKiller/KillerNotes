@@ -127,18 +127,27 @@ namespace KillerNotes.Shell
         {
             foreach (var run in runs)
                 if (run.ReadLocalValue(TextElement.ForegroundProperty) == DependencyProperty.UnsetValue &&
-                    OnColoredGround(run) && run.Foreground is SolidColorBrush shown && IsNeutralColor(shown.Color))
+                    OnColoredGround(run) && run.Foreground is SolidColorBrush shown && IsNeutralColor(shown.Color) &&
+                    Luminance(shown.Color) < 0.5)
                     run.Foreground = new SolidColorBrush(shown.Color);
         }
 
-        /// <summary>True when this element or one of its text ancestors has a non-neutral
-        /// background of its own.</summary>
+        /// <summary>True when this element or one of its text ancestors has a LIGHT, non-neutral
+        /// background of its own: the highlighter's yellow, where only dark text reads. Text on the
+        /// dark background swatches is left to follow the theme, as it always did.</summary>
         private static bool OnColoredGround(TextElement te)
         {
             for (DependencyObject? d = te; d is TextElement e; d = e.Parent)
-                if (e.ReadLocalValue(TextElement.BackgroundProperty) is SolidColorBrush g && !IsNeutralColor(g.Color) && g.Color.A > 0)
-                    return true;
+                if (e.ReadLocalValue(TextElement.BackgroundProperty) is SolidColorBrush g && g.Color.A > 0 && !IsNeutralColor(g.Color))
+                    return Luminance(g.Color) >= 0.5;   // the nearest ground decides
             return false;
+        }
+
+        /// <summary>Relative luminance (0 black .. 1 white), sRGB.</summary>
+        private static double Luminance(Color c)
+        {
+            static double Lin(byte v) { double s = v / 255.0; return s <= 0.03928 ? s / 12.92 : Math.Pow((s + 0.055) / 1.055, 2.4); }
+            return 0.2126 * Lin(c.R) + 0.7152 * Lin(c.G) + 0.0722 * Lin(c.B);
         }
 
         // ---- Character formatting (color, highlight, strikethrough, monospace) ----
