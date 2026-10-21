@@ -2134,8 +2134,24 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 cmd.Parameters.AddWithValue("$key", newPassword ?? "");
                 cmd.ExecuteNonQuery();
             }
-            Exec("SELECT sqlcipher_export('rekeyed')");
-            Exec("DETACH DATABASE rekeyed");
+            // The staged copy is detached and, on failure, removed whatever happens: left
+            // attached, it kept the .rekey file open and every retry in this session failed
+            // to delete it. The original database is untouched until the swap below.
+            bool exported = false;
+            try
+            {
+                Exec("SELECT sqlcipher_export('rekeyed')");
+                exported = true;
+            }
+            finally
+            {
+                try { Exec("DETACH DATABASE rekeyed"); } catch { /* not attached */ }
+                if (!exported)
+                {
+                    try { File.Delete(tmp); } catch { /* best effort; the next attempt deletes it first */ }
+                    try { File.Delete(tmp + "-journal"); } catch { }
+                }
+            }
             Close();
 
             // Pool clearing alone is not always enough (#3): a straggler sqlite3
