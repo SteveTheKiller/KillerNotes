@@ -47,6 +47,32 @@ namespace KillerNotes.Tests
             Assert.False(File.Exists(store.DbPath + ".rekey"));
         }
 
+        [Theory]
+        [InlineData(null, "new key")]
+        [InlineData("old key", "new key")]
+        public void AFailedExportStageCanBeRetriedAtOnce(string? oldKey, string newKey)
+        {
+            using var store = new TempStore(oldKey);
+            long id = NoteStore.Create("Kept");
+            // A folder where the staged copy's journal must go: the export fails while writing.
+            string obstruction = store.DbPath + ".rekey-journal";
+            Directory.CreateDirectory(obstruction);
+            try
+            {
+                Assert.ThrowsAny<Exception>(() => NoteStore.SetPassword(newKey));
+                Assert.True(NoteStore.IsOpen);
+                Assert.Equal(id, Assert.Single(NoteStore.List()).Id);
+            }
+            finally { Directory.Delete(obstruction, true); }
+
+            NoteStore.SetPassword(newKey);   // same process, obstruction gone
+            Assert.True(NoteStore.HasPassword);
+            NoteStore.Close();
+            NoteStore.Open(newKey);
+            Assert.Equal(id, Assert.Single(NoteStore.List()).Id);
+            Assert.False(File.Exists(store.DbPath + ".rekey"));
+        }
+
         [Fact]
         public void FailedRestorationKeepsBothCompleteDatabasesWithoutCreatingAnEmptyOne()
         {

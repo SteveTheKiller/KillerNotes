@@ -126,7 +126,7 @@ namespace KillerNotes.Shell
             while (d != null)
             {
                 if (d is Image img) return img;
-                if (d is Border b && b.Tag is int && b.Child is Grid) return b;   // recording chip
+                if (d is Border b && RecordingRef.Of(b) != null) return b;   // recording chip
                 if (d is RichTextBox) break;
                 // Same visual/logical boundary problem the chip click walk has: a few steps up, the
                 // walk leaves the visual tree into the FlowDocument's ContentElements, which
@@ -379,6 +379,23 @@ namespace KillerNotes.Shell
             e.Handled = true;
         }
 
+        /// <summary>Drops a press or drag still held when an automatic lock arrives (LockNow.cs): a
+        /// note cannot be saved mid-drag, and the floater stays where the drag last put it.</summary>
+        private void AbandonEditorGestures()
+        {
+            _dragDial = null;
+            _armedObject = null;
+            if (_dragFloater != null)
+            {
+                TrimGrownAnchors(_dragFloater.Parent as Paragraph);
+                _dragFloater = null;
+                _dragObject = null;
+                MarkDirty();
+            }
+            DragCursors.EndDrag();
+            if (Editor.IsMouseCaptured) Editor.ReleaseMouseCapture();
+        }
+
         // ---- context menu ----
 
         private void Editor_ObjectRightPress(object sender, MouseButtonEventArgs e)
@@ -405,8 +422,14 @@ namespace KillerNotes.Shell
             // Sharing is offered on recordings only. An image is already shareable by copying it,
             // but a recording chip is a marker whose audio lives in the database - there is no other
             // way to get the file out.
-            bool onRecording = _ctxObject is Border rb && rb.Tag is int && rb.Child is Grid;
+            // The recording under the pointer, or beside the caret when the menu was opened from
+            // the keyboard - the only keyboard route to a recording's controls.
+            bool onRecording = RecordingRef.Of(_ctxObject as UIElement) != null ||
+                               (_ctxObject == null && CtxRecording() != null);
             RecSeparator.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
+            RecPlayPauseMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
+            RecVolumeUpMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
+            RecVolumeDownMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
             RecEditMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
             RecShareMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
 

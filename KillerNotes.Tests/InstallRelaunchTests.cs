@@ -150,8 +150,13 @@ namespace KillerNotes.Tests
                 release.Set();
                 Assert.True(parent.WaitForExit(10000), "Owned parent did not exit.");
                 Assert.Equal(0, parent.ExitCode);
-                Assert.True(SpinWait.SpinUntil(() => File.Exists(marker), 10000), "Installed copy did not launch after parent exit.");
-                Assert.Equal("first", File.ReadAllText(marker));
+                // The file exists from the moment the child opens it to write, so it is read only
+                // once the write is complete: the old read here met the child's open handle and
+                // failed with a sharing violation now and then.
+                string written = "";
+                Assert.True(SpinWait.SpinUntil(() => (written = TryReadShared(marker)).Length > 0, 10000),
+                    "Installed copy did not launch after parent exit.");
+                Assert.Equal("first", written);
             }
             finally
             {
@@ -164,6 +169,20 @@ namespace KillerNotes.Tests
                     catch (UnauthorizedAccessException) { return false; }
                 }, 5000), "Owned handoff fixture files remained in use after process exit.");
             }
+        }
+
+        /// <summary>The file's text once another process has finished writing it, or "" while it is
+        /// missing, empty or still held open for writing.</summary>
+        private static string TryReadShared(string path)
+        {
+            try
+            {
+                using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using var reader = new StreamReader(stream);
+                return reader.ReadToEnd();
+            }
+            catch (IOException) { return ""; }
+            catch (UnauthorizedAccessException) { return ""; }
         }
 
         private const string OwnedChild = @"

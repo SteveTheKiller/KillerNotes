@@ -13,7 +13,7 @@ namespace KillerNotes.Shell
     public partial class MainWindow
     {
         /// <summary>Look up a localized string; falls back to the key name if missing.</summary>
-        private string Loc(string key) => Application.Current.TryFindResource(key) as string ?? key;
+        private string Loc(string key) => Application.Current?.TryFindResource(key) as string ?? key;
 
         // ---- Language menu (rail button next to the theme picker) ----
 
@@ -134,9 +134,11 @@ namespace KillerNotes.Shell
         private void RelocalizeDynamicUi()
         {
             // Shortcut rows (list view) are built from KsTable into two columns - clear both and rebuild.
-            ShortcutColLeft.Items.Clear();
-            ShortcutColRight.Items.Clear();
-            BuildShortcutRows();                     // Shortcuts.cs
+            BuildShortcutRows();                     // Shortcuts.cs (clears both columns itself)
+            InitLockOptions();                       // LockNow.cs (idle choices are built in code)
+            InitQuickNoteOptions();                  // QuickNote.cs (shortcut choices)
+            ApplyJumpList();                         // QuickNote.cs (the taskbar's Quick note task)
+            RefreshQuickNoteState();
             if (_overlayFocus.ActiveOverlay == ShortcutOverlay) FocusKeyboardOverlay();
 
             // Keyboard map: rebuilt lazily on next open; if already built, repaint the

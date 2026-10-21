@@ -42,6 +42,10 @@ namespace KillerNotes.Shell
         // session state, not settings - a find bar reopens with plain matching, the default
         // every editor's does.
         private bool _findCase, _findWord, _findRegex;
+        /// <summary>The last regex search hit its deadline; the count line says so instead of "No matches".</summary>
+        private bool _findTimedOut;
+        /// <summary>A user pattern runs on the UI thread, so catastrophic backtracking must stop.</summary>
+        private static readonly TimeSpan FindRegexDeadline = TimeSpan.FromSeconds(1);
 
         /// <summary>True while the replace row is expanded (Ctrl+H).</summary>
         private bool _replaceOpen;
@@ -210,29 +214,35 @@ namespace KillerNotes.Shell
         /// or a command as prose, and culture folding turns some of those into surprises.</summary>
         internal void CollectFindHits(string plain, List<(int Start, int Length)> hits)
         {
+            _findTimedOut = false;
             if (_findTerm.Length == 0) return;
 
             if (_findRegex)
             {
                 var rx = TryBuildFindRegex();
                 if (rx == null) return;   // invalid pattern: zero hits, the count line reads no matches
-                foreach (System.Text.RegularExpressions.Match m in rx.Matches(plain))
-                    if (m.Length > 0 && plain.IndexOf(DocumentReplacement.ObjectBoundary, m.Index, m.Length) < 0)
-                        hits.Add((m.Index, m.Length));
+                try
+                {
+                    foreach (System.Text.RegularExpressions.Match m in rx.Matches(plain))
+                        if (m.Length > 0 && plain.IndexOf(DocumentReplacement.ObjectBoundary, m.Index, m.Length) < 0)
+                            hits.Add((m.Index, m.Length));
+                }
+                catch (System.Text.RegularExpressions.RegexMatchTimeoutException)
+                {
+                    hits.Clear();   // a partial hit list would let Replace All act on half the note
+                    _findTimedOut = true;
+                }
                 return;
             }
 
-            var cmp = _findCase ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-            int at = 0;
-            while (at <= plain.Length - _findTerm.Length)
-            {
-                int hit = plain.IndexOf(_findTerm, at, cmp);
-                if (hit < 0) break;
-                if (plain.IndexOf(DocumentReplacement.ObjectBoundary, hit, _findTerm.Length) < 0 &&
-                    (!_findWord || IsWholeWordAt(plain, hit, _findTerm.Length)))
-                    hits.Add((hit, _findTerm.Length));
-                at = hit + 1;   // overlapping matches count, the same as a text editor's do
-            }
+            // The sidebar's matching rule (TextFold, 1.6.0): how a letter was typed never matters,
+            // case only when Match case is on, accents always. A span can be longer than the term
+            // when the note holds a letter and its accent as two characters. Overlapping matches
+            // count, the same as a text editor's do.
+            foreach (var (hit, length) in TextFold.FindAll(plain, _findTerm, caseSensitive: _findCase, overlapping: true))
+                if (plain.IndexOf(DocumentReplacement.ObjectBoundary, hit, length) < 0 &&
+                    (!_findWord || IsWholeWordAt(plain, hit, length)))
+                    hits.Add((hit, length));
         }
 
         private static bool IsWholeWordAt(string plain, int start, int length)
@@ -250,7 +260,7 @@ namespace KillerNotes.Shell
             var opts = System.Text.RegularExpressions.RegexOptions.None;
             if (!_findCase) opts |= System.Text.RegularExpressions.RegexOptions.IgnoreCase;
             string pattern = _findWord ? @"\b(?:" + _findTerm + @")\b" : _findTerm;
-            try { return new System.Text.RegularExpressions.Regex(pattern, opts); }
+            try { return new System.Text.RegularExpressions.Regex(pattern, opts, FindRegexDeadline); }
             catch (ArgumentException) { return null; }
         }
 
@@ -363,6 +373,8 @@ namespace KillerNotes.Shell
             if (FindCountText == null) return;
             FindCountText.Text = _findTerm.Length == 0
                 ? ""
+                : _findTimedOut
+                    ? Loc("Str_St_FindTooSlow")
                 : _findHits.Count == 0
                     ? Loc("Str_St_FindNoMatches")
                     : string.Format(Loc("Str_St_FindMatches"), _findIndex + 1, _findHits.Count);
@@ -657,7 +669,13 @@ namespace KillerNotes.Shell
             if (_findIndex < 0 || _findIndex >= _findHits.Count) return;
 
             var hit = _findHits[_findIndex];
-            string repl = ReplacementFor(hit);
+            string repl;
+            try { repl = ReplacementFor(hit); }
+            catch (System.Text.RegularExpressions.RegexMatchTimeoutException)
+            {
+                FlashStatus(Loc("Str_St_FindTooSlow"));
+                return;
+            }
 
             // Refresh after the edit before choosing the next match. The next hit must be
             // past the replacement even when it still contains the term ("a" -> "aa").
@@ -696,7 +714,14 @@ namespace KillerNotes.Shell
                 lastEnd = h.Start + h.Length;
             }
             var repls = new List<string>(hits.Count);
-            foreach (var h in hits) repls.Add(ReplacementFor(h));
+            // Every substitution is evaluated before the first edit, so a pattern that hits its
+            // deadline leaves the note exactly as it was.
+            try { foreach (var h in hits) repls.Add(ReplacementFor(h)); }
+            catch (System.Text.RegularExpressions.RegexMatchTimeoutException)
+            {
+                FlashStatus(Loc("Str_St_FindTooSlow"));
+                return;
+            }
 
             // BeginChange batches everything inside into a single undo unit and holds the
             // TextChanged storm until EndChange, so the cache invalidation runs once.

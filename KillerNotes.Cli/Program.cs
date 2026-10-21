@@ -177,6 +177,7 @@ namespace KillerNotes.Cli
             Console.WriteLine("  export --id id --output new-absolute-path.(txt|md|html|rtf|knote)");
             Console.WriteLine("  share --id id --output new-absolute-path.knote [--password password]");
             Console.WriteLine("  export-all --output new-absolute-folder");
+            Console.WriteLine("  import-folder --path absolute-folder [--dry-run]");
             Console.WriteLine("  detect-markdown [--value on|off]");
             Console.WriteLine("  convert --id id --format markdown|rich [--allow-loss]");
             Console.WriteLine("  templates | create-from-template --template-id id [--title title] [--group name]");
@@ -191,22 +192,71 @@ namespace KillerNotes.Cli
             Console.WriteLine("  permanent-delete --id trashed-id --confirm | empty-trash --confirm");
         }
 
-        private static bool IsWriteCommand(string command) => command is "create" or "update" or "create-group" or "set-group-color" or "set-title-color" or "import-image" or "export" or "share" or "export-all" or "detect-markdown" or "convert" or "templates" or "create-from-template" or "today" or "trash-list" or "trash" or "restore" or "pin" or "unpin" or "version-get" or "version-restore" or "rename-group" or "delete-group" or "tag-definitions" or "create-tag" or "rename-tag" or "delete-tag" or "set-tag-color" or "template-group" or "daily-group" or "backup-now" or "permanent-delete" or "empty-trash";
+        private static bool IsWriteCommand(string command) => command is "create" or "update" or "create-group" or "set-group-color" or "set-title-color" or "import-image" or "export" or "share" or "export-all" or "import-folder" or "detect-markdown" or "convert" or "templates" or "create-from-template" or "today" or "trash-list" or "trash" or "restore" or "pin" or "unpin" or "version-get" or "version-restore" or "rename-group" or "delete-group" or "tag-definitions" or "create-tag" or "rename-tag" or "delete-tag" or "set-tag-color" or "template-group" or "daily-group" or "backup-now" or "permanent-delete" or "empty-trash";
+
+        /// <summary>How long a write waits for KillerNotes' answer once the request is sent.</summary>
+        private static readonly TimeSpan ResponseDeadline = TimeSpan.FromSeconds(30);
+
+        /// <summary>Exit code when the answer did not arrive in time: the outcome is unknown,
+        /// which a script must not treat like an ordinary failure and blindly retry.</summary>
+        internal const int UnknownOutcomeExitCode = 3;
+
+        internal enum ResponseOutcome { Complete, TimedOut, Invalid }
+
+        /// <summary>Reads one length-prefixed answer within the deadline. An oversized length is
+        /// refused before anything is allocated for it; a stream that ends early is invalid.</summary>
+        internal static (byte[]? Body, ResponseOutcome Outcome) ReadResponseFrame(Stream stream, TimeSpan deadline)
+        {
+            var due = DateTime.UtcNow + deadline;
+            var prefix = ReadExactly(stream, 4, due, out var outcome);
+            if (prefix == null) return (null, outcome);
+            int length = BitConverter.ToInt32(prefix, 0);
+            if (length < 1 || length > 1_000_000) return (null, ResponseOutcome.Invalid);
+            var body = ReadExactly(stream, length, due, out outcome);
+            return (body, body == null ? outcome : ResponseOutcome.Complete);
+        }
+
+        private static byte[]? ReadExactly(Stream stream, int count, DateTime due, out ResponseOutcome outcome)
+        {
+            var buffer = new byte[count];
+            int have = 0;
+            while (have < count)
+            {
+                var remaining = due - DateTime.UtcNow;
+                if (remaining <= TimeSpan.Zero) { outcome = ResponseOutcome.TimedOut; return null; }
+                var read = stream.ReadAsync(buffer, have, count - have);
+                try
+                {
+                    if (!read.Wait(remaining)) { outcome = ResponseOutcome.TimedOut; return null; }
+                }
+                catch (AggregateException) { outcome = ResponseOutcome.Invalid; return null; }
+                if (read.Result == 0) { outcome = ResponseOutcome.Invalid; return null; }   // cut off
+                have += read.Result;
+            }
+            outcome = ResponseOutcome.Complete;
+            return buffer;
+        }
 
         private static int ForwardWrite(string[] args)
         {
             try
             {
                 args = InlineContentFile(args);
-                using var pipe = new NamedPipeClientStream(".", $"KillerNotes-MCP-{Process.GetCurrentProcess().SessionId}", PipeDirection.InOut);
+                using var pipe = new NamedPipeClientStream(".", $"KillerNotes-MCP-{Process.GetCurrentProcess().SessionId}", PipeDirection.InOut, PipeOptions.Asynchronous);
                 pipe.Connect(3000);
                 byte[] request = Serialize(new McpRequest { Arguments = args });
                 var writer = new BinaryWriter(pipe, Encoding.UTF8, true);
                 writer.Write(request.Length); writer.Write(request); writer.Flush();
-                var reader = new BinaryReader(pipe, Encoding.UTF8, true);
-                int responseLength = reader.ReadInt32();
-                if (responseLength < 1 || responseLength > 1_000_000) throw new InvalidDataException("KillerNotes returned an invalid response");
-                var response = Deserialize<McpResponse>(reader.ReadBytes(responseLength));
+                var (body, outcome) = ReadResponseFrame(pipe, ResponseDeadline);
+                if (outcome == ResponseOutcome.TimedOut)
+                {
+                    // The request was delivered, so the change may already have been made.
+                    Console.Error.WriteLine("KillerNotes did not answer within " + (int)ResponseDeadline.TotalSeconds +
+                        " seconds. The command may or may not have run; check the note before trying again.");
+                    return UnknownOutcomeExitCode;
+                }
+                if (body == null) throw new InvalidDataException("KillerNotes returned an invalid response");
+                var response = Deserialize<McpResponse>(body);
                 if (response == null || !response.Success) { Console.Error.WriteLine(response?.Error ?? "KillerNotes returned no response"); return 1; }
                 Console.WriteLine(response.Json); return 0;
             }
@@ -252,16 +302,20 @@ namespace KillerNotes.Cli
         public static List<NoteSummary> Search(string database, string query, int limit)
         {
             if (string.IsNullOrWhiteSpace(query) || query.Length > 200) throw new ArgumentException("Invalid search query");
+            var parsed = KillerNotes.Services.SearchQuery.Parse(query);
+            if (parsed.IsEmpty) throw new ArgumentException("Invalid search query");
             using var connection = OpenReadOnly(database);
-            using var command = connection.CreateCommand();
-            var words = query.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
-            var clauses = new List<string>();
-            for (int i = 0; i < words.Length; i++)
+            // The app's matching rule and filters (Services/SearchQuery.cs), not LIKE, whose
+            // case-insensitivity covers ASCII only: the CLI finds what the sidebar finds.
+            connection.CreateFunction("kn_fold", (string? text) => KillerNotes.Services.TextFold.Fold(text), isDeterministic: true);
+            bool noteFold;
+            using (var probe = connection.CreateCommand())
             {
-                clauses.Add($"(title LIKE $w{i} ESCAPE '\\' OR plain LIKE $w{i} ESCAPE '\\' OR tags LIKE $w{i} ESCAPE '\\')");
-                command.Parameters.AddWithValue($"$w{i}", "%" + EscapeLike(words[i]) + "%");
+                probe.CommandText = "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'note_fold'";
+                noteFold = (long)probe.ExecuteScalar()! > 0;
             }
-            command.CommandText = SummarySelect + " WHERE deleted = '' AND " + string.Join(" AND ", clauses) + " ORDER BY modified DESC, id DESC LIMIT $limit";
+            using var command = connection.CreateCommand();
+            command.CommandText = SummarySelect + " WHERE " + parsed.BuildWhere(command, noteFold) + " ORDER BY modified DESC, id DESC LIMIT $limit";
             command.Parameters.AddWithValue("$limit", ValidateLimit(limit));
             return ReadSummaries(command);
         }

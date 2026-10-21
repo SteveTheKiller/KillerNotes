@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -34,11 +35,19 @@ using System.Windows.Interop;
 //      on the main window, which also works while it is hidden in the tray.
 //   5. Exit everywhere else (the app menu, an update, an uninstall) goes through
 //      CloseToTray.Exit or Application.Shutdown, which never hides to the tray.
+//   6. Optional (1.6.0, reference: KillerNotes quick note). Attach takes extra menu items, shown
+//      above Open, and a keepIcon callback for an app option that keeps the icon while the window
+//      is open too. Call RefreshIcon after that option changes and once after attaching. Apps
+//      that pass neither behave exactly as before.
 // ============================================================
 namespace KillerFamily.Shell
 {
     internal sealed class CloseToTray : IDisposable
     {
+        /// <summary>An app's own row in the icon's menu, above Open. Header is asked each time the
+        /// menu opens, so a language switch shows at once.</summary>
+        internal sealed record TrayItem(Func<string> Header, Action Run);
+
         /// <summary>The app setting that turns the option on, "1" or "0".</summary>
         internal const string SettingName = "CloseToTray";
 
@@ -53,6 +62,8 @@ namespace KillerFamily.Shell
         private readonly Func<string, string> _loc;
         private readonly Func<bool> _isEnabled;
         private readonly Func<bool>? _canExit;
+        private readonly IReadOnlyList<TrayItem> _items;
+        private readonly Func<bool>? _keepIcon;
         private readonly HwndSource _source;
         private readonly uint _taskbarCreated;
         private readonly IntPtr _icon;
@@ -76,11 +87,15 @@ namespace KillerFamily.Shell
         /// <summary>Prepares the icon for <paramref name="window"/>, whose OnClosing override calls
         /// HideInstead. <paramref name="isEnabled"/> is asked on every close; <paramref name="loc"/>
         /// looks up Str_Tray_Open and Str_Tray_Exit.</summary>
-        internal static CloseToTray Attach(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled, Func<bool>? canExit = null)
-            => new(window, appName, loc, isEnabled, canExit);
+        internal static CloseToTray Attach(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled, Func<bool>? canExit = null,
+            IReadOnlyList<TrayItem>? items = null, Func<bool>? keepIcon = null)
+            => new(window, appName, loc, isEnabled, canExit, items, keepIcon);
 
-        private CloseToTray(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled, Func<bool>? canExit)
+        private CloseToTray(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled, Func<bool>? canExit,
+            IReadOnlyList<TrayItem>? items, Func<bool>? keepIcon)
         {
+            _items = items ?? [];
+            _keepIcon = keepIcon;
             _window = window;
             _appName = appName;
             _loc = loc;
@@ -116,7 +131,16 @@ namespace KillerFamily.Shell
             _window.Activate();
             _window.Topmost = true;
             _window.Topmost = false;
-            HideIcon();
+            RefreshIcon();
+        }
+
+        /// <summary>Shows the icon while the app keeps it (keepIcon) or the window is in the tray,
+        /// and hides it otherwise. Safe to call at any time.</summary>
+        internal void RefreshIcon()
+        {
+            if (_disposed || _exiting) return;
+            if (_keepIcon?.Invoke() == true || !_window.IsVisible) ShowIcon();
+            else HideIcon();
         }
 
         /// <summary>Call first in the main window's OnClosing override. With the option on, cancels
@@ -170,6 +194,13 @@ namespace KillerFamily.Shell
             open.Click += (_, _) => ShowWindow();
             var exit = new MenuItem { Header = _loc("Str_Tray_Exit") };
             exit.Click += (_, _) => Exit();
+            foreach (var item in _items)
+            {
+                var row = new MenuItem { Header = item.Header() };
+                row.Click += (_, _) => item.Run();
+                menu.Items.Add(row);
+            }
+            if (_items.Count > 0) menu.Items.Add(new Separator());
             menu.Items.Add(open);
             menu.Items.Add(new Separator());
             menu.Items.Add(exit);

@@ -156,7 +156,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <!-- OutlineButton (family standard): accent outline, fills solid on hover -->
                         <Button x:Name="OpenBtn" Content="{DynamicResource Str_Btn_Open}" Click="Open_Click"
-                                Style="{StaticResource OutlineButton}" Width="80"/>
+                                Style="{StaticResource OutlineButton}" MinWidth="80" Padding="12,2"/>
                     </StackPanel>
                 </Grid>
             </Grid>

@@ -39,27 +39,42 @@ namespace KillerNotes.Services
         private readonly StringBuilder _sb = new();
         private readonly string _assetsDirRelName;
         private readonly string? _assetsDirFullPath;
-        private int _imgIndex;
+        private int _imgIndex, _audioIndex;
         private bool _assetsCreated;
+        private readonly Func<string, Attachment?>? _attachments;
         internal bool ImagesSkipped { get; private set; }
 
-        private MarkdownWriter(string assetsDirRelName, string? assetsDirFullPath)
+        /// <summary>How many embedded items (pictures, recordings) could not be written out.</summary>
+        internal int Lost { get; private set; }
+
+        private MarkdownWriter(string assetsDirRelName, string? assetsDirFullPath, Func<string, Attachment?>? attachments)
         {
             _assetsDirRelName  = assetsDirRelName;
             _assetsDirFullPath = assetsDirFullPath;
+            _attachments       = attachments;
         }
 
         /// <summary>Walks the document and returns the markdown text. Images are written
         /// to the sibling assets folder as a side effect.</summary>
         internal static (string Markdown, bool ImagesSkipped) FromDocument(FlowDocument doc, string targetFilePath)
         {
+            var (md, lost) = FromDocument(doc, targetFilePath, null);
+            return (md, lost > 0);
+        }
+
+        /// <summary>As above, with stored payloads available: a recording (a marked picture of
+        /// its chip, Services/Attachments.cs) is written as its audio file and linked by name and
+        /// length. Returns how many embedded items could not be written.</summary>
+        internal static (string Markdown, int Lost) FromDocument(FlowDocument doc, string targetFilePath,
+            Func<string, Attachment?>? attachments)
+        {
             string dir       = Path.GetDirectoryName(targetFilePath) ?? "";
             string name      = Path.GetFileNameWithoutExtension(targetFilePath);
             string assetsRel = name + ".assets";
             string? assetsFull = string.IsNullOrEmpty(dir) ? null : Path.Combine(dir, assetsRel);
-            var w = new MarkdownWriter(assetsRel, assetsFull);
+            var w = new MarkdownWriter(assetsRel, assetsFull, attachments);
             foreach (var b in doc.Blocks) w.AppendBlock(b);
-            return (w._sb.ToString().TrimEnd() + "\r\n", w.ImagesSkipped);
+            return (w._sb.ToString().TrimEnd() + "\r\n", w.Lost);
         }
 
         // ---- Block dispatch ----
@@ -85,8 +100,8 @@ namespace KillerNotes.Services
                     foreach (var b in s.Blocks) AppendBlock(b);
                     break;
                 case BlockUIContainer bc when bc.Child is Image img:
-                    string? link = TrySaveImage(img);
-                    if (link != null) _sb.Append("![](").Append(link).Append(")\r\n\r\n");
+                    string? embedded = Embedded(img);
+                    if (embedded != null) _sb.Append(embedded).Append("\r\n\r\n");
                     break;
             }
         }
@@ -144,8 +159,15 @@ namespace KillerNotes.Services
                 case Run r: AppendRun(r); break;
                 case LineBreak: _sb.Append("  \r\n"); break;   // two-space soft break
                 case InlineUIContainer iu when iu.Child is Image img:
-                    string? link = TrySaveImage(img);
-                    if (link != null) _sb.Append("![](").Append(link).Append(')');
+                    string? embedded = Embedded(img);
+                    if (embedded != null) _sb.Append(embedded);
+                    break;
+                case AnchoredBlock anchored:   // floated pictures and chips: written where they are anchored
+                    foreach (var b in anchored.Blocks)
+                    {
+                        _sb.Append("\r\n\r\n");
+                        AppendBlock(b);
+                    }
                     break;
                 case Hyperlink h when h.NavigateUri != null:
                     _sb.Append('[');
@@ -310,6 +332,46 @@ namespace KillerNotes.Services
         private static string EscapePipe(string s) => s.Replace("|", "\\|");
 
         // ---- Image extraction to sibling assets folder ----
+
+        /// <summary>The markdown for one embedded picture: an image link, or for a recording an
+        /// ordinary link to its audio file. Null, counted as lost, when it could not be written.</summary>
+        private string? Embedded(Image img)
+        {
+            if (Attachments.TryParseMarker(img.ToolTip, out var kind, out string hash) && kind == AttachmentKind.Recording)
+            {
+                string? audio = _attachments?.Invoke(hash) is { } a ? TrySaveAudio(a) : null;
+                if (audio == null) { Lost++; return null; }
+                var length = TimeSpan.FromMilliseconds(_attachments!(hash)!.DurationMs);
+                return "[Recording " + length.ToString(@"m\:ss") + "](" + Destination(audio) + ")";
+            }
+            string? link = TrySaveImage(img);
+            if (link == null) { Lost++; return null; }
+            return "![](" + Destination(link) + ")";
+        }
+
+        /// <summary>A link destination with a space in it ("My note.assets/...") is not one in
+        /// CommonMark unless it is wrapped in angle brackets, and vault apps then show the raw text
+        /// instead of the picture.</summary>
+        private static string Destination(string path) => path.IndexOf(' ') >= 0 ? "<" + path + ">" : path;
+
+        private string? TrySaveAudio(Attachment recording)
+        {
+            if (_assetsDirFullPath == null) return null;
+            try
+            {
+                if (!_assetsCreated)
+                {
+                    Directory.CreateDirectory(_assetsDirFullPath);
+                    _assetsCreated = true;
+                }
+                _audioIndex++;
+                // Stored bytes as they are (FLAC, or WAV for older takes): no re-encode.
+                string fileName = $"recording-{_audioIndex}{AudioCodec.ExtensionFor(recording.Payload)}";
+                File.WriteAllBytes(Path.Combine(_assetsDirFullPath, fileName), recording.Payload);
+                return _assetsDirRelName + "/" + fileName;
+            }
+            catch { return null; }
+        }
 
         private string? TrySaveImage(Image img)
         {

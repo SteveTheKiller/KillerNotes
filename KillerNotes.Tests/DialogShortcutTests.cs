@@ -35,9 +35,11 @@ namespace KillerNotes.Tests
                 if (name == "RenameItem") item.Click += (_, _) => calls++;
                 type.GetField(name, fields)!.SetValue(dialog, item);
             }
-            var e = new KeyEventArgs(Keyboard.PrimaryDevice, new TestPresentationSource(), 0, Key.F2) { RoutedEvent = Keyboard.PreviewKeyDownEvent };
-            type.GetMethod("DbMenu_PreviewKeyDown", fields)!.Invoke(dialog, new object[] { new ContextMenu(), e });
-            Assert.True(e.Handled);
+            // The modifiers are passed in: reading the real keyboard made this fail now and then when
+            // a key was down on the machine during a full test run.
+            Assert.True(dialog.RouteMenuKey(new ContextMenu(), Key.F2, ModifierKeys.None, isRepeat: false));
+            Assert.Equal(1, calls);
+            Assert.False(dialog.RouteMenuKey(new ContextMenu(), Key.F2, ModifierKeys.Shift, isRepeat: false));
             Assert.Equal(1, calls);
         });
 

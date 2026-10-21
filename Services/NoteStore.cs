@@ -218,6 +218,16 @@ namespace KillerNotes.Services
                 SqliteConnection.ClearAllPools();
                 throw;
             }
+            // The reference triggers call this to read payload markers out of a stored note.
+            // A body that cannot be read references nothing rather than failing the write.
+            db.CreateFunction("kn_markers", (byte[]? content) =>
+            {
+                try { return Attachments.MarkersJson(content); }
+                catch { return "[]"; }
+            }, isDeterministic: true);
+            // Unicode-aware comparison for search and link resolution (Services/TextFold.cs).
+            db.CreateFunction("kn_fold", (string? text) => TextFold.Fold(text), isDeterministic: true);
+            db.CreateCollation("KNFOLD", (a, b) => string.CompareOrdinal(TextFold.Fold(a), TextFold.Fold(b)));
             _db = db;
             _password = string.IsNullOrEmpty(password) ? null : password;
             IsReadOnly = readOnly;
@@ -228,6 +238,8 @@ namespace KillerNotes.Services
                 {
                     EnsureSchema();
                     PurgeTrash(TrashRetention.Days);
+                    // A repair, never a reason the library cannot open.
+                    try { IndexUnlinkedNotes(); } catch (Exception ex) when (ex is not OutOfMemoryException) { }
                 }
                 catch { Close(); throw; }
             }
@@ -237,6 +249,7 @@ namespace KillerNotes.Services
         {
             _db?.Dispose();
             _db = null;
+            _titleIndex = null;   // belongs to the connection that just closed
             _password = null;
             IsReadOnly = false;
             ReadOnlyOwner = null;
@@ -323,6 +336,70 @@ CREATE TABLE IF NOT EXISTS recordings(
     payload  BLOB NOT NULL,
     duration INTEGER NOT NULL DEFAULT 0,   -- milliseconds, for the playback chip's label
     PRIMARY KEY(note_id, ord)
+);
+-- 1.6.0: sketch and recording payloads stored once by SHA-256 of the payload. A note's
+-- document names them by marker (Services/Attachments.cs), so every history version, pasted
+-- copy and shared note finds exactly the payload it was saved with. The two ordinal tables
+-- above are kept, read-only, for notes saved before markers existed.
+CREATE TABLE IF NOT EXISTS attachments(
+    hash     TEXT PRIMARY KEY,
+    kind     INTEGER NOT NULL,              -- 1 sketch, 2 recording
+    payload  BLOB NOT NULL,
+    duration INTEGER NOT NULL DEFAULT 0     -- milliseconds, recordings only
+) WITHOUT ROWID;";
+
+        // Which payloads each note body ('n:<id>') and history version ('h:<id>') points at,
+        // derived from the stored documents by the TEMP triggers in InstallAttachmentRefs.
+        // Outside SchemaSql: a .knote has no history and the importer derives its own.
+        // Removing a note row does not clear its references, because an undone delete
+        // re-inserts the same row; DeleteForever clears them explicitly.
+        private const string AttachmentRefsSql = @"
+CREATE TABLE IF NOT EXISTS attachment_refs(
+    owner TEXT NOT NULL,
+    hash  TEXT NOT NULL,
+    PRIMARY KEY(owner, hash)
+) WITHOUT ROWID;
+CREATE INDEX IF NOT EXISTS attachment_refs_hash ON attachment_refs(hash);";
+
+        // TEMP, so they live on this connection only and never enter the file: an older
+        // KillerNotes opening the database writes notes without needing kn_markers.
+        private const string AttachmentRefTriggersSql = @"
+CREATE TEMP TRIGGER IF NOT EXISTS kn_refs_note_ai AFTER INSERT ON main.notes BEGIN
+    INSERT OR IGNORE INTO attachment_refs(owner, hash)
+        SELECT 'n:' || new.id, value FROM json_each(kn_markers(new.content));
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_refs_note_au AFTER UPDATE OF content ON main.notes BEGIN
+    DELETE FROM attachment_refs WHERE owner = 'n:' || old.id;
+    INSERT OR IGNORE INTO attachment_refs(owner, hash)
+        SELECT 'n:' || new.id, value FROM json_each(kn_markers(new.content));
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_refs_hist_ai AFTER INSERT ON main.note_history BEGIN
+    INSERT OR IGNORE INTO attachment_refs(owner, hash)
+        SELECT 'h:' || new.id, value FROM json_each(kn_markers(new.content));
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_refs_hist_ad AFTER DELETE ON main.note_history BEGIN
+    DELETE FROM attachment_refs WHERE owner = 'h:' || old.id;
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_fold_ai AFTER INSERT ON main.notes BEGIN
+    INSERT OR REPLACE INTO note_fold(id, modified, plain_fold) VALUES (new.id, new.modified, kn_fold(new.plain));
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_fold_au AFTER UPDATE OF plain, modified ON main.notes BEGIN
+    INSERT OR REPLACE INTO note_fold(id, modified, plain_fold) VALUES (new.id, new.modified, kn_fold(new.plain));
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_fold_ad AFTER DELETE ON main.notes BEGIN
+    DELETE FROM note_fold WHERE id = old.id;
+END;";
+
+        // Each note's body text folded for search (Services/TextFold.cs), so a search compares
+        // against stored text instead of folding every note on every keystroke. Stamped with the
+        // note's modified time: a row whose stamp no longer matches (a version without these
+        // triggers edited the note) is ignored and the text is folded on the spot instead, so a
+        // stale row can slow a search but never make it miss.
+        private const string NoteFoldSql = @"
+CREATE TABLE IF NOT EXISTS note_fold(
+    id         INTEGER PRIMARY KEY,
+    modified   TEXT NOT NULL,
+    plain_fold TEXT NOT NULL
 );";
 
         // Saved graph layouts: one row per (layout name, note), holding where that note's node
@@ -365,6 +442,15 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             Exec(SchemaSql);
             Exec(GraphLayoutSql);
             Exec(HistorySql);
+            Exec(AttachmentRefsSql);
+            Exec(NoteFoldSql);
+            Exec(AttachmentRefTriggersSql);
+            Exec(TitleIndexSql);
+            // Fill in folds that are missing or stale (a database from before 1.6.0, or one an
+            // older version has edited since). One pass, and nothing to do on an up-to-date file.
+            Exec("INSERT OR REPLACE INTO note_fold(id, modified, plain_fold) " +
+                 "SELECT n.id, n.modified, kn_fold(n.plain) FROM notes n LEFT JOIN note_fold f ON f.id = n.id " +
+                 "WHERE f.id IS NULL OR f.modified <> n.modified");
             EnsureColumns();
             // Seed ONLY when the tags table was just created: user customizations and
             // deletions must never resurrect.
@@ -497,26 +583,18 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax, pinned, deleted";
 
             using var cmd = _db.CreateCommand();
-            if (!string.IsNullOrWhiteSpace(search))
+            var query = SearchQuery.Parse(search);
+            if (!query.IsEmpty)
             {
                 // Substring search across title, body, and tags. FTS5 prefix matching only hit
                 // whole tokens from their start, and "/" splits a signature into separate tokens,
-                // so "A/002/45" was found by "002" but never by "02" or "2" (#12). A LIKE scan
-                // matches any substring, mid-token included; at personal-notes scale it stays
-                // instant. Each whitespace word must appear (AND), in any of the columns (OR).
-                // The branch guarantees a value, but net48's nullable annotations do not teach
-                // the compiler that IsNullOrWhiteSpace(false) also means non-null.
-                var words = search!.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
-                var clauses = new List<string>(words.Length);
-                for (int i = 0; i < words.Length; i++)
-                {
-                    clauses.Add($"(title LIKE $w{i} ESCAPE '\\' OR plain LIKE $w{i} ESCAPE '\\' OR tags LIKE $w{i} ESCAPE '\\')");
-                    cmd.Parameters.AddWithValue($"$w{i}", "%" + EscapeLike(words[i]) + "%");
-                }
-                string where = clauses.Count > 0 ? string.Join(" AND ", clauses) : "1";
-                // Trashed notes never match a search: the trash is a place you go to, not a
+                // so "A/002/45" was found by "002" but never by "02" or "2" (#12). A scan of the
+                // folded text matches any substring, mid-token included; at personal-notes scale it
+                // stays fast. Each word must appear (AND), in any of the columns (OR), and the
+                // filters (tag:, group:, title:, dates, in:trash) narrow it (Services/SearchQuery.cs).
+                // Trashed notes match only with in:trash: the trash is a place you go to, not a
                 // place results come from.
-                cmd.CommandText = $"SELECT {cols} FROM notes WHERE deleted = '' AND {where} ORDER BY {order}";
+                cmd.CommandText = $"SELECT {cols} FROM notes WHERE {query.BuildWhere(cmd, noteFold: true)} ORDER BY {order}";
             }
             else
             {
@@ -614,6 +692,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                          "DELETE FROM note_links WHERE src = $id",
                          "DELETE FROM note_history WHERE note_id = $id",
                          "DELETE FROM notes WHERE id = $id",
+                         "DELETE FROM attachment_refs WHERE owner = 'n:' || $id",
+                         "DELETE FROM attachments WHERE hash NOT IN (SELECT hash FROM attachment_refs)",
                      })
             {
                 using var cmd = _db.CreateCommand();
@@ -720,15 +800,79 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             return v is byte[] b && b.Length > 0 ? b : null;
         }
 
-        public static void SaveEditorState(long id, string title, byte[] content, string plain,
-            IEnumerable<string> links, IReadOnlyDictionary<int, byte[]> sketches)
+        /// <summary>A note's stored search text: its body as plain text plus its sketch labels.</summary>
+        public static string LoadPlain(long id)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "SELECT plain FROM notes WHERE id = $id";
+            cmd.Parameters.AddWithValue("$id", id);
+            return cmd.ExecuteScalar() as string ?? "";
+        }
+
+        /// <summary>Saves the open note in one transaction: its body, links, and the payloads its
+        /// markers name. Payloads are written here and nowhere earlier, so cleanup can never take
+        /// one the editor still holds. dropLegacyRecordings removes the note's old ordinal
+        /// recording rows once their audio has been re-anchored as markers in this body.</summary>
+        internal static void SaveEditorState(long id, string title, byte[] content, string plain,
+            IEnumerable<string> links, IEnumerable<Attachment> attachments, bool dropLegacyRecordings = false)
         {
             if (_db == null || IsReadOnly) throw new InvalidOperationException("The database is not writable.");
             using var tx = _db.BeginTransaction();
+            PutAttachments(attachments, tx);
             Save(id, title, content, plain, tx);
             SetLinks(id, links, tx);
-            SaveSketches(id, sketches, tx);
+            if (dropLegacyRecordings)
+            {
+                using var drop = _db.CreateCommand();
+                drop.Transaction = tx;
+                drop.CommandText = "DELETE FROM recordings WHERE note_id = $id";
+                drop.Parameters.AddWithValue("$id", id);
+                drop.ExecuteNonQuery();
+            }
+            SweepAttachments(tx);
             tx.Commit();
+        }
+
+        // ---- Attachment payloads (1.6.0) ----
+
+        private static void PutAttachments(IEnumerable<Attachment> attachments, SqliteTransaction? tx)
+        {
+            foreach (var a in attachments)
+            {
+                using var cmd = _db!.CreateCommand();
+                cmd.Transaction = tx;
+                // REPLACE, not IGNORE: a.Hash is computed from these bytes, so this row is right by
+                // construction and may overwrite one that does not match its name.
+                cmd.CommandText = "INSERT OR REPLACE INTO attachments(hash, kind, payload, duration) VALUES ($h, $k, $p, $d)";
+                cmd.Parameters.AddWithValue("$h", a.Hash);
+                cmd.Parameters.AddWithValue("$k", (int)a.Kind);
+                cmd.Parameters.AddWithValue("$p", a.Payload);
+                cmd.Parameters.AddWithValue("$d", a.DurationMs);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>A stored payload by hash, or null when this database has none.</summary>
+        internal static Attachment? GetAttachment(string hash)
+        {
+            if (_db == null) return null;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT kind, payload, duration FROM attachments WHERE hash = $h";
+            cmd.Parameters.AddWithValue("$h", hash);
+            using var r = cmd.ExecuteReader();
+            if (!r.Read()) return null;
+            var found = new Attachment((AttachmentKind)r.GetInt64(0), (byte[])r.GetValue(1), (int)r.GetInt64(2));
+            return found.Hash == hash ? found : null;   // a row whose bytes do not match its name is not that payload
+        }
+
+        /// <summary>Removes payloads that no note (live or trashed) and no history version
+        /// points at any more.</summary>
+        private static void SweepAttachments(SqliteTransaction? tx)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.Transaction = tx;
+            cmd.CommandText = "DELETE FROM attachments WHERE hash NOT IN (SELECT hash FROM attachment_refs)";
+            cmd.ExecuteNonQuery();
         }
 
         public static void Save(long id, string title, byte[] content, string plain)
@@ -901,7 +1045,9 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             cmd.Parameters.AddWithValue("$p", selected.Plain);
             cmd.Parameters.AddWithValue("$m", Ts(DateTime.Now));
             cmd.Parameters.AddWithValue("$n", noteId);
-            return cmd.ExecuteNonQuery() > 0;
+            bool restored = cmd.ExecuteNonQuery() > 0;
+            SweepAttachments(null);   // the snapshot above may have pruned the oldest version
+            return restored;
         }
 
         /// <summary>Markdown notes whose content is still raw source rather than a XamlPackage,
@@ -1020,19 +1166,32 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             return ord;
         }
 
-        /// <summary>Overwrites an existing recording in place, keeping its ordinal so the chip
-        /// already in the note still points at it. Used when a recording is reopened in the pad and
-        /// re-embedded after editing.</summary>
-        public static bool ReplaceRecording(long noteId, int ord, byte[] wav, int durationMs)
+        /// <summary>Points a stored note's recording at an edited take, for a recording re-embedded
+        /// from the pad after its note was closed. The previous take is kept as a version first.
+        /// False when the note does not contain that recording.</summary>
+        internal static bool ReplaceRecordingMarker(long noteId, string oldHash, Attachment replacement)
         {
-            if (_db == null || IsReadOnly || wav.Length == 0) return false;
-            using var cmd = _db.CreateCommand();
-            cmd.CommandText = "UPDATE recordings SET payload = $p, duration = $d WHERE note_id = $id AND ord = $o";
-            cmd.Parameters.AddWithValue("$p", AudioCodec.ForStorage(wav));
-            cmd.Parameters.AddWithValue("$d", durationMs);
-            cmd.Parameters.AddWithValue("$id", noteId);
-            cmd.Parameters.AddWithValue("$o", ord);
-            return cmd.ExecuteNonQuery() > 0;
+            if (_db == null || IsReadOnly) return false;
+            if (LoadContent(noteId) is not { } content ||
+                Attachments.ReplaceMarker(content,
+                    Attachments.Marker(AttachmentKind.Recording, oldHash),
+                    Attachments.Marker(AttachmentKind.Recording, replacement.Hash)) is not { } rewritten)
+                return false;
+            using var tx = _db.BeginTransaction();
+            PutAttachments(new[] { replacement }, tx);
+            Snapshot(noteId, force: true, tx);
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.Transaction = tx;
+                cmd.CommandText = "UPDATE notes SET content = $c, modified = $m WHERE id = $id";
+                cmd.Parameters.AddWithValue("$c", rewritten);
+                cmd.Parameters.AddWithValue("$m", Ts(DateTime.Now));
+                cmd.Parameters.AddWithValue("$id", noteId);
+                cmd.ExecuteNonQuery();
+            }
+            SweepAttachments(tx);
+            tx.Commit();
+            return true;
         }
 
         /// <summary>One recording as 16-bit PCM WAV, whatever it is stored as, or null if that
@@ -1332,13 +1491,67 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             var list = new List<(long, string)>();
             if (_db == null) return list;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT COALESCE((SELECT n.id FROM notes n WHERE n.title = l.target COLLATE NOCASE " +
-                "AND n.deleted = '' ORDER BY n.id LIMIT 1), -1), l.target FROM note_links l " +
+            // Targets resolve through the title index, across case in every script (TitleIndex).
+            cmd.CommandText = "SELECT l.target FROM note_links l " +
                 "JOIN notes s ON s.id = l.src WHERE l.src = $s AND s.deleted = '' ORDER BY l.target COLLATE NOCASE";
             cmd.Parameters.AddWithValue("$s", source);
             using var r = cmd.ExecuteReader();
-            while (r.Read()) list.Add((r.GetInt64(0), r.GetString(1)));
+            var titles = TitleIndex();
+            while (r.Read())
+            {
+                string target = r.GetString(0);
+                list.Add((titles.TryGetValue(TextFold.Fold(target), out long id) ? id : -1, target));
+            }
             return list;
+        }
+
+        // ---- Title index (KN-P07) ----
+        // Folded live title -> the oldest note carrying it, for resolving wikilinks. Comparing with
+        // COLLATE KNFOLD in SQL folds every title in the notebook on every lookup, which made the
+        // backlinks strip refresh slowly on each save of a large notebook. Rebuilt only when a title
+        // may have changed: a TEMP trigger counts this connection's changes, and SQLite's
+        // data_version moves when any other connection writes.
+        private static Dictionary<string, long>? _titleIndex;
+        private static (long Changes, long DataVersion) _titleIndexKey;
+
+        private const string TitleIndexSql = @"
+CREATE TEMP TABLE IF NOT EXISTS kn_title_changes(n INTEGER NOT NULL);
+INSERT INTO kn_title_changes(n) SELECT 0 WHERE NOT EXISTS (SELECT 1 FROM kn_title_changes);
+CREATE TEMP TRIGGER IF NOT EXISTS kn_titles_ai AFTER INSERT ON main.notes BEGIN UPDATE kn_title_changes SET n = n + 1; END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_titles_ad AFTER DELETE ON main.notes BEGIN UPDATE kn_title_changes SET n = n + 1; END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_titles_au AFTER UPDATE OF title, deleted ON main.notes BEGIN UPDATE kn_title_changes SET n = n + 1; END;";
+
+        private static Dictionary<string, long> TitleIndex()
+        {
+            long changes = 0, version;
+            try
+            {
+                using var c = _db!.CreateCommand();
+                c.CommandText = "SELECT n FROM temp.kn_title_changes";
+                changes = c.ExecuteScalar() is long n ? n : 0;
+            }
+            catch (SqliteException) { /* a read-only open without the TEMP table: data_version still covers it */ }
+            using (var v = _db!.CreateCommand())
+            {
+                v.CommandText = "PRAGMA data_version";
+                version = (long)v.ExecuteScalar()!;
+            }
+            if (_titleIndex != null && _titleIndexKey == (changes, version)) return _titleIndex;
+
+            var index = new Dictionary<string, long>(StringComparer.Ordinal);
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.CommandText = "SELECT id, title FROM notes WHERE deleted = '' ORDER BY id";
+                using var r = cmd.ExecuteReader();
+                while (r.Read())
+                {
+                    string key = TextFold.Fold(r.IsDBNull(1) ? "" : r.GetString(1));
+                    if (!index.ContainsKey(key)) index[key] = r.GetInt64(0);
+                }
+            }
+            _titleIndex = index;
+            _titleIndexKey = (changes, version);
+            return index;
         }
 
         /// <summary>Notes that link TO the given note, by its title. The backlinks panel.</summary>
@@ -1354,8 +1567,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 // compares n.id <> NULL, which is never true, and every backlink disappears the
                 // moment the title has no owner - which silently disabled both callers.
                 "SELECT n.id, n.title FROM note_links l JOIN notes n ON n.id = l.src " +
-                "WHERE l.target = $t COLLATE NOCASE AND n.deleted = '' " +
-                "  AND n.id <> COALESCE((SELECT id FROM notes WHERE title = $t COLLATE NOCASE AND deleted = '' LIMIT 1), -1) " +
+                "WHERE l.target = $t COLLATE KNFOLD AND n.deleted = '' " +
+                "  AND n.id <> COALESCE((SELECT id FROM notes WHERE title = $t COLLATE KNFOLD AND deleted = '' LIMIT 1), -1) " +
                 "ORDER BY n.title COLLATE NOCASE";
             cmd.Parameters.AddWithValue("$t", title);
             using var r = cmd.ExecuteReader();
@@ -1382,11 +1595,12 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             using var cmd = _db.CreateCommand();
             cmd.CommandText =
                 "SELECT id, title FROM notes " +
-                "WHERE plain LIKE $q ESCAPE '\\' AND deleted = '' " +
-                "  AND title <> $t COLLATE NOCASE " +
-                "  AND id NOT IN (SELECT src FROM note_links WHERE target = $t COLLATE NOCASE) " +
+                "WHERE instr(COALESCE((SELECT f.plain_fold FROM note_fold f WHERE f.id = notes.id AND f.modified = notes.modified), " +
+                "kn_fold(plain)), $q) > 0 AND deleted = '' " +
+                "  AND title <> $t COLLATE KNFOLD " +
+                "  AND id NOT IN (SELECT src FROM note_links WHERE target = $t COLLATE KNFOLD) " +
                 "ORDER BY modified DESC LIMIT $n";
-            cmd.Parameters.AddWithValue("$q", "%" + EscapeLike(title.Trim()) + "%");
+            cmd.Parameters.AddWithValue("$q", TextFold.Fold(title.Trim()));
             cmd.Parameters.AddWithValue("$t", title.Trim());
             cmd.Parameters.AddWithValue("$n", cap);
             using var r = cmd.ExecuteReader();
@@ -1400,10 +1614,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         public static long ResolveTitle(string title)
         {
             if (_db == null || string.IsNullOrWhiteSpace(title)) return -1;
-            using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT id FROM notes WHERE title = $t COLLATE NOCASE AND deleted = '' ORDER BY id LIMIT 1";
-            cmd.Parameters.AddWithValue("$t", title.Trim());
-            return cmd.ExecuteScalar() is long id ? id : -1;
+            return TitleIndex().TryGetValue(TextFold.Fold(title.Trim()), out long id) ? id : -1;
         }
 
         /// <summary>Every edge in the database, resolved where possible: the graph's input.
@@ -1413,17 +1624,22 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         {
             var list = new List<(long, long, string)>();
             if (_db == null) return list;
+            // Targets are resolved here, through one dictionary of folded titles, not with a SQL
+            // join on COLLATE KNFOLD: a custom collation cannot use an index, so that join compared
+            // every link with every title and took ten minutes on 50,000 notes. The oldest note
+            // wins a shared title, the same rule as ResolveTitle.
+            var byTitle = TitleIndex();
             using var cmd = _db.CreateCommand();
-            cmd.CommandText =
-                // A trashed note neither links out nor can be linked to: its outbound edges
-                // drop with the inner join on the source, and a target it owned becomes a
-                // ghost again until it is restored.
-                "SELECT l.src, COALESCE(n.id, -1), l.target FROM note_links l " +
-                "JOIN notes s ON s.id = l.src AND s.deleted = '' " +
-                "LEFT JOIN notes n ON n.title = l.target COLLATE NOCASE AND n.deleted = ''";
+            // A trashed note neither links out nor can be linked to: its outbound edges drop with
+            // the inner join on the source, and a target it owned becomes a ghost again until it
+            // is restored (only live titles are in the dictionary).
+            cmd.CommandText = "SELECT l.src, l.target FROM note_links l JOIN notes s ON s.id = l.src AND s.deleted = ''";
             using var r = cmd.ExecuteReader();
             while (r.Read())
-                list.Add((r.GetInt64(0), r.GetInt64(1), r.IsDBNull(2) ? "" : r.GetString(2)));
+            {
+                string target = r.IsDBNull(1) ? "" : r.GetString(1);
+                list.Add((r.GetInt64(0), byTitle.TryGetValue(TextFold.Fold(target), out long id) ? id : -1, target));
+            }
             return list;
         }
 
@@ -1435,10 +1651,10 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             using var cmd = _db.CreateCommand();
             cmd.CommandText = string.IsNullOrWhiteSpace(prefix)
                 ? "SELECT id, title FROM notes WHERE title <> '' AND deleted = '' ORDER BY modified DESC LIMIT $n"
-                : "SELECT id, title FROM notes WHERE title LIKE $p ESCAPE '\\' AND title <> '' AND deleted = '' " +
+                : "SELECT id, title FROM notes WHERE instr(kn_fold(title), $p) > 0 AND title <> '' AND deleted = '' " +
                   "ORDER BY length(title), title COLLATE NOCASE LIMIT $n";
             if (!string.IsNullOrWhiteSpace(prefix))
-                cmd.Parameters.AddWithValue("$p", "%" + EscapeLike(prefix.Trim()) + "%");
+                cmd.Parameters.AddWithValue("$p", TextFold.Fold(prefix.Trim()));
             cmd.Parameters.AddWithValue("$n", cap);
             using var r = cmd.ExecuteReader();
             while (r.Read()) list.Add((r.GetInt64(0), r.IsDBNull(1) ? "" : r.GetString(1)));
@@ -1608,27 +1824,35 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         public static void RenameTag(string oldName, string newName)
         {
             if (_db == null || IsReadOnly) return;
+            // One transaction for the definition and every note: a failed note write must not
+            // leave a library where the definition and the notes disagree.
+            using var tx = _db.BeginTransaction();
             using (var cmd = _db.CreateCommand())
             {
+                cmd.Transaction = tx;
                 cmd.CommandText = "UPDATE tags SET name = $new WHERE name = $old";
                 cmd.Parameters.AddWithValue("$new", newName);
                 cmd.Parameters.AddWithValue("$old", oldName);
                 cmd.ExecuteNonQuery();
             }
-            RewriteTagInNotes(oldName, newName);
+            RewriteTagInNotes(oldName, newName, tx);
+            tx.Commit();
         }
 
         /// <summary>Deletes a tag definition and removes it from every note's CSV.</summary>
         public static void DeleteTag(string name)
         {
             if (_db == null || IsReadOnly) return;
+            using var tx = _db.BeginTransaction();   // all or nothing, as RenameTag
             using (var cmd = _db.CreateCommand())
             {
+                cmd.Transaction = tx;
                 cmd.CommandText = "DELETE FROM tags WHERE name = $n";
                 cmd.Parameters.AddWithValue("$n", name);
                 cmd.ExecuteNonQuery();
             }
-            RewriteTagInNotes(name, null);
+            RewriteTagInNotes(name, null, tx);
+            tx.Commit();
         }
 
         // ---- Custom order + groups (#4) ----
@@ -1937,11 +2161,12 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         // Renames (newName != null) or removes (null) one tag inside every note's CSV.
         // C#-side rewrite on purpose: CSV surgery in SQL is fragile, and note counts
         // are small. The FTS triggers keep the index in sync on each UPDATE.
-        private static void RewriteTagInNotes(string name, string? newName)
+        private static void RewriteTagInNotes(string name, string? newName, SqliteTransaction tx)
         {
             var rows = new List<(long Id, string Tags)>();
             using (var cmd = _db!.CreateCommand())
             {
+                cmd.Transaction = tx;
                 cmd.CommandText = "SELECT id, tags FROM notes WHERE tags <> ''";
                 using var r = cmd.ExecuteReader();
                 while (r.Read()) rows.Add((r.GetInt64(0), r.GetString(1)));
@@ -1960,7 +2185,13 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     }
                     else outParts.Add(p);
                 }
-                if (hit) SetNoteTags(id, string.Join(", ", outParts));
+                if (!hit) continue;
+                using var update = _db.CreateCommand();
+                update.Transaction = tx;
+                update.CommandText = "UPDATE notes SET tags = $t WHERE id = $id";
+                update.Parameters.AddWithValue("$t", string.Join(", ", outParts));
+                update.Parameters.AddWithValue("$id", id);
+                update.ExecuteNonQuery();
             }
         }
 
@@ -1998,8 +2229,24 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 cmd.Parameters.AddWithValue("$key", newPassword ?? "");
                 cmd.ExecuteNonQuery();
             }
-            Exec("SELECT sqlcipher_export('rekeyed')");
-            Exec("DETACH DATABASE rekeyed");
+            // The staged copy is detached and, on failure, removed whatever happens: left
+            // attached, it kept the .rekey file open and every retry in this session failed
+            // to delete it. The original database is untouched until the swap below.
+            bool exported = false;
+            try
+            {
+                Exec("SELECT sqlcipher_export('rekeyed')");
+                exported = true;
+            }
+            finally
+            {
+                try { Exec("DETACH DATABASE rekeyed"); } catch { /* not attached */ }
+                if (!exported)
+                {
+                    try { File.Delete(tmp); } catch { /* best effort; the next attempt deletes it first */ }
+                    try { File.Delete(tmp + "-journal"); } catch { }
+                }
+            }
             Close();
 
             // Pool clearing alone is not always enough (#3): a straggler sqlite3
@@ -2120,15 +2367,240 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             finally { SqliteConnection.ClearAllPools(); }   // release the destination file handle
         }
 
+        // ---- Folder import (1.6.0, Services/FolderImporter.cs) ----
+        // import_sources remembers which file, at which content hash, became which note, so
+        // importing the same folder again skips what already came in. It is created on first use
+        // rather than in the schema: a notepad that never imports never has it.
+
+        private const string ImportSourcesSql =
+            "CREATE TABLE IF NOT EXISTS import_sources(source TEXT NOT NULL, hash TEXT NOT NULL, note_id INTEGER NOT NULL, PRIMARY KEY(source, hash)) WITHOUT ROWID";
+
+        /// <summary>What the folder import preview compares against: imported sources whose note is
+        /// still live, folded titles of live notes, and every group path.</summary>
+        internal static ImportState ImportState()
+        {
+            var sources = new HashSet<string>(StringComparer.Ordinal);
+            var titles = new HashSet<string>(StringComparer.Ordinal);
+            var groups = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (_db == null) return new ImportState(sources, titles, groups);
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.CommandText = "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'import_sources'";
+                if ((long)cmd.ExecuteScalar()! > 0)
+                {
+                    cmd.CommandText = "SELECT s.source, s.hash FROM import_sources s JOIN notes n ON n.id = s.note_id WHERE n.deleted = ''";
+                    using var r = cmd.ExecuteReader();
+                    while (r.Read()) sources.Add(r.GetString(0) + "|" + r.GetString(1));
+                }
+            }
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.CommandText = "SELECT title, notebook FROM notes WHERE deleted = ''";
+                using var r = cmd.ExecuteReader();
+                while (r.Read())
+                {
+                    titles.Add(TextFold.Fold((r.IsDBNull(0) ? "" : r.GetString(0)).Trim()));
+                    if (!r.IsDBNull(1) && r.GetString(1).Length > 0) groups.Add(r.GetString(1));
+                }
+            }
+            foreach (var group in ListGroups()) groups.Add(group.Name);
+            return new ImportState(sources, titles, groups);
+        }
+
+        /// <summary>The live note a file at this content became, or null. Opening the same file
+        /// again from Explorer opens that note instead of making a copy.</summary>
+        internal static long? ImportedNoteFor(string source, string hash)
+        {
+            if (_db == null) return null;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'import_sources'";
+            if ((long)cmd.ExecuteScalar()! == 0) return null;
+            cmd.CommandText = "SELECT s.note_id FROM import_sources s JOIN notes n ON n.id = s.note_id WHERE s.source = $s AND s.hash = $h AND n.deleted = ''";
+            cmd.Parameters.AddWithValue("$s", source);
+            cmd.Parameters.AddWithValue("$h", hash);
+            return cmd.ExecuteScalar() is long id ? id : null;
+        }
+
+        /// <summary>Writes prepared notes, their groups, tags, payloads and links in ONE transaction:
+        /// a failure part way leaves the notepad exactly as it was. Returns the new ids in order.</summary>
+        internal static List<long> ImportBatch(IReadOnlyList<PreparedImport> notes)
+        {
+            if (_db == null || IsReadOnly) throw new InvalidOperationException("The database is not writable.");
+            var ids = new List<long>();
+            var db = _db;
+            using var tx = db.BeginTransaction();
+            SqliteCommand Command(string sql)
+            {
+                var cmd = db.CreateCommand();
+                cmd.Transaction = tx;
+                cmd.CommandText = sql;
+                return cmd;
+            }
+            using (var create = Command(ImportSourcesSql)) create.ExecuteNonQuery();
+
+            // Every level of every group path, parents first, appended after the existing groups.
+            foreach (string path in notes.Select(n => n.Group).Where(g => g.Length > 0).Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                string[] parts = path.Split([GroupSep], StringSplitOptions.None);
+                for (int depth = 1; depth <= parts.Length; depth++)
+                {
+                    using var group = Command("INSERT OR IGNORE INTO groups(name, parent, sort_order) VALUES ($n, $p, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM groups))");
+                    group.Parameters.AddWithValue("$n", string.Join(GroupSep, parts.Take(depth)));
+                    group.Parameters.AddWithValue("$p", string.Join(GroupSep, parts.Take(depth - 1)));
+                    group.ExecuteNonQuery();
+                }
+            }
+            foreach (string tag in notes.SelectMany(n => n.Tags).Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                using var add = Command("INSERT OR IGNORE INTO tags(name, color) VALUES ($n, '')");
+                add.Parameters.AddWithValue("$n", tag);
+                add.ExecuteNonQuery();
+            }
+            PutAttachments(notes.SelectMany(n => n.Attachments), tx);
+
+            foreach (var note in notes)
+            {
+                using (var insert = Command(
+                    "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, format, pinned, sort_order) " +
+                    "VALUES ($t, $g, $tags, $c, $m, $content, $plain, $color, $f, $pin, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes)); " +
+                    "SELECT last_insert_rowid()"))
+                {
+                    insert.Parameters.AddWithValue("$t", note.Title);
+                    insert.Parameters.AddWithValue("$g", note.Group);
+                    insert.Parameters.AddWithValue("$tags", string.Join(", ", note.Tags));
+                    insert.Parameters.AddWithValue("$c", Ts(note.Created));
+                    insert.Parameters.AddWithValue("$m", Ts(note.Modified));
+                    insert.Parameters.AddWithValue("$content", note.Content);
+                    insert.Parameters.AddWithValue("$plain", note.Plain);
+                    insert.Parameters.AddWithValue("$color", note.Color);
+                    insert.Parameters.AddWithValue("$f", note.Format);
+                    insert.Parameters.AddWithValue("$pin", note.Pinned ? 1 : 0);
+                    ids.Add((long)insert.ExecuteScalar()!);
+                }
+                SetLinks(ids[ids.Count - 1], note.Links, tx);
+                using var source = Command("INSERT OR REPLACE INTO import_sources(source, hash, note_id) VALUES ($s, $h, $id)");
+                source.Parameters.AddWithValue("$s", note.SourceKey);
+                source.Parameters.AddWithValue("$h", note.SourceHash);
+                source.Parameters.AddWithValue("$id", ids[ids.Count - 1]);
+                source.ExecuteNonQuery();
+            }
+            tx.Commit();
+            return ids;
+        }
+
+        // ---- Saved searches (1.6.0, KN-P06) ----
+        // Kept in the notepad, so they are encrypted with it and travel with its backups. The table
+        // is made on first save.
+
+        public static List<(string Name, string Query)> ListSavedSearches()
+        {
+            var list = new List<(string, string)>();
+            if (_db == null) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'saved_searches'";
+            if ((long)cmd.ExecuteScalar()! == 0) return list;
+            cmd.CommandText = "SELECT name, query FROM saved_searches ORDER BY name COLLATE NOCASE";
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) list.Add((r.GetString(0), r.GetString(1)));
+            return list;
+        }
+
+        /// <summary>Saves a search under a name; the same name (any case) is replaced.</summary>
+        public static void SaveSearch(string name, string query)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "CREATE TABLE IF NOT EXISTS saved_searches(name TEXT PRIMARY KEY COLLATE NOCASE, query TEXT NOT NULL);" +
+                              "INSERT INTO saved_searches(name, query) VALUES ($n, $q) " +
+                              "ON CONFLICT(name) DO UPDATE SET name = excluded.name, query = excluded.query";
+            cmd.Parameters.AddWithValue("$n", name.Trim());
+            cmd.Parameters.AddWithValue("$q", query.Trim());
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void DeleteSavedSearch(string name)
+        {
+            if (_db == null || IsReadOnly || ListSavedSearches().Count == 0) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "DELETE FROM saved_searches WHERE name = $n";
+            cmd.Parameters.AddWithValue("$n", name);
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>A second, read-only connection to the open database for vault export, which runs
+        /// on its own thread: the main connection belongs to the UI thread and is not shared.</summary>
+        internal static VaultSource OpenVaultSource()
+        {
+            if (_db == null) throw new InvalidOperationException("database not open");
+            var csb = new SqliteConnectionStringBuilder { DataSource = DbPath, Mode = SqliteOpenMode.ReadOnly, Pooling = false };
+            if (_password != null) csb.Password = _password;
+            var db = new SqliteConnection(csb.ConnectionString);
+            db.Open();
+            return new VaultSource(db);
+        }
+
+        internal sealed class VaultSource : IVaultSource, IDisposable
+        {
+            private readonly SqliteConnection _conn;
+            internal VaultSource(SqliteConnection conn) => _conn = conn;
+
+            public byte[]? LoadContent(long id)
+            {
+                using var cmd = _conn.CreateCommand();
+                cmd.CommandText = "SELECT content FROM notes WHERE id = $id";
+                cmd.Parameters.AddWithValue("$id", id);
+                return cmd.ExecuteScalar() as byte[];
+            }
+
+            public Attachment? GetAttachment(string hash)
+            {
+                using var cmd = _conn.CreateCommand();
+                cmd.CommandText = "SELECT kind, payload, duration FROM attachments WHERE hash = $h";
+                cmd.Parameters.AddWithValue("$h", hash);
+                using var r = cmd.ExecuteReader();
+                if (!r.Read()) return null;
+                var found = new Attachment((AttachmentKind)r.GetInt64(0), (byte[])r.GetValue(1), (int)r.GetInt64(2));
+                return found.Hash == hash ? found : null;
+            }
+
+            public void Dispose() => _conn.Dispose();
+        }
+
+        /// <summary>Checks a copy BackupTo just wrote, with the open database's key (BackupService).</summary>
+        public static void VerifyBackupCopy(string path) => BackupService.VerifyCopy(path, _password);
+
+        public readonly record struct StoreCensus(int Notes, int Attachments);
+
+        /// <summary>The open database's note (trash included) and attachment counts, which Test
+        /// restore sets beside what a backup holds.</summary>
+        public static StoreCensus Census()
+        {
+            if (_db == null) throw new InvalidOperationException("database not open");
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT (SELECT count(*) FROM notes), (SELECT count(*) FROM attachments)";
+            using var reader = cmd.ExecuteReader();
+            reader.Read();
+            return new StoreCensus(reader.GetInt32(0), reader.GetInt32(1));
+        }
+
         // ---- Sharing (.knote export / .knote and .kndb import) ----
         // A .knote is just a KillerNotes database containing one note, optionally
         // SQLCipher-encrypted with a share password - the same engine opens both.
 
-        /// <summary>Writes a single note to destPath as a .knote (overwrites).</summary>
+        /// <summary>Writes a single note to destPath as a .knote. An existing file there is replaced
+        /// only once the new one is complete (AtomicFile), so a failed export keeps it.</summary>
         public static void ExportNote(long id, string destPath, string? password)
         {
-            if (File.Exists(destPath)) File.Delete(destPath);
-            var csb = new SqliteConnectionStringBuilder { DataSource = destPath };
+            if (_db == null) throw new InvalidOperationException("database not open");
+            if (string.Equals(Path.GetFullPath(destPath), Path.GetFullPath(DbPath), StringComparison.OrdinalIgnoreCase))
+                throw new IOException("A note cannot be exported over the open database.");
+            if (GetNote(id) == null) throw new InvalidOperationException("note not found");
+            AtomicFile.Write(destPath, staged => WriteKnote(id, staged, password));
+        }
+
+        private static void WriteKnote(long id, string destPath, string? password)
+        {
+            var csb = new SqliteConnectionStringBuilder { DataSource = destPath, Pooling = false };
             if (!string.IsNullOrEmpty(password)) csb.Password = password;
             try
             {
@@ -2165,6 +2637,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 ins.Parameters.AddWithValue("$sy", r.IsDBNull(10) ? 0 : r.GetInt64(10));
                 ins.ExecuteNonQuery();
                 CopyNoteAttachments(_db!, dest, id, LastInsertedId(dest), true, true);
+                CopyPayloads(_db!, dest, null, Attachments.MarkersIn(r.GetValue(5) as byte[]));
 
                 // Carry the note's tag definitions (name + color) so its chips keep their
                 // colors on the receiving machine; the receiver's own defs win on import.
@@ -2226,6 +2699,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 string live = srcCols.Contains("deleted") ? " WHERE deleted = ''" : "";
                 bool hasSketches = HasTable(src, "sketches");
                 bool hasRecordings = HasTable(src, "recordings");
+                bool hasPayloads = HasTable(src, "attachments");
 
                 using var read = src.CreateCommand();
                 read.CommandText = extras
@@ -2256,7 +2730,14 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     ins.Parameters.AddWithValue("$fmt", r.IsDBNull(9) ? 0 : r.GetInt64(9));
                     ins.Parameters.AddWithValue("$sy", r.IsDBNull(10) ? 0 : r.GetInt64(10));
                     ins.ExecuteNonQuery();
-                    CopyNoteAttachments(src, _db!, r.GetInt64(11), LastInsertedId(_db!), hasSketches, hasRecordings);
+                    long newId = LastInsertedId(_db!);
+                    CopyNoteAttachments(src, _db!, r.GetInt64(11), newId, hasSketches, hasRecordings);
+                    var markers = Attachments.MarkersIn(r.GetValue(5) as byte[]);
+                    if (hasPayloads) CopyPayloads(src, _db!, tx, markers);
+                    // Index its wikilinks now, as a save would: without this an imported note
+                    // had no backlinks or graph edges until it was opened and edited.
+                    var labels = SketchLabels(src, r.GetInt64(11), markers, hasPayloads, hasSketches);
+                    SetLinks(newId, WikiLinks.Parse(WithoutSketchLabels(r.GetString(6), labels)), tx);
                     count++;
                 }
 
@@ -2296,6 +2777,120 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             using var cmd = db.CreateCommand();
             cmd.CommandText = "SELECT last_insert_rowid()";
             return (long)cmd.ExecuteScalar()!;
+        }
+
+        /// <summary>Indexes the wikilinks of notes that mention [[...]] but have none recorded:
+        /// notes imported before imports indexed links (1.6.0). Cheap when there is nothing to
+        /// do: one filtered query over the plain text.</summary>
+        private static void IndexUnlinkedNotes()
+        {
+            // Once per database: the repair is for notes imported before imports indexed links,
+            // and a note whose [[ ]] resolves to nothing would otherwise be re-read every open.
+            const string migration = "index-imported-links-1.6.0";
+            Exec("CREATE TABLE IF NOT EXISTS kn_migrations(name TEXT PRIMARY KEY)");
+            using (var done = _db!.CreateCommand())
+            {
+                done.CommandText = "SELECT count(*) FROM kn_migrations WHERE name = $n";
+                done.Parameters.AddWithValue("$n", migration);
+                if ((long)done.ExecuteScalar()! > 0) return;
+            }
+            IndexUnlinkedNotesOnce();
+            using var mark = _db!.CreateCommand();
+            mark.CommandText = "INSERT OR IGNORE INTO kn_migrations(name) VALUES ($n)";
+            mark.Parameters.AddWithValue("$n", migration);
+            mark.ExecuteNonQuery();
+        }
+
+        private static void IndexUnlinkedNotesOnce()
+        {
+            var rows = new List<(long Id, string Plain, byte[]? Content)>();
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "SELECT id, plain, content FROM notes WHERE instr(plain, '[[') > 0 " +
+                                  "AND id NOT IN (SELECT src FROM note_links)";
+                using var r = cmd.ExecuteReader();
+                while (r.Read()) rows.Add((r.GetInt64(0), r.GetString(1), r.GetValue(2) as byte[]));
+            }
+            if (rows.Count == 0) return;
+            using var tx = _db.BeginTransaction();
+            foreach (var (id, plain, content) in rows)
+            {
+                var labels = SketchLabels(_db, id, Attachments.MarkersIn(content), hasPayloads: true, hasLegacySketches: true);
+                var links = WikiLinks.Parse(WithoutSketchLabels(plain, labels));
+                if (links.Count > 0) SetLinks(id, links, tx);
+            }
+            tx.Commit();
+        }
+
+        /// <summary>The text labels inside a source note's sketches, one line each: the lines a
+        /// save appends to the stored plain text for search (Editor.Sketch.cs).</summary>
+        private static List<string> SketchLabels(SqliteConnection src, long noteId, IEnumerable<string> markers,
+            bool hasPayloads, bool hasLegacySketches)
+        {
+            var payloads = new List<byte[]>();
+            if (hasPayloads)
+                foreach (string hash in markers)
+                {
+                    using var cmd = src.CreateCommand();
+                    cmd.CommandText = "SELECT payload FROM attachments WHERE hash = $h AND kind = 1";
+                    cmd.Parameters.AddWithValue("$h", hash);
+                    if (cmd.ExecuteScalar() is byte[] p) payloads.Add(p);
+                }
+            if (payloads.Count == 0 && hasLegacySketches)
+            {
+                using var cmd = src.CreateCommand();
+                cmd.CommandText = "SELECT payload FROM sketches WHERE note_id = $id ORDER BY ord";
+                cmd.Parameters.AddWithValue("$id", noteId);
+                using var rows = cmd.ExecuteReader();
+                while (rows.Read()) if (rows.GetValue(0) is byte[] p) payloads.Add(p);
+            }
+            var lines = new List<string>();
+            foreach (var payload in payloads)
+                foreach (var o in Models.SketchModel.Deserialize(payload))
+                    if (o.Kind == Models.SketchKind.Text && !string.IsNullOrWhiteSpace(o.Text))
+                        lines.AddRange(o.Text!.Trim().Split('\n'));
+            return lines;
+        }
+
+        /// <summary>Stored plain text minus the sketch label lines a save appended to it, so a
+        /// [[...]] drawn in a sketch is not taken for a link. Left whole when the tail does not
+        /// match those labels exactly.</summary>
+        private static string WithoutSketchLabels(string plain, List<string> labels)
+        {
+            if (labels.Count == 0) return plain;
+            var lines = plain.Split('\n');
+            if (lines.Length <= labels.Count) return plain;
+            var tail = lines.Skip(lines.Length - labels.Count).OrderBy(l => l, StringComparer.Ordinal);
+            if (!tail.SequenceEqual(labels.OrderBy(l => l, StringComparer.Ordinal), StringComparer.Ordinal)) return plain;
+            return string.Join("\n", lines.Take(lines.Length - labels.Count));
+        }
+
+        /// <summary>Copies the named payloads between databases. Content-addressed, so a payload
+        /// the target already has is simply kept.</summary>
+        private static void CopyPayloads(SqliteConnection source, SqliteConnection target,
+            SqliteTransaction? targetTx, IEnumerable<string> hashes)
+        {
+            foreach (string hash in hashes)
+            {
+                using var read = source.CreateCommand();
+                read.CommandText = "SELECT kind, payload, duration FROM attachments WHERE hash = $h";
+                read.Parameters.AddWithValue("$h", hash);
+                using var row = read.ExecuteReader();
+                if (!row.Read()) continue;
+                // A shared file states its own hashes: store a payload only under the hash of its
+                // actual bytes, and only as a kind this app writes, so a crafted file can never
+                // plant other content under a name a real sketch or recording will use.
+                if (row.GetValue(1) is not byte[] bytes || Attachments.HashOf(bytes) != hash ||
+                    row.GetInt64(0) is not ((long)AttachmentKind.Sketch or (long)AttachmentKind.Recording)) continue;
+                using var insert = target.CreateCommand();
+                insert.Transaction = targetTx;
+                insert.CommandText = "INSERT OR IGNORE INTO attachments(hash, kind, payload, duration) VALUES ($h, $k, $p, $d)";
+                insert.Parameters.AddWithValue("$h", hash);
+                insert.Parameters.AddWithValue("$k", row.GetInt64(0));
+                insert.Parameters.AddWithValue("$p", row.GetValue(1));
+                insert.Parameters.AddWithValue("$d", row.GetInt64(2));
+                insert.ExecuteNonQuery();
+            }
         }
 
         private static void CopyNoteAttachments(SqliteConnection source, SqliteConnection target,

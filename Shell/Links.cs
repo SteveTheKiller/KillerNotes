@@ -50,9 +50,7 @@ namespace KillerNotes.Shell
 
         private void OpenLink(Uri? uri)
         {
-            if (uri is null) return;
-            string s = uri.IsAbsoluteUri ? uri.AbsoluteUri : uri.OriginalString;
-            if (!Regex.IsMatch(s, "^(https?|mailto):", RegexOptions.IgnoreCase)) return;
+            if (Services.LinkPolicy.AllowedHref(uri) is not string s) return;
             try { Process.Start(new ProcessStartInfo(s) { UseShellExecute = true }); }
             catch { FlashStatus(Loc("Str_St_LinkFailed")); }
         }
@@ -63,7 +61,7 @@ namespace KillerNotes.Shell
 
         private void LinkShortcut()
         {
-            if (_currentId < 0) return;
+            if (!CanEditCurrentNote()) return;
             var existing = FindLink(Editor.Selection.Start) ?? FindLink(Editor.Selection.End);
             string initial = existing?.NavigateUri?.OriginalString ?? GuessClipboardUrl();
 
@@ -252,7 +250,7 @@ namespace KillerNotes.Shell
         /// links, bold/italic/underline, and line/paragraph breaks; every other tag is
         /// dropped and its text kept. Deliberately not a general HTML engine - the
         /// preview pane owns real HTML rendering.</summary>
-        private static List<Inline> HtmlFragmentToInlines(string html)
+        internal static List<Inline> HtmlFragmentToInlines(string html)
         {
             var result = new List<Inline>();
             var text = new StringBuilder();
@@ -315,7 +313,10 @@ namespace KillerNotes.Shell
                 {
                     case "script" or "style" when !closing:
                         int endTag = html.IndexOf("</" + name, i, StringComparison.OrdinalIgnoreCase);
-                        i = endTag < 0 ? html.Length : html.IndexOf('>', endTag) + 1;
+                        // A close tag cut off before its '>' ends the fragment; IndexOf's -1 + 1
+                        // would restart the scan at 0 and never finish.
+                        int endGt = endTag < 0 ? -1 : html.IndexOf('>', endTag);
+                        i = endGt < 0 ? html.Length : endGt + 1;
                         break;
                     case "a" when !closing:
                         FlushText();
@@ -332,8 +333,7 @@ namespace KillerNotes.Shell
                         {
                             string label = Regex.Replace(linkText.ToString(), @"\s+", " ").Trim();
                             if (label.Length == 0) label = href;
-                            if (Uri.TryCreate(href, UriKind.Absolute, out var u) &&
-                                (u.Scheme == Uri.UriSchemeHttp || u.Scheme == Uri.UriSchemeHttps || u.Scheme == "mailto"))
+                            if (Uri.TryCreate(href, UriKind.Absolute, out var u) && Services.LinkPolicy.IsAllowed(u))
                             {
                                 result.Add(new Hyperlink(new Run(label)) { NavigateUri = u });
                                 lastWasBreak = false;

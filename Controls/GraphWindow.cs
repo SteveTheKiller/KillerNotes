@@ -333,6 +333,12 @@ namespace KillerNotes.Controls
             // like every other 98SE app and like this app's own note list (2026-08-25).
             surface.SetResourceReference(Panel.BackgroundProperty, "GraphCanvasBrush");
             surface.Children.Add(_canvas);
+            // Screen readers hear the keyboard's current node through this polite live region
+            // (MoveKeyboardNode). Invisible and unclickable; it exists only to be read.
+            _announcer = new TextBlock { Opacity = 0, IsHitTestVisible = false, Width = 1, Height = 1,
+                                         HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
+            System.Windows.Automation.AutomationProperties.SetLiveSetting(_announcer, System.Windows.Automation.AutomationLiveSetting.Polite);
+            surface.Children.Add(_announcer);
             // A legend, because a hollow node is not self-explanatory - "why are some nodes yellow
             // and some hollow?" was the first thing asked about it (2026-08-23).
             //
@@ -790,8 +796,17 @@ namespace KillerNotes.Controls
             BuildVisuals(pairs);
         }
 
-        private static Brush Res(string key, Color fallback) =>
-            Application.Current?.TryFindResource(key) as Brush ?? new SolidColorBrush(fallback);
+        /// <summary>A theme brush as a FROZEN snapshot. Thousands of dots share it, and an unfrozen
+        /// brush keeps a list of every element using it, so sharing one cost time that grew with
+        /// the square of the node count.</summary>
+        private static Brush Res(string key, Color fallback)
+        {
+            var brush = Application.Current?.TryFindResource(key) as Brush ?? new SolidColorBrush(fallback);
+            if (brush.IsFrozen || !brush.CanFreeze) return brush;
+            brush = brush.Clone();
+            brush.Freeze();
+            return brush;
+        }
 
         /// <summary>Creates every visual ONCE. Nothing here runs again while the window is open.</summary>
         private void BuildVisuals(List<(Node A, Node B)> pairs)
@@ -2101,6 +2116,28 @@ namespace KillerNotes.Controls
                 e.Handled = true;
                 return;
             }
+            // Keyboard access to single nodes: Tab and Shift+Tab step through them in title order,
+            // Home and End jump to either end, the Apps key or Shift+F10 opens the current node's
+            // menu, and Enter (below) opens it.
+            if (e.Key == Key.Tab && (Keyboard.Modifiers & ~ModifierKeys.Shift) == 0)
+            {
+                MoveKeyboardNode(Keyboard.Modifiers == ModifierKeys.Shift ? -1 : 1);
+                e.Handled = true;
+                return;
+            }
+            if (e.Key is Key.Home or Key.End && Keyboard.Modifiers == ModifierKeys.None)
+            {
+                _keyNode = null;
+                MoveKeyboardNode(e.Key == Key.Home ? 1 : -1);
+                e.Handled = true;
+                return;
+            }
+            if (_keyNode != null && (e.Key == Key.Apps || (e.Key == Key.System && e.SystemKey == Key.F10 && Keyboard.Modifiers == ModifierKeys.Shift)))
+            {
+                ShowNodeMenuFor(_keyNode);
+                e.Handled = true;
+                return;
+            }
             if (e.Key == Key.A && (Keyboard.Modifiers & ModifierKeys.Control) != 0)
             {
                 foreach (var v in _nodes.Where(v => v.Dot.Visibility == Visibility.Visible)) SetSelected(v, true);
@@ -2148,6 +2185,67 @@ namespace KillerNotes.Controls
             {
                 case Key.Enter: OpenNode(n); e.Handled = true; break;
             }
+        }
+
+        // ── Keyboard node navigation (U008) ──────────────────────────────────────────────
+
+        private Node? _keyNode;
+        private TextBlock _announcer = null!;
+
+        /// <summary>Visible nodes in the order Tab visits them: by title, then by id so two
+        /// notes with the same title keep a stable order.</summary>
+        private List<Node> KeyboardOrder() =>
+            [.. _nodes.Where(n => n.Dot.Visibility == Visibility.Visible)
+                      .OrderBy(n => n.Title, StringComparer.CurrentCultureIgnoreCase)
+                      .ThenBy(n => n.Id)];
+
+        /// <summary>Moves the keyboard's current node forward or back, wrapping at the ends. The
+        /// node becomes the selection (the ring is the visible focus) and the menu's target, so
+        /// F, K, Ctrl+C and Enter act on it, and its title and link count are announced.</summary>
+        internal void MoveKeyboardNode(int direction)
+        {
+            var order = KeyboardOrder();
+            if (order.Count == 0) return;
+            int at = _keyNode == null ? -1 : order.IndexOf(_keyNode);
+            int next = at < 0 ? (direction > 0 ? 0 : order.Count - 1)
+                              : ((at + direction) % order.Count + order.Count) % order.Count;
+            _keyNode = order[next];
+            _menuNode = _keyNode;
+            ClearSelection();
+            SetSelected(_keyNode, true);
+            Announce(_keyNode.Ghost
+                ? string.Format(Str("Str_Graph_GhostAnnounce", "{0}, not written yet"), _keyNode.Title)
+                : string.Format(Str("Str_Graph_NodeAnnounce", "{0}, {1} links"), _keyNode.Title, _keyNode.Degree));
+        }
+
+        internal string KeyboardNodeTitle() => _keyNode?.Title ?? "";
+
+        internal string AnnouncedText() => _announcer.Text;
+
+        internal void ActivateKeyboardNode()
+        {
+            if (_keyNode != null) OpenNode(_keyNode);
+        }
+
+        private void Announce(string text)
+        {
+            _announcer.Text = text;
+            var peer = System.Windows.Automation.Peers.UIElementAutomationPeer.FromElement(_announcer)
+                       ?? System.Windows.Automation.Peers.UIElementAutomationPeer.CreatePeerForElement(_announcer);
+            peer?.RaiseAutomationEvent(System.Windows.Automation.Peers.AutomationEvents.LiveRegionChanged);
+        }
+
+        /// <summary>The node menu for a node chosen from the keyboard, opened beside its dot.</summary>
+        private void ShowNodeMenuFor(Node n)
+        {
+            _menuNode = n;
+            _miOpen.Header = n.Ghost ? Str("Str_Ctx_GraphCreate", "Create this note") : Str("Str_Ctx_GraphOpen", "Open note");
+            var targets = LockTargets();
+            _miLock.IsEnabled = targets.Count > 0;
+            _miLock.IsChecked = targets.Count > 0 && targets.All(v => v.Locked);
+            _menu.PlacementTarget = n.Dot;
+            _menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            _menu.IsOpen = true;
         }
 
         private void OpenNode(Node n)

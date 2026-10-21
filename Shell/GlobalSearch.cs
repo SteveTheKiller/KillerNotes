@@ -18,6 +18,9 @@ namespace KillerNotes.Shell
         private string? _globalSearchStatusText;
         private string GlobalSearchTerm => SearchBox?.Text ?? "";
         private bool HasGlobalSearch => !string.IsNullOrWhiteSpace(GlobalSearchTerm);
+        // Only filters (tag:work, after:...) and no words: there is nothing to count inside the
+        // notes, so the count shows how many notes the filters left (1.6.0, SearchQuery.cs).
+        private bool GlobalSearchHasWords => SearchQuery.Parse(GlobalSearchTerm).Words.Count > 0;
 
         private void CancelGlobalSearchPreview()
         {
@@ -32,10 +35,10 @@ namespace KillerNotes.Shell
             CancelGlobalSearchPreview();
             _globalMatchCounts.Clear();
             _globalUnreadable = 0;
-            _globalSearchCounting = HasGlobalSearch;
+            _globalSearchCounting = HasGlobalSearch && GlobalSearchHasWords;
             RefreshGlobalHighlights();
             UpdateGlobalSearchCount();
-            if (!HasGlobalSearch) return;
+            if (!HasGlobalSearch || !GlobalSearchHasWords) return;
 
             if (_globalSearchTimer == null)
             {
@@ -78,7 +81,10 @@ namespace KillerNotes.Shell
                         plain = _findPlain;
                     }
                     else
-                        plain = FlattenDoc(NoteSearch.LoadDocument(NoteStore.LoadContent(note.Id), note.Format)).Plain;
+                        // The stored search text, not a re-loaded document: the same words the
+                        // sidebar search matched (sketch labels included), at a fraction of the cost.
+                        // Loading every document took about a minute for a common word in 10,000 notes.
+                        plain = NoteStore.LoadPlain(note.Id);
                     _globalMatchCounts[note.Id] = NoteSearch.CountMatches(plain, query);
                 }
                 catch { _globalUnreadable++; }
@@ -103,19 +109,25 @@ namespace KillerNotes.Shell
             UpdateGlobalSearchCount();
         }
 
+        /// <summary>The counts, then what was searched: "4 body matches in 2 matching notes ·
+        /// titles, text and tags · tag:work · not the trash".</summary>
         private string GlobalSearchStatus()
         {
+            string scope = SearchQuery.Parse(GlobalSearchTerm).Describe(Loc);
+            if (!GlobalSearchHasWords)
+                return string.Format(Loc("Str_St_SearchNotes"), _notes.Count) + " · " + scope;
             if (_globalSearchCounting)
-                return string.Format(Loc("Str_St_GlobalCounting"), _notes.Count);
+                return string.Format(Loc("Str_St_GlobalCounting"), _notes.Count) + " · " + scope;
             string key = _globalUnreadable > 0 ? "Str_St_GlobalMatchesIncomplete" : "Str_St_GlobalMatches";
-            return string.Format(Loc(key), _globalMatchCounts.Values.Sum(), _notes.Count, _globalUnreadable);
+            return string.Format(Loc(key), _globalMatchCounts.Values.Sum(), _notes.Count, _globalUnreadable) + " · " + scope;
         }
 
         private void UpdateGlobalSearchCount()
         {
             if (GlobalSearchCount == null) return;
             GlobalSearchCount.Visibility = HasGlobalSearch ? Visibility.Visible : Visibility.Collapsed;
-            GlobalSearchCount.Text = _globalSearchCounting ? "..." : _globalMatchCounts.Values.Sum().ToString("N0");
+            GlobalSearchCount.Text = !GlobalSearchHasWords ? _notes.Count.ToString("N0")
+                : _globalSearchCounting ? "..." : _globalMatchCounts.Values.Sum().ToString("N0");
             string status = GlobalSearchStatus();
             GlobalSearchCount.ToolTip = status;
             // A background count owns only its previous status, never a save/load error.

@@ -262,7 +262,7 @@ namespace KillerNotes.Shell
 
         private void InsertTable(int rows, int cols)
         {
-            if (_currentId < 0) return;
+            if (!CanEditCurrentNote()) return;
             // A table cannot survive in a markdown note's stored text (Markdown.cs).
             if (RejectsObject()) return;
 

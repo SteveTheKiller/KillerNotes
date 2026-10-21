@@ -32,8 +32,8 @@ namespace KillerNotes.Shell
         // SketchObjects (SketchModel); "Print to note" flattens them to an image WITHOUT closing the
         // pad (the window's own X closes it). A stamped sketch lives in the note as an ordinary
         // flattened Image (which round-trips); its editable object list rides off to the side
-        // (Sketch.SetData, JSON) and persists to a DB side table by document ordinal on save
-        // (SaveSketchPayloads), re-attached on load (LinkSketchPayloads). Fresh open = new sketch at
+        // (Sketch.SetData, JSON) and is stored by content hash on save, named by a marker on the
+        // image (Sketch.CaptureAttachments), re-attached on load (LinkSketchPayloads). Fresh open = new sketch at
         // the caret; double-clicking a placed sketch edits THAT one and Print replaces it in place.
         private SketchPadWindow? _sketchPad;
         private Image? _sketchEditTarget;   // the placed sketch being edited in place; null = Print makes a new one
@@ -105,7 +105,8 @@ namespace KillerNotes.Shell
             // one note's sketch appearing inside an unrelated note (2026-08-08). A session prints
             // only into the note it was opened from.
             if (_sketchSession?.CanPrint(_currentId) != true) { StatusText.Text = Loc("Str_St_SketchWrongNote"); return; }
-            if (_currentInTrash || (_sketchEditTarget != null && !ImageInDocument(_sketchEditTarget)))
+            if (!CanEditCurrentNote()) return;
+            if (_sketchEditTarget != null && !ImageInDocument(_sketchEditTarget))
             { StatusText.Text = Loc("Str_St_SketchWrongNote"); return; }
             if (objects.Count == 0) { StatusText.Text = Loc("Str_St_SketchEmpty"); return; }
             // A markdown note stores text, so the flattened image would be lost at the next save
@@ -147,10 +148,6 @@ namespace KillerNotes.Shell
         private static IEnumerable<Image> EnumerateImages(IEnumerable<Block> blocks)
             => Sketch.Images(blocks);
 
-        // On save: persist the ISF of every image we know is a sketch, keyed by its ordinal.
-        private void SaveSketchPayloads(long id)
-            => NoteStore.SaveSketches(id, Sketch.Capture(Editor.Document.Blocks));
-
         /// <summary>Text labels inside the note's sketches, one per line. Appended to the note's
         /// stored plain text on save so a label like "IDF-2, port 14" makes the note searchable;
         /// appended at the END so a real first line always stays the snippet.</summary>
@@ -165,10 +162,10 @@ namespace KillerNotes.Shell
             return string.Join("\n", parts);
         }
 
-        // On load: re-attach saved strokes to images by the same ordinal, so a reloaded sketch is
-        // editable again (double-click opens the editor with its strokes).
+        // On load: re-attach saved drawings to their images (by marker, or by ordinal for a note
+        // saved before markers), so a reloaded sketch is editable again.
         private void LinkSketchPayloads(long id)
-            => Sketch.Link(Editor.Document.Blocks, NoteStore.LoadSketches(id));
+            => Sketch.Link(Editor.Document.Blocks, NoteStore.LoadSketches(id), NoteStore.GetAttachment);
 
         /// <summary>A rule or table as the document's last block traps the caret - there is
         /// no position after it to click into, so the end of the note stops being editable.

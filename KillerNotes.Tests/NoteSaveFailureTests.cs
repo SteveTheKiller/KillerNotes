@@ -11,7 +11,7 @@ namespace KillerNotes.Tests
         [Theory]
         [InlineData("notes", "UPDATE")]
         [InlineData("note_links", "INSERT")]
-        [InlineData("sketches", "INSERT")]
+        [InlineData("attachments", "INSERT")]
         public void FailedSaveKeepsTheWholeCommittedNoteAndCanBeRetried(string table, string operation)
         {
             using var store = new TempStore();
@@ -24,18 +24,19 @@ namespace KillerNotes.Tests
             using var command = fault.CreateCommand();
             command.CommandText = $"CREATE TRIGGER fail_save BEFORE {operation} ON {table} BEGIN SELECT RAISE(ABORT, 'controlled save failure'); END";
             command.ExecuteNonQuery();
+            var sketch = new Attachment(AttachmentKind.Sketch, new byte[] { 4 });
             Assert.Throws<SqliteException>(() => NoteStore.SaveEditorState(id, "edited", new byte[] { 3 }, "edited text",
-                new[] { "edited link" }, new Dictionary<int, byte[]> { [0] = new byte[] { 4 } }));
+                new[] { "edited link" }, new[] { sketch }));
             Assert.Equal(new byte[] { 1 }, NoteStore.LoadContent(id));
             Assert.Equal("original", Assert.Single(NoteStore.List()).Title);
             Assert.Equal(new byte[] { 2 }, NoteStore.LoadSketches(id)[0]);
+            Assert.Null(NoteStore.GetAttachment(sketch.Hash));
             Assert.Empty(NoteStore.ListHistory(id));
             command.CommandText = "DROP TRIGGER fail_save";
             command.ExecuteNonQuery();
             NoteStore.SaveEditorState(id, "edited", new byte[] { 3 }, "edited text", new[] { "edited link" },
-                new Dictionary<int, byte[]> { [0] = new byte[] { 4 } });
+                new[] { sketch });
             Assert.Equal(new byte[] { 3 }, NoteStore.LoadContent(id));
-            Assert.Equal(new byte[] { 4 }, NoteStore.LoadSketches(id)[0]);
             Assert.Single(NoteStore.ListHistory(id));
         }
     }

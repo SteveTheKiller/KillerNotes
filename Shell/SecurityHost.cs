@@ -16,7 +16,10 @@ namespace KillerNotes.Shell
         /// <summary>Lock (0xE72E) when encrypted, unlock (0xE785) when plaintext, Segoe MDL2.
         /// Written as char casts so the private-use glyphs can never be mangled by tooling.</summary>
         void ISecurityHost.ShowLockState(bool encrypted)
-            => LockButton.Content = ((char)(encrypted ? 0xE72E : 0xE785)).ToString();
+        {
+            LockButton.Content = ((char)(encrypted ? 0xE72E : 0xE785)).ToString();
+            ShowPrivacyState();   // SaveState.cs - the footer padlock says the same
+        }
 
         // In-memory resume hint for the security round trips (Manage databases, lock/unlock).
         // The "LastNote" SETTING cannot serve here: demo sessions never write it on purpose, so
@@ -45,6 +48,8 @@ namespace KillerNotes.Shell
             InitNotes();         // Notes.cs (idempotent)
             RefreshList();
             OpenStartupNote();   // Notes.cs - the app always opens into a note
+            RestoreLockedEdits();   // LockNow.cs - edits an automatic lock could not save
+            UpdateBackupHealth();   // Backup.cs - the footer warning is per notepad
         }
 
         void ISecurityHost.ClearNavigation() => ClearNavHistory();
@@ -94,7 +99,5 @@ namespace KillerNotes.Shell
         // ---- Handlers (wired in MainWindow.xaml) ----
 
         private void ManageDatabases_Click(object sender, RoutedEventArgs e) => _security.ShowDatabases();
-
-        private void LockButton_Click(object sender, RoutedEventArgs e) => _security.ToggleLock();
     }
 }

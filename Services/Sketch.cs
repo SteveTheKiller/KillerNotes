@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,13 @@ namespace KillerNotes.Services
     // SketchPad storage helper (BACKLOG: SketchPad).
     //
     // A sketch lives in the note as an ordinary flattened Image (which round-trips through the
-    // content XamlPackage) and its editable strokes ride in a DB side table keyed by the image's
-    // ordinal in document order (NoteStore.SaveSketches/LoadSketches). The note format strips any
-    // marker we set on the image (tested: a Tag came back null), so we cannot label sketch images
-    // in the document. Instead we hold the strokes off to the side, attached to the live Image
-    // object below; on save we walk images in order and persist any image we know is a sketch, and
-    // on load we re-attach payloads to images by that same ordinal.
+    // content XamlPackage). Its editable objects are held off to the side, attached to the live
+    // Image object below, and stored by content hash (NoteStore attachments). Since 1.6.0 the image
+    // carries a marker naming that hash in its ToolTip, the one property the note format keeps
+    // (Services/Attachments.cs), so a sketch finds its drawing wherever the image moves, in history
+    // versions and in pasted copies. Notes saved before markers existed keep the older link: the
+    // image's ordinal in document order (NoteStore.SaveSketches/LoadSketches), used only when a
+    // document carries no sketch markers at all.
     internal static class Sketch
     {
         // Native canvas size: the coordinate space strokes are drawn and stored in, and the pixel
@@ -95,6 +97,8 @@ namespace KillerNotes.Services
                 yield return (image, legacy.TryGetValue(image, out int key) ? key : nested--);
         }
 
+        /// <summary>Ordinal -> payload, the pre-1.6.0 storage shape. Still used to seed demo and
+        /// template data written in that shape.</summary>
         public static Dictionary<int, byte[]> Capture(IEnumerable<Block> blocks)
         {
             var result = new Dictionary<int, byte[]>();
@@ -105,12 +109,62 @@ namespace KillerNotes.Services
             return result;
         }
 
+        /// <summary>Marks every sketch image with its payload's hash and returns the payloads, for
+        /// the save that is about to serialize the document. Setting the ToolTip is invisible to
+        /// the editor's undo and change tracking.</summary>
+        public static List<Attachment> CaptureAttachments(IEnumerable<Block> blocks)
+        {
+            var result = new List<Attachment>();
+            foreach (var image in Images(blocks))
+            {
+                if (!TryGetData(image, out var payload)) continue;
+                var attachment = new Attachment(AttachmentKind.Sketch, payload);
+                MarkImage(image, Attachments.Marker(AttachmentKind.Sketch, attachment.Hash));
+                result.Add(attachment);
+            }
+            return result;
+        }
+
+        /// <summary>Re-attaches editable payloads after a load or paste: by marker, or by ordinal
+        /// for a document saved before markers existed.</summary>
+        public static void Link(IEnumerable<Block> blocks, IReadOnlyDictionary<int, byte[]> legacyByOrdinal,
+            Func<string, Attachment?> lookup)
+        {
+            var snapshot = blocks.ToList();
+            bool marked = false;
+            foreach (var image in Images(snapshot))
+            {
+                if (!Attachments.TryParseMarker(image.ToolTip, out var kind, out var hash) || kind != AttachmentKind.Sketch) continue;
+                marked = true;
+                MarkImage(image, (string)image.ToolTip);
+                if (!TryGetData(image, out _) && lookup(hash) is { } found) SetData(image, found.Payload);
+            }
+            if (!marked && legacyByOrdinal.Count > 0) Link(snapshot, legacyByOrdinal);
+        }
+
         public static void Link(IEnumerable<Block> blocks, IReadOnlyDictionary<int, byte[]> payloads)
         {
             foreach (var (image, key) in KeyedImages(blocks))
             {
                 if (payloads.TryGetValue(key, out var payload)) SetData(image, payload);
             }
+        }
+
+        /// <summary>Sets a payload marker on an image. The marker is storage, not a hint, so the
+        /// tooltip popup stays off.</summary>
+        internal static void MarkImage(Image image, string marker)
+        {
+            if (!Equals(image.ToolTip, marker)) image.ToolTip = marker;
+            System.Windows.Controls.ToolTipService.SetIsEnabled(image, false);
+            // Accessibility tools fall back to a string ToolTip for help text, which would read the
+            // hash aloud. An explicit name and help text take precedence. Re-applied on every load,
+            // because the note format does not keep automation properties.
+            Attachments.TryParseMarker(marker, out var kind, out _);
+            string name = kind == AttachmentKind.Recording
+                ? System.Windows.Application.Current?.TryFindResource("Str_Dict_Chip") as string ?? "Recording"
+                : System.Windows.Application.Current?.TryFindResource("Str_Sketch_Title") as string ?? "SketchPad";
+            System.Windows.Automation.AutomationProperties.SetName(image, name);
+            System.Windows.Automation.AutomationProperties.SetHelpText(image, name);
         }
 
         public static byte[] StrokesToIsf(StrokeCollection strokes)

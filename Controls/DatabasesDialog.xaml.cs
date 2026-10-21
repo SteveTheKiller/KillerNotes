@@ -58,8 +58,15 @@ namespace KillerNotes.Controls
 
         private void DbMenu_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            Key key = e.Key == Key.System ? e.SystemKey : e.Key;
-            if (SelectedItem == null || sender is not ContextMenu menu) return;
+            if (sender is ContextMenu menu && RouteMenuKey(menu, e.Key == Key.System ? e.SystemKey : e.Key, Keyboard.Modifiers, e.IsRepeat))
+                e.Handled = true;
+        }
+
+        /// <summary>The row menu's keys, with the modifiers passed in rather than read from the
+        /// keyboard, so a test does not depend on what keys happen to be down on the machine.</summary>
+        internal bool RouteMenuKey(ContextMenu menu, Key key, ModifierKeys modifiers, bool isRepeat)
+        {
+            if (SelectedItem == null) return false;
             (MenuItem Item, Key Key, ModifierKeys Modifiers)[] bindings =
             [
                 (RenameItem, Key.F2, ModifierKeys.None),
@@ -69,16 +76,14 @@ namespace KillerNotes.Controls
                 (RevealItem, Key.R, ModifierKeys.Control)
             ];
             foreach (var binding in bindings)
-                if (DialogShortcuts.TryInvoke(binding.Item, key, Keyboard.Modifiers, binding.Key, binding.Modifiers, () =>
+                if (DialogShortcuts.TryInvoke(binding.Item, key, modifiers, binding.Key, binding.Modifiers, () =>
                 {
-                    if (e.IsRepeat) return;
+                    if (isRepeat) return;
                     menu.IsOpen = false;
                     binding.Item.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent, binding.Item));
                 }))
-                {
-                    e.Handled = true;
-                    return;
-                }
+                    return true;
+            return false;
         }
 
         private void RefreshDbList(string? select = null)
@@ -110,7 +115,8 @@ namespace KillerNotes.Controls
                 {
                     Text = $"   {fi.Length / 1024:N0} KB   {fi.LastWriteTime:yyyy-MM-dd HH:mm}"
                          + (enc ? "   [" + Loc("Str_Db_FlagEncrypted") + "]" : "")
-                         + (active ? "   [" + Loc("Str_Db_FlagActive") + "]" : ""),
+                         + (active ? "   [" + Loc("Str_Db_FlagActive") + "]" : "")
+                         + (demo ? "" : BackupMeta(name)),
                     FontSize = 11,
                     VerticalAlignment = VerticalAlignment.Center,
                 };
@@ -147,6 +153,18 @@ namespace KillerNotes.Controls
                     return variable + path.Substring(folder.Length);
             }
             return path;
+        }
+
+        /// <summary>Each notepad's backup health beside its size and date (1.6.0): when it was last
+        /// backed up, flagged when failing or overdue, and nothing at all while backups are off.</summary>
+        private static string BackupMeta(string dbFile)
+        {
+            var state = BackupService.StateOf(dbFile, DateTime.Now);
+            if (state == BackupState.Off) return "";
+            if (state == BackupState.Failing) return "   [" + Loc("Str_Db_FlagBackupFailing") + "]";
+            if (BackupService.LastBackup(dbFile) is not DateTime last) return "";
+            return "   " + string.Format(Loc("Str_Db_BackedUp"), last.ToString("yyyy-MM-dd HH:mm"))
+                 + (state == BackupState.Overdue ? "   [" + Loc("Str_Db_FlagBackupOverdue") + "]" : "");
         }
 
         private static void SetRowColors(TextBlock name, TextBlock meta, bool active, bool selected)

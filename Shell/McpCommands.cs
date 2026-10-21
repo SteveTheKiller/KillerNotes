@@ -161,7 +161,42 @@ namespace KillerNotes.Shell
         private static Note RequireNote(long id) => NoteStore.List().FirstOrDefault(n => n.Id == id) ?? throw new InvalidOperationException("The note was not found");
         private static string DocumentText(FlowDocument document) => new TextRange(document.ContentStart, document.ContentEnd).Text;
         private static long TakeId(List<string> values) => long.TryParse(Take(values, "--id", true), NumberStyles.None, CultureInfo.InvariantCulture, out long id) && id > 0 ? id : throw new ArgumentException("Invalid note id");
-        private static string? Take(List<string> values, string name, bool required = false) { int i = values.IndexOf(name); if (i < 0) { if (required) throw new ArgumentException("Missing " + name); return null; } if (i + 1 >= values.Count) throw new ArgumentException("Missing value for " + name); string value = values[i + 1]; values.RemoveRange(i, 2); return value; }
+        /// <summary>Removes one option and its value. Arguments are read as option/value pairs
+        /// from the start, so a value that happens to look like an option ("--title" as note
+        /// content) is never mistaken for one; a repeated option is refused.</summary>
+        private static string? Take(List<string> values, string name, bool required = false)
+        {
+            var at = OptionPositions(values, name);
+            if (at.Count > 1) throw new ArgumentException("Duplicate " + name);
+            if (at.Count == 0) { if (required) throw new ArgumentException("Missing " + name); return null; }
+            int i = at[0];
+            if (i + 1 >= values.Count) throw new ArgumentException("Missing value for " + name);
+            string value = values[i + 1];
+            values.RemoveRange(i, 2);
+            return value;
+        }
+
+        /// <summary>Removes a value-less flag such as --confirm, read the same pairwise way.</summary>
+        internal static bool TakeFlag(List<string> values, string name)
+        {
+            var at = OptionPositions(values, name);
+            if (at.Count > 1) throw new ArgumentException("Duplicate " + name);
+            if (at.Count == 0) return false;
+            values.RemoveAt(at[0]);
+            return true;
+        }
+
+        private static readonly HashSet<string> Flags = new(StringComparer.Ordinal) { "--allow-loss", "--confirm", "--dry-run" };
+
+        /// <summary>Where an option name stands in OPTION position: walking from the start, every
+        /// option other than a flag owns the next token as its value.</summary>
+        private static List<int> OptionPositions(List<string> values, string name)
+        {
+            var found = new List<int>();
+            for (int i = 0; i < values.Count; i += Flags.Contains(values[i]) ? 1 : 2)
+                if (values[i] == name) found.Add(i);
+            return found;
+        }
         private static void RequireEmpty(List<string> values) { if (values.Count != 0) throw new ArgumentException("Invalid command arguments"); }
         private static string ValidateText(string value, string name, int maximum) => !string.IsNullOrWhiteSpace(value) && value.Length <= maximum ? value : throw new ArgumentException("Invalid " + name);
         private static string ValidateOptionalText(string value, string name, int maximum) => value.Length <= maximum ? value : throw new ArgumentException("Invalid " + name);

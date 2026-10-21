@@ -235,13 +235,14 @@
                 </Border>
             </Canvas>
             <Grid x:Name="TitleSearchSlot" Grid.Column="1" Height="{DynamicResource TitleBarHeight}" Panel.ZIndex="10">
-                        <Grid x:Name="TitleNoteSearch" Width="280"
+                        <Grid x:Name="TitleNoteSearch" Width="308"
                               MaxWidth="{Binding ActualWidth, ElementName=TitleSearchSlot}"
                               Height="24" MaxHeight="{Binding ActualHeight, ElementName=TitleSearchSlot}"
                               HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,8,0"
                               shell:WindowChrome.IsHitTestVisibleInChrome="True">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <!-- Search box (KillerScan pattern): magnifier + placeholder, compact -->
@@ -336,7 +337,13 @@
                             </Border>
                             <!-- Cross-note replace toggle (GlobalReplace.cs). Lit (Tag="on")
                                  while its row below is open. -->
-                            <Button x:Name="SidebarReplaceBtn" Grid.Column="1" Click="SidebarReplace_Click"
+                            <!-- Filters and saved searches (SearchFilters.cs, 1.6.0): inserts tag:, group:,
+                                 title: and date filters into the box, and saves or recalls a search. -->
+                            <Button x:Name="SearchFilterBtn" Grid.Column="1" Click="SearchFilter_Click"
+                                    Style="{StaticResource RailButton}" FontSize="12" Width="24" Height="24"
+                                    Margin="4,0,0,0" VerticalAlignment="Center" Content="&#xE71C;"
+                                    ToolTip="{DynamicResource Str_TT_SearchFilters}"/>
+                            <Button x:Name="SidebarReplaceBtn" Grid.Column="2" Click="SidebarReplace_Click"
                                     Style="{StaticResource RailButton}" FontSize="12" Width="24" Height="24"
                                     Margin="4,0,0,0" VerticalAlignment="Center" Content="&#xE8AB;"
                                     ToolTip="{DynamicResource Str_TT_SidebarReplace}"/>
@@ -346,7 +353,7 @@
                              above inside every note that carries it, behind a confirmation that
                              names each note and its match count. One transaction, one undo. -->
                         <Grid x:Name="SidebarReplaceRow" Grid.Row="0" Grid.Column="1" Visibility="Collapsed"
-                              Width="280" MaxWidth="{Binding ActualWidth, ElementName=TitleSearchSlot}"
+                              Width="308" MaxWidth="{Binding ActualWidth, ElementName=TitleSearchSlot}"
                               Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12,0,8,0"
                               Opacity="0" Panel.ZIndex="10"
                               shell:WindowChrome.IsHitTestVisibleInChrome="True">
@@ -1002,6 +1009,9 @@
                                      label says "all notes" so the scope is on the row itself. -->
                                 <MenuItem InputGestureText="Alt+E" Header="{DynamicResource Str_Ctx_ExportVault}" Icon="&#xE838;" Click="ExportVault_Click"
                                           ToolTip="{DynamicResource Str_TT_ExportVault}"/>
+                                <!-- The way back in (1.6.0, FolderImport.cs): a folder of Markdown files. -->
+                                <MenuItem InputGestureText="Alt+Shift+I" Header="{DynamicResource Str_Ctx_ImportFolder}" Icon="&#xE8B5;" Click="ImportFolder_Click"
+                                          ToolTip="{DynamicResource Str_TT_ImportFolder}"/>
                                 <!-- One toggle row per defined tag, built on open (Tags.cs) -->
                                 <MenuItem InputGestureText="Alt+K" x:Name="TagsMenu" Header="{DynamicResource Str_Ctx_Tags}" Icon="&#xE8EC;"/>
                                 <!-- One row per group + remove + new, built on open (Groups.cs, #4) -->
@@ -2135,6 +2145,15 @@
                                         </ControlTemplate>
                                     </MenuItem.Template>
                                 </MenuItem>
+                                <MenuItem InputGestureText="Alt+Shift+P" x:Name="RecPlayPauseMenuItem" Icon="&#xE768;"
+                                          Header="{DynamicResource Str_Dict_PlayPause}" Click="RecPlayPause_Click"
+                                          Visibility="Collapsed"/>
+                                <MenuItem InputGestureText="Alt+Shift+Up" x:Name="RecVolumeUpMenuItem" Icon="&#xE995;" StaysOpenOnClick="True"
+                                          Header="{DynamicResource Str_Dict_VolumeUp}" Click="RecVolumeUp_Click"
+                                          Visibility="Collapsed"/>
+                                <MenuItem InputGestureText="Alt+Shift+Down" x:Name="RecVolumeDownMenuItem" Icon="&#xE993;" StaysOpenOnClick="True"
+                                          Header="{DynamicResource Str_Dict_VolumeDown}" Click="RecVolumeDown_Click"
+                                          Visibility="Collapsed"/>
                                 <MenuItem InputGestureText="Ctrl+Shift+F9" x:Name="RecEditMenuItem" Icon="&#xE70F;"
                                           Header="{DynamicResource Str_Dict_EditRec}" Click="RecEdit_Click"
                                           Visibility="Collapsed"/>
@@ -2501,7 +2520,7 @@
                                     ToolTip="{DynamicResource Str_TT_FindNext}"/>
                             <!-- The shared caption X: the glyph and the red hover live in the
                                  style, so this close matches every other close in the app. -->
-                            <Button Click="FindClose_Click" Style="{StaticResource DialogCloseButton}"
+                            <Button Click="FindClose_Click" Style="{StaticResource DialogCloseButton}" AutomationProperties.Name="{DynamicResource Str_TT_FindClose}"
                                     Width="26" Height="24" VerticalAlignment="Center"
                                     ToolTip="{DynamicResource Str_TT_FindClose}"/>
                         </StackPanel>
@@ -2588,12 +2607,43 @@
                       Cursor="IBeam" AllowDrop="True"
                       MouseLeftButtonDown="EmptyState_MouseDown"
                       DragOver="EmptyState_DragOver" Drop="EmptyState_Drop">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"
+                    <TextBlock x:Name="EmptyHint" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"
                                Foreground="{DynamicResource DimTextBrush}" FontSize="13"
                                Text="{DynamicResource Str_EmptyHint}"/>
+                    <!-- A notepad with no notes at all (1.6.0, Welcome.cs): three ways to begin, in
+                         place of the hint. Buttons take their own clicks, so a click on one never
+                         also starts a blank note through the grid behind it. -->
+                    <StackPanel x:Name="WelcomePanel" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Cursor="Arrow" MaxWidth="360">
+                        <TextBlock Text="{DynamicResource Str_Welcome_Head}" FontSize="16" HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextBrush}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource Str_Welcome_Body}" FontSize="12" Margin="0,6,0,16" HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource DimTextBrush}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        <Button x:Name="WelcomeWriteBtn" Content="{DynamicResource Str_Welcome_Write}" Click="WelcomeWrite_Click"
+                                Style="{StaticResource OutlineButton}" Padding="16,6" Margin="0,0,0,8" HorizontalAlignment="Stretch"/>
+                        <Button x:Name="WelcomeSampleBtn" Content="{DynamicResource Str_Welcome_Sample}" Click="WelcomeSample_Click"
+                                ToolTip="{DynamicResource Str_Welcome_SampleHint}"
+                                Style="{StaticResource SurfaceButton}" Padding="16,6" Margin="0,0,0,8" HorizontalAlignment="Stretch"/>
+                        <Button x:Name="WelcomeImportBtn" Content="{DynamicResource Str_Ctx_ImportFolder}" Click="ImportFolder_Click"
+                                Style="{StaticResource SurfaceButton}" Padding="16,6" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
                 </Grid>
             </Grid>
             </Border>
+        </Grid>
+
+        <!-- Lock now (LockNow.cs): all the content row shows while the notes are locked. ScaleHost
+             is hidden behind it, so nothing under it can be tabbed to, clicked or dropped on. -->
+        <Grid x:Name="LockedPanel" Grid.Row="1" Visibility="Collapsed" Background="{DynamicResource BackgroundBrush}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <a11y:Glyph Text="&#xE72E;" FontFamily="Segoe MDL2 Assets" FontSize="40" HorizontalAlignment="Center"
+                            Foreground="{DynamicResource DimTextBrush}"/>
+                <TextBlock x:Name="LockedText" Text="{DynamicResource Str_Lock_Locked}" HorizontalAlignment="Center"
+                           Margin="0,14,0,0" FontSize="13" Foreground="{DynamicResource DimTextBrush}"/>
+                <Button x:Name="LockedUnlockBtn" Content="{DynamicResource Str_Btn_Unlock}" Click="LockedUnlock_Click"
+                        Style="{StaticResource OutlineButton}" FontSize="12" Padding="18,6" Margin="0,16,0,0"
+                        HorizontalAlignment="Center"/>
+            </StackPanel>
         </Grid>
 
         <!-- Status bar (exact copy of KillerScan's: 24px, Consolas 11.5/10, family standard) -->
@@ -2663,6 +2713,28 @@
                             <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
                         </Button.Resources>
                     </Button>
+                </StackPanel>
+                <!-- Footer actions in the Auto column, so they sit beside the version cell and never
+                     squeeze the status text: Cancel for a running vault export (VaultExport.cs), and
+                     the backup warning, shown only while the open notepad's backups are failing or
+                     overdue, which opens Backups (Backup.cs). -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel.Resources>
+                        <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+                    </StackPanel.Resources>
+                    <!-- Save and privacy state (SaveState.cs): "Saved" / "Unsaved changes" / "Save
+                         failed", and a padlock for whether this notepad has a password. -->
+                    <TextBlock x:Name="SaveStateText" Visibility="Collapsed" FontSize="11" Margin="6,0,4,0" VerticalAlignment="Center"
+                               FontFamily="{DynamicResource UiFont}" Foreground="{DynamicResource TextFooter}" Opacity="0.8"/>
+                    <TextBlock x:Name="PadlockGlyph" Visibility="Collapsed" FontFamily="Segoe MDL2 Assets" FontSize="11"
+                               Margin="2,0,6,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFooter}" Opacity="0.8"/>
+                    <Button x:Name="JobCancelBtn" Visibility="Collapsed" Click="JobCancel_Click"
+                            Content="{DynamicResource Str_Btn_Cancel}"
+                            Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
+                            FontSize="10" Padding="8,1" Margin="6,0" VerticalAlignment="Center"/>
+                    <Button x:Name="BackupWarningBtn" Visibility="Collapsed" Click="BackupWarning_Click"
+                            Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
+                            FontSize="10" Padding="8,1" Margin="6,0" VerticalAlignment="Center"/>
                 </StackPanel>
                 <!-- Cell 2: the version + copyright block, its own sunken cell. The visible gap
                      between this and the status cell IS the divider - Win98 never drew a standalone
@@ -2930,6 +3002,39 @@
                                           Content="{DynamicResource Str_About_CloseToTray}"
                                           ToolTip="{DynamicResource Str_About_CloseToTrayHint}"
                                           FontSize="11" Margin="0,6,0,0" Click="AboutCloseToTray_Click"/>
+                                <!-- Lock now's automatic triggers (LockNow.cs). They only act on a
+                                     notepad with a password. -->
+                                <CheckBox x:Name="AboutLockWithWindows"
+                                          Content="{DynamicResource Str_About_LockWithWindows}"
+                                          ToolTip="{DynamicResource Str_About_LockHint}"
+                                          FontSize="11" Margin="0,6,0,0" Click="AboutLockWithWindows_Click"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                    <TextBlock x:Name="AboutIdleLockLabel" Text="{DynamicResource Str_About_IdleLock}" FontSize="11"
+                                               VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
+                                    <ComboBox x:Name="AboutIdleLockCombo" Style="{StaticResource KnCombo}" ItemContainerStyle="{StaticResource KnComboItem}" Height="24" MinWidth="110"
+                                              Margin="8,0,0,0" FontSize="11" SelectionChanged="AboutIdleLock_Changed"
+                                              ToolTip="{DynamicResource Str_About_LockHint}"
+                                              AutomationProperties.LabeledBy="{Binding ElementName=AboutIdleLockLabel}"/>
+                                </StackPanel>
+                                <!-- Quick note (QuickNote.cs): the tray icon that stays while the window is
+                                     open, and the optional global shortcut. -->
+                                <!-- One-time tips in the status line (SaveState.cs). -->
+                                <CheckBox x:Name="AboutShowTips"
+                                          Content="{DynamicResource Str_About_ShowTips}"
+                                          FontSize="11" Margin="0,6,0,0" Click="AboutShowTips_Click"/>
+                                <CheckBox x:Name="AboutKeepTrayIcon"
+                                          Content="{DynamicResource Str_About_KeepTrayIcon}"
+                                          ToolTip="{DynamicResource Str_About_KeepTrayIconHint}"
+                                          FontSize="11" Margin="0,6,0,0" Click="AboutKeepTrayIcon_Click"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                    <TextBlock x:Name="AboutQuickHotkeyLabel" Text="{DynamicResource Str_About_QuickHotkey}" FontSize="11"
+                                               VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
+                                    <ComboBox x:Name="AboutQuickHotkeyCombo" Style="{StaticResource KnCombo}" ItemContainerStyle="{StaticResource KnComboItem}"
+                                              Height="24" MinWidth="110" Margin="8,0,0,0" FontSize="11" SelectionChanged="AboutQuickHotkey_Changed"
+                                              AutomationProperties.LabeledBy="{Binding ElementName=AboutQuickHotkeyLabel}"/>
+                                </StackPanel>
+                                <TextBlock x:Name="AboutQuickHotkeyNote" Visibility="Collapsed" FontSize="10.5" Margin="0,4,0,0"
+                                           TextWrapping="Wrap" Foreground="{DynamicResource DimTextBrush}" AutomationProperties.LiveSetting="Polite"/>
                             </StackPanel>
 
                             <!-- Update notice: shown only when a newer release is found -->
@@ -3156,6 +3261,12 @@
                                 </Hyperlink>
                             </TextBlock>
                             </Grid>
+                            <!-- Command search (1.6.0, ShortcutSearch.cs): typing filters the rows by name
+                                 or keys, Down moves into them, Enter runs the chosen one. -->
+                            <TextBox x:Name="ShortcutSearchBox" Style="{StaticResource EditFieldTextBox}" FontSize="12" Padding="6,4"
+                                     Margin="0,0,0,12" TextChanged="ShortcutSearch_TextChanged"
+                                     AutomationProperties.Name="{DynamicResource Str_KS_SearchName}"
+                                     ToolTip="{DynamicResource Str_KS_SearchHint}"/>
                             <!-- Rows are built in code (Shortcuts.cs BuildShortcutRows). -->
                             <Grid x:Name="ShortcutListHost">
                                 <Grid.ColumnDefinitions>

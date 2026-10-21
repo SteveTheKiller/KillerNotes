@@ -21,7 +21,7 @@ namespace KillerNotes.Shell
     //   Export: F8 or right-click > "Export note as..." - .txt, .rtf, or .html.
     public partial class MainWindow
     {
-        private static readonly string[] TextExts = [".txt", ".log", ".md"];
+        private static readonly string[] TextExts = [".txt", ".log", ".md", ".markdown"];
         private static readonly string[] HtmlExts = [".html", ".htm"];
 
         /// <summary>Set around the sidebar drag-OUT so dropping a note back onto the
@@ -68,8 +68,11 @@ namespace KillerNotes.Shell
                     if (ext == ".kndb") { AddSharedDatabase(path); continue; }   // Sharing.cs
                     if (ext == ".knote") { ImportSharedNote(path); continue; }   // Sharing.cs
 
+                    // Markdown and text take the folder import's rules (Sharing.cs, 1.6.0): front
+                    // matter, Markdown as written, and a file already in opens its note.
                     long id = ext == ".rtf" ? ImportRtf(path)
                             : ImgExts.Contains(ext) ? ImportImage(path)
+                            : ext is ".md" or ".markdown" or ".txt" ? ImportTextFile(path)
                             : ImportText(path);
                     if (id >= 0) { made++; lastId = id; }
                 }
@@ -223,12 +226,18 @@ namespace KillerNotes.Shell
                 bool imagesSkipped = false;
                 switch (Path.GetExtension(dlg.FileName).ToLowerInvariant())
                 {
+                    // Every format writes through AtomicFile: a failure partway (a full disk, a
+                    // locked file) leaves whatever was already at that name untouched.
                     case ".rtf":
-                        using (var fs = File.Create(dlg.FileName))
+                        AtomicFile.Write(dlg.FileName, staged =>
+                        {
+                            using var fs = File.Create(staged);
                             new TextRange(doc.ContentStart, doc.ContentEnd).Save(fs, DataFormats.Rtf);
+                        });
                         break;
                     case ".html":
-                        File.WriteAllText(dlg.FileName, DocumentToHtml(doc, n.Title), Encoding.UTF8);
+                        string html = DocumentToHtml(doc, n.Title);
+                        AtomicFile.Write(dlg.FileName, staged => File.WriteAllText(staged, html, Encoding.UTF8));
                         break;
                     case ".md":
                         // Markdown notes: the editor is a per-line paragraph view of the source, so
@@ -237,13 +246,15 @@ namespace KillerNotes.Shell
                         // extracts inline images to a sibling <name>.assets/ folder.
                         if (saved ? NoteStore.GetFormat(n.Id) == Note.FormatMarkdown : CurrentIsMarkdown)
                         {
-                            File.WriteAllText(dlg.FileName,
-                                new TextRange(doc.ContentStart, doc.ContentEnd).Text, Encoding.UTF8);
+                            string source = new TextRange(doc.ContentStart, doc.ContentEnd).Text;
+                            AtomicFile.Write(dlg.FileName, staged => File.WriteAllText(staged, source, Encoding.UTF8));
                         }
                         else
                         {
+                            // The assets folder is named after the real file, so the links in the
+                            // markdown are right once it takes that name.
                             var (md, skipped) = MarkdownWriter.FromDocument(doc, dlg.FileName);
-                            File.WriteAllText(dlg.FileName, md, Encoding.UTF8);
+                            AtomicFile.Write(dlg.FileName, staged => File.WriteAllText(staged, md, Encoding.UTF8));
                             imagesSkipped = skipped;
                         }
                         break;
@@ -257,8 +268,8 @@ namespace KillerNotes.Shell
                         NoteStore.ExportNote(n.Id, dlg.FileName, password: null);
                         break;
                     default:
-                        File.WriteAllText(dlg.FileName,
-                            new TextRange(doc.ContentStart, doc.ContentEnd).Text, Encoding.UTF8);
+                        string text = new TextRange(doc.ContentStart, doc.ContentEnd).Text;
+                        AtomicFile.Write(dlg.FileName, staged => File.WriteAllText(staged, text, Encoding.UTF8));
                         break;
                 }
                 StatusText.Text = imagesSkipped

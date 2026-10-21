@@ -19,6 +19,7 @@ namespace KillerNotes.Shell
         [
             new("Alt+S", Key.S, ModifierKeys.Alt, "Str_Ctx_ShareNote", "File", w => w.RunNoteAction(w.ShareNote_Click)),
             new("Alt+E", Key.E, ModifierKeys.Alt, "Str_Ctx_ExportVault", "File", w => w.ExportVault_Click(w, new RoutedEventArgs())),
+            new("Alt+Shift+I", Key.I, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_ImportFolder", "File", w => w.ImportFolder_Click(w, new RoutedEventArgs())),
             new("Alt+R", Key.R, ModifierKeys.Alt, "Str_Ctx_TitleColorReset", "Note", w => w.RunNoteAction(w.TitleColorReset_Click)),
             new("Alt+V", Key.V, ModifierKeys.Alt, "Str_Ctx_PreviewGlobal", "View", w => w.PreviewDetectGlobal_Click(w, new RoutedEventArgs())),
             new("Alt+F", Key.F, ModifierKeys.Alt, "Str_KS_ConvertFormat", "Note", w => w.RunNoteAction(w.ConvertFormat_Click)),
@@ -27,6 +28,7 @@ namespace KillerNotes.Shell
             new("Alt+K", Key.K, ModifierKeys.Alt, "Str_Ctx_Tags", "Note", w => w.OpenNoteSubmenu(w.TagsMenu)),
             new("Alt+A", Key.A, ModifierKeys.Alt, "Str_TT_Databases", "File", w => w.ManageDatabases_Click(w, new RoutedEventArgs()), "DatabasesBtn"),
             new("Alt+U", Key.U, ModifierKeys.Alt, "Str_TT_Lock", "File", w => w.LockButton_Click(w, new RoutedEventArgs()), "LockButton"),
+            new("Ctrl+Shift+U", Key.U, ModifierKeys.Control | ModifierKeys.Shift, "Str_Lock_Now", "File", w => w.LockNow(automatic: false)),
             new("Alt+J", Key.J, ModifierKeys.Alt, "Str_TT_Language", "View", w => w.LangButton_Click(w.LangButton, new RoutedEventArgs()), "LangButton"),
             new("Alt+I", Key.I, ModifierKeys.Alt, "Str_TT_InsertImage", "Format", w => w.InsertImageBtn_Click(w.FmtImageBtn, new RoutedEventArgs()), "FmtImageBtn"),
             new("Alt+Q", Key.Q, ModifierKeys.Alt, "Str_Whisper_Menu", "View", w => w.SpeechModel_Click(w, new RoutedEventArgs())),
@@ -54,6 +56,11 @@ namespace KillerNotes.Shell
             new("Ctrl+Shift+F6", Key.F6, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Source", "View", w => w.PreviewSource_Click(w, new RoutedEventArgs()), "PreviewSourceMenuItem"),
             new("Ctrl+Shift+F7", Key.F7, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Rendered", "View", w => w.PreviewRendered_Click(w, new RoutedEventArgs()), "PreviewRenderedMenuItem"),
             new("Ctrl+Shift+F8", Key.F8, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Split", "View", w => w.PreviewSplit_Click(w, new RoutedEventArgs()), "PreviewSplitMenuItem"),
+            // The recording beside the caret: the keyboard route to the chip's own play glyph and
+            // volume knob, which only the mouse can reach inside the editor.
+            new("Alt+Shift+P", Key.P, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_PlayPause", "Note", w => w.RunRecordingAction(w.RecPlayPause_Click), "RecPlayPauseMenuItem"),
+            new("Alt+Shift+Up", Key.Up, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_VolumeUp", "Note", w => w.RunRecordingAction(w.RecVolumeUp_Click), "RecVolumeUpMenuItem"),
+            new("Alt+Shift+Down", Key.Down, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_VolumeDown", "Note", w => w.RunRecordingAction(w.RecVolumeDown_Click), "RecVolumeDownMenuItem"),
             new("Ctrl+Shift+F9", Key.F9, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_EditRec", "Note", w => w.RunRecordingAction(w.RecEdit_Click), "RecEditMenuItem"),
             new("Ctrl+Shift+F10", Key.F10, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_SaveAs", "File", w => w.RunRecordingAction(w.RecSaveAs_Click), "RecSaveAsMenuItem"),
             new("Ctrl+Shift+F11", Key.F11, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_CopyFile", "File", w => w.RunRecordingAction(w.RecCopyFile_Click), "RecCopyFileMenuItem"),
@@ -62,6 +69,7 @@ namespace KillerNotes.Shell
             new("Alt+5", Key.D5, ModifierKeys.Alt, "Str_TT_SortAlphaOff", "View", w => w.SortAlphaBtn_Click(w, new RoutedEventArgs()), "SortAlphaBtn"),
             new("Alt+6", Key.D6, ModifierKeys.Alt, "Str_TT_SortCustom", "View", w => w.SortCustomBtn_Click(w, new RoutedEventArgs()), "SortCustomBtn"),
             new("Alt+8", Key.D8, ModifierKeys.Alt, "Str_TT_SidebarReplace", "Search", w => w.SidebarReplace_Click(w, new RoutedEventArgs()), "SidebarReplaceBtn"),
+            new("Alt+Shift+F", Key.F, ModifierKeys.Alt | ModifierKeys.Shift, "Str_TT_SearchFilters", "Search", w => w.SearchFilter_Click(w.SearchFilterBtn, new RoutedEventArgs()), "SearchFilterBtn"),
             new("Alt+9", Key.D9, ModifierKeys.Alt, "Str_TT_SidebarReplaceAll", "Search", w => w.SidebarReplaceAll_Click(w, new RoutedEventArgs())),
             new("Alt+7", Key.D7, ModifierKeys.Alt, "Str_Ctx_ReverseOrder", "View", w => w.SortMenuItem_Click(new MenuItem { Tag = "reverse" }, new RoutedEventArgs())),
             new("Ctrl+Shift+1", Key.D1, ModifierKeys.Control | ModifierKeys.Shift, "Str_Ctx_TblRowAbove", "Format", w => w.RunTableAction(w.TableRowAbove_Click), "TblRowAboveMenuItem"),

@@ -143,12 +143,17 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Button x:Name="BackupNowBtn" Content="{DynamicResource Str_Btn_BackupNow}" Click="BackupNow_Click"
                                 Style="{StaticResource SurfaceButton}" Padding="12,0" Height="28"/>
+                        <!-- Reads the selected backup (the newest when none is) back from a temporary
+                             copy; nothing in the data folder changes (BackupService.TestRestore). -->
+                        <Button x:Name="TestRestoreBtn" Content="{DynamicResource Str_Btn_TestRestore}" Click="TestRestore_Click"
+                                ToolTip="{DynamicResource Str_Bk_TestTip}"
+                                Style="{StaticResource SurfaceButton}" Padding="12,0" Height="28" Margin="8,0,0,0" IsEnabled="False"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button x:Name="RestoreBtn" Content="{DynamicResource Str_Btn_RestoreBackup}" Click="Restore_Click"
                                 Style="{StaticResource SurfaceButton}" Padding="12,0" Height="28" Margin="0,0,8,0" IsEnabled="False"/>
                         <Button x:Name="DoneBtn" Content="{DynamicResource Str_Btn_Done}" Click="Close_Click"
-                                Style="{StaticResource OutlineButton}" Width="80"/>
+                                Style="{StaticResource OutlineButton}" MinWidth="80" Padding="12,2"/>
                     </StackPanel>
                 </Grid>
             </Grid>

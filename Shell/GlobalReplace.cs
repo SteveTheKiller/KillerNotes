@@ -91,7 +91,10 @@ namespace KillerNotes.Shell
         private void SidebarReplaceAll_Click(object sender, RoutedEventArgs e)
         {
             if (NoteStore.IsReadOnly) return;
-            string term = SearchBox.Text ?? "";
+            // The notes come from the whole search, filters included; what is replaced is only its
+            // words and phrases (Services/SearchQuery.cs), so "tag:work budget" replaces "budget".
+            string search = SearchBox.Text ?? "";
+            string term = SearchQuery.Parse(search).FreeText;
             string repl = SidebarReplaceBox.Text ?? "";
             if (term.Length == 0) { FlashStatus(Loc("Str_St_ReplaceNeedsTerm")); return; }
 
@@ -103,7 +106,7 @@ namespace KillerNotes.Shell
             var affected = new List<(long Id, string Title, string BodyBefore, FlowDocument Doc,
                                      List<(int Start, int Length)> Hits,
                                      List<(int Offset, TextPointer Start, int Length)> Runs)>();
-            foreach (var note in NoteStore.List(term))
+            foreach (var note in NoteStore.List(search))
             {
                 byte[]? blob = NoteStore.LoadContent(note.Id);
                 if (blob == null) continue;
@@ -279,8 +282,16 @@ namespace KillerNotes.Shell
         private static string SketchLabelTextFor(long noteId)
         {
             var parts = new List<string>();
-            foreach (var kv in NoteStore.LoadSketches(noteId))
-                foreach (var o in SketchModel.Deserialize(kv.Value))
+            // The payloads the stored body names, or the ordinal rows for a note saved before
+            // sketch markers existed (Services/Sketch.cs).
+            var payloads = Attachments.MarkersIn(NoteStore.LoadContent(noteId))
+                .Select(NoteStore.GetAttachment)
+                .Where(a => a?.Kind == AttachmentKind.Sketch)
+                .Select(a => a!.Payload)
+                .ToList();
+            if (payloads.Count == 0) payloads = NoteStore.LoadSketches(noteId).Values.ToList();
+            foreach (var payload in payloads)
+                foreach (var o in SketchModel.Deserialize(payload))
                     if (o.Kind == SketchKind.Text && !string.IsNullOrWhiteSpace(o.Text))
                         parts.Add(o.Text!.Trim());
             return string.Join("\n", parts);

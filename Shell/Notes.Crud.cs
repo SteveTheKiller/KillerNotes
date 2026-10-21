@@ -99,6 +99,13 @@ namespace KillerNotes.Shell
                 _syncingSelection = false;
                 Editor.Focus();
             }
+            else if (NotepadIsEmpty())
+            {
+                // Nothing at all to open (1.6.0, Welcome.cs): three ways to begin rather than a
+                // blank note made on the user's behalf.
+                ShowEditor(false);
+                ShowWelcome(true);
+            }
             else
             {
                 CreateNewNote(focusTitle: false);

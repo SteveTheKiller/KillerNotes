@@ -158,7 +158,24 @@ namespace KillerNotes.Shell
         /// <summary>Serializes the selection to the formats WPF's native copy produces and
         /// puts them on the clipboard, retrying while another process holds it. Returns
         /// false only if the clipboard could not be set at all.</summary>
-        private bool TrySetClipboardFromSelection()
+        private bool TrySetClipboardFromSelection() => TryPutOnClipboard(BuildSelectionData());
+
+        /// <summary>The selection in every clipboard format, with sketches and recordings marked
+        /// and their payloads carried along (Editor.RecordingStore.cs), so a paste keeps them
+        /// editable and playable.</summary>
+        internal DataObject BuildSelectionData()
+        {
+            var sketches = KillerNotes.Services.Sketch.CaptureAttachments(Editor.Document.Blocks);
+            var data = BuildSelectionFormats();
+            if (data.GetData(DataFormats.XamlPackage) is MemoryStream pkg)
+            {
+                try { data.SetData(AttachmentsFormat, new MemoryStream(AttachmentEnvelope(pkg.ToArray(), sketches), false)); }
+                catch { /* the pictures still paste */ }
+            }
+            return data;
+        }
+
+        private DataObject BuildSelectionFormats()
         {
             var range = new TextRange(Editor.Selection.Start, Editor.Selection.End);
             var data = new DataObject();
@@ -184,12 +201,9 @@ namespace KillerNotes.Shell
                 // format on a large selection. The DataObject gets its own stream over the
                 // bytes, deliberately NOT disposed: it hands that stream to whoever pastes.
                 // XamlPackage is the format that carries images, so a KillerNotes-to-KillerNotes
-                // paste keeps them.
-                using (var pkg = new MemoryStream())
-                {
-                    range.Save(pkg, DataFormats.XamlPackage);
-                    package = pkg.ToArray();
-                }
+                // paste keeps them. Recording chips go up as their marked pictures, built on a
+                // copy so the copy never touches the editor's undo history (Editor.RecordingStore.cs).
+                package = SaveMarked(range.Start, range.End);
                 data.SetData(DataFormats.XamlPackage, new MemoryStream(package, false));
             }
             catch { /* as above */ }
@@ -210,7 +224,7 @@ namespace KillerNotes.Shell
 
             // The flush that makes the content survive the app closing follows in the
             // background (TryPutOnClipboard).
-            return TryPutOnClipboard(data);
+            return data;
         }
     }
 }

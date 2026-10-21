@@ -145,48 +145,36 @@ namespace KillerNotes.Tests
             Assert.Equal(900, NoteStore.LoadRecordingIndex(copy)[0]);
         });
 
-        [Fact]
-        public void SavingAnEditedRecordingAfterSwitchingNotesUpdatesItsOriginalNote() => Sta.Run(() =>
+        // Editing a recording after switching notes or databases: RecordingPersistenceTests.
+
+        [Theory]
+        [InlineData("--content", "--title", "--title", "Actual title")]
+        [InlineData("--title", "Actual title", "--content", "--title")]
+        [InlineData("--content", "--group", "--group", "--tags", "--title", "Actual title")]
+        public void OptionLikeValuesStayValues(params string[] options) => Sta.Run(() =>
         {
             using var store = new TempStore();
-            long original = NoteStore.Create("Original");
-            long current = NoteStore.Create("Current");
-            byte[] oldOriginal = [1, 2, 3, 4];
-            byte[] oldCurrent = [5, 6, 7, 8];
-            byte[] edited = [9, 10, 11, 12];
-            NoteStore.AddRecording(original, oldOriginal, 100);
-            NoteStore.AddRecording(current, oldCurrent, 100);
-
             var shell = DetachedShell();
-            typeof(MainWindow).GetField("_currentId", PrivateInstance)!.SetValue(shell, current);
-            typeof(MainWindow).GetMethod("EmbedRecordingInNote", PrivateInstance)!
-                .Invoke(shell, new object[] { edited, 200, 0, original, NoteStore.DbPath });
-
-            Assert.Equal(edited, NoteStore.LoadRecordingRaw(original, 0));
-            Assert.Equal(oldCurrent, NoteStore.LoadRecordingRaw(current, 0));
+            // The detached window has no sidebar to refresh once the note is stored; the store
+            // is what this checks.
+            var error = Record.Exception(() => Execute(shell, new[] { "create" }.Concat(options).ToArray()));
+            Assert.True(error == null || error.InnerException is ArgumentNullException, error?.ToString());
+            var note = Assert.Single(NoteStore.List());
+            Assert.Equal("Actual title", note.Title);
+            int at = Array.IndexOf(options, "--content");
+            Assert.Equal(options[at + 1], MarkdownBlob.Decode(NoteStore.LoadContent(note.Id)));
         });
 
-        [Fact]
-        public void SavingAnEditAfterSwitchingDatabasesCannotReplaceAnotherRecording() => Sta.Run(() =>
+        [Theory]
+        [InlineData("create", "--title", "a", "--title", "b", "--content", "x")]
+        [InlineData("create", "--title", "a", "--content", "x", "--unknown", "y")]
+        [InlineData("create", "--title", "a", "--content")]
+        public void DuplicateUnknownAndMissingOptionsChangeNothing(params string[] args) => Sta.Run(() =>
         {
-            string originalDatabase;
-            using (new TempStore())
-            {
-                long original = NoteStore.Create("Original");
-                NoteStore.AddRecording(original, [1, 2, 3, 4], 100);
-                originalDatabase = NoteStore.DbPath;
-            }
-
-            using var currentStore = new TempStore();
-            long current = NoteStore.Create("Current");
-            byte[] currentAudio = [5, 6, 7, 8];
-            NoteStore.AddRecording(current, currentAudio, 100);
-            var shell = DetachedShell();
-            typeof(MainWindow).GetField("_currentId", PrivateInstance)!.SetValue(shell, current);
-            Assert.Throws<TargetInvocationException>(() =>
-                typeof(MainWindow).GetMethod("EmbedRecordingInNote", PrivateInstance)!
-                    .Invoke(shell, new object[] { new byte[] { 9, 10 }, 200, 0, current, originalDatabase }));
-            Assert.Equal(currentAudio, NoteStore.LoadRecordingRaw(current, 0));
+            using var store = new TempStore();
+            var error = Assert.Throws<TargetInvocationException>(() => Execute(DetachedShell(), args));
+            Assert.IsType<ArgumentException>(error.InnerException);
+            Assert.Empty(NoteStore.List());
         });
     }
 }

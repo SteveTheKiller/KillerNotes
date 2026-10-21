@@ -28,6 +28,45 @@ namespace KillerNotes.Services
             return Format.Unknown;
         }
 
+        /// <summary>A WAV or FLAC payload's length from its header, for the chip of a recording that
+        /// arrives as a file (folder import). 0 when the header cannot say.</summary>
+        internal static int DurationMs(byte[]? data)
+        {
+            try
+            {
+                switch (Sniff(data))
+                {
+                    case Format.Wav:
+                    {
+                        int byteRate = 0;
+                        for (int at = 12; at + 8 <= data!.Length;)
+                        {
+                            string id = System.Text.Encoding.ASCII.GetString(data, at, 4);
+                            int size = BitConverter.ToInt32(data, at + 4);
+                            if (id == "fmt " && size >= 16) byteRate = BitConverter.ToInt32(data, at + 16);
+                            if (id == "data") return byteRate > 0 ? (int)(Math.Min(size, data.Length - at - 8) * 1000L / byteRate) : 0;
+                            if (size < 0) return 0;
+                            at += 8 + size + (size & 1);
+                        }
+                        return 0;
+                    }
+                    case Format.Flac:
+                    {
+                        // STREAMINFO follows "fLaC" and a 4-byte block header: 10 bytes of block and
+                        // frame sizes, then a 20-bit sample rate and, after channels and bit depth,
+                        // a 36-bit total sample count.
+                        if (data!.Length < 26) return 0;
+                        int rate = (data[18] << 12) | (data[19] << 4) | (data[20] >> 4);
+                        long samples = ((long)(data[21] & 0x0F) << 32) | (uint)(data[22] << 24 | data[23] << 16 | data[24] << 8 | data[25]);
+                        return rate > 0 ? (int)Math.Min(int.MaxValue, samples * 1000 / rate) : 0;
+                    }
+                    default:
+                        return 0;
+                }
+            }
+            catch (ArgumentException) { return 0; }   // a truncated header
+        }
+
         internal static string ExtensionFor(byte[]? data) => Sniff(data) switch
         {
             Format.Flac => ".flac",

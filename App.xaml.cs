@@ -29,6 +29,7 @@ namespace KillerNotes
         /// <summary>A .kndb/.knote path passed on the command line (double-clicked file);
         /// MainWindow picks it up after the database opens (Sharing.cs).</summary>
         internal static string? PendingOpenFile;
+        internal static bool PendingQuickNote;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -44,7 +45,7 @@ namespace KillerNotes
             var cliArgs = KillerFamily.CommandLine.CommandLineEntry.GetArguments(e.Args,
                 ["search", "list", "get", "groups", "tags", "backlinks", "links", "history", "stats",
                  "create", "update", "create-group", "set-group-color", "set-title-color", "import-image",
-                 "export", "share", "export-all", "detect-markdown", "convert", "templates", "create-from-template",
+                 "export", "share", "export-all", "import-folder", "detect-markdown", "convert", "templates", "create-from-template",
                  "today", "trash-list", "trash", "restore", "pin", "unpin", "version-get", "version-restore",
                  "rename-group", "delete-group", "tag-definitions", "create-tag", "rename-tag", "delete-tag",
                  "set-tag-color", "template-group", "daily-group", "backup-now", "permanent-delete", "empty-trash"]);
@@ -146,8 +147,10 @@ namespace KillerNotes
             if (e.Args.Length > 0 && File.Exists(e.Args[0]))
             {
                 string ext = Path.GetExtension(e.Args[0]).ToLowerInvariant();
-                if (ext == ".kndb" || ext == ".knote") PendingOpenFile = e.Args[0];
+                if (ext == ".kndb" || ext == ".knote" || Array.IndexOf(OpenWithExts, ext) >= 0) PendingOpenFile = e.Args[0];
             }
+            // Taskbar jump list, tray-less shortcut or script: open the quick-note window.
+            PendingQuickNote = Services.QuickCapture.IsQuickNoteLaunch(e.Args);
 
             // Single instance (per desktop session). Two instances sharing the same
             // notes.db is how the password-change file swap fails with "in use by
@@ -162,11 +165,14 @@ namespace KillerNotes
                 _instanceMutex = new Mutex(true, @"Local\KillerNotes-SingleInstance", out bool firstInstance);
                 if (!firstInstance)
                 {
-                    ForwardToRunningInstance(PendingOpenFile);
+                    ForwardToRunningInstance(PendingQuickNote ? Services.QuickCapture.PipeMessage : PendingOpenFile);
                     Shutdown(0);
                     return;
                 }
                 StartPipeServer();
+                // Only the first instance owns TEMP\KillerNotes, so only it clears files that
+                // earlier note drags left for their receivers (Shell/NoteDragData.cs).
+                KillerNotes.Shell.NoteDragData.RemoveLeftovers(KillerNotes.Shell.NoteDragData.DefaultTempRoot);
             }
 
             // Portable/per-user: HKCU, best-effort, idempotent. The machine-wide copy skips
@@ -197,7 +203,9 @@ namespace KillerNotes
             ShutdownMode = ShutdownMode.OnLastWindowClose;
             MainWindow = new KillerNotes.Shell.MainWindow();
             // Started from the Run value: open minimized on the taskbar.
-            if (KillerFamily.Deployment.StartupRegistration.HasMinimizedArgument(e.Args))
+            // A --quick-note first launch keeps the main window out of the way too: the quick-note
+            // window is what was asked for.
+            if (KillerFamily.Deployment.StartupRegistration.HasMinimizedArgument(e.Args) || PendingQuickNote)
                 KillerFamily.Deployment.StartupRegistration.StartMinimized(MainWindow);
             MainWindow.Show();
             StartMcpPipeServer();
@@ -239,12 +247,13 @@ namespace KillerNotes
                 {
                     try
                     {
+                        // Asynchronous, so the bounded read below can give up on a client that
+                        // stalls; disposing the server at the end of each pass drops it.
                         using var server = new NamedPipeServerStream(
-                            PipeName, PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.None);
+                            PipeName, PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
                         server.WaitForConnection();
-                        using var r = new StreamReader(server);
-                        string? path = r.ReadLine();
-                        Dispatcher.BeginInvoke(new Action(() => OnForwardedLaunch(path)));
+                        string? path = Services.LaunchMessage.ReadLine(server, TimeSpan.FromSeconds(5), 64 * 1024);
+                        if (path != null) Dispatcher.BeginInvoke(new Action(() => OnForwardedLaunch(path)));
                     }
                     catch (IOException) { /* client vanished mid-handshake - keep listening */ }
                     catch (ObjectDisposedException) { return; }
@@ -255,10 +264,13 @@ namespace KillerNotes
         }
 
         /// <summary>UI thread: brings the window to the front and routes a forwarded
-        /// .knote/.kndb through the same import path as a first-launch double-click.</summary>
+        /// .knote/.kndb/.md/.txt through the same import path as a first-launch double-click.
+        /// A forwarded --quick-note opens only the quick-note window, leaving the main window
+        /// where it is, in the tray included.</summary>
         private void OnForwardedLaunch(string? path)
         {
             if (MainWindow is not KillerNotes.Shell.MainWindow win) return;
+            if (path == Services.QuickCapture.PipeMessage) { win.ShowQuickNote(); return; }
 
             // Also brings it back from the notification area (Close to system tray).
             win.ShowFromTray();
@@ -266,7 +278,7 @@ namespace KillerNotes
 
             if (string.IsNullOrEmpty(path) || !File.Exists(path)) return;
             string ext = Path.GetExtension(path).ToLowerInvariant();
-            if (ext != ".kndb" && ext != ".knote") return;
+            if (ext != ".kndb" && ext != ".knote" && Array.IndexOf(OpenWithExts, ext) < 0) return;
 
             PendingOpenFile = path;
             win.HandlePendingOpenFile();
@@ -311,6 +323,7 @@ namespace KillerNotes
                 string dbIcon   = ExtractIcon("kn-db.ico",   iconDir) is string dp ? $"{dp},0" : $"{exe},0";
                 RegisterType(root, ".kndb",  "KillerNotes.Database", "KillerNotes Database",    exe, dbIcon);
                 RegisterType(root, ".knote", "KillerNotes.Note",     "KillerNotes Shared Note", exe, noteIcon);
+                RegisterOpenWith(root, exe, noteIcon);
 
                 using (var cap = root.CreateSubKey(@"Software\KillerNotes\Capabilities"))
                 {
@@ -321,6 +334,7 @@ namespace KillerNotes
                 {
                     fa.SetValue(".kndb",  "KillerNotes.Database");
                     fa.SetValue(".knote", "KillerNotes.Note");
+                    foreach (string ext in OpenWithExts) fa.SetValue(ext, OpenWithProgId);
                 }
                 using (var ra = root.CreateSubKey(@"Software\RegisteredApplications"))
                     ra.SetValue(AppName, @"Software\KillerNotes\Capabilities");
@@ -338,6 +352,17 @@ namespace KillerNotes
             try { root.DeleteSubKeyTree(@"Software\Classes\.knote", false); } catch { }
             try { root.DeleteSubKeyTree(@"Software\Classes\KillerNotes.Database", false); } catch { }
             try { root.DeleteSubKeyTree(@"Software\Classes\KillerNotes.Note", false); } catch { }
+            try { root.DeleteSubKeyTree($@"Software\Classes\{OpenWithProgId}", false); } catch { }
+            foreach (string ext in OpenWithExts)
+            {
+                // Only our entry: the extension, its default app and other apps' entries stay.
+                try
+                {
+                    using var open = root.OpenSubKey($@"Software\Classes\{ext}\OpenWithProgids", writable: true);
+                    open?.DeleteValue(OpenWithProgId, throwOnMissingValue: false);
+                }
+                catch { }
+            }
             try { root.DeleteSubKeyTree(@"Software\KillerNotes\Capabilities", false); } catch { }
             try
             {
@@ -367,6 +392,28 @@ namespace KillerNotes
                 return dest;
             }
             catch { return null; }
+        }
+
+        // Open with (1.6.0, KN-P04): KillerNotes is offered for Markdown and text files and imports
+        // the opened file as a note (Sharing.cs). It is never made their default app: only an
+        // OpenWithProgids entry is added, so whatever opens them today keeps doing so.
+        private const string OpenWithProgId = "KillerNotes.Text";
+        private static readonly string[] OpenWithExts = [".md", ".markdown", ".txt"];
+
+        private static void RegisterOpenWith(RegistryKey root, string exe, string iconSpec)
+        {
+            using (var k = root.CreateSubKey($@"Software\Classes\{OpenWithProgId}"))
+            {
+                k.SetValue("", "KillerNotes note");
+                k.SetValue("FriendlyTypeName", "KillerNotes note");
+            }
+            using (var k = root.CreateSubKey($@"Software\Classes\{OpenWithProgId}\DefaultIcon"))
+                k.SetValue("", iconSpec);
+            using (var k = root.CreateSubKey($@"Software\Classes\{OpenWithProgId}\shell\open\command"))
+                k.SetValue("", $"\"{exe}\" \"%1\"");
+            foreach (string ext in OpenWithExts)
+                using (var k = root.CreateSubKey($@"Software\Classes\{ext}\OpenWithProgids"))
+                    k.SetValue(OpenWithProgId, Array.Empty<byte>(), RegistryValueKind.None);
         }
 
         private static void RegisterType(RegistryKey root, string ext, string progId, string display, string exe, string iconSpec)

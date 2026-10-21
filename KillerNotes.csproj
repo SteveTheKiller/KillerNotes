@@ -12,6 +12,8 @@
     <UseWPF>true</UseWPF>
     <StartupObject>KillerNotes.App</StartupObject>
     <ApplicationIcon>Resources\kn-icon.ico</ApplicationIcon>
+    <!-- Per-monitor DPI (1.6.0); same manifest as KillerPDF. -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <Version>1.6.0</Version>
     <FileVersion>1.6.0.0</FileVersion>
     <AssemblyVersion>1.6.0.0</AssemblyVersion>

@@ -37,6 +37,7 @@ namespace KillerNotes.Shell
         // live theme's colors, the same way the editor shows the current one.
         internal static void NormalizeThemeColors(FlowDocument doc)
         {
+            PinTextOnColoredGround(doc);
             doc.ClearValue(FlowDocument.ForegroundProperty);
             doc.ClearValue(FlowDocument.BackgroundProperty);
             foreach (var block in doc.Blocks.ToList()) NormalizeBlock(block);
@@ -99,10 +100,54 @@ namespace KillerNotes.Shell
                 }
                 return;
             }
-            if (te.ReadLocalValue(TextElement.ForegroundProperty) is SolidColorBrush f && IsNeutralColor(f.Color))
-                te.ClearValue(TextElement.ForegroundProperty);
             if (te.ReadLocalValue(TextElement.BackgroundProperty) is SolidColorBrush b && IsNeutralColor(b.Color))
                 te.ClearValue(TextElement.BackgroundProperty);
+            // Neutral text follows the theme, EXCEPT text on a deliberate colored ground: the
+            // highlighter pairs black with yellow, and clearing the black left theme-white text on
+            // yellow in every dark theme.
+            if (te.ReadLocalValue(TextElement.ForegroundProperty) is SolidColorBrush f && IsNeutralColor(f.Color) &&
+                !OnColoredGround(te))
+                te.ClearValue(TextElement.ForegroundProperty);
+        }
+
+        /// <summary>The note format omits a run's text color when it equals the document default,
+        /// so highlighted black text often comes back inheriting its black from the document root.
+        /// Clearing that root color (below) would hand the run the theme's text color; pin the
+        /// color it shows now onto the run itself first.</summary>
+        private static void PinTextOnColoredGround(FlowDocument doc)
+        {
+            var runs = new List<Run>();
+            for (var p = doc.ContentStart; p != null && p.CompareTo(doc.ContentEnd) < 0; p = p.GetNextContextPosition(LogicalDirection.Forward))
+                if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementStart && p.GetAdjacentElement(LogicalDirection.Forward) is Run r)
+                    runs.Add(r);
+            PinTextOnColoredGround(runs);
+        }
+
+        private static void PinTextOnColoredGround(IEnumerable<Run> runs)
+        {
+            foreach (var run in runs)
+                if (run.ReadLocalValue(TextElement.ForegroundProperty) == DependencyProperty.UnsetValue &&
+                    OnColoredGround(run) && run.Foreground is SolidColorBrush shown && IsNeutralColor(shown.Color) &&
+                    Luminance(shown.Color) < 0.5)
+                    run.Foreground = new SolidColorBrush(shown.Color);
+        }
+
+        /// <summary>True when this element or one of its text ancestors has a LIGHT, non-neutral
+        /// background of its own: the highlighter's yellow, where only dark text reads. Text on the
+        /// dark background swatches is left to follow the theme, as it always did.</summary>
+        private static bool OnColoredGround(TextElement te)
+        {
+            for (DependencyObject? d = te; d is TextElement e; d = e.Parent)
+                if (e.ReadLocalValue(TextElement.BackgroundProperty) is SolidColorBrush g && g.Color.A > 0 && !IsNeutralColor(g.Color))
+                    return Luminance(g.Color) >= 0.5;   // the nearest ground decides
+            return false;
+        }
+
+        /// <summary>Relative luminance (0 black .. 1 white), sRGB.</summary>
+        private static double Luminance(Color c)
+        {
+            static double Lin(byte v) { double s = v / 255.0; return s <= 0.03928 ? s / 12.92 : Math.Pow((s + 0.055) / 1.055, 2.4); }
+            return 0.2126 * Lin(c.R) + 0.7152 * Lin(c.G) + 0.0722 * Lin(c.B);
         }
 
         // ---- Character formatting (color, highlight, strikethrough, monospace) ----
@@ -165,7 +210,7 @@ namespace KillerNotes.Shell
 
         private void ApplyToSelection(DependencyProperty prop, object? value, bool focusEditor = true)
         {
-            if (_currentId < 0) return;
+            if (!CanEditCurrentNote()) return;
             Editor.Selection.ApplyPropertyValue(prop, value);
             MarkDirty();
             if (focusEditor) Editor.Focus();
@@ -177,7 +222,7 @@ namespace KillerNotes.Shell
         // theme-reactive references.
         private void InsertRule_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentId < 0) return;
+            if (!CanEditCurrentNote()) return;
             var hr = new Paragraph
             {
                 FontSize = 2,

@@ -57,7 +57,12 @@ namespace KillerNotes.Features.Security
                 _host.SetStatus(string.Format(_host.Loc("Str_St_OpenDbFailed"), ex.Message));
                 return false;
             }
+            return FinishOpen();
+        }
 
+        /// <summary>Everything after the store itself is open: warnings, navigation, the note list.</summary>
+        private bool FinishOpen()
+        {
             WarnNetworkFolder();
             WarnReadOnly();
             string database = Path.GetFullPath(NoteStore.DbPath);
@@ -69,8 +74,56 @@ namespace KillerNotes.Features.Security
             _host.ApplyReadOnlyState();
             _host.LoadNotes();
             _host.ShowLockState(NoteStore.HasPassword);
+            if (IsLocked)
+            {
+                IsLocked = false;
+                _host.LeaveLocked();
+            }
             if (_pendingStatus != null) { _host.SetStatus(_pendingStatus); _pendingStatus = null; }
             return true;
+        }
+
+        // ---- Lock now ----
+        // The title-bar lock above manages encryption; this ends an unlocked session. Only a
+        // database with a password can lock: without one the file on disk is readable anyway,
+        // and hiding the window would only pretend.
+
+        internal bool IsLocked { get; private set; }
+
+        internal bool CanLockNow => !IsLocked && NoteStore.IsOpen && NoteStore.HasPassword;
+
+        /// <summary>Saves, takes the notes off screen, closes the store and forgets the password.
+        /// A manual lock never throws away an edit: a failed save keeps the note open instead.
+        /// An automatic one (Windows lock, sleep, idle) has nobody at the keyboard to read that,
+        /// so it locks anyway and the shell holds the unsaved edits until the unlock.</summary>
+        internal bool LockNow(bool automatic)
+        {
+            if (!CanLockNow) return false;
+            bool saved = _host.SaveOpenNote();
+            if (!saved && !automatic)
+            {
+                _host.SetStatus(_host.Loc("Str_St_LockSaveFailed"));
+                return false;
+            }
+            _host.EnterLocked(keepUnsavedEdits: !saved);
+            NoteStore.Close();
+            _dbPassword = null;
+            IsLocked = true;
+            return true;
+        }
+
+        /// <summary>The locked screen's Unlock: the usual prompt, which keeps its New database and
+        /// Open other escapes. Canceling leaves the app locked rather than quitting it.</summary>
+        internal bool Unlock() => !IsLocked || Open(exitOnCancel: false);
+
+        /// <summary>Unlocks with a known password (tests, and any caller that already asked).</summary>
+        internal bool Unlock(string password)
+        {
+            if (!IsLocked) return true;
+            try { NoteStore.Open(password); }
+            catch (SqliteException) { return false; }
+            _dbPassword = password;
+            return FinishOpen();
         }
 
         /// <summary>One-time warning when the data folder is on a network location: SQLite over
@@ -187,8 +240,10 @@ namespace KillerNotes.Features.Security
 
         internal void ShowDatabases()
         {
-            if (!_host.SaveOpenNote()) return;
+            if (IsLocked || !_host.SaveOpenNote()) return;
             string prevFile = NoteStore.ActiveDbFile;
+            // Test restore in Backups compares a backup with these; the store is closed below.
+            try { BackupService.RememberCensus(prevFile, NoteStore.Census()); } catch (SqliteException) { }
             NoteStore.Close();
 
             var dlg = new DatabasesDialog { Owner = _host.Window };

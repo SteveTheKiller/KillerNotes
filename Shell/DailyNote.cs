@@ -46,23 +46,37 @@ namespace KillerNotes.Shell
         {
             if (!NoteStore.IsOpen) return;
             if (!SaveCurrentNote(refreshList: false)) return;
+
+            long id = NoteStore.ResolveTitle(TodayTitle());
+            bool created = false;
+            if (id < 0)
+            {
+                if (NoteStore.IsReadOnly)
+                {
+                    FlashStatus(string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner));
+                    return;
+                }
+                id = EnsureTodayNote();
+                if (id < 0) return;
+                created = true;
+                RefreshList();
+            }
+
+            if (SearchBox.Text.Length > 0) SearchBox.Text = "";   // a filter could be hiding it
+            OpenNote(id);
+            SelectNoteInList(id);   // WikiLinkNav.cs
+            Editor.Focus();
+            if (created) FlashStatus(Loc("Str_St_TodayCreated"));
+        }
+
+        /// <summary>Today's note's id, made now if there is none (Alt+D, and the quick note's "Add to
+        /// today's note"). Opens nothing, so the note being edited stays put. -1 when it cannot be
+        /// made (read-only).</summary>
+        private long EnsureTodayNote()
+        {
             string title = TodayTitle();
-
             long id = NoteStore.ResolveTitle(title);
-            if (id >= 0)
-            {
-                if (SearchBox.Text.Length > 0) SearchBox.Text = "";   // a filter could be hiding it
-                OpenNote(id);
-                SelectNoteInList(id);   // WikiLinkNav.cs
-                Editor.Focus();
-                return;
-            }
-
-            if (NoteStore.IsReadOnly)
-            {
-                FlashStatus(string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner));
-                return;
-            }
+            if (id >= 0 || NoteStore.IsReadOnly) return id;
 
             // The group: the one marked from a header, else a "Daily notes" group made now and
             // remembered. A marked group that has since been renamed or deleted counts as unset.
@@ -89,15 +103,8 @@ namespace KillerNotes.Shell
                 id = NoteStore.Create(title);
                 if (id >= 0) NoteStore.SetNoteGroup(id, group);
             }
-            if (id < 0) return;
-
-            NoteStore.SetGroupCollapsed(group, false);   // reveal the new row
-            SearchBox.Text = "";
-            RefreshList();
-            OpenNote(id);
-            SelectNoteInList(id);
-            Editor.Focus();
-            FlashStatus(Loc("Str_St_TodayCreated"));
+            if (id >= 0) NoteStore.SetGroupCollapsed(group, false);   // reveal the new row
+            return id;
         }
     }
 }
