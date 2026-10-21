@@ -122,7 +122,7 @@
                 <Grid Grid.Row="2" Margin="24,0,24,18">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button x:Name="DoneBtn" Content="{DynamicResource Str_Btn_Done}" Click="Close_Click"
-                                Style="{StaticResource OutlineButton}" Width="80"/>
+                                Style="{StaticResource OutlineButton}" MinWidth="80" Padding="12,2"/>
                     </StackPanel>
                 </Grid>
             </Grid>

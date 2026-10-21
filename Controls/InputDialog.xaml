@@ -50,10 +50,10 @@
                             HorizontalAlignment="Right" Margin="24,0,24,20">
                     <Button x:Name="CancelButton" Content="{DynamicResource Str_Btn_Cancel}" Click="Cancel_Click"
                             Style="{StaticResource SurfaceButton}"
-                            Width="80" Margin="0,0,8,0"/>
+                            MinWidth="80" Padding="12,2" Margin="0,0,8,0"/>
                     <Button x:Name="OkButton" Content="OK" Click="OK_Click"
                             Style="{StaticResource OutlineButton}"
-                            Width="80"/>
+                            MinWidth="80" Padding="12,2"/>
                 </StackPanel>
             </Grid>
     </ContentControl>

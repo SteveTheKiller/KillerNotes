@@ -2520,7 +2520,7 @@
                                     ToolTip="{DynamicResource Str_TT_FindNext}"/>
                             <!-- The shared caption X: the glyph and the red hover live in the
                                  style, so this close matches every other close in the app. -->
-                            <Button Click="FindClose_Click" Style="{StaticResource DialogCloseButton}"
+                            <Button Click="FindClose_Click" Style="{StaticResource DialogCloseButton}" AutomationProperties.Name="{DynamicResource Str_TT_FindClose}"
                                     Width="26" Height="24" VerticalAlignment="Center"
                                     ToolTip="{DynamicResource Str_TT_FindClose}"/>
                         </StackPanel>

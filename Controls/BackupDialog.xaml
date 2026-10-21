@@ -153,7 +153,7 @@
                         <Button x:Name="RestoreBtn" Content="{DynamicResource Str_Btn_RestoreBackup}" Click="Restore_Click"
                                 Style="{StaticResource SurfaceButton}" Padding="12,0" Height="28" Margin="0,0,8,0" IsEnabled="False"/>
                         <Button x:Name="DoneBtn" Content="{DynamicResource Str_Btn_Done}" Click="Close_Click"
-                                Style="{StaticResource OutlineButton}" Width="80"/>
+                                Style="{StaticResource OutlineButton}" MinWidth="80" Padding="12,2"/>
                     </StackPanel>
                 </Grid>
             </Grid>

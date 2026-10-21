@@ -1,0 +1,43 @@
+# Literal colours reviewed for 1.6.0 (KN-P08), per file: AccessibilityAuditTests fails when a file
+# gains more. All of these are decorative or content, never meaning high contrast must replace:
+#   - wordmark emboss and shadow layers, drop shadows, blur and fade (opacity) masks
+#   - theme fallbacks written as `TryFindResource(...) ?? Brushes.X`, used only if a resource is missing
+#   - the highlighter swatches, the colour picker's palette, sketch ink, graph node colours, table borders
+#   - the brief database-loading overlay (white on a dark scrim) and text measured with Brushes.Black
+# To add one: move it to a theme resource if it carries meaning; otherwise raise the count here with why.
+Controls/AccentShadow.cs	2
+Controls/AccessibleControls.cs	3
+Controls/ColorPickerDialog.cs	16
+Controls/ConfirmDialog.xaml.cs	3
+Controls/DialogChrome.cs	1
+Controls/DialogTitleBar.xaml	4
+Controls/Dictation/DictationWindow.cs	3
+Controls/Dictation/WaveformView.cs	3
+Controls/Dictation/WhisperModelDialog.cs	1
+Controls/FileDialog.xaml	13
+Controls/GlyphInk.cs	1
+Controls/GrainTexture.cs	3
+Controls/GraphWindow.cs	12
+Controls/HighContrastResources.cs	9
+Controls/ImageResizeAdorner.cs	1
+Controls/SelectedTitleConverter.cs	9
+Controls/Sketch/SketchPadWindow.Draw.cs	3
+Controls/Sketch/SketchPadWindow.Layout.cs	5
+Controls/Sketch/SketchPadWindow.Render.cs	3
+Controls/Sketch/SketchPadWindow.cs	2
+Controls/TagsDialog.xaml.cs	2
+Shell/DatabaseLoading.cs	3
+Shell/DemoMode.cs	2
+Shell/Editor.Format.cs	3
+Shell/Editor.View.cs	2
+Shell/FindBar.cs	3
+Shell/Groups.Color.cs	1
+Shell/Groups.DragDrop.cs	1
+Shell/Localization.cs	2
+Shell/MainWindow.xaml	33
+Shell/Notes.Crud.cs	1
+Shell/Shortcuts.cs	2
+Shell/Sidebar.cs	5
+Shell/SyntaxHighlighting.cs	2
+Shell/Tags.cs	1
+Shell/ThemeFlyout.cs	7

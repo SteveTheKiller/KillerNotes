@@ -66,9 +66,9 @@
                         Style="{StaticResource SurfaceButton}" Padding="12,0" Height="28"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button x:Name="CloseBtn" Content="{DynamicResource Str_Btn_Cancel}" Click="Close_Click"
-                            Style="{StaticResource SurfaceButton}" Width="80" Margin="0,0,8,0"/>
+                            Style="{StaticResource SurfaceButton}" MinWidth="80" Padding="12,2" Margin="0,0,8,0"/>
                     <Button x:Name="SaveBtn" Content="{DynamicResource Str_Btn_Save}" Click="Save_Click"
-                            Style="{StaticResource OutlineButton}" Width="80"/>
+                            Style="{StaticResource OutlineButton}" MinWidth="80" Padding="12,2"/>
                 </StackPanel>
             </Grid>
         </Grid>

@@ -937,6 +937,10 @@
         <Setter Property="BorderThickness" Value="2"/><Setter Property="BorderBrush" Value="Transparent"/>
     </Style>
     <Style x:Key="ThemeRadio" TargetType="RadioButton">
+        <!-- Windows' own focus box is a dotted line in the SYSTEM text colour, black, so on the dark
+             themes this control showed no focus. Null hands it the family focus ring instead
+             (Controls/AccessibleControls.cs), which follows the theme and high contrast. (1.6.0) -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/><Setter Property="FontFamily" Value="{DynamicResource UiFont}"/>
         <Setter Property="FontSize" Value="12"/><Setter Property="Margin" Value="0,0,0,8"/><Setter Property="Cursor" Value="Hand"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -975,6 +979,10 @@
 
     <!-- ThemeRadio's square sibling for on/off switches in the theme flyout (Film Grain): the same row, hover and accent, with a box and checkmark in place of the ring and dot. Derived from this file's ThemeRadio, as KillerPDF's ThemeCheck is from its own. -->
     <Style x:Key="ThemeCheck" TargetType="CheckBox">
+        <!-- Windows' own focus box is a dotted line in the SYSTEM text colour, black, so on the dark
+             themes this control showed no focus. Null hands it the family focus ring instead
+             (Controls/AccessibleControls.cs), which follows the theme and high contrast. (1.6.0) -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/><Setter Property="FontFamily" Value="{DynamicResource UiFont}"/>
         <Setter Property="FontSize" Value="12"/><Setter Property="Margin" Value="0,0,0,8"/><Setter Property="Cursor" Value="Hand"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -1009,6 +1017,10 @@
          applies it to every container it generates, which THROWS on a non-MenuItem. Setting a
          Style locally stops that from being applied. -->
     <Style x:Key="MenuRowButton" TargetType="Button">
+        <!-- Windows' own focus box is a dotted line in the SYSTEM text colour, black, so on the dark
+             themes this control showed no focus. Null hands it the family focus ring instead
+             (Controls/AccessibleControls.cs), which follows the theme and high contrast. (1.6.0) -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -1039,6 +1051,10 @@
     </Style>
 
     <Style x:Key="ThemeSwatch" TargetType="Button">
+        <!-- Windows' own focus box is a dotted line in the SYSTEM text colour, black, so on the dark
+             themes this control showed no focus. Null hands it the family focus ring instead
+             (Controls/AccessibleControls.cs), which follows the theme and high contrast. (1.6.0) -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="AutomationProperties.Name" Value="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
         <Setter Property="Width" Value="15"/>
         <Setter Property="Height" Value="15"/>
@@ -1068,6 +1084,10 @@
     <SolidColorBrush x:Key="DangerRed" Color="#e04444"/>
 
     <Style x:Key="ChromeButton" TargetType="Button">
+        <!-- Windows' own focus box is a dotted line in the SYSTEM text colour, black, so on the dark
+             themes this control showed no focus. Null hands it the family focus ring instead
+             (Controls/AccessibleControls.cs), which follows the theme and high contrast. (1.6.0) -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="AutomationProperties.Name" Value="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
@@ -1333,6 +1353,10 @@
          muted X alone turns red on hover. It deliberately does not inherit the filled caption
          hover block used by window and dialog title bars. -->
     <Style x:Key="OverlayCloseButton" TargetType="Button">
+        <!-- Windows' own focus box is a dotted line in the SYSTEM text colour, black, so on the dark
+             themes this control showed no focus. Null hands it the family focus ring instead
+             (Controls/AccessibleControls.cs), which follows the theme and high contrast. (1.6.0) -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Foreground" Value="{DynamicResource AboutCloseFg}"/>
         <Setter Property="FontFamily" Value="{DynamicResource AboutCloseFont}"/>
@@ -1559,6 +1583,10 @@
 
     <!-- Themed checkbox: small square, accent check, mono label. -->
     <Style TargetType="CheckBox">
+        <!-- Windows' own focus box is a dotted line in the SYSTEM text colour, black, so on the dark
+             themes this control showed no focus. Null hands it the family focus ring instead
+             (Controls/AccessibleControls.cs), which follows the theme and high contrast. (1.6.0) -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
         <Setter Property="FontFamily" Value="{DynamicResource UiFont}"/>
         <Setter Property="FontSize" Value="11"/>
@@ -1603,6 +1631,10 @@
          Content color is left alone. CheckBox mutes its label until checked, which suits a
          switch; an unselected choice still has to be readable enough to choose. -->
     <Style TargetType="RadioButton">
+        <!-- Windows' own focus box is a dotted line in the SYSTEM text colour, black, so on the dark
+             themes this control showed no focus. Null hands it the family focus ring instead
+             (Controls/AccessibleControls.cs), which follows the theme and high contrast. (1.6.0) -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
@@ -1693,6 +1725,10 @@
     </Style>
 
     <Style x:Key="KnCombo" TargetType="ComboBox">
+        <!-- Windows' own focus box is a dotted line in the SYSTEM text colour, black, so on the dark
+             themes this control showed no focus. Null hands it the family focus ring instead
+             (Controls/AccessibleControls.cs), which follows the theme and high contrast. (1.6.0) -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>

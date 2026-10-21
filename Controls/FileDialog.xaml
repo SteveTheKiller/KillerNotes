@@ -190,7 +190,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="UpButton" Grid.Column="0" Content="&#xE74A;" Click="Up_Click" ToolTip="{DynamicResource Str_TT_Up}"
+                <Button x:Name="UpButton" Grid.Column="0" Content="&#xE74A;" Click="Up_Click" ToolTip="{DynamicResource Str_TT_Up}" AutomationProperties.Name="{DynamicResource Str_TT_Up}"
                         Width="30" Height="28" Margin="0,0,6,0" FontSize="12" FontFamily="Segoe MDL2 Assets"
                         Foreground="{DynamicResource TextBrush}" Cursor="Hand">
                     <Button.Template>
@@ -246,7 +246,7 @@
                     <!-- The recents drop is a real BUTTON - a gray square with a raised bevel that
                          inverts on press - not a bare chevron floating on the field. It was a
                          transparent border with no edge and no pressed state at all. -->
-                    <Button x:Name="RecentsBtn" Content="&#xE70D;" Click="RecentsBtn_Click"
+                    <Button x:Name="RecentsBtn" Content="&#xE70D;" Click="RecentsBtn_Click" AutomationProperties.Name="{DynamicResource Str_TT_RecentLocations}"
                             ToolTip="{DynamicResource Str_TT_RecentLocations}"
                             Width="20" Height="20" HorizontalAlignment="Right" Margin="0,0,1,0"
                             FontFamily="Segoe MDL2 Assets" FontSize="10" Cursor="Hand" Focusable="False">

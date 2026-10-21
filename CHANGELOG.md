@@ -7,6 +7,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.6.0] - Unreleased
 
 ### Fixed
+- Keyboard focus is visible on check boxes, radio buttons, combo boxes, theme swatches and the caption buttons in every theme; they showed Windows' black dotted box, invisible on the dark themes. The find bar's close button and the file picker's Up and Recent locations buttons now have names for screen readers.
+- Dialog buttons grow with their caption, so Cancel is no longer cut off in German, Kazakh and Ukrainian.
 - Each notepad keeps its own last-backup time. Before, switching notepads made the other one look never backed up, so it backed up again at once.
 - Failed saves preserve unsaved edits for retry or text/RTF export, block actions that would discard them, and save note content, links, history and sketches together.
 - Replace and Replace All preserve formatting, embedded content and regex captures across paragraph breaks, support one-step undo, and reload the open note even when it leaves the search results. (#14)
@@ -63,6 +65,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Search filters: tag:, group: (with subgroups), title:, after:, before:, created: and in:trash, plus "quoted phrases". The filter button beside the search box (Alt+Shift+F) inserts them and saves or recalls searches, which are kept in the notepad. The status line and the match count's tooltip say what was searched.
 
 ### Changed
+- KillerNotes is per-monitor DPI aware, like KillerPDF: with two monitors at different scales it stays sharp on both instead of blurring on one.
 - Find in this note, the title-bar match count, its highlights and the CLI now match text the way the sidebar does: case and how a letter was typed never matter, accents always do. The CLI used to ignore case for English letters only. Title-bar match counting is a third faster.
 - Export all notes as markdown makes a dependable copy to leave with: each export gets its own dated folder, links whose file name had to change are rewritten so they still land, each note carries its KillerNotes id, pin and title color, and killernotes-export.json lists every note and its files. export-report.md is always written, says what was lost and what is never exported, and reports a read-back check of every file. The export runs in the background with Cancel, a canceled export leaves nothing behind, and exporting a password notepad warns that the files are plain text.
 - The link graph opens about four times faster in large notebooks, the backlinks strip refreshes about twice as fast, and title-bar search counts its matches in seconds instead of minutes.
