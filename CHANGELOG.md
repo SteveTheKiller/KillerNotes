@@ -27,6 +27,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Menus, search, buttons, SketchPad, Dictation and shortcut labels use embedded Killer Sans. The footer copyright sits further from the corner grip.
 - Pasting HTML with a cut-off script or style tag no longer freezes the app.
 - Regex Find stops a runaway pattern after one second and says so, without changing the note.
+- HTML export and rich copy encode link addresses safely and keep only web and email links live; other links keep their text.
 
 ### Added
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.

@@ -143,8 +143,8 @@ namespace KillerNotes.Services
                 case InlineUIContainer iu when iu.Child is Image img:
                     AppendImage(sb, img);
                     break;
-                case Hyperlink h when h.NavigateUri != null:   // real anchors (Links.cs, 1.1.3)
-                    sb.Append("<a href=\"").Append(Html(h.NavigateUri.IsAbsoluteUri ? h.NavigateUri.AbsoluteUri : h.NavigateUri.OriginalString))
+                case Hyperlink h when LinkPolicy.AllowedHref(h.NavigateUri) is string href:   // real anchors (Links.cs, 1.1.3)
+                    sb.Append("<a href=\"").Append(Attribute(href))
                       .Append("\" target=\"_blank\" rel=\"noopener\">");
                     AppendInlines(sb, h.Inlines, colors);
                     sb.Append("</a>");
@@ -210,5 +210,9 @@ namespace KillerNotes.Services
 
         private static string Html(string s) =>
             s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+
+        /// <summary>Text encoding plus both quote characters, for a value inside a quoted attribute.</summary>
+        private static string Attribute(string s) =>
+            Html(s).Replace("\"", "&quot;").Replace("'", "&#39;");
     }
 }
