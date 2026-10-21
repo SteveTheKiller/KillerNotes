@@ -74,17 +74,30 @@ namespace KillerNotes.Services
 
         /// <summary>Every payload hash a stored rich note points at. Empty for markdown text,
         /// an empty body or anything that is not a XamlPackage.</summary>
+        /// <remarks>Never throws: a body that only looks like a package (a 1.3.0 raw-text markdown
+        /// note starting "PK", or a damaged one) has no markers anyone could resolve, and this runs
+        /// while a database opens, where an exception would lock the whole library.</remarks>
         internal static HashSet<string> MarkersIn(byte[]? content)
         {
             var found = new HashSet<string>(StringComparer.Ordinal);
-            if (content == null || content.Length < 4 || content[0] != 0x50 || content[1] != 0x4B) return found;
-            using var ms = new MemoryStream(content, writable: false);
-            using var package = Package.Open(ms, FileMode.Open, FileAccess.Read);
-            foreach (var part in package.GetParts())
+            // The full zip local-file signature, as MarkdownBlob.IsPackage checks, not just "PK".
+            if (content == null || content.Length < 4 || content[0] != 0x50 || content[1] != 0x4B ||
+                content[2] != 0x03 || content[3] != 0x04) return found;
+            try
             {
-                if (!part.Uri.OriginalString.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase)) continue;
-                using var reader = new StreamReader(part.GetStream(FileMode.Open, FileAccess.Read));
-                foreach (Match m in MarkerAttribute.Matches(reader.ReadToEnd())) found.Add(m.Groups[1].Value);
+                using var ms = new MemoryStream(content, writable: false);
+                using var package = Package.Open(ms, FileMode.Open, FileAccess.Read);
+                foreach (var part in package.GetParts())
+                {
+                    if (!part.Uri.OriginalString.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase)) continue;
+                    using var reader = new StreamReader(part.GetStream(FileMode.Open, FileAccess.Read));
+                    foreach (Match m in MarkerAttribute.Matches(reader.ReadToEnd())) found.Add(m.Groups[1].Value);
+                }
+            }
+            catch (Exception ex) when (ex is FileFormatException or IOException or InvalidDataException or
+                                             ArgumentException or InvalidOperationException or RegexMatchTimeoutException)
+            {
+                found.Clear();
             }
             return found;
         }

@@ -238,7 +238,8 @@ namespace KillerNotes.Services
                 {
                     EnsureSchema();
                     PurgeTrash(TrashRetention.Days);
-                    IndexUnlinkedNotes();
+                    // A repair, never a reason the library cannot open.
+                    try { IndexUnlinkedNotes(); } catch (Exception ex) when (ex is not OutOfMemoryException) { }
                 }
                 catch { Close(); throw; }
             }
@@ -2479,6 +2480,25 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         /// notes imported before imports indexed links (1.6.0). Cheap when there is nothing to
         /// do: one filtered query over the plain text.</summary>
         private static void IndexUnlinkedNotes()
+        {
+            // Once per database: the repair is for notes imported before imports indexed links,
+            // and a note whose [[ ]] resolves to nothing would otherwise be re-read every open.
+            const string migration = "index-imported-links-1.6.0";
+            Exec("CREATE TABLE IF NOT EXISTS kn_migrations(name TEXT PRIMARY KEY)");
+            using (var done = _db!.CreateCommand())
+            {
+                done.CommandText = "SELECT count(*) FROM kn_migrations WHERE name = $n";
+                done.Parameters.AddWithValue("$n", migration);
+                if ((long)done.ExecuteScalar()! > 0) return;
+            }
+            IndexUnlinkedNotesOnce();
+            using var mark = _db!.CreateCommand();
+            mark.CommandText = "INSERT OR IGNORE INTO kn_migrations(name) VALUES ($n)";
+            mark.Parameters.AddWithValue("$n", migration);
+            mark.ExecuteNonQuery();
+        }
+
+        private static void IndexUnlinkedNotesOnce()
         {
             var rows = new List<(long Id, string Plain, byte[]? Content)>();
             using (var cmd = _db!.CreateCommand())

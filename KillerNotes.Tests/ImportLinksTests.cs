@@ -58,6 +58,23 @@ namespace KillerNotes.Tests
             finally { try { File.Delete(knote); } catch { } }
         });
 
+        [Theory]
+        [InlineData("PKI rollout plan [[Target]]")]   // a 1.3.0 raw-text markdown body that happens to start with PK
+        [InlineData("PK\u0003\u0004 damaged package [[Target]]")]
+        public void ABodyThatOnlyLooksLikeAPackageNeverBlocksOpening(string body)
+        {
+            using var store = new TempStore();
+            long target = NoteStore.Create("Target");
+            long odd = NoteStore.Create("Odd");
+            NoteStore.Save(odd, "Odd", System.Text.Encoding.UTF8.GetBytes(body), body);
+
+            Assert.Empty(Attachments.MarkersIn(System.Text.Encoding.UTF8.GetBytes(body)));
+            NoteStore.Close();
+            ForgetLinkRepair(store.DbPath);
+            NoteStore.Open();   // indexing on open must not throw
+            Assert.Equal(target, Assert.Single(NoteStore.OutgoingLinks(odd)).Id);
+        }
+
         [Fact]
         public void NotesImportedBeforeTheFixAreIndexedOnOpen()
         {
@@ -68,8 +85,21 @@ namespace KillerNotes.Tests
             Assert.Empty(NoteStore.OutgoingLinks(old));
 
             NoteStore.Close();
+            ForgetLinkRepair(store.DbPath);
             NoteStore.Open();
             Assert.Equal(target, Assert.Single(NoteStore.OutgoingLinks(old)).Id);
+        }
+
+        /// <summary>Makes the test database look like one from before 1.6.0, which has never run
+        /// the one-time link repair.</summary>
+        private static void ForgetLinkRepair(string dbPath)
+        {
+            using var raw = new Microsoft.Data.Sqlite.SqliteConnection(
+                new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = dbPath, Pooling = false }.ConnectionString);
+            raw.Open();
+            using var cmd = raw.CreateCommand();
+            cmd.CommandText = "DELETE FROM kn_migrations";
+            cmd.ExecuteNonQuery();
         }
     }
 }
