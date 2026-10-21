@@ -26,6 +26,9 @@ namespace KillerNotes.Shell
             // the whole point of a trash, and restore is one right-click away.
             var meta = _notes.FirstOrDefault(n => n.Id == id)
                     ?? _trashNotes.FirstOrDefault(n => n.Id == id);
+            // Replacement or Undo can remove the open note from the current search results.
+            // Reload it by identity so a later edit cannot save the outgoing document again.
+            if (meta == null && id == _currentId) meta = NoteStore.GetNote(id);
             if (meta == null) return;
 
             CancelPendingFontSize();

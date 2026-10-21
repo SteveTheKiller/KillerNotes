@@ -8,13 +8,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 - Failed saves preserve unsaved edits for retry or text/RTF export, block actions that would discard them, and save note content, links, history and sketches together.
+- Replace and Replace All preserve formatting, embedded content and regex captures across paragraph breaks, support one-step undo, and reload the open note even when it leaves the search results. (#14)
 - Failed password changes preserve the original database and complete recovery copies, and report temporary copies that cannot be removed.
 - Uninstall and duplicate-install cleanup preserve databases and other user files inside the installation folder.
 - Same-named databases keep separate backup retention, preserve ambiguous older backups, and support long database names.
 - Failed self-updates retain complete executable copies and a recovery report.
 - Markdown notes preserve list and table text when saving and paste rich content as plain text.
 - Sketches retain editable drawings after floating and stay bound to their original database and note when printed.
-- Replace and Replace All handle complete matches across formatting and paragraph breaks, preserve images and recordings, retain regex context and captures, and support one-step undo and large formatted notes. (#14)
 - A CLI or MCP client that stops reading a large reply no longer blocks later clients.
 - Switching databases clears Back and Forward history; reopening the same database preserves it.
 - Offline transcription starts correctly, preserves its settings, and opens models from folders with non-English names.

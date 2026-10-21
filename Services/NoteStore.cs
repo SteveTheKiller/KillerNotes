@@ -528,6 +528,18 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             return results;
         }
 
+        /// <summary>Loads note metadata by identity, independent of the sidebar search.</summary>
+        public static Note? GetNote(long id)
+        {
+            if (_db == null) return null;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax, pinned, deleted " +
+                              "FROM notes WHERE id = $id";
+            cmd.Parameters.AddWithValue("$id", id);
+            using var reader = cmd.ExecuteReader();
+            return reader.Read() ? ReadListRow(reader) : null;
+        }
+
         private static Note ReadListRow(SqliteDataReader r) => new()
         {
             Id       = r.GetInt64(0),
