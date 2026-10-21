@@ -64,6 +64,33 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void LinkResolutionFollowsRenamesFromAnyConnection()
+        {
+            using var store = new TempStore();
+            long id = NoteStore.Create("Before");
+            Assert.Equal(id, NoteStore.ResolveTitle("before"));
+
+            NoteStore.Save(id, "Après", new byte[] { 1 }, "");
+            Assert.Equal(-1, NoteStore.ResolveTitle("before"));
+            Assert.Equal(id, NoteStore.ResolveTitle("APRÈS"));
+
+            using (var raw = new Microsoft.Data.Sqlite.SqliteConnection(
+                new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = store.DbPath, Pooling = false }.ConnectionString))
+            {
+                raw.Open();
+                using var cmd = raw.CreateCommand();
+                cmd.CommandText = "UPDATE notes SET title = 'Elsewhere' WHERE id = $id";
+                cmd.Parameters.AddWithValue("$id", id);
+                cmd.ExecuteNonQuery();
+            }
+            Assert.Equal(-1, NoteStore.ResolveTitle("après"));
+            Assert.Equal(id, NoteStore.ResolveTitle("ELSEWHERE"));
+
+            NoteStore.Trash(id);
+            Assert.Equal(-1, NoteStore.ResolveTitle("elsewhere"));
+        }
+
+        [Fact]
         public void WikilinksResolveAcrossCase()
         {
             using var store = new TempStore();

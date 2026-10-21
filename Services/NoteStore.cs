@@ -249,6 +249,7 @@ namespace KillerNotes.Services
         {
             _db?.Dispose();
             _db = null;
+            _titleIndex = null;   // belongs to the connection that just closed
             _password = null;
             IsReadOnly = false;
             ReadOnlyOwner = null;
@@ -444,6 +445,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             Exec(AttachmentRefsSql);
             Exec(NoteFoldSql);
             Exec(AttachmentRefTriggersSql);
+            Exec(TitleIndexSql);
             // Fill in folds that are missing or stale (a database from before 1.6.0, or one an
             // older version has edited since). One pass, and nothing to do on an up-to-date file.
             Exec("INSERT OR REPLACE INTO note_fold(id, modified, plain_fold) " +
@@ -1493,14 +1495,67 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             var list = new List<(long, string)>();
             if (_db == null) return list;
             using var cmd = _db.CreateCommand();
-            // KNFOLD: titles match across case in every script (Services/TextFold.cs).
-            cmd.CommandText = "SELECT COALESCE((SELECT n.id FROM notes n WHERE n.title = l.target COLLATE KNFOLD " +
-                "AND n.deleted = '' ORDER BY n.id LIMIT 1), -1), l.target FROM note_links l " +
+            // Targets resolve through the title index, across case in every script (TitleIndex).
+            cmd.CommandText = "SELECT l.target FROM note_links l " +
                 "JOIN notes s ON s.id = l.src WHERE l.src = $s AND s.deleted = '' ORDER BY l.target COLLATE NOCASE";
             cmd.Parameters.AddWithValue("$s", source);
             using var r = cmd.ExecuteReader();
-            while (r.Read()) list.Add((r.GetInt64(0), r.GetString(1)));
+            var titles = TitleIndex();
+            while (r.Read())
+            {
+                string target = r.GetString(0);
+                list.Add((titles.TryGetValue(TextFold.Fold(target), out long id) ? id : -1, target));
+            }
             return list;
+        }
+
+        // ---- Title index (KN-P07) ----
+        // Folded live title -> the oldest note carrying it, for resolving wikilinks. Comparing with
+        // COLLATE KNFOLD in SQL folds every title in the notebook on every lookup, which made the
+        // backlinks strip refresh slowly on each save of a large notebook. Rebuilt only when a title
+        // may have changed: a TEMP trigger counts this connection's changes, and SQLite's
+        // data_version moves when any other connection writes.
+        private static Dictionary<string, long>? _titleIndex;
+        private static (long Changes, long DataVersion) _titleIndexKey;
+
+        private const string TitleIndexSql = @"
+CREATE TEMP TABLE IF NOT EXISTS kn_title_changes(n INTEGER NOT NULL);
+INSERT INTO kn_title_changes(n) SELECT 0 WHERE NOT EXISTS (SELECT 1 FROM kn_title_changes);
+CREATE TEMP TRIGGER IF NOT EXISTS kn_titles_ai AFTER INSERT ON main.notes BEGIN UPDATE kn_title_changes SET n = n + 1; END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_titles_ad AFTER DELETE ON main.notes BEGIN UPDATE kn_title_changes SET n = n + 1; END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_titles_au AFTER UPDATE OF title, deleted ON main.notes BEGIN UPDATE kn_title_changes SET n = n + 1; END;";
+
+        private static Dictionary<string, long> TitleIndex()
+        {
+            long changes = 0, version;
+            try
+            {
+                using var c = _db!.CreateCommand();
+                c.CommandText = "SELECT n FROM temp.kn_title_changes";
+                changes = c.ExecuteScalar() is long n ? n : 0;
+            }
+            catch (SqliteException) { /* a read-only open without the TEMP table: data_version still covers it */ }
+            using (var v = _db!.CreateCommand())
+            {
+                v.CommandText = "PRAGMA data_version";
+                version = (long)v.ExecuteScalar()!;
+            }
+            if (_titleIndex != null && _titleIndexKey == (changes, version)) return _titleIndex;
+
+            var index = new Dictionary<string, long>(StringComparer.Ordinal);
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.CommandText = "SELECT id, title FROM notes WHERE deleted = '' ORDER BY id";
+                using var r = cmd.ExecuteReader();
+                while (r.Read())
+                {
+                    string key = TextFold.Fold(r.IsDBNull(1) ? "" : r.GetString(1));
+                    if (!index.ContainsKey(key)) index[key] = r.GetInt64(0);
+                }
+            }
+            _titleIndex = index;
+            _titleIndexKey = (changes, version);
+            return index;
         }
 
         /// <summary>Notes that link TO the given note, by its title. The backlinks panel.</summary>
@@ -1544,7 +1599,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             using var cmd = _db.CreateCommand();
             cmd.CommandText =
                 "SELECT id, title FROM notes " +
-                "WHERE instr(kn_fold(plain), $q) > 0 AND deleted = '' " +
+                "WHERE instr(COALESCE((SELECT f.plain_fold FROM note_fold f WHERE f.id = notes.id AND f.modified = notes.modified), " +
+                "kn_fold(plain)), $q) > 0 AND deleted = '' " +
                 "  AND title <> $t COLLATE KNFOLD " +
                 "  AND id NOT IN (SELECT src FROM note_links WHERE target = $t COLLATE KNFOLD) " +
                 "ORDER BY modified DESC LIMIT $n";
@@ -1562,10 +1618,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         public static long ResolveTitle(string title)
         {
             if (_db == null || string.IsNullOrWhiteSpace(title)) return -1;
-            using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT id FROM notes WHERE title = $t COLLATE KNFOLD AND deleted = '' ORDER BY id LIMIT 1";
-            cmd.Parameters.AddWithValue("$t", title.Trim());
-            return cmd.ExecuteScalar() is long id ? id : -1;
+            return TitleIndex().TryGetValue(TextFold.Fold(title.Trim()), out long id) ? id : -1;
         }
 
         /// <summary>Every edge in the database, resolved where possible: the graph's input.
@@ -1579,17 +1632,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             // join on COLLATE KNFOLD: a custom collation cannot use an index, so that join compared
             // every link with every title and took ten minutes on 50,000 notes. The oldest note
             // wins a shared title, the same rule as ResolveTitle.
-            var byTitle = new Dictionary<string, long>(StringComparer.Ordinal);
-            using (var titles = _db.CreateCommand())
-            {
-                titles.CommandText = "SELECT id, title FROM notes WHERE deleted = '' ORDER BY id";
-                using var t = titles.ExecuteReader();
-                while (t.Read())
-                {
-                    string key = TextFold.Fold(t.IsDBNull(1) ? "" : t.GetString(1));
-                    if (!byTitle.ContainsKey(key)) byTitle[key] = t.GetInt64(0);
-                }
-            }
+            var byTitle = TitleIndex();
             using var cmd = _db.CreateCommand();
             // A trashed note neither links out nor can be linked to: its outbound edges drop with
             // the inner join on the source, and a target it owned becomes a ghost again until it
