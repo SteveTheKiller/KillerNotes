@@ -98,6 +98,7 @@
     <SolidColorBrush x:Key="FooterBackgroundBrush" Color="#FFD4D4D4" po:Freeze="True"/>
     <!-- Gray chrome around a white page: the note pane is white, panels and bars keep PaneBrush. -->
     <SolidColorBrush x:Key="ContentPaneBrush" Color="#FFFFFFFF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="SidePaneBrush" Color="#FFF4F4F4" po:Freeze="True"/>
     <sys:Double x:Key="FlyoutShadowOpacity" xmlns:sys="clr-namespace:System;assembly=mscorlib">0.55</sys:Double>
     <sys:Double x:Key="WordmarkShadowOpacity" xmlns:sys="clr-namespace:System;assembly=mscorlib">0.45</sys:Double>
     <SolidColorBrush x:Key="MenuSeparatorBrush" Color="#FFC0C0C0" po:Freeze="True"/>

@@ -2169,12 +2169,11 @@
                     </RichTextBox>
                     <!-- The preview's FlowDocument viewer is created on first preview open and
                          dropped on Source (Preview.cs). -->
-                    <!-- SurfaceBrush, matching the format bar: a step darker than the note pane
-                         (PaneBrush) and a step lighter than the window (BackgroundBrush), so the
+                    <!-- SidePaneBrush, the menu and format bar surface (ThemeManager), so the
                          preview reads as chrome beside the paper rather than as more paper. Its
                          outer corners follow the pane (Preview.cs ApplyPreviewCorners). -->
                     <Border x:Name="PreviewPane" Grid.Column="3" Visibility="Collapsed"
-                            Background="{DynamicResource SurfaceBrush}"
+                            Background="{DynamicResource SidePaneBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
                             Padding="0" Margin="0"/>
                     <!-- The divider has its own column so its hit area cannot overlap the viewer. -->
@@ -2193,7 +2192,7 @@
                          scrolls the editor there. Same pane treatment as the preview beside it.
                          Rows are built in code (RefreshOutline) with the OutlineRow style below. -->
                     <Border x:Name="OutlinePane" Grid.Column="4" Visibility="Collapsed"
-                            Background="{DynamicResource SurfaceBrush}"
+                            Background="{DynamicResource SidePaneBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
                             Margin="0">
                         <Border.Resources>

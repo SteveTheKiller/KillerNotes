@@ -874,6 +874,11 @@ namespace KillerNotes.Services
                     : new SolidColorBrush(Colors.Transparent);
             if (!newDict.Contains("BgFlyout") && newDict.Contains("MenuBackgroundBrush"))
                 newDict["BgFlyout"] = newDict["MenuBackgroundBrush"];
+            // The preview and outline panes are chrome beside the note, like the menus and the
+            // format bar, so they share the menu surface. Light sets its own: its white menus would
+            // vanish against the white note pane.
+            if (!newDict.Contains("SidePaneBrush") && newDict.Contains("BgFlyout"))
+                newDict["SidePaneBrush"] = newDict["BgFlyout"];
             // About and Keyboard Shortcuts are miniature app windows, not menus or content cards.
             // Keep the exact live outer-window brush object, including material-theme gradients.
             if (!newDict.Contains("FooterBackgroundBrush"))
