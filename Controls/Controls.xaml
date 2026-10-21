@@ -1125,6 +1125,7 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Width" Value="{DynamicResource CaptionButtonWidth}"/>
         <Setter Property="Height" Value="{DynamicResource CaptionButtonHeight}"/>
+        <Setter Property="VerticalAlignment" Value="{DynamicResource CaptionButtonVerticalAlignment}"/>
         <Setter Property="FontSize" Value="10"/>
         <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
         <!-- Bold on a beveled theme: a hairline MDL2 stroke vanishes on a gray button face -->

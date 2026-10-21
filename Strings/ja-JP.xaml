@@ -1104,6 +1104,7 @@
     <sys:String x:Key="Str_Save_FailedHint">前回の保存に失敗しました。編集内容は画面に残っています。理由はステータス行に表示されています。</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">暗号化済み：開くにはパスワードが必要</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">パスワードなし：ファイルを持つ人なら誰でも読めます</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">保存すると暗号化されます：最新の変更はまだファイルにありません</sys:String>
     <sys:String x:Key="Str_Tip_lock">ヒント：パスワードを再入力するまでノートは閉じたままです。Windows のロックやスリープでも自動でこうなります。</sys:String>
     <sys:String x:Key="Str_Tip_backup">ヒント：バックアップは書き込み後に毎回確認されます。バックアップの「復元をテスト」でノートに触れずに読み戻せます。</sys:String>
     <sys:String x:Key="Str_Tip_export">ヒント：そのフォルダーの export-report.md に、移せなかったものが一覧されています。</sys:String>

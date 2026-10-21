@@ -1106,6 +1106,7 @@
     <sys:String x:Key="Str_Save_FailedHint">শেষ সংরক্ষণ ব্যর্থ হয়েছে। আপনার সম্পাদনা এখনও স্ক্রিনে আছে; স্ট্যাটাস লাইন কারণ বলছে।</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">এনক্রিপ্ট করা: খুলতে পাসওয়ার্ড লাগে</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">পাসওয়ার্ড নেই: ফাইলটি যার কাছে আছে সে-ই পড়তে পারে</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">সংরক্ষণের পর এনক্রিপ্ট হবে: সর্বশেষ পরিবর্তনগুলো এখনও ফাইলে নেই</sys:String>
     <sys:String x:Key="Str_Tip_lock">টিপ: পাসওয়ার্ড আবার না দেওয়া পর্যন্ত নোট বন্ধ থাকে। Windows লক বা স্লিপ হলেও এটি নিজে থেকে হয়।</sys:String>
     <sys:String x:Key="Str_Tip_backup">টিপ: প্রতিটি ব্যাকআপ লেখার পরে যাচাই হয়, আর ব্যাকআপের রিস্টোর পরীক্ষা নোটে হাত না দিয়ে একটি পড়ে দেখে।</sys:String>
     <sys:String x:Key="Str_Tip_export">টিপ: ওই ফোল্ডারের export-report.md তালিকা দেয় কী নেওয়া যায়নি।</sys:String>

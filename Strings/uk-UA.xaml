@@ -1153,6 +1153,7 @@
     <sys:String x:Key="Str_Save_FailedHint">Останнє збереження не вдалося. Зміни ще на екрані; рядок стану пояснює причину.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Зашифровано: щоб відкрити, потрібен пароль</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Без пароля: прочитати може будь-хто, у кого є файл</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Шифрується під час збереження: останніх змін ще немає у файлі</sys:String>
     <sys:String x:Key="Str_Tip_lock">Порада: нотатки лишаються закритими, доки не введуть пароль. Блокування чи сон Windows роблять це самі.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Порада: кожна копія перевіряється після запису, а «Перевірити відновлення» в «Резервних копіях» читає її, не чіпаючи нотаток.</sys:String>
     <sys:String x:Key="Str_Tip_export">Порада: export-report.md у цій папці перелічує те, що не перенеслося.</sys:String>

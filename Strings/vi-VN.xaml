@@ -1157,6 +1157,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Save_FailedHint">Lần lưu gần nhất thất bại. Thay đổi vẫn còn trên màn hình; dòng trạng thái cho biết lý do.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Đã mã hóa: cần mật khẩu để mở</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Không có mật khẩu: ai có tệp đều đọc được</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Được mã hóa khi lưu: các thay đổi mới nhất chưa có trong tệp</sys:String>
     <sys:String x:Key="Str_Tip_lock">Mẹo: ghi chú vẫn đóng cho đến khi nhập lại mật khẩu. Khóa hoặc ngủ Windows cũng tự làm việc này.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Mẹo: mỗi bản sao lưu được kiểm tra sau khi ghi, và Thử khôi phục trong Sao lưu đọc lại một bản mà không đụng tới ghi chú.</sys:String>
     <sys:String x:Key="Str_Tip_export">Mẹo: export-report.md trong thư mục đó liệt kê những gì không mang theo được.</sys:String>

@@ -1107,6 +1107,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Save_FailedHint">El último guardado falló. Tus cambios siguen en pantalla; la línea de estado dice por qué.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Cifrado: necesita la contraseña para abrirse</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Sin contraseña: cualquiera con el archivo puede leerlo</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Se cifra al guardar: los últimos cambios aún no están en el archivo</sys:String>
     <sys:String x:Key="Str_Tip_lock">Consejo: las notas siguen cerradas hasta que se escriba de nuevo la contraseña. Bloquear Windows o suspenderlo hace esto solo.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Consejo: cada copia se comprueba al escribirse, y Probar restauración en Copias lee una sin tocar tus notas.</sys:String>
     <sys:String x:Key="Str_Tip_export">Consejo: export-report.md en esa carpeta lista lo que no se pudo llevar.</sys:String>

@@ -1153,6 +1153,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Save_FailedHint">The last save failed. Your edits are still on screen; the status line says why.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Encrypted: needs the password to open</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">No password: anyone with the file can read it</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Encrypted once saved: the latest changes are not in the file yet</sys:String>
     <sys:String x:Key="Str_Tip_lock">Tip: the notes stay closed until the password is entered again. Windows locking or going to sleep does this on its own.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Tip: every backup is checked after it is written, and Test restore in Backups reads one back without touching your notes.</sys:String>
     <sys:String x:Key="Str_Tip_export">Tip: export-report.md in that folder lists anything that did not carry over.</sys:String>

@@ -1114,6 +1114,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Save_FailedHint">L'ultimo salvataggio non è riuscito. Le modifiche sono ancora sullo schermo; la riga di stato dice perché.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Cifrato: serve la password per aprirlo</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Senza password: chiunque abbia il file può leggerlo</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Cifrato dopo il salvataggio: le ultime modifiche non sono ancora nel file</sys:String>
     <sys:String x:Key="Str_Tip_lock">Suggerimento: le note restano chiuse finché non si reinserisce la password. Il blocco o la sospensione di Windows lo fanno da soli.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Suggerimento: ogni backup viene verificato dopo la scrittura, e Prova ripristino in Backup ne rilegge uno senza toccare le note.</sys:String>
     <sys:String x:Key="Str_Tip_export">Suggerimento: export-report.md in quella cartella elenca ciò che non è stato portato.</sys:String>

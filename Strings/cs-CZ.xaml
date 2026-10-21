@@ -1103,6 +1103,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Save_FailedHint">Poslední uložení selhalo. Úpravy jsou stále na obrazovce; stavový řádek říká proč.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Šifrováno: k otevření je potřeba heslo</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Bez hesla: kdokoli se souborem ho může číst</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Zašifruje se po uložení: nejnovější změny ještě nejsou v souboru</sys:String>
     <sys:String x:Key="Str_Tip_lock">Tip: poznámky zůstanou zavřené, dokud znovu nezadáte heslo. Zamčení nebo uspání Windows to udělá samo.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Tip: každá záloha se po zápisu ověří a Vyzkoušet obnovu v Zálohách jednu načte, aniž by se dotkla vašich poznámek.</sys:String>
     <sys:String x:Key="Str_Tip_export">Tip: export-report.md v té složce vypisuje, co se nepřeneslo.</sys:String>

@@ -36,6 +36,7 @@
     <sys:Double x:Key="TitleBarHeight" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">22</sys:Double>
     <sys:Double x:Key="CaptionButtonWidth" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">18</sys:Double>
     <sys:Double x:Key="CaptionButtonHeight" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">16</sys:Double>
+    <VerticalAlignment x:Key="CaptionButtonVerticalAlignment" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">Center</VerticalAlignment>
     <Thickness x:Key="CaptionButtonMargin" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">0,0,1,0</Thickness>
     <sys:Double x:Key="TitleWordmarkSize" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">8.61</sys:Double>
     <sys:Double x:Key="TitleWordmarkBoldSize" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">12.92</sys:Double>

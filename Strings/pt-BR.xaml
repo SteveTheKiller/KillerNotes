@@ -1153,6 +1153,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Save_FailedHint">O último salvamento falhou. Suas alterações continuam na tela; a linha de status diz por quê.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Criptografado: precisa da senha para abrir</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Sem senha: qualquer pessoa com o arquivo pode lê-lo</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Criptografado ao salvar: as últimas alterações ainda não estão no arquivo</sys:String>
     <sys:String x:Key="Str_Tip_lock">Dica: as notas ficam fechadas até a senha ser digitada de novo. Bloquear ou suspender o Windows faz isso sozinho.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Dica: cada backup é verificado depois de gravado, e Testar restauração em Backups lê um de volta sem mexer nas suas notas.</sys:String>
     <sys:String x:Key="Str_Tip_export">Dica: export-report.md nessa pasta lista o que não foi levado.</sys:String>

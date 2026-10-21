@@ -1013,6 +1013,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Save_FailedHint">Zadnje shranjevanje ni uspelo. Spremembe so še na zaslonu; vrstica stanja pove zakaj.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Šifrirano: za odpiranje je potrebno geslo</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Brez gesla: vsak, ki ima datoteko, jo lahko prebere</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Šifrirano ob shranjevanju: najnovejše spremembe še niso v datoteki</sys:String>
     <sys:String x:Key="Str_Tip_lock">Namig: zapiski ostanejo zaprti, dokler znova ne vnesete gesla. Zaklep ali spanje sistema Windows to naredi samo.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Namig: vsaka varnostna kopija se po zapisu preveri, Preizkusi obnovitev v Varnostnih kopijah pa eno prebere, ne da bi se dotaknila zapiskov.</sys:String>
     <sys:String x:Key="Str_Tip_export">Namig: export-report.md v tisti mapi našteje, kar se ni preneslo.</sys:String>

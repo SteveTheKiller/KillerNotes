@@ -1106,6 +1106,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Save_FailedHint">Das letzte Speichern ist fehlgeschlagen. Deine Änderungen sind noch zu sehen; die Statuszeile sagt, warum.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Verschlüsselt: zum Öffnen wird das Passwort gebraucht</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Kein Passwort: jeder mit der Datei kann sie lesen</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Nach dem Speichern verschlüsselt: die neuesten Änderungen sind noch nicht in der Datei</sys:String>
     <sys:String x:Key="Str_Tip_lock">Tipp: Die Notizen bleiben geschlossen, bis das Passwort wieder eingegeben wird. Sperren oder Ruhezustand von Windows tun das von selbst.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Tipp: Jede Sicherung wird nach dem Schreiben geprüft, und Wiederherstellung testen unter Sicherungen liest eine zurück, ohne deine Notizen anzurühren.</sys:String>
     <sys:String x:Key="Str_Tip_export">Tipp: export-report.md in diesem Ordner listet alles auf, was nicht mitgekommen ist.</sys:String>

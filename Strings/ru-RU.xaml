@@ -1114,6 +1114,7 @@
     <sys:String x:Key="Str_Save_FailedHint">Последнее сохранение не удалось. Изменения ещё на экране; строка состояния объясняет причину.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Зашифровано: для открытия нужен пароль</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Без пароля: прочитать может любой, у кого есть файл</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Шифруется при сохранении: последних изменений ещё нет в файле</sys:String>
     <sys:String x:Key="Str_Tip_lock">Совет: заметки остаются закрытыми, пока не введут пароль. Блокировка или сон Windows делают это сами.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Совет: каждая копия проверяется после записи, а «Проверить восстановление» в «Резервных копиях» читает её, не трогая заметки.</sys:String>
     <sys:String x:Key="Str_Tip_export">Совет: export-report.md в этой папке перечисляет то, что не перенеслось.</sys:String>

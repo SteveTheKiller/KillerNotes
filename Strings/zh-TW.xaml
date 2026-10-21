@@ -1106,6 +1106,7 @@
     <sys:String x:Key="Str_Save_FailedHint">上次儲存失敗。你的編輯仍在畫面上，狀態列說明了原因。</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">已加密：需要密碼才能開啟</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">無密碼：擁有檔案的任何人都能讀取</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">儲存後加密：最新的變更尚未寫入檔案</sys:String>
     <sys:String x:Key="Str_Tip_lock">提示：在再次輸入密碼之前，筆記會保持關閉。Windows 鎖定或睡眠時也會自動這樣做。</sys:String>
     <sys:String x:Key="Str_Tip_backup">提示：每份備份寫入後都會檢查，備份中的測試還原可讀回一份而不動你的筆記。</sys:String>
     <sys:String x:Key="Str_Tip_export">提示：該資料夾中的 export-report.md 列出了無法帶出的內容。</sys:String>

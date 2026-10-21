@@ -1104,6 +1104,7 @@
     <sys:String x:Key="Str_Save_FailedHint">上次保存失败。你的编辑仍在屏幕上，状态栏说明了原因。</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">已加密：需要密码才能打开</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">无密码：拥有文件的任何人都能读取</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">保存后加密：最新的更改尚未写入文件</sys:String>
     <sys:String x:Key="Str_Tip_lock">提示：在再次输入密码之前，笔记保持关闭。Windows 锁定或睡眠时也会自动这样做。</sys:String>
     <sys:String x:Key="Str_Tip_backup">提示：每份备份写入后都会检查，备份中的测试恢复可读回一份备份而不动你的笔记。</sys:String>
     <sys:String x:Key="Str_Tip_export">提示：该文件夹中的 export-report.md 列出了未能带出的内容。</sys:String>

@@ -281,7 +281,10 @@ namespace KillerNotes.Services
             // fill it; everything else keeps the 36px bar and 44x36 hit targets it always had.
             SetIfAbsent(newDict, "TitleBarHeight", 32.0);
             SetIfAbsent(newDict, "CaptionButtonWidth", 44.0);
-            SetIfAbsent(newDict, "CaptionButtonHeight", 32.0);
+            SetIfAbsent(newDict, "CaptionButtonHeight", 31.0);   // 1px short of the bar, so the red Close hover clears the edge below (family)
+            // Top: the short button hangs from the top edge rather than centering on a half pixel.
+            // 98SE keeps its 16px buttons centered in the bevel.
+            SetIfAbsent(newDict, "CaptionButtonVerticalAlignment", VerticalAlignment.Top);
             SetIfAbsent(newDict, "TitleWordmarkSize", 15.0);
             SetIfAbsent(newDict, "TitleWordmarkBoldSize", 22.52);
             // A caption subtitle sits beside the wordmark in Killer Sans at the titlebar filename size,

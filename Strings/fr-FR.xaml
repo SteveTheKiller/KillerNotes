@@ -1107,6 +1107,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Save_FailedHint">Le dernier enregistrement a échoué. Vos modifications sont toujours à l'écran ; la ligne d'état dit pourquoi.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Chiffré : le mot de passe est nécessaire pour l'ouvrir</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Sans mot de passe : quiconque a le fichier peut le lire</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Chiffré une fois enregistré : les dernières modifications ne sont pas encore dans le fichier</sys:String>
     <sys:String x:Key="Str_Tip_lock">Astuce : les notes restent fermées jusqu'à ce que le mot de passe soit saisi de nouveau. Le verrouillage ou la mise en veille de Windows le fait tout seul.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Astuce : chaque sauvegarde est vérifiée après écriture, et Tester la restauration dans Sauvegardes en relit une sans toucher à vos notes.</sys:String>
     <sys:String x:Key="Str_Tip_export">Astuce : export-report.md dans ce dossier liste ce qui n'a pas pu suivre.</sys:String>

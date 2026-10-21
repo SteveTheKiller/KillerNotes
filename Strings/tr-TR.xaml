@@ -1106,6 +1106,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Save_FailedHint">Son kaydetme başarısız oldu. Değişiklikleriniz hâlâ ekranda; durum satırı nedenini söylüyor.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Şifreli: açmak için parola gerekir</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Parola yok: dosyaya sahip olan herkes okuyabilir</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Kaydedilince şifrelenir: son değişiklikler henüz dosyada değil</sys:String>
     <sys:String x:Key="Str_Tip_lock">İpucu: notlar parola yeniden girilene kadar kapalı kalır. Windows'un kilitlenmesi ya da uykuya geçmesi bunu kendiliğinden yapar.</sys:String>
     <sys:String x:Key="Str_Tip_backup">İpucu: her yedek yazıldıktan sonra denetlenir; Yedekler'deki Geri yüklemeyi dene notlarınıza dokunmadan birini geri okur.</sys:String>
     <sys:String x:Key="Str_Tip_export">İpucu: o klasördeki export-report.md aktarılamayanları listeler.</sys:String>

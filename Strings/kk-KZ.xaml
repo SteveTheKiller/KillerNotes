@@ -1114,6 +1114,7 @@
     <sys:String x:Key="Str_Save_FailedHint">Соңғы сақтау сәтсіз болды. Өзгерістер әлі экранда; күй жолы себебін айтады.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Шифрланған: ашу үшін құпиясөз керек</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Құпиясөз жоқ: файлы бар кез келген адам оқи алады</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Сақталғанда шифрланады: соңғы өзгерістер файлда әлі жоқ</sys:String>
     <sys:String x:Key="Str_Tip_lock">Кеңес: құпиясөз қайта енгізілгенше жазбалар жабық қалады. Windows құлпы не ұйқысы мұны өзі жасайды.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Кеңес: әр көшірме жазылғаннан кейін тексеріледі, ал «Сақтық көшірмелер» ішіндегі «Қалпына келтіруді тексеру» жазбаларға тимей бірін оқиды.</sys:String>
     <sys:String x:Key="Str_Tip_export">Кеңес: сол қалтадағы export-report.md көшпей қалғанның бәрін тізеді.</sys:String>

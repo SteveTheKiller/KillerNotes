@@ -1033,6 +1033,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Save_FailedHint">Ostatni zapis się nie powiódł. Zmiany są wciąż na ekranie; pasek stanu mówi dlaczego.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Zaszyfrowany: do otwarcia potrzebne jest hasło</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Bez hasła: każdy, kto ma plik, może go przeczytać</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Szyfrowane po zapisaniu: najnowsze zmiany nie są jeszcze w pliku</sys:String>
     <sys:String x:Key="Str_Tip_lock">Wskazówka: notatki pozostają zamknięte do ponownego wpisania hasła. Zablokowanie lub uśpienie Windows robi to samo.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Wskazówka: każda kopia jest sprawdzana po zapisaniu, a Testuj przywracanie w Kopiach odczytuje jedną bez ruszania notatek.</sys:String>
     <sys:String x:Key="Str_Tip_export">Wskazówka: export-report.md w tym folderze wymienia to, czego nie udało się przenieść.</sys:String>

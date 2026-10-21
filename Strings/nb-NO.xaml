@@ -1151,6 +1151,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Save_FailedHint">Siste lagring mislyktes. Endringene er fortsatt på skjermen; statuslinjen sier hvorfor.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Kryptert: trenger passordet for å åpnes</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Uten passord: alle med filen kan lese den</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Krypteres når det lagres: de siste endringene er ikke i filen ennå</sys:String>
     <sys:String x:Key="Str_Tip_lock">Tips: notatene holdes lukket til passordet skrives inn igjen. Når Windows låses eller går i hvilemodus, skjer dette av seg selv.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Tips: hver sikkerhetskopi kontrolleres etter skriving, og Test gjenoppretting under Sikkerhetskopier leser én tilbake uten å røre notatene.</sys:String>
     <sys:String x:Key="Str_Tip_export">Tips: export-report.md i den mappen lister det som ikke ble med.</sys:String>

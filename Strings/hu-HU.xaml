@@ -1132,6 +1132,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Save_FailedHint">Az utolsó mentés sikertelen. A módosítások még a képernyőn vannak; az állapotsor megmondja, miért.</sys:String>
     <sys:String x:Key="Str_Privacy_Encrypted">Titkosítva: megnyitáshoz jelszó kell</sys:String>
     <sys:String x:Key="Str_Privacy_Plain">Nincs jelszó: bárki elolvashatja, akinél a fájl van</sys:String>
+    <sys:String x:Key="Str_Privacy_Pending">Mentés után titkosítva: a legutóbbi módosítások még nincsenek a fájlban</sys:String>
     <sys:String x:Key="Str_Tip_lock">Tipp: a jegyzetek zárva maradnak, amíg újra meg nem adja a jelszót. A Windows zárolása vagy alvó módja ezt magától megteszi.</sys:String>
     <sys:String x:Key="Str_Tip_backup">Tipp: minden mentés ellenőrzésen megy át, és a Mentések Visszaállítás próbája visszaolvas egyet a jegyzetek érintése nélkül.</sys:String>
     <sys:String x:Key="Str_Tip_export">Tipp: az abban a mappában lévő export-report.md felsorolja, mi nem került át.</sys:String>

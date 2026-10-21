@@ -5,7 +5,8 @@
 // 1.6.0, KN-P09. A quiet corner of the footer answers the two questions a new user has without
 // asking: is my writing saved ("Saved", "Unsaved changes", "Save failed", the time in the
 // tooltip), and is this notepad protected (a padlock, closed for a password, open with "anyone
-// with the file can read it"). It sits beside the backup warning (Backup.cs) and adds nothing to
+// with the file can read it"). The padlock also opens while a password notepad has changes that
+// are not in the encrypted file yet, so it never looks locked beside "Unsaved changes". It sits beside the backup warning (Backup.cs) and adds nothing to
 // the editing area.
 //
 // Tips: the first time Lock now, a backup, an export, an import or a quick note happens, the
@@ -44,9 +45,11 @@ namespace KillerNotes.Shell
             SaveStateText.Text = text;
             SaveStateText.ToolTip = tip;
             AutomationProperties.SetHelpText(SaveStateText, tip);
+            ShowPrivacyState();
         }
 
-        /// <summary>The footer padlock: closed with a password, open without, hidden with no notepad.</summary>
+        /// <summary>The footer padlock: closed with a password once everything is saved, open
+        /// without a password or while changes wait to be saved, hidden with no notepad.</summary>
         private void ShowPrivacyState()
         {
             if (PadlockGlyph == null) return;
@@ -56,8 +59,9 @@ namespace KillerNotes.Shell
                 return;
             }
             bool encrypted = NoteStore.HasPassword;
-            PadlockGlyph.Text = ((char)(encrypted ? 0xE72E : 0xE785)).ToString();
-            string tip = Loc(encrypted ? "Str_Privacy_Encrypted" : "Str_Privacy_Plain");
+            bool pending = _saveIndicator is SaveIndicator.Unsaved or SaveIndicator.Failed;
+            PadlockGlyph.Text = ((char)(encrypted && !pending ? 0xE72E : 0xE785)).ToString();
+            string tip = Loc(!encrypted ? "Str_Privacy_Plain" : pending ? "Str_Privacy_Pending" : "Str_Privacy_Encrypted");
             PadlockGlyph.ToolTip = tip;
             AutomationProperties.SetName(PadlockGlyph, tip);
             PadlockGlyph.Visibility = Visibility.Visible;
