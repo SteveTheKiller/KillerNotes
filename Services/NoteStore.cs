@@ -813,7 +813,9 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             {
                 using var cmd = _db!.CreateCommand();
                 cmd.Transaction = tx;
-                cmd.CommandText = "INSERT OR IGNORE INTO attachments(hash, kind, payload, duration) VALUES ($h, $k, $p, $d)";
+                // REPLACE, not IGNORE: a.Hash is computed from these bytes, so this row is right by
+                // construction and may overwrite one that does not match its name.
+                cmd.CommandText = "INSERT OR REPLACE INTO attachments(hash, kind, payload, duration) VALUES ($h, $k, $p, $d)";
                 cmd.Parameters.AddWithValue("$h", a.Hash);
                 cmd.Parameters.AddWithValue("$k", (int)a.Kind);
                 cmd.Parameters.AddWithValue("$p", a.Payload);
@@ -831,7 +833,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             cmd.Parameters.AddWithValue("$h", hash);
             using var r = cmd.ExecuteReader();
             if (!r.Read()) return null;
-            return new Attachment((AttachmentKind)r.GetInt64(0), (byte[])r.GetValue(1), (int)r.GetInt64(2));
+            var found = new Attachment((AttachmentKind)r.GetInt64(0), (byte[])r.GetValue(1), (int)r.GetInt64(2));
+            return found.Hash == hash ? found : null;   // a row whose bytes do not match its name is not that payload
         }
 
         /// <summary>Removes payloads that no note (live or trashed) and no history version
@@ -2574,6 +2577,11 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 read.Parameters.AddWithValue("$h", hash);
                 using var row = read.ExecuteReader();
                 if (!row.Read()) continue;
+                // A shared file states its own hashes: store a payload only under the hash of its
+                // actual bytes, and only as a kind this app writes, so a crafted file can never
+                // plant other content under a name a real sketch or recording will use.
+                if (row.GetValue(1) is not byte[] bytes || Attachments.HashOf(bytes) != hash ||
+                    row.GetInt64(0) is not ((long)AttachmentKind.Sketch or (long)AttachmentKind.Recording)) continue;
                 using var insert = target.CreateCommand();
                 insert.Transaction = targetTx;
                 insert.CommandText = "INSERT OR IGNORE INTO attachments(hash, kind, payload, duration) VALUES ($h, $k, $p, $d)";

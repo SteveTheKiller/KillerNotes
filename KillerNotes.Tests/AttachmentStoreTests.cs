@@ -125,6 +125,43 @@ namespace KillerNotes.Tests
             finally { try { File.Delete(knote); } catch { } }
         });
 
+        [Fact]
+        public void AnImportedPayloadMustMatchTheHashItClaims() => Sta.Run(() =>
+        {
+            string knote = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".knote");
+            try
+            {
+                var genuine = new Attachment(AttachmentKind.Sketch, Bytes(21));
+                using (new TempStore())
+                {
+                    long id = NoteStore.Create("shared");
+                    SaveWith(id, genuine);
+                    NoteStore.ExportNote(id, knote, password: null);
+                }
+                // Forge the shared file: same hash, different bytes, and an unknown kind.
+                using (var raw = new Microsoft.Data.Sqlite.SqliteConnection(
+                    new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = knote, Pooling = false }.ConnectionString))
+                {
+                    raw.Open();
+                    using var cmd = raw.CreateCommand();
+                    cmd.CommandText = "UPDATE attachments SET payload = $p, kind = 9";
+                    cmd.Parameters.AddWithValue("$p", Bytes(99));
+                    cmd.ExecuteNonQuery();
+                }
+                using (new TempStore())
+                {
+                    NoteStore.ImportNotes(knote, password: null);
+                    Assert.Null(NoteStore.GetAttachment(genuine.Hash));
+
+                    // and the genuine payload is not blocked from arriving later
+                    long mine = NoteStore.Create("mine");
+                    SaveWith(mine, genuine);
+                    Assert.Equal(Bytes(21), NoteStore.GetAttachment(genuine.Hash)!.Payload);
+                }
+            }
+            finally { try { File.Delete(knote); } catch { } }
+        });
+
         /// <summary>Saves the note as one paragraph holding a marked image per attachment, the
         /// way the editor stores sketches and recording chips.</summary>
         private static void SaveWith(long id, params Attachment[] attachments)
