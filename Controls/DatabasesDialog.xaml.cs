@@ -58,8 +58,15 @@ namespace KillerNotes.Controls
 
         private void DbMenu_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            Key key = e.Key == Key.System ? e.SystemKey : e.Key;
-            if (SelectedItem == null || sender is not ContextMenu menu) return;
+            if (sender is ContextMenu menu && RouteMenuKey(menu, e.Key == Key.System ? e.SystemKey : e.Key, Keyboard.Modifiers, e.IsRepeat))
+                e.Handled = true;
+        }
+
+        /// <summary>The row menu's keys, with the modifiers passed in rather than read from the
+        /// keyboard, so a test does not depend on what keys happen to be down on the machine.</summary>
+        internal bool RouteMenuKey(ContextMenu menu, Key key, ModifierKeys modifiers, bool isRepeat)
+        {
+            if (SelectedItem == null) return false;
             (MenuItem Item, Key Key, ModifierKeys Modifiers)[] bindings =
             [
                 (RenameItem, Key.F2, ModifierKeys.None),
@@ -69,16 +76,14 @@ namespace KillerNotes.Controls
                 (RevealItem, Key.R, ModifierKeys.Control)
             ];
             foreach (var binding in bindings)
-                if (DialogShortcuts.TryInvoke(binding.Item, key, Keyboard.Modifiers, binding.Key, binding.Modifiers, () =>
+                if (DialogShortcuts.TryInvoke(binding.Item, key, modifiers, binding.Key, binding.Modifiers, () =>
                 {
-                    if (e.IsRepeat) return;
+                    if (isRepeat) return;
                     menu.IsOpen = false;
                     binding.Item.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent, binding.Item));
                 }))
-                {
-                    e.Handled = true;
-                    return;
-                }
+                    return true;
+            return false;
         }
 
         private void RefreshDbList(string? select = null)
