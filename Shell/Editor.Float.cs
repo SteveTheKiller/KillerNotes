@@ -126,7 +126,7 @@ namespace KillerNotes.Shell
             while (d != null)
             {
                 if (d is Image img) return img;
-                if (d is Border b && b.Tag is RecordingRef && b.Child is Grid) return b;   // recording chip
+                if (d is Border b && RecordingRef.Of(b) != null) return b;   // recording chip
                 if (d is RichTextBox) break;
                 // Same visual/logical boundary problem the chip click walk has: a few steps up, the
                 // walk leaves the visual tree into the FlowDocument's ContentElements, which
@@ -407,7 +407,7 @@ namespace KillerNotes.Shell
             // way to get the file out.
             // The recording under the pointer, or beside the caret when the menu was opened from
             // the keyboard - the only keyboard route to a recording's controls.
-            bool onRecording = (_ctxObject is Border rb && rb.Tag is RecordingRef && rb.Child is Grid) ||
+            bool onRecording = RecordingRef.Of(_ctxObject as UIElement) != null ||
                                (_ctxObject == null && CtxRecording() != null);
             RecSeparator.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
             RecPlayPauseMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;

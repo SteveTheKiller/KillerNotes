@@ -11,12 +11,33 @@ using KillerNotes.Services;
 
 namespace KillerNotes.Shell
 {
-    /// <summary>What a recording chip points at: its payload's hash and length. Lives in the
-    /// chip's Tag for this session only; the stored note names the payload by marker.</summary>
+    /// <summary>What a recording chip points at: its payload's hash and length. The chip's Tag
+    /// holds it as a plain string ("kn-rec:&lt;hash&gt;|&lt;ms&gt;"), never as an object: when the
+    /// editor removes an embedded element it serializes it for Undo with XamlWriter, which refuses
+    /// non-public types, so an object Tag made every save and every deleted chip throw.</summary>
     internal sealed class RecordingRef(string hash, int durationMs)
     {
+        private const string Prefix = "kn-rec:";
+
         public string Hash { get; } = hash;
         public int DurationMs { get; } = durationMs;
+
+        public string ToTag() => Prefix + Hash + "|" + DurationMs.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+        /// <summary>The recording a chip's Tag names, or null for anything else (the volume
+        /// knob's "vol" Tag included).</summary>
+        public static RecordingRef? From(object? tag)
+        {
+            if (tag is not string s || !s.StartsWith(Prefix, StringComparison.Ordinal)) return null;
+            int bar = s.IndexOf('|');
+            if (bar <= Prefix.Length) return null;
+            int.TryParse(s.Substring(bar + 1), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out int ms);
+            return new RecordingRef(s.Substring(Prefix.Length, bar - Prefix.Length), ms);
+        }
+
+        /// <summary>The recording chip a Border is, or null.</summary>
+        public static RecordingRef? Of(UIElement? element) =>
+            element is Border { Child: Grid } b ? From(b.Tag) : null;
     }
 
     // How recordings survive the note format (1.6.0).
@@ -24,11 +45,11 @@ namespace KillerNotes.Shell
     // The playback chip is a Border of Grids and Paths, and the XamlPackage a rich note is stored
     // as keeps none of that: a saved chip came back as a single space, which is how recordings
     // used to vanish after the first autosave. What the format does keep is an Image and its
-    // ToolTip (Services/Attachments.cs). So for the length of a save each chip is swapped for a
-    // picture of itself carrying a "kn-rec:<hash>" marker, the document is serialized, and the
-    // chip goes straight back; on open every marker picture becomes a live chip again. The swap
-    // and the swap back happen in one dispatcher frame, never reach the undo stack, and are
-    // hidden from the editor's change handler.
+    // ToolTip (Services/Attachments.cs). So a save stores each chip as a picture of itself carrying
+    // a "kn-rec:<hash>" marker, and on open every marker picture becomes a live chip again. The
+    // pictures are put into a detached copy of the note (SaveMarked), never into the live one:
+    // anything changed in the live document lands on the editor's undo history, and a swap there
+    // made Ctrl+Z after an autosave turn chips into pictures.
     //
     // A recording's payload is written by the save that first stores its marker, never earlier,
     // so payload cleanup can never remove audio the open note still shows. Payloads the editor
@@ -64,21 +85,71 @@ namespace KillerNotes.Shell
             attachments.AddRange(Sketch.CaptureAttachments(Editor.Document.Blocks));
             foreach (var (_, chip) in ChipContainers(Editor.Document))
             {
-                var rec = (RecordingRef)chip.Tag;
+                var rec = RecordingRef.Of(chip)!;
                 if ((_recordingsSaved == null || !_recordingsSaved.Contains(rec.Hash)) && RecordingPayload(rec.Hash) is { } payload)
                     attachments.Add(payload);
             }
-            return WithChipsAsMarkers(() =>
-            {
-                var range = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd);
-                using var ms = new MemoryStream();
-                range.Save(ms, DataFormats.XamlPackage);
-                return ms.ToArray();
-            });
+            return SaveMarked(Editor.Document.ContentStart, Editor.Document.ContentEnd);
         }
 
-        /// <summary>Runs a serialization with every chip replaced by its marked picture, and puts
-        /// the chips back before returning, whatever happens.</summary>
+        private static byte[] SavePackage(TextPointer start, TextPointer end)
+        {
+            using var ms = new MemoryStream();
+            new TextRange(start, end).Save(ms, DataFormats.XamlPackage);
+            return ms.ToArray();
+        }
+
+        /// <summary>A range of the open note as XamlPackage bytes with every recording chip
+        /// stored as its marked picture, WITHOUT changing the live document. Anything done to the
+        /// live document lands on the editor's undo history: swapping chips there turned the
+        /// first Ctrl+Z after every autosave into "chips become pictures".</summary>
+        private byte[] SaveMarked(TextPointer start, TextPointer end)
+        {
+            var doc = Editor.Document;
+            if (!ChipContainers(doc).Any()) return SavePackage(start, end);
+            if (MarkedCopy() is { } copy)
+                return SavePackage(copy.ContentStart.GetPositionAtOffset(doc.ContentStart.GetOffsetToPosition(start))!,
+                                   copy.ContentStart.GetPositionAtOffset(doc.ContentStart.GetOffsetToPosition(end))!);
+
+            // A document the copy could not mirror exactly: swap in place, as ONE change, so
+            // undoing it is a single step that changes nothing visible.
+            Editor.BeginChange();
+            try { return WithChipsAsMarkers(() => SavePackage(start, end)); }
+            finally { Editor.EndChange(); }
+        }
+
+        /// <summary>A detached copy of the open note with each chip's placeholder replaced by its
+        /// marked picture. The note format saves a chip as a one-space run, which takes exactly
+        /// the room the chip's container takes, so each chip sits at the same offset in the copy;
+        /// null when the copy does not line up exactly.</summary>
+        private FlowDocument? MarkedCopy()
+        {
+            var doc = Editor.Document;
+            var copy = new FlowDocument();
+            using (var ms = new MemoryStream(SavePackage(doc.ContentStart, doc.ContentEnd)))
+                new TextRange(copy.ContentStart, copy.ContentEnd).Load(ms, DataFormats.XamlPackage);
+            if (copy.ContentStart.GetOffsetToPosition(copy.ContentEnd) != doc.ContentStart.GetOffsetToPosition(doc.ContentEnd)) return null;
+
+            var placeholders = new List<(Run Placeholder, Image Picture)>();
+            foreach (var (container, chip) in ChipContainers(doc))
+            {
+                if (container is not InlineUIContainer) return null;
+                var at = copy.ContentStart.GetPositionAtOffset(doc.ContentStart.GetOffsetToPosition(container.ElementStart));
+                if (at == null || at.GetPointerContext(LogicalDirection.Forward) != TextPointerContext.ElementStart ||
+                    at.GetAdjacentElement(LogicalDirection.Forward) is not Run { Text: " " } run || run.SiblingInlines == null)
+                    return null;
+                placeholders.Add((run, MarkerPicture(chip, RecordingRef.Of(chip)!)));
+            }
+            foreach (var (run, picture) in placeholders)
+            {
+                run.SiblingInlines.InsertBefore(run, new InlineUIContainer(picture));
+                run.SiblingInlines.Remove(run);
+            }
+            return copy;
+        }
+
+        /// <summary>The fallback: every chip replaced by its marked picture in the live document
+        /// for the length of a serialization, and put back whatever happens.</summary>
         private T WithChipsAsMarkers<T>(Func<T> serialize)
         {
             var swapped = new List<(TextElement Container, Border Chip)>();
@@ -87,7 +158,7 @@ namespace KillerNotes.Shell
             {
                 foreach (var (container, chip) in ChipContainers(Editor.Document))
                 {
-                    SetChild(container, MarkerPicture(chip, (RecordingRef)chip.Tag));
+                    SetChild(container, MarkerPicture(chip, RecordingRef.Of(chip)!));
                     swapped.Add((container, chip));
                 }
                 return serialize();
@@ -99,12 +170,13 @@ namespace KillerNotes.Shell
             }
         }
 
-        /// <summary>Every recording marker picture in the open note becomes a live chip. Returns
-        /// the hashes revived.</summary>
+        /// <summary>Every recording marker picture in the open note becomes a live chip, as one
+        /// editor change. Returns the hashes revived.</summary>
         private List<string> ReviveMarkerPictures()
         {
             var revived = new List<string>();
             _swappingChips = true;
+            Editor.BeginChange();
             try
             {
                 foreach (var (container, image) in MarkerPictures(Editor.Document))
@@ -115,7 +187,7 @@ namespace KillerNotes.Shell
                     revived.Add(hash);
                 }
             }
-            finally { _swappingChips = false; }
+            finally { Editor.EndChange(); _swappingChips = false; }
             return revived;
         }
 
@@ -172,12 +244,25 @@ namespace KillerNotes.Shell
         {
             _dropLegacyRecordings = false;
             _recordingsSaved = new HashSet<string>(
-                ChipContainers(Editor.Document).Select(c => ((RecordingRef)c.Chip.Tag).Hash), StringComparer.Ordinal);
+                ChipContainers(Editor.Document).Select(c => RecordingRef.Of(c.Chip)!.Hash), StringComparer.Ordinal);
         }
 
         /// <summary>Turns the loaded note's recording markers back into chips, and re-anchors
         /// recordings that versions before 1.6.0 left without a chip at the end of the note.</summary>
         internal void ReviveRecordings(long noteId)
+        {
+            try { ReviveRecordingsCore(noteId); }
+            finally
+            {
+                // A freshly opened note starts with an empty undo history. Without this, Ctrl+Z
+                // right after switching notes undid the LOAD, putting the previous note's text,
+                // or these chips' pictures, back into the note just opened. Toggling the flag is
+                // the RichTextBox's own way to clear its history.
+                if (Editor.IsUndoEnabled) { Editor.IsUndoEnabled = false; Editor.IsUndoEnabled = true; }
+            }
+        }
+
+        private void ReviveRecordingsCore(long noteId)
         {
             _recordingCache = null;
             _dropLegacyRecordings = false;
@@ -232,7 +317,7 @@ namespace KillerNotes.Shell
         }
 
         private static IEnumerable<(TextElement Container, Border Chip)> ChipContainers(DependencyObject root) =>
-            Containers(root).Where(c => c.Child is Border { Tag: RecordingRef }).Select(c => (c.Container, (Border)c.Child)).ToList();
+            Containers(root).Where(c => RecordingRef.Of(c.Child) != null).Select(c => (c.Container, (Border)c.Child)).ToList();
 
         private static IEnumerable<(TextElement Container, Image Image)> MarkerPictures(DependencyObject root) =>
             Containers(root)

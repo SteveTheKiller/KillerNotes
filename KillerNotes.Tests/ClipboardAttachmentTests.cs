@@ -59,9 +59,9 @@ namespace KillerNotes.Tests
             var sketch = Sketch.Images(Editor(reopened).Document.Blocks).Single();
             Assert.True(Sketch.TryGetData(sketch, out var payload));
             Assert.Equal(Bytes(1), payload);
-            var chip = Descendants(Editor(reopened).Document).OfType<Border>().Single(c => c.Tag is RecordingRef);
-            Assert.Equal(1200, ((RecordingRef)chip.Tag).DurationMs);
-            Assert.NotNull(NoteStore.GetAttachment(((RecordingRef)chip.Tag).Hash));
+            var chip = Descendants(Editor(reopened).Document).OfType<Border>().Single(c => RecordingRef.From(c.Tag) != null);
+            Assert.Equal(1200, RecordingRef.From(chip.Tag)!.DurationMs);
+            Assert.NotNull(NoteStore.GetAttachment(RecordingRef.From(chip.Tag)!.Hash));
         });
 
         private static void Paste(MainWindow shell, IDataObject data)

@@ -166,7 +166,7 @@ namespace KillerNotes.Shell
         internal DataObject BuildSelectionData()
         {
             var sketches = KillerNotes.Services.Sketch.CaptureAttachments(Editor.Document.Blocks);
-            var data = WithChipsAsMarkers(BuildSelectionFormats);
+            var data = BuildSelectionFormats();
             if (data.GetData(DataFormats.XamlPackage) is MemoryStream pkg)
             {
                 try { data.SetData(AttachmentsFormat, new MemoryStream(AttachmentEnvelope(pkg.ToArray(), sketches), false)); }
@@ -201,12 +201,9 @@ namespace KillerNotes.Shell
                 // format on a large selection. The DataObject gets its own stream over the
                 // bytes, deliberately NOT disposed: it hands that stream to whoever pastes.
                 // XamlPackage is the format that carries images, so a KillerNotes-to-KillerNotes
-                // paste keeps them.
-                using (var pkg = new MemoryStream())
-                {
-                    range.Save(pkg, DataFormats.XamlPackage);
-                    package = pkg.ToArray();
-                }
+                // paste keeps them. Recording chips go up as their marked pictures, built on a
+                // copy so the copy never touches the editor's undo history (Editor.RecordingStore.cs).
+                package = SaveMarked(range.Start, range.End);
                 data.SetData(DataFormats.XamlPackage, new MemoryStream(package, false));
             }
             catch { /* as above */ }

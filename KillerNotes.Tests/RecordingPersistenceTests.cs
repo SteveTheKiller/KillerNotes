@@ -41,7 +41,7 @@ namespace KillerNotes.Tests
             var reopened = Shell(id, null);
             Open(reopened, id);
             Assert.Equal(new[] { Audio(1), Audio(2) }, Chips(reopened).Select(Payload));
-            Assert.Equal(new[] { 1500, 2500 }, Chips(reopened).Select(c => ((RecordingRef)c.Tag).DurationMs));
+            Assert.Equal(new[] { 1500, 2500 }, Chips(reopened).Select(c => RecordingRef.From(c.Tag)!.DurationMs));
             Assert.Contains("before", new TextRange(reopened.Editor.Document.ContentStart, reopened.Editor.Document.ContentEnd).Text);
 
             // A second save of the reopened note keeps them too.
@@ -61,7 +61,7 @@ namespace KillerNotes.Tests
             Embed(shell, Audio(3), 1000);
             Save(shell, id);
 
-            string first = ((RecordingRef)Chips(shell).Single().Tag).Hash;
+            string first = RecordingRef.From(Chips(shell).Single().Tag)!.Hash;
             Embed(shell, Audio(4), 2000, replaceHash: first, editNoteId: id);   // re-record over it
             Save(shell, id);
             Assert.Equal(Audio(4), Payload(Chips(shell).Single()));
@@ -90,7 +90,7 @@ namespace KillerNotes.Tests
             Open(shell, id);
             var chip = Chips(shell).Single();
             // Playable at once, from the editor; the database takes it at the next save.
-            var held = (Attachment)Invoke(shell, "RecordingPayload", ((RecordingRef)chip.Tag).Hash)!;
+            var held = (Attachment)Invoke(shell, "RecordingPayload", RecordingRef.From(chip.Tag)!.Hash)!;
             Assert.Equal(stored, held.Payload);
             Assert.Equal(700, held.DurationMs);
             Assert.True((bool)Get(shell, "_dirty")!);   // so the next save anchors it for good
@@ -110,7 +110,7 @@ namespace KillerNotes.Tests
             var a = Shell(original, "");
             Embed(a, Audio(6), 100);
             Save(a, original);
-            string hash = ((RecordingRef)Chips(a).Single().Tag).Hash;
+            string hash = RecordingRef.From(Chips(a).Single().Tag)!.Hash;
             var b = Shell(current, "");
             Embed(b, Audio(7), 100);
             Save(b, current);
@@ -136,7 +136,7 @@ namespace KillerNotes.Tests
                 var o = Shell(other, "");
                 Embed(o, Audio(9), 100);
                 Save(o, other);
-                otherHash = ((RecordingRef)Chips(o).Single().Tag).Hash;
+                otherHash = RecordingRef.From(Chips(o).Single().Tag)!.Hash;
                 otherDatabase = NoteStore.DbPath;
             }
             using var store = new TempStore();
@@ -145,6 +145,53 @@ namespace KillerNotes.Tests
             var error = Assert.Throws<TargetInvocationException>(() =>
                 Invoke(shell, "EmbedRecordingInNote", Audio(10), 200, otherHash, current, otherDatabase));
             Assert.IsType<InvalidOperationException>(error.InnerException);
+        });
+
+        /// <summary>Saving, copying and opening must leave the editor's undo history alone: Ctrl+Z
+        /// undoes the user's last edit, never turns a chip into a picture. Needs a shown window,
+        /// because a RichTextBox outside one records no undo at all.</summary>
+        [Fact]
+        public void SaveCopyAndOpenNeverReachTheUndoHistory() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            long id = NoteStore.Create("n");
+            var shell = Shell(id, "start ");
+            var editor = (RichTextBox)Get(shell, "Editor")!;
+            var window = new Window { Content = editor, Width = 400, Height = 300, Left = -20000, Top = -20000,
+                                      ShowActivated = false, ShowInTaskbar = false, WindowStyle = WindowStyle.None };
+            window.Show();
+            try
+            {
+                editor.CaretPosition = editor.Document.ContentEnd;
+                Embed(shell, Audio(11), 900);
+                editor.CaretPosition = editor.Document.ContentEnd;
+                editor.CaretPosition.InsertTextInRun("typed");
+                Assert.True(editor.CanUndo);
+
+                Save(shell, id);
+                editor.SelectAll();
+                Invoke(shell, "BuildSelectionData");
+                editor.Undo();   // must take back "typed", nothing else
+
+                Assert.DoesNotContain("typed", new TextRange(editor.Document.ContentStart, editor.Document.ContentEnd).Text);
+                Assert.Single(Chips(shell));
+
+                // Opening a note starts a fresh history: nothing to undo into the previous one.
+                using (var ms = new MemoryStream(NoteStore.LoadContent(id)!))
+                    new TextRange(editor.Document.ContentStart, editor.Document.ContentEnd).Load(ms, DataFormats.XamlPackage);
+                Invoke(shell, "ReviveRecordings", id);
+                Assert.False(editor.CanUndo);
+                Assert.Single(Chips(shell));
+
+                // Deleting a chip makes the editor serialize it for Undo; its Tag must allow that.
+                var chip = Chips(shell).Single();
+                var container = (InlineUIContainer)chip.Parent;
+                new TextRange(container.ElementStart, container.ElementEnd).Text = "";
+                Assert.Empty(Chips(shell));
+                editor.Undo();
+                Assert.Equal(RecordingRef.From(chip.Tag)!.Hash, RecordingRef.From(Chips(shell).Single().Tag)!.Hash);
+            }
+            finally { window.Close(); }
         });
 
         // ---- the editor, detached from a window ----
@@ -190,10 +237,10 @@ namespace KillerNotes.Tests
         }
 
         private static List<Border> Chips(MainWindow shell) =>
-            Descendants(((RichTextBox)Get(shell, "Editor")!).Document).OfType<Border>().Where(b => b.Tag is RecordingRef).ToList();
+            Descendants(((RichTextBox)Get(shell, "Editor")!).Document).OfType<Border>().Where(b => RecordingRef.From(b.Tag) != null).ToList();
 
         private static byte[] Payload(Border chip) =>
-            NoteStore.GetAttachment(((RecordingRef)chip.Tag).Hash)?.Payload ?? Array.Empty<byte>();
+            NoteStore.GetAttachment(RecordingRef.From(chip.Tag)!.Hash)?.Payload ?? Array.Empty<byte>();
 
         private static IEnumerable<UIElement> Descendants(DependencyObject root)
         {

@@ -109,7 +109,7 @@ namespace KillerNotes.Shell
             DependencyObject? d = e.OriginalSource as DependencyObject;
             while (d != null)
             {
-                if (d is Border b && b.Tag is RecordingRef rec && b.Child is Grid)
+                if (d is Border b && RecordingRef.Of(b) is { } rec)
                 {
                     // ONLY the play glyph plays. The chip used to be one big button, which left
                     // nowhere to take hold of it once floated - the rest of it is the grab handle
@@ -191,7 +191,7 @@ namespace KillerNotes.Shell
                     var target = FindChip(replaceHash) ?? throw new InvalidOperationException(Loc("Str_Dict_Missing"));
                     StopEmbeddedPlayback();          // the old audio may still be loaded
                     Remember(recording);
-                    target.Tag = new RecordingRef(recording.Hash, durationMs);
+                    target.Tag = new RecordingRef(recording.Hash, durationMs).ToTag();
                     target.Child = BuildChipBody(recording.Hash, durationMs);
                     MarkDirty();
                     StatusText.Text = Loc("Str_Dict_Replaced");
@@ -227,7 +227,7 @@ namespace KillerNotes.Shell
                 BorderThickness = new Thickness(1),
                 // No Hand cursor on the chip as a whole - only the play glyph carries one, because
                 // only the play glyph is a button. Floating swaps this for SizeAll.
-                Tag = new RecordingRef(hash, durationMs),
+                Tag = new RecordingRef(hash, durationMs).ToTag(),
                 ToolTip = Loc("Str_Dict_ChipTip"),
             };
             chip.SetResourceReference(Border.BorderBrushProperty, "OutlineBtnBrush");
@@ -363,11 +363,11 @@ namespace KillerNotes.Shell
         /// <summary>The recording the context menu was opened on, or null.</summary>
         private RecordingRef? CtxRecording()
         {
-            if (_ctxObject is Border { Tag: RecordingRef rec }) return rec;
+            if (RecordingRef.Of(_ctxObject as UIElement) is { } rec) return rec;
             DependencyObject? parent = Editor.CaretPosition?.Parent;
             while (parent != null)
             {
-                if (parent is InlineUIContainer { Child: Border { Tag: RecordingRef atCaret } }) return atCaret;
+                if (parent is InlineUIContainer iuc && RecordingRef.Of(iuc.Child) is { } atCaret) return atCaret;
                 parent = parent is FrameworkContentElement content ? content.Parent : LogicalTreeHelper.GetParent(parent);
             }
             return null;
@@ -393,7 +393,7 @@ namespace KillerNotes.Shell
         {
             DictationPlayer.Volume = Math.Max(0, Math.Min(1, DictationPlayer.Volume + delta));
             foreach (var el in DescendantElements(Editor.Document))
-                if (el is Border { Tag: RecordingRef, Child: Grid g } && g.Children.Count > 3 && g.Children[3] is Border dial)
+                if (RecordingRef.Of(el) != null && ((Border)el).Child is Grid g && g.Children.Count > 3 && g.Children[3] is Border dial)
                     UpdateDial(dial);
             // A playback preference, not note content: no MarkDirty, same as dragging the knob.
             App.SetSetting("DictationVolume", DictationPlayer.Volume.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
@@ -437,7 +437,7 @@ namespace KillerNotes.Shell
         private Border? FindChip(string hash)
         {
             foreach (var el in DescendantElements(Editor.Document))
-                if (el is Border { Tag: RecordingRef rec } b && rec.Hash == hash && b.Child is Grid) return b;
+                if (RecordingRef.Of(el) is { } rec && rec.Hash == hash) return (Border)el;
             return null;
         }
 
