@@ -761,6 +761,8 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} Notizen werden nach {1} geschrieben. Gruppen werden zu Unterordnern. An der Datenbank ändert sich nichts.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Nichts zu exportieren - diese Datenbank enthält keine Notizen</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} Notizen nach {1} exportiert</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">{0} Notizen nach {1} exportiert. Bei {2} Notizen konnten nicht alle Bilder oder Aufnahmen übernommen werden; siehe export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Notizen mit Bildern oder Aufnahmen, die nicht exportiert werden konnten (Anzahl je Notiz)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} Notizen nach {2} exportiert, {1} fehlgeschlagen</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Export fehlgeschlagen: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>

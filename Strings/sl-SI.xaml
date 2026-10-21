@@ -718,6 +718,8 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">Zapisanih bo {0} zapiskov v {1}. Skupine postanejo podmape. V zbirki podatkov se nič ne spremeni.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Ničesar ni za izvoz. Ta zbirka nima zapiskov</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Izvoženih je {0} zapiskov v {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">Izvoženih je {0} zapiskov v {1}. Pri {2} zapiskih ni bilo mogoče prenesti vseh slik ali posnetkov; glejte export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Zapiski s slikami ali posnetki, ki jih ni bilo mogoče izvoziti (število na zapisek)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Izvoženih je {0} zapiskov v {2}, neuspešnih: {1}</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Izvoz ni uspel: {0}</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Temna</sys:String>

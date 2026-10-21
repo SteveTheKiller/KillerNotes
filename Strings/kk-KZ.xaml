@@ -796,6 +796,8 @@
     <sys:String x:Key="Str_Dlg_VaultBody">{0} жазба {1} ішіне жазылады. Топтар ішкі қалталарға айналады. Дерекқорда ештеңе өзгермейді.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Экспорттайтын ештеңе жоқ - бұл дерекқорда жазба жоқ</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} жазба {1} ішіне экспортталды</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">{0} жазба {1} ішіне экспортталды. {2} жазбаның барлық суреті не аудиожазбасы көшірілмеді; export-report.md қараңыз</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Суреттері не аудиожазбалары экспортталмаған жазбалар (әр жазбадағы саны)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} жазба {2} ішіне экспортталды, {1} сәтсіз</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Экспорттау сәтсіз аяқталды: {0}</sys:String>
 

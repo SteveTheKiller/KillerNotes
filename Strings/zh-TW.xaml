@@ -761,6 +761,8 @@
     <sys:String x:Key="Str_Dlg_VaultBody">{0} 則筆記將寫入 {1}。群組會變成子資料夾。資料庫不會有任何變更。</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">沒有可匯出的內容 - 此資料庫中沒有筆記</sys:String>
     <sys:String x:Key="Str_St_VaultDone">已將 {0} 則筆記匯出到 {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">已將 {0} 則筆記匯出到 {1}。有 {2} 則筆記的圖片或錄音未能全部匯出，請參閱 export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">圖片或錄音未能匯出的筆記（每則筆記的項目數）</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">已將 {0} 則筆記匯出到 {2}，{1} 則失敗</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">匯出失敗: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>

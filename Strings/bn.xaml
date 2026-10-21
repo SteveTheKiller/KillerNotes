@@ -761,6 +761,8 @@
     <sys:String x:Key="Str_Dlg_VaultBody">{0}টি নোট {1}-এ লেখা হবে। গ্রুপগুলি সাবফোল্ডার হয়ে যাবে। ডেটাবেসে কিছুই বদলাবে না।</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">রপ্তানি করার কিছু নেই - এই ডেটাবেসে কোনো নোট নেই</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0}টি নোট {1}-এ রপ্তানি করা হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">{0}টি নোট {1}-এ রপ্তানি করা হয়েছে। {2}টি নোটের সব ছবি বা রেকর্ডিং আনা যায়নি; export-report.md দেখুন</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">যেসব নোটের ছবি বা রেকর্ডিং রপ্তানি করা যায়নি (প্রতি নোটে সংখ্যা)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0}টি নোট {2}-এ রপ্তানি করা হয়েছে, {1}টি ব্যর্থ হয়েছে</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">রপ্তানি ব্যর্থ হয়েছে: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>

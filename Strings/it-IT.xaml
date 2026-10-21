@@ -796,6 +796,8 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} note saranno scritte in {1}. I gruppi diventano sottocartelle. Nulla nel database cambia.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Niente da esportare - questo database non ha note</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Esportate {0} note in {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">Esportate {0} note in {1}. In {2} note non è stato possibile riportare tutte le immagini o registrazioni; vedere export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Note con immagini o registrazioni che non è stato possibile esportare (elementi per nota)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Esportate {0} note in {2}, {1} non riuscite</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Esportazione non riuscita: {0}</sys:String>
 

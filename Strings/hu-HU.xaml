@@ -816,6 +816,8 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Dlg_VaultBody">{0} jegyzet íródik ide: {1}. A csoportokból almappák lesznek. Az adatbázisban semmi nem változik.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Nincs mit exportálni - ebben az adatbázisban nincsenek jegyzetek</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} jegyzet exportálva ide: {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">{0} jegyzet exportálva ide: {1}. {2} jegyzetnél nem minden kép vagy felvétel került át; lásd export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Jegyzetek, amelyek képeit vagy felvételeit nem sikerült exportálni (elemek jegyzetenként)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} jegyzet exportálva ide: {2}, {1} sikertelen</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Az exportálás sikertelen: {0}</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Sötét</sys:String>

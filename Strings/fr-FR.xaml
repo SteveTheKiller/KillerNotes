@@ -762,6 +762,8 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} notes seront écrites dans {1}. Les groupes deviennent des sous-dossiers. Rien ne change dans la base de données.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Rien à exporter - cette base ne contient aucune note</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} notes exportées vers {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">{0} notes exportées vers {1}. Pour {2} notes, certaines images ou certains enregistrements n'ont pas pu être repris ; voir export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Notes dont des images ou des enregistrements n'ont pas pu être exportés (éléments par note)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} notes exportées vers {2}, {1} en échec</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Échec de l'export : {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>

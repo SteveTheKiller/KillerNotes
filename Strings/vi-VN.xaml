@@ -840,6 +840,8 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Dlg_VaultBody">{0} ghi chú sẽ được ghi vào {1}. Nhóm trở thành thư mục con. Cơ sở dữ liệu không thay đổi.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Không có gì để xuất - cơ sở dữ liệu này không có ghi chú</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Đã xuất {0} ghi chú tới {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">Đã xuất {0} ghi chú tới {1}. {2} ghi chú không mang theo được hết hình ảnh hoặc bản ghi âm; xem export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Ghi chú có hình ảnh hoặc bản ghi âm không xuất được (số mục mỗi ghi chú)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Đã xuất {0} ghi chú tới {2}, {1} thất bại</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Xuất thất bại: {0}</sys:String>
 

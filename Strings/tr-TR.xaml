@@ -761,6 +761,8 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} not {1} konumuna yazılacak. Gruplar alt klasör olur. Veritabanında hiçbir şey değişmez.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Dışa aktarılacak bir şey yok - bu veritabanında not bulunmuyor</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} not {1} konumuna aktarıldı</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">{0} not {1} konumuna aktarıldı. {2} notta tüm resimler veya kayıtlar aktarılamadı; export-report.md dosyasına bakın</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Resimleri veya kayıtları dışa aktarılamayan notlar (not başına öğe)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} not {2} konumuna aktarıldı, {1} başarısız</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Dışa aktarma başarısız: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>

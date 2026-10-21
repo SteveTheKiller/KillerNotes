@@ -759,6 +759,8 @@
     <sys:String x:Key="Str_Dlg_VaultBody">{0} 条笔记将写入 {1}。分组会变成子文件夹。数据库不会有任何改动。</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">没有可导出的内容 - 此数据库中没有笔记</sys:String>
     <sys:String x:Key="Str_St_VaultDone">已将 {0} 条笔记导出到 {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">已将 {0} 条笔记导出到 {1}。有 {2} 条笔记的图片或录音未能全部导出，请查看 export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">图片或录音未能导出的笔记（每条笔记的项目数）</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">已将 {0} 条笔记导出到 {2}，{1} 条失败</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">导出失败: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>

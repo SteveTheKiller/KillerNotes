@@ -835,6 +835,8 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} notater skrives til {1}. Grupper blir til undermapper. Ingenting i databasen endres.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Ingenting å eksportere - databasen har ingen notater</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Eksporterte {0} notater til {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">Eksporterte {0} notater til {1}. {2} notater fikk ikke med alle bilder eller opptak; se export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Notater med bilder eller opptak som ikke kunne eksporteres (antall per notat)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Eksporterte {0} notater til {2}, {1} mislyktes</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Eksporten mislyktes: {0}</sys:String>
 

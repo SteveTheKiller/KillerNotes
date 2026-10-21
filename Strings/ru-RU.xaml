@@ -796,6 +796,8 @@
     <sys:String x:Key="Str_Dlg_VaultBody">{0} заметок будет записано в {1}. Группы станут подпапками. В базе ничего не изменится.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Нечего экспортировать - в этой базе нет заметок</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Экспортировано {0} заметок в {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">Экспортировано {0} заметок в {1}. В {2} заметках не удалось перенести все изображения или записи; см. export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Заметки с изображениями или записями, которые не удалось экспортировать (элементов в заметке)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Экспортировано {0} заметок в {2}, {1} не удалось</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Не удалось экспортировать: {0}</sys:String>
 

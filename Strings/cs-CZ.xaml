@@ -758,6 +758,8 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">Do {1} se zapíše {0} poznámek. Ze skupin se stanou podsložky. V databázi se nic nezmění.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Není co exportovat - tato databáze neobsahuje žádné poznámky</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Exportováno {0} poznámek do {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">Exportováno {0} poznámek do {1}. U {2} poznámek nešlo přenést všechny obrázky nebo nahrávky; viz export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Poznámky s obrázky nebo nahrávkami, které nešlo exportovat (počet u každé poznámky)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Exportováno {0} poznámek do {2}, {1} se nezdařilo</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Export se nezdařil: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>

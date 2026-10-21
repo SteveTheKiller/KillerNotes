@@ -759,6 +759,8 @@
     <sys:String x:Key="Str_Dlg_VaultBody">{0} 件のノートを {1} に書き出します。グループはサブフォルダーになります。データベースは変更されません。</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">エクスポートするものがありません - このデータベースにはノートがありません</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} 件のノートを {1} にエクスポートしました</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">{0} 件のノートを {1} にエクスポートしました。{2} 件のノートで画像や録音の一部を書き出せませんでした。export-report.md を参照してください</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">画像や録音を書き出せなかったノート (ノートごとの件数)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} 件のノートを {2} にエクスポートしました。{1} 件は失敗しました</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">エクスポートに失敗しました: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>

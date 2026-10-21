@@ -837,6 +837,8 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} notas serão gravadas em {1}. Os grupos viram subpastas. Nada muda no banco de dados.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Nada para exportar - este banco de dados não tem notas</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} notas exportadas para {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">{0} notas exportadas para {1}. Em {2} notas não foi possível levar todas as imagens ou gravações; veja export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Notas com imagens ou gravações que não puderam ser exportadas (itens por nota)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} notas exportadas para {2}, {1} com falha</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Falha na exportação: {0}</sys:String>
 

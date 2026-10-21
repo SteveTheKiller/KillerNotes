@@ -717,6 +717,8 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} notatek zostanie zapisanych w {1}. Grupy staną się podfolderami. Nic w bazie danych się nie zmieni.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Nie ma czego eksportować - ta baza nie zawiera notatek</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Wyeksportowano {0} notatek do {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">Wyeksportowano {0} notatek do {1}. W {2} notatkach nie udało się przenieść wszystkich obrazów lub nagrań; zobacz export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Notatki z obrazami lub nagraniami, których nie udało się wyeksportować (liczba na notatkę)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Wyeksportowano {0} notatek do {2}, {1} nie powiodło się</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Eksport nie powiódł się: {0}</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Ciemny</sys:String>

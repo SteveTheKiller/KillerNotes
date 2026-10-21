@@ -60,22 +60,12 @@ namespace KillerNotes.Shell
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
-            int written = 0, failed = 0;
+            int written, failed;
+            List<string> losses;
             try
             {
                 Directory.CreateDirectory(root);
-                // One set of used paths for the whole run: two notes can share a title, and two
-                // different titles can sanitize down to the same filename.
-                var used = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                foreach (var note in notes)
-                {
-                    try
-                    {
-                        WriteVaultFile(root, note, used);
-                        written++;
-                    }
-                    catch (Exception) { failed++; }   // one bad note must not abort the rest
-                }
+                (written, failed, losses) = ExportVaultTo(root, notes);
             }
             catch (Exception ex)
             {
@@ -83,9 +73,38 @@ namespace KillerNotes.Shell
                 return;
             }
 
-            StatusText.Text = failed == 0
-                ? string.Format(Loc("Str_St_VaultDone"), written, root)
-                : string.Format(Loc("Str_St_VaultDonePartial"), written, failed, root);
+            StatusText.Text = failed > 0
+                ? string.Format(Loc("Str_St_VaultDonePartial"), written, failed, root)
+                : losses.Count > 0
+                    ? string.Format(Loc("Str_St_VaultDoneLoss"), written, root, losses.Count)
+                    : string.Format(Loc("Str_St_VaultDone"), written, root);
+        }
+
+        /// <summary>Writes every note into an existing folder. Returns how many were written,
+        /// how many failed, and one line per note whose pictures or recordings could not all be
+        /// carried over; those lines also go into export-report.md, so an incomplete export is
+        /// never presented as a complete one.</summary>
+        internal (int Written, int Failed, List<string> Losses) ExportVaultTo(string root, IEnumerable<Note> notes)
+        {
+            int written = 0, failed = 0;
+            var losses = new List<string>();
+            // One set of used paths for the whole run: two notes can share a title, and two
+            // different titles can sanitize down to the same filename.
+            var used = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var note in notes)
+            {
+                try
+                {
+                    int lost = WriteVaultFile(root, note, used);
+                    if (lost > 0) losses.Add($"- {note.Title}: {lost}");
+                    written++;
+                }
+                catch (Exception) { failed++; }   // one bad note must not abort the rest
+            }
+            if (losses.Count > 0)
+                File.WriteAllText(Path.Combine(root, "export-report.md"),
+                    "# " + Loc("Str_Vault_ReportHead") + "\n\n" + string.Join("\n", losses) + "\n", new UTF8Encoding(false));
+            return (written, failed, losses);
         }
 
         /// <summary>Folder name for the export: the open database without its extension, so
@@ -96,7 +115,8 @@ namespace KillerNotes.Shell
             return string.IsNullOrWhiteSpace(name) ? "KillerNotes" : name;
         }
 
-        private void WriteVaultFile(string root, Note note, HashSet<string> used)
+        /// <summary>Writes one note; returns how many of its embedded items could not be written.</summary>
+        private int WriteVaultFile(string root, Note note, HashSet<string> used)
         {
             // Group path to nested folders. The separator is a non-printing unit separator, so
             // it is split on the constant and never on a typed character.
@@ -117,6 +137,7 @@ namespace KillerNotes.Shell
 
             byte[]? blob = NoteStore.LoadContent(note.Id);
             string body;
+            int lost = 0;
             if (note.IsMarkdown)
             {
                 body = MarkdownBlob.Decode(blob);
@@ -129,12 +150,15 @@ namespace KillerNotes.Shell
                     using var ms = new MemoryStream(blob);
                     new TextRange(doc.ContentStart, doc.ContentEnd).Load(ms, DataFormats.XamlPackage);
                 }
-                body = MarkdownConvert.FromDocument(doc);
+                // The image-aware writer, as single-note export uses: pictures and sketches go to
+                // a sibling <name>.assets folder, recordings as their audio files.
+                (body, lost) = MarkdownWriter.FromDocument(doc, path, NoteStore.GetAttachment);
             }
 
             // UTF-8 with no BOM. A BOM shows as stray characters at the top of the first heading
             // in a lot of markdown tooling, and nothing here needs one.
             File.WriteAllText(path, FrontMatter(note) + body, new UTF8Encoding(false));
+            return lost;
         }
 
         /// <summary>YAML front matter carrying the metadata markdown itself has no place for.

@@ -837,6 +837,8 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} notes will be written to {1}. Groups become subfolders. Nothing in the database changes.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Nothing to export - this database has no notes</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Exported {0} notes to {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">Exported {0} notes to {1}. {2} notes could not carry every picture or recording; see export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Notes with pictures or recordings that could not be exported (items per note)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Exported {0} notes to {2}, {1} failed</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Export failed: {0}</sys:String>
 

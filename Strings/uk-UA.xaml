@@ -837,6 +837,8 @@
     <sys:String x:Key="Str_Dlg_VaultBody">Нотаток буде записано: {0}, у {1}. Групи стануть підпапками. У базі нічого не зміниться.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Нічого експортувати - у цій базі немає нотаток</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Експортовано нотаток: {0}, у {1}</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLoss">Експортовано нотаток: {0}, у {1}. У {2} нотатках не вдалося перенести всі зображення або записи; див. export-report.md</sys:String>
+    <sys:String x:Key="Str_Vault_ReportHead">Нотатки із зображеннями або записами, які не вдалося експортувати (елементів у нотатці)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Експортовано нотаток: {0}, у {2}, не вдалося: {1}</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Не вдалося експортувати: {0}</sys:String>
 
