@@ -18,8 +18,8 @@ namespace KillerNotes.Services
         private static Locale _current = Locale.EnUS;
         public static Locale Current => _current;
 
-        /// <summary>Call once at startup (after ThemeManager.Initialize) to restore the saved locale.</summary>
-        public static void Initialize()
+        /// <summary>Restore the saved locale before startup dialogs. Uninstall need not persist a detected locale.</summary>
+        public static void Initialize(bool persistDetectedLocale = true)
         {
             var saved = App.GetSetting("Locale");
             if (Enum.TryParse<Locale>(saved, out var locale))
@@ -29,7 +29,7 @@ namespace KillerNotes.Services
             else
             {
                 _current = LocaleForCulture(CultureInfo.CurrentUICulture);
-                App.SetSetting("Locale", _current.ToString());
+                if (persistDetectedLocale) App.SetSetting("Locale", _current.ToString());
             }
             ApplyInternal(_current);
         }

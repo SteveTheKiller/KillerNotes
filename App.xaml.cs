@@ -88,7 +88,11 @@ namespace KillerNotes
                  string.Equals(e.Args[0], "/uninstall-silent", StringComparison.OrdinalIgnoreCase)))
             {
                 bool silent = string.Equals(e.Args[0], "/uninstall-silent", StringComparison.OrdinalIgnoreCase);
-                if (!silent) Services.ThemeManager.InitializeInstallerTheme();
+                if (!silent)
+                {
+                    Services.ThemeManager.InitializeInstallerTheme();
+                    Services.LocaleManager.Initialize(persistDetectedLocale: false);
+                }
                 Controls.TaskbarIdentity.UseUninstall();
                 Uninstall(silent);
                 Shutdown();
@@ -175,6 +179,7 @@ namespace KillerNotes
             KillerFamily.Deployment.StartupRegistration.Refresh(Services.AppInfo.DisplayName);
 
             Services.ThemeManager.InitializeInstallerTheme();
+            Services.LocaleManager.Initialize();
             OfferInstallConflictRepair();
 
             // GPU rendering, like KillerPDF (no SoftwareOnly here): the format bar and pane
@@ -188,7 +193,6 @@ namespace KillerNotes
             Services.ThemeManager.SetSetting = SetSetting;
             Services.ThemeManager.Initialize();
             Services.FilmGrain.Initialize();       // after the theme, before the window is built
-            Services.LocaleManager.Initialize();   // layers Strings/en-US.xaml (+ saved locale)
 
             ShutdownMode = ShutdownMode.OnLastWindowClose;
             MainWindow = new KillerNotes.Shell.MainWindow();
@@ -429,11 +433,11 @@ namespace KillerNotes
             bool runningUser = string.Equals(current, InstallExe, StringComparison.OrdinalIgnoreCase);
             if (!runningMachine && !runningUser) return;
 
-            string other = runningMachine ? "per-user" : "all-users";
             var confirm = new Controls.ConfirmDialog(
-                $"{AppName} installation conflict",
-                $"KillerNotes is installed twice. Remove the other {other} copy now?\n\nYour notes and settings will not be removed.",
-                "Yes", "No") { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+                (string)Current.FindResource("Str_Dlg_InstallConflict"),
+                (string)Current.FindResource(runningMachine ? "Str_Dlg_InstalledTwiceUser" : "Str_Dlg_InstalledTwiceMachine"),
+                (string)Current.FindResource("Str_Btn_Yes"),
+                (string)Current.FindResource("Str_Btn_No")) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
@@ -583,7 +587,7 @@ namespace KillerNotes
             }
             catch (Exception ex)
             {
-                ShowInstallError($"Installation failed:\n{ex.Message}");
+                ShowInstallError(string.Format((string)Current.FindResource("Str_Dlg_InstallFailed"), ex.Message));
             }
         }
 
@@ -682,9 +686,8 @@ namespace KillerNotes
             }
             catch (Exception ex)
             {
-                string message = $"Uninstall could not request administrator access:\n{ex.Message}";
-                if (silent) Console.Error.WriteLine(message);
-                else ShowInstallError(message);
+                if (silent) Console.Error.WriteLine($"Uninstall could not request administrator access:\n{ex.Message}");
+                else ShowInstallError(string.Format((string)Current.FindResource("Str_Dlg_UninstallElevateFailed"), ex.Message));
             }
             return true;
         }
@@ -700,10 +703,9 @@ namespace KillerNotes
             if (!silent)
             {
                 var confirm = new Controls.ConfirmDialog(
-                    "Uninstall KillerNotes?",
-                    "Your notes will be kept.",
-                    "Uninstall",
-                    "Cancel") { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+                    (string)Current.FindResource("Str_Dlg_UninstallConfirm"),
+                    (string)Current.FindResource("Str_Dlg_UninstallKeepNotes"),
+                    (string)Current.FindResource("Str_Btn_Uninstall")) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
                 confirm.ShowDialog();
                 if (!confirm.Confirmed) return;
             }

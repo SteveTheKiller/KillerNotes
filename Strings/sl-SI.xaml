@@ -865,4 +865,14 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">Stran v levo</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">Stran v desno</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Shranjevanje ni uspelo: {0}. Spremembe so še odprte. Pritisnite Ctrl+S za ponovni poskus ali F8 za izvoz v besedilo ali RTF.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallConflict">Spor med namestitvama KillerNotes</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes je nameščen dvakrat. Odstranim drugo kopijo za uporabnika?&#10;&#10;Vaši zapiski in nastavitve se ne bodo odstranili.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes je nameščen dvakrat. Odstranim drugo kopijo za vse uporabnike?&#10;&#10;Vaši zapiski in nastavitve se ne bodo odstranili.</sys:String>
+    <sys:String x:Key="Str_Btn_Yes">Da</sys:String>
+    <sys:String x:Key="Str_Btn_No">Ne</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Namestitev ni uspela:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Odstranjevalnik ni mogel zahtevati skrbniškega dostopa:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallConfirm">Odstranim KillerNotes?</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Vaši zapiski bodo ohranjeni.</sys:String>
+    <sys:String x:Key="Str_Btn_Uninstall">Odstrani</sys:String>
 </ResourceDictionary>

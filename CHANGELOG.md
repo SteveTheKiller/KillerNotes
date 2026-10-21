@@ -27,7 +27,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Menus, search, buttons, SketchPad, Dictation and shortcut labels use embedded Killer Sans. The footer copyright sits further from the corner grip.
 
 ### Added
-- Added Slovenian across the app, installer, help, website, and keyboard shortcuts.
+- Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.
 
 ### Changed
 - Title-bar search highlights each word and shows body-match and matching-note totals. Find in this note stays local; confirmed cross-note Replace opens in the same solid, grained panel, animates without expanding the title bar, and closes when clicking elsewhere.
