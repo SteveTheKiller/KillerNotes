@@ -9,78 +9,53 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.6.0 fixes the October data-safety review, and adds Lock now, backup health, folder import, Quick note and search filters.
 
 ### Fixed
-- Keyboard focus is visible on check boxes, radio buttons, combo boxes, theme swatches and the caption buttons in every theme; they showed Windows' black dotted box, invisible on the dark themes. The find bar's close button and the file picker's Up and Recent locations buttons now have names for screen readers.
-- Dialog buttons grow with their caption, so Cancel is no longer cut off in German, Kazakh and Ukrainian.
-- Each notepad keeps its own last-backup time. Before, switching notepads made the other one look never backed up, so it backed up again at once.
 - Failed saves preserve unsaved edits for retry or text/RTF export, block actions that would discard them, and save note content, links, history and sketches together.
-- Replace and Replace All preserve formatting, embedded content and regex captures across paragraph breaks, support one-step undo, and reload the open note even when it leaves the search results. (#14)
-- Failed password changes preserve the original database and complete recovery copies, and report temporary copies that cannot be removed.
-- Uninstall and duplicate-install cleanup preserve databases and other user files inside the installation folder.
-- Same-named databases keep separate backup retention, preserve ambiguous older backups, and support long database names.
-- Failed self-updates retain complete executable copies and a recovery report.
-- Markdown notes preserve list and table text when saving and paste rich content as plain text.
-- Sketches retain editable drawings after floating and stay bound to their original database and note when printed.
-- A CLI or MCP client that stops reading a large reply no longer blocks later clients.
-- Switching databases clears Back and Forward history; reopening the same database preserves it.
-- Offline transcription starts correctly, preserves its settings, and opens models from folders with non-English names.
-- Install handoffs wait for the previous app to exit; silent installs and updates return retryable code 1618 when KillerNotes is running.
-- Chocolatey publishing reports failure when validation is still failing after a retry.
-- Preview sizing respects the current monitor's work area and relaxes split-pane limits on constrained displays.
-- The database name uses KillerPDF's embedded filename font and size, with its bottom aligned to the database icon.
-- The editor's dotted keyboard focus outline sits above the first text row.
-- Sidebar fades stop at scroll limits and stay off in 98SE; shortcut and font cards show overflow and keep scrollbars clear of Close.
-- File pickers use theme content colors and app icons; 98SE dialogs have full bevels and compact fields. Menus, search, buttons, SketchPad, Dictation and shortcut labels use embedded Killer Sans. The footer copyright sits further from the corner grip.
-- Pasting HTML with a cut-off script or style tag no longer freezes the app.
-- Regex Find stops a runaway pattern after one second and says so, without changing the note.
-- HTML export and rich copy encode link addresses safely and keep only web and email links live; other links keep their text.
+- A failed password change keeps the original database and complete recovery copies, reports temporary copies it cannot remove, and can be retried right away.
 - Reordering or canceling a note drag no longer leaves an unencrypted copy of the note in the temp folder; files for drags out of the app are cleared on the next start.
+- Sketches and recordings stay editable and playable through saving, floating, printing, copying and pasting into any note or database, and when other images are added or removed. Restoring a version brings back the drawings and takes it was saved with, and recordings lost by earlier versions reappear at the end of their note.
+- Install, update and uninstall keep databases and other files inside the installation folder. A failed update keeps complete copies of the program and a recovery report, install handoffs wait for the previous app to exit, and silent installs and updates return retryable code 1618 while KillerNotes is running.
+- Backups: each notepad keeps its own last-backup time and retention, even when two share a name, ambiguous older backups are kept, and long database names work. Before, switching notepads made the other one look never backed up, so it backed up again at once.
+- A failed export leaves the file already at that name untouched instead of a partial copy. HTML export and rich copy encode link addresses safely and keep only web and email links live; other links keep their text.
 - Renaming or deleting a tag updates every note or none of them when a write fails.
-- Sketches keep their own editable drawing when other images are added or removed, and restoring a version brings back the drawings it was saved with.
-- Embedded recordings keep their playback chip after saving, restoring a version plays the take it was saved with, and recordings lost by earlier versions reappear at the end of their note.
-- Copying or cutting sketches and recordings keeps them editable and playable when pasted into any note or database.
-- A failed export leaves the file already at that name untouched instead of a partial copy.
-- A password change that fails while writing the new copy can be retried right away.
-- Imported notes show their links, backlinks and graph edges right away, and notes imported earlier are indexed on the next open.
-- Search and wikilinks ignore case in every language, so "café" finds "CAFÉ" and Greek or Cyrillic titles link regardless of case.
+- Replace and Replace All preserve formatting, embedded content and regex captures across paragraph breaks, support one-step undo, and reload the open note even when it leaves the search results. (#14)
 - Formatting shortcuts, inserts and dictation no longer change notes in the Trash or in a database open read-only, and say why.
-- Highlighted text keeps its dark text on yellow after reopening or pasting, in every theme.
-- Converting a markdown note to rich text keeps its tables as tables.
-- Pasting tidies only the pasted content, leaving the rest of the note's spacing and table colors alone.
-- Vault export writes pictures, sketches and recordings beside each note, floated ones included, and lists anything it could not carry in export-report.md.
-- CLI and MCP commands keep values that look like options (such as content of "--title") as values, and reject repeated options.
-- A stalled connection to the single-instance channel is dropped after five seconds, so opening files from Explorer keeps reaching the running app.
-- CLI write commands wait at most 30 seconds for KillerNotes to answer and then exit with code 3, meaning the change may or may not have been made.
-- Downloaded speech models are kept in one folder across updates; models downloaded by earlier versions are moved there instead of downloaded again.
+- Markdown notes keep list and table text when saving, keep tables as tables when converted to rich text, and paste rich content as plain text.
+- Pasting tidies only the pasted content, leaving the rest of the note's spacing and table colors alone, and HTML with a cut-off script or style tag no longer freezes the app. Highlighted text keeps its dark text on yellow after reopening or pasting, in every theme.
+- Regex Find stops a runaway pattern after one second and says so, without changing the note.
+- Search, Find in this note, the title-bar match count, wikilinks and the CLI all match text the same way: case and how a letter was typed never matter in any language, accents always do. "café" finds "CAFÉ", and Greek or Cyrillic titles link regardless of case. The CLI used to ignore case for English letters only.
+- Imported notes show their links, backlinks and graph edges right away, and notes imported earlier are indexed on the next open.
+- Switching databases clears Back and Forward history; reopening the same database preserves it.
+- CLI and MCP: a client that stops reading a large reply no longer blocks later clients, values that look like options (such as content of "--title") stay values, repeated options are rejected, and write commands wait at most 30 seconds before exiting with code 3, meaning the change may or may not have been made. A stalled connection to the single-instance channel is dropped after five seconds, so opening files from Explorer keeps reaching the running app.
+- Offline transcription starts correctly, keeps its settings, and opens models from folders with non-English names. Downloaded speech models live in one folder across updates; models from earlier versions are moved there instead of downloaded again.
 - Cached native libraries are checked against the app's own copies by hash and replaced when they differ, and a database engine that fails to load is reported instead of failing later.
-- The website's screenshot viewer has a Close button and keeps keyboard focus inside while it is open.
-- The website now says /silent installs for all users only when run as administrator, and for the current user otherwise.
+- Keyboard focus is visible on check boxes, radio buttons, combo boxes, theme swatches and the caption buttons in every theme, instead of Windows' black dotted box that disappeared on dark themes, and the editor's focus outline sits above the first text row. The find bar's close button and the file picker's Up and Recent locations buttons have names for screen readers.
+- Dialog buttons grow with their caption, so Cancel is no longer cut off in German, Kazakh and Ukrainian.
+- Preview sizing respects the current monitor's work area and relaxes split-pane limits on constrained displays.
+- File pickers use theme content colors and app icons; 98SE dialogs have full bevels and compact fields. Menus, search, buttons, SketchPad, Dictation and shortcut labels use embedded Killer Sans, and the database name uses KillerPDF's filename font, its bottom aligned to the database icon. Sidebar fades stop at scroll limits and stay off in 98SE, shortcut and font cards show overflow with scrollbars clear of Close, and the footer copyright sits further from the corner grip.
+- Website: the screenshot viewer has a Close button and keeps keyboard focus inside while open, and the install notes say /silent installs for all users only when run as administrator.
 
 ### Added
-- Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.
-- The link graph can be used from the keyboard: Tab and Shift+Tab move between notes and announce each one, Home and End jump to either end, the Apps key opens the note's menu and Enter opens it.
-- Recordings can be played, paused and turned up or down from the keyboard with the caret beside them: Alt+Shift+P, Alt+Shift+Up and Alt+Shift+Down, also on the note's context menu.
 - Lock now ends an unlocked session without quitting: the lock button's menu or Ctrl+Shift+U saves the open note, hides every note and closes the notepad until its password is entered again. A notepad with a password also locks when Windows locks or sleeps, and optionally after the computer has been idle for 5 to 60 minutes (About card). An unfinished sketch or recording waits behind the lock, and edits that could not be saved before an automatic lock come back after the unlock.
 - Backups are checked before they count, and a footer warning stays up while a notepad's backups are failing or overdue, with the reason. Manage databases shows when each notepad was last backed up, and Test restore in Backups reads a backup back from a temporary copy, checking every note and attachment, without touching your notepads.
 - Import a folder of notes (Alt+Shift+I, and import-folder for the CLI and MCP) brings in a KillerNotes export, an Obsidian vault or another app's Markdown export: folders become groups, front matter gives titles, tags, dates, pins and colors, links point at the imported notes, and local pictures and WAV or FLAC audio come with them. A preview shows what will happen and what is skipped before anything changes, the import lands in one step or not at all, and importing the same folder again skips what already came in.
 - Quick note: a small box for a thought, opened from the tray icon's menu, the taskbar icon's right-click menu, KillerNotes.exe --quick-note or an optional Win+Alt+N shortcut (About card). It saves a new note to Inbox or another group, or adds to today's note, without touching the open note, and keeps the draft when closed or while the notepad is locked. The About card can keep the tray icon while the window is open.
-- KillerNotes appears under Open with for .md and .txt files without becoming their default app. Opening one, or picking it with Ctrl+O, imports it with the folder import's rules, and opening the same unchanged file again opens the note it became.
 - Search filters: tag:, group: (with subgroups), title:, after:, before:, created: and in:trash, plus "quoted phrases". The filter button beside the search box (Alt+Shift+F) inserts them and saves or recalls searches, which are kept in the notepad. The status line and the match count's tooltip say what was searched.
+- KillerNotes appears under Open with for .md and .txt files without becoming their default app. Opening one, or picking it with Ctrl+O, imports it with the folder import's rules, and opening the same unchanged file again opens the note it became.
 - A notepad with no notes offers three ways to begin: start writing, open the sample notebook (its own notepad, Sample notes, never mixed into yours), or import a folder of notes.
-- F1 opens the shortcut list on a search box: type to find an action by name or keys, and Enter runs it.
 - The footer shows whether the open note is saved and, with a padlock, whether the notepad has a password. Lock now, the first backup, an export, an import and a quick note each explain themselves once in the status line; About turns these tips off.
+- F1 opens the shortcut list on a search box: type to find an action by name or keys, and Enter runs it.
+- The link graph and recordings work from the keyboard. In the graph, Tab and Shift+Tab move between notes and announce each one, Home and End jump to either end, the Apps key opens a note's menu and Enter opens it. With the caret beside a recording, Alt+Shift+P plays or pauses it and Alt+Shift+Up and Down change its volume, also on the note's context menu.
+- Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.
 
 ### Changed
-- The About card's options sit in two columns, app options on the left and tray and Quick note on the right, with the two lock options underneath and even spacing between rows. The card's content sits 8px from its left and right edges instead of 18px.
-- KillerNotes is per-monitor DPI aware, like KillerPDF: with two monitors at different scales it stays sharp on both instead of blurring on one.
-- Find in this note, the title-bar match count, its highlights and the CLI now match text the way the sidebar does: case and how a letter was typed never matter, accents always do. The CLI used to ignore case for English letters only. Title-bar match counting is a third faster.
-- Export all notes as markdown makes a dependable copy to leave with: each export gets its own dated folder, links whose file name had to change are rewritten so they still land, each note carries its KillerNotes id, pin and title color, and killernotes-export.json lists every note and its files. export-report.md is always written, says what was lost and what is never exported, and reports a read-back check of every file. The export runs in the background with Cancel, a canceled export leaves nothing behind, and exporting a password notepad warns that the files are plain text.
+- Export all notes as markdown makes a dependable copy to leave with: each export gets its own dated folder, pictures, sketches and recordings are written beside each note (floated ones included), links whose file name had to change are rewritten so they still land, each note carries its KillerNotes id, pin and title color, and killernotes-export.json lists every note and its files. export-report.md is always written, says what was lost or could not be carried and what is never exported, and reports a read-back check of every file. The export runs in the background with Cancel, a canceled export leaves nothing behind, and exporting a password notepad warns that the files are plain text.
 - The link graph opens about four times faster in large notebooks, the backlinks strip refreshes about twice as fast, and title-bar search counts its matches in seconds instead of minutes.
+- KillerNotes is per-monitor DPI aware, like KillerPDF: with two monitors at different scales it stays sharp on both instead of blurring on one.
 - Title-bar search highlights each word and shows body-match and matching-note totals. Find in this note stays local; confirmed cross-note Replace opens in the same solid, grained panel, animates without expanding the title bar, and closes when clicking elsewhere.
+- The About card's options sit in two columns, app options on the left and tray and Quick note on the right, with the two lock options underneath and even spacing between rows. The card's content sits 8px from its left and right edges instead of 18px.
 - Updated SQLCipher to 4.19.0, FLAC to 1.5.0, Whisper to 1.9.5, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
+- The About, Fonts and Keyboard Shortcuts cards' edges, and the Shortcuts list's top rule, follow gradient themes instead of one solid border color. Film grain has crisper specks and fades midtones across app and website themes without dimming bright highlights. The larger Lacquer + NEW label fills its button, sits higher, and shrinks slightly before becoming a large plus sign on narrow sidebars.
 - Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
-- The larger Lacquer + NEW label fills its button, sits higher, and shrinks slightly before becoming a large plus sign on narrow sidebars.
-- Film grain has crisper specks and fades midtones across app and website themes without dimming bright highlights.
-- The About, Fonts and Keyboard Shortcuts cards' edges, and the Shortcuts list's top rule, follow gradient themes instead of one solid border color.
 
 ## [1.5.1] - 2026-10-19
 
