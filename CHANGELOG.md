@@ -39,6 +39,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Search and wikilinks ignore case in every language, so "café" finds "CAFÉ" and Greek or Cyrillic titles link regardless of case.
 - Formatting shortcuts, inserts and dictation no longer change notes in the Trash or in a database open read-only, and say why.
 - Highlighted text keeps its dark text on yellow after reopening or pasting, in every theme.
+- Converting a markdown note to rich text keeps its tables as tables.
 
 ### Added
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.

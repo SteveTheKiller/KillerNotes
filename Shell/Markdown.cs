@@ -173,7 +173,7 @@ namespace KillerNotes.Shell
 
             byte[] beforeBlob = blob ?? [];
 
-            var doc = MarkdownConvert.ToDocument(md, Editor.FontSize);
+            var doc = RichDocumentFromMarkdown(md, Editor.FontSize);
             var range = new TextRange(doc.ContentStart, doc.ContentEnd);
             using var ms = new MemoryStream();
             range.Save(ms, DataFormats.XamlPackage);
@@ -181,6 +181,11 @@ namespace KillerNotes.Shell
             PushConvertUndo(note, Note.FormatMarkdown, beforeBlob, md);
             FinishConvert(note, Note.FormatRich);
         }
+
+        /// <summary>The rich document a markdown note converts to. Pipe tables become real tables:
+        /// the rich editor has them, and flattening them to loose paragraphs lost the structure.</summary>
+        internal static FlowDocument RichDocumentFromMarkdown(string markdown, double fontSize)
+            => MarkdownConvert.ToDocument(markdown, fontSize, tables: true);
 
         /// <summary>Registers the conversion as ONE app-level undo step (ActionUndo.cs), the same
         /// way a cross-note replace does. The original blob is restored verbatim rather than
