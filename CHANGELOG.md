@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.6.0] - Unreleased
 
+1.6.0 fixes the October data-safety review, and adds Lock now, backup health, folder import, Quick note and search filters.
+
 ### Fixed
 - Keyboard focus is visible on check boxes, radio buttons, combo boxes, theme swatches and the caption buttons in every theme; they showed Windows' black dotted box, invisible on the dark themes. The find bar's close button and the file picker's Up and Recent locations buttons now have names for screen readers.
 - Dialog buttons grow with their caption, so Cancel is no longer cut off in German, Kazakh and Ukrainian.
