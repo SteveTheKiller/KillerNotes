@@ -108,7 +108,7 @@ namespace KillerNotes.Shell
 
         // ---- Sending: right-click a note > Share note... ----
 
-        private static string SafeFileName(string title)
+        internal static string SafeFileName(string title)
         {
             string safe = string.Join("-", title.Split(Path.GetInvalidFileNameChars(),
                 StringSplitOptions.RemoveEmptyEntries)).Trim();
@@ -192,16 +192,11 @@ namespace KillerNotes.Shell
             try
             {
                 if (!SaveCurrentNote(refreshList: false)) return;
-                string dir = Path.Combine(Path.GetTempPath(), "KillerNotes");
-                Directory.CreateDirectory(dir);
-                string path = Path.Combine(dir, SafeFileName(note.Title) + ".knote");
-                NoteStore.ExportNote(note.Id, path, null);
-
-                var data = new DataObject(DataFormats.FileDrop, new[] { path });
                 // The same drag serves in-list reorder (#4): the note id rides along and
                 // the NotesList drop handler (Groups.cs) recognizes its own drag by it.
-                // External targets only see the FileDrop.
-                data.SetData(NoteIdFormat, note.Id);
+                // The .knote is written only if an external target asks for it (NoteDragData.cs).
+                var data = new NoteDragData(note.Id, note.Title, NoteDragData.DefaultTempRoot,
+                    path => NoteStore.ExportNote(note.Id, path, null));
                 _noteDragOut = true;   // keep NotesList_Drop from re-importing our own file
                 _noteReordered = false;
                 DragDropEffects result;
@@ -209,7 +204,7 @@ namespace KillerNotes.Shell
                 finally { _noteDragOut = false; ClearInsertionLine(); }
                 // Only announce when an EXTERNAL target actually accepted the drop; a
                 // canceled drag returns None, and an in-list reorder announces itself.
-                if (result == DragDropEffects.Copy && !_noteReordered)
+                if (result == DragDropEffects.Copy && !_noteReordered && data.FileWritten)
                     FlashStatus(string.Format(Loc("Str_St_DragReady"), SafeFileName(note.Title)));
             }
             catch (Exception ex) { FlashStatus(string.Format(Loc("Str_St_DragFailed"), ex.Message)); }

@@ -167,6 +167,9 @@ namespace KillerNotes
                     return;
                 }
                 StartPipeServer();
+                // Only the first instance owns TEMP\KillerNotes, so only it clears files that
+                // earlier note drags left for their receivers (Shell/NoteDragData.cs).
+                KillerNotes.Shell.NoteDragData.RemoveLeftovers(KillerNotes.Shell.NoteDragData.DefaultTempRoot);
             }
 
             // Portable/per-user: HKCU, best-effort, idempotent. The machine-wide copy skips
