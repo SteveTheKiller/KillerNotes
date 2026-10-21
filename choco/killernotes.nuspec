@@ -39,7 +39,7 @@
 - Command line for search, editing, sharing, export, templates, groups, tags, recovery and backups
 - Keyboard-first: every function has a shortcut, F1 opens the visual keyboard map, and the whole app scales for accessibility from 70% to 250%
 - Thirteen themes including a full 98SE recreation; Dark, Light, Black and 98SE each carry eight accent colors for 41 looks in all
-- Localized in nineteen languages, falling back to English
+- Localized in twenty languages, falling back to English
 - One self-contained Windows EXE, no runtime install; installs per-user or for all users, or runs portable
 - GPLv3, local-only, no account, no telemetry
     </description>

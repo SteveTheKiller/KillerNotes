@@ -26,6 +26,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Sidebar fades stop at scroll limits and stay off in 98SE; shortcut and font cards show overflow and keep scrollbars clear of Close.
 - Menus, search, buttons, SketchPad, Dictation and shortcut labels use embedded Killer Sans. The footer copyright sits further from the corner grip.
 
+### Added
+- Added Slovenian across the app, installer, help, website, and keyboard shortcuts.
+
 ### Changed
 - Title-bar search highlights each word and shows body-match and matching-note totals. Find in this note stays local; confirmed cross-note Replace opens in the same solid, grained panel, animates without expanding the title bar, and closes when clicking elsewhere.
 - Updated SQLCipher to 4.19.0, FLAC to 1.5.0, Whisper to 1.9.5, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.

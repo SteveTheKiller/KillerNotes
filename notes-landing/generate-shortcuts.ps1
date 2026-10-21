@@ -8,7 +8,7 @@ $appRoot = Split-Path $PSScriptRoot -Parent
 $localeFiles = [ordered]@{
     en='en-US.xaml'; it='it-IT.xaml'; vi='vi-VN.xaml'; hu='hu-HU.xaml'; pl='pl-PL.xaml'; cs='cs-CZ.xaml'
     es='es.xaml'; de='de-DE.xaml'; fr='fr-FR.xaml'; tr='tr-TR.xaml'; zh='zh-TW.xaml'; 'zh-cn'='zh-CN.xaml'
-    bn='bn.xaml'; ja='ja-JP.xaml'; ru='ru-RU.xaml'; kk='kk-KZ.xaml'; uk='uk-UA.xaml'; nb='nb-NO.xaml'; pt='pt-BR.xaml'
+    bn='bn.xaml'; ja='ja-JP.xaml'; ru='ru-RU.xaml'; kk='kk-KZ.xaml'; uk='uk-UA.xaml'; nb='nb-NO.xaml'; pt='pt-BR.xaml'; sl = 'sl-SI.xaml'
 }
 $dictionaries = [ordered]@{}
 foreach ($locale in $localeFiles.Keys) {

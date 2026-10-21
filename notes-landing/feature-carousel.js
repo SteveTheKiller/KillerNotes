@@ -15,6 +15,7 @@
   var tabs = [];
   var index = 0;
   var labels = {
+    "sl": ["Funkcije programa", "Prejšnja funkcija", "Naslednja funkcija", "Izberite funkcijo"],
     "en": ["Product features", "Previous feature", "Next feature", "Choose a feature"],
     "bn": ["পণ্যের বৈশিষ্ট্য", "আগের বৈশিষ্ট্য", "পরের বৈশিষ্ট্য", "একটি বৈশিষ্ট্য বেছে নিন"],
     "cs": ["Funkce produktu", "Předchozí funkce", "Další funkce", "Vybrat funkci"],

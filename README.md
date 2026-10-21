@@ -24,7 +24,7 @@ See the [help page](https://killernotes.net/help.html) for workflows and shortcu
 - Editable inline drawings with SketchPad (F7), floating images and recordings, and the Killculator (F9)
 - Keyboard access throughout, contextual menu hints, an F1 keyboard map, and whole-app accessibility scaling
 - CLI support for search, editing, sharing, export, templates, groups, tags, recovery, and backups; run `KillerNotes --cli --help` for commands
-- Nineteen languages and thirteen themes; eight accents on Dark, Light, Black, and 98SE give 41 looks
+- Twenty languages and thirteen themes; eight accents on Dark, Light, Black, and 98SE give 41 looks
 
 ## Requirements
 

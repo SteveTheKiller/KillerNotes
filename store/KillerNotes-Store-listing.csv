@@ -1,5 +1,5 @@
-﻿Field,Type,English,Bangla,Czech,German,French,Hungarian,Italian,Japanese,Kazakh,Norwegian (Bokmål),Polish,Portuguese (Brazil),Russian,Turkish,Ukrainian,Vietnamese,Chinese (Simplified),Chinese (Traditional)
-ProductName,Text,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes
+﻿Field,Type,English,Bangla,Czech,German,French,Hungarian,Italian,Japanese,Kazakh,Norwegian (Bokmål),Polish,Portuguese (Brazil),Russian,Turkish,Ukrainian,Vietnamese,Chinese (Simplified),Chinese (Traditional),Slovenian
+ProductName,Text,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes,KillerNotes
 Description,Text,"One searchable, encrypted notepad instead of 80 Notepad tabs - rich text, inline images, real tables, and every note always saved, shareable as tear-off .knote files.
 
 Free, open source, GPLv3. No agent, no account, no subscription. No telemetry is sent and no ads... ever.
@@ -71,8 +71,8 @@ Everything has a key. F1 opens the shortcuts overlay with a full visual keyboard
 Themes & accents
 13 themes, 41 looks: Dark, Light, Black and 98SE each offer eight accent colors. Gradients follow the theme; 98SE stays flat. The theme menu can turn Film Grain on or off.
 
-Nineteen languages
-The whole interface is translated into nineteen languages, switchable live without a restart. The same set the website ships in.","৮০টি Notepad ট্যাবের বদলে একটিমাত্র সার্চযোগ্য, এনক্রিপ্টেড নোটপ্যাড - রিচ টেক্সট, ইনলাইন ছবি, সত্যিকারের টেবিল, আর প্রতিটি নোট সবসময় সেভ থাকে, শেয়ারযোগ্য টিয়ার-অফ .knote ফাইল হিসেবে।
+Twenty languages
+The whole interface is translated into twenty languages, switchable live without a restart. The same set the website ships in.","৮০টি Notepad ট্যাবের বদলে একটিমাত্র সার্চযোগ্য, এনক্রিপ্টেড নোটপ্যাড - রিচ টেক্সট, ইনলাইন ছবি, সত্যিকারের টেবিল, আর প্রতিটি নোট সবসময় সেভ থাকে, শেয়ারযোগ্য টিয়ার-অফ .knote ফাইল হিসেবে।
 
 ফ্রি, ওপেন সোর্স, GPLv3 কোনো এজেন্ট নেই, কোনো অ্যাকাউন্ট নেই, কোনো সাবস্ক্রিপশন নেই। কোনো টেলিমেট্রি পাঠানো হয় না, কোনো বিজ্ঞাপন নেই... কখনোই না।
 
@@ -143,8 +143,8 @@ F4 Markdown ও HTML-এর সোর্স, রেন্ডার করা ও
 থিম & অ্যাকসেন্ট
 13টি থিম, 41টি চেহারা: Dark, Light, Black ও 98SE প্রতিটিতে আটটি অ্যাকসেন্ট রঙ আছে। গ্রেডিয়েন্ট থিম অনুসরণ করে; 98SE সমতল থাকে। থিম মেনু থেকে ফিল্ম গ্রেইন চালু বা বন্ধ করা যায়।
 
-19টি ভাষা
-পুরো ইন্টারফেস 19টি ভাষায় অনূদিত, রিস্টার্ট ছাড়াই সঙ্গে সঙ্গে পরিবর্তনযোগ্য। ওয়েবসাইট যে ভাষাগুলোতে আসে সেই একই সেট।","Jeden prohledávatelný, šifrovaný poznámkový blok místo 80 karet Poznámkového bloku - formátovaný text, vložené obrázky, skutečné tabulky a každá poznámka vždy uložená, sdílitelná jako odtržitelné soubory .knote.
+20টি ভাষা
+পুরো ইন্টারফেস 20টি ভাষায় অনূদিত, রিস্টার্ট ছাড়াই সঙ্গে সঙ্গে পরিবর্তনযোগ্য। ওয়েবসাইট যে ভাষাগুলোতে আসে সেই একই সেট।","Jeden prohledávatelný, šifrovaný poznámkový blok místo 80 karet Poznámkového bloku - formátovaný text, vložené obrázky, skutečné tabulky a každá poznámka vždy uložená, sdílitelná jako odtržitelné soubory .knote.
 
 Zdarma, open source, GPLv3 Žádný agent, žádný účet, žádné předplatné. Neodesílá se žádná telemetrie a žádné reklamy... nikdy.
 
@@ -215,8 +215,8 @@ Všechno má klávesu. F1 otevře překryv se zkratkami s úplnou vizuální map
 Motivy & akcenty
 13 motivů, 41 vzhledů: Dark, Light, Black a 98SE nabízejí každý osm barev akcentu. Přechody sledují motiv; 98SE zůstává plochý. Nabídka motivů umožňuje zapnout nebo vypnout filmové zrno.
 
-19 jazyků
-Celé rozhraní je přeloženo do 19 jazyků, přepínatelných za běhu bez restartu. Stejná sada, v jaké vychází web.","Ein durchsuchbarer, verschlüsselter Notizblock statt 80 Notepad-Tabs - Rich Text, eingebettete Bilder, echte Tabellen und jede Notiz immer gespeichert, teilbar als abtrennbare .knote-Dateien.
+20 jazyků
+Celé rozhraní je přeloženo do 20 jazyků, přepínatelných za běhu bez restartu. Stejná sada, v jaké vychází web.","Ein durchsuchbarer, verschlüsselter Notizblock statt 80 Notepad-Tabs - Rich Text, eingebettete Bilder, echte Tabellen und jede Notiz immer gespeichert, teilbar als abtrennbare .knote-Dateien.
 
 Kostenlos, Open Source, GPLv3. Kein Agent, kein Konto, kein Abo. Keine Telemetrie und keine Werbung... niemals.
 
@@ -287,8 +287,8 @@ Alles hat eine Taste. F1 öffnet das Kürzel-Overlay mit einer vollständigen vi
 Themes & Akzente
 13 Themen, 41 Varianten: Dark, Light, Black und 98SE bieten jeweils acht Akzentfarben. Verläufe folgen dem Thema; 98SE bleibt flach. Im Themenmenü lässt sich Filmkorn ein- oder ausschalten.
 
-19 Sprachen
-Die gesamte Oberfläche ist in 19 Sprachen übersetzt, live umschaltbar ohne Neustart. Dieselbe Auswahl wie auf der Website.","Un seul bloc-notes chiffré et interrogeable au lieu de 80 onglets Notepad - texte enrichi, images intégrées, vraies tableaux, et chaque note toujours enregistrée, partageable sous forme de fichiers .knote détachables.
+20 Sprachen
+Die gesamte Oberfläche ist in 20 Sprachen übersetzt, live umschaltbar ohne Neustart. Dieselbe Auswahl wie auf der Website.","Un seul bloc-notes chiffré et interrogeable au lieu de 80 onglets Notepad - texte enrichi, images intégrées, vraies tableaux, et chaque note toujours enregistrée, partageable sous forme de fichiers .knote détachables.
 
 Gratuit, open source, GPLv3. Pas d'agent, pas de compte, pas d'abonnement. Aucune télémétrie envoyée et aucune pub... jamais.
 
@@ -359,8 +359,8 @@ Tout a sa touche. F1 ouvre la superposition des raccourcis avec une carte clavie
 Thèmes & accents
 13 thèmes, 41 apparences : Dark, Light, Black et 98SE offrent chacun huit couleurs d'accent. Les dégradés suivent le thème ; 98SE reste plat. Le menu des thèmes permet d'activer ou de désactiver le grain de film.
 
-19 langues
-Toute l'interface est traduite en 19 langues, changeables à la volée sans redémarrage. Le même ensemble que celui du site web.","Egy kereshető, titkosított jegyzettömb a 80 Jegyzettömb lap helyett - formázott szöveg, soron belüli képek, valódi táblázatok és minden mindig mentett jegyzet, megosztható letéphető .knote fájlként.
+20 langues
+Toute l'interface est traduite en 20 langues, changeables à la volée sans redémarrage. Le même ensemble que celui du site web.","Egy kereshető, titkosított jegyzettömb a 80 Jegyzettömb lap helyett - formázott szöveg, soron belüli képek, valódi táblázatok és minden mindig mentett jegyzet, megosztható letéphető .knote fájlként.
 
 Ingyenes, nyílt forráskódú, GPLv3. Nincs ügyintéző, nincs fiók, nincs előfizetés. Nem küldenek telemetriát és nincsenek hirdetések... soha.
 
@@ -431,8 +431,8 @@ Mindennek van kulcsa. Az F1 megnyitja a billentyűkombinációt egy teljes vizu�
 Témák és hangsúlyok
 13 téma, 41 megjelenés: a Dark, Light, Black és 98SE egyenként nyolc kiemelőszínt kínál. Az átmenetek követik a témát; a 98SE sík marad. A témamenüben be- és kikapcsolható a filmszemcsézettség.
 
-19 nyelv
-A teljes felület 19 nyelvre van lefordítva, újraindítás nélkül élőben kapcsolható. Ugyanaz a készlet, amelyet a webhely szállít.","Un solo blocco note cifrato e ricercabile invece di 80 schede di Notepad - testo formattato, immagini in linea, tabelle vere e ogni nota sempre salvata, condivisibile come file .knote a strappo.
+20 nyelv
+A teljes felület 20 nyelvre van lefordítva, újraindítás nélkül élőben kapcsolható. Ugyanaz a készlet, amelyet a webhely szállít.","Un solo blocco note cifrato e ricercabile invece di 80 schede di Notepad - testo formattato, immagini in linea, tabelle vere e ogni nota sempre salvata, condivisibile come file .knote a strappo.
 
 Gratuito, open source, GPLv3. Nessun agente, nessun account, nessun abbonamento. Nessuna telemetria inviata e nessuna pubblicità... mai.
 
@@ -503,8 +503,8 @@ Tutto ha un tasto. F1 apre il pannello delle scorciatoie con una mappa visiva co
 Temi e accenti
 13 temi, 41 aspetti: Dark, Light, Black e 98SE offrono ciascuno otto colori di accento. Le sfumature seguono il tema; 98SE resta piatto. Il menu dei temi permette di attivare o disattivare la grana della pellicola.
 
-19 lingue
-L'intera interfaccia è tradotta in 19 lingue, commutabili dal vivo senza riavvio. Lo stesso insieme in cui è disponibile il sito web.","80個のメモ帳タブの代わりに、検索可能で暗号化された1つのノートを。リッチテキスト、インライン画像、本格的な表に対応し、すべてのメモは常に保存され、切り離せる.knoteファイルとして共有できます。
+20 lingue
+L'intera interfaccia è tradotta in 20 lingue, commutabili dal vivo senza riavvio. Lo stesso insieme in cui è disponibile il sito web.","80個のメモ帳タブの代わりに、検索可能で暗号化された1つのノートを。リッチテキスト、インライン画像、本格的な表に対応し、すべてのメモは常に保存され、切り離せる.knoteファイルとして共有できます。
 
 無料、オープンソース、GPLv3 エージェント不要、アカウント不要、サブスクリプション不要。テレメトリ送信なし、広告なし... 永遠に。
 
@@ -575,8 +575,8 @@ F4 で Markdown と HTML のソース、表示、分割を切り替えます。�
 テーマ & アクセント
 13テーマ、41通りの外観。Dark、Light、Black、98SE はそれぞれ8色のアクセントを選べます。グラデーションはテーマに従い、98SE は単色です。 テーマメニューでフィルムグレインをオンまたはオフにできます。
 
-19の言語
-インターフェース全体が19の言語に翻訳され、再起動なしでその場で切り替えられます。ウェブサイトと同じ言語セットです。","80 Notepad қойындысының орнына іздеуге болатын, шифрланған бір блокнот - пішімделген мәтін, ішкі суреттер, шынайы кестелер және әрқашан сақталған әр жазба, жұлып берілетін .knote файлдары арқылы бөлісуге болады.
+20の言語
+インターフェース全体が20の言語に翻訳され、再起動なしでその場で切り替えられます。ウェブサイトと同じ言語セットです。","80 Notepad қойындысының орнына іздеуге болатын, шифрланған бір блокнот - пішімделген мәтін, ішкі суреттер, шынайы кестелер және әрқашан сақталған әр жазба, жұлып берілетін .knote файлдары арқылы бөлісуге болады.
 
 Тегін, ашық бастапқы код, GPLv3. Агент жоқ, тіркелгі жоқ, жазылым жоқ. Телеметрия жіберілмейді және жарнама жоқ... ешқашан.
 
@@ -647,8 +647,8 @@ F4 Markdown және HTML үшін Бастапқы, Көрсетілген жә
 Тақырыптар және акценттер
 13 тақырып, 41 көрініс: Dark, Light, Black және 98SE әрқайсысы сегіз екпін түсін ұсынады. Градиенттер тақырыпқа сай; 98SE біртегіс қалады. Тақырыптар мәзірінде пленка түйіршігін қосуға немесе өшіруге болады.
 
-19 тіл
-Бүкіл интерфейс 19 тілге аударылған, қайта іске қоспай тірідей ауысады. Сайт шығатын дәл сол жиынтық.","Én søkbar, kryptert notatblokk i stedet for 80 Notisblokk-faner - rik tekst, bilder på linjen, ekte tabeller og hvert notat alltid lagret, kan deles som .knote-filer.
+20 тіл
+Бүкіл интерфейс 20 тілге аударылған, қайта іске қоспай тірідей ауысады. Сайт шығатын дәл сол жиынтық.","Én søkbar, kryptert notatblokk i stedet for 80 Notisblokk-faner - rik tekst, bilder på linjen, ekte tabeller og hvert notat alltid lagret, kan deles som .knote-filer.
 
 Gratis, åpen kildekode, GPLv3. Ingen agent, ingen konto, intet abonnement. Ingen telemetri sendes og ingen reklame... aldri.
 
@@ -719,8 +719,8 @@ Alt har en tast. F1 åpner hurtigtastoverlegget med et fullt visuelt tastaturkar
 Temaer og aksenter
 13 temaer, 41 utseender: Dark, Light, Black og 98SE tilbyr åtte aksentfarger hver. Gradienter følger temaet; 98SE forblir flatt. Temamenyen kan slå filmkorn av eller på.
 
-19 språk
-Hele grensesnittet er oversatt til 19 språk, som kan byttes live uten omstart. Det samme settet som nettstedet leveres på.","Jeden przeszukiwalny, szyfrowany notatnik zamiast 80 kart Notatnika - formatowany tekst, obrazy w treści, prawdziwe tabele i każda notatka zawsze zapisana, do udostępniania jako odrywane pliki .knote.
+20 språk
+Hele grensesnittet er oversatt til 20 språk, som kan byttes live uten omstart. Det samme settet som nettstedet leveres på.","Jeden przeszukiwalny, szyfrowany notatnik zamiast 80 kart Notatnika - formatowany tekst, obrazy w treści, prawdziwe tabele i każda notatka zawsze zapisana, do udostępniania jako odrywane pliki .knote.
 
 Bezpłatny, open source, GPLv3. Bez agenta, bez konta, bez subskrypcji. Bez telemetrii i bez reklam... nigdy.
 
@@ -791,8 +791,8 @@ Wszystko ma swój klawisz. F1 otwiera nakładkę skrótów z pełną wizualną m
 Motywy & akcenty
 13 motywów, 41 wyglądów: Dark, Light, Black i 98SE oferują po osiem kolorów akcentu. Gradienty stosują motyw; 98SE pozostaje płaski. Menu motywów pozwala włączyć lub wyłączyć ziarno filmowe.
 
-19 języków
-Cały interfejs jest przetłumaczony na 19 języków, przełączanych na żywo bez restartu. Ten sam zestaw, w którym wychodzi strona internetowa.","Um bloco de notas pesquisável e criptografado no lugar de 80 abas do Bloco de Notas: texto rico, imagens em linha, tabelas de verdade e cada nota sempre salva, compartilhável em arquivos .knote destacáveis.
+20 języków
+Cały interfejs jest przetłumaczony na 20 języków, przełączanych na żywo bez restartu. Ten sam zestaw, w którym wychodzi strona internetowa.","Um bloco de notas pesquisável e criptografado no lugar de 80 abas do Bloco de Notas: texto rico, imagens em linha, tabelas de verdade e cada nota sempre salva, compartilhável em arquivos .knote destacáveis.
 
 Gratuito, código aberto, GPLv3. Sem agente, sem conta, sem assinatura. Nenhuma telemetria é enviada e nunca há anúncios.
 
@@ -863,8 +863,8 @@ Tudo tem uma tecla. F1 abre a tela de atalhos com um mapa visual completo do tec
 Temas & destaques
 13 temas, 41 visuais: Dark, Light, Black e 98SE oferecem oito cores de destaque cada. Os gradientes acompanham o tema; 98SE permanece plano. O menu de temas permite ativar ou desativar o grão de filme.
 
-19 idiomas
-Toda a interface está traduzida para 19 idiomas, alternáveis ao vivo sem reiniciar. O mesmo conjunto em que o site é publicado.","Один блокнот с поиском и шифрованием вместо 80 вкладок Блокнота - форматированный текст, встроенные изображения, настоящие таблицы и каждая заметка всегда сохранена, с обменом отрывными файлами .knote.
+20 idiomas
+Toda a interface está traduzida para 20 idiomas, alternáveis ao vivo sem reiniciar. O mesmo conjunto em que o site é publicado.","Один блокнот с поиском и шифрованием вместо 80 вкладок Блокнота - форматированный текст, встроенные изображения, настоящие таблицы и каждая заметка всегда сохранена, с обменом отрывными файлами .knote.
 
 Бесплатно, открытый исходный код, GPLv3. Ни агента, ни учётной записи, ни подписки. Телеметрия не отправляется и рекламы нет... никогда.
 
@@ -935,8 +935,8 @@ F4 переключает Исходник, Отображение и Разде
 Темы и акценты
 13 тем, 41 вариант: Dark, Light, Black и 98SE предлагают по восемь акцентных цветов. Градиенты следуют теме; 98SE остаётся плоской. В меню тем можно включить или выключить зернистость плёнки.
 
-19 языков
-Весь интерфейс переведён на 19 языков, переключаемых на лету без перезапуска. Тот же набор, в котором выходит и сайт.","80 Not Defteri sekmesi yerine tek bir aranabilir, şifreli not defteri - zengin metin, satır içi görseller, gerçek tablolar ve her zaman kaydedilen, koparılabilir .knote dosyaları olarak paylaşılabilen notlar.
+20 языков
+Весь интерфейс переведён на 20 языков, переключаемых на лету без перезапуска. Тот же набор, в котором выходит и сайт.","80 Not Defteri sekmesi yerine tek bir aranabilir, şifreli not defteri - zengin metin, satır içi görseller, gerçek tablolar ve her zaman kaydedilen, koparılabilir .knote dosyaları olarak paylaşılabilen notlar.
 
 Ücretsiz, açık kaynak, GPLv3. Ajan yok, hesap yok, abonelik yok. Telemetri gönderilmez, reklam da yok... asla.
 
@@ -1007,8 +1007,8 @@ Her şeyin bir tuşu var. F1, tam görsel klavye haritasıyla kısayol katmanın
 Temalar & vurgular
 13 tema, 41 görünüm: Dark, Light, Black ve 98SE sekizer vurgu rengi sunar. Geçişler temayı izler; 98SE düz kalır. Tema menüsünden Film Tanesi açılıp kapatılabilir.
 
-19 dil
-Arayüzün tamamı 19 dile çevrildi; yeniden başlatmadan anında değiştirilebilir. Web sitesiyle aynı dil seti.","Один зашифрований блокнот із пошуком замість 80 вкладок Notepad - форматований текст, зображення в тексті, справжні таблиці й кожна нотатка завжди збережена, з можливістю ділитися відривними файлами .knote.
+20 dil
+Arayüzün tamamı 20 dile çevrildi; yeniden başlatmadan anında değiştirilebilir. Web sitesiyle aynı dil seti.","Один зашифрований блокнот із пошуком замість 80 вкладок Notepad - форматований текст, зображення в тексті, справжні таблиці й кожна нотатка завжди збережена, з можливістю ділитися відривними файлами .knote.
 
 Безкоштовно, відкритий код, GPLv3. Без агента, без облікового запису, без підписки. Телеметрія не надсилається, реклами немає... ніколи.
 
@@ -1079,8 +1079,8 @@ F4 перемикає Джерело, Відображення та Розділ
 Теми та акценти
 13 тем, 41 вигляд: Dark, Light, Black і 98SE пропонують по вісім акцентних кольорів. Градієнти відповідають темі; 98SE залишається плоскою. У меню тем можна ввімкнути або вимкнути зернистість плівки.
 
-Дев'ятнадцять мов
-Весь інтерфейс перекладено дев'ятнадцятьма мовами з перемиканням наживо без перезапуску. Той самий набір, що й у вебсайту.","Một sổ tay có thể tìm kiếm, được mã hóa thay vì 80 tab Notepad - văn bản phong phú, hình ảnh nhúng, bảng thực sự, và mọi ghi chú luôn được lưu, có thể chia sẻ dưới dạng tệp .knote có thể tách ra.
+Двадцять мов
+Весь інтерфейс перекладено двадцятьма мовами з перемиканням наживо без перезапуску. Той самий набір, що й у вебсайту.","Một sổ tay có thể tìm kiếm, được mã hóa thay vì 80 tab Notepad - văn bản phong phú, hình ảnh nhúng, bảng thực sự, và mọi ghi chú luôn được lưu, có thể chia sẻ dưới dạng tệp .knote có thể tách ra.
 
 Miễn phí, mã nguồn mở, GPLv3. Không cần đại lý, không cần tài khoản, không cần đăng ký. Không gửi dữ liệu điều khiển từ xa và không có quảng cáo... bao giờ.
 
@@ -1151,8 +1151,8 @@ Mọi thứ đều có một phím. F1 mở lớp phủ các phím tắt với b
 Chủ đề & dấu nhấn
 13 chủ đề, 41 diện mạo: Dark, Light, Black và 98SE có tám màu nhấn mỗi chủ đề. Chuyển sắc theo chủ đề; 98SE giữ màu phẳng. Menu chủ đề cho phép bật hoặc tắt hạt phim.
 
-19 ngôn ngữ
-Toàn bộ giao diện được dịch sang 19 ngôn ngữ, có thể chuyển đổi trực tiếp mà không cần khởi động lại. Bộ ngôn ngữ giống như trang web cung cấp.","一个可搜索、加密的记事本，取代 80 个 Notepad 标签页 - 富文本、内嵌图片、真正的表格，每条笔记始终自动保存，可作为可撕下的 .knote 文件分享。
+20 ngôn ngữ
+Toàn bộ giao diện được dịch sang 20 ngôn ngữ, có thể chuyển đổi trực tiếp mà không cần khởi động lại. Bộ ngôn ngữ giống như trang web cung cấp.","一个可搜索、加密的记事本，取代 80 个 Notepad 标签页 - 富文本、内嵌图片、真正的表格，每条笔记始终自动保存，可作为可撕下的 .knote 文件分享。
 
 免费、开源、GPLv3 无代理、无账户、无订阅。不发送任何遥测数据，永远没有广告。
 
@@ -1223,8 +1223,8 @@ F4 在 Markdown 和 HTML 的源码、渲染和分栏视图间切换。原生 WPF
 主题&强调色
 13种主题，41种外观：Dark、Light、Black 和 98SE 各提供8种强调色。渐变遵循主题，98SE 保持纯色。 主题菜单可开启或关闭胶片颗粒。
 
-19种语言
-整个界面已翻译成19种语言，无需重启即可实时切换。与网站提供的语言相同。","一個可搜尋、加密的記事本，取代 80 個記事本分頁 - 支援豐富文字、內嵌圖片、真正的表格，每則筆記永遠自動儲存，還能撕下成 .knote 檔分享。
+20种语言
+整个界面已翻译成20种语言，无需重启即可实时切换。与网站提供的语言相同。","一個可搜尋、加密的記事本，取代 80 個記事本分頁 - 支援豐富文字、內嵌圖片、真正的表格，每則筆記永遠自動儲存，還能撕下成 .knote 檔分享。
 
 免費、開源、GPLv3 沒有代理程式、不用帳號、免訂閱。不送出任何遙測資料，也沒有廣告……永遠沒有。
 
@@ -1295,73 +1295,145 @@ F4 在 Markdown 和 HTML 的原始碼、呈現和分欄檢視間切換。原生 
 主題與強調色
 13種佈景主題，41種外觀：Dark、Light、Black 和 98SE 各提供8種強調色。漸層遵循佈景主題，98SE 保持純色。 主題選單可開啟或關閉膠片顆粒。
 
-19種語言
-整個介面已翻譯成19種語言，無需重啟即可即時切換。與網站提供的語言相同。"
-WhatsNew,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures1,Text,"Rich text with inline images, real tables, colors, syntax highlighting, and rules","ইনলাইন ছবি, সত্যিকারের টেবিল, রঙ, সিনট্যাক্স হাইলাইটিং আর রুলসহ রিচ টেক্সট","Formátovaný text s vloženými obrázky, skutečnými tabulkami, barvami, zvýrazňováním syntaxe a linkami","Rich Text mit eingebetteten Bildern, echten Tabellen, Farben, Syntaxhervorhebung und Trennlinien","Texte enrichi avec images intégrées, vrais tableaux, couleurs, coloration syntaxique et filets","Bővített szöveg soron belüli képekkel, valódi táblázatokkal, színekkel, szintaktikai kiemeléssel és szabályokkal","Testo formattato con immagini in linea, tabelle vere, colori, evidenziazione della sintassi e linee",インライン画像、本格的な表、色、構文ハイライト、罫線を備えたリッチテキスト,"Ішкі суреттері, шынайы кестелері, түстері, синтаксисті бөлектеуі және сызықтары бар пішімделген мәтін","Rik tekst med bilder på linjen, ekte tabeller, farger, syntaksutheving og streker","Formatowany tekst z obrazami w treści, prawdziwymi tabelami, kolorami, kolorowaniem składni i liniami poziomymi","Texto rico com imagens em linha, tabelas de verdade, cores, realce de sintaxe e linhas horizontais","Форматированный текст со встроенными изображениями, настоящими таблицами, цветами, подсветкой синтаксиса и линиями","Satır içi görseller, gerçek tablolar, renkler, sözdizimi vurgulama ve çizgilerle zengin metin","Форматований текст із зображеннями в тексті, справжніми таблицями, кольорами, підсвічуванням синтаксису та лініями","Văn bản phong phú với hình ảnh nội tuyến, bảng thực, màu sắc, nổi bật cú pháp và các quy tắc",支持内嵌图片、真正表格、颜色、语法高亮和分隔线的富文本,豐富文字，支援內嵌圖片、真正的表格、色彩、語法上色與分隔線
-ProductFeatures2,Text,Named note groups - nested to any depth - and drag-and-drop custom order,নামযুক্ত নোট গ্রুপ - সাবগ্রুপে যেকোনো গভীরতায় নেস্টেড - এবং টেনে-এনে কাস্টম ক্রম,Pojmenované skupiny poznámek - vnořené do libovolné hloubky - a vlastní řazení pomocí přetažení,Benannte Notizgruppen - beliebig tief verschachtelt - und eigene Reihenfolge per Drag-and-drop,Groupes de notes nommés - imbriqués sans limite de profondeur - et ordre personnalisé par glisser-déposer,Elnevezett jegyzetcsoportok - tetszőleges mélységig beágyazva - és húzással egyéni sorrendben,Gruppi di note con nome - annidati a qualsiasi profondità - e ordine personalizzato con trascinamento,名前付きノートグループ (サブグループで何階層でも入れ子に) とドラッグ＆ドロップのカスタム順,Атаулы жазба топтары - кез келген тереңдікке кірістірілген - және сүйреп апарумен жасалған өз реті,Navngitte notatgrupper - nestet til hvilken som helst dybde - og egen rekkefølge med dra og slipp,Nazwane grupy notatek - zagnieżdżane na dowolną głębokość - i własna kolejność ustawiana przeciąganiem,"Grupos de notas com nome, aninhados em qualquer profundidade, e ordem personalizada de arrastar e soltar",Именованные группы заметок - вложенные на любую глубину - и свой порядок перетаскиванием,Adlandırılmış not grupları - alt gruplarla istediğiniz kadar derin - ve sürükle-bırak özel sıralama,Іменовані групи нотаток - вкладені на будь-яку глибину - і власний порядок перетягуванням,Nhóm ghi chú có tên - có thể lồng sâu bất kỳ mức nào - và kéo thả theo thứ tự tùy chỉnh,命名笔记分组（子分组可无限嵌套）与拖放自定义排序,命名筆記群組（子群組可無限巢狀）與拖放自訂排序
-ProductFeatures3,Text,A slide-up Killculator that prints results straight into the note,"স্লাইড হয়ে ওঠা Killculator, যা ফলাফল সরাসরি নোটে প্রিন্ট করে","Vysouvací Killculator, který tiskne výsledky přímo do poznámky","Ein aufschiebbarer Killculator, der Ergebnisse direkt in die Notiz druckt",Un Killculator coulissant qui imprime les résultats directement dans la note,"Egy felcsúsztatható Killculator, amely az eredményeket közvetlenül a jegyzetbe nyomtatja",Un Killculator a scomparsa che stampa i risultati direttamente nella nota,結果をそのままノートに印字するスライド式 Killculator,"Нәтижелерді тікелей жазбаға шығаратын, шығып тұратын Killculator",En utskyvbar Killculator som skriver resultatene rett inn i notatet,"Wysuwany Killculator, który drukuje wyniki prosto do notatki",Um Killculator que desliza para cima e imprime os resultados direto na nota,"Выдвижной Killculator, который печатает результаты прямо в заметку",Sonuçları doğrudan nota yazdıran kayarak açılan Killculator,"Висувний Killculator, що друкує результати прямо в нотатку",Máy tính Killculator trượt lên in kết quả trực tiếp vào ghi chú,滑出式 Killculator，可把计算结果直接打印进笔记,滑出式 Killculator，可把計算結果直接列印進筆記
-ProductFeatures4,Text,A SketchPad that draws right on a note and prints in as an editable image,SketchPad দিয়ে সরাসরি নোটের উপর আঁকুন; সম্পাদনাযোগ্য ছবি হিসেবে নোটে বসে যায়,SketchPad kreslí přímo na poznámku a vytiskne se do ní jako upravitelný obrázek,"Ein SketchPad, das direkt auf der Notiz zeichnet und als bearbeitbares Bild eingefügt wird",Un SketchPad qui dessine directement sur la note et s'y imprime en image modifiable,"Egy SketchPad, amely közvetlenül egy jegyzetre rajzol, és szerkeszthető képként nyomtatja ki.",Uno SketchPad che disegna direttamente su una nota e si stampa come immagine modificabile,ノートに直接描ける SketchPad。編集可能な画像としてそのまま印字,Жазбаның үстіне тікелей сурет салатын және өңделетін сурет болып шығатын SketchPad,En SketchPad som tegner rett på et notat og skrives inn som et redigerbart bilde,"SketchPad, który rysuje wprost na notatce i drukuje się do niej jako edytowalny obraz",Um SketchPad que desenha direto em uma nota e é impresso como imagem editável,"SketchPad, который рисует прямо на заметке и впечатывается редактируемым изображением",Doğrudan notun üzerine çizen ve düzenlenebilir bir görsel olarak nota basılan SketchPad,"SketchPad, що малює просто на нотатці й вставляється як редаговане зображення",Bảng vẽ SketchPad vẽ trực tiếp trên ghi chú và in ra dưới dạng hình ảnh có thể chỉnh sửa,SketchPad 可直接在笔记上绘图，并作为可编辑的图片打印进去,SketchPad 可直接在筆記上繪圖，並作為可編輯的圖片列印進去
-ProductFeatures5,Text,Share single notes as .knote files or whole databases as .kndb - with optional share passwords,একক নোট .knote ফাইল হিসেবে বা পুরো ডেটাবেস .kndb হিসেবে শেয়ার করুন - ঐচ্ছিক শেয়ার পাসওয়ার্ডসহ,Sdílejte jednotlivé poznámky jako soubory .knote nebo celé databáze jako .kndb - s volitelnými hesly pro sdílení,Einzelne Notizen als .knote-Dateien teilen oder ganze Datenbanken als .kndb - mit optionalen Freigabe-Passwörtern,Partagez des notes seules sous forme de fichiers .knote ou des bases entières en .kndb - avec mots de passe de partage optionnels,Egyetlen jegyzet megosztása .knote fájlként vagy egész adatbázis .kndb formátumban - opcionális megosztási jelszavakkal,Condividi singole note come file .knote o interi database come .kndb - con password di condivisione facoltative,単一メモを.knoteファイルとして、データベース全体を.kndbとして共有 - 共有パスワードの設定も可能,Жеке жазбаларды .knote файлы етіп немесе бүтін дерекқорларды .kndb етіп бөлісіңіз - қалауыңызша бөлісу құпия сөздерімен,Del enkeltnotater som .knote-filer eller hele databaser som .kndb - med valgfrie delingspassord,Udostępniaj pojedyncze notatki jako pliki .knote albo całe bazy danych jako .kndb - z opcjonalnymi hasłami udostępniania,"Compartilhe notas avulsas como arquivos .knote ou bancos de dados inteiros como .kndb, com senhas de compartilhamento opcionais",Передавайте отдельные заметки файлами .knote или целые базы данных как .kndb - при желании с паролями для обмена,Tek notları .knote dosyaları veya tüm veritabanlarını .kndb olarak paylaşın - isteğe bağlı paylaşım parolalarıyla,Діліться окремими нотатками як файлами .knote або цілими базами даних як .kndb - з необов'язковими паролями спільного доступу,Chia sẻ từng ghi chú dưới dạng tệp .knote hoặc toàn bộ cơ sở dữ liệu dưới dạng .kndb - với tùy chọn mật khẩu chia sẻ,将单条笔记作为 .knote 文件分享，或将整个数据库作为 .kndb 分享 - 可选设置分享密码,將單則筆記分享為 .knote 檔，或整個資料庫分享為 .kndb - 並可選擇加上分享密碼
-ProductFeatures6,Text,"Dictate and transcribe recordings, and embed the text or the recording itself into your notes.","রেকর্ডিং ডিক্টেট ও ট্রান্সক্রাইব করুন, আর টেক্সট বা রেকর্ডিংটাই নোটে যুক্ত করুন।",Diktujte a přepisujte nahrávky a vkládejte do poznámek text nebo samotnou nahrávku.,Aufnahmen diktieren und transkribieren - und den Text oder die Aufnahme selbst in die Notizen einbetten.,"Dictez et transcrivez des enregistrements, puis insérez dans vos notes le texte ou l'enregistrement lui-même.","Diktáljon és írjon át felvételeket, és ágyazza be a szöveget vagy magát a felvételt a jegyzeteibe.","Detta e trascrivi registrazioni, e incorpora il testo o la registrazione stessa nelle tue note.",録音を口述・文字起こしして、テキストまたは録音そのものをノートに埋め込み。,"Аудиожазбаларды дауыспен жазып, мәтінге айналдырыңыз және мәтінді не аудиожазбаның өзін жазбаларыңызға ендіріңіз.","Dikter og transkriber opptak, og bygg inn teksten eller selve opptaket i notatene dine.",Dyktuj i transkrybuj nagrania oraz osadzaj w notatkach tekst albo samo nagranie.,"Dite e transcreva gravações, e incorpore o texto ou a própria gravação nas suas notas.","Диктуйте и расшифровывайте записи, встраивайте в свои заметки текст или саму запись.",Kayıtları dikte edip metne dökün; metni veya kaydın kendisini notlarınıza gömün.,Диктуйте й транскрибуйте записи та вбудовуйте в нотатки текст або сам запис.,"Đọc chép và chuyển ghi âm thành văn bản, sau đó nhúng văn bản hoặc chính bản ghi âm vào ghi chú của bạn.",口述并转写录音，把文字或录音本身嵌入笔记。,口述並轉錄錄音，將文字或錄音本身嵌入筆記。
-ProductFeatures7,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures8,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures9,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures10,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures11,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures12,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures13,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures14,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures15,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures16,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures17,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures18,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures19,Text,,,,,,,,,,,,,,,,,,
-ProductFeatures20,Text,,,,,,,,,,,,,,,,,,
-ShortDescription,Text,"One searchable, encrypted notepad instead of 80 Notepad tabs - rich text, inline images, real tables, and every note always saved, shareable as tear-off .knote files.","৮০টি Notepad ট্যাবের বদলে একটিমাত্র সার্চযোগ্য, এনক্রিপ্টেড নোটপ্যাড - রিচ টেক্সট, ইনলাইন ছবি, সত্যিকারের টেবিল, আর প্রতিটি নোট সবসময় সেভ থাকে, শেয়ারযোগ্য টিয়ার-অফ .knote ফাইল হিসেবে।","Jeden prohledávatelný, šifrovaný poznámkový blok místo 80 karet Poznámkového bloku - formátovaný text, vložené obrázky, skutečné tabulky a každá poznámka vždy uložená, sdílitelná jako odtržitelné soubory .knote.","Ein durchsuchbarer, verschlüsselter Notizblock statt 80 Notepad-Tabs - Rich Text, eingebettete Bilder, echte Tabellen und jede Notiz immer gespeichert, teilbar als abtrennbare .knote-Dateien.","Un seul bloc-notes chiffré et interrogeable au lieu de 80 onglets Notepad - texte enrichi, images intégrées, vraies tableaux, et chaque note toujours enregistrée, partageable sous forme de fichiers .knote détachables.","Egy kereshető, titkosított jegyzettömb a 80 Jegyzettömb lap helyett - formázott szöveg, soron belüli képek, valódi táblázatok és minden mindig mentett jegyzet, megosztható letéphető .knote fájlként.","Un solo blocco note cifrato e ricercabile invece di 80 schede di Notepad - testo formattato, immagini in linea, tabelle vere e ogni nota sempre salvata, condivisibile come file .knote a strappo.",80個のメモ帳タブの代わりに、検索可能で暗号化された1つのノートを。リッチテキスト、インライン画像、本格的な表に対応し、すべてのメモは常に保存され、切り離せる.knoteファイルとして共有できます。,"80 Notepad қойындысының орнына іздеуге болатын, шифрланған бір блокнот - пішімделген мәтін, ішкі суреттер, шынайы кестелер және әрқашан сақталған әр жазба, жұлып берілетін .knote файлдары арқылы бөлісуге болады.","Én søkbar, kryptert notatblokk i stedet for 80 Notisblokk-faner - rik tekst, bilder på linjen, ekte tabeller og hvert notat alltid lagret, kan deles som .knote-filer.","Jeden przeszukiwalny, szyfrowany notatnik zamiast 80 kart Notatnika - formatowany tekst, obrazy w treści, prawdziwe tabele i każda notatka zawsze zapisana, do udostępniania jako odrywane pliki .knote.","Um bloco de notas pesquisável e criptografado no lugar de 80 abas do Bloco de Notas: texto rico, imagens em linha, tabelas de verdade e cada nota sempre salva, compartilhável em arquivos .knote destacáveis.","Один блокнот с поиском и шифрованием вместо 80 вкладок Блокнота - форматированный текст, встроенные изображения, настоящие таблицы и каждая заметка всегда сохранена, с обменом отрывными файлами .knote.","80 Not Defteri sekmesi yerine tek bir aranabilir, şifreli not defteri - zengin metin, satır içi görseller, gerçek tablolar ve her zaman kaydedilen, koparılabilir .knote dosyaları olarak paylaşılabilen notlar.","Один зашифрований блокнот із пошуком замість 80 вкладок Notepad - форматований текст, зображення в тексті, справжні таблиці й кожна нотатка завжди збережена, з можливістю ділитися відривними файлами .knote.","Một sổ tay có thể tìm kiếm, được mã hóa thay vì 80 tab Notepad - văn bản phong phú, hình ảnh nhúng, bảng thực sự, và mọi ghi chú luôn được lưu, có thể chia sẻ dưới dạng tệp .knote có thể tách ra.",一个可搜索、加密的记事本，取代 80 个 Notepad 标签页 - 富文本、内嵌图片、真正的表格，每条笔记始终自动保存，可作为可撕下的 .knote 文件分享。,一個可搜尋、加密的記事本，取代 80 個記事本分頁 - 支援豐富文字、內嵌圖片、真正的表格，每則筆記永遠自動儲存，還能撕下成 .knote 檔分享。
-SearchTerms1,Text,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app
-SearchTerms2,Text,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking
-SearchTerms3,Text,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes
-SearchTerms4,Text,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes
-SearchTerms5,Text,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown
-SearchTerms6,Text,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT
-SearchTerms7,Text,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes
-Applicable license terms,Text,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes
-Copyright,Text,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer
-DevelopedBy,Text,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer
-RequirementsMinimum1,Text,.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows)
-RequirementsMinimum2,Text,,,,,,,,,,,,,,,,,,
-RequirementsMinimum3,Text,,,,,,,,,,,,,,,,,,
-RequirementsMinimum4,Text,,,,,,,,,,,,,,,,,,
-RequirementsMinimum5,Text,,,,,,,,,,,,,,,,,,
-RequirementsMinimum6,Text,,,,,,,,,,,,,,,,,,
-RequirementsMinimum7,Text,,,,,,,,,,,,,,,,,,
-RequirementsMinimum8,Text,,,,,,,,,,,,,,,,,,
-RequirementsMinimum9,Text,,,,,,,,,,,,,,,,,,
-RequirementsMinimum10,Text,,,,,,,,,,,,,,,,,,
-RequirementsMinimum11,Text,,,,,,,,,,,,,,,,,,
-RequirementsRecommended1,Text,,,,,,,,,,,,,,,,,,
-RequirementsRecommended2,Text,,,,,,,,,,,,,,,,,,
-RequirementsRecommended3,Text,,,,,,,,,,,,,,,,,,
-RequirementsRecommended4,Text,,,,,,,,,,,,,,,,,,
-RequirementsRecommended5,Text,,,,,,,,,,,,,,,,,,
-RequirementsRecommended6,Text,,,,,,,,,,,,,,,,,,
-RequirementsRecommended7,Text,,,,,,,,,,,,,,,,,,
-RequirementsRecommended8,Text,,,,,,,,,,,,,,,,,,
-RequirementsRecommended9,Text,,,,,,,,,,,,,,,,,,
-RequirementsRecommended10,Text,,,,,,,,,,,,,,,,,,
-RequirementsRecommended11,Text,,,,,,,,,,,,,,,,,,
-StoreLogos1,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png
-StoreLogos2,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,,,,,,,,,,,,,,,,,,
-Screenshots1,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png
-Screenshots2,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png
-Screenshots3,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png
-Screenshots4,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png
-Screenshots5,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png
-Screenshots6,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png
-Screenshots7,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png
-Screenshots8,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png
-Screenshots9,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png
-Screenshots10,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png
-HeroArts,Text,,,,,,,,,,,,,,,,,,
-Trailers,Text,,,,,,,,,,,,,,,,,,
+20種語言
+整個介面已翻譯成20種語言，無需重啟即可即時切換。與網站提供的語言相同。","Ena iskalna in šifrirana beležnica namesto 80 zavihkov Beležnice. Obogateno besedilo, vdelane slike, prave tabele in vedno shranjeni zapiski, ki jih lahko delite kot samostojne datoteke .knote.
+
+Brezplačno, odprtokodno, GPLv3. Brez agenta, računa ali naročnine. Brez pošiljanja telemetrije in brez oglasov. Vedno.
+
+Ena beležnica namesto 80 zavihkov
+Zapiski se shranijo po premoru med tipkanjem, ob preklopu zapiska in ob zapiranju. Ctrl+S shrani takoj.
+
+Takojšnje iskanje
+Iskanje po celotnem besedilu vseh zapiskov med tipkanjem z indeksom SQLite FTS5. Razvrstite po datumu ali naslovu oziroma zapiske razporedite po svoje. Tri gostote stranske vrstice omogočajo prikaz več zapiskov na zaslonu.
+
+Obogateno besedilo, ki sledi delu
+Prilepite posnetke zaslona med besedilo, vstavite prave tabele in oblikujte s krepkim tiskom, ležečo pisavo, barvami, seznami, enoširinsko pisavo in črtami. Prelom vrstic, številke vrstic, preverjanje črkovanja za vsak zapisek ter izbirnik barv s kapalko za celotno namizje so dosegljivi z bližnjicami. Podatke iz preglednice ali CSV prilepite v celice tabele, v meniju Tabela pa dodajajte ali odstranjujte vrstice in stolpce.
+
+Šifriranje shranjenih podatkov
+Nastavite geslo in celotna zbirka podatkov se šifrira s SQLCipher (AES-256): zapiski, slike, indeks in vse drugo. Geslo lahko kadar koli spremenite ali odstranite prek ključavnice v naslovni vrstici.
+
+Barvne oznake
+Označujte zapiske z barvnimi oznakami, podobno kot v Outlooku. Oznake so prikazane v stranski vrstici, klik pa filtrira zapiske po oznaki. Definicije se prenašajo v deljenih datotekah, Ctrl+T pa jih upravlja za vse zapiske.
+
+Skupine in podskupine
+Povlecite zapiske v želeni vrstni red ali jih razvrstite v poimenovane skupine za stranke ali projekte s poljubno globokimi podskupinami. Barvna črta nadrejene skupine poteka ob njenih podskupinah, glave se strnejo s klikom, skupine se prenašajo v datotekah .kndb, Ctrl+Z pa razveljavi vsak premik.
+
+Deljenje samostojnih zapiskov
+Z desnim klikom delite zapisek kot datoteko .knote, po želji zaščiteno z geslom, ali ga povlecite neposredno v Teams, Outlook ali mapo. Celotne zbirke podatkov se prenašajo kot .kndb.
+
+Več zbirk podatkov
+Hranite ločene beležnice za posamezne stranke ali opravila. Ustvarite, preklopite in izvozite jih v enem pogovornem oknu, prejeto datoteko .kndb pa odprete z dvoklikom. Podatkovno mapo lahko postavite kamor koli.
+
+Načrtovane varnostne kopije
+Izberite mapo za varnostne kopije, nastavite kopiranje na 6 ali 12 ur, dnevno ali tedensko ter določite število ohranjenih kopij. Alt+B takoj ustvari kopijo, katero koli kopijo pa lahko obnovite kot novo zbirko brez prepisovanja izvirnika.
+
+Povezani zapiski in njihov graf
+Vnesite [[, da zapisek povežete z drugim, tudi še nenapisanim zapiskom. Odpiranje nedelujoče povezave ponudi njegovo ustvarjanje. Vsak zapisek pokaže, kateri kažejo nanj. Ctrl+Shift+B izriše celotno beležnico kot graf, v katerem lahko razporejate in zaklepate zapiske ter shranjujete postavitve. Znova se odpre točno tako, kot ste ga pustili.
+Trak povezav zapiska prikazuje vhodne in izhodne povezave, tudi na še neustvarjene cilje. Kliknite povezavo, da odprete njen zapisek.
+
+Narekovanje in prepis
+F10 (ali Ctrl+M) odpre snemalno ploščo: posnemite zvok, preglejte in razrežite valovno obliko ter jo prepišite brez povezave. Prepoznavanje govora poteka v vašem računalniku in nič se ne pošilja v splet. Posnetek vdelajte kot predvajalni element ali vstavite prepis kot besedilo. Posnetki se hranijo kot FLAC in izvažajo v WAV ali MP3.
+
+Risanje s SketchPad
+Rišite neposredno na zapisek: F7 (ali Ctrl+Shift+D) odpre nemodalni SketchPad s peresom, črto, puščico, oblikami, mnogokotnikom, vedrom, besedilnimi oznakami in radirko. Vstavljanje v zapisek doda sliko na mesto kazalca, slika pa ostane urejevalna. Dvokliknite katero koli sliko v zapisku, da jo znova odprete in označite.
+
+Killculator
+Kalkulator v izbrani temi, ki se izvleče iz stranske vrstice (F9). Vnesite enačbo s številskimi tipkami, nato z Vstavi vsoto (Ctrl+Enter) dodajte rezultat v zapisek ali z Vstavi enačbo (Ctrl+Shift+Enter) celoten izračun. Kopiranje iz calc.exe ni več potrebno.
+
+Odpira vaše datoteke
+Uporabite Ctrl+O ali spustite datoteke v aplikacijo: .txt, .log in .md postanejo zapiski, .rtf ohrani oblikovanje, .html ima izrisan predogled, slike pa se vstavijo med besedilo. Vsaka datoteka postane samostojen zapisek.
+
+Izvoz
+Izvozite zapisek kot navadno besedilo, obogateno besedilo (.rtf) z ohranjenimi slikami ali samostojno spletno stran v izbrani temi z vdelanimi slikami.
+
+Barve zapiskov in skupin
+Z desnim klikom obarvajte naslov zapiska ali ime skupine v stranski vrstici s sprotnim predogledom. To olajša prepoznavanje najpogosteje uporabljenih zapiskov. Barve se prenašajo v deljenih datotekah in se ponastavijo z enim klikom.
+
+Označevanje skladnje
+Ctrl+Shift+E obarva kodo v zapisku za šestnajst jezikov: PowerShell, Python, SQL, Bash, C#, JavaScript, TypeScript, CSS, HTML, XAML, XML, Vue, JSON, YAML, Markdown in navadno besedilo. Jezik se zazna za vsak odstavek posebej, zato se v zapisku z različnimi izseki vsak blok pravilno obarva brez izbirnika jezika.
+
+Plavajoče slike in posnetki
+Povlecite sliko ali posnetek iz besedila in postane plavajoč: besedilo ga oblije, element se pripne na mrežo z dvanajstimi stolpci, da se slike v različnih vrsticah poravnajo, spuščanje na tabelo pa ustrezno razširi stolpec.
+
+Prave hiperpovezave
+Ctrl+K poveže izbor ali uredi povezavo pod kazalcem, Ctrl+klik jo odpre, vneseni URL-ji pa se samodejno povežejo. Povezave se ohranijo pri lepljenju iz brskalnikov, Worda in drugih aplikacij za zapiske. Odprejo se samo spletni in e-poštni naslovi.
+
+Predogled Markdown in HTML
+F4 preklaplja med virom, izrisom in razdeljenim pogledom za Markdown in HTML. Izvorni predogled WPF sledi temi in zrnatosti. Skripti se nikoli ne izvajajo.
+
+Bližnjice in zemljevid tipkovnice
+Vsako dejanje ima tipko. F1 odpre pregled bližnjic s celotnim zemljevidom tipkovnice. Držite Ctrl, Shift ali Alt za predogled dejanj posameznih tipk.
+
+Teme in poudarki
+13 tem, 41 videzov: Temna, Svetla, Črna in 98SE imajo vsaka osem barv poudarka. Prelivi sledijo temi, 98SE pa ostane ploska. V meniju tem lahko vklopite ali izklopite filmsko zrnatost.
+
+Dvajset jezikov
+Celoten vmesnik je preveden v dvajset jezikov, med katerimi lahko preklapljate takoj brez ponovnega zagona. Isti jeziki so na voljo tudi na spletnem mestu."
+WhatsNew,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures1,Text,"Rich text with inline images, real tables, colors, syntax highlighting, and rules","ইনলাইন ছবি, সত্যিকারের টেবিল, রঙ, সিনট্যাক্স হাইলাইটিং আর রুলসহ রিচ টেক্সট","Formátovaný text s vloženými obrázky, skutečnými tabulkami, barvami, zvýrazňováním syntaxe a linkami","Rich Text mit eingebetteten Bildern, echten Tabellen, Farben, Syntaxhervorhebung und Trennlinien","Texte enrichi avec images intégrées, vrais tableaux, couleurs, coloration syntaxique et filets","Bővített szöveg soron belüli képekkel, valódi táblázatokkal, színekkel, szintaktikai kiemeléssel és szabályokkal","Testo formattato con immagini in linea, tabelle vere, colori, evidenziazione della sintassi e linee",インライン画像、本格的な表、色、構文ハイライト、罫線を備えたリッチテキスト,"Ішкі суреттері, шынайы кестелері, түстері, синтаксисті бөлектеуі және сызықтары бар пішімделген мәтін","Rik tekst med bilder på linjen, ekte tabeller, farger, syntaksutheving og streker","Formatowany tekst z obrazami w treści, prawdziwymi tabelami, kolorami, kolorowaniem składni i liniami poziomymi","Texto rico com imagens em linha, tabelas de verdade, cores, realce de sintaxe e linhas horizontais","Форматированный текст со встроенными изображениями, настоящими таблицами, цветами, подсветкой синтаксиса и линиями","Satır içi görseller, gerçek tablolar, renkler, sözdizimi vurgulama ve çizgilerle zengin metin","Форматований текст із зображеннями в тексті, справжніми таблицями, кольорами, підсвічуванням синтаксису та лініями","Văn bản phong phú với hình ảnh nội tuyến, bảng thực, màu sắc, nổi bật cú pháp và các quy tắc",支持内嵌图片、真正表格、颜色、语法高亮和分隔线的富文本,豐富文字，支援內嵌圖片、真正的表格、色彩、語法上色與分隔線,"Obogateno besedilo z vdelanimi slikami, pravimi tabelami, barvami, označevanjem skladnje in ločilnimi črtami"
+ProductFeatures2,Text,Named note groups - nested to any depth - and drag-and-drop custom order,নামযুক্ত নোট গ্রুপ - সাবগ্রুপে যেকোনো গভীরতায় নেস্টেড - এবং টেনে-এনে কাস্টম ক্রম,Pojmenované skupiny poznámek - vnořené do libovolné hloubky - a vlastní řazení pomocí přetažení,Benannte Notizgruppen - beliebig tief verschachtelt - und eigene Reihenfolge per Drag-and-drop,Groupes de notes nommés - imbriqués sans limite de profondeur - et ordre personnalisé par glisser-déposer,Elnevezett jegyzetcsoportok - tetszőleges mélységig beágyazva - és húzással egyéni sorrendben,Gruppi di note con nome - annidati a qualsiasi profondità - e ordine personalizzato con trascinamento,名前付きノートグループ (サブグループで何階層でも入れ子に) とドラッグ＆ドロップのカスタム順,Атаулы жазба топтары - кез келген тереңдікке кірістірілген - және сүйреп апарумен жасалған өз реті,Navngitte notatgrupper - nestet til hvilken som helst dybde - og egen rekkefølge med dra og slipp,Nazwane grupy notatek - zagnieżdżane na dowolną głębokość - i własna kolejność ustawiana przeciąganiem,"Grupos de notas com nome, aninhados em qualquer profundidade, e ordem personalizada de arrastar e soltar",Именованные группы заметок - вложенные на любую глубину - и свой порядок перетаскиванием,Adlandırılmış not grupları - alt gruplarla istediğiniz kadar derin - ve sürükle-bırak özel sıralama,Іменовані групи нотаток - вкладені на будь-яку глибину - і власний порядок перетягуванням,Nhóm ghi chú có tên - có thể lồng sâu bất kỳ mức nào - và kéo thả theo thứ tự tùy chỉnh,命名笔记分组（子分组可无限嵌套）与拖放自定义排序,命名筆記群組（子群組可無限巢狀）與拖放自訂排序,Poimenovane skupine zapiskov s poljubno globokim gnezdenjem in vrstnim redom po meri z vlečenjem
+ProductFeatures3,Text,A slide-up Killculator that prints results straight into the note,"স্লাইড হয়ে ওঠা Killculator, যা ফলাফল সরাসরি নোটে প্রিন্ট করে","Vysouvací Killculator, který tiskne výsledky přímo do poznámky","Ein aufschiebbarer Killculator, der Ergebnisse direkt in die Notiz druckt",Un Killculator coulissant qui imprime les résultats directement dans la note,"Egy felcsúsztatható Killculator, amely az eredményeket közvetlenül a jegyzetbe nyomtatja",Un Killculator a scomparsa che stampa i risultati direttamente nella nota,結果をそのままノートに印字するスライド式 Killculator,"Нәтижелерді тікелей жазбаға шығаратын, шығып тұратын Killculator",En utskyvbar Killculator som skriver resultatene rett inn i notatet,"Wysuwany Killculator, który drukuje wyniki prosto do notatki",Um Killculator que desliza para cima e imprime os resultados direto na nota,"Выдвижной Killculator, который печатает результаты прямо в заметку",Sonuçları doğrudan nota yazdıran kayarak açılan Killculator,"Висувний Killculator, що друкує результати прямо в нотатку",Máy tính Killculator trượt lên in kết quả trực tiếp vào ghi chú,滑出式 Killculator，可把计算结果直接打印进笔记,滑出式 Killculator，可把計算結果直接列印進筆記,"Izvlečni Killculator, ki rezultate vstavi neposredno v zapisek"
+ProductFeatures4,Text,A SketchPad that draws right on a note and prints in as an editable image,SketchPad দিয়ে সরাসরি নোটের উপর আঁকুন; সম্পাদনাযোগ্য ছবি হিসেবে নোটে বসে যায়,SketchPad kreslí přímo na poznámku a vytiskne se do ní jako upravitelný obrázek,"Ein SketchPad, das direkt auf der Notiz zeichnet und als bearbeitbares Bild eingefügt wird",Un SketchPad qui dessine directement sur la note et s'y imprime en image modifiable,"Egy SketchPad, amely közvetlenül egy jegyzetre rajzol, és szerkeszthető képként nyomtatja ki.",Uno SketchPad che disegna direttamente su una nota e si stampa come immagine modificabile,ノートに直接描ける SketchPad。編集可能な画像としてそのまま印字,Жазбаның үстіне тікелей сурет салатын және өңделетін сурет болып шығатын SketchPad,En SketchPad som tegner rett på et notat og skrives inn som et redigerbart bilde,"SketchPad, który rysuje wprost na notatce i drukuje się do niej jako edytowalny obraz",Um SketchPad que desenha direto em uma nota e é impresso como imagem editável,"SketchPad, который рисует прямо на заметке и впечатывается редактируемым изображением",Doğrudan notun üzerine çizen ve düzenlenebilir bir görsel olarak nota basılan SketchPad,"SketchPad, що малює просто на нотатці й вставляється як редаговане зображення",Bảng vẽ SketchPad vẽ trực tiếp trên ghi chú và in ra dưới dạng hình ảnh có thể chỉnh sửa,SketchPad 可直接在笔记上绘图，并作为可编辑的图片打印进去,SketchPad 可直接在筆記上繪圖，並作為可編輯的圖片列印進去,"SketchPad za risanje na zapisek in vstavljanje skice kot slike, ki ostane urejevalna"
+ProductFeatures5,Text,Share single notes as .knote files or whole databases as .kndb - with optional share passwords,একক নোট .knote ফাইল হিসেবে বা পুরো ডেটাবেস .kndb হিসেবে শেয়ার করুন - ঐচ্ছিক শেয়ার পাসওয়ার্ডসহ,Sdílejte jednotlivé poznámky jako soubory .knote nebo celé databáze jako .kndb - s volitelnými hesly pro sdílení,Einzelne Notizen als .knote-Dateien teilen oder ganze Datenbanken als .kndb - mit optionalen Freigabe-Passwörtern,Partagez des notes seules sous forme de fichiers .knote ou des bases entières en .kndb - avec mots de passe de partage optionnels,Egyetlen jegyzet megosztása .knote fájlként vagy egész adatbázis .kndb formátumban - opcionális megosztási jelszavakkal,Condividi singole note come file .knote o interi database come .kndb - con password di condivisione facoltative,単一メモを.knoteファイルとして、データベース全体を.kndbとして共有 - 共有パスワードの設定も可能,Жеке жазбаларды .knote файлы етіп немесе бүтін дерекқорларды .kndb етіп бөлісіңіз - қалауыңызша бөлісу құпия сөздерімен,Del enkeltnotater som .knote-filer eller hele databaser som .kndb - med valgfrie delingspassord,Udostępniaj pojedyncze notatki jako pliki .knote albo całe bazy danych jako .kndb - z opcjonalnymi hasłami udostępniania,"Compartilhe notas avulsas como arquivos .knote ou bancos de dados inteiros como .kndb, com senhas de compartilhamento opcionais",Передавайте отдельные заметки файлами .knote или целые базы данных как .kndb - при желании с паролями для обмена,Tek notları .knote dosyaları veya tüm veritabanlarını .kndb olarak paylaşın - isteğe bağlı paylaşım parolalarıyla,Діліться окремими нотатками як файлами .knote або цілими базами даних як .kndb - з необов'язковими паролями спільного доступу,Chia sẻ từng ghi chú dưới dạng tệp .knote hoặc toàn bộ cơ sở dữ liệu dưới dạng .kndb - với tùy chọn mật khẩu chia sẻ,将单条笔记作为 .knote 文件分享，或将整个数据库作为 .kndb 分享 - 可选设置分享密码,將單則筆記分享為 .knote 檔，或整個資料庫分享為 .kndb - 並可選擇加上分享密碼,Deljenje posameznih zapiskov kot .knote ali celotnih zbirk kot .kndb z izbirnimi gesli za deljenje
+ProductFeatures6,Text,"Dictate and transcribe recordings, and embed the text or the recording itself into your notes.","রেকর্ডিং ডিক্টেট ও ট্রান্সক্রাইব করুন, আর টেক্সট বা রেকর্ডিংটাই নোটে যুক্ত করুন।",Diktujte a přepisujte nahrávky a vkládejte do poznámek text nebo samotnou nahrávku.,Aufnahmen diktieren und transkribieren - und den Text oder die Aufnahme selbst in die Notizen einbetten.,"Dictez et transcrivez des enregistrements, puis insérez dans vos notes le texte ou l'enregistrement lui-même.","Diktáljon és írjon át felvételeket, és ágyazza be a szöveget vagy magát a felvételt a jegyzeteibe.","Detta e trascrivi registrazioni, e incorpora il testo o la registrazione stessa nelle tue note.",録音を口述・文字起こしして、テキストまたは録音そのものをノートに埋め込み。,"Аудиожазбаларды дауыспен жазып, мәтінге айналдырыңыз және мәтінді не аудиожазбаның өзін жазбаларыңызға ендіріңіз.","Dikter og transkriber opptak, og bygg inn teksten eller selve opptaket i notatene dine.",Dyktuj i transkrybuj nagrania oraz osadzaj w notatkach tekst albo samo nagranie.,"Dite e transcreva gravações, e incorpore o texto ou a própria gravação nas suas notas.","Диктуйте и расшифровывайте записи, встраивайте в свои заметки текст или саму запись.",Kayıtları dikte edip metne dökün; metni veya kaydın kendisini notlarınıza gömün.,Диктуйте й транскрибуйте записи та вбудовуйте в нотатки текст або сам запис.,"Đọc chép và chuyển ghi âm thành văn bản, sau đó nhúng văn bản hoặc chính bản ghi âm vào ghi chú của bạn.",口述并转写录音，把文字或录音本身嵌入笔记。,口述並轉錄錄音，將文字或錄音本身嵌入筆記。,Narekovanje in prepis posnetkov ter vdelava besedila ali samega posnetka v zapiske.
+ProductFeatures7,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures8,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures9,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures10,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures11,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures12,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures13,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures14,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures15,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures16,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures17,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures18,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures19,Text,,,,,,,,,,,,,,,,,,,""
+ProductFeatures20,Text,,,,,,,,,,,,,,,,,,,""
+ShortDescription,Text,"One searchable, encrypted notepad instead of 80 Notepad tabs - rich text, inline images, real tables, and every note always saved, shareable as tear-off .knote files.","৮০টি Notepad ট্যাবের বদলে একটিমাত্র সার্চযোগ্য, এনক্রিপ্টেড নোটপ্যাড - রিচ টেক্সট, ইনলাইন ছবি, সত্যিকারের টেবিল, আর প্রতিটি নোট সবসময় সেভ থাকে, শেয়ারযোগ্য টিয়ার-অফ .knote ফাইল হিসেবে।","Jeden prohledávatelný, šifrovaný poznámkový blok místo 80 karet Poznámkového bloku - formátovaný text, vložené obrázky, skutečné tabulky a každá poznámka vždy uložená, sdílitelná jako odtržitelné soubory .knote.","Ein durchsuchbarer, verschlüsselter Notizblock statt 80 Notepad-Tabs - Rich Text, eingebettete Bilder, echte Tabellen und jede Notiz immer gespeichert, teilbar als abtrennbare .knote-Dateien.","Un seul bloc-notes chiffré et interrogeable au lieu de 80 onglets Notepad - texte enrichi, images intégrées, vraies tableaux, et chaque note toujours enregistrée, partageable sous forme de fichiers .knote détachables.","Egy kereshető, titkosított jegyzettömb a 80 Jegyzettömb lap helyett - formázott szöveg, soron belüli képek, valódi táblázatok és minden mindig mentett jegyzet, megosztható letéphető .knote fájlként.","Un solo blocco note cifrato e ricercabile invece di 80 schede di Notepad - testo formattato, immagini in linea, tabelle vere e ogni nota sempre salvata, condivisibile come file .knote a strappo.",80個のメモ帳タブの代わりに、検索可能で暗号化された1つのノートを。リッチテキスト、インライン画像、本格的な表に対応し、すべてのメモは常に保存され、切り離せる.knoteファイルとして共有できます。,"80 Notepad қойындысының орнына іздеуге болатын, шифрланған бір блокнот - пішімделген мәтін, ішкі суреттер, шынайы кестелер және әрқашан сақталған әр жазба, жұлып берілетін .knote файлдары арқылы бөлісуге болады.","Én søkbar, kryptert notatblokk i stedet for 80 Notisblokk-faner - rik tekst, bilder på linjen, ekte tabeller og hvert notat alltid lagret, kan deles som .knote-filer.","Jeden przeszukiwalny, szyfrowany notatnik zamiast 80 kart Notatnika - formatowany tekst, obrazy w treści, prawdziwe tabele i każda notatka zawsze zapisana, do udostępniania jako odrywane pliki .knote.","Um bloco de notas pesquisável e criptografado no lugar de 80 abas do Bloco de Notas: texto rico, imagens em linha, tabelas de verdade e cada nota sempre salva, compartilhável em arquivos .knote destacáveis.","Один блокнот с поиском и шифрованием вместо 80 вкладок Блокнота - форматированный текст, встроенные изображения, настоящие таблицы и каждая заметка всегда сохранена, с обменом отрывными файлами .knote.","80 Not Defteri sekmesi yerine tek bir aranabilir, şifreli not defteri - zengin metin, satır içi görseller, gerçek tablolar ve her zaman kaydedilen, koparılabilir .knote dosyaları olarak paylaşılabilen notlar.","Один зашифрований блокнот із пошуком замість 80 вкладок Notepad - форматований текст, зображення в тексті, справжні таблиці й кожна нотатка завжди збережена, з можливістю ділитися відривними файлами .knote.","Một sổ tay có thể tìm kiếm, được mã hóa thay vì 80 tab Notepad - văn bản phong phú, hình ảnh nhúng, bảng thực sự, và mọi ghi chú luôn được lưu, có thể chia sẻ dưới dạng tệp .knote có thể tách ra.",一个可搜索、加密的记事本，取代 80 个 Notepad 标签页 - 富文本、内嵌图片、真正的表格，每条笔记始终自动保存，可作为可撕下的 .knote 文件分享。,一個可搜尋、加密的記事本，取代 80 個記事本分頁 - 支援豐富文字、內嵌圖片、真正的表格，每則筆記永遠自動儲存，還能撕下成 .knote 檔分享。,"Ena iskalna in šifrirana beležnica namesto 80 zavihkov Beležnice. Obogateno besedilo, vdelane slike, prave tabele in vedno shranjeni zapiski, ki jih lahko delite kot samostojne datoteke .knote."
+SearchTerms1,Text,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,notes app,program za zapiske
+SearchTerms2,Text,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,note taking,beleženje zapiskov
+SearchTerms3,Text,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,encrypted notes,šifrirani zapiski
+SearchTerms4,Text,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,rich text notes,oblikovani zapiski
+SearchTerms5,Text,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown,Markdown
+SearchTerms6,Text,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,notes for IT,zapiski za IT
+SearchTerms7,Text,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,offline notes,zapiski brez povezave
+Applicable license terms,Text,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Source code: https://github.com/SteveTheKiller/KillerNotes,GNU General Public License v3.0 (GPLv3). Izvorna koda: https://github.com/SteveTheKiller/KillerNotes
+Copyright,Text,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer,© 2026 Steve the Killer
+DevelopedBy,Text,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer,Steve the Killer
+RequirementsMinimum1,Text,.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 or newer (included with Windows),.NET Framework 4.8 ali novejši (vključen v Windows)
+RequirementsMinimum2,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsMinimum3,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsMinimum4,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsMinimum5,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsMinimum6,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsMinimum7,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsMinimum8,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsMinimum9,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsMinimum10,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsMinimum11,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsRecommended1,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsRecommended2,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsRecommended3,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsRecommended4,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsRecommended5,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsRecommended6,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsRecommended7,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsRecommended8,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsRecommended9,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsRecommended10,Text,,,,,,,,,,,,,,,,,,,""
+RequirementsRecommended11,Text,,,,,,,,,,,,,,,,,,,""
+StoreLogos1,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png,StoreLogo-1080.png
+StoreLogos2,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,,,,,,,,,,,,,,,,,,,""
+Screenshots1,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png,screenshots/01.png
+Screenshots2,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png,screenshots/02.png
+Screenshots3,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png,screenshots/03.png
+Screenshots4,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png,screenshots/04.png
+Screenshots5,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png,screenshots/05.png
+Screenshots6,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png,screenshots/06.png
+Screenshots7,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png,screenshots/07.png
+Screenshots8,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png,screenshots/08.png
+Screenshots9,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png,screenshots/09.png
+Screenshots10,Provide the file name only if it is in the same folder. Provide relative path to image starting with the subfolder name otherwise,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png,screenshots/10.png
+HeroArts,Text,,,,,,,,,,,,,,,,,,,""
+Trailers,Text,,,,,,,,,,,,,,,,,,,""

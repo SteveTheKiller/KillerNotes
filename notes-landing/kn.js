@@ -3,7 +3,7 @@
 (function () {
   var root = document.documentElement;
   var originalTitle = document.title;
-  var UI_EN = { ui_theme:'Theme', ui_language:'Language', ui_close:'Close', ui_more:'More', ui_copy:'Copy', ui_accent:'Accent color', ui_expand:'Expand section', ui_click:'click me', ui_image:'Expanded KillerNotes screenshot', ui_egg:'All 80 Notepad tabs may finally rest in peace.', ui_red:'Red', ui_orange:'Orange', ui_yellow:'Yellow', ui_green:'Green', ui_teal:'Teal', ui_blue:'Blue', ui_purple:'Purple', ui_magenta:'Magenta', mcp_gh:'KillerMCP on GitHub' };
+  var UI_EN = { ui_theme:'Theme', ui_language:'Language', ui_close:'Close', ui_more:'More', ui_copy:'Copy', ui_accent:'Accent color', ui_expand:'Expand section', ui_click:'click me', ui_image:'Expanded KillerNotes screenshot', ui_egg:'All 80 Notepad tabs may finally rest in peace.', ui_red:'Red', ui_orange:'Orange', ui_yellow:'Yellow', ui_green:'Green', ui_teal:'Teal', ui_blue:'Blue', ui_purple:'Purple', ui_magenta:'Magenta', mcp_gh:'KillerMCP on GitHub', ui_store:'Get KillerNotes from the Microsoft Store' };
   function uiText(key) {
     var lang = root.getAttribute('lang');
     lang = lang === 'zh-Hant' ? 'zh' : lang === 'zh-Hans' ? 'zh-cn' : lang;
@@ -18,7 +18,14 @@
     return holder.textContent.trim();
   }
   function localizeChrome() {
-    var labels = { Theme:'ui_theme', 'Choose theme':'ui_theme', Language:'ui_language', Close:'ui_close', More:'ui_more', Copy:'ui_copy', 'Accent color':'ui_accent', 'Expand section':'ui_expand', 'click me':'ui_click', 'Expanded KillerNotes screenshot':'ui_image', Red:'ui_red', Orange:'ui_orange', Yellow:'ui_yellow', Green:'ui_green', Teal:'ui_teal', Blue:'ui_blue', Purple:'ui_purple', Magenta:'ui_magenta', 'KillerMCP on GitHub':'mcp_gh' };
+    var themeDict = (window.I18N && window.I18N[root.getAttribute('lang')]) || {};
+    document.querySelectorAll('.swatch[data-theme]').forEach(function (swatch) {
+      if (!swatch.hasAttribute('data-en-theme-title')) swatch.setAttribute('data-en-theme-title', swatch.title);
+      var title = themeDict['theme_' + swatch.getAttribute('data-theme')] || swatch.getAttribute('data-en-theme-title');
+      swatch.title = title;
+      swatch.setAttribute('aria-label', title);
+    });
+    var labels = { Theme:'ui_theme', 'Choose theme':'ui_theme', Language:'ui_language', Close:'ui_close', More:'ui_more', Copy:'ui_copy', 'Accent color':'ui_accent', 'Expand section':'ui_expand', 'click me':'ui_click', 'Expanded KillerNotes screenshot':'ui_image', Red:'ui_red', Orange:'ui_orange', Yellow:'ui_yellow', Green:'ui_green', Teal:'ui_teal', Blue:'ui_blue', Purple:'ui_purple', Magenta:'ui_magenta', 'KillerMCP on GitHub':'mcp_gh', 'Get KillerNotes from the Microsoft Store':'ui_store' };
     ['title', 'aria-label'].forEach(function (attr) {
       document.querySelectorAll('[' + attr + ']').forEach(function (n) {
         var mark = 'data-ui-' + attr;
@@ -298,8 +305,9 @@
   var I18N = (typeof window !== 'undefined' && window.I18N) ? window.I18N : {};
   var EN = {};
   document.querySelectorAll('[data-i18n]').forEach(function (n) { EN[n.getAttribute('data-i18n')] = n.innerHTML; });
-  var LANGS = ['en','cs','es','de','fr','it','ja','tr','vi','zh','zh-cn','bn','hu','pl','ru','uk','nb','pt','kk'];
+  var LANGS = ['en','cs','es','de','fr','it','ja','tr','vi','zh','zh-cn','bn','hu','pl','ru','uk','nb','pt','kk','sl'];
   var FLAGS = {
+    sl: '<svg viewBox="0 0 24 24"><rect width="24" height="8" fill="#fff"/><rect y="8" width="24" height="8" fill="#005da4"/><rect y="16" width="24" height="8" fill="#ed1c24"/><path d="M5 4h6v5c0 3-3 4-3 4S5 12 5 9Z" fill="#005da4" stroke="#ed1c24" stroke-width=".6"/><path d="m5.5 9 1.2-1.7L8 9l1.3-1.7 1.2 1.7v1H5.5Z" fill="#fff"/><g fill="#ffdd00"><circle cx="7" cy="5.3" r=".35"/><circle cx="9" cy="5.3" r=".35"/><circle cx="8" cy="6.3" r=".35"/></g></svg>',
     en: '<svg viewBox="0 0 24 24"><rect width="24" height="24" fill="#fff"/><g fill="#b22234"><rect width="24" height="1.85"/><rect y="3.7" width="24" height="1.85"/><rect y="7.4" width="24" height="1.85"/><rect y="11.1" width="24" height="1.85"/><rect y="14.8" width="24" height="1.85"/><rect y="18.5" width="24" height="1.85"/><rect y="22.2" width="24" height="1.8"/></g><rect width="11" height="12.95" fill="#3c3b6e"/></svg>',
     cs: '<svg viewBox="0 0 24 24"><rect width="24" height="12" fill="#fff"/><rect y="12" width="24" height="12" fill="#d7141a"/><polygon points="0,0 12,12 0,24" fill="#11457e"/></svg>',
     es: '<svg viewBox="0 0 24 24"><rect width="24" height="24" fill="#c60b1e"/><rect y="6" width="24" height="12" fill="#ffc400"/></svg>',
