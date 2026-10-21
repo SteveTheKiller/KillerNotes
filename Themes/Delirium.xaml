@@ -111,4 +111,5 @@
     <LinearGradientBrush x:Key="DialogTitleBarBrush" StartPoint="0,0.5" EndPoint="1,0.5" MappingMode="RelativeToBoundingBox" SpreadMethod="Pad" ColorInterpolationMode="SRgbLinearInterpolation" po:Freeze="True"><GradientStop Color="#FF641D25" Offset="0"/><GradientStop Color="#FF2F2853" Offset="1"/></LinearGradientBrush>
     <sys:Double x:Key="TitleWordmarkBoldSize" xmlns:sys="clr-namespace:System;assembly=mscorlib">22.52</sys:Double>
     <sys:Double x:Key="TitleWordmarkSize" xmlns:sys="clr-namespace:System;assembly=mscorlib">15</sys:Double>
+    <SolidColorBrush x:Key="FileDialogPaneBrush" Color="#343344" po:Freeze="True"/>
 </ResourceDictionary>

@@ -160,6 +160,8 @@ namespace KillerNotes.SharedPicker
         {
             _mode = mode;
             InitializeComponent();
+            TitleIcon.Source = System.Windows.Media.Imaging.BitmapDecoder.Create(new Uri("pack://application:,,,/KillerNotes;component/Resources/kn-icon.ico"),
+                System.Windows.Media.Imaging.BitmapCreateOptions.None, System.Windows.Media.Imaging.BitmapCacheOption.OnLoad).Frames[0];
             InitializePickerKeyboard();
             Loaded += (_, _) => Anim.FadeIn(RootFade);
 
