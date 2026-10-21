@@ -118,6 +118,8 @@ namespace KillerNotes.Shell
 
         private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (_sidebarReplaceOpen && !TitleNoteSearch.IsMouseOver && !SidebarReplaceRow.IsMouseOver && !TitleSearchFlyout.IsMouseOver)
+                SetSidebarReplaceOpen(false);
             // Never while a modal overlay owns the screen - the About card, the shortcuts overlay
             // and the Fonts card are not places a thumb button should quietly swap the note
             // behind them.
