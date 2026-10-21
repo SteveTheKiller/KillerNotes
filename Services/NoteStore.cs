@@ -2380,6 +2380,113 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             finally { SqliteConnection.ClearAllPools(); }   // release the destination file handle
         }
 
+        // ---- Folder import (1.6.0, Services/FolderImporter.cs) ----
+        // import_sources remembers which file, at which content hash, became which note, so
+        // importing the same folder again skips what already came in. It is created on first use
+        // rather than in the schema: a notepad that never imports never has it.
+
+        private const string ImportSourcesSql =
+            "CREATE TABLE IF NOT EXISTS import_sources(source TEXT NOT NULL, hash TEXT NOT NULL, note_id INTEGER NOT NULL, PRIMARY KEY(source, hash)) WITHOUT ROWID";
+
+        /// <summary>What the folder import preview compares against: imported sources whose note is
+        /// still live, folded titles of live notes, and every group path.</summary>
+        internal static ImportState ImportState()
+        {
+            var sources = new HashSet<string>(StringComparer.Ordinal);
+            var titles = new HashSet<string>(StringComparer.Ordinal);
+            var groups = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (_db == null) return new ImportState(sources, titles, groups);
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.CommandText = "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'import_sources'";
+                if ((long)cmd.ExecuteScalar()! > 0)
+                {
+                    cmd.CommandText = "SELECT s.source, s.hash FROM import_sources s JOIN notes n ON n.id = s.note_id WHERE n.deleted = ''";
+                    using var r = cmd.ExecuteReader();
+                    while (r.Read()) sources.Add(r.GetString(0) + "|" + r.GetString(1));
+                }
+            }
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.CommandText = "SELECT title, notebook FROM notes WHERE deleted = ''";
+                using var r = cmd.ExecuteReader();
+                while (r.Read())
+                {
+                    titles.Add(TextFold.Fold((r.IsDBNull(0) ? "" : r.GetString(0)).Trim()));
+                    if (!r.IsDBNull(1) && r.GetString(1).Length > 0) groups.Add(r.GetString(1));
+                }
+            }
+            foreach (var group in ListGroups()) groups.Add(group.Name);
+            return new ImportState(sources, titles, groups);
+        }
+
+        /// <summary>Writes prepared notes, their groups, tags, payloads and links in ONE transaction:
+        /// a failure part way leaves the notepad exactly as it was. Returns the new ids in order.</summary>
+        internal static List<long> ImportBatch(IReadOnlyList<PreparedImport> notes)
+        {
+            if (_db == null || IsReadOnly) throw new InvalidOperationException("The database is not writable.");
+            var ids = new List<long>();
+            var db = _db;
+            using var tx = db.BeginTransaction();
+            SqliteCommand Command(string sql)
+            {
+                var cmd = db.CreateCommand();
+                cmd.Transaction = tx;
+                cmd.CommandText = sql;
+                return cmd;
+            }
+            using (var create = Command(ImportSourcesSql)) create.ExecuteNonQuery();
+
+            // Every level of every group path, parents first, appended after the existing groups.
+            foreach (string path in notes.Select(n => n.Group).Where(g => g.Length > 0).Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                string[] parts = path.Split([GroupSep], StringSplitOptions.None);
+                for (int depth = 1; depth <= parts.Length; depth++)
+                {
+                    using var group = Command("INSERT OR IGNORE INTO groups(name, parent, sort_order) VALUES ($n, $p, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM groups))");
+                    group.Parameters.AddWithValue("$n", string.Join(GroupSep, parts.Take(depth)));
+                    group.Parameters.AddWithValue("$p", string.Join(GroupSep, parts.Take(depth - 1)));
+                    group.ExecuteNonQuery();
+                }
+            }
+            foreach (string tag in notes.SelectMany(n => n.Tags).Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                using var add = Command("INSERT OR IGNORE INTO tags(name, color) VALUES ($n, '')");
+                add.Parameters.AddWithValue("$n", tag);
+                add.ExecuteNonQuery();
+            }
+            PutAttachments(notes.SelectMany(n => n.Attachments), tx);
+
+            foreach (var note in notes)
+            {
+                using (var insert = Command(
+                    "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, format, pinned, sort_order) " +
+                    "VALUES ($t, $g, $tags, $c, $m, $content, $plain, $color, $f, $pin, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes)); " +
+                    "SELECT last_insert_rowid()"))
+                {
+                    insert.Parameters.AddWithValue("$t", note.Title);
+                    insert.Parameters.AddWithValue("$g", note.Group);
+                    insert.Parameters.AddWithValue("$tags", string.Join(", ", note.Tags));
+                    insert.Parameters.AddWithValue("$c", Ts(note.Created));
+                    insert.Parameters.AddWithValue("$m", Ts(note.Modified));
+                    insert.Parameters.AddWithValue("$content", note.Content);
+                    insert.Parameters.AddWithValue("$plain", note.Plain);
+                    insert.Parameters.AddWithValue("$color", note.Color);
+                    insert.Parameters.AddWithValue("$f", note.Format);
+                    insert.Parameters.AddWithValue("$pin", note.Pinned ? 1 : 0);
+                    ids.Add((long)insert.ExecuteScalar()!);
+                }
+                SetLinks(ids[ids.Count - 1], note.Links, tx);
+                using var source = Command("INSERT OR REPLACE INTO import_sources(source, hash, note_id) VALUES ($s, $h, $id)");
+                source.Parameters.AddWithValue("$s", note.SourceKey);
+                source.Parameters.AddWithValue("$h", note.SourceHash);
+                source.Parameters.AddWithValue("$id", ids[ids.Count - 1]);
+                source.ExecuteNonQuery();
+            }
+            tx.Commit();
+            return ids;
+        }
+
         /// <summary>A second, read-only connection to the open database for vault export, which runs
         /// on its own thread: the main connection belongs to the UI thread and is not shared.</summary>
         internal static VaultSource OpenVaultSource()

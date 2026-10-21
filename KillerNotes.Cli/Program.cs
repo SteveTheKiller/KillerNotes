@@ -177,6 +177,7 @@ namespace KillerNotes.Cli
             Console.WriteLine("  export --id id --output new-absolute-path.(txt|md|html|rtf|knote)");
             Console.WriteLine("  share --id id --output new-absolute-path.knote [--password password]");
             Console.WriteLine("  export-all --output new-absolute-folder");
+            Console.WriteLine("  import-folder --path absolute-folder [--dry-run]");
             Console.WriteLine("  detect-markdown [--value on|off]");
             Console.WriteLine("  convert --id id --format markdown|rich [--allow-loss]");
             Console.WriteLine("  templates | create-from-template --template-id id [--title title] [--group name]");
@@ -191,7 +192,7 @@ namespace KillerNotes.Cli
             Console.WriteLine("  permanent-delete --id trashed-id --confirm | empty-trash --confirm");
         }
 
-        private static bool IsWriteCommand(string command) => command is "create" or "update" or "create-group" or "set-group-color" or "set-title-color" or "import-image" or "export" or "share" or "export-all" or "detect-markdown" or "convert" or "templates" or "create-from-template" or "today" or "trash-list" or "trash" or "restore" or "pin" or "unpin" or "version-get" or "version-restore" or "rename-group" or "delete-group" or "tag-definitions" or "create-tag" or "rename-tag" or "delete-tag" or "set-tag-color" or "template-group" or "daily-group" or "backup-now" or "permanent-delete" or "empty-trash";
+        private static bool IsWriteCommand(string command) => command is "create" or "update" or "create-group" or "set-group-color" or "set-title-color" or "import-image" or "export" or "share" or "export-all" or "import-folder" or "detect-markdown" or "convert" or "templates" or "create-from-template" or "today" or "trash-list" or "trash" or "restore" or "pin" or "unpin" or "version-get" or "version-restore" or "rename-group" or "delete-group" or "tag-definitions" or "create-tag" or "rename-tag" or "delete-tag" or "set-tag-color" or "template-group" or "daily-group" or "backup-now" or "permanent-delete" or "empty-trash";
 
         /// <summary>How long a write waits for KillerNotes' answer once the request is sent.</summary>
         private static readonly TimeSpan ResponseDeadline = TimeSpan.FromSeconds(30);

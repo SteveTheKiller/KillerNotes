@@ -28,7 +28,7 @@ namespace KillerNotes.Shell
         {
             json = "";
             if (TryExecuteMcpManagement(command, values, out json)) return true;
-            if (command is not ("share" or "export-all" or "detect-markdown" or "convert" or "templates" or "create-from-template" or "today" or "trash-list" or "trash" or "restore" or "pin" or "unpin" or "version-get" or "version-restore")) return false;
+            if (command is not ("share" or "export-all" or "import-folder" or "detect-markdown" or "convert" or "templates" or "create-from-template" or "today" or "trash-list" or "trash" or "restore" or "pin" or "unpin" or "version-get" or "version-restore")) return false;
             if (NoteStore.IsReadOnly && command is not ("share" or "export-all" or "templates" or "trash-list" or "version-get" or "detect-markdown"))
                 throw new InvalidOperationException("The database is read-only");
             if (!SaveCurrentNote(refreshList: false)) throw new IOException(StatusText.Text);
@@ -74,6 +74,22 @@ namespace KillerNotes.Shell
                         result.Count = export.Written;
                     }
                     break;
+                case "import-folder":
+                    {
+                        // The same three stages as the menu, run inline: plan, then (unless --dry-run)
+                        // prepare and write in one transaction. --dry-run is the preview.
+                        string folder = Take(values, "--path", true)!; bool dryRun = TakeFlag(values, "--dry-run"); RequireEmpty(values);
+                        if (!Path.IsPathRooted(folder) || !Directory.Exists(folder)) throw new ArgumentException("Path must be an existing absolute folder");
+                        var plan = FolderImporter.Plan(folder, NoteStore.ImportState(), System.Threading.CancellationToken.None);
+                        result.Content = PreviewText(plan);
+                        result.Count = plan.Notes.Count;
+                        if (dryRun || plan.Notes.Count == 0) break;
+                        var ids = NoteStore.ImportBatch(FolderImporter.Prepare(plan, null, System.Threading.CancellationToken.None));
+                        RefreshList();
+                        result.Count = ids.Count;
+                        result.Id = ids.FirstOrDefault();
+                        break;
+                    }
                 case "create-from-template":
                     long templateId = TakeNamedId(values, "--template-id"); RequireNote(templateId);
                     string? title = Take(values, "--title"); string? group = Take(values, "--group"); RequireEmpty(values);

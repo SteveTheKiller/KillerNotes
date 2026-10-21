@@ -1002,6 +1002,9 @@
                                      label says "all notes" so the scope is on the row itself. -->
                                 <MenuItem InputGestureText="Alt+E" Header="{DynamicResource Str_Ctx_ExportVault}" Icon="&#xE838;" Click="ExportVault_Click"
                                           ToolTip="{DynamicResource Str_TT_ExportVault}"/>
+                                <!-- The way back in (1.6.0, FolderImport.cs): a folder of Markdown files. -->
+                                <MenuItem InputGestureText="Alt+Shift+I" Header="{DynamicResource Str_Ctx_ImportFolder}" Icon="&#xE8B5;" Click="ImportFolder_Click"
+                                          ToolTip="{DynamicResource Str_TT_ImportFolder}"/>
                                 <!-- One toggle row per defined tag, built on open (Tags.cs) -->
                                 <MenuItem InputGestureText="Alt+K" x:Name="TagsMenu" Header="{DynamicResource Str_Ctx_Tags}" Icon="&#xE8EC;"/>
                                 <!-- One row per group + remove + new, built on open (Groups.cs, #4) -->
@@ -2695,7 +2698,7 @@
                     <StackPanel.Resources>
                         <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
                     </StackPanel.Resources>
-                    <Button x:Name="VaultCancelBtn" Visibility="Collapsed" Click="VaultCancel_Click"
+                    <Button x:Name="JobCancelBtn" Visibility="Collapsed" Click="JobCancel_Click"
                             Content="{DynamicResource Str_Btn_Cancel}"
                             Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
                             FontSize="10" Padding="8,1" Margin="6,0" VerticalAlignment="Center"/>

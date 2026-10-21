@@ -186,7 +186,7 @@ namespace KillerNotes.Shell
             return true;
         }
 
-        private static readonly HashSet<string> Flags = new(StringComparer.Ordinal) { "--allow-loss", "--confirm" };
+        private static readonly HashSet<string> Flags = new(StringComparer.Ordinal) { "--allow-loss", "--confirm", "--dry-run" };
 
         /// <summary>Where an option name stands in OPTION position: walking from the start, every
         /// option other than a flag owns the next token as its value.</summary>

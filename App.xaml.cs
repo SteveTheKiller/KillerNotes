@@ -44,7 +44,7 @@ namespace KillerNotes
             var cliArgs = KillerFamily.CommandLine.CommandLineEntry.GetArguments(e.Args,
                 ["search", "list", "get", "groups", "tags", "backlinks", "links", "history", "stats",
                  "create", "update", "create-group", "set-group-color", "set-title-color", "import-image",
-                 "export", "share", "export-all", "detect-markdown", "convert", "templates", "create-from-template",
+                 "export", "share", "export-all", "import-folder", "detect-markdown", "convert", "templates", "create-from-template",
                  "today", "trash-list", "trash", "restore", "pin", "unpin", "version-get", "version-restore",
                  "rename-group", "delete-group", "tag-definitions", "create-tag", "rename-tag", "delete-tag",
                  "set-tag-color", "template-group", "daily-group", "backup-now", "permanent-delete", "empty-trash"]);

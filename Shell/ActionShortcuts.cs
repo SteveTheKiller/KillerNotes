@@ -19,6 +19,7 @@ namespace KillerNotes.Shell
         [
             new("Alt+S", Key.S, ModifierKeys.Alt, "Str_Ctx_ShareNote", "File", w => w.RunNoteAction(w.ShareNote_Click)),
             new("Alt+E", Key.E, ModifierKeys.Alt, "Str_Ctx_ExportVault", "File", w => w.ExportVault_Click(w, new RoutedEventArgs())),
+            new("Alt+Shift+I", Key.I, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_ImportFolder", "File", w => w.ImportFolder_Click(w, new RoutedEventArgs())),
             new("Alt+R", Key.R, ModifierKeys.Alt, "Str_Ctx_TitleColorReset", "Note", w => w.RunNoteAction(w.TitleColorReset_Click)),
             new("Alt+V", Key.V, ModifierKeys.Alt, "Str_Ctx_PreviewGlobal", "View", w => w.PreviewDetectGlobal_Click(w, new RoutedEventArgs())),
             new("Alt+F", Key.F, ModifierKeys.Alt, "Str_KS_ConvertFormat", "Note", w => w.RunNoteAction(w.ConvertFormat_Click)),

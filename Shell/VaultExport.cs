@@ -20,11 +20,14 @@ namespace KillerNotes.Shell
 {
     public partial class MainWindow
     {
-        private CancellationTokenSource? _vaultCancel;
+        // The one background job at a time - a vault export, or a folder import (FolderImport.cs) -
+        // and what the status line says while it stops. Both share the footer's Cancel button.
+        private CancellationTokenSource? _jobCancel;
+        private string _jobCancelingKey = "Str_St_VaultCanceling";
 
         private void ExportVault_Click(object sender, RoutedEventArgs e)
         {
-            if (_vaultCancel != null) { StatusText.Text = Loc("Str_St_VaultBusy"); return; }
+            if (_jobCancel != null) { StatusText.Text = Loc("Str_St_JobBusy"); return; }
             if (!NoteStore.IsOpen) return;
 
             // Export what is on screen, not a stale copy - same rule as ExportNoteAs.
@@ -59,14 +62,15 @@ namespace KillerNotes.Shell
             }
             var text = VaultExportText.From(Loc);
             var cancel = new CancellationTokenSource();
-            _vaultCancel = cancel;
-            VaultCancelBtn.Visibility = Visibility.Visible;
+            _jobCancel = cancel;
+            _jobCancelingKey = "Str_St_VaultCanceling";
+            JobCancelBtn.Visibility = Visibility.Visible;
             _statusTimer.Stop();
             StatusText.Text = string.Format(Loc("Str_St_VaultProgress"), 0, notes.Count);
             // Created here, so its reports arrive on the UI thread.
             var progress = new Progress<int>(done =>
             {
-                if (_vaultCancel == cancel && !cancel.IsCancellationRequested)
+                if (_jobCancel == cancel && !cancel.IsCancellationRequested)
                     StatusText.Text = string.Format(Loc("Str_St_VaultProgress"), done, notes.Count);
             });
 
@@ -91,9 +95,9 @@ namespace KillerNotes.Shell
 
         private void FinishVaultExport(CancellationTokenSource cancel, string root, VaultExportResult? result, Exception? error)
         {
-            if (_vaultCancel == cancel) _vaultCancel = null;
+            if (_jobCancel == cancel) _jobCancel = null;
             cancel.Dispose();
-            VaultCancelBtn.Visibility = Visibility.Collapsed;
+            JobCancelBtn.Visibility = Visibility.Collapsed;
             StatusText.Text =
                 error != null ? string.Format(Loc("Str_St_VaultFailed"), error.Message)
                 : result == null || result.Canceled ? Loc("Str_St_VaultCanceled")
@@ -103,14 +107,15 @@ namespace KillerNotes.Shell
                 : string.Format(Loc("Str_St_VaultDone"), result.Written, root);
         }
 
-        private void VaultCancel_Click(object sender, RoutedEventArgs e) => CancelVaultExport();
+        private void JobCancel_Click(object sender, RoutedEventArgs e) => CancelBackgroundJob();
 
-        /// <summary>Stops a running export; it removes its own folder as it ends.</summary>
-        private void CancelVaultExport()
+        /// <summary>Stops the running export or import: an export removes its own folder as it ends,
+        /// and an import has written nothing yet.</summary>
+        private void CancelBackgroundJob()
         {
-            if (_vaultCancel is not { } cancel || cancel.IsCancellationRequested) return;
+            if (_jobCancel is not { } cancel || cancel.IsCancellationRequested) return;
             cancel.Cancel();
-            StatusText.Text = Loc("Str_St_VaultCanceling");
+            StatusText.Text = Loc(_jobCancelingKey);
         }
     }
 }
