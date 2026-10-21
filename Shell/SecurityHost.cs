@@ -16,7 +16,10 @@ namespace KillerNotes.Shell
         /// <summary>Lock (0xE72E) when encrypted, unlock (0xE785) when plaintext, Segoe MDL2.
         /// Written as char casts so the private-use glyphs can never be mangled by tooling.</summary>
         void ISecurityHost.ShowLockState(bool encrypted)
-            => LockButton.Content = ((char)(encrypted ? 0xE72E : 0xE785)).ToString();
+        {
+            LockButton.Content = ((char)(encrypted ? 0xE72E : 0xE785)).ToString();
+            ShowPrivacyState();   // SaveState.cs - the footer padlock says the same
+        }
 
         // In-memory resume hint for the security round trips (Manage databases, lock/unlock).
         // The "LastNote" SETTING cannot serve here: demo sessions never write it on purpose, so

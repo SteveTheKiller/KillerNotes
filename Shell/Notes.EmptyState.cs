@@ -22,7 +22,7 @@ namespace KillerNotes.Shell
 
         private void EmptyState_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (!NoteStore.IsOpen) return;
+            if (!NoteStore.IsOpen || WelcomePanel.IsVisible) return;   // the welcome buttons say what a click does
             CreateNewNote(focusTitle: false);
         }
 
@@ -128,6 +128,8 @@ namespace KillerNotes.Shell
         private void ShowEditor(bool visible)
         {
             EmptyState.Visibility = visible ? Visibility.Collapsed : Visibility.Visible;
+            if (visible) ShowWelcome(false);   // Welcome.cs - a note is open, so the notepad is not empty
+            else SetSaveState(SaveIndicator.Hidden);   // SaveState.cs - no note, nothing to save
             TitleArea.Visibility = Editor.Visibility =
                 visible ? Visibility.Visible : Visibility.Collapsed;
             if (visible)

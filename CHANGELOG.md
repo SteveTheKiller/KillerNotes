@@ -63,6 +63,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Quick note: a small box for a thought, opened from the tray icon's menu, the taskbar icon's right-click menu, KillerNotes.exe --quick-note or an optional Win+Alt shortcut (About card). It saves a new note to Inbox or another group, or adds to today's note, without touching the open note, and keeps the draft when closed or while the notepad is locked. The About card can keep the tray icon while the window is open.
 - KillerNotes appears under Open with for .md and .txt files without becoming their default app. Opening one, or picking it with Ctrl+O, imports it with the folder import's rules, and opening the same unchanged file again opens the note it became.
 - Search filters: tag:, group: (with subgroups), title:, after:, before:, created: and in:trash, plus "quoted phrases". The filter button beside the search box (Alt+Shift+F) inserts them and saves or recalls searches, which are kept in the notepad. The status line and the match count's tooltip say what was searched.
+- A notepad with no notes offers three ways to begin: start writing, open the sample notebook (its own notepad, Sample notes, never mixed into yours), or import a folder of notes.
+- F1 opens the shortcut list on a search box: type to find an action by name or keys, and Enter runs it.
+- The footer shows whether the open note is saved and, with a padlock, whether the notepad has a password. Lock now, the first backup, an export, an import and a quick note each explain themselves once in the status line; About turns these tips off.
 
 ### Changed
 - KillerNotes is per-monitor DPI aware, like KillerPDF: with two monitors at different scales it stays sharp on both instead of blurring on one.

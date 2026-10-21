@@ -97,6 +97,7 @@ namespace KillerNotes.Shell
             ApplyWordWrap(_wordWrap);   // Editor.cs (re-assert the word-wrap page width after the load)
             _loadingNote = false;
             _dirty = false;
+            SetSaveState(SaveIndicator.Saved, meta.Modified);   // SaveState.cs
             ApplySpellCheck(meta.SpellCheck);   // Editor.cs (per-note flag, off by default)
             RefreshFindAfterNoteLoad();   // one search over the final document, never its load notifications
             ApplyTitleColor(meta);
@@ -197,6 +198,7 @@ namespace KillerNotes.Shell
                 ex is UnauthorizedAccessException || ex is InvalidOperationException)
             {
                 _dirty = true;
+                SetSaveState(SaveIndicator.Failed);   // SaveState.cs
                 _statusTimer.Stop();
                 StatusText.Text = string.Format(Loc("Str_St_SaveFailed"), ex.Message);
                 return false;
@@ -273,6 +275,7 @@ namespace KillerNotes.Shell
             // No repaint here any more. The document was never unpainted, so there is nothing to
             // restore and the incremental cache is still warm.
             _dirty = false;
+            SetSaveState(SaveIndicator.Saved);   // SaveState.cs
 
             // ALWAYS sync the in-memory row too: OpenNote reads titles from this list, so
             // a stale row resurrected the old title on the next visit and the following
@@ -333,6 +336,7 @@ namespace KillerNotes.Shell
             // and a dirty flag that can never save would also block switching notes.
             if (_loadingNote || _applyingSyntax || _currentId < 0 || _currentInTrash || NoteStore.IsReadOnly) return;
             _dirty = true;
+            SetSaveState(SaveIndicator.Unsaved);   // SaveState.cs
             _lastActionWasOrg = false;   // a text edit is now the most recent undoable thing (ActionUndo.cs)
             _saveTimer.Stop();
             _saveTimer.Start();

@@ -105,6 +105,7 @@ namespace KillerNotes.Shell
                 : result.Problems.Count > 0 ? string.Format(Loc("Str_St_VaultDoneProblems"), result.Written, root, result.Problems.Count)
                 : result.Lossy > 0 ? string.Format(Loc("Str_St_VaultDoneLossy"), result.Written, root, result.Lossy)
                 : string.Format(Loc("Str_St_VaultDone"), result.Written, root);
+            if (error == null && result is { Canceled: false }) ShowTipOnce("export");   // SaveState.cs
         }
 
         private void JobCancel_Click(object sender, RoutedEventArgs e) => CancelBackgroundJob();

@@ -134,6 +134,7 @@ namespace KillerNotes.Shell
             window.Close();
             RefreshList(preserveScroll: true);
             FlashStatus(string.Format(Loc("Str_St_QuickSaved"), label));
+            ShowTipOnce("quick");   // SaveState.cs
         }
 
         /// <summary>Adds the text to the note open in the editor, through the editor, then saves.</summary>
@@ -222,6 +223,7 @@ namespace KillerNotes.Shell
         {
             _initializingQuickOptions = true;
             AboutKeepTrayIcon.IsChecked = KeepTrayIcon;
+            AboutShowTips.IsChecked = App.GetSetting(ShowTipsSetting) != "0";   // SaveState.cs
             string? current = App.GetSetting(QuickNoteHotkey.Setting);
             AboutQuickHotkeyCombo.Items.Clear();
             AboutQuickHotkeyCombo.Items.Add(new System.Windows.Controls.ComboBoxItem { Content = Loc("Str_About_HotkeyOff"), Tag = "" });

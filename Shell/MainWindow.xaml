@@ -2607,9 +2607,26 @@
                       Cursor="IBeam" AllowDrop="True"
                       MouseLeftButtonDown="EmptyState_MouseDown"
                       DragOver="EmptyState_DragOver" Drop="EmptyState_Drop">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"
+                    <TextBlock x:Name="EmptyHint" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"
                                Foreground="{DynamicResource DimTextBrush}" FontSize="13"
                                Text="{DynamicResource Str_EmptyHint}"/>
+                    <!-- A notepad with no notes at all (1.6.0, Welcome.cs): three ways to begin, in
+                         place of the hint. Buttons take their own clicks, so a click on one never
+                         also starts a blank note through the grid behind it. -->
+                    <StackPanel x:Name="WelcomePanel" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Cursor="Arrow" MaxWidth="360">
+                        <TextBlock Text="{DynamicResource Str_Welcome_Head}" FontSize="16" HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextBrush}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource Str_Welcome_Body}" FontSize="12" Margin="0,6,0,16" HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource DimTextBrush}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        <Button x:Name="WelcomeWriteBtn" Content="{DynamicResource Str_Welcome_Write}" Click="WelcomeWrite_Click"
+                                Style="{StaticResource OutlineButton}" Padding="16,6" Margin="0,0,0,8" HorizontalAlignment="Stretch"/>
+                        <Button x:Name="WelcomeSampleBtn" Content="{DynamicResource Str_Welcome_Sample}" Click="WelcomeSample_Click"
+                                ToolTip="{DynamicResource Str_Welcome_SampleHint}"
+                                Style="{StaticResource SurfaceButton}" Padding="16,6" Margin="0,0,0,8" HorizontalAlignment="Stretch"/>
+                        <Button x:Name="WelcomeImportBtn" Content="{DynamicResource Str_Ctx_ImportFolder}" Click="ImportFolder_Click"
+                                Style="{StaticResource SurfaceButton}" Padding="16,6" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
                 </Grid>
             </Grid>
             </Border>
@@ -2705,6 +2722,12 @@
                     <StackPanel.Resources>
                         <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
                     </StackPanel.Resources>
+                    <!-- Save and privacy state (SaveState.cs): "Saved" / "Unsaved changes" / "Save
+                         failed", and a padlock for whether this notepad has a password. -->
+                    <TextBlock x:Name="SaveStateText" Visibility="Collapsed" FontSize="11" Margin="6,0,4,0" VerticalAlignment="Center"
+                               FontFamily="{DynamicResource UiFont}" Foreground="{DynamicResource TextFooter}" Opacity="0.8"/>
+                    <TextBlock x:Name="PadlockGlyph" Visibility="Collapsed" FontFamily="Segoe MDL2 Assets" FontSize="11"
+                               Margin="2,0,6,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFooter}" Opacity="0.8"/>
                     <Button x:Name="JobCancelBtn" Visibility="Collapsed" Click="JobCancel_Click"
                             Content="{DynamicResource Str_Btn_Cancel}"
                             Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
@@ -2995,6 +3018,10 @@
                                 </StackPanel>
                                 <!-- Quick note (QuickNote.cs): the tray icon that stays while the window is
                                      open, and the optional global shortcut. -->
+                                <!-- One-time tips in the status line (SaveState.cs). -->
+                                <CheckBox x:Name="AboutShowTips"
+                                          Content="{DynamicResource Str_About_ShowTips}"
+                                          FontSize="11" Margin="0,6,0,0" Click="AboutShowTips_Click"/>
                                 <CheckBox x:Name="AboutKeepTrayIcon"
                                           Content="{DynamicResource Str_About_KeepTrayIcon}"
                                           ToolTip="{DynamicResource Str_About_KeepTrayIconHint}"
@@ -3234,6 +3261,12 @@
                                 </Hyperlink>
                             </TextBlock>
                             </Grid>
+                            <!-- Command search (1.6.0, ShortcutSearch.cs): typing filters the rows by name
+                                 or keys, Down moves into them, Enter runs the chosen one. -->
+                            <TextBox x:Name="ShortcutSearchBox" Style="{StaticResource EditFieldTextBox}" FontSize="12" Padding="6,4"
+                                     Margin="0,0,0,12" TextChanged="ShortcutSearch_TextChanged"
+                                     AutomationProperties.Name="{DynamicResource Str_KS_SearchName}"
+                                     ToolTip="{DynamicResource Str_KS_SearchHint}"/>
                             <!-- Rows are built in code (Shortcuts.cs BuildShortcutRows). -->
                             <Grid x:Name="ShortcutListHost">
                                 <Grid.ColumnDefinitions>

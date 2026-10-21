@@ -61,6 +61,7 @@ namespace KillerNotes.Shell
             {
                 string path = BackupService.BackupNow(folder, db, now, BackupService.Keep);
                 FlashStatus(string.Format(Loc("Str_St_BackedUp"), Path.GetFileName(path)));
+                ShowTipOnce("backup");   // SaveState.cs
             }
             catch (Exception ex)
             {

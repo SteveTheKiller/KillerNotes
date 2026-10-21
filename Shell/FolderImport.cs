@@ -72,6 +72,7 @@ namespace KillerNotes.Shell
                 RefreshList();
                 if (ids.Count > 0) OpenNote(ids[0]);
                 StatusText.Text = string.Format(Loc("Str_St_ImportDone"), ids.Count, plan.Folder);
+                ShowTipOnce("import");   // SaveState.cs
             }
             catch (OperationCanceledException)
             {

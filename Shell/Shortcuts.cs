@@ -21,7 +21,8 @@ namespace KillerNotes.Shell
             new KillerFamily.Accessibility.OverlayFocus(this).Track(ShortcutOverlay, AboutOverlay, FontsOverlay);
             PreviewTextInput += (_, e) =>
             {
-                if (_overlayFocus.ActiveOverlay != null && _overlayFocus.ActiveOverlay != FontsOverlay) e.Handled = true;
+                if (_overlayFocus.ActiveOverlay != null && _overlayFocus.ActiveOverlay != FontsOverlay &&
+                    !ShortcutSearchBox.IsKeyboardFocused) e.Handled = true;   // the F1 search box takes typing (ShortcutSearch.cs)
             };
             PreviewKeyUp += (_, _) => KbSyncLayerFromModifiers();   // KeyboardMap.cs
             InitializeActionShortcutSurfaces();
@@ -31,15 +32,23 @@ namespace KillerNotes.Shell
         /// <summary>Category order for the list, the same order the keyboard map reads.</summary>
         private static readonly string[] ShortcutCatOrder = ["File", "Note", "Format", "Edit", "Search", "View", "Help"];
 
-        private void BuildShortcutRows()
+        private void BuildShortcutRows() => BuildShortcutRows(ShortcutSearchBox?.Text ?? "");
+
+        /// <summary>Fills both columns, keeping only rows whose name or keys match the filter (the
+        /// F1 search box, ShortcutSearch.cs). A main-window row carries its keys in its Tag, which
+        /// is what Enter replays to run it.</summary>
+        private void BuildShortcutRows(string filter)
         {
+            ShortcutColLeft.Items.Clear();
+            ShortcutColRight.Items.Clear();
+            bool filtering = !string.IsNullOrWhiteSpace(filter);
             // Main-window bindings are grouped by category, each under a heading in that
             // category's KnCat* color, the color its keys carry on the keyboard map (KillerPDF's
             // list). Tool and dialog sections retain their category colors as well.
             var items = new List<(string Keys, string Label, string? Cat)>();   // empty Keys = heading
             int split = Array.FindIndex(KsTable, b => b.Keys.Length == 0 && b.Label.Length > 0);
             var main = (split < 0 ? KsTable : KsTable.Take(split))
-                .Where(b => b.Listed && b.Keys.Length > 0).ToList();
+                .Where(b => b.Listed && b.Keys.Length > 0 && (!filtering || CommandSearch.Matches(Loc(b.Label), b.Keys, filter))).ToList();
             foreach (string cat in ShortcutCatOrder.Concat(main.Select(b => b.Cat)).Distinct())
             {
                 var rows = main.Where(b => b.Cat == cat).ToList();
@@ -48,8 +57,28 @@ namespace KillerNotes.Shell
                 items.AddRange(rows.Select(b => (b.Keys, b.Label, (string?)cat)));
             }
             if (split >= 0)
-                foreach (var b in KsTable.Skip(split).Where(b => b.Listed && (b.Keys.Length > 0 || b.Label.Length > 0)))
-                    items.Add((b.Keys, b.Label, b.Cat));
+            {
+                // Tool and dialog sections: a heading is kept only when one of its rows matches.
+                var tools = KsTable.Skip(split).Where(b => b.Listed && (b.Keys.Length > 0 || b.Label.Length > 0)).ToList();
+                for (int t = 0; t < tools.Count; t++)
+                {
+                    var b = tools[t];
+                    if (!filtering) { items.Add((b.Keys, b.Label, b.Cat)); continue; }
+                    if (b.Keys.Length == 0)
+                    {
+                        var section = tools.Skip(t + 1).TakeWhile(r => r.Keys.Length > 0).ToList();
+                        if (section.Any(r => CommandSearch.Matches(Loc(r.Label), r.Keys, filter))) items.Add((b.Keys, b.Label, b.Cat));
+                    }
+                    else if (CommandSearch.Matches(Loc(b.Label), b.Keys, filter)) items.Add((b.Keys, b.Label, b.Cat));
+                }
+            }
+            if (filtering && items.Count == 0)
+            {
+                var none = new TextBlock { Text = string.Format(Loc("Str_KS_NoMatch"), filter.Trim()), FontSize = 12, TextWrapping = TextWrapping.Wrap };
+                none.SetResourceReference(TextBlock.ForegroundProperty, "DimTextBrush");
+                ShortcutColLeft.Items.Add(new ListBoxItem { Content = none, IsEnabled = false, Focusable = false });
+                return;
+            }
 
             // Two columns so the list fits the card; the left takes the extra row when odd.
             int perCol = (items.Count + 1) / 2;
@@ -87,7 +116,10 @@ namespace KillerNotes.Shell
                 row.Children.Add(key);
                 row.Children.Add(desc);
                 string section = open is { } heading ? Loc(heading.Label) + ": " : "";
-                column.Items.Add(CreateShortcutItem(row, section + keys + ": " + Loc(label)));
+                var item = CreateShortcutItem(row, section + keys + ": " + Loc(label));
+                // Only main-window rows run from here; a SketchPad or dialog key needs its own window.
+                if (main.Any(b => b.Keys == keys && b.Label == label)) item.Tag = keys;
+                column.Items.Add(item);
             }
         }
 
@@ -497,12 +529,9 @@ namespace KillerNotes.Shell
         {
             if (_overlayFocus.ActiveOverlay == ShortcutOverlay && ShortcutListHost.Visibility == Visibility.Visible)
             {
-                ShortcutColLeft.UpdateLayout();
-                if (OverlayFocusScope.FirstAction(ShortcutColLeft) is ListBoxItem item)
-                {
-                    item.Focus();
-                    return;
-                }
+                // Straight into the search box: typing finds an action, Down goes to the rows.
+                ShortcutSearchBox.Focus();
+                return;
             }
             if (_overlayFocus.ActiveOverlay == ShortcutOverlay) KsViewListBtn.Focus();
             else if (_overlayFocus.ActiveOverlay == AboutOverlay) AboutCloseButton.Focus();
@@ -549,6 +578,7 @@ namespace KillerNotes.Shell
                 if (!e.IsRepeat) _about.OpenReleaseNotes();
                 e.Handled = true;
             }
+            else if (overlay == ShortcutOverlay && HandleShortcutSearchKey(e)) { }   // ShortcutSearch.cs
             else if (!_overlayFocus.Contains(Keyboard.FocusedElement as DependencyObject))
             {
                 FocusKeyboardOverlay();

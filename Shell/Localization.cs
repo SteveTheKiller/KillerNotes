@@ -134,9 +134,7 @@ namespace KillerNotes.Shell
         private void RelocalizeDynamicUi()
         {
             // Shortcut rows (list view) are built from KsTable into two columns - clear both and rebuild.
-            ShortcutColLeft.Items.Clear();
-            ShortcutColRight.Items.Clear();
-            BuildShortcutRows();                     // Shortcuts.cs
+            BuildShortcutRows();                     // Shortcuts.cs (clears both columns itself)
             InitLockOptions();                       // LockNow.cs (idle choices are built in code)
             InitQuickNoteOptions();                  // QuickNote.cs (shortcut choices)
             ApplyJumpList();                         // QuickNote.cs (the taskbar's Quick note task)

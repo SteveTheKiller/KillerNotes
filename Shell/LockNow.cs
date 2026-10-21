@@ -94,7 +94,10 @@ namespace KillerNotes.Shell
             }
             _lockRetries = 0;
             if (_security.LockNow(automatic) && !automatic)
+            {
                 StatusText.Text = Loc("Str_St_Locked");
+                ShowTipOnce("lock");   // SaveState.cs
+            }
         }
 
         void ISecurityHost.EnterLocked(bool keepUnsavedEdits)
@@ -133,6 +136,7 @@ namespace KillerNotes.Shell
             TitleSearchSlot.Visibility = Visibility.Collapsed;
             DatabasesBtn.IsEnabled = false;
             BackupWarningBtn.Visibility = Visibility.Collapsed;   // names the notepad's backup state
+            PadlockGlyph.Visibility = Visibility.Collapsed;       // SaveState.cs - no notepad on screen
             LockedPanel.Visibility = Visibility.Visible;
             Dispatcher.BeginInvoke(new Action(() => { if (LockedPanel.IsVisible) LockedUnlockBtn.Focus(); }), DispatcherPriority.Input);
         }
@@ -144,6 +148,7 @@ namespace KillerNotes.Shell
             TitleSearchSlot.Visibility = Visibility.Visible;
             DatabasesBtn.IsEnabled = true;
             foreach (var window in _hiddenForLock) window.Show();
+            ShowPrivacyState();   // SaveState.cs
             _hiddenForLock.Clear();
             HandlePendingOpenFile();         // Sharing.cs - a .knote or .kndb opened while locked
         }
