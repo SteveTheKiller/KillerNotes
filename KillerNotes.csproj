@@ -107,6 +107,9 @@
     <Resource Include="Resources\kn-icon.ico" />
     <Resource Include="Resources\app-icon-master.png" />
     <Resource Include="Resources\kn-icon.png" />
+    <Resource Include="Resources\Demo\KillerPDF.png" />
+    <Resource Include="Resources\Demo\KillerShell.png" />
+    <Resource Include="Resources\Demo\Killendar.png" />
     <!-- Per-filetype icons for the .knote/.kndb associations (extracted to AppData at
          startup so Explorer has an .ico path to read) -->
     <Resource Include="Resources\kn-note.ico" />

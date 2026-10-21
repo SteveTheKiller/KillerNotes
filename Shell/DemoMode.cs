@@ -14,8 +14,8 @@ namespace KillerNotes.Shell
     // fabricated notes below; the real notes.db is never opened. Only reachable through
     // the launch flag - no button, safe to leave in a shipped build (KillerScan pattern).
     //
-    // Everything here is invented. Client names are fictional and every address uses the
-    // TEST-NET documentation ranges, so nothing matches any real environment.
+    // Client names are fictional and every address uses the TEST-NET documentation ranges.
+    // Embedded pictures are existing public Killer Tools demo screenshots.
     public partial class MainWindow
     {
         public static bool DemoMode;
@@ -94,6 +94,7 @@ namespace KillerNotes.Shell
 
             // A deep, colorful tree so the demo shows groups, nested subgroups (up to three
             // levels), and per-group colors. A few notes stay ungrouped as the loose tail (#8).
+            G(PURPLE, "Killer Tools");
             G(BLUE,   "Client sites");
             G(TEAL,   "Client sites", "Northwind Dental");
             G(RED,    "Client sites", "Meadowbrook Vet");
@@ -110,6 +111,15 @@ namespace KillerNotes.Shell
             G(BLUE,   "Projects", "Wi-Fi survey");
             G(SLATE,  "Admin");
 
+            Add("Visual notebook - Killer Tools", 0.2, DemoVisualNotebook(), feature: true,
+                tags: "Reference", group: P("Killer Tools"), titleColor: PURPLE);
+            Add("Release board - table examples", 0.4, DemoReleaseBoard(),
+                tags: "Follow-up, Reference", group: P("Killer Tools"), titleColor: TEAL);
+            Add("Maintenance calendar - screenshot", 0.6, DemoCalendarReference(),
+                tags: "Reference", group: P("Killer Tools"), titleColor: ORANGE);
+            Add("File workflow - screenshot", 0.8, DemoFileWorkflow(),
+                tags: "Reference", group: P("Killer Tools"), titleColor: BLUE);
+
             // ---- Client sites ----
             Add("Northwind Dental - site visit", 38, DemoSiteVisit(), tags: "On-site, Reference", group: P("Client sites", "Northwind Dental"));
             Add("Imaging server quirk", 35, DemoDoc("The bench imaging box drops its second NIC after a reboot. Disable and re-enable it, or just leave NIC1 patched.",
@@ -119,12 +129,11 @@ namespace KillerNotes.Shell
                 "Office manager - has the alarm code", "Practice owner - text first, never call after 21:00", "Alarm company passphrase is on the work order"),
                 tags: "Reference", group: P("Client sites", "Northwind Dental"));
 
-            Add("Firewall swap - Meadowbrook Vet", 31, DemoFirewallSwap(), feature: true, tags: "On-site, Network", group: P("Client sites", "Meadowbrook Vet"), titleColor: RED);
+            Add("Firewall swap - Meadowbrook Vet", 31, DemoFirewallSwap(), tags: "On-site, Network", group: P("Client sites", "Meadowbrook Vet"), titleColor: RED);
             Add("MDF rack elevation", 28, DemoRackSketch(), tags: "On-site, Reference", group: P("Client sites", "Meadowbrook Vet"), titleColor: RED);
             Add("Kennel cams offline", 26, DemoDoc("Four PoE cameras in the kennel keep dropping. Suspect the cheap unmanaged switch back there.",
                 "Swap in the spare PoE+ switch from the van", "Camera VLAN 40, DHCP off, static .50-.70", "If they still drop it is the long run near the compressor"),
                 tags: "Urgent, Follow-up", group: P("Client sites", "Meadowbrook Vet"));
-            Add("Kennel cams - photos", 25, DemoCamStation(), tags: "On-site, Urgent", group: P("Client sites", "Meadowbrook Vet"));
             Add("Printer mapping", 22, DemoDoc("Shared printers by room, for the deploy script:",
                 "Front desk - HP M428 (192.0.2.61)", "Lab - Brother HL-L2350 (192.0.2.62)", "Back office Lexmark - do not map, they want it gone"),
                 tags: "Reference", group: P("Client sites", "Meadowbrook Vet"));
@@ -164,7 +173,6 @@ namespace KillerNotes.Shell
 
             Add("UPS runtimes", 16, DemoUps(), tags: "Reference, Follow-up", group: P("Bench reference", "Hardware"));
             Add("Parts drawer inventory", 5, DemoParts(), tags: "Reference", group: P("Bench reference", "Hardware"));
-            Add("Bench photos", 7, DemoBenchPhotos(), tags: "Reference", group: P("Bench reference", "Hardware"), titleColor: YELLOW);
             Add("Syntax highlighting - all languages", 23, DemoSyntaxShowcase(), tags: "Reference", group: P("Bench reference", "Scripts"), titleColor: TEAL);
             Add("Patch baseline playbook", 18, DemoAnsibleYaml(), tags: "Reference", group: P("Bench reference", "Scripts"));
             Add("New starter provisioning", 15, DemoProvisionScript(), tags: "Reference", group: P("Bench reference", "Scripts"), titleColor: GREEN);
@@ -462,7 +470,7 @@ namespace KillerNotes.Shell
             foreach (var h in header)
             {
                 var run = new Run(h) { FontWeight = FontWeights.Bold };
-                head.Cells.Add(new TableCell(new Paragraph(run))
+                head.Cells.Add(new TableCell(new Paragraph(run) { TextAlignment = TextAlignment.Left })
                 { BorderBrush = border, BorderThickness = new Thickness(0, 0, 1, 1), Padding = new Thickness(6, 3, 6, 3) });
             }
             group.Rows.Add(head);
@@ -470,7 +478,7 @@ namespace KillerNotes.Shell
             {
                 var tr = new TableRow();
                 foreach (var cell in row)
-                    tr.Cells.Add(new TableCell(new Paragraph(new Run(cell)))
+                    tr.Cells.Add(new TableCell(new Paragraph(new Run(cell)) { TextAlignment = TextAlignment.Left })
                     { BorderBrush = border, BorderThickness = new Thickness(0, 0, 1, 1), Padding = new Thickness(6, 3, 6, 3) });
                 group.Rows.Add(tr);
             }
@@ -852,41 +860,19 @@ namespace KillerNotes.Shell
 
         // ---- Demo photos -------------------------------------------------------------------
         //
-        // Real photographs, loaded from code\Demo\KillerNotes at seed time rather than shipped as
-        // project resources: the demo database is scratch and rebuilt on every --demo launch, so
-        // the pictures can be swapped without touching the build. A missing folder or an
-        // unreadable file is not an error - the note simply seeds without its picture, so the demo
-        // still works on a machine that has never had the folder.
-
-        /// <summary>Where the demo photos live. Sits beside the repo, not inside it.</summary>
-        private static string DemoPhotoDir()
-        {
-            // Walk up from the running exe (bin\Debug\net48) to the code root, then across.
-            var dir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
-            for (int up = 0; up < 6 && dir != null; up++, dir = dir.Parent)
-            {
-                string candidate = System.IO.Path.Combine(dir.FullName, "Demo", "KillerNotes");
-                if (System.IO.Directory.Exists(candidate)) return candidate;
-                string sibling = System.IO.Path.Combine(dir.FullName, "..", "Demo", "KillerNotes");
-                if (System.IO.Directory.Exists(sibling)) return System.IO.Path.GetFullPath(sibling);
-            }
-            return "";
-        }
+        // Public app screenshots are embedded so every demo launch has the same reviewed images.
 
         /// <summary>
-        /// One demo photo as an in-note Image, or null if it is not there. Decoded and FROZEN with
+        /// One reviewed app screenshot as an in-note Image, or null if it is not there. Decoded and FROZEN with
         /// OnLoad - the same treatment InsertImageAtCaret gives a pasted image, which is what lets
         /// the XamlPackage serializer persist it into the note blob. A file handle is never held
-        /// open, so the folder stays swappable while the demo runs.
+        /// open; the embedded image is serialized with the note.
         /// </summary>
         private static Image? DemoPhoto(string fileName, double maxWidth = 520)
         {
             try
             {
-                string dir = DemoPhotoDir();
-                if (dir.Length == 0) return null;
-                string path = System.IO.Path.Combine(dir, fileName);
-                if (!System.IO.File.Exists(path)) return null;
+                string path = "pack://application:,,,/KillerNotes;component/Resources/Demo/" + fileName;
 
                 var bmp = new System.Windows.Media.Imaging.BitmapImage();
                 bmp.BeginInit();
@@ -921,27 +907,62 @@ namespace KillerNotes.Shell
             if (caption.Length > 0) d.Blocks.Add(DemoP(caption, color: "#7A8CA3"));
         }
 
-        private static FlowDocument DemoCamStation()
+        private static FlowDocument DemoCalendarReference()
         {
             var d = new FlowDocument();
-            d.Blocks.Add(DemoP("Camera station in the kennel corridor, photographed before the PoE switch swap.", bold: true));
-            AddPhoto(d, "cam_station.png", "As-found. Note the unmanaged switch tucked behind the monitor - that is the one dropping the cameras.");
-            d.Blocks.Add(DemoList(
-                "Four cameras, all PoE, all on the cheap unmanaged switch",
-                "Replace with the spare PoE+ from the van",
-                "Camera VLAN 40, static .50-.70, DHCP off"));
+            d.Blocks.Add(DemoH("Plan the work, keep the context", 1));
+            d.Blocks.Add(DemoP("A calendar screenshot beside the maintenance plan keeps the schedule and handoff notes together."));
+            AddPhoto(d, "Killendar.png", "Killendar month view from its public demo gallery.", 580);
+            d.Blocks.Add(DemoTable(["Window", "Preparation", "Afterward"],
+                ["Tuesday, 18:00", "Review [[Release board - table examples]]", "Record results and remaining work"],
+                ["Friday, 17:30", "Confirm rollback and notifications", "Update [[Firewall swap - Meadowbrook Vet]]"]));
             return d;
         }
 
-        private static FlowDocument DemoBenchPhotos()
+        private static FlowDocument DemoVisualNotebook()
         {
             var d = new FlowDocument();
-            d.Blocks.Add(DemoP("Reference shots off the bench. Photographed on the phone and pasted straight into the note.", bold: true));
-            AddPhoto(d, "old_artist_shot_square.jpg", "The bench tech at the start of the week.");
-            d.Blocks.Add(DemoRule());
-            AddPhoto(d, "whatanoddthingtodo.png", "Filed under: things the last tech did.");
-            d.Blocks.Add(DemoRule());
-            AddPhoto(d, "moe.jpeg", "Bench supervisor.", 320);
+            d.Blocks.Add(DemoH("A visual notebook for the whole workflow", 1));
+            d.Blocks.Add(DemoP("Keep the reference image, working details and next steps in one note. These screenshots come from the public Killer Tools demo galleries."));
+            d.Blocks.Add(DemoTable(["Keep together", "Example", "Related note"],
+                ["Tables", "Milestones, owners and status", "[[Release board - table examples]]"],
+                ["Screenshots", "A calendar beside its maintenance plan", "[[Maintenance calendar - screenshot]]"],
+                ["Links", "File checks and handoff steps", "[[File workflow - screenshot]]"]));
+            AddPhoto(d, "KillerPDF.png", "KillerPDF displaying its public product brochure.", 580);
+            return d;
+        }
+
+        private static FlowDocument DemoReleaseBoard()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoH("Release board", 1));
+            d.Blocks.Add(DemoP("A working example with two editable tables. Keep results specific so the next person can pick up where the previous check stopped."));
+            d.Blocks.Add(DemoH("Milestones and handoffs", 2));
+            d.Blocks.Add(DemoTable(["Milestone", "Owner", "Status", "Next step"],
+                ["Note editing", "App team", "Verified", "Review formatted-table examples"],
+                ["Demo notebook", "Documentation", "In review", "Check screenshots and captions"],
+                ["Keyboard access", "QA", "In progress", "Check Search, Replace and menus"],
+                ["Release package", "Release team", "Pending", "Finish installation checks"]));
+            d.Blocks.Add(DemoH("Reference inventory", 2));
+            d.Blocks.Add(DemoTable(["Item", "Count", "Purpose"],
+                ["Public app screenshots", "3", "Images stored inside the notes"],
+                ["Linked workflow notes", "4", "Navigate between related examples"],
+                ["Table layouts", "2", "Track progress and compare details"]));
+            d.Blocks.Add(DemoP("Try adding a row or column from the Table menu, or paste spreadsheet cells into a table. [[Visual notebook - Killer Tools]] links the examples together."));
+            return d;
+        }
+
+        private static FlowDocument DemoFileWorkflow()
+        {
+            var d = new FlowDocument();
+            d.Blocks.Add(DemoH("A screenshot with a useful handoff", 1));
+            d.Blocks.Add(DemoP("Store the visual reference beside the checklist instead of leaving it in a separate folder."));
+            AddPhoto(d, "KillerShell.png", "KillerShell browsing its synthetic Demo Documents folder.", 580);
+            d.Blocks.Add(DemoTable(["Step", "Check", "Record"],
+                ["Before", "Confirm source and destination", "Folder names and expected files"],
+                ["During", "Watch for conflicts or skipped files", "The exact message and affected item"],
+                ["After", "Review the result", "What changed and what still needs attention"]));
+            d.Blocks.Add(DemoP("Track follow-up work in [[Release board - table examples]]."));
             return d;
         }
 
