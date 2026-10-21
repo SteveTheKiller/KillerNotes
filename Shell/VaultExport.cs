@@ -91,6 +91,10 @@ namespace KillerNotes.Shell
             // One set of used paths for the whole run: two notes can share a title, and two
             // different titles can sanitize down to the same filename.
             var used = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            // Reserved for the loss report, so a note titled "export-report" is written beside it
+            // as "export-report (2).md" instead of being overwritten by it.
+            string reportPath = Path.Combine(root, "export-report.md");
+            used.Add(reportPath);
             foreach (var note in notes)
             {
                 try
@@ -102,7 +106,7 @@ namespace KillerNotes.Shell
                 catch (Exception) { failed++; }   // one bad note must not abort the rest
             }
             if (losses.Count > 0)
-                File.WriteAllText(Path.Combine(root, "export-report.md"),
+                File.WriteAllText(reportPath,
                     "# " + Loc("Str_Vault_ReportHead") + "\n\n" + string.Join("\n", losses) + "\n", new UTF8Encoding(false));
             return (written, failed, losses);
         }

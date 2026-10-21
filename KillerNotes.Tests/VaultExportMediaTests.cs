@@ -76,6 +76,30 @@ namespace KillerNotes.Tests
             Assert.Contains("Lost audio", report);
         });
 
+        [Fact]
+        public void TheReportNeverOverwritesANoteOfTheSameName() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            long named = NoteStore.Create("export-report");
+            NoteStore.Save(named, "export-report", MarkdownBlobBytes("my own report"), "my own report");
+            long lost = NoteStore.Create("Lost audio");
+            var missing = new Attachment(AttachmentKind.Recording, new byte[] { 7, 7 }, 500);
+            var p = new Paragraph(new Run("Call "));
+            p.Inlines.Add(new InlineUIContainer(Picture(Attachments.Marker(AttachmentKind.Recording, missing.Hash))));
+            Save(lost, new FlowDocument(p));
+
+            Export();
+
+            Assert.Contains(Directory.GetFiles(_root, "*.md"), f => File.ReadAllText(f).Contains("my own report"));
+            Assert.Contains("Lost audio", File.ReadAllText(Path.Combine(_root, "export-report.md")));
+        });
+
+        private static byte[] MarkdownBlobBytes(string text)
+        {
+            NoteStore.SetFormat(NoteStore.List().Single(n => n.Title == "export-report").Id, 1, MarkdownBlob.Encode(text), text);
+            return MarkdownBlob.Encode(text);
+        }
+
         private (int, int, System.Collections.Generic.List<string>) Export()
         {
             var shell = (MainWindow)FormatterServices.GetUninitializedObject(typeof(MainWindow));
