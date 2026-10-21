@@ -2894,7 +2894,9 @@
                                 Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
 
-                        <StackPanel Grid.Row="1" Margin="18,10,18,18">
+                        <!-- 8px between the card edge and the info panel on each side. Family
+                             standard since 2026-10-21; it was 18. -->
+                        <StackPanel Grid.Row="1" Margin="8,10,8,18">
                             <!-- Header: icon left of the wordmark + description (KillerScan layout).
                                  Width is pinned to the info panel so the SHA-256 line stays the only
                                  thing that sets the card width. -->
