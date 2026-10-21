@@ -54,6 +54,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.
 - The link graph can be used from the keyboard: Tab and Shift+Tab move between notes and announce each one, Home and End jump to either end, the Apps key opens the note's menu and Enter opens it.
 - Recordings can be played, paused and turned up or down from the keyboard with the caret beside them: Alt+Shift+P, Alt+Shift+Up and Alt+Shift+Down, also on the note's context menu.
+- Lock now ends an unlocked session without quitting: the lock button's menu or Ctrl+Shift+U saves the open note, hides every note and closes the notepad until its password is entered again. A notepad with a password also locks when Windows locks or sleeps, and optionally after the computer has been idle for 5 to 60 minutes (About card). An unfinished sketch or recording waits behind the lock, and edits that could not be saved before an automatic lock come back after the unlock.
 
 ### Changed
 - The link graph opens about four times faster in large notebooks, the backlinks strip refreshes about twice as fast, and title-bar search counts its matches in seconds instead of minutes.

@@ -978,4 +978,21 @@
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">你的筆記已鎖定。</sys:String>
+    <sys:String x:Key="Str_Lock_Now">立即鎖定</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">結束並遺失未儲存的編輯？</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">KillerNotes 鎖定前無法儲存對 {0} 的編輯。請先解鎖以儲存。現在結束將遺失這些編輯。</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">仍要結束</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">繼續執行</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">未鎖定：無法儲存開啟的筆記。你的編輯仍在這裡。</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">立即鎖定需要密碼。請先用鎖頭按鈕設定密碼。</sys:String>
+    <sys:String x:Key="Str_St_Locked">已鎖定。</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">已鎖定。開啟的筆記未能先儲存,其編輯會保留到你解鎖。</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">鎖定前的編輯已恢復,現在將儲存。</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">解鎖以開啟 {0}。</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Windows 鎖定或睡眠時鎖定筆記</sys:String>
+    <sys:String x:Key="Str_About_LockHint">僅適用於設有密碼的筆記本。</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">電腦閒置多久後鎖定筆記：</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">永不</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} 分鐘</sys:String>
 </ResourceDictionary>

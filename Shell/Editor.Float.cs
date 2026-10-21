@@ -379,6 +379,23 @@ namespace KillerNotes.Shell
             e.Handled = true;
         }
 
+        /// <summary>Drops a press or drag still held when an automatic lock arrives (LockNow.cs): a
+        /// note cannot be saved mid-drag, and the floater stays where the drag last put it.</summary>
+        private void AbandonEditorGestures()
+        {
+            _dragDial = null;
+            _armedObject = null;
+            if (_dragFloater != null)
+            {
+                TrimGrownAnchors(_dragFloater.Parent as Paragraph);
+                _dragFloater = null;
+                _dragObject = null;
+                MarkDirty();
+            }
+            DragCursors.EndDrag();
+            if (Editor.IsMouseCaptured) Editor.ReleaseMouseCapture();
+        }
+
         // ---- context menu ----
 
         private void Editor_ObjectRightPress(object sender, MouseButtonEventArgs e)

@@ -58,6 +58,8 @@ namespace KillerNotes.Tests
             public void ClearEditor() { }
             public void ApplyReadOnlyState() { }
             public void ClearNavigation() { Back.Clear(); Forward.Clear(); }
+            public void EnterLocked(bool keepUnsavedEdits) { }
+            public void LeaveLocked() { }
         }
     }
 }

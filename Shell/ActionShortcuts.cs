@@ -27,6 +27,7 @@ namespace KillerNotes.Shell
             new("Alt+K", Key.K, ModifierKeys.Alt, "Str_Ctx_Tags", "Note", w => w.OpenNoteSubmenu(w.TagsMenu)),
             new("Alt+A", Key.A, ModifierKeys.Alt, "Str_TT_Databases", "File", w => w.ManageDatabases_Click(w, new RoutedEventArgs()), "DatabasesBtn"),
             new("Alt+U", Key.U, ModifierKeys.Alt, "Str_TT_Lock", "File", w => w.LockButton_Click(w, new RoutedEventArgs()), "LockButton"),
+            new("Ctrl+Shift+U", Key.U, ModifierKeys.Control | ModifierKeys.Shift, "Str_Lock_Now", "File", w => w.LockNow(automatic: false)),
             new("Alt+J", Key.J, ModifierKeys.Alt, "Str_TT_Language", "View", w => w.LangButton_Click(w.LangButton, new RoutedEventArgs()), "LangButton"),
             new("Alt+I", Key.I, ModifierKeys.Alt, "Str_TT_InsertImage", "Format", w => w.InsertImageBtn_Click(w.FmtImageBtn, new RoutedEventArgs()), "FmtImageBtn"),
             new("Alt+Q", Key.Q, ModifierKeys.Alt, "Str_Whisper_Menu", "View", w => w.SpeechModel_Click(w, new RoutedEventArgs())),

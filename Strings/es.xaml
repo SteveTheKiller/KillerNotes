@@ -979,4 +979,21 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">Tus notas están bloqueadas.</sys:String>
+    <sys:String x:Key="Str_Lock_Now">Bloquear ahora</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">¿Salir y perder los cambios sin guardar?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">Los cambios en {0} no se pudieron guardar antes de que KillerNotes se bloqueara. Desbloquea primero para guardarlos. Si sales ahora, se perderán.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">Salir de todos modos</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">Seguir abierto</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">No se bloqueó: no se pudo guardar la nota abierta. Tus cambios siguen aquí.</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">Bloquear ahora necesita una contraseña. Define una con el botón del candado primero.</sys:String>
+    <sys:String x:Key="Str_St_Locked">Bloqueado.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">Bloqueado. No se pudo guardar antes la nota abierta, así que sus cambios se conservan hasta que desbloquees.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">Tus cambios de antes del bloqueo han vuelto y se guardarán ahora.</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">Desbloquea para abrir {0}.</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Bloquear las notas cuando Windows se bloquee o entre en suspensión</sys:String>
+    <sys:String x:Key="Str_About_LockHint">Solo se aplica a un bloc de notas con contraseña.</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Bloquear las notas tras este tiempo de inactividad:</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">Nunca</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} minutos</sys:String>
 </ResourceDictionary>

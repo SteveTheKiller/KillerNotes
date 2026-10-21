@@ -976,4 +976,21 @@
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">ノートはロックされています。</sys:String>
+    <sys:String x:Key="Str_Lock_Now">今すぐロック</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">終了して未保存の編集を破棄しますか？</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">KillerNotes がロックされる前に {0} の編集を保存できませんでした。先にロックを解除して保存してください。今終了すると失われます。</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">終了する</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">実行を続ける</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">ロックしませんでした：開いているノートを保存できませんでした。編集内容はそのまま残っています。</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">ロックにはパスワードが必要です。先に鍵ボタンで設定してください。</sys:String>
+    <sys:String x:Key="Str_St_Locked">ロックしました。</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">ロックしました。開いていたノートを先に保存できなかったため、編集内容はロック解除まで保持されます。</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">ロック前の編集内容が戻りました。これから保存します。</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">{0} を開くにはロックを解除してください。</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Windows のロック時またはスリープ時にノートをロックする</sys:String>
+    <sys:String x:Key="Str_About_LockHint">パスワードを設定したノートパッドにのみ適用されます。</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">コンピューターが次の時間操作されないとノートをロック：</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">しない</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} 分</sys:String>
 </ResourceDictionary>

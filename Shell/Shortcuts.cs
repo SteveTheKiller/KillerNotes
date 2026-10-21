@@ -117,6 +117,7 @@ namespace KillerNotes.Shell
         private void Shortcuts_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (HandleKeyboardOverlay(e)) return;
+            if (HandleLockedKey(e)) return;   // LockNow.cs
             KbSyncLayerFromModifiers();   // KeyboardMap.cs (holding Ctrl/Shift previews a layer)
             bool ctrl  = Keyboard.Modifiers.HasFlag(ModifierKeys.Control);
             bool shift = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);

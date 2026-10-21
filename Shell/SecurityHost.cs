@@ -45,6 +45,7 @@ namespace KillerNotes.Shell
             InitNotes();         // Notes.cs (idempotent)
             RefreshList();
             OpenStartupNote();   // Notes.cs - the app always opens into a note
+            RestoreLockedEdits();   // LockNow.cs - edits an automatic lock could not save
         }
 
         void ISecurityHost.ClearNavigation() => ClearNavHistory();
@@ -94,7 +95,5 @@ namespace KillerNotes.Shell
         // ---- Handlers (wired in MainWindow.xaml) ----
 
         private void ManageDatabases_Click(object sender, RoutedEventArgs e) => _security.ShowDatabases();
-
-        private void LockButton_Click(object sender, RoutedEventArgs e) => _security.ToggleLock();
     }
 }

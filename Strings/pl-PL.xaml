@@ -905,4 +905,21 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">Twoje notatki są zablokowane.</sys:String>
+    <sys:String x:Key="Str_Lock_Now">Zablokuj teraz</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">Zamknąć i stracić niezapisane zmiany?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">Zmian w {0} nie udało się zapisać przed zablokowaniem KillerNotes. Najpierw odblokuj, aby je zapisać. Zamknięcie teraz je utraci.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">Zamknij mimo to</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">Nie zamykaj</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">Nie zablokowano: nie udało się zapisać otwartej notatki. Twoje zmiany wciąż tu są.</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">Blokowanie wymaga hasła. Najpierw ustaw je przyciskiem kłódki.</sys:String>
+    <sys:String x:Key="Str_St_Locked">Zablokowano.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">Zablokowano. Otwartej notatki nie udało się wcześniej zapisać, więc jej zmiany są przechowane do odblokowania.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">Zmiany sprzed blokady wróciły i zostaną teraz zapisane.</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">Odblokuj, aby otworzyć {0}.</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Blokuj notatki, gdy Windows się blokuje lub usypia</sys:String>
+    <sys:String x:Key="Str_About_LockHint">Dotyczy tylko notatnika z hasłem.</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Blokuj notatki po bezczynności komputera przez:</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">Nigdy</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} min</sys:String>
 </ResourceDictionary>

@@ -975,4 +975,21 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">Poznámky jsou zamčené.</sys:String>
+    <sys:String x:Key="Str_Lock_Now">Zamknout teď</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">Ukončit a přijít o neuložené úpravy?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">Úpravy v {0} se před zamčením KillerNotes nepodařilo uložit. Nejdřív odemkněte, aby se uložily. Ukončením teď o ně přijdete.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">Přesto ukončit</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">Nechat spuštěné</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">Nezamčeno: otevřenou poznámku se nepodařilo uložit. Vaše úpravy tu stále jsou.</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">Zamknout teď vyžaduje heslo. Nejdřív ho nastavte tlačítkem zámku.</sys:String>
+    <sys:String x:Key="Str_St_Locked">Zamčeno.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">Zamčeno. Otevřenou poznámku se předtím nepodařilo uložit, její úpravy zůstanou zachovány do odemčení.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">Úpravy z doby před zamčením jsou zpět a teď se uloží.</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">Odemkněte, aby se otevřel {0}.</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Zamknout poznámky, když se Windows zamkne nebo uspí</sys:String>
+    <sys:String x:Key="Str_About_LockHint">Platí jen pro poznámkový blok s heslem.</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Zamknout poznámky po nečinnosti počítače:</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">Nikdy</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} minut</sys:String>
 </ResourceDictionary>

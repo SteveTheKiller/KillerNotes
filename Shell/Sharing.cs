@@ -23,7 +23,15 @@ namespace KillerNotes.Shell
         {
             string? path = App.PendingOpenFile;
             App.PendingOpenFile = null;
-            if (path == null || !NoteStore.IsOpen) return;
+            if (path == null) return;
+            if (_security.IsLocked)
+            {
+                // Kept for the unlock, which runs this again (LockNow.cs).
+                App.PendingOpenFile = path;
+                StatusText.Text = string.Format(Loc("Str_St_LockedOpenFile"), Path.GetFileName(path));
+                return;
+            }
+            if (!NoteStore.IsOpen) return;
 
             if (Path.GetExtension(path).Equals(".kndb", StringComparison.OrdinalIgnoreCase))
                 AddSharedDatabase(path);

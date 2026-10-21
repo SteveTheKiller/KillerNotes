@@ -986,4 +986,21 @@
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">Жазбалар құлыпталған.</sys:String>
+    <sys:String x:Key="Str_Lock_Now">Қазір құлыптау</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">Шығып, сақталмаған өзгерістерді жоғалту керек пе?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">{0} ішіндегі өзгерістер KillerNotes құлыпталғанға дейін сақталмады. Оларды сақтау үшін алдымен құлпын ашыңыз. Қазір шықсаңыз, олар жоғалады.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">Бәрібір шығу</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">Жұмысты жалғастыру</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">Құлыпталмады: ашық жазба сақталмады. Өзгерістеріңіз әлі осында.</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">Құлыптау үшін құпиясөз керек. Алдымен құлып түймесі арқылы орнатыңыз.</sys:String>
+    <sys:String x:Key="Str_St_Locked">Құлыпталды.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">Құлыпталды. Ашық жазба алдын ала сақталмады, сондықтан оның өзгерістері құлпын ашқанша сақталады.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">Құлыпқа дейінгі өзгерістер қайтып келді және қазір сақталады.</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">{0} ашу үшін құлпын ашыңыз.</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Windows құлыпталғанда немесе ұйқыға кеткенде жазбаларды құлыптау</sys:String>
+    <sys:String x:Key="Str_About_LockHint">Тек құпиясөзі бар жазба кітапшасына қатысты.</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Компьютер осынша уақыт әрекетсіз болғанда жазбаларды құлыптау:</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">Ешқашан</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} минут</sys:String>
 </ResourceDictionary>

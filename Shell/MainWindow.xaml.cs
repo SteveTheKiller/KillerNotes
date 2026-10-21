@@ -77,6 +77,7 @@ namespace KillerNotes.Shell
             InitSidebarSide();                                   // SidebarDock.cs (left or right)
             InitRailOrder();                                     // SidebarDock.cs (family rail order)
             InitShortcuts();                                     // Shortcuts.cs (hotkeys + F1 overlay)
+            InitLockNow();                                       // LockNow.cs (Windows lock, sleep, idle)
             InitAppScale();                                      // AppScale.cs (restore app-wide size)
             InitPreviewMinimum();
             InitLineNumbers();                                   // LineNumbers.cs (optional gutter)

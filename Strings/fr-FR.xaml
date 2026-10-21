@@ -979,4 +979,21 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">Vos notes sont verrouillées.</sys:String>
+    <sys:String x:Key="Str_Lock_Now">Verrouiller maintenant</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">Quitter et perdre les modifications non enregistrées ?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">Les modifications de {0} n'ont pas pu être enregistrées avant le verrouillage de KillerNotes. Déverrouillez d'abord pour les enregistrer. Quitter maintenant les perd.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">Quitter quand même</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">Continuer</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">Non verrouillé : la note ouverte n'a pas pu être enregistrée. Vos modifications sont toujours là.</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">Le verrouillage nécessite un mot de passe. Définissez-en un avec le bouton cadenas d'abord.</sys:String>
+    <sys:String x:Key="Str_St_Locked">Verrouillé.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">Verrouillé. La note ouverte n'a pas pu être enregistrée avant, ses modifications sont conservées jusqu'au déverrouillage.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">Vos modifications d'avant le verrouillage sont revenues et vont être enregistrées.</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">Déverrouillez pour ouvrir {0}.</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Verrouiller les notes quand Windows se verrouille ou se met en veille</sys:String>
+    <sys:String x:Key="Str_About_LockHint">S'applique seulement à un bloc-notes protégé par mot de passe.</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Verrouiller les notes après une inactivité de :</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">Jamais</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} minutes</sys:String>
 </ResourceDictionary>

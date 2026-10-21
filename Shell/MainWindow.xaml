@@ -2605,6 +2605,20 @@
             </Border>
         </Grid>
 
+        <!-- Lock now (LockNow.cs): all the content row shows while the notes are locked. ScaleHost
+             is hidden behind it, so nothing under it can be tabbed to, clicked or dropped on. -->
+        <Grid x:Name="LockedPanel" Grid.Row="1" Visibility="Collapsed" Background="{DynamicResource BackgroundBrush}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <a11y:Glyph Text="&#xE72E;" FontFamily="Segoe MDL2 Assets" FontSize="40" HorizontalAlignment="Center"
+                            Foreground="{DynamicResource DimTextBrush}"/>
+                <TextBlock x:Name="LockedText" Text="{DynamicResource Str_Lock_Locked}" HorizontalAlignment="Center"
+                           Margin="0,14,0,0" FontSize="13" Foreground="{DynamicResource DimTextBrush}"/>
+                <Button x:Name="LockedUnlockBtn" Content="{DynamicResource Str_Btn_Unlock}" Click="LockedUnlock_Click"
+                        Style="{StaticResource OutlineButton}" FontSize="12" Padding="18,6" Margin="0,16,0,0"
+                        HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+
         <!-- Status bar (exact copy of KillerScan's: 24px, Consolas 11.5/10, family standard) -->
         <!-- ZIndex -1 so the content pane's shadow lands on the footer rather than being painted
              over by it. The footer is pushed down rather than the content row raised, which would
@@ -2939,6 +2953,20 @@
                                           Content="{DynamicResource Str_About_CloseToTray}"
                                           ToolTip="{DynamicResource Str_About_CloseToTrayHint}"
                                           FontSize="11" Margin="0,6,0,0" Click="AboutCloseToTray_Click"/>
+                                <!-- Lock now's automatic triggers (LockNow.cs). They only act on a
+                                     notepad with a password. -->
+                                <CheckBox x:Name="AboutLockWithWindows"
+                                          Content="{DynamicResource Str_About_LockWithWindows}"
+                                          ToolTip="{DynamicResource Str_About_LockHint}"
+                                          FontSize="11" Margin="0,6,0,0" Click="AboutLockWithWindows_Click"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                    <TextBlock x:Name="AboutIdleLockLabel" Text="{DynamicResource Str_About_IdleLock}" FontSize="11"
+                                               VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
+                                    <ComboBox x:Name="AboutIdleLockCombo" Style="{StaticResource KnCombo}" Height="24" MinWidth="110"
+                                              Margin="8,0,0,0" FontSize="11" SelectionChanged="AboutIdleLock_Changed"
+                                              ToolTip="{DynamicResource Str_About_LockHint}"
+                                              AutomationProperties.LabeledBy="{Binding ElementName=AboutIdleLockLabel}"/>
+                                </StackPanel>
                             </StackPanel>
 
                             <!-- Update notice: shown only when a newer release is found -->

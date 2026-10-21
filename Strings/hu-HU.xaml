@@ -1004,4 +1004,21 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">A jegyzetek zárolva vannak.</sys:String>
+    <sys:String x:Key="Str_Lock_Now">Zárolás most</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">Kilép, és elvesznek a mentetlen módosítások?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">A(z) {0} módosításait nem sikerült menteni a KillerNotes zárolása előtt. Előbb oldja fel a mentésükhöz. Ha most kilép, elvesznek.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">Kilépés mégis</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">Futva hagyás</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">Nincs zárolva: a megnyitott jegyzetet nem sikerült menteni. A módosítások még megvannak.</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">A zároláshoz jelszó kell. Előbb állítson be egyet a lakat gombbal.</sys:String>
+    <sys:String x:Key="Str_St_Locked">Zárolva.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">Zárolva. A megnyitott jegyzetet előtte nem sikerült menteni, ezért a módosításai a feloldásig megmaradnak.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">A zárolás előtti módosítások visszakerültek, és most mentésre kerülnek.</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">Oldja fel a(z) {0} megnyitásához.</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Jegyzetek zárolása, amikor a Windows zárol vagy alvó módba lép</sys:String>
+    <sys:String x:Key="Str_About_LockHint">Csak jelszóval védett jegyzetfüzetre vonatkozik.</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Jegyzetek zárolása ennyi tétlenség után:</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">Soha</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} perc</sys:String>
 </ResourceDictionary>

@@ -1029,4 +1029,21 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">Ghi chú của bạn đã bị khóa.</sys:String>
+    <sys:String x:Key="Str_Lock_Now">Khóa ngay</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">Thoát và mất các thay đổi chưa lưu?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">Không thể lưu các thay đổi trong {0} trước khi KillerNotes khóa. Hãy mở khóa trước để lưu. Thoát bây giờ sẽ mất chúng.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">Vẫn thoát</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">Tiếp tục chạy</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">Chưa khóa: không thể lưu ghi chú đang mở. Các thay đổi của bạn vẫn còn đây.</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">Khóa ngay cần có mật khẩu. Hãy đặt mật khẩu bằng nút ổ khóa trước.</sys:String>
+    <sys:String x:Key="Str_St_Locked">Đã khóa.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">Đã khóa. Không thể lưu ghi chú đang mở trước đó, nên các thay đổi được giữ đến khi bạn mở khóa.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">Các thay đổi trước khi khóa đã trở lại và sẽ được lưu ngay.</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">Mở khóa để mở {0}.</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Khóa ghi chú khi Windows khóa hoặc ngủ</sys:String>
+    <sys:String x:Key="Str_About_LockHint">Chỉ áp dụng cho sổ ghi chú có mật khẩu.</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Khóa ghi chú khi máy tính không hoạt động trong:</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">Không bao giờ</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} phút</sys:String>
 </ResourceDictionary>

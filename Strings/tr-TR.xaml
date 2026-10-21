@@ -978,4 +978,21 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">Notlarınız kilitli.</sys:String>
+    <sys:String x:Key="Str_Lock_Now">Şimdi kilitle</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">Çıkılsın ve kaydedilmemiş değişiklikler kaybolsun mu?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">{0} üzerindeki değişiklikler KillerNotes kilitlenmeden önce kaydedilemedi. Kaydetmek için önce kilidi açın. Şimdi çıkarsanız kaybolurlar.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">Yine de çık</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">Çalışmaya devam et</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">Kilitlenmedi: açık not kaydedilemedi. Değişiklikleriniz hâlâ burada.</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">Şimdi kilitle bir parola gerektirir. Önce kilit düğmesiyle bir parola belirleyin.</sys:String>
+    <sys:String x:Key="Str_St_Locked">Kilitlendi.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">Kilitlendi. Açık not önceden kaydedilemedi, bu yüzden değişiklikleri kilit açılana kadar saklanıyor.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">Kilitten önceki değişiklikleriniz geri geldi ve şimdi kaydedilecek.</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">{0} dosyasını açmak için kilidi açın.</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Windows kilitlendiğinde veya uykuya geçtiğinde notları kilitle</sys:String>
+    <sys:String x:Key="Str_About_LockHint">Yalnızca parolalı bir not defteri için geçerlidir.</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Bilgisayar şu süre boşta kalınca notları kilitle:</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">Asla</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} dakika</sys:String>
 </ResourceDictionary>

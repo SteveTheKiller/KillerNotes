@@ -137,6 +137,7 @@ namespace KillerNotes.Shell
             ShortcutColLeft.Items.Clear();
             ShortcutColRight.Items.Clear();
             BuildShortcutRows();                     // Shortcuts.cs
+            InitLockOptions();                       // LockNow.cs (idle choices are built in code)
             if (_overlayFocus.ActiveOverlay == ShortcutOverlay) FocusKeyboardOverlay();
 
             // Keyboard map: rebuilt lazily on next open; if already built, repaint the

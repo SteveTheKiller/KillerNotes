@@ -978,4 +978,21 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">Deine Notizen sind gesperrt.</sys:String>
+    <sys:String x:Key="Str_Lock_Now">Jetzt sperren</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">Beenden und ungespeicherte Änderungen verlieren?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">Änderungen an {0} konnten vor dem Sperren nicht gespeichert werden. Entsperre zuerst, um sie zu speichern. Beim Beenden gehen sie verloren.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">Trotzdem beenden</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">Weiter ausführen</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">Nicht gesperrt: Die geöffnete Notiz konnte nicht gespeichert werden. Deine Änderungen sind noch da.</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">Jetzt sperren braucht ein Passwort. Lege zuerst eines über die Schloss-Schaltfläche fest.</sys:String>
+    <sys:String x:Key="Str_St_Locked">Gesperrt.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">Gesperrt. Die geöffnete Notiz konnte vorher nicht gespeichert werden, ihre Änderungen bleiben bis zum Entsperren erhalten.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">Deine Änderungen von vor dem Sperren sind zurück und werden jetzt gespeichert.</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">Entsperre, um {0} zu öffnen.</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Notizen sperren, wenn Windows sperrt oder in den Ruhezustand geht</sys:String>
+    <sys:String x:Key="Str_About_LockHint">Gilt nur für einen Notizblock mit Passwort.</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Notizen sperren, wenn der Computer so lange inaktiv ist:</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">Nie</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} Minuten</sys:String>
 </ResourceDictionary>

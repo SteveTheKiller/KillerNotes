@@ -976,4 +976,21 @@
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">你的笔记已锁定。</sys:String>
+    <sys:String x:Key="Str_Lock_Now">立即锁定</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">退出并丢失未保存的编辑？</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">KillerNotes 锁定前未能保存对 {0} 的编辑。请先解锁以保存它们。现在退出将丢失这些编辑。</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">仍然退出</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">继续运行</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">未锁定：无法保存打开的笔记。你的编辑仍在这里。</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">立即锁定需要密码。请先用锁按钮设置密码。</sys:String>
+    <sys:String x:Key="Str_St_Locked">已锁定。</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">已锁定。打开的笔记未能先保存,其编辑会保留到你解锁。</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">锁定前的编辑已恢复,现在将保存。</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">解锁以打开 {0}。</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Windows 锁定或睡眠时锁定笔记</sys:String>
+    <sys:String x:Key="Str_About_LockHint">仅适用于设置了密码的笔记本。</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">电脑空闲多久后锁定笔记：</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">从不</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} 分钟</sys:String>
 </ResourceDictionary>

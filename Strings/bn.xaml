@@ -978,4 +978,21 @@
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">আপনার নোট লক করা আছে।</sys:String>
+    <sys:String x:Key="Str_Lock_Now">এখনই লক করুন</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">বের হয়ে অসংরক্ষিত সম্পাদনা হারাবেন?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">KillerNotes লক হওয়ার আগে {0}-এর সম্পাদনা সংরক্ষণ করা যায়নি। সংরক্ষণ করতে আগে আনলক করুন। এখন বের হলে সেগুলো হারিয়ে যাবে।</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">তবুও বের হন</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">চালু রাখুন</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">লক হয়নি: খোলা নোটটি সংরক্ষণ করা যায়নি। আপনার সম্পাদনা এখনও এখানে আছে।</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">এখনই লক করতে পাসওয়ার্ড লাগে। আগে লক বোতাম দিয়ে একটি সেট করুন।</sys:String>
+    <sys:String x:Key="Str_St_Locked">লক হয়েছে।</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">লক হয়েছে। খোলা নোটটি আগে সংরক্ষণ করা যায়নি, তাই আনলক না করা পর্যন্ত এর সম্পাদনা রাখা আছে।</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">লকের আগের সম্পাদনা ফিরে এসেছে এবং এখন সংরক্ষণ করা হবে।</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">{0} খুলতে আনলক করুন।</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Windows লক বা স্লিপ হলে নোট লক করুন</sys:String>
+    <sys:String x:Key="Str_About_LockHint">শুধু পাসওয়ার্ডযুক্ত নোটপ্যাডে প্রযোজ্য।</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">কম্পিউটার এতক্ষণ নিষ্ক্রিয় থাকলে নোট লক করুন:</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">কখনও না</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} মিনিট</sys:String>
 </ResourceDictionary>

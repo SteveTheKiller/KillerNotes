@@ -540,6 +540,13 @@ namespace KillerNotes.Controls.Dictation
 
         // ---- Actions ----
 
+        /// <summary>Lock now (Shell/LockNow.cs): the microphone is never live behind a locked
+        /// screen. The take is kept, exactly as if Stop had been pressed.</summary>
+        internal void StopForLock()
+        {
+            if (DictationRecorder.IsRecording) ToggleRecord();
+        }
+
         private void ToggleRecord()
         {
             if (DictationRecorder.IsRecording)

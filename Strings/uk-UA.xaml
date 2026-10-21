@@ -1025,4 +1025,21 @@
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">Нотатки заблоковано.</sys:String>
+    <sys:String x:Key="Str_Lock_Now">Заблокувати зараз</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">Вийти й втратити незбережені зміни?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">Зміни в {0} не вдалося зберегти до блокування KillerNotes. Спершу розблокуйте, щоб зберегти їх. Якщо вийти зараз, вони зникнуть.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">Однаково вийти</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">Не закривати</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">Не заблоковано: відкриту нотатку не вдалося зберегти. Ваші зміни на місці.</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">Для блокування потрібен пароль. Спершу задайте його кнопкою із замком.</sys:String>
+    <sys:String x:Key="Str_St_Locked">Заблоковано.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">Заблоковано. Відкриту нотатку не вдалося зберегти заздалегідь, тож її зміни зберігаються до розблокування.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">Зміни, зроблені до блокування, повернулися й зараз будуть збережені.</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">Розблокуйте, щоб відкрити {0}.</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Блокувати нотатки, коли Windows блокується або переходить у сон</sys:String>
+    <sys:String x:Key="Str_About_LockHint">Діє лише для блокнота з паролем.</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Блокувати нотатки після простою комп'ютера:</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">Ніколи</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} хв</sys:String>
 </ResourceDictionary>

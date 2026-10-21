@@ -1025,4 +1025,21 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
+    <sys:String x:Key="Str_Lock_Locked">Your notes are locked.</sys:String>
+    <sys:String x:Key="Str_Lock_Now">Lock now</sys:String>
+    <sys:String x:Key="Str_Lock_QuitHead">Quit and lose unsaved edits?</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBody">Edits to {0} could not be saved before KillerNotes locked. Unlock to save them first. Quitting now loses them.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitAnyway">Quit anyway</sys:String>
+    <sys:String x:Key="Str_Lock_KeepRunning">Keep running</sys:String>
+    <sys:String x:Key="Str_St_LockSaveFailed">Not locked: the open note could not be saved. Your edits are still here.</sys:String>
+    <sys:String x:Key="Str_St_LockNeedsPassword">Lock now needs a password. Set one with the lock button first.</sys:String>
+    <sys:String x:Key="Str_St_Locked">Locked.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsHeld">Locked. The open note could not be saved first, so its edits are kept until you unlock.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsBack">Your edits from before the lock are back and will be saved now.</sys:String>
+    <sys:String x:Key="Str_St_LockedOpenFile">Unlock to open {0}.</sys:String>
+    <sys:String x:Key="Str_About_LockWithWindows">Lock notes when Windows locks or sleeps</sys:String>
+    <sys:String x:Key="Str_About_LockHint">Only applies to a notepad with a password.</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Lock notes after the computer is idle for:</sys:String>
+    <sys:String x:Key="Str_About_IdleLockOff">Never</sys:String>
+    <sys:String x:Key="Str_About_IdleLockMinutes">{0} minutes</sys:String>
 </ResourceDictionary>
