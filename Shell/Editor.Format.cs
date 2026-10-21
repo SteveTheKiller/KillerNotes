@@ -120,6 +120,11 @@ namespace KillerNotes.Shell
             for (var p = doc.ContentStart; p != null && p.CompareTo(doc.ContentEnd) < 0; p = p.GetNextContextPosition(LogicalDirection.Forward))
                 if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementStart && p.GetAdjacentElement(LogicalDirection.Forward) is Run r)
                     runs.Add(r);
+            PinTextOnColoredGround(runs);
+        }
+
+        private static void PinTextOnColoredGround(IEnumerable<Run> runs)
+        {
             foreach (var run in runs)
                 if (run.ReadLocalValue(TextElement.ForegroundProperty) == DependencyProperty.UnsetValue &&
                     OnColoredGround(run) && run.Foreground is SolidColorBrush shown && IsNeutralColor(shown.Color))

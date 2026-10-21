@@ -92,6 +92,7 @@ namespace KillerNotes.Shell
                 // (it handles HTML tables, RTF, and images), then re-run the note's own theme
                 // normalization once it lands (the same neutral-color rule as note load).
                 AcceptPastedAttachments(e.DataObject);   // copied sketch and recording payloads (Editor.RecordingStore.cs)
+                CapturePasteRange();
                 Dispatcher.BeginInvoke(new Action(NormalizePastedContent),
                     System.Windows.Threading.DispatcherPriority.Background);
                 return;
@@ -107,13 +108,55 @@ namespace KillerNotes.Shell
         // bakes on (so Notepad lines keep the editor's own line spacing), and give any pasted table
         // the app's subtle border styling instead of Excel's bright gridlines. Neutral-only on color,
         // so deliberately colored pasted text and highlights are left alone (as on note load).
+        //
+        // Only the PASTED content. This used to run over the whole note, so pasting one word
+        // stripped every existing paragraph's spacing and every table's cell fills.
         private void NormalizePastedContent()
         {
-            if (_currentId < 0) return;
-            NormalizeThemeColors(Editor.Document);
-            foreach (var block in Editor.Document.Blocks.ToList()) NormalizePastedBlock(block);
+            var doc = _pasteDoc;
+            int fromStart = _pasteFromStart, fromEnd = _pasteFromEnd;
+            _pasteDoc = null;
+            // The note was switched before this deferred tidy-up ran: never touch the new one.
+            if (_currentId < 0 || (doc != null && !ReferenceEquals(doc, Editor.Document))) return;
+
+            var pasted = new List<TextElement>();
+            if (doc != null &&
+                doc.ContentStart.GetPositionAtOffset(fromStart) is { } start &&
+                doc.ContentEnd.GetPositionAtOffset(-fromEnd) is { } end && start.CompareTo(end) < 0)
+                pasted = ElementsWithin(start, end);
+            PinTextOnColoredGround(pasted.OfType<Run>());
+            foreach (var element in pasted)
+            {
+                NormalizeElement(element);
+                if (element is Block block && block.Parent is FlowDocument or Section or ListItem or TableCell)
+                    NormalizePastedBlock(block);
+            }
             AdoptPastedAttachments();   // Editor.RecordingStore.cs
             MarkDirty();
+        }
+
+        // Where the paste in progress lands, as distances from the document's two ends: a paste
+        // changes nothing before its start or after its end, so these still bound the pasted
+        // content afterwards. (TextPointer gravity does not survive the paste's own load.)
+        private FlowDocument? _pasteDoc;
+        private int _pasteFromStart, _pasteFromEnd;
+
+        private void CapturePasteRange()
+        {
+            _pasteDoc = Editor.Document;
+            _pasteFromStart = Editor.Document.ContentStart.GetOffsetToPosition(Editor.Selection.Start);
+            _pasteFromEnd = Editor.Selection.End.GetOffsetToPosition(Editor.Document.ContentEnd);
+        }
+
+        /// <summary>Every text element that lies wholly between two positions, outermost first.</summary>
+        private static List<TextElement> ElementsWithin(TextPointer start, TextPointer end)
+        {
+            var found = new List<TextElement>();
+            for (var p = start; p != null && p.CompareTo(end) < 0; p = p.GetNextContextPosition(LogicalDirection.Forward))
+                if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementStart &&
+                    p.GetAdjacentElement(LogicalDirection.Forward) is TextElement e && e.ElementEnd.CompareTo(end) <= 0)
+                    found.Add(e);
+            return found;
         }
 
         // Brings pasted blocks to the editor's own defaults. Paragraphs lose the margin the
