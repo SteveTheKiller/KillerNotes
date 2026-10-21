@@ -56,6 +56,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Updated SQLCipher to 4.19.0, FLAC to 1.5.0, Whisper to 1.9.5, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
 - The About, Fonts and Keyboard Shortcuts cards' edges, and the Shortcuts list's top rule, follow gradient themes instead of one solid border color. Film grain has crisper specks. Black shows only its bright specks at half the strength and Dark's grain is slightly lighter, so menus, panes and the background stay distinct. The larger Lacquer + NEW label fills its button, sits higher, and shrinks slightly before becoming a large plus sign on narrow sidebars.
 - Light is gray around a white page: the background, sidebar and footer are a slightly darker gray, and the note pane is white.
+- Menus, the format bar and the links strip sit darker than the panes and the background in Dark, Decay, Ectoplasm, Malaise and Mourning, where they had blended into one or the other.
 - The caption buttons are 1px shorter than the title bar, so the red Close hover no longer touches the edge below it.
 - Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
 

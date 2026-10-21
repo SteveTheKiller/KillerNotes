@@ -78,7 +78,7 @@
 
     <SolidColorBrush x:Key="InputBorderBrush" Color="#394742" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
-    <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#262b2d" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#171c1d" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
     <SolidColorBrush x:Key="ContentPaneBrush" Color="#303638" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="MenuBorderBrush" Color="#394742" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
