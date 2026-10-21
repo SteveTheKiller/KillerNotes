@@ -344,12 +344,13 @@
                      people actually use - a cramped drawer at the bottom. Places now fill the
                      column. Right-click any folder in the file list to add it here. -->
                 <Grid Grid.Column="0">
-                    <!-- The left column IS a client area on a beveled theme - a Win98 places list
-                         is white and recessed, like Explorer's. SidebarPaneBrush and the bevel
-                         pair are transparent by default, so the flat sidebar the family uses
-                         everywhere else is unchanged. -->
-                    <Border Background="{DynamicResource SidebarPaneBrush}"
-                            CornerRadius="{DynamicResource ControlCornerRadius}"/>
+                    <!-- Both lists use the content surface. Classic themes retain their
+                         white recessed client wells and the existing bevel layers. -->
+                    <Border Background="{DynamicResource FileDialogPaneBrush}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}">
+                        <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"
+                                CornerRadius="{DynamicResource ControlCornerRadius}" IsHitTestVisible="False"/>
+                    </Border>
                     <!-- Two-tone sunken edge, the same PaneBevel* pair as the main window's panes:
                          #808080 then #000000 down the top/left, #ffffff then the face up the
                          bottom/right. These were on the shallow FooterCell* keys, which are the
@@ -403,7 +404,7 @@
                             </LinearGradientBrush>
                         </Border.OpacityMask>
                         <Grid>
-                            <Border Background="{DynamicResource BackgroundBrush}"/>
+                            <Border Background="{DynamicResource FileDialogPaneBrush}"/>
                             <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
                         </Grid>
                     </Border>
@@ -416,7 +417,7 @@
                             </LinearGradientBrush>
                         </Border.OpacityMask>
                         <Grid>
-                            <Border Background="{DynamicResource BackgroundBrush}"/>
+                            <Border Background="{DynamicResource FileDialogPaneBrush}"/>
                             <Border Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
                         </Grid>
                     </Border>
@@ -459,7 +460,7 @@
                 </Grid>
 
                 <Grid Grid.Column="2">
-                  <Border Background="{DynamicResource PaneBrush}" CornerRadius="{DynamicResource ControlCornerRadius}" IsHitTestVisible="False">
+                  <Border Background="{DynamicResource FileDialogPaneBrush}" CornerRadius="{DynamicResource ControlCornerRadius}" IsHitTestVisible="False">
                     <Border.Effect>
                       <DropShadowEffect Color="Black" BlurRadius="14" ShadowDepth="2" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
@@ -477,7 +478,7 @@
                   <Border Panel.ZIndex="9" IsHitTestVisible="False" Margin="{DynamicResource PaneBevelInnerMargin}"
                           BorderBrush="{DynamicResource PaneBevelLight2Brush}"
                           BorderThickness="{DynamicResource PaneBevel2DarkThickness}"/>
-                  <Border Background="{DynamicResource PaneBrush}" CornerRadius="{DynamicResource ControlCornerRadius}">
+                  <Border Background="{DynamicResource FileDialogPaneBrush}" CornerRadius="{DynamicResource ControlCornerRadius}">
                   <Grid>
                     <Border IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
                             Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
