@@ -42,6 +42,28 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void SearchStaysRightWhenAnOlderVersionChangesANote()
+        {
+            using var store = new TempStore();
+            long id = NoteStore.Create("n");
+            NoteStore.Save(id, "n", new byte[] { 1 }, "first ZÜRICH");
+            Assert.Single(NoteStore.List("zürich"));
+
+            // An older KillerNotes has no fold triggers: it changes the text and the stamp only.
+            using (var raw = new Microsoft.Data.Sqlite.SqliteConnection(
+                new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = store.DbPath, Pooling = false }.ConnectionString))
+            {
+                raw.Open();
+                using var cmd = raw.CreateCommand();
+                cmd.CommandText = "UPDATE notes SET plain = 'now GENÈVE', modified = '2099-01-01 00:00:00' WHERE id = $id";
+                cmd.Parameters.AddWithValue("$id", id);
+                cmd.ExecuteNonQuery();
+            }
+            Assert.Single(NoteStore.List("genève"));
+            Assert.Empty(NoteStore.List("zürich"));
+        }
+
+        [Fact]
         public void WikilinksResolveAcrossCase()
         {
             using var store = new TempStore();

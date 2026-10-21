@@ -378,7 +378,28 @@ CREATE TEMP TRIGGER IF NOT EXISTS kn_refs_hist_ai AFTER INSERT ON main.note_hist
 END;
 CREATE TEMP TRIGGER IF NOT EXISTS kn_refs_hist_ad AFTER DELETE ON main.note_history BEGIN
     DELETE FROM attachment_refs WHERE owner = 'h:' || old.id;
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_fold_ai AFTER INSERT ON main.notes BEGIN
+    INSERT OR REPLACE INTO note_fold(id, modified, plain_fold) VALUES (new.id, new.modified, kn_fold(new.plain));
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_fold_au AFTER UPDATE OF plain, modified ON main.notes BEGIN
+    INSERT OR REPLACE INTO note_fold(id, modified, plain_fold) VALUES (new.id, new.modified, kn_fold(new.plain));
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_fold_ad AFTER DELETE ON main.notes BEGIN
+    DELETE FROM note_fold WHERE id = old.id;
 END;";
+
+        // Each note's body text folded for search (Services/TextFold.cs), so a search compares
+        // against stored text instead of folding every note on every keystroke. Stamped with the
+        // note's modified time: a row whose stamp no longer matches (a version without these
+        // triggers edited the note) is ignored and the text is folded on the spot instead, so a
+        // stale row can slow a search but never make it miss.
+        private const string NoteFoldSql = @"
+CREATE TABLE IF NOT EXISTS note_fold(
+    id         INTEGER PRIMARY KEY,
+    modified   TEXT NOT NULL,
+    plain_fold TEXT NOT NULL
+);";
 
         // Saved graph layouts: one row per (layout name, note), holding where that note's node
         // sits on the canvas. Deliberately OUTSIDE SchemaSql, unlike sketches and recordings:
@@ -421,7 +442,13 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             Exec(GraphLayoutSql);
             Exec(HistorySql);
             Exec(AttachmentRefsSql);
+            Exec(NoteFoldSql);
             Exec(AttachmentRefTriggersSql);
+            // Fill in folds that are missing or stale (a database from before 1.6.0, or one an
+            // older version has edited since). One pass, and nothing to do on an up-to-date file.
+            Exec("INSERT OR REPLACE INTO note_fold(id, modified, plain_fold) " +
+                 "SELECT n.id, n.modified, kn_fold(n.plain) FROM notes n LEFT JOIN note_fold f ON f.id = n.id " +
+                 "WHERE f.id IS NULL OR f.modified <> n.modified");
             EnsureColumns();
             // Seed ONLY when the tags table was just created: user customizations and
             // deletions must never resurrect.
@@ -569,7 +596,10 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 var clauses = new List<string>(words.Length);
                 for (int i = 0; i < words.Length; i++)
                 {
-                    clauses.Add($"(instr(kn_fold(title), $w{i}) > 0 OR instr(kn_fold(plain), $w{i}) > 0 OR instr(kn_fold(tags), $w{i}) > 0)");
+                    // The body from its stored fold while that is current (note_fold), else folded here.
+                    clauses.Add($"(instr(kn_fold(title), $w{i}) > 0 OR instr(kn_fold(tags), $w{i}) > 0 OR " +
+                                $"instr(COALESCE((SELECT f.plain_fold FROM note_fold f WHERE f.id = notes.id AND f.modified = notes.modified), " +
+                                $"kn_fold(plain)), $w{i}) > 0)");
                     cmd.Parameters.AddWithValue($"$w{i}", TextFold.Fold(words[i]));
                 }
                 string where = clauses.Count > 0 ? string.Join(" AND ", clauses) : "1";
