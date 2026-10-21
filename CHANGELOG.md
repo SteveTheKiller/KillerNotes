@@ -48,6 +48,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Downloaded speech models are kept in one folder across updates; models downloaded by earlier versions are moved there instead of downloaded again.
 - Cached native libraries are checked against the app's own copies by hash and replaced when they differ, and a database engine that fails to load is reported instead of failing later.
 - The website's screenshot viewer has a Close button and keeps keyboard focus inside while it is open.
+- The website now says /silent installs for all users only when run as administrator, and for the current user otherwise.
 
 ### Added
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.

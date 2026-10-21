@@ -200,6 +200,7 @@ var I18N = {
   "hp_graph_3": "<b>Pripni vse zapiske</b> (<code>P</code>) določa vedenje drugih zapiskov med vlečenjem. Ko je vklopljeno, se premika le izbor; sicer se povezani zapiski umikajo. <b>Zakleni na mestu</b> (<code>K</code> v priročnem meniju zapiska) je močnejša nastavitev za posamezen zapisek. Zaklenjenega ne premaknejo niti razporeditve niti sosedje, zaklep pa se shrani.",
   "hp_graph_4": "Graf se znova odpre natanko tako, kot ste ga pustili. <b>Shrani to razporeditev...</b> v meniju Razporedi ohrani poimenovano postavitev za poznejšo uporabo, <b>Pozabi razporeditev</b> pa jo odstrani. Postavitve pripadajo svoji beležnici in se ne prenesejo v drugo zbirko podatkov.",
   "hp_graph_5": "<b>Prikaži samo zapiske, ki kažejo sem</b> (<code>F</code>) omeji graf na en zapisek in sosede. <code>Esc</code> znova prikaže vse. <b>Vizualizator</b> (<code>V</code>) graf počasi premika in vrti, kar je priročen prikaz na drugem zaslonu.",
+  "hp_graph_6": "S tipkovnico se s <code>Tab</code> in <code>Shift+Tab</code> premikate od zapiska do zapiska in vsakega sproti napovesta, <code>Home</code> in <code>End</code> skočita na prvega in zadnjega, tipka <code>Menu</code> odpre možnosti zapiska, <code>Enter</code> pa ga odpre.",
   "hp_52": "Killculator",
   "hp_53": "Uporaba kalkulatorja Killculator",
   "hp_54": "<code>F9</code> izvleče kalkulator v izbrani temi pod seznamom zapiskov in po potrebi odpre stransko vrstico. Enačbe vnašajte s številskimi tipkami, <code>Enter</code> ali <code>=</code> pa izračuna rezultat.",
@@ -388,7 +389,7 @@ var I18N = {
   "t_spec_r18k": "Uporaba omrežja",
   "t_spec_r18v": "Samo preverjanje različice v kartici O programu, izbirni prenos posodobitve (GitHub) in govorni modeli, ki jih izberete za prenos (Hugging Face)",
   "t_spec_r19k": "Distribucija",
-  "t_spec_r19v": "Ena podpisana datoteka exe (~10,9 MB); prenosno, namestitev za uporabnika ali /silent za ves računalnik",
+  "t_spec_r19v": "Ena podpisana datoteka exe (~10,9 MB); prenosno, namestitev za uporabnika ali /silent (za vse uporabnike, če se zažene kot skrbnik)",
   "t_spec_r20k": "Licenca",
   "t_spec_r20v": "GPLv3; arhiv izvorne kode zip ob vsaki izdaji",
   "t_enc_h": "Šifriranje",
@@ -467,7 +468,7 @@ var I18N = {
   "t_dist_p1": "KillerNotes je <b>ena podpisana datoteka exe</b>, velika približno 10,9 MB, z vsemi vdelanimi odvisnostmi, vključno s SQLCipher. Deluje prenosno ali nameščeno brez mape knjižnic DLL. Prenesite, dvokliknite in pišite. Datoteka ima podpis Authenticode s časovnim žigom, zato Windows pokaže preverjenega izdajatelja. Kartica O programu prikazuje prstni odtis potrdila in SHA-256 datoteke exe za primerjavo s stranjo izdaje.",
   "t_dist_l1": "<b>Najprej prenosno</b>: zaženite kjer koli, tudi s ključka USB. Zapiski so privzeto v <code>%APPDATA%\\KillerNotes</code>. Podatkovno mapo lahko postavite ob exe in celotna beležnica potuje s ključkom.",
   "t_dist_l2": "<b>Izbirna namestitev</b>: značka PRENOSNO v vrstici stanja ponuja namestitev za uporabnika z enim klikom, bližnjico Start, izbirno bližnjico na namizju in vnosom za odstranjevanje programov. Skrbniške pravice niso potrebne.",
-  "site_uninstall_current": "<code>/silent</code> namesti za vse uporabnike. <code>/uninstall</code> odstrani aplikacijo, <code>/uninstall-silent</code> pa jo odstrani brez vprašanja. Zapiski se ohranijo.",
+  "site_uninstall_current": "<code>/silent</code> namesti za vse uporabnike, če se zažene kot skrbnik, sicer pa za trenutnega uporabnika. <code>/uninstall</code> odstrani aplikacijo, <code>/uninstall-silent</code> pa jo odstrani brez vprašanja. Zapiski se ohranijo.",
   "t_dist_l4": "<b>Odprta koda</b>: GPLv3. Vsaka izdaja ob datoteki exe vsebuje natančno pripadajočo izvorno kodo kot <code>KillerNotes-x.y.z-src.zip</code>.",
   "t_nav_architecture": "Arhitektura",
   "t_nav_database": "Zbirka podatkov, preprosto razložena",
@@ -711,6 +712,7 @@ var I18N = {
   "hp_graph_3": "<b>Fissa tutte le note</b> (<code>P</code>) decide cosa succede a tutto il resto mentre trascini: attivo, non si muove nulla tranne ciò che tieni; disattivo, le note a cui è collegata si spostano per fare spazio. <b>Blocca in posizione</b> (<code>K</code>, nel menu del clic destro di una nota) è più forte e per nota - nulla sposta una nota bloccata, né una disposizione né le sue vicine, e il blocco viene ricordato.",
   "hp_graph_4": "Il grafo si riapre esattamente come lo hai lasciato. <b>Salva questa disposizione...</b> nel menu Disponi conserva un layout con nome a cui puoi tornare, e <b>Dimentica disposizione</b> ne scarta uno. I layout vivono nel taccuino a cui appartengono, quindi non ti seguono mai in un altro database.",
   "hp_graph_5": "<b>Mostra solo ciò che è collegato qui</b> (<code>F</code>) restringe il grafo a una nota e alle sue vicine; <code>Esc</code> mostra di nuovo tutto. <b>Visualizzatore</b> (<code>V</code>) lascia il grafo vagare e ruotare lentamente da solo, il che merita di essere lasciato su un secondo monitor.",
+  "hp_graph_6": "Da tastiera, <code>Tab</code> e <code>Shift+Tab</code> passano da una nota all'altra annunciandole una per una, <code>Home</code> e <code>End</code> saltano alla prima e all'ultima, il tasto <code>Menu</code> apre le opzioni della nota e <code>Enter</code> la apre.",
   "f_graph_t": "Note collegate e un loro grafo",
   "f_graph_d": "Digita <code>[[</code> per collegare una nota a un'altra, incluse note non ancora scritte - seguire un link morto offre di crearle. Ogni nota elenca cosa la punta, e Ctrl+Shift+B disegna l'intero taccuino come un grafo che puoi disporre, su cui bloccare le note in posizione e di cui salvare i layout. Si riapre esattamente come lo hai lasciato.",
   "t_arch_h": "Architettura",
@@ -876,7 +878,7 @@ var I18N = {
   "t_spec_r18k": "Uso della rete",
   "t_spec_r18v": "Nessuno, tranne il controllo di versione del pannello Informazioni, il download opzionale di autoaggiornamento (GitHub) e il download dei modelli vocali richiesti (Hugging Face)",
   "t_spec_r19k": "Distribuzione",
-  "t_spec_r19v": "Singolo exe firmato (~10,9 MB); portatile, installazione per utente, o /silent a livello macchina",
+  "t_spec_r19v": "Singolo exe firmato (~10,9 MB); portatile, installazione per utente, o /silent (per tutti gli utenti se eseguito come amministratore)",
   "t_spec_r20k": "Licenza",
   "t_spec_r20v": "GPLv3; zip del sorgente allegato a ogni release",
   "t_nav_architecture": "Architettura",
@@ -1179,6 +1181,7 @@ var I18N = {
   "hp_graph_3": "A <b>Minden jegyzet kitűzése</b> (<code>P</code>) dönti el, mi történik a többivel húzás közben: bekapcsolva csak az mozdul, amit fog; kikapcsolva a hivatkozott jegyzetek kitérnek az útból. A <b>Rögzítés a helyén</b> (<code>K</code>, a jegyzet jobb gombos menüjében) erősebb és jegyzetenként működik - a rögzített jegyzetet semmi nem mozdítja el, sem elrendezés, sem a szomszédai, és a rögzítés megmarad.",
   "hp_graph_4": "A gráf pontosan úgy nyílik meg újra, ahogy hagyta. Az Elrendezés menüben az <b>Ennek az elrendezésnek a mentése...</b> nevesített elrendezést tárol, amelyhez visszatérhet, az <b>Elrendezés elfelejtése</b> pedig eldob egyet. Az elrendezések abban a jegyzettömbben élnek, amelyhez tartoznak, így soha nem követik Önt egy másik adatbázisba.",
   "hp_graph_5": "A <b>Csak az ide hivatkozók megjelenítése</b> (<code>F</code>) egyetlen jegyzetre és a szomszédaira szűkíti a gráfot; az <code>Esc</code> újra mindent megmutat. A <b>Vizualizáció</b> (<code>V</code>) magától sodródni és lassan forogni hagyja a gráfot, amit érdemes egy második monitoron hagyni.",
+  "hp_graph_6": "Billentyűzetről a <code>Tab</code> és a <code>Shift+Tab</code> jegyzetről jegyzetre lép, és mindegyiket bemondja, a <code>Home</code> és az <code>End</code> az elsőre és az utolsóra ugrik, a <code>Menu</code> billentyű megnyitja a jegyzet beállításait, az <code>Enter</code> pedig megnyitja a jegyzetet.",
   "f_graph_t": "Összekapcsolt jegyzetek és a gráfjuk",
   "f_graph_d": "Írja be a <code>[[</code> jelet, hogy egyik jegyzetet a másikhoz kapcsolja, akár olyanhoz is, amelyet még nem írt meg - egy holt hivatkozás követésekor a program felajánlja a létrehozását. Minden jegyzet felsorolja, mi mutat rá, a Ctrl+Shift+B pedig gráfként rajzolja ki az egész jegyzettömböt, amelyet elrendezhet, amelyen jegyzeteket rögzíthet a helyükre, és amelynek elrendezéseit mentheti. Pontosan úgy nyílik meg újra, ahogy hagyta.",
   "t_arch_h": "Architektúra",
@@ -1344,7 +1347,7 @@ var I18N = {
   "t_spec_r18k": "Hálózathasználat",
   "t_spec_r18v": "Nincs, kivéve a Névjegy panel verzióellenőrzését, a választható önfrissítés letöltését (GitHub) és a kért beszédmodellek letöltését (Hugging Face)",
   "t_spec_r19k": "Terjesztés",
-  "t_spec_r19v": "Egyetlen aláírt exe (~10,9 MB); hordozható, felhasználónkénti telepítés vagy /silent gépszintű telepítés",
+  "t_spec_r19v": "Egyetlen aláírt exe (~10,9 MB); hordozható, felhasználónkénti telepítés vagy /silent (minden felhasználónak, ha rendszergazdaként fut)",
   "t_spec_r20k": "Licenc",
   "t_spec_r20v": "GPLv3; minden kiadáshoz mellékelt forrás-zip",
   "t_nav_architecture": "Architektúra",
@@ -1648,6 +1651,7 @@ var I18N = {
   "hp_graph_3": "<b>Przypnij wszystkie notatki</b> (<code>P</code>) decyduje, co dzieje się z resztą podczas przeciągania: włączone - nic się nie rusza poza tym, co trzymasz; wyłączone - notatki, do których prowadzą odnośniki, usuwają się z drogi. <b>Zablokuj w miejscu</b> (<code>K</code>, w menu podręcznym notatki) działa mocniej i osobno dla każdej notatki - zablokowanej notatki nie ruszy nic, ani układ, ani sąsiedzi, a blokada jest zapamiętywana.",
   "hp_graph_4": "Graf otwiera się dokładnie tak, jak go zostawiono. <b>Zapisz ten układ...</b> w menu Rozmieść zachowuje nazwany układ, do którego można wrócić, a <b>Zapomnij układ</b> go usuwa. Układy żyją w notatniku, do którego należą, więc nigdy nie przenoszą się do innej bazy danych.",
   "hp_graph_5": "<b>Pokaż tylko to, co prowadzi tutaj</b> (<code>F</code>) zawęża graf do jednej notatki i jej sąsiadów; <code>Esc</code> pokazuje znów wszystko. <b>Wizualizacja</b> (<code>V</code>) pozostawia graf dryfujący i powoli obracający się sam z siebie, co warto zostawić na drugim monitorze.",
+  "hp_graph_6": "Z klawiatury <code>Tab</code> i <code>Shift+Tab</code> przechodzą od notatki do notatki i odczytują każdą z nich, <code>Home</code> i <code>End</code> przeskakują do pierwszej i ostatniej, klawisz <code>Menu</code> otwiera opcje notatki, a <code>Enter</code> ją otwiera.",
   "f_graph_t": "Powiązane notatki i ich graf",
   "f_graph_d": "Wpisz <code>[[</code>, aby połączyć jedną notatkę z drugą, także z taką, której jeszcze nie napisano - przejście martwym odnośnikiem proponuje jej utworzenie. Każda notatka wymienia to, co na nią wskazuje, a Ctrl+Shift+B rysuje cały notatnik jako graf, który można rozmieszczać, blokować w nim notatki w miejscu i zapisywać jego układy. Otwiera się dokładnie tak, jak go zostawiono.",
   "t_arch_h": "Architektura",
@@ -1813,7 +1817,7 @@ var I18N = {
   "t_spec_r18k": "Użycie sieci",
   "t_spec_r18v": "Brak, poza sprawdzeniem wersji w panelu O programie, opcjonalnym pobraniem aktualizacji (GitHub) i pobraniem wybranych modeli mowy (Hugging Face)",
   "t_spec_r19k": "Dystrybucja",
-  "t_spec_r19v": "Pojedynczy podpisany plik exe (~10,9 MB); przenośny, instalacja dla użytkownika lub /silent dla całego komputera",
+  "t_spec_r19v": "Pojedynczy podpisany plik exe (~10,9 MB); przenośny, instalacja dla użytkownika lub /silent (dla wszystkich użytkowników po uruchomieniu jako administrator)",
   "t_spec_r20k": "Licencja",
   "t_spec_r20v": "GPLv3; archiwum ze źródłami dołączane do każdego wydania",
   "t_nav_architecture": "Architektura",
@@ -2116,6 +2120,7 @@ var I18N = {
   "hp_graph_3": "<b>Připnout všechny poznámky</b> (<code>P</code>) určuje, co se během tažení stane se vším ostatním: zapnuto - nehýbe se nic kromě toho, co držíte; vypnuto - poznámky, na které odkazuje, uhnou z cesty. <b>Uzamknout na místě</b> (<code>K</code>, v místní nabídce poznámky) je silnější a platí pro jednotlivou poznámku - uzamčenou poznámkou nepohne nic, ani uspořádání, ani sousedé, a zámek se pamatuje.",
   "hp_graph_4": "Graf se znovu otevře přesně tak, jak jste jej opustili. <b>Uložit toto uspořádání...</b> v nabídce Uspořádat uchová pojmenované rozvržení, ke kterému se můžete vrátit, a <b>Zapomenout uspořádání</b> jedno zahodí. Rozvržení žijí v zápisníku, kam patří, takže vás nikdy nenásledují do jiné databáze.",
   "hp_graph_5": "<b>Zobrazit jen to, co sem odkazuje</b> (<code>F</code>) zúží graf na jednu poznámku a její sousedy; <code>Esc</code> zase ukáže vše. <b>Vizualizace</b> (<code>V</code>) nechá graf sám plynout a pomalu se otáčet, což stojí za to nechat běžet na druhém monitoru.",
+  "hp_graph_6": "Z klávesnice <code>Tab</code> a <code>Shift+Tab</code> přecházejí z poznámky na poznámku a každou ohlásí, <code>Home</code> a <code>End</code> skočí na první a poslední, klávesa <code>Menu</code> otevře možnosti poznámky a <code>Enter</code> ji otevře.",
   "f_graph_t": "Propojené poznámky a jejich graf",
   "f_graph_d": "Napište <code>[[</code> a propojte jednu poznámku s druhou, i s takovou, kterou jste ještě nenapsali - při otevření mrtvého odkazu aplikace nabídne její vytvoření. Každá poznámka vypisuje, co na ni míří, a Ctrl+Shift+B vykreslí celý zápisník jako graf, který můžete uspořádat, zamknout v něm poznámky na místě a ukládat jeho rozvržení. Otevře se přesně tak, jak jste jej opustili.",
   "t_arch_h": "Architektura",
@@ -2281,7 +2286,7 @@ var I18N = {
   "t_spec_r18k": "Použití sítě",
   "t_spec_r18v": "Žádné, kromě kontroly verze v panelu O aplikaci, volitelného stažení aktualizace (GitHub) a stažení vyžádaných řečových modelů (Hugging Face)",
   "t_spec_r19k": "Distribuce",
-  "t_spec_r19v": "Jediné podepsané exe (~10.9 MB); přenosné, instalace pro uživatele, nebo /silent pro celý počítač",
+  "t_spec_r19v": "Jediné podepsané exe (~10.9 MB); přenosné, instalace pro uživatele, nebo /silent (pro všechny uživatele při spuštění jako správce)",
   "t_spec_r20k": "Licence",
   "t_spec_r20v": "GPLv3; ke každému vydání je přiložen zip se zdrojovým kódem",
   "t_nav_architecture": "Architektura",
@@ -2585,6 +2590,7 @@ var I18N = {
   "hp_graph_3": "<b>Fijar todas las notas</b> (<code>P</code>) decide qué le ocurre al resto mientras arrastra: activado, no se mueve nada salvo lo que sujeta; desactivado, las notas que enlaza se apartan del camino. <b>Bloquear en su sitio</b> (<code>K</code>, en el menú contextual de una nota) es más fuerte y actúa nota a nota: nada mueve una nota bloqueada, ni una disposición ni sus vecinas, y el bloqueo se recuerda.",
   "hp_graph_4": "El grafo se reabre exactamente como lo dejó. <b>Guardar esta disposición...</b> en el menú Disponer conserva una distribución con nombre a la que puede volver, y <b>Olvidar disposición</b> elimina una. Las distribuciones viven en el cuaderno al que pertenecen, así que nunca le siguen a otra base de datos.",
   "hp_graph_5": "<b>Mostrar solo lo que enlaza aquí</b> (<code>F</code>) reduce el grafo a una nota y sus vecinas; <code>Esc</code> vuelve a mostrarlo todo. <b>Visualizador</b> (<code>V</code>) deja el grafo a la deriva, girando lentamente por su cuenta, algo que merece la pena dejar en un segundo monitor.",
+  "hp_graph_6": "Desde el teclado, <code>Tab</code> y <code>Shift+Tab</code> pasan de una nota a otra y anuncian cada una, <code>Home</code> y <code>End</code> saltan a la primera y a la última, la tecla <code>Menu</code> abre las opciones de la nota y <code>Enter</code> la abre.",
   "f_graph_t": "Notas enlazadas y un grafo de ellas",
   "f_graph_d": "Escriba <code>[[</code> para enlazar una nota con otra, incluidas notas que aún no ha escrito: al seguir un enlace roto se le ofrece crearla. Cada nota enumera lo que apunta a ella, y Ctrl+Shift+B dibuja todo el cuaderno como un grafo que puede disponer, en el que puede bloquear notas en su sitio y del que puede guardar distribuciones. Se reabre exactamente como lo dejó.",
   "t_arch_h": "Arquitectura",
@@ -2750,7 +2756,7 @@ var I18N = {
   "t_spec_r18k": "Uso de red",
   "t_spec_r18v": "Ninguno, salvo la comprobación de versión del panel Acerca de, la descarga opcional de la actualización (GitHub) y la descarga de los modelos de voz que solicites (Hugging Face)",
   "t_spec_r19k": "Distribución",
-  "t_spec_r19v": "Un único exe firmado (~10.9 MB); portátil, instalación por usuario o /silent para toda la máquina",
+  "t_spec_r19v": "Un único exe firmado (~10.9 MB); portátil, instalación por usuario o /silent (para todos los usuarios si se ejecuta como administrador)",
   "t_spec_r20k": "Licencia",
   "t_spec_r20v": "GPLv3; zip del código fuente adjunto a cada versión",
   "t_nav_architecture": "Arquitectura",
@@ -3054,6 +3060,7 @@ var I18N = {
   "hp_graph_3": "<b>Alle Notizen anheften</b> (<code>P</code>) entscheidet, was mit allem anderen geschieht, während Sie ziehen: an bewegt sich nichts außer dem, was Sie halten; aus weichen die verlinkten Notizen aus. <b>Position sperren</b> (<code>K</code>, im Kontextmenü einer Notiz) ist stärker und gilt je Notiz - eine gesperrte Notiz lässt sich durch nichts verschieben, weder durch eine Anordnung noch durch ihre Nachbarn, und die Sperre wird gemerkt.",
   "hp_graph_4": "Der Graph öffnet sich genau so wieder, wie Sie ihn verlassen haben. <b>Diese Anordnung speichern...</b> im Menü Anordnen bewahrt ein benanntes Layout auf, zu dem Sie zurückkehren können, und <b>Anordnung vergessen</b> wirft eines weg. Layouts leben in dem Notizbuch, zu dem sie gehören, und folgen Ihnen daher nie in eine andere Datenbank.",
   "hp_graph_5": "<b>Nur anzeigen, was hierher verweist</b> (<code>F</code>) engt den Graphen auf eine Notiz und ihre Nachbarn ein; <code>Esc</code> zeigt wieder alles. <b>Visualisierung</b> (<code>V</code>) lässt den Graphen von selbst treiben und sich langsam drehen, was sich auf einem zweiten Monitor lohnt.",
+  "hp_graph_6": "Per Tastatur wechseln <code>Tab</code> und <code>Shift+Tab</code> von Notiz zu Notiz und sagen jede an, <code>Home</code> und <code>End</code> springen zur ersten und letzten, die <code>Menu</code>-Taste öffnet die Optionen der Notiz, und <code>Enter</code> öffnet sie.",
   "f_graph_t": "Verknüpfte Notizen und ein Graph davon",
   "f_graph_d": "Tippen Sie <code>[[</code>, um eine Notiz mit einer anderen zu verknüpfen, auch mit Notizen, die Sie noch nicht geschrieben haben - folgt man einem toten Link, wird das Anlegen angeboten. Jede Notiz listet auf, was auf sie zeigt, und Ctrl+Shift+B zeichnet das ganze Notizbuch als Graphen, den Sie anordnen können, in dem Sie Notizen an ihrem Platz sperren und dessen Layouts Sie speichern können. Er öffnet sich genau so wieder, wie Sie ihn verlassen haben.",
   "t_arch_h": "Architektur",
@@ -3219,7 +3226,7 @@ var I18N = {
   "t_spec_r18k": "Netzwerknutzung",
   "t_spec_r18v": "Keine, außer der Versionsprüfung des Über-Panels, dem optionalen Update-Download (GitHub) und dem Download angeforderter Sprachmodelle (Hugging Face)",
   "t_spec_r19k": "Distribution",
-  "t_spec_r19v": "Einzelne signierte exe (~10.9 MB); portabel, Installation pro Benutzer oder /silent maschinenweit",
+  "t_spec_r19v": "Einzelne signierte exe (~10.9 MB); portabel, Installation pro Benutzer oder /silent (für alle Benutzer, wenn als Administrator ausgeführt)",
   "t_spec_r20k": "Lizenz",
   "t_spec_r20v": "GPLv3; Quell-Zip liegt jedem Release bei",
   "t_nav_architecture": "Architektur",
@@ -3523,6 +3530,7 @@ var I18N = {
   "hp_graph_3": "<b>Épingler toutes les notes</b> (<code>P</code>) décide de ce qui arrive au reste pendant que vous faites glisser : activé, rien ne bouge à part ce que vous tenez ; désactivé, les notes qu'elle lie s'écartent. <b>Verrouiller en place</b> (<code>K</code>, dans le menu contextuel d'une note) est plus fort et s'applique note par note : rien ne déplace une note verrouillée, ni une disposition ni ses voisines, et le verrou est mémorisé.",
   "hp_graph_4": "Le graphe se rouvre exactement tel que vous l'avez laissé. <b>Enregistrer cette disposition...</b> dans le menu Disposer conserve une mise en page nommée à laquelle revenir, et <b>Oublier la disposition</b> en supprime une. Les mises en page vivent dans le carnet auquel elles appartiennent et ne vous suivent donc jamais dans une autre base de données.",
   "hp_graph_5": "<b>Afficher uniquement ce qui pointe ici</b> (<code>F</code>) restreint le graphe à une note et ses voisines ; <code>Esc</code> réaffiche tout. <b>Visualiseur</b> (<code>V</code>) laisse le graphe dériver et tourner lentement tout seul, ce qui vaut la peine d'être laissé sur un second écran.",
+  "hp_graph_6": "Au clavier, <code>Tab</code> et <code>Shift+Tab</code> passent d'une note à l'autre en annonçant chacune, <code>Home</code> et <code>End</code> sautent à la première et à la dernière, la touche <code>Menu</code> ouvre les options de la note et <code>Enter</code> l'ouvre.",
   "f_graph_t": "Notes liées et un graphe de celles-ci",
   "f_graph_d": "Tapez <code>[[</code> pour lier une note à une autre, y compris des notes que vous n'avez pas encore écrites : suivre un lien mort propose de la créer. Chaque note énumère ce qui pointe vers elle, et Ctrl+Shift+B dessine le carnet entier sous forme de graphe que vous pouvez disposer, sur lequel verrouiller des notes en place et dont vous pouvez enregistrer les mises en page. Il se rouvre exactement tel que vous l'avez laissé.",
   "t_arch_h": "Architecture",
@@ -3688,7 +3696,7 @@ var I18N = {
   "t_spec_r18k": "Usage réseau",
   "t_spec_r18v": "Aucun, hormis la vérification de version du panneau À propos, le téléchargement optionnel de mise à jour (GitHub) et le téléchargement des modèles vocaux demandés (Hugging Face)",
   "t_spec_r19k": "Distribution",
-  "t_spec_r19v": "Un seul exe signé (~10.9 MB) ; portable, installation par utilisateur, ou /silent pour toute la machine",
+  "t_spec_r19v": "Un seul exe signé (~10.9 MB) ; portable, installation par utilisateur, ou /silent (pour tous les utilisateurs si exécuté en tant qu'administrateur)",
   "t_spec_r20k": "Licence",
   "t_spec_r20v": "GPLv3 ; zip des sources joint à chaque version",
   "t_nav_architecture": "Architecture",
@@ -3992,6 +4000,7 @@ var I18N = {
   "hp_graph_3": "<b>すべてのノートを固定</b>（<code>P</code>）は、ドラッグ中に他のノートがどうなるかを決めます。オンなら持っているもの以外は動かず、オフならリンク先のノートが道をあけます。<b>位置を固定</b>（<code>K</code>、ノートの右クリックメニュー）はより強力で、ノートごとに効きます。固定したノートは並べ替えでも隣のノートでも動かず、その設定は記憶されます。",
   "hp_graph_4": "グラフは閉じたときのままの状態で開き直します。並べるメニューの<b>この配置を保存...</b>は名前を付けた配置を残し、あとから戻れるようにします。<b>配置を削除</b>はそれを捨てます。配置はそれが属するノートブックの中にあるので、別のデータベースに付いてくることはありません。",
   "hp_graph_5": "<b>ここにリンクしているものだけ表示</b>（<code>F</code>）はグラフを 1 つのノートとその隣接ノートだけに絞ります。<code>Esc</code> ですべてが戻ります。<b>ビジュアライザー</b>（<code>V</code>）はグラフをひとりでに漂わせ、ゆっくり回転させ続けます。サブモニターに出しておく価値があります。",
+  "hp_graph_6": "キーボードでは、<code>Tab</code> と <code>Shift+Tab</code> でノートからノートへ移動し、それぞれが読み上げられます。<code>Home</code> と <code>End</code> で最初と最後のノートに移動し、<code>Menu</code> キーでノートのオプションを開き、<code>Enter</code> でノートを開きます。",
   "f_graph_t": "リンクされたノートとそのグラフ",
   "f_graph_d": "<code>[[</code> と入力すればノート同士をリンクできます。まだ書いていないノートも対象で、存在しないリンクをたどると作成するかどうか尋ねられます。各ノートには何がそれを指しているかが並び、Ctrl+Shift+B でノートブック全体がグラフとして描かれます。並べ替えたり、ノートを位置に固定したり、配置を保存したりできます。閉じたときのままの状態で開き直します。",
   "t_arch_h": "アーキテクチャ",
@@ -4157,7 +4166,7 @@ var I18N = {
   "t_spec_r18k": "ネットワーク利用",
   "t_spec_r18v": "なし。About パネルのバージョン確認、任意の自動更新のダウンロード（GitHub）、要求した音声モデルのダウンロード（Hugging Face）を除く",
   "t_spec_r19k": "配布",
-  "t_spec_r19v": "署名済みの単一 exe（約 10.9 MB）。ポータブル、ユーザーごとのインストール、または /silent でマシン全体",
+  "t_spec_r19v": "署名済みの単一 exe（約 10.9 MB）。ポータブル、ユーザーごとのインストール、または /silent（管理者として実行すると全ユーザー向け）",
   "t_spec_r20k": "ライセンス",
   "t_spec_r20v": "GPLv3。すべてのリリースにソースの zip を添付",
   "t_nav_architecture": "アーキテクチャ",
@@ -4461,6 +4470,7 @@ var I18N = {
   "hp_graph_3": "<b>Tüm notları sabitle</b> (<code>P</code>), sürükleme sırasında diğerlerine ne olacağına karar verir: açıkken tuttuğunuz dışında hiçbir şey kımıldamaz; kapalıyken bağlantı verdiği notlar yol açar. <b>Yerinde kilitle</b> (<code>K</code>, notun sağ tık menüsünde) daha güçlüdür ve not başına çalışır - kilitli bir notu ne bir yerleşim ne de komşuları oynatır ve kilit hatırlanır.",
   "hp_graph_4": "Grafik, bıraktığınız gibi yeniden açılır. Yerleştir menüsündeki <b>Bu düzeni kaydet...</b>, geri dönebileceğiniz adlandırılmış bir düzen tutar; <b>Düzeni unut</b> ise birini siler. Düzenler ait oldukları defterin içinde yaşar, dolayısıyla başka bir veritabanına sizinle gelmezler.",
   "hp_graph_5": "<b>Yalnızca buraya bağlantı verenleri göster</b> (<code>F</code>) grafiği tek bir nota ve komşularına indirir; <code>Esc</code> her şeyi yeniden gösterir. <b>Görselleştirici</b> (<code>V</code>) grafiği kendi kendine süzülüp yavaşça dönmeye bırakır; ikinci bir ekranda açık bırakmaya değer.",
+  "hp_graph_6": "Klavyeden <code>Tab</code> ve <code>Shift+Tab</code> nottan nota geçer ve her birini sesli bildirir, <code>Home</code> ve <code>End</code> ilk ve son nota atlar, <code>Menu</code> tuşu notun seçeneklerini açar, <code>Enter</code> ise notu açar.",
   "f_graph_t": "Bağlantılı notlar ve bunların grafiği",
   "f_graph_d": "Bir notu başka bir nota bağlamak için <code>[[</code> yazın; henüz yazmadığınız notlar da olabilir - ölü bir bağlantıyı izlediğinizde onu oluşturmanız önerilir. Her not kendisine işaret edenleri listeler ve Ctrl+Shift+B tüm defteri, yerleştirebileceğiniz, notları yerine kilitleyebileceğiniz ve düzenlerini kaydedebileceğiniz bir grafik olarak çizer. Tam bıraktığınız gibi yeniden açılır.",
   "t_arch_h": "Mimari",
@@ -4626,7 +4636,7 @@ var I18N = {
   "t_spec_r18k": "Ağ kullanımı",
   "t_spec_r18v": "Yok; Hakkında panelinin sürüm denetimi, isteğe bağlı kendini güncelleme indirmesi (GitHub) ve istenen konuşma modeli indirmesi (Hugging Face) dışında",
   "t_spec_r19k": "Dağıtım",
-  "t_spec_r19v": "İmzalı tek exe (~10.9 MB); taşınabilir, kullanıcı başına kurulum ya da /silent ile makine geneli",
+  "t_spec_r19v": "İmzalı tek exe (~10.9 MB); taşınabilir, kullanıcı başına kurulum ya da /silent (yönetici olarak çalıştırılırsa tüm kullanıcılar için)",
   "t_spec_r20k": "Lisans",
   "t_spec_r20v": "GPLv3; her sürüme kaynak zip'i eklenir",
   "t_nav_architecture": "Mimari",
@@ -4930,6 +4940,7 @@ var I18N = {
   "hp_graph_3": "<b>固定所有筆記</b>（<code>P</code>）決定你拖曳時其他筆記會怎樣：開啟時除了手上那個之外什麼都不動；關閉時，它連結到的筆記會讓開。<b>鎖定位置</b>（<code>K</code>，在筆記的右鍵選單裡）更強，而且是逐則筆記生效 - 鎖定的筆記不會被任何東西移動，排列不會，鄰居也不會，而且鎖定會被記住。",
   "hp_graph_4": "圖譜會照你離開時的樣子重新開啟。排列選單裡的<b>儲存此排列...</b>會保留一份具名版面供你回頭使用，<b>忘記排列</b>則會刪掉一份。版面存放在它所屬的筆記本裡，所以絕不會跟著你進到另一個資料庫。",
   "hp_graph_5": "<b>只顯示連結到這裡的筆記</b>（<code>F</code>）會把圖譜縮到一則筆記與它的鄰居；<code>Esc</code> 讓全部再次顯示。<b>視覺化效果</b>（<code>V</code>）讓圖譜自行漂移並緩慢旋轉，很適合丟在第二台螢幕上。",
+  "hp_graph_6": "使用鍵盤時，<code>Tab</code> 與 <code>Shift+Tab</code> 會在筆記之間移動並逐一朗讀，<code>Home</code> 與 <code>End</code> 跳到第一則與最後一則，<code>Menu</code> 鍵開啟筆記的選項，<code>Enter</code> 則開啟筆記。",
   "f_graph_t": "連結筆記與它們的圖譜",
   "f_graph_d": "輸入 <code>[[</code> 就能把一則筆記連到另一則，包括還沒寫的筆記 - 前往空連結時會提議替你建立。每則筆記都會列出有什麼指向它，而 Ctrl+Shift+B 會把整本筆記本畫成一張圖譜，你可以排列它、把筆記鎖在原位，也能儲存版面。它會照你離開時的樣子重新開啟。",
   "t_arch_h": "架構",
@@ -5095,7 +5106,7 @@ var I18N = {
   "t_spec_r18k": "網路使用",
   "t_spec_r18v": "無，除了「關於」面板的版本檢查、可選的自我更新下載（GitHub），以及您要求的語音模型下載（Hugging Face）",
   "t_spec_r19k": "發行",
-  "t_spec_r19v": "單一個已簽署的 exe（約 10.9 MB）；可攜、單一使用者安裝，或 /silent 全機安裝",
+  "t_spec_r19v": "單一個已簽署的 exe（約 10.9 MB）；可攜、單一使用者安裝，或 /silent（以系統管理員身分執行時為所有使用者安裝）",
   "t_spec_r20k": "授權",
   "t_spec_r20v": "GPLv3；每一次發行都附上原始碼 zip",
   "t_nav_architecture": "架構",
@@ -5399,6 +5410,7 @@ var I18N = {
   "hp_graph_3": "<b>固定所有笔记</b>（<code>P</code>）决定你拖动时其他笔记会怎样：开启时除了手上那个之外什么都不动；关闭时，它链接到的笔记会让开。<b>锁定位置</b>（<code>K</code>，在笔记的右键菜单里）更强，而且是逐条笔记生效 - 锁定的笔记不会被任何东西移动，排列不会，邻居也不会，而且锁定会被记住。",
   "hp_graph_4": "图谱会照你离开时的样子重新打开。排列菜单里的<b>保存此排列...</b>会保留一份具名布局供你回头使用，<b>忘记排列</b>则会删掉一份。布局存放在它所属的笔记本里，所以绝不会跟着你进到另一个数据库。",
   "hp_graph_5": "<b>只显示链接到这里的笔记</b>（<code>F</code>）会把图谱缩到一条笔记和它的邻居；<code>Esc</code> 让全部再次显示。<b>可视化效果</b>（<code>V</code>）让图谱自行漂移并缓慢旋转，很适合丢在第二块屏幕上。",
+  "hp_graph_6": "使用键盘时，<code>Tab</code> 和 <code>Shift+Tab</code> 在笔记之间移动并逐一朗读，<code>Home</code> 和 <code>End</code> 跳到第一条和最后一条，<code>Menu</code> 键打开笔记的选项，<code>Enter</code> 则打开笔记。",
   "f_graph_t": "链接笔记与它们的图谱",
   "f_graph_d": "输入 <code>[[</code> 就能把一条笔记链接到另一条，包括还没写的笔记 - 前往空链接时会提议替你创建。每条笔记都会列出有什么指向它，而 Ctrl+Shift+B 会把整个笔记本画成一张图谱，你可以排列它、把笔记锁在原位，也能保存布局。它会照你离开时的样子重新打开。",
   "t_arch_h": "架构",
@@ -5564,7 +5576,7 @@ var I18N = {
   "t_spec_r18k": "网络使用",
   "t_spec_r18v": "无，除了「关于」面板的版本检查、可选的自更新下载（GitHub），以及您请求的语音模型下载（Hugging Face）",
   "t_spec_r19k": "分发",
-  "t_spec_r19v": "单个已签名的 exe（约 10.9 MB）；便携、按用户安装，或 /silent 整机安装",
+  "t_spec_r19v": "单个已签名的 exe（约 10.9 MB）；便携、按用户安装，或 /silent（以管理员身份运行时为所有用户安装）",
   "t_spec_r20k": "许可证",
   "t_spec_r20v": "GPLv3；每一次发布都附上源码 zip",
   "t_nav_architecture": "架构",
@@ -5868,6 +5880,7 @@ var I18N = {
   "hp_graph_3": "<b>সব নোট আটকে রাখুন</b> (<code>P</code>) ঠিক করে দেয় আপনি টানার সময় বাকি সবের কী হবে: চালু থাকলে আপনি যেটি ধরে আছেন সেটি ছাড়া কিছুই নড়ে না; বন্ধ থাকলে এটি যে নোটগুলিতে লিঙ্ক করে সেগুলি পথ ছেড়ে দেয়। <b>জায়গায় লক করুন</b> (<code>K</code>, নোটের ডান-ক্লিক মেনুতে) আরও জোরালো এবং নোট ধরে ধরে কাজ করে - লক করা নোটকে কিছুই নড়ায় না, কোনও বিন্যাসও নয়, তার পাশের নোটগুলিও নয়, আর লকটি মনে রাখা হয়।",
   "hp_graph_4": "গ্রাফটি ঠিক যেভাবে ছেড়ে গিয়েছিলেন সেভাবেই আবার খোলে। সাজান মেনুতে <b>এই বিন্যাস সংরক্ষণ করুন...</b> নাম দেওয়া একটি বিন্যাস রেখে দেয় যেখানে আপনি ফিরে আসতে পারেন, আর <b>বিন্যাস ভুলে যান</b> একটি বাদ দিয়ে দেয়। বিন্যাসগুলি যে নোটবুকের সেই নোটবুকেই থাকে, তাই কখনও আপনার সঙ্গে অন্য ডেটাবেসে যায় না।",
   "hp_graph_5": "<b>শুধু যা এখানে লিঙ্ক করে তা দেখান</b> (<code>F</code>) গ্রাফটিকে একটি নোট আর তার পাশের নোটগুলিতে সীমিত করে; <code>Esc</code> আবার সব দেখায়। <b>ভিজ্যুয়ালাইজার</b> (<code>V</code>) গ্রাফটিকে নিজে নিজে ভেসে বেড়াতে ও ধীরে ঘুরতে দেয়, যা দ্বিতীয় একটি মনিটরে চালিয়ে রাখার মতো।",
+  "hp_graph_6": "কিবোর্ড থেকে, <code>Tab</code> ও <code>Shift+Tab</code> এক নোট থেকে আরেক নোটে যায় এবং প্রতিটি ঘোষণা করে, <code>Home</code> ও <code>End</code> প্রথম ও শেষ নোটে চলে যায়, <code>Menu</code> কী নোটের অপশন খোলে, আর <code>Enter</code> নোটটি খোলে।",
   "f_graph_t": "লিঙ্ক করা নোট ও তাদের গ্রাফ",
   "f_graph_d": "এক নোটকে অন্য নোটের সঙ্গে লিঙ্ক করতে <code>[[</code> লিখুন, এমন নোটও চলে যা আপনি এখনও লেখেননি - মৃত লিঙ্ক অনুসরণ করলে সেটি তৈরি করার প্রস্তাব আসে। প্রতিটি নোট দেখায় কী কী তার দিকে নির্দেশ করে, আর Ctrl+Shift+B গোটা নোটবুককে একটি গ্রাফ হিসেবে আঁকে যা আপনি সাজাতে পারেন, যেখানে নোট জায়গায় লক করতে পারেন এবং বিন্যাস সংরক্ষণ করতে পারেন। ঠিক যেভাবে ছেড়ে গিয়েছিলেন সেভাবেই আবার খোলে।",
   "t_arch_h": "আর্কিটেকচার",
@@ -6033,7 +6046,7 @@ var I18N = {
   "t_spec_r18k": "নেটওয়ার্ক ব্যবহার",
   "t_spec_r18v": "কিছুই নয়, শুধু About প্যানেলের সংস্করণ পরীক্ষা, ঐচ্ছিক সেল্ফ-আপডেট ডাউনলোড (GitHub) আর অনুরোধ করা স্পিচ মডেল ডাউনলোড (Hugging Face) ছাড়া",
   "t_spec_r19k": "বিতরণ",
-  "t_spec_r19v": "একটিমাত্র সাইন করা exe (~10.9 MB); পোর্টেবল, প্রতি-ব্যবহারকারী ইনস্টল, বা /silent মেশিন-ওয়াইড",
+  "t_spec_r19v": "একটিমাত্র সাইন করা exe (~10.9 MB); পোর্টেবল, প্রতি-ব্যবহারকারী ইনস্টল, বা /silent (অ্যাডমিনিস্ট্রেটর হিসেবে চালালে সব ব্যবহারকারীর জন্য)",
   "t_spec_r20k": "লাইসেন্স",
   "t_spec_r20v": "GPLv3; প্রতিটি রিলিজের সঙ্গে সোর্স zip যুক্ত",
   "t_nav_architecture": "আর্কিটেকচার",
@@ -6336,6 +6349,7 @@ var I18N = {
   "hp_graph_3": "<b>Закрепить все заметки</b> (<code>P</code>) решает, что происходит со всем остальным, пока вы тянете: включено - не двигается ничего, кроме того, что вы держите; выключено - заметки, на которые есть ссылки, уступают дорогу. <b>Зафиксировать на месте</b> (<code>K</code>, в контекстном меню заметки) сильнее и действует на одну заметку - зафиксированную заметку ничто не сдвинет, ни расстановка, ни соседи, и фиксация запоминается.",
   "hp_graph_4": "Граф открывается ровно таким, каким вы его оставили. <b>Сохранить эту расстановку...</b> в меню расстановки хранит именованную раскладку, к которой можно вернуться, а <b>Забыть расстановку</b> удаляет её. Раскладки живут в том блокноте, которому принадлежат, поэтому они никогда не последуют за вами в другую базу данных.",
   "hp_graph_5": "<b>Показать только то, что ссылается сюда</b> (<code>F</code>) сужает граф до одной заметки и её соседей; <code>Esc</code> снова показывает всё. <b>Визуализатор</b> (<code>V</code>) оставляет граф дрейфовать и медленно вращаться самому по себе - такое стоит оставить на втором мониторе.",
+  "hp_graph_6": "С клавиатуры <code>Tab</code> и <code>Shift+Tab</code> переходят от заметки к заметке и озвучивают каждую, <code>Home</code> и <code>End</code> переходят к первой и последней, клавиша <code>Menu</code> открывает параметры заметки, а <code>Enter</code> открывает её.",
   "f_graph_t": "Связанные заметки и граф по ним",
   "f_graph_d": "Наберите <code>[[</code>, чтобы связать одну заметку с другой, включая заметки, которых вы ещё не написали - переход по несуществующей ссылке предложит её создать. Каждая заметка перечисляет то, что на неё указывает, а Ctrl+Shift+B рисует весь блокнот графом, который можно расставлять, фиксировать в нём заметки и сохранять раскладки. Он открывается ровно таким, каким вы его оставили.",
   "t_arch_h": "Архитектура",
@@ -6501,7 +6515,7 @@ var I18N = {
   "t_spec_r18k": "Использование сети",
   "t_spec_r18v": "Нет, кроме проверки версии в панели \"О программе\", необязательной загрузки обновления (GitHub) и загрузки запрошенных речевых моделей (Hugging Face)",
   "t_spec_r19k": "Распространение",
-  "t_spec_r19v": "Один подписанный exe (~10,9 МБ); портативный, установка для пользователя или /silent для всей машины",
+  "t_spec_r19v": "Один подписанный exe (~10,9 МБ); портативный, установка для пользователя или /silent (для всех пользователей при запуске от имени администратора)",
   "t_spec_r20k": "Лицензия",
   "t_spec_r20v": "GPLv3; архив с исходным кодом прилагается к каждому выпуску",
   "t_nav_architecture": "Архитектура",
@@ -6804,6 +6818,7 @@ var I18N = {
   "hp_graph_3": "<b>Барлық жазбаны бекіту</b> (<code>P</code>) сүйреу кезінде қалғанының бәріне не болатынын шешеді: қосулы болса, ұстап тұрғаныңыздан басқа ештеңе қозғалмайды; өшірулі болса, ол сілтейтін жазбалар жол береді. <b>Орнында бекіту</b> (<code>K</code>, жазбаның оң жақ мәзірінде) күштірек және әр жазбаға жеке - бекітілген жазбаны ештеңе қозғалтпайды, реттеу де, көршілері де, әрі бекіту есте сақталады.",
   "hp_graph_4": "Граф тап сіз қалдырған күйінде қайта ашылады. Реттеу мәзіріндегі <b>Осы орналасуды сақтау...</b> қайта оралуға болатын атаулы орналасуды сақтайды, ал <b>Орналасуды ұмыту</b> оны алып тастайды. Орналасулар өздері жататын дәптерде тұрады, сондықтан олар сізбен бірге басқа дерекқорға ешқашан бармайды.",
   "hp_graph_5": "<b>Тек осында сілтейтінді көрсету</b> (<code>F</code>) графты бір жазбаға және оның көршілеріне дейін тарылтады; <code>Esc</code> бәрін қайта көрсетеді. <b>Визуализатор</b> (<code>V</code>) графты өздігінен қалқып, баяу айналып тұратын күйде қалдырады, оны екінші мониторда қалдыруға тұрарлық.",
+  "hp_graph_6": "Пернетақтадан <code>Tab</code> және <code>Shift+Tab</code> жазбадан жазбаға өтіп, әрқайсысын хабарлайды, <code>Home</code> және <code>End</code> біріншісіне және соңғысына өтеді, <code>Menu</code> пернесі жазбаның параметрлерін ашады, ал <code>Enter</code> жазбаны ашады.",
   "f_graph_t": "Байланысқан жазбалар және олардың графы",
   "f_graph_d": "Бір жазбаны екіншісіне, соның ішінде әлі жазбаған жазбаларға да сілтеу үшін <code>[[</code> теріңіз - жоқ сілтеме бойынша өту оны жасауды ұсынады. Әр жазба өзіне не нұсқайтынын тізеді, ал Ctrl+Shift+B бүкіл дәптерді граф етіп салады, оны реттеуге, жазбаларды орнында бекітуге және орналасуларын сақтауға болады. Ол тап сіз қалдырған күйінде қайта ашылады.",
   "t_arch_h": "Архитектура",
@@ -6969,7 +6984,7 @@ var I18N = {
   "t_spec_r18k": "Желіні пайдалану",
   "t_spec_r18v": "Жоқ, тек \"Бағдарлама туралы\" панеліндегі нұсқаны тексеру, қалауыңыз бойынша жаңарту жүктеуі (GitHub) және сұралған сөйлеу модельдерін жүктеу (Hugging Face)",
   "t_spec_r19k": "Тарату",
-  "t_spec_r19v": "Бір қолтаңбаланған exe (~10,9 МБ); тасымалды, пайдаланушыға орнату немесе бүкіл құрылғыға /silent",
+  "t_spec_r19v": "Бір қолтаңбаланған exe (~10,9 МБ); тасымалды, пайдаланушыға орнату немесе /silent (әкімші ретінде іске қосылса, барлық пайдаланушыға)",
   "t_spec_r20k": "Лицензия",
   "t_spec_r20v": "GPLv3; әр шығарылымға бастапқы код мұрағаты тіркеледі",
   "t_nav_architecture": "Архитектура",
@@ -7272,6 +7287,7 @@ var I18N = {
   "hp_graph_3": "<b>Ghim tất cả các ghi chú</b> (<code>P</code>) quyết định điều gì xảy ra với mọi thứ khác trong khi bạn kéo: bật, không gì di chuyển ngoại trừ những gì bạn đang giữ; tắt, các ghi chú được liên kết sẽ tránh ra. <b>Khóa vị trí</b> (<code>K</code>, trong menu chuột phải của một ghi chú) mạnh hơn và áp dụng cho từng ghi chú - không gì có thể di chuyển một ghi chú đã khóa, không sắp xếp nào và cũng không một láng giềng nào, và khóa này sẽ được ghi nhớ.",
   "hp_graph_4": "Đồ thị mở lại chính xác như bạn đã rời đi. <b>Lưu bố cục này...</b> trong menu Bố cục giữ một bố cục được đặt tên mà bạn có thể quay lại, và <b>Quên bố cục</b> loại bỏ một bố cục. Các bố cục tồn tại trong sổ tay mà chúng thuộc về, vì vậy chúng không bao giờ theo bạn vào cơ sở dữ liệu khác.",
   "hp_graph_5": "<b>Chỉ hiển thị những gì liên kết tới đây</b> (<code>F</code>) thu hẹp đồ thị xuống một ghi chú và các ghi chú lân cận của nó; <code>Esc</code> hiển thị mọi thứ một lần nữa. <b>Trình trực quan hóa</b> (<code>V</code>) để cho đồ thị tự dịch chuyển và quay chậm theo cách riêng, điều này đáng để bật trên một màn hình phụ.",
+  "hp_graph_6": "Từ bàn phím, <code>Tab</code> và <code>Shift+Tab</code> di chuyển từ ghi chú này sang ghi chú khác và đọc to từng ghi chú, <code>Home</code> và <code>End</code> nhảy tới ghi chú đầu tiên và cuối cùng, phím <code>Menu</code> mở các tùy chọn của ghi chú, và <code>Enter</code> mở ghi chú đó.",
   "f_graph_t": "Ghi chú có liên kết & một biểu đồ của chúng",
   "f_graph_d": "Gõ <code>[[</code> để liên kết một ghi chú với ghi chú khác, bao gồm cả những ghi chú bạn chưa viết - theo một liên kết chết sẽ đề nghị tạo nó. Mỗi ghi chú liệt kê những ghi chú trỏ đến nó, và Ctrl+Shift+B vẽ toàn bộ sổ tay dưới dạng một đồ thị mà bạn có thể sắp xếp, khóa ghi chú vào vị trí, và lưu bố cục. Nó mở lại chính xác như bạn đã để nó.",
   "t_arch_h": "Kiến trúc",
@@ -7437,7 +7453,7 @@ var I18N = {
   "t_spec_r18k": "Sử dụng mạng",
   "t_spec_r18v": "Không có, ngoại trừ kiểm tra phiên bản trong bảng Giới thiệu, tùy chọn tải về tự cập nhật (GitHub) và tải mô hình giọng nói khi bạn yêu cầu (Hugging Face)",
   "t_spec_r19k": "Phân phối",
-  "t_spec_r19v": "Tệp exe ký đơn (~10,9 MB); có thể di động, cài đặt theo người dùng, hoặc /silent cho toàn máy",
+  "t_spec_r19v": "Tệp exe ký đơn (~10,9 MB); có thể di động, cài đặt theo người dùng, hoặc /silent (cho mọi người dùng khi chạy với quyền quản trị viên)",
   "t_spec_r20k": "Giấy phép",
   "t_spec_r20v": "GPLv3; tập tin zip mã nguồn đính kèm với mỗi phiên bản phát hành",
   "t_nav_architecture": "Kiến trúc",
@@ -7742,6 +7758,7 @@ I18N.uk = {
  "hp_graph_3": "<b>Закріпити всі нотатки</b> (<code>P</code>) вирішує, що відбувається з усім іншим під час перетягування: увімкнено - нічого не рухається, окрім того, що ви тримаєте; вимкнено - нотатки, з якими вона пов'язана, відходять з дороги. <b>Зафіксувати на місці</b> (<code>K</code>, у контекстному меню нотатки) діє сильніше й для окремої нотатки - ніщо не зрушить зафіксовану нотатку, ні розташування, ні її сусіди, а фіксація запам'ятовується.",
  "hp_graph_4": "Граф відкривається саме так, як ви його залишили. <b>Зберегти це розташування...</b> у меню «Розташувати» зберігає іменований макет, до якого можна повернутися, а <b>Забути розташування</b> видаляє його. Макети живуть у блокноті, до якого належать, тож ніколи не переходять за вами до іншої бази даних.",
  "hp_graph_5": "<b>Показати лише те, що посилається сюди</b> (<code>F</code>) звужує граф до однієї нотатки та її сусідів; <code>Esc</code> знову показує все. <b>Візуалізатор</b> (<code>V</code>) залишає граф дрейфувати й повільно обертатися самотужки, що варто залишити на другому моніторі.",
+ "hp_graph_6": "З клавіатури <code>Tab</code> і <code>Shift+Tab</code> переходять від нотатки до нотатки й озвучують кожну, <code>Home</code> і <code>End</code> переходять до першої та останньої, клавіша <code>Menu</code> відкриває параметри нотатки, а <code>Enter</code> відкриває її.",
  "f_graph_t": "Зв'язані нотатки та їхній граф",
  "f_graph_d": "Наберіть <code>[[</code>, щоб пов'язати одну нотатку з іншою, зокрема з тими, які ви ще не написали - перехід за мертвим посиланням пропонує створити її. Кожна нотатка перелічує те, що на неї вказує, а Ctrl+Shift+B малює весь блокнот як граф, який можна розташовувати, фіксувати в ньому нотатки на місці та зберігати макети. Він відкривається саме так, як ви його залишили.",
  "t_arch_h": "Архітектура",
@@ -7907,7 +7924,7 @@ I18N.uk = {
  "t_spec_r18k": "Використання мережі",
  "t_spec_r18v": "Жодного, окрім перевірки версії на панелі «Про програму», необов'язкового завантаження самооновлення (GitHub) та завантаження запитаних мовленнєвих моделей (Hugging Face)",
  "t_spec_r19k": "Розповсюдження",
- "t_spec_r19v": "Єдиний підписаний exe (~10,9 МБ); портативно, встановлення для користувача або /silent для всієї машини",
+ "t_spec_r19v": "Єдиний підписаний exe (~10,9 МБ); портативно, встановлення для користувача або /silent (для всіх користувачів під час запуску від імені адміністратора)",
  "t_spec_r20k": "Ліцензія",
  "t_spec_r20v": "GPLv3; архів із вихідним кодом додається до кожного релізу",
  "t_nav_architecture": "Архітектура",
@@ -8210,6 +8227,7 @@ I18N.nb = {
  "hp_graph_3": "<b>Fest alle notater</b> (<code>P</code>) bestemmer hva som skjer med alt annet mens du drar: på, og ingenting beveger seg unntatt det du holder; av, og notatene det lenker til flytter seg unna. <b>Lås på plass</b> (<code>K</code>, i høyreklikkmenyen til et notat) er sterkere og gjelder per notat - ingenting flytter et låst notat, verken en oppstilling eller naboene, og låsen huskes.",
  "hp_graph_4": "Grafen åpnes igjen akkurat slik du forlot den. <b>Lagre denne oppstillingen...</b> i Ordne-menyen tar vare på en navngitt layout du kan komme tilbake til, og <b>Glem oppstilling</b> fjerner en. Layouter ligger i notatboken de hører til, så de følger deg aldri inn i en annen database.",
  "hp_graph_5": "<b>Vis bare det som lenker hit</b> (<code>F</code>) begrenser grafen til ett notat og naboene; <code>Esc</code> viser alt igjen. <b>Visualisering</b> (<code>V</code>) lar grafen drive og dreie sakte av seg selv, noe som er verdt å la stå på en ekstra skjerm.",
+ "hp_graph_6": "Fra tastaturet flytter <code>Tab</code> og <code>Shift+Tab</code> fra notat til notat og leser opp hvert av dem, <code>Home</code> og <code>End</code> hopper til det første og det siste, <code>Menu</code>-tasten åpner notatets alternativer, og <code>Enter</code> åpner det.",
  "f_graph_t": "Lenkede notater og en graf over dem",
  "f_graph_d": "Skriv <code>[[</code> for å lenke ett notat til et annet, også notater du ikke har skrevet ennå - når du følger en død lenke, blir du spurt om du vil opprette den. Hvert notat viser hva som peker på det, og Ctrl+Shift+B tegner hele notatboken som en graf du kan ordne, låse notater fast i og lagre layouter av. Den åpnes igjen akkurat slik du forlot den.",
  "t_arch_h": "Arkitektur",
@@ -8375,7 +8393,7 @@ I18N.nb = {
  "t_spec_r18k": "Nettverksbruk",
  "t_spec_r18v": "Ingen, bortsett fra Om-panelets versjonssjekk, valgfri nedlasting for selvoppdatering (GitHub) og nedlasting av talemodeller du ber om (Hugging Face)",
  "t_spec_r19k": "Distribusjon",
- "t_spec_r19v": "Én signert exe (~10,9 MB); bærbar, installasjon per bruker, eller /silent for hele maskinen",
+ "t_spec_r19v": "Én signert exe (~10,9 MB); bærbar, installasjon per bruker, eller /silent (for alle brukere når den kjøres som administrator)",
  "t_spec_r20k": "Lisens",
  "t_spec_r20v": "GPLv3; kildekode-zip vedlagt hver utgivelse",
  "t_nav_architecture": "Arkitektur",
@@ -8678,6 +8696,7 @@ I18N.pt = {
  "hp_graph_3": "<b>Fixar todas as notas</b> (<code>P</code>) decide o que acontece com todo o resto enquanto você arrasta: ativado, nada se move além do que você está segurando; desativado, as notas ligadas a ela saem do caminho. <b>Travar no lugar</b> (<code>K</code>, no menu de clique direito de uma nota) é mais forte e vale por nota: nada move uma nota travada, nem uma disposição nem suas vizinhas, e a trava é lembrada.",
  "hp_graph_4": "O grafo reabre exatamente como você o deixou. <b>Salvar esta disposição...</b> no menu Organizar guarda um layout com nome para o qual você pode voltar, e <b>Esquecer disposição</b> descarta um. Os layouts ficam no caderno a que pertencem, então nunca o seguem para outro banco de dados.",
  "hp_graph_5": "<b>Mostrar só o que tem link para cá</b> (<code>F</code>) restringe o grafo a uma nota e suas vizinhas; <code>Esc</code> mostra tudo de novo. O <b>Visualizador</b> (<code>V</code>) deixa o grafo à deriva e girando lentamente por conta própria, o que vale a pena deixar em um segundo monitor.",
+ "hp_graph_6": "Pelo teclado, <code>Tab</code> e <code>Shift+Tab</code> passam de nota em nota e anunciam cada uma, <code>Home</code> e <code>End</code> pulam para a primeira e a última, a tecla <code>Menu</code> abre as opções da nota e <code>Enter</code> a abre.",
  "f_graph_t": "Notas com links &amp; um grafo delas",
  "f_graph_d": "Digite <code>[[</code> para ligar uma nota a outra, inclusive notas que você ainda não escreveu: seguir um link morto oferece criá-la. Cada nota lista o que aponta para ela, e Ctrl+Shift+B desenha o caderno inteiro como um grafo que você pode organizar, travar notas no lugar e salvar layouts. Ele reabre exatamente como você o deixou.",
  "t_arch_h": "Arquitetura",
@@ -8843,7 +8862,7 @@ I18N.pt = {
  "t_spec_r18k": "Uso de rede",
  "t_spec_r18v": "Nenhum, exceto a verificação de versão do painel Sobre, o download opcional de autoatualização (GitHub) e o download dos modelos de voz que você solicitar (Hugging Face)",
  "t_spec_r19k": "Distribuição",
- "t_spec_r19v": "Exe único assinado (~10,9 MB); portátil, instalação por usuário ou /silent para toda a máquina",
+ "t_spec_r19v": "Exe único assinado (~10,9 MB); portátil, instalação por usuário ou /silent (para todos os usuários quando executado como administrador)",
  "t_spec_r20k": "Licença",
  "t_spec_r20v": "GPLv3; zip do código-fonte anexado a cada versão",
  "t_nav_architecture": "Arquitetura",
@@ -9192,7 +9211,7 @@ Object.assign(I18N["it"], {
 "site_privacy_current": "Note e audio restano locali salvo esportazione o condivisione. Nessun account, cloud, telemetria o pubblicità. Gli aggiornamenti usano GitHub; i modelli vocali si scaricano da Hugging Face solo su richiesta.",
 "site_cli_h": "Riga di comando",
 "site_cli_current": "Esegui <code>killernotes --cli --help</code> per i comandi. L'output è JSON. Le letture possono indicare <code>--database</code>; modifiche, esportazioni e impostazioni richiedono l'app aperta e sbloccata. Usa nuovi percorsi assoluti per esportare, valori vuoti tra virgolette per cancellare i campi e <code>--allow-loss</code> per conversioni con perdita. Nomi e opzioni sotto sono sintassi fissa. Una copia installata è nel PATH, quindi si avvia da qualsiasi nuovo terminale. Una copia portatile non lo è: avviala con il nome del file. PowerShell e Prompt dei comandi possono restituire il prompt prima che compaia l'output. Per far attendere uno script, invia l'output in pipe, ad esempio <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> installa per tutti gli utenti. <code>/uninstall</code> rimuove l'app; <code>/uninstall-silent</code> la rimuove senza richiesta. Le note restano.",
+"site_uninstall_current": "<code>/silent</code> installa per tutti gli utenti se eseguito come amministratore, altrimenti per l'utente corrente. <code>/uninstall</code> rimuove l'app; <code>/uninstall-silent</code> la rimuove senza richiesta. Le note restano.",
 "site_kb_base": "Base"
 });
 Object.assign(I18N["de"], {
@@ -9207,7 +9226,7 @@ Object.assign(I18N["de"], {
 "site_privacy_current": "Notizen und Audio bleiben lokal, sofern du sie nicht exportierst oder teilst. Kein Konto, Cloud-Sync, Telemetrie oder Werbung. Updates nutzen GitHub; Sprachmodelle werden nur auf Wunsch von Hugging Face geladen.",
 "site_cli_h": "Befehlszeile",
 "site_cli_current": "Zeige die Befehle mit <code>killernotes --cli --help</code>. Die Ausgabe ist JSON. Lesezugriffe können <code>--database</code> angeben; Änderungen, Exporte und App-Einstellungen benötigen die geöffnete, entsperrte App. Verwende neue absolute Exportpfade, leere Werte in Anführungszeichen zum Löschen von Feldern und <code>--allow-loss</code> für verlustbehaftete Konvertierung. Befehlsnamen und Optionen unten sind feste Syntax. Eine installierte Kopie liegt im PATH und lässt sich daher aus jedem neuen Terminal aufrufen. Eine portable Kopie liegt nicht im PATH, starte sie daher über den Dateinamen. PowerShell und die Eingabeaufforderung können zur Eingabe zurückkehren, bevor die Ausgabe erscheint. Damit ein Skript wartet, leite die Ausgabe weiter, zum Beispiel <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> installiert für alle Benutzer. <code>/uninstall</code> entfernt die App; <code>/uninstall-silent</code> entfernt sie ohne Rückfrage. Notizen bleiben erhalten.",
+"site_uninstall_current": "<code>/silent</code> installiert für alle Benutzer, wenn es als Administrator ausgeführt wird, sonst für den aktuellen Benutzer. <code>/uninstall</code> entfernt die App; <code>/uninstall-silent</code> entfernt sie ohne Rückfrage. Notizen bleiben erhalten.",
 "site_kb_base": "Basis"
 });
 Object.assign(I18N["fr"], {
@@ -9222,7 +9241,7 @@ Object.assign(I18N["fr"], {
 "site_privacy_current": "Notes et audio restent locaux sauf si vous les exportez ou partagez. Aucun compte, cloud, télémétrie ni publicité. Les mises à jour utilisent GitHub ; les modèles vocaux se téléchargent depuis Hugging Face uniquement sur demande.",
 "site_cli_h": "Ligne de commande",
 "site_cli_current": "Exécutez <code>killernotes --cli --help</code> pour afficher les commandes. La sortie est en JSON. Les lectures peuvent indiquer <code>--database</code> ; modifications, exports et réglages nécessitent l'application ouverte et déverrouillée. Utilisez de nouveaux chemins absolus pour exporter, des valeurs vides entre guillemets pour effacer les champs et <code>--allow-loss</code> pour une conversion avec perte. Les noms et options ci-dessous sont une syntaxe fixe. Une copie installée est dans le PATH, elle peut donc être lancée depuis n'importe quel nouveau terminal. Une copie portable n'y est pas : lancez-la par son nom de fichier. PowerShell et l'invite de commandes peuvent rendre la main avant que la sortie n'apparaisse. Pour qu'un script attende, redirigez la sortie par un tube, par exemple <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> installe pour tous les utilisateurs. <code>/uninstall</code> supprime l'application ; <code>/uninstall-silent</code> le fait sans confirmation. Les notes sont conservées.",
+"site_uninstall_current": "<code>/silent</code> installe pour tous les utilisateurs s'il est exécuté en tant qu'administrateur, et pour l'utilisateur actuel sinon. <code>/uninstall</code> supprime l'application ; <code>/uninstall-silent</code> le fait sans confirmation. Les notes sont conservées.",
 "site_kb_base": "Base"
 });
 Object.assign(I18N["es"], {
@@ -9237,7 +9256,7 @@ Object.assign(I18N["es"], {
 "site_privacy_current": "Notas y audio permanecen locales salvo que los exportes o compartas. Sin cuenta, nube, telemetría ni anuncios. Las actualizaciones usan GitHub; los modelos de voz se descargan de Hugging Face solo cuando se solicitan.",
 "site_cli_h": "Línea de comandos",
 "site_cli_current": "Ejecuta <code>killernotes --cli --help</code> para ver los comandos. La salida es JSON. Las lecturas pueden indicar <code>--database</code>; los cambios, exportaciones y ajustes requieren la aplicación abierta y desbloqueada. Usa nuevas rutas absolutas para exportar, valores vacíos entre comillas para borrar campos y <code>--allow-loss</code> para convertir con pérdida. Los nombres y opciones de abajo son sintaxis fija. Una copia instalada está en el PATH, así que puede ejecutarse desde cualquier terminal nueva. Una copia portátil no lo está, así que ejecútala por el nombre del archivo. PowerShell y el Símbolo del sistema pueden devolver el control al prompt antes de que aparezca la salida. Para que un script espere, canaliza la salida, por ejemplo <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> instala para todos los usuarios. <code>/uninstall</code> elimina la aplicación; <code>/uninstall-silent</code> lo hace sin confirmación. Las notas se conservan.",
+"site_uninstall_current": "<code>/silent</code> instala para todos los usuarios si se ejecuta como administrador y, si no, para el usuario actual. <code>/uninstall</code> elimina la aplicación; <code>/uninstall-silent</code> lo hace sin confirmación. Las notas se conservan.",
 "site_kb_base": "Base"
 });
 Object.assign(I18N["pt"], {
@@ -9252,7 +9271,7 @@ Object.assign(I18N["pt"], {
 "site_privacy_current": "Notas e áudio ficam locais, salvo quando exportados ou compartilhados. Sem conta, nuvem, telemetria ou anúncios. Atualizações usam GitHub; modelos de voz são baixados do Hugging Face somente quando solicitados.",
 "site_cli_h": "Linha de comando",
 "site_cli_current": "Execute <code>killernotes --cli --help</code> para listar os comandos. A saída é JSON. Leituras podem indicar <code>--database</code>; alterações, exportações e configurações exigem o aplicativo aberto e desbloqueado. Use novos caminhos absolutos para exportar, valores vazios entre aspas para limpar campos e <code>--allow-loss</code> para conversão com perda. Nomes e opções abaixo são sintaxe fixa. Uma cópia instalada está no PATH, então pode ser executada em qualquer terminal novo. Uma cópia portátil não está, então execute-a pelo nome do arquivo. O PowerShell e o Prompt de Comando podem devolver o prompt antes de a saída aparecer. Para que um script espere, canalize a saída, por exemplo <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> instala para todos os usuários. <code>/uninstall</code> remove o aplicativo; <code>/uninstall-silent</code> remove sem confirmação. As notas são mantidas.",
+"site_uninstall_current": "<code>/silent</code> instala para todos os usuários quando executado como administrador e, caso contrário, para o usuário atual. <code>/uninstall</code> remove o aplicativo; <code>/uninstall-silent</code> remove sem confirmação. As notas são mantidas.",
 "site_kb_base": "Base"
 });
 Object.assign(I18N["nb"], {
@@ -9267,7 +9286,7 @@ Object.assign(I18N["nb"], {
 "site_privacy_current": "Notater og lyd forblir lokale med mindre du eksporterer eller deler dem. Ingen konto, sky, telemetri eller annonser. Oppdateringer bruker GitHub; talemodeller lastes ned fra Hugging Face bare på forespørsel.",
 "site_cli_h": "Kommandolinje",
 "site_cli_current": "Kjør <code>killernotes --cli --help</code> for kommandoer. Utdata er JSON. Lesing kan angi <code>--database</code>; endringer, eksport og innstillinger krever at appen er åpen og låst opp. Bruk nye absolutte eksportbaner, tomme verdier i anførselstegn for å tømme felt og <code>--allow-loss</code> for konvertering med tap. Navn og alternativer nedenfor er fast syntaks. En installert kopi ligger i PATH, så den kan kjøres fra alle nye terminaler. En bærbar kopi gjør ikke det, så kjør den med filnavnet. PowerShell og ledeteksten kan gi fra seg kontrollen før utdata vises. For at et skript skal vente, send utdata gjennom en pipe, for eksempel <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> installerer for alle brukere. <code>/uninstall</code> fjerner appen; <code>/uninstall-silent</code> gjør det uten spørsmål. Notater beholdes.",
+"site_uninstall_current": "<code>/silent</code> installerer for alle brukere når den kjøres som administrator, og ellers for gjeldende bruker. <code>/uninstall</code> fjerner appen; <code>/uninstall-silent</code> gjør det uten spørsmål. Notater beholdes.",
 "site_kb_base": "Grunnlag"
 });
 Object.assign(I18N["cs"], {
@@ -9282,7 +9301,7 @@ Object.assign(I18N["cs"], {
 "site_privacy_current": "Poznámky a zvuk zůstávají místní, dokud je neexportujete nebo nesdílíte. Žádný účet, cloud, telemetrie ani reklamy. Aktualizace používají GitHub; řečové modely se stahují z Hugging Face jen na vyžádání.",
 "site_cli_h": "Příkazový řádek",
 "site_cli_current": "Spusťte <code>killernotes --cli --help</code> pro seznam příkazů. Výstup je JSON. Čtení může uvést <code>--database</code>; změny, exporty a nastavení vyžadují otevřenou a odemčenou aplikaci. Používejte nové absolutní exportní cesty, prázdné hodnoty v uvozovkách pro vymazání polí a <code>--allow-loss</code> pro ztrátový převod. Názvy a přepínače níže mají pevnou syntaxi. Nainstalovaná kopie je v PATH, takže ji lze spustit z libovolného nového terminálu. Přenosná kopie v PATH není, spusťte ji proto podle názvu souboru. PowerShell a Příkazový řádek se mohou vrátit na výzvu dřív, než se objeví výstup. Aby skript počkal, přesměrujte výstup rourou, například <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> instaluje pro všechny uživatele. <code>/uninstall</code> odebere aplikaci; <code>/uninstall-silent</code> ji odebere bez dotazu. Poznámky zůstanou.",
+"site_uninstall_current": "<code>/silent</code> instaluje pro všechny uživatele při spuštění jako správce, jinak pro aktuálního uživatele. <code>/uninstall</code> odebere aplikaci; <code>/uninstall-silent</code> ji odebere bez dotazu. Poznámky zůstanou.",
 "site_kb_base": "Základní"
 });
 Object.assign(I18N["pl"], {
@@ -9297,7 +9316,7 @@ Object.assign(I18N["pl"], {
 "site_privacy_current": "Notatki i dźwięk pozostają lokalne, chyba że je wyeksportujesz lub udostępnisz. Bez konta, chmury, telemetrii i reklam. Aktualizacje używają GitHub; modele mowy pobierają się z Hugging Face tylko na żądanie.",
 "site_cli_h": "Wiersz poleceń",
 "site_cli_current": "Uruchom <code>killernotes --cli --help</code>, aby wyświetlić polecenia. Wynik ma format JSON. Odczyt może wskazać <code>--database</code>; zmiany, eksporty i ustawienia wymagają otwartej, odblokowanej aplikacji. Używaj nowych bezwzględnych ścieżek eksportu, pustych wartości w cudzysłowach do czyszczenia pól i <code>--allow-loss</code> do stratnej konwersji. Nazwy i opcje poniżej mają stałą składnię. Zainstalowana kopia jest w PATH, więc można ją uruchomić w dowolnym nowym terminalu. Kopia przenośna nie jest, więc uruchom ją po nazwie pliku. PowerShell i Wiersz polecenia mogą zwrócić znak zachęty, zanim pojawi się wynik. Aby skrypt poczekał, przekaż wynik potokiem, na przykład <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> instaluje dla wszystkich użytkowników. <code>/uninstall</code> usuwa aplikację; <code>/uninstall-silent</code> usuwa bez pytania. Notatki zostają.",
+"site_uninstall_current": "<code>/silent</code> instaluje dla wszystkich użytkowników po uruchomieniu jako administrator, a w przeciwnym razie dla bieżącego użytkownika. <code>/uninstall</code> usuwa aplikację; <code>/uninstall-silent</code> usuwa bez pytania. Notatki zostają.",
 "site_kb_base": "Podstawowe"
 });
 Object.assign(I18N["hu"], {
@@ -9312,7 +9331,7 @@ Object.assign(I18N["hu"], {
 "site_privacy_current": "A jegyzetek és a hang helyben maradnak, amíg nem exportálod vagy osztod meg őket. Nincs fiók, felhő, telemetria vagy reklám. A frissítések GitHubot használnak; a beszédmodellek csak kérésre töltődnek le a Hugging Face-ről.",
 "site_cli_h": "Parancssor",
 "site_cli_current": "A parancsokhoz futtasd: <code>killernotes --cli --help</code>. A kimenet JSON. Olvasásnál megadható a <code>--database</code>; módosításokhoz, exporthoz és beállításokhoz megnyitott, feloldott alkalmazás kell. Használj új abszolút exportútvonalakat, üres idézőjeles értékeket mezők törléséhez és <code>--allow-loss</code> kapcsolót veszteséges átalakításhoz. Az alábbi nevek és kapcsolók rögzített szintaxisúak. A telepített példány szerepel a PATH-ban, ezért bármelyik új terminálból indítható. A hordozható példány nincs a PATH-ban, ezért a fájlnevével indítsd. A PowerShell és a Parancssor visszaadhatja a promptot, mielőtt megjelenne a kimenet. Hogy egy szkript megvárja, továbbítsd a kimenetet csővezetéken, például: <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "A <code>/silent</code> minden felhasználónak telepít. A <code>/uninstall</code> eltávolítja az alkalmazást; a <code>/uninstall-silent</code> kérdés nélkül teszi ezt. A jegyzetek megmaradnak.",
+"site_uninstall_current": "A <code>/silent</code> rendszergazdaként futtatva minden felhasználónak telepít, egyébként csak az aktuális felhasználónak. A <code>/uninstall</code> eltávolítja az alkalmazást; a <code>/uninstall-silent</code> kérdés nélkül teszi ezt. A jegyzetek megmaradnak.",
 "site_kb_base": "Alap"
 });
 Object.assign(I18N["tr"], {
@@ -9327,7 +9346,7 @@ Object.assign(I18N["tr"], {
 "site_privacy_current": "Notlar ve ses, dışa aktarmadıkça veya paylaşmadıkça yerel kalır. Hesap, bulut eşitleme, telemetri veya reklam yoktur. Güncellemeler GitHub kullanır; konuşma modelleri yalnızca istendiğinde Hugging Face'den indirilir.",
 "site_cli_h": "Komut satırı",
 "site_cli_current": "Komutlar için <code>killernotes --cli --help</code> çalıştırın. Çıktı JSON'dur. Okuma <code>--database</code> belirtebilir; değişiklikler, dışa aktarma ve ayarlar uygulamanın açık ve kilitsiz olmasını gerektirir. Yeni mutlak dışa aktarma yolları, alanları temizlemek için tırnak içinde boş değerler ve kayıplı dönüşüm için <code>--allow-loss</code> kullanın. Aşağıdaki adlar ve seçenekler sabit sözdizimidir. Yüklü kopya PATH üzerindedir, bu yüzden yeni açılan her terminalden çalıştırılabilir. Taşınabilir kopya PATH üzerinde değildir, bu yüzden dosya adıyla çalıştırın. PowerShell ve Komut İstemi, çıktı görünmeden önce istemi geri verebilir. Bir betiğin beklemesi için çıktıyı yönlendirin, örneğin <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> tüm kullanıcılar için kurar. <code>/uninstall</code> uygulamayı kaldırır; <code>/uninstall-silent</code> sormadan kaldırır. Notlar korunur.",
+"site_uninstall_current": "<code>/silent</code> yönetici olarak çalıştırıldığında tüm kullanıcılar için, aksi halde geçerli kullanıcı için kurar. <code>/uninstall</code> uygulamayı kaldırır; <code>/uninstall-silent</code> sormadan kaldırır. Notlar korunur.",
 "site_kb_base": "Temel"
 });
 Object.assign(I18N["ru"], {
@@ -9342,7 +9361,7 @@ Object.assign(I18N["ru"], {
 "site_privacy_current": "Заметки и аудио остаются локальными, пока вы их не экспортируете или не поделитесь ими. Нет аккаунта, облака, телеметрии и рекламы. Обновления используют GitHub; речевые модели скачиваются с Hugging Face только по запросу.",
 "site_cli_h": "Командная строка",
 "site_cli_current": "Запустите <code>killernotes --cli --help</code> для списка команд. Вывод в JSON. При чтении можно указать <code>--database</code>; изменения, экспорт и настройки требуют открытого и разблокированного приложения. Используйте новые абсолютные пути экспорта, пустые значения в кавычках для очистки полей и <code>--allow-loss</code> для преобразования с потерями. Имена и параметры ниже имеют фиксированный синтаксис. Установленная копия находится в PATH, поэтому её можно запустить в любом новом терминале. Портативная копия в PATH не добавляется, поэтому запускайте её по имени файла. PowerShell и командная строка могут вернуть приглашение раньше, чем появится вывод. Чтобы скрипт дождался результата, передайте вывод по конвейеру, например <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> устанавливает для всех пользователей. <code>/uninstall</code> удаляет приложение; <code>/uninstall-silent</code> удаляет без запроса. Заметки сохраняются.",
+"site_uninstall_current": "<code>/silent</code> устанавливает для всех пользователей при запуске от имени администратора, а иначе для текущего пользователя. <code>/uninstall</code> удаляет приложение; <code>/uninstall-silent</code> удаляет без запроса. Заметки сохраняются.",
 "site_kb_base": "Основные"
 });
 Object.assign(I18N["uk"], {
@@ -9357,7 +9376,7 @@ Object.assign(I18N["uk"], {
 "site_privacy_current": "Нотатки й аудіо залишаються локальними, доки ви їх не експортуєте чи не поширите. Без облікового запису, хмари, телеметрії й реклами. Оновлення використовують GitHub; мовленнєві моделі завантажуються з Hugging Face лише на запит.",
 "site_cli_h": "Командний рядок",
 "site_cli_current": "Виконайте <code>killernotes --cli --help</code> для списку команд. Вивід у JSON. Для читання можна вказати <code>--database</code>; зміни, експорт і налаштування потребують відкритого й розблокованого застосунку. Використовуйте нові абсолютні шляхи експорту, порожні значення в лапках для очищення полів і <code>--allow-loss</code> для перетворення з втратами. Назви й параметри нижче мають фіксований синтаксис. Встановлена копія є в PATH, тому її можна запустити в будь-якому новому терміналі. Портативної копії в PATH немає, тому запускайте її за іменем файлу. PowerShell і командний рядок можуть повернути запрошення раніше, ніж з'явиться вивід. Щоб скрипт дочекався результату, передайте вивід через конвеєр, наприклад <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> встановлює для всіх користувачів. <code>/uninstall</code> видаляє застосунок; <code>/uninstall-silent</code> видаляє без запиту. Нотатки зберігаються.",
+"site_uninstall_current": "<code>/silent</code> встановлює для всіх користувачів під час запуску від імені адміністратора, а інакше для поточного користувача. <code>/uninstall</code> видаляє застосунок; <code>/uninstall-silent</code> видаляє без запиту. Нотатки зберігаються.",
 "site_kb_base": "Основні"
 });
 Object.assign(I18N["kk"], {
@@ -9372,7 +9391,7 @@ Object.assign(I18N["kk"], {
 "site_privacy_current": "Жазбалар мен аудио экспорттағанша не бөліскенше жергілікті қалады. Тіркелгі, бұлт, телеметрия не жарнама жоқ. Жаңарту GitHub арқылы; сөйлеу модельдері Hugging Face-тен тек сұратқанда жүктеледі.",
 "site_cli_h": "Пәрмен жолы",
 "site_cli_current": "Пәрмендер үшін <code>killernotes --cli --help</code> орындаңыз. Шығыс JSON пішімінде. Оқу <code>--database</code> көрсете алады; өзгерістер, экспорт пен баптаулар үшін қолданба ашық әрі құлпы ашылған болуы керек. Жаңа абсолютті экспорт жолдарын, өрістерді тазалау үшін тырнақшадағы бос мәндерді және жоғалтатын түрлендіру үшін <code>--allow-loss</code> қолданыңыз. Төмендегі атаулар мен параметрлердің синтаксисі тұрақты. Орнатылған көшірме PATH ішінде тұрады, сондықтан оны кез келген жаңа терминалдан іске қосуға болады. Портативті көшірме PATH ішінде болмайды, сондықтан оны файл атымен іске қосыңыз. PowerShell және пәрмен жолы шығыс пайда болғанға дейін шақыруға оралуы мүмкін. Сценарий күтуі үшін шығысты конвейер арқылы жіберіңіз, мысалы <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> барлық пайдаланушыға орнатады. <code>/uninstall</code> қолданбаны жояды; <code>/uninstall-silent</code> сұрамай жояды. Жазбалар сақталады.",
+"site_uninstall_current": "<code>/silent</code> әкімші ретінде іске қосылса, барлық пайдаланушыға, әйтпесе ағымдағы пайдаланушыға орнатады. <code>/uninstall</code> қолданбаны жояды; <code>/uninstall-silent</code> сұрамай жояды. Жазбалар сақталады.",
 "site_kb_base": "Негізгі"
 });
 Object.assign(I18N["ja"], {
@@ -9387,7 +9406,7 @@ Object.assign(I18N["ja"], {
 "site_privacy_current": "ノートと音声はエクスポートや共有をしない限りローカルに残ります。アカウント、クラウド同期、テレメトリ、広告はありません。更新には GitHub を使い、音声モデルは要求した場合だけ Hugging Face からダウンロードします。",
 "site_cli_h": "コマンドライン",
 "site_cli_current": "<code>killernotes --cli --help</code> でコマンドを表示します。出力は JSON です。読み取りには <code>--database</code> を指定できます。変更、エクスポート、設定には起動してロック解除したアプリが必要です。新しい絶対パスを出力先に使い、空の引用符付き値で項目を消去し、情報が失われる変換には <code>--allow-loss</code> を指定します。以下のコマンド名とオプションは固定構文です。インストール版は PATH に登録されるため、新しく開いたターミナルのどこからでも実行できます。ポータブル版は PATH に登録されないので、ファイル名を指定して実行してください。PowerShell やコマンド プロンプトは、出力が表示される前にプロンプトに戻ることがあります。スクリプトに完了を待たせるには、たとえば <code>killernotes --cli list | Out-String</code> のように出力をパイプしてください。",
-"site_uninstall_current": "<code>/silent</code> は全ユーザー向けにインストールします。<code>/uninstall</code> はアプリを削除し、<code>/uninstall-silent</code> は確認なしで削除します。ノートは保持されます。",
+"site_uninstall_current": "<code>/silent</code> は管理者として実行すると全ユーザー向けに、それ以外では現在のユーザー向けにインストールします。<code>/uninstall</code> はアプリを削除し、<code>/uninstall-silent</code> は確認なしで削除します。ノートは保持されます。",
 "site_kb_base": "基本"
 });
 Object.assign(I18N["zh-cn"], {
@@ -9402,7 +9421,7 @@ Object.assign(I18N["zh-cn"], {
 "site_privacy_current": "笔记和音频保留在本地，除非自行导出或分享。无需账户，没有云同步、遥测或广告。更新使用 GitHub，语音模型仅在请求时从 Hugging Face 下载。",
 "site_cli_h": "命令行",
 "site_cli_current": "运行 <code>killernotes --cli --help</code> 查看命令。输出为 JSON。读取可指定 <code>--database</code>；修改、导出和设置要求应用已打开且解锁。导出使用新的绝对路径，清空字段使用引号内的空值，有损转换使用 <code>--allow-loss</code>。以下命令名和选项是固定语法。已安装的版本会加入 PATH，因此可在任何新打开的终端中运行。便携版不会加入 PATH，请改用文件名运行。PowerShell 和命令提示符可能在输出出现之前就返回提示。要让脚本等待，请通过管道传递输出，例如 <code>killernotes --cli list | Out-String</code>。",
-"site_uninstall_current": "<code>/silent</code> 为所有用户安装。<code>/uninstall</code> 卸载应用，<code>/uninstall-silent</code> 无提示卸载。笔记保留。",
+"site_uninstall_current": "<code>/silent</code> 以管理员身份运行时为所有用户安装，否则为当前用户安装。<code>/uninstall</code> 卸载应用，<code>/uninstall-silent</code> 无提示卸载。笔记保留。",
 "site_kb_base": "基本"
 });
 Object.assign(I18N["zh"], {
@@ -9417,7 +9436,7 @@ Object.assign(I18N["zh"], {
 "site_privacy_current": "筆記和音訊保留在本機，除非自行匯出或分享。不需帳戶，沒有雲端同步、遙測或廣告。更新使用 GitHub，語音模型僅在要求時從 Hugging Face 下載。",
 "site_cli_h": "命令列",
 "site_cli_current": "執行 <code>killernotes --cli --help</code> 查看命令。輸出為 JSON。讀取可指定 <code>--database</code>；修改、匯出和設定要求應用程式已開啟且解鎖。匯出使用新的絕對路徑，清空欄位使用引號內的空值，有損轉換使用 <code>--allow-loss</code>。以下命令名稱和選項是固定語法。已安裝的版本會加入 PATH，因此可在任何新開啟的終端機中執行。可攜式版本不會加入 PATH，請改用檔名執行。PowerShell 和命令提示字元可能在輸出出現之前就返回提示。要讓指令碼等待，請以管線傳遞輸出，例如 <code>killernotes --cli list | Out-String</code>。",
-"site_uninstall_current": "<code>/silent</code> 為所有使用者安裝。<code>/uninstall</code> 移除應用程式，<code>/uninstall-silent</code> 無提示移除。筆記保留。",
+"site_uninstall_current": "<code>/silent</code> 以系統管理員身分執行時為所有使用者安裝，否則為目前使用者安裝。<code>/uninstall</code> 移除應用程式，<code>/uninstall-silent</code> 無提示移除。筆記保留。",
 "site_kb_base": "基本"
 });
 Object.assign(I18N["vi"], {
@@ -9432,7 +9451,7 @@ Object.assign(I18N["vi"], {
 "site_privacy_current": "Ghi chú và âm thanh ở trên máy trừ khi bạn xuất hoặc chia sẻ. Không tài khoản, đám mây, đo từ xa hay quảng cáo. Cập nhật dùng GitHub; mô hình giọng nói chỉ tải từ Hugging Face khi được yêu cầu.",
 "site_cli_h": "Dòng lệnh",
 "site_cli_current": "Chạy <code>killernotes --cli --help</code> để xem lệnh. Đầu ra là JSON. Lệnh đọc có thể chỉ định <code>--database</code>; thay đổi, xuất và cài đặt cần ứng dụng mở và đã mở khóa. Dùng đường dẫn tuyệt đối mới để xuất, giá trị rỗng trong dấu ngoặc kép để xóa trường và <code>--allow-loss</code> để chuyển đổi mất dữ liệu. Tên lệnh và tùy chọn dưới đây là cú pháp cố định. Bản đã cài đặt nằm trong PATH nên có thể chạy từ mọi terminal mới. Bản portable không nằm trong PATH, nên hãy chạy nó bằng tên tệp. PowerShell và Command Prompt có thể trả về dấu nhắc trước khi kết quả xuất hiện. Để script chờ, hãy chuyển kết quả qua pipe, ví dụ <code>killernotes --cli list | Out-String</code>.",
-"site_uninstall_current": "<code>/silent</code> cài cho mọi người dùng. <code>/uninstall</code> gỡ ứng dụng; <code>/uninstall-silent</code> gỡ không hỏi. Ghi chú được giữ lại.",
+"site_uninstall_current": "<code>/silent</code> cài cho mọi người dùng khi chạy với quyền quản trị viên, nếu không thì cài cho người dùng hiện tại. <code>/uninstall</code> gỡ ứng dụng; <code>/uninstall-silent</code> gỡ không hỏi. Ghi chú được giữ lại.",
 "site_kb_base": "Cơ bản"
 });
 Object.assign(I18N["bn"], {
@@ -9447,7 +9466,7 @@ Object.assign(I18N["bn"], {
 "site_privacy_current": "রপ্তানি বা শেয়ার না করলে নোট ও অডিও স্থানীয় থাকে। অ্যাকাউন্ট, ক্লাউড সিঙ্ক, টেলিমেট্রি বা বিজ্ঞাপন নেই। আপডেট GitHub ব্যবহার করে; কণ্ঠ মডেল শুধু চাইলে Hugging Face থেকে নামে।",
 "site_cli_h": "কমান্ড লাইন",
 "site_cli_current": "কমান্ড দেখতে <code>killernotes --cli --help</code> চালান। আউটপুট JSON। পড়ার জন্য <code>--database</code> দেওয়া যায়; পরিবর্তন, রপ্তানি ও সেটিংসে অ্যাপ খোলা ও আনলক থাকা চাই। রপ্তানিতে নতুন পূর্ণ পথ, ক্ষেত্র মুছতে উদ্ধৃতির মধ্যে খালি মান এবং তথ্য হারানো রূপান্তরে <code>--allow-loss</code> ব্যবহার করুন। নিচের কমান্ড নাম ও বিকল্প স্থির সিনট্যাক্স। ইনস্টল করা কপি PATH-এ থাকে, তাই যেকোনো নতুন টার্মিনাল থেকে চালানো যায়। পোর্টেবল কপি PATH-এ থাকে না, তাই ফাইলের নাম দিয়ে চালান। আউটপুট দেখা যাওয়ার আগেই PowerShell ও কমান্ড প্রম্পট প্রম্পটে ফিরে আসতে পারে। স্ক্রিপ্টকে অপেক্ষা করাতে আউটপুট পাইপ করুন, যেমন <code>killernotes --cli list | Out-String</code>।",
-"site_uninstall_current": "<code>/silent</code> সব ব্যবহারকারীর জন্য ইনস্টল করে। <code>/uninstall</code> অ্যাপ সরায়; <code>/uninstall-silent</code> না জিজ্ঞেস করেই সরায়। নোট থাকে।",
+"site_uninstall_current": "<code>/silent</code> অ্যাডমিনিস্ট্রেটর হিসেবে চালালে সব ব্যবহারকারীর জন্য, নইলে বর্তমান ব্যবহারকারীর জন্য ইনস্টল করে। <code>/uninstall</code> অ্যাপ সরায়; <code>/uninstall-silent</code> না জিজ্ঞেস করেই সরায়। নোট থাকে।",
 "site_kb_base": "মূল"
 });
 Object.assign(I18N["it"], {
