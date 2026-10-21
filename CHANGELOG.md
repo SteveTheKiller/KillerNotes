@@ -1,4 +1,4 @@
-# Changelog
+# KillerNotes Changelog
 
 All notable changes to KillerNotes are documented here.
 
