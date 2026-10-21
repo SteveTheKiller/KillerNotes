@@ -30,21 +30,16 @@ namespace KillerNotes.Services
 
         public static int CountMatches(string text, string query) => CollectWordMatches(text, query).Count;
 
+        /// <summary>The query's words and phrases (never its filters) found under the sidebar's own
+        /// rule (TextFold), as spans of the original text.</summary>
         private static List<(int Start, int Length)> CollectWordMatches(string text, string query)
         {
             var hits = new List<(int Start, int Length)>();
-            var words = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (string word in query.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries))
+            var words = new HashSet<string>(StringComparer.Ordinal);
+            foreach (string word in SearchQuery.Parse(query).Words)
             {
-                if (!words.Add(word) || word.IndexOf(DocumentReplacement.ObjectBoundary) >= 0) continue;
-                int at = 0;
-                while (at <= text.Length - word.Length)
-                {
-                    int hit = text.IndexOf(word, at, StringComparison.OrdinalIgnoreCase);
-                    if (hit < 0) break;
-                    hits.Add((hit, word.Length));
-                    at = hit + word.Length;
-                }
+                if (!words.Add(TextFold.Fold(word)) || word.IndexOf(DocumentReplacement.ObjectBoundary) >= 0) continue;
+                hits.AddRange(TextFold.FindAll(text, word));
             }
             return hits;
         }

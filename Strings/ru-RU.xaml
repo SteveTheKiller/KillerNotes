@@ -1077,4 +1077,21 @@
     <sys:String x:Key="Str_St_FileTooLarge">{0} больше 50 МБ и не импортирован.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} уже был импортирован без изменений, поэтому открыта его заметка.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} открыт только что и не импортируется дважды.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">заголовки, текст и теги</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">без корзины</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">только корзина</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Фильтры и сохранённые поиски</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Тег</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Группа</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Заголовок содержит...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Изменено в этот день или позже...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Изменено в этот день или раньше...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Создано в...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">В корзине</sys:String>
+    <sys:String x:Key="Str_Search_Save">Сохранить этот поиск...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Удалить сохранённый поиск</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Назовите этот поиск</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Поиск сохранён: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Сохранённый поиск удалён: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">Подходящих заметок: {0}</sys:String>
 </ResourceDictionary>

@@ -1095,4 +1095,21 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_FileTooLarge">A(z) {0} nagyobb 50 MB-nál, ezért nem lett importálva.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">A(z) {0} már változatlanul importálva volt, ezért a jegyzete nyílt meg.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">A(z) {0} az imént lett megnyitva, és nem importálódik kétszer.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">címek, szöveg és címkék</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">nem a lomtár</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">csak a lomtár</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Szűrők és mentett keresések</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Címke</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Csoport</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">A cím tartalmazza...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Módosítva ekkor vagy utána...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Módosítva ekkor vagy előtte...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Létrehozva...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">A lomtárban</sys:String>
+    <sys:String x:Key="Str_Search_Save">Keresés mentése...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Mentett keresés eltávolítása</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Nevezze el ezt a keresést</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Keresés mentve: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Mentett keresés eltávolítva: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0} egyező jegyzet</sys:String>
 </ResourceDictionary>

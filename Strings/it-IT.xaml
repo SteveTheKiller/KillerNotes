@@ -1077,4 +1077,21 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} supera 50 MB e non è stato importato.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} è già stato importato senza modifiche, quindi la sua nota è aperta.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} è stato aperto un attimo fa e non viene importato due volte.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">titoli, testo e tag</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">non il cestino</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">solo il cestino</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Filtri e ricerche salvate</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Tag</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Gruppo</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Il titolo contiene...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Modificata il o dopo il...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Modificata il o prima del...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Creata in...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">Nel cestino</sys:String>
+    <sys:String x:Key="Str_Search_Save">Salva questa ricerca...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Rimuovi una ricerca salvata</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Dai un nome a questa ricerca</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Ricerca salvata: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Ricerca salvata rimossa: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0} note corrispondenti</sys:String>
 </ResourceDictionary>

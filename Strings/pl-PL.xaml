@@ -996,4 +996,21 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} ma ponad 50 MB i nie został zaimportowany.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} był już zaimportowany bez zmian, więc otwarto jego notatkę.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} otwarto przed chwilą i nie jest importowany dwa razy.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">tytuły, tekst i tagi</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">bez kosza</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">tylko kosz</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Filtry i zapisane wyszukiwania</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Tag</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Grupa</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Tytuł zawiera...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Zmieniona w dniu lub po...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Zmieniona w dniu lub przed...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Utworzona w...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">W koszu</sys:String>
+    <sys:String x:Key="Str_Search_Save">Zapisz to wyszukiwanie...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Usuń zapisane wyszukiwanie</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Nazwij to wyszukiwanie</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Zapisano wyszukiwanie: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Usunięto zapisane wyszukiwanie: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">Pasujących notatek: {0}</sys:String>
 </ResourceDictionary>

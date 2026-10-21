@@ -1116,4 +1116,21 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} is over 50 MB and was not imported.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} was imported before and has not changed, so its note is open.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} was opened a moment ago and is not imported twice.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">titles, text and tags</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">not the trash</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">only the trash</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Filters and saved searches</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Tag</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Group</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Title contains...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Changed on or after...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Changed on or before...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Created in...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">In the trash</sys:String>
+    <sys:String x:Key="Str_Search_Save">Save this search...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Remove a saved search</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Name this search</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Saved search: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Removed saved search: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0} matching notes</sys:String>
 </ResourceDictionary>

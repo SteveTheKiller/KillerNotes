@@ -1067,4 +1067,21 @@
     <sys:String x:Key="Str_St_FileTooLarge">{0} 超过 50 MB，未导入。</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} 以前已导入且未更改，因此打开了它的笔记。</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} 刚刚打开过，不会重复导入。</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">标题、正文和标签</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">不含回收站</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">仅回收站</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">筛选和已保存的搜索</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">标签</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">分组</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">标题包含...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">在此日期或之后更改...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">在此日期或之前更改...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">创建于...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">在回收站中</sys:String>
+    <sys:String x:Key="Str_Search_Save">保存此搜索...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">删除已保存的搜索</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">为此搜索命名</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">已保存搜索：{0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">已删除已保存的搜索：{0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0} 条匹配的笔记</sys:String>
 </ResourceDictionary>

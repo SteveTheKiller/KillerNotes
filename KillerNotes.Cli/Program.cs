@@ -302,16 +302,20 @@ namespace KillerNotes.Cli
         public static List<NoteSummary> Search(string database, string query, int limit)
         {
             if (string.IsNullOrWhiteSpace(query) || query.Length > 200) throw new ArgumentException("Invalid search query");
+            var parsed = KillerNotes.Services.SearchQuery.Parse(query);
+            if (parsed.IsEmpty) throw new ArgumentException("Invalid search query");
             using var connection = OpenReadOnly(database);
-            using var command = connection.CreateCommand();
-            var words = query.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
-            var clauses = new List<string>();
-            for (int i = 0; i < words.Length; i++)
+            // The app's matching rule and filters (Services/SearchQuery.cs), not LIKE, whose
+            // case-insensitivity covers ASCII only: the CLI finds what the sidebar finds.
+            connection.CreateFunction("kn_fold", (string? text) => KillerNotes.Services.TextFold.Fold(text), isDeterministic: true);
+            bool noteFold;
+            using (var probe = connection.CreateCommand())
             {
-                clauses.Add($"(title LIKE $w{i} ESCAPE '\\' OR plain LIKE $w{i} ESCAPE '\\' OR tags LIKE $w{i} ESCAPE '\\')");
-                command.Parameters.AddWithValue($"$w{i}", "%" + EscapeLike(words[i]) + "%");
+                probe.CommandText = "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'note_fold'";
+                noteFold = (long)probe.ExecuteScalar()! > 0;
             }
-            command.CommandText = SummarySelect + " WHERE deleted = '' AND " + string.Join(" AND ", clauses) + " ORDER BY modified DESC, id DESC LIMIT $limit";
+            using var command = connection.CreateCommand();
+            command.CommandText = SummarySelect + " WHERE " + parsed.BuildWhere(command, noteFold) + " ORDER BY modified DESC, id DESC LIMIT $limit";
             command.Parameters.AddWithValue("$limit", ValidateLimit(limit));
             return ReadSummaries(command);
         }

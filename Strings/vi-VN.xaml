@@ -1120,4 +1120,21 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_St_FileTooLarge">{0} lớn hơn 50 MB và không được nhập.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} đã được nhập trước đây và không đổi, nên ghi chú của nó được mở.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} vừa được mở và không bị nhập hai lần.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">tiêu đề, nội dung và thẻ</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">không gồm thùng rác</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">chỉ thùng rác</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Bộ lọc và tìm kiếm đã lưu</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Thẻ</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Nhóm</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Tiêu đề chứa...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Đổi vào hoặc sau ngày...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Đổi vào hoặc trước ngày...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Tạo trong...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">Trong thùng rác</sys:String>
+    <sys:String x:Key="Str_Search_Save">Lưu tìm kiếm này...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Xóa một tìm kiếm đã lưu</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Đặt tên cho tìm kiếm này</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Đã lưu tìm kiếm: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Đã xóa tìm kiếm đã lưu: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0} ghi chú khớp</sys:String>
 </ResourceDictionary>

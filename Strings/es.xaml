@@ -1070,4 +1070,21 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} pesa más de 50 MB y no se importó.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} ya se importó sin cambios, así que su nota está abierta.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} se abrió hace un momento y no se importa dos veces.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">títulos, texto y etiquetas</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">no la papelera</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">solo la papelera</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Filtros y búsquedas guardadas</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Etiqueta</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Grupo</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">El título contiene...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Cambiada el o después del...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Cambiada el o antes del...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Creada en...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">En la papelera</sys:String>
+    <sys:String x:Key="Str_Search_Save">Guardar esta búsqueda...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Quitar una búsqueda guardada</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Pon nombre a esta búsqueda</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Búsqueda guardada: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Búsqueda guardada quitada: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0} notas coinciden</sys:String>
 </ResourceDictionary>

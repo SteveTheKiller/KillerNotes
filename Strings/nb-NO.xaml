@@ -1114,4 +1114,21 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} er over 50 MB og ble ikke importert.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} er importert før uten endringer, så notatet er åpnet.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} ble åpnet for et øyeblikk siden og importeres ikke to ganger.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">titler, tekst og etiketter</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">ikke papirkurven</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">bare papirkurven</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Filtre og lagrede søk</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Etikett</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Gruppe</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Tittelen inneholder...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Endret på eller etter...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Endret på eller før...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Opprettet i...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">I papirkurven</sys:String>
+    <sys:String x:Key="Str_Search_Save">Lagre dette søket...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Fjern et lagret søk</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Gi søket et navn</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Lagret søk: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Fjernet lagret søk: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0} treff</sys:String>
 </ResourceDictionary>

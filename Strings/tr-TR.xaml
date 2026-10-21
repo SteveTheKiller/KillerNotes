@@ -1069,4 +1069,21 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} 50 MB'tan büyük ve içe aktarılmadı.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} daha önce değişmeden içe aktarılmıştı, bu yüzden notu açıldı.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} az önce açıldı ve iki kez içe aktarılmaz.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">başlıklar, metin ve etiketler</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">çöp kutusu hariç</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">yalnızca çöp kutusu</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Filtreler ve kayıtlı aramalar</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Etiket</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Grup</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Başlıkta geçen...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Şu gün veya sonra değişen...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Şu gün veya önce değişen...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Oluşturulduğu tarih...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">Çöp kutusunda</sys:String>
+    <sys:String x:Key="Str_Search_Save">Bu aramayı kaydet...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Kayıtlı bir aramayı kaldır</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Bu aramaya bir ad verin</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Arama kaydedildi: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Kayıtlı arama kaldırıldı: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0} eşleşen not</sys:String>
 </ResourceDictionary>

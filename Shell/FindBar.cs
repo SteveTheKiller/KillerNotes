@@ -235,17 +235,14 @@ namespace KillerNotes.Shell
                 return;
             }
 
-            var cmp = _findCase ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-            int at = 0;
-            while (at <= plain.Length - _findTerm.Length)
-            {
-                int hit = plain.IndexOf(_findTerm, at, cmp);
-                if (hit < 0) break;
-                if (plain.IndexOf(DocumentReplacement.ObjectBoundary, hit, _findTerm.Length) < 0 &&
-                    (!_findWord || IsWholeWordAt(plain, hit, _findTerm.Length)))
-                    hits.Add((hit, _findTerm.Length));
-                at = hit + 1;   // overlapping matches count, the same as a text editor's do
-            }
+            // The sidebar's matching rule (TextFold, 1.6.0): how a letter was typed never matters,
+            // case only when Match case is on, accents always. A span can be longer than the term
+            // when the note holds a letter and its accent as two characters. Overlapping matches
+            // count, the same as a text editor's do.
+            foreach (var (hit, length) in TextFold.FindAll(plain, _findTerm, caseSensitive: _findCase, overlapping: true))
+                if (plain.IndexOf(DocumentReplacement.ObjectBoundary, hit, length) < 0 &&
+                    (!_findWord || IsWholeWordAt(plain, hit, length)))
+                    hits.Add((hit, length));
         }
 
         private static bool IsWholeWordAt(string plain, int start, int length)

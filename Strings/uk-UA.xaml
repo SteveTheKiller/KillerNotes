@@ -1116,4 +1116,21 @@
     <sys:String x:Key="Str_St_FileTooLarge">{0} більший за 50 МБ і не імпортований.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} уже імпортовано без змін, тому відкрито його нотатку.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} відкрито щойно, і він не імпортується двічі.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">заголовки, текст і теги</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">без кошика</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">лише кошик</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Фільтри та збережені пошуки</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Тег</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Група</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Заголовок містить...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Змінено цього дня або пізніше...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Змінено цього дня або раніше...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Створено в...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">У кошику</sys:String>
+    <sys:String x:Key="Str_Search_Save">Зберегти цей пошук...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Вилучити збережений пошук</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Назвіть цей пошук</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Пошук збережено: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Збережений пошук вилучено: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">Відповідних нотаток: {0}</sys:String>
 </ResourceDictionary>

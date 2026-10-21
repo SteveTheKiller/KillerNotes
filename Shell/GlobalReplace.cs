@@ -91,7 +91,10 @@ namespace KillerNotes.Shell
         private void SidebarReplaceAll_Click(object sender, RoutedEventArgs e)
         {
             if (NoteStore.IsReadOnly) return;
-            string term = SearchBox.Text ?? "";
+            // The notes come from the whole search, filters included; what is replaced is only its
+            // words and phrases (Services/SearchQuery.cs), so "tag:work budget" replaces "budget".
+            string search = SearchBox.Text ?? "";
+            string term = SearchQuery.Parse(search).FreeText;
             string repl = SidebarReplaceBox.Text ?? "";
             if (term.Length == 0) { FlashStatus(Loc("Str_St_ReplaceNeedsTerm")); return; }
 
@@ -103,7 +106,7 @@ namespace KillerNotes.Shell
             var affected = new List<(long Id, string Title, string BodyBefore, FlowDocument Doc,
                                      List<(int Start, int Length)> Hits,
                                      List<(int Offset, TextPointer Start, int Length)> Runs)>();
-            foreach (var note in NoteStore.List(term))
+            foreach (var note in NoteStore.List(search))
             {
                 byte[]? blob = NoteStore.LoadContent(note.Id);
                 if (blob == null) continue;

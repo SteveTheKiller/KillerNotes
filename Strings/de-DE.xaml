@@ -1069,4 +1069,21 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} ist größer als 50 MB und wurde nicht importiert.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} wurde schon unverändert importiert, deshalb ist seine Notiz geöffnet.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} wurde gerade erst geöffnet und wird nicht doppelt importiert.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">Titel, Text und Tags</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">nicht der Papierkorb</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">nur der Papierkorb</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Filter und gespeicherte Suchen</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Tag</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Gruppe</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Titel enthält...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Geändert am oder nach...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Geändert am oder vor...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Erstellt im...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">Im Papierkorb</sys:String>
+    <sys:String x:Key="Str_Search_Save">Diese Suche speichern...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Gespeicherte Suche entfernen</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Name für diese Suche</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Suche gespeichert: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Gespeicherte Suche entfernt: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0} passende Notizen</sys:String>
 </ResourceDictionary>

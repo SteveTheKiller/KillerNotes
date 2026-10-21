@@ -1077,4 +1077,21 @@
     <sys:String x:Key="Str_St_FileTooLarge">{0} 50 МБ-тан үлкен, сондықтан импортталмады.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} бұрын өзгеріссіз импортталған, сондықтан оның жазбасы ашылды.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} жаңа ғана ашылды және екі рет импортталмайды.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">атаулар, мәтін және тегтер</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">себетсіз</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">тек себет</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Сүзгілер және сақталған іздеулер</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Тег</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Топ</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Атауында бар...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Осы күні не кейін өзгерген...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Осы күні не бұрын өзгерген...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Жасалған уақыты...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">Себетте</sys:String>
+    <sys:String x:Key="Str_Search_Save">Осы іздеуді сақтау...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Сақталған іздеуді алып тастау</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Бұл іздеуге ат беріңіз</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Іздеу сақталды: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Сақталған іздеу алынды: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">Сәйкес жазбалар: {0}</sys:String>
 </ResourceDictionary>

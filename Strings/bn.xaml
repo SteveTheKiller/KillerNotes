@@ -1069,4 +1069,21 @@
     <sys:String x:Key="Str_St_FileTooLarge">{0} ৫০ MB-এর বেশি, তাই ইমপোর্ট হয়নি।</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} আগে অপরিবর্তিত অবস্থায় ইমপোর্ট হয়েছিল, তাই এর নোট খোলা হয়েছে।</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} এইমাত্র খোলা হয়েছে, দুবার ইমপোর্ট হবে না।</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">শিরোনাম, লেখা ও ট্যাগ</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">ট্র্যাশ বাদে</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">শুধু ট্র্যাশ</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">ফিল্টার ও সংরক্ষিত অনুসন্ধান</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">ট্যাগ</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">গ্রুপ</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">শিরোনামে আছে...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">এই দিনে বা পরে বদলানো...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">এই দিনে বা আগে বদলানো...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">তৈরির সময়...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">ট্র্যাশে</sys:String>
+    <sys:String x:Key="Str_Search_Save">এই অনুসন্ধান সংরক্ষণ করুন...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">একটি সংরক্ষিত অনুসন্ধান সরান</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">এই অনুসন্ধানের নাম দিন</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">অনুসন্ধান সংরক্ষিত: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">সংরক্ষিত অনুসন্ধান সরানো হয়েছে: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0}টি মিলে যাওয়া নোট</sys:String>
 </ResourceDictionary>

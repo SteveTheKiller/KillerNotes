@@ -1070,4 +1070,21 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} dépasse 50 Mo et n'a pas été importé.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} a déjà été importé sans changement, sa note est donc ouverte.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} vient d'être ouvert et n'est pas importé deux fois.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">titres, texte et étiquettes</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">pas la corbeille</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">seulement la corbeille</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Filtres et recherches enregistrées</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Étiquette</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Groupe</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Le titre contient...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Modifiée le ou après le...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Modifiée le ou avant le...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Créée en...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">Dans la corbeille</sys:String>
+    <sys:String x:Key="Str_Search_Save">Enregistrer cette recherche...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Supprimer une recherche enregistrée</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Nommer cette recherche</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Recherche enregistrée : {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Recherche enregistrée supprimée : {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0} notes correspondantes</sys:String>
 </ResourceDictionary>

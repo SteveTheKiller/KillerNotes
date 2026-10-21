@@ -583,31 +583,18 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax, pinned, deleted";
 
             using var cmd = _db.CreateCommand();
-            if (!string.IsNullOrWhiteSpace(search))
+            var query = SearchQuery.Parse(search);
+            if (!query.IsEmpty)
             {
                 // Substring search across title, body, and tags. FTS5 prefix matching only hit
                 // whole tokens from their start, and "/" splits a signature into separate tokens,
-                // so "A/002/45" was found by "002" but never by "02" or "2" (#12). A LIKE scan
-                // matches any substring, mid-token included; at personal-notes scale it stays
-                // instant. Each whitespace word must appear (AND), in any of the columns (OR).
-                // Compared folded (kn_fold, Services/TextFold.cs) rather than with LIKE, whose
-                // case-insensitivity covers ASCII only.
-                // The branch guarantees a value, but net48's nullable annotations do not teach
-                // the compiler that IsNullOrWhiteSpace(false) also means non-null.
-                var words = search!.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
-                var clauses = new List<string>(words.Length);
-                for (int i = 0; i < words.Length; i++)
-                {
-                    // The body from its stored fold while that is current (note_fold), else folded here.
-                    clauses.Add($"(instr(kn_fold(title), $w{i}) > 0 OR instr(kn_fold(tags), $w{i}) > 0 OR " +
-                                $"instr(COALESCE((SELECT f.plain_fold FROM note_fold f WHERE f.id = notes.id AND f.modified = notes.modified), " +
-                                $"kn_fold(plain)), $w{i}) > 0)");
-                    cmd.Parameters.AddWithValue($"$w{i}", TextFold.Fold(words[i]));
-                }
-                string where = clauses.Count > 0 ? string.Join(" AND ", clauses) : "1";
-                // Trashed notes never match a search: the trash is a place you go to, not a
+                // so "A/002/45" was found by "002" but never by "02" or "2" (#12). A scan of the
+                // folded text matches any substring, mid-token included; at personal-notes scale it
+                // stays fast. Each word must appear (AND), in any of the columns (OR), and the
+                // filters (tag:, group:, title:, dates, in:trash) narrow it (Services/SearchQuery.cs).
+                // Trashed notes match only with in:trash: the trash is a place you go to, not a
                 // place results come from.
-                cmd.CommandText = $"SELECT {cols} FROM notes WHERE deleted = '' AND {where} ORDER BY {order}";
+                cmd.CommandText = $"SELECT {cols} FROM notes WHERE {query.BuildWhere(cmd, noteFold: true)} ORDER BY {order}";
             }
             else
             {
@@ -2499,6 +2486,45 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             }
             tx.Commit();
             return ids;
+        }
+
+        // ---- Saved searches (1.6.0, KN-P06) ----
+        // Kept in the notepad, so they are encrypted with it and travel with its backups. The table
+        // is made on first save.
+
+        public static List<(string Name, string Query)> ListSavedSearches()
+        {
+            var list = new List<(string, string)>();
+            if (_db == null) return list;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'saved_searches'";
+            if ((long)cmd.ExecuteScalar()! == 0) return list;
+            cmd.CommandText = "SELECT name, query FROM saved_searches ORDER BY name COLLATE NOCASE";
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) list.Add((r.GetString(0), r.GetString(1)));
+            return list;
+        }
+
+        /// <summary>Saves a search under a name; the same name (any case) is replaced.</summary>
+        public static void SaveSearch(string name, string query)
+        {
+            if (_db == null || IsReadOnly) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "CREATE TABLE IF NOT EXISTS saved_searches(name TEXT PRIMARY KEY COLLATE NOCASE, query TEXT NOT NULL);" +
+                              "INSERT INTO saved_searches(name, query) VALUES ($n, $q) " +
+                              "ON CONFLICT(name) DO UPDATE SET name = excluded.name, query = excluded.query";
+            cmd.Parameters.AddWithValue("$n", name.Trim());
+            cmd.Parameters.AddWithValue("$q", query.Trim());
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void DeleteSavedSearch(string name)
+        {
+            if (_db == null || IsReadOnly || ListSavedSearches().Count == 0) return;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "DELETE FROM saved_searches WHERE name = $n";
+            cmd.Parameters.AddWithValue("$n", name);
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>A second, read-only connection to the open database for vault export, which runs

@@ -1066,4 +1066,21 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} má přes 50 MB a nebyl importován.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} už byl importován beze změn, takže je otevřena jeho poznámka.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} byl otevřen před chvílí a neimportuje se dvakrát.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">názvy, text a štítky</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">ne koš</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">jen koš</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Filtry a uložená hledání</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Štítek</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Skupina</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">Název obsahuje...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Změněno dne nebo po...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Změněno dne nebo před...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Vytvořeno v...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">V koši</sys:String>
+    <sys:String x:Key="Str_Search_Save">Uložit toto hledání...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Odebrat uložené hledání</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Pojmenujte toto hledání</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Hledání uloženo: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Uložené hledání odebráno: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">Odpovídajících poznámek: {0}</sys:String>
 </ResourceDictionary>

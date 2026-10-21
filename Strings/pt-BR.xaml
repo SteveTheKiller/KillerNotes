@@ -1116,4 +1116,21 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} tem mais de 50 MB e não foi importado.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} já foi importado sem mudanças, então a nota dele está aberta.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} foi aberto há pouco e não é importado duas vezes.</sys:String>
+    <sys:String x:Key="Str_Search_ScopeAll">títulos, texto e etiquetas</sys:String>
+    <sys:String x:Key="Str_Search_ScopeNoTrash">não a lixeira</sys:String>
+    <sys:String x:Key="Str_Search_ScopeTrash">só a lixeira</sys:String>
+    <sys:String x:Key="Str_TT_SearchFilters">Filtros e buscas salvas</sys:String>
+    <sys:String x:Key="Str_Search_FilterTag">Etiqueta</sys:String>
+    <sys:String x:Key="Str_Search_FilterGroup">Grupo</sys:String>
+    <sys:String x:Key="Str_Search_FilterTitle">O título contém...</sys:String>
+    <sys:String x:Key="Str_Search_FilterAfter">Alterada em ou depois de...</sys:String>
+    <sys:String x:Key="Str_Search_FilterBefore">Alterada em ou antes de...</sys:String>
+    <sys:String x:Key="Str_Search_FilterCreated">Criada em...</sys:String>
+    <sys:String x:Key="Str_Search_FilterTrash">Na lixeira</sys:String>
+    <sys:String x:Key="Str_Search_Save">Salvar esta busca...</sys:String>
+    <sys:String x:Key="Str_Search_Remove">Remover uma busca salva</sys:String>
+    <sys:String x:Key="Str_Search_SaveHead">Dê um nome a esta busca</sys:String>
+    <sys:String x:Key="Str_St_SearchSaved">Busca salva: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchRemoved">Busca salva removida: {0}</sys:String>
+    <sys:String x:Key="Str_St_SearchNotes">{0} notas correspondentes</sys:String>
 </ResourceDictionary>
