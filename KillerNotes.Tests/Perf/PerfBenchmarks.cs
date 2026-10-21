@@ -69,15 +69,14 @@ namespace KillerNotes.Tests.Perf
                 long longId = NoteStore.List().Single(n => n.Title == PerfDataset.LongNote).Id;
                 Sta.Run(() => UiScenarios(results, longId));
 
-                Measure(results, "global search over every note", 1, () =>
+                // What the title-bar search does after the sidebar filters: count the matches in
+                // each listed note's stored text (Shell/GlobalSearch.cs).
+                Measure(results, "global search match counts", 1, () =>
                 {
                     int hits = 0;
-                    foreach (var n in NoteStore.List())
-                    {
-                        var doc = NoteSearch.LoadDocument(NoteStore.LoadContent(n.Id), n.Format);
-                        hits += NoteSearch.CountMatches(new TextRange(doc.ContentStart, doc.ContentEnd).Text, "backup");
-                    }
-                }, sta: true);
+                    foreach (var n in NoteStore.List("backup"))
+                        hits += NoteSearch.CountMatches(NoteStore.LoadPlain(n.Id), "backup");
+                });
                 Measure(results, "open link graph", 1, () =>
                 {
                     if (Application.ResourceAssembly == null) Application.ResourceAssembly = typeof(GraphWindow).Assembly;

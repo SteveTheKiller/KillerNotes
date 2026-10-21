@@ -78,7 +78,10 @@ namespace KillerNotes.Shell
                         plain = _findPlain;
                     }
                     else
-                        plain = FlattenDoc(NoteSearch.LoadDocument(NoteStore.LoadContent(note.Id), note.Format)).Plain;
+                        // The stored search text, not a re-loaded document: the same words the
+                        // sidebar search matched (sketch labels included), at a fraction of the cost.
+                        // Loading every document took about a minute for a common word in 10,000 notes.
+                        plain = NoteStore.LoadPlain(note.Id);
                     _globalMatchCounts[note.Id] = NoteSearch.CountMatches(plain, query);
                 }
                 catch { _globalUnreadable++; }

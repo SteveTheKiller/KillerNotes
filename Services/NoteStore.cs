@@ -813,6 +813,15 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             return v is byte[] b && b.Length > 0 ? b : null;
         }
 
+        /// <summary>A note's stored search text: its body as plain text plus its sketch labels.</summary>
+        public static string LoadPlain(long id)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "SELECT plain FROM notes WHERE id = $id";
+            cmd.Parameters.AddWithValue("$id", id);
+            return cmd.ExecuteScalar() as string ?? "";
+        }
+
         /// <summary>Saves the open note in one transaction: its body, links, and the payloads its
         /// markers name. Payloads are written here and nowhere earlier, so cleanup can never take
         /// one the editor still holds. dropLegacyRecordings removes the note's old ordinal
