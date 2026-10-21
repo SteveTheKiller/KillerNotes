@@ -196,7 +196,7 @@ namespace KillerNotes.Shell
             catch (Exception ex) when (ex is COMException or InvalidOperationException) { /* the taskbar is optional */ }
         }
 
-        /// <summary>Registers the chosen Win+Alt shortcut. Returns the "already taken" message
+        /// <summary>Registers the Win+Alt+N shortcut. Returns the "already taken" message
         /// when another app holds it, null otherwise (including off).</summary>
         private string? RegisterQuickHotkey(string? choice)
         {
@@ -224,12 +224,7 @@ namespace KillerNotes.Shell
             _initializingQuickOptions = true;
             AboutKeepTrayIcon.IsChecked = KeepTrayIcon;
             AboutShowTips.IsChecked = App.GetSetting(ShowTipsSetting) != "0";   // SaveState.cs
-            string? current = App.GetSetting(QuickNoteHotkey.Setting);
-            AboutQuickHotkeyCombo.Items.Clear();
-            AboutQuickHotkeyCombo.Items.Add(new System.Windows.Controls.ComboBoxItem { Content = Loc("Str_About_HotkeyOff"), Tag = "" });
-            foreach (string choice in QuickNoteHotkey.Choices)
-                AboutQuickHotkeyCombo.Items.Add(new System.Windows.Controls.ComboBoxItem { Content = choice, Tag = choice });
-            AboutQuickHotkeyCombo.SelectedIndex = Math.Max(0, Array.IndexOf(QuickNoteHotkey.Choices, current) + 1);
+            AboutQuickHotkey.IsChecked = QuickNoteHotkey.TryParse(App.GetSetting(QuickNoteHotkey.Setting), out _, out _);
             if (hotkeyNote != null) SetHotkeyNote(hotkeyNote);
             _initializingQuickOptions = false;
         }
@@ -246,18 +241,17 @@ namespace KillerNotes.Shell
             _tray.RefreshIcon();
         }
 
-        private void AboutQuickHotkey_Changed(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void AboutQuickHotkey_Click(object sender, RoutedEventArgs e)
         {
-            if (_initializingQuickOptions || AboutQuickHotkeyCombo.SelectedItem is not System.Windows.Controls.ComboBoxItem { Tag: string choice }) return;
+            if (_initializingQuickOptions) return;
+            string choice = AboutQuickHotkey.IsChecked == true ? QuickNoteHotkey.Shortcut : "";
             string? taken = RegisterQuickHotkey(choice);
             if (taken != null)
             {
-                // Taken by another app: say so and go back to off rather than leave a dead choice.
+                // Taken by another app: say so and untick rather than leave a dead shortcut.
                 RegisterQuickHotkey(null);
                 App.SetSetting(QuickNoteHotkey.Setting, "");
-                _initializingQuickOptions = true;
-                AboutQuickHotkeyCombo.SelectedIndex = 0;
-                _initializingQuickOptions = false;
+                AboutQuickHotkey.IsChecked = false;
                 SetHotkeyNote(string.Format(taken, choice));
                 return;
             }

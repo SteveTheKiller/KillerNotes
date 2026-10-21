@@ -1061,9 +1061,8 @@
     <sys:String x:Key="Str_Grp_Inbox">收件箱</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">在系统托盘中保留图标</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">图标菜单中有快速笔记，窗口打开时图标也会保留。</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">快速笔记快捷键：</sys:String>
-    <sys:String x:Key="Str_About_HotkeyOff">关闭</sys:String>
-    <sys:String x:Key="Str_About_HotkeyTaken">{0} 已被其他应用占用。请选择其他快捷键或保持关闭。</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">快速笔记快捷键</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} 已被其他应用占用，因此快捷键保持关闭。</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} 超过 50 MB，未导入。</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} 以前已导入且未更改，因此打开了它的笔记。</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} 刚刚打开过，不会重复导入。</sys:String>

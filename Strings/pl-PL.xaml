@@ -990,9 +990,8 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Skrzynka</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Zostaw ikonę w zasobniku systemowym</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Menu ikony ma Szybką notatkę, a ikona zostaje, gdy okno jest otwarte.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Skrót szybkiej notatki:</sys:String>
-    <sys:String x:Key="Str_About_HotkeyOff">Wyłączony</sys:String>
-    <sys:String x:Key="Str_About_HotkeyTaken">{0} jest już używany przez inną aplikację. Wybierz inny lub zostaw wyłączony.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Skrót szybkiej notatki</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} jest już używany przez inną aplikację, więc skrót pozostaje wyłączony.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} ma ponad 50 MB i nie został zaimportowany.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} był już zaimportowany bez zmian, więc otwarto jego notatkę.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} otwarto przed chwilą i nie jest importowany dwa razy.</sys:String>

@@ -1110,9 +1110,8 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Caixa de entrada</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Manter um ícone na bandeja do sistema</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">O menu do ícone tem Nota rápida, e ele fica enquanto a janela está aberta.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Atalho da nota rápida:</sys:String>
-    <sys:String x:Key="Str_About_HotkeyOff">Desligado</sys:String>
-    <sys:String x:Key="Str_About_HotkeyTaken">{0} já é usado por outro app. Escolha outro ou deixe desligado.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Atalho da nota rápida</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} já é usado por outro app, então o atalho fica desligado.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} tem mais de 50 MB e não foi importado.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} já foi importado sem mudanças, então a nota dele está aberta.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} foi aberto há pouco e não é importado duas vezes.</sys:String>

@@ -1060,9 +1060,8 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Doručené</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Ponechat ikonu v oznamovací oblasti</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Nabídka ikony obsahuje Rychlou poznámku a ikona zůstane i při otevřeném okně.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Zkratka rychlé poznámky:</sys:String>
-    <sys:String x:Key="Str_About_HotkeyOff">Vypnuto</sys:String>
-    <sys:String x:Key="Str_About_HotkeyTaken">{0} už používá jiná aplikace. Vyberte jinou, nebo ji nechte vypnutou.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Zkratka rychlé poznámky</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} už používá jiná aplikace, proto zkratka zůstane vypnutá.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} má přes 50 MB a nebyl importován.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} už byl importován beze změn, takže je otevřena jeho poznámka.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} byl otevřen před chvílí a neimportuje se dvakrát.</sys:String>

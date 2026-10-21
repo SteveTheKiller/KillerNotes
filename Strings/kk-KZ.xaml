@@ -1071,9 +1071,8 @@
     <sys:String x:Key="Str_Grp_Inbox">Кіріс</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Хабарландыру аймағында белгішені қалдыру</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Белгіше мәзірінде «Жылдам жазба» бар, ал белгіше терезе ашық кезде де қалады.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Жылдам жазба пернелер тіркесімі:</sys:String>
-    <sys:String x:Key="Str_About_HotkeyOff">Өшірулі</sys:String>
-    <sys:String x:Key="Str_About_HotkeyTaken">{0} басқа қолданбада бұрыннан қолданылады. Басқасын таңдаңыз немесе өшірулі қалдырыңыз.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Жылдам жазба пернелер тіркесімі</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} басқа қолданбада бұрыннан қолданылады, сондықтан пернелер тіркесімі өшірулі қалады.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} 50 МБ-тан үлкен, сондықтан импортталмады.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} бұрын өзгеріссіз импортталған, сондықтан оның жазбасы ашылды.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} жаңа ғана ашылды және екі рет импортталмайды.</sys:String>

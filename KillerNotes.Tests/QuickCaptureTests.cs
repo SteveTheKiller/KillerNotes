@@ -147,7 +147,7 @@ namespace KillerNotes.Tests
         [InlineData(null, false)]
         [InlineData("", false)]
         [InlineData("Win+Alt+N", true)]
-        [InlineData("Win+Alt+J", true)]
+        [InlineData("Win+Alt+J", false)]    // offered once, before the choice became one key
         [InlineData("Ctrl+Alt+N", false)]   // AltGr+N on international layouts
         [InlineData("junk", false)]
         public void OnlyTheOfferedShortcutsAreAccepted(string? stored, bool valid) =>

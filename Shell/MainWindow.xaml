@@ -2990,25 +2990,62 @@
                                 </Border>
                             </Grid>
 
-                            <!-- About options sit below the identity pane, the startup check first. -->
-                            <StackPanel Margin="0,12,0,0" HorizontalAlignment="Left">
-                                <CheckBox x:Name="AboutStartupUpdateCheck"
-                                          Content="{DynamicResource Str_About_StartupUpdateCheck}"
+                            <!-- About options below the identity pane, in groups: the app on the left,
+                                 the tray and quick note on the right, the two lock options across the
+                                 bottom. Pinned to the info panel's width so the SHA-256 line still sets
+                                 the card width; long translations wrap inside their column. Every row
+                                 is at least 24px, the combo's height, so the gaps are even whether a
+                                 row holds a checkbox or a combo. -->
+                            <Grid x:Name="AboutOptionsGrid" Margin="0,10,0,0" Width="{Binding ActualWidth, ElementName=AboutInfoGrid}">
+                                <Grid.Resources>
+                                    <DataTemplate x:Key="AboutOptionText">
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap"/>
+                                    </DataTemplate>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" MinHeight="24"/>
+                                    <RowDefinition Height="Auto" MinHeight="24"/>
+                                    <RowDefinition Height="Auto" MinHeight="24"/>
+                                    <RowDefinition Height="Auto" MinHeight="24"/>
+                                    <RowDefinition Height="Auto" MinHeight="24"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <!-- Left: the app. Tab order runs down this column, then the next. -->
+                                <CheckBox x:Name="AboutStartWithWindows" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0"
+                                          Content="{DynamicResource Str_About_StartWithWindows}" ContentTemplate="{StaticResource AboutOptionText}"
+                                          FontSize="11" Click="AboutStartWithWindows_Click"/>
+                                <CheckBox x:Name="AboutStartupUpdateCheck" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0"
+                                          Content="{DynamicResource Str_About_StartupUpdateCheck}" ContentTemplate="{StaticResource AboutOptionText}"
                                           FontSize="11" Click="AboutStartupUpdateCheck_Click"/>
-                                <CheckBox x:Name="AboutStartWithWindows"
-                                          Content="{DynamicResource Str_About_StartWithWindows}"
-                                          FontSize="11" Margin="0,6,0,0" Click="AboutStartWithWindows_Click"/>
-                                <CheckBox x:Name="AboutCloseToTray"
-                                          Content="{DynamicResource Str_About_CloseToTray}"
+                                <!-- One-time tips in the status line (SaveState.cs). -->
+                                <CheckBox x:Name="AboutShowTips" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0"
+                                          Content="{DynamicResource Str_About_ShowTips}" ContentTemplate="{StaticResource AboutOptionText}"
+                                          FontSize="11" Click="AboutShowTips_Click"/>
+                                <!-- Right: the tray and Quick note (QuickNote.cs). -->
+                                <CheckBox x:Name="AboutCloseToTray" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"
+                                          Content="{DynamicResource Str_About_CloseToTray}" ContentTemplate="{StaticResource AboutOptionText}"
                                           ToolTip="{DynamicResource Str_About_CloseToTrayHint}"
-                                          FontSize="11" Margin="0,6,0,0" Click="AboutCloseToTray_Click"/>
-                                <!-- Lock now's automatic triggers (LockNow.cs). They only act on a
+                                          FontSize="11" Click="AboutCloseToTray_Click"/>
+                                <CheckBox x:Name="AboutKeepTrayIcon" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+                                          Content="{DynamicResource Str_About_KeepTrayIcon}" ContentTemplate="{StaticResource AboutOptionText}"
+                                          ToolTip="{DynamicResource Str_About_KeepTrayIconHint}"
+                                          FontSize="11" Click="AboutKeepTrayIcon_Click"/>
+                                <!-- One fixed shortcut, off by default. The key is not translated. -->
+                                <CheckBox x:Name="AboutQuickHotkey" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"
+                                          FontSize="11" Click="AboutQuickHotkey_Click">
+                                    <TextBlock TextWrapping="Wrap"><Run Text="{DynamicResource Str_About_QuickHotkey}"/><Run Text=" (Win+Alt+N)"/></TextBlock>
+                                </CheckBox>
+                                <!-- Bottom: Lock now's automatic triggers (LockNow.cs). They only act on a
                                      notepad with a password. -->
-                                <CheckBox x:Name="AboutLockWithWindows"
-                                          Content="{DynamicResource Str_About_LockWithWindows}"
+                                <CheckBox x:Name="AboutLockWithWindows" Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Center"
+                                          Content="{DynamicResource Str_About_LockWithWindows}" ContentTemplate="{StaticResource AboutOptionText}"
                                           ToolTip="{DynamicResource Str_About_LockHint}"
-                                          FontSize="11" Margin="0,6,0,0" Click="AboutLockWithWindows_Click"/>
-                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                          FontSize="11" Click="AboutLockWithWindows_Click"/>
+                                <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center">
                                     <TextBlock x:Name="AboutIdleLockLabel" Text="{DynamicResource Str_About_IdleLock}" FontSize="11"
                                                VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
                                     <ComboBox x:Name="AboutIdleLockCombo" Style="{StaticResource KnCombo}" ItemContainerStyle="{StaticResource KnComboItem}" Height="24" MinWidth="110"
@@ -3016,26 +3053,9 @@
                                               ToolTip="{DynamicResource Str_About_LockHint}"
                                               AutomationProperties.LabeledBy="{Binding ElementName=AboutIdleLockLabel}"/>
                                 </StackPanel>
-                                <!-- Quick note (QuickNote.cs): the tray icon that stays while the window is
-                                     open, and the optional global shortcut. -->
-                                <!-- One-time tips in the status line (SaveState.cs). -->
-                                <CheckBox x:Name="AboutShowTips"
-                                          Content="{DynamicResource Str_About_ShowTips}"
-                                          FontSize="11" Margin="0,6,0,0" Click="AboutShowTips_Click"/>
-                                <CheckBox x:Name="AboutKeepTrayIcon"
-                                          Content="{DynamicResource Str_About_KeepTrayIcon}"
-                                          ToolTip="{DynamicResource Str_About_KeepTrayIconHint}"
-                                          FontSize="11" Margin="0,6,0,0" Click="AboutKeepTrayIcon_Click"/>
-                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                                    <TextBlock x:Name="AboutQuickHotkeyLabel" Text="{DynamicResource Str_About_QuickHotkey}" FontSize="11"
-                                               VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
-                                    <ComboBox x:Name="AboutQuickHotkeyCombo" Style="{StaticResource KnCombo}" ItemContainerStyle="{StaticResource KnComboItem}"
-                                              Height="24" MinWidth="110" Margin="8,0,0,0" FontSize="11" SelectionChanged="AboutQuickHotkey_Changed"
-                                              AutomationProperties.LabeledBy="{Binding ElementName=AboutQuickHotkeyLabel}"/>
-                                </StackPanel>
-                                <TextBlock x:Name="AboutQuickHotkeyNote" Visibility="Collapsed" FontSize="10.5" Margin="0,4,0,0"
+                                <TextBlock x:Name="AboutQuickHotkeyNote" Grid.Row="5" Grid.ColumnSpan="2" Visibility="Collapsed" FontSize="10.5" Margin="0,4,0,0"
                                            TextWrapping="Wrap" Foreground="{DynamicResource DimTextBrush}" AutomationProperties.LiveSetting="Polite"/>
-                            </StackPanel>
+                            </Grid>
 
                             <!-- Update notice: shown only when a newer release is found -->
                             <Button x:Name="AboutUpdateButton" Visibility="Collapsed" Margin="0,14,0,0"

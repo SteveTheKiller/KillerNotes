@@ -1061,9 +1061,8 @@
     <sys:String x:Key="Str_Grp_Inbox">受信トレイ</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">通知領域にアイコンを残す</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">アイコンのメニューにクイックノートがあり、ウィンドウを開いている間もアイコンが残ります。</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">クイックノートのショートカット：</sys:String>
-    <sys:String x:Key="Str_About_HotkeyOff">オフ</sys:String>
-    <sys:String x:Key="Str_About_HotkeyTaken">{0} はほかのアプリが使用しています。別のものを選ぶか、オフのままにしてください。</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">クイックノートのショートカット</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} はほかのアプリが使用しているため、ショートカットはオフのままです。</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} は 50 MB を超えているため、インポートされませんでした。</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} は変更なしでインポート済みのため、そのノートを開きました。</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} はたった今開かれたため、二重にはインポートされません。</sys:String>

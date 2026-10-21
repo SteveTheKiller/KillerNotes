@@ -1114,9 +1114,8 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Grp_Inbox">Hộp thư đến</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Giữ biểu tượng trong khay hệ thống</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Menu của biểu tượng có Ghi chú nhanh, và biểu tượng vẫn ở đó khi cửa sổ đang mở.</sys:String>
-    <sys:String x:Key="Str_About_QuickHotkey">Phím tắt ghi chú nhanh:</sys:String>
-    <sys:String x:Key="Str_About_HotkeyOff">Tắt</sys:String>
-    <sys:String x:Key="Str_About_HotkeyTaken">{0} đã được ứng dụng khác dùng. Hãy chọn phím khác hoặc để tắt.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Phím tắt ghi chú nhanh</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} đã được ứng dụng khác dùng, nên phím tắt vẫn tắt.</sys:String>
     <sys:String x:Key="Str_St_FileTooLarge">{0} lớn hơn 50 MB và không được nhập.</sys:String>
     <sys:String x:Key="Str_St_OpenedAgain">{0} đã được nhập trước đây và không đổi, nên ghi chú của nó được mở.</sys:String>
     <sys:String x:Key="Str_St_AlreadyOpening">{0} vừa được mở và không bị nhập hai lần.</sys:String>
