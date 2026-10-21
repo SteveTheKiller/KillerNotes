@@ -263,7 +263,8 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <span class="right"><span id="verEgg" title="click me">v1.5.1</span> &middot; &copy; 2026 <b><a href="https://thekiller.net" target="_blank" rel="noopener">Steve the Killer</a></b></span>
 </footer>
 
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Expanded KillerNotes screenshot" aria-hidden="true" tabindex="-1">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Expanded KillerNotes screenshot" aria-hidden="true" tabindex="-1" inert>
+  <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close" title="Close">&times;</button>
   <figure class="lightbox-figure">
     <img id="lightboxImg" src="" alt="">
     <video id="lightboxVid" controls loop muted playsinline preload="metadata" hidden></video>
@@ -322,13 +323,26 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
   var lightboxImg = document.getElementById('lightboxImg');
   var lightboxVid = document.getElementById('lightboxVid');
   var lightboxCaption = document.getElementById('lightboxCaption');
+  var lightboxClose = document.getElementById('lightboxClose');
   var lastLightboxTrigger = null;
+  var lightboxBackground = [];
   var loaded = 0;
 
   // For a still, src is the image path. For a clip it is the two-digit slot, and the video
   // element takes over: same caption, same dismissal, controls added because at full size
   // people expect to be able to scrub and pause.
   function openLightbox(src, description, trigger, isClip) {
+    // A real modal: everything behind the overlay is inert (out of the Tab order and hidden
+    // from screen readers) until it closes. Same approach as the KillerShell site.
+    if (!lightbox.classList.contains('show')) {
+      lightboxBackground = Array.from(document.body.children).filter(function (element) {
+        return element !== lightbox && !/^(SCRIPT|STYLE|LINK)$/.test(element.tagName);
+      }).map(function (element) {
+        var previous = element.inert;
+        element.inert = true;
+        return { element: element, previous: previous };
+      });
+    }
     lastLightboxTrigger = trigger;
     description = descriptionFor(+trigger.dataset.idx);
     if (isClip) {
@@ -348,21 +362,36 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
     }
     lightboxCaption.textContent = description;
     lightbox.setAttribute('aria-hidden', 'false');
+    lightbox.inert = false;
     lightbox.classList.add('show');
-    lightbox.focus();
+    lightboxClose.focus();
   }
   function closeLightbox() {
     if (!lightbox.classList.contains('show')) return;
+    lightboxBackground.forEach(function (state) { state.element.inert = state.previous; });
+    lightboxBackground = [];
     lightbox.classList.remove('show');
     lightbox.setAttribute('aria-hidden', 'true');
+    lightbox.inert = true;
     lightboxVid.pause();   // or it keeps playing behind the closed overlay
-    if (lastLightboxTrigger) lastLightboxTrigger.focus();
+    if (lastLightboxTrigger && lastLightboxTrigger.isConnected) lastLightboxTrigger.focus();
+    lastLightboxTrigger = null;
   }
   lightbox.addEventListener('click', closeLightbox);
+  lightboxClose.addEventListener('click', function (e) { e.stopPropagation(); closeLightbox(); });
   // The backdrop closes on any click, but the video carries real controls - without this,
   // reaching for pause or the scrubber would dismiss the whole lightbox instead.
   lightboxVid.addEventListener('click', function (e) { e.stopPropagation(); });
   document.addEventListener('keydown', function (e) {
+    // Tab and Shift+Tab stay inside the overlay: Close, and the video's controls when a clip
+    // is showing.
+    if (e.key === 'Tab' && lightbox.classList.contains('show')) {
+      var stops = lightboxVid.hidden ? [lightboxClose] : [lightboxClose, lightboxVid];
+      var at = stops.indexOf(document.activeElement);
+      var next = e.shiftKey ? (at <= 0 ? stops.length - 1 : at - 1) : (at + 1) % stops.length;
+      stops[next].focus();
+      e.preventDefault();
+    }
     if (e.key === 'Escape' && lightbox.classList.contains('show')) {
       closeLightbox();
       e.preventDefault();

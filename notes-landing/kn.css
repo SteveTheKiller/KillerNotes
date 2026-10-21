@@ -243,6 +243,8 @@ body.compact-sidebar .outline a:hover { color: var(--text); background: color-mi
 .lightbox video { cursor: default; }
 .lightbox [hidden] { display: none; }
 .lightbox figcaption { max-width: min(1100px, 100%); color: #f2f2f2; font-size: 13px; line-height: 1.45; text-align: center; text-shadow: 0 1px 3px #000; }
+.lightbox-close { position: absolute; top: 8px; right: 8px; background: var(--modal, rgba(0,0,0,0.6)); color: #f2f2f2; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; font-size: 20px; line-height: 1; min-width: 32px; min-height: 32px; cursor: pointer; }
+.lightbox-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Slim scrollbars: transparent track (no opaque band), no arrow buttons, thumb flat to the ends.
    IMPORTANT: the standard scrollbar-width/scrollbar-color props are scoped to browsers that do
