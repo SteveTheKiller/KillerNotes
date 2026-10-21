@@ -4,8 +4,9 @@
 #   - theme fallbacks written as `TryFindResource(...) ?? Brushes.X`, used only if a resource is missing
 #   - the highlighter swatches, the colour picker's palette, sketch ink, graph node colours, table borders
 #   - the brief database-loading overlay (white on a dark scrim) and text measured with Brushes.Black
+#   - the accent shadow's outline rim: black or white by contrast, a fixed grey, and the shader default
 # To add one: move it to a theme resource if it carries meaning; otherwise raise the count here with why.
-Controls/AccentShadow.cs	2
+Controls/AccentShadow.cs	4
 Controls/AccessibleControls.cs	3
 Controls/ColorPickerDialog.cs	16
 Controls/ConfirmDialog.xaml.cs	3
