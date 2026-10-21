@@ -51,6 +51,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Added
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.
+- The link graph can be used from the keyboard: Tab and Shift+Tab move between notes and announce each one, Home and End jump to either end, the Apps key opens the note's menu and Enter opens it.
 - Recordings can be played, paused and turned up or down from the keyboard with the caret beside them: Alt+Shift+P, Alt+Shift+Up and Alt+Shift+Down, also on the note's context menu.
 
 ### Changed

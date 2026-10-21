@@ -777,6 +777,8 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Ctx_GraphOpen">Jegyzet megnyitása</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShowAll">Minden megjelenítése</sys:String>
     <sys:String x:Key="Str_Ctx_GraphSpin">Vizualizáció</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, hivatkozások: {1}</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, még nincs megírva</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Kitöltött = egy jegyzet, a csoportja szerint színezve.   Körvonalas = hivatkozott, de még meg nem írt.   Húzással rendezheti el, jobb gombbal érheti el a beállításokat.</sys:String>
     <sys:String x:Key="Str_KS_Graph">A kijelölt csoport vagy a teljes jegyzetadatbázis gráfja</sys:String>
     <sys:String x:Key="Str_Kb_Graph">Hivatkozásgráf</sys:String>

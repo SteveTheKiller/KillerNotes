@@ -669,6 +669,8 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphOpen">Odpri zapisek</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCreate">Ustvari ta zapisek</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCopy">Kopiraj kot [[link]]</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, povezave: {1}</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, še ni napisan</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Zapolnjeno = zapisek, obarvan po skupini.   Obrobljeno = povezan, vendar še nenapisan zapisek.   Povlecite za razporeditev, kliknite z desno tipko za možnosti.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrange">Razporedi</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrangeForce">Po povezavah</sys:String>

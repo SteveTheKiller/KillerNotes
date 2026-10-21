@@ -678,6 +678,8 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphOpen">Otwórz notatkę</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShowAll">Pokaż wszystko</sys:String>
     <sys:String x:Key="Str_Ctx_GraphSpin">Wizualizacja</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, linki: {1}</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, jeszcze nienapisana</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Wypełnione = notatka, pokolorowana według swojej grupy.   Kontur = powiązana łączem, ale jeszcze nienapisana.   Przeciągaj, aby rozmieszczać, kliknij prawym przyciskiem, aby zobaczyć opcje.</sys:String>
     <sys:String x:Key="Str_KS_Graph">Graf wybranej grupy lub całej bazy notatek</sys:String>
     <sys:String x:Key="Str_Kb_Graph">Graf łączy</sys:String>

@@ -719,6 +719,8 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphOpen">Otevřít poznámku</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShowAll">Zobrazit vše</sys:String>
     <sys:String x:Key="Str_Ctx_GraphSpin">Vizualizace</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, odkazy: {1}</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, zatím nenapsáno</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Vyplněné = poznámka, obarvená podle své skupiny.   Obrys = odkazovaná, ale zatím nenapsaná.   Tažením uspořádáte, pravým tlačítkem otevřete možnosti.</sys:String>
     <sys:String x:Key="Str_KS_Graph">Graf vybrané skupiny, nebo celé databáze poznámek</sys:String>
     <sys:String x:Key="Str_Kb_Graph">Graf odkazů</sys:String>

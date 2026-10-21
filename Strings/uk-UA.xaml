@@ -786,6 +786,8 @@
     <sys:String x:Key="Str_Ctx_GraphOpen">Відкрити нотатку</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCreate">Створити цю нотатку</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCopy">Копіювати як [[посилання]]</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, посилань: {1}</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, ще не написано</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Заповнене коло = нотатка, колір за групою.   Контур = є посилання, але нотатку ще не написано.   Перетягуйте, щоб упорядкувати, клацніть правою кнопкою для параметрів.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrange">Розташування</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrangeForce">За зв'язками</sys:String>

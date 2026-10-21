@@ -745,6 +745,8 @@
     <sys:String x:Key="Str_Ctx_GraphOpen">Открыть заметку</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCreate">Создать эту заметку</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCopy">Копировать как [[ссылку]]</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, ссылок: {1}</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, ещё не написана</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Залитый = заметка, цвет по группе.   Контур = ссылка есть, но заметка не написана.   Перетаскивайте, чтобы расположить, правый клик - параметры.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrange">Расположить</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrangeForce">По связям</sys:String>

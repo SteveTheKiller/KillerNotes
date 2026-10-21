@@ -745,6 +745,8 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphOpen">Apri nota</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCreate">Crea questa nota</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCopy">Copia come [[link]]</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, collegamenti: {1}</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, non ancora scritta</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Pieno = una nota, colorata per gruppo.   Contorno = collegata ma non ancora scritta.   Trascina per disporre, clic destro per le opzioni.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrange">Disponi</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrangeForce">Per connessione</sys:String>

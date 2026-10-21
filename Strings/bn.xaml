@@ -722,6 +722,8 @@
     <sys:String x:Key="Str_Ctx_GraphOpen">নোট খুলুন</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShowAll">সবকিছু দেখান</sys:String>
     <sys:String x:Key="Str_Ctx_GraphSpin">ভিজ্যুয়ালাইজার</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, {1}টি লিংক</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, এখনও লেখা হয়নি</sys:String>
     <sys:String x:Key="Str_Graph_Legend">ভরাট = একটি নোট, তার গ্রুপ অনুযায়ী রঙিন।   ফাঁপা = লিঙ্ক করা আছে কিন্তু এখনও লেখা হয়নি।   সাজাতে টেনে আনুন, বিকল্পের জন্য ডান ক্লিক করুন।</sys:String>
     <sys:String x:Key="Str_KS_Graph">নির্বাচিত গ্রুপ বা সব নোটের গ্রাফ দেখান</sys:String>
     <sys:String x:Key="Str_Kb_Graph">লিঙ্ক গ্রাফ</sys:String>

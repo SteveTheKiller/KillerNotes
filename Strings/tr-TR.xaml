@@ -722,6 +722,8 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphOpen">Notu aç</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShowAll">Her şeyi göster</sys:String>
     <sys:String x:Key="Str_Ctx_GraphSpin">Görselleştirici</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, bağlantı: {1}</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, henüz yazılmadı</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Dolu = bir not, grubunun rengiyle.   İçi boş = bağlantı verilmiş ama henüz yazılmamış.   Yerleştirmek için sürükleyin, seçenekler için sağ tıklayın.</sys:String>
     <sys:String x:Key="Str_KS_Graph">Seçili grubun veya tüm not defterinin grafiğini göster</sys:String>
     <sys:String x:Key="Str_Kb_Graph">Bağlantı grafiği</sys:String>

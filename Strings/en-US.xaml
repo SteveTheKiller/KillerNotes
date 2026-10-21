@@ -786,6 +786,8 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphOpen">Open note</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCreate">Create this note</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCopy">Copy as [[link]]</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, {1} links</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, not written yet</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Filled = a note, colored by its group.   Outlined = linked but not written yet.   Drag to arrange, right-click for options.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrange">Arrange</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrangeForce">By connection</sys:String>

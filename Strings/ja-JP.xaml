@@ -720,6 +720,8 @@
     <sys:String x:Key="Str_Ctx_GraphOpen">ノートを開く</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShowAll">すべて表示</sys:String>
     <sys:String x:Key="Str_Ctx_GraphSpin">ビジュアライザー</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}、リンク {1} 件</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}、未作成</sys:String>
     <sys:String x:Key="Str_Graph_Legend">塗りつぶし = ノート、色はグループごと。   輪郭のみ = リンクされているがまだ書かれていない。   ドラッグで並べ替え、右クリックでオプション。</sys:String>
     <sys:String x:Key="Str_KS_Graph">選択中のグループ、またはすべてのノートをグラフで表示</sys:String>
     <sys:String x:Key="Str_Kb_Graph">リンクグラフ</sys:String>

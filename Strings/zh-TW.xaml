@@ -722,6 +722,8 @@
     <sys:String x:Key="Str_Ctx_GraphOpen">開啟筆記</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShowAll">顯示全部</sys:String>
     <sys:String x:Key="Str_Ctx_GraphSpin">視覺化效果</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}，{1} 個連結</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}，尚未撰寫</sys:String>
     <sys:String x:Key="Str_Graph_Legend">實心 = 一則筆記，依所屬群組上色。   空心 = 已被連結但尚未寫。   拖曳可排列，按右鍵顯示選項。</sys:String>
     <sys:String x:Key="Str_KS_Graph">顯示選取群組或整本記事本的圖譜</sys:String>
     <sys:String x:Key="Str_Kb_Graph">連結圖譜</sys:String>

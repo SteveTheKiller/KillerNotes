@@ -789,6 +789,8 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Ctx_GraphOpen">Mở ghi chú</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCreate">Tạo ghi chú này</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCopy">Sao chép dưới dạng [[liên kết]]</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, {1} liên kết</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, chưa được viết</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Tô kín = ghi chú, có màu theo nhóm. Viền = đã liên kết nhưng chưa viết. Kéo để sắp xếp, nhấp chuột phải để xem tùy chọn.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrange">Sắp xếp</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrangeForce">Theo kết nối</sys:String>

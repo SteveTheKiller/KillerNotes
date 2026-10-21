@@ -720,6 +720,8 @@
     <sys:String x:Key="Str_Ctx_GraphOpen">打开笔记</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShowAll">显示全部</sys:String>
     <sys:String x:Key="Str_Ctx_GraphSpin">可视化效果</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}，{1} 个链接</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}，尚未撰写</sys:String>
     <sys:String x:Key="Str_Graph_Legend">实心 = 一条笔记，按所属分组着色。   空心 = 已被链接但尚未写。   拖动可排列，右键单击查看选项。</sys:String>
     <sys:String x:Key="Str_KS_Graph">显示选中分组或整个记事本的图谱</sys:String>
     <sys:String x:Key="Str_Kb_Graph">链接图谱</sys:String>

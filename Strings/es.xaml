@@ -723,6 +723,8 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphOpen">Abrir nota</sys:String>
     <sys:String x:Key="Str_Ctx_GraphShowAll">Mostrar todo</sys:String>
     <sys:String x:Key="Str_Ctx_GraphSpin">Visualizador</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, enlaces: {1}</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, aún sin escribir</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Relleno = una nota, coloreada según su grupo.   Contorno = enlazada pero aún no escrita.   Arrastre para disponer, clic derecho para ver opciones.</sys:String>
     <sys:String x:Key="Str_KS_Graph">Grafo del grupo seleccionado, o de toda la base de notas</sys:String>
     <sys:String x:Key="Str_Kb_Graph">Grafo de enlaces</sys:String>

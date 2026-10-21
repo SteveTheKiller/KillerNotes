@@ -784,6 +784,8 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphOpen">Åpne notat</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCreate">Opprett dette notatet</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCopy">Kopier som [[lenke]]</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, lenker: {1}</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, ikke skrevet ennå</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Fylt = et notat, farget etter gruppen.   Omriss = lenket, men ikke skrevet ennå.   Dra for å ordne, høyreklikk for valg.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrange">Ordne</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrangeForce">Etter tilknytning</sys:String>

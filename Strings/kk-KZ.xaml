@@ -745,6 +745,8 @@
     <sys:String x:Key="Str_Ctx_GraphOpen">Жазбаны ашу</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCreate">Осы жазбаны жасау</sys:String>
     <sys:String x:Key="Str_Ctx_GraphCopy">[[сілтеме]] етіп көшіру</sys:String>
+    <sys:String x:Key="Str_Graph_NodeAnnounce">{0}, сілтемелер: {1}</sys:String>
+    <sys:String x:Key="Str_Graph_GhostAnnounce">{0}, әлі жазылмаған</sys:String>
     <sys:String x:Key="Str_Graph_Legend">Толтырылған = жазба, түсі тобы бойынша.   Контурлы = сілтелген, бірақ әлі жазылмаған.   Реттеу үшін сүйреңіз, параметрлер үшін оң жақ батырманы басыңыз.</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrange">Реттеу</sys:String>
     <sys:String x:Key="Str_Ctx_GraphArrangeForce">Байланыс бойынша</sys:String>
