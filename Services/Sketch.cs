@@ -156,6 +156,15 @@ namespace KillerNotes.Services
         {
             if (!Equals(image.ToolTip, marker)) image.ToolTip = marker;
             System.Windows.Controls.ToolTipService.SetIsEnabled(image, false);
+            // Accessibility tools fall back to a string ToolTip for help text, which would read the
+            // hash aloud. An explicit name and help text take precedence. Re-applied on every load,
+            // because the note format does not keep automation properties.
+            Attachments.TryParseMarker(marker, out var kind, out _);
+            string name = kind == AttachmentKind.Recording
+                ? System.Windows.Application.Current?.TryFindResource("Str_Dict_Chip") as string ?? "Recording"
+                : System.Windows.Application.Current?.TryFindResource("Str_Sketch_Title") as string ?? "SketchPad";
+            System.Windows.Automation.AutomationProperties.SetName(image, name);
+            System.Windows.Automation.AutomationProperties.SetHelpText(image, name);
         }
 
         public static byte[] StrokesToIsf(StrokeCollection strokes)

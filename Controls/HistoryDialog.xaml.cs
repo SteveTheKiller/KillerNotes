@@ -107,6 +107,10 @@ namespace KillerNotes.Controls
                 }
                 // Saved colors are the theme's at save time; show the version in today's.
                 Shell.MainWindow.NormalizeThemeColors(doc);
+                // Sketch and recording pictures carry a storage marker; give them their readable
+                // names so a screen reader never reads the marker (Services/Sketch.cs).
+                foreach (var image in Services.Sketch.Images(doc.Blocks))
+                    if (Attachments.TryParseMarker(image.ToolTip, out _, out _)) Services.Sketch.MarkImage(image, (string)image.ToolTip);
             }
             catch
             {
