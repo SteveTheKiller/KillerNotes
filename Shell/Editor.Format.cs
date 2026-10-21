@@ -165,7 +165,7 @@ namespace KillerNotes.Shell
 
         private void ApplyToSelection(DependencyProperty prop, object? value, bool focusEditor = true)
         {
-            if (_currentId < 0) return;
+            if (!CanEditCurrentNote()) return;
             Editor.Selection.ApplyPropertyValue(prop, value);
             MarkDirty();
             if (focusEditor) Editor.Focus();
@@ -177,7 +177,7 @@ namespace KillerNotes.Shell
         // theme-reactive references.
         private void InsertRule_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentId < 0) return;
+            if (!CanEditCurrentNote()) return;
             var hr = new Paragraph
             {
                 FontSize = 2,

@@ -105,7 +105,8 @@ namespace KillerNotes.Shell
             // one note's sketch appearing inside an unrelated note (2026-08-08). A session prints
             // only into the note it was opened from.
             if (_sketchSession?.CanPrint(_currentId) != true) { StatusText.Text = Loc("Str_St_SketchWrongNote"); return; }
-            if (_currentInTrash || (_sketchEditTarget != null && !ImageInDocument(_sketchEditTarget)))
+            if (!CanEditCurrentNote()) return;
+            if (_sketchEditTarget != null && !ImageInDocument(_sketchEditTarget))
             { StatusText.Text = Loc("Str_St_SketchWrongNote"); return; }
             if (objects.Count == 0) { StatusText.Text = Loc("Str_St_SketchEmpty"); return; }
             // A markdown note stores text, so the flattened image would be lost at the next save

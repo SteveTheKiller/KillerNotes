@@ -37,6 +37,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - A password change that fails while writing the new copy can be retried right away.
 - Imported notes show their links, backlinks and graph edges right away, and notes imported earlier are indexed on the next open.
 - Search and wikilinks ignore case in every language, so "café" finds "CAFÉ" and Greek or Cyrillic titles link regardless of case.
+- Formatting shortcuts, inserts and dictation no longer change notes in the Trash or in a database open read-only, and say why.
 
 ### Added
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.

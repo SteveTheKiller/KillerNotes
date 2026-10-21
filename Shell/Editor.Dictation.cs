@@ -158,7 +158,7 @@ namespace KillerNotes.Shell
         /// special object.</summary>
         private void PrintDictationToNote(string text)
         {
-            if (_currentId < 0) return;
+            if (!CanEditCurrentNote()) return;
             var caret = Editor.CaretPosition ?? Editor.Document.ContentEnd;
             caret.InsertTextInRun(text);
             // Leave the caret after what was just inserted, so a second print appends rather than
@@ -202,7 +202,7 @@ namespace KillerNotes.Shell
                 return;
             }
 
-            if (_currentId < 0) return;
+            if (!CanEditCurrentNote()) return;
             // Markdown notes store text, so the chip would be lost at the next save (Markdown.cs).
             // Transcribing to text is unaffected.
             if (RejectsObject()) return;

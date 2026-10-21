@@ -40,5 +40,57 @@ namespace KillerNotes.Tests
             }
             finally { flag.GetSetMethod(nonPublic: true)!.Invoke(null, new object[] { before }); }
         });
+
+        /// <summary>The custom mutations behind Ctrl+Shift shortcuts, menus and companion
+        /// windows, which bypass the RichTextBox's own read-only handling. Run once for a note
+        /// in the Trash and once for a database another process holds for writing.</summary>
+        [Theory]
+        [InlineData("Strike_Click", true)]
+        [InlineData("Mono_Click", true)]
+        [InlineData("InsertRule_Click", true)]
+        [InlineData("ConvertSelectionToList", true)]
+        [InlineData("InsertTable", true)]
+        [InlineData("PrintDictationToNote", true)]
+        [InlineData("MarkDirty", true)]
+        [InlineData("Strike_Click", false)]
+        [InlineData("Mono_Click", false)]
+        [InlineData("InsertRule_Click", false)]
+        [InlineData("ConvertSelectionToList", false)]
+        [InlineData("InsertTable", false)]
+        [InlineData("PrintDictationToNote", false)]
+        [InlineData("MarkDirty", false)]
+        public void CustomMutationsLeaveAReadOnlyNoteAlone(string command, bool trash) => Sta.Run(() =>
+        {
+            var flag = typeof(NoteStore).GetProperty(nameof(NoteStore.IsReadOnly))!;
+            bool before = NoteStore.IsReadOnly;
+            try
+            {
+                if (!trash) flag.GetSetMethod(nonPublic: true)!.Invoke(null, new object[] { true });
+                const BindingFlags fields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+                var window = (MainWindow)FormatterServices.GetUninitializedObject(typeof(MainWindow));
+                typeof(MainWindow).GetField("_currentId", fields)!.SetValue(window, 1L);
+                typeof(MainWindow).GetField("_currentInTrash", fields)!.SetValue(window, trash);
+                typeof(MainWindow).GetField("_saveTimer", fields)!.SetValue(window, new System.Windows.Threading.DispatcherTimer());
+                typeof(MainWindow).GetField("_syntaxTimer", fields)!.SetValue(window, new System.Windows.Threading.DispatcherTimer());
+                typeof(MainWindow).GetField("StatusText", fields)!.SetValue(window, new TextBlock());
+                var editor = new RichTextBox(new FlowDocument(new Paragraph(new Run("line one")))) { IsReadOnly = true };
+                editor.SelectAll();
+                typeof(MainWindow).GetField("Editor", fields)!.SetValue(window, editor);
+                string xaml = System.Windows.Markup.XamlWriter.Save(editor.Document);
+
+                object[] args = command switch
+                {
+                    "InsertTable" => new object[] { 2, 2 },
+                    "PrintDictationToNote" => new object[] { "dictated" },
+                    "ConvertSelectionToList" or "MarkDirty" => Array.Empty<object>(),
+                    _ => new object[] { window, new System.Windows.RoutedEventArgs() },
+                };
+                typeof(MainWindow).GetMethod(command, fields)!.Invoke(window, args);
+
+                Assert.Equal(xaml, System.Windows.Markup.XamlWriter.Save(editor.Document));
+                Assert.False((bool)typeof(MainWindow).GetField("_dirty", fields)!.GetValue(window)!);
+            }
+            finally { flag.GetSetMethod(nonPublic: true)!.Invoke(null, new object[] { before }); }
+        });
     }
 }

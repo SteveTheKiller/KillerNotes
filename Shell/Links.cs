@@ -61,7 +61,7 @@ namespace KillerNotes.Shell
 
         private void LinkShortcut()
         {
-            if (_currentId < 0) return;
+            if (!CanEditCurrentNote()) return;
             var existing = FindLink(Editor.Selection.Start) ?? FindLink(Editor.Selection.End);
             string initial = existing?.NavigateUri?.OriginalString ?? GuessClipboardUrl();
 

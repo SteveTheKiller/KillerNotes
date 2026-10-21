@@ -314,10 +314,24 @@ namespace KillerNotes.Shell
             return true;
         }
 
+        /// <summary>Whether the open note may be changed: not in the Trash, and its database not
+        /// held read-only by another writer. Every custom editor mutation asks this first, because
+        /// they edit the document directly and the RichTextBox's own read-only flag only stops
+        /// typing and the built-in commands.</summary>
+        private bool CanEditCurrentNote(bool explain = true)
+        {
+            if (_currentId < 0) return false;
+            if (!_currentInTrash && !NoteStore.IsReadOnly) return true;
+            if (explain)
+                StatusText.Text = _currentInTrash ? Loc("Str_St_InTrash") : string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner);
+            return false;
+        }
+
         private void MarkDirty()
         {
-            // A trashed note is read-only (Trash.cs): nothing done to it on screen may reach the save.
-            if (_loadingNote || _applyingSyntax || _currentId < 0 || _currentInTrash) return;
+            // A trashed note or a read-only database: nothing done on screen may reach the save,
+            // and a dirty flag that can never save would also block switching notes.
+            if (_loadingNote || _applyingSyntax || _currentId < 0 || _currentInTrash || NoteStore.IsReadOnly) return;
             _dirty = true;
             _lastActionWasOrg = false;   // a text edit is now the most recent undoable thing (ActionUndo.cs)
             _saveTimer.Stop();
