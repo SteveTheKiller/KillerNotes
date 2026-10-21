@@ -41,33 +41,22 @@ namespace KillerNotes.Services
                     "KillerNotes", "native", version);
                 string target = Path.Combine(nativeDir, "e_sqlcipher.dll");
 
-                try
+                // Checked against the embedded copy by hash and replaced if it differs
+                // (NativeCache), then loaded; a load that fails is an error here, not a
+                // half-ready state that breaks the first database open later.
+                using (var src = asm.GetManifestResourceStream(ResourceName)
+                    ?? throw new InvalidOperationException("The embedded SQLCipher native library is missing."))
+                using (var embedded = new MemoryStream())
                 {
-                    Directory.CreateDirectory(nativeDir);
-                    using var src = asm.GetManifestResourceStream(ResourceName);
-                    if (src != null &&
-                        (!File.Exists(target) || new FileInfo(target).Length != src.Length))
-                    {
-                        // Write to a temp name then swap, so a crash mid-extract never leaves a
-                        // half-written dll behind for the next launch to load.
-                        string tmp = target + ".tmp";
-                        using (var dst = File.Create(tmp))
-                            src.CopyTo(dst);
-                        if (File.Exists(target)) File.Delete(target);
-                        File.Move(tmp, target);
-                    }
+                    src.CopyTo(embedded);
+                    NativeCache.PublishVerified(target, embedded.ToArray());
                 }
-                catch (IOException)
-                {
-                    // Another instance may be mid-extract or holding the dll; if the file exists
-                    // in any complete form the preload below still works.
-                }
-
-                if (File.Exists(target))
-                {
-                    SetDllDirectory(nativeDir);
-                    LoadLibrary(target);
-                }
+                if (!SetDllDirectory(nativeDir))
+                    throw new System.ComponentModel.Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error(),
+                        "Could not set the SQLCipher native library path.");
+                if (LoadLibrary(target) == IntPtr.Zero)
+                    throw new System.ComponentModel.Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error(),
+                        "Could not load the SQLCipher native library: " + target);
 
                 _ready = true;
             }

@@ -115,23 +115,16 @@ namespace KillerNotes.Services
             bool embedded = false;
             try
             {
-                Directory.CreateDirectory(_dir);
                 using var src = typeof(AudioNativeBootstrap).Assembly.GetManifestResourceStream(resource);
                 embedded = src != null;
-                if (src != null && (!File.Exists(target) || new FileInfo(target).Length != src.Length))
+                if (src != null)
                 {
-                    // Temp name then swap, so a crash mid-extract never leaves a half-written
-                    // dll for the next launch to load.
-                    string tmp = target + ".tmp";
-                    using (var dst = File.Create(tmp)) src.CopyTo(dst);
-                    if (File.Exists(target)) File.Delete(target);
-                    File.Move(tmp, target);
+                    // Checked against the embedded copy by hash and replaced if it differs, not
+                    // trusted because its size matches (NativeCache).
+                    using var bytes = new MemoryStream();
+                    src.CopyTo(bytes);
+                    NativeCache.PublishVerified(target, bytes.ToArray());
                 }
-            }
-            catch (IOException)
-            {
-                // Another instance may be mid-extract or holding the dll. If a complete copy exists
-                // the preload below still works.
             }
             catch (Exception ex) { _why[dll] = "extract failed: " + ex.Message; return false; }
 
