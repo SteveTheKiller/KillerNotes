@@ -346,6 +346,7 @@ namespace KillerNotes.Controls.Sketch
             var killer = new Run("Killer");
             var notes = new Run("Notes") { FontSize = 19.5, FontWeight = FontWeights.Bold };
             var sub = new Run("  " + L("Str_Sketch_Title", "SketchPad")) { FontSize = 18 };
+            sub.SetResourceReference(TextElement.FontFamilyProperty, "UiFont");
             if (flat != null) { killer.Foreground = flat; notes.Foreground = flat; sub.Foreground = flat; }
             else
             {

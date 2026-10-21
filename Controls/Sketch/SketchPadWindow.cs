@@ -116,6 +116,7 @@ namespace KillerNotes.Controls.Sketch
         {
             _print = print;
             Title = "KillerNotes - " + L("Str_Sketch_Title", "SketchPad");
+            SetResourceReference(FontFamilyProperty, "UiFont");
             WindowStyle = WindowStyle.None;
             AllowsTransparency = true;                 // rounded card + shadow halo need a transparent window
             ResizeMode = ResizeMode.CanResize;

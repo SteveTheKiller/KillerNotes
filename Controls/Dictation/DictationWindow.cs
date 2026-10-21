@@ -75,6 +75,7 @@ namespace KillerNotes.Controls.Dictation
             _embedAudio = embedAudio;
 
             Title = "KillerNotes - " + L("Str_Dict_Title", "Dictation");
+            SetResourceReference(FontFamilyProperty, "UiFont");
             WindowStyle = WindowStyle.None;
             AllowsTransparency = true;
             ResizeMode = ResizeMode.CanResize;
@@ -338,7 +339,7 @@ namespace KillerNotes.Controls.Dictation
             _transcribeBtn.Click += (_, _) => Transcribe();
             row.Children.Add(_transcribeBtn);
 
-            _elapsed = new TextBlock { Text = "0:00", FontFamily = new FontFamily("Consolas"), FontSize = 14,
+            _elapsed = new TextBlock { Text = "0:00", FontSize = 14,
                                        VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(12, 0, 0, 0) };
             _elapsed.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
             row.Children.Add(_elapsed);

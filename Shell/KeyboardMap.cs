@@ -26,7 +26,6 @@ namespace KillerNotes.Shell
         private string? _kbHoverId;
         private readonly Dictionary<string, (Border Cap, TextBlock Act, Rectangle Bar)> _kbKeys = [];
         private readonly Dictionary<KbLayer, Button> _kbLayerBtns = [];
-        private static readonly FontFamily KbMono = new("Consolas");
 
         private const string KsViewSetting = "ShortcutView";   // "list" (default) | "keyboard"
 
@@ -143,11 +142,12 @@ namespace KillerNotes.Shell
             {
                 var b = new Button
                 {
-                    Content = caption, FontFamily = KbMono, FontSize = 11,
+                    Content = caption, FontSize = 11,
                     Padding = new Thickness(10, 4, 10, 4), Margin = new Thickness(0, 0, 8, 0),
                     BorderThickness = new Thickness(1), Cursor = Cursors.Hand,
                     FocusVisualStyle = null, Template = KbButtonTemplate(),
                 };
+                b.SetResourceReference(FontFamilyProperty, "UiFont");
                 b.SetResourceReference(BackgroundProperty, "PaneBrush");
                 b.SetResourceReference(ForegroundProperty, "MutedTextBrush");
                 b.SetResourceReference(BorderBrushProperty, "CardBorderBrush");
@@ -176,10 +176,11 @@ namespace KillerNotes.Shell
                     if (id.Length == 0) { r.Children.Add(new Border { Width = U * w }); continue; }
                     var capText = new TextBlock
                     {
-                        Text = cap, FontFamily = KbMono,   // symbols render via font fallback
+                        Text = cap,
                         FontSize = 11, HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 5, 0, 0),
                     };
+                    capText.SetResourceReference(TextBlock.FontFamilyProperty, "UiFont");
                     capText.SetResourceReference(TextBlock.ForegroundProperty, "TextBrush");
                     var act = new TextBlock
                     {
@@ -243,7 +244,7 @@ namespace KillerNotes.Shell
 
             _kbDetail = new TextBlock
             {
-                Text = " ", FontFamily = KbMono, FontSize = 12.5,
+                Text = " ", FontSize = 12.5,
                 Margin = new Thickness(2, 10, 0, 0), Height = 18,
             };
             _kbDetail.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryBrush");

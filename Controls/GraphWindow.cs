@@ -203,6 +203,7 @@ namespace KillerNotes.Controls
             _focusId = focusId;
             _groupFilter = groupFilter;
             Title = title;
+            SetResourceReference(FontFamilyProperty, "UiFont");
             Width = 1040; Height = 740;
             MinWidth = 520; MinHeight = 420;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
