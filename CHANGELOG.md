@@ -55,6 +55,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The About card's options sit in two columns, app options on the left and tray and Quick note on the right, with the two lock options underneath and even spacing between rows. The card's content sits 8px from its left and right edges instead of 18px.
 - Updated SQLCipher to 4.19.0, FLAC to 1.5.0, Whisper to 1.9.5, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
 - The About, Fonts and Keyboard Shortcuts cards' edges, and the Shortcuts list's top rule, follow gradient themes instead of one solid border color. Film grain has crisper specks. Black shows only its bright specks at half the strength and Dark's grain is slightly lighter, so menus, panes and the background stay distinct. The larger Lacquer + NEW label fills its button, sits higher, and shrinks slightly before becoming a large plus sign on narrow sidebars.
+- Light is gray around a white page: the background, sidebar and footer are a slightly darker gray, and the note pane is white.
 - The caption buttons are 1px shorter than the title bar, so the red Close hover no longer touches the edge below it.
 - Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
 
