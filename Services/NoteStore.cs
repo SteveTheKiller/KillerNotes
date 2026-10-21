@@ -2260,11 +2260,20 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         // A .knote is just a KillerNotes database containing one note, optionally
         // SQLCipher-encrypted with a share password - the same engine opens both.
 
-        /// <summary>Writes a single note to destPath as a .knote (overwrites).</summary>
+        /// <summary>Writes a single note to destPath as a .knote. An existing file there is replaced
+        /// only once the new one is complete (AtomicFile), so a failed export keeps it.</summary>
         public static void ExportNote(long id, string destPath, string? password)
         {
-            if (File.Exists(destPath)) File.Delete(destPath);
-            var csb = new SqliteConnectionStringBuilder { DataSource = destPath };
+            if (_db == null) throw new InvalidOperationException("database not open");
+            if (string.Equals(Path.GetFullPath(destPath), Path.GetFullPath(DbPath), StringComparison.OrdinalIgnoreCase))
+                throw new IOException("A note cannot be exported over the open database.");
+            if (GetNote(id) == null) throw new InvalidOperationException("note not found");
+            AtomicFile.Write(destPath, staged => WriteKnote(id, staged, password));
+        }
+
+        private static void WriteKnote(long id, string destPath, string? password)
+        {
+            var csb = new SqliteConnectionStringBuilder { DataSource = destPath, Pooling = false };
             if (!string.IsNullOrEmpty(password)) csb.Password = password;
             try
             {

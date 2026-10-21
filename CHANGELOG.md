@@ -33,6 +33,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Sketches keep their own editable drawing when other images are added or removed, and restoring a version brings back the drawings it was saved with.
 - Embedded recordings keep their playback chip after saving, restoring a version plays the take it was saved with, and recordings lost by earlier versions reappear at the end of their note.
 - Copying or cutting sketches and recordings keeps them editable and playable when pasted into any note or database.
+- A failed export leaves the file already at that name untouched instead of a partial copy.
 
 ### Added
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.
