@@ -25,6 +25,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The editor's dotted keyboard focus outline sits above the first text row.
 - Sidebar fades stop at scroll limits and stay off in 98SE; shortcut and font cards show overflow and keep scrollbars clear of Close.
 - Menus, search, buttons, SketchPad, Dictation and shortcut labels use embedded Killer Sans. The footer copyright sits further from the corner grip.
+- Pasting HTML with a cut-off script or style tag no longer freezes the app.
 
 ### Added
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.

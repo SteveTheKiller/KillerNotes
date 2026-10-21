@@ -252,7 +252,7 @@ namespace KillerNotes.Shell
         /// links, bold/italic/underline, and line/paragraph breaks; every other tag is
         /// dropped and its text kept. Deliberately not a general HTML engine - the
         /// preview pane owns real HTML rendering.</summary>
-        private static List<Inline> HtmlFragmentToInlines(string html)
+        internal static List<Inline> HtmlFragmentToInlines(string html)
         {
             var result = new List<Inline>();
             var text = new StringBuilder();
@@ -315,7 +315,10 @@ namespace KillerNotes.Shell
                 {
                     case "script" or "style" when !closing:
                         int endTag = html.IndexOf("</" + name, i, StringComparison.OrdinalIgnoreCase);
-                        i = endTag < 0 ? html.Length : html.IndexOf('>', endTag) + 1;
+                        // A close tag cut off before its '>' ends the fragment; IndexOf's -1 + 1
+                        // would restart the scan at 0 and never finish.
+                        int endGt = endTag < 0 ? -1 : html.IndexOf('>', endTag);
+                        i = endGt < 0 ? html.Length : endGt + 1;
                         break;
                     case "a" when !closing:
                         FlushText();
