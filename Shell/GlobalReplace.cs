@@ -62,9 +62,10 @@ namespace KillerNotes.Shell
             foreach (var element in new FrameworkElement[] { TitleSearchFlyout, SidebarReplaceRow })
             {
                 double current = element.Opacity;
-                element.Opacity = open ? 1 : 0;
-                var fade = new System.Windows.Media.Animation.DoubleAnimation(current, element.Opacity, duration)
-                    { EasingFunction = easing };
+                double target = open ? 1 : 0;
+                element.Opacity = target;
+                var fade = new System.Windows.Media.Animation.DoubleAnimation(current, target, duration)
+                    { EasingFunction = easing, FillBehavior = System.Windows.Media.Animation.FillBehavior.Stop };
                 if (!open) fade.Completed += (_, _) =>
                 {
                     if (version == _sidebarReplaceAnimationVersion && !_sidebarReplaceOpen)
