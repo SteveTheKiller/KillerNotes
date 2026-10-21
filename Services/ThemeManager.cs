@@ -30,8 +30,8 @@ namespace KillerNotes.Services
     /// </summary>
     public static class ThemeManager
     {
-        /// <summary>Killer Sans UI (Killer Sans scaled to Segoe UI proportions) with the Segoe fallback stack.</summary>
-        internal static readonly FontFamily KillerSansUiStack = new(new Uri("pack://application:,,,/"), "./Fonts/#Killer Sans UI, Segoe UI, Microsoft JhengHei UI, Nirmala UI");
+        /// <summary>Embedded Killer Sans with fallback faces for additional scripts.</summary>
+        internal static readonly FontFamily KillerSansUiStack = new(new Uri("pack://application:,,,/KillerNotes;component/"), "./Fonts/#Killer Sans UI, Segoe UI, Microsoft JhengHei UI, Nirmala UI");
         internal static readonly FontFamily LacquerHeadingStack = new(new Uri("pack://application:,,,/"), "./Fonts/#Lacquer, ./Fonts/#Killer Sans UI, Segoe UI, Microsoft JhengHei UI, Nirmala UI");
         internal static readonly FontFamily KillerSansFont = new(new Uri("pack://application:,,,/"), "./Fonts/#Killer Sans");
         // ---- Persistence hooks (optional). Default: in-memory only. ----
@@ -298,10 +298,10 @@ namespace KillerNotes.Services
             // The caption's own font. MS Sans Serif is the real Win98 UI face and still ships with
             // Windows; Tahoma is the fallback if it ever stops resolving.
             SetIfAbsent(newDict, "ChromeFontFamily", KillerSansUiStack);
-            // The UI face: Killer Sans UI over the Segoe stack, except a flat caption theme, which keeps
+            // The UI face: embedded Killer Sans over the Segoe stack, except a flat caption theme, which keeps
             // its classic caption font throughout.
             SetIfAbsent(newDict, "UiFont", flatCaption ? newDict["ChromeFontFamily"] : KillerSansUiStack);
-            // Context menus, as in every family app: Killer Sans UI at 12. 98SE states its own face and size.
+            // Context menus use embedded Killer Sans. Classic captions retain their declared face and size.
             SetIfAbsent(newDict, "MenuFontFamily", KillerSansUiStack);
             SetIfAbsent(newDict, "MenuFontSize", 12.0);
             // The sidebar slot: Killer Sans UI, the family UI face (hinted, Segoe UI line metrics),
@@ -460,9 +460,10 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "TitleLogoMargin", flatCaption ? newDict["TitleBarPadding"] : new Thickness(4, 3, 0, 0));
             // A dialog caption's wordmark sits 6px in from the card edge, as in KillerPDF.
             SetIfAbsent(newDict, "DialogTitleMargin", flatCaption ? newDict["TitleBarPadding"] : new Thickness(6, 0, 0, 0));
-            // The titlebar database name sits on the wordmark baseline: Killer Sans, dropped 1px to meet the
-            // bottom of "Killer". A flat caption keeps the caption font beside its plain title.
-            SetIfAbsent(newDict, "FileNameFont", flatCaption ? newDict["ChromeFontFamily"] : KillerSansFont);
+            // Match PDF's filename face and size. Keep the text's visible bottom aligned with
+            // the database icon; a downward translation puts it below the icon.
+            SetIfAbsent(newDict, "FileNameFont", flatCaption ? newDict["ChromeFontFamily"] :
+                new FontFamily(new Uri("pack://application:,,,/KillerNotes;component/"), "./Fonts/#Killer Sans"));
             // Primary headings (dialog headings, page and period titles): Lacquer, the app-name face of
             // the wordmark, falling back to Killer Sans UI for scripts Lacquer does not cover. 98SE keeps
             // Killer Sans. Secondary headings, the footer and the interface stay Killer Sans.
@@ -470,7 +471,7 @@ namespace KillerNotes.Services
             SetIfAbsent(newDict, "FileNameFontSize", flatCaption ? 11.0 : 18.0);
             if (!newDict.Contains("FileNameTransform"))
             {
-                var fileNameShift = new TranslateTransform(0, flatCaption ? 0 : 1);
+                var fileNameShift = new TranslateTransform(0, 0);
                 fileNameShift.Freeze();
                 newDict["FileNameTransform"] = fileNameShift;
             }
