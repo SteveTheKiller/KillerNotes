@@ -86,6 +86,40 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
+        public void NeutralGrainIncludesDistinctDarkAndBrightSpecks() => Sta.Run(() =>
+        {
+            var pixels = Pixels(GrainTexture.Generate(null));
+            int dark = 0, bright = 0, total = pixels.Length / 4;
+            for (int i = 0; i < pixels.Length; i += 4)
+            {
+                if (pixels[i] <= 16) dark++;
+                if (pixels[i] >= 239) bright++;
+            }
+            Assert.True(dark >= total * 0.20, $"Dark specks: {dark * 100.0 / total:F1}%");
+            Assert.True(bright >= total * 0.20, $"Bright specks: {bright * 100.0 / total:F1}%");
+        });
+
+        [Fact]
+        public void HighlightGrainPreservesSparkleWithoutGrayHaze() => Sta.Run(() =>
+        {
+            var normal = Pixels(GrainTexture.Generate(null));
+            var highlights = Pixels(GrainTexture.Generate(null, highlightsOnly: true));
+            double normalLight = 0, highlightLight = 0;
+            int normalPeak = 0, highlightPeak = 0;
+            for (int i = 0; i < normal.Length; i += 4)
+            {
+                int before = normal[i] * normal[i + 3];
+                int after = highlights[i] * highlights[i + 3];
+                normalLight += before;
+                highlightLight += after;
+                normalPeak = Math.Max(normalPeak, before);
+                highlightPeak = Math.Max(highlightPeak, after);
+            }
+            Assert.Equal(normalPeak, highlightPeak);
+            Assert.True(highlightLight < normalLight * 0.65, $"Highlight grain adds {highlightLight / normalLight:P1} of the prior light while retaining its peak sparkle.");
+        });
+
+        [Fact]
         public void LeaningGrainTintsSomeSpecksAndIsDeterministic() => Sta.Run(() =>
         {
             var lean = Color.FromRgb(0xba, 0x61, 0xd8);
