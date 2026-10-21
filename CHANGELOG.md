@@ -79,6 +79,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
 - The larger Lacquer + NEW label fills its button, sits higher, and shrinks slightly before becoming a large plus sign on narrow sidebars.
 - Film grain has crisper specks and fades midtones across app and website themes without dimming bright highlights.
+- The About, Fonts and Keyboard Shortcuts cards' edges, and the Shortcuts list's top rule, follow gradient themes instead of one solid border color.
 
 ## [1.5.1] - 2026-10-19
 

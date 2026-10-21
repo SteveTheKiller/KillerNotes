@@ -9,6 +9,9 @@
         </Style>
         <!-- KillerShell's vertical edge cues, with body spacing inside the viewport. -->
         <Style x:Key="OverlayScrollViewer" TargetType="ScrollViewer">
+            <!-- The viewer draws no border of its own; BorderBrush is the top cue's 1px rule, so a
+                 host on a gradient surface can give the rule a gradient (the Shortcuts card). -->
+            <Setter Property="BorderBrush" Value="{DynamicResource PaneBorderBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ScrollViewer">
@@ -20,7 +23,7 @@
                             <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Margin="{TemplateBinding Padding}"
                                                     CanContentScroll="{TemplateBinding CanContentScroll}"/>
                             <Border Grid.ColumnSpan="2" Height="24" VerticalAlignment="Top" IsHitTestVisible="False"
-                                    Opacity="{DynamicResource EdgeFadeOpacity}" BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="0,1,0,0">
+                                    Opacity="{DynamicResource EdgeFadeOpacity}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,1,0,0">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                         <GradientStop Color="#50000000" Offset="0"/>

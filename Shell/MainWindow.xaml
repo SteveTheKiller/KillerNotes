@@ -2838,7 +2838,7 @@
                         <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
                 </Border>
-                <Border Background="{DynamicResource OverlayWindowBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                <Border Background="{DynamicResource OverlayWindowBrush}" BorderBrush="{DynamicResource OverlayEdgeBrush}"
                         BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -3090,7 +3090,7 @@
                         <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
                 </Border>
-                <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource OverlayEdgeBrush}"
                         BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -3214,7 +3214,7 @@
                         <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
                 </Border>
-                <Border Background="{DynamicResource OverlayWindowBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                <Border Background="{DynamicResource OverlayWindowBrush}" BorderBrush="{DynamicResource OverlayEdgeBrush}"
                         BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
                         <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
@@ -3229,6 +3229,7 @@
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
                         <ScrollViewer x:Name="ShortcutScroller" VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Disabled" Style="{StaticResource OverlayScrollViewer}"
+                                      BorderBrush="{DynamicResource OverlayRuleBrush}"
                                       CanContentScroll="False" PanningMode="VerticalOnly" Focusable="False"
                                       PreviewMouseWheel="ShortcutScroller_PreviewMouseWheel">
                             <ScrollViewer.Resources>
