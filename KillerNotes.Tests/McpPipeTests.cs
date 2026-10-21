@@ -25,7 +25,7 @@ namespace KillerNotes.Tests
                         pipes.Add(pipe);
                         await pipe.WaitForConnectionAsync(stop.Token);
                         bool written = App.WriteMcpResponse(pipe, i == 0 ? new byte[8 * 1024 * 1024] : new byte[] { 42 },
-                            i == 0 ? System.TimeSpan.FromMilliseconds(300) : System.TimeSpan.FromSeconds(3));
+                            i == 0 ? System.TimeSpan.FromMilliseconds(300) : System.TimeSpan.FromSeconds(10));
                         if (i == 0) dropped = !written;
                         else return dropped && written;
                     }
@@ -40,8 +40,10 @@ namespace KillerNotes.Tests
                 System.IO.Pipes.PipeOptions.Asynchronous);
             try
             {
-                stalled.Connect(3000);
-                next.Connect(3000);
+                // Generous outer limits: they only prove nothing hangs, and a full parallel test run
+                // can starve this test for seconds. The 300 ms stall deadline above is the one under test.
+                stalled.Connect(10000);
+                next.Connect(10000);
                 byte[] response = new byte[5];
                 async System.Threading.Tasks.Task<int> ReadReply()
                 {
@@ -55,10 +57,10 @@ namespace KillerNotes.Tests
                     return count;
                 }
                 var read = ReadReply();
-                Assert.Same(read, await System.Threading.Tasks.Task.WhenAny(read, System.Threading.Tasks.Task.Delay(3000)));
+                Assert.Same(read, await System.Threading.Tasks.Task.WhenAny(read, System.Threading.Tasks.Task.Delay(10000)));
                 Assert.Equal(5, await read);
                 Assert.Equal(new byte[] { 1, 0, 0, 0, 42 }, response);
-                Assert.Same(server, await System.Threading.Tasks.Task.WhenAny(server, System.Threading.Tasks.Task.Delay(3000)));
+                Assert.Same(server, await System.Threading.Tasks.Task.WhenAny(server, System.Threading.Tasks.Task.Delay(10000)));
                 Assert.True(await server);
             }
             finally
