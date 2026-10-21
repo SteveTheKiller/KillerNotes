@@ -86,10 +86,9 @@ namespace KillerNotes.Tests.Perf
                 string vault = Path.Combine(outDir, "vault-" + size);
                 Measure(results, "vault export", 1, () =>
                 {
-                    Directory.CreateDirectory(vault);
-                    var shell = (MainWindow)FormatterServices.GetUninitializedObject(typeof(MainWindow));
-                    typeof(MainWindow).GetMethod("ExportVaultTo", BindingFlags.Instance | BindingFlags.NonPublic)!
-                        .Invoke(shell, new object[] { vault, NoteStore.List() });
+                    using var source = NoteStore.OpenVaultSource();
+                    VaultExporter.Export(vault, NoteStore.List(), source, VaultExportText.From(k => k), null,
+                        System.Threading.CancellationToken.None);
                 }, sta: true);
                 try { Directory.Delete(vault, true); } catch { }
             }

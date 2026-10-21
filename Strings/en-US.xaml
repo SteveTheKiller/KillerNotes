@@ -843,8 +843,6 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} notes will be written to {1}. Groups become subfolders. Nothing in the database changes.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Nothing to export - this database has no notes</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Exported {0} notes to {1}</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">Exported {0} notes to {1}. {2} notes could not carry every picture or recording; see export-report.md</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Notes with pictures or recordings that could not be exported (items per note)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Exported {0} notes to {2}, {1} failed</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Export failed: {0}</sys:String>
 
@@ -1057,4 +1055,20 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Bk_TestBadAttachments">{0} of {1} attachments are damaged</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">Test restore of {0} passed: {1} notes and {2} attachments read back intact.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">The notepad has {0} notes and {1} attachments now.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">KillerNotes export report</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">All {0} notes were exported with nothing lost.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{0} of {1} notes lost something in the export:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">Not included: notes in the trash and earlier versions from note history.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">{0} pictures or recordings could not be written</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">could not be written ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">Check of the written files</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Every note, link and attached file was read back without a problem.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} links point at notes that do not exist, the same as in KillerNotes, and are left as written.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">An export is already running.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">This notepad has a password, but the exported files will not. Anyone who can open the folder can read them.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">Exporting {0} of {1} notes...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Export canceled. Nothing was left behind.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Canceling the export...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">Exported {0} notes to {1}, but the check found {2} problems. See export-report.md.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">Exported {0} notes to {1}. {2} lost something in the export; see export-report.md.</sys:String>
 </ResourceDictionary>

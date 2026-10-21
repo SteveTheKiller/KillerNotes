@@ -767,8 +767,6 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} Notizen werden nach {1} geschrieben. Gruppen werden zu Unterordnern. An der Datenbank ändert sich nichts.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Nichts zu exportieren - diese Datenbank enthält keine Notizen</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} Notizen nach {1} exportiert</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">{0} Notizen nach {1} exportiert. Bei {2} Notizen konnten nicht alle Bilder oder Aufnahmen übernommen werden; siehe export-report.md</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Notizen mit Bildern oder Aufnahmen, die nicht exportiert werden konnten (Anzahl je Notiz)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} Notizen nach {2} exportiert, {1} fehlgeschlagen</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Export fehlgeschlagen: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
@@ -1010,4 +1008,20 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Bk_TestBadAttachments">{0} von {1} Anhängen sind beschädigt</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">Test-Wiederherstellung von {0} bestanden: {1} Notizen und {2} Anhänge unversehrt zurückgelesen.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">Der Notizblock hat jetzt {0} Notizen und {1} Anhänge.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">KillerNotes-Exportbericht</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">Alle {0} Notizen wurden ohne Verluste exportiert.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{0} von {1} Notizen haben beim Export etwas verloren:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">Nicht enthalten: Notizen im Papierkorb und frühere Versionen aus dem Verlauf.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">{0} Bilder oder Aufnahmen konnten nicht geschrieben werden</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">konnte nicht geschrieben werden ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">Prüfung der geschriebenen Dateien</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Jede Notiz, jeder Link und jede angehängte Datei wurde fehlerfrei zurückgelesen.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} Links verweisen auf Notizen, die es nicht gibt, genau wie in KillerNotes, und bleiben wie geschrieben.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">Ein Export läuft bereits.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">Dieser Notizblock hat ein Passwort, die exportierten Dateien aber nicht. Wer den Ordner öffnen kann, kann sie lesen.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">Exportiere {0} von {1} Notizen...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Export abgebrochen. Es wurde nichts zurückgelassen.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Export wird abgebrochen...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">{0} Notizen nach {1} exportiert, aber die Prüfung hat {2} Probleme gefunden. Siehe export-report.md.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">{0} Notizen nach {1} exportiert. {2} haben beim Export etwas verloren; siehe export-report.md.</sys:String>
 </ResourceDictionary>

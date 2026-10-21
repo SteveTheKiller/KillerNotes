@@ -802,8 +802,6 @@
     <sys:String x:Key="Str_Dlg_VaultBody">{0} жазба {1} ішіне жазылады. Топтар ішкі қалталарға айналады. Дерекқорда ештеңе өзгермейді.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Экспорттайтын ештеңе жоқ - бұл дерекқорда жазба жоқ</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} жазба {1} ішіне экспортталды</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">{0} жазба {1} ішіне экспортталды. {2} жазбаның барлық суреті не аудиожазбасы көшірілмеді; export-report.md қараңыз</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Суреттері не аудиожазбалары экспортталмаған жазбалар (әр жазбадағы саны)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} жазба {2} ішіне экспортталды, {1} сәтсіз</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Экспорттау сәтсіз аяқталды: {0}</sys:String>
 
@@ -1018,4 +1016,20 @@
     <sys:String x:Key="Str_Bk_TestBadAttachments">{1} тіркеменің {0} бүлінген</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">{0} қалпына келтіру тексерісі өтті: {1} жазба және {2} тіркеме бүтін оқылды.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">Кітапшада қазір {0} жазба және {1} тіркеме бар.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">KillerNotes экспорт есебі</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">Барлық {0} жазба еш нәрсе жоғалтпай экспортталды.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{1} жазбаның {0} экспорт кезінде бірдеңе жоғалтты:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">Кірмейді: себеттегі жазбалар және тарихтағы бұрынғы нұсқалар.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">{0} сурет не жазба жазылмады</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">жазылмады ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">Жазылған файлдарды тексеру</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Әр жазба, сілтеме және тіркеме қатесіз қайта оқылды.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} сілтеме жоқ жазбаларға апарады, KillerNotes-тегідей, сондықтан жазылғандай қалды.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">Экспорт әлдеқашан жүріп жатыр.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">Бұл кітапшаның құпиясөзі бар, бірақ экспортталған файлдарда жоқ. Қалтаны аша алатын кез келген адам оларды оқи алады.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">Экспорт: {1} жазбаның {0}...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Экспорт тоқтатылды. Ештеңе қалмады.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Экспорт тоқтатылуда...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">{0} жазба {1} ішіне экспортталды, бірақ тексеріс {2} мәселе тапты. export-report.md қараңыз.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">{0} жазба {1} ішіне экспортталды. {2} жазба бірдеңе жоғалтты; export-report.md қараңыз.</sys:String>
 </ResourceDictionary>

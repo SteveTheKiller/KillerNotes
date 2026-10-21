@@ -1,39 +1,30 @@
 // ═══════════════════════════════════════════════════════════
-//  VAULT EXPORT  -  the whole database as a folder of .md files
+//  VAULT EXPORT  -  the window's half of Services/VaultExporter.cs
 // ═══════════════════════════════════════════════════════════
 //
-// The anti-lock-in half of the markdown work (1.3.0). One-way and on demand: every note is
-// written out as a .md file, groups become nested subfolders, tags and timestamps ride in YAML
-// front matter. What comes out is a plain folder that git, Obsidian, or any text editor reads.
-//
-// Deliberately NOT a live two-way sync of a watched folder. Sync means conflict resolution,
-// file-watcher races, and partial writes from other editors, and it would put a plaintext copy
-// of an encrypted database on disk permanently, which contradicts the reason the database is
-// encrypted at all. Export is explicit, so the user chooses the moment the plaintext exists.
-//
-// Rich-text notes are converted on the way out (MarkdownConvert), so the folder is complete
-// rather than only the notes that already happened to be markdown. That conversion is lossy in
-// the ways Losses() names, but nothing in the database is modified: this writes files and
-// touches no note.
+// Picks the folder, says what is about to happen (including that a password notepad's export is
+// plain text), and runs the exporter on its own STA thread with its own read-only connection, so
+// the app stays usable. The footer shows progress and a Cancel button; a canceled export removes
+// its folder. Lock now cancels a running export, and closing the app cancels it and waits for the
+// cleanup, so an interrupted export is never left looking finished.
 
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Windows;
-using System.Windows.Documents;
+using System.Windows.Threading;
 using KillerNotes.Controls;
-using KillerNotes.Models;
 using KillerNotes.Services;
 
 namespace KillerNotes.Shell
 {
     public partial class MainWindow
     {
+        private CancellationTokenSource? _vaultCancel;
+
         private void ExportVault_Click(object sender, RoutedEventArgs e)
         {
+            if (_vaultCancel != null) { StatusText.Text = Loc("Str_St_VaultBusy"); return; }
             if (!NoteStore.IsOpen) return;
 
             // Export what is on screen, not a stale copy - same rule as ExportNoteAs.
@@ -49,167 +40,77 @@ namespace KillerNotes.Shell
             string? folder = FolderPicker.Show(this, null, Loc("Str_Dlg_VaultPickFolder"));
             if (string.IsNullOrWhiteSpace(folder)) return;
 
-            // Everything lands in a named subfolder rather than loose in whatever the user
-            // picked. Choosing Documents and having sixty .md files appear in it is not a
-            // recoverable mistake once they are mixed in with what was already there.
-            string root = Path.Combine(folder!, SafeName(VaultFolderName()));
-            var confirm = new ConfirmDialog(
-                Loc("Str_Dlg_VaultHead"),
-                string.Format(Loc("Str_Dlg_VaultBody"), notes.Count, root),
-                Loc("Str_Btn_Export")) { Owner = this };
+            // A new dated folder under the one picked, never loose files in it and never mixed
+            // into an earlier export.
+            string name = Path.GetFileNameWithoutExtension(NoteStore.ActiveDbFile);
+            string root = VaultExporter.NewExportFolder(folder!, string.IsNullOrWhiteSpace(name) ? "KillerNotes" : name, DateTime.Now);
+            string body = string.Format(Loc("Str_Dlg_VaultBody"), notes.Count, root);
+            if (NoteStore.HasPassword) body += "\n\n" + Loc("Str_Dlg_VaultPlain");
+            var confirm = new ConfirmDialog(Loc("Str_Dlg_VaultHead"), body, Loc("Str_Btn_Export")) { Owner = this };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
-            int written, failed;
-            List<string> losses;
-            try
-            {
-                Directory.CreateDirectory(root);
-                (written, failed, losses) = ExportVaultTo(root, notes);
-            }
+            NoteStore.VaultSource source;
+            try { source = NoteStore.OpenVaultSource(); }
             catch (Exception ex)
             {
                 StatusText.Text = string.Format(Loc("Str_St_VaultFailed"), ex.Message);
                 return;
             }
-
-            StatusText.Text = failed > 0
-                ? string.Format(Loc("Str_St_VaultDonePartial"), written, failed, root)
-                : losses.Count > 0
-                    ? string.Format(Loc("Str_St_VaultDoneLoss"), written, root, losses.Count)
-                    : string.Format(Loc("Str_St_VaultDone"), written, root);
-        }
-
-        /// <summary>Writes every note into an existing folder. Returns how many were written,
-        /// how many failed, and one line per note whose pictures or recordings could not all be
-        /// carried over; those lines also go into export-report.md, so an incomplete export is
-        /// never presented as a complete one.</summary>
-        internal (int Written, int Failed, List<string> Losses) ExportVaultTo(string root, IEnumerable<Note> notes)
-        {
-            int written = 0, failed = 0;
-            var losses = new List<string>();
-            // One set of used paths for the whole run: two notes can share a title, and two
-            // different titles can sanitize down to the same filename.
-            var used = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            // Reserved for the loss report, so a note titled "export-report" is written beside it
-            // as "export-report (2).md" instead of being overwritten by it.
-            string reportPath = Path.Combine(root, "export-report.md");
-            used.Add(reportPath);
-            foreach (var note in notes)
+            var text = VaultExportText.From(Loc);
+            var cancel = new CancellationTokenSource();
+            _vaultCancel = cancel;
+            VaultCancelBtn.Visibility = Visibility.Visible;
+            _statusTimer.Stop();
+            StatusText.Text = string.Format(Loc("Str_St_VaultProgress"), 0, notes.Count);
+            // Created here, so its reports arrive on the UI thread.
+            var progress = new Progress<int>(done =>
             {
-                try
-                {
-                    int lost = WriteVaultFile(root, note, used);
-                    if (lost > 0) losses.Add($"- {note.Title}: {lost}");
-                    written++;
-                }
-                catch (Exception) { failed++; }   // one bad note must not abort the rest
-            }
-            if (losses.Count > 0)
-                File.WriteAllText(reportPath,
-                    "# " + Loc("Str_Vault_ReportHead") + "\n\n" + string.Join("\n", losses) + "\n", new UTF8Encoding(false));
-            return (written, failed, losses);
-        }
+                if (_vaultCancel == cancel && !cancel.IsCancellationRequested)
+                    StatusText.Text = string.Format(Loc("Str_St_VaultProgress"), done, notes.Count);
+            });
 
-        /// <summary>Folder name for the export: the open database without its extension, so
-        /// exporting two different .kndb files side by side does not merge them.</summary>
-        private static string VaultFolderName()
-        {
-            string name = Path.GetFileNameWithoutExtension(NoteStore.ActiveDbFile);
-            return string.IsNullOrWhiteSpace(name) ? "KillerNotes" : name;
-        }
-
-        /// <summary>Writes one note; returns how many of its embedded items could not be written.</summary>
-        private int WriteVaultFile(string root, Note note, HashSet<string> used)
-        {
-            // Group path to nested folders. The separator is a non-printing unit separator, so
-            // it is split on the constant and never on a typed character.
-            string dir = root;
-            if (note.Notebook.Length > 0)
+            var thread = new Thread(() =>
             {
-                foreach (string part in note.Notebook.Split(
-                             [NoteStore.GroupSep], StringSplitOptions.RemoveEmptyEntries))
-                    dir = Path.Combine(dir, SafeName(part));
-                Directory.CreateDirectory(dir);
-            }
-
-            string baseName = SafeName(note.Title.Length > 0 ? note.Title : Loc("Str_Untitled"));
-            string path = Path.Combine(dir, baseName + ".md");
-            for (int n = 2; used.Contains(path) || File.Exists(path); n++)
-                path = Path.Combine(dir, $"{baseName} ({n}).md");
-            used.Add(path);
-
-            byte[]? blob = NoteStore.LoadContent(note.Id);
-            string body;
-            int lost = 0;
-            if (note.IsMarkdown)
+                VaultExportResult? result = null;
+                Exception? error = null;
+                try { result = VaultExporter.Export(root, notes, source, text, progress, cancel.Token); }
+                catch (Exception ex) { error = ex; }
+                finally { source.Dispose(); }
+                Dispatcher.BeginInvoke(new Action(() => FinishVaultExport(cancel, root, result, error)));
+                Dispatcher.CurrentDispatcher.InvokeShutdown();   // this thread's own, from the FlowDocuments
+            })
             {
-                body = MarkdownBlob.Decode(blob);
-            }
-            else
-            {
-                var doc = new FlowDocument();
-                if (blob != null)
-                {
-                    using var ms = new MemoryStream(blob);
-                    new TextRange(doc.ContentStart, doc.ContentEnd).Load(ms, DataFormats.XamlPackage);
-                }
-                // The image-aware writer, as single-note export uses: pictures and sketches go to
-                // a sibling <name>.assets folder, recordings as their audio files.
-                (body, lost) = MarkdownWriter.FromDocument(doc, path, NoteStore.GetAttachment);
-            }
-
-            // UTF-8 with no BOM. A BOM shows as stray characters at the top of the first heading
-            // in a lot of markdown tooling, and nothing here needs one.
-            File.WriteAllText(path, FrontMatter(note) + body, new UTF8Encoding(false));
-            return lost;
+                // Foreground: closing the app cancels the export and waits for it to remove its folder.
+                IsBackground = false,
+                Name = "KillerNotes vault export",
+            };
+            thread.SetApartmentState(ApartmentState.STA);   // FlowDocument needs one
+            thread.Start();
         }
 
-        /// <summary>YAML front matter carrying the metadata markdown itself has no place for.
-        /// Readers that do not understand front matter show it as a small block at the top
-        /// rather than mangling the note.</summary>
-        private static string FrontMatter(Note note)
+        private void FinishVaultExport(CancellationTokenSource cancel, string root, VaultExportResult? result, Exception? error)
         {
-            var sb = new StringBuilder();
-            sb.Append("---\n");
-            sb.Append("title: ").Append(YamlScalar(note.Title)).Append('\n');
-            var tags = NoteStore.SplitTags(note.Tags).ToList();
-            if (tags.Count > 0)
-                sb.Append("tags: [").Append(string.Join(", ", tags.Select(YamlScalar))).Append("]\n");
-            sb.Append("created: ").Append(note.Created.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)).Append('\n');
-            sb.Append("modified: ").Append(note.Modified.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)).Append('\n');
-            sb.Append("---\n\n");
-            return sb.ToString();
+            if (_vaultCancel == cancel) _vaultCancel = null;
+            cancel.Dispose();
+            VaultCancelBtn.Visibility = Visibility.Collapsed;
+            StatusText.Text =
+                error != null ? string.Format(Loc("Str_St_VaultFailed"), error.Message)
+                : result == null || result.Canceled ? Loc("Str_St_VaultCanceled")
+                : result.Failed > 0 ? string.Format(Loc("Str_St_VaultDonePartial"), result.Written, result.Failed, root)
+                : result.Problems.Count > 0 ? string.Format(Loc("Str_St_VaultDoneProblems"), result.Written, root, result.Problems.Count)
+                : result.Lossy > 0 ? string.Format(Loc("Str_St_VaultDoneLossy"), result.Written, root, result.Lossy)
+                : string.Format(Loc("Str_St_VaultDone"), result.Written, root);
         }
 
-        /// <summary>Quotes a YAML scalar. Always quoted rather than only when it looks risky:
-        /// a title of "no" or "1.5" is a boolean or a number to a YAML parser otherwise.</summary>
-        private static string YamlScalar(string s) =>
-            "\"" + s.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", " ").Replace("\r", "") + "\"";
+        private void VaultCancel_Click(object sender, RoutedEventArgs e) => CancelVaultExport();
 
-        /// <summary>A note title reduced to something Windows will accept as a file or folder
-        /// name. Trailing dots and spaces are stripped too - Windows silently drops them, which
-        /// turns two distinct titles into one colliding path.</summary>
-        private static string SafeName(string s)
+        /// <summary>Stops a running export; it removes its own folder as it ends.</summary>
+        private void CancelVaultExport()
         {
-            var sb = new StringBuilder(s.Length);
-            var invalid = Path.GetInvalidFileNameChars();
-            foreach (char c in s)
-                sb.Append(Array.IndexOf(invalid, c) >= 0 || char.IsControl(c) ? '-' : c);
-            string name = sb.ToString().Trim().TrimEnd('.', ' ');
-            if (name.Length == 0) name = "note";
-            // Reserved device names are rejected whatever the extension.
-            string stem = name.Split('.')[0].ToUpperInvariant();
-            if (ReservedNames.Contains(stem)) name = "_" + name;
-            // Leave headroom under MAX_PATH for the directory, the extension and a dedupe suffix.
-            return name.Length > 80 ? name[..80].TrimEnd('.', ' ') : name;
+            if (_vaultCancel is not { } cancel || cancel.IsCancellationRequested) return;
+            cancel.Cancel();
+            StatusText.Text = Loc("Str_St_VaultCanceling");
         }
-
-        private static readonly HashSet<string> ReservedNames = new(StringComparer.OrdinalIgnoreCase)
-        {
-            "CON", "PRN", "AUX", "NUL",
-            "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
-            "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9",
-        };
     }
 }

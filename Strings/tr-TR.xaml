@@ -767,8 +767,6 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} not {1} konumuna yazılacak. Gruplar alt klasör olur. Veritabanında hiçbir şey değişmez.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Dışa aktarılacak bir şey yok - bu veritabanında not bulunmuyor</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} not {1} konumuna aktarıldı</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">{0} not {1} konumuna aktarıldı. {2} notta tüm resimler veya kayıtlar aktarılamadı; export-report.md dosyasına bakın</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Resimleri veya kayıtları dışa aktarılamayan notlar (not başına öğe)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} not {2} konumuna aktarıldı, {1} başarısız</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Dışa aktarma başarısız: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
@@ -1010,4 +1008,20 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Bk_TestBadAttachments">{1} ekten {0} tanesi bozuk</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">{0} deneme geri yüklemesi başarılı: {1} not ve {2} ek sağlam okundu.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">Not defterinde şu an {0} not ve {1} ek var.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">KillerNotes dışa aktarma raporu</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">{0} notun tümü kayıpsız dışa aktarıldı.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{1} nottan {0} tanesi dışa aktarmada bir şey kaybetti:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">Dahil değil: çöp kutusundaki notlar ve geçmişteki önceki sürümler.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">{0} resim veya kayıt yazılamadı</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">yazılamadı ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">Yazılan dosyaların denetimi</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Her not, bağlantı ve ek sorunsuz geri okundu.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} bağlantı var olmayan notları gösteriyor, KillerNotes'taki gibi, ve yazıldığı gibi bırakıldı.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">Zaten bir dışa aktarma sürüyor.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">Bu not defterinin parolası var, ama dışa aktarılan dosyaların yok. Klasörü açabilen herkes onları okuyabilir.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">{1} nottan {0} tanesi dışa aktarılıyor...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Dışa aktarma iptal edildi. Geride hiçbir şey kalmadı.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Dışa aktarma iptal ediliyor...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">{0} not {1} konumuna aktarıldı, ancak denetim {2} sorun buldu. export-report.md dosyasına bakın.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">{0} not {1} konumuna aktarıldı. {2} not bir şey kaybetti; export-report.md dosyasına bakın.</sys:String>
 </ResourceDictionary>

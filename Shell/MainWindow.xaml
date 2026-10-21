@@ -2687,16 +2687,22 @@
                         </Button.Resources>
                     </Button>
                 </StackPanel>
-                <!-- Backup health (Shell/Backup.cs): shown only while the open notepad's backups are
-                     failing or overdue, and it opens Backups. In the Auto column so it sits beside
-                     the version cell and never squeezes the status text. -->
-                <Button x:Name="BackupWarningBtn" Grid.Column="1" Visibility="Collapsed" Click="BackupWarning_Click"
-                        Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
-                        FontSize="10" Padding="8,1" Margin="6,0" VerticalAlignment="Center">
-                    <Button.Resources>
+                <!-- Footer actions in the Auto column, so they sit beside the version cell and never
+                     squeeze the status text: Cancel for a running vault export (VaultExport.cs), and
+                     the backup warning, shown only while the open notepad's backups are failing or
+                     overdue, which opens Backups (Backup.cs). -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel.Resources>
                         <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
-                    </Button.Resources>
-                </Button>
+                    </StackPanel.Resources>
+                    <Button x:Name="VaultCancelBtn" Visibility="Collapsed" Click="VaultCancel_Click"
+                            Content="{DynamicResource Str_Btn_Cancel}"
+                            Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
+                            FontSize="10" Padding="8,1" Margin="6,0" VerticalAlignment="Center"/>
+                    <Button x:Name="BackupWarningBtn" Visibility="Collapsed" Click="BackupWarning_Click"
+                            Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
+                            FontSize="10" Padding="8,1" Margin="6,0" VerticalAlignment="Center"/>
+                </StackPanel>
                 <!-- Cell 2: the version + copyright block, its own sunken cell. The visible gap
                      between this and the status cell IS the divider - Win98 never drew a standalone
                      rule there, which is why the two 1px lines I tried first looked nothing like

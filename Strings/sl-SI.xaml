@@ -724,8 +724,6 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">Zapisanih bo {0} zapiskov v {1}. Skupine postanejo podmape. V zbirki podatkov se nič ne spremeni.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Ničesar ni za izvoz. Ta zbirka nima zapiskov</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Izvoženih je {0} zapiskov v {1}</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">Izvoženih je {0} zapiskov v {1}. Pri {2} zapiskih ni bilo mogoče prenesti vseh slik ali posnetkov; glejte export-report.md</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Zapiski s slikami ali posnetki, ki jih ni bilo mogoče izvoziti (število na zapisek)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Izvoženih je {0} zapiskov v {2}, neuspešnih: {1}</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Izvoz ni uspel: {0}</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Temna</sys:String>
@@ -917,4 +915,20 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Bk_TestBadAttachments">{0} od {1} prilog je poškodovanih</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">Preizkusna obnovitev {0} je uspela: {1} zapiskov in {2} prilog prebranih nepoškodovanih.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">Beležnica ima zdaj {0} zapiskov in {1} prilog.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">Poročilo o izvozu KillerNotes</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">Vseh {0} zapiskov je bilo izvoženih brez izgub.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{0} od {1} zapiskov je pri izvozu nekaj izgubilo:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">Ni vključeno: zapiski v košu in starejše različice iz zgodovine.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">{0} slik ali posnetkov ni bilo mogoče zapisati</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">ni bilo mogoče zapisati ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">Preverjanje zapisanih datotek</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Vsak zapisek, povezava in priloga je bila prebrana nazaj brez težav.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} povezav kaže na zapiske, ki ne obstajajo, enako kot v KillerNotes, zato ostanejo, kot so zapisane.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">Izvoz že poteka.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">Ta beležnica ima geslo, izvožene datoteke pa ne. Vsak, ki lahko odpre mapo, jih lahko prebere.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">Izvažam {0} od {1} zapiskov...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Izvoz preklican. Nič ni ostalo.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Preklicujem izvoz...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">Izvoženih {0} zapiskov v {1}, a preverjanje je našlo {2} težav. Glejte export-report.md.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">Izvoženih {0} zapiskov v {1}. {2} jih je nekaj izgubilo; glejte export-report.md.</sys:String>
 </ResourceDictionary>

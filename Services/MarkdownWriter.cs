@@ -342,12 +342,17 @@ namespace KillerNotes.Services
                 string? audio = _attachments?.Invoke(hash) is { } a ? TrySaveAudio(a) : null;
                 if (audio == null) { Lost++; return null; }
                 var length = TimeSpan.FromMilliseconds(_attachments!(hash)!.DurationMs);
-                return "[Recording " + length.ToString(@"m\:ss") + "](" + audio + ")";
+                return "[Recording " + length.ToString(@"m\:ss") + "](" + Destination(audio) + ")";
             }
             string? link = TrySaveImage(img);
             if (link == null) { Lost++; return null; }
-            return "![](" + link + ")";
+            return "![](" + Destination(link) + ")";
         }
+
+        /// <summary>A link destination with a space in it ("My note.assets/...") is not one in
+        /// CommonMark unless it is wrapped in angle brackets, and vault apps then show the raw text
+        /// instead of the picture.</summary>
+        private static string Destination(string path) => path.IndexOf(' ') >= 0 ? "<" + path + ">" : path;
 
         private string? TrySaveAudio(Attachment recording)
         {

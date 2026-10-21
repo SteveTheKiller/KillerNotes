@@ -765,8 +765,6 @@
     <sys:String x:Key="Str_Dlg_VaultBody">{0} 件のノートを {1} に書き出します。グループはサブフォルダーになります。データベースは変更されません。</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">エクスポートするものがありません - このデータベースにはノートがありません</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} 件のノートを {1} にエクスポートしました</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">{0} 件のノートを {1} にエクスポートしました。{2} 件のノートで画像や録音の一部を書き出せませんでした。export-report.md を参照してください</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">画像や録音を書き出せなかったノート (ノートごとの件数)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} 件のノートを {2} にエクスポートしました。{1} 件は失敗しました</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">エクスポートに失敗しました: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
@@ -1008,4 +1006,20 @@
     <sys:String x:Key="Str_Bk_TestBadAttachments">{1} 個中 {0} 個の添付ファイルが破損しています</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">{0} の復元テストに成功：ノート {1} 件と添付ファイル {2} 個を正常に読み戻しました。</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">現在のノートパッドにはノート {0} 件と添付ファイル {1} 個があります。</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">KillerNotes エクスポートレポート</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">{0} 件のノートをすべて欠落なくエクスポートしました。</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{1} 件中 {0} 件のノートでエクスポート時に失われたものがあります：</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">含まれないもの：ごみ箱のノートと履歴の以前のバージョン。</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">{0} 個の画像または録音を書き出せませんでした</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">書き出せませんでした（{0}）</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">書き出したファイルの確認</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">すべてのノート、リンク、添付ファイルを問題なく読み戻せました。</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} 個のリンクは存在しないノートを指しています。KillerNotes と同じで、そのまま残しています。</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">エクスポートはすでに実行中です。</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">このノートパッドにはパスワードがありますが、エクスポートしたファイルにはありません。フォルダーを開ける人は誰でも読めます。</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">エクスポート中：{1} 件中 {0} 件...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">エクスポートを取り消しました。何も残っていません。</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">エクスポートを取り消しています...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">{0} 件のノートを {1} にエクスポートしましたが、確認で {2} 件の問題が見つかりました。export-report.md を参照してください。</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">{0} 件のノートを {1} にエクスポートしました。{2} 件で失われたものがあります。export-report.md を参照してください。</sys:String>
 </ResourceDictionary>

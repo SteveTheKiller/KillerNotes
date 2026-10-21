@@ -764,8 +764,6 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">Do {1} se zapíše {0} poznámek. Ze skupin se stanou podsložky. V databázi se nic nezmění.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Není co exportovat - tato databáze neobsahuje žádné poznámky</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Exportováno {0} poznámek do {1}</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">Exportováno {0} poznámek do {1}. U {2} poznámek nešlo přenést všechny obrázky nebo nahrávky; viz export-report.md</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Poznámky s obrázky nebo nahrávkami, které nešlo exportovat (počet u každé poznámky)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Exportováno {0} poznámek do {2}, {1} se nezdařilo</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Export se nezdařil: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
@@ -1007,4 +1005,20 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Bk_TestBadAttachments">{0} z {1} příloh je poškozeno</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">Zkušební obnova {0} proběhla: {1} poznámek a {2} příloh načteno beze změny.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">Poznámkový blok má teď {0} poznámek a {1} příloh.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">Zpráva o exportu KillerNotes</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">Všech {0} poznámek bylo exportováno beze ztrát.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{0} z {1} poznámek při exportu něco ztratilo:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">Nezahrnuto: poznámky v koši a starší verze z historie.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">{0} obrázků nebo nahrávek nešlo zapsat</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">nešlo zapsat ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">Kontrola zapsaných souborů</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Každá poznámka, odkaz i příloha byla načtena zpět bez problému.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} odkazů vede na poznámky, které neexistují, stejně jako v KillerNotes, a zůstávají, jak byly napsány.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">Export už probíhá.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">Tento poznámkový blok má heslo, ale exportované soubory ne. Kdo otevře složku, může je číst.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">Exportuji {0} z {1} poznámek...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Export zrušen. Nic nezůstalo.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Ruším export...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">Exportováno {0} poznámek do {1}, ale kontrola našla {2} problémů. Viz export-report.md.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">Exportováno {0} poznámek do {1}. {2} při exportu něco ztratilo; viz export-report.md.</sys:String>
 </ResourceDictionary>

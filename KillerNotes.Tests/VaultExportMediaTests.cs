@@ -56,7 +56,8 @@ namespace KillerNotes.Tests
             Assert.Equal(audio.Payload, File.ReadAllBytes(Path.Combine(_root, "Site visit.assets", audioFile)));
             Assert.Contains("Site visit.assets/" + audioFile, md);
             Assert.Contains("1:05", md);
-            Assert.False(File.Exists(Path.Combine(_root, "export-report.md")));
+            Assert.Contains("(<Site visit.assets/" + audioFile + ">)", md);   // a destination with a space is bracketed
+            Assert.Contains("Str_Vault_NothingLost", File.ReadAllText(Path.Combine(_root, "export-report.md")));
         });
 
         [Fact]
@@ -102,12 +103,10 @@ namespace KillerNotes.Tests
 
         private (int, int, System.Collections.Generic.List<string>) Export()
         {
-            var shell = (MainWindow)FormatterServices.GetUninitializedObject(typeof(MainWindow));
-            Directory.CreateDirectory(_root);
-            var result = typeof(MainWindow).GetMethod("ExportVaultTo", Members)!.Invoke(shell, new object[] { _root, NoteStore.List() })!;
-            var t = result.GetType();
-            return ((int)t.GetField("Item1")!.GetValue(result)!, (int)t.GetField("Item2")!.GetValue(result)!,
-                    (System.Collections.Generic.List<string>)t.GetField("Item3")!.GetValue(result)!);
+            using var source = NoteStore.OpenVaultSource();
+            var result = VaultExporter.Export(_root, NoteStore.List(), source, VaultExportText.From(k => k), null,
+                System.Threading.CancellationToken.None);
+            return (result.Written, result.Failed, result.Notes.Where(n => n.MediaLost > 0).Select(n => n.Title).ToList());
         }
 
         private static void Save(long id, FlowDocument doc, params Attachment[] attachments)

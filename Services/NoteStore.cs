@@ -2380,6 +2380,45 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             finally { SqliteConnection.ClearAllPools(); }   // release the destination file handle
         }
 
+        /// <summary>A second, read-only connection to the open database for vault export, which runs
+        /// on its own thread: the main connection belongs to the UI thread and is not shared.</summary>
+        internal static VaultSource OpenVaultSource()
+        {
+            if (_db == null) throw new InvalidOperationException("database not open");
+            var csb = new SqliteConnectionStringBuilder { DataSource = DbPath, Mode = SqliteOpenMode.ReadOnly, Pooling = false };
+            if (_password != null) csb.Password = _password;
+            var db = new SqliteConnection(csb.ConnectionString);
+            db.Open();
+            return new VaultSource(db);
+        }
+
+        internal sealed class VaultSource : IVaultSource, IDisposable
+        {
+            private readonly SqliteConnection _conn;
+            internal VaultSource(SqliteConnection conn) => _conn = conn;
+
+            public byte[]? LoadContent(long id)
+            {
+                using var cmd = _conn.CreateCommand();
+                cmd.CommandText = "SELECT content FROM notes WHERE id = $id";
+                cmd.Parameters.AddWithValue("$id", id);
+                return cmd.ExecuteScalar() as byte[];
+            }
+
+            public Attachment? GetAttachment(string hash)
+            {
+                using var cmd = _conn.CreateCommand();
+                cmd.CommandText = "SELECT kind, payload, duration FROM attachments WHERE hash = $h";
+                cmd.Parameters.AddWithValue("$h", hash);
+                using var r = cmd.ExecuteReader();
+                if (!r.Read()) return null;
+                var found = new Attachment((AttachmentKind)r.GetInt64(0), (byte[])r.GetValue(1), (int)r.GetInt64(2));
+                return found.Hash == hash ? found : null;
+            }
+
+            public void Dispose() => _conn.Dispose();
+        }
+
         /// <summary>Checks a copy BackupTo just wrote, with the open database's key (BackupService).</summary>
         public static void VerifyBackupCopy(string path) => BackupService.VerifyCopy(path, _password);
 

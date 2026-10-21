@@ -767,8 +767,6 @@
     <sys:String x:Key="Str_Dlg_VaultBody">{0}টি নোট {1}-এ লেখা হবে। গ্রুপগুলি সাবফোল্ডার হয়ে যাবে। ডেটাবেসে কিছুই বদলাবে না।</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">রপ্তানি করার কিছু নেই - এই ডেটাবেসে কোনো নোট নেই</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0}টি নোট {1}-এ রপ্তানি করা হয়েছে</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">{0}টি নোট {1}-এ রপ্তানি করা হয়েছে। {2}টি নোটের সব ছবি বা রেকর্ডিং আনা যায়নি; export-report.md দেখুন</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">যেসব নোটের ছবি বা রেকর্ডিং রপ্তানি করা যায়নি (প্রতি নোটে সংখ্যা)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0}টি নোট {2}-এ রপ্তানি করা হয়েছে, {1}টি ব্যর্থ হয়েছে</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">রপ্তানি ব্যর্থ হয়েছে: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
@@ -1010,4 +1008,20 @@
     <sys:String x:Key="Str_Bk_TestBadAttachments">{1}টি সংযুক্তির মধ্যে {0}টি নষ্ট</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">{0}-এর রিস্টোর পরীক্ষা সফল: {1}টি নোট ও {2}টি সংযুক্তি অক্ষত পড়া গেছে।</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">নোটপ্যাডে এখন {0}টি নোট ও {1}টি সংযুক্তি আছে।</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">KillerNotes রপ্তানি প্রতিবেদন</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">সব {0}টি নোট কিছু না হারিয়ে রপ্তানি হয়েছে।</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{1}টি নোটের মধ্যে {0}টি রপ্তানিতে কিছু হারিয়েছে:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">অন্তর্ভুক্ত নয়: ট্র্যাশের নোট এবং ইতিহাসের আগের সংস্করণ।</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">{0}টি ছবি বা রেকর্ডিং লেখা যায়নি</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">লেখা যায়নি ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">লেখা ফাইলগুলোর যাচাই</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">প্রতিটি নোট, লিংক ও সংযুক্তি কোনো সমস্যা ছাড়াই আবার পড়া গেছে।</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0}টি লিংক এমন নোটের দিকে যা নেই, KillerNotes-এর মতোই, তাই যেমন লেখা ছিল তেমনই রাখা হয়েছে।</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">একটি রপ্তানি ইতিমধ্যে চলছে।</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">এই নোটপ্যাডে পাসওয়ার্ড আছে, কিন্তু রপ্তানি করা ফাইলে নেই। ফোল্ডারটি যে খুলতে পারে সে-ই পড়তে পারবে।</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">{1}টির মধ্যে {0}টি নোট রপ্তানি হচ্ছে...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">রপ্তানি বাতিল হয়েছে। কিছুই রেখে যাওয়া হয়নি।</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">রপ্তানি বাতিল হচ্ছে...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">{0}টি নোট {1}-এ রপ্তানি হয়েছে, কিন্তু যাচাইয়ে {2}টি সমস্যা পাওয়া গেছে। export-report.md দেখুন।</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">{0}টি নোট {1}-এ রপ্তানি হয়েছে। {2}টি কিছু হারিয়েছে; export-report.md দেখুন।</sys:String>
 </ResourceDictionary>

@@ -768,8 +768,6 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">Se escribirán {0} notas en {1}. Los grupos pasan a ser subcarpetas. No cambia nada en la base de datos.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Nada que exportar - esta base de datos no tiene notas</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} notas exportadas a {1}</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">{0} notas exportadas a {1}. En {2} notas no se pudieron llevar todas las imágenes o grabaciones; consulte export-report.md</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Notas con imágenes o grabaciones que no se pudieron exportar (elementos por nota)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} notas exportadas a {2}, {1} con error</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Error al exportar: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
@@ -1011,4 +1009,20 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Bk_TestBadAttachments">{0} de {1} adjuntos están dañados</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">La prueba de restauración de {0} fue correcta: {1} notas y {2} adjuntos leídos intactos.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">El bloc tiene ahora {0} notas y {1} adjuntos.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">Informe de exportación de KillerNotes</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">Las {0} notas se exportaron sin perder nada.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{0} de {1} notas perdieron algo en la exportación:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">No incluido: notas en la papelera y versiones anteriores del historial.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">No se pudieron escribir {0} imágenes o grabaciones</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">no se pudo escribir ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">Comprobación de los archivos escritos</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Cada nota, enlace y archivo adjunto se volvió a leer sin problemas.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} enlaces apuntan a notas que no existen, igual que en KillerNotes, y se dejan como están.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">Ya hay una exportación en curso.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">Este bloc tiene contraseña, pero los archivos exportados no. Cualquiera que pueda abrir la carpeta podrá leerlos.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">Exportando {0} de {1} notas...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Exportación cancelada. No quedó nada a medias.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Cancelando la exportación...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">Se exportaron {0} notas a {1}, pero la comprobación encontró {2} problemas. Consulta export-report.md.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">Se exportaron {0} notas a {1}. {2} perdieron algo en la exportación; consulta export-report.md.</sys:String>
 </ResourceDictionary>

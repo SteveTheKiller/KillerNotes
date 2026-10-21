@@ -100,6 +100,7 @@ namespace KillerNotes.Shell
         void ISecurityHost.EnterLocked(bool keepUnsavedEdits)
         {
             StopEmbeddedPlayback();          // Editor.Dictation.cs
+            CancelVaultExport();             // VaultExport.cs - it reads with the notepad's key
             _dictation?.StopForLock();       // the microphone is never live behind a locked screen
             CloseWindowsForLock(includeTools: true);
             CancelGlobalSearchPreview();     // GlobalSearch.cs

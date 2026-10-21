@@ -841,8 +841,6 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} notater skrives til {1}. Grupper blir til undermapper. Ingenting i databasen endres.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Ingenting å eksportere - databasen har ingen notater</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Eksporterte {0} notater til {1}</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">Eksporterte {0} notater til {1}. {2} notater fikk ikke med alle bilder eller opptak; se export-report.md</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Notater med bilder eller opptak som ikke kunne eksporteres (antall per notat)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Eksporterte {0} notater til {2}, {1} mislyktes</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Eksporten mislyktes: {0}</sys:String>
 
@@ -1055,4 +1053,20 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Bk_TestBadAttachments">{0} av {1} vedlegg er skadet</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">Testgjenoppretting av {0} bestått: {1} notater og {2} vedlegg lest tilbake uskadet.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">Notatblokken har nå {0} notater og {1} vedlegg.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">KillerNotes eksportrapport</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">Alle {0} notater ble eksportert uten tap.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{0} av {1} notater mistet noe i eksporten:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">Ikke med: notater i papirkurven og tidligere versjoner fra historikken.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">{0} bilder eller opptak kunne ikke skrives</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">kunne ikke skrives ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">Kontroll av de skrevne filene</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Hvert notat, hver lenke og hvert vedlegg ble lest tilbake uten problemer.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} lenker peker på notater som ikke finnes, akkurat som i KillerNotes, og står som skrevet.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">En eksport kjører allerede.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">Denne notatblokken har passord, men de eksporterte filene har ikke. Alle som kan åpne mappen, kan lese dem.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">Eksporterer {0} av {1} notater...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Eksporten ble avbrutt. Ingenting ble liggende igjen.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Avbryter eksporten...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">Eksporterte {0} notater til {1}, men kontrollen fant {2} problemer. Se export-report.md.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">Eksporterte {0} notater til {1}. {2} mistet noe i eksporten; se export-report.md.</sys:String>
 </ResourceDictionary>

@@ -723,8 +723,6 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Dlg_VaultBody">{0} notatek zostanie zapisanych w {1}. Grupy staną się podfolderami. Nic w bazie danych się nie zmieni.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Nie ma czego eksportować - ta baza nie zawiera notatek</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Wyeksportowano {0} notatek do {1}</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">Wyeksportowano {0} notatek do {1}. W {2} notatkach nie udało się przenieść wszystkich obrazów lub nagrań; zobacz export-report.md</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Notatki z obrazami lub nagraniami, których nie udało się wyeksportować (liczba na notatkę)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Wyeksportowano {0} notatek do {2}, {1} nie powiodło się</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Eksport nie powiódł się: {0}</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Ciemny</sys:String>
@@ -937,4 +935,20 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Bk_TestBadAttachments">{0} z {1} załączników jest uszkodzonych</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">Test przywracania {0} udany: odczytano {1} notatek i {2} załączników bez zmian.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">Notatnik ma teraz {0} notatek i {1} załączników.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">Raport eksportu KillerNotes</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">Wszystkie {0} notatek wyeksportowano bez strat.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{0} z {1} notatek coś straciło przy eksporcie:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">Nie uwzględniono: notatek w koszu i wcześniejszych wersji z historii.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">Nie udało się zapisać {0} obrazów lub nagrań</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">nie udało się zapisać ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">Sprawdzenie zapisanych plików</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Każda notatka, link i załącznik zostały odczytane bez problemu.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} linków wskazuje na nieistniejące notatki, tak jak w KillerNotes, i zostają bez zmian.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">Eksport już trwa.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">Ten notatnik ma hasło, ale wyeksportowane pliki nie. Każdy, kto otworzy folder, może je przeczytać.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">Eksportowanie {0} z {1} notatek...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Eksport anulowany. Nic nie zostało.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Anulowanie eksportu...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">Wyeksportowano {0} notatek do {1}, ale sprawdzenie znalazło {2} problemów. Zobacz export-report.md.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">Wyeksportowano {0} notatek do {1}. {2} coś straciło przy eksporcie; zobacz export-report.md.</sys:String>
 </ResourceDictionary>

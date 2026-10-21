@@ -846,8 +846,6 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Dlg_VaultBody">{0} ghi chú sẽ được ghi vào {1}. Nhóm trở thành thư mục con. Cơ sở dữ liệu không thay đổi.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Không có gì để xuất - cơ sở dữ liệu này không có ghi chú</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Đã xuất {0} ghi chú tới {1}</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">Đã xuất {0} ghi chú tới {1}. {2} ghi chú không mang theo được hết hình ảnh hoặc bản ghi âm; xem export-report.md</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Ghi chú có hình ảnh hoặc bản ghi âm không xuất được (số mục mỗi ghi chú)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Đã xuất {0} ghi chú tới {2}, {1} thất bại</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Xuất thất bại: {0}</sys:String>
 
@@ -1061,4 +1059,20 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Bk_TestBadAttachments">{0} trên {1} tệp đính kèm bị hỏng</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">Thử khôi phục {0} thành công: đọc lại nguyên vẹn {1} ghi chú và {2} tệp đính kèm.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">Sổ hiện có {0} ghi chú và {1} tệp đính kèm.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">Báo cáo xuất KillerNotes</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">Đã xuất cả {0} ghi chú, không mất gì.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{0} trên {1} ghi chú bị mất một phần khi xuất:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">Không bao gồm: ghi chú trong thùng rác và các phiên bản cũ trong lịch sử.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">Không ghi được {0} hình ảnh hoặc bản ghi âm</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">không ghi được ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">Kiểm tra các tệp đã ghi</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Mọi ghi chú, liên kết và tệp đính kèm đều được đọc lại không lỗi.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} liên kết trỏ tới ghi chú không tồn tại, giống như trong KillerNotes, và được giữ nguyên.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">Đang có một lần xuất chạy.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">Sổ này có mật khẩu, nhưng các tệp xuất ra thì không. Ai mở được thư mục đều đọc được chúng.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">Đang xuất {0} trên {1} ghi chú...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Đã hủy xuất. Không để lại gì.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Đang hủy xuất...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">Đã xuất {0} ghi chú vào {1}, nhưng phần kiểm tra thấy {2} vấn đề. Xem export-report.md.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">Đã xuất {0} ghi chú vào {1}. {2} ghi chú bị mất một phần; xem export-report.md.</sys:String>
 </ResourceDictionary>

@@ -765,8 +765,6 @@
     <sys:String x:Key="Str_Dlg_VaultBody">{0} 条笔记将写入 {1}。分组会变成子文件夹。数据库不会有任何改动。</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">没有可导出的内容 - 此数据库中没有笔记</sys:String>
     <sys:String x:Key="Str_St_VaultDone">已将 {0} 条笔记导出到 {1}</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">已将 {0} 条笔记导出到 {1}。有 {2} 条笔记的图片或录音未能全部导出，请查看 export-report.md</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">图片或录音未能导出的笔记（每条笔记的项目数）</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">已将 {0} 条笔记导出到 {2}，{1} 条失败</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">导出失败: {0}</sys:String>
     <sys:String x:Key="Str_Sketch_Title">SketchPad</sys:String>
@@ -1008,4 +1006,20 @@
     <sys:String x:Key="Str_Bk_TestBadAttachments">{1} 个附件中有 {0} 个已损坏</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">{0} 的测试恢复通过：完整读回 {1} 条笔记和 {2} 个附件。</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">笔记本现有 {0} 条笔记和 {1} 个附件。</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">KillerNotes 导出报告</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">全部 {0} 条笔记均已导出，没有任何丢失。</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{1} 条笔记中有 {0} 条在导出时丢失了内容：</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">未包含：回收站中的笔记和历史记录中的旧版本。</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">{0} 张图片或录音无法写出</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">无法写出（{0}）</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">已写出文件的检查</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">每条笔记、链接和附件都已顺利读回。</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} 个链接指向不存在的笔记，与 KillerNotes 中相同，保持原样。</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">已有导出正在进行。</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">此笔记本设有密码，但导出的文件没有。任何能打开该文件夹的人都能读取。</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">正在导出 {1} 条中的第 {0} 条...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">导出已取消，没有留下任何文件。</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">正在取消导出...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">已将 {0} 条笔记导出到 {1}，但检查发现 {2} 个问题。请查看 export-report.md。</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">已将 {0} 条笔记导出到 {1}。{2} 条在导出时丢失了内容；请查看 export-report.md。</sys:String>
 </ResourceDictionary>

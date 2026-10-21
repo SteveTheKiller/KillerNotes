@@ -822,8 +822,6 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Dlg_VaultBody">{0} jegyzet íródik ide: {1}. A csoportokból almappák lesznek. Az adatbázisban semmi nem változik.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Nincs mit exportálni - ebben az adatbázisban nincsenek jegyzetek</sys:String>
     <sys:String x:Key="Str_St_VaultDone">{0} jegyzet exportálva ide: {1}</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">{0} jegyzet exportálva ide: {1}. {2} jegyzetnél nem minden kép vagy felvétel került át; lásd export-report.md</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Jegyzetek, amelyek képeit vagy felvételeit nem sikerült exportálni (elemek jegyzetenként)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">{0} jegyzet exportálva ide: {2}, {1} sikertelen</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Az exportálás sikertelen: {0}</sys:String>
     <sys:String x:Key="Str_Theme_Dark">Sötét</sys:String>
@@ -1036,4 +1034,20 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Bk_TestBadAttachments">{1} mellékletből {0} sérült</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">A(z) {0} próba-visszaállítása sikeres: {1} jegyzet és {2} melléklet épen visszaolvasva.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">A jegyzetfüzetben most {0} jegyzet és {1} melléklet van.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">KillerNotes exportjelentés</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">Mind a(z) {0} jegyzet veszteség nélkül exportálva.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{1} jegyzetből {0} veszített valamit az exportban:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">Nem része: a lomtár jegyzetei és az előzmények korábbi változatai.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">{0} kép vagy felvétel nem írható ki</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">nem írható ki ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">A kiírt fájlok ellenőrzése</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Minden jegyzet, hivatkozás és melléklet hiba nélkül visszaolvasva.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">{0} hivatkozás nem létező jegyzetre mutat, ugyanúgy, mint a KillerNotesban, ezért változatlan marad.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">Már fut egy exportálás.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">Ennek a jegyzetfüzetnek van jelszava, de az exportált fájloknak nincs. Aki megnyitja a mappát, olvashatja őket.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">Exportálás: {0} / {1} jegyzet...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Exportálás megszakítva. Nem maradt hátra semmi.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Exportálás megszakítása...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">{0} jegyzet exportálva ide: {1}, de az ellenőrzés {2} hibát talált. Lásd export-report.md.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">{0} jegyzet exportálva ide: {1}. {2} veszített valamit; lásd export-report.md.</sys:String>
 </ResourceDictionary>

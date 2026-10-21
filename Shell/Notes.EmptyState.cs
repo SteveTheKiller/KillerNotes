@@ -151,6 +151,7 @@ namespace KillerNotes.Shell
             // Close to system tray: hide before the fade, the note save and closing the store.
             if (_tray.HideInstead(e)) return;
             if (!ConfirmQuitWhileLocked()) { e.Cancel = true; return; }   // LockNow.cs
+            CancelVaultExport();   // VaultExport.cs - its thread removes the partial folder before the process ends
             if (!SaveCurrentNote(refreshList: false))
             {
                 e.Cancel = true;

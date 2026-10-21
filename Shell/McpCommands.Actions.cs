@@ -62,9 +62,17 @@ namespace KillerNotes.Shell
                     break;
                 case "export-all":
                     result.Output = ValidateOutputPath(Take(values, "--output", true)!); RequireEmpty(values);
-                    Directory.CreateDirectory(result.Output);
-                    var used = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                    foreach (var note in NoteStore.List()) { WriteVaultFile(result.Output, note, used); result.Count++; }
+                    // The exporter writes names it planned, so an existing folder's files would be
+                    // overwritten; the app's own export always makes a new folder for that reason.
+                    if (Directory.Exists(result.Output) && Directory.EnumerateFileSystemEntries(result.Output).Any())
+                        throw new ArgumentException("Export output must be a new or empty folder");
+                    using (var vaultSource = NoteStore.OpenVaultSource())
+                    {
+                        var export = VaultExporter.Export(result.Output, NoteStore.List(), vaultSource, VaultExportText.From(Loc), null,
+                            System.Threading.CancellationToken.None);
+                        if (export.Failed > 0) throw new IOException($"{export.Failed} notes could not be exported; see export-report.md");
+                        result.Count = export.Written;
+                    }
                     break;
                 case "create-from-template":
                     long templateId = TakeNamedId(values, "--template-id"); RequireNote(templateId);

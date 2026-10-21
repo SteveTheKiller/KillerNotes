@@ -802,8 +802,6 @@
     <sys:String x:Key="Str_Dlg_VaultBody">{0} заметок будет записано в {1}. Группы станут подпапками. В базе ничего не изменится.</sys:String>
     <sys:String x:Key="Str_St_VaultEmpty">Нечего экспортировать - в этой базе нет заметок</sys:String>
     <sys:String x:Key="Str_St_VaultDone">Экспортировано {0} заметок в {1}</sys:String>
-    <sys:String x:Key="Str_St_VaultDoneLoss">Экспортировано {0} заметок в {1}. В {2} заметках не удалось перенести все изображения или записи; см. export-report.md</sys:String>
-    <sys:String x:Key="Str_Vault_ReportHead">Заметки с изображениями или записями, которые не удалось экспортировать (элементов в заметке)</sys:String>
     <sys:String x:Key="Str_St_VaultDonePartial">Экспортировано {0} заметок в {2}, {1} не удалось</sys:String>
     <sys:String x:Key="Str_St_VaultFailed">Не удалось экспортировать: {0}</sys:String>
 
@@ -1018,4 +1016,20 @@
     <sys:String x:Key="Str_Bk_TestBadAttachments">Повреждено вложений: {0} из {1}</sys:String>
     <sys:String x:Key="Str_Bk_TestPassed">Проверка восстановления {0} пройдена: прочитано без ошибок заметок: {1}, вложений: {2}.</sys:String>
     <sys:String x:Key="Str_Bk_TestLive">Сейчас в блокноте заметок: {0}, вложений: {1}.</sys:String>
+    <sys:String x:Key="Str_Vault_ReportTitle">Отчёт об экспорте KillerNotes</sys:String>
+    <sys:String x:Key="Str_Vault_NothingLost">Все заметки ({0}) экспортированы без потерь.</sys:String>
+    <sys:String x:Key="Str_Vault_SomeLost">{0} из {1} заметок что-то потеряли при экспорте:</sys:String>
+    <sys:String x:Key="Str_Vault_NotIncluded">Не включены: заметки из корзины и прежние версии из истории.</sys:String>
+    <sys:String x:Key="Str_Vault_LostMedia">Не удалось записать изображения или записи: {0}</sys:String>
+    <sys:String x:Key="Str_Vault_NoteFailed">не удалось записать ({0})</sys:String>
+    <sys:String x:Key="Str_Vault_CheckHead">Проверка записанных файлов</sys:String>
+    <sys:String x:Key="Str_Vault_CheckClean">Каждая заметка, ссылка и вложение прочитаны обратно без ошибок.</sys:String>
+    <sys:String x:Key="Str_Vault_Unresolved">Ссылок на несуществующие заметки: {0}, как и в KillerNotes; они оставлены как есть.</sys:String>
+    <sys:String x:Key="Str_St_VaultBusy">Экспорт уже выполняется.</sys:String>
+    <sys:String x:Key="Str_Dlg_VaultPlain">У этого блокнота есть пароль, а у экспортированных файлов нет. Их сможет прочитать любой, кто откроет папку.</sys:String>
+    <sys:String x:Key="Str_St_VaultProgress">Экспорт: {0} из {1} заметок...</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceled">Экспорт отменён. Ничего не осталось.</sys:String>
+    <sys:String x:Key="Str_St_VaultCanceling">Отмена экспорта...</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneProblems">Экспортировано заметок: {0} в {1}, но проверка нашла проблем: {2}. См. export-report.md.</sys:String>
+    <sys:String x:Key="Str_St_VaultDoneLossy">Экспортировано заметок: {0} в {1}. Что-то потеряли: {2}; см. export-report.md.</sys:String>
 </ResourceDictionary>
