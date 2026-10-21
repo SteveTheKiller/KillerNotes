@@ -767,6 +767,7 @@
     <!-- In-note find (1.2.1) -->
     <sys:String x:Key="Str_St_FindMatches">{1}-এর মধ্যে {0}</sys:String>
     <sys:String x:Key="Str_St_FindNoMatches">কোনো মিল নেই</sys:String>
+    <sys:String x:Key="Str_St_FindTooSlow">প্যাটার্নে খুব বেশি সময় লেগেছে</sys:String>
     <sys:String x:Key="Str_TT_FindPrev">পূর্ববর্তী মিল (Shift+F3)</sys:String>
     <sys:String x:Key="Str_TT_FindNext">পরবর্তী মিল (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">বন্ধ করুন (Esc)</sys:String>

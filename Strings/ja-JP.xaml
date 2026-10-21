@@ -765,6 +765,7 @@
     <!-- In-note find (1.2.1) -->
     <sys:String x:Key="Str_St_FindMatches">{1} 件中 {0} 件</sys:String>
     <sys:String x:Key="Str_St_FindNoMatches">一致なし</sys:String>
+    <sys:String x:Key="Str_St_FindTooSlow">パターンの処理に時間がかかりすぎました</sys:String>
     <sys:String x:Key="Str_TT_FindPrev">前の一致 (Shift+F3)</sys:String>
     <sys:String x:Key="Str_TT_FindNext">次の一致 (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">閉じる (Esc)</sys:String>

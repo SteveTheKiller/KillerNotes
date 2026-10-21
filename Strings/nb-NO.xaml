@@ -239,6 +239,7 @@
          this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->
     <sys:String x:Key="Str_St_FindMatches">{0} av {1}</sys:String>
     <sys:String x:Key="Str_St_FindNoMatches">Ingen treff</sys:String>
+    <sys:String x:Key="Str_St_FindTooSlow">Mønsteret tok for lang tid</sys:String>
     <sys:String x:Key="Str_TT_FindPrev">Forrige treff (Shift+F3)</sys:String>
     <sys:String x:Key="Str_TT_FindNext">Neste treff (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">Lukk (Esc)</sys:String>

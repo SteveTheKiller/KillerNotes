@@ -765,6 +765,7 @@
     <!-- In-note find (1.2.1) -->
     <sys:String x:Key="Str_St_FindMatches">第 {0} 项，共 {1} 项</sys:String>
     <sys:String x:Key="Str_St_FindNoMatches">无匹配项</sys:String>
+    <sys:String x:Key="Str_St_FindTooSlow">模式耗时过长</sys:String>
     <sys:String x:Key="Str_TT_FindPrev">上一个匹配项 (Shift+F3)</sys:String>
     <sys:String x:Key="Str_TT_FindNext">下一个匹配项 (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">关闭 (Esc)</sys:String>

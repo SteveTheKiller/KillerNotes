@@ -218,6 +218,7 @@
     <sys:String x:Key="Str_St_Matches">сәйкестік: {0}</sys:String>
     <sys:String x:Key="Str_St_FindMatches">{1} ішінен {0}</sys:String>
     <sys:String x:Key="Str_St_FindNoMatches">Сәйкестік жоқ</sys:String>
+    <sys:String x:Key="Str_St_FindTooSlow">Үлгі тым ұзақ орындалды</sys:String>
     <sys:String x:Key="Str_TT_FindPrev">Алдыңғы сәйкестік (Shift+F3)</sys:String>
     <sys:String x:Key="Str_TT_FindNext">Келесі сәйкестік (F3)</sys:String>
     <sys:String x:Key="Str_TT_FindClose">Жабу (Esc)</sys:String>

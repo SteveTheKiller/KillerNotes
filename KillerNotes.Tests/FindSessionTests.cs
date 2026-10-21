@@ -273,6 +273,25 @@ namespace KillerNotes.Tests
 
         private const BindingFlags Members = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
+        [Fact]
+        public void CatastrophicRegexStopsAtItsDeadlineAndLeavesTheNoteAlone()
+        {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            Sta.Run(() =>
+            {
+                using var shell = new FindEditor();
+                shell.Editor.Document = new FlowDocument(new Paragraph(new Run(new string('a', 28) + "!")));
+                string before = shell.Text;
+                shell.Set("_findRegex", true);
+                shell.Set("_findTerm", "(a+)+$");
+                shell.Call("RunFind", false);
+                Assert.Empty(shell.Window.FindHits);
+                Assert.True((bool)shell.Get("_findTimedOut")!);
+                Assert.Equal(before, shell.Text);
+            });
+            Assert.True(sw.Elapsed < TimeSpan.FromSeconds(5), $"Find took {sw.Elapsed.TotalSeconds:0.0}s");
+        }
+
         private sealed class FindEditor : IDisposable
         {
             public MainWindow Window { get; } = (MainWindow)FormatterServices.GetUninitializedObject(typeof(MainWindow));
