@@ -146,5 +146,35 @@ namespace KillerNotes.Tests
         });
 
         // Editing a recording after switching notes or databases: RecordingPersistenceTests.
+
+        [Theory]
+        [InlineData("--content", "--title", "--title", "Actual title")]
+        [InlineData("--title", "Actual title", "--content", "--title")]
+        [InlineData("--content", "--group", "--group", "--tags", "--title", "Actual title")]
+        public void OptionLikeValuesStayValues(params string[] options) => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            var shell = DetachedShell();
+            // The detached window has no sidebar to refresh once the note is stored; the store
+            // is what this checks.
+            var error = Record.Exception(() => Execute(shell, new[] { "create" }.Concat(options).ToArray()));
+            Assert.True(error == null || error.InnerException is ArgumentNullException, error?.ToString());
+            var note = Assert.Single(NoteStore.List());
+            Assert.Equal("Actual title", note.Title);
+            int at = Array.IndexOf(options, "--content");
+            Assert.Equal(options[at + 1], MarkdownBlob.Decode(NoteStore.LoadContent(note.Id)));
+        });
+
+        [Theory]
+        [InlineData("create", "--title", "a", "--title", "b", "--content", "x")]
+        [InlineData("create", "--title", "a", "--content", "x", "--unknown", "y")]
+        [InlineData("create", "--title", "a", "--content")]
+        public void DuplicateUnknownAndMissingOptionsChangeNothing(params string[] args) => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            var error = Assert.Throws<TargetInvocationException>(() => Execute(DetachedShell(), args));
+            Assert.IsType<ArgumentException>(error.InnerException);
+            Assert.Empty(NoteStore.List());
+        });
     }
 }

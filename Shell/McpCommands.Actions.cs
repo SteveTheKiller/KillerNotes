@@ -102,7 +102,7 @@ namespace KillerNotes.Shell
                 case "convert":
                     result.Id = TakeId(values); var source = RequireNote(result.Id);
                     string format = Take(values, "--format", true)!;
-                    bool allowLoss = values.Remove("--allow-loss"); RequireEmpty(values);
+                    bool allowLoss = TakeFlag(values, "--allow-loss"); RequireEmpty(values);
                     if (format is not ("markdown" or "rich")) throw new ArgumentException("Format must be markdown or rich");
                     int target = format == "markdown" ? Note.FormatMarkdown : Note.FormatRich;
                     if (source.Format != target)
@@ -146,7 +146,7 @@ namespace KillerNotes.Shell
             if (NoteStore.IsReadOnly && command is not ("tag-definitions" or "template-group" or "daily-group" or "backup-now")) throw new InvalidOperationException("The database is read-only");
             if (command is "delete-group" or "delete-tag" or "permanent-delete" or "empty-trash")
             {
-                if (!values.Remove("--confirm")) throw new ArgumentException("This command requires --confirm");
+                if (!TakeFlag(values, "--confirm")) throw new ArgumentException("This command requires --confirm");
             }
             if (!SaveCurrentNote(refreshList: false)) throw new IOException(StatusText.Text);
             var result = new McpActionResult();
