@@ -218,6 +218,13 @@ namespace KillerNotes.Services
                 SqliteConnection.ClearAllPools();
                 throw;
             }
+            // The reference triggers call this to read payload markers out of a stored note.
+            // A body that cannot be read references nothing rather than failing the write.
+            db.CreateFunction("kn_markers", (byte[]? content) =>
+            {
+                try { return Attachments.MarkersJson(content); }
+                catch { return "[]"; }
+            }, isDeterministic: true);
             _db = db;
             _password = string.IsNullOrEmpty(password) ? null : password;
             IsReadOnly = readOnly;
@@ -323,7 +330,50 @@ CREATE TABLE IF NOT EXISTS recordings(
     payload  BLOB NOT NULL,
     duration INTEGER NOT NULL DEFAULT 0,   -- milliseconds, for the playback chip's label
     PRIMARY KEY(note_id, ord)
-);";
+);
+-- 1.6.0: sketch and recording payloads stored once by SHA-256 of the payload. A note's
+-- document names them by marker (Services/Attachments.cs), so every history version, pasted
+-- copy and shared note finds exactly the payload it was saved with. The two ordinal tables
+-- above are kept, read-only, for notes saved before markers existed.
+CREATE TABLE IF NOT EXISTS attachments(
+    hash     TEXT PRIMARY KEY,
+    kind     INTEGER NOT NULL,              -- 1 sketch, 2 recording
+    payload  BLOB NOT NULL,
+    duration INTEGER NOT NULL DEFAULT 0     -- milliseconds, recordings only
+) WITHOUT ROWID;";
+
+        // Which payloads each note body ('n:<id>') and history version ('h:<id>') points at,
+        // derived from the stored documents by the TEMP triggers in InstallAttachmentRefs.
+        // Outside SchemaSql: a .knote has no history and the importer derives its own.
+        // Removing a note row does not clear its references, because an undone delete
+        // re-inserts the same row; DeleteForever clears them explicitly.
+        private const string AttachmentRefsSql = @"
+CREATE TABLE IF NOT EXISTS attachment_refs(
+    owner TEXT NOT NULL,
+    hash  TEXT NOT NULL,
+    PRIMARY KEY(owner, hash)
+) WITHOUT ROWID;
+CREATE INDEX IF NOT EXISTS attachment_refs_hash ON attachment_refs(hash);";
+
+        // TEMP, so they live on this connection only and never enter the file: an older
+        // KillerNotes opening the database writes notes without needing kn_markers.
+        private const string AttachmentRefTriggersSql = @"
+CREATE TEMP TRIGGER IF NOT EXISTS kn_refs_note_ai AFTER INSERT ON main.notes BEGIN
+    INSERT OR IGNORE INTO attachment_refs(owner, hash)
+        SELECT 'n:' || new.id, value FROM json_each(kn_markers(new.content));
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_refs_note_au AFTER UPDATE OF content ON main.notes BEGIN
+    DELETE FROM attachment_refs WHERE owner = 'n:' || old.id;
+    INSERT OR IGNORE INTO attachment_refs(owner, hash)
+        SELECT 'n:' || new.id, value FROM json_each(kn_markers(new.content));
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_refs_hist_ai AFTER INSERT ON main.note_history BEGIN
+    INSERT OR IGNORE INTO attachment_refs(owner, hash)
+        SELECT 'h:' || new.id, value FROM json_each(kn_markers(new.content));
+END;
+CREATE TEMP TRIGGER IF NOT EXISTS kn_refs_hist_ad AFTER DELETE ON main.note_history BEGIN
+    DELETE FROM attachment_refs WHERE owner = 'h:' || old.id;
+END;";
 
         // Saved graph layouts: one row per (layout name, note), holding where that note's node
         // sits on the canvas. Deliberately OUTSIDE SchemaSql, unlike sketches and recordings:
@@ -365,6 +415,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             Exec(SchemaSql);
             Exec(GraphLayoutSql);
             Exec(HistorySql);
+            Exec(AttachmentRefsSql);
+            Exec(AttachmentRefTriggersSql);
             EnsureColumns();
             // Seed ONLY when the tags table was just created: user customizations and
             // deletions must never resurrect.
@@ -614,6 +666,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                          "DELETE FROM note_links WHERE src = $id",
                          "DELETE FROM note_history WHERE note_id = $id",
                          "DELETE FROM notes WHERE id = $id",
+                         "DELETE FROM attachment_refs WHERE owner = 'n:' || $id",
+                         "DELETE FROM attachments WHERE hash NOT IN (SELECT hash FROM attachment_refs)",
                      })
             {
                 using var cmd = _db.CreateCommand();
@@ -720,15 +774,67 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             return v is byte[] b && b.Length > 0 ? b : null;
         }
 
-        public static void SaveEditorState(long id, string title, byte[] content, string plain,
-            IEnumerable<string> links, IReadOnlyDictionary<int, byte[]> sketches)
+        /// <summary>Saves the open note in one transaction: its body, links, and the payloads its
+        /// markers name. Payloads are written here and nowhere earlier, so cleanup can never take
+        /// one the editor still holds. dropLegacyRecordings removes the note's old ordinal
+        /// recording rows once their audio has been re-anchored as markers in this body.</summary>
+        internal static void SaveEditorState(long id, string title, byte[] content, string plain,
+            IEnumerable<string> links, IEnumerable<Attachment> attachments, bool dropLegacyRecordings = false)
         {
             if (_db == null || IsReadOnly) throw new InvalidOperationException("The database is not writable.");
             using var tx = _db.BeginTransaction();
+            PutAttachments(attachments, tx);
             Save(id, title, content, plain, tx);
             SetLinks(id, links, tx);
-            SaveSketches(id, sketches, tx);
+            if (dropLegacyRecordings)
+            {
+                using var drop = _db.CreateCommand();
+                drop.Transaction = tx;
+                drop.CommandText = "DELETE FROM recordings WHERE note_id = $id";
+                drop.Parameters.AddWithValue("$id", id);
+                drop.ExecuteNonQuery();
+            }
+            SweepAttachments(tx);
             tx.Commit();
+        }
+
+        // ---- Attachment payloads (1.6.0) ----
+
+        private static void PutAttachments(IEnumerable<Attachment> attachments, SqliteTransaction? tx)
+        {
+            foreach (var a in attachments)
+            {
+                using var cmd = _db!.CreateCommand();
+                cmd.Transaction = tx;
+                cmd.CommandText = "INSERT OR IGNORE INTO attachments(hash, kind, payload, duration) VALUES ($h, $k, $p, $d)";
+                cmd.Parameters.AddWithValue("$h", a.Hash);
+                cmd.Parameters.AddWithValue("$k", (int)a.Kind);
+                cmd.Parameters.AddWithValue("$p", a.Payload);
+                cmd.Parameters.AddWithValue("$d", a.DurationMs);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>A stored payload by hash, or null when this database has none.</summary>
+        internal static Attachment? GetAttachment(string hash)
+        {
+            if (_db == null) return null;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT kind, payload, duration FROM attachments WHERE hash = $h";
+            cmd.Parameters.AddWithValue("$h", hash);
+            using var r = cmd.ExecuteReader();
+            if (!r.Read()) return null;
+            return new Attachment((AttachmentKind)r.GetInt64(0), (byte[])r.GetValue(1), (int)r.GetInt64(2));
+        }
+
+        /// <summary>Removes payloads that no note (live or trashed) and no history version
+        /// points at any more.</summary>
+        private static void SweepAttachments(SqliteTransaction? tx)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.Transaction = tx;
+            cmd.CommandText = "DELETE FROM attachments WHERE hash NOT IN (SELECT hash FROM attachment_refs)";
+            cmd.ExecuteNonQuery();
         }
 
         public static void Save(long id, string title, byte[] content, string plain)
@@ -901,7 +1007,9 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             cmd.Parameters.AddWithValue("$p", selected.Plain);
             cmd.Parameters.AddWithValue("$m", Ts(DateTime.Now));
             cmd.Parameters.AddWithValue("$n", noteId);
-            return cmd.ExecuteNonQuery() > 0;
+            bool restored = cmd.ExecuteNonQuery() > 0;
+            SweepAttachments(null);   // the snapshot above may have pruned the oldest version
+            return restored;
         }
 
         /// <summary>Markdown notes whose content is still raw source rather than a XamlPackage,
@@ -2180,6 +2288,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 ins.Parameters.AddWithValue("$sy", r.IsDBNull(10) ? 0 : r.GetInt64(10));
                 ins.ExecuteNonQuery();
                 CopyNoteAttachments(_db!, dest, id, LastInsertedId(dest), true, true);
+                CopyPayloads(_db!, dest, null, Attachments.MarkersIn(r.GetValue(5) as byte[]));
 
                 // Carry the note's tag definitions (name + color) so its chips keep their
                 // colors on the receiving machine; the receiver's own defs win on import.
@@ -2241,6 +2350,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 string live = srcCols.Contains("deleted") ? " WHERE deleted = ''" : "";
                 bool hasSketches = HasTable(src, "sketches");
                 bool hasRecordings = HasTable(src, "recordings");
+                bool hasPayloads = HasTable(src, "attachments");
 
                 using var read = src.CreateCommand();
                 read.CommandText = extras
@@ -2272,6 +2382,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     ins.Parameters.AddWithValue("$sy", r.IsDBNull(10) ? 0 : r.GetInt64(10));
                     ins.ExecuteNonQuery();
                     CopyNoteAttachments(src, _db!, r.GetInt64(11), LastInsertedId(_db!), hasSketches, hasRecordings);
+                    if (hasPayloads) CopyPayloads(src, _db!, tx, Attachments.MarkersIn(r.GetValue(5) as byte[]));
                     count++;
                 }
 
@@ -2311,6 +2422,29 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             using var cmd = db.CreateCommand();
             cmd.CommandText = "SELECT last_insert_rowid()";
             return (long)cmd.ExecuteScalar()!;
+        }
+
+        /// <summary>Copies the named payloads between databases. Content-addressed, so a payload
+        /// the target already has is simply kept.</summary>
+        private static void CopyPayloads(SqliteConnection source, SqliteConnection target,
+            SqliteTransaction? targetTx, IEnumerable<string> hashes)
+        {
+            foreach (string hash in hashes)
+            {
+                using var read = source.CreateCommand();
+                read.CommandText = "SELECT kind, payload, duration FROM attachments WHERE hash = $h";
+                read.Parameters.AddWithValue("$h", hash);
+                using var row = read.ExecuteReader();
+                if (!row.Read()) continue;
+                using var insert = target.CreateCommand();
+                insert.Transaction = targetTx;
+                insert.CommandText = "INSERT OR IGNORE INTO attachments(hash, kind, payload, duration) VALUES ($h, $k, $p, $d)";
+                insert.Parameters.AddWithValue("$h", hash);
+                insert.Parameters.AddWithValue("$k", row.GetInt64(0));
+                insert.Parameters.AddWithValue("$p", row.GetValue(1));
+                insert.Parameters.AddWithValue("$d", row.GetInt64(2));
+                insert.ExecuteNonQuery();
+            }
         }
 
         private static void CopyNoteAttachments(SqliteConnection source, SqliteConnection target,

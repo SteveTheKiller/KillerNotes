@@ -279,8 +279,16 @@ namespace KillerNotes.Shell
         private static string SketchLabelTextFor(long noteId)
         {
             var parts = new List<string>();
-            foreach (var kv in NoteStore.LoadSketches(noteId))
-                foreach (var o in SketchModel.Deserialize(kv.Value))
+            // The payloads the stored body names, or the ordinal rows for a note saved before
+            // sketch markers existed (Services/Sketch.cs).
+            var payloads = Attachments.MarkersIn(NoteStore.LoadContent(noteId))
+                .Select(NoteStore.GetAttachment)
+                .Where(a => a?.Kind == AttachmentKind.Sketch)
+                .Select(a => a!.Payload)
+                .ToList();
+            if (payloads.Count == 0) payloads = NoteStore.LoadSketches(noteId).Values.ToList();
+            foreach (var payload in payloads)
+                foreach (var o in SketchModel.Deserialize(payload))
                     if (o.Kind == SketchKind.Text && !string.IsNullOrWhiteSpace(o.Text))
                         parts.Add(o.Text!.Trim());
             return string.Join("\n", parts);

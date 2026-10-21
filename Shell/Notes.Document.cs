@@ -230,6 +230,11 @@ namespace KillerNotes.Shell
 
             byte[] blob;
             string bodyText;
+            // Before serializing: this marks each sketch image with its payload's hash, and the
+            // marker has to be in the bytes that are about to be stored (Services/Attachments.cs).
+            var attachments = CurrentIsMarkdown
+                ? new System.Collections.Generic.List<Attachment>()
+                : Sketch.CaptureAttachments(Editor.Document.Blocks);
             if (CurrentIsMarkdown)
             {
                 // Markdown notes store their source text, not a XamlPackage. The blob and the
@@ -261,7 +266,7 @@ namespace KillerNotes.Shell
             // this note, and WikiRename.cs offers to rewrite them once the box is done with.
             string titleWas = _notes.FirstOrDefault(n => n.Id == _currentId)?.Title ?? "";
             NoteStore.SaveEditorState(_currentId, TitleBox.Text, blob, storedPlain,
-                WikiLinks.Parse(bodyText), Sketch.Capture(Editor.Document.Blocks));
+                WikiLinks.Parse(bodyText), attachments);
             RecordRename(_currentId, titleWas, TitleBox.Text);   // WikiRename.cs
             // Wikilinks are re-derived from the text every save, so an edge appears the moment a
             // link is typed and disappears the moment it is deleted. Parsed from bodyText, NOT
