@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Atajos de teclado (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Tema</sys:String>
     <sys:String x:Key="Str_TT_Language">Idioma</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Buscar notas  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Buscar en todas las notas  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nueva nota</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nueva nota (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">Por fecha de creación - más antiguas primero (clic de nuevo para invertir)</sys:String>
@@ -78,6 +78,9 @@
     <sys:String x:Key="Str_St_ClipBusy">El portapapeles está ocupado - inténtalo de nuevo</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} notas</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">No se pudo abrir esta nota y se dejó sin cambios: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0} notas coincidentes; contando coincidencias en el texto...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{0} coincidencias en el contenido de {1} notas coincidentes</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{0} coincidencias en el contenido de {1} notas coincidentes ({2} ilegibles)</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} coincidencias</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Nota eliminada</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} notas eliminadas</sys:String>
@@ -232,7 +235,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_HoldHint">mantenga Ctrl, Shift o Alt para ver esa capa</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Atajos de teclado (esta lista)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Renombrar la nota abierta</sys:String>
-    <sys:String x:Key="Str_KS_Search">Buscar notas</sys:String>
+    <sys:String x:Key="Str_KS_Search">Buscar en todas las notas</sys:String>
     <sys:String x:Key="Str_KS_Preview">Alternar vista previa markdown/HTML</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Mostrar / ocultar la barra de formato</sys:String>
     <sys:String x:Key="Str_KS_Export">Exportar la nota abierta (.txt / .rtf / .html)</sys:String>
@@ -778,7 +781,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_TT_ReplaceAll">Reemplazar todas las coincidencias de esta nota (Ctrl+Intro)</sys:String>
     <sys:String x:Key="Str_St_Replaced">{0} coincidencias reemplazadas</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Reemplazar en todas las notas</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Reemplazar el término de búsqueda en todas las notas que lo contengan</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Reemplazar el texto exacto de la búsqueda en todas las notas, previa confirmación</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Reemplazar con...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Escriba primero un término de búsqueda arriba</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">{0} coincidencias reemplazadas en {1} notas</sys:String>

@@ -20,7 +20,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Keyboard shortcuts (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Theme</sys:String>
     <sys:String x:Key="Str_TT_Language">Language</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Search notes  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Search all notes  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ New note</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ New</sys:String>
     <sys:String x:Key="Str_TT_NewNote">New note (Ctrl+N)</sys:String>
@@ -231,6 +231,9 @@
     <!-- The note's stored content would not deserialize. It is left unloaded rather than
          opened empty, and saving is blocked so the content on disk is not overwritten. -->
     <sys:String x:Key="Str_St_NoteLoadFailed">This note could not be opened and was left unchanged: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0} matching notes; counting text matches...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{0} body matches in {1} matching notes</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{0} body matches in {1} matching notes ({2} unreadable)</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} matches</sys:String>
     <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
          this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->
@@ -252,7 +255,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">Replace every match in this note (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">Replaced {0} matches</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Replace across all notes</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Replace the search term in every note that carries it</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Replace the exact search text across notes, after confirmation</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Replace with...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Type a search term above first</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">Replaced {0} matches across {1} notes</sys:String>
@@ -448,7 +451,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_HoldHint">hold Ctrl, Shift or Alt to preview that layer</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Keyboard shortcuts (this list)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Rename the open note</sys:String>
-    <sys:String x:Key="Str_KS_Search">Search notes</sys:String>
+    <sys:String x:Key="Str_KS_Search">Search all notes</sys:String>
     <sys:String x:Key="Str_KS_Find">Find in this note</sys:String>
     <sys:String x:Key="Str_KS_Preview">Toggle markdown/HTML preview</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Show / hide the format bar</sys:String>

@@ -20,7 +20,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Phím tắt (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Chủ đề</sys:String>
     <sys:String x:Key="Str_TT_Language">Ngôn ngữ</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Tìm kiếm ghi chú  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Tìm trong tất cả ghi chú  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Ghi chú mới</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Mới</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Ghi chú mới (Ctrl+N)</sys:String>
@@ -231,6 +231,9 @@
     <!-- The note's stored content would not deserialize. It is left unloaded rather than
          opened empty, and saving is blocked so the content on disk is not overwritten. -->
     <sys:String x:Key="Str_St_NoteLoadFailed">Không thể mở ghi chú này và nội dung không bị thay đổi: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0} ghi chú phù hợp; đang đếm các kết quả khớp trong văn bản...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{0} kết quả khớp trong nội dung của {1} ghi chú phù hợp</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{0} kết quả khớp trong nội dung của {1} ghi chú phù hợp ({2} ghi chú không đọc được)</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} kết quả</sys:String>
     <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
          this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->
@@ -252,7 +255,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">Thay thế mọi kết quả trong ghi chú này (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">Đã thay thế {0} kết quả</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Thay thế trong tất cả ghi chú</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Thay thế cụm từ tìm kiếm trong mọi ghi chú có chứa nó</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Thay thế văn bản khớp chính xác với nội dung tìm kiếm trong tất cả ghi chú, sau khi xác nhận</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Thay bằng...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Trước tiên hãy nhập cụm từ tìm kiếm ở trên</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">Đã thay thế {0} kết quả trong {1} ghi chú</sys:String>
@@ -449,7 +452,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_KS_HoldHint">Giữ phím Ctrl, Shift hoặc Alt để xem trước lớp đó</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Danh sách phím tắt này</sys:String>
     <sys:String x:Key="Str_KS_Rename">Đổi tên ghi chú đang mở</sys:String>
-    <sys:String x:Key="Str_KS_Search">Tìm kiếm ghi chú</sys:String>
+    <sys:String x:Key="Str_KS_Search">Tìm trong tất cả ghi chú</sys:String>
     <sys:String x:Key="Str_KS_Find">Tìm trong ghi chú này</sys:String>
     <sys:String x:Key="Str_KS_Preview">Bật/tắt xem trước markdown/HTML</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Hiện / ẩn thanh định dạng</sys:String>

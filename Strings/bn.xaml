@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">কীবোর্ড শর্টকাট (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">থিম</sys:String>
     <sys:String x:Key="Str_TT_Language">ভাষা</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">নোট খুঁজুন  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">সব নোটে খুঁজুন  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ নতুন নোট</sys:String>
     <sys:String x:Key="Str_TT_NewNote">নতুন নোট (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">তৈরির সময় অনুযায়ী - পুরোনো আগে (উল্টাতে আবার ক্লিক করুন)</sys:String>
@@ -78,6 +78,9 @@
     <sys:String x:Key="Str_St_ClipBusy">ক্লিপবোর্ড ব্যস্ত - আবার চেষ্টা করুন</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0}টি নোট</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">এই নোটটি খোলা যায়নি এবং অপরিবর্তিত রাখা হয়েছে: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0}টি মিলে যাওয়া নোট; মূল লেখায় মিল গণনা করা হচ্ছে...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{1}টি মিলে যাওয়া নোটের মূল লেখায় {0}টি মিল</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{1}টি মিলে যাওয়া নোটের মূল লেখায় {0}টি মিল ({2}টি পড়া যায়নি)</sys:String>
     <sys:String x:Key="Str_St_Matches">{0}টি মিল</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">নোট মুছে ফেলা হয়েছে</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0}টি নোট মুছে ফেলা হয়েছে</sys:String>
@@ -230,7 +233,7 @@
     <sys:String x:Key="Str_KS_HoldHint">সেই স্তরটি দেখতে Ctrl, Shift বা Alt চেপে ধরুন</sys:String>
     <sys:String x:Key="Str_KS_ThisList">কীবোর্ড শর্টকাট (এই তালিকা)</sys:String>
     <sys:String x:Key="Str_KS_Rename">খোলা নোটের নাম বদলান</sys:String>
-    <sys:String x:Key="Str_KS_Search">নোট খুঁজুন</sys:String>
+    <sys:String x:Key="Str_KS_Search">সব নোটে খুঁজুন</sys:String>
     <sys:String x:Key="Str_KS_Preview">মার্কডাউন/HTML প্রিভিউ টগল করুন</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">ফরম্যাট বার দেখান / লুকান</sys:String>
     <sys:String x:Key="Str_KS_Export">খোলা নোট এক্সপোর্ট করুন (.txt / .rtf / .html)</sys:String>
@@ -777,7 +780,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">এই নোটের সব মিল প্রতিস্থাপন করুন (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">{0}টি মিল প্রতিস্থাপন করা হয়েছে</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">সব নোটে প্রতিস্থাপন করুন</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">অনুসন্ধানের শব্দটি যে নোটগুলিতে আছে সেগুলির সবেতেই প্রতিস্থাপন করুন</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">নিশ্চিত করার পর সব নোটে অনুসন্ধানের হুবহু লেখাটি প্রতিস্থাপন করুন</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">যা দিয়ে প্রতিস্থাপন...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">প্রথমে উপরে একটি অনুসন্ধানের শব্দ লিখুন</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">{1}টি নোটে {0}টি মিল প্রতিস্থাপন করা হয়েছে</sys:String>

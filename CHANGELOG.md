@@ -21,13 +21,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Install handoffs wait for the previous app to exit; silent installs and updates return retryable code 1618 when KillerNotes is running.
 - Chocolatey publishing reports failure when validation is still failing after a retry.
 - Preview sizing respects the current monitor's work area and relaxes split-pane limits on constrained displays.
+- The database name uses KillerPDF's embedded filename font and size, with its bottom aligned to the database icon.
 - The editor's dotted keyboard focus outline sits above the first text row.
 - Sidebar fades stop at scroll limits and stay off in 98SE; shortcut and font cards show overflow and keep scrollbars clear of Close.
-- The footer copyright sits further from the corner grip.
+- Menus, search, buttons, SketchPad, Dictation and shortcut labels use embedded Killer Sans. The footer copyright sits further from the corner grip.
 
 ### Changed
-- Moved note search beside the title-bar wordmark, with Replace expanding into an aligned second row. New note fills the available row width with tighter vertical spacing.
+- Title-bar search highlights each word and shows body-match and matching-note totals. Find in this note stays local; confirmed cross-note Replace opens in the same solid, grained panel, animates without expanding the title bar, and closes when clicking elsewhere.
 - Updated SQLCipher to 4.19.0, FLAC to 1.5.0, Whisper to 1.9.5, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
+- Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
+- The larger Lacquer + NEW label fills its button, sits higher, and shrinks slightly before becoming a large plus sign on narrow sidebars.
+- Film grain has crisper specks and fades midtones across app and website themes without dimming bright highlights.
 
 ## [1.5.1] - 2026-10-19
 

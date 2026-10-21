@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Klavye kısayolları (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Tema</sys:String>
     <sys:String x:Key="Str_TT_Language">Dil</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Notlarda ara  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Tüm notlarda ara  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Yeni not</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Yeni not (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">Oluşturma zamanına göre - önce en eski (tersine çevirmek için yeniden tıklayın)</sys:String>
@@ -78,6 +78,9 @@
     <sys:String x:Key="Str_St_ClipBusy">Pano meşgul - yeniden deneyin</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} not</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">Bu not açılamadı ve değiştirilmeden bırakıldı: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0} eşleşen not; metindeki eşleşmeler sayılıyor...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{1} eşleşen notun içeriğinde {0} eşleşme</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{1} eşleşen notun içeriğinde {0} eşleşme ({2} not okunamıyor)</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} eşleşme</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Not silindi</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} not silindi</sys:String>
@@ -231,7 +234,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_HoldHint">o katmanı görmek için Ctrl, Shift veya Alt tuşunu basılı tutun</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Klavye kısayolları (bu liste)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Açık notu yeniden adlandır</sys:String>
-    <sys:String x:Key="Str_KS_Search">Notlarda ara</sys:String>
+    <sys:String x:Key="Str_KS_Search">Tüm notlarda ara</sys:String>
     <sys:String x:Key="Str_KS_Preview">Markdown/HTML önizlemesini aç/kapat</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Biçim çubuğunu göster / gizle</sys:String>
     <sys:String x:Key="Str_KS_Export">Açık notu dışa aktar (.txt / .rtf / .html)</sys:String>
@@ -777,7 +780,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_TT_ReplaceAll">Bu nottaki tüm eşleşmeleri değiştir (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">{0} eşleşme değiştirildi</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Tüm notlarda değiştir</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Arama terimini, onu içeren her notta değiştir</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Onaydan sonra tüm notlarda arama metniyle tam olarak eşleşen metni değiştir</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Şununla değiştir...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Önce yukarıya bir arama terimi yazın</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">{1} notta {0} eşleşme değiştirildi</sys:String>

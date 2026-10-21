@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">鍵盤快速鍵 (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">佈景主題</sys:String>
     <sys:String x:Key="Str_TT_Language">語言</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">搜尋筆記  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">搜尋所有筆記  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ 新增筆記</sys:String>
     <sys:String x:Key="Str_TT_NewNote">新增筆記 (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">依建立時間 - 最舊在前 (再按一次反向排序)</sys:String>
@@ -78,6 +78,9 @@
     <sys:String x:Key="Str_St_ClipBusy">剪貼簿忙碌中 - 請再試一次</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} 則筆記</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">無法開啟此筆記，內容未變更: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">找到 {0} 則相符筆記；正在統計內文相符數...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{1} 則相符筆記的內文中有 {0} 處相符</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{1} 則相符筆記的內文中有 {0} 處相符（{2} 則無法讀取）</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} 個符合</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">筆記已刪除</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">已刪除 {0} 則筆記</sys:String>
@@ -230,7 +233,7 @@
     <sys:String x:Key="Str_KS_HoldHint">按住 Ctrl、Shift 或 Alt 可預覽該層</sys:String>
     <sys:String x:Key="Str_KS_ThisList">鍵盤快速鍵 (這份清單)</sys:String>
     <sys:String x:Key="Str_KS_Rename">重新命名開啟中的筆記</sys:String>
-    <sys:String x:Key="Str_KS_Search">搜尋筆記</sys:String>
+    <sys:String x:Key="Str_KS_Search">搜尋所有筆記</sys:String>
     <sys:String x:Key="Str_KS_Preview">切換 Markdown/HTML 預覽</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">顯示 / 隱藏格式列</sys:String>
     <sys:String x:Key="Str_KS_Export">匯出開啟中的筆記 (.txt / .rtf / .html)</sys:String>
@@ -777,7 +780,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">取代此筆記中的所有相符項目 (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">已取代 {0} 處相符項目</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">在所有筆記中取代</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">在每則含有搜尋字詞的筆記中取代該字詞</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">確認後，在所有筆記中取代與搜尋文字完全相同的內容</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">取代為...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">請先在上方輸入搜尋字詞</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">已在 {1} 則筆記中取代 {0} 處相符項目</sys:String>

@@ -83,11 +83,12 @@ namespace KillerNotes.Shell
             _findPlainStale = true;
             // Loading and theme/syntax formatting can notify once per run. Scanning the whole
             // note inside each notification makes a large note's load quadratic (#26).
-            if (!_findOpen || _loadingNote || _findRefreshOperation != null) return;
+            if ((!_findOpen && !HasGlobalSearch) || _loadingNote || _findRefreshOperation != null) return;
             _findRefreshOperation = Editor.Dispatcher.BeginInvoke(new Action(() =>
             {
                 _findRefreshOperation = null;
                 if (_findOpen && !_loadingNote) RunFind(keepIndex: true);
+                else if (!_loadingNote) RefreshGlobalHighlights();
             }), DispatcherPriority.Background);
         }
 
@@ -104,6 +105,7 @@ namespace KillerNotes.Shell
             _findHits.Clear();
             _findIndex = -1;
             if (_findOpen) RunFind();
+            else RefreshGlobalHighlights();
         }
 
         /// <summary>
@@ -199,12 +201,12 @@ namespace KillerNotes.Shell
 
             UpdateFindCount();
             RepaintFindMatches();
+            RefreshGlobalHighlights();
         }
 
         /// <summary>Fills <paramref name="hits"/> with the current term's matches over
-        /// <paramref name="plain"/>, honoring the three option toggles. Shared by in-note find
-        /// and the cross-note replace scan (GlobalReplace.cs), so the two can never disagree
-        /// about what matches. Case folding stays Ordinal: a note is as likely to hold a path
+        /// <paramref name="plain"/>, honoring the three in-note option toggles.
+        /// Case folding stays Ordinal: a note is as likely to hold a path
         /// or a command as prose, and culture folding turns some of those into surprises.</summary>
         internal void CollectFindHits(string plain, List<(int Start, int Length)> hits)
         {
@@ -252,14 +254,10 @@ namespace KillerNotes.Shell
             catch (ArgumentException) { return null; }
         }
 
-        /// <summary>Step to the next or previous match, continuing through matching notes.</summary>
+        /// <summary>Step to the next or previous match within the open note.</summary>
         private void StepFind(int delta)
         {
             if (_findPlainStale) RunFind(keepIndex: true);
-            bool pastEnd = _findHits.Count == 0 ||
-                           (delta > 0 && _findIndex >= _findHits.Count - 1) ||
-                           (delta < 0 && _findIndex <= 0);
-            if (pastEnd && TryStepFindToNote(delta)) return;
             if (_findHits.Count == 0) return;
 
             _findIndex = ((_findIndex + delta) % _findHits.Count + _findHits.Count) % _findHits.Count;
@@ -389,6 +387,7 @@ namespace KillerNotes.Shell
             Closed += (_, _) =>
             {
                 CancelFindRefresh();
+                CancelGlobalSearchPreview();
                 ThemeManager.ThemeChanged -= RepaintFindAfterThemeChange;
             };
             Editor.Loaded += (_, _) =>
@@ -590,6 +589,7 @@ namespace KillerNotes.Shell
 
             _findHits.Clear();
             _findIndex = -1;
+            RefreshGlobalHighlights();
             RepaintFindMatches();
             Editor.Focus();
         }
@@ -733,9 +733,9 @@ namespace KillerNotes.Shell
         }
 
         // Read by the adorner, which lives outside this class.
-        internal bool FindIsOpen => _findOpen && !_loadingNote && !_findPlainStale;
-        internal IReadOnlyList<(int Start, int Length)> FindHits => _findHits;
-        internal int FindCurrentIndex => _findIndex;
+        internal bool FindIsOpen => (_findOpen || HasGlobalSearch) && !_loadingNote && !_findPlainStale;
+        internal IReadOnlyList<(int Start, int Length)> FindHits => _findOpen || !HasGlobalSearch ? _findHits : _globalFindHits;
+        internal int FindCurrentIndex => _findOpen ? _findIndex : -1;
         internal TextPointer? FindPointerFor(int offset) => PointerForOffset(offset);
     }
 

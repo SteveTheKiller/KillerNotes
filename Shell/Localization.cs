@@ -154,9 +154,8 @@ namespace KillerNotes.Shell
             // Lock/preview tooltips and the status line refresh on their next change;
             // reset the status line to the neutral count now.
             if (NotesList.ItemsSource != null)
-                StatusText.Text = string.Format(
-                    Loc(string.IsNullOrWhiteSpace(SearchBox.Text) ? "Str_St_NotesCount" : "Str_St_Matches"),
-                    _notes.Count);
+                StatusText.Text = DefaultStatus();
+            UpdateGlobalSearchCount();
         }
     }
 }

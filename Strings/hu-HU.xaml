@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Billentyűparancsok (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">téma</sys:String>
     <sys:String x:Key="Str_TT_Language">Nyelv</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Jegyzetek keresése (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Keresés az összes jegyzetben  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Új jegyzet</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Új</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Új jegyzet (Ctrl+N)</sys:String>
@@ -200,6 +200,9 @@
     <sys:String x:Key="Str_St_ClipBusy">A vágólap foglalt - próbálja újra</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} jegyzet</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">Ezt a jegyzetet nem sikerült megnyitni, változatlan maradt: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0} egyező jegyzet; szöveges egyezések számlálása...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{0} egyezés {1} egyező jegyzet szövegében</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{0} egyezés {1} egyező jegyzet szövegében ({2} nem olvasható)</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} egyezés</sys:String>
     <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
          this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->
@@ -218,7 +221,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">Minden találat cseréje ebben a jegyzetben (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">{0} találat cserélve</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Csere az összes jegyzetben</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">A keresett kifejezés cseréje minden jegyzetben, amely tartalmazza</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">A pontos keresési szöveg cseréje az összes jegyzetben, megerősítés után</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Csere erre...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Először írjon be fent egy keresett kifejezést</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">{0} találat cserélve {1} jegyzetben</sys:String>
@@ -410,7 +413,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_KS_HoldHint">tartsa lenyomva a Ctrl, Shift vagy Alt billentyűt a réteg előnézetéhez</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Billentyűparancsok (ez a lista)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Nevezze át a nyitott jegyzetet</sys:String>
-    <sys:String x:Key="Str_KS_Search">Jegyzetek keresése</sys:String>
+    <sys:String x:Key="Str_KS_Search">Keresés az összes jegyzetben</sys:String>
     <sys:String x:Key="Str_KS_Find">Keresse meg ebben a jegyzetben</sys:String>
     <sys:String x:Key="Str_KS_Preview">Markdown/HTML előnézet váltása</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">A formátumsáv megjelenítése/elrejtése</sys:String>

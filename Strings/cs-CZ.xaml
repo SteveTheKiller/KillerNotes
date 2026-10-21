@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Klávesové zkratky (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Motiv</sys:String>
     <sys:String x:Key="Str_TT_Language">Jazyk</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Hledat poznámky  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Hledat ve všech poznámkách  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nová poznámka</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Nová</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nová poznámka (Ctrl+N)</sys:String>
@@ -120,6 +120,9 @@
     <sys:String x:Key="Str_St_ClipBusy">Schránka je zaneprázdněná - zkuste to znovu</sys:String>
     <sys:String x:Key="Str_St_NotesCount">Počet poznámek: {0}</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">Tuto poznámku se nepodařilo otevřít a zůstala beze změny: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">Odpovídající poznámky: {0}; počítání shod v textu...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">Shody v obsahu: {0}; odpovídající poznámky: {1}</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">Shody v obsahu: {0}; odpovídající poznámky: {1} (nelze přečíst: {2})</sys:String>
     <sys:String x:Key="Str_St_Matches">Počet shod: {0}</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Poznámka smazána</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">Smazáno poznámek: {0}</sys:String>
@@ -306,7 +309,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_KS_HoldHint">podržte Ctrl, Shift nebo Alt pro náhled dané vrstvy</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Klávesové zkratky (tento seznam)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Přejmenovat otevřenou poznámku</sys:String>
-    <sys:String x:Key="Str_KS_Search">Hledat poznámky</sys:String>
+    <sys:String x:Key="Str_KS_Search">Hledat ve všech poznámkách</sys:String>
     <sys:String x:Key="Str_KS_Preview">Přepnout náhled markdown/HTML</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Zobrazit / skrýt panel formátování</sys:String>
     <sys:String x:Key="Str_KS_Export">Exportovat otevřenou poznámku (.txt / .rtf / .html)</sys:String>
@@ -774,7 +777,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_TT_ReplaceAll">Nahradit všechny shody v této poznámce (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">Nahrazeno {0} shod</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Nahradit ve všech poznámkách</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Nahradit hledaný výraz v každé poznámce, která jej obsahuje</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Po potvrzení nahradit přesný hledaný text napříč poznámkami</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Nahradit čím...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Nejprve zadejte hledaný výraz výše</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">Nahrazeno {0} shod v {1} poznámkách</sys:String>

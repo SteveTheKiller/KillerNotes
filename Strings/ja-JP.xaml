@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">キーボード ショートカット (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">テーマ</sys:String>
     <sys:String x:Key="Str_TT_Language">言語</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">ノートを検索  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">すべてのノートを検索  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ 新しいノート</sys:String>
     <sys:String x:Key="Str_TT_NewNote">新しいノート (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">作成日時順 - 古い順 (もう一度クリックで逆順)</sys:String>
@@ -78,6 +78,9 @@
     <sys:String x:Key="Str_St_ClipBusy">クリップボードが使用中です - もう一度お試しください</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} 件のノート</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">このノートを開けませんでした。内容は変更されていません: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0} 件のノートが一致。本文の一致箇所を集計中...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{1} 件の該当ノートの本文に {0} 件の一致</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{1} 件の該当ノートの本文に {0} 件の一致（{2} 件は読み取れません）</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} 件が一致</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">ノートを削除しました</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} 件のノートを削除しました</sys:String>
@@ -230,7 +233,7 @@
     <sys:String x:Key="Str_KS_HoldHint">Ctrl、Shift または Alt を押すとそのレイヤーを表示します</sys:String>
     <sys:String x:Key="Str_KS_ThisList">キーボード ショートカット (この一覧)</sys:String>
     <sys:String x:Key="Str_KS_Rename">開いているノートの名前を変更</sys:String>
-    <sys:String x:Key="Str_KS_Search">ノートを検索</sys:String>
+    <sys:String x:Key="Str_KS_Search">すべてのノートを検索</sys:String>
     <sys:String x:Key="Str_KS_Preview">Markdown/HTML プレビューの切り替え</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">書式バーの表示 / 非表示</sys:String>
     <sys:String x:Key="Str_KS_Export">開いているノートをエクスポート (.txt / .rtf / .html)</sys:String>
@@ -775,7 +778,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">このノート内のすべての一致を置換 (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">{0} 件を置換しました</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">すべてのノートで置換</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">検索語を含むすべてのノートで置換します</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">確認後、すべてのノートで検索テキストと完全に一致する箇所を置換します</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">置換後の文字列...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">先に上へ検索語を入力してください</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">{1} 件のノートで {0} 件を置換しました</sys:String>

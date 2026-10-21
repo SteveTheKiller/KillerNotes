@@ -11,7 +11,7 @@ using KillerNotes.Services;
 namespace KillerNotes.Shell
 {
     // ═══════════════════════════════════════════════════════════
-    //  CROSS-NOTE REPLACE (#14) - the second title-bar row
+    //  CROSS-NOTE REPLACE (#14) - the floating row beneath Search
     // ═══════════════════════════════════════════════════════════
     // The sidebar search box already answers "which notes carry this text"; this row is the
     // write half: replace that term inside every note that carries it. The term is taken
@@ -27,15 +27,64 @@ namespace KillerNotes.Shell
     // app-level undo entry (ActionUndo.cs): Ctrl+Z after a 40-note replace puts all 40 back.
     public partial class MainWindow
     {
+        private bool _sidebarReplaceOpen;
+        private int _sidebarReplaceAnimationVersion;
+
         /// <summary>Shows the cross-note replace row directly beneath Search.</summary>
         private void SidebarReplace_Click(object sender, RoutedEventArgs e)
         {
-            bool open = SidebarReplaceRow.Visibility != Visibility.Visible;
-            SidebarReplaceRow.Visibility = open ? Visibility.Visible : Visibility.Collapsed;
-            SidebarReplaceBtn.Tag = open ? "on" : null;
+            bool open = !_sidebarReplaceOpen;
+            SetSidebarReplaceOpen(open);
             if (!open) { SidebarReplaceBtn.Focus(); return; }
             if (SearchBox.Text.Length == 0) SearchBox.Focus();
             else SidebarReplaceBox.Focus();
+        }
+
+        private void SetSidebarReplaceOpen(bool open)
+        {
+            if (_sidebarReplaceOpen == open) return;
+            _sidebarReplaceOpen = open;
+            int version = ++_sidebarReplaceAnimationVersion;
+            SidebarReplaceBtn.Tag = open ? "on" : null;
+            TitleSearchFlyout.Width = TitleNoteSearch.ActualWidth + 8;
+            TitleSearchFlyout.Height = TitleSearchSlot.ActualHeight + 34;
+            SidebarReplaceRow.IsHitTestVisible = open;
+            TitleSearchFlyout.IsHitTestVisible = open;
+            if (open)
+            {
+                SidebarReplaceRow.Visibility = Visibility.Visible;
+                TitleSearchFlyout.Visibility = Visibility.Visible;
+            }
+            bool animate = SystemParameters.ClientAreaAnimation;
+            var duration = new Duration(TimeSpan.FromMilliseconds(animate ? 140 : 0));
+            var easing = new System.Windows.Media.Animation.CubicEase
+                { EasingMode = System.Windows.Media.Animation.EasingMode.EaseOut };
+            foreach (var element in new FrameworkElement[] { TitleSearchFlyout, SidebarReplaceRow })
+            {
+                double current = element.Opacity;
+                element.Opacity = open ? 1 : 0;
+                var fade = new System.Windows.Media.Animation.DoubleAnimation(current, element.Opacity, duration)
+                    { EasingFunction = easing };
+                if (!open) fade.Completed += (_, _) =>
+                {
+                    if (version == _sidebarReplaceAnimationVersion && !_sidebarReplaceOpen)
+                        element.Visibility = Visibility.Collapsed;
+                };
+                element.BeginAnimation(OpacityProperty, fade);
+            }
+            double searchY = TitleNoteSearch.RenderTransform is System.Windows.Media.TranslateTransform previous ? previous.Y : 0;
+            var searchMove = new System.Windows.Media.TranslateTransform(0, open ? -2 : 0);
+            TitleNoteSearch.RenderTransform = searchMove;
+            searchMove.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty,
+                new System.Windows.Media.Animation.DoubleAnimation(searchY, open ? -2 : 0, duration) { EasingFunction = easing });
+            var frameMove = (System.Windows.Media.TranslateTransform)TitleSearchFlyout.RenderTransform;
+            frameMove.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty,
+                new System.Windows.Media.Animation.DoubleAnimation(open ? 4 : 0, open ? 0 : 4, duration) { EasingFunction = easing });
+            var rowMove = new System.Windows.Media.TranslateTransform(0, TitleSearchSlot.ActualHeight);
+            SidebarReplaceRow.RenderTransform = rowMove;
+            rowMove.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty,
+                new System.Windows.Media.Animation.DoubleAnimation(TitleSearchSlot.ActualHeight + (open ? 4 : 0),
+                    TitleSearchSlot.ActualHeight + (open ? 0 : 4), duration) { EasingFunction = easing });
         }
 
         private void SidebarReplaceAll_Click(object sender, RoutedEventArgs e)

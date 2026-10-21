@@ -20,7 +20,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Atalhos de teclado (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Tema</sys:String>
     <sys:String x:Key="Str_TT_Language">Idioma</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Pesquisar notas  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Pesquisar em todas as notas  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nova nota</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Nova</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nova nota (Ctrl+N)</sys:String>
@@ -231,6 +231,9 @@
     <!-- The note's stored content would not deserialize. It is left unloaded rather than
          opened empty, and saving is blocked so the content on disk is not overwritten. -->
     <sys:String x:Key="Str_St_NoteLoadFailed">Não foi possível abrir esta nota e ela foi deixada sem alterações: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0} notas correspondentes; contando correspondências no texto...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{0} correspondências no conteúdo de {1} notas correspondentes</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{0} correspondências no conteúdo de {1} notas correspondentes ({2} ilegíveis)</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} correspondências</sys:String>
     <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
          this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->
@@ -252,7 +255,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">Substituir todas as correspondências nesta nota (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">{0} correspondências substituídas</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Substituir em todas as notas</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Substituir o termo pesquisado em todas as notas que o contêm</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Substituir o texto exato da pesquisa em todas as notas, após confirmação</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Substituir por...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Digite um termo de pesquisa acima primeiro</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">{0} correspondências substituídas em {1} notas</sys:String>
@@ -448,7 +451,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_KS_HoldHint">mantenha Ctrl, Shift ou Alt pressionada para visualizar essa camada</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Atalhos de teclado (esta lista)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Renomear a nota aberta</sys:String>
-    <sys:String x:Key="Str_KS_Search">Pesquisar notas</sys:String>
+    <sys:String x:Key="Str_KS_Search">Pesquisar em todas as notas</sys:String>
     <sys:String x:Key="Str_KS_Find">Localizar nesta nota</sys:String>
     <sys:String x:Key="Str_KS_Preview">Alternar visualização de Markdown/HTML</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Mostrar / ocultar a barra de formatação</sys:String>

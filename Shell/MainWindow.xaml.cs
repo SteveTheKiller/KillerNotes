@@ -30,6 +30,7 @@ namespace KillerNotes.Shell
         public MainWindow()
         {
             InitializeComponent();
+            Deactivated += (_, _) => SetSidebarReplaceOpen(false);
             Loaded += (_, _) => SystemParameters.StaticPropertyChanged += OnSystemContrastChanged;
             Unloaded += (_, _) => SystemParameters.StaticPropertyChanged -= OnSystemContrastChanged;
             _tray = KillerFamily.Shell.CloseToTray.Attach(this, Services.AppInfo.DisplayName, Loc,

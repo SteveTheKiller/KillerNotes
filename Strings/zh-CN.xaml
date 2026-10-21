@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">键盘快捷键 (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">主题</sys:String>
     <sys:String x:Key="Str_TT_Language">语言</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">搜索笔记  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">搜索所有笔记  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ 新建笔记</sys:String>
     <sys:String x:Key="Str_TT_NewNote">新建笔记 (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">按创建时间 - 最早在前 (再次点击反向排序)</sys:String>
@@ -78,6 +78,9 @@
     <sys:String x:Key="Str_St_ClipBusy">剪贴板正忙 - 请重试</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} 条笔记</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">无法打开此笔记，内容未更改: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">找到 {0} 条匹配笔记；正在统计正文匹配数...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{1} 条匹配笔记的正文中有 {0} 处匹配</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{1} 条匹配笔记的正文中有 {0} 处匹配（{2} 条无法读取）</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} 个匹配</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">笔记已删除</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">已删除 {0} 条笔记</sys:String>
@@ -230,7 +233,7 @@
     <sys:String x:Key="Str_KS_HoldHint">按住 Ctrl、Shift 或 Alt 预览对应层</sys:String>
     <sys:String x:Key="Str_KS_ThisList">键盘快捷键 (此列表)</sys:String>
     <sys:String x:Key="Str_KS_Rename">重命名当前笔记</sys:String>
-    <sys:String x:Key="Str_KS_Search">搜索笔记</sys:String>
+    <sys:String x:Key="Str_KS_Search">搜索所有笔记</sys:String>
     <sys:String x:Key="Str_KS_Preview">切换 Markdown/HTML 预览</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">显示 / 隐藏格式栏</sys:String>
     <sys:String x:Key="Str_KS_Export">导出当前笔记 (.txt / .rtf / .html)</sys:String>
@@ -775,7 +778,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">替换此笔记中的所有匹配项 (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">已替换 {0} 处匹配</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">在所有笔记中替换</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">在每条包含搜索词的笔记中替换该词</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">确认后，在所有笔记中替换与搜索文本完全相同的内容</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">替换为...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">请先在上方输入搜索词</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">已在 {1} 条笔记中替换 {0} 处匹配</sys:String>

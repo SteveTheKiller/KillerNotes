@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Сочетания клавиш (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Тема</sys:String>
     <sys:String x:Key="Str_TT_Language">Язык</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Поиск по заметкам  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Поиск по всем заметкам  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Новая заметка</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Новая</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Новая заметка (Ctrl+N)</sys:String>
@@ -212,6 +212,9 @@
     <sys:String x:Key="Str_St_ClipBusy">Буфер обмена занят - попробуйте ещё раз</sys:String>
     <sys:String x:Key="Str_St_NotesCount">заметок: {0}</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">Эту заметку не удалось открыть, она оставлена без изменений: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">Подходящих заметок: {0}; подсчет совпадений в тексте...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">Совпадений в тексте: {0}; подходящих заметок: {1}</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">Совпадений в тексте: {0}; подходящих заметок: {1} (не удалось прочитать: {2})</sys:String>
     <sys:String x:Key="Str_St_Matches">совпадений: {0}</sys:String>
     <sys:String x:Key="Str_St_FindMatches">{0} из {1}</sys:String>
     <sys:String x:Key="Str_St_FindNoMatches">Нет совпадений</sys:String>
@@ -230,7 +233,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">Заменить все совпадения в этой заметке (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">Заменено совпадений: {0}</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Заменить во всех заметках</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Заменить искомое во всех заметках, где оно есть</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">После подтверждения заменить точный текст поиска во всех заметках</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Заменить на...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Сначала введите поисковый запрос выше</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">Заменено совпадений: {0} в {1} заметках</sys:String>
@@ -421,7 +424,7 @@
     <sys:String x:Key="Str_KS_HoldHint">удерживайте Ctrl, Shift или Alt, чтобы увидеть этот слой</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Сочетания клавиш (этот список)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Переименовать открытую заметку</sys:String>
-    <sys:String x:Key="Str_KS_Search">Поиск по заметкам</sys:String>
+    <sys:String x:Key="Str_KS_Search">Поиск по всем заметкам</sys:String>
     <sys:String x:Key="Str_KS_Find">Найти в этой заметке</sys:String>
     <sys:String x:Key="Str_KS_Preview">Переключить предпросмотр markdown/HTML</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Показать / скрыть панель форматирования</sys:String>

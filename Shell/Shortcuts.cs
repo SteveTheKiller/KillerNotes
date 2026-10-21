@@ -76,7 +76,8 @@ namespace KillerNotes.Shell
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
-                var key = new TextBlock { Text = keys, FontFamily = new System.Windows.Media.FontFamily("Consolas"), FontSize = 12, TextWrapping = TextWrapping.Wrap };
+                var key = new TextBlock { Text = keys, FontSize = 12, TextWrapping = TextWrapping.Wrap };
+                key.SetResourceReference(TextBlock.FontFamilyProperty, "UiFont");
                 key.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryBrush");
 
                 var desc = new TextBlock { Text = Loc(label), FontSize = 12, TextWrapping = TextWrapping.Wrap };
@@ -582,7 +583,7 @@ namespace KillerNotes.Shell
             // once, and if the sidebar's came first then Esc with the find bar open would clear
             // the cross-note search and leave the find bar sitting there.
             if (_findOpen) { CloseFindBar(); return true; }   // FindBar.cs
-            if (SidebarReplaceRow.Visibility == Visibility.Visible) { SidebarReplace_Click(this, new RoutedEventArgs()); return true; }
+            if (_sidebarReplaceOpen) { SidebarReplace_Click(this, new RoutedEventArgs()); return true; }
             if (OutlineList.IsKeyboardFocusWithin) { FocusEditorFromOutline(); return true; }
             if (SearchBox.IsKeyboardFocusWithin || SearchBox.Text.Length > 0)
             {

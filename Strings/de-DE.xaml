@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Tastenkürzel (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Design</sys:String>
     <sys:String x:Key="Str_TT_Language">Sprache</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Notizen durchsuchen  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Alle Notizen durchsuchen  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Neue Notiz</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Neue Notiz (Strg+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">Nach Erstellungszeit - älteste zuerst (erneut klicken zum Umkehren)</sys:String>
@@ -78,6 +78,9 @@
     <sys:String x:Key="Str_St_ClipBusy">Zwischenablage ist belegt - bitte erneut versuchen</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} Notizen</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">Diese Notiz konnte nicht geöffnet werden und blieb unverändert: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0} passende Notizen; Texttreffer werden gezählt...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{0} Texttreffer in {1} passenden Notizen</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{0} Texttreffer in {1} passenden Notizen ({2} nicht lesbar)</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} Treffer</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Notiz gelöscht</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} Notizen gelöscht</sys:String>
@@ -231,7 +234,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_HoldHint">Strg, Umschalt oder Alt halten, um die Ebene anzuzeigen</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Tastenkürzel (diese Liste)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Offene Notiz umbenennen</sys:String>
-    <sys:String x:Key="Str_KS_Search">Notizen durchsuchen</sys:String>
+    <sys:String x:Key="Str_KS_Search">Alle Notizen durchsuchen</sys:String>
     <sys:String x:Key="Str_KS_Preview">Markdown-/HTML-Vorschau umschalten</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Formatleiste ein-/ausblenden</sys:String>
     <sys:String x:Key="Str_KS_Export">Offene Notiz exportieren (.txt / .rtf / .html)</sys:String>
@@ -777,7 +780,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_TT_ReplaceAll">Alle Treffer in dieser Notiz ersetzen (Strg+Eingabetaste)</sys:String>
     <sys:String x:Key="Str_St_Replaced">{0} Treffer ersetzt</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">In allen Notizen ersetzen</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Den Suchbegriff in jeder Notiz ersetzen, die ihn enthält</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Nach Bestätigung den genauen Suchtext in allen Notizen ersetzen</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Ersetzen durch...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Geben Sie zuerst oben einen Suchbegriff ein</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">{0} Treffer in {1} Notizen ersetzt</sys:String>

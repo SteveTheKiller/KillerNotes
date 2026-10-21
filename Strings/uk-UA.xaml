@@ -20,7 +20,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Сполучення клавіш (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Тема</sys:String>
     <sys:String x:Key="Str_TT_Language">Мова</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Пошук нотаток  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Пошук у всіх нотатках  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Нова нотатка</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Нова</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Нова нотатка (Ctrl+N)</sys:String>
@@ -231,6 +231,9 @@
     <!-- The note's stored content would not deserialize. It is left unloaded rather than
          opened empty, and saving is blocked so the content on disk is not overwritten. -->
     <sys:String x:Key="Str_St_NoteLoadFailed">Не вдалося відкрити цю нотатку, її залишено без змін: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">Відповідних нотаток: {0}; підрахунок збігів у тексті...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">Збігів у тексті: {0}; відповідних нотаток: {1}</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">Збігів у тексті: {0}; відповідних нотаток: {1} (не вдалося прочитати: {2})</sys:String>
     <sys:String x:Key="Str_St_Matches">Збігів: {0}</sys:String>
     <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
          this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->
@@ -252,7 +255,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">Замінити всі збіги в цій нотатці (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">Замінено збігів: {0}</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Замінити в усіх нотатках</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Замінити пошуковий термін у кожній нотатці, де він є</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Після підтвердження замінити точний текст пошуку в усіх нотатках</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Замінити на...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Спочатку введіть пошуковий термін вище</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">Замінено збігів: {0} у нотатках: {1}</sys:String>
@@ -448,7 +451,7 @@
     <sys:String x:Key="Str_KS_HoldHint">утримуйте Ctrl, Shift або Alt, щоб побачити цей шар</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Сполучення клавіш (цей список)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Перейменувати відкриту нотатку</sys:String>
-    <sys:String x:Key="Str_KS_Search">Пошук нотаток</sys:String>
+    <sys:String x:Key="Str_KS_Search">Пошук у всіх нотатках</sys:String>
     <sys:String x:Key="Str_KS_Find">Знайти в цій нотатці</sys:String>
     <sys:String x:Key="Str_KS_Preview">Показати або сховати перегляд Markdown/HTML</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Показати / сховати панель форматування</sys:String>

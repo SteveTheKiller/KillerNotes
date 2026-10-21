@@ -20,7 +20,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Hurtigtaster (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Tema</sys:String>
     <sys:String x:Key="Str_TT_Language">Språk</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Søk i notater  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Søk i alle notater  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nytt notat</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Ny</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nytt notat (Ctrl+N)</sys:String>
@@ -231,6 +231,9 @@
     <!-- The note's stored content would not deserialize. It is left unloaded rather than
          opened empty, and saving is blocked so the content on disk is not overwritten. -->
     <sys:String x:Key="Str_St_NoteLoadFailed">Dette notatet kunne ikke åpnes og ble latt være uendret: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0} samsvarende notater; teller treff i teksten...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{0} treff i innholdet i {1} samsvarende notater</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{0} treff i innholdet i {1} samsvarende notater ({2} kan ikke leses)</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} treff</sys:String>
     <!-- In-note find bar (FindBar.cs). Str_St_Matches above is the SIDEBAR's cross-note count;
          this pair is the find bar's own, and it is positional ("3 of 47"), not a total. -->
@@ -252,7 +255,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">Erstatt alle treff i dette notatet (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">Erstattet {0} treff</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Erstatt i alle notater</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Erstatt søketermen i alle notater som inneholder den</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Erstatt den nøyaktige søketeksten i alle notater, etter bekreftelse</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Erstatt med...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Skriv inn en søketerm ovenfor først</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">Erstattet {0} treff i {1} notater</sys:String>
@@ -446,7 +449,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_KS_HoldHint">hold inne Ctrl, Shift eller Alt for å forhåndsvise det laget</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Hurtigtaster (denne listen)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Gi det åpne notatet nytt navn</sys:String>
-    <sys:String x:Key="Str_KS_Search">Søk i notater</sys:String>
+    <sys:String x:Key="Str_KS_Search">Søk i alle notater</sys:String>
     <sys:String x:Key="Str_KS_Find">Finn i dette notatet</sys:String>
     <sys:String x:Key="Str_KS_Preview">Slå Markdown/HTML-forhåndsvisning av eller på</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Vis / skjul formateringslinjen</sys:String>

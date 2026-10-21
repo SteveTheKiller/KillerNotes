@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Raccourcis clavier (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Thème</sys:String>
     <sys:String x:Key="Str_TT_Language">Langue</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Rechercher dans les notes  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Rechercher dans toutes les notes  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nouvelle note</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nouvelle note (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">Par date de création - la plus ancienne d'abord (cliquez de nouveau pour inverser)</sys:String>
@@ -78,6 +78,9 @@
     <sys:String x:Key="Str_St_ClipBusy">Le presse-papiers est occupé - réessayez</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} notes</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">Cette note n'a pas pu être ouverte et est restée inchangée : {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0} notes correspondantes ; décompte des occurrences dans le texte...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{0} occurrences dans le contenu de {1} notes correspondantes</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{0} occurrences dans le contenu de {1} notes correspondantes ({2} illisibles)</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} résultats</sys:String>
     <sys:String x:Key="Str_St_NoteDeleted">Note supprimée</sys:String>
     <sys:String x:Key="Str_St_NotesDeleted">{0} notes supprimées</sys:String>
@@ -231,7 +234,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_HoldHint">maintenez Ctrl, Shift ou Alt pour prévisualiser cette couche</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Raccourcis clavier (cette liste)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Renommer la note ouverte</sys:String>
-    <sys:String x:Key="Str_KS_Search">Rechercher dans les notes</sys:String>
+    <sys:String x:Key="Str_KS_Search">Rechercher dans toutes les notes</sys:String>
     <sys:String x:Key="Str_KS_Preview">Basculer l'aperçu markdown/HTML</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Afficher / masquer la barre de mise en forme</sys:String>
     <sys:String x:Key="Str_KS_Export">Exporter la note ouverte (.txt / .rtf / .html)</sys:String>
@@ -778,7 +781,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_TT_ReplaceAll">Remplacer toutes les correspondances de cette note (Ctrl+Entrée)</sys:String>
     <sys:String x:Key="Str_St_Replaced">{0} correspondances remplacées</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Remplacer dans toutes les notes</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Remplacer le terme recherché dans chaque note qui le contient</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Remplacer le texte exact de la recherche dans toutes les notes, après confirmation</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Remplacer par...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Saisissez d'abord un terme de recherche ci-dessus</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">{0} correspondances remplacées dans {1} notes</sys:String>

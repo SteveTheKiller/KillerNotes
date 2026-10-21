@@ -15,7 +15,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Scorciatoie da tastiera (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Tema</sys:String>
     <sys:String x:Key="Str_TT_Language">Lingua</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Cerca nelle note  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Cerca in tutte le note  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nuova nota</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Nuova</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nuova nota (Ctrl+N)</sys:String>
@@ -212,6 +212,9 @@
     <sys:String x:Key="Str_St_ClipBusy">Appunti occupati - riprova</sys:String>
     <sys:String x:Key="Str_St_NotesCount">{0} note</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">Questa nota non si è potuta aprire ed è rimasta invariata: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">{0} note corrispondenti; conteggio delle corrispondenze nel testo...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">{0} corrispondenze nel contenuto di {1} note corrispondenti</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">{0} corrispondenze nel contenuto di {1} note corrispondenti ({2} illeggibili)</sys:String>
     <sys:String x:Key="Str_St_Matches">{0} corrispondenze</sys:String>
     <sys:String x:Key="Str_St_FindMatches">{0} di {1}</sys:String>
     <sys:String x:Key="Str_St_FindNoMatches">Nessuna corrispondenza</sys:String>
@@ -230,7 +233,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">Sostituisci ogni corrispondenza in questa nota (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">Sostituite {0} corrispondenze</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Sostituisci in tutte le note</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Sostituisce il termine cercato in ogni nota che lo contiene</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Sostituisce il testo esatto della ricerca in tutte le note, dopo la conferma</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Sostituisci con...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Digita prima un termine di ricerca qui sopra</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">Sostituite {0} corrispondenze in {1} note</sys:String>
@@ -421,7 +424,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_KS_HoldHint">tieni premuto Ctrl, Shift o Alt per vedere quel livello</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Scorciatoie da tastiera (questo elenco)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Rinomina la nota aperta</sys:String>
-    <sys:String x:Key="Str_KS_Search">Cerca nelle note</sys:String>
+    <sys:String x:Key="Str_KS_Search">Cerca in tutte le note</sys:String>
     <sys:String x:Key="Str_KS_Find">Trova in questa nota</sys:String>
     <sys:String x:Key="Str_KS_Preview">Attiva o disattiva l'anteprima markdown/HTML</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Mostra / nascondi la barra di formattazione</sys:String>

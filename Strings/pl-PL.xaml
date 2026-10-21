@@ -12,7 +12,7 @@
     <sys:String x:Key="Str_TT_Shortcuts">Skróty klawiaturowe (F1)</sys:String>
     <sys:String x:Key="Str_TT_Theme">Motyw</sys:String>
     <sys:String x:Key="Str_TT_Language">Język</sys:String>
-    <sys:String x:Key="Str_SearchPlaceholder">Szukaj notatek  (F3)</sys:String>
+    <sys:String x:Key="Str_SearchPlaceholder">Szukaj we wszystkich notatkach  (F3)</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nowa notatka</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Nowa</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nowa notatka (Ctrl+N)</sys:String>
@@ -163,6 +163,9 @@
     <sys:String x:Key="Str_St_ClipBusy">Schowek jest zajęty - spróbuj ponownie</sys:String>
     <sys:String x:Key="Str_St_NotesCount">Notatki: {0}</sys:String>
     <sys:String x:Key="Str_St_NoteLoadFailed">Nie udało się otworzyć tej notatki, pozostała bez zmian: {0}</sys:String>
+    <sys:String x:Key="Str_St_GlobalCounting">Pasujące notatki: {0}; zliczanie dopasowań w tekście...</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatches">Dopasowania w treści: {0}; pasujące notatki: {1}</sys:String>
+    <sys:String x:Key="Str_St_GlobalMatchesIncomplete">Dopasowania w treści: {0}; pasujące notatki: {1} (nieczytelne: {2})</sys:String>
     <sys:String x:Key="Str_St_Matches">Dopasowania: {0}</sys:String>
     <sys:String x:Key="Str_St_FindMatches">{0} z {1}</sys:String>
     <sys:String x:Key="Str_St_FindNoMatches">Brak dopasowań</sys:String>
@@ -179,7 +182,7 @@
     <sys:String x:Key="Str_TT_ReplaceAll">Zamień każde dopasowanie w tej notatce (Ctrl+Enter)</sys:String>
     <sys:String x:Key="Str_St_Replaced">Zamieniono dopasowania: {0}</sys:String>
     <sys:String x:Key="Str_TT_SidebarReplace">Zamień we wszystkich notatkach</sys:String>
-    <sys:String x:Key="Str_TT_SidebarReplaceAll">Zamień szukaną frazę w każdej notatce, która ją zawiera</sys:String>
+    <sys:String x:Key="Str_TT_SidebarReplaceAll">Zamień dokładny tekst wyszukiwania we wszystkich notatkach po potwierdzeniu</sys:String>
     <sys:String x:Key="Str_ReplacePlaceholder">Zamień na...</sys:String>
     <sys:String x:Key="Str_St_ReplaceNeedsTerm">Najpierw wpisz szukaną frazę powyżej</sys:String>
     <sys:String x:Key="Str_St_ReplacedNotes">Zamieniono {0} dopasowań w {1} notatkach</sys:String>
@@ -348,7 +351,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_KS_HoldHint">przytrzymaj Ctrl, Shift lub Alt, aby podejrzeć tę warstwę</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Skróty klawiaturowe (ta lista)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Zmień nazwę otwartej notatki</sys:String>
-    <sys:String x:Key="Str_KS_Search">Szukaj notatek</sys:String>
+    <sys:String x:Key="Str_KS_Search">Szukaj we wszystkich notatkach</sys:String>
     <sys:String x:Key="Str_KS_Find">Znajdź w tej notatce</sys:String>
     <sys:String x:Key="Str_KS_Preview">Przełącz podgląd markdown/HTML</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Pokaż / ukryj pasek formatowania</sys:String>

@@ -89,6 +89,7 @@ namespace KillerNotes.Shell
             NotesList.SelectedItem = _sidebarItems.FirstOrDefault(o => o is Note n && n.Id == _currentId);
             _syncingSelection = false;
 
+            QueueGlobalSearchPreview();
             StatusText.Text = DefaultStatus();
 
             // A search/sort snaps back to the top; in-place edits (collapse/expand, reorder) pass
@@ -170,9 +171,8 @@ namespace KillerNotes.Shell
         }
 
         /// <summary>The resting status line: note count, or match count while searching.</summary>
-        private string DefaultStatus() => string.Format(
-            Loc(string.IsNullOrWhiteSpace(SearchBox.Text) ? "Str_St_NotesCount" : "Str_St_Matches"),
-            _notes.Count);
+        private string DefaultStatus() => HasGlobalSearch ? (_globalSearchStatusText = GlobalSearchStatus())
+            : string.Format(Loc("Str_St_NotesCount"), _notes.Count);
 
         /// <summary>Shows a transient status message that auto-clears to DefaultStatus after
         /// a few seconds (so drag/share/tag confirmations don't linger in the corner).</summary>

@@ -143,28 +143,31 @@ namespace KillerNotes.Shell
         }
 
         // ---- Responsive "New note" button ----
-        // The button shares its row with the sort buttons; as the sidebar narrows its column
-        // shrinks, so the label steps down "+ New note" -> "+ New" -> "+" instead of clipping,
-        // taking the widest wording that still fits the column. The tooltip keeps the full text.
+        // Shrink the short label slightly before falling back to the large plus sign.
         private void UpdateNewNoteLabel()
         {
             if (NewNoteBtn == null || NewNoteCol == null) return;
-            double avail = NewNoteCol.ActualWidth;
-            if (avail <= 0) return;
-            string label = "+";
-            foreach (var key in new[] { "Str_Btn_NewNote", "Str_Btn_NewNoteShort" })
+            double available = NewNoteCol.ActualWidth;
+            if (available <= 0) return;
+            string label = Loc("Str_Btn_NewNoteShort").ToUpper(CultureInfo.CurrentUICulture);
+            double size = 22;
+            if (MeasureNewNoteWidth(label, 19) > available) label = "+";
+            else
             {
-                string s = Loc(key);
-                if (MeasureNewNoteWidth(s) <= avail) { label = s; break; }
+                double inset = NewNoteBtn.Padding.Left + NewNoteBtn.Padding.Right
+                    + NewNoteBtn.BorderThickness.Left + NewNoteBtn.BorderThickness.Right + 2;
+                double textWidth = MeasureNewNoteWidth(label, 22) - inset;
+                if (textWidth > 0) size = Math.Max(19, Math.Min(22, 22 * Math.Max(0, available - inset) / textWidth));
             }
+            if (Math.Abs(NewNoteBtn.FontSize - size) > 0.01) NewNoteBtn.FontSize = size;
             if (!Equals(NewNoteBtn.Content, label)) NewNoteBtn.Content = label;
         }
 
-        private double MeasureNewNoteWidth(string text)
+        private double MeasureNewNoteWidth(string text, double? fontSize = null)
         {
             var ft = new FormattedText(text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
                 new Typeface(NewNoteBtn.FontFamily, NewNoteBtn.FontStyle, NewNoteBtn.FontWeight, NewNoteBtn.FontStretch),
-                NewNoteBtn.FontSize, Brushes.Black, VisualTreeHelper.GetDpi(NewNoteBtn).PixelsPerDip);
+                fontSize ?? NewNoteBtn.FontSize, Brushes.Black, VisualTreeHelper.GetDpi(NewNoteBtn).PixelsPerDip);
             return ft.Width
                  + NewNoteBtn.Padding.Left + NewNoteBtn.Padding.Right
                  + NewNoteBtn.BorderThickness.Left + NewNoteBtn.BorderThickness.Right + 2;
@@ -442,7 +445,7 @@ namespace KillerNotes.Shell
         // placement settings and themed chrome).
         private void SidebarThemeBtn_Click(object sender, RoutedEventArgs e) => OpenThemeMenu();
 
-        /// <summary>Expands first if collapsed, then focuses the search box (F3 / Ctrl+F).</summary>
+        /// <summary>Expands the results and focuses all-notes search (F3).</summary>
         private void FocusSearch()
         {
             if (_sidebarCollapsed) ToggleSidebar();
