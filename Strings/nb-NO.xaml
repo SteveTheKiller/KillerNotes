@@ -1040,4 +1040,19 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_About_IdleLock">Lås notater etter at datamaskinen har vært inaktiv i:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Aldri</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} minutter</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Sikkerhetskopier feiler</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Sikkerhetskopi forsinket</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">Siste forsøk på sikkerhetskopi feilet {0}: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">Siste sikkerhetskopi var {0}. Sikkerhetskopier kjøres bare mens KillerNotes er åpent.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">sikkerhetskopi feiler</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">sikkerhetskopi forsinket</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">kopiert {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Test gjenoppretting</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Leser den valgte sikkerhetskopien, eller den nyeste, tilbake fra en midlertidig kopi. Notatblokkene dine endres ikke.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Test gjenoppretting</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Skriv inn passordet for {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">Testgjenoppretting av {0} feilet: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{0} av {1} vedlegg er skadet</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Testgjenoppretting av {0} bestått: {1} notater og {2} vedlegg lest tilbake uskadet.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">Notatblokken har nå {0} notater og {1} vedlegg.</sys:String>
 </ResourceDictionary>

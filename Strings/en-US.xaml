@@ -1042,4 +1042,19 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_About_IdleLock">Lock notes after the computer is idle for:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Never</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} minutes</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Backups failing</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Backup overdue</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">The last backup attempt failed at {0}: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">The last backup was {0}. Backups only run while KillerNotes is open.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">backup failing</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">backup overdue</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">backed up {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Test restore</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Reads the selected backup, or the newest, back from a temporary copy. Your notepads are not changed.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Test restore</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Enter the password for {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">Test restore of {0} failed: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{0} of {1} attachments are damaged</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Test restore of {0} passed: {1} notes and {2} attachments read back intact.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">The notepad has {0} notes and {1} attachments now.</sys:String>
 </ResourceDictionary>

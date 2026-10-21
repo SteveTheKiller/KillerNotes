@@ -37,6 +37,7 @@ namespace KillerNotes.Controls
             DialogShortcuts.Button(this, BrowseBtn, "Ctrl+O", Key.O, ModifierKeys.Control);
             DialogShortcuts.Button(this, BackupNowBtn, "Ctrl+B", Key.B, ModifierKeys.Control);
             DialogShortcuts.Button(this, RestoreBtn, "Ctrl+R", Key.R, ModifierKeys.Control);
+            DialogShortcuts.Button(this, TestRestoreBtn, "Ctrl+T", Key.T, ModifierKeys.Control);
             DialogShortcuts.Button(this, DoneBtn, "Enter", Key.Enter);
             DialogShortcuts.Bind(this, DoneBtn, "Esc", Key.Escape, ModifierKeys.None, Close);
             DialogShortcuts.Describe(DoneBtn, "Enter / Esc");
@@ -75,8 +76,8 @@ namespace KillerNotes.Controls
         {
             if (_loading) return;
             int hours = EnableBox.IsChecked == true ? TagOf(IntervalBox, BackupService.DefaultHours) : 0;
-            App.SetSetting(BackupService.HoursSetting, hours.ToString());
-            App.SetSetting(BackupService.KeepSetting, TagOf(KeepBox, BackupService.DefaultKeep).ToString());
+            BackupService.Settings.Set(BackupService.HoursSetting, hours.ToString());
+            BackupService.Settings.Set(BackupService.KeepSetting, TagOf(KeepBox, BackupService.DefaultKeep).ToString());
             UpdateStatus();
         }
 
@@ -84,7 +85,7 @@ namespace KillerNotes.Controls
         {
             string? picked = FolderPicker.Show(this, BackupService.Folder, Loc("Str_Bk_PickFolderTitle"));
             if (string.IsNullOrWhiteSpace(picked)) return;
-            App.SetSetting(BackupService.FolderSetting, picked!);
+            BackupService.Settings.Set(BackupService.FolderSetting, picked!);
             FolderBox.Text = picked;
             Refresh();
         }
@@ -117,6 +118,7 @@ namespace KillerNotes.Controls
             }
             EmptyText.Visibility = backups.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             RestoreBtn.IsEnabled = false;
+            TestRestoreBtn.IsEnabled = backups.Count > 0;
             BackupNowBtn.IsEnabled = folder != null;
             UpdateStatus();
         }
@@ -127,6 +129,9 @@ namespace KillerNotes.Controls
             DlgStatus.Text = BackupService.LastBackup(_dbFile) is DateTime t
                 ? string.Format(Loc("Str_Bk_Last"), t.ToString("yyyy-MM-dd HH:mm"))
                 : Loc("Str_Bk_Never");
+            // A failure since the last success stays in view until a backup works (1.6.0).
+            if (BackupService.StateOf(_dbFile, DateTime.Now) == BackupState.Failing && BackupService.LastFailure(_dbFile) is { } f)
+                DlgStatus.Text += " " + string.Format(Loc("Str_Bk_WarnFailingTip"), f.When.ToString("yyyy-MM-dd HH:mm"), f.Reason);
         }
 
         private void BackupList_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
@@ -161,6 +166,58 @@ namespace KillerNotes.Controls
             {
                 DlgStatus.Text = string.Format(Loc("Str_Bk_Failed"), ex.Message);
             }
+        }
+
+        /// <summary>Test restore (1.6.0): the selected backup, or the newest, read back from a
+        /// temporary copy with its password, and set beside the notepad's own counts when known.</summary>
+        private void TestRestore_Click(object sender, RoutedEventArgs e)
+        {
+            var row = BackupList.SelectedItem as ListBoxItem ?? (BackupList.Items.Count > 0 ? BackupList.Items[0] as ListBoxItem : null);
+            if (row?.Tag is not string path) return;
+            string name = Path.GetFileName(path);
+            bool encrypted = NoteStore.IsEncryptedFile(path);
+            string heading = Loc("Str_Bk_TestHead");
+            RestoreCheck check;
+            while (true)
+            {
+                string? password = null;
+                if (encrypted)
+                {
+                    var prompt = new PasswordDialog(heading, string.Format(Loc("Str_Bk_TestPwBody"), name), Loc("Str_Btn_TestRestore")) { Owner = this };
+                    prompt.ShowDialog();
+                    if (!prompt.Confirmed) return;
+                    password = prompt.Password;
+                }
+                var cursor = Mouse.OverrideCursor;
+                Mouse.OverrideCursor = Cursors.Wait;
+                try
+                {
+                    check = BackupService.TestRestore(path, password);
+                    break;
+                }
+                catch (Microsoft.Data.Sqlite.SqliteException) when (encrypted)
+                {
+                    heading = Loc("Str_Pw_WrongPw");
+                }
+                catch (Exception ex)
+                {
+                    DlgStatus.Text = string.Format(Loc("Str_Bk_TestFailed"), name, ex.Message);
+                    return;
+                }
+                finally { Mouse.OverrideCursor = cursor; }
+            }
+
+            if (!check.Passed)
+            {
+                string why = check.Integrity != "ok" ? check.Integrity
+                    : string.Format(Loc("Str_Bk_TestBadAttachments"), check.DamagedAttachments, check.Attachments);
+                DlgStatus.Text = string.Format(Loc("Str_Bk_TestFailed"), name, why);
+                return;
+            }
+            string text = string.Format(Loc("Str_Bk_TestPassed"), name, check.Notes, check.Attachments);
+            if (BackupService.CensusFor(_dbFile) is { } live)
+                text += " " + string.Format(Loc("Str_Bk_TestLive"), live.Notes, live.Attachments);
+            DlgStatus.Text = text;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e) => Close();

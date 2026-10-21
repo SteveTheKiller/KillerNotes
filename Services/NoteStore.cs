@@ -2380,6 +2380,23 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             finally { SqliteConnection.ClearAllPools(); }   // release the destination file handle
         }
 
+        /// <summary>Checks a copy BackupTo just wrote, with the open database's key (BackupService).</summary>
+        public static void VerifyBackupCopy(string path) => BackupService.VerifyCopy(path, _password);
+
+        public readonly record struct StoreCensus(int Notes, int Attachments);
+
+        /// <summary>The open database's note (trash included) and attachment counts, which Test
+        /// restore sets beside what a backup holds.</summary>
+        public static StoreCensus Census()
+        {
+            if (_db == null) throw new InvalidOperationException("database not open");
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT (SELECT count(*) FROM notes), (SELECT count(*) FROM attachments)";
+            using var reader = cmd.ExecuteReader();
+            reader.Read();
+            return new StoreCensus(reader.GetInt32(0), reader.GetInt32(1));
+        }
+
         // ---- Sharing (.knote export / .knote and .kndb import) ----
         // A .knote is just a KillerNotes database containing one note, optionally
         // SQLCipher-encrypted with a share password - the same engine opens both.

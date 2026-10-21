@@ -110,7 +110,8 @@ namespace KillerNotes.Controls
                 {
                     Text = $"   {fi.Length / 1024:N0} KB   {fi.LastWriteTime:yyyy-MM-dd HH:mm}"
                          + (enc ? "   [" + Loc("Str_Db_FlagEncrypted") + "]" : "")
-                         + (active ? "   [" + Loc("Str_Db_FlagActive") + "]" : ""),
+                         + (active ? "   [" + Loc("Str_Db_FlagActive") + "]" : "")
+                         + (demo ? "" : BackupMeta(name)),
                     FontSize = 11,
                     VerticalAlignment = VerticalAlignment.Center,
                 };
@@ -147,6 +148,18 @@ namespace KillerNotes.Controls
                     return variable + path.Substring(folder.Length);
             }
             return path;
+        }
+
+        /// <summary>Each notepad's backup health beside its size and date (1.6.0): when it was last
+        /// backed up, flagged when failing or overdue, and nothing at all while backups are off.</summary>
+        private static string BackupMeta(string dbFile)
+        {
+            var state = BackupService.StateOf(dbFile, DateTime.Now);
+            if (state == BackupState.Off) return "";
+            if (state == BackupState.Failing) return "   [" + Loc("Str_Db_FlagBackupFailing") + "]";
+            if (BackupService.LastBackup(dbFile) is not DateTime last) return "";
+            return "   " + string.Format(Loc("Str_Db_BackedUp"), last.ToString("yyyy-MM-dd HH:mm"))
+                 + (state == BackupState.Overdue ? "   [" + Loc("Str_Db_FlagBackupOverdue") + "]" : "");
         }
 
         private static void SetRowColors(TextBlock name, TextBlock meta, bool active, bool selected)

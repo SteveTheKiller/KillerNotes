@@ -995,4 +995,19 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_About_IdleLock">Bilgisayar şu süre boşta kalınca notları kilitle:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Asla</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} dakika</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Yedeklemeler başarısız</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Yedekleme gecikti</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">Son yedekleme denemesi {0} tarihinde başarısız oldu: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">Son yedekleme {0} tarihindeydi. Yedeklemeler yalnızca KillerNotes açıkken çalışır.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">yedekleme başarısız</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">yedekleme gecikti</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">yedeklendi {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Geri yüklemeyi dene</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Seçili yedeği, yoksa en yenisini, geçici bir kopyadan geri okur. Not defterleriniz değişmez.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Geri yüklemeyi dene</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">{0} için parolayı girin.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">{0} deneme geri yüklemesi başarısız: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{1} ekten {0} tanesi bozuk</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">{0} deneme geri yüklemesi başarılı: {1} not ve {2} ek sağlam okundu.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">Not defterinde şu an {0} not ve {1} ek var.</sys:String>
 </ResourceDictionary>

@@ -164,7 +164,7 @@ namespace KillerNotes.Tests
 
         /// <summary>Saves the note as one paragraph holding a marked image per attachment, the
         /// way the editor stores sketches and recording chips.</summary>
-        private static void SaveWith(long id, params Attachment[] attachments)
+        internal static void SaveWith(long id, params Attachment[] attachments)
         {
             var bmp = BitmapSource.Create(2, 2, 96, 96, PixelFormats.Bgra32, null, new byte[16], 8);
             var p = new Paragraph(new Run("body "));

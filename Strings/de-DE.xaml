@@ -995,4 +995,19 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_About_IdleLock">Notizen sperren, wenn der Computer so lange inaktiv ist:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Nie</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} Minuten</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Sicherungen schlagen fehl</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Sicherung überfällig</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">Der letzte Sicherungsversuch ist am {0} fehlgeschlagen: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">Die letzte Sicherung war am {0}. Sicherungen laufen nur, während KillerNotes geöffnet ist.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">Sicherung schlägt fehl</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">Sicherung überfällig</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">gesichert {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Wiederherstellung testen</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Liest die ausgewählte Sicherung, sonst die neueste, aus einer temporären Kopie zurück. Deine Notizblöcke bleiben unverändert.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Wiederherstellung testen</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Gib das Passwort für {0} ein.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">Test-Wiederherstellung von {0} fehlgeschlagen: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{0} von {1} Anhängen sind beschädigt</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Test-Wiederherstellung von {0} bestanden: {1} Notizen und {2} Anhänge unversehrt zurückgelesen.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">Der Notizblock hat jetzt {0} Notizen und {1} Anhänge.</sys:String>
 </ResourceDictionary>

@@ -1042,4 +1042,19 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_About_IdleLock">Bloquear as notas após o computador ficar ocioso por:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Nunca</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} minutos</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Backups falhando</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Backup atrasado</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">A última tentativa de backup falhou em {0}: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">O último backup foi em {0}. Os backups só rodam com o KillerNotes aberto.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">backup falhando</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">backup atrasado</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">backup {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Testar restauração</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Lê o backup selecionado, ou o mais recente, a partir de uma cópia temporária. Seus blocos não mudam.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Testar restauração</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Digite a senha de {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">O teste de restauração de {0} falhou: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{0} de {1} anexos estão danificados</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Teste de restauração de {0} aprovado: {1} notas e {2} anexos lidos intactos.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">O bloco tem agora {0} notas e {1} anexos.</sys:String>
 </ResourceDictionary>

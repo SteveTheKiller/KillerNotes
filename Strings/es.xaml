@@ -996,4 +996,19 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_About_IdleLock">Bloquear las notas tras este tiempo de inactividad:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Nunca</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} minutos</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Copias fallando</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Copia atrasada</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">El último intento de copia falló el {0}: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">La última copia fue el {0}. Las copias solo se hacen con KillerNotes abierto.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">copia fallando</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">copia atrasada</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">copia {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Probar restauración</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Lee la copia seleccionada, o la más reciente, desde una copia temporal. Tus blocs no cambian.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Probar restauración</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Escribe la contraseña de {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">La prueba de restauración de {0} falló: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{0} de {1} adjuntos están dañados</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">La prueba de restauración de {0} fue correcta: {1} notas y {2} adjuntos leídos intactos.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">El bloc tiene ahora {0} notas y {1} adjuntos.</sys:String>
 </ResourceDictionary>

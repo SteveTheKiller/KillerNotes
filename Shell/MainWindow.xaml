@@ -2687,6 +2687,16 @@
                         </Button.Resources>
                     </Button>
                 </StackPanel>
+                <!-- Backup health (Shell/Backup.cs): shown only while the open notepad's backups are
+                     failing or overdue, and it opens Backups. In the Auto column so it sits beside
+                     the version cell and never squeezes the status text. -->
+                <Button x:Name="BackupWarningBtn" Grid.Column="1" Visibility="Collapsed" Click="BackupWarning_Click"
+                        Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
+                        FontSize="10" Padding="8,1" Margin="6,0" VerticalAlignment="Center">
+                    <Button.Resources>
+                        <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+                    </Button.Resources>
+                </Button>
                 <!-- Cell 2: the version + copyright block, its own sunken cell. The visible gap
                      between this and the status cell IS the divider - Win98 never drew a standalone
                      rule there, which is why the two 1px lines I tried first looked nothing like
@@ -2962,7 +2972,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                                     <TextBlock x:Name="AboutIdleLockLabel" Text="{DynamicResource Str_About_IdleLock}" FontSize="11"
                                                VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
-                                    <ComboBox x:Name="AboutIdleLockCombo" Style="{StaticResource KnCombo}" Height="24" MinWidth="110"
+                                    <ComboBox x:Name="AboutIdleLockCombo" Style="{StaticResource KnCombo}" ItemContainerStyle="{StaticResource KnComboItem}" Height="24" MinWidth="110"
                                               Margin="8,0,0,0" FontSize="11" SelectionChanged="AboutIdleLock_Changed"
                                               ToolTip="{DynamicResource Str_About_LockHint}"
                                               AutomationProperties.LabeledBy="{Binding ElementName=AboutIdleLockLabel}"/>

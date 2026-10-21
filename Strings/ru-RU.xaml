@@ -1003,4 +1003,19 @@
     <sys:String x:Key="Str_About_IdleLock">Блокировать заметки после простоя компьютера:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Никогда</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} мин</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Резервные копии не создаются</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Резервная копия просрочена</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">Последняя попытка резервного копирования не удалась {0}: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">Последняя копия: {0}. Копии создаются, только пока KillerNotes открыт.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">копирование не удаётся</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">копия просрочена</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">копия {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Проверить восстановление</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Читает выбранную копию, или самую новую, из временной копии. Ваши блокноты не меняются.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Проверить восстановление</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Введите пароль для {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">Проверка восстановления {0} не удалась: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">Повреждено вложений: {0} из {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Проверка восстановления {0} пройдена: прочитано без ошибок заметок: {1}, вложений: {2}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">Сейчас в блокноте заметок: {0}, вложений: {1}.</sys:String>
 </ResourceDictionary>

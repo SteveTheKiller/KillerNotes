@@ -1003,4 +1003,19 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_About_IdleLock">Blocca le note dopo questa inattività del computer:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Mai</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} minuti</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Backup non riusciti</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Backup in ritardo</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">L'ultimo tentativo di backup è fallito il {0}: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">L'ultimo backup risale al {0}. I backup vengono eseguiti solo con KillerNotes aperto.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">backup non riuscito</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">backup in ritardo</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">backup {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Prova ripristino</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Rilegge il backup selezionato, o il più recente, da una copia temporanea. I tuoi blocchi note non cambiano.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Prova ripristino</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Inserisci la password di {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">Prova di ripristino di {0} non riuscita: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{0} allegati su {1} sono danneggiati</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Prova di ripristino di {0} riuscita: {1} note e {2} allegati riletti intatti.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">Il blocco note ora ha {0} note e {1} allegati.</sys:String>
 </ResourceDictionary>

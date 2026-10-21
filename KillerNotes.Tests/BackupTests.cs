@@ -18,10 +18,21 @@ namespace KillerNotes.Tests
     {
         private readonly string _dir = Path.Combine(Path.GetTempPath(), "KillerNotesTests", Guid.NewGuid().ToString("N"));
 
-        public BackupTests() => Directory.CreateDirectory(_dir);
+        private readonly System.Collections.Generic.Dictionary<string, string> _settings = new();
+
+        public BackupTests()
+        {
+            Directory.CreateDirectory(_dir);
+            // Stamps go to a table, not the registry of whoever runs the tests.
+            BackupService.Settings = new BackupSettings(
+                name => _settings.TryGetValue(name, out var v) ? v : null,
+                (name, value) => _settings[name] = value,
+                name => _settings.Remove(name));
+        }
 
         public void Dispose()
         {
+            BackupService.Settings = BackupSettings.App;
             SqliteConnection.ClearAllPools();
             try { Directory.Delete(_dir, recursive: true); } catch { /* best effort */ }
         }

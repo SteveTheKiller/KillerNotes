@@ -1046,4 +1046,19 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_About_IdleLock">Khóa ghi chú khi máy tính không hoạt động trong:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Không bao giờ</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} phút</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Sao lưu đang lỗi</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Sao lưu quá hạn</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">Lần sao lưu gần nhất thất bại lúc {0}: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">Lần sao lưu gần nhất là {0}. Sao lưu chỉ chạy khi KillerNotes đang mở.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">sao lưu lỗi</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">sao lưu quá hạn</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">đã sao lưu {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Thử khôi phục</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Đọc lại bản sao lưu đã chọn, hoặc bản mới nhất, từ một bản sao tạm. Sổ ghi chú của bạn không thay đổi.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Thử khôi phục</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Nhập mật khẩu cho {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">Thử khôi phục {0} thất bại: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{0} trên {1} tệp đính kèm bị hỏng</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Thử khôi phục {0} thành công: đọc lại nguyên vẹn {1} ghi chú và {2} tệp đính kèm.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">Sổ hiện có {0} ghi chú và {1} tệp đính kèm.</sys:String>
 </ResourceDictionary>

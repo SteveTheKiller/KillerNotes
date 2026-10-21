@@ -242,6 +242,8 @@ namespace KillerNotes.Features.Security
         {
             if (IsLocked || !_host.SaveOpenNote()) return;
             string prevFile = NoteStore.ActiveDbFile;
+            // Test restore in Backups compares a backup with these; the store is closed below.
+            try { BackupService.RememberCensus(prevFile, NoteStore.Census()); } catch (SqliteException) { }
             NoteStore.Close();
 
             var dlg = new DatabasesDialog { Owner = _host.Window };

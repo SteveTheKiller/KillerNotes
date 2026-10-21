@@ -1021,4 +1021,19 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_About_IdleLock">Jegyzetek zárolása ennyi tétlenség után:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Soha</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} perc</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">A mentések sikertelenek</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Esedékes mentés</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">Az utolsó mentési kísérlet sikertelen volt ({0}): {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">Az utolsó mentés: {0}. Mentés csak futó KillerNotes mellett történik.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">mentés sikertelen</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">mentés esedékes</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">mentve: {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Visszaállítás próbája</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">A kijelölt, vagy a legújabb mentést egy ideiglenes másolatból olvassa vissza. A jegyzetfüzetek nem változnak.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Visszaállítás próbája</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Adja meg a(z) {0} jelszavát.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">A(z) {0} próba-visszaállítása sikertelen: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{1} mellékletből {0} sérült</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">A(z) {0} próba-visszaállítása sikeres: {1} jegyzet és {2} melléklet épen visszaolvasva.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">A jegyzetfüzetben most {0} jegyzet és {1} melléklet van.</sys:String>
 </ResourceDictionary>

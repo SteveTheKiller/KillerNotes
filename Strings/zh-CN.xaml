@@ -993,4 +993,19 @@
     <sys:String x:Key="Str_About_IdleLock">电脑空闲多久后锁定笔记：</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">从不</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} 分钟</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">备份失败</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">备份已逾期</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">上次备份于 {0} 失败：{1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">上次备份时间为 {0}。只有 KillerNotes 打开时才会备份。</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">备份失败</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">备份逾期</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">已备份 {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">测试恢复</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">从临时副本读回所选备份（未选择时为最新备份)。你的笔记本不会改变。</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">测试恢复</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">输入 {0} 的密码。</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">{0} 的测试恢复失败：{1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{1} 个附件中有 {0} 个已损坏</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">{0} 的测试恢复通过：完整读回 {1} 条笔记和 {2} 个附件。</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">笔记本现有 {0} 条笔记和 {1} 个附件。</sys:String>
 </ResourceDictionary>

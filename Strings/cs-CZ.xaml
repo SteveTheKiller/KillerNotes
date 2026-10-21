@@ -992,4 +992,19 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_About_IdleLock">Zamknout poznámky po nečinnosti počítače:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Nikdy</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} minut</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Zálohy selhávají</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Záloha je po termínu</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">Poslední pokus o zálohu selhal {0}: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">Poslední záloha proběhla {0}. Zálohy běží jen při spuštěném KillerNotes.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">záloha selhává</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">záloha po termínu</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">zálohováno {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Vyzkoušet obnovu</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Načte vybranou zálohu, nebo nejnovější, z dočasné kopie. Vaše poznámkové bloky se nezmění.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Vyzkoušet obnovu</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Zadejte heslo pro {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">Zkušební obnova {0} selhala: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{0} z {1} příloh je poškozeno</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Zkušební obnova {0} proběhla: {1} poznámek a {2} příloh načteno beze změny.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">Poznámkový blok má teď {0} poznámek a {1} příloh.</sys:String>
 </ResourceDictionary>

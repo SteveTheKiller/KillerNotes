@@ -1042,4 +1042,19 @@
     <sys:String x:Key="Str_About_IdleLock">Блокувати нотатки після простою комп'ютера:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Ніколи</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} хв</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Резервні копії не створюються</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Резервну копію прострочено</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">Остання спроба резервного копіювання не вдалася {0}: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">Остання копія: {0}. Копії створюються, лише поки KillerNotes відкритий.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">копіювання не вдається</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">копію прострочено</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">копія {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Перевірити відновлення</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Читає вибрану копію, або найновішу, з тимчасової копії. Ваші блокноти не змінюються.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Перевірити відновлення</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Введіть пароль для {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">Перевірка відновлення {0} не вдалася: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">Пошкоджено вкладень: {0} з {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Перевірку відновлення {0} пройдено: без помилок прочитано нотаток: {1}, вкладень: {2}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">Зараз у блокноті нотаток: {0}, вкладень: {1}.</sys:String>
 </ResourceDictionary>

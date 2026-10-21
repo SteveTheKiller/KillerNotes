@@ -131,6 +131,7 @@ namespace KillerNotes.Shell
             ScaleHost.Visibility = Visibility.Hidden;
             TitleSearchSlot.Visibility = Visibility.Collapsed;
             DatabasesBtn.IsEnabled = false;
+            BackupWarningBtn.Visibility = Visibility.Collapsed;   // names the notepad's backup state
             LockedPanel.Visibility = Visibility.Visible;
             Dispatcher.BeginInvoke(new Action(() => { if (LockedPanel.IsVisible) LockedUnlockBtn.Focus(); }), DispatcherPriority.Input);
         }

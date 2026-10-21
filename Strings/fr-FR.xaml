@@ -996,4 +996,19 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_About_IdleLock">Verrouiller les notes après une inactivité de :</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Jamais</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} minutes</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Sauvegardes en échec</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Sauvegarde en retard</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">La dernière tentative de sauvegarde a échoué le {0} : {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">La dernière sauvegarde date du {0}. Les sauvegardes ne se font que lorsque KillerNotes est ouvert.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">sauvegarde en échec</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">sauvegarde en retard</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">sauvegardé {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Tester la restauration</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Relit la sauvegarde sélectionnée, ou la plus récente, depuis une copie temporaire. Vos blocs-notes ne changent pas.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Tester la restauration</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Saisissez le mot de passe de {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">Le test de restauration de {0} a échoué : {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{0} pièces jointes sur {1} sont endommagées</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Test de restauration de {0} réussi : {1} notes et {2} pièces jointes relues intactes.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">Le bloc-notes contient maintenant {0} notes et {1} pièces jointes.</sys:String>
 </ResourceDictionary>

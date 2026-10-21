@@ -995,4 +995,19 @@
     <sys:String x:Key="Str_About_IdleLock">電腦閒置多久後鎖定筆記：</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">永不</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} 分鐘</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">備份失敗</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">備份已逾期</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">上次備份於 {0} 失敗：{1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">上次備份時間為 {0}。只有 KillerNotes 開啟時才會備份。</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">備份失敗</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">備份逾期</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">已備份 {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">測試還原</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">從暫存副本讀回所選備份（未選取時為最新備份)。你的筆記本不會改變。</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">測試還原</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">輸入 {0} 的密碼。</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">{0} 的測試還原失敗：{1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{1} 個附件中有 {0} 個已損壞</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">{0} 的測試還原通過：完整讀回 {1} 則筆記和 {2} 個附件。</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">筆記本目前有 {0} 則筆記和 {1} 個附件。</sys:String>
 </ResourceDictionary>

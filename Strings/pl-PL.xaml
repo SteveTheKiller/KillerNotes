@@ -922,4 +922,19 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_About_IdleLock">Blokuj notatki po bezczynności komputera przez:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Nigdy</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} min</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Kopie zapasowe nie działają</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Kopia zapasowa zaległa</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">Ostatnia próba kopii nie powiodła się {0}: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">Ostatnia kopia: {0}. Kopie powstają tylko przy otwartym KillerNotes.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">kopia nie działa</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">kopia zaległa</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">kopia {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Testuj przywracanie</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Odczytuje wybraną kopię, albo najnowszą, z kopii tymczasowej. Twoje notatniki się nie zmieniają.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Testuj przywracanie</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Wpisz hasło do {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">Test przywracania {0} nie powiódł się: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{0} z {1} załączników jest uszkodzonych</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Test przywracania {0} udany: odczytano {1} notatek i {2} załączników bez zmian.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">Notatnik ma teraz {0} notatek i {1} załączników.</sys:String>
 </ResourceDictionary>

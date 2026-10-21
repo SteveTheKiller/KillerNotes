@@ -902,4 +902,19 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_About_IdleLock">Zakleni zapiske po nedejavnosti računalnika:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Nikoli</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} min</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailing">Varnostne kopije ne uspejo</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdue">Varnostna kopija zamuja</sys:String>
+    <sys:String x:Key="Str_Bk_WarnFailingTip">Zadnji poskus varnostne kopije ni uspel {0}: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_WarnOverdueTip">Zadnja varnostna kopija: {0}. Kopije nastajajo le, ko je KillerNotes odprt.</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupFailing">kopija ne uspe</sys:String>
+    <sys:String x:Key="Str_Db_FlagBackupOverdue">kopija zamuja</sys:String>
+    <sys:String x:Key="Str_Db_BackedUp">kopija {0}</sys:String>
+    <sys:String x:Key="Str_Btn_TestRestore">Preizkusi obnovitev</sys:String>
+    <sys:String x:Key="Str_Bk_TestTip">Prebere izbrano kopijo, ali najnovejšo, iz začasne kopije. Vaše beležnice se ne spremenijo.</sys:String>
+    <sys:String x:Key="Str_Bk_TestHead">Preizkusi obnovitev</sys:String>
+    <sys:String x:Key="Str_Bk_TestPwBody">Vnesite geslo za {0}.</sys:String>
+    <sys:String x:Key="Str_Bk_TestFailed">Preizkusna obnovitev {0} ni uspela: {1}</sys:String>
+    <sys:String x:Key="Str_Bk_TestBadAttachments">{0} od {1} prilog je poškodovanih</sys:String>
+    <sys:String x:Key="Str_Bk_TestPassed">Preizkusna obnovitev {0} je uspela: {1} zapiskov in {2} prilog prebranih nepoškodovanih.</sys:String>
+    <sys:String x:Key="Str_Bk_TestLive">Beležnica ima zdaj {0} zapiskov in {1} prilog.</sys:String>
 </ResourceDictionary>
