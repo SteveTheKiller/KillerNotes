@@ -73,9 +73,46 @@ namespace KillerNotes.Services
         internal static string UrlFor(string file) =>
             "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/" + file + "?download=true";
 
-        /// <summary>Where models live: beside the extracted natives, so uninstalling the app's local
-        /// data takes them with it.</summary>
-        internal static string ModelDir => Path.Combine(AudioNativeBootstrap.NativeDir, "models");
+        /// <summary>Where models live: in the app's local data, so uninstalling it takes them along,
+        /// but NOT under the per-version native folder. Before 1.6.0 they did, and every update
+        /// hid a downloaded model until it was fetched again (AdoptEarlierModels moves those).</summary>
+        internal static string ModelDir
+        {
+            get
+            {
+                string local = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "KillerNotes");
+                string dir = Path.Combine(local, "models");
+                if (!_adopted)
+                {
+                    _adopted = true;
+                    try { AdoptEarlierModels(dir, Path.Combine(local, "native")); } catch { /* a model not moved can still be downloaded */ }
+                }
+                return dir;
+            }
+        }
+
+        private static bool _adopted;
+
+        /// <summary>Moves models that earlier versions downloaded into their per-version native
+        /// folders to the shared model folder. A same-drive rename, so a model is either moved
+        /// whole or left where it was; one already in the shared folder is never replaced, and
+        /// unfinished downloads are left alone.</summary>
+        internal static void AdoptEarlierModels(string modelDir, string nativeRoot)
+        {
+            if (!Directory.Exists(nativeRoot)) return;
+            foreach (string versionDir in Directory.GetDirectories(nativeRoot))
+            {
+                string old = Path.Combine(versionDir, "models");
+                if (!Directory.Exists(old)) continue;
+                foreach (string file in Directory.GetFiles(old, "*.bin"))
+                {
+                    string target = Path.Combine(modelDir, Path.GetFileName(file));
+                    if (File.Exists(target)) continue;
+                    Directory.CreateDirectory(modelDir);
+                    try { File.Move(file, target); } catch (IOException) { /* in use: next start */ }
+                }
+            }
+        }
 
         internal static string PathFor(string file) => Path.Combine(ModelDir, file);
 
