@@ -2420,6 +2420,20 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             return new ImportState(sources, titles, groups);
         }
 
+        /// <summary>The live note a file at this content became, or null. Opening the same file
+        /// again from Explorer opens that note instead of making a copy.</summary>
+        internal static long? ImportedNoteFor(string source, string hash)
+        {
+            if (_db == null) return null;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'import_sources'";
+            if ((long)cmd.ExecuteScalar()! == 0) return null;
+            cmd.CommandText = "SELECT s.note_id FROM import_sources s JOIN notes n ON n.id = s.note_id WHERE s.source = $s AND s.hash = $h AND n.deleted = ''";
+            cmd.Parameters.AddWithValue("$s", source);
+            cmd.Parameters.AddWithValue("$h", hash);
+            return cmd.ExecuteScalar() is long id ? id : null;
+        }
+
         /// <summary>Writes prepared notes, their groups, tags, payloads and links in ONE transaction:
         /// a failure part way leaves the notepad exactly as it was. Returns the new ids in order.</summary>
         internal static List<long> ImportBatch(IReadOnlyList<PreparedImport> notes)

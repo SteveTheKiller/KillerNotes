@@ -1045,4 +1045,25 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_ImportDone">Importováno {0} poznámek z {1}.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">Import selhal a nic se nezměnilo: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">Export nebo import už probíhá.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Rychlá poznámka</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Uložit do</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">Nová poznámka ve skupině {0}</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">Přidat do dnešní poznámky ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Vložit schránku</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">Tento poznámkový blok je zamčený. Odemkněte ho pro uložení; váš text tu zůstane.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">Není otevřen žádný poznámkový blok. Váš text tu zůstane.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Napište něco k uložení.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">Rychlá poznámka pojme až 1 MB textu.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">Neuloženo: {0}. Váš text tu stále je.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">Napsat poznámku bez otevření KillerNotes</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Rychlá poznámka uložena: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">Doručené</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Ponechat ikonu v oznamovací oblasti</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">Nabídka ikony obsahuje Rychlou poznámku a ikona zůstane i při otevřeném okně.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Zkratka rychlé poznámky:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Vypnuto</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} už používá jiná aplikace. Vyberte jinou, nebo ji nechte vypnutou.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} má přes 50 MB a nebyl importován.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} už byl importován beze změn, takže je otevřena jeho poznámka.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} byl otevřen před chvílí a neimportuje se dvakrát.</sys:String>
 </ResourceDictionary>

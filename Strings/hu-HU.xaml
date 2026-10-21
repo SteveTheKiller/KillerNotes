@@ -1074,4 +1074,25 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_ImportDone">{0} jegyzet importálva innen: {1}.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">Az importálás sikertelen, semmi sem változott: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">Már fut egy exportálás vagy importálás.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Gyorsjegyzet</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Mentés ide</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">Új jegyzet itt: {0}</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">Hozzáadás a mai jegyzethez ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Vágólap beillesztése</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">Ez a jegyzetfüzet zárolva van. Oldja fel a mentéshez; a szöveg itt marad.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">Nincs megnyitott jegyzetfüzet. A szöveg itt marad.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Írjon valamit a mentéshez.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">Egy gyorsjegyzet legfeljebb 1 MB szöveget tárolhat.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">Nincs mentve: {0}. A szöveg még itt van.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">Jegyzet írása a KillerNotes megnyitása nélkül</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Gyorsjegyzet mentve: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">Beérkezett</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Ikon megtartása az értesítési területen</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">Az ikon menüjében van Gyorsjegyzet, és az ikon nyitott ablaknál is megmarad.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Gyorsjegyzet billentyűparancsa:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Ki</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">A(z) {0} parancsot már egy másik alkalmazás használja. Válasszon mást, vagy hagyja kikapcsolva.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">A(z) {0} nagyobb 50 MB-nál, ezért nem lett importálva.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">A(z) {0} már változatlanul importálva volt, ezért a jegyzete nyílt meg.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">A(z) {0} az imént lett megnyitva, és nem importálódik kétszer.</sys:String>
 </ResourceDictionary>

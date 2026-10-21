@@ -2986,6 +2986,21 @@
                                               ToolTip="{DynamicResource Str_About_LockHint}"
                                               AutomationProperties.LabeledBy="{Binding ElementName=AboutIdleLockLabel}"/>
                                 </StackPanel>
+                                <!-- Quick note (QuickNote.cs): the tray icon that stays while the window is
+                                     open, and the optional global shortcut. -->
+                                <CheckBox x:Name="AboutKeepTrayIcon"
+                                          Content="{DynamicResource Str_About_KeepTrayIcon}"
+                                          ToolTip="{DynamicResource Str_About_KeepTrayIconHint}"
+                                          FontSize="11" Margin="0,6,0,0" Click="AboutKeepTrayIcon_Click"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                    <TextBlock x:Name="AboutQuickHotkeyLabel" Text="{DynamicResource Str_About_QuickHotkey}" FontSize="11"
+                                               VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
+                                    <ComboBox x:Name="AboutQuickHotkeyCombo" Style="{StaticResource KnCombo}" ItemContainerStyle="{StaticResource KnComboItem}"
+                                              Height="24" MinWidth="110" Margin="8,0,0,0" FontSize="11" SelectionChanged="AboutQuickHotkey_Changed"
+                                              AutomationProperties.LabeledBy="{Binding ElementName=AboutQuickHotkeyLabel}"/>
+                                </StackPanel>
+                                <TextBlock x:Name="AboutQuickHotkeyNote" Visibility="Collapsed" FontSize="10.5" Margin="0,4,0,0"
+                                           TextWrapping="Wrap" Foreground="{DynamicResource DimTextBrush}" AutomationProperties.LiveSetting="Polite"/>
                             </StackPanel>
 
                             <!-- Update notice: shown only when a newer release is found -->

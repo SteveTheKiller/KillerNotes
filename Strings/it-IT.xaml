@@ -1056,4 +1056,25 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_St_ImportDone">Importate {0} note da {1}.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">Importazione non riuscita, non è cambiato nulla: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">C'è già un'esportazione o importazione in corso.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Nota rapida</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Salva in</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">Nuova nota in {0}</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">Aggiungi alla nota di oggi ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Incolla appunti</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">Questo blocco note è bloccato. Sbloccalo per salvare; il tuo testo resta qui.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">Nessun blocco note è aperto. Il tuo testo resta qui.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Scrivi qualcosa da salvare.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">Una nota rapida può contenere fino a 1 MB di testo.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">Non salvata: {0}. Il tuo testo è ancora qui.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">Scrivi una nota senza aprire KillerNotes</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Nota rapida salvata: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">In arrivo</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Tieni un'icona nell'area di notifica</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">Il menu dell'icona ha Nota rapida, e l'icona resta mentre la finestra è aperta.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Scorciatoia per la nota rapida:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Disattivata</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} è già usata da un'altra app. Scegline un'altra o lasciala disattivata.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} supera 50 MB e non è stato importato.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} è già stato importato senza modifiche, quindi la sua nota è aperta.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} è stato aperto un attimo fa e non viene importato due volte.</sys:String>
 </ResourceDictionary>

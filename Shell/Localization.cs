@@ -138,6 +138,9 @@ namespace KillerNotes.Shell
             ShortcutColRight.Items.Clear();
             BuildShortcutRows();                     // Shortcuts.cs
             InitLockOptions();                       // LockNow.cs (idle choices are built in code)
+            InitQuickNoteOptions();                  // QuickNote.cs (shortcut choices)
+            ApplyJumpList();                         // QuickNote.cs (the taskbar's Quick note task)
+            RefreshQuickNoteState();
             if (_overlayFocus.ActiveOverlay == ShortcutOverlay) FocusKeyboardOverlay();
 
             // Keyboard map: rebuilt lazily on next open; if already built, repaint the

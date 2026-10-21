@@ -1048,4 +1048,25 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_St_ImportDone">{0} Notizen aus {1} importiert.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">Import fehlgeschlagen, es wurde nichts geändert: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">Ein Export oder Import läuft bereits.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Schnellnotiz</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Speichern in</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">Neue Notiz in {0}</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">An heutige Notiz anhängen ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Zwischenablage einfügen</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">Dieser Notizblock ist gesperrt. Entsperre ihn zum Speichern; dein Text bleibt hier.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">Kein Notizblock ist geöffnet. Dein Text bleibt hier.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Schreib etwas zum Speichern.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">Eine Schnellnotiz fasst bis zu 1 MB Text.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">Nicht gespeichert: {0}. Dein Text ist noch da.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">Eine Notiz schreiben, ohne KillerNotes zu öffnen</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Schnellnotiz gespeichert: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">Eingang</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Symbol im Infobereich behalten</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">Das Menü des Symbols enthält Schnellnotiz, und es bleibt, während das Fenster offen ist.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Tastenkürzel für Schnellnotiz:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Aus</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} wird schon von einer anderen App benutzt. Wähle ein anderes oder lass es aus.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} ist größer als 50 MB und wurde nicht importiert.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} wurde schon unverändert importiert, deshalb ist seine Notiz geöffnet.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} wurde gerade erst geöffnet und wird nicht doppelt importiert.</sys:String>
 </ResourceDictionary>

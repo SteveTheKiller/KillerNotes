@@ -1049,4 +1049,25 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_St_ImportDone">{0} notes importées depuis {1}.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">L'import a échoué et rien n'a été modifié : {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">Un export ou un import est déjà en cours.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Note rapide</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Enregistrer dans</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">Nouvelle note dans {0}</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">Ajouter à la note du jour ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Coller le presse-papiers</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">Ce bloc-notes est verrouillé. Déverrouillez-le pour enregistrer ; votre texte reste ici.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">Aucun bloc-notes n'est ouvert. Votre texte reste ici.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Écrivez quelque chose à enregistrer.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">Une note rapide peut contenir jusqu'à 1 Mo de texte.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">Non enregistré : {0}. Votre texte est toujours là.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">Écrire une note sans ouvrir KillerNotes</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Note rapide enregistrée : {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">Boîte de réception</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Garder une icône dans la zone de notification</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">Le menu de l'icône contient Note rapide, et l'icône reste quand la fenêtre est ouverte.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Raccourci de note rapide :</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Désactivé</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} est déjà utilisé par une autre application. Choisissez-en un autre ou laissez désactivé.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} dépasse 50 Mo et n'a pas été importé.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} a déjà été importé sans changement, sa note est donc ouverte.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} vient d'être ouvert et n'est pas importé deux fois.</sys:String>
 </ResourceDictionary>

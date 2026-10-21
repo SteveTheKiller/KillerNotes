@@ -1056,4 +1056,25 @@
     <sys:String x:Key="Str_St_ImportDone">{1} ішінен {0} жазба импортталды.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">Импорт сәтсіз, ештеңе өзгермеді: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">Экспорт не импорт әлдеқашан жүріп жатыр.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Жылдам жазба</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Сақтау орны</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">{0} ішінде жаңа жазба</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">Бүгінгі жазбаға қосу ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Алмасу буферін қою</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">Бұл кітапша құлыпталған. Сақтау үшін құлпын ашыңыз; мәтініңіз осында қалады.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">Ешбір кітапша ашылмаған. Мәтініңіз осында қалады.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Сақтау үшін бірдеңе жазыңыз.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">Жылдам жазбаға 1 МБ-қа дейін мәтін сыяды.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">Сақталмады: {0}. Мәтініңіз әлі осында.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">KillerNotes ашпай жазба жазу</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Жылдам жазба сақталды: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">Кіріс</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Хабарландыру аймағында белгішені қалдыру</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">Белгіше мәзірінде «Жылдам жазба» бар, ал белгіше терезе ашық кезде де қалады.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Жылдам жазба пернелер тіркесімі:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Өшірулі</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} басқа қолданбада бұрыннан қолданылады. Басқасын таңдаңыз немесе өшірулі қалдырыңыз.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} 50 МБ-тан үлкен, сондықтан импортталмады.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} бұрын өзгеріссіз импортталған, сондықтан оның жазбасы ашылды.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} жаңа ғана ашылды және екі рет импортталмайды.</sys:String>
 </ResourceDictionary>

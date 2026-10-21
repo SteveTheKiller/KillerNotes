@@ -975,4 +975,25 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_ImportDone">Zaimportowano {0} notatek z {1}.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">Import nie powiódł się, nic nie zmieniono: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">Eksport lub import już trwa.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Szybka notatka</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Zapisz w</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">Nowa notatka w {0}</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">Dodaj do dzisiejszej notatki ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Wklej schowek</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">Ten notatnik jest zablokowany. Odblokuj go, aby zapisać; twój tekst zostaje tutaj.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">Żaden notatnik nie jest otwarty. Twój tekst zostaje tutaj.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Napisz coś do zapisania.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">Szybka notatka mieści do 1 MB tekstu.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">Nie zapisano: {0}. Twój tekst wciąż tu jest.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">Napisz notatkę bez otwierania KillerNotes</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Zapisano szybką notatkę: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">Skrzynka</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Zostaw ikonę w zasobniku systemowym</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">Menu ikony ma Szybką notatkę, a ikona zostaje, gdy okno jest otwarte.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Skrót szybkiej notatki:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Wyłączony</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} jest już używany przez inną aplikację. Wybierz inny lub zostaw wyłączony.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} ma ponad 50 MB i nie został zaimportowany.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} był już zaimportowany bez zmian, więc otwarto jego notatkę.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} otwarto przed chwilą i nie jest importowany dwa razy.</sys:String>
 </ResourceDictionary>

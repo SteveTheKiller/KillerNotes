@@ -33,8 +33,12 @@ namespace KillerNotes.Shell
             Deactivated += (_, _) => SetSidebarReplaceOpen(false);
             Loaded += (_, _) => SystemParameters.StaticPropertyChanged += OnSystemContrastChanged;
             Unloaded += (_, _) => SystemParameters.StaticPropertyChanged -= OnSystemContrastChanged;
+            // The icon's menu leads with Quick note (QuickNote.cs), and "Keep an icon in the system
+            // tray" keeps it there while the window is open too.
             _tray = KillerFamily.Shell.CloseToTray.Attach(this, Services.AppInfo.DisplayName, Loc,
-                () => AboutController.CloseToTrayEnabled, () => SaveCurrentNote(refreshList: false));
+                () => AboutController.CloseToTrayEnabled, () => SaveCurrentNote(refreshList: false),
+                [new KillerFamily.Shell.CloseToTray.TrayItem(() => Loc("Str_Quick_Title"), ShowQuickNote)],
+                () => KeepTrayIcon);
             Application.Current.SessionEnding += (_, e) => { if (!SaveCurrentNote(refreshList: false)) e.Cancel = true; };
             var titleFrames = System.Windows.Media.Imaging.BitmapDecoder.Create(
                 new System.Uri("pack://application:,,,/Resources/kn-icon.ico"),
@@ -78,6 +82,7 @@ namespace KillerNotes.Shell
             InitRailOrder();                                     // SidebarDock.cs (family rail order)
             InitShortcuts();                                     // Shortcuts.cs (hotkeys + F1 overlay)
             InitLockNow();                                       // LockNow.cs (Windows lock, sleep, idle)
+            InitQuickNote();                                     // QuickNote.cs (jump list, tray icon, shortcut)
             InitAppScale();                                      // AppScale.cs (restore app-wide size)
             InitPreviewMinimum();
             InitLineNumbers();                                   // LineNumbers.cs (optional gutter)
@@ -103,7 +108,8 @@ namespace KillerNotes.Shell
                     try
                     {
                         OpenDatabase();               // Security.cs (unlock prompt if encrypted)
-                        HandlePendingOpenFile();      // Sharing.cs (double-clicked .kndb/.knote)
+                        HandlePendingOpenFile();      // Sharing.cs (double-clicked .kndb/.knote/.md/.txt)
+                        if (App.PendingQuickNote) ShowQuickNote();   // QuickNote.cs (--quick-note, jump list)
                         if (DemoMode && DemoFresh) GenerateDemoNotes();   // DemoMode.cs (--demo, fresh db only)
                     }
                     finally { HideDatabaseLoading(loading); }

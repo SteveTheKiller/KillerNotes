@@ -1046,4 +1046,25 @@
     <sys:String x:Key="Str_St_ImportDone">已从 {1} 导入 {0} 条笔记。</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">导入失败，没有任何更改：{0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">已有导出或导入正在进行。</sys:String>
+    <sys:String x:Key="Str_Quick_Title">快速笔记</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">保存到</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">{0} 中的新笔记</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">添加到今天的笔记（{0}）</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">粘贴剪贴板</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">此笔记本已锁定。请先解锁再保存，你的文字会保留在这里。</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">没有打开的笔记本。你的文字会保留在这里。</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">请输入要保存的内容。</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">一条快速笔记最多可容纳 1 MB 文字。</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">未保存：{0}。你的文字仍在这里。</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">无需打开 KillerNotes 即可写笔记</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">快速笔记已保存：{0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">收件箱</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">在系统托盘中保留图标</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">图标菜单中有快速笔记，窗口打开时图标也会保留。</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">快速笔记快捷键：</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">关闭</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} 已被其他应用占用。请选择其他快捷键或保持关闭。</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} 超过 50 MB，未导入。</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} 以前已导入且未更改，因此打开了它的笔记。</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} 刚刚打开过，不会重复导入。</sys:String>
 </ResourceDictionary>

@@ -21,7 +21,7 @@ namespace KillerNotes.Shell
     //   Export: F8 or right-click > "Export note as..." - .txt, .rtf, or .html.
     public partial class MainWindow
     {
-        private static readonly string[] TextExts = [".txt", ".log", ".md"];
+        private static readonly string[] TextExts = [".txt", ".log", ".md", ".markdown"];
         private static readonly string[] HtmlExts = [".html", ".htm"];
 
         /// <summary>Set around the sidebar drag-OUT so dropping a note back onto the
@@ -68,8 +68,11 @@ namespace KillerNotes.Shell
                     if (ext == ".kndb") { AddSharedDatabase(path); continue; }   // Sharing.cs
                     if (ext == ".knote") { ImportSharedNote(path); continue; }   // Sharing.cs
 
+                    // Markdown and text take the folder import's rules (Sharing.cs, 1.6.0): front
+                    // matter, Markdown as written, and a file already in opens its note.
                     long id = ext == ".rtf" ? ImportRtf(path)
                             : ImgExts.Contains(ext) ? ImportImage(path)
+                            : ext is ".md" or ".markdown" or ".txt" ? ImportTextFile(path)
                             : ImportText(path);
                     if (id >= 0) { made++; lastId = id; }
                 }

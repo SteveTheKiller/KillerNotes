@@ -33,10 +33,77 @@ namespace KillerNotes.Shell
             }
             if (!NoteStore.IsOpen) return;
 
-            if (Path.GetExtension(path).Equals(".kndb", StringComparison.OrdinalIgnoreCase))
+            string ext = Path.GetExtension(path).ToLowerInvariant();
+            if (ext == ".kndb")
+            {
                 AddSharedDatabase(path);
-            else
-                ImportSharedNote(path);
+                return;
+            }
+            if (ext is ".md" or ".markdown" or ".txt")
+            {
+                ImportTextFile(path);
+                return;
+            }
+            // Explorer can hand over the same file twice in a moment; a .knote has no memory of
+            // being imported, so the second request would make a second copy.
+            try
+            {
+                var (key, hash) = FolderImporter.SourceOf(path);
+                if (!_recentOpens.First(key, hash, DateTime.Now))
+                {
+                    StatusText.Text = string.Format(Loc("Str_St_AlreadyOpening"), Path.GetFileName(path));
+                    return;
+                }
+            }
+            catch (IOException) { /* unreadable here; the import below reports it */ }
+            ImportSharedNote(path);
+        }
+
+        private readonly RecentOpens _recentOpens = new();
+
+        /// <summary>A .md, .markdown or .txt from Explorer's Open with, or Ctrl+O: the folder
+        /// import's rules for one file (front matter, Markdown as written, a .txt as plain text).
+        /// A file already imported unchanged opens the note it became instead of a copy. Returns
+        /// the note's id, or -1.</summary>
+        private long ImportTextFile(string path)
+        {
+            if (NoteStore.IsReadOnly)
+            {
+                StatusText.Text = string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner);
+                return -1;
+            }
+            try
+            {
+                if (new FileInfo(path).Length > FolderImporter.DefaultMaxBytes)
+                {
+                    StatusText.Text = string.Format(Loc("Str_St_FileTooLarge"), Path.GetFileName(path));
+                    return -1;
+                }
+                var plan = FolderImporter.PlanFile(path, NoteStore.ImportState());
+                long id;
+                if (plan.Notes.Count == 0)
+                {
+                    var (key, hash) = FolderImporter.SourceOf(path);
+                    if (NoteStore.ImportedNoteFor(key, hash) is not long existing) return -1;
+                    id = existing;
+                    StatusText.Text = string.Format(Loc("Str_St_OpenedAgain"), Path.GetFileName(path));
+                }
+                else
+                {
+                    id = NoteStore.ImportBatch(FolderImporter.Prepare(plan, null, System.Threading.CancellationToken.None))[0];
+                    StatusText.Text = Loc("Str_St_Imported1");
+                }
+                SearchBox.Text = "";   // a filtered list would hide it
+                RefreshList();
+                OpenNote(id);
+                SelectNoteInList(id);
+                return id;
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or Microsoft.Data.Sqlite.SqliteException)
+            {
+                StatusText.Text = string.Format(Loc("Str_St_ImportFailedFile"), Path.GetFileName(path), ex.Message);
+                return -1;
+            }
         }
 
         // .kndb: copied into the data folder and switched to; the previous database

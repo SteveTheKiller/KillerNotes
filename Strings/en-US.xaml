@@ -1095,4 +1095,25 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_ImportDone">Imported {0} notes from {1}.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">Import failed, and nothing was changed: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">An export or import is already running.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Quick note</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Save to</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">New note in {0}</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">Add to today's note ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Paste clipboard</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">This notepad is locked. Unlock it to save; your text stays here.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">No notepad is open. Your text stays here.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Type something to save.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">A quick note can hold up to 1 MB of text.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">Not saved: {0}. Your text is still here.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">Write a note without opening KillerNotes</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Quick note saved: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">Inbox</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Keep an icon in the system tray</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">The icon's menu has Quick note, and it stays while the window is open.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Quick note shortcut:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Off</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} is already used by another app. Pick another or leave it off.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} is over 50 MB and was not imported.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} was imported before and has not changed, so its note is open.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} was opened a moment ago and is not imported twice.</sys:String>
 </ResourceDictionary>

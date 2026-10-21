@@ -60,6 +60,7 @@ namespace KillerNotes.Services
         public string Body = "";
         public string Hash = "";
         public string SourceKey = "";
+        public bool PlainText;                  // a .txt: its text exactly, nothing rewritten
     }
 
     /// <summary>A file, or part of one, that will not come in. Reason: type, large, embed,
@@ -126,29 +127,7 @@ namespace KillerNotes.Services
                 string rel = Rel(path);
                 if (ownExport && (rel == VaultExporter.ReportName || rel == VaultExporter.ManifestName)) continue;
                 if (!NoteExts.Contains(Path.GetExtension(path))) { others.Add(path); continue; }
-                if (new FileInfo(path).Length > maxBytes) { plan.Skipped.Add(new ImportSkip(rel, "large")); continue; }
-
-                byte[] bytes = File.ReadAllBytes(path);
-                string text = Encoding.UTF8.GetString(bytes).TrimStart('﻿').Replace("\r\n", "\n");
-                string hash = Hex(bytes);
-                string key = path.ToLowerInvariant();
-                var (front, body) = SplitFrontMatter(text);
-                bool already = state.Sources.Contains(key + "|" + hash);
-                // An already-imported note's files still count as used, so they are not listed as
-                // unlinked; only a note that is coming in reports what it cannot bring.
-                foreach (string media in MediaIn(body, Path.GetDirectoryName(path)!, rel, plan, maxBytes, report: !already))
-                    used.Add(media);
-                if (already) { plan.AlreadyImported++; continue; }
-
-                var note = new ImportCandidate
-                {
-                    FullPath = path, File = rel, Body = body, Hash = hash, SourceKey = key,
-                    Title = Path.GetFileNameWithoutExtension(path),
-                    Group = rel.Split('/').Take(rel.Count(c => c == '/')).ToList(),
-                };
-                ApplyFrontMatter(note, front);
-                if (EmbedRx.IsMatch(body)) plan.Skipped.Add(new ImportSkip(rel, "embed"));
-                plan.Notes.Add(note);
+                PlanNote(path, rel, plainText: false, state, plan, maxBytes, used);
             }
 
             foreach (string path in others)
@@ -159,6 +138,60 @@ namespace KillerNotes.Services
                 plan.Skipped.Add(new ImportSkip(Rel(path), media ? "unlinked" : "type"));
             }
 
+            return Finish(plan, state);
+        }
+
+        /// <summary>One file opened from Explorer or Ctrl+O (Shell/Sharing.cs, ImportExport.cs):
+        /// the same rules as a folder, with the file's own folder as the root, so it lands
+        /// ungrouped. A .txt is plain text: no front matter, no links to files.</summary>
+        public static ImportPlan PlanFile(string path, ImportState state, long maxBytes = DefaultMaxBytes)
+        {
+            string full = Path.GetFullPath(path);
+            var plan = new ImportPlan { Folder = Path.GetDirectoryName(full)! };
+            bool plainText = string.Equals(Path.GetExtension(full), ".txt", StringComparison.OrdinalIgnoreCase);
+            PlanNote(full, Path.GetFileName(full), plainText, state, plan, maxBytes, new HashSet<string>(StringComparer.OrdinalIgnoreCase));
+            return Finish(plan, state);
+        }
+
+        /// <summary>The key and content hash a file is remembered by (NoteStore.ImportedNoteFor).</summary>
+        public static (string Key, string Hash) SourceOf(string path)
+        {
+            string full = Path.GetFullPath(path);
+            return (full.ToLowerInvariant(), Hex(File.ReadAllBytes(full)));
+        }
+
+        private static void PlanNote(string path, string rel, bool plainText, ImportState state, ImportPlan plan, long maxBytes, HashSet<string> used)
+        {
+            if (new FileInfo(path).Length > maxBytes) { plan.Skipped.Add(new ImportSkip(rel, "large")); return; }
+
+            byte[] bytes = File.ReadAllBytes(path);
+            string text = Encoding.UTF8.GetString(bytes).TrimStart('﻿').Replace("\r\n", "\n");
+            string hash = Hex(bytes);
+            string key = path.ToLowerInvariant();
+            var (front, body) = plainText ? (new Dictionary<string, object>(), text) : SplitFrontMatter(text);
+            bool already = state.Sources.Contains(key + "|" + hash);
+            // An already-imported note's files still count as used, so they are not listed as
+            // unlinked; only a note that is coming in reports what it cannot bring.
+            if (!plainText)
+                foreach (string media in MediaIn(body, Path.GetDirectoryName(path)!, rel, plan, maxBytes, report: !already))
+                    used.Add(media);
+            if (already) { plan.AlreadyImported++; return; }
+
+            var note = new ImportCandidate
+            {
+                FullPath = path, File = rel, Body = body, Hash = hash, SourceKey = key,
+                Title = Path.GetFileNameWithoutExtension(path),
+                Group = rel.Split('/').Take(rel.Count(c => c == '/')).ToList(),
+                PlainText = plainText,
+            };
+            ApplyFrontMatter(note, front);
+            if (!plainText && EmbedRx.IsMatch(body)) plan.Skipped.Add(new ImportSkip(rel, "embed"));
+            plan.Notes.Add(note);
+        }
+
+        /// <summary>Sorts the plan and works out the clashes and new groups for the preview.</summary>
+        private static ImportPlan Finish(ImportPlan plan, ImportState state)
+        {
             plan.Notes = [.. plan.Notes.OrderBy(n => n.File, StringComparer.OrdinalIgnoreCase)];
             plan.Clashes = [.. plan.Notes.Where(n => state.Titles.Contains(TextFold.Fold(n.Title.Trim()))).Select(n => n.Title)
                 .Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(t => t, StringComparer.OrdinalIgnoreCase)];
@@ -354,9 +387,8 @@ namespace KillerNotes.Services
             {
                 token.ThrowIfCancellationRequested();
                 string dir = Path.GetDirectoryName(note.FullPath)!;
-                string body = RewriteLinks(note.Body, dir, plan.Folder, TitleFor);
                 var media = new Dictionary<string, string>();   // token -> full path
-                body = TokenizeMedia(body, dir, media);
+                string body = note.PlainText ? note.Body : TokenizeMedia(RewriteLinks(note.Body, dir, plan.Folder, TitleFor), dir, media);
                 var item = new PreparedImport
                 {
                     Title = note.Title,

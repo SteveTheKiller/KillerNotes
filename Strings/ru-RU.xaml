@@ -1056,4 +1056,25 @@
     <sys:String x:Key="Str_St_ImportDone">Импортировано заметок из {1}: {0}.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">Импорт не удался, ничего не изменилось: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">Экспорт или импорт уже выполняется.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Быстрая заметка</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Сохранить в</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">Новая заметка в {0}</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">Добавить в сегодняшнюю заметку ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Вставить из буфера</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">Этот блокнот заблокирован. Разблокируйте его, чтобы сохранить; текст останется здесь.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">Ни один блокнот не открыт. Текст останется здесь.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Напишите что-нибудь, чтобы сохранить.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">Быстрая заметка вмещает до 1 МБ текста.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">Не сохранено: {0}. Текст всё ещё здесь.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">Написать заметку, не открывая KillerNotes</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Быстрая заметка сохранена: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">Входящие</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Оставлять значок в области уведомлений</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">В меню значка есть «Быстрая заметка», и значок остаётся, пока окно открыто.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Сочетание для быстрой заметки:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Выкл.</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} уже занято другим приложением. Выберите другое или оставьте выключенным.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} больше 50 МБ и не импортирован.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} уже был импортирован без изменений, поэтому открыта его заметка.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} открыт только что и не импортируется дважды.</sys:String>
 </ResourceDictionary>

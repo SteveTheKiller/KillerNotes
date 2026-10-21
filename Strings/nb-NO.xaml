@@ -1093,4 +1093,25 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_St_ImportDone">Importerte {0} notater fra {1}.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">Importen mislyktes, og ingenting ble endret: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">En eksport eller import kjører allerede.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Hurtignotat</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Lagre i</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">Nytt notat i {0}</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">Legg til i dagens notat ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Lim inn utklippstavlen</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">Denne notatblokken er låst. Lås den opp for å lagre; teksten din blir her.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">Ingen notatblokk er åpen. Teksten din blir her.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Skriv noe for å lagre.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">Et hurtignotat kan inneholde opptil 1 MB tekst.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">Ikke lagret: {0}. Teksten din er fortsatt her.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">Skriv et notat uten å åpne KillerNotes</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Hurtignotat lagret: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">Innboks</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Behold et ikon i systemstatusfeltet</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">Ikonets meny har Hurtignotat, og ikonet blir værende mens vinduet er åpent.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Snarvei for hurtignotat:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Av</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} brukes allerede av en annen app. Velg en annen eller la den være av.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} er over 50 MB og ble ikke importert.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} er importert før uten endringer, så notatet er åpnet.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} ble åpnet for et øyeblikk siden og importeres ikke to ganger.</sys:String>
 </ResourceDictionary>

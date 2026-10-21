@@ -1048,4 +1048,25 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_ImportDone">{1} konumundan {0} not içe aktarıldı.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">İçe aktarma başarısız oldu, hiçbir şey değişmedi: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">Zaten bir dışa veya içe aktarma sürüyor.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Hızlı not</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Kaydedileceği yer</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">{0} içinde yeni not</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">Bugünkü nota ekle ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Panodan yapıştır</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">Bu not defteri kilitli. Kaydetmek için kilidi açın; metniniz burada kalır.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">Açık not defteri yok. Metniniz burada kalır.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Kaydetmek için bir şey yazın.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">Hızlı not en fazla 1 MB metin alır.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">Kaydedilmedi: {0}. Metniniz hâlâ burada.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">KillerNotes'u açmadan not yazın</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Hızlı not kaydedildi: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">Gelen kutusu</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Sistem tepsisinde simge bırak</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">Simgenin menüsünde Hızlı not var ve simge pencere açıkken de kalır.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Hızlı not kısayolu:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Kapalı</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} başka bir uygulama tarafından kullanılıyor. Başka birini seçin ya da kapalı bırakın.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} 50 MB'tan büyük ve içe aktarılmadı.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} daha önce değişmeden içe aktarılmıştı, bu yüzden notu açıldı.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} az önce açıldı ve iki kez içe aktarılmaz.</sys:String>
 </ResourceDictionary>

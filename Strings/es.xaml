@@ -1049,4 +1049,25 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_ImportDone">Se importaron {0} notas de {1}.</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">La importación falló y no se cambió nada: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">Ya hay una exportación o importación en curso.</sys:String>
+    <sys:String x:Key="Str_Quick_Title">Nota rápida</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">Guardar en</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">Nota nueva en {0}</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">Añadir a la nota de hoy ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">Pegar portapapeles</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">Este bloc está bloqueado. Desbloquéalo para guardar; tu texto se queda aquí.</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">No hay ningún bloc abierto. Tu texto se queda aquí.</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">Escribe algo para guardar.</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">Una nota rápida admite hasta 1 MB de texto.</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">No se guardó: {0}. Tu texto sigue aquí.</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">Escribe una nota sin abrir KillerNotes</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">Nota rápida guardada: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">Bandeja de entrada</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">Mantener un icono en la bandeja del sistema</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">El menú del icono tiene Nota rápida y se mantiene mientras la ventana está abierta.</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">Atajo de nota rápida:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">Desactivado</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} ya lo usa otra aplicación. Elige otro o déjalo desactivado.</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} pesa más de 50 MB y no se importó.</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} ya se importó sin cambios, así que su nota está abierta.</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} se abrió hace un momento y no se importa dos veces.</sys:String>
 </ResourceDictionary>

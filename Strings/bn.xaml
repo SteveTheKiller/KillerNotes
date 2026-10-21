@@ -1048,4 +1048,25 @@
     <sys:String x:Key="Str_St_ImportDone">{1} থেকে {0}টি নোট ইমপোর্ট হয়েছে।</sys:String>
     <sys:String x:Key="Str_St_ImportFolderFailed">ইমপোর্ট ব্যর্থ, কিছুই বদলায়নি: {0}</sys:String>
     <sys:String x:Key="Str_St_JobBusy">একটি রপ্তানি বা ইমপোর্ট ইতিমধ্যে চলছে।</sys:String>
+    <sys:String x:Key="Str_Quick_Title">দ্রুত নোট</sys:String>
+    <sys:String x:Key="Str_Quick_SaveTo">যেখানে সংরক্ষণ হবে</sys:String>
+    <sys:String x:Key="Str_Quick_TargetGroup">{0}-এ নতুন নোট</sys:String>
+    <sys:String x:Key="Str_Quick_TargetToday">আজকের নোটে যোগ করুন ({0})</sys:String>
+    <sys:String x:Key="Str_Quick_Paste">ক্লিপবোর্ড পেস্ট করুন</sys:String>
+    <sys:String x:Key="Str_Quick_Locked">এই নোটপ্যাড লক করা আছে। সংরক্ষণ করতে আনলক করুন; আপনার লেখা এখানেই থাকবে।</sys:String>
+    <sys:String x:Key="Str_Quick_NotOpen">কোনো নোটপ্যাড খোলা নেই। আপনার লেখা এখানেই থাকবে।</sys:String>
+    <sys:String x:Key="Str_Quick_Empty">সংরক্ষণের জন্য কিছু লিখুন।</sys:String>
+    <sys:String x:Key="Str_Quick_TooLarge">একটি দ্রুত নোটে ১ MB পর্যন্ত লেখা রাখা যায়।</sys:String>
+    <sys:String x:Key="Str_Quick_Failed">সংরক্ষণ হয়নি: {0}। আপনার লেখা এখনও এখানে আছে।</sys:String>
+    <sys:String x:Key="Str_Quick_JumpHint">KillerNotes না খুলেই নোট লিখুন</sys:String>
+    <sys:String x:Key="Str_St_QuickSaved">দ্রুত নোট সংরক্ষিত: {0}</sys:String>
+    <sys:String x:Key="Str_Grp_Inbox">ইনবক্স</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIcon">সিস্টেম ট্রেতে একটি আইকন রাখুন</sys:String>
+    <sys:String x:Key="Str_About_KeepTrayIconHint">আইকনের মেনুতে দ্রুত নোট আছে, আর উইন্ডো খোলা থাকলেও আইকনটি থাকে।</sys:String>
+    <sys:String x:Key="Str_About_QuickHotkey">দ্রুত নোটের শর্টকাট:</sys:String>
+    <sys:String x:Key="Str_About_HotkeyOff">বন্ধ</sys:String>
+    <sys:String x:Key="Str_About_HotkeyTaken">{0} অন্য একটি অ্যাপ ব্যবহার করছে। অন্যটি বেছে নিন বা বন্ধ রাখুন।</sys:String>
+    <sys:String x:Key="Str_St_FileTooLarge">{0} ৫০ MB-এর বেশি, তাই ইমপোর্ট হয়নি।</sys:String>
+    <sys:String x:Key="Str_St_OpenedAgain">{0} আগে অপরিবর্তিত অবস্থায় ইমপোর্ট হয়েছিল, তাই এর নোট খোলা হয়েছে।</sys:String>
+    <sys:String x:Key="Str_St_AlreadyOpening">{0} এইমাত্র খোলা হয়েছে, দুবার ইমপোর্ট হবে না।</sys:String>
 </ResourceDictionary>
