@@ -43,6 +43,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Pasting tidies only the pasted content, leaving the rest of the note's spacing and table colors alone.
 - Vault export writes pictures, sketches and recordings beside each note, floated ones included, and lists anything it could not carry in export-report.md.
 - CLI and MCP commands keep values that look like options (such as content of "--title") as values, and reject repeated options.
+- A stalled connection to the single-instance channel is dropped after five seconds, so opening files from Explorer keeps reaching the running app.
 
 ### Added
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.

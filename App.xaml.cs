@@ -242,12 +242,13 @@ namespace KillerNotes
                 {
                     try
                     {
+                        // Asynchronous, so the bounded read below can give up on a client that
+                        // stalls; disposing the server at the end of each pass drops it.
                         using var server = new NamedPipeServerStream(
-                            PipeName, PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.None);
+                            PipeName, PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
                         server.WaitForConnection();
-                        using var r = new StreamReader(server);
-                        string? path = r.ReadLine();
-                        Dispatcher.BeginInvoke(new Action(() => OnForwardedLaunch(path)));
+                        string? path = Services.LaunchMessage.ReadLine(server, TimeSpan.FromSeconds(5), 64 * 1024);
+                        if (path != null) Dispatcher.BeginInvoke(new Action(() => OnForwardedLaunch(path)));
                     }
                     catch (IOException) { /* client vanished mid-handshake - keep listening */ }
                     catch (ObjectDisposedException) { return; }
