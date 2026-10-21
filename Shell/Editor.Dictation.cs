@@ -188,7 +188,15 @@ namespace KillerNotes.Shell
 
                 if (_currentId == editNoteId)
                 {
-                    var target = FindChip(replaceHash) ?? throw new InvalidOperationException(Loc("Str_Dict_Missing"));
+                    // The chip that was opened for editing, when it is still in the note: with two
+                    // copies of one recording, the first match by hash may be the other one.
+                    var target = (_recEditChip != null && RecordingRef.Of(_recEditChip)?.Hash == replaceHash &&
+                                  DescendantElements(Editor.Document).Contains(_recEditChip) ? _recEditChip : null)
+                                 ?? FindChip(replaceHash) ?? throw new InvalidOperationException(Loc("Str_Dict_Missing"));
+                    // Keep the stored note, earlier take included, as a version before it changes,
+                    // as the closed-note path does: otherwise the next save could leave nothing
+                    // pointing at the earlier take and it would be cleaned away.
+                    if (!NoteStore.IsReadOnly) NoteStore.Snapshot(editNoteId, force: true);
                     StopEmbeddedPlayback();          // the old audio may still be loaded
                     Remember(recording);
                     target.Tag = new RecordingRef(recording.Hash, durationMs).ToTag();
@@ -462,8 +470,26 @@ namespace KillerNotes.Shell
             byte[]? wav = AudioCodec.ToPcm(data);
             if (wav == null) { StatusText.Text = Loc("Str_Dict_Missing"); return; }
 
+            _recEditChip = CtxRecordingChip();
             OpenDictation();
             _dictation?.LoadForEdit(wav, rec.Hash, _currentId, NoteStore.DbPath);
+        }
+
+        /// <summary>The chip last opened for editing, so its re-embed replaces that chip and not
+        /// another copy of the same recording. Only a hint: checked against the document on use.</summary>
+        private Border? _recEditChip;
+
+        /// <summary>The chip the context menu is about (under the pointer, or at the caret).</summary>
+        private Border? CtxRecordingChip()
+        {
+            if (RecordingRef.Of(_ctxObject) != null) return (Border)_ctxObject!;
+            DependencyObject? parent = Editor.CaretPosition?.Parent;
+            while (parent != null)
+            {
+                if (parent is InlineUIContainer iuc && RecordingRef.Of(iuc.Child) != null) return (Border)iuc.Child;
+                parent = parent is FrameworkContentElement content ? content.Parent : LogicalTreeHelper.GetParent(parent);
+            }
+            return null;
         }
 
         /// <summary>The note's title plus a short slice of the recording's hash, so two takes in

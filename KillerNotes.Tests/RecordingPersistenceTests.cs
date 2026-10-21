@@ -73,6 +73,27 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
+        public void ReRecordingInTheOpenNoteKeepsTheEarlierTakeInHistory() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            NoteStore.HistoryInterval = TimeSpan.FromDays(1);   // no version would be kept on its own
+            long id = NoteStore.Create("n");
+            var shell = Shell(id, "words ");
+            Save(shell, id);
+            Save(shell, id);                 // a recent version without the recording
+            Embed(shell, Audio(12), 1000);
+            Save(shell, id);                 // stored, but no new version (the last one is recent)
+            string first = RecordingRef.From(Chips(shell).Single().Tag)!.Hash;
+
+            Embed(shell, Audio(13), 2000, replaceHash: first, editNoteId: id);
+            Save(shell, id);
+
+            Assert.Equal(Audio(12), NoteStore.GetAttachment(first)?.Payload);
+            Assert.Contains(NoteStore.ListHistory(id),
+                v => Attachments.MarkersIn(NoteStore.LoadVersion(v.Id)!.Value.Content).Contains(first));
+        });
+
+        [Fact]
         public void RecordingsOrphanedByEarlierVersionsComeBackAtTheEndOfTheirNote() => Sta.Run(() =>
         {
             using var store = new TempStore();
