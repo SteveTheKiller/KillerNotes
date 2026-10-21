@@ -225,6 +225,9 @@ namespace KillerNotes.Services
                 try { return Attachments.MarkersJson(content); }
                 catch { return "[]"; }
             }, isDeterministic: true);
+            // Unicode-aware comparison for search and link resolution (Services/TextFold.cs).
+            db.CreateFunction("kn_fold", (string? text) => TextFold.Fold(text), isDeterministic: true);
+            db.CreateCollation("KNFOLD", (a, b) => string.CompareOrdinal(TextFold.Fold(a), TextFold.Fold(b)));
             _db = db;
             _password = string.IsNullOrEmpty(password) ? null : password;
             IsReadOnly = readOnly;
@@ -557,14 +560,16 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 // so "A/002/45" was found by "002" but never by "02" or "2" (#12). A LIKE scan
                 // matches any substring, mid-token included; at personal-notes scale it stays
                 // instant. Each whitespace word must appear (AND), in any of the columns (OR).
+                // Compared folded (kn_fold, Services/TextFold.cs) rather than with LIKE, whose
+                // case-insensitivity covers ASCII only.
                 // The branch guarantees a value, but net48's nullable annotations do not teach
                 // the compiler that IsNullOrWhiteSpace(false) also means non-null.
                 var words = search!.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
                 var clauses = new List<string>(words.Length);
                 for (int i = 0; i < words.Length; i++)
                 {
-                    clauses.Add($"(title LIKE $w{i} ESCAPE '\\' OR plain LIKE $w{i} ESCAPE '\\' OR tags LIKE $w{i} ESCAPE '\\')");
-                    cmd.Parameters.AddWithValue($"$w{i}", "%" + EscapeLike(words[i]) + "%");
+                    clauses.Add($"(instr(kn_fold(title), $w{i}) > 0 OR instr(kn_fold(plain), $w{i}) > 0 OR instr(kn_fold(tags), $w{i}) > 0)");
+                    cmd.Parameters.AddWithValue($"$w{i}", TextFold.Fold(words[i]));
                 }
                 string where = clauses.Count > 0 ? string.Join(" AND ", clauses) : "1";
                 // Trashed notes never match a search: the trash is a place you go to, not a
@@ -1454,7 +1459,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             var list = new List<(long, string)>();
             if (_db == null) return list;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT COALESCE((SELECT n.id FROM notes n WHERE n.title = l.target COLLATE NOCASE " +
+            // KNFOLD: titles match across case in every script (Services/TextFold.cs).
+            cmd.CommandText = "SELECT COALESCE((SELECT n.id FROM notes n WHERE n.title = l.target COLLATE KNFOLD " +
                 "AND n.deleted = '' ORDER BY n.id LIMIT 1), -1), l.target FROM note_links l " +
                 "JOIN notes s ON s.id = l.src WHERE l.src = $s AND s.deleted = '' ORDER BY l.target COLLATE NOCASE";
             cmd.Parameters.AddWithValue("$s", source);
@@ -1476,8 +1482,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 // compares n.id <> NULL, which is never true, and every backlink disappears the
                 // moment the title has no owner - which silently disabled both callers.
                 "SELECT n.id, n.title FROM note_links l JOIN notes n ON n.id = l.src " +
-                "WHERE l.target = $t COLLATE NOCASE AND n.deleted = '' " +
-                "  AND n.id <> COALESCE((SELECT id FROM notes WHERE title = $t COLLATE NOCASE AND deleted = '' LIMIT 1), -1) " +
+                "WHERE l.target = $t COLLATE KNFOLD AND n.deleted = '' " +
+                "  AND n.id <> COALESCE((SELECT id FROM notes WHERE title = $t COLLATE KNFOLD AND deleted = '' LIMIT 1), -1) " +
                 "ORDER BY n.title COLLATE NOCASE";
             cmd.Parameters.AddWithValue("$t", title);
             using var r = cmd.ExecuteReader();
@@ -1504,11 +1510,11 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             using var cmd = _db.CreateCommand();
             cmd.CommandText =
                 "SELECT id, title FROM notes " +
-                "WHERE plain LIKE $q ESCAPE '\\' AND deleted = '' " +
-                "  AND title <> $t COLLATE NOCASE " +
-                "  AND id NOT IN (SELECT src FROM note_links WHERE target = $t COLLATE NOCASE) " +
+                "WHERE instr(kn_fold(plain), $q) > 0 AND deleted = '' " +
+                "  AND title <> $t COLLATE KNFOLD " +
+                "  AND id NOT IN (SELECT src FROM note_links WHERE target = $t COLLATE KNFOLD) " +
                 "ORDER BY modified DESC LIMIT $n";
-            cmd.Parameters.AddWithValue("$q", "%" + EscapeLike(title.Trim()) + "%");
+            cmd.Parameters.AddWithValue("$q", TextFold.Fold(title.Trim()));
             cmd.Parameters.AddWithValue("$t", title.Trim());
             cmd.Parameters.AddWithValue("$n", cap);
             using var r = cmd.ExecuteReader();
@@ -1523,7 +1529,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         {
             if (_db == null || string.IsNullOrWhiteSpace(title)) return -1;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT id FROM notes WHERE title = $t COLLATE NOCASE AND deleted = '' ORDER BY id LIMIT 1";
+            cmd.CommandText = "SELECT id FROM notes WHERE title = $t COLLATE KNFOLD AND deleted = '' ORDER BY id LIMIT 1";
             cmd.Parameters.AddWithValue("$t", title.Trim());
             return cmd.ExecuteScalar() is long id ? id : -1;
         }
@@ -1542,7 +1548,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 // ghost again until it is restored.
                 "SELECT l.src, COALESCE(n.id, -1), l.target FROM note_links l " +
                 "JOIN notes s ON s.id = l.src AND s.deleted = '' " +
-                "LEFT JOIN notes n ON n.title = l.target COLLATE NOCASE AND n.deleted = ''";
+                "LEFT JOIN notes n ON n.title = l.target COLLATE KNFOLD AND n.deleted = ''";
             using var r = cmd.ExecuteReader();
             while (r.Read())
                 list.Add((r.GetInt64(0), r.GetInt64(1), r.IsDBNull(2) ? "" : r.GetString(2)));
@@ -1557,10 +1563,10 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             using var cmd = _db.CreateCommand();
             cmd.CommandText = string.IsNullOrWhiteSpace(prefix)
                 ? "SELECT id, title FROM notes WHERE title <> '' AND deleted = '' ORDER BY modified DESC LIMIT $n"
-                : "SELECT id, title FROM notes WHERE title LIKE $p ESCAPE '\\' AND title <> '' AND deleted = '' " +
+                : "SELECT id, title FROM notes WHERE instr(kn_fold(title), $p) > 0 AND title <> '' AND deleted = '' " +
                   "ORDER BY length(title), title COLLATE NOCASE LIMIT $n";
             if (!string.IsNullOrWhiteSpace(prefix))
-                cmd.Parameters.AddWithValue("$p", "%" + EscapeLike(prefix.Trim()) + "%");
+                cmd.Parameters.AddWithValue("$p", TextFold.Fold(prefix.Trim()));
             cmd.Parameters.AddWithValue("$n", cap);
             using var r = cmd.ExecuteReader();
             while (r.Read()) list.Add((r.GetInt64(0), r.IsDBNull(1) ? "" : r.GetString(1)));
