@@ -37,6 +37,7 @@ namespace KillerNotes.Shell
         // live theme's colors, the same way the editor shows the current one.
         internal static void NormalizeThemeColors(FlowDocument doc)
         {
+            PinTextOnColoredGround(doc);
             doc.ClearValue(FlowDocument.ForegroundProperty);
             doc.ClearValue(FlowDocument.BackgroundProperty);
             foreach (var block in doc.Blocks.ToList()) NormalizeBlock(block);
@@ -99,10 +100,40 @@ namespace KillerNotes.Shell
                 }
                 return;
             }
-            if (te.ReadLocalValue(TextElement.ForegroundProperty) is SolidColorBrush f && IsNeutralColor(f.Color))
-                te.ClearValue(TextElement.ForegroundProperty);
             if (te.ReadLocalValue(TextElement.BackgroundProperty) is SolidColorBrush b && IsNeutralColor(b.Color))
                 te.ClearValue(TextElement.BackgroundProperty);
+            // Neutral text follows the theme, EXCEPT text on a deliberate colored ground: the
+            // highlighter pairs black with yellow, and clearing the black left theme-white text on
+            // yellow in every dark theme.
+            if (te.ReadLocalValue(TextElement.ForegroundProperty) is SolidColorBrush f && IsNeutralColor(f.Color) &&
+                !OnColoredGround(te))
+                te.ClearValue(TextElement.ForegroundProperty);
+        }
+
+        /// <summary>The note format omits a run's text color when it equals the document default,
+        /// so highlighted black text often comes back inheriting its black from the document root.
+        /// Clearing that root color (below) would hand the run the theme's text color; pin the
+        /// color it shows now onto the run itself first.</summary>
+        private static void PinTextOnColoredGround(FlowDocument doc)
+        {
+            var runs = new List<Run>();
+            for (var p = doc.ContentStart; p != null && p.CompareTo(doc.ContentEnd) < 0; p = p.GetNextContextPosition(LogicalDirection.Forward))
+                if (p.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementStart && p.GetAdjacentElement(LogicalDirection.Forward) is Run r)
+                    runs.Add(r);
+            foreach (var run in runs)
+                if (run.ReadLocalValue(TextElement.ForegroundProperty) == DependencyProperty.UnsetValue &&
+                    OnColoredGround(run) && run.Foreground is SolidColorBrush shown && IsNeutralColor(shown.Color))
+                    run.Foreground = new SolidColorBrush(shown.Color);
+        }
+
+        /// <summary>True when this element or one of its text ancestors has a non-neutral
+        /// background of its own.</summary>
+        private static bool OnColoredGround(TextElement te)
+        {
+            for (DependencyObject? d = te; d is TextElement e; d = e.Parent)
+                if (e.ReadLocalValue(TextElement.BackgroundProperty) is SolidColorBrush g && !IsNeutralColor(g.Color) && g.Color.A > 0)
+                    return true;
+            return false;
         }
 
         // ---- Character formatting (color, highlight, strikethrough, monospace) ----
