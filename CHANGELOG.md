@@ -6,7 +6,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.6.0] - Unreleased
 
-1.6.0 fixes the October data-safety review, and adds Lock now, backup health, folder import, Quick note and search filters.
+1.6.0 makes saves, backups, sketches and recordings safer, and adds Lock now, backup checks, folder import, Quick note and search filters.
 
 ### Fixed
 - Failed saves preserve unsaved edits for retry or text/RTF export, block actions that would discard them, and save note content, links, history and sketches together.
