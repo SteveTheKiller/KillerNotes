@@ -391,4 +391,6 @@
     <SolidColorBrush x:Key="MenuSeparatorBrush" Color="#FF808080" po:Freeze="True"/>
     <SolidColorBrush x:Key="AccentLogo" Color="#FF004F00" po:Freeze="True"/>
     <SolidColorBrush x:Key="FileDialogPaneBrush" Color="#ffffff" po:Freeze="True"/>
+    <Thickness x:Key="CompactInputPadding">2,1</Thickness>
+    <sys:Double x:Key="CompactInputMinHeight">22</sys:Double>
 </ResourceDictionary>

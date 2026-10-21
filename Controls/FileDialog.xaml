@@ -82,7 +82,7 @@
              frame that extra invisible pixel sat OUTSIDE the frame, so the picker's edge measured
              one wider than the main window's and its outermost pixel was the card background
              rather than the frame. (2026-08-07) -->
-        <kui:PickerBorder x:Name="RootBorder" BorderBrush="{DynamicResource WindowEdgeBrush}"
+        <kui:PickerBorder x:Name="RootBorder" Tag="{DynamicResource UseDialogCaption}" BorderBrush="{DynamicResource WindowEdgeBrush}"
                 BorderThickness="{DynamicResource WindowEdgeThickness}"
                 Background="{DynamicResource BackgroundBrush}"
                 CornerRadius="{DynamicResource PanelCornerRadius}" Margin="{DynamicResource DialogHaloMargin}">
@@ -120,6 +120,9 @@
                     <Border IsHitTestVisible="False" Background="{DynamicResource GrainTileBrush}"
                             Opacity="{DynamicResource GrainOpacity}"/>
                 <Grid Margin="{DynamicResource TitleBarPadding}">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <kui:AppIcon x:Name="TitleIcon" Width="{DynamicResource TitleIconSize}" Height="{DynamicResource TitleIconSize}"
+                                 Margin="{DynamicResource TitleIconMargin}" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
                     <!-- The plain caption, shown on a theme that declares a Win98-style bar. Without
                          it this dialog kept the typewriter wordmark while every other window swapped,
                          AND the wordmark's bold run uses AccentLogo - which on a theme whose caption
@@ -159,6 +162,7 @@
                             <Run x:Name="TitleWordA" Text="{DynamicResource Str_Wordmark_A}" Foreground="{DynamicResource ChromeTextBrush}"/><Run FontFamily="{DynamicResource WordmarkAccentFont}" x:Name="TitleWordB" Text="{DynamicResource Str_Wordmark_B}" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="{DynamicResource AccentLogo}"/><Run FontFamily="{DynamicResource BrandSansFont}" x:Name="TitleSub" FontSize="18" Foreground="{DynamicResource ChromeTextBrush}"/>
                         </TextBlock>
                     </Grid>
+                    </StackPanel>
                     <!-- The family dialog close - see the note in DialogTitleBar.xaml. Same markup
                          as KillerShell, KillerScan and the KillerUI kit. -->
                     <Button Content="{DynamicResource AboutCloseGlyph}" Click="Cancel_Click"
@@ -233,7 +237,7 @@
                          InputEdgeBrush, not the style's own InputBorderBrush: on a beveled theme
                          the sunken bevel below IS the field's edge, and the flat 1px line drew a
                          SECOND line right beside it along the top. (2026-08-07) -->
-                    <TextBox x:Name="PathBox" Height="22" Style="{StaticResource DarkTextBox}"
+                    <TextBox x:Name="PathBox" Style="{StaticResource DialogPickerTextBox}"
                              AutomationProperties.Name="{Binding Text, RelativeSource={RelativeSource Self}}"
                              Background="{DynamicResource TextFieldBrush}"
                              BorderBrush="{DynamicResource InputEdgeBrush}"
@@ -560,9 +564,9 @@
                 <!-- An edit field, so white and sunken like the address bar and every other input. -->
                 <!-- Same 22 and centered as the address bar, for the same reason. -->
                 <Grid Grid.Row="0" Grid.Column="1" Height="22" VerticalAlignment="Center">
-                    <TextBox x:Name="FileNameBox" Height="22"
+                    <TextBox x:Name="FileNameBox"
                              AutomationProperties.Name="{DynamicResource Str_Dlg_FileName}"
-                             Style="{StaticResource DarkTextBox}"
+                             Style="{StaticResource DialogPickerTextBox}"
                              Background="{DynamicResource TextFieldBrush}"
                              BorderBrush="{DynamicResource InputEdgeBrush}"
                              FontFamily="{DynamicResource UiFont}" FontSize="12" Padding="5,0,8,0"
