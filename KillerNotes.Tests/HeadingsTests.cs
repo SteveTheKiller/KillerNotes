@@ -80,5 +80,12 @@ namespace KillerNotes.Tests
             Assert.Contains("**Just bold**", md);
             Assert.DoesNotContain("# ", md);
         });
+
+        [Theory]
+        [InlineData("## 2. How **PSA** auth  works", "2. How PSA auth works")]
+        [InlineData("# `Endpoints` vs. _entities_", "Endpoints vs. entities")]
+        [InlineData("Plain heading", "Plain heading")]
+        public void PlainHeadingMatchesWhatThePreviewShows(string source, string shown) =>
+            Assert.Equal(shown, Headings.PlainHeading(source));
     }
 }

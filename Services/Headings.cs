@@ -69,6 +69,22 @@ namespace KillerNotes.Services
             return n > 0 && n < line.Length && line[n] == ' ' ? n : 0;
         }
 
+        /// <summary>A heading's words as the preview shows them: no "# " marker, no inline
+        /// emphasis or code marks, spaces collapsed. Matches a source heading to its rendered twin.</summary>
+        public static string PlainHeading(string text)
+        {
+            int level = LevelOfMarkdown(text);
+            if (level > 0) text = text[(level + 1)..];
+            var sb = new System.Text.StringBuilder(text.Length);
+            foreach (char c in text)
+            {
+                if (c is '*' or '_' or '`') continue;
+                if (char.IsWhiteSpace(c)) { if (sb.Length > 0 && sb[sb.Length - 1] != ' ') sb.Append(' '); }
+                else sb.Append(c);
+            }
+            return sb.ToString().Trim();
+        }
+
         /// <summary>The line with its heading marker replaced (level 0 removes it).</summary>
         public static string SetMarkdownLevel(string line, int level)
         {

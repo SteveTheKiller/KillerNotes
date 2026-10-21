@@ -122,9 +122,11 @@ namespace KillerNotes.Shell
         private void ApplyPreviewCorners()
         {
             var r = TryFindResource("PanelCornerRadius") is CornerRadius cr ? cr : new CornerRadius(4);
+            // The bottom-right corner belongs to the outline when it is open beside the preview.
+            double right = _outlineOpen ? 0 : r.BottomRight;   // Headings.cs
             PreviewPane.CornerRadius = _previewMode == PreviewMode.Rendered
-                ? new CornerRadius(0, 0, r.BottomRight, r.BottomLeft)
-                : new CornerRadius(0, 0, r.BottomRight, 0);
+                ? new CornerRadius(0, 0, right, r.BottomLeft)
+                : new CornerRadius(0, 0, right, 0);
         }
 
         private string EditorPlainText() =>

@@ -143,11 +143,12 @@ namespace KillerNotes.Shell
         {
             OutlinePane.Visibility = _outlineOpen ? Visibility.Visible : Visibility.Collapsed;
             OutlineCol.Width = new GridLength(_outlineOpen ? 220 : 0);
-            // The pane runs to the editor card's right and bottom edges, so it takes the card's
-            // rounded corners on that side instead of leaving a square block inside them.
+            // The pane runs to the editor card's bottom-right corner, so it takes that rounded
+            // corner. Its top is square: it starts at the title's rule, not at the card's edge.
             var r = TryFindResource("PanelCornerRadius") is CornerRadius cr ? cr : new CornerRadius(4);
-            OutlinePane.CornerRadius = new CornerRadius(0, r.TopRight, r.BottomRight, 0);
+            OutlinePane.CornerRadius = new CornerRadius(0, 0, r.BottomRight, 0);
             OutlineGrain.CornerRadius = OutlinePane.CornerRadius;
+            ApplyPreviewCorners();   // Preview.cs - the preview gives up that corner to the outline
             OutlineRailBtn.SetResourceReference(ForegroundProperty, _outlineOpen ? "PrimaryBrush" : "TextBrush");
         }
 
@@ -239,21 +240,44 @@ namespace KillerNotes.Shell
             Editor.Focus();
         }
 
-        /// <summary>Scrolls the editor so the heading sits at the top and puts the caret on it.</summary>
+        /// <summary>Scrolls to the heading in whatever is showing: the editor (caret on the
+        /// heading), the preview, or both side by side. The preview-only view stays a preview.</summary>
         private void JumpToParagraph(Paragraph p)
         {
             try
             {
-                if (_previewMode == PreviewMode.Rendered) SetPreviewMode(PreviewMode.Source);
-                var rect = p.ContentStart.GetCharacterRect(LogicalDirection.Forward);
-                Editor.ScrollToVerticalOffset(Editor.VerticalOffset + rect.Top - 8);
-                Editor.CaretPosition = p.ContentStart.GetInsertionPosition(LogicalDirection.Forward);
-                Editor.Focus();
+                if (_previewMode != PreviewMode.Rendered)
+                {
+                    var rect = p.ContentStart.GetCharacterRect(LogicalDirection.Forward);
+                    Editor.ScrollToVerticalOffset(Editor.VerticalOffset + rect.Top - 8);
+                    Editor.CaretPosition = p.ContentStart.GetInsertionPosition(LogicalDirection.Forward);
+                }
+                if (PreviewOpen) ScrollPreviewToHeading(p);
+                if (_previewMode == PreviewMode.Rendered) _previewViewer?.Focus();
+                else Editor.Focus();
             }
             catch (InvalidOperationException)
             {
                 RefreshOutline();   // the paragraph is gone from the document; the list was stale
             }
+        }
+
+        /// <summary>Finds the heading's twin in the preview by its text (the nth of that text, so
+        /// repeated headings land on the right one) and scrolls it to the top.</summary>
+        private void ScrollPreviewToHeading(Paragraph heading)
+        {
+            var sv = PreviewScroller();
+            if (sv == null || _previewViewer?.Document is not FlowDocument doc) return;
+            string wanted = Headings.PlainHeading(TextOf(heading));
+            if (wanted.Length == 0) return;
+            int nth = AllParagraphs(Editor.Document.Blocks)
+                .TakeWhile(p => !ReferenceEquals(p, heading))
+                .Count(p => Headings.PlainHeading(TextOf(p)) == wanted);
+            var target = AllParagraphs(doc.Blocks).Where(p => Headings.PlainHeading(TextOf(p)) == wanted).Skip(nth).FirstOrDefault();
+            if (target == null) return;
+            var rect = target.ContentStart.GetCharacterRect(LogicalDirection.Forward);
+            if (rect.IsEmpty) return;
+            sv.ScrollToVerticalOffset(sv.VerticalOffset + rect.Top - 8);
         }
     }
 }

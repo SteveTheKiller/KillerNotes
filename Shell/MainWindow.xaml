@@ -2172,10 +2172,11 @@
                     <!-- SidePaneBrush, the menu and format bar surface (ThemeManager), so the
                          preview reads as chrome beside the paper rather than as more paper. Its
                          outer corners follow the pane (Preview.cs ApplyPreviewCorners). -->
+                    <!-- -3 top: up to the title's rule (its 3px bottom margin), not stopping below it. -->
                     <Border x:Name="PreviewPane" Grid.Column="3" Visibility="Collapsed"
                             Background="{DynamicResource SidePaneBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
-                            Padding="0" Margin="0"/>
+                            Padding="0" Margin="0,-3,0,0"/>
                     <!-- The divider has its own column so its hit area cannot overlap the viewer. -->
                     <GridSplitter x:Name="PreviewSplitter" Grid.Column="2" Panel.ZIndex="50"
                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -2194,7 +2195,7 @@
                     <Border x:Name="OutlinePane" Grid.Column="4" Visibility="Collapsed"
                             Background="{DynamicResource SidePaneBrush}"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
-                            Margin="0">
+                            Margin="0,-3,0,0">
                         <Border.Resources>
                             <Style x:Key="OutlineRow" TargetType="Border">
                                 <Setter Property="Background" Value="Transparent"/>

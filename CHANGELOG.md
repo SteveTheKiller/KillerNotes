@@ -57,6 +57,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The About, Fonts and Keyboard Shortcuts cards' edges, and the Shortcuts list's top rule, follow gradient themes instead of one solid border color. Film grain has crisper specks. Black shows only its bright specks at half the strength and Dark's grain is slightly lighter, so menus, panes and the background stay distinct. The larger Lacquer + NEW label fills its button, sits higher, and shrinks slightly before becoming a large plus sign on narrow sidebars.
 - Light is gray around a white page: the background, sidebar and footer are a slightly darker gray, and the note pane is white.
 - Menus, the format bar, the links strip and the preview and outline panes sit darker than the panes and the background in Dark, Decay, Ectoplasm, Malaise and Mourning, where they had blended into one or the other.
+- Clicking a heading in the outline scrolls the preview to it, side by side or preview only, instead of switching back to the markdown source. The outline and preview panes run square up to the title rule, and only the outermost pane rounds the card corner.
 - The caption buttons are 1px shorter than the title bar, so the red Close hover no longer touches the edge below it.
 - Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
 
