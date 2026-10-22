@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace KillerNotes.Services
@@ -20,13 +21,21 @@ namespace KillerNotes.Services
         internal const string LameDll = "libmp3lame.dll";
 
         /// <summary>
-        /// Whisper's natives, IN DEPENDENCY ORDER. ggml-base first, then the CPU backend, then the
-        /// ggml facade, then whisper itself - each links against the ones before it. Preloading them
-        /// out of order leaves the loader hunting the PATH for a dependency that has not been
-        /// extracted yet, and whisper silently reports unavailable.
+        /// Whisper's natives, IN DEPENDENCY ORDER. ggml-base first, then the ggml facade, then
+        /// whisper itself - each links against the ones before it. Preloading them out of order
+        /// leaves the loader hunting the PATH for a dependency that has not been extracted yet, and
+        /// whisper silently reports unavailable.
         /// </summary>
         private static readonly string[] WhisperDlls =
-            ["ggml-base.dll", "ggml-cpu.dll", "ggml.dll", "libwhisper.dll"];
+            ["ggml-base.dll", "ggml.dll", "libwhisper.dll"];
+
+        /// <summary>
+        /// The CPU backend, one build per instruction-set level. They are only extracted here;
+        /// ggml loads the best one this processor supports (LoadCpuBackend). The 1.9.5 update first
+        /// shipped a single baseline CPU build, which ran transcription many times slower.
+        /// </summary>
+        private static readonly string[] CpuVariantDlls =
+            ["ggml-cpu-x64.dll", "ggml-cpu-sse42.dll", "ggml-cpu-sandybridge.dll", "ggml-cpu-haswell.dll", "ggml-cpu-alderlake.dll", "ggml-cpu-skylakex.dll", "ggml-cpu-icelake.dll", "ggml-cpu-zen4.dll"];
 
         private static readonly object _gate = new();
         private static bool _done;
@@ -81,7 +90,9 @@ namespace KillerNotes.Services
                 // fallback to SAPI.
                 bool whisper = true;
                 foreach (string dll in WhisperDlls) whisper &= Extract(dll);
-                WhisperAvailable = whisper;
+                bool anyCpu = false;
+                foreach (string dll in CpuVariantDlls) anyCpu |= Extract(dll, load: false);
+                WhisperAvailable = whisper && anyCpu && LoadCpuBackend();
             }
         }
 
@@ -98,8 +109,9 @@ namespace KillerNotes.Services
             EnsureLoaded();
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Native folder: " + _dir);
-            foreach (string dll in new[] { FlacDll, LameDll, "ggml-base.dll", "ggml-cpu.dll", "ggml.dll", "libwhisper.dll" })
+            foreach (string dll in new[] { FlacDll, LameDll }.Concat(WhisperDlls).Concat(CpuVariantDlls))
                 sb.AppendLine(dll + ": " + (_why.TryGetValue(dll, out string? w) ? w : "not attempted"));
+            sb.AppendLine("CPU backend: " + (_cpuBackend ?? "not loaded"));
             return sb.ToString();
         }
 
@@ -108,7 +120,40 @@ namespace KillerNotes.Services
         [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
         private static extern bool SetDllDirectory(string lpPathName);
 
-        private static bool Extract(string dll)
+        [DllImport("ggml.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ggml_backend_load_all_from_path([MarshalAs(UnmanagedType.LPUTF8Str)] string dir);
+
+        [DllImport("ggml.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern UIntPtr ggml_backend_dev_count();
+
+        [DllImport("ggml.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr ggml_backend_dev_get(UIntPtr index);
+
+        [DllImport("ggml-base.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr ggml_backend_dev_description(IntPtr device);
+
+        private static string? _cpuBackend;
+
+        /// <summary>Has ggml scan the native folder and register the fastest CPU variant this
+        /// processor runs. Whisper never does this itself; without it there is no backend at all.</summary>
+        private static bool LoadCpuBackend()
+        {
+            try
+            {
+                ggml_backend_load_all_from_path(_dir);
+                ulong count = ggml_backend_dev_count().ToUInt64();
+                if (count == 0) { _cpuBackend = "no CPU variant would load"; return false; }
+                _cpuBackend = Marshal.PtrToStringAnsi(ggml_backend_dev_description(ggml_backend_dev_get(UIntPtr.Zero))) ?? "loaded";
+                return true;
+            }
+            catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException or BadImageFormatException)
+            {
+                _cpuBackend = ex.Message;
+                return false;
+            }
+        }
+
+        private static bool Extract(string dll, bool load = true)
         {
             string resource = "KillerNotes.AudioNative." + dll;
             string target = Path.Combine(_dir, dll);
@@ -133,6 +178,7 @@ namespace KillerNotes.Services
                 _why[dll] = embedded ? "extracted but missing on disk" : "NOT EMBEDDED in this build";
                 return false;
             }
+            if (!load) { _why[dll] = embedded ? "extracted" : "on disk, not embedded"; return true; }
 
             IntPtr h = LoadLibrary(target);
             if (h == IntPtr.Zero)

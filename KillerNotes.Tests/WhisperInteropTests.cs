@@ -58,7 +58,7 @@ namespace KillerNotes.Tests
             var assembly = typeof(WhisperSpeech).Assembly;
             string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "native-audio-tests");
             Directory.CreateDirectory(folder);
-            foreach (string name in new[] { "ggml-base.dll", "ggml-cpu.dll", "ggml.dll", "libwhisper.dll" })
+            foreach (string name in new[] { "ggml-base.dll", "ggml.dll", "libwhisper.dll" })
             {
                 using var resource = assembly.GetManifestResourceStream("KillerNotes.AudioNative." + name)
                     ?? throw new InvalidOperationException("Embedded native library missing: " + name);

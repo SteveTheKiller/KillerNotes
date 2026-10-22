@@ -104,7 +104,7 @@ hardware recording checks remain release gates.
 
 ## Offline speech recognition
 
-The four MIT-licensed speech DLLs are built together from whisper.cpp 1.9.5,
+The MIT-licensed speech DLLs are built together from whisper.cpp 1.9.5,
 commit `d1be6fde11ac6e0407606b4e42fe72d34add8037`. The retained source archive
 `whisper.cpp-1.9.5.tar.gz` comes from
 `https://codeload.github.com/ggml-org/whisper.cpp/tar.gz/d1be6fde11ac6e0407606b4e42fe72d34add8037`.
@@ -112,36 +112,61 @@ Its locally calculated SHA-256 is
 `645445da884df6dbd52b30f82d7be7c01d1767c938714e477e786b88d529e9f4`.
 The previous 1.7.4 archive remains for provenance.
 
+The CPU backend is built as runtime-selected variants (`GGML_BACKEND_DL` with
+`GGML_CPU_ALL_VARIANTS`). `AudioNativeBootstrap` extracts them beside the other natives and
+calls `ggml_backend_load_all_from_path`, which loads the fastest variant the processor
+supports; whisper.cpp never loads a backend itself. Eight variants ship, from `x64`
+(any 64-bit CPU) up to AVX2 (`haswell`), AVX-VNNI (`alderlake`) and AVX-512 (`skylakex`,
+`icelake`, `zen4`). The first 1.9.5 build used a single baseline CPU library and ran
+transcription several times slower: 56 s against 8.6 s for three seconds of audio with the
+small.en model on a Ryzen 5 3600.
+
 | DLL | SHA-256 |
 |---|---|
-| `ggml-base.dll` | `a228f0da665455eea98c1826539e28bf0f9045584c97205e06e80a14d6d0ad42` |
-| `ggml-cpu.dll` | `9e6b13528dd85f25bff7cf888ddcec49a440c49cbae0b85a3b6e23d6c1976875` |
-| `ggml.dll` | `3782042c887cc96f7b494765ffceece482a1cc8fc0704e95e7533d1ea643cbda` |
-| `libwhisper.dll` | `5ee14bcc32c4ffeea8628824a14a98304c59df65c6742b17fd5173b3f7b3f537` |
+| `ggml-base.dll` | `90d9411c713e71e96937457fba6432f08cd9595ad539b3e21f5130fb82e42811` |
+| `ggml.dll` | `b300f1f6a73ce224e950630937d19a11b06aa051d0596d27bd2b2e82057d063c` |
+| `libwhisper.dll` | `36cc9ea86e96973cca62e2aca3ced617f24e27faea551f11fbd4180a5fb3680f` |
+| `ggml-cpu-x64.dll` | `0a5084ffbd679e89ebca1ba5910499a8d5e3ac7d378cab5fa917fdcea4fa2fce` |
+| `ggml-cpu-sse42.dll` | `9d5dc858f4afd6fa9d9d03af2854766383c3679db7b476b39dd5dc18c9291fa6` |
+| `ggml-cpu-sandybridge.dll` | `c943c52adba6d3054913e5431f297651e99a7768b0cab0bf37362da691e23cbe` |
+| `ggml-cpu-haswell.dll` | `a270be86d5657ac4bc61865dd78a628a9820f5708d485a11b23c9f9dfdc3b5ba` |
+| `ggml-cpu-alderlake.dll` | `0040cbf83acc726fe46509b607d7c4681045b243fcc97abc47e2bd07ae41960c` |
+| `ggml-cpu-skylakex.dll` | `9ce609733872eaec8186a4fc2edb4c42d6fabdc43074f8627c086437ee80f430` |
+| `ggml-cpu-icelake.dll` | `d49871f8a9f844396b979ca4545826b7bd8f6adad8355500c5923f33f07083d7` |
+| `ggml-cpu-zen4.dll` | `1afe509f262059d46086fa9a9c9659b3a8a1a32cf8aa582445223b92271f46aa` |
 
-Rebuild on Linux with CMake 4.2.3, make and llvm-mingw 20260616 (ucrt, x86_64).
+Rebuild on Linux with CMake 4.2.3, Ninja 1.13.1 and llvm-mingw 20260616 (ucrt, x86_64):
+
+| Download | SHA-256 |
+|---|---|
+| `cmake-4.2.3-linux-x86_64.tar.gz` (matches Kitware's published SHA-256) | `5bb505d5e0cca0480a330f7f27ccf52c2b8b5214c5bba97df08899f5ef650c23` |
+| `llvm-mingw-20260616-ucrt-ubuntu-22.04-x86_64.tar.xz` | `534b92e067b22a6b4441f48ae9240a3341b17825d04d577eab0cf85c44b4deda` |
+| `ninja-linux.zip` (v1.13.1) | `0830252db77884957a1a4b87b05a1e2d9b5f658b8367f82999a941884cbe0238` |
+
 Extract the archive into a scratch directory, then apply `whisper-windows-utf8.patch`
 inside its source directory with `git apply`. This patch enables Windows wide-path
 loading under MinGW and preserves UTF-16 surrogate pairs. From that source directory:
 
 ```sh
-export PATH=/path/to/llvm-mingw-20260616-ucrt-ubuntu-22.04-x86_64/bin:$PATH
-cmake -S . -B ../whisper-build -G 'Unix Makefiles' \
+export PATH=/path/to/llvm-mingw-20260616-ucrt-ubuntu-22.04-x86_64/bin:/path/to/cmake-4.2.3-linux-x86_64/bin:/path/to/ninja:$PATH
+cmake -S . -B ../whisper-build -G Ninja \
   -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_SYSTEM_PROCESSOR=AMD64 \
   -DCMAKE_C_COMPILER=x86_64-w64-mingw32-clang \
   -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-clang++ \
   -DCMAKE_RC_COMPILER=x86_64-w64-mingw32-windres \
   -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DWHISPER_BUILD_IS_DEV=OFF \
   -DGGML_NATIVE=OFF -DGGML_OPENMP=OFF -DGGML_CUDA=OFF -DGGML_VULKAN=OFF \
-  -DGGML_BLAS=OFF -DGGML_BACKEND_DL=OFF \
+  -DGGML_BLAS=OFF -DGGML_BACKEND_DL=ON -DGGML_CPU_ALL_VARIANTS=ON \
   -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_CURL=OFF \
-  '-DCMAKE_SHARED_LINKER_FLAGS=-static-libgcc -static-libstdc++'
-cmake --build ../whisper-build -j4
-# Copy the four DLLs from the build tree, then llvm-strip each copy.
+  '-DCMAKE_SHARED_LINKER_FLAGS=-static-libgcc -static-libstdc++' \
+  '-DCMAKE_MODULE_LINKER_FLAGS=-static-libgcc -static-libstdc++'
+cmake --build ../whisper-build -j12
+# Copy ggml-base, ggml, libwhisper and the eight ggml-cpu-*.dll variants listed above from
+# ../whisper-build/bin, then llvm-strip each copy. The CPU variants are MODULE libraries, so
+# they need the module linker flags too, or they import libc++.dll and fail to load (error 126).
 ```
 
-The managed interop requires native version 1.9.5. Native initialization and parameter
-checks run on .NET Framework 4.8. A full transcription of the upstream JFK sample
-with the author's tiny.en model also passes from a non-English folder name. These
-are unsigned development binaries; packaging, signing and microphone checks remain
+The build is not bit-reproducible: rebuilding gives working DLLs with different hashes, so
+the table records the binaries that ship. The managed interop requires native version 1.9.5.
+These are unsigned development binaries; packaging, signing and microphone checks remain
 release gates.
