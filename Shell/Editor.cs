@@ -21,6 +21,8 @@ namespace KillerNotes.Shell
     {
         private void InitEditor()
         {
+            // The ring sits in the editor's 4px top padding (MainWindow.xaml), above the first
+            // row: with no top padding it ran through the first line's text and selection.
             var focusRing = new FrameworkElementFactory(typeof(KillerFamily.Accessibility.FocusRing));
             focusRing.SetValue(FrameworkElement.MarginProperty, new Thickness(2, -2, 2, 2));
             focusRing.SetValue(KillerFamily.Accessibility.FocusRing.InsetProperty, 2.0);
