@@ -15,6 +15,11 @@
     <SolidColorBrush x:Key="BgCanvas"              Color="#3a352f" po:Freeze="True"/>
     <SolidColorBrush x:Key="BgRecentPanel"         Color="#2e3134" po:Freeze="True"/>
     <SolidColorBrush x:Key="SortButtonBrush"       Color="#347c80" po:Freeze="True"/>
+    <!-- Sepulchre is teal and brown: buttons fill brown with light text, and the teal buttons
+         beside them take a teal edge instead of the brown card border. -->
+    <SolidColorBrush x:Key="PrimaryFillBaseBrush"  Color="#835a30" po:Freeze="True"/>
+    <SolidColorBrush x:Key="OnPrimaryFillBrush"    Color="#ece6d8" po:Freeze="True"/>
+    <SolidColorBrush x:Key="ButtonEdgeBrush"       Color="#407b7b" po:Freeze="True"/>
     <SolidColorBrush x:Key="AccentLogo" Color="#FF4FAAA8" po:Freeze="True"/>
     <SolidColorBrush x:Key="SelectionAccent" Color="#FF8CCAC8" po:Freeze="True"/>
     <SolidColorBrush x:Key="RadioAccent" Color="#FF8CCAC8" po:Freeze="True"/>

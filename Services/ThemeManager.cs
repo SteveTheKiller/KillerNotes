@@ -847,12 +847,16 @@ namespace KillerNotes.Services
             // (OutlineButton) are both filled with the accent, with the theme's dark tone for text.
             // OutlineBtnBrush differed from the accent on several themes (coral beside pink on
             // Mourning), which put two accent colors side by side. 98SE keeps its gray Win98 face.
-            if (!flatCaption && newDict["PrimaryBrush"] is SolidColorBrush accentFill)
+            // The button color is PrimaryFillBaseBrush when a theme states one (Mourning's peach,
+            // Sepulchre's brown), else the accent; OnPrimaryFillBrush is its text, defaulting to
+            // the accent's own text color.
+            SetIfAbsent(newDict, "OnPrimaryFillBrush", newDict["OnPrimaryBrush"]);
+            if (!flatCaption && (newDict.Contains("PrimaryFillBaseBrush") ? newDict["PrimaryFillBaseBrush"] : newDict["PrimaryBrush"]) is SolidColorBrush accentFill)
             {
                 newDict["OutlineFaceBrush"] = newDict["PrimaryFillBrush"];
                 newDict["OutlineRestBrush"] = accentFill;
-                newDict["OutlineTextBrush"] = newDict["OnPrimaryBrush"];
-                newDict["OutlineHoverTextBrush"] = newDict["OnPrimaryBrush"];
+                newDict["OutlineTextBrush"] = newDict["OnPrimaryFillBrush"];
+                newDict["OutlineHoverTextBrush"] = newDict["OnPrimaryFillBrush"];
                 newDict["OutlineHoverBrush"] = ButtonFill(Frozen(Mix(accentFill.Color, Colors.White, 0.15)));
             }
             // A focused field brightens its own neutral edge a step instead of turning accent.

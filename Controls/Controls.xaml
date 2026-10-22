@@ -122,7 +122,7 @@
     <Style x:Key="PrimaryButton" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource UiFont}"/>
         <Setter Property="Background" Value="{DynamicResource PrimaryFillBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource OnPrimaryFillBrush}"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="Padding" Value="16,8"/>
