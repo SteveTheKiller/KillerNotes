@@ -16,6 +16,9 @@
     <sys:String x:Key="Str_TT_Theme">Design</sys:String>
     <sys:String x:Key="Str_TT_Language">Sprache</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Alle Notizen durchsuchen  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">Suchleiste einblenden</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">Suchleiste ausblenden</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">Suchleiste einblenden/ausblenden</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Neue Notiz</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Neue Notiz (Strg+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">Nach Erstellungszeit - älteste zuerst (erneut klicken zum Umkehren)</sys:String>

@@ -16,6 +16,9 @@
     <sys:String x:Key="Str_TT_Theme">থিম</sys:String>
     <sys:String x:Key="Str_TT_Language">ভাষা</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">সব নোটে খুঁজুন  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">অনুসন্ধান বার দেখান</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">অনুসন্ধান বার লুকান</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">অনুসন্ধান বার দেখান/লুকান</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ নতুন নোট</sys:String>
     <sys:String x:Key="Str_TT_NewNote">নতুন নোট (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">তৈরির সময় অনুযায়ী - পুরোনো আগে (উল্টাতে আবার ক্লিক করুন)</sys:String>

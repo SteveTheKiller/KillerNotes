@@ -448,7 +448,9 @@ namespace KillerNotes.Shell
         /// <summary>Expands the results and focuses all-notes search (F3).</summary>
         private void FocusSearch()
         {
+            SetTitleSearchExpanded(true);
             if (_sidebarCollapsed) ToggleSidebar();
+            TitleNoteSearch.UpdateLayout();
             SearchBox.Focus();
             SearchBox.SelectAll();
         }

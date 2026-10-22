@@ -13,6 +13,9 @@
     <sys:String x:Key="Str_TT_Theme">Motyw</sys:String>
     <sys:String x:Key="Str_TT_Language">Język</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Szukaj we wszystkich notatkach  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">Pokaż pasek wyszukiwania</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">Ukryj pasek wyszukiwania</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">Pokaż/ukryj pasek wyszukiwania</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nowa notatka</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Nowa</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nowa notatka (Ctrl+N)</sys:String>

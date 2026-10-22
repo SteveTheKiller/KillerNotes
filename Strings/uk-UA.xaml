@@ -21,6 +21,9 @@
     <sys:String x:Key="Str_TT_Theme">Тема</sys:String>
     <sys:String x:Key="Str_TT_Language">Мова</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Пошук у всіх нотатках  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">Показати рядок пошуку</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">Сховати рядок пошуку</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">Показати/сховати рядок пошуку</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Нова нотатка</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Нова</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Нова нотатка (Ctrl+N)</sys:String>

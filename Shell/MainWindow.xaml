@@ -284,9 +284,20 @@
                                          reserved for the rail's find-in-this-note toggle. -->
                                     <!-- 14, not 11. The field's height is fixed at 26 on the Border, so
                                          the glyph can grow without the box growing with it. -->
-                                    <a11y:Glyph Grid.Column="0" Text="&#xE773;" FontFamily="Segoe MDL2 Assets" FontSize="14"
-                                               Foreground="{DynamicResource DimTextBrush}" Margin="8,0,5,0" VerticalAlignment="Center"/>
-                                    <Grid Grid.Column="1">
+                                    <Button x:Name="SearchIconButton" Grid.Column="0" Content="&#xE773;"
+                                            Style="{StaticResource RailButton}" FontSize="14" Width="26" Height="20"
+                                            Foreground="{DynamicResource DimTextBrush}" Margin="2,0,0,0" VerticalAlignment="Center"
+                                            AutomationProperties.Name="{DynamicResource Str_KS_Search}"
+                                            ToolTip="{DynamicResource Str_SearchPlaceholder}" Click="SearchIcon_Click"
+                                            ContextMenuOpening="SearchIcon_ContextMenuOpening">
+                                        <Button.ContextMenu>
+                                            <ContextMenu Placement="Bottom">
+                                                <MenuItem x:Name="SearchBarVisibilityMenuItem" Header="{DynamicResource Str_Search_HideBar}"
+                                                          Icon="&#xE70E;" InputGestureText="Alt+F3" Click="SearchBarVisibility_Click"/>
+                                            </ContextMenu>
+                                        </Button.ContextMenu>
+                                    </Button>
+                                    <Grid x:Name="SearchFieldContent" Grid.Column="1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
@@ -426,7 +437,18 @@
                            VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
                            FontFamily="{DynamicResource FileNameFont}" FontSize="{DynamicResource FileNameFontSize}"
                            RenderTransform="{DynamicResource FileNameTransform}" TextOptions.TextFormattingMode="Ideal"
-                           Foreground="{DynamicResource TitleMetaBrush}"/>
+                           Tag="{DynamicResource UseDialogCaption}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{DynamicResource TitleMetaBrush}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True">
+                                    <Setter Property="Foreground" Value="{DynamicResource ChromeTextBrush}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
                 <!-- E8F1 (Library, a row of books): reads as "your notepads". E8B7 renders
                      as a missing-glyph box on some Segoe MDL2 / Fluent Icons versions, and
                      E8E5 (OpenFile) read as a document, not a database.
@@ -728,7 +750,7 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <!-- Fill the remaining column; the sort buttons keep their space. -->
-                            <Button x:Name="NewNoteBtn" Grid.Column="0" Style="{StaticResource PrimaryButton}"
+                            <Button x:Name="NewNoteBtn" Grid.Column="0" Style="{StaticResource NewNoteButton}"
                                     Content="{DynamicResource Str_Btn_NewNoteShort}" Click="NewNote_Click" HorizontalAlignment="Stretch"
                                     Height="30" MinWidth="34" Padding="6,1" FontFamily="{DynamicResource WordmarkAccentFont}" FontSize="22" FontWeight="Normal"
                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -2006,6 +2028,7 @@
                     <!-- Line-number gutter (LineNumbers.cs): a Canvas whose numbers are positioned to
                          each paragraph; GutterCol stays 0-wide until the gutter is toggled on. -->
                     <Canvas x:Name="LineGutter" Grid.Column="0" ClipToBounds="True" Margin="2,0,0,0"/>
+                    <AdornerDecorator x:Name="EditorAdornerHost" Grid.Column="1" Visibility="{Binding Visibility, ElementName=Editor}">
                     <RichTextBox x:Name="Editor" Grid.Column="1" Padding="8,0,8,0"
                                  AutomationProperties.Name="{DynamicResource Str_Sec_Notes}"
                                  FontFamily="{DynamicResource ContentFont}"
@@ -2169,6 +2192,7 @@
                             </ContextMenu>
                         </RichTextBox.ContextMenu>
                     </RichTextBox>
+                    </AdornerDecorator>
                     <!-- Scroll fades over the note text (EditorFade.cs): the pane itself - its color and the
                          note pane's 0.20 grain - under a gradient mask, shown only while there is more to
                          scroll that way. Inset 12px on the right to clear the scrollbar. -->
@@ -3331,10 +3355,15 @@
                             </Grid>
                             <!-- Command search (1.6.0, ShortcutSearch.cs): typing filters the rows by name
                                  or keys, Down moves into them, Enter runs the chosen one. -->
-                            <TextBox x:Name="ShortcutSearchBox" Style="{StaticResource EditFieldTextBox}" FontSize="12" Padding="6,4"
-                                     Margin="0,0,0,12" TextChanged="ShortcutSearch_TextChanged"
-                                     AutomationProperties.Name="{DynamicResource Str_KS_SearchName}"
-                                     ToolTip="{DynamicResource Str_KS_SearchHint}"/>
+                            <Grid Margin="0,0,0,12">
+                                <TextBox x:Name="ShortcutSearchBox" Style="{StaticResource EditFieldTextBox}" FontSize="12" Padding="28,4,6,4"
+                                         TextChanged="ShortcutSearch_TextChanged"
+                                         AutomationProperties.Name="{DynamicResource Str_KS_SearchName}"
+                                         ToolTip="{DynamicResource Str_KS_SearchHint}"/>
+                                <a11y:Glyph Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                            Foreground="{DynamicResource MutedTextBrush}" Margin="8,0,0,0"
+                                            HorizontalAlignment="Left" VerticalAlignment="Center" IsHitTestVisible="False"/>
+                            </Grid>
                             <!-- Rows are built in code (Shortcuts.cs BuildShortcutRows). -->
                             <Grid x:Name="ShortcutListHost">
                                 <Grid.ColumnDefinitions>

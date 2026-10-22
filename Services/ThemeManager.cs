@@ -786,6 +786,7 @@ namespace KillerNotes.Services
                 : new Thickness(1);
             // Accent overlay: Dark/Light/Black recolor their accent-family keys on top of the base
             // green. Green is the base itself, so it needs no overlay. Overlays live in Accents/<Family>/.
+            bool accentOwnsMenuHover = false;
             var accent = AccentFor(theme);
             if (HasAccents(theme) && accent != Accent.Green)
             {
@@ -798,6 +799,7 @@ namespace KillerNotes.Services
                     };
                     foreach (object key in accentDict.Keys)
                         newDict[key] = accentDict[key];
+                    accentOwnsMenuHover = accentDict.Contains("MenuHoverBrush");
                     if (!themeOwnsRadioHover && !accentDict.Contains("RadioHoverFgBrush"))
                         newDict["RadioHoverFgBrush"] = newDict["PrimaryBrush"];
                 }
@@ -881,6 +883,8 @@ namespace KillerNotes.Services
             if (!newDict.Contains("TextSelectionBrush") && newDict.Contains("PrimaryBrush"))
                 newDict["TextSelectionBrush"] = newDict["PrimaryBrush"];
             SetIfAbsent(newDict, "ComboHighlightTextBrush", newDict["PrimaryBrush"]);
+            // Classic menu highlights follow the chosen accent after its overlay is merged.
+            if (theme == Theme.SE98 && !accentOwnsMenuHover) newDict["MenuHoverBrush"] = newDict["PrimaryBrush"];
             // A hovered menu or list item takes the accent for its text, nudged lighter or darker
             // only as far as it takes to read at 4.5:1 on that theme's hover fill. 98SE keeps its
             // Win98 highlight text.

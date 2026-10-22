@@ -16,6 +16,9 @@
     <sys:String x:Key="Str_TT_Theme">佈景主題</sys:String>
     <sys:String x:Key="Str_TT_Language">語言</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">搜尋所有筆記  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">顯示搜尋列</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">隱藏搜尋列</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">顯示/隱藏搜尋列</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ 新增筆記</sys:String>
     <sys:String x:Key="Str_TT_NewNote">新增筆記 (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">依建立時間 - 最舊在前 (再按一次反向排序)</sys:String>

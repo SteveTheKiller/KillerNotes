@@ -191,6 +191,25 @@
         </Setter>
     </Style>
 
+    <!-- New note keeps the classic gray face; its inherited bevel reverses on press. -->
+    <Style x:Key="NewNoteButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+        <Setter Property="Tag" Value="{DynamicResource UseDialogCaption}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True">
+                <Setter Property="Background" Value="{DynamicResource OutlineFaceBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource OutlineTextBrush}"/>
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True"/>
+                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource PrimaryPressedBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <!-- Outline Button (accent border + text, reactive fill on hover) -->
     <Style x:Key="OutlineButton" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource UiFont}"/>

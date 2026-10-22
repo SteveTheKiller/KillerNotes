@@ -16,6 +16,9 @@
     <sys:String x:Key="Str_TT_Theme">テーマ</sys:String>
     <sys:String x:Key="Str_TT_Language">言語</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">すべてのノートを検索  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">検索バーを表示</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">検索バーを隠す</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">検索バーを表示/非表示</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ 新しいノート</sys:String>
     <sys:String x:Key="Str_TT_NewNote">新しいノート (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">作成日時順 - 古い順 (もう一度クリックで逆順)</sys:String>

@@ -16,6 +16,9 @@
     <sys:String x:Key="Str_TT_Theme">Тема</sys:String>
     <sys:String x:Key="Str_TT_Language">Язык</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Поиск по всем заметкам  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">Показать строку поиска</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">Скрыть строку поиска</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">Показать/скрыть строку поиска</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Новая заметка</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Новая</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Новая заметка (Ctrl+N)</sys:String>

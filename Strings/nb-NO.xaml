@@ -21,6 +21,9 @@
     <sys:String x:Key="Str_TT_Theme">Tema</sys:String>
     <sys:String x:Key="Str_TT_Language">Språk</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Søk i alle notater  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">Vis søkefeltet</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">Skjul søkefeltet</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">Vis/skjul søkefeltet</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nytt notat</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Ny</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nytt notat (Ctrl+N)</sys:String>

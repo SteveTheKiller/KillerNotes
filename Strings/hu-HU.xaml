@@ -16,6 +16,9 @@
     <sys:String x:Key="Str_TT_Theme">téma</sys:String>
     <sys:String x:Key="Str_TT_Language">Nyelv</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Keresés az összes jegyzetben  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">Keresősáv megjelenítése</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">Keresősáv elrejtése</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">Keresősáv megjelenítése/elrejtése</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Új jegyzet</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Új</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Új jegyzet (Ctrl+N)</sys:String>

@@ -16,6 +16,9 @@
     <sys:String x:Key="Str_TT_Theme">主题</sys:String>
     <sys:String x:Key="Str_TT_Language">语言</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">搜索所有笔记  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">显示搜索栏</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">隐藏搜索栏</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">显示/隐藏搜索栏</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ 新建笔记</sys:String>
     <sys:String x:Key="Str_TT_NewNote">新建笔记 (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">按创建时间 - 最早在前 (再次点击反向排序)</sys:String>

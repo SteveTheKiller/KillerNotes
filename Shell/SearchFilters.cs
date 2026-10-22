@@ -26,6 +26,8 @@ namespace KillerNotes.Shell
         private void SearchFilter_Click(object sender, RoutedEventArgs e)
         {
             if (!NoteStore.IsOpen) return;
+            SetTitleSearchExpanded(true);
+            TitleNoteSearch.UpdateLayout();
             var menu = new ContextMenu { PlacementTarget = SearchFilterBtn, Placement = PlacementMode.Bottom };
             System.Windows.Automation.AutomationProperties.SetName(menu, Loc("Str_TT_SearchFilters"));
 
@@ -118,6 +120,8 @@ namespace KillerNotes.Shell
 
         private void FocusSearchEnd()
         {
+            SetTitleSearchExpanded(true);
+            TitleNoteSearch.UpdateLayout();
             SearchBox.Focus();
             SearchBox.CaretIndex = SearchBox.Text.Length;
         }

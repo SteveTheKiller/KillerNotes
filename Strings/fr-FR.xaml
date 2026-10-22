@@ -16,6 +16,9 @@
     <sys:String x:Key="Str_TT_Theme">Thème</sys:String>
     <sys:String x:Key="Str_TT_Language">Langue</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Rechercher dans toutes les notes  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">Afficher la barre de recherche</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">Masquer la barre de recherche</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">Afficher/masquer la barre de recherche</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nouvelle note</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nouvelle note (Ctrl+N)</sys:String>
     <sys:String x:Key="Str_TT_SortTime">Par date de création - la plus ancienne d'abord (cliquez de nouveau pour inverser)</sys:String>

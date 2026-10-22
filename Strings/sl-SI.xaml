@@ -10,6 +10,9 @@
     <sys:String x:Key="Str_TT_Theme">Tema</sys:String>
     <sys:String x:Key="Str_TT_Language">Jezik</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Išči po vseh zapiskih  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">Prikaži iskalno vrstico</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">Skrij iskalno vrstico</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">Prikaži/skrij iskalno vrstico</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nov zapisek</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Novo</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nov zapisek (Ctrl+N)</sys:String>

@@ -34,6 +34,11 @@ namespace KillerNotes.Shell
         private void SidebarReplace_Click(object sender, RoutedEventArgs e)
         {
             bool open = !_sidebarReplaceOpen;
+            if (open)
+            {
+                SetTitleSearchExpanded(true);
+                TitleNoteSearch.UpdateLayout();
+            }
             SetSidebarReplaceOpen(open);
             if (!open) { SidebarReplaceBtn.Focus(); return; }
             if (SearchBox.Text.Length == 0) SearchBox.Focus();

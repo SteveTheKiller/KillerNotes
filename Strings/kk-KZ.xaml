@@ -16,6 +16,9 @@
     <sys:String x:Key="Str_TT_Theme">Тақырып</sys:String>
     <sys:String x:Key="Str_TT_Language">Тіл</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Барлық жазбалардан іздеу  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">Іздеу жолағын көрсету</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">Іздеу жолағын жасыру</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">Іздеу жолағын көрсету/жасыру</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Жаңа жазба</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Жаңа</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Жаңа жазба (Ctrl+N)</sys:String>

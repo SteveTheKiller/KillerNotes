@@ -68,6 +68,7 @@ namespace KillerNotes.Shell
             new("Alt+4", Key.D4, ModifierKeys.Alt, "Str_TT_SortTimeOff", "View", w => w.SortTimeBtn_Click(w, new RoutedEventArgs()), "SortTimeBtn"),
             new("Alt+5", Key.D5, ModifierKeys.Alt, "Str_TT_SortAlphaOff", "View", w => w.SortAlphaBtn_Click(w, new RoutedEventArgs()), "SortAlphaBtn"),
             new("Alt+6", Key.D6, ModifierKeys.Alt, "Str_TT_SortCustom", "View", w => w.SortCustomBtn_Click(w, new RoutedEventArgs()), "SortCustomBtn"),
+            new("Alt+F3", Key.F3, ModifierKeys.Alt, "Str_Search_ToggleBar", "Search", w => w.SearchBarVisibility_Click(w, new RoutedEventArgs()), "SearchBarVisibilityMenuItem"),
             new("Alt+8", Key.D8, ModifierKeys.Alt, "Str_TT_SidebarReplace", "Search", w => w.SidebarReplace_Click(w, new RoutedEventArgs()), "SidebarReplaceBtn"),
             new("Alt+Shift+F", Key.F, ModifierKeys.Alt | ModifierKeys.Shift, "Str_TT_SearchFilters", "Search", w => w.SearchFilter_Click(w.SearchFilterBtn, new RoutedEventArgs()), "SearchFilterBtn"),
             new("Alt+9", Key.D9, ModifierKeys.Alt, "Str_TT_SidebarReplaceAll", "Search", w => w.SidebarReplaceAll_Click(w, new RoutedEventArgs())),
@@ -93,8 +94,10 @@ namespace KillerNotes.Shell
             Key key = e.Key == Key.System ? e.SystemKey : e.Key;
             var binding = ActionShortcuts().FirstOrDefault(b => b.Key == key && b.Modifiers == Keyboard.Modifiers);
             if (binding == null) return false;
+            bool expandsTitleSearch = !_titleSearchExpanded &&
+                (binding.Surface == nameof(SearchFilterBtn) || binding.Surface == nameof(SidebarReplaceBtn));
             if (binding.Surface != null && FindName(binding.Surface) is FrameworkElement surface &&
-                surface is not MenuItem && (!surface.IsEnabled || surface.Visibility != Visibility.Visible)) return false;
+                surface is not MenuItem && (!surface.IsEnabled || (surface.Visibility != Visibility.Visible && !expandsTitleSearch))) return false;
             if (!e.IsRepeat) binding.Run(this);
             e.Handled = true;
             return true;
@@ -117,6 +120,7 @@ namespace KillerNotes.Shell
             (string Surface, string Label)[] aliases =
             [
                 ("NewNoteBtn", "Str_KS_NewNote"), ("DensityBtn", "Str_KS_Density"),
+                ("SearchIconButton", "Str_KS_Search"),
                 ("GraphRailBtn", "Str_KS_Graph"), ("ThemeButton", "Str_KS_Theme"),
                 ("SidebarToggleBtn", "Str_KS_Sidebar"), ("DictationRailBtn", "Str_KS_Dictation"),
                 ("FindRailBtn", "Str_KS_Find"), ("LineNumBtn", "Str_KS_LineNumbers"),

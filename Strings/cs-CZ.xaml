@@ -16,6 +16,9 @@
     <sys:String x:Key="Str_TT_Theme">Motiv</sys:String>
     <sys:String x:Key="Str_TT_Language">Jazyk</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Hledat ve všech poznámkách  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">Zobrazit vyhledávací panel</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">Skrýt vyhledávací panel</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">Zobrazit/skrýt vyhledávací panel</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nová poznámka</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Nová</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nová poznámka (Ctrl+N)</sys:String>

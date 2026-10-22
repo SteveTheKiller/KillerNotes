@@ -21,6 +21,9 @@
     <sys:String x:Key="Str_TT_Theme">Theme</sys:String>
     <sys:String x:Key="Str_TT_Language">Language</sys:String>
     <sys:String x:Key="Str_SearchPlaceholder">Search all notes  (F3)</sys:String>
+    <sys:String x:Key="Str_Search_ShowBar">Show Searchbar</sys:String>
+    <sys:String x:Key="Str_Search_HideBar">Hide Searchbar</sys:String>
+    <sys:String x:Key="Str_Search_ToggleBar">Show/Hide Searchbar</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ New note</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ New</sys:String>
     <sys:String x:Key="Str_TT_NewNote">New note (Ctrl+N)</sys:String>
