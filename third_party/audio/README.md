@@ -116,7 +116,7 @@ The engine is not embedded in the exe. `Services/SpeechEngine.cs` downloads it w
 first speech model from the `speech-engine-1.9.5` release of this repository: the three
 core DLLs plus ONE CPU backend, chosen from the processor's features (AVX2, AVX, SSE4.2 or
 baseline x64). Each file is pinned by SHA-256 and checked before it is installed under
-`%LOCALAPPDATA%\KillerNotes\speech.9.5`. The CPU backends are runtime-loaded modules
+`%LOCALAPPDATA%\KillerNotes\speech\1.9.5`. The CPU backends are runtime-loaded modules
 (`GGML_BACKEND_DL`), so `AudioNativeBootstrap` calls `ggml_backend_load_all_from_path` on
 that folder; whisper.cpp never loads a backend itself. The first 1.9.5 build shipped only a
 baseline CPU library and ran transcription several times slower: 56 s against 8.5 s for
