@@ -4,6 +4,11 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - Unreleased
+
+### Fixed
+- The locked screen keeps film grain when it is enabled.
+
 ## [1.6.0] - 2026-10-21
 
 1.6.0 makes saves, backups, updates and recordings safer, speeds up offline transcription, and adds Lock now, Quick note, folder import, search filters and backup checks.

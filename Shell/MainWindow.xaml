@@ -2690,6 +2690,8 @@
         <!-- Lock now (LockNow.cs): all the content row shows while the notes are locked. ScaleHost
              is hidden behind it, so nothing under it can be tabbed to, clicked or dropped on. -->
         <Grid x:Name="LockedPanel" Grid.Row="1" Visibility="Collapsed" Background="{DynamicResource BackgroundBrush}">
+            <Border IsHitTestVisible="False" Background="{DynamicResource GrainTileBrush}"
+                    Opacity="0.20" Visibility="{DynamicResource FilmGrainVisibility}"/>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <a11y:Glyph Text="&#xE72E;" FontFamily="Segoe MDL2 Assets" FontSize="40" HorizontalAlignment="Center"
                             Foreground="{DynamicResource DimTextBrush}"/>
