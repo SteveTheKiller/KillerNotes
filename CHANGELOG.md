@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.6.0 makes saves, backups, sketches and recordings safer, and adds Lock now, backup checks, folder import, Quick note and search filters.
 
 ### Fixed
+- Screen readers name the color picker's Red, Green, Blue and Hex fields instead of announcing unnamed boxes.
 - Failed saves preserve unsaved edits for retry or text/RTF export, block actions that would discard them, and save note content, links, history and sketches together.
 - A failed password change keeps the original database and complete recovery copies, reports temporary copies it cannot remove, and can be retried right away.
 - Reordering or canceling a note drag no longer leaves an unencrypted copy of the note in the temp folder; files for drags out of the app are cleared on the next start.

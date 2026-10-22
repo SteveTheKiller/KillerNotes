@@ -1111,4 +1111,8 @@
     <sys:String x:Key="Str_Tip_import">ヒント：同じフォルダーをもう一度インポートすると、変更されたファイルだけが取り込まれます。</sys:String>
     <sys:String x:Key="Str_Tip_quick">ヒント：通知領域アイコンのメニューやタスクバーの右クリックメニューから、メインウィンドウなしでクイックノートを開けます。</sys:String>
     <sys:String x:Key="Str_About_ShowTips">ヒントを表示</sys:String>
+    <sys:String x:Key="Str_Color_Red">赤</sys:String>
+    <sys:String x:Key="Str_Color_Green">緑</sys:String>
+    <sys:String x:Key="Str_Color_Blue">青</sys:String>
+    <sys:String x:Key="Str_Color_Hex">16 進カラー</sys:String>
 </ResourceDictionary>

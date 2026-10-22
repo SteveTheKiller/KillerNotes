@@ -1113,4 +1113,8 @@
     <sys:String x:Key="Str_Tip_import">提示：再次匯入同一資料夾只會帶入已變更的檔案。</sys:String>
     <sys:String x:Key="Str_Tip_quick">提示：系統匣圖示選單和工作列右鍵選單可在不開主視窗的情況下開啟快速筆記。</sys:String>
     <sys:String x:Key="Str_About_ShowTips">顯示提示</sys:String>
+    <sys:String x:Key="Str_Color_Red">紅色</sys:String>
+    <sys:String x:Key="Str_Color_Green">綠色</sys:String>
+    <sys:String x:Key="Str_Color_Blue">藍色</sys:String>
+    <sys:String x:Key="Str_Color_Hex">十六進位色彩</sys:String>
 </ResourceDictionary>

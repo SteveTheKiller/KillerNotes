@@ -1158,4 +1158,8 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Tip_import">Tips: å importere samme mappe igjen henter bare filene som er endret.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Tips: ikonets meny i systemstatusfeltet og høyreklikk på oppgavelinjen åpner Hurtignotat uten hovedvinduet.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Vis tips</sys:String>
+    <sys:String x:Key="Str_Color_Red">Rød</sys:String>
+    <sys:String x:Key="Str_Color_Green">Grønn</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Blå</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Heksfarge</sys:String>
 </ResourceDictionary>

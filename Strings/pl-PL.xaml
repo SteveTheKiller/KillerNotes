@@ -1040,4 +1040,8 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Tip_import">Wskazówka: ponowny import tego samego folderu przenosi tylko zmienione pliki.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Wskazówka: menu ikony w zasobniku i prawy klik na pasku zadań otwierają Szybką notatkę bez głównego okna.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Pokazuj wskazówki</sys:String>
+    <sys:String x:Key="Str_Color_Red">Czerwony</sys:String>
+    <sys:String x:Key="Str_Color_Green">Zielony</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Niebieski</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Kolor szesnastkowy</sys:String>
 </ResourceDictionary>

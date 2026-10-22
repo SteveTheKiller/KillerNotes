@@ -1114,4 +1114,8 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Tip_import">Astuce : réimporter le même dossier n'apporte que les fichiers modifiés.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Astuce : le menu de l'icône de notification et le clic droit dans la barre des tâches ouvrent la Note rapide sans la fenêtre principale.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Afficher les astuces</sys:String>
+    <sys:String x:Key="Str_Color_Red">Rouge</sys:String>
+    <sys:String x:Key="Str_Color_Green">Vert</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Bleu</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Couleur hexadécimale</sys:String>
 </ResourceDictionary>

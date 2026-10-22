@@ -1164,4 +1164,8 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Tip_import">Mẹo: nhập lại cùng thư mục chỉ mang vào các tệp đã thay đổi.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Mẹo: menu biểu tượng khay và chuột phải trên thanh tác vụ mở Ghi chú nhanh mà không cần cửa sổ chính.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Hiện mẹo</sys:String>
+    <sys:String x:Key="Str_Color_Red">Đỏ</sys:String>
+    <sys:String x:Key="Str_Color_Green">Xanh lá</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Xanh dương</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Màu hex</sys:String>
 </ResourceDictionary>

@@ -1113,4 +1113,8 @@
     <sys:String x:Key="Str_Tip_import">টিপ: একই ফোল্ডার আবার ইমপোর্ট করলে শুধু বদলানো ফাইলগুলো আসে।</sys:String>
     <sys:String x:Key="Str_Tip_quick">টিপ: ট্রে আইকনের মেনু ও টাস্কবারের রাইট-ক্লিক মেনু মূল উইন্ডো ছাড়াই দ্রুত নোট খোলে।</sys:String>
     <sys:String x:Key="Str_About_ShowTips">টিপ দেখান</sys:String>
+    <sys:String x:Key="Str_Color_Red">লাল</sys:String>
+    <sys:String x:Key="Str_Color_Green">সবুজ</sys:String>
+    <sys:String x:Key="Str_Color_Blue">নীল</sys:String>
+    <sys:String x:Key="Str_Color_Hex">হেক্স রং</sys:String>
 </ResourceDictionary>

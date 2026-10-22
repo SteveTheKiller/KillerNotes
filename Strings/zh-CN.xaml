@@ -1111,4 +1111,8 @@
     <sys:String x:Key="Str_Tip_import">提示：再次导入同一文件夹只会导入已更改的文件。</sys:String>
     <sys:String x:Key="Str_Tip_quick">提示：托盘图标菜单和任务栏右键菜单可在不打开主窗口的情况下打开快速笔记。</sys:String>
     <sys:String x:Key="Str_About_ShowTips">显示提示</sys:String>
+    <sys:String x:Key="Str_Color_Red">红色</sys:String>
+    <sys:String x:Key="Str_Color_Green">绿色</sys:String>
+    <sys:String x:Key="Str_Color_Blue">蓝色</sys:String>
+    <sys:String x:Key="Str_Color_Hex">十六进制颜色</sys:String>
 </ResourceDictionary>

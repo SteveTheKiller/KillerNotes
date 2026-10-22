@@ -1160,4 +1160,8 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Tip_import">Tip: importing the same folder again only brings in the files that changed.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Tip: the tray icon's menu and the taskbar's right-click menu open Quick note without the main window.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Show tips</sys:String>
+    <sys:String x:Key="Str_Color_Red">Red</sys:String>
+    <sys:String x:Key="Str_Color_Green">Green</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Blue</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Hex color</sys:String>
 </ResourceDictionary>

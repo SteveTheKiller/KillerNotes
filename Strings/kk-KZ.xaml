@@ -1121,4 +1121,8 @@
     <sys:String x:Key="Str_Tip_import">Кеңес: сол қалтаны қайта импорттау тек өзгерген файлдарды әкеледі.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Кеңес: хабарландыру белгішесінің мәзірі мен тапсырмалар тақтасындағы оң жақ мәзір «Жылдам жазбаны» негізгі терезесіз ашады.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Кеңестерді көрсету</sys:String>
+    <sys:String x:Key="Str_Color_Red">Қызыл</sys:String>
+    <sys:String x:Key="Str_Color_Green">Жасыл</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Көк</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Он алтылық түс</sys:String>
 </ResourceDictionary>

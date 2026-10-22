@@ -1110,4 +1110,8 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Tip_import">Tip: opětovný import stejné složky přinese jen změněné soubory.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Tip: nabídka ikony v oznamovací oblasti a pravé tlačítko na hlavním panelu otevřou Rychlou poznámku bez hlavního okna.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Zobrazovat tipy</sys:String>
+    <sys:String x:Key="Str_Color_Red">Červená</sys:String>
+    <sys:String x:Key="Str_Color_Green">Zelená</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Modrá</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Barva v šestnáctkovém zápisu</sys:String>
 </ResourceDictionary>

@@ -1114,4 +1114,8 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Tip_import">Consejo: importar de nuevo la misma carpeta solo trae los archivos que cambiaron.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Consejo: el menú del icono de la bandeja y el clic derecho en la barra de tareas abren la Nota rápida sin la ventana principal.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Mostrar consejos</sys:String>
+    <sys:String x:Key="Str_Color_Red">Rojo</sys:String>
+    <sys:String x:Key="Str_Color_Green">Verde</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Azul</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Color hexadecimal</sys:String>
 </ResourceDictionary>

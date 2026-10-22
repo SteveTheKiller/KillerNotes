@@ -1121,4 +1121,8 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Tip_import">Suggerimento: importare di nuovo la stessa cartella porta solo i file cambiati.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Suggerimento: il menu dell'icona nell'area di notifica e il clic destro sulla barra delle applicazioni aprono la Nota rapida senza la finestra principale.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Mostra suggerimenti</sys:String>
+    <sys:String x:Key="Str_Color_Red">Rosso</sys:String>
+    <sys:String x:Key="Str_Color_Green">Verde</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Blu</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Colore esadecimale</sys:String>
 </ResourceDictionary>

@@ -1139,4 +1139,8 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Tip_import">Tipp: ugyanannak a mappának az újbóli importálása csak a módosult fájlokat hozza be.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Tipp: az értesítési ikon menüje és a tálca jobb gombos menüje az ablak nélkül is megnyitja a Gyorsjegyzetet.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Tippek megjelenítése</sys:String>
+    <sys:String x:Key="Str_Color_Red">Piros</sys:String>
+    <sys:String x:Key="Str_Color_Green">Zöld</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Kék</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Hexadecimális szín</sys:String>
 </ResourceDictionary>

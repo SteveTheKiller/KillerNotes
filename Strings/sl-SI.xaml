@@ -1020,4 +1020,8 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Tip_import">Namig: ponovni uvoz iste mape prinese samo spremenjene datoteke.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Namig: meni ikone v sistemski vrstici in desni klik v opravilni vrstici odpreta Hitri zapisek brez glavnega okna.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Prikazuj namige</sys:String>
+    <sys:String x:Key="Str_Color_Red">Rdeča</sys:String>
+    <sys:String x:Key="Str_Color_Green">Zelena</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Modra</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Šestnajstiška barva</sys:String>
 </ResourceDictionary>

@@ -1113,4 +1113,8 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Tip_import">Tipp: Wer denselben Ordner erneut importiert, holt nur die geänderten Dateien herein.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Tipp: Das Menü des Infobereich-Symbols und das Rechtsklickmenü der Taskleiste öffnen die Schnellnotiz ohne das Hauptfenster.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Tipps anzeigen</sys:String>
+    <sys:String x:Key="Str_Color_Red">Rot</sys:String>
+    <sys:String x:Key="Str_Color_Green">Grün</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Blau</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Hex-Farbe</sys:String>
 </ResourceDictionary>

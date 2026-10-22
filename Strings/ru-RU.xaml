@@ -1121,4 +1121,8 @@
     <sys:String x:Key="Str_Tip_import">Совет: повторный импорт той же папки переносит только изменённые файлы.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Совет: меню значка в области уведомлений и правый щелчок на панели задач открывают «Быструю заметку» без главного окна.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Показывать советы</sys:String>
+    <sys:String x:Key="Str_Color_Red">Красный</sys:String>
+    <sys:String x:Key="Str_Color_Green">Зелёный</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Синий</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Шестнадцатеричный цвет</sys:String>
 </ResourceDictionary>

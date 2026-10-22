@@ -1160,4 +1160,8 @@
     <sys:String x:Key="Str_Tip_import">Порада: повторний імпорт тієї самої папки переносить лише змінені файли.</sys:String>
     <sys:String x:Key="Str_Tip_quick">Порада: меню значка в області сповіщень і правий клік на панелі завдань відкривають «Швидку нотатку» без головного вікна.</sys:String>
     <sys:String x:Key="Str_About_ShowTips">Показувати поради</sys:String>
+    <sys:String x:Key="Str_Color_Red">Червоний</sys:String>
+    <sys:String x:Key="Str_Color_Green">Зелений</sys:String>
+    <sys:String x:Key="Str_Color_Blue">Синій</sys:String>
+    <sys:String x:Key="Str_Color_Hex">Шістнадцятковий колір</sys:String>
 </ResourceDictionary>
