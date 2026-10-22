@@ -18,6 +18,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Validate Chocolatey metadata
+        shell: pwsh
+        run: |
+          [xml]$spec = Get-Content 'choco/killernotes.nuspec' -Raw
+          $descriptionLength = ([string]$spec.package.metadata.description).Length
+          if ($descriptionLength -gt 4000) {
+              throw "Chocolatey description is $descriptionLength characters; the limit is 4000. Shorten choco/killernotes.nuspec before publishing."
+          }
+          Write-Host "Chocolatey description: $descriptionLength / 4000 characters"
+
       - name: Build and push Chocolatey package
         shell: pwsh
         env:
@@ -91,7 +101,7 @@ jobs:
                       if ($badge -and $badge -notmatch 'Approved|Exempted') { Write-Host "::error::Version $held is in moderation: $badge. See $page/$held" }
                   }
               } catch { Write-Host "Could not read $page : $($_.Exception.Message)" }
-              throw "choco push was rejected. An earlier version in moderation with none approved blocks new pushes. Other causes are an API key that does not own the package or a version that already exists."
+              throw "Chocolatey rejected killernotes $version. Check its HTTP response above: 409 can mean invalid package metadata or an existing version; 403 can mean credentials, ownership or moderation limits. See $page/$version"
           }
           "CHOCO_VERSION=$version" >> $env:GITHUB_ENV
           "CHOCO_PACKAGE=$package" >> $env:GITHUB_ENV
