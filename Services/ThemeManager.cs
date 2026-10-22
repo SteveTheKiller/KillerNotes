@@ -859,9 +859,10 @@ namespace KillerNotes.Services
                 if (!newDict.Contains("OutlineHoverFillBaseBrush")) newDict["OutlineHoverTextBrush"] = newDict["OnPrimaryFillBrush"];
                 newDict["OutlineHoverBrush"] = ButtonFill(newDict.Contains("OutlineHoverFillBaseBrush") ? (Brush)newDict["OutlineHoverFillBaseBrush"] : Frozen(Mix(accentFill.Color, Colors.White, 0.15)));
             }
-            // A focused field brightens its own neutral edge a step instead of turning accent.
-            if (newDict["InputHoverBrush"] is SolidColorBrush hoverEdge && newDict["TextBrush"] is SolidColorBrush text)
-                newDict["InputFocusBrush"] = flatCaption ? newDict["InputHoverBrush"] : Frozen(Mix(hoverEdge.Color, text.Color, 0.35));
+            // A focused field brightens its own edge a step: halfway from its resting edge to its
+            // hover edge. Mixing toward the text color turned the edge near-white on Black.
+            if (newDict["InputHoverBrush"] is SolidColorBrush hoverEdge && newDict["InputBorderBrush"] is SolidColorBrush restEdge)
+                newDict["InputFocusBrush"] = flatCaption ? newDict["InputHoverBrush"] : Frozen(Mix(restEdge.Color, hoverEdge.Color, 0.5));
             else
                 newDict["InputFocusBrush"] = newDict.Contains("InputHoverBrush") ? newDict["InputHoverBrush"] : newDict["PrimaryBrush"];
 
