@@ -61,6 +61,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The caption buttons are 1px shorter than the title bar, so the red Close hover no longer touches the edge below it.
 - Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
 
+### Changed
+
+- Wordmarks and headings are raised with a subtle bevel in their own color instead of a dark outline; wordmarks keep their drop shadow. The Dark theme's red accent is the brand red again instead of a pink tint.
+
 ## [1.5.1] - 2026-10-19
 
 ### Added
