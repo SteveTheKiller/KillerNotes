@@ -121,7 +121,7 @@ namespace KillerNotes.Shell
             return CreateNoteFromDocument(Path.GetFileNameWithoutExtension(path), doc);
         }
 
-        private static long ImportRtf(string path)
+        internal static long ImportRtf(string path)
         {
             var doc = new FlowDocument();
             var range = new TextRange(doc.ContentStart, doc.ContentEnd);

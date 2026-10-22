@@ -403,7 +403,7 @@ namespace KillerNotes
         // the opened file as a note (Sharing.cs). It is never made their default app: only an
         // OpenWithProgids entry is added, so whatever opens them today keeps doing so.
         private const string OpenWithProgId = "KillerNotes.Text";
-        private static readonly string[] OpenWithExts = [".md", ".markdown", ".txt"];
+        private static readonly string[] OpenWithExts = [".md", ".markdown", ".txt", ".rtf", ".log", ".html", ".htm"];
 
         private static void RegisterOpenWith(RegistryKey root, string exe, string iconSpec)
         {

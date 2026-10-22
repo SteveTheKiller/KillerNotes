@@ -10,6 +10,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - F3 and Shift+F3 navigate global search matches and continue between matching notes, preserving the active match through editor refreshes. (#18)
 - The locked screen keeps film grain when it is enabled.
 
+### Added
+- Explorer's Open with and command-line file opening support RTF, LOG, HTML and HTM files, using the same import behavior as Ctrl+O. (#29)
+
 ## [1.6.0] - 2026-10-21
 
 1.6.0 makes saves, backups, updates and recordings safer, speeds up offline transcription, and adds Lock now, Quick note, folder import, search filters and backup checks.

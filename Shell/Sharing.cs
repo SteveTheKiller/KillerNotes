@@ -56,7 +56,8 @@ namespace KillerNotes.Shell
                 }
             }
             catch (IOException) { /* unreadable here; the import below reports it */ }
-            ImportSharedNote(path);
+            if (ext == ".knote") ImportSharedNote(path);
+            else ImportFiles([path]);
         }
 
         private readonly RecentOpens _recentOpens = new();

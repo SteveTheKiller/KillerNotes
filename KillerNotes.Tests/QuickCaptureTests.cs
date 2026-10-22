@@ -143,6 +143,36 @@ namespace KillerNotes.Tests
             Assert.True(recent.First("c:\\a.md", "h1", now.AddSeconds(91)));    // a minute later
         }
 
+        [Fact]
+        public void RtfImportsKeepBoldTextAndUnicode() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            string file = Path.Combine(Path.GetTempPath(), "kn-rich-" + Guid.NewGuid().ToString("N") + ".rtf");
+            File.WriteAllText(file, @"{\rtf1\ansi Hello \b bold\b0  caf\u233?}", Encoding.ASCII);
+            try
+            {
+                long id = Shell.MainWindow.ImportRtf(file);
+                var doc = NoteSearch.LoadDocument(NoteStore.LoadContent(id), 0);
+                var text = new TextRange(doc.ContentStart, doc.ContentEnd);
+                Assert.Equal("Hello bold caf\u00e9\r\n", text.Text);
+                TextPointer? at = doc.ContentStart;
+                bool found = false;
+                while (at != null)
+                {
+                    if (at.GetTextInRun(LogicalDirection.Forward).StartsWith("bold", StringComparison.Ordinal))
+                    {
+                        Assert.Equal(FontWeights.Bold, new TextRange(at,
+                            at.GetPositionAtOffset(4)!).GetPropertyValue(TextElement.FontWeightProperty));
+                        found = true;
+                        break;
+                    }
+                    at = at.GetNextContextPosition(LogicalDirection.Forward);
+                }
+                Assert.True(found);
+            }
+            finally { File.Delete(file); }
+        });
+
         [Theory]
         [InlineData(null, false)]
         [InlineData("", false)]
@@ -188,7 +218,7 @@ namespace KillerNotes.Tests
 
                 register.Invoke(null, new object[] { root, @"C:\Apps\KillerNotes.exe", Path.GetTempPath() });
 
-                foreach (string ext in new[] { ".md", ".markdown", ".txt" })
+                foreach (string ext in new[] { ".md", ".markdown", ".txt", ".rtf", ".log", ".html", ".htm" })
                     using (var open = root.OpenSubKey($@"Software\Classes\{ext}\OpenWithProgids"))
                         Assert.Contains("KillerNotes.Text", open!.GetValueNames());
                 using (var md = root.OpenSubKey(@"Software\Classes\.md")) Assert.Equal("SomeEditor.md", md!.GetValue(""));
