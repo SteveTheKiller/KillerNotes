@@ -357,7 +357,6 @@ namespace KillerNotes.Controls.Dictation
                 // waveform is still the editing surface and still gets first claim on the space.
                 BorderThickness = new Thickness(1),
                 Margin = new Thickness(0, 0, 0, 8),
-                Padding = new Thickness(4, 3, 4, 3),
             };
             // PaneBorderBrush, not InputBorderBrush. The waveform is a content PANE - it displays,
             // it is not typed into - and its face is PaneBrush, so it takes the pane edge like
@@ -369,7 +368,9 @@ namespace KillerNotes.Controls.Dictation
             if (Application.Current.TryFindResource("ControlCornerRadius") is CornerRadius wr)
                 waveFrame.CornerRadius = wr;
 
-            _wave = new WaveformView { Window = 0, Cursor = Cursors.Hand };
+            // The inset is on the waveform, not the frame's Padding, so the grain layer beside it
+            // covers the frame edge to edge instead of leaving a bare ring inside the border.
+            _wave = new WaveformView { Window = 0, Cursor = Cursors.Hand, Margin = new Thickness(4, 3, 4, 3) };
             // Scrub: press to jump, hold and move to scrape through the take. Capture so a drag that
             // wanders outside the waveform keeps seeking instead of stopping dead at the edge.
             _wave.MouseLeftButtonDown += (_, ev) =>

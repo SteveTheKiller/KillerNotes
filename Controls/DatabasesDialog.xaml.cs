@@ -103,7 +103,9 @@ namespace KillerNotes.Controls
 
                 // Name and metadata are separate TextBlocks so inline rename can swap
                 // just the name part for a TextBox.
-                var row = new StackPanel { Orientation = Orientation.Horizontal };
+                // Two lines: the name, then its details trimmed to the list width, so a long
+                // line never runs off the edge behind a scrollbar.
+                var row = new StackPanel();
                 // SidebarFont, NOT the inherited default. These rows are code-built, so they do
                 // not pick up the app's font slots on their own - without this they rendered in
                 // stock Segoe UI while every other list row in the app follows the Sidebar font
@@ -113,13 +115,15 @@ namespace KillerNotes.Controls
                 nameText.SetResourceReference(TextBlock.FontFamilyProperty, "SidebarFont");
                 var meta = new TextBlock
                 {
-                    Text = $"   {fi.Length / 1024:N0} KB   {fi.LastWriteTime:yyyy-MM-dd HH:mm}"
-                         + (enc ? "   [" + Loc("Str_Db_FlagEncrypted") + "]" : "")
-                         + (active ? "   [" + Loc("Str_Db_FlagActive") + "]" : "")
+                    Text = $"{fi.Length / 1024:N0} KB · {fi.LastWriteTime:yyyy-MM-dd HH:mm}"
+                         + (enc ? " · " + Loc("Str_Db_FlagEncrypted") : "")
+                         + (active ? " · " + Loc("Str_Db_FlagActive") : "")
                          + (demo ? "" : BackupMeta(name)),
-                    FontSize = 11,
-                    VerticalAlignment = VerticalAlignment.Center,
+                    FontSize = 10.5,
+                    Margin = new Thickness(0, 1, 0, 0),
+                    TextTrimming = TextTrimming.CharacterEllipsis,
                 };
+                meta.ToolTip = meta.Text;
                 meta.SetResourceReference(TextBlock.FontFamilyProperty, "SidebarFont");
                 row.Children.Add(nameText);
                 row.Children.Add(meta);
@@ -136,7 +140,11 @@ namespace KillerNotes.Controls
                         : active)
                     DbList.SelectedItem = item;
             }
-            DlgStatus.Text = demo ? WithoutProfile(NoteStore.DbDir) : NoteStore.DbDir;
+            // The folder lives in the folder buttons' tooltips, not as a loose line of text.
+            string folder = demo ? WithoutProfile(NoteStore.DbDir) : NoteStore.DbDir;
+            ExplorerBtn.ToolTip = Loc("Str_TT_Explorer") + "\n" + folder;
+            DataFolderBtn.ToolTip = Loc("Str_TT_DataFolder") + "\n" + folder;
+            DlgStatus.Text = "";
         }
 
         /// <summary>The folder with the user's profile path written as %APPDATA% or
@@ -161,10 +169,10 @@ namespace KillerNotes.Controls
         {
             var state = BackupService.StateOf(dbFile, DateTime.Now);
             if (state == BackupState.Off) return "";
-            if (state == BackupState.Failing) return "   [" + Loc("Str_Db_FlagBackupFailing") + "]";
+            if (state == BackupState.Failing) return " · " + Loc("Str_Db_FlagBackupFailing");
             if (BackupService.LastBackup(dbFile) is not DateTime last) return "";
-            return "   " + string.Format(Loc("Str_Db_BackedUp"), last.ToString("yyyy-MM-dd HH:mm"))
-                 + (state == BackupState.Overdue ? "   [" + Loc("Str_Db_FlagBackupOverdue") + "]" : "");
+            return " · " + string.Format(Loc("Str_Db_BackedUp"), last.ToString("yyyy-MM-dd HH:mm"))
+                 + (state == BackupState.Overdue ? " · " + Loc("Str_Db_FlagBackupOverdue") : "");
         }
 
         private static void SetRowColors(TextBlock name, TextBlock meta, bool active, bool selected)
