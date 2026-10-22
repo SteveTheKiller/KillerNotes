@@ -274,7 +274,7 @@ namespace KillerNotes.Controls
             box.SetResourceReference(TextBox.BackgroundProperty, "PaneBrush");
             box.SetResourceReference(TextBox.ForegroundProperty, "TextBrush");
             box.SetResourceReference(TextBox.CaretBrushProperty, "TextBrush");
-            box.SetResourceReference(TextBox.BorderBrushProperty, "PrimaryBrush");
+            box.SetResourceReference(TextBox.BorderBrushProperty, "InputFocusBrush");
             box.SetResourceReference(TextBox.SelectionBrushProperty, "DatabaseSelectionBrush");
             box.SetResourceReference(TextBox.SelectionTextBrushProperty, "DatabaseSelectionTextBrush");
             box.SelectionOpacity = 1.0;

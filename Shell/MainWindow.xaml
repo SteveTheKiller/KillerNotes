@@ -247,7 +247,7 @@
                                                 <Setter Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
                                             </Trigger>
                                             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
@@ -363,7 +363,7 @@
                                                 <Setter Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
                                             </Trigger>
                                             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
@@ -2452,7 +2452,7 @@
                                                 <Setter Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
                                             </Trigger>
                                             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
@@ -2533,7 +2533,7 @@
                                                 <Setter Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
                                             </Trigger>
                                             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                                                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>

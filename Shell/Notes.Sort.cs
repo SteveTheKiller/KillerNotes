@@ -92,8 +92,10 @@ namespace KillerNotes.Shell
         // rest go back to the sort strip's own face so the inactive look is unchanged.
         private static void MarkSortButton(Button btn, bool on)
         {
-            btn.SetResourceReference(BackgroundProperty, on ? "SelectionBg" : "SortButtonBrush");
-            btn.SetResourceReference(ForegroundProperty, on ? "SelectionFg" : "TextBrush");
+            // One button face everywhere: the active sort keeps it and takes the accent on its edge
+            // and glyph (Controls.xaml SurfaceButton, Tag "selected"), not a second fill color.
+            btn.SetResourceReference(BackgroundProperty, "SortButtonBrush");
+            btn.SetResourceReference(ForegroundProperty, on ? "PrimaryBrush" : "TextBrush");
             btn.Tag = on ? "selected" : null;
         }
 

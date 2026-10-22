@@ -356,7 +356,8 @@
                              SelectionBg fill under hover and press, so its SelectionFg glyph never
                              lands on the light hover face. Placed after both so it wins. -->
                         <Trigger Property="Tag" Value="selected">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource SelectionBg}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4"/>
@@ -1548,7 +1549,7 @@
                 <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

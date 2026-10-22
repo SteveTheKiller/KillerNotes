@@ -843,6 +843,23 @@ namespace KillerNotes.Services
             // A palette can fill buttons with a deeper shade than its accent text (PrimaryFillBaseBrush).
             newDict["PrimaryFillBrush"] = ButtonFill((Brush)(newDict.Contains("PrimaryFillBaseBrush") ? newDict["PrimaryFillBaseBrush"] : newDict["PrimaryBrush"]));
             newDict["OutlineHoverBrush"] = ButtonFill((Brush)newDict["OutlineHoverBrush"]);
+            // One accent button style: + New (PrimaryButton) and a dialog's main action
+            // (OutlineButton) are both filled with the accent, with the theme's dark tone for text.
+            // OutlineBtnBrush differed from the accent on several themes (coral beside pink on
+            // Mourning), which put two accent colors side by side. 98SE keeps its gray Win98 face.
+            if (!flatCaption && newDict["PrimaryBrush"] is SolidColorBrush accentFill)
+            {
+                newDict["OutlineFaceBrush"] = newDict["PrimaryFillBrush"];
+                newDict["OutlineRestBrush"] = accentFill;
+                newDict["OutlineTextBrush"] = newDict["OnPrimaryBrush"];
+                newDict["OutlineHoverTextBrush"] = newDict["OnPrimaryBrush"];
+                newDict["OutlineHoverBrush"] = ButtonFill(Frozen(Mix(accentFill.Color, Colors.White, 0.15)));
+            }
+            // A focused field brightens its own neutral edge a step instead of turning accent.
+            if (newDict["InputHoverBrush"] is SolidColorBrush hoverEdge && newDict["TextBrush"] is SolidColorBrush text)
+                newDict["InputFocusBrush"] = flatCaption ? newDict["InputHoverBrush"] : Frozen(Mix(hoverEdge.Color, text.Color, 0.35));
+            else
+                newDict["InputFocusBrush"] = newDict.Contains("InputHoverBrush") ? newDict["InputHoverBrush"] : newDict["PrimaryBrush"];
 
             // Text selection color, HERE and not with the other selection keys above, for exactly
             // the reason the OutlineButton aliases are here: it aliases PrimaryBrush, and the
@@ -945,6 +962,16 @@ namespace KillerNotes.Services
                 };
 
             Publish(newDict);
+        }
+
+        private static Color Mix(Color a, Color b, double t) => Color.FromArgb(255,
+            (byte)Math.Round(a.R + (b.R - a.R) * t), (byte)Math.Round(a.G + (b.G - a.G) * t), (byte)Math.Round(a.B + (b.B - a.B) * t));
+
+        private static SolidColorBrush Frozen(Color c)
+        {
+            var brush = new SolidColorBrush(c);
+            brush.Freeze();
+            return brush;
         }
 
         /// <summary>
