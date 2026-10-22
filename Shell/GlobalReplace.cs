@@ -73,19 +73,10 @@ namespace KillerNotes.Shell
                 };
                 element.BeginAnimation(OpacityProperty, fade);
             }
-            double searchY = TitleNoteSearch.RenderTransform is System.Windows.Media.TranslateTransform previous ? previous.Y : 0;
-            var searchMove = new System.Windows.Media.TranslateTransform(0, open ? -2 : 0);
-            TitleNoteSearch.RenderTransform = searchMove;
-            searchMove.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty,
-                new System.Windows.Media.Animation.DoubleAnimation(searchY, open ? -2 : 0, duration) { EasingFunction = easing });
-            var frameMove = (System.Windows.Media.TranslateTransform)TitleSearchFlyout.RenderTransform;
-            frameMove.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty,
-                new System.Windows.Media.Animation.DoubleAnimation(open ? 4 : 0, open ? 0 : 4, duration) { EasingFunction = easing });
-            var rowMove = new System.Windows.Media.TranslateTransform(0, TitleSearchSlot.ActualHeight);
-            SidebarReplaceRow.RenderTransform = rowMove;
-            rowMove.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty,
-                new System.Windows.Media.Animation.DoubleAnimation(TitleSearchSlot.ActualHeight + (open ? 4 : 0),
-                    TitleSearchSlot.ActualHeight + (open ? 0 : 4), duration) { EasingFunction = easing });
+            // The search box never moves: the panel fades in around it with the same 4px of panel
+            // on every side, and the Replace row fades in with the panel as one piece. (Sliding the
+            // panel and nudging the box up 2px left the box off-center against the panel's edge.)
+            SidebarReplaceRow.RenderTransform = new System.Windows.Media.TranslateTransform(0, TitleSearchSlot.ActualHeight);
         }
 
         private void SidebarReplaceAll_Click(object sender, RoutedEventArgs e)
