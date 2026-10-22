@@ -1105,10 +1105,10 @@
     <sys:String x:Key="Str_Welcome_Write">Начать писать</sys:String>
     <sys:String x:Key="Str_Welcome_Sample">Открыть пример блокнота</sys:String>
     <sys:String x:Key="Str_Welcome_SampleHint">Отдельный блокнот Sample notes, никогда не смешивается с вашим. Удалите его в любое время в «Управлении базами данных».</sys:String>
-    <sys:String x:Key="Str_St_SampleMade">Пример блокнота готов. Ваш блокнот — в «Управлении базами данных».</sys:String>
-    <sys:String x:Key="Str_St_SampleOpened">Открыт пример блокнота. Ваш блокнот — в «Управлении базами данных».</sys:String>
+    <sys:String x:Key="Str_St_SampleMade">Пример блокнота готов. Ваш блокнот доступен в «Управлении базами данных».</sys:String>
+    <sys:String x:Key="Str_St_SampleOpened">Открыт пример блокнота. Ваш блокнот доступен в «Управлении базами данных».</sys:String>
     <sys:String x:Key="Str_KS_SearchName">Найти действие</sys:String>
-    <sys:String x:Key="Str_KS_SearchHint">Начните вводить, чтобы найти действие по названию или клавишам. Стрелка вниз — в список, Enter — выполнить.</sys:String>
+    <sys:String x:Key="Str_KS_SearchHint">Начните вводить, чтобы найти действие по названию или клавишам. Нажмите стрелку вниз, чтобы перейти к списку, или Enter, чтобы выполнить действие.</sys:String>
     <sys:String x:Key="Str_KS_NoMatch">Ничего не найдено по «{0}».</sys:String>
     <sys:String x:Key="Str_KS_NotRunnable">{0} работает там, где курсор. Нажмите там.</sys:String>
     <sys:String x:Key="Str_Save_Saved">Сохранено</sys:String>

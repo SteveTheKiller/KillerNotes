@@ -208,20 +208,16 @@ foreach ($localeFile in Get-ChildItem (Join-Path $PSScriptRoot 'Strings') -Filte
 Write-Host "Translations OK: $($englishStrings.Count) keys across $((Get-ChildItem (Join-Path $PSScriptRoot 'Strings') -Filter '*.xaml').Count) languages"
 
 # --- 3d. Punctuation ---
-# No en dashes or em dashes anywhere, with NO exclusions - not the app's Strings\*.xaml and not
-# the website's kn-i18n.js. Killendar's copy of this check exempts its landing script on the
-# grounds that punctuation follows the target language, and that argument is real: the em dash
-# is standard Chinese punctuation (破折号, normally doubled) and the en dash is Hungarian's
-# parenthetical dash. Both were converted to plain hyphens anyway, because one rule applied
-# everywhere beats a per-language exemption list that nobody can remember.
-#
-# The clean-tree preflight guarantees every candidate file is tracked, so git grep sees the
-# complete set.
+# No en dashes or em dashes anywhere, including app and website translations.
+# Rewrite sentences with words, commas, periods, colons, or parentheses.
+# The clean-tree preflight guarantees every candidate file is tracked.
 Step "Checking punctuation"
 $dashMatches = @(git grep -n -I -P '[\x{2013}\x{2014}]' -- . 2>$null)
 if ($dashMatches.Count) {
-    Write-Host ($dashMatches -join "`n")
-    Fail "En/em dashes found in $($dashMatches.Count) place(s). Use a single hyphen."
+    # Keep diagnostics readable even when the terminal cannot display a translation.
+    $dashLocations = $dashMatches | ForEach-Object { ($_ -split ':', 3)[0..1] -join ':' }
+    Write-Host ($dashLocations -join "`n")
+    Fail "En/em dashes found in $($dashMatches.Count) place(s). Rewrite the punctuation."
 }
 Write-Host 'Punctuation OK'
 

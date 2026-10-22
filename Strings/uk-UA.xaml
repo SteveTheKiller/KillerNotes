@@ -1144,10 +1144,10 @@
     <sys:String x:Key="Str_Welcome_Write">Почати писати</sys:String>
     <sys:String x:Key="Str_Welcome_Sample">Відкрити приклад блокнота</sys:String>
     <sys:String x:Key="Str_Welcome_SampleHint">Окремий блокнот Sample notes, ніколи не змішується з вашим. Видаліть його будь-коли в «Керуванні базами даних».</sys:String>
-    <sys:String x:Key="Str_St_SampleMade">Приклад блокнота готовий. Ваш блокнот — у «Керуванні базами даних».</sys:String>
-    <sys:String x:Key="Str_St_SampleOpened">Відкрито приклад блокнота. Ваш блокнот — у «Керуванні базами даних».</sys:String>
+    <sys:String x:Key="Str_St_SampleMade">Приклад блокнота готовий. Ваш блокнот доступний у «Керуванні базами даних».</sys:String>
+    <sys:String x:Key="Str_St_SampleOpened">Відкрито приклад блокнота. Ваш блокнот доступний у «Керуванні базами даних».</sys:String>
     <sys:String x:Key="Str_KS_SearchName">Знайти дію</sys:String>
-    <sys:String x:Key="Str_KS_SearchHint">Почніть вводити, щоб знайти дію за назвою чи клавішами. Стрілка вниз — до списку, Enter — виконати.</sys:String>
+    <sys:String x:Key="Str_KS_SearchHint">Почніть вводити, щоб знайти дію за назвою чи клавішами. Натисніть стрілку вниз, щоб перейти до списку, або Enter, щоб виконати дію.</sys:String>
     <sys:String x:Key="Str_KS_NoMatch">Нічого не знайдено за «{0}».</sys:String>
     <sys:String x:Key="Str_KS_NotRunnable">{0} діє там, де курсор. Натисніть там.</sys:String>
     <sys:String x:Key="Str_Save_Saved">Збережено</sys:String>
