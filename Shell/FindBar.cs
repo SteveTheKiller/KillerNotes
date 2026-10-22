@@ -16,8 +16,8 @@ namespace KillerNotes.Shell
     //  IN-NOTE FIND  -  Ctrl+F, the find bar over the editor
     // ═══════════════════════════════════════════════════════════
     // Searches the OPEN note. The sidebar box stays what it always was: cross-note full-text
-    // search over the store. F3 keeps focusing the sidebar while this bar is closed, and steps
-    // matches while it is open - the split every other editor uses.
+    // search over the store. F3 steps the active search's matches and continues into the next
+    // matching note; without a query it focuses the sidebar search box.
     //
     // TWO WALKS, AND ONLY ONE OF THEM IS DANGEROUS. LineNumbers.cs documents the #16 hang: it
     // walked VISUAL lines (GetLineStartPosition) on every event, and a visual walk forces WPF to
@@ -105,6 +105,7 @@ namespace KillerNotes.Shell
         private void RefreshFindAfterNoteLoad()
         {
             CancelFindRefresh();
+            _globalFindIndex = -1;
             _findPlainStale = true;
             _findHits.Clear();
             _findIndex = -1;
@@ -268,6 +269,8 @@ namespace KillerNotes.Shell
         private void StepFind(int delta)
         {
             if (_findPlainStale) RunFind(keepIndex: true);
+            int next = _findIndex + delta;
+            if ((next < 0 || next >= _findHits.Count) && TryStepFindToNote(delta)) return;
             if (_findHits.Count == 0) return;
 
             _findIndex = ((_findIndex + delta) % _findHits.Count + _findHits.Count) % _findHits.Count;
@@ -352,8 +355,11 @@ namespace KillerNotes.Shell
         /// </summary>
         private void ScrollToCurrentFind()
         {
-            if (_findIndex < 0 || _findIndex >= _findHits.Count) return;
-            var p = PointerForOffset(_findHits[_findIndex].Start);
+            int index = FindCurrentIndex;
+            if (index < 0 || index >= FindHits.Count) return;
+            // Explicit search navigation supersedes a note's deferred reading-position restore.
+            _restoreToken++;
+            var p = PointerForOffset(FindHits[index].Start);
             if (p == null) return;
             try
             {
@@ -760,7 +766,7 @@ namespace KillerNotes.Shell
         // Read by the adorner, which lives outside this class.
         internal bool FindIsOpen => (_findOpen || HasGlobalSearch) && !_loadingNote && !_findPlainStale;
         internal IReadOnlyList<(int Start, int Length)> FindHits => _findOpen || !HasGlobalSearch ? _findHits : _globalFindHits;
-        internal int FindCurrentIndex => _findOpen ? _findIndex : -1;
+        internal int FindCurrentIndex => _findOpen ? _findIndex : _globalFindIndex;
         internal TextPointer? FindPointerFor(int offset) => PointerForOffset(offset);
     }
 

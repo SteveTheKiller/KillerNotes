@@ -10,6 +10,7 @@ namespace KillerNotes.Shell
     public partial class MainWindow
     {
         private readonly List<(int Start, int Length)> _globalFindHits = [];
+        private int _globalFindIndex = -1;
         private readonly Dictionary<long, int> _globalMatchCounts = [];
         private DispatcherTimer? _globalSearchTimer;
         private DispatcherOperation? _globalSearchOperation;
@@ -22,6 +23,71 @@ namespace KillerNotes.Shell
         // notes, so the count shows how many notes the filters left (1.6.0, SearchQuery.cs).
         private bool GlobalSearchHasWords => SearchQuery.Parse(GlobalSearchTerm).Words.Count > 0;
 
+        /// <summary>F3 navigates whichever search is active, without moving focus out of its box.</summary>
+        internal void NavigateSearch(int delta)
+        {
+            if (_findOpen) { StepFind(delta); return; }
+            if (!HasGlobalSearch) { FocusSearch(); return; }
+            if (!GlobalSearchHasWords) return;
+            if (_findPlainStale) RefreshGlobalHighlights();
+            int next = _globalFindIndex < 0
+                ? (delta > 0 ? 0 : _globalFindHits.Count - 1) : _globalFindIndex + delta;
+            if (next < 0 || next >= _globalFindHits.Count)
+            {
+                if (NoteStore.IsOpen)
+                {
+                    if (!SaveCurrentNote(refreshList: false)) return;
+                    int candidate = FindNextGlobalNoteIndex(delta);
+                    if (candidate >= 0)
+                    {
+                        long id = _notes[candidate].Id;
+                        OpenNote(id);
+                        SelectNoteInList(id);
+                        next = delta > 0 ? 0 : _globalFindHits.Count - 1;
+                    }
+                    else next = delta > 0 ? 0 : _globalFindHits.Count - 1;
+                }
+                else next = delta > 0 ? 0 : _globalFindHits.Count - 1;
+            }
+            _globalFindIndex = _globalFindHits.Count == 0 ? -1 : next;
+            ScrollToCurrentFind();
+            RepaintFindMatches();
+            long noteId = _currentId;
+            int version = _globalSearchVersion;
+            Editor.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (_currentId == noteId && version == _globalSearchVersion && !_findOpen)
+                    ScrollToCurrentFind();
+            }), DispatcherPriority.Loaded);
+        }
+
+        internal int FindNextGlobalNoteIndex(int delta)
+        {
+            if (_notes.Count == 0 || !GlobalSearchHasWords) return -1;
+            int current = _notes.FindIndex(n => n.Id == _currentId);
+            int direction = delta > 0 ? 1 : -1;
+            int next = current < 0 ? (direction > 0 ? 0 : _notes.Count - 1)
+                : (current + direction + _notes.Count) % _notes.Count;
+            for (int visited = 0; visited < _notes.Count; visited++)
+            {
+                var note = _notes[next];
+                if (note.Id != _currentId)
+                {
+                    try
+                    {
+                        if (NoteSearch.CountMatches(NoteStore.LoadPlain(note.Id), GlobalSearchTerm) > 0)
+                        {
+                            var doc = NoteSearch.LoadDocument(NoteStore.LoadContent(note.Id), note.Format);
+                            if (NoteSearch.FindMatches(FlattenDoc(doc).Plain, GlobalSearchTerm).Count > 0) return next;
+                        }
+                    }
+                    catch { }   // Skip unreadable notes and results that only match sketch labels.
+                }
+                next = (next + direction + _notes.Count) % _notes.Count;
+            }
+            return -1;
+        }
+
         private void CancelGlobalSearchPreview()
         {
             _globalSearchVersion++;
@@ -33,6 +99,7 @@ namespace KillerNotes.Shell
         private void QueueGlobalSearchPreview()
         {
             CancelGlobalSearchPreview();
+            _globalFindIndex = -1;
             _globalMatchCounts.Clear();
             _globalUnreadable = 0;
             _globalSearchCounting = HasGlobalSearch && GlobalSearchHasWords;
@@ -97,13 +164,21 @@ namespace KillerNotes.Shell
         private void RefreshGlobalHighlights()
         {
             if (SearchBox == null) return;
+            int wasAt = _globalFindIndex >= 0 && _globalFindIndex < _globalFindHits.Count
+                ? _globalFindHits[_globalFindIndex].Start : -1;
             _globalFindHits.Clear();
+            _globalFindIndex = -1;
             if (HasGlobalSearch && !_loadingNote && !_loadFailed && _currentId >= 0 &&
                 _notes.Any(n => n.Id == _currentId))
             {
                 if (_findPlainStale) RebuildFindPlain();
                 _globalFindHits.AddRange(NoteSearch.FindMatches(_findPlain, GlobalSearchTerm));
                 _globalMatchCounts[_currentId] = NoteSearch.CountMatches(_findPlain, GlobalSearchTerm);
+                if (wasAt >= 0 && _globalFindHits.Count > 0)
+                {
+                    _globalFindIndex = _globalFindHits.FindIndex(hit => hit.Start >= wasAt);
+                    if (_globalFindIndex < 0) _globalFindIndex = _globalFindHits.Count - 1;
+                }
             }
             RepaintFindMatches();
             UpdateGlobalSearchCount();

@@ -322,9 +322,8 @@ namespace KillerNotes.Shell
                 case Key.F2:
                     if (_currentId >= 0) { TitleBox.Focus(); TitleBox.SelectAll(); e.Handled = true; }
                     break;
-                // THE SPLIT: Ctrl+F is IN-NOTE find, F3 is the sidebar's cross-note search - and
-                // while the find bar is open F3 steps its matches instead, which is what F3 means
-                // in every editor that has both. Shift+F3 steps back. Closed, F3 is unchanged.
+                // Ctrl+F opens in-note Find. F3 steps the active search across notes;
+                // Shift+F3 steps backward. With no query, F3 focuses all-notes search.
                 case Key.F when ctrl:
                     OpenFindBar();                       // FindBar.cs
                     e.Handled = true;
@@ -334,8 +333,7 @@ namespace KillerNotes.Shell
                     e.Handled = true;
                     break;
                 case Key.F3:
-                    if (_findOpen) StepFind(shift ? -1 : 1);   // FindBar.cs
-                    else FocusSearch();                        // Sidebar.cs (expands first if collapsed)
+                    NavigateSearch(shift ? -1 : 1);
                     e.Handled = true;
                     break;
                 case Key.F4:

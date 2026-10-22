@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.6.1] - Unreleased
 
 ### Fixed
+- F3 and Shift+F3 navigate global search matches and continue between matching notes, preserving the active match through editor refreshes. (#18)
 - The locked screen keeps film grain when it is enabled.
 
 ## [1.6.0] - 2026-10-21

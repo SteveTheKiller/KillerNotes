@@ -11,12 +11,59 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using KillerNotes.Shell;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace KillerNotes.Tests
 {
     [Collection(NoteStoreCollection.Name)]
     public sealed class FindSessionTests
     {
+        private readonly ITestOutputHelper _output;
+        public FindSessionTests(ITestOutputHelper output) => _output = output;
+
+        [Fact]
+        public void SixtyGlobalHitsCanBeHighlightedAndNavigatedWithoutChangingTheDocument() => Sta.Run(() =>
+        {
+            using var shell = new FindEditor();
+            System.Windows.Input.InputMethod.SetIsInputMethodEnabled(shell.Editor, false);
+            shell.Set("_findOpen", false);
+            shell.Set("SearchBox", new TextBox { Text = "and" });
+            shell.Set("_currentId", 1L);
+            shell.Set("_notes", new List<Models.Note> { new Models.Note { Id = 1 } });
+            shell.Set("_globalFindHits", new List<(int Start, int Length)>());
+            shell.Set("_globalMatchCounts", new Dictionary<long, int>());
+            var doc = new FlowDocument();
+            for (int i = 0; i < 4000; i++)
+                doc.Blocks.Add(new Paragraph(new Run(i % 66 == 0 && i < 3960 ? "and a matching line" : "ordinary text")));
+            shell.Editor.Document = doc;
+            string before = shell.Text;
+            var host = new Window
+            {
+                Content = new AdornerDecorator { Child = shell.Editor }, Width = 640, Height = 320,
+                Left = -32000, Top = -32000, ShowActivated = false, ShowInTaskbar = false,
+            };
+            try
+            {
+                host.Show();
+                Pump();
+                var elapsed = System.Diagnostics.Stopwatch.StartNew();
+                for (int i = 0; i < 60; i++)
+                {
+                    shell.Window.NavigateSearch(1);
+                    Pump();
+                    Assert.Equal(i, shell.Window.FindCurrentIndex);
+                }
+                _output.WriteLine("60 hits across 4,000 paragraphs: {0:0} ms", elapsed.Elapsed.TotalMilliseconds);
+                Assert.Equal(60, shell.Window.FindHits.Count);
+                Assert.Equal(before, shell.Text);
+            }
+            finally
+            {
+                host.Close();
+                Dispatcher.CurrentDispatcher.InvokeShutdown();
+            }
+        });
+
         [Fact]
         public void LargeNoteLoadDoesNotSearchEachNormalizationNotification() => Sta.Run(() =>
         {
@@ -272,6 +319,35 @@ namespace KillerNotes.Tests
         }
 
         private const BindingFlags Members = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+
+        [Fact]
+        public void GlobalSearchNavigationStepsAndWrapsWithoutOpeningInNoteFind() => Sta.Run(() =>
+        {
+            using var shell = new FindEditor();
+            shell.Set("_findOpen", false);
+            shell.Set("SearchBox", new TextBox { Text = "and" });
+            shell.Set("_currentId", 1L);
+            shell.Set("_notes", new List<Models.Note> { new Models.Note { Id = 1 } });
+            shell.Set("_globalFindHits", new List<(int Start, int Length)>());
+            shell.Set("_globalMatchCounts", new Dictionary<long, int>());
+            shell.Editor.AppendText("and then and");
+
+            shell.Window.NavigateSearch(1);
+            Assert.Equal(0, shell.Window.FindCurrentIndex);
+            Assert.Equal(2, shell.Window.FindHits.Count);
+            shell.Window.NavigateSearch(1);
+            Assert.Equal(1, shell.Window.FindCurrentIndex);
+            shell.Window.NavigateSearch(1);
+            Assert.Equal(0, shell.Window.FindCurrentIndex);
+            shell.Window.NavigateSearch(-1);
+            Assert.Equal(1, shell.Window.FindCurrentIndex);
+            shell.Editor.AppendText(" and");
+            Pump();
+            Assert.Equal(1, shell.Window.FindCurrentIndex);
+            Assert.Equal(3, shell.Window.FindHits.Count);
+            Assert.False((bool)shell.Get("_findOpen")!);
+            Assert.Equal("and", ((TextBox)shell.Get("SearchBox")!).Text);
+        });
 
         [Fact]
         public void CatastrophicRegexStopsAtItsDeadlineAndLeavesTheNoteAlone()

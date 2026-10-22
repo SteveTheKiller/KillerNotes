@@ -98,6 +98,29 @@ namespace KillerNotes.Tests
             return id;
         }
 
+        [Theory]
+        [InlineData(1)]
+        [InlineData(-1)]
+        public void GlobalSearchUsesItsQueryAndSkipsTitleOnlyAndUnreadableNotes(int direction) => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            long first = Rich("First", "cat one");
+            Rich("cat title", "no body match");
+            long broken = NoteStore.Create("cat unreadable");
+            NoteStore.Save(broken, "cat unreadable", Encoding.UTF8.GetBytes("not a package"), "cat");
+            long last = Rich("Last", "cat two");
+            var window = Search(first);
+            Set(window, "SearchBox", new System.Windows.Controls.TextBox { Text = "cat" });
+            int index = window.FindNextGlobalNoteIndex(direction);
+            var notes = (System.Collections.Generic.List<Models.Note>)typeof(MainWindow)
+                .GetField("_notes", Fields)!.GetValue(window)!;
+            Assert.Equal(last, notes[index].Id);
+            Set(window, "_currentId", last);
+            Assert.Equal(first, notes[window.FindNextGlobalNoteIndex(direction)].Id);
+            Set(window, "_currentId", -1L);
+            Assert.Equal(direction > 0 ? first : last, notes[window.FindNextGlobalNoteIndex(direction)].Id);
+        });
+
         private static MainWindow Search(long current)
         {
             var window = (MainWindow)FormatterServices.GetUninitializedObject(typeof(MainWindow));
