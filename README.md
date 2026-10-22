@@ -13,14 +13,18 @@ See the [help page](https://killernotes.net/help.html) for workflows and shortcu
 ## Features
 
 - Rich text with images, tables, lists, checkboxes, spell check, custom fonts, title colors, and optional line numbers
-- Search titles, text, and tags as you type; find and replace within a note or across notes
+- Search titles, text, and tags as you type, with filters (tag:, group:, title:, after:, before:, created:, in:trash, "phrases") and saved searches; find and replace within a note or across notes
 - Nested groups, colored tags, pinned notes, drag-and-drop ordering, templates, and daily notes
 - Incoming and outgoing wikilinks, including links to notes that do not exist yet, plus a graph and heading outline
 - Paragraph-level code highlighting and language-aware fenced Markdown code blocks
 - Native Markdown and HTML preview with Source, Rendered, and adjustable Split views, following the active theme without a browser engine
-- Autosave, saved cursor positions, version history, a 30-day trash, and scheduled backups that restore into a new database
+- Autosave, saved cursor positions, version history, a 30-day trash, and scheduled backups that are checked before they count, warn while failing or overdue, and can be test-restored
+- Lock now (Ctrl+Shift+U) closes a password notepad without quitting, and it locks itself when Windows locks or sleeps, or after an idle time you choose
+- Quick note: a small capture box from the tray icon, the taskbar jump list or Win+Alt+N, saving to Inbox or today's note
+- Import a folder of notes from a KillerNotes export, an Obsidian vault or another Markdown export, with a preview first; KillerNotes also appears under Open with for .md and .txt
+- Export all notes as Markdown into a dated folder with pictures, sketches and recordings beside each note and a report of anything not carried
 - Multiple SQLite databases with optional SQLCipher AES-256 encryption; password-protected note (.knote) and database (.kndb) sharing
-- Offline dictation (Ctrl+M) with downloadable speech models, waveform editing, inline audio, and WAV or MP3 export
+- Offline dictation (Ctrl+M): the speech engine and model download on first use, in the build for your processor, and transcription never leaves the machine; waveform editing, inline audio, and WAV or MP3 export
 - Editable inline drawings with SketchPad (F7), floating images and recordings, and the Killculator (F9)
 - Keyboard access throughout, contextual menu hints, an F1 keyboard map, and whole-app accessibility scaling
 - CLI support for search, editing, sharing, export, templates, groups, tags, recovery, and backups; run `KillerNotes --cli --help` for commands
@@ -72,12 +76,13 @@ choco install killernotes
 | PolySharp | net48 polyfills for modern C# syntax (compile-time only) |
 | libFLAC | Lossless storage for embedded recordings (native, BSD-3-Clause) |
 | libmp3lame | MP3 export only, never storage (native, LGPL-2.1 - source shipped with every release) |
-| whisper.cpp (+ ggml) | Offline speech recognition for dictation (native, MIT) |
+| whisper.cpp (+ ggml) | Offline speech recognition for dictation (native, MIT; downloaded on first use, not bundled) |
 
 The three audio natives are cross-compiled from their upstream release tarballs rather than
 taken from a mirror; the tarballs, hashes and exact build commands are in
 `third_party/audio/README.md`. Speech models are downloaded on demand from whisper.cpp's model
-repository on Hugging Face, not bundled. All of it is optional at build time - with `third_party/audio/`
+repository on Hugging Face, and the whisper.cpp engine from this repository's `speech-engine-1.9.5`
+release (hash-pinned in `Services/SpeechEngine.cs`); neither is bundled. All of it is optional at build time - with `third_party/audio/`
 empty the app still builds and runs, storing recordings as WAV and transcribing with the
 Windows engine.
 
