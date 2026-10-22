@@ -599,6 +599,7 @@
     <sys:String x:Key="Str_Whisper_Menu">语音模型...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">此版本不含语音模型 - 转写将使用 Windows 自带引擎。</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">开始下载...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">语音引擎：{0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">下载已取消。</sys:String>
     <sys:String x:Key="Str_Whisper_Done">就绪。今后转写将使用此模型。</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">编辑录音...</sys:String>

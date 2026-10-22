@@ -599,6 +599,7 @@
     <sys:String x:Key="Str_Whisper_Menu">音声モデル...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">このビルドには音声モデルがありません - 文字起こしには Windows 内蔵のエンジンを使用します。</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">ダウンロードを開始しています...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">音声エンジン: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">ダウンロードをキャンセルしました。</sys:String>
     <sys:String x:Key="Str_Whisper_Done">準備完了。今後の文字起こしにはこれを使用します。</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">録音を編集...</sys:String>

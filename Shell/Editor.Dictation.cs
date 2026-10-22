@@ -85,13 +85,7 @@ namespace KillerNotes.Shell
         /// </summary>
         private void SpeechModel_Click(object sender, RoutedEventArgs e)
         {
-            if (!WhisperSpeech.Available)
-            {
-                // Nothing to choose from: this build has no speech natives, so transcription is
-                // Windows' engine whatever the user picks here.
-                StatusText.Text = Loc("Str_Whisper_Unavailable");
-                return;
-            }
+            // The chooser downloads the speech engine with the model when it is not here yet.
             new WhisperModelDialog(this).ShowDialog();
         }
 

@@ -20,22 +20,8 @@ namespace KillerNotes.Services
         internal const string FlacDll = "libFLAC.dll";
         internal const string LameDll = "libmp3lame.dll";
 
-        /// <summary>
-        /// Whisper's natives, IN DEPENDENCY ORDER. ggml-base first, then the ggml facade, then
-        /// whisper itself - each links against the ones before it. Preloading them out of order
-        /// leaves the loader hunting the PATH for a dependency that has not been extracted yet, and
-        /// whisper silently reports unavailable.
-        /// </summary>
-        private static readonly string[] WhisperDlls =
-            ["ggml-base.dll", "ggml.dll", "libwhisper.dll"];
-
-        /// <summary>
-        /// The CPU backend, one build per instruction-set level. They are only extracted here;
-        /// ggml loads the best one this processor supports (LoadCpuBackend). The 1.9.5 update first
-        /// shipped a single baseline CPU build, which ran transcription many times slower.
-        /// </summary>
-        private static readonly string[] CpuVariantDlls =
-            ["ggml-cpu-x64.dll", "ggml-cpu-sse42.dll", "ggml-cpu-sandybridge.dll", "ggml-cpu-haswell.dll", "ggml-cpu-alderlake.dll", "ggml-cpu-skylakex.dll", "ggml-cpu-icelake.dll", "ggml-cpu-zen4.dll"];
+        // Whisper is not embedded: SpeechEngine downloads it with the first model, in the build
+        // for this processor, and EnsureWhisper loads it from there.
 
         private static readonly object _gate = new();
         private static bool _done;
@@ -43,6 +29,7 @@ namespace KillerNotes.Services
 
         internal static bool FlacAvailable { get; private set; }
         internal static bool LameAvailable { get; private set; }
+        /// <summary>True once the downloaded speech engine is loaded (EnsureWhisper).</summary>
         internal static bool WhisperAvailable { get; private set; }
 
         /// <summary>Folder the natives were extracted to. Whisper's model files live beside them.</summary>
@@ -85,14 +72,6 @@ namespace KillerNotes.Services
                 FlacAvailable = Extract(FlacDll);
                 LameAvailable = Extract(LameDll);
 
-                // All four or none: a partial whisper stack is worse than no whisper at all,
-                // because the failure surfaces as a crash inside the loader rather than a
-                // fallback to SAPI.
-                bool whisper = true;
-                foreach (string dll in WhisperDlls) whisper &= Extract(dll);
-                bool anyCpu = false;
-                foreach (string dll in CpuVariantDlls) anyCpu |= Extract(dll, load: false);
-                WhisperAvailable = whisper && anyCpu && LoadCpuBackend();
             }
         }
 
@@ -109,7 +88,7 @@ namespace KillerNotes.Services
             EnsureLoaded();
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Native folder: " + _dir);
-            foreach (string dll in new[] { FlacDll, LameDll }.Concat(WhisperDlls).Concat(CpuVariantDlls))
+            foreach (string dll in new[] { FlacDll, LameDll }.Concat(SpeechEngine.Core.Select(c => c.File)))
                 sb.AppendLine(dll + ": " + (_why.TryGetValue(dll, out string? w) ? w : "not attempted"));
             sb.AppendLine("CPU backend: " + (_cpuBackend ?? "not loaded"));
             return sb.ToString();
@@ -134,13 +113,38 @@ namespace KillerNotes.Services
 
         private static string? _cpuBackend;
 
-        /// <summary>Has ggml scan the native folder and register the fastest CPU variant this
-        /// processor runs. Whisper never does this itself; without it there is no backend at all.</summary>
-        private static bool LoadCpuBackend()
+        /// <summary>
+        /// Loads the downloaded speech engine once it is on disk. Safe to call repeatedly: it does
+        /// nothing until the engine is installed, then loads it the first time it is asked. All
+        /// three core files load or none counts as available, because a partial whisper stack
+        /// fails inside the loader rather than falling back to Windows speech.
+        /// </summary>
+        internal static bool EnsureWhisper()
+        {
+            if (WhisperAvailable) return true;
+            EnsureLoaded();
+            lock (_gate)
+            {
+                if (WhisperAvailable) return true;
+                if (!SpeechEngine.IsInstalled) return false;
+                foreach (var (file, _, _) in SpeechEngine.Core)
+                {
+                    IntPtr h = LoadLibrary(Path.Combine(SpeechEngine.Dir, file));
+                    _why[file] = h == IntPtr.Zero ? "LoadLibrary failed, win32 error " + Marshal.GetLastWin32Error() : "ok";
+                    if (h == IntPtr.Zero) return false;
+                }
+                WhisperAvailable = LoadCpuBackend(SpeechEngine.Dir);
+                return WhisperAvailable;
+            }
+        }
+
+        /// <summary>Has ggml register the CPU backend in the engine folder. Whisper never does this
+        /// itself; without it there is no backend at all.</summary>
+        private static bool LoadCpuBackend(string dir)
         {
             try
             {
-                ggml_backend_load_all_from_path(_dir);
+                ggml_backend_load_all_from_path(dir);
                 ulong count = ggml_backend_dev_count().ToUInt64();
                 if (count == 0) { _cpuBackend = "no CPU variant would load"; return false; }
                 _cpuBackend = Marshal.PtrToStringAnsi(ggml_backend_dev_description(ggml_backend_dev_get(UIntPtr.Zero))) ?? "loaded";
@@ -153,7 +157,7 @@ namespace KillerNotes.Services
             }
         }
 
-        private static bool Extract(string dll, bool load = true)
+        private static bool Extract(string dll)
         {
             string resource = "KillerNotes.AudioNative." + dll;
             string target = Path.Combine(_dir, dll);
@@ -178,7 +182,6 @@ namespace KillerNotes.Services
                 _why[dll] = embedded ? "extracted but missing on disk" : "NOT EMBEDDED in this build";
                 return false;
             }
-            if (!load) { _why[dll] = embedded ? "extracted" : "on disk, not embedded"; return true; }
 
             IntPtr h = LoadLibrary(target);
             if (h == IntPtr.Zero)

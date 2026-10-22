@@ -598,6 +598,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Model řeči...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Tato verze neobsahuje žádné modely řeči - přepis používá vlastní modul Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Zahajuje se stahování...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Řečový engine: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Stahování zrušeno.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Připraveno. Přepis bude od nynějška používat tento model.</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">Upravit nahrávku...</sys:String>

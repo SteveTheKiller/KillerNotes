@@ -600,6 +600,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Sprachmodell...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Dieser Build enthält keine Sprachmodelle - die Transkription nutzt die Windows-eigene Engine.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Download wird gestartet...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Sprach-Engine: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Download abgebrochen.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Bereit. Die Transkription verwendet ab jetzt dieses Modell.</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">Aufnahme bearbeiten...</sys:String>

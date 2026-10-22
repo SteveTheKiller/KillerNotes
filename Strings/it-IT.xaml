@@ -609,6 +609,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Modello vocale...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Questa build non ha modelli vocali - la trascrizione usa il motore di Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Avvio del download...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Motore vocale: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Download annullato.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Pronto. La trascrizione userà questo modello d'ora in poi.</sys:String>
 

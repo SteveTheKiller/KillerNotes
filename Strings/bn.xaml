@@ -601,6 +601,7 @@
     <sys:String x:Key="Str_Whisper_Menu">স্পিচ মডেল...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">এই বিল্ডে কোনো স্পিচ মডেল নেই - প্রতিলিপির জন্য Windows-এর নিজস্ব ইঞ্জিন ব্যবহার হয়।</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">ডাউনলোড শুরু হচ্ছে...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">স্পিচ ইঞ্জিন: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">ডাউনলোড বাতিল হয়েছে।</sys:String>
     <sys:String x:Key="Str_Whisper_Done">প্রস্তুত। এখন থেকে প্রতিলিপিতে এটিই ব্যবহার হবে।</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">রেকর্ডিং সম্পাদনা...</sys:String>

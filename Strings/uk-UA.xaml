@@ -642,6 +642,7 @@
     <sys:String x:Key="Str_Whisper_Menu">Модель мовлення...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Ця збірка не має моделей мовлення - розпізнавання використовує рушій Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Початок завантаження...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Мовний рушій: {0} / {1} МБ</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Завантаження скасовано.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Готово. Відтепер розпізнавання використовуватиме цю модель.</sys:String>
 

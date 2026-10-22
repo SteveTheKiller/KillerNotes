@@ -112,14 +112,17 @@ Its locally calculated SHA-256 is
 `645445da884df6dbd52b30f82d7be7c01d1767c938714e477e786b88d529e9f4`.
 The previous 1.7.4 archive remains for provenance.
 
-The CPU backend is built as runtime-selected variants (`GGML_BACKEND_DL` with
-`GGML_CPU_ALL_VARIANTS`). `AudioNativeBootstrap` extracts them beside the other natives and
-calls `ggml_backend_load_all_from_path`, which loads the fastest variant the processor
-supports; whisper.cpp never loads a backend itself. Eight variants ship, from `x64`
-(any 64-bit CPU) up to AVX2 (`haswell`), AVX-VNNI (`alderlake`) and AVX-512 (`skylakex`,
-`icelake`, `zen4`). The first 1.9.5 build used a single baseline CPU library and ran
-transcription several times slower: 56 s against 8.6 s for three seconds of audio with the
-small.en model on a Ryzen 5 3600.
+The engine is not embedded in the exe. `Services/SpeechEngine.cs` downloads it with the
+first speech model from the `speech-engine-1.9.5` release of this repository: the three
+core DLLs plus ONE CPU backend, chosen from the processor's features (AVX2, AVX, SSE4.2 or
+baseline x64). Each file is pinned by SHA-256 and checked before it is installed under
+`%LOCALAPPDATA%\KillerNotes\speech.9.5`. The CPU backends are runtime-loaded modules
+(`GGML_BACKEND_DL`), so `AudioNativeBootstrap` calls `ggml_backend_load_all_from_path` on
+that folder; whisper.cpp never loads a backend itself. The first 1.9.5 build shipped only a
+baseline CPU library and ran transcription several times slower: 56 s against 8.5 s for
+three seconds of audio with the small.en model on a Ryzen 5 3600 (AVX2 build).
+
+These are the files the release serves, and the hashes the app pins:
 
 | DLL | SHA-256 |
 |---|---|
@@ -130,10 +133,6 @@ small.en model on a Ryzen 5 3600.
 | `ggml-cpu-sse42.dll` | `9d5dc858f4afd6fa9d9d03af2854766383c3679db7b476b39dd5dc18c9291fa6` |
 | `ggml-cpu-sandybridge.dll` | `c943c52adba6d3054913e5431f297651e99a7768b0cab0bf37362da691e23cbe` |
 | `ggml-cpu-haswell.dll` | `a270be86d5657ac4bc61865dd78a628a9820f5708d485a11b23c9f9dfdc3b5ba` |
-| `ggml-cpu-alderlake.dll` | `0040cbf83acc726fe46509b607d7c4681045b243fcc97abc47e2bd07ae41960c` |
-| `ggml-cpu-skylakex.dll` | `9ce609733872eaec8186a4fc2edb4c42d6fabdc43074f8627c086437ee80f430` |
-| `ggml-cpu-icelake.dll` | `d49871f8a9f844396b979ca4545826b7bd8f6adad8355500c5923f33f07083d7` |
-| `ggml-cpu-zen4.dll` | `1afe509f262059d46086fa9a9c9659b3a8a1a32cf8aa582445223b92271f46aa` |
 
 Rebuild on Linux with CMake 4.2.3, Ninja 1.13.1 and llvm-mingw 20260616 (ucrt, x86_64):
 
@@ -161,7 +160,7 @@ cmake -S . -B ../whisper-build -G Ninja \
   '-DCMAKE_SHARED_LINKER_FLAGS=-static-libgcc -static-libstdc++' \
   '-DCMAKE_MODULE_LINKER_FLAGS=-static-libgcc -static-libstdc++'
 cmake --build ../whisper-build -j12
-# Copy ggml-base, ggml, libwhisper and the eight ggml-cpu-*.dll variants listed above from
+# Copy ggml-base, ggml, libwhisper and the four ggml-cpu-*.dll variants listed above from
 # ../whisper-build/bin, then llvm-strip each copy. The CPU variants are MODULE libraries, so
 # they need the module linker flags too, or they import libc++.dll and fail to load (error 126).
 ```

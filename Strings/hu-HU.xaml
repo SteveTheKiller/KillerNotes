@@ -604,6 +604,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Whisper_Menu">Beszédmodell...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Ebben a buildben nincsenek beszédmodellek - az átírás a Windows saját motorját használja.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Letöltés indítása...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Beszédmotor: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Letöltés megszakítva.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Kész. Az átírás mostantól ezt fogja használni.</sys:String>
 

@@ -609,6 +609,7 @@
     <sys:String x:Key="Str_Whisper_Menu">Модель распознавания речи...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">В этой сборке нет моделей распознавания речи - расшифровка использует собственный движок Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Начинается загрузка...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Речевой движок: {0} / {1} МБ</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Загрузка отменена.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Готово. Расшифровка теперь будет использовать её.</sys:String>
 

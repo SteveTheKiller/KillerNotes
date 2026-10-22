@@ -394,8 +394,8 @@ namespace KillerNotes.Services
             catch { return false; }
         }
 
-        /// <summary>True when whisper is bundled but no model has been downloaded - the case where
-        /// the pad should offer the model chooser rather than transcribe with SAPI.</summary>
-        internal static bool CanOfferBetterRecognition() => WhisperSpeech.Available && !WhisperSpeech.Ready;
+        /// <summary>True until the speech engine and a model are downloaded - the case where the
+        /// pad offers the model chooser (which fetches both) rather than transcribing with SAPI.</summary>
+        internal static bool CanOfferBetterRecognition() => !WhisperSpeech.Ready;
     }
 }

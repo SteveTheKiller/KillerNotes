@@ -543,6 +543,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Govorni model...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Ta gradnja nima govornih modelov. Za prepis uporablja mehanizem sistema Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Začetek prenosa...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Govorni pogon: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Prenos je preklican.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Pripravljeno. Odslej bo prepis uporabljal ta model.</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">Uredi posnetek...</sys:String>

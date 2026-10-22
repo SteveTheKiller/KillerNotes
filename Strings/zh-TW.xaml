@@ -601,6 +601,7 @@
     <sys:String x:Key="Str_Whisper_Menu">語音模型...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">此版本沒有語音模型 - 轉錄將使用 Windows 自己的引擎。</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">開始下載...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">語音引擎：{0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">已取消下載。</sys:String>
     <sys:String x:Key="Str_Whisper_Done">就緒。之後的轉錄都會使用這個模型。</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">編輯錄音...</sys:String>

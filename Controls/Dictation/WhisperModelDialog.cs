@@ -298,7 +298,7 @@ namespace KillerNotes.Controls.Dictation
         private void UpdateGoButton()
         {
             var (_, file, _, _) = Array.Find(WhisperSpeech.Catalog, m => m.Id == _choice);
-            bool have = file != null && WhisperSpeech.IsInstalled(file);
+            bool have = file != null && WhisperSpeech.IsInstalled(file) && Services.SpeechEngine.IsInstalled;
             _goBtn.Content = have ? L("Str_Whisper_Use", "Use this one") : L("Str_Whisper_Download", "Download");
         }
 
@@ -331,7 +331,7 @@ namespace KillerNotes.Controls.Dictation
             if (file == null) return;
 
             // Already on disk from a previous session: just adopt it, no download.
-            if (WhisperSpeech.IsInstalled(file))
+            if (WhisperSpeech.IsInstalled(file) && Services.SpeechEngine.IsInstalled)
             {
                 App.SetSetting("WhisperModel", file);
                 Installed = true;
@@ -348,7 +348,22 @@ namespace KillerNotes.Controls.Dictation
 
             try
             {
-                await Task.Run(() => Download(file, mb, _cts.Token), _cts.Token);
+                var token = _cts.Token;
+                await Task.Run(() =>
+                {
+                    // The engine first, in the build for this processor (Services/SpeechEngine.cs):
+                    // a few MB, so the model's progress is the bar the user watches.
+                    if (!Services.SpeechEngine.IsInstalled)
+                    {
+                        string format = L("Str_Whisper_Engine", "Speech engine: {0} / {1} MB");
+                        Services.SpeechEngine.Download((done, total) => Dispatcher.Invoke(() =>
+                        {
+                            _bar.Value = total > 0 ? done * 100.0 / total : 0;
+                            _status.Text = string.Format(format, (done / 1048576.0).ToString("0.0"), (total / 1048576.0).ToString("0.0"));
+                        }), token);
+                    }
+                    if (!WhisperSpeech.IsInstalled(file)) Download(file, mb, token);
+                }, token);
                 App.SetSetting("WhisperModel", file);
                 Installed = true;
                 _status.Text = L("Str_Whisper_Done", "Ready. Transcription will use this from now on.");

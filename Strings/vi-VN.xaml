@@ -644,6 +644,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Whisper_Menu">Mô hình giọng nói...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Bản dựng này không có mô hình giọng nói - quá trình chuyển thành văn bản dùng bộ máy của Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Đang bắt đầu tải xuống...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Bộ máy giọng nói: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Đã hủy tải xuống.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Sẵn sàng. Từ giờ quá trình chuyển thành văn bản sẽ dùng mô hình này.</sys:String>
 

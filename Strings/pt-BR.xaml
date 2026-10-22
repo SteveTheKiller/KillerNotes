@@ -642,6 +642,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Modelo de fala...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Esta versão não tem modelos de fala - a transcrição usa o mecanismo do próprio Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Iniciando o download...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Mecanismo de voz: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Download cancelado.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Pronto. A transcrição usará este modelo a partir de agora.</sys:String>
 

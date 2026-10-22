@@ -642,6 +642,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Speech model...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">This build has no speech models - transcription uses Windows' own engine.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Starting download...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Speech engine: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Download canceled.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Ready. Transcription will use this from now on.</sys:String>
 

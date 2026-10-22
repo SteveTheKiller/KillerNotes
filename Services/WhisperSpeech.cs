@@ -24,18 +24,12 @@ namespace KillerNotes.Services
     {
         internal static string? LastError { get; private set; }
 
-        /// <summary>True when the natives are bundled AND a model has been downloaded.</summary>
+        /// <summary>True when the engine AND a model have been downloaded.</summary>
         internal static bool Ready => Available && InstalledModel() != null;
 
-        /// <summary>True when the natives are present, whether or not a model is installed.</summary>
-        internal static bool Available
-        {
-            get
-            {
-                AudioNativeBootstrap.EnsureLoaded();
-                return AudioNativeBootstrap.WhisperAvailable && NativeVersion == SupportedNativeVersion;
-            }
-        }
+        /// <summary>True when the downloaded engine is loaded, whether or not a model is installed.</summary>
+        internal static bool Available =>
+            AudioNativeBootstrap.EnsureWhisper() && NativeVersion == SupportedNativeVersion;
 
         internal const string SupportedNativeVersion = "1.9.5";
 

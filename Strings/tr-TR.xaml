@@ -601,6 +601,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Konuşma modeli...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Bu sürümde konuşma modeli yok - yazıya dökme Windows'un kendi motorunu kullanır.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">İndirme başlatılıyor...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Konuşma motoru: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">İndirme iptal edildi.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Hazır. Yazıya dökme bundan sonra bunu kullanacak.</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">Kaydı düzenle...</sys:String>

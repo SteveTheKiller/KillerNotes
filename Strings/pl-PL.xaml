@@ -524,6 +524,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Model mowy...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Ta kompilacja nie zawiera modeli mowy - przepisywanie korzysta z własnego silnika systemu Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Rozpoczynanie pobierania...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Silnik mowy: {0} / {1} MB</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Pobieranie anulowane.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Gotowe. Przepisywanie będzie od teraz korzystać z tego modelu.</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">Edytuj nagranie...</sys:String>

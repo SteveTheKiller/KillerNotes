@@ -154,43 +154,9 @@
     <EmbeddedResource Include="third_party\audio\libmp3lame.dll" Condition="Exists('third_party\audio\libmp3lame.dll')">
       <LogicalName>KillerNotes.AudioNative.libmp3lame.dll</LogicalName>
     </EmbeddedResource>
-    <!-- whisper.cpp (MIT) - offline speech recognition, vastly better than SAPI. Built shared with
-         the CPU backend as runtime-selected variants (ggml-cpu-*.dll), so each machine runs the
-         fastest instruction set it has (AudioNativeBootstrap loads the best one). The MODEL is
-         downloaded on demand, which is where the size actually is. -->
-    <EmbeddedResource Include="third_party\audio\ggml-base.dll" Condition="Exists('third_party\audio\ggml-base.dll')">
-      <LogicalName>KillerNotes.AudioNative.ggml-base.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="third_party\audio\ggml-cpu-x64.dll" Condition="Exists('third_party\audio\ggml-cpu-x64.dll')">
-      <LogicalName>KillerNotes.AudioNative.ggml-cpu-x64.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="third_party\audio\ggml-cpu-sse42.dll" Condition="Exists('third_party\audio\ggml-cpu-sse42.dll')">
-      <LogicalName>KillerNotes.AudioNative.ggml-cpu-sse42.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="third_party\audio\ggml-cpu-sandybridge.dll" Condition="Exists('third_party\audio\ggml-cpu-sandybridge.dll')">
-      <LogicalName>KillerNotes.AudioNative.ggml-cpu-sandybridge.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="third_party\audio\ggml-cpu-haswell.dll" Condition="Exists('third_party\audio\ggml-cpu-haswell.dll')">
-      <LogicalName>KillerNotes.AudioNative.ggml-cpu-haswell.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="third_party\audio\ggml-cpu-alderlake.dll" Condition="Exists('third_party\audio\ggml-cpu-alderlake.dll')">
-      <LogicalName>KillerNotes.AudioNative.ggml-cpu-alderlake.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="third_party\audio\ggml-cpu-skylakex.dll" Condition="Exists('third_party\audio\ggml-cpu-skylakex.dll')">
-      <LogicalName>KillerNotes.AudioNative.ggml-cpu-skylakex.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="third_party\audio\ggml-cpu-icelake.dll" Condition="Exists('third_party\audio\ggml-cpu-icelake.dll')">
-      <LogicalName>KillerNotes.AudioNative.ggml-cpu-icelake.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="third_party\audio\ggml-cpu-zen4.dll" Condition="Exists('third_party\audio\ggml-cpu-zen4.dll')">
-      <LogicalName>KillerNotes.AudioNative.ggml-cpu-zen4.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="third_party\audio\ggml.dll" Condition="Exists('third_party\audio\ggml.dll')">
-      <LogicalName>KillerNotes.AudioNative.ggml.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="third_party\audio\libwhisper.dll" Condition="Exists('third_party\audio\libwhisper.dll')">
-      <LogicalName>KillerNotes.AudioNative.libwhisper.dll</LogicalName>
-    </EmbeddedResource>
+    <!-- whisper.cpp (MIT) is NOT embedded: the app downloads the engine with the first speech
+         model, in the build for the processor (Services/SpeechEngine.cs). The DLLs in
+         third_party/audio are what that download serves; README.md there has the hashes. -->
   </ItemGroup>
 
   <!-- Every build input, including each complete theme dictionary, lives in this repository.

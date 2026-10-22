@@ -55,16 +55,17 @@ namespace KillerNotes.Tests
     {
         public WhisperNativeFixture()
         {
-            var assembly = typeof(WhisperSpeech).Assembly;
+            // The engine is downloaded by the app, not embedded; the tests use the repository's
+            // copies, which are the files the download serves (third_party/audio).
+            var repo = new DirectoryInfo(AppContext.BaseDirectory);
+            while (repo != null && !File.Exists(Path.Combine(repo.FullName, "KillerNotes.csproj"))) repo = repo.Parent;
+            string source = Path.Combine(repo?.FullName ?? throw new InvalidOperationException("Repository not found"), "third_party", "audio");
             string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "native-audio-tests");
             Directory.CreateDirectory(folder);
-            foreach (string name in new[] { "ggml-base.dll", "ggml.dll", "libwhisper.dll" })
+            foreach (var (name, sha, _) in SpeechEngine.Core)
             {
-                using var resource = assembly.GetManifestResourceStream("KillerNotes.AudioNative." + name)
-                    ?? throw new InvalidOperationException("Embedded native library missing: " + name);
-                using var data = new MemoryStream();
-                resource.CopyTo(data);
-                byte[] bytes = data.ToArray();
+                byte[] bytes = File.ReadAllBytes(Path.Combine(source, name));
+                Assert.True(SpeechEngine.HashMatches(Path.Combine(source, name), sha), name + " no longer matches its pinned hash");
                 string path = Path.Combine(folder, name);
                 if (!File.Exists(path) || !File.ReadAllBytes(path).SequenceEqual(bytes))
                     File.WriteAllBytes(path, bytes);

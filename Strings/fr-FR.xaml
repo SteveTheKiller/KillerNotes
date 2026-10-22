@@ -601,6 +601,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Modèle vocal...</sys:String>
     <sys:String x:Key="Str_Whisper_Unavailable">Cette version ne contient aucun modèle vocal - la transcription utilise le moteur de Windows.</sys:String>
     <sys:String x:Key="Str_Whisper_Starting">Démarrage du téléchargement...</sys:String>
+    <sys:String x:Key="Str_Whisper_Engine">Moteur vocal : {0} / {1} Mo</sys:String>
     <sys:String x:Key="Str_Whisper_Canceled">Téléchargement annulé.</sys:String>
     <sys:String x:Key="Str_Whisper_Done">Prêt. La transcription l'utilisera désormais.</sys:String>
     <sys:String x:Key="Str_Dict_EditRec">Modifier l'enregistrement...</sys:String>
