@@ -484,6 +484,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_KS_GrLabels">Vis notattitler</sys:String>
     <sys:String x:Key="Str_KS_GrSelect">Velg alle synlige / kopier som [[lenke]]</sys:String>
     <sys:String x:Key="Str_KS_GrOpen">Åpne notatet / vis alt igjen</sys:String>
+    <sys:String x:Key="Str_KS_GrMoveNotes">Flytt mellom notater</sys:String>
     <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
     <sys:String x:Key="Str_KS_SkTools">Verktøy: velg, penn, linje, pil, rektangel, ellipse, polygon, fyll, tekst, viskelær, beskjær, bilde</sys:String>
     <sys:String x:Key="Str_KS_SkUndo">Angre / gjør om</sys:String>
@@ -1012,15 +1013,15 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">Side til venstre</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">Side til høyre</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Lagring mislyktes: {0}. Endringene dine er fortsatt åpne. Trykk Ctrl+S for å prøve igjen, eller F8 for å eksportere som tekst eller RTF.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes installation conflict</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes is installed twice. Remove the other per-user copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes is installed twice. Remove the other all-users copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallConflict">Installasjonskonflikt for KillerNotes</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes er installert to ganger. Fjerne den andre kopien for denne brukeren nå?&#10;&#10;Notatene og innstillingene dine blir ikke fjernet.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes er installert to ganger. Fjerne den andre kopien for alle brukere nå?&#10;&#10;Notatene og innstillingene dine blir ikke fjernet.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installation failed:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Uninstall could not request administrator access:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installasjonen mislyktes:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Avinstalleringen kunne ikke be om administratortilgang:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallConfirm">Avinstallere KillerNotes?</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Notatene dine blir beholdt.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
     <sys:String x:Key="Str_Lock_Locked">Notatene er låst.</sys:String>
     <sys:String x:Key="Str_Lock_Now">Lås nå</sys:String>

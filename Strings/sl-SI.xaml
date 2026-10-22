@@ -405,6 +405,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_KS_GrLabels">Prikaži naslove zapiskov</sys:String>
     <sys:String x:Key="Str_KS_GrSelect">Izberi vse vidne / kopiraj kot [[link]]</sys:String>
     <sys:String x:Key="Str_KS_GrOpen">Odpri zapisek / znova prikaži vse</sys:String>
+    <sys:String x:Key="Str_KS_GrMoveNotes">Premik med zapiski</sys:String>
     <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
     <sys:String x:Key="Str_KS_SkTools">Orodja: izbira, pero, črta, puščica, pravokotnik, elipsa, mnogokotnik, polnilo, besedilo, radirka, obrezovanje, slika</sys:String>
     <sys:String x:Key="Str_KS_SkUndo">Razveljavi / uveljavi</sys:String>

@@ -46,7 +46,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - KillerNotes appears under Open with for .md and .txt files without becoming their default app. Opening one, or picking it with Ctrl+O, imports it with the folder import's rules, and opening the same unchanged file again opens the note it became.
 - A notepad with no notes offers three ways to begin: start writing, open the sample notebook (its own notepad, Sample notes, never mixed into yours), or import a folder of notes.
 - The footer shows whether the open note is saved and, with a padlock, whether the notepad has a password; the padlock stays open until the latest changes are in the encrypted file, and a short rule separates it from the version. Lock now, the first backup, an export, an import and a quick note each explain themselves once in the status line; About turns these tips off.
-- F1 opens the shortcut list on a search box: type to find an action by name or keys, and Enter runs it.
+- F1 opens the shortcut list on a search box: type to find an action by name or keys, and Enter runs it. The list includes Win+Alt+N for Quick note and the link graph's keys for moving between notes.
 - The link graph and recordings work from the keyboard. In the graph, Tab and Shift+Tab move between notes and announce each one, Home and End jump to either end, the Apps key opens a note's menu and Enter opens it. With the caret beside a recording, Alt+Shift+P plays or pauses it and Alt+Shift+Up and Down change its volume, also on the note's context menu.
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.
 

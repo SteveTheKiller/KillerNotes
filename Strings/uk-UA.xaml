@@ -486,6 +486,7 @@
     <sys:String x:Key="Str_KS_GrLabels">Показати заголовки нотаток</sys:String>
     <sys:String x:Key="Str_KS_GrSelect">Вибрати всі видимі / копіювати як [[посилання]]</sys:String>
     <sys:String x:Key="Str_KS_GrOpen">Відкрити нотатку / знову показати все</sys:String>
+    <sys:String x:Key="Str_KS_GrMoveNotes">Перехід між нотатками</sys:String>
     <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
     <sys:String x:Key="Str_KS_SkTools">Інструменти: вибір, перо, лінія, стрілка, прямокутник, еліпс, багатокутник, заливка, текст, гумка, обрізання, зображення</sys:String>
     <sys:String x:Key="Str_KS_SkUndo">Скасувати / повторити</sys:String>
@@ -1014,15 +1015,15 @@
     <sys:String x:Key="Str_Scroll_PageLeft">На сторінку ліворуч</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">На сторінку праворуч</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Не вдалося зберегти: {0}. Ваші зміни досі відкриті. Натисніть Ctrl+S, щоб повторити спробу, або F8 для експорту в текстовий формат чи RTF.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes installation conflict</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes is installed twice. Remove the other per-user copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes is installed twice. Remove the other all-users copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallConflict">Конфлікт інсталяцій KillerNotes</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes інстальовано двічі. Видалити зараз іншу копію для цього користувача?&#10;&#10;Ваші нотатки й налаштування не буде видалено.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes інстальовано двічі. Видалити зараз іншу копію для всіх користувачів?&#10;&#10;Ваші нотатки й налаштування не буде видалено.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installation failed:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Uninstall could not request administrator access:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Не вдалося інсталювати:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Видалення не змогло запросити права адміністратора:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallConfirm">Видалити KillerNotes?</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Ваші нотатки буде збережено.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
     <sys:String x:Key="Str_Lock_Locked">Нотатки заблоковано.</sys:String>
     <sys:String x:Key="Str_Lock_Now">Заблокувати зараз</sys:String>

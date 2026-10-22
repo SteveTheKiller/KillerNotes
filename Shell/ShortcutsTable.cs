@@ -145,6 +145,8 @@ namespace KillerNotes.Shell
             new("", "", "Edit", [(KbLayer.Base, "Menu", "Str_Kb_CtxMenu")]),
 
             .. ActionShortcutRows(),
+            // Global: works from any app, so it is list-only (no Win key on the drawn keyboard).
+            new("Win+Alt+N", "Str_Quick_Title", "File", []),
 
             // ---- OTHER WINDOWS ----
             //
@@ -170,6 +172,7 @@ namespace KillerNotes.Shell
             new("L", "Str_KS_GrLabels", "View", []),
             new("Ctrl+A / Ctrl+C", "Str_KS_GrSelect", "View", []),
             new("Enter / Esc", "Str_KS_GrOpen", "View", []),
+            new("Tab / Shift+Tab / Home / End", "Str_KS_GrMoveNotes", "View", []),
 
             new("", "Str_KS_SecSketch", "View", []),
             new("V P L A R O G B T E C I", "Str_KS_SkTools", "View", []),

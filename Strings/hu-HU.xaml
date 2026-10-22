@@ -448,6 +448,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_KS_GrLabels">Jegyzetcímek megjelenítése</sys:String>
     <sys:String x:Key="Str_KS_GrSelect">Minden látható kijelölése / másolás [[hivatkozás]] formában</sys:String>
     <sys:String x:Key="Str_KS_GrOpen">Jegyzet megnyitása / minden megjelenítése újra</sys:String>
+    <sys:String x:Key="Str_KS_GrMoveNotes">Lépés a jegyzetek között</sys:String>
     <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
     <sys:String x:Key="Str_KS_SkTools">Eszközök: kijelölés, ceruza, vonal, nyíl, téglalap, ellipszis, sokszög, kitöltés, szöveg, radír, levágás, kép</sys:String>
     <sys:String x:Key="Str_KS_SkUndo">Visszavonás / újra</sys:String>
@@ -993,15 +994,15 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Scroll_PageLeft">Egy oldallal balra</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">Egy oldallal jobbra</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Sikertelen mentés: {0}. A módosításai továbbra is nyitva vannak. Az újrapróbálkozáshoz nyomja meg a Ctrl+S, a szöveges vagy RTF formátumú exportáláshoz az F8 billentyűt.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes installation conflict</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes is installed twice. Remove the other per-user copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes is installed twice. Remove the other all-users copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes telepítési ütközés</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">A KillerNotes kétszer van telepítve. Eltávolítja most a másik, csak ehhez a felhasználóhoz tartozó példányt?&#10;&#10;A jegyzetei és beállításai megmaradnak.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">A KillerNotes kétszer van telepítve. Eltávolítja most a másik, minden felhasználóhoz tartozó példányt?&#10;&#10;A jegyzetei és beállításai megmaradnak.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installation failed:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Uninstall could not request administrator access:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">A telepítés nem sikerült:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Az eltávolítás nem tudott rendszergazdai hozzáférést kérni:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallConfirm">Eltávolítja a KillerNotes alkalmazást?</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">A jegyzetei megmaradnak.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
     <sys:String x:Key="Str_Lock_Locked">A jegyzetek zárolva vannak.</sys:String>
     <sys:String x:Key="Str_Lock_Now">Zárolás most</sys:String>

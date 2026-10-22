@@ -487,6 +487,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_KS_GrLabels">Hiện tiêu đề ghi chú</sys:String>
     <sys:String x:Key="Str_KS_GrSelect">Chọn tất cả nội dung hiển thị / sao chép dưới dạng [[liên kết]]</sys:String>
     <sys:String x:Key="Str_KS_GrOpen">Mở ghi chú / hiện lại mọi thứ</sys:String>
+    <sys:String x:Key="Str_KS_GrMoveNotes">Di chuyển giữa các ghi chú</sys:String>
     <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
     <sys:String x:Key="Str_KS_SkTools">Công cụ: chọn, bút, đường thẳng, mũi tên, hình chữ nhật, hình elip, đa giác, tô màu, văn bản, tẩy, cắt, hình ảnh</sys:String>
     <sys:String x:Key="Str_KS_SkUndo">Hoàn tác / làm lại</sys:String>
@@ -1018,15 +1019,15 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Scroll_PageLeft">Sang trái một trang</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">Sang phải một trang</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Lưu thất bại: {0}. Nội dung chỉnh sửa của bạn vẫn đang mở. Nhấn Ctrl+S để thử lại hoặc F8 để xuất dưới dạng văn bản hoặc RTF.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes installation conflict</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes is installed twice. Remove the other per-user copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes is installed twice. Remove the other all-users copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallConflict">Xung đột cài đặt KillerNotes</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes đang được cài hai lần. Gỡ bản sao còn lại cho người dùng này ngay bây giờ?&#10;&#10;Ghi chú và cài đặt của bạn sẽ không bị xóa.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes đang được cài hai lần. Gỡ bản sao còn lại cho mọi người dùng ngay bây giờ?&#10;&#10;Ghi chú và cài đặt của bạn sẽ không bị xóa.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installation failed:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Uninstall could not request administrator access:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Cài đặt thất bại:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Trình gỡ cài đặt không thể yêu cầu quyền quản trị:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallConfirm">Gỡ cài đặt KillerNotes?</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Ghi chú của bạn sẽ được giữ lại.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
     <sys:String x:Key="Str_Lock_Locked">Ghi chú của bạn đã bị khóa.</sys:String>
     <sys:String x:Key="Str_Lock_Now">Khóa ngay</sys:String>

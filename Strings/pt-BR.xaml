@@ -486,6 +486,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_KS_GrLabels">Mostrar os títulos das notas</sys:String>
     <sys:String x:Key="Str_KS_GrSelect">Selecionar todas as visíveis / copiar como [[link]]</sys:String>
     <sys:String x:Key="Str_KS_GrOpen">Abrir a nota / mostrar tudo novamente</sys:String>
+    <sys:String x:Key="Str_KS_GrMoveNotes">Mover entre notas</sys:String>
     <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
     <sys:String x:Key="Str_KS_SkTools">Ferramentas: selecionar, caneta, linha, seta, retângulo, elipse, polígono, preencher, texto, borracha, cortar, imagem</sys:String>
     <sys:String x:Key="Str_KS_SkUndo">Desfazer / refazer</sys:String>
@@ -1014,15 +1015,15 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">Uma página à esquerda</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">Uma página à direita</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Falha ao salvar: {0}. Suas alterações continuam abertas. Pressione Ctrl+S para tentar novamente ou F8 para exportar como texto ou RTF.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes installation conflict</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes is installed twice. Remove the other per-user copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes is installed twice. Remove the other all-users copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallConflict">Conflito de instalação do KillerNotes</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">O KillerNotes está instalado duas vezes. Remover agora a outra cópia deste usuário?&#10;&#10;Suas notas e configurações não serão removidas.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">O KillerNotes está instalado duas vezes. Remover agora a outra cópia para todos os usuários?&#10;&#10;Suas notas e configurações não serão removidas.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installation failed:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Uninstall could not request administrator access:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">A instalação falhou:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">A desinstalação não conseguiu pedir acesso de administrador:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallConfirm">Desinstalar o KillerNotes?</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Suas notas serão mantidas.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
     <sys:String x:Key="Str_Lock_Locked">Suas notas estão bloqueadas.</sys:String>
     <sys:String x:Key="Str_Lock_Now">Bloquear agora</sys:String>

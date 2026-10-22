@@ -266,6 +266,7 @@
     <sys:String x:Key="Str_KS_GrLabels">顯示筆記標題</sys:String>
     <sys:String x:Key="Str_KS_GrSelect">選取所有可見項目 / 複製為 [[連結]]</sys:String>
     <sys:String x:Key="Str_KS_GrOpen">開啟筆記 / 重新顯示全部</sys:String>
+    <sys:String x:Key="Str_KS_GrMoveNotes">在筆記之間移動</sys:String>
     <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
     <sys:String x:Key="Str_KS_SkTools">工具: 選取、畫筆、直線、箭頭、矩形、橢圓、多邊形、填滿、文字、橡皮擦、裁剪、圖片</sys:String>
     <sys:String x:Key="Str_KS_SkUndo">復原 / 重做</sys:String>
@@ -967,15 +968,15 @@
     <sys:String x:Key="Str_Scroll_PageLeft">向左翻頁</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">向右翻頁</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">儲存失敗：{0}。您的編輯內容仍保持開啟狀態。按 Ctrl+S 重試，或按 F8 匯出為文字或 RTF。</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes installation conflict</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes is installed twice. Remove the other per-user copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes is installed twice. Remove the other all-users copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes 安裝衝突</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes 安裝了兩份。現在移除目前使用者的另一份副本嗎？&#10;&#10;你的筆記和設定不會被移除。</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes 安裝了兩份。現在移除所有使用者的另一份副本嗎？&#10;&#10;你的筆記和設定不會被移除。</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installation failed:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Uninstall could not request administrator access:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">安裝失敗：&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">解除安裝無法要求系統管理員權限：&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallConfirm">要解除安裝 KillerNotes 嗎？</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">你的筆記會保留。</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
     <sys:String x:Key="Str_Lock_Locked">你的筆記已鎖定。</sys:String>
     <sys:String x:Key="Str_Lock_Now">立即鎖定</sys:String>

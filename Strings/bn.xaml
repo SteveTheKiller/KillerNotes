@@ -266,6 +266,7 @@
     <sys:String x:Key="Str_KS_GrLabels">নোটের শিরোনাম দেখান</sys:String>
     <sys:String x:Key="Str_KS_GrSelect">দৃশ্যমান সব নির্বাচন করুন / [[লিঙ্ক]] হিসেবে কপি করুন</sys:String>
     <sys:String x:Key="Str_KS_GrOpen">নোট খুলুন / আবার সব দেখান</sys:String>
+    <sys:String x:Key="Str_KS_GrMoveNotes">নোটের মধ্যে যান</sys:String>
     <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
     <sys:String x:Key="Str_KS_SkTools">টুল: নির্বাচন, পেন, রেখা, তীর, আয়তক্ষেত্র, উপবৃত্ত, বহুভুজ, ভরাট, টেক্সট, ইরেজার, ক্রপ, ছবি</sys:String>
     <sys:String x:Key="Str_KS_SkUndo">আনডু / রিডু</sys:String>
@@ -967,15 +968,15 @@
     <sys:String x:Key="Str_Scroll_PageLeft">এক পৃষ্ঠা বাঁয়ে</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">এক পৃষ্ঠা ডানে</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">সংরক্ষণ ব্যর্থ: {0}। আপনার সম্পাদনাগুলো এখনও খোলা আছে। আবার চেষ্টা করতে Ctrl+S চাপুন, অথবা টেক্সট বা RTF হিসেবে রপ্তানি করতে F8 চাপুন।</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes installation conflict</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes is installed twice. Remove the other per-user copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes is installed twice. Remove the other all-users copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes ইনস্টলেশনে দ্বন্দ্ব</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes দুবার ইনস্টল করা আছে। অন্য শুধু-এই-ব্যবহারকারীর কপিটি এখন সরাবেন?&#10;&#10;আপনার নোট ও সেটিংস সরানো হবে না।</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes দুবার ইনস্টল করা আছে। অন্য সব-ব্যবহারকারীর কপিটি এখন সরাবেন?&#10;&#10;আপনার নোট ও সেটিংস সরানো হবে না।</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installation failed:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Uninstall could not request administrator access:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">ইনস্টলেশন ব্যর্থ হয়েছে:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">আনইনস্টল প্রশাসকের অনুমতি চাইতে পারেনি:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallConfirm">KillerNotes আনইনস্টল করবেন?</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">আপনার নোট রাখা হবে।</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
     <sys:String x:Key="Str_Lock_Locked">আপনার নোট লক করা আছে।</sys:String>
     <sys:String x:Key="Str_Lock_Now">এখনই লক করুন</sys:String>

@@ -342,6 +342,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_KS_GrLabels">Zobrazit názvy poznámek</sys:String>
     <sys:String x:Key="Str_KS_GrSelect">Vybrat vše viditelné / kopírovat jako [[odkaz]]</sys:String>
     <sys:String x:Key="Str_KS_GrOpen">Otevřít poznámku / zobrazit zase vše</sys:String>
+    <sys:String x:Key="Str_KS_GrMoveNotes">Přechod mezi poznámkami</sys:String>
     <sys:String x:Key="Str_KS_SecSketch">SketchPad</sys:String>
     <sys:String x:Key="Str_KS_SkTools">Nástroje: výběr, tužka, čára, šipka, obdélník, elipsa, mnohoúhelník, výplň, text, guma, oříznutí, obrázek</sys:String>
     <sys:String x:Key="Str_KS_SkUndo">Zpět / znovu</sys:String>
@@ -964,15 +965,15 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Scroll_PageLeft">O stránku doleva</sys:String>
     <sys:String x:Key="Str_Scroll_PageRight">O stránku doprava</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Uložení se nezdařilo: {0}. Vaše úpravy jsou stále otevřené. Stiskněte Ctrl+S a zkuste to znovu, nebo F8 pro export do textu či RTF.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes installation conflict</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes is installed twice. Remove the other per-user copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes is installed twice. Remove the other all-users copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallConflict">Konflikt instalací KillerNotes</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes je nainstalován dvakrát. Odebrat nyní druhou kopii pro tohoto uživatele?&#10;&#10;Vaše poznámky a nastavení zůstanou.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes je nainstalován dvakrát. Odebrat nyní druhou kopii pro všechny uživatele?&#10;&#10;Vaše poznámky a nastavení zůstanou.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
-    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installation failed:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Uninstall could not request administrator access:&#10;{0}</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallConfirm">Uninstall KillerNotes?</sys:String>
-    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Your notes will be kept.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Instalace se nezdařila:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Odinstalace nemohla požádat o oprávnění správce:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallConfirm">Odinstalovat KillerNotes?</sys:String>
+    <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Vaše poznámky zůstanou zachovány.</sys:String>
     <sys:String x:Key="Str_Btn_Uninstall">Uninstall</sys:String>
     <sys:String x:Key="Str_Lock_Locked">Poznámky jsou zamčené.</sys:String>
     <sys:String x:Key="Str_Lock_Now">Zamknout teď</sys:String>
