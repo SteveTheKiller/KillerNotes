@@ -31,6 +31,7 @@ Shell/DatabaseLoading.cs	3
 Shell/DemoMode.cs	2
 Shell/Editor.Format.cs	3
 Shell/Editor.View.cs	2
+Shell/EditorFade.cs	4
 Shell/FindBar.cs	3
 Shell/Groups.Color.cs	1
 Shell/Groups.DragDrop.cs	1

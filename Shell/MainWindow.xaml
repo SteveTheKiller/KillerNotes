@@ -2004,8 +2004,8 @@
                     </Grid.ColumnDefinitions>
                     <!-- Line-number gutter (LineNumbers.cs): a Canvas whose numbers are positioned to
                          each paragraph; GutterCol stays 0-wide until the gutter is toggled on. -->
-                    <Canvas x:Name="LineGutter" Grid.Column="0" ClipToBounds="True" Margin="2,0,0,8"/>
-                    <RichTextBox x:Name="Editor" Grid.Column="1" Padding="8,4,8,8"
+                    <Canvas x:Name="LineGutter" Grid.Column="0" ClipToBounds="True" Margin="2,0,0,0"/>
+                    <RichTextBox x:Name="Editor" Grid.Column="1" Padding="8,0,8,0"
                                  AutomationProperties.Name="{DynamicResource Str_Sec_Notes}"
                                  FontFamily="{DynamicResource ContentFont}"
                                  Background="Transparent" BorderThickness="0"

@@ -67,6 +67,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The title bar and About wordmarks keep their soft shadow under the new bevel. Ectoplasm's menus hover in its yellow with dark text, and its menu separators are dimmer.
 - Manage databases lists each database on two lines, its name and then its size, date, encryption, active and backup details trimmed to fit, instead of one line running off the edge. The retention help and the data folder path moved into tooltips. The dictation waveform is grained to its border.
 - Hovered menu and list items show their text in the theme accent, lightened or darkened only as far as needed to stay readable on the hover fill.
+- Note text runs the full height of the pane and fades out at the top and bottom while there is more to scroll that way, like the note list; the keyboard focus outline sits just outside the text.
 - The caption buttons are 1px shorter than the title bar, so the red Close hover no longer touches the edge below it.
 - Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
 

@@ -21,10 +21,11 @@ namespace KillerNotes.Shell
     {
         private void InitEditor()
         {
-            // The ring sits in the editor's 4px top padding (MainWindow.xaml), above the first
-            // row: with no top padding it ran through the first line's text and selection.
+            // The ring sits just outside the text area, in the gap under the title rule and on
+            // the pane's bottom edge, so the text can run the full height of the pane (scrolling
+            // under EditorFade.cs's fades) without the ring crossing the first or last line.
             var focusRing = new FrameworkElementFactory(typeof(KillerFamily.Accessibility.FocusRing));
-            focusRing.SetValue(FrameworkElement.MarginProperty, new Thickness(2, -2, 2, 2));
+            focusRing.SetValue(FrameworkElement.MarginProperty, new Thickness(2, -4, 2, -2));
             focusRing.SetValue(KillerFamily.Accessibility.FocusRing.InsetProperty, 2.0);
             var focusStyle = new Style(typeof(Control));
             focusStyle.Setters.Add(new Setter(Control.TemplateProperty,
@@ -36,6 +37,7 @@ namespace KillerNotes.Shell
             MarkdownEditing.Attach(Editor, () => CurrentIsMarkdown);
             InitLinks();         // Links.cs (clickable + pasted + Ctrl+K hyperlinks)
             InitTiltWheel();     // TiltWheel.cs (WM_MOUSEHWHEEL + Shift+wheel, issue #9)
+            InitEditorFade();    // EditorFade.cs (top and bottom fades while there is more to scroll)
             InitTableSizePicker();
             InitTableEditing();  // Editor.TableEdit.cs (table paste, delete, Table menu)
             InitRuleGuard();     // Editor.Rules.cs (the caret never rests inside a horizontal rule, #28)
