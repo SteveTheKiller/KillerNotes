@@ -880,6 +880,14 @@ namespace KillerNotes.Services
             if (!newDict.Contains("TextSelectionBrush") && newDict.Contains("PrimaryBrush"))
                 newDict["TextSelectionBrush"] = newDict["PrimaryBrush"];
             SetIfAbsent(newDict, "ComboHighlightTextBrush", newDict["PrimaryBrush"]);
+            // A hovered menu or list item takes the accent for its text, nudged lighter or darker
+            // only as far as it takes to read at 4.5:1 on that theme's hover fill. 98SE keeps its
+            // Win98 highlight text.
+            newDict["MenuHoverTextBrush"] =
+                !newDict.Contains("UseDialogCaption") && newDict["PrimaryBrush"] is SolidColorBrush hoverAccent
+                    && newDict["MenuHoverBrush"] is SolidColorBrush hoverFill
+                ? Frozen(ColorContrast.ReadableOn(hoverAccent.Color, hoverFill.Color, 4.5))
+                : newDict["ComboHighlightTextBrush"];
             SetIfAbsent(newDict, "CaptionPressedTextBrush", newDict["SelectionFg"]);
             DatabaseRowPalette.Complete(newDict);
 

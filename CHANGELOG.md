@@ -18,6 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Install, update and uninstall keep databases and other files inside the installation folder. A failed update keeps complete copies of the program and a recovery report, install handoffs wait for the previous app to exit, and silent installs and updates return retryable code 1618 while KillerNotes is running.
 - Backups: each notepad keeps its own last-backup time and retention, even when two share a name, ambiguous older backups are kept, and long database names work. Before, switching notepads made the other one look never backed up, so it backed up again at once.
 - A failed export leaves the file already at that name untouched instead of a partial copy. HTML export and rich copy encode link addresses safely and keep only web and email links live; other links keep their text.
+- Delete and Backspace remove a selected image, inline or floated, instead of the character beside it.
 - Renaming or deleting a tag updates every note or none of them when a write fails.
 - Replace and Replace All preserve formatting, embedded content and regex captures across paragraph breaks, support one-step undo, and reload the open note even when it leaves the search results. (#14)
 - Formatting shortcuts, inserts and dictation no longer change notes in the Trash or in a database open read-only, and say why.
@@ -65,6 +66,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Sepulchre's accent buttons are brown with light text, and its teal buttons have a teal edge instead of a brown one.
 - The title bar and About wordmarks keep their soft shadow under the new bevel. Ectoplasm's menus hover in its yellow with dark text, and its menu separators are dimmer.
 - Manage databases lists each database on two lines, its name and then its size, date, encryption, active and backup details trimmed to fit, instead of one line running off the edge. The retention help and the data folder path moved into tooltips. The dictation waveform is grained to its border.
+- Hovered menu and list items show their text in the theme accent, lightened or darkened only as far as needed to stay readable on the hover fill.
 - The caption buttons are 1px shorter than the title bar, so the red Close hover no longer touches the edge below it.
 - Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
 

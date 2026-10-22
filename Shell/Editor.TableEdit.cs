@@ -22,6 +22,7 @@ namespace KillerNotes.Shell
             Editor.PreviewMouseRightButtonDown += (_, e) =>
                 _tblPressCell = CellAt(Editor.GetPositionFromPoint(e.GetPosition(Editor), true));
             Editor.PreviewKeyDown += Editor_TableDeleteKey;
+            Editor.PreviewKeyDown += Editor_ImageDeleteKey;   // ImageResize.cs
         }
 
         // ---- Building ----

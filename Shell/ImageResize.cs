@@ -60,6 +60,45 @@ namespace KillerNotes.Shell
             else if (_selImage != null) DeselectImage();
         }
 
+        /// <summary>
+        /// Delete or Backspace removes the selected image. Selecting one collapses the text
+        /// selection to a caret (above), so the native keys deleted the character beside the
+        /// caret instead and the image stayed. Inline, block and floated images all go, with one
+        /// undo step.
+        /// </summary>
+        private void Editor_ImageDeleteKey(object sender, KeyEventArgs e)
+        {
+            if (_selImage is not Image img || (e.Key != Key.Delete && e.Key != Key.Back)
+                || Keyboard.Modifiers != ModifierKeys.None || Editor.IsReadOnly || _currentId < 0) return;
+
+            DependencyObject? holder = img;
+            while (holder != null && holder is not InlineUIContainer && holder is not BlockUIContainer)
+                holder = LogicalTreeHelper.GetParent(holder);
+            if (holder == null) return;
+
+            Editor.BeginChange();
+            try
+            {
+                DeselectImage();
+                switch (holder)
+                {
+                    case InlineUIContainer inline:
+                        inline.SiblingInlines.Remove(inline);
+                        break;
+                    case BlockUIContainer { Parent: Floater floater }:
+                        floater.SiblingInlines.Remove(floater);
+                        break;
+                    case BlockUIContainer block:
+                        block.SiblingBlocks.Remove(block);
+                        break;
+                }
+                EnsureEditableTail();
+            }
+            finally { Editor.EndChange(); }
+            MarkDirty();
+            e.Handled = true;
+        }
+
         private void SelectImage(Image img)
         {
             DeselectImage();
