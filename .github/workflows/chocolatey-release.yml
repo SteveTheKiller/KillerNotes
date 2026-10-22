@@ -11,6 +11,9 @@ on:
 
 jobs:
   push:
+    # Only app releases (v1.2.3). Asset-only releases such as speech-engine-1.9.5 have no
+    # KillerNotes.exe to package.
+    if: github.event_name != 'release' || startsWith(github.event.release.tag_name, 'v')
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
