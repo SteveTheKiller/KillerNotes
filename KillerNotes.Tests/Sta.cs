@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace KillerNotes.Tests
 {
@@ -20,17 +21,46 @@ namespace KillerNotes.Tests
     /// </summary>
     internal static class Sta
     {
+        private static readonly Lazy<Dispatcher> SharedDispatcher = new(() =>
+        {
+            Dispatcher? dispatcher = null;
+            using var ready = new ManualResetEventSlim();
+            var thread = new Thread(() =>
+            {
+                dispatcher = Dispatcher.CurrentDispatcher;
+                ready.Set();
+                Dispatcher.Run();
+            }) { IsBackground = true, Name = "WPF tests" };
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            ready.Wait();
+            return dispatcher!;
+        });
+
         public static void Run(Action body)
         {
             Exception? failure = null;
-            var t = new Thread(() =>
+            var thread = new Thread(() =>
             {
                 try { body(); }
                 catch (Exception ex) { failure = ex; }
             });
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
-            t.Join();
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            thread.Join();
+            if (failure != null)
+                System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(failure).Throw();
+        }
+
+        // Application outlives a test, so its dispatcher must remain available afterward.
+        public static void RunApplication(Action body)
+        {
+            Exception? failure = null;
+            SharedDispatcher.Value.Invoke(() =>
+            {
+                try { body(); }
+                catch (Exception ex) { failure = ex; }
+            });
             if (failure != null)
                 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(failure).Throw();
         }
