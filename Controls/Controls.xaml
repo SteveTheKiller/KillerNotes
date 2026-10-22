@@ -152,6 +152,12 @@
                         <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}">
                             <Grid>
                                 <Border x:Name="tint" CornerRadius="{DynamicResource ControlCornerRadius}" Background="Transparent"/>
+                                <!-- A soft bevel on the themes without a classic one: a light top edge and a
+                                     dark bottom edge, swapped while pressed so the button sinks. -->
+                                <Border x:Name="softTop" IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
+                                        BorderThickness="0,1,0,0" BorderBrush="#66FFFFFF" Visibility="{DynamicResource SoftBevelVisibility}"/>
+                                <Border x:Name="softBottom" IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
+                                        BorderThickness="0,0,0,1" BorderBrush="#4D000000" Visibility="{DynamicResource SoftBevelVisibility}"/>
                                 <Border x:Name="bevelLight" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
                                 <Border x:Name="bevelDark" IsHitTestVisible="False" BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
                                 <ContentPresenter Margin="{TemplateBinding Padding}"
@@ -167,6 +173,8 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="tint" Property="Background" Value="#38000000"/>
+                            <Setter TargetName="softTop" Property="BorderBrush" Value="#4D000000"/>
+                            <Setter TargetName="softBottom" Property="BorderBrush" Value="#66FFFFFF"/>
                             <Setter TargetName="bevelLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
                             <Setter TargetName="bevelDark" Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
                             <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>

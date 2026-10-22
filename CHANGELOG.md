@@ -42,7 +42,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Search filters: tag:, group: (with subgroups), title:, after:, before:, created: and in:trash, plus "quoted phrases". The filter button beside the search box (Alt+Shift+F) inserts them and saves or recalls searches, which are kept in the notepad. The status line and the match count's tooltip say what was searched.
 - KillerNotes appears under Open with for .md and .txt files without becoming their default app. Opening one, or picking it with Ctrl+O, imports it with the folder import's rules, and opening the same unchanged file again opens the note it became.
 - A notepad with no notes offers three ways to begin: start writing, open the sample notebook (its own notepad, Sample notes, never mixed into yours), or import a folder of notes.
-- The footer shows whether the open note is saved and, with a padlock, whether the notepad has a password; the padlock stays open until the latest changes are in the encrypted file. Lock now, the first backup, an export, an import and a quick note each explain themselves once in the status line; About turns these tips off.
+- The footer shows whether the open note is saved and, with a padlock, whether the notepad has a password; the padlock stays open until the latest changes are in the encrypted file, and a short rule separates it from the version. Lock now, the first backup, an export, an import and a quick note each explain themselves once in the status line; About turns these tips off.
 - F1 opens the shortcut list on a search box: type to find an action by name or keys, and Enter runs it.
 - The link graph and recordings work from the keyboard. In the graph, Tab and Shift+Tab move between notes and announce each one, Home and End jump to either end, the Apps key opens a note's menu and Enter opens it. With the caret beside a recording, Alt+Shift+P plays or pauses it and Alt+Shift+Up and Down change its volume, also on the note's context menu.
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts.
@@ -58,6 +58,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Light is shades of gray with nothing white: the background, sidebar and footer are the darkest gray, menus, bars and side panes a step lighter, then the note pane, then fields.
 - Menus, the format bar, the links strip and the preview and outline panes sit darker than the panes and the background in Dark, Decay, Ectoplasm, Malaise and Mourning, where they had blended into one or the other.
 - Clicking a heading in the outline scrolls the preview to it, side by side or preview only, instead of switching back to the markdown source. The outline and preview panes run square up to the title rule, and only the outermost pane rounds the card corner.
+- Greed and Cyanotic use their cream accent for accent buttons and highlights instead of white, and the accent button (+ New) has a soft bevel that sinks when pressed. Theme menu hover rows reach the right edge with the same inset as the left.
 - The caption buttons are 1px shorter than the title bar, so the red Close hover no longer touches the edge below it.
 - Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
 

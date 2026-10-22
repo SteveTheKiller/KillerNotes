@@ -64,12 +64,15 @@ namespace KillerNotes.Shell
             ThemeMenu.Items.Clear();
             _themeRadios.Clear();
             _accentStripDots.Clear();
-            var picker = new Grid { Margin = new Thickness(12,10,3,2) };
+            // Hover rows sit 4px in from both menu edges: 12 left less the row's -8, and 2 right
+            // plus the row's own 2. The theme column fills the menu (*), so when the Fonts row
+            // makes the menu wider the hover still reaches across instead of stopping short.
+            var picker = new Grid { Margin = new Thickness(12,10,2,2) };
             picker.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             picker.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            picker.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             picker.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            picker.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            var panel = new StackPanel { Width = 120 };
+            var panel = new StackPanel { MinWidth = 120 };
             Grid.SetColumn(panel, 0);
             picker.Children.Add(panel);
             foreach (Theme theme in PickerThemes)
@@ -157,7 +160,7 @@ namespace KillerNotes.Shell
                 // Same inset as a ThemeRadio row (picker margin 12, row margin -8, padding 10), so
                 // the glyph and label line up with the rings and names above, plus room under it.
                 Padding = new Thickness(10, 5, 10, 5),
-                Margin = new Thickness(4, 0, 2, 6),
+                Margin = new Thickness(4, 0, 4, 6),
             };
             row.Children.Add(new TextBlock { Text = "Alt+X", Margin = new Thickness(16, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center });
             Controls.DialogShortcuts.Describe(fonts, "Alt+X");

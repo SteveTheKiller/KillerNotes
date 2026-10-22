@@ -296,6 +296,8 @@ namespace KillerNotes.Services
             // plain bold. Swapping the wordmark out for that on a flat theme is both more authentic
             // and removes the whole problem of fitting a two-size logotype into an 18px bar.
             bool flatCaption = newDict.Contains("UseDialogCaption");
+            // The accent button's soft bevel (Controls.xaml PrimaryButton) gives way to a classic one.
+            newDict["SoftBevelVisibility"] = flatCaption ? Visibility.Collapsed : Visibility.Visible;
             newDict["WordmarkVisibility"] = flatCaption ? Visibility.Collapsed : Visibility.Visible;
             newDict["PlainTitleVisibility"] = flatCaption ? Visibility.Visible : Visibility.Collapsed;
             // The caption's own font. MS Sans Serif is the real Win98 UI face and still ships with

@@ -2717,7 +2717,11 @@
                     <TextBlock x:Name="SaveStateText" Visibility="Collapsed" FontSize="11" Margin="6,0,4,0" VerticalAlignment="Center"
                                FontFamily="{DynamicResource UiFont}" Foreground="{DynamicResource TextFooter}" Opacity="0.8"/>
                     <TextBlock x:Name="PadlockGlyph" Visibility="Collapsed" FontFamily="Segoe MDL2 Assets" FontSize="11"
-                               Margin="2,0,6,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFooter}" Opacity="0.8"/>
+                               Margin="2,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFooter}" Opacity="0.8"/>
+                    <!-- A short rule between the padlock and the version, shown with the padlock. -->
+                    <Border Width="1" Height="12" Margin="8,0,4,0" VerticalAlignment="Center" IsHitTestVisible="False"
+                            Background="{DynamicResource TextFooter}" Opacity="0.35"
+                            Visibility="{Binding Visibility, ElementName=PadlockGlyph}"/>
                     <Button x:Name="JobCancelBtn" Visibility="Collapsed" Click="JobCancel_Click"
                             Content="{DynamicResource Str_Btn_Cancel}"
                             Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
