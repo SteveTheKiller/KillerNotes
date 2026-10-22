@@ -61,6 +61,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Greed and Cyanotic use their cream accent for accent buttons and highlights instead of white, and the accent button (+ New) has a soft bevel that sinks when pressed. Theme menu hover rows reach the right edge with the same inset as the left.
 - One button style per theme: only + New and a dialog's main action are filled with the accent, with text in the theme's own dark tone instead of near-black; every other button keeps the plain face, and an active sort button shows the accent on its edge and icon instead of a second fill color. Text fields brighten their own edge when focused instead of turning the accent color.
 - Sepulchre's accent buttons are brown with light text, and its teal buttons have a teal edge instead of a brown one.
+- The title bar and About wordmarks keep their soft shadow under the new bevel. Ectoplasm's menus hover in its yellow with dark text, and its menu separators are dimmer.
 - The caption buttons are 1px shorter than the title bar, so the red Close hover no longer touches the edge below it.
 - Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
 
