@@ -136,6 +136,9 @@ namespace KillerNotes.Controls.Dictation
             WaveKey("Alt+Left", Key.Left, "back");
             WaveKey("Alt+Right", Key.Right, "forward");
             DialogShortcuts.Describe(_wave, "Alt+S / Alt+C / Alt+D / Alt+V / Alt+L / Alt+Z / Alt+Left / Alt+Right");
+            // Screen readers get the keys above; sighted users see them beside each verb on the
+            // waveform's right-click menu, so no tooltip lists all eight over the waveform.
+            ToolTipService.SetIsEnabled(_wave, false);
 
             // Margins are Thickness values and cannot be resource references, so a live theme
             // switch re-applies them; grain and the caption swap are resource-driven already.
