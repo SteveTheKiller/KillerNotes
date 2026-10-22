@@ -211,7 +211,9 @@ namespace KillerNotes.Shell
             if (!NoteStore.IsOpen) return;
             if (!NoteStore.HasPassword) { _security.ToggleLock(); return; }
 
-            var menu = new ContextMenu { PlacementTarget = LockButton, Placement = PlacementMode.Bottom };
+            var menu = new ContextMenu();
+            FlyoutPlacement.UsePane(ContentPane);
+            FlyoutPlacement.AttachTopRight(menu);   // the pane's top-right corner, 8px in
             var lockItem = new MenuItem { Header = Loc("Str_Lock_Now"), Icon = "\uE72E", InputGestureText = "Ctrl+Shift+U" };
             lockItem.Click += (_, _) => LockNow(automatic: false);
             var passwordItem = new MenuItem { Header = Loc("Str_Pw_ChangeHead"), Icon = "\uE8D7" };

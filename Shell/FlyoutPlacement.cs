@@ -68,6 +68,28 @@ namespace KillerNotes.Shell
                 (popupSize, targetSize, __) => BottomLeftOfPane(popupSize, targetSize);
         }
 
+        /// <summary>The title bar's menus (the lock button) open in the pane's top-right corner,
+        /// 8px in from the top and the right: the mirror of the rail flyouts' bottom corner.</summary>
+        internal static void AttachTopRight(ContextMenu menu)
+        {
+            menu.PlacementTarget = _pane;
+            menu.Placement = PlacementMode.Custom;
+            menu.HorizontalOffset = 0;
+            menu.VerticalOffset = 0;
+            menu.CustomPopupPlacementCallback = (popupSize, targetSize, __) =>
+            {
+                var halo = Halo();
+                return [new CustomPopupPlacement(new Point(
+                    targetSize.Width - popupSize.Width + halo.Right - VisibleCardInset,
+                    VisibleCardInset - halo.Top), PopupPrimaryAxis.None)];
+            };
+        }
+
+        private static Thickness Halo() => new Border
+        {
+            Style = Application.Current?.TryFindResource("FlyoutCard") as Style
+        }.Margin;
+
         /// <summary>
         /// Compensate the template's external shadow halo. ContextMenu.Padding belongs inside
         /// the visible card and does not contribute to its outer placement.
