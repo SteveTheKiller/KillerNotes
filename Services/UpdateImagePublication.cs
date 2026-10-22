@@ -17,6 +17,13 @@ namespace KillerNotes.Services
             VerifiedHashes[Path.GetFullPath(path)] = sha256;
         }
 
+        internal static string VerifiedHash(string download)
+        {
+            if (!VerifiedHashes.TryGetValue(Path.GetFullPath(download), out string? expected))
+                throw new InvalidDataException("The update has no retained verification hash.");
+            return expected;
+        }
+
         /// <summary>The publication script, run by <see cref="UpdateHelperLaunch"/>. It opens the releases page when
         /// publication fails. <paramref name="overrides"/> replaces individual operations and exists for checks only.</summary>
         internal static string Script(string download, string target, bool elevated,

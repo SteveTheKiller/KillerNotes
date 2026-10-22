@@ -33,6 +33,11 @@ namespace KillerNotes
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (e.Args.Length > 0 && string.Equals(e.Args[0], "/apply-verified-update", StringComparison.OrdinalIgnoreCase))
+            {
+                Shutdown(Services.TrustedUpdate.Apply(e.Args));
+                return;
+            }
             var installRelaunch = new Services.InstallRelaunch();
             if (installRelaunch.TryRunHelper(e.Args, Process.GetCurrentProcess().MainModule?.FileName ?? "", out int helperExit))
             {

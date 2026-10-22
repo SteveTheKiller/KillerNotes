@@ -41,11 +41,12 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
-        public void ElevatedHelperStartsPowerShellWithItsScriptInTheCommandLine()
+        public void HelperCannotRequestPowerShellElevation()
         {
-            var start = UpdateHelperLaunch.StartInfo(UpdateHelperLaunch.WaitFor(1234) + "exit 0", elevate: true);
-            Assert.Equal("runas", start.Verb);
-            Assert.True(start.UseShellExecute);
+            var start = UpdateHelperLaunch.StartInfo(UpdateHelperLaunch.WaitFor(1234) + "exit 0");
+            Assert.Equal("", start.Verb);
+            Assert.False(start.UseShellExecute);
+            Assert.True(start.CreateNoWindow);
             Assert.EndsWith(@"WindowsPowerShell\v1.0\powershell.exe", start.FileName, StringComparison.OrdinalIgnoreCase);
             Assert.Contains("-EncodedCommand ", start.Arguments);
             Assert.DoesNotContain(".bat", start.Arguments, StringComparison.OrdinalIgnoreCase);
@@ -73,7 +74,7 @@ namespace KillerNotes.Tests
                     "$ops.Releases = { param($url) [IO.File]::WriteAllText('" + Path.Combine(Root, "releases.txt") + "', $url) }";
                 string script = UpdateHelperLaunch.WaitFor(0) + UpdateImagePublication.Script(Download, Target, false,
                     "https://example.invalid/releases", "KillerNotes fixture", overrides: overrides);
-                using var process = Process.Start(UpdateHelperLaunch.StartInfo(script, elevate: false));
+                using var process = Process.Start(UpdateHelperLaunch.StartInfo(script));
                 Assert.NotNull(process);
                 if (!process!.WaitForExit(60000))
                 {

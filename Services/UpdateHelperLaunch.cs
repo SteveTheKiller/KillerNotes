@@ -7,12 +7,12 @@ using System.Text;
 namespace KillerNotes.Services
 {
     /// <summary>
-    /// Starts the self-update helper as one PowerShell process whose whole script travels in its command line, so no
-    /// file the user account can write is read after the helper (possibly elevated) starts.
+    /// Starts PowerShell with the whole helper in its command line, without a writable script file.
+    /// This helper never requests elevation.
     /// </summary>
     internal static class UpdateHelperLaunch
     {
-        internal static ProcessStartInfo StartInfo(string script, bool elevate)
+        internal static ProcessStartInfo StartInfo(string script)
         {
             using var compressed = new MemoryStream();
             byte[] source = Encoding.UTF8.GetBytes(script);
@@ -27,11 +27,11 @@ namespace KillerNotes.Services
             var start = new ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),
                 @"WindowsPowerShell\v1.0\powershell.exe"), arguments)
             {
-                UseShellExecute = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden,
                 WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.System)
             };
-            if (elevate) start.Verb = "runas";
             return start;
         }
 

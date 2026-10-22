@@ -57,15 +57,17 @@ namespace KillerNotes.Services
         /// a signed exe carries its own intermediates, so the chain still builds offline.</summary>
         internal static (bool valid, string subject, string thumb) GetSignerInfo()
         {
+            try { return GetSignerInfo(Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty); }
+            catch { return (false, "(unavailable)", "(none)"); }
+        }
+
+        internal static (bool valid, string subject, string thumb) GetSignerInfo(string exePath)
+        {
             var subject = "(not signed)";
             var thumb   = "(none)";
-            // No initializer: every catch below returns, so the compiler already knows this is
-            // assigned by the time the P/Invoke section reads it.
-            string exePath;
 
             try
             {
-                exePath = Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty;
                 if (exePath.Length == 0) return (false, "(unavailable)", "(none)");
                 using var cert = new X509Certificate2(X509Certificate.CreateFromSignedFile(exePath));
                 var subj = cert.GetNameInfo(X509NameType.SimpleName, false);

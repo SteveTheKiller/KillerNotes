@@ -102,6 +102,12 @@ namespace KillerNotes.Services
             return path;
         }
 
+        internal sealed class Platform
+        {
+            internal Func<string, bool> CanWrite = CanWriteTo;
+            internal Func<ProcessStartInfo, Process?> Start = Process.Start;
+        }
+
         /// <summary>Starts a helper that waits for this process to exit, swaps
         /// <paramref name="newExe"/> over the running exe and relaunches it. Throws if the helper
         /// cannot be started, including when the user declines the UAC prompt (Win32 1223) - the
@@ -111,16 +117,20 @@ namespace KillerNotes.Services
         /// normal user, so the swap has to run elevated. The copy result is checked: without that,
         /// an unelevated swap fails silently and then relaunches the OLD exe, and the app appears to
         /// update to the same version with no error.</summary>
-        internal static void StartSwap(string newExe, string? newVersion = null)
+        internal static void StartSwap(string newExe, string? newVersion = null, Platform? platform = null)
         {
+            platform ??= new Platform();
             var curExe = Process.GetCurrentProcess().MainModule!.FileName;
             var pid = Process.GetCurrentProcess().Id;
-            bool needsElevation = !CanWriteTo(Path.GetDirectoryName(curExe)!);
-            // The whole helper travels in the process command line, so nothing the user account can
-            // write is read after a consented elevated helper starts.
+            bool needsElevation = !platform.CanWrite(Path.GetDirectoryName(curExe)!);
+            if (needsElevation || KillerFamily.Deployment.InstallerExitCodes.IsElevated())
+            {
+                TrustedUpdate.Start(newExe, newVersion, platform);
+                return;
+            }
             string script = UpdateHelperLaunch.WaitFor(pid) + UpdateImagePublication.Script(newExe, curExe,
-                needsElevation, ReleasesUrl, AppInfo.DisplayName, newVersion, RegistryHiveFor(curExe));
-            if (Process.Start(UpdateHelperLaunch.StartInfo(script, needsElevation)) == null)
+                false, ReleasesUrl, AppInfo.DisplayName, newVersion, RegistryHiveFor(curExe));
+            if (platform.Start(UpdateHelperLaunch.StartInfo(script)) == null)
                 throw new IOException("The update helper did not start. Download retained at: " + newExe);
         }
 
