@@ -2168,6 +2168,35 @@
                             </ContextMenu>
                         </RichTextBox.ContextMenu>
                     </RichTextBox>
+                    <!-- Scroll fades over the note text (EditorFade.cs): the pane itself - its color and the
+                         note pane's 0.20 grain - under a gradient mask, shown only while there is more to
+                         scroll that way. Inset 12px on the right to clear the scrollbar. -->
+                    <Border x:Name="EditorTopFade" Grid.Column="1" Height="28" VerticalAlignment="Top" Margin="0,0,12,0"
+                            Opacity="{DynamicResource EdgeFadeOpacity}" IsHitTestVisible="False" Visibility="Collapsed" Panel.ZIndex="5">
+                        <Border.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#FF000000" Offset="0"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                        <Grid>
+                            <Border Background="{DynamicResource ContentPaneBrush}"/>
+                            <Border Background="{DynamicResource GrainTileBrush}" Opacity="0.20" Visibility="{DynamicResource FilmGrainVisibility}"/>
+                        </Grid>
+                    </Border>
+                    <Border x:Name="EditorBottomFade" Grid.Column="1" Height="28" VerticalAlignment="Bottom" Margin="0,0,12,0"
+                            Opacity="{DynamicResource EdgeFadeOpacity}" IsHitTestVisible="False" Visibility="Collapsed" Panel.ZIndex="5">
+                        <Border.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#00000000" Offset="0"/>
+                                <GradientStop Color="#FF000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                        <Grid>
+                            <Border Background="{DynamicResource ContentPaneBrush}"/>
+                            <Border Background="{DynamicResource GrainTileBrush}" Opacity="0.20" Visibility="{DynamicResource FilmGrainVisibility}"/>
+                        </Grid>
+                    </Border>
                     <!-- The preview's FlowDocument viewer is created on first preview open and
                          dropped on Source (Preview.cs). -->
                     <!-- SidePaneBrush, the menu and format bar surface (ThemeManager), so the
