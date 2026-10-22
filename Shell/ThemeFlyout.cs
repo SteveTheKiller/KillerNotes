@@ -43,7 +43,10 @@ namespace KillerNotes.Shell
             if (sender == ThemeButton) { OpenThemeMenu(); return; }
             if (sender is not FrameworkElement { ContextMenu: { } menu }) return;
             FlyoutPlacement.UsePane(ContentPane);
-            FlyoutPlacement.Attach(menu, (UIElement)sender);
+            if (sender == DictationRailBtn)
+                FlyoutPlacement.AttachBesideButton(menu, DictationRailBtn);
+            else
+                FlyoutPlacement.Attach(menu, (UIElement)sender);
             menu.IsOpen = true;
         }
 

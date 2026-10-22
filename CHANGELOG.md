@@ -29,6 +29,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - CLI and MCP: a client that stops reading a large reply no longer blocks later clients, values that look like options (such as content of "--title") stay values, repeated options are rejected, and write commands wait at most 30 seconds before exiting with code 3, meaning the change may or may not have been made. A stalled connection to the single-instance channel is dropped after five seconds, so opening files from Explorer keeps reaching the running app.
 - Cached native libraries are checked against the app's own copies by hash and replaced when they differ, and a database engine that fails to load is reported instead of failing later.
 - Keyboard focus is visible on check boxes, radio buttons, combo boxes, theme swatches and the caption buttons in every theme, instead of Windows' black dotted box that disappeared on dark themes. Screen readers name the color picker's Red, Green, Blue and Hex fields, the find bar's close button and the file picker's Up and Recent locations buttons. Dialog buttons grow with their caption, so Cancel is no longer cut off in German, Kazakh and Ukrainian.
+- Wheel input over the logo adjusts app size even when the editor or note list has focus, and Ctrl+wheel over the sidebar adjusts note density.
+- The speech-model menu opens beside the microphone button while keeping its 8px side inset.
 - Preview sizing respects the current monitor's work area and relaxes split-pane limits on constrained displays.
 - File pickers use theme content colors and app icons; 98SE dialogs have full bevels and compact fields. Menus, search, buttons, SketchPad, Dictation and shortcut labels use embedded Killer Sans, and the database name uses KillerPDF's filename font, its bottom aligned to the database icon. Sidebar fades stop at scroll limits and stay off in 98SE, shortcut and font cards show overflow with scrollbars clear of Close, and the footer copyright sits further from the corner grip.
 - Website: the screenshot viewer has a Close button and keeps keyboard focus inside while open, and the install notes say /silent installs for all users only when run as administrator.
@@ -57,7 +59,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Title-bar search highlights each word and shows body-match and matching-note totals. Find in this note stays local; confirmed cross-note Replace opens in the same solid, grained panel without moving the search box, and closes when clicking elsewhere.
 - The About card's options sit in two columns, app options on the left and tray and Quick note on the right, with the two lock options underneath, and its content sits 8px from its side edges. Manage databases lists each database on two lines, with the retention help and data folder in tooltips. The lock button's menu opens in the note pane's top-right corner, and the caption buttons are 1px shorter so the red Close hover no longer touches the edge below.
 - Updated SQLCipher to 4.19.0, FLAC to 1.5.0, Whisper to 1.9.5, SQLite bindings to 10.0.13, and Markdown processing to Markdig 1.4.2.
-- Refreshed the demo notebook with public app screenshots, linked workflows, release boards and editable table examples.
+- Refreshed the demo notebook with public app screenshots, linked workflows, release boards, editable table examples and highlighted AMORT/WURSA code excerpts.
 
 ## [1.5.1] - 2026-10-19
 

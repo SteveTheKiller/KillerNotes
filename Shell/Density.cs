@@ -4,7 +4,8 @@ using System.Windows.Input;
 namespace KillerNotes.Shell
 {
     // Sidebar row density (1.1.0). Three levels the user cycles from the rail button
-    // (Density_Click), the mouse wheel over it (Density_MouseWheel), or F10:
+    // (Density_Click), the mouse wheel over it (Density_MouseWheel), Ctrl+wheel over
+    // the sidebar (Window_PreviewMouseWheel), or Ctrl+D:
     //   0 = Comfortable - title, snippet, date, tags (the original look)
     //   1 = Compact     - title + tags
     //   2 = Minimal     - title only
@@ -29,6 +30,7 @@ namespace KillerNotes.Shell
         // Wheel up = roomier (toward Comfortable), wheel down = tighter (toward Minimal).
         private void Density_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (e.Delta == 0) return;
             ApplyDensity(_density + (e.Delta > 0 ? -1 : 1));
             e.Handled = true;   // don't let the scroll fall through to the notes list
         }

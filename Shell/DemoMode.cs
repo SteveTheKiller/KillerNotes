@@ -151,6 +151,8 @@ namespace KillerNotes.Shell
                 tags: "Follow-up", group: P("Client sites", "Oakfield Law", "Phase 2"), titleColor: ORANGE);
 
             // ---- Bench reference ----
+            Add("AMORT.ps1 - drive and VM diagnostics", 0.25, DemoAmortDiagnostics(), tags: "Reference", group: P("Bench reference", "PowerShell"), titleColor: GREEN);
+            Add("WURSA.ps1 - update preflight and process checks", 0.3, DemoWursaUpdateChecks(), tags: "Reference", group: P("Bench reference", "PowerShell"), titleColor: TEAL);
             Add("PowerShell one-liners", 27, DemoPowerShell(), tags: "Reference", group: P("Bench reference", "PowerShell"));
             Add("Bulk AD password reset", 24, DemoDocMono("Force a reset at next logon for a whole OU:",
                 "Get-ADUser -Filter * -SearchBase 'OU=Staff,DC=corp,DC=local' | Set-ADUser -ChangePasswordAtLogon $true",
@@ -1078,6 +1080,45 @@ namespace KillerNotes.Shell
             @"Add-ADGroupMember -Identity ""Site-$Site""  -Members $sam",
             @"",
             @"Write-Host ""Created $upn in $Site"" -ForegroundColor Green");
+
+        private static FlowDocument DemoAmortDiagnostics() => DemoCode(
+            @"# AMORT.ps1: drive baseline and virtual-machine detection",
+            @"# Read-only excerpts from the environment setup.",
+            @"",
+            @"$Drive = Get-CimInstance Win32_LogicalDisk -Filter ""DeviceID='C:'""",
+            @"$StartSpace = $Drive.FreeSpace",
+            @"$TotalSize = $Drive.Size",
+            @"",
+            @"$TotalSize = [double]$TotalSize",
+            @"if ($TotalSize -le 0) { throw ""TotalSize is zero or undefined. Aborting."" }",
+            @"",
+            @"$StartUsagePct = [Math]::Round(((($TotalSize - $StartSpace) / $TotalSize) * 100), 2)",
+            @"$LastRegionSpace = $Drive.FreeSpace # Rolling baseline for step-by-step reporting",
+            @"",
+            @"$CS = Get-CimInstance Win32_ComputerSystem",
+            @"$Vendor = $CS.Manufacturer",
+            @"$IsVM = ($Vendor -match ""QEMU|VMware|Virtual|Hyper-V"")");
+
+        private static FlowDocument DemoWursaUpdateChecks() => DemoCode(
+            @"# WURSA.ps1: battery and upgrade-process checks",
+            @"# Read-only excerpts; $LauncherPid comes from the upgrade launcher.",
+            @"",
+            @"# Battery safety",
+            @"$OnBattery = $false",
+            @"try {",
+            @"    $Battery = Get-CimInstance Win32_Battery -ErrorAction SilentlyContinue",
+            @"    if ($Battery -and $Battery.BatteryStatus -ne 2) { $OnBattery = $true }",
+            @"} catch {}",
+            @"",
+            @"# From Show-UpgradeHeartbeat",
+            @"$upgradeProcs   = @('Windows11InstallationAssistant','Windows10UpgraderApp','WindowsUpdateAssistant','SetupHost','SetupPrep')",
+            @"function Get-UpgradeRunning {",
+            @"    if ($LauncherPid -and (Get-Process -Id $LauncherPid -ErrorAction SilentlyContinue)) { return $true }",
+            @"    foreach ($n in $upgradeProcs) {",
+            @"        if (Get-Process -Name $n -ErrorAction SilentlyContinue) { return $true }",
+            @"    }",
+            @"    return $false",
+            @"}");
 
         /// <summary>A note that is nothing but code: every line mono, syntax toggle already on.</summary>
         private static FlowDocument DemoCode(params string[] lines)

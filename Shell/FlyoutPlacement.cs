@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -66,6 +67,29 @@ namespace KillerNotes.Shell
             menu.VerticalOffset = 0;
             menu.CustomPopupPlacementCallback =
                 (popupSize, targetSize, __) => BottomLeftOfPane(popupSize, targetSize);
+        }
+
+        /// <summary>Keep the pane's side inset, but center the visible menu beside its button.</summary>
+        internal static void AttachBesideButton(ContextMenu menu, FrameworkElement button)
+        {
+            Attach(menu, button);
+            var pane = _pane;
+            if (pane is null) return;
+            menu.CustomPopupPlacementCallback = (popupSize, targetSize, __) =>
+            {
+                var placement = BottomLeftOfPane(popupSize, targetSize)[0];
+                var halo = Halo();
+                // Popup target sizes include the app's layout scale. TranslatePoint returns
+                // pane-local coordinates, so convert its height to the callback's units.
+                double scaleY = pane.ActualHeight > 0 ? targetSize.Height / pane.ActualHeight : 1;
+                double center = button.TranslatePoint(new Point(0, button.ActualHeight / 2), pane).Y * scaleY;
+                double visibleHeight = popupSize.Height - halo.Top - halo.Bottom;
+                double y = center - visibleHeight / 2 - halo.Top;
+                double top = VisibleCardInset - halo.Top;
+                double bottom = targetSize.Height - popupSize.Height + halo.Bottom - VisibleCardInset;
+                placement.Point = new Point(placement.Point.X, Math.Max(top, Math.Min(bottom, y)));
+                return [placement];
+            };
         }
 
         /// <summary>The title bar's menus (the lock button) open in the pane's top-right corner,

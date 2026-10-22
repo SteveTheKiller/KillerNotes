@@ -29,9 +29,20 @@ namespace KillerNotes.Shell
                 ApplyAppScale(s);
         }
 
+        private void Window_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            // Wheel events can target the focused editor or list instead of the hovered
+            // control. Resolve logo zoom and sidebar density before those controls scroll.
+            if (LogoBar.IsMouseOver)
+                AppSizeBtn_MouseWheel(sender, e);
+            else if (SidebarHost.IsMouseOver && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+                Density_MouseWheel(sender, e);
+        }
+
         // Roll the wheel over the logo: one small step per notch (fine-grained, no big jumps).
         private void AppSizeBtn_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (e.Delta == 0) return;
             ApplyAppScale(_appScale + (e.Delta > 0 ? AppScaleStep : -AppScaleStep), persist: true);
             e.Handled = true;
         }

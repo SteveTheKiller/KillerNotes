@@ -15,7 +15,8 @@
         TextOptions.TextRenderingMode="ClearType"
         FontFamily="{DynamicResource UiFont}"
         UseLayoutRounding="True"
-        PreviewMouseDown="Window_PreviewMouseDown">
+        PreviewMouseDown="Window_PreviewMouseDown"
+        PreviewMouseWheel="Window_PreviewMouseWheel">
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="32" ResizeBorderThickness="8" CornerRadius="0"
                             GlassFrameThickness="0" UseAeroCaptionButtons="False"/>
@@ -528,7 +529,7 @@
                  (KillerPDF pattern: the icons live on the sidebar's inner edge, right next
                  to the document, in both states - they never move on collapse). On a right-hand
                  sidebar both grids mirror (SidebarDock.cs), so the rail stays on the lip. -->
-            <Grid x:Name="SidebarHost" Grid.Column="0">
+            <Grid x:Name="SidebarHost" Grid.Column="0" Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition x:Name="RailCol" Width="24"/>
