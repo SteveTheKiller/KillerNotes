@@ -3,6 +3,14 @@
 // zh = Traditional Chinese (zh-Hant), zh-cn = Simplified Chinese (zh-Hans).
 var I18N = {
  "sl": {
+  "shot_workspace": "Tema Cyanotic: četrtletni pregled s tabelo stanja sistemov in gnezdenimi skupinami strank.",
+  "shot_graph": "Animirani graf zapiskov prikazuje povezave med zapiski, njihove naslove in barve skupin.",
+  "shot_about": "Tema Sepulchre: okno O programu z različico, založnikom ter nastavitvami zagona, sistemske vrstice in zaklepanja.",
+  "shot_dictation": "Tema Ectoplasm: narekovanje nad pregledom stranke s kontrolniki za snemanje, prepis in vstavljanje v zapisek.",
+  "shot_sketchpad": "Tema Malaise: SketchPad z označeno shemo omare in risalnimi orodji.",
+  "shot_tools": "Shema omare v SketchPad ob valovni obliki posnetka in izbiri govornega modela za delo brez povezave.",
+  "shot_amort": "Koda PowerShell AMORT z označevanjem skladnje, številkami vrstic, desno stransko vrstico in menijem zapiska.",
+  "shot_classic": "98SE z modrim poudarkom: mešani izseki kode, označevanje skladnje in priročni meni urejevalnika.",
   "theme_dark": "Temna",
   "theme_light": "Svetla",
   "theme_hc": "Črna",
@@ -625,6 +633,14 @@ var I18N = {
   "kn_single_exe": "v eni datoteki exe"
 },
  "it": {
+  "shot_workspace": "Tema Cyanotic: una revisione trimestrale con tabella sullo stato dei sistemi e gruppi di clienti annidati.",
+  "shot_graph": "Il grafo animato mostra i collegamenti tra le note, con titoli e colori dei gruppi.",
+  "shot_about": "Tema Sepulchre: il pannello Informazioni con versione, autore e impostazioni di avvio, area di notifica e blocco.",
+  "shot_dictation": "Tema Ectoplasm: Dettatura sopra una revisione cliente, con comandi per registrare, trascrivere e inserire nella nota.",
+  "shot_sketchpad": "Tema Malaise: SketchPad con uno schema del rack etichettato e strumenti di disegno.",
+  "shot_tools": "Uno schema del rack in SketchPad accanto alla forma d'onda di una registrazione e alla scelta del modello vocale offline.",
+  "shot_amort": "Codice PowerShell AMORT con evidenziazione della sintassi, numeri di riga, barra laterale a destra e menu della nota.",
+  "shot_classic": "98SE con accento blu: frammenti di codice misti, evidenziazione della sintassi e menu contestuale dell'editor.",
   "package_install_intro": "Oppure installa dal terminale:",
   "hp_pin": "Note fissate<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>, oppure <b>Fissa nota</b> nel menu contestuale, tiene una nota in cima al suo gruppo, o in cima alle note sciolte se non è in nessuno. Un piccolo indicatore di fissaggio segna la riga. Le note fissate seguono comunque l'ordinamento scelto tra loro, e <code>Ctrl+Z</code> rimuove il fissaggio.",
@@ -1101,6 +1117,14 @@ var I18N = {
   "tech_sub": "Come funziona davvero il blocco note: archiviazione, ricerca, cifratura e i formati di condivisione."
  },
  "hu": {
+  "shot_workspace": "Cyanotic téma: negyedéves áttekintés rendszerállapot-táblázattal és egymásba ágyazott ügyfélcsoportokkal.",
+  "shot_graph": "Az animált jegyzetgráf a jegyzetek kapcsolatait, címeit és csoportszíneit mutatja.",
+  "shot_about": "Sepulchre téma: a Névjegy panel a verzióval, kiadóval, valamint az indítás, a tálca és a zárolás beállításaival.",
+  "shot_dictation": "Ectoplasm téma: Diktálás egy ügyféláttekintés felett, felvételi, átírási és jegyzetbe illesztési vezérlőkkel.",
+  "shot_sketchpad": "Malaise téma: SketchPad feliratozott rackszekrényrajzzal és rajzeszközökkel.",
+  "shot_tools": "Rackszekrényrajz a SketchPadben, mellette egy felvétel hullámformája és az offline beszédmodell kiválasztása.",
+  "shot_amort": "AMORT PowerShell-kód szintaxiskiemeléssel, sorszámokkal, jobb oldali oldalsávval és a jegyzet menüjével.",
+  "shot_classic": "98SE kék kiemelőszínnel: vegyes kódrészletek, szintaxiskiemelés és a szerkesztő helyi menüje.",
   "package_install_intro": "Vagy telepítse a terminálból:",
   "hp_pin": "Kitűzött jegyzetek<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "Az <code>Alt+P</code>, vagy a jobbklikk menü <b>Jegyzet kitűzése</b> parancsa, a jegyzetet a csoportja tetején tartja, vagy ha egyikben sincs, a szabad jegyzetek tetején. A sort egy kis rajzszeg jelöli. A kitűzött jegyzetek egymás között továbbra is a választott sorrendet követik, a <code>Ctrl+Z</code> pedig leveszi a kitűzést.",
@@ -1578,6 +1602,14 @@ var I18N = {
  },
 
  "pl": {
+  "shot_workspace": "Motyw Cyanotic: przegląd kwartalny z tabelą stanu systemów i zagnieżdżonymi grupami klientów.",
+  "shot_graph": "Animowany graf pokazuje połączenia między notatkami, ich tytuły i kolory grup.",
+  "shot_about": "Motyw Sepulchre: panel O programie z wersją, wydawcą oraz ustawieniami uruchamiania, zasobnika i blokady.",
+  "shot_dictation": "Motyw Ectoplasm: Dyktowanie nad przeglądem klienta, z przyciskami nagrywania, transkrypcji i wstawiania do notatki.",
+  "shot_sketchpad": "Motyw Malaise: SketchPad z opisanym schematem szafy i narzędziami do rysowania.",
+  "shot_tools": "Schemat szafy w SketchPad obok przebiegu nagrania i wyboru modelu mowy działającego offline.",
+  "shot_amort": "Kod PowerShell AMORT z kolorowaniem składni, numerami wierszy, prawym paskiem bocznym i menu notatki.",
+  "shot_classic": "98SE z niebieskim akcentem: różne fragmenty kodu, kolorowanie składni i menu kontekstowe edytora.",
   "package_install_intro": "Lub zainstaluj z terminala:",
   "hp_pin": "Przypięte notatki<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>, lub <b>Przypnij notatkę</b> z menu pod prawym przyciskiem myszy, utrzymuje notatkę na górze jej grupy, a jeśli nie należy do żadnej - na górze luźnych notatek. Wiersz oznacza mała pinezka. Przypięte notatki nadal są sortowane między sobą według wybranego porządku, a <code>Ctrl+Z</code> odpina.",
@@ -2054,6 +2086,14 @@ var I18N = {
   "tech_sub": "Jak notatnik naprawdę działa: przechowywanie, wyszukiwanie, szyfrowanie i formaty udostępniania.",
  },
  "cs": {
+  "shot_workspace": "Motiv Cyanotic: čtvrtletní přehled s tabulkou stavu systémů a vnořenými skupinami klientů.",
+  "shot_graph": "Animovaný graf poznámek zobrazuje propojení mezi poznámkami, jejich názvy a barvy skupin.",
+  "shot_about": "Motiv Sepulchre: panel O aplikaci s verzí, vydavatelem a nastavením spouštění, oznamovací oblasti a zamykání.",
+  "shot_dictation": "Motiv Ectoplasm: diktování nad přehledem klienta s ovládáním nahrávání, přepisu a vložení do poznámky.",
+  "shot_sketchpad": "Motiv Malaise: SketchPad s popsaným schématem racku a kreslicími nástroji.",
+  "shot_tools": "Schéma racku ve SketchPad vedle průběhu nahrávky a výběru offline řečového modelu.",
+  "shot_amort": "Kód PowerShell AMORT se zvýrazněním syntaxe, čísly řádků, pravým postranním panelem a nabídkou poznámky.",
+  "shot_classic": "98SE s modrým akcentem: různé úryvky kódu, zvýraznění syntaxe a místní nabídka editoru.",
   "package_install_intro": "Nebo nainstalujte z terminálu:",
   "hp_pin": "Připnuté poznámky<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>, nebo <b>Připnout poznámku</b> v místní nabídce, drží poznámku nahoře její skupiny, nebo nahoře mezi volnými poznámkami, pokud v žádné není. Řádek označuje malý špendlík. Připnuté poznámky se mezi sebou stále řadí podle zvoleného řazení a <code>Ctrl+Z</code> je odepne.",
@@ -2530,6 +2570,14 @@ var I18N = {
   "tech_sub": "Jak poznámkový blok skutečně funguje: úložiště, vyhledávání, šifrování a formáty sdílení.",
  },
  "es": {
+  "shot_workspace": "Tema Cyanotic: una revisión trimestral con una tabla del estado de los sistemas y grupos de clientes anidados.",
+  "shot_graph": "El grafo animado muestra las conexiones entre notas, con sus títulos y los colores de los grupos.",
+  "shot_about": "Tema Sepulchre: el panel Acerca de con versión, editor y ajustes de inicio, bandeja y bloqueo.",
+  "shot_dictation": "Tema Ectoplasm: Dictado sobre una revisión de cliente, con controles para grabar, transcribir e insertar en la nota.",
+  "shot_sketchpad": "Tema Malaise: SketchPad con un diagrama de rack etiquetado y herramientas de dibujo.",
+  "shot_tools": "Un diagrama de rack en SketchPad junto a la forma de onda de una grabación y el selector del modelo de voz sin conexión.",
+  "shot_amort": "Código PowerShell de AMORT con resaltado de sintaxis, números de línea, barra lateral derecha y menú de la nota.",
+  "shot_classic": "98SE con acento azul: fragmentos de distintos lenguajes, resaltado de sintaxis y menú contextual del editor.",
   "package_install_intro": "O instala desde tu terminal:",
   "hp_pin": "Notas ancladas<span class=\"kbd\">Alt+P</span><span class=\"chev\">▸</span>",
   "hp_pin_1": "<code>Alt+P</code>, o <b>Anclar nota</b> en el menú contextual, mantiene una nota en la parte superior de su grupo, o en la parte superior de las notas sueltas si no está en ninguno. Un pequeño icono de ancla marca la fila. Las notas ancladas siguen el orden que elegiste entre ellas, y <code>Ctrl+Z</code> las desancla.",
@@ -3007,6 +3055,14 @@ var I18N = {
   "tech_sub": "Cómo funciona realmente el bloc de notas: almacenamiento, búsqueda, cifrado y los formatos de compartición."
  },
  "de": {
+  "shot_workspace": "Cyanotic-Theme: ein Quartalsbericht mit Systemstatustabelle und verschachtelten Kundengruppen.",
+  "shot_graph": "Der animierte Notizgraph zeigt Verbindungen zwischen Notizen, ihre Titel und die Gruppenfarben.",
+  "shot_about": "Sepulchre-Theme: der Infobereich mit Version, Herausgeber und Einstellungen für Start, Infobereich und Sperre.",
+  "shot_dictation": "Ectoplasm-Theme: Diktieren über einem Kundenbericht, mit Steuerelementen für Aufnahme, Transkription und Einfügen in die Notiz.",
+  "shot_sketchpad": "Malaise-Theme: SketchPad mit beschriftetem Rackdiagramm und Zeichenwerkzeugen.",
+  "shot_tools": "Ein Rackdiagramm in SketchPad neben einer Aufnahmewellenform und der Auswahl des Offline-Sprachmodells.",
+  "shot_amort": "AMORT-PowerShell-Code mit Syntaxhervorhebung, Zeilennummern, rechter Seitenleiste und Notizmenü.",
+  "shot_classic": "98SE mit blauem Akzent: gemischte Codeausschnitte, Syntaxhervorhebung und das Kontextmenü des Editors.",
   "package_install_intro": "Oder über das Terminal installieren:",
   "hp_pin": "Angeheftete Notizen<span class=\"kbd\">Alt+P</span><span class=\"chev\">▸</span>",
   "hp_pin_1": "<code>Alt+P</code> oder <b>Notiz anheften</b> im Rechtsklick-Menü hält eine Notiz oben in ihrer Gruppe, oder oben bei den losen Notizen, wenn sie in keiner ist. Ein kleines Anheft-Symbol markiert die Zeile. Angeheftete Notizen folgen weiterhin der gewählten Sortierung untereinander, und <code>Ctrl+Z</code> löst das Anheften wieder.",
@@ -3484,6 +3540,14 @@ var I18N = {
   "tech_sub": "Wie der Notizblock wirklich funktioniert: Speicherung, Suche, Verschlüsselung und die Freigabeformate."
  },
  "fr": {
+  "shot_workspace": "Thème Cyanotic : un bilan trimestriel avec un tableau de l'état des systèmes et des groupes de clients imbriqués.",
+  "shot_graph": "Le graphe animé montre les liens entre les notes, leurs titres et les couleurs des groupes.",
+  "shot_about": "Thème Sepulchre : le panneau À propos avec version, éditeur et réglages de démarrage, de zone de notification et de verrouillage.",
+  "shot_dictation": "Thème Ectoplasm : Dictée au-dessus d'un bilan client, avec les commandes d'enregistrement, de transcription et d'insertion dans la note.",
+  "shot_sketchpad": "Thème Malaise : SketchPad avec un schéma de baie légendé et les outils de dessin.",
+  "shot_tools": "Un schéma de baie dans SketchPad à côté de la forme d'onde d'un enregistrement et du choix du modèle vocal hors ligne.",
+  "shot_amort": "Code PowerShell AMORT avec coloration syntaxique, numéros de ligne, barre latérale à droite et menu de la note.",
+  "shot_classic": "98SE avec un accent bleu : extraits de code variés, coloration syntaxique et menu contextuel de l'éditeur.",
   "package_install_intro": "Ou installez depuis votre terminal :",
   "hp_pin": "Notes épinglées<span class=\"kbd\">Alt+P</span><span class=\"chev\">▸</span>",
   "hp_pin_1": "<code>Alt+P</code>, ou <b>Épingler la note</b> dans le menu contextuel, garde une note en haut de son groupe, ou en haut des notes libres si elle n'est dans aucun groupe. Une petite épingle marque la ligne. Les notes épinglées suivent toujours le tri choisi entre elles, et <code>Ctrl+Z</code> désépingle.",
@@ -3961,6 +4025,14 @@ var I18N = {
   "tech_sub": "Comment le bloc-notes fonctionne vraiment : stockage, recherche, chiffrement et formats de partage."
  },
  "ja": {
+  "shot_workspace": "Cyanotic テーマ：システム状態の表と階層化された顧客グループを含む四半期レビュー。",
+  "shot_graph": "アニメーションするノートグラフが、ノート同士のつながりをタイトルとグループの色で表示。",
+  "shot_about": "Sepulchre テーマ：バージョン、発行元、起動、トレイ、ロックの設定を表示する「バージョン情報」パネル。",
+  "shot_dictation": "Ectoplasm テーマ：顧客レビューの上に音声入力を開き、録音、文字起こし、ノートへの挿入を操作。",
+  "shot_sketchpad": "Malaise テーマ：ラベル付きのラック構成図と描画ツールを表示した SketchPad。",
+  "shot_tools": "SketchPad のラック構成図と、録音の波形、オフライン音声モデルの選択画面を並べて表示。",
+  "shot_amort": "構文の強調表示、行番号、右側のサイドバー、ノートメニューを備えた AMORT の PowerShell コード。",
+  "shot_classic": "青のアクセントを使った 98SE：複数の言語のコード、構文の強調表示、エディターのコンテキストメニュー。",
   "package_install_intro": "またはターミナルからインストール：",
   "hp_pin": "ピン留めしたノート<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>、または右クリックメニューの<b>ノートをピン留め</b>で、ノートをそのグループの先頭に固定します。どのグループにも属さないノートの場合は、グループ外のノートの先頭に固定されます。行には小さなピンの印が付きます。ピン留めしたノート同士は選んだ並べ替え順のままで、<code>Ctrl+Z</code>で固定を解除できます。",
@@ -4438,6 +4510,14 @@ var I18N = {
   "tech_sub": "このノートが実際にどう動くか: ストレージ、検索、暗号化、そして共有フォーマット。"
  },
  "tr": {
+  "shot_workspace": "Cyanotic teması: sistem durumu tablosu ve iç içe müşteri gruplarıyla üç aylık değerlendirme.",
+  "shot_graph": "Hareketli not grafiği, notlar arasındaki bağlantıları not başlıkları ve grup renkleriyle gösterir.",
+  "shot_about": "Sepulchre teması: sürüm, yayıncı, başlangıç, sistem tepsisi ve kilit ayarlarıyla Hakkında paneli.",
+  "shot_dictation": "Ectoplasm teması: müşteri değerlendirmesinin üzerinde kayıt, yazıya dökme ve nota ekleme kontrolleriyle Dikte.",
+  "shot_sketchpad": "Malaise teması: etiketli raf şeması ve çizim araçlarıyla SketchPad.",
+  "shot_tools": "SketchPad'de bir raf şeması, yanında kayıt dalga biçimi ve çevrimdışı konuşma modeli seçicisi.",
+  "shot_amort": "Sözdizimi vurgulama, satır numaraları, sağ kenar çubuğu ve not menüsüyle AMORT PowerShell kodu.",
+  "shot_classic": "Mavi vurgu rengiyle 98SE: farklı dillerden kod parçaları, sözdizimi vurgulama ve düzenleyici bağlam menüsü.",
   "package_install_intro": "Veya terminalinizden yükleyin:",
   "hp_pin": "Sabitlenmiş notlar<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>, ya da sağ tık menüsündeki <b>Notu sabitle</b>, bir notu grubunun en üstünde, hiçbir gruba ait değilse serbest notların en üstünde tutar. Satırı küçük bir toplu iğne işaretler. Sabitlenmiş notlar kendi aralarında yine seçtiğiniz sıralamayı izler, <code>Ctrl+Z</code> ise sabitlemeyi kaldırır.",
@@ -4915,6 +4995,14 @@ var I18N = {
   "tech_sub": "Not defterinin gerçekte nasıl çalıştığı: depolama, arama, şifreleme ve paylaşım biçimleri."
  },
  "zh": {
+  "shot_workspace": "Cyanotic 主題：季度檢討，包含系統狀態表格與巢狀客戶群組。",
+  "shot_graph": "動態筆記圖譜以筆記標題和群組顏色顯示筆記之間的連結。",
+  "shot_about": "Sepulchre 主題：「關於」面板顯示版本、發行者，以及啟動、系統匣與鎖定設定。",
+  "shot_dictation": "Ectoplasm 主題：在客戶檢討上方開啟聽寫，提供錄音、轉錄及插入筆記的控制項。",
+  "shot_sketchpad": "Malaise 主題：SketchPad 顯示附有標籤的機架圖與繪圖工具。",
+  "shot_tools": "SketchPad 中的機架圖，旁邊是錄音波形與離線語音模型選擇器。",
+  "shot_amort": "AMORT PowerShell 程式碼，搭配語法醒目提示、行號、右側欄與筆記選單。",
+  "shot_classic": "藍色強調色的 98SE：多種語言的程式碼片段、語法醒目提示與編輯器快顯選單。",
   "package_install_intro": "或從終端機安裝：",
   "hp_pin": "釘選筆記<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>，或右鍵選單中的<b>釘選筆記</b>，會把筆記固定在所屬群組的最上方；若不屬於任何群組，則固定在散置筆記的最上方。列上會出現一個小圖釘標記。釘選的筆記彼此之間仍依你選擇的排序方式排列，<code>Ctrl+Z</code> 可取消釘選。",
@@ -5392,6 +5480,14 @@ var I18N = {
   "tech_sub": "這款記事本實際的運作方式：儲存、搜尋、加密與分享格式。"
  },
  "zh-cn": {
+  "shot_workspace": "Cyanotic 主题：季度回顾，包含系统状态表格和嵌套客户分组。",
+  "shot_graph": "动态笔记图谱通过笔记标题和分组颜色显示笔记之间的连接。",
+  "shot_about": "Sepulchre 主题：“关于”面板显示版本、发布者以及启动、托盘和锁定设置。",
+  "shot_dictation": "Ectoplasm 主题：在客户回顾上方打开听写，提供录音、转录和插入笔记的控件。",
+  "shot_sketchpad": "Malaise 主题：SketchPad 显示带标签的机架图和绘图工具。",
+  "shot_tools": "SketchPad 中的机架图，旁边是录音波形和离线语音模型选择器。",
+  "shot_amort": "AMORT PowerShell 代码，配有语法高亮、行号、右侧栏和笔记菜单。",
+  "shot_classic": "蓝色强调色的 98SE：多种语言的代码片段、语法高亮和编辑器上下文菜单。",
   "package_install_intro": "或从终端安装：",
   "hp_pin": "置顶笔记<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>，或右键菜单中的<b>置顶笔记</b>，会把笔记固定在所属分组的最上方；若不属于任何分组，则固定在散落笔记的最上方。该行会显示一个小图钉标记。置顶的笔记之间仍按你选择的排序方式排列，<code>Ctrl+Z</code> 可取消置顶。",
@@ -5869,6 +5965,14 @@ var I18N = {
   "tech_sub": "记事本的实际运作方式：存储、搜索、加密和分享格式。"
  },
  "bn": {
+  "shot_workspace": "Cyanotic থিম: সিস্টেমের অবস্থার টেবিল ও স্তরবিন্যস্ত ক্লায়েন্ট গ্রুপসহ ত্রৈমাসিক পর্যালোচনা।",
+  "shot_graph": "চলমান নোট গ্রাফে নোটের শিরোনাম ও গ্রুপের রংসহ নোটগুলোর মধ্যকার সংযোগ দেখা যায়।",
+  "shot_about": "Sepulchre থিম: সংস্করণ, প্রকাশক, চালু হওয়া, সিস্টেম ট্রে ও লক করার সেটিংসসহ পরিচিতি প্যানেল।",
+  "shot_dictation": "Ectoplasm থিম: ক্লায়েন্ট পর্যালোচনার ওপর ডিকটেশন, সঙ্গে রেকর্ডিং, প্রতিলিপি ও নোটে যোগ করার নিয়ন্ত্রণ।",
+  "shot_sketchpad": "Malaise থিম: লেবেলযুক্ত র‍্যাকের চিত্র ও আঁকার সরঞ্জামসহ SketchPad।",
+  "shot_tools": "SketchPad-এ র‍্যাকের চিত্র, পাশে রেকর্ডিংয়ের তরঙ্গরূপ ও অফলাইন স্পিচ মডেল নির্বাচক।",
+  "shot_amort": "সিনট্যাক্স হাইলাইটিং, লাইন নম্বর, ডান পাশের সাইডবার ও নোট মেনুসহ AMORT PowerShell কোড।",
+  "shot_classic": "নীল অ্যাকসেন্টের 98SE: বিভিন্ন ভাষার কোড, সিনট্যাক্স হাইলাইটিং ও সম্পাদকের প্রসঙ্গ মেনু।",
   "package_install_intro": "অথবা টার্মিনাল থেকে ইনস্টল করুন:",
   "hp_pin": "পিন করা নোট<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>, বা রাইট-ক্লিক মেনুর <b>নোট পিন করুন</b>, একটি নোটকে তার গ্রুপের সবার উপরে রাখে, আর কোনো গ্রুপে না থাকলে আলগা নোটগুলোর সবার উপরে। সারিতে একটি ছোট পিন চিহ্ন দেখা যায়। পিন করা নোটগুলো নিজেদের মধ্যে আপনার বেছে নেওয়া সাজানোর ক্রমই মেনে চলে, আর <code>Ctrl+Z</code> পিন সরিয়ে দেয়।",
@@ -6346,6 +6450,14 @@ var I18N = {
   "tech_sub": "নোটপ্যাডটি আসলে কীভাবে কাজ করে: স্টোরেজ, সার্চ, এনক্রিপশন আর শেয়ারিং ফরম্যাট।"
  },
  "ru": {
+  "shot_workspace": "Тема Cyanotic: квартальный обзор с таблицей состояния систем и вложенными группами клиентов.",
+  "shot_graph": "Анимированный граф показывает связи между заметками, их заголовки и цвета групп.",
+  "shot_about": "Тема Sepulchre: панель «О программе» с версией, издателем и настройками запуска, трея и блокировки.",
+  "shot_dictation": "Тема Ectoplasm: диктовка поверх обзора клиента с управлением записью, расшифровкой и вставкой в заметку.",
+  "shot_sketchpad": "Тема Malaise: SketchPad со схемой стойки, подписями и инструментами рисования.",
+  "shot_tools": "Схема стойки в SketchPad рядом с волновой формой записи и выбором офлайн-модели речи.",
+  "shot_amort": "Код PowerShell AMORT с подсветкой синтаксиса, номерами строк, правой боковой панелью и меню заметки.",
+  "shot_classic": "98SE с синим акцентом: фрагменты кода на разных языках, подсветка синтаксиса и контекстное меню редактора.",
   "package_install_intro": "Или установите через терминал:",
   "hp_pin": "Закреплённые заметки<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code> или <b>Закрепить заметку</b> в контекстном меню удерживает заметку вверху её группы, а если она ни в одной группе - вверху отдельных заметок. Строку отмечает маленькая булавка. Закреплённые заметки по-прежнему сортируются между собой по выбранному порядку, а <code>Ctrl+Z</code> открепляет.",
@@ -6822,6 +6934,14 @@ var I18N = {
   "tech_sub": "Как блокнот работает на самом деле: хранение, поиск, шифрование и форматы обмена."
  },
  "kk": {
+  "shot_workspace": "Cyanotic тақырыбы: жүйе күйі кестесі және кірістірілген клиент топтары бар тоқсандық шолу.",
+  "shot_graph": "Қозғалыстағы жазбалар графы жазбалардың байланыстарын, атауларын және топ түстерін көрсетеді.",
+  "shot_about": "Sepulchre тақырыбы: нұсқа, баспагер, іске қосу, жүйелік науа және құлыптау параметрлері бар бағдарлама туралы панель.",
+  "shot_dictation": "Ectoplasm тақырыбы: клиент шолуының үстіндегі диктант терезесі, жазу, мәтінге айналдыру және жазбаға кірістіру басқару элементтерімен.",
+  "shot_sketchpad": "Malaise тақырыбы: белгіленген тірек сызбасы және сурет салу құралдары бар SketchPad.",
+  "shot_tools": "SketchPad ішіндегі тірек сызбасы, жанында аудиожазбаның толқын пішіні және офлайн сөйлеу моделін таңдау терезесі.",
+  "shot_amort": "Синтаксисті бөлектеу, жол нөмірлері, оң жақ бүйірлік панель және жазба мәзірі бар AMORT PowerShell коды.",
+  "shot_classic": "Көк екпінді 98SE: әртүрлі тілдегі код үзінділері, синтаксисті бөлектеу және редактордың контекстік мәзірі.",
   "package_install_intro": "Немесе терминал арқылы орнатыңыз:",
   "hp_pin": "Бекітілген жазбалар<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code> немесе оң жақ мәзірдегі <b>Жазбаны бекіту</b> жазбаны өз тобының жоғарғы жағында, ал ол ешбір топта болмаса, бос жазбалардың жоғарғы жағында ұстайды. Жолды кішкентай түйреуіш белгілейді. Бекітілген жазбалар өзара таңдалған рет бойынша сұрыпталуын жалғастырады, ал <code>Ctrl+Z</code> бекітуден алады.",
@@ -7298,6 +7418,14 @@ var I18N = {
   "tech_sub": "Блокнот шын мәнінде қалай жұмыс істейді: сақтау, іздеу, шифрлау және бөлісу пішімдері."
  },
  vi: {
+  "shot_workspace": "Giao diện Cyanotic: báo cáo quý với bảng trạng thái hệ thống và các nhóm khách hàng lồng nhau.",
+  "shot_graph": "Đồ thị ghi chú động hiển thị liên kết giữa các ghi chú, cùng tiêu đề và màu nhóm.",
+  "shot_about": "Giao diện Sepulchre: bảng Giới thiệu với phiên bản, nhà phát hành và cài đặt khởi động, khay hệ thống, khóa.",
+  "shot_dictation": "Giao diện Ectoplasm: cửa sổ Đọc chính tả trên báo cáo khách hàng, với điều khiển ghi âm, chép lời và chèn vào ghi chú.",
+  "shot_sketchpad": "Giao diện Malaise: SketchPad với sơ đồ tủ rack có nhãn và công cụ vẽ.",
+  "shot_tools": "Sơ đồ tủ rack trong SketchPad bên cạnh dạng sóng bản ghi và bộ chọn mô hình giọng nói ngoại tuyến.",
+  "shot_amort": "Mã PowerShell AMORT với tô màu cú pháp, số dòng, thanh bên phải và menu ghi chú.",
+  "shot_classic": "98SE với màu nhấn xanh dương: các đoạn mã nhiều ngôn ngữ, tô màu cú pháp và menu ngữ cảnh của trình soạn thảo.",
   "package_install_intro": "Hoặc cài đặt từ terminal của bạn:",
   "hp_pin": "Ghi chú ghim<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
   "hp_pin_1": "<code>Alt+P</code>, hoặc <b>Ghim ghi chú</b> trong menu nhấp chuột phải, giữ một ghi chú ở đầu nhóm của nó, hoặc ở đầu các ghi chú rời khi nó không thuộc nhóm nào. Một chiếc ghim nhỏ đánh dấu hàng. Các ghi chú đã ghim vẫn theo thứ tự bạn đã chọn giữa chúng, và <code>Ctrl+Z</code> bỏ ghim.",
@@ -7776,6 +7904,14 @@ var I18N = {
 };
 if (typeof window !== "undefined") { window.I18N = I18N; }
 I18N.uk = {
+  "shot_workspace": "Тема Cyanotic: квартальний огляд із таблицею стану систем і вкладеними групами клієнтів.",
+  "shot_graph": "Анімований граф показує зв'язки між нотатками, їхні заголовки та кольори груп.",
+  "shot_about": "Тема Sepulchre: панель «Про програму» з версією, видавцем і налаштуваннями запуску, трея та блокування.",
+  "shot_dictation": "Тема Ectoplasm: диктування поверх огляду клієнта з керуванням записом, транскрипцією та вставленням у нотатку.",
+  "shot_sketchpad": "Тема Malaise: SketchPad зі схемою стійки, підписами та інструментами малювання.",
+  "shot_tools": "Схема стійки у SketchPad поруч із хвильовою формою запису та вибором офлайн-моделі мовлення.",
+  "shot_amort": "Код PowerShell AMORT із підсвічуванням синтаксису, номерами рядків, правою бічною панеллю та меню нотатки.",
+  "shot_classic": "98SE із синім акцентом: фрагменти коду різними мовами, підсвічування синтаксису та контекстне меню редактора.",
  "package_install_intro": "Або встановіть через термінал:",
  "hp_pin": "Закріплені нотатки<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
  "hp_pin_1": "<code>Alt+P</code> або <b>Закріпити нотатку</b> в контекстному меню тримає нотатку вгорі її групи, а якщо вона не належить жодній групі, то вгорі окремих нотаток. Рядок позначає невелика шпилька. Закріплені нотатки між собою й далі йдуть за вибраним сортуванням, а <code>Ctrl+Z</code> відкріплює.",
@@ -8252,6 +8388,14 @@ I18N.uk = {
  "tech_sub": "Як насправді працює блокнот: зберігання, пошук, шифрування та формати спільного доступу."
 };
 I18N.nb = {
+  "shot_workspace": "Cyanotic-tema: en kvartalsgjennomgang med en tabell over systemstatus og nestede kundegrupper.",
+  "shot_graph": "Den animerte notatgrafen viser forbindelser mellom notater, med notattitler og gruppefarger.",
+  "shot_about": "Sepulchre-tema: Om-panelet med versjon, utgiver og innstillinger for oppstart, systemstatusfelt og låsing.",
+  "shot_dictation": "Ectoplasm-tema: Diktering over en kundegjennomgang, med kontroller for opptak, transkripsjon og innsetting i notatet.",
+  "shot_sketchpad": "Malaise-tema: SketchPad med et merket rackdiagram og tegneverktøy.",
+  "shot_tools": "Et rackdiagram i SketchPad ved siden av bølgeformen til et opptak og valget av talemodell for bruk uten nett.",
+  "shot_amort": "AMORT PowerShell-kode med syntaksutheving, linjenumre, høyre sidefelt og notatmenyen.",
+  "shot_classic": "98SE med blå aksent: blandede kodeutdrag, syntaksutheving og hurtigmenyen i redigeringsfeltet.",
  "package_install_intro": "Eller installer via terminalen:",
  "hp_pin": "Festede notater<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
  "hp_pin_1": "<code>Alt+P</code>, eller <b>Fest notat</b> i høyreklikkmenyen, holder et notat øverst i gruppen sin, eller øverst blant de løse notatene hvis det ikke ligger i noen gruppe. En liten nål markerer raden. Festede notater følger fortsatt sorteringen du har valgt seg imellom, og <code>Ctrl+Z</code> løsner dem.",
@@ -8728,6 +8872,14 @@ I18N.nb = {
  "tech_sub": "Hvordan notatblokka faktisk fungerer: lagring, søk, kryptering og delingsformatene."
 };
 I18N.pt = {
+  "shot_workspace": "Tema Cyanotic: uma revisão trimestral com tabela de status dos sistemas e grupos de clientes aninhados.",
+  "shot_graph": "O grafo animado mostra as conexões entre notas, com seus títulos e as cores dos grupos.",
+  "shot_about": "Tema Sepulchre: o painel Sobre com versão, publicador e configurações de inicialização, bandeja e bloqueio.",
+  "shot_dictation": "Tema Ectoplasm: Ditado sobre uma revisão de cliente, com controles para gravar, transcrever e inserir na nota.",
+  "shot_sketchpad": "Tema Malaise: SketchPad com um diagrama de rack identificado e ferramentas de desenho.",
+  "shot_tools": "Um diagrama de rack no SketchPad ao lado da forma de onda de uma gravação e do seletor de modelo de fala offline.",
+  "shot_amort": "Código PowerShell AMORT com realce de sintaxe, números de linha, barra lateral à direita e menu da nota.",
+  "shot_classic": "98SE com destaque azul: trechos de código mistos, realce de sintaxe e menu de contexto do editor.",
  "package_install_intro": "Ou instale pelo terminal:",
  "hp_pin": "Notas fixadas<span class=\"kbd\">Alt+P</span><span class=\"chev\">&#9656;</span>",
  "hp_pin_1": "<code>Alt+P</code>, ou <b>Fixar nota</b> no menu de clique direito, mantém uma nota no topo do seu grupo, ou no topo das notas avulsas quando ela não está em nenhum. Um pequeno alfinete marca a linha. As notas fixadas continuam seguindo, entre si, a ordenação que você escolheu, e <code>Ctrl+Z</code> desafixa.",

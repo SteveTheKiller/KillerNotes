@@ -274,32 +274,36 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 </div>
 <div class="egg-toast" id="eggToast"></div>
 
-<script src="kn-i18n.js?v=19"></script>
+<div hidden id="screenshotDescriptions">
+<span data-i18n="shot_workspace">Cyanotic theme: a quarterly review with a system status table and nested client groups.</span>
+<span data-i18n="shot_graph">The animated note graph shows connections between notes, with note titles and group colors.</span>
+<span data-i18n="shot_about">Sepulchre theme: the About panel with version, publisher, startup, tray, and lock settings.</span>
+<span data-i18n="shot_dictation">Ectoplasm theme: Dictation over a client review, with recording, transcription, and note insertion controls.</span>
+<span data-i18n="shot_sketchpad">Malaise theme: SketchPad with a labeled rack diagram and drawing tools.</span>
+<span data-i18n="shot_tools">A rack diagram in SketchPad beside a recording waveform and the offline speech model chooser.</span>
+<span data-i18n="shot_amort">AMORT PowerShell code with syntax highlighting, line numbers, a right sidebar, and the note menu.</span>
+<span data-i18n="shot_classic">98SE with a blue accent: mixed code snippets, syntax highlighting, and the editor context menu.</span>
+</div>
+<script src="kn-i18n.js?v=20"></script>
 <script src="kn.js?v=10"></script>
 <script src="feature-carousel.js?v=3"></script>
 <script>
 (function () {
-  // Screenshot strip: tries screenshots/01.png .. NN.png, drops any that 404, and shows a
-  // placeholder until at least one loads. Drop real screenshots into screenshots/ to populate it.
-  // One string per slot, used three ways: the alt text, the thumbnail tooltip and the
-  // lightbox caption. Written to describe what is actually in the frame, because for a
-  // screen reader it is the only version of the picture there is.
-  var descriptionKeys = [
-    ['f_richtext_t', 'f_themes_t'],
-    ['f_graph_t', 'f_links_t'],
-    ['f_search_t', 'f_richtext_t'],
-    ['f_syntax_t', 'f_lang_t'],
-    ['f_sketch_t', 'f_richtext_t'],
-    ['f_dictation_t', 'f_lang_t'],
-    ['f_themes_t', 'f_lang_t'],
-    ['f_search_t', 'f_lang_t'],
-    ['f_syntax_t', 'f_themes_t']
+  // The release collection keeps the existing graph clip alongside the new stills.
+  // Each localized description supplies alt text, a tooltip, and the lightbox caption.
+  var screenshots = [
+    { file:'01-cyanotic-quarterly-review.jpg', key:'shot_workspace' },
+    { file:'02', key:'shot_graph', video:true },
+    { file:'02-sepulchre-about.jpg', key:'shot_about' },
+    { file:'03-ectoplasm-dictation-115.jpg', key:'shot_dictation' },
+    { file:'04-malaise-sketchpad.jpg', key:'shot_sketchpad' },
+    { file:'05-MDF-rack-elevation-trimmed.png', key:'shot_tools' },
+    { file:'06-AMORT-code-right-sidebar.png', key:'shot_amort' },
+    { file:'07-98se-blue-syntax-highlighting.png', key:'shot_classic' }
   ];
   function descriptionFor(n) {
-    return descriptionKeys[n - 1].map(function (key) {
-      var heading = document.querySelector('[data-i18n="' + key + '"]');
-      return heading ? heading.textContent : '';
-    }).join(' · ');
+    var caption = document.querySelector('[data-i18n="' + screenshots[n - 1].key + '"]');
+    return caption ? caption.textContent : '';
   }
   function refreshDescriptions() {
     sbThumbs.querySelectorAll('.sb-thumb').forEach(function (b) {
@@ -317,7 +321,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
   new MutationObserver(refreshDescriptions).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
   // Respect a reduced-motion preference: the poster stands in and nothing plays by itself.
   var REDUCE = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  var MAX = descriptionKeys.length;
+  var MAX = screenshots.length;
   var sbThumbs = document.getElementById('sbThumbs');
   var empty = sbThumbs.querySelector('.sb-empty');
   var lightbox = document.getElementById('lightbox');
@@ -419,7 +423,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
     } else {
       b.appendChild(clipOrImg);
       b.addEventListener('click', function () {
-        openLightbox('screenshots/' + nn + '.png', description, b, false);
+        openLightbox('screenshots/' + nn, description, b, false);
       });
     }
     // Insert in numeric order regardless of which slot finishes loading first.
@@ -432,25 +436,19 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
     updateFade();
   }
 
-  // A slot is a CLIP when screenshots/NN-poster.jpg exists; the clip itself is NN.mp4 and the
-  // poster doubles as the still shown before it plays and under prefers-reduced-motion. The
-  // POSTER is what gets probed, not the video: an <img> reports a 404 cleanly through onerror,
-  // where a <video> element's failure handling is inconsistent across browsers. Falling back
-  // to NN.png keeps the original drop-any-that-404 behavior for still slots untouched.
+  // Probe each still or video poster before adding its thumbnail. A missing asset leaves
+  // the remaining collection usable, and reduced motion keeps the graph on its poster.
   for (var i = 1; i <= MAX; i++) {
     (function (n) {
-      var nn = n < 10 ? '0' + n : '' + n;
+      var shot = screenshots[n - 1];
       var description = descriptionFor(n);
-      var poster = new Image();
-      poster.onload = function () { addThumb(n, nn, description, true); };
-      poster.onerror = function () {
-        var img = new Image();
-        img.onload = function () { addThumb(n, nn, description, img); };
-        img.alt = description;
-        img.title = description;
-        img.src = 'screenshots/' + nn + '.png';
+      var img = new Image();
+      img.onload = function () {
+        addThumb(n, shot.file, description, shot.video ? true : img);
       };
-      poster.src = 'screenshots/' + nn + '-poster.jpg';
+      img.alt = description;
+      img.title = description;
+      img.src = 'screenshots/' + shot.file + (shot.video ? '-poster.jpg' : '');
     })(i);
   }
 
