@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.IO;
-using System.IO.Compression;
 using System.Text;
 
 namespace KillerNotes.Services
@@ -18,9 +17,11 @@ namespace KillerNotes.Services
             VerifiedHashes[Path.GetFullPath(path)] = sha256;
         }
 
-        internal static string Command(string download, string target, bool elevated,
+        /// <summary>The publication script, run by <see cref="UpdateHelperLaunch"/>. It opens the releases page when
+        /// publication fails. <paramref name="overrides"/> replaces individual operations and exists for checks only.</summary>
+        internal static string Script(string download, string target, bool elevated,
             string releasesUrl, string displayName, string? version = null, string? hive = null,
-            string? reopen = null)
+            string? reopen = null, string? overrides = null)
         {
             download = Path.GetFullPath(download);
             target = Path.GetFullPath(target);
@@ -47,21 +48,9 @@ namespace KillerNotes.Services
             Value(script, "Explorer", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"));
             script.AppendLine("Elevated = " + (elevated ? "$true" : "$false")).AppendLine("}");
             script.AppendLine(Operations);
-            script.AppendLine("if (Invoke-UpdateImagePublication $plan $ops) { exit 0 } else { exit 1 }");
-            using var compressed = new MemoryStream();
-            byte[] source = Encoding.UTF8.GetBytes(script.ToString());
-            using (var gzip = new GZipStream(compressed, CompressionLevel.Optimal, leaveOpen: true))
-                gzip.Write(source, 0, source.Length);
-            string bootstrap = "$stream=[IO.MemoryStream]::new([Convert]::FromBase64String('"
-                + Convert.ToBase64String(compressed.ToArray())
-                + "'));$reader=[IO.StreamReader]::new([IO.Compression.GZipStream]::new($stream,[IO.Compression.CompressionMode]::Decompress));"
-                + "try{&([scriptblock]::Create($reader.ReadToEnd()))}finally{$reader.Dispose();$stream.Dispose()}";
-            string powershell = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),
-                @"WindowsPowerShell\v1.0\powershell.exe");
-            string command = "\"" + powershell.Replace("%", "%%") + "\" -NoProfile -NonInteractive -Command \"" + bootstrap + "\"";
-            if (command.Length > 7500)
-                throw new IOException("The update helper command is too long. Download retained at: " + download + ". Report: " + report);
-            return command;
+            if (overrides is not null) script.AppendLine(overrides);
+            script.AppendLine("if (Invoke-UpdateImagePublication $plan $ops) { exit 0 } else { try { & $ops.Releases $plan.Releases } catch { }; exit 1 }");
+            return script.ToString();
         }
 
         private static void Value(StringBuilder script, string name, string value) =>
@@ -134,6 +123,7 @@ $ops = @{
         & $ops.Move $restore $target
     }
     Report = { param($path, $message) [IO.File]::WriteAllText($path, $message) }
+    Releases = { param($url) Start-Process $url }
     Delete = { param($path) [IO.File]::Delete($path) }
     Metadata = { param($plan)
         if ($plan.Version.Length -eq 0 -or $plan.Hive.Length -eq 0) { return }
