@@ -60,4 +60,3 @@ Be prepared to revise an approved contribution after review. Contributions must 
 ## Project-specific guidance
 
 Preserve note contents, attachments, backups, and recovery behavior. A save, import, export, or database change needs tests for failure paths as well as successful results.
-
