@@ -160,6 +160,7 @@ namespace KillerNotes.SharedPicker
         {
             _mode = mode;
             InitializeComponent();
+            Closed += (_, _) => CloseDirectoryListing();
             TitleIcon.Source = System.Windows.Media.Imaging.BitmapDecoder.Create(new Uri("pack://application:,,,/KillerNotes;component/Resources/kn-icon.ico"),
                 System.Windows.Media.Imaging.BitmapCreateOptions.None, System.Windows.Media.Imaging.BitmapCacheOption.OnLoad).Frames[0];
             InitializePickerKeyboard();
@@ -601,58 +602,7 @@ namespace KillerNotes.SharedPicker
 
         // ── Navigation ───────────────────────────────────────────────────────────
 
-        private void NavigateTo(string dir)
-        {
-            if (string.IsNullOrWhiteSpace(dir) || !Directory.Exists(dir)) return;
-            if (!_keyboardHistoryTravel && (_keyboardHistoryIndex < 0 || !string.Equals(_keyboardHistory[_keyboardHistoryIndex], dir, StringComparison.OrdinalIgnoreCase)))
-            {
-                if (_keyboardHistoryIndex + 1 < _keyboardHistory.Count) _keyboardHistory.RemoveRange(_keyboardHistoryIndex + 1, _keyboardHistory.Count - _keyboardHistoryIndex - 1);
-                _keyboardHistory.Add(dir); _keyboardHistoryIndex = _keyboardHistory.Count - 1;
-            }
-
-            _navigating = true;
-            _currentDir  = dir;
-            PathBox.Text = dir;
-            _raw.Clear();
-
-            try
-            {
-                // The toggle gates two things together: attribute Hidden/System AND leading-dot
-                // names - the Unix convention is all over a Windows home folder (.gradle, .ssh)
-                // and those carry no Hidden attribute. Same gate in the folder tree (FolderTree.cs).
-                foreach (var sub in Directory.EnumerateDirectories(dir))
-                {
-                    DirectoryInfo info;
-                    try { info = new DirectoryInfo(sub); } catch { continue; }
-                    if (!_showHidden)
-                    {
-                        if ((info.Attributes & (FileAttributes.Hidden | FileAttributes.System)) != 0) continue;
-                        if (info.Name.StartsWith(".", StringComparison.Ordinal)) continue;
-                    }
-                    _raw.Add(new PickerEntry(info.Name, sub, true, 0, SafeTime(() => info.LastWriteTime)));
-                }
-                foreach (var file in Directory.EnumerateFiles(dir))
-                {
-                    FileInfo fi;
-                    try { fi = new FileInfo(file); } catch { continue; }
-                    if (!_showHidden)
-                    {
-                        if ((fi.Attributes & (FileAttributes.Hidden | FileAttributes.System)) != 0) continue;
-                        if (fi.Name.StartsWith(".", StringComparison.Ordinal)) continue;
-                    }
-                    _raw.Add(new PickerEntry(fi.Name, file, false, SafeLen(fi), SafeTime(() => fi.LastWriteTime)));
-                }
-            }
-            catch { /* unauthorized / unreadable - show what we have */ }
-
-            ApplySort();
-            UpButton.IsEnabled = Directory.GetParent(dir) != null;
-            UpdateInfoSummary();
-            SyncPlacesSelection();
-            _navigating = false;
-
-            RecordRecent(dir);
-        }
+        private void NavigateTo(string dir) => DirectoryListingTask = NavigateDirectoryAsync(dir);
 
         private static DateTime SafeTime(Func<DateTime> get)
         {
@@ -827,7 +777,7 @@ namespace KillerNotes.SharedPicker
         {
             if (e.Key != Key.Enter) return;
             var typed = PathBox.Text?.Trim();
-            if (!string.IsNullOrEmpty(typed) && Directory.Exists(typed)) NavigateTo(typed!);
+            if (!string.IsNullOrEmpty(typed)) NavigateTo(typed!);
             e.Handled = true;
         }
 
@@ -866,6 +816,7 @@ namespace KillerNotes.SharedPicker
             var leaf    = Path.GetFileName(_currentDir.TrimEnd('\\'));
             SelName.Text = leaf.Length == 0 ? _currentDir : leaf;
             SelMeta.Text = string.Format(Loc("Str_Sum_Counts"), folders, shown);
+            if (!IsDirectoryListingComplete && !string.IsNullOrWhiteSpace(_listingError)) SelMeta.Text += " | " + _listingError;
         }
 
         // ── View modes ───────────────────────────────────────────────────────────
@@ -977,7 +928,9 @@ namespace KillerNotes.SharedPicker
         /// Rebuilds Entries from _raw: filter applied, folders always before files, then the
         /// active sort key. Folders-first is not a sort key - it is the frame the sort runs in.
         /// </summary>
-        private void ApplySort()
+        private void ApplySort() => _ = ApplySortAsync();
+
+        private async Task ApplySortAsync()
         {
             var visible = _raw.Where(PassesFilter);
 
@@ -991,8 +944,7 @@ namespace KillerNotes.SharedPicker
                               : visible.OrderBy(x => !x.IsFolder).ThenByDescending(x => x.Name, StringComparer.OrdinalIgnoreCase),
             };
 
-            Entries.Clear();
-            foreach (var e in ordered) Entries.Add(e);
+            if (!await PublishListingRowsAsync(ordered.ToArray())) return;
 
             NameArrow.Text = _sortKey == 0 ? (_sortAsc ? ArrowUp : ArrowDown) : "";
             SizeArrow.Text = _sortKey == 1 ? (_sortAsc ? ArrowUp : ArrowDown) : "";
@@ -1012,6 +964,7 @@ namespace KillerNotes.SharedPicker
         /// </summary>
         private void Accept()
         {
+            if (IsDirectoryListingBusy || !IsDirectoryListingAvailable) return;
             // Multiselect: several files highlighted wins outright. The name box shows a quoted
             // list in that state and is not worth re-parsing - the selection IS the answer. A
             // single highlighted file falls through to the normal path so every rule below
