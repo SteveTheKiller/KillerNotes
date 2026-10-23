@@ -14,7 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Added
 - Explorer's Open with and command-line file opening support RTF, LOG, HTML and HTM files, using the same import behavior as Ctrl+O. (#29)
-- About can hide shortcut hints in menus and tooltips without disabling keyboard shortcuts.
+- About groups settings in two columns and can hide shortcut hints in menus and tooltips without disabling keyboard shortcuts.
 
 ## [1.6.0] - 2026-10-21
 

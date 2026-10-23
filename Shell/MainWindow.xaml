@@ -3054,12 +3054,8 @@
                                 </Border>
                             </Grid>
 
-                            <!-- About options below the identity pane, in groups: the app on the left,
-                                 the tray and quick note on the right, the two lock options across the
-                                 bottom. Pinned to the info panel's width so the SHA-256 line still sets
-                                 the card width; long translations wrap inside their column. Every row
-                                 is at least 24px, the combo's height, so the gaps are even whether a
-                                 row holds a checkbox or a combo. -->
+                            <!-- Startup and tray options stay left; shortcuts and behavior stay right.
+                                 Both columns wrap inside the SHA-sized info panel. -->
                             <Grid x:Name="AboutOptionsGrid" Margin="0,10,0,0" Width="{Binding ActualWidth, ElementName=AboutInfoGrid}">
                                 <Grid.Resources>
                                     <DataTemplate x:Key="AboutOptionText">
@@ -3068,41 +3064,37 @@
                                 </Grid.Resources>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" MinHeight="24"/>
-                                    <RowDefinition Height="Auto" MinHeight="24"/>
-                                    <RowDefinition Height="Auto" MinHeight="24"/>
-                                    <RowDefinition Height="Auto" MinHeight="24"/>
-                                    <RowDefinition Height="Auto" MinHeight="24"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto" MinHeight="24"/>
-                                </Grid.RowDefinitions>
-                                <!-- Left: the app. Tab order runs down this column, then the next. -->
-                                <CheckBox x:Name="AboutStartWithWindows" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0"
+                                <StackPanel Grid.Column="0">
+                                <CheckBox x:Name="AboutStartWithWindows" MinHeight="24" VerticalAlignment="Center"
                                           Content="{DynamicResource Str_About_StartWithWindows}" ContentTemplate="{StaticResource AboutOptionText}"
                                           FontSize="11" Click="AboutStartWithWindows_Click"/>
-                                <CheckBox x:Name="AboutStartupUpdateCheck" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0"
+                                <CheckBox x:Name="AboutStartupUpdateCheck" MinHeight="24" VerticalAlignment="Center"
                                           Content="{DynamicResource Str_About_StartupUpdateCheck}" ContentTemplate="{StaticResource AboutOptionText}"
                                           FontSize="11" Click="AboutStartupUpdateCheck_Click"/>
-                                <!-- One-time tips in the status line (SaveState.cs). -->
-                                <CheckBox x:Name="AboutShowTips" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0"
-                                          Content="{DynamicResource Str_About_ShowTips}" ContentTemplate="{StaticResource AboutOptionText}"
-                                          FontSize="11" Click="AboutShowTips_Click"/>
-                                <!-- Right: the tray and Quick note (QuickNote.cs). -->
-                                <CheckBox x:Name="AboutCloseToTray" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"
+                                <CheckBox x:Name="AboutCloseToTray" MinHeight="24" VerticalAlignment="Center"
                                           Content="{DynamicResource Str_About_CloseToTray}" ContentTemplate="{StaticResource AboutOptionText}"
                                           ToolTip="{DynamicResource Str_About_CloseToTrayHint}"
                                           FontSize="11" Click="AboutCloseToTray_Click"/>
-                                <CheckBox x:Name="AboutKeepTrayIcon" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+                                <CheckBox x:Name="AboutKeepTrayIcon" MinHeight="24" VerticalAlignment="Center"
                                           Content="{DynamicResource Str_About_KeepTrayIcon}" ContentTemplate="{StaticResource AboutOptionText}"
                                           ToolTip="{DynamicResource Str_About_KeepTrayIconHint}"
                                           FontSize="11" Click="AboutKeepTrayIcon_Click"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                <CheckBox x:Name="AboutShowShortcutsInMenus" MinHeight="24" FontSize="11"
+                                          Content="{DynamicResource Str_About_ShowShortcutsInMenus}" ContentTemplate="{StaticResource AboutOptionText}"
+                                          IsChecked="{Binding Source={x:Static kl:ShortcutHints.Current}, Path=Enabled, Mode=TwoWay}"/>
+                                <!-- One-time tips in the status line (SaveState.cs). -->
+                                <CheckBox x:Name="AboutShowTips" MinHeight="24" VerticalAlignment="Center"
+                                          Content="{DynamicResource Str_About_ShowTips}" ContentTemplate="{StaticResource AboutOptionText}"
+                                          FontSize="11" Click="AboutShowTips_Click"/>
                                 <!-- Five Win+Alt shortcuts, Win+Alt+N by default. The list greys out any
                                      another app holds each time it opens. The label wraps in long
                                      translations so the combo keeps its width. -->
-                                <Grid Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+                                <Grid MinHeight="24" VerticalAlignment="Center">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
@@ -3114,25 +3106,27 @@
                                               SelectionChanged="AboutQuickHotkey_Changed" DropDownOpened="AboutQuickHotkey_DropDownOpened"
                                               AutomationProperties.LabeledBy="{Binding ElementName=AboutQuickHotkeyLabel}"/>
                                 </Grid>
-                                <!-- Bottom: Lock now's automatic triggers (LockNow.cs). They only act on a
+                                <TextBlock x:Name="AboutQuickHotkeyNote" Visibility="Collapsed" FontSize="10.5" Margin="0,4,0,0"
+                                           TextWrapping="Wrap" Foreground="{DynamicResource DimTextBrush}" AutomationProperties.LiveSetting="Polite"/>
+                                <!-- Lock now's automatic triggers (LockNow.cs). They only act on a
                                      notepad with a password. -->
-                                <CheckBox x:Name="AboutLockWithWindows" Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Center"
+                                <CheckBox x:Name="AboutLockWithWindows" MinHeight="24" VerticalAlignment="Center"
                                           Content="{DynamicResource Str_About_LockWithWindows}" ContentTemplate="{StaticResource AboutOptionText}"
                                           ToolTip="{DynamicResource Str_About_LockHint}"
                                           FontSize="11" Click="AboutLockWithWindows_Click"/>
-                                <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock x:Name="AboutIdleLockLabel" Text="{DynamicResource Str_About_IdleLock}" FontSize="11"
+                                <Grid MinHeight="24" VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="AboutIdleLockLabel" Text="{DynamicResource Str_About_IdleLock}" FontSize="11" TextWrapping="Wrap"
                                                VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
-                                    <ComboBox x:Name="AboutIdleLockCombo" Style="{StaticResource KnCombo}" ItemContainerStyle="{StaticResource KnComboItem}" Height="24" MinWidth="110"
+                                    <ComboBox x:Name="AboutIdleLockCombo" Grid.Column="1" Style="{StaticResource KnCombo}" ItemContainerStyle="{StaticResource KnComboItem}" Height="24" MinWidth="110"
                                               Margin="8,0,0,0" FontSize="11" SelectionChanged="AboutIdleLock_Changed"
                                               ToolTip="{DynamicResource Str_About_LockHint}"
                                               AutomationProperties.LabeledBy="{Binding ElementName=AboutIdleLockLabel}"/>
+                                </Grid>
                                 </StackPanel>
-                                <TextBlock x:Name="AboutQuickHotkeyNote" Grid.Row="5" Grid.ColumnSpan="2" Visibility="Collapsed" FontSize="10.5" Margin="0,4,0,0"
-                                           TextWrapping="Wrap" Foreground="{DynamicResource DimTextBrush}" AutomationProperties.LiveSetting="Polite"/>
-                                <CheckBox x:Name="AboutShowShortcutsInMenus" Grid.Row="6" Grid.ColumnSpan="2" Margin="0,6,0,0" FontSize="11"
-                                          Content="{DynamicResource Str_About_ShowShortcutsInMenus}" ContentTemplate="{StaticResource AboutOptionText}"
-                                          IsChecked="{Binding Source={x:Static kl:ShortcutHints.Current}, Path=Enabled, Mode=TwoWay}"/>
                             </Grid>
 
                             <!-- Update notice: shown only when a newer release is found -->
