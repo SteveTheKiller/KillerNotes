@@ -399,6 +399,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_About_UpdateDetail">Az alkalmazás automatikusan bezárul, majd újra megnyílik.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Frissítés</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Frissítések keresése indításkor</sys:String>
+    <sys:String x:Key="Str_About_ShowShortcutsInMenus">Billentyűparancsok megjelenítése a menükben</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Indítás a Windows-zal</sys:String>
     <sys:String x:Key="Str_About_CloseToTray">Bezárás az értesítési területre</sys:String>
     <sys:String x:Key="Str_About_CloseToTrayHint">Ha be van kapcsolva, az ablak bezárása után az alkalmazás tovább fut az értesítési területen.</sys:String>

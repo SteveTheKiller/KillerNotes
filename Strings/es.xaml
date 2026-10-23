@@ -220,6 +220,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">La aplicación se cerrará y volverá a abrir automáticamente.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Actualizar</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Buscar actualizaciones al iniciar</sys:String>
+    <sys:String x:Key="Str_About_ShowShortcutsInMenus">Mostrar atajos en los menús</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Iniciar con Windows</sys:String>
     <sys:String x:Key="Str_About_CloseToTray">Cerrar en la bandeja del sistema</sys:String>
     <sys:String x:Key="Str_About_CloseToTrayHint">Si está activado, al cerrar la ventana la aplicación sigue ejecutándose en el área de notificación.</sys:String>

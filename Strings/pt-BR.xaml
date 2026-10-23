@@ -437,6 +437,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">O aplicativo será fechado e reaberto automaticamente.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Atualizar</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Verificar atualizações ao iniciar</sys:String>
+    <sys:String x:Key="Str_About_ShowShortcutsInMenus">Mostrar atalhos nos menus</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Iniciar com o Windows</sys:String>
     <sys:String x:Key="Str_About_CloseToTray">Fechar para a bandeja do sistema</sys:String>
     <sys:String x:Key="Str_About_CloseToTrayHint">Quando ativado, fechar a janela mantém o aplicativo em execução na área de notificação.</sys:String>

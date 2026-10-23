@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:theme="clr-namespace:KillerFamily.Theming"
         xmlns:a11y="clr-namespace:KillerFamily.Accessibility"
+        xmlns:kl="clr-namespace:KillerFamily.Layout"
         xmlns:icons="clr-namespace:KillerNotes.Controls"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:models="clr-namespace:KillerNotes.Models"
@@ -3076,6 +3077,7 @@
                                     <RowDefinition Height="Auto" MinHeight="24"/>
                                     <RowDefinition Height="Auto" MinHeight="24"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto" MinHeight="24"/>
                                 </Grid.RowDefinitions>
                                 <!-- Left: the app. Tab order runs down this column, then the next. -->
                                 <CheckBox x:Name="AboutStartWithWindows" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0"
@@ -3128,6 +3130,9 @@
                                 </StackPanel>
                                 <TextBlock x:Name="AboutQuickHotkeyNote" Grid.Row="5" Grid.ColumnSpan="2" Visibility="Collapsed" FontSize="10.5" Margin="0,4,0,0"
                                            TextWrapping="Wrap" Foreground="{DynamicResource DimTextBrush}" AutomationProperties.LiveSetting="Polite"/>
+                                <CheckBox x:Name="AboutShowShortcutsInMenus" Grid.Row="6" Grid.ColumnSpan="2" Margin="0,6,0,0" FontSize="11"
+                                          Content="{DynamicResource Str_About_ShowShortcutsInMenus}" ContentTemplate="{StaticResource AboutOptionText}"
+                                          IsChecked="{Binding Source={x:Static kl:ShortcutHints.Current}, Path=Enabled, Mode=TwoWay}"/>
                             </Grid>
 
                             <!-- Update notice: shown only when a newer release is found -->

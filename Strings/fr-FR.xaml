@@ -219,6 +219,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">L'application se fermera et se rouvrira automatiquement.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Mettre à jour</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Rechercher les mises à jour au démarrage</sys:String>
+    <sys:String x:Key="Str_About_ShowShortcutsInMenus">Afficher les raccourcis dans les menus</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Lancer au démarrage de Windows</sys:String>
     <sys:String x:Key="Str_About_CloseToTray">Fermer dans la zone de notification</sys:String>
     <sys:String x:Key="Str_About_CloseToTrayHint">Lorsque cette option est activée, fermer la fenêtre laisse l'application active dans la zone de notification.</sys:String>

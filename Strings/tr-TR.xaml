@@ -219,6 +219,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">Uygulama otomatik olarak kapanıp yeniden açılır.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Güncelle</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Başlangıçta güncellemeleri denetle</sys:String>
+    <sys:String x:Key="Str_About_ShowShortcutsInMenus">Menülerde kısayolları göster</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Windows ile başlat</sys:String>
     <sys:String x:Key="Str_About_CloseToTray">Sistem tepsisine kapat</sys:String>
     <sys:String x:Key="Str_About_CloseToTrayHint">Bu açıkken pencereyi kapatmak uygulamayı bildirim alanında çalışır durumda tutar.</sys:String>

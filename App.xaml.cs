@@ -202,6 +202,7 @@ namespace KillerNotes
             // theme + accent before the window is built (no first-paint flash).
             Services.ThemeManager.GetSetting = GetSetting;
             Services.ThemeManager.SetSetting = SetSetting;
+            KillerFamily.Layout.ShortcutHints.Initialize(GetSetting, SetSetting);
             Services.ThemeManager.Initialize();
             Services.FilmGrain.Initialize();       // after the theme, before the window is built
 

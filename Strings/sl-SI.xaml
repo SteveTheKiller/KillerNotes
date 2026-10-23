@@ -358,6 +358,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">Aplikacija se bo samodejno zaprla in znova odprla.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Posodobi</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Ob zagonu preveri posodobitve</sys:String>
+    <sys:String x:Key="Str_About_ShowShortcutsInMenus">Prikaži bližnjice v menijih</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Zaženi ob zagonu sistema Windows</sys:String>
     <sys:String x:Key="Str_About_CloseToTray">Ob zapiranju skrij v sistemsko vrstico</sys:String>
     <sys:String x:Key="Str_About_CloseToTrayHint">Če je ta možnost vklopljena, se aplikacija po zaprtju okna še naprej izvaja v območju za obvestila.</sys:String>

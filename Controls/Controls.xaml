@@ -63,7 +63,14 @@
                         <ContentPresenter>
                             <ContentPresenter.Resources>
                                 <DataTemplate DataType="{x:Type sys:String}">
-                                    <TextBlock Text="{Binding Converter={StaticResource TooltipTextConverter}}" MaxWidth="300" TextWrapping="Wrap"/>
+                                    <TextBlock MaxWidth="300" TextWrapping="Wrap">
+                                        <TextBlock.Text>
+                                            <MultiBinding Converter="{StaticResource TooltipTextConverter}">
+                                                <Binding/>
+                                                <Binding Source="{x:Static kl:ShortcutHints.Current}" Path="Enabled"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                 </DataTemplate>
                             </ContentPresenter.Resources>
                         </ContentPresenter>
@@ -901,6 +908,9 @@
                         <Trigger Property="InputGestureText" Value="">
                             <Setter TargetName="Gesture" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
+                        <DataTrigger Binding="{Binding Source={x:Static kl:ShortcutHints.Current}, Path=Enabled}" Value="False">
+                            <Setter TargetName="Gesture" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="Check" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed"/>

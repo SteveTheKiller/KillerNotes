@@ -218,6 +218,7 @@
     <sys:String x:Key="Str_About_UpdateDetail">应用会自动关闭并重新打开。</sys:String>
     <sys:String x:Key="Str_Btn_Update">更新</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">启动时检查更新</sys:String>
+    <sys:String x:Key="Str_About_ShowShortcutsInMenus">在菜单中显示快捷键</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Windows 启动时运行</sys:String>
     <sys:String x:Key="Str_About_CloseToTray">关闭时最小化到系统托盘</sys:String>
     <sys:String x:Key="Str_About_CloseToTrayHint">开启后，关闭窗口时应用会继续在通知区域运行。</sys:String>

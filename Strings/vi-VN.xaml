@@ -438,6 +438,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_About_UpdateDetail">Ứng dụng sẽ tự động đóng và mở lại.</sys:String>
     <sys:String x:Key="Str_Btn_Update">Cập nhật</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateCheck">Kiểm tra cập nhật khi khởi động</sys:String>
+    <sys:String x:Key="Str_About_ShowShortcutsInMenus">Hiển thị phím tắt trong menu</sys:String>
     <sys:String x:Key="Str_About_StartWithWindows">Khởi động cùng Windows</sys:String>
     <sys:String x:Key="Str_About_CloseToTray">Đóng xuống khay hệ thống</sys:String>
     <sys:String x:Key="Str_About_CloseToTrayHint">Khi bật, đóng cửa sổ sẽ giữ ứng dụng chạy trong vùng thông báo.</sys:String>
