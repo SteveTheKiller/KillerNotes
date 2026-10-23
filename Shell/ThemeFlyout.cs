@@ -116,7 +116,7 @@ namespace KillerNotes.Shell
             {
                 Style = (Style)FindResource("ThemeCheck"),
                 IsChecked = FilmGrain.Enabled,
-                Margin = new Thickness(0, 8, 0, 4),
+                Margin = new Thickness(0, 8, 0, 0),
             };
             filmGrain.SetResourceReference(ContentControl.ContentProperty, "Str_Theme_FilmGrain");
             filmGrain.Click += (_, _) => FilmGrain.Set(filmGrain.IsChecked == true);
@@ -125,6 +125,19 @@ namespace KillerNotes.Shell
             Grid.SetRow(filmGrain, 2);
             Grid.SetColumnSpan(filmGrain, 2);
             picker.Children.Add(filmGrain);
+            picker.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            var postGrainDivider = new Border
+            {
+                Height = 1,
+                Margin = new Thickness(0, 4, 0, 4),
+                Opacity = 0.18,
+                IsHitTestVisible = false,
+                OpacityMask = fontsDivider.OpacityMask,
+            };
+            postGrainDivider.SetResourceReference(Border.BackgroundProperty, "TextBrush");
+            Grid.SetRow(postGrainDivider, 3);
+            Grid.SetColumnSpan(postGrainDivider, 2);
+            picker.Children.Add(postGrainDivider);
             ThemeMenu.Items.Add(new ScrollViewer
             {
                 Content = picker,
