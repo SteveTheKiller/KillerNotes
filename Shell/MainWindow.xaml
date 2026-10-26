@@ -531,7 +531,7 @@
              through the seam as a dark stripe above the footer. Backed with the same
              BackgroundBrush the chrome tiers use, a hairline seam is invisible (2026-08-08). -->
         <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}"/>
-        <Grid x:Name="ScaleHost" Grid.Row="1">
+        <kl:UnclippedGrid x:Name="ScaleHost" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="SidebarCol" Width="300" MinWidth="230" MaxWidth="480"/>
                 <!-- Zero-width popup-anchor lane. RailFlyoutAnchor may render past this point,
@@ -2686,7 +2686,7 @@
                 </Grid>
             </Grid>
             </Border>
-        </Grid>
+        </kl:UnclippedGrid>
 
         <!-- Lock now (LockNow.cs): all the content row shows while the notes are locked. ScaleHost
              is hidden behind it, so nothing under it can be tabbed to, clicked or dropped on. -->
