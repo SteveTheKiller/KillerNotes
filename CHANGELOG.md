@@ -17,6 +17,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 - Blood, Cyanotic and Greed load again after their rows took a cream selection gradient.
+- Exit from the tray icon brings the window back and closes it the normal way, so the prompt about a locked note's unsaved edits can call the exit off. Before, KillerNotes quit whatever the answer.
 - File dialogs stay responsive on slow or crowded folders, cancel stale loads and identify incomplete listings.
 - Website carousel and slide descriptions are translated in every supported language.
 - F3 and Shift+F3 navigate global search matches and continue between matching notes, preserving the active match through editor refreshes. (#18)
