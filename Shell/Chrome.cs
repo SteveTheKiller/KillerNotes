@@ -77,10 +77,30 @@ namespace KillerNotes.Shell
             base.OnStateChanged(e);
             // Square the corners when maximized (flush to the screen edges), round when floating.
             DwmChrome.SetRoundedCorners(this, rounded: RoundedCornersWanted());
-            // Maximize glyph (Segoe MDL2) toggles to a restore glyph when maximized.
+            // Maximize glyph (Segoe MDL2) toggles to a restore glyph when maximized. A button whose
+            // content is a layout (98SE's drawn box beside the font glyph) keeps that layout, and
+            // only its glyph text changes.
             if (MaximizeBtn != null)
-                MaximizeBtn.Content = WindowState == WindowState.Maximized ? "\uE923" : "\uE922";
+                SetMaximizeGlyph(MaximizeBtn, WindowState == WindowState.Maximized ? "\uE923" : "\uE922");
             AfterWindowStateChanged();
+        }
+
+        private static void SetMaximizeGlyph(System.Windows.Controls.Button button, string glyph)
+        {
+            if (button.Content is null or string) { button.Content = glyph; return; }
+            if (button.Content is DependencyObject root) SetGlyphText(root, glyph);
+        }
+
+        private static bool SetGlyphText(DependencyObject node, string glyph)
+        {
+            if (node is System.Windows.Controls.TextBlock text && text.Text is "\uE922" or "\uE923")
+            {
+                text.Text = glyph;
+                return true;
+            }
+            foreach (object child in LogicalTreeHelper.GetChildren(node))
+                if (child is DependencyObject element && SetGlyphText(element, glyph)) return true;
+            return false;
         }
 
         private bool RoundedCornersWanted()
@@ -107,8 +127,20 @@ namespace KillerNotes.Shell
         private const int HTBOTTOMRIGHT = 17;
         private const int HTCAPTION = 2;
 
+        /// <summary>App hook: sees every window message before the kit. Set <paramref name="owned"/>
+        /// to true to answer the message yourself (through <paramref name="handled"/> and
+        /// <paramref name="result"/>), or to leave it unhandled for WPF and Windows, and the kit's
+        /// own handling is skipped. For an app with its own frame work: WM_NCCALCSIZE,
+        /// WM_NCHITTEST, DPI changes or a different maximize clamp.</summary>
+        partial void FilterWindowMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam,
+            ref bool handled, ref IntPtr result, ref bool owned);
+
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
+            bool owned = false;
+            IntPtr result = IntPtr.Zero;
+            FilterWindowMessage(hwnd, msg, wParam, lParam, ref handled, ref result, ref owned);
+            if (owned) return result;
             if (msg == WM_ERASEBKGND)
             {
                 // WPF paints the whole client area itself, so nothing should erase the background to
