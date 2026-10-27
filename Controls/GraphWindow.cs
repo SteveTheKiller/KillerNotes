@@ -578,7 +578,7 @@ namespace KillerNotes.Controls
                 else if (WindowState != WindowState.Maximized) DragMove();
             };
 
-            var mark = (FrameworkElement)DialogFrame.Wordmark(title);
+            var mark = (FrameworkElement)DialogChrome.Wordmark(title);
             mark.SetResourceReference(MarginProperty, "TitleBarPadding");
             Grid.SetColumn(mark, 0);
             bar.Children.Add(mark);

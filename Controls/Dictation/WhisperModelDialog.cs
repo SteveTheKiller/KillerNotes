@@ -205,7 +205,7 @@ namespace KillerNotes.Controls.Dictation
             // every other window shows the two-run wordmark (and the plain-title twin on a theme
             // that wants one). Same call the picker and the Databases window make.
             // (2026-08-07)
-            var caption = DialogFrame.Wordmark(L("Str_Whisper_Title", "Speech model"));
+            var caption = DialogChrome.Wordmark(L("Str_Whisper_Title", "Speech model"));
 
             // DialogChrome, not a hand-rolled TextBlock. This was the last close X in the app still
             // built locally, so it kept the MDL2 character while every other window switched to the

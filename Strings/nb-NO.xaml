@@ -165,6 +165,7 @@
     <sys:String x:Key="Str_Dlg_AllFiles">Alle filer</sys:String>
     <sys:String x:Key="Str_Dlg_FileName">Filnavn:</sys:String>
     <sys:String x:Key="Str_Dlg_FileType">Filtype:</sys:String>
+    <sys:String x:Key="Str_Dlg_Places">Steder</sys:String>
     <sys:String x:Key="Str_Dlg_NoMatchingFiles">Ingenting her samsvarer med gjeldende filtype.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFile">Filen finnes ikke.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFolder">Mappen finnes ikke.</sys:String>

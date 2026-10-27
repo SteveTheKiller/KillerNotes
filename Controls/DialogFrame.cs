@@ -1,10 +1,7 @@
 using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 
 // KillerNotes' own window-chrome helpers for its floating windows (SketchPad, Dictation, the
@@ -13,15 +10,10 @@ using System.Windows.Media.Imaging;
 //   - the grain under a caption band,
 //   - the 5px raised window frame and the inset that keeps content off it,
 //   - the corner resize grip,
-//   - the dual wordmark caption, which builds the plain title AND the wordmark and lets the
-//     theme's visibility keys swap them, so a live theme switch never strands the wrong one,
-//     and which keeps the main title bar's negative margins and 2px lift.
 namespace KillerNotes.Controls
 {
     internal static class DialogFrame
     {
-        private static object? Res(string key) => Application.Current?.TryFindResource(key);
-
         internal static Border TitleGrain()
         {
             var grain = new Border { IsHitTestVisible = false };
@@ -82,138 +74,12 @@ namespace KillerNotes.Controls
         public static void InsetForFrame(FrameworkElement content) =>
             content.SetResourceReference(FrameworkElement.MarginProperty, "WindowFramePadding");
 
-        /// <summary>
-        /// "KillerNotes <subtitle>" in the wordmark face, over a blurred dark copy of itself.
-        ///
-        /// ChromeTextBrush and not TextBrush for the "Killer" half: a caption band is a dark
-        /// gradient on several themes, and TextBrush is the color calibrated for the CONTENT
-        /// surface (black on 98SE), which vanished against it.
-        /// </summary>
-        public static UIElement Wordmark(string subtitle)
-        {
-            // BOTH captions are ALWAYS built and swapped by WordmarkVisibility /
-            // PlainTitleVisibility - the same DynamicResource pair MainWindow.xaml binds. A pad
-            // opened under a wordmark theme must not keep the typewriter logotype painted over
-            // 98SE's caption after a live theme switch.
-            var host = new Grid { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center };
-
-            // Flat caption: icon + bold plain title, the SAME keys the main window's caption uses
-            // (TitleIconSize, TitleIconMargin, ChromeFontFamily, ChromeTextBrush).
-            var flatRow = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left,
-            };
-            flatRow.SetResourceReference(UIElement.VisibilityProperty, "PlainTitleVisibility");
-            flatRow.Children.Add(TitleIcon());
-            var plain = new TextBlock
-            {
-                Text = subtitle.Length > 0 ? "KillerNotes - " + subtitle : "KillerNotes",
-                FontSize = 11,
-                FontWeight = FontWeights.Bold,   // matches the main window's plain title exactly
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-            plain.SetResourceReference(TextBlock.FontFamilyProperty, "ChromeFontFamily");
-            plain.SetResourceReference(TextBlock.ForegroundProperty, "ChromeTextBrush");
-            flatRow.Children.Add(plain);
-            host.Children.Add(flatRow);
-
-            // Wordmark caption: shadow copy first, offset a pixel and blurred, so the mark lifts
-            // off the band. The app icon leads it, as it does in the main window's title bar.
-            var wf = Res("WordmarkFont") as FontFamily;
-            var markRow = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-            markRow.SetResourceReference(UIElement.VisibilityProperty, "WordmarkVisibility");
-            markRow.Children.Add(TitleIcon());
-            // Main title bar geometry: negative margins keep Lacquer's deep descent out of the layout
-            // so the caption never clips the drips, plus the same 2px lift.
-            var mark = new Grid
-            {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, -18, 0, -22),
-                RenderTransform = new TranslateTransform(0, -5),
-            };
-            var shadowInk = new SolidColorBrush(Color.FromArgb(0xD8, 0, 0, 0));
-            var shadow = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(1, 2, 0, 0) };
-            if (Res("WordmarkShadowOpacity") is double sop) shadow.Opacity = sop;
-            shadow.Effect = new BlurEffect { Radius = 3 };
-            shadow.Children.Add(Text(wf, subtitle, "", "", "", shadowInk));
-            mark.Children.Add(shadow);
-            // Light/Yellow: the accent half is yellow on a light band, so it gets the same dark
-            // halo the main window's wordmark has. WordmarkAccentShadowOpacity is 0 everywhere else.
-            var accentShadow = Text(wf, subtitle, "", "", "", Brushes.Transparent);
-            if (accentShadow.Inlines.ElementAtOrDefault(1) is Run accentRun) accentRun.Foreground = shadowInk;
-            accentShadow.Margin = new Thickness(1, 2, 0, 0);
-            accentShadow.IsHitTestVisible = false;
-            accentShadow.Effect = new BlurEffect { Radius = 3 };
-            accentShadow.SetResourceReference(UIElement.OpacityProperty, "WordmarkAccentShadowOpacity");
-            mark.Children.Add(accentShadow);
-
-            // The subtitle takes ChromeTextBrush too, NOT MutedTextBrush: Muted is mixed against the
-            // CONTENT surface and disappears on a theme that paints a real caption band.
-            mark.Children.Add(Text(wf, subtitle, "ChromeTextBrush", "AccentLogo", "ChromeTextBrush"));
-            markRow.Children.Add(mark);
-            host.Children.Add(markRow);
-
-            return host;
-        }
-
-        /// <summary>The app icon at the main title bar's size and spacing.</summary>
-        private static Image TitleIcon()
-        {
-            var icon = new AppIcon
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-            icon.SetResourceReference(FrameworkElement.WidthProperty, "TitleIconSize");
-            icon.SetResourceReference(FrameworkElement.HeightProperty, "TitleIconSize");
-            icon.SetResourceReference(FrameworkElement.MarginProperty, "TitleIconMargin");
-            SharpenTitleIcon(icon);
-            return icon;
-        }
-
         internal static void SharpenTitleIcon(Image icon)
         {
             var frames = BitmapDecoder.Create(new Uri("pack://application:,,,/Resources/kn-icon.ico"),
                 BitmapCreateOptions.None, BitmapCacheOption.OnLoad).Frames;
             icon.Source = frames[0];
             RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
-        }
-
-        private static TextBlock Text(FontFamily? wf, string subtitle,
-                                      string killerKey, string notesKey, string subKey, Brush? flat = null)
-        {
-            // Sizes come from the SAME two keys the main window's wordmark uses.
-            var tb = new TextBlock { VerticalAlignment = VerticalAlignment.Center };
-            tb.SetResourceReference(TextBlock.FontSizeProperty, "TitleWordmarkSize");
-            if (wf != null) tb.FontFamily = wf;
-
-            var killer = new Run("Killer");
-            var notes = new Run("Notes");
-            notes.SetResourceReference(TextElement.FontFamilyProperty, "WordmarkAccentFont");
-            notes.SetResourceReference(TextElement.FontSizeProperty, "TitleWordmarkBoldSize");
-            var sub = new Run(subtitle.Length > 0 ? "  " + subtitle : "");
-            sub.SetResourceReference(TextElement.FontFamilyProperty, "BrandSansFont");
-            sub.SetResourceReference(TextElement.FontSizeProperty, "TitleSubtitleSize");
-
-            if (flat != null) { killer.Foreground = flat; notes.Foreground = flat; sub.Foreground = flat; }
-            else
-            {
-                killer.SetResourceReference(TextElement.ForegroundProperty, killerKey);
-                notes.SetResourceReference(TextElement.ForegroundProperty, notesKey);
-                sub.SetResourceReference(TextElement.ForegroundProperty, subKey);
-            }
-
-            tb.Inlines.Add(killer);
-            tb.Inlines.Add(notes);
-            tb.Inlines.Add(sub);
-            return tb;
         }
 
         // Classic grip in the bottom-right corner - a REAL handle: pressing it starts an

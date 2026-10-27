@@ -165,6 +165,7 @@
     <sys:String x:Key="Str_Dlg_AllFiles">Tất cả các tệp</sys:String>
     <sys:String x:Key="Str_Dlg_FileName">Tên tệp:</sys:String>
     <sys:String x:Key="Str_Dlg_FileType">Loại tệp:</sys:String>
+    <sys:String x:Key="Str_Dlg_Places">Vị trí</sys:String>
     <sys:String x:Key="Str_Dlg_NoMatchingFiles">Không có mục nào khớp với loại tệp hiện tại.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFile">Tệp đó không tồn tại.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFolder">Thư mục đó không tồn tại.</sys:String>

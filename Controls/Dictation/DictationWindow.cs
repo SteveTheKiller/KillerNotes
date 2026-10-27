@@ -305,7 +305,7 @@ namespace KillerNotes.Controls.Dictation
             // The wordmark, same as SketchPad and Databases - this used to be the bare word
             // "Dictation" in the content font, which is why this one dialog looked like it came
             // from a different app. DialogChrome owns the mark now (see that file).
-            var caption = DialogFrame.Wordmark(L("Str_Dict_Title", "Dictation"));
+            var caption = DialogChrome.Wordmark(L("Str_Dict_Title", "Dictation"));
             // The inset the band used to apply, moved onto the mark - SketchPad's arrangement.
             ((FrameworkElement)caption).SetResourceReference(FrameworkElement.MarginProperty, "TitleBarPadding");
 

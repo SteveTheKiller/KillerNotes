@@ -138,7 +138,7 @@ namespace KillerNotes.Controls.Sketch
             // Built by DialogChrome, not locally: this window had its own copy of the wordmark, so
             // the flat-caption swap that Dictation and the About card already got never reached it
             // and 98SE kept showing the typewriter logotype. One builder, one caption everywhere.
-            var mark = (FrameworkElement)KillerNotes.Controls.DialogFrame.Wordmark(L("Str_Sketch_Title", "SketchPad"));
+            var mark = (FrameworkElement)KillerNotes.Controls.DialogChrome.Wordmark(L("Str_Sketch_Title", "SketchPad"));
             mark.SetResourceReference(FrameworkElement.MarginProperty, "TitleBarPadding");
             Grid.SetColumn(mark, 0);
             titleBar.Children.Add(mark);

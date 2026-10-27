@@ -20,6 +20,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - F3 and Shift+F3 navigate global search matches and continue between matching notes, preserving the active match through editor refreshes. (#18)
 - The locked screen keeps film grain when it is enabled.
 - Black table headers match the content surface, softer grain keeps dark surfaces from looking gray, and a faded theme-menu divider separates Film Grain from Fonts.
+- The file picker's recent locations and places lists are named for screen readers again, as they were in the old picker.
 
 ### Added
 - Explorer's Open with and command-line file opening support RTF, LOG, HTML and HTM files, using the same import behavior as Ctrl+O. (#29)

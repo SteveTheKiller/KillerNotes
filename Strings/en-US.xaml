@@ -165,6 +165,7 @@
     <sys:String x:Key="Str_Dlg_AllFiles">All files</sys:String>
     <sys:String x:Key="Str_Dlg_FileName">File name:</sys:String>
     <sys:String x:Key="Str_Dlg_FileType">File type:</sys:String>
+    <sys:String x:Key="Str_Dlg_Places">Places</sys:String>
     <sys:String x:Key="Str_Dlg_NoMatchingFiles">Nothing here matches the current file type.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFile">That file does not exist.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFolder">That folder does not exist.</sys:String>
