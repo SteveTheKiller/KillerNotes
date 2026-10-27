@@ -139,7 +139,7 @@ namespace KillerNotes.Shell
             InitQuickNoteOptions();                  // QuickNote.cs (shortcut choices)
             ApplyJumpList();                         // QuickNote.cs (the taskbar's Quick note task)
             RefreshQuickNoteState();
-            if (_overlayFocus.ActiveOverlay == ShortcutOverlay) FocusKeyboardOverlay();
+            if (_overlayFocus.ActiveOverlay == ShortcutsOverlay) FocusKeyboardOverlay();
 
             // Keyboard map: rebuilt lazily on next open; if already built, repaint the
             // current layer so keycap captions pick up the new language.

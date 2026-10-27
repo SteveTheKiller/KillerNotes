@@ -15,15 +15,21 @@ namespace KillerNotes.Services
 {
     internal static class TrustedUpdate
     {
+        internal const string HelperArgument = "/apply-verified-update";
+
+        /// <summary>The protected machine installation folder, the only one the elevated helper updates.</summary>
+        internal static string MachineDirectory =>
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), AppInfo.DisplayName);
+
         internal static void Start(string download, string? version, UpdateService.Platform platform)
         {
             string current = Process.GetCurrentProcess().MainModule!.FileName;
-            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "KillerNotes");
-            string target = Path.Combine(directory, "KillerNotes.exe");
+            string directory = MachineDirectory;
+            string target = Path.Combine(directory, AppInfo.ExeName);
             if (!string.Equals(current, target, StringComparison.OrdinalIgnoreCase))
                 throw new SecurityException("Automatic elevated updates require the protected machine installation. Download retained at: "
                     + download + ". Manual download: " + UpdateService.ReleasesUrl);
-            using var pinned = UpdatePathSafety.PinDirectory(directory);
+            using var pinned = InstallationFiles.PinDirectory(directory, mustExist: true);
             ValidateMachineOwner(directory);
             if (!CodeSignature.GetSignerInfo().valid) throw new SecurityException("The installed update helper has no valid signature.");
             string hash = UpdateImagePublication.VerifiedHash(download);
@@ -37,7 +43,7 @@ namespace KillerNotes.Services
             using var owner = Process.GetCurrentProcess();
             // Keep the installed helper immutable across the UAC handoff.
             using var image = new FileStream(current, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var start = new ProcessStartInfo(current, "/apply-verified-update "
+            var start = new ProcessStartInfo(current, HelperArgument + " "
                 + Convert.ToBase64String(Encoding.Unicode.GetBytes(Path.GetFullPath(download))) + " " + hash + " " + requested
                 + " " + owner.Id.ToString(CultureInfo.InvariantCulture)
                 + " " + owner.StartTime.ToUniversalTime().Ticks.ToString(CultureInfo.InvariantCulture) + " " + identity)
@@ -46,27 +52,35 @@ namespace KillerNotes.Services
             using var helper = platform.Start(start) ?? throw new IOException("The trusted update helper did not start.");
             helper.WaitForExit();
             if (helper.ExitCode != 0) throw new Win32Exception(helper.ExitCode);
+            // The verified copy now sits in protected staging, and its own report lives beside it, so
+            // the download and the report written above are no longer anyone's recovery path.
+            UpdateService.DiscardDownload(download);
+            UpdateService.DiscardDownload(download + ".recovery.txt");
         }
 
         internal static int Apply(string[] args)
         {
             try
             {
-                if (args.Length != 7 || !KillerFamily.Deployment.InstallerExitCodes.IsElevated())
+                ValidateRequest(args);
+                if (!KillerFamily.Deployment.InstallerExitCodes.IsElevated())
                     throw new SecurityException("The machine update operation requires a complete elevated request.");
-                string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "KillerNotes");
-                string target = Path.Combine(directory, "KillerNotes.exe");
+                string directory = MachineDirectory;
+                string target = Path.Combine(directory, AppInfo.ExeName);
                 using var self = Process.GetCurrentProcess();
                 if (!string.Equals(self.MainModule!.FileName, target, StringComparison.OrdinalIgnoreCase))
                     throw new SecurityException("The update helper is not the protected installed application.");
-                using var lease = KillerFamily.Deployment.InstallerExitCodes.Acquire("KillerNotes");
-                using var pinned = UpdatePathSafety.PinDirectory(directory);
+                using var lease = KillerFamily.Deployment.InstallerExitCodes.Acquire(AppInfo.DisplayName);
+                using var pinned = InstallationFiles.PinDirectory(directory, mustExist: true);
                 using var creator = WindowsIdentity.GetCurrent();
                 ValidateMachineOwner(directory, creator.Owner
                     ?? throw new SecurityException("The machine staging creator owner is unavailable."));
-                string download = Path.GetFullPath(Encoding.Unicode.GetString(Convert.FromBase64String(args[1])));
+                string download = ReleaseIdentity.RequireLocalFile(Encoding.Unicode.GetString(Convert.FromBase64String(args[1])));
                 string expected = args[2], version = NormalizeVersion(args[3]);
-                UpdateImagePublication.RememberVerified(download, expected);
+                // The staged image must carry the installed publisher's certificate (ReleaseIdentity
+                // below), so the publication helper holds the published image to that thumbprint.
+                string signer = CodeSignature.GetSignerInfo().thumb;
+                UpdateImagePublication.RememberVerified(download, expected, signer);
                 if (!Guid.TryParseExact(args[6], "N", out _)) throw new SecurityException("The update staging identity is invalid.");
                 int parentId = int.Parse(args[4], CultureInfo.InvariantCulture);
                 long parentTicks = long.Parse(args[5], CultureInfo.InvariantCulture);
@@ -74,42 +88,17 @@ namespace KillerNotes.Services
                 if (parent.StartTime.ToUniversalTime().Ticks != parentTicks
                     || !string.Equals(parent.MainModule?.FileName, target, StringComparison.OrdinalIgnoreCase))
                     throw new SecurityException("The update owner does not match the installed application.");
-                using var sourcePath = UpdatePathSafety.PinDirectory(Path.GetDirectoryName(download)!);
+                using var sourcePath = InstallationFiles.PinDirectory(Path.GetDirectoryName(download)!, mustExist: true);
                 using var source = new FileStream(download, FileMode.Open, FileAccess.Read, FileShare.Read);
                 using var hash = SHA256.Create();
                 if (!Hex(hash.ComputeHash(source)).Equals(expected, StringComparison.OrdinalIgnoreCase))
                     throw new SecurityException("The update changed after download verification.");
                 string staged = Path.Combine(directory, ".update-" + args[6] + ".exe");
-                if (File.Exists(staged) || Directory.Exists(staged)) throw new IOException("The update staging path is already occupied.");
-                using (var output = new FileStream(staged, FileMode.CreateNew, FileAccess.Write, FileShare.None,
-                    65536, FileOptions.WriteThrough))
-                {
-                    source.Position = 0;
-                    source.CopyTo(output);
-                    output.Flush(true);
-                }
-                using (var protectedCopy = new FileStream(staged, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    if (!Hex(hash.ComputeHash(protectedCopy)).Equals(expected, StringComparison.OrdinalIgnoreCase))
-                        throw new SecurityException("The protected update staging failed SHA-256 verification.");
-                    // Release identity belongs to the protected bytes that will be published,
-                    // rather than another reopening of the caller-controlled source pathname.
-                    var installedSigner = CodeSignature.GetSignerInfo();
-                    var incomingSigner = CodeSignature.GetSignerInfo(staged);
-                    if (!installedSigner.valid || !incomingSigner.valid
-                        || !string.Equals(installedSigner.thumb, incomingSigner.thumb, StringComparison.OrdinalIgnoreCase))
-                        throw new SecurityException("The update must have a valid signature from the installed publisher certificate.");
-                    var incoming = AssemblyName.GetAssemblyName(staged);
-                    var installed = Assembly.GetExecutingAssembly().GetName();
-                    if (incoming.Name != "KillerNotes" || incoming.Version == null
-                        || NormalizeVersion(incoming.Version.ToString()) != version
-                        || Version.Parse(version) <= Version.Parse(NormalizeVersion(installed.Version!.ToString())))
-                        throw new SecurityException("The update's product or release version does not match a newer KillerNotes release.");
-                }
+                Stage(download, staged, expected, image => ReleaseIdentity.Verify(image, version, requireInstalledSignature: true));
                 string originalHash;
                 using (var original = new FileStream(target, FileMode.Open, FileAccess.Read, FileShare.Read))
                     originalHash = Hex(hash.ComputeHash(original));
-                UpdateImagePublication.RememberVerified(staged, expected);
+                UpdateImagePublication.RememberVerified(staged, expected, signer);
                 var start = Publication(staged, target, version, originalHash,
                     parentId, parentTicks, self.Id, self.StartTime.ToUniversalTime().Ticks);
                 using var child = Process.Start(start) ?? throw new IOException("The immutable publication helper did not start.");
@@ -122,15 +111,39 @@ namespace KillerNotes.Services
             }
         }
 
+        /// <summary>Copies a hash-verified download into protected staging. The caller holds the
+        /// download open without delete sharing, so its path cannot be swapped: release identity is
+        /// checked there before anything reaches the installation folder, and again on the staged
+        /// bytes that will be published. A staged copy that fails either check is deleted.</summary>
+        internal static void Stage(string download, string staged, string expected, Action<string> verifyIdentity)
+        {
+            verifyIdentity(download);
+            if (File.Exists(staged) || Directory.Exists(staged)) throw new IOException("The update staging path is already occupied.");
+            try
+            {
+                ExecutableDeployment.Install(download, staged);
+                using (var protectedCopy = new FileStream(staged, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var hash = SHA256.Create())
+                    if (!Hex(hash.ComputeHash(protectedCopy)).Equals(expected, StringComparison.OrdinalIgnoreCase))
+                        throw new SecurityException("The protected update staging failed SHA-256 verification.");
+                verifyIdentity(staged);
+            }
+            catch
+            {
+                try { File.Delete(staged); } catch { /* The failure below is what the caller reports. */ }
+                throw;
+            }
+        }
+
         internal static ProcessStartInfo Publication(string staged, string target, string version, string originalHash,
-            int parentId, long parentTicks, int helperId, long helperTicks, string? overrides = null)
+            int parentId, long parentTicks, int helperId, long helperTicks)
         {
             string publication = UpdateImagePublication.Script(staged, target, true, UpdateService.ReleasesUrl,
-                "KillerNotes", version, "HKLM", overrides: overrides);
+                AppInfo.DisplayName, version, "HKLM");
             string report = staged + ".recovery.txt";
             string body = "$ErrorActionPreference='Stop';$lease=$null;$owned=$false;try{"
                 + Wait(parentId, parentTicks) + Wait(helperId, helperTicks)
-                + "$lease=New-Object Threading.Mutex($false,'Global\\KillerTools-Install-KillerNotes');"
+                + "$lease=New-Object Threading.Mutex($false,'Global\\KillerTools-Install-" + AppInfo.DisplayName + "');"
                 + "try{$owned=$lease.WaitOne(0)}catch [Threading.AbandonedMutexException]{$owned=$true};if(-not $owned){exit 1618};"
                 + "$original=[IO.File]::OpenRead(" + Data(target) + ");$hash=[Security.Cryptography.SHA256]::Create();"
                 + "try{if([BitConverter]::ToString($hash.ComputeHash($original)).Replace('-','') -ne " + Data(originalHash)
@@ -139,31 +152,54 @@ namespace KillerNotes.Services
                 + "\n}catch{$message=$_.Exception.ToString();[Console]::Error.WriteLine($message);try{[IO.File]::AppendAllText("
                 + Data(report) + ",[Environment]::NewLine+$message)}catch{};exit 1}"
                 + "finally{if($null -ne $lease){if($owned){$lease.ReleaseMutex()};$lease.Dispose()}}";
-            return UpdateHelperLaunch.StartInfo(body);
+            return new ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),
+                @"WindowsPowerShell\v1.0\powershell.exe"), ImmutablePowerShell.Arguments(body))
+            { UseShellExecute = false, CreateNoWindow = true, WindowStyle = ProcessWindowStyle.Hidden,
+                WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.System) };
         }
 
-        private static string Wait(int id, long ticks) =>
+        /// <summary>PowerShell that waits up to a minute for one process, identified by id and start
+        /// time so a reused id is never mistaken for it, and exits 1618 if it is still running.</summary>
+        internal static string Wait(int id, long ticks) =>
             "$p=$null;try{$p=[Diagnostics.Process]::GetProcessById(" + id.ToString(CultureInfo.InvariantCulture)
             + ")}catch [ArgumentException]{};if($null -ne $p -and $p.StartTime.ToUniversalTime().Ticks -eq "
             + ticks.ToString(CultureInfo.InvariantCulture) + " -and -not $p.WaitForExit(60000)){exit 1618};";
 
-        private static string NormalizeVersion(string? text)
+        /// <summary>Refuses an elevated request unless every argument has exactly the shape
+        /// <see cref="Start"/> writes: the helper verb, an absolute download path, a 64-digit hex
+        /// hash, a release version, a positive owner id and start time, and a staging identity
+        /// (Killendar's and KillerNotes' request check).</summary>
+        internal static void ValidateRequest(string[] args)
         {
-            if (!Version.TryParse(text, out var version) || version.Build < 0) throw new SecurityException("The release version is invalid.");
-            return version.ToString(3);
+            if (args.Length != 7 || args[0] != HelperArgument
+                || args[2].Length != 64 || args[2].Any(c => !Uri.IsHexDigit(c))
+                || !int.TryParse(args[4], NumberStyles.None, CultureInfo.InvariantCulture, out int id) || id <= 0
+                || !long.TryParse(args[5], NumberStyles.None, CultureInfo.InvariantCulture, out long ticks)
+                || ticks <= 0 || ticks > DateTime.MaxValue.Ticks
+                || !Guid.TryParseExact(args[6], "N", out _))
+                throw new SecurityException("The update request is invalid.");
+            string download;
+            try { download = Encoding.Unicode.GetString(Convert.FromBase64String(args[1])); }
+            catch (FormatException error) { throw new SecurityException("The update request is invalid.", error); }
+            if (download.Length == 0 || !Path.IsPathRooted(download))
+                throw new SecurityException("The update download path must be absolute.");
+            _ = Path.GetFullPath(download);
+            _ = NormalizeVersion(args[3]);
         }
+
+        private static string NormalizeVersion(string? text) => ReleaseIdentity.NormalizeVersion(text);
         private static string Data(string text) => "[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('"
             + Convert.ToBase64String(Encoding.Unicode.GetBytes(text)) + "'))";
         private static string Hex(byte[] bytes) => BitConverter.ToString(bytes).Replace("-", "");
 
         internal static void ValidateMachineOwner(string directory, SecurityIdentifier? stagingOwner = null)
-            => ValidateMachineOwner(Directory.GetAccessControl(directory), stagingOwner);
+            => ValidateMachineOwner(new DirectoryInfo(directory).GetAccessControl(), stagingOwner);
 
         // Pre-UAC validation defers creator proof; the elevated staging caller supplies its token owner.
         internal static void ValidateMachineOwner(DirectorySecurity security, SecurityIdentifier? stagingOwner = null)
         {
             var trusted = new[] { "S-1-5-18", "S-1-5-32-544", "S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464" };
-            if (!trusted.Contains(security.GetOwner(typeof(SecurityIdentifier)).Value))
+            if (security.GetOwner(typeof(SecurityIdentifier)) is not { } owner || !trusted.Contains(owner.Value))
                 throw new SecurityException("The machine installation has an untrusted owner.");
             if (stagingOwner != null && !trusted.Contains(stagingOwner.Value))
                 throw new SecurityException("The machine staging creator has an untrusted owner.");

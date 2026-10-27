@@ -5,33 +5,20 @@ using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using KillerNotes.Controls;
 using KillerNotes.Features.About;
+using KillerNotes.Services;
 
-// KillerUI kit. A partial of your MainWindow.
-//
-// The About overlay's window half: the fade, the click handling, and the IAboutHost
-// implementation that maps the controller's values onto the named XAML elements. All the
-// behavior lives in Features/About/AboutController.cs, and the values it reports come from
-// Services/AppInfo.cs, Services/CodeSignature.cs and Services/UpdateService.cs.
-//
-// Your MainWindow.xaml is expected to provide an "AboutOverlay" Grid (ZIndex high,
-// Visibility=Collapsed, dim background, MouseLeftButtonDown="AboutOverlay_Click")
-// containing a card (MouseLeftButtonDown="AboutCard_Click") with these named elements:
-//   AboutVersionBlock and AboutReleaseDateBlock (one row, version left / date right),
-//   AboutPublisherBlock, AboutAkaBlock (Collapsed by default) wrapping AboutAkaRun inside a
-//   thekiller.net Hyperlink, AboutThumbprintBlock, AboutSha256Block, AboutUpdateButton,
-//   AboutUpdateText  (+ a close button Click="AboutClose_Click")
-// The info panel Grid must be named AboutInfoGrid - the header binds its width to it so the
-// SHA-256 line stays the only thing that sets the card width (family standard, code/CLAUDE.md).
-//
-// The self-update confirmation uses the kit's themed ConfirmDialog (ConfirmDialog.xaml/.cs),
-// so copy those files too.
-//
-// Call ShowAboutOverlay() from your About button / F12 handler.
 namespace KillerNotes.Shell
 {
+    /// <summary>
+    /// The About overlay's window half: the fade, the click handling, and the IAboutHost
+    /// implementation that maps the controller's values onto the named XAML elements.
+    /// Everything the card SAYS is decided in Features/About/AboutController.cs. Rows only this
+    /// app's card has (Start with Windows, Close to tray, KillerScan's vendor database) are mapped
+    /// in the app's own Shell/About.Extras.cs.
+    /// </summary>
     public partial class MainWindow : IAboutHost
     {
-        private readonly AboutController _about = null!;
+        private AboutController _about = null!;
 
         private void ShowAboutOverlay() => _about.Show();
 
@@ -61,32 +48,52 @@ namespace KillerNotes.Shell
 
         void IAboutHost.ShowCard()
         {
-            HideShortcutsOverlay();
-            _overlayFocus.Open(RootGrid, AboutOverlay, Keyboard.FocusedElement);
-            FadeOverlayIn(AboutOverlay);
-            FocusKeyboardOverlay();
+            bool handled = false;
+            ShowingCard(ref handled);
+            if (!handled) FadeOverlayIn(AboutOverlay);
         }
 
-        // ---- Overlay fade (shared with the shortcuts overlay: Shortcuts.cs, Fonts.cs) ----
+        /// <summary>App hook: show the card yourself and set <paramref name="handled"/> (KillerNotes
+        /// opens a keyboard focus scope around the fade and focuses the card after it).</summary>
+        partial void ShowingCard(ref bool handled);
+
+        /// <summary>App hook: hide an overlay yourself and set <paramref name="handled"/> (KillerNotes
+        /// hands its keyboard-managed overlays to their own close path).</summary>
+        partial void OverlayFadingOut(UIElement overlay, ref bool handled);
+
+        /// <summary>App hook: close the shortcuts overlay before the footer version opens About, and
+        /// set <paramref name="handled"/>; otherwise the kit collapses ShortcutsOverlay.</summary>
+        partial void CloseShortcutsForAbout(ref bool handled);
+
+        // ---- Overlay fade (shared with the shortcuts overlay, ShortcutsOverlay.cs) ----
+
+        /// <summary>App hook: an overlay is about to show (KillerScan dims the frame behind it).</summary>
+        partial void OnOverlayShowing(UIElement overlay);
+
+        /// <summary>App hook: an overlay finished hiding.</summary>
+        partial void OnOverlayHidden(UIElement overlay);
 
         private void FadeOverlayIn(UIElement o)
         {
+            OnOverlayShowing(o);
             o.Visibility = Visibility.Visible;
             Anim.FadeIn(o);
         }
 
         private void FadeOverlayOut(UIElement o)
         {
-            if (o == AboutOverlay || o == ShortcutOverlay || o == FontsOverlay)
-            {
-                CloseKeyboardOverlay(o);
-                return;
-            }
+            bool handled = false;
+            OverlayFadingOut(o, ref handled);
+            if (handled) return;
             var a = new DoubleAnimation(o.Opacity, 0, new Duration(TimeSpan.FromMilliseconds(Anim.FadeMs)))
             {
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
             };
-            a.Completed += (_, _) => o.Visibility = Visibility.Collapsed;
+            a.Completed += (_, _) =>
+            {
+                o.Visibility = Visibility.Collapsed;
+                OnOverlayHidden(o);
+            };
             o.BeginAnimation(UIElement.OpacityProperty, a);
         }
 
@@ -99,6 +106,17 @@ namespace KillerNotes.Shell
 
         private void AboutVersion_Click(object sender, MouseButtonEventArgs e) => _about.OpenReleaseNotes();
 
+        /// <summary>The footer version opens the About card, as in every app. One overlay at a
+        /// time, so the F1 overlay steps aside first.</summary>
+        private void VersionLabel_Click(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            bool handled = false;
+            CloseShortcutsForAbout(ref handled);
+            if (!handled && ShortcutsOverlay.Visibility == Visibility.Visible) ShortcutsOverlay.Visibility = Visibility.Collapsed;
+            ShowAboutOverlay();
+        }
+
         private void AboutUpdateButton_Click(object sender, RoutedEventArgs e) => _about.Update();
 
         private void AboutStartupUpdateCheck_Click(object sender, RoutedEventArgs e)
@@ -106,7 +124,7 @@ namespace KillerNotes.Shell
 
         private void AboutLink_Navigate(object sender, RequestNavigateEventArgs e)
         {
-            Services.WebLink.Open(e.Uri.AbsoluteUri);
+            WebLink.Open(e.Uri.AbsoluteUri);
             e.Handled = true;
         }
     }

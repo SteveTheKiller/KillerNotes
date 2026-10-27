@@ -41,53 +41,6 @@ namespace KillerNotes.Tests
             Assert.Throws<SecurityException>(() => TrustedUpdate.ValidateMachineOwner(security,
                 new SecurityIdentifier("S-1-5-32-545")));
         }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void PublicationWaitsForOwnedProcessAndPreservesChangedTarget(bool changed)
-        {
-            string root = Path.Combine(Path.GetTempPath(), "KillerNotes-trusted-update-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(root);
-            try
-            {
-                string target = Path.Combine(root, "target.exe"), staged = Path.Combine(root, "staged.exe");
-                byte[] original = Encoding.UTF8.GetBytes("original image");
-                byte[] replacement = File.ReadAllBytes(Path.Combine(Environment.SystemDirectory, "cmd.exe"));
-                File.WriteAllBytes(target, original);
-                File.WriteAllBytes(staged, replacement);
-                UpdateImagePublication.RememberVerified(staged, Hash(replacement));
-                string marker = Path.Combine(root, "relaunched.txt");
-                string metadata = Path.Combine(root, "metadata.txt");
-                string overrides = "$ops.Metadata = { param($plan) [IO.File]::WriteAllText('" + metadata + "', $plan.Hive + ':' + $plan.Version) }\n"
-                    + "$ops.Relaunch = { param($plan) [IO.File]::WriteAllText('" + marker + "', 'yes') }\n"
-                    + "$ops.Releases = { param($url) }";
-                using var owner = Process.Start(UpdateHelperLaunch.StartInfo("Start-Sleep -Seconds 3"))!;
-                var start = TrustedUpdate.Publication(staged, target, "9.9.9", changed ? new string('0', 64) : Hash(original),
-                    owner.Id, owner.StartTime.ToUniversalTime().Ticks, int.MaxValue, 0, overrides);
-                Assert.False(start.UseShellExecute);
-                Assert.True(start.CreateNoWindow);
-                Assert.Equal("", start.Verb);
-                using var helper = Process.Start(start)!;
-                Assert.False(helper.WaitForExit(300));
-                Assert.Equal(original, File.ReadAllBytes(target));
-                Assert.True(helper.WaitForExit(20000));
-                Assert.True(owner.HasExited);
-                Assert.Equal(changed ? 1 : 0, helper.ExitCode);
-                Assert.Equal(changed ? original : replacement, File.ReadAllBytes(target));
-                Assert.Equal(!changed, File.Exists(marker));
-                if (!changed) Assert.Equal("HKLM:9.9.9", File.ReadAllText(metadata));
-                else Assert.True(File.Exists(staged));
-            }
-            finally { Directory.Delete(root, true); }
-        }
-
-        private static string Hash(byte[] bytes)
-        {
-            using var hash = SHA256.Create();
-            return BitConverter.ToString(hash.ComputeHash(bytes)).Replace("-", "");
-        }
-
         [Fact]
         public void NonwritableUntrustedProcessIsRejectedBeforeAnyLaunch()
         {
@@ -95,7 +48,7 @@ namespace KillerNotes.Tests
             Directory.CreateDirectory(folder);
             string download = Path.Combine(folder, "update.exe");
             File.WriteAllText(download, "retained download");
-            UpdateImagePublication.RememberVerified(download, new string('0', 64));
+            UpdateImagePublication.RememberVerified(download, new string('0', 64), new string('B', 40));
             int launches = 0;
             try
             {

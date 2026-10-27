@@ -122,14 +122,6 @@ namespace KillerNotes.Shell
             };
         }
 
-        // Footer version number -> About overlay (About.cs). Overlays are mutually
-        // exclusive, so an open shortcuts overlay goes away first (Shortcuts.cs).
-        private void VersionLabel_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            HideShortcutsOverlay();
-            ShowAboutOverlay();
-        }
-
         // PORTABLE badge Install button (family install system, ported from
         // KillerScan). Notes need no migration: the database lives in
         // %APPDATA%\KillerNotes regardless of where the exe runs from.

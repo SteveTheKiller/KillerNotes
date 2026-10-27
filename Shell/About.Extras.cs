@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Input;
 using KillerNotes.Features.About;
 
 namespace KillerNotes.Shell
@@ -18,5 +19,29 @@ namespace KillerNotes.Shell
 
         private void AboutCloseToTray_Click(object sender, RoutedEventArgs e)
             => _about.SetCloseToTray(AboutCloseToTray.IsChecked == true);
+
+        // The About, F1 and Fonts overlays are keyboard-managed: About opens inside a focus scope
+        // and focuses the card after its fade, and the three close through CloseKeyboardOverlay.
+        partial void ShowingCard(ref bool handled)
+        {
+            HideShortcutsOverlay();
+            _overlayFocus.Open(RootGrid, AboutOverlay, Keyboard.FocusedElement);
+            FadeOverlayIn(AboutOverlay);
+            FocusKeyboardOverlay();
+            handled = true;
+        }
+
+        partial void OverlayFadingOut(UIElement overlay, ref bool handled)
+        {
+            if (overlay != AboutOverlay && overlay != ShortcutsOverlay && overlay != FontsOverlay) return;
+            CloseKeyboardOverlay(overlay);
+            handled = true;
+        }
+
+        partial void CloseShortcutsForAbout(ref bool handled)
+        {
+            HideShortcutsOverlay();
+            handled = true;
+        }
     }
 }

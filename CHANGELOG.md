@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.6.1] - Unreleased
 
 ### Changed
+- Self-update runs on the family update code, which adds signature checks inside the update helper, pinned publication folders, same-publisher replacement and stable-only releases to every check KillerNotes already made. Installed paths, registry keys and the exe name are unchanged, and the About card keeps its keyboard focus behavior through the shared About code.
 - KillerNotes takes the family theme engine, control styles and palettes from the KillerUI template, so its buttons, captions, menus and dialogs match the other Killer apps, and Alt+drag moves any window.
 - KillerNotes takes the family language manager, app size and more kit files from the KillerUI template, dialog confirm buttons show the family accent outline at rest, and dragging uses the family hand cursors.
 - Confirmation prompts use the family dialog frame, and the tray, system menu, About card and region formats run on the shared family code with the same behavior as before.

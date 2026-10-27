@@ -163,7 +163,7 @@ namespace KillerNotes.Tests
             scope.Open(root, overlay, null);
             void Field(string name, object value) => typeof(MainWindow).GetField(name, Private)!.SetValue(window, value);
             Field("_overlayFocus", scope);
-            Field("ShortcutOverlay", overlay);
+            Field("ShortcutsOverlay", overlay);
             Field("AboutOverlay", new Grid());
             Field("ShortcutListHost", new Grid { Visibility = Visibility.Collapsed });
             Field("KsViewListBtn", new Button());

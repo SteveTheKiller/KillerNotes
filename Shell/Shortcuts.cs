@@ -18,7 +18,7 @@ namespace KillerNotes.Shell
         private void InitShortcuts()
         {
             PreviewKeyDown += Shortcuts_PreviewKeyDown;
-            new KillerFamily.Accessibility.OverlayFocus(this).Track(ShortcutOverlay, AboutOverlay, FontsOverlay);
+            new KillerFamily.Accessibility.OverlayFocus(this).Track(ShortcutsOverlay, AboutOverlay, FontsOverlay);
             PreviewTextInput += (_, e) =>
             {
                 if (_overlayFocus.ActiveOverlay != null && _overlayFocus.ActiveOverlay != FontsOverlay &&
@@ -510,28 +510,28 @@ namespace KillerNotes.Shell
 
         private void ToggleShortcutsOverlay()
         {
-            if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return; }
+            if (ShortcutsOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return; }
             if (AboutOverlay.Visibility == Visibility.Visible) FadeOverlayOut(AboutOverlay);
             ApplyPersistedShortcutView();   // KeyboardMap.cs (LIST or KEYBOARD, remembered)
-            _overlayFocus.Open(RootGrid, ShortcutOverlay, Keyboard.FocusedElement);
-            FadeOverlayIn(ShortcutOverlay);
+            _overlayFocus.Open(RootGrid, ShortcutsOverlay, Keyboard.FocusedElement);
+            FadeOverlayIn(ShortcutsOverlay);
             FocusKeyboardOverlay();
         }
 
         private void HideShortcutsOverlay()
         {
-            if (ShortcutOverlay.Visibility == Visibility.Visible) CloseKeyboardOverlay(ShortcutOverlay);
+            if (ShortcutsOverlay.Visibility == Visibility.Visible) CloseKeyboardOverlay(ShortcutsOverlay);
         }
 
         private void FocusKeyboardOverlay()
         {
-            if (_overlayFocus.ActiveOverlay == ShortcutOverlay && ShortcutListHost.Visibility == Visibility.Visible)
+            if (_overlayFocus.ActiveOverlay == ShortcutsOverlay && ShortcutListHost.Visibility == Visibility.Visible)
             {
                 // Straight into the search box: typing finds an action, Down goes to the rows.
                 ShortcutSearchBox.Focus();
                 return;
             }
-            if (_overlayFocus.ActiveOverlay == ShortcutOverlay) KsViewListBtn.Focus();
+            if (_overlayFocus.ActiveOverlay == ShortcutsOverlay) KsViewListBtn.Focus();
             else if (_overlayFocus.ActiveOverlay == AboutOverlay) AboutCloseButton.Focus();
             else if (_overlayFocus.ActiveOverlay == FontsOverlay) FontHeaderCombo.Focus();
         }
@@ -554,14 +554,14 @@ namespace KillerNotes.Shell
             {
                 if (!e.IsRepeat)
                 {
-                    if (e.Key == Key.Escape || e.Key == Key.F1 && overlay == ShortcutOverlay ||
+                    if (e.Key == Key.Escape || e.Key == Key.F1 && overlay == ShortcutsOverlay ||
                         e.Key == Key.F12 && overlay == AboutOverlay) CloseKeyboardOverlay(overlay);
                     else if (e.Key == Key.F1) { CloseKeyboardOverlay(overlay); ToggleShortcutsOverlay(); }
                     else { CloseKeyboardOverlay(overlay); ShowAboutOverlay(); }
                 }
                 e.Handled = true;
             }
-            else if (overlay == ShortcutOverlay && modifiers == (ModifierKeys.Control | ModifierKeys.Shift) &&
+            else if (overlay == ShortcutsOverlay && modifiers == (ModifierKeys.Control | ModifierKeys.Shift) &&
                 e.Key is Key.F1 or Key.F2)
             {
                 HandleActionShortcut(e);
@@ -576,7 +576,7 @@ namespace KillerNotes.Shell
                 if (!e.IsRepeat) _about.OpenReleaseNotes();
                 e.Handled = true;
             }
-            else if (overlay == ShortcutOverlay && HandleShortcutSearchKey(e)) { }   // ShortcutSearch.cs
+            else if (overlay == ShortcutsOverlay && HandleShortcutSearchKey(e)) { }   // ShortcutSearch.cs
             else if (!_overlayFocus.Contains(Keyboard.FocusedElement as DependencyObject))
             {
                 FocusKeyboardOverlay();
@@ -606,7 +606,7 @@ namespace KillerNotes.Shell
         {
             if (_kalcOpen) { CloseKalc(); return true; }   // Killculator.cs
             if (FontsOverlay.Visibility == Visibility.Visible) { HideFontsOverlay(); return true; }   // Fonts.cs
-            if (ShortcutOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return true; }
+            if (ShortcutsOverlay.Visibility == Visibility.Visible) { HideShortcutsOverlay(); return true; }
             if (AboutOverlay.Visibility == Visibility.Visible) { FadeOverlayOut(AboutOverlay); return true; }
             // BEFORE the SearchBox branch, and it has to stay there. Both boxes can hold text at
             // once, and if the sidebar's came first then Esc with the find bar open would clear

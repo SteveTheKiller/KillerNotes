@@ -3289,7 +3289,7 @@
         </Grid>
 
         <!-- Shortcuts overlay (F1): same card language as About; mutually exclusive with it -->
-        <Grid x:Name="ShortcutOverlay" Grid.RowSpan="3" Panel.ZIndex="9100" Visibility="Collapsed"
+        <Grid x:Name="ShortcutsOverlay" Grid.RowSpan="3" Panel.ZIndex="9100" Visibility="Collapsed"
               KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle"
               AutomationProperties.Name="{DynamicResource Str_KS_Title}"
               Margin="{DynamicResource OverlayBleed}"

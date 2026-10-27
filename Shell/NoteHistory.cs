@@ -124,7 +124,7 @@ namespace KillerNotes.Shell
             // and the Fonts card are not places a thumb button should quietly swap the note
             // behind them.
             if (AboutOverlay?.Visibility == Visibility.Visible) return;
-            if (ShortcutOverlay?.Visibility == Visibility.Visible) return;
+            if (ShortcutsOverlay?.Visibility == Visibility.Visible) return;
             if (FontsOverlay?.Visibility == Visibility.Visible) return;
 
             if (e.ChangedButton == MouseButton.XButton1) { NavBack(); e.Handled = true; }
