@@ -83,7 +83,12 @@ namespace KillerNotes.Controls
 
         private void Browse_Click(object sender, RoutedEventArgs e)
         {
-            string? picked = FolderPicker.Show(this, BackupService.Folder, Loc("Str_Bk_PickFolderTitle"));
+            var dlg = new FileDialog(FileDialogMode.Folder)
+            {
+                Title = Loc("Str_Bk_PickFolderTitle"),
+                InitialDirectory = BackupService.Folder ?? "",
+            };
+            string? picked = dlg.ShowDialog(this) == true ? dlg.FileName : null;
             if (string.IsNullOrWhiteSpace(picked)) return;
             BackupService.Settings.Set(BackupService.FolderSetting, picked!);
             FolderBox.Text = picked;

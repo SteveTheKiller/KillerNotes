@@ -26,7 +26,7 @@ namespace KillerNotes.Controls
         public DialogTitleBar()
         {
             InitializeComponent();
-            DialogChrome.SharpenTitleIcon(TitleIcon);
+            DialogFrame.SharpenTitleIcon(TitleIcon);
             // Above the dialog body, so the wordmark's drips hang over it instead of under it.
             Panel.SetZIndex(this, 1);
         }

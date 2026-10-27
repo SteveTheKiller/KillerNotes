@@ -35,12 +35,10 @@ namespace KillerNotes.Tests
         private static IEnumerable<string> WindowXaml() =>
             Directory.GetFiles(Path.Combine(Root(), "Shell"), "*.xaml")
                 .Concat(Directory.GetFiles(Path.Combine(Root(), "Controls"), "*.xaml", SearchOption.AllDirectories))
-                .Where(f => !f.EndsWith("Controls.xaml", StringComparison.Ordinal) && !f.EndsWith("AppStyles.xaml", StringComparison.Ordinal)
-                            && !f.EndsWith("PickerStyles.xaml", StringComparison.Ordinal)
-                            && !f.EndsWith("OverlayScrollViewer.xaml", StringComparison.Ordinal));
+                .Where(f => !f.EndsWith("Controls.xaml", StringComparison.Ordinal) && !f.EndsWith("AppStyles.xaml", StringComparison.Ordinal)                            && !f.EndsWith("OverlayScrollViewer.xaml", StringComparison.Ordinal));
 
         private static string AllCode() => string.Join("\n",
-            new[] { "Shell", "Controls", "SharedPicker", "Features" }
+            new[] { "Shell", "Controls", "Features" }
                 .SelectMany(d => Directory.GetFiles(Path.Combine(Root(), d), "*.cs", SearchOption.AllDirectories))
                 .Select(File.ReadAllText));
 
@@ -98,7 +96,6 @@ namespace KillerNotes.Tests
         /// <summary>Interactive controls taken out of the keyboard order, each with the other way in.</summary>
         private static readonly Dictionary<string, string> KeyboardRoutes = new(StringComparer.Ordinal)
         {
-            ["RecentsBtn"] = "F4 or Alt+Down opens recent locations (SharedPicker/FileDialog.xaml.cs)",
         };
 
         [Fact]
@@ -113,9 +110,7 @@ namespace KillerNotes.Tests
                     string name = (string?)el.Attribute(X + "Name") ?? "";
                     if (!KeyboardRoutes.ContainsKey(name)) cut.Add($"{Path.GetFileName(file)}: {el.Name.LocalName} {name}");
                 }
-            Assert.True(cut.Count == 0, "Not reachable by keyboard:\n" + string.Join("\n", cut));
-            Assert.Contains("key == Key.Down && !FilterCombo.IsKeyboardFocusWithin)) { RecentsBtn_Click(", File.ReadAllText(Path.Combine(Root(), "SharedPicker", "FileDialog.xaml.cs")));
-        }
+            Assert.True(cut.Count == 0, "Not reachable by keyboard:\n" + string.Join("\n", cut));        }
 
         [Fact]
         public void EverySharedControlStyleUsesTheFamilyFocusRing()
@@ -180,7 +175,7 @@ namespace KillerNotes.Tests
             string root = Root();
             foreach (string file in WindowXaml())
                 counts[Rel(root, file)] = File.ReadLines(file).Sum(l => xaml.Matches(l).Count);
-            foreach (string file in new[] { "Shell", "Controls", "SharedPicker" }
+            foreach (string file in new[] { "Shell", "Controls" }
                          .SelectMany(d => Directory.GetFiles(Path.Combine(root, d), "*.cs", SearchOption.AllDirectories)))
                 counts[Rel(root, file)] = File.ReadLines(file).Where(l => !l.TrimStart().StartsWith("//", StringComparison.Ordinal)).Sum(l => cs.Matches(l).Count);
             return counts.Where(c => c.Value > 0).ToDictionary(c => c.Key, c => c.Value, StringComparer.OrdinalIgnoreCase);

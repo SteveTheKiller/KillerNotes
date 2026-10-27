@@ -1051,4 +1051,6 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Color_Green">Zielony</sys:String>
     <sys:String x:Key="Str_Color_Blue">Niebieski</sys:String>
     <sys:String x:Key="Str_Color_Hex">Kolor szesnastkowy</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Wybierz folder</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Podgląd</sys:String>
 </ResourceDictionary>

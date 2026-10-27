@@ -1124,4 +1124,6 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Color_Green">Yeşil</sys:String>
     <sys:String x:Key="Str_Color_Blue">Mavi</sys:String>
     <sys:String x:Key="Str_Color_Hex">Onaltılık renk</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Klasör seç</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Önizleme</sys:String>
 </ResourceDictionary>

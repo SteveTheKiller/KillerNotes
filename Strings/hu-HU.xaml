@@ -1150,4 +1150,6 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Color_Green">Zöld</sys:String>
     <sys:String x:Key="Str_Color_Blue">Kék</sys:String>
     <sys:String x:Key="Str_Color_Hex">Hexadecimális szín</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Válasszon mappát</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Előnézet</sys:String>
 </ResourceDictionary>

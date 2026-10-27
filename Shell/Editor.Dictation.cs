@@ -516,7 +516,7 @@ namespace KillerNotes.Shell
             // MP3 is offered for sending to someone else - lossy, but it plays anywhere.
             if (LameCodec.Available) formats.Add("MP3 audio|*.mp3");
 
-            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Save)
+            var dlg = new Controls.FileDialog(Controls.FileDialogMode.Save)
             {
                 Title = Loc("Str_Dict_SaveAs"),
                 FileName = RecordingFileName(rec, data),

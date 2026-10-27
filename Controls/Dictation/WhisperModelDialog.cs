@@ -174,8 +174,8 @@ namespace KillerNotes.Controls.Dictation
             root.Children.Add(dark);
 
             // The shared 5px window frame; nothing on a flat theme. (2026-08-07)
-            root.Children.Add(KillerNotes.Controls.DialogChrome.WindowFrame());
-            KillerNotes.Controls.DialogChrome.InsetForFrame(shell);
+            root.Children.Add(KillerNotes.Controls.DialogFrame.WindowFrame());
+            KillerNotes.Controls.DialogFrame.InsetForFrame(shell);
 
             outer.Child = root;
             Content = outer;
@@ -205,7 +205,7 @@ namespace KillerNotes.Controls.Dictation
             // every other window shows the two-run wordmark (and the plain-title twin on a theme
             // that wants one). Same call the picker and the Databases window make.
             // (2026-08-07)
-            var caption = DialogChrome.Wordmark(L("Str_Whisper_Title", "Speech model"));
+            var caption = DialogFrame.Wordmark(L("Str_Whisper_Title", "Speech model"));
 
             // DialogChrome, not a hand-rolled TextBlock. This was the last close X in the app still
             // built locally, so it kept the MDL2 character while every other window switched to the
@@ -218,7 +218,7 @@ namespace KillerNotes.Controls.Dictation
             var grid = new Grid();
             grid.Children.Add(caption);
             grid.Children.Add(close);
-            band.Child = DialogChrome.GrainedTitle(grid);
+            band.Child = DialogFrame.GrainedTitle(grid);
             return band;
         }
 

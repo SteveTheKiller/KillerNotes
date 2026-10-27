@@ -9,22 +9,20 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using KillerNotes.Controls;   // Anim - the app's own fade, which this used to carry a copy of
+using System.Windows.Media.Imaging;
+using KillerNotes.Services;
 
-namespace KillerNotes.SharedPicker
+namespace KillerNotes.Controls
 {
-    /// <summary>Open or Save. Picked at construction; changes the accept button and the rules.</summary>
-    public enum FileDialogMode { Open, Save }
+    /// <summary>Open, Save or Folder. Picked at construction; changes the accept button and the
+    /// rules. Folder hides the name and type fields, labels the button Select, and returns a
+    /// folder as FileName.</summary>
+    public enum FileDialogMode { Open, Save, Folder }
 
     /// <summary>
-    /// Themed stand-in for Microsoft.Win32.OpenFileDialog / SaveFileDialog. Chrome, places rail,
-    /// view modes, sortable columns, a file name box and a filter combo, with the row styles
-    /// shared from Controls.xaml.
-    ///
-    /// This is the ONLY picker in the app. There was a second one, FolderPickerDialog, for
-    /// choosing a folder; it was deleted on 2026-08-07 because it duplicated all of the above and
-    /// the two copies had drifted apart. A folder picker is this dialog with CheckFileExists off -
-    /// the chosen path's directory IS the folder. Do not add a second one back.
+    /// Themed stand-in for Microsoft.Win32.OpenFileDialog / SaveFileDialog. Same chrome, places
+    /// rail, view modes and sortable columns as FolderPickerDialog (row styles shared from
+    /// Controls.xaml), plus a file name box and a filter combo.
     ///
     /// The property surface mirrors the Win32 dialogs on purpose - Title, Filter, FilterIndex,
     /// FileName, InitialDirectory, DefaultExt, AddExtension, OverwritePrompt, CheckFileExists -
@@ -33,8 +31,7 @@ namespace KillerNotes.SharedPicker
     ///     var dlg = new FileDialog(FileDialogMode.Save) { Title = ..., Filter = ..., FileName = ... };
     ///     if (dlg.ShowDialog(owner) == true) Use(dlg.FileName);
     ///
-    /// Multiselect is deliberately NOT implemented yet - nothing in the app needs it, and
-    /// a half-working Multiselect is worse than an absent one. Add it when something wants it.
+    /// Multiselect matches Explorer's Ctrl and Shift selection behavior in Open mode.
     /// </summary>
     public partial class FileDialog : Window
     {
@@ -55,6 +52,11 @@ namespace KillerNotes.SharedPicker
         public string DefaultExt { get; set; } = "";
 
         public bool AddExtension { get; set; } = true;
+        /// <summary>
+        /// Append the active filter's extension even when the typed name contains another dot.
+        /// Use this for format-locked exports such as flattened PDF output.
+        /// </summary>
+        public bool RequireFilterExtension { get; set; }
 
         /// <summary>Save mode: confirm before replacing an existing file.</summary>
         public bool OverwritePrompt { get; set; } = true;
@@ -72,21 +74,22 @@ namespace KillerNotes.SharedPicker
         /// Set it BEFORE ShowDialog - the list's selection mode is applied there.</summary>
         public bool Multiselect { get; set; }
 
-        /// <summary>
-        /// Shows the image preview pane on the right. Off by default: a picker choosing a data
-        /// FOLDER has nothing to preview, and the column is 0-wide when off so the layout is
-        /// byte-identical to before for every existing caller.
-        /// </summary>
-        public bool ShowPreview { get; set; }
+        /// <summary>Folder mode only: list folders alone instead of folders and the files that
+        /// pass the filter. Off by default.</summary>
+        public bool HideFilesInFolderMode { get; set; }
 
-        /// <summary>
-        /// Drop the app-name prefix from the caption and show the Title alone. For a Title that
-        /// already names the product - "Choose the KillerNotes data folder" - the standard
-        /// wordmark prefix makes the caption read "KillerNotes  Choose the KillerNotes data
-        /// folder", saying it twice. Off by default: every other caller wants the wordmark.
-        /// </summary>
-        public bool TitleOnly { get; set; }
+        /// <summary>Folder mode only: Explorer-style picking. A highlighted subfolder is the answer
+        /// (otherwise the folder being shown), Enter anywhere accepts, and the chosen folder is
+        /// remembered as the next starting point. Off by default: the folder being shown is the
+        /// answer and nothing is remembered.</summary>
+        public bool AcceptHighlightedFolder { get; set; }
 
+        /// <summary>Show a live preview pane for image-selection workflows. The pane is opt-in so
+        /// ordinary Open and Save dialogs keep their compact layout.</summary>
+        public bool ShowImagePreview { get; set; }
+
+        /// <summary>The kit's older name for <see cref="ShowImagePreview"/>, kept for its callers.</summary>
+        public bool ShowPreview { get => ShowImagePreview; set => ShowImagePreview = value; }
 
         /// <summary>Every path chosen. Always populated on success, so a caller can read this
         /// whether or not it asked for Multiselect - single selection yields one entry, matching
@@ -107,6 +110,12 @@ namespace KillerNotes.SharedPicker
         private int  _viewMode;              // 0 list, 1 icons, 2 details
         private int  _sortKey;               // 0 name, 1 size, 2 modified
         private bool _sortAsc = true;
+        private int _imagePreviewGeneration;
+
+        private static readonly HashSet<string> PreviewImageExtensions = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tif", ".tiff"
+        };
 
         // Per-filter-entry patterns, parallel to FilterCombo's items. Empty list = show all.
         private readonly List<string[]> _filterPatterns = [];
@@ -114,14 +123,25 @@ namespace KillerNotes.SharedPicker
         private static readonly string ArrowUp   = ((char)0xE70E).ToString();
         private static readonly string ArrowDown = ((char)0xE70D).ToString();
 
-        // ── Pinned places / recents / hidden state ───────────────────────────────
+        // ── Tree / pinned places / recents / hidden state ────────────────────────
+        public ObservableCollection<FolderNode> TreeRoots { get; } = [];
+        private bool _treeSyncing;   // tree selection navigates, navigation selects: no ping-pong
         private bool _showHidden;
 
         private const string ShowHiddenKey = "FileDlgShowHidden";
         private const string RecentsKey    = "FileDlgRecents";
         private const string PinnedKey     = "FileDlgPinned";
+        private const string PlacesHKey    = "FileDlgPlacesH";
         private const string LastOpenKey   = "FileDlgLastOpenDir";
         private const string LastSaveKey   = "FileDlgLastSaveDir";
+        private const string SortKeyKey    = "FileDlgSortKey";
+        private const string SortAscKey    = "FileDlgSortAsc";
+
+        // Image pickers (every caller with ShowImagePreview) remember their own folder, separate
+        // from the document open/save memory. One shared key meant Insert Image always started
+        // wherever the last PDF was opened from, never where the user last picked an image.
+        private string LastDirKey =>
+            (_mode == FileDialogMode.Open ? LastOpenKey : LastSaveKey) + (ShowImagePreview ? "Img" : "");
         private const int    RecentsMax    = 12;
 
         // Guards the fade-then-close re-entry below. Without it OnClosing would cancel forever.
@@ -161,9 +181,7 @@ namespace KillerNotes.SharedPicker
             _mode = mode;
             InitializeComponent();
             Closed += (_, _) => CloseDirectoryListing();
-            TitleIcon.Source = System.Windows.Media.Imaging.BitmapDecoder.Create(new Uri("pack://application:,,,/KillerNotes;component/Resources/kn-icon.ico"),
-                System.Windows.Media.Imaging.BitmapCreateOptions.None, System.Windows.Media.Imaging.BitmapCacheOption.OnLoad).Frames[0];
-            InitializePickerKeyboard();
+            if (!DialogChrome.SetTitleIcon(TitleIcon)) TitleIcon.Visibility = Visibility.Collapsed;
             Loaded += (_, _) => Anim.FadeIn(RootFade);
 
             // Size and placement remembered separately from the folder picker: this dialog is a
@@ -171,17 +189,17 @@ namespace KillerNotes.SharedPicker
             try
             {
                 var ci = System.Globalization.CultureInfo.InvariantCulture;
-                if (double.TryParse(App.GetSetting("FileDlgW"),
+                if (double.TryParse(Services.ThemeManager.GetSetting("FileDlgW"),
                         System.Globalization.NumberStyles.Float, ci, out double w) &&
-                    double.TryParse(App.GetSetting("FileDlgH"),
+                    double.TryParse(Services.ThemeManager.GetSetting("FileDlgH"),
                         System.Globalization.NumberStyles.Float, ci, out double h))
                 {
                     Width  = Math.Max(MinWidth,  Math.Min(w, SystemParameters.WorkArea.Width));
                     Height = Math.Max(MinHeight, Math.Min(h, SystemParameters.WorkArea.Height));
                 }
-                if (double.TryParse(App.GetSetting("FileDlgX"),
+                if (double.TryParse(Services.ThemeManager.GetSetting("FileDlgX"),
                         System.Globalization.NumberStyles.Float, ci, out double x) &&
-                    double.TryParse(App.GetSetting("FileDlgY"),
+                    double.TryParse(Services.ThemeManager.GetSetting("FileDlgY"),
                         System.Globalization.NumberStyles.Float, ci, out double y))
                 {
                     var wa = SystemParameters.WorkArea;
@@ -193,21 +211,31 @@ namespace KillerNotes.SharedPicker
                         Top  = y;
                     }
                 }
+                if (double.TryParse(Services.ThemeManager.GetSetting(PlacesHKey),
+                        System.Globalization.NumberStyles.Float, ci, out double ph) && ph >= 56)
+                    PlacesRow.Height = new GridLength(Math.Min(ph, 600));
             }
             catch { /* registry unavailable - defaults are fine */ }
 
-            _showHidden = App.GetSetting(ShowHiddenKey) == "1";
+            _showHidden = Services.ThemeManager.GetSetting(ShowHiddenKey) == "1";
+            FolderNode.ShowHidden = _showHidden;
             ApplyShowHiddenButton();
+            if (int.TryParse(Services.ThemeManager.GetSetting(SortKeyKey), out int savedSortKey)
+                && savedSortKey is >= 0 and <= 2)
+                _sortKey = savedSortKey;
+            _sortAsc = Services.ThemeManager.GetSetting(SortAscKey) is not string savedSortAsc
+                || savedSortAsc != "0";
 
             Closing += (_, _) =>
             {
                 try
                 {
                     var ci = System.Globalization.CultureInfo.InvariantCulture;
-                    App.SetSetting("FileDlgW", ActualWidth.ToString(ci));
-                    App.SetSetting("FileDlgH", ActualHeight.ToString(ci));
-                    App.SetSetting("FileDlgX", Left.ToString(ci));
-                    App.SetSetting("FileDlgY", Top.ToString(ci));
+                    Services.ThemeManager.SetSetting("FileDlgW", ActualWidth.ToString(ci));
+                    Services.ThemeManager.SetSetting("FileDlgH", ActualHeight.ToString(ci));
+                    Services.ThemeManager.SetSetting("FileDlgX", Left.ToString(ci));
+                    Services.ThemeManager.SetSetting("FileDlgY", Top.ToString(ci));
+                    Services.ThemeManager.SetSetting(PlacesHKey, PlacesRow.ActualHeight.ToString(ci));
                 }
                 catch { /* not worth failing the close */ }
             };
@@ -230,30 +258,18 @@ namespace KillerNotes.SharedPicker
         {
             if (owner != null && owner.IsVisible) Owner = owner;
 
-            // The caller's Title is the caption SUBTITLE now, to the right of the wordmark, the
-            // same shape SketchPad / Databases / Dictation use. It used to be a heading in the
-            // BODY, which read as part of the file list rather than as the dialog's name. The
-            // blurred shadow copy has to carry the same text or the drop shadow stops halfway
-            // across the caption.
-            // TitleOnly blanks the wordmark runs rather than hiding the block, so the layout and
-            // the shadow copy stay in step and the subtitle simply starts at the left edge. The
-            // leading gap goes with it - with no wordmark in front there is nothing to sit after.
-            if (TitleOnly)
+            AcceptButton.Content = Loc(_mode switch
             {
-                TitleWordA.Text = TitleWordB.Text = "";
-                TitleShadowA.Text = TitleShadowB.Text = "";
-                TitlePlainA.Text = TitlePlainB.Text = "";
+                FileDialogMode.Save   => "Str_Btn_Save",
+                FileDialogMode.Folder => "Str_Btn_Select",
+                _                     => "Str_Btn_Open",
+            });
+            if (_mode == FileDialogMode.Folder)
+            {
+                FileFields.Visibility = Visibility.Collapsed;
+                AcceptButton.IsDefault = AcceptHighlightedFolder;
             }
-            string sub = string.IsNullOrWhiteSpace(Title) ? ""
-                       : (TitleOnly ? Title : "  " + Title);
-            TitleSub.Text       = sub;
-            TitleSubShadow.Text = sub;
-            // The plain-caption twin, shown instead of the wordmark on a theme with a Win98-style
-            // title bar. It has to carry the same subtitle or that caption reads just "KillerNotes"
-            // with no indication of what the dialog is for.
-            TitlePlainSub.Text  = sub;
-            HeadingText.Text    = "";   // collapsed placeholder; keeps the grid row indices stable
-            AcceptButton.Content = Loc(_mode == FileDialogMode.Save ? "Str_Btn_Save" : "Str_Btn_Open");
+            ConfigureImagePreview();
             // Extended, not Multiple: Extended is the Explorer behavior (plain click replaces the
             // selection, Ctrl adds, Shift ranges). Multiple toggles on every click, which feels
             // broken to anyone who has used a file dialog before.
@@ -261,23 +277,13 @@ namespace KillerNotes.SharedPicker
                 ? SelectionMode.Extended
                 : SelectionMode.Single;
 
-            // The preview column is 0-wide unless the caller asked for it, so every existing
-            // call site lays out exactly as it did before.
-            if (ShowPreview)
-            {
-                PreviewPane.Visibility = Visibility.Visible;
-                PreviewGapCol.Width = new GridLength(8);
-                PreviewCol.Width    = new GridLength(220);
-                UpdatePreview();
-            }
-
             // Open mode has nothing to name, so the box is for typing/filtering a path, not a
             // new file. It stays visible: typing an exact name is faster than hunting for it.
             BuildFilters();
             BuildPlaces();
             PlacesList.ItemsSource = Places;
             FileList.ItemsSource   = Entries;
-            InitPlacesFades();
+            InitTree();
             ApplyView();
 
             // A seeded FileName can be a bare name ("export.ics"), a full path, or empty.
@@ -295,7 +301,7 @@ namespace KillerNotes.SharedPicker
             }
             if (string.IsNullOrWhiteSpace(startDir) || !Directory.Exists(startDir))
             {
-                string? remembered = App.GetSetting(_mode == FileDialogMode.Open ? LastOpenKey : LastSaveKey);
+                string? remembered = Services.ThemeManager.GetSetting(LastDirKey);
                 startDir = !string.IsNullOrWhiteSpace(remembered) && Directory.Exists(remembered)
                     ? remembered!
                     : Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -306,8 +312,9 @@ namespace KillerNotes.SharedPicker
             FileNameBox.Text = seedName;
 
             // Save: preselect the stem so typing replaces the name but keeps the extension
-            // visible. Open: caret at the end.
-            FileNameBox.Focus();
+            // visible. Open: caret at the end. Folder: there is no name box, so the button.
+            if (_mode == FileDialogMode.Folder) AcceptButton.Focus();
+            else FileNameBox.Focus();
             if (_mode == FileDialogMode.Save && seedName.Length > 0)
             {
                 int dot = seedName.LastIndexOf('.');
@@ -406,6 +413,7 @@ namespace KillerNotes.SharedPicker
         private bool PassesFilter(PickerEntry en)
         {
             if (en.IsFolder) return true;
+            if (_mode == FileDialogMode.Folder && HideFilesInFolderMode) return false;
             int i = FilterCombo.SelectedIndex;
             if (i < 0 || i >= _filterPatterns.Count) return true;
             var pats = _filterPatterns[i];
@@ -447,17 +455,29 @@ namespace KillerNotes.SharedPicker
             }
         }
 
-        private static IEnumerable<(string Label, string Path)> ExplorerQuickAccessPlaces()
+        /// <summary>
+        /// Explorer's Quick Access entries, read through the Shell.Application COM object.
+        ///
+        /// Returns a materialized list rather than an iterator so the whole body can sit inside a
+        /// real try/catch: a yield-return method is only allowed a finally, so every failure here
+        /// used to escape into BuildPlaces and take the Open dialog down with it. Each call below
+        /// is late-bound COM and can fail outright - Wine and CrossOver register the
+        /// Shell.Application ProgID but implement no NameSpace, so the ProgID null check passes
+        /// and the binder then throws RuntimeBinderException. Quick Access is a convenience, so
+        /// any failure just drops it and leaves the pinned folders and the drives.
+        /// </summary>
+        private static List<(string Label, string Path)> ExplorerQuickAccessPlaces()
         {
             const string QuickAccess = "shell:::{679f85cb-0220-4080-b29b-5540cc05aab6}";
+            var places = new List<(string Label, string Path)>();
             object? shell = null, folder = null, items = null;
             try
             {
                 var type = Type.GetTypeFromProgID("Shell.Application");
-                if (type == null) yield break;
+                if (type == null) return places;
                 shell = Activator.CreateInstance(type);
                 folder = ((dynamic)shell!).NameSpace(QuickAccess);
-                if (folder == null) yield break;
+                if (folder == null) return places;
                 items = ((dynamic)folder).Items();
                 int count = ((dynamic)items).Count;
                 for (int i = 0; i < count; i++)
@@ -471,17 +491,20 @@ namespace KillerNotes.SharedPicker
                         if (!Convert.ToBoolean(quickItem.IsFolder)) continue;
                         string path = Convert.ToString(quickItem.Path) ?? "";
                         string name = Convert.ToString(quickItem.Name) ?? "";
-                        if (Directory.Exists(path)) yield return (name.Length > 0 ? name : LabelFor(path), path);
+                        if (Directory.Exists(path)) places.Add((name.Length > 0 ? name : LabelFor(path), path));
                     }
+                    catch { /* one unreadable entry must not lose the rest */ }
                     finally { if (item != null && Marshal.IsComObject(item)) Marshal.FinalReleaseComObject(item); }
                 }
             }
+            catch { /* no shell, or a shell without Quick Access: keep whatever was read */ }
             finally
             {
                 if (items != null && Marshal.IsComObject(items)) Marshal.FinalReleaseComObject(items);
                 if (folder != null && Marshal.IsComObject(folder)) Marshal.FinalReleaseComObject(folder);
                 if (shell != null && Marshal.IsComObject(shell)) Marshal.FinalReleaseComObject(shell);
             }
+            return places;
         }
 
         /// <summary>
@@ -490,7 +513,7 @@ namespace KillerNotes.SharedPicker
         /// </summary>
         private static List<string> PinnedPaths()
         {
-            string? saved = App.GetSetting(PinnedKey);
+            string? saved = Services.ThemeManager.GetSetting(PinnedKey);
             if (saved != null)
                 return [.. saved.Split('|').Where(s => s.Length > 0)];
 
@@ -534,7 +557,7 @@ namespace KillerNotes.SharedPicker
             if (list.Any(p => p.TrimEnd('\\').Equals(path.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase)))
                 return;
             list.Add(path);
-            App.SetSetting(PinnedKey, string.Join("|", list));
+            Services.ThemeManager.SetSetting(PinnedKey, string.Join("|", list));
             BuildPlaces();
             SyncPlacesSelection();
         }
@@ -544,7 +567,6 @@ namespace KillerNotes.SharedPicker
         private void Places_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             _placesMenuPlace = ItemUnder<PickerPlace>(e.OriginalSource as DependencyObject);
-            if (_placesMenuPlace == null && e.CursorLeft < 0) _placesMenuPlace = PlacesList.SelectedItem as PickerPlace;
             // Drives are dynamic, not pinned - nothing to remove; empty space likewise.
             if (_placesMenuPlace is not { Pinned: true }) e.Handled = true;
         }
@@ -555,7 +577,7 @@ namespace KillerNotes.SharedPicker
             var list = PinnedPaths()
                 .Where(p => !p.TrimEnd('\\').Equals(pl.Path.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
                 .ToList();
-            App.SetSetting(PinnedKey, string.Join("|", list));
+            Services.ThemeManager.SetSetting(PinnedKey, string.Join("|", list));
             BuildPlaces();
             SyncPlacesSelection();
         }
@@ -565,7 +587,6 @@ namespace KillerNotes.SharedPicker
         private void Files_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             _filesMenuEntry = ItemUnder<PickerEntry>(e.OriginalSource as DependencyObject);
-            if (_filesMenuEntry == null && e.CursorLeft < 0) _filesMenuEntry = FileList.SelectedItem as PickerEntry;
             if (_filesMenuEntry is not { IsFolder: true }) e.Handled = true;   // only folders pin
         }
 
@@ -626,21 +647,39 @@ namespace KillerNotes.SharedPicker
             if (PlacesList.SelectedItem is PickerPlace p) NavigateTo(p.Path);
         }
 
-        // ── Places list ─────────────────────────────────────────────────────────
-        //
-        // There was a drive/folder TREE above this, ported from KillerShell. It came out on
-        // 2026-08-07: it duplicated the folder rows the file list already shows, took the whole
-        // panel, and left the bookmarks - the part people actually use - as a cramped drawer
-        // underneath. Folders are navigated in the list; folders worth keeping are right-clicked
-        // and pinned here.
+        // ── Folder tree (ported from KillerShell, see Controls/FolderTree.cs) ────
 
-        private void InitPlacesFades()
+        /// <summary>Ready drives only - an empty optical drive or a dropped mapping would sit
+        /// there as a node that throws the moment anyone touches it.</summary>
+        private void InitTree()
         {
+            if (TreeRoots.Count > 0) return;
+            FolderTreeCtl.ItemsSource = TreeRoots;
+
+            DriveInfo[] drives;
+            try { drives = DriveInfo.GetDrives(); }
+            catch (IOException) { return; }
+
+            foreach (var d in drives)
+            {
+                bool ready;
+                try { ready = d.IsReady; }
+                catch (IOException) { continue; }
+                catch (UnauthorizedAccessException) { continue; }
+                if (ready) TreeRoots.Add(new FolderNode(d));
+            }
+
             // Edge fades follow the scroll position (KillerShell TreePanel.cs). ScrollChanged is
-            // handled at the ListBox rather than dug out of its template: it bubbles, so the
+            // handled at the TreeView rather than dug out of its template: it bubbles, so the
             // inner ScrollViewer is reached without needing to have found it first. Loaded and
-            // SizeChanged cover the passes where nothing scrolled but the extent moved. No
-            // scrollbar lift: horizontal scrolling is disabled on this list.
+            // SizeChanged cover the passes where nothing scrolled but the extent moved.
+            FolderTreeCtl.AddHandler(ScrollViewer.ScrollChangedEvent,
+                new ScrollChangedEventHandler((_, _) => { SyncTreeEdgeFades(); SyncTreeFade(); }));
+            FolderTreeCtl.SizeChanged += (_, _) => { SyncTreeEdgeFades(); SyncTreeFade(); };
+            FolderTreeCtl.Loaded      += (_, _) => { SyncTreeEdgeFades(); SyncTreeFade(); };
+
+            // The places list gets the same treatment (2026-07-30). No scrollbar lift:
+            // horizontal scrolling is disabled on it.
             PlacesList.AddHandler(ScrollViewer.ScrollChangedEvent,
                 new ScrollChangedEventHandler((_, _) => SyncPlacesEdgeFades()));
             PlacesList.SizeChanged += (_, _) => SyncPlacesEdgeFades();
@@ -658,11 +697,69 @@ namespace KillerNotes.SharedPicker
                                             PlacesFadeBottom.Height, 22);
         }
 
+        /// <summary>
+        /// Fade each edge only while there is something PAST it, ramped over the fade's own
+        /// height: none at the very top, none at the very bottom, full in between. A proportional
+        /// ramp rather than a flip - at one pixel of scroll it is one pixel's worth of fade, so
+        /// neither edge ever pops. (KillerShell TreePanel.SyncTreeEdgeFades, verbatim.)
+        /// </summary>
+        private void SyncTreeEdgeFades()
+        {
+            var sv = FindDescendant<ScrollViewer>(FolderTreeCtl);
+            if (sv == null) return;
+
+            TreeFadeTop.Opacity    = Ramp(sv.VerticalOffset, TreeFadeTop.Height, 18);
+            TreeFadeBottom.Opacity = Ramp(sv.ExtentHeight - sv.ViewportHeight - sv.VerticalOffset,
+                                          TreeFadeBottom.Height, 22);
+        }
+
         // Height is NaN until the border has been laid out, hence the fallback.
         private static double Ramp(double distance, double height, double fallback)
         {
             double h = double.IsNaN(height) || height <= 0 ? fallback : height;
             return Math.Min(1, Math.Max(0, distance) / h);
+        }
+
+        /// <summary>
+        /// Keep the bottom edge fade sitting on the tree's last visible ROW rather than on the
+        /// horizontal scrollbar underneath it. The bar's real height is measured, not taken from
+        /// SystemParameters - the themed template is not the system metric. Base 4 is the tree's
+        /// own bottom margin. (KillerShell TreePanel.SyncTreeFade, adapted.)
+        /// </summary>
+        private void SyncTreeFade()
+        {
+            var sv = FindDescendant<ScrollViewer>(FolderTreeCtl);
+            double lift = 0;
+
+            if (sv != null && sv.ComputedHorizontalScrollBarVisibility == Visibility.Visible)
+            {
+                var bar = FindHorizontalBar(sv);
+                lift = bar?.ActualHeight ?? SystemParameters.HorizontalScrollBarHeight;
+            }
+
+            var m = TreeFadeBottom.Margin;
+            double want = 4 + lift;
+            if (Math.Abs(m.Bottom - want) < 0.5) return;     // no churn on every layout pass
+            TreeFadeBottom.Margin = new Thickness(m.Left, m.Top, m.Right, want);
+        }
+
+        private void FolderTree_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var sv = FindDescendant<ScrollViewer>(FolderTreeCtl);
+            if (sv is null) return;
+
+            bool horizontal = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+            if (horizontal)
+            {
+                if (sv.ScrollableWidth <= 0) return;
+                sv.ScrollToHorizontalOffset(sv.HorizontalOffset - e.Delta * 0.5);
+            }
+            else
+            {
+                if (sv.ScrollableHeight <= 0) return;
+                sv.ScrollToVerticalOffset(sv.VerticalOffset - e.Delta * 0.5);
+            }
+            e.Handled = true;
         }
 
         private static T? FindDescendant<T>(DependencyObject root) where T : DependencyObject
@@ -694,10 +791,109 @@ namespace KillerNotes.SharedPicker
             return null;
         }
 
+        // TreeViewItem.Expanded is attached at the TreeView, so this fires for every node at any
+        // depth - which is the point: one handler drives the whole lazy load.
+        private async void FolderTree_Expanded(object sender, RoutedEventArgs e)
+        {
+            if (e.OriginalSource is not TreeViewItem tvi) return;
+            if (tvi.DataContext is not FolderNode node) return;
+            await node.LoadChildrenAsync();
+        }
+
+        private void FolderTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (_treeSyncing) return;
+            if (e.NewValue is not FolderNode node) return;
+            if (string.IsNullOrEmpty(node.Path)) return;   // the placeholder, mid-load
+            NavigateTo(node.Path);
+        }
+
+        private FolderNode? _treeMenuNode;
+
+        private void FolderTree_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            _treeMenuNode = NodeUnder(Mouse.DirectlyOver as DependencyObject)
+                         ?? NodeUnder(e.OriginalSource as DependencyObject);
+            // Drives are already in places; empty space has nothing to pin.
+            if (_treeMenuNode == null || _treeMenuNode.IsDrive) e.Handled = true;
+        }
+
+        private void TreePin_Click(object sender, RoutedEventArgs e)
+        {
+            if (_treeMenuNode is { IsDrive: false } n && !string.IsNullOrEmpty(n.Path))
+                PinPlace(n.Path);
+        }
+
+        private static FolderNode? NodeUnder(DependencyObject? d)
+        {
+            while (d != null)
+            {
+                if (d is TreeViewItem tvi) return tvi.DataContext as FolderNode;
+                d = d is System.Windows.Media.Visual or System.Windows.Media.Media3D.Visual3D
+                    ? System.Windows.Media.VisualTreeHelper.GetParent(d)
+                    : LogicalTreeHelper.GetParent(d);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Points the tree at a folder reached from somewhere else - places, the path box, a
+        /// double-click. Expands the chain of ANCESTORS and selects the folder; the destination's
+        /// own expander is left exactly as the user had it (KillerShell's rule - forcing it
+        /// collapsed the branch under the cursor and the whole tree jumped).
+        /// </summary>
+        private async Task RevealInTree(string folder, long version)
+        {
+            if (string.IsNullOrEmpty(folder)) return;
+
+            string full;
+            try { full = Path.GetFullPath(folder); }
+            catch { return; }
+
+            var root = TreeRoots.FirstOrDefault(
+                r => full.StartsWith(r.Path, StringComparison.OrdinalIgnoreCase));
+            if (root == null) return;
+
+            var segments = RelativeSegments(root.Path, full).ToList();
+
+            var current = root;
+            if (segments.Count > 0)
+            {
+                await current.LoadChildrenAsync();
+                if (version != _navigationVersion) return;   // a newer folder is being shown
+                current.IsExpanded = true;
+            }
+
+            for (int i = 0; i < segments.Count; i++)
+            {
+                var next = current.Children.FirstOrDefault(
+                    c => string.Equals(c.Name, segments[i], StringComparison.OrdinalIgnoreCase));
+                if (next == null) return;   // hidden by the filter, or gone since the listing
+
+                current = next;
+                if (i == segments.Count - 1) break;
+
+                await current.LoadChildrenAsync();   // needed to match the NEXT segment
+                if (version != _navigationVersion) return;
+                current.IsExpanded = true;
+            }
+
+            _treeSyncing = true;
+            current.IsSelected = true;
+            _treeSyncing = false;
+        }
+
+        private static string[] RelativeSegments(string rootPath, string fullPath)
+        {
+            string rest = fullPath[rootPath.Length..];
+            return rest.Split([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                              StringSplitOptions.RemoveEmptyEntries);
+        }
+
         // ── Recent locations ─────────────────────────────────────────────────────
 
         private static List<string> LoadRecents()
-            => [.. (App.GetSetting(RecentsKey) ?? "")
+            => [.. (Services.ThemeManager.GetSetting(RecentsKey) ?? "")
                .Split('|').Where(s => s.Length > 0)];
 
         private static void RecordRecent(string dir)
@@ -706,7 +902,7 @@ namespace KillerNotes.SharedPicker
             list.RemoveAll(p => p.TrimEnd('\\').Equals(dir.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase));
             list.Insert(0, dir);
             if (list.Count > RecentsMax) list.RemoveRange(RecentsMax, list.Count - RecentsMax);
-            App.SetSetting(RecentsKey, string.Join("|", list));
+            Services.ThemeManager.SetSetting(RecentsKey, string.Join("|", list));
         }
 
         private void RecentsBtn_Click(object sender, RoutedEventArgs e)
@@ -736,10 +932,14 @@ namespace KillerNotes.SharedPicker
         private void ShowHidden_Click(object sender, RoutedEventArgs e)
         {
             _showHidden = !_showHidden;
-            App.SetSetting(ShowHiddenKey, _showHidden ? "1" : "0");
+            Services.ThemeManager.SetSetting(ShowHiddenKey, _showHidden ? "1" : "0");
+            FolderNode.ShowHidden = _showHidden;
             ApplyShowHiddenButton();
 
             if (_currentDir.Length > 0) NavigateTo(_currentDir);
+
+            // Re-enumerate loaded tree branches in place, keeping expansion (FolderTree.cs).
+            foreach (var r in TreeRoots.ToList()) _ = r.RefreshAsync();
         }
 
         private void ApplyShowHiddenButton()
@@ -761,9 +961,72 @@ namespace KillerNotes.SharedPicker
                 if (!en.IsFolder) FileNameBox.Text = en.Name;
                 SelName.Text = en.Name;
                 SelMeta.Text = en.IsFolder ? en.ModifiedLabel : $"{en.SizeLabel}  |  {en.ModifiedLabel}";
+                UpdateImagePreview(en);
             }
-            else UpdateInfoSummary();
-            UpdatePreview();
+            else
+            {
+                UpdateInfoSummary();
+                UpdateImagePreview(null);
+            }
+        }
+
+        private void ConfigureImagePreview()
+        {
+            if (!ShowImagePreview)
+            {
+                ImagePreviewHost.Visibility = Visibility.Collapsed;
+                ImagePreviewGapColumn.Width = new GridLength(0);
+                ImagePreviewColumn.Width = new GridLength(0);
+                return;
+            }
+
+            ImagePreviewHost.Visibility = Visibility.Visible;
+            ImagePreviewGapColumn.Width = new GridLength(8);
+            ImagePreviewColumn.Width = new GridLength(230);
+
+            // A preview should not consume the file list. Only image pickers grow; the remembered
+            // size remains the user's starting point and is still clamped to the work area.
+            MinWidth = 780;
+            Width = Math.Min(SystemParameters.WorkArea.Width, Math.Max(Width, 880));
+        }
+
+        private async void UpdateImagePreview(PickerEntry? entry)
+        {
+            int generation = ++_imagePreviewGeneration;
+            ImagePreview.Source = null;
+            ImagePreviewPlaceholder.Visibility = Visibility.Visible;
+
+            if (!ShowImagePreview || entry == null || entry.IsFolder ||
+                !PreviewImageExtensions.Contains(Path.GetExtension(entry.FullPath)))
+                return;
+
+            string path = entry.FullPath;
+            try
+            {
+                // BitmapCacheOption.OnLoad closes the file after decoding, and DecodePixelWidth
+                // caps memory for camera images while retaining enough detail for this pane.
+                var bitmap = await Task.Run(() =>
+                {
+                    var image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                    image.DecodePixelWidth = 900;
+                    image.UriSource = new Uri(path, UriKind.Absolute);
+                    image.EndInit();
+                    image.Freeze();
+                    return image;
+                });
+
+                if (generation != _imagePreviewGeneration) return;
+                ImagePreview.Source = bitmap;
+                ImagePreviewPlaceholder.Visibility = Visibility.Collapsed;
+            }
+            catch
+            {
+                // Corrupt, unsupported, or transiently unavailable image: leave the neutral
+                // placeholder visible and keep the picker fully usable.
+            }
         }
 
         private void Files_DoubleClick(object sender, MouseButtonEventArgs e)
@@ -917,10 +1180,18 @@ namespace KillerNotes.SharedPicker
         private void SortSize_Click(object sender, RoutedEventArgs e)     => SetSort(1);
         private void SortModified_Click(object sender, RoutedEventArgs e) => SetSort(2);
 
+        private void SortButton_Click(object sender, RoutedEventArgs e)
+        {
+            SortMenu.PlacementTarget = SortButton;
+            SortMenu.IsOpen = true;
+        }
+
         private void SetSort(int key)
         {
             if (_sortKey == key) _sortAsc = !_sortAsc;
-            else { _sortKey = key; _sortAsc = true; }
+            else { _sortKey = key; _sortAsc = key == 0; }
+            Services.ThemeManager.SetSetting(SortKeyKey, _sortKey.ToString());
+            Services.ThemeManager.SetSetting(SortAscKey, _sortAsc ? "1" : "0");
             ApplySort();
         }
 
@@ -949,6 +1220,10 @@ namespace KillerNotes.SharedPicker
             NameArrow.Text = _sortKey == 0 ? (_sortAsc ? ArrowUp : ArrowDown) : "";
             SizeArrow.Text = _sortKey == 1 ? (_sortAsc ? ArrowUp : ArrowDown) : "";
             ModArrow.Text  = _sortKey == 2 ? (_sortAsc ? ArrowUp : ArrowDown) : "";
+            SortNameItem.IsChecked = _sortKey == 0;
+            SortSizeItem.IsChecked = _sortKey == 1;
+            SortModifiedItem.IsChecked = _sortKey == 2;
+            SortButton.Tag = "on";
 
             EmptyHint.Visibility = Entries.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -965,6 +1240,18 @@ namespace KillerNotes.SharedPicker
         private void Accept()
         {
             if (IsDirectoryListingBusy || !IsDirectoryListingAvailable) return;
+            if (_mode == FileDialogMode.Folder)
+            {
+                string folder = AcceptHighlightedFolder && FileList.SelectedItem is PickerEntry { IsFolder: true } selected
+                    ? selected.FullPath : _currentDir;
+                if (!Directory.Exists(folder)) return;
+                FileName  = folder;
+                FileNames = [folder];
+                if (AcceptHighlightedFolder) RememberAcceptedDirectory();
+                _pendingResult = true;   // applied after the fade - see OnClosing
+                Close();
+                return;
+            }
             // Multiselect: several files highlighted wins outright. The name box shows a quoted
             // list in that state and is not worth re-parsing - the selection IS the answer. A
             // single highlighted file falls through to the normal path so every rule below
@@ -1001,12 +1288,12 @@ namespace KillerNotes.SharedPicker
                 // The extension follows the ACTIVE filter, so picking "CSV files" in the type
                 // combo is enough to get a .csv - DefaultExt only decides when the filter names
                 // no single extension (a wildcard or a multi-pattern entry).
-                if (AddExtension && string.IsNullOrEmpty(Path.GetExtension(full)))
+                if (AddExtension)
                 {
                     string? ext = ActiveFilterExt();
                     if (ext == null && !string.IsNullOrEmpty(DefaultExt))
                         ext = DefaultExt.StartsWith(".") ? DefaultExt : "." + DefaultExt;
-                    if (ext != null) full += ext;
+                    full = SaveFileNamePolicy.ApplyExtension(full, ext, AddExtension, RequireFilterExtension);
                 }
 
                 // The directory must exist; we do not silently create trees on the user's behalf.
@@ -1020,12 +1307,15 @@ namespace KillerNotes.SharedPicker
 
                 if (OverwritePrompt && File.Exists(full))
                 {
-                    // The caption said "KillerPDF" - visibly, in a KillerNotes dialog - because
-                    // this file was carried across as foreign source. It is this app's now.
-                    var answer = MessageBox.Show(this,
+                    // The app's own themed ConfirmDialog, the same prompt every other question in
+                    // the app uses, rather than a system MessageBox.
+                    var confirm = new ConfirmDialog(
                         string.Format(Loc("Str_Dlg_OverwriteMsg"), Path.GetFileName(full)),
-                        "KillerNotes", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                    if (answer != MessageBoxResult.Yes) { FileNameBox.Focus(); return; }
+                        "",
+                        Loc("Str_Btn_Replace"),
+                        Loc("Str_Btn_Cancel")) { Owner = this };
+                    confirm.ShowDialog();
+                    if (!confirm.Confirmed) { FileNameBox.Focus(); return; }
                 }
             }
             else
@@ -1049,7 +1339,7 @@ namespace KillerNotes.SharedPicker
         private void RememberAcceptedDirectory()
         {
             if (_currentDir.Length > 0 && Directory.Exists(_currentDir))
-                App.SetSetting(_mode == FileDialogMode.Open ? LastOpenKey : LastSaveKey, _currentDir);
+                Services.ThemeManager.SetSetting(LastDirKey, _currentDir);
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e) => Close();
@@ -1062,76 +1352,6 @@ namespace KillerNotes.SharedPicker
             // resizing, until a click. (2026-07-30)
             e.Handled = true;
             DragMove();
-        }
-
-        private readonly List<string> _keyboardHistory = [];
-        private int _keyboardHistoryIndex = -1;
-        private bool _keyboardHistoryTravel;
-
-        private void InitializePickerKeyboard()
-        {
-            PreviewKeyDown += PickerShortcut_KeyDown;
-            foreach (var item in new[] { (UpButton, "Str_TT_Up", "Alt+Up"), (RecentsBtn, "Str_TT_RecentLocations", "F4 / Alt+Down"),
-                (ShowHiddenBtn, "Str_TT_ShowHidden", "Alt+H"), (ViewListBtn, "Str_TT_ViewList", "Ctrl+Shift+5"),
-                (ViewIconsBtn, "Str_TT_ViewIcons", "Ctrl+Shift+1 through Ctrl+Shift+4"), (ViewDetailsBtn, "Str_TT_ViewDetails", "Ctrl+Shift+6") })
-            {
-                item.Item1.ToolTip = Loc(item.Item2) + " (" + item.Item3 + ")";
-                System.Windows.Automation.AutomationProperties.SetAcceleratorKey(item.Item1, item.Item3);
-            }
-            PathBox.ToolTip = Loc("Str_KS_PickerLocation") + " (Ctrl+L / Alt+D)";
-            PlacesList.ToolTip = Loc("Str_Menu_PinPlace") + " (Alt+Q, Alt+B, Alt+Shift+B, Ctrl+Shift+Up/Down)";
-            PreviewPane.ToolTip = Regex.Replace(Loc("Str_TT_Preview"), @"\s*\(F4\)", "") + " (Alt+P)";
-            if (FileList.ContextMenu?.Items[0] is MenuItem pin) pin.InputGestureText = "Alt+B";
-            if (PlacesList.ContextMenu?.Items[0] is MenuItem unpin) unpin.InputGestureText = "Alt+Shift+B";
-        }
-
-        private void PickerShortcut_KeyDown(object sender, KeyEventArgs e)
-        {
-            Key key = e.Key == Key.System ? e.SystemKey : e.Key;
-            ModifierKeys mods = Keyboard.Modifiers;
-            bool handled = true;
-            if ((mods == ModifierKeys.Control && key == Key.L) || (mods == ModifierKeys.Alt && key == Key.D)) { PathBox.Focus(); PathBox.SelectAll(); }
-            else if (mods == ModifierKeys.Alt && key == Key.Up) Up_Click(this, new RoutedEventArgs());
-            else if (mods == ModifierKeys.Alt && key is Key.Left or Key.Right)
-            {
-                int next = _keyboardHistoryIndex + (key == Key.Left ? -1 : 1);
-                if (next >= 0 && next < _keyboardHistory.Count && Directory.Exists(_keyboardHistory[next]))
-                {
-                    _keyboardHistoryIndex = next; _keyboardHistoryTravel = true;
-                    try { NavigateTo(_keyboardHistory[next]); } finally { _keyboardHistoryTravel = false; }
-                }
-            }
-            else if (mods == ModifierKeys.None && key == Key.F5) NavigateTo(_currentDir);
-            else if ((mods == ModifierKeys.None && key == Key.F4) || (mods == ModifierKeys.Alt && key == Key.Down && !FilterCombo.IsKeyboardFocusWithin)) { RecentsBtn_Click(this, new RoutedEventArgs()); RecentsList.Focus(); }
-            else if (mods == ModifierKeys.Alt && key == Key.H) { if (!e.IsRepeat) ShowHidden_Click(this, new RoutedEventArgs()); }
-            else if (mods == ModifierKeys.Alt && key == Key.Q) PlacesList.Focus();
-            else if (mods == ModifierKeys.Alt && key == Key.P)
-            {
-                if (!e.IsRepeat) { ShowPreview = !ShowPreview; PreviewPane.Visibility = ShowPreview ? Visibility.Visible : Visibility.Collapsed; PreviewGapCol.Width = new GridLength(ShowPreview ? 8 : 0); PreviewCol.Width = new GridLength(ShowPreview ? 220 : 0); UpdatePreview(); }
-            }
-            else if (mods == (ModifierKeys.Control | ModifierKeys.Shift) && key >= Key.D1 && key <= Key.D4)
-            {
-                _pickerIconSize = PickerIconSizes[Key.D4 - key];
-                SetView(1);
-            }
-            else if (mods == (ModifierKeys.Control | ModifierKeys.Shift) && key is Key.D5 or Key.D6) SetView(key == Key.D5 ? 0 : 2);
-            else if (mods == ModifierKeys.Alt && key is Key.D1 or Key.D2 or Key.D3) SetSort(key - Key.D1);
-            else if (mods == ModifierKeys.Alt && key == Key.B) { if (!e.IsRepeat) PinPlace(FileList.SelectedItem is PickerEntry { IsFolder: true } folder ? folder.FullPath : _currentDir); }
-            else if (mods == (ModifierKeys.Alt | ModifierKeys.Shift) && key == Key.B) { if (!e.IsRepeat) { _placesMenuPlace = PlacesList.SelectedItem as PickerPlace; UnpinPlace_Click(this, new RoutedEventArgs()); } }
-            else if (mods == (ModifierKeys.Control | ModifierKeys.Shift) && PlacesList.IsKeyboardFocusWithin && key is Key.Up or Key.Down)
-            {
-                if (PlacesList.SelectedItem is PickerPlace { Pinned: true } selected)
-                {
-                    int from = Places.IndexOf(selected), to = from + (key == Key.Up ? -1 : 1);
-                    if (to >= 0 && to < Places.Count && Places[to].Pinned) { Places.Move(from, to); SavePinOrder(); }
-                }
-            }
-            else if (mods == ModifierKeys.None && key == Key.Enter && FileList.IsKeyboardFocusWithin)
-            {
-                if (FileList.SelectedItem is PickerEntry { IsFolder: true } folder) NavigateTo(folder.FullPath); else Accept();
-            }
-            else handled = false;
-            if (handled) e.Handled = true;
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -1200,21 +1420,7 @@ namespace KillerNotes.SharedPicker
                         WM_NCLBUTTONDOWN, new IntPtr(ht), IntPtr.Zero);
         }
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SendMessageW")]
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
-    
-        /// <summary>
-        /// Point the preview at the current selection. Shows the hint instead when the selection is
-        /// a folder, a non-image, or an image that will not decode - Preview returns null for all
-        /// three, so one null check covers them.
-        /// </summary>
-        private void UpdatePreview()
-        {
-            if (!ShowPreview || PreviewImage is null) return;
-            var src = (FileList.SelectedItem as PickerEntry)?.Preview;
-            PreviewImage.Source = src;
-            PreviewImage.Visibility = src is null ? Visibility.Collapsed : Visibility.Visible;
-            PreviewHint.Visibility  = src is null ? Visibility.Visible  : Visibility.Collapsed;
-        }
-}
+    }
 }

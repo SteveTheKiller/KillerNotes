@@ -1171,4 +1171,6 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Color_Green">Verde</sys:String>
     <sys:String x:Key="Str_Color_Blue">Azul</sys:String>
     <sys:String x:Key="Str_Color_Hex">Cor hexadecimal</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Selecionar pasta</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Visualização</sys:String>
 </ResourceDictionary>

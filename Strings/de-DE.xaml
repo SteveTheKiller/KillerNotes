@@ -1124,4 +1124,6 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Color_Green">Grün</sys:String>
     <sys:String x:Key="Str_Color_Blue">Blau</sys:String>
     <sys:String x:Key="Str_Color_Hex">Hex-Farbe</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Auswählen</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Vorschau</sys:String>
 </ResourceDictionary>

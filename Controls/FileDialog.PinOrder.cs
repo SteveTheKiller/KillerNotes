@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
-namespace KillerNotes.SharedPicker
+namespace KillerNotes.Controls
 {
     // ── Reordering pinned places ─────────────────────────────────────────────
     //
@@ -22,9 +21,15 @@ namespace KillerNotes.SharedPicker
 
         private void Places_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            EndPinDrag();
             _pinDragPlace = ItemUnder<PickerPlace>(e.OriginalSource as DependencyObject) is { Pinned: true } p ? p : null;
             _pinDragStart = e.GetPosition(PlacesList);
             _pinDragging = false;
+            if (_pinDragPlace != null)
+            {
+                _pinNavigatingWas = _navigating;
+                _navigating = true;
+            }
         }
 
         private void Places_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -38,10 +43,7 @@ namespace KillerNotes.SharedPicker
                 // A ListBox selects whatever row a held button passes over, and selecting a place
                 // navigates. Hold navigation off for the whole drag and re-mark the current folder
                 // when it ends.
-                _pinNavigatingWas = _navigating;
-                _navigating = true;
                 PlacesList.CaptureMouse();
-                KillerNotes.Controls.DragCursors.BeginDrag();
             }
 
             var target = ItemUnder<PickerPlace>(PlacesList.InputHitTest(now) as DependencyObject);
@@ -56,16 +58,20 @@ namespace KillerNotes.SharedPicker
 
         private void Places_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            PickerPlace? clicked = _pinDragPlace;
+            bool dragged = _pinDragging;
             if (_pinDragging)
             {
                 e.Handled = true;
                 SavePinOrder();
             }
             EndPinDrag();
+            if (!dragged && clicked != null) NavigateTo(clicked.Path);
         }
 
         private void Places_LostMouseCapture(object sender, MouseEventArgs e)
         {
+            if (PlacesList.IsMouseCaptured) return;
             if (_pinDragging) SavePinOrder();
             EndPinDrag();
         }
@@ -73,13 +79,13 @@ namespace KillerNotes.SharedPicker
         private void EndPinDrag()
         {
             bool captured = _pinDragging;
+            bool pending = _pinDragPlace != null;
             _pinDragPlace = null;
             _pinDragging = false;
-            if (!captured) return;
-            if (PlacesList.IsMouseCaptured) PlacesList.ReleaseMouseCapture();
+            if (!pending) return;
+            if (captured && PlacesList.IsMouseCaptured) PlacesList.ReleaseMouseCapture();
             _navigating = _pinNavigatingWas;
             SyncPlacesSelection();
-            KillerNotes.Controls.DragCursors.EndDrag();
         }
 
         private void SavePinOrder()
@@ -87,7 +93,7 @@ namespace KillerNotes.SharedPicker
             var shown = Places.Where(p => p.Pinned).Select(p => p.Path).ToList();
             var hidden = PinnedPaths().Where(p => !shown.Any(s =>
                 s.TrimEnd('\\').Equals(p.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase)));
-            App.SetSetting(PinnedKey, string.Join("|", shown.Concat(hidden)));
+            Services.ThemeManager.SetSetting(PinnedKey, string.Join("|", shown.Concat(hidden)));
         }
     }
 }

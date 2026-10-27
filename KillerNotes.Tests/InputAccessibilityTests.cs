@@ -43,8 +43,6 @@ namespace KillerNotes.Tests
         [InlineData("Controls/TagsDialog.xaml", "TagList", "Str_Ctx_Tags")]
         [InlineData("Controls/TagsDialog.xaml", "NewNameBox", "Str_Tags_NeedName")]
         [InlineData("Controls/TagsDialog.xaml", "NewColorSwatch", "Str_TT_TagPickColor")]
-        [InlineData("Controls/FileDialog.xaml", "RecentsList", "Str_TT_RecentLocations")]
-        [InlineData("Controls/FileDialog.xaml", "PlacesList", "Str_Sec_File")]
         [InlineData("Controls/DatabasesDialog.xaml", "TrashRetentionBox", "Str_Trash_Retention")]
         public void InputPeersExposeNamesAndFollowLocaleChanges(string path, string name, string resource) => Sta.Run(() =>
         {

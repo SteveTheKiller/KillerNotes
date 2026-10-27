@@ -16,6 +16,86 @@
          Segoe UI fallback for editions without it. -->
     <FontFamily x:Key="ContentFont">Bahnschrift, Segoe UI</FontFamily>
 
+    <!-- KillerNotes' text field and its Cut/Copy/Paste menu. These used to live in the app's own
+         picker styles (PickerStyles.xaml), which merged after Controls.xaml and so replaced the
+         family versions everywhere: the table size boxes, the dictation fields and every other
+         DarkTextBox. The picker moved to the family FileDialog, and the two styles moved here so
+         those fields look exactly as they did. -->
+    <Style x:Key="DarkTextBox" TargetType="TextBox">
+        <!-- SurfaceBrush, NOT BackgroundBrush: a BackgroundBrush field is the same color as a panel
+             that paints nothing of its own, so only its 1px border separated it from empty space.
+             Against the dialog cards' PaneBrush a SurfaceBrush field reads as recessed. -->
+        <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="SelectionOpacity" Value="0.3"/>
+        <!-- Replaces WPF's built-in Cut/Copy/Paste menu, which is built from the framework theme
+             and ignores this app's ContextMenu/MenuItem styles. -->
+        <Setter Property="ContextMenu" Value="{DynamicResource TextInputContextMenu}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid x:Name="InputRoot" Tag="{DynamicResource UseDialogCaption}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}">
+                        <!-- VerticalAlignment must follow VerticalContentAlignment. Without it the
+                             content host fills the box top-down, so in a fixed-height row the text
+                             line is taller than the space left by Padding and scrolls out of sight. -->
+                        <input:InputContentHost x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                        <Border x:Name="inputWellOuterDark" Panel.ZIndex="2" IsHitTestVisible="False"
+                                BorderBrush="{DynamicResource PaneBevelDarkBrush}" BorderThickness="{DynamicResource PaneBevelLightThickness}"/>
+                        <Border x:Name="inputWellOuterLight" Panel.ZIndex="2" IsHitTestVisible="False"
+                                BorderBrush="{DynamicResource PaneBevelLightBrush}" BorderThickness="{DynamicResource PaneBevelDarkThickness}"/>
+                        <Border x:Name="inputWellInnerDark" Panel.ZIndex="2" IsHitTestVisible="False" Margin="{DynamicResource PaneBevelInnerMargin}"
+                                BorderBrush="{DynamicResource FrameOuterDarkBrush}" BorderThickness="{DynamicResource PaneBevelLightThickness}"/>
+                        <Border x:Name="inputWellInnerLight" Panel.ZIndex="2" IsHitTestVisible="False" Margin="{DynamicResource PaneBevelInnerMargin}"
+                                BorderBrush="{DynamicResource FrameOuterLightBrush}" BorderThickness="{DynamicResource PaneBevelDarkThickness}"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="BorderThickness" Value="0">
+                            <Setter TargetName="inputWellOuterDark" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="inputWellOuterLight" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="inputWellInnerDark" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="inputWellInnerLight" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Tag, ElementName=InputRoot}" Value="True"/>
+                                <Condition Binding="{Binding AcceptsReturn, RelativeSource={RelativeSource Self}}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="InputRoot" Property="MinHeight" Value="{DynamicResource CompactInputMinHeight}"/>
+                            <Setter TargetName="PART_ContentHost" Property="Margin" Value="0"/>
+                            <Setter TargetName="PART_ContentHost" Property="CompactPadding" Value="{DynamicResource CompactInputPadding}"/>
+                            <Setter TargetName="PART_ContentHost" Property="VerticalAlignment" Value="Center"/>
+                        </MultiDataTrigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ContextMenu x:Key="TextInputContextMenu" x:Shared="False">
+        <MenuItem Command="ApplicationCommands.Cut"   Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;"/>
+        <MenuItem Command="ApplicationCommands.Copy"  Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;"/>
+        <MenuItem Command="ApplicationCommands.Paste" Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;"/>
+        <Separator/>
+        <MenuItem Command="ApplicationCommands.SelectAll" Header="{DynamicResource Str_Ctx_SelectAll}" Icon="&#xE8B3;"/>
+    </ContextMenu>
+
     <!-- New note keeps the classic gray face; its inherited bevel reverses on press. -->
     <Style x:Key="NewNoteButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
         <Setter Property="Tag" Value="{DynamicResource UseDialogCaption}"/>

@@ -94,17 +94,17 @@ namespace KillerNotes.Controls.Sketch
             _closeBtn = CloseButton(L("Str_Sketch_Close", "Close (Esc)"));
 
             // Shared corner grip (DialogChrome) - press it to start an OS corner resize.
-            root.Children.Add(KillerNotes.Controls.DialogChrome.ResizeGrip(this));
+            root.Children.Add(KillerNotes.Controls.DialogFrame.ResizeGrip(this));
             // Last, so the raised edge draws over everything else in the card.
             root.Children.Add(_bevelLight);
             root.Children.Add(_bevelDark);
 
-            // ONE window frame for the whole app - DialogChrome.WindowFrame, the same builder the
+            // ONE window frame for the whole app - DialogFrame.WindowFrame, the same builder the
             // Dictation pad, the About card and every dialog use. The card's _bevelLight/_bevelDark
             // pair above is the shared CONTROL bevel and is a different thing; it is why this
             // window read as flat beside the main one on a beveled theme.
-            root.Children.Add(KillerNotes.Controls.DialogChrome.WindowFrame());
-            KillerNotes.Controls.DialogChrome.InsetForFrame(shell);
+            root.Children.Add(KillerNotes.Controls.DialogFrame.WindowFrame());
+            KillerNotes.Controls.DialogFrame.InsetForFrame(shell);
 
             _outerBorder.Child = root;
             Content = _outerBorder;
@@ -125,7 +125,7 @@ namespace KillerNotes.Controls.Sketch
             titleBar.SetResourceReference(FrameworkElement.HeightProperty, "TitleBarHeight");
             titleBar.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             titleBar.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            var titleGrain = KillerNotes.Controls.DialogChrome.TitleGrain();
+            var titleGrain = KillerNotes.Controls.DialogFrame.TitleGrain();
             Grid.SetColumnSpan(titleGrain, 2);
             titleBar.Children.Add(titleGrain);
             titleBar.MouseLeftButtonDown += (_, e) =>
@@ -138,7 +138,7 @@ namespace KillerNotes.Controls.Sketch
             // Built by DialogChrome, not locally: this window had its own copy of the wordmark, so
             // the flat-caption swap that Dictation and the About card already got never reached it
             // and 98SE kept showing the typewriter logotype. One builder, one caption everywhere.
-            var mark = (FrameworkElement)KillerNotes.Controls.DialogChrome.Wordmark(L("Str_Sketch_Title", "SketchPad"));
+            var mark = (FrameworkElement)KillerNotes.Controls.DialogFrame.Wordmark(L("Str_Sketch_Title", "SketchPad"));
             mark.SetResourceReference(FrameworkElement.MarginProperty, "TitleBarPadding");
             Grid.SetColumn(mark, 0);
             titleBar.Children.Add(mark);
@@ -535,7 +535,7 @@ namespace KillerNotes.Controls.Sketch
             catch { /* clipboard busy - nothing to do */ }
         }
 
-        // The corner resize grip moved to DialogChrome.ResizeGrip - ONE builder shared with the
+        // The corner resize grip moved to DialogFrame.ResizeGrip - ONE builder shared with the
         // Dictation pad, so the two grips cannot drift apart again.
 
         private void RebuildSwatches()

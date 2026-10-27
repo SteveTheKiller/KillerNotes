@@ -8,154 +8,135 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 
-// Shared title-bar chrome for the floating dialogs (1.2.0).
+// Shared title-bar chrome for floating dialogs (sketch pads, dictation bars, database pickers -
+// anything that is its own Window rather than an overlay on the main one).
 //
-// WHY THIS FILE EXISTS. The wordmark and the close X were hand-rolled once per dialog, and three
-// copies drifted into three different windows:
-//   - SketchPad  wordmark + "SketchPad" subtitle, and a 46x36 close button that filled SOLID RED
-//                with a white glyph on hover (the Windows caption treatment).
-//   - Databases  the wordmark, no subtitle - its title went in the BODY as a heading instead.
-//   - Dictation  no wordmark at all, just the word "Dictation", and a third close-button build.
+// WHY THIS FILE EXISTS. The wordmark and the close X get hand-rolled once per dialog, and the
+// copies drift. In KillerNotes three of them had, independently:
+//   - a wordmark + subtitle, with a 46x36 close that filled SOLID RED on hover (the OS caption
+//     treatment),
+//   - a wordmark and no subtitle, its title moved into the body as a heading instead,
+//   - no wordmark at all, just the bare word "Dictation", and a third close-button build.
 // Each carried a comment claiming to be the family rule, and they contradicted each other.
 //
-// The rule, settled: WORDMARK + SUBTITLE to its right, and a GLYPH-ONLY close that reddens on
-// hover. No filled block - that is the OS caption treatment and reads wrong on a floating card,
-// which is what the Dictation copy always said. Everything builds its caption from here now, so
-// the next dialog cannot drift into a fourth variant.
+// The rule, settled: WORDMARK + SUBTITLE to its right, and a close button on the shared
+// ChromeCloseButton style. Every dialog builds its caption from here, so the next one cannot drift
+// into a fourth variant.
+//
+// HOST SETUP. Set the three statics once at startup, before any dialog is constructed:
+//
+//     DialogChrome.AppName       = "KillerNotes";
+//     DialogChrome.WordmarkSplit = 6;   // "Killer" | "Notes"
+//     DialogChrome.IconUri       = new Uri("pack://application:,,,/Resources/kn-icon.ico");
 namespace KillerNotes.Controls
 {
     internal static class DialogChrome
     {
+        /// <summary>Product name shown in the caption, e.g. "KillerNotes".</summary>
+        public static string AppName { get; set; } = "";
+
+        /// <summary>
+        /// Where <see cref="AppName"/> splits into its neutral and accent runs - the family's
+        /// two-run wordmark. 6 puts the break after "Killer" for every app but Killendar, whose
+        /// name is one word and which sets 3 to split "The Killendar" style. 0 disables the split
+        /// and draws the whole name in the neutral color.
+        /// </summary>
+        public static int WordmarkSplit { get; set; } = 6;
+
+        /// <summary>Pack URI of the title-bar icon. Prefer a multi-size ICO. Null hides the icon.</summary>
+        public static Uri? IconUri { get; set; }
+
+        internal static bool SetTitleIcon(Image icon)
+        {
+            if (IconUri == null) return false;
+            var frames = BitmapDecoder.Create(IconUri, BitmapCreateOptions.None, BitmapCacheOption.OnLoad).Frames;
+            icon.Source = frames[0];
+            RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
+            return true;
+        }
+
         private static object? Res(string key) => Application.Current?.TryFindResource(key);
 
-        internal static Border TitleGrain()
-        {
-            var grain = new Border { IsHitTestVisible = false };
-            grain.SetResourceReference(Border.BackgroundProperty, "GrainTileBrush");
-            grain.SetResourceReference(UIElement.OpacityProperty, "GrainOpacity");
-            return grain;
-        }
-
-        internal static Grid GrainedTitle(UIElement content)
-        {
-            var host = new Grid();
-            host.Children.Add(TitleGrain());
-            host.Children.Add(content);
-            return host;
-        }
-
         /// <summary>
-        /// THE window frame - the 5px sizing border, built once and dropped into any window's root
-        /// Grid as its last child. Callers also set their content's Margin to WindowFramePadding so
-        /// the frame occupies its own space instead of painting over the caption and the footer.
+        /// The caption content: either the Punktype and Lacquer wordmark or, on a theme that declares
+        /// UseDialogCaption, an icon and a plain bold title in the chrome font.
         ///
-        /// Structure is a raised double bevel wrapping a face, exactly what Win32 draws for
-        /// EDGE_RAISED on a sizing border:
-        ///
-        ///     outer ring   FrameOuterLight top/left   FrameOuterDark bottom/right
-        ///     face         WindowFrameBrush, inset by WindowFrameMargin
-        ///     inner ring   FrameInnerLight top/left   FrameInnerDark bottom/right
-        ///
-        /// Each ring MUST be inset past the one outside it. A Border draws its edge INSIDE its own
-        /// bounds, so rings with no margin all anchor to the same pixel and simply paint over each
-        /// other - which is how this first shipped, measuring 3px instead of 5 with the inner ring
-        /// invisible.
-        ///
-        /// Every key is transparent at zero thickness by default, so a window that adds this on a
-        /// flat theme draws nothing and looks exactly as it did, so every other window can take
-        /// the same treatment. (2026-08-07)
-        /// </summary>
-        public static UIElement WindowFrame()
-        {
-            var host = new Grid { IsHitTestVisible = false };
-            host.Children.Add(Ring("WindowFrameBrush", "WindowFrameThickness", "WindowFrameMargin"));
-            host.Children.Add(Ring("FrameInnerLightBrush", "FrameInnerLightThickness", "FrameInnerMargin"));
-            host.Children.Add(Ring("FrameInnerDarkBrush", "FrameInnerDarkThickness", "FrameInnerMargin"));
-            host.Children.Add(Ring("FrameOuterLightBrush", "FrameOuterLightThickness", null));
-            host.Children.Add(Ring("FrameOuterDarkBrush", "FrameOuterDarkThickness", null));
-            return host;
-        }
-
-        private static Border Ring(string brushKey, string thicknessKey, string? marginKey)
-        {
-            var b = new Border { IsHitTestVisible = false };
-            b.SetResourceReference(Border.BorderBrushProperty, brushKey);
-            b.SetResourceReference(Border.BorderThicknessProperty, thicknessKey);
-            if (marginKey != null) b.SetResourceReference(FrameworkElement.MarginProperty, marginKey);
-            return b;
-        }
-
-        /// <summary>Holds a window's content off the edge by the frame's width. Zero on a theme
-        /// with no frame, so nothing moves.</summary>
-        public static void InsetForFrame(FrameworkElement content) =>
-            content.SetResourceReference(FrameworkElement.MarginProperty, "WindowFramePadding");
-
-        /// <summary>
-        /// "KillerNotes <subtitle>" in the wordmark face, over a blurred dark copy of itself.
-        ///
-        /// ChromeTextBrush and not TextBrush for the "Killer" half: a caption band is a dark
+        /// ChromeTextBrush and not TextBrush for the neutral half: a caption band is a dark
         /// gradient on several themes, and TextBrush is the color calibrated for the CONTENT
-        /// surface (black on 98SE), which vanished against it.
+        /// surface (black on a light theme), which vanishes against it.
         /// </summary>
         public static UIElement Wordmark(string subtitle)
         {
-            // BOTH captions are ALWAYS built and swapped by WordmarkVisibility /
-            // PlainTitleVisibility - the same DynamicResource pair MainWindow.xaml binds. The
-            // comment here CLAIMED that while the code still picked one at build time with a C#
-            // "if" on UseDialogCaption: a pad opened under a wordmark theme then kept the
-            // typewriter logotype painted over 98SE's caption after a live theme switch, on top
-            // of the plain title (2026-08-08). Now the code matches the claim.
+            // ONE of the two is built, chosen by the theme. This deliberately does NOT build both
+            // and bind Visibility: a dialog is short-lived and rebuilt on open, where the main
+            // window persists across a live theme switch and does need the bound pair.
+            if (Res("UseDialogCaption") != null)
+            {
+                // Icon + bold title, from the SAME keys the main window's caption uses, so the two
+                // cannot disagree: TitleIconSize, TitleIconMargin, ChromeFontFamily, ChromeTextBrush.
+                var row = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                };
+
+                if (IconUri != null)
+                {
+                    var icon = new AppIcon
+                    {
+                        VerticalAlignment = VerticalAlignment.Center,
+                    };
+                    icon.SetResourceReference(FrameworkElement.WidthProperty, "TitleIconSize");
+                    icon.SetResourceReference(FrameworkElement.HeightProperty, "TitleIconSize");
+                    icon.SetResourceReference(FrameworkElement.MarginProperty, "TitleIconMargin");
+                    SetTitleIcon(icon);
+                    row.Children.Add(icon);
+                }
+
+                var plain = new TextBlock
+                {
+                    Text = subtitle.Length > 0 ? AppName + " - " + subtitle : AppName,
+                    FontSize = 11,
+                    FontWeight = FontWeights.Bold,   // match the main window's plain title exactly
+                    VerticalAlignment = VerticalAlignment.Center,
+                };
+                plain.SetResourceReference(TextBlock.FontFamilyProperty, "ChromeFontFamily");
+                plain.SetResourceReference(TextBlock.ForegroundProperty, "ChromeTextBrush");
+                row.Children.Add(plain);
+                return row;
+            }
+
+            var wf = Res("WordmarkFont") as FontFamily;
             var host = new Grid { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center };
 
-            // -- Flat caption: icon + bold plain title, the SAME keys the main window's caption
-            //    uses (TitleIconSize, TitleIconMargin, ChromeFontFamily, ChromeTextBrush).
-            var flatRow = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left,
-            };
-            flatRow.SetResourceReference(UIElement.VisibilityProperty, "PlainTitleVisibility");
-            flatRow.Children.Add(TitleIcon());
-            var plain = new TextBlock
-            {
-                Text = subtitle.Length > 0 ? "KillerNotes - " + subtitle : "KillerNotes",
-                FontSize = 11,
-                FontWeight = FontWeights.Bold,   // matches MainWindow.xaml:116 exactly
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-            plain.SetResourceReference(TextBlock.FontFamilyProperty, "ChromeFontFamily");
-            plain.SetResourceReference(TextBlock.ForegroundProperty, "ChromeTextBrush");
-            flatRow.Children.Add(plain);
-            host.Children.Add(flatRow);
-
-            // -- Wordmark caption: shadow copy first, offset a pixel and blurred, so the mark
-            //    lifts off the band.
-            //    The app icon leads it, as it does in the main window's title bar.
-            var wf = Res("WordmarkFont") as FontFamily;
+            // The app icon leads the wordmark, as it does in the main window's title bar.
             var markRow = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
             };
-            markRow.SetResourceReference(UIElement.VisibilityProperty, "WordmarkVisibility");
-            markRow.Children.Add(TitleIcon());
-            // Main title bar geometry: negative margins keep Lacquer's deep descent out of the layout
-            // so the caption never clips the drips, plus the same 2px lift.
-            var mark = new Grid
+            if (IconUri != null)
             {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, -18, 0, -22),
-                RenderTransform = new TranslateTransform(0, -5),
-            };
+                var markIcon = new AppIcon
+                {
+                    VerticalAlignment = VerticalAlignment.Center,
+                };
+                markIcon.SetResourceReference(FrameworkElement.WidthProperty, "TitleIconSize");
+                markIcon.SetResourceReference(FrameworkElement.HeightProperty, "TitleIconSize");
+                markIcon.SetResourceReference(FrameworkElement.MarginProperty, "TitleIconMargin");
+                SetTitleIcon(markIcon);
+                markRow.Children.Add(markIcon);
+            }
+
+            // Shadow copy first, offset a pixel and blurred, so the mark lifts off the band.
             var shadowInk = new SolidColorBrush(Color.FromArgb(0xD8, 0, 0, 0));
             var shadow = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(1, 2, 0, 0) };
             if (Res("WordmarkShadowOpacity") is double sop) shadow.Opacity = sop;
             shadow.Effect = new BlurEffect { Radius = 3 };
             shadow.Children.Add(Text(wf, subtitle, "", "", "", shadowInk));
-            mark.Children.Add(shadow);
+            host.Children.Add(shadow);
             // Light/Yellow: the accent half is yellow on a light band, so it gets the same dark
             // halo the main window's wordmark has. WordmarkAccentShadowOpacity is 0 everywhere else.
             var accentShadow = Text(wf, subtitle, "", "", "", Brushes.Transparent);
@@ -164,170 +145,71 @@ namespace KillerNotes.Controls
             accentShadow.IsHitTestVisible = false;
             accentShadow.Effect = new BlurEffect { Radius = 3 };
             accentShadow.SetResourceReference(UIElement.OpacityProperty, "WordmarkAccentShadowOpacity");
-            mark.Children.Add(accentShadow);
+            host.Children.Add(accentShadow);
 
             // The subtitle takes ChromeTextBrush too, NOT MutedTextBrush. Muted is a color mixed
-            // against the CONTENT surface; on a theme that paints a real caption band (98SE's green)
-            // it lands dark-on-dark and the subtitle disappeared while "KillerNotes" beside it
-            // stayed perfectly readable. Chrome text is the band's own color by definition. The
-            // subtitle still reads as secondary because it is lighter weight and a size down.
-            mark.Children.Add(Text(wf, subtitle, "ChromeTextBrush", "AccentLogo", "ChromeTextBrush"));
-            markRow.Children.Add(mark);
-            host.Children.Add(markRow);
-
-            return host;
-        }
-
-        /// <summary>The app icon at the main title bar's size and spacing.</summary>
-        private static Image TitleIcon()
-        {
-            var icon = new KillerNotes.Controls.AppIcon
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-            icon.SetResourceReference(FrameworkElement.WidthProperty, "TitleIconSize");
-            icon.SetResourceReference(FrameworkElement.HeightProperty, "TitleIconSize");
-            icon.SetResourceReference(FrameworkElement.MarginProperty, "TitleIconMargin");
-            SharpenTitleIcon(icon);
-            return icon;
-        }
-
-        /// <summary>The family ConfirmDialog's caption icon (ConfirmDialog.xaml.cs).</summary>
-        internal static bool SetTitleIcon(Image icon)
-        {
-            SharpenTitleIcon(icon);
-            return true;
-        }
-
-        internal static void SharpenTitleIcon(Image icon)
-        {
-            var frames = BitmapDecoder.Create(new Uri("pack://application:,,,/Resources/kn-icon.ico"),
-                BitmapCreateOptions.None, BitmapCacheOption.OnLoad).Frames;
-            icon.Source = frames[0];
-            RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
+            // against the CONTENT surface; on a theme that paints a real caption band it lands
+            // dark-on-dark and the subtitle disappears while the app name beside it stays perfectly
+            // readable. Chrome text is the band's own color by definition. The subtitle still reads
+            // as secondary because it is lighter weight and a size down.
+            host.Children.Add(Text(wf, subtitle, "ChromeTextBrush", "AccentLogo", "ChromeTextBrush"));
+            markRow.Children.Add(host);
+            return markRow;
         }
 
         private static TextBlock Text(FontFamily? wf, string subtitle,
-                                      string killerKey, string notesKey, string subKey, Brush? flat = null)
+                                      string neutralKey, string accentKey, string subKey, Brush? flat = null)
         {
-            // Sizes come from the SAME two keys the main window's wordmark uses. They were
-            // hardcoded 15 / 19.5 / 18 against the main window's 17 / 22, which is why a dialog
-            // caption never matched it on any theme that shows the wordmark.
+            // Sizes come from the SAME two keys the main window's wordmark uses. Hardcoding them
+            // here is what made a dialog caption fail to match the main window on every theme that
+            // shows the wordmark.
             var tb = new TextBlock { VerticalAlignment = VerticalAlignment.Center };
             tb.SetResourceReference(TextBlock.FontSizeProperty, "TitleWordmarkSize");
             if (wf != null) tb.FontFamily = wf;
 
-            var killer = new Run("Killer");
-            var notes = new Run("Notes");
-            notes.SetResourceReference(TextElement.FontFamilyProperty, "WordmarkAccentFont");
-            notes.SetResourceReference(TextElement.FontSizeProperty, "TitleWordmarkBoldSize");
+            int cut = WordmarkSplit > 0 && WordmarkSplit < AppName.Length ? WordmarkSplit : AppName.Length;
+            var neutral = new Run(AppName.Substring(0, cut));
+            var accent = new Run(AppName.Substring(cut));
+            accent.SetResourceReference(TextElement.FontFamilyProperty, "WordmarkAccentFont");
+            accent.SetResourceReference(TextElement.FontSizeProperty, "TitleWordmarkBoldSize");
             var sub = new Run(subtitle.Length > 0 ? "  " + subtitle : "");
             sub.SetResourceReference(TextElement.FontFamilyProperty, "BrandSansFont");
             sub.SetResourceReference(TextElement.FontSizeProperty, "TitleSubtitleSize");
 
-            if (flat != null) { killer.Foreground = flat; notes.Foreground = flat; sub.Foreground = flat; }
+            if (flat != null) { neutral.Foreground = flat; accent.Foreground = flat; sub.Foreground = flat; }
             else
             {
-                killer.SetResourceReference(TextElement.ForegroundProperty, killerKey);
-                notes.SetResourceReference(TextElement.ForegroundProperty, notesKey);
+                neutral.SetResourceReference(TextElement.ForegroundProperty, neutralKey);
+                accent.SetResourceReference(TextElement.ForegroundProperty, accentKey);
                 sub.SetResourceReference(TextElement.ForegroundProperty, subKey);
             }
 
-            tb.Inlines.Add(killer);
-            tb.Inlines.Add(notes);
+            tb.Inlines.Add(neutral);
+            tb.Inlines.Add(accent);
             tb.Inlines.Add(sub);
             return tb;
         }
 
-        // ---- Shared corner resize grip (SketchPad, Dictation) ----
-        // Classic grip in the bottom-right corner - a REAL handle: pressing it starts an
-        // OS-driven bottom-right corner resize. The windows' own resize border lives out in
-        // the transparent shadow halo (easy to miss), so the visible grip is the reliable way.
-        // ONE builder for every resizable pad, so the grips cannot drift apart: SketchPad had
-        // its own copy and Dictation had nothing (2026-08-08). TWO looks in one 18x18
-        // slot, each shown by its own visibility key - the family's six 2x2 dots, or the Win98
-        // diagonal beveled bands on a flat theme.
-        public static UIElement ResizeGrip(Window owner)
-        {
-            var c = new System.Windows.Controls.Canvas
-            {
-                Width = 18, Height = 18,
-                Background = System.Windows.Media.Brushes.Transparent,
-                Cursor = System.Windows.Input.Cursors.SizeNWSE,
-                HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Bottom,
-                Margin = new Thickness(0, 0, 3, 3),
-            };
-            var dots = new System.Windows.Controls.Canvas { Width = 18, Height = 18, IsHitTestVisible = false };
-            dots.SetResourceReference(UIElement.VisibilityProperty, "GripDotsVisibility");
-            void Dot(double x, double y)
-            {
-                var d = new System.Windows.Shapes.Ellipse { Width = 2.4, Height = 2.4 };
-                d.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "MutedTextBrush");
-                System.Windows.Controls.Canvas.SetLeft(d, x);
-                System.Windows.Controls.Canvas.SetTop(d, y);
-                dots.Children.Add(d);
-            }
-            Dot(15, 6);
-            Dot(10.5, 10.5); Dot(15, 10.5);
-            Dot(6, 15); Dot(10.5, 15); Dot(15, 15);
-            c.Children.Add(dots);
-
-            // Diagonal bands: half-pixel centers so a 1px line lands on one row, each band a
-            // dark line with a light one under it - the beveled hatch, not plain strokes.
-            var hatch = new System.Windows.Controls.Canvas { Width = 18, Height = 18, IsHitTestVisible = false };
-            hatch.SetResourceReference(UIElement.VisibilityProperty, "GripLinesVisibility");
-            void Band(double off, string brushKey)
-            {
-                var l = new System.Windows.Shapes.Line { X1 = 16.5, Y1 = off, X2 = off, Y2 = 16.5, StrokeThickness = 1 };
-                l.SetResourceReference(System.Windows.Shapes.Shape.StrokeProperty, brushKey);
-                hatch.Children.Add(l);
-            }
-            Band(5.5, "BevelDarkBrush");  Band(6.5, "BevelLightBrush");
-            Band(9.5, "BevelDarkBrush");  Band(10.5, "BevelLightBrush");
-            Band(13.5, "BevelDarkBrush"); Band(14.5, "BevelLightBrush");
-            c.Children.Add(hatch);
-
-            c.MouseLeftButtonDown += (_, e) =>
-            {
-                e.Handled = true;
-                if (owner.WindowState == WindowState.Maximized) return;
-                var hwnd = new System.Windows.Interop.WindowInteropHelper(owner).Handle;
-                if (hwnd == IntPtr.Zero) return;
-                ReleaseCapture();
-                SendMessage(hwnd, 0x00A1 /* WM_NCLBUTTONDOWN */, (IntPtr)17 /* HTBOTTOMRIGHT */, IntPtr.Zero);
-            };
-            return c;
-        }
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern bool ReleaseCapture();
-
         /// <summary>
-        /// The family close X: the GLYPH reddens on hover, nothing fills.
+        /// The family dialog close, in code: the exact equivalent of the OverlayCloseButton markup
+        /// ConfirmDialog, FileDialog, About and the F1 overlay use, on the AboutClose* box and
+        /// vertically centered in the caption band.
         ///
-        /// A TextBlock, not a Button. A Button with Background="Transparent" still carries WPF's
-        /// default template, which paints the system highlight behind it on hover - that is the
-        /// gray block no brush or theme reaches.
+        /// Only the GLYPH reddens on hover, never a filled red block: a filled block is the Windows
+        /// CAPTION treatment (ChromeCloseButton, the main window's own X) and reads wrong on a
+        /// window floating over the app. On a flat-caption theme (98SE) the same style draws the
+        /// Win98 caption X on its beveled face, from the AboutClose* tokens ThemeManager derives.
         ///
-        /// PreviewMouseLeftButtonDown, NOT MouseLeftButtonUp: the caption band under this handles
-        /// ButtonDown to drag the window, DragMove() runs a modal loop, and the matching ButtonUp
-        /// then never arrives here - which is how a close X ends up doing nothing. Tunnelling gets
-        /// it first, and marking it handled stops a drag starting on a click aimed at the X.
+        /// PreviewMouseLeftButtonDown, NOT Click: the caption band under this handles ButtonDown to
+        /// drag the window, DragMove() runs a modal loop, and the matching ButtonUp - and therefore
+        /// Click - never arrives, which is how a close X ends up doing nothing. Tunnelling gets it
+        /// first, and marking it handled stops a drag starting on a click aimed at the X. Click is
+        /// still wired as the keyboard and automation path (Space or Enter on the focused X, UI
+        /// Automation Invoke); the handled pointer press never raises it, so a mouse click closes
+        /// once.
         /// </summary>
         public static FrameworkElement CloseGlyph(string tooltip, Action onClose)
         {
-            // THE FAMILY DIALOG CLOSE, in code. The exact equivalent of the markup KillerShell's
-            // ConfirmDialog, KillerScan's InputDialog, the KillerUI kit and now DialogTitleBar.xaml
-            // all use: OverlayCloseButton, AboutCloseGlyph, the AboutClose* box, centered.
-            //
-            // The kit states the rule: only the GLYPH reddens on hover, never a filled red block,
-            // because a filled block is the Windows CAPTION treatment and is wrong on a card
-            // floating over the app. This helper used ChromeCloseButton - the main window's caption
-            // X - which is why SketchPad, Dictation and the Whisper dialog all wore a red block
-            // nothing else in the family wears (2026-08-23).
             var glyph = new Button
             {
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -341,10 +223,8 @@ namespace KillerNotes.Controls
             glyph.SetResourceReference(ContentControl.ContentProperty, "AboutCloseGlyph");
             glyph.SetResourceReference(FrameworkElement.WidthProperty, "AboutCloseWidth");
             glyph.SetResourceReference(FrameworkElement.HeightProperty, "AboutCloseHeight");
-            // PreviewMouseLeftButtonDown, not Click: the caption band under this handles ButtonDown
-            // to drag the window and DragMove() runs a modal loop, so the matching ButtonUp - and
-            // therefore Click - never arrives. See the note above.
             glyph.PreviewMouseLeftButtonDown += (_, e) => { e.Handled = true; onClose(); };
+            glyph.Click += (_, _) => onClose();
             return glyph;
         }
     }

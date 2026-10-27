@@ -1031,4 +1031,6 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Color_Green">Zelena</sys:String>
     <sys:String x:Key="Str_Color_Blue">Modra</sys:String>
     <sys:String x:Key="Str_Color_Hex">Šestnajstiška barva</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Izberi mapo</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Predogled</sys:String>
 </ResourceDictionary>

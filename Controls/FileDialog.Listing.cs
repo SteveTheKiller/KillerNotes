@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace KillerNotes.SharedPicker
+namespace KillerNotes.Controls
 {
     public partial class FileDialog
     {
@@ -13,6 +13,9 @@ namespace KillerNotes.SharedPicker
         private CancellationTokenSource? _listingRows;
         private bool _listingClosed;
         private string? _listingError;
+        // Bumped on every navigation, so a slow tree reveal for an older folder stops instead of
+        // selecting it over the folder now shown.
+        private long _navigationVersion;
         public Func<string, bool, CancellationToken, PickerListingResult> DirectoryListingReader { get; set; } = PickerDirectoryListing.Read;
         public Task DirectoryListingTask { get; private set; } = Task.CompletedTask;
         public bool IsDirectoryListingBusy { get; private set; }
@@ -23,6 +26,8 @@ namespace KillerNotes.SharedPicker
         {
             if (_listingClosed || string.IsNullOrWhiteSpace(directory)) return Task.CompletedTask;
             _listingRows?.Cancel();
+            long version = ++_navigationVersion;
+            UpdateImagePreview(null);
             IsDirectoryListingBusy = true;
             IsDirectoryListingAvailable = false;
             IsDirectoryListingComplete = false;
@@ -31,7 +36,6 @@ namespace KillerNotes.SharedPicker
             _raw.Clear();
             MutateListingRows(Entries.Clear);
             SelMeta.Text = "\u2026";
-            bool historyTravel = _keyboardHistoryTravel;
             bool showHidden = _showHidden;
             var reader = DirectoryListingReader;
             return DirectoryListingTask = _listingWork.RunAsync(token => reader(directory, showHidden, token), async (result, token) =>
@@ -58,12 +62,8 @@ namespace KillerNotes.SharedPicker
                 UpButton.IsEnabled = System.IO.Directory.GetParent(directory) != null;
                 UpdateInfoSummary();
                 MutateListingRows(SyncPlacesSelection);
-                if (!historyTravel && (_keyboardHistoryIndex < 0 || !string.Equals(_keyboardHistory[_keyboardHistoryIndex], directory, StringComparison.OrdinalIgnoreCase)))
-                {
-                    if (_keyboardHistoryIndex + 1 < _keyboardHistory.Count) _keyboardHistory.RemoveRange(_keyboardHistoryIndex + 1, _keyboardHistory.Count - _keyboardHistoryIndex - 1);
-                    _keyboardHistory.Add(directory); _keyboardHistoryIndex = _keyboardHistory.Count - 1;
-                }
                 RecordRecent(directory);
+                _ = RevealInTree(directory, version);
             }, error =>
             {
                 IsDirectoryListingBusy = false;

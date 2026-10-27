@@ -464,7 +464,7 @@ namespace KillerNotes.Controls
 
             // The grip goes INSIDE the card. Parented to the window root it sat out in the 20px
             // transparent shadow halo, floating clear of the window it belongs to (2026-08-23).
-            var grip = DialogChrome.ResizeGrip(this);
+            var grip = DialogFrame.ResizeGrip(this);
             if (grip is FrameworkElement g)
             {
                 g.HorizontalAlignment = HorizontalAlignment.Right;
@@ -491,8 +491,8 @@ namespace KillerNotes.Controls
             // rounded themes draw nothing new and look exactly as they did.
             var framed = new Grid();
             framed.Children.Add(body);
-            framed.Children.Add(DialogChrome.WindowFrame());
-            DialogChrome.InsetForFrame(body);
+            framed.Children.Add(DialogFrame.WindowFrame());
+            DialogFrame.InsetForFrame(body);
 
             _outerBorder = new KillerNotes.Controls.PickerBorder { Child = framed };
             _outerBorder.SetResourceReference(Border.BorderBrushProperty, "WindowEdgeBrush");
@@ -578,7 +578,7 @@ namespace KillerNotes.Controls
                 else if (WindowState != WindowState.Maximized) DragMove();
             };
 
-            var mark = (FrameworkElement)DialogChrome.Wordmark(title);
+            var mark = (FrameworkElement)DialogFrame.Wordmark(title);
             mark.SetResourceReference(MarginProperty, "TitleBarPadding");
             Grid.SetColumn(mark, 0);
             bar.Children.Add(mark);

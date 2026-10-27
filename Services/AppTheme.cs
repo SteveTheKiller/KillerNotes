@@ -23,6 +23,11 @@ namespace KillerNotes.Services
             ThemeManager.SetDefaults(Theme.Black, dark: Accent.Green, light: Accent.Green, black: Accent.Purple, se98: Accent.Blue);
             ThemeManager.AppTokens = AppTokens;
             ThemeManager.AppDerivedTokens = AppDerivedTokens;
+            // Dialog captions (Controls/DialogChrome.cs): the file picker's and ConfirmDialog's
+            // title icon and wordmark come from here.
+            Controls.DialogChrome.AppName = "KillerNotes";
+            Controls.DialogChrome.WordmarkSplit = 6;
+            Controls.DialogChrome.IconUri = new Uri("pack://application:,,,/Resources/kn-icon.ico");
         }
 
         /// <summary>
@@ -149,7 +154,7 @@ namespace KillerNotes.Services
             ThemeManager.SetIfAbsent(d, "HeaderFontSize", flat ? 18.0 : 20.0);
             ThemeManager.SetIfAbsent(d, "HeaderTextMargin", flat ? new Thickness(0) : new Thickness(0, -5, 0, 1));
 
-            // The picker's soft text outline (Controls/PickerStyles.xaml).
+            // The soft text outline the picker rows in Controls/Controls.xaml use.
             if (!d.Contains("TextStroke"))
                 d["TextStroke"] = new DropShadowEffect
                 {

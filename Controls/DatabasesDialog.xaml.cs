@@ -240,7 +240,7 @@ namespace KillerNotes.Controls
         private void ExportMenu_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedFile is not string name) { DlgStatus.Text = Loc("Str_Db_SelectFirst"); return; }
-            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Save)
+            var dlg = new FileDialog(FileDialogMode.Save)
             {
                 Filter = Loc("Str_Filter_Kndb"),
                 FileName = Path.GetFileNameWithoutExtension(name) + ".kndb",
@@ -405,7 +405,12 @@ namespace KillerNotes.Controls
         private void DataFolder_Click(object sender, RoutedEventArgs e)
         {
             string current = NoteStore.DbDir;
-            string? picked = FolderPicker.Show(this, current, Loc("Str_Db_PickFolderTitle"));
+            var folderDlg = new FileDialog(FileDialogMode.Folder)
+            {
+                Title = Loc("Str_Db_PickFolderTitle"),
+                InitialDirectory = current,
+            };
+            string? picked = folderDlg.ShowDialog(this) == true ? folderDlg.FileName : null;
             if (picked == null) return;
 
             string full;

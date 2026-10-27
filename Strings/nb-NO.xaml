@@ -1169,4 +1169,6 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Color_Green">Grønn</sys:String>
     <sys:String x:Key="Str_Color_Blue">Blå</sys:String>
     <sys:String x:Key="Str_Color_Hex">Heksfarge</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Velg mappe</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Forhåndsvisning</sys:String>
 </ResourceDictionary>

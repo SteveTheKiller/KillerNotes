@@ -1125,4 +1125,6 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Color_Green">Verde</sys:String>
     <sys:String x:Key="Str_Color_Blue">Azul</sys:String>
     <sys:String x:Key="Str_Color_Hex">Color hexadecimal</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Seleccionar</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Vista previa</sys:String>
 </ResourceDictionary>

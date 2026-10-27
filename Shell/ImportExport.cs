@@ -42,7 +42,7 @@ namespace KillerNotes.Shell
         private void OpenFilesDialog()   // Ctrl+O
         {
             if (!NoteStore.IsOpen) return;
-            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Open)
+            var dlg = new Controls.FileDialog(Controls.FileDialogMode.Open)
             {
                 Multiselect = true,
                 Filter = Loc("Str_Filter_Open"),
@@ -213,7 +213,7 @@ namespace KillerNotes.Shell
             if (!saved && n.Id != _currentId) return;
             if (!saved && (_loadFailed || _dragFloater != null || _armedObject != null || _dragDial != null)) return;
 
-            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Save)
+            var dlg = new Controls.FileDialog(Controls.FileDialogMode.Save)
             {
                 FileName = SafeFileName(n.Title) + ".txt",
                 Filter = Loc("Str_Filter_Save"),

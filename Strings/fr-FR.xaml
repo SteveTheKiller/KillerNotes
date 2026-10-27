@@ -1125,4 +1125,6 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Color_Green">Vert</sys:String>
     <sys:String x:Key="Str_Color_Blue">Bleu</sys:String>
     <sys:String x:Key="Str_Color_Hex">Couleur hexadécimale</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Sélectionner un dossier</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Aperçu</sys:String>
 </ResourceDictionary>

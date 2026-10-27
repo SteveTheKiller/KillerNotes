@@ -1,9 +1,10 @@
 using System;
 
-namespace KillerNotes.SharedPicker
+namespace KillerNotes.Controls
 {
     // Row and place models for FileDialog.
-    public sealed class PickerPlace(string label, string path, bool pinned = false)
+    public sealed class PickerPlace(string label, string path, bool pinned = false,
+                                    System.Windows.Media.ImageSource? icon = null)
     {
         public string Label { get; } = label;
         public string Path  { get; } = path;
@@ -14,8 +15,10 @@ namespace KillerNotes.SharedPicker
         public bool Pinned { get; } = pinned;
 
         /// <summary>Real shell icon, resolved by PATH - a drive shows its true icon (USB,
-        /// network, optical) and a special folder its own. Cached in ShellIcons.</summary>
-        public System.Windows.Media.ImageSource? Icon => ShellIcons.Place(Path);
+        /// network, optical) and a special folder its own. Cached in ShellIcons. An app that
+        /// resolves icons off the UI thread (slow network drives) passes the result as
+        /// <c>icon</c>; otherwise it is looked up on first bind.</summary>
+        public System.Windows.Media.ImageSource? Icon => icon ?? Services.ShellIcons.Place(Path);
     }
 
     // One row in the folder pane: a subfolder or a (dimmed, non-pickable) file.
@@ -37,19 +40,17 @@ namespace KillerNotes.SharedPicker
         /// <summary>Shell icon, 16px, for the list and details rows. Cached by extension, so
         /// binding it per row is cheap.</summary>
         public System.Windows.Media.ImageSource? Icon
-            => ShellIcons.Small(FullPath, IsFolder);
+            => Services.ShellIcons.Small(FullPath, IsFolder);
 
-        /// <summary>
-        /// Shell icon, 32px, for the icon grid - or a real THUMBNAIL when the file is an image.
-        /// Picking a picture out of a grid of identical type icons is guesswork, so an image shows
-        /// itself. Falls back to the type icon when the file is not an image or will not decode.
-        /// </summary>
+        /// <summary>Shell icon, 32px, for the icon grid - or a real thumbnail when the file is an
+        /// image, so a folder of pictures does not read as a grid of identical type icons.</summary>
         public System.Windows.Media.ImageSource? IconLarge
-            => ShellIcons.Thumbnail(FullPath, 32) ?? ShellIcons.Large(FullPath, IsFolder);
+            => (ShowThumbnails ? Services.ShellIcons.Thumbnail(FullPath, 32) : null)
+               ?? Services.ShellIcons.Large(FullPath, IsFolder);
 
-        /// <summary>The preview pane's image: bigger, and null for anything that is not an image.</summary>
-        public System.Windows.Media.ImageSource? Preview
-            => IsFolder ? null : ShellIcons.Thumbnail(FullPath, 512);
+        /// <summary>Image thumbnails in the icon grid. On by default; an app that keeps plain
+        /// shell icons for pictures sets this false once at startup.</summary>
+        public static bool ShowThumbnails { get; set; } = true;
 
         public string SizeLabel     => IsFolder ? string.Empty : FormatSize(SizeBytes);
         public string ModifiedLabel => Modified == DateTime.MinValue ? string.Empty : Modified.ToString("yyyy-MM-dd HH:mm");

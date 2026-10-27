@@ -1132,4 +1132,6 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Color_Green">Verde</sys:String>
     <sys:String x:Key="Str_Color_Blue">Blu</sys:String>
     <sys:String x:Key="Str_Color_Hex">Colore esadecimale</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Seleziona cartella</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Anteprima</sys:String>
 </ResourceDictionary>

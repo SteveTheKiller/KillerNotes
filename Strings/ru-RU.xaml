@@ -1132,4 +1132,6 @@
     <sys:String x:Key="Str_Color_Green">Зелёный</sys:String>
     <sys:String x:Key="Str_Color_Blue">Синий</sys:String>
     <sys:String x:Key="Str_Color_Hex">Шестнадцатеричный цвет</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Выбрать папку</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Предварительный просмотр</sys:String>
 </ResourceDictionary>

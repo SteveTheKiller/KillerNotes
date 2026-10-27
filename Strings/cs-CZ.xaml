@@ -1121,4 +1121,6 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Color_Green">Zelená</sys:String>
     <sys:String x:Key="Str_Color_Blue">Modrá</sys:String>
     <sys:String x:Key="Str_Color_Hex">Barva v šestnáctkovém zápisu</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Vybrat složku</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Náhled</sys:String>
 </ResourceDictionary>

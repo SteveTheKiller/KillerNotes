@@ -270,9 +270,9 @@ namespace KillerNotes.Controls.Dictation
             // Shared corner grip (DialogChrome) - the pad was ALREADY resizable, but with the
             // resize border hidden out in the shadow halo nothing said so; the visible grip is
             // the same one the SketchPad carries. (2026-08-08)
-            root.Children.Add(KillerNotes.Controls.DialogChrome.ResizeGrip(this));
-            root.Children.Add(KillerNotes.Controls.DialogChrome.WindowFrame());
-            KillerNotes.Controls.DialogChrome.InsetForFrame(shell);
+            root.Children.Add(KillerNotes.Controls.DialogFrame.ResizeGrip(this));
+            root.Children.Add(KillerNotes.Controls.DialogFrame.WindowFrame());
+            KillerNotes.Controls.DialogFrame.InsetForFrame(shell);
 
             _outerBorder.Child = root;
             Content = _outerBorder;
@@ -305,7 +305,7 @@ namespace KillerNotes.Controls.Dictation
             // The wordmark, same as SketchPad and Databases - this used to be the bare word
             // "Dictation" in the content font, which is why this one dialog looked like it came
             // from a different app. DialogChrome owns the mark now (see that file).
-            var caption = DialogChrome.Wordmark(L("Str_Dict_Title", "Dictation"));
+            var caption = DialogFrame.Wordmark(L("Str_Dict_Title", "Dictation"));
             // The inset the band used to apply, moved onto the mark - SketchPad's arrangement.
             ((FrameworkElement)caption).SetResourceReference(FrameworkElement.MarginProperty, "TitleBarPadding");
 
@@ -318,7 +318,7 @@ namespace KillerNotes.Controls.Dictation
             close.SetResourceReference(MarginProperty, "ToolWindowCloseMargin");
             DialogShortcuts.Describe(close, "Esc");
             head.Children.Add(close);
-            band.Child = DialogChrome.GrainedTitle(head);
+            band.Child = DialogFrame.GrainedTitle(head);
             Grid.SetRow(band, 0);
             return band;
         }

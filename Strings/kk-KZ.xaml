@@ -1132,4 +1132,6 @@
     <sys:String x:Key="Str_Color_Green">Жасыл</sys:String>
     <sys:String x:Key="Str_Color_Blue">Көк</sys:String>
     <sys:String x:Key="Str_Color_Hex">Он алтылық түс</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Қалтаны таңдау</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Алдын ала қарау</sys:String>
 </ResourceDictionary>

@@ -30,7 +30,8 @@ namespace KillerNotes.Shell
             if (NoteStore.IsReadOnly) { StatusText.Text = string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner); return; }
             if (!SaveCurrentNote(refreshList: false)) return;
 
-            string? folder = FolderPicker.Show(this, null, Loc("Str_Dlg_ImportPickFolder"));
+            var dlg = new Controls.FileDialog(Controls.FileDialogMode.Folder) { Title = Loc("Str_Dlg_ImportPickFolder") };
+            string? folder = dlg.ShowDialog(this) == true ? dlg.FileName : null;
             if (string.IsNullOrWhiteSpace(folder)) return;
 
             string database = NoteStore.ActiveDbFile;

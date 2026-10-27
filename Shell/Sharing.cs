@@ -198,7 +198,7 @@ namespace KillerNotes.Shell
             if (n == null) return;
             if (!SaveCurrentNote(refreshList: false)) return;
 
-            var dlg = new SharedPicker.FileDialog(SharedPicker.FileDialogMode.Save)
+            var dlg = new Controls.FileDialog(Controls.FileDialogMode.Save)
             {
                 Filter = "KillerNotes shared note (*.knote)|*.knote",
                 FileName = SafeFileName(n.Title) + ".knote",

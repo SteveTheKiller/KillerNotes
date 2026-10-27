@@ -1171,4 +1171,6 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Color_Green">Green</sys:String>
     <sys:String x:Key="Str_Color_Blue">Blue</sys:String>
     <sys:String x:Key="Str_Color_Hex">Hex color</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Select folder</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Preview</sys:String>
 </ResourceDictionary>

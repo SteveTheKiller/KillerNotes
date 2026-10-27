@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KillerNotes.SharedPicker
+namespace KillerNotes.Controls
 {
     public sealed class PickerListingWork : IDisposable
     {

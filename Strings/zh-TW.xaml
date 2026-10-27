@@ -1124,4 +1124,6 @@
     <sys:String x:Key="Str_Color_Green">綠色</sys:String>
     <sys:String x:Key="Str_Color_Blue">藍色</sys:String>
     <sys:String x:Key="Str_Color_Hex">十六進位色彩</sys:String>
+    <sys:String x:Key="Str_Btn_Select">選擇資料夾</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">預覽</sys:String>
 </ResourceDictionary>

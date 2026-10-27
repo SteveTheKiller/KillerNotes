@@ -1175,4 +1175,6 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Color_Green">Xanh lá</sys:String>
     <sys:String x:Key="Str_Color_Blue">Xanh dương</sys:String>
     <sys:String x:Key="Str_Color_Hex">Màu hex</sys:String>
+    <sys:String x:Key="Str_Btn_Select">Chọn thư mục</sys:String>
+    <sys:String x:Key="Str_Dlg_Preview">Xem trước</sys:String>
 </ResourceDictionary>

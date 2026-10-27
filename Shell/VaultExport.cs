@@ -40,7 +40,8 @@ namespace KillerNotes.Shell
                 return;
             }
 
-            string? folder = FolderPicker.Show(this, null, Loc("Str_Dlg_VaultPickFolder"));
+            var dlg = new Controls.FileDialog(Controls.FileDialogMode.Folder) { Title = Loc("Str_Dlg_VaultPickFolder") };
+            string? folder = dlg.ShowDialog(this) == true ? dlg.FileName : null;
             if (string.IsNullOrWhiteSpace(folder)) return;
 
             // A new dated folder under the one picked, never loose files in it and never mixed
