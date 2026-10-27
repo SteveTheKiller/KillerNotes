@@ -22,7 +22,7 @@ namespace KillerNotes.Shell
             if (LangMenu.IsOpen) { LangMenu.IsOpen = false; return; }
             BuildLanguageMenu(LangMenu);
             FlyoutPlacement.UsePane(ContentPane);
-            FlyoutPlacement.Attach(LangMenu, LangButton);
+            FlyoutPlacement.Attach(LangMenu, null);   // a big menu: always the pane corner
             LangMenu.IsOpen = true;
             Anim.FadeIn(LangMenu);
         }

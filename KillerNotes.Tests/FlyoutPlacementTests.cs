@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using KillerNotes.Controls;
 using KillerNotes.Shell;
 using Xunit;
 
@@ -27,11 +28,9 @@ namespace KillerNotes.Tests
             root.Arrange(new Rect(0, 0, 600, 400));
             var halo = new Border { Style = Application.Current?.TryFindResource("FlyoutCard") as Style }.Margin;
             var menu = new ContextMenu();
-            bool previousSide = FlyoutPlacement.RailOnRight;
             try
             {
-                FlyoutPlacement.RailOnRight = right;
-                FlyoutPlacement.UsePane(pane);
+                FlyoutPlacement.UsePane(pane, right ? SidebarSide.Right : SidebarSide.Left);
                 FlyoutPlacement.AttachBesideButton(menu, button);
                 Assert.Same(pane, menu.PlacementTarget);
                 var popup = new Size(200 + halo.Left + halo.Right, 40 + halo.Top + halo.Bottom);
@@ -51,7 +50,7 @@ namespace KillerNotes.Tests
                     Assert.True(point.Y + popup.Height - halo.Bottom <= target.Height - 8);
                 }
             }
-            finally { FlyoutPlacement.RailOnRight = previousSide; }
+            finally { FlyoutPlacement.UsePane(pane, SidebarSide.Left); }
         });
     }
 }

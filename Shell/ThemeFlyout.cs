@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using KillerNotes.Controls;
 using KillerNotes.Services;
 using KillerFamily.Accessibility;
 
@@ -57,7 +58,7 @@ namespace KillerNotes.Shell
             if (ThemeMenu.IsOpen) { ThemeMenu.IsOpen = false; return; }
             BuildThemeMenu();
             FlyoutPlacement.UsePane(ContentPane);
-            FlyoutPlacement.Attach(ThemeMenu, ThemeButton);
+            FlyoutPlacement.Attach(ThemeMenu, null);   // a big menu: always the pane corner
             ThemeMenu.IsOpen = true;
             ThemeMenu.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(150)));
         }

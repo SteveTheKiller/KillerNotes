@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using KillerNotes.Controls;
 
 namespace KillerNotes.Shell
 {
@@ -64,7 +65,7 @@ namespace KillerNotes.Shell
             SidebarHeaderBlock.Margin = _sidebarRight ? new Thickness(8, 0, 8, 0) : new Thickness(0, 0, 8, 0);
             RailFlyoutAnchor.HorizontalAlignment = _sidebarRight ? HorizontalAlignment.Right : HorizontalAlignment.Left;
             RailFlyoutAnchor.Margin = _sidebarRight ? new Thickness(0, 0, 4, 0) : new Thickness(4, 0, 0, 0);
-            FlyoutPlacement.RailOnRight = _sidebarRight;
+            FlyoutPlacement.UsePane(ContentPane, _sidebarRight ? SidebarSide.Right : SidebarSide.Left);
             UpdateSidebarChevron();
         }
 
