@@ -9,9 +9,9 @@ namespace KillerNotes.Services
     {
         internal static void Complete(ResourceDictionary palette)
         {
-            Color pane = ((SolidColorBrush)palette["PaneBrush"]).Color;
-            Color hover = Over(((SolidColorBrush)palette["RowHoverBrush"]).Color, pane);
-            Color selected = Over(((SolidColorBrush)palette["RowSelectedBrush"]).Color, pane);
+            Color pane = ColorOf(palette["PaneBrush"]);
+            Color hover = Over(ColorOf(palette["RowHoverBrush"]), pane);
+            Color selected = Over(ColorOf(palette["RowSelectedBrush"]), pane);
             bool flat = palette["PaneShadowOpacity"] is double opacity && opacity == 0;
             Color top = flat ? selected : Color.FromRgb(
                 (byte)(selected.R + (255 - selected.R) * .04),
@@ -34,6 +34,15 @@ namespace KillerNotes.Services
             palette["DatabaseActiveTextBrush"] = Readable((SolidColorBrush)palette["PrimaryBrush"], pane, hover);
             palette["DatabaseMetadataBrush"] = Readable((SolidColorBrush)palette["MutedTextBrush"], pane, hover);
         }
+
+        /// <summary>A solid brush's colour, or a gradient's last stop: Blood, Cyanotic and Greed
+        /// select rows with a cream gradient, and its foot is the base the selection is built on.</summary>
+        private static Color ColorOf(object brush) => brush switch
+        {
+            SolidColorBrush solid => solid.Color,
+            GradientBrush { GradientStops.Count: > 0 } gradient => gradient.GradientStops[gradient.GradientStops.Count - 1].Color,
+            _ => Colors.Transparent,
+        };
 
         private static SolidColorBrush Readable(SolidColorBrush preferred, params Color[] backgrounds)
         {

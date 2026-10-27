@@ -12,7 +12,7 @@ namespace KillerNotes.Services
     ///
     /// Reading a certificate out of a file only proves a certificate is embedded; it does not prove
     /// the signature validates. WinVerifyTrust does the full chain check, so a tampered or badly
-    /// signed build cannot show Steve's name or claim the AKA alias.
+    /// signed build cannot present its publisher as verified.
     /// </summary>
     internal static class CodeSignature
     {
@@ -52,9 +52,9 @@ namespace KillerNotes.Services
             IntPtr hwnd, ref Guid pgActionID, IntPtr pWVTData);
 
         /// <summary>Reads the running exe's Authenticode certificate for display and validates the
-        /// signature with WinVerifyTrust. Valid is false for unsigned, expired or tampered files.
-        /// Retrieval is cache-only (0x1000), so opening the About card never waits on the network -
-        /// a signed exe carries its own intermediates, so the chain still builds offline.</summary>
+        /// signature. Valid is false for unsigned, expired or tampered files. Retrieval is cache-only
+        /// (0x1000), so nothing here waits on the network: a signed exe carries its own intermediates,
+        /// so the chain still builds offline.</summary>
         internal static (bool valid, string subject, string thumb) GetSignerInfo()
         {
             try { return GetSignerInfo(Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty); }

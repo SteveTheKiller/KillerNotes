@@ -8,7 +8,7 @@ namespace KillerNotes.Services
         internal static void Open(string url)
         {
             try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); }
-            catch { /* no browser available - ignore */ }
+            catch { /* no browser available */ }
         }
     }
 }

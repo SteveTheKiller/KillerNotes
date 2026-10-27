@@ -20,7 +20,6 @@ namespace KillerNotes.Shell
     /// and turns each gap with them, so the edge buttons stay outermost at the other end; the
     /// app moves the stack and the chevron to their swapped ends.
     /// Elements on the rail that are not registered stay where they are.
-    /// (From KillerUI/Shell/RailOrder.cs.)
     /// </summary>
     internal sealed class RailOrder
     {

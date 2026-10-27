@@ -94,10 +94,7 @@ namespace KillerNotes.Controls
 
             var clock = System.Diagnostics.Stopwatch.StartNew();
             double from = window.Opacity;
-            // A local function rather than a self-referencing delegate variable: it can name itself
-            // to unsubscribe, which is the only reason the two-step "declare null, then assign"
-            // dance existed.
-            void Tick(object? sender, EventArgs args)
+            void Tick(object? sender, EventArgs e)
             {
                 double t = clock.Elapsed.TotalMilliseconds / FadeMs;
                 if (t >= 1)

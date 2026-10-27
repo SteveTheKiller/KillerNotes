@@ -99,7 +99,9 @@ namespace KillerNotes
                 if (!silent)
                 {
                     Services.ThemeManager.InitializeInstaller();
-                    Services.LocaleManager.Initialize(persistDetectedLocale: false);
+                    KeepRegionalFormats();
+                    Services.LocaleManager.Initialize();
+                    RestoreRegionalFormats();
                 }
                 Controls.TaskbarIdentity.UseUninstall();
                 Uninstall(silent);
@@ -192,7 +194,11 @@ namespace KillerNotes
             KillerFamily.Deployment.StartupRegistration.Refresh(Services.AppInfo.DisplayName);
 
             Services.ThemeManager.InitializeInstaller();
+            // KillerNotes saved Czech as "Cs" before the family LocaleManager named it CsCZ.
+            if (GetSetting("Locale") == "Cs") SetSetting("Locale", "CsCZ");
+            KeepRegionalFormats();
             Services.LocaleManager.Initialize();
+            RestoreRegionalFormats();
             OfferInstallConflictRepair();
 
             // GPU rendering, like KillerPDF (no SoftwareOnly here): the format bar and pane
@@ -840,6 +846,27 @@ namespace KillerNotes
                 key?.DeleteValue(name, throwOnMissingValue: false);
             }
             catch { /* best-effort */ }
+        }
+
+        private static System.Globalization.CultureInfo? _regionalCulture, _regionalUiCulture;
+
+        /// <summary>The family LocaleManager sets the thread culture to the UI language. KillerNotes
+        /// has always formatted dates and numbers with the Windows regional settings, so the
+        /// culture found at startup is put back after every language change.</summary>
+        private static void KeepRegionalFormats()
+        {
+            _regionalCulture = System.Globalization.CultureInfo.CurrentCulture;
+            _regionalUiCulture = System.Globalization.CultureInfo.CurrentUICulture;
+            Services.LocaleManager.LocaleChanged += RestoreRegionalFormats;
+        }
+
+        private static void RestoreRegionalFormats()
+        {
+            if (_regionalCulture is null || _regionalUiCulture is null) return;
+            System.Globalization.CultureInfo.CurrentCulture = _regionalCulture;
+            System.Globalization.CultureInfo.CurrentUICulture = _regionalUiCulture;
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = null;
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = null;
         }
     }
 }

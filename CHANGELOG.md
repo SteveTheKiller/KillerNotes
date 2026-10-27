@@ -8,8 +8,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Changed
 - KillerNotes takes the family theme engine, control styles and palettes from the KillerUI template, so its buttons, captions, menus and dialogs match the other Killer apps, and Alt+drag moves any window.
+- KillerNotes takes the family language manager and nine more kit files from the KillerUI template, and dialog confirm buttons show the family accent outline at rest.
 
 ### Fixed
+- Blood, Cyanotic and Greed load again after their rows took a cream selection gradient.
 - File dialogs stay responsive on slow or crowded folders, cancel stale loads and identify incomplete listings.
 - Website carousel and slide descriptions are translated in every supported language.
 - F3 and Shift+F3 navigate global search matches and continue between matching notes, preserving the active match through editor refreshes. (#18)
