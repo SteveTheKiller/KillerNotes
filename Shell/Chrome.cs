@@ -235,7 +235,9 @@ namespace KillerNotes.Shell
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            // No registered handler or a failed shell launch must not take the window down.
+            try { Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true }); }
+            catch (Exception error) when (error is System.ComponentModel.Win32Exception or InvalidOperationException) { }
             e.Handled = true;
         }
     }
