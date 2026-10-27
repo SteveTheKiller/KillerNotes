@@ -16,6 +16,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The window chrome and caption centering come from the shared KillerUI template code. Fullscreen, corners and window placement behave the same, and caption text can sit about one pixel differently.
 
 ### Fixed
+- Updates keep working after the publisher's code signing certificate is renewed. A release must still carry a valid signature naming the same publisher, but no longer the exact certificate of the installed copy.
 - Blood, Cyanotic and Greed load again after their rows took a cream selection gradient.
 - Exit from the tray icon brings the window back and closes it the normal way, so the prompt about a locked note's unsaved edits can call the exit off. Before, KillerNotes quit whatever the answer.
 - File dialogs stay responsive on slow or crowded folders, cancel stale loads and identify incomplete listings.
