@@ -17,13 +17,16 @@ namespace KillerFamily.Layout
     /// the capitals sit inside that box is a property of the font. Killer Sans UI sits low (the
     /// ring has to come down a pixel at 12px); Microsoft Sans Serif, 98SE's face, sits in the
     /// middle. A fixed pixel nudge is right for one face at one size and wrong for the other,
-    /// which is how this kept drifting from one fix to the next. The offset here comes from the
-    /// font's own baseline, cap height and line spacing, so it holds for every theme, every
-    /// language fallback and every app size.
+    /// which is how this kept drifting from one fix to the next. The offset here comes from a
+    /// capital H laid out exactly as the label is, through the same font fallback, so it holds for
+    /// every theme, every language fallback and every app size. Reading the family's own metrics
+    /// is not enough: for a fallback list such as "Killer Sans UI, Segoe UI" WPF reports the
+    /// metrics of Segoe UI while the label draws in Killer Sans UI.
     /// </remarks>
     public sealed class CapCenterMargin : IMultiValueConverter
     {
         public static readonly CapCenterMargin Instance = new();
+        private static readonly System.Collections.Generic.Dictionary<string, double> Cache = new();
 
         public object Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
         {
@@ -38,14 +41,22 @@ namespace KillerFamily.Layout
         /// <summary>How far below the line box's middle the middle of the capitals sits, in px.</summary>
         public static double Offset(FontFamily family, double size)
         {
+            string key = (family.BaseUri?.ToString() ?? "") + "|" + family.Source + "|" + size.ToString("R", CultureInfo.InvariantCulture);
+            lock (Cache)
+                if (Cache.TryGetValue(key, out double cached)) return cached;
+            double shift = 0;
             try
             {
                 var typeface = new Typeface(family, FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
-                if (!typeface.TryGetGlyphTypeface(out GlyphTypeface glyphs)) return 0;
-                double shift = (family.Baseline - glyphs.CapsHeight / 2 - family.LineSpacing / 2) * size;
-                return double.IsNaN(shift) || double.IsInfinity(shift) ? 0 : shift;
+                var text = new FormattedText("H", CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+                    typeface, size, Brushes.Black, 1.0);
+                Rect ink = text.BuildGeometry(new Point(0, 0)).Bounds;
+                if (!ink.IsEmpty) shift = (ink.Top + ink.Bottom) / 2 - text.Height / 2;
+                if (double.IsNaN(shift) || double.IsInfinity(shift)) shift = 0;
             }
-            catch { return 0; }   // an unreadable font keeps the plain margin rather than failing layout
+            catch { shift = 0; }   // an unreadable font keeps the plain margin rather than failing layout
+            lock (Cache) Cache[key] = shift;
+            return shift;
         }
 
         private static Thickness ParseMargin(string? text)

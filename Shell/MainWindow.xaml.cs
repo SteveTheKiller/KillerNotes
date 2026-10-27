@@ -52,6 +52,7 @@ namespace KillerNotes.Shell
 
             RestoreWindowPlacement();                            // Chrome.cs (size/position from previous run)
             SourceInitialized += MainWindow_SourceInitialized;   // Chrome.cs (taskbar-aware maximize + corners)
+            InitChromeExtras();                                  // Chrome.Extras.cs
             ApplyGrainTexture();                                 // Chrome.cs (paints the shared grain)
             ApplyThemeElevation();                               // ThemeFlyout.cs (98SE is deliberately flat)
 

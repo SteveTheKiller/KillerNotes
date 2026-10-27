@@ -4,40 +4,30 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using KillerFamily.Windowing;
 using KillerNotes.Controls;
-using KillerNotes.Services;
 
-// KillerUI kit.
+// Window-message plumbing for a WindowStyle="None" window, and the caption buttons. This stays a
+// partial of MainWindow on purpose: every method here needs the window's own HWND, its WindowState
+// or its named caption buttons, so there is nothing to inject and nothing to test in isolation.
 //
-// Custom window chrome for a WindowStyle=None window: taskbar-aware maximize,
-// caption buttons, Win11 rounded corners, content fade-in, and the procedural
-// film-grain texture. This is a partial of your MainWindow.
+// The pieces that were NOT window-specific now live as real classes:
+//   Controls/DwmChrome        - rounded corners and the themed frame border
+//   Controls/WindowPlacement  - size/position persistence
+//   Controls/GrainTexture     - the shared film-grain tile
+//   Controls/SnapLayouts      - Windows 11 snap layouts on the maximize button
+//   Controls/WorkAreaFit      - keeps the opening window inside its monitor's work area
 //
-// Your MainWindow.xaml is expected to name these elements (only those you use):
-//   RootGrid        - the root Grid, set Opacity="0" so FadeInContent can reveal it
-//   MinimizeBtn / MaximizeBtn / CloseBtn - caption buttons (Click= the handlers below)
-//   ResizeGrip      - a bottom-right grip element (MouseDown=ResizeGrip_MouseDown)
-//   GrainBrush / TitleGrainBrush / ToolbarGrainBrush / StatusGrainBrush / FlyoutGrainBrush
-//                   - any ImageBrush layers you want the shared grain painted into
-//
-// In your MainWindow constructor, call (after InitializeComponent):
-//   RestoreWindowPlacement();
-//   SourceInitialized += MainWindow_SourceInitialized;
-//   ApplyGrainTexture();
-//   Loaded += (_, _) => FadeInContent();
-//
-// Optional: give a toolbar row MouseDown="Toolbar_MouseDown" (plus a non-null Background)
-// and its empty space drags the window like the title bar.
+// MainWindow.xaml is expected to name: RootGrid (Opacity="0" so FadeInContent can reveal it),
+// MinimizeBtn / MaximizeBtn / CloseBtn, ResizeGrip, and any *GrainBrush layers.
 namespace KillerNotes.Shell
 {
     public partial class MainWindow
     {
-        private bool _closeFadeComplete;
-        // ---- Maximize-respects-taskbar (WindowStyle=None needs WM_GETMINMAXINFO) ----
+        // Grain brush layers in MainWindow.xaml. All optional - Apply skips the ones absent.
+        private static readonly string[] GrainBrushNames =
+            { "GrainBrush", "TitleGrainBrush", "ToolbarGrainBrush", "StatusGrainBrush", "FlyoutGrainBrush" };
 
         private void MainWindow_SourceInitialized(object? sender, EventArgs e)
         {
@@ -46,166 +36,90 @@ namespace KillerNotes.Shell
             // Windows 11 snap layouts flyout on the maximize button. Added after WindowChrome's
             // hook, so it answers WM_NCHITTEST first.
             SnapLayouts.Attach(this, MaximizeBtn);
+            BeforeWorkAreaFit();
             // After RestoreWindowPlacement (constructor) and before the first show: a default or
             // saved size larger than this monitor's work area is shrunk and moved onto it.
             WorkAreaFit.Fit(this);
-            ApplyCornerState();
-            ApplyThemeBorder(this);
-            // Aero-snap leaves WindowState at Normal, so corner squaring cannot ride
-            // OnStateChanged alone - track moves and resizes too. ApplyCornerState caches the
-            // last applied value, so the per-pixel storm of a drag costs a bool compare.
-            LocationChanged += (_, _) => ApplyCornerState();
-            SizeChanged += (_, _) => ApplyCornerState();
+            DwmChrome.SetRoundedCorners(this, rounded: RoundedCornersWanted());
+            DwmChrome.SetThemeBorder(this);
         }
 
-        // ---- Windows 11 rounded corners (DWMWA_WINDOW_CORNER_PREFERENCE = 33) ----
-        // No-op on Windows 10 and earlier; the OS draws the drop shadow for us either way.
+        private void ApplyGrainTexture() => GrainTexture.Apply(this, GrainBrushNames);
 
-        [DllImport("dwmapi.dll")]
-        private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int value, int size);
+        /// <summary>Content fade-in on open; RootGrid starts at Opacity="0" in XAML.</summary>
+        private void FadeInContent() => Anim.FadeIn(RootGrid);
 
-        private const int DWMWA_WINDOW_CORNER_PREFERENCE = 33;
-        private const int DWMWCP_DONOTROUND = 1;
-        private const int DWMWCP_ROUND      = 2;
-        private const int DWMWA_BORDER_COLOR = 34;
+        private void RestoreWindowPlacement()
+            => WindowPlacement.Restore(this, Services.ThemeManager.GetSetting);
 
-        /// <summary>Tints the Win11 DWM frame border to the theme's PaneBorderBrush so the
-        /// 1px window outline follows the palette instead of staying system gray. Define an
-        /// AppBorderBrush in a theme to override the tone (e.g. Black themes, whose pane
-        /// borders are intentionally near-invisible). Call at SourceInitialized and after
-        /// every theme change. (Family standard.)</summary>
-        internal static void ApplyThemeBorder(Window w)
+        protected override void OnClosed(EventArgs e)
         {
-            try
-            {
-                var hwnd = new WindowInteropHelper(w).Handle;
-                if (hwnd == IntPtr.Zero) return;
-                // WindowEdgeBrush FIRST - the same key RootBorder uses, so the OS-drawn frame and
-                // the WPF one always agree. This is the outermost thing on screen: DWM paints it
-                // outside everything WPF draws, so a theme that hides the WPF edge but not this one
-                // still shows a line round the whole window. A fully transparent brush (alpha 0)
-                // means "no border", which is how 98SE drops it - its bevel is the window edge.
-                if ((Application.Current.TryFindResource("WindowEdgeBrush")
-                     ?? Application.Current.TryFindResource("AppBorderBrush")
-                     ?? Application.Current.TryFindResource("PaneBorderBrush"))
-                    is System.Windows.Media.SolidColorBrush b)
-                {
-                    // COLORREF is 0x00BBGGRR; DWMWA_COLOR_NONE (0xFFFFFFFE) removes the border.
-                    int colorref = b.Color.A == 0
-                        ? unchecked((int)0xFFFFFFFE)
-                        : b.Color.R | (b.Color.G << 8) | (b.Color.B << 16);
-                    DwmSetWindowAttribute(hwnd, DWMWA_BORDER_COLOR, ref colorref, sizeof(int));
-                }
-                // NO corner preference here. ApplyCornerState is the ONE owner of the DWM
-                // corner: this method runs on every theme change and used to re-assert ROUND
-                // with no WindowState check, so switching themes while maximized brought the
-                // rounded corners back on a flush window (2026-08-08).
-            }
-            catch { /* pre-Win11: attribute unsupported */ }
+            bool savePlacement = true;
+            AdjustSaveWindowPlacement(ref savePlacement);
+            if (savePlacement) WindowPlacement.Save(this, Services.ThemeManager.SetSetting);
+            base.OnClosed(e);
         }
 
-        // ---- Corner state: the ONE owner of the DWM corner preference ----
-        //
-        // Square when the window sits FLUSH with the screen - maximized, or Aero-SNAPPED,
-        // which is WindowState.Normal at full work-area height (the same not-Maximized trap
-        // KillerShell's DualPane documents) - rounded when floating on a rounded theme.
-        // Cached, because LocationChanged fires per pixel of a window drag.
-        private bool? _cornersRounded;
+        /// <summary>App hook: runs in SourceInitialized just before WorkAreaFit, for an app that
+        /// restores its own saved bounds once the window has a handle.</summary>
+        partial void BeforeWorkAreaFit();
 
-        private void ApplyCornerState()
-        {
-            bool flush = WindowState == WindowState.Maximized || IsSnappedFlush();
-            bool rounded = !flush && WindowState == WindowState.Normal && ThemeManager.Current != Theme.SE98;
-            if (_cornersRounded == rounded) return;
-            _cornersRounded = rounded;
-            bool nativeCorners = ApplyWindowCorners(rounded);
-            // Keep the client square and let DWM draw the only curved window edge.
-            if (RootBorder != null)
-            {
-                RootBorder.CornerRadius = new CornerRadius(0);
-                if (nativeCorners) RootBorder.BorderBrush = Brushes.Transparent;
-                else RootBorder.SetResourceReference(
-                    System.Windows.Controls.Border.BorderBrushProperty, "WindowEdgeBrush");
-            }
-            Resources["CaptionCloseCornerRadius"] = new CornerRadius(0);
-        }
+        /// <summary>App hook: set <paramref name="save"/> to false for an app that keeps its own
+        /// window bounds instead of the kit's WindowPlacement setting.</summary>
+        partial void AdjustSaveWindowPlacement(ref bool save);
 
-        [DllImport("user32.dll")]
-        private static extern bool GetWindowRect(IntPtr hwnd, out RECT rect);
-
-        /// <summary>Aero-snapped: the window fills the work area's height flush top and bottom
-        /// against one side, while WindowState stays Normal. Compared in device pixels via
-        /// GetWindowRect, so DPI never enters into it.</summary>
-        private bool IsSnappedFlush()
-        {
-            if (WindowState != WindowState.Normal) return false;
-            try
-            {
-                var hwnd = new WindowInteropHelper(this).Handle;
-                if (hwnd == IntPtr.Zero) return false;
-                IntPtr monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-                if (monitor == IntPtr.Zero) return false;
-                var info = new MONITORINFO { cbSize = Marshal.SizeOf(typeof(MONITORINFO)) };
-                if (!GetMonitorInfo(monitor, ref info)) return false;
-                if (!GetWindowRect(hwnd, out RECT wr)) return false;
-                return Math.Abs(wr.top - info.rcWork.top) <= 2
-                    && Math.Abs(wr.bottom - info.rcWork.bottom) <= 2
-                    && (Math.Abs(wr.left - info.rcWork.left) <= 2
-                        || Math.Abs(wr.right - info.rcWork.right) <= 2);
-            }
-            catch { return false; }
-        }
-
-        private bool ApplyWindowCorners(bool rounded)
-        {
-            try
-            {
-                var hwnd = new WindowInteropHelper(this).Handle;
-                if (hwnd == IntPtr.Zero) return false;
-                int pref = rounded ? DWMWCP_ROUND : DWMWCP_DONOTROUND;
-                return DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, ref pref, sizeof(int)) == 0;
-            }
-            catch { return false; } // pre-Win11: no rounded-corner API
-        }
+        /// <summary>App hook: set <paramref name="whole"/> to true while the window should maximize
+        /// over the whole monitor, taskbar included (a fullscreen mode), instead of the work area.</summary>
+        partial void CoverWholeMonitor(ref bool whole);
 
         protected override void OnStateChanged(EventArgs e)
         {
             base.OnStateChanged(e);
-            // Left Maximized by some other route - the caption button, a double-click on the title
-            // bar, the system menu - so the window is no longer fullscreen whatever the flag says.
-            // Without this the flag survives, and the NEXT ordinary maximize would silently cover
-            // the taskbar because WmGetMinMaxInfo is still handing back the monitor rect.
-            if (_fullscreen && !_fsSwitching && WindowState != WindowState.Maximized) _fullscreen = false;
-            // Square the corners when flush to screen edges, round when floating.
-            ApplyCornerState();
+            // Square the corners when maximized (flush to the screen edges), round when floating.
+            DwmChrome.SetRoundedCorners(this, rounded: RoundedCornersWanted());
             // Maximize glyph (Segoe MDL2) toggles to a restore glyph when maximized.
-            MaximizeBtn?.Content = WindowState == WindowState.Maximized ? "" : "";
-            MaximizeBtn?.ToolTip = FindResource(WindowState == WindowState.Maximized ? "Str_Sys_Restore" : "Str_Sys_Maximize");
+            if (MaximizeBtn != null)
+                MaximizeBtn.Content = WindowState == WindowState.Maximized ? "\uE923" : "\uE922";
+            AfterWindowStateChanged();
         }
 
-        // ---- Content fade-in on open (RootGrid starts at Opacity=0 in XAML) ----
+        private bool RoundedCornersWanted()
+        {
+            bool rounded = WindowState == WindowState.Normal;
+            AdjustRoundedCorners(ref rounded);
+            return rounded;
+        }
 
-        private void FadeInContent() => Anim.FadeIn(RootGrid);
+        /// <summary>App hook: change whether the window asks DWM for rounded corners (square on a
+        /// flat-caption theme such as 98SE).</summary>
+        partial void AdjustRoundedCorners(ref bool rounded);
+
+        /// <summary>App hook: runs after the kit's own state-change work, for example to restore
+        /// to maximized after a minimize.</summary>
+        partial void AfterWindowStateChanged();
+
+        // ---- window messages ----
 
         private const int WM_GETMINMAXINFO = 0x0024;
         private const int WM_ERASEBKGND    = 0x0014;
+        private const int WM_NCLBUTTONDOWN = 0x00A1;
         private const uint MONITOR_DEFAULTTONEAREST = 0x00000002;
+        private const int HTBOTTOMRIGHT = 17;
+        private const int HTCAPTION = 2;
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            // FIRST: swallow the caption right-click and Alt+Space so Windows cannot raise its own
-            // stock white HMENU, and show the themed one instead (SystemMenu.cs).
-            if (TryHandleSystemMenu(msg, wParam, lParam)) { handled = true; return IntPtr.Zero; }
             if (msg == WM_ERASEBKGND)
             {
-                // KillerPDF's anti-flash trick: WPF paints the whole client area itself, so
-                // let nothing erase the background to a flat fill during a resize - that
-                // erase is the white flash. Claim the message and report success.
+                // WPF paints the whole client area itself, so nothing should erase the background to
+                // a flat fill during a resize - that erase IS the white flash. Claim the message.
                 handled = true;
                 return new IntPtr(1);
             }
             if (msg == WM_GETMINMAXINFO)
             {
+                // A WindowStyle="None" window maximizes over the taskbar unless we clamp it to the
+                // monitor's work area ourselves.
                 WmGetMinMaxInfo(hwnd, lParam);
                 handled = true;
             }
@@ -216,93 +130,41 @@ namespace KillerNotes.Shell
         {
             var mmi = Marshal.PtrToStructure<MINMAXINFO>(lParam);
             IntPtr monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-            if (monitor != IntPtr.Zero)
-            {
-                var info = new MONITORINFO { cbSize = Marshal.SizeOf(typeof(MONITORINFO)) };
-                GetMonitorInfo(monitor, ref info);
-                // Fullscreen (F11) maximizes over the WHOLE monitor instead of the work area, so
-                // the window covers the taskbar. This handler is the only thing that decides how
-                // large a maximized window gets, which is why fullscreen is a change to the clamp
-                // rather than a manual Left/Top/Width/Height set - setting the bounds by hand
-                // fights this message every time Windows re-asks, which it does on every DPI
-                // change, monitor change and restore.
-                RECT mon = info.rcMonitor;
-                RECT box = _fullscreen ? mon : info.rcWork;
-                mmi.ptMaxPosition.x = Math.Abs(box.left - mon.left);
-                mmi.ptMaxPosition.y = Math.Abs(box.top - mon.top);
-                mmi.ptMaxSize.x = Math.Abs(box.right - box.left);
-                mmi.ptMaxSize.y = Math.Abs(box.bottom - box.top);
-                mmi.ptMaxTrackSize.x = mmi.ptMaxSize.x;
-                mmi.ptMaxTrackSize.y = mmi.ptMaxSize.y;
+            if (monitor == IntPtr.Zero) return;
 
-                // ptMinTrackSize MUST be set here too - this handler marks the message handled,
-                // and WM_GETMINMAXINFO is exactly how WPF enforces MinWidth/MinHeight during a
-                // drag-resize. Without it the window drags below its minimum and the content is
-                // CLIPPED rather than resized. Device pixels, so scale the DIP values.
-                // (2026-07-30. KillerShell always had this; the kit did not.)
-                var src = PresentationSource.FromVisual(this);
-                double sx = src?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
-                double sy = src?.CompositionTarget?.TransformToDevice.M22 ?? 1.0;
-                if (!double.IsNaN(MinWidth) && MinWidth > 0)
-                    mmi.ptMinTrackSize.x = (int)Math.Min(mmi.ptMaxTrackSize.x, Math.Ceiling(MinWidth * sx));
-                if (!double.IsNaN(MinHeight) && MinHeight > 0)
-                    mmi.ptMinTrackSize.y = (int)Math.Min(mmi.ptMaxTrackSize.y, Math.Ceiling(MinHeight * sy));
+            var info = new MONITORINFO { cbSize = Marshal.SizeOf(typeof(MONITORINFO)) };
+            GetMonitorInfo(monitor, ref info);
+            bool whole = false;
+            CoverWholeMonitor(ref whole);
+            RECT mon = info.rcMonitor;
+            RECT work = whole ? mon : info.rcWork;
 
-                Marshal.StructureToPtr(mmi, lParam, true);
-            }
-        }
+            mmi.ptMaxPosition.x = Math.Abs(work.left - mon.left);
+            mmi.ptMaxPosition.y = Math.Abs(work.top - mon.top);
+            mmi.ptMaxSize.x = Math.Abs(work.right - work.left);
+            mmi.ptMaxSize.y = Math.Abs(work.bottom - work.top);
+            mmi.ptMaxTrackSize.x = mmi.ptMaxSize.x;
+            mmi.ptMaxTrackSize.y = mmi.ptMaxSize.y;
 
-        // ---- Fullscreen (F11) ----
-        //
-        // PLAIN fullscreen: the chrome stays exactly where it is, the window simply grows to cover
-        // the whole monitor including the taskbar. Nothing is hidden, so there is no way to get
-        // lost in it - the title bar, the caption buttons and the footer are all still there.
-        //
-        // The state lives here rather than in Shortcuts.cs because WmGetMinMaxInfo above is what
-        // actually implements it, and a flag read by a window message belongs beside that message.
+            // ptMinTrackSize MUST be set here too. This handler marks the message handled, which
+            // takes WM_GETMINMAXINFO away from WPF - and that message is exactly how WPF enforces
+            // MinWidth/MinHeight during a drag-resize. Leave these at the OS default and the window
+            // can be dragged far below its minimum, at which point fixed chrome no longer fits and
+            // the content is CLIPPED rather than resized. (2026-07-30) KillerShell always had
+            // this; the kit did not, so KillerNotes, KillerScan, KillerPDF and Killendar all
+            // inherited the bug.
+            //
+            // MINMAXINFO is in DEVICE pixels and MinWidth/MinHeight are DIPs, so go through the
+            // window's own transform or the limit is wrong on any display not at 100%.
+            var src = PresentationSource.FromVisual(this);
+            double sx = src?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
+            double sy = src?.CompositionTarget?.TransformToDevice.M22 ?? 1.0;
+            if (!double.IsNaN(MinWidth) && MinWidth > 0)
+                mmi.ptMinTrackSize.x = Math.Min(mmi.ptMaxSize.x, (int)Math.Ceiling(MinWidth * sx));
+            if (!double.IsNaN(MinHeight) && MinHeight > 0)
+                mmi.ptMinTrackSize.y = Math.Min(mmi.ptMaxSize.y, (int)Math.Ceiling(MinHeight * sy));
 
-        private bool _fullscreen;
-        private WindowState _preFullscreen = WindowState.Normal;
-
-        /// <summary>Set while this file is driving WindowState itself, so OnStateChanged can tell
-        /// a deliberate transition from the user maximizing or restoring by some other route.</summary>
-        private bool _fsSwitching;
-
-        private void ToggleFullscreen()
-        {
-            if (_fullscreen) LeaveFullscreen();
-            else EnterFullscreen();
-        }
-
-        private void EnterFullscreen()
-        {
-            if (_fullscreen) return;
-            // Minimized is not a state worth coming back to, so a fullscreen taken from the taskbar
-            // restores to Normal.
-            _preFullscreen = WindowState == WindowState.Minimized ? WindowState.Normal : WindowState;
-            _fullscreen = true;
-            // Windows caches the maximized rect, so an already-maximized window would keep its old
-            // work-area size and never ask WM_GETMINMAXINFO again. Dropping to Normal first is what
-            // forces a fresh transition into Maximized, which is what re-runs the clamp.
-            SetStateQuietly(WindowState.Normal);
-            SetStateQuietly(WindowState.Maximized);
-        }
-
-        private void LeaveFullscreen()
-        {
-            if (!_fullscreen) return;
-            _fullscreen = false;   // cleared FIRST, so the clamp below reads the work area again
-            SetStateQuietly(WindowState.Normal);
-            if (_preFullscreen == WindowState.Maximized) SetStateQuietly(WindowState.Maximized);
-        }
-
-        /// <summary>Sets WindowState without OnStateChanged reading the transition as the user
-        /// having left fullscreen by some other route.</summary>
-        private void SetStateQuietly(WindowState state)
-        {
-            _fsSwitching = true;
-            try { WindowState = state; }
-            finally { _fsSwitching = false; }
+            Marshal.StructureToPtr(mmi, lParam, true);
         }
 
         [DllImport("user32.dll")]
@@ -311,35 +173,28 @@ namespace KillerNotes.Shell
         [DllImport("user32.dll")]
         private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
 
-        // ---- Custom bottom-right resize grip (the WPF CanResizeWithGrip dots fall out in the
-        // transparent shadow margin, so we draw our own at the content corner and forward the
-        // resize to Windows). ----
-        private const int WM_NCLBUTTONDOWN = 0x00A1;
-        private const int HTBOTTOMRIGHT = 17;
-        private const int HTCAPTION = 2;
-
         [DllImport("user32.dll")]
-        private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
+        /// <summary>Our own grip: WPF's CanResizeWithGrip dots land out in the transparent shadow
+        /// margin, so we draw one at the content corner and forward the resize to Windows.</summary>
         private void ResizeGrip_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (WindowState != WindowState.Normal) return;
             e.Handled = true;
-            var hwnd = new WindowInteropHelper(this).Handle;
-            SendMessage(hwnd, WM_NCLBUTTONDOWN, new IntPtr(HTBOTTOMRIGHT), IntPtr.Zero);
+            SendMessage(new WindowInteropHelper(this).Handle,
+                        WM_NCLBUTTONDOWN, new IntPtr(HTBOTTOMRIGHT), IntPtr.Zero);
         }
 
-        // Lets a toolbar act like the title bar for dragging: interactive controls handle their
-        // own clicks, so only clicks on the bar's empty space and passive labels bubble up here
-        // and forward a native caption drag. Native HTCAPTION also gives correct
-        // restore-from-maximized-and-drag behavior for free. Wire via MouseDown="Toolbar_MouseDown"
-        // on the bar (it needs a non-null Background to hit-test).
+        /// <summary>Lets the toolbar drag the window like the title bar. Interactive controls handle
+        /// their own clicks, so only the bar's empty space bubbles up here. Native HTCAPTION also
+        /// gives correct restore-from-maximized-and-drag behavior for free.</summary>
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Left) return;
             e.Handled = true;
-            var hwnd = new WindowInteropHelper(this).Handle;
-            SendMessage(hwnd, WM_NCLBUTTONDOWN, new IntPtr(HTCAPTION), IntPtr.Zero);
+            SendMessage(new WindowInteropHelper(this).Handle,
+                        WM_NCLBUTTONDOWN, new IntPtr(HTCAPTION), IntPtr.Zero);
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -367,98 +222,21 @@ namespace KillerNotes.Shell
             public uint dwFlags;
         }
 
-        // ---- Window placement persistence ("WindowPlacement" = left,top,w,h,max) ----
-        // Persists through the same pluggable settings seam as the theme (Services.ThemeManager
-        // GetSetting/SetSetting), so it works as soon as those are wired. A maximized (or
-        // minimized) close saves RestoreBounds, so the pre-maximize size comes back. Restore
-        // sanity-checks that the saved rect still lands on the current virtual desktop
-        // (monitors change). Call RestoreWindowPlacement() in the constructor, before Show.
-
-        private void SaveWindowPlacement()
-        {
-            try
-            {
-                var inv = System.Globalization.CultureInfo.InvariantCulture;
-                bool max = WindowState == WindowState.Maximized;
-                Rect r = WindowState == WindowState.Normal
-                    ? new Rect(Left, Top, Width, Height)
-                    : RestoreBounds;
-                if (r.IsEmpty || r.Width < 1 || r.Height < 1 ||
-                    double.IsNaN(r.X) || double.IsNaN(r.Y)) return;
-                Services.ThemeManager.SetSetting("WindowPlacement", string.Join(",",
-                    r.X.ToString("0.##", inv), r.Y.ToString("0.##", inv),
-                    r.Width.ToString("0.##", inv), r.Height.ToString("0.##", inv),
-                    max ? "1" : "0"));
-            }
-            catch { /* best-effort */ }
-        }
-
-        private void RestoreWindowPlacement()
-        {
-            string? s = Services.ThemeManager.GetSetting("WindowPlacement");
-            if (string.IsNullOrWhiteSpace(s)) return;
-            try
-            {
-                var inv = System.Globalization.CultureInfo.InvariantCulture;
-                string[] f = s!.Split(',');
-                if (f.Length != 5) return;
-                if (!double.TryParse(f[0], System.Globalization.NumberStyles.Float, inv, out double left) ||
-                    !double.TryParse(f[1], System.Globalization.NumberStyles.Float, inv, out double top)  ||
-                    !double.TryParse(f[2], System.Globalization.NumberStyles.Float, inv, out double w)    ||
-                    !double.TryParse(f[3], System.Globalization.NumberStyles.Float, inv, out double h))
-                    return;
-                w = Math.Max(MinWidth, w);
-                h = Math.Max(MinHeight, h);
-
-                // Keep at least a grabbable sliver of the title bar on-screen.
-                double vl = SystemParameters.VirtualScreenLeft;
-                double vt = SystemParameters.VirtualScreenTop;
-                double vr = vl + SystemParameters.VirtualScreenWidth;
-                double vb = vt + SystemParameters.VirtualScreenHeight;
-                if (left + w < vl + 40 || left > vr - 40 || top < vt - 8 || top > vb - 40) return;
-
-                WindowStartupLocation = WindowStartupLocation.Manual;
-                Left = left; Top = top; Width = w; Height = h;
-                if (f[4] == "1") WindowState = WindowState.Maximized;
-            }
-            catch { /* best-effort */ }
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            SaveWindowPlacement();
-            base.OnClosed(e);
-        }
-
-        // ---- Caption buttons (drag + double-click-maximize are native via WindowChrome) ----
+        // ---- caption buttons (drag and double-click-maximize are native via WindowChrome) ----
 
         private void MinimizeBtn_Click(object sender, RoutedEventArgs e)
             => WindowState = WindowState.Minimized;
 
         private void MaximizeBtn_Click(object sender, RoutedEventArgs e)
-            => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            => WindowState = WindowState == WindowState.Maximized
+                ? WindowState.Normal : WindowState.Maximized;
 
-        private void CloseBtn_Click(object sender, RoutedEventArgs e)
-            => Close();
+        private void CloseBtn_Click(object sender, RoutedEventArgs e) => Close();
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
             e.Handled = true;
         }
-
-        // ---- Film grain ----
-        // The family grain tile (Controls/GrainTexture.cs), shared across every named grain brush
-        // and the keyed GrainTileBrush resource, and repainted when the theme or accent changes.
-
-        private void ApplyGrainTexture() => Controls.GrainTexture.Apply(this,
-            "GrainBrush", "TitleGrainBrush", "ToolbarGrainBrush", "StatusGrainBrush", "FlyoutGrainBrush");
-
-        /// <summary>
-        /// Publishes the grain tile as the app-level GrainTileBrush. App startup calls this too, so
-        /// dialogs shown before any main window exists (install, uninstall, install repair) are
-        /// textured like the rest of the app.
-        /// </summary>
-        internal static BitmapSource PublishGrainTile() => Controls.GrainTexture.Publish();
     }
 }

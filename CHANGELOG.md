@@ -13,6 +13,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Confirmation prompts use the family dialog frame, and the tray, system menu, About card and region formats run on the shared family code with the same behavior as before.
 - Rail menus open beside the button that opened them, while the theme and language menus keep the pane corner, using the family flyout placement.
 - Every open, save and folder prompt uses the family file picker card, and choosing a folder gets its own Select folder button instead of a file list workaround.
+- The window chrome and caption centering come from the shared KillerUI template code. Fullscreen, corners and window placement behave the same, and caption text can sit about one pixel differently.
 
 ### Fixed
 - Blood, Cyanotic and Greed load again after their rows took a cream selection gradient.
