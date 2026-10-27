@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Changed
 - KillerNotes takes the family theme engine, control styles and palettes from the KillerUI template, so its buttons, captions, menus and dialogs match the other Killer apps, and Alt+drag moves any window.
-- KillerNotes takes the family language manager and nine more kit files from the KillerUI template, and dialog confirm buttons show the family accent outline at rest.
+- KillerNotes takes the family language manager, app size and more kit files from the KillerUI template, dialog confirm buttons show the family accent outline at rest, and dragging uses the family hand cursors.
 
 ### Fixed
 - Blood, Cyanotic and Greed load again after their rows took a cream selection gradient.

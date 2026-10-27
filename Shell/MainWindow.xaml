@@ -180,7 +180,7 @@
             <StackPanel x:Name="LogoBar" Orientation="Horizontal" VerticalAlignment="Center" Margin="{DynamicResource TitleLogoMargin}"
                         HorizontalAlignment="Left" Background="Transparent"
                         shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                        PreviewMouseWheel="AppSizeBtn_MouseWheel"
+                        PreviewMouseWheel="LogoBar_MouseWheel"
                         MouseLeftButtonDown="LogoBar_MouseLeftButtonDown"
                         ToolTip="{DynamicResource Str_TT_AppSize}">
                 <icons:AppIcon x:Name="TitleIcon"
