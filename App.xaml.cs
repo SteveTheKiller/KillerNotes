@@ -99,7 +99,6 @@ namespace KillerNotes
                 if (!silent)
                 {
                     Services.ThemeManager.InitializeInstaller();
-                    Services.LocaleManager.KeepRegionFormats = true;
                     Services.LocaleManager.Initialize();
                 }
                 Controls.TaskbarIdentity.UseUninstall();
@@ -193,8 +192,6 @@ namespace KillerNotes
             KillerFamily.Deployment.StartupRegistration.Refresh(Services.AppInfo.DisplayName);
 
             Services.ThemeManager.InitializeInstaller();
-            // KillerNotes formats dates and numbers with the Windows region, whatever the language.
-            Services.LocaleManager.KeepRegionFormats = true;
             Services.LocaleManager.Initialize();
             OfferInstallConflictRepair();
 

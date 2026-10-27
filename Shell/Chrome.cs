@@ -123,6 +123,8 @@ namespace KillerNotes.Shell
         private const int WM_GETMINMAXINFO = 0x0024;
         private const int WM_ERASEBKGND    = 0x0014;
         private const int WM_NCLBUTTONDOWN = 0x00A1;
+        private const int WM_ENTERSIZEMOVE = 0x0231;
+        private const int WM_EXITSIZEMOVE  = 0x0232;
         private const uint MONITOR_DEFAULTTONEAREST = 0x00000002;
         private const int HTBOTTOMRIGHT = 17;
         private const int HTCAPTION = 2;
@@ -141,10 +143,15 @@ namespace KillerNotes.Shell
             IntPtr result = IntPtr.Zero;
             FilterWindowMessage(hwnd, msg, wParam, lParam, ref handled, ref result, ref owned);
             if (owned) return result;
-            if (msg == WM_ERASEBKGND)
+            // The live move/resize loop. Not marked handled: WPF and Windows still need both.
+            if (msg == WM_ENTERSIZEMOVE) _inWindowSizeMove = true;
+            else if (msg == WM_EXITSIZEMOVE) _inWindowSizeMove = false;
+            if (msg == WM_ERASEBKGND && _inWindowSizeMove)
             {
                 // WPF paints the whole client area itself, so nothing should erase the background to
-                // a flat fill during a resize - that erase IS the white flash. Claim the message.
+                // a flat fill during a live resize - that erase IS the white flash. Outside that loop
+                // Windows keeps its normal repaint path, or a restored or reactivated window can keep
+                // a black surface (KillerPDF).
                 handled = true;
                 return new IntPtr(1);
             }
@@ -158,10 +165,19 @@ namespace KillerNotes.Shell
             return IntPtr.Zero;
         }
 
+        /// <summary>True between WM_ENTERSIZEMOVE and WM_EXITSIZEMOVE: the user is dragging or
+        /// resizing the window. An app reads it to tell an edge drag from a state jump.</summary>
+        private bool _inWindowSizeMove;
+
         private void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
         {
             var mmi = Marshal.PtrToStructure<MINMAXINFO>(lParam);
-            IntPtr monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+            // During a cross-monitor drag the HWND can still belong to the source monitor when
+            // Windows asks for the final maximize bounds. The pointer is already on the target
+            // monitor, so use it during a live move and the HWND for every other request.
+            IntPtr monitor = _inWindowSizeMove && GetCursorPos(out POINT cursor)
+                ? MonitorFromPoint(cursor, MONITOR_DEFAULTTONEAREST)
+                : MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
             if (monitor == IntPtr.Zero) return;
 
             var info = new MONITORINFO { cbSize = Marshal.SizeOf(typeof(MONITORINFO)) };
@@ -175,8 +191,10 @@ namespace KillerNotes.Shell
             mmi.ptMaxPosition.y = Math.Abs(work.top - mon.top);
             mmi.ptMaxSize.x = Math.Abs(work.right - work.left);
             mmi.ptMaxSize.y = Math.Abs(work.bottom - work.top);
-            mmi.ptMaxTrackSize.x = mmi.ptMaxSize.x;
-            mmi.ptMaxTrackSize.y = mmi.ptMaxSize.y;
+            // Windows supplies desktop-wide tracking limits. Do not shrink them to this monitor:
+            // a drag can maximize onto a larger monitor in the same move.
+            mmi.ptMaxTrackSize.x = Math.Max(mmi.ptMaxTrackSize.x, mmi.ptMaxSize.x);
+            mmi.ptMaxTrackSize.y = Math.Max(mmi.ptMaxTrackSize.y, mmi.ptMaxSize.y);
 
             // ptMinTrackSize MUST be set here too. This handler marks the message handled, which
             // takes WM_GETMINMAXINFO away from WPF - and that message is exactly how WPF enforces
@@ -201,6 +219,13 @@ namespace KillerNotes.Shell
 
         [DllImport("user32.dll")]
         private static extern IntPtr MonitorFromWindow(IntPtr handle, uint flags);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr MonitorFromPoint(POINT point, uint flags);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool GetCursorPos(out POINT point);
 
         [DllImport("user32.dll")]
         private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
