@@ -1,0 +1,338 @@
+<!--
+    KillerNotes' own control styles. Merged AFTER the KillerUI family styles in
+    Controls/Controls.xaml, which are identical in every app and never edited here. Only what
+    KillerNotes' views alone use lives in this file. All brushes use DynamicResource so a live
+    theme or accent change repaints them.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:kl="clr-namespace:KillerFamily.Layout"
+                    xmlns:input="clr-namespace:KillerFamily.Controls"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:kui="clr-namespace:KillerNotes.Controls"
+                    xmlns:picker="clr-namespace:KillerNotes.Controls"
+                    xmlns:snap="clr-namespace:KillerFamily.Windowing"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- Bahnschrift: stock DIN face on Win10/11, pairs with the typewriter headers;
+         Segoe UI fallback for editions without it. -->
+    <FontFamily x:Key="ContentFont">Bahnschrift, Segoe UI</FontFamily>
+
+    <!-- New note keeps the classic gray face; its inherited bevel reverses on press. -->
+    <Style x:Key="NewNoteButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+        <Setter Property="Tag" Value="{DynamicResource UseDialogCaption}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True">
+                <Setter Property="Background" Value="{DynamicResource OutlineFaceBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource OutlineTextBrush}"/>
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True"/>
+                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource PrimaryPressedBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- The transparent room the menu's drop shadow renders into. It is the reason a menu's popup
+         is bigger than the card you can see, so ANYTHING that positions a menu has to subtract it:
+         the style's negative offsets below, and MenuPlacement.cs. Sized to the shadow - WPF expands
+         an effect's bounds by the full BlurRadius, so a 22 blur needs 22 each way, and the 4px
+         downward depth takes 4 off the top and adds 4 to the bottom. -->
+    <Thickness x:Key="MenuHaloMargin">22,18,22,26</Thickness>
+
+    <!-- The FLOATING close: same shared template, all four hover-block corners rounded
+         (DialogCloseCornerRadius = SmallCornerRadius, 0 on a square theme). ONLY for the X's
+         that float INSET from a window corner - the About and Fonts overlays - where the
+         corner-following radius reads as a red square with three hard corners. A dialog
+         caption's X sits AT the card corner and stays on ChromeCloseButton, whose block
+         rounds with the card's top-right (2026-08-08). -->
+    <Style x:Key="DialogCloseButton" TargetType="Button" BasedOn="{StaticResource ChromeCloseButton}">
+        <Setter Property="Tag" Value="{DynamicResource DialogCloseCornerRadius}"/>
+    </Style>
+
+    <!-- THE dialog card chrome, defined ONCE. Every XAML dialog (Confirm, Password, Tags,
+         Input, Databases) wraps its content in a ContentControl with this style instead of
+         carrying its own copy of the shadow/border/bevel/grain stack - five inline copies of
+         this block is exactly how the dialogs drifted apart before.
+         - The shadow is on its OWN childless sibling, never on the border that holds the
+           content: a DropShadowEffect is a bitmap effect, everything inside it is rasterised,
+           and the text loses ClearType (CLAUDE.md locks this for the About card; it showed up
+           live on the Databases caption, 2026-08-07).
+         - Halo/radius/edge come from the theme, so a Win98-style theme collapses to a flat,
+           square window wearing the stacked 3D bevel pairs; the other twelve themes see the
+           usual rounded card with a halo, and the bevels are transparent/0.
+         - Focusable/IsTabStop false so the wrapper never steals focus from dialog inputs. -->
+    <Style x:Key="DialogCard" TargetType="ContentControl">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Grid>
+                        <!-- The family PANE shadow numbers (16/5/270, PaneShadowOpacity), not the
+                             softer flyout ones: these windows carry the same drop shadow as the
+                             main window (2026-08-08). -->
+                        <!-- PaneShadowEffect (ThemeManager): the family numbers at the theme's
+                             opacity, NULL on a flat theme - never an invisible effect, and never
+                             a dynamic opacity inside a Freezable (see the ThemeManager note). -->
+                        <Border Background="{DynamicResource BackgroundBrush}"
+                                BorderBrush="{DynamicResource BackgroundBrush}"
+                                BorderThickness="{DynamicResource WindowEdgeThickness}"
+                                CornerRadius="{DynamicResource PanelCornerRadius}"
+                                Margin="{DynamicResource DialogHaloMargin}"
+                                IsHitTestVisible="False"
+                                Effect="{DynamicResource PaneShadowEffect}"/>
+                        <picker:PickerBorder Background="{DynamicResource BackgroundBrush}"
+                                BorderBrush="{DynamicResource WindowEdgeBrush}"
+                                BorderThickness="{DynamicResource WindowEdgeThickness}"
+                                CornerRadius="{DynamicResource PanelCornerRadius}"
+                                Margin="{DynamicResource DialogHaloMargin}">
+                            <Grid>
+                                <Border Panel.ZIndex="9000" IsHitTestVisible="False"
+                                        BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="{DynamicResource BevelLightThickness}"/>
+                                <Border Panel.ZIndex="9000" IsHitTestVisible="False"
+                                        BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="{DynamicResource BevelDarkThickness}"/>
+                                <Border Panel.ZIndex="9001" IsHitTestVisible="False"
+                                        BorderBrush="{DynamicResource FrameOuterLightBrush}" BorderThickness="{DynamicResource FrameOuterLightThickness}"/>
+                                <Border Panel.ZIndex="9001" IsHitTestVisible="False"
+                                        BorderBrush="{DynamicResource FrameOuterDarkBrush}" BorderThickness="{DynamicResource FrameOuterDarkThickness}"/>
+                                <!-- Grain UNDER the content - the composition the main window
+                                     actually uses: the chrome grain sits beneath its widgets, so
+                                     the SEARCH BOX is crisp, and each PANE carries its own grain
+                                     overlay above its rows (the menu rule). A card-wide overlay
+                                     was tried and put texture over the dialogs' edit fields,
+                                     which no input in the app has - they came up with a
+                                     gradient and texture the main search box does not have
+                                     (2026-08-08); the pane-level overlays live in the
+                                     dialogs' own list Grids. -->
+                                <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
+                                        Opacity="{DynamicResource GrainOpacity}"
+                                        Background="{DynamicResource GrainTileBrush}"/>
+                                <ContentPresenter/>
+                            </Grid>
+                        </picker:PickerBorder>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- THE dialog edit field, defined ONCE - a single template serving both the TextBox and
+         PasswordBox styles below. Matches the main window's search box exactly:
+         - SearchFieldBrush fill, never BackgroundBrush: several palettes define BackgroundBrush
+           as a GRADIENT, and a field synthesized from it painted the window's gradient into
+           itself; the field must be non-gradient (2026-08-08).
+         - Templated border with themed hover/focus: an unstyled box falls back to WPF's stock
+           template, whose focus border is the hardcoded system blue on every theme.
+         - Crossed sunken bevel siblings so a beveled theme reads the field as recessed
+           (white + sunken on 98SE); the bevel thicknesses are 0 on the other twelve. -->
+    <ControlTemplate x:Key="EditFieldTemplate" TargetType="Control">
+        <Grid x:Name="InputRoot" Tag="{DynamicResource UseDialogCaption}">
+        <Border x:Name="bd" Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{DynamicResource ControlCornerRadius}">
+            <Grid>
+                <input:InputContentHost x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Grid>
+        </Border>
+            <Border x:Name="inputWellOuterDark" Panel.ZIndex="2" IsHitTestVisible="False"
+                    BorderBrush="{DynamicResource PaneBevelDarkBrush}" BorderThickness="{DynamicResource PaneBevelLightThickness}"/>
+            <Border x:Name="inputWellOuterLight" Panel.ZIndex="2" IsHitTestVisible="False"
+                    BorderBrush="{DynamicResource PaneBevelLightBrush}" BorderThickness="{DynamicResource PaneBevelDarkThickness}"/>
+            <Border x:Name="inputWellInnerDark" Panel.ZIndex="2" IsHitTestVisible="False" Margin="{DynamicResource PaneBevelInnerMargin}"
+                    BorderBrush="{DynamicResource FrameOuterDarkBrush}" BorderThickness="{DynamicResource PaneBevelLightThickness}"/>
+            <Border x:Name="inputWellInnerLight" Panel.ZIndex="2" IsHitTestVisible="False" Margin="{DynamicResource PaneBevelInnerMargin}"
+                    BorderBrush="{DynamicResource FrameOuterLightBrush}" BorderThickness="{DynamicResource PaneBevelDarkThickness}"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="BorderThickness" Value="0">
+                <Setter TargetName="inputWellOuterDark" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="inputWellOuterLight" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="inputWellInnerDark" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="inputWellInnerLight" Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Tag, ElementName=InputRoot}" Value="True"/>
+                    <Condition Binding="{Binding AcceptsReturn, RelativeSource={RelativeSource Self}, FallbackValue=False}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="InputRoot" Property="MinHeight" Value="{DynamicResource CompactInputMinHeight}"/>
+                <Setter TargetName="PART_ContentHost" Property="Margin" Value="0"/>
+                <Setter TargetName="PART_ContentHost" Property="CompactPadding" Value="{DynamicResource CompactInputPadding}"/>
+                <Setter TargetName="PART_ContentHost" Property="VerticalAlignment" Value="Center"/>
+            </MultiDataTrigger>
+            <!-- Hover first, focus second so a focused box keeps the accent border (same
+                 ordering as the search box). -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="EditFieldTextBox" TargetType="TextBox">
+        <Setter Property="Background" Value="{DynamicResource SearchFieldBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource TextSelectionBrush}"/>
+        <Setter Property="SelectionOpacity" Value="{DynamicResource TextSelectionOpacity}"/>
+        <Setter Property="SelectionTextBrush" Value="{DynamicResource TextSelectionTextBrush}"/>
+        <Setter Property="Padding" Value="6,0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template" Value="{StaticResource EditFieldTemplate}"/>
+    </Style>
+
+    <Style x:Key="EditFieldPasswordBox" TargetType="PasswordBox">
+        <Setter Property="Background" Value="{DynamicResource SearchFieldBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource TextSelectionBrush}"/>
+        <Setter Property="SelectionOpacity" Value="{DynamicResource TextSelectionOpacity}"/>
+        <Setter Property="Padding" Value="6,0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template" Value="{StaticResource EditFieldTemplate}"/>
+    </Style>
+
+    <!-- Themed ComboBox (ported from KillerPDF's DarkComboBox, first user: the Fonts
+         dialog). Keyed, not implicit - nothing else in the app is a ComboBox yet. -->
+    <Style x:Key="KnComboToggle" TargetType="ToggleButton">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="ClickMode" Value="Press"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="KnComboItem" TargetType="ComboBoxItem">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="Padding" Value="8,5"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border x:Name="ItemBd" Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="ItemBd" Property="Background" Value="{DynamicResource MenuHoverBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource MenuHoverTextBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="ItemBd" Property="Background" Value="{DynamicResource SelectionBg}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SelectionFg}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="KnCombo" TargetType="ComboBox">
+        <!-- Windows' own focus box is a dotted line in the SYSTEM text colour, black, so on the dark
+             themes this control showed no focus. Null hands it the family focus ring instead
+             (Controls/AccessibleControls.cs), which follows the theme and high contrast. (1.6.0) -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource KnComboItem}"/>
+        <!-- Virtualized dropdown (the Fonts dialog lists ~300 families, each item rendered
+             in its own face): the panel comes from ItemsPanel + ItemsPresenter, the proven
+             KillerPDF arrangement, so the wheel scrolls the popup wherever the mouse hovers. -->
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter Grid.Column="0"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  Margin="8,0,0,0" VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left" IsHitTestVisible="False"/>
+                                <TextBlock Grid.Column="1" Text="&#xE70D;" FontFamily="Segoe MDL2 Assets"
+                                           FontSize="8" Foreground="{DynamicResource MutedTextBrush}"
+                                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                                           IsHitTestVisible="False"/>
+                                <ToggleButton Grid.Column="0" Grid.ColumnSpan="2"
+                                              Style="{StaticResource KnComboToggle}"
+                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,
+                                                          RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Grid>
+                        </Border>
+                        <Popup x:Name="PART_Popup" AllowsTransparency="True"
+                               IsOpen="{TemplateBinding IsDropDownOpen}" Focusable="False"
+                               PopupAnimation="Fade" Placement="Bottom">
+                            <Border Background="{DynamicResource MenuBackgroundBrush}"
+                                    BorderBrush="{DynamicResource MenuBorderBrush}"
+                                    BorderThickness="1" CornerRadius="4" Padding="2" Margin="0,2,6,6"
+                                    MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                    MaxHeight="260">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Black" BlurRadius="12" ShadowDepth="2" Direction="270" Opacity="0.5"/>
+                                </Border.Effect>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                                              CanContentScroll="True" Focusable="False">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource InputHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

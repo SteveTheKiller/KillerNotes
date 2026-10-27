@@ -185,11 +185,11 @@
             <!-- 8px of air under the caption. It was flush, so on a theme with a real colored
                  caption band the address bar butted straight into it. Same reasoning as the main
                  window's ContentPaneMargin: a distinct band needs a gap, a blended one does not. -->
-            <!-- DialogContentMargin: the dialog's own inset, 16 by default. A theme with a real
+            <!-- PickerContentMargin (Themes/App): the picker's own inset, 16 by default. A theme with a real
                  sizing frame sets it much smaller, or the frame and this stack into a band several
                  times the frame's width - the same mistake SidebarPanelMargin made in the main
                  window. (2026-08-07) -->
-            <Grid Grid.Row="2" Margin="{DynamicResource DialogContentMargin}">
+            <Grid Grid.Row="2" Margin="{DynamicResource PickerContentMargin}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -590,7 +590,7 @@
 
             <!-- Buttons row. The selection details moved OUT of here and into a real status bar
                  below, so this row is just the actions. -->
-            <Grid Grid.Row="5" Margin="{DynamicResource DialogButtonsMargin}">
+            <Grid Grid.Row="5" Margin="{DynamicResource PickerButtonsMargin}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -686,7 +686,7 @@
                         <!-- Half-pixel centers so a 1px diagonal stays crisp instead of smearing
                              across two rows - the same lines the main window draws. -->
                         <Canvas Width="13" Height="13" IsHitTestVisible="False"
-                                Visibility="{DynamicResource GripHatchVisibility}">
+                                Visibility="{DynamicResource GripLinesVisibility}">
                             <Line X1="12.5" Y1="3.5"  X2="3.5"  Y2="12.5" Stroke="{DynamicResource BevelDarkBrush}"/>
                             <Line X1="12.5" Y1="4.5"  X2="4.5"  Y2="12.5" Stroke="{DynamicResource BevelLightBrush}"/>
                             <Line X1="12.5" Y1="6.5"  X2="6.5"  Y2="12.5" Stroke="{DynamicResource BevelDarkBrush}"/>

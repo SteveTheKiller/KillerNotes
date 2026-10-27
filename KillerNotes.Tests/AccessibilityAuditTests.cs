@@ -35,7 +35,8 @@ namespace KillerNotes.Tests
         private static IEnumerable<string> WindowXaml() =>
             Directory.GetFiles(Path.Combine(Root(), "Shell"), "*.xaml")
                 .Concat(Directory.GetFiles(Path.Combine(Root(), "Controls"), "*.xaml", SearchOption.AllDirectories))
-                .Where(f => !f.EndsWith("Controls.xaml", StringComparison.Ordinal) && !f.EndsWith("PickerStyles.xaml", StringComparison.Ordinal)
+                .Where(f => !f.EndsWith("Controls.xaml", StringComparison.Ordinal) && !f.EndsWith("AppStyles.xaml", StringComparison.Ordinal)
+                            && !f.EndsWith("PickerStyles.xaml", StringComparison.Ordinal)
                             && !f.EndsWith("OverlayScrollViewer.xaml", StringComparison.Ordinal));
 
         private static string AllCode() => string.Join("\n",
@@ -125,7 +126,10 @@ namespace KillerNotes.Tests
             // system text colour - black - which the dark themes cannot show.
             Assert.Contains("control.Focusable && control.FocusVisualStyle == null",
                 File.ReadAllText(Path.Combine(Root(), "Controls", "AccessibleControls.cs")));
-            var doc = XDocument.Load(Path.Combine(Root(), "Controls", "Controls.xaml"));
+            // KillerNotes' own styles. Controls/Controls.xaml is the KillerUI template, which KillerNotes
+            // does not edit; its styles that keep Windows' default focus box are a family issue
+            // proposed to KillerUI (KillerNotes-kit-proposals.md, 2026-10-26).
+            var doc = XDocument.Load(Path.Combine(Root(), "Controls", "AppStyles.xaml"));
             var styles = doc.Descendants().Where(e => e.Name.LocalName == "Style").ToList();
             var needs = new HashSet<string> { "Button", "ToggleButton", "RepeatButton", "CheckBox", "RadioButton", "ComboBox" };
             var silent = new List<string>();

@@ -1,0 +1,32 @@
+<!-- KillerNotes' own theme values: keys only KillerNotes' views use, for every theme that does not
+     state its own. ThemeManager.AppTokens (Services/AppTheme.cs) merges them after the theme and
+     accent values and before the family contract, so they stand in for the family defaults the
+     template gives the same names in KillerShell's views. -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- The format bar: a 1px edge on three sides and 2px inside it. -->
+    <Thickness x:Key="BarEdgeThickness">1,0,1,1</Thickness>
+    <Thickness x:Key="BarPadding">2</Thickness>
+    <!-- The editor pane keeps the 8px right gutter and a flush top. -->
+    <Thickness x:Key="ContentPaneMargin">0,0,8,0</Thickness>
+    <!-- The sidebar panel sits 8px in from the window and the caption. -->
+    <Thickness x:Key="SidebarPanelMargin">8,8,0,0</Thickness>
+    <!-- The notes list lets the chrome strip behind it show through. -->
+    <SolidColorBrush x:Key="ListPaneBrush" Color="#00FFFFFF" po:Freeze="True"/>
+    <!-- The footer has no bevel, and 16px of room at each end. -->
+    <SolidColorBrush x:Key="FooterBevelDarkBrush" Color="#00FFFFFF" po:Freeze="True"/>
+    <SolidColorBrush x:Key="FooterBevelLightBrush" Color="#00FFFFFF" po:Freeze="True"/>
+    <Thickness x:Key="FooterPadding">16,0,16,0</Thickness>
+    <!-- The file picker's content and button row. The family's DialogContentMargin is a frame
+         inset of 0 and its DialogButtonsMargin belongs to KillerShell's picker, so KillerNotes'
+         picker states its own. -->
+    <Thickness x:Key="PickerContentMargin">16,8,16,8</Thickness>
+    <Thickness x:Key="PickerButtonsMargin">16,12,16,12</Thickness>
+    <!-- The caption logo and the wordmark: no left-hand caption padding and no emboss. -->
+    <Thickness x:Key="TitleBarPadding">14,0,0,0</Thickness>
+    <sys:Double x:Key="WordmarkEmbossOpacity">0</sys:Double>
+    <!-- The editor's selection wash, drawn behind the text (Shell/EditorSelectionText.cs). -->
+    <sys:Double x:Key="EditorSelectionOpacity">0.35</sys:Double>
+</ResourceDictionary>

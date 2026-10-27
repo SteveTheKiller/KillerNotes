@@ -67,9 +67,11 @@ namespace KillerNotes.Tests
             Assert.Contains("box.SetResourceReference(TextBox.BackgroundProperty, \"PaneBrush\");", rows);
             Assert.Contains("box.SetResourceReference(TextBox.SelectionBrushProperty, \"DatabaseSelectionBrush\");", rows);
             Assert.Contains("box.SetResourceReference(TextBox.SelectionTextBrushProperty, \"DatabaseSelectionTextBrush\");", rows);
-            string completion = File.ReadAllText(Path.Combine(root, "Services", "ThemeManager.cs"));
-            Assert.True(completion.IndexOf("DatabaseRowPalette.Complete(newDict);", StringComparison.Ordinal) >
-                completion.IndexOf("newDict[key] = accentDict[key];", StringComparison.Ordinal));
+            // The rows complete after the accent overlay and the family contract: AppTheme's derived
+            // tokens run last, on the finished palette.
+            string completion = File.ReadAllText(Path.Combine(root, "Services", "AppTheme.cs"));
+            int derived = completion.IndexOf("private static void AppDerivedTokens", StringComparison.Ordinal);
+            Assert.True(derived >= 0 && completion.IndexOf("DatabaseRowPalette.Complete(d);", StringComparison.Ordinal) > derived);
         }
 
         private static string Root()

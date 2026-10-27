@@ -3,21 +3,23 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace KillerNotes.Controls;
-
-// Matches KillerShell's scroll cues: show a shadow only while content remains past that edge.
-public sealed class ScrollEdgeVisibilityConverter : IMultiValueConverter
+namespace KillerNotes.Controls
 {
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    // Shows a scroll edge shadow only while more content lies past that edge. Values are the
+    // scroll offset and the scrollable extent on one axis; the parameter picks the edge, "Start"
+    // (top or left) or "End" (bottom or right). Used by ShadowScrollViewer in Controls.xaml.
+    public sealed class ScrollEdgeVisibilityConverter : IMultiValueConverter
     {
-        if (values.Length < 2 || values[0] is not double offset || values[1] is not double extent)
-            return Visibility.Collapsed;
-        bool start = !string.Equals(parameter as string, "End", StringComparison.Ordinal);
-        bool more = start ? offset > 0.5 : extent - offset > 0.5;
-        return more ? Visibility.Visible : Visibility.Collapsed;
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length < 2 || values[0] is not double offset || values[1] is not double extent)
+                return Visibility.Collapsed;
+            bool start = !string.Equals(parameter as string, "End", StringComparison.Ordinal);
+            bool more = start ? offset > 0.5 : extent - offset > 0.5;
+            return more ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+            => throw new NotSupportedException();
     }
-
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        => throw new NotSupportedException();
 }
-

@@ -8,6 +8,7 @@ namespace KillerNotes.Services
     /// bound to it disappears whatever theme or accent is active. A layer drawn at a fixed
     /// strength (the content pane's own grain) follows FilmGrainVisibility instead. The theme is then
     /// applied again so surfaces that take their grain when the theme changes redraw too.
+    /// Alt+Shift+G toggles it in every app (Shell/ThemeFlyout.cs).
     /// </summary>
     internal static class FilmGrain
     {

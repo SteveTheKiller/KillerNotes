@@ -47,6 +47,8 @@ namespace KillerNotes
 
             KillerFamily.Accessibility.AccessibleControls.Initialize();
             KillerFamily.Theming.AccentShadow.Initialize();
+            Controls.AltDrag.Register();   // Alt+drag moves any window (Controls/AltDrag.cs)
+            Services.AppTheme.Configure();
             var cliArgs = KillerFamily.CommandLine.CommandLineEntry.GetArguments(e.Args,
                 ["search", "list", "get", "groups", "tags", "backlinks", "links", "history", "stats",
                  "create", "update", "create-group", "set-group-color", "set-title-color", "import-image",
@@ -96,7 +98,7 @@ namespace KillerNotes
                 bool silent = string.Equals(e.Args[0], "/uninstall-silent", StringComparison.OrdinalIgnoreCase);
                 if (!silent)
                 {
-                    Services.ThemeManager.InitializeInstallerTheme();
+                    Services.ThemeManager.InitializeInstaller();
                     Services.LocaleManager.Initialize(persistDetectedLocale: false);
                 }
                 Controls.TaskbarIdentity.UseUninstall();
@@ -189,7 +191,7 @@ namespace KillerNotes
             // Start with Windows (About card): keep the Run value pointing at this exe.
             KillerFamily.Deployment.StartupRegistration.Refresh(Services.AppInfo.DisplayName);
 
-            Services.ThemeManager.InitializeInstallerTheme();
+            Services.ThemeManager.InitializeInstaller();
             Services.LocaleManager.Initialize();
             OfferInstallConflictRepair();
 
@@ -200,9 +202,10 @@ namespace KillerNotes
 
             // Wire the kit's pluggable persistence to the registry, then restore the saved
             // theme + accent before the window is built (no first-paint flash).
-            Services.ThemeManager.GetSetting = GetSetting;
-            Services.ThemeManager.SetSetting = SetSetting;
+            // AppTheme.Configure, at the top of OnStartup, has already pointed the theme engine
+            // at the registry.
             KillerFamily.Layout.ShortcutHints.Initialize(GetSetting, SetSetting);
+            Services.AppTheme.MigrateSavedTheme();
             Services.ThemeManager.Initialize();
             Services.FilmGrain.Initialize();       // after the theme, before the window is built
 

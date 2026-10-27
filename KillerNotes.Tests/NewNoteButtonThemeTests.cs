@@ -20,7 +20,7 @@ namespace KillerNotes.Tests
             var button = new Button { Content = "+ New", Style = LoadStyle() };
             button.Resources["UseDialogCaption"] = classic;
             button.Resources["PrimaryFillBrush"] = Brushes.Maroon;
-            button.Resources["OnPrimaryFillBrush"] = Brushes.White;
+            button.Resources["OnPrimaryBrush"] = Brushes.White;
             button.Resources["OutlineFaceBrush"] = Brushes.Silver;
             button.Resources["OutlineTextBrush"] = Brushes.Black;
             button.Measure(new Size(180, 40));
@@ -43,10 +43,10 @@ namespace KillerNotes.Tests
             if (root == null) throw new DirectoryNotFoundException("KillerNotes source root not found");
             XNamespace w = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
             XNamespace x = "http://schemas.microsoft.com/winfx/2006/xaml";
-            var source = XDocument.Load(Path.Combine(root, "Controls", "Controls.xaml"));
+            // PrimaryButton is the family style (Controls.xaml); NewNoteButton is KillerNotes' own (AppStyles.xaml).
             var dictionary = new XElement(w + "ResourceDictionary", new XAttribute(XNamespace.Xmlns + "x", x.NamespaceName));
-            foreach (string key in new[] { "PrimaryButton", "NewNoteButton" })
-                dictionary.Add(new XElement(source.Root!.Elements(w + "Style")
+            foreach (var (file, key) in new[] { ("Controls.xaml", "PrimaryButton"), ("AppStyles.xaml", "NewNoteButton") })
+                dictionary.Add(new XElement(XDocument.Load(Path.Combine(root, "Controls", file)).Root!.Elements(w + "Style")
                     .Single(style => (string?)style.Attribute(x + "Key") == key)));
             return (Style)((ResourceDictionary)XamlReader.Parse(dictionary.ToString()))["NewNoteButton"];
         }

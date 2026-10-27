@@ -6,6 +6,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.6.1] - Unreleased
 
+### Changed
+- KillerNotes takes the family theme engine, control styles and palettes from the KillerUI template, so its buttons, captions, menus and dialogs match the other Killer apps, and Alt+drag moves any window.
+
 ### Fixed
 - File dialogs stay responsive on slow or crowded folders, cancel stale loads and identify incomplete listings.
 - Website carousel and slide descriptions are translated in every supported language.

@@ -2,37 +2,62 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
     <sys:Double x:Key="GrainOpacity">0.24</sys:Double>
     <sys:Double x:Key="IconShadowOpacity">1.0</sys:Double>
 
-    <SolidColorBrush x:Key="TextFooter"            Color="#CFC9BF" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#44ffffff" po:Freeze="True"/>
+    <!-- Text-stroke shadows behind button labels. -->
+    <DropShadowEffect x:Key="TextStroke"     Color="Black" BlurRadius="3" ShadowDepth="0.8" Direction="270" Opacity="0.7"/>
+    <DropShadowEffect x:Key="TextStrokeSoft" Color="Black" BlurRadius="2" ShadowDepth="0.6" Direction="270" Opacity="0.45"/>
+
+    <!-- Chrome the shared layer leaves to the app -->
+    <SolidColorBrush x:Key="TextFooter"          Color="#CFC9BF" po:Freeze="True"/>
     <SolidColorBrush x:Key="MenuTextBrush"       Color="#d8cfb5" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TreeLineBrush"       Color="#5c554c" po:Freeze="True"/>
+    <!-- A faint wash, NOT the base layer's SelectionBg - see the note in Sepulchre.xaml.
+         #44ffffff is what Blood, Greed and Cyanotic already use. -->
+    <SolidColorBrush x:Key="RowSelectedBrush"    Color="#44ffffff" po:Freeze="True"/>
     <SolidColorBrush x:Key="OutlinePressedBrush" Color="#44ffffff" po:Freeze="True"/>
+    <SolidColorBrush x:Key="RowAltBrush" Color="#148a7f72" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+
+    <!-- Resting accent edge: the accent at 40%, for a lip that reads as accent-colored
+         without claiming to be the live thing. The active tab of the UNFOCUSED pane. -->
+    <SolidColorBrush x:Key="TabEdgeBrush"          Color="#66d1c8aa" po:Freeze="True"/>
     <SolidColorBrush x:Key="ScrollThumbBrush"      Color="#55d1c8aa" po:Freeze="True"/>
     <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#d1c8aa" po:Freeze="True"/>
 
-    <SolidColorBrush x:Key="BgFlyout"              Color="#3b3f46" po:Freeze="True"/>
-    <SolidColorBrush x:Key="BgRecentPanel"         Color="#4b4944" po:Freeze="True"/>
-    <SolidColorBrush x:Key="BgCanvas"              Color="#403f3b" po:Freeze="True"/>
-    <SolidColorBrush x:Key="AccentLogo" Color="#FFB8AA7C" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SelectionAccent" Color="#FFD1C8AA" po:Freeze="True"/>
-    <SolidColorBrush x:Key="RadioAccent"           Color="#d1c8aa" po:Freeze="True"/>
-    <SolidColorBrush x:Key="DangerRed"             Color="#9b5550" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SliderTrack"           Color="#8a7f72" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SettingsOpenRowBg"     Color="#8d8768" po:Freeze="True"/>
-    <SolidColorBrush x:Key="WarnBrush"             Color="#9a6b24" po:Freeze="True"/>
-    <SolidColorBrush x:Key="OkBrush"               Color="#8fa88d" po:Freeze="True"/>
-    <SolidColorBrush x:Key="SortButtonBrush"       Color="#403f3b" po:Freeze="True"/>
+    <!-- Traffic light. Three FIXED colors on purpose: the status dot sits in the footer
+         permanently, and using the accent made "all fine" mean whatever accent was picked. -->
+    <SolidColorBrush x:Key="OkBrush"   Color="#3fb950" po:Freeze="True"/>
+    <SolidColorBrush x:Key="WarnBrush" Color="#d9a218" po:Freeze="True"/>
 
-    <!-- Shortcut-overlay category colors (the family neon set, shared with the website map) -->
-    <SolidColorBrush x:Key="KnCatFile"   Color="#00fff9" po:Freeze="True"/>
-    <SolidColorBrush x:Key="KnCatNote"   Color="#ff2975" po:Freeze="True"/>
-    <SolidColorBrush x:Key="KnCatFormat" Color="#ffd319" po:Freeze="True"/>
-    <SolidColorBrush x:Key="KnCatView"   Color="#f222ff" po:Freeze="True"/>
-    <SolidColorBrush x:Key="KnCatSearch" Color="#00b3ff" po:Freeze="True"/>
-    <SolidColorBrush x:Key="KnCatHelp"   Color="#39ff14" po:Freeze="True"/>
-    <SolidColorBrush x:Key="KnCatEdit"   Color="#ff901f" po:Freeze="True"/>
+    <!-- Device-type label colors (bright, for dark panes) -->
+    <SolidColorBrush x:Key="TypeRouter"     Color="#F0A030" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeWindows"    Color="#60A0F0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypePrinter"    Color="#D080A0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeSwitch"     Color="#C0C0C0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeHypervisor" Color="#E06060" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeNas"        Color="#40C080" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeIot"        Color="#B060D0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeServer"     Color="#E08050" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeLinux"      Color="#D0C050" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeDns"        Color="#50B0D0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeHa"         Color="#50D0A0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeMobile"     Color="#A0A0F0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeCamera"     Color="#F0C060" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeSmarttv"    Color="#E0A0E0" po:Freeze="True"/>
+    <SolidColorBrush x:Key="TypeMedia"      Color="#70C0E0" po:Freeze="True"/>
+
+    <!-- Shortcut categories. One color per group, shared by the list headings and the
+         keyboard map's keycap borders (KeyboardMapOverlay.cs). -->
+    <SolidColorBrush x:Key="KsCatFile"      Color="#00fff9" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KsCatNav"       Color="#8c1eff" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KsCatView"      Color="#f222ff" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KsCatSearch"    Color="#00b3ff" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KsCatEdit"      Color="#ff2975" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KsCatTabs"      Color="#ffd319" po:Freeze="True"/>
+    <SolidColorBrush x:Key="KsCatHelp"      Color="#39ff14" po:Freeze="True"/>
+
     <SolidColorBrush x:Key="PrimaryBrush" Color="#d1c8aa" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
     <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#c2b280" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
@@ -69,8 +94,6 @@
 
     <SolidColorBrush x:Key="DimTextBrush" Color="#cdc7bd" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
-    <SolidColorBrush x:Key="RowAltBrush" Color="#148a7f72" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
-
     <SolidColorBrush x:Key="RowHoverBrush" Color="#5f6258" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
     <LinearGradientBrush x:Key="SelectionBg" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#6C6F60" Offset="0"/><GradientStop Color="#5A5E4B" Offset="1"/></LinearGradientBrush>
@@ -80,6 +103,7 @@
     <SolidColorBrush x:Key="InputBorderBrush" Color="#5c554c" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
     <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#2b2d32" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    <SolidColorBrush x:Key="TerminalBackgroundBrush" Color="#2a2c31" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
     <SolidColorBrush x:Key="MenuBorderBrush" Color="#5c554c" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
 
@@ -102,16 +126,20 @@
     <SolidColorBrush x:Key="CaptionCloseBrush" Color="#FF8A8A" po:Freeze="True"/>
 
     <SolidColorBrush x:Key="ComboHighlightTextBrush" Color="#F2F4F3"/>
+    <SolidColorBrush x:Key="GridSelectedTextBrush" Color="#ffffff" po:Freeze="True"/>
+    <sys:Double x:Key="WordmarkShadowOpacity" xmlns:sys="clr-namespace:System;assembly=mscorlib">0.45</sys:Double>
+    <SolidColorBrush x:Key="AccentLogo" Color="#FFB8AA7C" po:Freeze="True"/>
+    <sys:Double x:Key="FlyoutShadowOpacity" xmlns:sys="clr-namespace:System;assembly=mscorlib">0.55</sys:Double>
+    <LinearGradientBrush x:Key="DialogTitleBarBrush" StartPoint="0,0.5" EndPoint="1,0.5" MappingMode="RelativeToBoundingBox" SpreadMethod="Pad" ColorInterpolationMode="SRgbLinearInterpolation" po:Freeze="True"><GradientStop Color="#FF3B3F46" Offset="0"/><GradientStop Color="#FF50564B" Offset="1"/></LinearGradientBrush>
+    <SolidColorBrush x:Key="RadioAccent" Color="#FFD1C8AA" po:Freeze="True"/>
+    <sys:Double x:Key="TitleWordmarkSize" xmlns:sys="clr-namespace:System;assembly=mscorlib">15</sys:Double>
+    <sys:Double x:Key="BarShadowOpacity" xmlns:sys="clr-namespace:System;assembly=mscorlib">0.38</sys:Double>
+    <sys:Double x:Key="TitleWordmarkBoldSize" xmlns:sys="clr-namespace:System;assembly=mscorlib">22.52</sys:Double>
+    <sys:Double x:Key="TitleBarHeight" xmlns:sys="clr-namespace:System;assembly=mscorlib">32</sys:Double>
+    <SolidColorBrush x:Key="SelectionAccent" Color="#FFD1C8AA" po:Freeze="True"/>
     <sys:Double x:Key="PaneShadowOpacity" xmlns:sys="clr-namespace:System;assembly=mscorlib">0.6</sys:Double>
     <SolidColorBrush x:Key="SurfaceHoverBrush" Color="#FF5F6258" po:Freeze="True"/>
-    <sys:Double x:Key="TitleBarHeight" xmlns:sys="clr-namespace:System;assembly=mscorlib">32</sys:Double>
-    <sys:Double x:Key="BarShadowOpacity" xmlns:sys="clr-namespace:System;assembly=mscorlib">0.38</sys:Double>
-    <LinearGradientBrush x:Key="DialogTitleBarBrush" StartPoint="0,0.5" EndPoint="1,0.5" MappingMode="RelativeToBoundingBox" SpreadMethod="Pad" ColorInterpolationMode="SRgbLinearInterpolation" po:Freeze="True"><GradientStop Color="#FF3B3F46" Offset="0"/><GradientStop Color="#FF50564B" Offset="1"/></LinearGradientBrush>
     <LinearGradientBrush x:Key="FooterBackgroundBrush" StartPoint="0,0.5" EndPoint="1,0.5" MappingMode="RelativeToBoundingBox" SpreadMethod="Pad" ColorInterpolationMode="SRgbLinearInterpolation" po:Freeze="True"><GradientStop Color="#FF3B3F46" Offset="0"/><GradientStop Color="#FF50564B" Offset="1"/></LinearGradientBrush>
-    <sys:Double x:Key="FlyoutShadowOpacity" xmlns:sys="clr-namespace:System;assembly=mscorlib">0.55</sys:Double>
-    <sys:Double x:Key="WordmarkShadowOpacity" xmlns:sys="clr-namespace:System;assembly=mscorlib">0.45</sys:Double>
     <SolidColorBrush x:Key="MenuSeparatorBrush" Color="#FF6B705C" po:Freeze="True"/>
-    <sys:Double x:Key="TitleWordmarkBoldSize" xmlns:sys="clr-namespace:System;assembly=mscorlib">22.52</sys:Double>
-    <sys:Double x:Key="TitleWordmarkSize" xmlns:sys="clr-namespace:System;assembly=mscorlib">15</sys:Double>
-    <SolidColorBrush x:Key="FileDialogPaneBrush" Color="#403f3b" po:Freeze="True"/>
+    <SolidColorBrush x:Key="FileDialogPaneBrush" Color="#FF403F3B" po:Freeze="True"/>
 </ResourceDictionary>

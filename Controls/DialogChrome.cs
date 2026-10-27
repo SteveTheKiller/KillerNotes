@@ -269,7 +269,7 @@ namespace KillerNotes.Controls
             // Diagonal bands: half-pixel centers so a 1px line lands on one row, each band a
             // dark line with a light one under it - the beveled hatch, not plain strokes.
             var hatch = new System.Windows.Controls.Canvas { Width = 18, Height = 18, IsHitTestVisible = false };
-            hatch.SetResourceReference(UIElement.VisibilityProperty, "GripHatchVisibility");
+            hatch.SetResourceReference(UIElement.VisibilityProperty, "GripLinesVisibility");
             void Band(double off, string brushKey)
             {
                 var l = new System.Windows.Shapes.Line { X1 = 16.5, Y1 = off, X2 = off, Y2 = 16.5, StrokeThickness = 1 };

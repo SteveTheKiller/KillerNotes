@@ -5,9 +5,12 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- [0] is swapped in place at runtime by ThemeManager. Black is the
-                     KillerNotes default (with the Purple accent, set in ThemeManager). -->
+                     KillerNotes default (with the Purple accent, set in Services/AppTheme.cs). -->
                 <ResourceDictionary Source="Themes/Black.xaml"/>
+                <!-- The family control styles from the KillerUI template, identical in every app,
+                     then KillerNotes' own styles. -->
                 <ResourceDictionary Source="Controls/Controls.xaml"/>
+                <ResourceDictionary Source="Controls/AppStyles.xaml"/>
                 <!-- Safe to sit here again: LocaleManager now tracks its own two dictionaries by
                      REFERENCE rather than writing merged[2] and merged[3] by position. It used to
                      overwrite this entry at startup, which killed every StaticResource into it -

@@ -1,9 +1,9 @@
 using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Xml.Linq;
+using KillerNotes.Services;
 using Xunit;
 
 namespace KillerNotes.Tests
@@ -14,68 +14,38 @@ namespace KillerNotes.Tests
         private static readonly XNamespace W = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
 
         [Fact]
-        public void AllThemesDeclareOpaqueMenuDividersAndDeliriumKeepsMatchingSketchGray()
+        public void AllThemesHaveOpaqueMenuDividersAndDeliriumKeepsMatchingSketchGray() => Sta.RunApplication(() =>
         {
-            string root = FindRepoRoot();
-            foreach (string path in Directory.GetFiles(Path.Combine(root, "Themes"), "*.xaml"))
-            {
-                var resources = XDocument.Load(path).Root!.Elements().ToList();
-                var divider = resources.SingleOrDefault(item => (string?)item.Attribute(X + "Key") == "MenuSeparatorBrush");
-                Assert.NotNull(divider);
-                Color dividerColor = OpaqueColor(divider!);
-                if (Path.GetFileNameWithoutExtension(path) == "Delirium")
+            foreach (Theme theme in Enum.GetValues(typeof(Theme)))
+                foreach (Accent accent in Enum.GetValues(typeof(Accent)))
                 {
-                    Assert.Equal(Color.FromRgb(0x66, 0x66, 0x66), dividerColor);
-                    var sketch = resources.Single(item => (string?)item.Attribute(X + "Key") == "SketchMenuSeparatorBrush");
-                    if (sketch.Name.LocalName == "StaticResource")
-                        Assert.Equal("MenuSeparatorBrush", (string?)sketch.Attribute("ResourceKey"));
+                    var palette = ThemeHarness.Create(theme, accent);
+                    var divider = Assert.IsType<SolidColorBrush>(palette["MenuSeparatorBrush"]);
+                    Assert.Equal((byte)255, divider.Color.A);
+                    Assert.Equal(1d, divider.Opacity);
+                    var sketch = Assert.IsType<SolidColorBrush>(palette["SketchMenuSeparatorBrush"]);
+                    if (theme == Theme.Delirium)
+                        Assert.Equal(Color.FromRgb(0x66, 0x66, 0x66), sketch.Color);
                     else
-                        Assert.Equal(dividerColor, OpaqueColor(sketch));
+                        Assert.Same(palette["CardBorderBrush"], palette["SketchMenuSeparatorBrush"]);
                 }
-                else
-                {
-                    Assert.DoesNotContain(resources, item => (string?)item.Attribute(X + "Key") == "SketchMenuSeparatorBrush");
-                    Assert.Contains(resources, item => (string?)item.Attribute(X + "Key") == "MenuBorderBrush");
-                }
-            }
-        }
+        });
 
         [Fact]
-        public void OnlyKeyedMenuSeparatorsUseTheNewBrush()
+        public void OnlyKeyedMenuSeparatorsUseTheMenuSeparatorBrush()
         {
             var styles = XDocument.Load(Path.Combine(FindRepoRoot(), "Controls", "Controls.xaml"))
                 .Descendants(W + "Style").Where(style => (string?)style.Attribute("TargetType") == "Separator").ToList();
             var menu = styles.Single(style => (string?)style.Attribute(X + "Key") == "{x:Static MenuItem.SeparatorStyleKey}");
-            var generic = styles.Single(style => (string?)style.Attribute(X + "Key") == "ThemedSeparator");
+            var generic = styles.Single(style => style.Attribute(X + "Key") == null);
             Assert.Equal("{DynamicResource MenuSeparatorBrush}", Background(menu));
             Assert.Equal("{DynamicResource MenuBorderBrush}", Background(generic));
-        }
-
-        [Fact]
-        public void OtherThemesRetainTheirPreviousFallbackAfterAccentOverlay()
-        {
-            string root = FindRepoRoot();
-            string source = File.ReadAllText(Path.Combine(root, "Services", "ThemeManager.cs"));
-            const string fallback = "SetIfAbsent(newDict, \"MenuSeparatorBrush\", newDict[\"MenuBorderBrush\"]);";
-            Assert.Contains(fallback, source);
-            Assert.True(source.IndexOf(fallback, StringComparison.Ordinal) >
-                source.IndexOf("newDict[key] = accentDict[key];", StringComparison.Ordinal));
-            Assert.Contains("SetIfAbsent(newDict, \"SketchMenuSeparatorBrush\", newDict[\"CardBorderBrush\"]);", source);
-            string sketch = File.ReadAllText(Path.Combine(root, "Controls", "Sketch", "SketchPadWindow.Input.cs"));
+            string sketch = File.ReadAllText(Path.Combine(FindRepoRoot(), "Controls", "Sketch", "SketchPadWindow.Input.cs"));
             Assert.Contains("line.SetResourceReference(Border.BackgroundProperty, \"SketchMenuSeparatorBrush\");", sketch);
         }
 
         private static string? Background(XElement style) =>
             (string?)style.Elements(W + "Setter").Single(setter => (string?)setter.Attribute("Property") == "Background").Attribute("Value");
-
-        private static Color OpaqueColor(XElement brush)
-        {
-            Assert.Equal(W + "SolidColorBrush", brush.Name);
-            var color = (Color)ColorConverter.ConvertFromString((string)brush.Attribute("Color")!);
-            Assert.Equal((byte)255, color.A);
-            Assert.Equal(1d, double.Parse((string?)brush.Attribute("Opacity") ?? "1", CultureInfo.InvariantCulture));
-            return color;
-        }
 
         private static string FindRepoRoot()
         {
