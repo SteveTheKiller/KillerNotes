@@ -7,9 +7,13 @@
                 <!-- [0] is swapped in place at runtime by ThemeManager. Black is the
                      KillerNotes default (with the Purple accent, set in Services/AppTheme.cs). -->
                 <ResourceDictionary Source="Themes/Black.xaml"/>
-                <!-- The family control styles from the KillerUI template, identical in every app,
-                     then KillerNotes' own styles. -->
+                <!-- The family control styles from the KillerUI template, identical in every app. -->
                 <ResourceDictionary Source="Controls/Controls.xaml"/>
+                <!-- [2] is the English string base the kit LocaleManager re-asserts at startup.
+                     Without it here, the kit falls back to writing slot 2 by position and wipes
+                     whatever sits there (it took AppStyles and NewNoteButton with it). -->
+                <ResourceDictionary Source="Strings/en-US.xaml"/>
+                <!-- KillerNotes' own styles. -->
                 <ResourceDictionary Source="Controls/AppStyles.xaml"/>
                 <ResourceDictionary Source="Controls/OverlayScrollViewer.xaml"/>
             </ResourceDictionary.MergedDictionaries>
