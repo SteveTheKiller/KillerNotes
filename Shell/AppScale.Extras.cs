@@ -22,6 +22,11 @@ namespace KillerNotes.Shell
             if (!_menuPlacementHooked) { _menuPlacementHooked = true; HookContextMenuPlacement(); }
         }
 
+        // Layout rounding OFF while the scale is fractional: rounded child positions multiplied
+        // by a fractional scale land short of the row at some steps, leaving a backdrop stripe
+        // between the editor and the footer (108%, 2026-08-08). At 1.0 it comes back on.
+        partial void ConfigureAppScaleLayout(ref bool unroundedLayout) => unroundedLayout = true;
+
         private void Window_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             // Wheel events can target the focused editor or list instead of the hovered
@@ -44,10 +49,6 @@ namespace KillerNotes.Shell
                 _sidebarBaseWidth = SidebarCol.ActualWidth * _appScaleApplied;
             _appScaleApplied = scale;
             ScaleHost.LayoutTransform = scale == 1.0 ? Transform.Identity : new ScaleTransform(scale, scale);
-            // Layout rounding OFF while the scale is fractional: rounded child positions multiplied
-            // by a fractional scale land short of the row at some steps, leaving a backdrop stripe
-            // between the editor and the footer (108%, 2026-08-08). At 1.0 it comes back on.
-            ScaleHost.UseLayoutRounding = scale == 1.0;
             RefreshSidebarWidth();   // Sidebar.cs: panel keeps its on-screen width; the rail scales with the app
             RebuildLineNumbers();    // LineNumbers.cs: gutter numbers track the app zoom
         }

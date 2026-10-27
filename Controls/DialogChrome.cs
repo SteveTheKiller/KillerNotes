@@ -192,6 +192,13 @@ namespace KillerNotes.Controls
             return icon;
         }
 
+        /// <summary>The family ConfirmDialog's caption icon (ConfirmDialog.xaml.cs).</summary>
+        internal static bool SetTitleIcon(Image icon)
+        {
+            SharpenTitleIcon(icon);
+            return true;
+        }
+
         internal static void SharpenTitleIcon(Image icon)
         {
             var frames = BitmapDecoder.Create(new Uri("pack://application:,,,/Resources/kn-icon.ico"),

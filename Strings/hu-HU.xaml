@@ -394,6 +394,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> segédprogram.</sys:String>
     <sys:String x:Key="Str_About_Computing">számítás...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Frissítés elérhető: {0}</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
     <sys:String x:Key="Str_About_Downloading">Letöltés...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">Letölti és telepíti a következőt: {0} {1}?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">Az alkalmazás automatikusan bezárul, majd újra megnyílik.</sys:String>

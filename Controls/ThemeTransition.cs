@@ -55,7 +55,7 @@ namespace KillerNotes.Controls
 
             // Clicking a second theme while the first fade is still running must replace the
             // stale pair, not stack another adorner on top of it.
-            if (Active.TryGetValue(surface, out Adorner running))
+            if (Active.TryGetValue(surface, out Adorner? running) && running != null)
             {
                 layer.Remove(running);
                 Active.Remove(surface);
@@ -82,7 +82,7 @@ namespace KillerNotes.Controls
             var sweep = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(DurationMs + 250) };
             sweep.Tick += (s, _) =>
             {
-                ((DispatcherTimer)s).Stop();
+                ((DispatcherTimer)s!).Stop();
                 Drop(layer, surface, adorner);
             };
             sweep.Start();
@@ -93,7 +93,7 @@ namespace KillerNotes.Controls
         private static void Drop(AdornerLayer layer, FrameworkElement surface, Adorner adorner)
         {
             layer.Remove(adorner);
-            if (Active.TryGetValue(surface, out Adorner current) && ReferenceEquals(current, adorner))
+            if (Active.TryGetValue(surface, out Adorner? current) && ReferenceEquals(current, adorner))
                 Active.Remove(surface);
         }
 

@@ -28,7 +28,7 @@ namespace KillerNotes.Shell
     {
         private double _appScale = 1.0;
         private double AppScaleMin = 0.7, AppScaleMax = 2.5, AppScaleStep = 0.02;
-        private bool _appScaleSmoothText = true, _appScaleConfigured;
+        private bool _appScaleSmoothText = true, _appScaleConfigured, _appScaleUnroundedLayout;
 
         /// <summary>Optional app hook: keep an app's own range, step, or ClearType text under scale.</summary>
         partial void ConfigureAppScale(ref double min, ref double max, ref double step, ref bool smoothText);
@@ -36,11 +36,17 @@ namespace KillerNotes.Shell
         /// <summary>Optional app hook: show the size readout somewhere other than StatusText.</summary>
         partial void ShowAppScaleReadout(double scale, ref bool handled);
 
+        /// <summary>Optional app hook: set unroundedLayout true to turn layout rounding off on
+        /// ScaleHost at fractional sizes (it comes back on at 100%). Rounded edges under a
+        /// fractional scale can leave a one-pixel stripe between panes (KillerNotes at 108%).</summary>
+        partial void ConfigureAppScaleLayout(ref bool unroundedLayout);
+
         private void EnsureAppScaleConfigured()
         {
             if (_appScaleConfigured) return;
             _appScaleConfigured = true;
             ConfigureAppScale(ref AppScaleMin, ref AppScaleMax, ref AppScaleStep, ref _appScaleSmoothText);
+            ConfigureAppScaleLayout(ref _appScaleUnroundedLayout);
         }
 
         /// <summary>Call from the constructor after InitializeComponent to restore the saved size.</summary>
@@ -101,6 +107,12 @@ namespace KillerNotes.Shell
             {
                 TextOptions.SetTextFormattingMode(ScaleHost, TextFormattingMode.Ideal);
                 TextOptions.SetTextRenderingMode(ScaleHost, TextRenderingMode.Grayscale);
+            }
+
+            if (_appScaleUnroundedLayout)
+            {
+                if (scale == 1.0) ScaleHost.ClearValue(UseLayoutRoundingProperty);
+                else ScaleHost.UseLayoutRounding = false;
             }
 
             // The app hook runs last, so whatever it sets wins over the kit defaults above. An app

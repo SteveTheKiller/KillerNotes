@@ -12,6 +12,7 @@ Controls/AccentShadow.cs	4
 Controls/AppStyles.xaml	1
 Controls/AccessibleControls.cs	3
 Controls/ColorPickerDialog.cs	16
+Controls/ConfirmDialog.xaml	4
 Controls/ConfirmDialog.xaml.cs	3
 Controls/DialogChrome.cs	1
 Controls/DialogTitleBar.xaml	4

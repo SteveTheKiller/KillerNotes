@@ -36,10 +36,9 @@ namespace KillerNotes.Shell
             // The icon's menu leads with Quick note (QuickNote.cs), and "Keep an icon in the system
             // tray" keeps it there while the window is open too.
             _tray = KillerFamily.Shell.CloseToTray.Attach(this, Services.AppInfo.DisplayName, Loc,
-                () => AboutController.CloseToTrayEnabled, () => SaveCurrentNote(refreshList: false),
+                () => AboutController.CloseToTrayEnabled, TrayCanExit,
                 [new KillerFamily.Shell.CloseToTray.TrayItem(() => Loc("Str_Quick_Title"), ShowQuickNote)],
                 () => KeepTrayIcon);
-            Application.Current.SessionEnding += (_, e) => { if (!SaveCurrentNote(refreshList: false)) e.Cancel = true; };
             var titleFrames = System.Windows.Media.Imaging.BitmapDecoder.Create(
                 new System.Uri("pack://application:,,,/Resources/kn-icon.ico"),
                 System.Windows.Media.Imaging.BitmapCreateOptions.None,

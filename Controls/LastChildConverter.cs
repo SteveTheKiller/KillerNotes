@@ -6,8 +6,8 @@ using System.Windows.Data;
 
 namespace KillerNotes.Controls
 {
-    // From the KillerUI template's Controls/FolderTree.cs, verbatim. Controls.xaml declares it, and
-    // KillerNotes' own file picker (SharedPicker) has no FolderTree.cs to carry it.
+    // In its own file so an app whose picker has no FolderTree.cs can still build Controls.xaml,
+    // which declares it.
     // True when a TreeViewItem is the last child of its parent - which is the one thing the
     // folder tree's connecting lines need to know. Every node draws a vertical line down its own
     // left edge; for the LAST child that line has to stop at the elbow instead of running past

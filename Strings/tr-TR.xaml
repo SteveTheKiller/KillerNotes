@@ -214,6 +214,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> aracı.</sys:String>
     <sys:String x:Key="Str_About_Computing">hesaplanıyor...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Güncelleme var: {0}</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
     <sys:String x:Key="Str_About_Downloading">İndiriliyor...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">{0} {1} indirilip kurulsun mu?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">Uygulama otomatik olarak kapanıp yeniden açılır.</sys:String>

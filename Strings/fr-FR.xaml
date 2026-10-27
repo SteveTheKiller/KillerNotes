@@ -214,6 +214,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> sous licence GPLv3.</sys:String>
     <sys:String x:Key="Str_About_Computing">calcul...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Mise à jour disponible : {0}</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
     <sys:String x:Key="Str_About_Downloading">Téléchargement...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">Télécharger et installer {0} {1} ?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">L'application se fermera et se rouvrira automatiquement.</sys:String>

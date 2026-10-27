@@ -35,35 +35,35 @@ using System.Windows.Interop;
 //      on the main window, which also works while it is hidden in the tray.
 //   5. Exit everywhere else (the app menu, an update, an uninstall) goes through
 //      CloseToTray.Exit or Application.Shutdown, which never hides to the tray.
-//   6. Optional (1.6.0, reference: KillerNotes quick note). Attach takes extra menu items, shown
-//      above Open, and a keepIcon callback for an app option that keeps the icon while the window
-//      is open too. Call RefreshIcon after that option changes and once after attaching. Apps
-//      that pass neither behave exactly as before.
+//   6. Optional Attach arguments; apps that pass none behave exactly as before:
+//      canExit   asked before a tray Exit and when Windows ends the session; false keeps the app
+//                running (and cancels the session end), for unsaved work the user declined to lose.
+//      items     the app's own rows in the icon's menu, above Open.
+//      keepIcon  an app option that keeps the icon while the window is open too. Call
+//                RefreshIcon after that option changes and once after attaching.
 // ============================================================
 namespace KillerFamily.Shell
 {
     internal sealed class CloseToTray : IDisposable
     {
+        /// <summary>The app setting that turns the option on, "1" or "0".</summary>
+        internal const string SettingName = "CloseToTray";
+
         /// <summary>An app's own row in the icon's menu, above Open. Header is asked each time the
         /// menu opens, so a language switch shows at once.</summary>
         internal sealed record TrayItem(Func<string> Header, Action Run);
 
-        /// <summary>The app setting that turns the option on, "1" or "0".</summary>
-        internal const string SettingName = "CloseToTray";
-
         private const int WM_APP = 0x8000;
         private const int CallbackMessage = WM_APP + 0x51;
-        private const uint NIM_ADD = 0, NIM_DELETE = 2;
-        private const uint NIF_MESSAGE = 1, NIF_ICON = 2, NIF_TIP = 4;
-        private const int WM_LBUTTONUP = 0x0202, WM_RBUTTONUP = 0x0205, WM_CONTEXTMENU = 0x007B, NIN_SELECT = 0x0400, NIN_KEYSELECT = 0x0401;
+        private const uint NIM_ADD = 0, NIM_MODIFY = 1, NIM_DELETE = 2;
+        private const uint NIF_MESSAGE = 1, NIF_ICON = 2, NIF_TIP = 4, NIF_INFO = 0x10;
+        private const uint NIIF_INFO = 1, NIIF_NOSOUND = 0x10;
+        private const int WM_LBUTTONUP = 0x0202, WM_RBUTTONUP = 0x0205, WM_CONTEXTMENU = 0x007B, NIN_SELECT = 0x0400, NIN_KEYSELECT = 0x0401, NIN_BALLOONUSERCLICK = 0x0405;
 
         private readonly Window _window;
         private readonly string _appName;
         private readonly Func<string, string> _loc;
         private readonly Func<bool> _isEnabled;
-        private readonly Func<bool>? _canExit;
-        private readonly IReadOnlyList<TrayItem> _items;
-        private readonly Func<bool>? _keepIcon;
         private readonly HwndSource _source;
         private readonly uint _taskbarCreated;
         private readonly IntPtr _icon;
@@ -87,20 +87,24 @@ namespace KillerFamily.Shell
         /// <summary>Prepares the icon for <paramref name="window"/>, whose OnClosing override calls
         /// HideInstead. <paramref name="isEnabled"/> is asked on every close; <paramref name="loc"/>
         /// looks up Str_Tray_Open and Str_Tray_Exit.</summary>
-        internal static CloseToTray Attach(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled, Func<bool>? canExit = null,
-            IReadOnlyList<TrayItem>? items = null, Func<bool>? keepIcon = null)
+        internal static CloseToTray Attach(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled,
+            Func<bool>? canExit = null, IReadOnlyList<TrayItem>? items = null, Func<bool>? keepIcon = null)
             => new(window, appName, loc, isEnabled, canExit, items, keepIcon);
 
-        private CloseToTray(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled, Func<bool>? canExit,
-            IReadOnlyList<TrayItem>? items, Func<bool>? keepIcon)
+        private readonly Func<bool>? _canExit;
+        private readonly IReadOnlyList<TrayItem> _items;
+        private readonly Func<bool>? _keepIcon;
+
+        private CloseToTray(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled,
+            Func<bool>? canExit, IReadOnlyList<TrayItem>? items, Func<bool>? keepIcon)
         {
+            _canExit = canExit;
             _items = items ?? [];
             _keepIcon = keepIcon;
             _window = window;
             _appName = appName;
             _loc = loc;
             _isEnabled = isEnabled;
-            _canExit = canExit;
             // WS_POPUP, never shown. A message-only window would miss TaskbarCreated, which is
             // how the icon comes back after Explorer restarts.
             _source = new HwndSource(new HwndSourceParameters(appName + "TrayIcon") { WindowStyle = unchecked((int)0x80000000), Width = 0, Height = 0 });
@@ -110,14 +114,19 @@ namespace KillerFamily.Shell
             // The SDK embeds ApplicationIcon as icon group 32512.
             _icon = LoadImage(GetModuleHandle(null), new IntPtr(32512), 1, size, size, 0);
             window.Closed += (_, _) => Dispose();
-            Application.Current.SessionEnding += (_, _) => _exiting = true;
+            Application.Current.SessionEnding += (_, e) =>
+            {
+                if (e.Cancel) return;
+                if (_canExit != null && !_canExit()) { e.Cancel = true; return; }
+                _exiting = true;
+            };
             Application.Current.Exit += (_, _) => Dispose();
         }
 
         /// <summary>Quits the app from anywhere without hiding to the tray.</summary>
         internal void Exit()
         {
-            if (_canExit?.Invoke() == false) { ShowWindow(); return; }
+            if (_canExit != null && !_canExit()) return;
             _exiting = true;
             HideIcon();
             Application.Current.Shutdown();
@@ -131,7 +140,8 @@ namespace KillerFamily.Shell
             _window.Activate();
             _window.Topmost = true;
             _window.Topmost = false;
-            RefreshIcon();
+            if (_keepIcon == null) HideIcon();
+            else RefreshIcon();
         }
 
         /// <summary>Shows the icon while the app keeps it (keepIcon) or the window is in the tray,
@@ -155,6 +165,24 @@ namespace KillerFamily.Shell
             return true;
         }
 
+        /// <summary>
+        /// While the window is hidden in the tray, a notification from its icon - the way an app
+        /// that is out of sight says something happened. Silent: the caller decides about sound.
+        /// Clicking it brings the window back. False when the window is not in the tray.
+        /// </summary>
+        internal bool Notify(string title, string text)
+        {
+            if (!_iconShown || _disposed) return false;
+            var d = Data(NIF_INFO);
+            d.szInfoTitle = title.Length > 63 ? title[..63] : title;
+            d.szInfo = text.Length > 255 ? text[..255] : text;
+            d.dwInfoFlags = NIIF_INFO | NIIF_NOSOUND;
+            return Shell_NotifyIcon(NIM_MODIFY, ref d);
+        }
+
+        /// <summary>True while the window is hidden and its tray icon is showing.</summary>
+        internal bool InTray => _iconShown && !_window.IsVisible;
+
         private void ShowIcon()
         {
             if (_iconShown) return;
@@ -175,7 +203,7 @@ namespace KillerFamily.Shell
             if (msg == CallbackMessage)
             {
                 int ev = (int)(lParam.ToInt64() & 0xFFFF);
-                if (ev is WM_LBUTTONUP or NIN_SELECT or NIN_KEYSELECT) ShowWindow();
+                if (ev is WM_LBUTTONUP or NIN_SELECT or NIN_KEYSELECT or NIN_BALLOONUSERCLICK) ShowWindow();
                 else if (ev is WM_RBUTTONUP or WM_CONTEXTMENU) ShowMenu();
                 handled = true;
             }
@@ -190,10 +218,6 @@ namespace KillerFamily.Shell
         private void ShowMenu()
         {
             var menu = new ContextMenu { Placement = PlacementMode.MousePoint };
-            var open = new MenuItem { Header = string.Format(_loc("Str_Tray_Open"), _appName), FontWeight = FontWeights.SemiBold };
-            open.Click += (_, _) => ShowWindow();
-            var exit = new MenuItem { Header = _loc("Str_Tray_Exit") };
-            exit.Click += (_, _) => Exit();
             foreach (var item in _items)
             {
                 var row = new MenuItem { Header = item.Header() };
@@ -201,6 +225,10 @@ namespace KillerFamily.Shell
                 menu.Items.Add(row);
             }
             if (_items.Count > 0) menu.Items.Add(new Separator());
+            var open = new MenuItem { Header = string.Format(_loc("Str_Tray_Open"), _appName), FontWeight = FontWeights.SemiBold };
+            open.Click += (_, _) => ShowWindow();
+            var exit = new MenuItem { Header = _loc("Str_Tray_Exit") };
+            exit.Click += (_, _) => Exit();
             menu.Items.Add(open);
             menu.Items.Add(new Separator());
             menu.Items.Add(exit);

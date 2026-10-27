@@ -1,39 +1,119 @@
-<!-- KillerUI kit. Themed confirm dialog: same surface, grain, shadow, and wordmark
-     language as the main window. Used by About.cs for the self-update prompt; reuse it
-     anywhere a MessageBox would break the look (install prompts, destructive confirms). -->
+<!-- Themed confirm dialog: same surface, grain, shadow and wordmark language as the
+     main window. Used anywhere a MessageBox would break the look - install prompts,
+     the self-update prompt, destructive confirms. Each app writes its own wording at the
+     call site; this file is the shared frame. -->
 <Window x:Class="KillerNotes.Controls.ConfirmDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:theme="clr-namespace:KillerFamily.Theming"
         xmlns:local="clr-namespace:KillerNotes.Controls"
         Title="KillerNotes"
-        TextOptions.TextFormattingMode="Display"
-        TextOptions.TextRenderingMode="ClearType"
-        SnapsToDevicePixels="True"
         Width="390" SizeToContent="Height"
         WindowStartupLocation="CenterOwner"
         WindowStyle="None"
         AllowsTransparency="True"
         ResizeMode="NoResize"
         Background="Transparent"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
         ShowInTaskbar="False">
 
-    <!-- Dialog cards sit on the dark tier. Inputs and DimTextBrush are calibrated against it;
-         on SurfaceBrush a field is the same color as the card behind it. -->
-    <!-- Card chrome (shadow/border/bevels/grain) is the SHARED DialogCard style; the caption
-         is the SHARED DialogTitleBar control. One copy each, in Controls.xaml and
-         DialogTitleBar.xaml - never inline them here again. -->
-    <ContentControl x:Name="RootBorder" Opacity="0" Style="{StaticResource DialogCard}">
+    <!-- Margin is a transparent halo so the drop shadow has room to render. Same shadow
+         language as the KillerPDF KillerDialog / KillerScan ConfirmDialog. -->
+    <!-- BackgroundBrush (the titlebar dark), not SurfaceBrush: on Surface the
+         Surface-filled checkbox boxes were invisible. -->
+    <!-- CornerRadius and the halo margin come from the theme. The halo is the transparent gutter
+         the drop shadow needs; a flat theme sets it to 0 because it casts no shadow, and leaving
+         a 10px invisible margin there would push the resize grab outside the visible window. -->
+    <local:PickerBorder x:Name="RootBorder" Opacity="0"
+            Background="{DynamicResource BackgroundBrush}"
+            BorderBrush="{DynamicResource CardBorderBrush}"
+            BorderThickness="{DynamicResource DialogOuterBorderThickness}"
+            CornerRadius="{DynamicResource PanelCornerRadius}"
+            Margin="{DynamicResource DialogHaloMargin}">
+        <Border.Effect>
+            <!-- Scaled by the theme: 0 on a flat theme, so a 98SE dialog sits flat like a real
+                 Win98 one instead of floating on a soft shadow. -->
+            <DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270"
+                              Opacity="{DynamicResource FlyoutShadowOpacity}"/>
+        </Border.Effect>
+        <Grid>
+            <!-- Film grain over the whole dialog, one continuous surface. -->
+            <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
+                    Opacity="{DynamicResource GrainOpacity}"
+                    Background="{DynamicResource GrainTileBrush}"/>
+            <!-- Raised dialog bevel. Nothing on any theme but 98SE. -->
+            <Border IsHitTestVisible="False" Panel.ZIndex="6"
+                    BorderBrush="{DynamicResource FrameOuterLightBrush}" BorderThickness="{DynamicResource FrameOuterLightThickness}"/>
+            <Border IsHitTestVisible="False" Panel.ZIndex="6"
+                    BorderBrush="{DynamicResource FrameOuterDarkBrush}"  BorderThickness="{DynamicResource FrameOuterDarkThickness}"/>
+            <Border IsHitTestVisible="False" Panel.ZIndex="6" Margin="{DynamicResource FrameInnerMargin}"
+                    BorderBrush="{DynamicResource FrameInnerLightBrush}" BorderThickness="{DynamicResource FrameInnerLightThickness}"/>
+            <Border IsHitTestVisible="False" Panel.ZIndex="6" Margin="{DynamicResource FrameInnerMargin}"
+                    BorderBrush="{DynamicResource FrameInnerDarkBrush}" BorderThickness="{DynamicResource FrameInnerDarkThickness}"/>
 
-            <Grid>
+
+            <Grid Margin="{DynamicResource DialogContentMargin}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
+                    <!-- A dialog caption is 36 by default and a short 98SE band on a flat theme.
+                         DialogTitleBarRowHeight, NOT DialogTitleBarHeight: this is a GridLength
+                         property and a DynamicResource gets no type conversion, so the double
+                         version threw and killed the app on every theme. ThemeManager derives the
+                         two from one number. -->
+                    <RowDefinition Height="{DynamicResource DialogTitleBarRowHeight}"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <local:DialogTitleBar x:Name="TitleBar" Grid.Row="0" CloseRequested="Cancel_Click"/>
+                <!-- Title bar: transparent by default so it shows the card's own face, or the
+                     theme's own caption band where one is asked for (98SE). -->
+                <Border Grid.Row="0" Background="{DynamicResource DialogTitleBarBrush}"
+                        MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" Panel.ZIndex="1">
+                    <Grid>
+                        <Border IsHitTestVisible="False" Background="{DynamicResource GrainTileBrush}"
+                                Opacity="{DynamicResource GrainOpacity}"/>
+                    <Grid Margin="{DynamicResource DialogTitleBarPadding}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <!-- The app icon leads the caption, as it does in the main title bar. -->
+                        <local:AppIcon x:Name="TitleIcon" VerticalAlignment="Center"
+                               Width="{DynamicResource TitleIconSize}" Height="{DynamicResource TitleIconSize}"
+                               Margin="{DynamicResource TitleIconMargin}"
+                               RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                        <Grid VerticalAlignment="Center" Margin="0,-18,0,-22">
+                            <Grid.RenderTransform><TranslateTransform Y="-5"/></Grid.RenderTransform>
+                            <StackPanel Orientation="Horizontal" Margin="1,2,0,0"
+                                        Visibility="{DynamicResource DialogWordmarkVisibility}"
+                                        Opacity="{DynamicResource WordmarkShadowOpacity}">
+                                <StackPanel.Effect><BlurEffect Radius="3"/></StackPanel.Effect>
+                                <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}"><Run x:Name="WordLead0" Text="Killer" Foreground="#D8000000"/><Run x:Name="WordAccent0" FontFamily="{DynamicResource WordmarkAccentFont}" Text="App" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="#D8000000"/></TextBlock>
+                            </StackPanel>
+                            <TextBlock FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}"
+                                       Visibility="{DynamicResource DialogWordmarkVisibility}" Margin="1,2,0,0" IsHitTestVisible="False" Opacity="{DynamicResource WordmarkAccentShadowOpacity}"><TextBlock.Effect><BlurEffect Radius="3"/></TextBlock.Effect><Run x:Name="WordLead1" Text="Killer" Foreground="Transparent"/><Run x:Name="WordAccent1" FontFamily="{DynamicResource WordmarkAccentFont}" Text="App" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="#D8000000"/></TextBlock>
+                            <TextBlock theme:Bevel.Enabled="True" FontFamily="{DynamicResource WordmarkFont}" FontSize="{DynamicResource TitleWordmarkSize}"
+                                       Visibility="{DynamicResource DialogWordmarkVisibility}"><Run x:Name="WordLead2" Text="Killer" Foreground="{DynamicResource TextBrush}"/><Run x:Name="WordAccent2" FontFamily="{DynamicResource WordmarkAccentFont}" Text="App" FontSize="{DynamicResource TitleWordmarkBoldSize}" Foreground="{DynamicResource AccentLogo}"/></TextBlock>
+                        </Grid>
+                            <!-- Outside the wordmark grid so the wordmark's lift and bleed never move it. -->
+                            <TextBlock x:Name="PlainTitle" Text="KillerNotes" FontFamily="{DynamicResource ChromeFontFamily}" VerticalAlignment="Center"
+                                       FontSize="11" FontWeight="Bold" Foreground="{DynamicResource ChromeTextBrush}"
+                                       Visibility="{DynamicResource DialogPlainTitleVisibility}"/>
+                        </StackPanel>
+                        <!-- The family overlay and dialog close (Controls.xaml, OverlayCloseButton). -->
+                        <Button Content="{DynamicResource AboutCloseGlyph}" Click="Cancel_Click"
+                                ToolTip="{DynamicResource Str_Sys_Close}"
+                                AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
+                                HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
+                                Style="{StaticResource OverlayCloseButton}"/>
+                    </Grid>
+                    </Grid>
+                </Border>
 
-                <!-- Body (defaults are placeholders; the configurable ctor overwrites them) -->
+                <!-- Body: message, optional bullet lines, optional checkboxes -->
+                <!-- DialogRowMargin is ADDED to the existing inset rather than replacing it: it
+                     is 0 on every ordinary theme, and 98SE uses it to pull the body in tight the
+                     way a Win98 dialog packs its content. -->
                 <Grid Grid.Row="1" Margin="24,18,24,18">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="38"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                     <!-- Notice ring, as in the family setup dialog: amber "!" on a confirmation, accent "i" on a notice. -->
@@ -41,36 +121,44 @@
                         <TextBlock x:Name="NoticeGlyph" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="SemiBold"/>
                     </Border>
                     <StackPanel Grid.Column="1">
-                    <TextBlock x:Name="HeadingText" Text="Install KillerNotes to your user profile?"
-                               Foreground="{StaticResource TextBrush}"
+                    <TextBlock x:Name="HeadingText" Foreground="{StaticResource TextBrush}"
                                FontFamily="{DynamicResource HeadingFont}" FontSize="18"
                                                TextOptions.TextFormattingMode="Ideal" TextWrapping="Wrap"/>
                     <TextBlock x:Name="DetailText" Foreground="{StaticResource MutedTextBrush}"
-                               FontSize="12" LineHeight="19" TextWrapping="Wrap" Margin="0,10,0,0">
-                        <Run Text="- Start Menu shortcut"/>
-                        <LineBreak/>
-                        <Run Text="- Appears in Add/Remove Programs"/>
-                    </TextBlock>
-                    <!-- Optional checkbox: shown only when the
-                         configurable ctor gets a check1Label (e.g. Desktop shortcut). -->
-                    <CheckBox x:Name="Check1" Visibility="Collapsed" Margin="0,10,0,0"
-                              FontSize="12" Foreground="{StaticResource MutedTextBrush}"/>
+                               FontSize="12" LineHeight="19" TextWrapping="Wrap"
+                               Visibility="Collapsed" Margin="0,10,0,0"/>
+                    <CheckBox x:Name="Check1" Visibility="Collapsed" Margin="0,8,0,0" FontSize="12"/>
+                    <CheckBox x:Name="Check2" Visibility="Collapsed" Margin="0,8,0,0" FontSize="12"/>
+                    <!-- Explanatory note under Check2, shown by LockCheck2 when the choice is
+                         already made for the user (for example an app installed machine-wide). -->
+                    <TextBlock x:Name="Check2Note" Visibility="Collapsed"
+                               Foreground="{StaticResource MutedTextBrush}"
+                               FontSize="11" LineHeight="16" TextWrapping="Wrap"
+                               Margin="22,5,0,0"/>
                 </StackPanel>
                 </Grid>
 
-                <!-- Buttons. MinWidth+Padding instead of fixed Width so a longer label
-                     (translation, or a caption like "Start new") is not clipped. -->
-                <StackPanel Grid.Row="2" Orientation="Horizontal"
+                <!-- Buttons -->
+                <!-- NOTE: DialogButtonsMargin is deliberately not bound here. It REPLACES this
+                     inset on 98SE (3,4,3,4 against 24,0,24,20), so binding it directly would
+                     re-space the button row on all twelve other themes unless its default were
+                     hand-set to 24,0,24,20 per dialog - and each dialog has a different inset.
+                     Left for the pass that unifies the dialog layouts. -->
+                <StackPanel x:Name="ButtonRow" Grid.Row="2" Orientation="Horizontal"
                             HorizontalAlignment="Right" Margin="24,0,24,20">
-                    <Button x:Name="CancelButton" Content="Cancel" Click="Cancel_Click"
+                    <Button x:Name="CancelButton" Content="{DynamicResource Str_Btn_Cancel}" Click="Cancel_Click"
                             Style="{StaticResource SurfaceButton}"
                             Height="28" MinWidth="80" Padding="12,2" Margin="0,0,8,0"/>
-                    <!-- OutlineButton (family standard, like KillerScan's Scan button):
-                         accent outline at rest, fills solid on hover -->
-                    <Button x:Name="OkButton" Content="Install" Click="OK_Click"
+                    <!-- OutlineButton, not PrimaryButton. A solid accent block sits in this card
+                         as a painted-on rectangle that never changes - PrimaryButton's hover is
+                         a translucent white tint over the accent, which on half the palettes is
+                         no visible feedback at all. Hollow with an accent fill on hover is the
+                         family's other confirm treatment and it reads as a button. -->
+                    <Button x:Name="OkButton" Click="OK_Click"
                             Style="{StaticResource OutlineButton}"
                             Height="28" MinWidth="80" Padding="12,2"/>
                 </StackPanel>
             </Grid>
-    </ContentControl>
+        </Grid>
+    </local:PickerBorder>
 </Window>

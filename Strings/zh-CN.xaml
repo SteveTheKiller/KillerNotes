@@ -213,6 +213,7 @@
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> 工具。</sys:String>
     <sys:String x:Key="Str_About_Computing">计算中...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">有可用更新: {0}</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
     <sys:String x:Key="Str_About_Downloading">下载中...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">下载并安装 {0} {1}?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">应用会自动关闭并重新打开。</sys:String>

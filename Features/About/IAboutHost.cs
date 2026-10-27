@@ -37,21 +37,21 @@ namespace KillerNotes.Features.About
         /// <summary>The "Check for updates on startup" checkbox, first of the card's checkboxes.</summary>
         bool StartupUpdateCheck { set; }
 
-        /// <summary>The "Start with Windows" checkbox, under the update checkbox. Off until the user
-        /// turns it on.</summary>
-        bool StartWithWindows { set; }
-
-        /// <summary>The "Close to system tray" checkbox, under Start with Windows. Off until the user
-        /// turns it on.</summary>
-        bool CloseToTray { set; }
-
-        /// <summary>True under --demo, where the card is rendered in its signed state so marketing
-        /// captures from an unsigned local build match the release (DemoMode.cs).</summary>
-        bool DemoPreview { get; }
-
         /// <summary>Fades the About card in.</summary>
         void ShowCard();
+    }
 
-        bool SaveOpenNote();
+    /// <summary>A card with the "Start with Windows" checkbox, under the update checkbox. Off until
+    /// the user turns it on.</summary>
+    internal interface IAboutStartup
+    {
+        bool StartWithWindows { set; }
+    }
+
+    /// <summary>A card with the "Close to system tray" checkbox, under Start with Windows. Off until
+    /// the user turns it on (KillerShot, a tray app, defaults to on).</summary>
+    internal interface IAboutTray
+    {
+        bool CloseToTray { set; }
     }
 }
