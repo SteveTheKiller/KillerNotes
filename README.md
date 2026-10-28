@@ -56,7 +56,7 @@ choco install killernotes
 
 <table>
 <tr>
-<td width="50%"><img src="notes-landing/screenshots/01-cyanotic-quarterly-review.jpg" alt="Cyanotic theme with a client review, system status table, and nested groups"><br><sub>A quarterly client review with rich text, a system status table, and nested client groups.</sub></td>
+<td width="50%"><img src="notes-landing/screenshots/01-cyanotic-quarterly-review.jpg" alt="Cyanotic theme with a client review, system status table, table editing menu, and nested groups"><br><sub>A quarterly client review with rich text, a system status table, its editing menu, and nested client groups.</sub></td>
 <td width="50%"><img src="notes-landing/screenshots/05-MDF-rack-elevation-trimmed.png" alt="Overlapping SketchPad, Dictation, and speech model windows over a rack elevation note"><br><sub>A rack diagram, recording waveform, and offline speech model chooser open together.</sub></td>
 </tr>
 </table>

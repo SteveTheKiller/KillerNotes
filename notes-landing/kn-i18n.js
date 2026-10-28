@@ -3,7 +3,7 @@
 // zh = Traditional Chinese (zh-Hant), zh-cn = Simplified Chinese (zh-Hans).
 var I18N = {
  "sl": {
-  "shot_workspace": "Tema Cyanotic: četrtletni pregled s tabelo stanja sistemov in gnezdenimi skupinami strank.",
+  "shot_workspace": "Tema Cyanotic: četrtletni pregled s tabelo stanja sistemov, menijem za urejanje tabele in gnezdenimi skupinami strank.",
   "shot_graph": "Animirani graf zapiskov prikazuje povezave med zapiski, njihove naslove in barve skupin.",
   "shot_about": "Tema Sepulchre: okno O programu z različico, založnikom ter nastavitvami zagona, sistemske vrstice in zaklepanja.",
   "shot_dictation": "Tema Ectoplasm: narekovanje nad pregledom stranke s kontrolniki za snemanje, prepis in vstavljanje v zapisek.",
@@ -633,7 +633,7 @@ var I18N = {
   "kn_single_exe": "v eni datoteki exe"
 },
  "it": {
-  "shot_workspace": "Tema Cyanotic: una revisione trimestrale con tabella sullo stato dei sistemi e gruppi di clienti annidati.",
+  "shot_workspace": "Tema Cyanotic: una revisione trimestrale con tabella sullo stato dei sistemi, menu di modifica della tabella e gruppi di clienti annidati.",
   "shot_graph": "Il grafo animato mostra i collegamenti tra le note, con titoli e colori dei gruppi.",
   "shot_about": "Tema Sepulchre: il pannello Informazioni con versione, autore e impostazioni di avvio, area di notifica e blocco.",
   "shot_dictation": "Tema Ectoplasm: Dettatura sopra una revisione cliente, con comandi per registrare, trascrivere e inserire nella nota.",
@@ -1117,7 +1117,7 @@ var I18N = {
   "tech_sub": "Come funziona davvero il blocco note: archiviazione, ricerca, cifratura e i formati di condivisione."
  },
  "hu": {
-  "shot_workspace": "Cyanotic téma: negyedéves áttekintés rendszerállapot-táblázattal és egymásba ágyazott ügyfélcsoportokkal.",
+  "shot_workspace": "Cyanotic téma: negyedéves áttekintés rendszerállapot-táblázattal, táblázatszerkesztő menüvel és egymásba ágyazott ügyfélcsoportokkal.",
   "shot_graph": "Az animált jegyzetgráf a jegyzetek kapcsolatait, címeit és csoportszíneit mutatja.",
   "shot_about": "Sepulchre téma: a Névjegy panel a verzióval, kiadóval, valamint az indítás, a tálca és a zárolás beállításaival.",
   "shot_dictation": "Ectoplasm téma: Diktálás egy ügyféláttekintés felett, felvételi, átírási és jegyzetbe illesztési vezérlőkkel.",
@@ -1602,7 +1602,7 @@ var I18N = {
  },
 
  "pl": {
-  "shot_workspace": "Motyw Cyanotic: przegląd kwartalny z tabelą stanu systemów i zagnieżdżonymi grupami klientów.",
+  "shot_workspace": "Motyw Cyanotic: przegląd kwartalny z tabelą stanu systemów, menu edycji tabeli i zagnieżdżonymi grupami klientów.",
   "shot_graph": "Animowany graf pokazuje połączenia między notatkami, ich tytuły i kolory grup.",
   "shot_about": "Motyw Sepulchre: panel O programie z wersją, wydawcą oraz ustawieniami uruchamiania, zasobnika i blokady.",
   "shot_dictation": "Motyw Ectoplasm: Dyktowanie nad przeglądem klienta, z przyciskami nagrywania, transkrypcji i wstawiania do notatki.",
@@ -2086,7 +2086,7 @@ var I18N = {
   "tech_sub": "Jak notatnik naprawdę działa: przechowywanie, wyszukiwanie, szyfrowanie i formaty udostępniania.",
  },
  "cs": {
-  "shot_workspace": "Motiv Cyanotic: čtvrtletní přehled s tabulkou stavu systémů a vnořenými skupinami klientů.",
+  "shot_workspace": "Motiv Cyanotic: čtvrtletní přehled s tabulkou stavu systémů, nabídkou úprav tabulky a vnořenými skupinami klientů.",
   "shot_graph": "Animovaný graf poznámek zobrazuje propojení mezi poznámkami, jejich názvy a barvy skupin.",
   "shot_about": "Motiv Sepulchre: panel O aplikaci s verzí, vydavatelem a nastavením spouštění, oznamovací oblasti a zamykání.",
   "shot_dictation": "Motiv Ectoplasm: diktování nad přehledem klienta s ovládáním nahrávání, přepisu a vložení do poznámky.",
@@ -2570,7 +2570,7 @@ var I18N = {
   "tech_sub": "Jak poznámkový blok skutečně funguje: úložiště, vyhledávání, šifrování a formáty sdílení.",
  },
  "es": {
-  "shot_workspace": "Tema Cyanotic: una revisión trimestral con una tabla del estado de los sistemas y grupos de clientes anidados.",
+  "shot_workspace": "Tema Cyanotic: una revisión trimestral con una tabla del estado de los sistemas, el menú de edición de tablas y grupos de clientes anidados.",
   "shot_graph": "El grafo animado muestra las conexiones entre notas, con sus títulos y los colores de los grupos.",
   "shot_about": "Tema Sepulchre: el panel Acerca de con versión, editor y ajustes de inicio, bandeja y bloqueo.",
   "shot_dictation": "Tema Ectoplasm: Dictado sobre una revisión de cliente, con controles para grabar, transcribir e insertar en la nota.",
@@ -3055,7 +3055,7 @@ var I18N = {
   "tech_sub": "Cómo funciona realmente el bloc de notas: almacenamiento, búsqueda, cifrado y los formatos de compartición."
  },
  "de": {
-  "shot_workspace": "Cyanotic-Theme: ein Quartalsbericht mit Systemstatustabelle und verschachtelten Kundengruppen.",
+  "shot_workspace": "Cyanotic-Theme: ein Quartalsbericht mit Systemstatustabelle, Tabellenbearbeitungsmenü und verschachtelten Kundengruppen.",
   "shot_graph": "Der animierte Notizgraph zeigt Verbindungen zwischen Notizen, ihre Titel und die Gruppenfarben.",
   "shot_about": "Sepulchre-Theme: der Infobereich mit Version, Herausgeber und Einstellungen für Start, Infobereich und Sperre.",
   "shot_dictation": "Ectoplasm-Theme: Diktieren über einem Kundenbericht, mit Steuerelementen für Aufnahme, Transkription und Einfügen in die Notiz.",
@@ -3540,7 +3540,7 @@ var I18N = {
   "tech_sub": "Wie der Notizblock wirklich funktioniert: Speicherung, Suche, Verschlüsselung und die Freigabeformate."
  },
  "fr": {
-  "shot_workspace": "Thème Cyanotic : un bilan trimestriel avec un tableau de l'état des systèmes et des groupes de clients imbriqués.",
+  "shot_workspace": "Thème Cyanotic : un bilan trimestriel avec un tableau de l'état des systèmes, le menu d'édition du tableau et des groupes de clients imbriqués.",
   "shot_graph": "Le graphe animé montre les liens entre les notes, leurs titres et les couleurs des groupes.",
   "shot_about": "Thème Sepulchre : le panneau À propos avec version, éditeur et réglages de démarrage, de zone de notification et de verrouillage.",
   "shot_dictation": "Thème Ectoplasm : Dictée au-dessus d'un bilan client, avec les commandes d'enregistrement, de transcription et d'insertion dans la note.",
@@ -4025,7 +4025,7 @@ var I18N = {
   "tech_sub": "Comment le bloc-notes fonctionne vraiment : stockage, recherche, chiffrement et formats de partage."
  },
  "ja": {
-  "shot_workspace": "Cyanotic テーマ：システム状態の表と階層化された顧客グループを含む四半期レビュー。",
+  "shot_workspace": "Cyanotic テーマ：システム状態の表、表の編集メニュー、階層化された顧客グループを含む四半期レビュー。",
   "shot_graph": "アニメーションするノートグラフが、ノート同士のつながりをタイトルとグループの色で表示。",
   "shot_about": "Sepulchre テーマ：バージョン、発行元、起動、トレイ、ロックの設定を表示する「バージョン情報」パネル。",
   "shot_dictation": "Ectoplasm テーマ：顧客レビューの上に音声入力を開き、録音、文字起こし、ノートへの挿入を操作。",
@@ -4510,7 +4510,7 @@ var I18N = {
   "tech_sub": "このノートが実際にどう動くか: ストレージ、検索、暗号化、そして共有フォーマット。"
  },
  "tr": {
-  "shot_workspace": "Cyanotic teması: sistem durumu tablosu ve iç içe müşteri gruplarıyla üç aylık değerlendirme.",
+  "shot_workspace": "Cyanotic teması: sistem durumu tablosu, tablo düzenleme menüsü ve iç içe müşteri gruplarıyla üç aylık değerlendirme.",
   "shot_graph": "Hareketli not grafiği, notlar arasındaki bağlantıları not başlıkları ve grup renkleriyle gösterir.",
   "shot_about": "Sepulchre teması: sürüm, yayıncı, başlangıç, sistem tepsisi ve kilit ayarlarıyla Hakkında paneli.",
   "shot_dictation": "Ectoplasm teması: müşteri değerlendirmesinin üzerinde kayıt, yazıya dökme ve nota ekleme kontrolleriyle Dikte.",
@@ -4995,7 +4995,7 @@ var I18N = {
   "tech_sub": "Not defterinin gerçekte nasıl çalıştığı: depolama, arama, şifreleme ve paylaşım biçimleri."
  },
  "zh": {
-  "shot_workspace": "Cyanotic 主題：季度檢討，包含系統狀態表格與巢狀客戶群組。",
+  "shot_workspace": "Cyanotic 主題：季度檢討，包含系統狀態表格、表格編輯選單與巢狀客戶群組。",
   "shot_graph": "動態筆記圖譜以筆記標題和群組顏色顯示筆記之間的連結。",
   "shot_about": "Sepulchre 主題：「關於」面板顯示版本、發行者，以及啟動、系統匣與鎖定設定。",
   "shot_dictation": "Ectoplasm 主題：在客戶檢討上方開啟聽寫，提供錄音、轉錄及插入筆記的控制項。",
@@ -5480,7 +5480,7 @@ var I18N = {
   "tech_sub": "這款記事本實際的運作方式：儲存、搜尋、加密與分享格式。"
  },
  "zh-cn": {
-  "shot_workspace": "Cyanotic 主题：季度回顾，包含系统状态表格和嵌套客户分组。",
+  "shot_workspace": "Cyanotic 主题：季度回顾，包含系统状态表格、表格编辑菜单和嵌套客户分组。",
   "shot_graph": "动态笔记图谱通过笔记标题和分组颜色显示笔记之间的连接。",
   "shot_about": "Sepulchre 主题：“关于”面板显示版本、发布者以及启动、托盘和锁定设置。",
   "shot_dictation": "Ectoplasm 主题：在客户回顾上方打开听写，提供录音、转录和插入笔记的控件。",
@@ -5965,7 +5965,7 @@ var I18N = {
   "tech_sub": "记事本的实际运作方式：存储、搜索、加密和分享格式。"
  },
  "bn": {
-  "shot_workspace": "Cyanotic থিম: সিস্টেমের অবস্থার টেবিল ও স্তরবিন্যস্ত ক্লায়েন্ট গ্রুপসহ ত্রৈমাসিক পর্যালোচনা।",
+  "shot_workspace": "Cyanotic থিম: সিস্টেমের অবস্থার টেবিল, টেবিল সম্পাদনার মেনু ও স্তরবিন্যস্ত ক্লায়েন্ট গ্রুপসহ ত্রৈমাসিক পর্যালোচনা।",
   "shot_graph": "চলমান নোট গ্রাফে নোটের শিরোনাম ও গ্রুপের রংসহ নোটগুলোর মধ্যকার সংযোগ দেখা যায়।",
   "shot_about": "Sepulchre থিম: সংস্করণ, প্রকাশক, চালু হওয়া, সিস্টেম ট্রে ও লক করার সেটিংসসহ পরিচিতি প্যানেল।",
   "shot_dictation": "Ectoplasm থিম: ক্লায়েন্ট পর্যালোচনার ওপর ডিকটেশন, সঙ্গে রেকর্ডিং, প্রতিলিপি ও নোটে যোগ করার নিয়ন্ত্রণ।",
@@ -6450,7 +6450,7 @@ var I18N = {
   "tech_sub": "নোটপ্যাডটি আসলে কীভাবে কাজ করে: স্টোরেজ, সার্চ, এনক্রিপশন আর শেয়ারিং ফরম্যাট।"
  },
  "ru": {
-  "shot_workspace": "Тема Cyanotic: квартальный обзор с таблицей состояния систем и вложенными группами клиентов.",
+  "shot_workspace": "Тема Cyanotic: квартальный обзор с таблицей состояния систем, меню редактирования таблицы и вложенными группами клиентов.",
   "shot_graph": "Анимированный граф показывает связи между заметками, их заголовки и цвета групп.",
   "shot_about": "Тема Sepulchre: панель «О программе» с версией, издателем и настройками запуска, трея и блокировки.",
   "shot_dictation": "Тема Ectoplasm: диктовка поверх обзора клиента с управлением записью, расшифровкой и вставкой в заметку.",
@@ -6934,7 +6934,7 @@ var I18N = {
   "tech_sub": "Как блокнот работает на самом деле: хранение, поиск, шифрование и форматы обмена."
  },
  "kk": {
-  "shot_workspace": "Cyanotic тақырыбы: жүйе күйі кестесі және кірістірілген клиент топтары бар тоқсандық шолу.",
+  "shot_workspace": "Cyanotic тақырыбы: жүйе күйі кестесі, кестені өңдеу мәзірі және кірістірілген клиент топтары бар тоқсандық шолу.",
   "shot_graph": "Қозғалыстағы жазбалар графы жазбалардың байланыстарын, атауларын және топ түстерін көрсетеді.",
   "shot_about": "Sepulchre тақырыбы: нұсқа, баспагер, іске қосу, жүйелік науа және құлыптау параметрлері бар бағдарлама туралы панель.",
   "shot_dictation": "Ectoplasm тақырыбы: клиент шолуының үстіндегі диктант терезесі, жазу, мәтінге айналдыру және жазбаға кірістіру басқару элементтерімен.",
@@ -7418,7 +7418,7 @@ var I18N = {
   "tech_sub": "Блокнот шын мәнінде қалай жұмыс істейді: сақтау, іздеу, шифрлау және бөлісу пішімдері."
  },
  vi: {
-  "shot_workspace": "Giao diện Cyanotic: báo cáo quý với bảng trạng thái hệ thống và các nhóm khách hàng lồng nhau.",
+  "shot_workspace": "Giao diện Cyanotic: báo cáo quý với bảng trạng thái hệ thống, menu chỉnh sửa bảng và các nhóm khách hàng lồng nhau.",
   "shot_graph": "Đồ thị ghi chú động hiển thị liên kết giữa các ghi chú, cùng tiêu đề và màu nhóm.",
   "shot_about": "Giao diện Sepulchre: bảng Giới thiệu với phiên bản, nhà phát hành và cài đặt khởi động, khay hệ thống, khóa.",
   "shot_dictation": "Giao diện Ectoplasm: cửa sổ Đọc chính tả trên báo cáo khách hàng, với điều khiển ghi âm, chép lời và chèn vào ghi chú.",
@@ -7904,7 +7904,7 @@ var I18N = {
 };
 if (typeof window !== "undefined") { window.I18N = I18N; }
 I18N.uk = {
-  "shot_workspace": "Тема Cyanotic: квартальний огляд із таблицею стану систем і вкладеними групами клієнтів.",
+  "shot_workspace": "Тема Cyanotic: квартальний огляд із таблицею стану систем, меню редагування таблиці й вкладеними групами клієнтів.",
   "shot_graph": "Анімований граф показує зв'язки між нотатками, їхні заголовки та кольори груп.",
   "shot_about": "Тема Sepulchre: панель «Про програму» з версією, видавцем і налаштуваннями запуску, трея та блокування.",
   "shot_dictation": "Тема Ectoplasm: диктування поверх огляду клієнта з керуванням записом, транскрипцією та вставленням у нотатку.",
@@ -8388,7 +8388,7 @@ I18N.uk = {
  "tech_sub": "Як насправді працює блокнот: зберігання, пошук, шифрування та формати спільного доступу."
 };
 I18N.nb = {
-  "shot_workspace": "Cyanotic-tema: en kvartalsgjennomgang med en tabell over systemstatus og nestede kundegrupper.",
+  "shot_workspace": "Cyanotic-tema: en kvartalsgjennomgang med en tabell over systemstatus, menyen for tabellredigering og nestede kundegrupper.",
   "shot_graph": "Den animerte notatgrafen viser forbindelser mellom notater, med notattitler og gruppefarger.",
   "shot_about": "Sepulchre-tema: Om-panelet med versjon, utgiver og innstillinger for oppstart, systemstatusfelt og låsing.",
   "shot_dictation": "Ectoplasm-tema: Diktering over en kundegjennomgang, med kontroller for opptak, transkripsjon og innsetting i notatet.",
@@ -8872,7 +8872,7 @@ I18N.nb = {
  "tech_sub": "Hvordan notatblokka faktisk fungerer: lagring, søk, kryptering og delingsformatene."
 };
 I18N.pt = {
-  "shot_workspace": "Tema Cyanotic: uma revisão trimestral com tabela de status dos sistemas e grupos de clientes aninhados.",
+  "shot_workspace": "Tema Cyanotic: uma revisão trimestral com tabela de status dos sistemas, menu de edição de tabelas e grupos de clientes aninhados.",
   "shot_graph": "O grafo animado mostra as conexões entre notas, com seus títulos e as cores dos grupos.",
   "shot_about": "Tema Sepulchre: o painel Sobre com versão, publicador e configurações de inicialização, bandeja e bloqueio.",
   "shot_dictation": "Tema Ectoplasm: Ditado sobre uma revisão de cliente, com controles para gravar, transcrever e inserir na nota.",
