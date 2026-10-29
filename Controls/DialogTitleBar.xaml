@@ -18,8 +18,6 @@
             Height="{DynamicResource DialogTitleBarHeight}"
             MouseLeftButtonDown="Bar_MouseLeftButtonDown">
         <Grid>
-            <Border IsHitTestVisible="False" Background="{DynamicResource GrainTileBrush}"
-                    Opacity="{DynamicResource GrainOpacity}"/>
         <Grid Margin="{DynamicResource DialogTitleMargin}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <!-- The app icon leads the caption, as it does in the main title bar. -->
