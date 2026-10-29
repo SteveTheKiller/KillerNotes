@@ -134,7 +134,8 @@ namespace KillerNotes.Shell
 
             ScaleHost.Visibility = Visibility.Hidden;
             TitleSearchSlot.Visibility = Visibility.Collapsed;
-            DatabasesBtn.IsEnabled = false;
+            // DatabasesBtn stays live: Manage databases is the way to another notepad, or a new
+            // one, when this password is lost (SecurityController.ApplyLockedSelection).
             BackupWarningBtn.Visibility = Visibility.Collapsed;   // names the notepad's backup state
             PadlockGlyph.Visibility = Visibility.Collapsed;       // SaveState.cs - no notepad on screen
             LockedPanel.Visibility = Visibility.Visible;
@@ -146,7 +147,6 @@ namespace KillerNotes.Shell
             LockedPanel.Visibility = Visibility.Collapsed;
             ScaleHost.Visibility = Visibility.Visible;
             TitleSearchSlot.Visibility = Visibility.Visible;
-            DatabasesBtn.IsEnabled = true;
             foreach (var window in _hiddenForLock) window.Show();
             ShowPrivacyState();   // SaveState.cs
             _hiddenForLock.Clear();

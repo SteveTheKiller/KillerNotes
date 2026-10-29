@@ -238,9 +238,22 @@ namespace KillerNotes.Features.Security
         // the active one - can be renamed or deleted safely. Reopening afterwards reuses
         // the session password silently where it still fits.
 
+        /// <summary>Makes a database the active one. The registry setting in the app; tests point
+        /// it at the demo seam instead.</summary>
+        internal Action<string> SetActiveDatabase { get; set; } = name => App.SetSetting("ActiveDatabase", name);
+
         internal void ShowDatabases()
         {
-            if (IsLocked || !_host.SaveOpenNote()) return;
+            if (IsLocked)
+            {
+                // The locked notepad is already closed and its note put away, so the dialog can
+                // open a different one, or make a new one, without the forgotten password.
+                var pick = new DatabasesDialog { Owner = _host.Window };
+                pick.ShowDialog();
+                ApplyLockedSelection(pick.SelectedDatabase);
+                return;
+            }
+            if (!_host.SaveOpenNote()) return;
             string prevFile = NoteStore.ActiveDbFile;
             // Test restore in Backups compares a backup with these; the store is closed below.
             try { BackupService.RememberCensus(prevFile, NoteStore.Census()); } catch (SqliteException) { }
@@ -263,6 +276,27 @@ namespace KillerNotes.Features.Security
                 App.SetSetting("ActiveDatabase", prevFile);
                 Open(exitOnCancel: false);
             }
+        }
+
+        /// <summary>What Manage databases picked on the locked screen. The locked database asks for
+        /// its password; another one opens and leaves the locked screen. Nothing picked, a
+        /// canceled unlock or a failed open stays locked on the old one. True once a database is
+        /// open.</summary>
+        internal bool ApplyLockedSelection(string? selected)
+        {
+            if (!IsLocked || selected == null) return false;
+            // A rename in the dialog has already moved the active setting with the file.
+            string locked = NoteStore.ActiveDbFile;
+            bool other = !string.Equals(selected, locked, StringComparison.OrdinalIgnoreCase);
+            if (other)
+            {
+                SetActiveDatabase(selected);
+                _dbPassword = null;   // different file - its password is not ours to try
+            }
+            if (Open(exitOnCancel: false)) return true;
+            if (NoteStore.IsOpen) NoteStore.Close();
+            if (other) SetActiveDatabase(locked);
+            return false;
         }
 
         // ---- Lock button: set / change / remove the password ----

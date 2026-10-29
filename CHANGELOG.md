@@ -6,6 +6,26 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.6.1] - Unreleased
 
+1.6.1 hardens updates, keeps a locked notepad from trapping you, fixes folder picking, and moves KillerNotes onto the shared Killer Tools kit.
+
+### Fixed
+- Update and uninstall helpers load PowerShell modules only from Windows' own folder, so a module planted in your Documents cannot run inside them as administrator; a failed uninstall reports the real reason and retries when a copy is still running; a stalled update says so instead of silently doing nothing; and the window no longer freezes while an update is handed off.
+- The elevated part of an update compiles its helper code in a folder only administrators can open, so another program running as you cannot slip code into it, and an update that finished is no longer reported as failed when the app cannot be reopened afterward.
+- Updates keep working after the publisher's code signing certificate is renewed. A release must still carry a valid signature naming the same publisher, but no longer the exact certificate of the installed copy.
+- An update that cannot finish because the app did not close says so in its recovery report, the Update button stays off once an update has started, and a translation file can no longer give a setting the wrong kind of value.
+- The Databases button works on the locked screen, so another notepad can be opened, or a new one made, without the locked one's password. The locked notepad stays closed until its own password is given.
+- Exit from the tray icon brings the window back and closes it the normal way, so the prompt about a locked note's unsaved edits can call the exit off. Before, KillerNotes quit whatever the answer.
+- Picking a folder to import, to export the vault into, for backups or for the data folder takes the highlighted folder, as Explorer does. In 1.6.0, Open did nothing while a folder was highlighted, so Import a folder of notes could not be finished from a folder that held only subfolders.
+- Blood, Cyanotic and Greed load again after their rows took a cream selection gradient.
+- F3 and Shift+F3 navigate global search matches and continue between matching notes, preserving the active match through editor refreshes. (#18)
+- File dialogs stay responsive on slow or crowded folders, cancel stale loads and identify incomplete listings.
+- Dialog title bars match the rest of the dialog in every theme except 98SE. They had their own band, a lighter strip in Light and a gradient in several dark themes, and the title bar painted its film grain twice.
+- The tray icon's menu opens from the pointer upward, out of the notification area, the same way in every Killer app. A short menu no longer covers the tray icons and a taller one no longer floats about 40 pixels above them.
+- The locked screen keeps film grain when it is enabled.
+- Black table headers match the content surface, softer grain keeps dark surfaces from looking gray, and a faded theme-menu divider separates Film Grain from Fonts.
+- The file picker's recent locations and places lists are named for screen readers again, as they were in the old picker.
+- Website carousel and slide descriptions are translated in every supported language.
+
 ### Changed
 - Self-update runs on the family update code, which adds signature checks inside the update helper, pinned publication folders, same-publisher replacement and stable-only releases to every check KillerNotes already made. Installed paths, registry keys and the exe name are unchanged, and the About card keeps its keyboard focus behavior through the shared About code.
 - KillerNotes takes the family theme engine, control styles and palettes from the KillerUI template, so its buttons, captions, menus and dialogs match the other Killer apps, and Alt+drag moves any window.
@@ -14,22 +34,6 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Rail menus open beside the button that opened them, while the theme and language menus keep the pane corner, using the family flyout placement.
 - Every open, save and folder prompt uses the family file picker card, and choosing a folder gets its own Select folder button instead of a file list workaround.
 - The window chrome and caption centering come from the shared KillerUI template code. Fullscreen, corners and window placement behave the same, and caption text can sit about one pixel differently.
-
-### Fixed
-- Dialog title bars match the rest of the dialog in every theme except 98SE. They had their own band, a lighter strip in Light and a gradient in several dark themes, and the title bar painted its film grain twice.
-- Update and uninstall helpers load PowerShell modules only from Windows' own folder, so a module planted in your Documents cannot run inside them as administrator; a failed uninstall reports the real reason and retries when a copy is still running; a stalled update says so instead of silently doing nothing; and the window no longer freezes while an update is handed off.
-- An update that cannot finish because the app did not close says so in its recovery report, the Update button stays off once an update has started, and a translation file can no longer give a setting the wrong kind of value.
-- The elevated part of an update compiles its helper code in a folder only administrators can open, so another program running as you cannot slip code into it, and an update that finished is no longer reported as failed when the app cannot be reopened afterward.
-- The tray icon's menu opens from the pointer upward, out of the notification area, the same way in every Killer app. A short menu no longer covers the tray icons and a taller one no longer floats about 40 pixels above them.
-- Updates keep working after the publisher's code signing certificate is renewed. A release must still carry a valid signature naming the same publisher, but no longer the exact certificate of the installed copy.
-- Blood, Cyanotic and Greed load again after their rows took a cream selection gradient.
-- Exit from the tray icon brings the window back and closes it the normal way, so the prompt about a locked note's unsaved edits can call the exit off. Before, KillerNotes quit whatever the answer.
-- File dialogs stay responsive on slow or crowded folders, cancel stale loads and identify incomplete listings.
-- Website carousel and slide descriptions are translated in every supported language.
-- F3 and Shift+F3 navigate global search matches and continue between matching notes, preserving the active match through editor refreshes. (#18)
-- The locked screen keeps film grain when it is enabled.
-- Black table headers match the content surface, softer grain keeps dark surfaces from looking gray, and a faded theme-menu divider separates Film Grain from Fonts.
-- The file picker's recent locations and places lists are named for screen readers again, as they were in the old picker.
 
 ### Added
 - Explorer's Open with and command-line file opening support RTF, LOG, HTML and HTM files, using the same import behavior as Ctrl+O. (#29)
