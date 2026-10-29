@@ -87,6 +87,7 @@ namespace KillerNotes.Controls
             {
                 Title = Loc("Str_Bk_PickFolderTitle"),
                 InitialDirectory = BackupService.Folder ?? "",
+                AcceptHighlightedFolder = true,
             };
             string? picked = dlg.ShowDialog(this) == true ? dlg.FileName : null;
             if (string.IsNullOrWhiteSpace(picked)) return;

@@ -409,6 +409,7 @@ namespace KillerNotes.Controls
             {
                 Title = Loc("Str_Db_PickFolderTitle"),
                 InitialDirectory = current,
+                AcceptHighlightedFolder = true,
             };
             string? picked = folderDlg.ShowDialog(this) == true ? folderDlg.FileName : null;
             if (picked == null) return;

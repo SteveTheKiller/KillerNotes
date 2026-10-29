@@ -40,7 +40,7 @@ namespace KillerNotes.Shell
                 return;
             }
 
-            var dlg = new Controls.FileDialog(Controls.FileDialogMode.Folder) { Title = Loc("Str_Dlg_VaultPickFolder") };
+            var dlg = new Controls.FileDialog(Controls.FileDialogMode.Folder) { Title = Loc("Str_Dlg_VaultPickFolder"), AcceptHighlightedFolder = true };
             string? folder = dlg.ShowDialog(this) == true ? dlg.FileName : null;
             if (string.IsNullOrWhiteSpace(folder)) return;
 

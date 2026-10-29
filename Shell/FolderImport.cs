@@ -30,7 +30,8 @@ namespace KillerNotes.Shell
             if (NoteStore.IsReadOnly) { StatusText.Text = string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner); return; }
             if (!SaveCurrentNote(refreshList: false)) return;
 
-            var dlg = new Controls.FileDialog(Controls.FileDialogMode.Folder) { Title = Loc("Str_Dlg_ImportPickFolder") };
+            // A highlighted folder is the answer, as in Explorer, not the folder it sits in.
+            var dlg = new Controls.FileDialog(Controls.FileDialogMode.Folder) { Title = Loc("Str_Dlg_ImportPickFolder"), AcceptHighlightedFolder = true };
             string? folder = dlg.ShowDialog(this) == true ? dlg.FileName : null;
             if (string.IsNullOrWhiteSpace(folder)) return;
 
