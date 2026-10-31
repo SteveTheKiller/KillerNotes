@@ -12,6 +12,16 @@ namespace KillerNotes.Tests
     public sealed class HtmlConvertTests
     {
         [Fact]
+        public void AnHtmlRuleIsARuleToEveryReader() => Sta.Run(() =>
+        {
+            var doc = HtmlConvert.ToDocument("<p>above</p><hr><p>below</p>", 14);
+
+            string markdown = MarkdownWriter.FromDocument(doc, System.IO.Path.Combine(System.IO.Path.GetTempPath(), "kn-rule.md")).Markdown;
+
+            Assert.Contains("---", markdown);
+        });
+
+        [Fact]
         public void ALinkTakesItsHrefNotAnAttributeThatEndsInHref() => Sta.Run(() =>
         {
             var doc = HtmlConvert.ToDocument("<a data-href=\"https://other.example/\" href=\"https://shown.example/\">label</a>", 14);

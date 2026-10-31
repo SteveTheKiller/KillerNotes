@@ -186,6 +186,7 @@ namespace KillerNotes.Services
                         ClosePara();
                         Container.Add(new Paragraph
                         {
+                            FontSize = 2,   // the size every rule reader keys on (IsRule, HtmlExport, MarkdownWriter)
                             Margin = new Thickness(0, 4, 0, 12),
                             BorderThickness = new Thickness(0, 0, 0, 1),
                             BorderBrush = RuleBrush(),
