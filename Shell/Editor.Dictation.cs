@@ -191,9 +191,9 @@ namespace KillerNotes.Shell
         /// inlining would make every load and save of that note carry it. It is stored once by
         /// content hash when the note is saved (Editor.RecordingStore.cs); the chip names it.
         /// </summary>
-        private void EmbedRecordingInNote(byte[] wav, int durationMs, string? replaceHash, long editNoteId, string? editDatabase)
+        private EmbeddedRecording? EmbedRecordingInNote(byte[] wav, int durationMs, string? replaceHash, long editNoteId, string? editDatabase)
         {
-            if (wav.Length == 0) { StatusText.Text = Loc("Str_Dict_EmbedFailed"); return; }
+            if (wav.Length == 0) { StatusText.Text = Loc("Str_Dict_EmbedFailed"); return null; }
             var recording = new Attachment(AttachmentKind.Recording, AudioCodec.ForStorage(wav), durationMs);
 
             // Editing an existing recording replaces it where it sits rather than leaving the
@@ -226,19 +226,20 @@ namespace KillerNotes.Shell
                 // The pad outlived a note switch: rewrite the stored note it came from.
                 else if (!NoteStore.ReplaceRecordingMarker(editNoteId, replaceHash, recording))
                     throw new InvalidOperationException(Loc("Str_Dict_Missing"));
-                return;
+                return new EmbeddedRecording(recording.Hash, editNoteId, editDatabase);
             }
 
-            if (!PadBelongsHere() || !CanEditCurrentNote()) return;
+            if (!PadBelongsHere() || !CanEditCurrentNote()) return null;
             // Markdown notes store text, so the chip would be lost at the next save (Markdown.cs).
             // Transcribing to text is unaffected.
-            if (RejectsObject()) return;
+            if (RejectsObject()) return null;
 
             Remember(recording);
             var caret = Editor.CaretPosition ?? Editor.Document.ContentEnd;
             new InlineUIContainer(BuildRecordingChip(recording.Hash, durationMs), caret);
             MarkDirty();
             Editor.Focus();
+            return new EmbeddedRecording(recording.Hash, _currentId, NoteStore.DatabaseId);
         }
 
         /// <summary>The inline playback chip. Click the play glyph to play, drag the rest of it to

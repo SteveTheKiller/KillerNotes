@@ -287,6 +287,30 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
+        public void BackupDialogWillNotCloseFromTheButtonOrEscapeWhileTheCopyRuns() => WithResources(() =>
+        {
+            using var backups = new BackupFolder();
+            var dialog = new KillerNotes.Controls.BackupDialog("one.db");
+            int closing = 0;
+            dialog.Closing += (_, _) => closing++;
+            try
+            {
+                var button = Named<Button>(dialog, "BackupNowBtn");
+                Call(dialog, "BackupNow_Click", dialog, new RoutedEventArgs());
+                Assert.False(button.IsEnabled);   // the copy is still running
+
+                Call(dialog, "Close_Click", dialog, new RoutedEventArgs());
+                dialog.RaiseEvent(KeyDown(Key.Escape, Named<Button>(dialog, "DoneBtn")));
+                Assert.Equal(0, closing);
+
+                PumpUntil(() => button.IsEnabled);
+                Call(dialog, "Close_Click", dialog, new RoutedEventArgs());
+                Assert.Equal(1, closing);   // once the copy is done, Close works again
+            }
+            finally { dialog.Close(); }
+        });
+
+        [Fact]
         public void TestRestoreKeepsTheDialogFreeWhileTheCopyIsChecked() => WithResources(() =>
         {
             using var backups = new BackupFolder();

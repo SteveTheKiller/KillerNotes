@@ -41,7 +41,7 @@ namespace KillerNotes.Controls
             DialogShortcuts.Button(this, RestoreBtn, "Ctrl+R", Key.R, ModifierKeys.Control);
             DialogShortcuts.Button(this, TestRestoreBtn, "Ctrl+T", Key.T, ModifierKeys.Control);
             DialogShortcuts.Button(this, DoneBtn, "Enter", Key.Enter);
-            DialogShortcuts.Bind(this, DoneBtn, "Esc", Key.Escape, ModifierKeys.None, Close);
+            DialogShortcuts.Bind(this, DoneBtn, "Esc", Key.Escape, ModifierKeys.None, CloseUnlessBusy);
             DialogShortcuts.Describe(DoneBtn, "Enter / Esc");
             DialogShortcuts.Describe(TitleBar, "Esc");
             DialogShortcuts.Bind(this, EnableBox, "Alt+E", Key.E, ModifierKeys.Alt, () =>
@@ -160,10 +160,14 @@ namespace KillerNotes.Controls
         private async void BackupNow_Click(object sender, RoutedEventArgs e)
         {
             if (BackupService.Folder is not string folder) { DlgStatus.Text = Loc("Str_Bk_NoFolder"); return; }
+            // The open notepad's file and key are read here, on the UI thread: the worker backs up
+            // through its own connection, so autosave, MCP commands and a lock closing the store
+            // cannot reach it.
+            var live = BackupService.CaptureLive(_dbFile);
             SetBusy(true);
             try
             {
-                string path = await Task.Run(() => BackupService.BackupNow(folder, _dbFile, DateTime.Now, BackupService.Keep));
+                string path = await Task.Run(() => BackupService.BackupNow(folder, _dbFile, DateTime.Now, BackupService.Keep, live));
                 SetBusy(false);
                 Refresh();
                 DlgStatus.Text = string.Format(Loc("Str_Bk_Done"), Path.GetFileName(path));
@@ -242,6 +246,9 @@ namespace KillerNotes.Controls
             DlgStatus.Text = text;
         }
 
-        private void Close_Click(object sender, RoutedEventArgs e) => Close();
+        // Closing mid-copy would drop the result the user is waiting for.
+        private void CloseUnlessBusy() { if (!_busy) Close(); }
+
+        private void Close_Click(object sender, RoutedEventArgs e) => CloseUnlessBusy();
     }
 }

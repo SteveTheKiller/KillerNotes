@@ -2420,6 +2420,42 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             finally { SqliteConnection.ClearAllPools(); }   // release the destination file handle
         }
 
+        /// <summary>The open database's file and key, taken on the UI thread so a worker can open
+        /// its own connection to the file instead of sharing the live one.</summary>
+        public readonly record struct BackupSource(string Path, string? Password);
+
+        public static BackupSource? CaptureBackupSource() => _db == null ? null : new BackupSource(DbPath, _password);
+
+        /// <summary>Copies a database to destPath through its own connection to the file, never the
+        /// shared one, so it is safe off the UI thread while the store keeps working or closes. The
+        /// copy is keyed with the same password, like BackupTo. A writer holding the file for its
+        /// commit makes SQLite answer busy without waiting, so the copy starts over a moment later.</summary>
+        public static void BackupFrom(BackupSource source, string destPath)
+        {
+            var clock = System.Diagnostics.Stopwatch.StartNew();
+            while (true)
+            {
+                try { CopyFrom(source, destPath); return; }
+                catch (SqliteException ex) when ((ex.SqliteErrorCode == 5 || ex.SqliteErrorCode == 6) && clock.Elapsed < TimeSpan.FromSeconds(30))
+                {
+                    System.Threading.Thread.Sleep(20);
+                }
+            }
+        }
+
+        private static void CopyFrom(BackupSource source, string destPath)
+        {
+            if (File.Exists(destPath)) File.Delete(destPath);
+            var from = new SqliteConnectionStringBuilder { DataSource = source.Path, Mode = SqliteOpenMode.ReadOnly, Pooling = false };
+            var to = new SqliteConnectionStringBuilder { DataSource = destPath, Pooling = false };
+            if (!string.IsNullOrEmpty(source.Password)) { from.Password = source.Password; to.Password = source.Password; }
+            using var reader = new SqliteConnection(from.ConnectionString);
+            using var dest = new SqliteConnection(to.ConnectionString);
+            reader.Open();
+            dest.Open();
+            reader.BackupDatabase(dest);
+        }
+
         // ---- Folder import (1.6.0, Services/FolderImporter.cs) ----
         // import_sources remembers which file, at which content hash, became which note, so
         // importing the same folder again skips what already came in. It is created on first use

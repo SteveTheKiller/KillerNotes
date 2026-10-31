@@ -54,7 +54,7 @@ namespace KillerNotes.Tests
         {
             var palette = ThemeHarness.Create(Theme.Dark, ThemeHarness.FirstRunAccent(Theme.Dark));
             Application.Current.Resources.MergedDictionaries.Add(palette);
-            return new DictationWindow(null, _ => { }, (_, _, _, _, _) => { });
+            return new DictationWindow(null, _ => { }, (_, _, _, _, _) => null);
         }
 
         private static object? Get(DictationWindow pad, string name) =>

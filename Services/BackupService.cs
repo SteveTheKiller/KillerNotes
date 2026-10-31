@@ -5,9 +5,9 @@
 // A backup is the database file itself, copied as it is: an encrypted database gives an
 // encrypted copy that opens with the same password, a plain one gives a plain copy. Nothing is
 // re-encoded, so a backup is a .kndb like any other and opens by double-click or imports like a
-// shared file. While the store is open the copy is taken through SQLite's backup API on the
-// live connection, so it is consistent even mid-edit; with the store closed (the Databases
-// dialog) a file copy is the same thing.
+// shared file. While the store is open the copy is taken through SQLite's backup API on its own
+// connection to the open file, so it is consistent even mid-edit and safe off the UI thread; with
+// the store closed (the Databases dialog) a file copy is the same thing.
 //
 // Files are named "<database>-<yyyy-MM-dd-HHmm>.kndb" in the chosen folder, and the newest N
 // are kept per database. The schedule is a wall-clock interval checked on launch and every
@@ -244,9 +244,16 @@ namespace KillerNotes.Services
         /// <summary>Writes one backup of `dbFile` into the folder, checks it, stamps the moment, and
         /// prunes. Returns the path written. Throws on failure so the caller can say why, after
         /// remembering the failure for the health warning.</summary>
-        public static string BackupNow(string folder, string dbFile, DateTime now, int keep)
+        public static string BackupNow(string folder, string dbFile, DateTime now, int keep) =>
+            BackupNow(folder, dbFile, now, keep, CaptureLive(dbFile));
+
+        public static NoteStore.BackupSource? CaptureLive(string dbFile) =>
+            NoteStore.IsOpen && string.Equals(dbFile, NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase)
+                ? NoteStore.CaptureBackupSource() : null;
+
+        public static string BackupNow(string folder, string dbFile, DateTime now, int keep, NoteStore.BackupSource? live)
         {
-            try { return WriteBackup(folder, dbFile, now, keep); }
+            try { return WriteBackup(folder, dbFile, now, keep, live); }
             catch (Exception ex)
             {
                 RememberFailure(dbFile, now, ex.Message);
@@ -254,7 +261,7 @@ namespace KillerNotes.Services
             }
         }
 
-        private static string WriteBackup(string folder, string dbFile, DateTime now, int keep)
+        private static string WriteBackup(string folder, string dbFile, DateTime now, int keep, NoteStore.BackupSource? live)
         {
             Directory.CreateDirectory(folder);
             string dest = Path.Combine(folder, FileNameFor(dbFile, now));
@@ -263,10 +270,10 @@ namespace KillerNotes.Services
             string pending = dest + "." + Guid.NewGuid().ToString("N") + ".tmp";
             try
             {
-                if (NoteStore.IsOpen && string.Equals(dbFile, NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase))
+                if (live is { } origin)
                 {
-                    NoteStore.BackupTo(pending);   // the live connection: consistent, and keyed like the source
-                    NoteStore.VerifyBackupCopy(pending);
+                    NoteStore.BackupFrom(origin, pending);   // consistent, and keyed like the source
+                    VerifyCopy(pending, origin.Password);
                 }
                 else
                 {

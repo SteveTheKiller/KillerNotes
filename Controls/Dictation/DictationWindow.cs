@@ -12,6 +12,10 @@ using KillerFamily.Accessibility;
 
 namespace KillerNotes.Controls.Dictation
 {
+    /// <summary>The chip an Embed or Save changes left in a note: its recording's hash, and the
+    /// note and database it sits in. The pad keeps it so the next Save replaces that chip.</summary>
+    internal readonly record struct EmbeddedRecording(string Hash, long NoteId, string? Database);
+
     /// <summary>
     /// Dictation pad (F8). A modeless companion window, built the same way as the SketchPad: family
     /// card chrome, a themed caption band, bevels on the beveled themes, and a fade in and out.
@@ -23,8 +27,9 @@ namespace KillerNotes.Controls.Dictation
     internal sealed class DictationWindow : Window
     {
         private readonly Action<string> _printText;
-        /// <summary>The edit ordinal, note, and database travel together when the pad saves.</summary>
-        private readonly Action<byte[], int, string?, long, string?> _embedAudio;
+        /// <summary>The edit ordinal, note, and database travel together when the pad saves. What
+        /// comes back is the chip now in the note, or null when nothing was placed.</summary>
+        private readonly Func<byte[], int, string?, long, string?, EmbeddedRecording?> _embedAudio;
 
         private Border _outerBorder = null!, _bevelLight = null!, _bevelDark = null!;
         private Grid _body = null!;   // the padded content grid, for live margin re-apply on theme switch
@@ -69,7 +74,7 @@ namespace KillerNotes.Controls.Dictation
         private int _durationMs;
         private bool _closeFaded;
 
-        internal DictationWindow(Window? owner, Action<string> printText, Action<byte[], int, string?, long, string?> embedAudio)
+        internal DictationWindow(Window? owner, Action<string> printText, Func<byte[], int, string?, long, string?, EmbeddedRecording?> embedAudio)
         {
             _printText = printText;
             _embedAudio = embedAudio;
@@ -973,7 +978,15 @@ namespace KillerNotes.Controls.Dictation
             if (_wav == null) return;
             try
             {
-                _embedAudio(_wav, _durationMs, _editHash, _editNoteId, _editDatabase);
+                var placed = _embedAudio(_wav, _durationMs, _editHash, _editNoteId, _editDatabase);
+                // The chip now in the note is the one the next Embed or Save replaces, whether this
+                // press added it or replaced the one opened for editing (whose hash has just changed).
+                if (placed is { } chip)
+                {
+                    _editHash = chip.Hash;
+                    _editNoteId = chip.NoteId;
+                    _editDatabase = chip.Database;
+                }
                 _status.Text = L("Str_Dict_Embedded", "Recording embedded in the note.");
                 // Disabled after a successful embed: the take stays loaded so it can still be
                 // played or transcribed, and pressing Embed a second time would put a DUPLICATE
