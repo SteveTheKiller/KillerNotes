@@ -304,6 +304,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Je k dispozici {0} {1}</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Chcete jej nyní stáhnout a nainstalovat? Aplikace se zavře a automaticky znovu otevře.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Aktualizovat</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Aktualizaci se nepodařilo spustit.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Teď ne</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Vždy kontrolovat aktualizace při spuštění</sys:String>
 
@@ -600,6 +601,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Whisper_Base">Doporučený</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Nejpřesnější</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">již staženo</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">Soubor {0} nebyl stažen celý, proto nebyl nainstalován.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Stáhnout</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Použít tento</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Model řeči...</sys:String>
@@ -977,6 +979,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Instalace se nezdařila:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">Aplikace KillerNotes stále běží. Zavřete ji a zkuste to znovu.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Odinstalace nemohla požádat o oprávnění správce:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Odinstalovat KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Vaše poznámky zůstanou zachovány.</sys:String>
@@ -1049,6 +1052,8 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">soubor nenalezen</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">nepodporovaný formát zvuku</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">neodkazuje na něj žádná poznámka</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">propojená složka, nesledována</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">složku se nepodařilo přečíst</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Čtu složku...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Nic nového k importu. {0} souborů už bylo importováno a nezměnilo se.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Import zrušen. Nic se nezměnilo.</sys:String>

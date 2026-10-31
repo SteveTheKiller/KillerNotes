@@ -228,6 +228,7 @@
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} 已推出</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">要立即下載並安裝嗎？應用程式將關閉並自動重新開啟。</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">更新</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">無法啟動更新。&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">稍後再說</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">啟動時一律檢查更新</sys:String>
 
@@ -603,6 +604,7 @@
     <sys:String x:Key="Str_Whisper_Base">建議</sys:String>
     <sys:String x:Key="Str_Whisper_Small">最準確</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">已下載</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} 未完整下載，因此未安裝。</sys:String>
     <sys:String x:Key="Str_Whisper_Download">下載</sys:String>
     <sys:String x:Key="Str_Whisper_Use">使用這個</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">語音模型...</sys:String>
@@ -980,6 +982,7 @@
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">安裝失敗：&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">KillerNotes 仍在執行。請先關閉，然後再試一次。</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">解除安裝無法要求系統管理員權限：&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">要解除安裝 KillerNotes 嗎？</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">你的筆記會保留。</sys:String>
@@ -1052,6 +1055,8 @@
     <sys:String x:Key="Str_Imp_Why_missing">找不到檔案</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">不支援的音訊格式</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">沒有筆記連結到它</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">連結的資料夾，未跟隨</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">無法讀取資料夾</sys:String>
     <sys:String x:Key="Str_St_ImportReading">正在讀取資料夾...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">沒有新內容可匯入。{0} 個檔案先前已匯入且未變更。</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">匯入已取消，沒有任何變更。</sys:String>

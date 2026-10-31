@@ -369,6 +369,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Na voljo je {0} {1}</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Želite posodobitev prenesti in namestiti zdaj? Aplikacija se bo samodejno zaprla in znova odprla.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Posodobi</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Posodobitve ni bilo mogoče zagnati.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Ne zdaj</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Vedno preveri ob zagonu</sys:String>
     <sys:String x:Key="Str_KS_Title">Bližnjice na tipkovnici</sys:String>
@@ -545,6 +546,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Whisper_Base">Priporočeno</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Najbolj natančno</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">že preneseno</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">Datoteka {0} ni bila v celoti prenesena, zato ni bila nameščena.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Prenesi</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Uporabi tega</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Govorni model...</sys:String>
@@ -887,6 +889,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Da</sys:String>
     <sys:String x:Key="Str_Btn_No">Ne</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Namestitev ni uspela:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">KillerNotes še vedno deluje. Zaprite aplikacijo in poskusite znova.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Odstranjevalnik ni mogel zahtevati skrbniškega dostopa:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Odstranim KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Vaši zapiski bodo ohranjeni.</sys:String>
@@ -959,6 +962,8 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">datoteke ni mogoče najti</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">zvočna oblika ni podprta</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">nobena povezava ne kaže nanjo</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">povezana mapa, ni upoštevana</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">mape ni bilo mogoče prebrati</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Branje mape...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Ničesar novega za uvoz. {0} datotek je bilo že uvoženih in se niso spremenile.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Uvoz preklican. Nič se ni spremenilo.</sys:String>

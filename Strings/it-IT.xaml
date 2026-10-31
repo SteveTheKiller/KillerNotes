@@ -421,6 +421,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">È disponibile {0} {1}</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Vuoi scaricarlo e installarlo ora? L'app si chiuderà e si riaprirà automaticamente.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Aggiorna</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Impossibile avviare l'aggiornamento.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Non ora</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">All'avvio controlla sempre aggiornamenti</sys:String>
 
@@ -611,6 +612,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Whisper_Base">Consigliato</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Il più accurato</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">già scaricato</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} non è stato scaricato completamente, quindi non è stato installato.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Scarica</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Usa questo</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Modello vocale...</sys:String>
@@ -988,6 +990,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installazione non riuscita:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">L'app KillerNotes è ancora aperta. Chiudila e riprova.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">La disinstallazione non ha potuto richiedere l'accesso da amministratore:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Disinstallare KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Le tue note verranno conservate.</sys:String>
@@ -1060,6 +1063,8 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">file non trovato</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">formato audio non supportato</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">non collegato da nessuna nota</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">cartella collegata, non seguita</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">impossibile leggere la cartella</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Lettura della cartella...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Niente di nuovo da importare. {0} file sono già stati importati e non sono cambiati.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Importazione annullata. Non è cambiato nulla.</sys:String>

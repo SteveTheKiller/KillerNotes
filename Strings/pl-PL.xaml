@@ -350,6 +350,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">Dostępny jest {0} {1}</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Czy chcesz go teraz pobrać i zainstalować? Aplikacja zamknie się i otworzy ponownie automatycznie.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Aktualizuj</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Nie udało się uruchomić aktualizacji.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Nie teraz</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Zawsze sprawdzaj aktualizacje przy uruchamianiu</sys:String>
     <sys:String x:Key="Str_KS_Title">Skróty klawiaturowe</sys:String>
@@ -526,6 +527,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Whisper_Base">Zalecany</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Najdokładniejszy</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">już pobrany</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">Plik {0} nie został pobrany w całości, więc nie został zainstalowany.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Pobierz</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Użyj tego</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Model mowy...</sys:String>
@@ -907,6 +909,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Instalacja nie powiodła się:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">Aplikacja KillerNotes nadal działa. Zamknij ją i spróbuj ponownie.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Dezinstalacja nie mogła poprosić o uprawnienia administratora:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Odinstalować KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Twoje notatki zostaną zachowane.</sys:String>
@@ -979,6 +982,8 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">nie znaleziono pliku</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">nieobsługiwany format dźwięku</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">żadna notatka do niego nie linkuje</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">folder połączony linkiem, pominięty</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">nie udało się odczytać folderu</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Czytanie folderu...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Nic nowego do zaimportowania. {0} plików zaimportowano wcześniej i się nie zmieniły.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Import anulowany. Nic nie zmieniono.</sys:String>

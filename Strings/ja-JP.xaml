@@ -228,6 +228,7 @@
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} が利用可能です</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">今すぐダウンロードしてインストールしますか？アプリは終了し、自動的に再起動します。</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">更新</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">更新を開始できませんでした。&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">後で</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">起動時に常に更新を確認する</sys:String>
 
@@ -601,6 +602,7 @@
     <sys:String x:Key="Str_Whisper_Base">推奨</sys:String>
     <sys:String x:Key="Str_Whisper_Small">最も高精度</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">ダウンロード済み</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} のダウンロードが完了しなかったため、インストールされませんでした。</sys:String>
     <sys:String x:Key="Str_Whisper_Download">ダウンロード</sys:String>
     <sys:String x:Key="Str_Whisper_Use">これを使う</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">音声モデル...</sys:String>
@@ -978,6 +980,7 @@
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">インストールに失敗しました：&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">KillerNotes がまだ実行中です。閉じてからもう一度お試しください。</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">アンインストールで管理者権限を要求できませんでした：&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">KillerNotes をアンインストールしますか？</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">ノートは保持されます。</sys:String>
@@ -1050,6 +1053,8 @@
     <sys:String x:Key="Str_Imp_Why_missing">ファイルが見つからない</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">対応していない音声形式</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">どのノートからもリンクされていない</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">リンクされたフォルダー、たどっていない</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">フォルダーを読み取れなかった</sys:String>
     <sys:String x:Key="Str_St_ImportReading">フォルダーを読み込んでいます...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">新しくインポートするものはありません。{0} 個のファイルはインポート済みで変更がありません。</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">インポートを取り消しました。何も変更されていません。</sys:String>

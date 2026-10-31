@@ -448,6 +448,7 @@
     <sys:String x:Key="Str_About_StartupUpdateHeading">Доступний {0} {1}</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Завантажити та встановити зараз? Програма закриється та відкриється знову автоматично.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Оновити</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Не вдалося запустити оновлення.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Не зараз</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Завжди перевіряти під час запуску</sys:String>
 
@@ -644,6 +645,7 @@
     <sys:String x:Key="Str_Whisper_Base">Рекомендована</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Найточніша</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">вже завантажено</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">Файл {0} завантажено не повністю, тому його не встановлено.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Завантажити</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Використовувати цю</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Модель мовлення...</sys:String>
@@ -1027,6 +1029,7 @@
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Не вдалося інсталювати:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">Застосунок KillerNotes досі працює. Закрийте його та повторіть спробу.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Видалення не змогло запросити права адміністратора:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Видалити KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Ваші нотатки буде збережено.</sys:String>
@@ -1099,6 +1102,8 @@
     <sys:String x:Key="Str_Imp_Why_missing">файл не знайдено</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">формат звуку не підтримується</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">жодна нотатка не посилається</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">папка-посилання, перехід пропущено</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">не вдалося прочитати папку</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Читання папки...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Нічого імпортувати. Файлів, уже імпортованих без змін: {0}.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Імпорт скасовано. Нічого не змінилося.</sys:String>

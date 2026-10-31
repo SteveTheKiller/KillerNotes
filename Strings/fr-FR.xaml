@@ -229,6 +229,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} est disponible</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Voulez-vous le télécharger et l'installer maintenant ? L'application se fermera et rouvrira automatiquement.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Mettre à jour</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">La mise à jour n'a pas pu démarrer.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Pas maintenant</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Toujours rechercher les mises à jour au démarrage</sys:String>
 
@@ -603,6 +604,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Whisper_Base">Recommandé</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Le plus précis</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">déjà téléchargé</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} n'a pas été entièrement téléchargé, il n'a donc pas été installé.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Télécharger</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Utiliser celui-ci</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Modèle vocal...</sys:String>
@@ -981,6 +983,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Échec de l'installation :&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">L'application KillerNotes est toujours ouverte. Fermez-la et réessayez.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">La désinstallation n'a pas pu demander les droits d'administrateur :&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Désinstaller KillerNotes ?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Vos notes seront conservées.</sys:String>
@@ -1053,6 +1056,8 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">fichier introuvable</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">format audio non pris en charge</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">lié par aucune note</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">dossier lié, non suivi</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">le dossier n'a pas pu être lu</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Lecture du dossier...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Rien de nouveau à importer. {0} fichiers ont déjà été importés et n'ont pas changé.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Import annulé. Rien n'a été modifié.</sys:String>

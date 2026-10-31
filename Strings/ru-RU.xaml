@@ -421,6 +421,7 @@
     <sys:String x:Key="Str_About_StartupUpdateHeading">Доступен {0} {1}</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Хотите скачать и установить его сейчас? Приложение закроется и снова откроется автоматически.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Обновить</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Не удалось запустить обновление.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Не сейчас</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Всегда проверять обновления при запуске</sys:String>
 
@@ -611,6 +612,7 @@
     <sys:String x:Key="Str_Whisper_Base">Рекомендуемая</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Самая точная</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">уже загружена</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">Файл {0} загружен не полностью, поэтому не был установлен.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Загрузить</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Использовать эту</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Модель распознавания речи...</sys:String>
@@ -988,6 +990,7 @@
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Не удалось установить:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">Приложение KillerNotes всё ещё запущено. Закройте его и повторите попытку.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Удаление не смогло запросить права администратора:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Удалить KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Ваши заметки будут сохранены.</sys:String>
@@ -1060,6 +1063,8 @@
     <sys:String x:Key="Str_Imp_Why_missing">файл не найден</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">формат звука не поддерживается</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">ни одна заметка не ссылается</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">папка-ссылка, переход пропущен</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">не удалось прочитать папку</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Чтение папки...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Нечего импортировать. Файлов, уже импортированных без изменений: {0}.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Импорт отменён. Ничего не изменилось.</sys:String>

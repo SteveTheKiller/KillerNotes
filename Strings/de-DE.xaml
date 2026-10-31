@@ -229,6 +229,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} ist verfügbar</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Möchten Sie diese Version jetzt herunterladen und installieren? Die App wird geschlossen und automatisch neu geöffnet.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Aktualisieren</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Das Update konnte nicht gestartet werden.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Nicht jetzt</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Beim Start immer nach Updates suchen</sys:String>
 
@@ -602,6 +603,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Whisper_Base">Empfohlen</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Am genauesten</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">bereits heruntergeladen</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} wurde nicht vollständig heruntergeladen und deshalb nicht installiert.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Herunterladen</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Dieses verwenden</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Sprachmodell...</sys:String>
@@ -980,6 +982,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installation fehlgeschlagen:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">KillerNotes läuft noch. Schließe die App und versuche es erneut.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Die Deinstallation konnte keine Administratorrechte anfordern:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">KillerNotes deinstallieren?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Deine Notizen bleiben erhalten.</sys:String>
@@ -1052,6 +1055,8 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">Datei nicht gefunden</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">Audioformat nicht unterstützt</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">von keiner Notiz verlinkt</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">verlinkter Ordner, nicht verfolgt</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">Ordner konnte nicht gelesen werden</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Ordner wird gelesen...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Nichts Neues zu importieren. {0} Dateien wurden schon importiert und sind unverändert.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Import abgebrochen. Es wurde nichts geändert.</sys:String>

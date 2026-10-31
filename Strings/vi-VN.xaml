@@ -449,6 +449,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_About_StartupUpdateHeading">Phiên bản {0} {1} đã có sẵn</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Bạn có muốn tải xuống và cài đặt ngay bây giờ không? Ứng dụng sẽ tự động đóng và mở lại.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Cập nhật</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Không thể bắt đầu cập nhật.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Để sau</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Luôn kiểm tra khi khởi động</sys:String>
 
@@ -646,6 +647,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Whisper_Base">Khuyên dùng</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Chính xác nhất</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">đã tải xuống</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} chưa được tải xuống đầy đủ nên chưa được cài đặt.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Tải xuống</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Dùng mô hình này</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Mô hình giọng nói...</sys:String>
@@ -1031,6 +1033,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Cài đặt thất bại:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">KillerNotes vẫn đang chạy. Hãy đóng ứng dụng rồi thử lại.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Trình gỡ cài đặt không thể yêu cầu quyền quản trị:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Gỡ cài đặt KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Ghi chú của bạn sẽ được giữ lại.</sys:String>
@@ -1103,6 +1106,8 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Imp_Why_missing">không tìm thấy tệp</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">định dạng âm thanh không được hỗ trợ</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">không ghi chú nào liên kết tới</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">thư mục liên kết, không đi theo</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">không đọc được thư mục</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Đang đọc thư mục...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Không có gì mới để nhập. {0} tệp đã được nhập trước đây và không thay đổi.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Đã hủy nhập. Không có gì thay đổi.</sys:String>

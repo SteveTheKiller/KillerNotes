@@ -446,6 +446,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} er tilgjengelig</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Vil du laste den ned og installere den nå? Appen lukkes og åpnes på nytt automatisk.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Oppdater</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Oppdateringen kunne ikke starte.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Ikke nå</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Se alltid etter ved oppstart</sys:String>
 
@@ -642,6 +643,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Whisper_Base">Anbefalt</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Mest nøyaktig</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">allerede lastet ned</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} ble ikke lastet ned fullstendig, så den ble ikke installert.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Last ned</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Bruk denne</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Talemodell...</sys:String>
@@ -1025,6 +1027,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installasjonen mislyktes:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">KillerNotes kjører fortsatt. Lukk den og prøv igjen.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Avinstalleringen kunne ikke be om administratortilgang:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">Avinstallere KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Notatene dine blir beholdt.</sys:String>
@@ -1097,6 +1100,8 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">fant ikke filen</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">lydformatet støttes ikke</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">ingen notater lenker til den</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">lenket mappe, ikke fulgt</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">kunne ikke lese mappen</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Leser mappen...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Ingenting nytt å importere. {0} filer er importert før og har ikke endret seg.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Importen ble avbrutt. Ingenting ble endret.</sys:String>

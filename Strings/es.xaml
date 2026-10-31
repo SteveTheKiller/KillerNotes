@@ -230,6 +230,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} está disponible</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">¿Quieres descargarlo e instalarlo ahora? La aplicación se cerrará y volverá a abrirse automáticamente.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Actualizar</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">No se pudo iniciar la actualización.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Ahora no</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Buscar siempre actualizaciones al iniciar</sys:String>
 
@@ -603,6 +604,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Whisper_Base">Recomendado</sys:String>
     <sys:String x:Key="Str_Whisper_Small">El más preciso</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">ya descargado</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} no se descargó por completo, así que no se instaló.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Descargar</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Usar este</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Modelo de voz...</sys:String>
@@ -981,6 +983,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">La instalación falló:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">KillerNotes sigue abierta. Ciérrala e inténtalo de nuevo.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">La desinstalación no pudo solicitar acceso de administrador:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">¿Desinstalar KillerNotes?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Tus notas se conservarán.</sys:String>
@@ -1053,6 +1056,8 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">archivo no encontrado</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">formato de audio no compatible</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">ninguna nota lo enlaza</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">carpeta enlazada, no seguida</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">no se pudo leer la carpeta</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Leyendo la carpeta...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">No hay nada nuevo que importar. {0} archivos ya se importaron y no han cambiado.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Importación cancelada. No se cambió nada.</sys:String>

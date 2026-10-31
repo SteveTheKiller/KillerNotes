@@ -229,6 +229,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} kullanılabilir</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Şimdi indirip yüklemek ister misiniz? Uygulama kapanacak ve otomatik olarak yeniden açılacak.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Güncelle</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Güncelleme başlatılamadı.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Şimdi değil</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Başlangıçta her zaman güncellemeleri denetle</sys:String>
 
@@ -603,6 +604,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Whisper_Base">Önerilen</sys:String>
     <sys:String x:Key="Str_Whisper_Small">En isabetli</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">zaten indirildi</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} tamamen indirilmedi, bu yüzden kurulmadı.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">İndir</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Bunu kullan</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Konuşma modeli...</sys:String>
@@ -980,6 +982,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Kurulum başarısız oldu:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">KillerNotes hâlâ çalışıyor. Kapatıp yeniden deneyin.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Kaldırma işlemi yönetici erişimi isteyemedi:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">KillerNotes kaldırılsın mı?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Notlarınız korunacak.</sys:String>
@@ -1052,6 +1055,8 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">dosya bulunamadı</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">ses biçimi desteklenmiyor</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">hiçbir not bağlantı vermiyor</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">bağlantılı klasör, izlenmedi</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">klasör okunamadı</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Klasör okunuyor...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">İçe aktarılacak yeni bir şey yok. {0} dosya daha önce içe aktarıldı ve değişmedi.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">İçe aktarma iptal edildi. Hiçbir şey değişmedi.</sys:String>

@@ -228,6 +228,7 @@
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} উপলব্ধ</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">এখনই এটি ডাউনলোড করে ইনস্টল করবেন? অ্যাপটি বন্ধ হয়ে স্বয়ংক্রিয়ভাবে আবার খুলবে।</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">আপডেট</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">আপডেট শুরু করা যায়নি।&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">এখন নয়</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">অ্যাপ চালু হলে সর্বদা আপডেট পরীক্ষা করুন</sys:String>
 
@@ -603,6 +604,7 @@
     <sys:String x:Key="Str_Whisper_Base">প্রস্তাবিত</sys:String>
     <sys:String x:Key="Str_Whisper_Small">সবচেয়ে নির্ভুল</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">আগেই ডাউনলোড করা</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} পুরোপুরি ডাউনলোড হয়নি, তাই ইনস্টল করা হয়নি।</sys:String>
     <sys:String x:Key="Str_Whisper_Download">ডাউনলোড</sys:String>
     <sys:String x:Key="Str_Whisper_Use">এটিই ব্যবহার করুন</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">স্পিচ মডেল...</sys:String>
@@ -980,6 +982,7 @@
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">ইনস্টলেশন ব্যর্থ হয়েছে:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">KillerNotes এখনও চলছে। এটি বন্ধ করে আবার চেষ্টা করুন।</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">আনইনস্টল প্রশাসকের অনুমতি চাইতে পারেনি:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">KillerNotes আনইনস্টল করবেন?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">আপনার নোট রাখা হবে।</sys:String>
@@ -1052,6 +1055,8 @@
     <sys:String x:Key="Str_Imp_Why_missing">ফাইল পাওয়া যায়নি</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">অডিও ফরম্যাট সমর্থিত নয়</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">কোনো নোট এর লিংক দেয় না</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">লিংক করা ফোল্ডার, অনুসরণ করা হয়নি</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">ফোল্ডার পড়া যায়নি</sys:String>
     <sys:String x:Key="Str_St_ImportReading">ফোল্ডার পড়া হচ্ছে...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">ইমপোর্টর মতো নতুন কিছু নেই। {0}টি ফাইল আগে ইমপোর্ট হয়েছে এবং বদলায়নি।</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">ইমপোর্ট বাতিল হয়েছে। কিছুই বদলায়নি।</sys:String>

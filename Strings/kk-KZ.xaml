@@ -421,6 +421,7 @@
     <sys:String x:Key="Str_About_StartupUpdateHeading">{0} {1} қолжетімді</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Оны қазір жүктеп, орнатқыңыз келе ме? Қолданба автоматты түрде жабылып, қайта ашылады.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Жаңарту</sys:String>
+    <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Жаңартуды бастау мүмкін болмады.&#10;{0}</sys:String>
     <sys:String x:Key="Str_About_NotNow">Қазір емес</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Іске қосылғанда жаңартуларды әрдайым тексеру</sys:String>
 
@@ -611,6 +612,7 @@
     <sys:String x:Key="Str_Whisper_Base">Ұсынылады</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Ең дәл</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">әлдеқашан жүктелген</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} толық жүктелмеді, сондықтан орнатылмады.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Жүктеу</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Осыны пайдалану</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Сөзді тану моделі...</sys:String>
@@ -988,6 +990,7 @@
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Орнату сәтсіз аяқталды:&#10;{0}</sys:String>
+    <sys:String x:Key="Str_Dlg_AppRunning">KillerNotes әлі жұмыс істеп тұр. Оны жауып, қайталап көріңіз.</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallElevateFailed" xml:space="preserve">Жою әкімші рұқсатын сұрай алмады:&#10;{0}</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallConfirm">KillerNotes жою керек пе?</sys:String>
     <sys:String x:Key="Str_Dlg_UninstallKeepNotes">Жазбаларыңыз сақталады.</sys:String>
@@ -1060,6 +1063,8 @@
     <sys:String x:Key="Str_Imp_Why_missing">файл табылмады</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">дыбыс пішімі қолдау көрмейді</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">ешбір жазба сілтемейді</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">сілтемелі қалта, ілеспеген</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">қалтаны оқу мүмкін болмады</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Қалта оқылуда...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Импорттайтын жаңа ештеңе жоқ. {0} файл бұрын импортталған және өзгермеген.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Импорт тоқтатылды. Ештеңе өзгермеді.</sys:String>
