@@ -575,7 +575,11 @@ namespace KillerNotes.Controls
             {
                 if (e.ChangedButton != MouseButton.Left) return;
                 if (e.ClickCount == 2) ToggleMaximize();
-                else if (WindowState != WindowState.Maximized) DragMove();
+                else if (WindowState != WindowState.Maximized)
+                {
+                    try { DragMove(); }
+                    catch (InvalidOperationException) { }   // the button was already up
+                }
             };
 
             var mark = (FrameworkElement)DialogChrome.Wordmark(title);
@@ -1004,8 +1008,9 @@ namespace KillerNotes.Controls
                     {
                         _nodes[i].FromX = _nodes[i].X;
                         _nodes[i].FromY = _nodes[i].Y;
-                        _nodes[i].ToX = _solvedX[i];
-                        _nodes[i].ToY = _solvedY[i];
+                        // The solver ignores locks, so a locked note's result is thrown away here.
+                        _nodes[i].ToX = _nodes[i].Locked ? _nodes[i].X : _solvedX[i];
+                        _nodes[i].ToY = _nodes[i].Locked ? _nodes[i].Y : _solvedY[i];
                     }
                     _easeStart = DateTime.UtcNow;
                     _ease.Start();
@@ -1789,9 +1794,24 @@ namespace KillerNotes.Controls
             // visualizer; during a plain drag the box is used solely for the clamp at the end.
             double cx = (bl + br) / 2, cy = (bt + bb) / 2;
 
+            // During a drag only the live set moves; everything else is frozen below. A pair with
+            // no member in the live set can only push nodes that are about to be frozen, so it is
+            // never visited: a frozen node pairs only with the live nodes after it.
+            int[]? liveIdx = null;
+            if (!_visualizer)
+            {
+                var found = new List<int>();
+                for (int i = 0; i < n; i++) if (_liveSet.Contains(_nodes[i])) found.Add(i);
+                liveIdx = [.. found];
+            }
             for (int i = 0; i < n; i++)
-                for (int j = i + 1; j < n; j++)
+            {
+                bool iLive = liveIdx == null || _liveSet.Contains(_nodes[i]);
+                int lo = i + 1, hi = n;
+                if (!iLive) { int p = Array.BinarySearch(liveIdx!, i); lo = ~p; hi = liveIdx!.Length; }
+                for (int jj = lo; jj < hi; jj++)
                 {
+                    int j = iLive ? jj : liveIdx![jj];
                     var a = _nodes[i]; var b = _nodes[j];
                     double dx = a.X - b.X, dy = a.Y - b.Y;
                     double d2 = dx * dx + dy * dy;
@@ -1821,6 +1841,7 @@ namespace KillerNotes.Controls
                         b.VX -= dx * push; b.VY -= dy * push;
                     }
                 }
+            }
 
             foreach (var (a, b) in _edges)
             {
@@ -2150,6 +2171,10 @@ namespace KillerNotes.Controls
                 e.Handled = true;
                 return;
             }
+            // The letter shortcuts below are for the bare key. With Ctrl held it is one of the
+            // usual chords (refresh, print, paste, find), which must not rearrange or toggle
+            // anything here. Enter still opens the node.
+            if ((Keyboard.Modifiers & ModifierKeys.Control) != 0 && e.Key != Key.Enter) return;
             if (e.Key == Key.R) { ArrangeForce(); e.Handled = true; return; }
             if (e.Key == Key.C && (Keyboard.Modifiers & ModifierKeys.Control) == 0) { ArrangeCircle(); e.Handled = true; return; }
             if (e.Key == Key.G) { ArrangeGrid(); e.Handled = true; return; }
@@ -2472,8 +2497,9 @@ namespace KillerNotes.Controls
                 var b = byGroup ? v.GroupBrush : v.Accent;
                 v.Dot.Fill = b;
                 // Never overwrite a selection ring - recoloring while something is selected would
-                // silently drop the one thing telling you what you had chosen.
-                if (!_selected.Contains(v)) v.Dot.Stroke = b;
+                // silently drop the one thing telling you what you had chosen. The outline owns
+                // every other ring too (lock), so it decides what the stroke is.
+                if (!_selected.Contains(v)) ApplyNodeOutline(v);
             }
         }
 
@@ -2672,7 +2698,9 @@ namespace KillerNotes.Controls
                     string pick = name;
                     var row = new MenuItem { Header = pick };
                     DialogShortcuts.Describe(row, "Alt+A, ↑/↓, Enter");
-                    row.Click += (_, _) => ApplyLayout(pick);
+                    // Saved coordinates are canvas pixels from whatever size the window was then, so
+                    // they are fitted to the room there is now.
+                    row.Click += (_, _) => { if (ApplyLayout(pick)) FitAllIntoView(); };
                     _miArrange.Items.Add(row);
                 }
             }
@@ -2988,8 +3016,10 @@ namespace KillerNotes.Controls
             foreach (var v in _nodes)
             {
                 bool on = keep.Contains(v);
-                v.Dot.Visibility = v.Label.Visibility = on ? Visibility.Visible : Visibility.Collapsed;
+                v.Dot.Visibility = on ? Visibility.Visible : Visibility.Collapsed;
+                if (!on) v.Label.Visibility = Visibility.Collapsed;
             }
+            ApplyLabelVisibility();   // the Show labels toggle still owns the labels of what is kept
             // Edges need no hiding of their own now: they are one geometry, and Paint skips any
             // edge whose endpoints are not both visible.
             Paint();
@@ -3001,7 +3031,8 @@ namespace KillerNotes.Controls
         private void ClearIsolation()
         {
             if (!_isolated) return;
-            foreach (var v in _nodes) v.Dot.Visibility = v.Label.Visibility = Visibility.Visible;
+            foreach (var v in _nodes) v.Dot.Visibility = Visibility.Visible;
+            ApplyLabelVisibility();   // the Show labels toggle still owns whether labels are shown
             _isolated = false;
             ApplyGhostVisibility();   // the ghost toggle still owns whether those are shown
             Paint();

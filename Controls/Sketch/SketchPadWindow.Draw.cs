@@ -14,6 +14,15 @@ namespace KillerNotes.Controls.Sketch
         // Live preview element for the in-progress gesture (never part of _objects).
         private void UpdatePreview(Point cur)
         {
+            // A stroke only ever gains points, so the one preview line takes the new ones; building
+            // it again from every point so far made each mouse move cost more than the last.
+            if (_tool == Tool.Pen && _previewEl is Polyline live && live.Points.Count * 2 < _gesturePts.Count
+                && _canvas.Children.Contains(live))
+            {
+                for (int i = live.Points.Count * 2; i + 1 < _gesturePts.Count; i += 2)
+                    live.Points.Add(new Point(_gesturePts[i], _gesturePts[i + 1]));
+                return;
+            }
             RemovePreview();
             UIElement? el = _tool switch
             {

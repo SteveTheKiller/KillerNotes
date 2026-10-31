@@ -87,6 +87,23 @@ namespace KillerNotes.Controls.Sketch
             if (_tool != Tool.Eraser && _tool != Tool.Select) CommitGesture(p);
         }
 
+        // The capture went to something else mid-gesture, so no button-up will arrive. Finish the
+        // gesture as a release at the pointer would (CanvasUp clears each flag before it lets go of
+        // the capture, so this is a no-op on a normal release).
+        private void EndGesture()
+        {
+            _resizing = false;
+            _curving = false;
+            if (_dragging)
+            {
+                _dragging = false;
+                var p = Clamp(Mouse.GetPosition(_canvas));
+                RemovePreview();
+                if (_tool != Tool.Eraser && _tool != Tool.Select) CommitGesture(p);
+            }
+            DragCursors.EndDrag();
+        }
+
         // ---- Select / move ----
 
         private void SelectDown(Point p)
@@ -391,7 +408,7 @@ namespace KillerNotes.Controls.Sketch
             else
             {
                 menu.Items.Add(Mi(L("Str_Sketch_AddImageMenu", "Add image..."), 0xE91B, AddImageFromFile));
-                if (Clipboard.ContainsImage()) menu.Items.Add(Mi(L("Str_Sketch_PasteImage", "Paste image"), 0xE77F, PasteImage));
+                if (ClipboardHasImage()) menu.Items.Add(Mi(L("Str_Sketch_PasteImage", "Paste image"), 0xE77F, PasteImage));
                 menu.Items.Add(Sep());
                 var clear = Mi(L("Str_Sketch_Clear", "Clear all"), 0xE894, ClearAll);
                 clear.IsEnabled = _objects.Count > 0;
@@ -462,9 +479,20 @@ namespace KillerNotes.Controls.Sketch
             RenderCanvas();
         }
 
+        // Another program holding the clipboard open makes WPF throw rather than answer; to the
+        // pad that is the same as there being no image to paste.
+        private static bool ClipboardHasImage()
+        {
+            try { return Clipboard.ContainsImage(); }
+            catch { return false; }
+        }
+
         private void PasteImage()
         {
-            if (Clipboard.ContainsImage() && Clipboard.GetImage() is BitmapSource src) AddImage(src, null);
+            BitmapSource? src = null;
+            try { if (Clipboard.ContainsImage()) src = Clipboard.GetImage(); }
+            catch { /* clipboard busy - nothing to paste */ }
+            if (src != null) AddImage(src, null);
         }
     }
 }

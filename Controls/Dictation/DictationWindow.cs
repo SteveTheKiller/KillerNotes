@@ -177,6 +177,7 @@ namespace KillerNotes.Controls.Dictation
             // The take only ever lived in memory, so closing without embedding leaves no audio of
             // the user anywhere on disk.
             _playTick?.Stop();
+            _scrubTick?.Stop();
             DictationPlayer.Stop();
             _wav = null;
             if (Anim.FadeOutAndClose(this, ref _closeFaded)) { e.Cancel = true; return; }
@@ -385,7 +386,7 @@ namespace KillerNotes.Controls.Dictation
             _wave.MouseMove += (_, ev) =>
             {
                 if (_wav == null || !_wave.IsMouseCaptured || ev.LeftButton != MouseButtonState.Pressed) return;
-                SeekTo(_wave.FractionAt(ev.GetPosition(_wave).X));
+                ScrubTo(_wave.FractionAt(ev.GetPosition(_wave).X));
             };
             _wave.MouseLeftButtonUp += (_, _) => _wave.ReleaseMouseCapture();
             // Right-click selects the segment under the cursor and opens the editing menu, so the
@@ -595,6 +596,12 @@ namespace KillerNotes.Controls.Dictation
             // Starting a new take discards the previous one - two recordings in one window would
             // leave the embed button ambiguous about which it means.
             _wav = null;
+            // The old take's playback, undo step and slice marks go with it: left running, the
+            // speaker feeds the old audio into the new recording, and the leftovers would act on
+            // audio they were never made for.
+            StopPlayback();
+            _undo = null;
+            _wave.ClearCuts();
             _playBtn.IsEnabled = _embedBtn.IsEnabled = _transcribeBtn.IsEnabled = false;
 
             if (!DictationRecorder.Start())
@@ -781,6 +788,9 @@ namespace KillerNotes.Controls.Dictation
             // at the audio they were placed against. Clearing is honest; rescaling would silently
             // move every mark to somewhere the user did not put it.
             _wave.ClearCuts();
+            // Embed or Save switched this off for the take as it was; an edit makes it a different
+            // take that has not been saved.
+            _embedBtn.IsEnabled = true;
             _elapsed.Text = Format(_durationMs);
             _status.Text = L("Str_Dict_Edited", "Edited. Play it back, or transcribe it again.");
             _wave.Progress = keepAt > 0 ? Math.Min(1, keepAt) : -1;
@@ -878,6 +888,23 @@ namespace KillerNotes.Controls.Dictation
 
             _wave.Progress = fraction;
             SyncPlayButton();
+        }
+
+        private System.Windows.Threading.DispatcherTimer? _scrubTick;
+        private double _scrubAt;
+
+        /// <summary>A seek restarts playback from the new spot - it reopens the audio device and
+        /// copies the rest of the take - so a drag, which reports the mouse many times a second,
+        /// only remembers where it is now and seeks there once per short interval.</summary>
+        private void ScrubTo(double fraction)
+        {
+            _scrubAt = fraction;
+            if (_scrubTick == null)
+            {
+                _scrubTick = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(40) };
+                _scrubTick.Tick += (_, _) => { _scrubTick.Stop(); SeekTo(_scrubAt); };
+            }
+            if (!_scrubTick.IsEnabled) _scrubTick.Start();
         }
 
         private void Transcribe()

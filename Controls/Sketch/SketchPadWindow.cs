@@ -178,8 +178,9 @@ namespace KillerNotes.Controls.Sketch
             _canvas.MouseLeftButtonDown += CanvasDown;
             _canvas.MouseMove += CanvasMove;
             // A capture lost to a dialog or an alt-tab never reaches CanvasUp, which would leave
-            // the fist overriding the cursor app-wide for the rest of the session.
-            _canvas.LostMouseCapture += (_, _) => DragCursors.EndDrag();
+            // the fist overriding the cursor app-wide for the rest of the session, and the gesture
+            // following a pointer whose button is up.
+            _canvas.LostMouseCapture += (_, _) => EndGesture();
             _canvas.MouseLeftButtonUp += CanvasUp;
             _canvas.MouseRightButtonDown += OnCanvasRightDown;   // context menu (object vs empty canvas)
             _canvas.MouseWheel += OnWheel;                       // scroll over a placed image = its opacity

@@ -43,11 +43,16 @@ namespace KillerNotes.Models
         [DataMember(Order = 13)] public bool Backdrop { get; set; }
         [DataMember(Order = 14)] public double Opacity { get; set; } = 1;   // images; 0 (legacy/missing) reads as fully opaque
 
+        // The decoded form of Img, so a canvas rebuild does not decode the PNG again. Not part of
+        // the saved document; it is valid only while DecodedFrom is the same string as Img.
+        internal string? DecodedFrom;
+        internal BitmapImage? Decoded;
+
         public SketchObject Clone() => new()
         {
             Kind = Kind, Color = Color, Width = Width, Fill = Fill, Pts = [..Pts],
             Text = Text, FontSize = FontSize, Bold = Bold, Img = Img, X = X, Y = Y, W = W, H = H,
-            Backdrop = Backdrop, Opacity = Opacity,
+            Backdrop = Backdrop, Opacity = Opacity, DecodedFrom = DecodedFrom, Decoded = Decoded,
         };
     }
 
@@ -227,13 +232,23 @@ namespace KillerNotes.Models
         {
             var img = new Image
             {
-                Source = FromB64(o.Img),
+                Source = Decode(o),
                 Stretch = o.Backdrop ? Stretch.Uniform : Stretch.Fill,
                 Opacity = o.Opacity <= 0 ? 1.0 : Math.Min(1.0, o.Opacity),   // 0 = legacy/missing = fully opaque
             };
             if (o.Backdrop) { Canvas.SetLeft(img, 0); Canvas.SetTop(img, 0); img.Width = Sketch.CanvasW; img.Height = Sketch.CanvasH; }
             else { Canvas.SetLeft(img, o.X); Canvas.SetTop(img, o.Y); img.Width = o.W; img.Height = o.H; }
             return img;
+        }
+
+        private static BitmapImage? Decode(SketchObject o)
+        {
+            if (o.Decoded == null || !string.Equals(o.DecodedFrom, o.Img, StringComparison.Ordinal))
+            {
+                o.Decoded = FromB64(o.Img);
+                o.DecodedFrom = o.Img;
+            }
+            return o.Decoded;
         }
 
         public static BitmapImage? FromB64(string? b64)
@@ -437,7 +452,7 @@ namespace KillerNotes.Models
                 // Freehand points are already dense; sparse-vertex shapes are sampled along their
                 // outline (polygon includes the closing edge) so the ring can break a straight edge
                 // mid-span, not only at a corner.
-                var path = o.Kind == SketchKind.Freehand ? o.Pts : DensifyOutline(o);
+                var path = o.Kind == SketchKind.Freehand ? o.Pts : DensifyOutline(Outline(o));
 
                 // Leave a polygon/line/arrow intact if the ring never actually reaches its outline
                 // (e.g. hovering inside a filled polygon), so it stays a shape instead of silently
@@ -466,6 +481,16 @@ namespace KillerNotes.Models
                 Flush();
             }
             return result;
+        }
+
+        // What the eye sees as the stroke: an arced line or arrow is its sampled bezier, not the
+        // polyline through its control point; every other shape is its own points.
+        private static SketchObject Outline(SketchObject o)
+        {
+            if (o.Kind is not (SketchKind.Line or SketchKind.Arrow) || o.Pts.Count < 6) return o;
+            var curve = new List<double>();
+            foreach (var p in ShaftPoints(o)) { curve.Add(p.X); curve.Add(p.Y); }
+            return new SketchObject { Kind = o.Kind, Pts = curve };
         }
 
         // Samples points every ~2px along a shape's outline so the eraser brush can break it
