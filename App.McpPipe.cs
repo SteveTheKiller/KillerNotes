@@ -17,7 +17,7 @@ namespace KillerNotes
             try
             {
                 int length = reader.ReadInt32();
-                if (length < 1 || length > 2_000_000) return null;
+                if (length < 1 || length > Program.MaxFrameBytes) return null;
                 byte[] payload = reader.ReadBytes(length);
                 if (payload.Length != length) return null;
                 return Program.Deserialize<McpRequest>(payload);
@@ -36,13 +36,19 @@ namespace KillerNotes
 
         /// <summary>Reads one request frame, giving up once the timeout passes. The caller
         /// disposes the stream afterward, which cancels a read still pending.</summary>
-        internal static McpRequest? ReadMcpRequest(Stream stream, TimeSpan timeout)
+        internal static McpRequest? ReadMcpRequest(Stream stream, TimeSpan timeout) => ReadMcpRequest(stream, timeout, out _);
+
+        /// <summary>As above; <paramref name="tooLarge"/> tells a request over the size limit
+        /// from one that never arrived, so the client can be told.</summary>
+        internal static McpRequest? ReadMcpRequest(Stream stream, TimeSpan timeout, out bool tooLarge)
         {
+            tooLarge = false;
             var clock = Stopwatch.StartNew();
             byte[]? head = ReadExactly(stream, 4, timeout, clock);
             if (head == null) return null;
             int length = BitConverter.ToInt32(head, 0);
-            if (length < 1 || length > 2_000_000) return null;
+            if (length > Program.MaxFrameBytes) { tooLarge = true; return null; }
+            if (length < 1) return null;
             byte[]? payload = ReadExactly(stream, length, timeout, clock);
             if (payload == null) return null;
             var frame = new byte[4 + length];
@@ -106,33 +112,59 @@ namespace KillerNotes
             catch (OperationCanceledException) { return false; }
         }
 
-        private void StartMcpPipeServer()
+        /// <summary>One client: reads its request, runs it, and writes the answer.</summary>
+        internal static void ServeMcpExchange(Stream pipe, Func<string[], string> execute)
         {
-            var thread = new Thread(() =>
+            var request = ReadMcpRequest(pipe, McpRequestTimeout, out bool tooLarge);
+            if (tooLarge)
             {
-                while (true)
+                WriteMcpResponse(pipe, Program.Serialize(new McpResponse { Success = false, Error = "Invalid command arguments" }), McpRequestTimeout);
+                return;
+            }
+            if (request == null) return;
+            McpResponse response;
+            try { response = new McpResponse { Success = true, Json = execute(request.Arguments) }; }
+            catch (Exception ex) { response = new McpResponse { Success = false, Error = ex.Message }; }
+            byte[] payload = Program.Serialize(response);
+            WriteMcpResponse(pipe, payload, McpRequestTimeout);
+        }
+
+        /// <summary>Serves clients one at a time until stopped. <paramref name="create"/> makes the
+        /// server end of the pipe for each client.</summary>
+        internal static void RunMcpPipeLoop(Func<NamedPipeServerStream> create, Func<string[], string> execute,
+            Action<TimeSpan> pause, CancellationToken stop)
+        {
+            while (!stop.IsCancellationRequested)
+            {
+                NamedPipeServerStream pipe;
+                try { pipe = create(); }
+                // The name is taken by another copy (a demo beside a normal run) or by another account:
+                // wait before asking again instead of spinning, and never end the thread, which would end the process.
+                catch (IOException) { pause(McpPipeRetryDelay); continue; }
+                catch (UnauthorizedAccessException) { pause(McpPipeRetryDelay); continue; }
+                using (pipe)
                 {
                     try
                     {
-                        // Asynchronous, so disposing the pipe cancels a read a stalled client left pending.
-                        using var pipe = new NamedPipeServerStream(McpPipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
                         pipe.WaitForConnection();
-                        var request = ReadMcpRequest(pipe, McpRequestTimeout);
-                        if (request == null) continue;
-                        McpResponse response;
-                        try
-                        {
-                            string json = Dispatcher.Invoke(() => ((Shell.MainWindow)MainWindow).ExecuteMcpCommand(request.Arguments));
-                            response = new McpResponse { Success = true, Json = json };
-                        }
-                        catch (Exception ex) { response = new McpResponse { Success = false, Error = ex.Message }; }
-                        byte[] payload = Program.Serialize(response);
-                        WriteMcpResponse(pipe, payload, McpRequestTimeout);
+                        ServeMcpExchange(pipe, execute);
                     }
                     catch (IOException) { }
                     catch (ObjectDisposedException) { return; }
                 }
-            }) { IsBackground = true, Name = "KillerNotes MCP pipe" };
+            }
+        }
+
+        private static readonly TimeSpan McpPipeRetryDelay = TimeSpan.FromSeconds(1);
+
+        private void StartMcpPipeServer()
+        {
+            var thread = new Thread(() => RunMcpPipeLoop(
+                // Asynchronous, so disposing the pipe cancels a read a stalled client left pending.
+                () => new NamedPipeServerStream(McpPipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous),
+                arguments => Dispatcher.Invoke(() => ((Shell.MainWindow)MainWindow).ExecuteMcpCommand(arguments)),
+                Thread.Sleep, CancellationToken.None))
+            { IsBackground = true, Name = "KillerNotes MCP pipe" };
             thread.Start();
         }
     }

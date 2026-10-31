@@ -33,6 +33,7 @@ namespace KillerNotes
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            HookCrashLogging();   // CrashLog.cs - first, so it covers startup itself
             if (e.Args.Length > 0 && string.Equals(e.Args[0], "/apply-verified-update", StringComparison.OrdinalIgnoreCase))
             {
                 Shutdown(Services.TrustedUpdate.Apply(e.Args));
@@ -67,7 +68,6 @@ namespace KillerNotes
                 return;
             }
 
-            HookCrashLogging();   // CrashLog.cs - first, so it covers startup itself
             base.OnStartup(e);
             // Every window (dialogs, pads, pickers) takes the family UI face from the active theme
             // unless it sets its own, so no dialog falls back to the system Segoe UI.
@@ -102,8 +102,7 @@ namespace KillerNotes
                     Services.LocaleManager.Initialize();
                 }
                 Controls.TaskbarIdentity.UseUninstall();
-                Uninstall(silent);
-                Shutdown();
+                Shutdown(Uninstall(silent));
                 return;
             }
 
@@ -151,11 +150,7 @@ namespace KillerNotes
             }
 
             // Double-clicked share file (association registered below).
-            if (e.Args.Length > 0 && File.Exists(e.Args[0]))
-            {
-                string ext = Path.GetExtension(e.Args[0]).ToLowerInvariant();
-                if (ext == ".kndb" || ext == ".knote" || Array.IndexOf(OpenWithExts, ext) >= 0) PendingOpenFile = e.Args[0];
-            }
+            if (OpenFileArgument(e.Args) is string openFile) PendingOpenFile = openFile;
             // Taskbar jump list, tray-less shortcut or script: open the quick-note window.
             PendingQuickNote = Services.QuickCapture.IsQuickNoteLaunch(e.Args);
 
@@ -218,7 +213,9 @@ namespace KillerNotes
             if (KillerFamily.Deployment.StartupRegistration.HasMinimizedArgument(e.Args) || PendingQuickNote)
                 KillerFamily.Deployment.StartupRegistration.StartMinimized(MainWindow);
             MainWindow.Show();
-            StartMcpPipeServer();
+            // A demo session holds scratch notes only, and it would fight a normal copy for the one
+            // pipe name or take the CLI's writes meant for the real notes.
+            if (!KillerNotes.Shell.MainWindow.DemoMode) StartMcpPipeServer();
         }
 
         // ============================================================
@@ -245,6 +242,15 @@ namespace KillerNotes
                 w.WriteLine(path ?? "");
             }
             catch { /* running instance not listening (mid-shutdown) - nothing to do */ }
+        }
+
+        /// <summary>The file a command line asks to open: a .kndb, .knote or Open with type that exists.</summary>
+        internal static string? OpenFileArgument(string[] args)
+        {
+            if (args.Length == 0 || !File.Exists(args[0])) return null;
+            string ext = Path.GetExtension(args[0]).ToLowerInvariant();
+            // Full path, because a second launch forwards it to a running copy with another working folder.
+            return ext == ".kndb" || ext == ".knote" || Array.IndexOf(OpenWithExts, ext) >= 0 ? Path.GetFullPath(args[0]) : null;
         }
 
         /// <summary>First instance: listens for forwarded launches for the process
@@ -396,12 +402,17 @@ namespace KillerNotes
                 if (sri == null) return null;
                 using var ms = new MemoryStream();
                 using (var src = sri.Stream) src.CopyTo(ms);
-                byte[] bytes = ms.ToArray();
-                if (!File.Exists(dest) || new FileInfo(dest).Length != bytes.Length)
-                    File.WriteAllBytes(dest, bytes);
+                WriteIconIfChanged(dest, ms.ToArray());
                 return dest;
             }
             catch { return null; }
+        }
+
+        internal static void WriteIconIfChanged(string dest, byte[] bytes)
+        {
+            if (!File.Exists(dest) || new FileInfo(dest).Length != bytes.Length
+                || !System.Linq.Enumerable.SequenceEqual(File.ReadAllBytes(dest), bytes))
+                File.WriteAllBytes(dest, bytes);
         }
 
         // Open with (1.6.0, KN-P04): KillerNotes is offered for Markdown and text files and imports
@@ -551,13 +562,16 @@ namespace KillerNotes
             Services.CommandLinePath.Unregister(MachineDir, machine: true);
         }
 
-        /// <summary>Installs KillerNotes, then relaunches from the installed location.</summary>
-        internal static void InstallAndRelaunch(bool wantDesktop)
+        /// <summary>Installs KillerNotes, then relaunches from the installed location. False when the
+        /// install failed or the installed copy could not be started; the user has been told, and this
+        /// copy keeps running.</summary>
+        internal static bool InstallAndRelaunch(bool wantDesktop)
         {
-            DoInstall(wantDesktop);
+            if (!DoInstall(wantDesktop)) return false;
 
-            if (!new Services.InstallRelaunch().StartInstalled(InstallExe, () => Current.Shutdown()))
-                throw new InvalidOperationException("The installed copy could not be started.");
+            if (new Services.InstallRelaunch().StartInstalled(InstallExe, () => Current.Shutdown())) return true;
+            ShowInstallError(string.Format((string)Current.FindResource("Str_Dlg_InstallFailed"), "The installed copy could not be started."));
+            return false;
         }
 
         // Silent install, used by winget / choco / RMM and the Microsoft Store
@@ -593,7 +607,7 @@ namespace KillerNotes
 
                 Directory.CreateDirectory(installDir);
                 string src = Process.GetCurrentProcess().MainModule!.FileName;
-                File.Copy(src, installExe, overwrite: true);
+                InstallExecutable(src, installExe);
                 Services.CommandLinePath.Register(installDir, machine: true);
 
                 Directory.CreateDirectory(startMenuDir);
@@ -636,17 +650,34 @@ namespace KillerNotes
         }
 
         // Per-user install (the PORTABLE badge's Install button)
-        private static void DoInstall(bool wantDesktop)
+        private static bool DoInstall(bool wantDesktop)
         {
             try
             {
                 InstallForCurrentUser(wantDesktop);
+                return true;
             }
             catch (Exception ex)
             {
                 ShowInstallError(string.Format((string)Current.FindResource("Str_Dlg_InstallFailed"), ex.Message));
+                return false;
             }
         }
+
+        /// <summary>Puts the exe in place through a staged, verified copy, so a full disk or an
+        /// interrupted copy leaves the working exe as it was. Installing a file onto itself does nothing.</summary>
+        internal static void InstallExecutable(string source, string destination, Services.ExecutableDeployment.FileOperations? files = null)
+        {
+            // A staged replacement can rename a running exe out of the way, so it is stopped here:
+            // an install over a running copy reports busy (1618) instead of succeeding beside it.
+            if (!string.Equals(Path.GetFullPath(source), Path.GetFullPath(destination), StringComparison.OrdinalIgnoreCase)
+                && IsRunningElsewhere(destination))
+                throw new System.ComponentModel.Win32Exception(KillerFamily.Deployment.InstallerExitCodes.Busy);
+            Services.ExecutableDeployment.Install(source, destination, files ?? new Services.ExecutableDeployment.FileOperations());
+        }
+
+        /// <summary>True when another process is running the exe at this path.</summary>
+        internal static bool IsRunningElsewhere(string exe) => Services.RunningCopy.IsRunning(exe, Process.GetCurrentProcess().Id);
 
         /// <summary>The per-user install itself, shared by the Install button and a silent install
         /// without admin rights. Failures propagate to the caller.</summary>
@@ -654,7 +685,7 @@ namespace KillerNotes
         {
             Directory.CreateDirectory(InstallDir);
             string src = Process.GetCurrentProcess().MainModule!.FileName;
-            File.Copy(src, InstallExe, overwrite: true);
+            InstallExecutable(src, InstallExe);
             Services.CommandLinePath.Register(InstallDir, machine: false);
 
             Directory.CreateDirectory(StartMenuDir);
@@ -749,13 +780,39 @@ namespace KillerNotes
             return true;
         }
 
-        private static readonly string[] InstalledFiles = { ExeName, @"icons\kn-note.ico", @"icons\kn-db.ico" };
+        /// <summary>Takes out the install markers. A per-user uninstall deletes the marker VALUES, not
+        /// the key: the Settings subkey (data folder, active database, backups) lives under the same
+        /// key and outlives the install.</summary>
+        internal static void RemoveInstallMarkers(RegistryKey hive, string path, bool machine)
+        {
+            if (machine) { hive.DeleteSubKeyTree(path, throwOnMissingSubKey: false); return; }
+            using var key = hive.OpenSubKey(path, writable: true);
+            key?.DeleteValue("Installed", throwOnMissingValue: false);
+            key?.DeleteValue("InstallPath", throwOnMissingValue: false);
+            key?.DeleteValue("Version", throwOnMissingValue: false);
+        }
 
-        private static void Uninstall(bool silent)
+        private static readonly string[] InstalledFiles ={ ExeName, @"icons\kn-note.ico", @"icons\kn-db.ico" };
+
+        private static int Uninstall(bool silent)
         {
             bool machine = string.Equals(Process.GetCurrentProcess().MainModule?.FileName,
                                          MachineExe, StringComparison.OrdinalIgnoreCase);
-            if (RelaunchMachineUninstallElevatedIfNeeded(machine, silent)) return;
+            if (RelaunchMachineUninstallElevatedIfNeeded(machine, silent)) return KillerFamily.Deployment.InstallerExitCodes.Success;
+
+            string startMenuDir = machine
+                ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), AppName)
+                : StartMenuDir;
+            string targetDir = machine ? MachineDir : InstallDir;
+
+            // A running copy keeps its exe open, so the cleanup below could not delete it and would leave
+            // an orphan exe with no Add/Remove entry. Nothing is removed; the code is the retryable one.
+            if (IsRunningElsewhere(Path.Combine(targetDir, ExeName)))
+            {
+                var busy = new System.ComponentModel.Win32Exception(KillerFamily.Deployment.InstallerExitCodes.Busy);
+                ReportUninstallFailure(silent, busy.Message);
+                return KillerFamily.Deployment.InstallerExitCodes.Busy;
+            }
 
             if (!silent)
             {
@@ -764,13 +821,17 @@ namespace KillerNotes
                     (string)Current.FindResource("Str_Dlg_UninstallKeepNotes"),
                     (string)Current.FindResource("Str_Btn_Uninstall")) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
                 confirm.ShowDialog();
-                if (!confirm.Confirmed) return;
+                if (!confirm.Confirmed) return KillerFamily.Deployment.InstallerExitCodes.Success;
             }
 
-            string startMenuDir = machine
-                ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), AppName)
-                : StartMenuDir;
-            string targetDir = machine ? MachineDir : InstallDir;
+            // The cleanup script is written before anything is removed, so a failure here removes nothing.
+            string bat;
+            try { bat = Services.UninstallScript.Write(Services.UninstallScript.Build(targetDir, InstalledFiles, removeFolder: machine), machine); }
+            catch (Exception ex)
+            {
+                ReportUninstallFailure(silent, ex.Message);
+                return KillerFamily.Deployment.InstallerExitCodes.FromException(ex);
+            }
 
             try { File.Delete(Path.Combine(startMenuDir, $"{AppName}.lnk")); } catch { }
             try { Directory.Delete(startMenuDir, recursive: false); } catch { }
@@ -780,7 +841,7 @@ namespace KillerNotes
 
             // Delete only the scope represented by the executable Add/Remove Programs launched.
             var hive = machine ? Registry.LocalMachine : Registry.CurrentUser;
-            try { hive.DeleteSubKeyTree(@"Software\KillerNotes", throwOnMissingSubKey: false); } catch { }
+            try { RemoveInstallMarkers(hive, @"Software\KillerNotes", machine); } catch { }
             try { hive.DeleteSubKeyTree(
                 @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes"); } catch { }
 
@@ -793,18 +854,26 @@ namespace KillerNotes
             SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, IntPtr.Zero, IntPtr.Zero);
 
             // Self-delete: deferred via cmd batch so the EXE can exit first
-            string bat = Path.Combine(Path.GetTempPath(), "killernotes_uninstall.bat");
-            File.WriteAllText(bat,
-                "@echo off\r\n" +
-                "ping -n 3 127.0.0.1 >nul\r\n" +
-                KillerFamily.Deployment.InstalledFileCleanup.RemovalBatch(targetDir, InstalledFiles) +
-                "del \"%~f0\"\r\n");
-            Process.Start(new ProcessStartInfo("cmd.exe", $"/c \"{bat}\"")
+            try
             {
-                WindowStyle     = ProcessWindowStyle.Hidden,
-                UseShellExecute = true
-            });
+                Process.Start(new ProcessStartInfo("cmd.exe", $"/c \"{bat}\"")
+                {
+                    WindowStyle     = ProcessWindowStyle.Hidden,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                ReportUninstallFailure(silent, ex.Message);
+                return KillerFamily.Deployment.InstallerExitCodes.FromException(ex);
+            }
+            return KillerFamily.Deployment.InstallerExitCodes.Success;
+        }
 
+        private static void ReportUninstallFailure(bool silent, string message)
+        {
+            if (silent) Console.Error.WriteLine(message);
+            else ShowInstallError(message);
         }
 
         // ============================================================

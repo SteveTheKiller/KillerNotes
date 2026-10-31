@@ -138,8 +138,12 @@ namespace KillerNotes.Shell
 
             if (!ReadyToShutDown()) return;   // LockNow.cs
             PortableBadge.Visibility = Visibility.Collapsed;
-            try { App.InstallAndRelaunch(wantDesktop: dlg.Check1Checked); }
-            catch { QuitCalledOff(); throw; }
+            // A failed install has already told the user why; this copy stays open with its edits.
+            if (!App.InstallAndRelaunch(wantDesktop: dlg.Check1Checked))
+            {
+                PortableBadge.Visibility = Visibility.Visible;
+                QuitCalledOff();
+            }
         }
     }
 }

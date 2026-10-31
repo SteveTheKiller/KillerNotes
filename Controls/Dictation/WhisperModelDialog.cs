@@ -398,7 +398,6 @@ namespace KillerNotes.Controls.Dictation
             System.IO.Directory.CreateDirectory(WhisperSpeech.ModelDir);
 
             string target = WhisperSpeech.PathFor(file);
-            string part = target + ".part";
 
             using var http = new System.Net.Http.HttpClient { Timeout = TimeSpan.FromMinutes(30) };
             http.DefaultRequestHeaders.UserAgent.ParseAdd("KillerNotes");
@@ -409,25 +408,13 @@ namespace KillerNotes.Controls.Dictation
                 resp.EnsureSuccessStatusCode();
                 long total = resp.Content.Headers.ContentLength ?? (long)expectMb * 1024 * 1024;
                 using var src = resp.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
-                using var dst = System.IO.File.Create(part);
-
-                var buf = new byte[81920];
-                long got = 0;
-                int n;
-                while ((n = src.Read(buf, 0, buf.Length)) > 0)
+                WhisperSpeech.Receive(src, resp.Content.Headers.ContentLength, target, got =>
                 {
-                    ct.ThrowIfCancellationRequested();
-                    dst.Write(buf, 0, n);
-                    got += n;
                     double pct = total > 0 ? got * 100.0 / total : 0;
                     string msg = $"{got / 1048576} / {total / 1048576} MB";
                     Dispatcher.Invoke(() => { _bar.Value = pct; _status.Text = msg; });
-                }
-                dst.Flush();
+                }, ct);
             }
-
-            if (System.IO.File.Exists(target)) System.IO.File.Delete(target);
-            System.IO.File.Move(part, target);
         }
     }
 }

@@ -45,12 +45,12 @@ namespace KillerNotes.Shell
                         string color = Take(values, "--title-color") ?? "";
                         RequireEmpty(values);
                         ValidateText(title, "title", 240);
-                        ValidateOptionalText(content, "content", 500000);
+                        ValidateOptionalText(content, "content", KillerNotes.Cli.Program.MaxContentCharacters);
                         ValidateOptionalText(group, "group", 240);
                         ValidateOptionalText(tags, "tags", 1000);
                         if (color.Length > 0) ValidateColor(color);
                         long id = NoteStore.Create(ValidateText(title, "title", 240), Note.FormatMarkdown);
-                        SaveMarkdown(id, title, ValidateOptionalText(content, "content", 500000));
+                        SaveMarkdown(id, title, ValidateOptionalText(content, "content", KillerNotes.Cli.Program.MaxContentCharacters));
                         if (group.Length > 0) NoteStore.SetNoteGroup(id, ValidateText(group, "group", 240));
                         if (tags.Length > 0) NoteStore.SetNoteTags(id, ValidateText(tags, "tags", 1000));
                         if (color.Length > 0) NoteStore.SetTitleColor(id, ValidateColor(color));
@@ -69,11 +69,11 @@ namespace KillerNotes.Shell
                         string? color = Take(values, "--title-color");
                         RequireEmpty(values);
                         ValidateText(title, "title", 240);
-                        if (content != null) ValidateOptionalText(content, "content", 500000);
+                        if (content != null) ValidateOptionalText(content, "content", KillerNotes.Cli.Program.MaxContentCharacters);
                         if (group != null) ValidateOptionalText(group, "group", 240);
                         if (tags != null) ValidateOptionalText(tags, "tags", 1000);
                         if (!string.IsNullOrEmpty(color)) ValidateColor(color!);
-                        if (content != null) SaveMarkdown(id, ValidateText(title, "title", 240), ValidateOptionalText(content, "content", 500000));
+                        if (content != null) SaveMarkdown(id, ValidateText(title, "title", 240), ValidateOptionalText(content, "content", KillerNotes.Cli.Program.MaxContentCharacters));
                         else if (!string.Equals(title, note.Title, StringComparison.Ordinal))
                         {
                             byte[] blob = NoteStore.LoadContent(id) ?? [];

@@ -106,13 +106,12 @@ namespace KillerNotes.Cli
 
         public static int Main(string[] args)
         {
-            if (args.Length > 1 && args[args.Length - 1] == "--json")
-                args = args.Take(args.Length - 1).ToArray();
+            args = StripJsonSwitch(args);
             if (args.Length >= 1 && args[0] == "--help") { PrintHelp(); return 0; }
             try
             {
                 var values = args.ToList();
-                string database = TakeStringOption(values, "--database") ?? NoteStore.DbPath;
+                string database = TakeDatabase(values) ?? NoteStore.DbPath;
                 if (values.Count == 0) return UsageError();
                 string command = values[0].ToLowerInvariant();
                 if (IsWriteCommand(command)) return ForwardWrite(args);
@@ -158,6 +157,17 @@ namespace KillerNotes.Cli
             }
         }
 
+        // The optional trailing --json is read in option position, so a value that is named --json
+        // (note content, say) stays with its option.
+        internal static string[] StripJsonSwitch(string[] args)
+        {
+            if (args.Length > 1 && OptionIndex(args, "--json") == args.Length - 1)
+                args = args.Take(args.Length - 1).ToArray();
+            return args;
+        }
+
+        internal static string? TakeDatabase(List<string> values) => TakeStringOption(values, "--database", inOptionPosition: true);
+
         private static void PrintHelp()
         {
             Console.WriteLine("Output is JSON by default; an optional trailing --json is accepted.");
@@ -201,6 +211,12 @@ namespace KillerNotes.Cli
         /// which a script must not treat like an ordinary failure and blindly retry.</summary>
         internal const int UnknownOutcomeExitCode = 3;
 
+        /// <summary>The largest frame, in bytes, either end of the bridge sends or accepts.</summary>
+        internal const int MaxFrameBytes = 2_000_000;
+
+        /// <summary>The most characters of content a note command accepts.</summary>
+        internal const int MaxContentCharacters = 500_000;
+
         internal enum ResponseOutcome { Complete, TimedOut, Invalid }
 
         /// <summary>Reads one length-prefixed answer within the deadline. An oversized length is
@@ -211,7 +227,7 @@ namespace KillerNotes.Cli
             var prefix = ReadExactly(stream, 4, due, out var outcome);
             if (prefix == null) return (null, outcome);
             int length = BitConverter.ToInt32(prefix, 0);
-            if (length < 1 || length > 1_000_000) return (null, ResponseOutcome.Invalid);
+            if (length < 1 || length > MaxFrameBytes) return (null, ResponseOutcome.Invalid);
             var body = ReadExactly(stream, length, due, out outcome);
             return (body, body == null ? outcome : ResponseOutcome.Complete);
         }
@@ -245,23 +261,42 @@ namespace KillerNotes.Cli
                 using var pipe = new NamedPipeClientStream(".", $"KillerNotes-MCP-{Process.GetCurrentProcess().SessionId}", PipeDirection.InOut, PipeOptions.Asynchronous);
                 pipe.Connect(3000);
                 byte[] request = Serialize(new McpRequest { Arguments = args });
+                // Escaping can grow the text past what the app reads, so a request the app would drop is refused here.
+                if (request.Length > MaxFrameBytes) throw new ArgumentException("--content-file is larger than a note can hold");
                 var writer = new BinaryWriter(pipe, Encoding.UTF8, true);
                 writer.Write(request.Length); writer.Write(request); writer.Flush();
-                var (body, outcome) = ReadResponseFrame(pipe, ResponseDeadline);
-                if (outcome == ResponseOutcome.TimedOut)
-                {
-                    // The request was delivered, so the change may already have been made.
-                    Console.Error.WriteLine("KillerNotes did not answer within " + (int)ResponseDeadline.TotalSeconds +
-                        " seconds. The command may or may not have run; check the note before trying again.");
-                    return UnknownOutcomeExitCode;
-                }
-                if (body == null) throw new InvalidDataException("KillerNotes returned an invalid response");
-                var response = Deserialize<McpResponse>(body);
-                if (response == null || !response.Success) { Console.Error.WriteLine(response?.Error ?? "KillerNotes returned no response"); return 1; }
-                Console.WriteLine(response.Json); return 0;
+                return ReadAnswer(pipe, ResponseDeadline);
             }
             catch (TimeoutException) { Console.Error.WriteLine("Open and unlock KillerNotes before using write commands"); return 1; }
             catch (IOException ex) { Console.Error.WriteLine("KillerNotes bridge failed: " + ex.Message); return 1; }
+        }
+
+        /// <summary>Reads KillerNotes' answer once the request has been written.</summary>
+        internal static int ReadAnswer(Stream pipe, TimeSpan deadline)
+        {
+            var (body, outcome) = ReadResponseFrame(pipe, deadline);
+            if (outcome == ResponseOutcome.TimedOut)
+            {
+                // The request was delivered, so the change may already have been made.
+                Console.Error.WriteLine("KillerNotes did not answer within " + (int)deadline.TotalSeconds +
+                    " seconds. The command may or may not have run; check the note before trying again.");
+                return UnknownOutcomeExitCode;
+            }
+            // An answer that is cut off or unreadable also leaves the outcome unknown: the request was already sent.
+            McpResponse? response = null;
+            if (body != null)
+            {
+                try { response = Deserialize<McpResponse>(body); }
+                catch (Exception ex) when (ex is SerializationException || ex is System.Xml.XmlException ||
+                                           ex is InvalidDataException || ex is ArgumentException) { }
+            }
+            if (response == null)
+            {
+                Console.Error.WriteLine("KillerNotes returned an invalid response");
+                return UnknownOutcomeExitCode;
+            }
+            if (!response.Success) { Console.Error.WriteLine(response.Error); return 1; }
+            Console.WriteLine(response.Json); return 0;
         }
 
         // A command line holds about 32,000 characters, so longer Markdown can come from a file.
@@ -274,10 +309,12 @@ namespace KillerNotes.Cli
             if (OptionIndex(args, "--content") >= 0) throw new ArgumentException("Use --content or --content-file, not both");
             string path = args[index + 1];
             if (!Path.IsPathRooted(path) || !File.Exists(path)) throw new ArgumentException("--content-file must name an existing file by its absolute path");
-            if (new FileInfo(path).Length > 2_000_000) throw new ArgumentException("--content-file is larger than a note can hold");
+            if (new FileInfo(path).Length > MaxFrameBytes) throw new ArgumentException("--content-file is larger than a note can hold");
+            string content = File.ReadAllText(path, Encoding.UTF8);
+            if (content.Length > MaxContentCharacters) throw new ArgumentException("--content-file is larger than a note can hold");
             string[] inlined = [.. args];
             inlined[index] = "--content";
-            inlined[index + 1] = File.ReadAllText(path, Encoding.UTF8);
+            inlined[index + 1] = content;
             return inlined;
         }
 
@@ -350,9 +387,12 @@ namespace KillerNotes.Cli
             {
                 Id = row.GetInt64(0), Title = row.GetString(1), Group = row.GetString(2), Tags = row.GetString(3),
                 Created = row.GetString(4), Modified = row.GetString(5), Format = FormatName(row.GetInt64(6)),
-                Pinned = row.GetInt64(7) != 0, Content = content.Length <= cap ? content : content[..cap], Truncated = content.Length > cap,
+                Pinned = row.GetInt64(7) != 0, Content = content.Length <= cap ? content : content[..CutBefore(content, cap)], Truncated = content.Length > cap,
             };
         }
+
+        // A cut that lands between the two halves of a surrogate pair steps back, so the text never ends on half a character.
+        private static int CutBefore(string text, int cap) => char.IsHighSurrogate(text[cap - 1]) ? cap - 1 : cap;
 
         public static List<NamedItem> Groups(string database)
         {
@@ -364,14 +404,14 @@ namespace KillerNotes.Cli
         public static List<NamedItem> Tags(string database)
         {
             using var connection = OpenReadOnly(database); using var command = connection.CreateCommand();
-            command.CommandText = "SELECT t.name, t.color, count(n.id) FROM tags t LEFT JOIN notes n ON n.deleted = '' AND (',' || replace(n.tags, ', ', ',') || ',') LIKE '%,' || replace(t.name, '%', '\\%') || ',%' ESCAPE '\\' COLLATE NOCASE GROUP BY t.name, t.color ORDER BY t.name COLLATE NOCASE";
+            command.CommandText = "SELECT t.name, t.color, count(n.id) FROM tags t LEFT JOIN notes n ON n.deleted = '' AND (',' || replace(n.tags, ', ', ',') || ',') LIKE '%,' || replace(replace(replace(t.name, '\\', '\\\\'), '%', '\\%'), '_', '\\_') || ',%' ESCAPE '\\' COLLATE NOCASE GROUP BY t.name, t.color ORDER BY t.name COLLATE NOCASE";
             return ReadNamedItems(command);
         }
 
         public static List<NoteLink> Backlinks(string database, long id, int limit)
         {
             using var connection = OpenReadOnly(database); using var command = connection.CreateCommand();
-            command.CommandText = "SELECT n.id, n.title FROM notes target JOIN note_links l ON l.target = target.title COLLATE NOCASE JOIN notes n ON n.id = l.src AND n.deleted = '' WHERE target.id = $id AND target.deleted = '' ORDER BY n.modified DESC LIMIT $limit";
+            command.CommandText = "SELECT n.id, n.title FROM notes target JOIN note_links l ON l.target = target.title COLLATE KNFOLD JOIN notes n ON n.id = l.src AND n.deleted = '' WHERE target.id = $id AND target.deleted = '' ORDER BY n.modified DESC LIMIT $limit";
             command.Parameters.AddWithValue("$id", id); command.Parameters.AddWithValue("$limit", ValidateLimit(limit));
             return ReadLinks(command, true);
         }
@@ -379,7 +419,7 @@ namespace KillerNotes.Cli
         public static List<NoteLink> Links(string database, long id, int limit)
         {
             using var connection = OpenReadOnly(database); using var command = connection.CreateCommand();
-            command.CommandText = "SELECT COALESCE(dst.id, -1), l.target FROM note_links l JOIN notes src ON src.id = l.src AND src.deleted = '' LEFT JOIN notes dst ON dst.title = l.target COLLATE NOCASE AND dst.deleted = '' WHERE l.src = $id ORDER BY l.target COLLATE NOCASE LIMIT $limit";
+            command.CommandText = "SELECT COALESCE(dst.id, -1), l.target FROM note_links l JOIN notes src ON src.id = l.src AND src.deleted = '' LEFT JOIN notes dst ON dst.title = l.target COLLATE KNFOLD AND dst.deleted = '' WHERE l.src = $id ORDER BY l.target COLLATE NOCASE LIMIT $limit";
             command.Parameters.AddWithValue("$id", id); command.Parameters.AddWithValue("$limit", ValidateLimit(limit));
             return ReadLinks(command, null);
         }
@@ -413,6 +453,8 @@ namespace KillerNotes.Cli
             _ = NoteStore.DefaultDbDir;
             var builder = new SqliteConnectionStringBuilder { DataSource = database, Mode = SqliteOpenMode.ReadOnly, Pooling = false };
             var connection = new SqliteConnection(builder.ConnectionString); connection.Open();
+            // Link titles match across case in every script, as in the app; SQLite's NOCASE folds ASCII only.
+            connection.CreateCollation("KNFOLD", (a, b) => string.CompareOrdinal(KillerNotes.Services.TextFold.Fold(a), KillerNotes.Services.TextFold.Fold(b)));
             using var command = connection.CreateCommand(); command.CommandText = "PRAGMA query_only = ON"; command.ExecuteNonQuery();
             return connection;
         }
@@ -480,9 +522,9 @@ namespace KillerNotes.Cli
             values.RemoveRange(index, 2); return parsed;
         }
 
-        private static string? TakeStringOption(List<string> values, string name)
+        private static string? TakeStringOption(List<string> values, string name, bool inOptionPosition = false)
         {
-            int index = values.IndexOf(name); if (index < 0) return null;
+            int index = inOptionPosition ? OptionIndex(values.ToArray(), name) : values.IndexOf(name); if (index < 0) return null;
             if (index + 1 >= values.Count || string.IsNullOrWhiteSpace(values[index + 1])) throw new ArgumentException("Invalid " + name + " value");
             string value = values[index + 1]; values.RemoveRange(index, 2); return value;
         }

@@ -108,6 +108,42 @@ namespace KillerNotes.Services
             }
         }
 
+        /// <summary>Streams a model to disk. Written to a .part file and moved into place only on full
+        /// success, so an interrupted download can never leave a truncated model that would fail
+        /// obscurely inside whisper months later.</summary>
+        internal static void Receive(Stream source, long? expectedLength, string target, Action<long> progress,
+            System.Threading.CancellationToken ct)
+        {
+            string part = target + ".part";
+            try
+            {
+                using var dst = File.Create(part);
+                var buf = new byte[81920];
+                long got = 0;
+                int n;
+                while ((n = source.Read(buf, 0, buf.Length)) > 0)
+                {
+                    ct.ThrowIfCancellationRequested();
+                    dst.Write(buf, 0, n);
+                    got += n;
+                    progress(got);
+                }
+                dst.Flush();
+                // A connection that drops ends the stream early without an error. Whisper would load the
+                // truncated file as if it were the model and then fail on every transcription.
+                if (expectedLength.HasValue && got != expectedLength.Value) throw new EndOfStreamException();
+            }
+            catch
+            {
+                // Stopped, canceled or cut short: no partial file stays behind (a model is up to 466 MB).
+                try { File.Delete(part); } catch (IOException) { } catch (UnauthorizedAccessException) { }
+                throw;
+            }
+
+            if (File.Exists(target)) File.Delete(target);
+            File.Move(part, target);
+        }
+
         internal static string PathFor(string file) => Path.Combine(ModelDir, file);
 
         internal static bool IsInstalled(string file) => File.Exists(PathFor(file));
