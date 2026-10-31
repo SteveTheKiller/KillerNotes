@@ -134,6 +134,60 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
+        public void AWikiLinkInARichNoteIsWrittenUnescapedAndTheTextAroundItStillIs() => Sta.Run(() =>
+        {
+            var p = new Paragraph(new Run("see [[Title]] and [[a/b|label]] but [x] and *y*"));
+
+            string md = Md(new FlowDocument(p));
+
+            Assert.Contains("see [[Title]] and [[a/b|label]] but \\[x] and ", md);
+            Assert.DoesNotContain("\\[[", md);
+        });
+
+        [Theory]
+        [InlineData("ftp://host/file.txt", "label (ftp://host/file.txt)")]
+        [InlineData("tel:+15551234", "label (tel:+15551234)")]
+        [InlineData("file:///C:/Windows/notepad.exe", "label (file:///C:/Windows/notepad.exe)")]
+        public void ARefusedDestinationFollowsTheLabelAsPlainText(string target, string expected) => Sta.Run(() =>
+        {
+            var link = new Hyperlink(new Run("label")) { NavigateUri = new Uri(target) };
+
+            string md = Md(new FlowDocument(new Paragraph(link)));
+
+            Assert.Contains(expected, md);
+            Assert.DoesNotContain("](", md);
+        });
+
+        [Fact]
+        public void ARelativeDestinationFollowsTheLabelAsPlainText() => Sta.Run(() =>
+        {
+            var link = new Hyperlink(new Run("label")) { NavigateUri = new Uri("docs/page.html", UriKind.Relative) };
+
+            string md = Md(new FlowDocument(new Paragraph(link)));
+
+            Assert.Contains("label (docs/page.html)", md);
+            Assert.DoesNotContain("](", md);
+        });
+
+        [Fact]
+        public void ARefusedDestinationThatIsTheLabelIsWrittenOnce() => Sta.Run(() =>
+        {
+            var link = new Hyperlink(new Run("ftp://host/x")) { NavigateUri = new Uri("ftp://host/x") };
+
+            string md = Md(new FlowDocument(new Paragraph(link))).Trim();
+
+            Assert.Equal("ftp://host/x", md);
+        });
+
+        [Fact]
+        public void AnAllowedLinkKeepsTheDestinationAsWritten() => Sta.Run(() =>
+        {
+            var link = new Hyperlink(new Run("home")) { NavigateUri = new Uri("https://Example.COM") };
+
+            Assert.Contains("[home](https://Example.COM)", Md(new FlowDocument(new Paragraph(link))));
+        });
+
+        [Fact]
         public void AnAllowedLinkKeepsItsEscapedTarget() => Sta.Run(() =>
         {
             var link = new Hyperlink(new Run("share")) { NavigateUri = new Uri("https://host/My%20Site/a%20b") };

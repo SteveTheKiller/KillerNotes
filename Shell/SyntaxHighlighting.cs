@@ -652,7 +652,14 @@ namespace KillerNotes.Shell
                 _ => ""
             };
             const string stringRule = @"(['""])(?:\\.|(?!\1).)*\1";
-            if (comments.Length > 0)
+            if (comments.Length > 0 && language is CodeLanguage.Html or CodeLanguage.Xaml or CodeLanguage.Xml or CodeLanguage.Vue or CodeLanguage.Markdown)
+            {
+                // Markup text is prose, where a bare apostrophe or quote is ordinary, so the
+                // comments claim their span first and a stray quote cannot open a string over one.
+                Add(tokens, s, comments, SynComment, RegexOptions.Multiline | RegexOptions.Singleline);
+                Add(tokens, s, stringRule, SynString);
+            }
+            else if (comments.Length > 0)
                 AddCommentsAndStrings(tokens, s, comments, stringRule);
             else
                 Add(tokens, s, stringRule, SynString);

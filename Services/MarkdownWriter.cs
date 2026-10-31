@@ -199,10 +199,14 @@ namespace KillerNotes.Services
                         AppendBlock(b);
                     }
                     break;
-                case Hyperlink h when LinkPolicy.AllowedHref(h.NavigateUri) is string href:   // a target the app will not open keeps only its label
+                case Hyperlink h when MarkdownConvert.LinkHref(h.NavigateUri) is string href:
                     _sb.Append('[');
                     foreach (var i in h.Inlines) AppendInline(i, underlined, struck);
                     _sb.Append("](").Append(href).Append(')');
+                    break;
+                case Hyperlink h:   // a target the app will not open: its label, then the destination as plain text
+                    foreach (var i in h.Inlines) AppendInline(i, underlined, struck);
+                    _sb.Append(MarkdownConvert.RefusedDestinationText(h, MarkdownConvert.PlainText(h.Inlines).Trim().Length == 0));
                     break;
                 case Span sp:
                     bool spanUnder = false, spanStrike = false;

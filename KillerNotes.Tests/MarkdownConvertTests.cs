@@ -335,7 +335,57 @@ namespace KillerNotes.Tests
             var link = new Hyperlink(new Run("label")) { NavigateUri = new System.Uri(target) };
             var doc = new FlowDocument(new Paragraph(link));
 
-            Assert.Equal("label", MarkdownConvert.FromDocument(doc).Trim());
+            Assert.Equal("label (" + target + ")", MarkdownConvert.FromDocument(doc).Trim());
+        });
+
+        [Fact]
+        public void AWikiLinkInARichNoteIsWrittenUnescapedAndTheTextAroundItStillIs() => Sta.Run(() =>
+        {
+            var p = new Paragraph(new Run("see [[Title]] and [[a/b|label]] but [x]"));
+
+            string md = MarkdownConvert.FromDocument(new FlowDocument(p));
+
+            Assert.Contains("see [[Title]] and [[a/b|label]] but \\[x]", md);
+        });
+
+        [Theory]
+        [InlineData("ftp://host/file.txt", "label (ftp://host/file.txt)")]
+        [InlineData("tel:+15551234", "label (tel:+15551234)")]
+        public void ARefusedDestinationFollowsTheLabelAsPlainText(string target, string expected) => Sta.Run(() =>
+        {
+            var link = new Hyperlink(new Run("label")) { NavigateUri = new System.Uri(target) };
+
+            string md = MarkdownConvert.FromDocument(new FlowDocument(new Paragraph(link)));
+
+            Assert.Contains(expected, md);
+            Assert.DoesNotContain("](", md);
+        });
+
+        [Fact]
+        public void ARelativeDestinationFollowsTheLabelAsPlainText() => Sta.Run(() =>
+        {
+            var link = new Hyperlink(new Run("label")) { NavigateUri = new System.Uri("docs/page.html", System.UriKind.Relative) };
+
+            string md = MarkdownConvert.FromDocument(new FlowDocument(new Paragraph(link)));
+
+            Assert.Contains("label (docs/page.html)", md);
+            Assert.DoesNotContain("](", md);
+        });
+
+        [Fact]
+        public void ARefusedDestinationThatIsTheLabelIsWrittenOnce() => Sta.Run(() =>
+        {
+            var link = new Hyperlink(new Run("ftp://host/x")) { NavigateUri = new System.Uri("ftp://host/x") };
+
+            Assert.Equal("ftp://host/x", MarkdownConvert.FromDocument(new FlowDocument(new Paragraph(link))).Trim());
+        });
+
+        [Fact]
+        public void AnAllowedLinkKeepsTheDestinationAsWritten() => Sta.Run(() =>
+        {
+            var link = new Hyperlink(new Run("home")) { NavigateUri = new System.Uri("https://Example.COM") };
+
+            Assert.Contains("[home](https://Example.COM)", MarkdownConvert.FromDocument(new FlowDocument(new Paragraph(link))));
         });
 
         [Theory]

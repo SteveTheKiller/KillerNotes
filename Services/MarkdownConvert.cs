@@ -629,10 +629,10 @@ namespace KillerNotes.Services
                     var inner = new StringBuilder();
                     foreach (var child in link.Inlines) WriteInline(inner, child, inBold, inItalic, inStrike);
                     string label = inner.ToString().Trim();
-                    // The escaped form (Uri.ToString gives the display form, where a space ends the
-                    // destination), and only a target the app itself would open.
-                    string url = LinkPolicy.AllowedHref(link.NavigateUri) ?? "";
-                    if (url.Length == 0) { sb.Append(label); break; }
+                    // Only a target the app itself would open becomes link syntax; any other
+                    // destination follows the label as plain text, so it is kept and never live.
+                    string url = LinkHref(link.NavigateUri) ?? "";
+                    if (url.Length == 0) { sb.Append(label).Append(RefusedDestinationText(link, label.Length == 0)); break; }
                     sb.Append('[').Append(label.Length > 0 ? label : url).Append("](").Append(url).Append(')');
                     break;
                 }
@@ -670,16 +670,45 @@ namespace KillerNotes.Services
             }
         }
 
+        /// <summary>The destination to write for an allowed link: the string the note holds, or the
+        /// escaped form when that has a space or angle bracket, which ends a destination early
+        /// (Uri.ToString gives the display form). Null when the app would not open the target.</summary>
+        internal static string? LinkHref(Uri? uri)
+        {
+            if (LinkPolicy.AllowedHref(uri) is not string escaped) return null;
+            string original = uri!.OriginalString;
+            return original.Length > 0 && !original.Any(c => char.IsWhiteSpace(c) || c is '<' or '>') ? original : escaped;
+        }
+
+        /// <summary>What follows the label of a link whose target the app will not open: the
+        /// destination as the note holds it, in parentheses and as plain text. Nothing when there
+        /// is no destination or the label already says it.</summary>
+        internal static string RefusedDestinationText(Hyperlink link, bool labelEmpty)
+        {
+            string destination = link.NavigateUri?.OriginalString ?? "";
+            if (destination.Length == 0 || PlainText(link.Inlines).Trim() == destination) return "";
+            string text = EscapeMarkdown(destination);
+            return labelEmpty ? text : " (" + text + ")";
+        }
+
         // Escapes only what would turn this text into markdown it was not. A backslash stays
         // literal unless ASCII punctuation follows it, a run of * or _ is escaped only where it
         // can open or close emphasis, and [ only when a ] follows it. Escaping every special
-        // character turned rules like "Sign-off: ____" into a wall of backslashes.
+        // character turned rules like "Sign-off: ____" into a wall of backslashes. A [[wiki link]]
+        // is written as typed, because an escaped one is no longer a link to the readers that
+        // follow them and to the vault export, which rewrites them.
         internal static string EscapeMarkdown(string s)
         {
             var sb = new StringBuilder(s.Length);
             for (int i = 0; i < s.Length; i++)
             {
                 char c = s[i];
+                if (c == '[' && WikiLinkEnd(s, i) is int wikiEnd and > 0)
+                {
+                    sb.Append(s, i, wikiEnd - i);
+                    i = wikiEnd - 1;
+                    continue;
+                }
                 if (c is '*' or '_')
                 {
                     int end = i;
@@ -702,6 +731,17 @@ namespace KillerNotes.Services
                 sb.Append(c);
             }
             return sb.ToString();
+        }
+
+        // The end of a [[target]] or [[target|label]] that starts at i, or -1. The same shape
+        // WikiLinks indexes: no brackets or line breaks inside, and a bounded length.
+        private static int WikiLinkEnd(string s, int i)
+        {
+            if (i + 1 >= s.Length || s[i + 1] != '[') return -1;
+            int j = i + 2;
+            while (j < s.Length && j - i - 2 <= 200 && s[j] is not ('[' or ']' or '\r' or '\n')) j++;
+            int length = j - i - 2;
+            return length is >= 1 and <= 200 && j + 1 < s.Length && s[j] == ']' && s[j + 1] == ']' ? j + 2 : -1;
         }
 
         // ---------------------------------------------------------------

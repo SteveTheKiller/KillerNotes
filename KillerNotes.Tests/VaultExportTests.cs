@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Windows;
+using System.Windows.Documents;
 using KillerNotes.Services;
 using Xunit;
 
@@ -58,6 +60,19 @@ namespace KillerNotes.Tests
             Assert.Contains("[[Plain]] [[a-b|a/b]] [[Dup]] [[Work/Same|Same]] [[Missing]] [[plain|shown]]", hub);
             Assert.Contains("| [[a-b\\|a/b]] |", hub);
             Assert.Contains("```\n[[a/b]]\n```", hub);
+        });
+
+        [Fact]
+        public void LinksInARichNoteAreRewrittenToo() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            Markdown("a/b", "slash title");
+            Rich("Hub", "see [[a/b]] and [[Plain]]");
+
+            var result = Export();
+
+            string hub = File.ReadAllText(Path.Combine(result.Root, "Hub.md"));
+            Assert.Contains("see [[a-b|a/b]] and [[Plain]]", hub);
         });
 
         [Fact]
@@ -161,6 +176,16 @@ namespace KillerNotes.Tests
         {
             long id = NoteStore.Create(title);
             NoteStore.SetFormat(id, 1, MarkdownBlob.Encode(body), body);
+            return id;
+        }
+
+        private static long Rich(string title, string text)
+        {
+            var doc = new FlowDocument(new Paragraph(new Run(text)));
+            using var bytes = new MemoryStream();
+            new TextRange(doc.ContentStart, doc.ContentEnd).Save(bytes, DataFormats.XamlPackage);
+            long id = NoteStore.Create(title);
+            NoteStore.Save(id, title, bytes.ToArray(), text);
             return id;
         }
 
