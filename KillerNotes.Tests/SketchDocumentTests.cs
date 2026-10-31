@@ -36,6 +36,22 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void ASketchKnowsItsDatabaseThroughARename()
+        {
+            using var first = new TempStore();
+            long note = NoteStore.Create("A");
+            var session = new SketchSession(note);
+            string path = first.DbPath;
+            NoteStore.Close();
+            File.Move(path, Path.Combine(NoteStore.DbDir, "renamed.db"));
+            NoteStore.DemoDbFile = "renamed.db";
+            NoteStore.Open();
+
+            Assert.True(session.CanPrint(note));
+            Assert.Equal(NoteStore.DatabaseId, session.Database);
+        }
+
+        [Fact]
         public void LegacyOrdinalsStayWithTheirImagesWhenNestedImagesPrecedeThem() => Sta.Run(() =>
         {
             var nested = new Image();

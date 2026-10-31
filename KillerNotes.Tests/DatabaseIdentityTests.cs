@@ -88,5 +88,19 @@ namespace KillerNotes.Tests
             NoteStore.Open("hunter2");
             Assert.Equal(after, NoteStore.DatabaseId);
         }
+
+        [Fact]
+        public void APasswordChangeAnnouncesTheOldAndNewIds()
+        {
+            using var store = new TempStore();
+            string? before = NoteStore.DatabaseId;
+            (string Old, string New)? seen = null;
+            void Note(string oldId, string newId) => seen = (oldId, newId);
+            NoteStore.Rekeyed += Note;
+            try { NoteStore.SetPassword("hunter2"); }
+            finally { NoteStore.Rekeyed -= Note; }
+
+            Assert.Equal((before!, NoteStore.DatabaseId!), seen);
+        }
     }
 }

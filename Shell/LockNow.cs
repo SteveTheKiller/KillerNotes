@@ -32,12 +32,14 @@ namespace KillerNotes.Shell
         {
             SystemEvents.SessionSwitch += OnSessionSwitch;
             SystemEvents.PowerModeChanged += OnPowerModeChanged;
+            NoteStore.Rekeyed += OnDatabaseRekeyed;
             // SystemEvents are static: a handler left on them keeps this window alive and fires
             // into a closed one.
             Closed += (_, _) =>
             {
                 SystemEvents.SessionSwitch -= OnSessionSwitch;
                 SystemEvents.PowerModeChanged -= OnPowerModeChanged;
+                NoteStore.Rekeyed -= OnDatabaseRekeyed;
                 _idleLockTimer?.Stop();
             };
             _idleLockTimer = new DispatcherTimer(DispatcherPriority.Background, Dispatcher) { Interval = TimeSpan.FromSeconds(30) };
@@ -113,7 +115,7 @@ namespace KillerNotes.Shell
 
             if (keepUnsavedEdits && _currentId >= 0 && !_loadFailed)
             {
-                _heldEdits.Hold(LockedEdits.Capture(Editor.Document, _currentId, TitleBox.Text, NoteStore.DatabaseId, _currentFormat));
+                HoldOpenEdits();
                 StatusText.Text = Loc("Str_St_LockEditsHeld");
             }
             ((ISecurityHost)this).ClearEditor();
@@ -125,6 +127,8 @@ namespace KillerNotes.Shell
             TitleBox.Text = "";
             _findPlain = "";
             _findPlainStale = true;
+            CloseFindBar();                  // FindBar.cs - what was searched for is the locked notepad's too,
+            SearchBox.Text = "";             // and the next notepad to open would show it
             ClearNavHistory();               // NoteHistory.cs - titles and ids of the locked notepad
             _notes = [];
             _trashNotes = [];
@@ -151,24 +155,43 @@ namespace KillerNotes.Shell
             HandlePendingOpenFile();         // Sharing.cs - a .knote or .kndb opened while locked
         }
 
+        /// <summary>The open note's edits go into the held store, with the audio of any recording
+        /// not saved yet: that lives only in the editor's memory, which reopening a note forgets.</summary>
+        private void HoldOpenEdits() =>
+            _heldEdits.Hold(LockedEdits.Capture(Editor.Document, _currentId, TitleBox.Text, NoteStore.DatabaseId,
+                _currentFormat, _recordingCache?.Values));
+
         /// <summary>Puts edits held through an automatic lock back into their notes, once their own
         /// database is open again (SecurityHost.LoadNotes, after every open). The editor holds one
-        /// note at a time, so a second waits until the first has saved. A note the database no
-        /// longer has keeps its edits held. A read-only database cannot take them yet.</summary>
+        /// note at a time, so each waits until the one before it has saved. A note the database no
+        /// longer has keeps its edits held, without holding up the others. A read-only database
+        /// cannot take them yet.</summary>
         private void RestoreLockedEdits()
         {
             if (NoteStore.IsReadOnly) return;
-            while (_heldEdits.NextFor(NoteStore.DatabaseId) is { } held)
+            foreach (var held in _heldEdits.For(NoteStore.DatabaseId))
             {
                 if (!SaveCurrentNote(refreshList: false)) return;
-                if (_currentId != held.NoteId && NoteStore.GetNote(held.NoteId) is { IsDeleted: false }) OpenNote(held.NoteId);
-                if (!held.TryRestore(Editor.Document, _currentId, NoteStore.DatabaseId)) return;
-                _heldEdits.Done(held);
-                TitleBox.Text = held.Title;
-                _findPlainStale = true;
-                MarkDirty();                 // the next autosave tries again
-                StatusText.Text = Loc("Str_St_LockEditsBack");
+                if (_currentId != held.NoteId && NoteStore.GetNote(held.NoteId) is { IsDeleted: false })
+                {
+                    // OpenNote finds notes through the sidebar, and a search left over from another
+                    // notepad may be hiding this one.
+                    if (!_notes.Any(n => n.Id == held.NoteId)) SearchBox.Text = "";
+                    OpenNote(held.NoteId);
+                }
+                if (PutBack(held)) StatusText.Text = Loc("Str_St_LockEditsBack");
             }
+        }
+
+        private bool PutBack(LockedEdits held)
+        {
+            if (!held.TryRestore(Editor.Document, _currentId, NoteStore.DatabaseId)) return false;
+            foreach (var recording in held.Recordings) Remember(recording);
+            _heldEdits.Done(held);
+            TitleBox.Text = held.Title;
+            _findPlainStale = true;
+            MarkDirty();                     // the next autosave tries again
+            return true;
         }
 
         /// <summary>Closes every other window, except that the sketch pad and dictation are only
@@ -203,12 +226,13 @@ namespace KillerNotes.Shell
             _sketchSession = null;
             _sketchEditTarget = null;
             SketchRailBtn.Tag = null;
-            _heldTools.Hold(NoteStore.DatabaseId, pad, () =>
+            // A pad can outlive a switch of notepads, so its owner is the one it was opened in,
+            // not whichever one is locking now.
+            _heldTools.Hold(session?.Database, pad, () =>
             {
                 if (_sketchPad != null) return false;
                 _sketchPad = pad;
-                // Bound afresh: this is the same database, perhaps under a new name or folder.
-                _sketchSession = session == null ? null : new SketchSession(session.NoteId);
+                _sketchSession = session;
                 _sketchEditTarget = target;
                 SketchRailBtn.Tag = "on";
                 pad.Show();
@@ -219,32 +243,65 @@ namespace KillerNotes.Shell
         private void HoldDictation()
         {
             var pad = _dictation!;
+            string? owner = _dictationOwner;
             _dictation = null;
+            _dictationOwner = null;
             DictationRailBtn.Tag = null;
-            _heldTools.Hold(NoteStore.DatabaseId, pad, () =>
+            _heldTools.Hold(owner, pad, () =>
             {
                 if (_dictation != null) return false;
                 _dictation = pad;
-                pad.RebindDatabase(NoteStore.DbPath);
+                _dictationOwner = NoteStore.DatabaseId;
                 DictationRailBtn.Tag = "on";
                 pad.Show();
                 return true;
             });
         }
 
+        /// <summary>A password change gave the open database a new id. It is the same database,
+        /// and whoever changed the password has just proved its key, so its work goes with it.</summary>
+        private void OnDatabaseRekeyed(string oldId, string newId)
+        {
+            _heldEdits.Rebind(oldId, newId);
+            _heldTools.Rebind(oldId, newId);
+            if (_sketchSession?.Database == oldId) _sketchSession.Rebind(newId);
+            if (_dictationOwner == oldId)
+            {
+                _dictationOwner = newId;
+                _dictation?.RebindDatabase(newId);
+            }
+        }
+
+        // Set once the quit prompt is answered, because the close fade calls Close again. The held
+        // edits stay until the quit is certain: a save that fails after the answer calls it off.
+        private bool _quitAccepted;
+
         /// <summary>Asked when the app quits with edits held: quitting loses them, so the safe
-        /// answer (Escape) keeps the app running.</summary>
+        /// answer (Escape) keeps the app running. Their titles stay off the prompt unless their
+        /// own database is open: anyone at a locked screen can reach it with Alt+F4.</summary>
         private bool ConfirmQuitWhileLocked()
         {
-            if (!_heldEdits.Any) return true;
+            if (!_heldEdits.Any || _quitAccepted) return true;
             var dlg = new ConfirmDialog(
                 Loc("Str_Lock_QuitHead"),
-                string.Format(Loc("Str_Lock_QuitBody"), string.Join(", ", _heldEdits.Titles)),
+                _heldEdits.AllBelongTo(NoteStore.DatabaseId)
+                    ? string.Format(Loc("Str_Lock_QuitBody"), string.Join(", ", _heldEdits.Titles))
+                    : Loc("Str_Lock_QuitBodyOther"),
                 Loc("Str_Lock_QuitAnyway"),
                 Loc("Str_Lock_KeepRunning")) { Owner = this };
             dlg.ShowDialog();
-            if (dlg.Confirmed) _heldEdits.Clear();   // answered once; the close fade calls Close again
+            _quitAccepted = dlg.Confirmed;
             return dlg.Confirmed;
+        }
+
+        /// <summary>An update or an install is about to shut the app down, and a shutdown ignores
+        /// the close prompt's answer, so both ask here, first. True when it can go ahead.</summary>
+        internal bool ReadyToShutDown()
+        {
+            if (!ConfirmQuitWhileLocked()) return false;
+            if (SaveCurrentNote(refreshList: false)) return true;
+            _quitAccepted = false;
+            return false;
         }
 
         /// <summary>Windows ending the session with edits held. They are only in memory, and with
@@ -256,7 +313,7 @@ namespace KillerNotes.Shell
             if (e.Cancel || !_heldEdits.Any) return;
             e.Cancel = true;
             _tray.ShowWindow();
-            StatusText.Text = Loc("Str_St_LockEditsHeld");
+            StatusText.Text = Loc("Str_St_SessionHeld");
         }
 
         // ---- The lock button and the locked screen ----

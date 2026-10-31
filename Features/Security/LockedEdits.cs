@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Documents;
+using KillerNotes.Services;
 
 namespace KillerNotes.Features.Security
 {
@@ -21,23 +23,31 @@ namespace KillerNotes.Features.Security
 
         internal long NoteId { get; }
         internal string Title { get; }
-        internal string? Database { get; }
+        internal string? Database { get; private set; }
         internal int Format { get; }
 
-        private LockedEdits(long noteId, string title, string? database, int format)
+        /// <summary>Audio the chips in these edits point at. A take not saved yet is nowhere else.</summary>
+        internal IReadOnlyList<Attachment> Recordings { get; }
+
+        private LockedEdits(long noteId, string title, string? database, int format, IEnumerable<Attachment>? recordings)
         {
             NoteId = noteId;
             Title = title;
             Database = database;
             Format = format;
+            Recordings = recordings?.ToList() ?? [];
         }
 
-        internal static LockedEdits Capture(FlowDocument editor, long noteId, string title, string? database, int format)
+        internal static LockedEdits Capture(FlowDocument editor, long noteId, string title, string? database, int format,
+            IEnumerable<Attachment>? recordings = null)
         {
-            var edits = new LockedEdits(noteId, title, database, format);
+            var edits = new LockedEdits(noteId, title, database, format, recordings);
             Move(editor, edits._held);
             return edits;
         }
+
+        /// <summary>The password of their database changed, which gives it a new id.</summary>
+        internal void Rebind(string newDatabase) => Database = newDatabase;
 
         /// <summary>Puts the edits back over what the unlock loaded, but only into their own note
         /// of their own database. Returns false, and keeps holding them, for anything else.</summary>

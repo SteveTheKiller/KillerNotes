@@ -324,7 +324,7 @@ namespace KillerNotes.Shell
                 {
                     // Sidebar results also match titles, tags, and sketch labels. Only open a
                     // note when its actual editor text has a hit under the find bar's options.
-                    // The stored search text holds all of that text, so a note it rules out skips
+                    // The stored search text carries that text too, so a note it rules out skips
                     // loading a document: this walk runs on the UI thread, between two F3 presses.
                     hits.Clear();
                     CollectFindHits(NoteStore.LoadPlain(note.Id), hits);

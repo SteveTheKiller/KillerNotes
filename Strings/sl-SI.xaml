@@ -895,12 +895,14 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Lock_Now">Zakleni zdaj</sys:String>
     <sys:String x:Key="Str_Lock_QuitHead">Zapreti in izgubiti neshranjene spremembe?</sys:String>
     <sys:String x:Key="Str_Lock_QuitBody">Sprememb v {0} ni bilo mogoče shraniti, preden se je KillerNotes zaklenil. Najprej odklenite, da jih shranite. Če zaprete zdaj, se izgubijo.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBodyOther">Nekaterih sprememb ni bilo mogoče shraniti, preden se je KillerNotes zaklenil. Najprej odklenite njihovo beležnico, da jih shranite. Če zaprete zdaj, se izgubijo.</sys:String>
     <sys:String x:Key="Str_Lock_QuitAnyway">Vseeno zapri</sys:String>
     <sys:String x:Key="Str_Lock_KeepRunning">Pusti odprto</sys:String>
     <sys:String x:Key="Str_St_LockSaveFailed">Ni zaklenjeno: odprtega zapiska ni bilo mogoče shraniti. Vaše spremembe so še tu.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Zaklepanje zahteva geslo. Najprej ga nastavite z gumbom ključavnice.</sys:String>
     <sys:String x:Key="Str_St_Locked">Zaklenjeno.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Zaklenjeno. Odprtega zapiska prej ni bilo mogoče shraniti, zato so njegove spremembe shranjene do odklepanja.</sys:String>
+    <sys:String x:Key="Str_St_SessionHeld">Windows ni mogel končati seje, ker nekatere spremembe še čakajo na svojo beležnico. Odprite jo in odklenite, da se shranijo.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Spremembe izpred zaklepa so nazaj in se bodo zdaj shranile.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Odklenite, da odprete {0}.</sys:String>
     <sys:String x:Key="Str_About_LockWithWindows">Zakleni zapiske, ko se Windows zaklene ali preide v spanje</sys:String>

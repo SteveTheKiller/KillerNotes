@@ -51,6 +51,40 @@ namespace KillerNotes.Tests
             Assert.Equal(2, Chips(again).Count);
         });
 
+        // A take that was never saved lives only in the editor's memory, and reopening the note
+        // after a lock forgets that memory, so the held edits have to carry the audio themselves.
+        [Fact]
+        public void AnUnsavedRecordingComesBackWithItsAudioFromALock() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            long id = NoteStore.Create("n");
+            var shell = Shell(id, "before ");
+            Set(shell, "_heldEdits", new KillerNotes.Features.Security.HeldEdits());
+            Set(shell, "TitleBox", new TextBox { Text = "n" });
+            Embed(shell, Audio(21), 1500);
+
+            Invoke(shell, "HoldOpenEdits");
+            var held = ((KillerNotes.Features.Security.HeldEdits)Get(shell, "_heldEdits")!).All.Single();
+            Set(shell, "_currentId", id);
+            ((RichTextBox)Get(shell, "Editor")!).Document = new FlowDocument(new Paragraph());
+            NoteStore.Save(id, "n", Package("before "), "before ");
+            Open(shell, id);                 // the unlock reloads the note first
+            Assert.True((bool)Invoke(shell, "PutBack", held)!);
+            Save(shell, id);
+
+            var reopened = Shell(id, null);
+            Open(reopened, id);
+            Assert.Equal(Audio(21), Payload(Chips(reopened).Single()));
+        });
+
+        private static byte[] Package(string text)
+        {
+            var doc = new FlowDocument(new Paragraph(new Run(text)));
+            using var bytes = new MemoryStream();
+            new TextRange(doc.ContentStart, doc.ContentEnd).Save(bytes, DataFormats.XamlPackage);
+            return bytes.ToArray();
+        }
+
         [Fact]
         public void RestoringAVersionPlaysTheAudioThatVersionHad() => Sta.Run(() =>
         {
@@ -238,7 +272,7 @@ namespace KillerNotes.Tests
         }
 
         private static void Embed(MainWindow shell, byte[] audio, int ms, string? replaceHash = null, long editNoteId = -1) =>
-            Invoke(shell, "EmbedRecordingInNote", audio, ms, replaceHash!, editNoteId, NoteStore.DbPath);
+            Invoke(shell, "EmbedRecordingInNote", audio, ms, replaceHash!, editNoteId, NoteStore.DatabaseId!);
 
         private static void Save(MainWindow shell, long id)
         {

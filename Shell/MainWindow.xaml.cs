@@ -136,7 +136,7 @@ namespace KillerNotes.Shell
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
-            if (!SaveCurrentNote(refreshList: false)) return;
+            if (!ReadyToShutDown()) return;   // LockNow.cs
             PortableBadge.Visibility = Visibility.Collapsed;
             App.InstallAndRelaunch(wantDesktop: dlg.Check1Checked);
         }

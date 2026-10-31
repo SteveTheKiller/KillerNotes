@@ -20,12 +20,22 @@ namespace KillerNotes.Features.Security
 
         internal void Hold(LockedEdits edits) => _held.Add(edits);
 
-        /// <summary>The oldest edits held for this database, or null when it has none. A database
-        /// with no id owns nothing.</summary>
-        internal LockedEdits? NextFor(string? database) =>
-            database == null ? null : _held.FirstOrDefault(edits => string.Equals(edits.Database, database, StringComparison.Ordinal));
+        /// <summary>Every edit held for this database, oldest first, as a list of its own so an
+        /// entry can finish while the list is walked. A database with no id owns nothing.</summary>
+        internal IReadOnlyList<LockedEdits> For(string? database) =>
+            database == null ? [] : [.. _held.Where(edits => string.Equals(edits.Database, database, StringComparison.Ordinal))];
+
+        /// <summary>True when everything held belongs to this database, so its titles are its
+        /// own to show.</summary>
+        internal bool AllBelongTo(string? database) => For(database).Count == _held.Count;
 
         internal void Done(LockedEdits edits) => _held.Remove(edits);
+
+        /// <summary>The password of a database changed, which gives it a new id.</summary>
+        internal void Rebind(string oldDatabase, string newDatabase)
+        {
+            foreach (var edits in For(oldDatabase)) edits.Rebind(newDatabase);
+        }
 
         internal void Clear() => _held.Clear();
     }

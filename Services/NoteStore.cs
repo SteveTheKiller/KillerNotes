@@ -63,6 +63,10 @@ namespace KillerNotes.Services
         /// closed, and for a read-only file from before ids existed.</summary>
         public static string? DatabaseId { get; private set; }
 
+        /// <summary>A password change gave the open file a new id: the old one, then the new one.
+        /// Work held for that file follows it.</summary>
+        public static event Action<string, string>? Rekeyed;
+
         /// <summary>True when the database was opened read-only because another host's lock
         /// file owns it (network shares only). Write methods no-op while this is set, and the
         /// UI disables editing.</summary>
@@ -251,10 +255,12 @@ namespace KillerNotes.Services
                 }
                 catch { Close(); throw; }
             }
-            DatabaseId = ReadDatabaseId();
+            try { DatabaseId = ReadDatabaseId(); }
+            catch { Close(); throw; }
         }
 
         private const string DatabaseIdKey = "database_id";
+        private static string? DatabaseIdBeforeRekey;
 
         private static string? ReadDatabaseId()
         {
@@ -2255,6 +2261,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             if (string.IsNullOrEmpty(newPassword)) newPassword = null;
 
             string? oldPassword = _password;   // Close() clears it; kept for rollback
+            DatabaseIdBeforeRekey = DatabaseId;
             string tmp = DbPath + ".rekey";
             if (File.Exists(tmp)) File.Delete(tmp);
 
@@ -2320,8 +2327,10 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 try { File.Delete(tmp); } catch { /* best effort */ }
                 throw;
             }
+            string? oldId = DatabaseIdBeforeRekey;
             Open(newPassword);
             File.Delete(bak);   // only once the rewritten db opened cleanly
+            if (oldId != null && DatabaseId != null) Rekeyed?.Invoke(oldId, DatabaseId);
         }
 
         /// <summary>File.Replace with backoff retries. Antivirus and indexer scans of the

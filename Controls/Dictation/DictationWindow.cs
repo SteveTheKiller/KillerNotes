@@ -545,20 +545,21 @@ namespace KillerNotes.Controls.Dictation
         // ---- Actions ----
 
         /// <summary>Lock now (Shell/LockNow.cs): the microphone is never live behind a locked
-        /// screen. The take is kept, exactly as if Stop had been pressed.</summary>
+        /// screen. The take is kept, as if Stop had been pressed, but not transcribed: that can
+        /// open the speech model chooser, and a lock must not wait on a dialog.</summary>
         internal void StopForLock()
         {
-            if (DictationRecorder.IsRecording) ToggleRecord();
+            if (DictationRecorder.IsRecording) ToggleRecord(transcribe: false);
         }
 
-        /// <summary>Lock now again: the database came back, perhaps renamed or moved, so a recording
+        /// <summary>The password of its database changed, which gives it a new id, so a recording
         /// open for editing still writes back to it.</summary>
         internal void RebindDatabase(string database)
         {
             if (_editDatabase != null) _editDatabase = database;
         }
 
-        private void ToggleRecord()
+        private void ToggleRecord(bool transcribe = true)
         {
             if (DictationRecorder.IsRecording)
             {
@@ -586,7 +587,7 @@ namespace KillerNotes.Controls.Dictation
                 // Transcribe straight away rather than waiting to be asked. Stopping a dictation
                 // take always means "now turn that into text" - the button stays as a way to run it
                 // again, but it is no longer a step you have to remember.
-                if (_transcribeBtn.IsEnabled) Transcribe();
+                if (_transcribeBtn.IsEnabled && transcribe) Transcribe();
                 else _status.Text = L("Str_Dict_Recorded", "Recorded. Transcribe it, embed it, or both.");
                 return;
             }
@@ -622,7 +623,7 @@ namespace KillerNotes.Controls.Dictation
         /// slicing works on it exactly as on a fresh take; re-embedding overwrites the original
         /// rather than adding a second copy (Editor.Dictation.cs).
         /// </summary>
-        internal void LoadForEdit(byte[] wav, string hash, long noteId, string database)
+        internal void LoadForEdit(byte[] wav, string hash, long noteId, string? database)
         {
             if (DictationRecorder.IsRecording) return;   // never clobber a take in progress
 
@@ -671,7 +672,7 @@ namespace KillerNotes.Controls.Dictation
         /// <summary>The last copied segment, as a standalone WAV. Kept in the window rather than on
         /// the system clipboard: this is audio being spliced within one recording, and putting it on
         /// the clipboard would trample whatever the user was copying elsewhere.</summary>
-        private static byte[]? _clip;
+        private byte[]? _clip;
 
         /// <summary>One undo level, taken before every destructive edit.</summary>
         private byte[]? _undo;

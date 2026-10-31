@@ -1033,12 +1033,14 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Lock_Now">Lås nå</sys:String>
     <sys:String x:Key="Str_Lock_QuitHead">Avslutte og miste ulagrede endringer?</sys:String>
     <sys:String x:Key="Str_Lock_QuitBody">Endringer i {0} kunne ikke lagres før KillerNotes ble låst. Lås opp først for å lagre dem. Avslutter du nå, går de tapt.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBodyOther">Noen endringer kunne ikke lagres før KillerNotes ble låst. Lås først opp notatblokken de hører til, for å lagre dem. Avslutter du nå, går de tapt.</sys:String>
     <sys:String x:Key="Str_Lock_QuitAnyway">Avslutt likevel</sys:String>
     <sys:String x:Key="Str_Lock_KeepRunning">Fortsett å kjøre</sys:String>
     <sys:String x:Key="Str_St_LockSaveFailed">Ikke låst: det åpne notatet kunne ikke lagres. Endringene dine er der fortsatt.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Lås nå trenger et passord. Angi et med låseknappen først.</sys:String>
     <sys:String x:Key="Str_St_Locked">Låst.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Låst. Det åpne notatet kunne ikke lagres først, så endringene beholdes til du låser opp.</sys:String>
+    <sys:String x:Key="Str_St_SessionHeld">Windows kunne ikke avslutte økten fordi noen endringer fortsatt venter på notatblokken sin. Åpne den og lås opp for å lagre dem.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Endringene fra før låsingen er tilbake og lagres nå.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Lås opp for å åpne {0}.</sys:String>
     <sys:String x:Key="Str_About_LockWithWindows">Lås notater når Windows låses eller går i hvilemodus</sys:String>

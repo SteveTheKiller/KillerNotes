@@ -996,12 +996,14 @@
     <sys:String x:Key="Str_Lock_Now">Заблокировать сейчас</sys:String>
     <sys:String x:Key="Str_Lock_QuitHead">Выйти и потерять несохранённые изменения?</sys:String>
     <sys:String x:Key="Str_Lock_QuitBody">Изменения в {0} не удалось сохранить до блокировки KillerNotes. Сначала разблокируйте, чтобы сохранить их. При выходе сейчас они пропадут.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBodyOther">Некоторые изменения не удалось сохранить до блокировки KillerNotes. Сначала разблокируйте блокнот, к которому они относятся, чтобы сохранить их. При выходе сейчас они пропадут.</sys:String>
     <sys:String x:Key="Str_Lock_QuitAnyway">Всё равно выйти</sys:String>
     <sys:String x:Key="Str_Lock_KeepRunning">Не закрывать</sys:String>
     <sys:String x:Key="Str_St_LockSaveFailed">Не заблокировано: открытую заметку не удалось сохранить. Ваши изменения на месте.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Для блокировки нужен пароль. Сначала задайте его кнопкой с замком.</sys:String>
     <sys:String x:Key="Str_St_Locked">Заблокировано.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Заблокировано. Открытую заметку не удалось сохранить заранее, поэтому её изменения хранятся до разблокировки.</sys:String>
+    <sys:String x:Key="Str_St_SessionHeld">Windows не удалось завершить сеанс, потому что некоторые изменения всё ещё ждут своего блокнота. Откройте его и разблокируйте, чтобы сохранить их.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Изменения, сделанные до блокировки, вернулись и сейчас будут сохранены.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Разблокируйте, чтобы открыть {0}.</sys:String>
     <sys:String x:Key="Str_About_LockWithWindows">Блокировать заметки, когда Windows блокируется или уходит в сон</sys:String>

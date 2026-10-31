@@ -63,7 +63,7 @@ namespace KillerNotes.Tests
             OpenFolder("b", null);
             for (int i = 0; i < 3; i++)
             {
-                Assert.Null(held.NextFor(NoteStore.DatabaseId));
+                Assert.Empty(held.For(NoteStore.DatabaseId));
                 OpenFolder("c" + i, null);
             }
 
@@ -83,7 +83,7 @@ namespace KillerNotes.Tests
             Assert.Equal(note, other);
             Assert.Equal("notes.db", NoteStore.ActiveDbFile);
 
-            Assert.Null(held.NextFor(NoteStore.DatabaseId));
+            Assert.Empty(held.For(NoteStore.DatabaseId));
             var editor = new FlowDocument(new Paragraph(new Run("B's own words")));
             Assert.False(held.Titles.Count == 0);
             Assert.False(Held(held).TryRestore(editor, other, NoteStore.DatabaseId));
@@ -103,7 +103,7 @@ namespace KillerNotes.Tests
 
             NoteStore.Open();
 
-            Assert.Null(held.NextFor(NoteStore.DatabaseId));
+            Assert.Empty(held.For(NoteStore.DatabaseId));
             Assert.True(held.Any);
         });
 
@@ -149,7 +149,7 @@ namespace KillerNotes.Tests
             NoteStore.Open();
 
             Assert.False(NoteStore.HasPassword);
-            Assert.Null(held.NextFor(NoteStore.DatabaseId));
+            Assert.Empty(held.For(NoteStore.DatabaseId));
         });
 
         [Fact]
@@ -163,7 +163,7 @@ namespace KillerNotes.Tests
             Assert.Empty(editor.Blocks);
 
             var reopened = new FlowDocument();
-            Assert.True(held.NextFor("db-a")!.TryRestore(reopened, 3, "db-a"));
+            Assert.True(held.For("db-a").Single().TryRestore(reopened, 3, "db-a"));
 
             var restored = ((InlineUIContainer)((Paragraph)reopened.Blocks.First()).Inlines.First()).Child;
             Assert.Same(picture, restored);
@@ -176,11 +176,68 @@ namespace KillerNotes.Tests
             var held = new HeldEdits();
             held.Hold(LockedEdits.Capture(new FlowDocument(), 1, "t", null, 0));
 
-            Assert.Null(held.NextFor(null));
-            Assert.Null(held.NextFor("db-a"));
+            Assert.Empty(held.For(null));
+            Assert.Empty(held.For("db-a"));
             Assert.True(held.Any);
             Assert.False(held.All[0].TryRestore(new FlowDocument(), 1, null));
         });
+
+        [Fact]
+        public void OneStuckEntryDoesNotHideTheOthersForThatDatabase() => Sta.Run(() =>
+        {
+            var held = new HeldEdits();
+            held.Hold(LockedEdits.Capture(new FlowDocument(), 1, "gone", "db-a", 0));
+            held.Hold(LockedEdits.Capture(new FlowDocument(), 2, "fine", "db-a", 0));
+
+            var walked = held.For("db-a");
+            held.Done(walked[1]);    // finishing one while walking must not disturb the walk
+
+            Assert.Equal(new[] { "gone", "fine" }, walked.Select(e => e.Title));
+            Assert.Equal(new[] { "gone" }, held.Titles);
+        });
+
+        [Fact]
+        public void TitlesAreOnlyShownForTheDatabaseTheyBelongTo() => Sta.Run(() =>
+        {
+            var held = new HeldEdits();
+            held.Hold(LockedEdits.Capture(new FlowDocument(), 1, "private title", "db-a", 0));
+
+            Assert.False(held.AllBelongTo("db-b"));
+            Assert.False(held.AllBelongTo(null));
+            Assert.True(held.AllBelongTo("db-a"));
+
+            held.Hold(LockedEdits.Capture(new FlowDocument(), 2, "another", "db-b", 0));
+            Assert.False(held.AllBelongTo("db-a"));
+        });
+
+        [Fact]
+        public void HeldWorkFollowsItsDatabaseThroughAPasswordChange() => Sta.Run(() =>
+        {
+            var edits = new HeldEdits();
+            var tools = new HeldTools();
+            bool shown = false;
+            edits.Hold(LockedEdits.Capture(new FlowDocument(), 1, "t", "old-id", 0));
+            tools.Hold("old-id", "sketch", () => shown = true);
+
+            edits.Rebind("old-id", "new-id");
+            tools.Rebind("old-id", "new-id");
+
+            Assert.Single(edits.For("new-id"));
+            Assert.Empty(edits.For("old-id"));
+            Assert.True(edits.All[0].TryRestore(new FlowDocument(), 1, "new-id"));
+            tools.ReturnFor("old-id");
+            Assert.False(shown);
+            tools.ReturnFor("new-id");
+            Assert.True(shown);
+        });
+
+        [Fact]
+        public void TheDictationClipBelongsToOnePadAndNotToEveryPad()
+        {
+            var clip = typeof(KillerNotes.Controls.Dictation.DictationWindow).GetField("_clip",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            Assert.NotNull(clip);
+        }
 
         [Fact]
         public void AHeldToolStaysHiddenFromEveryOtherDatabase()
@@ -255,10 +312,9 @@ namespace KillerNotes.Tests
 
         private static string Restored(HeldEdits held, string database, long note)
         {
-            var edits = held.NextFor(database);
-            Assert.NotNull(edits);
+            var edits = held.For(database).Single();
             var editor = new FlowDocument(new Paragraph(new Run("loaded from disk")));
-            Assert.True(edits!.TryRestore(editor, note, database));
+            Assert.True(edits.TryRestore(editor, note, database));
             held.Done(edits);
             return Text(editor);
         }

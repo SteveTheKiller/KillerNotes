@@ -21,6 +21,10 @@ namespace KillerNotes.Shell
     {
         private DictationWindow? _dictation;
 
+        /// <summary>The database the pad was opened in or last loaded a recording from
+        /// (NoteStore.DatabaseId). A lock holds the pad for this one (LockNow.cs).</summary>
+        private string? _dictationOwner;
+
         /// <summary>m:ss. A const so the format string is written once rather than repeated as an
         /// escaped literal at each call site.</summary>
         private const string DurationFormat = @"m\:ss";
@@ -137,11 +141,13 @@ namespace KillerNotes.Shell
             {
                 var pad = new DictationWindow(this, PrintDictationToNote, EmbedRecordingInNote);
                 _dictation = pad;
+                _dictationOwner = NoteStore.DatabaseId;
                 pad.Closed += (_, _) =>
                 {
                     _heldTools.Forget(pad);          // LockNow.cs - a held pad closes with the app
                     if (_dictation != pad) return;
                     _dictation = null;
+                    _dictationOwner = null;
                     DictationRailBtn.Tag = null;
                     _heldTools.ReturnFor(NoteStore.DatabaseId);   // a held pad waiting for this slot
                 };
@@ -185,7 +191,7 @@ namespace KillerNotes.Shell
             // original behind next to a second copy. The earlier take stays in the note's history.
             if (replaceHash != null)
             {
-                if (editNoteId < 0 || !string.Equals(editDatabase, NoteStore.DbPath, StringComparison.OrdinalIgnoreCase))
+                if (editNoteId < 0 || editDatabase == null || !string.Equals(editDatabase, NoteStore.DatabaseId, StringComparison.Ordinal))
                     throw new InvalidOperationException(Loc("Str_Dict_Missing"));
 
                 if (_currentId == editNoteId)
@@ -474,7 +480,8 @@ namespace KillerNotes.Shell
 
             _recEditChip = CtxRecordingChip();
             OpenDictation();
-            _dictation?.LoadForEdit(wav, rec.Hash, _currentId, NoteStore.DbPath);
+            _dictationOwner = NoteStore.DatabaseId;
+            _dictation?.LoadForEdit(wav, rec.Hash, _currentId, NoteStore.DatabaseId);
         }
 
         /// <summary>The chip last opened for editing, so its re-embed replaces that chip and not

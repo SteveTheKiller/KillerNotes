@@ -157,6 +157,7 @@ namespace KillerNotes.Shell
             if (!SaveCurrentNote(refreshList: false))
             {
                 e.Cancel = true;
+                _quitAccepted = false;   // LockNow.cs - the quit is off, so the held edits stay held
                 RootGrid.BeginAnimation(UIElement.OpacityProperty, null);
                 RootGrid.Opacity = 1;
                 _closeFadeComplete = false;

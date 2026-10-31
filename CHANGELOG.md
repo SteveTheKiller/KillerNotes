@@ -6,14 +6,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.6.1] - Unreleased
 
-1.6.1 hardens updates, keeps a locked notepad from trapping you, fixes folder picking, and moves KillerNotes onto the shared Killer Tools kit.
+1.6.1 keeps locked work with its own notepad, makes failed exports and imports leave nothing broken, hardens updates, fixes folder picking, and moves KillerNotes onto the shared Killer Tools kit.
 
 ### Fixed
-- An all-users update reopens KillerNotes for the signed-in user at normal rights when it finishes. Windows was refusing that relaunch, so the app stayed closed.
-- Edits held through a failed automatic lock, and an open sketch or recording, stay with the database they came from. Opening another notepad from the locked screen no longer shows them, a same-named file in another folder cannot receive them, a second failed lock no longer replaces the first one's edits, and Windows sign-out stops and asks you to unlock instead of losing them.
-- A Markdown export that fails partway no longer changes the previous export's pictures or recordings. The new files land under their own names, and the old ones leave only after the new text is in place.
+- Edits held through a failed automatic lock stay with the database they came from, recordings included. A same-named file in another folder cannot receive them, a second failed lock no longer replaces the first one's edits, and Windows sign-out, updates and installs stop for them instead of losing them.
+- An open sketch or recording waits behind a lock for its own notepad, so opening another notepad from the locked screen no longer shows it. Search text is cleared at the lock, and the quit prompt no longer names held notes from a notepad that is not open.
+- A Markdown export that fails partway no longer changes the previous export's pictures or recordings, and exports now include a note's recordings. The new files land under their own names, and the old ones leave only after the new text is in place.
 - Exporting a whole database as .kndb writes to a staged copy first, so a copy that fails partway leaves the previous export as it was.
 - A document import that fails leaves no empty note behind, so retrying no longer stacks up placeholders.
+- An all-users update reopens KillerNotes for the signed-in user at normal rights when it finishes. Windows was refusing that relaunch, so the app stayed closed.
 - Update and uninstall helpers load PowerShell modules only from Windows' own folder, so a module planted in your Documents cannot run inside them as administrator; a failed uninstall reports the real reason and retries when a copy is still running; a stalled update says so instead of silently doing nothing; and the window no longer freezes while an update is handed off.
 - The elevated part of an update compiles its helper code in a folder only administrators can open, so another program running as you cannot slip code into it, and an update that finished is no longer reported as failed when the app cannot be reopened afterward.
 - Updates keep working after the publisher's code signing certificate is renewed. A release must still carry a valid signature naming the same publisher, but no longer the exact certificate of the installed copy.

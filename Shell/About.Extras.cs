@@ -12,7 +12,7 @@ namespace KillerNotes.Shell
         bool IAboutStartup.StartWithWindows { set => AboutStartWithWindows.IsChecked = value; }
         bool IAboutTray.CloseToTray         { set => AboutCloseToTray.IsChecked = value; }
 
-        internal bool SaveOpenNoteForUpdate() => SaveCurrentNote(refreshList: false);
+        internal bool SaveOpenNoteForUpdate() => ReadyToShutDown();   // LockNow.cs
 
         private void AboutStartWithWindows_Click(object sender, RoutedEventArgs e)
             => _about.SetStartWithWindows(AboutStartWithWindows.IsChecked == true);

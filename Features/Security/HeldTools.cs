@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KillerNotes.Features.Security
 {
@@ -10,7 +11,7 @@ namespace KillerNotes.Features.Security
     /// </summary>
     internal sealed class HeldTools
     {
-        private readonly List<(string? Database, object Tool, Func<bool> Return)> _held = [];
+        private List<(string? Database, object Tool, Func<bool> Return)> _held = [];
 
         /// <summary><paramref name="bringBack"/> shows the tool and returns true, or returns false
         /// while its place is taken, and the tool is offered again at the next chance.</summary>
@@ -26,5 +27,9 @@ namespace KillerNotes.Features.Security
         }
 
         internal void Forget(object tool) => _held.RemoveAll(held => ReferenceEquals(held.Tool, tool));
+
+        /// <summary>The password of a database changed, which gives it a new id.</summary>
+        internal void Rebind(string oldDatabase, string newDatabase) => _held =
+            [.. _held.Select(held => string.Equals(held.Database, oldDatabase, StringComparison.Ordinal) ? held with { Database = newDatabase } : held)];
     }
 }

@@ -996,12 +996,14 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Lock_Now">Blocca ora</sys:String>
     <sys:String x:Key="Str_Lock_QuitHead">Uscire e perdere le modifiche non salvate?</sys:String>
     <sys:String x:Key="Str_Lock_QuitBody">Le modifiche a {0} non sono state salvate prima del blocco di KillerNotes. Sblocca prima per salvarle. Uscendo ora andranno perse.</sys:String>
+    <sys:String x:Key="Str_Lock_QuitBodyOther">Alcune modifiche non sono state salvate prima del blocco di KillerNotes. Sblocca prima il loro blocco note per salvarle. Uscendo ora andranno perse.</sys:String>
     <sys:String x:Key="Str_Lock_QuitAnyway">Esci comunque</sys:String>
     <sys:String x:Key="Str_Lock_KeepRunning">Continua</sys:String>
     <sys:String x:Key="Str_St_LockSaveFailed">Non bloccato: non è stato possibile salvare la nota aperta. Le tue modifiche sono ancora qui.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Blocca ora richiede una password. Impostane prima una con il pulsante del lucchetto.</sys:String>
     <sys:String x:Key="Str_St_Locked">Bloccato.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Bloccato. Non è stato possibile salvare prima la nota aperta, quindi le modifiche sono conservate fino allo sblocco.</sys:String>
+    <sys:String x:Key="Str_St_SessionHeld">Windows non ha potuto terminare la sessione perché alcune modifiche sono ancora in attesa del loro blocco note. Aprilo e sbloccalo per salvarle.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Le modifiche di prima del blocco sono tornate e verranno salvate ora.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Sblocca per aprire {0}.</sys:String>
     <sys:String x:Key="Str_About_LockWithWindows">Blocca le note quando Windows si blocca o va in sospensione</sys:String>
