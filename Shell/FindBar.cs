@@ -324,18 +324,25 @@ namespace KillerNotes.Shell
                 {
                     // Sidebar results also match titles, tags, and sketch labels. Only open a
                     // note when its actual editor text has a hit under the find bar's options.
-                    byte[]? blob = NoteStore.LoadContent(note.Id);
+                    // The stored search text holds all of that text, so a note it rules out skips
+                    // loading a document: this walk runs on the UI thread, between two F3 presses.
+                    hits.Clear();
+                    CollectFindHits(NoteStore.LoadPlain(note.Id), hits);
                     FlowDocument? doc = null;
-                    try
+                    if (hits.Count > 0)
                     {
-                        if (note.Format == 1)
+                        byte[]? blob = NoteStore.LoadContent(note.Id);
+                        try
                         {
-                            doc = new FlowDocument();
-                            MarkdownBlob.Fill(doc, MarkdownBlob.Decode(blob));
+                            if (note.Format == 1)
+                            {
+                                doc = new FlowDocument();
+                                MarkdownBlob.Fill(doc, MarkdownBlob.Decode(blob));
+                            }
+                            else if (blob != null) doc = LoadDocBlob(blob);
                         }
-                        else if (blob != null) doc = LoadDocBlob(blob);
+                        catch { }   // an unreadable candidate must not interrupt navigation
                     }
-                    catch { }   // an unreadable candidate must not interrupt navigation
                     if (doc != null)
                     {
                         hits.Clear();

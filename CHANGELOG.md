@@ -21,7 +21,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Exit from the tray icon brings the window back and closes it the normal way, so the prompt about a locked note's unsaved edits can call the exit off. Before, KillerNotes quit whatever the answer.
 - Picking a folder to import, to export the vault into, for backups or for the data folder takes the highlighted folder, as Explorer does. In 1.6.0, Open did nothing while a folder was highlighted, so Import a folder of notes could not be finished from a folder that held only subfolders.
 - Blood, Cyanotic and Greed load again after their rows took a cream selection gradient.
-- F3 and Shift+F3 navigate global search matches and continue between matching notes, preserving the active match through editor refreshes. (#18)
+- F3 and Shift+F3 navigate global search matches and continue between matching notes, preserving the active match through editor refreshes, and the find bar's F3 no longer loads every result on the way to the next match. (#18)
 - File dialogs stay responsive on slow or crowded folders, cancel stale loads and identify incomplete listings.
 - Dialog title bars match the rest of the dialog in every theme except 98SE. They had their own band, a lighter strip in Light and a gradient in several dark themes, and the title bar painted its film grain twice.
 - The tray icon's menu opens from the pointer upward, out of the notification area, the same way in every Killer app. A short menu no longer covers the tray icons and a taller one no longer floats about 40 pixels above them.
