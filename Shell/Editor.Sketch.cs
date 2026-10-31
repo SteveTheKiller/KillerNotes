@@ -83,7 +83,7 @@ namespace KillerNotes.Shell
                     if (_sketchPad != pad) return;
                     _sketchPad = null; _sketchEditTarget = null; _sketchSession = null;
                     SketchRailBtn.Tag = null;
-                    _heldTools.ReturnFor(NoteStore.DatabaseId);   // a held pad waiting for this slot
+                    _heldTools.ReturnFor(ToolOwner);   // a held pad waiting for this slot
                 };
                 pad.Show();
                 SketchRailBtn.Tag = "on";   // light the rail toggle while the pad is open (family pattern)

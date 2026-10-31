@@ -170,7 +170,7 @@ namespace KillerNotes.Shell
 
         private void RenameGroup_Click(object sender, RoutedEventArgs e)
         {
-            if (_ctxGroup is not GroupHeader g) return;
+            if (_ctxGroup is not GroupHeader g || RefuseReadOnly()) return;   // Notes.Document.cs
             var dlg = new InputDialog(Loc("Str_Dlg_RenameGroupHead"), g.Name, Loc("Str_Btn_Rename")) { Owner = this };
             dlg.ShowDialog();
             string name = dlg.Value.Trim().Replace(NoteStore.GroupSep, "");   // strip the reserved path separator
@@ -193,7 +193,7 @@ namespace KillerNotes.Shell
 
         private void DeleteGroup_Click(object sender, RoutedEventArgs e)
         {
-            if (_ctxGroup is not GroupHeader g) return;
+            if (_ctxGroup is not GroupHeader g || RefuseReadOnly()) return;   // Notes.Document.cs
             var confirm = new ConfirmDialog(
                 string.Format(Loc("Str_Dlg_DeleteGroupHead"), g.Name),
                 Loc("Str_Dlg_DeleteGroupBody"),

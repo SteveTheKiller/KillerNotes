@@ -325,14 +325,15 @@ namespace KillerNotes.Cli
             return inlined;
         }
 
-        // Where an option name sits after the command. Every write option takes a value, so the
-        // token after a name is its value and is never read as a name, even when it starts with --.
+        // Where an option name sits after the command. Every write option but a flag takes a value,
+        // so the token after a name is its value and is never read as a name, even when it starts
+        // with --. The flags are the same three McpCommands knows.
         private static int OptionIndex(string[] args, string name)
         {
             for (int i = 1; i < args.Length; i++)
             {
                 if (args[i] == name) return i;
-                if (args[i].StartsWith("--", StringComparison.Ordinal)) i++;
+                if (args[i].StartsWith("--", StringComparison.Ordinal) && args[i] is not ("--allow-loss" or "--confirm" or "--dry-run")) i++;
             }
             return -1;
         }

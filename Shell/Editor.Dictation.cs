@@ -149,7 +149,7 @@ namespace KillerNotes.Shell
                     _dictation = null;
                     _dictationOwner = null;
                     DictationRailBtn.Tag = null;
-                    _heldTools.ReturnFor(NoteStore.DatabaseId);   // a held pad waiting for this slot
+                    _heldTools.ReturnFor(ToolOwner);   // a held pad waiting for this slot
                 };
                 pad.Show();
                 DictationRailBtn.Tag = "on";   // light the rail toggle while the pad is open (family pattern)

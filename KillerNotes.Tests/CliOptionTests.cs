@@ -24,6 +24,9 @@ namespace KillerNotes.Tests
         [InlineData("get|5|--max-chars|10|--json", "get|5|--max-chars|10")]
         [InlineData("create|--title|t|--content|--json", "create|--title|t|--content|--json")]
         [InlineData("update|--id|3|--title|--json", "update|--id|3|--title|--json")]
+        [InlineData("convert|--id|1|--format|markdown|--allow-loss|--json", "convert|--id|1|--format|markdown|--allow-loss")]
+        [InlineData("delete-group|--name|x|--confirm|--json", "delete-group|--name|x|--confirm")]
+        [InlineData("import-folder|--path|p|--dry-run|--json", "import-folder|--path|p|--dry-run")]
         public void ATrailingJsonSwitchIsRemovedOnlyInOptionPosition(string given, string expected) =>
             Assert.Equal(expected.Split('|'), Program.StripJsonSwitch(given.Split('|')));
 
