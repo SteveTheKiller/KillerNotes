@@ -31,8 +31,10 @@ namespace KillerNotes.Features.Security
 
         /// <summary>Opens the active database, prompting to unlock when encrypted. Returns
         /// false when the user cancels (the app exits instead when exitOnCancel is set) or the
-        /// open fails; either way the locked screen is up, so no stale notes stay on screen.</summary>
-        internal bool Open(bool exitOnCancel)
+        /// open fails; either way the locked screen is up, so no stale notes stay on screen.
+        /// A caller with a notepad to fall back on passes lockOnFail false, so a canceled
+        /// switch closes nothing, and opens the fallback with the default.</summary>
+        internal bool Open(bool exitOnCancel, bool lockOnFail = true)
         {
             try
             {
@@ -45,7 +47,7 @@ namespace KillerNotes.Features.Security
                         try { NoteStore.Open(_dbPassword); }
                         catch (SqliteException) { }
                     }
-                    if (!NoteStore.IsOpen && !PromptUnlock(exitOnCancel)) return exitOnCancel ? false : ShowLockedAfterFailedOpen();
+                    if (!NoteStore.IsOpen && !PromptUnlock(exitOnCancel)) return exitOnCancel || !lockOnFail ? false : ShowLockedAfterFailedOpen();
                 }
                 else
                 {
@@ -56,7 +58,7 @@ namespace KillerNotes.Features.Security
             catch (Exception ex)
             {
                 _host.SetStatus(string.Format(_host.Loc("Str_St_OpenDbFailed"), ex.Message));
-                return ShowLockedAfterFailedOpen();
+                return lockOnFail && ShowLockedAfterFailedOpen();
             }
             return FinishOpen();
         }
@@ -283,7 +285,7 @@ namespace KillerNotes.Features.Security
             }
 
             _host.ClearEditor();
-            if (!Open(exitOnCancel: false))
+            if (!Open(exitOnCancel: false, lockOnFail: false))
             {
                 // Unlock of the chosen db was canceled - fall back to the previous one.
                 App.SetSetting("ActiveDatabase", prevFile);

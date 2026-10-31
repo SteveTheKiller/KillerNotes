@@ -49,6 +49,7 @@ namespace KillerNotes.Shell
             RefreshList();
             OpenStartupNote();   // Notes.cs - the app always opens into a note
             RestoreLockedEdits();   // LockNow.cs - edits an automatic lock could not save
+            RestoreQuickDraft();    // QuickNote.cs - this notepad's own draft, held through the lock
             _heldTools.ReturnFor(ToolOwner);   // LockNow.cs - this notepad's own tools only
             UpdateBackupHealth();   // Backup.cs - the footer warning is per notepad
         }
@@ -88,9 +89,9 @@ namespace KillerNotes.Shell
 
         /// <summary>Opens the active database after a switch (Sharing.cs, and the controller's own
         /// Manage databases round trip). Returns false when the unlock was canceled.</summary>
-        private bool OpenDatabase(bool exitOnCancel)
+        private bool OpenDatabase(bool exitOnCancel, bool lockOnFail = true)
         {
-            return _security.Open(exitOnCancel);
+            return _security.Open(exitOnCancel, lockOnFail);
         }
 
         /// <summary>Drops the session password: the file being opened is a different one, so its

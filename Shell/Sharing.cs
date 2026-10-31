@@ -134,7 +134,7 @@ namespace KillerNotes.Shell
                 App.SetSetting("ActiveDatabase", name);
                 ForgetDbPassword();   // SecurityHost.cs - a different file, its password is not ours
                 _currentId = -1;
-                if (!OpenDatabase(exitOnCancel: false))
+                if (!OpenDatabase(exitOnCancel: false, lockOnFail: false))
                 {
                     // Unlock canceled - fall back to the previous database.
                     App.SetSetting("ActiveDatabase", prevFile);

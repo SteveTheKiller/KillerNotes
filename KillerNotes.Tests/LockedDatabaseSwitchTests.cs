@@ -78,6 +78,29 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void ASwitchThatFailsKeepsTheScreenForTheFallbackOpen()
+        {
+            using var store = new TempStore();
+            NoteStore.Close();
+            Directory.CreateDirectory(Path.Combine(NoteStore.DbDir, "broken.db"));
+            NoteStore.DemoDbFile = "broken.db";
+            var host = new Host();
+            var controller = new SecurityController(host);
+
+            Assert.False(controller.Open(exitOnCancel: false, lockOnFail: false));
+
+            // Nothing on screen has been closed or cleared yet: the caller is about to reopen the
+            // notepad it came from, and the locked screen would only be a flash and a lost session.
+            Assert.False(controller.IsLocked);
+            Assert.Empty(host.Events);
+
+            NoteStore.DemoDbFile = "test.db";
+            Assert.True(controller.Open(exitOnCancel: false));
+            Assert.False(controller.IsLocked);
+            Assert.Equal(new[] { "load" }, host.Events);
+        }
+
+        [Fact]
         public void ManageDatabasesWithNothingOpenDoesNotReadTheClosedStore()
         {
             using var store = new TempStore();

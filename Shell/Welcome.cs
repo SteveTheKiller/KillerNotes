@@ -74,7 +74,7 @@ namespace KillerNotes.Shell
                     building = false;
                     _currentId = -1;
                 }
-                if (!OpenDatabase(exitOnCancel: false))
+                if (!OpenDatabase(exitOnCancel: false, lockOnFail: false))
                 {
                     App.SetSetting("ActiveDatabase", prevFile);
                     OpenDatabase(exitOnCancel: false);

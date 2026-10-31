@@ -71,6 +71,40 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void AnElevatedUninstallReturnsWhatTheElevatedCopyReturned()
+        {
+            ProcessStartInfo? started = null;
+
+            int code = App.RunElevatedUninstall(@"C:\Program Files\KillerNotes\KillerNotes.exe", silent: true, 77, info =>
+            {
+                started = info;
+                return KillerFamily.Deployment.InstallerExitCodes.Busy;
+            });
+
+            Assert.Equal(KillerFamily.Deployment.InstallerExitCodes.Busy, code);
+            Assert.Equal("runas", started!.Verb);
+            Assert.Equal("/uninstall-silent /launcher:77", started.Arguments);
+        }
+
+        [Fact]
+        public void ADeclinedElevationPromptReportsTheCancelledCode()
+        {
+            int code = App.RunElevatedUninstall("KillerNotes.exe", silent: true, 77,
+                _ => throw new System.ComponentModel.Win32Exception(1223));
+
+            Assert.Equal(KillerFamily.Deployment.InstallerExitCodes.Cancelled, code);
+        }
+
+        [Fact]
+        public void AnElevatedUninstallThatCannotStartIsNotASuccess()
+        {
+            int code = App.RunElevatedUninstall("KillerNotes.exe", silent: true, 77,
+                _ => throw new System.ComponentModel.Win32Exception(2));
+
+            Assert.NotEqual(KillerFamily.Deployment.InstallerExitCodes.Success, code);
+        }
+
+        [Fact]
         public void AMachineUninstallRemovesTheWholeKey()
         {
             string path = @"Software\KillerNotesTests-" + Guid.NewGuid().ToString("N");
@@ -169,6 +203,33 @@ namespace KillerNotes.Tests
             }
             finally { if (!child.HasExited) { child.Kill(); child.WaitForExit(5000); } }
         }
+
+        /// <summary>The unelevated copy that asks for elevation is the installed exe, and it stays alive
+        /// waiting for the elevated copy's result, so counting it would make every all-users uninstall
+        /// without admin rights call itself busy.</summary>
+        [Fact]
+        public void TheLauncherWaitingForTheElevatedCopyIsNotARunningCopy()
+        {
+            string exe = Path.Combine(_root, "launcher", "ping.exe");
+            Directory.CreateDirectory(Path.GetDirectoryName(exe)!);
+            File.Copy(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "PING.EXE"), exe);
+            using var launcher = Process.Start(new ProcessStartInfo(exe, "-n 30 127.0.0.1")
+            { UseShellExecute = false, CreateNoWindow = true })!;
+            try
+            {
+                Assert.True(SpinWaitFor(() => App.IsRunningElsewhere(exe)), "The waiting copy was not found.");
+                Assert.False(App.IsRunningElsewhere(exe, launcher.Id));
+            }
+            finally { if (!launcher.HasExited) { launcher.Kill(); launcher.WaitForExit(5000); } }
+        }
+
+        [Theory]
+        [InlineData("/uninstall /launcher:4242", 4242)]
+        [InlineData("/uninstall-silent /launcher:7", 7)]
+        [InlineData("/uninstall", null)]
+        [InlineData("/uninstall /launcher:x", null)]
+        public void TheElevatedCopyReadsWhoLaunchedIt(string args, int? expected) =>
+            Assert.Equal(expected, App.LauncherId(args.Split(' ')));
 
         private static bool SpinWaitFor(Func<bool> condition) => System.Threading.SpinWait.SpinUntil(condition, 5000);
 

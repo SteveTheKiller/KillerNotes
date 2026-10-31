@@ -20,15 +20,16 @@ namespace KillerNotes.Services
         [DllImport("kernel32.dll")]
         private static extern bool CloseHandle(IntPtr handle);
 
-        /// <summary>True when a process other than <paramref name="exceptId"/> runs the exe at this
-        /// path. A process whose path cannot be read is not counted.</summary>
-        internal static bool IsRunning(string exe, int exceptId)
+        /// <summary>True when a process other than <paramref name="exceptId"/> or
+        /// <paramref name="launcher"/> runs the exe at this path. A process whose path cannot be read
+        /// is not counted.</summary>
+        internal static bool IsRunning(string exe, int exceptId, int? launcher = null)
         {
             string full = Path.GetFullPath(exe);
             foreach (Process process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(full)))
                 using (process)
                 {
-                    if (process.Id == exceptId) continue;
+                    if (process.Id == exceptId || process.Id == launcher) continue;
                     string? path = ImagePath(process.Id);
                     if (path != null && string.Equals(path, full, StringComparison.OrdinalIgnoreCase)) return true;
                 }

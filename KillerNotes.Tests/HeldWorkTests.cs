@@ -196,6 +196,53 @@ namespace KillerNotes.Tests
             Assert.False(edits.Fits(new KillerNotes.Models.Note { Created = created, Format = 0, Deleted = DateTime.Now }));
         });
 
+        [Theory]
+        [InlineData(0, "Old title")]
+        [InlineData(1, "Old title")]
+        [InlineData(0, "")]
+        public void EditsThatNoLongerFitTheirNoteGoIntoANewNoteOfTheirOwnDatabase(int format, string title) => Sta.Run(() =>
+        {
+            string a = OpenFolder("a", "secret a");
+            long old = NoteStore.Create("Old title", format);
+            NoteStore.Create("Later note");
+            var edits = LockedEdits.Capture(new FlowDocument(new Paragraph(new Run("unsaved words"))), old, title, a, format);
+            NoteStore.Delete(old);
+            Assert.Null(NoteStore.GetNote(old));
+
+            Assert.True(edits.MoveToNewNote("Untitled"));
+
+            var made = NoteStore.GetNote(edits.NoteId)!;
+            Assert.NotEqual(old, made.Id);
+            Assert.Equal(title.Length == 0 ? "Untitled" : title, made.Title);
+            Assert.Equal(format, made.Format);
+            Assert.True(edits.Fits(made));
+            var editor = new FlowDocument();
+            Assert.True(edits.TryRestore(editor, made.Id, a));
+            Assert.Equal("unsaved words\r\n", Text(editor));
+        });
+
+        [Fact]
+        public void ADraftIsHandedBackOnlyToTheDatabaseItWasHeldFor()
+        {
+            var drafts = new HeldDrafts();
+            drafts.Hold("db-a", "words for A");
+            drafts.Hold("db-b", "words for B");
+
+            Assert.Equal("", drafts.Take("db-c"));
+            Assert.Equal("", drafts.Take((string?)null));
+            Assert.Equal("words for B", drafts.Take("db-b"));
+            Assert.Equal("", drafts.Take("db-b"));
+            Assert.Equal("words for A", drafts.Take(null, "db-a", "path:x"));
+        }
+
+        [Fact]
+        public void ADraftTypedMeanwhileStaysBesideTheHeldOne()
+        {
+            Assert.Equal("held", HeldDrafts.Join("held", ""));
+            Assert.Equal("typed", HeldDrafts.Join("", "typed"));
+            Assert.Equal("held" + Environment.NewLine + Environment.NewLine + "typed", HeldDrafts.Join("held", "typed"));
+        }
+
         [Fact]
         public void OneStuckEntryDoesNotHideTheOthersForThatDatabase() => Sta.Run(() =>
         {

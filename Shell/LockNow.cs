@@ -108,7 +108,7 @@ namespace KillerNotes.Shell
             CancelBackgroundJob();             // VaultExport.cs - an export or import reads with the notepad's key
             _dictation?.StopForLock();       // the microphone is never live behind a locked screen
             CloseWindowsForLock(includeTools: true);
-            _quickDraft = "";                // QuickNote.cs - closing the window just stored its text, and the locked screen reaches ShowQuickNote
+            HoldQuickDraft();                // QuickNote.cs - for its own notepad; the locked screen reaches ShowQuickNote
             CancelGlobalSearchPreview();     // GlobalSearch.cs
             _globalMatchCounts.Clear();
             _globalFindHits.Clear();
@@ -187,15 +187,20 @@ namespace KillerNotes.Shell
         /// <summary>Puts edits held through an automatic lock back into their notes, once their own
         /// database is open again (SecurityHost.LoadNotes, after every open). The editor holds one
         /// note at a time, so each waits until the one before it has saved. Edits whose note is gone
-        /// or has changed stay held, without holding up the others, and the status line says so. A
-        /// read-only database cannot take them yet.</summary>
+        /// or has changed go into a new note of the same database, titled as the held note was, so
+        /// nothing stays held for good. A read-only database cannot take them yet.</summary>
         private void RestoreLockedEdits()
         {
             if (NoteStore.IsReadOnly) return;
+            bool back = false;
             foreach (var held in _heldEdits.For(NoteStore.DatabaseId))
             {
                 if (!SaveCurrentNote(refreshList: false)) return;
-                if (NoteStore.GetNote(held.NoteId) is not { } note || !held.Fits(note)) continue;
+                if (NoteStore.GetNote(held.NoteId) is not { } note || !held.Fits(note))
+                {
+                    if (!held.MoveToNewNote(Loc("Str_Untitled"))) continue;
+                    RefreshList(preserveScroll: true);
+                }
                 if (_currentId != held.NoteId)
                 {
                     // OpenNote finds notes through the sidebar, and a search left over from another
@@ -203,9 +208,9 @@ namespace KillerNotes.Shell
                     if (!_notes.Any(n => n.Id == held.NoteId)) SearchBox.Text = "";
                     OpenNote(held.NoteId);
                 }
-                if (PutBack(held)) StatusText.Text = Loc("Str_St_LockEditsBack");
+                if (PutBack(held)) { StatusText.Text = Loc("Str_St_LockEditsBack"); back = true; }
             }
-            if (_heldEdits.For(NoteStore.DatabaseId).Count > 0) StatusText.Text = Loc("Str_St_LockEditsStuck");
+            if (!back && _heldEdits.For(NoteStore.DatabaseId).Count > 0) StatusText.Text = Loc("Str_St_LockEditsStuck");
         }
 
         private bool PutBack(LockedEdits held)

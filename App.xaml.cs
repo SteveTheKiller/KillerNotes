@@ -102,7 +102,7 @@ namespace KillerNotes
                     Services.LocaleManager.Initialize();
                 }
                 Controls.TaskbarIdentity.UseUninstall();
-                Shutdown(Uninstall(silent));
+                Shutdown(Uninstall(silent, LauncherId(e.Args)));
                 return;
             }
 
@@ -679,7 +679,8 @@ namespace KillerNotes
         }
 
         /// <summary>True when another process is running the exe at this path.</summary>
-        internal static bool IsRunningElsewhere(string exe) => Services.RunningCopy.IsRunning(exe, Process.GetCurrentProcess().Id);
+        internal static bool IsRunningElsewhere(string exe, int? launcher = null) =>
+            Services.RunningCopy.IsRunning(exe, Process.GetCurrentProcess().Id, launcher);
 
         /// <summary>The per-user install itself, shared by the Install button and a silent install
         /// without admin rights. Failures propagate to the caller.</summary>
@@ -753,18 +754,54 @@ namespace KillerNotes
         // Uninstall (Add/Remove Programs). Removes the installed exe, shortcuts, file
         // associations, and registry entries. The notes databases in %APPDATA%\KillerNotes
         // are user data and are deliberately KEPT.
-        private static bool RelaunchMachineUninstallElevatedIfNeeded(bool machine, bool silent)
+        // Null when this copy is the one to uninstall; otherwise the exit code to end with, which is
+        // the elevated copy's own, so a caller without admin rights hears about a busy app or a
+        // declined prompt instead of a success with nothing removed.
+        private static int? RelaunchMachineUninstallElevatedIfNeeded(bool machine, bool silent)
         {
-            if (!machine) return false;
+            if (!machine) return null;
+            string exe;
             try
             {
                 using var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
                 var principal = new System.Security.Principal.WindowsPrincipal(identity);
                 if (principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator))
-                    return false;
+                    return null;
+                exe = Process.GetCurrentProcess().MainModule!.FileName;
+            }
+            catch (Exception ex)
+            {
+                return ReportElevateFailure(silent, ex);
+            }
+            return RunElevatedUninstall(exe, silent, Process.GetCurrentProcess().Id, StartAndWait);
+        }
 
-                Process.Start(new ProcessStartInfo(
-                    Process.GetCurrentProcess().MainModule!.FileName, silent ? "/uninstall-silent" : "/uninstall")
+        private static int StartAndWait(ProcessStartInfo info)
+        {
+            using var process = Process.Start(info);
+            if (process == null) return KillerFamily.Deployment.InstallerExitCodes.Failure;
+            process.WaitForExit();
+            return process.ExitCode;
+        }
+
+        private const string LauncherSwitch = "/launcher:";
+
+        /// <summary>The copy that asked for elevation. It is the same exe and it waits here for the
+        /// result, so the elevated copy must not count it as a copy left running.</summary>
+        internal static int? LauncherId(string[] args)
+        {
+            foreach (string arg in args)
+                if (arg.StartsWith(LauncherSwitch, StringComparison.OrdinalIgnoreCase)
+                    && int.TryParse(arg.Substring(LauncherSwitch.Length), out int id))
+                    return id;
+            return null;
+        }
+
+        internal static int RunElevatedUninstall(string exe, bool silent, int launcher, Func<ProcessStartInfo, int> run)
+        {
+            try
+            {
+                return run(new ProcessStartInfo(exe, (silent ? "/uninstall-silent " : "/uninstall ") + LauncherSwitch + launcher)
                 {
                     UseShellExecute = true,
                     Verb = "runas",
@@ -773,13 +810,19 @@ namespace KillerNotes
             catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223)
             {
                 // UAC was declined. Leave the installation untouched.
+                return KillerFamily.Deployment.InstallerExitCodes.Cancelled;
             }
             catch (Exception ex)
             {
-                if (silent) Console.Error.WriteLine($"Uninstall could not request administrator access:\n{ex.Message}");
-                else ShowInstallError(string.Format((string)Current.FindResource("Str_Dlg_UninstallElevateFailed"), ex.Message));
+                return ReportElevateFailure(silent, ex);
             }
-            return true;
+        }
+
+        private static int ReportElevateFailure(bool silent, Exception ex)
+        {
+            if (silent) Console.Error.WriteLine($"Uninstall could not request administrator access:\n{ex.Message}");
+            else ShowInstallError(string.Format((string)Current.FindResource("Str_Dlg_UninstallElevateFailed"), ex.Message));
+            return KillerFamily.Deployment.InstallerExitCodes.FromException(ex);
         }
 
         /// <summary>Takes out the install markers. A per-user uninstall deletes the marker VALUES, not
@@ -806,11 +849,11 @@ namespace KillerNotes
         private static System.ComponentModel.Win32Exception StillRunning() => new(KillerFamily.Deployment.InstallerExitCodes.Busy,
             Current?.TryFindResource("Str_Dlg_AppRunning") as string ?? "KillerNotes is still running. Close it and try again.");
 
-        private static int Uninstall(bool silent)
+        private static int Uninstall(bool silent, int? launcher)
         {
             bool machine = string.Equals(Process.GetCurrentProcess().MainModule?.FileName,
                                          MachineExe, StringComparison.OrdinalIgnoreCase);
-            if (RelaunchMachineUninstallElevatedIfNeeded(machine, silent)) return KillerFamily.Deployment.InstallerExitCodes.Success;
+            if (RelaunchMachineUninstallElevatedIfNeeded(machine, silent) is { } relaunched) return relaunched;
 
             string startMenuDir = machine
                 ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), AppName)
@@ -819,7 +862,7 @@ namespace KillerNotes
 
             // A running copy keeps its exe open, so the cleanup below could not delete it and would leave
             // an orphan exe with no Add/Remove entry. Nothing is removed; the code is the retryable one.
-            if (IsRunningElsewhere(Path.Combine(targetDir, ExeName)))
+            if (IsRunningElsewhere(Path.Combine(targetDir, ExeName), launcher))
             {
                 ReportUninstallFailure(silent, StillRunning().Message);
                 return KillerFamily.Deployment.InstallerExitCodes.Busy;
@@ -844,6 +887,25 @@ namespace KillerNotes
                 return KillerFamily.Deployment.InstallerExitCodes.FromException(ex);
             }
 
+            // Self-delete: deferred via cmd batch so the EXE can exit first. Started before anything is
+            // removed, so a cmd that will not start leaves the installation whole; the script waits
+            // before it deletes, so the removal below is done by then.
+            try
+            {
+                Process.Start(new ProcessStartInfo("cmd.exe", $"/c \"{bat}\"")
+                {
+                    WindowStyle     = ProcessWindowStyle.Hidden,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                try { File.Delete(bat); } catch { }
+                if (machine) try { Directory.Delete(Path.GetDirectoryName(bat)!, recursive: false); } catch { }
+                ReportUninstallFailure(silent, ex.Message);
+                return KillerFamily.Deployment.InstallerExitCodes.FromException(ex);
+            }
+
             try { File.Delete(Path.Combine(startMenuDir, $"{AppName}.lnk")); } catch { }
             try { Directory.Delete(startMenuDir, recursive: false); } catch { }
             if (!machine) try { File.Delete(DesktopLnk); } catch { }
@@ -863,21 +925,6 @@ namespace KillerNotes
             UnregisterFileAssociations(Registry.CurrentUser);
 
             SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, IntPtr.Zero, IntPtr.Zero);
-
-            // Self-delete: deferred via cmd batch so the EXE can exit first
-            try
-            {
-                Process.Start(new ProcessStartInfo("cmd.exe", $"/c \"{bat}\"")
-                {
-                    WindowStyle     = ProcessWindowStyle.Hidden,
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception ex)
-            {
-                ReportUninstallFailure(silent, ex.Message);
-                return KillerFamily.Deployment.InstallerExitCodes.FromException(ex);
-            }
             return KillerFamily.Deployment.InstallerExitCodes.Success;
         }
 

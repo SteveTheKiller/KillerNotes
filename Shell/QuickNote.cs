@@ -14,7 +14,8 @@
 //
 // A locked or read-only notepad keeps the draft in the window with the reason and, when locked,
 // an Unlock button. Esc closes and keeps the draft for next time; it lives in memory only, never
-// in settings, because the notepad it is headed for may be encrypted. A lock drops it.
+// in settings, because the notepad it is headed for may be encrypted. A lock holds it for its own
+// notepad, off the locked screen, and returns it once that notepad is open again.
 
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Windows.Shell;
 using KillerNotes.Controls;
+using KillerNotes.Features.Security;
 using KillerNotes.Services;
 
 namespace KillerNotes.Shell
@@ -33,6 +35,8 @@ namespace KillerNotes.Shell
     {
         private QuickNoteWindow? _quickNote;
         private string _quickDraft = "";
+        private readonly HeldDrafts _heldDrafts = new();
+        private QuickNoteWindow? _quickNoteLockedAway;   // closing for a lock, its text already held
         private List<(string Label, string? Group)> _quickTargets = [];   // Group null = today's note
 
         private const string QuickTargetSetting = "QuickNoteTarget";
@@ -62,6 +66,7 @@ namespace KillerNotes.Shell
             };
             window.Closed += (_, _) =>
             {
+                if (_quickNoteLockedAway == window) { _quickNoteLockedAway = null; return; }
                 if (_quickNote == window) _quickNote = null;
                 _quickDraft = window.Text;   // Esc keeps it; a save cleared it first
             };
@@ -70,6 +75,26 @@ namespace KillerNotes.Shell
             window.Show();
             window.Activate();
             window.Topmost = true; window.Topmost = false;   // in front of whatever was focused
+        }
+
+        /// <summary>A lock puts the draft away for the notepad that locked. The window fades out, so it
+        /// closes after this and must not store its text again.</summary>
+        private void HoldQuickDraft()
+        {
+            _heldDrafts.Hold(ToolOwner, _quickNote?.Text ?? _quickDraft);   // LockNow.cs
+            _quickDraft = "";
+            _quickNoteLockedAway = _quickNote;
+            _quickNote = null;
+        }
+
+        /// <summary>Its own notepad is open again: the held draft comes back, beside anything typed
+        /// into the window while that notepad was away.</summary>
+        private void RestoreQuickDraft()
+        {
+            string held = _heldDrafts.Take(NoteStore.DatabaseId, "path:" + System.IO.Path.GetFullPath(NoteStore.DbPath));
+            if (held.Length == 0) return;
+            _quickDraft = HeldDrafts.Join(held, _quickNote?.Text ?? _quickDraft);
+            if (_quickNote != null) _quickNote.Text = _quickDraft;
         }
 
         /// <summary>Rebuilds the destination list and the locked or read-only banner.</summary>

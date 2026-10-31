@@ -22,13 +22,13 @@ namespace KillerNotes.Features.Security
     {
         private readonly FlowDocument _held = new();
 
-        internal long NoteId { get; }
+        internal long NoteId { get; private set; }
         internal string Title { get; }
         internal string? Database { get; private set; }
         internal int Format { get; }
 
         /// <summary>When the note was created, null when that was not known at the lock.</summary>
-        internal DateTime? Created { get; }
+        internal DateTime? Created { get; private set; }
 
         /// <summary>Audio the chips in these edits point at. A take not saved yet is nowhere else.</summary>
         internal IReadOnlyList<Attachment> Recordings { get; }
@@ -56,6 +56,18 @@ namespace KillerNotes.Features.Security
         /// in a note that has become Markdown.</summary>
         internal bool Fits(Note note) =>
             !note.IsDeleted && note.Format == Format && (Created == null || note.Created == Created);
+
+        /// <summary>For edits that no longer fit their note: makes a new note in the open database,
+        /// titled from the held title, and makes the edits its own, so they can go back like any
+        /// others. False, and nothing changed, when the database cannot take a note.</summary>
+        internal bool MoveToNewNote(string untitled)
+        {
+            long id = NoteStore.Create(string.IsNullOrWhiteSpace(Title) ? untitled : Title, Format);
+            if (id < 0) return false;
+            NoteId = id;
+            Created = NoteStore.GetNote(id)?.Created;
+            return true;
+        }
 
         /// <summary>The password of their database changed, which gives it a new id.</summary>
         internal void Rebind(string newDatabase) => Database = newDatabase;
