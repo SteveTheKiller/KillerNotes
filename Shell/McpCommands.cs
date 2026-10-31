@@ -151,7 +151,10 @@ namespace KillerNotes.Shell
             {
                 case ".rtf": using (var stream = new FileStream(output, FileMode.CreateNew)) new TextRange(doc.ContentStart, doc.ContentEnd).Save(stream, System.Windows.DataFormats.Rtf); break;
                 case ".html": File.WriteAllText(output, DocumentToHtml(doc, note.Title), Encoding.UTF8); break;
-                case ".md": File.WriteAllText(output, note.Format == Note.FormatMarkdown ? MarkdownBlob.Decode(blob) : MarkdownWriter.FromDocument(doc, output).Markdown, Encoding.UTF8); break;
+                case ".md":
+                    if (note.Format == Note.FormatMarkdown) File.WriteAllText(output, MarkdownBlob.Decode(blob), Encoding.UTF8);
+                    else MarkdownExport.Write(doc, output);
+                    break;
                 case ".knote": NoteStore.ExportNote(note.Id, output, null); break;
                 case ".txt": File.WriteAllText(output, new TextRange(doc.ContentStart, doc.ContentEnd).Text, Encoding.UTF8); break;
                 default: throw new ArgumentException("Output must end in .txt, .md, .html, .rtf, or .knote");

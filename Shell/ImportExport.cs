@@ -251,11 +251,7 @@ namespace KillerNotes.Shell
                         }
                         else
                         {
-                            // The assets folder is named after the real file, so the links in the
-                            // markdown are right once it takes that name.
-                            var (md, skipped) = MarkdownWriter.FromDocument(doc, dlg.FileName);
-                            AtomicFile.Write(dlg.FileName, staged => File.WriteAllText(staged, md, Encoding.UTF8));
-                            imagesSkipped = skipped;
+                            imagesSkipped = MarkdownExport.Write(doc, dlg.FileName);
                         }
                         break;
                     case ".knote":

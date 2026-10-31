@@ -24,7 +24,9 @@ namespace KillerNotes.Services
     /// Images are extracted to a sibling &lt;name&gt;.assets/ folder as PNG (matches
     /// Obsidian). If the export target is a share where the sibling cannot be created,
     /// each image emits a plain-text placeholder and ImagesSkipped is set so the caller
-    /// can flag it in the status bar.
+    /// can flag it in the status bar. A vault export owns its folder and writes numbered
+    /// files; a single note goes through MarkdownExport, which keeps the previous export
+    /// intact until the new one is complete.
     ///
     /// Markdown has no portable underline spelling, so underline emits &lt;u&gt;...&lt;/u&gt;.
     /// Most renderers pass raw HTML through, and the source stays readable.
@@ -42,37 +44,33 @@ namespace KillerNotes.Services
         private int _imgIndex, _audioIndex;
         private bool _assetsCreated;
         private readonly Func<string, Attachment?>? _attachments;
+        private readonly MarkdownAssets? _assets;
         internal bool ImagesSkipped { get; private set; }
 
         /// <summary>How many embedded items (pictures, recordings) could not be written out.</summary>
         internal int Lost { get; private set; }
 
-        private MarkdownWriter(string assetsDirRelName, string? assetsDirFullPath, Func<string, Attachment?>? attachments)
+        private MarkdownWriter(string assetsDirRelName, string? assetsDirFullPath, Func<string, Attachment?>? attachments, MarkdownAssets? assets)
         {
             _assetsDirRelName  = assetsDirRelName;
             _assetsDirFullPath = assetsDirFullPath;
             _attachments       = attachments;
+            _assets            = assets;
         }
 
         /// <summary>Walks the document and returns the markdown text. Images are written
-        /// to the sibling assets folder as a side effect.</summary>
-        internal static (string Markdown, bool ImagesSkipped) FromDocument(FlowDocument doc, string targetFilePath)
-        {
-            var (md, lost) = FromDocument(doc, targetFilePath, null);
-            return (md, lost > 0);
-        }
-
-        /// <summary>As above, with stored payloads available: a recording (a marked picture of
-        /// its chip, Services/Attachments.cs) is written as its audio file and linked by name and
-        /// length. Returns how many embedded items could not be written.</summary>
+        /// to the sibling assets folder as a side effect, through assets when given. With stored
+        /// payloads available, a recording (a marked picture of its chip, Services/Attachments.cs)
+        /// is written as its audio file and linked by name and length. Returns how many embedded
+        /// items could not be written.</summary>
         internal static (string Markdown, int Lost) FromDocument(FlowDocument doc, string targetFilePath,
-            Func<string, Attachment?>? attachments)
+            Func<string, Attachment?>? attachments, MarkdownAssets? assets = null)
         {
             string dir       = Path.GetDirectoryName(targetFilePath) ?? "";
             string name      = Path.GetFileNameWithoutExtension(targetFilePath);
             string assetsRel = name + ".assets";
             string? assetsFull = string.IsNullOrEmpty(dir) ? null : Path.Combine(dir, assetsRel);
-            var w = new MarkdownWriter(assetsRel, assetsFull, attachments);
+            var w = new MarkdownWriter(assetsRel, assetsFull, attachments, assets);
             foreach (var b in doc.Blocks) w.AppendBlock(b);
             return (w._sb.ToString().TrimEnd() + "\r\n", w.Lost);
         }
@@ -354,49 +352,51 @@ namespace KillerNotes.Services
         /// instead of the picture.</summary>
         private static string Destination(string path) => path.IndexOf(' ') >= 0 ? "<" + path + ">" : path;
 
-        private string? TrySaveAudio(Attachment recording)
-        {
-            if (_assetsDirFullPath == null) return null;
-            try
-            {
-                if (!_assetsCreated)
-                {
-                    Directory.CreateDirectory(_assetsDirFullPath);
-                    _assetsCreated = true;
-                }
-                _audioIndex++;
-                // Stored bytes as they are (FLAC, or WAV for older takes): no re-encode.
-                string fileName = $"recording-{_audioIndex}{AudioCodec.ExtensionFor(recording.Payload)}";
-                File.WriteAllBytes(Path.Combine(_assetsDirFullPath, fileName), recording.Payload);
-                return _assetsDirRelName + "/" + fileName;
-            }
-            catch { return null; }
-        }
+        // Stored bytes as they are (FLAC, or WAV for older takes): no re-encode.
+        private string? TrySaveAudio(Attachment recording) =>
+            SaveAsset("recording", ++_audioIndex, AudioCodec.ExtensionFor(recording.Payload), recording.Payload);
 
         private string? TrySaveImage(Image img)
         {
             if (img.Source is not BitmapSource src) { ImagesSkipped = true; return null; }
-            if (_assetsDirFullPath == null)         { ImagesSkipped = true; return null; }
+            string? link = null;
             try
             {
-                if (!_assetsCreated)
-                {
-                    Directory.CreateDirectory(_assetsDirFullPath);
-                    _assetsCreated = true;
-                }
-                _imgIndex++;
-                string fileName = $"img-{_imgIndex}.png";
-                string fullPath = Path.Combine(_assetsDirFullPath, fileName);
                 var enc = new PngBitmapEncoder();
                 enc.Frames.Add(BitmapFrame.Create(src));
-                using var fs = File.Create(fullPath);
-                enc.Save(fs);
-                // Emit relative link, forward slashes so it stays portable across editors.
+                using var png = new MemoryStream();
+                enc.Save(png);
+                link = SaveAsset("img", ++_imgIndex, ".png", png.ToArray());
+            }
+            catch { /* an image that will not encode is one more that could not be written */ }
+            if (link == null) ImagesSkipped = true;
+            return link;
+        }
+
+        /// <summary>Writes one file and returns its relative link, forward slashes so it stays
+        /// portable across editors. Null when it could not be written.</summary>
+        private string? SaveAsset(string prefix, int index, string extension, byte[] bytes)
+        {
+            if (_assetsDirFullPath == null) return null;
+            try
+            {
+                string fileName;
+                if (_assets != null) fileName = _assets.Add(prefix, extension, bytes);
+                else
+                {
+                    if (!_assetsCreated)
+                    {
+                        Directory.CreateDirectory(_assetsDirFullPath);
+                        _assetsCreated = true;
+                    }
+                    fileName = $"{prefix}-{index}{extension}";
+                    File.WriteAllBytes(Path.Combine(_assetsDirFullPath, fileName), bytes);
+                }
                 return _assetsDirRelName + "/" + fileName;
             }
-            catch
+            catch (Exception ex)
             {
-                ImagesSkipped = true;
+                _assets?.Fail(ex);
                 return null;
             }
         }
