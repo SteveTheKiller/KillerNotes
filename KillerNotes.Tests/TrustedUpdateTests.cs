@@ -13,6 +13,34 @@ namespace KillerNotes.Tests
 {
     public sealed class TrustedUpdateTests
     {
+        // Text inside a C# string is checked by nothing until a real update runs it, and a syntax
+        // error there would strand someone mid-update. This is Windows PowerShell's own parser.
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void TheGeneratedHelperParsesInWindowsPowerShell(bool elevated)
+        {
+            string folder = Path.Combine(Path.GetTempPath(), "KillerNotes-helper-parse-" + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(folder);
+            try
+            {
+                string download = Path.Combine(folder, "update.exe");
+                UpdateImagePublication.RememberVerified(download, new string('0', 64), new string('B', 40));
+                string script = Path.Combine(folder, "helper.ps1");
+                File.WriteAllText(script, UpdateImagePublication.Script(download, Path.Combine(folder, "app it.exe"),
+                    elevated, "https://example.invalid/releases", "KillerNotes", "9.9.9", "HKLM"), new UTF8Encoding(true));
+                var check = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, @"WindowsPowerShell\v1.0\powershell.exe"),
+                    "-NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"$e=$null;$null=[Management.Automation.Language.Parser]::ParseFile('"
+                    + script + "',[ref]$null,[ref]$e);$e | ForEach-Object { $_.Message };'errors=' + @($e).Count\"")
+                { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true };
+                using var process = Process.Start(check)!;
+                string output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+                Assert.EndsWith("errors=0", output.Trim());
+            }
+            finally { Directory.Delete(folder, true); }
+        }
+
         [Fact]
         public void InvalidApplyRequestIsRejected()
         {
