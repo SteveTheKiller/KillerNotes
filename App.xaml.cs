@@ -533,7 +533,7 @@ namespace KillerNotes
             try { if (File.Exists(StartMenuLnk)) File.Delete(StartMenuLnk); } catch { }
             try { if (Directory.Exists(StartMenuDir)) Directory.Delete(StartMenuDir, false); } catch { }
             try { if (File.Exists(DesktopLnk)) File.Delete(DesktopLnk); } catch { }
-            KillerFamily.Deployment.InstalledFileCleanup.Remove(InstallDir, InstalledFiles);
+            KillerFamily.Deployment.InstalledFileCleanup.Remove(InstallDir, FilesToRemove(InstallDir));
             Services.CommandLinePath.Unregister(InstallDir, machine: false);
             try
             {
@@ -560,7 +560,7 @@ namespace KillerNotes
             UnregisterFileAssociations(Registry.LocalMachine);
             try { File.Delete(Path.Combine(common, $"{AppName}.lnk")); } catch { }
             try { if (Directory.Exists(common)) Directory.Delete(common, false); } catch { }
-            KillerFamily.Deployment.InstalledFileCleanup.Remove(MachineDir, InstalledFiles);
+            KillerFamily.Deployment.InstalledFileCleanup.Remove(MachineDir, FilesToRemove(MachineDir));
             Services.CommandLinePath.Unregister(MachineDir, machine: true);
         }
 
@@ -674,7 +674,7 @@ namespace KillerNotes
             // an install over a running copy reports busy (1618) instead of succeeding beside it.
             if (!string.Equals(Path.GetFullPath(source), Path.GetFullPath(destination), StringComparison.OrdinalIgnoreCase)
                 && IsRunningElsewhere(destination))
-                throw new System.ComponentModel.Win32Exception(KillerFamily.Deployment.InstallerExitCodes.Busy);
+                throw StillRunning();
             Services.ExecutableDeployment.Install(source, destination, files ?? new Services.ExecutableDeployment.FileOperations());
         }
 
@@ -796,6 +796,16 @@ namespace KillerNotes
 
         private static readonly string[] InstalledFiles ={ ExeName, @"icons\kn-note.ico", @"icons\kn-db.ico" };
 
+        /// <summary>The installed files and whatever an interrupted update left beside them, which
+        /// would otherwise keep the folder.</summary>
+        private static string[] FilesToRemove(string directory) =>
+            [.. InstalledFiles, .. Services.ExecutableDeployment.UninstallLeftovers(directory, ExeName)];
+
+        /// <summary>The retryable result, saying what actually stands in the way. Windows' own text for
+        /// this code talks about another installation, and the tray keeps the app running unseen.</summary>
+        private static System.ComponentModel.Win32Exception StillRunning() => new(KillerFamily.Deployment.InstallerExitCodes.Busy,
+            Current?.TryFindResource("Str_Dlg_AppRunning") as string ?? "KillerNotes is still running. Close it and try again.");
+
         private static int Uninstall(bool silent)
         {
             bool machine = string.Equals(Process.GetCurrentProcess().MainModule?.FileName,
@@ -811,8 +821,7 @@ namespace KillerNotes
             // an orphan exe with no Add/Remove entry. Nothing is removed; the code is the retryable one.
             if (IsRunningElsewhere(Path.Combine(targetDir, ExeName)))
             {
-                var busy = new System.ComponentModel.Win32Exception(KillerFamily.Deployment.InstallerExitCodes.Busy);
-                ReportUninstallFailure(silent, busy.Message);
+                ReportUninstallFailure(silent, StillRunning().Message);
                 return KillerFamily.Deployment.InstallerExitCodes.Busy;
             }
 
@@ -828,7 +837,7 @@ namespace KillerNotes
 
             // The cleanup script is written before anything is removed, so a failure here removes nothing.
             string bat;
-            try { bat = Services.UninstallScript.Write(Services.UninstallScript.Build(targetDir, InstalledFiles, removeFolder: machine), machine); }
+            try { bat = Services.UninstallScript.Write(Services.UninstallScript.Build(targetDir, FilesToRemove(targetDir), removeFolder: machine), machine); }
             catch (Exception ex)
             {
                 ReportUninstallFailure(silent, ex.Message);
