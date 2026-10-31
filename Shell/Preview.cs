@@ -171,6 +171,21 @@ namespace KillerNotes.Shell
             else if (PreviewOpen) RenderPreview(text, preserveScroll);
         }
 
+        /// <summary>Puts a freshly loaded note in the mode last picked. Note load only: autosave also
+        /// runs UpdatePreviewState, and a pick made on this note must survive that.</summary>
+        private void RestorePreviewMode()
+        {
+            if (_docKind == DocKind.None || _loadFailed) return;
+            SetPreviewMode(OpeningPreviewMode(App.GetSetting(PreviewModeSettingKey),
+                string.IsNullOrWhiteSpace(EditorPlainText())), persist: false);
+        }
+
+        /// <summary>The mode last picked, except that a blank note opens in Source: it has nothing
+        /// to read, and the editor is where it gets written.</summary>
+        private static PreviewMode OpeningPreviewMode(string? saved, bool blank) =>
+            !blank && Enum.TryParse(saved, out PreviewMode mode) && Enum.IsDefined(typeof(PreviewMode), mode)
+                ? mode : PreviewMode.Source;
+
         /// <summary>Marks the current mode on the three-way submenu and clears the others.
         /// One is always shown as picked so the picker never looks empty.</summary>
         private void SyncPreviewMenuChecks()
@@ -380,7 +395,11 @@ namespace KillerNotes.Shell
                 // Rendered mode hides the editor, so give the preview the keyboard: Home, End,
                 // Page Up/Down and the arrows then scroll it.
                 if (_previewMode == PreviewMode.Rendered && !preserveScroll)
-                    Dispatcher.BeginInvoke(new Action(() => _previewViewer?.Focus()), DispatcherPriority.Input);
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        // Arrowing through the notes list stays in the list.
+                        if (!SidebarPanel.IsKeyboardFocusWithin) _previewViewer?.Focus();
+                    }), DispatcherPriority.Input);
             }
             catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_PreviewFailed"), ex.Message); }
         }

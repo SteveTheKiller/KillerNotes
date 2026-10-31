@@ -236,7 +236,7 @@ namespace KillerNotes.Shell
         private void FocusEditorFromOutline()
         {
             if (_currentId < 0) return;
-            if (_previewMode == PreviewMode.Rendered) SetPreviewMode(PreviewMode.Source);
+            if (_previewMode == PreviewMode.Rendered) SetPreviewMode(PreviewMode.Source, persist: false);
             Editor.Focus();
         }
 

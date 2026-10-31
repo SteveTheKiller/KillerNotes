@@ -122,6 +122,7 @@ namespace KillerNotes.Shell
             Editor.Selection.Select(Editor.Document.ContentStart, Editor.Document.ContentStart);
             RestoreNotePosition(id);   // reopen where the note was left, not at the top (1.1.1)
             UpdatePreviewState();   // Preview.cs (md/html detection for this note)
+            RestorePreviewMode();   // Preview.cs (the mode last picked, on a note that can preview)
             LinkSketchPayloads(id);   // SketchPad: re-attach sketch strokes to their images (Editor.cs)
             if (!CurrentIsMarkdown && !_loadFailed) ReviveRecordings(id);   // Editor.RecordingStore.cs
             // Last, so the message is not overwritten by anything above it.
