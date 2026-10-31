@@ -27,6 +27,8 @@ namespace KillerNotes.Controls
             HeadingText.Text = heading;
             ValueBox.Text = initialValue;
             OkButton.Content = confirmText;
+            // Esc from a button too, as in the other dialogs; the text box handles its own.
+            DialogShortcuts.Button(this, CancelButton, "Esc", Key.Escape);
             Loaded += (_, _) =>
             {
                 Anim.FadeIn(RootBorder);

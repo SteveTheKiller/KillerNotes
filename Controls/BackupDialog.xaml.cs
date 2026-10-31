@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,6 +24,7 @@ namespace KillerNotes.Controls
 
         private readonly string _dbFile;
         private readonly bool _loading = true;   // the combos fire SelectionChanged while being set up
+        private bool _busy;                       // a backup or test restore is running off the UI thread
 
         /// <summary>The database file a restore created, or null.</summary>
         public string? RestoredDatabase { get; private set; }
@@ -141,21 +143,34 @@ namespace KillerNotes.Controls
         }
 
         private void BackupList_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
-            RestoreBtn.IsEnabled = BackupList.SelectedItem != null;
+            RestoreBtn.IsEnabled = !_busy && BackupList.SelectedItem != null;
+
+        // Copying and checking a large notepad takes a while, so it runs on a worker thread and the
+        // buttons that act on the backups wait until it is done.
+        private void SetBusy(bool busy)
+        {
+            _busy = busy;
+            BackupNowBtn.IsEnabled = !busy && BackupService.Folder != null;
+            TestRestoreBtn.IsEnabled = !busy && BackupList.Items.Count > 0;
+            RestoreBtn.IsEnabled = !busy && BackupList.SelectedItem != null;
+        }
 
         // ---- Actions ----
 
-        private void BackupNow_Click(object sender, RoutedEventArgs e)
+        private async void BackupNow_Click(object sender, RoutedEventArgs e)
         {
             if (BackupService.Folder is not string folder) { DlgStatus.Text = Loc("Str_Bk_NoFolder"); return; }
+            SetBusy(true);
             try
             {
-                string path = BackupService.BackupNow(folder, _dbFile, DateTime.Now, BackupService.Keep);
+                string path = await Task.Run(() => BackupService.BackupNow(folder, _dbFile, DateTime.Now, BackupService.Keep));
+                SetBusy(false);
                 Refresh();
                 DlgStatus.Text = string.Format(Loc("Str_Bk_Done"), Path.GetFileName(path));
             }
             catch (Exception ex)
             {
+                SetBusy(false);
                 DlgStatus.Text = string.Format(Loc("Str_Bk_Failed"), ex.Message);
             }
         }
@@ -176,7 +191,7 @@ namespace KillerNotes.Controls
 
         /// <summary>Test restore (1.6.0): the selected backup, or the newest, read back from a
         /// temporary copy with its password, and set beside the notepad's own counts when known.</summary>
-        private void TestRestore_Click(object sender, RoutedEventArgs e)
+        private async void TestRestore_Click(object sender, RoutedEventArgs e)
         {
             var row = BackupList.SelectedItem as ListBoxItem ?? (BackupList.Items.Count > 0 ? BackupList.Items[0] as ListBoxItem : null);
             if (row?.Tag is not string path) return;
@@ -196,9 +211,10 @@ namespace KillerNotes.Controls
                 }
                 var cursor = Mouse.OverrideCursor;
                 Mouse.OverrideCursor = Cursors.Wait;
+                SetBusy(true);
                 try
                 {
-                    check = BackupService.TestRestore(path, password);
+                    check = await Task.Run(() => BackupService.TestRestore(path, password));
                     break;
                 }
                 catch (Microsoft.Data.Sqlite.SqliteException) when (encrypted)
@@ -210,7 +226,7 @@ namespace KillerNotes.Controls
                     DlgStatus.Text = string.Format(Loc("Str_Bk_TestFailed"), name, ex.Message);
                     return;
                 }
-                finally { Mouse.OverrideCursor = cursor; }
+                finally { Mouse.OverrideCursor = cursor; SetBusy(false); }
             }
 
             if (!check.Passed)

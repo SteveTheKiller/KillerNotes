@@ -90,7 +90,12 @@ namespace KillerNotes.Controls
 
         private void PwBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.None) { OK_Click(sender, e); e.Handled = true; }
+            if (e.Key != Key.Enter || Keyboard.Modifiers != ModifierKeys.None) return;
+            // With a confirm box showing, Enter in the first box goes on to it rather than submitting
+            // an empty confirmation.
+            if (sender == PwBox && PwConfirmBox.Visibility == Visibility.Visible) PwConfirmBox.Focus();
+            else OK_Click(sender, e);
+            e.Handled = true;
         }
     }
 }

@@ -234,8 +234,10 @@ namespace KillerNotes.Controls
         private void CommitRename(string oldName, string raw)
         {
             string next = raw.Replace(",", "").Trim();
-            if (next.Length == 0 || string.Equals(next, oldName, StringComparison.OrdinalIgnoreCase)) return;
-            if (NoteStore.ListTags().Any(t => string.Equals(t.Name, next, StringComparison.OrdinalIgnoreCase)))
+            // Tags keep the capitals they were typed with, so a change of capitals alone is a rename.
+            if (next.Length == 0 || string.Equals(next, oldName, StringComparison.Ordinal)) return;
+            if (NoteStore.ListTags().Any(t => !string.Equals(t.Name, oldName, StringComparison.Ordinal)
+                    && string.Equals(t.Name, next, StringComparison.OrdinalIgnoreCase)))
             { DlgStatus.Text = Loc("Str_Tags_Exists"); return; }
 
             NoteStore.RenameTag(oldName, next);

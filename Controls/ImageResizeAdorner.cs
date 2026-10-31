@@ -202,6 +202,13 @@ namespace KillerNotes.Controls
             _dragging = false;
             _corner = -1;
             ReleaseCursorHold();
+            // Nothing was committed, so the image goes back to its laid-out size. Left alone, the
+            // preview scale would keep drawing the image at a size its Width does not match.
+            if (_previewing)
+            {
+                _previewing = false;
+                _img.RenderTransform = null;
+            }
             InvalidateVisual();
         }
 

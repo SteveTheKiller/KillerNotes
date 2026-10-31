@@ -18,11 +18,16 @@ namespace KillerNotes.Controls
             if (control.GetValue(GestureProperty) == null)
             {
                 object? originalTip = control.ToolTip;
+                object? applied = originalTip;   // what this refresh last left on the control
                 void Refresh()
                 {
+                    // A tooltip set since the last refresh (the folder line on the folder buttons)
+                    // is the new label, not something to overwrite with the one captured here.
+                    if (!Equals(control.ToolTip, applied)) originalTip = control.ToolTip;
                     object? label = originalTip ?? (control as ContentControl)?.Content ?? (control as MenuItem)?.Header;
                     string keys = (string)control.GetValue(GestureProperty);
                     control.ToolTip = label is string text ? $"{text} ({keys})" : keys;
+                    applied = control.ToolTip;
                 }
                 control.Loaded += (_, _) => Refresh();
                 control.ToolTipOpening += (_, _) => Refresh();
@@ -62,6 +67,19 @@ namespace KillerNotes.Controls
                 control.Visibility != Visibility.Visible || canExecute?.Invoke() == false) return false;
             action();
             return true;
+        }
+
+        /// <summary>True when a mouse event's original source is a list row or sits inside one, so a
+        /// double-click on a scroll bar or on empty space below the rows is not taken for a row.
+        /// Text inside a row can report a content element, which is not part of the visual tree.</summary>
+        internal static bool IsOnListItem(object? source)
+        {
+            var d = source as DependencyObject;
+            while (d != null && d is not ListBoxItem)
+                d = d is System.Windows.Media.Visual or System.Windows.Media.Media3D.Visual3D
+                    ? System.Windows.Media.VisualTreeHelper.GetParent(d)
+                    : LogicalTreeHelper.GetParent(d);
+            return d != null;
         }
 
         internal static void Button(Window window, ButtonBase button, string gesture,

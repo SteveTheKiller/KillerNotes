@@ -202,8 +202,9 @@ namespace KillerNotes.Controls
         // deliberate triggers: the context menu and F2.
         private void DbList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // SelectedItem is already ListBoxItem?, so this is a null check - written as one.
-            if (SelectedItem is not null) Open_Click(sender, e);
+            // Only a row opens: a double-click on the scroll bar or the blank part of the list
+            // would otherwise open whatever happens to be selected.
+            if (SelectedItem is not null && DialogShortcuts.IsOnListItem(e.OriginalSource)) Open_Click(sender, e);
         }
 
         // Right-click selects the row under the cursor before the context menu opens.
@@ -292,7 +293,13 @@ namespace KillerNotes.Controls
             {
                 if (done) return;
                 done = true;
-                if (!commit || !TryRename(oldName, box.Text)) RefreshDbList(oldName);
+                if (!commit) { RefreshDbList(oldName); return; }
+                DlgStatus.Text = "";
+                if (TryRename(oldName, box.Text)) return;
+                // The refresh clears the status line, so the reason a rename failed is put back after it.
+                string reason = DlgStatus.Text;
+                RefreshDbList(oldName);
+                DlgStatus.Text = reason;
             }
             box.KeyDown += (_, ke) =>
             {

@@ -122,7 +122,9 @@ namespace KillerNotes.Controls
 
         private void VersionList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (RestoreBtn.IsEnabled) Restore_Click(sender, e);
+            // Only a row restores: a double-click on the scroll bar or the blank part of the list
+            // would otherwise replace the note with whichever version is selected.
+            if (RestoreBtn.IsEnabled && DialogShortcuts.IsOnListItem(e.OriginalSource)) Restore_Click(sender, e);
         }
 
         private void Restore_Click(object sender, RoutedEventArgs e)
