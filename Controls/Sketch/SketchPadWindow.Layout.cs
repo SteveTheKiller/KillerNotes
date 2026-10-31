@@ -132,7 +132,11 @@ namespace KillerNotes.Controls.Sketch
             {
                 if (e.ChangedButton != MouseButton.Left) return;
                 if (e.ClickCount == 2) ToggleMaximize();
-                else DragMove();
+                else
+                {
+                    try { DragMove(); }
+                    catch (InvalidOperationException) { }   // the button was already up
+                }
             };
 
             // Built by DialogChrome, not locally: this window had its own copy of the wordmark, so

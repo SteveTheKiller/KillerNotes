@@ -41,8 +41,9 @@ namespace KillerNotes.Controls
 
         private void Bar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ButtonState == MouseButtonState.Pressed)
-                Window.GetWindow(this)?.DragMove();
+            if (e.ButtonState != MouseButtonState.Pressed) return;
+            try { Window.GetWindow(this)?.DragMove(); }
+            catch (System.InvalidOperationException) { }   // the button was already up
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)

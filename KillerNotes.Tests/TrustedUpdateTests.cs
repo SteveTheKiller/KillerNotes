@@ -83,6 +83,40 @@ namespace KillerNotes.Tests
             finally { Directory.Delete(folder, true); }
         }
 
+        // The helper reaches the wait just as the app closes, so a process can vanish between the
+        // lookup and the start-time read. The System process (id 4) is found by id but yields no
+        // start time to a normal user, which fails the same read; the wait must carry on, not abort
+        // an update that is otherwise good.
+        [Fact]
+        public void WaitingOnAProcessWhoseStartTimeCannotBeReadDoesNotAbortTheHelper()
+        {
+            string script = "$ErrorActionPreference='Stop';" + TrustedUpdate.Wait(4, 1, "exit 1618") + "exit 0";
+            var start = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, @"WindowsPowerShell\v1.0\powershell.exe"),
+                ImmutablePowerShell.Arguments(script)) { UseShellExecute = false, CreateNoWindow = true };
+            using var process = Process.Start(start)!;
+            process.WaitForExit();
+
+            Assert.Equal(0, process.ExitCode);
+        }
+
+        [Fact]
+        public void WaitStillWaitsForTheProcessWithTheMatchingStartTime()
+        {
+            string powershell = Path.Combine(Environment.SystemDirectory, @"WindowsPowerShell\v1.0\powershell.exe");
+            using var target = Process.Start(new ProcessStartInfo(powershell, "-NoProfile -NonInteractive -Command Start-Sleep -Seconds 6")
+            { UseShellExecute = false, CreateNoWindow = true })!;
+            long ticks = target.StartTime.ToUniversalTime().Ticks;
+            string script = "$ErrorActionPreference='Stop';" + TrustedUpdate.Wait(target.Id, ticks, "exit 1618") + "exit 0";
+            using var helper = Process.Start(new ProcessStartInfo(powershell, ImmutablePowerShell.Arguments(script))
+            { UseShellExecute = false, CreateNoWindow = true })!;
+            helper.WaitForExit();
+            bool targetGone = target.HasExited;
+            if (!targetGone) target.Kill();
+
+            Assert.Equal(0, helper.ExitCode);
+            Assert.True(targetGone, "The helper returned while the process it was waiting for still ran.");
+        }
+
         [Fact]
         public void InvalidApplyRequestIsRejected()
         {
