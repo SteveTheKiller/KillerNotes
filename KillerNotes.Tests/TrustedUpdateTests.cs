@@ -41,6 +41,48 @@ namespace KillerNotes.Tests
             finally { Directory.Delete(folder, true); }
         }
 
+        // The whole helper travels on the command line, and a helper that outgrows it throws
+        // instead of updating. Long install paths appear several times over, so leave real room.
+        [Fact]
+        public void TheElevatedHelperLeavesRoomOnTheCommandLine()
+        {
+            string folder = Path.Combine(Path.GetTempPath(), "KillerNotes-helper-size-" + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(folder);
+            try
+            {
+                string deep = Path.Combine(folder, new string('n', 120));
+                Directory.CreateDirectory(deep);
+                string staged = Path.Combine(deep, "KillerNotes-update.exe");
+                UpdateImagePublication.RememberVerified(staged, new string('0', 64), new string('B', 40));
+                string arguments = TrustedUpdate.Publication(staged, Path.Combine(deep, "KillerNotes.exe"), "9.9.9",
+                    new string('0', 64), 1, 1, 2, 2).Arguments;
+                Assert.True(arguments.Length < 20000, "Helper is " + arguments.Length);
+            }
+            finally { Directory.Delete(folder, true); }
+        }
+
+        [Fact]
+        public void TheHelperRunsAsPassedAndKeepsItsExitCode()
+        {
+            string folder = Path.Combine(Path.GetTempPath(), "KillerNotes helper run " + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(folder);
+            try
+            {
+                string marker = Path.Combine(folder, "it's done.txt");
+                string script = "[IO.File]::WriteAllText('" + marker.Replace("'", "''") + "','quote \" and \u00e9 and ' + $env:PSModulePath)\nexit 7";
+                var start = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, @"WindowsPowerShell\v1.0\powershell.exe"),
+                    ImmutablePowerShell.Arguments(script)) { UseShellExecute = false, CreateNoWindow = true };
+                using var process = Process.Start(start)!;
+                process.WaitForExit();
+
+                Assert.Equal(7, process.ExitCode);
+                string written = File.ReadAllText(marker);
+                Assert.StartsWith("quote \" and \u00e9 and ", written);
+                Assert.DoesNotContain("Documents", written);
+            }
+            finally { Directory.Delete(folder, true); }
+        }
+
         [Fact]
         public void InvalidApplyRequestIsRejected()
         {
