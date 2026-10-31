@@ -118,16 +118,8 @@ namespace KillerNotes.Services
             try
             {
                 using var dst = File.Create(part);
-                var buf = new byte[81920];
                 long got = 0;
-                int n;
-                while ((n = source.Read(buf, 0, buf.Length)) > 0)
-                {
-                    ct.ThrowIfCancellationRequested();
-                    dst.Write(buf, 0, n);
-                    got += n;
-                    progress(got);
-                }
+                SpeechEngine.CopyBody(source, dst, n => { got += n; progress(got); }, ct);
                 dst.Flush();
                 // A connection that drops ends the stream early without an error. Whisper would load the
                 // truncated file as if it were the model and then fail on every transcription.

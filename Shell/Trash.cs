@@ -177,7 +177,7 @@ namespace KillerNotes.Shell
 
         private void EmptyTrash_Click(object sender, RoutedEventArgs e)
         {
-            if (_trashNotes.Count == 0) return;
+            if (_trashNotes.Count == 0 || RefuseReadOnly()) return;   // Notes.Document.cs
             var dlg = new ConfirmDialog(
                 Loc("Str_Dlg_EmptyTrashHead"),
                 string.Format(Loc("Str_Dlg_EmptyTrashBody"), _trashNotes.Count),

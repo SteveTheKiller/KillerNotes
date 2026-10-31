@@ -207,6 +207,13 @@ namespace KillerNotes.Cli
         /// <summary>How long a write waits for KillerNotes' answer once the request is sent.</summary>
         private static readonly TimeSpan ResponseDeadline = TimeSpan.FromSeconds(30);
 
+        /// <summary>Exporting or importing a whole notepad runs as long as the notepad is big, so a
+        /// timeout there would report an unknown outcome for a job that is simply still going.</summary>
+        private static readonly TimeSpan WholeNotepadDeadline = TimeSpan.FromMinutes(10);
+
+        internal static TimeSpan DeadlineFor(string[] args) =>
+            args.Length > 0 && args[0] is "export-all" or "import-folder" ? WholeNotepadDeadline : ResponseDeadline;
+
         /// <summary>Exit code when the answer did not arrive in time: the outcome is unknown,
         /// which a script must not treat like an ordinary failure and blindly retry.</summary>
         internal const int UnknownOutcomeExitCode = 3;
@@ -265,7 +272,7 @@ namespace KillerNotes.Cli
                 if (request.Length > MaxFrameBytes) throw new ArgumentException("--content-file is larger than a note can hold");
                 var writer = new BinaryWriter(pipe, Encoding.UTF8, true);
                 writer.Write(request.Length); writer.Write(request); writer.Flush();
-                return ReadAnswer(pipe, ResponseDeadline);
+                return ReadAnswer(pipe, DeadlineFor(args));
             }
             catch (TimeoutException) { Console.Error.WriteLine("Open and unlock KillerNotes before using write commands"); return 1; }
             catch (IOException ex) { Console.Error.WriteLine("KillerNotes bridge failed: " + ex.Message); return 1; }

@@ -14,6 +14,14 @@ namespace KillerNotes.Tests
     /// </summary>
     public sealed class CliResponseDeadlineTests
     {
+        [Theory]
+        [InlineData("create", 30)]
+        [InlineData("update", 30)]
+        [InlineData("export-all", 600)]
+        [InlineData("import-folder", 600)]
+        public void AWholeNotepadJobHasLongerToAnswerThanOneNote(string command, int seconds) =>
+            Assert.Equal(TimeSpan.FromSeconds(seconds), Program.DeadlineFor(new[] { command, "--json" }));
+
         [Fact]
         public void AnAnswerThatNeverComesTimesOut()
         {

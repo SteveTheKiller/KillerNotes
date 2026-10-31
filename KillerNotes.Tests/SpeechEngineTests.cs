@@ -38,6 +38,24 @@ namespace KillerNotes.Tests
 
         /// <summary>Hands out its bytes, then blocks every read until it is disposed, as a socket does
         /// when the server stops sending.</summary>
+        [Fact]
+        public async System.Threading.Tasks.Task CancelingStopsAModelDownloadThatHasStalledMidBody()
+        {
+            string target = Path.Combine(Path.GetTempPath(), "kn-model-" + Guid.NewGuid().ToString("N") + ".bin");
+            using var stalled = new StalledStream(new byte[] { 1, 2, 3 });
+            using var cancel = new System.Threading.CancellationTokenSource();
+            var receive = System.Threading.Tasks.Task.Run(() =>
+                WhisperSpeech.Receive(stalled, null, target, _ => cancel.CancelAfter(50), cancel.Token));
+
+            var finished = await System.Threading.Tasks.Task.WhenAny(receive, System.Threading.Tasks.Task.Delay(5000));
+            stalled.Dispose();   // frees the worker if it was still stuck, so the test ends either way
+
+            Assert.True(finished == receive, "Cancel left the model download blocked on a read that never returns");
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => receive);
+            Assert.False(File.Exists(target));
+            Assert.False(File.Exists(target + ".part"));
+        }
+
         private sealed class StalledStream : Stream
         {
             private readonly MemoryStream _head;
