@@ -44,6 +44,7 @@ namespace KillerNotes.Services
         private readonly string? _assetsDirFullPath;
         private int _imgIndex, _audioIndex;
         private bool _assetsCreated;
+        private readonly double _base;   // what a heading's size is measured against
         private readonly Func<string, Attachment?>? _attachments;
         private readonly MarkdownAssets? _assets;
         internal bool ImagesSkipped { get; private set; }
@@ -51,12 +52,13 @@ namespace KillerNotes.Services
         /// <summary>How many embedded items (pictures, recordings) could not be written out.</summary>
         internal int Lost { get; private set; }
 
-        private MarkdownWriter(string assetsDirRelName, string? assetsDirFullPath, Func<string, Attachment?>? attachments, MarkdownAssets? assets)
+        private MarkdownWriter(string assetsDirRelName, string? assetsDirFullPath, Func<string, Attachment?>? attachments, MarkdownAssets? assets, double baseFontSize)
         {
             _assetsDirRelName  = assetsDirRelName;
             _assetsDirFullPath = assetsDirFullPath;
             _attachments       = attachments;
             _assets            = assets;
+            _base              = baseFontSize;
         }
 
         /// <summary>Walks the document and returns the markdown text. Images are written
@@ -71,7 +73,9 @@ namespace KillerNotes.Services
             string name      = Path.GetFileNameWithoutExtension(targetFilePath);
             string assetsRel = name + ".assets";
             string? assetsFull = string.IsNullOrEmpty(dir) ? null : Path.Combine(dir, assetsRel);
-            var w = new MarkdownWriter(assetsRel, assetsFull, attachments, assets);
+            // The document's own size when it carries one, else the editor's, which is what a stored note lived in.
+            double baseSize = doc.ReadLocalValue(FlowDocument.FontSizeProperty) is double size && size > 0 ? size : Headings.DefaultBase;
+            var w = new MarkdownWriter(assetsRel, assetsFull, attachments, assets, baseSize);
             foreach (var b in doc.Blocks) w.AppendBlock(b);
             return (w._sb.ToString().TrimEnd() + "\r\n", w.Lost);
         }
@@ -119,7 +123,23 @@ namespace KillerNotes.Services
                 _sb.Append("\r\n```\r\n\r\n");
                 return;
             }
+            // A heading (Headings.cs) goes out as its marker plus plain words: the bold is the
+            // heading's own shape, not emphasis to write as asterisks.
+            int level = Headings.LevelOf(p, _base);
+            if (level > 0)
+            {
+                _sb.Append('#', level).Append(' ').Append(MarkdownConvert.PlainText(p.Inlines).Trim()).Append("\r\n\r\n");
+                return;
+            }
+            int start = _sb.Length;
             foreach (var i in p.Inlines) AppendInline(i);
+            // A checkbox line goes out in task-list syntax, so the box glyph never reaches the file.
+            string line = _sb.ToString(start, _sb.Length - start);
+            if (Checklist.Of(line, false) != Checklist.State.None)
+            {
+                _sb.Length = start;
+                _sb.Append(Checklist.ToMarkdownLine(line));
+            }
             _sb.Append("\r\n\r\n");
         }
 
@@ -155,11 +175,14 @@ namespace KillerNotes.Services
             }
         }
 
-        private void AppendInline(Inline inline)
+        // underlined and struck: an enclosing Span (an Underline element, or strikethrough set on a
+        // Span) carries the decoration. TextDecorations is not inherited, so the runs inside report
+        // none and have to be told.
+        private void AppendInline(Inline inline, bool underlined = false, bool struck = false)
         {
             switch (inline)
             {
-                case Run r: AppendRun(r); break;
+                case Run r: AppendRun(r, underlined, struck); break;
                 case LineBreak: _sb.Append("  \r\n"); break;   // two-space soft break
                 case InlineUIContainer iu when iu.Child is Image img:
                     string? embedded = Embedded(img);
@@ -176,27 +199,34 @@ namespace KillerNotes.Services
                         AppendBlock(b);
                     }
                     break;
-                case Hyperlink h when h.NavigateUri != null:
+                case Hyperlink h when LinkPolicy.AllowedHref(h.NavigateUri) is string href:   // a target the app will not open keeps only its label
                     _sb.Append('[');
-                    foreach (var i in h.Inlines) AppendInline(i);
-                    _sb.Append("](")
-                       .Append(h.NavigateUri.IsAbsoluteUri ? h.NavigateUri.AbsoluteUri : h.NavigateUri.OriginalString)
-                       .Append(')');
+                    foreach (var i in h.Inlines) AppendInline(i, underlined, struck);
+                    _sb.Append("](").Append(href).Append(')');
                     break;
                 case Span sp:
-                    foreach (var i in sp.Inlines) AppendInline(i);
+                    bool spanUnder = false, spanStrike = false;
+                    if (sp is not Hyperlink && sp.TextDecorations != null)   // a link's own underline is the viewer's, not the note's
+                    {
+                        foreach (var d in sp.TextDecorations)
+                        {
+                            if (d.Location == TextDecorationLocation.Underline)     spanUnder  = true;
+                            if (d.Location == TextDecorationLocation.Strikethrough) spanStrike = true;
+                        }
+                    }
+                    foreach (var i in sp.Inlines) AppendInline(i, underlined || spanUnder, struck || spanStrike);
                     break;
             }
         }
 
-        private void AppendRun(Run r)
+        private void AppendRun(Run r, bool underlined, bool struck)
         {
             if (string.IsNullOrEmpty(r.Text)) return;
 
             bool bold   = r.FontWeight.ToOpenTypeWeight() >= 600;
             bool italic = r.FontStyle == FontStyles.Italic;
             bool mono   = r.FontFamily?.Source?.IndexOf("Consolas", StringComparison.OrdinalIgnoreCase) >= 0;
-            bool under  = false, strike = false;
+            bool under  = underlined, strike = struck;
             if (r.TextDecorations != null)
             {
                 foreach (var d in r.TextDecorations)
@@ -206,23 +236,35 @@ namespace KillerNotes.Services
                 }
             }
 
-            // Emit-order sandwich. Bold + italic combine as ***. Mono is the outermost
-            // fence because backticks disable other inline formatting anyway.
-            if (mono)   _sb.Append('`');
+            // Code is literal; other text is escaped so "*.cs" stays text and not emphasis.
+            string text = mono ? r.Text : MarkdownConvert.EscapeMarkdown(r.Text);
+            // Markers must hug the text: "**Hello **" is literal asterisks in every markdown
+            // parser, so the spaces at either end go outside them. A run of only spaces has
+            // nothing to emphasize and passes through bare.
+            string core = text.Trim();
+            if (core.Length == 0) { _sb.Append(text); return; }
+            string lead = text[..(text.Length - text.TrimStart().Length)];
+            string trail = text[text.TrimEnd().Length..];
+
+            // Emit-order sandwich. Bold + italic combine as ***. Mono is the innermost fence:
+            // backticks disable inline formatting inside them, so the emphasis goes around them.
+            _sb.Append(lead);
             if (strike) _sb.Append("~~");
             if (bold && italic) _sb.Append("***");
             else if (bold)      _sb.Append("**");
             else if (italic)    _sb.Append('*');
             if (under)  _sb.Append("<u>");
+            if (mono)   _sb.Append('`');
 
-            _sb.Append(r.Text);
+            _sb.Append(core);
 
+            if (mono)   _sb.Append('`');
             if (under)  _sb.Append("</u>");
             if (bold && italic) _sb.Append("***");
             else if (bold)      _sb.Append("**");
             else if (italic)    _sb.Append('*');
             if (strike) _sb.Append("~~");
-            if (mono)   _sb.Append('`');
+            _sb.Append(trail);
         }
 
         // ---- Lists ----
@@ -233,8 +275,12 @@ namespace KillerNotes.Services
             int n = list.StartIndex < 1 ? 1 : list.StartIndex;
             foreach (var li in list.ListItems)
             {
+                string marker = ordered ? (n++ + ". ") : "- ";
+                // Children sit under the item's text, past its marker ("1. " is three wide, "10. "
+                // four); less than that and a parser starts a new list instead of nesting.
+                int inner = indent + marker.Length;
                 _sb.Append(' ', indent);
-                _sb.Append(ordered ? (n++ + ". ") : "- ");
+                _sb.Append(marker);
                 bool firstBlock = true;
                 foreach (var b in li.Blocks)
                 {
@@ -243,14 +289,14 @@ namespace KillerNotes.Services
                         if (!firstBlock)
                         {
                             _sb.Append("\r\n");
-                            _sb.Append(' ', indent + 2);
+                            _sb.Append(' ', inner);
                         }
                         foreach (var i in pp.Inlines) AppendInline(i);
                         _sb.Append("\r\n");
                     }
                     else if (b is List nested)
                     {
-                        AppendList(nested, indent + 2);
+                        AppendList(nested, inner);
                     }
                     firstBlock = false;
                 }
@@ -320,6 +366,7 @@ namespace KillerNotes.Services
             {
                 if (b is Paragraph pp)
                 {
+                    if (s.Length > 0 && s[s.Length - 1] != ' ') s.Append(' ');   // paragraphs in one cell do not run together
                     foreach (var i in pp.Inlines) AppendInlinePlain(s, i);
                 }
             }

@@ -221,6 +221,7 @@ namespace KillerNotes.Services
                 {
                     yield return new Paragraph
                     {
+                        FontSize = 2,   // the size every rule reader keys on (IsRule, HtmlExport, MarkdownWriter)
                         Margin = new Thickness(0, 4, 0, 12),
                         BorderThickness = new Thickness(0, 0, 0, 1),
                         BorderBrush = new SolidColorBrush(Color.FromArgb(0x60, 0x80, 0x80, 0x80)),
@@ -328,14 +329,26 @@ namespace KillerNotes.Services
 
                 case EmphasisInline em:
                 {
-                    var span = new Span();
+                    var children = new List<WpfInline>();
                     foreach (var child in em)
-                        foreach (var r in ConvertInline(child))
-                            span.Inlines.Add(r);
+                        children.AddRange(ConvertInline(child));
                     // Advanced extensions reuse the emphasis node for strikethrough (~~),
                     // subscript and superscript; only the three with a FlowDocument equivalent
                     // are styled, and the rest pass their text through unchanged.
-                    if (em.DelimiterChar == '~' && em.DelimiterCount == 2)
+                    bool strike = em.DelimiterChar == '~' && em.DelimiterCount == 2;
+                    if (!strike && em.DelimiterChar is not ('*' or '_'))
+                    {
+                        // Subscript, superscript, inserted and marked text have no FlowDocument
+                        // style, so their markers stay in the text as written.
+                        string marker = new(em.DelimiterChar, em.DelimiterCount);
+                        yield return new Run(marker);
+                        foreach (var r in children) yield return r;
+                        yield return new Run(marker);
+                        break;
+                    }
+                    var span = new Span();
+                    foreach (var r in children) span.Inlines.Add(r);
+                    if (strike)
                         span.TextDecorations = TextDecorations.Strikethrough;
                     else if (em.DelimiterCount >= 3) { span.FontWeight = FontWeights.Bold; span.FontStyle = FontStyles.Italic; }
                     else if (em.DelimiterCount == 2) span.FontWeight = FontWeights.Bold;
@@ -534,7 +547,7 @@ namespace KillerNotes.Services
         }
 
         /// <summary>The words of a run of inlines with no markup at all, for heading lines.</summary>
-        private static string PlainText(InlineCollection inlines)
+        internal static string PlainText(InlineCollection inlines)
         {
             var sb = new StringBuilder();
             foreach (var inline in inlines) AppendPlain(sb, inline);
@@ -554,11 +567,13 @@ namespace KillerNotes.Services
         private static string InlinesToMarkdown(InlineCollection inlines)
         {
             var sb = new StringBuilder();
-            foreach (var inline in inlines) WriteInline(sb, inline, false, false);
+            foreach (var inline in inlines) WriteInline(sb, inline, false, false, false);
             return sb.ToString().TrimEnd();
         }
 
-        private static void WriteInline(StringBuilder sb, WpfInline inline, bool inBold, bool inItalic)
+        // inStrike: an enclosing Span struck the text through. TextDecorations is not inherited,
+        // so the runs inside it report none and have to be told.
+        private static void WriteInline(StringBuilder sb, WpfInline inline, bool inBold, bool inItalic, bool inStrike)
         {
             switch (inline)
             {
@@ -567,8 +582,8 @@ namespace KillerNotes.Services
                     if (run.Text.Length == 0) break;
                     bool bold = !inBold && run.FontWeight.ToOpenTypeWeight() >= FontWeights.Bold.ToOpenTypeWeight();
                     bool italic = !inItalic && run.FontStyle != FontStyles.Normal;
-                    bool strike = run.TextDecorations?.Count > 0
-                                  && run.TextDecorations.Any(d => d.Location == TextDecorationLocation.Strikethrough);
+                    bool strike = inStrike || (run.TextDecorations?.Count > 0
+                                  && run.TextDecorations.Any(d => d.Location == TextDecorationLocation.Strikethrough));
 
                     string text = EscapeMarkdown(run.Text);
                     // Emphasis markers must hug the text: "** bold **" is literal asterisks in
@@ -612,9 +627,11 @@ namespace KillerNotes.Services
                 case Hyperlink link:
                 {
                     var inner = new StringBuilder();
-                    foreach (var child in link.Inlines) WriteInline(inner, child, inBold, inItalic);
+                    foreach (var child in link.Inlines) WriteInline(inner, child, inBold, inItalic, inStrike);
                     string label = inner.ToString().Trim();
-                    string url = link.NavigateUri?.ToString() ?? "";
+                    // The escaped form (Uri.ToString gives the display form, where a space ends the
+                    // destination), and only a target the app itself would open.
+                    string url = LinkPolicy.AllowedHref(link.NavigateUri) ?? "";
                     if (url.Length == 0) { sb.Append(label); break; }
                     sb.Append('[').Append(label.Length > 0 ? label : url).Append("](").Append(url).Append(')');
                     break;
@@ -629,14 +646,21 @@ namespace KillerNotes.Services
                 {
                     bool bold = span.FontWeight.ToOpenTypeWeight() >= FontWeights.Bold.ToOpenTypeWeight();
                     bool italic = span.FontStyle != FontStyles.Normal;
+                    bool strike = span.TextDecorations?.Count > 0
+                                  && span.TextDecorations.Any(d => d.Location == TextDecorationLocation.Strikethrough);
                     var inner = new StringBuilder();
                     foreach (var child in span.Inlines)
-                        WriteInline(inner, child, inBold || bold, inItalic || italic);
+                        WriteInline(inner, child, inBold || bold, inItalic || italic, inStrike || strike);
                     string text = inner.ToString();
                     if (text.Trim().Length == 0) { sb.Append(text); break; }
-                    if (bold && !inBold) text = "**" + text.Trim() + "**";
-                    if (italic && !inItalic) text = "*" + text.Trim() + "*";
-                    sb.Append(text);
+                    // Spaces at either end stay outside the markers, where "**Note: **text" would
+                    // not be bold and would join the words.
+                    string core = text.Trim();
+                    string lead = text[..(text.Length - text.TrimStart().Length)];
+                    string trail = text[text.TrimEnd().Length..];
+                    if (bold && !inBold) core = "**" + core + "**";
+                    if (italic && !inItalic) core = "*" + core + "*";
+                    sb.Append(lead).Append(core).Append(trail);
                     break;
                 }
 
@@ -650,7 +674,7 @@ namespace KillerNotes.Services
         // literal unless ASCII punctuation follows it, a run of * or _ is escaped only where it
         // can open or close emphasis, and [ only when a ] follows it. Escaping every special
         // character turned rules like "Sign-off: ____" into a wall of backslashes.
-        private static string EscapeMarkdown(string s)
+        internal static string EscapeMarkdown(string s)
         {
             var sb = new StringBuilder(s.Length);
             for (int i = 0; i < s.Length; i++)

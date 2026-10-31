@@ -75,6 +75,7 @@ namespace KillerNotes.Services
         public List<string> NewGroups = [];
         public List<string> Clashes = [];
         public int AlreadyImported;
+        public long MaxBytes = FolderImporter.DefaultMaxBytes;   // the limit the preview applied; Prepare applies it too
     }
 
     /// <summary>One note ready for NoteStore.ImportBatch.</summary>
@@ -114,7 +115,7 @@ namespace KillerNotes.Services
         public static ImportPlan Plan(string folder, ImportState state, CancellationToken token, long maxBytes = DefaultMaxBytes)
         {
             string root = Path.GetFullPath(folder).TrimEnd('\\', '/');
-            var plan = new ImportPlan { Folder = root };
+            var plan = new ImportPlan { Folder = root, MaxBytes = maxBytes };
             string Rel(string full) => full.Substring(root.Length + 1).Replace('\\', '/');
             // A KillerNotes export carries its own report and manifest; neither is a note.
             bool ownExport = File.Exists(Path.Combine(root, VaultExporter.ManifestName));
@@ -147,7 +148,7 @@ namespace KillerNotes.Services
         public static ImportPlan PlanFile(string path, ImportState state, long maxBytes = DefaultMaxBytes)
         {
             string full = Path.GetFullPath(path);
-            var plan = new ImportPlan { Folder = Path.GetDirectoryName(full)! };
+            var plan = new ImportPlan { Folder = Path.GetDirectoryName(full)!, MaxBytes = maxBytes };
             bool plainText = string.Equals(Path.GetExtension(full), ".txt", StringComparison.OrdinalIgnoreCase);
             PlanNote(full, Path.GetFileName(full), plainText, state, plan, maxBytes, new HashSet<string>(StringComparer.OrdinalIgnoreCase));
             return Finish(plan, state);
@@ -388,7 +389,7 @@ namespace KillerNotes.Services
                 token.ThrowIfCancellationRequested();
                 string dir = Path.GetDirectoryName(note.FullPath)!;
                 var media = new Dictionary<string, string>();   // token -> full path
-                string body = note.PlainText ? note.Body : TokenizeMedia(RewriteLinks(note.Body, dir, plan.Folder, TitleFor), dir, media);
+                string body = note.PlainText ? note.Body : TokenizeMedia(RewriteLinks(note.Body, dir, plan.Folder, TitleFor), dir, media, plan.MaxBytes);
                 var item = new PreparedImport
                 {
                     Title = note.Title,
@@ -464,7 +465,7 @@ namespace KillerNotes.Services
 
         /// <summary>Swaps each local picture and recording link for a private-use token the
         /// Markdown converter carries through as text, so PlaceMedia can put the real thing there.</summary>
-        private static string TokenizeMedia(string body, string dir, Dictionary<string, string> media)
+        private static string TokenizeMedia(string body, string dir, Dictionary<string, string> media, long maxBytes)
         {
             var lines = body.Split('\n');
             bool fenced = false;
@@ -480,6 +481,7 @@ namespace KillerNotes.Services
                     string ext = Path.GetExtension(local);
                     bool picture = m.Groups[1].Value == "!" && PictureExts.Contains(ext);
                     if (!picture && !RecordingExts.Contains(ext)) return m.Value;
+                    if (new FileInfo(local).Length > maxBytes) return m.Value;   // the preview listed it as too large
                     string token = "" + media.Count.ToString(CultureInfo.InvariantCulture) + "";
                     media[token] = local;
                     return token;

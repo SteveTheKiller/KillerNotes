@@ -139,6 +139,22 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
+        public void AFileOverTheSizeLimitTheMarkdownLinksToStaysALink() => Sta.Run(() =>
+        {
+            Write("Memo.md", "Listen: [take](big.wav)");
+            File.WriteAllBytes(Path.Combine(_dir, "big.wav"), Wav(8000, 2000));
+            var empty = new ImportState([], [], []);
+
+            var plan = FolderImporter.Plan(_dir, empty, CancellationToken.None, maxBytes: 1000);
+            var prepared = Assert.Single(FolderImporter.Prepare(plan, null, CancellationToken.None));
+
+            Assert.Contains(plan.Skipped, s => s.Reason == "large");
+            Assert.Empty(prepared.Attachments);
+            Assert.Equal(1, prepared.Format);
+            Assert.Contains("[take](big.wav)", prepared.Plain);
+        });
+
+        [Fact]
         public void MarkdownLinksToOtherFilesBecomeNoteLinks()
         {
             using var store = new TempStore();

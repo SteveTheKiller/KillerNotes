@@ -59,7 +59,8 @@ namespace KillerNotes.Services
 
         private static string? Attr(string tag, string name)
         {
-            var m = Regex.Match(tag, @"\b" + name + @"\s*=\s*(""([^""]*)""|'([^']*)'|([^\s>]+))", RegexOptions.IgnoreCase);
+            // After whitespace, so "data-href" is not read as "href".
+            var m = Regex.Match(tag, @"(?<=^|\s)" + name + @"\s*=\s*(""([^""]*)""|'([^']*)'|([^\s>]+))", RegexOptions.IgnoreCase);
             if (!m.Success) return null;
             string v = m.Groups[2].Success ? m.Groups[2].Value
                      : m.Groups[3].Success ? m.Groups[3].Value
@@ -121,6 +122,8 @@ namespace KillerNotes.Services
                         i = c < 0 ? html.Length : c + 3;
                         continue;
                     }
+                    // A less-than sign followed by whitespace is text, not a tag ("if x < y").
+                    if (lt + 1 < html.Length && char.IsWhiteSpace(html[lt + 1])) { Text("<"); i = lt + 1; continue; }
                     int gt = html.IndexOf('>', lt + 1);
                     if (gt < 0) { Text(html[lt..]); break; }
                     string tag = html.Substring(lt + 1, gt - lt - 1).Trim();

@@ -81,15 +81,13 @@ namespace KillerNotes.Services
                     break;
                 case List list:
                     string tag = list.MarkerStyle == TextMarkerStyle.Decimal ? "ol" : "ul";
-                    sb.Append('<').Append(tag).Append('>');
+                    sb.Append('<').Append(tag);
+                    if (tag == "ol" && list.StartIndex > 1) sb.Append(" start=\"").Append(list.StartIndex).Append('"');
+                    sb.Append('>');
                     foreach (var li in list.ListItems)
                     {
                         sb.Append("<li>");
-                        foreach (var b in li.Blocks)
-                        {
-                            if (b is Paragraph pp) AppendInlines(sb, pp.Inlines, colors);
-                            else AppendBlock(sb, b, colors);
-                        }
+                        AppendContained(sb, li.Blocks, colors);
                         sb.Append("</li>");
                     }
                     sb.Append("</").Append(tag).Append('>');
@@ -104,11 +102,7 @@ namespace KillerNotes.Services
                             foreach (var cell in row.Cells)
                             {
                                 sb.Append("<td>");
-                                foreach (var b in cell.Blocks)
-                                {
-                                    if (b is Paragraph pp) AppendInlines(sb, pp.Inlines, colors);
-                                    else AppendBlock(sb, b, colors);
-                                }
+                                AppendContained(sb, cell.Blocks, colors);
                                 sb.Append("</td>");
                             }
                             sb.Append("</tr>");
@@ -125,17 +119,34 @@ namespace KillerNotes.Services
             }
         }
 
-        private static void AppendInlines(StringBuilder sb, InlineCollection inlines, bool colors)
+        /// <summary>The blocks of a list item or table cell. A lone paragraph is written bare; with
+        /// several, each is its own p, so two paragraphs do not run together.</summary>
+        private static void AppendContained(StringBuilder sb, BlockCollection blocks, bool colors)
         {
-            foreach (var inline in inlines) AppendInline(sb, inline, colors);
+            bool several = blocks.OfType<Paragraph>().Count() > 1;
+            foreach (var b in blocks)
+            {
+                if (b is Paragraph pp && !several) AppendInlines(sb, pp.Inlines, colors);
+                else AppendBlock(sb, b, colors);
+            }
         }
 
-        private static void AppendInline(StringBuilder sb, Inline inline, bool colors)
+        // underlined and struck: an enclosing Span (an Underline element, or strikethrough set on a
+        // Span) carries the decoration. TextDecorations is not inherited, so the runs inside report
+        // none and have to be told.
+        private static void AppendInlines(StringBuilder sb, InlineCollection inlines, bool colors,
+                                          bool underlined = false, bool struck = false)
+        {
+            foreach (var inline in inlines) AppendInline(sb, inline, colors, underlined, struck);
+        }
+
+        private static void AppendInline(StringBuilder sb, Inline inline, bool colors,
+                                         bool underlined = false, bool struck = false)
         {
             switch (inline)
             {
                 case Run r:
-                    AppendRun(sb, r, colors);
+                    AppendRun(sb, r, colors, underlined, struck);
                     break;
                 case LineBreak:
                     sb.Append("<br/>");
@@ -146,21 +157,30 @@ namespace KillerNotes.Services
                 case Hyperlink h when LinkPolicy.AllowedHref(h.NavigateUri) is string href:   // real anchors (Links.cs, 1.1.3)
                     sb.Append("<a href=\"").Append(Attribute(href))
                       .Append("\" target=\"_blank\" rel=\"noopener\">");
-                    AppendInlines(sb, h.Inlines, colors);
+                    AppendInlines(sb, h.Inlines, colors, underlined, struck);
                     sb.Append("</a>");
                     break;
                 case Span sp:   // includes Bold/Italic/Underline containers
-                    AppendInlines(sb, sp.Inlines, colors);
+                    bool spanUnder = false, spanStrike = false;
+                    if (sp is not Hyperlink && sp.TextDecorations != null)   // a link's own underline is the viewer's, not the note's
+                    {
+                        foreach (var d in sp.TextDecorations)
+                        {
+                            if (d.Location == TextDecorationLocation.Underline) spanUnder = true;
+                            if (d.Location == TextDecorationLocation.Strikethrough) spanStrike = true;
+                        }
+                    }
+                    AppendInlines(sb, sp.Inlines, colors, underlined || spanUnder, struck || spanStrike);
                     break;
             }
         }
 
-        private static void AppendRun(StringBuilder sb, Run r, bool colors)
+        private static void AppendRun(StringBuilder sb, Run r, bool colors, bool underlined = false, bool struck = false)
         {
             bool bold   = r.FontWeight.ToOpenTypeWeight() >= 600;
             bool italic = r.FontStyle == FontStyles.Italic;
             bool mono   = r.FontFamily?.Source?.IndexOf("Consolas", StringComparison.OrdinalIgnoreCase) >= 0;
-            bool under  = false, strike = false;
+            bool under  = underlined, strike = struck;
             if (r.TextDecorations != null)
             {
                 foreach (var d in r.TextDecorations)

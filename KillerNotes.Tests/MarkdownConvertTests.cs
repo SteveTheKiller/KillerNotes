@@ -308,6 +308,66 @@ namespace KillerNotes.Tests
             Assert.Equal("_not italic_ and *not bold*", TextOf(FirstParagraph(md)));
         });
 
+        [Fact]
+        public void SpaceInsideABoldSpanStaysBetweenTheWords() => Sta.Run(() =>
+        {
+            var p = new Paragraph();
+            p.Inlines.Add(new Bold(new Run("Note: ")));
+            p.Inlines.Add(new Run("text"));
+
+            Assert.Equal("**Note:** text", MarkdownConvert.FromDocument(new FlowDocument(p)).Trim());
+        });
+
+        [Fact]
+        public void ALinkWithAnEncodedSpaceKeepsItsEscape() => Sta.Run(() =>
+        {
+            var link = new Hyperlink(new Run("share")) { NavigateUri = new System.Uri("https://host/My%20Site/a%20b") };
+            var doc = new FlowDocument(new Paragraph(link));
+
+            Assert.Contains("[share](https://host/My%20Site/a%20b)", MarkdownConvert.FromDocument(doc));
+        });
+
+        [Theory]
+        [InlineData("javascript:alert(1)")]
+        [InlineData("file:///C:/Windows/notepad.exe")]
+        public void AHostileLinkTargetNeverReachesTheMarkdown(string target) => Sta.Run(() =>
+        {
+            var link = new Hyperlink(new Run("label")) { NavigateUri = new System.Uri(target) };
+            var doc = new FlowDocument(new Paragraph(link));
+
+            Assert.Equal("label", MarkdownConvert.FromDocument(doc).Trim());
+        });
+
+        [Theory]
+        [InlineData("H~2~O")]
+        [InlineData("x^2^")]
+        [InlineData("++added++")]
+        [InlineData("==marked==")]
+        public void SubscriptSuperscriptInsertAndMarkKeepTheirTextAndMarkers(string source) => Sta.Run(() =>
+        {
+            var p = FirstParagraph(source);
+
+            Assert.Equal(source, TextOf(p));
+            Assert.DoesNotContain(p.Inlines.OfType<Span>(), s => s.FontStyle != FontStyles.Normal || s.FontWeight != FontWeights.Normal);
+        });
+
+        [Fact]
+        public void AThematicBreakIsTheRuleParagraphTheEditorUses() => Sta.Run(() =>
+        {
+            var doc = MarkdownConvert.ToDocument("above\n\n---\n\nbelow", Base);
+            var rule = doc.Blocks.OfType<Paragraph>().Single(p => p.BorderThickness.Bottom > 0);
+
+            Assert.True(rule.FontSize <= 2, "the editor, the HTML export and the markdown writer all recognize a rule by its tiny font size");
+        });
+
+        [Fact]
+        public void StrikethroughFromMarkdownComesBackAsMarkdown() => Sta.Run(() =>
+        {
+            var doc = MarkdownConvert.ToDocument("keep ~~gone~~ keep", Base);
+
+            Assert.Equal("keep ~~gone~~ keep", MarkdownConvert.FromDocument(doc).Trim());
+        });
+
         // ---- helpers ----
 
         private static Paragraph FirstParagraph(string markdown) =>
