@@ -75,8 +75,10 @@ namespace KillerNotes.Shell
         {
             var sel = Editor.Selection;
             if (sel.IsEmpty) return Editor.CaretPosition.Paragraph is Paragraph p ? [p] : [];
+            // A selection of whole lines ends at the head of the line after them, which holds none
+            // of the selected text, so that line's head must lie strictly before the end.
             return [.. AllParagraphs(Editor.Document.Blocks).Where(p =>
-                p.ContentEnd.CompareTo(sel.Start) >= 0 && p.ContentStart.CompareTo(sel.End) <= 0)];
+                p.ContentEnd.CompareTo(sel.Start) >= 0 && Head(p).CompareTo(sel.End) < 0)];
         }
 
         // Every paragraph in document order, however deep it sits in a list, table or section.
@@ -109,6 +111,16 @@ namespace KillerNotes.Shell
         // ---- Text surgery ----
 
         private static string TextOf(Paragraph p) => new TextRange(p.ContentStart, p.ContentEnd).Text;
+
+        /// <summary>The first <paramref name="count"/> characters of a line (fewer when it is
+        /// shorter), for a box check that runs on every mouse move and must not copy a long
+        /// paragraph's whole text to read its head.</summary>
+        private static string LeadingText(Paragraph p, int count)
+        {
+            var end = Advance(Head(p), count);
+            if (end.CompareTo(p.ContentEnd) > 0) end = p.ContentEnd;
+            return new TextRange(p.ContentStart, end).Text;
+        }
 
         private static TextPointer Head(Paragraph p) => p.ContentStart.GetInsertionPosition(LogicalDirection.Forward);
 
@@ -157,7 +169,7 @@ namespace KillerNotes.Shell
                 var pos = Editor.GetPositionFromPoint(pt, false);
                 if (pos?.Paragraph is not Paragraph p) return null;
                 bool md = CurrentIsMarkdown;
-                if (Checklist.Of(TextOf(p), md) == Checklist.State.None) return null;
+                if (Checklist.Of(LeadingText(p, Checklist.MdEmpty.Length), md) == Checklist.State.None) return null;
                 var head = Head(p);
                 var (from, to) = Checklist.BoxSpan(md);
                 var a = Advance(head, from).GetCharacterRect(LogicalDirection.Forward);

@@ -68,8 +68,18 @@ namespace KillerNotes.Shell
         /// </summary>
         private void Editor_ImageDeleteKey(object sender, KeyEventArgs e)
         {
-            if (_selImage is not Image img || (e.Key != Key.Delete && e.Key != Key.Back)
-                || Keyboard.Modifiers != ModifierKeys.None || Editor.IsReadOnly || _currentId < 0) return;
+            if (_selImage is not Image img) return;
+            if ((e.Key != Key.Delete && e.Key != Key.Back)
+                || Keyboard.Modifiers != ModifierKeys.None || Editor.IsReadOnly || _currentId < 0)
+            {
+                // Typing or moving the caret ends the selection: it was made by a click, and a
+                // Backspace to fix a typo a while later must not take the picture with it. A
+                // modifier pressed on its own (or an Alt chord) neither types nor moves.
+                if (e.Key is not (Key.LeftShift or Key.RightShift or Key.LeftCtrl or Key.RightCtrl
+                    or Key.LeftAlt or Key.RightAlt or Key.System or Key.LWin or Key.RWin))
+                    DeselectImage();
+                return;
+            }
 
             DependencyObject? holder = img;
             while (holder != null && holder is not InlineUIContainer && holder is not BlockUIContainer)

@@ -198,7 +198,7 @@ namespace KillerNotes.Shell
         {
             TableCell? cell = _tblMenuCell;
             _tblMenuCell = null;
-            if (cell == null || cell.Parent is not TableRow || _currentId < 0) return;
+            if (cell == null || cell.Parent is not TableRow || !CanEditCurrentNote()) return;
             Editor.BeginChange();
             try { edit(cell); }
             finally { Editor.EndChange(); }

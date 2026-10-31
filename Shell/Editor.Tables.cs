@@ -69,11 +69,12 @@ namespace KillerNotes.Shell
                 e.Handled = true;
                 return;
             }
-            Editor.Cursor = TryGetTableBoundary(p, out _, out _, out _) ? Cursors.SizeWE : Cursors.IBeam;
+            Editor.Cursor = CanEditCurrentNote(explain: false) && TryGetTableBoundary(p, out _, out _, out _) ? Cursors.SizeWE : Cursors.IBeam;
         }
 
         private void Editor_TableResizeDown(object sender, MouseButtonEventArgs e)
         {
+            if (!CanEditCurrentNote(explain: false)) return;   // a trashed or read-only note cannot keep a new width
             Point p = e.GetPosition(Editor);
             if (!TryGetTableBoundary(p, out Table? table, out int columnIndex, out double[]? widths) ||
                 table == null || widths == null) return;
@@ -109,17 +110,32 @@ namespace KillerNotes.Shell
                 TableRow first = table.RowGroups[0].Rows[0];
                 if (first.Cells.Count == 0 || table.Columns.Count == 0) continue;
 
+                // This runs on every mouse move, and a character rect forces WPF to format the lines
+                // it has to cross, so ask as little as possible: the first row bounds the table's
+                // top and the last row its bottom, not every cell of every row.
                 double top = double.MaxValue, bottom = double.MinValue;
-                foreach (TableRowGroup group in table.RowGroups)
-                    foreach (TableRow row in group.Rows)
-                        foreach (TableCell cell in row.Cells)
-                        {
-                            Rect a = cell.ContentStart.GetCharacterRect(LogicalDirection.Forward);
-                            Rect b = cell.ContentEnd.GetCharacterRect(LogicalDirection.Backward);
-                            if (!a.IsEmpty) top = Math.Min(top, a.Top - cell.Padding.Top - 4);
-                            if (!b.IsEmpty) bottom = Math.Max(bottom, b.Bottom + cell.Padding.Bottom + 4);
-                        }
-                if (point.Y < top || point.Y > bottom) continue;
+                foreach (TableCell cell in first.Cells)
+                {
+                    Rect a = cell.ContentStart.GetCharacterRect(LogicalDirection.Forward);
+                    if (!a.IsEmpty) top = Math.Min(top, a.Top - cell.Padding.Top - 4);
+                }
+                if (top == double.MaxValue) continue;
+                // Tables come in document order, so one that starts below the pointer means every
+                // later one does too, and none of them needs measuring.
+                if (point.Y < top) break;
+                TableRow last = first;
+                for (int g = table.RowGroups.Count - 1; g >= 0; g--)
+                    if (table.RowGroups[g].Rows.Count > 0)
+                    {
+                        last = table.RowGroups[g].Rows[table.RowGroups[g].Rows.Count - 1];
+                        break;
+                    }
+                foreach (TableCell cell in last.Cells)
+                {
+                    Rect b = cell.ContentEnd.GetCharacterRect(LogicalDirection.Backward);
+                    if (!b.IsEmpty) bottom = Math.Max(bottom, b.Bottom + cell.Padding.Bottom + 4);
+                }
+                if (point.Y > bottom) continue;
 
                 int count = Math.Min(first.Cells.Count, table.Columns.Count);
                 var lefts = new double[count];

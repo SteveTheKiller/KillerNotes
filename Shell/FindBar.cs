@@ -255,10 +255,12 @@ namespace KillerNotes.Shell
         }
 
         /// <summary>The term as a Regex under the current options, or null when the pattern is
-        /// invalid. Whole word wraps the pattern in \b anchors, same as every editor's combo.</summary>
+        /// invalid. Whole word wraps the pattern in \b anchors, same as every editor's combo.
+        /// Multiline, because the searched text is the whole note with a newline per paragraph:
+        /// ^ and $ must mean a line's ends, not the note's.</summary>
         private System.Text.RegularExpressions.Regex? TryBuildFindRegex()
         {
-            var opts = System.Text.RegularExpressions.RegexOptions.None;
+            var opts = System.Text.RegularExpressions.RegexOptions.Multiline;
             if (!_findCase) opts |= System.Text.RegularExpressions.RegexOptions.IgnoreCase;
             string pattern = _findWord ? @"\b(?:" + _findTerm + @")\b" : _findTerm;
             try { return new System.Text.RegularExpressions.Regex(pattern, opts, FindRegexDeadline); }
@@ -310,6 +312,15 @@ namespace KillerNotes.Shell
         }
 
         internal int FindNextNoteIndex(int delta)
+        {
+            // CollectFindHits sets the open note's timed-out flag; a walk over other notes must
+            // not leave its own result in it.
+            bool timedOut = _findTimedOut;
+            try { return NextNoteWithHit(delta); }
+            finally { _findTimedOut = timedOut; }
+        }
+
+        private int NextNoteWithHit(int delta)
         {
             if (_notes.Count == 0 || _findTerm.Length == 0) return -1;
             int current = _notes.FindIndex(n => n.Id == _currentId);
@@ -648,7 +659,7 @@ namespace KillerNotes.Shell
         /// the keyboard in the replace box.</summary>
         internal void OpenReplaceBar()
         {
-            if (_currentId < 0 || Services.NoteStore.IsReadOnly) return;
+            if (!CanEditCurrentNote()) return;   // a trashed note or a read-only database
             OpenFindBar();
             if (!_replaceOpen)
             {
@@ -677,7 +688,7 @@ namespace KillerNotes.Shell
         /// <summary>Replaces the CURRENT match and steps to the next one.</summary>
         private void ReplaceCurrent_Click(object sender, RoutedEventArgs e)
         {
-            if (Services.NoteStore.IsReadOnly) return;
+            if (!CanEditCurrentNote()) return;
             if (_findPlainStale) RunFind(keepIndex: true);
             if (_findIndex < 0 || _findIndex >= _findHits.Count) return;
 
@@ -712,7 +723,7 @@ namespace KillerNotes.Shell
         /// offset is still valid when its turn comes (#14).</summary>
         private void ReplaceAll_Click(object sender, RoutedEventArgs e)
         {
-            if (Services.NoteStore.IsReadOnly) return;
+            if (!CanEditCurrentNote()) return;
             if (_findPlainStale) RunFind(keepIndex: true);
             if (_findHits.Count == 0) return;
 

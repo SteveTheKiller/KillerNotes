@@ -25,12 +25,15 @@ namespace KillerNotes.Shell
         // deliberately colored text and highlights are left alone.
 
         /// <summary>True for colors that read as "default text", not a chosen color:
-        /// black, white, and the near-gray theme text tones.</summary>
+        /// black, white, and the near-gray theme text tones. A mid-tone gray sits between the
+        /// dark and light theme text tones, so it can only be a chosen color (the Gray swatch).</summary>
         private static bool IsNeutralColor(Color c)
         {
             if (c.A == 0) return true;   // fully transparent background
             int spread = Math.Max(Math.Abs(c.R - c.G), Math.Max(Math.Abs(c.G - c.B), Math.Abs(c.R - c.B)));
-            return spread <= 24;
+            if (spread > 24) return false;
+            double lum = Luminance(c);
+            return lum < 0.2 || lum >= 0.6;
         }
 
         // Internal so the version-history preview (HistoryDialog) shows an old version in the

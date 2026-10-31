@@ -101,10 +101,17 @@ namespace KillerNotes.Shell
                     System.Windows.Threading.DispatcherPriority.Background);
                 return;
             }
-            if (!Clipboard.ContainsImage()) return;
+            // The paste's own data, not the live clipboard again: another listener holding the
+            // clipboard open (Win+V history, OneDrive) throws here, and that skips the paste
+            // (Editor.Clipboard.cs).
+            try
+            {
+                if (!e.DataObject.GetDataPresent(DataFormats.Bitmap)) return;
 
-            e.CancelCommand();
-            if (Clipboard.GetImage() is BitmapSource src) InsertImageAtCaret(src);
+                e.CancelCommand();
+                if (e.DataObject.GetData(DataFormats.Bitmap) is BitmapSource src) InsertImageAtCaret(src);
+            }
+            catch (System.Runtime.InteropServices.ExternalException) { }
         }
 
         // After a text/RTF/Xaml paste lands: strip the source's baked-in neutral (black/white/gray)

@@ -199,8 +199,11 @@ namespace KillerNotes.Shell
                 // Arm it instead, and let the move handler float it once the pointer has actually
                 // travelled. The event is deliberately left unhandled so a click still selects the
                 // image and shows its resize handles as before.
-                _armedObject = el;
-                _armedStart = e.GetPosition(Editor);
+                if (CanEditCurrentNote(explain: false))
+                {
+                    _armedObject = el;
+                    _armedStart = e.GetPosition(Editor);
+                }
                 return;
             }
 
@@ -222,6 +225,10 @@ namespace KillerNotes.Shell
             // silently cost a floated image its resize handles. A click still selects; a drag still
             // moves; the handles, once shown, tunnel through this handler via the adorner check.
             if (el is Image floated) SelectImage(floated);
+
+            // A trashed or read-only note can be looked at but not rearranged: the move would show
+            // and then vanish, since nothing saves.
+            if (!CanEditCurrentNote(explain: false)) return;
 
             _dragObject = el;
             _dragFloater = fl;
@@ -258,6 +265,17 @@ namespace KillerNotes.Shell
                 DictationPlayer.Volume = _dragFromVol + dy / 80.0;
                 UpdateDial(_dragDial);
                 e.Handled = true;
+                return;
+            }
+
+            // The button is up but the drag never saw the release: capture was lost mid-drag (a
+            // context menu, the SketchPad, alt-tab) and the button came up elsewhere. The drag is
+            // over; left set, the next ordinary mouse-up would run the release path and move the
+            // float to wherever that click landed. Only a move with the button up gets here, so the
+            // re-entrant capture loss during a live drag cannot clear the state under the gesture.
+            if (_dragFloater != null && e.LeftButton != MouseButtonState.Pressed)
+            {
+                AbandonEditorGestures();
                 return;
             }
 

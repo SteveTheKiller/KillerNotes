@@ -205,6 +205,8 @@ namespace KillerNotes.Shell
 
                 if (_currentId == editNoteId)
                 {
+                    // The chip would change on screen and not in the note; the pad shows the reason.
+                    if (!CanEditCurrentNote()) throw new InvalidOperationException(StatusText.Text);
                     // The chip that was opened for editing, when it is still in the note: with two
                     // copies of one recording, the first match by hash may be the other one.
                     var target = (_recEditChip != null && RecordingRef.Of(_recEditChip)?.Hash == replaceHash &&

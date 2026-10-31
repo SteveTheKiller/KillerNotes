@@ -46,6 +46,23 @@ namespace KillerNotes.Tests
             Assert.Equal(DependencyProperty.UnsetValue, run.ReadLocalValue(TextElement.ForegroundProperty));
         });
 
+        [Fact]
+        public void ChosenGrayTextKeepsItsColorThroughReload() => Sta.Run(() =>
+        {
+            // The Gray swatch (#9A9A9A) is a deliberate choice, not the theme's default text tone.
+            var gray = new Run("gray") { Foreground = new SolidColorBrush(Color.FromRgb(0x9A, 0x9A, 0x9A)) };
+            var black = new Run(" black") { Foreground = Brushes.Black };
+            var white = new Run(" white") { Foreground = Brushes.White };
+            var doc = Reload(new FlowDocument(new Paragraph(gray) { Inlines = { black, white } }));
+
+            MainWindow.NormalizeThemeColors(doc);
+
+            var runs = doc.Blocks.OfType<Paragraph>().SelectMany(p => Runs(p.Inlines)).ToList();
+            Assert.Equal(Color.FromRgb(0x9A, 0x9A, 0x9A), ((SolidColorBrush)runs.Single(r => r.Text == "gray").ReadLocalValue(TextElement.ForegroundProperty)).Color);
+            Assert.Equal(DependencyProperty.UnsetValue, runs.Single(r => r.Text == " black").ReadLocalValue(TextElement.ForegroundProperty));
+            Assert.Equal(DependencyProperty.UnsetValue, runs.Single(r => r.Text == " white").ReadLocalValue(TextElement.ForegroundProperty));
+        });
+
         private static FlowDocument Reload(FlowDocument doc)
         {
             using var ms = new MemoryStream();
