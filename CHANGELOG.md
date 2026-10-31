@@ -14,11 +14,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - A Markdown export that fails partway no longer changes the previous export's pictures or recordings, and exports now include a note's recordings. The new files land under their own names, and the old ones leave only after the new text is in place.
 - Exporting a whole database as .kndb writes to a staged copy first, so a copy that fails partway leaves the previous export as it was.
 - A document import that fails leaves no empty note behind, so retrying no longer stacks up placeholders.
+- KillerNotes can no longer end up with no notepad open and no locked screen after a failed open or a canceled unlock, which could crash it. Canceling the password prompt for another notepad now returns you to the one you were in without locking it first.
+- Edits held through a lock whose note was since deleted or changed come back as a new note in their own notepad, so they can no longer refuse a Windows sign-out forever.
+- Backing up the open notepad no longer shares its live database connection with autosave and the lock timers, and the Backups dialog stays open until the copy is done.
+- Restoring a backup copies to a staged name first, so a full disk leaves nothing half written.
+- A quick note whose save fails leaves no empty note behind, and an open quick-note draft stays hidden behind a lock and comes back after its notepad unlocks.
+- A read-only notepad refuses delete, restore, pin, new note, group changes and Empty Trash with its reason, where several of these did nothing or quietly cleared the Templates and Daily notes settings.
+- Trashed notes refuse table edits, floating object drags, recording re-embeds, auto-links and Replace, as their other edits already did.
+- The Templates and Daily notes groups follow a group that is renamed, moved or deleted, and dropping a group on its own header leaves it alone.
+- Mid-gray text colors you chose survive reopening the note. Only black, white and theme text tones follow the theme.
 - An all-users update reopens KillerNotes for the signed-in user at normal rights, whether it finishes or stops early. Windows was refusing that relaunch, so the app stayed closed. Files left behind by earlier failed updates are cleared when the next update is staged.
 - Update helpers load PowerShell modules only from Windows' own folder, so a module planted in your Documents cannot run inside them as administrator; an all-users uninstall writes its cleanup script to a folder only administrators can open; an uninstall stops with the retryable code 1618, removing nothing, while KillerNotes is still running; a stalled update says so instead of silently doing nothing; and the window no longer freezes while an update is handed off.
 - The elevated part of an update compiles its helper code in a folder only administrators can open, so another program running as you cannot slip code into it, and an update that finished is no longer reported as failed when the app cannot be reopened afterward.
 - Updates keep working after the publisher's code signing certificate is renewed. A release must still carry a valid signature naming the same publisher, but no longer the exact certificate of the installed copy.
 - An update that cannot finish because the app did not close says so in its recovery report, the Update button stays off once an update has started, and a translation file can no longer give a setting the wrong kind of value.
+- Uninstall stops and says so while KillerNotes is still running, where it used to remove the Add/Remove entry and leave the exe behind. It keeps your settings and takes the files an interrupted update left in the folder.
+- An all-users uninstall reports the elevated copy's real result, so package managers see a declined prompt or a running copy instead of success, and its script runs from a folder only administrators can open.
+- An update that cannot start says why instead of just showing the Update button again. A declined UAC prompt stays quiet.
 - The Databases button works on the locked screen, so another notepad can be opened, or a new one made, without the locked one's password. The locked notepad stays closed until its own password is given.
 - Exit from the tray icon brings the window back and closes it the normal way, so the prompt about a locked note's unsaved edits can call the exit off. Before, KillerNotes quit whatever the answer.
 - Picking a folder to import, to export the vault into, for backups or for the data folder takes the highlighted folder, as Explorer does. In 1.6.0, Open did nothing while a folder was highlighted, so Import a folder of notes could not be finished from a folder that held only subfolders.
@@ -30,6 +42,21 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The locked screen keeps film grain when it is enabled.
 - Black table headers match the content surface, softer grain keeps dark surfaces from looking gray, and a faded theme-menu divider separates Film Grain from Fonts.
 - The file picker's recent locations and places lists are named for screen readers again, as they were in the old picker.
+- Markdown and HTML export keep what the note holds: spacing around bold text, encoded link addresses, nested lists, headings, checkboxes, strikethrough, a numbered list's starting number, several paragraphs in one list item or table cell, and literal *, _ and backticks. Wiki links in rich notes stay live links, and a link the app will not open is written as its label and address in plain text.
+- Folder import applies the preview's size limit when the note is built, reads FLAC recordings of any bit depth, lists linked folders and folders it cannot read instead of stopping, and does not follow a link back up the tree.
+- Record stops playback of the old take and clears its undo step and slice marks. Embed after an edit replaces the recording it placed instead of adding a second one, and a further Save changes works.
+- Speech model downloads can be canceled on a stalled connection, leave no partial file, and a download that is cut short is reported and not installed. Scrubbing the waveform seeks once when the mouse settles.
+- The sketch pad's eraser follows arced lines and arrows, a busy clipboard no longer crashes it, a window change mid-gesture ends the gesture cleanly, and large pictures no longer slow every redraw.
+- In the note graph, By connection leaves locked notes where they are, Color by group keeps their outline, Show labels survives clearing an isolation, a saved arrangement fits the current window, and single-letter shortcuts ignore Ctrl and Shift.
+- Regex find treats ^ and $ as line ends, pasting a picture survives a clipboard held by another program, line formatting stops at the end of the selection, and moving the mouse over long notes with tables, checklists or Ctrl held no longer stalls.
+- Preview opens in the mode you last picked on any note that can preview, and a blank note opens in Source so there is somewhere to type.
+- Ctrl+N then Alt+Left returns to the note you left, following a wiki link works while a search filter hides the target, tag shortcuts stay correct after the list refreshes, and the sort menu matches the sort buttons.
+- Double-clicking a scroll bar or empty space in a list no longer opens or restores the selected row. Esc cancels the input dialog, rename errors show, a case-only rename works, Enter moves from the first password box to Confirm, and a window saved while minimized remembers it was maximized.
+- Holding F5 no longer records a collapsed sidebar as its width, and Enter in an empty F1 search no longer runs the first shortcut.
+- The HTML preview reads hyphenated attributes and a stray less-than sign correctly, and a horizontal rule reads as a rule on export. Comments in HTML, XML and Markdown code blocks highlight as comments even after an apostrophe.
+- The command line accepts --json after a flag, counts tags and matches wiki links across accents and special characters, cuts --max-chars on a whole character, gives whole-notepad export and import ten minutes to finish, and resolves a relative path on a second launch. The bridge agrees on one size limit and says when a request is too large.
+- Notes dragged out of a locked notepad and working dictation audio are removed from TEMP at lock, a note titled like a Windows device name exports safely, and the app no longer spins a processor core when its command pipe's name is taken.
+- Tooltips made of one key-like word stay readable with shortcut hints turned off.
 - Website carousel and slide descriptions are translated in every supported language.
 
 ### Changed
