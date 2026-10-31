@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.6.1 hardens updates, keeps a locked notepad from trapping you, fixes folder picking, and moves KillerNotes onto the shared Killer Tools kit.
 
 ### Fixed
+- An all-users update reopens KillerNotes for the signed-in user at normal rights when it finishes. Windows was refusing that relaunch, so the app stayed closed.
 - Edits held through a failed automatic lock, and an open sketch or recording, stay with the database they came from. Opening another notepad from the locked screen no longer shows them, a same-named file in another folder cannot receive them, a second failed lock no longer replaces the first one's edits, and Windows sign-out stops and asks you to unlock instead of losing them.
 - A Markdown export that fails partway no longer changes the previous export's pictures or recordings. The new files land under their own names, and the old ones leave only after the new text is in place.
 - Exporting a whole database as .kndb writes to a staged copy first, so a copy that fails partway leaves the previous export as it was.
