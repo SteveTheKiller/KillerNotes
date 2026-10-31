@@ -783,6 +783,22 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             return (long)cmd.ExecuteScalar()!;
         }
 
+        /// <summary>Creates a whole rich-text note in one statement, for an import: a failure leaves
+        /// no empty row behind, and a retry does not stack up placeholders.</summary>
+        public static long Create(string title, byte[] content, string plain)
+        {
+            if (_db == null || IsReadOnly) return -1;
+            using var cmd = _db.CreateCommand();
+            cmd.CommandText = "INSERT INTO notes(title, created, modified, content, plain, sort_order) " +
+                              "VALUES ($t, $now, $now, $c, $p, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes)); " +
+                              "SELECT last_insert_rowid()";
+            cmd.Parameters.AddWithValue("$t", title);
+            cmd.Parameters.AddWithValue("$now", Ts(DateTime.Now));
+            cmd.Parameters.AddWithValue("$c", content);
+            cmd.Parameters.AddWithValue("$p", plain);
+            return (long)cmd.ExecuteScalar()!;
+        }
+
         /// <summary>Content type of one note: 0 = rich text, 1 = markdown. Returns 0 for a
         /// missing note, which is also the safe default for a caller about to load content.</summary>
         public static int GetFormat(long id)

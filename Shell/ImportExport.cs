@@ -98,16 +98,14 @@ namespace KillerNotes.Shell
         /// <summary>Serializes a built document into a brand-new note. The editor's font
         /// is stamped on the root so code-built notes (imports, demo data) do not bake
         /// the FlowDocument default serif into the blob.</summary>
-        private static long CreateNoteFromDocument(string title, FlowDocument doc)
+        internal static long CreateNoteFromDocument(string title, FlowDocument doc)
         {
             doc.FontFamily = new FontFamily("Segoe UI");
             doc.FontSize = 13;
-            long id = NoteStore.Create(title);
             var range = new TextRange(doc.ContentStart, doc.ContentEnd);
             using var ms = new MemoryStream();
             range.Save(ms, DataFormats.XamlPackage);
-            NoteStore.Save(id, title, ms.ToArray(), range.Text);
-            return id;
+            return NoteStore.Create(title, ms.ToArray(), range.Text);
         }
 
         // .txt/.log/.md and .html/.htm (html imports as SOURCE text - the preview pane
