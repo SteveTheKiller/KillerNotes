@@ -210,7 +210,7 @@ namespace KillerNotes.Shell
         // child is visible. An existing sibling leaf just resolves to that group.
         private void NewSubgroup_Click(object sender, RoutedEventArgs e)
         {
-            if (_ctxGroup is not GroupHeader g) return;
+            if (_ctxGroup is not GroupHeader g || RefuseReadOnly()) return;   // Notes.Document.cs
             var dlg = new InputDialog(Loc("Str_Dlg_NewSubgroupHead"), "", Loc("Str_Btn_Create")) { Owner = this };
             dlg.ShowDialog();
             string leaf = dlg.Value.Trim().Replace(NoteStore.GroupSep, "");   // strip the reserved path separator

@@ -29,6 +29,7 @@ namespace KillerNotes.Shell
             if (_findOpen) { StepFind(delta); return; }
             if (!HasGlobalSearch) { FocusSearch(); return; }
             if (!GlobalSearchHasWords) return;
+            ShowEditorForFind();   // Preview.cs
             if (_findPlainStale) RefreshGlobalHighlights();
             int next = _globalFindIndex < 0
                 ? (delta > 0 ? 0 : _globalFindHits.Count - 1) : _globalFindIndex + delta;

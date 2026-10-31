@@ -16,6 +16,7 @@ namespace KillerNotes.Features.Security
     {
         private readonly ISecurityHost _host;
 
+        private string? _previousPassword;   // the notepad a switch left, until the switch lands
         private string? _dbPassword;     // password of the open db, reused for silent reopens
         private string? _pendingStatus;  // status line to show after the list refresh
         private string? _openedDatabase;
@@ -27,7 +28,19 @@ namespace KillerNotes.Features.Security
 
         /// <summary>Forgets the session password. Called when switching to a different file, whose
         /// password is not ours to try.</summary>
-        internal void ForgetSessionPassword() => _dbPassword = null;
+        internal void ForgetSessionPassword()
+        {
+            _previousPassword = _dbPassword;
+            _dbPassword = null;
+        }
+
+        /// <summary>A switch that did not land: the notepad it left takes its own password back, so
+        /// going back to it does not ask again.</summary>
+        internal void RestoreSessionPassword()
+        {
+            _dbPassword = _previousPassword;
+            _previousPassword = null;
+        }
 
         /// <summary>Opens the active database, prompting to unlock when encrypted. Returns
         /// false when the user cancels (the app exits instead when exitOnCancel is set) or the
@@ -77,6 +90,7 @@ namespace KillerNotes.Features.Security
         /// <summary>Everything after the store itself is open: warnings, navigation, the note list.</summary>
         private bool FinishOpen()
         {
+            _previousPassword = null;
             WarnNetworkFolder();
             WarnReadOnly();
             string database = Path.GetFullPath(NoteStore.DbPath);
@@ -281,7 +295,7 @@ namespace KillerNotes.Features.Security
                 !string.Equals(dlg.SelectedDatabase, NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase))
             {
                 App.SetSetting("ActiveDatabase", dlg.SelectedDatabase);
-                _dbPassword = null;   // different file - its password is not ours to try
+                ForgetSessionPassword();   // different file - its password is not ours to try
             }
 
             _host.ClearEditor();
@@ -289,6 +303,7 @@ namespace KillerNotes.Features.Security
             {
                 // Unlock of the chosen db was canceled - fall back to the previous one.
                 App.SetSetting("ActiveDatabase", prevFile);
+                RestoreSessionPassword();
                 Open(exitOnCancel: false);
             }
         }

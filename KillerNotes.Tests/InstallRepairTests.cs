@@ -256,6 +256,32 @@ namespace KillerNotes.Tests
             finally { try { File.Delete(bat); } catch { /* best effort */ } }
         }
 
+        /// <summary>The app starts this script and then finishes its own registry and shell work, which
+        /// can outlast the script's opening wait, so a first delete that fails is not the last word.</summary>
+        [Fact]
+        public void TheCleanupScriptWaitsForAnExeThatIsStillInUse()
+        {
+            string folder = Path.Combine(_root, "InUse");
+            Directory.CreateDirectory(folder);
+            string exe = Path.Combine(folder, "KillerNotes.exe");
+            File.WriteAllText(exe, "installed executable");
+            string bat = UninstallScript.Write(UninstallScript.Build(folder, new[] { "KillerNotes.exe" }, pings: 1), elevated: false);
+            try
+            {
+                Process process;
+                using (new FileStream(exe, FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    process = Process.Start(new ProcessStartInfo("cmd.exe", "/d /c \"" + bat + "\"")
+                    { UseShellExecute = false, CreateNoWindow = true })!;
+                    System.Threading.Thread.Sleep(2500);
+                }
+                using (process) Assert.True(process.WaitForExit(15000));
+
+                Assert.False(File.Exists(exe));
+            }
+            finally { try { File.Delete(bat); } catch { /* best effort */ } }
+        }
+
         [Fact]
         public void EachUninstallScriptGetsAFreshRandomName()
         {

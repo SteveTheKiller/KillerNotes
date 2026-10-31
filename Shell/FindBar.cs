@@ -552,6 +552,7 @@ namespace KillerNotes.Shell
         {
             if (_findOpen) { FindBox.Focus(); FindBox.SelectAll(); return; }
 
+            ShowEditorForFind();   // Preview.cs
             _findOpen = true;
             FindRailBtn.Tag = "on";   // light the rail toggle while the bar is open (family pattern)
             // A card that floats has no edge to slide out of, so it fades in. Clear any held

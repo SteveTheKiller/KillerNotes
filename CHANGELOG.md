@@ -16,7 +16,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - A document import that fails leaves no empty note behind, so retrying no longer stacks up placeholders.
 - KillerNotes can no longer end up with no notepad open and no locked screen after a failed open or a canceled unlock, which could crash it. Canceling the password prompt for another notepad now returns you to the one you were in without locking it first.
 - Edits held through a lock whose note was since deleted or changed come back as a new note in their own notepad, so they can no longer refuse a Windows sign-out forever.
-- Backing up the open notepad no longer shares its live database connection with autosave and the lock timers, and the Backups dialog stays open until the copy is done.
+- Backing up the open notepad no longer shares its live database connection with autosave and the lock timers, and Done and Esc wait for the copy.
 - Restoring a backup copies to a staged name first, so a full disk leaves nothing half written.
 - A quick note whose save fails leaves no empty note behind, and an open quick-note draft stays hidden behind a lock and comes back after its notepad unlocks.
 - A read-only notepad refuses delete, restore, pin, new note, group changes and Empty Trash with its reason, where several of these did nothing or quietly cleared the Templates and Daily notes settings.
@@ -43,13 +43,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Black table headers match the content surface, softer grain keeps dark surfaces from looking gray, and a faded theme-menu divider separates Film Grain from Fonts.
 - The file picker's recent locations and places lists are named for screen readers again, as they were in the old picker.
 - Markdown and HTML export keep what the note holds: spacing around bold text, encoded link addresses, nested lists, headings, checkboxes, strikethrough, a numbered list's starting number, several paragraphs in one list item or table cell, and literal *, _ and backticks. Wiki links in rich notes stay live links, and a link the app will not open is written as its label and address in plain text.
-- Folder import applies the preview's size limit when the note is built, reads FLAC recordings of any bit depth, lists linked folders and folders it cannot read instead of stopping, and does not follow a link back up the tree.
+- Folder import applies the preview's size limit when the note is built, reads FLAC recordings of any bit depth, lists junctions, links and folders it cannot read instead of stopping, and does not follow a link back up the tree. Online-only OneDrive folders still come in.
 - Record stops playback of the old take and clears its undo step and slice marks. Embed after an edit replaces the recording it placed instead of adding a second one, and a further Save changes works.
 - Speech model downloads can be canceled on a stalled connection, leave no partial file, and a download that is cut short is reported and not installed. Scrubbing the waveform seeks once when the mouse settles.
 - The sketch pad's eraser follows arced lines and arrows, a busy clipboard no longer crashes it, a window change mid-gesture ends the gesture cleanly, and large pictures no longer slow every redraw.
 - In the note graph, By connection leaves locked notes where they are, Color by group keeps their outline, Show labels survives clearing an isolation, a saved arrangement fits the current window, and single-letter shortcuts ignore Ctrl and Shift.
 - Regex find treats ^ and $ as line ends, pasting a picture survives a clipboard held by another program, line formatting stops at the end of the selection, and moving the mouse over long notes with tables, checklists or Ctrl held no longer stalls.
-- Preview opens in the mode you last picked on any note that can preview, and a blank note opens in Source so there is somewhere to type.
+- Preview opens in the mode you last picked on any note that can preview. A blank note or a note opened during a search opens in Source, and Find brings the editor back from Rendered.
 - Ctrl+N then Alt+Left returns to the note you left, following a wiki link works while a search filter hides the target, tag shortcuts stay correct after the list refreshes, and the sort menu matches the sort buttons.
 - Double-clicking a scroll bar or empty space in a list no longer opens or restores the selected row. Esc cancels the input dialog, rename errors show, a case-only rename works, Enter moves from the first password box to Confirm, and a window saved while minimized remembers it was maximized.
 - Holding F5 no longer records a collapsed sidebar as its width, and Enter in an empty F1 search no longer runs the first shortcut.

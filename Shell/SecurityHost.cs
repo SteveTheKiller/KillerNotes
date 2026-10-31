@@ -97,6 +97,7 @@ namespace KillerNotes.Shell
         /// <summary>Drops the session password: the file being opened is a different one, so its
         /// password is not ours to try (Sharing.cs).</summary>
         private void ForgetDbPassword() => _security.ForgetSessionPassword();
+        private void RestoreDbPassword() => _security.RestoreSessionPassword();
 
         // ---- Handlers (wired in MainWindow.xaml) ----
 

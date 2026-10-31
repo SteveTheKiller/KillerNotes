@@ -5,7 +5,7 @@
 # Usage:
 #   .\release.ps1              # full release for the version in the csproj
 #   .\release.ps1 -DryRun      # everything except tag push and gh release
-#   .\release.ps1 -SkipSign    # local test build only - never release unsigned
+#   .\release.ps1 -DryRun -SkipSign    # local test build only - never release unsigned
 #
 # winget is NOT submitted from here. .github/workflows/winget-release.yml fires on
 # "release: published" and runs komac itself, so doing it here too would double-submit.

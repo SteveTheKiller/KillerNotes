@@ -177,13 +177,19 @@ namespace KillerNotes.Shell
         {
             if (_docKind == DocKind.None || _loadFailed) return;
             SetPreviewMode(OpeningPreviewMode(App.GetSetting(PreviewModeSettingKey),
-                string.IsNullOrWhiteSpace(EditorPlainText())), persist: false);
+                string.IsNullOrWhiteSpace(EditorPlainText()) || _findOpen || HasGlobalSearch), persist: false);
         }
 
-        /// <summary>The mode last picked, except that a blank note opens in Source: it has nothing
-        /// to read, and the editor is where it gets written.</summary>
-        private static PreviewMode OpeningPreviewMode(string? saved, bool blank) =>
-            !blank && Enum.TryParse(saved, out PreviewMode mode) && Enum.IsDefined(typeof(PreviewMode), mode)
+        /// <summary>Find paints and scrolls the editor, so it brings the editor back. The pick stays saved.</summary>
+        private void ShowEditorForFind()
+        {
+            if (_previewMode == PreviewMode.Rendered) SetPreviewMode(PreviewMode.Source, persist: false);
+        }
+
+        /// <summary>The mode last picked, except that a note that needs its editor opens in Source: a
+        /// blank one is written there, and a search shows its hits there.</summary>
+        private static PreviewMode OpeningPreviewMode(string? saved, bool needsEditor) =>
+            !needsEditor && Enum.TryParse(saved, out PreviewMode mode) && Enum.IsDefined(typeof(PreviewMode), mode)
                 ? mode : PreviewMode.Source;
 
         /// <summary>Marks the current mode on the three-way submenu and clears the others.

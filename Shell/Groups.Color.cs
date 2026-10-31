@@ -19,7 +19,7 @@ namespace KillerNotes.Shell
 
         private void GroupColorPick_Click(object sender, RoutedEventArgs e)
         {
-            if (_ctxGroup is not GroupHeader g) return;
+            if (_ctxGroup is not GroupHeader g || RefuseReadOnly()) return;   // Notes.Document.cs
             var initial = g.NameBrush is SolidColorBrush sb ? sb.Color
                 : (TryFindResource("TextBrush") as SolidColorBrush)?.Color ?? Colors.White;
             string groupName = g.Path;
@@ -69,7 +69,7 @@ namespace KillerNotes.Shell
 
         private void GroupColorReset_Click(object sender, RoutedEventArgs e)
         {
-            if (_ctxGroup is not GroupHeader g) return;
+            if (_ctxGroup is not GroupHeader g || RefuseReadOnly()) return;   // Notes.Document.cs
             string path = g.Path, original = g.NameColor;
             NoteStore.SetGroupColor(path, "");
             PushUndo(() => RestoreGroupColor(path, original));

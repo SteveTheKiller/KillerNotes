@@ -138,6 +138,7 @@ namespace KillerNotes.Shell
                 {
                     // Unlock canceled - fall back to the previous database.
                     App.SetSetting("ActiveDatabase", prevFile);
+                    RestoreDbPassword();   // SecurityHost.cs
                     OpenDatabase(exitOnCancel: false);
                 }
             }

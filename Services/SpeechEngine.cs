@@ -85,12 +85,19 @@ namespace KillerNotes.Services
                 string target = Path.Combine(Dir, file);
                 if (File.Exists(target)) continue;
                 string part = target + ".part";
-                using (var resp = http.GetAsync(BaseUrl + file, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, ct).GetAwaiter().GetResult())
+                try
                 {
+                    using var resp = http.GetAsync(BaseUrl + file, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, ct).GetAwaiter().GetResult();
                     resp.EnsureSuccessStatusCode();
                     using var src = resp.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
                     using var dst = File.Create(part);
                     CopyBody(src, dst, n => { done += n; progress(done, total); }, ct);
+                }
+                catch
+                {
+                    // Stopped, canceled or cut short: no partial file stays behind.
+                    try { File.Delete(part); } catch (IOException) { } catch (UnauthorizedAccessException) { }
+                    throw;
                 }
                 if (!HashMatches(part, sha))
                 {

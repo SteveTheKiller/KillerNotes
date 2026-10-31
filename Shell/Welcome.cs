@@ -77,6 +77,7 @@ namespace KillerNotes.Shell
                 if (!OpenDatabase(exitOnCancel: false, lockOnFail: false))
                 {
                     App.SetSetting("ActiveDatabase", prevFile);
+                    RestoreDbPassword();   // SecurityHost.cs
                     OpenDatabase(exitOnCancel: false);
                     return;
                 }

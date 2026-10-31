@@ -242,7 +242,7 @@ namespace KillerNotes.Services
                         plan.Skipped.Add(new ImportSkip(Rel(sub), "unreadable"));
                         continue;
                     }
-                    if ((attributes & FileAttributes.ReparsePoint) != 0) plan.Skipped.Add(new ImportSkip(Rel(sub), "link"));
+                    if ((attributes & FileAttributes.ReparsePoint) != 0 && LinkFolder.IsLink(sub)) plan.Skipped.Add(new ImportSkip(Rel(sub), "link"));
                     else pending.Push(sub);
                 }
             }

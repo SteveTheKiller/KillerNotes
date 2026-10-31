@@ -77,6 +77,42 @@ namespace KillerNotes.Tests
             Assert.StartsWith("Str_St_OpenDbFailed", host.Status);
         }
 
+        private static string? Password(SecurityController controller) =>
+            (string?)typeof(SecurityController).GetField("_dbPassword",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.GetValue(controller);
+
+        private static void SetPassword(SecurityController controller, string password) =>
+            typeof(SecurityController).GetField("_dbPassword",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.SetValue(controller, password);
+
+        [Fact]
+        public void ACanceledSwitchCanGoBackWithoutThePasswordAgain()
+        {
+            var controller = new SecurityController(new Host());
+            SetPassword(controller, "secret");
+
+            controller.ForgetSessionPassword();
+            Assert.Null(Password(controller));
+
+            controller.RestoreSessionPassword();
+            Assert.Equal("secret", Password(controller));
+        }
+
+        [Fact]
+        public void ACompletedSwitchLetsThePreviousPasswordGo()
+        {
+            using var store = new TempStore();
+            NoteStore.Close();
+            var controller = new SecurityController(new Host());
+            SetPassword(controller, "secret");
+            controller.ForgetSessionPassword();
+
+            Assert.True(controller.Open(exitOnCancel: false));
+
+            controller.RestoreSessionPassword();
+            Assert.Null(Password(controller));
+        }
+
         [Fact]
         public void ASwitchThatFailsKeepsTheScreenForTheFallbackOpen()
         {

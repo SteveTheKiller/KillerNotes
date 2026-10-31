@@ -47,6 +47,13 @@ namespace KillerNotes.Tests
             Assert.Contains(plan.Skipped, s => s.File == "sub/loop" && s.Reason == "link");
         }
 
+        [Theory]
+        [InlineData(0xA0000003u, true)]    // a junction
+        [InlineData(0xA000000Cu, true)]    // a symbolic link
+        [InlineData(0x9000701Au, false)]   // a OneDrive folder that is online only
+        [InlineData(0x9000001Au, false)]   // any other cloud placeholder
+        public void OnlyRealLinksCountAsLinks(uint tag, bool link) => Assert.Equal(link, KillerNotes.Services.LinkFolder.IsLinkTag(tag));
+
         [Fact]
         public void AFolderThatCannotBeReadIsListedAndTheRestStillComesIn()
         {
@@ -61,6 +68,9 @@ namespace KillerNotes.Tests
             locked.SetAccessControl(security);
             try
             {
+                // An enabled backup privilege, as an SSH session has, reads straight past the deny.
+                try { locked.GetFiles(); return; } catch (UnauthorizedAccessException) { }
+
                 var plan = FolderImporter.Plan(_dir, new ImportState(new(), new(), new()), CancellationToken.None);
 
                 Assert.Equal(1, plan.Notes.Count);
