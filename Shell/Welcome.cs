@@ -54,7 +54,9 @@ namespace KillerNotes.Shell
             if (!NoteStore.IsOpen || NoteStore.DemoDbFile != null) return;
             if (!SaveCurrentNote(refreshList: false)) return;
             string prevFile = NoteStore.ActiveDbFile;
-            bool fresh = !File.Exists(Path.Combine(NoteStore.DbDir, SampleNotebookFile));
+            string samplePath = Path.Combine(NoteStore.DbDir, SampleNotebookFile);
+            bool fresh = !File.Exists(samplePath);
+            bool building = false;
             try
             {
                 NoteStore.Close();
@@ -65,9 +67,11 @@ namespace KillerNotes.Shell
                 {
                     // Built on its own first, so the usual open below finds it full and opens
                     // straight into a note rather than into this welcome screen.
+                    building = true;
                     NoteStore.Open();
                     GenerateDemoNotes();   // DemoMode.cs
                     NoteStore.Close();
+                    building = false;
                     _currentId = -1;
                 }
                 if (!OpenDatabase(exitOnCancel: false))
@@ -81,6 +85,12 @@ namespace KillerNotes.Shell
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or Microsoft.Data.Sqlite.SqliteException)
             {
                 StatusText.Text = string.Format(Loc("Str_St_OpenDbFailed"), ex.Message);
+                if (building)
+                {
+                    // Half built: the next click would take the file for a finished sample notebook.
+                    NoteStore.Close();
+                    try { File.Delete(samplePath); } catch (Exception cleanup) when (cleanup is IOException or UnauthorizedAccessException) { }
+                }
                 App.SetSetting("ActiveDatabase", prevFile);
                 if (!NoteStore.IsOpen) OpenDatabase(exitOnCancel: false);
             }

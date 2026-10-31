@@ -46,11 +46,9 @@ namespace KillerNotes.Shell
             if (dlg.ChosenVersion < 0) return;
 
             string titleBefore = NoteStore.CaptureRow(id)?.Title ?? "";
-            var selected = NoteStore.LoadVersion(dlg.ChosenVersion);
             if (!NoteStore.RestoreVersion(id, dlg.ChosenVersion)) return;
             // Links are derived from the text on every save; the restored text has its own.
-            if (selected is { } v)
-                NoteStore.SetLinks(id, WikiLinks.Parse(v.Plain));
+            NoteStore.ReindexLinks(id);
 
             RefreshList(preserveScroll: true);
             if (id == _currentId) ReopenCurrentNote();   // Trash.cs: back through OpenNote

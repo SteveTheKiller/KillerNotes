@@ -39,7 +39,8 @@ namespace KillerNotes.Shell
             {
                 if (e.Key == Key.Enter)
                 {
-                    var first = ShortcutRows().FirstOrDefault(i => i.Tag is string);
+                    // Nothing typed is no choice: the first row is whatever happens to be listed first.
+                    var first = ShortcutSearchBox.Text.Length == 0 ? null : ShortcutRows().FirstOrDefault(i => i.Tag is string);
                     if (first != null) RunShortcutRow((string)first.Tag);
                     e.Handled = true;
                 }

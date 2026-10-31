@@ -178,8 +178,11 @@ namespace KillerNotes.Shell
         internal void ToggleTagByIndex(int index)
         {
             if (_currentId < 0 || index < 0 || index >= TagManager.Order.Count) return;
-            if (_notes.FirstOrDefault(n => n.Id == _currentId) is Note note)
-                ToggleTag(note, TagManager.Order[index].Name);
+            // The row on screen, not the copy in _notes: a refresh keeps the older row for a note
+            // whose display is unchanged, and the tags menu edits the row.
+            var note = _sidebarItems.OfType<Note>().FirstOrDefault(n => n.Id == _currentId)
+                       ?? _notes.FirstOrDefault(n => n.Id == _currentId);
+            if (note != null) ToggleTag(note, TagManager.Order[index].Name);
         }
 
         private void OpenTagsDialog()

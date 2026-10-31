@@ -37,6 +37,10 @@ namespace KillerNotes.Shell
         private void SortAlphaBtn_Click(object sender, RoutedEventArgs e) => SetSort("title", defaultAsc: true);
         private void SortCustomBtn_Click(object sender, RoutedEventArgs e) => SetSort("custom", defaultAsc: true);
 
+        /// <summary>The direction a sort mode starts in when it is picked: newest first for time,
+        /// A to Z for the others. The buttons, Alt+4 to Alt+6 and the sort menu all agree on it.</summary>
+        internal static bool DefaultAscending(string field) => field != "created";
+
         // F10 (Shortcuts.cs): step to the NEXT sort mode - time -> A-Z -> custom -> time.
         // Always a mode change, so SetSort never treats it as a direction flip.
         private void CycleSortShortcut()
@@ -129,7 +133,7 @@ namespace KillerNotes.Shell
             {
                 if (_sortField != "custom") SetSort(_sortField, defaultAsc: true);   // same field -> SetSort flips direction
             }
-            else SetSort(tag, defaultAsc: true);
+            else SetSort(tag, defaultAsc: DefaultAscending(tag));
         }
 
         private void NotesList_SelectionChanged(object sender, SelectionChangedEventArgs e)

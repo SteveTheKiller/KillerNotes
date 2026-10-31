@@ -346,7 +346,8 @@ namespace KillerNotes.Shell
             {
                 // Remember the expanded on-screen width (respects a splitter drag) before
                 // collapsing. ActualWidth is in ScaleHost's pre-scale space, so scale it up.
-                if (SidebarCol.ActualWidth > 0) _sidebarBaseWidth = SidebarCol.ActualWidth * s;
+                // Not mid-slide: the width is then part way to where it was going, not what was chosen.
+                if (SidebarCol.ActualWidth > 0 && !SidebarCol.HasAnimatedProperties) _sidebarBaseWidth = SidebarCol.ActualWidth * s;
                 SidebarResizeGrip.IsEnabled = false;   // nothing to resize down to the bare rail
             }
             else

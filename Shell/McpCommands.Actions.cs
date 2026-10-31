@@ -61,11 +61,7 @@ namespace KillerNotes.Shell
                     NoteStore.ExportNote(result.Id, result.Output, password);
                     break;
                 case "export-all":
-                    result.Output = ValidateOutputPath(Take(values, "--output", true)!); RequireEmpty(values);
-                    // The exporter writes names it planned, so an existing folder's files would be
-                    // overwritten; the app's own export always makes a new folder for that reason.
-                    if (Directory.Exists(result.Output) && Directory.EnumerateFileSystemEntries(result.Output).Any())
-                        throw new ArgumentException("Export output must be a new or empty folder");
+                    result.Output = ValidateOutputFolder(Take(values, "--output", true)!); RequireEmpty(values);
                     using (var vaultSource = NoteStore.OpenVaultSource())
                     {
                         var export = VaultExporter.Export(result.Output, NoteStore.List(), vaultSource, VaultExportText.From(Loc), null,
@@ -117,9 +113,8 @@ namespace KillerNotes.Shell
                     }
                     else
                     {
-                        string restoredPlain = NoteStore.LoadVersion(versionId)?.Plain ?? "";
                         if (!NoteStore.RestoreVersion(result.Id, versionId)) throw new InvalidOperationException("The version could not be restored");
-                        NoteStore.SetLinks(result.Id, WikiLinks.Parse(restoredPlain));
+                        NoteStore.ReindexLinks(result.Id);
                         RefreshList(); if (_currentId == result.Id) OpenNote(result.Id);
                     }
                     break;
@@ -131,7 +126,7 @@ namespace KillerNotes.Shell
                     int target = format == "markdown" ? Note.FormatMarkdown : Note.FormatRich;
                     if (source.Format != target)
                     {
-                        var document = source.IsMarkdown ? MarkdownConvert.ToDocument(MarkdownBlob.Decode(NoteStore.LoadContent(result.Id)), 14) : LoadNoteDocument(result.Id);
+                        var document = source.IsMarkdown ? RichDocumentFromMarkdown(MarkdownBlob.Decode(NoteStore.LoadContent(result.Id)), 14) : LoadNoteDocument(result.Id);
                         var losses = target == Note.FormatMarkdown ? MarkdownConvert.Losses(document) : [];
                         if (losses.Count > 0 && !allowLoss) throw new InvalidOperationException("Conversion loses formatting. Review these features and pass --allow-loss: " + string.Join(", ", losses));
                         NoteStore.Snapshot(result.Id, force: true);
@@ -203,21 +198,13 @@ namespace KillerNotes.Shell
                         string renamed = NoteStore.GroupPath(NoteStore.GroupParentOf(path), leaf);
                         if (!string.Equals(path, renamed, StringComparison.OrdinalIgnoreCase) && NoteStore.ListGroupTree().Any(g => string.Equals(g.Path, renamed, StringComparison.OrdinalIgnoreCase))) throw new ArgumentException("A sibling group already has that name");
                         NoteStore.RenameGroup(path, leaf);
-                        foreach (string key in new[] { TemplatesGroupSetting, DailyGroupSetting })
-                        {
-                            string? chosen = DbScopedSetting(key);
-                            if (chosen != null && (string.Equals(chosen, path, StringComparison.OrdinalIgnoreCase) || chosen.StartsWith(path + NoteStore.GroupSep, StringComparison.OrdinalIgnoreCase))) SetDbScopedSetting(key, renamed + chosen[path.Length..]);
-                        }
+                        RepointGroupSettings(path, renamed);   // Templates.cs
                         result.Content = renamed;
                     }
                     else
                     {
                         RequireEmpty(values); NoteStore.DeleteGroup(path);
-                        foreach (string key in new[] { TemplatesGroupSetting, DailyGroupSetting })
-                        {
-                            string? chosen = DbScopedSetting(key);
-                            if (chosen != null && (string.Equals(chosen, path, StringComparison.OrdinalIgnoreCase) || chosen.StartsWith(path + NoteStore.GroupSep, StringComparison.OrdinalIgnoreCase))) SetDbScopedSetting(key, null);
-                        }
+                        RepointGroupSettings(path, null);   // Templates.cs
                     }
                     refresh = true;
                     break;

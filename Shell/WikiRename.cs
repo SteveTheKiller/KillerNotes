@@ -78,7 +78,7 @@ namespace KillerNotes.Shell
             _renameFrom = "";
             if (id < 0 || !NoteStore.IsOpen || NoteStore.IsReadOnly) return;
 
-            string to = _notes.FirstOrDefault(n => n.Id == id)?.Title ?? "";
+            string to = NoteStore.GetNote(id)?.Title ?? "";   // the store, not _notes: the note may have left the search results by being renamed
             if (to.Trim().Length == 0) return;
             // A pure change of case is not a rename here: targets resolve case-insensitively, so
             // every existing link already points at the note and rewriting them would be churn.

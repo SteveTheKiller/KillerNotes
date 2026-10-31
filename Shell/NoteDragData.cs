@@ -16,7 +16,7 @@ namespace KillerNotes.Shell
     /// Each written file sits in its own folder under TEMP\KillerNotes\drag so same-titled notes
     /// never collide and the receiver still sees a readable name. A target may copy the file after
     /// DoDragDrop returns, so it is not deleted then; the next start removes leftover drag
-    /// folders (RemoveLeftovers).
+    /// folders (RemoveLeftovers), and so does a lock.
     /// </summary>
     internal sealed class NoteDragData : IDataObject
     {
@@ -62,15 +62,26 @@ namespace KillerNotes.Shell
         {
             try
             {
-                string drag = Path.Combine(tempRoot, DragFolder);
-                if (Directory.Exists(drag))
-                    foreach (string dir in Directory.GetDirectories(drag))
-                        try { Directory.Delete(dir, true); } catch { /* still open in a receiver; next start */ }
+                RemoveDragFolders(tempRoot);
                 if (Directory.Exists(tempRoot))
                     foreach (string file in Directory.GetFiles(tempRoot, "*.knote"))
                         try { File.Delete(file); } catch { }
             }
             catch { /* cleanup must never block startup */ }
+        }
+
+        /// <summary>Deletes every drag folder under the temp root. At every lock as well as at
+        /// startup: a note dragged out of a password-protected notepad leaves a plain copy.</summary>
+        internal static void RemoveDragFolders(string tempRoot)
+        {
+            try
+            {
+                string drag = Path.Combine(tempRoot, DragFolder);
+                if (Directory.Exists(drag))
+                    foreach (string dir in Directory.GetDirectories(drag))
+                        try { Directory.Delete(dir, true); } catch { /* still open in a receiver; next start or lock */ }
+            }
+            catch { /* cleanup must never block a lock */ }
         }
 
         /// <summary>Deletes the recordings Copy as file wrote: decrypted audio under the note's

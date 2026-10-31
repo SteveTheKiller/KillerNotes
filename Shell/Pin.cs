@@ -46,7 +46,7 @@ namespace KillerNotes.Shell
         /// they already are. Ctrl+Z puts each note back to the state it had.</summary>
         private void TogglePin(List<Note> notes)
         {
-            if (notes.Count == 0 || !NoteStore.IsOpen) return;
+            if (notes.Count == 0 || !NoteStore.IsOpen || RefuseReadOnly()) return;   // Notes.Document.cs
             bool pin = notes.Any(n => !n.Pinned);
             var snap = notes.Select(n => (n.Id, n.Pinned)).ToList();
             foreach (var n in notes)

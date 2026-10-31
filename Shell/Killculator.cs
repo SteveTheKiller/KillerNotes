@@ -250,6 +250,7 @@ namespace KillerNotes.Shell
         private void KalcPrint()
         {
             if (_currentId < 0) { FlashStatus(Loc("Str_St_CalcNoNote")); return; }
+            if (!CanEditCurrentNote()) return;
             string text = _kalc.Display == "Error" ? "" : _kalc.Display;
             if (text.Length == 0) return;
             KalcInsert(text);
@@ -260,6 +261,7 @@ namespace KillerNotes.Shell
         private void KalcPrintEquation()
         {
             if (_currentId < 0) { FlashStatus(Loc("Str_St_CalcNoNote")); return; }
+            if (!CanEditCurrentNote()) return;
             if (_kalc.Display == "Error") return;
             string text = _kalc.EquationText();
             if (text.Length == 0) return;

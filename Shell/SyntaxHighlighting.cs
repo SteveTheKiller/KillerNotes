@@ -651,9 +651,11 @@ namespace KillerNotes.Shell
                 CodeLanguage.Sql => @"--.*$|/\*.*?\*/",
                 _ => ""
             };
+            const string stringRule = @"(['""])(?:\\.|(?!\1).)*\1";
             if (comments.Length > 0)
-                Add(tokens, s, comments, SynComment, RegexOptions.Multiline | RegexOptions.Singleline);
-            Add(tokens, s, @"(['""])(?:\\.|(?!\1).)*\1", SynString);
+                AddCommentsAndStrings(tokens, s, comments, stringRule);
+            else
+                Add(tokens, s, stringRule, SynString);
             Add(tokens, s, @"(?<!\w)(?:\d+(?:\.\d+)?)(?!\w)", SynNumber);
             if (language == CodeLanguage.PowerShell)
             {
@@ -777,6 +779,19 @@ namespace KillerNotes.Shell
                 foreach (Match m in Regex.Matches(text, pattern, options, SynRegexTimeout))
                     if (m.Length > 0 && !dst.Any(t => m.Index < t.Start + t.Length && t.Start < m.Index + m.Length))
                         dst.Add((m.Index, m.Length, color));
+            }
+            catch (RegexMatchTimeoutException) { }
+        }
+
+        /// <summary>Comments and strings in one left-to-right pass, so whichever opens first owns its
+        /// span: a "//" or "#" inside a string literal stays string, and a quote inside a comment
+        /// stays comment. Separate passes let the comments claim first, wherever they sat.</summary>
+        private static void AddCommentsAndStrings(List<(int Start, int Length, Color Color)> dst, string text, string comments, string strings)
+        {
+            try
+            {
+                foreach (Match m in Regex.Matches(text, $"(?<c>(?ms:{comments}))|(?<s>{strings})", RegexOptions.None, SynRegexTimeout))
+                    if (m.Length > 0) dst.Add((m.Index, m.Length, m.Groups["c"].Success ? SynComment : SynString));
             }
             catch (RegexMatchTimeoutException) { }
         }

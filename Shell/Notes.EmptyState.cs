@@ -66,6 +66,7 @@ namespace KillerNotes.Shell
         // to the trash (Trash.cs); on a note already there it deletes for good.
         private void DeleteNoteWithConfirm(Note n)
         {
+            if (RefuseReadOnly()) return;   // Notes.Document.cs
             if (n.IsDeleted) { DeleteForeverWithConfirm([n]); return; }
 
             var dlg = new ConfirmDialog(
@@ -94,7 +95,7 @@ namespace KillerNotes.Shell
         // live notes and leaves the trashed ones where they are.
         private void DeleteNotesWithConfirm(List<Note> notes)
         {
-            if (notes.Count == 0) return;
+            if (notes.Count == 0 || RefuseReadOnly()) return;   // Notes.Document.cs
             if (notes.All(x => x.IsDeleted)) { DeleteForeverWithConfirm(notes); return; }
             notes = [.. notes.Where(x => !x.IsDeleted)];
             if (notes.Count == 1) { DeleteNoteWithConfirm(notes[0]); return; }

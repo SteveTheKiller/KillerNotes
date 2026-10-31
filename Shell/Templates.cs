@@ -68,6 +68,19 @@ namespace KillerNotes.Shell
             else App.SetSetting(name, raw);
         }
 
+        /// <summary>The templates and daily groups are remembered by path, so a rename or move of
+        /// one of them (or of an ancestor) re-points the setting at the new path, and a delete
+        /// clears it. newPath null = deleted.</summary>
+        internal static void RepointGroupSettings(string path, string? newPath)
+        {
+            foreach (string key in new[] { TemplatesGroupSetting, DailyGroupSetting })
+            {
+                string? chosen = DbScopedSetting(key);
+                if (chosen != null && (string.Equals(chosen, path, StringComparison.OrdinalIgnoreCase) || chosen.StartsWith(path + NoteStore.GroupSep, StringComparison.OrdinalIgnoreCase)))
+                    SetDbScopedSetting(key, newPath == null ? null : newPath + chosen[path.Length..]);
+            }
+        }
+
         // ---- The templates group ----
 
         private static string? TemplatesGroupPath() => DbScopedSetting(TemplatesGroupSetting);

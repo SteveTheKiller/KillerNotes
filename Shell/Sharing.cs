@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -120,13 +121,14 @@ namespace KillerNotes.Shell
 
             try
             {
+                // Before the copy: a save that fails stops here, with nothing left in the data folder.
+                if (!SaveCurrentNote(refreshList: false)) return;
                 string name = Path.GetFileNameWithoutExtension(path) + ".db";
                 for (int i = 2; File.Exists(Path.Combine(NoteStore.DbDir, name)); i++)
                     name = $"{Path.GetFileNameWithoutExtension(path)}-{i}.db";
                 Directory.CreateDirectory(NoteStore.DbDir);
                 File.Copy(path, Path.Combine(NoteStore.DbDir, name));
 
-                if (!SaveCurrentNote(refreshList: false)) return;
                 string prevFile = NoteStore.ActiveDbFile;
                 NoteStore.Close();
                 App.SetSetting("ActiveDatabase", name);
@@ -167,7 +169,7 @@ namespace KillerNotes.Shell
                         dlg.ShowDialog();
                         if (!dlg.Confirmed) return;
                         try { count = NoteStore.ImportNotes(path, dlg.Password); break; }
-                        catch (SqliteException) { heading = Loc("Str_Pw_WrongPw"); }
+                        catch (SqliteException ex) when (IsWrongPassword(ex)) { heading = Loc("Str_Pw_WrongPw"); }
                     }
                 }
                 else
@@ -184,12 +186,28 @@ namespace KillerNotes.Shell
 
         // ---- Sending: right-click a note > Share note... ----
 
+        /// <summary>Whether opening a shared file failed because the password was wrong: the
+        /// engine cannot read the file with that key, which it reports as "not a database".
+        /// Any other failure is a real problem with the file and is shown as one.</summary>
+        internal static bool IsWrongPassword(SqliteException error) => error.SqliteErrorCode == 26;   // SQLITE_NOTADB
+
         internal static string SafeFileName(string title)
         {
             string safe = string.Join("-", title.Split(Path.GetInvalidFileNameChars(),
                 StringSplitOptions.RemoveEmptyEntries)).Trim();
-            return safe.Length > 0 ? safe : "note";
+            if (safe.Length == 0) return "note";
+            // Windows resolves these names to devices whatever follows them, so "NUL.knote" is no file.
+            int dot = safe.IndexOf('.');
+            string stem = dot < 0 ? safe : safe[..dot];
+            return ReservedDeviceNames.Contains(stem.TrimEnd()) ? stem + "_" + safe[stem.Length..] : safe;
         }
+
+        private static readonly HashSet<string> ReservedDeviceNames = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "CON", "PRN", "AUX", "NUL",
+            "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+            "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9",
+        };
 
         private void ShareNote_Click(object sender, RoutedEventArgs e)
         {

@@ -42,60 +42,70 @@ namespace KillerNotes.Shell
             SaveNotePosition();   // remember where the outgoing note was left (1.1.1)
 
             _loadingNote = true;
-            _loadFailed = false;
-            _loadError = "";
-            _currentId = id;
-            // Remembered for the next launch (OpenStartupNote). Demo sessions must
-            // never touch real settings.
-            if (NoteStore.DemoDbFile == null)
-                App.SetSetting("LastNote", $"{NoteStore.ActiveDbFile}|{id}");
-            TitleBox.Text = meta.Title;
+            try
+            {
+                _loadFailed = false;
+                _loadError = "";
+                _currentId = id;
+                // Remembered for the next launch (OpenStartupNote). Demo sessions must
+                // never touch real settings.
+                if (NoteStore.DemoDbFile == null)
+                    App.SetSetting("LastNote", $"{NoteStore.ActiveDbFile}|{id}");
+                TitleBox.Text = meta.Title;
 
-            DeselectImage();          // ImageResize.cs (handles must not outlive the document swap)
-            StopEmbeddedPlayback();   // Editor.Dictation.cs (same reason - and audio from the note
-                                      // you just navigated away from must not keep playing)
-            Editor.Document.Blocks.Clear();
-            var blob = NoteStore.LoadContent(id);
-            // Content type decides how the blob is read (1.3.0). It comes off the row metadata
-            // rather than a second query, and must be set before the load so a markdown blob is
-            // never handed to the XamlPackage deserializer.
-            _currentFormat = meta.Format;
-            SetTrashReadOnly(meta.IsDeleted);   // Trash.cs - before ApplyFormatMode, which reads it
-            if (CurrentIsMarkdown)
-            {
-                LoadMarkdownIntoEditor(blob);   // Markdown.cs
-            }
-            else if (blob != null)
-            {
-                var range = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd);
-                using var ms = new MemoryStream(blob);
-                try
+                DeselectImage();          // ImageResize.cs (handles must not outlive the document swap)
+                StopEmbeddedPlayback();   // Editor.Dictation.cs (same reason - and audio from the note
+                                          // you just navigated away from must not keep playing)
+                Editor.Document.Blocks.Clear();
+                var blob = NoteStore.LoadContent(id);
+                // Content type decides how the blob is read (1.3.0). It comes off the row metadata
+                // rather than a second query, and must be set before the load so a markdown blob is
+                // never handed to the XamlPackage deserializer.
+                _currentFormat = meta.Format;
+                SetTrashReadOnly(meta.IsDeleted);   // Trash.cs - before ApplyFormatMode, which reads it
+                if (CurrentIsMarkdown)
                 {
-                    range.Load(ms, DataFormats.XamlPackage);
+                    LoadMarkdownIntoEditor(blob);   // Markdown.cs
                 }
-                catch (Exception ex)
+                else if (blob != null)
                 {
-                    // A blob the XamlPackage deserializer rejects must NEVER reach the dispatcher
-                    // unhandled. OpenStartupNote runs this before the window is usable, so the
-                    // throw killed the process on every launch with no way back in - the only
-                    // recoveries were editing the registry or deleting the database. Seen with a
-                    // markdown blob (format 1, raw UTF-8) written by 1.3.0 and read by 1.2.1,
-                    // which predates the format column and so reads every blob as a XamlPackage.
-                    // The note is left unloaded and _loadFailed blocks the save path.
-                    Editor.Document.Blocks.Clear();
-                    _loadFailed = true;
-                    _loadError = ex.Message;
+                    var range = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd);
+                    using var ms = new MemoryStream(blob);
+                    try
+                    {
+                        range.Load(ms, DataFormats.XamlPackage);
+                    }
+                    catch (Exception ex)
+                    {
+                        // A blob the XamlPackage deserializer rejects must NEVER reach the dispatcher
+                        // unhandled. OpenStartupNote runs this before the window is usable, so the
+                        // throw killed the process on every launch with no way back in - the only
+                        // recoveries were editing the registry or deleting the database. Seen with a
+                        // markdown blob (format 1, raw UTF-8) written by 1.3.0 and read by 1.2.1,
+                        // which predates the format column and so reads every blob as a XamlPackage.
+                        // The note is left unloaded and _loadFailed blocks the save path.
+                        Editor.Document.Blocks.Clear();
+                        _loadFailed = true;
+                        _loadError = ex.Message;
+                    }
                 }
+                NormalizeThemeColors(Editor.Document);   // Editor.cs (default text follows the live theme)
+                NormalizeContentFont(Editor.Document);   // Fonts.cs (baked save-time font must not defeat the ContentFont slot)
+                ApplyImageQuality(Editor.Document);      // ImageResize.cs (Fant scaling on loaded images)
+                ApplyFloatCursors(Editor.Document);      // Editor.Float.cs (grab hand on already-floated objects)
+                EnsureEditableTail();   // Editor.cs (rule/table as last block traps the caret)
+                ApplyFormatMode();      // Markdown.cs (hide the format bar over a plain-text note)
+                LoadSyntaxHighlightState(meta.SyntaxHighlight);   // SyntaxHighlighting.cs (per-note flag, off by default)
+                ApplyWordWrap(_wordWrap);   // Editor.cs (re-assert the word-wrap page width after the load)
             }
-            NormalizeThemeColors(Editor.Document);   // Editor.cs (default text follows the live theme)
-            NormalizeContentFont(Editor.Document);   // Fonts.cs (baked save-time font must not defeat the ContentFont slot)
-            ApplyImageQuality(Editor.Document);      // ImageResize.cs (Fant scaling on loaded images)
-            ApplyFloatCursors(Editor.Document);      // Editor.Float.cs (grab hand on already-floated objects)
-            EnsureEditableTail();   // Editor.cs (rule/table as last block traps the caret)
-            ApplyFormatMode();      // Markdown.cs (hide the format bar over a plain-text note)
-            LoadSyntaxHighlightState(meta.SyntaxHighlight);   // SyntaxHighlighting.cs (per-note flag, off by default)
-            ApplyWordWrap(_wordWrap);   // Editor.cs (re-assert the word-wrap page width after the load)
-            _loadingNote = false;
+            catch (Exception ex)
+            {
+                // Stopped part way, the editor holds some of the note and not the rest: keep that from being saved over it.
+                _loadFailed = true;
+                _loadError = ex.Message;
+                throw;
+            }
+            finally { _loadingNote = false; }
             _dirty = false;
             SetSaveState(SaveIndicator.Saved, meta.Modified);   // SaveState.cs
             ApplySpellCheck(meta.SpellCheck);   // Editor.cs (per-note flag, off by default)
@@ -262,7 +272,7 @@ namespace KillerNotes.Shell
             // Read BEFORE the save and the row sync below, which are the two things that destroy
             // the old title. Wikilinks target titles, so a rename orphans every link that named
             // this note, and WikiRename.cs offers to rewrite them once the box is done with.
-            string titleWas = _notes.FirstOrDefault(n => n.Id == _currentId)?.Title ?? "";
+            string titleWas = NoteStore.GetNote(_currentId)?.Title ?? "";   // the store, not _notes: a search can leave the open note out of the list
             NoteStore.SaveEditorState(_currentId, TitleBox.Text, blob, storedPlain,
                 WikiLinks.Parse(bodyText), attachments, _dropLegacyRecordings);
             if (!CurrentIsMarkdown) OnRichDocumentSaved();
@@ -328,6 +338,16 @@ namespace KillerNotes.Shell
             if (explain)
                 StatusText.Text = _currentInTrash ? Loc("Str_St_InTrash") : string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner);
             return false;
+        }
+
+        /// <summary>True, after saying why, when the notepad is held read-only by another writer.
+        /// The store ignores every write then, so a command that carried on would confirm a change
+        /// that never happened.</summary>
+        private bool RefuseReadOnly()
+        {
+            if (!NoteStore.IsReadOnly) return false;
+            FlashStatus(string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner));
+            return true;
         }
 
         private void MarkDirty()

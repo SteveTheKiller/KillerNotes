@@ -381,7 +381,7 @@ namespace KillerNotes.Shell
                     e.Handled = true;
                     break;
                 case Key.F5:
-                    ToggleSidebar();                     // Sidebar.cs (moved from F9: F5/F6
+                    if (!e.IsRepeat) ToggleSidebar();    // Sidebar.cs (moved from F9: F5/F6
                     e.Handled = true;                    // sit together as the two pane toggles)
                     break;
                 case Key.F12:

@@ -154,7 +154,7 @@ namespace KillerNotes.Shell
         {
             try
             {
-                if (_currentId < 0 || !Editor.Selection.IsEmpty) return;
+                if (_currentId < 0 || !Editor.Selection.IsEmpty || !CanEditCurrentNote(explain: false)) return;
                 var caret = Editor.CaretPosition;
                 if (FindLink(caret) != null) return;   // already inside a link
                 string back = caret.GetTextInRun(LogicalDirection.Backward);
@@ -168,8 +168,6 @@ namespace KillerNotes.Shell
                 if (start is null || end is null) return;
                 if (ParseUrl(url) is not Uri u) return;
                 var h = new Hyperlink(start, end) { NavigateUri = u };
-                Editor.CaretPosition = h.ElementEnd.GetNextInsertionPosition(LogicalDirection.Forward)
-                                       ?? h.ElementEnd;
                 Editor.CaretPosition = h.ElementEnd;
                 MarkDirty();
             }

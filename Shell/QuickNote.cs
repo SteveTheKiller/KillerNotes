@@ -14,7 +14,7 @@
 //
 // A locked or read-only notepad keeps the draft in the window with the reason and, when locked,
 // an Unlock button. Esc closes and keeps the draft for next time; it lives in memory only, never
-// in settings, because the notepad it is headed for may be encrypted.
+// in settings, because the notepad it is headed for may be encrypted. A lock drops it.
 
 using System;
 using System.Collections.Generic;

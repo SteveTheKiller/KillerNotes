@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using KillerNotes.Services;
 
 namespace KillerNotes.Shell
 {
@@ -65,7 +66,7 @@ namespace KillerNotes.Shell
             {
                 target = from[^1];
                 from.RemoveAt(from.Count - 1);
-                if (_notes.Any(n => n.Id == target)) break;   // skip notes deleted since
+                if (NoteStore.GetNote(target) is { IsDeleted: false }) break;   // skip notes deleted since; the list may be filtered by a search
                 target = -1;
             }
             if (target < 0) { FlashStatus(Loc(emptyMsg)); UpdateNavState(); return; }
@@ -76,6 +77,7 @@ namespace KillerNotes.Shell
                 if (onto.Count > NavDepth) onto.RemoveAt(0);
             }
 
+            if (!_notes.Any(n => n.Id == target)) SearchBox.Text = "";   // the search is hiding it; OpenNote only finds what the list shows
             _navReplaying = true;
             try
             {

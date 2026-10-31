@@ -28,15 +28,18 @@ namespace KillerNotes.Shell
         // for a new markdown note passes anything else.
         private void CreateNewNote(bool focusTitle, int format = 0)
         {
-            if (!NoteStore.IsOpen) return;
+            if (!NoteStore.IsOpen || RefuseReadOnly()) return;   // Notes.Document.cs
             if (!SaveCurrentNote(refreshList: false)) return;
-            _currentId = NoteStore.Create(Loc("Str_Untitled"), format);
+            long created = NoteStore.Create(Loc("Str_Untitled"), format);
+            if (created < 0) return;
             SearchBox.Text = "";   // a filtered list would hide the new note
             // Keep the chosen sort and reveal the new row wherever it belongs.
             RefreshList(preserveScroll: true);
-            OpenNote(_currentId);
+            // OpenNote moves _currentId itself: it needs the note being left to record it in the
+            // navigation history and to save where it was left.
+            OpenNote(created);
             _syncingSelection = true;
-            var newRow = _sidebarItems.OfType<Note>().FirstOrDefault(n => n.Id == _currentId);
+            var newRow = _sidebarItems.OfType<Note>().FirstOrDefault(n => n.Id == created);
             NotesList.SelectedItem = newRow;
             _syncingSelection = false;
             if (newRow != null)

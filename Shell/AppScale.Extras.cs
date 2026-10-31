@@ -57,6 +57,7 @@ namespace KillerNotes.Shell
         // second _statusTimer is shared by every other confirmation, and lands back on
         // DefaultStatus. Normal priority, so a busy moment cannot park it on the footer.
         private System.Windows.Threading.DispatcherTimer? _appScaleReadoutHide;
+        private string _appScaleReadoutText = "";
 
         partial void ShowAppScaleReadout(double scale, ref bool handled)
         {
@@ -69,13 +70,15 @@ namespace KillerNotes.Shell
                 _appScaleReadoutHide.Tick += (_, _) =>
                 {
                     _appScaleReadoutHide!.Stop();
-                    if (Services.NoteStore.IsOpen) StatusText.Text = DefaultStatus();
+                    // Only while the readout is still the text on screen, so a confirmation written
+                    // in the meantime is not replaced by the default.
+                    if (Services.NoteStore.IsOpen && StatusText.Text == _appScaleReadoutText) StatusText.Text = DefaultStatus();
                 };
             }
 
             _statusTimer.Stop();
             _appScaleReadoutHide.Stop();
-            StatusText.Text = string.Format(Loc("Str_St_AppSize"), (int)Math.Round(scale * 100));
+            StatusText.Text = _appScaleReadoutText = string.Format(Loc("Str_St_AppSize"), (int)Math.Round(scale * 100));
             _appScaleReadoutHide.Start();
         }
     }

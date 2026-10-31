@@ -72,6 +72,7 @@ namespace KillerNotes.Shell
 
         private void ApplyReorderDrop(long id, int slot)
         {
+            if (RefuseReadOnly()) return;   // Notes.Document.cs
             // Resolve the slot into (target group, note to insert after). A slot right below
             // a header = start of that group; a slot after a note = after that note, in its
             // group; the very top (slot 0) = top of the first section, which with groups now

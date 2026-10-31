@@ -108,9 +108,10 @@ namespace KillerNotes.Shell
             if (NoteStore.MoveGroup(dragged, newParent, before))
             {
                 string newPath = NoteStore.GroupPath(newParent, leaf);
+                RepointGroupSettings(dragged, newPath);   // Templates.cs
                 PushUndo(() =>
                 {
-                    NoteStore.MoveGroup(newPath, origParent, origBefore);
+                    if (NoteStore.MoveGroup(newPath, origParent, origBefore)) RepointGroupSettings(newPath, dragged);
                     RefreshList(preserveScroll: true);
                 });
                 RefreshList(preserveScroll: true);
@@ -186,6 +187,7 @@ namespace KillerNotes.Shell
                 return;
             }
             NoteStore.RenameGroup(g.Path, name);
+            RepointGroupSettings(g.Path, NoteStore.GroupPath(parent, name));   // Templates.cs
             RefreshList(preserveScroll: true);   // in-place edit - hold position
         }
 
@@ -199,6 +201,7 @@ namespace KillerNotes.Shell
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
             NoteStore.DeleteGroup(g.Path);
+            RepointGroupSettings(g.Path, null);   // Templates.cs
             RefreshList(preserveScroll: true);   // in-place edit - hold position
         }
 

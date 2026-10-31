@@ -134,7 +134,7 @@ namespace KillerNotes.Shell
 
         private void RestoreNotes(List<Note> notes)
         {
-            if (notes.Count == 0) return;
+            if (notes.Count == 0 || RefuseReadOnly()) return;   // Notes.Document.cs
             var ids = notes.Select(n => n.Id).ToList();
             foreach (long id in ids) NoteStore.Restore(id);
             PushUndo(() =>
@@ -153,7 +153,7 @@ namespace KillerNotes.Shell
 
         private void DeleteForeverWithConfirm(List<Note> notes)
         {
-            if (notes.Count == 0) return;
+            if (notes.Count == 0 || RefuseReadOnly()) return;   // Notes.Document.cs
             var dlg = new ConfirmDialog(
                 notes.Count == 1
                     ? string.Format(Loc("Str_Dlg_DeleteForeverHead"), notes[0].Title)

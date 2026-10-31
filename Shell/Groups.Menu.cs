@@ -77,6 +77,7 @@ namespace KillerNotes.Shell
 
         private void AssignGroup(List<Note> notes, string group)
         {
+            if (RefuseReadOnly()) return;   // Notes.Document.cs
             // Snapshot the prior membership of only the notes that actually move, by id, so
             // Ctrl+Z files them back where they were (the Note instances are stale post-refresh).
             var snap = notes

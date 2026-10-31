@@ -58,12 +58,20 @@ namespace KillerNotes.Shell
             try
             {
                 var pos = Editor.GetPositionFromPoint(pt, true);
-                if (pos == null) return null;
-                string all = new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd).Text;
-                int offset = new TextRange(Editor.Document.ContentStart, pos).Text.Length;
-                return WikiLinks.TargetAt(all, offset);
+                return pos == null ? null : TargetAtPosition(pos);
             }
             catch (InvalidOperationException) { return null; }   // document changed under the hit test
+        }
+
+        /// <summary>The link target at a position, found in the paragraph that holds it. A link
+        /// never crosses a line ending, so the paragraph is all there is to search, and this runs
+        /// on every mouse move while Ctrl is down: a large note's whole text is not copied each time.</summary>
+        internal static string? TargetAtPosition(TextPointer pos)
+        {
+            if (pos.Paragraph is not { } paragraph) return null;
+            string text = new TextRange(paragraph.ContentStart, paragraph.ContentEnd).Text;
+            int offset = new TextRange(paragraph.ContentStart, pos).Text.Length;
+            return WikiLinks.TargetAt(text, offset);
         }
 
         /// <summary>Opens the note a link points at. An unresolved target OFFERS TO CREATE IT
@@ -75,6 +83,7 @@ namespace KillerNotes.Shell
             if (id >= 0)
             {
                 if (!SaveCurrentNote(refreshList: false)) return;
+                if (!_notes.Any(n => n.Id == id)) SearchBox.Text = "";   // the search is hiding it; OpenNote only finds what the list shows
                 OpenNote(id);
                 SelectNoteInList(id);
                 return;
@@ -96,6 +105,7 @@ namespace KillerNotes.Shell
             if (!SaveCurrentNote(refreshList: false)) return;
             long created = NoteStore.Create(target);
             if (created < 0) return;
+            SearchBox.Text = "";   // a filtered list would hide the new note
             RefreshList();
             OpenNote(created);
             SelectNoteInList(created);
