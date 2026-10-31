@@ -95,6 +95,14 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void TheStagedSiblingIsShorterThanARealisticName()
+        {
+            string? seen = null;
+            AtomicFile.Write(Path.Combine(_dir, "Notes.kndb"), staged => { seen = staged; File.WriteAllText(staged, "x"); });
+            Assert.True(Path.GetFileName(seen!).Length < "Notes.kndb".Length);
+        }
+
+        [Fact]
         public void ACopyThatDiesPartwayKeepsThePreviousExport()
         {
             string source = Path.Combine(_dir, "notes.db");

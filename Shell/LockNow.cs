@@ -128,6 +128,7 @@ namespace KillerNotes.Shell
             _findPlain = "";
             _findPlainStale = true;
             ForgetSearches();
+            NoteDragData.RemoveSharedRecordings(NoteDragData.DefaultTempRoot);   // decrypted copies under TEMP
             ClearNavHistory();               // NoteHistory.cs - titles and ids of the locked notepad
             _notes = [];
             _trashNotes = [];
@@ -157,6 +158,12 @@ namespace KillerNotes.Shell
             _findTerm = "";
             SearchBox.TextChanged += SearchBox_TextChanged;
             FindBox.TextChanged += FindBox_TextChanged;
+            // Ctrl+Z in an empty box would otherwise bring the words back for the next notepad.
+            foreach (var box in new[] { SearchBox, FindBox, ReplaceBox, SidebarReplaceBox, TitleBox })
+            {
+                box.IsUndoEnabled = false;
+                box.IsUndoEnabled = true;
+            }
         }
 
         void ISecurityHost.LeaveLocked()
@@ -172,20 +179,21 @@ namespace KillerNotes.Shell
         /// not saved yet: that lives only in the editor's memory, which reopening a note forgets.</summary>
         private void HoldOpenEdits() =>
             _heldEdits.Hold(LockedEdits.Capture(Editor.Document, _currentId, TitleBox.Text, NoteStore.DatabaseId,
-                _currentFormat, _recordingCache?.Values));
+                _currentFormat, _notes.FirstOrDefault(n => n.Id == _currentId)?.Created, _recordingCache?.Values));
 
         /// <summary>Puts edits held through an automatic lock back into their notes, once their own
         /// database is open again (SecurityHost.LoadNotes, after every open). The editor holds one
-        /// note at a time, so each waits until the one before it has saved. A note the database no
-        /// longer has keeps its edits held, without holding up the others. A read-only database
-        /// cannot take them yet.</summary>
+        /// note at a time, so each waits until the one before it has saved. Edits whose note is gone
+        /// or has changed stay held, without holding up the others, and the status line says so. A
+        /// read-only database cannot take them yet.</summary>
         private void RestoreLockedEdits()
         {
             if (NoteStore.IsReadOnly) return;
             foreach (var held in _heldEdits.For(NoteStore.DatabaseId))
             {
                 if (!SaveCurrentNote(refreshList: false)) return;
-                if (_currentId != held.NoteId && NoteStore.GetNote(held.NoteId) is { IsDeleted: false })
+                if (NoteStore.GetNote(held.NoteId) is not { } note || !held.Fits(note)) continue;
+                if (_currentId != held.NoteId)
                 {
                     // OpenNote finds notes through the sidebar, and a search left over from another
                     // notepad may be hiding this one.
@@ -194,6 +202,7 @@ namespace KillerNotes.Shell
                 }
                 if (PutBack(held)) StatusText.Text = Loc("Str_St_LockEditsBack");
             }
+            if (_heldEdits.For(NoteStore.DatabaseId).Count > 0) StatusText.Text = Loc("Str_St_LockEditsStuck");
         }
 
         private bool PutBack(LockedEdits held)
@@ -241,7 +250,7 @@ namespace KillerNotes.Shell
             SketchRailBtn.Tag = null;
             // A pad can outlive a switch of notepads, so its owner is the one it was opened in,
             // not whichever one is locking now.
-            _heldTools.Hold(session?.Database, pad, () =>
+            _heldTools.Hold(session?.Database ?? ToolOwner, pad, () =>
             {
                 if (_sketchPad != null) return false;
                 _sketchPad = pad;
@@ -259,7 +268,7 @@ namespace KillerNotes.Shell
         private void HoldDictation()
         {
             var pad = _dictation!;
-            string? owner = _dictationOwner;
+            string? owner = _dictationOwner ?? ToolOwner;
             _dictation = null;
             _dictationOwner = null;
             DictationRailBtn.Tag = null;
@@ -274,6 +283,10 @@ namespace KillerNotes.Shell
                 return true;
             });
         }
+
+        /// <summary>Who a pad belongs to when its database has no id: a read-only file from before
+        /// ids, which this copy cannot write one into. Its path and password are all there is.</summary>
+        private static string ToolOwner => NoteStore.DatabaseId ?? "path:" + System.IO.Path.GetFullPath(NoteStore.DbPath);
 
         /// <summary>A password change gave the open database a new id. It is the same database,
         /// and whoever changed the password has just proved its key, so its work goes with it.</summary>

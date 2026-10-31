@@ -182,6 +182,20 @@ namespace KillerNotes.Tests
             Assert.False(held.All[0].TryRestore(new FlowDocument(), 1, null));
         });
 
+        // Row ids are reused once a note is gone, and a note can change format while its edits
+        // wait, so the id alone is not proof that this is still the note the edits came from.
+        [Fact]
+        public void EditsOnlyFitTheNoteTheyCameFrom() => Sta.Run(() =>
+        {
+            var created = new DateTime(2026, 10, 1, 9, 30, 0);
+            var edits = LockedEdits.Capture(new FlowDocument(), 4, "t", "db-a", 0, created);
+
+            Assert.True(edits.Fits(new KillerNotes.Models.Note { Created = created, Format = 0 }));
+            Assert.False(edits.Fits(new KillerNotes.Models.Note { Created = created.AddSeconds(1), Format = 0 }));
+            Assert.False(edits.Fits(new KillerNotes.Models.Note { Created = created, Format = 1 }));
+            Assert.False(edits.Fits(new KillerNotes.Models.Note { Created = created, Format = 0, Deleted = DateTime.Now }));
+        });
+
         [Fact]
         public void OneStuckEntryDoesNotHideTheOthersForThatDatabase() => Sta.Run(() =>
         {

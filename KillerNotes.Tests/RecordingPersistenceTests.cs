@@ -77,6 +77,22 @@ namespace KillerNotes.Tests
             Assert.Equal(Audio(21), Payload(Chips(reopened).Single()));
         });
 
+        [Fact]
+        public void APadFromAnotherNotepadCannotAddToThisOne() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            long id = NoteStore.Create("n");
+            var shell = Shell(id, "before ");
+            Set(shell, "_dictationOwner", "another-notepad");
+
+            Embed(shell, Audio(30), 900);
+            Invoke(shell, "PrintDictationToNote", "words from the other notepad");
+
+            Assert.Empty(Chips(shell));
+            var editor = (RichTextBox)Get(shell, "Editor")!;
+            Assert.DoesNotContain("other notepad", new TextRange(editor.Document.ContentStart, editor.Document.ContentEnd).Text);
+        });
+
         private static byte[] Package(string text)
         {
             var doc = new FlowDocument(new Paragraph(new Run(text)));

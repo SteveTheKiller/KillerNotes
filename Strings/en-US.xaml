@@ -1042,6 +1042,8 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Lock now needs a password. Set one with the lock button first.</sys:String>
     <sys:String x:Key="Str_St_Locked">Locked.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Locked. The open note could not be saved first, so its edits are kept until you unlock.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Some held edits could not go back because their note has changed or is gone. They stay held until you quit.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">This pad belongs to another notepad. Switch back to it, or close the pad and open a new one.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows could not end the session because some edits are still waiting for their notepad. Open it and unlock to save them.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Your edits from before the lock are back and will be saved now.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Unlock to open {0}.</sys:String>

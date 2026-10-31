@@ -79,7 +79,7 @@ namespace KillerNotes.Services
         /// already have; a name that holds anything else is left alone for the next one.</summary>
         internal string Add(string prefix, string extension, byte[] bytes)
         {
-            string stem = prefix + "-" + Attachments.HashOf(bytes).Substring(0, 16);
+            string stem = prefix + "-" + Attachments.HashOf(bytes).Substring(0, 8);
             string name = stem + extension;
             for (int n = 2; ; n++)
             {

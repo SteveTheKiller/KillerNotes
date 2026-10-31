@@ -21,6 +21,19 @@ namespace KillerNotes.Tests
             try { Directory.Delete(_temp, true); } catch { }
         }
 
+        // Copy as file writes a decrypted recording under TEMP, under the note's title.
+        [Fact]
+        public void SharedRecordingsDoNotOutliveALockOrASession()
+        {
+            string share = Path.Combine(_temp, "share");
+            Directory.CreateDirectory(share);
+            File.WriteAllBytes(Path.Combine(share, "Private title-1234abcd.flac"), new byte[] { 1 });
+
+            NoteDragData.RemoveSharedRecordings(_temp);
+
+            Assert.False(Directory.Exists(share));
+        }
+
         [Fact]
         public void ReorderAndCanceledDragsNeverWriteAFile()
         {

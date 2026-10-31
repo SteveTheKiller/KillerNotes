@@ -161,12 +161,21 @@ namespace KillerNotes.Shell
             }
         }
 
+        /// <summary>The pad can outlive a switch of notepads, and what it holds is the old one's
+        /// content, which a click must not carry into another file, perhaps an unprotected one.</summary>
+        private bool PadBelongsHere()
+        {
+            if (_dictationOwner == null || _dictationOwner == NoteStore.DatabaseId) return true;
+            StatusText.Text = Loc("Str_Dict_WrongNotepad");
+            return false;
+        }
+
         /// <summary>"Print to note": drop the transcript in at the caret as ordinary text, so it is
         /// immediately editable and carries the note's own formatting rather than arriving as a
         /// special object.</summary>
         private void PrintDictationToNote(string text)
         {
-            if (!CanEditCurrentNote()) return;
+            if (!PadBelongsHere() || !CanEditCurrentNote()) return;
             var caret = Editor.CaretPosition ?? Editor.Document.ContentEnd;
             caret.InsertTextInRun(text);
             // Leave the caret after what was just inserted, so a second print appends rather than
@@ -218,7 +227,7 @@ namespace KillerNotes.Shell
                 return;
             }
 
-            if (!CanEditCurrentNote()) return;
+            if (!PadBelongsHere() || !CanEditCurrentNote()) return;
             // Markdown notes store text, so the chip would be lost at the next save (Markdown.cs).
             // Transcribing to text is unaffected.
             if (RejectsObject()) return;

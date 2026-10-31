@@ -15,9 +15,9 @@ namespace KillerNotes.Services
         {
             string full = Path.GetFullPath(destination);
             string dir = Path.GetDirectoryName(full)!;
-            // A short fixed name, not one built from the destination: on a machine with the 260
-            // character limit, that would fail for a long name that fits.
-            string temp = Path.Combine(dir, "." + Guid.NewGuid().ToString("N").Substring(0, 12) + ".tmp");
+            // Shorter than almost any real name, and not built from the destination: on a machine
+            // with the 260 character limit, a longer sibling would fail where the real name fits.
+            string temp = Path.Combine(dir, "~" + Guid.NewGuid().ToString("N").Substring(0, 6));
             try
             {
                 write(temp);

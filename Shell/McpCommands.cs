@@ -19,6 +19,7 @@ namespace KillerNotes.Shell
         [DataMember(Name = "name", EmitDefaultValue = false)] public string? Name { get; set; }
         [DataMember(Name = "color", EmitDefaultValue = false)] public string? Color { get; set; }
         [DataMember(Name = "output", EmitDefaultValue = false)] public string? Output { get; set; }
+        [DataMember(Name = "warning", EmitDefaultValue = false)] public string? Warning { get; set; }
     }
 
     public partial class MainWindow
@@ -123,7 +124,8 @@ namespace KillerNotes.Shell
                     {
                         long id = TakeId(values); Note note = RequireNote(id);
                         string output = ValidateOutputPath(Take(values, "--output", true)!); RequireEmpty(values);
-                        ExportForMcp(note, output); result = new McpCommandResult { Id = id, Output = output }; break;
+                        bool leftOut = ExportForMcp(note, output);
+                        result = new McpCommandResult { Id = id, Output = output, Warning = leftOut ? "Some pictures or recordings could not be written." : null }; break;
                     }
                 default: throw new ArgumentException("Unsupported write command");
             }
@@ -142,23 +144,40 @@ namespace KillerNotes.Shell
             NoteStore.SetLinks(id, WikiLinks.Parse(content));
         }
 
-        private void ExportForMcp(Note note, string output)
+        /// <summary>Writes the export the way the app's own Export does: a failure leaves nothing
+        /// half written, so a retry is not refused for a file that already exists. Returns true
+        /// when something embedded was left out.</summary>
+        private bool ExportForMcp(Note note, string output)
         {
             if (_currentId == note.Id && !SaveCurrentNote(false)) throw new IOException(StatusText.Text);
             byte[] blob = NoteStore.LoadContent(note.Id) ?? [];
             var doc = note.Format == Note.FormatMarkdown ? MarkdownConvert.ToDocument(MarkdownBlob.Decode(blob), 14) : LoadNoteDocument(note.Id);
             switch (Path.GetExtension(output).ToLowerInvariant())
             {
-                case ".rtf": using (var stream = new FileStream(output, FileMode.CreateNew)) new TextRange(doc.ContentStart, doc.ContentEnd).Save(stream, System.Windows.DataFormats.Rtf); break;
-                case ".html": File.WriteAllText(output, DocumentToHtml(doc, note.Title), Encoding.UTF8); break;
+                case ".rtf":
+                    AtomicFile.Write(output, staged =>
+                    {
+                        using var stream = new FileStream(staged, FileMode.CreateNew);
+                        new TextRange(doc.ContentStart, doc.ContentEnd).Save(stream, System.Windows.DataFormats.Rtf);
+                    });
+                    break;
+                case ".html":
+                    string html = DocumentToHtml(doc, note.Title);
+                    AtomicFile.Write(output, staged => File.WriteAllText(staged, html, Encoding.UTF8));
+                    break;
                 case ".md":
-                    if (note.Format == Note.FormatMarkdown) File.WriteAllText(output, MarkdownBlob.Decode(blob), Encoding.UTF8);
-                    else MarkdownExport.Write(doc, output, NoteStore.GetAttachment);
+                    if (note.Format != Note.FormatMarkdown) return MarkdownExport.Write(doc, output, NoteStore.GetAttachment);
+                    string source = MarkdownBlob.Decode(blob);
+                    AtomicFile.Write(output, staged => File.WriteAllText(staged, source, Encoding.UTF8));
                     break;
                 case ".knote": NoteStore.ExportNote(note.Id, output, null); break;
-                case ".txt": File.WriteAllText(output, new TextRange(doc.ContentStart, doc.ContentEnd).Text, Encoding.UTF8); break;
+                case ".txt":
+                    string text = new TextRange(doc.ContentStart, doc.ContentEnd).Text;
+                    AtomicFile.Write(output, staged => File.WriteAllText(staged, text, Encoding.UTF8));
+                    break;
                 default: throw new ArgumentException("Output must end in .txt, .md, .html, .rtf, or .knote");
             }
+            return false;
         }
 
         private static Note RequireNote(long id) => NoteStore.List().FirstOrDefault(n => n.Id == id) ?? throw new InvalidOperationException("The note was not found");

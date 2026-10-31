@@ -73,6 +73,19 @@ namespace KillerNotes.Shell
             catch { /* cleanup must never block startup */ }
         }
 
+        /// <summary>Deletes the recordings Copy as file wrote: decrypted audio under the note's
+        /// title. At startup and at every lock, so a paste still pending across a lock has to be
+        /// copied again.</summary>
+        internal static void RemoveSharedRecordings(string tempRoot)
+        {
+            try
+            {
+                string share = Path.Combine(tempRoot, "share");
+                if (Directory.Exists(share)) Directory.Delete(share, true);
+            }
+            catch { /* open in a receiver; the next start or lock tries again */ }
+        }
+
         private static bool IsFileDrop(string format) =>
             string.Equals(format, DataFormats.FileDrop, StringComparison.Ordinal);
 

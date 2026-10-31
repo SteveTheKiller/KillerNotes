@@ -242,6 +242,14 @@ namespace KillerNotes.Tests
             Assert.True(File.Exists(Path.Combine(_dir, LinkedFiles().Single())));
         });
 
+        [Fact]
+        public void AssetNamesStayShort() => Sta.Run(() =>
+        {
+            MarkdownExport.Write(Doc(Colors.Red), Target);
+
+            Assert.True(Path.GetFileName(Directory.GetFiles(Assets).Single()).Length <= "img-12345678.png".Length);
+        });
+
         private static FlowDocument Doc(params Color[] colors)
         {
             var doc = new FlowDocument();
