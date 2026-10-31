@@ -16,7 +16,7 @@ namespace KillerNotes.Tests
         {
             var doc = HtmlConvert.ToDocument("<p>above</p><hr><p>below</p>", 14);
 
-            string markdown = MarkdownWriter.FromDocument(doc, System.IO.Path.Combine(System.IO.Path.GetTempPath(), "kn-rule.md")).Markdown;
+            string markdown = MarkdownWriter.FromDocument(doc, System.IO.Path.Combine(System.IO.Path.GetTempPath(), "kn-rule.md"), null).Markdown;
 
             Assert.Contains("---", markdown);
         });
