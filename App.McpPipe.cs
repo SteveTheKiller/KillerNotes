@@ -118,7 +118,7 @@ namespace KillerNotes
             var request = ReadMcpRequest(pipe, McpRequestTimeout, out bool tooLarge);
             if (tooLarge)
             {
-                WriteMcpResponse(pipe, Program.Serialize(new McpResponse { Success = false, Error = "Invalid command arguments" }), McpRequestTimeout);
+                WriteMcpResponse(pipe, Program.Serialize(new McpResponse { Success = false, Error = "The request is too large." }), McpRequestTimeout);
                 return;
             }
             if (request == null) return;

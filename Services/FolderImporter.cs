@@ -63,8 +63,8 @@ namespace KillerNotes.Services
         public bool PlainText;                  // a .txt: its text exactly, nothing rewritten
     }
 
-    /// <summary>A file, or part of one, that will not come in. Reason: type, large, embed,
-    /// missing, audio or unlinked.</summary>
+    /// <summary>A file or folder, or part of one, that will not come in. Reason: type, large, embed,
+    /// missing, audio, unlinked, link or unreadable.</summary>
     internal sealed record ImportSkip(string File, string Reason);
 
     internal sealed class ImportPlan
@@ -122,7 +122,7 @@ namespace KillerNotes.Services
             var others = new List<string>();
             var used = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-            foreach (string path in Files(root))
+            foreach (string path in Files(root, plan))
             {
                 token.ThrowIfCancellationRequested();
                 string rel = Rel(path);
@@ -209,17 +209,42 @@ namespace KillerNotes.Services
         }
 
         /// <summary>Every file under root, skipping dot folders (.obsidian, .git, .trash): app
-        /// settings and version control, not notes.</summary>
-        private static IEnumerable<string> Files(string root)
+        /// settings and version control, not notes. A junction or link is listed and not followed,
+        /// since one pointing back up the tree would never end, and a folder that will not open is
+        /// listed rather than ending the import of everything else. Only root itself may throw.</summary>
+        private static IEnumerable<string> Files(string root, ImportPlan plan)
         {
+            string Rel(string full) => full.Substring(root.Length + 1).Replace('\\', '/');
             var pending = new Stack<string>();
             pending.Push(root);
             while (pending.Count > 0)
             {
                 string dir = pending.Pop();
-                foreach (string file in Directory.GetFiles(dir)) yield return file;
-                foreach (string sub in Directory.GetDirectories(dir))
-                    if (!Path.GetFileName(sub).StartsWith(".", StringComparison.Ordinal)) pending.Push(sub);
+                string[] files, folders;
+                try
+                {
+                    files = Directory.GetFiles(dir);
+                    folders = Directory.GetDirectories(dir);
+                }
+                catch (Exception ex) when (dir != root && ex is IOException or UnauthorizedAccessException)
+                {
+                    plan.Skipped.Add(new ImportSkip(Rel(dir), "unreadable"));
+                    continue;
+                }
+                foreach (string file in files) yield return file;
+                foreach (string sub in folders)
+                {
+                    if (Path.GetFileName(sub).StartsWith(".", StringComparison.Ordinal)) continue;
+                    FileAttributes attributes;
+                    try { attributes = File.GetAttributes(sub); }
+                    catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                    {
+                        plan.Skipped.Add(new ImportSkip(Rel(sub), "unreadable"));
+                        continue;
+                    }
+                    if ((attributes & FileAttributes.ReparsePoint) != 0) plan.Skipped.Add(new ImportSkip(Rel(sub), "link"));
+                    else pending.Push(sub);
+                }
             }
         }
 

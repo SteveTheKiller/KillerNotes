@@ -373,6 +373,10 @@ namespace KillerNotes.Controls.Dictation
             {
                 _status.Text = L("Str_Whisper_Canceled", "Download canceled.");
             }
+            catch (System.IO.EndOfStreamException)
+            {
+                _status.Text = string.Format(L("Str_Whisper_CutShort", "{0} was not fully downloaded, so it was not installed."), file);
+            }
             catch (Exception ex)
             {
                 _status.Text = ex.Message;

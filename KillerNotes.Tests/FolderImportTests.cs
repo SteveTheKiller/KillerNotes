@@ -30,6 +30,49 @@ namespace KillerNotes.Tests
             try { Directory.Delete(_dir, true); } catch { }
         }
 
+        [Fact]
+        public void ALinkBackUpTheTreeIsListedAndNotFollowed()
+        {
+            Write("note.md", "# Kept");
+            Directory.CreateDirectory(Path.Combine(_dir, "sub"));
+            string link = Path.Combine(_dir, "sub", "loop");
+            using (var mklink = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(
+                       "cmd.exe", $"/c mklink /J \"{link}\" \"{_dir}\"") { UseShellExecute = false, CreateNoWindow = true }))
+                mklink!.WaitForExit();
+            Assert.True(Directory.Exists(link));
+
+            var plan = FolderImporter.Plan(_dir, new ImportState(new(), new(), new()), CancellationToken.None);
+
+            Assert.Equal(1, plan.Notes.Count);
+            Assert.Contains(plan.Skipped, s => s.File == "sub/loop" && s.Reason == "link");
+        }
+
+        [Fact]
+        public void AFolderThatCannotBeReadIsListedAndTheRestStillComesIn()
+        {
+            Write("note.md", "# Kept");
+            Write("locked/secret.md", "# Hidden");
+            var locked = new DirectoryInfo(Path.Combine(_dir, "locked"));
+            var deny = new System.Security.AccessControl.FileSystemAccessRule(
+                System.Security.Principal.WindowsIdentity.GetCurrent().User!,
+                System.Security.AccessControl.FileSystemRights.ReadData, System.Security.AccessControl.AccessControlType.Deny);
+            var security = locked.GetAccessControl();
+            security.AddAccessRule(deny);
+            locked.SetAccessControl(security);
+            try
+            {
+                var plan = FolderImporter.Plan(_dir, new ImportState(new(), new(), new()), CancellationToken.None);
+
+                Assert.Equal(1, plan.Notes.Count);
+                Assert.Contains(plan.Skipped, s => s.File == "locked" && s.Reason == "unreadable");
+            }
+            finally
+            {
+                security.RemoveAccessRule(deny);
+                locked.SetAccessControl(security);
+            }
+        }
+
         private string Write(string rel, string text)
         {
             string path = Path.Combine(_dir, rel.Replace('/', '\\'));

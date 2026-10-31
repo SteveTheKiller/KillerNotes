@@ -58,7 +58,7 @@ namespace KillerNotes.Tests
             Buffer.BlockCopy(answer, 4, body, 0, body.Length);
             var response = Program.Deserialize<McpResponse>(body);
             Assert.False(response.Success);
-            Assert.NotEmpty(response.Error);
+            Assert.Equal("The request is too large.", response.Error);
         }
 
         [Fact]

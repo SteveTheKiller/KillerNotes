@@ -645,6 +645,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Whisper_Base">Recommended</sys:String>
     <sys:String x:Key="Str_Whisper_Small">Most accurate</sys:String>
     <sys:String x:Key="Str_Whisper_Installed">already downloaded</sys:String>
+    <sys:String x:Key="Str_Whisper_CutShort">{0} was not fully downloaded, so it was not installed.</sys:String>
     <sys:String x:Key="Str_Whisper_Download">Download</sys:String>
     <sys:String x:Key="Str_Whisper_Use">Use this one</sys:String>
     <sys:String x:Key="Str_Whisper_Menu">Speech model...</sys:String>
@@ -1101,6 +1102,8 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">file not found</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">audio format not supported</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">not linked from any note</sys:String>
+    <sys:String x:Key="Str_Imp_Why_link">linked folder, not followed</sys:String>
+    <sys:String x:Key="Str_Imp_Why_unreadable">folder could not be read</sys:String>
     <sys:String x:Key="Str_St_ImportReading">Reading the folder...</sys:String>
     <sys:String x:Key="Str_St_ImportNothing">Nothing new to import. {0} files were imported before and have not changed.</sys:String>
     <sys:String x:Key="Str_St_ImportCanceled">Import canceled. Nothing was changed.</sys:String>
