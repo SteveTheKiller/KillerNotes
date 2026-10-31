@@ -79,6 +79,21 @@ namespace KillerNotes.Tests
             Assert.Equal(existing ? 1 : 0, Directory.GetFiles(_dir).Length);
         }
 
+        // Most Windows machines still stop at 260 characters, and the staged sibling must not be the
+        // thing that goes over: a name that fits at the destination has to export.
+        [Fact]
+        public void ANameThatFitsThePathLimitStillExports()
+        {
+            string dest = Path.Combine(_dir, new string('n', 255 - _dir.Length - ".kndb".Length) + ".kndb");
+            string source = Path.Combine(_dir, "notes.db");
+            File.WriteAllBytes(source, new byte[] { 9 });
+
+            AtomicFile.Copy(source, dest);
+
+            Assert.Equal(new byte[] { 9 }, File.ReadAllBytes(dest));
+            Assert.Equal(2, Directory.GetFiles(_dir).Length);
+        }
+
         [Fact]
         public void ACopyThatDiesPartwayKeepsThePreviousExport()
         {

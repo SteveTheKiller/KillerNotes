@@ -39,7 +39,20 @@ namespace KillerNotes.Tests
 
         private static readonly DateTime When = new(2026, 9, 1, 14, 5, 0);
 
-        [Fact]
+        /// <summary>A backup's name carries the database's name and a 64 character source hash, so a
+        /// 120 character name under a test folder runs past 260 characters. Windows refuses that
+        /// unless long paths are turned on, as they are not by default.</summary>
+        private sealed class LongPathFactAttribute : FactAttribute
+        {
+            public LongPathFactAttribute()
+            {
+                if (Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem",
+                        "LongPathsEnabled", 0) is not 1)
+                    Skip = "Needs Windows long paths (LongPathsEnabled)";
+            }
+        }
+
+        [LongPathFact]
         public void LongDatabaseNamesBackUpTwiceAndRestore()
         {
             using var store = new TempStore();
