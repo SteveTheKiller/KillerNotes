@@ -888,8 +888,8 @@ namespace KillerNotes
             }
 
             // Self-delete: deferred via cmd batch so the EXE can exit first. Started before anything is
-            // removed, so a cmd that will not start leaves the installation whole; the script waits
-            // before it deletes, so the removal below is done by then.
+            // removed, so a cmd that will not start leaves the installation whole; the script keeps
+            // trying the exe until this copy has finished the removal below and exited.
             try
             {
                 Process.Start(new ProcessStartInfo("cmd.exe", $"/c \"{bat}\"")

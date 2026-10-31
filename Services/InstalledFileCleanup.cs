@@ -24,7 +24,7 @@ namespace KillerFamily.Deployment
             {
                 string path = file.Replace("%", "%%");
                 if (first) AppendRetriedDelete(script, path);
-                else script.Append("del /q \"").Append(path).Append("\" >nul 2>&1\r\n");
+                else script.Append("del /f /q \"").Append(path).Append("\" >nul 2>&1\r\n");
                 first = false;
             }
             foreach (string folder in Folders(directory, files))
@@ -37,7 +37,7 @@ namespace KillerFamily.Deployment
         private static void AppendRetriedDelete(StringBuilder script, string path) => script
             .Append("set /a tries=0\r\n")
             .Append(":retry\r\n")
-            .Append("del /q \"").Append(path).Append("\" >nul 2>&1\r\n")
+            .Append("del /f /q \"").Append(path).Append("\" >nul 2>&1\r\n")
             .Append("if not exist \"").Append(path).Append("\" goto removed\r\n")
             .Append("set /a tries+=1\r\n")
             .Append("if %tries% geq 30 goto removed\r\n")

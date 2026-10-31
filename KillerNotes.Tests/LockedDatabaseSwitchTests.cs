@@ -86,6 +86,33 @@ namespace KillerNotes.Tests
                 System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.SetValue(controller, password);
 
         [Fact]
+        public void AnOpenThatEndsOnTheLockedScreenKeepsNoPassword()
+        {
+            using var store = new TempStore();
+            NoteStore.Close();
+            Directory.CreateDirectory(Path.Combine(NoteStore.DbDir, "broken.db"));
+            NoteStore.DemoDbFile = "broken.db";
+            var controller = new SecurityController(new Host());
+            SetPassword(controller, "secret");
+
+            Assert.False(controller.Open(exitOnCancel: false));
+
+            Assert.True(controller.IsLocked);
+            Assert.Null(Password(controller));
+        }
+
+        [Fact]
+        public void GoingBackWithNoSwitchLeavesTheLivePasswordAlone()
+        {
+            var controller = new SecurityController(new Host());
+            SetPassword(controller, "secret");
+
+            controller.RestoreSessionPassword();
+
+            Assert.Equal("secret", Password(controller));
+        }
+
+        [Fact]
         public void ACanceledSwitchCanGoBackWithoutThePasswordAgain()
         {
             var controller = new SecurityController(new Host());

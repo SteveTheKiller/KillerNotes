@@ -26,10 +26,10 @@ namespace KillerNotes.Shell
         /// <summary>F3 navigates whichever search is active, without moving focus out of its box.</summary>
         internal void NavigateSearch(int delta)
         {
-            if (_findOpen) { StepFind(delta); return; }
+            if (_findOpen) { ShowEditorForFind(); StepFind(delta); return; }   // Preview.cs
             if (!HasGlobalSearch) { FocusSearch(); return; }
             if (!GlobalSearchHasWords) return;
-            ShowEditorForFind();   // Preview.cs
+            ShowEditorForFind();
             if (_findPlainStale) RefreshGlobalHighlights();
             int next = _globalFindIndex < 0
                 ? (delta > 0 ? 0 : _globalFindHits.Count - 1) : _globalFindIndex + delta;

@@ -208,7 +208,6 @@ namespace KillerNotes.Shell
         private void RunGroupAction(RoutedEventHandler action)
         {
             if (!NoteStore.IsOpen) return;
-            if (NoteStore.IsReadOnly && action.Method.Name is nameof(RenameGroup_Click) or nameof(DeleteGroup_Click) or nameof(GroupColorReset_Click)) return;
             var group = ResolveKeyboardGroup();
             if (group == null && Keyboard.FocusedElement is MenuItem) group = _ctxGroup;
             if (group == null) { FlashStatus(Loc("Str_St_PickGroupFirst")); return; }

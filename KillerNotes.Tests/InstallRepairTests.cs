@@ -265,6 +265,7 @@ namespace KillerNotes.Tests
             Directory.CreateDirectory(folder);
             string exe = Path.Combine(folder, "KillerNotes.exe");
             File.WriteAllText(exe, "installed executable");
+            File.SetAttributes(exe, FileAttributes.ReadOnly);
             string bat = UninstallScript.Write(UninstallScript.Build(folder, new[] { "KillerNotes.exe" }, pings: 1), elevated: false);
             try
             {

@@ -38,7 +38,7 @@ namespace KillerNotes.Features.Security
         /// going back to it does not ask again.</summary>
         internal void RestoreSessionPassword()
         {
-            _dbPassword = _previousPassword;
+            _dbPassword = _previousPassword ?? _dbPassword;
             _previousPassword = null;
         }
 
@@ -82,6 +82,7 @@ namespace KillerNotes.Features.Security
         private bool ShowLockedAfterFailedOpen()
         {
             if (NoteStore.IsOpen || IsLocked) return false;
+            _dbPassword = _previousPassword = null;   // a locked screen holds no key, as Lock now does not
             _host.EnterLocked(keepUnsavedEdits: false);
             IsLocked = true;
             return false;

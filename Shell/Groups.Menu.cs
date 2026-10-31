@@ -105,7 +105,7 @@ namespace KillerNotes.Shell
         // with nothing selected it just creates the empty group.
         private void NewGroupShortcut()
         {
-            if (!NoteStore.IsOpen) return;
+            if (!NoteStore.IsOpen || RefuseReadOnly()) return;   // Notes.Document.cs
             var notes = NotesList.SelectedItems.OfType<Note>().ToList();
             if (notes.Count > 0) { NewGroupForNotes(notes); return; }
             var dlg = new InputDialog(Loc("Str_Dlg_NewGroupHead"), "", Loc("Str_Btn_Create")) { Owner = this };

@@ -177,7 +177,7 @@ namespace KillerNotes.Shell
         {
             if (_docKind == DocKind.None || _loadFailed) return;
             SetPreviewMode(OpeningPreviewMode(App.GetSetting(PreviewModeSettingKey),
-                string.IsNullOrWhiteSpace(EditorPlainText()) || _findOpen || HasGlobalSearch), persist: false);
+                string.IsNullOrWhiteSpace(EditorPlainText()) || _findOpen || GlobalSearchHasWords), persist: false);
         }
 
         /// <summary>Find paints and scrolls the editor, so it brings the editor back. The pick stays saved.</summary>

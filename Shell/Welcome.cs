@@ -93,6 +93,7 @@ namespace KillerNotes.Shell
                     try { File.Delete(samplePath); } catch (Exception cleanup) when (cleanup is IOException or UnauthorizedAccessException) { }
                 }
                 App.SetSetting("ActiveDatabase", prevFile);
+                RestoreDbPassword();   // SecurityHost.cs
                 if (!NoteStore.IsOpen) OpenDatabase(exitOnCancel: false);
             }
         }
