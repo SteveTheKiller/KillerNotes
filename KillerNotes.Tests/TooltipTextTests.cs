@@ -28,5 +28,14 @@ namespace KillerNotes.Tests
         [InlineData("Copy file (Alt+C)", "Copy file\nAlt+C")]
         public void SeparatesShortcutSuffixWithoutChangingOtherParentheses(string input, string expected)
             => Assert.Equal(expected, new TooltipTextConverter().Convert(input, typeof(string), null!, CultureInfo.InvariantCulture));
+
+        // With hints off the shortcut goes, but a label that is itself a key name (the Delete button
+        // of a confirm dialog) must stay, or the hover card shows up empty.
+        [Theory]
+        [InlineData("Delete (Enter)", "Delete")]
+        [InlineData("Copy file (Alt+C)", "Copy file")]
+        [InlineData("Alt+W", "")]
+        public void HiddenHintsNeverEmptyAWordedTooltip(string input, string expected)
+            => Assert.Equal(expected, new TooltipTextConverter().Convert(input, typeof(string), false, CultureInfo.InvariantCulture));
     }
 }
