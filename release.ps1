@@ -254,6 +254,8 @@ Write-Host "KillerNotes.exe is $unsignedMB (unsigned)"
 
 # --- 6. Sign (Certum via SimplySign, same flow as the other Killer release scripts) ---
 if ($SkipSign) {
+    # A local test build only: everything past the dry run stop publishes.
+    if (-not $DryRun) { Fail '-SkipSign needs -DryRun: an unsigned build must never be tagged or published' }
     Write-Host ""
     Write-Host 'SkipSign: KillerNotes.exe will be UNSIGNED - do not release this build' -ForegroundColor Red
 } else {
@@ -349,7 +351,7 @@ if ($lameSrc) {
 }
 
 # --- 7b. Checksums (SHA256SUMS.txt) ---
-# The in-app updater (About.cs DoSelfUpdateAsync) downloads this asset next to the exe and
+# The in-app updater (Services/UpdateService.cs) downloads this asset next to the exe and
 # verifies the download against it; WITHOUT it the "Update" button falls back to just opening
 # the releases page. Line format is "<filename>  <sha256>" - the updater matches the line that
 # starts with KillerNotes.exe and takes the LAST whitespace token as the hash.
@@ -378,7 +380,8 @@ if ($DryRun) {
     Write-Host "DryRun: would update notes-landing to v$Version and commit"
 } else {
     $exeHash    = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLower()
-    $releaseDate = Get-Date -Format 'yyyy-MM-dd'
+    # $releaseDate is the csproj date preflight proved equal to the changelog, so the site matches
+    # the About card and the changelog even when the release runs on a later day.
     $siteDir    = Join-Path (Get-Location).Path 'notes-landing'
     $indexPath  = Join-Path $siteDir 'index.html'
     $indexRaw   = [System.IO.File]::ReadAllText($indexPath)
@@ -426,6 +429,7 @@ if ($DryRun) {
     if ($siteDirty) {
         git add notes-landing
         git commit -m "site: v$Version release info" --quiet
+        if ($LASTEXITCODE -ne 0) { Fail 'Could not commit the landing page release info' }
         git push origin $defaultBranch --quiet
         if ($LASTEXITCODE -ne 0) { Fail 'Landing page commit failed to push' }
         Write-Host "notes-landing updated to v$Version and pushed"
@@ -436,7 +440,7 @@ if ($DryRun) {
 
 # --- 8. Release notes from CHANGELOG section ---
 Step "Extracting release notes from CHANGELOG.md"
-$lines = Get-Content -Path 'CHANGELOG.md'
+$lines = Get-Content -Path 'CHANGELOG.md' -Encoding UTF8
 $notes = New-Object System.Collections.Generic.List[string]
 $inSection = $false
 foreach ($line in $lines) {
