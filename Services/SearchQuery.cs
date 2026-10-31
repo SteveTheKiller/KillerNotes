@@ -62,7 +62,7 @@ namespace KillerNotes.Services
                 case "group": Groups.Add(value); return true;
                 case "title": TitleWords.Add(value); return true;
                 case "after" when Day(value) is DateTime day: After = day; return true;
-                case "before" when Day(value) is DateTime day: Before = day.AddDays(1); return true;
+                case "before" when Day(value) is DateTime day: Before = NextDay(day); return true;
                 case "created" when Period(value) is { } period: Created = period; _createdText = value; return true;
                 case "in" when string.Equals(value, "trash", StringComparison.OrdinalIgnoreCase): InTrash = true; return true;
                 default: return false;
@@ -74,13 +74,17 @@ namespace KillerNotes.Services
 
         private static (DateTime, DateTime)? Period(string value)
         {
-            if (Day(value) is DateTime day) return (day, day.AddDays(1));
+            if (Day(value) is DateTime day) return (day, NextDay(day));
             if (DateTime.TryParseExact(value, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out var month))
-                return (month, month.AddMonths(1));
+                return (month, month.Year == DateTime.MaxValue.Year && month.Month == 12 ? DateTime.MaxValue : month.AddMonths(1));
             if (value.Length == 4 && int.TryParse(value, NumberStyles.None, CultureInfo.InvariantCulture, out int year) && year >= 1)
-                return (new DateTime(year, 1, 1), new DateTime(year, 1, 1).AddYears(1));
+                return (new DateTime(year, 1, 1), year == DateTime.MaxValue.Year ? DateTime.MaxValue : new DateTime(year, 1, 1).AddYears(1));
             return null;
         }
+
+        /// <summary>The calendar's last day has no next day, and the search box parses on every
+        /// keystroke, so running off the end has to mean no upper limit rather than a crash.</summary>
+        private static DateTime NextDay(DateTime day) => day.Date == DateTime.MaxValue.Date ? DateTime.MaxValue : day.AddDays(1);
 
         /// <summary>Splits on whitespace, keeping "quoted phrases" and key:"quoted values" whole.
         /// Key is null for a plain word or phrase; raw is the token as typed.</summary>
