@@ -7,10 +7,13 @@
 #   - the accent shadow's outline rim: black or white by contrast, a fixed grey, and the shader default
 #   - KillerUI kit files taken whole (TabSurfaceBorder.cs: theme fallbacks and its fade mask), and the
 #     combo drop-down shadow in AppStyles.xaml, which moved there from Controls.xaml with the kit (2026-10-26)
+#   - CapCenterMargin.cs (KillerUI kit file): the Brushes.Black that FormattedText requires, read back only
+#     through BuildGeometry to measure a capital's ink. Nothing is painted with it. (2026-10-31)
 # To add one: move it to a theme resource if it carries meaning; otherwise raise the count here with why.
 Controls/AccentShadow.cs	4
 Controls/AppStyles.xaml	1
 Controls/AccessibleControls.cs	3
+Controls/CapCenterMargin.cs	1
 Controls/ColorPickerDialog.cs	16
 Controls/ConfirmDialog.xaml	4
 Controls/ConfirmDialog.xaml.cs	3
