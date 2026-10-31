@@ -1003,6 +1003,8 @@
     <sys:String x:Key="Str_St_LockNeedsPassword">Для блокировки нужен пароль. Сначала задайте его кнопкой с замком.</sys:String>
     <sys:String x:Key="Str_St_Locked">Заблокировано.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Заблокировано. Открытую заметку не удалось сохранить заранее, поэтому её изменения хранятся до разблокировки.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Некоторые хранящиеся в памяти изменения не удалось вернуть, потому что их заметка изменилась или удалена. Они хранятся до выхода.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">Это окно диктовки относится к другому блокноту. Вернитесь к нему или закройте окно и откройте новое.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows не удалось завершить сеанс, потому что некоторые изменения всё ещё ждут своего блокнота. Откройте его и разблокируйте, чтобы сохранить их.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Изменения, сделанные до блокировки, вернулись и сейчас будут сохранены.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Разблокируйте, чтобы открыть {0}.</sys:String>

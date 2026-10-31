@@ -1042,6 +1042,8 @@
     <sys:String x:Key="Str_St_LockNeedsPassword">Для блокування потрібен пароль. Спершу задайте його кнопкою із замком.</sys:String>
     <sys:String x:Key="Str_St_Locked">Заблоковано.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Заблоковано. Відкриту нотатку не вдалося зберегти заздалегідь, тож її зміни зберігаються до розблокування.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Деякі утримані зміни не вдалося повернути, бо їхню нотатку змінено або її вже немає. Вони зберігаються, доки ви не вийдете.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">Це вікно диктування належить іншому блокноту. Поверніться до нього або закрийте вікно й відкрийте нове.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows не вдалося завершити сеанс, бо деякі зміни досі чекають на свій блокнот. Відкрийте його й розблокуйте, щоб зберегти їх.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Зміни, зроблені до блокування, повернулися й зараз будуть збережені.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Розблокуйте, щоб відкрити {0}.</sys:String>

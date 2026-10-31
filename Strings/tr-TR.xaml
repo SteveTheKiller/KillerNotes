@@ -995,6 +995,8 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Şimdi kilitle bir parola gerektirir. Önce kilit düğmesiyle bir parola belirleyin.</sys:String>
     <sys:String x:Key="Str_St_Locked">Kilitlendi.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Kilitlendi. Açık not önceden kaydedilemedi, bu yüzden değişiklikleri kilit açılana kadar saklanıyor.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Saklanan bazı değişiklikler geri alınamadı, çünkü notları değişti veya artık yok. Siz çıkana kadar saklanmaya devam edecek.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">Bu dikte penceresi başka bir not defterine ait. O not defterine geri dönün ya da pencereyi kapatıp yenisini açın.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows oturumu sonlandıramadı, çünkü bazı değişiklikler hâlâ not defterlerini bekliyor. Kaydetmek için o not defterini açıp kilidini açın.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Kilitten önceki değişiklikleriniz geri geldi ve şimdi kaydedilecek.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">{0} dosyasını açmak için kilidi açın.</sys:String>

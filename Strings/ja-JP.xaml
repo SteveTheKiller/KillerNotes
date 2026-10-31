@@ -993,6 +993,8 @@
     <sys:String x:Key="Str_St_LockNeedsPassword">ロックにはパスワードが必要です。先に鍵ボタンで設定してください。</sys:String>
     <sys:String x:Key="Str_St_Locked">ロックしました。</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">ロックしました。開いていたノートを先に保存できなかったため、編集内容はロック解除まで保持されます。</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">保持していた一部の編集は、ノートが変更されたか削除されたため、戻せませんでした。終了するまで保持されます。</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">この音声入力ウィンドウは別のノートパッドのものです。そのノートパッドに戻るか、このウィンドウを閉じて新しく開いてください。</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">一部の編集がまだノートパッドを待っているため、Windows がセッションを終了できませんでした。ノートパッドを開き、ロックを解除して保存してください。</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">ロック前の編集内容が戻りました。これから保存します。</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">{0} を開くにはロックを解除してください。</sys:String>

@@ -996,6 +996,8 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Le verrouillage nécessite un mot de passe. Définissez-en un avec le bouton cadenas d'abord.</sys:String>
     <sys:String x:Key="Str_St_Locked">Verrouillé.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Verrouillé. La note ouverte n'a pas pu être enregistrée avant, ses modifications sont conservées jusqu'au déverrouillage.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Certaines modifications conservées n'ont pas pu être rétablies, car leur note a changé ou n'existe plus. Elles sont conservées jusqu'à ce que vous quittiez l'application.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">Cette fenêtre de dictée appartient à un autre bloc-notes. Revenez-y, ou fermez la fenêtre et ouvrez-en une nouvelle.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows n'a pas pu fermer la session, car certaines modifications attendent encore leur bloc-notes. Ouvrez-le et déverrouillez-le pour les enregistrer.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Vos modifications d'avant le verrouillage sont revenues et vont être enregistrées.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Déverrouillez pour ouvrir {0}.</sys:String>

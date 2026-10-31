@@ -993,6 +993,8 @@
     <sys:String x:Key="Str_St_LockNeedsPassword">立即锁定需要密码。请先用锁按钮设置密码。</sys:String>
     <sys:String x:Key="Str_St_Locked">已锁定。</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">已锁定。打开的笔记未能先保存,其编辑会保留到你解锁。</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">部分保留的编辑未能恢复，因为它们所属的笔记已更改或已不存在。这些编辑会一直保留到你退出。</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">此语音听写窗口属于另一个笔记本。请切换回该笔记本，或关闭此窗口后重新打开一个。</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows 无法结束会话，因为有些编辑仍在等待其笔记本。请打开该笔记本并解锁以保存。</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">锁定前的编辑已恢复,现在将保存。</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">解锁以打开 {0}。</sys:String>

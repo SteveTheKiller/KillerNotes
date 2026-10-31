@@ -995,6 +995,8 @@
     <sys:String x:Key="Str_St_LockNeedsPassword">এখনই লক করতে পাসওয়ার্ড লাগে। আগে লক বোতাম দিয়ে একটি সেট করুন।</sys:String>
     <sys:String x:Key="Str_St_Locked">লক হয়েছে।</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">লক হয়েছে। খোলা নোটটি আগে সংরক্ষণ করা যায়নি, তাই আনলক না করা পর্যন্ত এর সম্পাদনা রাখা আছে।</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">ধরে রাখা কিছু সম্পাদনা ফিরিয়ে আনা যায়নি, কারণ সেগুলোর নোট বদলে গেছে বা আর নেই। বের না হওয়া পর্যন্ত সেগুলো রাখা থাকবে।</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">এই ডিকটেশন উইন্ডোটি অন্য একটি নোটপ্যাডের। সেটিতে ফিরে যান, অথবা এই উইন্ডো বন্ধ করে নতুন একটি খুলুন।</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">কিছু সম্পাদনা এখনও নিজেদের নোটপ্যাডের অপেক্ষায় আছে, তাই Windows সেশন শেষ করতে পারেনি। নোটপ্যাডটি খুলে সংরক্ষণ করতে আনলক করুন।</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">লকের আগের সম্পাদনা ফিরে এসেছে এবং এখন সংরক্ষণ করা হবে।</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">{0} খুলতে আনলক করুন।</sys:String>

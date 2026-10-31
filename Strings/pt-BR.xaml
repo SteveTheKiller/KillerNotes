@@ -1042,6 +1042,8 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Bloquear agora precisa de uma senha. Defina uma no botão do cadeado primeiro.</sys:String>
     <sys:String x:Key="Str_St_Locked">Bloqueado.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Bloqueado. A nota aberta não pôde ser salva antes, então as alterações ficam guardadas até você desbloquear.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Algumas alterações guardadas não puderam voltar porque a nota delas foi alterada ou não existe mais. Elas ficam guardadas até você sair.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">Esta janela de ditado pertence a outro bloco. Volte para ele ou feche a janela e abra uma nova.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">O Windows não pôde encerrar a sessão porque algumas alterações ainda aguardam o bloco delas. Abra-o e desbloqueie para salvá-las.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Suas alterações de antes do bloqueio voltaram e serão salvas agora.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Desbloqueie para abrir {0}.</sys:String>

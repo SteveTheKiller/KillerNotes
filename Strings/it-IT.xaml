@@ -1003,6 +1003,8 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Blocca ora richiede una password. Impostane prima una con il pulsante del lucchetto.</sys:String>
     <sys:String x:Key="Str_St_Locked">Bloccato.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Bloccato. Non è stato possibile salvare prima la nota aperta, quindi le modifiche sono conservate fino allo sblocco.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Non è stato possibile ripristinare alcune modifiche conservate perché la loro nota è cambiata o non esiste più. Restano conservate finché non esci.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">Questa finestra di dettatura appartiene a un altro blocco note. Torna a quello, oppure chiudi la finestra e aprine una nuova.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows non ha potuto terminare la sessione perché alcune modifiche sono ancora in attesa del loro blocco note. Aprilo e sbloccalo per salvarle.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Le modifiche di prima del blocco sono tornate e verranno salvate ora.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Sblocca per aprire {0}.</sys:String>

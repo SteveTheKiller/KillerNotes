@@ -992,6 +992,8 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Zamknout teď vyžaduje heslo. Nejdřív ho nastavte tlačítkem zámku.</sys:String>
     <sys:String x:Key="Str_St_Locked">Zamčeno.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Zamčeno. Otevřenou poznámku se předtím nepodařilo uložit, její úpravy zůstanou zachovány do odemčení.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Některé zachované úpravy se nepodařilo vrátit zpět, protože se jejich poznámka změnila nebo už neexistuje. Zůstanou zachovány do ukončení aplikace.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">Toto okno diktování patří k jinému poznámkovému bloku. Vraťte se k němu, nebo okno zavřete a otevřete nové.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows nemohl ukončit relaci, protože některé úpravy stále čekají na svůj poznámkový blok. Otevřete ho a odemkněte, aby se uložily.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Úpravy z doby před zamčením jsou zpět a teď se uloží.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Odemkněte, aby se otevřel {0}.</sys:String>

@@ -1046,6 +1046,8 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_St_LockNeedsPassword">Khóa ngay cần có mật khẩu. Hãy đặt mật khẩu bằng nút ổ khóa trước.</sys:String>
     <sys:String x:Key="Str_St_Locked">Đã khóa.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Đã khóa. Không thể lưu ghi chú đang mở trước đó, nên các thay đổi được giữ đến khi bạn mở khóa.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Một số thay đổi được giữ lại không thể khôi phục vì ghi chú của chúng đã thay đổi hoặc không còn nữa. Chúng vẫn được giữ cho đến khi bạn thoát.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">Cửa sổ đọc chính tả này thuộc về một sổ khác. Hãy quay lại sổ đó, hoặc đóng cửa sổ này và mở cửa sổ mới.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows không thể kết thúc phiên vì một số thay đổi vẫn đang chờ sổ của chúng. Hãy mở sổ đó và mở khóa để lưu.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Các thay đổi trước khi khóa đã trở lại và sẽ được lưu ngay.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Mở khóa để mở {0}.</sys:String>

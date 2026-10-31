@@ -922,6 +922,8 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Blokowanie wymaga hasła. Najpierw ustaw je przyciskiem kłódki.</sys:String>
     <sys:String x:Key="Str_St_Locked">Zablokowano.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Zablokowano. Otwartej notatki nie udało się wcześniej zapisać, więc jej zmiany są przechowane do odblokowania.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Niektórych przechowanych zmian nie udało się przywrócić, ponieważ ich notatka została zmieniona lub już nie istnieje. Pozostaną przechowane do wyjścia z programu.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">To okno dyktowania należy do innego notatnika. Wróć do niego albo zamknij okno i otwórz nowe.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows nie mógł zakończyć sesji, ponieważ niektóre zmiany nadal czekają na swój notatnik. Otwórz go i odblokuj, aby je zapisać.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Zmiany sprzed blokady wróciły i zostaną teraz zapisane.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Odblokuj, aby otworzyć {0}.</sys:String>

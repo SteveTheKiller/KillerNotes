@@ -1003,6 +1003,8 @@
     <sys:String x:Key="Str_St_LockNeedsPassword">Құлыптау үшін құпиясөз керек. Алдымен құлып түймесі арқылы орнатыңыз.</sys:String>
     <sys:String x:Key="Str_St_Locked">Құлыпталды.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Құлыпталды. Ашық жазба алдын ала сақталмады, сондықтан оның өзгерістері құлпын ашқанша сақталады.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Сақталып тұрған кейбір өзгерістерді қайтару мүмкін болмады, себебі олардың жазбасы өзгерген немесе жоқ. Олар сіз шыққанша сақталады.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">Бұл дауыспен енгізу терезесі басқа кітапшаға тиесілі. Сол кітапшаға оралыңыз немесе терезені жауып, жаңасын ашыңыз.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Кейбір өзгерістер әлі өз кітапшасын күтіп тұрғандықтан, Windows сеансты аяқтай алмады. Кітапшаны ашып, сақтау үшін құлпын ашыңыз.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Құлыпқа дейінгі өзгерістер қайтып келді және қазір сақталады.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">{0} ашу үшін құлпын ашыңыз.</sys:String>

@@ -1040,6 +1040,8 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Lås nå trenger et passord. Angi et med låseknappen først.</sys:String>
     <sys:String x:Key="Str_St_Locked">Låst.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Låst. Det åpne notatet kunne ikke lagres først, så endringene beholdes til du låser opp.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Noen av de beholdte endringene kunne ikke gjenopprettes fordi notatet deres er endret eller borte. De beholdes til du avslutter.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">Dette dikteringsvinduet hører til en annen notatblokk. Bytt tilbake til den, eller lukk vinduet og åpne et nytt.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows kunne ikke avslutte økten fordi noen endringer fortsatt venter på notatblokken sin. Åpne den og lås opp for å lagre dem.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Endringene fra før låsingen er tilbake og lagres nå.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Lås opp for å åpne {0}.</sys:String>

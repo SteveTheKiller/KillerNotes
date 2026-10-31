@@ -995,6 +995,8 @@
     <sys:String x:Key="Str_St_LockNeedsPassword">立即鎖定需要密碼。請先用鎖頭按鈕設定密碼。</sys:String>
     <sys:String x:Key="Str_St_Locked">已鎖定。</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">已鎖定。開啟的筆記未能先儲存,其編輯會保留到你解鎖。</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">部分保留的編輯未能恢復，因為它們所屬的筆記已變更或已不存在。這些編輯會一直保留到你結束。</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">此口述視窗屬於另一個筆記本。請切換回該筆記本，或關閉此視窗後重新開啟一個。</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows 無法結束工作階段，因為有些編輯仍在等待其筆記本。請開啟該筆記本並解鎖以儲存。</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">鎖定前的編輯已恢復,現在將儲存。</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">解鎖以開啟 {0}。</sys:String>

@@ -902,6 +902,8 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_St_LockNeedsPassword">Zaklepanje zahteva geslo. Najprej ga nastavite z gumbom ključavnice.</sys:String>
     <sys:String x:Key="Str_St_Locked">Zaklenjeno.</sys:String>
     <sys:String x:Key="Str_St_LockEditsHeld">Zaklenjeno. Odprtega zapiska prej ni bilo mogoče shraniti, zato so njegove spremembe shranjene do odklepanja.</sys:String>
+    <sys:String x:Key="Str_St_LockEditsStuck">Nekaterih ohranjenih sprememb ni bilo mogoče vrniti, ker se je njihov zapisek spremenil ali ga ni več. Ostanejo shranjene, dokler ne zaprete programa.</sys:String>
+    <sys:String x:Key="Str_Dict_WrongNotepad">To okno za narekovanje pripada drugi beležnici. Preklopite nazaj nanjo ali zaprite okno in odprite novo.</sys:String>
     <sys:String x:Key="Str_St_SessionHeld">Windows ni mogel končati seje, ker nekatere spremembe še čakajo na svojo beležnico. Odprite jo in odklenite, da se shranijo.</sys:String>
     <sys:String x:Key="Str_St_LockEditsBack">Spremembe izpred zaklepa so nazaj in se bodo zdaj shranile.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Odklenite, da odprete {0}.</sys:String>
