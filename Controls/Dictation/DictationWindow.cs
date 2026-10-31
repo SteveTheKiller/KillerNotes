@@ -623,9 +623,9 @@ namespace KillerNotes.Controls.Dictation
         /// slicing works on it exactly as on a fresh take; re-embedding overwrites the original
         /// rather than adding a second copy (Editor.Dictation.cs).
         /// </summary>
-        internal void LoadForEdit(byte[] wav, string hash, long noteId, string? database)
+        internal bool LoadForEdit(byte[] wav, string hash, long noteId, string? database)
         {
-            if (DictationRecorder.IsRecording) return;   // never clobber a take in progress
+            if (DictationRecorder.IsRecording) return false;   // never clobber a take in progress
 
             // The recording being edited lives HERE, not in MainWindow. Held there it outlived the
             // edit - close the pad, record something new, press Embed, and the fresh take silently
@@ -642,12 +642,14 @@ namespace KillerNotes.Controls.Dictation
             _wave.SetPeaks(PadPeaks(wav));
             _wave.Progress = -1;
             _elapsed.Text = Format(_durationMs);
+            _transcript.Text = "";        // words from the last take, not this recording
 
             _playBtn.IsEnabled = _embedBtn.IsEnabled = true;
             _transcribeBtn.IsEnabled = DictationRecorder.RecognizerAvailable();
             _embedBtn.Content = L("Str_Dict_SaveChanges", "Save changes");
             _status.Text = L("Str_Dict_Editing", "Editing an embedded recording. Slice it, then save your changes.");
             Activate();
+            return true;
         }
 
         /// <summary>

@@ -480,8 +480,8 @@ namespace KillerNotes.Shell
 
             _recEditChip = CtxRecordingChip();
             OpenDictation();
-            _dictationOwner = NoteStore.DatabaseId;
-            _dictation?.LoadForEdit(wav, rec.Hash, _currentId, NoteStore.DatabaseId);
+            if (_dictation?.LoadForEdit(wav, rec.Hash, _currentId, NoteStore.DatabaseId) == true)
+                _dictationOwner = NoteStore.DatabaseId;
         }
 
         /// <summary>The chip last opened for editing, so its re-embed replaces that chip and not

@@ -2329,8 +2329,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             }
             string? oldId = DatabaseIdBeforeRekey;
             Open(newPassword);
-            File.Delete(bak);   // only once the rewritten db opened cleanly
             if (oldId != null && DatabaseId != null) Rekeyed?.Invoke(oldId, DatabaseId);
+            File.Delete(bak);   // only once the rewritten db opened cleanly
         }
 
         /// <summary>File.Replace with backoff retries. Antivirus and indexer scans of the

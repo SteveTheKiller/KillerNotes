@@ -21,5 +21,8 @@ namespace KillerNotes.Features.About
         // The open note saves before the swap helper starts; when it cannot, the update waits.
         partial void ConfirmUpdateShutdown(ref bool proceed)
             => proceed = _host.Window is not MainWindow main || main.SaveOpenNoteForUpdate();
+
+        // UAC declined or the helper failed: the app stays, and so does anything it was told to drop.
+        partial void UpdateShutdownCanceled() => (_host.Window as MainWindow)?.QuitCalledOff();
     }
 }

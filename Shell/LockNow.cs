@@ -127,8 +127,7 @@ namespace KillerNotes.Shell
             TitleBox.Text = "";
             _findPlain = "";
             _findPlainStale = true;
-            CloseFindBar();                  // FindBar.cs - what was searched for is the locked notepad's too,
-            SearchBox.Text = "";             // and the next notepad to open would show it
+            ForgetSearches();
             ClearNavHistory();               // NoteHistory.cs - titles and ids of the locked notepad
             _notes = [];
             _trashNotes = [];
@@ -144,6 +143,20 @@ namespace KillerNotes.Shell
             PadlockGlyph.Visibility = Visibility.Collapsed;       // SaveState.cs - no notepad on screen
             LockedPanel.Visibility = Visibility.Visible;
             Dispatcher.BeginInvoke(new Action(() => { if (LockedPanel.IsVisible) LockedUnlockBtn.Focus(); }), DispatcherPriority.Input);
+        }
+
+        /// <summary>What was searched for is the locked notepad's too, and the next one to open
+        /// would show it. The boxes empty without their handlers: each would search a store that
+        /// is about to close, and may be the reason this lock could not save.</summary>
+        private void ForgetSearches()
+        {
+            CloseFindBar();                  // FindBar.cs
+            SearchBox.TextChanged -= SearchBox_TextChanged;
+            FindBox.TextChanged -= FindBox_TextChanged;
+            SearchBox.Text = FindBox.Text = ReplaceBox.Text = SidebarReplaceBox.Text = "";
+            _findTerm = "";
+            SearchBox.TextChanged += SearchBox_TextChanged;
+            FindBox.TextChanged += FindBox_TextChanged;
         }
 
         void ISecurityHost.LeaveLocked()
@@ -233,7 +246,10 @@ namespace KillerNotes.Shell
                 if (_sketchPad != null) return false;
                 _sketchPad = pad;
                 _sketchSession = session;
-                _sketchEditTarget = target;
+                if (NoteStore.DatabaseId is { } database) session?.Rebind(database);   // a password change while held
+                // The placed sketch it was editing survives only if its edits were held: after
+                // an ordinary lock the note reloaded with a new picture, so Print makes a new one.
+                _sketchEditTarget = target != null && ImageInDocument(target) ? target : null;
                 SketchRailBtn.Tag = "on";
                 pad.Show();
                 return true;
@@ -252,6 +268,7 @@ namespace KillerNotes.Shell
                 if (_dictation != null) return false;
                 _dictation = pad;
                 _dictationOwner = NoteStore.DatabaseId;
+                if (_dictationOwner != null) pad.RebindDatabase(_dictationOwner);   // a password change while held
                 DictationRailBtn.Tag = "on";
                 pad.Show();
                 return true;
@@ -293,6 +310,9 @@ namespace KillerNotes.Shell
             _quitAccepted = dlg.Confirmed;
             return dlg.Confirmed;
         }
+
+        /// <summary>The shutdown that was accepted did not happen, so held edits are held again.</summary>
+        internal void QuitCalledOff() => _quitAccepted = false;
 
         /// <summary>An update or an install is about to shut the app down, and a shutdown ignores
         /// the close prompt's answer, so both ask here, first. True when it can go ahead.</summary>
