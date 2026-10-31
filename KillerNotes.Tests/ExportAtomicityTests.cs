@@ -80,6 +80,45 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void ACopyThatDiesPartwayKeepsThePreviousExport()
+        {
+            string source = Path.Combine(_dir, "notes.db");
+            string dest = Path.Combine(_dir, "notes.kndb");
+            File.WriteAllBytes(source, new byte[] { 9, 9, 9, 9 });
+            File.WriteAllBytes(dest, new byte[] { 1, 2, 3 });
+
+            Assert.Throws<IOException>(() => AtomicFile.Copy(source, dest, (from, to) =>
+            {
+                File.WriteAllBytes(to, new byte[] { 9 });
+                throw new IOException("The disk is full.");
+            }));
+
+            Assert.Equal(new byte[] { 1, 2, 3 }, File.ReadAllBytes(dest));
+            Assert.Equal(2, Directory.GetFiles(_dir).Length);
+        }
+
+        [Fact]
+        public void AnExportedDatabaseOpensWithItsPasswordAndNotes()
+        {
+            using var store = new TempStore("secret");
+            long id = NoteStore.Create("shared words");
+            string source = store.DbPath;
+            NoteStore.Close();
+            string dest = Path.Combine(_dir, "notes.kndb");
+            File.WriteAllBytes(dest, new byte[] { 1, 2, 3 });
+
+            AtomicFile.Copy(source, dest);
+
+            Assert.Equal(new[] { dest }, Directory.GetFiles(_dir));
+            Assert.Equal(File.ReadAllBytes(source), File.ReadAllBytes(dest));
+            string copy = Path.Combine(NoteStore.DbDir, "copy.db");
+            File.Copy(dest, copy);
+            NoteStore.DemoDbFile = "copy.db";
+            NoteStore.Open("secret");
+            Assert.Equal("shared words", NoteStore.GetNote(id)!.Title);
+        }
+
+        [Fact]
         public void AWriterThatFinishesPublishesItsFile()
         {
             string dest = Path.Combine(_dir, "note.txt");

@@ -28,5 +28,10 @@ namespace KillerNotes.Services
                 try { if (File.Exists(temp)) File.Delete(temp); } catch { /* best effort; never masks the real error */ }
             }
         }
+
+        /// <summary>Copies a closed file to the destination the same way. The copier stands in
+        /// for the disk in tests.</summary>
+        internal static void Copy(string source, string destination, Action<string, string>? copy = null) =>
+            Write(destination, staged => (copy ?? File.Copy)(source, staged));
     }
 }

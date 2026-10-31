@@ -248,7 +248,7 @@ namespace KillerNotes.Controls
             if (dlg.ShowDialog(this) != true) return;
             try
             {
-                File.Copy(Path.Combine(NoteStore.DbDir, name), dlg.FileName, overwrite: true);
+                AtomicFile.Copy(Path.Combine(NoteStore.DbDir, name), dlg.FileName);
                 DlgStatus.Text = string.Format(Loc("Str_St_ExportedTo"), dlg.FileName);
             }
             catch (Exception ex) { DlgStatus.Text = string.Format(Loc("Str_St_ExportFailed"), ex.Message); }
