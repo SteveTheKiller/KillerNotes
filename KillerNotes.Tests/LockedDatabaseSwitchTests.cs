@@ -57,6 +57,40 @@ namespace KillerNotes.Tests
             Assert.StartsWith("Str_St_OpenDbFailed", host.Status);
         }
 
+        [Fact]
+        public void AnOpenThatFailsPutsTheLockedScreenUpInsteadOfLeavingNothingOpen()
+        {
+            using var store = new TempStore();
+            NoteStore.Close();
+            Directory.CreateDirectory(Path.Combine(NoteStore.DbDir, "broken.db"));
+            NoteStore.DemoDbFile = "broken.db";
+            var host = new Host();
+            var controller = new SecurityController(host);
+
+            Assert.False(controller.Open(exitOnCancel: false));
+
+            // The notes on screen belonged to a database that is closed now; Unlock and Manage
+            // databases are what the locked screen offers from here.
+            Assert.True(controller.IsLocked);
+            Assert.False(NoteStore.IsOpen);
+            Assert.Equal(new[] { "enter:False" }, host.Events);
+            Assert.StartsWith("Str_St_OpenDbFailed", host.Status);
+        }
+
+        [Fact]
+        public void ManageDatabasesWithNothingOpenDoesNotReadTheClosedStore()
+        {
+            using var store = new TempStore();
+            NoteStore.Close();
+            var host = new Host();
+            var controller = new SecurityController(host);
+
+            controller.ShowDatabases();
+
+            Assert.True(controller.IsLocked);
+            Assert.Equal(new[] { "enter:False" }, host.Events);
+        }
+
         /// <summary>test.db open with a password and locked, other.db beside it with none.</summary>
         private static (SecurityController, Host) Locked()
         {

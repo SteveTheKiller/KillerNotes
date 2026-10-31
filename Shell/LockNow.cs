@@ -108,6 +108,7 @@ namespace KillerNotes.Shell
             CancelBackgroundJob();             // VaultExport.cs - an export or import reads with the notepad's key
             _dictation?.StopForLock();       // the microphone is never live behind a locked screen
             CloseWindowsForLock(includeTools: true);
+            _quickDraft = "";                // QuickNote.cs - closing the window just stored its text, and the locked screen reaches ShowQuickNote
             CancelGlobalSearchPreview();     // GlobalSearch.cs
             _globalMatchCounts.Clear();
             _globalFindHits.Clear();
@@ -129,6 +130,8 @@ namespace KillerNotes.Shell
             _findPlainStale = true;
             ForgetSearches();
             NoteDragData.RemoveSharedRecordings(NoteDragData.DefaultTempRoot);   // decrypted copies under TEMP
+            DictationRecorder.SweepTempRecordings(NoteDragData.DefaultTempRoot, System.IO.Path.GetTempPath());   // a take mid-transcription
+            NoteDragData.RemoveDragFolders(NoteDragData.DefaultTempRoot);        // notes dragged out, written unencrypted
             ClearNavHistory();               // NoteHistory.cs - titles and ids of the locked notepad
             _notes = [];
             _trashNotes = [];

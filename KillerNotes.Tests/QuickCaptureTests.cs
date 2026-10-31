@@ -92,6 +92,36 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
+        public void AppendingToARichNoteDoesNotTurnASketchLabelIntoALink() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            long id = NoteStore.Create("Daily");
+            // The stored search text ends with the labels drawn in the note's sketches.
+            NoteStore.SaveEditorState(id, "Daily", Array.Empty<byte>(), "Body\n[[Only In A Sketch]]", Array.Empty<string>(), Array.Empty<Attachment>());
+
+            QuickCapture.Append(id, "see [[Plan]]");
+
+            Assert.Equal(new[] { "Plan" }, NoteStore.OutgoingLinks(id).Select(l => l.Title));
+        });
+
+        [Fact]
+        public void ANewQuickNoteThatCannotBeSavedLeavesNoEmptyNoteBehind()
+        {
+            using var store = new TempStore();
+            using (var other = new Microsoft.Data.Sqlite.SqliteConnection($"Data Source={store.DbPath}"))
+            {
+                other.Open();
+                using var cmd = other.CreateCommand();
+                cmd.CommandText = "CREATE TRIGGER refuse_edit BEFORE UPDATE ON notes BEGIN SELECT RAISE(ABORT, 'disk is full'); END";
+                cmd.ExecuteNonQuery();
+            }
+
+            Assert.ThrowsAny<Exception>(() => QuickCapture.CreateNote("", "Call Sam", "Untitled"));
+
+            Assert.Empty(NoteStore.List());
+        }
+
+        [Fact]
         public void AFileOpenedAgainFindsTheNoteItBecame()
         {
             using var store = new TempStore();

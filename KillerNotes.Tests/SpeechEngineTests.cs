@@ -16,6 +16,53 @@ namespace KillerNotes.Tests
             Assert.Equal(file, SpeechEngine.CpuBuildFor(avx2, avx, sse42).File);
 
         [Fact]
+        public async System.Threading.Tasks.Task CancelingStopsADownloadThatHasStalledMidBody()
+        {
+            using var stalled = new StalledStream(new byte[] { 1, 2, 3 });
+            using var cts = new System.Threading.CancellationTokenSource();
+            long received = 0;
+            var copy = System.Threading.Tasks.Task.Run(() =>
+                SpeechEngine.CopyBody(stalled, new MemoryStream(), n =>
+                {
+                    received += n;
+                    cts.Cancel();   // the user presses Cancel while the connection is silent
+                }, cts.Token));
+
+            var first = await System.Threading.Tasks.Task.WhenAny(copy, System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(5)));
+            stalled.Dispose();   // frees the worker if the copy was still stuck, so the test ends either way
+
+            Assert.True(first == copy, "Cancel left the download blocked on a read that never returns");
+            Assert.Equal(3, received);
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => copy);
+        }
+
+        /// <summary>Hands out its bytes, then blocks every read until it is disposed, as a socket does
+        /// when the server stops sending.</summary>
+        private sealed class StalledStream : Stream
+        {
+            private readonly MemoryStream _head;
+            private readonly System.Threading.ManualResetEventSlim _closed = new();
+            public StalledStream(byte[] head) => _head = new MemoryStream(head);
+            public override int Read(byte[] buffer, int offset, int count)
+            {
+                int n = _head.Read(buffer, offset, count);
+                if (n > 0) return n;
+                _closed.Wait();
+                throw new ObjectDisposedException(nameof(StalledStream));
+            }
+            protected override void Dispose(bool disposing) { if (disposing) _closed.Set(); base.Dispose(disposing); }
+            public override bool CanRead => true;
+            public override bool CanSeek => false;
+            public override bool CanWrite => false;
+            public override long Length => throw new NotSupportedException();
+            public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+            public override void Flush() { }
+            public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+            public override void SetLength(long value) => throw new NotSupportedException();
+            public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+        }
+
+        [Fact]
         public void EveryHostedEngineFileMatchesItsPinnedHashAndSize()
         {
             var repo = new DirectoryInfo(AppContext.BaseDirectory);

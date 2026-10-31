@@ -145,6 +145,75 @@ namespace KillerNotes.Tests
             Assert.Equal(900, NoteStore.LoadRecordingIndex(copy)[0]);
         });
 
+        [Fact]
+        public void ExportAllAcceptsAnEmptyFolderAndRefusesOneWithFiles() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            NoteStore.Create("One");
+            string root = Path.GetDirectoryName(store.DbPath)!;
+            string empty = Path.Combine(root, "vault-empty");
+            Directory.CreateDirectory(empty);
+            var shell = DetachedShell();
+
+            Execute(shell, "export-all", "--output", empty);
+            Assert.NotEmpty(Directory.GetFileSystemEntries(empty));
+
+            // The folder now holds the export, so a second run would overwrite it.
+            var error = Assert.Throws<TargetInvocationException>(() => Execute(shell, "export-all", "--output", empty));
+            Assert.IsType<ArgumentException>(error.InnerException);
+        });
+
+        [Fact]
+        public void RestoringAVersionDoesNotLinkTextDrawnInASketch() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            long real = NoteStore.Create("Real");
+            NoteStore.Create("Ghost");
+            long id = NoteStore.Create("Drawn");
+            var sketch = new Attachment(AttachmentKind.Sketch, SketchModel.Serialize(new[]
+            {
+                new SketchObject { Kind = SketchKind.Text, Text = "[[Ghost]]" },
+            }));
+            var image = new System.Windows.Controls.Image
+            {
+                Source = System.Windows.Media.Imaging.BitmapSource.Create(2, 2, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null, new byte[16], 8),
+                ToolTip = Attachments.Marker(AttachmentKind.Sketch, sketch.Hash),
+            };
+            var paragraph = new Paragraph(new Run("see [[Real]] "));
+            paragraph.Inlines.Add(new InlineUIContainer(image));
+            var drawn = new FlowDocument(paragraph);
+            using var stream = new MemoryStream();
+            new TextRange(drawn.ContentStart, drawn.ContentEnd).Save(stream, DataFormats.XamlPackage);
+            // The stored text is the body plus the sketch's labels, as a save writes it.
+            NoteStore.SaveEditorState(id, "Drawn", stream.ToArray(), "see [[Real]] \n[[Ghost]]", new[] { "Real" }, new[] { sketch });
+            Assert.True(NoteStore.Snapshot(id, force: true));
+            long version = NoteStore.ListHistory(id)[0].Id;
+            NoteStore.Save(id, "Drawn", Array.Empty<byte>(), "later text");
+            NoteStore.SetLinks(id, Array.Empty<string>());
+
+            // The detached window has no sidebar to refresh once the version is back.
+            Record.Exception(() => Execute(DetachedShell(), "version-restore", "--id", id.ToString(), "--version-id", version.ToString()));
+
+            Assert.Equal(new[] { real }, NoteStore.OutgoingLinks(id).Select(l => l.Id));
+            Assert.DoesNotContain(NoteStore.Backlinks("Ghost"), b => b.Id == id);
+        });
+
+        [Fact]
+        public void ConvertingMarkdownToRichKeepsPipeTablesAsTables() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            long id = NoteStore.Create("Hosts", Note.FormatMarkdown);
+            const string md = "Before\n\n| Host | Port |\n| --- | --- |\n| web01 | 443 |\n\nAfter";
+            NoteStore.Save(id, "Hosts", MarkdownBlob.Encode(md), md);
+
+            // The detached window has no sidebar to refresh once the note is stored.
+            Record.Exception(() => Execute(DetachedShell(), "convert", "--id", id.ToString(), "--format", "rich"));
+
+            Assert.Equal(Note.FormatRich, NoteStore.GetFormat(id));
+            var document = NoteSearch.LoadDocument(NoteStore.LoadContent(id), Note.FormatRich);
+            Assert.Single(document.Blocks.OfType<Table>());
+        });
+
         // Editing a recording after switching notes or databases: RecordingPersistenceTests.
 
         [Theory]
@@ -163,6 +232,25 @@ namespace KillerNotes.Tests
             Assert.Equal("Actual title", note.Title);
             int at = Array.IndexOf(options, "--content");
             Assert.Equal(options[at + 1], MarkdownBlob.Decode(NoteStore.LoadContent(note.Id)));
+        });
+
+        [Fact]
+        public void ACreateThatCannotSaveItsContentLeavesNoEmptyNoteBehind() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            using (var other = new Microsoft.Data.Sqlite.SqliteConnection($"Data Source={store.DbPath}"))
+            {
+                other.Open();
+                using var cmd = other.CreateCommand();
+                cmd.CommandText = "CREATE TRIGGER refuse_edit BEFORE UPDATE ON notes BEGIN SELECT RAISE(ABORT, 'disk is full'); END";
+                cmd.ExecuteNonQuery();
+            }
+
+            var error = Assert.Throws<TargetInvocationException>(() =>
+                Execute(DetachedShell(), "create", "--title", "Idea", "--content", "body"));
+            Assert.IsType<Microsoft.Data.Sqlite.SqliteException>(error.InnerException);
+
+            Assert.Empty(NoteStore.List());
         });
 
         [Theory]

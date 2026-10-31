@@ -30,7 +30,8 @@ namespace KillerNotes.Features.Security
         internal void ForgetSessionPassword() => _dbPassword = null;
 
         /// <summary>Opens the active database, prompting to unlock when encrypted. Returns
-        /// false when the user cancels (the app exits instead when exitOnCancel is set).</summary>
+        /// false when the user cancels (the app exits instead when exitOnCancel is set) or the
+        /// open fails; either way the locked screen is up, so no stale notes stay on screen.</summary>
         internal bool Open(bool exitOnCancel)
         {
             try
@@ -44,7 +45,7 @@ namespace KillerNotes.Features.Security
                         try { NoteStore.Open(_dbPassword); }
                         catch (SqliteException) { }
                     }
-                    if (!NoteStore.IsOpen && !PromptUnlock(exitOnCancel)) return false;
+                    if (!NoteStore.IsOpen && !PromptUnlock(exitOnCancel)) return exitOnCancel ? false : ShowLockedAfterFailedOpen();
                 }
                 else
                 {
@@ -55,9 +56,20 @@ namespace KillerNotes.Features.Security
             catch (Exception ex)
             {
                 _host.SetStatus(string.Format(_host.Loc("Str_St_OpenDbFailed"), ex.Message));
-                return false;
+                return ShowLockedAfterFailedOpen();
             }
             return FinishOpen();
+        }
+
+        /// <summary>Nothing is open and nothing is locked yet: the shell still shows the previous
+        /// notepad's rows, and every click on one reads a closed store. The locked screen offers
+        /// Unlock and Manage databases, which is the way out. Always returns false.</summary>
+        private bool ShowLockedAfterFailedOpen()
+        {
+            if (NoteStore.IsOpen || IsLocked) return false;
+            _host.EnterLocked(keepUnsavedEdits: false);
+            IsLocked = true;
+            return false;
         }
 
         /// <summary>Everything after the store itself is open: warnings, navigation, the note list.</summary>
@@ -253,6 +265,7 @@ namespace KillerNotes.Features.Security
                 ApplyLockedSelection(pick.SelectedDatabase);
                 return;
             }
+            if (!NoteStore.IsOpen) { ShowLockedAfterFailedOpen(); return; }   // nothing to count or save
             if (!_host.SaveOpenNote()) return;
             string prevFile = NoteStore.ActiveDbFile;
             // Test restore in Backups compares a backup with these; the store is closed below.

@@ -63,7 +63,13 @@ namespace KillerNotes.Services
             }
             long id = NoteStore.Create(title, 1);
             if (id < 0) throw new InvalidOperationException("The database is not writable.");
-            NoteStore.SaveEditorState(id, title, MarkdownBlob.Encode(text), text, WikiLinks.Parse(text), []);
+            try { NoteStore.SaveEditorState(id, title, MarkdownBlob.Encode(text), text, WikiLinks.Parse(text), []); }
+            catch
+            {
+                // The row exists before its text does. A failed save must not leave it empty, or a retry stacks another.
+                try { NoteStore.Delete(id); } catch { /* the save failure is the one to report */ }
+                throw;
+            }
             if (group.Length > 0) NoteStore.SetNoteGroup(id, group);
             return id;
         }
@@ -94,8 +100,9 @@ namespace KillerNotes.Services
             using var output = new MemoryStream();
             range.Save(output, DataFormats.XamlPackage);
             // The stored plain text plus the new lines: it keeps the sketch labels search reads.
+            // Links come from the document text alone, because a [[...]] drawn in a sketch is not a link.
             string plain = NoteStore.LoadPlain(id).TrimEnd() + "\n" + text;
-            NoteStore.SaveEditorState(id, note.Title, output.ToArray(), plain, WikiLinks.Parse(plain), []);
+            NoteStore.SaveEditorState(id, note.Title, output.ToArray(), plain, WikiLinks.Parse(range.Text), []);
         }
     }
 

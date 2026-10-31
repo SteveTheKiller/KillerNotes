@@ -90,15 +90,7 @@ namespace KillerNotes.Services
                     resp.EnsureSuccessStatusCode();
                     using var src = resp.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
                     using var dst = File.Create(part);
-                    var buf = new byte[81920];
-                    int n;
-                    while ((n = src.Read(buf, 0, buf.Length)) > 0)
-                    {
-                        ct.ThrowIfCancellationRequested();
-                        dst.Write(buf, 0, n);
-                        done += n;
-                        progress(done, total);
-                    }
+                    CopyBody(src, dst, n => { done += n; progress(done, total); }, ct);
                 }
                 if (!HashMatches(part, sha))
                 {
@@ -107,6 +99,29 @@ namespace KillerNotes.Services
                 }
                 if (File.Exists(target)) File.Delete(target);
                 File.Move(part, target);
+            }
+        }
+
+        /// <summary>Streams a response body to disk, reporting each block's size.</summary>
+        internal static void CopyBody(Stream src, Stream dst, Action<int> received, CancellationToken ct)
+        {
+            var buf = new byte[81920];
+            int n;
+            // A read on a stalled connection never returns, and the token is only looked at between
+            // reads, so Cancel closes the stream under it instead.
+            using var closeOnCancel = ct.Register(src.Dispose);
+            try
+            {
+                while ((n = src.Read(buf, 0, buf.Length)) > 0)
+                {
+                    ct.ThrowIfCancellationRequested();
+                    dst.Write(buf, 0, n);
+                    received(n);
+                }
+            }
+            catch (Exception) when (ct.IsCancellationRequested)
+            {
+                throw new OperationCanceledException(ct);
             }
         }
 

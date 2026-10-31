@@ -285,7 +285,7 @@ namespace KillerNotes.Services
                 string id = "" + (char)w[p] + (char)w[p + 1] + (char)w[p + 2] + (char)w[p + 3];
                 int size = BitConverter.ToInt32(w, p + 4);
                 int body = p + 8;
-                if (size < 0 || body + size > w.Length) size = w.Length - body;   // truncated tail
+                if (size < 0 || size > w.Length - body) size = w.Length - body;   // truncated tail; no sum to overflow
 
                 if (id == "fmt " && size >= 16)
                 {

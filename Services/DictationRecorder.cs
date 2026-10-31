@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace KillerNotes.Services
 {
@@ -68,6 +70,13 @@ namespace KillerNotes.Services
         private static WaveInProc? _proc;          // held in a field: if this is collected the
                                                    // driver calls into freed memory and the app dies
         private static IntPtr[] _headers = [];
+
+        // The driver's callback must not call other wave functions (it can deadlock), so it only
+        // hands the finished header to this worker, which copies the audio out and queues the buffer
+        // again. WaveGate keeps that re-queue from running while Stop or Cancel resets the device.
+        private static readonly object WaveGate = new();
+        private static BlockingCollection<IntPtr>? _finished;
+        private static Thread? _requeue;
 
         // ---- winmm interop ----
 
@@ -151,6 +160,7 @@ namespace KillerNotes.Services
             if (!Ok(waveInOpen(out _hwi, WAVE_MAPPER, ref fmt, _proc, IntPtr.Zero, CALLBACK_FUNCTION), "Opening the microphone"))
             { _proc = null; return false; }
 
+            StartRequeue();
             _headers = new IntPtr[BufferCount];
             for (int i = 0; i < BufferCount; i++)
             {
@@ -172,26 +182,59 @@ namespace KillerNotes.Services
         }
 
         /// <summary>
-        /// Driver callback. Runs on a WINDOWS thread, not the UI thread: it must not touch WPF, and
-        /// everything it shares is guarded by Sync. It copies the buffer out and immediately
-        /// re-queues it, because a buffer not returned promptly is audio dropped on the floor.
+        /// Driver callback. Runs on a WINDOWS thread, not the UI thread: it must not touch WPF or
+        /// call any wave function, so it only passes the finished buffer to the worker thread
+        /// (RequeueLoop), which copies it out and queues it again.
         /// </summary>
         private static void OnWaveIn(IntPtr hwi, int uMsg, IntPtr inst, IntPtr param1, IntPtr param2)
         {
             if (uMsg != WIM_DATA || !IsRecording) return;
-            try
-            {
-                var hdr = Marshal.PtrToStructure<WAVEHDR>(param1);
-                int n = hdr.dwBytesRecorded;
-                if (n > 0)
-                {
-                    var buf = new byte[n];
-                    Marshal.Copy(hdr.lpData, buf, 0, n);
-                    Accumulate(buf, n);
-                }
-                waveInAddBuffer(hwi, param1, Marshal.SizeOf<WAVEHDR>());
-            }
+            try { _finished?.Add(param1); }
             catch { /* shutting down mid-callback; nothing useful to do on a driver thread */ }
+        }
+
+        private static void StartRequeue()
+        {
+            var finished = new BlockingCollection<IntPtr>();
+            _finished = finished;
+            _requeue = new Thread(() => RequeueLoop(finished)) { IsBackground = true, Name = "KillerNotes dictation buffers" };
+            _requeue.Start();
+        }
+
+        /// <summary>Takes each finished buffer's audio and, while still recording, returns the buffer
+        /// to the driver promptly: a buffer not returned is audio dropped on the floor.</summary>
+        private static void RequeueLoop(BlockingCollection<IntPtr> finished)
+        {
+            foreach (IntPtr header in finished.GetConsumingEnumerable())
+            {
+                try
+                {
+                    lock (WaveGate)
+                    {
+                        var hdr = Marshal.PtrToStructure<WAVEHDR>(header);
+                        int n = hdr.dwBytesRecorded;
+                        if (n > 0)
+                        {
+                            var buf = new byte[n];
+                            Marshal.Copy(hdr.lpData, buf, 0, n);
+                            Accumulate(buf, n);
+                        }
+                        if (IsRecording) waveInAddBuffer(_hwi, header, Marshal.SizeOf<WAVEHDR>());
+                    }
+                }
+                catch { /* shutting down mid-buffer; nothing useful to do */ }
+            }
+        }
+
+        /// <summary>Ends the worker and waits for it, so no buffer is read after Teardown frees them.</summary>
+        private static void StopRequeue()
+        {
+            var finished = _finished;
+            var worker = _requeue;
+            _finished = null;
+            _requeue = null;
+            finished?.CompleteAdding();
+            worker?.Join();
         }
 
         private static void Accumulate(byte[] buf, int n)
@@ -230,9 +273,12 @@ namespace KillerNotes.Services
         internal static byte[]? Stop()
         {
             if (!IsRecording) return null;
-            IsRecording = false;
-            waveInStop(_hwi);
-            waveInReset(_hwi);          // returns every queued buffer before we free them
+            lock (WaveGate)
+            {
+                IsRecording = false;
+                waveInStop(_hwi);
+                waveInReset(_hwi);          // returns every queued buffer before we free them
+            }
             Teardown();
             PeakLevel = 0;
 
@@ -245,9 +291,12 @@ namespace KillerNotes.Services
         internal static void Cancel()
         {
             if (!IsRecording) { Teardown(); return; }
-            IsRecording = false;
-            waveInStop(_hwi);
-            waveInReset(_hwi);
+            lock (WaveGate)
+            {
+                IsRecording = false;
+                waveInStop(_hwi);
+                waveInReset(_hwi);
+            }
             Teardown();
             PeakLevel = 0;
             lock (Sync) _pcm = new MemoryStream();
@@ -255,6 +304,7 @@ namespace KillerNotes.Services
 
         private static void Teardown()
         {
+            StopRequeue();
             foreach (IntPtr p in _headers)
             {
                 if (p == IntPtr.Zero) continue;
@@ -340,7 +390,7 @@ namespace KillerNotes.Services
                 LastError = WhisperSpeech.LastError;
                 // Fall through: a whisper failure should still get the user SOMETHING.
             }
-            string tmp = Path.Combine(Path.GetTempPath(), "kn-dict-" + Guid.NewGuid().ToString("N") + ".wav");
+            string tmp = NewTempWavPath(Shell.NoteDragData.DefaultTempRoot);
             try
             {
                 // SetInputToWaveStream exists, but the recognizer reads lazily and a disposed
@@ -385,6 +435,35 @@ namespace KillerNotes.Services
             }
             catch (Exception ex) { LastError = ex.Message; return null; }
             finally { try { if (File.Exists(tmp)) File.Delete(tmp); } catch { } }
+        }
+
+        private const string TempFolder = "dictation";
+        private const string TempPattern = "kn-dict-*.wav";
+
+        /// <summary>Where the Windows engine's working copy of a take goes: the app's own temp
+        /// folder, so a start or a lock can find and clear it (SweepTempRecordings).</summary>
+        internal static string NewTempWavPath(string tempRoot)
+        {
+            string dir = Path.Combine(tempRoot, TempFolder);
+            Directory.CreateDirectory(dir);
+            return Path.Combine(dir, "kn-dict-" + Guid.NewGuid().ToString("N") + ".wav");
+        }
+
+        /// <summary>Deletes working copies a crash or a lock left behind, from the app's folder and
+        /// from the loose TEMP location earlier versions used. A copy a recognizer still holds open
+        /// stays until the next sweep.</summary>
+        internal static void SweepTempRecordings(string tempRoot, string legacyDir)
+        {
+            foreach (string dir in new[] { Path.Combine(tempRoot, TempFolder), legacyDir })
+            {
+                try
+                {
+                    if (!Directory.Exists(dir)) continue;
+                    foreach (string file in Directory.GetFiles(dir, TempPattern))
+                        try { File.Delete(file); } catch { /* held open; the next start or lock tries again */ }
+                }
+                catch { /* cleanup must never block startup or a lock */ }
+            }
         }
 
         internal static bool RecognizerAvailable()

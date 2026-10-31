@@ -101,6 +101,23 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void ARestoreThatFailsPartwayLeavesNoDatabaseBehind()
+        {
+            using var store = new TempStore();
+            NoteStore.Create("Backed up");
+            string backup = BackupService.BackupNow(Path.Combine(_dir, "restore-fails"), NoteStore.ActiveDbFile, When, 2);
+            string before = string.Join("|", Directory.GetFiles(NoteStore.DbDir).OrderBy(f => f));
+
+            Assert.Throws<IOException>(() => BackupService.RestoreToDataFolder(backup, When.AddDays(1), (from, to) =>
+            {
+                File.WriteAllBytes(to, new byte[] { 1, 2, 3 });   // the disk fills after a few bytes
+                throw new IOException("There is not enough space on the disk.");
+            }));
+
+            Assert.Equal(before, string.Join("|", Directory.GetFiles(NoteStore.DbDir).OrderBy(f => f)));
+        }
+
+        [Fact]
         public void BackupNamesCarryTheStemAndTheStamp()
         {
             string name = BackupService.FileNameFor("notes.db", When);

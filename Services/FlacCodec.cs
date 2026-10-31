@@ -188,7 +188,8 @@ namespace KillerNotes.Services
                 int blockSize = Marshal.ReadInt32(frame, 0);
                 rate = Marshal.ReadInt32(frame, 4);
                 channels = Marshal.ReadInt32(frame, 8);
-                if (blockSize <= 0 || channels <= 0) return 0;
+                int bits = Marshal.ReadInt32(frame, 16);   // the stream's own depth, not always 16
+                if (blockSize <= 0 || channels <= 0 || bits <= 0 || bits > 32) return 0;
 
                 // buffers is a const int32* const* - one planar array per channel, which has to be
                 // interleaved back for a WAV.
@@ -201,6 +202,8 @@ namespace KillerNotes.Services
                     for (int i = 0; i < blockSize; i++)
                     {
                         int v = Marshal.ReadInt32(planes[c], i * 4);
+                        if (bits > 16) v >>= bits - 16;         // 24-bit audio keeps its top 16 bits
+                        else if (bits < 16) v <<= 16 - bits;    // 8-bit audio is lifted to a 16-bit level
                         if (v > short.MaxValue) v = short.MaxValue;
                         else if (v < short.MinValue) v = short.MinValue;
                         int o = (i * channels + c) * 2;

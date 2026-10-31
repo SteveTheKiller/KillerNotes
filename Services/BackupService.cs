@@ -280,7 +280,9 @@ namespace KillerNotes.Services
             }
             finally
             {
-                if (File.Exists(pending)) File.Delete(pending);
+                // A scanner holding the file must not replace the failure the user should see.
+                try { if (File.Exists(pending)) File.Delete(pending); }
+                catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException) { /* swept later as an old pending file */ }
             }
             RememberBackup(dbFile, now);
             Prune(folder, dbFile, keep);
@@ -379,7 +381,7 @@ namespace KillerNotes.Services
 
         /// <summary>Copies a backup into the data folder as a NEW database, never over the one
         /// it came from, and returns the new file name. Opening it is the user's next step.</summary>
-        public static string RestoreToDataFolder(string backupPath, DateTime now)
+        public static string RestoreToDataFolder(string backupPath, DateTime now, Action<string, string>? copy = null)
         {
             string name = Path.GetFileNameWithoutExtension(backupPath);
             string stem = StampSuffix.Replace(name, "");
@@ -389,7 +391,7 @@ namespace KillerNotes.Services
             string file = baseName + ".db";
             for (int n = 2; File.Exists(Path.Combine(NoteStore.DbDir, file)); n++)
                 file = $"{baseName} ({n}).db";
-            File.Copy(backupPath, Path.Combine(NoteStore.DbDir, file));
+            AtomicFile.Copy(backupPath, Path.Combine(NoteStore.DbDir, file), copy);
             return file;
         }
     }

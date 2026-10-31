@@ -299,6 +299,32 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void AFileNameWithASemicolonStillProbes()
+        {
+            using var store = new TempStore();
+            NoteStore.Create("anything");
+            NoteStore.Close();
+            string odd = Path.Combine(Path.GetDirectoryName(store.DbPath)!, "a;b.db");
+            File.Copy(store.DbPath, odd);
+            Assert.False(NoteStore.IsEncryptedFile(odd));
+        }
+
+        [Fact]
+        public void ADamagedPlainDatabaseIsNotReadAsEncrypted()
+        {
+            // Only SQLite's "file is not a database" answer means a key is needed. A file whose
+            // header is intact but whose pages are damaged is corrupt, and no password opens it.
+            using var store = new TempStore();
+            NoteStore.Create("anything");
+            NoteStore.Close();
+            byte[] bytes = File.ReadAllBytes(store.DbPath);
+            for (int i = 100; i < bytes.Length; i++) bytes[i] = 0xFF;
+            string damaged = Path.Combine(Path.GetDirectoryName(store.DbPath)!, "damaged.db");
+            File.WriteAllBytes(damaged, bytes);
+            Assert.False(NoteStore.IsEncryptedFile(damaged));
+        }
+
+        [Fact]
         public void WrongPasswordThrowsInsteadOfReadingPlaintext()
         {
             // Regression for the pooling trap: a connection keyed with a raw PRAGMA after

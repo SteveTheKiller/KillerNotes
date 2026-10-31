@@ -166,14 +166,18 @@ namespace KillerNotes.Services
             if (!File.Exists(path)) return false;
             try
             {
-                using var probe = new SqliteConnection($"Data Source={path};Mode=ReadOnly");
+                var csb = new SqliteConnectionStringBuilder { DataSource = path, Mode = SqliteOpenMode.ReadOnly };
+                using var probe = new SqliteConnection(csb.ConnectionString);
                 probe.Open();
                 using var cmd = probe.CreateCommand();
                 cmd.CommandText = "SELECT count(*) FROM sqlite_master";
                 cmd.ExecuteScalar();
                 return false;
             }
-            catch (SqliteException) { return true; }
+            // SQLITE_NOTADB (26) is what a keyed file looks like without its key. A locked or corrupt
+            // plain file is some other code, and asking for a password could never open it.
+            catch (SqliteException ex) when (ex.SqliteErrorCode == 26) { return true; }
+            catch (SqliteException) { return false; }
             finally { SqliteConnection.ClearAllPools(); }
         }
 
@@ -2139,6 +2143,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             // Into itself or its own descendant would orphan the branch.
             if (string.Equals(path, newParent, StringComparison.OrdinalIgnoreCase)) return false;
             if (newParent.StartsWith(path + GroupSep, StringComparison.OrdinalIgnoreCase)) return false;
+            // Dropped before itself: it stays where it is, not at the end of its siblings.
+            if (string.Equals(path, beforePath, StringComparison.OrdinalIgnoreCase)) return false;
 
             string leaf = GroupNameOf(path);
             string curParent = GroupParentOf(path);
@@ -2867,6 +2873,27 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 if (links.Count > 0) SetLinks(id, links, tx);
             }
             tx.Commit();
+        }
+
+        /// <summary>Re-derives a note's links from its stored text, leaving out the sketch labels a
+        /// save appended to it, as the save path does by parsing the body alone. For a note whose
+        /// text was swapped underneath it, such as a restored version.</summary>
+        internal static void ReindexLinks(long id)
+        {
+            if (_db == null || IsReadOnly) return;
+            string plain;
+            byte[]? content;
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.CommandText = "SELECT plain, content FROM notes WHERE id = $id";
+                cmd.Parameters.AddWithValue("$id", id);
+                using var r = cmd.ExecuteReader();
+                if (!r.Read()) return;
+                plain = r.GetString(0);
+                content = r.GetValue(1) as byte[];
+            }
+            var labels = SketchLabels(_db, id, Attachments.MarkersIn(content), hasPayloads: true, hasLegacySketches: true);
+            SetLinks(id, WikiLinks.Parse(WithoutSketchLabels(plain, labels)));
         }
 
         /// <summary>The text labels inside a source note's sketches, one line each: the lines a

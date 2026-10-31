@@ -50,7 +50,13 @@ namespace KillerNotes.Shell
                         ValidateOptionalText(tags, "tags", 1000);
                         if (color.Length > 0) ValidateColor(color);
                         long id = NoteStore.Create(ValidateText(title, "title", 240), Note.FormatMarkdown);
-                        SaveMarkdown(id, title, ValidateOptionalText(content, "content", KillerNotes.Cli.Program.MaxContentCharacters));
+                        try { SaveMarkdown(id, title, ValidateOptionalText(content, "content", KillerNotes.Cli.Program.MaxContentCharacters)); }
+                        catch
+                        {
+                            // The row exists before its text does. A failed save must not leave it empty, or a retry stacks another.
+                            try { NoteStore.Delete(id); } catch { /* the save failure is the one to report */ }
+                            throw;
+                        }
                         if (group.Length > 0) NoteStore.SetNoteGroup(id, ValidateText(group, "group", 240));
                         if (tags.Length > 0) NoteStore.SetNoteTags(id, ValidateText(tags, "tags", 1000));
                         if (color.Length > 0) NoteStore.SetTitleColor(id, ValidateColor(color));
@@ -224,6 +230,8 @@ namespace KillerNotes.Shell
         private static string ValidateOptionalText(string value, string name, int maximum) => value.Length <= maximum ? value : throw new ArgumentException("Invalid " + name);
         private static string ValidateColor(string color) { try { _ = System.Windows.Media.ColorConverter.ConvertFromString(color); return color; } catch { throw new ArgumentException("Color must be a named color or #RRGGBB value"); } }
         private static string ValidateInputFile(string path, string[] extensions, long maximum) { string full = Path.GetFullPath(path); var info = new FileInfo(full); if (!Path.IsPathRooted(path) || !info.Exists || info.Length > maximum || !extensions.Contains(info.Extension, StringComparer.OrdinalIgnoreCase)) throw new ArgumentException("Invalid input file"); return full; }
+        /// <summary>An export folder: new, or an existing folder with nothing in it. The exporter writes the names it planned, so a folder with files would have them overwritten.</summary>
+        private static string ValidateOutputFolder(string path) { string full = Path.GetFullPath(path); if (!Path.IsPathRooted(path) || File.Exists(full) || !Directory.Exists(Path.GetDirectoryName(full)) || (Directory.Exists(full) && Directory.EnumerateFileSystemEntries(full).Any())) throw new ArgumentException("Export output must be a new or empty folder"); return full; }
         private static string ValidateOutputPath(string path) { string full = Path.GetFullPath(path); if (!Path.IsPathRooted(path) || File.Exists(full) || Directory.Exists(full) || !Directory.Exists(Path.GetDirectoryName(full))) throw new ArgumentException("Output must be a new file in an existing folder"); return full; }
     }
 }
