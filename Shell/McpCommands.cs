@@ -153,7 +153,7 @@ namespace KillerNotes.Shell
                 case ".html": File.WriteAllText(output, DocumentToHtml(doc, note.Title), Encoding.UTF8); break;
                 case ".md":
                     if (note.Format == Note.FormatMarkdown) File.WriteAllText(output, MarkdownBlob.Decode(blob), Encoding.UTF8);
-                    else MarkdownExport.Write(doc, output);
+                    else MarkdownExport.Write(doc, output, NoteStore.GetAttachment);
                     break;
                 case ".knote": NoteStore.ExportNote(note.Id, output, null); break;
                 case ".txt": File.WriteAllText(output, new TextRange(doc.ContentStart, doc.ContentEnd).Text, Encoding.UTF8); break;

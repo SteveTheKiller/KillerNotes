@@ -29,20 +29,25 @@ namespace KillerNotes.Services
         {
             path = Path.GetFullPath(path);
             var assets = new MarkdownAssets(path, writeAsset ?? File.WriteAllBytes);
+            int lost;
+            IReadOnlyList<string> previous;
             try
             {
-                var (markdown, lost) = MarkdownWriter.FromDocument(doc, path, attachments, assets);
+                string markdown;
+                (markdown, lost) = MarkdownWriter.FromDocument(doc, path, attachments, assets);
                 if (assets.Failure != null && File.Exists(path)) ExceptionDispatchInfo.Capture(assets.Failure).Throw();
-                var previous = assets.LinkedFrom(path);
+                previous = assets.LinkedFrom(path);
                 (publish ?? PublishText)(path, markdown);
-                assets.Retire(previous);
-                return lost > 0;
             }
             catch
             {
                 assets.Rollback();
                 throw;
             }
+            // The new text is in place, so nothing past here can undo it. With something left out
+            // of it, the old file may be the only copy on this disk.
+            if (lost == 0) assets.Retire(previous);
+            return lost > 0;
         }
 
         private static void PublishText(string path, string markdown) =>
@@ -111,12 +116,12 @@ namespace KillerNotes.Services
 
         /// <summary>The new text is in place: removes what the old text linked to and this one does
         /// not. Only names exports make, so a file the user linked by hand stays. A file that
-        /// will not delete is only clutter by now.</summary>
+        /// will not delete, or a hand-edited link that names no file, is only clutter by now.</summary>
         internal void Retire(IEnumerable<string> previous)
         {
             foreach (string name in previous.Where(n => !_used.Contains(n) && Regex.IsMatch(n, "^(img|recording)-")))
                 try { File.Delete(Path.Combine(_folder, name)); }
-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException) { }
             RemoveFolderIfEmpty();
         }
 

@@ -249,7 +249,7 @@ namespace KillerNotes.Shell
                         }
                         else
                         {
-                            imagesSkipped = MarkdownExport.Write(doc, dlg.FileName);
+                            imagesSkipped = MarkdownExport.Write(doc, dlg.FileName, RecordingPayload);
                         }
                         break;
                     case ".knote":

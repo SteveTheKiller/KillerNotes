@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using KillerNotes.Shell;
 
 namespace KillerNotes.Services
 {
@@ -101,6 +102,10 @@ namespace KillerNotes.Services
                     string? embedded = Embedded(img);
                     if (embedded != null) _sb.Append(embedded).Append("\r\n\r\n");
                     break;
+                case BlockUIContainer bc when RecordingRef.From((bc.Child as Border)?.Tag) is { } chip:
+                    string? recording = EmbeddedRecording(chip.Hash);
+                    if (recording != null) _sb.Append(recording).Append("\r\n\r\n");
+                    break;
             }
         }
 
@@ -159,6 +164,10 @@ namespace KillerNotes.Services
                 case InlineUIContainer iu when iu.Child is Image img:
                     string? embedded = Embedded(img);
                     if (embedded != null) _sb.Append(embedded);
+                    break;
+                case InlineUIContainer iu when RecordingRef.From((iu.Child as Border)?.Tag) is { } chip:
+                    string? recording = EmbeddedRecording(chip.Hash);
+                    if (recording != null) _sb.Append(recording);
                     break;
                 case AnchoredBlock anchored:   // floated pictures and chips: written where they are anchored
                     foreach (var b in anchored.Blocks)
@@ -336,15 +345,21 @@ namespace KillerNotes.Services
         private string? Embedded(Image img)
         {
             if (Attachments.TryParseMarker(img.ToolTip, out var kind, out string hash) && kind == AttachmentKind.Recording)
-            {
-                string? audio = _attachments?.Invoke(hash) is { } a ? TrySaveAudio(a) : null;
-                if (audio == null) { Lost++; return null; }
-                var length = TimeSpan.FromMilliseconds(_attachments!(hash)!.DurationMs);
-                return "[Recording " + length.ToString(@"m\:ss") + "](" + Destination(audio) + ")";
-            }
+                return EmbeddedRecording(hash);
             string? link = TrySaveImage(img);
             if (link == null) { Lost++; return null; }
             return "![](" + Destination(link) + ")";
+        }
+
+        /// <summary>A recording, from its marked picture in a stored note or its playback chip in
+        /// the open editor.</summary>
+        private string? EmbeddedRecording(string hash)
+        {
+            var stored = _attachments?.Invoke(hash);
+            string? audio = stored != null ? TrySaveAudio(stored) : null;
+            if (audio == null) { Lost++; return null; }
+            var length = TimeSpan.FromMilliseconds(stored!.DurationMs);
+            return "[Recording " + length.ToString(@"m\:ss") + "](" + Destination(audio) + ")";
         }
 
         /// <summary>A link destination with a space in it ("My note.assets/...") is not one in

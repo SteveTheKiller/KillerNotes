@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using KillerNotes.Models;
 using KillerNotes.Services;
+using KillerNotes.Shell;
 using Xunit;
 
 namespace KillerNotes.Tests
@@ -187,6 +188,58 @@ namespace KillerNotes.Tests
             Assert.StartsWith("recording-", Path.GetFileName(audio));
             Assert.Equal(take.Payload, File.ReadAllBytes(audio));
             Assert.Contains("[Recording 0:02](note.assets/" + Path.GetFileName(audio) + ")", File.ReadAllText(Target));
+        });
+
+        // In the open editor a recording is its playback chip, not the marked picture a stored
+        // note holds, and an export of unsaved edits walks that document.
+        [Fact]
+        public void AChipInTheOpenEditorIsWrittenLikeAStoredRecording() => Sta.Run(() =>
+        {
+            var take = new Attachment(AttachmentKind.Recording, [5, 6, 7], 1000);
+            var chip = new Border { Tag = new RecordingRef(take.Hash, 1000).ToTag() };
+            var doc = new FlowDocument(new Paragraph(new InlineUIContainer(chip)));
+            doc.Blocks.Add(new BlockUIContainer(new Border { Tag = new RecordingRef(take.Hash, 1000).ToTag() }));
+
+            Assert.False(MarkdownExport.Write(doc, Target, hash => hash == take.Hash ? take : null));
+
+            Assert.Equal(take.Payload, File.ReadAllBytes(Directory.GetFiles(Assets).Single()));
+            Assert.Equal(2, Regex.Matches(File.ReadAllText(Target), @"\[Recording 0:01\]").Count);
+        });
+
+        [Fact]
+        public void AChipWithNoAudioCountsAsLeftOut() => Sta.Run(() =>
+        {
+            var chip = new Border { Tag = new RecordingRef("nothing-stored", 1000).ToTag() };
+
+            Assert.True(MarkdownExport.Write(new FlowDocument(new Paragraph(new InlineUIContainer(chip))), Target, _ => null));
+        });
+
+        [Fact]
+        public void AnExportThatLeftSomethingOutKeepsTheOldFiles() => Sta.Run(() =>
+        {
+            Directory.CreateDirectory(Assets);
+            File.WriteAllBytes(Path.Combine(Assets, "recording-1.flac"), [1, 2, 3]);
+            File.WriteAllText(Target, "[Recording 0:01](note.assets/recording-1.flac)\r\n");
+            var take = new Attachment(AttachmentKind.Recording, [5, 6, 7], 1000);
+            var doc = new FlowDocument(new Paragraph(new InlineUIContainer(new Image
+            {
+                Source = Picture(Colors.Red), ToolTip = Attachments.Marker(take.Kind, take.Hash),
+            })));
+
+            Assert.True(MarkdownExport.Write(doc, Target));
+
+            Assert.Equal(new byte[] { 1, 2, 3 }, File.ReadAllBytes(Path.Combine(Assets, "recording-1.flac")));
+        });
+
+        [Fact]
+        public void AHandEditedLinkTheDiskCannotNameDoesNotUndoTheExport() => Sta.Run(() =>
+        {
+            MarkdownExport.Write(Doc(Colors.Red), Target);
+            File.AppendAllText(Target, "![](note.assets/img-old.png \"a title\")\r\n");
+
+            MarkdownExport.Write(Doc(Colors.Blue), Target);
+
+            Assert.True(File.Exists(Path.Combine(_dir, LinkedFiles().Single())));
         });
 
         private static FlowDocument Doc(params Color[] colors)
