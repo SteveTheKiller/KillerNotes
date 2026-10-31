@@ -39,6 +39,8 @@ namespace KillerNotes.Shell
                 () => AboutController.CloseToTrayEnabled, TrayCanExit,
                 [new KillerFamily.Shell.CloseToTray.TrayItem(() => Loc("Str_Quick_Title"), ShowQuickNote)],
                 () => KeepTrayIcon);
+            // After the tray's own handler, which leaves the app's later checks free to cancel.
+            Application.Current.SessionEnding += KeepSessionForHeldEdits;   // LockNow.cs
             var titleFrames = System.Windows.Media.Imaging.BitmapDecoder.Create(
                 new System.Uri("pack://application:,,,/Resources/kn-icon.ico"),
                 System.Windows.Media.Imaging.BitmapCreateOptions.None,

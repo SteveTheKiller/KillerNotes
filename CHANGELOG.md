@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.6.1 hardens updates, keeps a locked notepad from trapping you, fixes folder picking, and moves KillerNotes onto the shared Killer Tools kit.
 
 ### Fixed
+- Edits held through a failed automatic lock, and an open sketch or recording, stay with the database they came from. Opening another notepad from the locked screen no longer shows them, a same-named file in another folder cannot receive them, a second failed lock no longer replaces the first one's edits, and Windows sign-out stops and asks you to unlock instead of losing them.
 - Update and uninstall helpers load PowerShell modules only from Windows' own folder, so a module planted in your Documents cannot run inside them as administrator; a failed uninstall reports the real reason and retries when a copy is still running; a stalled update says so instead of silently doing nothing; and the window no longer freezes while an update is handed off.
 - The elevated part of an update compiles its helper code in a folder only administrators can open, so another program running as you cannot slip code into it, and an update that finished is no longer reported as failed when the app cannot be reopened afterward.
 - Updates keep working after the publisher's code signing certificate is renewed. A release must still carry a valid signature naming the same publisher, but no longer the exact certificate of the installed copy.

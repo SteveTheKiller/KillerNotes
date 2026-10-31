@@ -113,15 +113,15 @@ namespace KillerNotes.Tests
         public void HeldEditsComeBackOnlyToTheirOwnNoteAndDatabase() => Sta.Run(() =>
         {
             var editor = new FlowDocument(new Paragraph(new Run("unsaved words")));
-            var held = LockedEdits.Capture(editor, 7, "Title typed", "a.db", 0);
+            var held = LockedEdits.Capture(editor, 7, "Title typed", "db-a", 0);
 
             Assert.Empty(editor.Blocks);
             var other = new FlowDocument(new Paragraph(new Run("loaded from disk")));
-            Assert.False(held.TryRestore(other, 8, "a.db"));
-            Assert.False(held.TryRestore(other, 7, "b.db"));
+            Assert.False(held.TryRestore(other, 8, "db-a"));
+            Assert.False(held.TryRestore(other, 7, "db-b"));
             Assert.Equal("loaded from disk\r\n", new TextRange(other.ContentStart, other.ContentEnd).Text);
 
-            Assert.True(held.TryRestore(other, 7, "A.DB"));
+            Assert.True(held.TryRestore(other, 7, "db-a"));
             Assert.Equal("unsaved words\r\n", new TextRange(other.ContentStart, other.ContentEnd).Text);
             Assert.Equal("Title typed", held.Title);
         });

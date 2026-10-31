@@ -49,6 +49,7 @@ namespace KillerNotes.Shell
             RefreshList();
             OpenStartupNote();   // Notes.cs - the app always opens into a note
             RestoreLockedEdits();   // LockNow.cs - edits an automatic lock could not save
+            _heldTools.ReturnFor(NoteStore.DatabaseId);   // LockNow.cs - this notepad's own tools only
             UpdateBackupHealth();   // Backup.cs - the footer warning is per notepad
         }
 

@@ -75,13 +75,17 @@ namespace KillerNotes.Shell
             if (_sketchPad == null)
             {
                 _sketchSession = new SketchSession(_currentId);
-                _sketchPad = new SketchPadWindow(this, PrintSketchToNote);
-                _sketchPad.Closed += (_, _) =>
+                var pad = new SketchPadWindow(this, PrintSketchToNote);
+                _sketchPad = pad;
+                pad.Closed += (_, _) =>
                 {
+                    _heldTools.Forget(pad);          // LockNow.cs - a held pad closes with the app
+                    if (_sketchPad != pad) return;
                     _sketchPad = null; _sketchEditTarget = null; _sketchSession = null;
                     SketchRailBtn.Tag = null;
+                    _heldTools.ReturnFor(NoteStore.DatabaseId);   // a held pad waiting for this slot
                 };
-                _sketchPad.Show();
+                pad.Show();
                 SketchRailBtn.Tag = "on";   // light the rail toggle while the pad is open (family pattern)
             }
             else

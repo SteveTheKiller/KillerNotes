@@ -135,9 +135,17 @@ namespace KillerNotes.Shell
             if (_currentId < 0) { StatusText.Text = Loc("Str_St_CalcNoNote"); return; }
             if (_dictation == null)
             {
-                _dictation = new DictationWindow(this, PrintDictationToNote, EmbedRecordingInNote);
-                _dictation.Closed += (_, _) => { _dictation = null; DictationRailBtn.Tag = null; };
-                _dictation.Show();
+                var pad = new DictationWindow(this, PrintDictationToNote, EmbedRecordingInNote);
+                _dictation = pad;
+                pad.Closed += (_, _) =>
+                {
+                    _heldTools.Forget(pad);          // LockNow.cs - a held pad closes with the app
+                    if (_dictation != pad) return;
+                    _dictation = null;
+                    DictationRailBtn.Tag = null;
+                    _heldTools.ReturnFor(NoteStore.DatabaseId);   // a held pad waiting for this slot
+                };
+                pad.Show();
                 DictationRailBtn.Tag = "on";   // light the rail toggle while the pad is open (family pattern)
             }
             else

@@ -551,6 +551,13 @@ namespace KillerNotes.Controls.Dictation
             if (DictationRecorder.IsRecording) ToggleRecord();
         }
 
+        /// <summary>Lock now again: the database came back, perhaps renamed or moved, so a recording
+        /// open for editing still writes back to it.</summary>
+        internal void RebindDatabase(string database)
+        {
+            if (_editDatabase != null) _editDatabase = database;
+        }
+
         private void ToggleRecord()
         {
             if (DictationRecorder.IsRecording)

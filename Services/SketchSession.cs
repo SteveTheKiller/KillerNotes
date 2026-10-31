@@ -5,6 +5,8 @@ namespace KillerNotes.Services
         private readonly long _noteId;
         private readonly string _database;
 
+        public long NoteId => _noteId;
+
         public SketchSession(long noteId)
         {
             _noteId = noteId;

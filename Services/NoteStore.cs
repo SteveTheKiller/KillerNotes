@@ -57,6 +57,12 @@ namespace KillerNotes.Services
         public static bool IsOpen => _db != null;
         public static bool HasPassword => _password != null;
 
+        /// <summary>The open database's own id, stored inside the file, so it follows a rename or a
+        /// move and a different file under the same name never shares it. A password change gives
+        /// the file a new one, so two files with one id always open with the same key. Null while
+        /// closed, and for a read-only file from before ids existed.</summary>
+        public static string? DatabaseId { get; private set; }
+
         /// <summary>True when the database was opened read-only because another host's lock
         /// file owns it (network shares only). Write methods no-op while this is set, and the
         /// UI disables editing.</summary>
@@ -240,15 +246,29 @@ namespace KillerNotes.Services
                     PurgeTrash(TrashRetention.Days);
                     // A repair, never a reason the library cannot open.
                     try { IndexUnlinkedNotes(); } catch (Exception ex) when (ex is not OutOfMemoryException) { }
+                    Exec("CREATE TABLE IF NOT EXISTS kn_meta(key TEXT PRIMARY KEY, value TEXT NOT NULL)");
+                    Exec($"INSERT OR IGNORE INTO kn_meta(key, value) VALUES ('{DatabaseIdKey}', '{Guid.NewGuid():N}')");
                 }
                 catch { Close(); throw; }
             }
+            DatabaseId = ReadDatabaseId();
+        }
+
+        private const string DatabaseIdKey = "database_id";
+
+        private static string? ReadDatabaseId()
+        {
+            if (!TableExists("kn_meta")) return null;
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = $"SELECT value FROM kn_meta WHERE key = '{DatabaseIdKey}'";
+            return cmd.ExecuteScalar() as string;
         }
 
         public static void Close()
         {
             _db?.Dispose();
             _db = null;
+            DatabaseId = null;
             _titleIndex = null;   // belongs to the connection that just closed
             _password = null;
             IsReadOnly = false;
@@ -2236,6 +2256,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             try
             {
                 Exec("SELECT sqlcipher_export('rekeyed')");
+                // On the staged copy, so the id changes only if the swap below goes through.
+                Exec($"UPDATE rekeyed.kn_meta SET value = '{Guid.NewGuid():N}' WHERE key = '{DatabaseIdKey}'");
                 exported = true;
             }
             finally
