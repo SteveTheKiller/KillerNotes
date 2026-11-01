@@ -12,7 +12,6 @@ namespace KillerNotes.Tests
         {
             string name = "KillerNotes-test-" + System.Guid.NewGuid().ToString("N");
             var pipes = new System.Collections.Concurrent.ConcurrentBag<System.IO.Pipes.NamedPipeServerStream>();
-            using var stop = new System.Threading.CancellationTokenSource();
             var server = System.Threading.Tasks.Task.Run(async () =>
             {
                 try
@@ -23,7 +22,9 @@ namespace KillerNotes.Tests
                         using var pipe = new System.IO.Pipes.NamedPipeServerStream(name, System.IO.Pipes.PipeDirection.InOut,
                             1, System.IO.Pipes.PipeTransmissionMode.Byte, System.IO.Pipes.PipeOptions.Asynchronous, 4096, 4096);
                         pipes.Add(pipe);
-                        await pipe.WaitForConnectionAsync(stop.Token);
+                        // No token: on .NET Framework its cancel callback can reach the closed handle of
+                        // a pipe already disposed. Disposing the pipe below ends a wait still pending.
+                        await pipe.WaitForConnectionAsync();
                         bool written = App.WriteMcpResponse(pipe, i == 0 ? new byte[8 * 1024 * 1024] : new byte[] { 42 },
                             i == 0 ? System.TimeSpan.FromMilliseconds(300) : System.TimeSpan.FromSeconds(10));
                         if (i == 0) dropped = !written;
@@ -65,7 +66,6 @@ namespace KillerNotes.Tests
             }
             finally
             {
-                stop.Cancel();
                 stalled.Dispose();
                 next.Dispose();
                 foreach (var pipe in pipes) pipe.Dispose();
