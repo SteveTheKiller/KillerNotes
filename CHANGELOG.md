@@ -4,7 +4,7 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.6.1] - Unreleased
+## [1.6.1] - 2026-11-01
 
 1.6.1 keeps locked work with its own notepad, makes failed exports and imports leave nothing broken, hardens updates, fixes folder picking, and moves KillerNotes onto the shared Killer Tools kit.
 
