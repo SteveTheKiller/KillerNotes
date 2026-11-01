@@ -119,8 +119,9 @@ namespace KillerNotes.Tests
             // FocusVisualStyle is null, in the theme's accent or text colour and the system highlight
             // in high contrast. A style that leaves Windows' default box keeps a dotted line in the
             // system text colour - black - which the dark themes cannot show.
-            Assert.Contains("control.Focusable && control.FocusVisualStyle == null",
-                File.ReadAllText(Path.Combine(Root(), "Controls", "AccessibleControls.cs")));
+            string accessible = File.ReadAllText(Path.Combine(Root(), "Controls", "AccessibleControls.cs"));
+            Assert.Contains("control is not Window && control.Focusable", accessible);
+            Assert.Contains("control.FocusVisualStyle == null ||", accessible);
             // KillerNotes' own styles. Controls/Controls.xaml is the KillerUI template, which KillerNotes
             // does not edit; its styles that keep Windows' default focus box are a family issue
             // proposed to KillerUI (KillerNotes-kit-proposals.md, 2026-10-26).
