@@ -433,7 +433,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
     <sys:String x:Key="Str_About_Computing">calculando...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Atualização disponível: {0}</sys:String>
-    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(não assinado ou cadeia de certificados inválida)</sys:String>
     <sys:String x:Key="Str_About_Downloading">Baixando...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">Baixar e instalar {0} {1}?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">O aplicativo será fechado e reaberto automaticamente.</sys:String>

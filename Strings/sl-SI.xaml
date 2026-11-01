@@ -354,7 +354,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
     <sys:String x:Key="Str_About_Computing">računanje...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Na voljo je posodobitev: {0}</sys:String>
-    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(ni podpisano ali pa je veriga potrdil neveljavna)</sys:String>
     <sys:String x:Key="Str_About_Downloading">Prenašanje...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">Prenesem in namestim {0} {1}?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">Aplikacija se bo samodejno zaprla in znova odprla.</sys:String>

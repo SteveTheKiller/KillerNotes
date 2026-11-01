@@ -213,7 +213,7 @@
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> ユーティリティ。</sys:String>
     <sys:String x:Key="Str_About_Computing">計算中...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">更新があります: {0}</sys:String>
-    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(未署名、または証明書チェーンのエラー)</sys:String>
     <sys:String x:Key="Str_About_Downloading">ダウンロード中...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">{0} {1} をダウンロードしてインストールしますか?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">アプリは自動的に終了して再起動します。</sys:String>

@@ -406,7 +406,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> con licenza GPLv3.</sys:String>
     <sys:String x:Key="Str_About_Computing">calcolo in corso...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Aggiornamento disponibile: {0}</sys:String>
-    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(non firmato o catena di certificati non valida)</sys:String>
     <sys:String x:Key="Str_About_Downloading">Download in corso...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">Scaricare e installare {0} {1}?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">L'app si chiuderà e si riaprirà automaticamente.</sys:String>

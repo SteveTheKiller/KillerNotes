@@ -406,7 +406,7 @@
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> утилитасы.</sys:String>
     <sys:String x:Key="Str_About_Computing">есептелуде...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Жаңарту қолжетімді: {0}</sys:String>
-    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(қол қойылмаған немесе сертификат тізбегі қате)</sys:String>
     <sys:String x:Key="Str_About_Downloading">Жүктелуде...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">{0} {1} жүктеп орнату керек пе?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">Қолданба жабылып, автоматты түрде қайта ашылады.</sys:String>

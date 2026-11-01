@@ -433,7 +433,7 @@
     <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
     <sys:String x:Key="Str_About_Computing">обчислення...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Доступне оновлення: {0}</sys:String>
-    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(не підписано або помилка ланцюжка сертифікатів)</sys:String>
     <sys:String x:Key="Str_About_Downloading">Завантаження...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">Завантажити й встановити {0} {1}?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">Застосунок закриється та відкриється знову автоматично.</sys:String>

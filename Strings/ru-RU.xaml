@@ -406,7 +406,7 @@
     <sys:String x:Key="Str_About_DescB" xml:space="preserve">.</sys:String>
     <sys:String x:Key="Str_About_Computing">вычисление...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Доступно обновление: {0}</sys:String>
-    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(не подписано или ошибка цепочки сертификатов)</sys:String>
     <sys:String x:Key="Str_About_Downloading">Загрузка...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">Загрузить и установить {0} {1}?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">Приложение закроется и откроется снова автоматически.</sys:String>

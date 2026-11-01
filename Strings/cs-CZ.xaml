@@ -289,7 +289,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_About_DescB" xml:space="preserve"> s licencí GPLv3.</sys:String>
     <sys:String x:Key="Str_About_Computing">počítá se...</sys:String>
     <sys:String x:Key="Str_About_UpdateAvailable">Dostupná aktualizace: {0}</sys:String>
-    <sys:String x:Key="Str_About_Unsigned">(not signed or chain failed)</sys:String>
+    <sys:String x:Key="Str_About_Unsigned">(nepodepsáno nebo selhal řetěz certifikátů)</sys:String>
     <sys:String x:Key="Str_About_Downloading">Stahování...</sys:String>
     <sys:String x:Key="Str_About_UpdateHeading">Stáhnout a nainstalovat {0} {1}?</sys:String>
     <sys:String x:Key="Str_About_UpdateDetail">Aplikace se automaticky zavře a znovu otevře.</sys:String>
