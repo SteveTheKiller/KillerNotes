@@ -2127,6 +2127,28 @@
                                             </ControlTemplate>
                                         </MenuItem.Template>
                                     </MenuItem>
+                                    <MenuItem Header="{DynamicResource Str_Ctx_TblLines}">
+                                        <MenuItem Header="{DynamicResource Str_Ctx_TblLineGrid}" InputGestureText="Alt+Shift+1" Click="TableLines_Click" Tag="Grid"/>
+                                        <MenuItem Header="{DynamicResource Str_Ctx_TblLineThick}" InputGestureText="Alt+Shift+2" Click="TableLines_Click" Tag="Thick"/>
+                                        <MenuItem Header="{DynamicResource Str_Ctx_TblLineRows}" InputGestureText="Alt+Shift+3" Click="TableLines_Click" Tag="Rows"/>
+                                        <MenuItem Header="{DynamicResource Str_Ctx_TblLineOutline}" InputGestureText="Alt+Shift+4" Click="TableLines_Click" Tag="Outline"/>
+                                        <MenuItem Header="{DynamicResource Str_Ctx_TblLineNone}" InputGestureText="Alt+Shift+5" Click="TableLines_Click" Tag="None"/>
+                                    </MenuItem>
+                                    <MenuItem Header="{DynamicResource Str_Ctx_TblSpacing}">
+                                        <MenuItem Header="{DynamicResource Str_Ctx_TblSpaceCompact}" InputGestureText="Alt+Shift+6" Click="TableSpacing_Click" Tag="Compact"/>
+                                        <MenuItem Header="{DynamicResource Str_Ctx_TblSpaceNormal}" InputGestureText="Alt+Shift+7" Click="TableSpacing_Click" Tag="Normal"/>
+                                        <MenuItem Header="{DynamicResource Str_Ctx_TblSpaceRoomy}" InputGestureText="Alt+Shift+8" Click="TableSpacing_Click" Tag="Roomy"/>
+                                    </MenuItem>
+                                    <MenuItem Header="{DynamicResource Str_Ctx_TblColWidth}" InputGestureText="Alt+Shift+9" Click="TableColWidth_Click"/>
+                                    <MenuItem Header="{DynamicResource Str_Ctx_TblFitContent}" InputGestureText="Alt+Shift+0" Click="TableFitContent_Click"/>
+                                    <MenuItem Header="{DynamicResource Str_Ctx_TblFitPage}" InputGestureText="Alt+Shift+T" Click="TableFitPage_Click"/>
+                                    <MenuItem IsHitTestVisible="False" Focusable="False" Height="9">
+                                        <MenuItem.Template>
+                                            <ControlTemplate TargetType="MenuItem">
+                                                <Border Height="1" Margin="10,4" Background="{DynamicResource MenuBorderBrush}"/>
+                                            </ControlTemplate>
+                                        </MenuItem.Template>
+                                    </MenuItem>
                                     <MenuItem x:Name="TblDelRowMenuItem" Header="{DynamicResource Str_Ctx_TblDelRow}" Icon="&#xE738;" Click="TableDelRow_Click"
                                               InputGestureText="Ctrl+Shift+7"/>
                                     <MenuItem x:Name="TblDelColMenuItem" Header="{DynamicResource Str_Ctx_TblDelCol}" Icon="&#xE738;" Click="TableDelCol_Click"

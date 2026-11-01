@@ -4,6 +4,13 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.2] - Unreleased
+
+1.6.2 gives tables more control over their lines, sizes and spacing.
+
+### Added
+- The Table menu has line styles (grid, thick grid, rows only, outline only and no lines), row spacing, an exact column width, fit columns to content and fit table to page. (#31)
+
 ## [1.6.1] - 2026-11-01
 
 1.6.1 keeps locked work with its own notepad, makes failed exports and imports leave nothing broken, hardens updates, fixes folder picking, and moves KillerNotes onto the shared Killer Tools kit.

@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using KillerNotes.Services;
 
 namespace KillerNotes.Shell
@@ -175,6 +176,7 @@ namespace KillerNotes.Shell
                     SetCellText(last, grid[i][j]);
                 }
             }
+            TableStyle.Refresh(table);
             Editor.CaretPosition = last.ContentEnd;
         }
 
@@ -200,10 +202,54 @@ namespace KillerNotes.Shell
             _tblMenuCell = null;
             if (cell == null || cell.Parent is not TableRow || !CanEditCurrentNote()) return;
             Editor.BeginChange();
-            try { edit(cell); }
+            Table table = TableOf(cell);
+            try
+            {
+                edit(cell);
+                TableStyle.Refresh(table);   // cells a row or column just added
+            }
             finally { Editor.EndChange(); }
             MarkDirty();
             Editor.Focus();
+        }
+
+        // ---- Line styles, widths and spacing (Services/TableStyle.cs) ----
+
+        private void TableLines_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem { Tag: string tag } && Enum.TryParse(tag, out TableLines lines))
+                SetTableLines(lines);
+        }
+
+        private void TableSpacing_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem { Tag: string tag } && Enum.TryParse(tag, out TableSpacing spacing))
+                SetTableSpacing(spacing);
+        }
+
+        private void SetTableLines(TableLines lines) => TableEdit(cell => TableStyle.ApplyLines(TableOf(cell), lines));
+        private void SetTableSpacing(TableSpacing spacing) => TableEdit(cell => TableStyle.ApplySpacing(TableOf(cell), spacing));
+
+        private void TableFitContent_Click(object sender, RoutedEventArgs e) => TableEdit(cell =>
+            TableStyle.FitToContent(TableOf(cell), Editor.FontSize, Editor.FontFamily,
+                VisualTreeHelper.GetDpi(Editor).PixelsPerDip));
+
+        private void TableFitPage_Click(object sender, RoutedEventArgs e) => TableEdit(cell => TableStyle.FitToPage(TableOf(cell)));
+
+        private void TableColWidth_Click(object sender, RoutedEventArgs e)
+        {
+            TableCell? cell = _tblMenuCell;
+            if (cell?.Parent is not TableRow row) return;
+            Table table = TableOf(cell);
+            int index = row.Cells.IndexOf(cell);
+            if (index >= table.Columns.Count) return;
+            GridLength now = table.Columns[index].Width;
+            var dlg = new Controls.InputDialog(Loc("Str_Dlg_TblColWidth"), now.IsAbsolute ? Math.Round(now.Value).ToString() : "", Loc("Str_Btn_OK")) { Owner = this };
+            dlg.ShowDialog();
+            double width = 0;
+            if (!dlg.Confirmed || !double.TryParse(dlg.Value.Trim(), out width) || width <= 0) { _tblMenuCell = null; return; }
+            double available = Editor.ViewportWidth - Editor.Document.PagePadding.Left - Editor.Document.PagePadding.Right;
+            TableEdit(_ => TableStyle.SetColumnWidth(table, index, width, available));
         }
 
         /// <summary>Keyboard entry for the Table items (ActionShortcuts.cs): acts on the caret's
