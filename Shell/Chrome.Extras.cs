@@ -92,6 +92,7 @@ namespace KillerNotes.Shell
             {
                 var hwnd = new WindowInteropHelper(w).Handle;
                 if (hwnd == IntPtr.Zero) return;
+                KillerNotes.Controls.DwmChrome.ObserveThemeBorder(w, () => ApplyThemeBorder(w));
                 // WindowEdgeBrush FIRST - the same key RootBorder uses, so the OS-drawn frame and
                 // the WPF one always agree. This is the outermost thing on screen: DWM paints it
                 // outside everything WPF draws, so a theme that hides the WPF edge but not this one

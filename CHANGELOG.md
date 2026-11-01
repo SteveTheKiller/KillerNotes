@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.6.1 keeps locked work with its own notepad, makes failed exports and imports leave nothing broken, hardens updates, fixes folder picking, and moves KillerNotes onto the shared Killer Tools kit.
 
 ### Fixed
+- Keyboard focus cues respect the theme, Windows contrast refreshes are coalesced and restore frame colors, and picker selections keep text and icons shadow-free.
 - Edits held through a failed automatic lock stay with the database they came from, recordings included. A same-named file in another folder cannot receive them, a second failed lock no longer replaces the first one's edits, and Windows sign-out, updates and installs stop for them instead of losing them.
 - An open sketch or recording waits behind a lock for its own notepad, so opening another notepad from the locked screen no longer shows it. Search text is cleared at the lock, and the quit prompt no longer names held notes from a notepad that is not open.
 - A Markdown export that fails partway no longer changes the previous export's pictures or recordings, and exports now include a note's recordings. The new files land under their own names, and the old ones leave only after the new text is in place.
