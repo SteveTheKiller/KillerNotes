@@ -125,6 +125,7 @@ namespace KillerNotes.Shell
                 ("SidebarToggleBtn", "Str_KS_Sidebar"), ("DictationRailBtn", "Str_KS_Dictation"),
                 ("FindRailBtn", "Str_KS_Find"), ("LineNumBtn", "Str_KS_LineNumbers"),
                 ("OutlineRailBtn", "Str_KS_Outline"), ("PreviewModeBtn", "Str_KS_Preview"),
+                ("PreviewTitleBtn", "Str_KS_Preview"),
                 ("SketchRailBtn", "Str_KS_SketchPad"), ("KalcRailBtn", "Str_KS_Calc"),
                 ("FmtStrikeBtn", "Str_KS_Strike"), ("FmtMonoBtn", "Str_KS_Mono"),
                 ("FmtCheckBtn", "Str_KS_Checkbox"), ("FmtHeadingBtn", "Str_KS_Headings"),

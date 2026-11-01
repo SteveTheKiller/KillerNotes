@@ -1706,6 +1706,11 @@
 
                 <!-- Note title + faint rule dividing it from the content -->
                 <StackPanel x:Name="TitleArea" Grid.Row="0">
+                <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
                 <TextBox x:Name="TitleBox" Margin="12,10,12,4"
                          AutomationProperties.Name="{Binding Text, RelativeSource={RelativeSource Self}}"
                          Background="Transparent" BorderThickness="0"
@@ -1726,6 +1731,14 @@
                         </ContextMenu>
                     </TextBox.ContextMenu>
                 </TextBox>
+                <!-- The format bar's preview chip, for a note with no format bar (markdown, trash):
+                     Rendered hides the editor, so the way back has to stay on screen (Preview.cs). -->
+                <Button x:Name="PreviewTitleBtn" Grid.Column="1" Style="{StaticResource FmtButton}" Visibility="Collapsed"
+                        Width="Auto" MinWidth="0" Padding="6,0" Margin="0,10,12,4" VerticalAlignment="Center"
+                        ToolTip="{DynamicResource Str_TT_Preview}" Click="PreviewModeBtn_Click">
+                    <TextBlock x:Name="PreviewTitleText" FontFamily="{DynamicResource UiFont}" FontSize="11" VerticalAlignment="Center"/>
+                </Button>
+                </Grid>
                 <!-- 0 top / 3 bottom, not 2/0: with no bottom clearance the rule sat on the body
                      text's ascenders (2026-08-08). The title's own 4px bottom margin
                      keeps its descenders clear above. -->

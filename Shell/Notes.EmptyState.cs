@@ -142,6 +142,7 @@ namespace KillerNotes.Shell
             {
                 FormatBar.Visibility = Visibility.Collapsed;
                 PreviewMenuItem.Visibility = Visibility.Collapsed;
+                PreviewTitleBtn.Visibility = Visibility.Collapsed;
                 SetPreviewMode(PreviewMode.Source, persist: false);   // Preview.cs - tear down the browser
                 OutlineList.Items.Clear();   // Headings.cs - no note, no outline
                 OutlineEmpty.Visibility = Visibility.Collapsed;

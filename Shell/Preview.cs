@@ -165,6 +165,8 @@ namespace KillerNotes.Shell
             bool detected = _docKind != DocKind.None;
             PreviewMenuItem.Visibility = detected ? Visibility.Visible : Visibility.Collapsed;
             PreviewModeBtn.Visibility = PreviewMenuItem.Visibility;
+            PreviewTitleBtn.Visibility = detected && FormatBar.Visibility != Visibility.Visible
+                ? Visibility.Visible : Visibility.Collapsed;
             PreviewMenuLabel.Text = Loc(_docKind == DocKind.Html ? "Str_TT_PreviewHtml" : "Str_TT_PreviewMd");
             SyncPreviewMenuChecks();
             if (!detected && PreviewOpen) SetPreviewMode(PreviewMode.Source, persist: false);
@@ -200,8 +202,8 @@ namespace KillerNotes.Shell
             PreviewSourceMenuItem.IsChecked   = _previewMode == PreviewMode.Source;
             PreviewRenderedMenuItem.IsChecked = _previewMode == PreviewMode.Rendered;
             PreviewSplitMenuItem.IsChecked    = _previewMode == PreviewMode.Split;
-            // The format-bar chip names the current mode, so it is always visible which view is up.
-            PreviewModeText.Text = Loc(_previewMode switch
+            // The chip names the current mode, so it is always visible which view is up.
+            PreviewTitleText.Text = PreviewModeText.Text = Loc(_previewMode switch
             {
                 PreviewMode.Rendered => "Str_Preview_Rendered",
                 PreviewMode.Split    => "Str_Preview_Split",
