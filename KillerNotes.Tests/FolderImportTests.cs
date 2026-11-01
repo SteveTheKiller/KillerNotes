@@ -43,7 +43,7 @@ namespace KillerNotes.Tests
 
             var plan = FolderImporter.Plan(_dir, new ImportState(new(), new(), new()), CancellationToken.None);
 
-            Assert.Equal(1, plan.Notes.Count);
+            Assert.Single(plan.Notes);
             Assert.Contains(plan.Skipped, s => s.File == "sub/loop" && s.Reason == "link");
         }
 
@@ -73,7 +73,7 @@ namespace KillerNotes.Tests
 
                 var plan = FolderImporter.Plan(_dir, new ImportState(new(), new(), new()), CancellationToken.None);
 
-                Assert.Equal(1, plan.Notes.Count);
+                Assert.Single(plan.Notes);
                 Assert.Contains(plan.Skipped, s => s.File == "locked" && s.Reason == "unreadable");
             }
             finally

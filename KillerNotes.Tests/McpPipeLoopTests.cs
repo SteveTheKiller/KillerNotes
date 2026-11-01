@@ -16,7 +16,7 @@ namespace KillerNotes.Tests
         [Theory]
         [InlineData("busy")]
         [InlineData("denied")]
-        public void ATakenPipeNameIsRetriedWithAPauseNotASpin(string kind)
+        public async Task ATakenPipeNameIsRetriedWithAPauseNotASpin(string kind)
         {
             string name = "KillerNotes-test-" + Guid.NewGuid().ToString("N");
             using var holder = new NamedPipeServerStream(name, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
@@ -38,7 +38,8 @@ namespace KillerNotes.Tests
             Assert.True(SpinWait.SpinUntil(() => delays.Count >= 3, 10000), "The loop did not pause and retry.");
             stop.Cancel();
 
-            Assert.True(loop.Wait(5000), "The loop did not stop.");
+            Assert.True(await Task.WhenAny(loop, Task.Delay(5000)) == loop, "The loop did not stop.");
+            await loop;
             Assert.NotEmpty(delays);
             Assert.All(delays, delay => Assert.True(delay > TimeSpan.Zero));
             Assert.True(attempts <= delays.Count + 1, attempts + " attempts for " + delays.Count + " pauses");
