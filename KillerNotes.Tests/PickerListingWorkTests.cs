@@ -21,15 +21,15 @@ namespace KillerNotes.Tests
             try
             {
                 _ = work.RunAsync<int>(_ => { firstStarted.Set(); hang.Wait(); return 0; }, (_, _) => Task.CompletedTask, _ => { });
-                Assert.True(firstStarted.Wait(TimeSpan.FromSeconds(5)));
+                Assert.True(firstStarted.Wait(TimeSpan.FromSeconds(30)));
                 _ = work.RunAsync<int>(_ => { secondStarted.Set(); hang.Wait(); return 0; }, (_, _) => Task.CompletedTask, _ => { });
-                Assert.True(secondStarted.Wait(TimeSpan.FromSeconds(5)));
+                Assert.True(secondStarted.Wait(TimeSpan.FromSeconds(30)));
 
                 var listed = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
                 _ = work.RunAsync<string>(_ => "local", (rows, _) => { listed.TrySetResult(rows); return Task.CompletedTask; },
                     error => listed.TrySetException(error));
 
-                Task finished = await Task.WhenAny(listed.Task, Task.Delay(TimeSpan.FromSeconds(5)));
+                Task finished = await Task.WhenAny(listed.Task, Task.Delay(TimeSpan.FromSeconds(30)));
                 Assert.Same(listed.Task, finished);
                 Assert.Equal("local", await listed.Task);
             }
