@@ -54,6 +54,7 @@ namespace KillerNotes.Shell
             // The bar also changes width on its own (the preview chip appears on a markdown
             // note), and the title has to move with its edge.
             FormatBar.SizeChanged += (_, _) => ClearTitleOfFormatBar();
+            FormatBar.IsVisibleChanged += (_, _) => ClearTitleOfFormatBar();
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -234,12 +235,14 @@ namespace KillerNotes.Shell
         /// <summary>The expanded bar sits beside the title, so the title gives up the side the bar
         /// is on: docked left or parked mid-pane it used to cover the title outright, and docked
         /// right it hid the end of a long one. The title keeps whichever side of the bar has more
-        /// room. The minimized strip fits inside the title's top margin and needs none.</summary>
+        /// room. The minimized strip fits inside the title's top margin and needs none, and a collapsed
+        /// bar none either, though it keeps reporting the width it last had.</summary>
         private void ClearTitleOfFormatBar()
         {
             _titleMargin ??= TitleBox.Margin;
             var own = _titleMargin.Value;
-            if (_fmtMinimized || FormatBar.Parent is not FrameworkElement host || FormatBar.ActualWidth <= 0)
+            if (_fmtMinimized || FormatBar.Visibility != Visibility.Visible
+                || FormatBar.Parent is not FrameworkElement host || FormatBar.ActualWidth <= 0)
             {
                 TitleBox.Margin = own;
                 return;
