@@ -77,6 +77,7 @@ namespace KillerNotes.Shell
             // read-only (Trash.cs). Collapsed rather than disabled: a row of dead buttons
             // invites clicking them.
             FormatBar?.Visibility = md || _currentInTrash ? Visibility.Collapsed : Visibility.Visible;
+            if (FormatBar != null) ClearTitleOfFormatBar();   // FormatBar.cs - collapsing raises no SizeChanged
         }
 
         /// <summary>True when the open note is markdown and therefore cannot hold the object the

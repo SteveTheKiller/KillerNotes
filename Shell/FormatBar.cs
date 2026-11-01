@@ -54,7 +54,6 @@ namespace KillerNotes.Shell
             // The bar also changes width on its own (the preview chip appears on a markdown
             // note), and the title has to move with its edge.
             FormatBar.SizeChanged += (_, _) => ClearTitleOfFormatBar();
-            FormatBar.IsVisibleChanged += (_, _) => ClearTitleOfFormatBar();
 
             Dispatcher.BeginInvoke(new Action(() =>
             {

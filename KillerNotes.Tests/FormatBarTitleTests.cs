@@ -35,10 +35,12 @@ namespace KillerNotes.Tests
             EditorShell.Invoke(shell, "ClearTitleOfFormatBar");
             Assert.True(title.Margin.Right > 600, "The title should make room for the bar.");
 
-            bar.Visibility = Visibility.Collapsed;
-            Layout(host);
-            EditorShell.Invoke(shell, "ClearTitleOfFormatBar");
+            // Opening a markdown note hides the bar. Collapsing raises no SizeChanged, so this route
+            // has to give the room back itself; without it the title stays short until a resize.
+            EditorShell.Set(shell, "_currentFormat", KillerNotes.Models.Note.FormatMarkdown);
+            EditorShell.Invoke(shell, "ApplyFormatMode");
 
+            Assert.Equal(Visibility.Collapsed, bar.Visibility);
             Assert.Equal(12, title.Margin.Right);
         });
     }
