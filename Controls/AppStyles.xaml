@@ -129,6 +129,7 @@
          caption's X sits AT the card corner and stays on ChromeCloseButton, whose block
          rounds with the card's top-right (2026-08-08). -->
     <Style x:Key="DialogCloseButton" TargetType="Button" BasedOn="{StaticResource ChromeCloseButton}">
+        <Setter Property="Content" Value="&#xE8BB;"/>
         <Setter Property="Tag" Value="{DynamicResource DialogCloseCornerRadius}"/>
     </Style>
 

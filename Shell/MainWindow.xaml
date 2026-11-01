@@ -516,8 +516,7 @@
                     </Grid>
                 </Button>
                 <Button x:Name="CloseBtn" Click="CloseBtn_Click" Style="{StaticResource ChromeCloseButton}"
-                        ToolTip="{DynamicResource Str_Sys_Close}">
-                </Button>
+                        Content="&#xE8BB;" ToolTip="{DynamicResource Str_Sys_Close}"/>
             </StackPanel>
 
         </Grid>
@@ -3095,15 +3094,6 @@
                                           Content="{DynamicResource Str_About_KeepTrayIcon}" ContentTemplate="{StaticResource AboutOptionText}"
                                           ToolTip="{DynamicResource Str_About_KeepTrayIconHint}"
                                           FontSize="11" Click="AboutKeepTrayIcon_Click"/>
-                                </StackPanel>
-                                <StackPanel Grid.Column="2">
-                                <CheckBox x:Name="AboutShowShortcutsInMenus" MinHeight="24" FontSize="11"
-                                          Content="{DynamicResource Str_About_ShowShortcutsInMenus}" ContentTemplate="{StaticResource AboutOptionText}"
-                                          IsChecked="{Binding Source={x:Static kl:ShortcutHints.Current}, Path=Enabled, Mode=TwoWay}"/>
-                                <!-- One-time tips in the status line (SaveState.cs). -->
-                                <CheckBox x:Name="AboutShowTips" MinHeight="24" VerticalAlignment="Center"
-                                          Content="{DynamicResource Str_About_ShowTips}" ContentTemplate="{StaticResource AboutOptionText}"
-                                          FontSize="11" Click="AboutShowTips_Click"/>
                                 <!-- Five Win+Alt shortcuts, Win+Alt+N by default. The list greys out any
                                      another app holds each time it opens. The label wraps in long
                                      translations so the combo keeps its width. -->
@@ -3121,6 +3111,15 @@
                                 </Grid>
                                 <TextBlock x:Name="AboutQuickHotkeyNote" Visibility="Collapsed" FontSize="10.5" Margin="0,4,0,0"
                                            TextWrapping="Wrap" Foreground="{DynamicResource DimTextBrush}" AutomationProperties.LiveSetting="Polite"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                <CheckBox x:Name="AboutShowShortcutsInMenus" MinHeight="24" FontSize="11"
+                                          Content="{DynamicResource Str_About_ShowShortcutsInMenus}" ContentTemplate="{StaticResource AboutOptionText}"
+                                          IsChecked="{Binding Source={x:Static kl:ShortcutHints.Current}, Path=Enabled, Mode=TwoWay}"/>
+                                <!-- One-time tips in the status line (SaveState.cs). -->
+                                <CheckBox x:Name="AboutShowTips" MinHeight="24" VerticalAlignment="Center"
+                                          Content="{DynamicResource Str_About_ShowTips}" ContentTemplate="{StaticResource AboutOptionText}"
+                                          FontSize="11" Click="AboutShowTips_Click"/>
                                 <!-- Lock now's automatic triggers (LockNow.cs). They only act on a
                                      notepad with a password. -->
                                 <CheckBox x:Name="AboutLockWithWindows" MinHeight="24" VerticalAlignment="Center"
