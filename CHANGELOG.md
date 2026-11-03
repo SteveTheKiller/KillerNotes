@@ -16,6 +16,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Updating KillerNotes no longer removes a relaunch another Killer app scheduled for its own update.
 - The file picker no longer stalls on a disconnected network folder when it opens, a relative or malformed path typed in the path box is refused instead of being looked up against the wrong folder, a pattern such as *.log typed in the name box filters the list, and a full path typed in the name box can be accepted even when the shown folder failed to list.
 - Hiding shortcut hints removes the hints the app adds to tooltips in every language, including translated keys such as (Strg+D).
+- Changing the file type in the save picker while the name box holds characters no file name can carry no longer crashes KillerNotes; the name keeps its text and shows the invalid-path message.
 
 ### Added
 - The Table menu has line styles (grid, thick grid, rows only, outline only and no lines), row spacing, an exact column width, fit columns to content and fit table to page. (#31)
