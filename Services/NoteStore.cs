@@ -188,7 +188,7 @@ namespace KillerNotes.Services
             string src = DbPath;
             Close();
             string dest = Path.Combine(DbDir,
-                $"{Path.GetFileNameWithoutExtension(ActiveDbFile)}-locked-{DateTime.Now:yyyyMMdd-HHmmss}.db");
+                $"{Path.GetFileNameWithoutExtension(ActiveDbFile)}-locked-{DateTime.Now.ToString("yyyyMMdd-HHmmss", System.Globalization.CultureInfo.InvariantCulture)}.db");
             File.Move(src, dest);
             return dest;
         }

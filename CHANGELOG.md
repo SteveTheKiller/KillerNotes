@@ -8,6 +8,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 1.6.2 gives tables more control over their lines, sizes and spacing.
 
+### Fixed
+- A locked notepad set aside by the unlock screen's New database is named with the Gregorian year on Thai, Arabic and Persian region settings instead of a year like 2569.
+
 ### Added
 - The Table menu has line styles (grid, thick grid, rows only, outline only and no lines), row spacing, an exact column width, fit columns to content and fit table to page. (#31)
 
