@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.6.2 gives tables more control over their lines, sizes and spacing, and makes updates and the file picker recover from more failures.
 
 ### Fixed
+
 - A locked notepad set aside by the unlock screen's New database is named with the Gregorian year on Thai, Arabic and Persian region settings instead of a year like 2569.
 - A per-user or portable update that fails now reopens KillerNotes instead of leaving it closed, including when antivirus or a locked-down PowerShell stops the update helper from loading, and a published copy that fails its final check is swapped back for the previous version and never started.
 - An update started from an administrator's copy reopens KillerNotes at normal rights. An update that is applied but cannot record its version in the registry now finishes and reopens instead of reporting failure, and putting the previous copy back after a failed update retries a busy file and survives a leftover from an earlier attempt.
@@ -19,6 +20,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Changing the file type in the save picker while the name box holds characters no file name can carry no longer crashes KillerNotes; the name keeps its text and shows the invalid-path message.
 
 ### Added
+
 - The Table menu has line styles (grid, thick grid, rows only, outline only and no lines), row spacing, an exact column width, fit columns to content and fit table to page. (#31)
 
 ## [1.6.1] - 2026-11-01
@@ -26,6 +28,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.6.1 keeps locked work with its own notepad, makes failed exports and imports leave nothing broken, hardens updates, fixes folder picking, and moves KillerNotes onto the shared Killer Tools kit.
 
 ### Fixed
+
 - Keyboard focus cues respect the theme, Windows contrast refreshes are coalesced and restore frame colors, and picker selections keep text and icons shadow-free.
 - Edits held through a failed automatic lock stay with the database they came from, recordings included. A same-named file in another folder cannot receive them, a second failed lock no longer replaces the first one's edits, and Windows sign-out, updates and installs stop for them instead of losing them.
 - An open sketch or recording waits behind a lock for its own notepad, so opening another notepad from the locked screen no longer shows it. Search text is cleared at the lock, and the quit prompt no longer names held notes from a notepad that is not open.
@@ -78,6 +81,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Website carousel and slide descriptions are translated in every supported language.
 
 ### Changed
+
 - The About card's Quick note shortcut moves to the left column, which evens out the two columns of options.
 - Self-update runs on the family update code, which adds signature checks inside the update helper, pinned publication folders, same-publisher replacement and stable-only releases to every check KillerNotes already made. Installed paths, registry keys and the exe name are unchanged, and the About card keeps its keyboard focus behavior through the shared About code.
 - KillerNotes takes the family theme engine, control styles and palettes from the KillerUI template, so its buttons, captions, menus and dialogs match the other Killer apps, and Alt+drag moves any window.
@@ -88,6 +92,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The window chrome and caption centering come from the shared KillerUI template code. Fullscreen, corners and window placement behave the same, and caption text can sit about one pixel differently.
 
 ### Added
+
 - Explorer's Open with and command-line file opening support RTF, LOG, HTML and HTM files, using the same import behavior as Ctrl+O. (#29)
 - About groups settings in two columns and can hide shortcut hints in menus and tooltips without disabling keyboard shortcuts. Hover tooltips clear large pointers while preserving custom placement.
 
@@ -96,6 +101,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.6.0 makes saves, backups, updates and recordings safer, speeds up offline transcription, and adds Lock now, Quick note, folder import, search filters and backup checks.
 
 ### Fixed
+
 - Failed saves preserve unsaved edits for retry or text/RTF export, block actions that would discard them, and save note content, links, history and sketches together.
 - A failed password change keeps the original database and complete recovery copies, reports temporary copies it cannot remove, and can be retried right away.
 - Reordering or canceling a note drag no longer leaves an unencrypted copy of the note in the temp folder; files for drags out of the app are cleared on the next start.
@@ -123,6 +129,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Website: the screenshot viewer has a Close button and keeps keyboard focus inside while open, and the install notes say /silent installs for all users only when run as administrator.
 
 ### Added
+
 - Lock now ends an unlocked session without quitting: the lock button's menu or Ctrl+Shift+U saves the open note, hides every note and closes the notepad until its password is entered again. A notepad with a password also locks when Windows locks or sleeps, and optionally after the computer has been idle for 5 to 60 minutes (About card). An unfinished sketch or recording waits behind the lock, and edits that could not be saved before an automatic lock come back after the unlock.
 - Backups are checked before they count, and a footer warning stays up while a notepad's backups are failing or overdue, with the reason. Manage databases shows when each notepad was last backed up, and Test restore in Backups reads a backup back from a temporary copy, checking every note and attachment, without touching your notepads.
 - Quick note: a small box for a thought, opened from the tray icon's menu, the taskbar icon's right-click menu, KillerNotes.exe --quick-note or Win+Alt+N, which the About card can change to one of four other Win+Alt shortcuts or turn off; shortcuts another app holds are greyed out. It saves a new note to Inbox or another group, or adds to today's note, without touching the open note, and keeps the draft when closed or while the notepad is locked. The About card can keep the tray icon while the window is open.
@@ -136,6 +143,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Added Slovenian across the app, installer, help, website, and keyboard shortcuts, including startup installation and removal prompts. Corrected punctuation in app and website translations.
 
 ### Changed
+
 - Export all notes as markdown makes a dependable copy to leave with: each export gets its own dated folder, pictures, sketches and recordings are written beside each note (floated ones included), links whose file name had to change are rewritten so they still land, each note carries its KillerNotes id, pin and title color, and killernotes-export.json lists every note and its files. export-report.md is always written, says what was lost or could not be carried and what is never exported, and reports a read-back check of every file. The export runs in the background with Cancel, a canceled export leaves nothing behind, and exporting a password notepad warns that the files are plain text.
 - The link graph opens about four times faster in large notebooks, the backlinks strip refreshes about twice as fast, and title-bar search counts its matches in seconds instead of minutes.
 - KillerNotes is per-monitor DPI aware, like KillerPDF: with two monitors at different scales it stays sharp on both instead of blurring on one.
@@ -151,6 +159,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.5.1] - 2026-10-19
 
 ### Added
+
 - Added a right-hand position for the sidebar and its rail, picked from the rail's right-click menu or with Alt+Shift+Left and Alt+Shift+Right. The arrow of the side the sidebar is already on collapses or expands it.
 - Rail buttons can be dragged into any order, which is remembered. Theme, language and shortcuts stay together at the bottom of the rail.
 - The `create` and `update` commands take `--content-file` for Markdown longer than a command line can hold.
@@ -163,6 +172,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The website's About page lists KillerBench and KillerShot under Also try, with larger app icons.
 
 ### Changed
+
 - Film grain is softer and shows on every theme, Black included. Its specks come in many shades, and some lean toward a color opposite the theme accent, such as purple on green and orange-brown on blue and red.
 - Rail buttons and the collapse arrow sit centered across the rail on either side, with the same space toward the sidebar and the edge, and the arrow is larger. The side choices in the rail's right-click menu show a picture of each position.
 - Note titles in the sidebar are slightly larger, so they stand apart from the preview line and date under them.
@@ -173,6 +183,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Primary, outline and secondary buttons sit raised on a soft shadow that lifts on hover and sets down when pressed. 98SE keeps its flat beveled buttons.
 
 ### Fixed
+
 - Shared notes and imported databases keep editable sketches and embedded audio; notes made from templates keep their audio too.
 - Editing a recording stays with its original note, even after switching notes, and cannot replace audio in another database.
 - Network databases reserve one writer before changes begin, and a crashed app releases the reservation.
@@ -209,6 +220,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.5.0] - 2026-10-15
 
 ### Added
+
 - Pasting tab separated, space separated or CSV data into a table fills its cells from the caret, adding rows and columns as needed.
 - Right-clicking in a table opens a Table menu to insert rows above or below, insert columns left or right, and delete a row, a column or the whole table. Each action also has a shortcut, Ctrl+Shift+1 to 4 for inserting and Ctrl+Shift+7 to 9 for deleting.
 - Added a Film Grain switch to the theme menu. It is on by default, and turning it off removes the grain texture from every surface.
@@ -216,6 +228,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - KillerNotes checks for updates on startup and offers a newer release in a dialog with an Always check on startup box. A Check for updates on startup checkbox on the About card turns the check back on.
 
 ### Changed
+
 - The wordmarks use Punktype and Lacquer, the sidebar group and Trash headings use Lacquer, and the interface text and footers use Killer Sans, in place of the typewriter font in the app and on the website.
 - Confirm, install and uninstall dialogs use the family setup dialog layout, with a notice icon, a larger Lacquer heading and evenly sized buttons.
 - The Malaise theme's note pane is a shade darker than the window around it, in the app and on the website.
@@ -223,6 +236,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The Light theme draws a softer shadow under the toolbars.
 
 ### Fixed
+
 - On the 98SE theme, the interface, sidebar, menus and dialog captions use Microsoft Sans Serif instead of Killer Sans and Tahoma.
 - Cut and copy finish as soon as the text is on the clipboard instead of stalling for seconds and reporting a busy clipboard, and right-clicking a large selection opens the menu promptly (#19).
 - A table copied from a web page, Excel or Word pastes as a table with all of its rows, instead of as lines of text.
@@ -257,11 +271,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.4.3] - 2026-10-08
 
 ### Fixed
+
 - Switching notes or themes with search open stays responsive, and the current match has a visible outline (#26).
 
 ## [1.4.2] - 2026-10-07
 
 ### Fixed
+
 - Cross-note find skips results without a matching body hit, including title-only matches and unreadable notes (#18).
 - Font-size slider drags apply the final size once on release, keeping large selections responsive while dragging (#19).
 - Sidebar sort mode and direction are remembered between launches and kept when creating notes (#25).
@@ -274,6 +290,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.4.1 improves keyboard access, note scrolling and theme contrast.
 
 ### Fixed
+
 - Trash retention is configurable in Manage Databases, including an option to disable automatic cleanup (#20).
 - Dialog fields, tag controls, Help, About, Fonts, the outline, templates and table picker support keyboard and screen-reader use, with focus restored on close (#22). (Thanks @digitaldarragh)
 - Note scrolling matches the sidebar's wheel speed, including at different editor zoom levels.
@@ -288,6 +305,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.4.0 replaces the legacy preview engine, adds outgoing links and code highlighting, and improves editing, recovery, and navigation.
 
 ### Added
+
 - Keyboard access now covers note actions, dialogs, and tools, including database context menus, with matching menu hints and a synchronized shortcut guide; the CLI adds sharing, export, templates, recovery, groups, tags, and backups.
 - The note's link strip now includes outgoing links, including targets that do not exist yet.
 - Fenced Markdown code blocks use their declared language for syntax highlighting.
@@ -299,6 +317,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Syntax audit logs include timing for tokenizing, resolving positions, painting, and complete highlight passes.
 
 ### Changed
+
 - The markdown and HTML preview is now drawn by the app itself instead of the Internet Explorer engine, so it follows the theme and grain and keeps its rounded corners.
 - Hover descriptions and shortcuts appear on separate wrapped rows; the format bar has a right-click menu, with heading levels available directly.
 - The language menu shows its 19 languages in two columns with a faint divider that fades at both ends.
@@ -308,6 +327,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Toolbar and link-strip chevrons match the sidebar's color-only hover; the link-strip chevron reverses when folded.
 
 ### Fixed
+
 - Pressing F4 to leave the preview no longer crashes with an "Unknown Hard Error".
 - Cross-note replacement handles formatted text correctly and keeps links accurate through undo (#14).
 - Read-only notebooks reject checklist and heading changes.
@@ -337,12 +357,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.3.2 polishes copy and paste, markdown conversion, the markdown and HTML preview, and undo.
 
 ### Added
+
 - A mode button on the format bar shows whether the preview is in Source, Rendered or Split view, and cycles it like F4.
 - The divider between the note and the preview in Split view can be dragged to change their widths.
 - A chevron on the linked-from strip folds it into the corner of the note with a short slide, leaving its count to reopen it.
 - Home, End, Page Up, Page Down and the arrow keys scroll the rendered preview. Ctrl+Home / End now appears in the F1 shortcut list.
 
 ### Fixed
+
 - Copied text now keeps its links, lists and emphasis when pasted into browsers, mail clients and Office.
 - Pasting web or chat text with links now keeps its paragraphs instead of joining them into one.
 - Converting a note to markdown no longer puts a backslash before every underscore, asterisk and bracket.
@@ -362,6 +384,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.3.1 adds backups and recovery, version history, trash, reusable note workflows, and deep KillerMCP integration.
 
 ### Added
+
 - Scheduled backups: Manage databases gains a Backups dialog to pick a folder, an interval and how many copies to keep. Copies are the database as it is, password and all, and one can be restored as a new database. Alt+B takes a copy right away.
 - Version history: earlier versions of a note are kept as you work, one per sitting plus one before any conversion or replace-all, up to 50. Alt+H or the right-click menu shows them with a preview and puts one back.
 - Deleted notes now go to a Trash section at the bottom of the sidebar, where they open read-only and can be restored or deleted permanently. Anything left there for 30 days is purged. Alt+Delete opens the trash (#20).
@@ -376,6 +399,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The title bar now shows which notes database is open.
 
 ### Changed
+
 - Technical page diagrams now use portrait layouts so their labels stay readable in the two-column page.
 - On first launch, the interface follows the Windows display language when it is supported.
 - An open Markdown or HTML preview now refreshes as its source changes without losing its scroll position.
@@ -383,6 +407,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Standalone install and uninstall dialogs use Black/Purple; installer errors use themed dialogs. Installed Apps identifies the publisher as Steve the Killer.
 
 ### Fixed
+
 - Screen readers now identify the note list, editor, title, window controls, icon buttons, sorting controls, and custom dialog controls instead of announcing unlabeled glyphs or model class names (#22).
 - Chocolatey package now installs the app instead of leaving the download in the Chocolatey tools folder.
 - Maximizing or restoring the window now keeps the same part of a long note in view (#21).
@@ -396,6 +421,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.3.0 is the release where notes start pointing at each other - wikilinks, backlinks and a graph - alongside markdown notes with a whole-database markdown export, search and replace, and two more languages.
 
 ### Added
+
 - Hungarian and Polish localization for the complete app interface and killernotes.net, the eleventh and twelfth languages. Every one of the twelve now carries all 682 interface keys, so search and replace, the network-lock warnings, markdown notes, the markdown export, wikilinks and the link graph read in your own language rather than falling back to English.
 - A network data folder now warns once, and a lock file beside the database guards concurrent use: a database in use on another computer opens read-only instead of competing for SQLite's single writer, with the owning machine named. A clean close clears the lock.
 - Text labels inside sketches now feed the search index, so a label like "IDF-2, port 14" makes its note findable.
@@ -413,12 +439,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Notes can be locked in place in the graph, from the right-click menu or with K: nothing moves a locked note, not an arrangement and not its neighbors. The graph also reopens exactly where you left it, and an arrangement can be saved by name from the Arrange menu and applied again later.
 
 ### Changed
+
 - The SQLCipher encryption native is now built from upstream source (SQLCipher 4.18.0, SQLite 3.53.4) and vendored in the repo, replacing the deprecated SQLitePCLRaw.lib.e_sqlcipher package.
 - Internal cancellation resource keys now use the same American spelling as their displayed text.
 - Line numbers moved off F11 to Alt+L. The keyboard shortcuts overlay gains an Alt layer to match.
 - Markdown notes now store their source inside a XamlPackage rather than as raw bytes, so a database or a shared note carrying one can still be opened by releases older than 1.3.0. Notes written by earlier 1.3.0 builds are converted the first time the database is opened, so a database does not stay a hazard to older builds just because nobody edited the note.
 
 ### Fixed
+
 - The linked-from strip now squares its corners on 98SE like every other surface, instead of keeping rounded ones. The twelve rounded themes are unchanged.
 - A comment block at the top of a script is now colored. Language context was only carried forward from the first line that could be identified on its own, so a PowerShell file opening with a `<# .SYNOPSIS #>` header left that header, its `#region` and every standalone `#` line plain while comments further down came out right. Block comments now carry across lines, so the prose inside a help header reads as comment rather than having words like "for" colored as keywords.
 - A note with markdown pasted into it is now highlighted as markdown throughout. Language was detected per paragraph, so prose lines came back plain and uncolored, a line like "- Local-only: no account, no telemetry" was indistinguishable from YAML and colored its "no" as a boolean, and links were colored in some paragraphs and not others.
@@ -455,9 +483,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.2.1 adds find within the open note, on Ctrl+F, and fixes the themes around it: legible text on filled accent buttons, dark card borders and a real drop shadow on the Black theme, and context menus that cast a shadow again.
 
 ### Added
+
 - Find in the open note, on Ctrl+F. A small card fades in over the note with the match count, next and previous, and wrap at either end. Drag it by the grip on its left to put it wherever it suits you and it opens there next time, staying inside the note whatever the window is doing; F3 and Shift+F3 step while it is open, Enter and Shift+Enter do the same from the box itself, and Esc closes it. Selected text seeds the box, so Ctrl+F on a word searches for it straight away. Matches are drawn over the text rather than into it, so nothing about finding touches the note, the undo stack or autosave. The sidebar box is unchanged and still searches across every note; F3 still goes there when the find bar is closed.
 
 ### Fixed
+
 - Context menus cast a drop shadow again. The shadow layer was still in place but its blur and depth had drifted to about a quarter of the size every other flyout in the app uses, so on a light background there was nothing to see and the menu sat flat on the page.
 - The Black theme draws its card borders dark instead of ringing every card and dialog in a mid-gray box. Black is built so that things read by their background rather than by bright edges, and a mid-gray hairline on a near-black surface was the one edge in the app fighting that.
 - Selected text is highlighted in the accent color you actually chose. Every theme carries a default accent, and the selection color was being copied from it before your choice was applied on top - so on Black the selection stayed the theme's terminal green whether you had picked orange, purple, red or blue, and the same in every other theme. It looked random; it was each theme's own default, frozen a moment too early. The Windows 98 theme keeps its period navy selection, which it states outright rather than inheriting.
@@ -469,6 +499,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 1.2.0 adds dictation with offline speech recognition, code-aware notes with syntax highlighting, freely placed images and recordings, and seven new themes, alongside big-note performance fixes (#16), a markdown detection fix, interface refinements, and an installer fix.
 
 ### Added
+
 - Dictation (Ctrl+M, or the microphone on the sidebar rail): record, transcribe, then print the text at the caret or embed the recording as a playable inline chip. Everything runs locally; nothing is uploaded.
 - Offline speech recognition via whisper.cpp, with three downloadable model sizes. Right-click the rail microphone to change models; without one, transcription falls back to the Windows engine.
 - Recording editing: right-click an embedded recording > Edit to slice the waveform and copy, delete, or paste segments, with undo. Saving replaces the original in place.
@@ -480,6 +511,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The file picker shows image thumbnails, and inserting a picture opens with a preview pane.
 
 ### Changed
+
 - Line numbers count logical lines: a wrapped paragraph carries one number, and a table numbers as one line.
 - The SketchPad and dictation pads are independent windows: the main window can be brought in front of them, and their rail icons light while open and close them when clicked again. The Killculator icon lights the same way.
 - Warmer accents for Cyanotic, Greed, Blood and Decay: buttons, icons, selection washes, and highlights use each theme's tan accent instead of white.
@@ -490,6 +522,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Internal: the codebase follows the family `Shell/` / `Features/` / `Services/` / `Models/` / `Controls/` layout, oversized files were split, and the F1 shortcut list and keyboard map generate from one shared table. No behavior changes.
 
 ### Fixed
+
 - Large notes no longer freeze the app when line numbers are on; the gutter only measures the lines actually on screen (#16, thanks MrPapaya-JRR).
 - Position memory now restores correctly on large notes instead of stopping about a quarter of the way in (#16, thanks MrPapaya-JRR).
 - Pasting a very large script into a highlighted note no longer crashes or stalls the app; highlighting paints the visible area first and keeps up with scrolling, as do the line numbers.
@@ -509,11 +542,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.1.6] - 2026-07-24
 
 ### Fixed
+
 - A new note's title now appears in the sidebar right away instead of staying "Untitled" until the app is restarted (#13, thanks Dantex). The sidebar row's title, snippet, and date are notifying properties now, so the in-place update on save repaints the row immediately. Previously the 2s autosave's in-place update also matched the freshly rebuilt list, so the reconcile saw no change and never regenerated the row, and the non-notifying title binding held the stale "Untitled" until a full reload.
 
 ## [1.1.5] - 2026-07-24
 
 ### Added
+
 - SketchPad, a built-in drawing pad for notes (F7, Ctrl+Shift+D, or the pencil on the sidebar rail). It opens as a modeless window that stays up beside the note while you switch back and forth, with a pen, straight line, arrow, rectangle, ellipse, polygon, paint bucket, text labels, and an eraser, plus a color palette with a custom-color picker, stroke width, fill, and fill opacity, and full undo/redo. Every tool has a single-key shortcut (V select, P pen, L line, A arrow, R rectangle, O ellipse, G polygon, B bucket, T text, E eraser, I add image), and the eraser draws a ring the size of the area it will clear so you can see its reach. Print to note (Ctrl+Enter) flattens the drawing to an image stamped inline at the caret without closing the pad, and Copy to clipboard puts that same image on the clipboard for any other app. A printed sketch stays editable: double-click it to reopen the exact drawing, and Print replaces it where it sits. The canvas is the window, so dragging the corner grip grows the drawing area 1:1, and a reopened sketch returns at the size it was made. The whole pad tracks the app theme live, including a theme change made while it is open.
 - Getting a picture into a note is easier: a picture button on the format bar opens a file picker and inserts the image at the caret, next to the paste and drag-and-drop that already worked. And double-clicking any image in a note - not just a printed sketch - now opens it in the SketchPad to draw on, with Print stamping the marked-up version back over the original in place.
 - Czech (cs-CZ) is now a full interface language, bringing the count to ten and matching KillerPDF's set. Pick it from the language menu in the title bar; the whole UI - menus, dialogs, tooltips, status messages, and the shortcuts overlay - is translated, with English as the automatic fallback for any key a locale leaves out.
@@ -521,9 +556,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The Killculator can print the whole equation, not just the total. The single Print button is now two: Sum (Ctrl+Enter) drops the readout as before, and Equation (Ctrl+Shift+Enter) drops the running equation - "12 + 5 = 17 × 3 = 51" - which spells out each step's intermediate result so the pad's strictly left-to-right math (no operator precedence) reads without ambiguity. Suggested on #8.
 
 ### Changed
+
 - Right-click menus now carry an icon in the left gutter beside each action - cut/copy/paste, share, export, tags, group, colors, rename, delete, and the rest - the same treatment as the KillerPDF context menus. The toggle rows (tag and group assignments) keep their existing check-and-swatch layout.
 
 ### Fixed
+
 - Right-clicking the sidebar search box popped the stock Windows cut/copy/paste menu, bright and unthemed against the dark UI. A text box's built-in editing menu ignores the app's implicit menu styles, so it always renders unthemed; the search box now carries its own themed cut/copy/paste menu with icons, matching the note title box.
 - With word wrap off, the editor's horizontal scrollbar ran backwards - scrolled fully to the left, the thumb sat on the right. The themed scrollbar template shares one Track between both orientations with `IsDirectionReversed` set for the vertical bar (value 0 = top), and the horizontal bar inherited it, so offset 0 put the thumb at the far end. The horizontal bar now turns that off.
 - The little square where the horizontal and vertical scrollbars meet showed as a bright white block on the dark theme. It was the stock WPF ScrollViewer corner, which fills with the system control color; scoped to the editor, that corner is now transparent so the note pane shows through instead.
@@ -532,30 +569,36 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.1.4] - 2026-07-22
 
 ### Added
+
 - Click the note title to jump back to the top of the note (thanks Dantex). The click still edits the title exactly as before; only the view moves.
 - Collapsed groups now lay their line flat: the colored spine that runs down an open group's notes turns into a short horizontal dash when the group is closed - open runs down, closed lies flat, so a tree of collapsed subgroups reads like a dashed outline. Expanded subgroup spines also got a trim: the line now starts just above its own group's name instead of stretching up toward the parent's.
 
 ### Fixed
+
 - The sidebar could keep showing a note's old title and snippet after an edit if you switched notes or apps within a couple of seconds of typing. The note itself was saved correctly; only the list row went stale. Latent since the 1.1.0 sidebar rework - the scroll-preserving list keeps its existing row objects, and the quick-save path was updating a different copy of the row than the one on screen.
 - Undoing a note delete now restores the reading position too. The row snapshot Ctrl+Z restores carried everything except the remembered caret and scroll, so an undone note reopened at the top instead of where you left off.
 
 ## [1.1.3] - 2026-07-22
 
 ### Added
+
 - Hyperlinks. Notes can finally hold real links: Ctrl+Click opens them in the browser, Ctrl+K (or the right-click menu) links the selected text or edits the link under the caret - clearing the address removes it. Links pasted from CherryTree, browsers, and Word keep working instead of arriving as dead text, typing a URL followed by a space links it automatically, and the HTML export writes real anchors. Links are colored by the theme accent and only http, https, and mailto ever open - a shared note can't hand your shell anything else.
 - Tilt-wheel horizontal scrolling (#9). WPF never delivers the horizontal wheel on its own, so the window now catches WM_MOUSEHWHEEL directly and scrolls whatever is under the mouse - with word wrap off, wide tables and images pan without touching the scrollbar. Shift+wheel does the same for mice without a tilt wheel; Ctrl+wheel stays zoom.
 
 ### Fixed
+
 - The sidebar toolbar squeezes gracefully instead of jumping straight to two rows. The New note button now steps its label down as space runs out - "+ New note", "+ New", then a bare "+" (translated at every step) - and the sort buttons only drop underneath when even the "+" cannot share the row, snapping back the moment there is room. In 1.1.2 the sorts ducked below immediately while the top row sat half empty.
 - The sidebar no longer jumps back to an old width when switching languages (or changing the app zoom) after a splitter resize. Splitter drags were never recorded, so the next internal width refresh re-asserted the stale remembered value.
 
 ## [1.1.2] - 2026-07-22
 
 ### Added
+
 - Custom fonts. A Fonts dialog (theme flyout, "Fonts...") swaps three slots independently: Headers (group titles and the Killculator title), Sidebar (note titles in the list), and Note text (the editor default). Pick from any installed font or drop a .ttf/.otf file straight onto the card - it is copied into your data folder so it survives moves. A readability guard keeps symbol fonts like Wingdings out, changes apply live, and one click resets all three slots to the killer defaults.
 - Note text now defaults to Bahnschrift, the DIN engineering face that ships with Windows 10/11 - more character next to the typewriter headers, with Segoe UI as the automatic fallback. The sidebar keeps Segoe UI for maximum legibility at its small row sizes; both are just defaults for the Fonts dialog and swap like anything else.
 
 ### Fixed
+
 - The icon rail no longer clips its buttons at larger app sizes. The rail column now widens with the app zoom so its icons scale up with everything else - bigger zoom, bigger click targets - instead of overflowing a fixed-width strip and getting cut off. The strip is also trimmed to hug its icons, so high zoom grows the buttons instead of blank space next to them.
 - The sidebar toolbar no longer clips at high app zoom. The sidebar keeps its on-screen width while the UI scales, which squeezes its usable width - the sort buttons now drop to a second row under the New note button when one row stops fitting, and snap back when there is room again.
 - "Subgroups on top" in the group right-click menu now shows a check mark when it is on. The themed menu template never rendered a check glyph for checkable items, so the toggle gave no visual feedback.
@@ -566,19 +609,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.1.1] - 2026-07-22
 
 ### Added
+
 - Notes remember where you left off: switching back to a note restores the cursor position and scroll instead of starting at the top, so a long running note (a log, a journal) reopens right at the spot you were working. The position survives restarts - it is stored per note in the database.
 
 ### Changed
+
 - Subgroups now sit at the top of their parent group, above the group's own notes, so nested structure stays visible without scrolling past the notes. A "Subgroups on top" toggle on the group right-click menu restores the old notes-first order, and the group's colored line stays continuous in either arrangement.
 - The collapsed group's short colored pill now centers itself on the header text instead of stretching the row, so it lines up with the larger group title font at every density.
 
 ### Fixed
+
 - Creating a subgroup no longer snaps the sidebar back to the top - the list holds its scroll position, since the new child appears right where you right-clicked. The same fix covers renaming, coloring, and deleting a group.
 - The Killculator no longer swallows the keyboard for the whole app while open: focus decides who gets the keys. Opening the pad (or clicking anywhere on it) points the number and operator keys at the calculator; clicking into the note hands typing back to the editor with the pad still open. This also stops Backspace and digits from vanishing into the calculator while writing a note with the pad up.
 
 ## [1.1.0] - 2026-07-22
 
 ### Added
+
 - Word wrap toggle (#9): a new button on the format bar, and Ctrl+Shift+W, turns word wrap on or off for the editor. With wrap on (the default) text flows to the pane as before. With wrap off, long lines and anything wider than the pane - a large pasted image, a wide table - stop wrapping and can be reached with the editor's new horizontal scrollbar. The choice is remembered across launches.
 - App-wide size control for accessibility: scroll the mouse wheel over the KillerNotes logo in the title bar to scale the app content - sidebar, toolbar, and editor - up or down in fine steps, from 70% to 250% (or with Ctrl+Shift and the +/- keys, and Ctrl+Shift+0 to reset); the size is remembered across launches. It uses a layout scale so text stays sharp rather than blurring, and it is separate from the per-note Ctrl+wheel editor zoom, which still scales only the note body. The title bar and footer stay a fixed size, so the logo you scroll over never moves, and the sidebar holds its on-screen width while its text grows.
 - Optional line-number column: a toggle in the icon rail (or F11) shows line numbers down the left edge of the editor, like a code editor, so you can count lines at a glance. The choice is remembered across launches.
@@ -591,6 +638,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Undo (Ctrl+Z) now reaches sidebar actions, not just editor text: moving a group, changing a group or note color, adding or removing a tag, filing a note into or out of a group, reordering a note, and deleting a note (one or a whole multi-selection). Ctrl+Z reverts the most recent action; a sidebar action like a group drag is undone even while the editor holds focus, and the moment you type in the editor Ctrl+Z goes back to undoing text. The delete-note confirmation now says it can be undone.
 
 ### Changed
+
 - Convert to list now also handles a single sentence: highlight a run of words on one line and Convert to list (Ctrl+Shift+J) splits it on spaces, commas, and semicolons into PC1,PC2,PC3, instead of leaving the line as one item. Selections spanning multiple lines still split by line as before.
 - Picking a group's color now previews live: right-click a group header, choose Group color, and the group's name and the connector line down its notes recolor as you drag in the color picker, so you see the result before committing. Cancel restores the previous color.
 - The sidebar now slides open and closed when you collapse or expand it with the chevron, instead of snapping instantly.
@@ -603,11 +651,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.0.3] - 2026-07-20
 
 ### Added
+
 - Convert to list: select lines (or a table column) in a note and Convert to list - right-click, or Ctrl+Shift+J - turns them into a comma-separated list like PC1,PC2,PC3 for pasting into scripts. Blank lines are dropped and each value is trimmed. A plain-text selection is rewritten in place; a table-cell selection is copied to the clipboard instead, since cells can't be replaced with a single value.
 - Color a group's name in the sidebar: right-click a group header > Group color... (or Reset color), the same picker used for per-note title colors. The color is stored per database, travels inside shared .kndb files, and stays with the group when it is renamed.
 - Grouped notes now carry the group's color as a connector line down the left edge of the sidebar, so a group reads as one set at a glance and a colored group stands out. The line runs from the group header down through its notes and caps cleanly at the top and bottom; a collapsed group shows a short colored pill that grows down through the notes when the group is expanded. The line itself is now the expand/collapse indicator in place of the old chevron.
 
 ### Changed
+
 - Groups now sit at the top of the sidebar, pinned above the ungrouped notes, so they stay reachable instead of scrolling off the bottom as loose notes pile up (issue #8). Dragging a note to the very top files it into the first group.
 - The note list now runs flush to the footer instead of stopping about 8px short. When the list is longer than the sidebar its bottom edge fades into the chrome to hint at more below; the fade clears once you scroll to the end, and the scrollbar itself never fades.
 - The New note button now steps its label down as the sidebar narrows - "+ New note" to "+ New" to "+" - taking the widest wording that fits, and the sidebar no longer narrows past a clean "+" button (collapse it fully with the chevron instead).
@@ -615,6 +665,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The About window description is a little longer, spelling out what KillerNotes is rather than a single line.
 
 ### Fixed
+
 - Pasting from Excel (or any app that carries its own colors) dropped black text into the note, which vanished in the dark themes. Pasted content is now normalized to the live theme the moment it lands - neutral black/white/gray text follows the theme like typed text does, while deliberately colored text and highlights are left untouched (the same rule the app already applies when opening a note).
 - Tables pasted from Excel arrived with bright gridline cell walls that clashed with the dark themes. Pasted tables now take the app's own table styling (theme card-border color, single-line grid, no cell spacing) so they match tables inserted from the format bar.
 - Multi-line text pasted from Notepad (or any plain-text source) arrived with extra line spacing, because the text-to-document paste converter bakes a paragraph margin onto every pasted line that the editor's own typed lines do not carry. Pasted paragraphs now drop that baked margin so they match the editor's default spacing (horizontal rules keep theirs).
@@ -624,11 +675,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.0.2] - 2026-07-20
 
 ### Added
+
 - Reorder notes by drag and drop (#4): a third sort button (grip icon) activates custom order, and dragging a note up or down the sidebar arranges it by hand - an accent line shows where it will land. Dragging while sorted by time or alphabet keeps what is on screen and switches to custom order automatically. New and imported notes append at the bottom, and dragging a note out of the app into Teams/Outlook/Explorer still shares it as a .knote exactly as before.
 - Note groups (#4): named sections in the sidebar ("House", "University", ...). Right-click a note > Group files it into an existing group, a new one, or back out; dropping a note onto a group header (or between its notes) moves it there too. Headers collapse on click (state remembered per database), and right-clicking a header renames or deletes the group - deleting a group keeps its notes. Groups travel inside shared .kndb files; search results stay flat while a search is active.
 - Choose where your databases live (#6): Manage databases gains a "Change data folder" button that repoints storage to any folder - a synced folder, a second drive, or the folder next to the exe for a portable setup. Picking a new folder offers to move the existing .db files along ("Move") or just switch ("Leave them"). The default stays %APPDATA%\KillerNotes.
 
 ### Fixed
+
 - Tagging with several notes selected applied the tag to the first note only (#7). The right-click Tags submenu now acts on the whole selection: the check mark means "every selected note has this tag", and toggling a mixed state tags the notes still missing it (a second toggle untags them all).
 - On international keyboard layouts AltGr combos were read as Ctrl shortcuts, so AltGr+O (ó on Polish) triggered Ctrl+O Open files instead of typing the character (#5). AltGr arrives as Ctrl+Alt on Windows; those combos now pass through to the editor untouched so AltGr characters and dead keys type normally.
 - Further hardening of the password-change file swap (#3): straggler native SQLite handles are forced closed before the swap (a finalizer-held handle kept the old file mapped, which no amount of retrying could outwait), the retry also covers access-denied errors, and if the atomic replace still cannot win, a move-based swap takes over and restores the original database if it fails partway. Notes keep saving in every outcome.
@@ -638,6 +691,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ## [1.0.1] - 2026-07-19
 
 ### Added
+
 - Color-coded tags (Outlook-style): tag any note with one or more colored labels via right-click > Tags. Tags show as colored pills on the sidebar cards, and clicking a pill filters the list to that tag. Tag definitions (name + color) live per database, so they travel inside shared .kndb/.knote files; a new database starts with a basic six-color set. Manage tags (right-click > Tags > Manage tags...) adds, renames, recolors (via the full color picker), and deletes tags, with deletes and renames rippling through every note. Tag search is instant (the existing full-text index).
 - Font size controls (#1): a size dropdown on the format bar shows the selection's size - hover it and scroll to change size (no clicking), or click it for the full list (10-48). Ctrl+Shift+> and Ctrl+Shift+< also grow/shrink the selection from the keyboard, and Ctrl+mouse-wheel zooms the whole editor view (50-300%, remembered across launches, Ctrl+0 resets).
 - Full color picker (#1): "More..." in the text color flyout opens the family KillerPDF-style picker - saturation/value square, hue strip, RGB and hex fields, a desktop-wide eyedropper, and 9 customizable saved swatches - for both text color and highlight.
@@ -646,18 +700,21 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The notes database gains two columns for these (title_color, spellcheck), added automatically on first open; 1.0.0 databases and shared files keep working unchanged, and old .knote/.kndb files still import.
 
 ### Changed
+
 - Sidebar toggle moved from F9 to F5, so the two pane toggles sit together (F5 sidebar, F6 format bar). Tooltips, the F1 overlay, and the keyboard map follow.
 - The minimized format bar strip is slimmer so it never overlaps long note titles, restores with a single click (F6 and drag-to-move unchanged), and no longer steals clicks to the title bar or jumps to the left edge on a plain click.
 - Right-clicking the markdown/HTML preview no longer pops the IE engine's native context menu - the one piece of the app that could not be themed - it is suppressed instead (Ctrl+A / Ctrl+C still work).
 - The app no longer creates an empty "Untitled" note at startup when the database already has notes (#2). Launch reopens the note that was open last time (remembered per database, falling back to the most recently modified), and deleting the open note lands in the most recently edited remaining note instead of spawning a replacement. A fresh empty Untitled is only created when the database has no notes at all, so the undeletable phantom "Untitled" row is gone.
 
 ### Fixed
+
 - Password protection could fail with "The process cannot access the file because it is being used by another process" and, worse, leave the app running without an open database, so the next autosave crashed and the session's edits were lost (#3). The rekeyed file swap now retries through transient locks (antivirus and indexer scans of the freshly written file), and if the swap still fails the original database is reopened with the old password and the error is reported in the status bar - notes keep saving.
 - Only one KillerNotes instance now runs per desktop session. Two instances sharing the same notes.db was the deterministic way to hit the password-change failure above. A second launch hands its command line (a double-clicked .knote/.kndb) to the running window over a named pipe and exits, so share files still import as before; the running window is brought to the front. --demo launches are exempt, since they only ever touch the scratch demo database.
 
 ## [1.0.0] - 2026-07-18
 
 ### Added
+
 - Rich text notes: inline image paste, drag-and-drop for text, image files, and raw bitmaps, real FlowDocument tables, and autosave (2s debounce, note switch, alt-tab, and close) plus Ctrl+S.
 - SQLite storage at `%APPDATA%\KillerNotes\notes.db` (XamlPackage blobs plus a plain-text index) with FTS5 search-as-you-type.
 - Optional whole-database password protection: SQLCipher AES-256, set/change/remove from the title-bar lock button. If a password is forgotten, the unlock screen offers "New database", archiving the locked file (kept on disk, unlockable later) and starting fresh - the encrypted data itself is unrecoverable by design.
