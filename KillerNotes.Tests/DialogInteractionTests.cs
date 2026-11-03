@@ -207,15 +207,15 @@ namespace KillerNotes.Tests
             var button = new Button { ToolTip = "Open" };
             KillerNotes.Controls.DialogShortcuts.Describe(button, "Alt+E");
             button.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));
-            Assert.Equal("Open (Alt+E)", button.ToolTip);
+            Assert.Equal("Open ​(Alt+E)", button.ToolTip);
 
             button.ToolTip = "Open in C:/Notes";
             button.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));
-            Assert.Equal("Open in C:/Notes (Alt+E)", button.ToolTip);
+            Assert.Equal("Open in C:/Notes ​(Alt+E)", button.ToolTip);
 
             // Refreshing again with nothing changed must not stack the shortcut twice.
             button.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));
-            Assert.Equal("Open in C:/Notes (Alt+E)", button.ToolTip);
+            Assert.Equal("Open in C:/Notes ​(Alt+E)", button.ToolTip);
         });
 
         // ---- Backups ----

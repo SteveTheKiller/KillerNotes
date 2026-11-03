@@ -171,7 +171,7 @@ namespace KillerNotes.Shell
                 {
                     System.Windows.Automation.AutomationProperties.SetAcceleratorKey(item, item.InputGestureText);
                     if (item.ToolTip is string text && !text.Contains(item.InputGestureText))
-                        item.ToolTip = text + " (" + item.InputGestureText + ")";
+                        item.ToolTip = KillerFamily.Layout.ShortcutHints.WithHint(text, item.InputGestureText);
                 }
                 DescribeMenuShortcuts(item);
             }

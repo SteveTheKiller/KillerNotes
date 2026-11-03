@@ -111,6 +111,7 @@
     <sys:String x:Key="Str_Dlg_NoMatchingFiles">Nic tutaj nie pasuje do bieżącego typu pliku.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFile">Ten plik nie istnieje.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFolder">Ten folder nie istnieje.</sys:String>
+    <sys:String x:Key="Str_Dlg_InvalidPath">Wpisz prawidłową nazwę pliku lub ścieżkę.</sys:String>
     <sys:String x:Key="Str_Dlg_OverwriteMsg">Zastąpić {0}?</sys:String>
     <sys:String x:Key="Str_Menu_PinPlace">Przypnij do miejsc</sys:String>
     <sys:String x:Key="Str_Menu_UnpinPlace">Usuń z miejsc</sys:String>

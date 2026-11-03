@@ -140,6 +140,7 @@
     <sys:String x:Key="Str_Dlg_NoMatchingFiles">Itt semmi sem egyezik az aktuális fájltípussal.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFile">Ez a fájl nem létezik.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFolder">Ez a mappa nem létezik.</sys:String>
+    <sys:String x:Key="Str_Dlg_InvalidPath">Adjon meg érvényes fájlnevet vagy elérési utat.</sys:String>
     <sys:String x:Key="Str_Dlg_OverwriteMsg">Lecseréli a következőt: {0}?</sys:String>
     <sys:String x:Key="Str_Menu_PinPlace">Rögzítés helyekre</sys:String>
     <sys:String x:Key="Str_Menu_UnpinPlace">Távolítsa el a helyekről</sys:String>

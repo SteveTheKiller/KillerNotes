@@ -590,6 +590,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Dlg_NoMatchingFiles">Hier passt nichts zum aktuellen Dateityp.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFile">Diese Datei existiert nicht.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFolder">Dieser Ordner existiert nicht.</sys:String>
+    <sys:String x:Key="Str_Dlg_InvalidPath">Geben Sie einen gültigen Dateinamen oder Pfad ein.</sys:String>
     <sys:String x:Key="Str_Dlg_OverwriteMsg">{0} ersetzen?</sys:String>
     <sys:String x:Key="Str_Menu_PinPlace">An Orte anheften</sys:String>
     <sys:String x:Key="Str_Menu_UnpinPlace">Von Orten entfernen</sys:String>

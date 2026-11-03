@@ -79,7 +79,7 @@ namespace KillerNotes.Tests
             menu.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));
             Assert.Equal("Alt+C", menu.InputGestureText);
             Assert.Equal("Alt+C", AutomationProperties.GetAcceleratorKey(menu));
-            Assert.Equal("Copy file (Alt+C)", menu.ToolTip);
+            Assert.Equal("Copy file ​(Alt+C)", menu.ToolTip);
         });
     }
 }

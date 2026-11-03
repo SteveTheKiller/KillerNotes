@@ -55,7 +55,7 @@ namespace KillerNotes.Tests
                 string staged = Path.Combine(deep, "KillerNotes-update.exe");
                 UpdateImagePublication.RememberVerified(staged, new string('0', 64), new string('B', 40));
                 string arguments = TrustedUpdate.Publication(staged, Path.Combine(deep, "KillerNotes.exe"), "9.9.9",
-                    new string('0', 64), 1, 1, 2, 2).Arguments;
+                    new string('0', 64), 1, 1, 2, 2, new string('B', 40)).Arguments;
                 Assert.True(arguments.Length < 20000, "Helper is " + arguments.Length);
             }
             finally { Directory.Delete(folder, true); }

@@ -6,10 +6,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.6.2] - Unreleased
 
-1.6.2 gives tables more control over their lines, sizes and spacing.
+1.6.2 gives tables more control over their lines, sizes and spacing, and makes updates and the file picker recover from more failures.
 
 ### Fixed
 - A locked notepad set aside by the unlock screen's New database is named with the Gregorian year on Thai, Arabic and Persian region settings instead of a year like 2569.
+- A per-user or portable update that fails now reopens KillerNotes instead of leaving it closed, including when antivirus or a locked-down PowerShell stops the update helper from loading, and a published copy that fails its final check is swapped back for the previous version and never started.
+- An update started from an administrator's copy reopens KillerNotes at normal rights. An update that is applied but cannot record its version in the registry now finishes and reopens instead of reporting failure, and putting the previous copy back after a failed update retries a busy file and survives a leftover from an earlier attempt.
+- Update downloads stream to disk with a size cap and an overall deadline, a download refused by its checksum or signature is reported apart from a network failure, and the update check reads only the release's own fields, so release notes that quote them cannot confuse it.
+- Updating KillerNotes no longer removes a relaunch another Killer app scheduled for its own update.
+- The file picker no longer stalls on a disconnected network folder when it opens, a relative or malformed path typed in the path box is refused instead of being looked up against the wrong folder, a pattern such as *.log typed in the name box filters the list, and a full path typed in the name box can be accepted even when the shown folder failed to list.
+- Hiding shortcut hints removes the hints the app adds to tooltips in every language, including translated keys such as (Strg+D).
+- The close button on tabs sits as far from the right edge as the icon does from the left.
 
 ### Added
 - The Table menu has line styles (grid, thick grid, rows only, outline only and no lines), row spacing, an exact column width, fit columns to content and fit table to page. (#31)

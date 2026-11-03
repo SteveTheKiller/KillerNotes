@@ -591,6 +591,7 @@
     <sys:String x:Key="Str_Dlg_NoMatchingFiles">這裡沒有符合目前檔案類型的項目。</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFile">該檔案不存在。</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFolder">該資料夾不存在。</sys:String>
+    <sys:String x:Key="Str_Dlg_InvalidPath">請輸入有效的檔案名稱或路徑。</sys:String>
     <sys:String x:Key="Str_Dlg_OverwriteMsg">要取代 {0} 嗎?</sys:String>
     <sys:String x:Key="Str_Menu_PinPlace">釘選到位置</sys:String>
     <sys:String x:Key="Str_Menu_UnpinPlace">從位置移除</sys:String>

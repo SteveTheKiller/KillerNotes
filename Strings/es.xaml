@@ -591,6 +591,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Dlg_NoMatchingFiles">Aquí no hay nada que coincida con el tipo de archivo actual.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFile">Ese archivo no existe.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFolder">Esa carpeta no existe.</sys:String>
+    <sys:String x:Key="Str_Dlg_InvalidPath">Escriba un nombre de archivo o una ruta válidos.</sys:String>
     <sys:String x:Key="Str_Dlg_OverwriteMsg">¿Reemplazar {0}?</sys:String>
     <sys:String x:Key="Str_Menu_PinPlace">Anclar a lugares</sys:String>
     <sys:String x:Key="Str_Menu_UnpinPlace">Quitar de lugares</sys:String>

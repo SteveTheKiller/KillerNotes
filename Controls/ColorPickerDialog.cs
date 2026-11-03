@@ -469,7 +469,7 @@ namespace KillerNotes.Controls
                         ? L("Str_TT_SwatchReplace", "Click to set this swatch to the current color")
                         : L("Str_TT_SwatchUse", "Click to use this color") };
                 if (_replaceArmed) sw.SetResourceReference(Border.BorderBrushProperty, "PrimaryBrush"); else sw.BorderBrush = R("InputBorderBrush");
-                sw.ToolTip = sw.ToolTip + " (Alt+" + (idx + 1) + ")";
+                sw.ToolTip = KillerFamily.Layout.ShortcutHints.WithHint((string)sw.ToolTip, "Alt+" + (idx + 1));
                 sw.MouseLeftButtonUp += (_, _) => UseSavedSwatch(idx);
                 EnableColorChipKeys(sw, () => UseSavedSwatch(idx));
                 _savedRow.Children.Add(sw);

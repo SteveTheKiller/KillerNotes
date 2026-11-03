@@ -591,6 +591,7 @@
     <sys:String x:Key="Str_Dlg_NoMatchingFiles">বর্তমান ফাইলের ধরনের সঙ্গে এখানে কিছুই মেলে না।</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFile">ওই ফাইলটি নেই।</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFolder">ওই ফোল্ডারটি নেই।</sys:String>
+    <sys:String x:Key="Str_Dlg_InvalidPath">একটি বৈধ ফাইলের নাম বা পথ লিখুন।</sys:String>
     <sys:String x:Key="Str_Dlg_OverwriteMsg">{0} প্রতিস্থাপন করবেন?</sys:String>
     <sys:String x:Key="Str_Menu_PinPlace">স্থানে পিন করুন</sys:String>
     <sys:String x:Key="Str_Menu_UnpinPlace">স্থান থেকে সরান</sys:String>

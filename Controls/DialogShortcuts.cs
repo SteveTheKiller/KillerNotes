@@ -26,7 +26,7 @@ namespace KillerNotes.Controls
                     if (!Equals(control.ToolTip, applied)) originalTip = control.ToolTip;
                     object? label = originalTip ?? (control as ContentControl)?.Content ?? (control as MenuItem)?.Header;
                     string keys = (string)control.GetValue(GestureProperty);
-                    control.ToolTip = label is string text ? $"{text} ({keys})" : keys;
+                    control.ToolTip = label is string text ? KillerFamily.Layout.ShortcutHints.WithHint(text, keys) : keys;
                     applied = control.ToolTip;
                 }
                 control.Loaded += (_, _) => Refresh();

@@ -589,6 +589,7 @@
     <sys:String x:Key="Str_Dlg_NoMatchingFiles">現在のファイルの種類に一致するものはありません。</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFile">そのファイルは存在しません。</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFolder">そのフォルダーは存在しません。</sys:String>
+    <sys:String x:Key="Str_Dlg_InvalidPath">有効なファイル名またはパスを入力してください。</sys:String>
     <sys:String x:Key="Str_Dlg_OverwriteMsg">{0} を置き換えますか?</sys:String>
     <sys:String x:Key="Str_Menu_PinPlace">場所にピン留め</sys:String>
     <sys:String x:Key="Str_Menu_UnpinPlace">場所から削除</sys:String>

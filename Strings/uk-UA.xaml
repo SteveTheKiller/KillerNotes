@@ -169,6 +169,7 @@
     <sys:String x:Key="Str_Dlg_NoMatchingFiles">Тут немає файлів поточного типу.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFile">Такого файлу не існує.</sys:String>
     <sys:String x:Key="Str_Dlg_NoSuchFolder">Такої папки не існує.</sys:String>
+    <sys:String x:Key="Str_Dlg_InvalidPath">Введіть припустиме ім’я файлу або шлях.</sys:String>
     <sys:String x:Key="Str_Dlg_OverwriteMsg">Замінити {0}?</sys:String>
     <sys:String x:Key="Str_Menu_PinPlace">Закріпити в місцях</sys:String>
     <sys:String x:Key="Str_Menu_UnpinPlace">Прибрати з місць</sys:String>
