@@ -231,6 +231,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">¿Quieres descargarlo e instalarlo ahora? La aplicación se cerrará y volverá a abrirse automáticamente.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Actualizar</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">No se pudo iniciar la actualización.&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">No se pudo verificar la actualización descargada y se ha descartado. No se ha instalado nada.</sys:String>
     <sys:String x:Key="Str_About_NotNow">Ahora no</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Buscar siempre actualizaciones al iniciar</sys:String>
 

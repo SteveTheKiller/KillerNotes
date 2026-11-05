@@ -78,6 +78,10 @@ namespace KillerNotes.Features.About
 
         internal AboutController(IAboutHost host) => _host = host;
 
+        /// <summary>Reads the running exe's signature. WinVerifyTrust checks revocation over the network,
+        /// which a firewall that drops that traffic can stall for many seconds. Tests replace it.</summary>
+        internal static Func<(bool valid, string subject, string thumb)> ReadSigner { get; set; } = () => CodeSignature.GetSignerInfo();
+
         internal static bool StartupCheckEnabled => ThemeManager.GetSetting(StartupCheckSetting) != "0";
 
         /// <summary>Saves the startup check choice from either the About checkbox or the prompt.</summary>
@@ -135,30 +139,20 @@ namespace KillerNotes.Features.About
             if (dlg.Confirmed) await InstallAsync(tag);
         }
 
-        /// <summary>Fills the card in and shows it, then finishes the two slow parts in the
-        /// background.</summary>
+        /// <summary>Fills the card in and shows it, then finishes the slow parts (the signature and
+        /// the SHA-256) in the background.</summary>
         internal void Show()
         {
             _host.Version     = $"v{AppInfo.Version}";
             _host.ReleaseDate = AppInfo.ReleaseDate;
 
-            var (sigValid, subject, thumb) = CodeSignature.GetSignerInfo();
-            AdjustSignature(ref sigValid, ref subject, ref thumb);
-            _host.Publisher = sigValid ? subject : _host.Loc("Str_About_Unsigned");
-
-            // Shown only when the exe is signed by the expected publisher AND the signature actually
-            // verifies: reading a certificate out of a file does not prove the file is untampered.
-            bool signedByPublisher = sigValid &&
-                subject.IndexOf(AppInfo.SignerName, StringComparison.OrdinalIgnoreCase) >= 0;
-
             // Only the quoted alias goes here; the prefix and the surrounding hyperlink live in the
             // XAML. 0x201C / 0x201D are the curly quotes, built from codepoints so this line adds no
             // non-ASCII bytes to the source.
             _host.Alias        = (char)0x201C + AppInfo.AkaName + (char)0x201D;
-            _host.AliasVisible = signedByPublisher;
-            string shownThumb  = thumb;
-            ShownValue(ref shownThumb);
-            _host.Thumbprint   = shownThumb;
+            _host.AliasVisible = false;
+            _host.Publisher    = _host.Loc("Str_About_Computing");
+            _host.Thumbprint   = _host.Loc("Str_About_Computing");
             _host.Sha256       = _host.Loc("Str_About_Computing");
             _host.UpdateVisible = false;
             _host.StartupUpdateCheck = StartupCheckEnabled;
@@ -168,6 +162,18 @@ namespace KillerNotes.Features.About
             OnShow();
 
             _host.ShowCard();
+
+            // The signature check can wait on revocation servers for many seconds, so it lands after
+            // the card is already up and never holds the window.
+            var dispatcher = _host.Window.Dispatcher;
+            var readSigner = ReadSigner;
+            Task.Run(() =>
+            {
+                (bool valid, string subject, string thumb) signer;
+                try { signer = readSigner(); }
+                catch { signer = (false, "(not signed)", "(none)"); }
+                dispatcher.BeginInvoke((Action)(() => ShowSignature(signer.valid, signer.subject, signer.thumb)));
+            });
 
             // SHA-256 is slow on a large exe, so it lands after the card is already up.
             Task.Run(() =>
@@ -182,6 +188,20 @@ namespace KillerNotes.Features.About
             });
 
             CheckForUpdate();
+        }
+
+        private void ShowSignature(bool sigValid, string subject, string thumb)
+        {
+            AdjustSignature(ref sigValid, ref subject, ref thumb);
+            _host.Publisher = sigValid ? subject : _host.Loc("Str_About_Unsigned");
+
+            // Shown only when the exe is signed by the expected publisher AND the signature actually
+            // verifies: reading a certificate out of a file does not prove the file is untampered.
+            _host.AliasVisible = sigValid &&
+                subject.IndexOf(AppInfo.SignerName, StringComparison.OrdinalIgnoreCase) >= 0;
+            string shownThumb = thumb;
+            ShownValue(ref shownThumb);
+            _host.Thumbprint = shownThumb;
         }
 
         /// <summary>Opens the release page for the running version.</summary>

@@ -230,6 +230,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Möchten Sie diese Version jetzt herunterladen und installieren? Die App wird geschlossen und automatisch neu geöffnet.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Aktualisieren</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Das Update konnte nicht gestartet werden.&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">Das heruntergeladene Update konnte nicht überprüft werden und wurde verworfen. Es wurde nichts installiert.</sys:String>
     <sys:String x:Key="Str_About_NotNow">Nicht jetzt</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Beim Start immer nach Updates suchen</sys:String>
 

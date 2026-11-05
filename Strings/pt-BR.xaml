@@ -450,6 +450,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Deseja baixá-lo e instalá-lo agora? O aplicativo será fechado e reaberto automaticamente.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Atualizar</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Não foi possível iniciar a atualização.&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">Não foi possível verificar a atualização baixada, e ela foi descartada. Nada foi instalado.</sys:String>
     <sys:String x:Key="Str_About_NotNow">Agora não</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Sempre verificar ao iniciar</sys:String>
 

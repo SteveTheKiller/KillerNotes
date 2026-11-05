@@ -78,9 +78,11 @@ namespace KillerNotes.Tests
         [InlineData(0u, 0u, true)]
         [InlineData(0x80092013u, 0u, true)]
         [InlineData(0x80092013u, 0x800B0101u, false)]
+        [InlineData(0x800B010Eu, 0u, true)]
+        [InlineData(0x800B010Eu, 0x800B0101u, false)]
         [InlineData(0x800B010Cu, 0u, false)]
         [InlineData(0x80096010u, 0u, false)]
-        public void OnlyAnOfflineRevocationServerEarnsTheCacheOnlyRetry(uint first, uint retry, bool trusted)
+        public void OnlyAnUnreachableRevocationServerEarnsTheCacheOnlyRetry(uint first, uint retry, bool trusted)
         {
             var calls = new System.Collections.Generic.List<(uint revocation, uint flags)>();
             bool result = CodeSignature.VerifyTrust((revocation, flags) =>
@@ -92,7 +94,7 @@ namespace KillerNotes.Tests
             Assert.Equal(trusted, result);
             // WTD_REVOKE_WHOLECHAIN first; the retry is WTD_REVOKE_NONE with cache-only retrieval.
             Assert.Equal((1u, 0x80u), calls[0]);
-            Assert.Equal(first == 0x80092013u ? 2 : 1, calls.Count);
+            Assert.Equal(first == 0x80092013u || first == 0x800B010Eu ? 2 : 1, calls.Count);
             if (calls.Count == 2) Assert.Equal((0u, 0x1010u), calls[1]);
         }
 

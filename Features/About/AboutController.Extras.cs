@@ -28,6 +28,12 @@ namespace KillerNotes.Features.About
         // UAC declined or the helper failed: the app stays, and so does anything it was told to drop.
         partial void UpdateShutdownCanceled() => (_host.Window as MainWindow)?.QuitCalledOff();
 
+        partial void UpdateNotVerified(Exception failure)
+        {
+            // The download arrived but was refused, so the releases page is no remedy: say so.
+            new ConfirmDialog(AppInfo.DisplayName, _host.Loc("Str_About_UpdateNotVerified"), _host.Loc("Str_Btn_OK"), notice: true) { Owner = _host.Window }.ShowDialog();
+        }
+
         partial void UpdateHandoffFailed(Exception failure)
         {
             if (HandoffFailureText(failure, _host.Loc) is not string text) return;

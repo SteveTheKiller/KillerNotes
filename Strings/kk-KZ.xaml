@@ -423,6 +423,7 @@
     <sys:String x:Key="Str_About_StartupUpdateDetail">Оны қазір жүктеп, орнатқыңыз келе ме? Қолданба автоматты түрде жабылып, қайта ашылады.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Жаңарту</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Жаңартуды бастау мүмкін болмады.&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">Жүктелген жаңартуды тексеру мүмкін болмады, сондықтан ол жойылды. Ештеңе орнатылған жоқ.</sys:String>
     <sys:String x:Key="Str_About_NotNow">Қазір емес</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Іске қосылғанда жаңартуларды әрдайым тексеру</sys:String>
 

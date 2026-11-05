@@ -229,6 +229,7 @@
     <sys:String x:Key="Str_About_StartupUpdateDetail">今すぐダウンロードしてインストールしますか？アプリは終了し、自動的に再起動します。</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">更新</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">更新を開始できませんでした。&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">ダウンロードした更新を検証できなかったため、破棄しました。何もインストールされていません。</sys:String>
     <sys:String x:Key="Str_About_NotNow">後で</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">起動時に常に更新を確認する</sys:String>
 

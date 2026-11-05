@@ -230,6 +230,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Şimdi indirip yüklemek ister misiniz? Uygulama kapanacak ve otomatik olarak yeniden açılacak.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Güncelle</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Güncelleme başlatılamadı.&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">İndirilen güncelleme doğrulanamadı ve silindi.</sys:String>
     <sys:String x:Key="Str_About_NotNow">Şimdi değil</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Başlangıçta her zaman güncellemeleri denetle</sys:String>
 

@@ -230,6 +230,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Voulez-vous le télécharger et l'installer maintenant ? L'application se fermera et rouvrira automatiquement.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Mettre à jour</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">La mise à jour n'a pas pu démarrer.&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">La mise à jour téléchargée n'a pas pu être vérifiée et a été supprimée. Rien n'a été installé.</sys:String>
     <sys:String x:Key="Str_About_NotNow">Pas maintenant</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Toujours rechercher les mises à jour au démarrage</sys:String>
 

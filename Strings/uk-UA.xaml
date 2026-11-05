@@ -450,6 +450,7 @@
     <sys:String x:Key="Str_About_StartupUpdateDetail">Завантажити та встановити зараз? Програма закриється та відкриється знову автоматично.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Оновити</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Не вдалося запустити оновлення.&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">Не вдалося перевірити завантажене оновлення, тому його відхилено. Нічого не встановлено.</sys:String>
     <sys:String x:Key="Str_About_NotNow">Не зараз</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Завжди перевіряти під час запуску</sys:String>
 

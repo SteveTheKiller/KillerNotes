@@ -305,6 +305,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Chcete jej nyní stáhnout a nainstalovat? Aplikace se zavře a automaticky znovu otevře.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Aktualizovat</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Aktualizaci se nepodařilo spustit.&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">Staženou aktualizaci nebylo možné ověřit, proto byla zahozena. Nic nebylo nainstalováno.</sys:String>
     <sys:String x:Key="Str_About_NotNow">Teď ne</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Vždy kontrolovat aktualizace při spuštění</sys:String>
 

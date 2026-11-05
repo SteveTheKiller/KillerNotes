@@ -423,6 +423,7 @@
     <sys:String x:Key="Str_About_StartupUpdateDetail">Хотите скачать и установить его сейчас? Приложение закроется и снова откроется автоматически.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Обновить</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Не удалось запустить обновление.&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">Не удалось проверить загруженное обновление, поэтому оно было удалено. Ничего не установлено.</sys:String>
     <sys:String x:Key="Str_About_NotNow">Не сейчас</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Всегда проверять обновления при запуске</sys:String>
 

@@ -412,6 +412,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_About_StartupUpdateDetail">Szeretnéd most letölteni és telepíteni? Az alkalmazás automatikusan bezárul és újraindul.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Frissítés</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">A frissítést nem sikerült elindítani.&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">A letöltött frissítést nem sikerült ellenőrizni, ezért elvetettük. Semmi sem lett telepítve.</sys:String>
     <sys:String x:Key="Str_About_NotNow">Most nem</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Mindig keressen frissítéseket indításkor</sys:String>
 

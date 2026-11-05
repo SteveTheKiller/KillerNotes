@@ -23,6 +23,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The file picker no longer stalls on a disconnected network folder when it opens, a relative or malformed path typed in the path box is refused instead of being looked up against the wrong folder, a pattern such as *.log typed in the name box filters the list, and a full path typed in the name box can be accepted even when the shown folder failed to list.
 - Hiding shortcut hints removes the hints the app adds to tooltips in every language, including translated keys such as (Strg+D).
 - Changing the file type in the save picker while the name box holds characters no file name can carry no longer crashes KillerNotes; the name keeps its text and shows the invalid-path message.
+- About opens at once instead of waiting on the signature check, which can stall for many seconds on a network that drops revocation traffic; the publisher and thumbprint fill in when it finishes.
+- A folder typed into the file picker that cannot be opened keeps its reason on the status line after the picker goes back to the last folder that listed.
 
 ### Added
 

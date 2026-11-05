@@ -371,6 +371,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_About_StartupUpdateDetail">Želite posodobitev prenesti in namestiti zdaj? Aplikacija se bo samodejno zaprla in znova odprla.</sys:String>
     <sys:String x:Key="Str_About_UpdateNow">Posodobi</sys:String>
     <sys:String x:Key="Str_About_UpdateFailed" xml:space="preserve">Posodobitve ni bilo mogoče zagnati.&#10;{0}</sys:String>
+    <sys:String x:Key="Str_About_UpdateNotVerified">Prenesene posodobitve ni bilo mogoče preveriti, zato je bila zavržena. Nič ni bilo nameščeno.</sys:String>
     <sys:String x:Key="Str_About_NotNow">Ne zdaj</sys:String>
     <sys:String x:Key="Str_About_AlwaysCheckOnStartup">Vedno preveri ob zagonu</sys:String>
     <sys:String x:Key="Str_KS_Title">Bližnjice na tipkovnici</sys:String>
