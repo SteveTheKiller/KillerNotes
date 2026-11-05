@@ -16,7 +16,7 @@ namespace KillerNotes.Tests
             try
             {
                 return UpdateImagePublication.Script(path, @"C:\Apps\KillerNotes.exe", elevated,
-                    "https://example.invalid/releases", "KillerNotes");
+                    "https://example.invalid/releases", "KillerNotes", originalHash: new string('C', 64));
             }
             finally { if (File.Exists(path + ".recovery.txt")) File.Delete(path + ".recovery.txt"); }
         }

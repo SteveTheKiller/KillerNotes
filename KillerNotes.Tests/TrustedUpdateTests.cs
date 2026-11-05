@@ -28,7 +28,7 @@ namespace KillerNotes.Tests
                 UpdateImagePublication.RememberVerified(download, new string('0', 64), new string('B', 40));
                 string script = Path.Combine(folder, "helper.ps1");
                 File.WriteAllText(script, UpdateImagePublication.Script(download, Path.Combine(folder, "app it.exe"),
-                    elevated, "https://example.invalid/releases", "KillerNotes", "9.9.9", "HKLM"), new UTF8Encoding(true));
+                    elevated, "https://example.invalid/releases", "KillerNotes", "9.9.9", "HKLM", originalHash: new string('C', 64)), new UTF8Encoding(true));
                 var check = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, @"WindowsPowerShell\v1.0\powershell.exe"),
                     "-NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"$e=$null;$null=[Management.Automation.Language.Parser]::ParseFile('"
                     + script + "',[ref]$null,[ref]$e);$e | ForEach-Object { $_.Message };'errors=' + @($e).Count\"")

@@ -8,6 +8,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 1.6.2 gives tables more control over their lines, sizes and spacing, and makes updates and the file picker recover from more failures.
 
+### Security
+
+- Update signatures must pass a revocation check, falling back to an offline check only when the revocation server cannot be reached. Update metadata downloads are capped at 1 MB, and an install and an update of one folder lock each other out.
+
 ### Fixed
 
 - The file picker loads icons and picture previews in the background, refreshes overwritten previews, and restores its position on any monitor.

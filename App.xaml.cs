@@ -581,7 +581,13 @@ namespace KillerNotes
         {
             try
             {
-                using var installLease = KillerFamily.Deployment.InstallerExitCodes.Acquire(AppName);
+                // With admin rights the install is machine-wide. The same per-folder lease the update
+                // helpers take, so an install and an update of one folder never publish over each other.
+                bool machine = KillerFamily.Deployment.InstallerExitCodes.IsElevated();
+                string installDir = machine
+                    ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), AppName)
+                    : InstallDir;
+                using var installLease = KillerFamily.Deployment.InstallerExitCodes.Acquire(AppName, installDir);
 
                 // An unsigned or tampered exe must not be able to write itself into
                 // Program Files, least of all while elevated.
@@ -594,14 +600,12 @@ namespace KillerNotes
 
                 // Without admin rights, as the Microsoft Store runs installers, this is the normal
                 // per-user install with no prompt. The app never needs admin rights.
-                if (!KillerFamily.Deployment.InstallerExitCodes.IsElevated())
+                if (!machine)
                 {
                     InstallForCurrentUser(wantDesktop: false);
                     return KillerFamily.Deployment.InstallerExitCodes.Success;
                 }
 
-                string installDir = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), AppName);
                 string installExe = Path.Combine(installDir, ExeName);
                 string startMenuDir = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), AppName);
