@@ -38,6 +38,11 @@
     <sys:String x:Key="Str_TT_AppSize">Przewiń, aby zmienić rozmiar całej aplikacji</sys:String>
     <sys:String x:Key="Str_St_AppSize">Rozmiar aplikacji {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Przełącz zawijanie wierszy</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Szerokość strony</sys:String>
+    <sys:String x:Key="Str_PW_Full">Pełna szerokość</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Szeroka strona</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Średnia strona</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Wąska strona</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Podświetlanie składni</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Numery wierszy (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Przełącz numery wierszy</sys:String>

@@ -347,6 +347,11 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_Spell">Yazım denetimini aç/kapat</sys:String>
     <sys:String x:Key="Str_KS_Table">Tablo ekle</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Sözcük kaydırmayı aç/kapat</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Sayfa genişliği</sys:String>
+    <sys:String x:Key="Str_PW_Full">Tam genişlik</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Geniş sayfa</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Orta sayfa</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Dar sayfa</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Sözdizimi vurgulama</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Sözcük kaydırma açık</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Sözcük kaydırma kapalı - geniş içeriği görmek için kaydırın</sys:String>

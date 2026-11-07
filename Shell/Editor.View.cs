@@ -328,6 +328,78 @@ namespace KillerNotes.Shell
             _wordWrap = wrap;
             Editor.Document.PageWidth = wrap ? double.NaN : NoWrapPageWidth;
             WordWrapMenuItem?.IsChecked = wrap;
+            UpdatePagePadding();
+        }
+
+        // ---- Page width presets (#31; Services/PageWidth.cs) ----
+        // Full, Wide, Medium and Narrow cap the text column and center it by turning the slack
+        // into side padding, recomputed whenever the editor pane changes size. A global view
+        // setting like word wrap. With wrap off the page is the 4000px no-wrap page, so the cap
+        // is left alone there: it would only push the text off to the right.
+        private PageWidthMode _pageWidth = PageWidthMode.Full;
+        private Thickness _basePagePadding = new(5, 0, 5, 0);   // the RichTextBox's own document padding
+
+        private void InitPageWidth()
+        {
+            Thickness own = Editor.Document.PagePadding;
+            if (!double.IsNaN(own.Left) && !double.IsNaN(own.Right) && !double.IsNaN(own.Top) && !double.IsNaN(own.Bottom))
+                _basePagePadding = own;
+            Editor.SizeChanged += (_, _) => UpdatePagePadding();
+            foreach (var (radio, mode) in PageWidthRadios())
+                DescribeSurface(radio, PageWidthLabel(mode), PageWidthGesture(mode));
+            ApplyPageWidth(PageWidth.Parse(App.GetSetting(PageWidth.Setting)), announce: false);
+        }
+
+        private (RadioButton Radio, PageWidthMode Mode)[] PageWidthRadios() =>
+        [
+            (PageWidthFullRadio, PageWidthMode.Full), (PageWidthWideRadio, PageWidthMode.Wide),
+            (PageWidthMediumRadio, PageWidthMode.Medium), (PageWidthNarrowRadio, PageWidthMode.Narrow),
+        ];
+
+        private static string PageWidthLabel(PageWidthMode mode) => "Str_PW_" + mode;
+
+        private static string PageWidthGesture(PageWidthMode mode) => mode switch
+        {
+            PageWidthMode.Wide => "Alt+Shift+E",
+            PageWidthMode.Medium => "Alt+Shift+M",
+            PageWidthMode.Narrow => "Alt+Shift+N",
+            _ => "Alt+Shift+W",
+        };
+
+        private void PageWidthFull_Click(object sender, RoutedEventArgs e) => ApplyPageWidth(PageWidthMode.Full);
+        private void PageWidthWide_Click(object sender, RoutedEventArgs e) => ApplyPageWidth(PageWidthMode.Wide);
+        private void PageWidthMedium_Click(object sender, RoutedEventArgs e) => ApplyPageWidth(PageWidthMode.Medium);
+        private void PageWidthNarrow_Click(object sender, RoutedEventArgs e) => ApplyPageWidth(PageWidthMode.Narrow);
+
+        /// <summary>A footer radio: Checked fires for the one the user clicked and again when
+        /// ApplyPageWidth syncs the group, so the setting only changes when it is a real change.</summary>
+        private void PageWidthRadio_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (var (radio, mode) in PageWidthRadios())
+                if (ReferenceEquals(radio, sender) && mode != _pageWidth) ApplyPageWidth(mode);
+        }
+
+        private void ApplyPageWidth(PageWidthMode mode, bool announce = true)
+        {
+            bool changed = mode != _pageWidth;
+            _pageWidth = mode;
+            foreach (var (radio, m) in PageWidthRadios()) radio.IsChecked = m == mode;
+            PageWidthFullMenuItem.IsChecked = mode == PageWidthMode.Full;
+            PageWidthWideMenuItem.IsChecked = mode == PageWidthMode.Wide;
+            PageWidthMediumMenuItem.IsChecked = mode == PageWidthMode.Medium;
+            PageWidthNarrowMenuItem.IsChecked = mode == PageWidthMode.Narrow;
+            UpdatePagePadding();
+            if (!changed) return;
+            App.SetSetting(PageWidth.Setting, PageWidth.Serialize(mode));
+            if (announce) FlashStatus(Loc(PageWidthLabel(mode)));
+        }
+
+        private void UpdatePagePadding()
+        {
+            Thickness want = _wordWrap
+                ? PageWidth.Padding(_pageWidth, Editor.ViewportWidth, _basePagePadding)
+                : _basePagePadding;
+            if (Editor.Document.PagePadding != want) Editor.Document.PagePadding = want;
         }
     }
 }

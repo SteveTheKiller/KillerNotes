@@ -345,6 +345,11 @@
     <sys:String x:Key="Str_KS_Spell">切換拼字檢查</sys:String>
     <sys:String x:Key="Str_KS_Table">插入表格</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">切換自動換行</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">頁面寬度</sys:String>
+    <sys:String x:Key="Str_PW_Full">全寬</sys:String>
+    <sys:String x:Key="Str_PW_Wide">寬頁面</sys:String>
+    <sys:String x:Key="Str_PW_Medium">中等頁面</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">窄頁面</sys:String>
     <sys:String x:Key="Str_KS_Syntax">語法醒目提示</sys:String>
     <sys:String x:Key="Str_St_WrapOn">自動換行已開啟</sys:String>
     <sys:String x:Key="Str_St_WrapOff">自動換行已關閉 - 捲動以檢視較寬的內容</sys:String>

@@ -47,6 +47,11 @@
     <sys:String x:Key="Str_TT_AppSize">Бүкіл қолданба өлшемін өзгерту үшін айналдырыңыз</sys:String>
     <sys:String x:Key="Str_St_AppSize">Қолданба өлшемі {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Жол тасымалын қосу/өшіру</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Бет ені</sys:String>
+    <sys:String x:Key="Str_PW_Full">Толық ені</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Кең бет</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Орташа бет</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Тар бет</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Синтаксисті бөлектеу</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Жол нөмірлері (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Жол нөмірлерін қосу/өшіру</sys:String>

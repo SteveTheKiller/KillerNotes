@@ -347,6 +347,11 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_Spell">Alternar corrección ortográfica</sys:String>
     <sys:String x:Key="Str_KS_Table">Insertar tabla</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Alternar ajuste de línea</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Ancho de página</sys:String>
+    <sys:String x:Key="Str_PW_Full">Ancho completo</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Página ancha</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Página mediana</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Página estrecha</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Resaltado de sintaxis</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Ajuste de línea activado</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Ajuste de línea desactivado - desplácese para ver el contenido ancho</sys:String>

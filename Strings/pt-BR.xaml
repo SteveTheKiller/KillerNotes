@@ -55,6 +55,11 @@
     <sys:String x:Key="Str_TT_AppSize">Role para redimensionar todo o aplicativo</sys:String>
     <sys:String x:Key="Str_St_AppSize">Tamanho do aplicativo {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Alternar quebra de linha</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Largura da página</sys:String>
+    <sys:String x:Key="Str_PW_Full">Largura total</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Página larga</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Página média</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Página estreita</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Realce de sintaxe</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Números de linha (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Alternar números de linha</sys:String>

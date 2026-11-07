@@ -47,6 +47,11 @@
     <sys:String x:Key="Str_TT_AppSize">Scorri per ridimensionare l'intera app</sys:String>
     <sys:String x:Key="Str_St_AppSize">Dimensione app {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Attiva o disattiva il ritorno a capo</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Larghezza pagina</sys:String>
+    <sys:String x:Key="Str_PW_Full">Larghezza piena</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Pagina larga</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Pagina media</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Pagina stretta</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Evidenziazione della sintassi</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Numeri di riga (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Attiva o disattiva i numeri di riga</sys:String>

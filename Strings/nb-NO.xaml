@@ -55,6 +55,11 @@
     <sys:String x:Key="Str_TT_AppSize">Rull for å endre størrelsen på hele appen</sys:String>
     <sys:String x:Key="Str_St_AppSize">Appstørrelse {0} %</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Slå tekstbryting av eller på</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Sidebredde</sys:String>
+    <sys:String x:Key="Str_PW_Full">Full bredde</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Bred side</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Middels side</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Smal side</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Syntaksutheving</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Linjenumre (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Slå linjenumre av eller på</sys:String>

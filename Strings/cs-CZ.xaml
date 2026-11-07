@@ -50,6 +50,11 @@
     <sys:String x:Key="Str_TT_AppSize">Posouváním změníte velikost celé aplikace</sys:String>
     <sys:String x:Key="Str_St_AppSize">Velikost aplikace {0} %</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Přepnout zalamování řádků</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Šířka stránky</sys:String>
+    <sys:String x:Key="Str_PW_Full">Plná šířka</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Široká stránka</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Střední stránka</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Úzká stránka</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Zvýraznění syntaxe</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Čísla řádků (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Přepnout čísla řádků</sys:String>

@@ -347,6 +347,11 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_Spell">Activer/désactiver la vérification orthographique</sys:String>
     <sys:String x:Key="Str_KS_Table">Insérer un tableau</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Activer/désactiver le retour à la ligne</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Largeur de page</sys:String>
+    <sys:String x:Key="Str_PW_Full">Pleine largeur</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Page large</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Page moyenne</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Page étroite</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Coloration syntaxique</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Retour à la ligne activé</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Retour à la ligne désactivé - faites défiler pour voir le contenu large</sys:String>

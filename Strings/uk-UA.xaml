@@ -55,6 +55,11 @@
     <sys:String x:Key="Str_TT_AppSize">Прокрутіть, щоб змінити розмір усього застосунку</sys:String>
     <sys:String x:Key="Str_St_AppSize">Розмір застосунку {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Перенесення слів</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Ширина сторінки</sys:String>
+    <sys:String x:Key="Str_PW_Full">Повна ширина</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Широка сторінка</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Середня сторінка</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Вузька сторінка</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Підсвічування синтаксису</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Номери рядків (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Показати або сховати номери рядків</sys:String>

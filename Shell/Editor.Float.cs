@@ -458,6 +458,7 @@ namespace KillerNotes.Shell
             DocToggleSeparator.Visibility = txt;
             SyntaxHighlightMenuItem.Visibility = txt;
             WordWrapMenuItem.Visibility = txt;
+            PageWidthMenuItem.Visibility = txt;
             SpellCheckMenuItem.Visibility = txt;
             if (onObject) PreviewMenuItem.Visibility = Visibility.Collapsed;
             UpdateTableMenu(onObject);   // Editor.TableEdit.cs

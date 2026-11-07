@@ -55,6 +55,11 @@
     <sys:String x:Key="Str_TT_AppSize">Cuộn để thay đổi kích thước toàn bộ ứng dụng</sys:String>
     <sys:String x:Key="Str_St_AppSize">Kích thước ứng dụng {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Bật/tắt ngắt dòng</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Chiều rộng trang</sys:String>
+    <sys:String x:Key="Str_PW_Full">Toàn chiều rộng</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Trang rộng</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Trang vừa</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Trang hẹp</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Tô sáng cú pháp</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Số dòng (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Bật/tắt số dòng</sys:String>

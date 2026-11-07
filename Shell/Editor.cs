@@ -45,6 +45,7 @@ namespace KillerNotes.Shell
             InitImageResize();   // click-to-resize handles on note images (ImageResize.cs)
             InitEditorView();    // remembered zoom + Ctrl+wheel (below)
             InitWordWrap();      // remembered word-wrap toggle (below)
+            InitPageWidth();     // Full / Wide / Medium / Narrow text column (Editor.View.cs, #31)
             InitSyntaxHighlighting();
             InitWikiLinks();        // WikiLinkNav.cs (Ctrl+Click a [[link]] to follow it)
             InitWikiLinkComplete(); // WikiLinkComplete.cs (title picker after "[[")

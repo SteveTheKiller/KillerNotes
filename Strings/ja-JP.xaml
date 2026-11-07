@@ -345,6 +345,11 @@
     <sys:String x:Key="Str_KS_Spell">スペル チェックを切り替え</sys:String>
     <sys:String x:Key="Str_KS_Table">表を挿入</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">折り返しを切り替え</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">ページ幅</sys:String>
+    <sys:String x:Key="Str_PW_Full">全幅</sys:String>
+    <sys:String x:Key="Str_PW_Wide">幅広ページ</sys:String>
+    <sys:String x:Key="Str_PW_Medium">標準ページ</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">狭いページ</sys:String>
     <sys:String x:Key="Str_KS_Syntax">構文の強調表示</sys:String>
     <sys:String x:Key="Str_St_WrapOn">折り返しオン</sys:String>
     <sys:String x:Key="Str_St_WrapOff">折り返しオフ - 幅の広い内容はスクロールで表示</sys:String>

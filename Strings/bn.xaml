@@ -345,6 +345,11 @@
     <sys:String x:Key="Str_KS_Spell">বানান পরীক্ষা টগল করুন</sys:String>
     <sys:String x:Key="Str_KS_Table">টেবিল যোগ করুন</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">ওয়ার্ড র‍্যাপ টগল করুন</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">পৃষ্ঠার প্রস্থ</sys:String>
+    <sys:String x:Key="Str_PW_Full">সম্পূর্ণ প্রস্থ</sys:String>
+    <sys:String x:Key="Str_PW_Wide">প্রশস্ত পৃষ্ঠা</sys:String>
+    <sys:String x:Key="Str_PW_Medium">মাঝারি পৃষ্ঠা</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">সংকীর্ণ পৃষ্ঠা</sys:String>
     <sys:String x:Key="Str_KS_Syntax">সিনট্যাক্স হাইলাইটিং</sys:String>
     <sys:String x:Key="Str_St_WrapOn">ওয়ার্ড র‍্যাপ চালু</sys:String>
     <sys:String x:Key="Str_St_WrapOff">ওয়ার্ড র‍্যাপ বন্ধ - চওড়া বিষয়বস্তু দেখতে স্ক্রোল করুন</sys:String>

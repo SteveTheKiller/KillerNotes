@@ -6,7 +6,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.6.2] - Unreleased
 
-1.6.2 gives tables more control over their lines, sizes and spacing, and makes updates and the file picker recover from more failures.
+1.6.2 adds page width presets, gives tables more control over their lines, sizes and spacing, and makes updates and the file picker recover from more failures.
 
 ### Security
 
@@ -25,9 +25,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Changing the file type in the save picker while the name box holds characters no file name can carry no longer crashes KillerNotes; the name keeps its text and shows the invalid-path message.
 - About opens at once instead of waiting on the signature check, which can stall for many seconds on a network that drops revocation traffic; the publisher and thumbprint fill in when it finishes.
 - A folder typed into the file picker that cannot be opened keeps its reason on the status line after the picker goes back to the last folder that listed.
+- The database name in the title bar sits level with the library icon beside it again instead of three pixels low.
 
 ### Added
 
+- Page width presets in the footer and the editor menu: Full, Wide, Medium and Narrow (Alt+Shift+W, E, M and N) cap the text column and keep it centered, so a table no longer stretches across a wide window. The choice is remembered. (#31)
 - The Table menu has line styles (grid, thick grid, rows only, outline only and no lines), row spacing, an exact column width, fit columns to content and fit table to page. (#31)
 
 ## [1.6.1] - 2026-11-01

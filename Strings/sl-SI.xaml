@@ -35,6 +35,11 @@
     <sys:String x:Key="Str_TT_AppSize">Z drsenjem spremenite velikost celotne aplikacije</sys:String>
     <sys:String x:Key="Str_St_AppSize">Velikost aplikacije {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Preklopi prelom vrstic</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Širina strani</sys:String>
+    <sys:String x:Key="Str_PW_Full">Polna širina</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Široka stran</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Srednja stran</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Ozka stran</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Označevanje skladnje</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Številke vrstic (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Preklopi številke vrstic</sys:String>

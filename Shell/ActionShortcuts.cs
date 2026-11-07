@@ -84,6 +84,11 @@ namespace KillerNotes.Shell
             new("Alt+Shift+9", Key.D9, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblColWidth", "Format", w => w.RunTableAction(w.TableColWidth_Click)),
             new("Alt+Shift+0", Key.D0, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblFitContent", "Format", w => w.RunTableAction(w.TableFitContent_Click)),
             new("Alt+Shift+T", Key.T, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblFitPage", "Format", w => w.RunTableAction(w.TableFitPage_Click)),
+            // Page width presets (Editor.View.cs, #31): the four footer radios share these gestures.
+            new("Alt+Shift+W", Key.W, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Full", "View", w => w.PageWidthFull_Click(w, new RoutedEventArgs()), "PageWidthFullMenuItem"),
+            new("Alt+Shift+E", Key.E, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Wide", "View", w => w.PageWidthWide_Click(w, new RoutedEventArgs()), "PageWidthWideMenuItem"),
+            new("Alt+Shift+M", Key.M, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Medium", "View", w => w.PageWidthMedium_Click(w, new RoutedEventArgs()), "PageWidthMediumMenuItem"),
+            new("Alt+Shift+N", Key.N, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Narrow", "View", w => w.PageWidthNarrow_Click(w, new RoutedEventArgs()), "PageWidthNarrowMenuItem"),
             new("Ctrl+Shift+1", Key.D1, ModifierKeys.Control | ModifierKeys.Shift, "Str_Ctx_TblRowAbove", "Format", w => w.RunTableAction(w.TableRowAbove_Click), "TblRowAboveMenuItem"),
             new("Ctrl+Shift+2", Key.D2, ModifierKeys.Control | ModifierKeys.Shift, "Str_Ctx_TblRowBelow", "Format", w => w.RunTableAction(w.TableRowBelow_Click), "TblRowBelowMenuItem"),
             new("Ctrl+Shift+3", Key.D3, ModifierKeys.Control | ModifierKeys.Shift, "Str_Ctx_TblColLeft", "Format", w => w.RunTableAction(w.TableColLeft_Click), "TblColLeftMenuItem"),

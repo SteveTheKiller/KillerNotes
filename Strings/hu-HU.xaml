@@ -50,6 +50,11 @@
     <sys:String x:Key="Str_TT_AppSize">Görgessen az egész alkalmazás átméretezéséhez</sys:String>
     <sys:String x:Key="Str_St_AppSize">Alkalmazás mérete {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Szótördelés váltása</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Oldalszélesség</sys:String>
+    <sys:String x:Key="Str_PW_Full">Teljes szélesség</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Széles oldal</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Közepes oldal</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Keskeny oldal</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Szintaxis kiemelés</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Sorszámok (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Sorszámok váltása</sys:String>

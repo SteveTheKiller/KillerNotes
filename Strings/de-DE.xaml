@@ -349,6 +349,11 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_Spell">Rechtschreibprüfung umschalten</sys:String>
     <sys:String x:Key="Str_KS_Table">Tabelle einfügen</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Zeilenumbruch umschalten</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Seitenbreite</sys:String>
+    <sys:String x:Key="Str_PW_Full">Volle Breite</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Breite Seite</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Mittlere Seite</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Schmale Seite</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Syntaxhervorhebung</sys:String>
     <sys:String x:Key="Str_St_WrapOn">Zeilenumbruch an</sys:String>
     <sys:String x:Key="Str_St_WrapOff">Zeilenumbruch aus - scrollen, um breite Inhalte zu sehen</sys:String>

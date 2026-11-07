@@ -47,6 +47,11 @@
     <sys:String x:Key="Str_TT_AppSize">Прокрутите, чтобы изменить размер всего приложения</sys:String>
     <sys:String x:Key="Str_St_AppSize">Размер приложения {0}%</sys:String>
     <sys:String x:Key="Str_KS_WordWrap">Переключить перенос строк</sys:String>
+    <sys:String x:Key="Str_KS_PageWidth">Ширина страницы</sys:String>
+    <sys:String x:Key="Str_PW_Full">Полная ширина</sys:String>
+    <sys:String x:Key="Str_PW_Wide">Широкая страница</sys:String>
+    <sys:String x:Key="Str_PW_Medium">Средняя страница</sys:String>
+    <sys:String x:Key="Str_PW_Narrow">Узкая страница</sys:String>
     <sys:String x:Key="Str_KS_Syntax">Подсветка синтаксиса</sys:String>
     <sys:String x:Key="Str_TT_LineNumbers">Номера строк (Alt+L)</sys:String>
     <sys:String x:Key="Str_KS_LineNumbers">Переключить номера строк</sys:String>
