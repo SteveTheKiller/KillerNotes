@@ -24,6 +24,37 @@
     </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
+        <!-- Footer mode radio, copied from KillerPDF's footer view modes: a flat 20px button whose
+             glyph turns the accent and gains a 2px accent underline while checked. -->
+        <Style x:Key="FooterModeButton" TargetType="RadioButton">
+            <Setter Property="Width" Value="22"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="1,0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextFooter}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent" BorderThickness="0,0,0,2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,2,0,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="ShortcutNavigationList" TargetType="ListBox">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -434,10 +465,14 @@
             <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right"
                         Margin="{DynamicResource CaptionButtonsMargin}"
                         shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                <!-- The database name sits level with the library icon beside it, with no downward
+                     shift: pinned here as KillerShot pins its label, because the kit ThemeManager's
+                     FileNameTransform carries KillerPDF's 3px drop and every kit take brought it
+                     back (TitleBarDatabaseNameTests). -->
                 <TextBlock x:Name="ActiveDatabaseText" MaxWidth="240" Margin="12,0,6,0"
                            VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
                            FontFamily="{DynamicResource FileNameFont}" FontSize="{DynamicResource FileNameFontSize}"
-                           RenderTransform="{DynamicResource FileNameTransform}" TextOptions.TextFormattingMode="Ideal"
+                           RenderTransform="{x:Static Transform.Identity}" TextOptions.TextFormattingMode="Ideal"
                            Tag="{DynamicResource UseDialogCaption}">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -2171,6 +2206,18 @@
                                           Header="{DynamicResource Str_KS_WordWrap}"
                                           IsCheckable="True" Click="WordWrap_Click"
                                           InputGestureText="Ctrl+Shift+W"/>
+                                <!-- Page width presets (Editor.View.cs, #31): the same four picks as
+                                     the footer radios. Gestures come from ActionShortcuts.cs. -->
+                                <MenuItem x:Name="PageWidthMenuItem" Icon="&#xE9A6;" Header="{DynamicResource Str_KS_PageWidth}">
+                                    <MenuItem x:Name="PageWidthFullMenuItem" IsCheckable="True" Click="PageWidthFull_Click"
+                                              Header="{DynamicResource Str_PW_Full}" InputGestureText="Alt+Shift+W"/>
+                                    <MenuItem x:Name="PageWidthWideMenuItem" IsCheckable="True" Click="PageWidthWide_Click"
+                                              Header="{DynamicResource Str_PW_Wide}" InputGestureText="Alt+Shift+E"/>
+                                    <MenuItem x:Name="PageWidthMediumMenuItem" IsCheckable="True" Click="PageWidthMedium_Click"
+                                              Header="{DynamicResource Str_PW_Medium}" InputGestureText="Alt+Shift+M"/>
+                                    <MenuItem x:Name="PageWidthNarrowMenuItem" IsCheckable="True" Click="PageWidthNarrow_Click"
+                                              Header="{DynamicResource Str_PW_Narrow}" InputGestureText="Alt+Shift+N"/>
+                                </MenuItem>
                                 <MenuItem x:Name="SpellCheckMenuItem" Icon="&#xF87B;"
                                           Header="{DynamicResource Str_KS_Spell}"
                                           IsCheckable="True" Click="Spell_Click"
@@ -2831,6 +2878,35 @@
                     <Button x:Name="BackupWarningBtn" Visibility="Collapsed" Click="BackupWarning_Click"
                             Style="{StaticResource OutlineButton}" FontFamily="{DynamicResource ChromeFontFamily}"
                             FontSize="10" Padding="8,1" Margin="6,0" VerticalAlignment="Center"/>
+                    <!-- Page width presets (Editor.View.cs, #31), the way KillerPDF's footer carries
+                         its view modes: four radios drawn as a page with a text column of shrinking
+                         width. Tooltips, names and gestures come from DescribeSurface at startup. -->
+                    <Border Width="1" Height="12" Margin="6,0,2,0" VerticalAlignment="Center" IsHitTestVisible="False"
+                            Background="{DynamicResource TextFooter}" Opacity="0.35"/>
+                    <RadioButton x:Name="PageWidthFullRadio" GroupName="PageWidthGroup" AutomationProperties.Name="{DynamicResource Str_PW_Full}" Style="{StaticResource FooterModeButton}" Checked="PageWidthRadio_Checked">
+                        <Grid Width="13" Height="13">
+                            <Border BorderBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" BorderThickness="1"/>
+                            <Border Width="9" Height="5" Background="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Opacity="0.55"/>
+                        </Grid>
+                    </RadioButton>
+                    <RadioButton x:Name="PageWidthWideRadio" GroupName="PageWidthGroup" AutomationProperties.Name="{DynamicResource Str_PW_Wide}" Style="{StaticResource FooterModeButton}" Checked="PageWidthRadio_Checked">
+                        <Grid Width="13" Height="13">
+                            <Border BorderBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" BorderThickness="1"/>
+                            <Border Width="7" Height="5" Background="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Opacity="0.55"/>
+                        </Grid>
+                    </RadioButton>
+                    <RadioButton x:Name="PageWidthMediumRadio" GroupName="PageWidthGroup" AutomationProperties.Name="{DynamicResource Str_PW_Medium}" Style="{StaticResource FooterModeButton}" Checked="PageWidthRadio_Checked">
+                        <Grid Width="13" Height="13">
+                            <Border BorderBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" BorderThickness="1"/>
+                            <Border Width="5" Height="5" Background="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Opacity="0.55"/>
+                        </Grid>
+                    </RadioButton>
+                    <RadioButton x:Name="PageWidthNarrowRadio" GroupName="PageWidthGroup" AutomationProperties.Name="{DynamicResource Str_PW_Narrow}" Style="{StaticResource FooterModeButton}" Checked="PageWidthRadio_Checked">
+                        <Grid Width="13" Height="13">
+                            <Border BorderBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" BorderThickness="1"/>
+                            <Border Width="3" Height="5" Background="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Opacity="0.55"/>
+                        </Grid>
+                    </RadioButton>
                 </StackPanel>
                 <!-- Cell 2: the version + copyright block, its own sunken cell. The visible gap
                      between this and the status cell IS the divider - Win98 never drew a standalone
