@@ -364,10 +364,10 @@ namespace KillerNotes
 
         /// <summary>Takes the associations back out of one hive: extension keys, ProgIDs,
         /// Capabilities and the RegisteredApplications value.</summary>
-        private static void UnregisterFileAssociations(RegistryKey root)
+        internal static void UnregisterFileAssociations(RegistryKey root)
         {
-            try { root.DeleteSubKeyTree(@"Software\Classes\.kndb", false); } catch { }
-            try { root.DeleteSubKeyTree(@"Software\Classes\.knote", false); } catch { }
+            UnregisterOwnedExtension(root, ".kndb", "KillerNotes.Database");
+            UnregisterOwnedExtension(root, ".knote", "KillerNotes.Note");
             try { root.DeleteSubKeyTree(@"Software\Classes\KillerNotes.Database", false); } catch { }
             try { root.DeleteSubKeyTree(@"Software\Classes\KillerNotes.Note", false); } catch { }
             try { root.DeleteSubKeyTree($@"Software\Classes\{OpenWithProgId}", false); } catch { }
@@ -389,6 +389,34 @@ namespace KillerNotes
             }
             catch { }
             SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        private static void UnregisterOwnedExtension(RegistryKey root, string extension, string progId)
+        {
+            try
+            {
+                string path = $@"Software\Classes\{extension}";
+                bool empty;
+                using (var key = root.OpenSubKey(path, writable: true))
+                {
+                    if (key == null) return;
+                    if (string.Equals(key.GetValue("") as string, progId, StringComparison.OrdinalIgnoreCase))
+                        key.DeleteValue("", throwOnMissingValue: false);
+                    bool emptyOpenWith = false;
+                    using (var open = key.OpenSubKey("OpenWithProgids", writable: true))
+                    {
+                        if (open != null)
+                        {
+                            open.DeleteValue(progId, throwOnMissingValue: false);
+                            emptyOpenWith = open.ValueCount == 0 && open.SubKeyCount == 0;
+                        }
+                    }
+                    if (emptyOpenWith) key.DeleteSubKey("OpenWithProgids", throwOnMissingSubKey: false);
+                    empty = key.ValueCount == 0 && key.SubKeyCount == 0;
+                }
+                if (empty) root.DeleteSubKey(path, throwOnMissingSubKey: false);
+            }
+            catch { /* best-effort, preserving registrations that cannot be changed */ }
         }
 
         /// <summary>Copies an embedded .ico to <paramref name="iconDir"/> (DefaultIcon needs
@@ -660,7 +688,7 @@ namespace KillerNotes
         {
             try
             {
-                InstallForCurrentUser(wantDesktop);
+                RunInteractiveInstall(InstallDir, () => InstallForCurrentUser(wantDesktop));
                 return true;
             }
             catch (Exception ex)
@@ -668,6 +696,12 @@ namespace KillerNotes
                 ShowInstallError(string.Format((string)Current.FindResource("Str_Dlg_InstallFailed"), ex.Message));
                 return false;
             }
+        }
+
+        internal static void RunInteractiveInstall(string installDir, Action install)
+        {
+            using var installLease = KillerFamily.Deployment.InstallerExitCodes.Acquire(AppName, installDir);
+            install();
         }
 
         /// <summary>Puts the exe in place through a staged, verified copy, so a full disk or an
