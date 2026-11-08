@@ -16,7 +16,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 - Undo after opening a Markdown note can no longer bring another note's content into it.
 - Background imports stop when their notepad closes, even when another notepad has the same filename.
-- Whole-notepad exports keep each note's content and details together even if the live note changes during export.
+- Whole-notepad exports keep each note's content and details together even if the live note changes during export. Markdown exports also retain pictures and recordings inside table cells and report missing media.
 - A failed command-line note update keeps the previous content, format, links, and history together; an invalid group color no longer leaves a new group behind.
 - Quick notes save to the selected destination and keep failed appends from duplicating text on retry.
 - Canceling or failing a shared-note import no longer blocks an immediate retry.

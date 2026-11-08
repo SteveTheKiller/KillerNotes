@@ -311,19 +311,17 @@ namespace KillerNotes.Services
 
         private void AppendTable(Table t)
         {
+            if (t.RowGroups.SelectMany(g => g.Rows).SelectMany(r => r.Cells)
+                .Any(cell => cell.ColumnSpan > 1 || cell.RowSpan > 1))
+            {
+                AppendTableFallback(t);
+                return;
+            }
             var rows = new List<string[]>();
             foreach (var g in t.RowGroups)
             {
                 foreach (var row in g.Rows)
                 {
-                    foreach (var cell in row.Cells)
-                    {
-                        if (cell.ColumnSpan > 1 || cell.RowSpan > 1)
-                        {
-                            AppendTableFallback(t);
-                            return;
-                        }
-                    }
                     rows.Add([.. row.Cells.Select(CellToPlain)]);
                 }
             }
@@ -363,27 +361,60 @@ namespace KillerNotes.Services
             }
         }
 
-        private static string CellToPlain(TableCell cell)
+        private string CellToPlain(TableCell cell)
         {
             var s = new StringBuilder();
-            foreach (var b in cell.Blocks)
-            {
-                if (b is Paragraph pp)
-                {
-                    if (s.Length > 0 && s[s.Length - 1] != ' ') s.Append(' ');   // paragraphs in one cell do not run together
-                    foreach (var i in pp.Inlines) AppendInlinePlain(s, i);
-                }
-            }
+            AppendCellBlocks(s, cell.Blocks);
             return s.ToString().Replace("\r", " ").Replace("\n", " ").Trim();
         }
 
-        private static void AppendInlinePlain(StringBuilder s, Inline inline)
+        private void AppendCellBlocks(StringBuilder s, BlockCollection blocks)
+        {
+            foreach (var block in blocks)
+            {
+                switch (block)
+                {
+                    case Paragraph paragraph:
+                        SeparateCellBlock(s);
+                        foreach (var inline in paragraph.Inlines) AppendInlinePlain(s, inline);
+                        break;
+                    case BlockUIContainer { Child: Image image }:
+                        SeparateCellBlock(s);
+                        s.Append(Embedded(image));
+                        break;
+                    case BlockUIContainer container when RecordingRef.From((container.Child as Border)?.Tag) is { } chip:
+                        SeparateCellBlock(s);
+                        s.Append(EmbeddedRecording(chip.Hash));
+                        break;
+                    case Section section: AppendCellBlocks(s, section.Blocks); break;
+                    case List list:
+                        foreach (var item in list.ListItems) AppendCellBlocks(s, item.Blocks);
+                        break;
+                    case Table nested:
+                        foreach (var cell in nested.RowGroups.SelectMany(g => g.Rows).SelectMany(r => r.Cells))
+                            AppendCellBlocks(s, cell.Blocks);
+                        break;
+                }
+            }
+        }
+
+        private static void SeparateCellBlock(StringBuilder s)
+        {
+            if (s.Length > 0 && s[s.Length - 1] != ' ') s.Append(' ');
+        }
+
+        private void AppendInlinePlain(StringBuilder s, Inline inline)
         {
             switch (inline)
             {
                 case Run r:     s.Append(r.Text); break;
                 case LineBreak: s.Append(' '); break;
                 case Span sp:   foreach (var i in sp.Inlines) AppendInlinePlain(s, i); break;
+                case InlineUIContainer { Child: Image image }: s.Append(Embedded(image)); break;
+                case InlineUIContainer iu when RecordingRef.From((iu.Child as Border)?.Tag) is { } chip:
+                    s.Append(EmbeddedRecording(chip.Hash));
+                    break;
+                case AnchoredBlock anchored: AppendCellBlocks(s, anchored.Blocks); break;
             }
         }
 

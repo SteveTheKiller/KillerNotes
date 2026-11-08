@@ -95,6 +95,54 @@ namespace KillerNotes.Tests
             Assert.Contains("Lost audio", File.ReadAllText(Path.Combine(_root, "export-report.md")));
         });
 
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ALaterMergedCellDoesNotRepeatEarlierMediaOrLosses(bool payloadAvailable) => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            long id = NoteStore.Create("Merged media");
+            var take = new Attachment(AttachmentKind.Recording, [1, 2, 3, 4], 1000);
+            var table = new Table();
+            table.Columns.Add(new TableColumn());
+            table.Columns.Add(new TableColumn());
+            var group = new TableRowGroup();
+            var first = new TableRow();
+            first.Cells.Add(new TableCell(new Paragraph(new InlineUIContainer(
+                Picture(Attachments.Marker(AttachmentKind.Recording, take.Hash))))));
+            first.Cells.Add(new TableCell(new Paragraph(new Run("Before merge"))));
+            group.Rows.Add(first);
+            var last = new TableRow();
+            last.Cells.Add(new TableCell(new Paragraph(new Run("After merge"))) { ColumnSpan = 2 });
+            group.Rows.Add(last);
+            table.RowGroups.Add(group);
+            Save(id, new FlowDocument(table), payloadAvailable ? new[] { take } : Array.Empty<Attachment>());
+
+            using var source = NoteStore.OpenVaultSource();
+            var result = VaultExporter.Export(_root, NoteStore.List(), source, VaultExportText.From(k => k), null,
+                System.Threading.CancellationToken.None);
+
+            Assert.Equal(1, result.Written);
+            Assert.Equal(0, result.Failed);
+            var note = Assert.Single(result.Notes);
+            Assert.Equal(payloadAvailable ? 0 : 1, note.MediaLost);
+            string markdown = File.ReadAllText(Path.Combine(_root, note.File));
+            Assert.Contains("Before merge", markdown);
+            Assert.Contains("After merge", markdown);
+            if (payloadAvailable)
+            {
+                string asset = Assert.Single(note.Assets);
+                Assert.Single(Directory.GetFiles(Path.Combine(_root, "Merged media.assets")));
+                Assert.Equal(take.Payload, File.ReadAllBytes(Path.Combine(_root, asset)));
+                Assert.Single(System.Text.RegularExpressions.Regex.Matches(markdown, @"\[Recording 0:01\]"));
+            }
+            else
+            {
+                Assert.Empty(note.Assets);
+                Assert.Contains("Merged media", File.ReadAllText(Path.Combine(_root, "export-report.md")));
+            }
+        });
+
         private static byte[] MarkdownBlobBytes(string text)
         {
             NoteStore.SetFormat(NoteStore.List().Single(n => n.Title == "export-report").Id, 1, MarkdownBlob.Encode(text), text);

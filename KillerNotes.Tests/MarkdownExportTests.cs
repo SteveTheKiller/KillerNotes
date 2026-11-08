@@ -250,6 +250,92 @@ namespace KillerNotes.Tests
             Assert.True(Path.GetFileName(Directory.GetFiles(Assets).Single()).Length <= "img-12345678.png".Length);
         });
 
+        [Fact]
+        public void APictureInsideATableIsExportedWithItsCellText() => Sta.Run(() =>
+        {
+            var paragraph = new Paragraph(new Run("Table picture "));
+            paragraph.Inlines.Add(new InlineUIContainer(new Image { Source = Picture(Colors.Blue) }));
+            var table = new Table();
+            table.Columns.Add(new TableColumn());
+            var group = new TableRowGroup();
+            var row = new TableRow();
+            row.Cells.Add(new TableCell(paragraph));
+            group.Rows.Add(row);
+            table.RowGroups.Add(group);
+
+            Assert.False(MarkdownExport.Write(new FlowDocument(table), Target));
+
+            Assert.Contains("Table picture", File.ReadAllText(Target));
+            string picture = Assert.Single(LinkedFiles());
+            Assert.Equal(Color(Colors.Blue), Pixel(Path.Combine(_dir, picture)));
+        });
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void TableRecordingChipsUseTheUsualAssetAndLossHandling(bool payloadAvailable) => Sta.Run(() =>
+        {
+            var take = new Attachment(AttachmentKind.Recording, [4, 5, 6], 1000);
+            var chip = new Border { Tag = new RecordingRef(take.Hash, 1000).ToTag() };
+            var table = new Table();
+            table.Columns.Add(new TableColumn());
+            var group = new TableRowGroup();
+            var row = new TableRow();
+            row.Cells.Add(new TableCell(new Paragraph(new InlineUIContainer(chip))));
+            group.Rows.Add(row);
+            table.RowGroups.Add(group);
+
+            bool leftOut = MarkdownExport.Write(new FlowDocument(table), Target,
+                hash => payloadAvailable && hash == take.Hash ? take : null);
+
+            Assert.Equal(!payloadAvailable, leftOut);
+            if (payloadAvailable)
+            {
+                string audio = Assert.Single(LinkedFiles());
+                Assert.Equal(take.Payload, File.ReadAllBytes(Path.Combine(_dir, audio)));
+                Assert.Contains("[Recording 0:01]", File.ReadAllText(Target));
+            }
+            else Assert.Empty(LinkedFiles());
+        });
+
+        [Fact]
+        public void TableCellContainersKeepTheirPicturesAndText() => Sta.Run(() =>
+        {
+            var section = new Section(new Paragraph(new Run("Section caption")));
+            section.Blocks.Add(new BlockUIContainer(new Image { Source = Picture(Colors.Red) }));
+            var list = new List(new ListItem(new Paragraph(
+                new InlineUIContainer(new Image { Source = Picture(Colors.Blue) }))));
+            var floating = new Paragraph(new Run("Floating caption "));
+            floating.Inlines.Add(new Floater(new BlockUIContainer(new Image { Source = Picture(Colors.Green) })));
+            var nested = new Table();
+            nested.Columns.Add(new TableColumn());
+            var nestedGroup = new TableRowGroup();
+            var nestedRow = new TableRow();
+            nestedRow.Cells.Add(new TableCell(new BlockUIContainer(new Image { Source = Picture(Colors.Yellow) })));
+            nestedGroup.Rows.Add(nestedRow);
+            nested.RowGroups.Add(nestedGroup);
+            var cell = new TableCell(section);
+            cell.Blocks.Add(list);
+            cell.Blocks.Add(floating);
+            cell.Blocks.Add(nested);
+            var table = new Table();
+            table.Columns.Add(new TableColumn());
+            var group = new TableRowGroup();
+            var row = new TableRow();
+            row.Cells.Add(cell);
+            group.Rows.Add(row);
+            table.RowGroups.Add(group);
+
+            Assert.False(MarkdownExport.Write(new FlowDocument(table), Target));
+
+            Assert.Contains("Section caption", File.ReadAllText(Target));
+            Assert.Contains("Floating caption", File.ReadAllText(Target));
+            var links = LinkedFiles();
+            Assert.Equal(4, links.Count);
+            Assert.Equal(new[] { Color(Colors.Red), Color(Colors.Blue), Color(Colors.Green), Color(Colors.Yellow) },
+                links.Select(link => Pixel(Path.Combine(_dir, link))));
+        });
+
         private static FlowDocument Doc(params Color[] colors)
         {
             var doc = new FlowDocument();
