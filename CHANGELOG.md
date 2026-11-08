@@ -6,7 +6,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.6.2] - Unreleased
 
-1.6.2 adds page width presets, gives tables more control over their lines, sizes and spacing, and makes updates and the file picker recover from more failures.
+1.6.2 adds page width and table controls and strengthens note saving, imports, exports, recordings, and installation.
 
 ### Security
 
@@ -19,6 +19,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Whole-notepad exports keep each note's content and details together even if the live note changes during export.
 - A failed command-line note update keeps the previous content, format, links, and history together; an invalid group color no longer leaves a new group behind.
 - Quick notes save to the selected destination and keep failed appends from duplicating text on retry.
+- Canceling or failing a shared-note import no longer blocks an immediate retry.
 - Stopping a recording keeps the final audio buffers, while canceling still discards the take.
 - Template and daily-note group choices stay with their own database across moves and password changes. Ambiguous older choices need to be selected again.
 - Installing a portable copy refuses to overlap an install or update, and uninstalling preserves other apps' file associations.

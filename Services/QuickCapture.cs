@@ -113,13 +113,29 @@ namespace KillerNotes.Services
     {
         private static readonly TimeSpan Window = TimeSpan.FromMinutes(1);
         private readonly Dictionary<string, DateTime> _seen = new(StringComparer.OrdinalIgnoreCase);
+        private readonly HashSet<string> _opening = new(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>Runs one file-open operation unless it is already being handled.</summary>
+        public bool TryOpen(string path, string hash, DateTime now, Func<bool> open)
+        {
+            if (!First(path, hash, now)) return false;
+            string key = path + "|" + hash;
+            _opening.Add(key);
+            bool completed = false;
+            try { completed = open(); return true; }
+            finally
+            {
+                _opening.Remove(key);
+                if (!completed) _seen.Remove(key);
+            }
+        }
 
         /// <summary>True the first time a path and content hash arrive inside the window.</summary>
         public bool First(string path, string hash, DateTime now)
         {
-            foreach (var stale in _seen.Where(p => now - p.Value > Window).Select(p => p.Key).ToList()) _seen.Remove(stale);
+            foreach (var stale in _seen.Where(p => !_opening.Contains(p.Key) && now - p.Value > Window).Select(p => p.Key).ToList()) _seen.Remove(stale);
             string key = path + "|" + hash;
-            if (_seen.ContainsKey(key)) return false;
+            if (_seen.ContainsKey(key) || _opening.Contains(key)) return false;
             _seen[key] = now;
             return true;
         }

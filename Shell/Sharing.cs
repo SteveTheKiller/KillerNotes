@@ -50,6 +50,12 @@ namespace KillerNotes.Shell
             try
             {
                 var (key, hash) = FolderImporter.SourceOf(path);
+                if (ext == ".knote")
+                {
+                    if (!_recentOpens.TryOpen(key, hash, DateTime.Now, () => ImportSharedNote(path)))
+                        StatusText.Text = string.Format(Loc("Str_St_AlreadyOpening"), Path.GetFileName(path));
+                    return;
+                }
                 if (!_recentOpens.First(key, hash, DateTime.Now))
                 {
                     StatusText.Text = string.Format(Loc("Str_St_AlreadyOpening"), Path.GetFileName(path));
@@ -147,15 +153,16 @@ namespace KillerNotes.Shell
 
         // .knote: its note(s) are imported into the CURRENT database, prompting for the
         // share password when the file is encrypted.
-        private void ImportSharedNote(string path)
+        private bool ImportSharedNote(string path)
         {
             var confirm = new ConfirmDialog(
                 string.Format(Loc("Str_Dlg_ImportNoteHead"), Path.GetFileName(path)),
                 Loc("Str_Dlg_ImportNoteBody"),
                 Loc("Str_Btn_Import")) { Owner = this };
             confirm.ShowDialog();
-            if (!confirm.Confirmed) return;
+            if (!confirm.Confirmed) return false;
 
+            bool imported = false;
             try
             {
                 int count;
@@ -168,7 +175,7 @@ namespace KillerNotes.Shell
                             string.Format(Loc("Str_Pw_SharedBody"), Path.GetFileName(path)),
                             Loc("Str_Btn_Unlock")) { Owner = this };
                         dlg.ShowDialog();
-                        if (!dlg.Confirmed) return;
+                        if (!dlg.Confirmed) return false;
                         try { count = NoteStore.ImportNotes(path, dlg.Password); break; }
                         catch (SqliteException ex) when (IsWrongPassword(ex)) { heading = Loc("Str_Pw_WrongPw"); }
                     }
@@ -177,12 +184,14 @@ namespace KillerNotes.Shell
                 {
                     count = NoteStore.ImportNotes(path, null);
                 }
+                imported = true;
                 RefreshList();
                 StatusText.Text = count == 1
                     ? Loc("Str_St_NoteImported1")
                     : string.Format(Loc("Str_St_NoteImportedN"), count);
+                return true;
             }
-            catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_ImportFailed"), ex.Message); }
+            catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_ImportFailed"), ex.Message); return imported; }
         }
 
         // ---- Sending: right-click a note > Share note... ----
