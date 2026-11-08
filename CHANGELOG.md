@@ -17,6 +17,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Background imports stop when their notepad closes, even when another notepad has the same filename.
 - A failed command-line note update keeps the previous content, format, links, and history together; an invalid group color no longer leaves a new group behind.
 - Installing a portable copy refuses to overlap an install or update, and uninstalling preserves other apps' file associations.
+- Release preparation stops when package restore or vulnerability checks fail.
 - Tables keep their line style and spacing when rows or columns are inserted at the start. Fit to content accounts for text formatting and pictures, and invalid column widths no longer crash the app or partially resize other columns.
 - The file picker loads icons and picture previews in the background, refreshes overwritten previews, and restores its position on any monitor.
 - A locked notepad set aside by the unlock screen's New database is named with the Gregorian year on Thai, Arabic and Persian region settings instead of a year like 2569.

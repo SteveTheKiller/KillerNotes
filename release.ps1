@@ -142,11 +142,29 @@ $storeArgs = @{ ProductId = 'XP8JR4WJK03BJP'; PackageUrl = "https://killernotes.
 
 # --- 3. Vulnerable package scan (required at every release, see csproj) ---
 Step "Scanning for vulnerable packages"
-dotnet restore | Out-Null
-$scan = dotnet list package --vulnerable --include-transitive 2>&1 | Out-String
+dotnet restore -p:NuGetAudit=true -p:NuGetAuditMode=all -warnaserror:NU1900 | Out-Null
+if ($LASTEXITCODE -ne 0) { Fail 'Package restore or vulnerability source access failed.' }
+$scan = dotnet list package --vulnerable --include-transitive --no-restore --format json --output-version 1 | Out-String
+if ($LASTEXITCODE -ne 0) { Fail 'Vulnerability audit failed. A successful audit is required before releasing.' }
 Write-Host $scan
-if ($scan -match 'has the following vulnerable packages') {
-    Fail 'Vulnerable packages found. Resolve before releasing.'
+try { $audit = $scan | ConvertFrom-Json -ErrorAction Stop }
+catch { Fail 'Vulnerability audit did not return valid JSON.' }
+if ($audit.version -ne 1 -or $null -eq $audit.projects -or @($audit.projects).Count -eq 0 -or
+    $null -eq $audit.sources -or @($audit.sources).Count -eq 0) {
+    Fail 'Vulnerability audit returned an incomplete report.'
+}
+foreach ($entry in @($audit.logs)) {
+    if ($entry.level -in @('error', 'warning')) { Fail 'Vulnerability audit could not verify all package sources.' }
+}
+foreach ($project in @($audit.projects)) {
+    if ([string]::IsNullOrWhiteSpace($project.path)) { Fail 'Vulnerability audit returned an invalid project.' }
+    foreach ($framework in @($project.frameworks)) {
+        foreach ($package in @($framework.topLevelPackages) + @($framework.transitivePackages)) {
+            if ($null -ne $package -and $null -ne $package.vulnerabilities -and @($package.vulnerabilities).Count -gt 0) {
+                Fail 'Vulnerable packages found. Resolve before releasing.'
+            }
+        }
+    }
 }
 
 # --- 3b. Release tests ---
