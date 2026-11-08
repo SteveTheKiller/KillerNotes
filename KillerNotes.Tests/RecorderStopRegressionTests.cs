@@ -16,6 +16,26 @@ namespace KillerNotes.Tests
     public sealed class RecorderStopRegressionTests
     {
         [Fact]
+        public void CompletedAudioSurvivesABufferReleaseFailureAndCleanupRetry()
+        {
+            using var device = new FakeCapture(failFirstRelease: true);
+            Assert.True(DictationRecorder.Start());
+
+            byte[]? wav = DictationRecorder.Stop();
+
+            Assert.Equal(100, DictationRecorder.ElapsedMs);
+            Assert.NotNull(wav);
+            Assert.Equal(3244, wav!.Length);
+            Assert.Equal(Enumerable.Repeat((byte)0x12, 1600).Concat(Enumerable.Repeat((byte)0x34, 1600)), wav.Skip(44));
+            Assert.Equal(7, device.Unprepared);
+            Assert.False(device.Closed);
+            DictationRecorder.Cancel();
+            Assert.Equal(8, device.Unprepared);
+            Assert.True(device.Closed);
+            Assert.Equal(3244, wav.Length);
+        }
+
+        [Fact]
         public void StopIncludesPartialBuffersReturnedByStopAndReset()
         {
             using var device = new FakeCapture();
@@ -83,14 +103,20 @@ namespace KillerNotes.Tests
             public bool RequeuedAfterStop { get; private set; }
             public Exception? ResetFailure { get; private set; }
 
-            public FakeCapture(bool delayReset = false)
+            public FakeCapture(bool delayReset = false, bool failFirstRelease = false)
             {
                 DictationRecorder.Capture = new DictationRecorder.CaptureApi
                 {
                     DeviceCount = () => 1,
                     Open = Open,
                     Prepare = (_, _, _) => 0,
-                    Unprepare = (_, header, _) => { lock (pending) Assert.DoesNotContain(header, pending); Unprepared++; return 0; },
+                    Unprepare = (_, header, _) =>
+                    {
+                        lock (pending) Assert.DoesNotContain(header, pending);
+                        if (failFirstRelease) { failFirstRelease = false; return 1; }
+                        Unprepared++;
+                        return 0;
+                    },
                     AddBuffer = (_, header, _) => { lock (pending) { if (stopping) RequeuedAfterStop = true; pending.Add(header); } return 0; },
                     Start = _ => 0,
                     Stop = _ => { stopping = true; CompleteFirst(1600, 0x12); return 0; },

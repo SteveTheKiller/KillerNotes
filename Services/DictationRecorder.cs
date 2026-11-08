@@ -326,7 +326,8 @@ namespace KillerNotes.Services
                 IsRecording = false;
                 Capture.Stop(_hwi);
             }
-            if (!Teardown()) return null;
+            Teardown(out bool audioDrained);
+            if (!audioDrained) return null;
             PeakLevel = 0;
 
             byte[] pcm;
@@ -348,8 +349,11 @@ namespace KillerNotes.Services
             lock (Sync) _pcm = new MemoryStream();
         }
 
-        private static bool Teardown()
+        private static bool Teardown() => Teardown(out _);
+
+        private static bool Teardown(out bool audioDrained)
         {
+            audioDrained = false;
             lock (WaveGate)
             {
                 IsRecording = false;
@@ -366,6 +370,7 @@ namespace KillerNotes.Services
                 _acceptingCompletions = false;
             }
             StopRequeue();
+            audioDrained = true;
             bool released = true;
             for (int i = 0; i < _headers.Length; i++)
             {
