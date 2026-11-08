@@ -9,6 +9,19 @@ namespace KillerNotes.Tests
     public sealed class McpCommandAtomicityTests
     {
         [Fact]
+        public void InvalidGroupColorLeavesTheGroupInventoryUnchanged() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            var before = NoteStore.ListGroupTree().Select(g => g.Path).ToArray();
+            var shell = new ShellProbe();
+
+            Assert.Throws<System.ArgumentException>(() => shell.Window.ExecuteMcpCommand(new[]
+                { "create-group", "--name", "New group", "--color", "invalid" }));
+
+            Assert.Equal(before, NoteStore.ListGroupTree().Select(g => g.Path));
+        });
+
+        [Fact]
         public void FailedLinkUpdateLeavesRichNoteAndHistoryUnchanged() => Sta.Run(() =>
         {
             using var store = new TempStore();

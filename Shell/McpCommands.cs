@@ -100,9 +100,10 @@ namespace KillerNotes.Shell
                         string parent = Take(values, "--parent") ?? "";
                         string? color = Take(values, "--color");
                         RequireEmpty(values);
+                        if (!string.IsNullOrEmpty(color)) color = ValidateColor(color!);
                         NoteStore.AddGroup(name, parent);
                         string path = NoteStore.GroupPath(parent, name);
-                        if (!string.IsNullOrEmpty(color)) NoteStore.SetGroupColor(path, ValidateColor(color!));
+                        if (!string.IsNullOrEmpty(color)) NoteStore.SetGroupColor(path, color!);
                         RefreshList(); result = new McpCommandResult { Name = path }; break;
                     }
                 case "set-group-color":
