@@ -75,13 +75,17 @@ namespace KillerNotes.Services
         // hands the finished header to this worker, which copies the audio out and queues the buffer
         // again. WaveGate keeps that re-queue from running while Stop or Cancel resets the device.
         private static readonly object WaveGate = new();
+        private static readonly object CompletionGate = new();
+        private static readonly HashSet<IntPtr> _pendingHeaders = [];
+        private static bool _acceptingCompletions;
+        private static bool _keepAudio;
         private static BlockingCollection<IntPtr>? _finished;
         private static Thread? _requeue;
 
         // ---- winmm interop ----
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct WAVEFORMATEX
+        internal struct WAVEFORMATEX
         {
             public short wFormatTag, nChannels;
             public int nSamplesPerSec, nAvgBytesPerSec;
@@ -89,7 +93,7 @@ namespace KillerNotes.Services
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct WAVEHDR
+        internal struct WAVEHDR
         {
             public IntPtr lpData;
             public int dwBufferLength, dwBytesRecorded;
@@ -98,7 +102,26 @@ namespace KillerNotes.Services
             public IntPtr lpNext, reserved;
         }
 
-        private delegate void WaveInProc(IntPtr hwi, int uMsg, IntPtr dwInstance, IntPtr dwParam1, IntPtr dwParam2);
+        internal delegate void WaveInProc(IntPtr hwi, int uMsg, IntPtr dwInstance, IntPtr dwParam1, IntPtr dwParam2);
+
+        internal delegate int OpenCapture(out IntPtr handle, int device, ref WAVEFORMATEX format,
+            WaveInProc callback, IntPtr instance, int flags);
+
+        // The native boundary is replaceable so capture lifetime can be checked without hardware.
+        internal sealed class CaptureApi
+        {
+            internal Func<int> DeviceCount = waveInGetNumDevs;
+            internal OpenCapture Open = waveInOpen;
+            internal Func<IntPtr, IntPtr, int, int> Prepare = waveInPrepareHeader;
+            internal Func<IntPtr, IntPtr, int, int> Unprepare = waveInUnprepareHeader;
+            internal Func<IntPtr, IntPtr, int, int> AddBuffer = waveInAddBuffer;
+            internal Func<IntPtr, int> Start = waveInStart;
+            internal Func<IntPtr, int> Stop = waveInStop;
+            internal Func<IntPtr, int> Reset = waveInReset;
+            internal Func<IntPtr, int> Close = waveInClose;
+        }
+
+        internal static CaptureApi Capture { get; set; } = new();
 
         private const int WAVE_MAPPER = -1;
         private const int WAVE_FORMAT_PCM = 1;
@@ -127,14 +150,15 @@ namespace KillerNotes.Services
         }
 
         /// <summary>True when the machine has any capture device at all.</summary>
-        internal static bool MicrophoneAvailable() => waveInGetNumDevs() > 0;
+        internal static bool MicrophoneAvailable() => Capture.DeviceCount() > 0;
 
         internal static bool Start()
         {
             if (IsRecording) return true;
+            if (_hwi != IntPtr.Zero && !Teardown()) return false;
             LastError = null;
 
-            if (waveInGetNumDevs() == 0) { LastError = "No recording device is connected."; return false; }
+            if (Capture.DeviceCount() == 0) { LastError = "No recording device is connected."; return false; }
 
             lock (Sync)
             {
@@ -157,7 +181,7 @@ namespace KillerNotes.Services
             };
 
             _proc = OnWaveIn;
-            if (!Ok(waveInOpen(out _hwi, WAVE_MAPPER, ref fmt, _proc, IntPtr.Zero, CALLBACK_FUNCTION), "Opening the microphone"))
+            if (!Ok(Capture.Open(out _hwi, WAVE_MAPPER, ref fmt, _proc, IntPtr.Zero, CALLBACK_FUNCTION), "Opening the microphone"))
             { _proc = null; return false; }
 
             StartRequeue();
@@ -172,12 +196,12 @@ namespace KillerNotes.Services
                 IntPtr p = Marshal.AllocHGlobal(Marshal.SizeOf<WAVEHDR>());
                 Marshal.StructureToPtr(hdr, p, false);
                 _headers[i] = p;
-                if (!Ok(waveInPrepareHeader(_hwi, p, Marshal.SizeOf<WAVEHDR>()), "Preparing a buffer")) { Teardown(); return false; }
-                if (!Ok(waveInAddBuffer(_hwi, p, Marshal.SizeOf<WAVEHDR>()), "Queueing a buffer")) { Teardown(); return false; }
+                if (!Ok(Capture.Prepare(_hwi, p, Marshal.SizeOf<WAVEHDR>()), "Preparing a buffer")) { Teardown(); return false; }
+                if (!Ok(QueueCaptureBuffer(p), "Queueing a buffer")) { Teardown(); return false; }
             }
 
             IsRecording = true;
-            if (!Ok(waveInStart(_hwi), "Starting capture")) { IsRecording = false; Teardown(); return false; }
+            if (!Ok(Capture.Start(_hwi), "Starting capture")) { IsRecording = false; Teardown(); return false; }
             return true;
         }
 
@@ -188,15 +212,25 @@ namespace KillerNotes.Services
         /// </summary>
         private static void OnWaveIn(IntPtr hwi, int uMsg, IntPtr inst, IntPtr param1, IntPtr param2)
         {
-            if (uMsg != WIM_DATA || !IsRecording) return;
-            try { _finished?.Add(param1); }
-            catch { /* shutting down mid-callback; nothing useful to do on a driver thread */ }
+            if (uMsg != WIM_DATA) return;
+            lock (CompletionGate)
+            {
+                if (!_acceptingCompletions || hwi != _hwi || !_pendingHeaders.Remove(param1)) return;
+                _finished!.Add(param1);
+                Monitor.PulseAll(CompletionGate);
+            }
         }
 
         private static void StartRequeue()
         {
             var finished = new BlockingCollection<IntPtr>();
-            _finished = finished;
+            lock (CompletionGate)
+            {
+                _pendingHeaders.Clear();
+                _finished = finished;
+                _acceptingCompletions = true;
+            }
+            _keepAudio = true;
             _requeue = new Thread(() => RequeueLoop(finished)) { IsBackground = true, Name = "KillerNotes dictation buffers" };
             _requeue.Start();
         }
@@ -213,17 +247,30 @@ namespace KillerNotes.Services
                     {
                         var hdr = Marshal.PtrToStructure<WAVEHDR>(header);
                         int n = hdr.dwBytesRecorded;
-                        if (n > 0)
+                        if (_keepAudio && n > 0)
                         {
                             var buf = new byte[n];
                             Marshal.Copy(hdr.lpData, buf, 0, n);
                             Accumulate(buf, n);
                         }
-                        if (IsRecording) waveInAddBuffer(_hwi, header, Marshal.SizeOf<WAVEHDR>());
+                        if (IsRecording) QueueCaptureBuffer(header);
                     }
                 }
                 catch { /* shutting down mid-buffer; nothing useful to do */ }
             }
+        }
+
+        private static int QueueCaptureBuffer(IntPtr header)
+        {
+            lock (CompletionGate) _pendingHeaders.Add(header);
+            int result = Capture.AddBuffer(_hwi, header, Marshal.SizeOf<WAVEHDR>());
+            if (result != 0)
+                lock (CompletionGate)
+                {
+                    _pendingHeaders.Remove(header);
+                    Monitor.PulseAll(CompletionGate);
+                }
+            return result;
         }
 
         /// <summary>Ends the worker and waits for it, so no buffer is read after Teardown frees them.</summary>
@@ -235,6 +282,7 @@ namespace KillerNotes.Services
             _requeue = null;
             finished?.CompleteAdding();
             worker?.Join();
+            finished?.Dispose();
         }
 
         private static void Accumulate(byte[] buf, int n)
@@ -276,10 +324,9 @@ namespace KillerNotes.Services
             lock (WaveGate)
             {
                 IsRecording = false;
-                waveInStop(_hwi);
-                waveInReset(_hwi);          // returns every queued buffer before we free them
+                Capture.Stop(_hwi);
             }
-            Teardown();
+            if (!Teardown()) return null;
             PeakLevel = 0;
 
             byte[] pcm;
@@ -290,36 +337,59 @@ namespace KillerNotes.Services
 
         internal static void Cancel()
         {
-            if (!IsRecording) { Teardown(); return; }
             lock (WaveGate)
             {
                 IsRecording = false;
-                waveInStop(_hwi);
-                waveInReset(_hwi);
+                _keepAudio = false;
+                if (_hwi != IntPtr.Zero) Capture.Stop(_hwi);
             }
             Teardown();
             PeakLevel = 0;
             lock (Sync) _pcm = new MemoryStream();
         }
 
-        private static void Teardown()
+        private static bool Teardown()
         {
-            StopRequeue();
-            foreach (IntPtr p in _headers)
+            lock (WaveGate)
             {
+                IsRecording = false;
+                if (_hwi != IntPtr.Zero && !Ok(Capture.Reset(_hwi), "Returning recording buffers")) return false;
+            }
+            lock (CompletionGate)
+            {
+                while (_pendingHeaders.Count > 0)
+                    if (!Monitor.Wait(CompletionGate, TimeSpan.FromSeconds(5)))
+                    {
+                        LastError = "The recording device did not return its audio buffers.";
+                        return false;
+                    }
+                _acceptingCompletions = false;
+            }
+            StopRequeue();
+            bool released = true;
+            for (int i = 0; i < _headers.Length; i++)
+            {
+                IntPtr p = _headers[i];
                 if (p == IntPtr.Zero) continue;
                 try
                 {
-                    waveInUnprepareHeader(_hwi, p, Marshal.SizeOf<WAVEHDR>());
+                    if (!Ok(Capture.Unprepare(_hwi, p, Marshal.SizeOf<WAVEHDR>()), "Releasing a recording buffer"))
+                    {
+                        released = false;
+                        continue;
+                    }
                     var hdr = Marshal.PtrToStructure<WAVEHDR>(p);
                     if (hdr.lpData != IntPtr.Zero) Marshal.FreeHGlobal(hdr.lpData);
                     Marshal.FreeHGlobal(p);
+                    _headers[i] = IntPtr.Zero;
                 }
-                catch { /* already torn down */ }
+                catch { released = false; }
             }
+            if (!released) return false;
             _headers = [];
-            if (_hwi != IntPtr.Zero) { waveInClose(_hwi); _hwi = IntPtr.Zero; }
+            if (_hwi != IntPtr.Zero) { Capture.Close(_hwi); _hwi = IntPtr.Zero; }
             _proc = null;
+            return true;
         }
 
         /// <summary>Wraps raw PCM in a 44-byte canonical WAV header.</summary>
