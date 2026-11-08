@@ -12,7 +12,7 @@
 // toggles, and fills the {date}-style placeholders (Services/TemplateText.cs) in the title and
 // body on the way. The copy is a plain new note: nothing ties it back to the template.
 //
-// The chosen group is remembered per database ("file|path", the LastNote pattern), because a
+// The chosen group is remembered per database identity, because a
 // group name only means something inside the database that holds it.
 
 using System;
@@ -35,29 +35,57 @@ namespace KillerNotes.Shell
         private const string TemplatesGroupSetting = "TemplatesGroup";
 
         // ---- Per-database settings ----
-        // Stored as "file|value" so a value from one database never applies to another. Demo
+        // Stored as "id:identity|value", or a full path for an older read-only database. Demo
         // sessions keep theirs in memory: they must never write real settings (OpenNote rule).
 
         private static readonly Dictionary<string, string> DemoScopedSettings = new(StringComparer.OrdinalIgnoreCase);
 
+        static MainWindow() => NoteStore.Rekeyed += RebindGroupSettings;
+
+        private static string DbSettingScope => NoteStore.DatabaseId is string id
+            ? "id:" + id : "path:" + Path.GetFullPath(NoteStore.DbPath);
+
+        private static string? ReadScopedSetting(string name) => NoteStore.DemoDbFile != null
+            ? (DemoScopedSettings.TryGetValue(name, out var value) ? value : null)
+            : App.GetSetting(name);
+
         private static string? DbScopedSetting(string name)
         {
-            string? raw = NoteStore.DemoDbFile != null
-                ? (DemoScopedSettings.TryGetValue(name, out var v) ? v : null)
-                : App.GetSetting(name);
+            string? raw = ReadScopedSetting(name);
             if (raw == null) return null;
             // A Windows file name cannot contain '|', so the first one is the seam whatever
             // the value holds.
             int sep = raw.IndexOf('|');
             if (sep <= 0) return null;
-            return string.Equals(raw[..sep], NoteStore.ActiveDbFile, StringComparison.OrdinalIgnoreCase)
-                ? raw[(sep + 1)..]
-                : null;
+            string owner = raw[..sep];
+            string value = raw[(sep + 1)..];
+            if (string.Equals(owner, DbSettingScope, StringComparison.OrdinalIgnoreCase)) return value;
+            // A legacy bare filename cannot identify its folder. Leave it untouched rather
+            // than assigning another database's group. Only a proven full path can migrate.
+            string path = owner.StartsWith("path:", StringComparison.Ordinal) ? owner[5..] : owner;
+            try
+            {
+                if (Path.IsPathRooted(path) &&
+                    string.Equals(Path.GetFullPath(path), path, StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(path, Path.GetFullPath(NoteStore.DbPath), StringComparison.OrdinalIgnoreCase))
+                {
+                    SetDbScopedSetting(name, value);
+                    return value;
+                }
+            }
+            catch (ArgumentException) { }
+            catch (NotSupportedException) { }
+            catch (PathTooLongException) { }
+            return null;
         }
 
         private static void SetDbScopedSetting(string name, string? value)
         {
-            string? raw = value == null ? null : $"{NoteStore.ActiveDbFile}|{value}";
+            WriteScopedSetting(name, value == null ? null : $"{DbSettingScope}|{value}");
+        }
+
+        private static void WriteScopedSetting(string name, string? raw)
+        {
             if (NoteStore.DemoDbFile != null)
             {
                 if (raw == null) DemoScopedSettings.Remove(name);
@@ -66,6 +94,17 @@ namespace KillerNotes.Shell
             }
             if (raw == null) App.RemoveSetting(name);
             else App.SetSetting(name, raw);
+        }
+
+        private static void RebindGroupSettings(string oldId, string newId)
+        {
+            foreach (string name in new[] { TemplatesGroupSetting, DailyGroupSetting })
+            {
+                string? raw = ReadScopedSetting(name);
+                string prefix = "id:" + oldId + "|";
+                if (raw != null && raw.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                    WriteScopedSetting(name, "id:" + newId + "|" + raw[prefix.Length..]);
+            }
         }
 
         /// <summary>The templates and daily groups are remembered by path, so a rename or move of

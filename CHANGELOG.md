@@ -18,6 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Background imports stop when their notepad closes, even when another notepad has the same filename.
 - A failed command-line note update keeps the previous content, format, links, and history together; an invalid group color no longer leaves a new group behind.
 - Quick notes save to the selected destination and keep failed appends from duplicating text on retry.
+- Template and daily-note group choices stay with their own database across moves and password changes. Ambiguous older choices need to be selected again.
 - Installing a portable copy refuses to overlap an install or update, and uninstalling preserves other apps' file associations.
 - Release preparation stops when package restore or vulnerability checks fail.
 - Tables keep their line style and spacing when rows or columns are inserted at the start. Fit to content accounts for text formatting and pictures, and invalid column widths no longer crash the app or partially resize other columns.
