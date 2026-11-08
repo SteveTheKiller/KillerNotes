@@ -71,7 +71,7 @@ namespace KillerNotes.Shell
                 _quickDraft = window.Text;   // Esc keeps it; a save cleared it first
             };
             _quickNote = window;
-            RefreshQuickNoteState();
+            RefreshQuickNoteState(useSavedTarget: true);
             window.Show();
             window.Activate();
             window.Topmost = true; window.Topmost = false;   // in front of whatever was focused
@@ -98,9 +98,13 @@ namespace KillerNotes.Shell
         }
 
         /// <summary>Rebuilds the destination list and the locked or read-only banner.</summary>
-        private void RefreshQuickNoteState()
+        private void RefreshQuickNoteState(bool useSavedTarget = false)
         {
             if (_quickNote == null) return;
+            int previousIndex = _quickNote.TargetIndex;
+            string target = !useSavedTarget && previousIndex >= 0 && previousIndex < _quickTargets.Count
+                ? (_quickTargets[previousIndex].Group is string previousGroup ? "group:" + previousGroup : "today")
+                : App.GetSetting(QuickTargetSetting) ?? "";
             string inbox = Loc("Str_Grp_Inbox");
             _quickTargets = [(string.Format(Loc("Str_Quick_TargetGroup"), inbox), inbox)];
             if (NoteStore.IsOpen)
@@ -109,9 +113,8 @@ namespace KillerNotes.Shell
                         _quickTargets.Add((string.Format(Loc("Str_Quick_TargetGroup"), path.Replace(NoteStore.GroupSep, " / ")), path));
             _quickTargets.Add((string.Format(Loc("Str_Quick_TargetToday"), TodayTitle()), null));
 
-            string saved = App.GetSetting(QuickTargetSetting) ?? "";
-            int selected = saved == "today" ? _quickTargets.Count - 1
-                : Math.Max(0, _quickTargets.FindIndex(t => t.Group != null && string.Equals("group:" + t.Group, saved, StringComparison.OrdinalIgnoreCase)));
+            int selected = target == "today" ? _quickTargets.Count - 1
+                : Math.Max(0, _quickTargets.FindIndex(t => t.Group != null && string.Equals("group:" + t.Group, target, StringComparison.OrdinalIgnoreCase)));
             _quickNote.SetTargets(_quickTargets.Select(t => t.Label).ToList(), selected);
 
             if (_security.IsLocked) _quickNote.SetBlocked(Loc("Str_Quick_Locked"), canUnlock: true);
@@ -168,10 +171,44 @@ namespace KillerNotes.Shell
             if (!CanEditCurrentNote()) throw new InvalidOperationException(StatusText.Text);
             if (_loadFailed) throw new InvalidOperationException(_loadError);
             var lines = text.Replace("\r\n", "\n").Trim('\n').Split('\n');
-            if (CurrentIsMarkdown) Editor.Document.Blocks.Add(new Paragraph());   // the blank line between
-            foreach (string line in lines) Editor.Document.Blocks.Add(new Paragraph(new Run(line)));
-            MarkDirty();
-            if (!SaveCurrentNote(refreshList: false)) throw new InvalidOperationException(StatusText.Text);
+            var inserted = new List<Block>();
+            if (CurrentIsMarkdown) inserted.Add(new Paragraph());   // the blank line between
+            foreach (string line in lines) inserted.Add(new Paragraph(new Run(line)));
+            bool wasDirty = _dirty;
+            bool saved = false;
+            bool changed = false;
+            var selectionStart = Editor.Selection.Start;
+            var selectionEnd = Editor.Selection.End;
+            Editor.BeginChange();
+            try
+            {
+                foreach (var block in inserted)
+                {
+                    Editor.Document.Blocks.Add(block);
+                    changed = true;
+                }
+                MarkDirty();
+                if (!SaveCurrentNote(refreshList: false)) throw new InvalidOperationException(StatusText.Text);
+                saved = true;
+            }
+            finally
+            {
+                if (!saved)
+                {
+                    foreach (var block in inserted)
+                        if (Editor.Document.Blocks.Contains(block)) Editor.Document.Blocks.Remove(block);
+                }
+                Editor.EndChange();
+                if (!saved && changed)
+                {
+                    // Remove the canceled change unit so Undo still reaches the user's last edit.
+                    // Its redo is also empty, so it cannot bring back a failed capture.
+                    if (Editor.IsUndoEnabled && Editor.UndoLimit != 0 && Editor.CanUndo) Editor.Undo();
+                    Editor.Selection.Select(selectionStart, selectionEnd);
+                    _dirty = wasDirty;
+                    _saveTimer.Stop();
+                }
+            }
         }
 
         // ---- Start-up, jump list, tray and the global shortcut ----
