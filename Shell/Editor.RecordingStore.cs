@@ -251,15 +251,7 @@ namespace KillerNotes.Shell
         /// recordings that versions before 1.6.0 left without a chip at the end of the note.</summary>
         internal void ReviveRecordings(long noteId)
         {
-            try { ReviveRecordingsCore(noteId); }
-            finally
-            {
-                // A freshly opened note starts with an empty undo history. Without this, Ctrl+Z
-                // right after switching notes undid the LOAD, putting the previous note's text,
-                // or these chips' pictures, back into the note just opened. Toggling the flag is
-                // the RichTextBox's own way to clear its history.
-                if (Editor.IsUndoEnabled) { Editor.IsUndoEnabled = false; Editor.IsUndoEnabled = true; }
-            }
+            ReviveRecordingsCore(noteId);
         }
 
         private void ReviveRecordingsCore(long noteId)

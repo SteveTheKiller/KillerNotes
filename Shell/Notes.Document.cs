@@ -41,6 +41,7 @@ namespace KillerNotes.Shell
 
             SaveNotePosition();   // remember where the outgoing note was left (1.1.1)
 
+            using var documentLoad = new NoteDocumentLoad(Editor);
             _loadingNote = true;
             try
             {
