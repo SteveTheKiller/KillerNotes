@@ -18,6 +18,10 @@ namespace KillerNotes.Services
     internal static class TableStyle
     {
         private const double MinColumn = 24;
+        internal const double MaxColumn = 1000000;
+
+        internal static bool IsValidColumnWidth(double width) =>
+            !double.IsNaN(width) && !double.IsInfinity(width) && width > 0 && width <= MaxColumn;
 
         private static (Thickness Table, Thickness Cell) Borders(TableLines lines) => lines switch
         {
@@ -90,20 +94,24 @@ namespace KillerNotes.Services
         internal static void SetColumnWidth(Table table, int index, double width, double available)
         {
             var columns = table.Columns;
+            if (!IsValidColumnWidth(width) || double.IsNaN(available) || double.IsInfinity(available) ||
+                index < 0 || index >= columns.Count) return;
             double fixedWidth = columns.Where(c => c.Width.IsAbsolute).Sum(c => c.Width.Value);
             int shared = columns.Count(c => !c.Width.IsAbsolute);
             double share = shared == 0 ? MinColumn : Math.Max(MinColumn, (available - fixedWidth) / shared);
-            foreach (TableColumn c in columns.Where(c => !c.Width.IsAbsolute)) c.Width = new GridLength(share);
-            columns[index].Width = new GridLength(Math.Max(MinColumn, width));
+            var widths = columns.Select(c => c.Width.IsAbsolute ? c.Width.Value : share).ToArray();
+            widths[index] = Math.Max(MinColumn, width);
             // The width just given no longer comes out of the others' share unless it was shared.
             if (shared > 0)
             {
-                double left = Math.Max(MinColumn * (columns.Count - 1), available - columns[index].Width.Value);
-                double others = columns.Where((c, i) => i != index).Sum(c => c.Width.Value);
+                double left = Math.Max(MinColumn * (columns.Count - 1), available - widths[index]);
+                double others = widths.Where((c, i) => i != index).Sum();
                 if (others > 0)
                     for (int i = 0; i < columns.Count; i++)
-                        if (i != index) columns[i].Width = new GridLength(Math.Max(MinColumn, columns[i].Width.Value * left / others));
+                        if (i != index) widths[i] = Math.Max(MinColumn, widths[i] * left / others);
             }
+            if (widths.Any(w => !IsValidColumnWidth(w))) return;
+            for (int i = 0; i < columns.Count; i++) columns[i].Width = new GridLength(widths[i]);
         }
 
         /// <summary>Each column as wide as its longest line.</summary>

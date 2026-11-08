@@ -247,7 +247,7 @@ namespace KillerNotes.Shell
             var dlg = new Controls.InputDialog(Loc("Str_Dlg_TblColWidth"), now.IsAbsolute ? Math.Round(now.Value).ToString() : "", Loc("Str_Btn_OK")) { Owner = this };
             dlg.ShowDialog();
             double width = 0;
-            if (!dlg.Confirmed || !double.TryParse(dlg.Value.Trim(), out width) || width <= 0) { _tblMenuCell = null; return; }
+            if (!dlg.Confirmed || !double.TryParse(dlg.Value.Trim(), out width) || !TableStyle.IsValidColumnWidth(width)) { _tblMenuCell = null; return; }
             double available = Editor.ViewportWidth - Editor.Document.PagePadding.Left - Editor.Document.PagePadding.Right;
             TableEdit(_ => TableStyle.SetColumnWidth(table, index, width, available));
         }

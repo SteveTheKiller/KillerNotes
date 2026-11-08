@@ -84,6 +84,30 @@ namespace KillerNotes.Tests
             Assert.All(table.Columns, c => Assert.True(c.Width.IsAbsolute));
         });
 
+        [Theory]
+        [InlineData(double.NaN)]
+        [InlineData(double.PositiveInfinity)]
+        [InlineData(1000001)]
+        public void InvalidColumnWidthsLeaveEveryColumnUnchanged(double width) => Sta.Run(() =>
+        {
+            var table = Build(new[] { "a", "b", "c" });
+            var before = table.Columns.Select(c => c.Width).ToArray();
+
+            TableStyle.SetColumnWidth(table, 1, width, 800);
+
+            Assert.Equal(before, table.Columns.Select(c => c.Width));
+        });
+
+        [Fact]
+        public void MaximumSupportedColumnWidthIsAccepted() => Sta.Run(() =>
+        {
+            var table = Build(new[] { "a" });
+
+            TableStyle.SetColumnWidth(table, 0, 1000000, 800);
+
+            Assert.Equal(1000000, table.Columns[0].Width.Value);
+        });
+
         [Fact]
         public void FitToContentGivesALongColumnMoreRoom() => Sta.Run(() =>
         {
