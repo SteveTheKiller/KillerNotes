@@ -15,8 +15,8 @@
     <!-- Per-monitor DPI (1.6.0); same manifest as KillerPDF. -->
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Version>1.6.2</Version>
-    <FileVersion>1.6.1.0</FileVersion>
-    <AssemblyVersion>1.6.1.0</AssemblyVersion>
+    <FileVersion>1.6.2.0</FileVersion>
+    <AssemblyVersion>1.6.2.0</AssemblyVersion>
     <Authors>Steve the Killer</Authors>
     <Copyright>Copyright (c) 2026 Steve the Killer</Copyright>
     <!-- Shown in the About card beside the version so a user can tell how old their build
