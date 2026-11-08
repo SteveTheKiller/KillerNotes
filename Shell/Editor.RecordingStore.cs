@@ -251,6 +251,7 @@ namespace KillerNotes.Shell
         /// recordings that versions before 1.6.0 left without a chip at the end of the note.</summary>
         internal void ReviveRecordings(long noteId)
         {
+            using var documentLoad = new NoteDocumentLoad(Editor);
             ReviveRecordingsCore(noteId);
         }
 

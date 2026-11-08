@@ -94,6 +94,7 @@ namespace KillerNotes.Tests
             var note = new Note { Id = 7, Title = "Seven" };
             var shell = new ShellProbe();
             shell.Set("_notes", new List<Note> { note });
+            shell.Set("Editor", new RichTextBox());
             // The probe has no title box, so the load fails partway, after it has begun.
 
             var error = shell.Run("OpenNote", 7L);
