@@ -132,6 +132,28 @@ namespace KillerNotes.Services
                                 element.FontWeight != FontWeights.Bold)
                                 element.ClearValue(TextElement.FontWeightProperty);
                     }
+            // The note editor styles every Paragraph as Normal, and a style setter outranks the
+            // weight a header row or cell passes down, so header paragraphs carry Bold themselves.
+            for (int r = 0; r < rows.Length; r++)
+                for (int c = 0; c < rows[r].Cells.Count; c++)
+                {
+                    bool header = (headerRow && r == 0) || (headerColumn && c == 0);
+                    bool wasHeader = (before.HeaderRow && r == 0) || (before.HeaderColumn && c == 0);
+                    if (header || wasHeader) SetHeaderParagraphWeight(rows[r].Cells[c], header);
+                }
+        }
+
+        private static void SetHeaderParagraphWeight(TableCell cell, bool header)
+        {
+            for (TextPointer? at = cell.ContentStart; at != null && at.CompareTo(cell.ContentEnd) < 0;
+                 at = at.GetNextContextPosition(LogicalDirection.Forward))
+                if (at.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementStart &&
+                    at.GetAdjacentElement(LogicalDirection.Forward) is Paragraph paragraph)
+                {
+                    if (header) paragraph.FontWeight = FontWeights.Bold;
+                    else if (paragraph.ReadLocalValue(TextElement.FontWeightProperty) is FontWeight weight && weight == FontWeights.Bold)
+                        paragraph.ClearValue(TextElement.FontWeightProperty);
+                }
         }
 
         internal static void RestoreGridBrushes(Table table)
