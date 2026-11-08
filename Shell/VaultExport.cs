@@ -9,6 +9,7 @@
 // cleanup, so an interrupted export is never left looking finished.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -33,7 +34,7 @@ namespace KillerNotes.Shell
             // Export what is on screen, not a stale copy - same rule as ExportNoteAs.
             if (!SaveCurrentNote(refreshList: false)) return;
 
-            var notes = NoteStore.List();
+            IReadOnlyList<KillerNotes.Models.Note> notes = NoteStore.List();
             if (notes.Count == 0)
             {
                 StatusText.Text = Loc("Str_St_VaultEmpty");
@@ -54,8 +55,8 @@ namespace KillerNotes.Shell
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
-            NoteStore.VaultSource source;
-            try { source = NoteStore.OpenVaultSource(); }
+            Func<CancellationToken, NoteStore.VaultSource> capture;
+            try { capture = NoteStore.CaptureVaultSource(); }
             catch (Exception ex)
             {
                 StatusText.Text = string.Format(Loc("Str_St_VaultFailed"), ex.Message);
@@ -79,9 +80,13 @@ namespace KillerNotes.Shell
             {
                 VaultExportResult? result = null;
                 Exception? error = null;
-                try { result = VaultExporter.Export(root, notes, source, text, progress, cancel.Token); }
+                try
+                {
+                    using var source = capture(cancel.Token);
+                    result = VaultExporter.Export(root, source.Notes, source, text, progress, cancel.Token);
+                }
+                catch (OperationCanceledException) { }
                 catch (Exception ex) { error = ex; }
-                finally { source.Dispose(); }
                 Dispatcher.BeginInvoke(new Action(() => FinishVaultExport(cancel, root, result, error)));
                 Dispatcher.CurrentDispatcher.InvokeShutdown();   // this thread's own, from the FlowDocuments
             })

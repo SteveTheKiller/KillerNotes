@@ -2640,29 +2640,47 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             cmd.ExecuteNonQuery();
         }
 
-        /// <summary>A second, read-only connection to the open database for vault export, which runs
-        /// on its own thread: the main connection belongs to the UI thread and is not shared.</summary>
-        internal static VaultSource OpenVaultSource()
+        /// <summary>Captures the source identity on the UI thread. Snapshot copying runs on the
+        /// export worker, without reading changing settings or sharing the live connection.</summary>
+        internal static Func<System.Threading.CancellationToken, VaultSource> CaptureVaultSource()
         {
             if (_db == null) throw new InvalidOperationException("database not open");
-            var csb = new SqliteConnectionStringBuilder { DataSource = DbPath, Mode = SqliteOpenMode.ReadOnly, Pooling = false };
-            if (_password != null) csb.Password = _password;
-            var db = new SqliteConnection(csb.ConnectionString);
-            db.Open();
-            return new VaultSource(db);
+            var origin = new BackupSource(DbPath, _password);
+            string? identity = DatabaseId;
+            object session = _db;
+            return cancellation => VaultSnapshot.Capture(origin, identity, session, cancellation);
         }
+
+        internal static VaultSource OpenVaultSource() => CaptureVaultSource()(System.Threading.CancellationToken.None);
 
         internal sealed class VaultSource : IVaultSource, IDisposable
         {
             private readonly SqliteConnection _conn;
-            internal VaultSource(SqliteConnection conn) => _conn = conn;
+            internal string SnapshotFolder { get; }
+            public IReadOnlyList<Note> Notes { get; }
+
+            internal VaultSource(SqliteConnection conn, string folder)
+            {
+                _conn = conn;
+                SnapshotFolder = folder;
+                var notes = new List<Note>();
+                using var cmd = _conn.CreateCommand();
+                cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120), " +
+                    "title_color, spellcheck, sort_order, format, syntax, pinned, deleted " +
+                    "FROM notes WHERE deleted = '' ORDER BY created DESC, id DESC";
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read()) notes.Add(ReadListRow(reader));
+                Notes = notes;
+            }
 
             public byte[]? LoadContent(long id)
             {
                 using var cmd = _conn.CreateCommand();
                 cmd.CommandText = "SELECT content FROM notes WHERE id = $id";
                 cmd.Parameters.AddWithValue("$id", id);
-                return cmd.ExecuteScalar() as byte[];
+                using var reader = cmd.ExecuteReader();
+                if (!reader.Read()) throw new IOException("The exported note is unavailable in the snapshot.");
+                return reader.GetValue(0) as byte[];
             }
 
             public Attachment? GetAttachment(string hash)
@@ -2676,7 +2694,11 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 return found.Hash == hash ? found : null;
             }
 
-            public void Dispose() => _conn.Dispose();
+            public void Dispose()
+            {
+                _conn.Dispose();
+                if (Directory.Exists(SnapshotFolder)) Directory.Delete(SnapshotFolder, recursive: true);
+            }
         }
 
         /// <summary>Checks a copy BackupTo just wrote, with the open database's key (BackupService).</summary>
