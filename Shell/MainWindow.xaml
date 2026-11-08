@@ -1997,7 +1997,7 @@
                             ToolTip="{DynamicResource Str_TT_Table}"
                             PreviewMouseLeftButtonDown="TableBtn_MouseDown" Click="TableBtn_Click"/>
                     <Popup x:Name="TableSizePopup" PlacementTarget="{Binding ElementName=TableBtn}"
-                           Placement="Bottom" StaysOpen="False" AllowsTransparency="True" VerticalOffset="4">
+                           Placement="Bottom" StaysOpen="True" AllowsTransparency="True" VerticalOffset="4">
                         <Border Background="{DynamicResource MenuBackgroundBrush}"
                                 BorderBrush="{DynamicResource MenuBorderBrush}"
                                 BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" Padding="10,8" Margin="12">

@@ -21,7 +21,7 @@ namespace KillerNotes.Shell
         // ---- Insert table (with Office-style size picker) ----
         // Pressing the table button opens a hover grid: press-hold-drag-release OR
         // click-then-hover-then-click both select a rows x cols size. The inserted table is
-        // a real FlowDocument Table; borders bind CardBorderBrush through SetResourceReference
+        // a real FlowDocument Table; borders bind TextBrush through SetResourceReference
         // so they follow live theme switches (net48 family gotcha: a snapshot would not).
 
         private const int TblMaxCols = 8;
@@ -36,6 +36,16 @@ namespace KillerNotes.Shell
             Editor.PreviewMouseLeftButtonDown += Editor_TableResizeDown;
             Editor.PreviewMouseLeftButtonUp += Editor_TableResizeUp;
             Editor.LostMouseCapture += (_, _) => _tableResize = null;
+
+            // Opening on mouse-down must not let the same button-up dismiss the picker.
+            // Outside presses and window deactivation own dismissal instead of popup capture.
+            PreviewMouseDown += (_, _) =>
+            {
+                if (TableSizePopup.IsOpen && !TableBtn.IsMouseOver &&
+                    TableSizePopup.Child is UIElement child && !child.IsMouseOver)
+                    TableSizePopup.IsOpen = false;
+            };
+            Deactivated += (_, _) => TableSizePopup.IsOpen = false;
 
             for (int i = 0; i < TblMaxRows * TblMaxCols; i++)
             {
@@ -290,7 +300,10 @@ namespace KillerNotes.Shell
             EnsureEditableTail();
 
             MarkDirty();
+            var firstCell = table.RowGroups[0].Rows[0].Cells[0];
+            Editor.CaretPosition = firstCell.ContentStart.GetInsertionPosition(LogicalDirection.Forward);
             Editor.Focus();
+            firstCell.BringIntoView();
         }
 
         // Sidebar rail SketchPad button (MainWindow.xaml) - same action as F7 / Ctrl+Shift+D.

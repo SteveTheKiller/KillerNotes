@@ -29,11 +29,11 @@ namespace KillerNotes.Shell
         // ---- Building ----
 
         /// <summary>An empty rows x cols table in the family look: one-line grid in the theme's
-        /// card border, bound with SetResourceReference so it follows live theme switches.</summary>
+        /// readable text color, bound with SetResourceReference for live theme switches.</summary>
         private static Table BuildTable(int rows, int cols)
         {
             var table = new Table { CellSpacing = 0, Margin = new Thickness(0, 6, 0, 6) };
-            table.SetResourceReference(Table.BorderBrushProperty, "CardBorderBrush");
+            table.SetResourceReference(Table.BorderBrushProperty, "TextBrush");
             table.BorderThickness = new Thickness(1, 1, 0, 0);
 
             for (int c = 0; c < cols; c++) table.Columns.Add(new TableColumn());
@@ -58,7 +58,7 @@ namespace KillerNotes.Shell
                 BorderThickness = new Thickness(0, 0, 1, 1),
                 Padding = new Thickness(6, 3, 6, 3),
             };
-            cell.SetResourceReference(TableCell.BorderBrushProperty, "CardBorderBrush");
+            cell.SetResourceReference(TableCell.BorderBrushProperty, "TextBrush");
             SetCellText(cell, text);
             return cell;
         }

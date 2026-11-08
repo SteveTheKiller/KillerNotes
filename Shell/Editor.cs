@@ -175,7 +175,7 @@ namespace KillerNotes.Shell
         // text-to-document paste converter bakes onto every line (Notepad line breaks otherwise
         // paste with extra line spacing the editor's zero-margin typed paragraphs don't have); the
         // FontSize 2 rule paragraph keeps its margin, since that spacing is deliberate. Tables take
-        // the family look: the theme card-border brush via SetResourceReference so it tracks live
+        // the family look: the theme text brush via SetResourceReference so it tracks live
         // theme switches (a baked snapshot would not - net48 family gotcha), a single-line grid, and
         // no cell spacing - matching InsertTable. Excel's cell fills are cleared too: the neutral-color
         // rule (NormalizeThemeColors) only drops neutral fills, so a colored Excel fill (a yellow header,
@@ -192,13 +192,13 @@ namespace KillerNotes.Shell
                     break;
                 case Table t:
                     t.CellSpacing = 0;
-                    t.SetResourceReference(Table.BorderBrushProperty, "CardBorderBrush");
+                    t.SetResourceReference(Table.BorderBrushProperty, "TextBrush");
                     t.BorderThickness = new Thickness(1, 1, 0, 0);
                     foreach (var g in t.RowGroups)
                         foreach (var row in g.Rows)
                             foreach (var cell in row.Cells)
                             {
-                                cell.SetResourceReference(TableCell.BorderBrushProperty, "CardBorderBrush");
+                                cell.SetResourceReference(TableCell.BorderBrushProperty, "TextBrush");
                                 cell.BorderThickness = new Thickness(0, 0, 1, 1);
                                 cell.ClearValue(TableCell.BackgroundProperty);   // drop Excel's cell shading; adopt the theme surface (#11)
                                 foreach (var b in cell.Blocks.ToList()) NormalizePastedBlock(b);

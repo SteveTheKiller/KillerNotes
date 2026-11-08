@@ -431,12 +431,12 @@ namespace KillerNotes.Shell
                         foreach (var li in l.ListItems) StylePreviewBlocks(li.Blocks);
                         break;
                     case Table t:
-                        t.SetResourceReference(Block.BorderBrushProperty, "CardBorderBrush");
+                        t.SetResourceReference(Block.BorderBrushProperty, "TextBrush");
                         foreach (var g in t.RowGroups)
                             foreach (var row in g.Rows)
                                 foreach (var cell in row.Cells)
                                 {
-                                    cell.SetResourceReference(TableCell.BorderBrushProperty, "CardBorderBrush");
+                                    cell.SetResourceReference(TableCell.BorderBrushProperty, "TextBrush");
                                     StylePreviewBlocks(cell.Blocks);
                                 }
                         break;
