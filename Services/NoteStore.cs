@@ -55,6 +55,7 @@ namespace KillerNotes.Services
         public static string DbPath => Path.Combine(DbDir, ActiveDbFile);
 
         public static bool IsOpen => _db != null;
+        internal static object? OpenSession => _db;
         public static bool HasPassword => _password != null;
 
         /// <summary>The open database's own id, stored inside the file, so it follows a rename or a
@@ -2533,9 +2534,11 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
 
         /// <summary>Writes prepared notes, their groups, tags, payloads and links in ONE transaction:
         /// a failure part way leaves the notepad exactly as it was. Returns the new ids in order.</summary>
-        internal static List<long> ImportBatch(IReadOnlyList<PreparedImport> notes)
+        internal static List<long> ImportBatch(IReadOnlyList<PreparedImport> notes, object? expectedSession = null)
         {
             if (_db == null || IsReadOnly) throw new InvalidOperationException("The database is not writable.");
+            if (expectedSession != null && !ReferenceEquals(expectedSession, OpenSession))
+                throw new InvalidOperationException("The import belongs to a database session that has closed.");
             var ids = new List<long>();
             var db = _db;
             using var tx = db.BeginTransaction();

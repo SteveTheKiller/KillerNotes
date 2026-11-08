@@ -14,6 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 
+- Background imports stop when their notepad closes, even when another notepad has the same filename.
 - A failed command-line note update keeps the previous content, format, links, and history together; an invalid group color no longer leaves a new group behind.
 - Invalid table column widths no longer crash the app or partially resize other columns.
 - The file picker loads icons and picture previews in the background, refreshes overwritten previews, and restores its position on any monitor.

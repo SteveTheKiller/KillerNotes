@@ -35,7 +35,7 @@ namespace KillerNotes.Shell
             string? folder = dlg.ShowDialog(this) == true ? dlg.FileName : null;
             if (string.IsNullOrWhiteSpace(folder)) return;
 
-            string database = NoteStore.ActiveDbFile;
+            object database = NoteStore.OpenSession!;
             var state = NoteStore.ImportState();
             var cancel = new CancellationTokenSource();
             _jobCancel = cancel;
@@ -69,7 +69,7 @@ namespace KillerNotes.Shell
                 prepared = await RunOnSta(() => FolderImporter.Prepare(plan, progress, cancel.Token));
                 if (!StillImporting(cancel, database)) { StatusText.Text = Loc("Str_St_ImportCanceled"); return; }
 
-                var ids = NoteStore.ImportBatch(prepared);
+                var ids = NoteStore.ImportBatch(prepared, database);
                 SearchBox.Text = "";   // a filtered list would hide the imports
                 RefreshList();
                 if (ids.Count > 0) OpenNote(ids[0]);
@@ -96,9 +96,9 @@ namespace KillerNotes.Shell
 
         /// <summary>Whether the import may go on: not canceled (the Cancel button, Lock now or
         /// closing), and the same notepad still open.</summary>
-        private static bool StillImporting(CancellationTokenSource cancel, string database) =>
+        private static bool StillImporting(CancellationTokenSource cancel, object database) =>
             !cancel.IsCancellationRequested && NoteStore.IsOpen && !NoteStore.IsReadOnly &&
-            string.Equals(NoteStore.ActiveDbFile, database, StringComparison.OrdinalIgnoreCase);
+            ReferenceEquals(NoteStore.OpenSession, database);
 
         /// <summary>Runs work on its own STA thread (FlowDocument needs one) and completes on the
         /// caller's dispatcher.</summary>

@@ -32,6 +32,7 @@ namespace KillerNotes.Shell
 
         bool ISecurityHost.SaveOpenNote()
         {
+            CancelBackgroundJob();
             _resumeDb = NoteStore.ActiveDbFile;
             _resumeNoteId = _currentId;
             return SaveCurrentNote(refreshList: false);
