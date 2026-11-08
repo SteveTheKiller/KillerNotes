@@ -1,7 +1,8 @@
 using System;
-using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
@@ -54,8 +55,7 @@ namespace KillerNotes.Services
             foreach (TableCell c in Cells(table)) c.BorderThickness = cell;
         }
 
-        /// <summary>The style the table carries, read from its first cell, which an added cell
-        /// never is.</summary>
+        /// <summary>The style the table carries, read before a structural edit can replace its first cell.</summary>
         internal static TableLines ReadLines(Table table)
         {
             TableCell? first = Cells(table).FirstOrDefault();
@@ -89,6 +89,15 @@ namespace KillerNotes.Services
             ApplySpacing(table, spacing);
         }
 
+        internal static void EditStructure(Table table, Action edit)
+        {
+            TableLines lines = ReadLines(table);
+            TableSpacing spacing = ReadSpacing(table);
+            edit();
+            ApplyLines(table, lines);
+            ApplySpacing(table, spacing);
+        }
+
         /// <summary>Sets one column. The others are shared columns that move whenever one changes,
         /// so they freeze at what is left of the page first.</summary>
         internal static void SetColumnWidth(Table table, int index, double width, double available)
@@ -117,23 +126,70 @@ namespace KillerNotes.Services
         /// <summary>Each column as wide as its longest line.</summary>
         internal static void FitToContent(Table table, double fontSize, FontFamily font, double pixelsPerDip)
         {
-            var face = new Typeface(font, FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
             var widths = new double[table.Columns.Count];
             foreach (TableRow row in table.RowGroups.SelectMany(g => g.Rows))
                 for (int i = 0; i < row.Cells.Count && i < widths.Length; i++)
                 {
                     TableCell cell = row.Cells[i];
-                    string text = new TextRange(cell.ContentStart, cell.ContentEnd).Text;
-                    foreach (string line in text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None))
+                    // XamlPackage carries embedded images and effective inherited text formatting.
+                    // Layout owns only this copy, so measurement cannot change the editor or undo history.
+                    var copy = new FlowDocument { FontFamily = cell.FontFamily, FontSize = cell.FontSize,
+                        FontWeight = cell.FontWeight, FontStyle = cell.FontStyle, FontStretch = cell.FontStretch,
+                        FlowDirection = cell.FlowDirection, Language = cell.Language };
+                    using (var stream = new MemoryStream())
                     {
-                        double width = new FormattedText(line, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                            face, fontSize, Brushes.Black, pixelsPerDip).WidthIncludingTrailingWhitespace;
-                        double room = cell.Padding.Left + cell.Padding.Right + cell.BorderThickness.Right + 4;
-                        widths[i] = Math.Max(widths[i], Math.Ceiling(width + room));
+                        new TextRange(cell.ContentStart, cell.ContentEnd).Save(stream, DataFormats.XamlPackage);
+                        stream.Position = 0;
+                        new TextRange(copy.ContentStart, copy.ContentEnd).Load(stream, DataFormats.XamlPackage);
                     }
+                    double width = MeasureBlocks(copy.Blocks);
+                    double room = Edge(cell.Padding.Left) + Edge(cell.Padding.Right) + Edge(cell.BorderThickness.Right) + 4;
+                    widths[i] = Math.Max(widths[i], Math.Min(MaxColumn, Math.Ceiling(width + room)));
                 }
             for (int i = 0; i < widths.Length; i++) table.Columns[i].Width = new GridLength(Math.Max(MinColumn, widths[i]));
         }
+
+        private static double MeasureBlocks(BlockCollection blocks)
+        {
+            double width = 0;
+            foreach (Block block in blocks.ToArray())
+            {
+                double content = 0;
+                if (block is Paragraph paragraph)
+                {
+                    var text = new TextBlock { FontFamily = paragraph.FontFamily, FontSize = paragraph.FontSize,
+                        FontWeight = paragraph.FontWeight, FontStyle = paragraph.FontStyle,
+                        FontStretch = paragraph.FontStretch, FlowDirection = paragraph.FlowDirection,
+                        Language = paragraph.Language, TextWrapping = TextWrapping.NoWrap };
+                    while (paragraph.Inlines.FirstInline is Inline inline)
+                    {
+                        paragraph.Inlines.Remove(inline);
+                        text.Inlines.Add(inline);
+                    }
+                    text.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    content = text.DesiredSize.Width + Math.Max(0, paragraph.TextIndent);
+                }
+                else if (block is BlockUIContainer container && container.Child is UIElement child)
+                {
+                    child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    content = child.DesiredSize.Width;
+                }
+                else if (block is Section section) content = MeasureBlocks(section.Blocks);
+                else if (block is System.Windows.Documents.List list)
+                    foreach (ListItem item in list.ListItems.ToArray())
+                        content = Math.Max(content, MeasureBlocks(item.Blocks));
+                else if (block is Table nested)
+                    foreach (TableRow row in nested.RowGroups.SelectMany(g => g.Rows).ToArray())
+                        content = Math.Max(content, row.Cells.ToArray().Sum(c => MeasureBlocks(c.Blocks) +
+                            Edge(c.Padding.Left) + Edge(c.Padding.Right) + Edge(c.BorderThickness.Left) + Edge(c.BorderThickness.Right) + nested.CellSpacing));
+                width = Math.Max(width, content + Edge(block.Margin.Left) + Edge(block.Margin.Right) +
+                    Edge(block.Padding.Left) + Edge(block.Padding.Right));
+            }
+            return width;
+        }
+
+        // Automatic WPF margins serialize as NaN and contribute no fixed horizontal space.
+        private static double Edge(double value) => double.IsNaN(value) ? 0 : value;
 
         /// <summary>The columns share the page evenly, as a new table does.</summary>
         internal static void FitToPage(Table table)

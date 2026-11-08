@@ -120,6 +120,49 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
+        public void FitToContentUsesEffectiveMixedRunFormatting() => Sta.Run(() =>
+        {
+            var table = Build(new[] { "" });
+            var cell = First(table);
+            var paragraph = (Paragraph)cell.Blocks.FirstBlock;
+            paragraph.FontFamily = new System.Windows.Media.FontFamily("Consolas");
+            paragraph.FontSize = 48;
+            paragraph.Inlines.Add(new Run("MMMMMMMM") { FontWeight = FontWeights.Bold });
+            paragraph.Inlines.Add(new Run("ii") { FontSize = 20,
+                FontFamily = new System.Windows.Media.FontFamily("Arial") });
+            var expected = new System.Windows.Controls.TextBlock { FontFamily = paragraph.FontFamily,
+                FontSize = 48, FontWeight = FontWeights.Bold, Text = "MMMMMMMM" };
+            expected.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+
+            TableStyle.FitToContent(table, 14, new System.Windows.Media.FontFamily("Segoe UI"), 1);
+
+            Assert.True(table.Columns[0].Width.Value >= expected.DesiredSize.Width,
+                $"Fitted {table.Columns[0].Width.Value} is narrower than the formatted run {expected.DesiredSize.Width}.");
+            Assert.Equal("MMMMMMMMii", new TextRange(cell.ContentStart, cell.ContentEnd).Text);
+            Assert.Equal(48, paragraph.FontSize);
+        });
+
+        [Fact]
+        public void FitToContentIncludesInlineImagesWithoutChangingTheOriginalContent() => Sta.Run(() =>
+        {
+            var table = Build(new[] { "" });
+            var cell = First(table);
+            var paragraph = (Paragraph)cell.Blocks.FirstBlock;
+            var image = new System.Windows.Controls.Image { Width = 420, Height = 20,
+                Source = System.Windows.Media.Imaging.BitmapSource.Create(2, 2, 96, 96,
+                    System.Windows.Media.PixelFormats.Bgra32, null, new byte[16], 8) };
+            var inline = new InlineUIContainer(image);
+            paragraph.Inlines.Add(inline);
+
+            TableStyle.FitToContent(table, 14, new System.Windows.Media.FontFamily("Segoe UI"), 1);
+
+            Assert.InRange(table.Columns[0].Width.Value, 424, 1000000);
+            Assert.Same(inline, paragraph.Inlines.LastInline);
+            Assert.Same(image, inline.Child);
+            Assert.Equal(420, image.Width);
+        });
+
+        [Fact]
         public void FitToPageSharesTheWidthEvenly() => Sta.Run(() =>
         {
             var table = Build(new[] { "a", "b" });

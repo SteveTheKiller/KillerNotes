@@ -196,7 +196,7 @@ namespace KillerNotes.Shell
                 r.Cells.Insert(Math.Min(index, r.Cells.Count), NewTableCell());
         }
 
-        private void TableEdit(Action<TableCell> edit)
+        private void TableEdit(Action<TableCell> edit, bool structural = false)
         {
             TableCell? cell = _tblMenuCell;
             _tblMenuCell = null;
@@ -205,8 +205,12 @@ namespace KillerNotes.Shell
             Table table = TableOf(cell);
             try
             {
-                edit(cell);
-                TableStyle.Refresh(table);   // cells a row or column just added
+                if (structural) TableStyle.EditStructure(table, () => edit(cell));
+                else
+                {
+                    edit(cell);
+                    TableStyle.Refresh(table);
+                }
             }
             finally { Editor.EndChange(); }
             MarkDirty();
@@ -262,13 +266,13 @@ namespace KillerNotes.Shell
             action(this, new RoutedEventArgs());
         }
 
-        private void TableRowAbove_Click(object sender, RoutedEventArgs e) => TableEdit(cell => InsertRow(cell, below: false));
-        private void TableRowBelow_Click(object sender, RoutedEventArgs e) => TableEdit(cell => InsertRow(cell, below: true));
-        private void TableColLeft_Click(object sender, RoutedEventArgs e) => TableEdit(cell => InsertColumn(cell, right: false));
-        private void TableColRight_Click(object sender, RoutedEventArgs e) => TableEdit(cell => InsertColumn(cell, right: true));
-        private void TableDelRow_Click(object sender, RoutedEventArgs e) => TableEdit(DeleteRow);
-        private void TableDelCol_Click(object sender, RoutedEventArgs e) => TableEdit(DeleteColumn);
-        private void TableDelete_Click(object sender, RoutedEventArgs e) => TableEdit(cell => DeleteTable(TableOf(cell)));
+        private void TableRowAbove_Click(object sender, RoutedEventArgs e) => TableEdit(cell => InsertRow(cell, below: false), structural: true);
+        private void TableRowBelow_Click(object sender, RoutedEventArgs e) => TableEdit(cell => InsertRow(cell, below: true), structural: true);
+        private void TableColLeft_Click(object sender, RoutedEventArgs e) => TableEdit(cell => InsertColumn(cell, right: false), structural: true);
+        private void TableColRight_Click(object sender, RoutedEventArgs e) => TableEdit(cell => InsertColumn(cell, right: true), structural: true);
+        private void TableDelRow_Click(object sender, RoutedEventArgs e) => TableEdit(DeleteRow, structural: true);
+        private void TableDelCol_Click(object sender, RoutedEventArgs e) => TableEdit(DeleteColumn, structural: true);
+        private void TableDelete_Click(object sender, RoutedEventArgs e) => TableEdit(cell => DeleteTable(TableOf(cell)), structural: true);
 
         private void InsertRow(TableCell cell, bool below)
         {
