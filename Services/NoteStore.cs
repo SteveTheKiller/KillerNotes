@@ -879,6 +879,27 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             tx.Commit();
         }
 
+        /// <summary>Replaces a note with Markdown atomically, keeping its previous rich version
+        /// and its attachment references if any part of the update fails.</summary>
+        internal static void SaveMarkdown(long id, string title, byte[] content, string plain)
+        {
+            if (_db == null || IsReadOnly) throw new InvalidOperationException("The database is not writable.");
+            using var tx = _db.BeginTransaction();
+            Snapshot(id, force: GetFormat(id) != Note.FormatMarkdown, tx);
+            Save(id, title, content, plain, tx);
+            using (var cmd = _db.CreateCommand())
+            {
+                cmd.Transaction = tx;
+                cmd.CommandText = "UPDATE notes SET format = $f WHERE id = $id";
+                cmd.Parameters.AddWithValue("$f", Note.FormatMarkdown);
+                cmd.Parameters.AddWithValue("$id", id);
+                cmd.ExecuteNonQuery();
+            }
+            SetLinks(id, WikiLinks.Parse(plain), tx);
+            SweepAttachments(tx);
+            tx.Commit();
+        }
+
         // ---- Attachment payloads (1.6.0) ----
 
         private static void PutAttachments(IEnumerable<Attachment> attachments, SqliteTransaction? tx)

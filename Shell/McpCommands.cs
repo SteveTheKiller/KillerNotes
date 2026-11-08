@@ -141,13 +141,7 @@ namespace KillerNotes.Shell
         private static void SaveMarkdown(long id, string title, string content)
         {
             byte[] blob = MarkdownBlob.Encode(content);
-            if (NoteStore.GetFormat(id) != Note.FormatMarkdown)
-            {
-                NoteStore.Snapshot(id, force: true);
-                NoteStore.SetFormat(id, Note.FormatMarkdown, blob, content);
-            }
-            NoteStore.Save(id, title, blob, content);
-            NoteStore.SetLinks(id, WikiLinks.Parse(content));
+            NoteStore.SaveMarkdown(id, title, blob, content);
         }
 
         /// <summary>Writes the export the way the app's own Export does: a failure leaves nothing
