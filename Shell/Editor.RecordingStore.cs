@@ -119,33 +119,50 @@ namespace KillerNotes.Shell
         }
 
         /// <summary>A detached copy of the open note with each chip's placeholder replaced by its
-        /// marked picture. The note format saves a chip as a one-space run, which takes exactly
-        /// the room the chip's container takes, so each chip sits at the same offset in the copy;
-        /// null when the copy does not line up exactly.</summary>
+        /// marked picture. Inline chips become one-space runs; block chips become paragraphs
+        /// containing that run and add two symbols until replaced. Returns null for a copy
+        /// whose native placeholders do not match the source structure.</summary>
         private FlowDocument? MarkedCopy()
         {
             var doc = Editor.Document;
             var copy = new FlowDocument();
             using (var ms = new MemoryStream(SavePackage(doc.ContentStart, doc.ContentEnd)))
                 new TextRange(copy.ContentStart, copy.ContentEnd).Load(ms, DataFormats.XamlPackage);
-            if (copy.ContentStart.GetOffsetToPosition(copy.ContentEnd) != doc.ContentStart.GetOffsetToPosition(doc.ContentEnd)) return null;
+            int[] expandedBlocks = Containers(doc)
+                .Where(c => c.Container is BlockUIContainer && c.Child is not Image)
+                .Select(c => doc.ContentStart.GetOffsetToPosition(c.Container.ElementStart)).OrderBy(x => x).ToArray();
+            int sourceLength = doc.ContentStart.GetOffsetToPosition(doc.ContentEnd);
+            if (copy.ContentStart.GetOffsetToPosition(copy.ContentEnd) != sourceLength + expandedBlocks.Length * 2) return null;
 
-            var placeholders = new List<(Run Placeholder, Image Picture)>();
+            var placeholders = new List<(TextElement Placeholder, Image Picture)>();
             foreach (var (container, chip) in ChipContainers(doc))
             {
-                if (container is not InlineUIContainer) return null;
-                var at = copy.ContentStart.GetPositionAtOffset(doc.ContentStart.GetOffsetToPosition(container.ElementStart));
-                if (at == null || at.GetPointerContext(LogicalDirection.Forward) != TextPointerContext.ElementStart ||
-                    at.GetAdjacentElement(LogicalDirection.Forward) is not Run { Text: " " } run || run.SiblingInlines == null)
-                    return null;
-                placeholders.Add((run, MarkerPicture(chip, RecordingRef.Of(chip)!)));
+                int offset = doc.ContentStart.GetOffsetToPosition(container.ElementStart);
+                var at = copy.ContentStart.GetPositionAtOffset(offset + expandedBlocks.Count(start => start < offset) * 2);
+                if (at == null || at.GetPointerContext(LogicalDirection.Forward) != TextPointerContext.ElementStart) return null;
+                object placeholder = at.GetAdjacentElement(LogicalDirection.Forward);
+                if (container is InlineUIContainer && placeholder is Run { Text: " ", SiblingInlines: not null } run)
+                    placeholders.Add((run, MarkerPicture(chip, RecordingRef.Of(chip)!)));
+                else if (container is BlockUIContainer && placeholder is Paragraph paragraph &&
+                    paragraph.Inlines.FirstInline is Run { Text: " ", NextInline: null })
+                    placeholders.Add((paragraph, MarkerPicture(chip, RecordingRef.Of(chip)!)));
+                else return null;
             }
-            foreach (var (run, picture) in placeholders)
+            foreach (var (placeholder, picture) in placeholders)
             {
-                run.SiblingInlines.InsertBefore(run, new InlineUIContainer(picture));
-                run.SiblingInlines.Remove(run);
+                if (placeholder is Run run)
+                {
+                    run.SiblingInlines.InsertBefore(run, new InlineUIContainer(picture));
+                    run.SiblingInlines.Remove(run);
+                }
+                else if (placeholder is Paragraph paragraph)
+                {
+                    paragraph.SiblingBlocks.InsertBefore(paragraph, new BlockUIContainer(picture) {
+                        Margin = paragraph.Margin, Padding = paragraph.Padding, TextAlignment = paragraph.TextAlignment });
+                    paragraph.SiblingBlocks.Remove(paragraph);
+                }
             }
-            return copy;
+            return copy.ContentStart.GetOffsetToPosition(copy.ContentEnd) == sourceLength ? copy : null;
         }
 
         /// <summary>The fallback: every chip replaced by its marked picture in the live document

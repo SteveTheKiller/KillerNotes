@@ -1158,4 +1158,21 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Color_Hex">Couleur hexadécimale</sys:String>
     <sys:String x:Key="Str_Btn_Select">Sélectionner un dossier</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Aperçu</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Style du tableau...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Motif des lignes</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Continu</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Pointillé</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Tirets</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Épaisseur des lignes</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Ligne d’en-tête</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Colonne d’en-tête</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Définir comme style de tableau par défaut</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Largeur des colonnes</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Conserver les largeurs actuelles</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Colonne</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Largeur</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Saisissez une épaisseur supérieure à 0 et inférieure ou égale à 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Saisissez une largeur de colonne entre 24 et 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">La note a changé. Le style du tableau n’a pas été appliqué.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Impossible d’enregistrer le style de tableau par défaut.</sys:String>
 </ResourceDictionary>

@@ -1155,4 +1155,21 @@
     <sys:String x:Key="Str_Color_Hex">十六进制颜色</sys:String>
     <sys:String x:Key="Str_Btn_Select">选择文件夹</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">预览</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">表格样式...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">线型</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">实线</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">点线</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">虚线</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">线条粗细</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">标题行</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">标题列</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">设为默认表格样式</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">列宽设置</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">保留当前宽度</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">列</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">宽度</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">请输入大于0且不超过8的线条粗细。</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">请输入24到1000000之间的列宽。</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">笔记已更改，未应用表格样式。</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">无法保存默认表格样式。</sys:String>
 </ResourceDictionary>

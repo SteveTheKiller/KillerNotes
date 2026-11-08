@@ -1204,4 +1204,21 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Color_Hex">Hex color</sys:String>
     <sys:String x:Key="Str_Btn_Select">Select folder</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Preview</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Table style...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Line pattern</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Solid</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Dotted</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Dashed</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Line thickness</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Header row</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Header column</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Make default table style</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Column sizing</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Keep current widths</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Column</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Width</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Enter a line thickness greater than 0 and no more than 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Enter a column width from 24 to 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">The note changed. Table style was not applied.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">The default table style could not be saved.</sys:String>
 </ResourceDictionary>

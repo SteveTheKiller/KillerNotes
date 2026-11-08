@@ -1,0 +1,87 @@
+<Window x:Class="KillerNotes.Controls.TableStyleDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:KillerNotes.Controls"
+        Title="{DynamicResource Str_TableStyle_Title}" Width="440" Height="570"
+        FontFamily="{DynamicResource UiFont}" FontSize="13" Foreground="{DynamicResource TextBrush}"
+        WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True"
+        ResizeMode="NoResize" Background="Transparent" ShowInTaskbar="False"
+        PreviewKeyDown="Dialog_KeyDown">
+    <ContentControl x:Name="RootBorder" Opacity="0" Style="{StaticResource DialogCard}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <local:DialogTitleBar Subtitle="{DynamicResource Str_TableStyle_Title}" CloseRequested="Cancel_Click"/>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="24,16,24,12">
+                <StackPanel x:Name="Fields">
+                    <TextBlock Text="{DynamicResource Str_Ctx_TblLines}"/>
+                    <ComboBox x:Name="LayoutBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="Changed"
+                              AutomationProperties.Name="{DynamicResource Str_Ctx_TblLines}">
+                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineGrid}"/>
+                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineRows}"/>
+                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineOutline}"/>
+                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineNone}"/>
+                    </ComboBox>
+                    <TextBlock Text="{DynamicResource Str_TableStyle_Pattern}"/>
+                    <ComboBox x:Name="PatternBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="Changed"
+                              AutomationProperties.Name="{DynamicResource Str_TableStyle_Pattern}">
+                        <ComboBoxItem Content="{DynamicResource Str_TableStyle_Solid}"/>
+                        <ComboBoxItem Content="{DynamicResource Str_TableStyle_Dotted}"/>
+                        <ComboBoxItem Content="{DynamicResource Str_TableStyle_Dashed}"/>
+                    </ComboBox>
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource Str_TableStyle_Thickness}"/>
+                            <TextBox x:Name="ThicknessBox" Style="{StaticResource EditFieldTextBox}" FontFamily="{DynamicResource UiFont}"
+                                     Margin="0,4,0,10" Padding="6,4" TextChanged="Changed" AutomationProperties.Name="{DynamicResource Str_TableStyle_Thickness}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="{DynamicResource Str_Ctx_TblSpacing}"/>
+                            <ComboBox x:Name="SpacingBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="Changed"
+                                      AutomationProperties.Name="{DynamicResource Str_Ctx_TblSpacing}">
+                                <ComboBoxItem Content="{DynamicResource Str_Ctx_TblSpaceCompact}"/>
+                                <ComboBoxItem Content="{DynamicResource Str_Ctx_TblSpaceNormal}"/>
+                                <ComboBoxItem Content="{DynamicResource Str_Ctx_TblSpaceRoomy}"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                    <CheckBox x:Name="HeaderRowBox" FontFamily="{DynamicResource UiFont}" Content="{DynamicResource Str_TableStyle_HeaderRow}"
+                              Margin="0,0,0,8" Checked="Changed" Unchecked="Changed"/>
+                    <CheckBox x:Name="HeaderColumnBox" FontFamily="{DynamicResource UiFont}" Content="{DynamicResource Str_TableStyle_HeaderColumn}"
+                              Margin="0,0,0,12" Checked="Changed" Unchecked="Changed"/>
+                    <TextBlock Text="{DynamicResource Str_TableStyle_Sizing}"/>
+                    <ComboBox x:Name="SizingBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="Changed"
+                              AutomationProperties.Name="{DynamicResource Str_TableStyle_Sizing}">
+                        <ComboBoxItem Content="{DynamicResource Str_TableStyle_KeepWidths}"/>
+                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblFitPage}"/>
+                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblFitContent}"/>
+                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblColWidth}"/>
+                    </ComboBox>
+                    <Grid x:Name="WidthFields" Visibility="Collapsed">
+                        <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource Str_TableStyle_Column}"/>
+                            <ComboBox x:Name="ColumnBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="ColumnChanged"
+                                      AutomationProperties.Name="{DynamicResource Str_TableStyle_Column}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="{DynamicResource Str_TableStyle_Width}"/>
+                            <TextBox x:Name="WidthBox" Style="{StaticResource EditFieldTextBox}" FontFamily="{DynamicResource UiFont}"
+                                     Margin="0,4,0,10" Padding="6,4" TextChanged="Changed" AutomationProperties.Name="{DynamicResource Str_TableStyle_Width}"/>
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock x:Name="ValidationText" TextWrapping="Wrap" Margin="0,0,0,10" AutomationProperties.LiveSetting="Polite"/>
+                    <CheckBox x:Name="DefaultBox" FontFamily="{DynamicResource UiFont}" Content="{DynamicResource Str_TableStyle_Default}"/>
+                </StackPanel>
+            </ScrollViewer>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="24,0,24,20">
+                <Button x:Name="CancelButton" Content="{DynamicResource Str_Btn_Cancel}" Style="{StaticResource SurfaceButton}"
+                        FontFamily="{DynamicResource UiFont}" MinWidth="80" Padding="12,2" Margin="0,0,8,0" Click="Cancel_Click"/>
+                <Button x:Name="OkButton" Content="{DynamicResource Str_Btn_OK}" Style="{StaticResource OutlineButton}"
+                        FontFamily="{DynamicResource UiFont}" MinWidth="80" Padding="12,2" IsDefault="True" Click="OK_Click"/>
+            </StackPanel>
+        </Grid>
+    </ContentControl>
+</Window>

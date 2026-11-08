@@ -81,7 +81,7 @@ namespace KillerNotes.Shell
             new("Alt+Shift+6", Key.D6, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblSpaceCompact", "Format", w => w.RunTableAction((_, _) => w.SetTableSpacing(TableSpacing.Compact))),
             new("Alt+Shift+7", Key.D7, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblSpaceNormal", "Format", w => w.RunTableAction((_, _) => w.SetTableSpacing(TableSpacing.Normal))),
             new("Alt+Shift+8", Key.D8, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblSpaceRoomy", "Format", w => w.RunTableAction((_, _) => w.SetTableSpacing(TableSpacing.Roomy))),
-            new("Alt+Shift+9", Key.D9, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblColWidth", "Format", w => w.RunTableAction(w.TableColWidth_Click)),
+            new("Alt+Shift+9", Key.D9, ModifierKeys.Alt | ModifierKeys.Shift, "Str_TableStyle_Title", "Format", w => w.RunTableAction(w.TableStyle_Click), "TableStyleMenuItem"),
             new("Alt+Shift+0", Key.D0, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblFitContent", "Format", w => w.RunTableAction(w.TableFitContent_Click)),
             new("Alt+Shift+T", Key.T, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblFitPage", "Format", w => w.RunTableAction(w.TableFitPage_Click)),
             // Page width presets (Editor.View.cs, #31): the four footer radios share these gestures.

@@ -1204,4 +1204,21 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Color_Hex">Cor hexadecimal</sys:String>
     <sys:String x:Key="Str_Btn_Select">Selecionar pasta</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Visualização</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Estilo da tabela...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Padrão de linha</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Contínua</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Pontilhada</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Tracejada</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Espessura da linha</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Linha de cabeçalho</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Coluna de cabeçalho</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Definir como estilo de tabela padrão</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Largura das colunas</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Manter larguras atuais</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Coluna</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Largura</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Insira uma espessura maior que 0 e no máximo 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Insira uma largura de coluna entre 24 e 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">A nota mudou. O estilo da tabela não foi aplicado.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Não foi possível salvar o estilo de tabela padrão.</sys:String>
 </ResourceDictionary>

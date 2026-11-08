@@ -1165,4 +1165,21 @@
     <sys:String x:Key="Str_Color_Hex">Он алтылық түс</sys:String>
     <sys:String x:Key="Str_Btn_Select">Қалтаны таңдау</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Алдын ала қарау</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Кесте стилі...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Сызық үлгісі</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Тұтас</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Нүктелі</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Үзік</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Сызық қалыңдығы</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Тақырып жолы</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Тақырып бағаны</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Әдепкі кесте стилі ету</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Баған ені</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Ағымдағы ендерді сақтау</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Баған</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Ені</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">0-ден үлкен және 8-ден аспайтын сызық қалыңдығын енгізіңіз.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">24 пен 1000000 аралығындағы баған енін енгізіңіз.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">Жазба өзгерді. Кесте стилі қолданылмады.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Әдепкі кесте стилін сақтау мүмкін болмады.</sys:String>
 </ResourceDictionary>

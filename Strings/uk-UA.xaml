@@ -1204,4 +1204,21 @@
     <sys:String x:Key="Str_Color_Hex">Шістнадцятковий колір</sys:String>
     <sys:String x:Key="Str_Btn_Select">Вибрати папку</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Попередній перегляд</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Стиль таблиці...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Тип лінії</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Суцільна</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Крапкова</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Штрихова</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Товщина лінії</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Рядок заголовка</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Стовпець заголовка</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Зробити стилем таблиці за замовчуванням</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Ширина стовпців</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Зберегти поточну ширину</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Стовпець</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Ширина</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Введіть товщину лінії більше 0 і не більше 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Введіть ширину стовпця від 24 до 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">Нотатка змінилася. Стиль таблиці не застосовано.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Не вдалося зберегти стиль таблиці за замовчуванням.</sys:String>
 </ResourceDictionary>

@@ -1158,4 +1158,21 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Color_Hex">Color hexadecimal</sys:String>
     <sys:String x:Key="Str_Btn_Select">Seleccionar</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Vista previa</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Estilo de tabla...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Patrón de línea</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Continua</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Punteada</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Discontinua</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Grosor de línea</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Fila de encabezado</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Columna de encabezado</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Usar como estilo de tabla predeterminado</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Ancho de columnas</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Mantener anchos actuales</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Columna</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Ancho</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Introduce un grosor mayor que 0 y no superior a 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Introduce un ancho de columna entre 24 y 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">La nota ha cambiado. No se aplicó el estilo de tabla.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">No se pudo guardar el estilo de tabla predeterminado.</sys:String>
 </ResourceDictionary>

@@ -1084,4 +1084,21 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Color_Hex">Kolor szesnastkowy</sys:String>
     <sys:String x:Key="Str_Btn_Select">Wybierz folder</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Podgląd</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Styl tabeli...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Wzór linii</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Ciągła</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Kropkowana</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Kreskowana</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Grubość linii</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Wiersz nagłówka</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Kolumna nagłówka</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Ustaw jako domyślny styl tabeli</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Szerokość kolumn</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Zachowaj bieżące szerokości</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Kolumna</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Szerokość</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Podaj grubość linii większą niż 0 i nie większą niż 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Podaj szerokość kolumny od 24 do 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">Notatka się zmieniła. Styl tabeli nie został zastosowany.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Nie udało się zapisać domyślnego stylu tabeli.</sys:String>
 </ResourceDictionary>

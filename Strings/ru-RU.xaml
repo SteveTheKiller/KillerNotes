@@ -1165,4 +1165,21 @@
     <sys:String x:Key="Str_Color_Hex">Шестнадцатеричный цвет</sys:String>
     <sys:String x:Key="Str_Btn_Select">Выбрать папку</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Предварительный просмотр</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Стиль таблицы...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Тип линии</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Сплошная</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Точечная</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Штриховая</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Толщина линии</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Строка заголовка</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Столбец заголовка</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Использовать как стиль таблицы по умолчанию</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Ширина столбцов</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Сохранить текущую ширину</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Столбец</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Ширина</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Введите толщину линии больше 0 и не больше 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Введите ширину столбца от 24 до 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">Заметка изменилась. Стиль таблицы не применен.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Не удалось сохранить стиль таблицы по умолчанию.</sys:String>
 </ResourceDictionary>

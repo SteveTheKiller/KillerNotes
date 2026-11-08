@@ -1157,4 +1157,21 @@
     <sys:String x:Key="Str_Color_Hex">হেক্স রং</sys:String>
     <sys:String x:Key="Str_Btn_Select">ফোল্ডার নির্বাচন করুন</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">পূর্বরূপ</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">টেবিলের শৈলী...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">রেখার ধরন</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">একটানা</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">বিন্দুযুক্ত</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">ড্যাশযুক্ত</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">রেখার পুরুত্ব</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">শিরোনাম সারি</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">শিরোনাম কলাম</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">ডিফল্ট টেবিল শৈলী হিসেবে সেট করুন</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">কলামের প্রস্থ</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">বর্তমান প্রস্থ রাখুন</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">কলাম</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">প্রস্থ</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">0-এর চেয়ে বেশি এবং 8-এর বেশি নয় এমন রেখার পুরুত্ব লিখুন।</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">24 থেকে 1000000-এর মধ্যে কলামের প্রস্থ লিখুন।</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">নোটটি পরিবর্তিত হয়েছে। টেবিলের শৈলী প্রয়োগ করা হয়নি।</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">ডিফল্ট টেবিল শৈলী সংরক্ষণ করা যায়নি।</sys:String>
 </ResourceDictionary>

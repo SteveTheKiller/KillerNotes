@@ -1165,4 +1165,21 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Color_Hex">Colore esadecimale</sys:String>
     <sys:String x:Key="Str_Btn_Select">Seleziona cartella</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Anteprima</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Stile tabella...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Tipo di linea</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Continua</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Puntinata</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Tratteggiata</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Spessore linea</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Riga di intestazione</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Colonna di intestazione</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Imposta come stile tabella predefinito</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Larghezza colonne</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Mantieni le larghezze attuali</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Colonna</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Larghezza</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Inserisci uno spessore maggiore di 0 e non superiore a 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Inserisci una larghezza di colonna da 24 a 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">La nota è cambiata. Lo stile della tabella non è stato applicato.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Impossibile salvare lo stile tabella predefinito.</sys:String>
 </ResourceDictionary>

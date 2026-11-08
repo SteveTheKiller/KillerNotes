@@ -62,14 +62,13 @@ namespace KillerNotes.Shell
                     }
                     break;
                 case Table t:
-                    t.SetResourceReference(Table.BorderBrushProperty, "TextBrush");
+                    TableStyle.RestoreGridBrushes(t);
                     foreach (var g in t.RowGroups.ToList())
                         foreach (var row in g.Rows.ToList())
                         {
                             NormalizeElement(row);
                             foreach (var cell in row.Cells.ToList())
                             {
-                                cell.SetResourceReference(TableCell.BorderBrushProperty, "TextBrush");
                                 NormalizeElement(cell);
                                 foreach (var b in cell.Blocks.ToList()) NormalizeBlock(b);
                             }

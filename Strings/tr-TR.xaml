@@ -1157,4 +1157,21 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Color_Hex">Onaltılık renk</sys:String>
     <sys:String x:Key="Str_Btn_Select">Klasör seç</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Önizleme</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Tablo stili...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Çizgi deseni</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Düz</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Noktalı</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Kesikli</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Çizgi kalınlığı</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Başlık satırı</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Başlık sütunu</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Varsayılan tablo stili yap</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Sütun genişliği</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Geçerli genişlikleri koru</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Sütun</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Genişlik</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">0'dan büyük ve en fazla 8 olan bir çizgi kalınlığı girin.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">24 ile 1000000 arasında bir sütun genişliği girin.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">Not değişti. Tablo stili uygulanmadı.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Varsayılan tablo stili kaydedilemedi.</sys:String>
 </ResourceDictionary>

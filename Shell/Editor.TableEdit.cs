@@ -41,6 +41,7 @@ namespace KillerNotes.Shell
             var group = new TableRowGroup();
             for (int r = 0; r < rows; r++) group.Rows.Add(NewTableRow(cols));
             table.RowGroups.Add(group);
+            TableStyle.ApplyAppearance(table, TableAppearance.FromSetting(App.GetSetting("DefaultTableStyle")));
             return table;
         }
 
@@ -150,7 +151,7 @@ namespace KillerNotes.Shell
             Editor.CaretPosition = rows[grid.Count - 1].Cells[cols - 1].ContentEnd;
         }
 
-        private void FillTable(TableCell anchor, List<string[]> grid)
+        internal void FillTable(TableCell anchor, List<string[]> grid)
         {
             var row = (TableRow)anchor.Parent;
             var group = (TableRowGroup)row.Parent;
@@ -159,24 +160,25 @@ namespace KillerNotes.Shell
             int c0 = row.Cells.IndexOf(anchor);
             int width = grid.Max(r => r.Length);
 
-            int cols = ColumnCount(table);
-            for (int extra = c0 + width - cols; extra > 0; extra--) AddColumnAt(table, ColumnCount(table));
-            cols = ColumnCount(table);
-
             TableCell last = anchor;
-            for (int i = 0; i < grid.Count; i++)
+            TableStyle.EditStructure(table, () =>
             {
-                int target = r0 + i;
-                while (group.Rows.Count <= target) group.Rows.Add(NewTableRow(cols));
-                TableRow tr = group.Rows[target];
-                while (tr.Cells.Count < c0 + grid[i].Length) tr.Cells.Add(NewTableCell());
-                for (int j = 0; j < grid[i].Length; j++)
+                int cols = ColumnCount(table);
+                for (int extra = c0 + width - cols; extra > 0; extra--) AddColumnAt(table, ColumnCount(table));
+                cols = ColumnCount(table);
+                for (int i = 0; i < grid.Count; i++)
                 {
-                    last = tr.Cells[c0 + j];
-                    SetCellText(last, grid[i][j]);
+                    int target = r0 + i;
+                    while (group.Rows.Count <= target) group.Rows.Add(NewTableRow(cols));
+                    TableRow tr = group.Rows[target];
+                    while (tr.Cells.Count < c0 + grid[i].Length) tr.Cells.Add(NewTableCell());
+                    for (int j = 0; j < grid[i].Length; j++)
+                    {
+                        last = tr.Cells[c0 + j];
+                        SetCellText(last, grid[i][j]);
+                    }
                 }
-            }
-            TableStyle.Refresh(table);
+            });
             Editor.CaretPosition = last.ContentEnd;
         }
 
@@ -234,26 +236,13 @@ namespace KillerNotes.Shell
         private void SetTableLines(TableLines lines) => TableEdit(cell => TableStyle.ApplyLines(TableOf(cell), lines));
         private void SetTableSpacing(TableSpacing spacing) => TableEdit(cell => TableStyle.ApplySpacing(TableOf(cell), spacing));
 
-        private void TableFitContent_Click(object sender, RoutedEventArgs e) => TableEdit(cell =>
-            TableStyle.FitToContent(TableOf(cell), Editor.FontSize, Editor.FontFamily,
-                VisualTreeHelper.GetDpi(Editor).PixelsPerDip));
+        private void TableFitContent_Click(object sender, RoutedEventArgs e) => ShowTableStyle(TableSizingMode.FitContent);
 
-        private void TableFitPage_Click(object sender, RoutedEventArgs e) => TableEdit(cell => TableStyle.FitToPage(TableOf(cell)));
+        private void TableFitPage_Click(object sender, RoutedEventArgs e) => ShowTableStyle(TableSizingMode.FitPage);
 
         private void TableColWidth_Click(object sender, RoutedEventArgs e)
         {
-            TableCell? cell = _tblMenuCell;
-            if (cell?.Parent is not TableRow row) return;
-            Table table = TableOf(cell);
-            int index = row.Cells.IndexOf(cell);
-            if (index >= table.Columns.Count) return;
-            GridLength now = table.Columns[index].Width;
-            var dlg = new Controls.InputDialog(Loc("Str_Dlg_TblColWidth"), now.IsAbsolute ? Math.Round(now.Value).ToString() : "", Loc("Str_Btn_OK")) { Owner = this };
-            dlg.ShowDialog();
-            double width = 0;
-            if (!dlg.Confirmed || !double.TryParse(dlg.Value.Trim(), out width) || !TableStyle.IsValidColumnWidth(width)) { _tblMenuCell = null; return; }
-            double available = Editor.ViewportWidth - Editor.Document.PagePadding.Left - Editor.Document.PagePadding.Right;
-            TableEdit(_ => TableStyle.SetColumnWidth(table, index, width, available));
+            ShowTableStyle(TableSizingMode.ColumnWidth);
         }
 
         /// <summary>Keyboard entry for the Table items (ActionShortcuts.cs): acts on the caret's

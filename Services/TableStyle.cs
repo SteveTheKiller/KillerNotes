@@ -16,7 +16,7 @@ namespace KillerNotes.Services
     /// itself (border thickness, cell padding, column widths), so it saves with the note. A
     /// FlowDocument row has no height of its own and always fits its text, so row spacing works
     /// through cell padding.</summary>
-    internal static class TableStyle
+    internal static partial class TableStyle
     {
         private const double MinColumn = 24;
         internal const double MaxColumn = 1000000;
@@ -83,19 +83,30 @@ namespace KillerNotes.Services
         /// <summary>Brings cells added by a row, column or paste to the table's own look.</summary>
         internal static void Refresh(Table table)
         {
-            TableLines lines = ReadLines(table);
-            TableSpacing spacing = ReadSpacing(table);
-            ApplyLines(table, lines);
-            ApplySpacing(table, spacing);
+            ApplyAppearance(table, ReadAppearance(table));
         }
 
         internal static void EditStructure(Table table, Action edit)
         {
-            TableLines lines = ReadLines(table);
-            TableSpacing spacing = ReadSpacing(table);
+            TableAppearance appearance = ReadAppearance(table);
+            var oldRows = table.RowGroups.SelectMany(g => g.Rows).ToArray();
+            var oldFirstCells = oldRows.Where(r => r.Cells.Count > 0).Select(r => r.Cells[0]).ToArray();
             edit();
-            ApplyLines(table, lines);
-            ApplySpacing(table, spacing);
+            var rows = table.RowGroups.SelectMany(g => g.Rows).ToArray();
+            if (appearance.HeaderRow && oldRows.Length > 0 && rows.Length > 0 &&
+                !ReferenceEquals(oldRows[0], rows[0]) && rows.Contains(oldRows[0]))
+            {
+                oldRows[0].ClearValue(TextElement.FontWeightProperty);
+                oldRows[0].ClearValue(TextElement.BackgroundProperty);
+            }
+            if (appearance.HeaderColumn)
+                foreach (TableCell cell in oldFirstCells)
+                    if (cell.Parent is TableRow row && rows.Contains(row) && row.Cells.IndexOf(cell) > 0)
+                    {
+                        cell.ClearValue(TextElement.FontWeightProperty);
+                        cell.ClearValue(TextElement.BackgroundProperty);
+                    }
+            ApplyAppearance(table, appearance);
         }
 
         /// <summary>Sets one column. The others are shared columns that move whenever one changes,

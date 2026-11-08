@@ -1154,4 +1154,21 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Color_Hex">Barva v šestnáctkovém zápisu</sys:String>
     <sys:String x:Key="Str_Btn_Select">Vybrat složku</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Náhled</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Styl tabulky...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Vzor čáry</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Plná</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Tečkovaná</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Čárkovaná</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Tloušťka čáry</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Řádek záhlaví</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Sloupec záhlaví</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Nastavit jako výchozí styl tabulky</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Šířka sloupců</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Zachovat aktuální šířky</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Sloupec</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Šířka</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Zadejte tloušťku čáry větší než 0 a nejvýše 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Zadejte šířku sloupce od 24 do 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">Poznámka se změnila. Styl tabulky nebyl použit.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Výchozí styl tabulky se nepodařilo uložit.</sys:String>
 </ResourceDictionary>

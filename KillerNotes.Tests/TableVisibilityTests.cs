@@ -3,12 +3,29 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using KillerNotes.Shell;
+using KillerNotes.Services;
 using Xunit;
 
 namespace KillerNotes.Tests
 {
     public sealed class TableVisibilityTests
     {
+        [Fact]
+        public void PatternedTablesKeepLinesThroughThemeNormalization() => Sta.Run(() =>
+        {
+            var table = new Table();
+            table.Columns.Add(new TableColumn());
+            table.RowGroups.Add(new TableRowGroup { Rows = {
+                new TableRow { Cells = { new TableCell(new Paragraph()) } } } });
+            var doc = new FlowDocument(table);
+            doc.Resources["TextBrush"] = Brushes.Black;
+            TableStyle.ApplyAppearance(table, new TableAppearance { Pattern = TableLinePattern.Dashed });
+
+            MainWindow.NormalizeThemeColors(doc);
+
+            Assert.Equal(TableLinePattern.Dashed, TableStyle.ReadAppearance(table).Pattern);
+        });
+
         [Fact]
         public void SavedTablesUseLiveReadableGridWithoutChangingChosenLines() => Sta.Run(() =>
         {

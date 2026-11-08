@@ -1208,4 +1208,21 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Color_Hex">Màu hex</sys:String>
     <sys:String x:Key="Str_Btn_Select">Chọn thư mục</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Xem trước</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Kiểu bảng...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Kiểu đường</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Nét liền</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Nét chấm</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Nét đứt</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Độ dày đường</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Hàng tiêu đề</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Cột tiêu đề</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Đặt làm kiểu bảng mặc định</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Độ rộng cột</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Giữ độ rộng hiện tại</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Cột</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Độ rộng</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Nhập độ dày đường lớn hơn 0 và không quá 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Nhập độ rộng cột từ 24 đến 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">Ghi chú đã thay đổi. Kiểu bảng chưa được áp dụng.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Không thể lưu kiểu bảng mặc định.</sys:String>
 </ResourceDictionary>

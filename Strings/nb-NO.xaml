@@ -1202,4 +1202,21 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Color_Hex">Heksfarge</sys:String>
     <sys:String x:Key="Str_Btn_Select">Velg mappe</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Forhåndsvisning</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Tabellstil...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Linjemønster</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Heltrukket</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Prikket</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Stiplet</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Linjetykkelse</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Overskriftsrad</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Overskriftskolonne</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Bruk som standard tabellstil</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Kolonnebredde</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Behold gjeldende bredder</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Kolonne</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Bredde</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Angi en linjetykkelse større enn 0 og høyst 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Angi en kolonnebredde fra 24 til 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">Notatet ble endret. Tabellstilen ble ikke brukt.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Kunne ikke lagre standard tabellstil.</sys:String>
 </ResourceDictionary>

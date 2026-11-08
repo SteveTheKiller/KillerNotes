@@ -1064,4 +1064,21 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Color_Hex">Šestnajstiška barva</sys:String>
     <sys:String x:Key="Str_Btn_Select">Izberi mapo</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Predogled</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Slog tabele...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Vzorec črte</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Polna</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Pikčasta</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Črtkana</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Debelina črte</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Vrstica z glavo</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Stolpec z glavo</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Nastavi kot privzeti slog tabele</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Širina stolpcev</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Ohrani trenutne širine</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Stolpec</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Širina</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Vnesite debelino črte, večjo od 0 in največ 8.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Vnesite širino stolpca od 24 do 1000000.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">Beležka se je spremenila. Slog tabele ni bil uporabljen.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Privzetega sloga tabele ni bilo mogoče shraniti.</sys:String>
 </ResourceDictionary>

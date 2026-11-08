@@ -29,6 +29,54 @@ namespace KillerNotes.Tests
         public void Dispose() => NoteStore.HistoryInterval = _interval;
 
         [Fact]
+        public void FloatedRecordingPreviewLeavesTheNextUndoForEarlierTyping() => Sta.Run(() =>
+        {
+            using var store = new TempStore();
+            var shell = Shell(NoteStore.Create("preview"), null);
+            var chip = new Border { Child = new Grid(), Tag = new RecordingRef(new string('a', 64), 1000).ToTag() };
+            var container = new BlockUIContainer(chip);
+            var table = new Table();
+            table.Columns.Add(new TableColumn());
+            table.RowGroups.Add(new TableRowGroup { Rows = { new TableRow { Cells = { new TableCell(new Paragraph(new Run("cell"))) } } } });
+            var tail = new Paragraph(new Run("before"));
+            var document = new FlowDocument(new Paragraph(new Floater(container)));
+            document.Blocks.Add(table);
+            document.Blocks.Add(tail);
+            var editor = shell.Editor;
+            editor.Document = document;
+            System.Windows.Input.InputMethod.SetIsInputMethodEnabled(editor, false);
+            var host = new Window { Content = editor, Width = 320, Height = 240, Opacity = 0,
+                ShowInTaskbar = false, ShowActivated = false };
+            host.Show();
+            try
+            {
+                editor.IsUndoEnabled = false;
+                editor.IsUndoEnabled = true;
+                editor.CaretPosition = tail.ContentEnd.GetInsertionPosition(LogicalDirection.Backward);
+                editor.BeginChange();
+                editor.Selection.Text = " earlier typing";
+                editor.EndChange();
+
+                byte[] package = shell.SerializeRichDocument(new List<Attachment>());
+                var reopened = new FlowDocument();
+                using (var saved = new MemoryStream(package))
+                    new TextRange(reopened.ContentStart, reopened.ContentEnd).Load(saved, DataFormats.XamlPackage);
+                var floated = Assert.IsType<Floater>(Assert.IsType<Paragraph>(reopened.Blocks.FirstBlock).Inlines.FirstInline);
+                var picture = Assert.IsType<Image>(Assert.IsType<BlockUIContainer>(floated.Blocks.FirstBlock).Child);
+                Assert.Equal(Attachments.Marker(AttachmentKind.Recording, new string('a', 64)), picture.ToolTip);
+                using var session = new TableStyleSession(editor, table, package);
+                session.Preview(new TableAppearance { Thickness = 3 });
+                session.Cancel();
+
+                Assert.Same(chip, container.Child);
+                editor.Undo();
+                Assert.DoesNotContain("earlier typing", new TextRange(document.ContentStart, document.ContentEnd).Text);
+                Assert.Contains("cell", new TextRange(document.ContentStart, document.ContentEnd).Text);
+            }
+            finally { host.Close(); Dispatcher.CurrentDispatcher.InvokeShutdown(); }
+        });
+
+        [Fact]
         public void ARecordingKeepsItsChipAndAudioThroughSaveAndReopen() => Sta.Run(() =>
         {
             using var store = new TempStore();

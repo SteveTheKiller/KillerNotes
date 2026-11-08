@@ -1157,4 +1157,21 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Color_Hex">Hex-Farbe</sys:String>
     <sys:String x:Key="Str_Btn_Select">Auswählen</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Vorschau</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">Tabellenstil...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">Linienmuster</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">Durchgezogen</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">Gepunktet</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">Gestrichelt</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">Linienstärke</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">Kopfzeile</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">Kopfspalte</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">Als Standard für neue Tabellen verwenden</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">Spaltenbreite</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">Aktuelle Breiten beibehalten</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">Spalte</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">Breite</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">Geben Sie eine Linienstärke größer als 0 und höchstens 8 ein.</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">Geben Sie eine Spaltenbreite von 24 bis 1000000 ein.</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">Die Notiz wurde geändert. Der Tabellenstil wurde nicht angewendet.</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">Der Standardtabellenstil konnte nicht gespeichert werden.</sys:String>
 </ResourceDictionary>

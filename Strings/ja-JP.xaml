@@ -1155,4 +1155,21 @@
     <sys:String x:Key="Str_Color_Hex">16 進カラー</sys:String>
     <sys:String x:Key="Str_Btn_Select">フォルダーを選択</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">プレビュー</sys:String>
+    <sys:String x:Key="Str_TableStyle_Title">表のスタイル...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Pattern">線の種類</sys:String>
+    <sys:String x:Key="Str_TableStyle_Solid">実線</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dotted">点線</sys:String>
+    <sys:String x:Key="Str_TableStyle_Dashed">破線</sys:String>
+    <sys:String x:Key="Str_TableStyle_Thickness">線の太さ</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderRow">見出し行</sys:String>
+    <sys:String x:Key="Str_TableStyle_HeaderColumn">見出し列</sys:String>
+    <sys:String x:Key="Str_TableStyle_Default">既定の表スタイルにする</sys:String>
+    <sys:String x:Key="Str_TableStyle_Sizing">列の幅</sys:String>
+    <sys:String x:Key="Str_TableStyle_KeepWidths">現在の幅を維持</sys:String>
+    <sys:String x:Key="Str_TableStyle_Column">列</sys:String>
+    <sys:String x:Key="Str_TableStyle_Width">幅</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidThickness">0より大きく8以下の線の太さを入力してください。</sys:String>
+    <sys:String x:Key="Str_TableStyle_InvalidWidth">24から1000000の列幅を入力してください。</sys:String>
+    <sys:String x:Key="Str_TableStyle_ScopeChanged">ノートが変更されました。表のスタイルは適用されませんでした。</sys:String>
+    <sys:String x:Key="Str_TableStyle_DefaultFailed">既定の表スタイルを保存できませんでした。</sys:String>
 </ResourceDictionary>

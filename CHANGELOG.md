@@ -24,7 +24,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Template and daily-note group choices stay with their own database across moves and password changes. Ambiguous older choices need to be selected again.
 - Installing a portable copy refuses to overlap an install or update, and uninstalling preserves other apps' file associations.
 - Release preparation stops when package restore or vulnerability checks fail.
-- The table picker stays open for selection or custom insertion. Table grids remain visible across themes, and insertion moves into the new table. Tables keep their style across prepends, fit formatted content and pictures, and reject invalid widths before resizing.
+- The table picker stays open for selection or custom insertion. Table grids remain visible across themes, and insertion moves into the new table. Tables keep their style across inserted and pasted rows, fit formatted content and pictures, and reject invalid widths before resizing.
 - The file picker loads icons and picture previews in the background, refreshes overwritten previews, and restores its position on any monitor.
 - A locked notepad set aside by the unlock screen's New database is named with the Gregorian year on Thai, Arabic and Persian region settings instead of a year like 2569.
 - A per-user or portable update that fails now reopens KillerNotes instead of leaving it closed, including when antivirus or a locked-down PowerShell stops the update helper from loading, and a published copy that fails its final check is swapped back for the previous version and never started.
@@ -40,8 +40,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Added
 
+- Table Style (Alt+Shift+9) groups solid, dotted and dashed borders, line layout and thickness, spacing, row and column headers, and column sizing in one dialog. Changes preview on the note; Cancel restores it, OK makes one undoable change, and an optional default applies to new tables. (#31)
 - Page width presets in the footer and the editor menu: Full, Wide, Medium and Narrow (Alt+Shift+W, E, M and N) cap the text column and keep it centered, so a table no longer stretches across a wide window. The choice is remembered. (#31)
-- The Table menu has line styles (grid, thick grid, rows only, outline only and no lines), row spacing, an exact column width, fit columns to content and fit table to page. (#31)
 
 ## [1.6.1] - 2026-11-01
 
