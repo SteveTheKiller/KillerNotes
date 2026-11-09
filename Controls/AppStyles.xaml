@@ -298,7 +298,9 @@
         <Setter Property="CaretBrush" Value="{DynamicResource TextBrush}"/>
         <Setter Property="SelectionBrush" Value="{DynamicResource TextSelectionBrush}"/>
         <Setter Property="SelectionOpacity" Value="{DynamicResource TextSelectionOpacity}"/>
-        <Setter Property="Padding" Value="6,0"/>
+        <!-- The masking dot is drawn near the text baseline, so a centered line leaves the dots
+             2px low in the 26px field; 2px of bottom padding lifts them to the middle. -->
+        <Setter Property="Padding" Value="6,0,6,2"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Template" Value="{StaticResource EditFieldTemplate}"/>
     </Style>

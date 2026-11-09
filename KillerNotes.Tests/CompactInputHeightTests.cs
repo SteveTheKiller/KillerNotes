@@ -142,6 +142,33 @@ namespace KillerNotes.Tests
             throw new InvalidOperationException("KillerNotes.csproj was not found above the test output.");
         }
 
+        // The unlock box's dots sit in the middle of the field: the rows they cover are split evenly
+        // above and below its center, measured from pixels rendered off screen.
+        [Fact]
+        public void PasswordDotsSitInTheMiddleOfTheField() => WithResources("Themes/Black.xaml", app =>
+        {
+            var box = new PasswordBox { Password = "abcdefg", FontSize = 13,
+                Style = (Style)app.FindResource("EditFieldPasswordBox"), Background = Brushes.Black,
+                Foreground = Brushes.White, BorderThickness = new Thickness(0) };
+            var root = new Border { Width = 300, Background = Brushes.Black, Child = box };
+            root.Measure(new Size(300, double.PositiveInfinity));
+            root.Arrange(new Rect(root.DesiredSize));
+            root.UpdateLayout();
+            int w = (int)Math.Ceiling(root.ActualWidth), h = (int)Math.Ceiling(root.ActualHeight);
+            var bitmap = new System.Windows.Media.Imaging.RenderTargetBitmap(w, h, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(root);
+            var pixels = new byte[w * h * 4];
+            bitmap.CopyPixels(pixels, w * 4, 0);
+            int top = -1, bottom = -1;
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                    if (pixels[(y * w + x) * 4 + 1] > 128) { if (top < 0) top = y; bottom = y; break; }
+            _output.WriteLine($"field {h}px, dots rows {top}..{bottom}");
+            Assert.True(top >= 0, "No dots were drawn.");
+            int above = top, below = h - 1 - bottom;
+            Assert.True(Math.Abs(above - below) <= 1, $"The dots sit {above}px from the top and {below}px from the bottom.");
+        });
+
         private static void WithResources(string theme, Action<Application> check) => Sta.RunApplication(() =>
         {
             Application app = Application.Current ?? new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
