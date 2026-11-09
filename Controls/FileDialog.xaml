@@ -581,11 +581,12 @@
                          AutomationProperties.Name="{DynamicResource Str_Dlg_FileName}"
                          Style="{StaticResource DialogPickerTextBox}"
                          FontFamily="{DynamicResource UiFont}" FontSize="12" Padding="5,0,8,0"
-                         VerticalContentAlignment="Center" KeyDown="FileNameBox_KeyDown"/>
+                         VerticalContentAlignment="Center" KeyDown="FileNameBox_KeyDown"
+                         TextChanged="FileNameBox_TextChanged"/>
 
                 <TextBlock x:Name="FilterLabel" Grid.Row="1" Grid.Column="0" Text="{DynamicResource Str_Dlg_FileType}" VerticalAlignment="Center"
                            Margin="0,8,10,0" Foreground="{DynamicResource MutedTextBrush}" FontFamily="{DynamicResource UiFont}" FontSize="11"/>
-                <ComboBox x:Name="FilterCombo" Grid.Row="1" Grid.Column="1" Height="28" Margin="0,8,0,0"
+                <ComboBox x:Name="FilterCombo" Grid.Row="1" Grid.Column="1" Height="26" Margin="0,8,0,0"
                           AutomationProperties.Name="{DynamicResource Str_Dlg_FileType}"
                           Style="{StaticResource DarkComboBox}"
                           SelectionChanged="Filter_SelectionChanged"/>

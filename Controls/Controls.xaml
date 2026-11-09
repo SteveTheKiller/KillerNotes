@@ -370,10 +370,16 @@
                             BorderBrush="{DynamicResource PaneBevelLight2Brush}" BorderThickness="{DynamicResource PaneBevel2DarkThickness}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <!-- Before the compact trigger, so a compact theme's own floor wins. -->
-                        <Trigger Property="AcceptsReturn" Value="False">
+                        <!-- Before the compact trigger, so a compact theme's own floor wins. Only for
+                             a box that sizes itself: one given an explicit Height (an editor's find
+                             box, an in-place rename) keeps the height it was given. -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="AcceptsReturn" Value="False"/>
+                                <Condition Property="Height" Value="NaN"/>
+                            </MultiTrigger.Conditions>
                             <Setter TargetName="InputRoot" Property="MinHeight" Value="26"/>
-                        </Trigger>
+                        </MultiTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding Tag, ElementName=InputRoot}" Value="True"/>

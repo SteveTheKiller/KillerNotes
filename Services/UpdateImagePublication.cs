@@ -103,8 +103,14 @@ namespace KillerNotes.Services
                 script.AppendLine("$publicationLease=$null;$publicationLeaseOwned=$false;try {");
                 script.AppendLine("$publicationLease=New-Object Threading.Mutex($false,$plan.LifecycleMutex)");
                 script.AppendLine("try{$publicationLeaseOwned=$publicationLease.WaitOne(0)}catch [Threading.AbandonedMutexException]{$publicationLeaseOwned=$true}");
-                script.AppendLine("if(-not $publicationLeaseOwned){[IO.File]::AppendAllText($plan.Report,[Environment]::NewLine+'Another KillerTools install or update is running, so this update was not applied.');if($plan.ShowReport){try{& $ops.ShowReport $plan.Report}catch{}};exit 1618}");
-                script.AppendLine("$originalImage=$null;try{$originalImage=& $ops.OpenImage $plan.Target;if((& $ops.HashStream $originalImage) -ne $plan.OriginalHash){throw 'The installed image changed before update publication.'}}catch{[IO.File]::AppendAllText($plan.Report,[Environment]::NewLine+'The original installation is missing or changed, so this update was not applied. '+$_.Exception.Message);if($plan.ShowReport){try{& $ops.ShowReport $plan.Report}catch{}};exit 1618}finally{if($null -ne $originalImage){$originalImage.Dispose()}}");
+                // Both refusals come after the app has closed for the update, so each one reopens
+                // whatever copy is installed, through the same Recover a failed publication uses.
+                // Neither has recorded the installed copy's certificate yet, and Recover refuses a
+                // copy it cannot identify, so CaptureOriginal records it first (an unsigned copy
+                // still fails there and is not started). A missing copy has nothing to reopen.
+                script.AppendLine("if(-not $publicationLeaseOwned){[IO.File]::AppendAllText($plan.Report,[Environment]::NewLine+'Another KillerTools install or update is running, so this update was not applied.');if($plan.ShowReport){try{& $ops.ShowReport $plan.Report}catch{}};if(& $ops.Exists $plan.Target){try{& $ops.CaptureOriginal $plan}catch{};try{& $ops.Recover $plan}catch{}};exit 1618}");
+                script.AppendLine("$originalImage=$null;$imageRefused=$false;try{$originalImage=& $ops.OpenImage $plan.Target;if((& $ops.HashStream $originalImage) -ne $plan.OriginalHash){throw 'The installed image changed before update publication.'}}catch{[IO.File]::AppendAllText($plan.Report,[Environment]::NewLine+'The original installation is missing or changed, so this update was not applied. '+$_.Exception.Message);if($plan.ShowReport){try{& $ops.ShowReport $plan.Report}catch{}};$imageRefused=$true}finally{if($null -ne $originalImage){$originalImage.Dispose()}}");
+                script.AppendLine("if($imageRefused){if(& $ops.Exists $plan.Target){try{& $ops.CaptureOriginal $plan}catch{};try{& $ops.Recover $plan}catch{}};exit 1618}");
             }
             // Whatever the mode, a failed publication reopens the copy that is installed (after the
             // report, where one is shown): the user is not left with the app closed. The elevated
@@ -249,8 +255,11 @@ function Invoke-UpdateImagePublication {
     }
     # A warning replaces the report's text and the report stays; otherwise it goes with the rest.
     $leftovers = @($plan.Download, $plan.Staged, $plan.Backup, $plan.Restore)
+    $kept = ''
     if ($null -ne $warning) {
-        try { & $ops.Report $plan.Report ($warning + [Environment]::NewLine + 'Target: ' + $plan.Target + [Environment]::NewLine + 'Manual download: ' + $plan.Releases) } catch { }
+        $kept = $warning + [Environment]::NewLine + 'Target: ' + $plan.Target + [Environment]::NewLine + 'Manual download: ' + $plan.Releases
+        try { & $ops.Report $plan.Report $kept } catch { }
+        $kept += [Environment]::NewLine
     }
     else { $leftovers += $plan.Report }
     foreach ($path in $leftovers) {
@@ -260,8 +269,9 @@ function Invoke-UpdateImagePublication {
     # administrator from another account, no desktop), and that must never report a finished
     # update as failed or leave its backup behind (2026-10-28 review, DEP-002). The verified image
     # and its parents stay held until the launch has created a process or definitively failed.
+    # A relaunch failure is written after any warning above, never over it.
     try { & $ops.Relaunch $plan }
-    catch { try { & $ops.Report $plan.Report ('Update completed, but automatic relaunch failed: ' + $_.Exception.Message) } catch { } }
+    catch { try { & $ops.Report $plan.Report ($kept + 'Update completed, but automatic relaunch failed: ' + $_.Exception.Message) } catch { } }
     finally {
         $image.Dispose()
         $parents.Dispose()

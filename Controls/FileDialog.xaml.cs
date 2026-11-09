@@ -515,21 +515,30 @@ namespace KillerNotes.Controls
             // An extension the user typed by hand is theirs and is left alone.
             if (_mode == FileDialogMode.Save && !IsFileNameReadOnly)
             {
-                string? newExt = ActiveFilterExt();
                 string  name   = FileNameBox.Text?.Trim() ?? "";
                 // Path.GetExtension throws on characters no path can carry; such a name keeps its
                 // text and gets the invalid-path message instead of an extension swap.
                 if (name.Length > 0 && IsMalformedTyped(name.Trim('"'))) { RejectTyped(); ApplySort(); return; }
-                string  cur    = name.Length == 0 ? "" : Path.GetExtension(name);
-                if (newExt != null && cur.Length > 0 &&
-                    !cur.Equals(newExt, StringComparison.OrdinalIgnoreCase) &&
-                    AllFilterExts().Contains(cur, StringComparer.OrdinalIgnoreCase))
-                {
-                    FileNameBox.Text = Path.ChangeExtension(name, newExt);
-                }
+                if (SwapTypedExtension(name, ActiveFilterExt(), AllFilterExts()) is string swapped)
+                    FileNameBox.Text = swapped;
             }
 
             ApplySort();
+        }
+
+        /// <summary>
+        /// The typed name with its extension swapped for <paramref name="newExt"/>, or null to leave
+        /// it as typed: there is no extension, it already matches, or the user typed one that no
+        /// entry of this filter names.
+        /// </summary>
+        internal static string? SwapTypedExtension(string typed, string? newExt, System.Collections.Generic.IEnumerable<string> filterExts)
+        {
+            // A pasted name keeps its quotes, and a quote is a character Path refuses.
+            string name = typed.Trim().Trim('"');
+            string cur  = name.Length == 0 ? "" : Path.GetExtension(name);
+            if (newExt == null || cur.Length == 0 || cur.Equals(newExt, StringComparison.OrdinalIgnoreCase)
+                || !filterExts.Contains(cur, StringComparer.OrdinalIgnoreCase)) return null;
+            return Path.ChangeExtension(name, newExt);
         }
 
         /// <summary>
@@ -1534,6 +1543,13 @@ namespace KillerNotes.Controls
         // Accept is on exactly when pressing it would do something.
         private void RefreshAcceptEnabled()
             => AcceptButton.IsEnabled = PickerAcceptRule.CanAccept(IsDirectoryListingBusy, IsDirectoryListingAvailable, _accepting, _mode == FileDialogMode.Folder, FileNameBox.Text);
+
+        // Accept depends on the typed name while the folder listing is unavailable, so it is
+        // re-evaluated as the name changes, not only when the listing settles.
+        private void FileNameBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (AcceptButton != null) RefreshAcceptEnabled();
+        }
 
         private void ReportUnanswered(string reason)
         {
