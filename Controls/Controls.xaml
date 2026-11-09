@@ -181,9 +181,11 @@
                     <Border x:Name="borderRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=border}" BorderThickness="{Binding BorderThickness, ElementName=border}" BorderBrush="{Binding Background, ElementName=border}" Margin="{Binding Margin, ElementName=border}" Visibility="{Binding Visibility, ElementName=border}" Opacity="{Binding Opacity, ElementName=border}"/><Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+                        <!-- No stroke effect on the caption: an effect rasterizes the text and blurs it
+                             at rest. PrimaryButton strokes a copy instead, but this template also
+                             carries BareButton's icon content, which cannot appear twice. -->
                         <ContentPresenter x:Name="label" HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Effect="{DynamicResource TextStroke}"/>
+                                          VerticalAlignment="Center"/>
                     </Border>
                     <!-- Raised button bevel. Nothing on any theme but 98SE. -->
                     <Border IsHitTestVisible="False"

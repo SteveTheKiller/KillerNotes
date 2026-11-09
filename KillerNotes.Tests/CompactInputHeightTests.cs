@@ -169,6 +169,17 @@ namespace KillerNotes.Tests
             Assert.True(Math.Abs(above - below) <= 1, $"The dots sit {above}px from the top and {below}px from the bottom.");
         });
 
+        // A dialog's confirm button (Unlock) keeps hinted text: an effect on its caption would
+        // rasterize it and blur it at rest.
+        [Fact]
+        public void OutlineButtonCaptionsAreNotRasterized() => WithResources("Themes/Black.xaml", app =>
+        {
+            var button = new Button { Content = "Unlock", Style = (Style)app.FindResource("OutlineButton") };
+            Height(new Border { Child = button });
+            var label = (ContentPresenter)button.Template.FindName("label", button);
+            Assert.Null(label.Effect);
+        });
+
         private static void WithResources(string theme, Action<Application> check) => Sta.RunApplication(() =>
         {
             Application app = Application.Current ?? new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
