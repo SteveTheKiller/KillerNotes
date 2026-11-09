@@ -37,7 +37,6 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - About opens at once instead of waiting on the signature check, which can stall for many seconds on a network that drops revocation traffic; the publisher and thumbprint fill in when it finishes.
 - A folder typed into the file picker that cannot be opened keeps its reason on the status line after the picker goes back to the last folder that listed.
 - The database name in the title bar sits level with the library icon beside it again instead of three pixels low.
-- The sidebar rail buttons and the file picker's folder tree keep their keyboard focus ring after a theme change. It used to disappear from them, so a keyboard user could no longer see which of them had focus.
 
 ### Changed
 
