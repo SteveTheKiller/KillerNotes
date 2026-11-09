@@ -41,6 +41,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Changed
 
 - Table shortcuts use Alt+Shift with a letter for the action: A and B insert a row above or below, L and R insert a column left or right, and D, C and X delete the row, the column or the table. They replace Ctrl+Shift+1 to 4 and 7 to 9.
+- Single-line text fields are as tall as the dropdowns beside them, so form rows line up instead of the text boxes standing oversized.
 
 ### Added
 

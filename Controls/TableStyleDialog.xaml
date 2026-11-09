@@ -73,7 +73,7 @@
                         <StackPanel Grid.Column="2">
                             <TextBlock Text="{DynamicResource Str_TableStyle_Width}"/>
                             <TextBox x:Name="WidthBox" Style="{StaticResource EditFieldTextBox}" FontFamily="{DynamicResource UiFont}"
-                                     Margin="0,4,0,10" Padding="6,4" TextChanged="Changed" AutomationProperties.Name="{DynamicResource Str_TableStyle_Width}"/>
+                                     Margin="0,4,0,10" Padding="6,0" TextChanged="Changed" AutomationProperties.Name="{DynamicResource Str_TableStyle_Width}"/>
                         </StackPanel>
                     </Grid>
                     <TextBlock x:Name="ValidationText" TextWrapping="Wrap" Margin="0,0,0,10" Visibility="Collapsed" AutomationProperties.LiveSetting="Polite"/>

@@ -2012,13 +2012,13 @@
                                 <Border Height="1" Background="{DynamicResource MenuBorderBrush}" Margin="0,8,0,8"/>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBox x:Name="TblColsBox" Style="{StaticResource DarkTextBox}" Text="4"
-                                             Width="34" FontSize="11" Padding="4,2" KeyDown="TblCustom_KeyDown"
+                                             Width="34" FontSize="11" Padding="4,0" KeyDown="TblCustom_KeyDown"
                                              ToolTip="{DynamicResource Str_TT_Columns}"
                                              AutomationProperties.Name="{DynamicResource Str_TT_Columns}"/>
                                     <TextBlock Text=" x " Foreground="{DynamicResource DimTextBrush}"
                                                FontSize="11" VerticalAlignment="Center"/>
                                     <TextBox x:Name="TblRowsBox" Style="{StaticResource DarkTextBox}" Text="3"
-                                             Width="34" FontSize="11" Padding="4,2" KeyDown="TblCustom_KeyDown"
+                                             Width="34" FontSize="11" Padding="4,0" KeyDown="TblCustom_KeyDown"
                                              ToolTip="{DynamicResource Str_TT_Rows}"
                                              AutomationProperties.Name="{DynamicResource Str_TT_Rows}"/>
                                     <Button Content="{DynamicResource Str_Btn_Insert}" Style="{StaticResource SurfaceButton}"
@@ -3453,7 +3453,7 @@
                             <!-- Command search (1.6.0, ShortcutSearch.cs): typing filters the rows by name
                                  or keys, Down moves into them, Enter runs the chosen one. -->
                             <Grid Margin="0,0,0,12">
-                                <TextBox x:Name="ShortcutSearchBox" Style="{StaticResource EditFieldTextBox}" FontSize="12" Padding="28,4,6,4"
+                                <TextBox x:Name="ShortcutSearchBox" Style="{StaticResource EditFieldTextBox}" FontSize="12" Padding="28,0,6,0"
                                          TextChanged="ShortcutSearch_TextChanged"
                                          AutomationProperties.Name="{DynamicResource Str_KS_SearchName}"
                                          ToolTip="{DynamicResource Str_KS_SearchHint}"/>

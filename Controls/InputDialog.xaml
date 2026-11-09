@@ -39,7 +39,7 @@
                          SearchFieldBrush, themed focus border, white + sunken on 98SE. This was
                          a transparent box with an accent border, the one input in the app that
                          did not look like an edit field (2026-08-08). -->
-                    <TextBox x:Name="ValueBox" FontSize="12" Padding="6,4"
+                    <TextBox x:Name="ValueBox" FontSize="12" Padding="6,0"
                              AutomationProperties.Name="{Binding ElementName=HeadingText, Path=Text}"
                              Style="{StaticResource EditFieldTextBox}"
                              KeyDown="ValueBox_KeyDown"/>

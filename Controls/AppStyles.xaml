@@ -66,6 +66,11 @@
                             <Setter TargetName="inputWellInnerDark" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="inputWellInnerLight" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
+                        <!-- Single-line fields stand as tall as a dropdown (26px); before the
+                             compact trigger, so a compact theme's own floor wins. -->
+                        <Trigger Property="AcceptsReturn" Value="False">
+                            <Setter TargetName="InputRoot" Property="MinHeight" Value="26"/>
+                        </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding Tag, ElementName=InputRoot}" Value="True"/>
@@ -86,6 +91,14 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <!-- The padding also reaches the content host, so 8,6 counted twice and stood a
+             one-line field 45px tall. Single-line fields keep only the side inset and center. -->
+        <Style.Triggers>
+            <Trigger Property="AcceptsReturn" Value="False">
+                <Setter Property="Padding" Value="8,0"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <ContextMenu x:Key="TextInputContextMenu" x:Shared="False">
@@ -236,6 +249,12 @@
                 <Setter TargetName="inputWellInnerDark" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="inputWellInnerLight" Property="Visibility" Value="Collapsed"/>
             </Trigger>
+            <!-- Single-line fields stand as tall as a dropdown (26px); a password box has no
+                 AcceptsReturn and falls back to single-line. Before the compact trigger, so a
+                 compact theme's own floor wins. -->
+            <DataTrigger Binding="{Binding AcceptsReturn, RelativeSource={RelativeSource Self}, FallbackValue=False}" Value="False">
+                <Setter TargetName="InputRoot" Property="MinHeight" Value="26"/>
+            </DataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding Tag, ElementName=InputRoot}" Value="True"/>
