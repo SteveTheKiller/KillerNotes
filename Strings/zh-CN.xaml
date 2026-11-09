@@ -431,7 +431,6 @@
     <sys:String x:Key="Str_Ctx_TblDelete">删除表格</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">线条样式</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">网格</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">粗网格</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">仅行线</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">仅外框</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">无线条</sys:String>
@@ -442,7 +441,6 @@
     <sys:String x:Key="Str_Ctx_TblColWidth">列宽...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">列宽适应内容</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">表格适应页面</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">列宽(像素)</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">将所选行（或一句话中的各个词）转换为逗号分隔的列表</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">所选内容转为逗号列表</sys:String>
     <sys:String x:Key="Str_St_ListMade">已将 {0} 个值转换为逗号列表</sys:String>
@@ -1169,7 +1167,6 @@
     <sys:String x:Key="Str_TableStyle_KeepWidths">保留当前宽度</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">列</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">宽度</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">请输入大于0且不超过8的线条粗细。</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">请输入24到1000000之间的列宽。</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">笔记已更改，未应用表格样式。</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">无法保存默认表格样式。</sys:String>

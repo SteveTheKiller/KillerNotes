@@ -176,6 +176,8 @@ namespace KillerNotes
                 // earlier note drags left for their receivers (Shell/NoteDragData.cs).
                 KillerNotes.Shell.NoteDragData.RemoveLeftovers(KillerNotes.Shell.NoteDragData.DefaultTempRoot);
                 KillerNotes.Shell.NoteDragData.RemoveSharedRecordings(KillerNotes.Shell.NoteDragData.DefaultTempRoot);
+                // Vault export snapshots an earlier run could not remove (Services/VaultSnapshot.cs).
+                Services.VaultSnapshot.RemoveLeftovers(KillerNotes.Shell.NoteDragData.DefaultTempRoot);
                 // Takes the Windows speech engine was reading when an earlier run ended (Services/DictationRecorder.cs).
                 Services.DictationRecorder.SweepTempRecordings(KillerNotes.Shell.NoteDragData.DefaultTempRoot, System.IO.Path.GetTempPath());
             }

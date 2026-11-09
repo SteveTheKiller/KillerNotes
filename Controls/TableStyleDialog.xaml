@@ -9,8 +9,7 @@
         Width="440" SizeToContent="Height"
         FontFamily="{DynamicResource UiFont}" FontSize="13" Foreground="{DynamicResource TextBrush}"
         WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True"
-        ResizeMode="NoResize" Background="Transparent" ShowInTaskbar="False"
-        PreviewKeyDown="Dialog_KeyDown">
+        ResizeMode="NoResize" Background="Transparent" ShowInTaskbar="False">
     <ContentControl x:Name="RootBorder" Opacity="0" Style="{StaticResource DialogCard}">
         <Grid>
             <Grid.RowDefinitions>

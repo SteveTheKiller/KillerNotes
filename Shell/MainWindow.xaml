@@ -34,7 +34,6 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{DynamicResource TextFooter}"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
@@ -366,7 +365,7 @@
                                                  SelectionBrush="{DynamicResource TextSelectionBrush}" SelectionOpacity="{DynamicResource TextSelectionOpacity}"
                                  SelectionTextBrush="{DynamicResource TextSelectionTextBrush}"
                                                  FontFamily="{DynamicResource UiFont}" FontSize="12" Padding="0,0,8,0" VerticalContentAlignment="Center"
-                                                 TextChanged="SearchBox_TextChanged">
+                                                 Margin="0,-2" TextChanged="SearchBox_TextChanged">
                                             <!-- Explicit menu: the framework's built-in editing menu ignores the app's
                                                  implicit ContextMenu/MenuItem styles, so it renders unthemed -->
                                             <TextBox.ContextMenu>

@@ -571,7 +571,6 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Delete table</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Line style</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Grid</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Thick grid</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Rows only</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Outline only</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">No lines</sys:String>
@@ -582,7 +581,6 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Ctx_TblColWidth">Column width...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Fit columns to content</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Fit table to page</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Column width in pixels</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Turn the selected lines - or the words in one sentence - into a comma-separated list</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Selection to comma list</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} values converted to a comma list</sys:String>
@@ -1218,7 +1216,6 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_TableStyle_KeepWidths">Keep current widths</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Column</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Width</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">Enter a line thickness greater than 0 and no more than 8.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">Enter a column width from 24 to 1000000.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">The note changed. Table style was not applied.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">The default table style could not be saved.</sys:String>

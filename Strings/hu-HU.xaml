@@ -533,7 +533,6 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Ctx_TblDelete">Táblázat törlése</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Vonalstílus</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Rács</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Vastag rács</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Csak sorok</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Csak körvonal</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Nincs vonal</sys:String>
@@ -544,7 +543,6 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Ctx_TblColWidth">Oszlopszélesség...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Oszlopok igazítása a tartalomhoz</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Táblázat igazítása az oldalhoz</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Oszlopszélesség képpontban</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">A kijelölt sorokat - vagy egy mondatban lévő szavakat - vesszővel elválasztott listává alakítsa</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Kijelölés vesszős listára</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} érték vesszős listává konvertálva</sys:String>
@@ -1197,7 +1195,6 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_TableStyle_KeepWidths">Jelenlegi szélességek megtartása</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Oszlop</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Szélesség</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">Adjon meg 0-nál nagyobb, legfeljebb 8-as vonalvastagságot.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">Adjon meg 24 és 1000000 közötti oszlopszélességet.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">A jegyzet megváltozott. A táblázatstílus nem lett alkalmazva.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Az alapértelmezett táblázatstílust nem sikerült menteni.</sys:String>

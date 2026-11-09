@@ -432,7 +432,6 @@
     <sys:String x:Key="Str_Ctx_TblDelete">刪除表格</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">線條樣式</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">格線</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">粗格線</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">僅列線</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">僅外框</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">無線條</sys:String>
@@ -443,7 +442,6 @@
     <sys:String x:Key="Str_Ctx_TblColWidth">欄寬...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">欄寬配合內容</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">表格配合頁面</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">欄寬(像素)</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">將選取的行（或一句話中的各個字詞）轉為以逗號分隔的清單</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">選取範圍轉為逗號清單</sys:String>
     <sys:String x:Key="Str_St_ListMade">已將 {0} 個值轉為逗號清單</sys:String>
@@ -1171,7 +1169,6 @@
     <sys:String x:Key="Str_TableStyle_KeepWidths">保留目前寬度</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">欄</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">寬度</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">請輸入大於0且不超過8的線條粗細。</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">請輸入24到1000000之間的欄寬。</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">筆記已變更，未套用表格樣式。</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">無法儲存預設表格樣式。</sys:String>

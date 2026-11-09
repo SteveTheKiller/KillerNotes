@@ -39,6 +39,21 @@ namespace KillerNotes.Tests
             Assert.Equal(Base, PageWidth.Padding(PageWidthMode.Wide, 1100, Base));
         }
 
+        // Just past the cap the slack is a pixel or two, and the column must not jump wider than
+        // the cap with the editor's own side padding gone.
+        [Theory]
+        [InlineData(701)]
+        [InlineData(705)]
+        [InlineData(710)]
+        public void JustPastTheCapKeepsTheEditorsOwnPadding(double viewport)
+        {
+            Thickness padding = PageWidth.Padding(PageWidthMode.Narrow, viewport, Base);
+
+            Assert.True(padding.Left >= Base.Left, $"left {padding.Left}");
+            Assert.True(padding.Right >= Base.Right, $"right {padding.Right}");
+            Assert.True(viewport - padding.Left - padding.Right <= 700, $"column {viewport - padding.Left - padding.Right}");
+        }
+
         [Fact]
         public void TheSettingRoundTripsAndAnUnknownValueMeansFull()
         {

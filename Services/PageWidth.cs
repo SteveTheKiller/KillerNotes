@@ -28,8 +28,11 @@ namespace KillerNotes.Services
         {
             double? cap = Cap(mode);
             if (cap == null || double.IsNaN(viewportWidth) || viewportWidth <= cap.Value) return basePadding;
+            // Just past the cap the slack is a pixel or two; the editor's own padding stays the floor
+            // so the column never jumps wider than it was a few pixels narrower.
             double side = Math.Floor((viewportWidth - cap.Value) / 2);
-            return new Thickness(side, basePadding.Top, side, basePadding.Bottom);
+            return new Thickness(Math.Max(basePadding.Left, side), basePadding.Top,
+                Math.Max(basePadding.Right, side), basePadding.Bottom);
         }
 
         internal static PageWidthMode Next(PageWidthMode mode) =>

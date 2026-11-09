@@ -1,6 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Markup;
+using System.Windows.Media;
+using System.Xml.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Xunit;
@@ -77,6 +82,64 @@ namespace KillerNotes.Tests
             });
             var multi = new TextBox { Text = "One\nTwo", AcceptsReturn = true, Height = 80, Style = (Style)app.FindResource("DarkTextBox") };
             Assert.Equal(80, Height(multi));
+        }
+
+        // The title-bar search box lives in a 24px field (22 inside its border), shorter than the
+        // 26px floor. Its text must still sit in the middle of the field and not be cut off.
+        [Fact]
+        public void TheTitleSearchTextSitsInTheMiddleOfItsField() => WithResources("Themes/Black.xaml", app =>
+        {
+            var field = (Border)XamlReader.Parse(TitleSearchField());
+            var host = new Grid { Width = 308, Height = 24, Children = { field } };
+            host.Measure(new Size(308, 24));
+            host.Arrange(new Rect(0, 0, 308, 24));
+            host.UpdateLayout();
+            var box = (TextBox)field.FindName("SearchBox");
+            box.ApplyTemplate();
+            host.UpdateLayout();
+            var content = (FrameworkElement)box.Template.FindName("PART_ContentHost", box);
+            double middle = content.TransformToAncestor(host).Transform(new Point(0, content.ActualHeight / 2)).Y;
+            _output.WriteLine($"search box {box.ActualHeight}, content middle {middle}, clip {System.Windows.Controls.Primitives.LayoutInformation.GetLayoutClip(box)?.Bounds}");
+            Assert.InRange(middle, 11.5, 12.5);
+            var clip = System.Windows.Controls.Primitives.LayoutInformation.GetLayoutClip(box);
+            Assert.True(clip == null || clip.Bounds.Height >= content.ActualHeight, $"clipped to {clip?.Bounds}");
+        });
+
+        // The tag rename box keeps its whole border.
+        [Fact]
+        public void TheTagRenameBoxIsNotCutOff() => WithResources("Themes/Black.xaml", app =>
+        {
+            var box = KillerNotes.Controls.TagsDialog.CreateRenameBox("tag");
+            var row = new Grid { Width = 300, Children = { box } };
+            row.Measure(new Size(300, double.PositiveInfinity));
+            row.Arrange(new Rect(row.DesiredSize));
+            row.UpdateLayout();
+            _output.WriteLine($"rename box {box.ActualHeight}");
+            Assert.Null(System.Windows.Controls.Primitives.LayoutInformation.GetLayoutClip(box));
+            Assert.True(box.ActualHeight >= 26 - 0.5, $"rename box {box.ActualHeight}");
+        });
+
+        // The search field's own markup, so the test measures what ships. Event handlers are
+        // dropped and the local namespaces gain their assembly, which a loose XAML parse needs.
+        private static string TitleSearchField()
+        {
+            string root = Root();
+            var doc = XDocument.Load(Path.Combine(root, "Shell", "MainWindow.xaml"));
+            XNamespace x = "http://schemas.microsoft.com/winfx/2006/xaml";
+            var grid = doc.Descendants().First(e => (string?)e.Attribute(x + "Name") == "TitleNoteSearch");
+            var field = new XElement(grid.Elements().First(e => e.Name.LocalName == "Border"));
+            foreach (var a in field.DescendantsAndSelf().SelectMany(e => e.Attributes()).ToList())
+                if (Regex.IsMatch(a.Name.LocalName, "(Click|Changed|Opening|KeyDown|MouseDown|Loaded)$")) a.Remove();
+            foreach (var ns in doc.Root!.Attributes().Where(a => a.IsNamespaceDeclaration)) field.SetAttributeValue(ns.Name, ns.Value);
+            string text = field.ToString();
+            return Regex.Replace(text, "clr-namespace:([A-Za-z.]+)\"", "clr-namespace:$1;assembly=KillerNotes\"");
+        }
+
+        private static string Root()
+        {
+            for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir != null; dir = dir.Parent)
+                if (File.Exists(Path.Combine(dir.FullName, "KillerNotes.csproj"))) return dir.FullName;
+            throw new InvalidOperationException("KillerNotes.csproj was not found above the test output.");
         }
 
         private static void WithResources(string theme, Action<Application> check) => Sta.RunApplication(() =>

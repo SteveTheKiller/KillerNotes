@@ -16,7 +16,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 - Undo after opening a Markdown note can no longer bring another note's content into it.
 - Background imports stop when their notepad closes, even when another notepad has the same filename.
-- Whole-notepad exports keep each note's content and details together even if the live note changes during export. Markdown exports also retain pictures and recordings inside table cells and report missing media.
+- Whole-notepad exports keep each note's content and details together even if the live note changes during export, finish while you keep typing in a large notepad, and clear their temporary copy on the next start if it was still held. Markdown exports also retain pictures and recordings inside table cells and report missing media.
 - A failed command-line note update keeps the previous content, format, links, and history together; an invalid group color no longer leaves a new group behind.
 - Quick notes save to the selected destination and keep failed appends from duplicating text on retry.
 - Canceling or failing a shared-note import no longer blocks an immediate retry.
@@ -24,7 +24,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Template and daily-note group choices stay with their own database across moves and password changes. Ambiguous older choices need to be selected again.
 - Installing a portable copy refuses to overlap an install or update, and uninstalling preserves other apps' file associations.
 - Release preparation stops when package restore or vulnerability checks fail.
-- The table picker stays open for selection or custom insertion. Table grids remain visible across themes, and insertion moves into the new table. Tables keep their style across inserted and pasted rows, fit formatted content and pictures, and reject invalid widths before resizing.
+- The table picker stays open for selection or custom insertion. Table grids remain visible across themes, and insertion moves into the new table. Tables keep their style across inserted rows and columns and when copied within KillerNotes, fit formatted content and pictures, and reject invalid widths before resizing.
 - The file picker loads icons and picture previews in the background, refreshes overwritten previews, and restores its position on any monitor.
 - A locked notepad set aside by the unlock screen's New database is named with the Gregorian year on Thai, Arabic and Persian region settings instead of a year like 2569.
 - A per-user or portable update that fails now reopens KillerNotes instead of leaving it closed, including when antivirus or a locked-down PowerShell stops the update helper from loading, and a published copy that fails its final check is swapped back for the previous version and never started.

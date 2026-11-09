@@ -573,7 +573,6 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Ctx_TblDelete">Xóa bảng</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Kiểu đường kẻ</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Lưới</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Lưới đậm</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Chỉ hàng</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Chỉ đường viền</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Không có đường kẻ</sys:String>
@@ -584,7 +583,6 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Ctx_TblColWidth">Độ rộng cột...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Vừa cột với nội dung</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Vừa bảng với trang</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Độ rộng cột tính bằng pixel</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Chuyển các dòng đã chọn - hoặc các từ trong một câu - thành danh sách phân tách bằng dấu phẩy</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Vùng chọn thành danh sách dấu phẩy</sys:String>
     <sys:String x:Key="Str_St_ListMade">Đã chuyển {0} giá trị thành danh sách dấu phẩy</sys:String>
@@ -1222,7 +1220,6 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_TableStyle_KeepWidths">Giữ độ rộng hiện tại</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Cột</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Độ rộng</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">Nhập độ dày đường lớn hơn 0 và không quá 8.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">Nhập độ rộng cột từ 24 đến 1000000.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">Ghi chú đã thay đổi. Kiểu bảng chưa được áp dụng.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Không thể lưu kiểu bảng mặc định.</sys:String>

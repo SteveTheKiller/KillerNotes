@@ -45,5 +45,40 @@ namespace KillerNotes.Tests
                 Assert.Equal(new Thickness(6, verticalPadding, 6, verticalPadding), cell.Padding);
             });
         });
+    
+        // Header paragraphs carry Bold themselves (the editor styles every Paragraph Normal), so
+        // a header row or column that a new row or column pushes aside must lose that Bold too.
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void APushedAsideHeaderLosesItsBold(bool column) => Sta.Run(() =>
+        {
+            var table = new Table();
+            table.Columns.Add(new TableColumn());
+            table.Columns.Add(new TableColumn());
+            var group = new TableRowGroup();
+            for (int r = 0; r < 2; r++)
+                group.Rows.Add(new TableRow { Cells = {
+                    new TableCell(new Paragraph(new Run("a" + r))), new TableCell(new Paragraph(new Run("b" + r))) } });
+            table.RowGroups.Add(group);
+            _ = new FlowDocument(table);
+            TableStyle.ApplyAppearance(table, new TableAppearance { HeaderRow = !column, HeaderColumn = column });
+            var oldHeader = column ? group.Rows.Select(r => r.Cells[0]).ToArray() : group.Rows[0].Cells.ToArray();
+
+            TableStyle.EditStructure(table, () =>
+            {
+                if (column)
+                {
+                    table.Columns.Insert(0, new TableColumn());
+                    foreach (TableRow row in group.Rows) row.Cells.Insert(0, new TableCell(new Paragraph()));
+                }
+                else group.Rows.Insert(0, new TableRow { Cells = { new TableCell(new Paragraph()), new TableCell(new Paragraph()) } });
+            });
+
+            Assert.All(oldHeader.SelectMany(c => c.Blocks.OfType<Paragraph>()), p =>
+                Assert.Equal(DependencyProperty.UnsetValue, p.ReadLocalValue(TextElement.FontWeightProperty)));
+            var newHeader = column ? group.Rows.Select(r => r.Cells[0]) : group.Rows[0].Cells;
+            Assert.All(newHeader.SelectMany(c => c.Blocks.OfType<Paragraph>()), p => Assert.Equal(FontWeights.Bold, p.FontWeight));
+        });
     }
 }

@@ -571,7 +571,6 @@
     <sys:String x:Key="Str_Ctx_TblDelete">Видалити таблицю</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Стиль ліній</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Сітка</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Товста сітка</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Лише рядки</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Лише контур</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Без ліній</sys:String>
@@ -582,7 +581,6 @@
     <sys:String x:Key="Str_Ctx_TblColWidth">Ширина стовпця...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Підігнати стовпці під вміст</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Підігнати таблицю під сторінку</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Ширина стовпця в пікселях</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Перетворити вибрані рядки - або слова одного речення - на список через кому</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Виділене у список через кому</sys:String>
     <sys:String x:Key="Str_St_ListMade">Значень перетворено на список через кому: {0}</sys:String>
@@ -1218,7 +1216,6 @@
     <sys:String x:Key="Str_TableStyle_KeepWidths">Зберегти поточну ширину</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Стовпець</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Ширина</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">Введіть товщину лінії більше 0 і не більше 8.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">Введіть ширину стовпця від 24 до 1000000.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">Нотатка змінилася. Стиль таблиці не застосовано.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Не вдалося зберегти стиль таблиці за замовчуванням.</sys:String>

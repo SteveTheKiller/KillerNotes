@@ -540,7 +540,6 @@
     <sys:String x:Key="Str_Ctx_TblDelete">Удалить таблицу</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Стиль линий</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Сетка</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Толстая сетка</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Только строки</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Только контур</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Без линий</sys:String>
@@ -551,7 +550,6 @@
     <sys:String x:Key="Str_Ctx_TblColWidth">Ширина столбца...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Подогнать столбцы под содержимое</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Подогнать таблицу под страницу</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Ширина столбца в пикселях</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Превратить выделенные строки - или слова одного предложения - в список через запятую</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Выделение в список через запятую</sys:String>
     <sys:String x:Key="Str_St_ListMade">Значений преобразовано в список через запятую: {0}</sys:String>
@@ -1179,7 +1177,6 @@
     <sys:String x:Key="Str_TableStyle_KeepWidths">Сохранить текущую ширину</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Столбец</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Ширина</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">Введите толщину линии больше 0 и не больше 8.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">Введите ширину столбца от 24 до 1000000.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">Заметка изменилась. Стиль таблицы не применен.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Не удалось сохранить стиль таблицы по умолчанию.</sys:String>

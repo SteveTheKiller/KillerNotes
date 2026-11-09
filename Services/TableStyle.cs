@@ -98,6 +98,7 @@ namespace KillerNotes.Services
             {
                 oldRows[0].ClearValue(TextElement.FontWeightProperty);
                 oldRows[0].ClearValue(TextElement.BackgroundProperty);
+                foreach (TableCell cell in oldRows[0].Cells) SetHeaderParagraphWeight(cell, false);
             }
             if (appearance.HeaderColumn)
                 foreach (TableCell cell in oldFirstCells)
@@ -105,6 +106,7 @@ namespace KillerNotes.Services
                     {
                         cell.ClearValue(TextElement.FontWeightProperty);
                         cell.ClearValue(TextElement.BackgroundProperty);
+                        SetHeaderParagraphWeight(cell, false);
                     }
             ApplyAppearance(table, appearance);
         }

@@ -540,7 +540,6 @@
     <sys:String x:Key="Str_Ctx_TblDelete">Кестені жою</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Сызық стилі</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Тор</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Қалың тор</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Тек жолдар</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Тек контур</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Сызықсыз</sys:String>
@@ -551,7 +550,6 @@
     <sys:String x:Key="Str_Ctx_TblColWidth">Баған ені...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Бағандарды мазмұнға сәйкестендіру</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Кестені бетке сәйкестендіру</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Баған ені (пиксельмен)</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Таңдалған жолдарды - немесе бір сөйлемдегі сөздерді - үтірмен бөлінген тізімге айналдыру</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Таңдалғанды үтірлі тізімге</sys:String>
     <sys:String x:Key="Str_St_ListMade">Үтірлі тізімге айналдырылған мәндер: {0}</sys:String>
@@ -1179,7 +1177,6 @@
     <sys:String x:Key="Str_TableStyle_KeepWidths">Ағымдағы ендерді сақтау</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Баған</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Ені</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">0-ден үлкен және 8-ден аспайтын сызық қалыңдығын енгізіңіз.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">24 пен 1000000 аралығындағы баған енін енгізіңіз.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">Жазба өзгерді. Кесте стилі қолданылмады.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Әдепкі кесте стилін сақтау мүмкін болмады.</sys:String>

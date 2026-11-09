@@ -433,7 +433,6 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Supprimer le tableau</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Style de ligne</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Grille</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Grille épaisse</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Lignes uniquement</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Contour uniquement</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Aucune ligne</sys:String>
@@ -444,7 +443,6 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Ctx_TblColWidth">Largeur de colonne...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Ajuster les colonnes au contenu</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Ajuster le tableau à la page</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Largeur de colonne en pixels</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Transformer les lignes sélectionnées, ou les mots d'une phrase, en liste séparée par des virgules</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Sélection en liste séparée par des virgules</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} valeurs converties en liste séparée par des virgules</sys:String>
@@ -1172,7 +1170,6 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_TableStyle_KeepWidths">Conserver les largeurs actuelles</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Colonne</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Largeur</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">Saisissez une épaisseur supérieure à 0 et inférieure ou égale à 8.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">Saisissez une largeur de colonne entre 24 et 1000000.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">La note a changé. Le style du tableau n’a pas été appliqué.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Impossible d’enregistrer le style de tableau par défaut.</sys:String>

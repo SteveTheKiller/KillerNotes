@@ -433,7 +433,6 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Tabloyu sil</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Çizgi stili</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Izgara</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Kalın ızgara</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Yalnızca satırlar</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Yalnızca dış çizgi</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Çizgi yok</sys:String>
@@ -444,7 +443,6 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Ctx_TblColWidth">Sütun genişliği...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Sütunları içeriğe sığdır</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Tabloyu sayfaya sığdır</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Piksel cinsinden sütun genişliği</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Seçili satırları veya tek bir cümledeki sözcükleri virgülle ayrılmış bir listeye dönüştür</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Seçimi virgüllü listeye dönüştür</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} değer virgüllü listeye dönüştürüldü</sys:String>
@@ -1171,7 +1169,6 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_TableStyle_KeepWidths">Geçerli genişlikleri koru</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Sütun</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Genişlik</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">0'dan büyük ve en fazla 8 olan bir çizgi kalınlığı girin.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">24 ile 1000000 arasında bir sütun genişliği girin.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">Not değişti. Tablo stili uygulanmadı.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Varsayılan tablo stili kaydedilemedi.</sys:String>

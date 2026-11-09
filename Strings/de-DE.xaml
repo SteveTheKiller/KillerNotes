@@ -432,7 +432,6 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Tabelle löschen</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Linienstil</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Gitter</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Dickes Gitter</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Nur Zeilen</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Nur Umriss</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Keine Linien</sys:String>
@@ -443,7 +442,6 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Ctx_TblColWidth">Spaltenbreite...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Spalten an Inhalt anpassen</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Tabelle an Seite anpassen</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Spaltenbreite in Pixeln</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Die ausgewählten Zeilen oder die Wörter eines Satzes in eine kommagetrennte Liste umwandeln</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Auswahl in Komma-Liste</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} Werte in eine Komma-Liste umgewandelt</sys:String>
@@ -1171,7 +1169,6 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_TableStyle_KeepWidths">Aktuelle Breiten beibehalten</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Spalte</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Breite</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">Geben Sie eine Linienstärke größer als 0 und höchstens 8 ein.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">Geben Sie eine Spaltenbreite von 24 bis 1000000 ein.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">Die Notiz wurde geändert. Der Tabellenstil wurde nicht angewendet.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Der Standardtabellenstil konnte nicht gespeichert werden.</sys:String>

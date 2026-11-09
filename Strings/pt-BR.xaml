@@ -571,7 +571,6 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Excluir tabela</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Estilo de linha</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Grade</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Grade grossa</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Somente linhas</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Somente contorno</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Sem linhas</sys:String>
@@ -582,7 +581,6 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Ctx_TblColWidth">Largura da coluna...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Ajustar colunas ao conteúdo</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Ajustar tabela à página</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Largura da coluna em pixels</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Transformar as linhas selecionadas - ou as palavras de uma frase - em uma lista separada por vírgulas</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Seleção para lista separada por vírgulas</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} valores convertidos em lista separada por vírgulas</sys:String>
@@ -1218,7 +1216,6 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_TableStyle_KeepWidths">Manter larguras atuais</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Coluna</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Largura</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">Insira uma espessura maior que 0 e no máximo 8.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">Insira uma largura de coluna entre 24 e 1000000.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">A nota mudou. O estilo da tabela não foi aplicado.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Não foi possível salvar o estilo de tabela padrão.</sys:String>

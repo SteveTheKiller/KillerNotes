@@ -482,7 +482,6 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Izbriši tabelo</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Slog črt</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Mreža</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Debela mreža</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Samo vrstice</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Samo obris</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Brez črt</sys:String>
@@ -493,7 +492,6 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Ctx_TblColWidth">Širina stolpca...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Prilagodi stolpce vsebini</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Prilagodi tabelo strani</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Širina stolpca v slikovnih pikah</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Pretvori izbrane vrstice ali besede v povedi v seznam, ločen z vejicami</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Izbor v seznam z vejicami</sys:String>
     <sys:String x:Key="Str_St_ListMade">V seznam z vejicami je pretvorjenih {0} vrednosti</sys:String>
@@ -1078,7 +1076,6 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_TableStyle_KeepWidths">Ohrani trenutne širine</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Stolpec</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Širina</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">Vnesite debelino črte, večjo od 0 in največ 8.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">Vnesite širino stolpca od 24 do 1000000.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">Beležka se je spremenila. Slog tabele ni bil uporabljen.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Privzetega sloga tabele ni bilo mogoče shraniti.</sys:String>

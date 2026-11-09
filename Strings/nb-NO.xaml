@@ -569,7 +569,6 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Slett tabell</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Linjestil</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Rutenett</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Tykt rutenett</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Bare rader</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Bare omriss</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Ingen linjer</sys:String>
@@ -580,7 +579,6 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Ctx_TblColWidth">Kolonnebredde...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Tilpass kolonner til innhold</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Tilpass tabell til siden</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Kolonnebredde i piksler</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Gjør de valgte linjene - eller ordene i én setning - om til en kommaseparert liste</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Markering til kommaliste</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} verdier er konvertert til en kommaliste</sys:String>
@@ -1216,7 +1214,6 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_TableStyle_KeepWidths">Behold gjeldende bredder</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Kolonne</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Bredde</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">Angi en linjetykkelse større enn 0 og høyst 8.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">Angi en kolonnebredde fra 24 til 1000000.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">Notatet ble endret. Tabellstilen ble ikke brukt.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Kunne ikke lagre standard tabellstil.</sys:String>

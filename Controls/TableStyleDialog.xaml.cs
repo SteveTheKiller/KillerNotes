@@ -57,9 +57,16 @@ namespace KillerNotes.Controls
             double.TryParse(WidthBox.Text, out double width);
             if (SizingBox.SelectedIndex == 3 && (ColumnBox.SelectedIndex < 0 || width < 24 || !TableStyle.IsValidColumnWidth(width)))
                 error = "Str_TableStyle_InvalidWidth";
-            ValidationText.Text = error == null ? "" : (string)FindResource(error);
+            string message = error == null ? "" : (string)FindResource(error);
+            bool announce = message.Length > 0 && message != ValidationText.Text;
+            ValidationText.Text = message;
             ValidationText.Visibility = error == null ? Visibility.Collapsed : Visibility.Visible;
             OkButton.IsEnabled = error == null;
+            // LiveSetting alone announces nothing on .NET Framework; the change has to be raised.
+            if (announce)
+                (System.Windows.Automation.Peers.UIElementAutomationPeer.FromElement(ValidationText)
+                 ?? System.Windows.Automation.Peers.UIElementAutomationPeer.CreatePeerForElement(ValidationText))
+                    ?.RaiseAutomationEvent(System.Windows.Automation.Peers.AutomationEvents.LiveRegionChanged);
             if (error != null) return false;
             Appearance = new TableAppearance {
                 Lines = LayoutBox.SelectedIndex switch { 1 => TableLines.Rows, 2 => TableLines.Outline, 3 => TableLines.None, _ => TableLines.Grid },
@@ -79,6 +86,9 @@ namespace KillerNotes.Controls
         {
             if (!_ready || ColumnBox.SelectedIndex < 0) return;
             WidthBox.Text = _widths[ColumnBox.SelectedIndex].ToString(CultureInfo.CurrentCulture);
+            // The same width text raises no TextChanged, and the preview still has to move to
+            // the newly chosen column.
+            Changed(sender, e);
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)
@@ -91,11 +101,6 @@ namespace KillerNotes.Controls
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e) { Confirmed = false; Close(); }
-
-        private void Dialog_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape) { Cancel_Click(sender, e); e.Handled = true; }
-        }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {

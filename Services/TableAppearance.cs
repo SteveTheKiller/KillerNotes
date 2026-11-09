@@ -79,7 +79,17 @@ namespace KillerNotes.Services
                 Viewbox: { X: 0, Y: 0, Width: 17, Height: 19 }, ViewboxUnits: BrushMappingMode.Absolute,
                 Drawing: GeometryDrawing { Geometry: RectangleGeometry { Rect: { X: 0, Y: 0, Width: 17, Height: 19 } } } };
 
-        private static Brush HeaderBrush() => (Brush)XamlReader.Parse(@"<DrawingBrush
+        // Parsed once per thread, then cloned: each cell needs its own unfrozen brush for the
+        // theme reference to resolve against, but parsing the markup for every cell on every
+        // preview change, structural edit and note load was the slow part. Per thread, because an
+        // unfrozen brush belongs to the thread that made it and the vault export renders notes
+        // on a thread of its own.
+        [ThreadStatic] private static Brush? _headerBrush;
+        [ThreadStatic] private static Brush?[]? _patternBrushes;
+
+        private static Brush HeaderBrush() => (_headerBrush ??= ParseHeaderBrush()).Clone();
+
+        private static Brush ParseHeaderBrush() => (Brush)XamlReader.Parse(@"<DrawingBrush
             xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
             Viewbox='0,0,17,19' ViewboxUnits='Absolute' Stretch='Fill'>
             <DrawingBrush.Drawing><GeometryDrawing Brush='{DynamicResource TableHeaderBrush}'>
@@ -173,7 +183,10 @@ namespace KillerNotes.Services
                 : TableLinePattern.Solid;
         }
 
-        private static Brush PatternBrush(TableLinePattern pattern)
+        private static Brush PatternBrush(TableLinePattern pattern) =>
+            ((_patternBrushes ??= new Brush?[3])[(int)pattern] ??= ParsePatternBrush(pattern)).Clone();
+
+        private static Brush ParsePatternBrush(TableLinePattern pattern)
         {
             // A native tiled brush survives rich-note serialization without custom metadata.
             // Alternating squares give either edge direction the same repeating dash and gap.

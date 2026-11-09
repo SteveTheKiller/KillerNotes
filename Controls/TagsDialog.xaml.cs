@@ -198,15 +198,7 @@ namespace KillerNotes.Controls
         // databases). Commit on Enter or lost focus; Esc cancels.
         private void BeginRename(Grid grid, TextBlock label, string name)
         {
-            var box = new TextBox
-            {
-                Text = name, Height = 22, VerticalContentAlignment = VerticalAlignment.Center,
-                Background = BrushFromResource("PaneBrush"), Foreground = BrushFromResource("TextBrush"),
-                BorderBrush = BrushFromResource("InputBorderBrush"), BorderThickness = new Thickness(1),
-                CaretBrush = BrushFromResource("TextBrush"), Padding = new Thickness(4, 0, 4, 0),
-                Margin = new Thickness(0, 0, 8, 0),
-            };
-            box.SetResourceReference(System.Windows.Automation.AutomationProperties.NameProperty, "Str_TT_TagRename");
+            var box = CreateRenameBox(name);
             Grid.SetColumn(box, 1);
             label.Visibility = Visibility.Collapsed;
             grid.Children.Add(box);
@@ -262,6 +254,22 @@ namespace KillerNotes.Controls
         {
             try { return new SolidColorBrush(ColorFromHex(hex)); }
             catch { return Brushes.Gray; }
+        }
+
+        internal static TextBox CreateRenameBox(string name)
+        {
+            var box = new TextBox
+            {
+                Text = name, VerticalContentAlignment = VerticalAlignment.Center,
+                BorderThickness = new Thickness(1), Padding = new Thickness(4, 0, 4, 0),
+                Margin = new Thickness(0, 0, 8, 0),
+            };
+            box.SetResourceReference(Control.BackgroundProperty, "PaneBrush");
+            box.SetResourceReference(Control.ForegroundProperty, "TextBrush");
+            box.SetResourceReference(Control.BorderBrushProperty, "InputBorderBrush");
+            box.SetResourceReference(System.Windows.Controls.Primitives.TextBoxBase.CaretBrushProperty, "TextBrush");
+            box.SetResourceReference(System.Windows.Automation.AutomationProperties.NameProperty, "Str_TT_TagRename");
+            return box;
         }
 
         private Brush BrushFromResource(string key) =>

@@ -540,7 +540,6 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Ctx_TblDelete">Elimina tabella</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">Stile linee</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">Griglia</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">Griglia spessa</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">Solo righe</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">Solo contorno</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">Nessuna linea</sys:String>
@@ -551,7 +550,6 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Ctx_TblColWidth">Larghezza colonna...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">Adatta colonne al contenuto</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">Adatta tabella alla pagina</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">Larghezza colonna in pixel</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">Trasforma le righe selezionate - o le parole di una frase - in un elenco separato da virgole</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">Selezione in elenco separato da virgole</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0} valori convertiti in un elenco separato da virgole</sys:String>
@@ -1179,7 +1177,6 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_TableStyle_KeepWidths">Mantieni le larghezze attuali</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">Colonna</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">Larghezza</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">Inserisci uno spessore maggiore di 0 e non superiore a 8.</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">Inserisci una larghezza di colonna da 24 a 1000000.</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">La nota è cambiata. Lo stile della tabella non è stato applicato.</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">Impossibile salvare lo stile tabella predefinito.</sys:String>

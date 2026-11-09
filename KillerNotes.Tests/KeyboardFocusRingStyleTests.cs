@@ -25,6 +25,25 @@ namespace KillerNotes.Tests
             Assert.Empty(off);
         }
 
+        // The main window's own styles follow the same rule, unless the style draws its own
+        // keyboard cue (a KeyboardFocus border or an IsKeyboardFocused trigger in its template).
+        [Fact]
+        public void MainWindowStylesKeepAKeyboardFocusCue()
+        {
+            var xaml = XDocument.Load(Path.Combine(Root(), "Shell", "MainWindow.xaml"));
+            XNamespace x = "http://schemas.microsoft.com/winfx/2006/xaml";
+            var off = xaml.Descendants()
+                .Where(e => e.Name.LocalName == "Setter" && (string?)e.Attribute("Property") == "FocusVisualStyle"
+                    && (string?)e.Attribute("Value") == "{x:Null}")
+                .Select(e => e.Parent!)
+                .Where(style => !style.Descendants().Any(d =>
+                    (string?)d.Attribute(x + "Name") == "KeyboardFocus" ||
+                    ((string?)d.Attribute("Property") == "IsKeyboardFocused" && d.Name.LocalName == "Trigger")))
+                .Select(style => (string?)style.Attribute(x + "Key") ?? "(implicit)")
+                .ToList();
+            Assert.Empty(off);
+        }
+
         private static string Root()
         {
             for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir != null; dir = dir.Parent)

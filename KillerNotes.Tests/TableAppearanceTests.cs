@@ -12,6 +12,33 @@ namespace KillerNotes.Tests
 {
     public sealed class TableAppearanceTests
     {
+        // Pattern lines and header shading are drawn in the theme's colors and follow a theme
+        // change, however the brushes are built.
+        [Fact]
+        public void PatternAndHeaderBrushesFollowTheTheme() => Sta.Run(() =>
+        {
+            var cell = new TableCell(new Paragraph(new Run("x")));
+            var table = new Table { Columns = { new TableColumn() },
+                RowGroups = { new TableRowGroup { Rows = { new TableRow { Cells = { cell } } } } } };
+            var document = new FlowDocument(table);
+            document.Resources["TextBrush"] = Brushes.Red;
+            document.Resources["TableHeaderBrush"] = Brushes.Blue;
+            TableStyle.ApplyAppearance(table, new TableAppearance { Pattern = TableLinePattern.Dashed, HeaderRow = true });
+
+            Brush Line() => ((GeometryDrawing)((DrawingGroup)((DrawingBrush)cell.BorderBrush).Drawing).Children[0]).Brush;
+            Brush Shade() => ((GeometryDrawing)((DrawingBrush)table.RowGroups[0].Rows[0].Background).Drawing).Brush;
+            Assert.Equal(Brushes.Red, Line());
+            Assert.Equal(Brushes.Blue, Shade());
+
+            document.Resources["TextBrush"] = Brushes.Green;
+            document.Resources["TableHeaderBrush"] = Brushes.Yellow;
+
+            Assert.Equal(Brushes.Green, Line());
+            Assert.Equal(Brushes.Yellow, Shade());
+            Assert.Equal(TableLinePattern.Dashed, TableStyle.ReadAppearance(table).Pattern);
+            Assert.True(TableStyle.ReadAppearance(table).HeaderRow);
+        });
+
         [Fact]
         public void RestoringAnExistingTablePreservesItsChosenShading() => Sta.Run(() =>
         {

@@ -46,6 +46,10 @@ namespace KillerNotes.Shell
                     TableSizePopup.IsOpen = false;
             };
             Deactivated += (_, _) => TableSizePopup.IsOpen = false;
+            // A caption drag is non-client input: no PreviewMouseDown, no deactivation, and a
+            // popup does not follow its window, so it would be left floating where it was.
+            LocationChanged += (_, _) => TableSizePopup.IsOpen = false;
+            StateChanged += (_, _) => TableSizePopup.IsOpen = false;
 
             for (int i = 0; i < TblMaxRows * TblMaxCols; i++)
             {

@@ -432,7 +432,6 @@
     <sys:String x:Key="Str_Ctx_TblDelete">টেবিল মুছুন</sys:String>
     <sys:String x:Key="Str_Ctx_TblLines">রেখার ধরন</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineGrid">গ্রিড</sys:String>
-    <sys:String x:Key="Str_Ctx_TblLineThick">মোটা গ্রিড</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineRows">শুধু সারি</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineOutline">শুধু বাইরের রেখা</sys:String>
     <sys:String x:Key="Str_Ctx_TblLineNone">কোনো রেখা নেই</sys:String>
@@ -443,7 +442,6 @@
     <sys:String x:Key="Str_Ctx_TblColWidth">কলামের প্রস্থ...</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitContent">কলাম বিষয়বস্তুর সাথে মানানসই করুন</sys:String>
     <sys:String x:Key="Str_Ctx_TblFitPage">টেবিল পৃষ্ঠার সাথে মানানসই করুন</sys:String>
-    <sys:String x:Key="Str_Dlg_TblColWidth">কলামের প্রস্থ (পিক্সেলে)</sys:String>
     <sys:String x:Key="Str_TT_ConvertList">নির্বাচিত লাইনগুলোকে - বা একটি বাক্যের শব্দগুলোকে - কমা দিয়ে আলাদা তালিকায় পরিণত করুন</sys:String>
     <sys:String x:Key="Str_KS_ConvertList">নির্বাচন কমা তালিকায়</sys:String>
     <sys:String x:Key="Str_St_ListMade">{0}টি মান কমা তালিকায় রূপান্তর হয়েছে</sys:String>
@@ -1171,7 +1169,6 @@
     <sys:String x:Key="Str_TableStyle_KeepWidths">বর্তমান প্রস্থ রাখুন</sys:String>
     <sys:String x:Key="Str_TableStyle_Column">কলাম</sys:String>
     <sys:String x:Key="Str_TableStyle_Width">প্রস্থ</sys:String>
-    <sys:String x:Key="Str_TableStyle_InvalidThickness">0-এর চেয়ে বেশি এবং 8-এর বেশি নয় এমন রেখার পুরুত্ব লিখুন।</sys:String>
     <sys:String x:Key="Str_TableStyle_InvalidWidth">24 থেকে 1000000-এর মধ্যে কলামের প্রস্থ লিখুন।</sys:String>
     <sys:String x:Key="Str_TableStyle_ScopeChanged">নোটটি পরিবর্তিত হয়েছে। টেবিলের শৈলী প্রয়োগ করা হয়নি।</sys:String>
     <sys:String x:Key="Str_TableStyle_DefaultFailed">ডিফল্ট টেবিল শৈলী সংরক্ষণ করা যায়নি।</sys:String>

@@ -2697,7 +2697,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             public void Dispose()
             {
                 _conn.Dispose();
-                if (Directory.Exists(SnapshotFolder)) Directory.Delete(SnapshotFolder, recursive: true);
+                VaultSnapshot.TryRemove(SnapshotFolder);
             }
         }
 

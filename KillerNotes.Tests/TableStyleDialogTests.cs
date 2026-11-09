@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using KillerNotes.Controls;
 using KillerNotes.Services;
 using Xunit;
@@ -83,7 +84,55 @@ namespace KillerNotes.Tests
             Assert.Equal(caption, dialog.Title);
         });
 
-        private static void WithDialog(Action<TableStyleDialog, Table> check, TableAppearance? appearance = null) => Sta.RunApplication(() =>
+        // Esc in an open dropdown closes the list, not the whole dialog with every choice in it.
+        // The dialog therefore leaves Esc alone on the way down (PreviewKeyDown): the open list
+        // handles it as it bubbles, and only an Esc nobody handled reaches Cancel. (A list cannot
+        // be opened on a window that was never shown, so the list's own handling is stood in for
+        // by marking the bubbling Esc handled.)
+        [Fact]
+        public void EscReachesAnOpenListBeforeTheDialog() => WithDialog((dialog, _) =>
+        {
+            var layout = Assert.IsType<ComboBox>(dialog.FindName("LayoutBox"));
+            bool closing = false;
+            dialog.Closing += (_, e) => { closing = true; e.Cancel = true; };
+            KeyEventArgs Esc(RoutedEvent routed, bool handled) =>
+                new(Keyboard.PrimaryDevice, new TestPresentationSource(), Environment.TickCount, Key.Escape)
+                    { RoutedEvent = routed, Handled = handled };
+
+            var preview = Esc(Keyboard.PreviewKeyDownEvent, false);
+            layout.RaiseEvent(preview);
+            Assert.False(preview.Handled);
+            Assert.False(closing);
+
+            layout.RaiseEvent(Esc(Keyboard.KeyDownEvent, handled: true));
+            Assert.False(closing);
+
+            layout.RaiseEvent(Esc(Keyboard.KeyDownEvent, handled: false));
+            Assert.True(closing);
+        });
+
+        // Picking another column previews that column's width even when its number reads the same.
+        [Fact]
+        public void PickingAnotherColumnReachesThePreview() => WithDialog((dialog, _) =>
+        {
+            TableSizing? last = null;
+            dialog.PreviewChanged += (_, sizing) => last = sizing;
+            Assert.IsType<ComboBox>(dialog.FindName("SizingBox")).SelectedIndex = 3;
+            Assert.Equal(0, last?.Column);
+
+            Assert.IsType<ComboBox>(dialog.FindName("ColumnBox")).SelectedIndex = 1;
+
+            Assert.Equal(1, last?.Column);
+        }, columns: 2);
+
+        private sealed class TestPresentationSource : PresentationSource
+        {
+            public override Visual? RootVisual { get; set; }
+            public override bool IsDisposed => false;
+            protected override CompositionTarget? GetCompositionTargetCore() => null;
+        }
+
+        private static void WithDialog(Action<TableStyleDialog, Table> check, TableAppearance? appearance = null, int columns = 1) => Sta.RunApplication(() =>
         {
             Application app = Application.Current ?? new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
             if (Application.ResourceAssembly == null) Application.ResourceAssembly = typeof(App).Assembly;
@@ -99,8 +148,13 @@ namespace KillerNotes.Tests
                     resources.Add(dictionary);
                 }
                 var table = new Table();
-                table.Columns.Add(new TableColumn());
-                table.RowGroups.Add(new TableRowGroup { Rows = { new TableRow { Cells = { new TableCell(new Paragraph()) } } } });
+                var row = new TableRow();
+                for (int i = 0; i < columns; i++)
+                {
+                    table.Columns.Add(new TableColumn());
+                    row.Cells.Add(new TableCell(new Paragraph()));
+                }
+                table.RowGroups.Add(new TableRowGroup { Rows = { row } });
                 _ = new FlowDocument(table);
                 TableStyle.ApplyAppearance(table, appearance ?? new TableAppearance());
                 dialog = new TableStyleDialog(table, 0);

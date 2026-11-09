@@ -98,6 +98,9 @@ namespace KillerNotes.Shell
                 // normalization once it lands (the same neutral-color rule as note load).
                 AcceptPastedAttachments(e.DataObject);   // copied sketch and recording payloads (Editor.RecordingStore.cs)
                 CapturePasteRange();
+                // WPF's native paste prefers XamlPackage, which only a WPF editor (KillerNotes
+                // itself) puts on the clipboard: its tables carry a chosen Table Style.
+                _pasteKeepsTableStyle = e.DataObject.GetDataPresent(DataFormats.XamlPackage);
                 Dispatcher.BeginInvoke(new Action(NormalizePastedContent),
                     System.Windows.Threading.DispatcherPriority.Background);
                 return;
@@ -141,7 +144,7 @@ namespace KillerNotes.Shell
             {
                 NormalizeElement(element);
                 if (element is Block block && block.Parent is FlowDocument or Section or ListItem or TableCell)
-                    NormalizePastedBlock(block);
+                    NormalizePastedBlock(block, _pasteKeepsTableStyle);
             }
             AdoptPastedAttachments();   // Editor.RecordingStore.cs
             MarkDirty();
@@ -152,6 +155,7 @@ namespace KillerNotes.Shell
         // content afterwards. (TextPointer gravity does not survive the paste's own load.)
         private FlowDocument? _pasteDoc;
         private int _pasteFromStart, _pasteFromEnd;
+        private bool _pasteKeepsTableStyle;
 
         private void CapturePasteRange()
         {
@@ -183,12 +187,22 @@ namespace KillerNotes.Shell
         // or dark-on-dark that read only after a manual theme switch (#11). Cleared, the cell shows the
         // theme surface like an inserted table and stays readable in either theme; colored TEXT and text
         // highlights are still left untouched.
-        private static void NormalizePastedBlock(Block block)
+        internal static void NormalizePastedBlock(Block block, bool keepTableStyle = false)
         {
             switch (block)
             {
                 case Paragraph p:
                     if (p.FontSize != 2) p.ClearValue(Block.MarginProperty);
+                    break;
+                case Table t when keepTableStyle:
+                    // A table copied inside KillerNotes keeps its Table Style. The copy baked its
+                    // brushes to the source theme, so they go back to live theme references,
+                    // exactly as when a note is opened.
+                    TableStyle.RestoreGridBrushes(t);
+                    foreach (var g in t.RowGroups)
+                        foreach (var row in g.Rows)
+                            foreach (var cell in row.Cells)
+                                foreach (var b in cell.Blocks.ToList()) NormalizePastedBlock(b, keepTableStyle);
                     break;
                 case Table t:
                     t.CellSpacing = 0;
@@ -205,11 +219,11 @@ namespace KillerNotes.Shell
                             }
                     break;
                 case Section s:
-                    foreach (var b in s.Blocks.ToList()) NormalizePastedBlock(b);
+                    foreach (var b in s.Blocks.ToList()) NormalizePastedBlock(b, keepTableStyle);
                     break;
                 case List list:
                     foreach (var li in list.ListItems)
-                        foreach (var b in li.Blocks.ToList()) NormalizePastedBlock(b);
+                        foreach (var b in li.Blocks.ToList()) NormalizePastedBlock(b, keepTableStyle);
                     break;
             }
         }
