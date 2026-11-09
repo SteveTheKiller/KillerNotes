@@ -2148,13 +2148,13 @@
                                 <MenuItem x:Name="TableMenuItem" Header="{DynamicResource Str_Ctx_Table}" Icon="&#xE8A9;"
                                           Visibility="Collapsed">
                                     <MenuItem x:Name="TblRowAboveMenuItem" Header="{DynamicResource Str_Ctx_TblRowAbove}" Icon="&#xE74A;" Click="TableRowAbove_Click"
-                                              InputGestureText="Ctrl+Shift+1"/>
+                                              InputGestureText="Alt+Shift+A"/>
                                     <MenuItem x:Name="TblRowBelowMenuItem" Header="{DynamicResource Str_Ctx_TblRowBelow}" Icon="&#xE74B;" Click="TableRowBelow_Click"
-                                              InputGestureText="Ctrl+Shift+2"/>
+                                              InputGestureText="Alt+Shift+B"/>
                                     <MenuItem x:Name="TblColLeftMenuItem" Header="{DynamicResource Str_Ctx_TblColLeft}" Icon="&#xE72B;" Click="TableColLeft_Click"
-                                              InputGestureText="Ctrl+Shift+3"/>
+                                              InputGestureText="Alt+Shift+L"/>
                                     <MenuItem x:Name="TblColRightMenuItem" Header="{DynamicResource Str_Ctx_TblColRight}" Icon="&#xE72A;" Click="TableColRight_Click"
-                                              InputGestureText="Ctrl+Shift+4"/>
+                                              InputGestureText="Alt+Shift+R"/>
                                     <MenuItem IsHitTestVisible="False" Focusable="False" Height="9">
                                         <MenuItem.Template>
                                             <ControlTemplate TargetType="MenuItem">
@@ -2162,7 +2162,7 @@
                                             </ControlTemplate>
                                         </MenuItem.Template>
                                     </MenuItem>
-                                    <MenuItem x:Name="TableStyleMenuItem" Header="{DynamicResource Str_TableStyle_Title}" InputGestureText="Alt+Shift+9" Click="TableStyle_Click"/>
+                                    <MenuItem x:Name="TableStyleMenuItem" Header="{DynamicResource Str_TableStyle_Title}" InputGestureText="Alt+Shift+S" Click="TableStyle_Click"/>
                                     <MenuItem IsHitTestVisible="False" Focusable="False" Height="9">
                                         <MenuItem.Template>
                                             <ControlTemplate TargetType="MenuItem">
@@ -2171,11 +2171,11 @@
                                         </MenuItem.Template>
                                     </MenuItem>
                                     <MenuItem x:Name="TblDelRowMenuItem" Header="{DynamicResource Str_Ctx_TblDelRow}" Icon="&#xE738;" Click="TableDelRow_Click"
-                                              InputGestureText="Ctrl+Shift+7"/>
+                                              InputGestureText="Alt+Shift+D"/>
                                     <MenuItem x:Name="TblDelColMenuItem" Header="{DynamicResource Str_Ctx_TblDelCol}" Icon="&#xE738;" Click="TableDelCol_Click"
-                                              InputGestureText="Ctrl+Shift+8"/>
+                                              InputGestureText="Alt+Shift+C"/>
                                     <MenuItem x:Name="TblDeleteMenuItem" Header="{DynamicResource Str_Ctx_TblDelete}" Icon="&#xE74D;" Click="TableDelete_Click"
-                                              InputGestureText="Ctrl+Shift+9"/>
+                                              InputGestureText="Alt+Shift+X"/>
                                 </MenuItem>
                                 <MenuItem x:Name="DocToggleSeparator" IsHitTestVisible="False" Focusable="False" Height="9">
                                     <MenuItem.Template>

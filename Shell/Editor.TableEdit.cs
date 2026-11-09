@@ -219,32 +219,6 @@ namespace KillerNotes.Shell
             Editor.Focus();
         }
 
-        // ---- Line styles, widths and spacing (Services/TableStyle.cs) ----
-
-        private void TableLines_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is MenuItem { Tag: string tag } && Enum.TryParse(tag, out TableLines lines))
-                SetTableLines(lines);
-        }
-
-        private void TableSpacing_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is MenuItem { Tag: string tag } && Enum.TryParse(tag, out TableSpacing spacing))
-                SetTableSpacing(spacing);
-        }
-
-        private void SetTableLines(TableLines lines) => TableEdit(cell => TableStyle.ApplyLines(TableOf(cell), lines));
-        private void SetTableSpacing(TableSpacing spacing) => TableEdit(cell => TableStyle.ApplySpacing(TableOf(cell), spacing));
-
-        private void TableFitContent_Click(object sender, RoutedEventArgs e) => ShowTableStyle(TableSizingMode.FitContent);
-
-        private void TableFitPage_Click(object sender, RoutedEventArgs e) => ShowTableStyle(TableSizingMode.FitPage);
-
-        private void TableColWidth_Click(object sender, RoutedEventArgs e)
-        {
-            ShowTableStyle(TableSizingMode.ColumnWidth);
-        }
-
         /// <summary>Keyboard entry for the Table items (ActionShortcuts.cs): acts on the caret's
         /// cell, or on the menu's cell while the menu itself has the keyboard.</summary>
         private void RunTableAction(RoutedEventHandler action)

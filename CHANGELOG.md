@@ -38,9 +38,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - A folder typed into the file picker that cannot be opened keeps its reason on the status line after the picker goes back to the last folder that listed.
 - The database name in the title bar sits level with the library icon beside it again instead of three pixels low.
 
+### Changed
+
+- Table shortcuts use Alt+Shift with a letter for the action: A and B insert a row above or below, L and R insert a column left or right, and D, C and X delete the row, the column or the table. They replace Ctrl+Shift+1 to 4 and 7 to 9.
+
 ### Added
 
-- Table Style (Alt+Shift+9) groups solid, dotted and dashed borders, line layout and thickness, spacing, row and column headers, and column sizing in one dialog. Changes preview on the note; Cancel restores it, OK makes one undoable change, and an optional default applies to new tables. (#31)
+- Table Style (Alt+Shift+S) groups solid, dotted and dashed borders, line layout and thickness, spacing, row and column headers, and column sizing in one dialog. Changes preview on the note; Cancel restores it, OK makes one undoable change, and an optional default applies to new tables. (#31)
 - Page width presets in the footer and the editor menu: Full, Wide, Medium and Narrow (Alt+Shift+W, E, M and N) cap the text column and keep it centered, so a table no longer stretches across a wide window. The choice is remembered. (#31)
 
 ## [1.6.1] - 2026-11-01
