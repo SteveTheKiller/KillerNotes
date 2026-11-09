@@ -1065,6 +1065,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Btn_Select">Izberi mapo</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Predogled</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">Slog tabele...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">Slog tabele</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">Vzorec črte</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">Polna</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Pikčasta</sys:String>

@@ -1159,6 +1159,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Btn_Select">Sélectionner un dossier</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Aperçu</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">Style du tableau...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">Style du tableau</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">Motif des lignes</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">Continu</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Pointillé</sys:String>

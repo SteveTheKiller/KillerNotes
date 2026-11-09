@@ -1158,6 +1158,7 @@
     <sys:String x:Key="Str_Btn_Select">選擇資料夾</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">預覽</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">表格樣式...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">表格樣式</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">線條樣式</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">實線</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">點線</sys:String>

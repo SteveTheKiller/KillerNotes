@@ -27,7 +27,14 @@ namespace KillerNotes.Controls
             LayoutBox.SelectedIndex = Appearance.Lines switch { TableLines.Rows => 1, TableLines.Outline => 2, TableLines.None => 3, _ => 0 };
             PatternBox.SelectedIndex = (int)Appearance.Pattern;
             SpacingBox.SelectedIndex = (int)Appearance.Spacing;
-            ThicknessBox.Text = Appearance.Thickness.ToString(CultureInfo.CurrentCulture);
+            // A short list of line weights. A table drawn at another weight keeps it as an extra
+            // choice, so opening the dialog never changes a table the user only looks at.
+            foreach (double weight in new[] { 1d, 2d, 3d }.Concat(new[] { Appearance.Thickness }).Distinct().OrderBy(w => w))
+            {
+                var item = new ComboBoxItem { Content = weight.ToString(CultureInfo.CurrentCulture), Tag = weight };
+                ThicknessBox.Items.Add(item);
+                if (weight == Appearance.Thickness) ThicknessBox.SelectedItem = item;
+            }
             HeaderRowBox.IsChecked = Appearance.HeaderRow;
             HeaderColumnBox.IsChecked = Appearance.HeaderColumn;
             _widths = table.Columns.Select(c => c.Width.IsAbsolute ? c.Width.Value : 120).ToArray();
@@ -46,13 +53,12 @@ namespace KillerNotes.Controls
         {
             WidthFields.Visibility = SizingBox.SelectedIndex == 3 ? Visibility.Visible : Visibility.Collapsed;
             string? error = null;
-            double.TryParse(ThicknessBox.Text, out double thickness);
+            double thickness = ThicknessBox.SelectedItem is ComboBoxItem { Tag: double weight } ? weight : 1;
             double.TryParse(WidthBox.Text, out double width);
-            if (double.IsNaN(thickness) || double.IsInfinity(thickness) || thickness <= 0 || thickness > 8)
-                error = "Str_TableStyle_InvalidThickness";
-            else if (SizingBox.SelectedIndex == 3 && (ColumnBox.SelectedIndex < 0 || width < 24 || !TableStyle.IsValidColumnWidth(width)))
+            if (SizingBox.SelectedIndex == 3 && (ColumnBox.SelectedIndex < 0 || width < 24 || !TableStyle.IsValidColumnWidth(width)))
                 error = "Str_TableStyle_InvalidWidth";
             ValidationText.Text = error == null ? "" : (string)FindResource(error);
+            ValidationText.Visibility = error == null ? Visibility.Collapsed : Visibility.Visible;
             OkButton.IsEnabled = error == null;
             if (error != null) return false;
             Appearance = new TableAppearance {

@@ -1166,6 +1166,7 @@
     <sys:String x:Key="Str_Btn_Select">Выбрать папку</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Предварительный просмотр</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">Стиль таблицы...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">Стиль таблицы</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">Тип линии</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">Сплошная</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Точечная</sys:String>

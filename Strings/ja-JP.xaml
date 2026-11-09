@@ -1156,6 +1156,7 @@
     <sys:String x:Key="Str_Btn_Select">フォルダーを選択</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">プレビュー</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">表のスタイル...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">表のスタイル</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">線の種類</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">実線</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">点線</sys:String>

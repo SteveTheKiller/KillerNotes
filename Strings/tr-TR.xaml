@@ -1158,6 +1158,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Btn_Select">Klasör seç</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Önizleme</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">Tablo stili...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">Tablo stili</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">Çizgi deseni</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">Düz</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Noktalı</sys:String>

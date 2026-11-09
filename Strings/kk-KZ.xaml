@@ -1166,6 +1166,7 @@
     <sys:String x:Key="Str_Btn_Select">Қалтаны таңдау</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Алдын ала қарау</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">Кесте стилі...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">Кесте стилі</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">Сызық үлгісі</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">Тұтас</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Нүктелі</sys:String>

@@ -1155,6 +1155,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Btn_Select">Vybrat složku</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Náhled</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">Styl tabulky...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">Styl tabulky</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">Vzor čáry</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">Plná</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Tečkovaná</sys:String>

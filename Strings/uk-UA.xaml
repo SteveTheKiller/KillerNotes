@@ -1205,6 +1205,7 @@
     <sys:String x:Key="Str_Btn_Select">Вибрати папку</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Попередній перегляд</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">Стиль таблиці...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">Стиль таблиці</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">Тип лінії</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">Суцільна</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Крапкова</sys:String>

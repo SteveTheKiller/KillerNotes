@@ -2,7 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:KillerNotes.Controls"
-        Title="{DynamicResource Str_TableStyle_Title}" Width="440" Height="570"
+        Title="{DynamicResource Str_TableStyle_Caption}"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        SnapsToDevicePixels="True"
+        Width="440" SizeToContent="Height"
         FontFamily="{DynamicResource UiFont}" FontSize="13" Foreground="{DynamicResource TextBrush}"
         WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True"
         ResizeMode="NoResize" Background="Transparent" ShowInTaskbar="False"
@@ -12,7 +16,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <local:DialogTitleBar Subtitle="{DynamicResource Str_TableStyle_Title}" CloseRequested="Cancel_Click"/>
+            <local:DialogTitleBar Subtitle="{DynamicResource Str_TableStyle_Caption}" CloseRequested="Cancel_Click"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="24,16,24,12">
                 <StackPanel x:Name="Fields">
                     <TextBlock Text="{DynamicResource Str_Ctx_TblLines}"/>
@@ -34,8 +38,8 @@
                         <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
                         <StackPanel>
                             <TextBlock Text="{DynamicResource Str_TableStyle_Thickness}"/>
-                            <TextBox x:Name="ThicknessBox" Style="{StaticResource EditFieldTextBox}" FontFamily="{DynamicResource UiFont}"
-                                     Margin="0,4,0,10" Padding="6,4" TextChanged="Changed" AutomationProperties.Name="{DynamicResource Str_TableStyle_Thickness}"/>
+                            <ComboBox x:Name="ThicknessBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="Changed"
+                                      AutomationProperties.Name="{DynamicResource Str_TableStyle_Thickness}"/>
                         </StackPanel>
                         <StackPanel Grid.Column="2">
                             <TextBlock Text="{DynamicResource Str_Ctx_TblSpacing}"/>
@@ -72,7 +76,7 @@
                                      Margin="0,4,0,10" Padding="6,4" TextChanged="Changed" AutomationProperties.Name="{DynamicResource Str_TableStyle_Width}"/>
                         </StackPanel>
                     </Grid>
-                    <TextBlock x:Name="ValidationText" TextWrapping="Wrap" Margin="0,0,0,10" AutomationProperties.LiveSetting="Polite"/>
+                    <TextBlock x:Name="ValidationText" TextWrapping="Wrap" Margin="0,0,0,10" Visibility="Collapsed" AutomationProperties.LiveSetting="Polite"/>
                     <CheckBox x:Name="DefaultBox" FontFamily="{DynamicResource UiFont}" Content="{DynamicResource Str_TableStyle_Default}"/>
                 </StackPanel>
             </ScrollViewer>

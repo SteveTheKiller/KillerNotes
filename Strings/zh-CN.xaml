@@ -1156,6 +1156,7 @@
     <sys:String x:Key="Str_Btn_Select">选择文件夹</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">预览</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">表格样式...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">表格样式</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">线型</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">实线</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">点线</sys:String>

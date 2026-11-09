@@ -1166,6 +1166,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Btn_Select">Seleziona cartella</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Anteprima</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">Stile tabella...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">Stile tabella</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">Tipo di linea</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">Continua</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Puntinata</sys:String>

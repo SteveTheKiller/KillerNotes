@@ -1209,6 +1209,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Btn_Select">Chọn thư mục</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Xem trước</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">Kiểu bảng...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">Kiểu bảng</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">Kiểu đường</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">Nét liền</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Nét chấm</sys:String>

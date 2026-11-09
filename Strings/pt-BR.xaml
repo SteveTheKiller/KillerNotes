@@ -1205,6 +1205,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Btn_Select">Selecionar pasta</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Visualização</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">Estilo da tabela...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">Estilo da tabela</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">Padrão de linha</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">Contínua</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Pontilhada</sys:String>

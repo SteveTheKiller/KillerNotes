@@ -1184,6 +1184,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Btn_Select">Válasszon mappát</sys:String>
     <sys:String x:Key="Str_Dlg_Preview">Előnézet</sys:String>
     <sys:String x:Key="Str_TableStyle_Title">Táblázatstílus...</sys:String>
+    <sys:String x:Key="Str_TableStyle_Caption">Táblázatstílus</sys:String>
     <sys:String x:Key="Str_TableStyle_Pattern">Vonal mintázata</sys:String>
     <sys:String x:Key="Str_TableStyle_Solid">Folytonos</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Pontozott</sys:String>
