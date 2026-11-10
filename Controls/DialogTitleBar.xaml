@@ -55,7 +55,7 @@
                  KillerNotes used ChromeCloseButton here instead, which is the main window's
                  caption X, and that is what put a red block on every dialog card and started the
                  alignment chase of 2026-08-23. Do not reintroduce a caption button on a card. -->
-            <Button Content="{DynamicResource AboutCloseGlyph}" Click="Close_Click"
+            <Button x:Name="CloseButton" Content="{DynamicResource AboutCloseGlyph}" Click="Close_Click"
                     ToolTip="{DynamicResource Str_Sys_Close}"
                     AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                     HorizontalAlignment="Right" VerticalAlignment="Center"

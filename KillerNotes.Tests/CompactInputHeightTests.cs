@@ -167,6 +167,9 @@ namespace KillerNotes.Tests
             Assert.True(top >= 0, "No dots were drawn.");
             int above = top, below = h - 1 - bottom;
             Assert.True(Math.Abs(above - below) <= 1, $"The dots sit {above}px from the top and {below}px from the bottom.");
+            // The caret spans the text line, so the line itself stays centered: padding that lifts
+            // the dots lifts the caret with them.
+            Assert.Equal(box.Padding.Top, box.Padding.Bottom);
         });
 
         // A dialog's confirm button (Unlock) keeps hinted text: an effect on its caption would

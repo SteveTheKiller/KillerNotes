@@ -29,6 +29,21 @@ namespace KillerNotes.Controls
             DialogFrame.SharpenTitleIcon(TitleIcon);
             // Above the dialog body, so the wordmark's drips hang over it instead of under it.
             Panel.SetZIndex(this, 1);
+            FitCloseToBar();
+        }
+
+        // The X's box is a square as tall as the bar, so the glyph centered in it sits as far
+        // from the right edge as from the top, and it reads at 13 rather than 11. 98SE keeps its
+        // framed Win98 caption button at the theme's own size.
+        private void FitCloseToBar()
+        {
+            if (TryFindResource("UseDialogCaption") is true) return;
+            CloseButton.SetResourceReference(WidthProperty, "DialogTitleBarHeight");
+            CloseButton.SetResourceReference(HeightProperty, "DialogTitleBarHeight");
+            CloseButton.FontSize = 13;
+            // Segoe UI draws the X a pixel below the middle of its box; one pixel in from the
+            // right keeps the two gaps equal.
+            CloseButton.Margin = new Thickness(0, 0, 1, 0);
         }
 
         private void ApplySubtitle(string? sub)
