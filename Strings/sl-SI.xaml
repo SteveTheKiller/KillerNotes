@@ -1069,6 +1069,9 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Pikčasta</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Črtkana</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Debelina črte</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Tanka</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Srednja</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Debela</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Vrstica z glavo</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Stolpec z glavo</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Nastavi kot privzeti slog tabele</sys:String>

@@ -1162,6 +1162,9 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Noktalı</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Kesikli</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Çizgi kalınlığı</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">İnce</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Orta</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Kalın</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Başlık satırı</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Başlık sütunu</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Varsayılan tablo stili yap</sys:String>

@@ -39,6 +39,7 @@ namespace KillerNotes.Shell
             InitTiltWheel();     // TiltWheel.cs (WM_MOUSEHWHEEL + Shift+wheel, issue #9)
             InitEditorFade();    // EditorFade.cs (top and bottom fades while there is more to scroll)
             InitTableSizePicker();
+            InitRuleFlyout();    // Editor.RuleFlyout.cs (the rule button's style flyout)
             InitTableEditing();  // Editor.TableEdit.cs (table paste, delete, Table menu)
             InitRuleGuard();     // Editor.Rules.cs (the caret never rests inside a horizontal rule, #28)
             InitFormatBar();

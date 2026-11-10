@@ -1089,6 +1089,9 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Kropkowana</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Kreskowana</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Grubość linii</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Cienka</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Średnia</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Gruba</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Wiersz nagłówka</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Kolumna nagłówka</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Ustaw jako domyślny styl tabeli</sys:String>

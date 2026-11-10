@@ -1162,6 +1162,9 @@
     <sys:String x:Key="Str_TableStyle_Dotted">বিন্দুযুক্ত</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">ড্যাশযুক্ত</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">রেখার পুরুত্ব</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">পাতলা</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">মাঝারি</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">মোটা</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">শিরোনাম সারি</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">শিরোনাম কলাম</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">ডিফল্ট টেবিল শৈলী হিসেবে সেট করুন</sys:String>

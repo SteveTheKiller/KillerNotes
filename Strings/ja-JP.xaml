@@ -1160,6 +1160,9 @@
     <sys:String x:Key="Str_TableStyle_Dotted">点線</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">破線</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">線の太さ</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">細線</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">中線</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">太線</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">見出し行</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">見出し列</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">既定の表スタイルにする</sys:String>

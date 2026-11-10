@@ -222,18 +222,14 @@ namespace KillerNotes.Shell
 
         // ---- Horizontal rule ----
         // A pure-FlowDocument rule (bottom-bordered empty paragraph) so it survives the
-        // XamlPackage round trip. Concrete gray on purpose: package content cannot keep
-        // theme-reactive references.
+        // XamlPackage round trip, drawn in the last style picked in the rule flyout
+        // (RuleAppearance.cs, Editor.RuleFlyout.cs). Concrete colors on purpose: package content
+        // cannot keep theme-reactive references.
         private void InsertRule_Click(object sender, RoutedEventArgs e)
         {
             if (!CanEditCurrentNote()) return;
-            var hr = new Paragraph
-            {
-                FontSize = 2,
-                Margin = new Thickness(0, 8, 0, 8),
-                BorderBrush = new SolidColorBrush(Color.FromRgb(0x5a, 0x5a, 0x5a)),
-                BorderThickness = new Thickness(0, 0, 0, 1),
-            };
+            RulePopup.IsOpen = false;
+            var hr = RuleStyle.Create(CurrentRuleStyle());
             var para = Editor.CaretPosition.Paragraph;
             if (para != null && para.Parent is FlowDocument doc) doc.Blocks.InsertAfter(para, hr);
             else Editor.Document.Blocks.Add(hr);

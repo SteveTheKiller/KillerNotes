@@ -1209,6 +1209,9 @@
     <sys:String x:Key="Str_TableStyle_Dotted">Крапкова</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Штрихова</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Товщина лінії</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Тонка</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Середня</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Товста</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Рядок заголовка</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Стовпець заголовка</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Зробити стилем таблиці за замовчуванням</sys:String>

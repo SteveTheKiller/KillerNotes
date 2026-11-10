@@ -1209,6 +1209,9 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Pontilhada</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Tracejada</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Espessura da linha</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Fina</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Média</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Grossa</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Linha de cabeçalho</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Coluna de cabeçalho</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Definir como estilo de tabela padrão</sys:String>

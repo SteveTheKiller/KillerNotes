@@ -1163,6 +1163,9 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Punteada</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Discontinua</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Grosor de línea</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Fina</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Media</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Gruesa</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Fila de encabezado</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Columna de encabezado</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Usar como estilo de tabla predeterminado</sys:String>

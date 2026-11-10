@@ -1163,6 +1163,9 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Pointillé</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Tirets</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Épaisseur des lignes</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Fine</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Moyenne</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Épaisse</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Ligne d’en-tête</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Colonne d’en-tête</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Définir comme style de tableau par défaut</sys:String>

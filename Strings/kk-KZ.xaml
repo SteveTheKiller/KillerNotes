@@ -1170,6 +1170,9 @@
     <sys:String x:Key="Str_TableStyle_Dotted">Нүктелі</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Үзік</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Сызық қалыңдығы</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Жіңішке</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Орташа</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Қалың</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Тақырып жолы</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Тақырып бағаны</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Әдепкі кесте стилі ету</sys:String>

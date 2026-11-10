@@ -95,6 +95,30 @@
             <Setter Property="AutomationProperties.Name" Value="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"/>
         </Style>
         <Style x:Key="FmtSeparator" TargetType="Rectangle" BasedOn="{StaticResource AnnotationBarSeparator}"/>
+        <!-- A choice in the rule flyout: a menu row with an accent ring on the current pick (Tag="on"). -->
+        <Style x:Key="RuleChoiceButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="4,6"/>
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Bd" Property="Background" Value="{DynamicResource MenuHoverBrush}"/></Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Bd" Property="Background" Value="{DynamicResource MenuHoverBrush}"/></Trigger>
+                            <Trigger Property="Tag" Value="on"><Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/></Trigger>
+                            <Trigger Property="IsPressed" Value="True"><Setter TargetName="Bd" Property="Background" Value="{DynamicResource RowSelectedBrush}"/></Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <!-- LIST / KEYBOARD caption toggle in the shortcuts overlay header; the active
              one's Foreground is driven from code (KeyboardMap.cs ApplyShortcutView) -->
         <Style x:Key="KsTabBtn" TargetType="Button">
@@ -1988,8 +2012,35 @@
                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
                     <Rectangle x:Name="FmtInsertSeparator" Style="{StaticResource FmtSeparator}"/>
+                    <!-- Click inserts a rule in the last style picked; hovering (or Down on the focused
+                         button) opens the style flyout under it (Editor.RuleFlyout.cs). -->
                     <Button x:Name="FmtRuleBtn" Style="{StaticResource FmtButton}" Content="&#xE738;" ToolTip="{DynamicResource Str_TT_Rule}"
                             Click="InsertRule_Click"/>
+                    <Popup x:Name="RulePopup" PlacementTarget="{Binding ElementName=FmtRuleBtn}"
+                           Placement="Bottom" StaysOpen="True" AllowsTransparency="True" VerticalOffset="4">
+                        <Border Background="{DynamicResource MenuBackgroundBrush}"
+                                BorderBrush="{DynamicResource MenuBorderBrush}"
+                                BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" Padding="10,8" Margin="12">
+                            <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
+                            <StackPanel x:Name="RuleFlyoutPanel" Width="196" PreviewKeyDown="RuleFlyout_PreviewKeyDown"
+                                        KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle">
+                                <Border x:Name="RulePreview" Height="10" Margin="2,2,2,8" IsHitTestVisible="False"/>
+                                <TextBlock Text="{DynamicResource Str_TableStyle_Pattern}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,0,0,2"/>
+                                <UniformGrid x:Name="RulePatternRow" Rows="1"/>
+                                <TextBlock Text="{DynamicResource Str_TableStyle_Thickness}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,6,0,2"/>
+                                <UniformGrid x:Name="RuleWeightRow" Rows="1"/>
+                                <TextBlock Text="{DynamicResource Str_Color_Name}" Foreground="{DynamicResource DimTextBrush}" FontSize="10" Margin="0,6,0,4"/>
+                                <WrapPanel x:Name="RuleColorRow"/>
+                                <Border Height="1" Background="{DynamicResource MenuBorderBrush}" Margin="0,8,0,8"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Content="{DynamicResource Str_Btn_More}" Style="{StaticResource SurfaceButton}" FontSize="10"
+                                            Padding="6,1" Click="RuleMoreColors_Click" ToolTip="{DynamicResource Str_TT_MoreColors}"/>
+                                    <Button Content="{DynamicResource Str_Btn_Insert}" Style="{StaticResource SurfaceButton}" FontSize="11"
+                                            Padding="8,2" Margin="6,0,0,0" Click="RuleFlyoutInsert_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
                     <!-- Press (or press-hold-drag) opens the size picker grid; release or click
                          on a cell inserts that rows x cols table (Editor.cs). -->
                     <Button x:Name="TableBtn" Style="{StaticResource FmtButton}" Content="&#xE8A9;"

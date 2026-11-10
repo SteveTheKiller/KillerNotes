@@ -1188,6 +1188,9 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_TableStyle_Dotted">Pontozott</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Szaggatott</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Vonalvastagság</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Vékony</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Közepes</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Vastag</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Fejlécsor</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Fejlécoszlop</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Legyen az alapértelmezett táblázatstílus</sys:String>

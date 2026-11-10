@@ -48,6 +48,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 - Table Style (Alt+Shift+S) groups solid, dotted and dashed borders, line layout and thickness, spacing, row and column headers, and column sizing in one dialog. Changes preview on the note; Cancel restores it, OK makes one undoable change, and an optional default applies to new tables. (#31)
 - Page width presets in the footer and the editor menu: Full, Wide, Medium and Narrow (Alt+Shift+W, E, M and N) cap the text column and keep it centered, so a table no longer stretches across a wide window. The choice is remembered. (#31)
+- Horizontal rules can be solid, dotted or dashed, thin, medium or thick, and any color. Hovering the rule button opens the style flyout (or press Down on it); the next rule takes the style picked, rules inside the selection change with it as one undoable step, and HTML export keeps the look.
 
 ## [1.6.1] - 2026-11-01
 

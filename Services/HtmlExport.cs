@@ -72,7 +72,11 @@ namespace KillerNotes.Services
             switch (block)
             {
                 case Paragraph p when p.FontSize <= 2 && p.BorderThickness.Bottom > 0:
-                    sb.Append("<hr/>");
+                    // The default rule takes the page's own hr style; a styled one says how it looks.
+                    var rule = RuleStyle.Read(p);
+                    if (rule == RuleAppearance.Default) sb.Append("<hr/>");
+                    else sb.Append(FormattableString.Invariant(
+                        $"<hr style=\"border:none;border-top:{rule.Thickness}px {rule.Pattern.ToString().ToLowerInvariant()} #{rule.Color.R:X2}{rule.Color.G:X2}{rule.Color.B:X2}\"/>"));
                     break;
                 case Paragraph p:
                     sb.Append("<p>");

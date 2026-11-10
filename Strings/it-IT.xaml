@@ -1170,6 +1170,9 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Puntinata</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Tratteggiata</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Spessore linea</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Sottile</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Media</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Spessa</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Riga di intestazione</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Colonna di intestazione</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Imposta come stile tabella predefinito</sys:String>

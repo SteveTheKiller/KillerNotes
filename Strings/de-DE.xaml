@@ -1162,6 +1162,9 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Gepunktet</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Gestrichelt</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Linienstärke</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Dünn</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Mittel</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Dick</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Kopfzeile</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Kopfspalte</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Als Standard für neue Tabellen verwenden</sys:String>

@@ -1162,6 +1162,9 @@
     <sys:String x:Key="Str_TableStyle_Dotted">點線</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">虛線</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">線條粗細</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">細</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">中</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">粗</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">標題列</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">標題欄</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">設為預設表格樣式</sys:String>

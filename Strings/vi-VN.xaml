@@ -1213,6 +1213,9 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_TableStyle_Dotted">Nét chấm</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Nét đứt</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Độ dày đường</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Mỏng</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Vừa</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Dày</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Hàng tiêu đề</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Cột tiêu đề</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Đặt làm kiểu bảng mặc định</sys:String>

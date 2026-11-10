@@ -1170,6 +1170,9 @@
     <sys:String x:Key="Str_TableStyle_Dotted">Точечная</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Штриховая</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Толщина линии</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Тонкая</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Средняя</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Толстая</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Строка заголовка</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Столбец заголовка</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Использовать как стиль таблицы по умолчанию</sys:String>

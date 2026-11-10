@@ -1207,6 +1207,9 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_TableStyle_Dotted">Prikket</sys:String>
     <sys:String x:Key="Str_TableStyle_Dashed">Stiplet</sys:String>
     <sys:String x:Key="Str_TableStyle_Thickness">Linjetykkelse</sys:String>
+    <sys:String x:Key="Str_Rule_Thin">Tynn</sys:String>
+    <sys:String x:Key="Str_Rule_Medium">Middels</sys:String>
+    <sys:String x:Key="Str_Rule_Thick">Tykk</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Overskriftsrad</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Overskriftskolonne</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Bruk som standard tabellstil</sys:String>

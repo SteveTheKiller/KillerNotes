@@ -38,13 +38,13 @@ Controls/Sketch/SketchPadWindow.cs	2
 Controls/TagsDialog.xaml.cs	2
 Shell/DatabaseLoading.cs	3
 Shell/DemoMode.cs	2
-Shell/Editor.Format.cs	3
+Shell/Editor.Format.cs	2
 Shell/Editor.View.cs	2
 Shell/FindBar.cs	3
 Shell/Groups.Color.cs	1
 Shell/Groups.DragDrop.cs	1
 Shell/Localization.cs	2
-Shell/MainWindow.xaml	37
+Shell/MainWindow.xaml	38
 Shell/Notes.Crud.cs	1
 Shell/Shortcuts.cs	2
 Shell/Sidebar.cs	5
