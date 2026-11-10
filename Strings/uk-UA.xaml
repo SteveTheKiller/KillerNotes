@@ -657,6 +657,8 @@
     <sys:String x:Key="Str_Dict_VolumeDown">Тихіше</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Гучність {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Пауза</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Продовжити</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Пауза. Натисніть «Продовжити», щоб продовжити, або «Стоп», щоб завершити.</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Модель мовлення</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Вбудоване диктування Windows не дуже точне. KillerNotes може використовувати кращу модель мовлення - вона працює повністю на цьому комп'ютері, нічого не вивантажується. Виберіть модель для завантаження.</sys:String>

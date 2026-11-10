@@ -218,7 +218,7 @@ namespace KillerNotes.Controls.Dictation
             var grid = new Grid();
             grid.Children.Add(caption);
             grid.Children.Add(close);
-            band.Child = DialogFrame.GrainedTitle(grid);
+            band.Child = grid;   // the card's grain shows through the transparent band
             return band;
         }
 

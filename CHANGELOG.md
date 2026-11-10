@@ -38,6 +38,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - About opens at once instead of waiting on the signature check, which can stall for many seconds on a network that drops revocation traffic; the publisher and thumbprint fill in when it finishes.
 - A folder typed into the file picker that cannot be opened keeps its reason on the status line after the picker goes back to the last folder that listed.
 - The database name in the title bar sits level with the library icon beside it again instead of three pixels low.
+- The Dictation, Sketch Pad and graph windows have their rounded corners, border and shadow again on every theme except 98SE, the Dictation pad's caption no longer shows a doubled texture, and its Print to note and Embed buttons sit on the left so the resize grip keeps its corner.
 
 ### Changed
 
@@ -49,6 +50,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Table Style (Alt+Shift+S) groups solid, dotted and dashed borders, line layout and thickness, spacing, row and column headers, and column sizing in one dialog. Changes preview on the note; Cancel restores it, OK makes one undoable change, and an optional default applies to new tables. (#31)
 - Page width presets in the footer and the editor menu: Full, Wide, Medium and Narrow (Alt+Shift+W, E, M and N) cap the text column and keep it centered, so a table no longer stretches across a wide window. The choice is remembered. (#31)
 - Horizontal rules can be solid, dotted or dashed, thin, medium or thick, and any color. Hovering the rule button opens the style flyout (or press Down on it); the next rule takes the style picked, rules inside the selection change with it as one undoable step, and HTML export keeps the look.
+- Dictation can pause mid-recording: while recording, the Play button becomes Pause and Resume (Alt+P), nothing is captured while paused, and Stop ends the take as usual.
 
 ## [1.6.1] - 2026-11-01
 

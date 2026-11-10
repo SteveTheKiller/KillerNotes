@@ -37,6 +37,24 @@ namespace KillerNotes.Services
         private const int BufferCount = 8;
 
         internal static bool IsRecording { get; private set; }
+
+        // Volatile: set on the UI thread, read by the buffer worker.
+        private static volatile bool _paused;
+
+        /// <summary>True while a take is paused. The microphone stays open and its buffers keep
+        /// cycling, but their audio is dropped, so the take, the clock and the waveform all hold
+        /// still until Resume. Leaving the device running is what makes this safe: stopping and
+        /// restarting waveIn mid-take is where drivers lose buffers.</summary>
+        internal static bool IsPaused => _paused;
+
+        internal static void Pause()
+        {
+            if (!IsRecording) return;
+            _paused = true;
+            PeakLevel = 0;
+        }
+
+        internal static void Resume() => _paused = false;
         internal static string? LastError { get; private set; }
 
         /// <summary>Newest peak amplitude, 0..1. Read by the UI timer to drive the live meter.</summary>
@@ -157,6 +175,7 @@ namespace KillerNotes.Services
             if (IsRecording) return true;
             if (_hwi != IntPtr.Zero && !Teardown()) return false;
             LastError = null;
+            _paused = false;
 
             if (Capture.DeviceCount() == 0) { LastError = "No recording device is connected."; return false; }
 
@@ -247,7 +266,7 @@ namespace KillerNotes.Services
                     {
                         var hdr = Marshal.PtrToStructure<WAVEHDR>(header);
                         int n = hdr.dwBytesRecorded;
-                        if (_keepAudio && n > 0)
+                        if (_keepAudio && !_paused && n > 0)
                         {
                             var buf = new byte[n];
                             Marshal.Copy(hdr.lpData, buf, 0, n);
@@ -357,6 +376,7 @@ namespace KillerNotes.Services
             lock (WaveGate)
             {
                 IsRecording = false;
+                _paused = false;
                 if (_hwi != IntPtr.Zero && !Ok(Capture.Reset(_hwi), "Returning recording buffers")) return false;
             }
             lock (CompletionGate)

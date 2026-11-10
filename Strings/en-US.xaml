@@ -657,6 +657,8 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Dict_VolumeDown">Volume down</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Volume {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pause</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Resume</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Paused. Press Resume to carry on, or Stop to finish.</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Speech model</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Windows' built-in dictation is not very accurate. KillerNotes can use a better speech model instead - it runs entirely on this machine, and nothing is uploaded. Pick one to download.</sys:String>

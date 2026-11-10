@@ -624,6 +624,8 @@
     <sys:String x:Key="Str_Dict_VolumeDown">Тише</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Громкость {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Пауза</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Продолжить</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Пауза. Нажмите «Продолжить», чтобы продолжить, или «Остановить», чтобы закончить.</sys:String>
     <!-- Speech model chooser -->
     <sys:String x:Key="Str_Whisper_Title">Модель распознавания речи</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Встроенная диктовка Windows не очень точна. KillerNotes может использовать модель получше - она работает целиком на этом компьютере, и ничего никуда не отправляется. Выберите, какую загрузить.</sys:String>

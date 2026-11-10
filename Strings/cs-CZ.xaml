@@ -614,6 +614,8 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Dict_VolumeDown">Zeslabit</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Hlasitost {0} %</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pozastavit</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Pokračovat</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Pozastaveno. Stiskněte Pokračovat pro pokračování nebo Zastavit pro ukončení.</sys:String>
     <sys:String x:Key="Str_Whisper_Title">Model řeči</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Vestavěné diktování Windows není příliš přesné. KillerNotes může místo něj použít lepší model řeči - běží zcela na tomto počítači a nic se neodesílá. Vyberte si jeden ke stažení.</sys:String>
     <sys:String x:Key="Str_Whisper_Tiny">Rychlý</sys:String>

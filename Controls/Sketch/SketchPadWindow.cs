@@ -165,7 +165,7 @@ namespace KillerNotes.Controls.Sketch
             WindowChrome.SetWindowChrome(this, new WindowChrome
             {
                 CaptionHeight = 0,
-                ResizeBorderThickness = new Thickness(TryFindResource("UseDialogCaption") != null ? 4 : 24),
+                ResizeBorderThickness = new Thickness(TryFindResource("UseDialogCaption") is true ? 4 : 24),
                 CornerRadius = new CornerRadius(0),
                 GlassFrameThickness = new Thickness(0),
                 UseAeroCaptionButtons = false,
@@ -235,7 +235,7 @@ namespace KillerNotes.Controls.Sketch
             // after a cross-family switch picks the right one up.
             void OnThemeChanged()
             {
-                _flatChrome = TryFindResource("UseDialogCaption") != null;
+                _flatChrome = TryFindResource("UseDialogCaption") is true;
                 _contentGrid.Margin = _flatChrome ? new Thickness(3, 2, 0, 4) : new Thickness(16, 6, 16, 12);
                 _railPanel?.Margin = new Thickness(0, 0, _flatChrome ? 2 : 8, 0);
                 // The canvas pane's shadow follows the theme too - it was baked at build and a
@@ -496,7 +496,7 @@ namespace KillerNotes.Controls.Sketch
         private void UpdateWindowCorners()
         {
             bool max = WindowState == WindowState.Maximized;
-            bool flat = Application.Current.TryFindResource("UseDialogCaption") != null;
+            bool flat = Application.Current.TryFindResource("UseDialogCaption") is true;
             _outerBorder.CornerRadius = max ? new CornerRadius(0) : CardRadius();
             // Halo 0 when maximized OR flat. 98SE declares DialogHaloMargin 0 - a flat window sits
             // FLUSH - but the pads hardcoded 20, leaving a phantom transparent band outside the

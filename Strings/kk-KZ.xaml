@@ -624,6 +624,8 @@
     <sys:String x:Key="Str_Dict_VolumeDown">Дыбысты азайту</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Дыбыс деңгейі {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Кідірту</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Жалғастыру</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Кідіртілді. Жалғастыру үшін «Жалғастыру», аяқтау үшін «Тоқтату» түймесін басыңыз.</sys:String>
     <!-- Speech model chooser -->
     <sys:String x:Key="Str_Whisper_Title">Сөзді тану моделі</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Windows жүйесінің ішкі дауыспен енгізуі онша дәл емес. KillerNotes оның орнына жақсырақ сөз тану моделін пайдалана алады - ол толығымен осы компьютерде жұмыс істейді және ешнәрсе жүктеп жіберілмейді. Жүктеу үшін біреуін таңдаңыз.</sys:String>

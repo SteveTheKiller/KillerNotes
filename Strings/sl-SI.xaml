@@ -559,6 +559,8 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Dict_VolumeDown">Tišje</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Glasnost {0} %</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Premor</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Nadaljuj</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Premor. Pritisnite Nadaljuj za nadaljevanje ali Ustavi za konec.</sys:String>
     <sys:String x:Key="Str_Whisper_Title">Govorni model</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Vgrajeno narekovanje sistema Windows ni zelo natančno. KillerNotes lahko uporabi boljši govorni model, ki v celoti deluje v tem računalniku in ničesar ne pošilja v splet. Izberite model za prenos.</sys:String>
     <sys:String x:Key="Str_Whisper_Tiny">Hitro</sys:String>

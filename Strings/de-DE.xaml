@@ -616,6 +616,8 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Dict_VolumeDown">Leiser</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Lautstärke {0} %</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pause</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Fortsetzen</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Pausiert. Drücken Sie Fortsetzen, um weiterzumachen, oder Stopp, um abzuschließen.</sys:String>
     <sys:String x:Key="Str_Whisper_Title">Sprachmodell</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Die integrierte Windows-Diktierfunktion ist nicht sehr genau. KillerNotes kann stattdessen ein besseres Sprachmodell verwenden - es läuft vollständig auf diesem Rechner, und nichts wird hochgeladen. Wählen Sie eines zum Herunterladen.</sys:String>
     <sys:String x:Key="Str_Whisper_Tiny">Schnell</sys:String>

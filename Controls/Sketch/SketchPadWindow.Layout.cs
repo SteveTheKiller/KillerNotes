@@ -29,7 +29,7 @@ namespace KillerNotes.Controls.Sketch
             // Halo and shadow follow the flat gate from the FIRST frame - the window shows
             // before Loaded's re-assert, and on 98SE a 20px halo with an effect attached
             // rendered ghost shadow in the band the theme says must not exist (2026-08-08).
-            bool flatAtBuild = TryFindResource("UseDialogCaption") != null;
+            bool flatAtBuild = TryFindResource("UseDialogCaption") is true;
             _outerBorder = new KillerNotes.Controls.PickerBorder
             {
                 BorderThickness = new Thickness(1),
@@ -71,7 +71,7 @@ namespace KillerNotes.Controls.Sketch
             // beveled theme tighter still: a real Win98 client runs nearly flush to its frame
             // (Notepad's skinny right edge), so 98SE gets the notepad treatment with minimal
             // insets and no air around the tool rail. (2026-08-08)
-            _flatChrome = TryFindResource("UseDialogCaption") != null;
+            _flatChrome = TryFindResource("UseDialogCaption") is true;
             // TWO geometries, deliberately unequal (2026-08-08):
             // - Flat/98SE: notepad treatment. Right margin ZERO - the window frame's own padding
             //   is all the right edge keeps - and minimal insets everywhere else.
@@ -125,9 +125,8 @@ namespace KillerNotes.Controls.Sketch
             titleBar.SetResourceReference(FrameworkElement.HeightProperty, "TitleBarHeight");
             titleBar.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             titleBar.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            var titleGrain = KillerNotes.Controls.DialogFrame.TitleGrain();
-            Grid.SetColumnSpan(titleGrain, 2);
-            titleBar.Children.Add(titleGrain);
+            // No grain layer here: the band is transparent wherever there is grain, so the card's
+            // own grain already shows through, and a second coat speckled the caption.
             titleBar.MouseLeftButtonDown += (_, e) =>
             {
                 if (e.ChangedButton != MouseButton.Left) return;

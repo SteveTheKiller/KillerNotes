@@ -89,6 +89,44 @@ namespace KillerNotes.Tests
             Assert.False(device.RequeuedAfterStop);
         }
 
+        [Fact]
+        public void APausedTakeKeepsNothingFromThePauseAndCarriesOnAfterResume()
+        {
+            using var device = new FakeCapture();
+            Assert.True(DictationRecorder.Start());
+
+            device.Deliver(1600, 0x11);
+            DictationRecorder.Pause();
+            Assert.True(DictationRecorder.IsPaused);
+            Assert.Equal(0f, DictationRecorder.PeakLevel);
+            device.Deliver(1600, 0x22);
+            Assert.Equal(50, DictationRecorder.ElapsedMs);
+            DictationRecorder.Resume();
+            device.Deliver(1600, 0x33);
+            Assert.Equal(100, DictationRecorder.ElapsedMs);
+
+            byte[]? wav = DictationRecorder.Stop();
+
+            Assert.False(DictationRecorder.IsPaused);
+            Assert.NotNull(wav);
+            Assert.Equal(new byte[] { 0x11, 0x33, 0x12, 0x34 }.SelectMany(b => Enumerable.Repeat(b, 1600)), wav!.Skip(44));
+        }
+
+        [Fact]
+        public void ANewTakeNeverStartsPaused()
+        {
+            using var device = new FakeCapture();
+            Assert.True(DictationRecorder.Start());
+            DictationRecorder.Pause();
+            DictationRecorder.Cancel();
+            Assert.False(DictationRecorder.IsPaused);
+
+            Assert.True(DictationRecorder.Start());
+            Assert.False(DictationRecorder.IsPaused);
+            device.Deliver(1600, 0x11);
+            Assert.Equal(50, DictationRecorder.ElapsedMs);
+        }
+
         private sealed class FakeCapture : IDisposable
         {
             private readonly DictationRecorder.CaptureApi previous = DictationRecorder.Capture;
@@ -137,6 +175,15 @@ namespace KillerNotes.Tests
                     },
                     Close = _ => { lock (pending) Assert.Empty(pending); Closed = true; return 0; },
                 };
+            }
+
+            /// <summary>Hands one buffer of audio to the recorder and waits until its worker has
+            /// taken it and queued the buffer again.</summary>
+            public void Deliver(int count, byte value)
+            {
+                CompleteFirst(count, value);
+                Assert.True(SpinWait.SpinUntil(() => { lock (pending) return pending.Count == 8; }, TimeSpan.FromSeconds(5)),
+                    "The recorder did not return the buffer.");
             }
 
             private void CompleteReset()

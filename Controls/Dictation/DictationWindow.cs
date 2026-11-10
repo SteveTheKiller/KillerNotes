@@ -42,7 +42,7 @@ namespace KillerNotes.Controls.Dictation
         {
             // Halo 0 on a flat theme - 98SE declares DialogHaloMargin 0 and a flush window; the
             // hardcoded 20 left a phantom band outside the frame (same fix as the SketchPad).
-            bool flat = TryFindResource("UseDialogCaption") != null;
+            bool flat = TryFindResource("UseDialogCaption") is true;
             _outerBorder.Margin = flat ? new Thickness(0) : new Thickness(20);
             // The resize grab must TRACK the halo (same fix as the SketchPad's 24): with the halo
             // at 0 the 8px band sits ON the window and eats the top of the caption - the cursor
@@ -122,7 +122,7 @@ namespace KillerNotes.Controls.Dictation
             // 8 on the normal themes; thin on a flat theme or it eats the caption - see the
             // matching logic in EnsureCardChrome, which re-derives this on every theme change.
             WindowChrome.SetWindowChrome(this, new WindowChrome
-            { CaptionHeight = 0, ResizeBorderThickness = new Thickness(TryFindResource("UseDialogCaption") != null ? 4 : 8), GlassFrameThickness = new Thickness(0), CornerRadius = new CornerRadius(0) });
+            { CaptionHeight = 0, ResizeBorderThickness = new Thickness(TryFindResource("UseDialogCaption") is true ? 4 : 8), GlassFrameThickness = new Thickness(0), CornerRadius = new CornerRadius(0) });
 
             BuildUi();
             DialogShortcuts.Button(this, _recordBtn, "Alt+R", Key.R, ModifierKeys.Alt);
@@ -149,7 +149,7 @@ namespace KillerNotes.Controls.Dictation
             // switch re-applies them; grain and the caption swap are resource-driven already.
             void OnThemeChanged()
             {
-                _body.Margin = TryFindResource("UseDialogCaption") != null
+                _body.Margin = TryFindResource("UseDialogCaption") is true
                     ? new Thickness(4, 4, 4, 6) : new Thickness(16, 10, 16, 14);
                 EnsureCardChrome();   // radius + shadow + grain rounding follow the new theme live
             }
@@ -205,7 +205,7 @@ namespace KillerNotes.Controls.Dictation
                 CornerRadius = Application.Current.TryFindResource("WindowCornerRadius") is CornerRadius r ? r : new CornerRadius(7),
                 // Flat themes are FLUSH from the first frame (DialogHaloMargin 0 on 98SE);
                 // EnsureCardChrome keeps this current across live switches.
-                Margin = TryFindResource("UseDialogCaption") != null ? new Thickness(0) : new Thickness(20),
+                Margin = TryFindResource("UseDialogCaption") is true ? new Thickness(0) : new Thickness(20),
             };
             _outerBorder.SetResourceReference(Border.BorderBrushProperty, "WindowEdgeBrush");
             _outerBorder.SetResourceReference(Border.BorderThicknessProperty, "WindowEdgeThickness");
@@ -236,7 +236,7 @@ namespace KillerNotes.Controls.Dictation
             // standard themes keep their full air. (2026-08-08)
             var body = new Grid
             {
-                Margin = TryFindResource("UseDialogCaption") != null
+                Margin = TryFindResource("UseDialogCaption") is true
                     ? new Thickness(4, 4, 4, 6) : new Thickness(16, 10, 16, 14)
             };
             _body = body;
@@ -324,7 +324,9 @@ namespace KillerNotes.Controls.Dictation
             close.SetResourceReference(MarginProperty, "ToolWindowCloseMargin");
             DialogShortcuts.Describe(close, "Esc");
             head.Children.Add(close);
-            band.Child = DialogFrame.GrainedTitle(head);
+            // No grain layer of its own: DialogTitleBarBrush is transparent on every grainy theme, so the
+            // window's grain already shows through, and a second coat made the caption speckle.
+            band.Child = head;
             Grid.SetRow(band, 0);
             return band;
         }
@@ -529,20 +531,20 @@ namespace KillerNotes.Controls.Dictation
 
         private void BuildButtons(Grid body)
         {
-            // 14px off the right so Print to note clears the corner resize grip instead of
-            // butting against it (2026-08-08).
-            var row = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right,
-                                       Margin = new Thickness(0, 12, 14, 0) };
-
-            _embedBtn = new Button { Content = L("Str_Dict_Embed", "Embed recording"), MinWidth = 130, Height = 30,
-                                     Margin = new Thickness(0, 0, 8, 0), IsEnabled = false, Style = S("SurfaceButton") };
-            _embedBtn.Click += (_, _) => Embed();
-            row.Children.Add(_embedBtn);
+            // Left-aligned, primary first, the same as the Record row above, so the corner stays
+            // clear for the resize grip.
+            var row = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Left,
+                                       Margin = new Thickness(0, 12, 0, 0) };
 
             _printBtn = new Button { Content = L("Str_Dict_Print", "Print to note"), MinWidth = 120, Height = 30,
                                      IsDefault = true, Style = S("OutlineButton") };
             _printBtn.Click += (_, _) => PrintText();
             row.Children.Add(_printBtn);
+
+            _embedBtn = new Button { Content = L("Str_Dict_Embed", "Embed recording"), MinWidth = 130, Height = 30,
+                                     Margin = new Thickness(8, 0, 0, 0), IsEnabled = false, Style = S("SurfaceButton") };
+            _embedBtn.Click += (_, _) => Embed();
+            row.Children.Add(_embedBtn);
 
             Grid.SetRow(row, 4);
             body.Children.Add(row);
@@ -574,9 +576,11 @@ namespace KillerNotes.Controls.Dictation
                 _tick.Stop();
                 _recordBtn.Content = L("Str_Dict_Record", "Record");
                 _elapsed.Text = Format(_durationMs);
+                SyncPlayButton();
 
                 if (_wav == null)
                 {
+                    _playBtn.IsEnabled = false;
                     _wave.Clear();
                     _status.Text = DictationRecorder.LastError
                         ?? L("Str_Dict_Empty", "Nothing was captured. Check that a microphone is connected.");
@@ -627,6 +631,8 @@ namespace KillerNotes.Controls.Dictation
             _recordBtn.Content = L("Str_Dict_Stop", "Stop");
             _status.Text = L("Str_Dict_Recording", "Recording...");
             _elapsed.Text = "0:00";
+            _playBtn.IsEnabled = true;
+            SyncPlayButton();
             _tick.Start();
         }
 
@@ -821,6 +827,7 @@ namespace KillerNotes.Controls.Dictation
         /// step with what is actually coming out of the speaker.</summary>
         private void Play()
         {
+            if (DictationRecorder.IsRecording) { TogglePauseRecording(); return; }
             if (_wav == null) return;
 
             if (DictationPlayer.IsOpen && !DictationPlayer.IsFinished)
@@ -870,8 +877,31 @@ namespace KillerNotes.Controls.Dictation
             SyncPlayButton();
         }
 
+        /// <summary>While recording, the Play button pauses and resumes the take: the microphone
+        /// stays open, nothing is captured while paused, and Stop still ends the take as usual.
+        /// Playback has nothing to do during a recording, so the button is free.</summary>
+        private void TogglePauseRecording()
+        {
+            if (DictationRecorder.IsPaused)
+            {
+                DictationRecorder.Resume();
+                _status.Text = L("Str_Dict_Recording", "Recording...");
+            }
+            else
+            {
+                DictationRecorder.Pause();
+                _status.Text = L("Str_Dict_Paused", "Paused. Press Resume to carry on, or Stop to finish.");
+            }
+            SyncPlayButton();
+        }
+
         private void SyncPlayButton()
         {
+            if (DictationRecorder.IsRecording)
+            {
+                _playBtn.Content = DictationRecorder.IsPaused ? L("Str_Dict_Resume", "Resume") : L("Str_Dict_Pause", "Pause");
+                return;
+            }
             bool playing = DictationPlayer.IsOpen && !DictationPlayer.IsPaused && !DictationPlayer.IsFinished;
             _playBtn.Content = playing ? L("Str_Dict_Pause", "Pause") : L("Str_Dict_Play", "Play");
         }

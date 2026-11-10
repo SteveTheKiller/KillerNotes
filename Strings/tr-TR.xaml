@@ -617,6 +617,8 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Dict_VolumeDown">Sesi kıs</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Ses düzeyi %{0}</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Duraklat</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Devam et</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Duraklatıldı. Sürdürmek için Devam et, bitirmek için Durdur düğmesine basın.</sys:String>
     <sys:String x:Key="Str_Whisper_Title">Konuşma modeli</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Windows'un yerleşik diktesi pek isabetli değil. KillerNotes bunun yerine daha iyi bir konuşma modeli kullanabilir - tamamen bu makinede çalışır ve hiçbir şey karşıya yüklenmez. İndirmek için birini seçin.</sys:String>
     <sys:String x:Key="Str_Whisper_Tiny">Hızlı</sys:String>

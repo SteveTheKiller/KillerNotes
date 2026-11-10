@@ -619,6 +619,8 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Dict_VolumeDown">Halkítás</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Hangerő: {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Szünet</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Folytatás</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Szüneteltetve. A folytatáshoz nyomja meg a Folytatás, a befejezéshez a Leállítás gombot.</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Beszédmodell</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">A Windows beépített diktálása nem túl pontos. A KillerNotes jobb beszédmodellt használhat helyette - teljes egészében ezen a gépen fut, és semmi sem kerül feltöltésre. Válasszon egyet a letöltéshez.</sys:String>

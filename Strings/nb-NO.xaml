@@ -655,6 +655,8 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Dict_VolumeDown">Volum ned</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Volum {0} %</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pause</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Fortsett</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Pause. Trykk Fortsett for å fortsette, eller Stopp for å avslutte.</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Talemodell</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Windows' innebygde diktering er ikke særlig nøyaktig. KillerNotes kan bruke en bedre talemodell i stedet - den kjører helt på denne maskinen, og ingenting lastes opp. Velg en å laste ned.</sys:String>

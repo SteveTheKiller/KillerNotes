@@ -194,7 +194,7 @@ namespace KillerNotes.Controls
             };
             // ChromeTextBrush: the caption sits on the title band, which is dark on several themes.
             title.SetResourceReference(TextBlock.ForegroundProperty, "ChromeTextBrush");
-            titleBand.Child = DialogFrame.GrainedTitle(title);
+            titleBand.Child = title;   // the card's grain shows through the transparent band
 
             // The band goes above the padded content, so it reaches the card's edges.
             var cardRows = new Grid();

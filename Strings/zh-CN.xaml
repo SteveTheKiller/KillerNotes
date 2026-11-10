@@ -615,6 +615,8 @@
     <sys:String x:Key="Str_Dict_VolumeDown">减小音量</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">音量 {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">暂停</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">继续</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">已暂停。按“继续”接着录音，或按“停止”结束。</sys:String>
     <sys:String x:Key="Str_Whisper_Title">语音模型</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Windows 自带的语音听写不够准确。KillerNotes 可以改用更好的语音模型 - 它完全在本机运行，不会上传任何内容。请选择一个下载。</sys:String>
     <sys:String x:Key="Str_Whisper_Tiny">快速</sys:String>

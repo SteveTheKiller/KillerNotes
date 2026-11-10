@@ -615,6 +615,8 @@
     <sys:String x:Key="Str_Dict_VolumeDown">音量を下げる</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">音量 {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">一時停止</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">再開</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">一時停止中です。続けるには［再開］、終えるには［停止］を押してください。</sys:String>
     <sys:String x:Key="Str_Whisper_Title">音声モデル</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Windows 内蔵の音声入力はあまり正確ではありません。KillerNotes はより高精度な音声モデルを使えます - すべてこのマシン上で動作し、何もアップロードされません。ダウンロードするものを選んでください。</sys:String>
     <sys:String x:Key="Str_Whisper_Tiny">高速</sys:String>

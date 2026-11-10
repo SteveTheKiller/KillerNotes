@@ -223,7 +223,7 @@ namespace KillerNotes.Controls
             WindowChrome.SetWindowChrome(this, new WindowChrome
             {
                 CaptionHeight = 0,
-                ResizeBorderThickness = new Thickness(TryFindResource("UseDialogCaption") != null ? 4 : 24),
+                ResizeBorderThickness = new Thickness(TryFindResource("UseDialogCaption") is true ? 4 : 24),
                 CornerRadius = new CornerRadius(0),
                 GlassFrameThickness = new Thickness(0),
                 UseAeroCaptionButtons = false,
@@ -519,7 +519,7 @@ namespace KillerNotes.Controls
         private void UpdateWindowCorners()
         {
             bool max = WindowState == WindowState.Maximized;
-            bool flat = Application.Current?.TryFindResource("UseDialogCaption") != null;
+            bool flat = Application.Current?.TryFindResource("UseDialogCaption") is true;
             _outerBorder.CornerRadius = max ? new CornerRadius(0) : CardRadius();
             _outerBorder.Margin = max || flat ? new Thickness(0) : new Thickness(20);
             // NULL, never an opacity-0 effect: an Effect always costs an offscreen surface and is

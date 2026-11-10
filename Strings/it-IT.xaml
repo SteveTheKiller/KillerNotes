@@ -624,6 +624,8 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Dict_VolumeDown">Abbassa il volume</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Volume {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pausa</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Riprendi</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">In pausa. Premi Riprendi per continuare o Ferma per terminare.</sys:String>
     <!-- Speech model chooser -->
     <sys:String x:Key="Str_Whisper_Title">Modello vocale</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">La dettatura integrata di Windows non è molto accurata. KillerNotes può usare invece un modello vocale migliore - funziona interamente su questa macchina e nulla viene caricato in rete. Scegline uno da scaricare.</sys:String>

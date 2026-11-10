@@ -617,6 +617,8 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Dict_VolumeDown">Baisser le volume</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Volume {0} %</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pause</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Reprendre</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">En pause. Appuyez sur Reprendre pour continuer, ou sur Arrêter pour terminer.</sys:String>
     <sys:String x:Key="Str_Whisper_Title">Modèle vocal</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">La dictée intégrée à Windows n'est pas très précise. KillerNotes peut utiliser un meilleur modèle vocal à la place - il fonctionne entièrement sur cette machine, et rien n'est envoyé en ligne. Choisissez-en un à télécharger.</sys:String>
     <sys:String x:Key="Str_Whisper_Tiny">Rapide</sys:String>

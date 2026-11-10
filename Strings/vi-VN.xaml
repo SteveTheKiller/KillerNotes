@@ -659,6 +659,8 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Dict_VolumeDown">Giảm âm lượng</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Âm lượng {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Tạm dừng</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Tiếp tục</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Đã tạm dừng. Nhấn Tiếp tục để ghi tiếp, hoặc Dừng để kết thúc.</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Mô hình giọng nói</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">Tính năng đọc chính tả tích hợp của Windows không thật chính xác. KillerNotes có thể dùng mô hình giọng nói tốt hơn - mô hình chạy hoàn toàn trên máy này và không tải gì lên. Hãy chọn một mô hình để tải xuống.</sys:String>

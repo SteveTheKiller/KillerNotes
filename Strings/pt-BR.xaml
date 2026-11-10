@@ -657,6 +657,8 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Dict_VolumeDown">Diminuir volume</sys:String>
     <sys:String x:Key="Str_Dict_VolumeAt">Volume {0}%</sys:String>
     <sys:String x:Key="Str_Dict_Pause">Pausar</sys:String>
+    <sys:String x:Key="Str_Dict_Resume">Retomar</sys:String>
+    <sys:String x:Key="Str_Dict_Paused">Em pausa. Pressione Retomar para continuar ou Parar para terminar.</sys:String>
     <!-- Speech model chooser (WhisperModelDialog.cs, 1.2.0) -->
     <sys:String x:Key="Str_Whisper_Title">Modelo de fala</sys:String>
     <sys:String x:Key="Str_Whisper_Blurb">O ditado integrado do Windows não é muito preciso. O KillerNotes pode usar um modelo de fala melhor - ele roda inteiramente neste computador e nada é enviado. Escolha um para baixar.</sys:String>

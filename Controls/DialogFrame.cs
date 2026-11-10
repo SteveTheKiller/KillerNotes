@@ -7,29 +7,12 @@ using System.Windows.Media.Imaging;
 // KillerNotes' own window-chrome helpers for its floating windows (SketchPad, Dictation, the
 // Whisper model dialog, GraphWindow, the color picker). The family DialogChrome.cs is the kit's
 // file and stays byte-identical to KillerUI; these are the pieces it does not ship:
-//   - the grain under a caption band,
 //   - the 5px raised window frame and the inset that keeps content off it,
 //   - the corner resize grip,
 namespace KillerNotes.Controls
 {
     internal static class DialogFrame
     {
-        internal static Border TitleGrain()
-        {
-            var grain = new Border { IsHitTestVisible = false };
-            grain.SetResourceReference(Border.BackgroundProperty, "GrainTileBrush");
-            grain.SetResourceReference(UIElement.OpacityProperty, "GrainOpacity");
-            return grain;
-        }
-
-        internal static Grid GrainedTitle(UIElement content)
-        {
-            var host = new Grid();
-            host.Children.Add(TitleGrain());
-            host.Children.Add(content);
-            return host;
-        }
-
         /// <summary>
         /// THE window frame - the 5px sizing border, built once and dropped into any window's root
         /// Grid as its last child. Callers also set their content's Margin to WindowFramePadding so
