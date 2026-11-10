@@ -21,7 +21,13 @@ namespace KillerNotes.Controls
                 Style = editor.Style, Template = editor.Template,
                 VerticalScrollBarVisibility = editor.VerticalScrollBarVisibility,
                 HorizontalScrollBarVisibility = editor.HorizontalScrollBarVisibility,
-                FlowDirection = editor.FlowDirection };
+                FlowDirection = editor.FlowDirection, Language = editor.Language };
+            // An adorner sits outside the window's inherited text settings, so without these the
+            // copy fell back to Ideal text and spaced its lines and paragraphs differently from the
+            // editor's Display text: the note visibly shifted while Table Style was open.
+            TextOptions.SetTextFormattingMode(_view, TextOptions.GetTextFormattingMode(editor));
+            TextOptions.SetTextRenderingMode(_view, TextOptions.GetTextRenderingMode(editor));
+            TextOptions.SetTextHintingMode(_view, TextOptions.GetTextHintingMode(editor));
             foreach (DictionaryEntry entry in editor.Resources) _view.Resources[entry.Key] = entry.Value;
             AddVisualChild(_view);
             AddLogicalChild(_view);
