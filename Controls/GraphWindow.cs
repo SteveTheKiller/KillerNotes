@@ -591,7 +591,12 @@ namespace KillerNotes.Controls
             buttons.Children.Add(CaptionButton("", "ChromeButton", () => WindowState = WindowState.Minimized));
             _maxBtn = CaptionButton("", "ChromeButton", ToggleMaximize);
             buttons.Children.Add(_maxBtn);
-            buttons.Children.Add(CaptionButton(null, "ChromeCloseButton", Close));
+            var close = CaptionButton(null, "ChromeCloseButton", Close);
+            // ChromeCloseButton's template is a bare ContentPresenter, so the X is content, the
+            // same E8BB the main window's close button passes. Without it the button was blank.
+            close.Content = "";
+            close.SetResourceReference(ToolTipProperty, "Str_Sys_Close");
+            buttons.Children.Add(close);
             Grid.SetColumn(buttons, 1);
             bar.Children.Add(buttons);
             Grid.SetRow(bar, 0);
@@ -625,8 +630,6 @@ namespace KillerNotes.Controls
         {
             var b = new Button();
             if (Application.Current?.TryFindResource(styleKey) is Style s) b.Style = s;
-            // ChromeCloseButton draws its own X from the template - the one definition of that
-            // glyph in the app - so the close button passes no content.
             if (glyph != null)
             {
                 b.Content = CaptionGlyph(glyph);
