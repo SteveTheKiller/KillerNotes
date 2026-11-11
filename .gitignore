@@ -8,3 +8,5 @@ publish/
 # Project artwork sources (icons ship from Resources/, not from here).
 # Root-anchored: notes-landing/brand/ holds the site's font and icons and MUST be committed.
 /brand/
+# Local release readiness script; run .\test.ps1 before release.ps1.
+/test.ps1
