@@ -117,11 +117,14 @@ namespace KillerNotes.Models
         public string ModifiedDisplay => Modified.ToString("yyyy-MM-dd HH:mm");
 
         // Sidebar row density (1.1.0): 0 = Comfortable (title, snippet, date, tags),
-        // 1 = Compact (title + tags), 2 = Minimal (title only). Set on every note by
-        // RefreshList from the app-wide setting; the row template binds the visibilities.
+        // 1 = Compact (title + tags, or title + date when the note has no tags, so an
+        // untagged row never collapses to the Minimal look), 2 = Minimal (title only).
+        // Set on every note by RefreshList from the app-wide setting after ApplyChips;
+        // the row template binds the visibilities.
         public int Density { get; set; }
         public Visibility SnippetVisibility => Density == 0 ? Visibility.Visible : Visibility.Collapsed;
-        public Visibility DateVisibility => Density == 0 ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility DateVisibility => Density == 0 || (Density == 1 && Chips.Count == 0)
+            ? Visibility.Visible : Visibility.Collapsed;
         public Visibility ChipsVisibility => Density <= 1 ? Visibility.Visible : Visibility.Collapsed;
 
         // Sidebar binding helpers: the row title's DataTrigger switches to TitleBrush only

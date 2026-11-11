@@ -7,7 +7,7 @@ namespace KillerNotes.Shell
     // (Density_Click), the mouse wheel over it (Density_MouseWheel), Ctrl+wheel over
     // the sidebar (Window_PreviewMouseWheel), or Ctrl+D:
     //   0 = Comfortable - title, snippet, date, tags (the original look)
-    //   1 = Compact     - title + tags
+    //   1 = Compact     - title + tags, or title + date when the note has no tags
     //   2 = Minimal     - title only
     // Every Note carries the level (RefreshList stamps it from _density) and the row template
     // binds the per-element visibilities (Note.SnippetVisibility / DateVisibility / ChipsVisibility).
