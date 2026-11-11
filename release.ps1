@@ -153,8 +153,9 @@ if ($audit.version -ne 1 -or $null -eq $audit.projects -or @($audit.projects).Co
     $null -eq $audit.sources -or @($audit.sources).Count -eq 0) {
     Fail 'Vulnerability audit returned an incomplete report.'
 }
-foreach ($entry in @($audit.logs)) {
-    if ($entry.level -in @('error', 'warning')) { Fail 'Vulnerability audit could not verify all package sources.' }
+# Diagnostics come back as `problems` (level, text), on the report and on a project.
+foreach ($entry in @($audit.problems) + @($audit.projects | ForEach-Object { $_.problems })) {
+    if ($null -ne $entry -and $entry.level -in @('error', 'warning')) { Fail 'Vulnerability audit could not verify all package sources.' }
 }
 foreach ($project in @($audit.projects)) {
     if ([string]::IsNullOrWhiteSpace($project.path)) { Fail 'Vulnerability audit returned an invalid project.' }
