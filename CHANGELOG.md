@@ -15,43 +15,43 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Fixed
 
 - Undo after opening a Markdown note can no longer bring another note's content into it.
-- Background imports stop when their notepad closes, even when another notepad has the same filename.
 - Whole-notepad exports keep each note's content and details together even if the live note changes during export, finish while you keep typing in a large notepad, and clear their temporary copy on the next start if it was still held. Markdown exports also retain pictures and recordings inside table cells and report missing media.
 - A failed command-line note update keeps the previous content, format, links, and history together; an invalid group color no longer leaves a new group behind.
 - Quick notes save to the selected destination and keep failed appends from duplicating text on retry.
-- Canceling or failing a shared-note import no longer blocks an immediate retry.
+- Changing the file type in the save picker while the name box holds characters no file name can carry no longer crashes KillerNotes; the name keeps its text and shows the invalid-path message.
 - Stopping a recording keeps the final audio buffers even if device cleanup needs a retry, while canceling still discards the take. Closing Dictation after a stop whose cleanup failed now releases the microphone.
-- Template and daily-note group choices stay with their own database across moves and password changes. Ambiguous older choices need to be selected again.
-- Installing a portable copy refuses to overlap an install or update, and uninstalling preserves other apps' file associations.
-- Release preparation stops when package restore or vulnerability checks fail.
-- The table picker stays open for selection or custom insertion. Table grids remain visible across themes, and insertion moves into the new table. Tables keep their style across inserted rows and columns and when copied within KillerNotes, fit formatted content and pictures, and reject invalid widths before resizing.
-- The file picker loads icons and picture previews in the background, refreshes overwritten previews, and restores its position on any monitor. It tries a picture that will not open only once and no longer keeps it locked, enables its button as you type a full path, and changes the file type of a name pasted in quotes without failing.
-- A locked notepad set aside by the unlock screen's New database is named with the Gregorian year on Thai, Arabic and Persian region settings instead of a year like 2569.
-- The unlock field's dots and caret sit in the middle of the box, and the close X on dialogs is slightly larger and sits as far from the right edge as from the top.
 - A per-user or portable update that fails now reopens KillerNotes instead of leaving it closed, including when antivirus or a locked-down PowerShell stops the update helper from loading, and a published copy that fails its final check is swapped back for the previous version and never started. An update that another install is blocking, or whose installed copy changed, also reopens the copy that is there, and the update report keeps its warning when KillerNotes cannot be reopened afterward.
 - An update started from an administrator's copy reopens KillerNotes at normal rights. An update that is applied but cannot record its version in the registry now finishes and reopens instead of reporting failure, and putting the previous copy back after a failed update retries a busy file and survives a leftover from an earlier attempt.
 - Update downloads stream to disk with a size cap and an overall deadline, a download refused by its checksum or signature is reported apart from a network failure, and the update check reads only the release's own fields, so release notes that quote them cannot confuse it.
 - Updating KillerNotes no longer removes a relaunch another Killer app scheduled for its own update.
+- Installing a portable copy refuses to overlap an install or update, and uninstalling preserves other apps' file associations.
+- Background imports stop when their notepad closes, even when another notepad has the same filename.
+- Canceling or failing a shared-note import no longer blocks an immediate retry.
+- Template and daily-note group choices stay with their own database across moves and password changes. Ambiguous older choices need to be selected again.
+- A locked notepad set aside by the unlock screen's New database is named with the Gregorian year on Thai, Arabic and Persian region settings instead of a year like 2569.
+- The table picker stays open for selection or custom insertion. Table grids remain visible across themes, and insertion moves into the new table. Tables keep their style across inserted rows and columns and when copied within KillerNotes, fit formatted content and pictures, and reject invalid widths before resizing.
 - The file picker no longer stalls on a disconnected network folder when it opens, a relative or malformed path typed in the path box is refused instead of being looked up against the wrong folder, a pattern such as *.log typed in the name box filters the list, and a full path typed in the name box can be accepted even when the shown folder failed to list.
-- Hiding shortcut hints removes the hints the app adds to tooltips in every language, including translated keys such as (Strg+D).
-- Changing the file type in the save picker while the name box holds characters no file name can carry no longer crashes KillerNotes; the name keeps its text and shows the invalid-path message.
-- About opens at once instead of waiting on the signature check, which can stall for many seconds on a network that drops revocation traffic; the publisher and thumbprint fill in when it finishes.
+- The file picker loads icons and picture previews in the background, refreshes overwritten previews, and restores its position on any monitor. It tries a picture that will not open only once and no longer keeps it locked, enables its button as you type a full path, and changes the file type of a name pasted in quotes without failing.
 - A folder typed into the file picker that cannot be opened keeps its reason on the status line after the picker goes back to the last folder that listed.
-- The database name in the title bar sits level with the library icon beside it again instead of three pixels low.
+- About opens at once instead of waiting on the signature check, which can stall for many seconds on a network that drops revocation traffic; the publisher and thumbprint fill in when it finishes.
+- Hiding shortcut hints removes the hints the app adds to tooltips in every language, including translated keys such as (Strg+D).
 - The Dictation, Sketch Pad and graph windows have their rounded corners, border and shadow again on every theme except 98SE, the Dictation pad's caption no longer shows a doubled texture, and its Print to note and Embed buttons sit on the left so the resize grip keeps its corner. The graph window's close button shows its X, the Backups dialog's buttons no longer overlap each other, and on 98SE the close button on dialogs no longer runs into the window frame. The About card no longer leaves extra space below its options.
+- The unlock field's dots and caret sit in the middle of the box, and the close X on dialogs is slightly larger and sits as far from the right edge as from the top.
+- The database name in the title bar sits level with the library icon beside it again instead of three pixels low.
+- Release preparation stops when package restore or vulnerability checks fail.
 
 ### Changed
 
 - Table shortcuts use Alt+Shift with a letter for the action: A and B insert a row above or below, L and R insert a column left or right, and D, C and X delete the row, the column or the table. They replace Ctrl+Shift+1 to 4 and 7 to 9.
-- Single-line text fields are as tall as the dropdowns beside them, so form rows line up instead of the text boxes standing oversized.
 - Updated the SQLite bindings to 10.0.15 and Markdown processing to Markdig 1.6.0.
+- Single-line text fields are as tall as the dropdowns beside them, so form rows line up instead of the text boxes standing oversized.
 
 ### Added
 
 - Table Style (Alt+Shift+S) groups solid, dotted and dashed borders, line layout and thickness, spacing, row and column headers, and column sizing in one dialog. Changes preview on the note; Cancel restores it, OK makes one undoable change, and an optional default applies to new tables. (#31)
 - Page width presets in the footer and the editor menu: Full, Wide, Medium and Narrow (Alt+Shift+W, E, M and N) cap the text column and keep it centered, so a table no longer stretches across a wide window. The choice is remembered. (#31)
-- Horizontal rules can be solid, dotted or dashed, thin, medium or thick, and any color. Hovering the rule button opens the style flyout (or press Down on it); the next rule takes the style picked, rules inside the selection change with it as one undoable step, and HTML export keeps the look.
 - Dictation can pause mid-recording: while recording, the Play button becomes Pause and Resume (Alt+P), nothing is captured while paused, and Stop ends the take as usual.
+- Horizontal rules can be solid, dotted or dashed, thin, medium or thick, and any color. Hovering the rule button opens the style flyout (or press Down on it); the next rule takes the style picked, rules inside the selection change with it as one undoable step, and HTML export keeps the look.
 
 ## [1.6.1] - 2026-11-01
 
