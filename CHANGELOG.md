@@ -6,7 +6,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.6.2] - 2026-11-10
 
-1.6.2 adds page width and table controls and strengthens note saving, imports, exports, recordings, and installation.
+1.6.2 adds page width and table controls, horizontal rule styles, and a pause button for dictation, and strengthens note saving, imports, exports, recordings, and installation.
 
 ### Security
 
