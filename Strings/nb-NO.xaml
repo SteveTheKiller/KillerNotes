@@ -1212,6 +1212,16 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Rule_Thin">Tynn</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Middels</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Tykk</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Grå</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Rød</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Oransje</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Gul</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Grønn</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Blå</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Lilla</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Rosa</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Hvit</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Gjeldende</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Overskriftsrad</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Overskriftskolonne</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Bruk som standard tabellstil</sys:String>

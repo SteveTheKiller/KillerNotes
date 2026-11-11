@@ -1168,6 +1168,16 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Rule_Thin">Fine</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Moyenne</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Épaisse</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Gris</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Rouge</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Orange</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Jaune</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Vert</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Bleu</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Violet</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Rose</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Blanc</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Actuel</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Ligne d’en-tête</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Colonne d’en-tête</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Définir comme style de tableau par défaut</sys:String>

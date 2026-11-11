@@ -1218,6 +1218,16 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Rule_Thin">Mỏng</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Vừa</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Dày</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Xám</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Đỏ</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Cam</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Vàng</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Xanh lá</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Xanh dương</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Tím</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Hồng</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Trắng</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Hiện tại</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Hàng tiêu đề</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Cột tiêu đề</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Đặt làm kiểu bảng mặc định</sys:String>

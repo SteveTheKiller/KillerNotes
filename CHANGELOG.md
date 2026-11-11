@@ -20,7 +20,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - A failed command-line note update keeps the previous content, format, links, and history together; an invalid group color no longer leaves a new group behind.
 - Quick notes save to the selected destination and keep failed appends from duplicating text on retry.
 - Canceling or failing a shared-note import no longer blocks an immediate retry.
-- Stopping a recording keeps the final audio buffers even if device cleanup needs a retry, while canceling still discards the take.
+- Stopping a recording keeps the final audio buffers even if device cleanup needs a retry, while canceling still discards the take. Closing Dictation after a stop whose cleanup failed now releases the microphone.
 - Template and daily-note group choices stay with their own database across moves and password changes. Ambiguous older choices need to be selected again.
 - Installing a portable copy refuses to overlap an install or update, and uninstalling preserves other apps' file associations.
 - Release preparation stops when package restore or vulnerability checks fail.
@@ -38,7 +38,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - About opens at once instead of waiting on the signature check, which can stall for many seconds on a network that drops revocation traffic; the publisher and thumbprint fill in when it finishes.
 - A folder typed into the file picker that cannot be opened keeps its reason on the status line after the picker goes back to the last folder that listed.
 - The database name in the title bar sits level with the library icon beside it again instead of three pixels low.
-- The Dictation, Sketch Pad and graph windows have their rounded corners, border and shadow again on every theme except 98SE, the Dictation pad's caption no longer shows a doubled texture, and its Print to note and Embed buttons sit on the left so the resize grip keeps its corner. The graph window's close button shows its X, the Backups dialog's buttons no longer overlap each other, and on 98SE the close button on dialogs no longer runs into the window frame.
+- The Dictation, Sketch Pad and graph windows have their rounded corners, border and shadow again on every theme except 98SE, the Dictation pad's caption no longer shows a doubled texture, and its Print to note and Embed buttons sit on the left so the resize grip keeps its corner. The graph window's close button shows its X, the Backups dialog's buttons no longer overlap each other, and on 98SE the close button on dialogs no longer runs into the window frame. The About card no longer leaves extra space below its options.
 
 ### Changed
 

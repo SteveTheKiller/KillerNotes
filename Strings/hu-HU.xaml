@@ -1193,6 +1193,16 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Rule_Thin">Vékony</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Közepes</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Vastag</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Szürke</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Piros</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Narancs</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Sárga</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Zöld</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Kék</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Lila</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Rózsaszín</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Fehér</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Jelenlegi</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Fejlécsor</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Fejlécoszlop</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Legyen az alapértelmezett táblázatstílus</sys:String>

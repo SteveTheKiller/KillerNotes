@@ -113,6 +113,37 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void StoppingWhilePausedKeepsNothingFromThePause()
+        {
+            using var device = new FakeCapture();
+            Assert.True(DictationRecorder.Start());
+            device.Deliver(1600, 0x11);
+            device.Deliver(1600, 0x11);
+            DictationRecorder.Pause();
+
+            // The driver hands back the buffer that was filling during the pause (0x12 on Stop,
+            // 0x34 on Reset); none of it was meant to be recorded.
+            byte[]? wav = DictationRecorder.Stop();
+
+            Assert.NotNull(wav);
+            Assert.Equal(Enumerable.Repeat((byte)0x11, 3200), wav!.Skip(44));
+        }
+
+        [Fact]
+        public void AFailedStopStillLetsTheDeviceBeReleased()
+        {
+            using var device = new FakeCapture(failFirstRelease: true);
+            Assert.True(DictationRecorder.Start());
+            DictationRecorder.Stop();
+
+            Assert.False(DictationRecorder.IsRecording);
+            Assert.True(DictationRecorder.HoldsDevice);
+            DictationRecorder.Cancel();
+            Assert.False(DictationRecorder.HoldsDevice);
+            Assert.True(device.Closed);
+        }
+
+        [Fact]
         public void ANewTakeNeverStartsPaused()
         {
             using var device = new FakeCapture();

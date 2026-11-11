@@ -55,6 +55,10 @@ namespace KillerNotes.Services
         }
 
         internal static void Resume() => _paused = false;
+
+        /// <summary>True while a capture device is still open, including after a Stop whose
+        /// teardown failed: the caller then has to Cancel to let go of the microphone.</summary>
+        internal static bool HoldsDevice => _hwi != IntPtr.Zero;
         internal static string? LastError { get; private set; }
 
         /// <summary>Newest peak amplitude, 0..1. Read by the UI timer to drive the live meter.</summary>
@@ -343,6 +347,10 @@ namespace KillerNotes.Services
             lock (WaveGate)
             {
                 IsRecording = false;
+                // Stopping while paused: the buffers the driver hands back on Stop and Reset hold
+                // audio from the pause, and Teardown clears _paused before the worker drains them,
+                // so the worker has to be told outright to keep none of it.
+                if (_paused) _keepAudio = false;
                 Capture.Stop(_hwi);
             }
             Teardown(out bool audioDrained);

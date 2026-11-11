@@ -177,7 +177,9 @@ namespace KillerNotes.Controls.Dictation
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             // Abandon an in-flight take rather than leaving the capture device open.
-            if (DictationRecorder.IsRecording) DictationRecorder.Cancel();
+            // HoldsDevice too: a Stop whose teardown failed has already cleared IsRecording but
+            // still holds the microphone open.
+            if (DictationRecorder.IsRecording || DictationRecorder.HoldsDevice) DictationRecorder.Cancel();
             _tick.Stop();
             // The take only ever lived in memory, so closing without embedding leaves no audio of
             // the user anywhere on disk.

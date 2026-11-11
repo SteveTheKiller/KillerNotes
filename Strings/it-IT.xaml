@@ -1175,6 +1175,16 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Rule_Thin">Sottile</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Media</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Spessa</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Grigio</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Rosso</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Arancione</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Giallo</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Verde</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Blu</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Viola</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Rosa</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Bianco</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Attuale</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Riga di intestazione</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Colonna di intestazione</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Imposta come stile tabella predefinito</sys:String>

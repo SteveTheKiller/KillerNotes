@@ -1175,6 +1175,16 @@
     <sys:String x:Key="Str_Rule_Thin">Жіңішке</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Орташа</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Қалың</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Сұр</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Қызыл</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Қызғылт сары</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Сары</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Жасыл</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Көк</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Күлгін</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Қызғылт</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Ақ</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Ағымдағы</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Тақырып жолы</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Тақырып бағаны</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Әдепкі кесте стилі ету</sys:String>

@@ -1167,6 +1167,16 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Rule_Thin">Dünn</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Mittel</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Dick</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Grau</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Rot</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Orange</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Gelb</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Grün</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Blau</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Lila</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Rosa</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Weiß</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Aktuell</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Kopfzeile</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Kopfspalte</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Als Standard für neue Tabellen verwenden</sys:String>

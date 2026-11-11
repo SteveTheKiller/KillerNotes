@@ -345,6 +345,11 @@ namespace KillerNotes.Shell
             if (!double.IsNaN(own.Left) && !double.IsNaN(own.Right) && !double.IsNaN(own.Top) && !double.IsNaN(own.Bottom))
                 _basePagePadding = own;
             Editor.SizeChanged += (_, _) => UpdatePagePadding();
+            // The vertical scrollbar coming or going changes the viewport width without resizing
+            // the editor, so SizeChanged alone left the column off center by half a scrollbar.
+            // No feedback loop: the column itself stays at the cap, so its line count is the same.
+            Editor.AddHandler(ScrollViewer.ScrollChangedEvent,
+                new ScrollChangedEventHandler((_, e) => { if (e.ViewportWidthChange != 0) UpdatePagePadding(); }));
             foreach (var (radio, mode) in PageWidthRadios())
                 DescribeSurface(radio, PageWidthLabel(mode), PageWidthGesture(mode));
             ApplyPageWidth(PageWidth.Parse(App.GetSetting(PageWidth.Setting)), announce: false);

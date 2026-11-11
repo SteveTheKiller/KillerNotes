@@ -1214,6 +1214,16 @@
     <sys:String x:Key="Str_Rule_Thin">Тонка</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Середня</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Товста</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Сірий</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Червоний</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Помаранчевий</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Жовтий</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Зелений</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Синій</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Фіолетовий</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Рожевий</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Білий</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Поточний</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Рядок заголовка</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Стовпець заголовка</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Зробити стилем таблиці за замовчуванням</sys:String>

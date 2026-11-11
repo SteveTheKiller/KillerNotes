@@ -1164,6 +1164,16 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Rule_Thin">Tenká</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Střední</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Silná</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Šedá</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Červená</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Oranžová</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Žlutá</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Zelená</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Modrá</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Fialová</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Růžová</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Bílá</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Aktuální</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Řádek záhlaví</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Sloupec záhlaví</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Nastavit jako výchozí styl tabulky</sys:String>

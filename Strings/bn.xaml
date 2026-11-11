@@ -1167,6 +1167,16 @@
     <sys:String x:Key="Str_Rule_Thin">পাতলা</sys:String>
     <sys:String x:Key="Str_Rule_Medium">মাঝারি</sys:String>
     <sys:String x:Key="Str_Rule_Thick">মোটা</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">ধূসর</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">লাল</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">কমলা</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">হলুদ</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">সবুজ</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">নীল</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">বেগুনি</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">গোলাপি</sys:String>
+    <sys:String x:Key="Str_Swatch_White">সাদা</sys:String>
+    <sys:String x:Key="Str_Choice_Current">বর্তমান</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">শিরোনাম সারি</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">শিরোনাম কলাম</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">ডিফল্ট টেবিল শৈলী হিসেবে সেট করুন</sys:String>

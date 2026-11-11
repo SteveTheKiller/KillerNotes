@@ -1168,6 +1168,16 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Rule_Thin">Fina</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Media</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Gruesa</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Gris</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Rojo</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Naranja</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Amarillo</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Verde</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Azul</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Morado</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Rosa</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Blanco</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Actual</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Fila de encabezado</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Columna de encabezado</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Usar como estilo de tabla predeterminado</sys:String>

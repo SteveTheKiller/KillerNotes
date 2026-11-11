@@ -1175,6 +1175,16 @@
     <sys:String x:Key="Str_Rule_Thin">Тонкая</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Средняя</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Толстая</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Серый</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Красный</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Оранжевый</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Жёлтый</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Зелёный</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Синий</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Фиолетовый</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Розовый</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Белый</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Текущий</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Строка заголовка</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Столбец заголовка</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Использовать как стиль таблицы по умолчанию</sys:String>

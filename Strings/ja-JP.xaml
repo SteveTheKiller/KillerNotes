@@ -1165,6 +1165,16 @@
     <sys:String x:Key="Str_Rule_Thin">細線</sys:String>
     <sys:String x:Key="Str_Rule_Medium">中線</sys:String>
     <sys:String x:Key="Str_Rule_Thick">太線</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">グレー</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">赤</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">オレンジ</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">黄</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">緑</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">青</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">紫</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">ピンク</sys:String>
+    <sys:String x:Key="Str_Swatch_White">白</sys:String>
+    <sys:String x:Key="Str_Choice_Current">現在の設定</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">見出し行</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">見出し列</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">既定の表スタイルにする</sys:String>

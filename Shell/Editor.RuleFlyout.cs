@@ -21,8 +21,11 @@ namespace KillerNotes.Shell
     public partial class MainWindow
     {
         private const string RuleStyleSetting = "RuleStyle";
-        private static readonly string[] RuleSwatches =
-            { "#5A5A5A", "#DD504B", "#E8962C", "#E8D44B", "#1EA54C", "#50AEE8", "#9A6AE8", "#E85CA8", "#FFFFFF" };
+        private static readonly (string Hex, string Name)[] RuleSwatches =
+        {
+            ("#5A5A5A", "Gray"), ("#DD504B", "Red"), ("#E8962C", "Orange"), ("#E8D44B", "Yellow"), ("#1EA54C", "Green"),
+            ("#50AEE8", "Blue"), ("#9A6AE8", "Purple"), ("#E85CA8", "Pink"), ("#FFFFFF", "White"),
+        };
         private static readonly string[] RuleWeightNames = { "Str_Rule_Thin", "Str_Rule_Medium", "Str_Rule_Thick" };
 
         private readonly DispatcherTimer _ruleHover = new() { Interval = TimeSpan.FromMilliseconds(350) };
@@ -41,11 +44,14 @@ namespace KillerNotes.Shell
                 double weight = RuleAppearance.Weights[i];
                 RuleWeightRow.Children.Add(RuleChoice(RuleWeightNames[i], () => _ruleShown with { Thickness = weight }));
             }
-            foreach (string hex in RuleSwatches)
+            foreach (var (hex, name) in RuleSwatches)
             {
                 var color = (Color)ColorConverter.ConvertFromString(hex);
                 var swatch = new Button { Style = (Style)FindResource("ThemeSwatch"), Background = new SolidColorBrush(color),
                     Tag = hex, Margin = new Thickness(0, 0, 5, 4) };
+                // A color name, not ThemeSwatch's hex Tag, for a screen reader and the tooltip.
+                swatch.SetResourceReference(AutomationProperties.NameProperty, "Str_Swatch_" + name);
+                swatch.SetResourceReference(ToolTipProperty, "Str_Swatch_" + name);
                 swatch.Click += (_, _) => PickRuleStyle(_ruleShown with { Color = color });
                 RuleColorRow.Children.Add(swatch);
             }
@@ -134,12 +140,24 @@ namespace KillerNotes.Shell
                 sample.BorderThickness = new Thickness(0, 0, 0, offered.Thickness);
                 sample.BorderBrush = RuleStyle.Brush(offered);
                 choice.Tag = offered == _ruleShown ? "on" : null;
+                MarkCurrent(choice, offered == _ruleShown);
             }
             // The current color wears the accent ring; the others keep ThemeSwatch's own.
             foreach (Button swatch in RuleColorRow.Children.OfType<Button>())
-                if (swatch.Background is SolidColorBrush b && b.Color == _ruleShown.Color)
-                    swatch.SetResourceReference(BorderBrushProperty, "PrimaryBrush");
+            {
+                bool current = swatch.Background is SolidColorBrush b && b.Color == _ruleShown.Color;
+                if (current) swatch.SetResourceReference(BorderBrushProperty, "PrimaryBrush");
                 else swatch.ClearValue(BorderBrushProperty);
+                MarkCurrent(swatch, current);
+            }
+        }
+
+        /// <summary>The accent ring is all a sighted user needs; a screen reader hears "Current"
+        /// as the item status of the chosen pattern, weight and color.</summary>
+        private static void MarkCurrent(Button choice, bool current)
+        {
+            if (current) choice.SetResourceReference(AutomationProperties.ItemStatusProperty, "Str_Choice_Current");
+            else choice.ClearValue(AutomationProperties.ItemStatusProperty);
         }
 
         private void RuleFlyout_PreviewKeyDown(object sender, KeyEventArgs e)

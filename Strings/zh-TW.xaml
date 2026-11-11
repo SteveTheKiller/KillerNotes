@@ -1167,6 +1167,16 @@
     <sys:String x:Key="Str_Rule_Thin">細</sys:String>
     <sys:String x:Key="Str_Rule_Medium">中</sys:String>
     <sys:String x:Key="Str_Rule_Thick">粗</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">灰色</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">紅色</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">橙色</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">黃色</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">綠色</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">藍色</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">紫色</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">粉紅色</sys:String>
+    <sys:String x:Key="Str_Swatch_White">白色</sys:String>
+    <sys:String x:Key="Str_Choice_Current">目前</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">標題列</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">標題欄</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">設為預設表格樣式</sys:String>

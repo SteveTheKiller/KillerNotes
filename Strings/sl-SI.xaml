@@ -1074,6 +1074,16 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Rule_Thin">Tanka</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Srednja</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Debela</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Siva</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Rdeča</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Oranžna</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Rumena</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Zelena</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Modra</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Vijolična</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Rožnata</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Bela</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Trenutno</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Vrstica z glavo</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Stolpec z glavo</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Nastavi kot privzeti slog tabele</sys:String>

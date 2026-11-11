@@ -1167,6 +1167,16 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Rule_Thin">İnce</sys:String>
     <sys:String x:Key="Str_Rule_Medium">Orta</sys:String>
     <sys:String x:Key="Str_Rule_Thick">Kalın</sys:String>
+    <sys:String x:Key="Str_Swatch_Gray">Gri</sys:String>
+    <sys:String x:Key="Str_Swatch_Red">Kırmızı</sys:String>
+    <sys:String x:Key="Str_Swatch_Orange">Turuncu</sys:String>
+    <sys:String x:Key="Str_Swatch_Yellow">Sarı</sys:String>
+    <sys:String x:Key="Str_Swatch_Green">Yeşil</sys:String>
+    <sys:String x:Key="Str_Swatch_Blue">Mavi</sys:String>
+    <sys:String x:Key="Str_Swatch_Purple">Mor</sys:String>
+    <sys:String x:Key="Str_Swatch_Pink">Pembe</sys:String>
+    <sys:String x:Key="Str_Swatch_White">Beyaz</sys:String>
+    <sys:String x:Key="Str_Choice_Current">Geçerli</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderRow">Başlık satırı</sys:String>
     <sys:String x:Key="Str_TableStyle_HeaderColumn">Başlık sütunu</sys:String>
     <sys:String x:Key="Str_TableStyle_Default">Varsayılan tablo stili yap</sys:String>
