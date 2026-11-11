@@ -72,6 +72,16 @@ namespace KillerNotes.Tests
             Assert.Equal(2, close.Margin.Right);
         });
 
+        [Fact]
+        public void TheDialogCloseXIsTheFamilySizeLikeEveryOtherWindow() => WithTheme(Theme.Cyanotic, "en-US", () =>
+        {
+            var bar = new DialogTitleBar();
+            var close = (Button)bar.FindName("CloseButton");
+
+            Assert.Equal((double)Application.Current.FindResource("AboutCloseWidth"), close.Width);
+            Assert.Equal((double)Application.Current.FindResource("AboutCloseHeight"), close.Height);
+        });
+
         [Theory]
         [InlineData("en-US", (int)Theme.Cyanotic)]
         [InlineData("de-DE", (int)Theme.Cyanotic)]

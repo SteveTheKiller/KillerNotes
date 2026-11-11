@@ -128,6 +128,27 @@ namespace KillerNotes.Tests
             finally { host.Close(); Dispatcher.CurrentDispatcher.InvokeShutdown(); }
         });
 
+        // The flyout's button at the top left, its card 16 px below (4 px offset, 12 px shadow margin).
+        private static readonly Rect Button = new(100, 100, 28, 28);
+        private static readonly Rect Card = new(100, 144, 220, 260);
+
+        [Theory]
+        [InlineData(114, 114)]   // on the button
+        [InlineData(114, 136)]   // in the gap between the button and the card
+        [InlineData(105, 150)]   // in the card's padding, between no controls
+        [InlineData(250, 300)]   // between two swatches
+        [InlineData(326, 300)]   // just off the card's right edge
+        public void TheRuleFlyoutStaysOpenWhileThePointerIsOnItsButtonOrCard(double x, double y) =>
+            Assert.True(MainWindow.RuleFlyoutKeepsOpen(Button, Card, new Point(x, y)));
+
+        [Theory]
+        [InlineData(400, 300)]   // well off to the side
+        [InlineData(114, 60)]    // above the button
+        [InlineData(300, 110)]   // beside the button, nowhere near the card
+        [InlineData(200, 460)]   // below the card
+        public void TheRuleFlyoutClosesOnceThePointerHasLeftBoth(double x, double y) =>
+            Assert.False(MainWindow.RuleFlyoutKeepsOpen(Button, Card, new Point(x, y)));
+
         [Fact]
         public void HtmlExportDrawsAStyledRule() => Sta.Run(() =>
         {

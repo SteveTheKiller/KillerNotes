@@ -73,20 +73,54 @@ namespace KillerNotes.Shell
             _ruleLeave.Tick += (_, _) =>
             {
                 if (!RulePopup.IsOpen) { _ruleLeave.Stop(); return; }
-                // Two checks in a row outside: the pointer crossing the gap between the button and
-                // the card must not close it.
-                if (FmtRuleBtn.IsMouseOver || RuleFlyoutPanel.IsMouseOver || RuleFlyoutPanel.IsKeyboardFocusWithin)
+                // Two checks in a row outside, so a quick pass over the edge is forgiven.
+                if (PointerInRuleFlyout() || RuleFlyoutPanel.IsKeyboardFocusWithin)
                     _ruleOutsideTicks = 0;
                 else if (++_ruleOutsideTicks >= 2) CloseRuleFlyout();
             };
             PreviewMouseDown += (_, _) =>
             {
-                if (RulePopup.IsOpen && !FmtRuleBtn.IsMouseOver && !RuleFlyoutPanel.IsMouseOver) CloseRuleFlyout();
+                if (RulePopup.IsOpen && !PointerInRuleFlyout()) CloseRuleFlyout();
             };
             Deactivated += (_, _) => CloseRuleFlyout();
             LocationChanged += (_, _) => CloseRuleFlyout();
             StateChanged += (_, _) => CloseRuleFlyout();
         }
+
+        /// <summary>
+        /// Where the pointer can be without the flyout closing: the button, the card with a little
+        /// slack round it, and the corridor between them. Measured from the cursor's position, not
+        /// IsMouseOver: the panel inside the card has no background, so IsMouseOver was false in
+        /// every gap between swatches and rows and on the card's padding, and the flyout closed
+        /// under a pointer resting on it. All three are in the same screen coordinates.
+        /// </summary>
+        internal static bool RuleFlyoutKeepsOpen(Rect button, Rect card, Point pointer)
+        {
+            const double Slack = 8;
+            if (button.Contains(pointer)) return true;
+            var corridor = new Rect(new Point(button.Left, button.Bottom), new Point(button.Right, Math.Max(button.Bottom, card.Top)));
+            if (corridor.Contains(pointer)) return true;
+            card.Inflate(Slack, Slack);
+            return card.Contains(pointer);
+        }
+
+        private bool PointerInRuleFlyout()
+        {
+            if (!GetCursorPos(out CursorPoint cursor) || PresentationSource.FromVisual(RuleFlyoutCard) == null
+                || PresentationSource.FromVisual(FmtRuleBtn) == null) return FmtRuleBtn.IsMouseOver || RuleFlyoutCard.IsMouseOver;
+            var pointer = new Point(cursor.X, cursor.Y);
+            return RuleFlyoutKeepsOpen(ScreenRect(FmtRuleBtn), ScreenRect(RuleFlyoutCard), pointer);
+        }
+
+        // Physical screen pixels, which is what GetCursorPos reports.
+        private static Rect ScreenRect(FrameworkElement element) =>
+            new(element.PointToScreen(new Point(0, 0)), element.PointToScreen(new Point(element.ActualWidth, element.ActualHeight)));
+
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+        private struct CursorPoint { public int X, Y; }
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool GetCursorPos(out CursorPoint point);
 
         private Button RuleChoice(string nameKey, Func<RuleAppearance> choose)
         {

@@ -36,7 +36,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - About opens at once instead of waiting on the signature check, which can stall for many seconds on a network that drops revocation traffic; the publisher and thumbprint fill in when it finishes.
 - Hiding shortcut hints removes the hints the app adds to tooltips in every language, including translated keys such as (Strg+D).
 - The Dictation, Sketch Pad and graph windows have their rounded corners, border and shadow again on every theme except 98SE, the Dictation pad's caption no longer shows a doubled texture, and its Print to note and Embed buttons sit on the left so the resize grip keeps its corner. The graph window's close button shows its X, the Backups dialog's buttons no longer overlap each other, and on 98SE the close button on dialogs no longer runs into the window frame. The About card no longer leaves extra space below its options.
-- The unlock field's dots and caret sit in the middle of the box, and the close X on dialogs is slightly larger and sits as far from the right edge as from the top.
+- The unlock field's dots and caret sit in the middle of the box.
 - The database name in the title bar sits level with the library icon beside it again instead of three pixels low.
 - Release preparation stops when package restore or vulnerability checks fail.
 

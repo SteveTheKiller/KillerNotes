@@ -32,24 +32,13 @@ namespace KillerNotes.Controls
             FitCloseToBar();
         }
 
-        // The X's box is a square as tall as the bar, so the glyph centered in it sits as far
-        // from the right edge as from the top, and it reads at 13 rather than 11. 98SE keeps its
-        // framed Win98 caption button at the theme's own size, with the same 2 px right gap
-        // ConfirmDialog's caption gets from DialogTitleBarPadding: 98SE's TitleBarPadding has no
-        // right inset, so without it the button ran into the window frame.
+        // The X keeps the family size every other window uses (the AboutClose* box). On 98SE
+        // it takes the same 2 px right gap ConfirmDialog's caption gets from DialogTitleBarPadding:
+        // 98SE's TitleBarPadding has no right inset, so without it the button ran into the frame.
         private void FitCloseToBar()
         {
             if (TryFindResource("UseDialogCaption") is true)
-            {
                 CloseButton.Margin = new Thickness(0, 0, TryFindResource("DialogTitleBarPadding") is Thickness pad ? pad.Right : 2, 0);
-                return;
-            }
-            CloseButton.SetResourceReference(WidthProperty, "DialogTitleBarHeight");
-            CloseButton.SetResourceReference(HeightProperty, "DialogTitleBarHeight");
-            CloseButton.FontSize = 13;
-            // Segoe UI draws the X a pixel below the middle of its box; one pixel in from the
-            // right keeps the two gaps equal.
-            CloseButton.Margin = new Thickness(0, 0, 1, 0);
         }
 
         private void ApplySubtitle(string? sub)
