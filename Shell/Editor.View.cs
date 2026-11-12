@@ -111,9 +111,26 @@ namespace KillerNotes.Shell
             else
             {
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift)) return;
-                Editor.ScrollToVerticalOffset(Editor.VerticalOffset - e.Delta / _editorZoom);
+                Editor.ScrollToVerticalOffset(Editor.VerticalOffset
+                    - NoteWheelStep(e.Delta, SystemParameters.WheelScrollLines, Editor.ViewportHeight, _editorZoom));
             }
             e.Handled = true;
+        }
+
+        /// <summary>Pixels of the note (in the editor's own, unzoomed units) one wheel movement
+        /// scrolls. 80 per line of Windows' "lines to scroll" setting, so the default 3 lines is
+        /// 240 a notch; it was a fixed 120 that ignored the setting, and a long note or a tall
+        /// screenshot took far too much spinning. "One screen at a time" (-1) is a viewport less
+        /// a line of overlap. Divided by the zoom so a notch covers the same distance on screen
+        /// at every zoom level.</summary>
+        internal static double NoteWheelStep(int delta, int wheelLines, double viewport, double zoom)
+        {
+            const double PerLine = 80;
+            double notches = delta / 120.0;
+            double perNotch = wheelLines < 0
+                ? Math.Max(PerLine, viewport * zoom - PerLine)
+                : PerLine * Math.Max(1, wheelLines);
+            return notches * perNotch / zoom;
         }
 
         /// <summary>Clamps to 50-300%, applies, persists, announces. Ctrl+0 resets to 100.</summary>
