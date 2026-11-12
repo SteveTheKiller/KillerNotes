@@ -6,19 +6,24 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.7.0] - Unreleased
 
-1.7.0 replaces the sidebar's long right-click lists with cards for notes and groups and adds a group manager window for organizing a long sidebar.
+1.7.0 replaces the sidebar's long right-click lists with cards for notes and groups, adds a group manager window for organizing a long sidebar, and gives the sidebar header and the unlock screen a cleaner layout.
 
 ### Fixed
 
 - Compact sidebar density shows the date line on a note with no tags, so it no longer looks the same as Minimal.
 - Menu rows show their icons again. On PCs where Windows did not fill the glyph in from another font, the icon column was empty in most menus, including the sort menu, the note card and the editor's right-click menu.
+- The close button on the password, tags, input and database dialogs sits the same distance in from the corner as on every other dialog, instead of pressed into it.
 
 ### Changed
 
 - Right-clicking a note opens a card: the note's name and edit date, buttons for Pin, Share, Export, History and Duplicate, a row of color swatches with a picker, the note's tags and group, and a Rich text or Markdown switch. With several notes selected the card applies color, tags, group, pin and delete to all of them.
 - Right-clicking a group opens the same kind of card, with New note, Subgroup, Rename, Collapse, Graph and Organize buttons, color swatches, a Parent list for moving the group, and switches for the templates and daily notes groups.
-- New markdown note, New from template and Today's note moved from the note menu to a menu beside the New note button. Importing a folder and exporting every note moved to a library button on the sidebar rail, and markdown and HTML detection moved to the settings on the About card. Back and Forward stay on Alt+Left and Alt+Right.
+- New markdown note, New from template and Today's note moved from the note menu to a menu beside the New note button. Importing a folder joined them there, exporting every note moved to a library button on the sidebar rail, and markdown and HTML detection moved to the settings on the About card. Back and Forward stay on Alt+Left and Alt+Right.
 - Right-clicking empty space in the sidebar no longer opens a menu.
+- The three sort buttons are now one button that shows the current sort and its direction. Clicking it opens the sort menu; Alt+4 to Alt+7 work as before.
+- The New note button uses the regular interface font with a plus sign, and drops to the plus alone when the sidebar is narrow.
+- Group headers show a chevron for open or closed and their note count in a small badge.
+- The unlock screen leads with a lock and the database's file name, has one Unlock button across its width, and folds New and Open into a Use another database menu (Ctrl+N and Ctrl+O still work). A wrong password shows under the box instead of replacing the heading, Caps Lock gets a warning, and an eye button shows the typed password.
 
 ### Added
 
