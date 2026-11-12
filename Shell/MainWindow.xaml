@@ -742,9 +742,6 @@
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="Transparent">
                                                     <Grid Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                        <Grid.Effect>
-                                                            <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="2" Direction="270" Opacity="{DynamicResource IconShadowOpacity}"/>
-                                                        </Grid.Effect>
                                                         <TextBlock Text="1&#xA;2" FontFamily="Consolas" FontSize="8" LineHeight="8" LineStackingStrategy="BlockLineHeight" Foreground="{TemplateBinding Foreground}"/>
                                                         <Path Data="M 7,4 L 16,4 M 7,12 L 16,12" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
                                                     </Grid>

@@ -166,31 +166,35 @@ namespace KillerNotes.Tests
             Assert.InRange(fromRight - fromTop, -1, 1);
         });
 
-        // Steve's standing rule: buttons are flat, with no drop shadow under them. The family
-        // button styles grew a "raised" lift shadow once (KillerUI 45768ef) and it kept riding
-        // back in on every kit sync, so this renders each style and looks for any shadow under
-        // the face. The caption's own text stroke (the "stroke" copy, TextStroke) is not a
-        // shadow under the button and is left alone.
+        // Steve's standing rule: no drop shadow anywhere on a button, under the face, behind the
+        // caption or behind an icon. Every button style in the app's dictionaries is rendered on
+        // three themes and any DropShadowEffect in its tree fails the test, so no kit sync and no
+        // new style can bring one back.
         [Theory]
-        [InlineData("PrimaryButton", (int)Theme.Dark)]
-        [InlineData("OutlineButton", (int)Theme.Dark)]
-        [InlineData("SurfaceButton", (int)Theme.Dark)]
-        [InlineData("PrimaryButton", (int)Theme.Cyanotic)]
-        [InlineData("PrimaryButton", (int)Theme.Light)]
-        public void ButtonsCastNoShadow(string styleKey, int themeId) => WithTheme((Theme)themeId, "en-US", () =>
+        [InlineData((int)Theme.Dark)]
+        [InlineData((int)Theme.Cyanotic)]
+        [InlineData((int)Theme.Light)]
+        public void NoButtonStyleCastsAShadow(int themeId) => WithTheme((Theme)themeId, "en-US", () =>
         {
-            var button = new Button { Content = "Unlock", Style = (Style)Application.Current.FindResource(styleKey), Width = 200, Height = 34 };
-            var host = new Grid();
-            host.Children.Add(button);
-            host.Measure(new Size(300, 100));
-            host.Arrange(new Rect(0, 0, 300, 100));
-            host.UpdateLayout();
-
-            var shadows = Descendants(button).OfType<UIElement>()
-                .Where(e => e.Effect is System.Windows.Media.Effects.DropShadowEffect && (e as FrameworkElement)?.Name != "stroke")
-                .Select(e => e.GetType().Name + "#" + (e as FrameworkElement)?.Name)
-                .ToList();
-            Assert.Empty(shadows);
+            var offenders = new List<string>();
+            foreach (var dict in Application.Current.Resources.MergedDictionaries)
+                foreach (object key in dict.Keys)
+                {
+                    if (dict[key] is not Style style || !typeof(System.Windows.Controls.Primitives.ButtonBase).IsAssignableFrom(style.TargetType)) continue;
+                    var button = (Control)Activator.CreateInstance(style.TargetType)!;
+                    button.Style = style;
+                    if (button is ContentControl cc) cc.Content = "Unlock";
+                    button.Width = 120; button.Height = 32;
+                    var host = new Grid();
+                    host.Children.Add(button);
+                    host.Measure(new Size(200, 60));
+                    host.Arrange(new Rect(0, 0, 200, 60));
+                    host.UpdateLayout();
+                    foreach (var e in new[] { (DependencyObject)button }.Concat(Descendants(button)).OfType<UIElement>())
+                        if (e.Effect is System.Windows.Media.Effects.DropShadowEffect or System.Windows.Media.Effects.BlurEffect)
+                            offenders.Add(key + ": " + e.GetType().Name + "#" + (e as FrameworkElement)?.Name);
+                }
+            Assert.Empty(offenders);
         });
 
         private static Rect IconBox(Window win)
