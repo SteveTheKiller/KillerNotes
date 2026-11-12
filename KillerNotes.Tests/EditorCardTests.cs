@@ -126,6 +126,38 @@ namespace KillerNotes.Tests
                 Assert.Contains(key, body);
         }
 
+        /// <summary>A disabled chip or segment dims like a disabled quick button. The graph's Lock
+        /// chip on a note not written yet is disabled, and it looked like it would work.</summary>
+        [Fact]
+        public void DisabledChipsAndSegmentsDim() => Sta.RunApplication(() =>
+        {
+            if (Application.ResourceAssembly == null) Application.ResourceAssembly = typeof(App).Assembly;
+            var app = Application.Current ?? new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+            var merged = app.Resources.MergedDictionaries;
+            var saved = merged.ToList();
+            merged.Clear();
+            merged.Add(ThemeHarness.Create(Theme.Dark, ThemeHarness.FirstRunAccent(Theme.Dark)));
+            merged.Add(new ResourceDictionary { Source = new Uri("/KillerNotes;component/Controls/Controls.xaml", UriKind.Relative) });
+            try
+            {
+                foreach (var control in new System.Windows.Controls.Primitives.ToggleButton[]
+                         { new System.Windows.Controls.Primitives.ToggleButton { Content = "Lock" }, new RadioButton { Content = "Full" } })
+                {
+                    control.Style = (Style)app.FindResource(control is RadioButton ? "CardSegment" : "CardToggle");
+                    control.IsEnabled = false;
+                    control.Measure(new Size(200, 40));
+                    control.Arrange(new Rect(0, 0, 200, 40));
+                    var bd = (Border)control.Template.FindName("Bd", control);
+                    Assert.Equal(0.4, bd.Opacity, 2);
+                }
+            }
+            finally
+            {
+                merged.Clear();
+                foreach (var d in saved) merged.Add(d);
+            }
+        });
+
         /// <summary>The card's XAML from MainWindow.xaml, without its event wiring, every part shown.</summary>
         private static Menu LoadCard(bool showAll)
         {

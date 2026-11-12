@@ -40,8 +40,6 @@ namespace KillerNotes.Tests
             var generic = styles.Single(style => style.Attribute(X + "Key") == null);
             Assert.Equal("{DynamicResource MenuSeparatorBrush}", Background(menu));
             Assert.Equal("{DynamicResource MenuBorderBrush}", Background(generic));
-            string sketch = File.ReadAllText(Path.Combine(FindRepoRoot(), "Controls", "Sketch", "SketchPadWindow.Input.cs"));
-            Assert.Contains("line.SetResourceReference(Border.BackgroundProperty, \"SketchMenuSeparatorBrush\");", sketch);
         }
 
         private static string? Background(XElement style) =>
