@@ -10,6 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 
+- Switching notes no longer stalls on notes with pictures. Remembering where you left a note rewrote the whole note, pictures included, so leaving a note with large screenshots took about a second, and opening one took longer than it needed to.
 - Compact sidebar density shows the date line on a note with no tags, so it no longer looks the same as Minimal.
 - Menu rows show their icons again. On PCs where Windows did not fill the glyph in from another font, the icon column was empty in most menus, including the sort menu, the note card and the editor's right-click menu.
 - The close X on every dialog sits in the card's corner, as far in from the right edge as down from the top. On 98SE the dialogs' title bars sit inside the window frame instead of running over it, and the X is centered in its button instead of filling it.
