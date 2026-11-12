@@ -107,7 +107,7 @@ namespace KillerNotes.Shell
 
         private void ConvertFormat_Click(object sender, RoutedEventArgs e)
         {
-            if (NotesList.SelectedItems.Cast<Note>().FirstOrDefault() is not Note note) return;
+            if (SidebarSelection().FirstOrDefault() is not Note note) return;
             if (NoteStore.IsReadOnly)
             {
                 StatusText.Text = string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner);

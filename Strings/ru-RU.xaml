@@ -1251,9 +1251,7 @@
     <sys:String x:Key="Str_Mgr_AllNotes">Все заметки</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Без группы</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Название</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Группа</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Изменено</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Метки</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Здесь нет заметок</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Перетащите заметки на группу, чтобы разложить их, или перетащите группу на другую, чтобы вложить её. F2 переименовывает группу, Delete удаляет её, а Ctrl+Z отменяет действие.</sys:String>
 </ResourceDictionary>

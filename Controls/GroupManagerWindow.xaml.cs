@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shell;
 using KillerNotes.Models;
 using KillerNotes.Services;
 
@@ -29,6 +30,8 @@ namespace KillerNotes.Controls
         void OpenNote(long id);
         bool Undo();
         string Loc(string key);
+        void ShowGroupCard(string path, int count, UIElement target, bool atMouse);
+        void ShowNoteCard(IReadOnlyCollection<long> ids, UIElement target, bool atMouse);
         event Action? GroupsChanged;
     }
 
@@ -59,8 +62,6 @@ namespace KillerNotes.Controls
     {
         public long Id { get; init; }
         public string Title { get; init; } = "";
-        public string Group { get; init; } = "";
-        public string GroupDisplay { get; init; } = "";
         public DateTime Modified { get; init; }
         public string ModifiedDisplay => Modified.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
         public string Tags { get; init; } = "";
@@ -71,7 +72,9 @@ namespace KillerNotes.Controls
     {
         private const string NotesFormat = "KillerNotes.ManagerNotes";
         private const string GroupFormat = "KillerNotes.ManagerGroup";
-        private const string BoundsSetting = "GroupManagerBounds";
+        // Renamed from "GroupManagerBounds" when the default narrowed from 920 to 820 and the halo
+        // grew to 20: a size saved under the old key carried the old width and the old halo.
+        private const string BoundsSetting = "GroupManagerWindowBounds";
 
         private readonly IGroupManagerHost _host;
         private readonly ObservableCollection<GroupNode> _roots = [];
@@ -87,9 +90,11 @@ namespace KillerNotes.Controls
             _host = host;
             InitializeComponent();
             Tree.ItemsSource = _roots;
+            UpdateChrome();
             RestoreSavedBounds();
             _host.GroupsChanged += OnGroupsChanged;
-            Closed += (_, _) => _host.GroupsChanged -= OnGroupsChanged;
+            ThemeManager.ThemeChanged += UpdateChrome;
+            Closed += (_, _) => { _host.GroupsChanged -= OnGroupsChanged; ThemeManager.ThemeChanged -= UpdateChrome; };
             Loaded += (_, _) => { Anim.FadeIn(RootBorder); SearchBox.Focus(); };
             DialogShortcuts.Bind(this, NewGroupBtn, "Ctrl+G", Key.G, ModifierKeys.Control, NewGroup);
             PreviewKeyDown += Window_PreviewKeyDown;
@@ -103,6 +108,26 @@ namespace KillerNotes.Controls
         }
 
         private void Close_Click(object sender, RoutedEventArgs e) => Close();
+
+        /// <summary>The halo and resize grab, per theme. The card's shadow is the pane shadow
+        /// (16px blur, 5px down), and WPF draws an effect out to its full blur radius, so the
+        /// dialogs' 10px halo cut it off square along the bottom. 20 is what the graph and sketch
+        /// pad windows use, and the bottom gets 24 because the shadow drops 5px and so reaches 21
+        /// below the card. A flat theme (98SE) sits flush with no halo and a thin grab, so the
+        /// grab does not swallow the caption.</summary>
+        private void UpdateChrome()
+        {
+            bool flat = TryFindResource("UseDialogCaption") is true;
+            Resources["DialogHaloMargin"] = flat ? new Thickness(0) : new Thickness(20, 20, 20, 24);
+            WindowChrome.SetWindowChrome(this, new WindowChrome
+            {
+                CaptionHeight = 0,
+                ResizeBorderThickness = new Thickness(flat ? 4 : 24),
+                CornerRadius = new CornerRadius(0),
+                GlassFrameThickness = new Thickness(0),
+                UseAeroCaptionButtons = false,
+            });
+        }
 
         private void OnGroupsChanged() => Dispatcher.BeginInvoke(new Action(() => Reload()));
 
@@ -217,15 +242,12 @@ namespace KillerNotes.Controls
             {
                 Id = n.Id,
                 Title = n.Title.Length > 0 ? n.Title : _host.Loc("Str_Untitled"),
-                Group = n.Notebook,
-                GroupDisplay = n.Notebook.Replace(NoteStore.GroupSep, " / "),
                 Modified = n.Modified,
                 Tags = string.Join(", ", n.Tags.Split(',').Select(t => t.Trim()).Where(t => t.Length > 0)),
                 ColorBrush = BrushOf(n.TitleColor) ?? Brushes.Transparent,
             });
             Func<NoteRowItem, object> key = _sortKey switch
             {
-                "group" => r => r.GroupDisplay,
                 "modified" => r => r.Modified,
                 "tags" => r => r.Tags,
                 _ => r => r.Title,
@@ -240,11 +262,10 @@ namespace KillerNotes.Controls
 
         private void MarkSortColumn()
         {
-            foreach (var b in new[] { SortTitleBtn, SortGroupBtn, SortModifiedBtn, SortTagsBtn })
+            foreach (var b in new[] { SortTitleBtn, SortModifiedBtn, SortTagsBtn })
             {
                 string label = _host.Loc(b.Name switch
                 {
-                    nameof(SortGroupBtn) => "Str_Mgr_ColGroup",
                     nameof(SortModifiedBtn) => "Str_Mgr_ColModified",
                     nameof(SortTagsBtn) => "Str_Mgr_ColTags",
                     _ => "Str_Mgr_ColTitle",
@@ -300,6 +321,13 @@ namespace KillerNotes.Controls
 
         private void Tree_KeyDown(object sender, KeyEventArgs e)
         {
+            if (IsMenuKey(e) && SelectedNode() is { Kind: GroupNode.NodeKind.Group } menuNode
+                && e.OriginalSource is TreeViewItem { DataContext: GroupNode } menuRow)
+            {
+                _host.ShowGroupCard(menuNode.Path, menuNode.Count, menuRow, atMouse: false);
+                e.Handled = true;
+                return;
+            }
             if (SelectedNode() is not { Kind: GroupNode.NodeKind.Group } node || _host.ReadOnly) return;
             if (e.Key == Key.F2) { _host.RenameGroup(node.Path); e.Handled = true; }
             else if (e.Key == Key.Delete) { _host.DeleteGroup(node.Path); e.Handled = true; }
@@ -307,12 +335,64 @@ namespace KillerNotes.Controls
 
         private void Table_KeyDown(object sender, KeyEventArgs e)
         {
+            if (IsMenuKey(e) && Table.SelectedItem is NoteRowItem sel
+                && Table.ItemContainerGenerator.ContainerFromItem(sel) is ListBoxItem selRow)
+            {
+                _host.ShowNoteCard(SelectedIds(), selRow, atMouse: false);
+                e.Handled = true;
+                return;
+            }
             if (e.Key == Key.Enter && Table.SelectedItem is NoteRowItem row) { _host.OpenNote(row.Id); e.Handled = true; }
         }
 
         private void Table_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (ItemUnder<ListBoxItem>(e.OriginalSource)?.DataContext is NoteRowItem row) _host.OpenNote(row.Id);
+        }
+
+        // ---- Right-click: the sidebar's own cards ----
+
+        private static bool IsMenuKey(KeyEventArgs e) =>
+            e.Key == Key.Apps || (e.Key == Key.System && e.SystemKey == Key.F10 && Keyboard.Modifiers == ModifierKeys.Shift);
+
+        private List<long> SelectedIds() => [.. Table.SelectedItems.OfType<NoteRowItem>().Select(r => r.Id)];
+
+        /// <summary>Right-click selects the group under the cursor first, like a left click.</summary>
+        private void Tree_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ItemUnder<TreeViewItem>(e.OriginalSource) is TreeViewItem { DataContext: GroupNode node } row)
+            {
+                node.IsSelected = true;
+                row.Focus();
+            }
+        }
+
+        private void Tree_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (ItemUnder<TreeViewItem>(e.OriginalSource) is not TreeViewItem { DataContext: GroupNode { Kind: GroupNode.NodeKind.Group } node } row) return;
+            _host.ShowGroupCard(node.Path, node.Count, row, atMouse: true);
+            e.Handled = true;
+        }
+
+        /// <summary>Right-click on a row outside the selection selects just that row, the way the
+        /// sidebar does; inside the selection it keeps all of them, so the card acts on the lot.</summary>
+        private void Table_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ItemUnder<ListBoxItem>(e.OriginalSource) is ListBoxItem { IsSelected: false } row)
+            {
+                Table.SelectedItems.Clear();
+                row.IsSelected = true;
+                row.Focus();
+            }
+        }
+
+        private void Table_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (ItemUnder<ListBoxItem>(e.OriginalSource) is not ListBoxItem row) return;
+            var ids = SelectedIds();
+            if (ids.Count == 0) return;
+            _host.ShowNoteCard(ids, row, atMouse: true);
+            e.Handled = true;
         }
 
         // ---- Drag and drop ----

@@ -55,9 +55,9 @@ namespace KillerNotes.Shell
         {
             // ContextMenu DataContext propagation is unreliable (menu lives outside the
             // visual tree), so fall back to the list selection.
-            var n = (sender as MenuItem)?.DataContext as Note ?? NotesList.SelectedItem as Note;
+            var n = (sender as MenuItem)?.DataContext as Note ?? SidebarSelectedNote();   // NoteCard.cs
             if (n == null) return;
-            var sel = NotesList.SelectedItems.Cast<Note>().ToList();
+            var sel = SidebarSelection();
             if (sel.Count > 1 && sel.Contains(n)) DeleteNotesWithConfirm(sel);
             else DeleteNoteWithConfirm(n);
         }

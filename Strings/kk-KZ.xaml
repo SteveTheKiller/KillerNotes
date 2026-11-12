@@ -1251,9 +1251,7 @@
     <sys:String x:Key="Str_Mgr_AllNotes">Барлық жазбалар</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Топсыз</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Атауы</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Топ</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Өзгертілген</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Тегтер</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Мұнда жазбалар жоқ</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Жазбаларды топқа сүйреп апарсаңыз, олар сол топқа орналасады, ал топты басқа топқа сүйреп апарсаңыз, ол соның ішіне кіреді. F2 топтың атын өзгертеді, Delete оны жояды, ал Ctrl+Z әрекетті болдырмайды.</sys:String>
 </ResourceDictionary>

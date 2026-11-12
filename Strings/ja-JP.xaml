@@ -1241,9 +1241,7 @@
     <sys:String x:Key="Str_Mgr_AllNotes">すべてのノート</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">グループなし</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">タイトル</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">グループ</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">更新日時</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">タグ</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">ここにノートはありません</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">ノートをグループにドラッグすると整理でき、グループを別のグループにドラッグすると入れ子にできます。F2 キーでグループの名前を変更し、Delete キーで削除し、Ctrl+Z で元に戻します。</sys:String>
 </ResourceDictionary>

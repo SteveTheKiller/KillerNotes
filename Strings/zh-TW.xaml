@@ -1243,9 +1243,7 @@
     <sys:String x:Key="Str_Mgr_AllNotes">所有筆記</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">無群組</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">標題</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">群組</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">修改時間</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">標籤</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">這裡沒有筆記</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">將筆記拖曳到群組上即可歸檔，將群組拖曳到另一個群組上即可巢狀放置。按 F2 重新命名群組，按 Delete 刪除群組，按 Ctrl+Z 復原。</sys:String>
 </ResourceDictionary>

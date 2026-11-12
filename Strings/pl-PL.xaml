@@ -1170,9 +1170,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Mgr_AllNotes">Wszystkie notatki</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Bez grupy</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Tytuł</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Grupa</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Zmodyfikowano</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Tagi</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Brak notatek</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Przeciągnij notatki na grupę, aby je zaszeregować, albo przeciągnij grupę na inną, aby ją zagnieździć. F2 zmienia nazwę grupy, Delete ją usuwa, a Ctrl+Z cofa zmianę.</sys:String>
 </ResourceDictionary>

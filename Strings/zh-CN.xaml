@@ -1241,9 +1241,7 @@
     <sys:String x:Key="Str_Mgr_AllNotes">所有笔记</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">无分组</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">标题</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">分组</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">修改时间</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">标签</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">这里没有笔记</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">将笔记拖到分组上即可归档，将分组拖到另一个分组上即可嵌套。按 F2 重命名分组，按 Delete 删除分组，按 Ctrl+Z 撤销。</sys:String>
 </ResourceDictionary>

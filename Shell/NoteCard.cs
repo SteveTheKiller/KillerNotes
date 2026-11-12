@@ -24,6 +24,17 @@ namespace KillerNotes.Shell
     {
         private List<Note> _cardNotes = [];
 
+        /// <summary>The notes the group manager opened this card for (GroupManager.cs). Its rows
+        /// can sit in a collapsed group or behind the sidebar search, so they are not always in
+        /// NotesList and cannot simply be selected there. Null whenever the sidebar owns the card.</summary>
+        private List<Note>? _managerCardNotes;
+
+        /// <summary>What the card and its handlers act on: the manager's rows while it has the
+        /// card open, otherwise the sidebar selection.</summary>
+        private List<Note> SidebarSelection() => _managerCardNotes ?? [.. NotesList.SelectedItems.OfType<Note>()];
+
+        private Note? SidebarSelectedNote() => _managerCardNotes != null ? _managerCardNotes.FirstOrDefault() : NotesList.SelectedItem as Note;
+
         /// <summary>Wires the swatch row once; called from the constructor.</summary>
         private void InitNoteCard()
         {
@@ -173,7 +184,7 @@ namespace KillerNotes.Shell
 
         private Note? SingleCardNote()
         {
-            var notes = NotesList.SelectedItems.OfType<Note>().Where(n => !n.IsDeleted).ToList();
+            var notes = SidebarSelection().Where(n => !n.IsDeleted).ToList();
             if (notes.Count == 1) return notes[0];
             return notes.Count == 0 ? _notes.FirstOrDefault(n => n.Id == _currentId) : null;
         }

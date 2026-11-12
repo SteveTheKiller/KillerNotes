@@ -38,7 +38,7 @@ namespace KillerNotes.Shell
             // Acts on the whole multi-selection, not just the anchor row (#7): the
             // check reflects "every selected note has this tag", and toggling brings
             // all of them to the same state.
-            var selected = NotesList.SelectedItems.Cast<Note>().ToList();
+            var selected = SidebarSelection();   // NoteCard.cs: the group manager's rows while it has the card
             // Inside the trash the menu is two rows, restore and delete for good (Trash.cs).
             // First, because it resets every other row's visibility before the lines below
             // decide theirs.

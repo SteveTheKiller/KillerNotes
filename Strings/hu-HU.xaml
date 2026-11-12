@@ -1269,9 +1269,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Mgr_AllNotes">Minden jegyzet</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Nincs csoport</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Cím</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Csoport</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Módosítva</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Címkék</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Itt nincsenek jegyzetek</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">A jegyzeteket csoportra húzva rendezheted be őket, egy csoportot másikra húzva pedig beágyazhatod. Az F2 átnevezi a csoportot, a Delete törli, a Ctrl+Z pedig visszavon.</sys:String>
 </ResourceDictionary>

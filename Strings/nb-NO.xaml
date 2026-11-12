@@ -1288,9 +1288,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Mgr_AllNotes">Alle notater</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Ingen gruppe</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Tittel</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Gruppe</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Endret</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Merker</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Ingen notater her</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Dra notater til en gruppe for å arkivere dem, eller dra en gruppe til en annen for å nøste den. F2 gir en gruppe nytt navn, Delete fjerner den, og Ctrl+Z angrer.</sys:String>
 </ResourceDictionary>

@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Threading;
 using KillerNotes.Controls;
 using KillerNotes.Models;
 using KillerNotes.Services;
@@ -114,6 +117,61 @@ namespace KillerNotes.Shell
         }
 
         string IGroupManagerHost.Loc(string key) => Loc(key);
+
+        // The manager's right-click menus are the sidebar's own cards, not copies: the group
+        // card for a group, the note card for its rows. Same rows, same handlers, same undo.
+
+        void IGroupManagerHost.ShowGroupCard(string path, int count, UIElement target, bool atMouse)
+        {
+            if (!NoteStore.IsOpen) return;
+            var t = NoteStore.ListGroupTree().FirstOrDefault(x => string.Equals(x.Path, path, StringComparison.OrdinalIgnoreCase));
+            if (t.Path == null) return;
+            var g = new GroupHeader { Path = t.Path, Name = NoteStore.GroupNameOf(t.Path), NameColor = t.Color ?? "", Count = count };
+            _ctxGroup = g;
+            FillGroupCard(g);   // GroupCard.cs
+            OpenCardOver(GroupCard, target, atMouse, null);
+        }
+
+        void IGroupManagerHost.ShowNoteCard(IReadOnlyCollection<long> ids, UIElement target, bool atMouse)
+        {
+            if (!NoteStore.IsOpen) return;
+            var set = ids.ToHashSet();
+            // The sidebar's own Note objects where it has them (the search can hide some), so a
+            // change the card makes shows on the same instances the sidebar draws.
+            var notes = _notes.Where(n => set.Contains(n.Id)).ToList();
+            if (notes.Count < set.Count)
+            {
+                var have = notes.Select(n => n.Id).ToHashSet();
+                notes.AddRange(NoteStore.List().Where(n => set.Contains(n.Id) && !have.Contains(n.Id)));
+            }
+            notes = [.. notes.Where(n => !n.IsDeleted)];
+            if (notes.Count == 0) return;
+            _managerCardNotes = notes;   // NoteCard.cs SidebarSelection
+            _noteContextTarget = true;
+            OpenCardOver(NoteCard, target, atMouse, () => _managerCardNotes = null);
+        }
+
+        /// <summary>Opens one of the sidebar's cards over an element of the manager. Once it
+        /// closes and the chosen action has run (Background priority, after the click), the card
+        /// goes back to the sidebar's own placement and the manager reloads to show the change.</summary>
+        private void OpenCardOver(ContextMenu card, UIElement target, bool atMouse, Action? onDone)
+        {
+            card.PlacementTarget = target;
+            card.Placement = atMouse ? PlacementMode.MousePoint : PlacementMode.Bottom;
+            void Closed(object sender, RoutedEventArgs e)
+            {
+                card.Closed -= Closed;
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    card.ClearValue(ContextMenu.PlacementTargetProperty);
+                    card.ClearValue(ContextMenu.PlacementProperty);
+                    onDone?.Invoke();
+                    GroupsChanged?.Invoke();
+                }), DispatcherPriority.Background);
+            }
+            card.Closed += Closed;
+            card.IsOpen = true;
+        }
 
         event Action? IGroupManagerHost.GroupsChanged
         {

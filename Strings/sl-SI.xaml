@@ -1150,9 +1150,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Mgr_AllNotes">Vsi zapiski</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Brez skupine</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Naslov</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Skupina</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Spremenjeno</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Oznake</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Tukaj ni zapiskov</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Povlecite zapiske na skupino, da jih razvrstite, ali povlecite skupino na drugo, da jo vgnezdite. F2 preimenuje skupino, Delete jo odstrani, Ctrl+Z pa razveljavi.</sys:String>
 </ResourceDictionary>

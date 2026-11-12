@@ -195,7 +195,7 @@ namespace KillerNotes.Shell
 
         private void ExportNoteAs_Click(object sender, RoutedEventArgs e)
         {
-            var n = ((sender as MenuItem)?.DataContext as Note) ?? NotesList.SelectedItem as Note;
+            var n = ((sender as MenuItem)?.DataContext as Note) ?? SidebarSelectedNote();
             if (n != null) ExportNoteAs(n);
         }
 

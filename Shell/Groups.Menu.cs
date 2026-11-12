@@ -71,7 +71,7 @@ namespace KillerNotes.Shell
         // in case it changed while the submenu stayed open.
         private List<Note> SelectedOrSame(List<Note> fallback)
         {
-            var live = NotesList.SelectedItems.OfType<Note>().ToList();
+            var live = SidebarSelection();   // NoteCard.cs
             return live.Count > 0 ? live : fallback;
         }
 

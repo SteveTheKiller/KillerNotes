@@ -183,6 +183,7 @@ namespace KillerNotes.Shell
             while (d != null && d is not ListBoxItem)
                 d = System.Windows.Media.VisualTreeHelper.GetParent(d);
             _noteContextTarget = d is ListBoxItem { DataContext: Note };
+            _managerCardNotes = null;   // the sidebar owns the card again (NoteCard.cs)
             if (d is ListBoxItem item && !item.IsSelected)
             {
                 if (item.DataContext is Models.GroupHeader or Models.TrashHeader) return;   // headers: own menu (#4)

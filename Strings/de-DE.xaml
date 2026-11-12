@@ -1243,9 +1243,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Mgr_AllNotes">Alle Notizen</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Keine Gruppe</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Titel</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Gruppe</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Geändert</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Schlagworte</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Hier gibt es keine Notizen</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Notizen auf eine Gruppe ziehen, um sie abzulegen, oder eine Gruppe auf eine andere ziehen, um sie zu verschachteln. F2 benennt eine Gruppe um, Delete entfernt sie, und Ctrl+Z macht rückgängig.</sys:String>
 </ResourceDictionary>

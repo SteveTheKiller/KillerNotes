@@ -1290,9 +1290,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Mgr_AllNotes">All notes</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">No group</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Title</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Group</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Modified</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Tags</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">No notes here</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Drag notes onto a group to file them, or drag a group onto another to nest it. F2 renames a group, Delete removes it, and Ctrl+Z undoes.</sys:String>
 </ResourceDictionary>

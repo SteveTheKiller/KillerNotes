@@ -1244,9 +1244,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Mgr_AllNotes">Toutes les notes</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Aucun groupe</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Titre</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Groupe</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Modifiée</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Étiquettes</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Aucune note ici</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Faites glisser des notes sur un groupe pour les classer, ou un groupe sur un autre pour l’imbriquer. F2 renomme un groupe, Delete le supprime et Ctrl+Z annule.</sys:String>
 </ResourceDictionary>

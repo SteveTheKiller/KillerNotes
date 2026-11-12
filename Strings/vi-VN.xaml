@@ -1294,9 +1294,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Mgr_AllNotes">Tất cả ghi chú</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Không có nhóm</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Tiêu đề</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Nhóm</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Đã sửa đổi</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Thẻ</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Không có ghi chú nào ở đây</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Kéo ghi chú vào một nhóm để sắp xếp, hoặc kéo một nhóm vào nhóm khác để lồng vào. F2 đổi tên nhóm, Delete xóa nhóm, và Ctrl+Z hoàn tác.</sys:String>
 </ResourceDictionary>

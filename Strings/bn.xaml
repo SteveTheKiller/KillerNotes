@@ -1243,9 +1243,7 @@
     <sys:String x:Key="Str_Mgr_AllNotes">সব নোট</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">গ্রুপ নেই</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">শিরোনাম</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">গ্রুপ</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">পরিবর্তিত</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">ট্যাগ</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">এখানে কোনো নোট নেই</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">নোট ফাইল করতে একটি গ্রুপের ওপর টেনে আনুন, অথবা একটি গ্রুপ অন্যটির ওপর টেনে এনে তার ভেতরে রাখুন। F2 গ্রুপের নাম বদলায়, Delete এটি মুছে দেয়, আর Ctrl+Z পূর্বাবস্থায় ফেরায়।</sys:String>
 </ResourceDictionary>

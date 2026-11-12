@@ -2,7 +2,8 @@
      selected group's notes as a sortable table on the right, one search box over both. Drag
      notes onto a group to file them, drag a group onto another to nest it. Every change runs
      the sidebar's own code through IGroupManagerHost, so Ctrl+Z in either window undoes it.
-     A reference window like the graph: owner-less, in the taskbar, resizable. -->
+     A reference window like the graph: owner-less, in the taskbar, resizable. Right-click opens
+     the sidebar's own group card or note card (IGroupManagerHost.ShowGroupCard / ShowNoteCard). -->
 <Window x:Class="KillerNotes.Controls.GroupManagerWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -11,14 +12,12 @@
         TextOptions.TextFormattingMode="Display"
         TextOptions.TextRenderingMode="ClearType"
         SnapsToDevicePixels="True" UseLayoutRounding="True"
-        Width="920" Height="620" MinWidth="560" MinHeight="380"
+        Width="820" Height="620" MinWidth="560" MinHeight="380"
         WindowStartupLocation="CenterOwner"
         WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize"
         Background="Transparent" ShowInTaskbar="True">
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="0" ResizeBorderThickness="12" CornerRadius="0"
-                      GlassFrameThickness="0" UseAeroCaptionButtons="False"/>
-    </WindowChrome.WindowChrome>
+    <!-- WindowChrome and the halo are set in code (UpdateChrome): 20px of halo on rounded
+         themes, flush on 98SE, the same as the graph and sketch pad windows. -->
 
     <ContentControl x:Name="RootBorder" Opacity="0" Style="{StaticResource DialogCard}">
         <Grid>
@@ -26,7 +25,6 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <local:DialogTitleBar x:Name="TitleBar" Grid.Row="0" Subtitle="{DynamicResource Str_Mgr_Subtitle}"
@@ -51,9 +49,9 @@
                 </Grid>
             </DockPanel>
 
-            <Grid Grid.Row="2" Margin="16,0,16,0">
+            <Grid Grid.Row="2" Margin="16,0,16,16">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="270" MinWidth="180"/>
+                    <ColumnDefinition Width="200" MinWidth="150"/>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*" MinWidth="260"/>
                 </Grid.ColumnDefinitions>
@@ -66,7 +64,8 @@
                               AutomationProperties.Name="{DynamicResource Str_Mgr_Groups}"
                               SelectedItemChanged="Tree_SelectedItemChanged" KeyDown="Tree_KeyDown"
                               PreviewMouseLeftButtonDown="Tree_PreviewMouseLeftButtonDown" PreviewMouseMove="Tree_PreviewMouseMove"
-                              DragOver="Tree_DragOver" Drop="Tree_Drop">
+                              DragOver="Tree_DragOver" Drop="Tree_Drop"
+                              PreviewMouseRightButtonDown="Tree_PreviewMouseRightButtonDown" MouseRightButtonUp="Tree_MouseRightButtonUp">
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="TreeViewItem" BasedOn="{StaticResource FolderTreeItem}">
                                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
@@ -98,17 +97,15 @@
                         <Grid x:Name="HeaderRow" DockPanel.Dock="Top" Margin="12,6,18,4">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="150"/>
                                 <ColumnDefinition Width="120"/>
                                 <ColumnDefinition Width="120"/>
                             </Grid.ColumnDefinitions>
+                            <!-- No Group column: the tree on the left already says which group this is. -->
                             <Button x:Name="SortTitleBtn" Grid.Column="0" Style="{StaticResource MenuRowButton}" Tag="title" Click="Sort_Click"
                                     Content="{DynamicResource Str_Mgr_ColTitle}"/>
-                            <Button x:Name="SortGroupBtn" Grid.Column="1" Style="{StaticResource MenuRowButton}" Tag="group" Click="Sort_Click"
-                                    Content="{DynamicResource Str_Mgr_ColGroup}"/>
-                            <Button x:Name="SortModifiedBtn" Grid.Column="2" Style="{StaticResource MenuRowButton}" Tag="modified" Click="Sort_Click"
+                            <Button x:Name="SortModifiedBtn" Grid.Column="1" Style="{StaticResource MenuRowButton}" Tag="modified" Click="Sort_Click"
                                     Content="{DynamicResource Str_Mgr_ColModified}"/>
-                            <Button x:Name="SortTagsBtn" Grid.Column="3" Style="{StaticResource MenuRowButton}" Tag="tags" Click="Sort_Click"
+                            <Button x:Name="SortTagsBtn" Grid.Column="2" Style="{StaticResource MenuRowButton}" Tag="tags" Click="Sort_Click"
                                     Content="{DynamicResource Str_Mgr_ColTags}"/>
                         </Grid>
                         <Border DockPanel.Dock="Top" Height="1" Margin="8,0" Background="{DynamicResource CardBorderBrush}"/>
@@ -119,13 +116,13 @@
                                      VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Pixel"
                                      AutomationProperties.Name="{DynamicResource Str_Mgr_Notes}"
                                      PreviewMouseLeftButtonDown="Table_PreviewMouseLeftButtonDown" PreviewMouseMove="Table_PreviewMouseMove"
-                                     MouseDoubleClick="Table_MouseDoubleClick" KeyDown="Table_KeyDown">
+                                     MouseDoubleClick="Table_MouseDoubleClick" KeyDown="Table_KeyDown"
+                                     PreviewMouseRightButtonDown="Table_PreviewMouseRightButtonDown" MouseRightButtonUp="Table_MouseRightButtonUp">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate DataType="{x:Type local:NoteRowItem}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="150"/>
                                                 <ColumnDefinition Width="120"/>
                                                 <ColumnDefinition Width="120"/>
                                             </Grid.ColumnDefinitions>
@@ -133,10 +130,8 @@
                                                 <Ellipse Width="8" Height="8" Margin="0,0,8,0" VerticalAlignment="Center" Fill="{Binding ColorBrush}"/>
                                                 <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
                                             </StackPanel>
-                                            <TextBlock Grid.Column="1" Text="{Binding GroupDisplay}" TextTrimming="CharacterEllipsis" Opacity="0.75"
-                                                       Margin="6,0,0,0" VerticalAlignment="Center"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding ModifiedDisplay}" Opacity="0.75" Margin="6,0,0,0" VerticalAlignment="Center"/>
-                                            <TextBlock Grid.Column="3" Text="{Binding Tags}" TextTrimming="CharacterEllipsis" Opacity="0.75"
+                                            <TextBlock Grid.Column="1" Text="{Binding ModifiedDisplay}" Opacity="0.75" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Tags}" TextTrimming="CharacterEllipsis" Opacity="0.75"
                                                        Margin="6,0,0,0" VerticalAlignment="Center"/>
                                         </Grid>
                                     </DataTemplate>
@@ -148,9 +143,6 @@
                     </DockPanel>
                 </Border>
             </Grid>
-
-            <TextBlock x:Name="HintText" Grid.Row="3" Margin="18,8,18,12" FontSize="11" TextTrimming="CharacterEllipsis"
-                       Text="{DynamicResource Str_Mgr_Hint}" Foreground="{DynamicResource DimTextBrush}"/>
         </Grid>
     </ContentControl>
 </Window>

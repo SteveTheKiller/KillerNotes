@@ -253,6 +253,7 @@ namespace KillerNotes.Shell
             if (!NoteStore.IsOpen) return;
             if (!NotesList.SelectedItems.OfType<Note>().Any()) return;
             _noteContextTarget = true;
+            _managerCardNotes = null;   // NoteCard.cs
             var menu = NotesList.ContextMenu;
             menu.PlacementTarget = NotesList;
             menu.IsOpen = true;

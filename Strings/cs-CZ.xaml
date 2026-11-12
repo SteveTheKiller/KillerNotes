@@ -1240,9 +1240,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Mgr_AllNotes">Všechny poznámky</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Bez skupiny</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Název</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Skupina</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Změněno</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Štítky</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Nejsou zde žádné poznámky</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Přetažením poznámek na skupinu je zařadíte, přetažením skupiny na jinou ji vnoříte. Klávesa F2 přejmenuje skupinu, Delete ji odstraní a Ctrl+Z vrátí změnu zpět.</sys:String>
 </ResourceDictionary>

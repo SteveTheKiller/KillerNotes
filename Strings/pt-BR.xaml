@@ -1290,9 +1290,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Mgr_AllNotes">Todas as notas</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Sem grupo</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Título</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Grupo</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Modificada</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Marcadores</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Nenhuma nota aqui</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Arraste notas para um grupo para arquivá-las, ou arraste um grupo para outro para aninhá-lo. F2 renomeia um grupo, Delete o remove e Ctrl+Z desfaz.</sys:String>
 </ResourceDictionary>

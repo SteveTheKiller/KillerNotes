@@ -21,7 +21,7 @@ namespace KillerNotes.Shell
     public partial class MainWindow
     {
         private void PinNote_Click(object sender, RoutedEventArgs e)
-            => TogglePin([.. NotesList.SelectedItems.OfType<Note>().Where(n => !n.IsDeleted)]);
+            => TogglePin([.. SidebarSelection().Where(n => !n.IsDeleted)]);
 
         /// <summary>Alt+P (Shortcuts.cs): the sidebar selection when there is one, else the
         /// note that is open in the editor.</summary>

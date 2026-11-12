@@ -23,7 +23,7 @@ namespace KillerNotes.Shell
     {
         private void History_Click(object sender, RoutedEventArgs e)
         {
-            var n = NotesList.SelectedItem as Note ?? _notes.FirstOrDefault(x => x.Id == _currentId);
+            var n = SidebarSelectedNote() ?? _notes.FirstOrDefault(x => x.Id == _currentId);
             if (n == null || n.IsDeleted) return;
             OpenHistory(n.Id);
         }

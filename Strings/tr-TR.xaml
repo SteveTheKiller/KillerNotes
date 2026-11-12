@@ -1243,9 +1243,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Mgr_AllNotes">Tüm notlar</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Grup yok</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Başlık</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Grup</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Değiştirilme</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Etiketler</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Burada not yok</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Notları dosyalamak için bir gruba sürükleyin veya bir grubu içine yerleştirmek için başka bir gruba sürükleyin. F2 bir grubu yeniden adlandırır, Delete onu kaldırır ve Ctrl+Z geri alır.</sys:String>
 </ResourceDictionary>

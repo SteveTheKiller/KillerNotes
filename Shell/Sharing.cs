@@ -222,7 +222,7 @@ namespace KillerNotes.Shell
         private void ShareNote_Click(object sender, RoutedEventArgs e)
         {
             var n = ((sender as System.Windows.Controls.MenuItem)?.DataContext as Note)
-                    ?? NotesList.SelectedItem as Note;
+                    ?? SidebarSelectedNote();
             if (n == null) return;
             if (!SaveCurrentNote(refreshList: false)) return;
 

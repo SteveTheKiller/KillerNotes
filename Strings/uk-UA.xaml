@@ -1290,9 +1290,7 @@
     <sys:String x:Key="Str_Mgr_AllNotes">Усі нотатки</sys:String>
     <sys:String x:Key="Str_Mgr_NoGroup">Без групи</sys:String>
     <sys:String x:Key="Str_Mgr_ColTitle">Назва</sys:String>
-    <sys:String x:Key="Str_Mgr_ColGroup">Група</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Змінено</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Теги</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Тут немає нотаток</sys:String>
-    <sys:String x:Key="Str_Mgr_Hint">Перетягніть нотатки на групу, щоб розкласти їх, або перетягніть групу на іншу, щоб вкласти її. F2 перейменовує групу, Delete видаляє її, а Ctrl+Z скасовує дію.</sys:String>
 </ResourceDictionary>
