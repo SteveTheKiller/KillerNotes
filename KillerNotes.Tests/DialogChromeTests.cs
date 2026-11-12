@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -81,6 +81,39 @@ namespace KillerNotes.Tests
             Assert.Equal((double)Application.Current.FindResource("AboutCloseWidth"), close.Width);
             Assert.Equal((double)Application.Current.FindResource("AboutCloseHeight"), close.Height);
         });
+
+        // The shared title bar (Password, Tags, Input, Databases) put its X flush in the corner on
+        // the card themes while ConfirmDialog's sat 14 px in, so two dialogs from the same app
+        // disagreed. Laid out side by side, the X has to land in the same place on both. 98SE is
+        // left out on purpose: there the shared bar is an edge-to-edge caption band and
+        // ConfirmDialog's sits inside the 3 px frame (TheNinetyEightDialogCloseClearsTheWindowFrame).
+        [Theory]
+        [InlineData((int)Theme.Cyanotic)]
+        [InlineData((int)Theme.Black)]
+        [InlineData((int)Theme.Light)]
+        [InlineData((int)Theme.Dark)]
+        public void TheTitleBarCloseSitsWhereConfirmDialogPutsIt(int themeId) => WithTheme((Theme)themeId, "en-US", () =>
+        {
+            Rect confirm = CloseBox(new ConfirmDialog("Heading", "Detail", "OK"));
+            Rect password = CloseBox(new PasswordDialog("Heading", "Detail", "OK"));
+
+            Assert.Equal(confirm.Width, password.Width, 1);
+            Assert.Equal(confirm.Right, password.Right, 1);
+            Assert.Equal(confirm.Top + confirm.Height / 2, password.Top + password.Height / 2, 1);
+        });
+
+        private static Rect CloseBox(Window win)
+        {
+            win.Width = 400;
+            FrameworkElement content = Host(win);
+            var style = Application.Current.TryFindResource("OverlayCloseButton");
+            var close = Descendants(content).OfType<Button>().First(b => ReferenceEquals(b.Style, style));
+            // Measured against the visible card, not the window content: ConfirmDialog's content IS
+            // the card, while the shared bar's dialogs wrap it in a halo-margined template.
+            DependencyObject card = close;
+            while (card is not PickerBorder) card = VisualTreeHelper.GetParent(card);
+            return close.TransformToAncestor((Visual)card).TransformBounds(new Rect(close.RenderSize));
+        }
 
         [Theory]
         [InlineData("en-US", (int)Theme.Cyanotic)]

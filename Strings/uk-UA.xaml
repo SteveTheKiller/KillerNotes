@@ -27,8 +27,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Нова нотатка</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Нова</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Нова нотатка (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">За часом створення - спочатку найстаріші (клацніть ще раз, щоб змінити порядок)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">За алфавітом (клацніть ще раз, щоб змінити порядок)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Поділитися нотаткою...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Зберегти як файл .knote (за бажанням із паролем), щоб надіслати колезі</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Експортувати нотатку як...</sys:String>
@@ -303,6 +301,10 @@
     <sys:String x:Key="Str_Pw_WrongPw">Неправильний пароль - спробуйте ще раз</sys:String>
     <sys:String x:Key="Str_Pw_Protected">«{0}» захищено паролем.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Розблокувати</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Показати пароль</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Сховати пароль</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Увімкнено Caps Lock</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Використати іншу базу даних</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Нова</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">підтвердження</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Почати нову базу?</sys:String>
@@ -643,7 +645,6 @@
     <sys:String x:Key="Str_St_SortNewest">За часом створення - спочатку найновіші</sys:String>
     <sys:String x:Key="Str_St_SortAZ">За алфавітом - від А до Я</sys:String>
     <sys:String x:Key="Str_St_SortZA">За алфавітом - від Я до А</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (клацніть, щоб змінити порядок)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Сортувати за часом створення</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Сортувати за алфавітом</sys:String>
     <sys:String x:Key="Str_St_Ready">Готово</sys:String>

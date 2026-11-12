@@ -16,8 +16,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Nov zapisek</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Novo</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nov zapisek (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Po času nastanka, najstarejši najprej (znova kliknite za obratni vrstni red)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">Po abecedi (znova kliknite za obratni vrstni red)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Deli zapisek...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Shrani kot datoteko .knote (po želji zaščiteno z geslom) za pošiljanje sodelavcu</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Izvozi zapisek kot...</sys:String>
@@ -240,6 +238,10 @@ Spremembe se ne bodo shranile. Če KillerNotes v računalniku {0} ne deluje
     <sys:String x:Key="Str_Pw_WrongPw">Napačno geslo. Poskusite znova</sys:String>
     <sys:String x:Key="Str_Pw_Protected">»{0}« je zaščiten z geslom.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Odkleni</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Pokaži geslo</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Skrij geslo</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Caps Lock je vklopljen</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Uporabi drugo zbirko podatkov</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Novo</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">potrditev</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Ustvarim novo zbirko podatkov?</sys:String>
@@ -546,7 +548,6 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_St_SortNewest">Po času nastanka, najnovejši najprej</sys:String>
     <sys:String x:Key="Str_St_SortAZ">Po abecedi, od A do Z</sys:String>
     <sys:String x:Key="Str_St_SortZA">Po abecedi, od Z do A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (kliknite za obratni vrstni red)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Razvrsti po času nastanka</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Razvrsti po abecedi</sys:String>
     <sys:String x:Key="Str_St_Ready">Pripravljeno</sys:String>

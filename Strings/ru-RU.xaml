@@ -22,8 +22,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Новая заметка</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Новая</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Новая заметка (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">По времени создания - сначала старые (нажмите ещё раз, чтобы изменить порядок)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">По алфавиту (нажмите ещё раз, чтобы изменить порядок)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Поделиться заметкой...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Сохранить как файл .knote (при желании с паролем), чтобы отправить коллеге</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Экспортировать заметку как...</sys:String>
@@ -281,6 +279,10 @@
     <sys:String x:Key="Str_Pw_WrongPw">Неверный пароль - попробуйте ещё раз</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" защищена паролем.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Разблокировать</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Показать пароль</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Скрыть пароль</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Включён Caps Lock</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Использовать другую базу данных</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Новая</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">подтвердите</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Начать новую базу?</sys:String>
@@ -610,7 +612,6 @@
     <sys:String x:Key="Str_St_SortNewest">По времени создания - сначала новые</sys:String>
     <sys:String x:Key="Str_St_SortAZ">По алфавиту - от А до Я</sys:String>
     <sys:String x:Key="Str_St_SortZA">По алфавиту - от Я до А</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (нажмите, чтобы изменить порядок)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Сортировать по времени создания</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Сортировать по алфавиту</sys:String>
     <sys:String x:Key="Str_St_Ready">Готово</sys:String>

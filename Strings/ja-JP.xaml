@@ -21,8 +21,6 @@
     <sys:String x:Key="Str_Search_ToggleBar">検索バーを表示/非表示</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ 新しいノート</sys:String>
     <sys:String x:Key="Str_TT_NewNote">新しいノート (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">作成日時順 - 古い順 (もう一度クリックで逆順)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">名前順 (もう一度クリックで逆順)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">ノートを共有...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">同僚に送れる .knote ファイルとして保存します (パスワード保護も可能)</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">ノートをエクスポート...</sys:String>
@@ -111,6 +109,10 @@
     <sys:String x:Key="Str_Pw_WrongPw">パスワードが違います - もう一度お試しください</sys:String>
     <sys:String x:Key="Str_Pw_Protected">「{0}」はパスワードで保護されています。</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">ロック解除</sys:String>
+    <sys:String x:Key="Str_Pw_Show">パスワードを表示</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">パスワードを隠す</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Caps Lock がオンです</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">別のデータベースを使う</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">新規</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">確認</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">新しいデータベースを開始しますか?</sys:String>
@@ -499,7 +501,6 @@
     <sys:String x:Key="Str_St_SortNewest">作成日時順 - 新しい順</sys:String>
     <sys:String x:Key="Str_St_SortAZ">アルファベット順 - A から Z</sys:String>
     <sys:String x:Key="Str_St_SortZA">アルファベット順 - Z から A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0}（クリックで反転）</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">作成日時で並べ替え</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">アルファベット順に並べ替え</sys:String>
     <sys:String x:Key="Str_St_Ready">準備完了</sys:String>

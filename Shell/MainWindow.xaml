@@ -137,11 +137,23 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <!-- Right-click any of the three sidebar sort buttons to pick a sort by name;
-             the button strip alone is terse. x:Shared="False" gives each button its
-             own instance. The active sort is accent-colored and shows its direction
+        <!-- A group or trash header's note count (1.7.0): a small pill on the chip face, collapsed
+             when there is no count to show. -->
+        <Style x:Key="SidebarCountBadge" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource ChipFaceBrush}"/>
+            <Setter Property="CornerRadius" Value="7"/>
+            <Setter Property="Padding" Value="6,0,6,1"/>
+            <Setter Property="MinWidth" Value="18"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CountDisplay}" Value="">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <!-- The sidebar sort button's menu, on click and right-click (1.7.0). x:Shared="False"
+             keeps it a fresh instance per owner. The active sort is accent-colored and shows its direction
              arrow, refreshed each time the menu opens (Notes.cs SortMenu_Opened /
-             SortMenuItem_Click). Picking a sort mirrors clicking its button. -->
+             SortMenuItem_Click). Picking the active sort again reverses it. -->
         <ContextMenu x:Key="SortMenu" x:Shared="False" Opened="SortMenu_Opened">
             <ContextMenu.Resources>
                 <!-- A menu applies MenuItem.SeparatorStyleKey to a Separator, not the app's
@@ -675,8 +687,6 @@
                                 Margin="0,0,0,10" Click="LibraryRail_Click">
                             <Button.ContextMenu>
                                 <ContextMenu x:Name="LibraryMenu">
-                                    <MenuItem InputGestureText="Alt+Shift+I" Header="{DynamicResource Str_Ctx_ImportFolder}" Icon="&#xE8B5;" Click="ImportFolder_Click"
-                                              ToolTip="{DynamicResource Str_TT_ImportFolder}"/>
                                     <MenuItem InputGestureText="Alt+E" Header="{DynamicResource Str_Ctx_ExportVault}" Icon="&#xE838;" Click="ExportVault_Click"
                                               ToolTip="{DynamicResource Str_TT_ExportVault}"/>
                                 </ContextMenu>
@@ -845,66 +855,44 @@
                                         <!-- Today's note, opened or created (1.3.1, DailyNote.cs). -->
                                         <MenuItem Header="{DynamicResource Str_Ctx_TodayNote}" Icon="&#xE787;" InputGestureText="Alt+D"
                                                   Click="TodayNote_Click" ToolTip="{DynamicResource Str_TT_TodayNote}"/>
+                                        <!-- Importing is another way notes arrive, so it lives here (1.7.0).
+                                             Export stays on the rail's library button. -->
+                                        <Separator/>
+                                        <MenuItem InputGestureText="Alt+Shift+I" Header="{DynamicResource Str_Ctx_ImportFolder}" Icon="&#xE8B5;" Click="ImportFolder_Click"
+                                                  ToolTip="{DynamicResource Str_TT_ImportFolder}"/>
                                     </ContextMenu>
                                 </Button.ContextMenu>
                             </Button>
+                            <!-- 1.7.0: the UI font with the plus glyph, so the brush lettering stays on the
+                                 wordmark. Narrow sidebars drop the label and keep the glyph (Sidebar.cs). -->
                             <Button x:Name="NewNoteBtn" Style="{StaticResource NewNoteButton}"
-                                    Content="{DynamicResource Str_Btn_NewNoteShort}" Click="NewNote_Click" HorizontalAlignment="Stretch"
-                                    Height="30" MinWidth="34" Padding="6,1" FontFamily="{DynamicResource WordmarkAccentFont}" FontSize="22" FontWeight="Normal"
+                                    Click="NewNote_Click" HorizontalAlignment="Stretch"
+                                    Height="30" MinWidth="34" Padding="10,1" FontFamily="{DynamicResource UiFont}" FontSize="13" FontWeight="SemiBold"
                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    AutomationProperties.Name="{DynamicResource Str_KS_NewNote}"
                                     ToolTip="{DynamicResource Str_TT_NewNote}">
-                                <Button.ContentTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding}">
-                                            <TextBlock.RenderTransform><TranslateTransform Y="-2"/></TextBlock.RenderTransform>
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </Button.ContentTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <a11y:Glyph Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="12" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="NewNoteLabel" Text="{DynamicResource Str_KS_NewNote}" Margin="7,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
                             </Button>
                             </DockPanel>
-                            <!-- Dedicated sorts: creation time (default, oldest first) and
-                                 alphabetical. The active one shows in the accent; clicking it
-                                 again reverses its direction (Notes.cs). -->
+                            <!-- One sort button (1.7.0): it shows the active sort and its direction, and a
+                                 click or right-click opens the sort menu (Notes.Sort.cs). ToolbarButton is
+                                 the family's flat toolbar face, filled only on hover. SortBtns stays the
+                                 wrapping unit for Sidebar.cs. -->
                             <StackPanel x:Name="SortBtns" Grid.Column="1" Orientation="Horizontal">
-                                <!-- Padding 0: SurfaceButton's 12px side padding clips glyphs at
-                                     fixed widths. The active button carries a direction arrow
-                                     (up = ascending) that flips when clicked again (Notes.cs). -->
-                                <Button x:Name="SortTimeBtn" Style="{StaticResource SurfaceButton}"
-                                        AutomationProperties.Name="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"
-                                        Background="{DynamicResource SortButtonBrush}"
-                                        Margin="8,0,0,0" Click="SortTimeBtn_Click" Width="40" Padding="0"
-                                        ToolTip="{DynamicResource Str_TT_SortTime}"
-                                        ContextMenu="{StaticResource SortMenu}">
+                                <Button x:Name="SortBtn" Style="{StaticResource ToolbarButton}"
+                                        Margin="8,0,0,0" Height="30" MinWidth="40" Padding="8,0"
+                                        Click="SortBtn_Click" ContextMenu="{StaticResource SortMenu}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <a11y:Glyph Text="&#xE823;" FontFamily="Segoe MDL2 Assets" FontSize="13"
+                                        <a11y:Glyph x:Name="SortGlyph" Text="&#xE823;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                                    VerticalAlignment="Center"/>
-                                        <TextBlock x:Name="SortTimeArrow" Text="&#x2191;" FontFamily="Segoe UI"
-                                                   FontSize="10" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                                        <TextBlock x:Name="SortArrow" Text="&#x2193;" FontFamily="Segoe UI"
+                                                   FontSize="11" VerticalAlignment="Center" Margin="3,0,0,0"/>
+                                        <TextBlock Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="8"
+                                                   Foreground="{DynamicResource DimTextBrush}" VerticalAlignment="Center" Margin="5,1,0,0"/>
                                     </StackPanel>
-                                </Button>
-                                <Button x:Name="SortAlphaBtn" Style="{StaticResource SurfaceButton}"
-                                        AutomationProperties.Name="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"
-                                        Background="{DynamicResource SortButtonBrush}"
-                                        Margin="6,0,0,0" Click="SortAlphaBtn_Click" Width="40" Padding="0"
-                                        ToolTip="{DynamicResource Str_TT_SortAlpha}"
-                                        ContextMenu="{StaticResource SortMenu}">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="AZ" FontFamily="{DynamicResource UiFont}" FontSize="11"
-                                                   VerticalAlignment="Center"/>
-                                        <TextBlock x:Name="SortAlphaArrow" Text="" FontFamily="Segoe UI"
-                                                   FontSize="10" VerticalAlignment="Center" Margin="2,0,0,0"/>
-                                    </StackPanel>
-                                </Button>
-                                <!-- Custom order (#4): manual arrangement, no direction arrow;
-                                     dragging a note in any sort switches here (Groups.cs) -->
-                                <Button x:Name="SortCustomBtn" Style="{StaticResource SurfaceButton}"
-                                        AutomationProperties.Name="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}"
-                                        Background="{DynamicResource SortButtonBrush}"
-                                        Margin="6,0,0,0" Click="SortCustomBtn_Click" Width="34" Padding="0"
-                                        ToolTip="{DynamicResource Str_TT_SortCustom}"
-                                        ContextMenu="{StaticResource SortMenu}">
-                                    <a11y:Glyph Text="&#xE76F;" FontFamily="Segoe MDL2 Assets" FontSize="13"
-                                               VerticalAlignment="Center"/>
                                 </Button>
                             </StackPanel>
                         </Grid>
@@ -1313,10 +1301,12 @@
                                         MouseRightButtonDown="GroupHeader_RightDown" ContextMenuOpening="GroupHeader_ContextMenuOpening">
                                     <!-- No ContextMenu here: right-click hands this header the one shared
                                          group card (GroupCard.cs, the GroupCardHost element above). -->
-                                    <!-- No chevron: the colored spine (the container line) is the group's
-                                         indicator; clicking the header toggles collapse and the line grows down
-                                         through the notes / shrinks back to the header. -->
+                                    <!-- The colored spine still grows down through the notes when the group
+                                         opens; the small chevron (1.7.0) says which way a click goes. -->
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <a11y:Glyph Text="{Binding Chevron}" FontFamily="Segoe MDL2 Assets" FontSize="9"
+                                                       VerticalAlignment="Center" Margin="0,0,6,0"
+                                                       Foreground="{DynamicResource DimTextBrush}"/>
                                             <TextBlock Text="{Binding Name}" FontSize="{DynamicResource HeaderFontSize}" FontWeight="{DynamicResource HeaderFontWeight}"
                                                        FontFamily="{DynamicResource HeaderFont}" Margin="{DynamicResource HeaderTextMargin}"
                                                        VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
@@ -1345,8 +1335,9 @@
                                                     </Style>
                                                 </TextBlock.Style>
                                             </TextBlock>
-                                            <TextBlock Text="{Binding CountDisplay}" FontSize="10" Margin="6,0,0,0"
-                                                       VerticalAlignment="Center" Foreground="{DynamicResource DimTextBrush}"/>
+                                            <Border Style="{StaticResource SidebarCountBadge}" Margin="6,0,0,0" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding CountDisplay}" FontSize="10" HorizontalAlignment="Center" Foreground="{DynamicResource DimTextBrush}"/>
+                                            </Border>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
@@ -1373,8 +1364,9 @@
                                                    FontFamily="{DynamicResource HeaderFont}" Margin="{DynamicResource HeaderTextMargin}"
                                                    Foreground="{DynamicResource MutedTextBrush}"
                                                    VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                                        <TextBlock Text="{Binding CountDisplay}" FontSize="10" Margin="6,0,0,0"
-                                                   VerticalAlignment="Center" Foreground="{DynamicResource DimTextBrush}"/>
+                                        <Border Style="{StaticResource SidebarCountBadge}" Margin="6,0,0,0" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding CountDisplay}" FontSize="10" HorizontalAlignment="Center" Foreground="{DynamicResource DimTextBrush}"/>
+                                        </Border>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

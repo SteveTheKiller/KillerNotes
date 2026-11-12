@@ -21,8 +21,6 @@
     <sys:String x:Key="Str_Search_ToggleBar">অনুসন্ধান বার দেখান/লুকান</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ নতুন নোট</sys:String>
     <sys:String x:Key="Str_TT_NewNote">নতুন নোট (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">তৈরির সময় অনুযায়ী - পুরোনো আগে (উল্টাতে আবার ক্লিক করুন)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">বর্ণানুক্রমিক (উল্টাতে আবার ক্লিক করুন)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">নোট শেয়ার করুন...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">সহকর্মীকে পাঠাতে .knote ফাইল হিসেবে সংরক্ষণ করুন (ঐচ্ছিক পাসওয়ার্ড সুরক্ষাসহ)</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">নোট এক্সপোর্ট করুন...</sys:String>
@@ -111,6 +109,10 @@
     <sys:String x:Key="Str_Pw_WrongPw">ভুল পাসওয়ার্ড - আবার চেষ্টা করুন</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" পাসওয়ার্ড দিয়ে সুরক্ষিত।</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">আনলক</sys:String>
+    <sys:String x:Key="Str_Pw_Show">পাসওয়ার্ড দেখান</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">পাসওয়ার্ড লুকান</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Caps Lock চালু আছে</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">অন্য ডেটাবেস ব্যবহার করুন</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">নতুন</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">নিশ্চিত করুন</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">নতুন ডেটাবেস শুরু করবেন?</sys:String>
@@ -501,7 +503,6 @@
     <sys:String x:Key="Str_St_SortNewest">তৈরির সময় অনুযায়ী - নতুন আগে</sys:String>
     <sys:String x:Key="Str_St_SortAZ">বর্ণানুক্রমিক - A থেকে Z</sys:String>
     <sys:String x:Key="Str_St_SortZA">বর্ণানুক্রমিক - Z থেকে A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (উল্টাতে ক্লিক করুন)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">তৈরির সময় অনুযায়ী সাজান</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">বর্ণানুক্রমে সাজান</sys:String>
     <sys:String x:Key="Str_St_Ready">প্রস্তুত</sys:String>

@@ -22,8 +22,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Nová poznámka</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Nová</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nová poznámka (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Podle času vytvoření - nejstarší první (dalším kliknutím obrátíte)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">Abecedně (dalším kliknutím obrátíte)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Sdílet poznámku...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Uložit jako soubor .knote (volitelně chráněný heslem) k odeslání kolegovi</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Exportovat poznámku jako...</sys:String>
@@ -159,6 +157,10 @@ pádu aplikace), odstraňte soubor .lock vedle databáze a otevřete ji znovu.</
     <sys:String x:Key="Str_Pw_WrongPw">Nesprávné heslo - zkuste to znovu</sys:String>
     <sys:String x:Key="Str_Pw_Protected">„{0}" je chráněna heslem.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Odemknout</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Zobrazit heslo</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Skrýt heslo</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Caps Lock je zapnutý</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Použít jinou databázi</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Nová</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">potvrdit</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Začít novou databázi?</sys:String>
@@ -490,7 +492,6 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_SortNewest">Podle času vytvoření - nejnovější první</sys:String>
     <sys:String x:Key="Str_St_SortAZ">Abecedně - A až Z</sys:String>
     <sys:String x:Key="Str_St_SortZA">Abecedně - Z až A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (kliknutím obrátíte)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Řadit podle času vytvoření</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Řadit abecedně</sys:String>
     <sys:String x:Key="Str_St_Ready">Připraveno</sys:String>

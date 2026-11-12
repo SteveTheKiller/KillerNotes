@@ -27,8 +27,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Nova nota</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Nova</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nova nota (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Por data de criação - mais antigas primeiro (clique novamente para inverter)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">Ordem alfabética (clique novamente para inverter)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Compartilhar nota...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Salvar como arquivo .knote (opcionalmente protegido por senha) para enviar a um colega</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Exportar nota como...</sys:String>
@@ -303,6 +301,10 @@ exemplo), exclua o arquivo .lock ao lado do banco de dados e abra-o novamente.</
     <sys:String x:Key="Str_Pw_WrongPw">Senha incorreta - tente novamente</sys:String>
     <sys:String x:Key="Str_Pw_Protected">“{0}” é protegido por senha.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Desbloquear</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Mostrar senha</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Ocultar senha</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Caps Lock está ativado</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Usar outro banco de dados</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Novo</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">confirmar</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Começar um novo banco de dados?</sys:String>
@@ -643,7 +645,6 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_St_SortNewest">Por data de criação - mais recentes primeiro</sys:String>
     <sys:String x:Key="Str_St_SortAZ">Ordem alfabética - de A a Z</sys:String>
     <sys:String x:Key="Str_St_SortZA">Ordem alfabética - de Z a A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (clique para inverter)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Ordenar por data de criação</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Ordenar alfabeticamente</sys:String>
     <sys:String x:Key="Str_St_Ready">Pronto</sys:String>

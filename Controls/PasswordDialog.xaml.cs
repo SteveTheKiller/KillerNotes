@@ -1,4 +1,6 @@
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace KillerNotes.Controls
@@ -32,7 +34,10 @@ namespace KillerNotes.Controls
             DialogShortcuts.Describe(CancelButton, "Esc");
             DialogShortcuts.Button(this, ExtraButton, "Ctrl+N", Key.N, ModifierKeys.Control);
             DialogShortcuts.Button(this, Extra2Button, "Ctrl+O", Key.O, ModifierKeys.Control);
-            Loaded += (_, _) => { Anim.FadeIn(RootBorder); PwBox.Focus(); };
+            Loaded += (_, _) => { Anim.FadeIn(RootBorder); PwBox.Focus(); UpdateCapsLine(); };
+            // Caps Lock can change while the dialog is up, so every key re-checks it.
+            PreviewKeyUp += (_, _) => UpdateCapsLine();
+            Activated += (_, _) => UpdateCapsLine();
 
             HeadingText.Text = heading;
             DetailText.Text = detail;
@@ -62,6 +67,86 @@ namespace KillerNotes.Controls
             }
         }
 
+        /// <summary>The database unlock prompt's own layout (1.7.0): a lock badge with the file's
+        /// name, Unlock as the one filled button across the width, and New and Open folded into
+        /// "Use another database". Set, change, backup-test and sharing prompts keep the plain
+        /// layout. <paramref name="error"/> shows under the box after a failed attempt.</summary>
+        public void UseUnlockLayout(string fileName, string? error = null)
+        {
+            HeadingText.Visibility = Visibility.Collapsed;
+            DetailText.Visibility = Visibility.Collapsed;
+            UnlockHeader.Visibility = Visibility.Visible;
+            UnlockTitle.Text = fileName;
+            UnlockTitle.ToolTip = fileName;
+            UnlockSubtitle.Text = TryFindResource("Str_Pw_UnlockHead") as string ?? "";
+            ShowError(error);
+
+            // Unlock leaves the button row for its own full-width line in the footer.
+            if (OkButton.Parent is Panel row) row.Children.Remove(OkButton);
+            OkButton.SetResourceReference(StyleProperty, "PrimaryButton");
+            OkButton.HorizontalAlignment = HorizontalAlignment.Stretch;
+            OkButton.Margin = new Thickness(0);
+            OkButton.Height = 34;
+            UnlockFooter.Children.Insert(0, OkButton);
+            ((FrameworkElement)CancelButton.Parent).Visibility = Visibility.Collapsed;
+            ExtraButton.Visibility = Visibility.Collapsed;
+            Extra2Button.Visibility = Visibility.Collapsed;
+            ((FrameworkElement)ExtraButton.Parent).Visibility = Visibility.Collapsed;
+            UnlockFooter.Visibility = Visibility.Visible;
+
+            OtherDbNew.Header = ExtraButton.Content;
+            OtherDbOpen.Header = Extra2Button.Content;
+            OtherDbNew.Visibility = ExtraButton.Content == null ? Visibility.Collapsed : Visibility.Visible;
+            OtherDbOpen.Visibility = Extra2Button.Content == null ? Visibility.Collapsed : Visibility.Visible;
+            OtherDbButton.Visibility = ExtraButton.Content == null && Extra2Button.Content == null
+                ? Visibility.Collapsed : Visibility.Visible;
+            // The two buttons that carried Ctrl+N and Ctrl+O are hidden now, so the folded menu
+            // takes the keys over.
+            KeyDown += (_, e) =>
+            {
+                if (e.Handled || Keyboard.Modifiers != ModifierKeys.Control || OtherDbButton.Visibility != Visibility.Visible) return;
+                if (e.Key == Key.N && OtherDbNew.Visibility == Visibility.Visible) { Extra_Click(this, e); e.Handled = true; }
+                else if (e.Key == Key.O && OtherDbOpen.Visibility == Visibility.Visible) { Extra2_Click(this, e); e.Handled = true; }
+            };
+        }
+
+        private void ShowError(string? error)
+        {
+            ErrorText.Text = error ?? "";
+            ErrorLine.Visibility = string.IsNullOrEmpty(error) ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void UpdateCapsLine()
+            => CapsLine.Visibility = Keyboard.IsKeyToggled(Key.CapsLock) ? Visibility.Visible : Visibility.Collapsed;
+
+        // Typing again clears the last attempt's error.
+        private void PwBox_PasswordChanged(object sender, RoutedEventArgs e) => ShowError(null);
+
+        private void OtherDb_Click(object sender, RoutedEventArgs e)
+        {
+            OtherDbMenu.PlacementTarget = OtherDbButton;
+            OtherDbMenu.Placement = PlacementMode.Bottom;
+            OtherDbMenu.IsOpen = true;
+        }
+
+        /// <summary>Shows or hides the typed password. The plain box is a copy that trades the
+        /// text back on each switch, so whichever box is showing holds the real value.</summary>
+        private void Reveal_Click(object sender, RoutedEventArgs e)
+        {
+            bool reveal = PwPlain.Visibility != Visibility.Visible;
+            if (reveal) PwPlain.Text = PwBox.Password; else PwBox.Password = PwPlain.Text;
+            PwPlain.Visibility = reveal ? Visibility.Visible : Visibility.Collapsed;
+            PwBox.Visibility = reveal ? Visibility.Collapsed : Visibility.Visible;
+            RevealGlyph.Text = reveal ? "\uED1A" : "\uE890";   // MDL2 Hide / View
+            string tip = TryFindResource(reveal ? "Str_Pw_Hide" : "Str_Pw_Show") as string ?? "";
+            RevealButton.ToolTip = tip;
+            System.Windows.Automation.AutomationProperties.SetName(RevealButton, tip);
+            if (reveal) { PwPlain.Focus(); PwPlain.CaretIndex = PwPlain.Text.Length; }
+            else PwBox.Focus();
+        }
+
+        private string TypedPassword => PwPlain.Visibility == Visibility.Visible ? PwPlain.Text : PwBox.Password;
+
         private void Extra_Click(object sender, RoutedEventArgs e)
         {
             ExtraClicked = true;
@@ -77,8 +162,8 @@ namespace KillerNotes.Controls
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             Confirmed = true;
-            Password = PwBox.Password;
-            PasswordConfirm = PwConfirmBox.Visibility == Visibility.Visible ? PwConfirmBox.Password : PwBox.Password;
+            Password = TypedPassword;
+            PasswordConfirm = PwConfirmBox.Visibility == Visibility.Visible ? PwConfirmBox.Password : Password;
             Close();
         }
 
@@ -93,7 +178,7 @@ namespace KillerNotes.Controls
             if (e.Key != Key.Enter || Keyboard.Modifiers != ModifierKeys.None) return;
             // With a confirm box showing, Enter in the first box goes on to it rather than submitting
             // an empty confirmation.
-            if (sender == PwBox && PwConfirmBox.Visibility == Visibility.Visible) PwConfirmBox.Focus();
+            if ((sender == PwBox || sender == PwPlain) && PwConfirmBox.Visibility == Visibility.Visible) PwConfirmBox.Focus();
             else OK_Click(sender, e);
             e.Handled = true;
         }

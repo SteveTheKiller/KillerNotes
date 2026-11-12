@@ -187,6 +187,7 @@ namespace KillerNotes.Features.Security
         private bool PromptUnlock(bool exitOnCancel)
         {
             string heading = _host.Loc("Str_Pw_UnlockHead");
+            string? error = null;
             while (true)
             {
                 var dlg = new PasswordDialog(heading,
@@ -195,6 +196,9 @@ namespace KillerNotes.Features.Security
                     extraText: _host.Loc("Str_Pw_NewDbBtn"),
                     extra2Text: _host.Loc("Str_Btn_OpenOther"),
                     showCancel: false) { Owner = _host.Window };
+                // The 1.7.0 unlock layout: the file's name as the title, a failed attempt as a
+                // line under the box rather than a changed heading.
+                dlg.UseUnlockLayout(NoteStore.ActiveDbFile, error);
                 dlg.ShowDialog();
 
                 if (dlg.ExtraClicked)
@@ -217,7 +221,8 @@ namespace KillerNotes.Features.Security
                     {
                         App.SetSetting("ActiveDatabase", pick.SelectedDatabase);
                         _dbPassword = null;
-                        heading = _host.Loc("Str_Pw_UnlockHead");   // fresh file - reset the wrong-password heading
+                        heading = _host.Loc("Str_Pw_UnlockHead");
+                        error = null;   // fresh file - drop the last file's wrong-password line
                         if (!NoteStore.IsEncrypted())
                         {
                             NoteStore.Open();
@@ -239,7 +244,7 @@ namespace KillerNotes.Features.Security
                     _dbPassword = string.IsNullOrEmpty(dlg.Password) ? null : dlg.Password;
                     return true;
                 }
-                catch (SqliteException) { heading = _host.Loc("Str_Pw_WrongPw"); }
+                catch (SqliteException) { error = _host.Loc("Str_Pw_WrongPw"); }
             }
         }
 

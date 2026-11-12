@@ -27,8 +27,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Nytt notat</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Ny</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nytt notat (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Etter opprettelsestidspunkt - eldste først (klikk igjen for å snu)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">Alfabetisk (klikk igjen for å snu)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Del notat...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Lagre som en .knote-fil (eventuelt passordbeskyttet) som kan sendes til en kollega</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Eksporter notat som...</sys:String>
@@ -301,6 +299,10 @@ Hvis {0} egentlig ikke kjører KillerNotes (for eksempel etter en krasj), kan du
     <sys:String x:Key="Str_Pw_WrongPw">Feil passord - prøv igjen</sys:String>
     <sys:String x:Key="Str_Pw_Protected">«{0}» er passordbeskyttet.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Lås opp</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Vis passord</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Skjul passord</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Caps Lock er på</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Bruk en annen database</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Ny</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">bekreft</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Starte en ny database?</sys:String>
@@ -641,7 +643,6 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_St_SortNewest">Etter opprettelsestidspunkt - nyeste først</sys:String>
     <sys:String x:Key="Str_St_SortAZ">Alfabetisk - A til Å</sys:String>
     <sys:String x:Key="Str_St_SortZA">Alfabetisk - Å til A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (klikk for å snu)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Sorter etter opprettelsestidspunkt</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Sorter alfabetisk</sys:String>
     <sys:String x:Key="Str_St_Ready">Klar</sys:String>

@@ -21,8 +21,6 @@
     <sys:String x:Key="Str_Search_ToggleBar">Afficher/masquer la barre de recherche</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Nouvelle note</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nouvelle note (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Par date de création - la plus ancienne d'abord (cliquez de nouveau pour inverser)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">Alphabétique (cliquez de nouveau pour inverser)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Partager la note...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Enregistrer un fichier .knote (protégé par mot de passe si besoin) à envoyer à un collègue</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Exporter la note sous...</sys:String>
@@ -112,6 +110,10 @@ de la base et rouvrez-la.</sys:String>
     <sys:String x:Key="Str_Pw_WrongPw">Mot de passe incorrect - réessayez</sys:String>
     <sys:String x:Key="Str_Pw_Protected">« {0} » est protégée par mot de passe.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Déverrouiller</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Afficher le mot de passe</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Masquer le mot de passe</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Verr. Maj est activé</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Utiliser une autre base de données</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Nouvelle</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">confirmer</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Commencer une nouvelle base de données ?</sys:String>
@@ -501,7 +503,6 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_St_SortNewest">Par date de création - les plus récentes d'abord</sys:String>
     <sys:String x:Key="Str_St_SortAZ">Alphabétique - de A à Z</sys:String>
     <sys:String x:Key="Str_St_SortZA">Alphabétique - de Z à A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (cliquer pour inverser)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Trier par date de création</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Trier par ordre alphabétique</sys:String>
     <sys:String x:Key="Str_St_Ready">Prêt</sys:String>

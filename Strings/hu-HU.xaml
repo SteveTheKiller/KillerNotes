@@ -22,8 +22,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Új jegyzet</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Új</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Új jegyzet (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Létrehozási idő szerint - a legrégebbi elöl (kattintson újra a visszafordításhoz)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">ABC sorrendben (kattintson újra a visszafordításhoz)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Jegyzet megosztása...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Mentés .knote fájlként (opcionálisan jelszóval védett), hogy elküldje egy munkatársának</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Megjegyzés exportálása mint...</sys:String>
@@ -268,6 +266,10 @@ meg újra.</sys:String>
     <sys:String x:Key="Str_Pw_WrongPw">Hibás jelszó - próbálja újra</sys:String>
     <sys:String x:Key="Str_Pw_Protected">&quot;{0}&quot; jelszóval védett.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Oldja fel</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Jelszó megjelenítése</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Jelszó elrejtése</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">A Caps Lock be van kapcsolva</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Másik adatbázis használata</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Új</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">erősítse meg</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Új adatbázist indítani?</sys:String>
@@ -605,7 +607,6 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_SortNewest">Létrehozási idő szerint - a legújabbak először</sys:String>
     <sys:String x:Key="Str_St_SortAZ">ABC sorrendben - A-tól Z-ig</sys:String>
     <sys:String x:Key="Str_St_SortZA">ABC sorrendben - Z-től A-ig</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (kattintással megfordíthatja)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Rendezés létrehozási idő szerint</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Rendezés ábécé szerint</sys:String>
     <sys:String x:Key="Str_St_Ready">Kész</sys:String>

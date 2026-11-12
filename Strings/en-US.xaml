@@ -27,8 +27,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ New note</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ New</sys:String>
     <sys:String x:Key="Str_TT_NewNote">New note (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">By creation time - oldest first (click again to reverse)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">Alphabetical (click again to reverse)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Share note...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Save as a .knote file (optionally password protected) to send to a coworker</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Export note as...</sys:String>
@@ -303,6 +301,10 @@ example), delete the .lock file beside the database and reopen it.</sys:String>
     <sys:String x:Key="Str_Pw_WrongPw">Wrong password - try again</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" is password protected.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Unlock</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Show password</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Hide password</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Caps Lock is on</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Use another database</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">New</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">confirm</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Start a new database?</sys:String>
@@ -643,7 +645,6 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_SortNewest">By creation time - newest first</sys:String>
     <sys:String x:Key="Str_St_SortAZ">Alphabetical - A to Z</sys:String>
     <sys:String x:Key="Str_St_SortZA">Alphabetical - Z to A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (click to reverse)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Sort by creation time</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Sort alphabetically</sys:String>
     <sys:String x:Key="Str_St_Ready">Ready</sys:String>

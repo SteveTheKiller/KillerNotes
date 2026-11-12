@@ -21,8 +21,6 @@
     <sys:String x:Key="Str_Search_ToggleBar">显示/隐藏搜索栏</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ 新建笔记</sys:String>
     <sys:String x:Key="Str_TT_NewNote">新建笔记 (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">按创建时间 - 最早在前 (再次点击反向排序)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">按字母顺序 (再次点击反向排序)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">分享笔记...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">保存为 .knote 文件 (可选密码保护)，发送给同事</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">导出笔记为...</sys:String>
@@ -111,6 +109,10 @@
     <sys:String x:Key="Str_Pw_WrongPw">密码错误 - 请重试</sys:String>
     <sys:String x:Key="Str_Pw_Protected">“{0}”受密码保护。</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">解锁</sys:String>
+    <sys:String x:Key="Str_Pw_Show">显示密码</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">隐藏密码</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">大写锁定已开启</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">使用其他数据库</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">新建</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">确认</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">开始新的数据库?</sys:String>
@@ -499,7 +501,6 @@
     <sys:String x:Key="Str_St_SortNewest">按创建时间 - 最新在前</sys:String>
     <sys:String x:Key="Str_St_SortAZ">按字母 - A 到 Z</sys:String>
     <sys:String x:Key="Str_St_SortZA">按字母 - Z 到 A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0}（点击反转）</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">按创建时间排序</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">按字母排序</sys:String>
     <sys:String x:Key="Str_St_Ready">就绪</sys:String>

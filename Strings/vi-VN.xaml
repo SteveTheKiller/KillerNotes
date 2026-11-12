@@ -27,8 +27,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Ghi chú mới</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Mới</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Ghi chú mới (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Theo thời gian tạo - cũ nhất trước (nhấp lại để đảo ngược)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">Theo bảng chữ cái (nhấp lại để đảo ngược)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Chia sẻ ghi chú...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Lưu thành tệp .knote (có thể bảo vệ bằng mật khẩu) để gửi cho đồng nghiệp</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Xuất ghi chú dưới dạng...</sys:String>
@@ -304,6 +302,10 @@ hãy xóa tệp .lock bên cạnh cơ sở dữ liệu rồi mở lại.</sys:St
     <sys:String x:Key="Str_Pw_WrongPw">Sai mật khẩu - hãy thử lại</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" được bảo vệ bằng mật khẩu.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Mở khóa</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Hiện mật khẩu</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Ẩn mật khẩu</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Caps Lock đang bật</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Dùng cơ sở dữ liệu khác</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Mới</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">xác nhận</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Bắt đầu cơ sở dữ liệu mới?</sys:String>
@@ -645,7 +647,6 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_St_SortNewest">Theo thời gian tạo - mới nhất trước</sys:String>
     <sys:String x:Key="Str_St_SortAZ">Theo bảng chữ cái - A đến Z</sys:String>
     <sys:String x:Key="Str_St_SortZA">Theo bảng chữ cái - Z đến A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (nhấp để đảo ngược)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Sắp xếp theo thời gian tạo</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Sắp xếp theo bảng chữ cái</sys:String>
     <sys:String x:Key="Str_St_Ready">Sẵn sàng</sys:String>

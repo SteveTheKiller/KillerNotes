@@ -19,8 +19,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Nowa notatka</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Nowa</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nowa notatka (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Według czasu utworzenia - najstarsze pierwsze (kliknij ponownie, aby odwrócić)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">Alfabetycznie (kliknij ponownie, aby odwrócić)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Udostępnij notatkę...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Zapisz jako plik .knote (opcjonalnie chroniony hasłem), aby wysłać go współpracownikowi</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Eksportuj notatkę jako...</sys:String>
@@ -224,6 +222,10 @@ przykład po awarii), usuń plik .lock obok bazy i otwórz ją ponownie.</sys:St
     <sys:String x:Key="Str_Pw_WrongPw">Nieprawidłowe hasło - spróbuj ponownie</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" jest chroniona hasłem.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Odblokuj</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Pokaż hasło</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Ukryj hasło</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Caps Lock jest włączony</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Użyj innej bazy danych</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Nowa</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">potwierdź</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Utworzyć nową bazę danych?</sys:String>
@@ -527,7 +529,6 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_SortNewest">Według czasu utworzenia - najnowsze pierwsze</sys:String>
     <sys:String x:Key="Str_St_SortAZ">Alfabetycznie - od A do Z</sys:String>
     <sys:String x:Key="Str_St_SortZA">Alfabetycznie - od Z do A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (kliknij, aby odwrócić)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Sortuj według czasu utworzenia</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Sortuj alfabetycznie</sys:String>
     <sys:String x:Key="Str_St_Ready">Gotowe</sys:String>

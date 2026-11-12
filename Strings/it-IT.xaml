@@ -22,8 +22,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Nuova nota</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Nuova</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Nuova nota (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Per data di creazione - prima le più vecchie (clic di nuovo per invertire)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">Alfabetico (clic di nuovo per invertire)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Condividi nota...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Salva come file .knote (con password facoltativa) da inviare a un collega</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Esporta nota come...</sys:String>
@@ -281,6 +279,10 @@ modifiche non saranno salvate. Se {0} non sta davvero eseguendo KillerNotes
     <sys:String x:Key="Str_Pw_WrongPw">Password errata - riprova</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" è protetto da password.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Sblocca</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Mostra password</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Nascondi password</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Bloc Maiusc è attivo</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Usa un altro database</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Nuova</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">conferma</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Iniziare un nuovo database?</sys:String>
@@ -610,7 +612,6 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_St_SortNewest">Per data di creazione - prima le più recenti</sys:String>
     <sys:String x:Key="Str_St_SortAZ">Alfabetico - dalla A alla Z</sys:String>
     <sys:String x:Key="Str_St_SortZA">Alfabetico - dalla Z alla A</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (clic per invertire)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Ordina per data di creazione</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Ordina alfabeticamente</sys:String>
     <sys:String x:Key="Str_St_Ready">Pronto</sys:String>

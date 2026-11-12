@@ -21,8 +21,6 @@
     <sys:String x:Key="Str_Search_ToggleBar">Arama çubuğunu göster/gizle</sys:String>
     <sys:String x:Key="Str_Btn_NewNote">+ Yeni not</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Yeni not (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Oluşturma zamanına göre - önce en eski (tersine çevirmek için yeniden tıklayın)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">Alfabetik (tersine çevirmek için yeniden tıklayın)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Notu paylaş...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Bir iş arkadaşına göndermek için .knote dosyası olarak kaydedin (isteğe bağlı parola korumalı)</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Notu farklı dışa aktar...</sys:String>
@@ -112,6 +110,10 @@ yeniden açın.</sys:String>
     <sys:String x:Key="Str_Pw_WrongPw">Yanlış parola - yeniden deneyin</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" parola korumalı.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Kilidi aç</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Parolayı göster</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Parolayı gizle</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Caps Lock açık</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Başka bir veritabanı kullan</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Yeni</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">onayla</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Yeni bir veritabanı başlatılsın mı?</sys:String>
@@ -501,7 +503,6 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_SortNewest">Oluşturma zamanına göre - önce en yeni</sys:String>
     <sys:String x:Key="Str_St_SortAZ">Alfabetik - A'dan Z'ye</sys:String>
     <sys:String x:Key="Str_St_SortZA">Alfabetik - Z'den A'ya</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (tersine çevirmek için tıkla)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Oluşturma zamanına göre sırala</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Alfabetik sırala</sys:String>
     <sys:String x:Key="Str_St_Ready">Hazır</sys:String>

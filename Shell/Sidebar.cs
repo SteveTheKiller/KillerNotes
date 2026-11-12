@@ -43,15 +43,15 @@ namespace KillerNotes.Shell
         private double ExpandedLogicalWidth(double s) => Math.Max(_sidebarBaseWidth / s, PanelMinLogical);
 
         /// <summary>Wrap decision ONLY - the wording is UpdateNewNoteLabel's job (it
-        /// steps "+ New note" -> "+ New" -> "+" against its own column, and its column
-        /// reflects whatever this handler decides). The sorts drop to their own row
-        /// exactly when even the bare "+" cannot share a row with them, and snap back
+        /// drops the "New note" label to the bare plus glyph against its own column, and its
+        /// column reflects whatever this handler decides). The sort button drops to its own row
+        /// exactly when even the bare glyph cannot share a row with it, and snaps back
         /// the moment it can. One writer per concern, so the two can't fight.</summary>
         private void SidebarToolbar_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (SortBtns.ActualWidth <= 0) return;
             // The split chevron (NewMenu.cs) shares the column, so it counts toward the "+".
-            double plus = Math.Max(NewNoteBtn.MinWidth, MeasureNewNoteWidth("+")) + NewMenuBtnWidth();
+            double plus = Math.Max(NewNoteBtn.MinWidth, MeasureNewNoteWidth(withLabel: false)) + NewMenuBtnWidth();
             bool wrap = SidebarToolbarWraps(e.NewSize.Width, plus, SortBtns.ActualWidth);
             if (wrap == (Grid.GetRow(SortBtns) == 1)) return;
             if (wrap)
@@ -60,7 +60,7 @@ namespace KillerNotes.Shell
                 Grid.SetColumn(SortBtns, 0);
                 Grid.SetColumnSpan(SortBtns, 2);
                 SortBtns.HorizontalAlignment = HorizontalAlignment.Left;
-                SortBtns.Margin = new Thickness(-8, 8, 0, 0);   // cancels SortTimeBtn's 8px lead-in
+                SortBtns.Margin = new Thickness(-8, 8, 0, 0);   // cancels SortBtn's 8px lead-in
                 SortBtns.Height = NewNoteBtn.Height;   // its own row no longer stretches it to the button's height
             }
             else
@@ -147,29 +147,25 @@ namespace KillerNotes.Shell
         // Shrink the short label slightly before falling back to the large plus sign.
         private void UpdateNewNoteLabel()
         {
-            if (NewNoteBtn == null || NewNoteCol == null) return;
+            if (NewNoteBtn == null || NewNoteCol == null || NewNoteLabel == null) return;
             double available = NewNoteCol.ActualWidth - NewMenuBtnWidth();
             if (available <= 0) return;
-            string label = Loc("Str_Btn_NewNoteShort").ToUpper(CultureInfo.CurrentUICulture);
-            double size = 22;
-            if (MeasureNewNoteWidth(label, 19) > available) label = "+";
-            else
-            {
-                double inset = NewNoteBtn.Padding.Left + NewNoteBtn.Padding.Right
-                    + NewNoteBtn.BorderThickness.Left + NewNoteBtn.BorderThickness.Right + 2;
-                double textWidth = MeasureNewNoteWidth(label, 22) - inset;
-                if (textWidth > 0) size = Math.Max(19, Math.Min(22, 22 * Math.Max(0, available - inset) / textWidth));
-            }
-            if (Math.Abs(NewNoteBtn.FontSize - size) > 0.01) NewNoteBtn.FontSize = size;
-            if (!Equals(NewNoteBtn.Content, label)) NewNoteBtn.Content = label;
+            var show = MeasureNewNoteWidth(withLabel: true) <= available ? Visibility.Visible : Visibility.Collapsed;
+            if (NewNoteLabel.Visibility != show) NewNoteLabel.Visibility = show;
         }
 
-        private double MeasureNewNoteWidth(string text, double? fontSize = null)
+        /// <summary>The New note button's width with or without its label: the plus glyph, the
+        /// label and its gap, and the button's own padding and border.</summary>
+        private double MeasureNewNoteWidth(bool withLabel)
         {
-            var ft = new FormattedText(text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
-                new Typeface(NewNoteBtn.FontFamily, NewNoteBtn.FontStyle, NewNoteBtn.FontWeight, NewNoteBtn.FontStretch),
-                fontSize ?? NewNoteBtn.FontSize, Brushes.Black, VisualTreeHelper.GetDpi(NewNoteBtn).PixelsPerDip);
-            return ft.Width
+            double dip = VisualTreeHelper.GetDpi(NewNoteBtn).PixelsPerDip;
+            double Text(string text, Typeface face, double size) => new FormattedText(text, CultureInfo.CurrentUICulture,
+                FlowDirection.LeftToRight, face, size, Brushes.Black, dip).WidthIncludingTrailingWhitespace;
+            double width = Text("\uE710", new Typeface("Segoe MDL2 Assets"), 12);
+            if (withLabel)
+                width += NewNoteLabel.Margin.Left + Text(Loc("Str_KS_NewNote"),
+                    new Typeface(NewNoteBtn.FontFamily, NewNoteBtn.FontStyle, NewNoteBtn.FontWeight, NewNoteBtn.FontStretch), NewNoteBtn.FontSize);
+            return width
                  + NewNoteBtn.Padding.Left + NewNoteBtn.Padding.Right
                  + NewNoteBtn.BorderThickness.Left + NewNoteBtn.BorderThickness.Right + 2;
         }

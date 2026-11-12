@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -30,12 +32,35 @@ namespace KillerNotes.Shell
 
         private void RememberSort() => App.SetSetting("SidebarSort", SortKey);
 
-        // Dedicated sort buttons: clicking the inactive one activates it (its default
-        // direction); clicking the active one reverses direction. Custom order (#4) has
-        // no direction - clicking it again is a no-op.
+        // Alt+4 to Alt+6 (ActionShortcuts.cs): picking the inactive sort activates it in its
+        // default direction; picking the active one reverses it. Custom order (#4) has no
+        // direction, so picking it again is a no-op. The names predate the single sort button.
         private void SortTimeBtn_Click(object sender, RoutedEventArgs e) => SetSort("created", defaultAsc: false);
         private void SortAlphaBtn_Click(object sender, RoutedEventArgs e) => SetSort("title", defaultAsc: true);
         private void SortCustomBtn_Click(object sender, RoutedEventArgs e) => SetSort("custom", defaultAsc: true);
+
+        /// <summary>The sidebar's one sort button opens its menu under it, the same menu a
+        /// right-click gives: FlyoutPlacement's toolbar dropdown, right edges aligned. The menu is
+        /// wider than a default sidebar, so on a left-hand sidebar it is nudged right where it
+        /// would hang past the sidebar's far edge and off the window. On a right-hand sidebar the
+        /// overhang falls over the content pane, which is fine.</summary>
+        private void SortBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (SortBtn.ContextMenu is not ContextMenu menu) return;
+            FlyoutPlacement.AttachBelowRight(menu, SortBtn);
+            var below = menu.CustomPopupPlacementCallback;
+            menu.CustomPopupPlacementCallback = (popup, target, offset) =>
+            {
+                var placed = below(popup, target, offset);
+                if (_sidebarRight) return placed;
+                double scale = SortBtn.ActualWidth > 0 ? target.Width / SortBtn.ActualWidth : 1;
+                double halo = new Border { Style = TryFindResource("FlyoutCard") as Style }.Margin.Left;
+                double minX = -SortBtn.TranslatePoint(new Point(0, 0), SidebarPanel).X * scale - halo;
+                var p = placed[0].Point;
+                return [new CustomPopupPlacement(new Point(Math.Max(minX, p.X), p.Y), placed[0].PrimaryAxis)];
+            };
+            menu.IsOpen = true;
+        }
 
         /// <summary>The direction a sort mode starts in when it is picked: newest first for time,
         /// A to Z for the others. The buttons, Alt+4 to Alt+6 and the sort menu all agree on it.</summary>
@@ -66,46 +91,32 @@ namespace KillerNotes.Shell
             };
         }
 
-        /// <summary>Marks the active sort button, shows its direction arrow
-        /// (up = ascending), and keeps tooltips truthful.</summary>
+        /// <summary>The sort button wears the active sort's glyph and, for the two directional
+        /// sorts, its arrow (up = ascending). The tooltip names the sort and its shortcut.</summary>
         private void UpdateSortButtons()
         {
-            bool time = _sortField == "created", alpha = _sortField == "title", custom = _sortField == "custom";
-            MarkSortButton(SortTimeBtn, time);
-            MarkSortButton(SortAlphaBtn, alpha);
-            MarkSortButton(SortCustomBtn, custom);
-            string arrow = _sortAsc ? "↑" : "↓";
-            SortTimeArrow.Text  = time ? arrow : "";
-            SortAlphaArrow.Text = alpha ? arrow : "";
-            SortTimeBtn.ToolTip = time
-                ? string.Format(Loc("Str_TT_ClickReverse"), Loc(_sortAsc ? "Str_St_SortOldest" : "Str_St_SortNewest"))
-                : Loc("Str_TT_SortTimeOff");
-            SortAlphaBtn.ToolTip = alpha
-                ? string.Format(Loc("Str_TT_ClickReverse"), Loc(_sortAsc ? "Str_St_SortAZ" : "Str_St_SortZA"))
-                : Loc("Str_TT_SortAlphaOff");
-            SortCustomBtn.ToolTip = Loc("Str_TT_SortCustom");
-            SortTimeBtn.ToolTip += " (Alt+4)";
-            SortAlphaBtn.ToolTip += " (Alt+5)";
-            SortCustomBtn.ToolTip += " (Alt+6)";
+            SortGlyph.Text = SortGlyphFor(_sortField);
+            SortArrow.Text = _sortField == "custom" ? "" : _sortAsc ? "\u2191" : "\u2193";
+            SortArrow.Visibility = _sortField == "custom" ? Visibility.Collapsed : Visibility.Visible;
+            string name = _sortField switch
+            {
+                "created" => Loc(_sortAsc ? "Str_St_SortOldest" : "Str_St_SortNewest"),
+                "title" => Loc(_sortAsc ? "Str_St_SortAZ" : "Str_St_SortZA"),
+                _ => Loc("Str_TT_SortCustom"),
+            };
+            SortBtn.ToolTip = name;
+            AutomationProperties.SetName(SortBtn, name);
         }
 
-        // The active sort takes the family selected pair (SelectionBg fill, SelectionFg glyph),
-        // the same way KillerScan marks its current view and Killendar its calendar tab. A glyph
-        // tint alone vanished wherever the accent sits next to the text color: Light, 98SE,
-        // Greed and Cyanotic. Tag "selected" keeps the fill under hover (SurfaceButton). The
-        // rest go back to the sort strip's own face so the inactive look is unchanged.
-        private static void MarkSortButton(Button btn, bool on)
+        /// <summary>The MDL2 glyph each sort shows, the same one its row has in the sort menu.</summary>
+        internal static string SortGlyphFor(string field) => field switch
         {
-            // One button face everywhere: the active sort keeps it and takes the accent on its edge
-            // and glyph (Controls.xaml SurfaceButton, Tag "selected"), not a second fill color.
-            btn.SetResourceReference(BackgroundProperty, "SortButtonBrush");
-            btn.SetResourceReference(ForegroundProperty, on ? "PrimaryBrush" : "TextBrush");
-            btn.Tag = on ? "selected" : null;
-        }
+            "title" => "\uE8CB",
+            "custom" => "\uE76F",
+            _ => "\uE823",
+        };
 
-        // The three sort buttons share a right-click menu (MainWindow.xaml SortMenu) that
-        // names each sort beside its glyph, so you can pick one without decoding the strip.
-        // Refresh the active marker each time it opens: accent the current mode and, for
+        // The sort menu (MainWindow.xaml SortMenu) names each sort beside its glyph. Refresh the active marker each time it opens: accent the current mode and, for
         // the two directional sorts, show its arrow on the right (custom has no direction).
         private void SortMenu_Opened(object sender, RoutedEventArgs e)
         {
@@ -124,8 +135,7 @@ namespace KillerNotes.Shell
             }
         }
 
-        // A sort mode from the menu behaves exactly like clicking its button (switch to it,
-        // or reverse when already active); "Reverse order" flips the active sort's direction.
+        // A sort mode from the menu switches to it, or reverses it when already active; "Reverse order" flips the active sort's direction.
         private void SortMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not MenuItem item || item.Tag is not string tag) return;

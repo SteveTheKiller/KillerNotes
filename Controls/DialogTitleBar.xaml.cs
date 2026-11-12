@@ -32,13 +32,16 @@ namespace KillerNotes.Controls
             FitCloseToBar();
         }
 
-        // The X keeps the family size every other window uses (the AboutClose* box). On 98SE
-        // it takes the same 2 px right gap ConfirmDialog's caption gets from DialogTitleBarPadding:
-        // 98SE's TitleBarPadding has no right inset, so without it the button ran into the frame.
+        // The X keeps the family size every other window uses (the AboutClose* box) and the same
+        // right inset ConfirmDialog's caption gets from DialogTitleBarPadding (14 on the card
+        // themes, 2 on 98SE). This bar is laid out on DialogTitleMargin, whose right side is 0 on
+        // the card themes, so the X sat jammed in the corner on every dialog built from it
+        // (1.7.0). The margin makes up the difference, whatever the theme sets.
         private void FitCloseToBar()
         {
-            if (TryFindResource("UseDialogCaption") is true)
-                CloseButton.Margin = new Thickness(0, 0, TryFindResource("DialogTitleBarPadding") is Thickness pad ? pad.Right : 2, 0);
+            double want = TryFindResource("DialogTitleBarPadding") is Thickness pad ? pad.Right : 2;
+            double have = TryFindResource("DialogTitleMargin") is Thickness bar ? bar.Right : 0;
+            CloseButton.Margin = new Thickness(0, 0, System.Math.Max(0, want - have), 0);
         }
 
         private void ApplySubtitle(string? sub)

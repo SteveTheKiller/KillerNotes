@@ -22,8 +22,6 @@
     <sys:String x:Key="Str_Btn_NewNote">+ Жаңа жазба</sys:String>
     <sys:String x:Key="Str_Btn_NewNoteShort">+ Жаңа</sys:String>
     <sys:String x:Key="Str_TT_NewNote">Жаңа жазба (Ctrl+N)</sys:String>
-    <sys:String x:Key="Str_TT_SortTime">Жасалу уақыты бойынша - алдымен ескілері (кері реттеу үшін тағы басыңыз)</sys:String>
-    <sys:String x:Key="Str_TT_SortAlpha">Әліпби бойынша (кері реттеу үшін тағы басыңыз)</sys:String>
     <sys:String x:Key="Str_Ctx_ShareNote">Жазбамен бөлісу...</sys:String>
     <sys:String x:Key="Str_TT_ShareNote">Әріптесіңізге жіберу үшін .knote файлы ретінде сақтау (қаласаңыз құпия сөзбен)</sys:String>
     <sys:String x:Key="Str_Ctx_ExportNote">Жазбаны басқаша экспорттау...</sys:String>
@@ -281,6 +279,10 @@
     <sys:String x:Key="Str_Pw_WrongPw">Құпия сөз қате - тағы көріңіз</sys:String>
     <sys:String x:Key="Str_Pw_Protected">"{0}" құпия сөзбен қорғалған.</sys:String>
     <sys:String x:Key="Str_Btn_Unlock">Құлпын ашу</sys:String>
+    <sys:String x:Key="Str_Pw_Show">Құпиясөзді көрсету</sys:String>
+    <sys:String x:Key="Str_Pw_Hide">Құпиясөзді жасыру</sys:String>
+    <sys:String x:Key="Str_Pw_CapsLock">Caps Lock қосулы</sys:String>
+    <sys:String x:Key="Str_Pw_OtherDb">Басқа дерекқорды пайдалану</sys:String>
     <sys:String x:Key="Str_Pw_NewDbBtn">Жаңа</sys:String>
     <sys:String x:Key="Str_Lbl_Confirm">растаңыз</sys:String>
     <sys:String x:Key="Str_Dlg_FreshHead">Жаңа дерекқор басталсын ба?</sys:String>
@@ -610,7 +612,6 @@
     <sys:String x:Key="Str_St_SortNewest">Жасалу уақыты бойынша - алдымен жаңалары</sys:String>
     <sys:String x:Key="Str_St_SortAZ">Әліпби бойынша - А-дан Я-ға</sys:String>
     <sys:String x:Key="Str_St_SortZA">Әліпби бойынша - Я-дан А-ға</sys:String>
-    <sys:String x:Key="Str_TT_ClickReverse">{0} (кері реттеу үшін басыңыз)</sys:String>
     <sys:String x:Key="Str_TT_SortTimeOff">Жасалу уақыты бойынша сұрыптау</sys:String>
     <sys:String x:Key="Str_TT_SortAlphaOff">Әліпби бойынша сұрыптау</sys:String>
     <sys:String x:Key="Str_St_Ready">Дайын</sys:String>
