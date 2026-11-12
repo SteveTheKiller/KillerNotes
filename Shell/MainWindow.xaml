@@ -1919,11 +1919,17 @@
                     </TextBox.ContextMenu>
                 </TextBox>
                 <!-- The format bar's preview chip, for a note with no format bar (markdown, trash):
-                     Rendered hides the editor, so the way back has to stay on screen (Preview.cs). -->
+                     Rendered hides the editor, so the way back has to stay on screen (Preview.cs).
+                     Eye, current view and a chevron, so it reads as the dropdown it is: a click
+                     opens the three views (PreviewModeBtn_Click); F4 still steps through them. -->
                 <Button x:Name="PreviewTitleBtn" Grid.Column="1" Style="{StaticResource FmtButton}" Visibility="Collapsed"
                         Width="Auto" MinWidth="0" Padding="6,0" Margin="0,10,12,4" VerticalAlignment="Center"
                         ToolTip="{DynamicResource Str_TT_Preview}" Click="PreviewModeBtn_Click">
-                    <TextBlock x:Name="PreviewTitleText" FontFamily="{DynamicResource UiFont}" FontSize="11" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE890;" FontFamily="Segoe MDL2 Assets" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="PreviewTitleText" FontFamily="{DynamicResource UiFont}" FontSize="11" VerticalAlignment="Center"/>
+                        <TextBlock Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="8" Margin="5,1,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </Button>
                 </Grid>
                 <!-- 0 top / 3 bottom, not 2/0: with no bottom clearance the rule sat on the body
@@ -2228,7 +2234,11 @@
                     <Button x:Name="PreviewModeBtn" Style="{StaticResource FmtButton}" Visibility="Collapsed"
                             Width="Auto" MinWidth="0" Padding="6,0" ToolTip="{DynamicResource Str_TT_Preview}"
                             Click="PreviewModeBtn_Click">
-                        <TextBlock x:Name="PreviewModeText" FontFamily="{DynamicResource UiFont}" FontSize="11" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE890;" FontFamily="Segoe MDL2 Assets" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="PreviewModeText" FontFamily="{DynamicResource UiFont}" FontSize="11" VerticalAlignment="Center"/>
+                            <TextBlock Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="8" Margin="5,1,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Button>
                     <Rectangle x:Name="FmtEndSeparator" Style="{StaticResource FmtSeparator}"/>
                     <Button Style="{StaticResource RailButton}" Content="&#xE70E;" FontSize="12"
@@ -2296,147 +2306,139 @@
                             </Style>
                         </RichTextBox.Resources>
                         <RichTextBox.ContextMenu>
-                            <ContextMenu>
-                                <ContextMenu.Resources>
-                                    <!-- Editor menu only: its commands and shortcuts are already
-                                         self-explanatory, so it does not need the roomier family
-                                         padding used by nested/sidebar menus. -->
-                                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                                        <Setter Property="Padding" Value="4,5,6,5"/>
-                                    </Style>
-                                </ContextMenu.Resources>
-                                <MenuItem Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
-                                <MenuItem x:Name="EditorCopyMenuItem" Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;" Click="EditorCopyMenuItem_Click" InputGestureText="Ctrl+C"/>
-                                <MenuItem Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
-                                <MenuItem x:Name="ConvertListMenuItem"
-                                          Header="{DynamicResource Str_Ctx_ConvertList}" Icon="&#xE8FD;" Click="ConvertToList_Click"
-                                          InputGestureText="Ctrl+Shift+J" ToolTip="{DynamicResource Str_TT_ConvertList}"/>
-                                <!-- Insert on empty selection, edit/remove with the caret in a link (Links.cs) -->
-                                <MenuItem x:Name="LinkMenuItem"
-                                          Header="{DynamicResource Str_Ctx_Link}" Icon="&#xE71B;" Click="LinkMenu_Click"
-                                          InputGestureText="Ctrl+K"/>
-                                <!-- Table actions (Editor.TableEdit.cs). Collapsed unless the
-                                     right-click landed in a table cell. -->
-                                <MenuItem x:Name="TableSeparator" IsHitTestVisible="False" Focusable="False"
-                                          Height="9" Visibility="Collapsed">
-                                    <MenuItem.Template>
-                                        <ControlTemplate TargetType="MenuItem">
-                                            <Border Height="1" Margin="10,4" Background="{DynamicResource MenuBorderBrush}"/>
-                                        </ControlTemplate>
-                                    </MenuItem.Template>
-                                </MenuItem>
-                                <MenuItem x:Name="TableMenuItem" Header="{DynamicResource Str_Ctx_Table}" Icon="&#xE8A9;"
-                                          Visibility="Collapsed">
-                                    <MenuItem x:Name="TblRowAboveMenuItem" Header="{DynamicResource Str_Ctx_TblRowAbove}" Icon="&#xE74A;" Click="TableRowAbove_Click"
-                                              InputGestureText="Alt+Shift+A"/>
-                                    <MenuItem x:Name="TblRowBelowMenuItem" Header="{DynamicResource Str_Ctx_TblRowBelow}" Icon="&#xE74B;" Click="TableRowBelow_Click"
-                                              InputGestureText="Alt+Shift+B"/>
-                                    <MenuItem x:Name="TblColLeftMenuItem" Header="{DynamicResource Str_Ctx_TblColLeft}" Icon="&#xE72B;" Click="TableColLeft_Click"
-                                              InputGestureText="Alt+Shift+L"/>
-                                    <MenuItem x:Name="TblColRightMenuItem" Header="{DynamicResource Str_Ctx_TblColRight}" Icon="&#xE72A;" Click="TableColRight_Click"
-                                              InputGestureText="Alt+Shift+R"/>
-                                    <MenuItem IsHitTestVisible="False" Focusable="False" Height="9">
-                                        <MenuItem.Template>
-                                            <ControlTemplate TargetType="MenuItem">
-                                                <Border Height="1" Margin="10,4" Background="{DynamicResource MenuBorderBrush}"/>
-                                            </ControlTemplate>
-                                        </MenuItem.Template>
-                                    </MenuItem>
-                                    <MenuItem x:Name="TableStyleMenuItem" Header="{DynamicResource Str_TableStyle_Title}" InputGestureText="Alt+Shift+S" Click="TableStyle_Click"/>
-                                    <MenuItem IsHitTestVisible="False" Focusable="False" Height="9">
-                                        <MenuItem.Template>
-                                            <ControlTemplate TargetType="MenuItem">
-                                                <Border Height="1" Margin="10,4" Background="{DynamicResource MenuBorderBrush}"/>
-                                            </ControlTemplate>
-                                        </MenuItem.Template>
-                                    </MenuItem>
-                                    <MenuItem x:Name="TblDelRowMenuItem" Header="{DynamicResource Str_Ctx_TblDelRow}" Icon="&#xE738;" Click="TableDelRow_Click"
-                                              InputGestureText="Alt+Shift+D"/>
-                                    <MenuItem x:Name="TblDelColMenuItem" Header="{DynamicResource Str_Ctx_TblDelCol}" Icon="&#xE738;" Click="TableDelCol_Click"
-                                              InputGestureText="Alt+Shift+C"/>
-                                    <MenuItem x:Name="TblDeleteMenuItem" Header="{DynamicResource Str_Ctx_TblDelete}" Icon="&#xE74D;" Click="TableDelete_Click"
-                                              InputGestureText="Alt+Shift+X"/>
-                                </MenuItem>
-                                <MenuItem x:Name="DocToggleSeparator" IsHitTestVisible="False" Focusable="False" Height="9">
-                                    <MenuItem.Template>
-                                        <ControlTemplate TargetType="MenuItem">
-                                            <Border Height="1" Margin="10,4" Background="{DynamicResource MenuBorderBrush}"/>
-                                        </ControlTemplate>
-                                    </MenuItem.Template>
-                                </MenuItem>
-                                <MenuItem x:Name="SyntaxHighlightMenuItem" Icon="&#xE943;"
-                                          Header="{DynamicResource Str_KS_Syntax}"
-                                          IsCheckable="True" Click="SyntaxHighlight_Click"
-                                          InputGestureText="Ctrl+Shift+E"/>
-                                <MenuItem x:Name="WordWrapMenuItem" Icon="&#xE751;"
-                                          Header="{DynamicResource Str_KS_WordWrap}"
-                                          IsCheckable="True" Click="WordWrap_Click"
-                                          InputGestureText="Ctrl+Shift+W"/>
-                                <!-- Page width presets (Editor.View.cs, #31): the same four picks as
-                                     the footer radios. Gestures come from ActionShortcuts.cs. -->
-                                <MenuItem x:Name="PageWidthMenuItem" Icon="&#xE9A6;" Header="{DynamicResource Str_KS_PageWidth}">
-                                    <MenuItem x:Name="PageWidthFullMenuItem" IsCheckable="True" Click="PageWidthFull_Click"
-                                              Header="{DynamicResource Str_PW_Full}" InputGestureText="Alt+Shift+W"/>
-                                    <MenuItem x:Name="PageWidthWideMenuItem" IsCheckable="True" Click="PageWidthWide_Click"
-                                              Header="{DynamicResource Str_PW_Wide}" InputGestureText="Alt+Shift+E"/>
-                                    <MenuItem x:Name="PageWidthMediumMenuItem" IsCheckable="True" Click="PageWidthMedium_Click"
-                                              Header="{DynamicResource Str_PW_Medium}" InputGestureText="Alt+Shift+M"/>
-                                    <MenuItem x:Name="PageWidthNarrowMenuItem" IsCheckable="True" Click="PageWidthNarrow_Click"
-                                              Header="{DynamicResource Str_PW_Narrow}" InputGestureText="Alt+Shift+N"/>
-                                </MenuItem>
-                                <MenuItem x:Name="SpellCheckMenuItem" Icon="&#xF87B;"
-                                          Header="{DynamicResource Str_KS_Spell}"
-                                          IsCheckable="True" Click="Spell_Click"
-                                          InputGestureText="Ctrl+Shift+P"/>
-                                <!-- Preview mode picker: three-state, one radio-style pick at a time.
-                                     Source (raw), Rendered (WYSIWYG), Split (both). F4 cycles them.
-                                     The WebBrowser (Preview.cs) is instantiated when Rendered or Split
-                                     becomes active and disposed on return to Source, keeping the IE
-                                     ActiveX message-loop overhead out of idle windows. -->
-                                <MenuItem x:Name="PreviewMenuItem" Icon="&#xE890;" InputGestureText="F4" Visibility="Collapsed">
+                            <!-- The editor card (1.7.0, Shell/EditorCard.cs): the note card's shape for
+                                 the text under the pointer. Quick buttons for the clipboard and the
+                                 link, a strip for the recording or the table under the pointer, then
+                                 the view switches as chips and segments, and only the destructive
+                                 table rows stay a list. Editor_ContextMenuOpening (Editor.Float.cs)
+                                 shows the parts that apply; the shortcut handlers in
+                                 ActionShortcuts.cs name the buttons as their surfaces, so the
+                                 tooltips carry the keys. Slots collapse, never the buttons in them:
+                                 a hidden surface turns its shortcut off. -->
+                            <ContextMenu x:Name="EditorCard" Style="{StaticResource CardMenu}">
+                                <MenuItem x:Name="EditorQuickSlot" Style="{StaticResource CardSlot}" Padding="0"
+                                          AutomationProperties.Name="{DynamicResource Str_Card_Actions}">
                                     <MenuItem.Header>
-                                        <TextBlock x:Name="PreviewMenuLabel" Text="Preview"/>
+                                        <Border BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,0,0,1" Padding="2,0,2,4">
+                                            <UniformGrid Rows="1">
+                                                <Button x:Name="EditorCutBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8C6;"
+                                                        Tag="{DynamicResource Str_Ctx_Cut}"/>
+                                                <Button x:Name="EditorCopyBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8C8;"
+                                                        Tag="{DynamicResource Str_Ctx_Copy}"/>
+                                                <Button x:Name="EditorPasteBtn" Style="{StaticResource CardQuickButton}" Content="&#xE77F;"
+                                                        Tag="{DynamicResource Str_Ctx_Paste}"/>
+                                                <Button x:Name="EditorLinkBtn" Style="{StaticResource CardQuickButton}" Content="&#xE71B;"
+                                                        Tag="{DynamicResource Str_Card_Link}"/>
+                                                <Button x:Name="EditorListBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8FD;"
+                                                        Tag="{DynamicResource Str_Card_List}"/>
+                                            </UniformGrid>
+                                        </Border>
                                     </MenuItem.Header>
-                                    <MenuItem x:Name="PreviewSourceMenuItem" Icon="&#xE8A5;" IsCheckable="True"
-                                              Click="PreviewSource_Click"
-                                              Header="{DynamicResource Str_Preview_Source}"
-                                              InputGestureText="Ctrl+Shift+F6"/>
-                                    <MenuItem InputGestureText="Ctrl+Shift+F7" x:Name="PreviewRenderedMenuItem" Icon="&#xE7B3;" IsCheckable="True"
-                                              Click="PreviewRendered_Click"
-                                              Header="{DynamicResource Str_Preview_Rendered}"/>
-                                    <MenuItem InputGestureText="Ctrl+Shift+F8" x:Name="PreviewSplitMenuItem" Icon="&#xE89A;" IsCheckable="True"
-                                              Click="PreviewSplit_Click"
-                                              Header="{DynamicResource Str_Preview_Split}"/>
                                 </MenuItem>
-                                <!-- Recording actions (Editor.Dictation.cs). Collapsed unless the
-                                     right-click landed on an embedded recording chip. -->
-                                <MenuItem x:Name="RecSeparator" IsHitTestVisible="False" Focusable="False"
-                                          Height="9" Visibility="Collapsed">
-                                    <MenuItem.Template>
-                                        <ControlTemplate TargetType="MenuItem">
-                                            <Border Height="1" Margin="10,4" Background="{DynamicResource MenuBorderBrush}"/>
-                                        </ControlTemplate>
-                                    </MenuItem.Template>
+                                <!-- The recording under the pointer (Editor.Dictation.cs). -->
+                                <MenuItem x:Name="RecSlot" Style="{StaticResource CardSlot}" Padding="0" Visibility="Collapsed"
+                                          AutomationProperties.Name="{DynamicResource Str_Dict_Share}">
+                                    <MenuItem.Header>
+                                        <Border BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,0,0,1" Padding="2,4">
+                                            <UniformGrid Rows="1">
+                                                <Button x:Name="RecPlayPauseBtn" Style="{StaticResource CardQuickButton}" Content="&#xE768;"
+                                                        Tag="{DynamicResource Str_Card_Play}"/>
+                                                <Button x:Name="RecVolumeUpBtn" Style="{StaticResource CardQuickButton}" Content="&#xE995;"
+                                                        Tag="{DynamicResource Str_Card_Louder}"/>
+                                                <Button x:Name="RecVolumeDownBtn" Style="{StaticResource CardQuickButton}" Content="&#xE993;"
+                                                        Tag="{DynamicResource Str_Card_Quieter}"/>
+                                                <Button x:Name="RecEditBtn" Style="{StaticResource CardQuickButton}" Content="&#xE70F;"
+                                                        Tag="{DynamicResource Str_Card_EditRec}"/>
+                                                <Button x:Name="RecSaveAsBtn" Style="{StaticResource CardQuickButton}" Content="&#xE74E;"
+                                                        Tag="{DynamicResource Str_Card_SaveAs}"/>
+                                                <Button x:Name="RecCopyFileBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8C8;"
+                                                        Tag="{DynamicResource Str_Card_CopyFile}"/>
+                                            </UniformGrid>
+                                        </Border>
+                                    </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem InputGestureText="Alt+Shift+P" x:Name="RecPlayPauseMenuItem" Icon="&#xE768;"
-                                          Header="{DynamicResource Str_Dict_PlayPause}" Click="RecPlayPause_Click"
-                                          Visibility="Collapsed"/>
-                                <MenuItem InputGestureText="Alt+Shift+Up" x:Name="RecVolumeUpMenuItem" Icon="&#xE995;" StaysOpenOnClick="True"
-                                          Header="{DynamicResource Str_Dict_VolumeUp}" Click="RecVolumeUp_Click"
-                                          Visibility="Collapsed"/>
-                                <MenuItem InputGestureText="Alt+Shift+Down" x:Name="RecVolumeDownMenuItem" Icon="&#xE993;" StaysOpenOnClick="True"
-                                          Header="{DynamicResource Str_Dict_VolumeDown}" Click="RecVolumeDown_Click"
-                                          Visibility="Collapsed"/>
-                                <MenuItem InputGestureText="Ctrl+Shift+F9" x:Name="RecEditMenuItem" Icon="&#xE70F;"
-                                          Header="{DynamicResource Str_Dict_EditRec}" Click="RecEdit_Click"
-                                          Visibility="Collapsed"/>
-                                <MenuItem x:Name="RecShareMenuItem" Icon="&#xE72D;"
-                                          Header="{DynamicResource Str_Dict_Share}" Visibility="Collapsed">
-                                    <MenuItem InputGestureText="Ctrl+Shift+F10" x:Name="RecSaveAsMenuItem" Icon="&#xE74E;"
-                                              Header="{DynamicResource Str_Dict_SaveAs}" Click="RecSaveAs_Click"/>
-                                    <MenuItem InputGestureText="Ctrl+Shift+F11" x:Name="RecCopyFileMenuItem" Icon="&#xE8C8;"
-                                              Header="{DynamicResource Str_Dict_CopyFile}" Click="RecCopyFile_Click"/>
+                                <!-- The table cell under the pointer (Editor.TableEdit.cs). -->
+                                <MenuItem x:Name="TableSlot" Style="{StaticResource CardSlot}" Padding="0" Visibility="Collapsed"
+                                          AutomationProperties.Name="{DynamicResource Str_Ctx_Table}">
+                                    <MenuItem.Header>
+                                        <Border BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,0,0,1" Padding="2,4">
+                                            <UniformGrid Rows="1">
+                                                <Button x:Name="TblRowAboveBtn" Style="{StaticResource CardQuickButton}" Content="&#xE74A;"
+                                                        Tag="{DynamicResource Str_Card_RowAbove}"/>
+                                                <Button x:Name="TblRowBelowBtn" Style="{StaticResource CardQuickButton}" Content="&#xE74B;"
+                                                        Tag="{DynamicResource Str_Card_RowBelow}"/>
+                                                <Button x:Name="TblColLeftBtn" Style="{StaticResource CardQuickButton}" Content="&#xE72B;"
+                                                        Tag="{DynamicResource Str_Card_ColLeft}"/>
+                                                <Button x:Name="TblColRightBtn" Style="{StaticResource CardQuickButton}" Content="&#xE72A;"
+                                                        Tag="{DynamicResource Str_Card_ColRight}"/>
+                                                <Button x:Name="TableStyleBtn" Style="{StaticResource CardQuickButton}" Content="&#xE790;"
+                                                        Tag="{DynamicResource Str_Card_TableStyle}"/>
+                                            </UniformGrid>
+                                        </Border>
+                                    </MenuItem.Header>
                                 </MenuItem>
+                                <MenuItem x:Name="DocToggleSlot" Style="{StaticResource CardSlot}" Padding="24,8,4,4">
+                                    <MenuItem.Header>
+                                        <DockPanel>
+                                            <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_View}"/>
+                                            <WrapPanel>
+                                                <ToggleButton x:Name="WordWrapToggle" Style="{StaticResource CardToggle}" Content="{DynamicResource Str_Card_Wrap}"/>
+                                                <ToggleButton x:Name="SyntaxToggle" Style="{StaticResource CardToggle}" Content="{DynamicResource Str_Card_Syntax}"/>
+                                                <ToggleButton x:Name="SpellToggle" Style="{StaticResource CardToggle}" Content="{DynamicResource Str_Card_Spelling}"/>
+                                            </WrapPanel>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <!-- Page width presets (Editor.View.cs, #31): the footer radios' four picks. -->
+                                <MenuItem x:Name="PageWidthSlot" Style="{StaticResource CardSlot}" Padding="24,4,4,4">
+                                    <MenuItem.Header>
+                                        <DockPanel>
+                                            <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Width}"/>
+                                            <Border HorizontalAlignment="Left" Background="{DynamicResource MenuHoverBrush}" Padding="2"
+                                                    CornerRadius="{DynamicResource ControlCornerRadius}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <RadioButton x:Name="PageWidthFullSeg" Style="{StaticResource CardSegment}" GroupName="EditorCardWidth"
+                                                                 Content="{DynamicResource Str_Card_PwFull}"/>
+                                                    <RadioButton x:Name="PageWidthWideSeg" Style="{StaticResource CardSegment}" GroupName="EditorCardWidth"
+                                                                 Content="{DynamicResource Str_Card_PwWide}"/>
+                                                    <RadioButton x:Name="PageWidthMediumSeg" Style="{StaticResource CardSegment}" GroupName="EditorCardWidth"
+                                                                 Content="{DynamicResource Str_Card_PwMedium}"/>
+                                                    <RadioButton x:Name="PageWidthNarrowSeg" Style="{StaticResource CardSegment}" GroupName="EditorCardWidth"
+                                                                 Content="{DynamicResource Str_Card_PwNarrow}"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <!-- Preview mode: Source (raw), Rendered (WYSIWYG), Split (both); F4 cycles
+                                     them. Its visibility is owned by Preview.cs and doubles as the F4 gate
+                                     (Shortcuts.cs), so the slot keeps the old row's name. -->
+                                <MenuItem x:Name="PreviewMenuItem" Style="{StaticResource CardSlot}" Padding="24,4,4,4" Visibility="Collapsed">
+                                    <MenuItem.Header>
+                                        <DockPanel>
+                                            <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Preview}"/>
+                                            <Border HorizontalAlignment="Left" Background="{DynamicResource MenuHoverBrush}" Padding="2"
+                                                    CornerRadius="{DynamicResource ControlCornerRadius}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <RadioButton x:Name="PreviewSourceSeg" Style="{StaticResource CardSegment}" GroupName="EditorCardPreview"
+                                                                 Content="{DynamicResource Str_Preview_Source}"/>
+                                                    <RadioButton x:Name="PreviewRenderedSeg" Style="{StaticResource CardSegment}" GroupName="EditorCardPreview"
+                                                                 Content="{DynamicResource Str_Preview_Rendered}"/>
+                                                    <RadioButton x:Name="PreviewSplitSeg" Style="{StaticResource CardSegment}" GroupName="EditorCardPreview"
+                                                                 Content="{DynamicResource Str_Preview_Split}"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <!-- The destructive table actions stay rows, each with its key. -->
+                                <Separator x:Name="TableListRule" Visibility="Collapsed"/>
+                                <MenuItem x:Name="TblDelRowMenuItem" Header="{DynamicResource Str_Ctx_TblDelRow}" Icon="&#xE738;" Click="TableDelRow_Click"
+                                          InputGestureText="Alt+Shift+D" Visibility="Collapsed"/>
+                                <MenuItem x:Name="TblDelColMenuItem" Header="{DynamicResource Str_Ctx_TblDelCol}" Icon="&#xE738;" Click="TableDelCol_Click"
+                                          InputGestureText="Alt+Shift+C" Visibility="Collapsed"/>
+                                <MenuItem x:Name="TblDeleteMenuItem" Header="{DynamicResource Str_Ctx_TblDelete}" Icon="&#xE74D;" Click="TableDelete_Click"
+                                          InputGestureText="Alt+Shift+X" Visibility="Collapsed"/>
                             </ContextMenu>
                         </RichTextBox.ContextMenu>
                     </RichTextBox>

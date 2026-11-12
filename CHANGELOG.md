@@ -23,6 +23,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 - Right-clicking a note opens a card: the note's name and edit date, buttons for Pin, Share, Export, History and Duplicate, a row of color swatches with a picker, the note's tags and group, and a Rich text or Markdown switch. With several notes selected the card applies color, tags, group, pin and delete to all of them.
 - Right-clicking a group opens the same kind of card, with New note, Subgroup, Rename, Collapse, Graph and Organize buttons, color swatches, a Parent list for moving the group, and switches for the templates and daily notes groups.
+- Right-clicking in a note opens a card too: Cut, Copy, Paste, Link and List buttons, Wrap, Syntax and Spelling switches, the page width and preview view as one-click choices, and strips for the recording or table under the pointer. Deleting a table row, column or the whole table stays a plain row with its shortcut.
+- The preview chip beside the note title and in the format bar shows an eye and a dropdown arrow. Clicking it lists Source, Rendered and Split with their shortcuts; F4 still steps through them.
 - New markdown note, New from template and Today's note moved from the note menu to a menu beside the New note button. Importing a folder joined them there, exporting every note moved to a library button on the sidebar rail, and markdown and HTML detection moved to the settings on the About card. Back and Forward stay on Alt+Left and Alt+Right.
 - Right-clicking empty space in the sidebar no longer opens a menu.
 - The three sort buttons are now one button that shows the current sort and its direction. Clicking it opens the sort menu; Alt+4 to Alt+7 work as before.

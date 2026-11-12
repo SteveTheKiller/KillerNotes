@@ -318,7 +318,7 @@ namespace KillerNotes.Shell
             if (on && NoteTooBigForSpellCheck()) on = false;
             try { Editor.SpellCheck.IsEnabled = on; }
             catch { on = false; }   // OS spell checking unavailable - stay off quietly
-            SpellCheckMenuItem?.IsChecked = on;
+            SpellToggle?.IsChecked = on;
         }
 
         // ---- Word wrap toggle (global view setting, remembered like zoom) ----
@@ -344,7 +344,7 @@ namespace KillerNotes.Shell
         {
             _wordWrap = wrap;
             Editor.Document.PageWidth = wrap ? double.NaN : NoWrapPageWidth;
-            WordWrapMenuItem?.IsChecked = wrap;
+            WordWrapToggle?.IsChecked = wrap;
             UpdatePagePadding();
         }
 
@@ -406,10 +406,10 @@ namespace KillerNotes.Shell
             bool changed = mode != _pageWidth;
             _pageWidth = mode;
             foreach (var (radio, m) in PageWidthRadios()) radio.IsChecked = m == mode;
-            PageWidthFullMenuItem.IsChecked = mode == PageWidthMode.Full;
-            PageWidthWideMenuItem.IsChecked = mode == PageWidthMode.Wide;
-            PageWidthMediumMenuItem.IsChecked = mode == PageWidthMode.Medium;
-            PageWidthNarrowMenuItem.IsChecked = mode == PageWidthMode.Narrow;
+            PageWidthFullSeg.IsChecked = mode == PageWidthMode.Full;
+            PageWidthWideSeg.IsChecked = mode == PageWidthMode.Wide;
+            PageWidthMediumSeg.IsChecked = mode == PageWidthMode.Medium;
+            PageWidthNarrowSeg.IsChecked = mode == PageWidthMode.Narrow;
             UpdatePagePadding();
             if (!changed) return;
             App.SetSetting(PageWidth.Setting, PageWidth.Serialize(mode));

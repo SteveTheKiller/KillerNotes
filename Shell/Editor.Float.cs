@@ -115,6 +115,7 @@ namespace KillerNotes.Shell
             Editor.LostMouseCapture += (_, _) => DragCursors.EndDrag();
             Editor.PreviewMouseRightButtonDown += Editor_ObjectRightPress;
             Editor.ContextMenuOpening += Editor_ContextMenuOpening;
+            InitEditorCard();   // EditorCard.cs
             Editor.ContextMenuClosing += Editor_ContextMenuClosing;
         }
 
@@ -430,12 +431,9 @@ namespace KillerNotes.Shell
         private void Editor_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             bool onObject = _ctxObject != null;
-            EditorCopyMenuItem.IsEnabled = _ctxObject is Image { Source: System.Windows.Media.Imaging.BitmapSource } || !Editor.Selection.IsEmpty;
             // Whitespace does not count: "convert to list" on a selected space is a no-op that looks
             // like a broken command.
             bool hasText = !Editor.Selection.IsEmpty && SelectionHasVisibleText();
-
-            Visibility txt = onObject ? Visibility.Collapsed : Visibility.Visible;
 
             // Sharing is offered on recordings only. An image is already shareable by copying it,
             // but a recording chip is a marker whose audio lives in the database - there is no other
@@ -444,23 +442,8 @@ namespace KillerNotes.Shell
             // the keyboard - the only keyboard route to a recording's controls.
             bool onRecording = RecordingRef.Of(_ctxObject as UIElement) != null ||
                                (_ctxObject == null && CtxRecording() != null);
-            RecSeparator.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
-            RecPlayPauseMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
-            RecVolumeUpMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
-            RecVolumeDownMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
-            RecEditMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
-            RecShareMenuItem.Visibility = onRecording ? Visibility.Visible : Visibility.Collapsed;
-
             // Converting to a list needs words to convert.
-            ConvertListMenuItem.Visibility = !onObject && hasText ? Visibility.Visible : Visibility.Collapsed;
-            LinkMenuItem.Visibility = txt;
-
-            DocToggleSeparator.Visibility = txt;
-            SyntaxHighlightMenuItem.Visibility = txt;
-            WordWrapMenuItem.Visibility = txt;
-            PageWidthMenuItem.Visibility = txt;
-            SpellCheckMenuItem.Visibility = txt;
-            if (onObject) PreviewMenuItem.Visibility = Visibility.Collapsed;
+            FillEditorCard(onObject, hasText, onRecording);   // EditorCard.cs
             UpdateTableMenu(onObject);   // Editor.TableEdit.cs
         }
 

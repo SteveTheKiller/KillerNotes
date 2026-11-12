@@ -53,17 +53,17 @@ namespace KillerNotes.Shell
             new("Ctrl+Shift+F3", Key.F3, ModifierKeys.Control | ModifierKeys.Shift, "Str_TT_FindCase", "Search", w => w.FindOption_Click(w.FindCaseBtn, new RoutedEventArgs()), "FindCaseBtn"),
             new("Ctrl+Shift+F4", Key.F4, ModifierKeys.Control | ModifierKeys.Shift, "Str_TT_FindWord", "Search", w => w.FindOption_Click(w.FindWordBtn, new RoutedEventArgs()), "FindWordBtn"),
             new("Ctrl+Shift+F5", Key.F5, ModifierKeys.Control | ModifierKeys.Shift, "Str_TT_FindRegex", "Search", w => w.FindOption_Click(w.FindRegexBtn, new RoutedEventArgs()), "FindRegexBtn"),
-            new("Ctrl+Shift+F6", Key.F6, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Source", "View", w => w.PreviewSource_Click(w, new RoutedEventArgs()), "PreviewSourceMenuItem"),
-            new("Ctrl+Shift+F7", Key.F7, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Rendered", "View", w => w.PreviewRendered_Click(w, new RoutedEventArgs()), "PreviewRenderedMenuItem"),
-            new("Ctrl+Shift+F8", Key.F8, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Split", "View", w => w.PreviewSplit_Click(w, new RoutedEventArgs()), "PreviewSplitMenuItem"),
+            new("Ctrl+Shift+F6", Key.F6, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Source", "View", w => w.PreviewSource_Click(w, new RoutedEventArgs()), "PreviewSourceSeg"),
+            new("Ctrl+Shift+F7", Key.F7, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Rendered", "View", w => w.PreviewRendered_Click(w, new RoutedEventArgs()), "PreviewRenderedSeg"),
+            new("Ctrl+Shift+F8", Key.F8, ModifierKeys.Control | ModifierKeys.Shift, "Str_Preview_Split", "View", w => w.PreviewSplit_Click(w, new RoutedEventArgs()), "PreviewSplitSeg"),
             // The recording beside the caret: the keyboard route to the chip's own play glyph and
             // volume knob, which only the mouse can reach inside the editor.
-            new("Alt+Shift+P", Key.P, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_PlayPause", "Note", w => w.RunRecordingAction(w.RecPlayPause_Click), "RecPlayPauseMenuItem"),
-            new("Alt+Shift+Up", Key.Up, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_VolumeUp", "Note", w => w.RunRecordingAction(w.RecVolumeUp_Click), "RecVolumeUpMenuItem"),
-            new("Alt+Shift+Down", Key.Down, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_VolumeDown", "Note", w => w.RunRecordingAction(w.RecVolumeDown_Click), "RecVolumeDownMenuItem"),
-            new("Ctrl+Shift+F9", Key.F9, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_EditRec", "Note", w => w.RunRecordingAction(w.RecEdit_Click), "RecEditMenuItem"),
-            new("Ctrl+Shift+F10", Key.F10, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_SaveAs", "File", w => w.RunRecordingAction(w.RecSaveAs_Click), "RecSaveAsMenuItem"),
-            new("Ctrl+Shift+F11", Key.F11, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_CopyFile", "File", w => w.RunRecordingAction(w.RecCopyFile_Click), "RecCopyFileMenuItem"),
+            new("Alt+Shift+P", Key.P, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_PlayPause", "Note", w => w.RunRecordingAction(w.RecPlayPause_Click), "RecPlayPauseBtn"),
+            new("Alt+Shift+Up", Key.Up, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_VolumeUp", "Note", w => w.RunRecordingAction(w.RecVolumeUp_Click), "RecVolumeUpBtn"),
+            new("Alt+Shift+Down", Key.Down, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Dict_VolumeDown", "Note", w => w.RunRecordingAction(w.RecVolumeDown_Click), "RecVolumeDownBtn"),
+            new("Ctrl+Shift+F9", Key.F9, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_EditRec", "Note", w => w.RunRecordingAction(w.RecEdit_Click), "RecEditBtn"),
+            new("Ctrl+Shift+F10", Key.F10, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_SaveAs", "File", w => w.RunRecordingAction(w.RecSaveAs_Click), "RecSaveAsBtn"),
+            new("Ctrl+Shift+F11", Key.F11, ModifierKeys.Control | ModifierKeys.Shift, "Str_Dict_CopyFile", "File", w => w.RunRecordingAction(w.RecCopyFile_Click), "RecCopyFileBtn"),
             new("Ctrl+Shift+F12", Key.F12, ModifierKeys.Control | ModifierKeys.Shift, "Str_Btn_Install", "File", w => w.Install_Click(w, new RoutedEventArgs()), "InstallBtn"),
             new("Alt+4", Key.D4, ModifierKeys.Alt, "Str_TT_SortTimeOff", "View", w => w.SortTimeBtn_Click(w, new RoutedEventArgs()), "SortBtn"),
             new("Alt+5", Key.D5, ModifierKeys.Alt, "Str_TT_SortAlphaOff", "View", w => w.SortAlphaBtn_Click(w, new RoutedEventArgs()), "SortBtn"),
@@ -76,11 +76,11 @@ namespace KillerNotes.Shell
             // Table commands share Alt+Shift with a letter named for the action: Style, Above,
             // Below, Left, Right, then Delete row, delete Column and X for the whole table.
             // Line, spacing and fit choices live in the Table Style dialog instead.
-            new("Alt+Shift+S", Key.S, ModifierKeys.Alt | ModifierKeys.Shift, "Str_TableStyle_Title", "Format", w => w.RunTableAction(w.TableStyle_Click), "TableStyleMenuItem"),
-            new("Alt+Shift+A", Key.A, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblRowAbove", "Format", w => w.RunTableAction(w.TableRowAbove_Click), "TblRowAboveMenuItem"),
-            new("Alt+Shift+B", Key.B, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblRowBelow", "Format", w => w.RunTableAction(w.TableRowBelow_Click), "TblRowBelowMenuItem"),
-            new("Alt+Shift+L", Key.L, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblColLeft", "Format", w => w.RunTableAction(w.TableColLeft_Click), "TblColLeftMenuItem"),
-            new("Alt+Shift+R", Key.R, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblColRight", "Format", w => w.RunTableAction(w.TableColRight_Click), "TblColRightMenuItem"),
+            new("Alt+Shift+S", Key.S, ModifierKeys.Alt | ModifierKeys.Shift, "Str_TableStyle_Title", "Format", w => w.RunTableAction(w.TableStyle_Click), "TableStyleBtn"),
+            new("Alt+Shift+A", Key.A, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblRowAbove", "Format", w => w.RunTableAction(w.TableRowAbove_Click), "TblRowAboveBtn"),
+            new("Alt+Shift+B", Key.B, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblRowBelow", "Format", w => w.RunTableAction(w.TableRowBelow_Click), "TblRowBelowBtn"),
+            new("Alt+Shift+L", Key.L, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblColLeft", "Format", w => w.RunTableAction(w.TableColLeft_Click), "TblColLeftBtn"),
+            new("Alt+Shift+R", Key.R, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblColRight", "Format", w => w.RunTableAction(w.TableColRight_Click), "TblColRightBtn"),
             new("Alt+Shift+D", Key.D, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblDelRow", "Format", w => w.RunTableAction(w.TableDelRow_Click), "TblDelRowMenuItem"),
             new("Alt+Shift+C", Key.C, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblDelCol", "Format", w => w.RunTableAction(w.TableDelCol_Click), "TblDelColMenuItem"),
             new("Alt+Shift+X", Key.X, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblDelete", "Format", w => w.RunTableAction(w.TableDelete_Click), "TblDeleteMenuItem"),
@@ -91,10 +91,10 @@ namespace KillerNotes.Shell
             new("Alt+Shift+Z", Key.Z, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_CollapseAll", "View", w => w.CollapseAllGroups_Click(w, new RoutedEventArgs())),
             new("Alt+Shift+O", Key.O, ModifierKeys.Alt | ModifierKeys.Shift, "Str_KS_Organize", "View", w => w.OpenGroupManager(), "OrganizeRailBtn"),
             // Page width presets (Editor.View.cs, #31): the four footer radios share these gestures.
-            new("Alt+Shift+W", Key.W, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Full", "View", w => w.PageWidthFull_Click(w, new RoutedEventArgs()), "PageWidthFullMenuItem"),
-            new("Alt+Shift+E", Key.E, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Wide", "View", w => w.PageWidthWide_Click(w, new RoutedEventArgs()), "PageWidthWideMenuItem"),
-            new("Alt+Shift+M", Key.M, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Medium", "View", w => w.PageWidthMedium_Click(w, new RoutedEventArgs()), "PageWidthMediumMenuItem"),
-            new("Alt+Shift+N", Key.N, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Narrow", "View", w => w.PageWidthNarrow_Click(w, new RoutedEventArgs()), "PageWidthNarrowMenuItem"),
+            new("Alt+Shift+W", Key.W, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Full", "View", w => w.PageWidthFull_Click(w, new RoutedEventArgs()), "PageWidthFullSeg"),
+            new("Alt+Shift+E", Key.E, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Wide", "View", w => w.PageWidthWide_Click(w, new RoutedEventArgs()), "PageWidthWideSeg"),
+            new("Alt+Shift+M", Key.M, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Medium", "View", w => w.PageWidthMedium_Click(w, new RoutedEventArgs()), "PageWidthMediumSeg"),
+            new("Alt+Shift+N", Key.N, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Narrow", "View", w => w.PageWidthNarrow_Click(w, new RoutedEventArgs()), "PageWidthNarrowSeg"),
         ];
 
         private static IEnumerable<KsBinding> ActionShortcutRows() =>
@@ -128,6 +128,15 @@ namespace KillerNotes.Shell
             DescribeSurface(CardExportBtn, "Str_Ctx_ExportNote", "F8");
             DescribeSurface(CardHistoryBtn, "Str_Ctx_History", "Alt+H");
             DescribeSurface(CardDuplicateBtn, "Str_Ctx_DuplicateNote", "Alt+Shift+U");
+            // The editor card's own controls whose keys live in Shortcuts.cs, not in this table.
+            DescribeSurface(EditorCutBtn, "Str_Ctx_Cut", "Ctrl+X");
+            DescribeSurface(EditorCopyBtn, "Str_Ctx_Copy", "Ctrl+C");
+            DescribeSurface(EditorPasteBtn, "Str_Ctx_Paste", "Ctrl+V");
+            DescribeSurface(EditorLinkBtn, "Str_Ctx_Link", "Ctrl+K");
+            DescribeSurface(EditorListBtn, "Str_Ctx_ConvertList", "Ctrl+Shift+J");
+            DescribeSurface(WordWrapToggle, "Str_KS_WordWrap", "Ctrl+Shift+W");
+            DescribeSurface(SyntaxToggle, "Str_KS_Syntax", "Ctrl+Shift+E");
+            DescribeSurface(SpellToggle, "Str_KS_Spell", "Ctrl+Shift+P");
             DescribeSurface(GroupCardNewNoteBtn, "Str_Ctx_NewNoteInGroup", "Alt+Shift+H");
             DescribeSurface(GroupCardSubgroupBtn, "Str_Ctx_NewSubgroup", "Ctrl+Shift+G");
             DescribeSurface(GroupCardRenameBtn, "Str_Ctx_RenameGroup", "Ctrl+F2");

@@ -174,7 +174,6 @@ namespace KillerNotes.Shell
             PreviewModeBtn.Visibility = PreviewMenuItem.Visibility;
             PreviewTitleBtn.Visibility = detected && FormatBar.Visibility != Visibility.Visible
                 ? Visibility.Visible : Visibility.Collapsed;
-            PreviewMenuLabel.Text = Loc(_docKind == DocKind.Html ? "Str_TT_PreviewHtml" : "Str_TT_PreviewMd");
             SyncPreviewMenuChecks();
             if (!detected && PreviewOpen) SetPreviewMode(PreviewMode.Source, persist: false);
             else if (PreviewOpen) RenderPreview(text, preserveScroll);
@@ -205,10 +204,10 @@ namespace KillerNotes.Shell
         /// One is always shown as picked so the picker never looks empty.</summary>
         private void SyncPreviewMenuChecks()
         {
-            if (PreviewSourceMenuItem == null) return;   // defensive - InitializeComponent may not have run
-            PreviewSourceMenuItem.IsChecked   = _previewMode == PreviewMode.Source;
-            PreviewRenderedMenuItem.IsChecked = _previewMode == PreviewMode.Rendered;
-            PreviewSplitMenuItem.IsChecked    = _previewMode == PreviewMode.Split;
+            if (PreviewSourceSeg == null) return;   // defensive - InitializeComponent may not have run
+            PreviewSourceSeg.IsChecked   = _previewMode == PreviewMode.Source;
+            PreviewRenderedSeg.IsChecked = _previewMode == PreviewMode.Rendered;
+            PreviewSplitSeg.IsChecked    = _previewMode == PreviewMode.Split;
             // The chip names the current mode, so it is always visible which view is up.
             PreviewTitleText.Text = PreviewModeText.Text = Loc(_previewMode switch
             {
@@ -218,7 +217,32 @@ namespace KillerNotes.Shell
             });
         }
 
-        private void PreviewModeBtn_Click(object sender, RoutedEventArgs e) => CyclePreviewMode();
+        /// <summary>The preview chip (format bar or title row): a dropdown of the three views
+        /// under the chip, the current one checked, each with its key. It used to cycle on click
+        /// like F4, but it looked like a label, so nothing said it was a button or what came next.
+        /// Built on each open, so it follows the language and the current view.</summary>
+        private void PreviewModeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement chip) return;
+            var menu = new ContextMenu();
+            foreach (var (mode, label, gesture, glyph, run) in new (PreviewMode, string, string, string, RoutedEventHandler)[]
+                     {
+                         (PreviewMode.Source, "Str_Preview_Source", "Ctrl+Shift+F6", "\uE8A5", PreviewSource_Click),
+                         (PreviewMode.Rendered, "Str_Preview_Rendered", "Ctrl+Shift+F7", "\uE7B3", PreviewRendered_Click),
+                         (PreviewMode.Split, "Str_Preview_Split", "Ctrl+Shift+F8", "\uE89A", PreviewSplit_Click),
+                     })
+            {
+                var item = new MenuItem
+                {
+                    Header = Loc(label), InputGestureText = gesture, Icon = glyph,
+                    IsCheckable = true, IsChecked = _previewMode == mode,
+                };
+                item.Click += run;
+                menu.Items.Add(item);
+            }
+            KillerNotes.Controls.FlyoutPlacement.AttachBelowRight(menu, chip);
+            menu.IsOpen = true;
+        }
 
         private void QueuePreviewRefresh()
         {
