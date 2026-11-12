@@ -143,8 +143,15 @@ namespace KillerNotes.Shell
         {
             bool on = !DetectMarkdownGlobally;
             App.SetSetting("DetectMarkdown", on ? "on" : "off");
+            AboutDetectMarkdown.IsChecked = on;   // the settings row (About card) mirrors Alt+V
             UpdatePreviewState();
             FlashStatus(Loc(on ? "Str_St_PreviewGlobalOn" : "Str_St_PreviewGlobalOff"));
+        }
+
+        /// <summary>The settings row for the same switch (1.7.0; it used to be a note-menu row).</summary>
+        private void AboutDetectMarkdown_Click(object sender, RoutedEventArgs e)
+        {
+            if ((AboutDetectMarkdown.IsChecked == true) != DetectMarkdownGlobally) PreviewDetectGlobal_Click(sender, e);
         }
 
         /// <summary>Re-applies the note's effective kind; shows/hides the picker and refreshes an

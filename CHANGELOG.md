@@ -4,13 +4,26 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.6.3] - Unreleased
+## [1.7.0] - Unreleased
 
-1.6.3 keeps the three sidebar densities visibly different for notes without tags.
+1.7.0 replaces the sidebar's long right-click lists with cards for notes and groups and adds a group manager window for organizing a long sidebar.
 
 ### Fixed
 
 - Compact sidebar density shows the date line on a note with no tags, so it no longer looks the same as Minimal.
+
+### Changed
+
+- Right-clicking a note opens a card: the note's name and edit date, buttons for Pin, Share, Export, History and Duplicate, a row of color swatches with a picker, the note's tags and group, and a Rich text or Markdown switch. With several notes selected the card applies color, tags, group, pin and delete to all of them.
+- Right-clicking a group opens the same kind of card, with New note, Subgroup, Rename, Collapse, Graph and Organize buttons, color swatches, a Parent list for moving the group, and switches for the templates and daily notes groups.
+- New markdown note, New from template and Today's note moved from the note menu to a menu beside the New note button. Importing a folder and exporting every note moved to a library button on the sidebar rail, and markdown and HTML detection moved to the settings on the About card. Back and Forward stay on Alt+Left and Alt+Right.
+- Right-clicking empty space in the sidebar no longer opens a menu.
+
+### Added
+
+- A group manager window (Alt+Shift+O, the Organize button on the rail or on a group card) shows every group as a tree beside a sortable table of its notes, with one search over both. Drag notes onto a group to file them or a group onto another to nest it; F2 renames, Delete removes and Ctrl+Z undoes, in either window.
+- Duplicate note (Alt+Shift+U) and Save as template (Alt+Shift+T), which creates a Templates group when the notepad has none.
+- New note in this group (Alt+Shift+H) and Collapse all groups (Alt+Shift+Z).
 
 ## [1.6.2] - 2026-11-10
 

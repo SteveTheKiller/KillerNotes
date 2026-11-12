@@ -54,6 +54,7 @@ namespace KillerNotes.Shell
             }
             ShowEditor(false);
             ClearActionUndo();   // ids are per-database; never replay an undo across a switch
+            CloseGroupManager();   // GroupManager.cs - its rows belong to the notepad that was open
         }
 
         // ---- List / search / sort ----

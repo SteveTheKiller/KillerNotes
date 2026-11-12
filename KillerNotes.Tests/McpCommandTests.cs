@@ -140,7 +140,7 @@ namespace KillerNotes.Tests
 
             var shell = DetachedShell();
             long copy = (long)typeof(MainWindow).GetMethod("CreateFromTemplate", PrivateInstance)!
-                .Invoke(shell, new object?[] { template, "Copy", null, false })!;
+                .Invoke(shell, new object?[] { template, "Copy", null, false, true })!;
             Assert.Equal(recording, NoteStore.LoadRecordingRaw(copy, 0));
             Assert.Equal(900, NoteStore.LoadRecordingIndex(copy)[0]);
         });

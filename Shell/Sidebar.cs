@@ -50,7 +50,8 @@ namespace KillerNotes.Shell
         private void SidebarToolbar_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (SortBtns.ActualWidth <= 0) return;
-            double plus = Math.Max(NewNoteBtn.MinWidth, MeasureNewNoteWidth("+"));
+            // The split chevron (NewMenu.cs) shares the column, so it counts toward the "+".
+            double plus = Math.Max(NewNoteBtn.MinWidth, MeasureNewNoteWidth("+")) + NewMenuBtnWidth();
             bool wrap = SidebarToolbarWraps(e.NewSize.Width, plus, SortBtns.ActualWidth);
             if (wrap == (Grid.GetRow(SortBtns) == 1)) return;
             if (wrap)
@@ -147,7 +148,7 @@ namespace KillerNotes.Shell
         private void UpdateNewNoteLabel()
         {
             if (NewNoteBtn == null || NewNoteCol == null) return;
-            double available = NewNoteCol.ActualWidth;
+            double available = NewNoteCol.ActualWidth - NewMenuBtnWidth();
             if (available <= 0) return;
             string label = Loc("Str_Btn_NewNoteShort").ToUpper(CultureInfo.CurrentUICulture);
             double size = 22;

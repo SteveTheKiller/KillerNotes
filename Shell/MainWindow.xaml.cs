@@ -93,7 +93,8 @@ namespace KillerNotes.Shell
             InitBackupSchedule();                                // Backup.cs (quarter-hour due check)
             InitBacklinkBar();                                   // Backlinks.cs (Alt+M hide state)
             InitDensity();                                       // Density.cs (restore sidebar row density)
-            InitFonts();                                         // Fonts.cs (restore header/content fonts)
+            InitNoteCard();                                      // NoteCard.cs (swatch row events)
+            InitFonts();                                        // Fonts.cs (restore header/content fonts)
 
             Loaded += (_, _) =>
             {

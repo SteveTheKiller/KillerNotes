@@ -99,26 +99,39 @@ namespace KillerNotes.Shell
             else if (row is Note nt && nt.Notebook.Length > 0) newParent = nt.Notebook;   // nest into the note's group
             else newParent = "";   // top level
 
+            MoveGroupWithUndo(dragged, newParent, before);
+            return true;
+        }
+
+        /// <summary>Moves a group (and its branch) under newParent, in front of before (null =
+        /// last). The one move path: the sidebar drag, the group card's Parent row and the group
+        /// manager all come through here. Returns the new path, or null when nothing moved.</summary>
+        private string? MoveGroupWithUndo(string path, string newParent, string? before)
+        {
             // Capture the pre-move position so Ctrl+Z can put the branch back exactly:
             // its original parent and the sibling it originally sat in front of. The leaf
             // name is unchanged by a move, so the post-move path is (newParent / leaf).
-            string leaf = NoteStore.GroupNameOf(dragged);
-            string origParent = NoteStore.GroupParentOf(dragged);
-            string? origBefore = SiblingAfter(dragged);
-            if (NoteStore.MoveGroup(dragged, newParent, before))
+            string leaf = NoteStore.GroupNameOf(path);
+            string origParent = NoteStore.GroupParentOf(path);
+            string? origBefore = SiblingAfter(path);
+            if (!NoteStore.MoveGroup(path, newParent, before)) return null;
+            string newPath = NoteStore.GroupPath(newParent, leaf);
+            RepointGroupSettings(path, newPath);   // Templates.cs
+            PushUndo(() =>
             {
-                string newPath = NoteStore.GroupPath(newParent, leaf);
-                RepointGroupSettings(dragged, newPath);   // Templates.cs
-                PushUndo(() =>
-                {
-                    if (NoteStore.MoveGroup(newPath, origParent, origBefore)) RepointGroupSettings(newPath, dragged);
-                    RefreshList(preserveScroll: true);
-                });
+                if (NoteStore.MoveGroup(newPath, origParent, origBefore)) RepointGroupSettings(newPath, path);
                 RefreshList(preserveScroll: true);
-                FlashStatus(Loc("Str_St_GroupMoved"));
-            }
-            return true;
+                GroupsChanged?.Invoke();
+            });
+            RefreshList(preserveScroll: true);
+            GroupsChanged?.Invoke();
+            FlashStatus(Loc("Str_St_GroupMoved"));
+            return newPath;
         }
+
+        /// <summary>Raised after any group or note-placement change made from this window, so an
+        /// open group manager can reload (GroupManager.cs).</summary>
+        internal event Action? GroupsChanged;
 
         // The sibling right after `path` among its parent's children (null = it is last).
         private string? SiblingAfter(string path)
@@ -143,21 +156,11 @@ namespace KillerNotes.Shell
         {
             var fe = sender as FrameworkElement;
             _ctxGroup = fe?.DataContext as GroupHeader;
-            // A nested group's color item reads "Subgroup color..." for clarity; a root group
-            // keeps "Group color...". Set on right-click, before the menu opens. (2026-07-22)
-            if (fe?.ContextMenu is ContextMenu cm && _ctxGroup is GroupHeader g)
-                foreach (var it in cm.Items)
-                    if (it is MenuItem mi)
-                    {
-                        if ((mi.Tag as string) == "groupcolor")
-                            mi.Header = Loc(g.IsNested ? "Str_Ctx_SubgroupColor" : "Str_Ctx_GroupColor");
-                        else if ((mi.Tag as string) == "subtop")
-                            mi.IsChecked = App.GetSetting("SubgroupsOnTop") != "0";
-                        else if ((mi.Tag as string) == "templates")
-                            mi.IsChecked = IsTemplatesGroup(g.Path);   // Templates.cs
-                        else if ((mi.Tag as string) == "daily")
-                            mi.IsChecked = IsDailyGroup(g.Path);       // DailyNote.cs
-                    }
+            if (fe == null || _ctxGroup is not GroupHeader g) return;
+            // The one shared group card (GroupCard.cs) becomes this header's menu just before it
+            // opens, filled for this group.
+            fe.ContextMenu = GroupCard;
+            FillGroupCard(g);
         }
 
         // App-wide toggle (default on): subgroups render above their parent's notes.
@@ -171,7 +174,7 @@ namespace KillerNotes.Shell
         private void RenameGroup_Click(object sender, RoutedEventArgs e)
         {
             if (_ctxGroup is not GroupHeader g || RefuseReadOnly()) return;   // Notes.Document.cs
-            var dlg = new InputDialog(Loc("Str_Dlg_RenameGroupHead"), g.Name, Loc("Str_Btn_Rename")) { Owner = this };
+            var dlg = new InputDialog(Loc("Str_Dlg_RenameGroupHead"), g.Name, Loc("Str_Btn_Rename")) { Owner = GroupDialogOwner };
             dlg.ShowDialog();
             string name = dlg.Value.Trim().Replace(NoteStore.GroupSep, "");   // strip the reserved path separator
             if (!dlg.Confirmed || name.Length == 0 || name == g.Name) return;
@@ -189,6 +192,7 @@ namespace KillerNotes.Shell
             NoteStore.RenameGroup(g.Path, name);
             RepointGroupSettings(g.Path, NoteStore.GroupPath(parent, name));   // Templates.cs
             RefreshList(preserveScroll: true);   // in-place edit - hold position
+            GroupsChanged?.Invoke();             // GroupManager.cs
         }
 
         private void DeleteGroup_Click(object sender, RoutedEventArgs e)
@@ -197,12 +201,13 @@ namespace KillerNotes.Shell
             var confirm = new ConfirmDialog(
                 string.Format(Loc("Str_Dlg_DeleteGroupHead"), g.Name),
                 Loc("Str_Dlg_DeleteGroupBody"),
-                Loc("Str_Btn_Delete")) { Owner = this };
+                Loc("Str_Btn_Delete")) { Owner = GroupDialogOwner };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
             NoteStore.DeleteGroup(g.Path);
             RepointGroupSettings(g.Path, null);   // Templates.cs
             RefreshList(preserveScroll: true);   // in-place edit - hold position
+            GroupsChanged?.Invoke();             // GroupManager.cs
         }
 
         // Creates a child group under the right-clicked header (1.1.0 subgroups). The new
@@ -211,7 +216,7 @@ namespace KillerNotes.Shell
         private void NewSubgroup_Click(object sender, RoutedEventArgs e)
         {
             if (_ctxGroup is not GroupHeader g || RefuseReadOnly()) return;   // Notes.Document.cs
-            var dlg = new InputDialog(Loc("Str_Dlg_NewSubgroupHead"), "", Loc("Str_Btn_Create")) { Owner = this };
+            var dlg = new InputDialog(Loc("Str_Dlg_NewSubgroupHead"), "", Loc("Str_Btn_Create")) { Owner = GroupDialogOwner };
             dlg.ShowDialog();
             string leaf = dlg.Value.Trim().Replace(NoteStore.GroupSep, "");   // strip the reserved path separator
             if (!dlg.Confirmed || leaf.Length == 0) return;
@@ -219,6 +224,7 @@ namespace KillerNotes.Shell
             NoteStore.AddGroup(NoteStore.GroupPath(parent, leaf), parent);
             NoteStore.SetGroupCollapsed(parent, false);   // reveal the new child
             RefreshList(preserveScroll: true);   // in-place edit at the header you clicked - hold position
+            GroupsChanged?.Invoke();             // GroupManager.cs
         }
 
         // ---- Keyboard entry points (Ctrl+Shift+G / Ctrl+Shift+K, Shortcuts.cs) ----

@@ -133,6 +133,7 @@ namespace KillerNotes.Shell
             DictationRecorder.SweepTempRecordings(NoteDragData.DefaultTempRoot, System.IO.Path.GetTempPath());   // a take mid-transcription
             NoteDragData.RemoveDragFolders(NoteDragData.DefaultTempRoot);        // notes dragged out, written unencrypted
             ClearNavHistory();               // NoteHistory.cs - titles and ids of the locked notepad
+            CloseGroupManager();             // GroupManager.cs - it lists the locked notepad's groups and titles
             _notes = [];
             _trashNotes = [];
             _syncingSelection = true;        // emptying the list must not read as picking a note

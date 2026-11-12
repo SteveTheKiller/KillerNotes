@@ -1492,6 +1492,179 @@
         </Setter>
     </Style>
 
+    <!-- Card menu (KillerNotes 1.7.0 is the reference). A right-click menu about ONE object:
+         a header naming it, a strip of quick buttons, inline control rows, then a short list of
+         ordinary MenuItems. It is still a ContextMenu on the implicit template above (shadow,
+         fade, grain over the items, 98SE bevels), so open, close, Escape, the Menu key and
+         placement at the pointer all behave like every other menu. Only the rows differ:
+           CardSlot      - a MenuItem that is just a host for its Header (header, quick strip,
+                           swatch row, segmented toggle). Not focusable and never highlighted,
+                           so arrow keys walk the real rows and skip it; Tab reaches its buttons.
+           CardLabel     - the left label of an inline row ("Color", "Tags").
+           CardQuickButton, CardSwatch, CardSegment - the controls those slots hold.
+         Field rows that open a list (Tags, Group) are ordinary MenuItems with a richer Header,
+         so their submenus keep the family submenu popup. No new theme keys: every brush here is
+         an existing menu token. -->
+    <Style x:Key="CardMenu" TargetType="ContextMenu" BasedOn="{StaticResource {x:Type ContextMenu}}">
+        <Setter Property="MinWidth" Value="300"/>
+        <Setter Property="MaxWidth" Value="340"/>
+        <Setter Property="Padding" Value="6"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle"/>
+    </Style>
+
+    <Style x:Key="CardSlot" TargetType="MenuItem">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Padding" Value="4,4"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MenuFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource MenuFontSize}"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Continue"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="MenuItem">
+                    <ContentPresenter ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="False"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CardLabel" TargetType="TextBlock">
+        <Setter Property="Width" Value="52"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Foreground" Value="{DynamicResource DimTextBrush}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+    </Style>
+
+    <!-- Glyph over a short caption. Content is the glyph, Tag is the caption; the tooltip carries
+         the full action name and its shortcut (the family shortcut rule). -->
+    <Style x:Key="CardQuickButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="2,7,2,5"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="AutomationProperties.Name" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="{TemplateBinding Padding}" BorderThickness="1" BorderBrush="Transparent">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock x:Name="Glyph" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                       HorizontalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
+                            <TextBlock x:Name="Caption" Text="{TemplateBinding Tag}" FontSize="11" Margin="0,5,0,0"
+                                       HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource MenuHoverBrush}"/>
+                            <Setter TargetName="Glyph" Property="Foreground" Value="{DynamicResource MenuHoverTextBrush}"/>
+                            <Setter TargetName="Caption" Property="Foreground" Value="{DynamicResource MenuHoverTextBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- One color in a SwatchRow. Background is the color; Tag="on" rings the current one. A
+         Transparent background draws the "no color" circle as an outline. -->
+    <Style x:Key="CardSwatch" TargetType="Button">
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Margin" Value="0,0,5,0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Ellipse x:Name="Ring" Stroke="Transparent" StrokeThickness="2" Margin="-3"/>
+                        <Ellipse x:Name="Dot" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Tag" Value="on"><Setter TargetName="Ring" Property="Stroke" Value="{DynamicResource TextBrush}"/></Trigger>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Dot" Property="StrokeThickness" Value="2"/></Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Ring" Property="Stroke" Value="{DynamicResource PrimaryBrush}"/></Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- One option of a segmented toggle: RadioButtons sharing a GroupName inside a Border
+         filled with MenuHoverBrush. The checked option lifts onto the menu surface. -->
+    <Style x:Key="CardSegment" TargetType="RadioButton">
+        <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Padding" Value="10,3"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="Bd" Background="Transparent" BorderBrush="Transparent" BorderThickness="1"
+                            CornerRadius="{DynamicResource SmallCornerRadius}" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource MenuBackgroundBrush}"/>
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- An independent on/off chip on a card row ("Use for: Templates / Daily notes"). Off is an
+         outline, on takes the hover fill with the text color, so on and off read apart in every
+         theme without a new token. -->
+    <Style x:Key="CardToggle" TargetType="ToggleButton">
+        <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Padding" Value="9,3"/>
+        <Setter Property="Margin" Value="0,0,6,0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="Bd" Background="Transparent" BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="1"
+                            CornerRadius="{DynamicResource SmallCornerRadius}" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource DimTextBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource MenuHoverBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Compact horizontal slider. The default WPF Slider brings its own chrome, tick bar and
          system colors, none of which belong on a themed card - so the template is a thin track
          with an accent fill up to the thumb, and a small round grip. The fill is a second Border

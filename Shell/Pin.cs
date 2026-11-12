@@ -20,16 +20,6 @@ namespace KillerNotes.Shell
 {
     public partial class MainWindow
     {
-        // Menu row (MainWindow.xaml PinItem): names the action for the selection. A mixed
-        // selection reads "Pin note", and the toggle then pins the rest, matching how the tag
-        // rows treat a mixed state.
-        private void UpdatePinMenuItem(List<Note> selected)
-        {
-            bool allPinned = selected.Count > 0 && selected.All(n => n.Pinned);
-            PinItem.Header = Loc(allPinned ? "Str_Ctx_UnpinNote" : "Str_Ctx_PinNote");
-            PinItem.IsEnabled = selected.Count > 0;
-        }
-
         private void PinNote_Click(object sender, RoutedEventArgs e)
             => TogglePin([.. NotesList.SelectedItems.OfType<Note>().Where(n => !n.IsDeleted)]);
 

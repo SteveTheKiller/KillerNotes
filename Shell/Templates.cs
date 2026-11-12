@@ -227,8 +227,10 @@ namespace KillerNotes.Shell
 
         /// <summary>Creates a new note from a template. The title is the template's own with
         /// placeholders filled, unless one is given; the group is the caller's (null = loose).
-        /// Returns the new id, or -1 when nothing was made. With open, the note is shown.</summary>
-        private long CreateFromTemplate(long templateId, string? title = null, string? group = null, bool open = true)
+        /// Returns the new id, or -1 when nothing was made. With open, the note is shown.
+        /// expand false makes an exact copy, placeholders left as written: Duplicate and Save as
+        /// template (NoteCard.cs) copy a note, they do not instantiate one.</summary>
+        private long CreateFromTemplate(long templateId, string? title = null, string? group = null, bool open = true, bool expand = true)
         {
             if (!NoteStore.IsOpen) return -1;
             if (NoteStore.IsReadOnly)
@@ -241,7 +243,7 @@ namespace KillerNotes.Shell
             if (tpl == null) return -1;
 
             var now = DateTime.Now;
-            string newTitle = title ?? TemplateText.Expand(tpl.Title, now);
+            string newTitle = title ?? (expand ? TemplateText.Expand(tpl.Title, now) : tpl.Title);
             long id = NoteStore.Create(newTitle, tpl.Format);
             if (id < 0) return -1;
 
@@ -250,7 +252,8 @@ namespace KillerNotes.Shell
             string plain;
             if (tpl.IsMarkdown)
             {
-                plain = TemplateText.Expand(MarkdownBlob.Decode(blob), now);
+                plain = MarkdownBlob.Decode(blob);
+                if (expand) plain = TemplateText.Expand(plain, now);
                 content = MarkdownBlob.Encode(plain);
             }
             else
@@ -262,7 +265,7 @@ namespace KillerNotes.Shell
                     try { new TextRange(doc.ContentStart, doc.ContentEnd).Load(ms, DataFormats.XamlPackage); }
                     catch { doc.Blocks.Clear(); }   // an unreadable template still yields an empty note
                 }
-                TemplateText.ExpandDocument(doc, now);
+                if (expand) TemplateText.ExpandDocument(doc, now);
                 var range = new TextRange(doc.ContentStart, doc.ContentEnd);
                 using var outMs = new MemoryStream();
                 range.Save(outMs, DataFormats.XamlPackage);

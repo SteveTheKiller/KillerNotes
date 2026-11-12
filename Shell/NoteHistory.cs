@@ -50,7 +50,6 @@ namespace KillerNotes.Shell
             // Going somewhere new abandons the forward branch, exactly like a browser. Keeping it
             // would offer a "forward" into a trail you have already stepped off.
             _navFwd.Clear();
-            UpdateNavState();
         }
 
         private void NavBack() => NavStep(_navBack, _navFwd, "Str_St_NavNoBack");
@@ -69,7 +68,7 @@ namespace KillerNotes.Shell
                 if (NoteStore.GetNote(target) is { IsDeleted: false }) break;   // skip notes deleted since; the list may be filtered by a search
                 target = -1;
             }
-            if (target < 0) { FlashStatus(Loc(emptyMsg)); UpdateNavState(); return; }
+            if (target < 0) { FlashStatus(Loc(emptyMsg)); return; }
 
             if (_currentId >= 0 && _currentId != target)
             {
@@ -85,19 +84,6 @@ namespace KillerNotes.Shell
                 SelectNoteInList(target);   // WikiLinkNav.cs
             }
             finally { _navReplaying = false; }
-            UpdateNavState();
-        }
-
-        /// <summary>Greys the menu rows out when there is nowhere to go, so the menu reports the
-        /// state instead of silently doing nothing.</summary>
-        private void UpdateNavState()
-        {
-            // PROBE for null-conditional ASSIGNMENT (C# 14). This is the shape ~35 other IDE0031
-            // sites take across the four apps, and it is the one transformation in the batch that
-            // needs a language version newer than the rest. If this compiles, the others follow;
-            // if it does not, they all stay as explicit if-statements.
-            NavBackItem?.IsEnabled = _navBack.Count > 0;
-            NavFwdItem?.IsEnabled = _navFwd.Count > 0;
         }
 
         /// <summary>Dropping a database drops its history with it - the ids in the stacks belong
@@ -106,11 +92,7 @@ namespace KillerNotes.Shell
         {
             _navBack.Clear();
             _navFwd.Clear();
-            UpdateNavState();
         }
-
-        private void NavBack_Click(object sender, RoutedEventArgs e) => NavBack();
-        private void NavForward_Click(object sender, RoutedEventArgs e) => NavForward();
 
         // ── Mouse thumb buttons ──────────────────────────────────────────────────────────
         //

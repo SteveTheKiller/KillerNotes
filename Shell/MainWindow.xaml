@@ -4,6 +4,7 @@
         xmlns:theme="clr-namespace:KillerFamily.Theming"
         xmlns:a11y="clr-namespace:KillerFamily.Accessibility"
         xmlns:kl="clr-namespace:KillerFamily.Layout"
+        xmlns:fam="clr-namespace:KillerFamily.Controls"
         xmlns:icons="clr-namespace:KillerNotes.Controls"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:models="clr-namespace:KillerNotes.Models"
@@ -664,6 +665,23 @@
                             VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0"
                             Click="SidebarToggle_Click" ToolTip="{DynamicResource Str_TT_CollapseSidebar}"/>
                     <StackPanel x:Name="RailStack" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,6">
+                        <!-- The group manager window (1.7.0, GroupManager.cs / Alt+Shift+O). E8B7 = folder. -->
+                        <Button x:Name="OrganizeRailBtn" Style="{StaticResource RailButton}" Content="&#xE8B7;"
+                                Margin="0,0,0,10" Click="OrganizeRail_Click"/>
+                        <!-- Whole-library import and export (1.7.0, NewMenu.cs). They left the note menu
+                             because they act on every note, not the one you right-clicked. E8F1 = library. -->
+                        <Button x:Name="LibraryRailBtn" Style="{StaticResource RailButton}" Content="&#xE8F1;"
+                                AutomationProperties.Name="{DynamicResource Str_TT_Library}"
+                                Margin="0,0,0,10" Click="LibraryRail_Click">
+                            <Button.ContextMenu>
+                                <ContextMenu x:Name="LibraryMenu">
+                                    <MenuItem InputGestureText="Alt+Shift+I" Header="{DynamicResource Str_Ctx_ImportFolder}" Icon="&#xE8B5;" Click="ImportFolder_Click"
+                                              ToolTip="{DynamicResource Str_TT_ImportFolder}"/>
+                                    <MenuItem InputGestureText="Alt+E" Header="{DynamicResource Str_Ctx_ExportVault}" Icon="&#xE838;" Click="ExportVault_Click"
+                                              ToolTip="{DynamicResource Str_TT_ExportVault}"/>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
                         <!-- Killculator toggle (Killculator.cs / F9). E1D0 = the calculator glyph. -->
                         <Button x:Name="KalcRailBtn" Style="{StaticResource RailButton}" Content="&#xE1D0;"
                                 Margin="0,0,0,10" Click="KalcRail_Click"
@@ -807,8 +825,30 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <!-- Fill the remaining column; the sort buttons keep their space. -->
-                            <Button x:Name="NewNoteBtn" Grid.Column="0" Style="{StaticResource NewNoteButton}"
+                            <!-- Fill the remaining column; the sort buttons keep their space. The
+                                 chevron beside New note is the split half (1.7.0, NewMenu.cs): the
+                                 other ways to start a note, which used to sit on the note menu. -->
+                            <DockPanel x:Name="NewNoteSplit" Grid.Column="0">
+                            <Button x:Name="NewMenuBtn" DockPanel.Dock="Right" Style="{StaticResource NewNoteButton}"
+                                    AutomationProperties.Name="{DynamicResource Str_TT_NewMenu}"
+                                    Content="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="10" Width="22" Height="30"
+                                    Padding="0" Margin="2,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    Click="NewMenuBtn_Click">
+                                <Button.ContextMenu>
+                                    <ContextMenu x:Name="NewMenu" Opened="NewMenu_Opened">
+                                        <MenuItem InputGestureText="Ctrl+N" Header="{DynamicResource Str_KS_NewNote}" Icon="&#xE710;" Click="NewNote_Click"/>
+                                        <MenuItem InputGestureText="Alt+N" Header="{DynamicResource Str_Ctx_NewMarkdownNote}" Icon="&#xE943;"
+                                                  Click="NewMarkdownNote_Click" ToolTip="{DynamicResource Str_TT_NewMarkdownNote}"/>
+                                        <!-- One row per note in the templates group, built on open (Templates.cs). -->
+                                        <MenuItem InputGestureText="Alt+T" x:Name="TemplateMenu" Header="{DynamicResource Str_Ctx_NewFromTemplate}" Icon="&#xE7C3;"
+                                                  ToolTip="{DynamicResource Str_TT_NewFromTemplate}"/>
+                                        <!-- Today's note, opened or created (1.3.1, DailyNote.cs). -->
+                                        <MenuItem Header="{DynamicResource Str_Ctx_TodayNote}" Icon="&#xE787;" InputGestureText="Alt+D"
+                                                  Click="TodayNote_Click" ToolTip="{DynamicResource Str_TT_TodayNote}"/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                            <Button x:Name="NewNoteBtn" Style="{StaticResource NewNoteButton}"
                                     Content="{DynamicResource Str_Btn_NewNoteShort}" Click="NewNote_Click" HorizontalAlignment="Stretch"
                                     Height="30" MinWidth="34" Padding="6,1" FontFamily="{DynamicResource WordmarkAccentFont}" FontSize="22" FontWeight="Normal"
                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -821,6 +861,7 @@
                                     </DataTemplate>
                                 </Button.ContentTemplate>
                             </Button>
+                            </DockPanel>
                             <!-- Dedicated sorts: creation time (default, oldest first) and
                                  alphabetical. The active one shows in the accent; clicking it
                                  again reverses its direction (Notes.cs). -->
@@ -891,6 +932,86 @@
                         <Border Grid.Row="0" Panel.ZIndex="5" IsHitTestVisible="False"
                                 Margin="{DynamicResource PaneBevelInnerMargin}"
                                 BorderBrush="{DynamicResource PaneBevelLight2Brush}" BorderThickness="{DynamicResource PaneBevel2DarkThickness}"/>
+                    <!-- The group card (1.7.0, GroupCard.cs). ONE card for every group header: it is
+                         parked on this collapsed host so its parts are named fields, and each header
+                         takes it as its ContextMenu on right-click (UpdateGroupHeaderMenu). A copy
+                         inside the header template would be one card per header, none addressable. -->
+                    <Border x:Name="GroupCardHost" Grid.Row="0" Visibility="Collapsed">
+                        <Border.ContextMenu>
+                            <ContextMenu x:Name="GroupCard" Style="{StaticResource CardMenu}">
+                                <MenuItem Style="{StaticResource CardSlot}" AutomationProperties.Name="{Binding Text, ElementName=GroupCardTitle}">
+                                    <MenuItem.Header>
+                                        <DockPanel Margin="4,2,4,6">
+                                            <Ellipse x:Name="GroupCardDot" DockPanel.Dock="Left" Width="10" Height="10" Margin="0,0,10,0"
+                                                     VerticalAlignment="Center" StrokeThickness="1" Stroke="{DynamicResource MenuBorderBrush}"/>
+                                            <StackPanel>
+                                                <TextBlock x:Name="GroupCardTitle" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
+                                                           Foreground="{DynamicResource TextBrush}"/>
+                                                <TextBlock x:Name="GroupCardMeta" FontSize="11" Margin="0,1,0,0" TextTrimming="CharacterEllipsis"
+                                                           Foreground="{DynamicResource DimTextBrush}"/>
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem Style="{StaticResource CardSlot}" Padding="0" AutomationProperties.Name="{DynamicResource Str_Card_Actions}">
+                                    <MenuItem.Header>
+                                        <Border BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,1" Padding="2,4">
+                                            <UniformGrid Rows="1">
+                                                <Button x:Name="GroupCardNewNoteBtn" Style="{StaticResource CardQuickButton}" Content="&#xE710;"
+                                                        Tag="{DynamicResource Str_Card_NewNote}" Click="GroupCardNewNote_Click"/>
+                                                <Button x:Name="GroupCardSubgroupBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8F4;"
+                                                        Tag="{DynamicResource Str_Card_Subgroup}" Click="GroupCardSubgroup_Click"/>
+                                                <Button x:Name="GroupCardRenameBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8AC;"
+                                                        Tag="{DynamicResource Str_Card_Rename}" Click="GroupCardRename_Click"/>
+                                                <Button x:Name="GroupCardCollapseBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8A0;"
+                                                        Tag="{DynamicResource Str_Card_CollapseAll}" Click="GroupCardCollapseAll_Click"/>
+                                                <Button x:Name="GroupCardGraphBtn" Style="{StaticResource CardQuickButton}" Content="&#xE9D9;"
+                                                        Tag="{DynamicResource Str_Card_Graph}" Click="GroupCardGraph_Click"/>
+                                                <Button x:Name="GroupCardManagerBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8B7;"
+                                                        Tag="{DynamicResource Str_Card_Organize}" Click="GroupCardManager_Click"/>
+                                            </UniformGrid>
+                                        </Border>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem Style="{StaticResource CardSlot}" Padding="4,8,4,4">
+                                    <MenuItem.Header>
+                                        <DockPanel>
+                                            <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Color}"/>
+                                            <fam:SwatchRow x:Name="GroupCardSwatches"/>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <!-- Parent: a submenu of every group this one may move under, built on
+                                     open (GroupCard.cs). Same move path as the sidebar drag. -->
+                                <MenuItem x:Name="GroupParentMenu" HorizontalContentAlignment="Stretch">
+                                    <MenuItem.Header>
+                                        <DockPanel>
+                                            <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Parent}"/>
+                                            <TextBlock x:Name="GroupCardParentText" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem Style="{StaticResource CardSlot}" Padding="4,4,4,8">
+                                    <MenuItem.Header>
+                                        <DockPanel>
+                                            <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_UseFor}"/>
+                                            <WrapPanel>
+                                                <ToggleButton x:Name="GroupCardTemplatesToggle" Style="{StaticResource CardToggle}"
+                                                              Content="{DynamicResource Str_Card_Templates}" Click="GroupCardTemplates_Click"/>
+                                                <ToggleButton x:Name="GroupCardDailyToggle" Style="{StaticResource CardToggle}"
+                                                              Content="{DynamicResource Str_Card_Daily}" Click="GroupCardDaily_Click"/>
+                                            </WrapPanel>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem x:Name="GroupCardSubTopItem" InputGestureText="Ctrl+F3" Header="{DynamicResource Str_Ctx_SubTop}" IsCheckable="True"
+                                          Click="SubgroupsOnTop_Click" ToolTip="{DynamicResource Str_TT_SubTop}"/>
+                                <MenuItem InputGestureText="Ctrl+F7" Header="{DynamicResource Str_Ctx_DeleteGroup}" Icon="&#xE74D;"
+                                          Click="GroupCardDelete_Click"/>
+                            </ContextMenu>
+                        </Border.ContextMenu>
+                    </Border>
                     <!-- ListPaneBrush is Transparent by default, so the chrome strip behind the
                          content row shows through and the list blends into the sidebar exactly as
                          it always has. It fills THE LIST ONLY, deliberately: the header above it
@@ -903,6 +1024,7 @@
                              VirtualizingPanel.ScrollUnit="Pixel"
                              SelectionChanged="NotesList_SelectionChanged"
                              PreviewMouseRightButtonDown="NotesList_PreviewMouseRightButtonDown"
+                             ContextMenuOpening="NotesList_ContextMenuOpening"
                              PreviewMouseLeftButtonDown="NotesList_PreviewMouseLeftButtonDown"
                              PreviewMouseMove="NotesList_PreviewMouseMove"
                              AllowDrop="True" DragOver="NotesList_DragOver" Drop="NotesList_Drop"
@@ -1063,73 +1185,112 @@
                              elements inside a Style Setter (connectionId cast failure at load).
                              Right-click selects the item under the cursor first (code-behind). -->
                         <ListBox.ContextMenu>
-                            <ContextMenu Opened="NotesContextMenu_Opened" Closed="NotesContextMenu_Closed">
-                                <!-- Back / forward lead the menu because they are the only rows
-                                     here about WHERE YOU ARE rather than what to do to a note,
-                                     and they are greyed rather than hidden when the history is
-                                     empty so the menu reports the state (NoteHistory.cs). -->
-                                <MenuItem x:Name="NavBackItem" Header="{DynamicResource Str_Ctx_NavBack}"
-                                          Icon="&#xE72B;" InputGestureText="Alt+Left" Click="NavBack_Click"
-                                          ToolTip="{DynamicResource Str_TT_NavBack}"/>
-                                <MenuItem x:Name="NavFwdItem" Header="{DynamicResource Str_Ctx_NavForward}"
-                                          Icon="&#xE72A;" InputGestureText="Alt+Right" Click="NavForward_Click"
-                                          ToolTip="{DynamicResource Str_TT_NavForward}"/>
-                                <Separator/>
-                                <!-- Pin / unpin (1.3.1, Pin.cs). The header flips to name the action
-                                     for the selection, set on open by NotesContextMenu_Opened. -->
-                                <MenuItem x:Name="PinItem" Icon="&#xE718;" InputGestureText="Alt+P" Click="PinNote_Click"
-                                          ToolTip="{DynamicResource Str_TT_Pin}"/>
-                                <!-- Earlier versions of the note (1.3.1, History.cs). -->
-                                <MenuItem Header="{DynamicResource Str_Ctx_History}" Icon="&#xE81C;" InputGestureText="Alt+H"
-                                          Click="History_Click" ToolTip="{DynamicResource Str_TT_History}"/>
-                                <MenuItem InputGestureText="Alt+S" Header="{DynamicResource Str_Ctx_ShareNote}" Icon="&#xE72D;" Click="ShareNote_Click"
-                                          ToolTip="{DynamicResource Str_TT_ShareNote}"/>
-                                <MenuItem InputGestureText="F8" Header="{DynamicResource Str_Ctx_ExportNote}" Icon="&#xE74E;" Click="ExportNoteAs_Click"
-                                          ToolTip="{DynamicResource Str_TT_ExportNote}"/>
-                                <!-- Whole database to a folder of .md files (1.3.0, VaultExport.cs).
-                                     Not a per-note action despite sitting on the note menu; the
-                                     label says "all notes" so the scope is on the row itself. -->
-                                <MenuItem InputGestureText="Alt+E" Header="{DynamicResource Str_Ctx_ExportVault}" Icon="&#xE838;" Click="ExportVault_Click"
-                                          ToolTip="{DynamicResource Str_TT_ExportVault}"/>
-                                <!-- The way back in (1.6.0, FolderImport.cs): a folder of Markdown files. -->
-                                <MenuItem InputGestureText="Alt+Shift+I" Header="{DynamicResource Str_Ctx_ImportFolder}" Icon="&#xE8B5;" Click="ImportFolder_Click"
-                                          ToolTip="{DynamicResource Str_TT_ImportFolder}"/>
-                                <!-- One toggle row per defined tag, built on open (Tags.cs) -->
-                                <MenuItem InputGestureText="Alt+K" x:Name="TagsMenu" Header="{DynamicResource Str_Ctx_Tags}" Icon="&#xE8EC;"/>
-                                <!-- One row per group + remove + new, built on open (Groups.cs, #4) -->
-                                <MenuItem InputGestureText="Alt+G" x:Name="GroupMenu" Header="{DynamicResource Str_Ctx_Group}" Icon="&#xE8B7;"/>
-                                <MenuItem InputGestureText="Ctrl+Shift+C" Header="{DynamicResource Str_Ctx_TitleColor}" Icon="&#xE8D3;" Click="TitleColorPick_Click"
-                                          ToolTip="{DynamicResource Str_TT_TitleColor}"/>
-                                <MenuItem InputGestureText="Alt+R" Header="{DynamicResource Str_Ctx_TitleColorReset}" Icon="&#xE894;" Click="TitleColorReset_Click"/>
-                                <!-- App-wide off switch for the markdown/HTML detection (#14). The
-                                     detector itself is the real fix (Preview.cs requires a strong
-                                     signal now); this is here for anyone who wants it to stop
-                                     guessing entirely. Checked on open by NotesContextMenu_Opened. -->
-                                <MenuItem InputGestureText="Alt+V" x:Name="PreviewDetectGlobal" Header="{DynamicResource Str_Ctx_PreviewGlobal}"
-                                          Icon="&#xE8A1;" IsCheckable="True" Click="PreviewDetectGlobal_Click"
-                                          ToolTip="{DynamicResource Str_TT_PreviewGlobal}"/>
-                                <!-- Rich text to markdown and back (1.3.0). The header text flips
-                                     to name the direction, set on open by NotesContextMenu_Opened,
-                                     because it depends on the right-clicked note's format. -->
-                                <MenuItem InputGestureText="Alt+F" x:Name="ConvertFormatItem" Icon="&#xE8AB;" Click="ConvertFormat_Click"/>
-                                <!-- The only way to START a markdown note. Convert handles notes
-                                     that already exist; without this the format is unreachable
-                                     from a clean database. -->
-                                <MenuItem InputGestureText="Alt+N" Header="{DynamicResource Str_Ctx_NewMarkdownNote}" Icon="&#xE943;"
-                                          Click="NewMarkdownNote_Click"
-                                          ToolTip="{DynamicResource Str_TT_NewMarkdownNote}"/>
-                                <!-- One row per note in the templates group, built on open
-                                     (Templates.cs). Also lives here for right-clicks on the blank
-                                     sidebar, so a fresh database can reach it. -->
-                                <MenuItem InputGestureText="Alt+T" x:Name="TemplateMenu" Header="{DynamicResource Str_Ctx_NewFromTemplate}" Icon="&#xE7C3;"
-                                          ToolTip="{DynamicResource Str_TT_NewFromTemplate}"/>
-                                <!-- Today's note, opened or created (1.3.1, DailyNote.cs). -->
-                                <MenuItem Header="{DynamicResource Str_Ctx_TodayNote}" Icon="&#xE787;" InputGestureText="Alt+D"
-                                          Click="TodayNote_Click" ToolTip="{DynamicResource Str_TT_TodayNote}"/>
-                                <MenuItem InputGestureText="Delete" Header="{DynamicResource Str_Ctx_DeleteNote}" Icon="&#xE74D;" Click="DeleteNote_Click"/>
+                            <!-- The note card (1.7.0, NoteCard.cs). A card about the right-clicked
+                                 note, or the whole selection: header, quick buttons, inline color,
+                                 tags, group and format rows, then the short list. Library and
+                                 creation actions live on the rail and the New button instead, and
+                                 Back / Forward stay on Alt+Left / Alt+Right. NotesContextMenu_Opened
+                                 sets the mode (one note, several, trash) before it shows. -->
+                            <ContextMenu x:Name="NoteCard" Style="{StaticResource CardMenu}"
+                                         Opened="NotesContextMenu_Opened" Closed="NotesContextMenu_Closed">
+                                <MenuItem x:Name="CardHeaderSlot" Style="{StaticResource CardSlot}"
+                                          AutomationProperties.Name="{Binding Text, ElementName=CardTitle}">
+                                    <MenuItem.Header>
+                                        <DockPanel Margin="4,2,4,6">
+                                            <a11y:Glyph x:Name="CardPinMark" DockPanel.Dock="Right" Text="&#xE718;" FontFamily="Segoe MDL2 Assets"
+                                                        FontSize="13" VerticalAlignment="Center" Margin="8,0,0,0"
+                                                        Foreground="{DynamicResource DimTextBrush}"/>
+                                            <Ellipse x:Name="CardColorDot" DockPanel.Dock="Left" Width="10" Height="10" Margin="0,0,10,0"
+                                                     VerticalAlignment="Center" StrokeThickness="1" Stroke="{DynamicResource MenuBorderBrush}"/>
+                                            <StackPanel>
+                                                <TextBlock x:Name="CardTitle" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
+                                                           Foreground="{DynamicResource TextBrush}"/>
+                                                <TextBlock x:Name="CardMeta" FontSize="11" Margin="0,1,0,0" TextTrimming="CharacterEllipsis"
+                                                           Foreground="{DynamicResource DimTextBrush}"/>
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem x:Name="CardQuickSlot" Style="{StaticResource CardSlot}" Padding="0"
+                                          AutomationProperties.Name="{DynamicResource Str_Card_Actions}">
+                                    <MenuItem.Header>
+                                        <Border BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,1" Padding="2,4">
+                                            <UniformGrid x:Name="CardQuickGrid" Rows="1">
+                                                <Button x:Name="CardPinBtn" Style="{StaticResource CardQuickButton}" Content="&#xE718;"
+                                                        Tag="{DynamicResource Str_Card_Pin}" Click="CardPin_Click"/>
+                                                <Button x:Name="CardShareBtn" Style="{StaticResource CardQuickButton}" Content="&#xE72D;"
+                                                        Tag="{DynamicResource Str_Card_Share}" Click="CardShare_Click"/>
+                                                <Button x:Name="CardExportBtn" Style="{StaticResource CardQuickButton}" Content="&#xE74E;"
+                                                        Tag="{DynamicResource Str_Card_Export}" Click="CardExport_Click"/>
+                                                <Button x:Name="CardHistoryBtn" Style="{StaticResource CardQuickButton}" Content="&#xE81C;"
+                                                        Tag="{DynamicResource Str_Card_History}" Click="CardHistory_Click"/>
+                                                <Button x:Name="CardDuplicateBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8C8;"
+                                                        Tag="{DynamicResource Str_Card_Duplicate}" Click="CardDuplicate_Click"/>
+                                            </UniformGrid>
+                                        </Border>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem x:Name="CardColorSlot" Style="{StaticResource CardSlot}" Padding="4,8,4,4">
+                                    <MenuItem.Header>
+                                        <DockPanel>
+                                            <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Color}"/>
+                                            <fam:SwatchRow x:Name="CardSwatches"/>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <!-- Tags and Group keep their submenus (Tags.cs, Groups.Menu.cs); only the
+                                     header changed, from a bare label to the label plus the current value. -->
+                                <MenuItem x:Name="TagsMenu" InputGestureText="Alt+K" HorizontalContentAlignment="Stretch">
+                                    <MenuItem.Header>
+                                        <DockPanel>
+                                            <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Tags}"/>
+                                            <ItemsControl x:Name="CardTagChips" Focusable="False" IsTabStop="False" VerticalAlignment="Center">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Background="{Binding Background}" CornerRadius="{DynamicResource SmallCornerRadius}"
+                                                                Padding="6,1" Margin="0,1,4,1">
+                                                            <TextBlock Text="{Binding Name}" Foreground="{Binding Foreground}" FontSize="11"/>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem x:Name="GroupMenu" InputGestureText="Alt+G" HorizontalContentAlignment="Stretch">
+                                    <MenuItem.Header>
+                                        <DockPanel>
+                                            <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Group}"/>
+                                            <TextBlock x:Name="CardGroupText" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem x:Name="CardFormatSlot" Style="{StaticResource CardSlot}" Padding="4,4,4,8">
+                                    <MenuItem.Header>
+                                        <DockPanel>
+                                            <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Format}"/>
+                                            <Border HorizontalAlignment="Left" Background="{DynamicResource MenuHoverBrush}" Padding="2"
+                                                    CornerRadius="{DynamicResource ControlCornerRadius}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <RadioButton x:Name="CardRichSeg" Style="{StaticResource CardSegment}" GroupName="CardFormat"
+                                                                 Content="{DynamicResource Str_Card_Rich}" Click="CardFormat_Click"/>
+                                                    <RadioButton x:Name="CardMarkdownSeg" Style="{StaticResource CardSegment}" GroupName="CardFormat"
+                                                                 Content="{DynamicResource Str_Card_Markdown}" Click="CardFormat_Click"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DockPanel>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <Separator x:Name="CardListRule"/>
+                                <MenuItem x:Name="CardSaveTemplateItem" InputGestureText="Alt+Shift+T" Header="{DynamicResource Str_Ctx_SaveAsTemplate}"
+                                          Icon="&#xE7C3;" Click="SaveAsTemplate_Click" ToolTip="{DynamicResource Str_TT_SaveAsTemplate}"/>
+                                <MenuItem x:Name="CardDeleteItem" InputGestureText="Delete" Header="{DynamicResource Str_Ctx_DeleteNote}" Icon="&#xE74D;"
+                                          Click="DeleteNote_Click"/>
                                 <!-- Trash rows only (1.3.1, Trash.cs). When every selected row is a
-                                     trashed note the menu is these two and nothing else; on live
-                                     notes they stay collapsed. NotesContextMenu_Opened swaps them. -->
+                                     trashed note the card is these two and nothing else. -->
                                 <MenuItem InputGestureText="Ctrl+F8" x:Name="RestoreItem" Header="{DynamicResource Str_Ctx_Restore}" Icon="&#xE7A7;"
                                           Click="RestoreNote_Click" Visibility="Collapsed"/>
                                 <MenuItem InputGestureText="Ctrl+F9" x:Name="DeleteForeverItem" Header="{DynamicResource Str_Ctx_DeleteForever}" Icon="&#xE74D;"
@@ -1150,30 +1311,8 @@
                                         MouseLeftButtonDown="GroupHeader_Press"
                                         MouseLeftButtonUp="GroupHeader_Click"
                                         MouseRightButtonDown="GroupHeader_RightDown" ContextMenuOpening="GroupHeader_ContextMenuOpening">
-                                    <Border.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_NewSubgroup}" Icon="&#xE8F4;" Click="NewSubgroup_Click"
-                                                      InputGestureText="Ctrl+Shift+G"/>
-                                            <MenuItem InputGestureText="Ctrl+F3" Header="{DynamicResource Str_Ctx_SubTop}" Icon="&#xE74A;" Tag="subtop" IsCheckable="True"
-                                                      Click="SubgroupsOnTop_Click" ToolTip="{DynamicResource Str_TT_SubTop}"/>
-                                            <!-- Marks this group as the one whose notes are templates
-                                                 (1.3.1, Templates.cs). Checked on open by GroupHeader_RightDown. -->
-                                            <MenuItem InputGestureText="Ctrl+F4" Header="{DynamicResource Str_Ctx_TemplatesGroup}" Icon="&#xE7C3;" Tag="templates" IsCheckable="True"
-                                                      Click="TemplatesGroup_Click" ToolTip="{DynamicResource Str_TT_TemplatesGroup}"/>
-                                            <!-- Where Alt+D files today's note (1.3.1, DailyNote.cs). -->
-                                            <MenuItem InputGestureText="Ctrl+F5" Header="{DynamicResource Str_Ctx_DailyGroup}" Icon="&#xE787;" Tag="daily" IsCheckable="True"
-                                                      Click="DailyGroup_Click" ToolTip="{DynamicResource Str_TT_DailyGroup}"/>
-                                            <MenuItem InputGestureText="Ctrl+F2" Header="{DynamicResource Str_Ctx_RenameGroup}" Icon="&#xE8AC;" Click="RenameGroup_Click"/>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_GroupColor}" Icon="&#xE790;" Click="GroupColorPick_Click"
-                                                      Tag="groupcolor" InputGestureText="Ctrl+Shift+K"
-                                                      ToolTip="{DynamicResource Str_TT_GroupColor}"/>
-                                            <MenuItem InputGestureText="Ctrl+F6" Header="{DynamicResource Str_Ctx_GroupColorReset}" Icon="&#xE894;" Click="GroupColorReset_Click"/>
-                                            <MenuItem Header="{DynamicResource Str_Ctx_GroupGraph}" Icon="&#xE9D9;" Click="GroupGraph_Click"
-                                                      InputGestureText="Ctrl+Shift+B"
-                                                      ToolTip="{DynamicResource Str_TT_GroupGraph}"/>
-                                            <MenuItem InputGestureText="Ctrl+F7" Header="{DynamicResource Str_Ctx_DeleteGroup}" Icon="&#xE74D;" Click="DeleteGroup_Click"/>
-                                        </ContextMenu>
-                                    </Border.ContextMenu>
+                                    <!-- No ContextMenu here: right-click hands this header the one shared
+                                         group card (GroupCard.cs, the GroupCardHost element above). -->
                                     <!-- No chevron: the colored spine (the container line) is the group's
                                          indicator; clicking the header toggles collapse and the line grows down
                                          through the notes / shrinks back to the header. -->
@@ -3253,6 +3392,12 @@
                                 <CheckBox x:Name="AboutShowTips" MinHeight="24" VerticalAlignment="Center"
                                           Content="{DynamicResource Str_About_ShowTips}" ContentTemplate="{StaticResource AboutOptionText}"
                                           FontSize="11" Click="AboutShowTips_Click"/>
+                                <!-- App-wide markdown/HTML detection (#14, Preview.cs / Alt+V). It moved here
+                                     from the note menu in 1.7.0: it is a setting, not something done to a note. -->
+                                <CheckBox x:Name="AboutDetectMarkdown" MinHeight="24" VerticalAlignment="Center"
+                                          Content="{DynamicResource Str_Ctx_PreviewGlobal}" ContentTemplate="{StaticResource AboutOptionText}"
+                                          ToolTip="{DynamicResource Str_TT_PreviewGlobal}"
+                                          FontSize="11" Click="AboutDetectMarkdown_Click"/>
                                 <!-- Lock now's automatic triggers (LockNow.cs). They only act on a
                                      notepad with a password. -->
                                 <CheckBox x:Name="AboutLockWithWindows" MinHeight="24" VerticalAlignment="Center"

@@ -108,6 +108,7 @@ namespace KillerNotes.Shell
                 new FrameworkElement[] { ThemeButton, LangButton, ShortcutsRailBtn },
                 new FrameworkElement[]
                 {
+                    OrganizeRailBtn, LibraryRailBtn,
                     KalcRailBtn, SketchRailBtn, DictationRailBtn, FindRailBtn, DensityBtn,
                     LineNumBtn, OutlineRailBtn, GraphRailBtn,
                 },

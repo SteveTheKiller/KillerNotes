@@ -84,6 +84,12 @@ namespace KillerNotes.Shell
             new("Alt+Shift+D", Key.D, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblDelRow", "Format", w => w.RunTableAction(w.TableDelRow_Click), "TblDelRowMenuItem"),
             new("Alt+Shift+C", Key.C, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblDelCol", "Format", w => w.RunTableAction(w.TableDelCol_Click), "TblDelColMenuItem"),
             new("Alt+Shift+X", Key.X, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_TblDelete", "Format", w => w.RunTableAction(w.TableDelete_Click), "TblDeleteMenuItem"),
+            // Card menus and the group manager (1.7.0, NoteCard.cs / GroupCard.cs / GroupManager.cs).
+            new("Alt+Shift+U", Key.U, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_DuplicateNote", "Note", w => w.RunNoteAction(w.DuplicateNote_Click)),
+            new("Alt+Shift+T", Key.T, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_SaveAsTemplate", "Note", w => w.RunNoteAction(w.SaveAsTemplate_Click), "CardSaveTemplateItem"),
+            new("Alt+Shift+H", Key.H, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_NewNoteInGroup", "Note", w => w.RunGroupAction(w.NewNoteInGroup_Click)),
+            new("Alt+Shift+Z", Key.Z, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_CollapseAll", "View", w => w.CollapseAllGroups_Click(w, new RoutedEventArgs())),
+            new("Alt+Shift+O", Key.O, ModifierKeys.Alt | ModifierKeys.Shift, "Str_KS_Organize", "View", w => w.OpenGroupManager(), "OrganizeRailBtn"),
             // Page width presets (Editor.View.cs, #31): the four footer radios share these gestures.
             new("Alt+Shift+W", Key.W, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Full", "View", w => w.PageWidthFull_Click(w, new RoutedEventArgs()), "PageWidthFullMenuItem"),
             new("Alt+Shift+E", Key.E, ModifierKeys.Alt | ModifierKeys.Shift, "Str_PW_Wide", "View", w => w.PageWidthWide_Click(w, new RoutedEventArgs()), "PageWidthWideMenuItem"),
@@ -116,6 +122,23 @@ namespace KillerNotes.Shell
         {
             DescribeExistingShortcutSurfaces();
             DescribeSurface(AboutVersionBlock, "Str_KS_ReleaseNotes", "Shift+F12");
+            // Card quick buttons (1.7.0): the full action name and its key, like the rows they replaced.
+            DescribeSurface(CardPinBtn, "Str_Ctx_PinNote", "Alt+P");
+            DescribeSurface(CardShareBtn, "Str_Ctx_ShareNote", "Alt+S");
+            DescribeSurface(CardExportBtn, "Str_Ctx_ExportNote", "F8");
+            DescribeSurface(CardHistoryBtn, "Str_Ctx_History", "Alt+H");
+            DescribeSurface(CardDuplicateBtn, "Str_Ctx_DuplicateNote", "Alt+Shift+U");
+            DescribeSurface(GroupCardNewNoteBtn, "Str_Ctx_NewNoteInGroup", "Alt+Shift+H");
+            DescribeSurface(GroupCardSubgroupBtn, "Str_Ctx_NewSubgroup", "Ctrl+Shift+G");
+            DescribeSurface(GroupCardRenameBtn, "Str_Ctx_RenameGroup", "Ctrl+F2");
+            DescribeSurface(GroupCardCollapseBtn, "Str_Ctx_CollapseAll", "Alt+Shift+Z");
+            DescribeSurface(GroupCardGraphBtn, "Str_Ctx_GroupGraph", "Ctrl+Shift+B");
+            DescribeSurface(GroupCardManagerBtn, "Str_KS_Organize", "Alt+Shift+O");
+            DescribeSurface(GroupCardTemplatesToggle, "Str_Ctx_TemplatesGroup", "Ctrl+F4");
+            DescribeSurface(GroupCardDailyToggle, "Str_Ctx_DailyGroup", "Ctrl+F5");
+            DescribeSurface(NewMenuBtn, "Str_TT_NewMenu", "Alt+N / Alt+T / Alt+D");
+            LibraryRailBtn.SetResourceReference(ToolTipProperty, "Str_TT_Library");
+            LibraryRailBtn.SetResourceReference(System.Windows.Automation.AutomationProperties.NameProperty, "Str_TT_Library");
             foreach (var binding in ActionShortcuts())
             {
                 if (binding.Surface == null || FindName(binding.Surface) is not FrameworkElement surface) continue;

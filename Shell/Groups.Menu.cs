@@ -94,8 +94,10 @@ namespace KillerNotes.Shell
                 {
                     foreach (var (id, notebook) in snap) NoteStore.SetNoteGroup(id, notebook);
                     RefreshList(preserveScroll: true);
+                    GroupsChanged?.Invoke();   // GroupManager.cs
                 });
             RefreshList(preserveScroll: true);
+            GroupsChanged?.Invoke();
             FlashStatus(group.Length == 0
                 ? Loc("Str_St_RemovedFromGroup")
                 : string.Format(Loc("Str_St_MovedToGroup"), group));

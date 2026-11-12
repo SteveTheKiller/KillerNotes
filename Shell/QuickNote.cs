@@ -303,6 +303,7 @@ namespace KillerNotes.Shell
             _initializingQuickOptions = true;
             AboutKeepTrayIcon.IsChecked = KeepTrayIcon;
             AboutShowTips.IsChecked = App.GetSetting(ShowTipsSetting) != "0";   // SaveState.cs
+            AboutDetectMarkdown.IsChecked = DetectMarkdownGlobally;              // Preview.cs (#14)
             string current = QuickNoteHotkey.Effective(App.GetSetting(QuickNoteHotkey.Setting));
             AboutQuickHotkeyCombo.Items.Clear();
             AboutQuickHotkeyCombo.Items.Add(new System.Windows.Controls.ComboBoxItem { Content = Loc("Str_About_HotkeyOff"), Tag = "" });

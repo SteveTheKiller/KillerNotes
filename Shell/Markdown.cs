@@ -226,21 +226,5 @@ namespace KillerNotes.Shell
                 ? "Str_St_ConvertedToMarkdown"
                 : "Str_St_ConvertedToRich");
         }
-
-        /// <summary>Sets the context-menu row's label to name the direction for the
-        /// right-clicked note. Called from NotesContextMenu_Opened.</summary>
-        private void UpdateConvertMenuItem()
-        {
-            if (ConvertFormatItem == null) return;
-            var selected = NotesList.SelectedItems.Cast<Note>().ToList();
-            // One note at a time: a mixed selection has no single direction, and converting a
-            // batch silently in both directions is not something to do behind a single click.
-            bool one = _noteContextTarget && selected.Count == 1;
-            ConvertFormatItem.Visibility = one ? Visibility.Visible : Visibility.Collapsed;
-            if (!one) return;
-            ConvertFormatItem.Header = Loc(selected[0].IsMarkdown
-                ? "Str_Ctx_ConvertToRich"
-                : "Str_Ctx_ConvertToMarkdown");
-        }
     }
 }
