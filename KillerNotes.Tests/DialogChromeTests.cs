@@ -110,8 +110,14 @@ namespace KillerNotes.Tests
         // The 98SE close is a 16x14 Win98 caption button with a 2 px bevel all round. Its X used
         // to fill the whole face, jammed against the left highlight and the bottom shadow. The
         // glyph's ink, not its line box, has to sit inside the face and centered on the button.
-        [Fact]
-        public void TheNinetyEightCloseGlyphIsCenteredInItsButton() => WithTheme(Theme.SE98, "en-US", () =>
+        // The card themes' muted U+2715 sat 1.5 px low in its 28x26 slot: Segoe UI draws it
+        // below the middle of its line box, and the slot centered the line box, not the ink.
+        [Theory]
+        [InlineData((int)Theme.SE98)]
+        [InlineData((int)Theme.Cyanotic)]
+        [InlineData((int)Theme.Dark)]
+        [InlineData((int)Theme.Light)]
+        public void TheCloseGlyphIsCenteredInItsButton(int themeId) => WithTheme((Theme)themeId, "en-US", () =>
         {
             var win = new PasswordDialog("Heading", "Detail", "OK") { Width = 400 };
             FrameworkElement content = Host(win);
@@ -124,8 +130,9 @@ namespace KillerNotes.Tests
             Rect ink = ft.BuildGeometry(origin).Bounds;
             double w = close.ActualWidth, h = close.ActualHeight;
 
-            Assert.Equal(w / 2, ink.Left + ink.Width / 2, 0);
-            Assert.Equal(h / 2, ink.Top + ink.Height / 2, 0);
+            Assert.InRange(ink.Left + ink.Width / 2 - w / 2, -0.5, 0.5);
+            Assert.InRange(ink.Top + ink.Height / 2 - h / 2, -0.5, 0.5);
+            if ((Theme)themeId != Theme.SE98) return;
             // Half a pixel clear of the 2 px bevel on every side, so no edge pixel touches it.
             Assert.True(ink.Left >= 2.5 && ink.Right <= w - 2.5, $"The X {ink} runs into the bevel of a {w}x{h} button.");
             Assert.True(ink.Top >= 2.5 && ink.Bottom <= h - 2.5, $"The X {ink} runs into the bevel of a {w}x{h} button.");

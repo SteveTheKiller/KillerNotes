@@ -1060,6 +1060,10 @@ namespace KillerNotes.Services
                 // 11 the bold X filled the whole face, jammed against the left highlight and the
                 // bottom shadow. 8 draws it centered with the bevel clear, the Win98 proportion.
                 combined["AboutCloseFontSize"] = flat ? 8.0 : 11.0;
+                // Segoe UI draws U+2715 1.5 px below the middle of its line box, and the button
+                // centers the line box, so the card themes' X sat low in its 28x26 slot. A 3 px
+                // bottom margin lifts the centered glyph by 1.5. The MDL2 X on 98SE needs none.
+                combined["AboutCloseGlyphMargin"] = flat ? new Thickness(0) : new Thickness(0, 0, 0, 3);
                 combined["AboutCloseFg"] = flat ? combined["CaptionCloseBrush"] : combined["MutedTextBrush"];
                 if (flat) combined["AboutCloseHoverFg"] = combined["CaptionCloseBrush"];
                 else

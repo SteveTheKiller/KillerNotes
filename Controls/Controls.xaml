@@ -1902,7 +1902,7 @@
                                 BorderBrush="{DynamicResource BevelInnerLightBrush}" BorderThickness="{DynamicResource BevelInnerLightThickness}"/>
                         <Border x:Name="bevelOuterDark" IsHitTestVisible="False"
                                 BorderBrush="{DynamicResource BevelOuterDarkBrush}" BorderThickness="{DynamicResource BevelOuterDarkThickness}"/>
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{DynamicResource AboutCloseGlyphMargin}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
