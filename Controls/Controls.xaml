@@ -1059,7 +1059,10 @@
                                      column) instead of hugging the right edge of whichever row is widest. -->
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="MenuHeaderCol"/>
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="MenuGestureCol"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <!-- Star, with the arrow right-aligned: a menu sized to its rows has no
+                                     spare width, so nothing moves, but a wider host (the note card)
+                                     puts the arrow at the row's edge instead of mid-row. -->
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <!-- Icon slot: MenuItem.Icon renders in the same 16px gutter the check
                                  glyph uses (MakeMenuItem's glyph parameter fills it with MDL2 icons).
@@ -1084,7 +1087,7 @@
                             <TextBlock x:Name="SubArrow" Grid.Column="3" Text="&#xE76C;"
                                        FontFamily="Segoe MDL2 Assets" FontSize="8"
                                        Foreground="{DynamicResource MutedTextBrush}"
-                                       VerticalAlignment="Center" Margin="12,0,0,0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Right" Margin="12,0,0,0"
                                        Visibility="Collapsed"/>
                             <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Right"
                                    PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"

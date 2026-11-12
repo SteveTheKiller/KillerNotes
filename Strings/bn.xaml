@@ -1227,6 +1227,7 @@
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">টেমপ্লেট হিসেবে সংরক্ষণ করুন</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">এই নোটটি টেমপ্লেট গ্রুপে কপি করুন, যাতে টেমপ্লেট থেকে নতুন নোট তৈরির তালিকায় এটি আসে</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">এই গ্রুপে নতুন নোট</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">গ্রুপে নতুন নোট</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">সব গ্রুপ গুটিয়ে নিন</sys:String>
     <sys:String x:Key="Str_KS_Organize">গ্রুপ সাজান</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">নোট শুরু করার আরও উপায়</sys:String>

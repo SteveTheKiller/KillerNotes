@@ -1228,6 +1228,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">Guardar como plantilla</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">Copia esta nota en el grupo de plantillas para que Nueva nota desde plantilla la ofrezca</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nueva nota en este grupo</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nueva nota en grupo</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Contraer todos los grupos</sys:String>
     <sys:String x:Key="Str_KS_Organize">Organizar grupos</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Más formas de empezar una nota</sys:String>

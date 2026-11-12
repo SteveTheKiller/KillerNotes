@@ -255,6 +255,7 @@ namespace KillerNotes.Services
                     PurgeTrash(TrashRetention.Days);
                     // A repair, never a reason the library cannot open.
                     try { IndexUnlinkedNotes(); } catch (Exception ex) when (ex is not OutOfMemoryException) { }
+                    AdoptOrphanGroups();
                     Exec("CREATE TABLE IF NOT EXISTS kn_meta(key TEXT PRIMARY KEY, value TEXT NOT NULL)");
                     Exec($"INSERT OR IGNORE INTO kn_meta(key, value) VALUES ('{DatabaseIdKey}', '{Guid.NewGuid():N}')");
                 }
@@ -2940,6 +2941,33 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         /// <summary>Indexes the wikilinks of notes that mention [[...]] but have none recorded:
         /// notes imported before imports indexed links (1.6.0). Cheap when there is nothing to
         /// do: one filtered query over the plain text.</summary>
+        /// <summary>Gives every group path a note uses its own group row, parents first (1.7.0).
+        /// A path that exists only on notes (imported from another notepad, or left by an older
+        /// build) is drawn in the sidebar but was missing from every Group menu, which list the
+        /// groups table. Runs on each writable open; with nothing to adopt it is one small query.
+        /// The notebook column sits before the content blob, so this never reads note content.</summary>
+        private static void AdoptOrphanGroups()
+        {
+            var paths = new List<string>();
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "SELECT DISTINCT notebook FROM notes WHERE notebook <> '' " +
+                                  "AND notebook NOT IN (SELECT name FROM groups)";
+                using var r = cmd.ExecuteReader();
+                while (r.Read()) paths.Add(r.GetString(0));
+            }
+            foreach (string path in paths.OrderBy(p => p, StringComparer.OrdinalIgnoreCase))
+            {
+                string parent = "";
+                foreach (string leaf in path.Split(new[] { GroupSep }, StringSplitOptions.None))
+                {
+                    string full = parent.Length == 0 ? leaf : parent + GroupSep + leaf;
+                    AddGroup(full, parent, atTop: false);   // INSERT OR IGNORE: existing rows stay put
+                    parent = full;
+                }
+            }
+        }
+
         private static void IndexUnlinkedNotes()
         {
             // Once per database: the repair is for notes imported before imports indexed links,

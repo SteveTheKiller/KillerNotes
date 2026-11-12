@@ -1253,6 +1253,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">Mentés sablonként</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">A jegyzet átmásolása a sablonok csoportjába, hogy az Új jegyzet sablonból felkínálja</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Új jegyzet ebben a csoportban</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Új jegyzet csoportban</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Összes csoport összecsukása</sys:String>
     <sys:String x:Key="Str_KS_Organize">Csoportok rendezése</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">További módok jegyzet indítására</sys:String>

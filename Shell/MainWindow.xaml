@@ -847,6 +847,8 @@
                                 <Button.ContextMenu>
                                     <ContextMenu x:Name="NewMenu" Opened="NewMenu_Opened">
                                         <MenuItem InputGestureText="Ctrl+N" Header="{DynamicResource Str_KS_NewNote}" Icon="&#xE710;" Click="NewNote_Click"/>
+                                        <!-- One row per group, full path, built on open (NewMenu.cs). Hidden with no groups. -->
+                                        <MenuItem x:Name="NewInGroupMenu" Header="{DynamicResource Str_Ctx_NewNoteInGroupMenu}" Icon="&#xE8B7;"/>
                                         <MenuItem InputGestureText="Alt+N" Header="{DynamicResource Str_Ctx_NewMarkdownNote}" Icon="&#xE943;"
                                                   Click="NewMarkdownNote_Click" ToolTip="{DynamicResource Str_TT_NewMarkdownNote}"/>
                                         <!-- One row per note in the templates group, built on open (Templates.cs). -->

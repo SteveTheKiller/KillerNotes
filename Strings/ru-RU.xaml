@@ -1235,6 +1235,7 @@
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">Сохранить как шаблон</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">Копирует эту заметку в группу шаблонов, чтобы пункт Новая заметка из шаблона предлагал её</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Новая заметка в этой группе</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Новая заметка в группе</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Свернуть все группы</sys:String>
     <sys:String x:Key="Str_KS_Organize">Упорядочить группы</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Другие способы начать заметку</sys:String>

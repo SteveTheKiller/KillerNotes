@@ -1272,6 +1272,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">Lagre som mal</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">Kopierer dette notatet til malgruppen, slik at Nytt notat fra mal tilbyr det</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nytt notat i denne gruppen</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nytt notat i gruppe</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Skjul alle grupper</sys:String>
     <sys:String x:Key="Str_KS_Organize">Ordne grupper</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Flere måter å starte et notat på</sys:String>

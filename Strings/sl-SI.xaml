@@ -1134,6 +1134,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">Shrani kot predlogo</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">Kopira ta zapisek v skupino predlog, da ga ponudi možnost Nov zapisek iz predloge</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nov zapisek v tej skupini</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nova opomba v skupini</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Strni vse skupine</sys:String>
     <sys:String x:Key="Str_KS_Organize">Uredi skupine</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Več načinov za začetek zapiska</sys:String>

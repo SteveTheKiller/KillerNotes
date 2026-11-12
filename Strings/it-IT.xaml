@@ -1235,6 +1235,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">Salva come modello</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">Copia questa nota nel gruppo dei modelli, così Nuova nota da modello la propone</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nuova nota in questo gruppo</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nuova nota nel gruppo</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Comprimi tutti i gruppi</sys:String>
     <sys:String x:Key="Str_KS_Organize">Organizza gruppi</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Altri modi per iniziare una nota</sys:String>

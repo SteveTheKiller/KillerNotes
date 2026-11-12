@@ -58,6 +58,14 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void TheNewMenuOffersANoteInAnyGroup()
+        {
+            var doc = XDocument.Load(Path.Combine(Root(), "Shell", "MainWindow.xaml"));
+            Assert.Contains(Named(doc, "NewMenu").Descendants(), e => (string?)e.Attribute(X + "Name") == "NewInGroupMenu");
+            Assert.Contains("BuildNewInGroupMenu", File.ReadAllText(Path.Combine(Root(), "Shell", "NewMenu.cs")));
+        }
+
+        [Fact]
         public void ImportHasOneHome()
         {
             var doc = XDocument.Load(Path.Combine(Root(), "Shell", "MainWindow.xaml"));

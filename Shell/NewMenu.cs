@@ -5,6 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using KillerNotes.Controls;
 using KillerNotes.Models;
+using KillerNotes.Services;
 
 namespace KillerNotes.Shell
 {
@@ -26,7 +27,29 @@ namespace KillerNotes.Shell
             NewMenu.IsOpen = true;
         }
 
-        private void NewMenu_Opened(object sender, RoutedEventArgs e) => BuildTemplateMenu();   // Templates.cs
+        private void NewMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            BuildTemplateMenu();      // Templates.cs
+            BuildNewInGroupMenu();
+        }
+
+        /// <summary>New note in group: every group by its full path, so a subgroup reads
+        /// unambiguously. Picking one makes the note there and opens it, like the group card's
+        /// New note button (GroupCard.cs NewNoteInGroup).</summary>
+        private void BuildNewInGroupMenu()
+        {
+            NewInGroupMenu.Items.Clear();
+            var groups = NoteStore.IsOpen ? NoteStore.ListGroupTree() : [];
+            NewInGroupMenu.Visibility = groups.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+            foreach (var g in groups)
+            {
+                string path = g.Path;
+                // A TextBlock header, so an underscore in a group name is not taken as an access key.
+                var item = new MenuItem { Header = new TextBlock { Text = path.Replace(NoteStore.GroupSep, " / ") } };
+                item.Click += (_, _) => NewNoteInGroup(path);
+                NewInGroupMenu.Items.Add(item);
+            }
+        }
 
         private void LibraryRail_Click(object sender, RoutedEventArgs e)
         {

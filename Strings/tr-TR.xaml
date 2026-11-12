@@ -1227,6 +1227,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">Şablon olarak kaydet</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">Bu notu şablonlar grubuna kopyalar, böylece Şablondan yeni not onu sunar</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Bu grupta yeni not</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Grupta yeni not</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Tüm grupları daralt</sys:String>
     <sys:String x:Key="Str_KS_Organize">Grupları düzenle</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Not başlatmanın diğer yolları</sys:String>

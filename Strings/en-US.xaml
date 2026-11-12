@@ -1274,6 +1274,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">Save as template</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">Copy this note into the templates group so New from template offers it</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">New note in this group</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">New note in group</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Collapse all groups</sys:String>
     <sys:String x:Key="Str_KS_Organize">Organize groups</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">More ways to start a note</sys:String>

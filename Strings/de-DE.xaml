@@ -1227,6 +1227,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">Als Vorlage speichern</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">Diese Notiz in die Vorlagengruppe kopieren, damit sie unter Neue Notiz aus Vorlage angeboten wird</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Neue Notiz in dieser Gruppe</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Neue Notiz in Gruppe</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Alle Gruppen zuklappen</sys:String>
     <sys:String x:Key="Str_KS_Organize">Gruppen verwalten</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Weitere Möglichkeiten, eine Notiz zu beginnen</sys:String>

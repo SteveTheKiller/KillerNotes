@@ -1224,6 +1224,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">Uložit jako šablonu</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">Zkopíruje tuto poznámku do skupiny šablon, aby ji nabídla možnost Nová poznámka ze šablony</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nová poznámka v této skupině</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nová poznámka ve skupině</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Sbalit všechny skupiny</sys:String>
     <sys:String x:Key="Str_KS_Organize">Uspořádat skupiny</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Další způsoby, jak začít poznámku</sys:String>

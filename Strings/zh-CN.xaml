@@ -1225,6 +1225,7 @@
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">另存为模板</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">将此笔记复制到模板分组，这样“从模板新建笔记”就会列出它</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">在此分组中新建笔记</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">在组中新建笔记</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">折叠所有分组</sys:String>
     <sys:String x:Key="Str_KS_Organize">整理分组</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">更多新建笔记的方式</sys:String>

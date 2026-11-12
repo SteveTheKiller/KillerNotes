@@ -1227,6 +1227,7 @@
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">另存為範本</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">將此筆記複製到範本群組，這樣「從範本建立新筆記」就會列出它</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">在此群組中新增筆記</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">在群組中新增筆記</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">摺疊所有群組</sys:String>
     <sys:String x:Key="Str_KS_Organize">整理群組</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">更多建立筆記的方式</sys:String>

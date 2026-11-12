@@ -1228,6 +1228,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Ctx_SaveAsTemplate">Enregistrer comme modèle</sys:String>
     <sys:String x:Key="Str_TT_SaveAsTemplate">Copie cette note dans le groupe de modèles pour que Nouvelle note depuis un modèle la propose</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nouvelle note dans ce groupe</sys:String>
+    <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nouvelle note dans un groupe</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Réduire tous les groupes</sys:String>
     <sys:String x:Key="Str_KS_Organize">Organiser les groupes</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Autres façons de commencer une note</sys:String>
