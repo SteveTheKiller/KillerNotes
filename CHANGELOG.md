@@ -11,6 +11,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Fixed
 
 - Switching notes no longer stalls on notes with pictures. Remembering where you left a note rewrote the whole note, pictures included, so leaving a note with large screenshots took about a second, and opening one took longer than it needed to.
+- The sidebar refreshes at once in a notepad full of pictures. Every refresh read past each note's pictures to reach its color, pin and preview text, which took over a second with forty large screenshots. The first time 1.7.0 opens a notepad it reorganizes it so that never happens; on a very large notepad that one opening takes a few seconds longer. Older versions still open it.
 - Every group list shows all your groups. A group that existed only on its notes, such as one brought in by an import, showed in the sidebar but was missing from the note card's Group list and the other group pickers; opening the notepad now gives it a proper group entry.
 - The arrows on the note card's Tags and Group rows sit at the card's right edge instead of in the middle of the row.
 - Compact sidebar density shows the date line on a note with no tags, so it no longer looks the same as Minimal.
