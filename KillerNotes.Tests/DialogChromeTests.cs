@@ -197,6 +197,27 @@ namespace KillerNotes.Tests
             Assert.Empty(offenders);
         });
 
+        // The render test above sees a button at rest; a shadow set only on hover or press hides from
+        // it. This reads every button style in the app's XAML, triggers included.
+        [Theory]
+        [InlineData("Controls/Controls.xaml")]
+        [InlineData("Controls/AppStyles.xaml")]
+        [InlineData("Shell/MainWindow.xaml")]
+        public void NoButtonStyleHidesAShadowInATrigger(string file)
+        {
+            string root = AppContext.BaseDirectory;
+            while (!File.Exists(Path.Combine(root, "KillerNotes.csproj"))) root = Path.GetDirectoryName(root)!;
+            var doc = System.Xml.Linq.XDocument.Load(Path.Combine(root, file));
+            var types = new[] { "Button", "ToggleButton", "RadioButton", "CheckBox", "RepeatButton" };
+            var shadowed = doc.Descendants()
+                .Where(e => e.Name.LocalName == "Style" && types.Contains(((string?)e.Attribute("TargetType") ?? "").Split(':').Last()))
+                .Where(st => st.Descendants().Any(d => d.Name.LocalName is "DropShadowEffect" or "BlurEffect"
+                    || d.Attributes().Any(at => ((string)at).Contains("TextStroke") || ((string)at).Contains("IconShadowOpacity"))))
+                .Select(st => (string?)st.Attribute(System.Xml.Linq.XName.Get("Key", "http://schemas.microsoft.com/winfx/2006/xaml")) ?? "(implicit)")
+                .ToList();
+            Assert.Empty(shadowed);
+        }
+
         private static Rect IconBox(Window win)
         {
             win.Width = 400;
