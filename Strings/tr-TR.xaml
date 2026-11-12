@@ -1227,6 +1227,13 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Card_Rich">Zengin metin</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Renk yok</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Öne getir</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Arkaya gönder</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Çizim</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Çizgi</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Ok</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Metin</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Görüntü</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">Diğer renkler</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Yok</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Grup yok</sys:String>

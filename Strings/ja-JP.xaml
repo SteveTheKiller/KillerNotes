@@ -1225,6 +1225,13 @@
     <sys:String x:Key="Str_Card_Rich">リッチ テキスト</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">色なし</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">最前面</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">最背面</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">手書き</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">線</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">矢印</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">テキスト</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">画像</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">その他の色</sys:String>
     <sys:String x:Key="Str_Card_NoTags">なし</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">グループなし</sys:String>

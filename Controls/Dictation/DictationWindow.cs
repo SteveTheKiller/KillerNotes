@@ -9,6 +9,7 @@ using System.Windows.Shell;
 using System.Windows.Threading;
 using KillerNotes.Services;
 using KillerFamily.Accessibility;
+using KillerFamily.Controls;
 
 namespace KillerNotes.Controls.Dictation
 {
@@ -721,59 +722,62 @@ namespace KillerNotes.Controls.Dictation
 
         private void ShowWaveMenu()
         {
-            var menu = new ContextMenu { PlacementTarget = _wave, Placement = PlacementMode.MousePoint };
+            var menu = BuildWaveCard();
+            menu.PlacementTarget = _wave;
+            menu.Placement = PlacementMode.MousePoint;
+            menu.IsOpen = true;
+        }
 
-            menu.Items.Add(Item(L("Str_Dict_Slice", "Slice here"), "", () =>   // MDL2 Cut (scissors)
-            {
-                _wave.AddCut(_menuFraction);
-                _wave.SelectedSegment = -1;
-            }));
+        /// <summary>
+        /// The waveform's editing card (1.7.0 card menus). Slice, Copy, Paste and Undo sit on the
+        /// quick strip; Delete segment and Clear slices stay list rows under a rule, where a
+        /// destructive action is read before it is clicked. Each control keeps the Alt shortcut
+        /// WaveKey binds for it, shown in its tooltip or gesture column, and acts on the segment
+        /// and position captured when the card opened.
+        /// </summary>
+        internal ContextMenu BuildWaveCard()
+        {
+            var menu = CardBuilder.Menu(300);
+            menu.Items.Add(CardBuilder.Header(L("Str_Dict_Chip", "Recording")));
 
             var (from, to) = _wave.SegmentBounds(_wave.SelectedSegment);
             bool wholeThing = _wave.Cuts.Count == 0;
 
-            menu.Items.Add(Item(L("Str_Dict_CopySeg", "Copy segment"), "",
-                () => _clip = WavEdit.Extract(_wav!, MsAt(from), MsAt(to))));
+            menu.Items.Add(CardBuilder.QuickStrip(L("Str_Card_Actions", "Actions"),
+            [
+                new("\uE8C6", L("Str_Dict_Slice", "Slice here"), L("Str_Dict_Slice", "Slice here"), "Alt+S", () =>
+                {
+                    _wave.AddCut(_menuFraction);
+                    _wave.SelectedSegment = -1;
+                }),
+                new("\uE8C8", L("Str_Ctx_Copy", "Copy"), L("Str_Dict_CopySeg", "Copy segment"), "Alt+C",
+                    () => _clip = WavEdit.Extract(_wav!, MsAt(from), MsAt(to))),
+                new("\uE77F", L("Str_Ctx_Paste", "Paste"), L("Str_Dict_PasteSeg", "Paste segment here"), "Alt+V",
+                    () => ApplyEdit(WavEdit.Insert(_wav!, MsAt(_menuFraction), _clip!), _menuFraction), _clip != null),
+                new("\uE7A7", L("Str_Kb_Undo", "Undo"), L("Str_Dict_UndoEdit", "Undo edit"), "Alt+Z", () =>
+                {
+                    if (_undo == null) return;
+                    _wav = _undo; _undo = null;
+                    RefreshAfterEdit(0);
+                }, _undo != null),
+            ]));
 
+            // No Separator: the strip's own lower rule is the rule above the list, and a second
+            // one drew a doubled line in the 1.7.0 render check.
             // Deleting the only segment would delete the recording, which is what Record does over.
-            var del = Item(L("Str_Dict_DeleteSeg", "Delete segment"), "", () => ApplyEdit(
-                WavEdit.Remove(_wav!, MsAt(from), MsAt(to)), from));
-            del.IsEnabled = !wholeThing;
-            menu.Items.Add(del);
-
-            var paste = Item(L("Str_Dict_PasteSeg", "Paste segment here"), "",
-                () => ApplyEdit(WavEdit.Insert(_wav!, MsAt(_menuFraction), _clip!), _menuFraction));
-            paste.IsEnabled = _clip != null;
-            menu.Items.Add(paste);
-
-            if (_wave.Cuts.Count > 0)
-                menu.Items.Add(Item(L("Str_Dict_ClearCuts", "Clear slices"), "\uE894", () => _wave.ClearCuts()));
-
-            var undo = Item(L("Str_Dict_UndoEdit", "Undo edit"), "", () =>
-            {
-                if (_undo == null) return;
-                _wav = _undo; _undo = null;
-                RefreshAfterEdit(0);
-            });
-            undo.IsEnabled = _undo != null;
-            menu.Items.Add(undo);
-
-            menu.IsOpen = true;
+            menu.Items.Add(Row(L("Str_Dict_DeleteSeg", "Delete segment"), "Alt+D", "\uE74D", () => ApplyEdit(
+                WavEdit.Remove(_wav!, MsAt(from), MsAt(to)), from), !wholeThing));
+            if (!wholeThing)
+                menu.Items.Add(Row(L("Str_Dict_ClearCuts", "Clear slices"), "Alt+L", "\uE894", () => _wave.ClearCuts()));
+            return menu;
         }
 
-        private static MenuItem Item(string header, string? glyph, Action run)
+        /// <summary>A list row under the card's strip, with its shortcut in the gesture column and
+        /// the tooltip, as the old menu rows had.</summary>
+        private static MenuItem Row(string header, string gesture, string glyph, Action run, bool enabled = true)
         {
-            var mi = new MenuItem { Header = header };
-            string? gesture = header == L("Str_Dict_Slice", "Slice here") ? "Alt+S"
-                : header == L("Str_Dict_CopySeg", "Copy segment") ? "Alt+C"
-                : header == L("Str_Dict_DeleteSeg", "Delete segment") ? "Alt+D"
-                : header == L("Str_Dict_PasteSeg", "Paste segment here") ? "Alt+V"
-                : header == L("Str_Dict_ClearCuts", "Clear slices") ? "Alt+L"
-                : header == L("Str_Dict_UndoEdit", "Undo edit") ? "Alt+Z" : null;
-            if (gesture != null) DialogShortcuts.Describe(mi, gesture);
-            if (glyph != null)
-                mi.Icon = new Glyph { Text = glyph, FontFamily = new FontFamily("Segoe MDL2 Assets"), FontSize = 13 };
-            mi.Click += (_, _) => run();
+            var mi = CardBuilder.Row(header, gesture, glyph, run, enabled);
+            DialogShortcuts.Describe(mi, gesture);
             return mi;
         }
 

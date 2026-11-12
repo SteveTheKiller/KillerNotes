@@ -1274,6 +1274,13 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Card_Rich">Rich text</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">No color</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Front</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Back</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Drawing</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Line</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Arrow</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Text</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Image</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">More colors</sys:String>
     <sys:String x:Key="Str_Card_NoTags">None</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">No group</sys:String>

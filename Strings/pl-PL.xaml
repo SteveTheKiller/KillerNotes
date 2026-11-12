@@ -1154,6 +1154,13 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Card_Rich">Tekst sformatowany</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Bez koloru</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Na wierzch</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Na spód</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Rysunek</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Linia</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Strzałka</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Tekst</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Obraz</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">Więcej kolorów</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Brak</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Bez grupy</sys:String>

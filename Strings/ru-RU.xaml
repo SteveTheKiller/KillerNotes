@@ -1235,6 +1235,13 @@
     <sys:String x:Key="Str_Card_Rich">Форматированный текст</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Без цвета</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Вперёд</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Назад</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Рисунок</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Линия</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Стрелка</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Текст</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Изображение</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">Другие цвета</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Нет</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Без группы</sys:String>

@@ -1253,6 +1253,13 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Card_Rich">Formázott szöveg</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Nincs szín</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Előre</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Hátra</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Rajz</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Vonal</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Nyíl</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Szöveg</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Kép</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">További színek</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Nincs</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Nincs csoport</sys:String>

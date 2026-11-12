@@ -1278,6 +1278,13 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Card_Rich">Văn bản có định dạng</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Không màu</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Lên trước</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Ra sau</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Bản vẽ</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Đường kẻ</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Mũi tên</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Văn bản</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Hình ảnh</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">Thêm màu</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Không có</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Không có nhóm</sys:String>

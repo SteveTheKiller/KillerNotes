@@ -1235,6 +1235,13 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Card_Rich">Testo formattato</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Nessun colore</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Primo piano</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Secondo piano</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Disegno</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Linea</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Freccia</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Testo</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Immagine</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">Altri colori</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Nessuno</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Nessun gruppo</sys:String>

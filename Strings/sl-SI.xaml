@@ -1134,6 +1134,13 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Card_Rich">Obogateno besedilo</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Brez barve</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">V ospredje</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">V ozadje</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Risba</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Črta</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Puščica</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Besedilo</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Slika</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">Več barv</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Brez</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Brez skupine</sys:String>

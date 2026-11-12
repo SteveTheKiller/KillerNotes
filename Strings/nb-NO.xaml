@@ -1272,6 +1272,13 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Card_Rich">Rik tekst</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Ingen farge</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Fremst</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Bakerst</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Tegning</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Linje</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Pil</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Tekst</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Bilde</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">Flere farger</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Ingen</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Ingen gruppe</sys:String>

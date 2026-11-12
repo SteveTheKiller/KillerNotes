@@ -1274,6 +1274,13 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Card_Rich">Texto formatado</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Sem cor</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Para frente</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Para trás</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Desenho</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Linha</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Seta</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Texto</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Imagem</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">Mais cores</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Nenhum</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Sem grupo</sys:String>

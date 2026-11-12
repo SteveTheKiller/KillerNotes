@@ -1235,6 +1235,13 @@
     <sys:String x:Key="Str_Card_Rich">Пішімделген мәтін</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Түссіз</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Алдыға</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Артқа</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Сызба</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Сызық</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Көрсеткі</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Мәтін</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Сурет</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">Басқа түстер</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Жоқ</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Топсыз</sys:String>

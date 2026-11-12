@@ -1227,6 +1227,13 @@
     <sys:String x:Key="Str_Card_Rich">格式化文字</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">無顏色</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">移到最上層</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">移到最下層</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">手繪</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">線條</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">箭頭</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">文字</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">圖片</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">更多顏色</sys:String>
     <sys:String x:Key="Str_Card_NoTags">無</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">無群組</sys:String>

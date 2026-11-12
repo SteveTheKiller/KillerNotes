@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using KillerFamily.Controls;
 using KillerNotes.Models;
 
 namespace KillerNotes.Controls.Sketch
@@ -372,70 +374,100 @@ namespace KillerNotes.Controls.Sketch
             return null;
         }
 
-        // Right-click: a menu whose items suit what's under the cursor - an object (delete / reorder /
-        // duplicate, plus opacity reset for images) or empty canvas (add / paste image, clear).
+        // Right-click: a card that suits what's under the cursor - an object (reorder / duplicate,
+        // plus what that kind of object can do, with Delete below) or empty canvas (add / paste
+        // image, with Clear all below).
         private void OnCanvasRightDown(object sender, MouseButtonEventArgs e)
         {
             if (_textBox != null) { CommitTextEntry(); e.Handled = true; return; }   // a right-click also sets an open label
             var hit = HitPick(Clamp(e.GetPosition(_canvas)));
             if (hit != null && _tool == Tool.Select) { _sel = hit; RenderCanvas(); }
 
-            var menu = new ContextMenu { Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint };
-            if (hit != null)
-            {
-                menu.Items.Add(Mi(L("Str_Sketch_Delete", "Delete"), 0xE74D, () => RemoveObject(hit)));
-                menu.Items.Add(Mi(L("Str_Sketch_Front", "Bring to front"), 0xE74A, () => Reorder(hit, true)));
-                menu.Items.Add(Mi(L("Str_Sketch_Back", "Send to back"), 0xE74B, () => Reorder(hit, false)));
-                menu.Items.Add(Mi(L("Str_Sketch_Duplicate", "Duplicate"), 0xE8C8, () => Duplicate(hit)));
-                if (hit.Kind is SketchKind.Line or SketchKind.Arrow)
-                {
-                    menu.Items.Add(Sep());
-                    if (hit.Pts.Count >= 6) menu.Items.Add(Mi(L("Str_Sketch_Straighten", "Straighten line"), 0xE738, () => Straighten(hit)));
-                    else menu.Items.Add(Mi(L("Str_Sketch_Arc", "Arc line"), 0xE7AD, () => StartArc(hit)));
-                }
-                if (hit.Kind == SketchKind.Image)
-                {
-                    menu.Items.Add(Sep());
-                    menu.Items.Add(Mi(L("Str_Sketch_ResetOpacity", "Reset opacity"), 0xE72C, () => { PushUndo(); hit.Opacity = 1; _wheelObj = null; RenderCanvas(); }));
-                }
-                if (hit.Kind == SketchKind.Text)
-                {
-                    menu.Items.Add(Sep());
-                    menu.Items.Add(Mi(L("Str_Sketch_EditText", "Edit text"), 0xE70F, () => BeginTextEntry(new Point(hit.X, hit.Y), hit)));
-                    menu.Items.Add(Mi(hit.Bold ? L("Str_Sketch_Unbold", "Remove bold") : L("Str_Sketch_Bold", "Bold"), 0xE8DD, () => { PushUndo(); hit.Bold = !hit.Bold; RenderCanvas(); }));
-                }
-            }
-            else
-            {
-                menu.Items.Add(Mi(L("Str_Sketch_AddImageMenu", "Add image..."), 0xE91B, AddImageFromFile));
-                if (ClipboardHasImage()) menu.Items.Add(Mi(L("Str_Sketch_PasteImage", "Paste image"), 0xE77F, PasteImage));
-                menu.Items.Add(Sep());
-                var clear = Mi(L("Str_Sketch_Clear", "Clear all"), 0xE894, ClearAll);
-                clear.IsEnabled = _objects.Count > 0;
-                menu.Items.Add(clear);
-            }
+            var menu = BuildCanvasCard(hit, hit == null && ClipboardHasImage());
+            menu.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
             menu.IsOpen = true;
             e.Handled = true;
         }
 
-        private static MenuItem Mi(string text, int icon, Action onClick)
+        /// <summary>
+        /// The right-click card (1.7.0 card menus). The quick strip holds the verbs that leave the
+        /// object in place; Delete and Clear all stay list rows under a rule, where a destructive
+        /// action is read before it is clicked. Every control keeps the shortcut the canvas binds
+        /// for it (SketchBind in the constructor and Widgets), shown in its tooltip or gesture
+        /// column. canPaste is the clipboard answer, asked by the caller so a test never has to
+        /// touch the real clipboard.
+        /// </summary>
+        internal ContextMenu BuildCanvasCard(SketchObject? hit, bool canPaste)
         {
-            var mi = new MenuItem { Header = text };
-            string? gesture = text == L("Str_Sketch_Delete", "Delete") ? "Delete"
-                : text == L("Str_Sketch_Front", "Bring to front") ? "Ctrl+Shift+Up"
-                : text == L("Str_Sketch_Back", "Send to back") ? "Ctrl+Shift+Down"
-                : text == L("Str_Sketch_Duplicate", "Duplicate") ? "Ctrl+D"
-                : text == L("Str_Sketch_Straighten", "Straighten line") ? "Ctrl+Shift+L"
-                : text == L("Str_Sketch_Arc", "Arc line") ? "Ctrl+Shift+A"
-                : text == L("Str_Sketch_ResetOpacity", "Reset opacity") ? "Ctrl+Shift+O"
-                : text == L("Str_Sketch_EditText", "Edit text") ? "F10"
-                : text == L("Str_Sketch_Bold", "Bold") || text == L("Str_Sketch_Unbold", "Remove bold") ? "Ctrl+B"
-                : text == L("Str_Sketch_AddImageMenu", "Add image...") ? "I"
-                : text == L("Str_Sketch_PasteImage", "Paste image") ? "Ctrl+V"
-                : text == L("Str_Sketch_Clear", "Clear all") ? "F8" : null;
-            if (gesture != null) DialogShortcuts.Describe(mi, gesture);
-            if (icon != 0) mi.Icon = char.ConvertFromUtf32(icon);
-            mi.Click += (_, _) => onClick();
+            var menu = CardBuilder.Menu(300);
+            if (hit != null)
+            {
+                menu.Items.Add(CardBuilder.Header(KindName(hit.Kind)));
+                var quick = new List<CardAction>
+                {
+                    new("\uE74A", L("Str_SketchCard_Front", "Front"), L("Str_Sketch_Front", "Bring to front"), "Ctrl+Shift+Up", () => Reorder(hit, true)),
+                    new("\uE74B", L("Str_SketchCard_Back", "Back"), L("Str_Sketch_Back", "Send to back"), "Ctrl+Shift+Down", () => Reorder(hit, false)),
+                    new("\uE8C8", L("Str_Sketch_Duplicate", "Duplicate"), L("Str_Sketch_Duplicate", "Duplicate"), "Ctrl+D", () => Duplicate(hit)),
+                };
+                if (hit.Kind is SketchKind.Line or SketchKind.Arrow)
+                {
+                    // A line that has already been arced (more than its two end points) offers
+                    // to straighten; a straight one offers to arc. Never both, like the keys.
+                    if (hit.Pts.Count >= 6)
+                        quick.Add(new("\uE738", L("Str_Sketch_Straighten", "Straighten line"), L("Str_Sketch_Straighten", "Straighten line"), "Ctrl+Shift+L", () => Straighten(hit)));
+                    else
+                        quick.Add(new("\uE7AD", L("Str_Sketch_Arc", "Arc line"), L("Str_Sketch_Arc", "Arc line"), "Ctrl+Shift+A", () => StartArc(hit)));
+                }
+                if (hit.Kind == SketchKind.Image)
+                    quick.Add(new("\uE72C", L("Str_Sketch_ResetOpacity", "Reset opacity"), L("Str_Sketch_ResetOpacity", "Reset opacity"), "Ctrl+Shift+O",
+                        () => { PushUndo(); hit.Opacity = 1; _wheelObj = null; RenderCanvas(); }));
+                if (hit.Kind == SketchKind.Text)
+                {
+                    quick.Add(new("\uE70F", L("Str_Sketch_EditText", "Edit text"), L("Str_Sketch_EditText", "Edit text"), "F10",
+                        () => BeginTextEntry(new Point(hit.X, hit.Y), hit)));
+                    // The caption stays Bold either way; the tooltip says which way it goes.
+                    quick.Add(new("\uE8DD", L("Str_Sketch_Bold", "Bold"),
+                        hit.Bold ? L("Str_Sketch_Unbold", "Remove bold") : L("Str_Sketch_Bold", "Bold"), "Ctrl+B",
+                        () => { PushUndo(); hit.Bold = !hit.Bold; RenderCanvas(); }));
+                }
+                menu.Items.Add(CardBuilder.QuickStrip(L("Str_Card_Actions", "Actions"), quick));
+                // No Separator here: the strip's own lower rule is the rule above the list, and a
+                // second one drew a doubled line in the 1.7.0 render check.
+                menu.Items.Add(Row(L("Str_Sketch_Delete", "Delete"), "Delete", "\uE74D", () => RemoveObject(hit)));
+            }
+            else
+            {
+                menu.Items.Add(CardBuilder.Header(L("Str_Sketch_Title", "SketchPad")));
+                // Paste stays on the strip when the clipboard holds no image, greyed, so the
+                // strip does not change shape from one right-click to the next.
+                menu.Items.Add(CardBuilder.QuickStrip(L("Str_Card_Actions", "Actions"),
+                [
+                    new("\uE91B", L("Str_Sketch_AddImageMenu", "Add image..."), L("Str_Sketch_AddImageMenu", "Add image..."), "I", AddImageFromFile),
+                    new("\uE77F", L("Str_Sketch_PasteImage", "Paste image"), L("Str_Sketch_PasteImage", "Paste image"), "Ctrl+V", PasteImage, canPaste),
+                ]));   // the strip's lower rule sits over Clear all, as over Delete above
+                menu.Items.Add(Row(L("Str_Sketch_Clear", "Clear all"), "F8", "\uE894", ClearAll, _objects.Count > 0));
+            }
+            return menu;
+        }
+
+        /// <summary>The card's title: what kind of thing was right-clicked. Rectangles, ellipses
+        /// and polygons share one name; the menu does the same for all three.</summary>
+        private static string KindName(SketchKind kind) => kind switch
+        {
+            SketchKind.Freehand => L("Str_SketchCard_Drawing", "Drawing"),
+            SketchKind.Line => L("Str_SketchCard_Line", "Line"),
+            SketchKind.Arrow => L("Str_SketchCard_Arrow", "Arrow"),
+            SketchKind.Text => L("Str_SketchCard_Text", "Text"),
+            SketchKind.Image => L("Str_SketchCard_Image", "Image"),
+            _ => L("Str_Ctx_GraphShape", "Shape"),
+        };
+
+        /// <summary>A list row under the card's strip, with its shortcut in the gesture column
+        /// and the tooltip, as the old menu rows had.</summary>
+        private static MenuItem Row(string text, string gesture, string glyph, Action run, bool enabled = true)
+        {
+            var mi = CardBuilder.Row(text, gesture, glyph, run, enabled);
+            DialogShortcuts.Describe(mi, gesture);
             return mi;
         }
 

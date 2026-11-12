@@ -1227,6 +1227,13 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Card_Rich">Rich-Text</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Keine Farbe</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Nach vorn</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Nach hinten</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Zeichnung</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Linie</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Pfeil</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Text</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Bild</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">Weitere Farben</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Keine</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Keine Gruppe</sys:String>

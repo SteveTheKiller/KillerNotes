@@ -1224,6 +1224,13 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Card_Rich">Formátovaný text</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">Bez barvy</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">Dopředu</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">Dozadu</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">Kresba</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">Čára</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">Šipka</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">Text</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">Obrázek</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">Další barvy</sys:String>
     <sys:String x:Key="Str_Card_NoTags">Žádné</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">Bez skupiny</sys:String>

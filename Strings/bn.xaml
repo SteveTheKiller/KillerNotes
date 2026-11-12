@@ -1227,6 +1227,13 @@
     <sys:String x:Key="Str_Card_Rich">রিচ টেক্সট</sys:String>
     <sys:String x:Key="Str_Card_Markdown">Markdown</sys:String>
     <sys:String x:Key="Str_Card_NoColor">কোনো রং নয়</sys:String>
+    <sys:String x:Key="Str_SketchCard_Front">সামনে</sys:String>
+    <sys:String x:Key="Str_SketchCard_Back">পেছনে</sys:String>
+    <sys:String x:Key="Str_SketchCard_Drawing">অঙ্কন</sys:String>
+    <sys:String x:Key="Str_SketchCard_Line">রেখা</sys:String>
+    <sys:String x:Key="Str_SketchCard_Arrow">তীর</sys:String>
+    <sys:String x:Key="Str_SketchCard_Text">লেখা</sys:String>
+    <sys:String x:Key="Str_SketchCard_Image">ছবি</sys:String>
     <sys:String x:Key="Str_Card_MoreColors">আরও রং</sys:String>
     <sys:String x:Key="Str_Card_NoTags">কিছু নেই</sys:String>
     <sys:String x:Key="Str_Card_NoGroup">গ্রুপ নেই</sys:String>
