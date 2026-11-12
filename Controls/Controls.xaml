@@ -83,17 +83,6 @@
                          PrimaryHoverBrush swap was invisible whenever a palette left hover ==
                          primary (which most did) - no per-palette hover brushes to sync now. -->
                     <Grid>
-                        <!-- Raised: a soft shadow on item-free SIBLINGS under the face (an effect on the face
-                             itself would rasterize the caption and lose ClearType). Hover lifts the button
-                             higher, press sets it down. BarShadowOpacity is 0 on 98SE, which stays flat. -->
-                        <Border x:Name="liftRest" IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
-                                Background="Black" Opacity="{DynamicResource BarShadowOpacity}">
-                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="1.5" BlurRadius="5" RenderingBias="Quality"/></Border.Effect>
-                        </Border>
-                        <Border x:Name="liftHover" IsHitTestVisible="False" Visibility="Collapsed" CornerRadius="{DynamicResource ControlCornerRadius}"
-                                Background="Black" Opacity="{DynamicResource BarShadowOpacity}">
-                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="3.5" BlurRadius="10" RenderingBias="Quality"/></Border.Effect>
-                        </Border>
                     <Border x:Name="border" Background="{TemplateBinding Background}"
                             CornerRadius="{DynamicResource ControlCornerRadius}"
                             BorderBrush="{DynamicResource ButtonEdgeBrush}" BorderThickness="0">
@@ -128,19 +117,13 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="tint" Property="Background" Value="#2EFFFFFF"/>
                             <Setter TargetName="stroke" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="liftHover" Property="Visibility" Value="Visible"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="tint" Property="Background" Value="#38000000"/>
                             <Setter TargetName="stroke" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>
-                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -167,17 +150,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <!-- Raised: a soft shadow on item-free SIBLINGS under the face (an effect on the face
-                             itself would rasterize the caption and lose ClearType). Hover lifts the button
-                             higher, press sets it down. BarShadowOpacity is 0 on 98SE, which stays flat. -->
-                        <Border x:Name="liftRest" IsHitTestVisible="False" Visibility="{DynamicResource OutlineLiftRestVisibility}" CornerRadius="{DynamicResource ControlCornerRadius}"
-                                Background="Transparent" BorderBrush="Black" BorderThickness="1" Opacity="{DynamicResource BarShadowOpacity}">
-                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="1.5" BlurRadius="5" RenderingBias="Quality"/></Border.Effect>
-                        </Border>
-                        <Border x:Name="liftHover" IsHitTestVisible="False" Visibility="Collapsed" CornerRadius="{DynamicResource ControlCornerRadius}"
-                                Background="Black" Opacity="{DynamicResource BarShadowOpacity}">
-                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="3.5" BlurRadius="10" RenderingBias="Quality"/></Border.Effect>
-                        </Border>
                     <Border x:Name="borderRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=border}" BorderThickness="{Binding BorderThickness, ElementName=border}" BorderBrush="{Binding Background, ElementName=border}" Margin="{Binding Margin, ElementName=border}" Visibility="{Binding Visibility, ElementName=border}" Opacity="{Binding Opacity, ElementName=border}"/><Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
@@ -208,8 +180,6 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource OutlineHoverBrush}"/>
                             <Setter Property="Foreground" Value="{DynamicResource OutlineHoverTextBrush}"/>
                             <Setter TargetName="label" Property="Effect" Value="{x:Null}"/>
-                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="liftHover" Property="Visibility" Value="Visible"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <!-- Pressed is a deeper shade of the accent fill (ThemeManager derives
@@ -218,13 +188,9 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource OutlinePressedFillBrush}"/>
                             <Setter Property="Foreground" Value="{DynamicResource OutlineHoverTextBrush}"/>
                             <Setter TargetName="label" Property="Effect" Value="{x:Null}"/>
-                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>
-                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -232,13 +198,12 @@
         </Setter>
     </Style>
 
-    <!-- Bare until hover: a title-bar or toolbar button with no face, edge or resting shadow,
+    <!-- Bare until hover: a title-bar or toolbar button with no face or edge at rest,
          filling with the accent on hover and press like OutlineButton. Its own resources hide the
          rest state, so the template is OutlineButton's. Dialog confirm buttons stay OutlineButton. -->
     <Style x:Key="BareButton" TargetType="Button" BasedOn="{StaticResource OutlineButton}">
         <Style.Resources>
             <SolidColorBrush x:Key="OutlineRestBrush" Color="Transparent"/>
-            <Visibility x:Key="OutlineLiftRestVisibility">Collapsed</Visibility>
         </Style.Resources>
         <Setter Property="BorderBrush" Value="Transparent"/>
     </Style>
@@ -265,17 +230,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <!-- Raised: a soft shadow on item-free SIBLINGS under the face (an effect on the face
-                             itself would rasterize the caption and lose ClearType). Hover lifts the button
-                             higher, press sets it down. BarShadowOpacity is 0 on 98SE, which stays flat. -->
-                        <Border x:Name="liftRest" IsHitTestVisible="False" CornerRadius="{DynamicResource ControlCornerRadius}"
-                                Background="Black" Opacity="{DynamicResource BarShadowOpacity}">
-                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="1.5" BlurRadius="5" RenderingBias="Quality"/></Border.Effect>
-                        </Border>
-                        <Border x:Name="liftHover" IsHitTestVisible="False" Visibility="Collapsed" CornerRadius="{DynamicResource ControlCornerRadius}"
-                                Background="Black" Opacity="{DynamicResource BarShadowOpacity}">
-                            <Border.Effect><DropShadowEffect Color="Black" Direction="270" ShadowDepth="3.5" BlurRadius="10" RenderingBias="Quality"/></Border.Effect>
-                        </Border>
                     <Border x:Name="borderRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=border}" BorderThickness="{Binding BorderThickness, ElementName=border}" BorderBrush="{Binding Background, ElementName=border}" Margin="{Binding Margin, ElementName=border}" Visibility="{Binding Visibility, ElementName=border}" Opacity="{Binding Opacity, ElementName=border}"/><Border x:Name="border" Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
@@ -297,15 +251,11 @@
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource ToolHoverFaceBrush}"/>
                             <Setter TargetName="tbLight" Property="BorderThickness" Value="{DynamicResource ToolHoverBevelLightThickness}"/>
                             <Setter TargetName="tbDark"  Property="BorderThickness" Value="{DynamicResource ToolHoverBevelDarkThickness}"/>
-                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="liftHover" Property="Visibility" Value="Visible"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource SurfaceBrush}"/>
                             <Setter TargetName="tbLight" Property="BorderBrush" Value="{DynamicResource BevelDarkBrush}"/>
                             <Setter TargetName="tbDark"  Property="BorderBrush" Value="{DynamicResource BevelLightBrush}"/>
-                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                         <!-- Checked/selected state - same Tag="on" convention and the same
                              SelectionBg/SelectionFg pair every other checkable button style in
@@ -322,8 +272,6 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4"/>
                             <Setter Property="Cursor" Value="Arrow"/>
-                            <Setter TargetName="liftRest" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="liftHover" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

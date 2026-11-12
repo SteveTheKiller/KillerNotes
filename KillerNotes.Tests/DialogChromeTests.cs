@@ -166,6 +166,33 @@ namespace KillerNotes.Tests
             Assert.InRange(fromRight - fromTop, -1, 1);
         });
 
+        // Steve's standing rule: buttons are flat, with no drop shadow under them. The family
+        // button styles grew a "raised" lift shadow once (KillerUI 45768ef) and it kept riding
+        // back in on every kit sync, so this renders each style and looks for any shadow under
+        // the face. The caption's own text stroke (the "stroke" copy, TextStroke) is not a
+        // shadow under the button and is left alone.
+        [Theory]
+        [InlineData("PrimaryButton", (int)Theme.Dark)]
+        [InlineData("OutlineButton", (int)Theme.Dark)]
+        [InlineData("SurfaceButton", (int)Theme.Dark)]
+        [InlineData("PrimaryButton", (int)Theme.Cyanotic)]
+        [InlineData("PrimaryButton", (int)Theme.Light)]
+        public void ButtonsCastNoShadow(string styleKey, int themeId) => WithTheme((Theme)themeId, "en-US", () =>
+        {
+            var button = new Button { Content = "Unlock", Style = (Style)Application.Current.FindResource(styleKey), Width = 200, Height = 34 };
+            var host = new Grid();
+            host.Children.Add(button);
+            host.Measure(new Size(300, 100));
+            host.Arrange(new Rect(0, 0, 300, 100));
+            host.UpdateLayout();
+
+            var shadows = Descendants(button).OfType<UIElement>()
+                .Where(e => e.Effect is System.Windows.Media.Effects.DropShadowEffect && (e as FrameworkElement)?.Name != "stroke")
+                .Select(e => e.GetType().Name + "#" + (e as FrameworkElement)?.Name)
+                .ToList();
+            Assert.Empty(shadows);
+        });
+
         private static Rect IconBox(Window win)
         {
             win.Width = 400;

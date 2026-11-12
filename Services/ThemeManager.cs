@@ -714,7 +714,6 @@ namespace KillerNotes.Services
             // toolbar buttons that should be bare until hover use BareButton (Controls.xaml).
             SetIfAbsent("OutlineFaceBrush", Transparent);          // rest FILL
             Mirror("OutlineRestBrush", "OutlineBtnBrush");         // rest EDGE
-            SetIfAbsent("OutlineLiftRestVisibility", Visibility.Visible);   // resting shadow
             Mirror("OutlineTextBrush", "OutlineBtnBrush");         // rest TEXT
             Mirror("OutlineHoverBrush", "OutlineBtnBrush");        // hover FILL
             // OutlineHoverTextBrush is set AFTER the accent overlay, next to OnOutlineBtnBrush -
