@@ -29,19 +29,6 @@ namespace KillerNotes.Controls
             DialogFrame.SharpenTitleIcon(TitleIcon);
             // Above the dialog body, so the wordmark's drips hang over it instead of under it.
             Panel.SetZIndex(this, 1);
-            FitCloseToBar();
-        }
-
-        // The X keeps the family size every other window uses (the AboutClose* box) and the same
-        // right inset ConfirmDialog's caption gets from DialogTitleBarPadding (14 on the card
-        // themes, 2 on 98SE). This bar is laid out on DialogTitleMargin, whose right side is 0 on
-        // the card themes, so the X sat jammed in the corner on every dialog built from it
-        // (1.7.0). The margin makes up the difference, whatever the theme sets.
-        private void FitCloseToBar()
-        {
-            double want = TryFindResource("DialogTitleBarPadding") is Thickness pad ? pad.Right : 2;
-            double have = TryFindResource("DialogTitleMargin") is Thickness bar ? bar.Right : 0;
-            CloseButton.Margin = new Thickness(0, 0, System.Math.Max(0, want - have), 0);
         }
 
         private void ApplySubtitle(string? sub)

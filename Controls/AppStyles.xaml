@@ -204,7 +204,10 @@
                                 <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
                                         Opacity="{DynamicResource GrainOpacity}"
                                         Background="{DynamicResource GrainTileBrush}"/>
-                                <ContentPresenter/>
+                                <!-- DialogContentMargin, as ConfirmDialog has it: 0 on the card themes,
+                                     and on 98SE it keeps the caption band and body inside the 3 px
+                                     frame instead of running the band over the bevel. -->
+                                <ContentPresenter Margin="{DynamicResource DialogContentMargin}"/>
                             </Grid>
                         </picker:PickerBorder>
                     </Grid>

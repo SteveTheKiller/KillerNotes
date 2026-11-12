@@ -18,7 +18,9 @@
             Height="{DynamicResource DialogTitleBarHeight}"
             MouseLeftButtonDown="Bar_MouseLeftButtonDown">
         <Grid>
-        <Grid Margin="{DynamicResource DialogTitleMargin}">
+        <!-- DialogTitleBarPadding, the same caption inset ConfirmDialog uses, so the icon, wordmark
+             and X land in the same places on every dialog and theme (1.7.0). -->
+        <Grid Margin="{DynamicResource DialogTitleBarPadding}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <!-- The app icon leads the caption, as it does in the main title bar. -->
             <icons:AppIcon x:Name="TitleIcon" IsHitTestVisible="False"

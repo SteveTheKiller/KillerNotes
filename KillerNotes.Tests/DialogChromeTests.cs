@@ -66,10 +66,10 @@ namespace KillerNotes.Tests
         [Fact]
         public void TheNinetyEightDialogCloseClearsTheWindowFrame() => WithTheme(Theme.SE98, "en-US", () =>
         {
-            var bar = new DialogTitleBar();
-            var close = (Button)bar.FindName("CloseButton");
+            Rect close = CloseBox(new PasswordDialog("Heading", "Detail", "OK"));
 
-            Assert.Equal(2, close.Margin.Right);
+            // Inside the 3 px frame and 2 px in from the caption band's end, like ConfirmDialog.
+            Assert.Equal(400 - 3 - 2, close.Right, 1);
         });
 
         [Fact]
@@ -84,14 +84,14 @@ namespace KillerNotes.Tests
 
         // The shared title bar (Password, Tags, Input, Databases) put its X flush in the corner on
         // the card themes while ConfirmDialog's sat 14 px in, so two dialogs from the same app
-        // disagreed. Laid out side by side, the X has to land in the same place on both. 98SE is
-        // left out on purpose: there the shared bar is an edge-to-edge caption band and
-        // ConfirmDialog's sits inside the 3 px frame (TheNinetyEightDialogCloseClearsTheWindowFrame).
+        // disagreed. Laid out side by side, the X has to land in the same place on both, 98SE
+        // included, where the shared bar's caption band ran edge to edge over the frame.
         [Theory]
         [InlineData((int)Theme.Cyanotic)]
         [InlineData((int)Theme.Black)]
         [InlineData((int)Theme.Light)]
         [InlineData((int)Theme.Dark)]
+        [InlineData((int)Theme.SE98)]
         public void TheTitleBarCloseSitsWhereConfirmDialogPutsIt(int themeId) => WithTheme((Theme)themeId, "en-US", () =>
         {
             Rect confirm = CloseBox(new ConfirmDialog("Heading", "Detail", "OK"));
@@ -100,7 +100,22 @@ namespace KillerNotes.Tests
             Assert.Equal(confirm.Width, password.Width, 1);
             Assert.Equal(confirm.Right, password.Right, 1);
             Assert.Equal(confirm.Top + confirm.Height / 2, password.Top + password.Height / 2, 1);
+
+            Rect confirmIcon = IconBox(new ConfirmDialog("Heading", "Detail", "OK"));
+            Rect passwordIcon = IconBox(new PasswordDialog("Heading", "Detail", "OK"));
+            Assert.Equal(confirmIcon.Left, passwordIcon.Left, 1);
+            Assert.Equal(confirmIcon.Top, passwordIcon.Top, 1);
         });
+
+        private static Rect IconBox(Window win)
+        {
+            win.Width = 400;
+            FrameworkElement content = Host(win);
+            var icon = Descendants(content).OfType<AppIcon>().First();
+            DependencyObject card = icon;
+            while (card is not PickerBorder) card = VisualTreeHelper.GetParent(card);
+            return icon.TransformToAncestor((Visual)card).TransformBounds(new Rect(icon.RenderSize));
+        }
 
         private static Rect CloseBox(Window win)
         {
