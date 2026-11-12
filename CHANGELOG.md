@@ -12,7 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 - Compact sidebar density shows the date line on a note with no tags, so it no longer looks the same as Minimal.
 - Menu rows show their icons again. On PCs where Windows did not fill the glyph in from another font, the icon column was empty in most menus, including the sort menu, the note card and the editor's right-click menu.
-- The close button on the password, tags, input and database dialogs sits the same distance in from the corner as on every other dialog, instead of pressed into it.
+- The close button on the password, tags, input and database dialogs sits the same distance in from the corner as on every other dialog, instead of pressed into it. On 98SE their title bar sits inside the window frame like every other dialog's, instead of running over it.
 
 ### Changed
 
