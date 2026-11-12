@@ -30,6 +30,7 @@ namespace KillerNotes.Shell
             if (_groupManager == null)
             {
                 _groupManager = new GroupManagerWindow(this);
+                if (_groupManager.WindowStartupLocation != WindowStartupLocation.Manual) CenterOnThisWindow(_groupManager);
                 _groupManager.Closed += (_, _) => _groupManager = null;
                 _groupManager.Show();
             }
@@ -39,6 +40,19 @@ namespace KillerNotes.Shell
                 _groupManager.Activate();
             }
             _groupManager.Reload(selectPath);
+        }
+
+        /// <summary>First open, no saved bounds: centered over the main window. The manager is not
+        /// owned (it should not ride on top of the notes or minimize with them), so CenterOwner alone
+        /// has nothing to center on and WPF dropped it in the screen corner. Measured from the
+        /// window's real screen position, so a maximized window on another monitor works too.</summary>
+        private void CenterOnThisWindow(Window w)
+        {
+            if (PresentationSource.FromVisual(this)?.CompositionTarget is not { } target) return;
+            Point topLeft = target.TransformFromDevice.Transform(PointToScreen(new Point(0, 0)));
+            w.WindowStartupLocation = WindowStartupLocation.Manual;
+            w.Left = topLeft.X + Math.Max(0, (ActualWidth - w.Width) / 2);
+            w.Top = topLeft.Y + Math.Max(0, (ActualHeight - w.Height) / 2);
         }
 
         /// <summary>A database switch or lock takes the manager down with it: its rows belong to

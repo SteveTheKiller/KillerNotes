@@ -973,7 +973,7 @@
                                         </Border>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem Style="{StaticResource CardSlot}" Padding="4,8,4,4">
+                                <MenuItem Style="{StaticResource CardSlot}" Padding="24,8,4,4">
                                     <MenuItem.Header>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Color}"/>
@@ -991,7 +991,7 @@
                                         </DockPanel>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem Style="{StaticResource CardSlot}" Padding="4,4,4,8">
+                                <MenuItem Style="{StaticResource CardSlot}" Padding="24,4,4,8">
                                     <MenuItem.Header>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_UseFor}"/>
@@ -1230,7 +1230,7 @@
                                         </Border>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem x:Name="CardColorSlot" Style="{StaticResource CardSlot}" Padding="4,8,4,4">
+                                <MenuItem x:Name="CardColorSlot" Style="{StaticResource CardSlot}" Padding="24,8,4,4">
                                     <MenuItem.Header>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Color}"/>
@@ -1268,7 +1268,7 @@
                                         </DockPanel>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem x:Name="CardFormatSlot" Style="{StaticResource CardSlot}" Padding="4,4,4,8">
+                                <MenuItem x:Name="CardFormatSlot" Style="{StaticResource CardSlot}" Padding="24,4,4,8">
                                     <MenuItem.Header>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Format}"/>

@@ -15,8 +15,10 @@ namespace KillerFamily.Controls
     /// and handles <see cref="ColorChosen"/> and <see cref="PickRequested"/>; the menu closing is
     /// the app's call too, because only it knows whether a live preview is still running.
     /// Swatches use the CardSwatch style and the picker uses MenuRowButton (Controls.xaml).
+    /// A WrapPanel, so a longer palette or a narrow card wraps to a second line instead of
+    /// clipping the picker off the end.
     /// </summary>
-    public sealed class SwatchRow : StackPanel
+    public sealed class SwatchRow : WrapPanel
     {
         /// <summary>"#RRGGBB" for a swatch, or "" for the no-color outline.</summary>
         public event Action<string>? ColorChosen;
@@ -59,7 +61,7 @@ namespace KillerFamily.Controls
                     Text = ((char)0xE790).ToString(), FontFamily = new FontFamily("Segoe MDL2 Assets"), FontSize = 13,
                     HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center,
                 },
-                Width = 24, Height = 24, Padding = new Thickness(0), Margin = new Thickness(2, 0, 0, 0),
+                Width = 24, Height = 24, Padding = new Thickness(0), Margin = new Thickness(1, 0, 0, 0),
                 HorizontalContentAlignment = HorizontalAlignment.Center, ToolTip = PickerName,
             };
             picker.SetResourceReference(StyleProperty, "MenuRowButton");
@@ -74,6 +76,9 @@ namespace KillerFamily.Controls
         {
             var b = new Button { Background = fill, ToolTip = name, Tag = on ? "on" : null };
             b.SetResourceReference(StyleProperty, "CardSwatch");
+            // The no-color outline has no fill to show it, so it takes the dim text color instead
+            // of the faint menu border the filled swatches use.
+            if (hex.Length == 0) b.SetResourceReference(Control.BorderBrushProperty, "DimTextBrush");
             AutomationProperties.SetName(b, name);
             b.Click += (_, _) =>
             {

@@ -1500,14 +1500,18 @@
            CardSlot      - a MenuItem that is just a host for its Header (header, quick strip,
                            swatch row, segmented toggle). Not focusable and never highlighted,
                            so arrow keys walk the real rows and skip it; Tab reaches its buttons.
-           CardLabel     - the left label of an inline row ("Color", "Tags").
+           CardLabel     - the left label of an inline row ("Color", "Tags"). A slot that holds
+                           one gets Padding="24,..." so its label starts on the same column as
+                           the header text of the ordinary rows (8px padding + 16px gutter).
            CardQuickButton, CardSwatch, CardSegment - the controls those slots hold.
          Field rows that open a list (Tags, Group) are ordinary MenuItems with a richer Header,
          so their submenus keep the family submenu popup. No new theme keys: every brush here is
          an existing menu token. -->
+    <!-- 404 wide is a 360 card: the template's shadow halo takes 22 off each side. One fixed width
+         so the swatch row (ten colors and the picker) and six quick buttons always fit. -->
     <Style x:Key="CardMenu" TargetType="ContextMenu" BasedOn="{StaticResource {x:Type ContextMenu}}">
-        <Setter Property="MinWidth" Value="300"/>
-        <Setter Property="MaxWidth" Value="340"/>
+        <Setter Property="MinWidth" Value="404"/>
+        <Setter Property="MaxWidth" Value="404"/>
         <Setter Property="Padding" Value="6"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle"/>
     </Style>
@@ -1554,7 +1558,8 @@
                             <TextBlock x:Name="Glyph" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="16"
                                        HorizontalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
                             <TextBlock x:Name="Caption" Text="{TemplateBinding Tag}" FontSize="11" Margin="0,5,0,0"
-                                       HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                       HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"
+                                       TextTrimming="CharacterEllipsis" MaxHeight="30"/>
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -1578,25 +1583,34 @@
         </Setter>
     </Style>
 
-    <!-- One color in a SwatchRow. Background is the color; Tag="on" rings the current one. A
-         Transparent background draws the "no color" circle as an outline. -->
+    <!-- One color in a SwatchRow. Background is the color; Tag="on" marks the current one with a
+         text-colored edge and a menu-colored gap inside it. A Transparent background draws the
+         "no color" circle as an outline. Everything draws INSIDE the 20px box: a ring outside it
+         was clipped by the row (1.7.0 lab check). -->
     <Style x:Key="CardSwatch" TargetType="Button">
         <Setter Property="Width" Value="20"/>
         <Setter Property="Height" Value="20"/>
-        <Setter Property="Margin" Value="0,0,5,0"/>
+        <Setter Property="Margin" Value="0,2,3,2"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="BorderBrush" Value="{DynamicResource MenuBorderBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Ellipse x:Name="Ring" Stroke="Transparent" StrokeThickness="2" Margin="-3"/>
+                    <Grid Background="Transparent">
                         <Ellipse x:Name="Dot" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1"/>
+                        <Ellipse x:Name="Gap" Stroke="Transparent" StrokeThickness="2" Margin="2"/>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Tag" Value="on"><Setter TargetName="Ring" Property="Stroke" Value="{DynamicResource TextBrush}"/></Trigger>
                         <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Dot" Property="StrokeThickness" Value="2"/></Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Ring" Property="Stroke" Value="{DynamicResource PrimaryBrush}"/></Trigger>
+                        <Trigger Property="Tag" Value="on">
+                            <Setter TargetName="Dot" Property="Stroke" Value="{DynamicResource TextBrush}"/>
+                            <Setter TargetName="Dot" Property="StrokeThickness" Value="2"/>
+                            <Setter TargetName="Gap" Property="Stroke" Value="{DynamicResource MenuBackgroundBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Dot" Property="Stroke" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter TargetName="Dot" Property="StrokeThickness" Value="2"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

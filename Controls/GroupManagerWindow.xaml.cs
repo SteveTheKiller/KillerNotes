@@ -220,7 +220,7 @@ namespace KillerNotes.Controls
                 Group = n.Notebook,
                 GroupDisplay = n.Notebook.Replace(NoteStore.GroupSep, " / "),
                 Modified = n.Modified,
-                Tags = n.Tags,
+                Tags = string.Join(", ", n.Tags.Split(',').Select(t => t.Trim()).Where(t => t.Length > 0)),
                 ColorBrush = BrushOf(n.TitleColor) ?? Brushes.Transparent,
             });
             Func<NoteRowItem, object> key = _sortKey switch
