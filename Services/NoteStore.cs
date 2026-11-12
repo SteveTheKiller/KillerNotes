@@ -483,9 +483,24 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                  "SELECT n.id, n.modified, kn_fold(n.plain) FROM notes n LEFT JOIN note_fold f ON f.id = n.id " +
                  "WHERE f.id IS NULL OR f.modified <> n.modified");
             EnsureColumns();
+            EnsureNotePositions();
             // Seed ONLY when the tags table was just created: user customizations and
             // deletions must never resurrect.
             if (!hadTags) SeedDefaultTags();
+        }
+
+        /// <summary>The remembered caret and scroll positions, in their own table (1.7.0). They used
+        /// to be caret_pos and scroll_pos on the notes row, after the content blob, so SQLite
+        /// rewrote a note's whole row (pictures and all, re-encrypted) to remember where you left
+        /// it and walked every page of the blob to read it back: about a second each time you
+        /// left a note with pictures. Copied over once from the old columns, which stay in place
+        /// for older versions and are no longer written.</summary>
+        private static void EnsureNotePositions()
+        {
+            if (TableExists("note_positions")) return;
+            Exec("CREATE TABLE note_positions(note_id INTEGER PRIMARY KEY, caret INTEGER NOT NULL DEFAULT 0, scroll REAL NOT NULL DEFAULT 0)");
+            Exec("INSERT INTO note_positions(note_id, caret, scroll) " +
+                 "SELECT id, caret_pos, scroll_pos FROM notes WHERE caret_pos <> 0 OR scroll_pos <> 0");
         }
 
         private static bool TableExists(string name)
@@ -722,6 +737,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                          "DELETE FROM recordings WHERE note_id = $id",
                          "DELETE FROM note_links WHERE src = $id",
                          "DELETE FROM note_history WHERE note_id = $id",
+                         "DELETE FROM note_positions WHERE note_id = $id",
                          "DELETE FROM notes WHERE id = $id",
                          "DELETE FROM attachment_refs WHERE owner = 'n:' || $id",
                          "DELETE FROM attachments WHERE hash NOT IN (SELECT hash FROM attachment_refs)",
@@ -1375,7 +1391,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             cmd.Parameters.AddWithValue("$id", id);
             using var r = cmd.ExecuteReader();
             if (!r.Read()) return null;
-            return new NoteRow
+            var row = new NoteRow
             {
                 Id         = r.GetInt64(0),
                 Title      = r.IsDBNull(1) ? "" : r.GetString(1),
@@ -1388,12 +1404,14 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 TitleColor = r.IsDBNull(8) ? "" : r.GetString(8),
                 SpellCheck = !r.IsDBNull(9) && r.GetInt64(9) != 0,
                 SortOrder  = r.IsDBNull(10) ? 0 : (int)r.GetInt64(10),
-                CaretPos   = r.IsDBNull(11) ? 0 : (int)r.GetInt64(11),
-                ScrollPos  = r.IsDBNull(12) ? 0 : r.GetDouble(12),
+                // Positions come from note_positions below; these columns are the pre-1.7.0 copy.
                 SyntaxHighlight = !r.IsDBNull(13) && r.GetInt64(13) != 0,
                 Pinned     = !r.IsDBNull(14) && r.GetInt64(14) != 0,
                 Deleted    = r.IsDBNull(15) ? "" : r.GetString(15),
             };
+            r.Close();
+            (row.CaretPos, row.ScrollPos) = GetNotePosition(id);
+            return row;
         }
 
         public static void RestoreRow(NoteRow n)
@@ -1419,6 +1437,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             cmd.Parameters.AddWithValue("$scp", n.ScrollPos);
             cmd.Parameters.AddWithValue("$sy", n.SyntaxHighlight ? 1 : 0);
             cmd.ExecuteNonQuery();
+            if (n.CaretPos != 0 || n.ScrollPos != 0) SetNotePosition(n.Id, n.CaretPos, n.ScrollPos);
         }
 
         /// <summary>Cross-note replace (#14): writes new content and plain text for a set of
@@ -1471,7 +1490,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         {
             if (_db == null || IsReadOnly) return;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "UPDATE notes SET caret_pos = $c, scroll_pos = $s WHERE id = $id";
+            cmd.CommandText = "INSERT OR REPLACE INTO note_positions(note_id, caret, scroll) VALUES($id, $c, $s)";
             cmd.Parameters.AddWithValue("$c", caret);
             cmd.Parameters.AddWithValue("$s", scroll);
             cmd.Parameters.AddWithValue("$id", id);
@@ -1482,7 +1501,11 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         {
             if (_db == null) return (0, 0);
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT caret_pos, scroll_pos FROM notes WHERE id = $id";
+            // A read-only open never builds the schema, so a notepad no 1.7.0 copy has written
+            // has no note_positions yet: read the old columns there (slow, but correct and rare).
+            cmd.CommandText = TableExists("note_positions")
+                ? "SELECT caret, scroll FROM note_positions WHERE note_id = $id"
+                : "SELECT caret_pos, scroll_pos FROM notes WHERE id = $id";
             cmd.Parameters.AddWithValue("$id", id);
             using var r = cmd.ExecuteReader();
             if (!r.Read()) return (0, 0);
