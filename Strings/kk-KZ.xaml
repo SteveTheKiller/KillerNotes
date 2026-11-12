@@ -1250,6 +1250,7 @@
     <sys:String x:Key="Str_Card_CollapseAll">Жинау</sys:String>
     <sys:String x:Key="Str_Card_Graph">Граф</sys:String>
     <sys:String x:Key="Str_Card_Organize">Реттеу</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Файлды көрсету</sys:String>
     <sys:String x:Key="Str_Card_Parent">Аталық</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Жоғарғы деңгей</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Мақсаты</sys:String>

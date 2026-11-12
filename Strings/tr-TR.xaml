@@ -1242,6 +1242,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Daralt</sys:String>
     <sys:String x:Key="Str_Card_Graph">Grafik</sys:String>
     <sys:String x:Key="Str_Card_Organize">Düzenle</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Dosyayı göster</sys:String>
     <sys:String x:Key="Str_Card_Parent">Üst grup</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Üst düzey</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Kullanım</sys:String>

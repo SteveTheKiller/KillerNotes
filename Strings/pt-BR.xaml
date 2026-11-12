@@ -1289,6 +1289,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Recolher</sys:String>
     <sys:String x:Key="Str_Card_Graph">Grafo</sys:String>
     <sys:String x:Key="Str_Card_Organize">Organizar</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Mostrar arquivo</sys:String>
     <sys:String x:Key="Str_Card_Parent">Superior</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Nível superior</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Usar para</sys:String>

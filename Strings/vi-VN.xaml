@@ -1293,6 +1293,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Card_CollapseAll">Thu gọn</sys:String>
     <sys:String x:Key="Str_Card_Graph">Đồ thị</sys:String>
     <sys:String x:Key="Str_Card_Organize">Sắp xếp</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Hiện tệp</sys:String>
     <sys:String x:Key="Str_Card_Parent">Nhóm cha</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Cấp cao nhất</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Dùng cho</sys:String>

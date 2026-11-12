@@ -1268,6 +1268,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Card_CollapseAll">Összecsukás</sys:String>
     <sys:String x:Key="Str_Card_Graph">Gráf</sys:String>
     <sys:String x:Key="Str_Card_Organize">Rendezés</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Fájl mutatása</sys:String>
     <sys:String x:Key="Str_Card_Parent">Szülő</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Legfelső szint</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Használat</sys:String>

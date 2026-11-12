@@ -1287,6 +1287,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Skjul</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graf</sys:String>
     <sys:String x:Key="Str_Card_Organize">Ordne</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Vis fil</sys:String>
     <sys:String x:Key="Str_Card_Parent">Overordnet</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Øverste nivå</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Bruk til</sys:String>

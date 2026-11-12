@@ -1169,6 +1169,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Zwiń</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graf</sys:String>
     <sys:String x:Key="Str_Card_Organize">Uporządkuj</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Pokaż plik</sys:String>
     <sys:String x:Key="Str_Card_Parent">Nadrzędna</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Najwyższy poziom</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Użyj dla</sys:String>

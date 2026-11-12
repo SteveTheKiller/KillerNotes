@@ -1289,6 +1289,7 @@
     <sys:String x:Key="Str_Card_CollapseAll">Згорнути</sys:String>
     <sys:String x:Key="Str_Card_Graph">Граф</sys:String>
     <sys:String x:Key="Str_Card_Organize">Упорядкувати</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Показати файл</sys:String>
     <sys:String x:Key="Str_Card_Parent">Батьківська</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Верхній рівень</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Використати для</sys:String>

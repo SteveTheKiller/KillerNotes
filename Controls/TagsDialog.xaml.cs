@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -7,6 +8,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using KillerNotes.Services;
+using CardBuilder = KillerFamily.Controls.CardBuilder;
+using SwatchRow = KillerFamily.Controls.SwatchRow;
 
 namespace KillerNotes.Controls
 {
@@ -62,15 +65,17 @@ namespace KillerNotes.Controls
         private void Refresh(string? select = null)
         {
             TagList.Items.Clear();
+            // One read of the saved swatches for every row's card, not one per tag.
+            var palette = ColorPickerDialog.UserSwatches();
             foreach (var (name, color) in NoteStore.ListTags())
-                TagList.Items.Add(BuildRow(name, color));
+                TagList.Items.Add(BuildRow(name, color, palette));
             if (select != null)
                 foreach (ListBoxItem item in TagList.Items)
                     if ((string)item.Tag == select) { item.IsSelected = true; break; }
         }
 
         // swatch + name + [recolor] [rename] [delete], all carrying the tag name.
-        private ListBoxItem BuildRow(string name, string colorHex)
+        private ListBoxItem BuildRow(string name, string colorHex, IReadOnlyList<Color> palette)
         {
             var grid = new Grid();
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -105,22 +110,68 @@ namespace KillerNotes.Controls
             // Double-click the row to rename inline (as well as the rename button).
             row.MouseDoubleClick += (_, _) => BeginRename(grid, label, name);
 
-            // Right-click menu: Rename / Change color / Delete (themed like the rest).
-            var menu = new ContextMenu();
-            var miRename = new MenuItem { Header = Loc("Str_TT_TagRename"), Icon = "\uE8AC" };
-            DialogShortcuts.Describe(miRename, "F2");
-            miRename.Click += (_, _) => BeginRename(grid, label, name);
-            var miColor = new MenuItem { Header = Loc("Str_TT_TagRecolor"), Icon = "\uE790" };
-            DialogShortcuts.Describe(miColor, "Alt+C");
-            miColor.Click += (_, _) => RecolorTag(name);
-            var miDelete = new MenuItem { Header = Loc("Str_TT_TagDelete"), Icon = "\uE74D" };
-            DialogShortcuts.Describe(miDelete, "Ctrl+D");
-            miDelete.Click += (_, _) => DeleteTag(name);
-            menu.Items.Add(miRename);
-            menu.Items.Add(miColor);
-            menu.Items.Add(miDelete);
-            row.ContextMenu = menu;
+            // Right-click card (1.7.0): the tag over its color row, then Rename and Delete.
+            row.ContextMenu = BuildTagCard(name, colorHex, palette,
+                rename: () => BeginRename(grid, label, name),
+                recolor: () => RecolorTag(name),
+                setColor: hex => SetTagColor(name, hex),
+                delete: () => DeleteTag(name));
             return row;
+        }
+
+        /// <summary>A tag's right-click card: its name beside its color, a Color row whose
+        /// swatches recolor it in one click and whose picker does what Change color (Alt+C) does,
+        /// then Rename and Delete as rows with their shortcuts. A strip holding Rename alone would
+        /// be a lone button, so both stay rows. Built from plain values, so a test can build it
+        /// without a database.</summary>
+        internal static ContextMenu BuildTagCard(string name, string colorHex, IEnumerable<Color> palette,
+            Action rename, Action recolor, Action<string> setColor, Action delete)
+        {
+            var card = CardBuilder.Menu(360);
+
+            // The header's dot is the note card's CardColorDot: the tag's color before its name.
+            var header = CardBuilder.Header(name);
+            var text = (StackPanel)header.Header;
+            header.Header = null;
+            var dot = new System.Windows.Shapes.Ellipse
+            {
+                Width = 10, Height = 10, Margin = new Thickness(0, 0, 10, 0), StrokeThickness = 1,
+                VerticalAlignment = VerticalAlignment.Center, Fill = BrushFromHex(colorHex),
+            };
+            dot.SetResourceReference(System.Windows.Shapes.Shape.StrokeProperty, "MenuBorderBrush");
+            var head = new DockPanel { Margin = text.Margin };
+            text.Margin = new Thickness(0);
+            DockPanel.SetDock(dot, Dock.Left);
+            head.Children.Add(dot);
+            head.Children.Add(text);
+            header.Header = head;
+            card.Items.Add(header);
+
+            var swatches = new SwatchRow { PickerName = CardBuilder.Tip(Loc("Str_TT_TagRecolor"), "Alt+C") };
+            swatches.Show(palette, colorHex);
+            // Every tag has a color (the chips fall back to gray without one), so the row's
+            // no-color outline has nothing to mean here.
+            swatches.Children[0].Visibility = Visibility.Collapsed;
+            swatches.ColorChosen += hex =>
+            {
+                CardBuilder.Close(swatches);
+                if (hex.Length > 0) setColor(hex);
+            };
+            swatches.PickRequested += () =>
+            {
+                CardBuilder.Close(swatches);
+                recolor();
+            };
+            card.Items.Add(CardBuilder.Labeled(Loc("Str_Card_Color"), swatches));
+
+            card.Items.Add(new Separator());
+            var miRename = CardBuilder.Row(Loc("Str_TT_TagRename"), "F2", "\uE8AC", rename);
+            DialogShortcuts.Describe(miRename, "F2");
+            var miDelete = CardBuilder.Row(Loc("Str_TT_TagDelete"), "Ctrl+D", "\uE74D", delete);
+            DialogShortcuts.Describe(miDelete, "Ctrl+D");
+            card.Items.Add(miRename);
+            card.Items.Add(miDelete);
+            return card;
         }
 
         private void InvokeSelectedRow(int index)
@@ -187,11 +238,14 @@ namespace KillerNotes.Controls
                 string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase)).Color ?? "#50AEE8";
             var dlg = new ColorPickerDialog(this, ColorFromHex(cur)) { Owner = this };
             dlg.ShowDialog();
-            if (dlg.Confirmed)
-            {
-                NoteStore.SetTagColor(name, HexFromColor(dlg.SelectedColor));
-                Changed(select: name);
-            }
+            if (dlg.Confirmed) SetTagColor(name, HexFromColor(dlg.SelectedColor));
+        }
+
+        // The picker and the card's swatches both land here.
+        private void SetTagColor(string name, string hex)
+        {
+            NoteStore.SetTagColor(name, hex);
+            Changed(select: name);
         }
 
         // Inline rename: swap the row's label for a TextBox (same pattern as Manage

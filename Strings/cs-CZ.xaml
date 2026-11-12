@@ -1239,6 +1239,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Sbalit</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graf</sys:String>
     <sys:String x:Key="Str_Card_Organize">Uspořádat</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Zobrazit soubor</sys:String>
     <sys:String x:Key="Str_Card_Parent">Nadřazená</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Nejvyšší úroveň</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Použít pro</sys:String>

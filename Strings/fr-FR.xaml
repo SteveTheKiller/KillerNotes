@@ -1243,6 +1243,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Réduire</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graphe</sys:String>
     <sys:String x:Key="Str_Card_Organize">Organiser</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Localiser</sys:String>
     <sys:String x:Key="Str_Card_Parent">Parent</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Niveau supérieur</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Utiliser pour</sys:String>

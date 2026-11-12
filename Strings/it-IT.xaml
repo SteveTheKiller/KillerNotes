@@ -1250,6 +1250,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Comprimi</sys:String>
     <sys:String x:Key="Str_Card_Graph">Grafo</sys:String>
     <sys:String x:Key="Str_Card_Organize">Organizza</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Mostra file</sys:String>
     <sys:String x:Key="Str_Card_Parent">Superiore</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Livello principale</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Usa per</sys:String>

@@ -1242,6 +1242,7 @@
     <sys:String x:Key="Str_Card_CollapseAll">摺疊</sys:String>
     <sys:String x:Key="Str_Card_Graph">圖譜</sys:String>
     <sys:String x:Key="Str_Card_Organize">整理</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">顯示檔案</sys:String>
     <sys:String x:Key="Str_Card_Parent">上層</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">最上層</sys:String>
     <sys:String x:Key="Str_Card_UseFor">用於</sys:String>

@@ -1289,6 +1289,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Collapse</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graph</sys:String>
     <sys:String x:Key="Str_Card_Organize">Organize</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Show file</sys:String>
     <sys:String x:Key="Str_Card_Parent">Parent</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Top level</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Use for</sys:String>

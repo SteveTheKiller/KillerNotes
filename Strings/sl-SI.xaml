@@ -1149,6 +1149,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Strni</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graf</sys:String>
     <sys:String x:Key="Str_Card_Organize">Uredi</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Pokaži datoteko</sys:String>
     <sys:String x:Key="Str_Card_Parent">Nadrejena</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Najvišja raven</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Uporabi za</sys:String>

@@ -1250,6 +1250,7 @@
     <sys:String x:Key="Str_Card_CollapseAll">Свернуть</sys:String>
     <sys:String x:Key="Str_Card_Graph">Граф</sys:String>
     <sys:String x:Key="Str_Card_Organize">Упорядочить</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">Показать файл</sys:String>
     <sys:String x:Key="Str_Card_Parent">Родитель</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Верхний уровень</sys:String>
     <sys:String x:Key="Str_Card_UseFor">Использовать для</sys:String>

@@ -57,18 +57,10 @@
                                  HorizontalContentAlignment="Stretch" Margin="4"
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                  MouseDoubleClick="DbList_MouseDoubleClick"
-                                 PreviewMouseRightButtonDown="DbList_PreviewMouseRightButtonDown">
-                            <ListBox.ContextMenu>
-                                <ContextMenu PreviewKeyDown="DbMenu_PreviewKeyDown">
-                                    <MenuItem x:Name="RenameItem" Header="{DynamicResource Str_Ctx_Rename}" Icon="&#xE8AC;" Click="RenameMenu_Click" InputGestureText="F2"/>
-                                    <MenuItem x:Name="DeleteItem" Header="{DynamicResource Str_Ctx_Delete}" Icon="&#xE74D;" Click="Delete_Click" InputGestureText="Ctrl+D"/>
-                                    <MenuItem x:Name="CopyItem" Header="{DynamicResource Str_Ctx_CopyFile}" Icon="&#xE8C8;" Click="CopyFileMenu_Click" InputGestureText="Alt+C"
-                                              ToolTip="{DynamicResource Str_TT_CopyFile}"/>
-                                    <MenuItem x:Name="ExportItem" Header="{DynamicResource Str_Ctx_ExportKndb}" Icon="&#xE74E;" Click="ExportMenu_Click" InputGestureText="Ctrl+E"
-                                              ToolTip="{DynamicResource Str_TT_ExportKndb}"/>
-                                    <MenuItem x:Name="RevealItem" Header="{DynamicResource Str_Ctx_Reveal}" Icon="&#xE838;" Click="RevealMenu_Click" InputGestureText="Ctrl+R"/>
-                                </ContextMenu>
-                            </ListBox.ContextMenu>
+                                 PreviewMouseRightButtonDown="DbList_PreviewMouseRightButtonDown"
+                                 ContextMenuOpening="DbList_ContextMenuOpening">
+                            <!-- The right-click menu is a card (1.7.0), built in code by BuildDbCard
+                                 because its header names the database under the pointer. -->
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="Padding" Value="8,5"/>

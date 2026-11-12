@@ -1242,6 +1242,7 @@
     <sys:String x:Key="Str_Card_CollapseAll">গুটান</sys:String>
     <sys:String x:Key="Str_Card_Graph">গ্রাফ</sys:String>
     <sys:String x:Key="Str_Card_Organize">সাজান</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">ফাইল দেখান</sys:String>
     <sys:String x:Key="Str_Card_Parent">প্যারেন্ট</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">শীর্ষ স্তর</sys:String>
     <sys:String x:Key="Str_Card_UseFor">ব্যবহার করুন</sys:String>

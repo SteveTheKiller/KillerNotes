@@ -1240,6 +1240,7 @@
     <sys:String x:Key="Str_Card_CollapseAll">折りたたむ</sys:String>
     <sys:String x:Key="Str_Card_Graph">グラフ</sys:String>
     <sys:String x:Key="Str_Card_Organize">整理</sys:String>
+    <sys:String x:Key="Str_Card_ShowFile">場所を表示</sys:String>
     <sys:String x:Key="Str_Card_Parent">親</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">最上位</sys:String>
     <sys:String x:Key="Str_Card_UseFor">用途</sys:String>
