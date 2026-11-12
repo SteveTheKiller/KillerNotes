@@ -485,6 +485,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                  "WHERE f.id IS NULL OR f.modified <> n.modified");
             EnsureColumns();
             EnsureNotePositions();
+            EnsureContentLast();
             // Seed ONLY when the tags table was just created: user customizations and
             // deletions must never resurrect.
             if (!hadTags) SeedDefaultTags();
@@ -502,6 +503,78 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             Exec("CREATE TABLE note_positions(note_id INTEGER PRIMARY KEY, caret INTEGER NOT NULL DEFAULT 0, scroll REAL NOT NULL DEFAULT 0)");
             Exec("INSERT INTO note_positions(note_id, caret, scroll) " +
                  "SELECT id, caret_pos, scroll_pos FROM notes WHERE caret_pos <> 0 OR scroll_pos <> 0");
+        }
+
+        /// <summary>Rebuilds notes with the content blob as its last column (1.7.0), once per
+        /// notepad and again only if a later column is ever added after it. SQLite stores a row's
+        /// values in column order and reaches a value after a large blob only by walking the
+        /// blob's overflow pages, so every column added after content (color, pin, format, sort
+        /// order, the trash flag, the preview text) made each sidebar refresh walk every picture:
+        /// 1.2 s on an encrypted notepad with 40 four-megabyte notes. Older versions read columns
+        /// by name, so the new order changes nothing for them. Ids are copied, so the search index
+        /// (keyed on id) stays valid, and every index and trigger on notes, the per-connection TEMP
+        /// ones included, is captured and recreated.</summary>
+        private static void EnsureContentLast()
+        {
+            var cols = new List<(string Name, string Type, bool NotNull, string? Default, bool Pk)>();
+            using (var cmd = _db!.CreateCommand())
+            {
+                cmd.CommandText = "PRAGMA table_info(notes)";
+                using var r = cmd.ExecuteReader();
+                while (r.Read())
+                    cols.Add((r.GetString(1), r.GetString(2), r.GetInt64(3) != 0,
+                              r.IsDBNull(4) ? null : r.GetString(4), r.GetInt64(5) != 0));
+            }
+            int at = cols.FindIndex(c => string.Equals(c.Name, "content", StringComparison.OrdinalIgnoreCase));
+            if (at < 0 || at == cols.Count - 1) return;
+
+            var ordered = cols.Where((_, i) => i != at).Append(cols[at]).ToList();
+            string Def((string Name, string Type, bool NotNull, string? Default, bool Pk) c) =>
+                c.Pk ? $"\"{c.Name}\" INTEGER PRIMARY KEY"
+                     : $"\"{c.Name}\" {c.Type}{(c.NotNull ? " NOT NULL" : "")}{(c.Default != null ? " DEFAULT " + c.Default : "")}";
+            string names = string.Join(", ", ordered.Select(c => $"\"{c.Name}\""));
+
+            var recreate = new List<string>();
+            foreach (string master in new[] { "sqlite_master", "sqlite_temp_master" })
+            {
+                using var cmd = _db.CreateCommand();
+                cmd.CommandText = $"SELECT sql FROM {master} WHERE tbl_name = 'notes' AND type IN ('index', 'trigger') AND sql IS NOT NULL";
+                using var r = cmd.ExecuteReader();
+                while (r.Read())
+                {
+                    string sql = r.GetString(0);
+                    // SQLite stores a TEMP object's text without the TEMP keyword. Run as-is it
+                    // would come back as a permanent trigger in the notepad, pointing at a
+                    // per-connection table that does not exist there.
+                    if (master == "sqlite_temp_master" && sql.StartsWith("CREATE TRIGGER", StringComparison.OrdinalIgnoreCase))
+                        sql = "CREATE TEMP TRIGGER" + sql.Substring("CREATE TRIGGER".Length);
+                    recreate.Add(sql);
+                }
+            }
+
+            // legacy_alter_table: the rename only has to give the copy the old name. Without it
+            // SQLite re-checks every trigger in the schema mid-swap, while notes is briefly gone.
+            Exec("PRAGMA legacy_alter_table = ON");
+            try
+            {
+                using var tx = _db.BeginTransaction();
+                foreach (string sql in new[]
+                         {
+                             "DROP TABLE IF EXISTS notes_reorder",
+                             $"CREATE TABLE notes_reorder({string.Join(", ", ordered.Select(Def))})",
+                             $"INSERT INTO notes_reorder({names}) SELECT {names} FROM notes",
+                             "DROP TABLE notes",
+                             "ALTER TABLE notes_reorder RENAME TO notes",
+                         }.Concat(recreate))
+                {
+                    using var cmd = _db.CreateCommand();
+                    cmd.Transaction = tx;
+                    cmd.CommandText = sql;
+                    cmd.ExecuteNonQuery();
+                }
+                tx.Commit();
+            }
+            finally { Exec("PRAGMA legacy_alter_table = OFF"); }
         }
 
         private static bool TableExists(string name)
