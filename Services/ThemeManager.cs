@@ -491,7 +491,9 @@ namespace KillerNotes.Services
             SetIfAbsent("DialogButtonsMargin", new Thickness(16, 12, 16, 16));
             SetIfAbsent("DialogContentMargin", new Thickness(0));
             SetIfAbsent("DialogOuterBorderThickness", new Thickness(1));
-            SetIfAbsent("DialogTitleBarPadding", new Thickness(6, 0, 14, 0));
+            // Right 2: the card themes' close X has no visible face, so it reads against the card's
+            // corner and sits as far in from the right edge as down from the top (16 px).
+            SetIfAbsent("DialogTitleBarPadding", new Thickness(6, 0, 2, 0));
             SetIfAbsent("DialogFieldMargin", new Thickness(16, 12, 16, 0));
             // 10, the halo every dialog already reserved for its drop shadow. 98SE sets 0: it
             // casts no shadow, and an invisible 10px gutter would put the resize grab outside

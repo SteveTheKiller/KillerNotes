@@ -138,6 +138,34 @@ namespace KillerNotes.Tests
             Assert.True(ink.Top >= 2.5 && ink.Bottom <= h - 2.5, $"The X {ink} runs into the bevel of a {w}x{h} button.");
         });
 
+        // On the card themes the close button has no visible face, so the X reads against the
+        // card's corner: its ink sits as far in from the right edge as down from the top edge.
+        [Theory]
+        [InlineData((int)Theme.Cyanotic, "Confirm")]
+        [InlineData((int)Theme.Cyanotic, "Password")]
+        [InlineData((int)Theme.Dark, "Confirm")]
+        [InlineData((int)Theme.Dark, "Password")]
+        [InlineData((int)Theme.Light, "Password")]
+        public void TheCardCloseXSitsInTheCorner(int themeId, string dialog) => WithTheme((Theme)themeId, "en-US", () =>
+        {
+            Window win = dialog == "Confirm" ? new ConfirmDialog("Heading", "Detail", "OK") : new PasswordDialog("Heading", "Detail", "OK");
+            win.Width = 400;
+            FrameworkElement content = Host(win);
+            var style = Application.Current.TryFindResource("OverlayCloseButton");
+            var close = Descendants(content).OfType<Button>().First(b => ReferenceEquals(b.Style, style));
+            DependencyObject cardObj = close;
+            while (cardObj is not PickerBorder) cardObj = VisualTreeHelper.GetParent(cardObj);
+            var card = (FrameworkElement)cardObj;
+            var text = Descendants(close).OfType<TextBlock>().First();
+            var ft = new FormattedText(text.Text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+                new Typeface(text.FontFamily, text.FontStyle, text.FontWeight, text.FontStretch), text.FontSize, Brushes.Black, 1.0);
+            Rect ink = ft.BuildGeometry(text.TransformToAncestor(card).Transform(new Point(0, 0))).Bounds;
+
+            double fromTop = ink.Top + ink.Height / 2;
+            double fromRight = card.ActualWidth - (ink.Left + ink.Width / 2);
+            Assert.InRange(fromRight - fromTop, -1, 1);
+        });
+
         private static Rect IconBox(Window win)
         {
             win.Width = 400;
