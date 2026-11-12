@@ -1114,8 +1114,13 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <!-- Icon slot: MenuItem.Icon renders in the same 16px gutter the check
-                                 glyph uses (MakeMenuItem's glyph parameter fills it with MDL2 icons). -->
+                                 glyph uses (MakeMenuItem's glyph parameter fills it with MDL2 icons).
+                                 The icon font is set HERE so a bare glyph string (Icon="&#xE74D;")
+                                 draws too: without it the string took the menu's text font, which has
+                                 no such glyph, and the gutter stayed empty (KillerNotes 1.7.0 lab
+                                 check). An icon element with its own font keeps that font. -->
                             <ContentPresenter x:Name="IconPresenter" Grid.Column="0" ContentSource="Icon"
+                                              TextElement.FontFamily="Segoe MDL2 Assets" TextElement.FontSize="12"
                                               VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             <!-- check glyph for checkable items (e.g. OCR language multi-select) -->
                             <TextBlock x:Name="Check" Grid.Column="0" Text="&#xE73E;"
