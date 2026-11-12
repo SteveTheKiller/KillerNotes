@@ -1056,6 +1056,10 @@ namespace KillerNotes.Services
                 combined["AboutCloseGlyph"] = flat ? "\uE8BB" : "\u2715";
                 combined["AboutCloseFont"]  = flat ? new System.Windows.Media.FontFamily("Segoe MDL2 Assets")
                                                    : new System.Windows.Media.FontFamily("Segoe UI");
+                // 8 on 98SE: the 16x14 caption button has a 2 px bevel all round, and at the old
+                // 11 the bold X filled the whole face, jammed against the left highlight and the
+                // bottom shadow. 8 draws it centered with the bevel clear, the Win98 proportion.
+                combined["AboutCloseFontSize"] = flat ? 8.0 : 11.0;
                 combined["AboutCloseFg"] = flat ? combined["CaptionCloseBrush"] : combined["MutedTextBrush"];
                 if (flat) combined["AboutCloseHoverFg"] = combined["CaptionCloseBrush"];
                 else

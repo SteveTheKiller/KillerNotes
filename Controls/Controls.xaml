@@ -1885,7 +1885,7 @@
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Foreground" Value="{DynamicResource AboutCloseFg}"/>
         <Setter Property="FontFamily" Value="{DynamicResource AboutCloseFont}"/>
-        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontSize" Value="{DynamicResource AboutCloseFontSize}"/>
         <Setter Property="FontWeight" Value="{DynamicResource CaptionGlyphWeight}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>

@@ -107,6 +107,30 @@ namespace KillerNotes.Tests
             Assert.Equal(confirmIcon.Top, passwordIcon.Top, 1);
         });
 
+        // The 98SE close is a 16x14 Win98 caption button with a 2 px bevel all round. Its X used
+        // to fill the whole face, jammed against the left highlight and the bottom shadow. The
+        // glyph's ink, not its line box, has to sit inside the face and centered on the button.
+        [Fact]
+        public void TheNinetyEightCloseGlyphIsCenteredInItsButton() => WithTheme(Theme.SE98, "en-US", () =>
+        {
+            var win = new PasswordDialog("Heading", "Detail", "OK") { Width = 400 };
+            FrameworkElement content = Host(win);
+            var style = Application.Current.TryFindResource("OverlayCloseButton");
+            var close = Descendants(content).OfType<Button>().First(b => ReferenceEquals(b.Style, style));
+            var text = Descendants(close).OfType<TextBlock>().First();
+            var ft = new FormattedText(text.Text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+                new Typeface(text.FontFamily, text.FontStyle, text.FontWeight, text.FontStretch), text.FontSize, Brushes.Black, 1.0);
+            Point origin = text.TransformToAncestor(close).Transform(new Point(0, 0));
+            Rect ink = ft.BuildGeometry(origin).Bounds;
+            double w = close.ActualWidth, h = close.ActualHeight;
+
+            Assert.Equal(w / 2, ink.Left + ink.Width / 2, 0);
+            Assert.Equal(h / 2, ink.Top + ink.Height / 2, 0);
+            // Half a pixel clear of the 2 px bevel on every side, so no edge pixel touches it.
+            Assert.True(ink.Left >= 2.5 && ink.Right <= w - 2.5, $"The X {ink} runs into the bevel of a {w}x{h} button.");
+            Assert.True(ink.Top >= 2.5 && ink.Bottom <= h - 2.5, $"The X {ink} runs into the bevel of a {w}x{h} button.");
+        });
+
         private static Rect IconBox(Window win)
         {
             win.Width = 400;
