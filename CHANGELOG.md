@@ -11,6 +11,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Fixed
 
 - Switching notes no longer stalls on notes with pictures. Remembering where you left a note rewrote the whole note, pictures included, so leaving a note with large screenshots took about a second, and opening one took longer than it needed to.
+- Every group list shows all your groups. A group that existed only on its notes, such as one brought in by an import, showed in the sidebar but was missing from the note card's Group list and the other group pickers; opening the notepad now gives it a proper group entry.
+- The arrows on the note card's Tags and Group rows sit at the card's right edge instead of in the middle of the row.
 - Compact sidebar density shows the date line on a note with no tags, so it no longer looks the same as Minimal.
 - Menu rows show their icons again. On PCs where Windows did not fill the glyph in from another font, the icon column was empty in most menus, including the sort menu, the note card and the editor's right-click menu.
 - The close X on every dialog sits in the card's corner, as far in from the right edge as down from the top. On 98SE the dialogs' title bars sit inside the window frame instead of running over it, and the X is centered in its button instead of filling it.
@@ -31,6 +33,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - A group manager window (Alt+Shift+O, the Organize button on the rail or on a group card) shows every group as a tree beside a sortable table of its notes, with one search over both. Drag notes onto a group to file them or a group onto another to nest it; F2 renames, Delete removes and Ctrl+Z undoes, in either window.
 - Duplicate note (Alt+Shift+U) and Save as template (Alt+Shift+T), which creates a Templates group when the notepad has none.
 - New note in this group (Alt+Shift+H) and Collapse all groups (Alt+Shift+Z).
+- New note in group, on the menu beside the New note button, lists every group and starts a note in the one you pick.
 
 ## [1.6.2] - 2026-11-10
 
