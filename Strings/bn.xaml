@@ -529,6 +529,7 @@
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">ট্যাগ</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">ট্যাগ পরিচালনা...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">গ্রুপ পরিচালনা...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">এই ট্যাগ দিয়ে ফিল্টার করতে ক্লিক করুন</sys:String>
     <sys:String x:Key="Str_Tags_Title">ট্যাগ পরিচালনা</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">নতুন ট্যাগের জন্য একটি রং বাছুন</sys:String>

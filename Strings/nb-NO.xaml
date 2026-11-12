@@ -716,6 +716,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Merker</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Administrer merker...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Administrer grupper...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Klikk for å filtrere etter dette merket</sys:String>
     <sys:String x:Key="Str_Tags_Title">Administrer merker</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Velg en farge for det nye merket</sys:String>

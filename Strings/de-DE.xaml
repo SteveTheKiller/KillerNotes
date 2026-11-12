@@ -528,6 +528,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Schlagworte</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Tags verwalten...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Gruppen verwalten...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Klicken, um nach diesem Tag zu filtern</sys:String>
     <sys:String x:Key="Str_Tags_Title">Tags verwalten</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Farbe für den neuen Tag wählen</sys:String>

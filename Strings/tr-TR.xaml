@@ -529,6 +529,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Etiketler</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Etiketleri yönet...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Grupları yönet...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Bu etikete göre filtrelemek için tıklayın</sys:String>
     <sys:String x:Key="Str_Tags_Title">Etiketleri yönet</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Yeni etiket için bir renk seçin</sys:String>

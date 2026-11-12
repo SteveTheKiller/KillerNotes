@@ -718,6 +718,7 @@ Leave both boxes empty to share without one.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Tags</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Manage tags...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Manage groups...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Click to filter by this tag</sys:String>
     <sys:String x:Key="Str_Tags_Title">Manage tags</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Pick a color for the new tag</sys:String>

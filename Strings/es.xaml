@@ -529,6 +529,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Etiquetas</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Administrar etiquetas...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Administrar grupos...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Haga clic para filtrar por esta etiqueta</sys:String>
     <sys:String x:Key="Str_Tags_Title">Administrar etiquetas</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Elija un color para la nueva etiqueta</sys:String>

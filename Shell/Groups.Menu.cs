@@ -65,6 +65,24 @@ namespace KillerNotes.Shell
             };
             create.Click += (_, _) => NewGroupForNotes(SelectedOrSame(selected));
             GroupMenu.Items.Add(create);
+
+            // The group manager, last, the way Manage tags closes the Tags list. It opens on the
+            // notes' group when they share one.
+            var manage = new MenuItem
+            {
+                Header = BuildMenuRow(null, null, Loc("Str_Ctx_ManageGroups"), "Alt+Shift+O"),
+                Icon = "\uE8B7",
+                Padding = new Thickness(6, 6, 14, 6),
+                HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            };
+            manage.Click += (_, _) =>
+            {
+                var groups = SelectedOrSame(selected).Select(n => n.Notebook)
+                    .Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+                NoteCard.IsOpen = false;
+                OpenGroupManager(groups.Count == 1 && groups[0].Length > 0 ? groups[0] : null);   // GroupManager.cs
+            };
+            GroupMenu.Items.Add(manage);
         }
 
         // The snapshot from menu-open is normally right, but re-read the live selection

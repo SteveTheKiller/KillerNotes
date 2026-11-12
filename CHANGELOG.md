@@ -32,7 +32,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Added
 
-- A group manager window (Alt+Shift+O, the Organize button on the rail or on a group card) shows every group as a tree beside a sortable table of its notes, with one search over both. Right-clicking a group or a note there opens the same card as in the sidebar. Drag notes onto a group to file them or a group onto another to nest it; F2 renames, Delete removes and Ctrl+Z undoes, in either window.
+- A group manager window (Alt+Shift+O, the Organize button on the rail or on a group card) shows every group as a tree beside a sortable table of its notes, with one search over both. Right-clicking a group or a note there opens the same card as in the sidebar. The note card's Group list ends with Manage groups, which opens it on the note's group. Drag notes onto a group to file them or a group onto another to nest it; F2 renames, Delete removes and Ctrl+Z undoes, in either window.
 - Duplicate note (Alt+Shift+U) and Save as template (Alt+Shift+T), which creates a Templates group when the notepad has none.
 - New note in this group (Alt+Shift+H) and Collapse all groups (Alt+Shift+Z).
 - New note in group, on the menu beside the New note button, lists every group and starts a note in the one you pick.

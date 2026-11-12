@@ -527,6 +527,7 @@
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">タグ</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">タグの管理...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">グループの管理...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">クリックしてこのタグで絞り込み</sys:String>
     <sys:String x:Key="Str_Tags_Title">タグの管理</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">新しいタグの色を選択</sys:String>

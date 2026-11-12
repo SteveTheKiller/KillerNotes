@@ -720,6 +720,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Thẻ</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Quản lý thẻ...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Quản lý nhóm...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Nhấp để lọc theo thẻ này</sys:String>
     <sys:String x:Key="Str_Tags_Title">Quản lý thẻ</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Chọn màu cho thẻ mới</sys:String>

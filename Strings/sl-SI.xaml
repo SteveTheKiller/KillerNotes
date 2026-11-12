@@ -611,6 +611,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_TT_SwatchReplace">Kliknite, da temu vzorcu določite trenutno barvo</sys:String>
     <sys:String x:Key="Str_Ctx_Tags">Oznake</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Upravljaj oznake...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Upravljaj skupine...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Kliknite za filtriranje po tej oznaki</sys:String>
     <sys:String x:Key="Str_Tags_Title">Upravljaj oznake</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Izberite barvo nove oznake</sys:String>

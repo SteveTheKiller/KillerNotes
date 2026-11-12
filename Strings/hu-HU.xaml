@@ -680,6 +680,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Címkék</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Címkék kezelése...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Csoportok kezelése...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Kattintson a címke szerinti szűréshez</sys:String>
     <sys:String x:Key="Str_Tags_Title">Címkék kezelése</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Válasszon színt az új címkéhez</sys:String>

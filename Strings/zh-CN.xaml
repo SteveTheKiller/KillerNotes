@@ -527,6 +527,7 @@
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">标签</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">管理标签...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">管理分组...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">点击按此标签筛选</sys:String>
     <sys:String x:Key="Str_Tags_Title">管理标签</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">为新标签选择颜色</sys:String>

@@ -718,6 +718,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Marcadores</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Gerenciar marcadores...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Gerenciar grupos...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Clique para filtrar por este marcador</sys:String>
     <sys:String x:Key="Str_Tags_Title">Gerenciar marcadores</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Escolha uma cor para o novo marcador</sys:String>

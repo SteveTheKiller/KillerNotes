@@ -65,6 +65,21 @@ namespace KillerNotes.Tests
             Assert.Contains("BuildNewInGroupMenu", File.ReadAllText(Path.Combine(Root(), "Shell", "NewMenu.cs")));
         }
 
+        /// <summary>The note card's Group list ends with Manage groups, the way the Tags list ends
+        /// with Manage tags, and the row opens the group manager.</summary>
+        [Fact]
+        public void TheGroupListLinksToTheGroupManager()
+        {
+            string src = File.ReadAllText(Path.Combine(Root(), "Shell", "Groups.Menu.cs"));
+            int build = src.IndexOf("private void BuildGroupMenu", StringComparison.Ordinal);
+            int end = src.IndexOf("private List<Note> SelectedOrSame", StringComparison.Ordinal);
+            string body = src.Substring(build, end - build);
+            Assert.Contains("Str_Ctx_ManageGroups", body);
+            Assert.Contains("OpenGroupManager(", body);
+            foreach (string strings in Directory.GetFiles(Path.Combine(Root(), "Strings"), "*.xaml"))
+                Assert.Contains("x:Key=\"Str_Ctx_ManageGroups\"", File.ReadAllText(strings));
+        }
+
         [Fact]
         public void ImportHasOneHome()
         {

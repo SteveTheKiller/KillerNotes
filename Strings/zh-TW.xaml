@@ -529,6 +529,7 @@
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">標籤</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">管理標籤...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">管理群組...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">按一下以依此標籤篩選</sys:String>
     <sys:String x:Key="Str_Tags_Title">管理標籤</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">為新標籤選擇色彩</sys:String>

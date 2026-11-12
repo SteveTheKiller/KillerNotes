@@ -592,6 +592,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_TT_SwatchReplace">Kliknij, aby ustawić w tej próbce bieżący kolor</sys:String>
     <sys:String x:Key="Str_Ctx_Tags">Tagi</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Zarządzaj tagami...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Zarządzaj grupami...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Kliknij, aby filtrować według tego tagu</sys:String>
     <sys:String x:Key="Str_Tags_Title">Zarządzaj tagami</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Wybierz kolor dla nowego tagu</sys:String>

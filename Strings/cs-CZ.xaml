@@ -518,6 +518,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Štítky</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Spravovat štítky...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Spravovat skupiny...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Kliknutím filtrujete podle tohoto štítku</sys:String>
     <sys:String x:Key="Str_Tags_Title">Spravovat štítky</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Vyberte barvu pro nový štítek</sys:String>

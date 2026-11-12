@@ -682,6 +682,7 @@
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Метки</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Управление метками...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Управление группами...</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Нажмите, чтобы отфильтровать по этой метке</sys:String>
     <sys:String x:Key="Str_Tags_Title">Управление метками</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Выберите цвет для новой метки</sys:String>
