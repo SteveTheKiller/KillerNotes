@@ -51,6 +51,7 @@ using System.Windows.Shell;
 using System.Windows.Threading;
 using KillerNotes.Services;
 using KillerFamily.Accessibility;
+using KillerFamily.Controls;
 
 namespace KillerNotes.Controls
 {
@@ -231,8 +232,8 @@ namespace KillerNotes.Controls
 
             Content = BuildChrome(title);
             Build();
-            BuildNodeMenu();
-            // The menu's "Color by group" starts checked, but nothing had ever ACTED on that -
+            BuildMenus();
+            // "Color by group" starts on, but nothing had ever ACTED on that -
             // the nodes were built in the accent and stayed there, so the colors simply never
             // appeared (2026-08-23). The initial state has to be applied, not just declared.
             ApplyNodeColors();
@@ -281,27 +282,20 @@ namespace KillerNotes.Controls
             // one meant the graph never settled while the window was being resized.
             SizeChanged += (_, _) => { _resizeSettle.Stop(); _resizeSettle.Start(); };
             KeyDown += OnKey;
-            DialogShortcuts.Bind(this, _miColor, "Y", Key.Y, ModifierKeys.None, () => { _miColor.IsChecked = !_miColor.IsChecked; ApplyNodeColors(); });
-            DialogShortcuts.Bind(this, _miGhosts, "H", Key.H, ModifierKeys.None, () => { _miGhosts.IsChecked = !_miGhosts.IsChecked; ApplyGhostVisibility(); });
-            DialogShortcuts.Bind(this, _miArrange, "Alt+A", Key.A, ModifierKeys.Alt, () => OpenGraphChoices(_miArrange));
-            DialogShortcuts.Bind(this, _miShape, "Alt+S", Key.S, ModifierKeys.Alt, () => OpenGraphChoices(_miShape), () => _visualizer);
+            DialogShortcuts.Bind(this, _miColor, "Y", Key.Y, ModifierKeys.None, () => Flip(_miColor, ApplyNodeColors));
+            DialogShortcuts.Bind(this, _miGhosts, "H", Key.H, ModifierKeys.None, () => Flip(_miGhosts, ApplyGhostVisibility));
+            // The three Alt keys open the canvas card on the part they name: the Arrange strip,
+            // the Shape row, or the Forget list at the bottom.
+            DialogShortcuts.Bind(this, _miArrange, "Alt+A", Key.A, ModifierKeys.Alt,
+                () => OpenCanvasCard(card => FocusFirst<Button>(card, CardArrangeStrip)));
+            DialogShortcuts.Bind(this, _miShape, "Alt+S", Key.S, ModifierKeys.Alt,
+                () => OpenCanvasCard(card => FocusShape(card)), () => _visualizer);
             DialogShortcuts.Bind(this, _canvas, "S", Key.S, ModifierKeys.None, SaveArrangementPrompt, () => SameDb && !NoteStore.IsReadOnly);
-            DialogShortcuts.Bind(this, _canvas, "Alt+F", Key.F, ModifierKeys.Alt, () =>
+            DialogShortcuts.Bind(this, _canvas, "Alt+F", Key.F, ModifierKeys.Alt, () => OpenCanvasCard(card =>
             {
-                RefreshArrangeMenu();
-                OpenGraphChoices(_miArrange);
-                foreach (var item in _miArrange.Items)
-                    if (item is MenuItem row && Equals(row.Header, Str("Str_Ctx_GraphForget", "Forget arrangement"))) row.IsSubmenuOpen = true;
-            }, () => SameDb && !NoteStore.IsReadOnly && NoteStore.ListGraphLayouts().Count > 0);
-        }
-
-        private void OpenGraphChoices(MenuItem item)
-        {
-            _canvasMenu.PlacementTarget = _canvas;
-            _canvasMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
-            _canvasMenu.IsOpen = true;
-            item.IsSubmenuOpen = true;
-            item.Focus();
+                foreach (var row in card.Items.OfType<MenuItem>())
+                    if (Equals(row.Header, Str("Str_Ctx_GraphForget", "Forget arrangement"))) { row.Focus(); row.IsSubmenuOpen = true; }
+            }), () => SameDb && !NoteStore.IsReadOnly && NoteStore.ListGraphLayouts().Count > 0);
         }
 
         // ── Chrome ───────────────────────────────────────────────────────────────────────
@@ -1434,13 +1428,8 @@ namespace KillerNotes.Controls
         private void SetVisualizer(bool on)
         {
             _visualizer = on;
-            _miSpin?.IsChecked = on;
             // The picker only means anything while the cycle is running.
-            if (_miShape != null)
-            {
-                _miShape.Visibility = on ? Visibility.Visible : Visibility.Collapsed;
-                RefreshShapeMenu();
-            }
+            _miShape?.Visibility = on ? Visibility.Visible : Visibility.Collapsed;
             if (on)
             {
                 // FIT TO A CIRCLE FIRST. The ordinary fit fills the box, and a layout that fills a
@@ -1547,76 +1536,59 @@ namespace KillerNotes.Controls
             [.. Placeable().OrderBy(v => v.Group, StringComparer.OrdinalIgnoreCase)
                            .ThenBy(v => v.Title, StringComparer.OrdinalIgnoreCase)];
 
+        // The Shape row's keys. _miShape stands for the whole row: it is collapsed while the
+        // visualizer is off, and DialogShortcuts will not fire a collapsed control, so Alt+S is
+        // dead exactly when there is no row to go to. _shapeRows carry Alt+1 to Alt+6. Neither
+        // is ever shown; the canvas card draws the row itself (BuildCanvasCard).
         private MenuItem _miShape = null!;
         private readonly List<MenuItem> _shapeRows = [];
 
-        /// <summary>
-        /// The shape picker, which exists only while the visualizer runs - it is collapsed the rest
-        /// of the time rather than disabled, because outside the visualizer there is no cycle for
-        /// it to describe and a permanently grayed row is just clutter in a menu that is already
-        /// long. Three of the six reuse the Arrange menu's strings: they ARE those shapes, and two
-        /// names for one thing is how a menu starts lying.
-        /// </summary>
-        private void BuildShapeMenu()
+        /// <summary>The six shapes' full names, for the tooltips on the Shape row. Three of the six
+        /// reuse the Arrange names: they ARE those shapes, and two names for one thing is how a
+        /// menu starts lying.</summary>
+        private static string[] ShapeNames() =>
+        [
+            Str("Str_Ctx_GraphShapeFree", "As it falls"),
+            Str("Str_Ctx_GraphArrangeCircle", "In a circle"),
+            Str("Str_Ctx_GraphArrangeGrid", "In a grid"),
+            Str("Str_Ctx_GraphArrangeGroups", "By group"),
+            Str("Str_Ctx_GraphShapeSpiral", "Sunflower"),
+            Str("Str_Ctx_GraphShapeWave", "Wave"),
+        ];
+
+        /// <summary>The same six, as short as a segment needs. Circle, Grid and Groups are the
+        /// Arrange strip's captions, for the same reason the full names are shared.</summary>
+        private static string[] ShapeCaptions() =>
+        [
+            Str("Str_GraphCard_Free", "Free"),
+            Str("Str_GraphCard_Circle", "Circle"),
+            Str("Str_GraphCard_Grid", "Grid"),
+            Str("Str_GraphCard_Groups", "Groups"),
+            Str("Str_GraphCard_Spiral", "Spiral"),
+            Str("Str_GraphCard_Wave", "Wave"),
+        ];
+
+        private void BuildShapeKeys()
         {
-            _miShape = new MenuItem
-            {
-                Header = Str("Str_Ctx_GraphShape", "Shape"),
-                Icon = "\uE81E",
-                Visibility = Visibility.Collapsed,
-            };
-            string[] labels =
-            [
-                Str("Str_Ctx_GraphShapeFree", "As it falls"),
-                Str("Str_Ctx_GraphArrangeCircle", "In a circle"),
-                Str("Str_Ctx_GraphArrangeGrid", "In a grid"),
-                Str("Str_Ctx_GraphArrangeGroups", "By group"),
-                Str("Str_Ctx_GraphShapeSpiral", "Sunflower"),
-                Str("Str_Ctx_GraphShapeWave", "Wave"),
-            ];
+            _miShape = new MenuItem { Header = Str("Str_Ctx_GraphShape", "Shape"), Visibility = Visibility.Collapsed };
+            string[] names = ShapeNames();
             for (int i = 0; i < ShapeCount; i++)
             {
                 int shape = i;   // captured per row, not the loop variable's final value
-                var row = new MenuItem { Header = labels[i], IsCheckable = true };
-                // The four shapes the Arrange menu also offers carry its drawn miniatures.
-                row.Icon = shape switch
-                {
-                    0 => (object)IconArrangeForce(),
-                    1 => IconArrangeCircle(),
-                    2 => IconArrangeGrid(),
-                    3 => IconArrangeGroups(),
-                    4 => "\uE706",
-                    _ => "\uE9D2",
-                };
-                DialogShortcuts.Bind(this, row, "Alt+" + (shape + 1), Key.D1 + shape, ModifierKeys.Alt, () =>
-                {
-                    _shape = shape;
-                    _shapeAge = 0;
-                    ApplyShape(shape);
-                    RefreshShapeMenu();
-                }, () => _visualizer);
-                row.Click += (_, _) =>
-                {
-                    _shape = shape;
-                    _shapeAge = 0;   // picking one restarts its full turn on screen
-                    ApplyShape(shape);
-                    RefreshShapeMenu();
-                };
+                var row = new MenuItem { Header = names[i] };
+                DialogShortcuts.Bind(this, row, ShapeGesture(shape), Key.D1 + shape, ModifierKeys.Alt,
+                                     () => PickShape(shape), () => _visualizer);
                 _shapeRows.Add(row);
-                _miShape.Items.Add(row);
             }
-            _miShape.Items.Add(new Separator());
-            _miShape.Items.Add(MenuRow("\uE72A", Str("Str_Ctx_GraphShapeNext", "Next shape"), "N",
-                () => { NextShape(); RefreshShapeMenu(); }));
-            // Refreshed on open rather than kept in step from everywhere: the timer changes the
-            // shape on its own, so any state written at click time is stale within a minute.
-            _miShape.SubmenuOpened += (_, _) => RefreshShapeMenu();
         }
 
-        private void RefreshShapeMenu()
+        private static string ShapeGesture(int shape) => "Alt+" + (shape + 1);
+
+        private void PickShape(int shape)
         {
-            for (int i = 0; i < _shapeRows.Count; i++)
-                _shapeRows[i].IsChecked = i == _shape;
+            _shape = shape;
+            _shapeAge = 0;   // picking one restarts its full turn on screen
+            ApplyShape(shape);
         }
 
         /// <summary>Advances to the next shape. Called on the timer and by the N key.</summary>
@@ -2183,7 +2155,7 @@ namespace KillerNotes.Controls
             if (e.Key == Key.G) { ArrangeGrid(); e.Handled = true; return; }
             if (e.Key == Key.B) { ArrangeByGroup(); e.Handled = true; return; }
             if (e.Key == Key.T) { ArrangeOutward(); e.Handled = true; return; }
-            if (e.Key == Key.L) { _miLabels.IsChecked = !_miLabels.IsChecked; ApplyLabelVisibility(); e.Handled = true; return; }
+            if (e.Key == Key.L) { Flip(_miLabels, ApplyLabelVisibility); e.Handled = true; return; }
             if (e.Key == Key.P) { SetHold(!_hold); e.Handled = true; return; }
             if (e.Key == Key.V) { SetVisualizer(!_visualizer); e.Handled = true; return; }
             // Skips to the next shape. Only while the visualizer runs - outside it there is no
@@ -2199,12 +2171,11 @@ namespace KillerNotes.Controls
                 if (MenuTargets().Count > 0) { IsolateMenuNode(); e.Handled = true; }
                 return;
             }
-            // selections lock, matching the menu row: the useful direction is the one that makes
-            // the whole selection agree.
+            // selections lock, matching the card's chip: the useful direction is the one that
+            // makes the whole selection agree.
             if (e.Key == Key.K)
             {
-                var lockable = LockTargets();
-                if (lockable.Count > 0) { LockMenuTarget(!lockable.All(v => v.Locked)); e.Handled = true; }
+                if (LockTargets().Count > 0) { ToggleLock(); e.Handled = true; }
                 return;
             }
             var n = _menuNode ?? _drag;
@@ -2267,13 +2238,10 @@ namespace KillerNotes.Controls
         private void ShowNodeMenuFor(Node n)
         {
             _menuNode = n;
-            _miOpen.Header = n.Ghost ? Str("Str_Ctx_GraphCreate", "Create this note") : Str("Str_Ctx_GraphOpen", "Open note");
-            var targets = LockTargets();
-            _miLock.IsEnabled = targets.Count > 0;
-            _miLock.IsChecked = targets.Count > 0 && targets.All(v => v.Locked);
-            _menu.PlacementTarget = n.Dot;
-            _menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
-            _menu.IsOpen = true;
+            var card = BuildNodeCard(n);
+            card.PlacementTarget = n.Dot;
+            card.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            card.IsOpen = true;
         }
 
         private void OpenNode(Node n)
@@ -2283,119 +2251,48 @@ namespace KillerNotes.Controls
             Close();
         }
 
-        // ── Node context menu ────────────────────────────────────────────────────────────
+        // ── The cards ────────────────────────────────────────────────────────────────────
         //
-        // Built once and retargeted per node, rather than a menu per node: 500 notes would
-        // otherwise mean 500 live ContextMenu objects for a feature used one node at a time.
+        // Two right-click cards in the shape of the sidebar's note card (KillerNotes 1.7.0): one
+        // about the node under the pointer, one about the graph when the click lands on empty
+        // canvas. Each is BUILT WHEN IT OPENS rather than kept and retargeted. Its chips and
+        // segments show state at open time, and the keys and the visualizer's timer change that
+        // state while no card is up, so a card kept between opens would need every one of those
+        // paths to keep it in step. Only one card is ever open, so this costs a handful of
+        // elements per right-click, never one menu per node.
+        //
+        // Every control runs exactly what its key runs, and its tooltip names the key, so the
+        // card is also the list of what the keyboard can do.
 
-        private ContextMenu _menu = null!;
-        private MenuItem _miOpen = null!, _miCopy = null!, _miIsolate = null!, _miDistance = null!;
-        private MenuItem _miLock = null!;
+        // THE DISPLAY STATE, on rows that are never shown. The Y and H keys are bound to them
+        // (DialogShortcuts needs a control to describe and to gate on), Apply* read them, and the
+        // canvas card reads them when it opens, so the keys and the chips cannot disagree about
+        // what is on.
+        private MenuItem _miColor = null!, _miLabels = null!, _miGhosts = null!;
 
-        private void BuildNodeMenu()
+        // The saved arrangements, as the rows RefreshArrangeMenu builds. Alt+A is bound here. The
+        // canvas card builds its own copy of the same rows (ArrangementRows), since a MenuItem can
+        // only sit in one menu.
+        private MenuItem _miArrange = null!;
+
+        private const double NodeCardWidth = 360;
+        // Wider than the family's 360 for the Shape row: six segments that cannot wrap. At 360
+        // even the English names ran off the edge, and Russian, the longest, needs about 450.
+        private const double CanvasCardWidth = 470;
+
+        /// <summary>The canvas card's Arrange strip, by its automation name, which Alt+A focuses.</summary>
+        private static string CardArrangeStrip => Str("Str_Ctx_GraphArrange", "Arrange");
+
+        /// <summary>The canvas card's Shape row, by its automation name, which Alt+S focuses.</summary>
+        private static string CardShapeRow => Str("Str_Ctx_GraphShape", "Shape");
+
+        private void BuildMenus()
         {
-            _menu = new ContextMenu();
-            _miOpen = MenuRow("", Str("Str_Ctx_GraphOpen", "Open note"), "Enter", () => { if (_menuNode != null) OpenNode(_menuNode); });
-            _miCopy = MenuRow("", Str("Str_Ctx_GraphCopy", "Copy as [[link]]"), "Ctrl+C", CopyMenuNodeLink);
-            // LOCK, not "pin". The old pin row was an internal flag wearing a menu row - "may the
-            // layout move this node" - so it needed the reader to know there was a physics
-            // simulation with a per-node frozen bit before it meant anything, and unlock either
-            // rearranged the whole graph or appeared to do nothing until the next layout run
-            // (2026-08-23). A lock says what it does in one word, does it in every mode, and
-            // survives closing the window, so none of that applies to it.
-            _miLock = new MenuItem
-            {
-                Header = Str("Str_Ctx_GraphLock", "Lock in place"),
-                Icon = "\uE72E",
-                IsCheckable = true,
-                InputGestureText = "K",
-                ToolTip = Str("Str_Ctx_GraphLockTip",
-                              "Nothing moves a locked note - not an arrangement, not its neighbors."),
-            };
-            // Click fires AFTER WPF has flipped IsChecked, so the new value is the intent.
-            _miLock.Click += (_, _) => LockMenuTarget(_miLock.IsChecked);
-            _miIsolate = MenuRow("", Str("Str_Ctx_GraphIsolate", "Show only what links here"), "F", IsolateMenuNode);
-            // "Arrange by distance" belongs HERE, on the note, not in the canvas menu. It lays the
-            // graph out in rings by how many links each note is from ONE note - so it is
-            // meaningless without a note chosen, and in the canvas menu it had to be titled
-            // "Rings by distance from one note" just to explain which note it meant. With a note
-            // under the cursor the name is obvious and short (2026-08-23).
-            // ArrangeRow, not MenuRow: it takes a DRAWN icon, and this row is an arrange, so it
-            // gets the same hub-and-ring miniature the other arrange rows use. On MenuRow it had
-            // no icon at all and sat blank beside three rows that had one.
-            _miDistance = ArrangeRow(Str("Str_Ctx_GraphDistance", "Arrange by distance"), "T",
-                                     IconArrangeTree(), ArrangeOutward);
-            _menu.Items.Add(_miOpen);
-            _menu.Items.Add(_miCopy);
-            _menu.Items.Add(new Separator());
-            _menu.Items.Add(_miLock);
-            _menu.Items.Add(_miIsolate);
-            _menu.Items.Add(_miDistance);
-
-            // ── The canvas menu: display options, for a right-click on empty space ──────
-            // Right-clicking the background used to do nothing at all, which is a dead gesture on
-            // the largest target in the window (2026-08-23).
-            _canvasMenu = new ContextMenu();
-            // ARRANGE, with real alternatives. Force-directed answers "what is the shape of this",
-            // but it is bad at "read every title in order" - two questions, two layouts. Circle
-            // and grid are deterministic, so they are also the way to get a graph back to
-            // something legible after it has been dragged into a mess.
-            _miArrange = new MenuItem { Header = Str("Str_Ctx_GraphArrange", "Arrange"), Icon = "\uE8A9" };
-            _miArrange.Items.Add(ArrangeRow(Str("Str_Ctx_GraphArrangeForce", "By connection"), "R", IconArrangeForce(), ArrangeForce));
-            _miArrange.Items.Add(ArrangeRow(Str("Str_Ctx_GraphArrangeCircle", "In a circle"), "C", IconArrangeCircle(), ArrangeCircle));
-            _miArrange.Items.Add(ArrangeRow(Str("Str_Ctx_GraphArrangeGrid", "In a grid"), "G", IconArrangeGrid(), ArrangeGrid));
-            // No separator. Grouping these into "shapes" and "meanings" was a distinction only I
-            // could see; five rows do not need dividing (2026-08-23).
-            _miArrange.Items.Add(ArrangeRow(Str("Str_Ctx_GraphArrangeGroups", "By group"), "B", IconArrangeGroups(), ArrangeByGroup));
-            // Everything below the built-ins is rebuilt each time the submenu opens: arrangements
-            // can be saved and forgotten while this window is up, and a menu built once in the
-            // constructor would go stale the first time either happened.
-            _miArrange.SubmenuOpened += (_, _) => RefreshArrangeMenu();
-            _miColor = new MenuItem { Header = Str("Str_Ctx_GraphColor", "Color by group"), Icon = "\uE790", IsCheckable = true, IsChecked = true };
-            _miColor.Click += (_, _) => ApplyNodeColors();
-            _miLabels = new MenuItem { Header = Str("Str_Ctx_GraphLabels", "Show labels"), Icon = "\uE97E", IsCheckable = true, IsChecked = true, InputGestureText = "L" };
-            _miLabels.Click += (_, _) => ApplyLabelVisibility();
-            _miGhosts = new MenuItem { Header = Str("Str_Ctx_GraphGhosts", "Show notes not written yet"), Icon = "\uE7B3", IsCheckable = true, IsChecked = true };
-            _miGhosts.Click += (_, _) => ApplyGhostVisibility();
-            _miHold = new MenuItem
-            {
-                Header = Str("Str_Ctx_GraphHold", "Pin all Notes"),
-                Icon = "\uE718",
-                IsCheckable = true,
-                IsChecked = _hold,
-                InputGestureText = "P",
-                ToolTip = Str("Str_TT_GraphHold", "Keep every note where it is put. Off, dragging a note makes the notes it links to move out of the way."),
-            };
-            _miHold.Click += (_, _) => SetHold(_miHold.IsChecked);
-            _miSpin = new MenuItem
-            {
-                Header = Str("Str_Ctx_GraphSpin", "Visualizer"),
-                Icon = "\uE768",
-                IsCheckable = true,
-                IsChecked = false,
-                InputGestureText = "V",
-                ToolTip = Str("Str_TT_GraphSpin", "Let the graph drift and turn on its own. Pinning is suspended while it runs."),
-            };
-            _miSpin.Click += (_, _) => SetVisualizer(_miSpin.IsChecked);
-            _miShowAll = MenuRow("\uE9A6", Str("Str_Ctx_GraphShowAll", "Show everything"), "Esc",
-                () => { ClearIsolation(); ClearSelection(); });
-
-            BuildShapeMenu();
-            foreach (var item in _menu.Items.Cast<object>().Concat(_miArrange.Items.Cast<object>()))
-                if (item is MenuItem row && !string.IsNullOrEmpty(row.InputGestureText)) DialogShortcuts.Describe(row, row.InputGestureText);
-            DialogShortcuts.Describe(_miLabels, "L");
-            DialogShortcuts.Describe(_miHold, "P");
-            DialogShortcuts.Describe(_miSpin, "V");
-
-            _canvasMenu.Items.Add(_miArrange);
-            _canvasMenu.Items.Add(_miShowAll);
-            _canvasMenu.Items.Add(new Separator());
-            _canvasMenu.Items.Add(_miSpin);
-            _canvasMenu.Items.Add(_miShape);
-            _canvasMenu.Items.Add(_miHold);
-            _canvasMenu.Items.Add(_miColor);
-            _canvasMenu.Items.Add(_miLabels);
-            _canvasMenu.Items.Add(_miGhosts);
+            _miColor = new MenuItem { Header = Str("Str_Ctx_GraphColor", "Color by group"), IsCheckable = true, IsChecked = true };
+            _miLabels = new MenuItem { Header = Str("Str_Ctx_GraphLabels", "Show labels"), IsCheckable = true, IsChecked = true };
+            _miGhosts = new MenuItem { Header = Str("Str_Ctx_GraphGhosts", "Show notes not written yet"), IsCheckable = true, IsChecked = true };
+            _miArrange = new MenuItem { Header = CardArrangeStrip };
+            BuildShapeKeys();
 
             // OPENED BY HAND, and not through the ContextMenu property. Two reasons, both of which
             // cost a round trip on 2026-08-23:
@@ -2411,41 +2308,206 @@ namespace KillerNotes.Controls
             {
                 var p = e.GetPosition(_canvas);
                 _menuNode = NodeAt(p);
-                var menu = _menuNode == null ? _canvasMenu : _menu;
+                ContextMenu card;
                 if (_menuNode != null)
                 {
                     // RIGHT-CLICK SELECTS, the way it does in every list and canvas: a node that
                     // is not already part of the selection becomes the selection, and a node that
                     // IS part of it leaves the selection alone - so right-clicking one of several
                     // chosen nodes still acts on all of them. Without this the menu could act on
-                    // a node with no visible sign of which one (2026-08-23).
+                    // a node with no visible sign of which one (2026-08-23). Done BEFORE the card
+                    // is built, because the lock chip reads the selection.
                     if (!_selected.Contains(_menuNode))
                     {
                         ClearSelection();
                         SetSelected(_menuNode, true);
                     }
-                    _miOpen.Header = _menuNode.Ghost
-                        ? Str("Str_Ctx_GraphCreate", "Create this note")
-                        : Str("Str_Ctx_GraphOpen", "Open note");
-                    // Ticked only when EVERY node the row would act on is already locked, so on a
-                    // mixed selection the row reads unticked and one click locks the lot - which
-                    // is the useful direction. A ghost has no note to remember a lock against, so
-                    // the row is disabled rather than silently doing nothing that outlives the
-                    // window.
-                    var targets = LockTargets();
-                    _miLock.IsEnabled = targets.Count > 0;
-                    _miLock.IsChecked = targets.Count > 0 && targets.All(v => v.Locked);
+                    card = BuildNodeCard(_menuNode);
                 }
-                menu.PlacementTarget = _canvas;
-                menu.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
-                menu.IsOpen = true;
+                else card = BuildCanvasCard();
+                card.PlacementTarget = _canvas;
+                card.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
+                card.IsOpen = true;
                 e.Handled = true;
             };
         }
 
-        private ContextMenu _canvasMenu = null!;
-        private MenuItem _miArrange = null!, _miShowAll = null!;
-        private MenuItem _miColor = null!, _miLabels = null!, _miGhosts = null!, _miHold = null!, _miSpin = null!;
+        /// <summary>The node card: the note's title, a strip of Open (Create on a note not written
+        /// yet), Copy link, Links here and Distance, then Lock in place.</summary>
+        private ContextMenu BuildNodeCard(Node n)
+        {
+            var card = CardBuilder.Menu(NodeCardWidth);
+            card.Items.Add(CardBuilder.Header(n.Title, n.Ghost ? Str("Str_GraphCard_NotWritten", "Not written yet") : NodeMeta(n)));
+            card.Items.Add(CardBuilder.QuickStrip(Str("Str_Card_Actions", "Actions"),
+            [
+                n.Ghost
+                    ? new CardAction("\uE710", Str("Str_GraphCard_Create", "Create"), Str("Str_Ctx_GraphCreate", "Create this note"), "Enter", () => OpenNode(n))
+                    : new CardAction("\uE8E5", Str("Str_GraphCard_Open", "Open"), Str("Str_Ctx_GraphOpen", "Open note"), "Enter", () => OpenNode(n)),
+                new CardAction("\uE71B", Str("Str_GraphCard_CopyLink", "Copy link"), Str("Str_Ctx_GraphCopy", "Copy as [[link]]"), "Ctrl+C", CopyMenuNodeLink),
+                new CardAction("\uE71C", Str("Str_GraphCard_LinksHere", "Links here"), Str("Str_Ctx_GraphIsolate", "Show only what links here"), "F", IsolateMenuNode),
+                // "Arrange by distance" belongs HERE, on the note, not on the canvas card. It lays
+                // the graph out in rings by how many links each note is from ONE note - so it is
+                // meaningless without a note chosen, and on the canvas it had to be titled "Rings
+                // by distance from one note" just to explain which note it meant (2026-08-23).
+                new CardAction("\uE81D", Str("Str_GraphCard_Distance", "Distance"), Str("Str_Ctx_GraphDistance", "Arrange by distance"), "T", ArrangeOutward),
+            ]));
+
+            // LOCK, not "pin". The old pin row was an internal flag wearing a menu row - "may the
+            // layout move this node" - so it needed the reader to know there was a physics
+            // simulation with a per-node frozen bit before it meant anything, and unlock either
+            // rearranged the whole graph or appeared to do nothing until the next layout run
+            // (2026-08-23). A lock says what it does in one word, does it in every mode, and
+            // survives closing the window, so none of that applies to it.
+            //
+            // On only when EVERY node it would act on is already locked, so on a mixed selection
+            // the chip reads off and one click locks the lot - which is the useful direction, and
+            // what K does. A ghost has no note to remember a lock against, so the chip is
+            // disabled rather than silently doing nothing that outlives the window.
+            var targets = LockTargets();
+            card.Items.Add(CardBuilder.ToggleRow(Str("Str_GraphCard_Position", "Position"),
+            [
+                new CardChoice(Str("Str_Ctx_GraphLock", "Lock in place"),
+                               Str("Str_Ctx_GraphLockTip", "Nothing moves a locked note - not an arrangement, not its neighbors."),
+                               "K", targets.Count > 0 && targets.All(v => v.Locked), ToggleLock, targets.Count > 0),
+            ]));
+            return card;
+        }
+
+        /// <summary>The dim line under a node card's title: its group, then how many links it has.</summary>
+        private static string NodeMeta(Node n)
+        {
+            string links = n.Degree == 1
+                ? Str("Str_GraphCard_OneLink", "1 link")
+                : string.Format(CultureInfo.CurrentCulture, Str("Str_GraphCard_Links", "{0} links"), n.Degree);
+            return n.GroupLeaf.Length > 0 ? n.GroupLeaf + "  ·  " + links : links;
+        }
+
+        /// <summary>The canvas card: the window's title, the Arrange strip with Show all, what is
+        /// shown, what moves, the Shape row while the visualizer runs, and the saved arrangements
+        /// as a short list at the bottom.</summary>
+        private ContextMenu BuildCanvasCard()
+        {
+            var card = CardBuilder.Menu(CanvasCardWidth);
+            int shown = _nodes.Count(v => v.Dot.Visibility == Visibility.Visible);
+            card.Items.Add(CardBuilder.Header(Title, shown == 1
+                ? Str("Str_Card_OneNote", "1 note")
+                : string.Format(CultureInfo.CurrentCulture, Str("Str_Card_NotesCount", "{0} notes"), shown)));
+
+            // ARRANGE, with real alternatives. Force-directed answers "what is the shape of this",
+            // but it is bad at "read every title in order" - two questions, two layouts. Circle
+            // and grid are deterministic, so they are also the way to get a graph back to
+            // something legible after it has been dragged into a mess. Show all sits on the end
+            // because it is the other way back to a readable graph.
+            var strip = CardBuilder.QuickStrip(CardArrangeStrip,
+            [
+                new CardAction("\uF003", Str("Str_GraphCard_Connection", "Connection"), Str("Str_Ctx_GraphArrangeForce", "By connection"), "R", ArrangeForce),
+                new CardAction("\uEA3A", Str("Str_GraphCard_Circle", "Circle"), Str("Str_Ctx_GraphArrangeCircle", "In a circle"), "C", ArrangeCircle),
+                new CardAction("\uE80A", Str("Str_GraphCard_Grid", "Grid"), Str("Str_Ctx_GraphArrangeGrid", "In a grid"), "G", ArrangeGrid),
+                new CardAction("\uE902", Str("Str_GraphCard_Groups", "Groups"), Str("Str_Ctx_GraphArrangeGroups", "By group"), "B", ArrangeByGroup),
+                new CardAction("\uE9A6", Str("Str_GraphCard_ShowAll", "Show all"), Str("Str_Ctx_GraphShowAll", "Show everything"), "Esc",
+                               () => { ClearIsolation(); ClearSelection(); }),
+            ]);
+            System.Windows.Automation.AutomationProperties.SetAcceleratorKey(strip, "Alt+A");
+            card.Items.Add(strip);
+
+            card.Items.Add(CardBuilder.ToggleRow(Str("Str_GraphCard_Show", "Show"),
+            [
+                new CardChoice(Str("Str_GraphCard_Labels", "Labels"), Str("Str_Ctx_GraphLabels", "Show labels"), "L",
+                               _miLabels.IsChecked, () => Flip(_miLabels, ApplyLabelVisibility)),
+                new CardChoice(Str("Str_GraphCard_Unwritten", "Unwritten"), Str("Str_Ctx_GraphGhosts", "Show notes not written yet"), "H",
+                               _miGhosts.IsChecked, () => Flip(_miGhosts, ApplyGhostVisibility)),
+                new CardChoice(Str("Str_GraphCard_Colors", "Colors"), Str("Str_Ctx_GraphColor", "Color by group"), "Y",
+                               _miColor.IsChecked, () => Flip(_miColor, ApplyNodeColors)),
+            ]));
+            card.Items.Add(CardBuilder.ToggleRow(Str("Str_GraphCard_Motion", "Motion"),
+            [
+                new CardChoice(Str("Str_Ctx_GraphSpin", "Visualizer"), Str("Str_TT_GraphSpin", "Let the graph drift and turn on its own. Pinning is suspended while it runs."), "V",
+                               _visualizer, () => SetVisualizer(!_visualizer)),
+                new CardChoice(Str("Str_GraphCard_PinAll", "Pin all"), Str("Str_TT_GraphHold", "Keep every note where it is put. Off, dragging a note makes the notes it links to move out of the way."), "P",
+                               _hold, () => SetHold(!_hold)),
+            ]));
+
+            // The Shape row exists only while the visualizer runs. It is left out the rest of the
+            // time rather than disabled, because outside the visualizer there is no cycle for it
+            // to describe and a permanently grayed row is just clutter. The segment on is the
+            // shape on screen when the card opened; the timer moves on by itself, which is why
+            // the card is built at open time.
+            if (_visualizer)
+            {
+                string[] captions = ShapeCaptions(), names = ShapeNames();
+                var shapes = CardBuilder.SegmentRow(CardShapeRow, Enumerable.Range(0, ShapeCount).Select(i =>
+                    new CardChoice(captions[i], names[i], ShapeGesture(i), i == _shape, () => PickShape(i))));
+                System.Windows.Automation.AutomationProperties.SetAcceleratorKey(shapes, "Alt+S");
+                card.Items.Add(shapes);
+                card.Items.Add(new Separator());
+                card.Items.Add(CardRow(Str("Str_Ctx_GraphShapeNext", "Next shape"), "N", "\uE72A", NextShape));
+            }
+
+            var saved = ArrangementRows();
+            if (saved.Count > 0)
+            {
+                card.Items.Add(new Separator());
+                foreach (var row in saved) card.Items.Add(row);
+            }
+            return card;
+        }
+
+        private static void Flip(MenuItem state, Action apply)
+        {
+            state.IsChecked = !state.IsChecked;
+            apply();
+        }
+
+        /// <summary>Locks every lockable target, or unlocks them all when every one is already
+        /// locked. K and the node card's chip both come here.</summary>
+        private void ToggleLock()
+        {
+            var lockable = LockTargets();
+            if (lockable.Count > 0) LockMenuTarget(!lockable.All(v => v.Locked));
+        }
+
+        /// <summary>An ordinary row at the bottom of a card, its key shown on the row, in its
+        /// tooltip and to screen readers.</summary>
+        private static MenuItem CardRow(string header, string gesture, string? glyph, Action run)
+        {
+            var row = CardBuilder.Row(header, gesture, glyph, run);
+            DialogShortcuts.Describe(row, gesture);
+            return row;
+        }
+
+        /// <summary>Opens the canvas card from the keyboard and hands it to focus once it is up.
+        /// The focus has to wait: until the popup has opened and laid out, nothing on the card can
+        /// take focus.</summary>
+        private void OpenCanvasCard(Action<ContextMenu> focus)
+        {
+            var card = BuildCanvasCard();
+            card.PlacementTarget = _canvas;
+            card.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            card.Opened += (_, _) => Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() => focus(card)));
+            card.IsOpen = true;
+        }
+
+        /// <summary>Focuses the first control of type T on the card row with this automation name
+        /// that pick accepts.</summary>
+        private static void FocusFirst<T>(ContextMenu card, string row, Func<T, bool>? pick = null) where T : UIElement
+        {
+            var slot = card.Items.OfType<MenuItem>().FirstOrDefault(m => System.Windows.Automation.AutomationProperties.GetName(m) == row);
+            if (slot?.Header is not DependencyObject header) return;
+            LogicalDescendants(header).OfType<T>().FirstOrDefault(t => pick?.Invoke(t) ?? true)?.Focus();
+        }
+
+        private static void FocusShape(ContextMenu card) =>
+            FocusFirst<System.Windows.Controls.RadioButton>(card, CardShapeRow, r => r.IsChecked == true);
+
+        private static IEnumerable<DependencyObject> LogicalDescendants(DependencyObject root)
+        {
+            foreach (object child in LogicalTreeHelper.GetChildren(root))
+            {
+                if (child is not DependencyObject d) continue;
+                yield return d;
+                foreach (var below in LogicalDescendants(d)) yield return below;
+            }
+        }
 
         // ── Hold positions ───────────────────────────────────────────────────────────────
         //
@@ -2468,7 +2530,6 @@ namespace KillerNotes.Controls
         {
             _hold = on;
             App.SetSetting("GraphHoldPositions", on ? "1" : "0");
-            _miHold?.IsChecked = on;
             ApplyHold();
         }
 
@@ -2523,85 +2584,6 @@ namespace KillerNotes.Controls
                 v.Label.Visibility = on && _miLabels.IsChecked ? Visibility.Visible : Visibility.Collapsed;
             }
             Paint();   // the edge geometry drops any edge whose endpoints are not both visible
-        }
-
-        private static MenuItem ArrangeRow(string header, string gesture, UIElement icon, Action onClick)
-        {
-            var mi = new MenuItem { Header = header, InputGestureText = gesture, Icon = icon };
-            if (!string.IsNullOrEmpty(gesture)) DialogShortcuts.Describe(mi, gesture);
-            mi.Click += (_, _) => onClick();
-            return mi;
-        }
-
-        // ── Arrange icons, DRAWN ─────────────────────────────────────────────────────────
-        //
-        // Each one is a miniature of the layout it performs, which says more than any stock glyph
-        // would. Drawn rather than picked from Segoe MDL2 for the family reason: a glyph is only
-        // confirmed by rendering it, and these are shapes nobody has to guess at.
-        private static UIElement ArrangeIcon(IEnumerable<Point> dots, IEnumerable<(Point A, Point B)>? links = null)
-        {
-            var c = new Canvas { Width = 14, Height = 14 };
-            var ink = Res("TextBrush", Colors.White);
-            if (links != null)
-                foreach (var (a, b) in links)
-                    c.Children.Add(new Line
-                    {
-                        X1 = a.X, Y1 = a.Y, X2 = b.X, Y2 = b.Y,
-                        Stroke = ink, StrokeThickness = 1, Opacity = 0.65,
-                    });
-            foreach (var p in dots)
-            {
-                var d = new Ellipse { Width = 3.6, Height = 3.6, Fill = ink };
-                Canvas.SetLeft(d, p.X - 1.8);
-                Canvas.SetTop(d, p.Y - 1.8);
-                c.Children.Add(d);
-            }
-            return c;
-        }
-
-        /// <summary>Three nodes joined by edges - the shape a force layout makes.</summary>
-        private static UIElement IconArrangeForce()
-        {
-            var a = new Point(3, 4); var b = new Point(11, 2.5); var d = new Point(7, 11.5);
-            return ArrangeIcon([a, b, d], [(a, b), (a, d), (b, d)]);
-        }
-
-        /// <summary>Six nodes on a ring.</summary>
-        private static UIElement IconArrangeCircle()
-        {
-            var pts = new List<Point>();
-            for (int i = 0; i < 6; i++)
-            {
-                double ang = i / 6.0 * Math.PI * 2 - Math.PI / 2;
-                pts.Add(new Point(7 + Math.Cos(ang) * 4.8, 7 + Math.Sin(ang) * 4.8));
-            }
-            return ArrangeIcon(pts);
-        }
-
-        /// <summary>A hub with a ring around it - the arrange-by-distance shape.</summary>
-        private static UIElement IconArrangeTree()
-        {
-            var mid = new Point(7, 7);
-            var pts = new List<Point> { mid };
-            var links = new List<(Point, Point)>();
-            for (int i = 0; i < 5; i++)
-            {
-                double a = i / 5.0 * Math.PI * 2 - Math.PI / 2;
-                var p = new Point(7 + Math.Cos(a) * 5, 7 + Math.Sin(a) * 5);
-                pts.Add(p);
-                links.Add((mid, p));
-            }
-            return ArrangeIcon(pts, links);
-        }
-
-        /// <summary>Nine nodes in rows and columns.</summary>
-        private static UIElement IconArrangeGrid()
-        {
-            var pts = new List<Point>();
-            for (int r = 0; r < 3; r++)
-                for (int col = 0; col < 3; col++)
-                    pts.Add(new Point(3 + col * 4, 3 + r * 4));
-            return ArrangeIcon(pts);
         }
 
         /// <summary>The force layout, from scratch. Unpins everything first: an arrange that
@@ -2678,40 +2660,40 @@ namespace KillerNotes.Controls
             return true;
         }
 
-        /// <summary>How many rows at the top of the Arrange submenu are the built-in arrangements.
-        /// Everything past this index belongs to saved layouts and is rebuilt on every open.</summary>
-        private const int BuiltInArrangeRows = 4;
-
         private void RefreshArrangeMenu()
         {
-            while (_miArrange.Items.Count > BuiltInArrangeRows)
-                _miArrange.Items.RemoveAt(BuiltInArrangeRows);
+            _miArrange.Items.Clear();
+            foreach (var row in ArrangementRows()) _miArrange.Items.Add(row);
+        }
 
+        /// <summary>The short list at the bottom of the canvas card: each saved arrangement, then
+        /// Save this arrangement and the Forget list. Built fresh on every call, because
+        /// arrangements can be saved and forgotten while this window is up and a list built once
+        /// would go stale the first time either happened.</summary>
+        private List<object> ArrangementRows()
+        {
+            var rows = new List<object>();
             // A window left open across a notebook switch offers no layouts at all rather than
             // ones belonging to a file whose note ids have nothing to do with what is on screen.
-            if (!SameDb) return;
+            if (!SameDb) return rows;
 
             var saved = NoteStore.ListGraphLayouts();
-            if (saved.Count > 0)
+            foreach (string name in saved)
             {
-                _miArrange.Items.Add(new Separator());
-                foreach (string name in saved)
-                {
-                    // Captured per iteration on purpose: the handler outlives this loop.
-                    string pick = name;
-                    var row = new MenuItem { Header = pick };
-                    DialogShortcuts.Describe(row, "Alt+A, ↑/↓, Enter");
-                    // Saved coordinates are canvas pixels from whatever size the window was then, so
-                    // they are fitted to the room there is now.
-                    row.Click += (_, _) => { if (ApplyLayout(pick)) FitAllIntoView(); };
-                    _miArrange.Items.Add(row);
-                }
+                // Captured per iteration on purpose: the handler outlives this loop.
+                string pick = name;
+                var row = new MenuItem { Header = pick };
+                DialogShortcuts.Describe(row, "Alt+A, ↑/↓, Enter");
+                // Saved coordinates are canvas pixels from whatever size the window was then, so
+                // they are fitted to the room there is now.
+                row.Click += (_, _) => { if (ApplyLayout(pick)) FitAllIntoView(); };
+                rows.Add(row);
             }
-            _miArrange.Items.Add(new Separator());
+            if (saved.Count > 0) rows.Add(new Separator());
             var save = new MenuItem { Header = Str("Str_Ctx_GraphSaveArrange", "Save this arrangement..."), Icon = "\uE74E" };
             DialogShortcuts.Describe(save, "S");
             save.Click += (_, _) => SaveArrangementPrompt();
-            _miArrange.Items.Add(save);
+            rows.Add(save);
 
             if (saved.Count > 0)
             {
@@ -2725,8 +2707,9 @@ namespace KillerNotes.Controls
                     row.Click += (_, _) => ForgetArrangement(drop);
                     forget.Items.Add(row);
                 }
-                _miArrange.Items.Add(forget);
+                rows.Add(forget);
             }
+            return rows;
         }
 
         private void SaveArrangementPrompt()
@@ -2915,20 +2898,6 @@ namespace KillerNotes.Controls
             EaseTo(placed, (i, _) => points[i]);
         }
 
-        /// <summary>Three clusters - the by-group shape.</summary>
-        private static UIElement IconArrangeGroups()
-        {
-            var pts = new List<Point>();
-            foreach (var c in new[] { new Point(4, 4), new Point(10.5, 4.5), new Point(6.5, 10.5) })
-            {
-                pts.Add(new Point(c.X - 1.4, c.Y - 1.2));
-                pts.Add(new Point(c.X + 1.4, c.Y - 1.2));
-                pts.Add(new Point(c.X, c.Y + 1.5));
-            }
-            return ArrangeIcon(pts);
-        }
-
-
         /// <summary>Sends an explicit arrangement through the same ease the solver uses, and pins
         /// everything: a deliberate arrangement is not a starting guess for the physics to undo.
         /// </summary>
@@ -2979,15 +2948,6 @@ namespace KillerNotes.Controls
 
         private static string Str(string key, string fallback) =>
             Application.Current?.TryFindResource(key) as string ?? fallback;
-
-        private static MenuItem MenuRow(string glyph, string header, string gesture, Action onClick, string? tip = null)
-        {
-            var mi = new MenuItem { Header = header, Icon = glyph, InputGestureText = gesture };
-            if (tip != null) mi.ToolTip = tip;
-            if (!string.IsNullOrEmpty(gesture)) DialogShortcuts.Describe(mi, gesture);
-            mi.Click += (_, _) => onClick();
-            return mi;
-        }
 
         /// <summary>Copies every selected title as wikilinks, one per line - so a rubber band
         /// round a cluster becomes a block of links ready to paste into an index note, which is
