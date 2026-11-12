@@ -11,6 +11,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Fixed
 
 - Compact sidebar density shows the date line on a note with no tags, so it no longer looks the same as Minimal.
+- Menu rows show their icons again. On PCs where Windows did not fill the glyph in from another font, the icon column was empty in most menus, including the sort menu, the note card and the editor's right-click menu.
 
 ### Changed
 
