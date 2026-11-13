@@ -82,7 +82,9 @@ namespace KillerNotes.Controls
         private string _sortKey = "title";
         private bool _sortAscending = true;
         private bool _closeFaded;
-        private Point? _dragStart;
+        // The pressed row or group, disarmed by any release in the window (DragGate.cs): a fast
+        // click must not leave a press armed for the next click's pointer move to drag.
+        private readonly DragGate<DependencyObject> _drag = new();
         private string? _selectPath;   // the group to select after a reload (null = keep the current one)
 
         internal GroupManagerWindow(IGroupManagerHost host)
@@ -98,6 +100,7 @@ namespace KillerNotes.Controls
             Loaded += (_, _) => { Anim.FadeIn(RootBorder); SearchBox.Focus(); };
             DialogShortcuts.Bind(this, NewGroupBtn, "Ctrl+G", Key.G, ModifierKeys.Control, NewGroup);
             PreviewKeyDown += Window_PreviewKeyDown;
+            AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler((_, _) => _drag.Release()), handledEventsToo: true);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -398,35 +401,27 @@ namespace KillerNotes.Controls
         // ---- Drag and drop ----
 
         private void Table_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) =>
-            _dragStart = ItemUnder<ListBoxItem>(e.OriginalSource) != null ? e.GetPosition(this) : null;
+            _drag.Press(ItemUnder<ListBoxItem>(e.OriginalSource), e.GetPosition(this));
 
         private void Table_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (!PastThreshold(e) || _host.ReadOnly) return;
+            if (_host.ReadOnly || _drag.TryTake(e.GetPosition(this), e.LeftButton == MouseButtonState.Pressed) is not ListBoxItem) return;
             var ids = Table.SelectedItems.OfType<NoteRowItem>().Select(r => r.Id).ToList();
-            _dragStart = null;
             if (ids.Count == 0) return;
             DragDrop.DoDragDrop(Table, new DataObject(NotesFormat, ids), DragDropEffects.Move);
         }
 
         private void Tree_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) =>
-            _dragStart = ItemUnder<TreeViewItem>(e.OriginalSource)?.DataContext is GroupNode { Kind: GroupNode.NodeKind.Group }
-                ? e.GetPosition(this) : null;
+            _drag.Press(ItemUnder<TreeViewItem>(e.OriginalSource) is { DataContext: GroupNode { Kind: GroupNode.NodeKind.Group } } row ? row : null,
+                e.GetPosition(this));
 
+        // Drags the group that was PRESSED, not whatever row the pointer has reached by the time
+        // it passes the threshold.
         private void Tree_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (!PastThreshold(e) || _host.ReadOnly) return;
-            _dragStart = null;
-            if (ItemUnder<TreeViewItem>(e.OriginalSource)?.DataContext is not GroupNode { Kind: GroupNode.NodeKind.Group } node) return;
+            if (_host.ReadOnly || _drag.TryTake(e.GetPosition(this), e.LeftButton == MouseButtonState.Pressed)
+                    is not TreeViewItem { DataContext: GroupNode { Kind: GroupNode.NodeKind.Group } node }) return;
             DragDrop.DoDragDrop(Tree, new DataObject(GroupFormat, node.Path), DragDropEffects.Move);
-        }
-
-        private bool PastThreshold(MouseEventArgs e)
-        {
-            if (_dragStart is not Point start || e.LeftButton != MouseButtonState.Pressed) return false;
-            var d = e.GetPosition(this) - start;
-            return Math.Abs(d.X) >= SystemParameters.MinimumHorizontalDragDistance
-                || Math.Abs(d.Y) >= SystemParameters.MinimumVerticalDragDistance;
         }
 
         private void Tree_DragOver(object sender, DragEventArgs e)

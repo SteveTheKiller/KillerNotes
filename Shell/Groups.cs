@@ -39,8 +39,7 @@ namespace KillerNotes.Shell
 
         // Group-header drag (1.1.0): press records the candidate; a move past the threshold
         // starts the drag (TryStartGroupDrag); a plain press+release toggles collapse instead.
-        private GroupHeader? _groupDragCandidate;
-        private Point _groupDragStart;
+        private readonly KillerNotes.Controls.DragGate<GroupHeader> _groupDrag = new();
 
         /// <summary>Set by HandleNoteDrop so Sharing.cs skips the "drag ready" flash
         /// when the drag ended as an in-list reorder rather than an external drop.</summary>

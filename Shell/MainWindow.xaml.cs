@@ -30,6 +30,7 @@ namespace KillerNotes.Shell
         public MainWindow()
         {
             InitializeComponent();
+            WireDragRelease();   // Sharing.cs: a release disarms the sidebar drags
             Deactivated += (_, _) => SetSidebarReplaceOpen(false);
             Loaded += (_, _) => SystemParameters.StaticPropertyChanged += OnSystemContrastChanged;
             Unloaded += (_, _) => SystemParameters.StaticPropertyChanged -= OnSystemContrastChanged;

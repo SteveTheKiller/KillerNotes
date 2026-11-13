@@ -261,15 +261,23 @@ namespace KillerNotes.Shell
         // prompt for a password mid-drag); use right-click > Share note... for a protected
         // copy.
 
-        private Point _noteDragStart;
-        private Note? _noteDragCandidate;
+        private readonly KillerNotes.Controls.DragGate<Note> _noteDrag = new();
 
         private void NotesList_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            _groupDragCandidate = null;   // cleared each press; GroupHeader_Press re-arms it for a header
-            _noteDragStart = e.GetPosition(null);
-            _noteDragCandidate = NoteUnderMouse(e.OriginalSource);
+            _groupDrag.Release();   // cleared each press; GroupHeader_Press re-arms it for a header
+            _noteDrag.Press(NoteUnderMouse(e.OriginalSource), e.GetPosition(null));
         }
+
+        /// <summary>Disarms both sidebar drags on every left release in the window, after the
+        /// header's own release handler has had its look (handledEventsToo, bubbling). Without it
+        /// a fast click left its press armed, and the next click's pointer move started a drag of
+        /// the previous note that Windows held until another click dropped it (DragGate.cs).
+        /// Called once from the constructor.</summary>
+        private void WireDragRelease() =>
+            AddHandler(UIElement.MouseLeftButtonUpEvent,
+                new System.Windows.Input.MouseButtonEventHandler((_, _) => { _noteDrag.Release(); _groupDrag.Release(); }),
+                handledEventsToo: true);
 
         private static Note? NoteUnderMouse(object source)
         {
@@ -284,15 +292,7 @@ namespace KillerNotes.Shell
         private void NotesList_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (TryStartGroupDrag(e)) return;   // Groups.cs: dragging a header reorders / re-nests the group
-            if (_noteDragCandidate == null ||
-                e.LeftButton != System.Windows.Input.MouseButtonState.Pressed) return;
-
-            var pos = e.GetPosition(null);
-            if (Math.Abs(pos.X - _noteDragStart.X) < SystemParameters.MinimumHorizontalDragDistance &&
-                Math.Abs(pos.Y - _noteDragStart.Y) < SystemParameters.MinimumVerticalDragDistance) return;
-
-            var note = _noteDragCandidate;
-            _noteDragCandidate = null;
+            if (_noteDrag.TryTake(e.GetPosition(null), e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) is not Note note) return;
             try
             {
                 if (!SaveCurrentNote(refreshList: false)) return;

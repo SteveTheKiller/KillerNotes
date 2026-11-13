@@ -22,8 +22,7 @@ namespace KillerNotes.Shell
         private void GroupHeader_Press(object sender, MouseButtonEventArgs e)
         {
             if ((sender as FrameworkElement)?.DataContext is not GroupHeader h) return;
-            _groupDragCandidate = h;
-            _groupDragStart = e.GetPosition(null);
+            _groupDrag.Press(h, e.GetPosition(null));
             e.Handled = true;   // headers are not selectable rows
         }
 
@@ -33,8 +32,8 @@ namespace KillerNotes.Shell
         {
             if ((sender as FrameworkElement)?.DataContext is not GroupHeader h) return;
             e.Handled = true;
-            if (!ReferenceEquals(_groupDragCandidate, h)) return;   // a drag ran instead of a click
-            _groupDragCandidate = null;
+            if (!ReferenceEquals(_groupDrag.Pending, h)) return;   // a drag ran instead of a click
+            _groupDrag.Release();
             NoteStore.SetGroupCollapsed(h.Path, !h.Collapsed);
             RefreshList(preserveScroll: true);   // keep the sidebar from jumping on collapse/expand
         }
@@ -44,16 +43,13 @@ namespace KillerNotes.Shell
         // NotesList_PreviewMouseMove (Sharing.cs).
         private bool TryStartGroupDrag(MouseEventArgs e)
         {
-            if (_groupDragCandidate == null || e.LeftButton != MouseButtonState.Pressed) return false;
-            var p = e.GetPosition(null);
             // Nudge resistance: a group header only starts moving on a deliberate drag, not a
             // stray twitch while clicking to collapse - 2.5x the system drag threshold. Below
             // that the press stays a click and just toggles collapse. (2026-07-22)
             const double NudgeFactor = 2.5;
-            if (Math.Abs(p.X - _groupDragStart.X) < SystemParameters.MinimumHorizontalDragDistance * NudgeFactor &&
-                Math.Abs(p.Y - _groupDragStart.Y) < SystemParameters.MinimumVerticalDragDistance * NudgeFactor) return false;
-            string path = _groupDragCandidate.Path;
-            _groupDragCandidate = null;   // consumed: the release must not toggle collapse
+            // Taking it disarms the gate: the release must not toggle collapse.
+            if (_groupDrag.TryTake(e.GetPosition(null), e.LeftButton == MouseButtonState.Pressed, NudgeFactor) is not GroupHeader g) return false;
+            string path = g.Path;
             try { DragDrop.DoDragDrop(NotesList, new DataObject(GroupPathFormat, path), DragDropEffects.Move); }
             catch { /* a failed drag leaves the tree untouched */ }
             finally { ClearInsertionLine(); }
