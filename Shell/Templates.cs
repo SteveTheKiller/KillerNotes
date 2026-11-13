@@ -239,49 +239,14 @@ namespace KillerNotes.Shell
                 return -1;
             }
             if (!SaveCurrentNote(refreshList: false)) return -1;
-            var tpl = NoteStore.List().FirstOrDefault(n => n.Id == templateId);
-            if (tpl == null) return -1;
-
-            var now = DateTime.Now;
-            string newTitle = title ?? (expand ? TemplateText.Expand(tpl.Title, now) : tpl.Title);
-            long id = NoteStore.Create(newTitle, tpl.Format);
+            long id;
+            try { id = NoteStore.CreateFromTemplate(templateId, title, group, expand); }
+            catch (Exception ex) when (ex is not OutOfMemoryException)
+            {
+                FlashStatus(string.Format(Loc("Str_St_SaveFailed"), ex.Message));
+                return -1;
+            }
             if (id < 0) return -1;
-
-            byte[]? blob = NoteStore.LoadContent(templateId);
-            byte[] content;
-            string plain;
-            if (tpl.IsMarkdown)
-            {
-                plain = MarkdownBlob.Decode(blob);
-                if (expand) plain = TemplateText.Expand(plain, now);
-                content = MarkdownBlob.Encode(plain);
-            }
-            else
-            {
-                var doc = new FlowDocument();
-                if (blob != null)
-                {
-                    using var ms = new MemoryStream(blob);
-                    try { new TextRange(doc.ContentStart, doc.ContentEnd).Load(ms, DataFormats.XamlPackage); }
-                    catch { doc.Blocks.Clear(); }   // an unreadable template still yields an empty note
-                }
-                if (expand) TemplateText.ExpandDocument(doc, now);
-                var range = new TextRange(doc.ContentStart, doc.ContentEnd);
-                using var outMs = new MemoryStream();
-                range.Save(outMs, DataFormats.XamlPackage);
-                content = outMs.ToArray();
-                plain = range.Text;
-            }
-            NoteStore.Save(id, newTitle, content, plain);
-            NoteStore.SetLinks(id, WikiLinks.Parse(plain));   // a template's [[links]] are links in the copy too
-            if (tpl.Tags.Length > 0) NoteStore.SetNoteTags(id, tpl.Tags);
-            if (tpl.TitleColor.Length > 0) NoteStore.SetTitleColor(id, tpl.TitleColor);
-            if (tpl.SyntaxHighlight) NoteStore.SetSyntaxHighlight(id, true);
-            if (tpl.SpellCheck) NoteStore.SetSpellCheck(id, true);
-            var sketches = NoteStore.LoadSketches(templateId);
-            if (sketches.Count > 0) NoteStore.SaveSketches(id, sketches);
-            NoteStore.CopyRecordings(templateId, id);
-            if (group != null) NoteStore.SetNoteGroup(id, group);
 
             if (open)
             {

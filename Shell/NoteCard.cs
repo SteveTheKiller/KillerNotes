@@ -208,14 +208,10 @@ namespace KillerNotes.Shell
             if (SingleCardNote() is not Note n || RefuseReadOnly()) return;
             string? group = TemplatesGroupPath();   // Templates.cs
             bool madeGroup = group == null;
-            if (group == null)
-            {
-                group = Loc("Str_Card_TemplatesGroupName");
-                NoteStore.AddGroup(group);
-                SetDbScopedSetting(TemplatesGroupSetting, group);
-            }
+            if (group == null) group = Loc("Str_Card_TemplatesGroupName");
             long id = CreateFromTemplate(n.Id, n.Title, group, open: false, expand: false);
             if (id < 0) return;
+            if (madeGroup) SetDbScopedSetting(TemplatesGroupSetting, group);
             RefreshList(preserveScroll: true);
             FlashStatus(string.Format(Loc("Str_St_SavedAsTemplate"), group.Replace(NoteStore.GroupSep, " / ")));
             PushUndo(() =>

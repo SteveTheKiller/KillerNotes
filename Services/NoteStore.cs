@@ -18,9 +18,10 @@ namespace KillerNotes.Services
     //   - Optional password: SQLCipher (AES-256) encrypts the whole file at rest.
     //     With no password set the file is plain SQLite. Setting/removing a password
     //     rewrites the database through sqlcipher_export.
-    public static class NoteStore
+    public static partial class NoteStore
     {
         private static SqliteConnection? _db;
+        private static long _lastIssuedNoteId;
         private static string? _password;   // key of the currently open db (null = plaintext)
 
         /// <summary>The stock data folder; DbDir prefers the "DataFolder" setting (#6).</summary>
@@ -252,6 +253,7 @@ namespace KillerNotes.Services
                 try
                 {
                     EnsureSchema();
+                    _lastIssuedNoteId = ReadMaximumNoteId();
                     PurgeTrash(TrashRetention.Days);
                     // A repair, never a reason the library cannot open.
                     try { IndexUnlinkedNotes(); } catch (Exception ex) when (ex is not OutOfMemoryException) { }
@@ -280,6 +282,7 @@ namespace KillerNotes.Services
         {
             _db?.Dispose();
             _db = null;
+            _lastIssuedNoteId = 0;
             DatabaseId = null;
             _titleIndex = null;   // belongs to the connection that just closed
             _password = null;
@@ -875,9 +878,10 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             using var cmd = _db.CreateCommand();
             // sort_order = max+1: a new note lands at the BOTTOM of a custom arrangement
             // rather than jumping to the top with the column's 0 default (#4).
-            cmd.CommandText = "INSERT INTO notes(title, created, modified, plain, sort_order, format) " +
-                              "VALUES ($t, $now, $now, '', (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes), $f); " +
+            cmd.CommandText = "INSERT INTO notes(id, title, created, modified, plain, sort_order, format) " +
+                              "VALUES ($id, $t, $now, $now, '', (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes), $f); " +
                               "SELECT last_insert_rowid()";
+            cmd.Parameters.AddWithValue("$id", AllocateNoteId());
             cmd.Parameters.AddWithValue("$t", title);
             cmd.Parameters.AddWithValue("$now", Ts(DateTime.Now));
             cmd.Parameters.AddWithValue("$f", format);
@@ -890,9 +894,10 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         {
             if (_db == null || IsReadOnly) return -1;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "INSERT INTO notes(title, created, modified, content, plain, sort_order) " +
-                              "VALUES ($t, $now, $now, $c, $p, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes)); " +
+            cmd.CommandText = "INSERT INTO notes(id, title, created, modified, content, plain, sort_order) " +
+                              "VALUES ($id, $t, $now, $now, $c, $p, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes)); " +
                               "SELECT last_insert_rowid()";
+            cmd.Parameters.AddWithValue("$id", AllocateNoteId());
             cmd.Parameters.AddWithValue("$t", title);
             cmd.Parameters.AddWithValue("$now", Ts(DateTime.Now));
             cmd.Parameters.AddWithValue("$c", content);
@@ -1511,6 +1516,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             cmd.Parameters.AddWithValue("$scp", n.ScrollPos);
             cmd.Parameters.AddWithValue("$sy", n.SyntaxHighlight ? 1 : 0);
             cmd.ExecuteNonQuery();
+            _lastIssuedNoteId = Math.Max(_lastIssuedNoteId, n.Id);
             if (n.CaretPos != 0 || n.ScrollPos != 0) SetNotePosition(n.Id, n.CaretPos, n.ScrollPos);
         }
 
@@ -2386,6 +2392,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             if (string.IsNullOrEmpty(newPassword)) newPassword = null;
 
             string? oldPassword = _password;   // Close() clears it; kept for rollback
+            long reservedNoteId = _lastIssuedNoteId;   // organizational undo survives a password change
             DatabaseIdBeforeRekey = DatabaseId;
             string tmp = DbPath + ".rekey";
             if (File.Exists(tmp)) File.Delete(tmp);
@@ -2442,6 +2449,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     RestoreReplacementDestination(DbPath, bak, deleteRestorationCopy);
                     using var existing = new FileStream(DbPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     Open(oldPassword);
+                    _lastIssuedNoteId = Math.Max(_lastIssuedNoteId, reservedNoteId);
                 }
                 catch (Exception recoveryError)
                 {
@@ -2454,6 +2462,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             }
             string? oldId = DatabaseIdBeforeRekey;
             Open(newPassword);
+            _lastIssuedNoteId = Math.Max(_lastIssuedNoteId, reservedNoteId);
             if (oldId != null && DatabaseId != null) Rekeyed?.Invoke(oldId, DatabaseId);
             File.Delete(bak);   // only once the rewritten db opened cleanly
         }
@@ -2671,10 +2680,11 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
             foreach (var note in notes)
             {
                 using (var insert = Command(
-                    "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, format, pinned, sort_order) " +
-                    "VALUES ($t, $g, $tags, $c, $m, $content, $plain, $color, $f, $pin, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes)); " +
+                    "INSERT INTO notes(id, title, notebook, tags, created, modified, content, plain, title_color, format, pinned, sort_order) " +
+                    "VALUES ($id, $t, $g, $tags, $c, $m, $content, $plain, $color, $f, $pin, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes)); " +
                     "SELECT last_insert_rowid()"))
                 {
+                    insert.Parameters.AddWithValue("$id", AllocateNoteId(tx));
                     insert.Parameters.AddWithValue("$t", note.Title);
                     insert.Parameters.AddWithValue("$g", note.Group);
                     insert.Parameters.AddWithValue("$tags", string.Join(", ", note.Tags));
@@ -2946,10 +2956,12 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 {
                     using var ins = _db!.CreateCommand();
                     ins.Transaction = tx;
+                    EnsureGroupPath(r.GetString(1), tx);
                     // sort_order appends (see Create) so imports keep a custom arrangement intact.
                     ins.CommandText =
-                        "INSERT INTO notes(title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format, syntax, sort_order) " +
-                        "VALUES ($t, $n, $g, $c, $m, $b, $p, $tc, $sc, $fmt, $sy, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes))";
+                        "INSERT INTO notes(id, title, notebook, tags, created, modified, content, plain, title_color, spellcheck, format, syntax, sort_order) " +
+                        "VALUES ($id, $t, $n, $g, $c, $m, $b, $p, $tc, $sc, $fmt, $sy, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM notes))";
+                    ins.Parameters.AddWithValue("$id", AllocateNoteId(tx));
                     ins.Parameters.AddWithValue("$t", r.GetString(0));
                     ins.Parameters.AddWithValue("$n", r.GetString(1));
                     ins.Parameters.AddWithValue("$g", r.GetString(2));
@@ -2963,7 +2975,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     ins.Parameters.AddWithValue("$sy", r.IsDBNull(10) ? 0 : r.GetInt64(10));
                     ins.ExecuteNonQuery();
                     long newId = LastInsertedId(_db!);
-                    CopyNoteAttachments(src, _db!, r.GetInt64(11), newId, hasSketches, hasRecordings);
+                    CopyNoteAttachments(src, _db!, r.GetInt64(11), newId, hasSketches, hasRecordings, tx);
                     var markers = Attachments.MarkersIn(r.GetValue(5) as byte[]);
                     if (hasPayloads) CopyPayloads(src, _db!, tx, markers);
                     // Index its wikilinks now, as a save would: without this an imported note
@@ -3174,7 +3186,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         }
 
         private static void CopyNoteAttachments(SqliteConnection source, SqliteConnection target,
-            long sourceId, long targetId, bool sketches, bool recordings)
+            long sourceId, long targetId, bool sketches, bool recordings, SqliteTransaction? targetTx = null)
         {
             if (sketches) Copy(false);
             if (recordings) Copy(true);
@@ -3190,6 +3202,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 while (rows.Read())
                 {
                     using var insert = target.CreateCommand();
+                    insert.Transaction = targetTx;
                     insert.CommandText = hasDuration
                         ? "INSERT INTO recordings(note_id, ord, payload, duration) VALUES ($id, $ord, $payload, $duration)"
                         : "INSERT INTO sketches(note_id, ord, payload) VALUES ($id, $ord, $payload)";
@@ -3203,6 +3216,42 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
         }
 
         // ---- Helpers ----
+
+        private static void EnsureGroupPath(string path, SqliteTransaction transaction)
+        {
+            if (path.Length == 0) return;
+            string parent = "";
+            foreach (string leaf in path.Split(new[] { GroupSep }, StringSplitOptions.None))
+            {
+                string full = GroupPath(parent, leaf);
+                using var cmd = _db!.CreateCommand();
+                cmd.Transaction = transaction;
+                cmd.CommandText = "INSERT OR IGNORE INTO groups(name, parent, sort_order) " +
+                                  "VALUES ($n, $p, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM groups))";
+                cmd.Parameters.AddWithValue("$n", full);
+                cmd.Parameters.AddWithValue("$p", parent);
+                cmd.ExecuteNonQuery();
+                parent = full;
+            }
+        }
+
+        // Undo holds note ids until the database closes. SQLite's automatic rowid allocation
+        // can reuse a permanently deleted highest id, so reserve ids for the whole session.
+        // Reading the current maximum also accounts for RestoreRow's explicit original ids.
+        private static long AllocateNoteId(SqliteTransaction? transaction = null)
+        {
+            long maximum = Math.Max(_lastIssuedNoteId, ReadMaximumNoteId(transaction));
+            _lastIssuedNoteId = checked(maximum + 1);
+            return _lastIssuedNoteId;
+        }
+
+        private static long ReadMaximumNoteId(SqliteTransaction? transaction = null)
+        {
+            using var cmd = _db!.CreateCommand();
+            cmd.Transaction = transaction;
+            cmd.CommandText = "SELECT COALESCE(MAX(id), 0) FROM notes";
+            return Math.Max(0, (long)cmd.ExecuteScalar()!);
+        }
 
         // SqlCipherBootstrap must run first: it extracts and preloads the embedded native
         // e_sqlcipher.dll. The static provider (not Batteries_V2.Init) is deliberate: the
