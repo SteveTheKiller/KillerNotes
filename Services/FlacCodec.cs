@@ -81,7 +81,9 @@ namespace KillerNotes.Services
         {
             LastError = null;
             if (!Available) { LastError = "FLAC support is not installed."; return null; }
-            if (wav == null || wav.Length <= WavEdit.HeaderBytes) return null;
+            var normalized = PcmWave.Normalize(wav);
+            if (normalized == null) return null;
+            wav = normalized;
 
             int rate = BitConverter.ToInt32(wav, 24);
             short channels = BitConverter.ToInt16(wav, 22);

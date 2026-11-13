@@ -4,8 +4,8 @@ namespace KillerNotes.Services
 {
     /// <summary>
     /// Cut, copy and paste on a WAV held in memory. Everything here works on the raw PCM data chunk
-    /// and rewrites the 44-byte canonical header, which is safe because the only WAVs that reach it
-    /// are the ones DictationRecorder produced (16-bit mono PCM).
+    /// and rewrites the 44-byte canonical header. The recorder produces this layout directly;
+    /// imported recordings pass through AudioCodec.ToPcm before editing.
     ///
     /// Byte offsets are always snapped to a whole SAMPLE FRAME. A cut landing mid-frame shifts every
     /// following byte by one and turns the rest of the recording into static - the same trap the

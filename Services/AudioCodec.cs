@@ -94,7 +94,7 @@ namespace KillerNotes.Services
             if (stored == null) return null;
             return Sniff(stored) switch
             {
-                Format.Wav => stored,
+                Format.Wav => PcmWave.Normalize(stored),
                 Format.Flac => FlacCodec.ToWav(stored),
                 // Nothing writes MP3 into a note - it is an export format - but a file dragged in
                 // later would land here, and saying so beats returning silence.
