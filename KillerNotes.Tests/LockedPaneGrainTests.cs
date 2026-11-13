@@ -12,6 +12,7 @@ using Xunit;
 
 namespace KillerNotes.Tests
 {
+    [Collection("Application resources")]
     public sealed class LockedPaneGrainTests
     {
         [Theory]
@@ -19,7 +20,7 @@ namespace KillerNotes.Tests
         [InlineData("Light")]
         [InlineData("Black")]
         [InlineData("Malaise")]
-        public void LockedPaneRendersGrainAndHonorsTheOffSwitch(string theme) => Sta.Run(() =>
+        public void LockedPaneRendersGrainAndHonorsTheOffSwitch(string theme) => Sta.RunApplication(() =>
         {
             var root = new DirectoryInfo(AppContext.BaseDirectory);
             while (root != null && !File.Exists(Path.Combine(root.FullName, "KillerNotes.csproj"))) root = root.Parent;

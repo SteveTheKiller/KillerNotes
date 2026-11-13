@@ -7,6 +7,7 @@ using Xunit;
 
 namespace KillerNotes.Tests
 {
+    [Collection("Application resources")]
     public sealed class GrainTextureTests
     {
         private static double Hue(Color c)
@@ -25,53 +26,59 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
-        public void AGreenAccentLeansPurple()
+        public void AGreenAccentLeansPurple() => Sta.RunApplication(() =>
         {
             var lean = GrainTexture.LeanFor(Color.FromRgb(0x00, 0xff, 0x66), Colors.Black);
             Assert.NotNull(lean);
             Assert.InRange(Hue(lean!.Value), 270, 300);
-        }
+            Sta.RunApplication(() =>
+            {
+                var brush = new ImageBrush();
+                GrainTexture.Track(brush);
+                Assert.NotNull(brush.ImageSource);
+            });
+        });
 
         [Fact]
-        public void ABlueAccentLeansOrangeBrown()
+        public void ABlueAccentLeansOrangeBrown() => Sta.RunApplication(() =>
         {
             var lean = GrainTexture.LeanFor(Color.FromRgb(0x50, 0xae, 0xe8), Color.FromRgb(0x1c, 0x1c, 0x1c));
             Assert.NotNull(lean);
             Assert.InRange(Hue(lean!.Value), 15, 45);
-        }
+        });
 
         [Fact]
-        public void BloodsPeachAccentLeansOrangeBrownNotBlue()
+        public void BloodsPeachAccentLeansOrangeBrownNotBlue() => Sta.RunApplication(() =>
         {
             var lean = GrainTexture.LeanFor(Color.FromRgb(0xf8, 0xc9, 0x9e), Color.FromRgb(0x24, 0x0c, 0x0d));
             Assert.NotNull(lean);
             Assert.InRange(Hue(lean!.Value), 15, 45);
-        }
+        });
 
         [Fact]
-        public void ARedAccentLeansOrangeBrown()
+        public void ARedAccentLeansOrangeBrown() => Sta.RunApplication(() =>
         {
             var lean = GrainTexture.LeanFor(Color.FromRgb(0xff, 0x29, 0x29), Colors.Black);
             Assert.NotNull(lean);
             Assert.InRange(Hue(lean!.Value), 15, 45);
-        }
+        });
 
         [Fact]
-        public void AWhiteAccentLeansFromTheBackgroundHue()
+        public void AWhiteAccentLeansFromTheBackgroundHue() => Sta.RunApplication(() =>
         {
             var lean = GrainTexture.LeanFor(Colors.White, Color.FromRgb(0x00, 0x1a, 0x28));
             Assert.NotNull(lean);
             Assert.InRange(Hue(lean!.Value), 15, 45);
-        }
+        });
 
         [Fact]
-        public void ANeutralThemeHasNoLean()
+        public void ANeutralThemeHasNoLean() => Sta.RunApplication(() =>
         {
             Assert.Null(GrainTexture.LeanFor(Colors.White, Color.FromRgb(0x1c, 0x1c, 0x1c)));
-        }
+        });
 
         [Fact]
-        public void NeutralGrainIsSoftGrayInManyShades() => Sta.Run(() =>
+        public void NeutralGrainIsSoftGrayInManyShades() => Sta.RunApplication(() =>
         {
             var pixels = Pixels(GrainTexture.Generate(null));
             var shades = new HashSet<byte>();
@@ -86,7 +93,7 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
-        public void NeutralGrainIncludesDistinctDarkAndBrightSpecks() => Sta.Run(() =>
+        public void NeutralGrainIncludesDistinctDarkAndBrightSpecks() => Sta.RunApplication(() =>
         {
             var pixels = Pixels(GrainTexture.Generate(null));
             int dark = 0, bright = 0, total = pixels.Length / 4;
@@ -100,7 +107,7 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
-        public void HighlightGrainPreservesSparkleWithoutGrayHaze() => Sta.Run(() =>
+        public void HighlightGrainPreservesSparkleWithoutGrayHaze() => Sta.RunApplication(() =>
         {
             var normal = Pixels(GrainTexture.Generate(null));
             var highlights = Pixels(GrainTexture.Generate(null, highlightsOnly: true));
@@ -120,7 +127,7 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
-        public void LeaningGrainTintsSomeSpecksAndIsDeterministic() => Sta.Run(() =>
+        public void LeaningGrainTintsSomeSpecksAndIsDeterministic() => Sta.RunApplication(() =>
         {
             var lean = Color.FromRgb(0xba, 0x61, 0xd8);
             var first = Pixels(GrainTexture.Generate(lean));

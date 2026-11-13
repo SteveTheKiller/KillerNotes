@@ -14,22 +14,18 @@ namespace KillerNotes.Tests;
 /// traffic stalls it for many seconds. Opening About must not freeze the window while it waits:
 /// the card comes up at once with placeholders and the publisher lands when the check finishes.
 /// </summary>
+[Collection("Application resources")]
 public sealed class AboutSignatureTests
 {
     [Fact]
     public void AboutOpensAtOnceWhileTheSignatureCheckWaitsThenShowsThePublisher()
     {
-        Exception? failure = null;
-        var thread = new Thread(() =>
+        Sta.RunApplication(() =>
         {
-            try { Body(); }
-            catch (Exception error) { failure = error; }
-            finally { Dispatcher.CurrentDispatcher.InvokeShutdown(); }
+            Body();
+            Require(Application.Current.CheckAccess(),
+                "The application remains on the shared UI dispatcher for subsequent windows.");
         });
-        thread.SetApartmentState(ApartmentState.STA);
-        thread.Start();
-        thread.Join();
-        if (failure is not null) throw failure;
     }
 
     private static void Body()
