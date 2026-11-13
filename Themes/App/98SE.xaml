@@ -35,6 +35,7 @@
     <SolidColorBrush x:Key="FooterBevelDarkBrush" Color="#808080" />
     <SolidColorBrush x:Key="FooterBevelLightBrush" Color="#ffffff" />
     <Thickness x:Key="FooterPadding">0,0,-2,0</Thickness>
+    <Thickness x:Key="FooterStatusInset">4,0,4,0</Thickness>
     <SolidColorBrush x:Key="ListPaneBrush" Color="#ffffff" />
     <SolidColorBrush x:Key="SearchFieldBrush" Color="#ffffff" />
     <Thickness x:Key="SidebarPanelMargin">0,5,0,0</Thickness>

@@ -2323,7 +2323,7 @@
                                 <MenuItem x:Name="EditorQuickSlot" Style="{StaticResource CardSlot}" Padding="0"
                                           AutomationProperties.Name="{DynamicResource Str_Card_Actions}">
                                     <MenuItem.Header>
-                                        <Border Margin="8,0" BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,4">
+                                        <Border Margin="8,0" BorderBrush="{DynamicResource MenuBorderBrush}" Padding="0,0,0,4">
                                             <UniformGrid Rows="1">
                                                 <Button x:Name="EditorCutBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8C6;"
                                                         Tag="{DynamicResource Str_Ctx_Cut}"/>
@@ -2343,7 +2343,7 @@
                                 <MenuItem x:Name="RecSlot" Style="{StaticResource CardSlot}" Padding="0" Visibility="Collapsed"
                                           AutomationProperties.Name="{DynamicResource Str_Dict_Share}">
                                     <MenuItem.Header>
-                                        <Border Margin="8,0" BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4">
+                                        <Border Margin="8,0" BorderBrush="{DynamicResource MenuBorderBrush}" Padding="0,4">
                                             <UniformGrid Rows="1">
                                                 <Button x:Name="RecPlayPauseBtn" Style="{StaticResource CardQuickButton}" Content="&#xE768;"
                                                         Tag="{DynamicResource Str_Card_Play}"/>
@@ -2998,7 +2998,7 @@
                     <TextBlock x:Name="StatusText" Text="{DynamicResource Str_St_Ready}"
                                Foreground="{DynamicResource TextFooter}" FontFamily="{DynamicResource BrandSansFont}"
                                FontSize="16" TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center"
-                               Margin="{DynamicResource FooterCellPadding}"/>
+                               Margin="{DynamicResource FooterStatusInset}"/>
                     <Border IsHitTestVisible="False" BorderBrush="{DynamicResource FooterBevelDarkBrush}"
                             BorderThickness="{DynamicResource FooterCellLightThickness}"/>
                     <Border IsHitTestVisible="False" BorderBrush="{DynamicResource FooterBevelLightBrush}"

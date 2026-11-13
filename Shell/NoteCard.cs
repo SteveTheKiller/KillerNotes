@@ -38,8 +38,6 @@ namespace KillerNotes.Shell
         /// <summary>Wires the swatch row once; called from the constructor.</summary>
         private void InitNoteCard()
         {
-            CardSwatches.NoneName = Loc("Str_Card_NoColor");
-            CardSwatches.PickerName = Loc("Str_Card_MoreColors") + " (Ctrl+Shift+C)";
             CardSwatches.ColorChosen += hex =>
             {
                 NoteCard.IsOpen = false;
@@ -55,6 +53,8 @@ namespace KillerNotes.Shell
         /// <summary>Called from NotesContextMenu_Opened (Tags.cs) for live notes.</summary>
         private void FillNoteCard(List<Note> selected)
         {
+            CardSwatches.NoneName = Loc("Str_Card_NoColor");
+            CardSwatches.PickerName = Loc("Str_Card_MoreColors") + " (Ctrl+Shift+C)";
             _cardNotes = [.. selected.Where(n => !n.IsDeleted)];
             bool one = _cardNotes.Count == 1;
             var first = _cardNotes.FirstOrDefault();
@@ -170,8 +170,8 @@ namespace KillerNotes.Shell
         /// a selection picks once and applies the result to all of them.</summary>
         private void PickTitleColorForNotes(List<Note> notes)
         {
-            if (notes.Count == 1) { TitleColorPick_Click(this, new RoutedEventArgs()); return; }
-            if (notes.Count == 0) return;
+            if (notes.Count == 1) { PickTitleColor(notes[0]); return; }
+            if (notes.Count == 0 || !NoteStore.IsOpen || RefuseReadOnly()) return;
             var initial = SharedValue(notes.Select(n => n.TitleColor)) is { Length: > 0 } hex && TryBrush(hex) is SolidColorBrush sb
                 ? sb.Color
                 : ((TryFindResource("TextBrush") as SolidColorBrush)?.Color).GetValueOrDefault();

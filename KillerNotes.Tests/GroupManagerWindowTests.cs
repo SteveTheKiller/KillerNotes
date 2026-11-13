@@ -24,6 +24,46 @@ namespace KillerNotes.Tests
     public sealed class GroupManagerWindowTests
     {
         [Fact]
+        public void LanguageChangesRefreshManagerLabelsAndKeepItsView() => WithDark(() =>
+        {
+            var win = new GroupManagerWindow(new FakeHost());
+            var (host, _) = Host(win);
+            win.Reload("Killer Apps");
+            host.UpdateLayout();
+            var tree = (TreeView)win.FindName("Tree");
+            var search = (TextBox)win.FindName("SearchBox");
+            search.Text = "Release";
+            var previous = LocaleManager.Current;
+            try
+            {
+                LocaleManager.Apply(Locale.De);
+                host.UpdateLayout();
+                Assert.Equal("Alle Notizen", tree.Items.Cast<GroupNode>().First().Name);
+                Assert.StartsWith("Titel", ((Button)win.FindName("SortTitleBtn")).Content.ToString());
+                Assert.Equal("Release", search.Text);
+                Assert.Equal("Killer Apps", ((GroupNode)tree.SelectedItem).Path);
+            }
+            finally { LocaleManager.Apply(previous); win.Close(); }
+        });
+
+        [Fact]
+        public void ChildrenStayUnderTheirParentWhenStoreOrderPutsThemFirst() => WithDark(() =>
+        {
+            var fake = new FakeHost
+            {
+                GroupRows = [("Work" + NoteStore.GroupSep + "Second", "Work", false, ""),
+                    ("Work" + NoteStore.GroupSep + "First", "Work", false, ""),
+                    ("Other", "", false, ""), ("Work", "", false, "")]
+            };
+            var win = new GroupManagerWindow(fake);
+            win.Reload();
+            var tree = (TreeView)win.FindName("Tree");
+            var roots = tree.Items.Cast<GroupNode>().Where(n => n.Path.Length > 0).ToList();
+            Assert.Equal(new[] { "Other", "Work" }, roots.Select(n => n.Path));
+            Assert.Equal(new[] { "Second", "First" }, roots[1].Children.Select(n => n.Name));
+        });
+
+        [Fact]
         public void TheShadowFadesOutInsideTheWindow() => WithDark(() =>
         {
             var win = new GroupManagerWindow(new FakeHost());
@@ -100,6 +140,8 @@ namespace KillerNotes.Tests
             public string? GroupCardPath;
             public int GroupCardCount;
             public List<long>? NoteCardIds;
+            public IReadOnlyList<(string Path, string Parent, bool Collapsed, string Color)> GroupRows =
+                [("App Ideas", "", false, ""), ("Killer Apps", "", false, "")];
 
             public IReadOnlyList<Note> Notes() =>
             [
@@ -109,7 +151,7 @@ namespace KillerNotes.Tests
             ];
 
             public IReadOnlyList<(string Path, string Parent, bool Collapsed, string Color)> Groups() =>
-                [("App Ideas", "", false, ""), ("Killer Apps", "", false, "")];
+                GroupRows;
 
             public bool ReadOnly => false;
             public void MoveNotes(IReadOnlyCollection<long> ids, string group) { }
@@ -120,7 +162,7 @@ namespace KillerNotes.Tests
             public void NewGroup(string parent) { }
             public void OpenNote(long id) { }
             public bool Undo() => false;
-            public string Loc(string key) => key;
+            public string Loc(string key) => LocaleManager.Loc(key);
             public void ShowGroupCard(string path, int count, UIElement target, bool atMouse) { GroupCardPath = path; GroupCardCount = count; }
             public void ShowNoteCard(IReadOnlyCollection<long> ids, UIElement target, bool atMouse) => NoteCardIds = [.. ids];
             public event Action? GroupsChanged { add { } remove { } }
@@ -128,6 +170,7 @@ namespace KillerNotes.Tests
 
         private static void WithDark(Action body) => Sta.RunApplication(() =>
         {
+            using var settings = new UiSettingsScope();
             if (Application.ResourceAssembly == null) Application.ResourceAssembly = typeof(App).Assembly;
             var app = Application.Current ?? new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
             var merged = app.Resources.MergedDictionaries;

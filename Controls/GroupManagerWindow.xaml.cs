@@ -96,7 +96,13 @@ namespace KillerNotes.Controls
             RestoreSavedBounds();
             _host.GroupsChanged += OnGroupsChanged;
             ThemeManager.ThemeChanged += UpdateChrome;
-            Closed += (_, _) => { _host.GroupsChanged -= OnGroupsChanged; ThemeManager.ThemeChanged -= UpdateChrome; };
+            LocaleManager.LocaleChanged += OnLocaleChanged;
+            Closed += (_, _) =>
+            {
+                _host.GroupsChanged -= OnGroupsChanged;
+                ThemeManager.ThemeChanged -= UpdateChrome;
+                LocaleManager.LocaleChanged -= OnLocaleChanged;
+            };
             Loaded += (_, _) => { Anim.FadeIn(RootBorder); SearchBox.Focus(); };
             DialogShortcuts.Bind(this, NewGroupBtn, "Ctrl+G", Key.G, ModifierKeys.Control, NewGroup);
             PreviewKeyDown += Window_PreviewKeyDown;
@@ -133,6 +139,7 @@ namespace KillerNotes.Controls
         }
 
         private void OnGroupsChanged() => Dispatcher.BeginInvoke(new Action(() => Reload()));
+        private void OnLocaleChanged() => Reload();
 
         // ---- Loading ----
 
@@ -165,6 +172,10 @@ namespace KillerNotes.Controls
                     IsExpanded = firstLoad || open.Contains(path),
                 };
                 byPath[path] = node;
+            }
+            foreach (var (path, parent, _, _) in groups)
+            {
+                var node = byPath[path];
                 if (parent.Length > 0 && byPath.TryGetValue(parent, out var p)) p.Children.Add(node);
                 else tops.Add(node);
             }

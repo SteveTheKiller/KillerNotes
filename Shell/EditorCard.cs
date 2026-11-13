@@ -70,6 +70,8 @@ namespace KillerNotes.Shell
             RecSlot.Visibility = Show(onRecording);
             DocToggleSlot.Visibility = Show(!onObject);
             PageWidthSlot.Visibility = Show(!onObject);
+            ((Border)EditorQuickSlot.Header).BorderThickness = new Thickness(0, 0, 0, !onObject || onRecording ? 1 : 0);
+            ((Border)RecSlot.Header).BorderThickness = new Thickness(0, 0, 0, !onObject ? 1 : 0);
             if (onObject) PreviewMenuItem.Visibility = Visibility.Collapsed;
             WordWrapToggle.IsChecked = _wordWrap;
             SyntaxToggle.IsChecked = _syntaxHighlight;

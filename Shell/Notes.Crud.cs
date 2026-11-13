@@ -119,8 +119,13 @@ namespace KillerNotes.Shell
 
         private void TitleColorPick_Click(object sender, RoutedEventArgs e)
         {
-            var n = (sender as MenuItem)?.DataContext as Note ?? NotesList.SelectedItem as Note;
-            if (n == null) return;
+            var n = (sender as MenuItem)?.DataContext as Note ?? SidebarSelectedNote();
+            if (n != null) PickTitleColor(n);
+        }
+
+        private void PickTitleColor(Note n)
+        {
+            if (!NoteStore.IsOpen || RefuseReadOnly()) return;
             var initial = n.TitleBrush is SolidColorBrush sb ? sb.Color
                 : (TryFindResource("TextBrush") as SolidColorBrush)?.Color ?? Colors.White;
             string original = n.TitleColor;

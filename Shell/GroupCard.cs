@@ -20,11 +20,11 @@ namespace KillerNotes.Shell
 
         private void FillGroupCard(GroupHeader g)
         {
+            GroupCardSwatches.NoneName = Loc("Str_Card_NoColor");
+            GroupCardSwatches.PickerName = Loc("Str_Card_MoreColors") + " (Ctrl+Shift+K)";
             if (!_groupCardWired)
             {
                 _groupCardWired = true;
-                GroupCardSwatches.NoneName = Loc("Str_Card_NoColor");
-                GroupCardSwatches.PickerName = Loc("Str_Card_MoreColors") + " (Ctrl+Shift+K)";
                 GroupCardSwatches.ColorChosen += hex => { GroupCard.IsOpen = false; SetGroupColorWithUndo(_ctxGroup, hex); };
                 GroupCardSwatches.PickRequested += () => { GroupCard.IsOpen = false; GroupColorPick_Click(this, new RoutedEventArgs()); };
             }
