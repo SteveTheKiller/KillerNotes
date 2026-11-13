@@ -352,6 +352,7 @@ namespace KillerNotes.Shell
             // Only Split has a draggable divider, and only Split needs the limits that keep either
             // side from being dragged away to nothing. The other modes set a column to 0.
             bool split = mode == PreviewMode.Split;
+            PreviewPane.BorderThickness = split ? new Thickness(1, 0, 0, 0) : new Thickness(0);
             PreviewDividerCol.Width = new GridLength(split ? 6 : 0);
             EditorCol.MinWidth = split ? 200 : 0;
             PreviewCol.MinWidth = split ? 200 : 0;

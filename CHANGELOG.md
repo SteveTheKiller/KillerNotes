@@ -19,7 +19,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The group manager's custom color picker changes the intended note. Open managers and color menus refresh after a language change.
 - Fast clicks no longer start unintended note or group drags.
 - Mouse-wheel scrolling follows Windows' line and page settings.
-- Context cards hide irrelevant sections and unnecessary trailing dividers. Menu icons, shortcut alignment, compact-sidebar dates, dialog close buttons, and the footer note-count inset are corrected.
+- Context cards hide irrelevant sections and unnecessary trailing dividers. Menu icons, shortcut alignment, compact-sidebar dates, dialog close buttons, the footer note-count inset, and the doubled left border in Rendered view are corrected.
 
 ### Changed
 
