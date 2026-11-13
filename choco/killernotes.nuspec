@@ -22,6 +22,9 @@
 - Rich text, lists, tables, rules, inline images, spell check, word wrap, line numbers, title colors, font controls and a color picker with a desktop eyedropper
 - Instant search across titles, text and tags, with filters, quoted phrases and saved searches; Ctrl+F searches the open note without changing it
 - Nested, colorable groups, tag filters, flexible sorting and adjustable sidebar density; Ctrl+Z undoes sidebar moves, reorders and deletes
+- Note and group cards for color, tags and filing, with duplicate (Alt+Shift+U), save as template (Alt+Shift+T), new note in group (Alt+Shift+H) and collapse all groups (Alt+Shift+Z)
+- Organize (Alt+Shift+O): a searchable group tree and sortable note list, drag-and-drop filing, and the same cards and undo as the sidebar
+- The New note dropdown holds Markdown notes, templates, today's note, notes in a chosen group and folder import; the library rail button holds whole-notepad Markdown export
 - Syntax highlighting detected paragraph by paragraph, so one note mixes prose with PowerShell, JSON, SQL, C#, Python and ten more without picking a language
 - Hyperlinks: Ctrl+K links the selection, typed URLs auto-link, links survive pasting from browsers and Word, and only web and mail addresses ever open
 - Wikilinks between notes, with incoming and outgoing links, links to notes that do not exist yet, a graph and a heading outline

@@ -15,6 +15,9 @@ See the [help page](https://killernotes.net/help.html) for workflows and shortcu
 - Rich text with images, tables, lists, checkboxes, spell check, custom fonts, title colors, and optional line numbers
 - Search titles, text, and tags as you type, with filters (tag:, group:, title:, after:, before:, created:, in:trash, "phrases") and saved searches; find and replace within a note or across notes
 - Nested groups, colored tags, pinned notes, drag-and-drop ordering, templates, and daily notes
+- Note and group cards keep their actions together, including duplicate (Alt+Shift+U), save as template (Alt+Shift+T), new note in group (Alt+Shift+H), and collapse all groups (Alt+Shift+Z)
+- Organize (Alt+Shift+O) opens a searchable group tree and sortable note list, with drag-and-drop filing and the same cards and undo as the sidebar
+- The New note dropdown holds Markdown notes, templates, today's note, notes in a chosen group, and folder import; the library rail button holds whole-notepad Markdown export
 - Incoming and outgoing wikilinks, including links to notes that do not exist yet, plus a graph and heading outline
 - Paragraph-level code highlighting and language-aware fenced Markdown code blocks
 - Native Markdown and HTML preview with Source, Rendered, and adjustable Split views, following the active theme without a browser engine

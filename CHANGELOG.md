@@ -6,40 +6,36 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.7.0] - Unreleased
 
-1.7.0 replaces the sidebar's long right-click lists with cards for notes and groups, adds a group manager window for organizing a long sidebar, and gives the sidebar header and the unlock screen a cleaner layout.
+1.7.0 adds context cards and a group manager, improves large notepads, and strengthens copying, exports, and recording edits.
 
 ### Fixed
 
-- Switching notes no longer stalls on notes with pictures. Remembering where you left a note rewrote the whole note, pictures included, so leaving a note with large screenshots took about a second, and opening one took longer than it needed to.
-- The sidebar refreshes at once in a notepad full of pictures. Every refresh read past each note's pictures to reach its color, pin and preview text, which took over a second with forty large screenshots. The first time 1.7.0 opens a notepad it reorganizes it so that never happens; on a very large notepad that one opening takes a few seconds longer. Older versions still open it.
-- Every group list shows all your groups. A group that existed only on its notes, such as one brought in by an import, showed in the sidebar but was missing from the note card's Group list and the other group pickers; opening the notepad now gives it a proper group entry.
-- Clicking quickly through notes no longer starts a drag nobody made. A fast click could leave the previous note half-picked-up, so right-click stopped opening anything and the next click dropped that note somewhere else in the list. Group headers and the group manager had the same gap.
-- The mouse wheel scrolls a note twice as far per notch and follows Windows' "lines to scroll" setting, including one screen at a time. It was a fixed short step, so a long note or a tall screenshot took a lot of spinning.
-- The arrows and keyboard shortcuts on the note card's rows sit at the card's right edge instead of in the middle of the row.
-- Compact sidebar density shows the date line on a note with no tags, so it no longer looks the same as Minimal.
-- Menu rows show their icons again. On PCs where Windows did not fill the glyph in from another font, the icon column was empty in most menus, including the sort menu, the note card and the editor's right-click menu.
-- The close X on every dialog sits in the card's corner, as far in from the right edge as down from the top. On 98SE the dialogs' title bars sit inside the window frame instead of running over it, and the X is centered in its button instead of filling it.
+- Undoing a duplicate or template creation cannot delete a newer note, including after a password change.
+- Failed template copies leave no partial note or group, and unreadable source content reports an error instead of creating an empty copy.
+- Markdown exports preserve user-created and modified files in their media folder.
+- Editing or converting imported PCM recordings handles metadata chunks and 8-, 16-, 24-, and 32-bit samples correctly. Simultaneous audio startup no longer reports an available codec as missing.
+- Switching notes and refreshing the sidebar avoid rereading or rewriting large pictures. Existing notepads receive a one-time layout update and remain compatible with older versions.
+- Imported groups appear in every picker immediately, and nested groups stay under their parents regardless of alphabetical order.
+- The group manager's custom color picker changes the intended note. Open managers and color menus refresh after a language change.
+- Fast clicks no longer start unintended note or group drags.
+- Mouse-wheel scrolling follows Windows' line and page settings.
+- Context cards hide irrelevant sections and unnecessary trailing dividers. Menu icons, shortcut alignment, compact-sidebar dates, dialog close buttons, and the footer note-count inset are corrected.
 
 ### Changed
 
-- Right-clicking a note opens a card: the note's name and edit date, buttons for Pin, Share, Export, History and Duplicate, a row of color swatches with a picker, the note's tags and group, and a Rich text or Markdown switch. With several notes selected the card applies color, tags, group, pin and delete to all of them. Card buttons, and the switches and choices that are on, take the theme's accent color.
-- Right-clicking a group opens the same kind of card, with New note, Subgroup, Rename, Collapse, Graph and Organize buttons, color swatches, a Parent list for moving the group, and switches for the templates and daily notes groups.
-- Right-clicking in a note opens a card too: Cut, Copy, Paste, Link and List buttons, Wrap, Syntax and Spelling switches, the page width and preview view as one-click choices, and strips for the recording or table under the pointer. Deleting a table row, column or the whole table stays a plain row with its shortcut.
-- The graph, the sketch pad, the recording editor, the Databases dialog and the Tags dialog open the same kind of card on right-click. The graph's node card has Open, Copy link, Links here, Distance and Lock in place; its background card has the five arrangements, Show and Motion switches and the visualizer shapes. Sketch objects get Front, Back, Duplicate and the actions for their kind, and the recording editor gets Slice, Copy, Paste and Undo. A database gets Rename, Copy file, Export and Show file, and a tag gets its colors inline. Every button names its shortcut.
-- The preview chip beside the note title and in the format bar shows an eye and a dropdown arrow. Clicking it lists Source, Rendered and Split with their shortcuts; F4 still steps through them.
-- New markdown note, New from template and Today's note moved from the note menu to a menu beside the New note button. Importing a folder joined them there, exporting every note moved to a library button on the sidebar rail, and markdown and HTML detection moved to the settings on the About card. Back and Forward stay on Alt+Left and Alt+Right.
-- Right-clicking empty space in the sidebar no longer opens a menu.
-- The three sort buttons are now one button that shows the current sort and its direction. Clicking it opens the sort menu; Alt+4 to Alt+7 work as before.
-- The New note button uses the regular interface font with a plus sign, and drops to the plus alone when the sidebar is narrow.
-- Group headers show a chevron for open or closed and their note count in a small badge.
-- The unlock screen leads with a lock and the database's file name, has one Unlock button across its width, and folds New and Open into a Use another database menu (Ctrl+N and Ctrl+O still work). A wrong password shows under the box instead of replacing the heading, Caps Lock gets a warning, and an eye button shows the typed password.
+- Notes and groups use context cards with color swatches and common actions. Multi-note cards apply color, tags, group, pin, and delete to the selection.
+- Editor, graph, sketch, recording, database, and tag menus use matching cards with actions appropriate to the selected object.
+- Note creation and folder import live beside New note; whole-notepad export lives on the library rail, and Markdown and HTML detection live in About settings.
+- Preview menus offer Source, Rendered, and Split with shortcuts; F4 cycles through them.
+- The sidebar combines sort controls, shows group counts, and uses a compact New note button. Empty sidebar space no longer opens a menu.
+- The unlock screen groups database choices, shows password errors below the field, and adds Caps Lock and password-visibility controls.
+- Help, technical documentation, and translated landing pages cover the new menus and group workflows. The landing shortcut list matches the in-app overlay.
 
 ### Added
 
-- A group manager window (Alt+Shift+O, the Organize button on the rail or on a group card) shows every group as a tree beside a sortable table of its notes, with one search over both. Right-clicking a group or a note there opens the same card as in the sidebar. The note card's Group list ends with Manage groups, which opens it on the note's group. Drag notes onto a group to file them or a group onto another to nest it; F2 renames, Delete removes and Ctrl+Z undoes, in either window.
-- Duplicate note (Alt+Shift+U) and Save as template (Alt+Shift+T), which creates a Templates group when the notepad has none.
-- New note in this group (Alt+Shift+H) and Collapse all groups (Alt+Shift+Z).
-- New note in group, on the menu beside the New note button, lists every group and starts a note in the one you pick.
+- Group manager (Alt+Shift+O) with a searchable group tree and sortable note table, drag-and-drop organization, shared context cards, rename, delete, and undo.
+- Duplicate note (Alt+Shift+U), Save as template (Alt+Shift+T), New note in this group (Alt+Shift+H), and Collapse all groups (Alt+Shift+Z).
+- A New note in group submenu lists every group and starts a note there.
 
 ## [1.6.2] - 2026-11-10
 

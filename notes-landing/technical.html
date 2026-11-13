@@ -141,6 +141,9 @@
 
 <section class="tech-sec" id="architecture">
 <h2 data-i18n="t_arch_h">Architecture</h2>
+<p data-i18n="s170_cards">Right-click a note for its card: pin, share, export, history, color, tags and group. Duplicate (<code>Alt+Shift+U</code>) makes a copy; Save as template (<code>Alt+Shift+T</code>) copies it into the templates group. Select several notes to change their pin, color, tags or group together.</p>
+<p data-i18n="s170_groups">Organize on the sidebar rail (<code>Alt+Shift+O</code>) opens a searchable group tree and sortable note list. Drag notes into groups or groups into parents; right-click for the same cards as the sidebar. The group card offers rename, color, parent, template and daily roles. <code>Alt+Shift+H</code> creates a note in the selected group; <code>Alt+Shift+Z</code> collapses all groups. <code>Ctrl+Z</code> undoes organization changes.</p>
+<p data-i18n="s170_new">The arrow beside New note opens Markdown notes, templates, today's note, a note in a chosen group, and folder import (<code>Alt+Shift+I</code>). Whole-notepad Markdown export is on the sidebar's library button.</p>
 <p data-i18n="t_arch_p1">Requires .NET Framework 4.8 (x64). The app's other dependencies are packaged in one executable. C# / WPF, SQLite FTS5, SQLCipher AES-256.</p>
 <p data-i18n="t_arch_p2">The editor is a WPF RichTextBox working on a real FlowDocument, which is what makes inline images and true tables first-class citizens rather than attachments. Everything else - search, storage, encryption, sharing - lives underneath it in a SQLite database.</p>
 </section>
@@ -404,10 +407,11 @@
 <p data-i18n="s160_t_vault2">Rich-text notes are converted on the way out, so the folder is the whole notepad rather than only the notes that were already markdown. Nothing in the database is modified, and what Markdown could not carry is named in the report instead of dropped silently. The export runs in the background with Cancel, a canceled export leaves nothing behind, and exporting a password notepad warns first that the files are plain text.</p>
 <p data-i18n="t_fmt_p5">It is deliberately one-way and on demand rather than a live sync of a watched folder. Sync means conflict resolution, file-watcher races, and partial writes from other editors, and it would leave a permanent plaintext copy of an encrypted database on disk - which contradicts the reason the database is encrypted at all. Export is explicit, so the user chooses the moment the plaintext exists.</p>
 <h3 data-i18n="t_fmt_h4" id="convert">Converting between formats</h3>
+<p data-i18n="hp_md_1">Choose New markdown note in the New note dropdown (<code>Alt+N</code>). The Rich text / Markdown control on a note's right-click card converts one note at a time (<code>Alt+F</code>), with a warning before lossy conversion.</p>
 <p data-i18n="t_fmt_p6">The notes context menu converts one note at a time in either direction. Rich to markdown is lossy, so the confirmation names what will not survive before anything is rewritten; markdown to rich loses nothing. Headings are not reverse-engineered from font size on the way out - a large bold paragraph might be a heading or might be a large bold paragraph, and guessing wrong rewrites the user's document. Hyperlinks arriving from markdown are held to the same three schemes the editor allows anywhere else, since a markdown file is untrusted input once it can arrive by import or from a vault folder.</p>
 <p data-i18n="t_fmt_p7">Either direction is a single app-level undo entry that restores the <em>original bytes</em> rather than converting back. A round trip through the other format is lossy, so re-converting would hand back something subtly different from what was there.</p>
 <h3 data-i18n="t_fmt_h5" id="preview">Preview</h3>
-<p data-i18n="site_preview_current">F4 cycles Source, Rendered and Split for Markdown and HTML. The native WPF preview follows the theme and grain; scripts never run.</p>
+<p data-i18n="site_preview_current"><code>F4</code> cycles Source, Rendered and Split for Markdown and HTML. The eye button lists the same views. The About card controls automatic detection. The native WPF preview follows the theme and grain; scripts never run.</p>
 </section>
 
 <section class="tech-sec" id="audio">
@@ -529,6 +533,7 @@
 </div>
 </dialog>
 <script src="kn-i18n.js?v=21"></script>
+<script src="kn-i18n-170.js?v=1"></script>
 <script src="kn.js?v=10"></script>
 <script>
 (function(){
