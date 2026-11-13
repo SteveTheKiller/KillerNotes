@@ -119,8 +119,20 @@ namespace KillerNotes.Services
         /// will not delete, or a hand-edited link that names no file, is only clutter by now.</summary>
         internal void Retire(IEnumerable<string> previous)
         {
-            foreach (string name in previous.Where(n => !_used.Contains(n) && Regex.IsMatch(n, "^(img|recording)-")))
-                try { File.Delete(Path.Combine(_folder, name)); }
+            foreach (string name in previous.Where(n => !_used.Contains(n)))
+                try
+                {
+                    var match = Regex.Match(name, @"^(?:img|recording)-([0-9a-f]{8})(?:-[0-9]+)?\.[a-z0-9]+$", RegexOptions.IgnoreCase);
+                    if (!match.Success) continue;
+                    string path = Path.Combine(_folder, name);
+                    using (var stream = File.OpenRead(path))
+                    using (var sha = System.Security.Cryptography.SHA256.Create())
+                    {
+                        string hash = BitConverter.ToString(sha.ComputeHash(stream)).Replace("-", "");
+                        if (!hash.StartsWith(match.Groups[1].Value, StringComparison.OrdinalIgnoreCase)) continue;
+                    }
+                    File.Delete(path);
+                }
                 catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException) { }
             RemoveFolderIfEmpty();
         }

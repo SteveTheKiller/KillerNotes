@@ -32,6 +32,19 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void HandLinkedAssetWithAnExportPrefixSurvivesReplacement() => Sta.Run(() =>
+        {
+            Directory.CreateDirectory(Assets);
+            string linked = Path.Combine(Assets, "img-logo.png");
+            File.WriteAllBytes(linked, [9, 8, 7]);
+            File.WriteAllText(Target, "![](note.assets/img-logo.png)");
+
+            MarkdownExport.Write(new FlowDocument(new Paragraph(new Run("replacement"))), Target);
+
+            Assert.Equal(new byte[] { 9, 8, 7 }, File.ReadAllBytes(linked));
+        });
+
+        [Fact]
         public void AFailedPublishLeavesTheOldExportByteForByte() => Sta.Run(() =>
         {
             MarkdownExport.Write(Doc(Colors.Red), Target);
@@ -78,7 +91,7 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
-        public void AnExportFromBeforeTheseNamesIsCleanedUpToo() => Sta.Run(() =>
+        public void AnAssetWithoutAContentHashIsPreserved() => Sta.Run(() =>
         {
             Directory.CreateDirectory(Assets);
             File.WriteAllBytes(Path.Combine(Assets, "img-1.png"), [1, 2, 3]);
@@ -86,7 +99,7 @@ namespace KillerNotes.Tests
 
             MarkdownExport.Write(Doc(Colors.Blue), Target);
 
-            Assert.False(File.Exists(Path.Combine(Assets, "img-1.png")));
+            Assert.Equal(new byte[] { 1, 2, 3 }, File.ReadAllBytes(Path.Combine(Assets, "img-1.png")));
             Assert.True(File.Exists(Path.Combine(_dir, LinkedFiles().Single())));
         });
 
