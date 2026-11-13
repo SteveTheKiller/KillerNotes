@@ -202,7 +202,7 @@ namespace KillerNotes.Tests
                         if (caption.ActualHeight > caption.FontSize * 1.8)
                             problems.Add($"{lang}: caption '{caption.Text}' wraps");
                     foreach (var slot in panel.Children.OfType<MenuItem>())
-                        if (slot.Header is FrameworkElement header && header.DesiredSize.Width > header.ActualWidth + 0.5)
+                        if (slot.Header is FrameworkElement header && header.DesiredSize.Width - header.Margin.Left - header.Margin.Right > header.ActualWidth + 0.5)
                             problems.Add($"{lang}: row '{System.Windows.Automation.AutomationProperties.GetName(slot)}' runs past the card");
                 }
             }
@@ -212,6 +212,56 @@ namespace KillerNotes.Tests
                 foreach (var d in saved) merged.Add(d);
             }
             Assert.True(problems.Count == 0, string.Join("\n", problems));
+        });
+
+        /// <summary>One left edge: the labels, the strips' rules, the separators and the row icons
+        /// all start on the icon column. The labels sat 16px further in, past an icon gutter
+        /// they do not use, and the strips' rules ran 8px further out than everything else.</summary>
+        [Fact]
+        public void EverythingStartsOnOneLeftEdge() => Sta.RunApplication(() =>
+        {
+            if (Application.ResourceAssembly == null) Application.ResourceAssembly = typeof(App).Assembly;
+            var app = Application.Current ?? new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+            var merged = app.Resources.MergedDictionaries;
+            var saved = merged.ToList();
+            merged.Clear();
+            merged.Add(ThemeHarness.Create(Theme.Dark, ThemeHarness.FirstRunAccent(Theme.Dark)));
+            foreach (string r in new[] { "Controls/Controls.xaml", "Strings/en-US.xaml", "Controls/AppStyles.xaml" })
+                merged.Add(new ResourceDictionary { Source = new Uri("/KillerNotes;component/" + r, UriKind.Relative) });
+            try
+            {
+                var menu = LoadCard(showAll: true);
+                var rows = menu.Items.Cast<object>().ToList();
+                menu.Items.Clear();
+                var panel = new StackPanel();
+                foreach (var row in rows) panel.Children.Add((UIElement)row);
+                var host = new Border { Width = 320, Child = panel };
+                host.Measure(new Size(320, double.PositiveInfinity));
+                host.Arrange(new Rect(host.DesiredSize));
+                host.UpdateLayout();
+                double Left(FrameworkElement e) => e.TransformToAncestor(host).Transform(new Point(0, 0)).X;
+
+                var cardLabel = (Style)app.FindResource("CardLabel");
+                var edges = new System.Collections.Generic.List<(string What, double X)>();
+                foreach (var d in Descendants(host).OfType<FrameworkElement>())
+                {
+                    if (d is TextBlock { Style: var st } t && ReferenceEquals(st, cardLabel)) edges.Add(("label " + t.Text, Left(d)));
+                    else if (d is Border { Child: System.Windows.Controls.Primitives.UniformGrid }) edges.Add(("strip rule", Left(d)));
+                    else if (d is Separator) edges.Add(("separator", Left(d)));
+                    else if (d.Name == "IconPresenter" && d.ActualWidth > 0) edges.Add(("row icon", Left(d)));
+                }
+                Assert.Contains(edges, e => e.What.StartsWith("label"));
+                Assert.Contains(edges, e => e.What == "strip rule");
+                Assert.Contains(edges, e => e.What == "row icon");
+                double column = edges.First(e => e.What == "row icon").X;
+                var off = edges.Where(e => Math.Abs(e.X - column) > 0.5).Select(e => $"{e.What} at {e.X:0.#}").ToList();
+                Assert.True(off.Count == 0, $"icon column {column:0.#}; off it: " + string.Join(", ", off));
+            }
+            finally
+            {
+                merged.Clear();
+                foreach (var d in saved) merged.Add(d);
+            }
         });
 
         /// <summary>The editor card's own width range: its MinWidth and MaxWidth less the

@@ -1450,8 +1450,11 @@
                            swatch row, segmented toggle). Not focusable and never highlighted,
                            so arrow keys walk the real rows and skip it; Tab reaches its buttons.
            CardLabel     - the left label of an inline row ("Color", "Tags"). A slot that holds
-                           one gets Padding="24,..." so its label starts on the same column as
-                           the header text of the ordinary rows (8px padding + 16px gutter).
+                           one gets Padding="8,..." so its label starts on the icon column, the
+                           same edge as the header and the ordinary rows' icons. A field row that
+                           is an ordinary MenuItem (Tags, Group) pulls its header back over the
+                           16px icon gutter with Margin="-16,0,0,0" to land on that edge too.
+                           At 24, past the gutter, the labels sat in from everything else.
            CardQuickButton, CardSwatch, CardSegment - the controls those slots hold.
          Field rows that open a list (Tags, Group) are ordinary MenuItems with a richer Header,
          so their submenus keep the family submenu popup. No new theme keys: every brush here is

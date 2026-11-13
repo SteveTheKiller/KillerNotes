@@ -942,7 +942,7 @@
                                 </MenuItem>
                                 <MenuItem Style="{StaticResource CardSlot}" Padding="0" AutomationProperties.Name="{DynamicResource Str_Card_Actions}">
                                     <MenuItem.Header>
-                                        <Border BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,1" Padding="2,4">
+                                        <Border Margin="8,0" BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,1" Padding="0,4">
                                             <UniformGrid Rows="1">
                                                 <Button x:Name="GroupCardNewNoteBtn" Style="{StaticResource CardQuickButton}" Content="&#xE710;"
                                                         Tag="{DynamicResource Str_Card_NewNote}" Click="GroupCardNewNote_Click"/>
@@ -960,7 +960,7 @@
                                         </Border>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem Style="{StaticResource CardSlot}" Padding="24,8,4,4">
+                                <MenuItem Style="{StaticResource CardSlot}" Padding="8,8,4,4">
                                     <MenuItem.Header>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Color}"/>
@@ -972,13 +972,13 @@
                                      open (GroupCard.cs). Same move path as the sidebar drag. -->
                                 <MenuItem x:Name="GroupParentMenu" HorizontalContentAlignment="Stretch">
                                     <MenuItem.Header>
-                                        <DockPanel>
+                                        <DockPanel Margin="-16,0,0,0">
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Parent}"/>
                                             <TextBlock x:Name="GroupCardParentText" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                                         </DockPanel>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem Style="{StaticResource CardSlot}" Padding="24,4,4,8">
+                                <MenuItem Style="{StaticResource CardSlot}" Padding="8,4,4,8">
                                     <MenuItem.Header>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_UseFor}"/>
@@ -1201,7 +1201,7 @@
                                 <MenuItem x:Name="CardQuickSlot" Style="{StaticResource CardSlot}" Padding="0"
                                           AutomationProperties.Name="{DynamicResource Str_Card_Actions}">
                                     <MenuItem.Header>
-                                        <Border BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,1" Padding="2,4">
+                                        <Border Margin="8,0" BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,1" Padding="0,4">
                                             <UniformGrid x:Name="CardQuickGrid" Rows="1">
                                                 <Button x:Name="CardPinBtn" Style="{StaticResource CardQuickButton}" Content="&#xE718;"
                                                         Tag="{DynamicResource Str_Card_Pin}" Click="CardPin_Click"/>
@@ -1217,7 +1217,7 @@
                                         </Border>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem x:Name="CardColorSlot" Style="{StaticResource CardSlot}" Padding="24,8,4,4">
+                                <MenuItem x:Name="CardColorSlot" Style="{StaticResource CardSlot}" Padding="8,8,4,4">
                                     <MenuItem.Header>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Color}"/>
@@ -1229,7 +1229,7 @@
                                      header changed, from a bare label to the label plus the current value. -->
                                 <MenuItem x:Name="TagsMenu" InputGestureText="Alt+K" HorizontalContentAlignment="Stretch">
                                     <MenuItem.Header>
-                                        <DockPanel>
+                                        <DockPanel Margin="-16,0,0,0">
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Tags}"/>
                                             <ItemsControl x:Name="CardTagChips" Focusable="False" IsTabStop="False" VerticalAlignment="Center">
                                                 <ItemsControl.ItemsPanel>
@@ -1249,13 +1249,13 @@
                                 </MenuItem>
                                 <MenuItem x:Name="GroupMenu" InputGestureText="Alt+G" HorizontalContentAlignment="Stretch">
                                     <MenuItem.Header>
-                                        <DockPanel>
+                                        <DockPanel Margin="-16,0,0,0">
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Group}"/>
                                             <TextBlock x:Name="CardGroupText" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                                         </DockPanel>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem x:Name="CardFormatSlot" Style="{StaticResource CardSlot}" Padding="24,4,4,8">
+                                <MenuItem x:Name="CardFormatSlot" Style="{StaticResource CardSlot}" Padding="8,4,4,8">
                                     <MenuItem.Header>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Format}"/>
@@ -2323,7 +2323,7 @@
                                 <MenuItem x:Name="EditorQuickSlot" Style="{StaticResource CardSlot}" Padding="0"
                                           AutomationProperties.Name="{DynamicResource Str_Card_Actions}">
                                     <MenuItem.Header>
-                                        <Border BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,0,0,1" Padding="2,0,2,4">
+                                        <Border Margin="8,0" BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,4">
                                             <UniformGrid Rows="1">
                                                 <Button x:Name="EditorCutBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8C6;"
                                                         Tag="{DynamicResource Str_Ctx_Cut}"/>
@@ -2343,7 +2343,7 @@
                                 <MenuItem x:Name="RecSlot" Style="{StaticResource CardSlot}" Padding="0" Visibility="Collapsed"
                                           AutomationProperties.Name="{DynamicResource Str_Dict_Share}">
                                     <MenuItem.Header>
-                                        <Border BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,0,0,1" Padding="2,4">
+                                        <Border Margin="8,0" BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4">
                                             <UniformGrid Rows="1">
                                                 <Button x:Name="RecPlayPauseBtn" Style="{StaticResource CardQuickButton}" Content="&#xE768;"
                                                         Tag="{DynamicResource Str_Card_Play}"/>
@@ -2365,7 +2365,7 @@
                                 <MenuItem x:Name="TableSlot" Style="{StaticResource CardSlot}" Padding="0" Visibility="Collapsed"
                                           AutomationProperties.Name="{DynamicResource Str_Ctx_Table}">
                                     <MenuItem.Header>
-                                        <Border BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,0,0,1" Padding="2,4">
+                                        <Border Margin="8,0" BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4">
                                             <UniformGrid Rows="1">
                                                 <Button x:Name="TblRowAboveBtn" Style="{StaticResource CardQuickButton}" Content="&#xE74A;"
                                                         Tag="{DynamicResource Str_Card_RowAbove}"/>
@@ -2381,7 +2381,7 @@
                                         </Border>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem x:Name="DocToggleSlot" Style="{StaticResource CardSlot}" Padding="24,8,4,4">
+                                <MenuItem x:Name="DocToggleSlot" Style="{StaticResource CardSlot}" Padding="8,8,4,4">
                                     <MenuItem.Header>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_View}"/>
@@ -2394,7 +2394,7 @@
                                     </MenuItem.Header>
                                 </MenuItem>
                                 <!-- Page width presets (Editor.View.cs, #31): the footer radios' four picks. -->
-                                <MenuItem x:Name="PageWidthSlot" Style="{StaticResource CardSlot}" Padding="24,4,4,4">
+                                <MenuItem x:Name="PageWidthSlot" Style="{StaticResource CardSlot}" Padding="8,4,4,4">
                                     <MenuItem.Header>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Width}"/>
@@ -2417,7 +2417,7 @@
                                 <!-- Preview mode: Source (raw), Rendered (WYSIWYG), Split (both); F4 cycles
                                      them. Its visibility is owned by Preview.cs and doubles as the F4 gate
                                      (Shortcuts.cs), so the slot keeps the old row's name. -->
-                                <MenuItem x:Name="PreviewMenuItem" Style="{StaticResource CardSlot}" Padding="24,4,4,4" Visibility="Collapsed">
+                                <MenuItem x:Name="PreviewMenuItem" Style="{StaticResource CardSlot}" Padding="8,4,4,4" Visibility="Collapsed">
                                     <MenuItem.Header>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Preview}"/>

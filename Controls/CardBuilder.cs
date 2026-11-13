@@ -77,7 +77,8 @@ namespace KillerFamily.Controls
                 b.Click += (_, _) => { Close(b); run(); };
                 grid.Children.Add(b);
             }
-            var rule = new Border { BorderThickness = new Thickness(0, 1, 0, 1), Padding = new Thickness(2, 4, 2, 4), Child = grid };
+            // Inset 8 like the kit's separators, so the strip's rules start on the icon column.
+            var rule = new Border { Margin = new Thickness(8, 0, 8, 0), BorderThickness = new Thickness(0, 1, 0, 1), Padding = new Thickness(0, 4, 0, 4), Child = grid };
             rule.SetResourceReference(Border.BorderBrushProperty, "MenuBorderBrush");
             var slot = Slot(rule);
             slot.Padding = new Thickness(0);
@@ -135,7 +136,7 @@ namespace KillerFamily.Controls
             dock.Children.Add(l);
             dock.Children.Add(content);
             var slot = Slot(dock);
-            slot.Padding = new Thickness(24, 4, 4, 4);
+            slot.Padding = new Thickness(8, 4, 4, 4);   // the icon column (Controls.xaml CardLabel)
             AutomationProperties.SetName(slot, label);
             return slot;
         }
