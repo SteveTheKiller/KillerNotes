@@ -352,10 +352,10 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_PageWidth">Sayfa genişliği</sys:String>
     <sys:String x:Key="Str_Card_Link">Bağlantı</sys:String>
     <sys:String x:Key="Str_Card_List">Liste</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">Üste satır</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">Alta satır</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">Sola sütun</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">Sağa sütun</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">Üste</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">Alta</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">Sola</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">Sağa</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">Stil</sys:String>
     <sys:String x:Key="Str_Card_View">Görünüm</sys:String>
     <sys:String x:Key="Str_Card_Syntax">Sözdizimi</sys:String>

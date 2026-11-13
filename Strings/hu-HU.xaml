@@ -51,10 +51,10 @@
     <sys:String x:Key="Str_KS_PageWidth">Oldalszélesség</sys:String>
     <sys:String x:Key="Str_Card_Link">Hivatkozás</sys:String>
     <sys:String x:Key="Str_Card_List">Lista</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">Sor fölé</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">Sor alá</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">Oszlop balra</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">Oszlop jobbra</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">Fölé</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">Alá</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">Balra</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">Jobbra</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">Stílus</sys:String>
     <sys:String x:Key="Str_Card_View">Megtekintés</sys:String>
     <sys:String x:Key="Str_Card_Syntax">Szintaxis</sys:String>

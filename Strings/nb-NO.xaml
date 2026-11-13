@@ -56,10 +56,10 @@
     <sys:String x:Key="Str_KS_PageWidth">Sidebredde</sys:String>
     <sys:String x:Key="Str_Card_Link">Lenke</sys:String>
     <sys:String x:Key="Str_Card_List">Liste</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">Rad over</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">Rad under</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">Kolonne venstre</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">Kolonne høyre</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">Over</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">Under</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">Venstre</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">Høyre</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">Stil</sys:String>
     <sys:String x:Key="Str_Card_View">Visning</sys:String>
     <sys:String x:Key="Str_Card_Syntax">Syntaks</sys:String>

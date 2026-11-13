@@ -350,10 +350,10 @@
     <sys:String x:Key="Str_KS_PageWidth">ページ幅</sys:String>
     <sys:String x:Key="Str_Card_Link">リンク</sys:String>
     <sys:String x:Key="Str_Card_List">リスト</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">上に行</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">下に行</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">左に列</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">右に列</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">上</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">下</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">左</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">右</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">スタイル</sys:String>
     <sys:String x:Key="Str_Card_View">表示</sys:String>
     <sys:String x:Key="Str_Card_Syntax">構文</sys:String>

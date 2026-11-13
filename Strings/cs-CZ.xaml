@@ -51,10 +51,10 @@
     <sys:String x:Key="Str_KS_PageWidth">Šířka stránky</sys:String>
     <sys:String x:Key="Str_Card_Link">Odkaz</sys:String>
     <sys:String x:Key="Str_Card_List">Seznam</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">Řádek nad</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">Řádek pod</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">Sloupec vlevo</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">Sloupec vpravo</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">Nad</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">Pod</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">Vlevo</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">Vpravo</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">Styl</sys:String>
     <sys:String x:Key="Str_Card_View">Zobrazení</sys:String>
     <sys:String x:Key="Str_Card_Syntax">Syntaxe</sys:String>

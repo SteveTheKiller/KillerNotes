@@ -76,13 +76,17 @@ namespace KillerNotes.Tests
                 // A ContextMenu only draws in its own popup window, so its rows are laid out in a
                 // panel on the card's surface instead: the same row templates, no window.
                 var menu = LoadCard(showAll: true);
+                // As a real note shows them: wrap on, full width, rendered preview.
+                foreach (string on in new[] { "WordWrapToggle", "PageWidthFullSeg", "PreviewRenderedSeg" })
+                    ((System.Windows.Controls.Primitives.ToggleButton)menu.FindName(on)).IsChecked = true;
                 var rows = menu.Items.Cast<object>().ToList();
                 menu.Items.Clear();
                 var panel = new StackPanel();
                 foreach (var row in rows) panel.Children.Add((UIElement)row);
-                var host = new Border { Width = 360, Padding = new Thickness(6), Child = panel };
+                var (minWidth, maxWidth) = CardWidths();
+                var host = new Border { MinWidth = minWidth, MaxWidth = maxWidth, Padding = new Thickness(6), Child = panel };
                 host.SetResourceReference(Border.BackgroundProperty, "MenuBackgroundBrush");
-                host.Measure(new Size(360, double.PositiveInfinity));
+                host.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 host.Arrange(new Rect(host.DesiredSize));
                 host.UpdateLayout();
                 Assert.True(host.ActualHeight > 200, "The card laid out empty.");
@@ -157,6 +161,73 @@ namespace KillerNotes.Tests
                 foreach (var d in saved) merged.Add(d);
             }
         });
+
+        /// <summary>Every quick-button caption sits on one line and every chip and segment row
+        /// fits, in every language, at the card's own width. "Column right" wrapped to two lines
+        /// beside one-line neighbours, which read as a mistake.</summary>
+        [Fact]
+        public void EveryCaptionFitsOnOneLineInEveryLanguage() => Sta.RunApplication(() =>
+        {
+            if (Application.ResourceAssembly == null) Application.ResourceAssembly = typeof(App).Assembly;
+            var app = Application.Current ?? new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+            var merged = app.Resources.MergedDictionaries;
+            var saved = merged.ToList();
+            var (minWidth, maxWidth) = CardWidths();
+            var problems = new System.Collections.Generic.List<string>();
+            try
+            {
+                foreach (string file in Directory.GetFiles(Path.Combine(Root(), "Strings"), "*.xaml"))
+                {
+                    string lang = Path.GetFileNameWithoutExtension(file);
+                    merged.Clear();
+                    merged.Add(ThemeHarness.Create(Theme.Dark, ThemeHarness.FirstRunAccent(Theme.Dark)));
+                    foreach (string r in new[] { "Controls/Controls.xaml", $"Strings/{lang}.xaml", "Controls/AppStyles.xaml" })
+                        merged.Add(new ResourceDictionary { Source = new Uri("/KillerNotes;component/" + r, UriKind.Relative) });
+
+                    var menu = LoadCard(showAll: true);
+                    var rows = menu.Items.Cast<object>().ToList();
+                    menu.Items.Clear();
+                    var panel = new StackPanel();
+                    foreach (var row in rows) panel.Children.Add((UIElement)row);
+                    // Sized the way the popup sizes it: natural width, held between the card's
+                    // MinWidth and MaxWidth.
+                    var host = new Border { MinWidth = minWidth, MaxWidth = maxWidth, Padding = new Thickness(6), Child = panel };
+                    host.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    host.Arrange(new Rect(host.DesiredSize));
+                    host.UpdateLayout();
+                    if (lang == "en-US" && host.ActualWidth > minWidth + 0.5)
+                        problems.Add($"en-US: the card grew to {host.ActualWidth:0} past its {minWidth:0}");
+
+                    foreach (var caption in Descendants(host).OfType<TextBlock>().Where(t => t.Name == "Caption"))
+                        if (caption.ActualHeight > caption.FontSize * 1.8)
+                            problems.Add($"{lang}: caption '{caption.Text}' wraps");
+                    foreach (var slot in panel.Children.OfType<MenuItem>())
+                        if (slot.Header is FrameworkElement header && header.DesiredSize.Width > header.ActualWidth + 0.5)
+                            problems.Add($"{lang}: row '{System.Windows.Automation.AutomationProperties.GetName(slot)}' runs past the card");
+                }
+            }
+            finally
+            {
+                merged.Clear();
+                foreach (var d in saved) merged.Add(d);
+            }
+            Assert.True(problems.Count == 0, string.Join("\n", problems));
+        });
+
+        /// <summary>The editor card's own width range: its MinWidth and MaxWidth less the
+        /// template's 22px halo on each side.</summary>
+        private static (double Min, double Max) CardWidths() =>
+            ((double)EditorCard().Attribute("MinWidth")! - 44, (double)EditorCard().Attribute("MaxWidth")! - 44);
+
+        private static System.Collections.Generic.IEnumerable<DependencyObject> Descendants(DependencyObject root)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+            {
+                var child = VisualTreeHelper.GetChild(root, i);
+                yield return child;
+                foreach (var d in Descendants(child)) yield return d;
+            }
+        }
 
         /// <summary>The card's XAML from MainWindow.xaml, without its event wiring, every part shown.</summary>
         private static Menu LoadCard(bool showAll)

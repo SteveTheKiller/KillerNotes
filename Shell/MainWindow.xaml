@@ -2314,8 +2314,12 @@
                                  shows the parts that apply; the shortcut handlers in
                                  ActionShortcuts.cs name the buttons as their surfaces, so the
                                  tooltips carry the keys. Slots collapse, never the buttons in them:
-                                 a hidden surface turns its shortcut off. -->
-                            <ContextMenu x:Name="EditorCard" Style="{StaticResource CardMenu}">
+                                 a hidden surface turns its shortcut off.
+                                 320 wide where its captions fit on one line (English), and only as
+                                 much wider as a longer language needs to keep them on one line; the
+                                 note card's fixed 360 read as too wide for this one. The 44 is the
+                                 template's 22px shadow halo on each side. -->
+                            <ContextMenu x:Name="EditorCard" Style="{StaticResource CardMenu}" MinWidth="364" MaxWidth="644">
                                 <MenuItem x:Name="EditorQuickSlot" Style="{StaticResource CardSlot}" Padding="0"
                                           AutomationProperties.Name="{DynamicResource Str_Card_Actions}">
                                     <MenuItem.Header>

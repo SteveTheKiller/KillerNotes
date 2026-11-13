@@ -354,10 +354,10 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_PageWidth">Seitenbreite</sys:String>
     <sys:String x:Key="Str_Card_Link">Link</sys:String>
     <sys:String x:Key="Str_Card_List">Liste</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">Zeile oben</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">Zeile unten</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">Spalte links</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">Spalte rechts</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">Oben</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">Unten</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">Links</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">Rechts</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">Stil</sys:String>
     <sys:String x:Key="Str_Card_View">Ansicht</sys:String>
     <sys:String x:Key="Str_Card_Syntax">Syntax</sys:String>

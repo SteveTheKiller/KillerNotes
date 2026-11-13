@@ -56,10 +56,10 @@
     <sys:String x:Key="Str_KS_PageWidth">Page width</sys:String>
     <sys:String x:Key="Str_Card_Link">Link</sys:String>
     <sys:String x:Key="Str_Card_List">List</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">Row above</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">Row below</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">Column left</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">Column right</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">Above</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">Below</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">Left</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">Right</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">Style</sys:String>
     <sys:String x:Key="Str_Card_View">View</sys:String>
     <sys:String x:Key="Str_Card_Syntax">Syntax</sys:String>

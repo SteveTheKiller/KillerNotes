@@ -56,10 +56,10 @@
     <sys:String x:Key="Str_KS_PageWidth">Ширина сторінки</sys:String>
     <sys:String x:Key="Str_Card_Link">Посилання</sys:String>
     <sys:String x:Key="Str_Card_List">Список</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">Рядок вище</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">Рядок нижче</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">Стовпець ліворуч</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">Стовпець праворуч</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">Вище</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">Нижче</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">Ліворуч</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">Праворуч</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">Стиль</sys:String>
     <sys:String x:Key="Str_Card_View">Вигляд</sys:String>
     <sys:String x:Key="Str_Card_Syntax">Синтаксис</sys:String>

@@ -36,10 +36,10 @@
     <sys:String x:Key="Str_KS_PageWidth">Širina strani</sys:String>
     <sys:String x:Key="Str_Card_Link">Povezava</sys:String>
     <sys:String x:Key="Str_Card_List">Seznam</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">Vrstica zgoraj</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">Vrstica spodaj</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">Stolpec levo</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">Stolpec desno</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">Nad</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">Pod</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">Levo</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">Desno</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">Slog</sys:String>
     <sys:String x:Key="Str_Card_View">Pogled</sys:String>
     <sys:String x:Key="Str_Card_Syntax">Skladnja</sys:String>

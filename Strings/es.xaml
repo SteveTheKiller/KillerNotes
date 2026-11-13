@@ -352,10 +352,10 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_PageWidth">Ancho de página</sys:String>
     <sys:String x:Key="Str_Card_Link">Enlace</sys:String>
     <sys:String x:Key="Str_Card_List">Lista</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">Fila arriba</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">Fila abajo</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">Columna izquierda</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">Columna derecha</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">Arriba</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">Abajo</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">Izquierda</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">Derecha</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">Estilo</sys:String>
     <sys:String x:Key="Str_Card_View">Vista</sys:String>
     <sys:String x:Key="Str_Card_Syntax">Sintaxis</sys:String>

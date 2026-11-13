@@ -56,10 +56,10 @@
     <sys:String x:Key="Str_KS_PageWidth">Chiều rộng trang</sys:String>
     <sys:String x:Key="Str_Card_Link">Liên kết</sys:String>
     <sys:String x:Key="Str_Card_List">Danh sách</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">Hàng trên</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">Hàng dưới</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">Cột trái</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">Cột phải</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">Trên</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">Dưới</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">Trái</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">Phải</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">Kiểu</sys:String>
     <sys:String x:Key="Str_Card_View">Xem</sys:String>
     <sys:String x:Key="Str_Card_Syntax">Cú pháp</sys:String>

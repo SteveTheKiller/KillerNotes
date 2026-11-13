@@ -48,10 +48,10 @@
     <sys:String x:Key="Str_KS_PageWidth">Бет ені</sys:String>
     <sys:String x:Key="Str_Card_Link">Сілтеме</sys:String>
     <sys:String x:Key="Str_Card_List">Тізім</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">Жоғарыға жол</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">Төменге жол</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">Солға баған</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">Оңға баған</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">Жоғары</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">Төмен</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">Солға</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">Оңға</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">Стиль</sys:String>
     <sys:String x:Key="Str_Card_View">Көрініс</sys:String>
     <sys:String x:Key="Str_Card_Syntax">Синтаксис</sys:String>

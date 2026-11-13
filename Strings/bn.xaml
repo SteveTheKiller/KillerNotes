@@ -350,10 +350,10 @@
     <sys:String x:Key="Str_KS_PageWidth">পৃষ্ঠার প্রস্থ</sys:String>
     <sys:String x:Key="Str_Card_Link">লিঙ্ক</sys:String>
     <sys:String x:Key="Str_Card_List">তালিকা</sys:String>
-    <sys:String x:Key="Str_Card_RowAbove">উপরে সারি</sys:String>
-    <sys:String x:Key="Str_Card_RowBelow">নিচে সারি</sys:String>
-    <sys:String x:Key="Str_Card_ColLeft">বাঁয়ে কলাম</sys:String>
-    <sys:String x:Key="Str_Card_ColRight">ডানে কলাম</sys:String>
+    <sys:String x:Key="Str_Card_RowAbove">উপরে</sys:String>
+    <sys:String x:Key="Str_Card_RowBelow">নিচে</sys:String>
+    <sys:String x:Key="Str_Card_ColLeft">বামে</sys:String>
+    <sys:String x:Key="Str_Card_ColRight">ডানে</sys:String>
     <sys:String x:Key="Str_Card_TableStyle">শৈলী</sys:String>
     <sys:String x:Key="Str_Card_View">দেখুন</sys:String>
     <sys:String x:Key="Str_Card_Syntax">সিনট্যাক্স</sys:String>
