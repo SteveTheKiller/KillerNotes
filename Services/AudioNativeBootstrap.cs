@@ -50,11 +50,9 @@ namespace KillerNotes.Services
         /// from any thread; only the first call does work.</summary>
         internal static void EnsureLoaded()
         {
-            if (_done) return;
             lock (_gate)
             {
                 if (_done) return;
-                _done = true;
 
                 var asm = typeof(AudioNativeBootstrap).Assembly;
                 string version = asm.GetName().Version?.ToString() ?? "0";
@@ -71,7 +69,7 @@ namespace KillerNotes.Services
 
                 FlacAvailable = Extract(FlacDll);
                 LameAvailable = Extract(LameDll);
-
+                _done = true;
             }
         }
 
