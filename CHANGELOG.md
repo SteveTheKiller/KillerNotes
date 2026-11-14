@@ -24,6 +24,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Keyboard context menus follow the current editor selection and focused folder. Sketchpad and dictation cards support keyboard opening and focus return.
 - Dialog close glyphs stay centered at different display scales.
 - Group manager panes use the theme's pane background and grain instead of the window gradient.
+- SketchPad keeps its pane border when clicked and shows keyboard focus separately.
 - Context cards hide irrelevant sections and unnecessary trailing dividers. Menu icons, shortcut alignment, compact-sidebar dates, dialog close buttons, the footer note-count inset, and the doubled left border in Rendered view are corrected.
 
 ### Changed

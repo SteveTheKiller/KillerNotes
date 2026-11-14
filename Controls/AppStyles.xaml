@@ -16,6 +16,16 @@
          Segoe UI fallback for editions without it. -->
     <FontFamily x:Key="ContentFont">Bahnschrift, Segoe UI</FontFamily>
 
+    <Style x:Key="SketchCanvasKeyboardFocus" TargetType="Control">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Control">
+                    <Border BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="1" Margin="3"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- KillerNotes' text field and its Cut/Copy/Paste menu. These used to live in the app's own
          picker styles (PickerStyles.xaml), which merged after Controls.xaml and so replaced the
          family versions everywhere: the table size boxes, the dictation fields and every other
