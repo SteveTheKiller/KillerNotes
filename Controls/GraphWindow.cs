@@ -437,9 +437,8 @@ namespace KillerNotes.Controls
             // the grab handle lives in - which is how Win98 itself did it. Without it the hatch
             // sits straight on the white canvas with nothing to read against.
             //
-            // WindowFrameBrush rather than a new key: this IS the frame face color, and that brush
-            // is already transparent on every theme with no frame, so the patch disappears on the
-            // other twelve without a ThemeManager default to maintain.
+            // The backing follows the classic grip's visibility. Modern frame brushes can be
+            // opaque even when their frame thickness is zero.
             var gripCorner = new Border
             {
                 Width = 21, Height = 21,
@@ -449,6 +448,7 @@ namespace KillerNotes.Controls
                 SnapsToDevicePixels = true,
             };
             gripCorner.SetResourceReference(Border.BackgroundProperty, "WindowFrameBrush");
+            gripCorner.SetResourceReference(VisibilityProperty, "GripLinesVisibility");
             // An edge on the two sides that meet the canvas, so the patch reads as a corner of
             // chrome rather than a gray smudge on the work surface. Top and left only: the other
             // two sit against the window frame and have nothing to divide them from.
