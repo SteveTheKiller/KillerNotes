@@ -2211,6 +2211,10 @@
                                             FontSize="11" Padding="8,2" Margin="8,0,0,0"
                                             Click="TblCustomInsert_Click"/>
                                 </StackPanel>
+                                <Button x:Name="TablePickerStyleBtn" Content="{DynamicResource Str_TableStyle_Title}"
+                                        Style="{StaticResource SurfaceButton}" FontSize="11" Padding="8,4" Margin="0,8,0,0"
+                                        IsEnabled="False" Click="TablePickerStyle_Click"
+                                        AutomationProperties.Name="{DynamicResource Str_TableStyle_Caption}"/>
                             </StackPanel>
                         </Border>
                     </Popup>

@@ -18,21 +18,28 @@
             <local:DialogTitleBar Subtitle="{DynamicResource Str_TableStyle_Caption}" CloseRequested="Cancel_Click"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="24,16,24,12">
                 <StackPanel x:Name="Fields">
-                    <TextBlock Text="{DynamicResource Str_Ctx_TblLines}"/>
-                    <ComboBox x:Name="LayoutBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="Changed"
-                              AutomationProperties.Name="{DynamicResource Str_Ctx_TblLines}">
-                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineGrid}"/>
-                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineRows}"/>
-                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineOutline}"/>
-                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineNone}"/>
-                    </ComboBox>
-                    <TextBlock Text="{DynamicResource Str_TableStyle_Pattern}"/>
-                    <ComboBox x:Name="PatternBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="Changed"
-                              AutomationProperties.Name="{DynamicResource Str_TableStyle_Pattern}">
-                        <ComboBoxItem Content="{DynamicResource Str_TableStyle_Solid}"/>
-                        <ComboBoxItem Content="{DynamicResource Str_TableStyle_Dotted}"/>
-                        <ComboBoxItem Content="{DynamicResource Str_TableStyle_Dashed}"/>
-                    </ComboBox>
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource Str_Ctx_TblLines}"/>
+                            <ComboBox x:Name="LayoutBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="Changed"
+                                      AutomationProperties.Name="{DynamicResource Str_Ctx_TblLines}">
+                                <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineGrid}"/>
+                                <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineRows}"/>
+                                <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineOutline}"/>
+                                <ComboBoxItem Content="{DynamicResource Str_Ctx_TblLineNone}"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="{DynamicResource Str_TableStyle_Pattern}"/>
+                            <ComboBox x:Name="PatternBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="Changed"
+                                      AutomationProperties.Name="{DynamicResource Str_TableStyle_Pattern}">
+                                <ComboBoxItem Content="{DynamicResource Str_TableStyle_Solid}"/>
+                                <ComboBoxItem Content="{DynamicResource Str_TableStyle_Dotted}"/>
+                                <ComboBoxItem Content="{DynamicResource Str_TableStyle_Dashed}"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
                         <StackPanel>
@@ -50,18 +57,25 @@
                             </ComboBox>
                         </StackPanel>
                     </Grid>
-                    <CheckBox x:Name="HeaderRowBox" FontFamily="{DynamicResource UiFont}" Content="{DynamicResource Str_TableStyle_HeaderRow}"
-                              Margin="0,0,0,8" Checked="Changed" Unchecked="Changed"/>
-                    <CheckBox x:Name="HeaderColumnBox" FontFamily="{DynamicResource UiFont}" Content="{DynamicResource Str_TableStyle_HeaderColumn}"
-                              Margin="0,0,0,12" Checked="Changed" Unchecked="Changed"/>
-                    <TextBlock Text="{DynamicResource Str_TableStyle_Sizing}"/>
-                    <ComboBox x:Name="SizingBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="Changed"
-                              AutomationProperties.Name="{DynamicResource Str_TableStyle_Sizing}">
-                        <ComboBoxItem Content="{DynamicResource Str_TableStyle_KeepWidths}"/>
-                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblFitPage}"/>
-                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblFitContent}"/>
-                        <ComboBoxItem Content="{DynamicResource Str_Ctx_TblColWidth}"/>
-                    </ComboBox>
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource Str_TableStyle_Sizing}"/>
+                            <ComboBox x:Name="SizingBox" FontFamily="{DynamicResource UiFont}" Margin="0,4,0,10" SelectionChanged="Changed"
+                                      AutomationProperties.Name="{DynamicResource Str_TableStyle_Sizing}">
+                                <ComboBoxItem Content="{DynamicResource Str_TableStyle_KeepWidths}"/>
+                                <ComboBoxItem Content="{DynamicResource Str_Ctx_TblFitPage}"/>
+                                <ComboBoxItem Content="{DynamicResource Str_Ctx_TblFitContent}"/>
+                                <ComboBoxItem Content="{DynamicResource Str_Ctx_TblColWidth}"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Margin="0,4,0,0">
+                            <CheckBox x:Name="HeaderRowBox" FontFamily="{DynamicResource UiFont}" Content="{DynamicResource Str_TableStyle_HeaderRow}"
+                                      Margin="0,0,0,8" Checked="Changed" Unchecked="Changed"/>
+                            <CheckBox x:Name="HeaderColumnBox" FontFamily="{DynamicResource UiFont}" Content="{DynamicResource Str_TableStyle_HeaderColumn}"
+                                      Margin="0,0,0,12" Checked="Changed" Unchecked="Changed"/>
+                        </StackPanel>
+                    </Grid>
                     <Grid x:Name="WidthFields" Visibility="Collapsed">
                         <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
                         <StackPanel>
@@ -76,15 +90,19 @@
                         </StackPanel>
                     </Grid>
                     <TextBlock x:Name="ValidationText" TextWrapping="Wrap" Margin="0,0,0,10" Visibility="Collapsed" AutomationProperties.LiveSetting="Polite"/>
-                    <CheckBox x:Name="DefaultBox" FontFamily="{DynamicResource UiFont}" Content="{DynamicResource Str_TableStyle_Default}"/>
                 </StackPanel>
             </ScrollViewer>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="24,0,24,20">
-                <Button x:Name="CancelButton" Content="{DynamicResource Str_Btn_Cancel}" Style="{StaticResource SurfaceButton}"
+            <Grid Grid.Row="2" Margin="24,0,24,16">
+                <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <CheckBox x:Name="DefaultBox" FontFamily="{DynamicResource UiFont}" Margin="0,0,12,0" VerticalAlignment="Center"
+                          IsEnabled="{Binding IsEnabled, ElementName=Fields}" AutomationProperties.Name="{DynamicResource Str_TableStyle_Default}">
+                    <TextBlock Text="{DynamicResource Str_TableStyle_Default}" TextWrapping="Wrap"/>
+                </CheckBox>
+                <Button x:Name="CancelButton" Grid.Column="1" Content="{DynamicResource Str_Btn_Cancel}" Style="{StaticResource SurfaceButton}" VerticalAlignment="Center"
                         FontFamily="{DynamicResource UiFont}" MinWidth="80" Padding="12,2" Margin="0,0,8,0" Click="Cancel_Click"/>
-                <Button x:Name="OkButton" Content="{DynamicResource Str_Btn_OK}" Style="{StaticResource OutlineButton}"
+                <Button x:Name="OkButton" Grid.Column="2" Content="{DynamicResource Str_Btn_OK}" Style="{StaticResource OutlineButton}" VerticalAlignment="Center"
                         FontFamily="{DynamicResource UiFont}" MinWidth="80" Padding="12,2" IsDefault="True" Click="OK_Click"/>
-            </StackPanel>
+            </Grid>
         </Grid>
     </ContentControl>
 </Window>

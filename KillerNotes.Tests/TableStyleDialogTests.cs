@@ -84,6 +84,32 @@ namespace KillerNotes.Tests
             Assert.Equal(caption, dialog.Title);
         });
 
+        [Fact]
+        public void PrimaryChoicesUseTwoCompactColumns() => WithDialog((dialog, _) =>
+        {
+            dialog.Show();
+            dialog.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+            var layout = (ComboBox)dialog.FindName("LayoutBox");
+            var pattern = (ComboBox)dialog.FindName("PatternBox");
+            var root = (UIElement)dialog.Content;
+            Assert.Equal(layout.TranslatePoint(new Point(), root).Y, pattern.TranslatePoint(new Point(), root).Y, 1);
+            Assert.InRange(layout.ActualWidth, 100, 200);
+            Assert.InRange(pattern.ActualWidth, 100, 200);
+            Assert.True(pattern.TranslatePoint(new Point(), root).X >= layout.TranslatePoint(new Point(layout.ActualWidth,0), root).X+8);
+        });
+
+        [Fact]
+        public void DefaultChoiceSharesTheBottomRowWithTheActions() => WithDialog((dialog, _) =>
+        {
+            dialog.Show();
+            dialog.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+            var choice = (CheckBox)dialog.FindName("DefaultBox");
+            var ok = (Button)dialog.FindName("OkButton");
+            var root = (UIElement)dialog.Content;
+            Assert.Equal(choice.TranslatePoint(new Point(0,choice.ActualHeight/2),root).Y,
+                ok.TranslatePoint(new Point(0,ok.ActualHeight/2),root).Y,1);
+        });
+
         // Esc in an open dropdown closes the list, not the whole dialog with every choice in it.
         // The dialog therefore leaves Esc alone on the way down (PreviewKeyDown): the open list
         // handles it as it bubbles, and only an Esc nobody handled reaches Cancel. (A list cannot

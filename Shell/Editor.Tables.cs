@@ -224,6 +224,7 @@ namespace KillerNotes.Shell
         private void OpenTableSizePicker()
         {
             if (_currentId < 0) return;
+            TablePickerStyleBtn.IsEnabled = CellAt(Editor.Selection.Start) != null && CanEditCurrentNote(explain: false);
             _tblCols = _tblRows = 0;
             TableSizeLabel.Text = Loc("Str_Lbl_Size");   // same key as its XAML default
             foreach (Border b in TableSizeCells.Children)
@@ -231,6 +232,15 @@ namespace KillerNotes.Shell
             TableSizePopup.IsOpen = true;
             _tblOpenedAt = Environment.TickCount;
             if (TableSizePopup.Child is UIElement ch) Anim.FadeIn(ch);
+        }
+
+        private void TablePickerStyle_Click(object sender, RoutedEventArgs e)
+        {
+            var cell = CellAt(Editor.Selection.Start);
+            TableSizePopup.IsOpen = false;
+            if (cell == null) return;
+            _tblMenuCell = cell;
+            ShowTableStyle();
         }
 
         private void TableSizePicker_PreviewKeyDown(object sender, KeyEventArgs e)

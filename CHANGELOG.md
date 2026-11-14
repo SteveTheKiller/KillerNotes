@@ -31,6 +31,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 - Notes and groups use context cards with color swatches and common actions. Multi-note cards apply color, tags, group, pin, and delete to the selection.
 - Editor, graph, sketch, recording, database, and tag menus use matching cards with actions appropriate to the selected object.
+- Table Style uses a compact two-column layout with its default choice beside Cancel and OK. The table picker also opens Table Style for the current table.
 - Note creation and folder import live beside New note; whole-notepad export lives on the library rail, and Markdown and HTML detection live in About settings.
 - Preview menus offer Source, Rendered, and Split with shortcuts; F4 cycles through them.
 - The sidebar combines sort controls, shows group counts, and uses a compact New note button. Empty sidebar space no longer opens a menu.
