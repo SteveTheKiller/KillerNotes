@@ -1098,7 +1098,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_LockedOpenFile">Unlock to open {0}.</sys:String>
     <sys:String x:Key="Str_About_LockWithWindows">Lock notes when Windows locks or sleeps</sys:String>
     <sys:String x:Key="Str_About_LockHint">Only applies to a notepad with a password.</sys:String>
-    <sys:String x:Key="Str_About_IdleLock">Lock notes after the computer is idle for:</sys:String>
+    <sys:String x:Key="Str_About_IdleLock">Lock notes after the computer is idle:</sys:String>
     <sys:String x:Key="Str_About_IdleLockOff">Never</sys:String>
     <sys:String x:Key="Str_About_IdleLockMinutes">{0} minutes</sys:String>
     <sys:String x:Key="Str_Bk_WarnFailing">Backups failing</sys:String>
