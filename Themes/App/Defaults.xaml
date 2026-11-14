@@ -15,10 +15,11 @@
     <Thickness x:Key="SidebarPanelMargin">8,8,0,0</Thickness>
     <!-- The notes list lets the chrome strip behind it show through. -->
     <SolidColorBrush x:Key="ListPaneBrush" Color="#00FFFFFF" po:Freeze="True"/>
-    <!-- The footer has no bevel, and 16px of room at each end. -->
+    <!-- The footer has no bevel and 16px of room on the left. On the right, 5px plus the copyright's 20px trailing
+         margin end the text 8px before the corner grip, the gap every app keeps. -->
     <SolidColorBrush x:Key="FooterBevelDarkBrush" Color="#00FFFFFF" po:Freeze="True"/>
     <SolidColorBrush x:Key="FooterBevelLightBrush" Color="#00FFFFFF" po:Freeze="True"/>
-    <Thickness x:Key="FooterPadding">16,0,16,0</Thickness>
+    <Thickness x:Key="FooterPadding">16,0,5,0</Thickness>
     <!-- Align the note count with the content's 8px inset. -->
     <Thickness x:Key="FooterStatusInset">-8,0,0,0</Thickness>
     <!-- The file picker's content and button row. The family's DialogContentMargin is a frame

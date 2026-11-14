@@ -34,7 +34,8 @@
     <sys:Double x:Key="EditorSelectionOpacity">0.75</sys:Double>
     <SolidColorBrush x:Key="FooterBevelDarkBrush" Color="#808080" />
     <SolidColorBrush x:Key="FooterBevelLightBrush" Color="#ffffff" />
-    <Thickness x:Key="FooterPadding">0,0,-2,0</Thickness>
+    <!-- 5px on the right keeps the copyright's gap to the corner grip the same as the other apps' 98SE footers. -->
+    <Thickness x:Key="FooterPadding">0,0,5,0</Thickness>
     <Thickness x:Key="FooterStatusInset">4,0,4,0</Thickness>
     <SolidColorBrush x:Key="ListPaneBrush" Color="#ffffff" />
     <SolidColorBrush x:Key="SearchFieldBrush" Color="#ffffff" />
