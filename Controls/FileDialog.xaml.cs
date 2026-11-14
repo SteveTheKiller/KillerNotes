@@ -1057,8 +1057,12 @@ namespace KillerNotes.Controls
 
         private void FolderTree_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            _treeMenuNode = NodeUnder(Mouse.DirectlyOver as DependencyObject)
-                         ?? NodeUnder(e.OriginalSource as DependencyObject);
+            _treeMenuNode = e.CursorLeft < 0
+                ? NodeUnder(Keyboard.FocusedElement as DependencyObject)
+                    ?? NodeUnder(e.OriginalSource as DependencyObject)
+                    ?? FolderTreeCtl.SelectedItem as FolderNode
+                : NodeUnder(e.OriginalSource as DependencyObject)
+                    ?? NodeUnder(Mouse.DirectlyOver as DependencyObject);
             // Drives are already in places; empty space has nothing to pin.
             if (_treeMenuNode == null || _treeMenuNode.IsDrive) e.Handled = true;
         }
