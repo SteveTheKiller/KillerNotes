@@ -33,7 +33,8 @@
             <!-- Search over both panes, and a new group under the selected one. -->
             <DockPanel Grid.Row="1" Margin="16,10,16,8" LastChildFill="True">
                 <Button x:Name="NewGroupBtn" DockPanel.Dock="Right" Style="{StaticResource SurfaceButton}" Margin="10,0,0,0"
-                        Padding="12,4" Click="NewGroup_Click">
+                        Padding="12,4" Click="NewGroup_Click" AutomationProperties.Name="{DynamicResource Str_Mgr_NewGroup}"
+                        ToolTip="{DynamicResource Str_Mgr_NewGroup}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE8F4;" FontFamily="Segoe MDL2 Assets" FontSize="13" VerticalAlignment="Center" Margin="0,0,8,0"/>
                         <TextBlock Text="{DynamicResource Str_Mgr_NewGroup}" VerticalAlignment="Center"/>
@@ -114,13 +115,18 @@
                         <Border DockPanel.Dock="Top" Height="1" Margin="8,0" Background="{DynamicResource CardBorderBrush}"/>
                         <Grid>
                             <ListBox x:Name="Table" Background="Transparent" BorderThickness="0" SelectionMode="Extended"
-                                     ItemContainerStyle="{StaticResource PickerRow}" Padding="4"
+                                     Padding="4"
                                      HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                      VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Pixel"
                                      AutomationProperties.Name="{DynamicResource Str_Mgr_Notes}"
                                      PreviewMouseLeftButtonDown="Table_PreviewMouseLeftButtonDown" PreviewMouseMove="Table_PreviewMouseMove"
                                      MouseDoubleClick="Table_MouseDoubleClick" KeyDown="Table_KeyDown"
                                      PreviewMouseRightButtonDown="Table_PreviewMouseRightButtonDown" MouseRightButtonUp="Table_MouseRightButtonUp">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource PickerRow}">
+                                        <Setter Property="AutomationProperties.Name" Value="{Binding Title}"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate DataType="{x:Type local:NoteRowItem}">
                                         <Grid>
