@@ -53,13 +53,13 @@ namespace KillerNotes.Shell
 
         private void DeleteNote_Click(object sender, RoutedEventArgs e)
         {
+            var sel = SidebarSelection();
+            if (sel.Count > 1) { DeleteNotesWithConfirm(sel); return; }
             // ContextMenu DataContext propagation is unreliable (menu lives outside the
             // visual tree), so fall back to the list selection.
             var n = (sender as MenuItem)?.DataContext as Note ?? SidebarSelectedNote();   // NoteCard.cs
             if (n == null) return;
-            var sel = SidebarSelection();
-            if (sel.Count > 1 && sel.Contains(n)) DeleteNotesWithConfirm(sel);
-            else DeleteNoteWithConfirm(n);
+            DeleteNoteWithConfirm(n);
         }
 
         // Shared by the context menu and the Delete key (Shortcuts.cs). Delete moves the note
