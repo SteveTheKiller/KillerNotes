@@ -257,7 +257,7 @@ namespace KillerNotes.Services
                     PurgeTrash(TrashRetention.Days);
                     // A repair, never a reason the library cannot open.
                     try { IndexUnlinkedNotes(); } catch (Exception ex) when (ex is not OutOfMemoryException) { }
-                    AdoptOrphanGroups();
+                    try { AdoptOrphanGroups(); } catch (Exception ex) when (ex is not OutOfMemoryException) { }
                     Exec("CREATE TABLE IF NOT EXISTS kn_meta(key TEXT PRIMARY KEY, value TEXT NOT NULL)");
                     Exec($"INSERT OR IGNORE INTO kn_meta(key, value) VALUES ('{DatabaseIdKey}', '{Guid.NewGuid():N}')");
                 }
@@ -487,8 +487,10 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                  "SELECT n.id, n.modified, kn_fold(n.plain) FROM notes n LEFT JOIN note_fold f ON f.id = n.id " +
                  "WHERE f.id IS NULL OR f.modified <> n.modified");
             EnsureColumns();
-            EnsureNotePositions();
-            EnsureContentLast();
+            try { EnsureNotePositions(); } catch (Exception ex) when (ex is not OutOfMemoryException) { }
+            // Reordering is an optimization. Its transaction rolls back on failure so the
+            // existing notes stay usable and a later open can retry.
+            try { EnsureContentLast(); } catch (Exception ex) when (ex is not OutOfMemoryException) { }
             // Seed ONLY when the tags table was just created: user customizations and
             // deletions must never resurrect.
             if (!hadTags) SeedDefaultTags();
@@ -502,10 +504,19 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         /// for older versions and are no longer written.</summary>
         private static void EnsureNotePositions()
         {
-            if (TableExists("note_positions")) return;
-            Exec("CREATE TABLE note_positions(note_id INTEGER PRIMARY KEY, caret INTEGER NOT NULL DEFAULT 0, scroll REAL NOT NULL DEFAULT 0)");
-            Exec("INSERT INTO note_positions(note_id, caret, scroll) " +
-                 "SELECT id, caret_pos, scroll_pos FROM notes WHERE caret_pos <> 0 OR scroll_pos <> 0");
+            if (TableExists("note_positions"))
+            {
+                Exec("DELETE FROM note_positions WHERE note_id NOT IN (SELECT id FROM notes)");
+                return;
+            }
+            using var tx = _db!.BeginTransaction();
+            using var cmd = _db.CreateCommand();
+            cmd.Transaction = tx;
+            cmd.CommandText = "CREATE TABLE note_positions(note_id INTEGER PRIMARY KEY, caret INTEGER NOT NULL DEFAULT 0, scroll REAL NOT NULL DEFAULT 0); " +
+                "INSERT INTO note_positions(note_id, caret, scroll) " +
+                "SELECT id, caret_pos, scroll_pos FROM notes WHERE caret_pos <> 0 OR scroll_pos <> 0";
+            cmd.ExecuteNonQuery();
+            tx.Commit();
         }
 
         /// <summary>Rebuilds notes with the content blob as its last column (1.7.0), once per
@@ -519,6 +530,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         /// ones included, is captured and recreated.</summary>
         private static void EnsureContentLast()
         {
+            var drive = new DriveInfo(Path.GetPathRoot(Path.GetFullPath(DbPath))!);
+            if (drive.AvailableFreeSpace < new FileInfo(DbPath).Length) return;
             var cols = new List<(string Name, string Type, bool NotNull, string? Default, bool Pk)>();
             using (var cmd = _db!.CreateCommand())
             {
@@ -1053,7 +1066,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             cmd.Parameters.AddWithValue("$p", plain);
             cmd.Parameters.AddWithValue("$m", Ts(DateTime.Now));
             cmd.Parameters.AddWithValue("$id", id);
-            cmd.ExecuteNonQuery();
+            if (cmd.ExecuteNonQuery() == 0)
+                throw new InvalidOperationException("The note no longer exists. Its changes could not be saved.");
         }
 
         // ---- Version history (1.3.1) ----
@@ -1452,6 +1466,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             public string TitleColor = "";
             public bool SpellCheck;
             public bool SyntaxHighlight;
+            public int Format;
+            internal byte[]? CopyAttachmentFingerprint;
             public int SortOrder;
             public string Created = "";
             public string Modified = "";
@@ -1461,11 +1477,30 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             public string Deleted = "";   // 1.3.1: '' = live, else the trash timestamp
         }
 
+        /// <summary>Undoes creation without permanently removing changes made to the copy.</summary>
+        public static void RemoveCreatedCopy(long id, NoteRow original)
+        {
+            if (original == null || original.Id != id) throw new ArgumentException("The original copy must match the note.", nameof(original));
+            var current = CaptureRow(id);
+            if (current == null || current.Created != original.Created) return;
+            bool untouched = current.Modified == original.Modified && ListHistory(id).Count == 0 &&
+                current.Title == original.Title && current.Plain == original.Plain &&
+                (current.Content ?? Array.Empty<byte>()).SequenceEqual(original.Content ?? Array.Empty<byte>()) &&
+                current.Tags == original.Tags && current.Notebook == original.Notebook &&
+                current.TitleColor == original.TitleColor && current.SpellCheck == original.SpellCheck &&
+                current.SyntaxHighlight == original.SyntaxHighlight && current.Format == original.Format &&
+                original.CopyAttachmentFingerprint != null && current.CopyAttachmentFingerprint != null &&
+                current.CopyAttachmentFingerprint.SequenceEqual(original.CopyAttachmentFingerprint) &&
+                current.Pinned == original.Pinned && current.Deleted == original.Deleted;
+            if (untouched) DeleteForever(id);
+            else Trash(id);
+        }
+
         public static NoteRow? CaptureRow(long id)
         {
             if (_db == null) return null;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos, syntax, pinned, deleted " +
+            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos, syntax, pinned, deleted, format " +
                               "FROM notes WHERE id = $id";
             cmd.Parameters.AddWithValue("$id", id);
             using var r = cmd.ExecuteReader();
@@ -1487,10 +1522,33 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 SyntaxHighlight = !r.IsDBNull(13) && r.GetInt64(13) != 0,
                 Pinned     = !r.IsDBNull(14) && r.GetInt64(14) != 0,
                 Deleted    = r.IsDBNull(15) ? "" : r.GetString(15),
+                Format     = r.IsDBNull(16) ? 0 : (int)r.GetInt64(16),
             };
             r.Close();
             (row.CaretPos, row.ScrollPos) = GetNotePosition(id);
+            row.CopyAttachmentFingerprint = CaptureCopyAttachmentFingerprint(id);
             return row;
+        }
+
+        private static byte[] CaptureCopyAttachmentFingerprint(long id)
+        {
+            using var hash = System.Security.Cryptography.SHA256.Create();
+            using var stream = new System.Security.Cryptography.CryptoStream(Stream.Null, hash, System.Security.Cryptography.CryptoStreamMode.Write);
+            using var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, leaveOpen: true);
+            using var cmd = _db!.CreateCommand();
+            cmd.CommandText = "SELECT 1 AS kind, ord, payload, 0 AS duration FROM sketches WHERE note_id = $id " +
+                "UNION ALL SELECT 2, ord, payload, duration FROM recordings WHERE note_id = $id ORDER BY kind, ord";
+            cmd.Parameters.AddWithValue("$id", id);
+            using var rows = cmd.ExecuteReader();
+            while (rows.Read())
+            {
+                writer.Write(rows.GetInt64(0)); writer.Write(rows.GetInt64(1)); writer.Write(rows.GetInt64(3));
+                var payload = (byte[])rows.GetValue(2);
+                writer.Write(payload.Length); writer.Write(payload);
+            }
+            writer.Flush();
+            stream.FlushFinalBlock();
+            return hash.Hash!;
         }
 
         public static void RestoreRow(NoteRow n)
@@ -1570,7 +1628,9 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         {
             if (_db == null || IsReadOnly) return;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "INSERT OR REPLACE INTO note_positions(note_id, caret, scroll) VALUES($id, $c, $s)";
+            cmd.CommandText = TableExists("note_positions")
+                ? "INSERT OR REPLACE INTO note_positions(note_id, caret, scroll) VALUES($id, $c, $s)"
+                : "UPDATE notes SET caret_pos = $c, scroll_pos = $s WHERE id = $id";
             cmd.Parameters.AddWithValue("$c", caret);
             cmd.Parameters.AddWithValue("$s", scroll);
             cmd.Parameters.AddWithValue("$id", id);

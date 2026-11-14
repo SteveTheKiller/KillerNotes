@@ -17,11 +17,14 @@ namespace KillerNotes.Services
             var now = DateTime.Now;
             string newTitle = title ?? (expand ? TemplateText.Expand(tpl.Title, now) : tpl.Title);
             byte[]? blob = LoadContent(templateId);
+            string sourcePlain = LoadPlain(templateId);
+            string labelTail = "";
             byte[] content;
             string plain;
             if (tpl.IsMarkdown)
             {
                 plain = MarkdownBlob.Decode(blob);
+                if (sourcePlain.StartsWith(plain, StringComparison.Ordinal)) labelTail = sourcePlain.Substring(plain.Length);
                 if (expand) plain = TemplateText.Expand(plain, now);
                 content = MarkdownBlob.Encode(plain);
             }
@@ -33,6 +36,8 @@ namespace KillerNotes.Services
                     using var ms = new MemoryStream(blob);
                     new TextRange(doc.ContentStart, doc.ContentEnd).Load(ms, DataFormats.XamlPackage);
                 }
+                string sourceText = new TextRange(doc.ContentStart, doc.ContentEnd).Text;
+                if (sourcePlain.StartsWith(sourceText, StringComparison.Ordinal)) labelTail = sourcePlain.Substring(sourceText.Length);
                 if (expand) TemplateText.ExpandDocument(doc, now);
                 var range = new TextRange(doc.ContentStart, doc.ContentEnd);
                 using var outMs = new MemoryStream();
@@ -40,6 +45,8 @@ namespace KillerNotes.Services
                 content = outMs.ToArray();
                 plain = range.Text;
             }
+            string linkText = plain;
+            plain = expand ? plain + labelTail : sourcePlain;
             using var tx = _db!.BeginTransaction();
             if (group != null) EnsureGroupPath(group, tx);
             long id = AllocateNoteId(tx);
@@ -61,7 +68,7 @@ namespace KillerNotes.Services
                 insert.Parameters.AddWithValue("$syntax", tpl.SyntaxHighlight ? 1 : 0);
                 insert.ExecuteNonQuery();
             }
-            SetLinks(id, WikiLinks.Parse(plain), tx);
+            SetLinks(id, WikiLinks.Parse(linkText), tx);
             CopyNoteAttachments(_db, _db, templateId, id, true, true, tx);
             tx.Commit();
             return id;
