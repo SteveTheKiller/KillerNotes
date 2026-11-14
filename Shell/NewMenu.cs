@@ -67,15 +67,6 @@ namespace KillerNotes.Shell
             }
         }
 
-        private void LibraryRail_Click(object sender, RoutedEventArgs e)
-        {
-            // UsePane first, like RailMenu_Opening: without a pane the placement callback has
-            // nothing to measure against and the menu lands in the screen's top-left corner.
-            FlyoutPlacement.UsePane(ContentPane);
-            FlyoutPlacement.Attach(LibraryMenu, LibraryRailBtn);   // rises with its button
-            LibraryMenu.IsOpen = true;
-        }
-
         private void OrganizeRail_Click(object sender, RoutedEventArgs e) => OpenGroupManager();   // GroupManager.cs
 
         /// <summary>Keeps the note card to notes: a right-click on empty sidebar, or on nothing

@@ -15,6 +15,52 @@ namespace KillerNotes.Tests
     public sealed class SurfaceFollowupTests
     {
         [Fact]
+        public void ExportRailOpensTheFolderPickerWithoutAnIntermediateMenu() => CardColorBehaviorTests.WithShell((window, _) =>
+        {
+            MarkdownAuthoringTests.Ready(window);
+            NoteStore.Create("Export sample");
+            bool opened = false;
+            var deadline = System.DateTime.UtcNow.AddSeconds(5);
+            var timer = new DispatcherTimer { Interval = System.TimeSpan.FromMilliseconds(20) };
+            timer.Tick += (_, _) =>
+            {
+                var picker = Application.Current.Windows.OfType<FileDialog>().FirstOrDefault(d => d.IsVisible);
+                if (picker == null)
+                {
+                    if (System.DateTime.UtcNow > deadline) timer.Stop();
+                    return;
+                }
+                timer.Stop();
+                opened = picker.Owner == window;
+                ((Button)picker.FindName("CaptionCloseButton")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            };
+            try
+            {
+                timer.Start();
+                ((Button)window.FindName("LibraryRailBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                Assert.True(opened);
+                Assert.Single(NoteStore.List());
+            }
+            finally { timer.Stop(); }
+        });
+
+        [Fact]
+        public void ExportRailRunsExportDirectlyAndDescribesItsShortcut() => CardColorBehaviorTests.WithShell((window, _) =>
+        {
+            MarkdownAuthoringTests.Ready(window);
+            Assert.Empty(NoteStore.List());
+            var export = (Button)window.FindName("LibraryRailBtn");
+            try
+            {
+                export.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                Assert.Equal(Application.Current.FindResource("Str_St_VaultEmpty"), ((TextBlock)window.FindName("StatusText")).Text);
+                Assert.Null(export.ContextMenu);
+                Assert.Equal("Alt+E", System.Windows.Automation.AutomationProperties.GetAcceleratorKey(export));
+            }
+            finally { if (export.ContextMenu != null) export.ContextMenu.IsOpen = false; }
+        });
+
+        [Fact]
         public void GraphGripBackingAppearsOnlyWithTheClassicFrame() => CardColorBehaviorTests.WithShell((_, _) =>
         {
             var previous = ThemeManager.Current;

@@ -682,15 +682,8 @@
                                 Margin="0,0,0,10" Click="OrganizeRail_Click"/>
                         <!-- Whole-notepad export (1.7.0, NewMenu.cs). EDE1 = export. -->
                         <Button x:Name="LibraryRailBtn" Style="{StaticResource RailButton}" Content="&#xEDE1;"
-                                AutomationProperties.Name="{DynamicResource Str_TT_Library}"
-                                Margin="0,0,0,10" Click="LibraryRail_Click">
-                            <Button.ContextMenu>
-                                <ContextMenu x:Name="LibraryMenu">
-                                    <MenuItem InputGestureText="Alt+E" Header="{DynamicResource Str_Ctx_ExportVault}" Icon="&#xEDE1;" Click="ExportVault_Click"
-                                              ToolTip="{DynamicResource Str_TT_ExportVault}"/>
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
+                                AutomationProperties.Name="{DynamicResource Str_Ctx_ExportVault}"
+                                Margin="0,0,0,10" Click="ExportVault_Click" ToolTip="{DynamicResource Str_TT_ExportVault}"/>
                         <!-- Killculator toggle (Killculator.cs / F9). E1D0 = the calculator glyph. -->
                         <Button x:Name="KalcRailBtn" Style="{StaticResource RailButton}" Content="&#xE1D0;"
                                 Margin="0,0,0,10" Click="KalcRail_Click"

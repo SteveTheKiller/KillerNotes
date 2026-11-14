@@ -48,7 +48,7 @@ namespace KillerNotes.Tests
         [InlineData("NewMenu", "NewCardMarkdown_Click")]
         [InlineData("NewMenu", "NewCardToday_Click")]
         [InlineData("NewMenu", "ImportFolder_Click")]
-        [InlineData("LibraryMenu", "ExportVault_Click")]
+        [InlineData("LibraryRailBtn", "ExportVault_Click")]
         [InlineData("AboutDetectMarkdown", "AboutDetectMarkdown_Click")]
         public void EvictedActionsHaveANewHome(string home, string handler)
         {
@@ -84,7 +84,7 @@ namespace KillerNotes.Tests
         public void ImportHasOneHome()
         {
             var doc = XDocument.Load(Path.Combine(Root(), "Shell", "MainWindow.xaml"));
-            Assert.DoesNotContain("ImportFolder_Click", Clicks(Named(doc, "LibraryMenu")));
+            Assert.DoesNotContain("ImportFolder_Click", Clicks(Named(doc, "LibraryRailBtn")));
         }
 
         [Fact]

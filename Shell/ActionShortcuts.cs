@@ -18,7 +18,7 @@ namespace KillerNotes.Shell
         private static ActionShortcut[] ActionShortcuts() => _actionShortcuts ??=
         [
             new("Alt+S", Key.S, ModifierKeys.Alt, "Str_Ctx_ShareNote", "File", w => w.RunNoteAction(w.ShareNote_Click)),
-            new("Alt+E", Key.E, ModifierKeys.Alt, "Str_Ctx_ExportVault", "File", w => w.ExportVault_Click(w, new RoutedEventArgs())),
+            new("Alt+E", Key.E, ModifierKeys.Alt, "Str_Ctx_ExportVault", "File", w => w.ExportVault_Click(w, new RoutedEventArgs()), "LibraryRailBtn"),
             new("Alt+Shift+I", Key.I, ModifierKeys.Alt | ModifierKeys.Shift, "Str_Ctx_ImportFolder", "File", w => w.ImportFolder_Click(w, new RoutedEventArgs())),
             new("Alt+R", Key.R, ModifierKeys.Alt, "Str_Ctx_TitleColorReset", "Note", w => w.RunNoteAction(w.TitleColorReset_Click)),
             new("Alt+V", Key.V, ModifierKeys.Alt, "Str_Ctx_PreviewGlobal", "View", w => w.PreviewDetectGlobal_Click(w, new RoutedEventArgs())),
@@ -146,8 +146,6 @@ namespace KillerNotes.Shell
             DescribeSurface(GroupCardTemplatesToggle, "Str_Ctx_TemplatesGroup", "Ctrl+F4");
             DescribeSurface(GroupCardDailyToggle, "Str_Ctx_DailyGroup", "Ctrl+F5");
             DescribeSurface(NewMenuBtn, "Str_TT_NewMenu", "Alt+N / Alt+T / Alt+D");
-            LibraryRailBtn.SetResourceReference(ToolTipProperty, "Str_TT_Library");
-            LibraryRailBtn.SetResourceReference(System.Windows.Automation.AutomationProperties.NameProperty, "Str_TT_Library");
             foreach (var binding in ActionShortcuts())
             {
                 if (binding.Surface == null || FindName(binding.Surface) is not FrameworkElement surface) continue;
