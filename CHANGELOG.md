@@ -22,6 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Fast clicks no longer start unintended note or group drags.
 - Mouse-wheel scrolling follows Windows' line and page settings.
 - Keyboard context menus follow the current editor selection and focused folder. Sketchpad and dictation cards support keyboard opening and focus return.
+- Rendered notes use localized Copy and Select all commands with properly spaced shortcuts.
 - Dialog close glyphs stay centered at different display scales.
 - Group manager panes use the theme's pane background and grain instead of the window gradient.
 - SketchPad keeps its pane border when clicked and shows keyboard focus separately.

@@ -63,6 +63,19 @@ namespace KillerNotes.Shell
                 _previewViewer.AddHandler(Hyperlink.RequestNavigateEvent,
                     new System.Windows.Navigation.RequestNavigateEventHandler(PreviewLink_RequestNavigate));
                 _previewViewer.PreviewKeyDown += PreviewViewer_PreviewKeyDown;
+                var menu = new ContextMenu();
+                foreach (var (command, label, gesture, glyph) in new[]
+                {
+                    (ApplicationCommands.Copy, "Str_Ctx_Copy", "Ctrl+C", "\uE8C8"),
+                    (ApplicationCommands.SelectAll, "Str_Ctx_SelectAll", "Ctrl+A", "\uE8B3"),
+                })
+                {
+                    var item = new MenuItem { Command = command, CommandTarget = _previewViewer,
+                        InputGestureText = gesture, Icon = glyph };
+                    item.SetResourceReference(HeaderedItemsControl.HeaderProperty, label);
+                    menu.Items.Add(item);
+                }
+                _previewViewer.ContextMenu = menu;
 
                 // The same film grain every other surface carries, behind the text.
                 var grain = new Border { IsHitTestVisible = false };
