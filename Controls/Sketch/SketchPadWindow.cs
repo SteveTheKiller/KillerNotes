@@ -10,6 +10,7 @@ using System.Windows.Shapes;
 using System.Windows.Shell;
 using KillerNotes.Models;
 using KillerNotes.Services;
+using KillerFamily.Controls;
 
 namespace KillerNotes.Controls.Sketch
 {
@@ -173,7 +174,8 @@ namespace KillerNotes.Controls.Sketch
 
             // No fixed size: the canvas stretches to fill the frame, so resizing the window enlarges the
             // actual drawing area (1:1 pixels) rather than scaling a fixed canvas. _canvasW/H track it.
-            _canvas = new Canvas();
+            _canvas = new Canvas { Focusable = true, ContextMenu = CardBuilder.Menu(300) };
+            System.Windows.Automation.AutomationProperties.SetName(_canvas, L("Str_Sketch_Title", "SketchPad"));
             _canvas.SetResourceReference(Panel.BackgroundProperty, "PaneBrush");   // DynamicResource so it follows a live theme change
             _canvas.MouseLeftButtonDown += CanvasDown;
             _canvas.MouseMove += CanvasMove;
@@ -182,7 +184,7 @@ namespace KillerNotes.Controls.Sketch
             // following a pointer whose button is up.
             _canvas.LostMouseCapture += (_, _) => EndGesture();
             _canvas.MouseLeftButtonUp += CanvasUp;
-            _canvas.MouseRightButtonDown += OnCanvasRightDown;   // context menu (object vs empty canvas)
+            _canvas.ContextMenuOpening += OnCanvasContextMenuOpening;
             _canvas.MouseWheel += OnWheel;                       // scroll over a placed image = its opacity
             _canvas.MouseLeave += (_, _) => HideEraseCursor();   // drop the eraser ring when the pointer leaves the canvas
             // The canvas carries an EXPLICIT size now rather than stretching to its parent: a

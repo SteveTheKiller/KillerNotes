@@ -490,10 +490,13 @@ namespace KillerNotes.Shell
             byte[]? wav = AudioCodec.ToPcm(data);
             if (wav == null) { StatusText.Text = Loc("Str_Dict_Missing"); return; }
 
-            _recEditChip = CtxRecordingChip();
+            var editChip = CtxRecordingChip();
             OpenDictation();
             if (_dictation?.LoadForEdit(wav, rec.Hash, _currentId, NoteStore.DatabaseId) == true)
+            {
+                _recEditChip = editChip;
                 _dictationOwner = NoteStore.DatabaseId;
+            }
         }
 
         /// <summary>The chip last opened for editing, so its re-embed replaces that chip and not

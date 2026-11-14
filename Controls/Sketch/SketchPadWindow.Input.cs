@@ -22,6 +22,7 @@ namespace KillerNotes.Controls.Sketch
         private void CanvasDown(object sender, MouseButtonEventArgs e)
         {
             if (_textBox != null) { CommitTextEntry(); e.Handled = true; return; }   // a click off the editor sets the label
+            _canvas.Focus();
             if (_arcTarget != null) { _arcTarget = null; _canvas.ReleaseMouseCapture(); RenderCanvas(); e.Handled = true; return; }   // click solidifies the arc
             _wheelObj = null;   // a click ends the current opacity-scroll run (next scroll = fresh undo)
             var p = Clamp(e.GetPosition(_canvas));
@@ -377,15 +378,22 @@ namespace KillerNotes.Controls.Sketch
         // Right-click: a card that suits what's under the cursor - an object (reorder / duplicate,
         // plus what that kind of object can do, with Delete below) or empty canvas (add / paste
         // image, with Clear all below).
-        private void OnCanvasRightDown(object sender, MouseButtonEventArgs e)
+        private void OnCanvasContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            if (_textBox != null) { CommitTextEntry(); e.Handled = true; return; }   // a right-click also sets an open label
-            var hit = HitPick(Clamp(e.GetPosition(_canvas)));
+            bool keyboard = e.CursorLeft < 0;
+            if (_textBox != null)
+            {
+                if (!keyboard) { CommitTextEntry(); e.Handled = true; }
+                return;
+            }
+            var hit = keyboard ? _sel : HitPick(Clamp(Mouse.GetPosition(_canvas)));
             if (hit != null && _tool == Tool.Select) { _sel = hit; RenderCanvas(); }
 
             var menu = BuildCanvasCard(hit, hit == null && ClipboardHasImage());
-            menu.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
-            menu.IsOpen = true;
+            _canvas.ContextMenu = menu;
+            Point at = hit != null ? SketchModel.BoundsOf(hit).BottomLeft
+                : new Point((_zoomHost.HorizontalOffset + 8) / _zoom, (_zoomHost.VerticalOffset + 8) / _zoom);
+            CardBuilder.Open(menu, _canvas, keyboard, new Rect(at, new Size(0, 0)));
             e.Handled = true;
         }
 

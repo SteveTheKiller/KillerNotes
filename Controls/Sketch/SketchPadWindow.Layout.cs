@@ -450,6 +450,8 @@ namespace KillerNotes.Controls.Sketch
             frame.SetResourceReference(Border.BackgroundProperty, "PaneBrush");
             frame.SetResourceReference(Border.BorderBrushProperty, "PaneBorderBrush");
             frame.SetResourceReference(Border.BorderThicknessProperty, "AboutPanelBorderThickness");
+            _canvas.GotKeyboardFocus += (_, _) => frame.SetResourceReference(Border.BorderBrushProperty, "PrimaryBrush");
+            _canvas.LostKeyboardFocus += (_, _) => frame.SetResourceReference(Border.BorderBrushProperty, "PaneBorderBrush");
 
             // The shadow rides a SEPARATE sibling behind the pane, never the pane itself - an
             // Effect applies to an element's whole rendering, children included, and content

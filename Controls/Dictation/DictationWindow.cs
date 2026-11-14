@@ -74,11 +74,14 @@ namespace KillerNotes.Controls.Dictation
         private byte[]? _wav;
         private int _durationMs;
         private bool _closeFaded;
+        private readonly Func<byte[], string?>? _recognize;
 
-        internal DictationWindow(Window? owner, Action<string> printText, Func<byte[], int, string?, long, string?, EmbeddedRecording?> embedAudio)
+        internal DictationWindow(Window? owner, Action<string> printText, Func<byte[], int, string?, long, string?, EmbeddedRecording?> embedAudio,
+                                 Func<byte[], string?>? recognize = null)
         {
             _printText = printText;
             _embedAudio = embedAudio;
+            _recognize = recognize;
 
             Title = "KillerNotes - " + L("Str_Dict_Title", "Dictation");
             SetResourceReference(FontFamilyProperty, "UiFont");
@@ -177,6 +180,7 @@ namespace KillerNotes.Controls.Dictation
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
+            _transcriptionVersion++;
             // Abandon an in-flight take rather than leaving the capture device open.
             // HoldsDevice too: a Stop whose teardown failed has already cleared IsRecording but
             // still holds the microphone open.
@@ -384,12 +388,17 @@ namespace KillerNotes.Controls.Dictation
 
             // The inset is on the waveform, not the frame's Padding, so the grain layer beside it
             // covers the frame edge to edge instead of leaving a bare ring inside the border.
-            _wave = new WaveformView { Window = 0, Cursor = Cursors.Hand, Margin = new Thickness(4, 3, 4, 3) };
+            _wave = new WaveformView { Window = 0, Cursor = Cursors.Hand, Margin = new Thickness(4, 3, 4, 3),
+                Focusable = true, ContextMenu = CardBuilder.Menu(300) };
+            _wave.SetResourceReference(System.Windows.Automation.AutomationProperties.NameProperty, "Str_Dict_Title");
+            _wave.GotKeyboardFocus += (_, _) => waveFrame.SetResourceReference(Border.BorderBrushProperty, "PrimaryBrush");
+            _wave.LostKeyboardFocus += (_, _) => waveFrame.SetResourceReference(Border.BorderBrushProperty, "PaneBorderBrush");
             // Scrub: press to jump, hold and move to scrape through the take. Capture so a drag that
             // wanders outside the waveform keeps seeking instead of stopping dead at the edge.
             _wave.MouseLeftButtonDown += (_, ev) =>
             {
                 if (_wav == null) return;
+                _wave.Focus();
                 _wave.CaptureMouse();
                 SeekTo(_wave.FractionAt(ev.GetPosition(_wave).X));
             };
@@ -401,12 +410,14 @@ namespace KillerNotes.Controls.Dictation
             _wave.MouseLeftButtonUp += (_, _) => _wave.ReleaseMouseCapture();
             // Right-click selects the segment under the cursor and opens the editing menu, so the
             // thing being acted on is highlighted before any of the verbs are read.
-            _wave.MouseRightButtonDown += (_, ev) =>
+            _wave.ContextMenuOpening += (_, ev) =>
             {
+                ev.Handled = true;
                 if (_wav == null) return;
-                _menuFraction = _wave.FractionAt(ev.GetPosition(_wave).X);
+                bool keyboard = ev.CursorLeft < 0;
+                _menuFraction = keyboard ? Math.Max(0, _wave.Progress) : _wave.FractionAt(Mouse.GetPosition(_wave).X);
                 _wave.SelectedSegment = _wave.SegmentAt(_menuFraction);
-                ShowWaveMenu();
+                ShowWaveMenu(keyboard);
             };
             waveFrame.Child = Grained(_wave, waveFrame.CornerRadius);
             var waveHost = Sunken(waveFrame, waveFrame.Margin);
@@ -572,6 +583,7 @@ namespace KillerNotes.Controls.Dictation
 
         private void ToggleRecord(bool transcribe = true)
         {
+            if (_transcribing || _closeFaded) return;
             if (DictationRecorder.IsRecording)
             {
                 _durationMs = (int)DictationRecorder.ElapsedMs;
@@ -646,7 +658,7 @@ namespace KillerNotes.Controls.Dictation
         /// </summary>
         internal bool LoadForEdit(byte[] wav, string hash, long noteId, string? database)
         {
-            if (DictationRecorder.IsRecording) return false;   // never clobber a take in progress
+            if (DictationRecorder.IsRecording || _transcribing || _closeFaded) return false;
 
             // The recording being edited lives HERE, not in MainWindow. Held there it outlived the
             // edit - close the pad, record something new, press Embed, and the fresh take silently
@@ -666,7 +678,7 @@ namespace KillerNotes.Controls.Dictation
             _transcript.Text = "";        // words from the last take, not this recording
 
             _playBtn.IsEnabled = _embedBtn.IsEnabled = true;
-            _transcribeBtn.IsEnabled = DictationRecorder.RecognizerAvailable();
+            _transcribeBtn.IsEnabled = _recognize != null || DictationRecorder.RecognizerAvailable();
             _embedBtn.Content = L("Str_Dict_SaveChanges", "Save changes");
             _status.Text = L("Str_Dict_Editing", "Editing an embedded recording. Slice it, then save your changes.");
             Activate();
@@ -700,10 +712,12 @@ namespace KillerNotes.Controls.Dictation
         /// <summary>One undo level, taken before every destructive edit.</summary>
         private byte[]? _undo;
         private bool _transcribing;
+        private long _transcriptionVersion;
+        private bool CanEditWave => _wav != null && !DictationRecorder.IsRecording && !_transcribing;
 
         private void WaveAction(string action)
         {
-            if (_wav == null || DictationRecorder.IsRecording || _transcribing) return;
+            if (_wav == null || !CanEditWave) return;
             _menuFraction = Math.Max(0, _wave.Progress);
             _wave.SelectedSegment = _wave.SegmentAt(_menuFraction);
             var (from, to) = _wave.SegmentBounds(_wave.SelectedSegment);
@@ -720,12 +734,11 @@ namespace KillerNotes.Controls.Dictation
             }
         }
 
-        private void ShowWaveMenu()
+        private void ShowWaveMenu(bool keyboard)
         {
             var menu = BuildWaveCard();
-            menu.PlacementTarget = _wave;
-            menu.Placement = PlacementMode.MousePoint;
-            menu.IsOpen = true;
+            _wave.ContextMenu = menu;
+            CardBuilder.Open(menu, _wave, keyboard, new Rect(_menuFraction * _wave.ActualWidth, _wave.ActualHeight / 2, 0, 0));
         }
 
         /// <summary>
@@ -742,33 +755,35 @@ namespace KillerNotes.Controls.Dictation
 
             var (from, to) = _wave.SegmentBounds(_wave.SelectedSegment);
             bool wholeThing = _wave.Cuts.Count == 0;
+            bool canEdit = CanEditWave;
+            Action Guard(Action run) => () => { if (CanEditWave) run(); };
 
             menu.Items.Add(CardBuilder.QuickStrip(L("Str_Card_Actions", "Actions"),
             [
-                new("\uE8C6", L("Str_Dict_Slice", "Slice here"), L("Str_Dict_Slice", "Slice here"), "Alt+S", () =>
+                new("\uE8C6", L("Str_Dict_Slice", "Slice here"), L("Str_Dict_Slice", "Slice here"), "Alt+S", Guard(() =>
                 {
                     _wave.AddCut(_menuFraction);
                     _wave.SelectedSegment = -1;
-                }),
+                }), canEdit),
                 new("\uE8C8", L("Str_Ctx_Copy", "Copy"), L("Str_Dict_CopySeg", "Copy segment"), "Alt+C",
-                    () => _clip = WavEdit.Extract(_wav!, MsAt(from), MsAt(to))),
+                    Guard(() => _clip = WavEdit.Extract(_wav!, MsAt(from), MsAt(to))), canEdit),
                 new("\uE77F", L("Str_Ctx_Paste", "Paste"), L("Str_Dict_PasteSeg", "Paste segment here"), "Alt+V",
-                    () => ApplyEdit(WavEdit.Insert(_wav!, MsAt(_menuFraction), _clip!), _menuFraction), _clip != null),
-                new("\uE7A7", L("Str_Kb_Undo", "Undo"), L("Str_Dict_UndoEdit", "Undo edit"), "Alt+Z", () =>
+                    Guard(() => { if (_clip != null) ApplyEdit(WavEdit.Insert(_wav!, MsAt(_menuFraction), _clip), _menuFraction); }), canEdit && _clip != null),
+                new("\uE7A7", L("Str_Kb_Undo", "Undo"), L("Str_Dict_UndoEdit", "Undo edit"), "Alt+Z", Guard(() =>
                 {
                     if (_undo == null) return;
                     _wav = _undo; _undo = null;
                     RefreshAfterEdit(0);
-                }, _undo != null),
+                }), canEdit && _undo != null),
             ]));
 
             // No Separator: the strip's own lower rule is the rule above the list, and a second
             // one drew a doubled line in the 1.7.0 render check.
             // Deleting the only segment would delete the recording, which is what Record does over.
-            menu.Items.Add(Row(L("Str_Dict_DeleteSeg", "Delete segment"), "Alt+D", "\uE74D", () => ApplyEdit(
-                WavEdit.Remove(_wav!, MsAt(from), MsAt(to)), from), !wholeThing));
+            menu.Items.Add(Row(L("Str_Dict_DeleteSeg", "Delete segment"), "Alt+D", "\uE74D", Guard(() => ApplyEdit(
+                WavEdit.Remove(_wav!, MsAt(from), MsAt(to)), from)), canEdit && !wholeThing));
             if (!wholeThing)
-                menu.Items.Add(Row(L("Str_Dict_ClearCuts", "Clear slices"), "Alt+L", "\uE894", () => _wave.ClearCuts()));
+                menu.Items.Add(Row(L("Str_Dict_ClearCuts", "Clear slices"), "Alt+L", "\uE894", Guard(() => _wave.ClearCuts()), canEdit));
             return menu;
         }
 
@@ -950,7 +965,7 @@ namespace KillerNotes.Controls.Dictation
 
         private void Transcribe()
         {
-            if (_wav == null) return;
+            if (_wav == null || _transcribing || DictationRecorder.IsRecording || _closeFaded) return;
 
             // One line per native saying whether it embedded, extracted and loaded. If the model
             // chooser does not appear, this says which of the three failed.
@@ -959,7 +974,7 @@ namespace KillerNotes.Controls.Dictation
             // Offer the better engine BEFORE spending time on the worse one. This fires once: after
             // a model is installed, or after the user declines, _modelOffered keeps the pad from
             // nagging on every take.
-            if (!_modelOffered && DictationRecorder.CanOfferBetterRecognition())
+            if (_recognize == null && !_modelOffered && DictationRecorder.CanOfferBetterRecognition())
             {
                 _modelOffered = true;
                 var dlg = new WhisperModelDialog(this);
@@ -969,19 +984,24 @@ namespace KillerNotes.Controls.Dictation
             }
 
             _transcribeBtn.IsEnabled = false;
+            _recordBtn.IsEnabled = false;
             _transcribing = true;
             _status.Text = L("Str_Dict_Working", "Transcribing...");
             byte[] wav = _wav;
+            long version = ++_transcriptionVersion;
 
             // Off the UI thread: a minute of audio takes seconds to recognize and would otherwise
             // freeze the window mid-click.
             System.Threading.Tasks.Task.Run(() =>
             {
-                string? text = DictationRecorder.Transcribe(wav);
+                string? text = (_recognize ?? DictationRecorder.Transcribe)(wav);
                 string? err = DictationRecorder.LastError;
-                Dispatcher.Invoke(() =>
+                if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished) return;
+                Dispatcher.BeginInvoke(new Action(() =>
                 {
+                    if (version != _transcriptionVersion || _closeFaded || !ReferenceEquals(wav, _wav)) return;
                     _transcribeBtn.IsEnabled = true;
+                    _recordBtn.IsEnabled = true;
                     _transcribing = false;
                     if (text == null)
                     {
@@ -997,7 +1017,7 @@ namespace KillerNotes.Controls.Dictation
                     // silently throw away text the user has already edited.
                     _transcript.Text = _transcript.Text.Length == 0 ? text : _transcript.Text + " " + text;
                     _status.Text = L("Str_Dict_Done", "Transcribed. Edit it here, then print to the note.");
-                });
+                }));
             });
         }
 

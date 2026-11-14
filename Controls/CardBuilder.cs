@@ -1,11 +1,14 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace KillerFamily.Controls
 {
@@ -149,6 +152,42 @@ namespace KillerFamily.Controls
             if (!string.IsNullOrEmpty(glyph)) item.Icon = glyph;
             item.Click += (_, _) => run();
             return item;
+        }
+
+        /// <summary>Opens a pointer card or a keyboard card at a position in its target.</summary>
+        public static void Open(ContextMenu menu, FrameworkElement target, bool keyboard, Rect keyboardPosition)
+        {
+            menu.PlacementTarget = target;
+            menu.Placement = keyboard ? PlacementMode.RelativePoint : PlacementMode.MousePoint;
+            if (keyboard)
+            {
+                menu.PlacementRectangle = keyboardPosition;
+                menu.Opened += (_, _) => menu.Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+                {
+                    if (!menu.IsOpen) return;
+                    var first = menu.Items.OfType<MenuItem>()
+                        .SelectMany(item => Elements(item.Header as DependencyObject))
+                        .OfType<Control>().FirstOrDefault(control => control.IsEnabled && control.IsVisible && control.Focusable);
+                    if (first != null) first.Focus();
+                    else menu.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+                }));
+                menu.Closed += (_, _) =>
+                {
+                    // A card action may already have opened a dialog. Restore focus only when
+                    // it is still in the dismissed card, or no element has taken it.
+                    if (Keyboard.FocusedElement is not DependencyObject focused ||
+                        ReferenceEquals(focused, menu) || menu.IsAncestorOf(focused)) target.Focus();
+                };
+            }
+            menu.IsOpen = true;
+        }
+
+        private static IEnumerable<DependencyObject> Elements(DependencyObject? root)
+        {
+            if (root == null) yield break;
+            yield return root;
+            foreach (var child in LogicalTreeHelper.GetChildren(root).OfType<DependencyObject>())
+                foreach (var element in Elements(child)) yield return element;
         }
 
         /// <summary>Closes the card that holds this element.</summary>
