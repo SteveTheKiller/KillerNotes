@@ -109,6 +109,7 @@ namespace KillerNotes.Shell
             // a load/refresh that overflows should fade without waiting for a scroll.
             Dispatcher.BeginInvoke(new System.Action(ResolveAndUpdateNotesFade),
                                    System.Windows.Threading.DispatcherPriority.Loaded);
+            GroupsChanged?.Invoke();
         }
 
         // Brings _sidebarItems in line with `built` with the SMALLEST set of Insert/Remove/Replace

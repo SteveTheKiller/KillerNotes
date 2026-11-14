@@ -138,6 +138,7 @@ namespace KillerNotes.Shell
             NotesList.Items.Refresh();
             _syncingSelection = false;
             PushUndo(() => RestoreTags(snap));
+            GroupsChanged?.Invoke();
             FlashStatus(string.Format(Loc(nowAssigned ? "Str_St_TagAdded" : "Str_St_TagRemoved"), tag));
             return nowAssigned;
         }
@@ -165,6 +166,7 @@ namespace KillerNotes.Shell
             NotesList.Items.Refresh();
             _syncingSelection = false;
             PushUndo(() => RestoreTags(snap));
+            GroupsChanged?.Invoke();
             FlashStatus(string.Format(Loc(assign ? "Str_St_TagAdded" : "Str_St_TagRemoved"), tag));
             return assign;
         }

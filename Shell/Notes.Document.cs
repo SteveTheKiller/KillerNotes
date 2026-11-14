@@ -324,6 +324,7 @@ namespace KillerNotes.Shell
                 _syncingSelection = true;
                 NotesList.Items.Refresh();
                 _syncingSelection = false;
+                GroupsChanged?.Invoke();
             }
             UpdatePreviewState(preserveScroll: true);   // Preview.cs (re-detect + refresh an open pane)
             return true;

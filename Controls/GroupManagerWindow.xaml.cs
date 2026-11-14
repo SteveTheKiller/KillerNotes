@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shell;
+using System.Windows.Threading;
 using KillerNotes.Models;
 using KillerNotes.Services;
 
@@ -87,6 +88,7 @@ namespace KillerNotes.Controls
         private readonly DragGate<DependencyObject> _drag = new();
         private ListBoxItem? _deferredSelection;
         private string? _selectPath;   // the group to select after a reload (null = keep the current one)
+        private bool _reloadQueued, _closed;
 
         internal GroupManagerWindow(IGroupManagerHost host)
         {
@@ -100,6 +102,7 @@ namespace KillerNotes.Controls
             LocaleManager.LocaleChanged += OnLocaleChanged;
             Closed += (_, _) =>
             {
+                _closed = true;
                 _host.GroupsChanged -= OnGroupsChanged;
                 ThemeManager.ThemeChanged -= OnThemeChanged;
                 LocaleManager.LocaleChanged -= OnLocaleChanged;
@@ -155,7 +158,16 @@ namespace KillerNotes.Controls
             });
         }
 
-        private void OnGroupsChanged() => Dispatcher.BeginInvoke(new Action(() => Reload()));
+        private void OnGroupsChanged()
+        {
+            if (_reloadQueued || _closed) return;
+            _reloadQueued = true;
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                _reloadQueued = false;
+                if (!_closed) Reload();
+            }), DispatcherPriority.Background);
+        }
         private void OnThemeChanged() { UpdateChrome(); Reload(); }
         private void OnLocaleChanged() => Reload();
 
