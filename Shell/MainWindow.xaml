@@ -3107,7 +3107,7 @@
                     <Border IsHitTestVisible="False" BorderBrush="{DynamicResource FooterBevelLightBrush}"
                             BorderThickness="{DynamicResource FooterCellDarkThickness}" Panel.ZIndex="2"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"
-                            Margin="{DynamicResource FooterCellPadding}">
+                            Margin="{DynamicResource FooterCornerPadding}">
                     <TextBlock x:Name="VersionLabel" Opacity="0.75" Text="v1.3.1"
                                Foreground="{DynamicResource TextFooter}" FontFamily="{DynamicResource BrandSansFont}"
                                FontSize="16" TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center" Margin="0,0,12,0"
