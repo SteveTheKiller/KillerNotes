@@ -40,7 +40,7 @@ namespace KillerNotes.Tests
                 Assert.False(wave.ContextMenu.IsOpen);
                 Assert.True(wave.IsKeyboardFocused);
             }
-            finally { if (wave.ContextMenu != null) wave.ContextMenu.IsOpen = false; pad.Close(); }
+            finally { if (wave.ContextMenu != null) wave.ContextMenu.IsOpen = false; ClosePad(pad); }
         });
 
         [Fact]
@@ -72,8 +72,16 @@ namespace KillerNotes.Tests
                 print.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                 Assert.Equal(0, printedObjects);
             }
-            finally { if (canvas.ContextMenu != null) canvas.ContextMenu.IsOpen = false; pad.Close(); }
+            finally { if (canvas.ContextMenu != null) canvas.ContextMenu.IsOpen = false; ClosePad(pad); }
         });
+
+        private static void ClosePad(Window pad)
+        {
+            pad.BeginAnimation(UIElement.OpacityProperty, null);
+            pad.Opacity = 0;
+            pad.Close();
+            Assert.False(pad.IsVisible, "The fixture must close its pad before releasing shared resources.");
+        }
 
         private static void Send(UIElement target, Key key, RoutedEvent routed) =>
             InputManager.Current.ProcessInput(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(target), 0, key)
