@@ -15,6 +15,27 @@ namespace KillerNotes.Tests
     public sealed class SurfaceFollowupTests
     {
         [Fact]
+        public void ScrolledShortcutsStayInsideOneRoundedCardEdge() => CardColorBehaviorTests.WithShell((window, _) =>
+        {
+            MarkdownAuthoringTests.Ready(window);
+            window.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(window), 0, Key.F1)
+                { RoutedEvent = Keyboard.PreviewKeyDownEvent, Source = window });
+            window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+            var scroller = (ScrollViewer)window.FindName("ShortcutScroller");
+            Assert.True(scroller.IsVisible);
+            scroller.ScrollToVerticalOffset(160);
+            window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+            window.UpdateLayout();
+            Assert.True(scroller.VerticalOffset > 0);
+            var contents = (Grid)scroller.Parent;
+            Assert.NotNull(contents.Clip);
+            Assert.False(contents.Clip.FillContains(new Point(0, 0)));
+            Assert.True(contents.Clip.FillContains(new Point(20, 20)));
+            Assert.True(scroller.BorderBrush == null || scroller.BorderBrush.Opacity == 0,
+                "The scroll cue must not add a second rule below the card's border.");
+        });
+
+        [Fact]
         public void ExportRailOpensTheFolderPickerWithoutAnIntermediateMenu() => CardColorBehaviorTests.WithShell((window, _) =>
         {
             MarkdownAuthoringTests.Ready(window);
