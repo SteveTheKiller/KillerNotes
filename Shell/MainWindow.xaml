@@ -842,18 +842,34 @@
                                     Padding="0" Margin="2,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                                     Click="NewMenuBtn_Click">
                                 <Button.ContextMenu>
-                                    <ContextMenu x:Name="NewMenu" Opened="NewMenu_Opened">
-                                        <MenuItem InputGestureText="Ctrl+N" Header="{DynamicResource Str_KS_NewNote}" Icon="&#xE710;" Click="NewNote_Click"/>
+                                    <ContextMenu x:Name="NewMenu" Style="{StaticResource CardMenu}" MinWidth="360" MaxWidth="404" Opened="NewMenu_Opened">
+                                        <MenuItem Style="{StaticResource CardSlot}">
+                                            <MenuItem.Header>
+                                                <TextBlock Text="{DynamicResource Str_KS_NewNote}" FontSize="14" FontWeight="SemiBold" Margin="4,2,4,6"/>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem Style="{StaticResource CardSlot}" Padding="0" AutomationProperties.Name="{DynamicResource Str_KS_NewNote}">
+                                            <MenuItem.Header>
+                                                <Border Margin="8,0" BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="0,1,0,1" Padding="0,4">
+                                                    <UniformGrid Rows="1">
+                                                        <Button x:Name="NewRichQuickBtn" Style="{StaticResource CardQuickButton}" Content="&#xE710;"
+                                                                Tag="{DynamicResource Str_Card_Rich}" AutomationProperties.Name="{DynamicResource Str_KS_NewNote}"
+                                                                AutomationProperties.AcceleratorKey="Ctrl+N" Click="NewCardRich_Click"/>
+                                                        <Button x:Name="NewMarkdownQuickBtn" Style="{StaticResource CardQuickButton}" Content="&#xE943;"
+                                                                Tag="{DynamicResource Str_Card_Markdown}" AutomationProperties.Name="{DynamicResource Str_Ctx_NewMarkdownNote}"
+                                                                AutomationProperties.AcceleratorKey="Alt+N" Click="NewCardMarkdown_Click"/>
+                                                        <Button x:Name="NewTodayQuickBtn" Style="{StaticResource CardQuickButton}" Content="&#xE787;"
+                                                                Tag="{DynamicResource Str_Ctx_TodayNote}" AutomationProperties.Name="{DynamicResource Str_Ctx_TodayNote}"
+                                                                AutomationProperties.AcceleratorKey="Alt+D" Click="NewCardToday_Click"/>
+                                                    </UniformGrid>
+                                                </Border>
+                                            </MenuItem.Header>
+                                        </MenuItem>
                                         <!-- One row per group, full path, built on open (NewMenu.cs). Hidden with no groups. -->
                                         <MenuItem x:Name="NewInGroupMenu" Header="{DynamicResource Str_Ctx_NewNoteInGroupMenu}" Icon="&#xE8B7;"/>
-                                        <MenuItem InputGestureText="Alt+N" Header="{DynamicResource Str_Ctx_NewMarkdownNote}" Icon="&#xE943;"
-                                                  Click="NewMarkdownNote_Click" ToolTip="{DynamicResource Str_TT_NewMarkdownNote}"/>
                                         <!-- One row per note in the templates group, built on open (Templates.cs). -->
                                         <MenuItem InputGestureText="Alt+T" x:Name="TemplateMenu" Header="{DynamicResource Str_Ctx_NewFromTemplate}" Icon="&#xE7C3;"
                                                   ToolTip="{DynamicResource Str_TT_NewFromTemplate}"/>
-                                        <!-- Today's note, opened or created (1.3.1, DailyNote.cs). -->
-                                        <MenuItem Header="{DynamicResource Str_Ctx_TodayNote}" Icon="&#xE787;" InputGestureText="Alt+D"
-                                                  Click="TodayNote_Click" ToolTip="{DynamicResource Str_TT_TodayNote}"/>
                                         <!-- Importing is another way notes arrive, so it lives here (1.7.0).
                                              Export stays on the rail's library button. -->
                                         <Separator/>

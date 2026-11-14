@@ -45,8 +45,8 @@ namespace KillerNotes.Tests
         }
 
         [Theory]
-        [InlineData("NewMenu", "NewMarkdownNote_Click")]
-        [InlineData("NewMenu", "TodayNote_Click")]
+        [InlineData("NewMenu", "NewCardMarkdown_Click")]
+        [InlineData("NewMenu", "NewCardToday_Click")]
         [InlineData("NewMenu", "ImportFolder_Click")]
         [InlineData("LibraryMenu", "ExportVault_Click")]
         [InlineData("AboutDetectMarkdown", "AboutDetectMarkdown_Click")]

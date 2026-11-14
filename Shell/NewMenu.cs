@@ -31,7 +31,23 @@ namespace KillerNotes.Shell
         {
             BuildTemplateMenu();      // Templates.cs
             BuildNewInGroupMenu();
+            NewRichQuickBtn.ToolTip = KillerFamily.Controls.CardBuilder.Tip(Loc("Str_KS_NewNote"), "Ctrl+N");
+            NewMarkdownQuickBtn.ToolTip = KillerFamily.Controls.CardBuilder.Tip(Loc("Str_Ctx_NewMarkdownNote"), "Alt+N");
+            NewTodayQuickBtn.ToolTip = KillerFamily.Controls.CardBuilder.Tip(Loc("Str_Ctx_TodayNote"), "Alt+D");
+            Dispatcher.BeginInvoke(new System.Action(() =>
+            {
+                if (NewMenu.IsOpen) NewRichQuickBtn.Focus();
+            }), System.Windows.Threading.DispatcherPriority.Input);
         }
+
+        private void NewCardRich_Click(object sender, RoutedEventArgs e)
+        { NewMenu.IsOpen = false; NewNote_Click(sender, e); }
+
+        private void NewCardMarkdown_Click(object sender, RoutedEventArgs e)
+        { NewMenu.IsOpen = false; NewMarkdownNote_Click(sender, e); }
+
+        private void NewCardToday_Click(object sender, RoutedEventArgs e)
+        { NewMenu.IsOpen = false; TodayNote_Click(sender, e); }
 
         /// <summary>New note in group: every group by its full path, so a subgroup reads
         /// unambiguously. Picking one makes the note there and opens it, like the group card's
